@@ -81,7 +81,7 @@ const constraintInputType = (currentField, i18n) => {
 
   if (allowedTickboxConstraint.includes(currentField?.type)) {
     return {
-      display_name: "Is not blank?",
+      display_name: i18n.t("report.filters.not_null"),
       type: TICK_FIELD
     };
   }

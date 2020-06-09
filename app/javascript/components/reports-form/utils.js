@@ -1,9 +1,10 @@
 import isEmpty from "lodash/isEmpty";
 import isString from "lodash/isString";
+import { format } from "date-fns";
 
 import { TICK_FIELD } from "../form";
 import { dataToJS } from "../../libs";
-import { AGE_MAX } from "../../config";
+import { AGE_MAX, DATE_FORMAT } from "../../config";
 
 import {
   ALLOWED_FIELD_TYPES,
@@ -147,4 +148,18 @@ export const formattedFields = (allFields, modules, recordType, locale) => {
     locale,
     Boolean(formName)
   );
+};
+
+export const checkValue = filter => {
+  const { value, constraint } = filter;
+
+  if (typeof constraint === "boolean" && constraint) {
+    return ["not_null"];
+  }
+
+  if (value instanceof Date) {
+    return [format(value, DATE_FORMAT)];
+  }
+
+  return value;
 };

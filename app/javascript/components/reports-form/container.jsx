@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-import React, { useEffect, useRef, useImperativeHandle } from "react";
+import React, { useEffect, useRef, useState, useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -29,7 +29,12 @@ import {
 } from "./constants";
 import NAMESPACE from "./namespace";
 import { form, validations } from "./form";
-import { buildReportFields, formatAgeRange, formatReport } from "./utils";
+import {
+  buildReportFields,
+  checkValue,
+  formatAgeRange,
+  formatReport
+} from "./utils";
 import { clearSelectedReport, saveReport } from "./action-creators";
 import ReportFilters from "./components/filters";
 
@@ -42,6 +47,10 @@ const Container = ({ mode }) => {
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const primeroAgeRanges = useSelector(state => getAgeRanges(state));
   const report = useSelector(state => getReport(state));
+
+  const [indexes, setIndexes] = useState(
+    DEFAULT_FILTERS.map((data, index) => ({ index, data }))
+  );
 
   const methods = useForm({
     validationSchema: validations(i18n)
@@ -71,6 +80,8 @@ const Container = ({ mode }) => {
         ...formatReport(report.toJS())
       };
 
+      setIndexes(selectedReport.map((data, index) => ({ index, data })));
+
       methods.reset(selectedReport);
     }
   }, [report]);
@@ -87,30 +98,29 @@ const Container = ({ mode }) => {
       data: {
         ...omit(data, [AGGREGATE_BY_FIELD, DISAGGREGATE_BY_FIELD]),
         fields,
-        filters: data?.filters?.map(filter => ({
-          ...filter,
-          value:
-            typeof filter.value === "boolean" && filter.value
-              ? ["not_null"]
-              : filter.value
-        }))
+        filters: indexes.map(({ data: filter }) => {
+          return {
+            ...filter,
+            value: checkValue(filter)
+          };
+        })
       }
     };
 
     console.log("BODY", body);
 
-    dispatch(
-      saveReport({
-        id,
-        saveMethod: formMode.get("isEdit")
-          ? SAVE_METHODS.update
-          : SAVE_METHODS.new,
-        body,
-        message: formMode.get("isEdit")
-          ? i18n.t("report.messages.updated")
-          : i18n.t("report.messages.success")
-      })
-    );
+    // dispatch(
+    //   saveReport({
+    //     id,
+    //     saveMethod: formMode.get("isEdit")
+    //       ? SAVE_METHODS.update
+    //       : SAVE_METHODS.new,
+    //     body,
+    //     message: formMode.get("isEdit")
+    //       ? i18n.t("report.messages.updated")
+    //       : i18n.t("report.messages.success")
+    //   })
+    // );
   };
 
   useImperativeHandle(formRef, () => ({
@@ -175,6 +185,8 @@ const Container = ({ mode }) => {
                 allRecordForms={allRecordForms}
                 parentFormMethods={methods}
                 selectedReport={report}
+                indexes={indexes}
+                setIndexes={setIndexes}
               />
             </form>
           </FormContext>

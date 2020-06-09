@@ -27,6 +27,7 @@ export const REPORTABLE_TYPES = Object.freeze({
   reportable_follow_up: "followup"
 });
 
+// TODO: I18n
 export const CONSTRAINTS = Object.freeze({
   "<": "Less Than",
   ">": "Greater Than",
@@ -49,5 +50,9 @@ export const REPORT_FIELD_TYPES = Object.freeze({
 
 export const DEFAULT_FILTERS = [
   Object.freeze({ attribute: "status", value: ["open"] }),
-  Object.freeze({ attribute: "record_state", value: ["true"] })
+  Object.freeze({
+    attribute: "record_state",
+    constraint: true,
+    value: []
+  })
 ];

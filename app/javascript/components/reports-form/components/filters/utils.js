@@ -1,6 +1,7 @@
-/* eslint-disable import/prefer-default-export */
+import { format } from "date-fns";
 
 import { FILTERS_FIELD } from "../../constants";
+import { DATE_FORMAT } from "../../../../config";
 
 export const registerValues = (index, data, currentValues, methods) => {
   Object.entries(data).forEach(entry => {
@@ -17,12 +18,18 @@ export const registerValues = (index, data, currentValues, methods) => {
       const { index: restElIndex, data: restElData } = restEl[1];
       const restFieldName = `${FILTERS_FIELD}.${restElIndex}.${entry[0]}`;
 
-      console.log(restFieldName, restElData[entry[0]]);
-
       if (!methods.control[restFieldName]) {
         methods.register({ name: restFieldName });
       }
       methods.setValue(restFieldName, restElData[entry[0]]);
     });
   });
+};
+
+export const formatValue = value => {
+  if (value instanceof Date) {
+    return format(value, DATE_FORMAT);
+  }
+
+  return value;
 };

@@ -10,10 +10,7 @@ export const getPermissions = state => {
 };
 
 export const getPermissionsByRecord = (state, recordType) => {
-  return state.getIn(
-    [NAMESPACE, PERMISSIONS, "resource_actions", recordType],
-    List([])
-  );
+  return state.getIn([NAMESPACE, PERMISSIONS, recordType], List([]));
 };
 
 export const hasUserPermissions = state => {

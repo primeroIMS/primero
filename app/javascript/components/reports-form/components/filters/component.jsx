@@ -25,16 +25,18 @@ import { formattedFields } from "../../utils";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
-import { registerValues } from "./utils";
+import { registerValues, formatValue } from "./utils";
 
-const Container = ({ allRecordForms, parentFormMethods, selectedReport }) => {
+const Container = ({
+  indexes,
+  setIndexes,
+  allRecordForms,
+  parentFormMethods,
+  selectedReport
+}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
-  const [indexes, setIndexes] = useState(
-    (
-      selectedReport.get(FILTERS_FIELD).toJS() || DEFAULT_FILTERS
-    ).map((d, i) => ({ index: i, data: d }))
-  );
+
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -77,11 +79,12 @@ const Container = ({ allRecordForms, parentFormMethods, selectedReport }) => {
   };
 
   // TODO: OnSuccess here!!
-  const handleDelete = index =>
+  const handleDelete = index => {
     setIndexes([
-      ...indexes.slice(0, index),
-      ...indexes.slice(index + 1, indexes.length)
+      ...indexes.slice(0, parseInt(index, 10)),
+      ...indexes.slice(parseInt(index, 10) + 1, indexes.length)
     ]);
+  };
 
   return (
     <>
@@ -93,7 +96,7 @@ const Container = ({ allRecordForms, parentFormMethods, selectedReport }) => {
         </IconButton>
       </Typography>
       {isEmpty(indexes) ? (
-        <> No filters added </>
+        <> {i18n.t("report.no_filters_added")} </>
       ) : (
         Object.entries(indexes).map(filter => {
           const [index, { data }] = filter;
@@ -102,8 +105,10 @@ const Container = ({ allRecordForms, parentFormMethods, selectedReport }) => {
           const formattedReportFilterName = [
             fields.find(f => f.id === attribute)?.display_text || "",
             "is",
-            CONSTRAINTS[constraint],
-            value
+            typeof constraint === "boolean" && constraint
+              ? CONSTRAINTS.not_null
+              : CONSTRAINTS[constraint],
+            formatValue(value)
           ].join(" ");
 
           return (
@@ -139,8 +144,10 @@ Container.displayName = NAME;
 
 Container.propTypes = {
   allRecordForms: PropTypes.object.isRequired,
+  indexes: PropTypes.array,
   parentFormMethods: PropTypes.object.isRequired,
-  selectedReport: PropTypes.array
+  selectedReport: PropTypes.object,
+  setIndexes: PropTypes.func
 };
 
 export default Container;

@@ -2498,6 +2498,7 @@ en:
     group_dates_by: "Use date ranges"
     add_default_filters: "Include default filters"
     add_default_filters_help: "Open and valid"
+    no_filters_added: "No filters added"
     date_ranges:
       date: "Day"
       week: "Week"
@@ -2508,7 +2509,7 @@ en:
       label_new: "New report filter"
       attribute: "Filter"
       value: "With"
-      not_null: "Form value is not blank"
+      not_null: "Is not blank?"
     is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:

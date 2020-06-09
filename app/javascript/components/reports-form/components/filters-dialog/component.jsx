@@ -74,7 +74,19 @@ const Component = ({
 
   useEffect(() => {
     if (selectedIndex !== null) {
-      formMethods.reset(selectedReportFilter);
+      const { type } = fields.find(
+        f => f.id === selectedReportFilter.attribute
+      );
+
+      formMethods.reset({
+        ...selectedReportFilter,
+        constraint:
+          [SELECT_FIELD, TICK_FIELD].includes(type) &&
+          Array.isArray(selectedReportFilter?.constraint) &&
+          selectedReportFilter?.constraint?.includes("not_null")
+            ? true
+            : selectedReportFilter?.constraint
+      });
     }
     if (selectedIndex === null && open) {
       formMethods.reset({ attribute: "", constraint: "", value: "" });
