@@ -8,6 +8,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms - index",
       "dateFieldForm",
       "selectFieldForm",
       "separatorFieldForm",
+      "subformField",
       "textFieldForm",
       "tickboxFieldForm"
     ].forEach(property => {

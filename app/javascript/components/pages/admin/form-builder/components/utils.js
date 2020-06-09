@@ -1,4 +1,5 @@
-/* eslint-disable import/prefer-default-export */
+export const getFieldsAttribute = isNested =>
+  isNested ? "subform_section.fields" : "fields";
 
 export const getFiedListItemTheme = currentTheme => ({
   ...currentTheme,

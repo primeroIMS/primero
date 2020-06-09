@@ -2369,7 +2369,17 @@ en:
     english_text: "English Text"
     enabled: "Enabled?"
     default: "Default?"
+    subform_sort_by: "Sort by"
+    subform_group_by: "Group by"
+    clear_sort_by: "Clear Sort By"
+    clear_group_by: "Clear Group By"
     default_value: "Default Value"
+    subform_section:
+      name: "Subform Title"
+      description: "Subform Description"
+      subform_append_only: "Selective Syncing on Mobile"
+      subform_prevent_item_removal: "Prevent subform entry removal?"
+      starts_with_one_entry: "Start with one subform entry?"
 
   replication:
     label: Replication

@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name, react/no-multi-comp */
 import React, { useEffect, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { batch, useSelector, useDispatch } from "react-redux";
@@ -12,11 +13,24 @@ import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
 import { compare } from "../../../../../../libs";
-import { getSelectedField } from "../../selectors";
-import { updateSelectedField } from "../../action-creators";
+import { getSelectedField, getSelectedSubform } from "../../selectors";
+import {
+  updateSelectedField,
+  updateSelectedSubform
+} from "../../action-creators";
+import FieldsList from "../fields-list";
+import ClearButtons from "../clear-buttons";
 
 import styles from "./styles.css";
-import { getFormField, transformValues, toggleHideOnViewPage } from "./utils";
+import {
+  getFormField,
+  getSubformValues,
+  isSubformField,
+  setInitialForms,
+  setSubformName,
+  transformValues,
+  toggleHideOnViewPage
+} from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 
 const Component = ({ mode, onClose, onSuccess }) => {
@@ -29,6 +43,11 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const selectedField = useSelector(state => getSelectedField(state), compare);
+  const selectedSubform = useSelector(
+    state => getSelectedSubform(state),
+    compare
+  );
+  const selectedFieldName = selectedField?.get("name");
   const { forms: fieldsForm, validationSchema } = getFormField({
     field: selectedField,
     i18n,
@@ -58,7 +77,9 @@ const Component = ({ mode, onClose, onSuccess }) => {
       variant: "contained",
       className: css.cancelButton
     },
-    dialogTitle: i18n.t("fields.edit_label"),
+    dialogTitle: isSubformField(selectedField)
+      ? selectedSubform.getIn(["name", i18n.locale])
+      : i18n.t("fields.edit_label"),
     open: openFieldDialog,
     successHandler: () => bindFormSubmit(formRef),
     cancelHandler: () => {
@@ -68,15 +89,20 @@ const Component = ({ mode, onClose, onSuccess }) => {
   };
 
   const onSubmit = data => {
-    const fieldName = selectedField.get("name");
-    const fieldData =
-      data[fieldName].hide_on_view_page !== undefined
-        ? toggleHideOnViewPage(fieldName, data[fieldName])
-        : data;
+    const subformData = setInitialForms(data.subform_section);
+    const fieldData = setSubformName(
+      toggleHideOnViewPage(data[selectedFieldName]),
+      subformData
+    );
 
     batch(() => {
-      onSuccess(fieldData);
-      dispatch(updateSelectedField(fieldData));
+      onSuccess({ [selectedFieldName]: fieldData });
+      if (fieldData) {
+        dispatch(updateSelectedField({ [selectedFieldName]: fieldData }));
+      }
+      if (isSubformField(selectedField)) {
+        dispatch(updateSelectedSubform(subformData));
+      }
       handleClose();
     });
   };
@@ -86,14 +112,28 @@ const Component = ({ mode, onClose, onSuccess }) => {
       <FormSection formSection={formSection} key={formSection.unique_id} />
     ));
 
+  const renderFieldsList = () =>
+    isSubformField(selectedField) && (
+      <FieldsList subformField={selectedField} />
+    );
+
+  const renderClearButtons = () =>
+    isSubformField(selectedField) && (
+      <ClearButtons subformField={selectedField} />
+    );
+
   useEffect(() => {
     if (selectedField?.size) {
-      formMethods.reset(
-        toggleHideOnViewPage(
-          selectedField.get("name"),
-          transformValues(selectedField.toJS())
-        )
+      const fieldData = toggleHideOnViewPage(
+        transformValues(selectedField.toJS())
       );
+
+      const subform =
+        isSubformField(selectedField) && selectedSubform
+          ? getSubformValues(selectedSubform)
+          : {};
+
+      formMethods.reset({ [selectedFieldName]: { ...fieldData }, ...subform });
     }
   }, [selectedField]);
 
@@ -118,7 +158,11 @@ const Component = ({ mode, onClose, onSuccess }) => {
   return (
     <ActionDialog {...modalProps}>
       <FormContext {...formMethods} formMode={formMode}>
-        <form className={css.fieldDialog}>{renderForms()}</form>
+        <form className={css.fieldDialog}>
+          {renderForms()}
+          {renderFieldsList()}
+          {renderClearButtons()}
+        </form>
       </FormContext>
     </ActionDialog>
   );
