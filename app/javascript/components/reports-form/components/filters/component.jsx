@@ -11,7 +11,8 @@ import {
   FormSectionField,
   FieldRecord,
   SELECT_FIELD,
-  TEXT_FIELD
+  TEXT_FIELD,
+  DATE_FIELD
 } from "../../../form";
 import FiltersDialog from "../filters-dialog";
 import {
@@ -40,8 +41,14 @@ const Container = ({
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [open, setOpen] = useState(false);
 
-  const onSuccess = (index, data) => {
-    // TODO: data should be validated
+  const onSuccess = (index, currentReportFilter, currentField) => {
+    const data =
+      currentField.type === DATE_FIELD &&
+      Array.isArray(currentReportFilter.value) &&
+      isEmpty(currentReportFilter.value)
+        ? { ...currentReportFilter, value: [formatValue(new Date())] }
+        : currentReportFilter;
+
     if (Object.is(index, null)) {
       setIndexes([...indexes, { index: indexes.length, data }]);
       registerValues(indexes.length, data, indexes, parentFormMethods);

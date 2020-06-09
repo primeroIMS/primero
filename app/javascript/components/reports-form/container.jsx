@@ -80,9 +80,15 @@ const Container = ({ mode }) => {
         ...formatReport(report.toJS())
       };
 
-      setIndexes(selectedReport.map((data, index) => ({ index, data })));
+      setIndexes(
+        selectedReport.filters.map((data, index) => ({ index, data }))
+      );
 
       methods.reset(selectedReport);
+    }
+    if (formMode.get("isNew")) {
+      methods.reset({});
+      setIndexes(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
     }
   }, [report]);
 
@@ -109,18 +115,18 @@ const Container = ({ mode }) => {
 
     console.log("BODY", body);
 
-    // dispatch(
-    //   saveReport({
-    //     id,
-    //     saveMethod: formMode.get("isEdit")
-    //       ? SAVE_METHODS.update
-    //       : SAVE_METHODS.new,
-    //     body,
-    //     message: formMode.get("isEdit")
-    //       ? i18n.t("report.messages.updated")
-    //       : i18n.t("report.messages.success")
-    //   })
-    // );
+    dispatch(
+      saveReport({
+        id,
+        saveMethod: formMode.get("isEdit")
+          ? SAVE_METHODS.update
+          : SAVE_METHODS.new,
+        body,
+        message: formMode.get("isEdit")
+          ? i18n.t("report.messages.updated")
+          : i18n.t("report.messages.success")
+      })
+    );
   };
 
   useImperativeHandle(formRef, () => ({

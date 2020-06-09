@@ -46,17 +46,14 @@ const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
     case TICK_FIELD: {
       const options = [
         {
-          id: false,
-          display_text: "Not Selected"
+          id: "true",
+          display_text: currentField.tick_box_label || i18n.t("true")
+        },
+        {
+          id: "false",
+          display_text: i18n.t("report.not_selected")
         }
       ];
-
-      if (currentField.tick_box_label) {
-        options.push({
-          id: true,
-          display_text: currentField.tick_box_label
-        });
-      }
 
       return {
         ...commonProps,
@@ -68,7 +65,8 @@ const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
     case DATE_FIELD:
       return {
         ...commonProps,
-        type: DATE_FIELD
+        type: DATE_FIELD,
+        selected_value: null
       };
     default:
       return commonProps;
@@ -77,13 +75,17 @@ const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
 
 // TODO: Move to util's file
 const constraintInputType = (currentField, i18n) => {
-  const allowedTickboxConstraint = [SELECT_FIELD, TICK_FIELD, RADIO_FIELD];
+  const allowedTickboxConstraint = [SELECT_FIELD, RADIO_FIELD];
 
   if (allowedTickboxConstraint.includes(currentField?.type)) {
     return {
       display_name: i18n.t("report.filters.not_null"),
       type: TICK_FIELD
     };
+  }
+
+  if (currentField?.type === TICK_FIELD) {
+    return { visible: false };
   }
 
   return {

@@ -2499,6 +2499,7 @@ en:
     add_default_filters: "Include default filters"
     add_default_filters_help: "Open and valid"
     no_filters_added: "No filters added"
+    not_selected: "Not selected"
     date_ranges:
       date: "Day"
       week: "Week"

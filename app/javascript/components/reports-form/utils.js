@@ -1,5 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import isString from "lodash/isString";
+import isNumber from "lodash/isNumber";
 import { format } from "date-fns";
 
 import { TICK_FIELD } from "../form";
@@ -159,6 +160,10 @@ export const checkValue = filter => {
 
   if (value instanceof Date) {
     return [format(value, DATE_FORMAT)];
+  }
+
+  if (isNumber(value)) {
+    return [value.toString()];
   }
 
   return value;

@@ -62,13 +62,23 @@ const Component = ({
   //   }
   // }
 
+  if (
+    [SELECT_FIELD, RADIO_FIELD].includes(currentField?.type) &&
+    typeof watchedConstraint === "boolean" &&
+    watchedConstraint
+  ) {
+    if (!isEmpty(formMethods.getValues()[VALUE])) {
+      formMethods.setValue(VALUE, []);
+    }
+  }
+
   const onClose = () => {
     setOpen(false);
     setSelectedIndex(null);
   };
 
   const onSubmit = data => {
-    onSuccess(selectedIndex, data);
+    onSuccess(selectedIndex, data, currentField);
     onClose();
   };
 
@@ -95,8 +105,6 @@ const Component = ({
 
   useEffect(() => {
     if (watchedAttribute) {
-      // TODO: Move this to util's file
-      // Input constraint === TICK_BOX
       if ([TICK_FIELD, SELECT_FIELD, RADIO_FIELD].includes(currentField.type)) {
         formMethods.reset({
           attribute: formMethods.getValues()[ATTRIBUTE],

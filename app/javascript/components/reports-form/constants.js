@@ -50,9 +50,5 @@ export const REPORT_FIELD_TYPES = Object.freeze({
 
 export const DEFAULT_FILTERS = [
   Object.freeze({ attribute: "status", value: ["open"] }),
-  Object.freeze({
-    attribute: "record_state",
-    constraint: true,
-    value: []
-  })
+  Object.freeze({ attribute: "record_state", value: ["true"] })
 ];
