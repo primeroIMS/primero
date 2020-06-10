@@ -15,7 +15,11 @@ import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
 import { compare } from "../../../../../../libs";
-import { getSelectedField, getSelectedSubform } from "../../selectors";
+import {
+  getSelectedField,
+  getSelectedSubform,
+  getSelectedFields
+} from "../../selectors";
 import {
   createSelectedField,
   updateSelectedField,
@@ -54,6 +58,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
     state => getSelectedSubform(state),
     compare
   );
+  const lastField = useSelector(
+    state => getSelectedFields(state, false),
+    compare
+  )?.last();
   const selectedFieldName = selectedField?.get("name");
   const { forms: fieldsForm, validationSchema } = getFormField({
     field: selectedField,
@@ -136,7 +144,8 @@ const Component = ({ mode, onClose, onSuccess }) => {
       selectedFieldName,
       fieldData,
       typeField,
-      i18n.locale
+      i18n.locale,
+      lastField.get("order")
     );
 
     batch(() => {
