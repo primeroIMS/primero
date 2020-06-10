@@ -35,6 +35,7 @@ export const FieldRecord = Record({
 
 export const FormSectionRecord = Record({
   id: "",
+  description: Map({}),
   unique_id: "",
   name: Map({}),
   visible: null,

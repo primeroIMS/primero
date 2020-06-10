@@ -28,7 +28,8 @@ export default (formSections, i18n) =>
             .valueSeq()
             .map(formSection => ({
               id: formSection.get("unique_id"),
-              display_text: formSection.getIn(["name", i18n.locale])
+              display_text: formSection.getIn(["name", i18n.locale]),
+              tooltip: formSection.getIn(["description", i18n.locale])
             }))
             .toJS()
         })

@@ -1351,7 +1351,7 @@ en:
           write:
             label: "Edit"
             explanation: "Ability to click the \"Edit\" button, update information in the case, and click \"Save\""
-          disable:
+          enable_disable_record:
             label: "Enable / Disable"
             explanation: "Ability to disable or enable a case. \"Disabled\" cases do not appear by default in the case list.
                 Users can see disabled cases in the case list by using a filter. Since Primero does not allow users to delete
@@ -1416,13 +1416,13 @@ en:
                 This export is mainly used for Family Tracing and Reunification activities. Only performed from case list page."
           export_unhcr_csv:
             label: "Export UNHCR CSV"
-          export_pdf:
+          export_case_pdf:
             label: "Export case PDF"
             explanation: "User can generate a PDF file export from the case list or case show pages, which contains all
                 fields to which the current user has access, for one, multiple, or all cases to which the user has access.
                 In the PDF export file, information is listed first by case, and then further organized by the form on which
                 information appears."
-          export_duplicates:
+          export_duplicate_id_csv:
             label: "Export duplicates"
             explanation: "Creates a CSV export of cases which have the same National ID field (may have a different label,
                 depending on the configuration). Only performed from case list page."
@@ -1510,7 +1510,7 @@ en:
                 button, the referral modal will appear with the Service Type, Agency, Service Provider, and Location fields
                 disabled, but automatically filled with the information for those fields in the Services subform on which
                 the user clicked the Refer button."
-          add_notes:
+          add_note:
             label: "Add Notes to a case"
             explanation: "Allows a user to add an entry into the \"Notes\" subform (also sometimes called \"Comments\").
                 The user does this by clicking the \"Add Notes\" button onthe case show page. This action is particularly
@@ -1611,7 +1611,7 @@ en:
                 want included in the export using the Custom Export modal. Please note that users can only include forms
                 and fields in the export if they already have the ability to see those forms and fields when viewing a case
                 in the application."
-          export_pdf:
+          export_case_pdf:
             label: "Export PDF"
             explanation: "User can generate a PDF file export from the incidents list or incident show pages, which contains
                 all fields to which the current user has access, for one, multiple, or all records to which the user has
@@ -1864,80 +1864,80 @@ en:
       dashboard:
         label: "Dashboard"
         actions:
-          view_case_overview:
+          case_overview:
             label: "Overview Dashboard"
             explanation: "Overview dashboard card at the top of the home page, which includes figures like Total and New cases"
-          view_approvals_assessment:
+          approvals_assessment:
             label: "Case worker Assessment approvals"
             explanation: "Shows the number of the current user's cases with Assessment approval requests which are Pending,
                 Approved, or Rejected."
-          view_approvals_assessment_pending:
+          approvals_assessment_pending:
             label: "Manager Assessment approvals"
             explanation: "Shows the number of cases in a manager's team with pending Assessment approval requests."
-          view_approvals_case_plan:
+          approvals_case_plan:
             label: "Case worker Case Plan approvals"
             explanation: "Shows the number of the current user's cases with Case Plan approval requests which are Pending,
                 Approved, or Rejected."
-          view_approvals_case_plan_pending:
+          approvals_case_plan_pending:
             label: "Manager Case Plan approvals"
             explanation: "Shows the number of cases in a manager's team with pending Case Plan approval requests."
-          view_approvals_closure:
+          approvals_closure:
             label: "Case worker Closure approvals"
             explanation: "Shows the number of the current user's cases with Closure approval requests which are Pending,
                 Approved, or Rejected."
-          view_approvals_closure_pending:
+          approvals_closure_pending:
             label: "Manager Closure approvals"
             explanation: "Shows the number of cases in a manager's team with pending Closure approval requests."
-          view_responses:
+          view_response:
             label: "View Responses"
             explanation: "For each response type, shows how many cases at each risk level have services which are near deadline
                 or overdue for completion."
-          view_case_risk:
+          case_risk:
             label: "Cases by risk level"
             explanation: "Shows how many cases are at each risk level."
-          view_reporting_locations:
+          dash_reporting_locations:
             label: "Cases by Reporting Location"
             explanation: "Table which shows how many cases there are at each location (at a single level of specificity such
                 as \"Province\" or \"District\"). Each row of the table is a location, and the columns indicate different
                 statuses for the cases (\"OPEN CASES,\" \"NEW(LAST WEEK),\" \"NEW(THIS WEEK),\" \"CLOSED(LAST WEEK),\" \"CLOSED(THIS WEEK)\").
                 Usually used for manager or administrator accounts."
-          view_protection_concerns:
+          dash_protection_concerns:
             label: "Cases by Protection Concerns"
             explanation: "Table which shows how many cases have each protection concern. Each row of the table is a protection
                 concern, while the columns indicate different statuses for the cases (\"All cases,\" \"Open cases,\" \"New (this week),\" \"Closed (this week)\")"
-          view_matching_results:
+          dash_matching_results:
             label: "View Matching Results"
             explanation: "DEPRECATED. This dashboard is non-functional and will be removed in v2."
-          view_service_provisions:
+          dash_service_provisions:
             label: "Cases by type of Service Provision"
             explanation: "Displays the number of cases which have had other users add a service provision to them. This number
                 appears in the main section of the dashboard."
-          view_cases_to_assign:
+          dash_cases_to_assign:
             label: "(For Managers) Cases I need to assign to people on my team"
             explanation: "IMPORTANT: Only for managers. Displays the number of cases owned directly by the current user
                 (should be a manager). This dashboard assumes that managers do not manage their own cases, and that, if a
                 manager has their own cases, they should assign these cases to case workers on their team."
-          view_workflow:
+          workflow:
             label: "Cases broken down by workflow"
             explanation: "Allows a case worker to see a pie graph showing how many of their cases are at each stage of the
                 case management workflow."
-          view_workflow_team:
+          workflow_team:
             label: "Cases By Workflow and Case Worker"
             explanation: "Allows a manager to see a table showing how many of their social workers' cases are at each stage
                 of the case management process."
-          view_cases_by_task_overdue_assessment:
+          cases_by_task_overdue_assessment:
             label: "Overdue Assessment tasks"
             explanation: "Allows a manager to see how many cases have overdue Assessment tasks for each one of their case workers."
-          view_cases_by_task_overdue_case_plan:
+          cases_by_task_overdue_case_plan:
             label: "Overdue Case Plan tasks"
             explanation: "Allows a manager to see how many cases have overdue Case Plan tasks for each one of their case workers."
-          view_cases_by_task_overdue_services:
+          cases_by_task_overdue_services:
             label: "Overdue Service tasks"
             explanation: "Allows a manager to see how many cases have overdue Service tasks for each one of their case workers."
-          view_cases_by_task_overdue_followups:
+          cases_by_task_overdue_followups:
             label: "Overdue Follow Up tasks"
             explanation: "Allows a manager to see how many cases have overdue Follow Up tasks for each one of their case workers."
-          view_cases_by_social_worker:
+          dash_cases_by_social_worker:
             label: "View Cases By Social Worker"
             explanation: "Table which shows how the total number of open cases and the number of new cases managed by each
                 user in the current user's user groups. Each row is a user in the current user's user groups, while \"Total\"
@@ -1945,7 +1945,7 @@ en:
           view_protection_concerns_filter:
             label: "View Protection Concerns filter on case list page"
             explanation: "Allows the user to see a protection concerns filter on the case list page."
-          view_protection_concerns_by_location:
+          dash_protection_concerns_by_location:
             label: "View Protection Concerns By Location"
             explanation: "This is the same as the \"View Protection Concerns\" dashboard, except that the user can select
                 a location from a dropdown to show statistics on protection concern prevalence only in that location."
@@ -1953,7 +1953,7 @@ en:
             label: "View cases with 'No Risk Level' in Assessment Dashboard"
             explanation: "Adds an additional \"No Risk Level\" category to all dashboards which break down cases by risk level.
                 This is specifically for configurations which have a fourth \"No Risk\" option for risk level fields."
-          view_tasks:
+          dash_tasks:
             label: "Tasks Page"
             explanation: "Allows the user to see the tasks page. This should be used for case workers and service providers,
                 since the numbers will be specifically for the cases you manage directly. Managers should instead get the

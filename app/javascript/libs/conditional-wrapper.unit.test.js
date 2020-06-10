@@ -1,4 +1,5 @@
 import React from "react";
+import { Tooltip } from "@material-ui/core";
 
 import { createSimpleMount } from "../test";
 
@@ -35,6 +36,17 @@ describe("libs/conditional-wrapper", () => {
     );
 
     expect(component.contains("wrapper content")).to.be.false;
+    expect(component.contains("wrapped children")).to.be.true;
+  });
+
+  it("renders react components", () => {
+    const component = createSimpleMount(
+      <ConditionalWrapper condition wrapper={Tooltip} title="wrapper content">
+        <div>wrapped children</div>
+      </ConditionalWrapper>
+    );
+
+    expect(component.find(Tooltip).prop("title")).to.equal("wrapper content");
     expect(component.contains("wrapped children")).to.be.true;
   });
 });

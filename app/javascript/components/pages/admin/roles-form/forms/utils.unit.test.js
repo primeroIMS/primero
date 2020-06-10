@@ -29,7 +29,7 @@ describe("pages/admin/<RolesForm>/forms - utils", () => {
       ];
 
       expect(
-        buildPermissionOptions(actions, i18n, approvalsLabels, "case")
+        buildPermissionOptions(actions, i18n, "case", approvalsLabels)
       ).to.deep.equal(expected);
     });
   });
