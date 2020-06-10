@@ -29,7 +29,6 @@ import FieldsList from "../fields-list";
 import ClearButtons from "../clear-buttons";
 import { NEW_FIELD } from "../../constants";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
-import { CUSTOM_FIELD_DIALOG } from "../custom-field-dialog/constants";
 
 import styles from "./styles.css";
 import {
@@ -79,10 +78,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
     dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
     if (selectedFieldName === NEW_FIELD) {
-      dispatch(
-        setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: false })
-      );
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: false }));
+      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
     }
   };
 
@@ -156,7 +152,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
       if (isSubformField(selectedField)) {
         dispatch(updateSelectedSubform(subformData));
       }
-      handleClose();
+      dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
     });
   };
 
