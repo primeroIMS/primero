@@ -82,9 +82,9 @@ function DateRangeSelect({ ranges, selectedRange, withCustomRange, setSelectedRa
     selectedRange.from,
     selectedRange.to));
 
-  let updateSelectedRange = e => {
+  let updateSelectedRange = (e) => {
     if (e.target.value === 'custom-range')
-      return setShowRangePicker(true)
+      return;
 
     let newSelectedRange = ranges.filter(r => r.value === e.target.value)[0];
     setSelectedRange(newSelectedRange);
@@ -95,7 +95,7 @@ function DateRangeSelect({ ranges, selectedRange, withCustomRange, setSelectedRa
       <Select onChange={updateSelectedRange} value={selectedRange.value} disabled={disabled}>
         { ranges.map(r => <MenuItem value={r.value}>{r.name}</MenuItem>) }
         { withCustomRange &&
-          <MenuItem value={customRange.value}>
+          <MenuItem value={customRange.value} onClick={ () => setShowRangePicker(true) }>
             {`${i18n.toTime('key_performance_indicators.date_format', customRange.from)} - ${i18n.toTime('key_performance_indicators.date_format', customRange.to)}`}
           </MenuItem>
         }
