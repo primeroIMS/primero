@@ -81,6 +81,7 @@ describe("addWithIndex", () => {
 
 describe("buildDataToSave", () => {
   it("should set the data for update", () => {
+    const fieldName = "referral_person_phone"
     const data = {
       referral_person_phone: {
         display_name: { en: "Contact Number aj" },
@@ -94,7 +95,7 @@ describe("buildDataToSave", () => {
     };
 
     expect(
-      utils.buildDataToSave("referral_person_phone", data, "text_field", "en")
+      utils.buildDataToSave(fieldName, data[fieldName], TEXT_FIELD, "en")
     ).to.deep.equals(data);
   });
   it("should set the data for create", () => {
@@ -107,19 +108,11 @@ describe("buildDataToSave", () => {
       show_on_minify_form: false,
       visible: true
     };
-    const type = "text_field";
 
     expect(
-      utils.buildDataToSave(
-        NEW_FIELD,
-        {
-          new_field: objectData
-        },
-        "text_field",
-        "en"
-      )
+      utils.buildDataToSave(NEW_FIELD, objectData, TEXT_FIELD, "en")
     ).to.deep.equals({
-      test_field: { ...objectData, type, name: "test_field" }
+      test_field: { ...objectData, type: TEXT_FIELD, name: "test_field" }
     });
   });
 });

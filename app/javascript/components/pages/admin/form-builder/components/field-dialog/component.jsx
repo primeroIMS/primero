@@ -70,7 +70,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
     }
 
     dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
-    if (selectedField.get("name") === NEW_FIELD) {
+    if (selectedFieldName === NEW_FIELD) {
       dispatch(
         setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: false })
       );
@@ -118,7 +118,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   };
 
   const addOrUpdatedSelectedField = fieldData => {
-    if (selectedField.get("name") === NEW_FIELD) {
+    if (selectedFieldName === NEW_FIELD) {
       dispatch(createSelectedField(fieldData));
     } else {
       dispatch(updateSelectedField(fieldData));
@@ -128,14 +128,21 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const onSubmit = data => {
     const subformData = setInitialForms(data.subform_section);
     const fieldData = setSubformName(
-      buildDataToSave(data[selectedFieldName], data, typeField, i18n.locale),
+      toggleHideOnViewPage(data[selectedFieldName]),
       subformData
     );
 
+    const dataToSave = buildDataToSave(
+      selectedFieldName,
+      fieldData,
+      typeField,
+      i18n.locale
+    );
+
     batch(() => {
-      onSuccess({ [selectedFieldName]: fieldData });
+      onSuccess(dataToSave);
       if (fieldData) {
-        dispatch(addOrUpdatedSelectedField({ [selectedFieldName]: fieldData }));
+        addOrUpdatedSelectedField(dataToSave);
       }
       if (isSubformField(selectedField)) {
         dispatch(updateSelectedSubform(subformData));

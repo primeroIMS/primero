@@ -140,20 +140,15 @@ export const setSubformName = (field, subform) => {
 };
 
 export const buildDataToSave = (fieldName, data, type, locale) => {
-  const dataToSave =
-    data[fieldName].hide_on_view_page !== undefined
-      ? toggleHideOnViewPage(fieldName)
-      : data;
-
   if (fieldName !== NEW_FIELD) {
-    return dataToSave;
+    return { [fieldName]: data };
   }
-  const newFieldName = data[fieldName].display_name[locale]
+  const newFieldName = data.display_name[locale]
     .split(" ")
     .join("_")
     .toLowerCase();
 
   return {
-    [newFieldName]: { ...dataToSave[fieldName], type, name: newFieldName }
+    [newFieldName]: { ...data, type, name: newFieldName }
   };
 };
