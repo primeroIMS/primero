@@ -21,5 +21,6 @@ export const buildPermissionOptions = (
   elements.map(element => ({
     id: element,
     display_text: buildLabelPermission(element, i18n, approvalsLabel),
-    tooltip: `permissions.resource.${resource}.actions.${element}.explanation`
+    tooltip: `permissions.resource.${resource}.actions.${element}.explanation`,
+    i18nTitle: true
   }));

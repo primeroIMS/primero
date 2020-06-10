@@ -13,18 +13,21 @@ describe("pages/admin/<RolesForm>/forms - utils", () => {
         {
           id: "action_1",
           display_text: "permissions.permission.action_1",
-          tooltip: "permissions.resource.case.actions.action_1.explanation"
+          tooltip: "permissions.resource.case.actions.action_1.explanation",
+          i18nTitle: true
         },
         {
           id: "action_2",
           display_text: "permissions.permission.action_2",
-          tooltip: "permissions.resource.case.actions.action_2.explanation"
+          tooltip: "permissions.resource.case.actions.action_2.explanation",
+          i18nTitle: true
         },
         {
           id: "request_approval_assessment",
           display_text: "permissions.permission.request_approval_assessment",
           tooltip:
-            "permissions.resource.case.actions.request_approval_assessment.explanation"
+            "permissions.resource.case.actions.request_approval_assessment.explanation",
+          i18nTitle: true
         }
       ];
 
