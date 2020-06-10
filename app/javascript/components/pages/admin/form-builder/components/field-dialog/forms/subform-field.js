@@ -4,16 +4,16 @@ import { object, string } from "yup";
 import { subform, visibilityFields, visibilityForm } from "./base";
 
 /* eslint-disable import/prefer-default-export */
-export const subformField = ({ fieldName, i18n }) => {
+export const subformField = ({ name, i18n }) => {
   const { showOn, visible, mobileVisible, hideOnViewPage } = visibilityFields(
-    fieldName,
+    name,
     i18n
   );
 
   return {
     forms: fromJS([
       subform(i18n),
-      visibilityForm(fieldName, i18n, [
+      visibilityForm(name, i18n, [
         showOn,
         { row: [visible, mobileVisible, hideOnViewPage] }
       ])
