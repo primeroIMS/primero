@@ -2535,7 +2535,7 @@ en:
       title: "15. Average Follow-Up Meetings per Case"
       label: "Average follow-up meetings per case"
     goal_progress_per_need:
-      title: "16.1. Goal Progress per Need"
+      title: "16.1. Progress Made towards Goals"
       need: "Need"
       safety: "Safety"
       health: "Health"
