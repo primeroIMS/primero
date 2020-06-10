@@ -2558,7 +2558,7 @@ en:
     case_load:
       title: "24. Case Load"
       case_load: "Case Load"
-      percent: "Percentage of Cases with Load"
+      percent: "percentage of caseworkers with caseload"
       10cases: "< 10 Cases"
       20cases: "< 20 Cases"
       21-30cases: "21 - 30 Cases"
