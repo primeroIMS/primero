@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   Dialog,
@@ -7,6 +8,8 @@ import {
   IconButton,
   Typography
 } from "@material-ui/core";
+import Add from "@material-ui/icons/Add";
+import CheckIcon from "@material-ui/icons/Check";
 
 import { setupMountedComponent } from "../../test";
 
@@ -113,5 +116,24 @@ describe("<ActionDialog />", () => {
     );
 
     expect(componentWithoutSubtitle.find(Typography)).to.be.empty;
+  });
+
+  it("should render the default icon for the confirm button", () => {
+    expect(component.find(CheckIcon)).to.have.lengthOf(1);
+  });
+
+  it("should render the icon prop for the confirm button", () => {
+    const propsWithConfirmButton = {
+      ...props,
+      confirmButtonProps: { icon: <Add /> }
+    };
+
+    const { component: componentWithDifferentIcon } = setupMountedComponent(
+      ActionDialog,
+      propsWithConfirmButton,
+      {}
+    );
+
+    expect(componentWithDifferentIcon.find(Add)).to.have.lengthOf(1);
   });
 });

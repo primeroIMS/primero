@@ -20,14 +20,14 @@ const labelField = (fieldName, i18n) =>
   });
 
 // eslint-disable-next-line import/prefer-default-export
-export const tickboxFieldForm = (fieldName, i18n) => {
-  const general = Object.values(generalFields(fieldName, i18n));
+export const tickboxFieldForm = (fieldName, i18n, mode) => {
+  const general = Object.values(generalFields(fieldName, i18n, mode));
   const newField = labelField(fieldName, i18n);
   const formFields = addWithIndex(general, 1, newField);
 
   return {
     forms: fromJS([
-      generalForm(fieldName, i18n, formFields),
+      generalForm(fieldName, i18n, mode, formFields),
       visibilityForm(fieldName, i18n)
     ]),
     validationSchema: validationSchema(fieldName, i18n)

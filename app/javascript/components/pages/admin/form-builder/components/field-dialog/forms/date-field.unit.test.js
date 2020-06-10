@@ -8,7 +8,11 @@ describe("dateFieldForm", () => {
     name: "test_name",
     date_include_time: false
   });
-  const date = dateFieldForm(field, i18n, { hiddenField: "" });
+  const formMode = fromJS({
+    isNew: false,
+    isEdit: true
+  });
+  const date = dateFieldForm(field, i18n, { hiddenField: "" }, formMode);
   const generalSection = date.forms.first().fields;
   const visibilitySection = date.forms.last().fields[1].row;
 

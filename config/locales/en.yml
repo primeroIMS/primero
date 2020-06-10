@@ -239,6 +239,7 @@ en:
     guidance: "Guidance"
     add_another_option: "Add another option"
     clear_default: "Clear default"
+    select: "Select"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -2169,6 +2170,8 @@ en:
       referrals: "Referrals"
       approvals: "Approvals"
     required_field: "%{field} is a required field"
+    type_label: "Type"
+    select_label: "Select"
 
   form_section:
     name: "Name"
@@ -2374,6 +2377,12 @@ en:
     clear_sort_by: "Clear Sort By"
     clear_group_by: "Clear Group By"
     default_value: "Default Value"
+    add_field: "Add Field"
+    create_field: "Create Field"
+    add_custom_field: "Create Custom Field"
+    add_existing_field: "Add Existing Field"
+    add_field_type: "Add %{file_type}"
+
     subform_section:
       name: "Subform Title"
       description: "Subform Description"

@@ -13,6 +13,13 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .set("selectedForm", fromJS({}))
         .set("errors", false)
         .set("serverErrors", fromJS([]));
+    case actions.CREATE_SELECTED_FIELD: {
+      const fieldName = Object.keys(payload.data)[0];
+
+      return state.update("selectedFields", fields =>
+        fields.push(fromJS(transformValues(payload.data[fieldName], true)))
+      );
+    }
     case actions.FETCH_FORM_FAILURE:
       return state
         .set("errors", true)
@@ -101,6 +108,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
       return state.set("selectedField", selectedField);
     }
+    case actions.SET_NEW_FIELD:
+      return state.set("selectedField", fromJS(payload));
     case actions.SET_SELECTED_SUBFORM: {
       const { id } = payload;
       const selectedSubform = state

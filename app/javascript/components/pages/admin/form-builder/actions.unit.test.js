@@ -7,6 +7,7 @@ describe("<FormBuilder /> - Actions", () => {
     expect(clonedActions).to.be.an("object");
     [
       "CLEAR_SELECTED_FORM",
+      "CREATE_SELECTED_FIELD",
       "FETCH_FORM",
       "FETCH_FORM_FAILURE",
       "FETCH_FORM_FINISHED",
@@ -20,6 +21,7 @@ describe("<FormBuilder /> - Actions", () => {
       "SAVE_FORM_FAILURE",
       "SET_SELECTED_FIELD",
       "SET_SELECTED_SUBFORM",
+      "SET_NEW_FIELD",
       "UPDATE_SELECTED_FIELD",
       "UPDATE_SELECTED_SUBFORM"
     ].forEach(property => {

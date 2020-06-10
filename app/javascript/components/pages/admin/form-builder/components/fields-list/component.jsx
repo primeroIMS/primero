@@ -66,9 +66,6 @@ const Component = ({ subformField }) => {
 
   return (
     <>
-      <div className={css.tabContent}>
-        <h1>{i18n.t("forms.fields")}</h1>
-      </div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="droppable" type="field">
           {(provided, snapshot) => (

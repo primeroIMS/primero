@@ -73,7 +73,7 @@ export const selectFieldForm = ({ field, i18n, mode }) => {
 
   return {
     forms: fromJS([
-      generalForm(fieldName, i18n),
+      generalForm(fieldName, i18n, mode),
       optionsForm(fieldName, i18n, optionsFormFields),
       visibilityForm(fieldName, i18n)
     ]),
