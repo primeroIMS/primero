@@ -75,8 +75,4 @@ describe("<ReportsForm /> - Container", () => {
   it("should render <FormContext>", () => {
     expect(component.find(FormContext)).to.have.lengthOf(1);
   });
-
-  it("should render <Form>", () => {
-    expect(component.find(Form)).to.have.lengthOf(1);
-  });
 });

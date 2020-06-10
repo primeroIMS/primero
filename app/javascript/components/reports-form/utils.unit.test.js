@@ -11,10 +11,12 @@ describe("<IndexFilters /> - Utils", () => {
       [
         "buildFields",
         "buildReportFields",
+        "checkValue",
         "dependantFields",
         "formatAgeRange",
-        "getFormName",
-        "formatReport"
+        "formatReport",
+        "formattedFields",
+        "getFormName"
       ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
@@ -30,7 +32,11 @@ describe("<IndexFilters /> - Utils", () => {
         {
           id: "test_1",
           display_text: "Test 1",
-          formSection: "testForm"
+          formSection: "testForm",
+          option_strings_source: undefined,
+          option_strings_text: undefined,
+          tick_box_label: undefined,
+          type: "date_field"
         }
       ];
 
@@ -43,7 +49,7 @@ describe("<IndexFilters /> - Utils", () => {
                 en: "Test 1"
               },
               name: "test_1",
-              type: "text_field",
+              type: "date_field",
               visible: true
             }
           ]
