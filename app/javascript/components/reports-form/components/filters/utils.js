@@ -2,6 +2,7 @@ import { format } from "date-fns";
 
 import { FILTERS_FIELD } from "../../constants";
 import { DATE_FORMAT } from "../../../../config";
+import { TICK_FIELD, SELECT_FIELD, RADIO_FIELD } from "../../../form";
 
 export const registerValues = (index, data, currentValues, methods) => {
   Object.entries(data).forEach(entry => {
@@ -26,9 +27,40 @@ export const registerValues = (index, data, currentValues, methods) => {
   });
 };
 
-export const formatValue = value => {
+export const formatValue = (value, i18n, { field, lookups }) => {
   if (value instanceof Date) {
     return format(value, DATE_FORMAT);
+  }
+
+  if (field && field.type === TICK_FIELD) {
+    return value.includes("true")
+      ? field?.tick_box_label || field.tick_box_label || i18n.t("true")
+      : i18n.t("report.not_selected");
+  }
+
+  if (field && [SELECT_FIELD, RADIO_FIELD].includes(field.type)) {
+    if (field.option_strings_source) {
+      const lookupValues = lookups.find(
+        lookup => lookup.unique_id === field.option_strings_source
+      )?.values;
+
+      return value
+        .map(currentValue => {
+          const text = lookupValues.find(option => option.id === currentValue);
+
+          return text.display_text[i18n.locale] || text.display_text;
+        })
+        .join(", ");
+    }
+
+    return value
+      .map(
+        currentValue =>
+          field.option_strings_text[i18n.locale].find(
+            option => option.id === currentValue
+          ).display_text
+      )
+      .join(", ");
   }
 
   return value;

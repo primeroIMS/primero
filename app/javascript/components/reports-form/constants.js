@@ -29,10 +29,10 @@ export const REPORTABLE_TYPES = Object.freeze({
 
 // TODO: I18n
 export const CONSTRAINTS = Object.freeze({
-  "<": "Less Than",
-  ">": "Greater Than",
-  "=": "Equal To",
-  not_null: "Not Blank"
+  "<": "report.filters.less_than",
+  ">": "report.filters.greater_than",
+  "=": "report.filters.equal_to",
+  not_null: "report.filters.not_blank"
 });
 
 export const ALLOWED_FIELD_TYPES = [

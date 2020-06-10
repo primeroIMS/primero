@@ -13,7 +13,6 @@ import { CONSTRAINTS } from "../../constants";
 
 import { ATTRIBUTE, CONSTRAINT, VALUE } from "./constants";
 
-// TODO: Move to util's file
 const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
   const commonProps = {
     type: TEXT_FIELD,
@@ -73,7 +72,6 @@ const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
   }
 };
 
-// TODO: Move to util's file
 const constraintInputType = (currentField, i18n) => {
   const allowedTickboxConstraint = [SELECT_FIELD, RADIO_FIELD];
 
@@ -93,11 +91,11 @@ const constraintInputType = (currentField, i18n) => {
     type: SELECT_FIELD,
     option_strings_text: Object.entries(CONSTRAINTS).map(value => {
       // eslint-disable-next-line camelcase
-      const [id, display_text] = value;
+      const [id, translationKey] = value;
 
       return {
         id,
-        display_text
+        display_text: i18n.t(translationKey)
       };
     })
   };

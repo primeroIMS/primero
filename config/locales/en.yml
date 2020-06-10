@@ -2511,6 +2511,11 @@ en:
       attribute: "Filter"
       value: "With"
       not_null: "Is not blank?"
+      less_than: "Less than"
+      greater_than: "Greater than"
+      equal_to: "Equal to"
+      not_blank: "Not blank"
+      is: "is"
     is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
