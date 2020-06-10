@@ -15,7 +15,7 @@ import { formattedFields } from "../../utils";
 import { compare, dataToJS } from "../../../../libs";
 import { getOptions } from "../../../record-form/selectors";
 import { getOptions as specialOptions } from "../../../form/selectors";
-import { OPTION_TYPES } from "../../../form/constants";
+import { OPTION_TYPES, NUMERIC_FIELD } from "../../../form/constants";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -42,7 +42,7 @@ const Container = ({
         : currentReportFilter;
 
     if (
-      currentField.type === DATE_FIELD &&
+      [DATE_FIELD, NUMERIC_FIELD].includes(currentField.type) &&
       currentReportFilter.constraint === "not_null"
     ) {
       data.value = "";
@@ -54,13 +54,6 @@ const Container = ({
     } else {
       const indexesCopy = [...indexes].slice();
 
-      if (
-        currentField.type === DATE_FIELD &&
-        currentReportFilter.constraint !== "not_null" &&
-        !currentReportFilter.value
-      ) {
-        data.value = formatValue(new Date(), i18n, {});
-      }
       indexesCopy[index] = { ...indexesCopy[index], data };
 
       setIndexes(indexesCopy);
