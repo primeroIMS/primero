@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { IconButton, InputLabel, MenuItem, Select } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
+import { MODULES } from "../../../config/constants";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { fetchAlerts } from "../../nav/action-creators";
@@ -32,7 +33,7 @@ const Component = ({
   dialogName
 }) => {
   const i18n = useI18n();
-  const { approvalsLabels } = useApp();
+  const { approvalsLabels, userModules } = useApp();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const startRequestType = subMenuItems?.[0]?.value;
@@ -42,11 +43,11 @@ const Component = ({
   const [renderCasePlan, setRenderCasePlan] = useState(false);
   const [typeOfCasePlan, setTypeOfCasePlan] = useState("");
 
-  const { userModules } = useApp();
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
   const username = useSelector(state => currentUser(state));
+
   const showTypeOfCasePlan = userModules
-    .filter(t => t.unique_id === "primeromodule-cp")
+    .filter(userModule => userModule.unique_id === MODULES.CP)
     // eslint-disable-next-line camelcase
     ?.first()?.options?.selectable_approval_types;
   const alertTypes = useSelector(state =>
@@ -147,6 +148,7 @@ const Component = ({
       {alertType.get("display_text")}
     </MenuItem>
   ));
+
   const selectTypeOfCasePlan = showTypeOfCasePlan && renderCasePlan && (
     <>
       <InputLabel>
