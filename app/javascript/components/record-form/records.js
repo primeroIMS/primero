@@ -28,7 +28,6 @@ export const FormSectionRecord = Record({
   unique_id: "",
   description: fromJS({}),
   name: {},
-  description: {},
   visible: null,
   is_first_tab: null,
   order: null,

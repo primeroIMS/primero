@@ -81,7 +81,7 @@ describe("addWithIndex", () => {
 
 describe("buildDataToSave", () => {
   it("should set the data for update", () => {
-    const fieldName = "referral_person_phone"
+    const fieldName = "referral_person_phone";
     const data = {
       referral_person_phone: {
         display_name: { en: "Contact Number aj" },
