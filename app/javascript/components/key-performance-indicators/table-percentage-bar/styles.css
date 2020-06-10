@@ -5,23 +5,25 @@
 
 .TablePercentageBar {
   width: 100%;
-  height: .75rem;
+  height: 1.25rem;
   border-radius: 1rem;
   overflow: hidden;
   background-color: $(theme.primero.colors.lightGrey);
 }
 
 .TablePercentageBarComplete {
+  padding-left: .5rem;
+  box-sizing: border-box;
+  text-align: left;
   display: inline-block;
   height: 100%;
   border-radius: 1rem;
   vertical-align: top;
-}
-
-.filledColor {
   background-color: $(theme.palette.primary.main);
+  color: $(theme.primero.colors.lightGrey);
 }
 
-.emptyColor {
-  background-color: inherit;
+.small {
+  margin-left: .25rem;
+  padding-left: 0;
 }
