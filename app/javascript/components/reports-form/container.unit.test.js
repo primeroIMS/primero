@@ -5,7 +5,6 @@ import { PageContent, PageHeading } from "../page";
 import { setupMountedComponent } from "../../test";
 import { ACTIONS } from "../../libs/permissions";
 import { FormSectionRecord, FieldRecord } from "../record-form/records";
-import Form from "../form";
 
 import ReportsForm from "./container";
 

@@ -104,16 +104,12 @@ const Container = ({ mode }) => {
       data: {
         ...omit(data, [AGGREGATE_BY_FIELD, DISAGGREGATE_BY_FIELD]),
         fields,
-        filters: indexes.map(({ data: filter }) => {
-          return {
-            ...filter,
-            value: checkValue(filter)
-          };
-        })
+        filters: indexes.map(({ data: filter }) => ({
+          ...filter,
+          value: checkValue(filter)
+        }))
       }
     };
-
-    console.log("BODY", body);
 
     dispatch(
       saveReport({

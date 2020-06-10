@@ -38,8 +38,15 @@ const Container = ({
       currentField.type === DATE_FIELD &&
       Array.isArray(currentReportFilter.value) &&
       isEmpty(currentReportFilter.value)
-        ? { ...currentReportFilter, value: [formatValue(new Date(), i18n, {})] }
+        ? { ...currentReportFilter, value: formatValue(new Date(), i18n, {}) }
         : currentReportFilter;
+
+    if (
+      currentField.type === DATE_FIELD &&
+      currentReportFilter.constraint === "not_null"
+    ) {
+      data.value = "";
+    }
 
     if (Object.is(index, null)) {
       setIndexes([...indexes, { index: indexes.length, data }]);
@@ -47,6 +54,13 @@ const Container = ({
     } else {
       const indexesCopy = [...indexes].slice();
 
+      if (
+        currentField.type === DATE_FIELD &&
+        currentReportFilter.constraint !== "not_null" &&
+        !currentReportFilter.value
+      ) {
+        data.value = formatValue(new Date(), i18n, {});
+      }
       indexesCopy[index] = { ...indexesCopy[index], data };
 
       setIndexes(indexesCopy);
@@ -129,6 +143,7 @@ const Container = ({
       ];
 
       const formattedReportFilterName = [
+        // eslint-disable-next-line camelcase
         field?.display_text || "",
         i18n.t("report.filters.is"),
         constraintLabel,

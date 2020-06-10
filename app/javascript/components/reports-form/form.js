@@ -12,7 +12,6 @@ import {
   TEXT_AREA,
   SELECT_FIELD
 } from "../form";
-import { dataToJS } from "../../libs";
 
 import {
   NAME_FIELD,

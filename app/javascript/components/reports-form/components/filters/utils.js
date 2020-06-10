@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import { format } from "date-fns";
 
 import { FILTERS_FIELD } from "../../constants";
