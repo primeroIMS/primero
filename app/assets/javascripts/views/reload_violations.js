@@ -70,8 +70,8 @@ _primero.Views.ViolationListReload = _primero.Views.Base.extend({
           var value_length = 0;
           $violation_el.find('input[type!="hidden"], select, textarea').each(function(x, field_el){
             var tmpLen = $.trim($(field_el).val()).length;
-            // don't count radio fields as they initailly have a default value which would lead to a false positive
-            if (tmpLen > 0 && $(field_el).attr('type') != 'radio') {
+            // don't count radio or tick-box fields as they initailly have a default value which would lead to a false positive
+            if (tmpLen > 0 && $(field_el).attr('type') != 'radio' && $(field_el).attr('type') != 'checkbox') {
                value_length++;
                return false;
             }
