@@ -22,7 +22,6 @@ const sharedUserFields = (i18n, formMode) => [
   {
     display_name: i18n.t("user.user_name"),
     name: "user_name",
-    disabled: true,
     type: TEXT_FIELD,
     required: true,
     editable: false
