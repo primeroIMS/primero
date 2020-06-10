@@ -12,6 +12,8 @@ import isEmpty from "lodash/isEmpty";
 
 import { RefreshIcon } from "../../../images/primero-icons";
 import { useI18n } from "../../i18n";
+import { buildNameFilter } from "../utils";
+import { useApp } from "../../application";
 
 import styles from "./styles.css";
 
@@ -30,6 +32,7 @@ const Panel = ({
     getValues()?.[selectedDefaultValueField || fieldName]
   );
   const i18n = useI18n();
+  const { approvalsLabels } = useApp();
   const [open, setOpen] = useState(false);
 
   const handleChange = () => {
@@ -46,6 +49,8 @@ const Panel = ({
       selectedDefaultValueField || fieldName
     );
 
+  const filterLabel = buildNameFilter(name, i18n, approvalsLabels);
+
   return (
     <ExpansionPanel
       className={css.panel}
@@ -55,7 +60,7 @@ const Panel = ({
     >
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
         <div className={css.heading}>
-          <div className={css.panelTitle}>{i18n.t(name)}</div>
+          <div className={css.panelTitle}>{filterLabel}</div>
           {handleReset && (
             <IconButton
               aria-label={i18n.t("buttons.delete")}

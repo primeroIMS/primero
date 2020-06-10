@@ -23,10 +23,11 @@ Rails.application.configure do
 
   config.filter_parameters += %i[child incident tracing_request]
 
-  config.log_level = :debug
-
-  if ENV['LOG_TO_STDOUT'].present?
-    config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+  if ENV["LOG_TO_STDOUT"].present?
+    STDOUT.sync = true
+    logger = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = Logger::Formatter.new
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 
   # WARNING **

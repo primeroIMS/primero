@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name, react/no-multi-comp */
 import React, { useEffect, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { batch, useSelector, useDispatch } from "react-redux";
@@ -12,15 +13,29 @@ import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
 import { compare } from "../../../../../../libs";
-import { getSelectedField } from "../../selectors";
-import { updateSelectedField } from "../../action-creators";
+import { getSelectedField, getSelectedSubform } from "../../selectors";
+import {
+  updateSelectedField,
+  updateSelectedSubform
+} from "../../action-creators";
+import FieldsList from "../fields-list";
+import ClearButtons from "../clear-buttons";
 
 import styles from "./styles.css";
-import { getFormField } from "./utils";
+import {
+  getFormField,
+  getSubformValues,
+  isSubformField,
+  setInitialForms,
+  setSubformName,
+  transformValues,
+  toggleHideOnViewPage
+} from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 
-const Component = ({ onClose, onSuccess }) => {
+const Component = ({ mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
+  const formMode = whichFormMode(mode);
   const openFieldDialog = useSelector(state =>
     selectDialog(ADMIN_FIELDS_DIALOG, state)
   );
@@ -28,12 +43,19 @@ const Component = ({ onClose, onSuccess }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const selectedField = useSelector(state => getSelectedField(state), compare);
-  const { forms: fieldsForm, validationSchema } = getFormField(
-    selectedField,
-    i18n
+  const selectedSubform = useSelector(
+    state => getSelectedSubform(state),
+    compare
   );
+  const selectedFieldName = selectedField?.get("name");
+  const { forms: fieldsForm, validationSchema } = getFormField({
+    field: selectedField,
+    i18n,
+    mode: formMode,
+    css
+  });
+
   const formMethods = useForm({ validationSchema });
-  const formMode = whichFormMode("edit");
 
   const handleClose = () => {
     if (onClose) {
@@ -55,7 +77,9 @@ const Component = ({ onClose, onSuccess }) => {
       variant: "contained",
       className: css.cancelButton
     },
-    dialogTitle: i18n.t("fields.edit_label"),
+    dialogTitle: isSubformField(selectedField)
+      ? selectedSubform.getIn(["name", i18n.locale])
+      : i18n.t("fields.edit_label"),
     open: openFieldDialog,
     successHandler: () => bindFormSubmit(formRef),
     cancelHandler: () => {
@@ -65,9 +89,20 @@ const Component = ({ onClose, onSuccess }) => {
   };
 
   const onSubmit = data => {
+    const subformData = setInitialForms(data.subform_section);
+    const fieldData = setSubformName(
+      toggleHideOnViewPage(data[selectedFieldName]),
+      subformData
+    );
+
     batch(() => {
-      onSuccess(data);
-      dispatch(updateSelectedField(data));
+      onSuccess({ [selectedFieldName]: fieldData });
+      if (fieldData) {
+        dispatch(updateSelectedField({ [selectedFieldName]: fieldData }));
+      }
+      if (isSubformField(selectedField)) {
+        dispatch(updateSelectedSubform(subformData));
+      }
       handleClose();
     });
   };
@@ -77,9 +112,28 @@ const Component = ({ onClose, onSuccess }) => {
       <FormSection formSection={formSection} key={formSection.unique_id} />
     ));
 
+  const renderFieldsList = () =>
+    isSubformField(selectedField) && (
+      <FieldsList subformField={selectedField} />
+    );
+
+  const renderClearButtons = () =>
+    isSubformField(selectedField) && (
+      <ClearButtons subformField={selectedField} />
+    );
+
   useEffect(() => {
     if (selectedField?.size) {
-      formMethods.reset({ [selectedField.get("name")]: selectedField.toJS() });
+      const fieldData = toggleHideOnViewPage(
+        transformValues(selectedField.toJS())
+      );
+
+      const subform =
+        isSubformField(selectedField) && selectedSubform
+          ? getSubformValues(selectedSubform)
+          : {};
+
+      formMethods.reset({ [selectedFieldName]: { ...fieldData }, ...subform });
     }
   }, [selectedField]);
 
@@ -104,7 +158,11 @@ const Component = ({ onClose, onSuccess }) => {
   return (
     <ActionDialog {...modalProps}>
       <FormContext {...formMethods} formMode={formMode}>
-        <form className={css.fieldDialog}>{renderForms()}</form>
+        <form className={css.fieldDialog}>
+          {renderForms()}
+          {renderFieldsList()}
+          {renderClearButtons()}
+        </form>
       </FormContext>
     </ActionDialog>
   );
@@ -113,6 +171,7 @@ const Component = ({ onClose, onSuccess }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func
 };

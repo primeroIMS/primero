@@ -19,7 +19,9 @@ describe("<FormBuilder /> - Actions", () => {
       "SAVE_FORM_SUCCESS",
       "SAVE_FORM_FAILURE",
       "SET_SELECTED_FIELD",
-      "UPDATE_SELECTED_FIELD"
+      "SET_SELECTED_SUBFORM",
+      "UPDATE_SELECTED_FIELD",
+      "UPDATE_SELECTED_SUBFORM"
     ].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];

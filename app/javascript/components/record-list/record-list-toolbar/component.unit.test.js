@@ -41,6 +41,49 @@ describe("<RecordListToolbar />", () => {
       permissions: {
         cases: [ACTIONS.CREATE]
       }
+    },
+    records: {
+      cases: {
+        data: [
+          {
+            sex: "female",
+            owned_by_agency_id: 1,
+            record_in_scope: true,
+            created_at: "2020-01-29T21:57:00.274Z",
+            name: "User 1",
+            alert_count: 0,
+            case_id_display: "b575f47",
+            owned_by: "primero_cp_ar",
+            status: "open",
+            registration_date: "2020-01-29",
+            id: "b342c488-578e-4f5c-85bc-35ece34cccdf",
+            flag_count: 0,
+            short_id: "b575f47",
+            age: 15,
+            workflow: "new"
+          },
+          {
+            sex: "male",
+            owned_by_agency_id: 1,
+            record_in_scope: true,
+            created_at: "2020-01-29T21:57:00.274Z",
+            name: "User 1",
+            alert_count: 0,
+            case_id_display: "b575f57",
+            owned_by: "primero_cp",
+            status: "open",
+            registration_date: "2020-01-29",
+            id: "b342c488-578e-4f5c-85bc-35eceb575f57",
+            flag_count: 0,
+            short_id: "b575f57",
+            age: 15,
+            workflow: "new"
+          }
+        ],
+        filters: {
+          status: ["true"]
+        }
+      }
     }
   });
   // eslint-disable-next-line react/display-name
@@ -89,10 +132,18 @@ describe("<RecordListToolbar />", () => {
   });
 
   describe("if doesn't have permission to create", () => {
+    const propsUserWithoutPermssion = {
+      title: "This is a record list toolbar",
+      recordType: RECORD_PATH.cases,
+      handleDrawer: () => {},
+      mobileDisplay: false,
+      currentPage: 0
+    };
+
     beforeEach(() => {
       ({ component } = setupMountedComponent(
         RecordListToolbar,
-        props,
+        propsUserWithoutPermssion,
         fromJS({
           user: {
             permissions: {

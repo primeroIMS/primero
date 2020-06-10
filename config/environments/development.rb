@@ -8,8 +8,7 @@ Rails.application.configure do
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local = true
   # See everything in the log (default is :info)
-  config.log_level = :debug
-
+  
   config.eager_load = ENV['PROFILE'] == 'true'
 
   config.action_mailer.raise_delivery_errors = false

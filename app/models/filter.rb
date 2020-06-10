@@ -23,7 +23,7 @@ class Filter < ValueObject
     field_name: 'cases_by_date',
     type: 'dates'
   )
-  APPROVALS_STATUS_BIA = Filter.new(name: 'approvals.bia', field_name: 'approval_status_bia')
+  APPROVALS_STATUS_ASSESSMENT = Filter.new(name: 'approvals.assessment', field_name: 'approval_status_assessment')
   APPROVALS_STATUS_CASE_PLAN = Filter.new(name: 'approvals.case_plan', field_name: 'approval_status_case_plan')
   APPROVALS_STATUS_CLOSURE = Filter.new(name: 'approvals.closure', field_name: 'approval_status_closure')
   AGENCY =  Filter.new(name: 'cases.filter_by.agency', field_name: 'owned_by_agency_id', type: 'checkbox')
@@ -231,9 +231,9 @@ class Filter < ValueObject
       filters << STATUS
       filters << AGE_RANGE
       filters << SEX
-      filters << APPROVALS_STATUS_BIA if permitted_form_ids.include?('cp_bia_form') && user.can_approve_bia?
-      filters << APPROVALS_STATUS_CASE_PLAN if permitted_form_ids.include?('cp_case_plan') && user.can_approve_case_plan?
-      filters << APPROVALS_STATUS_CLOSURE if permitted_form_ids.include?('closure_form') && user.can_approve_closure?
+      filters << APPROVALS_STATUS_ASSESSMENT if user.can_approve_assessment?
+      filters << APPROVALS_STATUS_CASE_PLAN if user.can_approve_case_plan?
+      filters << APPROVALS_STATUS_CLOSURE if user.can_approve_closure?
       filters << PROTECTION_CONCERNS if user.can?(:view_protection_concerns_filter, model_class) && visible?('protection_concerns', filter_fields)
       filters << GBV_DISPLACEMENT_STATUS if user.has_module?(PrimeroModule::GBV) && visible?('gbv_displacement_status', filter_fields)
       filters << PROTECTION_STATUS if visible?('protection_status', filter_fields)
@@ -343,7 +343,7 @@ class Filter < ValueObject
         locale_options << { id: 'incident_date_derived', display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale: locale) }
         { locale => locale_options }
       end.inject(&:merge)
-    when 'approval_status_bia', 'approval_status_case_plan', 'approval_status_closure'
+    when 'approval_status_assessment', 'approval_status_case_plan', 'approval_status_closure'
       id_suffix = field_name.delete_prefix('approval_status_')
       self.options = I18n.available_locales.map do |locale|
         { locale =>

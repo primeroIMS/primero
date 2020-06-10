@@ -4,6 +4,7 @@ import { FormControlLabel, Checkbox } from "@material-ui/core";
 
 import { useI18n } from "../../i18n";
 import { optionText } from "../utils/which-options";
+import Tooltip from "../../tooltip";
 
 const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
   const i18n = useI18n();
@@ -38,7 +39,11 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
             disabled={disabled}
           />
         }
-        label={optionText(option, i18n.locale)}
+        label={
+          <Tooltip title={option?.tooltip} i18nTitle={option?.tooltipI18n}>
+            <span>{optionText(option, i18n.locale)}</span>
+          </Tooltip>
+        }
       />
     ));
 

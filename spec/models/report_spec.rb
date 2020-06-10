@@ -116,17 +116,17 @@ describe Report do
   describe "modules_present" do
     it "will reject the empty module_id list" do
       r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_id: ''
-      r.modules_present.should == I18n.t("errors.models.report.module_presence")
+      r.modules_present.should == [I18n.t("errors.models.report.module_presence")]
     end
 
     it "will reject the invalid module_id list" do
       r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_id: "badmoduleid"
-      r.modules_present.should == I18n.t("errors.models.report.module_syntax")
+      r.modules_present.should == [I18n.t("errors.models.report.module_syntax")]
     end
 
     it "will accept the valid module_id list" do
       r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_id: "primeromodule-cp"
-      r.modules_present.should == true
+      r.modules_present.should == nil
     end
 
   end

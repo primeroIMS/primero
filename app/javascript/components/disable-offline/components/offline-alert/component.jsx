@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Alert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/styles";
-import PortableWifiOff from "@material-ui/icons/PortableWifiOff";
+import SignalWifiOff from "@material-ui/icons/SignalWifiOff";
 
 import { useApp } from "../../../application";
 
@@ -16,7 +16,7 @@ const Component = ({ text }) => {
 
   return (
     <div className={css.alert}>
-      <Alert icon={<PortableWifiOff />} severity="warning" variant="outlined">
+      <Alert icon={<SignalWifiOff />} severity="warning" variant="outlined">
         {text}
       </Alert>
     </div>

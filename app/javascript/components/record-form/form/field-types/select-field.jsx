@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import isEmpty from "lodash/isEmpty";
 
+import { useApp } from "../../../application";
 import { useI18n } from "../../../i18n";
 import {
   getLocations,
@@ -73,12 +74,15 @@ const SelectField = ({
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
+  const { online } = useApp();
 
   const option = field.option_strings_source || field.option_strings_text;
 
   const value = getIn(formik.values, name);
 
-  const selectedValue = field.selected_value;
+  const selectedValue = field.multi_select
+    ? [field.selected_value]
+    : field.selected_value;
 
   const options = useSelector(state => getOption(state, option, i18n.locale));
 
@@ -156,6 +160,14 @@ const SelectField = ({
     CUSTOM_STRINGS_SOURCE.user
   ];
 
+  const endpointLookups = [
+    CUSTOM_STRINGS_SOURCE.agency,
+    CUSTOM_STRINGS_SOURCE.user
+  ];
+
+  const disableOfflineEndpointOptions =
+    !online && endpointLookups.includes(option);
+
   const fieldProps = {
     component: Select,
     name,
@@ -195,7 +207,7 @@ const SelectField = ({
     MenuProps,
     multiple: field.multi_select,
     IconComponent: !mode.isShow ? ArrowDropDownIcon : () => null,
-    disabled: !options || disabled,
+    disabled: !options || disabled || disableOfflineEndpointOptions,
     inputProps: {
       onChange: (event, currentValue) => {
         if (name.endsWith("service_type")) {
@@ -210,7 +222,7 @@ const SelectField = ({
   const fieldTouched = getIn(formik.touched, name);
 
   useEffect(() => {
-    if (mode.isNew && selectedValue && value === "") {
+    if (mode.isNew && selectedValue && (value === "" || value.length === 0)) {
       formik.setFieldValue(name, selectedValue, false);
     }
 
@@ -218,6 +230,18 @@ const SelectField = ({
       reloadReferralUsers();
     }
   }, []);
+
+  const inputHelperText = () => {
+    if (fieldError && fieldTouched) {
+      return fieldError;
+    }
+
+    if (disableOfflineEndpointOptions) {
+      return i18n.t("offline");
+    }
+
+    return helperText;
+  };
 
   const customLookupsConfig = buildCustomLookupsConfig({
     locations,
@@ -278,15 +302,15 @@ const SelectField = ({
       const searchableSelectProps = {
         id: name,
         name,
-        isDisabled: mode.isShow || disabled,
-        helperText,
+        isDisabled: mode.isShow || disabled || disableOfflineEndpointOptions,
+        helperText: inputHelperText(),
         isClearable: true,
         menuPosition: "absolute",
         TextFieldProps: {
           label,
           margin: "dense",
           fullWidth: true,
-          helperText,
+          helperText: inputHelperText(),
           InputLabelProps: {
             htmlFor: name,
             shrink: true
@@ -347,9 +371,7 @@ const SelectField = ({
               </MenuItem>
             ))}
         </Field>
-        <FormHelperText>
-          {fieldError && fieldTouched ? fieldError : helperText}
-        </FormHelperText>
+        <FormHelperText>{inputHelperText()}</FormHelperText>
       </FormControl>
     );
   }

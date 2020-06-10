@@ -16,7 +16,7 @@ class SystemSettings < ApplicationRecord
     :welcome_email_enabled, :show_alerts, :use_identity_provider
   )
 
-  localize_properties [:welcome_email_text]
+  localize_properties [:welcome_email_text, :approvals_labels]
 
   validate :validate_locales
   validate :validate_reporting_location,

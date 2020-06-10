@@ -70,11 +70,13 @@ const Container = () => {
         render={() => (
           <Form className={css.loginForm} autoComplete="off" noValidate>
             <Field
+              id="user_name"
               name="user_name"
               label={i18n.t("login.username")}
               {...inputProps}
             />
             <Field
+              id="password"
               name="password"
               label={i18n.t("login.password.label")}
               type="password"

@@ -2,6 +2,7 @@ import { fromJS } from "immutable";
 
 import { fake } from "../../../test";
 import { ACTIONS } from "../../../libs/permissions";
+import { TEXT_FIELD, SUBFORM_SECTION } from "../../record-form/constants";
 
 import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";
 import * as utils from "./utils";
@@ -222,6 +223,63 @@ describe("<RecordActions /> - exports/utils", () => {
           true
         )
       ).to.be.deep.equals(expected);
+    });
+  });
+
+  describe("buildFields", () => {
+    const data = [
+      {
+        unique_id: "test_form",
+        name: {
+          en: "Test Form"
+        },
+        fields: [
+          {
+            name: "field_form",
+            display_name: { en: "Field Form" },
+            type: TEXT_FIELD,
+            visible: true
+          }
+        ]
+      },
+      {
+        unique_id: "test_subform",
+        name: {
+          en: "Test Subform"
+        },
+        fields: [
+          {
+            name: "field_subform",
+            display_name: { en: "Field Subform" },
+            type: SUBFORM_SECTION,
+            visible: true,
+            subform_section_id: {
+              unique_id: "field_subform_section",
+              name: {
+                en: "Field Subform Section"
+              },
+              fields: [
+                {
+                  name: "field_subform_section_test",
+                  display_name: { en: "Field from Subform" },
+                  type: TEXT_FIELD,
+                  visible: true
+                },
+                {
+                  name: "field_subform_section_test1",
+                  display_name: { en: "Field from Subform 1" },
+                  type: TEXT_FIELD,
+                  visible: true
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ];
+
+    xit("should return fields from forms and subforms when individual fields is false", () => {
+      expect(utils.buildFields(data, "en")).to.have.lengthOf(3);
     });
   });
 });

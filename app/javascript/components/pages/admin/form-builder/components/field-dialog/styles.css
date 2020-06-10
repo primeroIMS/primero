@@ -4,6 +4,9 @@
     text-transform: uppercase;
     font-weight: bold;
   }
+  & div {
+    padding: 0
+  }
 }
 
 .cancelButton {
@@ -15,4 +18,8 @@
     color: $(theme.primero.colors.black);
     background-color: $(theme.primero.colors.warmGrey5);
   }
+}
+
+.hiddenField {
+  display: none;
 }
