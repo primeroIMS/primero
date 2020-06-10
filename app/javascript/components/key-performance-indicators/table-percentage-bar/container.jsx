@@ -8,21 +8,25 @@ export default function TablePercentageBar({ percentage, className}) {
   // Set a minimum of 5 percent so that there is always something
   // visible. It's not meant to be a super accurate assessment but
   // a quick visual assessment if we're using a percentage bar.
-  const percentageValue = Math.max(5, percentage * 100);
-  const isZero = percentage === 0;
+  const percentageValue = percentage * 100;
+  const isSmall = percentage < 0.1;
 
-  const barClassNames = [css.TablePercentageBarContainer, className].join(" ");
-  const fillingClassNames = [
+  const containerClasses = [css.TablePercentageBarContainer, className].join(" ");
+  const foregroundClasses = [
     css.TablePercentageBarComplete,
-    isZero ? css.emptyColor : css.filledColor
+    isSmall && css.small || ''
   ].join(" ");
 
   return (
-    <div className={barClassNames}>
+    <div className={containerClasses}>
       <div class={css.TablePercentageBar}>
+        { isSmall && percentageValue.toFixed(0) + "%" }
         <div
-          className={fillingClassNames}
-          style={{ width: percentageValue + "%" }}></div>
+          className={foregroundClasses}
+          style={{ width: percentageValue + "%" }}
+        >
+          { !isSmall && percentageValue.toFixed(0) + "%" }
+        </div>
       </div>
     </div>
   )
