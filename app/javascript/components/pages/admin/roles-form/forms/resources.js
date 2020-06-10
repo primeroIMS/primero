@@ -29,8 +29,8 @@ export default (resourceActions, roles, i18n, approvalsLabels) =>
             buildPermissionOptions(
               actions,
               i18n,
-              approvalsLabels,
-              resource
+              resource,
+              approvalsLabels
             )?.toJS() || []
         })
       ],

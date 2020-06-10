@@ -33,7 +33,11 @@ export default (roles, actions, i18n) =>
       FieldRecord({
         name: `permissions[role]`,
         type: CHECK_BOX_FIELD,
-        option_strings_text: buildPermissionOptions(actions, i18n).toJS()
+        option_strings_text: buildPermissionOptions(
+          actions,
+          i18n,
+          "role"
+        ).toJS()
       })
     ]
   });

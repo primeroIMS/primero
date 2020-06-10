@@ -48,7 +48,8 @@ export default (groupPermissions, i18n) => {
         type: SELECT_FIELD,
         option_strings_text: buildPermissionOptions(
           groupPermissions,
-          i18n
+          i18n,
+          "role"
         ).toJS()
       })
     ]

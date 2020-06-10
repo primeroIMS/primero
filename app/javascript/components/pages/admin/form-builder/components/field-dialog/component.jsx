@@ -1,8 +1,11 @@
+/* eslint-disable react/display-name, react/no-multi-comp */
 import React, { useEffect, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { batch, useSelector, useDispatch } from "react-redux";
 import { FormContext, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/styles";
+import Add from "@material-ui/icons/Add";
+import CheckIcon from "@material-ui/icons/Check";
 
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { setDialog } from "../../../../../record-actions/action-creators";
@@ -12,11 +15,29 @@ import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
 import { compare } from "../../../../../../libs";
-import { getSelectedField } from "../../selectors";
-import { updateSelectedField } from "../../action-creators";
+import { getSelectedField, getSelectedSubform } from "../../selectors";
+import {
+  createSelectedField,
+  updateSelectedField,
+  updateSelectedSubform
+} from "../../action-creators";
+import FieldsList from "../fields-list";
+import ClearButtons from "../clear-buttons";
+import { NEW_FIELD } from "../../constants";
+import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
+import { CUSTOM_FIELD_DIALOG } from "../custom-field-dialog/constants";
 
 import styles from "./styles.css";
-import { getFormField, transformValues, toggleHideOnViewPage } from "./utils";
+import {
+  getFormField,
+  getSubformValues,
+  isSubformField,
+  setInitialForms,
+  setSubformName,
+  transformValues,
+  toggleHideOnViewPage,
+  buildDataToSave
+} from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 
 const Component = ({ mode, onClose, onSuccess }) => {
@@ -29,6 +50,11 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const selectedField = useSelector(state => getSelectedField(state), compare);
+  const selectedSubform = useSelector(
+    state => getSelectedSubform(state),
+    compare
+  );
+  const selectedFieldName = selectedField?.get("name");
   const { forms: fieldsForm, validationSchema } = getFormField({
     field: selectedField,
     i18n,
@@ -44,21 +70,45 @@ const Component = ({ mode, onClose, onSuccess }) => {
     }
 
     dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+    if (selectedFieldName === NEW_FIELD) {
+      dispatch(
+        setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: false })
+      );
+      dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: false }));
+    }
   };
 
+  const typeField = selectedField.get("type");
+
+  const editDialogTitle = isSubformField(selectedField)
+    ? selectedSubform.getIn(["name", i18n.locale])
+    : i18n.t("fields.edit_label");
+
+  const dialogTitle = formMode.get("isEdit")
+    ? editDialogTitle
+    : i18n.t("fields.add_field_type", {
+        file_type: i18n.t(`fields.${typeField}`)
+      });
+
+  const confirmButtonLabel = formMode.get("isEdit")
+    ? i18n.t("buttons.update")
+    : i18n.t("buttons.add");
+  const confirmButtonIcon = formMode.get("isNew") ? <Add /> : <CheckIcon />;
+
   const modalProps = {
-    confirmButtonLabel: i18n.t("buttons.update"),
+    confirmButtonLabel,
     confirmButtonProps: {
       color: "primary",
       variant: "contained",
-      autoFocus: true
+      autoFocus: true,
+      icon: confirmButtonIcon
     },
     cancelButtonProps: {
       color: "primary",
       variant: "contained",
       className: css.cancelButton
     },
-    dialogTitle: i18n.t("fields.edit_label"),
+    dialogTitle,
     open: openFieldDialog,
     successHandler: () => bindFormSubmit(formRef),
     cancelHandler: () => {
@@ -67,16 +117,36 @@ const Component = ({ mode, onClose, onSuccess }) => {
     omitCloseAfterSuccess: true
   };
 
+  const addOrUpdatedSelectedField = fieldData => {
+    if (selectedFieldName === NEW_FIELD) {
+      dispatch(createSelectedField(fieldData));
+    } else {
+      dispatch(updateSelectedField(fieldData));
+    }
+  };
+
   const onSubmit = data => {
-    const fieldName = selectedField.get("name");
-    const fieldData =
-      data[fieldName].hide_on_view_page !== undefined
-        ? toggleHideOnViewPage(fieldName, data[fieldName])
-        : data;
+    const subformData = setInitialForms(data.subform_section);
+    const fieldData = setSubformName(
+      toggleHideOnViewPage(data[selectedFieldName]),
+      subformData
+    );
+
+    const dataToSave = buildDataToSave(
+      selectedFieldName,
+      fieldData,
+      typeField,
+      i18n.locale
+    );
 
     batch(() => {
-      onSuccess(fieldData);
-      dispatch(updateSelectedField(fieldData));
+      onSuccess(dataToSave);
+      if (fieldData) {
+        addOrUpdatedSelectedField(dataToSave);
+      }
+      if (isSubformField(selectedField)) {
+        dispatch(updateSelectedSubform(subformData));
+      }
       handleClose();
     });
   };
@@ -86,14 +156,28 @@ const Component = ({ mode, onClose, onSuccess }) => {
       <FormSection formSection={formSection} key={formSection.unique_id} />
     ));
 
+  const renderFieldsList = () =>
+    isSubformField(selectedField) && (
+      <FieldsList subformField={selectedField} />
+    );
+
+  const renderClearButtons = () =>
+    isSubformField(selectedField) && (
+      <ClearButtons subformField={selectedField} />
+    );
+
   useEffect(() => {
     if (selectedField?.size) {
-      formMethods.reset(
-        toggleHideOnViewPage(
-          selectedField.get("name"),
-          transformValues(selectedField.toJS())
-        )
+      const fieldData = toggleHideOnViewPage(
+        transformValues(selectedField.toJS())
       );
+
+      const subform =
+        isSubformField(selectedField) && selectedSubform
+          ? getSubformValues(selectedSubform)
+          : {};
+
+      formMethods.reset({ [selectedFieldName]: { ...fieldData }, ...subform });
     }
   }, [selectedField]);
 
@@ -118,7 +202,11 @@ const Component = ({ mode, onClose, onSuccess }) => {
   return (
     <ActionDialog {...modalProps}>
       <FormContext {...formMethods} formMode={formMode}>
-        <form className={css.fieldDialog}>{renderForms()}</form>
+        <form className={css.fieldDialog}>
+          {renderForms()}
+          {renderFieldsList()}
+          {renderClearButtons()}
+        </form>
       </FormContext>
     </ActionDialog>
   );
