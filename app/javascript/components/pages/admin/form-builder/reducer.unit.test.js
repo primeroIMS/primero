@@ -196,7 +196,7 @@ describe("<FormsBuilder /> - Reducers", () => {
   });
 
   it("should handle CREATE_SELECTED_FIELD", () => {
-    const initialStateCreateField = fromJS({ selectedFields: []});
+    const initialStateCreateField = fromJS({ selectedFields: [] });
     const objectData = {
       display_name: {
         en: "test 4"

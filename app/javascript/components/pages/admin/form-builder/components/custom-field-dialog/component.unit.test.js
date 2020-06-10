@@ -7,9 +7,9 @@ import CustomFieldDialog from "./component";
 
 describe("<CustomFieldDialog />", () => {
   let component;
-  const initialState ={
+  const initialState = {
     ui: {
-      dialogs:{
+      dialogs: {
         custom_field_dialog: true
       }
     }
