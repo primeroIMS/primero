@@ -40,7 +40,7 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
           />
         }
         label={
-          <Tooltip title={option?.tooltip} i18nTitle={option?.tooltipI18n}>
+          <Tooltip title={option?.tooltip} i18nTitle={option?.i18nTitle}>
             <span>{optionText(option, i18n.locale)}</span>
           </Tooltip>
         }

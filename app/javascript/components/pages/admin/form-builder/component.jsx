@@ -12,12 +12,14 @@ import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
 import FormSection from "../../../form/components/form-section";
 import { submitHandler, whichFormMode } from "../../../form";
-import { ROUTES, SAVE_METHODS } from "../../../../config";
+import { ROUTES, SAVE_METHODS, MODES } from "../../../../config";
 import { compare } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
+import { setDialog } from "../../../record-actions/action-creators";
 
+import CustomFieldDialog from "./components/custom-field-dialog";
 import {
   FieldDialog,
   FieldsList,
@@ -26,9 +28,10 @@ import {
 } from "./components";
 import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
-import { NAME } from "./constants";
+import { NAME, NEW_FIELD } from "./constants";
 import {
   getSavingRecord,
+  getSelectedField,
   getSelectedForm,
   getSelectedSubforms,
   getServerErrors,
@@ -37,6 +40,7 @@ import {
 import { convertToFieldsArray, convertToFieldsObject } from "./utils";
 import styles from "./styles.css";
 import { transformValues } from "./components/field-dialog/utils";
+import { CUSTOM_FIELD_SELECTOR_DIALOG } from "./components/custom-field-selector-dialog/constants";
 
 const Component = ({ mode }) => {
   const css = makeStyles(styles)();
@@ -53,6 +57,7 @@ const Component = ({ mode }) => {
     compare
   );
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
+  const selectedField = useSelector(state => getSelectedField(state), compare);
   const selectedSubforms = useSelector(
     state => getSelectedSubforms(state),
     compare
@@ -72,6 +77,9 @@ const Component = ({ mode }) => {
     dispatch(push(ROUTES.forms));
   };
 
+  const modeForFieldDialog =
+    selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
+
   const onSubmit = data => {
     batch(() => {
       dispatch(
@@ -90,6 +98,12 @@ const Component = ({ mode }) => {
         })
       );
     });
+  };
+
+  const onClose = () => {
+    if (selectedField.get("name") === NEW_FIELD) {
+      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
+    }
   };
 
   useEffect(() => {
@@ -202,8 +216,16 @@ const Component = ({ mode }) => {
               </div>
             </TabPanel>
             <TabPanel tab={tab} index={1}>
+              <div className={css.tabFields}>
+                <h1 className={css.heading}>{i18n.t("forms.fields")}</h1>
+                <CustomFieldDialog />
+              </div>
               <FieldsList />
-              <FieldDialog onSuccess={onSuccess} mode={mode} />
+              <FieldDialog
+                mode={modeForFieldDialog}
+                onClose={onClose}
+                onSuccess={onSuccess}
+              />
             </TabPanel>
             <TabPanel tab={tab} index={2}>
               Item Three

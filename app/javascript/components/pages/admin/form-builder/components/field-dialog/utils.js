@@ -6,6 +6,7 @@ import {
   SUBFORM_SECTION,
   TICK_FIELD
 } from "../../../../../form";
+import { NEW_FIELD } from "../../constants";
 import { convertToFieldsObject } from "../../utils";
 
 import {
@@ -56,18 +57,18 @@ export const getFormField = ({ field, i18n, mode, css }) => {
 
   switch (type) {
     case DATE_FIELD:
-      return dateFieldForm(field, i18n, css);
+      return dateFieldForm(field, i18n, css, mode);
     case RADIO_FIELD:
     case SELECT_FIELD:
       return selectFieldForm({ field, i18n, mode });
     case SEPARATOR:
-      return separatorFieldForm(name, i18n);
+      return separatorFieldForm(name, i18n, mode);
     case SUBFORM_SECTION:
       return subformField({ name, i18n });
     case TICK_FIELD:
-      return tickboxFieldForm(name, i18n);
+      return tickboxFieldForm(name, i18n, mode);
     default:
-      return textFieldForm({ field, i18n });
+      return textFieldForm({ field, i18n, mode });
   }
 };
 
@@ -136,4 +137,18 @@ export const setSubformName = (field, subform) => {
   }
 
   return field;
+};
+
+export const buildDataToSave = (fieldName, data, type, locale) => {
+  if (fieldName !== NEW_FIELD) {
+    return { [fieldName]: data };
+  }
+  const newFieldName = data.display_name[locale]
+    .split(" ")
+    .join("_")
+    .toLowerCase();
+
+  return {
+    [newFieldName]: { ...data, type, name: newFieldName }
+  };
 };

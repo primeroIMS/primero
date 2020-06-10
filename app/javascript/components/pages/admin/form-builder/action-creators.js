@@ -64,3 +64,13 @@ export const clearSelectedForm = () => {
     type: actions.CLEAR_SELECTED_FORM
   };
 };
+
+export const setNewField = (name, type) => ({
+  type: actions.SET_NEW_FIELD,
+  payload: { name, type }
+});
+
+export const createSelectedField = data => ({
+  type: actions.CREATE_SELECTED_FIELD,
+  payload: { data }
+});

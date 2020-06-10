@@ -239,6 +239,7 @@ en:
     guidance: "Guidance"
     add_another_option: "Add another option"
     clear_default: "Clear default"
+    select: "Select"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -353,6 +354,7 @@ en:
     request_approval_success_case_plan: "Approval requested for %{approval_label} form."
     request_approval_success_closure: "Approval requested for %{approval_label} form."
     request_approval_failure: "An error occurred, please contact support."
+    request_approval_type_of_case_plan: "Type of Case Plan Approval"
     revoke_failure: "An error occurred while revoking the %{transition_type}, please contact support."
     approved_success_closure: "%{approval_label} - Approved"
     rejected_success_closure: "%{approval_label} - Not Approved"
@@ -2173,6 +2175,8 @@ en:
       referrals: "Referrals"
       approvals: "Approvals"
     required_field: "%{field} is a required field"
+    type_label: "Type"
+    select_label: "Select"
 
   form_section:
     name: "Name"
@@ -2378,6 +2382,12 @@ en:
     clear_sort_by: "Clear Sort By"
     clear_group_by: "Clear Group By"
     default_value: "Default Value"
+    add_field: "Add Field"
+    create_field: "Create Field"
+    add_custom_field: "Create Custom Field"
+    add_existing_field: "Add Existing Field"
+    add_field_type: "Add %{file_type}"
+
     subform_section:
       name: "Subform Title"
       description: "Subform Description"
