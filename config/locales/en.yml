@@ -1279,6 +1279,7 @@ en:
     resource:
       group:
         label: "What records does this role affect?"
+        explanation: "Controls which records (Cases, Tracing Requests, or Incidents), the role can access. If the role has access to Users and User Groups, this also controls which Users and User Groups they can access. Roles with access to \"No Records\" can only access system configuration such as Forms, Users, and Reports."
         actions:
           self:
             label: "Access only my records or user"
@@ -1296,7 +1297,7 @@ en:
             label: "Access all records or users"
             explanation: "The role can access all records, users, and user groups in the system, regardless of which user
                 groups they belong to themselves."
-          admin:
+          admin_only:
             label: "No records - Admin functionality only"
             explanation: "This means that users with this role will only be able to see things related to administration
                 of the system, such as reports, form and lookup configuration, users, roles, and user groups. They will
@@ -1459,24 +1460,29 @@ en:
                 from happening. Users without this permission also cannot sync their mobile devices with the web application
                 in general, meaning that they cannot use the mobile app to manage cases."
           request_approval_bia:
-            label: "Request BIA approval"
-            explanation: "Allows a user (usually a case worker) to request that their manager approve their Best Interest
-                Assessment (BIA). Many contexts do not use the BIA form."
+            label: "Request %{approval_label} approval"
+            explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
+          request_approval_assessment:
+            label: "Request %{approval_label} approval"
+            explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
           request_approval_case_plan:
-            label: "Request Case Plan approval"
-            explanation: "Allows a user (usually a case worker) to request that their manager approve their case plan."
+            label: "Request %{approval_label} approval"
+            explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
           request_approval_closure:
-            label: "Request Closure approval"
-            explanation: "Allows a user (usually a case worker) to request that their manager approve the closure of their case."
+            label: "Request %{approval_label} approval"
+            explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
           approve_bia:
-            label: "Approve BIA form"
-            explanation: "Allows a manager to approve the Best Interest Assessment (BIA) for their case workers' cases. Many contexts do not use the BIA form."
+            label: "Approve %{approval_label} form"
+            explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
+          approve_assessment:
+            label: "Approve %{approval_label} form"
+            explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
           approve_case_plan:
-            label: "Approve Case Plan"
-            explanation: "Allows a manager to approve their case workers' case plan."
+            label: "Approve %{approval_label}"
+            explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
           approve_closure:
-            label: "Approve Closure form"
-            explanation: "Allows a manager to approve the closure of their case workers' cases."
+            label: "Approve %{approval_label} form"
+            explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
           search_owned_by_others:
             label: "Search for case records owned by other users"
             explanation: "Allows a user to perform a search for records which they would not usually have access to, either
@@ -1675,7 +1681,7 @@ en:
             explanation: "User can generate a CSV file export from the tracing request list or tracing request show pages,
                 which contains all fields to which the current user has access, for one, multiple, or all tracing requests
                 to which the user has access."
-          export_pdf:
+          export_case_pdf:
             label: "Export PDF"
             explanation: "User can generate a PDF file export from the tracing requests list or tracing request show pages,
                 which contains all fields to which the current user has access, for one, multiple, or all records to which
@@ -1953,6 +1959,21 @@ en:
             label: "View cases with 'No Risk Level' in Assessment Dashboard"
             explanation: "Adds an additional \"No Risk Level\" category to all dashboards which break down cases by risk level.
                 This is specifically for configurations which have a fourth \"No Risk\" option for risk level fields."
+          dash_shared_with_me:
+            label: "Shared With Me"
+            explanation: "Shows how many cases have been referred or transferred to you."
+          dash_shared_with_others:
+            label: "Shared With Others"
+            explanation: "Shows how many of my cases have active referrals, pending transfers, or rejected transfers. Not typically for managers, unless they manage cases themselves."
+          dash_group_overview:
+            label: "My Group's Cases"
+            explanation: "Shows a manager the number of open and closed cases managed by the users in their team."
+          dash_shared_with_my_team:
+            label: "Shared With My Team"
+            explanation: "Shows a manager the number of cases referred or transferred to each one of the users in their team."
+          dash_shared_from_my_team:
+            label:  "Shared From My Team"
+            explanation: "Shows a manager the number of cases managed by each user in their team, which are being referred or transferred to other users."
           dash_tasks:
             label: "Tasks Page"
             explanation: "Allows the user to see the tasks page. This should be used for case workers and service providers,

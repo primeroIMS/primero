@@ -13,6 +13,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/styles";
 import get from "lodash/get";
 
+import Tooltip from "../../tooltip";
+
 import { FORM_SECTION_NAME } from "./constants";
 import FormSectionField from "./form-section-field";
 import FormSectionTitle from "./form-section-title";
@@ -21,7 +23,12 @@ import styles from "./styles.css";
 const FormSection = ({ formSection }) => {
   const css = makeStyles(styles)();
   const { errors } = useFormContext();
-  const { fields, check_errors: checkErrors, expandable } = formSection;
+  const {
+    fields,
+    check_errors: checkErrors,
+    expandable,
+    tooltip
+  } = formSection;
   const [expanded, setExpanded] = useState(formSection.expanded);
 
   const renderFields = fieldsToRender => {
@@ -62,11 +69,16 @@ const FormSection = ({ formSection }) => {
   const renderExpandableFormSection = () => (
     <ExpansionPanel elevation={3} expanded={expanded} onChange={handleChange}>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography
-          className={clsx({ [css.heading]: true, [css.error]: renderError() })}
-        >
-          <FormSectionTitle formSection={formSection} />
-        </Typography>
+        <Tooltip title={tooltip}>
+          <Typography
+            className={clsx({
+              [css.heading]: true,
+              [css.error]: renderError()
+            })}
+          >
+            <FormSectionTitle formSection={formSection} />
+          </Typography>
+        </Tooltip>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails classes={{ root: css.panelContent }}>
         {renderFields(fields)}
