@@ -27,7 +27,6 @@ export const REPORTABLE_TYPES = Object.freeze({
   reportable_follow_up: "followup"
 });
 
-// TODO: I18n
 export const CONSTRAINTS = Object.freeze({
   "<": "report.filters.less_than",
   ">": "report.filters.greater_than",

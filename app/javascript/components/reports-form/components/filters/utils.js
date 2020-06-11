@@ -36,7 +36,7 @@ export const formatValue = (value, i18n, { field, lookups }) => {
 
   if (field && field.type === TICK_FIELD) {
     return value.includes("true")
-      ? field?.tick_box_label || field.tick_box_label || i18n.t("true")
+      ? field?.tick_box_label || i18n.t("true")
       : i18n.t("report.not_selected");
   }
 

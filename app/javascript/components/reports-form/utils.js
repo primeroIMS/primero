@@ -139,10 +139,13 @@ export const formattedFields = (allFields, modules, recordType, locale) => {
   const recordTypesForms = formsByModuleAndRecordType.filter(
     formSection => formSection.parent_form === recordType
   );
-  const reportableForm = formsByModuleAndRecordType
-    .filter(formSection => formSection.unique_id === formName)
-    // eslint-disable-next-line camelcase
-    ?.toJS()?.[0]?.fields?.[0]?.subform_section_id;
+
+  const reportableForm = formName
+    ? formsByModuleAndRecordType
+        .filter(formSection => formSection.unique_id === formName)
+        // eslint-disable-next-line camelcase
+        ?.toJS()?.[0]?.fields?.[0]?.subform_section_id
+    : [];
 
   return buildFields(
     formName ? reportableForm : recordTypesForms,
@@ -156,10 +159,6 @@ export const checkValue = filter => {
 
   if (value instanceof Date) {
     return format(value, DATE_FORMAT);
-  }
-
-  if (/^\d+$/.test(value)) {
-    return value;
   }
 
   return value;

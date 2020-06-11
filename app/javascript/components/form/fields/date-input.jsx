@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
 import { DatePicker, DateTimePicker } from "@material-ui/pickers";
 
-const TextInput = ({ commonInputProps, metaInputProps }) => {
+const DateInput = ({ commonInputProps, metaInputProps }) => {
   const { dateIncludeTime } = metaInputProps;
 
   return (
@@ -16,15 +16,15 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
   );
 };
 
-TextInput.defaultProps = {
+DateInput.defaultProps = {
   metaInputProps: {}
 };
 
-TextInput.displayName = "TextInput";
+DateInput.displayName = "DateInput";
 
-TextInput.propTypes = {
+DateInput.propTypes = {
   commonInputProps: PropTypes.object.isRequired,
   metaInputProps: PropTypes.object
 };
 
-export default TextInput;
+export default DateInput;
