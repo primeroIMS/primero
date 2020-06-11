@@ -1895,7 +1895,7 @@ en:
           case_risk:
             label: "Cases by risk level"
             explanation: "Shows how many cases are at each risk level."
-          dash_reporting_locations:
+          dash_reporting_location:
             label: "Cases by Reporting Location"
             explanation: "Table which shows how many cases there are at each location (at a single level of specificity such
                 as \"Province\" or \"District\"). Each row of the table is a location, and the columns indicate different
