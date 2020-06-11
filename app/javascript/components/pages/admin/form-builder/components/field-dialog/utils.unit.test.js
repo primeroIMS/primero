@@ -106,7 +106,8 @@ describe("buildDataToSave", () => {
       mobile_visible: true,
       required: false,
       show_on_minify_form: false,
-      visible: true
+      visible: true,
+      order: 0
     };
 
     expect(

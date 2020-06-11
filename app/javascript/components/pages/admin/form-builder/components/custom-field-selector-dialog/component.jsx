@@ -86,7 +86,15 @@ const Component = () => {
           open: true
         })
       );
-      dispatch(setNewField(NEW_FIELD, selectedItem));
+      dispatch(
+        setNewField({
+          name: NEW_FIELD,
+          type: selectedItem,
+          visible: true,
+          mobile_visible: true,
+          hide_on_view_page: false
+        })
+      );
     });
   };
 
@@ -134,7 +142,7 @@ const Component = () => {
             </ListItemSecondaryAction>
           </ListSubheader>
           <Divider />
-          {fields.map((field, index) => {
+          {fields.map(field => {
             const [name, Icon] = field;
 
             return (
@@ -142,7 +150,7 @@ const Component = () => {
                 <ListItem
                   key={field}
                   selected={isItemSelected(name)}
-                  onClick={() => handleListItem(index)}
+                  onClick={() => handleListItem(name)}
                 >
                   <ListItemText className={css.label}>
                     <div>{i18n.t(`fields.${name}`)}</div>

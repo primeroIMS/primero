@@ -58,14 +58,20 @@ describe("<FormsBuilder /> - Action Creators", () => {
   });
 
   it("should check the 'setNewField' action creator to return the correct object", () => {
-    const expected = {
-      type: actions.SET_NEW_FIELD,
-      payload: { name: "new_field", type: "text_box" }
+    const data = {
+      name: "new_field",
+      type: "text_box",
+      visible: true,
+      mobile_visible: true,
+      hide_on_view_page: false
     };
 
-    expect(actionCreators.setNewField("new_field", "text_box")).to.deep.equal(
-      expected
-    );
+    const expected = {
+      type: actions.SET_NEW_FIELD,
+      payload: data
+    };
+
+    expect(actionCreators.setNewField(data)).to.deep.equal(expected);
   });
 
   it("should check the 'fetchForm' action creator to return the correct object", () => {

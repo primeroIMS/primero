@@ -17,7 +17,6 @@ import { compare } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
-import { setDialog } from "../../../record-actions/action-creators";
 
 import CustomFieldDialog from "./components/custom-field-dialog";
 import {
@@ -40,7 +39,6 @@ import {
 import { convertToFieldsArray, convertToFieldsObject } from "./utils";
 import styles from "./styles.css";
 import { transformValues } from "./components/field-dialog/utils";
-import { CUSTOM_FIELD_SELECTOR_DIALOG } from "./components/custom-field-selector-dialog/constants";
 
 const Component = ({ mode }) => {
   const css = makeStyles(styles)();
@@ -98,12 +96,6 @@ const Component = ({ mode }) => {
         })
       );
     });
-  };
-
-  const onClose = () => {
-    if (selectedField.get("name") === NEW_FIELD) {
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
-    }
   };
 
   useEffect(() => {
@@ -221,11 +213,7 @@ const Component = ({ mode }) => {
                 <CustomFieldDialog />
               </div>
               <FieldsList />
-              <FieldDialog
-                mode={modeForFieldDialog}
-                onClose={onClose}
-                onSuccess={onSuccess}
-              />
+              <FieldDialog mode={modeForFieldDialog} onSuccess={onSuccess} />
             </TabPanel>
             <TabPanel tab={tab} index={2}>
               Item Three
