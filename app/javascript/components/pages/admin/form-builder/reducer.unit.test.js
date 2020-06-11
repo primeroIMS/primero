@@ -94,7 +94,8 @@ describe("<FormsBuilder /> - Reducers", () => {
     const expected = fromJS({
       selectedForm: {},
       errors: false,
-      serverErrors: []
+      serverErrors: [],
+      selectedFields: []
     });
 
     const action = {
