@@ -117,3 +117,19 @@ describe("buildDataToSave", () => {
     });
   });
 });
+
+describe("subformContainsFieldName", () => {
+  const subform = fromJS({
+    id: 1,
+    unique_id: "subform_1",
+    fields: [{ id: 1, name: "field_1" }]
+  });
+
+  it("return false if the subform does not have the field name", () => {
+    expect(utils.subformContainsFieldName(subform, "field_2")).to.be.false;
+  });
+
+  it("return true if the subform does not have the field name", () => {
+    expect(utils.subformContainsFieldName(subform, "field_1")).to.be.true;
+  });
+});

@@ -48,12 +48,12 @@ const getSelectedDateValue = (field, isSubmit) => {
 };
 
 export const getFormField = ({ field, i18n, mode, css }) => {
-  if (!field?.size) {
+  if (!field?.toSeq()?.size) {
     return { forms: [], validationSchema: {} };
   }
 
-  const type = field.get("type");
-  const name = field.get("name");
+  const type = field?.get("type");
+  const name = field?.get("name");
 
   switch (type) {
     case DATE_FIELD:
@@ -159,4 +159,17 @@ export const buildDataToSave = (
   return {
     [newFieldName]: { ...data, type, name: newFieldName, order }
   };
+};
+
+export const subformContainsFieldName = (subform, fieldName) => {
+  if (!subform?.toSeq()?.size) {
+    return false;
+  }
+
+  return Boolean(
+    subform
+      ?.get("fields")
+      .find(field => field.get("name") === fieldName)
+      ?.toSeq()?.size
+  );
 };

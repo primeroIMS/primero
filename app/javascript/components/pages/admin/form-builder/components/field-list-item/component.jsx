@@ -14,7 +14,15 @@ import {
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 import { SUBFORM_SECTION } from "../../../../../form";
-import { setSelectedField, setSelectedSubform } from "../../action-creators";
+import {
+  clearSelectedField,
+  clearSelectedSubformField,
+  setSelectedField,
+  setSelectedSubform,
+  setSelectedSubformField,
+  updateSelectedField,
+  updateSelectedSubform
+} from "../../action-creators";
 import { setDialog } from "../../../../../record-actions/action-creators";
 import { useI18n } from "../../../../../i18n";
 import SwitchInput from "../../../../../form/fields/switch-input";
@@ -22,6 +30,7 @@ import DragIndicator from "../../../forms-list/components/drag-indicator";
 import { getFieldsAttribute, getFiedListItemTheme } from "../utils";
 import styles from "../fields-list/styles.css";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
+import { setInitialForms, toggleHideOnViewPage } from "../field-dialog/utils";
 
 import { NAME, SUBFORM_GROUP_BY, SUBFORM_SORT_BY } from "./constants";
 
@@ -30,8 +39,8 @@ const Component = ({ field, index, subformField }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const currentTheme = useTheme();
-  const { watch } = useFormContext();
-  const isNested = Boolean(subformField?.size);
+  const { watch, getValues } = useFormContext();
+  const isNested = Boolean(subformField?.toSeq()?.size);
   const parentFieldName = subformField?.get("name", "");
   const fieldsAttribute = getFieldsAttribute(isNested);
   const subformSortBy = isNested
@@ -43,14 +52,34 @@ const Component = ({ field, index, subformField }) => {
 
   const themeOverrides = createMuiTheme(getFiedListItemTheme(currentTheme));
 
-  const handleClick = fieldName => {
-    if (isNested) {
-      return;
-    }
+  const onNested = fieldName => {
+    dispatch(clearSelectedSubformField());
+    const currentFormData = getValues({ nest: true });
+    const subformData = setInitialForms(currentFormData.subform_section);
 
+    if (subformData) {
+      dispatch(updateSelectedSubform(subformData));
+      dispatch(
+        updateSelectedField({
+          [parentFieldName]: toggleHideOnViewPage(
+            currentFormData[parentFieldName]
+          )
+        })
+      );
+    }
+    dispatch(setSelectedSubformField(fieldName));
+  };
+
+  const handleClick = fieldName => {
     batch(() => {
       dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: true }));
-      dispatch(setSelectedField(fieldName));
+      if (isNested) {
+        onNested(fieldName);
+      } else {
+        dispatch(clearSelectedField());
+        dispatch(setSelectedField(fieldName));
+      }
+
       if (field?.get("type") === SUBFORM_SECTION) {
         dispatch(setSelectedSubform(field.get("subform_section_id")));
       }
