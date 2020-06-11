@@ -6,6 +6,7 @@ export { default as FormAction } from "./components/form-action";
 export { default as ActionsMenu } from "./components/actions-menu";
 export {
   CHECK_BOX_FIELD,
+  DATE_FIELD,
   ERROR_FIELD,
   FORM_MODE_DIALOG,
   NUMERIC_FIELD,
@@ -16,10 +17,10 @@ export {
   RADIO_FIELD,
   SELECT_FIELD,
   SEPARATOR,
+  SUBFORM_SECTION,
   TEXT_AREA,
   TEXT_FIELD,
   TICK_FIELD,
-  TOGGLE_FIELD,
-  DATE_FIELD
+  TOGGLE_FIELD
 } from "./constants";
 export { whichFormMode, submitHandler } from "./utils";

@@ -36,6 +36,7 @@ export const FieldRecord = Record({
 
 export const FormSectionRecord = Record({
   id: "",
+  description: Map({}),
   unique_id: "",
   name: Map({}),
   visible: null,
@@ -49,7 +50,9 @@ export const FormSectionRecord = Record({
   form_group_name: "",
   fields: List([]),
   is_nested: null,
+  subform_append_only: false,
   subform_prevent_item_removal: false,
+  initial_subforms: 0,
   collapsed_field_names: List([]),
   check_errors: List([]),
   expandable: false,

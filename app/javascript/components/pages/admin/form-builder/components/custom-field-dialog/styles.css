@@ -1,0 +1,21 @@
+.existingFieldButton, .cancelButton {
+  border-radius: 50px;
+  box-shadow: none;
+  color: $(theme.primero.colors.white);
+  background: $(theme.primero.colors.blue);
+  margin-bottom: 0.6em;
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+  }
+
+  & svg {
+    position: absolute;
+    left: 0.6em;
+  }
+}
+
+.cancelButton {
+
+  background: $(theme.primero.colors.grey);
+}

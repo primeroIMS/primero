@@ -16,26 +16,27 @@ export const valuesToSearchableSelect = (
 ) => {
   const values = dataToJS(data);
 
-  const result = values.map(value => {
-    return Object.entries(value).reduce((acum, v) => {
-      const obj = acum;
-      const [key, val] = v;
+  const result =
+    values?.map(value => {
+      return Object.entries(value).reduce((acum, v) => {
+        const obj = acum;
+        const [key, val] = v;
 
-      if (key === searchValue) {
-        obj.value = val;
-      }
+        if (key === searchValue) {
+          obj.value = val;
+        }
 
-      if (key === searchLabel) {
-        obj.label = typeof val === "object" ? val[locale] : val;
-      }
+        if (key === searchLabel) {
+          obj.label = typeof val === "object" ? val[locale] : val;
+        }
 
-      if (key === "isDisabled") {
-        obj.isDisabled = val;
-      }
+        if (key === "isDisabled") {
+          obj.isDisabled = val;
+        }
 
-      return obj;
-    }, {});
-  });
+        return obj;
+      }, {});
+    }) || [];
 
   return result;
 };

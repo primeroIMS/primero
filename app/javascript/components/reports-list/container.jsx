@@ -74,7 +74,9 @@ const Reports = () => {
     },
     page: reportsPagination.get("page") - 1,
     rowsPerPage: reportsPagination.get("per"),
-    rowsPerPageOptions: [],
+    rowsPerPageOptions: [20, 50, 75, 100],
+    onChangeRowsPerPage: ({ target }) =>
+      dispatch(fetchReports({ options: { page: 1, per: target.value } })),
     component: "div"
   };
 

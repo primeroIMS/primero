@@ -8,6 +8,7 @@ import { RECORD_TYPES } from "../../../../config/constants";
 
 import FormBuilderActionButtons from "./components/action-buttons";
 import FormsBuilder from "./component";
+import CustomFieldDialog from "./components/custom-field-dialog";
 
 describe("<FormsBuilder />", () => {
   let component;
@@ -83,5 +84,8 @@ describe("<FormsBuilder />", () => {
 
   it("renders the Action Buttons", () => {
     expect(component.find(FormBuilderActionButtons)).to.exist;
+  });
+  it("renders the CustomFieldDialog", () => {
+    expect(component.find(CustomFieldDialog)).to.exist;
   });
 });

@@ -23,6 +23,7 @@ describe("<Form /> - Constants", () => {
       "RADIO_FIELD",
       "SELECT_FIELD",
       "SEPARATOR",
+      "SUBFORM_SECTION",
       "TEXT_AREA",
       "TEXT_FIELD",
       "TICK_FIELD",
