@@ -52,34 +52,34 @@ describe("<FormsBuilder /> - Selectors", () => {
   });
 
   describe("getSelectedSubform", () => {
-    const selectedFieldSubform = fromJS({
+    const selectedSubform = fromJS({
       id: 1,
       name: { en: "SubForm ID 1" }
     });
     const initialState = fromJS({
-      records: { admin: { forms: { selectedFieldSubform } } }
+      records: { admin: { forms: { selectedSubform } } }
     });
 
     it("should return the correct value", () => {
       expect(selectors.getSelectedSubform(initialState)).to.deep.equal(
-        selectedFieldSubform
+        selectedSubform
       );
     });
   });
 
   describe("getSelectedSubforms", () => {
-    const selectedSubforms = fromJS([
+    const subforms = fromJS([
       { id: 1, name: { en: "SubForm ID 1" } },
       { id: 1, name: { en: "SubForm ID 2" } },
       { id: 1, name: { en: "SubForm ID 3" } }
     ]);
     const initialState = fromJS({
-      records: { admin: { forms: { selectedSubforms } } }
+      records: { admin: { forms: { subforms } } }
     });
 
     it("should return the correct value", () => {
       expect(selectors.getSelectedSubforms(initialState)).to.deep.equal(
-        selectedSubforms
+        subforms
       );
     });
   });
@@ -93,13 +93,13 @@ describe("<FormsBuilder /> - Selectors", () => {
       { id: 1, name: "subform_field_1" },
       { id: 2, name: "subform_field_2" }
     ]);
-    const selectedFieldSubform = fromJS({
+    const selectedSubform = fromJS({
       id: 1,
       name: { en: "SubForm ID 1" },
       fields: subformFields
     });
     const initialState = fromJS({
-      records: { admin: { forms: { selectedFields, selectedFieldSubform } } }
+      records: { admin: { forms: { selectedFields, selectedSubform } } }
     });
 
     it("should return the selected fields", () => {

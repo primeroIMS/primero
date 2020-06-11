@@ -25,7 +25,7 @@ export const setSelectedSubformField = name => ({
   payload: { name }
 });
 
-export const updateSelectedField = (data, subformId) => ({
+export const updateSelectedField = (data, subformId = null) => ({
   type: actions.UPDATE_SELECTED_FIELD,
   payload: { data, subformId }
 });
