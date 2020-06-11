@@ -38,34 +38,34 @@ module Exporters
       end
     end
 
-    def initialize(export_file, locale=:en)
+    def initialize(export_file, locale = :en)
       @export_file_name = export_file || CleansingTmpDir.temp_file_name
       @locale = locale
-      @io = File.new(@export_file_name, "w")
+      @io = File.new(@export_file_name, 'w')
       @workbook = WriteExcel.new(@io)
-      @worksheet = @workbook.add_worksheet("Role Permissions")
+      @worksheet = @workbook.add_worksheet('Role Permissions')
       @row = 0
     end
 
     def complete
       @workbook.close
-      @io.close if !@io.closed?
-      puts "Exported to " + @export_file_name
-      return @io
+      @io.close unless @io.closed?
+      puts 'Exported to ' + @export_file_name
+      @io
     end
 
     def export_file
-      return  @export_file_name
+      @export_file_name
     end
 
     # Exports forms to an Excel spreadsheet
     def export(*_args)
-      @roles = Role.all.to_a.sort_by {|i| i.name }
+      @roles = Role.all.to_a.sort_by(&:name)
       @role_permissions_array = @roles.map do |r|
-        r.permissions.map{|p| [p.resource, p.to_h]}.to_h
+        r.permissions.map { |p| [p.resource, p.to_h] }.to_h
       end
       permissions_all = Permission.all_available
-      header = ["Resource", "Action"] + @roles.map{|r| r.name}
+      header = %w[Resource Action] + @roles.map(&:name)
       write_row(header, true)
       add_format(header.count)
       write_general_permissions
@@ -75,13 +75,13 @@ module Exporters
         write_out_permissions_by_resource(permission_group)
       end
       @forms_by_record_type = FormSection.all_forms_grouped_by_parent
-      @forms_by_record_type.each {|record_type, forms| write_out_permitted_form_record_type record_type, forms }
+      @forms_by_record_type.each { |record_type, forms| write_out_permitted_form_record_type record_type, forms }
       complete
     end
 
     def write_general_permissions
       # Group permissions
-      group_permission_header_row = [I18n.t("role.group_permission_label", locale: @locale)]
+      group_permission_header_row = [I18n.t('role.group_permission_label', locale: @locale)]
       write_row group_permission_header_row
       attr_keys = %w[self group admin_only all]
       attr_keys.each do |attr_key|
@@ -92,24 +92,39 @@ module Exporters
       end
 
       # Referral and transfer permissions
-      attr_keys = ['referral', 'transfer']
+      attr_keys = %w[referral transfer]
       attr_keys.each do |attr_key|
         header_row = [I18n.t("permissions.permission.#{attr_key}", locale: @locale)]
         write_row header_row
 
         permission_row = ['', I18n.t("role.#{attr_key}_label", locale: @locale)]
-        permission_row += @roles.map {|r| get_check r.send(attr_key) }
+        permission_row += @roles.map { |r| get_check r.send(attr_key) }
         write_row permission_row
       end
     end
 
     def write_case_permission(permission)
       case_permissions = [
-        Permission.new(resource: Permission::CASE, actions: permission.actions.select { |action| CASE.include?(action) }),
-        Permission.new(resource: 'case_exports', actions: permission.actions.select { |action| CASE_EXPORTS.include?(action) }),
-        Permission.new(resource: 'case_approvals', actions: permission.actions.select { |action| CASE_APPROVALS.include?(action) }),
-        Permission.new(resource: 'cases_managed_other_users', actions: permission.actions.select { |action| CASE_MANAGED_OTHER_USERS.include?(action) }),
-        Permission.new(resource: 'case_assignments_referrals_transfers', actions: permission.actions.select { |action| CASE_ASSIGNMENT_REFERRALS_TRANSFERS.include?(action) })
+        Permission.new(
+          resource: Permission::CASE,
+          actions: permission.actions.select { |action| CASE.include?(action) }
+        ),
+        Permission.new(
+          resource: 'case_exports',
+          actions: permission.actions.select { |action| CASE_EXPORTS.include?(action) }
+        ),
+        Permission.new(
+          resource: 'case_approvals',
+          actions: permission.actions.select { |action| CASE_APPROVALS.include?(action) }
+        ),
+        Permission.new(
+          resource: 'cases_managed_other_users',
+          actions: permission.actions.select { |action| CASE_MANAGED_OTHER_USERS.include?(action) }
+        ),
+        Permission.new(
+          resource: 'case_assignments_referrals_transfers',
+          actions: permission.actions.select { |action| CASE_ASSIGNMENT_REFERRALS_TRANSFERS.include?(action) }
+        )
       ]
       case_permissions.each { |case_permission| write_out_permissions_by_resource(case_permission, Permission::CASE) }
     end
@@ -120,42 +135,43 @@ module Exporters
       permission_group.actions.each do |action|
         permissions = @role_permissions_array.map do |p|
           permission_entry = permission_resource.nil? ? p[permission_group.resource] : p[permission_resource]
-          has_action = (permission_entry && permission_entry['actions'] && (permission_entry['actions'].include? action))
+          has_action =
+            (permission_entry && permission_entry['actions'] && (permission_entry['actions'].include? action))
           get_check has_action
         end
-        permission_row = ["", I18n.t("permissions.permission.#{action}", locale: @locale)] + permissions
+        permission_row = ['', I18n.t("permissions.permission.#{action}", locale: @locale)] + permissions
         write_row permission_row
       end
       write_managed_roles if permission_group.resource == 'role'
     end
 
     def write_managed_roles
-      resource_label = I18n.t("role.role_ids_label", locale: @locale)
+      resource_label = I18n.t('role.role_ids_label', locale: @locale)
       write_row resource_label
-      for i in (0..@roles.length-1)
-        role = @roles[i]
-        managed_roles_array = @role_permissions_array.map{ |p| '✔' if p.dig('role')&.dig('role_unique_ids')&.include? role.unique_id }
-        role_row = ["", role.name] + managed_roles_array
+      @roles.each do |role|
+        managed_roles_array =
+          @role_permissions_array.map { |p| '✔' if p.dig('role')&.dig('role_unique_ids')&.include? role.unique_id }
+        role_row = ['', role.name] + managed_roles_array
         write_row role_row
       end
     end
 
     def write_out_permitted_form_record_type(record_type, forms)
       record_type_row = [
-        I18n.t("forms.label", locale: @locale),
-        " - ",
+        I18n.t('forms.label', locale: @locale),
+        ' - ',
         I18n.t("permissions.permission.#{record_type}", locale: @locale)
       ].join
       write_row record_type_row
-      forms.each {|form| write_out_permitted_form form }
+      forms.each { |form| write_out_permitted_form form }
     end
 
     def write_out_permitted_form(form)
       forms_permitted_array = @roles.map do |r|
-        permitted = (r.has_permitted_form_id? form.unique_id) || (r.form_sections.size == 0)
+        permitted = (r.has_permitted_form_id? form.unique_id) || r.form_sections.size.zero?
         get_check permitted
       end
-      form_row = ['',form.send("name_#{@locale}")] + forms_permitted_array
+      form_row = ['', form.send("name_#{@locale}")] + forms_permitted_array
       write_row form_row
     end
 
@@ -163,11 +179,11 @@ module Exporters
       format = @workbook.add_format(bold: 1, text_wrap: 1) if bold
 
       @worksheet.write(@row, 0, row_data, format)
-      @row+=1
+      @row += 1
     end
 
     def get_check(cell_attr)
-      return cell_attr ? '✔' : ''
+      cell_attr ? '✔' : ''
     end
 
     def add_format(col_count)
