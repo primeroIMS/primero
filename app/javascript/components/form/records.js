@@ -31,7 +31,8 @@ export const FieldRecord = Record({
   check_errors: List([]),
   hint: "",
   groupBy: null,
-  tooltip: ""
+  tooltip: "",
+  tick_box_label: Map({})
 });
 
 export const FormSectionRecord = Record({
@@ -50,7 +51,9 @@ export const FormSectionRecord = Record({
   form_group_name: "",
   fields: List([]),
   is_nested: null,
+  subform_append_only: false,
   subform_prevent_item_removal: false,
+  initial_subforms: 0,
   collapsed_field_names: List([]),
   check_errors: List([]),
   expandable: false,

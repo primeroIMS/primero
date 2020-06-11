@@ -129,8 +129,8 @@ class User < ApplicationRecord
       end
       results = { total: users.size }
       pagination = { per_page: 20, page: 1 } if pagination.blank?
-      pagination[:page] = pagination[:page] > 1 ? pagination[:per_page] * pagination[:page] : 0
-      users = users.limit(pagination[:per_page]).offset(pagination[:page])
+      pagination[:offset] = pagination[:per_page] * (pagination[:page] - 1)
+      users = users.limit(pagination[:per_page]).offset(pagination[:offset])
       users = users.order(sort) if sort.present?
       results.merge(users: users)
     end

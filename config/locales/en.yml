@@ -239,6 +239,7 @@ en:
     guidance: "Guidance"
     add_another_option: "Add another option"
     clear_default: "Clear default"
+    select: "Select"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -353,6 +354,7 @@ en:
     request_approval_success_case_plan: "Approval requested for %{approval_label} form."
     request_approval_success_closure: "Approval requested for %{approval_label} form."
     request_approval_failure: "An error occurred, please contact support."
+    request_approval_type_of_case_plan: "Type of Case Plan Approval"
     revoke_failure: "An error occurred while revoking the %{transition_type}, please contact support."
     approved_success_closure: "%{approval_label} - Approved"
     rejected_success_closure: "%{approval_label} - Not Approved"
@@ -2190,6 +2192,8 @@ en:
       referrals: "Referrals"
       approvals: "Approvals"
     required_field: "%{field} is a required field"
+    type_label: "Type"
+    select_label: "Select"
 
   form_section:
     name: "Name"
@@ -2390,7 +2394,23 @@ en:
     english_text: "English Text"
     enabled: "Enabled?"
     default: "Default?"
+    subform_sort_by: "Sort by"
+    subform_group_by: "Group by"
+    clear_sort_by: "Clear Sort By"
+    clear_group_by: "Clear Group By"
     default_value: "Default Value"
+    add_field: "Add Field"
+    create_field: "Create Field"
+    add_custom_field: "Create Custom Field"
+    add_existing_field: "Add Existing Field"
+    add_field_type: "Add %{file_type}"
+
+    subform_section:
+      name: "Subform Title"
+      description: "Subform Description"
+      subform_append_only: "Selective Syncing on Mobile"
+      subform_prevent_item_removal: "Prevent subform entry removal?"
+      starts_with_one_entry: "Start with one subform entry?"
 
   replication:
     label: Replication
@@ -2519,6 +2539,8 @@ en:
     group_dates_by: "Use date ranges"
     add_default_filters: "Include default filters"
     add_default_filters_help: "Open and valid"
+    no_filters_added: "No filters added"
+    not_selected: "Not selected"
     date_ranges:
       date: "Day"
       week: "Week"
@@ -2526,9 +2548,15 @@ en:
       year: "Year"
     filters:
       label: "Report filters"
+      label_new: "New report filter"
       attribute: "Filter"
       value: "With"
-      not_null: "Form value is not blank"
+      not_null: "Is not blank?"
+      less_than: "Less than"
+      greater_than: "Greater than"
+      equal_to: "Equal to"
+      not_blank: "Not blank"
+      is: "is"
     is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
@@ -2543,6 +2571,9 @@ en:
     edit: "Edit"
     empty_rows: "Do not display empty rows?"
     empty_rows_help_text: "Excludes rows from the report table if all values are zero"
+    attribute: "Attribute"
+    constraint: "Constraint"
+    value: "Value"
 
   encrypt:
     password_title: "Create Password"

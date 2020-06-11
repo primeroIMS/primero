@@ -52,10 +52,10 @@ const Dashboard = () => {
             loadingIndicator={indicatorProps}
             userPermissions={userPermissions}
           />
+          <Approvals loadingIndicator={indicatorProps} />
           <SharedFromMyTeam loadingIndicator={indicatorProps} />
           <SharedWithMyTeam loadingIndicator={indicatorProps} />
           <WorkflowIndividualCases loadingIndicator={indicatorProps} />
-          <Approvals loadingIndicator={indicatorProps} />
           <OverdueTasks loadingIndicator={indicatorProps} />
           <WorkflowTeamCases loadingIndicator={indicatorProps} />
           <ReportingLocation loadingIndicator={indicatorProps} />

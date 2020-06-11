@@ -1,4 +1,5 @@
 export { textFieldForm } from "./text-field";
+export { subformField } from "./subform-field";
 export { selectFieldForm } from "./select-field";
 export { separatorFieldForm } from "./separator-field";
 export { dateFieldForm } from "./date-field";

@@ -35,7 +35,8 @@ const ActionDialog = ({
   pending,
   enabledSuccessButton,
   dialogSubHeader,
-  cancelButtonProps
+  cancelButtonProps,
+  disableActions
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -88,13 +89,19 @@ const ActionDialog = ({
     </Typography>
   );
 
+  const iconConfirmButtom =
+    confirmButtonProps && confirmButtonProps.icon ? (
+      confirmButtonProps.icon
+    ) : (
+      <CheckIcon />
+    );
   const submitButton = (
     <div className={css.submitButtonWrapper}>
       <Button
         {...{ ...successButtonProps, onClick: handleSuccess }}
         disabled={pending || !enabledSuccessButton}
       >
-        <CheckIcon />
+        {iconConfirmButtom}
         <span>{confirmButtonLabel}</span>
       </Button>
       {pending && <CircularProgress size={24} className={css.buttonProgress} />}
@@ -121,18 +128,20 @@ const ActionDialog = ({
             children
           )}
         </DialogContent>
-        <DialogActions>
-          {submitButton}
-          {cancelHandler ? (
-            <Button
-              {...{ ...defaulCancelButtonProps, ...cancelButtonProps }}
-              onClick={cancelHandler}
-            >
-              <CloseIcon />
-              <span>{i18n.t("cancel")}</span>
-            </Button>
-          ) : null}
-        </DialogActions>
+        {disableActions || (
+          <DialogActions>
+            {submitButton}
+            {cancelHandler && (
+              <Button
+                {...{ ...defaulCancelButtonProps, ...cancelButtonProps }}
+                onClick={cancelHandler}
+              >
+                <CloseIcon />
+                <span>{i18n.t("cancel")}</span>
+              </Button>
+            )}
+          </DialogActions>
+        )}
       </Dialog>
     </div>
   );
@@ -158,6 +167,7 @@ ActionDialog.propTypes = {
   dialogSubtitle: PropTypes.string,
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.string,
+  disableActions: PropTypes.bool,
   enabledSuccessButton: PropTypes.bool,
   maxSize: PropTypes.string,
   omitCloseAfterSuccess: PropTypes.bool,
