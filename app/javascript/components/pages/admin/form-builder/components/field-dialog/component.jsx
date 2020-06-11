@@ -18,6 +18,7 @@ import { compare } from "../../../../../../libs";
 import { getSelectedField, getSelectedSubform } from "../../selectors";
 import {
   createSelectedField,
+  clearSelectedSubformField,
   updateSelectedField,
   updateSelectedSubform
 } from "../../action-creators";
@@ -34,6 +35,7 @@ import {
   isSubformField,
   setInitialForms,
   setSubformName,
+  subformContainsFieldName,
   transformValues,
   toggleHideOnViewPage,
   buildDataToSave
@@ -69,12 +71,20 @@ const Component = ({ mode, onClose, onSuccess }) => {
       onClose();
     }
 
-    dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
     if (selectedFieldName === NEW_FIELD) {
       dispatch(
         setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: false })
       );
       dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: false }));
+    }
+
+    if (
+      selectedSubform.toSeq().size &&
+      subformContainsFieldName(selectedSubform, selectedFieldName)
+    ) {
+      dispatch(clearSelectedSubformField());
+    } else {
+      dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
     }
   };
 
@@ -111,9 +121,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
     dialogTitle,
     open: openFieldDialog,
     successHandler: () => bindFormSubmit(formRef),
-    cancelHandler: () => {
-      handleClose();
-    },
+    cancelHandler: () => handleClose(),
     omitCloseAfterSuccess: true
   };
 
@@ -121,7 +129,11 @@ const Component = ({ mode, onClose, onSuccess }) => {
     if (selectedFieldName === NEW_FIELD) {
       dispatch(createSelectedField(fieldData));
     } else {
-      dispatch(updateSelectedField(fieldData));
+      const subformId =
+        subformContainsFieldName(selectedSubform, selectedFieldName) &&
+        selectedSubform?.get("unique_id");
+
+      dispatch(updateSelectedField(fieldData, subformId));
     }
   };
 
@@ -140,7 +152,9 @@ const Component = ({ mode, onClose, onSuccess }) => {
     );
 
     batch(() => {
-      onSuccess(dataToSave);
+      if (!subformContainsFieldName(selectedSubform, selectedFieldName)) {
+        onSuccess(dataToSave);
+      }
       if (fieldData) {
         addOrUpdatedSelectedField(dataToSave);
       }
@@ -158,7 +172,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
   const renderFieldsList = () =>
     isSubformField(selectedField) && (
-      <FieldsList subformField={selectedField} />
+      <>
+        <h1>{i18n.t("forms.fields")}</h1>
+        <FieldsList subformField={selectedField} />
+      </>
     );
 
   const renderClearButtons = () =>
@@ -167,17 +184,27 @@ const Component = ({ mode, onClose, onSuccess }) => {
     );
 
   useEffect(() => {
-    if (selectedField?.size) {
+    if (selectedField?.toSeq()?.size) {
       const fieldData = toggleHideOnViewPage(
         transformValues(selectedField.toJS())
       );
 
       const subform =
-        isSubformField(selectedField) && selectedSubform
+        isSubformField(selectedField) && selectedSubform.toSeq()?.size
           ? getSubformValues(selectedSubform)
           : {};
 
-      formMethods.reset({ [selectedFieldName]: { ...fieldData }, ...subform });
+      const resetOptions = subformContainsFieldName(
+        selectedSubform,
+        selectedFieldName
+      )
+        ? { errors: true, dirtyFields: true, dirty: true, touched: true }
+        : {};
+
+      formMethods.reset(
+        { [selectedFieldName]: { ...fieldData }, ...subform },
+        resetOptions
+      );
     }
   }, [selectedField]);
 
