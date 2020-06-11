@@ -26,7 +26,7 @@ export default (roles, actions, i18n) =>
         type: SELECT_FIELD,
         multi_select: true,
         tooltip: i18n.t(
-          "permissions.resource.role.actions.permitted_roles.label"
+          "permissions.resource.role.actions.permitted_roles.explanation"
         ),
         option_strings_text: (roles.get("data") || fromJS([]))
           .map(role => ({
