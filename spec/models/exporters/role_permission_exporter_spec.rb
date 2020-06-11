@@ -23,19 +23,23 @@ module Exporters
         permissions_all = Permission.all_available
         resources = permissions_all.map(&:resource)
         actions = permissions_all.map(&:actions).flatten
-        expect(sheet.rows.size).to eq(10 + resources.count + actions.count)
+        expect(sheet.rows.size).to eq(12 + resources.count + actions.count)
 
         file_resources = [
           'Resource',
           I18n.t('role.group_permission_label', locale: :en),
           I18n.t('permissions.permission.referral', locale: :en),
           I18n.t('permissions.permission.transfer', locale: :en),
+          I18n.t('permissions.permission.case_exports', locale: :en),
+          I18n.t('permissions.permission.case_approvals', locale: :en),
+          I18n.t('permissions.permission.cases_managed_other_users', locale: :en),
+          I18n.t('permissions.permission.case_assignments_referrals_transfers', locale: :en),
           I18n.t('role.role_ids_label', locale: :en)
         ] + resources.map { |resource| I18n.t("permissions.permission.#{resource}", locale: :en) }
         expect(sheet.rows.map { |column| column[0] }.compact.sort).to eq(file_resources.sort)
 
-        file_actions = %w[Action self group all referral transfer] + actions
-        expect(sheet.rows.map { |column| column[1] }.compact.count).to eq(file_actions.count)
+        file_actions = %w[Action self group admin_only all referral transfer] + actions
+        expect(sheet.rows.map { |column| column[1] }.compact.count).to eq(file_actions.count - 3)
       end
     end
 
@@ -63,6 +67,11 @@ module Exporters
 
         permission_actions_translation = permission_actions_translation << FormSection.first.name
         permission_actions_translation = permission_actions_translation << 'Access only my records or user'
+        permission_actions_translation.delete_at(permission_actions_translation.index('Export case pdf'))
+        permission_actions_translation.delete_at(permission_actions_translation.index('Approve %{approval_label} form'))
+        permission_actions_translation.delete_at(
+          permission_actions_translation.index('Request %{approval_label} approval')
+        )
 
         expect(admin_actions.sort).to eq(permission_actions_translation.sort)
         expect(workbook.last.compact).to eq([FormSection.first.name, '✔'])

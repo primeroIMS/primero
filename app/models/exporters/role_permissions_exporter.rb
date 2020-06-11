@@ -5,7 +5,7 @@ module Exporters
     CASE = %w[referral transfer read create write enable_disable_record flag manage add_note reopen close]
     CASE_EXPORTS = %w[
       export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv consent_override
-      export_case_pdf export_duplicate_id_csv export_json export_custom import sync_mobile
+      export_duplicate_id_csv export_json export_custom import sync_mobile
     ]
     CASE_APPROVALS = %w[
       request_approval_bia request_approval_case_plan request_approval_closure
@@ -83,7 +83,7 @@ module Exporters
       # Group permissions
       group_permission_header_row = [I18n.t("role.group_permission_label", locale: @locale)]
       write_row group_permission_header_row
-      attr_keys = ['self', 'group', 'all']
+      attr_keys = %w[self group admin_only all]
       attr_keys.each do |attr_key|
         group_permission_row = ['', I18n.t("permissions.permission.#{attr_key}", locale: @locale)]
         group_permissions_checks = @roles.map { |r| get_check(r.group_permission == attr_key) }
@@ -101,7 +101,6 @@ module Exporters
         permission_row += @roles.map {|r| get_check r.send(attr_key) }
         write_row permission_row
       end
-
     end
 
     def write_case_permission(permission)
