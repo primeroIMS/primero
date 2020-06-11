@@ -1,9 +1,11 @@
 .tabContent {
   padding: 0 1em;
 }
+
 .tabFields {
   padding: 0 1em;
   display: flex;
+
   & button {
     margin-top: 1.2em;
   }

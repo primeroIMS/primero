@@ -102,7 +102,7 @@
 .optionsFieldActions {
   display: flex;
   justify-content: space-between;
-  margin: 0.5em 0 1.5em 0;
+  margin: 1.5em 0;
 
   & button {
     font-weight: bold;

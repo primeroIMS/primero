@@ -27,7 +27,7 @@ const Component = ({ tabs }) => {
   const rendeTabPanel = () =>
     tabs.map((data, index) => {
       return (
-        <TabPanel tab={tab} index={index} key={`tab-panel-${data.name}`} >
+        <TabPanel tab={tab} index={index} key={`tab-panel-${data.name}`}>
           <div className={css.tabContent}>
             {data.fields.map(field => (
               <FormSectionField field={field} key={field.name} />

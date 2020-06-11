@@ -57,7 +57,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     selected_value: selectedValue,
     visible,
     groupBy,
-    tooltip
+    tooltip,
+    onChange
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -127,7 +128,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     hint,
     groupBy: watchedInputProps?.groupBy || groupBy,
     selectedValue,
-    tooltip
+    tooltip,
+    onChange
   };
 
   const Field = (fieldType => {
