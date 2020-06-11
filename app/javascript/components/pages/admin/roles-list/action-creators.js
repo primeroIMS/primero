@@ -4,14 +4,14 @@ import { RECORD_PATH } from "../../../../config";
 
 import actions from "./actions";
 
-export const fetchRoles = data => {
-  const { options } = data || {};
+export const fetchRoles = params => {
+  const { data } = params || {};
 
   return {
     type: actions.ROLES,
     api: {
       path: RECORD_PATH.roles,
-      params: options
+      params: data
     }
   };
 };
