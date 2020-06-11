@@ -268,6 +268,21 @@ describe Api::V2::ReportsController, type: :request do
             'position' => { 'type' => 'horizontal', 'order' => 1 }, 'option_strings_source' => 'Location',
             'admin_level' => 0
           }
+        ],
+        'filters' => [
+          {
+            "attribute" => "status",
+            "constraint" => "",
+            "value" => ["open"]
+          },
+          {
+            "attribute" => "status",
+            "value" => ["open"]
+          },
+          {
+            "attribute" => "record_state",
+            "value" => ["true"]
+          }
         ]
       }
       expect(response).to have_http_status(200)
@@ -538,6 +553,13 @@ describe Api::V2::ReportsController, type: :request do
             'name' => 'owned_by_location', 'display_name' => { 'en' => 'Owned by location', 'es' => '', 'fr' => '' },
             'position' => { 'type' => 'vertical', 'order' => 0 }, 'option_strings_source' => 'Location',
             'admin_level' => 0
+          }
+        ],
+        "filters" => [
+          {
+            "attribute" => "status",
+            "constraint" => "",
+            "value" => ["open"]
           }
         ]
       }

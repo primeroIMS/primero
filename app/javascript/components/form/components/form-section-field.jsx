@@ -11,6 +11,7 @@ import SelectInput from "../fields/select-input";
 import ErrorField from "../fields/error-field";
 import RadioField from "../fields/radio-input";
 import ToggleField from "../fields/toggle-input";
+import DateField from "../fields/date-input";
 import OrderableOptionsField from "../fields/orderable-options-field";
 import {
   CHECK_BOX_FIELD,
@@ -21,7 +22,8 @@ import {
   SELECT_FIELD,
   TICK_FIELD,
   RADIO_FIELD,
-  TOGGLE_FIELD
+  TOGGLE_FIELD,
+  DATE_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
@@ -51,6 +53,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     hint,
     disabled,
     inputClassname,
+    date_include_time: dateIncludeTime,
     selected_value: selectedValue,
     visible,
     groupBy
@@ -91,6 +94,8 @@ const FormSectionField = ({ checkErrors, field }) => {
         )
       : false;
 
+  const format = dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy";
+
   const commonInputProps = {
     name,
     disabled:
@@ -108,6 +113,7 @@ const FormSectionField = ({ checkErrors, field }) => {
       shrink: true
     },
     className: inputClassname,
+    format,
     ...watchedInputProps
   };
 
@@ -140,6 +146,8 @@ const FormSectionField = ({ checkErrors, field }) => {
         return RadioField;
       case TOGGLE_FIELD:
         return ToggleField;
+      case DATE_FIELD:
+        return DateField;
       case ORDERABLE_OPTIONS_FIELD:
         return OrderableOptionsField;
       default:

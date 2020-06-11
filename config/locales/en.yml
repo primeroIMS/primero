@@ -2518,6 +2518,8 @@ en:
     group_dates_by: "Use date ranges"
     add_default_filters: "Include default filters"
     add_default_filters_help: "Open and valid"
+    no_filters_added: "No filters added"
+    not_selected: "Not selected"
     date_ranges:
       date: "Day"
       week: "Week"
@@ -2525,9 +2527,15 @@ en:
       year: "Year"
     filters:
       label: "Report filters"
+      label_new: "New report filter"
       attribute: "Filter"
       value: "With"
-      not_null: "Form value is not blank"
+      not_null: "Is not blank?"
+      less_than: "Less than"
+      greater_than: "Greater than"
+      equal_to: "Equal to"
+      not_blank: "Not blank"
+      is: "is"
     is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
@@ -2542,6 +2550,9 @@ en:
     edit: "Edit"
     empty_rows: "Do not display empty rows?"
     empty_rows_help_text: "Excludes rows from the report table if all values are zero"
+    attribute: "Attribute"
+    constraint: "Constraint"
+    value: "Value"
 
   encrypt:
     password_title: "Create Password"

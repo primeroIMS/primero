@@ -1,18 +1,17 @@
 import isEmpty from "lodash/isEmpty";
 import isString from "lodash/isString";
+import { format } from "date-fns";
 
 import { TICK_FIELD } from "../form";
 import { dataToJS } from "../../libs";
-import { AGE_MAX } from "../../config";
-import {
-  AUDIO_FIELD,
-  DOCUMENT_FIELD,
-  PHOTO_FIELD,
-  SEPERATOR,
-  SUBFORM_SECTION
-} from "../record-form/constants";
+import { AGE_MAX, DATE_FORMAT } from "../../config";
 
-import { DESCRIPTION_FIELD, NAME_FIELD, REPORTABLE_TYPES } from "./constants";
+import {
+  ALLOWED_FIELD_TYPES,
+  DESCRIPTION_FIELD,
+  NAME_FIELD,
+  REPORTABLE_TYPES
+} from "./constants";
 
 export const dependantFields = formSections => {
   const data = dataToJS(formSections);
@@ -48,17 +47,16 @@ export const buildFields = (data, locale, isReportable) => {
     return data.fields.map(field => ({
       id: field.name,
       display_text: field.display_name[locale],
-      formSection
+      formSection,
+      type: field.type,
+      option_strings_source: field.option_strings_source?.replace(
+        /lookup /,
+        ""
+      ),
+      option_strings_text: field.option_strings_text,
+      tick_box_label: field.tick_box_label?.[locale]
     }));
   }
-
-  const excludeFieldTypes = [
-    AUDIO_FIELD,
-    DOCUMENT_FIELD,
-    PHOTO_FIELD,
-    SEPERATOR,
-    SUBFORM_SECTION
-  ];
 
   return data
     .reduce((acc, form) => {
@@ -67,12 +65,19 @@ export const buildFields = (data, locale, isReportable) => {
 
       const filteredFields = fields
         .filter(
-          field => !excludeFieldTypes.includes(field.type) && field.visible
+          field => ALLOWED_FIELD_TYPES.includes(field.type) && field.visible
         )
         .map(field => ({
           id: field.name,
           display_text: field.display_name[locale],
-          formSection: name[locale]
+          formSection: name[locale],
+          type: field.type,
+          option_strings_source: field.option_strings_source?.replace(
+            /lookup /,
+            ""
+          ),
+          option_strings_text: field.option_strings_text,
+          tick_box_label: field.tick_box_label?.[locale]
         }));
 
       return [...acc, filteredFields];
@@ -122,4 +127,39 @@ export const formatReport = report => {
         return { ...acc, [key]: value };
     }
   }, {});
+};
+
+export const formattedFields = (allFields, modules, recordType, locale) => {
+  const formsByModuleAndRecordType = dataToJS(allFields).filter(formSection =>
+    Array.isArray(modules)
+      ? formSection.module_ids.some(mod => modules.includes(mod))
+      : formSection.module_ids.includes(modules)
+  );
+  const formName = getFormName(recordType);
+  const recordTypesForms = formsByModuleAndRecordType.filter(
+    formSection => formSection.parent_form === recordType
+  );
+
+  const reportableForm = formName
+    ? formsByModuleAndRecordType
+        .filter(formSection => formSection.unique_id === formName)
+        // eslint-disable-next-line camelcase
+        ?.toJS()?.[0]?.fields?.[0]?.subform_section_id
+    : [];
+
+  return buildFields(
+    formName ? reportableForm : recordTypesForms,
+    locale,
+    Boolean(formName)
+  );
+};
+
+export const checkValue = filter => {
+  const { value } = filter;
+
+  if (value instanceof Date) {
+    return format(value, DATE_FORMAT);
+  }
+
+  return value;
 };

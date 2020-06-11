@@ -5,7 +5,6 @@ import { PageContent, PageHeading } from "../page";
 import { setupMountedComponent } from "../../test";
 import { ACTIONS } from "../../libs/permissions";
 import { FormSectionRecord, FieldRecord } from "../record-form/records";
-import Form from "../form";
 
 import ReportsForm from "./container";
 
@@ -74,9 +73,5 @@ describe("<ReportsForm /> - Container", () => {
 
   it("should render <FormContext>", () => {
     expect(component.find(FormContext)).to.have.lengthOf(1);
-  });
-
-  it("should render <Form>", () => {
-    expect(component.find(Form)).to.have.lengthOf(1);
   });
 });
