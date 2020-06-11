@@ -10,7 +10,7 @@ describe("<ReportsForm /> - Constants", () => {
       "CONSTRAINTS",
       "DEFAULT_FILTERS",
       "DESCRIPTION_FIELD",
-      "DATE_CONSTRAINT",
+      "DATE_CONSTRAINTS",
       "DISAGGREGATE_BY_FIELD",
       "FILTERS_FIELD",
       "GROUP_AGES_FIELD",
