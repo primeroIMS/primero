@@ -38,12 +38,12 @@ module Exporters
 
     it 'Getting the images of the children for the exporter' do
       pdf_spy = spy('Prawn::Document')
-      expect(pdf_spy).to receive(:image).with(
-        ActiveStorage::Blob.service.send(:path_for, @child_a.photo.file.blob.key), any_args
-      )
-      expect(pdf_spy).to receive(:image).with(
-        ActiveStorage::Blob.service.send(:path_for, @child_b.photo.file.blob.key), any_args
-      )
+      expect(pdf_spy).to receive(:image) do |image, _|
+        expect(compute_checksum_in_chunks(image)).to eq(@child_a.photo.file.blob.checksum)
+      end
+      expect(pdf_spy).to receive(:image) do |image, _|
+        expect(compute_checksum_in_chunks(image)).to eq(@child_b.photo.file.blob.checksum)
+      end
       data = PhotoWallExporter.new(nil, pdf_spy).export(@records, @user)
       expect(data.present?).to be true
     end

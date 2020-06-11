@@ -200,13 +200,17 @@ describe Exporters::SelectedFieldsExcelExporter do
     end
 
     it 'contains a sheet for the selected form with only the selected fields' do
+      expect(Field.count).to eq(10)
       expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID first_name])
+      expect(Field.count).to eq(10)
     end
 
     it 'contains no other form but the metadata form' do
+      expect(Field.count).to eq(10)
       partial_metadata_header = %w[ID created_organization created_by_full_name last_updated_at]
       expect(workbook.worksheets.size).to eq(2)
       expect(workbook.worksheets[1].row(0).to_a[0..3]).to eq(partial_metadata_header)
+      expect(Field.count).to eq(10)
     end
   end
 end
