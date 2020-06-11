@@ -155,7 +155,7 @@ const FormSectionField = ({ checkErrors, field }) => {
         <Field
           field={field}
           commonInputProps={commonInputProps}
-          metaInputProps={metaInputProps || {}}
+          metaInputProps={metaInputProps}
           options={watchedInputProps?.options || optionSource?.toJS()}
           errorsToCheck={errorsToCheck}
         />

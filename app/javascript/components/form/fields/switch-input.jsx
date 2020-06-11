@@ -21,7 +21,7 @@ const SwitchInput = ({ commonInputProps, metaInputProps }) => {
     className
   } = commonInputProps;
 
-  const { tooltip } = metaInputProps;
+  const { tooltip } = metaInputProps || {};
 
   return (
     <FormControl error={error}>
