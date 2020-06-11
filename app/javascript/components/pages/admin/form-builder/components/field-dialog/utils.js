@@ -154,7 +154,7 @@ export const buildDataToSave = (fieldName, data, type, locale) => {
 };
 
 export const subformContainsFieldName = (subform, fieldName) => {
-  if(!subform?.toSeq()?.size) {
+  if (!subform?.toSeq()?.size) {
     return false;
   }
 
@@ -164,4 +164,4 @@ export const subformContainsFieldName = (subform, fieldName) => {
       .find(field => field.get("name") === fieldName)
       ?.toSeq()?.size
   );
-}
+};
