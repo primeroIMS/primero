@@ -126,3 +126,7 @@
   width: 100%;
   margin-bottom: 0.5em;
 }
+
+.removeIcon {
+  color: $(theme.primero.colors.red);
+}

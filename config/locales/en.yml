@@ -2404,6 +2404,10 @@ en:
     add_custom_field: "Create Custom Field"
     add_existing_field: "Add Existing Field"
     add_field_type: "Add %{file_type}"
+    options_indications: "You may use either pre-defined lookups or create unique values. You cannot do both."
+    predifined_lookups: "Use pre-defined lookup"
+    create_unique_values: "Create unique values"
+    remove: "Remove"
 
     subform_section:
       name: "Subform Title"

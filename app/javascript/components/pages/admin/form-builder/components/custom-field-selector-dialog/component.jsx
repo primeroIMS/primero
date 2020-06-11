@@ -20,7 +20,8 @@ import {
   DATE_FIELD,
   SEPARATOR,
   NUMERIC_FIELD,
-  RADIO_FIELD
+  RADIO_FIELD,
+  SELECT_FIELD
 } from "../../../../../form";
 import { setDialog } from "../../../../../record-actions/action-creators";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
@@ -36,7 +37,8 @@ import {
   TextAreaInput,
   TextInput,
   NumericInput,
-  RadioInput
+  RadioInput,
+  SelectInput
 } from "../../../../../../images/primero-icons";
 
 import styles from "./styles.css";
@@ -49,7 +51,8 @@ const fields = [
   [DATE_FIELD, DateInput],
   [SEPARATOR, Seperator],
   [NUMERIC_FIELD, NumericInput],
-  [RADIO_FIELD, RadioInput]
+  [RADIO_FIELD, RadioInput],
+  [SELECT_FIELD, SelectInput]
   // [SUBFORM_SECTION, SubformField]
 ];
 
