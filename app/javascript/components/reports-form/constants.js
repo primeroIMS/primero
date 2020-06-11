@@ -34,6 +34,11 @@ export const CONSTRAINTS = Object.freeze({
   not_null: "report.filters.not_blank"
 });
 
+export const DATE_CONSTRAINTS = Object.freeze({
+  "<": "report.filters.before",
+  ">": "report.filters.after"
+});
+
 export const ALLOWED_FIELD_TYPES = [
   DATE_FIELD,
   NUMERIC_FIELD,

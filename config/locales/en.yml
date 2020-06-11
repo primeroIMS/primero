@@ -2557,6 +2557,8 @@ en:
       equal_to: "Equal to"
       not_blank: "Not blank"
       is: "is"
+      before: "Before"
+      after: "After"
     is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
