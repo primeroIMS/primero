@@ -51,17 +51,6 @@ const Component = ({
     i => i.index.toString() === selectedIndex
   )?.data;
 
-  // Cleans value filter if is not blank
-  // if (
-  //   (isConstraintNotNullOrTrue ||
-  //     watchedAttribute !== selectedReportFilter?.attribute) &&
-  //   [SELECT_FIELD, RADIO_FIELD].includes(currentField?.type)
-  // ) {
-  //   if (!isEmpty(formMethods.getValues()[VALUE])) {
-  //     formMethods.setValue(VALUE, []);
-  //   }
-  // }
-
   if (
     [SELECT_FIELD, RADIO_FIELD].includes(currentField?.type) &&
     typeof watchedConstraint === "boolean" &&
@@ -105,11 +94,21 @@ const Component = ({
 
   useEffect(() => {
     if (watchedAttribute) {
+      const filterValue = formMethods.getValues()[VALUE];
+
       if ([TICK_FIELD, SELECT_FIELD, RADIO_FIELD].includes(currentField.type)) {
         formMethods.reset({
           attribute: formMethods.getValues()[ATTRIBUTE],
-          constraint: isNew ? false : formMethods.getValues()[CONSTRAINT],
-          value: isNew ? [] : formMethods.getValues()[VALUE]
+          constraint: isNew
+            ? false
+            : (Array.isArray(filterValue) &&
+                filterValue.includes("not_null")) ||
+              formMethods.getValues()[CONSTRAINT],
+          value:
+            isNew ||
+            (Array.isArray(filterValue) && filterValue.includes("not_null"))
+              ? []
+              : formMethods.getValues()[VALUE]
         });
       } else {
         formMethods.reset({

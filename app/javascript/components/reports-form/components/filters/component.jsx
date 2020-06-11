@@ -15,7 +15,12 @@ import { formattedFields } from "../../utils";
 import { compare, dataToJS } from "../../../../libs";
 import { getOptions } from "../../../record-form/selectors";
 import { getOptions as specialOptions } from "../../../form/selectors";
-import { OPTION_TYPES, NUMERIC_FIELD } from "../../../form/constants";
+import {
+  OPTION_TYPES,
+  NUMERIC_FIELD,
+  RADIO_FIELD,
+  SELECT_FIELD
+} from "../../../form/constants";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -46,6 +51,15 @@ const Container = ({
       currentReportFilter.constraint === "not_null"
     ) {
       data.value = "";
+    }
+
+    if (
+      [SELECT_FIELD, RADIO_FIELD].includes(currentField.type) &&
+      typeof currentReportFilter.constraint === "boolean" &&
+      currentReportFilter.constraint
+    ) {
+      data.constraint = false;
+      data.value = ["not_null"];
     }
 
     if (Object.is(index, null)) {
@@ -121,8 +135,9 @@ const Container = ({
         // eslint-disable-next-line no-nested-ternary
         constraint && typeof constraint === "boolean"
           ? i18n.t(CONSTRAINTS.not_null)
-          : CONSTRAINTS[constraint]
-          ? i18n.t(CONSTRAINTS[constraint])
+          : CONSTRAINTS[constraint] ||
+            (Array.isArray(value) && value.includes("not_null"))
+          ? i18n.t(CONSTRAINTS[constraint] || CONSTRAINTS.not_null)
           : "";
       const field = fields.find(f => f.id === attribute);
       const lookups = [

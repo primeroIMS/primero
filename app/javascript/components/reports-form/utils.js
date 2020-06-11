@@ -152,11 +152,7 @@ export const formattedFields = (allFields, modules, recordType, locale) => {
 };
 
 export const checkValue = filter => {
-  const { value, constraint } = filter;
-
-  if (typeof constraint === "boolean" && constraint) {
-    return ["not_null"];
-  }
+  const { value } = filter;
 
   if (value instanceof Date) {
     return format(value, DATE_FORMAT);

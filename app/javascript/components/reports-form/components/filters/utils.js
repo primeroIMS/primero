@@ -40,7 +40,15 @@ export const formatValue = (value, i18n, { field, lookups }) => {
       : i18n.t("report.not_selected");
   }
 
-  if (field && [SELECT_FIELD, RADIO_FIELD].includes(field.type)) {
+  if (
+    field &&
+    [SELECT_FIELD, RADIO_FIELD].includes(field.type) &&
+    Array.isArray(value)
+  ) {
+    if (value.includes("not_null")) {
+      return [];
+    }
+
     if (field.option_strings_source) {
       const lookupValues = lookups.find(
         lookup => lookup.unique_id === field.option_strings_source
