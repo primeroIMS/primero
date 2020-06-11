@@ -19,10 +19,15 @@ export default (roles, actions, i18n) =>
     check_errors: fromJS(FORM_CHECK_ERRORS),
     fields: [
       FieldRecord({
-        display_name: i18n.t("role.role_ids_label"),
+        display_name: i18n.t(
+          "permissions.resource.role.actions.permitted_roles.label"
+        ),
         name: "permissions[objects][role]",
         type: SELECT_FIELD,
         multi_select: true,
+        tooltip: i18n.t(
+          "permissions.resource.role.actions.permitted_roles.label"
+        ),
         option_strings_text: (roles.get("data") || fromJS([]))
           .map(role => ({
             id: role.get("unique_id"),

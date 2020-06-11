@@ -26,30 +26,42 @@ export default (groupPermissions, i18n) => {
         type: TEXT_FIELD
       }),
       FieldRecord({
-        display_name: i18n.t("role.transfer_label"),
+        display_name: i18n.t(
+          "permissions.resource.transfer.actions.transfer.label"
+        ),
         name: FIELD_NAMES.transfer,
-        type: TICK_FIELD
+        type: TICK_FIELD,
+        tooltip: i18n.t(
+          "permissions.resource.transfer.actions.transfer.explanation"
+        )
       }),
       FieldRecord({
-        display_name: i18n.t("role.referral_label"),
+        display_name: i18n.t(
+          "permissions.resource.referral.actions.refer.label"
+        ),
         name: FIELD_NAMES.referral,
-        type: TICK_FIELD
+        type: TICK_FIELD,
+        tooltip: i18n.t(
+          "permissions.resource.referral.actions.refer.explanation"
+        )
       }),
       FieldRecord({
-        display_name: i18n.t("primero_modules.label"),
+        display_name: i18n.t("permissions.resource.module.label"),
+        tooltip: i18n.t("permissions.resource.module.explanation"),
         name: FIELD_NAMES.moduleIds,
         type: SELECT_FIELD,
         option_strings_source: "Module",
         multi_select: true
       }),
       FieldRecord({
-        display_name: i18n.t("role.group_permission_label"),
+        display_name: i18n.t("permissions.resource.group.label"),
+        tooltip: i18n.t("permissions.resource.group.explanation"),
         name: FIELD_NAMES.groupPermission,
         type: SELECT_FIELD,
         option_strings_text: buildPermissionOptions(
           groupPermissions,
           i18n,
-          "role"
+          "group"
         ).toJS()
       })
     ]

@@ -31,6 +31,7 @@ export const FieldRecord = Record({
   check_errors: List([]),
   hint: "",
   groupBy: null,
+  tooltip: "",
   tick_box_label: Map({})
 });
 
@@ -56,7 +57,8 @@ export const FormSectionRecord = Record({
   collapsed_field_names: List([]),
   check_errors: List([]),
   expandable: false,
-  expanded: false
+  expanded: false,
+  tooltip: ""
 });
 
 export const Option = Record({

@@ -9,7 +9,9 @@ import {
 } from "@material-ui/core";
 import { Controller } from "react-hook-form";
 
-const SwitchInput = ({ commonInputProps }) => {
+import InputLabel from "../components/input-label";
+
+const SwitchInput = ({ commonInputProps, metaInputProps }) => {
   const {
     helperText,
     error,
@@ -18,6 +20,8 @@ const SwitchInput = ({ commonInputProps }) => {
     label,
     className
   } = commonInputProps;
+
+  const { tooltip } = metaInputProps || {};
 
   return (
     <FormControl error={error}>
@@ -32,7 +36,7 @@ const SwitchInput = ({ commonInputProps }) => {
               defaultValue={false}
             />
           }
-          label={label}
+          label={<InputLabel tooltip={tooltip} text={label} />}
           className={className}
         />
       </FormGroup>
@@ -51,6 +55,9 @@ SwitchInput.propTypes = {
     helperText: PropTypes.string,
     label: PropTypes.string,
     name: PropTypes.string
+  }),
+  metaInputProps: PropTypes.shape({
+    tooltip: PropTypes.string
   })
 };
 

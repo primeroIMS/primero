@@ -56,7 +56,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     date_include_time: dateIncludeTime,
     selected_value: selectedValue,
     visible,
-    groupBy
+    groupBy,
+    tooltip
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -125,7 +126,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     freeSolo,
     hint,
     groupBy: watchedInputProps?.groupBy || groupBy,
-    selectedValue
+    selectedValue,
+    tooltip
   };
 
   const Field = (fieldType => {

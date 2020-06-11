@@ -45,7 +45,7 @@ describe("<Form /> - fields/<SelectInput />", () => {
   it("renders required indicator", () => {
     const { component } = setupMockFieldComponent(SelectInput, FieldRecord);
 
-    expect(component.find("span").at(0).text()).to.include("*");
+    expect(component.find("span").at(1).text()).to.include("*");
   });
 
   it("should autoFocus when prop set", () => {
