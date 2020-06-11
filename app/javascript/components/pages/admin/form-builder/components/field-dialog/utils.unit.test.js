@@ -106,7 +106,8 @@ describe("buildDataToSave", () => {
       mobile_visible: true,
       required: false,
       show_on_minify_form: false,
-      visible: true
+      visible: true,
+      order: 0
     };
 
     expect(
@@ -121,8 +122,8 @@ describe("subformContainsFieldName", () => {
   const subform = fromJS({
     id: 1,
     unique_id: "subform_1",
-    fields: [{ id: 1, name: "field_1"}]
-  })
+    fields: [{ id: 1, name: "field_1" }]
+  });
 
   it("return false if the subform does not have the field name", () => {
     expect(utils.subformContainsFieldName(subform, "field_2")).to.be.false;
@@ -131,4 +132,4 @@ describe("subformContainsFieldName", () => {
   it("return true if the subform does not have the field name", () => {
     expect(utils.subformContainsFieldName(subform, "field_1")).to.be.true;
   });
-})
+});

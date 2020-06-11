@@ -64,9 +64,9 @@ export const saveForm = ({ id, body, saveMethod, subforms = [] }) => {
   };
 };
 
-export const setNewField = (name, type) => ({
+export const setNewField = data => ({
   type: actions.SET_NEW_FIELD,
-  payload: { name, type }
+  payload: data
 });
 
 export const createSelectedField = data => ({

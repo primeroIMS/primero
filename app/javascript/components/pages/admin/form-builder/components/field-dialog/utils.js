@@ -139,7 +139,13 @@ export const setSubformName = (field, subform) => {
   return field;
 };
 
-export const buildDataToSave = (fieldName, data, type, locale) => {
+export const buildDataToSave = (
+  fieldName,
+  data,
+  type,
+  locale,
+  lastFieldOrder
+) => {
   if (fieldName !== NEW_FIELD) {
     return { [fieldName]: data };
   }
@@ -148,8 +154,10 @@ export const buildDataToSave = (fieldName, data, type, locale) => {
     .join("_")
     .toLowerCase();
 
+  const order = lastFieldOrder ? lastFieldOrder + 1 : 0;
+
   return {
-    [newFieldName]: { ...data, type, name: newFieldName }
+    [newFieldName]: { ...data, type, name: newFieldName, order }
   };
 };
 
