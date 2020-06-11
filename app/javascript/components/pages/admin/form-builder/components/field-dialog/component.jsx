@@ -153,7 +153,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
       fieldData,
       typeField,
       i18n.locale,
-      lastField.get("order")
+      lastField?.get("order")
     );
 
     batch(() => {
