@@ -114,7 +114,7 @@ const Component = ({ mode }) => {
       });
 
       if (formMode.get("isNew")) {
-        dispatch(push(`${ROUTES.forms}/${updatedFormIds.first()}`));
+        dispatch(push(`${ROUTES.forms}/${updatedFormIds.first()}/edit`));
       }
     }
   }, [updatedFormIds]);
