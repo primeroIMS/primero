@@ -1957,7 +1957,7 @@ en:
             label: "View Protection Concerns By Location"
             explanation: "This is the same as the \"View Protection Concerns\" dashboard, except that the user can select
                 a location from a dropdown to show statistics on protection concern prevalence only in that location."
-          view_no_risk_level:
+          dash_show_none_values:
             label: "View cases with 'No Risk Level' in Assessment Dashboard"
             explanation: "Adds an additional \"No Risk Level\" category to all dashboards which break down cases by risk level.
                 This is specifically for configurations which have a fourth \"No Risk\" option for risk level fields."
