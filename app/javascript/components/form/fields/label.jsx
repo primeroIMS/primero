@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Label = ({ commonInputProps }) => {
-  const { label, className, boldWords, phraseParts } = commonInputProps;
+const Label = ({ commonInputProps, metaInputProps }) => {
+  const { label, className } = commonInputProps;
+  const { boldWords, phraseParts } = metaInputProps;
 
   const renderPhrase = () => {
     return phraseParts.map(part => {
@@ -26,9 +27,11 @@ Label.displayName = "Label";
 
 Label.propTypes = {
   commonInputProps: PropTypes.shape({
-    boldWords: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     className: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    label: PropTypes.string,
+    label: PropTypes.string
+  }),
+  metaInputProps: PropTypes.shape({
+    boldWords: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     phraseParts: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
   })
 };

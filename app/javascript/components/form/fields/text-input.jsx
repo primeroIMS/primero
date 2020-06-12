@@ -11,8 +11,15 @@ import styles from "./styles.css";
 
 const TextInput = ({ commonInputProps, metaInputProps }) => {
   const css = makeStyles(styles)();
-  const { type, password, hint, tooltip } = metaInputProps;
-  const inputType = password ? "password" : "text";
+  const { type, password, hint, tooltip, numeric } = metaInputProps;
+  let inputType = "text";
+
+  if (password) {
+    inputType = "password";
+  }
+  if (numeric) {
+    inputType = "number";
+  }
   const { label, helperText, ...rest } = commonInputProps;
 
   const renderHint = hint ? <span className={css.hint}>{hint}</span> : null;

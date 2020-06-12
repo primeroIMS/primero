@@ -7,9 +7,10 @@ import {
   TEXT_FIELD,
   TICK_FIELD,
   RADIO_FIELD,
-  DATE_FIELD
+  DATE_FIELD,
+  NUMERIC_FIELD
 } from "../../../form";
-import { CONSTRAINTS } from "../../constants";
+import { CONSTRAINTS, DATE_CONSTRAINTS } from "../../constants";
 
 import { ATTRIBUTE, CONSTRAINT, VALUE } from "./constants";
 
@@ -67,6 +68,11 @@ const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
         type: DATE_FIELD,
         selected_value: null
       };
+    case NUMERIC_FIELD:
+      return {
+        ...commonProps,
+        numeric: true
+      };
     default:
       return commonProps;
   }
@@ -95,7 +101,11 @@ const constraintInputType = (currentField, i18n) => {
 
       return {
         id,
-        display_text: i18n.t(translationKey)
+        display_text: i18n.t(
+          currentField?.type === DATE_FIELD && ["<", ">"].includes(id)
+            ? DATE_CONSTRAINTS[id]
+            : translationKey
+        )
       };
     })
   };

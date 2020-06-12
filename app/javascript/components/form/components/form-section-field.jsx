@@ -58,6 +58,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     visible,
     groupBy,
     tooltip,
+    numeric,
     onChange,
     boldWords,
     phraseParts
@@ -118,8 +119,6 @@ const FormSectionField = ({ checkErrors, field }) => {
     },
     className: inputClassname,
     format,
-    boldWords,
-    phraseParts,
     ...watchedInputProps
   };
 
@@ -133,7 +132,10 @@ const FormSectionField = ({ checkErrors, field }) => {
     groupBy: watchedInputProps?.groupBy || groupBy,
     selectedValue,
     tooltip,
-    onChange
+    numeric,
+    onChange,
+    boldWords,
+    phraseParts
   };
 
   const Field = (fieldType => {

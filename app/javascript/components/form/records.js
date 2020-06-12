@@ -33,6 +33,7 @@ export const FieldRecord = Record({
   groupBy: null,
   tooltip: "",
   tick_box_label: Map({}),
+  numeric: false,
   onChange: null,
   boldWords: List([]),
   phraseParts: List([])
