@@ -2518,6 +2518,8 @@ en:
 
   reports:
     register_new_report: "Create Report"
+    delete_report: "Delete Report"
+    delete_report_message: "Are you sure you want to delete this report? Deletion can not be undone. Click OK to delete report"
     label: "Reports"
     tabs:
       table: "Table"
