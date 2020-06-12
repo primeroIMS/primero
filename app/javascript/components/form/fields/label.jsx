@@ -2,16 +2,34 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Label = ({ commonInputProps }) => {
-  const { label } = commonInputProps;
+  const { label, className, boldWords, phraseParts } = commonInputProps;
 
-  return <div>{label}</div>;
+  const renderPhrase = () => {
+    return phraseParts.map(part => {
+      const classNameElement = boldWords.includes(part)? className : "";
+      const key = part.replace(/\s/g, "");
+
+      return (
+        <span key={key} className={classNameElement}>
+          {part}{" "}
+        </span>
+      );
+    });
+  };
+
+  const labelToRender = phraseParts ? renderPhrase() : label;
+
+  return <div>{labelToRender}</div>;
 };
 
 Label.displayName = "Label";
 
 Label.propTypes = {
   commonInputProps: PropTypes.shape({
-    label: PropTypes.string
+    boldWords: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    className: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    label: PropTypes.string,
+    phraseParts: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
   })
 };
 

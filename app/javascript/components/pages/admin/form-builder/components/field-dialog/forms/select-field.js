@@ -9,10 +9,9 @@ import {
 } from "./base";
 
 /* eslint-disable import/prefer-default-export */
-export const selectFieldForm = ({ field, i18n, mode, lookups }) => {
+export const selectFieldForm = ({ field, i18n, mode, lookups, css }) => {
   const fieldName = field.get("name");
   const options = field.get("option_strings_text", fromJS({}));
-  // let optionsFormFields = [];
   let extraValidations = {};
 
   if (options?.size) {
@@ -41,7 +40,7 @@ export const selectFieldForm = ({ field, i18n, mode, lookups }) => {
   return {
     forms: fromJS([
       generalForm(fieldName, i18n, mode),
-      optionsForm(fieldName, i18n, mode, field, lookups),
+      optionsForm(fieldName, i18n, mode, field, lookups, css),
       visibilityForm(fieldName, i18n)
     ]),
     validationSchema: validationSchema(fieldName, i18n, extraValidations)

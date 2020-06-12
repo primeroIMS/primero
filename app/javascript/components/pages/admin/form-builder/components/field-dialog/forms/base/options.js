@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-import isEmpty from "lodash/isEmpty";
 
 import {
   FormSectionRecord,
@@ -10,7 +9,7 @@ import {
 } from "../../../../../../../form";
 
 export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
-  const options = field.get("option_strings_text", fromJS({}));
+  const options = field?.get("option_strings_text", fromJS({}));
 
   return [
     {
@@ -81,11 +80,22 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
 };
 
 /* eslint-disable import/prefer-default-export */
-export const optionsForm = (fieldName, i18n, mode, field, lookups) => {
+export const optionsForm = (fieldName, i18n, mode, field, lookups, css) => {
   const optionsFormFields = [
     FieldRecord({
       display_name: i18n.t("fields.options_indications"),
       name: "options_indications",
+      boldWords: [
+        i18n.t("fields.options_indications_or"),
+        i18n.t("fields.options_indications_restrictions")
+      ],
+      phraseParts: [
+        i18n.t("fields.options_indications_lookup"),
+        i18n.t("fields.options_indications_or"),
+        i18n.t("fields.options_indications_unique_val"),
+        i18n.t("fields.options_indications_restrictions")
+      ],
+      inputClassname: css.boldLabel,
       type: LABEL_FIELD
     }),
     {

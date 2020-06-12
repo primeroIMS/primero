@@ -58,7 +58,9 @@ const FormSectionField = ({ checkErrors, field }) => {
     visible,
     groupBy,
     tooltip,
-    onChange
+    onChange,
+    boldWords,
+    phraseParts
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -116,6 +118,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     },
     className: inputClassname,
     format,
+    boldWords,
+    phraseParts,
     ...watchedInputProps
   };
 

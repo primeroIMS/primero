@@ -60,7 +60,7 @@ export const getFormField = ({ field, i18n, mode, css, lookups }) => {
       return dateFieldForm(field, i18n, css, mode);
     case RADIO_FIELD:
     case SELECT_FIELD:
-      return selectFieldForm({ field, i18n, mode, lookups });
+      return selectFieldForm({ field, i18n, mode, lookups, css });
     case SEPARATOR:
       return separatorFieldForm(name, i18n, mode);
     case SUBFORM_SECTION:
