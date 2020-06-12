@@ -87,7 +87,7 @@ const Component = () => {
           </Button>
         </div>
       </ActionDialog>
-      <CustomFieldSelectorDialog />
+      <CustomFieldSelectorDialog key="custom-field-selector-dialog" />
     </>
   );
 };

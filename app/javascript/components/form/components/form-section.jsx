@@ -19,6 +19,7 @@ import { FORM_SECTION_NAME } from "./constants";
 import FormSectionField from "./form-section-field";
 import FormSectionTitle from "./form-section-title";
 import styles from "./styles.css";
+import FormSectionTabs from "./form-section-tabs";
 
 const FormSection = ({ formSection }) => {
   const css = makeStyles(styles)();
@@ -45,6 +46,10 @@ const FormSection = ({ formSection }) => {
             {renderFields(field.row)}
           </div>
         );
+      }
+
+      if (field?.tabs) {
+        return <FormSectionTabs tabs={field.tabs} />;
       }
 
       return (

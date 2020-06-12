@@ -30,6 +30,7 @@ import FieldsList from "../fields-list";
 import ClearButtons from "../clear-buttons";
 import { NEW_FIELD } from "../../constants";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
+import { getOptions } from "../../../../../record-form/selectors";
 
 import styles from "./styles.css";
 import {
@@ -64,15 +65,16 @@ const Component = ({ mode, onClose, onSuccess }) => {
     compare
   )?.last();
   const selectedFieldName = selectedField?.get("name");
+  const lookups = useSelector(state => getOptions(state), compare);
   const { forms: fieldsForm, validationSchema } = getFormField({
     field: selectedField,
     i18n,
     mode: formMode,
-    css
+    css,
+    lookups
   });
 
   const formMethods = useForm({ validationSchema });
-
   const handleClose = () => {
     if (onClose) {
       onClose();

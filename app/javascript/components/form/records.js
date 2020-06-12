@@ -32,7 +32,10 @@ export const FieldRecord = Record({
   hint: "",
   groupBy: null,
   tooltip: "",
-  tick_box_label: Map({})
+  tick_box_label: Map({}),
+  onChange: null,
+  boldWords: List([]),
+  phraseParts: List([])
 });
 
 export const FormSectionRecord = Record({
