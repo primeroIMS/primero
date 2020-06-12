@@ -6,7 +6,7 @@ const Label = ({ commonInputProps }) => {
 
   const renderPhrase = () => {
     return phraseParts.map(part => {
-      const classNameElement = boldWords.includes(part)? className : "";
+      const classNameElement = boldWords.includes(part) ? className : "";
       const key = part.replace(/\s/g, "");
 
       return (
