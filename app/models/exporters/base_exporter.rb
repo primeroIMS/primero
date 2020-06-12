@@ -118,7 +118,9 @@ module Exporters
 
     def forms_to_export(records, user, options = {})
       record_type = model_class(records)&.parent_form
-      forms = user.permitted_forms(record_type).includes(:fields)
+      forms = user.permitted_forms(record_type).includes(:fields).map do |form|
+        forms_without_hidden_fields(form)
+      end
       return forms unless options[:form_unique_ids].present?
 
       forms.select { |form| options[:form_unique_ids].include?(form.unique_id) }
@@ -135,6 +137,19 @@ module Exporters
       options[:field_names].map do |field_name|
         fields.find { |field| field.name == field_name }
       end.compact
+    end
+
+    def forms_without_hidden_fields(form)
+      form_dup = form.dup
+      form.fields.map(&:dup).each do |field|
+        if field.type == Field::SUBFORM
+          field.subform = forms_without_hidden_fields(field.subform)
+        elsif !field.visible
+          next
+        end
+        form_dup.fields << field
+      end
+      form_dup
     end
   end
 end

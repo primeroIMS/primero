@@ -59,6 +59,7 @@ describe Exporters::SelectedFieldsExcelExporter do
     )
     form3.fields << Field.new(name: 'first_name', type: Field::TEXT_FIELD, display_name: 'first_name')
     form3.fields << Field.new(name: 'last_name', type: Field::TEXT_FIELD, display_name: 'last_name')
+    form3.fields << Field.new(name: 'second_name', type: Field::TEXT_FIELD, display_name: 'second_name', visible: false)
     form3.fields << Field.new(
       name: 'subform_field_1', type: Field::SUBFORM,
       display_name: 'subform field', subform_section_id: subform.id
@@ -133,7 +134,7 @@ describe Exporters::SelectedFieldsExcelExporter do
       expect(sheet.rows.size).to eq (1 + 6)
     end
 
-    it 'contains a worksheet for every form and nested subform' do
+    it 'contains a worksheet for every form and nested subform unless the fields visible: false' do
       expect(workbook.worksheets.size).to eq(4 + 1)
       expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID field_3 field_4])
       expect(workbook.worksheets[1].row(0).to_a).to eq(%w[ID relationship array_field])
@@ -156,7 +157,7 @@ describe Exporters::SelectedFieldsExcelExporter do
       Spreadsheet.open(StringIO.new(data))
     end
 
-    it 'contains a sheet for the selected form' do
+    it 'contains a sheet for the selected form unless the fields visible: false' do
       expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID first_name last_name])
     end
 
@@ -200,17 +201,17 @@ describe Exporters::SelectedFieldsExcelExporter do
     end
 
     it 'contains a sheet for the selected form with only the selected fields' do
-      expect(Field.count).to eq(10)
+      expect(Field.count).to eq(11)
       expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID first_name])
-      expect(Field.count).to eq(10)
+      expect(Field.count).to eq(11)
     end
 
     it 'contains no other form but the metadata form' do
-      expect(Field.count).to eq(10)
+      expect(Field.count).to eq(11)
       partial_metadata_header = %w[ID created_organization created_by_full_name last_updated_at]
       expect(workbook.worksheets.size).to eq(2)
       expect(workbook.worksheets[1].row(0).to_a[0..3]).to eq(partial_metadata_header)
-      expect(Field.count).to eq(10)
+      expect(Field.count).to eq(11)
     end
   end
 end
