@@ -197,8 +197,16 @@ const Component = ({ mode }) => {
           <form>
             <Tabs value={tab} onChange={handleChange}>
               <Tab label={i18n.t("forms.settings")} />
-              <Tab label={i18n.t("forms.fields")} />
-              <Tab label={i18n.t("forms.translations")} />
+              <Tab
+                className={css.tabHeader}
+                label={i18n.t("forms.fields")}
+                disabled={formMode.get("isNew")}
+              />
+              <Tab
+                className={css.tabHeader}
+                label={i18n.t("forms.translations")}
+                disabled={formMode.get("isNew")}
+              />
             </Tabs>
             <TabPanel tab={tab} index={0}>
               <div className={css.tabContent}>
