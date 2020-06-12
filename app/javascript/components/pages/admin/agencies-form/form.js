@@ -57,17 +57,28 @@ export const form = i18n => {
         FieldRecord({
           display_name: i18n.t("agency.logo_icon"),
           name: "logo_icon",
-          type: PHOTO_FIELD
+          type: PHOTO_FIELD,
+          help_text: i18n.t("agency.logo_icon_help")
         }),
         FieldRecord({
           display_name: i18n.t("agency.logo_large"),
           name: "logo_full",
-          type: PHOTO_FIELD
+          type: PHOTO_FIELD,
+          help_text: i18n.t("agency.logo_large_help")
         }),
         FieldRecord({
           display_name: i18n.t("agency.logo_enabled"),
           name: "logo_enabled",
-          type: TICK_FIELD
+          type: TICK_FIELD,
+          watchedInputs: ["logo_icon", "logo_full"],
+          help_text: i18n.t("agency.logo_enabled_help"),
+          handleWatchedInputs: value => {
+            const { logo_full: logoFull, logo_icon: logoIcon } = value;
+
+            return {
+              disabled: !(logoFull?.length && logoIcon?.length)
+            };
+          }
         }),
         FieldRecord({
           display_name: i18n.t("agency.disabled"),

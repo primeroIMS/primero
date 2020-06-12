@@ -23,6 +23,7 @@
 
 .buttonWrapper {
   position: relative;
+  margin: .5em 0;
 }
 
 .buttonProgress {
