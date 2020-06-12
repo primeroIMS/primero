@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const Label = ({ commonInputProps, metaInputProps }) => {
   const { label, className } = commonInputProps;
-  const { boldWords, phraseParts } = metaInputProps;
+  const { boldWords, phraseParts } = metaInputProps || {};
 
   const renderPhrase = () => {
     return phraseParts.map(part => {
