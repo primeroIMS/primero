@@ -70,13 +70,26 @@ export const form = i18n => {
           display_name: i18n.t("agency.logo_enabled"),
           name: "logo_enabled",
           type: TICK_FIELD,
-          watchedInputs: ["logo_icon", "logo_full"],
+          watchedInputs: [
+            "logo_icon",
+            "logo_full",
+            "logo_full_url",
+            "logo_icon_url"
+          ],
           help_text: i18n.t("agency.logo_enabled_help"),
           handleWatchedInputs: value => {
-            const { logo_full: logoFull, logo_icon: logoIcon } = value;
+            const {
+              logo_full: logoFull,
+              logo_icon: logoIcon,
+              logo_full_url: logoFullUrl,
+              logo_icon_url: logoIconUrl
+            } = value;
 
             return {
-              disabled: !(logoFull?.length && logoIcon?.length)
+              disabled: !(
+                (logoFull?.length && logoIcon?.length) ||
+                (logoIconUrl && logoFullUrl)
+              )
             };
           }
         }),
