@@ -47,7 +47,7 @@ const getSelectedDateValue = (field, isSubmit) => {
   ).find(obj => obj[1] === field.selected_value)[0];
 };
 
-export const getFormField = ({ field, i18n, mode, css }) => {
+export const getFormField = ({ field, i18n, mode, css, lookups }) => {
   if (!field?.toSeq()?.size) {
     return { forms: [], validationSchema: {} };
   }
@@ -60,7 +60,7 @@ export const getFormField = ({ field, i18n, mode, css }) => {
       return dateFieldForm(field, i18n, css, mode);
     case RADIO_FIELD:
     case SELECT_FIELD:
-      return selectFieldForm({ field, i18n, mode });
+      return selectFieldForm({ field, i18n, mode, lookups, css });
     case SEPARATOR:
       return separatorFieldForm(name, i18n, mode);
     case SUBFORM_SECTION:

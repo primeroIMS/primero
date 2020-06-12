@@ -86,7 +86,7 @@ const Component = ({ mode }) => {
           ? SAVE_METHODS.update
           : SAVE_METHODS.new,
         body: {
-          data: { ...data, fields: convertToFieldsArray(data.fields) }
+          data: { ...data, fields: convertToFieldsArray(data.fields || {}) }
         },
         message: i18n.t(
           `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
@@ -112,11 +112,16 @@ const Component = ({ mode }) => {
           }
         }
       });
+
+      if (formMode.get("isNew")) {
+        dispatch(push(`${ROUTES.forms}/${updatedFormIds.first()}`));
+      }
     }
   }, [updatedFormIds]);
 
   useEffect(() => {
     dispatch(fetchForms());
+    dispatch(clearSelectedForm());
   }, []);
 
   useEffect(() => {

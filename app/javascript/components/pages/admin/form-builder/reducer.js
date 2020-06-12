@@ -12,7 +12,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state
         .set("selectedForm", fromJS({}))
         .set("errors", false)
-        .set("serverErrors", fromJS([]));
+        .set("serverErrors", fromJS([]))
+        .set("selectedFields", fromJS([]));
     case actions.CREATE_SELECTED_FIELD: {
       const fieldName = Object.keys(payload.data)[0];
 

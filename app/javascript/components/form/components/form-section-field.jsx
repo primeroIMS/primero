@@ -58,7 +58,10 @@ const FormSectionField = ({ checkErrors, field }) => {
     visible,
     groupBy,
     tooltip,
-    numeric
+    numeric,
+    onChange,
+    boldWords,
+    phraseParts
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -129,7 +132,10 @@ const FormSectionField = ({ checkErrors, field }) => {
     groupBy: watchedInputProps?.groupBy || groupBy,
     selectedValue,
     tooltip,
-    numeric
+    numeric,
+    onChange,
+    boldWords,
+    phraseParts
   };
 
   const Field = (fieldType => {
