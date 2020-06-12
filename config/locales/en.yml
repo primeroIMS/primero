@@ -2412,6 +2412,8 @@ en:
     options_indications_or: "or"
     options_indications_unique_val: "create unique values."
     options_indications_restrictions: "You cannot do both."
+    multi_select_box: "Multi-select"
+    date_time: "Date-Time"
 
     subform_section:
       name: "Subform Title"
