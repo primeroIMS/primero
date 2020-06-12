@@ -138,6 +138,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
         selectedSubform?.get("unique_id");
 
       dispatch(updateSelectedField(fieldData, subformId));
+
+      if (subformId) {
+        dispatch(clearSelectedSubformField());
+      }
     }
   };
 
@@ -159,14 +163,16 @@ const Component = ({ mode, onClose, onSuccess }) => {
     batch(() => {
       if (!subformContainsFieldName(selectedSubform, selectedFieldName)) {
         onSuccess(dataToSave);
+        dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
       }
+
       if (fieldData) {
         addOrUpdatedSelectedField(dataToSave);
       }
+
       if (isSubformField(selectedField)) {
         dispatch(updateSelectedSubform(subformData));
       }
-      dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
     });
   };
 
