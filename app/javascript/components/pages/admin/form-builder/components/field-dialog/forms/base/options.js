@@ -35,7 +35,6 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
             mode.get("isEdit") && field.get("option_strings_source"),
           watchedInputs: [`${fieldName}.option_strings_source`],
           handleWatchedInputs: value => {
-            // methods.reset({ [fieldName]: { selected_value: "" } });
             const emptyOptions = [{ id: "", display_text: "" }];
             const lookupSelected = lookups.find(
               lookup =>
