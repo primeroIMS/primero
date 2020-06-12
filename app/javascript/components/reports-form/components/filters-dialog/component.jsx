@@ -41,7 +41,10 @@ const Component = ({
 
   const watchedAttribute = formMethods.watch(ATTRIBUTE);
   const watchedConstraint = formMethods.watch(CONSTRAINT);
-  // const watchedValue = formMethods.watch(VALUE);
+  const isAttributeTouched = Object.keys(
+    formMethods.control?.formState?.touched
+  ).includes(ATTRIBUTE);
+
   const isConstraintNotNullOrTrue =
     watchedConstraint === "not_null" ||
     (typeof watchedConstraint === "boolean" && watchedConstraint);
@@ -80,11 +83,16 @@ const Component = ({
       formMethods.reset({
         ...selectedReportFilter,
         constraint:
-          [SELECT_FIELD, TICK_FIELD].includes(type) &&
+          [SELECT_FIELD, TICK_FIELD, RADIO_FIELD].includes(type) &&
           Array.isArray(selectedReportFilter?.constraint) &&
           selectedReportFilter?.constraint?.includes("not_null")
             ? true
-            : selectedReportFilter?.constraint
+            : selectedReportFilter?.constraint,
+        values:
+          Array.isArray(selectedReportFilter?.value) &&
+          selectedReportFilter?.value.includes("not_null")
+            ? []
+            : selectedReportFilter?.value
       });
     }
     if (selectedIndex === null && open) {
@@ -105,8 +113,10 @@ const Component = ({
                 filterValue.includes("not_null")) ||
               formMethods.getValues()[CONSTRAINT],
           value:
+            // eslint-disable-next-line no-nested-ternary
             isNew ||
-            (Array.isArray(filterValue) && filterValue.includes("not_null"))
+            (Array.isArray(filterValue) && filterValue.includes("not_null")) ||
+            isAttributeTouched
               ? []
               : formMethods.getValues()[VALUE]
         });
