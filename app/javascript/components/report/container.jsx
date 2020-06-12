@@ -38,7 +38,7 @@ const Report = ({ mode }) => {
   const loading = useSelector(state => getLoading(state, namespace));
   const report = useSelector(state => getReport(state));
 
-  const deleteModal = useSelector(state => selectDialog(DELETE_MODAL, state));
+  const deleteModal = useSelector(state => selectDialog(state, DELETE_MODAL));
   const setDeleteModal = open => {
     dispatch(setDialog({ dialog: DELETE_MODAL, open }));
   };

@@ -62,7 +62,7 @@ const Component = () => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const openFieldSelectorDialog = useSelector(state =>
-    selectDialog(CUSTOM_FIELD_SELECTOR_DIALOG, state)
+    selectDialog(state, CUSTOM_FIELD_SELECTOR_DIALOG)
   );
 
   useEffect(() => {

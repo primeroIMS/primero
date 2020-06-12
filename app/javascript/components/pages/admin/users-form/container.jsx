@@ -56,7 +56,7 @@ const Container = ({ mode }) => {
   const saving = useSelector(state => getSavingRecord(state));
 
   const userConfirmationOpen = useSelector(state =>
-    selectDialog(USER_CONFIRMATION_DIALOG, state)
+    selectDialog(state, USER_CONFIRMATION_DIALOG)
   );
   const setUserConfirmationOpen = open => {
     dispatch(setDialog({ dialog: USER_CONFIRMATION_DIALOG, open }));

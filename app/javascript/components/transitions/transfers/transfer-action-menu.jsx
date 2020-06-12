@@ -28,7 +28,7 @@ const TransferActionMenu = ({ transition, recordType }) => {
     setTransferMenu(null);
   };
   const approvalOpen = useSelector(state =>
-    selectDialog(TRANSFER_APPROVAL_DIALOG, state)
+    selectDialog(state, TRANSFER_APPROVAL_DIALOG)
   );
   const setApprovalOpen = open => {
     dispatch(setDialog({ dialog: TRANSFER_APPROVAL_DIALOG, open }));
