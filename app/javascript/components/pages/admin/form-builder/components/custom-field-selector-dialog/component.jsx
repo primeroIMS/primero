@@ -99,7 +99,7 @@ const Component = () => {
     };
     const dateTimeAttributtes = selectedItem === DATE_TIME_FIELD && {
       type: DATE_FIELD,
-      multi_select: true
+      date_include_time: true
     };
 
     batch(() => {

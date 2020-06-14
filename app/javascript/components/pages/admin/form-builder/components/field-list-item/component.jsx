@@ -27,7 +27,11 @@ import { setDialog } from "../../../../../record-actions/action-creators";
 import { useI18n } from "../../../../../i18n";
 import SwitchInput from "../../../../../form/fields/switch-input";
 import DragIndicator from "../../../forms-list/components/drag-indicator";
-import { getFieldsAttribute, getFiedListItemTheme } from "../utils";
+import {
+  getFieldsAttribute,
+  getFiedListItemTheme,
+  getLabelTypeField
+} from "../utils";
 import styles from "../fields-list/styles.css";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { setInitialForms, toggleHideOnViewPage } from "../field-dialog/utils";
@@ -139,7 +143,7 @@ const Component = ({ field, index, subformField }) => {
               {renderFieldName(field)}
             </div>
             <div className={css.fieldColumn}>
-              {i18n.t(`fields.${field.get("type")}`)}
+              {i18n.t(`fields.${getLabelTypeField(field)}`)}
             </div>
             {renderColumn(SUBFORM_SORT_BY)}
             {renderColumn(SUBFORM_GROUP_BY)}
