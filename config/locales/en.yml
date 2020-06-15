@@ -2412,7 +2412,7 @@ en:
     options_indications_or: "or"
     options_indications_unique_val: "create unique values."
     options_indications_restrictions: "You cannot do both."
-
+    on_collapsed_subform: "On collapsed subform?"
     subform_section:
       name: "Subform Title"
       description: "Subform Description"

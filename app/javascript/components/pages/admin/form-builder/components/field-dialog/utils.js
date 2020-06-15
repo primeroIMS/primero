@@ -47,28 +47,27 @@ const getSelectedDateValue = (field, isSubmit) => {
   ).find(obj => obj[1] === field.selected_value)[0];
 };
 
-export const getFormField = ({ field, i18n, mode, css, lookups }) => {
+export const getFormField = fieldOptions => {
+  const { field } = fieldOptions;
+
   if (!field?.toSeq()?.size) {
     return { forms: [], validationSchema: {} };
   }
 
-  const type = field?.get("type");
-  const name = field?.get("name");
-
-  switch (type) {
+  switch (field?.get("type")) {
     case DATE_FIELD:
-      return dateFieldForm(field, i18n, css, mode);
+      return dateFieldForm(fieldOptions);
     case RADIO_FIELD:
     case SELECT_FIELD:
-      return selectFieldForm({ field, i18n, mode, lookups, css });
+      return selectFieldForm(fieldOptions);
     case SEPARATOR:
-      return separatorFieldForm(name, i18n, mode);
+      return separatorFieldForm(fieldOptions);
     case SUBFORM_SECTION:
-      return subformField({ name, i18n });
+      return subformField(fieldOptions);
     case TICK_FIELD:
-      return tickboxFieldForm(name, i18n, mode);
+      return tickboxFieldForm(fieldOptions);
     default:
-      return textFieldForm({ field, i18n, mode });
+      return textFieldForm(fieldOptions);
   }
 };
 
@@ -128,7 +127,7 @@ export const getSubformValues = subform => {
   };
 };
 
-export const setSubformName = (field, subform) => {
+export const setSubformData = (field, subform) => {
   if (subform) {
     return {
       ...field,
