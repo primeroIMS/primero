@@ -3509,6 +3509,15 @@ en:
     consent_count: "Consent Count"
     match_record: "Matching Record"
     index: "Listing Records"
+    list: "List"
+    bulk_index: "List all"
+    show_alerts: "View alerts for"
+    _requested: "Approval requested for"
+    reopen: "Reopen"
+    enable_disable_record: "Enable / disable"
+    close: "Close"
+    refer_to: "Search for Referral recipient"
+    refer: "Refer"
 
     relinquish_referral: "Relinquish referral Done"
 
