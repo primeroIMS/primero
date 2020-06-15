@@ -3512,7 +3512,6 @@ en:
     list: "List"
     bulk_index: "List all"
     show_alerts: "View alerts for"
-    _requested: "Approval requested for"
     reopen: "Reopen"
     enable_disable_record: "Enable / disable"
     close: "Close"
