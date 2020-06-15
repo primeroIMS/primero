@@ -40,7 +40,7 @@ import {
   RadioInput,
   SelectInput,
   MultiSelectInput,
-  DateTimeInput
+  DateAndTimeInput
 } from "../../../../../../images/primero-icons";
 
 import styles from "./styles.css";
@@ -60,7 +60,7 @@ const fields = [
   [MULTI_SELECT_FIELD, MultiSelectInput],
   [NUMERIC_FIELD, NumericInput],
   [DATE_FIELD, DateInput],
-  [DATE_TIME_FIELD, DateTimeInput],
+  [DATE_TIME_FIELD, DateAndTimeInput],
   // [DATE_FIELD, DateRangeInput],
   [SEPARATOR, Seperator]
   // [SUBFORM_SECTION, SubformField]
