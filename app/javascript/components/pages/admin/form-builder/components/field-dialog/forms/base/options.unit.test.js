@@ -6,7 +6,7 @@ import { optionsForm } from "./options";
 
 describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - options", () => {
   const i18n = { t: value => value };
-  const mode = fromJS({ isEdit: true });
+  const formMode = fromJS({ isEdit: true });
   const css = { boldLabel: "" };
 
   describe("optionsForm", () => {
@@ -16,7 +16,14 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - op
         name: "new_field",
         type: TEXT_FIELD
       });
-      const form = optionsForm("test_1", i18n, mode, newField, [], css);
+      const form = optionsForm({
+        fieldName: "test_1",
+        i18n,
+        formMode,
+        field: newField,
+        lookups: [],
+        css
+      });
 
       expect(form.unique_id).to.equal("field_form_options");
       expect(form.fields).to.have.lengthOf(2);
@@ -29,7 +36,14 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - op
         type: TEXT_FIELD
       });
 
-      const form = optionsForm("test_1", i18n, mode, customField, [], css);
+      const form = optionsForm({
+        fieldName: "test_1",
+        i18n,
+        formMode,
+        field: customField,
+        lookups: [],
+        css
+      });
       const fieldNames = form.fields.map(field => field.name);
 
       expect(form.unique_id).to.equal("field_form_options");

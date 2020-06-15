@@ -4,7 +4,7 @@ import { selectFieldForm } from "./select-field";
 
 describe("selectFieldForm()", () => {
   const i18n = { t: value => value };
-  const mode = fromJS({ isEdit: true });
+  const formMode = fromJS({ isEdit: true });
   const fieldData = { name: "select_field_1" };
   const css = { boldLabel: "" };
 
@@ -26,7 +26,7 @@ describe("selectFieldForm()", () => {
         option_strings_text: { en: options }
       }),
       i18n,
-      mode,
+      formMode,
       lookups: [],
       css
     });
@@ -56,7 +56,7 @@ describe("selectFieldForm()", () => {
         option_strings_source: "lookup lookup-test-1"
       }),
       i18n,
-      mode,
+      formMode,
       lookups: [],
       css
     });

@@ -6,7 +6,7 @@ import { NEW_FIELD } from "../../constants";
 import * as utils from "./utils";
 
 describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - index", () => {
-  const mode = fromJS({
+  const formMode = fromJS({
     isNew: false,
     isEdit: true
   });
@@ -21,7 +21,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - index", () =>
           name: "owned_by"
         }),
         i18n,
-        mode
+        formMode
       });
 
       expect(formSections.forms.size).to.be.equal(2);
@@ -34,7 +34,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - index", () =>
           name: "test"
         }),
         i18n,
-        mode
+        formMode
       });
 
       expect(formSections.forms.size).to.be.equal(2);
@@ -62,7 +62,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - index", () =>
           name: "test"
         }),
         i18n,
-        mode
+        formMode
       });
 
       expect(formSections.forms.size).to.be.equal(2);
