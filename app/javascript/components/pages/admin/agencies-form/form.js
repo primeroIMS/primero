@@ -8,7 +8,8 @@ import {
   TEXT_FIELD,
   TEXT_AREA,
   SELECT_FIELD,
-  PHOTO_FIELD
+  PHOTO_FIELD,
+  SEPARATOR
 } from "../../../form";
 
 export const validations = () =>
@@ -53,6 +54,10 @@ export const form = i18n => {
           type: SELECT_FIELD,
           multi_select: true,
           option_strings_source: "lookup-service-type"
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.agency_logos"),
+          type: SEPARATOR
         }),
         FieldRecord({
           display_name: i18n.t("agency.logo_icon"),
