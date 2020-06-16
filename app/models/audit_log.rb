@@ -37,9 +37,9 @@ class AuditLog < ApplicationRecord
 
   def log_message
     approval_type = if action.present? && action.include?('requested')
-                      action.split('_requested')[0]
+                      action.delete_suffix('_requested')
                     elsif action.present? && action.include?('approved')
-                      action.split('_approved')[0]
+                      action.delete_suffix('_approved')
                     else
                       action
                     end
