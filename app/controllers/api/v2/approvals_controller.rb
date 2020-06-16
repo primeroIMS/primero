@@ -10,7 +10,7 @@ module Api::V2
     end
 
     def update_action_message
-      "#{approval_params[:approval_type]}_#{approval_params[:approval_status]}"
+      "#{params[:id]}_#{approval_params[:approval_status]}"
     end
 
     private

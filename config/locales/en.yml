@@ -3517,6 +3517,12 @@ en:
     close: "Close"
     refer_to: "Search for Referral recipient"
     refer: "Refer"
+    assessment_requested: "%{approval_label} requested for"
+    closure_requested: "%{approval_label} requested for"
+    case_plan_requested: "%{approval_label} requested for"
+    assessment_approved: "%{approval_label} approved for"
+    closure_approved: "%{approval_label} approved for"
+    case_plan_approved: "%{approval_label} approved for"
 
     relinquish_referral: "Relinquish referral Done"
 

@@ -241,7 +241,7 @@ describe Api::V2::ApprovalsController, type: :request do
 
     context 'when the approval_id is CASE_PLAN' do
       let(:approval_id) { Approval::CASE_PLAN }
-      let(:approval_type) { 'service_provision' }
+      let(:approval_type) { Approval::CASE_PLAN }
 
       it_behaves_like 'request for the record' do
         let(:approval_permission) { Permission::REQUEST_APPROVAL_CASE_PLAN }

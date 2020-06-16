@@ -36,7 +36,20 @@ class AuditLog < ApplicationRecord
   end
 
   def log_message
-    logger_action_prefix = I18n.t("logger.#{action}", locale: :en)
+    approval_type = if action.present? && action.include?('requested')
+                      action.split('_requested')[0]
+                    elsif action.present? && action.include?('approved')
+                      action.split('_approved')[0]
+                    else
+                      action
+                    end
+    approval_label = SystemSettings.current.approvals_labels_en[approval_type]
+
+    logger_action_prefix = if approval_label.present?
+                             I18n.t("logger.#{action}", approval_label: approval_label, locale: :en)
+                           else
+                             I18n.t("logger.#{action}", locale: :en)
+                           end
     logger_action_identifier = "#{record_type} '#{display_id}'"
     logger_action_suffix = "#{I18n.t('logger.by_user', locale: :en)} '#{user_name}'"
     "#{logger_action_prefix} #{logger_action_identifier} #{logger_action_suffix}"

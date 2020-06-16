@@ -4,7 +4,17 @@ require 'rails_helper'
 
 describe Api::V2::AuditLogsController, type: :request do
   before :each do
-    clean_data(User, Agency, Role, AuditLog)
+    clean_data(User, Agency, Role, AuditLog, SystemSettings)
+    SystemSettings.create!(
+      default_locale: 'en',
+      approvals_labels_en: {
+        assessment: 'Assessment',
+        case_plan: 'Case Plan',
+        closure: 'Closure'
+      }
+    )
+    SystemSettings.current(true)
+
     role = Role.create!(
       name: 'Test Role 1',
       unique_id: 'test-role-1',
@@ -159,6 +169,6 @@ describe Api::V2::AuditLogsController, type: :request do
   end
 
   after :each do
-    clean_data(User, Agency, Role, AuditLog)
+    clean_data(User, Agency, Role, AuditLog, SystemSettings)
   end
 end
