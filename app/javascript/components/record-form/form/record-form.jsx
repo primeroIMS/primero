@@ -58,7 +58,7 @@ const RecordForm = ({
       if (name.match(/.*age$/)) {
         validations[name] = number()
           .nullable()
-          .transform(cv => (NaN.isNaN(cv) ? undefined : cv))
+          .transform(value => (Number.isNaN(value) ? null : value))
           .positive()
           .min(0, i18n.t("errors.models.child.age"))
           .max(130, i18n.t("errors.models.child.age"));
