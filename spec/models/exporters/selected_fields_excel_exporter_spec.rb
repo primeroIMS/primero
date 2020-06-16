@@ -9,6 +9,17 @@ describe Exporters::SelectedFieldsExcelExporter do
       Agency, Role, UserGroup, User, PrimeroProgram,
       Field, FormSection, PrimeroModule, Child
     )
+
+    @primero_module = create(
+      :primero_module,
+      name: 'CP', description: 'Child Protection', associated_record_types: ['case']
+    )
+
+    @primero_module_gbv = create(
+      :primero_module,
+      name: 'GBV', description: 'gbv', associated_record_types: ['case']
+    )
+
     subform = FormSection.new(
       name: 'cases_test_subform_2', parent_form: 'case', visible: false, is_nested: true,
       order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_subform_2',
@@ -21,7 +32,7 @@ describe Exporters::SelectedFieldsExcelExporter do
     form1 = FormSection.new(
       name: 'cases_test_form_3', parent_form: 'case', visible: true,
       order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_form_3',
-      unique_id: 'cases_test_form_3'
+      unique_id: 'cases_test_form_3', primero_modules: [@primero_module]
     )
     form1.fields << Field.new(
       name: 'subform_field_2', type: Field::SUBFORM,
@@ -52,6 +63,14 @@ describe Exporters::SelectedFieldsExcelExporter do
     subform.fields << Field.new(name: 'field_2', type: Field::TEXT_FIELD, display_name: 'field_2')
     subform.save!
 
+    form_gbv = FormSection.new(
+      name: 'cases_test_form_gbv', parent_form: 'case', visible: true,
+      order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_form_gbv',
+      unique_id: 'cases_test_form_gbv', primero_modules: [@primero_module_gbv]
+    )
+    form_gbv.fields << Field.new(name: 'field_gbv', type: Field::TEXT_FIELD, display_name: 'field_gbv')
+    form_gbv.save!
+
     form3 = FormSection.new(
       :name => 'cases_test_form_1', :parent_form => 'case', 'visible' => true,
       :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_id => 'cases_test_form_1',
@@ -66,10 +85,13 @@ describe Exporters::SelectedFieldsExcelExporter do
     )
     form3.save!
 
-    @primero_module = create(
-      :primero_module,
-      name: 'CP', description: 'Child Protection', associated_record_types: ['case']
+    form4 = FormSection.new(
+      :name => 'cases_test_form_4', :parent_form => 'case', 'visible' => false,
+      :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_id => 'cases_test_form_4',
+      :unique_id => 'cases_test_form_4'
     )
+    form4.fields << Field.new(name: 'first_name', type: Field::TEXT_FIELD, display_name: 'first_name')
+    form4.save!
 
     @records = [
       create(
@@ -111,7 +133,7 @@ describe Exporters::SelectedFieldsExcelExporter do
       )
     ]
     # @user = User.new(:user_name => 'fakeadmin', module_ids: ['primeromodule-cp'])
-    @role = create(:role, modules: [@primero_module], form_sections: [form1, form2, form3])
+    @role = create(:role, modules: [@primero_module], form_sections: [form1, form2, form3, form_gbv, form4])
     @user = create(:user, user_name: 'fakeadmin', role: @role)
   end
 
@@ -131,10 +153,10 @@ describe Exporters::SelectedFieldsExcelExporter do
         duplicate duplicate_of
       ]
       expect(headers).to eq(metadata_headers)
-      expect(sheet.rows.size).to eq (1 + 6)
+      expect(sheet.rows.size).to eq(1 + 6)
     end
 
-    it 'contains a worksheet for every form and nested subform unless the fields visible: false' do
+    it 'contains a worksheet for every form and nested subform unless the forms and fields visible: false' do
       expect(workbook.worksheets.size).to eq(4 + 1)
       expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID field_3 field_4])
       expect(workbook.worksheets[1].row(0).to_a).to eq(%w[ID relationship array_field])
@@ -194,24 +216,24 @@ describe Exporters::SelectedFieldsExcelExporter do
     let(:workbook) do
       data = Exporters::SelectedFieldsExcelExporter.export(
         @records, @user,
-        form_unique_ids: %w[cases_test_form_1],
-        field_names: %w[first_name]
+        form_unique_ids: %w[cases_test_form_1 cases_test_form_gbv],
+        field_names: %w[first_name field_gbv]
       )
       Spreadsheet.open(StringIO.new(data))
     end
 
-    it 'contains a sheet for the selected form with only the selected fields' do
-      expect(Field.count).to eq(11)
+    it 'contains a sheet for the selected form with only the selected fields and discard from another primero_module' do
+      expect(Field.count).to eq(13)
       expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID first_name])
-      expect(Field.count).to eq(11)
+      expect(Field.count).to eq(13)
     end
 
-    it 'contains no other form but the metadata form' do
-      expect(Field.count).to eq(11)
+    it 'contains no other form but the metadata form and discard from another primero_module' do
+      expect(Field.count).to eq(13)
       partial_metadata_header = %w[ID created_organization created_by_full_name last_updated_at]
       expect(workbook.worksheets.size).to eq(2)
       expect(workbook.worksheets[1].row(0).to_a[0..3]).to eq(partial_metadata_header)
-      expect(Field.count).to eq(11)
+      expect(Field.count).to eq(13)
     end
   end
 end

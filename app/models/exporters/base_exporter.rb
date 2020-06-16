@@ -118,7 +118,9 @@ module Exporters
 
     def forms_to_export(records, user, options = {})
       record_type = model_class(records)&.parent_form
-      forms = user.permitted_forms(record_type).includes(:fields).map do |form|
+      role = user.role
+      forms = user.permitted_forms(record_type).includes(:fields)
+                  .select { |form| user_can_see(form, role) }.map do |form|
         forms_without_hidden_fields(form)
       end
       return forms unless options[:form_unique_ids].present?
@@ -150,6 +152,13 @@ module Exporters
         form_dup.fields << field
       end
       form_dup
+    end
+
+    def user_can_see(form, role)
+      form_primero_modules = form.primero_modules.map(&:unique_id)
+      return form.visible if form_primero_modules.blank?
+
+      (role.primero_modules.map(&:unique_id) & form_primero_modules).any? && form.visible
     end
   end
 end
