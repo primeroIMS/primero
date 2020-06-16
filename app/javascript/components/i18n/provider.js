@@ -29,7 +29,7 @@ const I18nProvider = ({ children }) => {
 
   const changeLocale = value => {
     window.I18n.locale = value;
-
+    document.documentElement.lang = value;
     dispatch(setLocale({ locale: value, dir: dir(value) }));
   };
 

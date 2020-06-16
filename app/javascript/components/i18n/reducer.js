@@ -4,7 +4,7 @@ import { SET_LOCALE } from "./actions";
 import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = Map({
-  locale: null,
+  locale: "en",
   dir: "ltr"
 });
 

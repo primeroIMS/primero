@@ -45,6 +45,7 @@ global.window.IDBIndex = IDBIndex;
 global.IDBIndex = global.window.IDBIndex;
 
 global.window.I18n = { defaultLocale: "en", locale: "en", t: path => path };
+global.document.documentElement.lang = "en"
 
 global.MutationObserver = window.MutationObserver;
 
