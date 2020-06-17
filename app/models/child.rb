@@ -55,7 +55,8 @@ class Child < ApplicationRecord
     :location_current, :tracing_status, :name_caregiver,
     :urgent_protection_concern, :child_preferences_section, :family_details_section,
     :duplicate, :location_current, :tracing_status, :name_caregiver,
-    :urgent_protection_concern, :survivor_assessment_form, :safety_plan
+    :urgent_protection_concern, :survivor_assessment_form, :safety_plan,
+    :action_plan
   )
 
   has_many :incidents, foreign_key: :incident_case_id
@@ -124,6 +125,7 @@ class Child < ApplicationRecord
     boolean :completed_survivor_assessment, :completed_survivor_assessment
     boolean :safety_plan_required
     boolean :completed_safety_plan
+    boolean :completed_action_plan
   end
 
   validate :validate_date_of_birth
@@ -322,13 +324,31 @@ class Child < ApplicationRecord
 
   def completed_safety_plan
     return false unless respond_to?(:safety_plan)
-    return false if self.safety_plan.nil?
+    return false if safety_plan.nil?
 
     self.class.safety_plan_mandatory_fields.
       # we're assuming a single safety_plan here, theres no
       # definition for a completed plan if a case has multiple
       # plans completed.
       all? { |field_name| !safety_plan.first[field_name].nil? }
+  end
+
+  def self.action_plan_mandatory_fields
+    [
+      'service_type',
+      'service_referral',
+      'service_referral_written_consent'
+    ]
+  end
+
+  def completed_action_plan
+    return false unless respond_to?(:action_plan)
+    return false if action_plan.nil?
+
+    action_plan.any? do |plan|
+      self.class.action_plan_mandatory_fields.
+        all? { |field_name| !plan[field_name].nil? }
+    end
   end
 end
 # rubocop:enable Metrics/ClassLength
