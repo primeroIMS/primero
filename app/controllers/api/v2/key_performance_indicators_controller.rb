@@ -226,6 +226,9 @@ module Api::V2
       )
     end
 
+    def referrals_per_service
+    end
+
     private
 
     # TODO: Add these to permitted params
