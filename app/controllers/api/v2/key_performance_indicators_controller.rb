@@ -68,6 +68,35 @@ module Api::V2
     end
 
     def reporting_delay
+      created_at = SolrUtils.indexed_field_name(Incident, :created_at)
+      incident_date_derived = SolrUtils.indexed_field_name(Incident, :incident_date_derived)
+
+      days3 = 3 * 24 * 60 * 60 * 1000
+      days5 = 5 * 24 * 60 * 60 * 1000
+      days14 = 14 * 24 * 60 * 60 * 1000
+      days30 = 30 * 24 * 60 * 60 * 1000
+      months3 = 30.4167 * 24 * 60 * 60 * 1000
+
+      # For the purposes of this query 1 month is 30.4167 days or
+      # 30.4167 * 24 * 60 * 60 * 1000 milliseconds
+      search = Incident.search do
+        with :created_at, from..to
+
+        adjust_solr_params do |params|
+          params[:'facet'] = true
+          params[:'facet.query'] = [
+            "{!key=0-3days frange u=#{days3}} ms(#{incident_date_derived},#{incident_date_derived})",
+            "{!key=4-5days frange l=#{days3 + 1} u=#{days5}} ms(#{incident_date_derived},#{incident_date_derived})",
+            "{!key=6-14days frange l=#{days5 + 1} u=#{days14}} ms(#{incident_date_derived},#{incident_date_derived})",
+            "{!key=15-30days frange l=#{days14 + 1} u=#{days30}} ms(#{incident_date_derived},#{incident_date_derived})",
+            "{!key=1-3months frange l=#{days30 + 1} u=#{months3}} ms(#{incident_date_derived},#{incident_date_derived})",
+            "{!key=4months frange l=#{months3 + 1}} ms(#{incident_date_derived},#{incident_date_derived})"
+          ]
+        end
+      end
+
+      @total = search.total
+      @results = search.facet_response['facet_queries']
     end
 
     def service_access_delay
