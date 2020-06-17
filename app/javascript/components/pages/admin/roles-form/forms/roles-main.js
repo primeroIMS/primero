@@ -26,6 +26,12 @@ export default (groupPermissions, i18n) => {
         type: TEXT_FIELD
       }),
       FieldRecord({
+        display_name: i18n.t("permissions.resource.is_manager.label"),
+        name: FIELD_NAMES.isManager,
+        type: TICK_FIELD,
+        tooltip: i18n.t("permissions.resource.is_manager.explanation")
+      }),
+      FieldRecord({
         display_name: i18n.t(
           "permissions.resource.transfer.actions.transfer.label"
         ),
