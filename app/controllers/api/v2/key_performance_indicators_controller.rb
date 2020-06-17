@@ -15,5 +15,8 @@ module Api::V2
 
     def reporting_delay
     end
+
+    def service_access_delay
+    end
   end
 end
