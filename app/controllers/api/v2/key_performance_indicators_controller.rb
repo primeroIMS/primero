@@ -8,6 +8,10 @@ module Api::V2
     skip_after_action :write_audit_log
 
     def number_of_cases
+      from = Date.parse(params[:from])
+      to = Date.parse(params[:to])
+
+      puts '*' * 20, from, to
     end
 
     def number_of_incidents
