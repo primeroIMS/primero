@@ -16,7 +16,7 @@ const FormAction = ({
   const css = makeStyles(styles)();
 
   const renderCircularProgress = savingRecord && !cancel && (
-    <CircularProgress size={24} value={25} className={css.loadingMargin} />
+    <CircularProgress size={10} value={25} className={css.loadingMargin} />
   );
 
   return (

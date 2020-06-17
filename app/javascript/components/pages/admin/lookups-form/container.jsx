@@ -83,6 +83,7 @@ const Container = ({ mode }) => {
   return (
     <LoadingIndicator
       hasData={formMode.get("isNew") || lookup?.size > 0}
+      loading={!lookup.size}
       type={NAMESPACE}
     >
       <PageHeading title={pageHeading}>

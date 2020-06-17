@@ -18,14 +18,17 @@ import resetForm from "../../../libs/reset-form";
 import { ACTIONS } from "../../../libs/permissions";
 import { fetchRecordsAlerts } from "../../records/action-creators";
 import { fetchAlerts } from "../../nav/action-creators";
+import { SERVICE_DIALOG } from "../constants";
 
 import { NAME, SERVICES_SUBFORM } from "./constants";
 
 const Component = ({
   openServiceDialog,
   close,
+  pending,
   recordType,
-  selectedRowsIndex
+  selectedRowsIndex,
+  setPending
 }) => {
   const formikRef = useRef();
   const i18n = useI18n();
@@ -61,14 +64,12 @@ const Component = ({
 
   const modalProps = {
     confirmButtonLabel: i18n.t("buttons.save"),
-    confirmButtonProps: {
-      color: "primary",
-      variant: "contained",
-      autoFocus: true
-    },
     dialogTitle: i18n.t("actions.services_section_from_case"),
+    cancelHandler: close,
     onClose: close,
     open: openServiceDialog,
+    pending,
+    omitCloseAfterSuccess: true,
     successHandler: () => submitForm(formikRef)
   };
 
@@ -94,6 +95,7 @@ const Component = ({
         record_action: ACTIONS.SERVICES_SECTION_FROM_CASE
       };
 
+      setPending(true);
       selectedIds.forEach(id => {
         batch(async () => {
           await dispatch(
@@ -105,7 +107,8 @@ const Component = ({
               i18n.t(`actions.services_from_case_creation_success`),
               false,
               false,
-              false
+              false,
+              SERVICE_DIALOG
             )
           );
           dispatch(fetchRecordsAlerts(recordType, id));
@@ -130,9 +133,11 @@ const Component = ({
 Component.propTypes = {
   close: PropTypes.func,
   openServiceDialog: PropTypes.bool,
+  pending: PropTypes.bool,
   records: PropTypes.array,
   recordType: PropTypes.string,
-  selectedRowsIndex: PropTypes.array
+  selectedRowsIndex: PropTypes.array,
+  setPending: PropTypes.func
 };
 
 Component.displayName = NAME;
