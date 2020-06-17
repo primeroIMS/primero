@@ -185,6 +185,8 @@ module Api::V2
 
     def services_provided
       search = Child.search do
+        with :created_at, from..to
+
         facet :services_provided
       end
 
@@ -196,6 +198,32 @@ module Api::V2
             count: row.count
           }
         end
+    end
+    
+    def average_referrals
+      action_plan_referral_statuses = SolrUtils.indexed_field_name(Child, :action_plan_referral_statuses)
+      referred = 'Referred'
+
+      search = Child.search do
+        with :created_at, from..to
+
+        adjust_solr_params do |params|
+          params[:'fl'] = "referrals:termfreq(#{action_plan_referral_statuses}, #{referred})"
+        end
+      end
+
+      all_cases = search.total
+      # Sunspot doesn't handle custom named fields in field lists so I have
+      # to do some monkey patching.
+      all_referrals = search.
+        instance_variable_get(:@solr_result)['response']['docs'].
+        map { |doc| doc['referrals'] }.
+        reduce(&:+)
+
+      @average_referrals = nan_safe_divide(
+        all_referrals,
+        all_cases
+      )
     end
 
     private
