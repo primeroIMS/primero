@@ -24,5 +24,8 @@ module Api::V2
     
     def completed_case_safety_plans
     end
+
+    def completed_case_action_plans
+    end
   end
 end
