@@ -1,3 +1,3 @@
 json.data({
-    "completed_supervisor_approved_case_action_plans": 0.5
+    "completed_and_approved": @completed_and_approved_percentage
 })
