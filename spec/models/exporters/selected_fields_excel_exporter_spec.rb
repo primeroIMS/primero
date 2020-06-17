@@ -70,6 +70,11 @@ describe Exporters::SelectedFieldsExcelExporter do
       name: 'CP', description: 'Child Protection', associated_record_types: ['case']
     )
 
+    agency = Agency.create(
+      name: 'agency one', agency_code: '1111',
+      name_en: 'My English Agency', name_es: 'My Spanish Agency'
+    )
+
     @records = [
       create(
         :child,
@@ -84,7 +89,8 @@ describe Exporters::SelectedFieldsExcelExporter do
         'subform_field_2' => [
           { 'unique_id' => '2', 'field_3' => 'field_3 value', 'field_4' => 'field_4 value' },
           { 'unique_id' => '21', 'field_3' => 'field_33 value', 'field_4' => 'field_44 value' }
-        ]
+        ],
+        'created_organization' => agency.attributes
       ),
       create(
         :child,
@@ -94,7 +100,8 @@ describe Exporters::SelectedFieldsExcelExporter do
         'subform_field_2' => [
           { 'unique_id' => '21', 'field_3' => 'field_31 value', 'field_4' => 'field_41 value' },
           { 'unique_id' => '211', 'field_3' => 'field_331 value', 'field_4' => 'field_441 value' }
-        ]
+        ],
+        'created_organization' => agency.attributes
       ),
       create(:child, 'first_name' => 'Jimmy', 'last_name' => 'James', 'id' => '00000000003'),
       create(:child, 'first_name' => 'Timmy', 'last_name' => 'Tom', 'id' => '00000000004'),
@@ -131,6 +138,21 @@ describe Exporters::SelectedFieldsExcelExporter do
       ]
       expect(headers).to eq(metadata_headers)
       expect(sheet.rows.size).to eq (1 + 6)
+    end
+
+    it 'contains the correct created_organization en name' do
+      sheet = workbook.worksheets.last
+      created_organization_values = sheet.rows.map { |row| row[1] }.compact
+      expect(created_organization_values).to eq(['created_organization', 'My English Agency', 'My English Agency'])
+    end
+
+    it 'contains the correct created_organization es name' do
+      I18n.locale = 'es'
+      data = Exporters::SelectedFieldsExcelExporter.export(@records, @user, {})
+      Spreadsheet.open(StringIO.new(data))
+      sheet = workbook.worksheets.last
+      created_organization_values = sheet.rows.map { |row| row[1] }.compact
+      expect(created_organization_values).to eq(['created_organization', 'My Spanish Agency', 'My Spanish Agency'])
     end
 
     it 'contains a worksheet for every form and nested subform' do
