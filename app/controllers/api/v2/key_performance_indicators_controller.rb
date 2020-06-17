@@ -275,7 +275,6 @@ module Api::V2
 
       search = Child.search do
         with :created_at, from..to
-        with :date_closure
         without :duplicate, true
 
         adjust_solr_params do |params|
@@ -291,6 +290,36 @@ module Api::V2
 
       @total = search.total
       @results = search.facet_response['facet_queries']
+    end
+
+    def case_closure_rate
+      search = Child.search do
+        facet :date_closure,
+          tag: :per_month,
+          range: from..to,
+          range_interval: '+1MONTH',
+          minimum_count: -1
+
+        pivot :owned_by_location,
+          range: :per_month
+
+        paginate page: 1, per_page: 0
+      end
+
+      @columns = search.facet(:date_closure).rows.
+        map { |result| result.value.first.to_datetime.utc.iso8601(0) }
+
+      @data = search.pivot(:owned_by_location).rows.
+        map do |row|
+          # use instance to get this?
+          location = Location.
+            find_by({ location_code: row.result['value'].upcase }).
+            placename
+
+          counts = row.range(:date_closure).counts
+
+          { reporting_site: location }.merge(counts)
+        end
     end
 
     private
