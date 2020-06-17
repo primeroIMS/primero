@@ -323,7 +323,6 @@ module Api::V2
     end
 
     def client_satisfaction_rate
-
       search = Child.search do
         with :created_at, from..to
 
@@ -339,6 +338,35 @@ module Api::V2
         search.facet(:satisfaction_status).rows.first&.count || 0,
         search.total
       )
+    end
+
+    def supervisor_to_caseworker_ratio
+      case_worker_roles = [
+        "role-gbv-mobile-caseworker",
+        "role-gbv-caseworker"
+      ]
+      supervisor_roles = [
+        'role-gbv-case-management-supervisor' 
+      ]
+
+      search = User.search do
+        facet :role
+      end
+
+      supervisors = search.facet(:role).rows.
+        select { |row| supervisor_roles.include?(row.value) }.
+        map(&:count).
+        sum
+
+      case_workers = search.facet(:role).rows.
+        select { |row| case_worker_roles.include?(row.value) }.
+        map(&:count).
+        sum
+
+      ratio = (supervisors / case_workers).rationalize
+
+      @supervisors = ratio.numerator
+      @case_workers = ratio.denominator
     end
 
     private
