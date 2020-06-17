@@ -120,6 +120,20 @@ module Api::V2
     end
     
     def completed_case_safety_plans
+      search = Child.search do
+        with :status, Record::STATUS_OPEN
+        with :created_at, from..to
+        with :safety_plan_required, true
+
+        facet :completed_safety_plan, only: true
+      end
+
+      requiring_safety_plan = search.total
+      with_completed_safety_plans = search.
+        facet(:completed_safety_plan).rows.count
+
+      @completed_percentage =
+        with_completed_safety_plans / requiring_safety_plan.to_f
     end
 
     def completed_case_action_plans

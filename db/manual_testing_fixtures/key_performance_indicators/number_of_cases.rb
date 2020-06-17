@@ -6,7 +6,7 @@
 # * Users with locations
 # * Cases created by users with location
 
-require_relative './setup.rb')
+require_relative './setup.rb'
 
 # Create test cases
 Child.new_with_user(TEST_USER, {

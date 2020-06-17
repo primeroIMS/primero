@@ -55,7 +55,7 @@ class Child < ApplicationRecord
     :location_current, :tracing_status, :name_caregiver,
     :urgent_protection_concern, :child_preferences_section, :family_details_section,
     :duplicate, :location_current, :tracing_status, :name_caregiver,
-    :urgent_protection_concern, :survivor_assessment_form
+    :urgent_protection_concern, :survivor_assessment_form, :safety_plan
   )
 
   has_many :incidents, foreign_key: :incident_case_id
@@ -122,6 +122,8 @@ class Child < ApplicationRecord
     end
     boolean(:has_incidents) { incidents.size.positive? }
     boolean :completed_survivor_assessment, :completed_survivor_assessment
+    boolean :safety_plan_required
+    boolean :completed_safety_plan
   end
 
   validate :validate_date_of_birth
@@ -295,7 +297,38 @@ class Child < ApplicationRecord
       # we're assuming a single survivor_assessment_form here, theres no
       # definition for a completed assessment if a case has multiple
       # assessments completed.
-      all? { |field_name| !self.survivor_assessment_form.first[field_name].nil? }
+      all? { |field_name| !survivor_assessment_form.first[field_name].nil? }
+  end
+
+  def self.safety_plan_mandatory_fields
+    [
+      'safety_plan_needed',
+      'safety_plan_developed_with_survivor',
+      'safety_plan_completion_date',
+      'safety_plan_main_concern',
+      'safety_plan_preparedness_signal',
+      'safety_plan_preparedness_gathered_things'
+    ]
+  end
+
+  def requires_safety_plan?
+    return false unless respond_to?(:safety_plan)
+    return false if self.safety_plan.nil?
+    # This is a lot of concrete domain knowledge to need about a
+    # dynamic form. Should this by dynamic? Should the form be hard coded?
+    return safety_plan.first['safety_plan_needed'] == 'yes'
+  end
+  alias :safety_plan_required :requires_safety_plan?
+
+  def completed_safety_plan
+    return false unless respond_to?(:safety_plan)
+    return false if self.safety_plan.nil?
+
+    self.class.safety_plan_mandatory_fields.
+      # we're assuming a single safety_plan here, theres no
+      # definition for a completed plan if a case has multiple
+      # plans completed.
+      all? { |field_name| !safety_plan.first[field_name].nil? }
   end
 end
 # rubocop:enable Metrics/ClassLength
