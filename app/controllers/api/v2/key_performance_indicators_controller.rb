@@ -12,5 +12,8 @@ module Api::V2
 
     def number_of_incidents
     end
+
+    def reporting_delay
+    end
   end
 end
