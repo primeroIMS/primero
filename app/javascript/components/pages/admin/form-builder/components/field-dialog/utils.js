@@ -47,6 +47,31 @@ const getSelectedDateValue = (field, isSubmit) => {
   ).find(obj => obj[1] === field.selected_value)[0];
 };
 
+const appendSettingsAttributes = (
+  data,
+  selectedField,
+  newFieldName,
+  lastFieldOrder
+) => {
+  const type = selectedField.get("type");
+  const order = lastFieldOrder ? lastFieldOrder + 1 : 0;
+  const multiSelect = {
+    multi_select: Boolean(selectedField.get("multi_select"))
+  };
+  const dateIncludeTime = {
+    date_include_time: Boolean(selectedField.get("date_include_time"))
+  };
+
+  return {
+    ...data,
+    type,
+    name: newFieldName,
+    order,
+    ...multiSelect,
+    ...dateIncludeTime
+  };
+};
+
 export const getFormField = ({ field, i18n, mode, css, lookups }) => {
   if (!field?.toSeq()?.size) {
     return { forms: [], validationSchema: {} };
@@ -140,12 +165,13 @@ export const setSubformName = (field, subform) => {
 };
 
 export const buildDataToSave = (
-  fieldName,
+  selectedField,
   data,
-  type,
   locale,
   lastFieldOrder
 ) => {
+  const fieldName = selectedField?.get("name");
+
   if (fieldName !== NEW_FIELD) {
     return { [fieldName]: data };
   }
@@ -154,10 +180,15 @@ export const buildDataToSave = (
     .join("_")
     .toLowerCase();
 
-  const order = lastFieldOrder ? lastFieldOrder + 1 : 0;
+  const dataToSave = appendSettingsAttributes(
+    data,
+    selectedField,
+    newFieldName,
+    lastFieldOrder
+  );
 
   return {
-    [newFieldName]: { ...data, type, name: newFieldName, order }
+    [newFieldName]: dataToSave
   };
 };
 

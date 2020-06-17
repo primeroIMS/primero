@@ -38,21 +38,31 @@ import {
   TextInput,
   NumericInput,
   RadioInput,
-  SelectInput
+  SelectInput,
+  MultiSelectInput,
+  DateAndTimeInput
 } from "../../../../../../images/primero-icons";
 
 import styles from "./styles.css";
-import { NAME, CUSTOM_FIELD_SELECTOR_DIALOG } from "./constants";
+import {
+  CUSTOM_FIELD_SELECTOR_DIALOG,
+  DATE_TIME_FIELD,
+  NAME,
+  MULTI_SELECT_FIELD
+} from "./constants";
 
 const fields = [
   [TEXT_FIELD, TextInput],
   [TEXT_AREA, TextAreaInput],
   [TICK_FIELD, TickBoxInput],
-  [DATE_FIELD, DateInput],
-  [SEPARATOR, Seperator],
-  [NUMERIC_FIELD, NumericInput],
+  [SELECT_FIELD, SelectInput],
   [RADIO_FIELD, RadioInput],
-  [SELECT_FIELD, SelectInput]
+  [MULTI_SELECT_FIELD, MultiSelectInput],
+  [NUMERIC_FIELD, NumericInput],
+  [DATE_FIELD, DateInput],
+  [DATE_TIME_FIELD, DateAndTimeInput],
+  // [DATE_FIELD, DateRangeInput],
+  [SEPARATOR, Seperator]
   // [SUBFORM_SECTION, SubformField]
 ];
 
@@ -76,6 +86,22 @@ const Component = () => {
   const isItemSelected = item => selectedItem === item;
 
   const handleSelected = () => {
+    const newFieldAttributtes = {
+      name: NEW_FIELD,
+      type: selectedItem,
+      visible: true,
+      mobile_visible: true,
+      hide_on_view_page: false
+    };
+    const multiSelectAttributtes = selectedItem === MULTI_SELECT_FIELD && {
+      type: SELECT_FIELD,
+      multi_select: true
+    };
+    const dateTimeAttributtes = selectedItem === DATE_TIME_FIELD && {
+      type: DATE_FIELD,
+      date_include_time: true
+    };
+
     batch(() => {
       dispatch(
         setDialog({
@@ -91,11 +117,9 @@ const Component = () => {
       );
       dispatch(
         setNewField({
-          name: NEW_FIELD,
-          type: selectedItem,
-          visible: true,
-          mobile_visible: true,
-          hide_on_view_page: false
+          ...newFieldAttributtes,
+          ...multiSelectAttributtes,
+          ...dateTimeAttributtes
         })
       );
     });
