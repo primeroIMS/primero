@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Controller used to handle OpenId Connect redirect urls.
-# The expected route is 'v2/login/:id' where :id is actially the provider_type
+# The expected route is '/login/:id' where :id is actially the provider_type
 class LoginController < ApplicationController
   rescue_from ActionView::MissingTemplate do
     render_404
