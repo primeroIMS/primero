@@ -100,9 +100,23 @@ module Api::V2
     end
 
     def service_access_delay
+      # On hold until new forms UI / system is complete
     end
 
     def assessment_status
+      search = Child.search do
+        with :status, Record::STATUS_OPEN
+        with :created_at, from..to
+
+        facet :completed_survivor_assessment
+      end
+
+      number_of_cases = search.total
+      number_of_cases_with_completed_assessments = search.
+        facet(:completed_survivor_assessment).rows.count
+
+      @completed_percentage =
+        number_of_cases_with_completed_assessments / number_of_cases.to_f
     end
     
     def completed_case_safety_plans
