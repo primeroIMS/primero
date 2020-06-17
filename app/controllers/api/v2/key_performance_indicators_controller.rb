@@ -230,6 +230,43 @@ module Api::V2
       @average_meetings = search.stats(:number_of_meetings).mean || 0
     end
 
+    def goal_progress_per_need
+      search = Child.search do
+        with :status, Record::STATUS_OPEN
+        with :created_at, from..to
+
+        stats :safety_goals_progress,
+          :health_goals_progress,
+          :psychosocial_goals_progress,
+          :justice_goals_progress,
+          :other_goals_progress
+      end
+
+      # TODO: Translate these needs / goals
+      @data = [
+        {
+          need: I18n.t('key_performance_indicators.goal_progress_per_need.safety'),
+          percentage: search.stats(:safety_goals_progress).mean || 0
+        },
+        {
+          need: I18n.t('key_performance_indicators.goal_progress_per_need.health'),
+          percentage: search.stats(:health_goals_progress).mean || 0
+        },
+        {
+          need: I18n.t('key_performance_indicators.goal_progress_per_need.psychosocial'),
+          percentage: search.stats(:psychosocial_goals_progress).mean || 0
+        },
+        {
+          need: I18n.t('key_performance_indicators.goal_progress_per_need.justice'),
+          percentage: search.stats(:justice_goals_progress).mean || 0
+        },
+        {
+          need: I18n.t('key_performance_indicators.goal_progress_per_need.other'),
+          percentage: search.stats(:other_goals_progress).mean || 0
+        }
+      ]
+    end
+
     private
 
     # TODO: Add these to permitted params
