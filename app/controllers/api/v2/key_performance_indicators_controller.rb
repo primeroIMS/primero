@@ -208,25 +208,26 @@ module Api::V2
         with :created_at, from..to
 
         adjust_solr_params do |params|
-          params[:'fl'] = "referrals:termfreq(#{action_plan_referral_statuses}, #{referred})"
+          params[:stats] = true
+          params[:'stats.field'] = "{!func}termfreq(#{action_plan_referral_statuses}, #{referred})"
         end
       end
 
-      all_cases = search.total
-      # Sunspot doesn't handle custom named fields in field lists so I have
-      # to do some monkey patching.
-      all_referrals = search.
-        instance_variable_get(:@solr_result)['response']['docs'].
-        map { |doc| doc['referrals'] }.
-        reduce(&:+)
-
-      @average_referrals = nan_safe_divide(
-        all_referrals,
-        all_cases
-      )
+      @average_referrals = search.stats_response.first.last['mean']
     end
 
     def referrals_per_service
+    end
+
+    def average_followup_meetings_per_case
+      search = Child.search do
+        with :status, Record::STATUS_OPEN
+        with :created_at, from..to
+
+        stats :number_of_meetings
+      end
+
+      @average_number_of_meetings = search.stats(:number_of_meetings).mean
     end
 
     private
