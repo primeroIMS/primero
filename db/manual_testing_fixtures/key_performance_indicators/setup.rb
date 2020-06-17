@@ -1,3 +1,10 @@
+def sample_box_muller(lower, upper, mean, standard_deviation)
+  theta = 2 * Math::PI * rand()
+  rho = Math.sqrt(-2 * Math.log(1 - rand()))
+  scale = standard_deviation * rho
+  return [[lower, mean + scale * Math.cos(theta)].max, upper].min
+end
+
 def find_or_create_location(location_code, attributes)
   location = Location.find_or_initialize_by(location_code: location_code)
   location.update_attributes(attributes)
