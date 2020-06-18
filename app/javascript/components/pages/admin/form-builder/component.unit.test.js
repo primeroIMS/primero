@@ -64,28 +64,57 @@ describe("<FormsBuilder />", () => {
             formSections,
             FormSectionRecord,
             true
-          )
+          ),
+          selectedForm: FormSectionRecord(formSections)
         }
       }
     }
   });
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      FormsBuilder,
-      { mode: "new" },
-      initialState
-    ));
+  describe("when is a new form", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        FormsBuilder,
+        { mode: "new" },
+        initialState
+      ));
+    });
+
+    it("renders a enabled Settings Tab ", () => {
+      const settingsTab = component.find(Tab).first();
+
+      expect(settingsTab.text()).to.equal("forms.settings");
+      expect(settingsTab.props().disabled).to.be.undefined;
+    });
+
+    it("renders the Fields and Translations Tabs disabled", () => {
+      expect(component.find(Tab).at(1).props().disabled).to.be.true;
+      expect(component.find(Tab).at(2).props().disabled).to.be.true;
+    });
+
+    it("renders the Action Buttons", () => {
+      expect(component.find(FormBuilderActionButtons)).to.exist;
+    });
+
+    it("renders the CustomFieldDialog", () => {
+      expect(component.find(CustomFieldDialog)).to.exist;
+    });
   });
 
-  it("renders the Settings Tab", () => {
-    expect(component.find(Tab).first().text()).to.equal("forms.settings");
-  });
+  describe("when in edit mode", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        FormsBuilder,
+        { mode: "edit" },
+        initialState,
+        ["/admin/forms/1/edit"]
+      ));
+    });
 
-  it("renders the Action Buttons", () => {
-    expect(component.find(FormBuilderActionButtons)).to.exist;
-  });
-  it("renders the CustomFieldDialog", () => {
-    expect(component.find(CustomFieldDialog)).to.exist;
+    it("renders all tabs enabled ", () => {
+      expect(component.find(Tab).at(0).props().disabled).to.be.undefined;
+      expect(component.find(Tab).at(1).props().disabled).to.be.false;
+      expect(component.find(Tab).at(2).props().disabled).to.be.false;
+    });
   });
 });

@@ -18,11 +18,13 @@
 }
 
 .preview {
-  height: 100px;
+  max-width: 11em;
+  padding: 2em;
 }
 
 .buttonWrapper {
   position: relative;
+  margin: .5em 0;
 }
 
 .buttonProgress {

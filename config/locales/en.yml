@@ -1069,9 +1069,13 @@ en:
     name: "Agency Name"
     code: "Agency Code"
     services: "Agency Services"
+    agency_logos: "Agency Logos"
     logo_icon: "Icon Logo"
+    logo_icon_help: "This will appear on small screen sizes, tablets, and phones. This should be a square."
     logo_large: "Large Logo"
+    logo_large_help: "This will appear on large screen sizes. This should be a rectangle, with the length longer than the height."
     logo_enabled: "Logo Enabled?"
+    logo_enabled_help: "Display these logos on the Login page and Navigation menu."
     description: "Description"
     telephone: "Telephone"
     disabled: "Disabled"
@@ -2412,6 +2416,8 @@ en:
     options_indications_or: "or"
     options_indications_unique_val: "create unique values."
     options_indications_restrictions: "You cannot do both."
+    multi_select_box: "Multi-select"
+    date_time: "Date-Time"
 
     subform_section:
       name: "Subform Title"
