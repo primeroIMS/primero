@@ -12,9 +12,11 @@ describe("<RecordActions /> - Constants", () => {
       "ENABLED_FOR_ONE",
       "ENABLED_FOR_ONE_MANY",
       "ENABLED_FOR_ONE_MANY_ALL",
+      "INCIDENT_DIALOG",
       "REFER_DIALOG",
       "REQUEST_APPROVAL_DIALOG",
       "REQUEST_TYPE",
+      "SERVICE_DIALOG",
       "TRANSFER_DIALOG"
     ].forEach(property => {
       expect(constants).to.have.property(property);

@@ -29,7 +29,7 @@ import {
   fetchRole,
   saveRole
 } from "./action-creators";
-import { getRole, getLoading } from "./selectors";
+import { getRole } from "./selectors";
 import { NAME } from "./constants";
 
 const Container = ({ mode }) => {
@@ -41,7 +41,6 @@ const Container = ({ mode }) => {
   const { id } = useParams();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const loading = useSelector(state => getLoading(state));
   const roles = useSelector(
     state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]),
     compare

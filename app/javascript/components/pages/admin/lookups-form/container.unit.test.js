@@ -15,7 +15,7 @@ describe("<LookupsForm /> - container", () => {
       records: {
         admin: {
           lookups: {
-            selectedlookups: {
+            selectedLookup: {
               id: 1,
               name: "Test Lookup"
             }
