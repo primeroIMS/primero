@@ -15,7 +15,7 @@ const Component = ({ tabs }) => {
 
   const handleChange = (event, selectedTab) => setTab(selectedTab);
 
-  const rendeTab = () =>
+  const renderTab = () =>
     tabs.map(data => (
       <Tab
         label={data.name}
@@ -24,14 +24,17 @@ const Component = ({ tabs }) => {
       />
     ));
 
-  const rendeTabPanel = () =>
+  const renderFormSectionField = fieldData =>
+    fieldData.fields.map(field => (
+      <FormSectionField field={field} key={`fsf-${field.name}`} />
+    ));
+
+  const renderTabPanel = () =>
     tabs.map((data, index) => {
       return (
         <TabPanel tab={tab} index={index} key={`tab-panel-${data.name}`}>
-          <div className={css.tabContent}>
-            {data.fields.map(field => (
-              <FormSectionField field={field} key={field.name} />
-            ))}
+          <div className={css.tabContent} key={`div-${data.name}`}>
+            {renderFormSectionField(data)}
           </div>
         </TabPanel>
       );
@@ -40,9 +43,9 @@ const Component = ({ tabs }) => {
   return (
     <>
       <Tabs value={tab} onChange={handleChange} key="form-section-tabs">
-        {rendeTab()}
+        {renderTab()}
       </Tabs>
-      {rendeTabPanel()}
+      {renderTabPanel()}
     </>
   );
 };

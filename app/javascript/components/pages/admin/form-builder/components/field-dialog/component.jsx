@@ -31,6 +31,7 @@ import ClearButtons from "../clear-buttons";
 import { NEW_FIELD } from "../../constants";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
 import { getOptions } from "../../../../../record-form/selectors";
+import { getLabelTypeField } from "../utils";
 
 import styles from "./styles.css";
 import {
@@ -93,8 +94,6 @@ const Component = ({ mode, onClose, onSuccess }) => {
     }
   };
 
-  const typeField = selectedField.get("type");
-
   const editDialogTitle = isSubformField(selectedField)
     ? selectedSubform.getIn(["name", i18n.locale])
     : i18n.t("fields.edit_label");
@@ -102,7 +101,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const dialogTitle = formMode.get("isEdit")
     ? editDialogTitle
     : i18n.t("fields.add_field_type", {
-        file_type: i18n.t(`fields.${typeField}`)
+        file_type: i18n.t(`fields.${getLabelTypeField(selectedField)}`)
       });
 
   const confirmButtonLabel = formMode.get("isEdit")
@@ -152,9 +151,8 @@ const Component = ({ mode, onClose, onSuccess }) => {
     );
 
     const dataToSave = buildDataToSave(
-      selectedFieldName,
+      selectedField,
       fieldData,
-      typeField,
       i18n.locale,
       lastField?.get("order")
     );
