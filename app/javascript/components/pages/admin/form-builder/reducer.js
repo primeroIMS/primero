@@ -135,7 +135,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           .map(field =>
             field.set(
               "on_collapsed_subform",
-              subform.get("collapsed_field_names", fromJS([]))
+              subform
+                .get("collapsed_field_names", fromJS([]))
                 .includes(field.get("name"))
             )
           );
