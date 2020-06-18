@@ -50,7 +50,6 @@ class Header < ValueObject
   FLAG_COUNT = Header.new(name: 'flag_count', field_name: 'flag_count')
 
   class << self
-
     def get_headers(user, record_type)
       case record_type
       when 'case' then case_headers(user)
@@ -72,8 +71,8 @@ class Header < ValueObject
       header_list << CASE_OPENING_DATE if user.has_module?(PrimeroModule::GBV)
       header_list << PHOTO if user.has_module?(PrimeroModule::CP) && user.can?(:view_photo, Child)
       header_list << SOCIAL_WORKER if user.is_manager?
-      header_list << ALERT_COUNT if user.has_module?(PrimeroModule::CP)
-      header_list << FLAG_COUNT if user.has_module?(PrimeroModule::CP)
+      header_list << ALERT_COUNT if user.has_module?(PrimeroModule::CP) || user.has_module?(PrimeroModule::GBV)
+      header_list << FLAG_COUNT if user.has_module?(PrimeroModule::CP) || user.has_module?(PrimeroModule::GBV)
 
       header_list
     end
@@ -81,18 +80,22 @@ class Header < ValueObject
     def incident_headers(user)
       header_list = []
       header_list << SHORT_ID
+      header_list << DATE_OF_INCIDENT if user.has_module?(PrimeroModule::MRM)
+      header_list << SURVIVOR_CODE if !user.is_manager? && user.has_module?(PrimeroModule::GBV)
       header_list << DATE_OF_INTERVIEW if user.has_module?(PrimeroModule::GBV) || user.has_module?(PrimeroModule::CP)
       header_list << GBV_DATE_OF_INCIDENT if user.has_module?(PrimeroModule::GBV)
       header_list << GBV_VIOLENCE_TYPE if user.has_module?(PrimeroModule::GBV)
       header_list << CP_DATE_OF_INCIDENT if user.has_module?(PrimeroModule::CP)
       header_list << CP_VIOLENCE_TYPE if user.has_module?(PrimeroModule::CP)
       header_list << INCIDENT_LOCATION if user.has_module?(PrimeroModule::MRM)
-      header_list << VIOLATIONS if user.is_manager?
+      header_list << VIOLATIONS if user.has_module?(PrimeroModule::MRM)
+      header_list << SOCIAL_WORKER if user.is_manager?
+      header_list << FLAG_COUNT
       header_list
     end
 
     def tracing_request_headers
-      [SHORT_ID, NAME_OF_INQUIRER, DATE_OF_INQUIRY, TRACING_REQUESTS]
+      [SHORT_ID, NAME_OF_INQUIRER, DATE_OF_INQUIRY, TRACING_REQUESTS, FLAG_COUNT]
     end
 
     def report_headers
@@ -131,5 +134,4 @@ class Header < ValueObject
   def inspect
     "Header(name: #{name}, field_name: #{field_name})"
   end
-
 end
