@@ -2,7 +2,12 @@
 
 import { format } from "date-fns";
 
-import { CONSTRAINTS, DATE_CONSTRAINTS, FILTERS_FIELD } from "../../constants";
+import {
+  CONSTRAINTS,
+  DATE_CONSTRAINTS,
+  FILTERS_FIELD,
+  NOT_NULL
+} from "../../constants";
 import { DATE_FORMAT } from "../../../../config";
 import {
   TICK_FIELD,
@@ -50,7 +55,7 @@ export const formatValue = (value, i18n, { field, lookups }) => {
     [SELECT_FIELD, RADIO_FIELD].includes(field.type) &&
     Array.isArray(value)
   ) {
-    if (value.includes("not_null")) {
+    if (value.includes(NOT_NULL)) {
       return [];
     }
 
@@ -86,7 +91,7 @@ export const getConstraintLabel = (data, field, i18n) => {
 
   if (
     (typeof constraint === "boolean" && constraint) ||
-    (Array.isArray(value) && value.includes("not_null"))
+    (Array.isArray(value) && value.includes(NOT_NULL))
   ) {
     return i18n.t(CONSTRAINTS.not_null);
   }

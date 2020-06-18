@@ -14,6 +14,7 @@ import {
   RADIO_FIELD,
   TICK_FIELD
 } from "../../../form";
+import { NOT_NULL } from "../../constants";
 
 import { ATTRIBUTE, CONSTRAINT, NAME, VALUE } from "./constants";
 import styles from "./styles.css";
@@ -46,7 +47,7 @@ const Component = ({
   ).includes(ATTRIBUTE);
 
   const isConstraintNotNullOrTrue =
-    watchedConstraint === "not_null" ||
+    watchedConstraint === NOT_NULL ||
     (typeof watchedConstraint === "boolean" && watchedConstraint);
 
   const currentField = fields.find(f => f.id === watchedAttribute);
@@ -85,12 +86,12 @@ const Component = ({
         constraint:
           [SELECT_FIELD, TICK_FIELD, RADIO_FIELD].includes(type) &&
           Array.isArray(selectedReportFilter?.constraint) &&
-          selectedReportFilter?.constraint?.includes("not_null")
+          selectedReportFilter?.constraint?.includes(NOT_NULL)
             ? true
             : selectedReportFilter?.constraint,
         values:
           Array.isArray(selectedReportFilter?.value) &&
-          selectedReportFilter?.value.includes("not_null")
+          selectedReportFilter?.value.includes(NOT_NULL)
             ? []
             : selectedReportFilter?.value
       });
@@ -109,13 +110,12 @@ const Component = ({
           attribute: formMethods.getValues()[ATTRIBUTE],
           constraint: isNew
             ? false
-            : (Array.isArray(filterValue) &&
-                filterValue.includes("not_null")) ||
+            : (Array.isArray(filterValue) && filterValue.includes(NOT_NULL)) ||
               formMethods.getValues()[CONSTRAINT],
           value:
             // eslint-disable-next-line no-nested-ternary
             isNew ||
-            (Array.isArray(filterValue) && filterValue.includes("not_null")) ||
+            (Array.isArray(filterValue) && filterValue.includes(NOT_NULL)) ||
             isAttributeTouched
               ? []
               : formMethods.getValues()[VALUE]

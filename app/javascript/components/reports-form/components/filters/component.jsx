@@ -10,7 +10,7 @@ import isEmpty from "lodash/isEmpty";
 import { useI18n } from "../../../i18n";
 import { DATE_FIELD } from "../../../form";
 import FiltersDialog from "../filters-dialog";
-import { MODULES_FIELD, RECORD_TYPE_FIELD } from "../../constants";
+import { MODULES_FIELD, NOT_NULL, RECORD_TYPE_FIELD } from "../../constants";
 import { formattedFields } from "../../utils";
 import { compare, dataToJS } from "../../../../libs";
 import { getOptions } from "../../../record-form/selectors";
@@ -48,7 +48,7 @@ const Container = ({
 
     if (
       [DATE_FIELD, NUMERIC_FIELD].includes(currentField.type) &&
-      currentReportFilter.constraint === "not_null"
+      currentReportFilter.constraint === NOT_NULL
     ) {
       data.value = "";
     }
@@ -59,7 +59,7 @@ const Container = ({
       currentReportFilter.constraint
     ) {
       data.constraint = false;
-      data.value = ["not_null"];
+      data.value = [NOT_NULL];
     }
 
     if (Object.is(index, null)) {

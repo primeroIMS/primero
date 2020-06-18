@@ -1,4 +1,5 @@
 import { SELECT_FIELD, TICK_FIELD, DATE_FIELD } from "../../../form";
+import { NOT_NULL } from "../../constants";
 
 import * as utils from "./utils";
 
@@ -72,7 +73,7 @@ describe("<ReportFilters /> - utils", () => {
       };
 
       it("should return an empty array if value includes not_null", () => {
-        const value = ["not_null"];
+        const value = [NOT_NULL];
 
         expect(
           utils.formatValue(value, i18n, {
@@ -133,7 +134,7 @@ describe("<ReportFilters /> - utils", () => {
 
     it("should return not_blank when value is an array an contains not_null value", () => {
       const data = {
-        value: ["not_null"],
+        value: [NOT_NULL],
         constraint: false,
         attribute: "test"
       };
