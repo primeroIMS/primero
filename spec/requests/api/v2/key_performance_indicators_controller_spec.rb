@@ -5,7 +5,10 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
     it 'renders test data appropriately' do
       login_for_test
 
-      get '/api/v2/key_performance_indicators/number_of_cases'
+      get '/api/v2/key_performance_indicators/number_of_cases', params: {
+        from: Date.today - 30,
+        to: Date.today
+      }
 
       expect(response).to have_http_status(200)
     end
