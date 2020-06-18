@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/exhaustive-deps, no-param-reassign */
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
@@ -33,7 +33,8 @@ const Component = ({
   bypassInitialFetch,
   selectedRecords,
   setSelectedRecords,
-  localizedFields
+  localizedFields,
+  showCustomToolbar
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -177,14 +178,10 @@ const Component = ({
     }
   }
 
-  const handleTableChange = (action, tableState) => {
-    const options = { ...defaultFilters.merge(filters).toJS() };
-    const validActions = ["sort", "changeRowsPerPage", "changePage"];
-    const { activeColumn, columns: tableColumns, rowsPerPage } = tableState;
+  const selectedFilters = (options, action, tableState) => {
+    const { activeColumn, columns: tableColumns } = tableState;
 
-    options.per = rowsPerPage;
-
-    const selectedFilters = {
+    return {
       ...options,
       ...(() => {
         switch (action) {
@@ -214,11 +211,26 @@ const Component = ({
         }
       })()
     };
+  };
+
+  const handleTableChange = (action, tableState) => {
+    const options = { ...defaultFilters.merge(filters).toJS() };
+    const validActions = ["sort", "changeRowsPerPage", "changePage"];
+    const { rowsPerPage } = tableState;
+
+    options.per = rowsPerPage;
 
     if (validActions.includes(action)) {
-      dispatch(onTableChange({ recordType, data: selectedFilters }));
+      dispatch(
+        onTableChange({
+          recordType,
+          data: selectedFilters(options, action, tableState)
+        })
+      );
     }
   };
+
+  const rowsPerPageOptions = [20, 50, 75, 100];
 
   const currentPage = page - 1;
 
@@ -228,7 +240,7 @@ const Component = ({
     selectedRecords[currentPage];
 
   // eslint-disable-next-line react/no-multi-comp, react/display-name
-  const custonToolbarSelect = (selectedRows, displayData) => (
+  const customToolbarSelect = (selectedRows, displayData) => (
     <CustomToolbarSelect
       displayData={displayData}
       recordType={recordType}
@@ -237,6 +249,10 @@ const Component = ({
       selectedRows={selectedRows}
       setSelectedRecords={setSelectedRecords}
       totalRecords={total}
+      page={page}
+      fetchRecords={onTableChange}
+      selectedFilters={selectedFilters}
+      rowsPerPageOptions={rowsPerPageOptions}
     />
   );
 
@@ -246,7 +262,7 @@ const Component = ({
     rowsPerPage: per,
     rowHover: true,
     filterType: "checkbox",
-    fixedHeader: false,
+    fixedHeader: true,
     elevation: 3,
     filter: false,
     download: false,
@@ -254,7 +270,7 @@ const Component = ({
     print: false,
     viewColumns: false,
     serverSide: true,
-    customToolbar: () => null,
+    customToolbar: showCustomToolbar && customToolbarSelect,
     selectableRows: "multiple",
     rowsSelected: selectedRecordsOnCurrentPage?.length
       ? selectedRecordsOnCurrentPage
@@ -266,7 +282,7 @@ const Component = ({
     },
     onColumnSortChange: () => selectedRecords && setSelectedRecords({}),
     onTableChange: handleTableChange,
-    rowsPerPageOptions: [20, 50, 75, 100],
+    rowsPerPageOptions,
     page: currentPage,
     onCellClick: (colData, cellMeta) => {
       const { dataIndex } = cellMeta;
@@ -279,7 +295,7 @@ const Component = ({
         }
       }
     },
-    customToolbarSelect: custonToolbarSelect,
+    customToolbarSelect,
     ...tableOptionsProps
   };
 
@@ -333,7 +349,8 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.defaultProps = {
-  bypassInitialFetch: false
+  bypassInitialFetch: false,
+  showCustomToolbar: false
 };
 
 Component.propTypes = {
@@ -347,6 +364,7 @@ Component.propTypes = {
   recordType: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   selectedRecords: PropTypes.object,
   setSelectedRecords: PropTypes.func,
+  showCustomToolbar: PropTypes.bool,
   targetRecordType: PropTypes.string
 };
 
