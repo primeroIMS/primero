@@ -4,7 +4,7 @@ import { makeStyles, Tab, Tabs } from "@material-ui/core";
 import { FormContext, useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import LoadingIndicator from "../../../loading-indicator";
@@ -17,7 +17,6 @@ import { compare } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
-import { setDialog } from "../../../record-actions/action-creators";
 
 import CustomFieldDialog from "./components/custom-field-dialog";
 import {
@@ -40,7 +39,6 @@ import {
 import { convertToFieldsArray, convertToFieldsObject } from "./utils";
 import styles from "./styles.css";
 import { transformValues } from "./components/field-dialog/utils";
-import { CUSTOM_FIELD_SELECTOR_DIALOG } from "./components/custom-field-selector-dialog/constants";
 
 const Component = ({ mode }) => {
   const css = makeStyles(styles)();
@@ -81,29 +79,21 @@ const Component = ({ mode }) => {
     selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
 
   const onSubmit = data => {
-    batch(() => {
-      dispatch(
-        saveForm({
-          id,
-          saveMethod: formMode.get("isEdit")
-            ? SAVE_METHODS.update
-            : SAVE_METHODS.new,
-          body: {
-            data: { ...data, fields: convertToFieldsArray(data.fields) }
-          },
-          message: i18n.t(
-            `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-          ),
-          subforms: selectedSubforms.toJS()
-        })
-      );
-    });
-  };
-
-  const onClose = () => {
-    if (selectedField.get("name") === NEW_FIELD) {
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
-    }
+    dispatch(
+      saveForm({
+        id,
+        saveMethod: formMode.get("isEdit")
+          ? SAVE_METHODS.update
+          : SAVE_METHODS.new,
+        body: {
+          data: { ...data, fields: convertToFieldsArray(data.fields || {}) }
+        },
+        message: i18n.t(
+          `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
+        ),
+        subforms: selectedSubforms.toJS()
+      })
+    );
   };
 
   useEffect(() => {
@@ -122,11 +112,16 @@ const Component = ({ mode }) => {
           }
         }
       });
+
+      if (formMode.get("isNew")) {
+        dispatch(push(`${ROUTES.forms}/${updatedFormIds.first()}/edit`));
+      }
     }
   }, [updatedFormIds]);
 
   useEffect(() => {
     dispatch(fetchForms());
+    dispatch(clearSelectedForm());
   }, []);
 
   useEffect(() => {
@@ -179,7 +174,8 @@ const Component = ({ mode }) => {
   return (
     <LoadingIndicator
       hasData={
-        formMode.get("isNew") || (formMode.get("isEdit") && selectedForm?.size)
+        formMode.get("isNew") ||
+        (formMode.get("isEdit") && selectedForm?.toSeq()?.size)
       }
       loading={isLoading}
       type={NAMESPACE}
@@ -202,8 +198,16 @@ const Component = ({ mode }) => {
           <form>
             <Tabs value={tab} onChange={handleChange}>
               <Tab label={i18n.t("forms.settings")} />
-              <Tab label={i18n.t("forms.fields")} />
-              <Tab label={i18n.t("forms.translations")} />
+              <Tab
+                className={css.tabHeader}
+                label={i18n.t("forms.fields")}
+                disabled={formMode.get("isNew")}
+              />
+              <Tab
+                className={css.tabHeader}
+                label={i18n.t("forms.translations")}
+                disabled={formMode.get("isNew")}
+              />
             </Tabs>
             <TabPanel tab={tab} index={0}>
               <div className={css.tabContent}>
@@ -221,11 +225,7 @@ const Component = ({ mode }) => {
                 <CustomFieldDialog />
               </div>
               <FieldsList />
-              <FieldDialog
-                mode={modeForFieldDialog}
-                onClose={onClose}
-                onSuccess={onSuccess}
-              />
+              <FieldDialog mode={modeForFieldDialog} onSuccess={onSuccess} />
             </TabPanel>
             <TabPanel tab={tab} index={2}>
               Item Three

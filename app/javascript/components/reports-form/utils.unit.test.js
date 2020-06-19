@@ -11,10 +11,12 @@ describe("<IndexFilters /> - Utils", () => {
       [
         "buildFields",
         "buildReportFields",
+        "checkValue",
         "dependantFields",
         "formatAgeRange",
-        "getFormName",
-        "formatReport"
+        "formatReport",
+        "formattedFields",
+        "getFormName"
       ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
@@ -30,7 +32,11 @@ describe("<IndexFilters /> - Utils", () => {
         {
           id: "test_1",
           display_text: "Test 1",
-          formSection: "testForm"
+          formSection: "testForm",
+          option_strings_source: undefined,
+          option_strings_text: undefined,
+          tick_box_label: undefined,
+          type: "date_field"
         }
       ];
 
@@ -43,7 +49,7 @@ describe("<IndexFilters /> - Utils", () => {
                 en: "Test 1"
               },
               name: "test_1",
-              type: "text_field",
+              type: "date_field",
               visible: true
             }
           ]
@@ -122,6 +128,59 @@ describe("<IndexFilters /> - Utils", () => {
       expect(
         utils.buildReportFields(["test"], REPORT_FIELD_TYPES.horizontal)
       ).to.deep.equal(expected);
+    });
+  });
+
+  describe("formatReport()", () => {
+    const report = {
+      name: "test",
+      description: null,
+      fields: [
+        {
+          name: "test_1",
+          position: {
+            type: "horizontal"
+          }
+        },
+        {
+          name: "test_2",
+          position: {
+            type: "vertical"
+          }
+        }
+      ]
+    };
+
+    it("should return empty string for description if report doesn't have one", () => {
+      expect(utils.formatReport(report).description).to.be.empty;
+    });
+
+    it("should return aggregate_by key with an array of fields with 'horizontal' type ", () => {
+      expect(utils.formatReport(report).aggregate_by).to.deep.equal(["test_1"]);
+    });
+
+    it("should return disaggregate_by key with an array of fields with 'horizontal' type ", () => {
+      expect(utils.formatReport(report).disaggregate_by).to.deep.equal([
+        "test_2"
+      ]);
+    });
+  });
+
+  describe("checkValue()", () => {
+    it("should return a formatted date string", () => {
+      const filter = {
+        value: new Date("01/01/2020")
+      };
+
+      expect(utils.checkValue(filter)).to.be.equals("01-Jan-2020");
+    });
+
+    it("should return a string", () => {
+      const filter = {
+        value: "test"
+      };
+
+      expect(utils.checkValue(filter)).to.be.equals("test");
     });
   });
 });

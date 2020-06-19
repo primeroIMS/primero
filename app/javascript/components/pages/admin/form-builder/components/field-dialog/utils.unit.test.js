@@ -1,6 +1,12 @@
 import { fromJS } from "immutable";
 
-import { SEPARATOR, TEXT_FIELD, TICK_FIELD } from "../../../../../form";
+import {
+  SEPARATOR,
+  TEXT_FIELD,
+  TICK_FIELD,
+  SELECT_FIELD,
+  DATE_FIELD
+} from "../../../../../form";
 import { NEW_FIELD } from "../../constants";
 
 import * as utils from "./utils";
@@ -81,7 +87,11 @@ describe("addWithIndex", () => {
 
 describe("buildDataToSave", () => {
   it("should set the data for update", () => {
-    const fieldName = "referral_person_phone";
+    const selectedField = fromJS({
+      name: "referral_person_phone",
+      type: TEXT_FIELD
+    });
+    const fieldName = selectedField.get("name");
     const data = {
       referral_person_phone: {
         display_name: { en: "Contact Number aj" },
@@ -95,10 +105,10 @@ describe("buildDataToSave", () => {
     };
 
     expect(
-      utils.buildDataToSave(fieldName, data[fieldName], TEXT_FIELD, "en")
+      utils.buildDataToSave(selectedField, data[fieldName], "en")
     ).to.deep.equals(data);
   });
-  it("should set the data for create", () => {
+  describe("when its a new field", () => {
     const objectData = {
       display_name: { en: "test field" },
       guiding_questions: { en: "" },
@@ -106,13 +116,87 @@ describe("buildDataToSave", () => {
       mobile_visible: true,
       required: false,
       show_on_minify_form: false,
-      visible: true
+      visible: true,
+      multi_select: false,
+      date_include_time: false
     };
 
-    expect(
-      utils.buildDataToSave(NEW_FIELD, objectData, TEXT_FIELD, "en")
-    ).to.deep.equals({
-      test_field: { ...objectData, type: TEXT_FIELD, name: "test_field" }
+    it("should set the data for create", () => {
+      const selectedField = fromJS({ name: NEW_FIELD, type: TEXT_FIELD });
+
+      expect(
+        utils.buildDataToSave(selectedField, objectData, "en", 1)
+      ).to.deep.equals({
+        test_field: {
+          ...objectData,
+          type: TEXT_FIELD,
+          name: "test_field",
+          order: 2
+        }
+      });
     });
+
+    it("should set the data for create SELECT_FIELD", () => {
+      const selectedField = fromJS({
+        name: NEW_FIELD,
+        type: SELECT_FIELD,
+        multi_select: true
+      });
+      const objectDataSelectField = {
+        ...objectData,
+        multi_select: true
+      };
+
+      expect(
+        utils.buildDataToSave(selectedField, objectDataSelectField, "en", 1)
+      ).to.deep.equals({
+        test_field: {
+          ...objectDataSelectField,
+          type: SELECT_FIELD,
+          name: "test_field",
+          order: 2
+        }
+      });
+    });
+
+    it("should set the data for create DATE_FIELD", () => {
+      const selectedField = fromJS({
+        name: NEW_FIELD,
+        type: DATE_FIELD,
+        date_include_time: true
+      });
+
+      const objectDataDateTimeField = {
+        ...objectData,
+        date_include_time: true
+      };
+
+      expect(
+        utils.buildDataToSave(selectedField, objectDataDateTimeField, "en", 1)
+      ).to.deep.equals({
+        test_field: {
+          ...objectDataDateTimeField,
+          type: DATE_FIELD,
+          name: "test_field",
+          order: 2
+        }
+      });
+    });
+  });
+});
+
+describe("subformContainsFieldName", () => {
+  const subform = fromJS({
+    id: 1,
+    unique_id: "subform_1",
+    fields: [{ id: 1, name: "field_1" }]
+  });
+
+  it("return false if the subform does not have the field name", () => {
+    expect(utils.subformContainsFieldName(subform, "field_2")).to.be.false;
+  });
+
+  it("return true if the subform does not have the field name", () => {
+    expect(utils.subformContainsFieldName(subform, "field_1")).to.be.true;
   });
 });

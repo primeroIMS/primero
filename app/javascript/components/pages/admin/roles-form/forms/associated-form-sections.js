@@ -15,7 +15,8 @@ export default (formSections, i18n) =>
   ].map(recordType =>
     FormSectionRecord({
       unique_id: `associated_form_sections_${recordType}`,
-      name: i18n.t(`permissions.permission.${recordType}`),
+      name: i18n.t(`permissions.resource.forms.${recordType}.label`),
+      tooltip: i18n.t(`permissions.resource.forms.${recordType}.explanation`),
       expandable: true,
       expanded: true,
       fields: [

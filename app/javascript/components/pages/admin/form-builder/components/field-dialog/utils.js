@@ -47,20 +47,45 @@ const getSelectedDateValue = (field, isSubmit) => {
   ).find(obj => obj[1] === field.selected_value)[0];
 };
 
-export const getFormField = ({ field, i18n, mode, css }) => {
-  if (!field?.size) {
+const appendSettingsAttributes = (
+  data,
+  selectedField,
+  newFieldName,
+  lastFieldOrder
+) => {
+  const type = selectedField.get("type");
+  const order = lastFieldOrder ? lastFieldOrder + 1 : 0;
+  const multiSelect = {
+    multi_select: Boolean(selectedField.get("multi_select"))
+  };
+  const dateIncludeTime = {
+    date_include_time: Boolean(selectedField.get("date_include_time"))
+  };
+
+  return {
+    ...data,
+    type,
+    name: newFieldName,
+    order,
+    ...multiSelect,
+    ...dateIncludeTime
+  };
+};
+
+export const getFormField = ({ field, i18n, mode, css, lookups }) => {
+  if (!field?.toSeq()?.size) {
     return { forms: [], validationSchema: {} };
   }
 
-  const type = field.get("type");
-  const name = field.get("name");
+  const type = field?.get("type");
+  const name = field?.get("name");
 
   switch (type) {
     case DATE_FIELD:
       return dateFieldForm(field, i18n, css, mode);
     case RADIO_FIELD:
     case SELECT_FIELD:
-      return selectFieldForm({ field, i18n, mode });
+      return selectFieldForm({ field, i18n, mode, lookups, css });
     case SEPARATOR:
       return separatorFieldForm(name, i18n, mode);
     case SUBFORM_SECTION:
@@ -139,7 +164,14 @@ export const setSubformName = (field, subform) => {
   return field;
 };
 
-export const buildDataToSave = (fieldName, data, type, locale) => {
+export const buildDataToSave = (
+  selectedField,
+  data,
+  locale,
+  lastFieldOrder
+) => {
+  const fieldName = selectedField?.get("name");
+
   if (fieldName !== NEW_FIELD) {
     return { [fieldName]: data };
   }
@@ -148,7 +180,27 @@ export const buildDataToSave = (fieldName, data, type, locale) => {
     .join("_")
     .toLowerCase();
 
+  const dataToSave = appendSettingsAttributes(
+    data,
+    selectedField,
+    newFieldName,
+    lastFieldOrder
+  );
+
   return {
-    [newFieldName]: { ...data, type, name: newFieldName }
+    [newFieldName]: dataToSave
   };
+};
+
+export const subformContainsFieldName = (subform, fieldName) => {
+  if (!subform?.toSeq()?.size) {
+    return false;
+  }
+
+  return Boolean(
+    subform
+      ?.get("fields")
+      .find(field => field.get("name") === fieldName)
+      ?.toSeq()?.size
+  );
 };

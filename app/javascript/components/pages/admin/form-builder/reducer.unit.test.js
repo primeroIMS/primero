@@ -94,7 +94,8 @@ describe("<FormsBuilder /> - Reducers", () => {
     const expected = fromJS({
       selectedForm: {},
       errors: false,
-      serverErrors: []
+      serverErrors: [],
+      selectedFields: []
     });
 
     const action = {
@@ -102,6 +103,54 @@ describe("<FormsBuilder /> - Reducers", () => {
     };
 
     const newState = reducer(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle CLEAR_SELECTED_SUBFORM", () => {
+    const stateWithSubform = fromJS({
+      selectedSubform: { id: 1, unique_id: "subform_1" }
+    });
+
+    const expected = fromJS({});
+
+    const action = {
+      type: actions.CLEAR_SELECTED_SUBFORM
+    };
+
+    const newState = reducer(stateWithSubform, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle CLEAR_SELECTED_FIELD", () => {
+    const stateWithField = fromJS({
+      selectedField: { id: 1, name: "field_1" }
+    });
+
+    const expected = fromJS({});
+
+    const action = {
+      type: actions.CLEAR_SELECTED_FIELD
+    };
+
+    const newState = reducer(stateWithField, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle CLEAR_SELECTED_SUBFORM_FIELD", () => {
+    const stateWithSubformField = fromJS({
+      selectedSubformField: { id: 1, name: "subform_field_1" }
+    });
+
+    const expected = fromJS({});
+
+    const action = {
+      type: actions.CLEAR_SELECTED_SUBFORM_FIELD
+    };
+
+    const newState = reducer(stateWithSubformField, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -309,7 +358,7 @@ describe("<FormsBuilder /> - Reducers", () => {
   });
 
   describe("SET_SELECTED_SUBFORM", () => {
-    const selectedSubformField = {
+    const selectedSubform = {
       id: 4,
       unique_id: "form_4",
       fields: [
@@ -328,7 +377,7 @@ describe("<FormsBuilder /> - Reducers", () => {
         "2": { id: 2, name: "field_2" },
         "3": { id: 3, name: "field_3" }
       },
-      selectedSubforms: [selectedSubformField]
+      subforms: [selectedSubform]
     });
 
     describe("when there are no selected subforms", () => {
@@ -348,16 +397,16 @@ describe("<FormsBuilder /> - Reducers", () => {
 
         const newState = reducer(stateWithData, action);
 
-        expect(newState.get("selectedFieldSubform")).to.deep.equal(expected);
-        expect(newState.get("selectedSubforms")).to.deep.equal(
-          fromJS([selectedSubformField, expected])
+        expect(newState.get("selectedSubform")).to.deep.equal(expected);
+        expect(newState.get("subforms")).to.deep.equal(
+          fromJS([selectedSubform, expected])
         );
       });
     });
 
     describe("when there are selected subforms", () => {
       it("returns the selected subform it is not added to the array", () => {
-        const expected = fromJS(selectedSubformField);
+        const expected = fromJS(selectedSubform);
         const action = {
           type: actions.SET_SELECTED_SUBFORM,
           payload: { id: 4 }
@@ -365,11 +414,33 @@ describe("<FormsBuilder /> - Reducers", () => {
 
         const newState = reducer(stateWithData, action);
 
-        expect(newState.get("selectedFieldSubform")).to.deep.equal(expected);
-        expect(newState.get("selectedSubforms")).to.deep.equal(
-          fromJS([expected])
-        );
+        expect(newState.get("selectedSubform")).to.deep.equal(expected);
+        expect(newState.get("subforms")).to.deep.equal(fromJS([expected]));
       });
+    });
+  });
+
+  describe("SET_SELECTED_SUBFORM_FIELD", () => {
+    const field2 = { id: 2, name: "field_2" };
+    const stateWithData = fromJS({
+      selectedSubform: {
+        id: 1,
+        unique_id: "form_1",
+        fields: [{ id: 1, name: "field_1" }, field2]
+      }
+    });
+
+    it("returns the correct subform field", () => {
+      const action = {
+        type: actions.SET_SELECTED_SUBFORM_FIELD,
+        payload: { name: "field_2" }
+      };
+
+      const newState = reducer(stateWithData, action);
+
+      expect(newState.get("selectedSubformField")).to.deep.equal(
+        fromJS(field2)
+      );
     });
   });
 
@@ -379,7 +450,12 @@ describe("<FormsBuilder /> - Reducers", () => {
         selectedFields: [
           { id: "1", name: "field_1", display_name: { en: "Updated Field 1" } },
           { id: "2", name: "field_2", display_name: { en: "Field 2" } }
-        ]
+        ],
+        selectedField: {
+          id: "1",
+          name: "field_1",
+          display_name: { en: "Updated Field 1" }
+        }
       });
       const currentState = fromJS({
         selectedFields: [
@@ -402,7 +478,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
   describe("UPDATE_SELECTED_SUBFORM", () => {
     it("updates the subform properties and fields", () => {
-      const selectedFieldSubform = {
+      const selectedSubform = {
         id: 1,
         unique_id: "form_1",
         name: { en: "Form Section 1" },
@@ -412,27 +488,27 @@ describe("<FormsBuilder /> - Reducers", () => {
         ]
       };
 
-      const expected = fromJS({
-        selectedSubforms: [
+      const updatedSubform = {
+        ...selectedSubform,
+        name: { en: "Updated Form Section 1 " },
+        fields: [
           {
-            ...selectedFieldSubform,
-            name: { en: "Updated Form Section 1 " },
-            fields: [
-              {
-                id: 1,
-                name: "field_1",
-                display_name: { en: "Updated Field 1" }
-              },
-              { id: 2, name: "field_2", display_name: { en: "Field 2" } }
-            ]
-          }
-        ],
-        selectedFieldSubform
+            id: 1,
+            name: "field_1",
+            display_name: { en: "Updated Field 1" }
+          },
+          { id: 2, name: "field_2", display_name: { en: "Field 2" } }
+        ]
+      };
+
+      const expected = fromJS({
+        subforms: [updatedSubform],
+        selectedSubform: updatedSubform
       });
 
       const currentState = fromJS({
-        selectedSubforms: [selectedFieldSubform],
-        selectedFieldSubform
+        subforms: [selectedSubform],
+        selectedSubform
       });
 
       const action = {

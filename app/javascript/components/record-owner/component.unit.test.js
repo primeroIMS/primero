@@ -4,6 +4,7 @@ import { Form } from "formik";
 import { setupMountedComponent } from "../../test";
 import { RESOURCES } from "../../libs/permissions";
 import { FormSectionField } from "../record-form";
+import SearchableSelect from "../searchable-select";
 
 import RecordOwner from "./component";
 
@@ -24,7 +25,8 @@ describe("<RecordOwner />", () => {
     registration_date: "2020-01-06",
     sex: "male",
     short_id: "3c9d076",
-    status: "open"
+    status: "open",
+    owned_by_agency_id: 1
   });
 
   const rootProps = {
@@ -32,16 +34,27 @@ describe("<RecordOwner />", () => {
     recordType: RESOURCES.cases
   };
 
-  const rootInitialState = Map({
-    records: fromJS({
+  const rootInitialState = fromJS({
+    records: {
       cases: {
         data: [record]
       }
-    }),
-    forms: fromJS({
+    },
+    forms: {
       selectedForm: "record_owner",
       selectedRecord: "1d8d84eb-25e3-4d8b-8c32-8452eee3e71c"
-    })
+    },
+    application: {
+      agencies: [
+        {
+          id: 1,
+          unique_id: "agency-unicef",
+          name: "UNICEF",
+          services: [],
+          disabled: false
+        }
+      ]
+    }
   });
 
   beforeEach(() => {
@@ -55,6 +68,9 @@ describe("<RecordOwner />", () => {
   it("renders a RecordOwner component and its fields/>", () => {
     expect(component.find(RecordOwner)).to.have.lengthOf(1);
     expect(component.find(FormSectionField)).to.have.lengthOf(12);
+    expect(
+      component.find(SearchableSelect).at(0).find("p").at(0).text()
+    ).to.equal("UNICEF");
   });
 
   it("renders Form", () => {

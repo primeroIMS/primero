@@ -20,9 +20,14 @@ export const setSelectedSubform = id => ({
   payload: { id }
 });
 
-export const updateSelectedField = data => ({
+export const setSelectedSubformField = name => ({
+  type: actions.SET_SELECTED_SUBFORM_FIELD,
+  payload: { name }
+});
+
+export const updateSelectedField = (data, subformId = null) => ({
   type: actions.UPDATE_SELECTED_FIELD,
-  payload: { data }
+  payload: { data, subformId }
 });
 
 export const updateSelectedSubform = data => ({
@@ -59,18 +64,28 @@ export const saveForm = ({ id, body, saveMethod, subforms = [] }) => {
   };
 };
 
-export const clearSelectedForm = () => {
-  return {
-    type: actions.CLEAR_SELECTED_FORM
-  };
-};
-
-export const setNewField = (name, type) => ({
+export const setNewField = data => ({
   type: actions.SET_NEW_FIELD,
-  payload: { name, type }
+  payload: data
 });
 
 export const createSelectedField = data => ({
   type: actions.CREATE_SELECTED_FIELD,
   payload: { data }
+});
+
+export const clearSelectedForm = () => ({
+  type: actions.CLEAR_SELECTED_FORM
+});
+
+export const clearSelectedSubform = () => ({
+  type: actions.CLEAR_SELECTED_SUBFORM
+});
+
+export const clearSelectedField = () => ({
+  type: actions.CLEAR_SELECTED_FIELD
+});
+
+export const clearSelectedSubformField = () => ({
+  type: actions.CLEAR_SELECTED_SUBFORM_FIELD
 });

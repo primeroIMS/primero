@@ -9,7 +9,10 @@ describe("<FormsBuilder /> - Action Creators", () => {
     const creators = { ...actionCreators };
 
     [
+      "clearSelectedField",
       "clearSelectedForm",
+      "clearSelectedSubform",
+      "clearSelectedSubformField",
       "createSelectedField",
       "fetchForm",
       "reorderFields",
@@ -17,6 +20,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       "setNewField",
       "setSelectedField",
       "setSelectedSubform",
+      "setSelectedSubformField",
       "updateSelectedField",
       "updateSelectedSubform"
     ].forEach(property => {
@@ -33,6 +37,30 @@ describe("<FormsBuilder /> - Action Creators", () => {
     };
 
     expect(actionCreators.clearSelectedForm()).to.deep.equal(expected);
+  });
+
+  it("should check the 'clearSelectedSubform' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.CLEAR_SELECTED_SUBFORM
+    };
+
+    expect(actionCreators.clearSelectedSubform()).to.deep.equal(expected);
+  });
+
+  it("should check the 'clearSelectedField' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.CLEAR_SELECTED_FIELD
+    };
+
+    expect(actionCreators.clearSelectedField()).to.deep.equal(expected);
+  });
+
+  it("should check the 'clearSelectedSubformField' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.CLEAR_SELECTED_SUBFORM_FIELD
+    };
+
+    expect(actionCreators.clearSelectedSubformField()).to.deep.equal(expected);
   });
 
   it("should check the 'saveForm' action creator to return the correct object", () => {
@@ -58,14 +86,20 @@ describe("<FormsBuilder /> - Action Creators", () => {
   });
 
   it("should check the 'setNewField' action creator to return the correct object", () => {
-    const expected = {
-      type: actions.SET_NEW_FIELD,
-      payload: { name: "new_field", type: "text_box" }
+    const data = {
+      name: "new_field",
+      type: "text_box",
+      visible: true,
+      mobile_visible: true,
+      hide_on_view_page: false
     };
 
-    expect(actionCreators.setNewField("new_field", "text_box")).to.deep.equal(
-      expected
-    );
+    const expected = {
+      type: actions.SET_NEW_FIELD,
+      payload: data
+    };
+
+    expect(actionCreators.setNewField(data)).to.deep.equal(expected);
   });
 
   it("should check the 'fetchForm' action creator to return the correct object", () => {
@@ -95,11 +129,22 @@ describe("<FormsBuilder /> - Action Creators", () => {
     expect(actionCreators.setSelectedSubform(1)).to.deep.equal(expected);
   });
 
+  it("should check the 'SET_SELECTED_SUBFORM_FIELD' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.SET_SELECTED_SUBFORM_FIELD,
+      payload: { name: "field_1" }
+    };
+
+    expect(actionCreators.setSelectedSubformField("field_1")).to.deep.equal(
+      expected
+    );
+  });
+
   it("should check the 'updateSelectedField' action creator to return the correct object", () => {
     const field = { name: "field_1", display_text: { en: "Field 1" } };
     const expected = {
       type: actions.UPDATE_SELECTED_FIELD,
-      payload: { data: field }
+      payload: { data: field, subformId: null }
     };
 
     expect(actionCreators.updateSelectedField(field)).to.deep.equal(expected);

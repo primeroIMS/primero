@@ -1,13 +1,13 @@
 /* eslint-disable import/prefer-default-export */
 
-const buildLabelPermission = (element, i18n, approvalsLabel) => {
+const buildLabel = (element, i18n, resource, approvalsLabel, type) => {
   const approvalLabel = Object.keys(approvalsLabel).filter(approval =>
     element.includes(approval)
   );
 
   const label = approvalsLabel[approvalLabel];
 
-  return i18n.t(`permissions.permission.${element}`, {
+  return i18n.t(`permissions.resource.${resource}.actions.${element}.${type}`, {
     approval_label: label
   });
 };
@@ -20,7 +20,6 @@ export const buildPermissionOptions = (
 ) =>
   elements.map(element => ({
     id: element,
-    display_text: buildLabelPermission(element, i18n, approvalsLabel),
-    tooltip: `permissions.resource.${resource}.actions.${element}.explanation`,
-    i18nTitle: true
+    display_text: buildLabel(element, i18n, resource, approvalsLabel, "label"),
+    tooltip: buildLabel(element, i18n, resource, approvalsLabel, "explanation")
   }));

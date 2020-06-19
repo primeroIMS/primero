@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import makeStyles from "@material-ui/styles/makeStyles";
 import AddIcon from "@material-ui/icons/Add";
 
-import { PageContainer, PageHeading, PageContent } from "../page";
+import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
 import { ROUTES } from "../../config";
@@ -74,7 +74,9 @@ const Reports = () => {
     },
     page: reportsPagination.get("page") - 1,
     rowsPerPage: reportsPagination.get("per"),
-    rowsPerPageOptions: [],
+    rowsPerPageOptions: [20, 50, 75, 100],
+    onChangeRowsPerPage: ({ target }) =>
+      dispatch(fetchReports({ options: { page: 1, per: target.value } })),
     component: "div"
   };
 

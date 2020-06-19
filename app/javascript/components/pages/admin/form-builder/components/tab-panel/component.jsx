@@ -12,7 +12,7 @@ const TabPanel = ({ tab, index, children }) => {
 
   return (
     <Paper
-      elevation={3}
+      elevation={0}
       className={clsx(css.hideTab, css.tabContainer, {
         [css.showTab]: tab === index
       })}

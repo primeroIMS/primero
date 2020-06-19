@@ -15,9 +15,14 @@ import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
 import { compare } from "../../../../../../libs";
-import { getSelectedField, getSelectedSubform } from "../../selectors";
+import {
+  getSelectedField,
+  getSelectedSubform,
+  getSelectedFields
+} from "../../selectors";
 import {
   createSelectedField,
+  clearSelectedSubformField,
   updateSelectedField,
   updateSelectedSubform
 } from "../../action-creators";
@@ -25,7 +30,8 @@ import FieldsList from "../fields-list";
 import ClearButtons from "../clear-buttons";
 import { NEW_FIELD } from "../../constants";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
-import { CUSTOM_FIELD_DIALOG } from "../custom-field-dialog/constants";
+import { getOptions } from "../../../../../record-form/selectors";
+import { getLabelTypeField } from "../utils";
 
 import styles from "./styles.css";
 import {
@@ -34,6 +40,7 @@ import {
   isSubformField,
   setInitialForms,
   setSubformName,
+  subformContainsFieldName,
   transformValues,
   toggleHideOnViewPage,
   buildDataToSave
@@ -44,7 +51,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(mode);
   const openFieldDialog = useSelector(state =>
-    selectDialog(ADMIN_FIELDS_DIALOG, state)
+    selectDialog(state, ADMIN_FIELDS_DIALOG)
   );
   const i18n = useI18n();
   const formRef = useRef();
@@ -54,31 +61,39 @@ const Component = ({ mode, onClose, onSuccess }) => {
     state => getSelectedSubform(state),
     compare
   );
+  const lastField = useSelector(
+    state => getSelectedFields(state, false),
+    compare
+  )?.last();
   const selectedFieldName = selectedField?.get("name");
+  const lookups = useSelector(state => getOptions(state), compare);
   const { forms: fieldsForm, validationSchema } = getFormField({
     field: selectedField,
     i18n,
     mode: formMode,
-    css
+    css,
+    lookups
   });
 
   const formMethods = useForm({ validationSchema });
-
   const handleClose = () => {
     if (onClose) {
       onClose();
     }
 
-    dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
     if (selectedFieldName === NEW_FIELD) {
-      dispatch(
-        setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: false })
-      );
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: false }));
+      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
+    }
+
+    if (
+      selectedSubform.toSeq().size &&
+      subformContainsFieldName(selectedSubform, selectedFieldName)
+    ) {
+      dispatch(clearSelectedSubformField());
+    } else {
+      dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
     }
   };
-
-  const typeField = selectedField.get("type");
 
   const editDialogTitle = isSubformField(selectedField)
     ? selectedSubform.getIn(["name", i18n.locale])
@@ -87,7 +102,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const dialogTitle = formMode.get("isEdit")
     ? editDialogTitle
     : i18n.t("fields.add_field_type", {
-        file_type: i18n.t(`fields.${typeField}`)
+        file_type: i18n.t(`fields.${getLabelTypeField(selectedField)}`)
       });
 
   const confirmButtonLabel = formMode.get("isEdit")
@@ -111,9 +126,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
     dialogTitle,
     open: openFieldDialog,
     successHandler: () => bindFormSubmit(formRef),
-    cancelHandler: () => {
-      handleClose();
-    },
+    cancelHandler: () => handleClose(),
     omitCloseAfterSuccess: true
   };
 
@@ -121,33 +134,46 @@ const Component = ({ mode, onClose, onSuccess }) => {
     if (selectedFieldName === NEW_FIELD) {
       dispatch(createSelectedField(fieldData));
     } else {
-      dispatch(updateSelectedField(fieldData));
+      const subformId =
+        subformContainsFieldName(selectedSubform, selectedFieldName) &&
+        selectedSubform?.get("unique_id");
+
+      dispatch(updateSelectedField(fieldData, subformId));
+
+      if (subformId) {
+        dispatch(clearSelectedSubformField());
+      }
     }
   };
 
   const onSubmit = data => {
     const subformData = setInitialForms(data.subform_section);
+
     const fieldData = setSubformName(
       toggleHideOnViewPage(data[selectedFieldName]),
       subformData
     );
 
     const dataToSave = buildDataToSave(
-      selectedFieldName,
+      selectedField,
       fieldData,
-      typeField,
-      i18n.locale
+      i18n.locale,
+      lastField?.get("order")
     );
 
     batch(() => {
-      onSuccess(dataToSave);
+      if (!subformContainsFieldName(selectedSubform, selectedFieldName)) {
+        onSuccess(dataToSave);
+        dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+      }
+
       if (fieldData) {
         addOrUpdatedSelectedField(dataToSave);
       }
+
       if (isSubformField(selectedField)) {
         dispatch(updateSelectedSubform(subformData));
       }
-      handleClose();
     });
   };
 
@@ -158,7 +184,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
   const renderFieldsList = () =>
     isSubformField(selectedField) && (
-      <FieldsList subformField={selectedField} />
+      <>
+        <h1>{i18n.t("forms.fields")}</h1>
+        <FieldsList subformField={selectedField} />
+      </>
     );
 
   const renderClearButtons = () =>
@@ -167,17 +196,27 @@ const Component = ({ mode, onClose, onSuccess }) => {
     );
 
   useEffect(() => {
-    if (selectedField?.size) {
+    if (selectedField?.toSeq()?.size) {
       const fieldData = toggleHideOnViewPage(
         transformValues(selectedField.toJS())
       );
 
       const subform =
-        isSubformField(selectedField) && selectedSubform
+        isSubformField(selectedField) && selectedSubform.toSeq()?.size
           ? getSubformValues(selectedSubform)
           : {};
 
-      formMethods.reset({ [selectedFieldName]: { ...fieldData }, ...subform });
+      const resetOptions = subformContainsFieldName(
+        selectedSubform,
+        selectedFieldName
+      )
+        ? { errors: true, dirtyFields: true, dirty: true, touched: true }
+        : {};
+
+      formMethods.reset(
+        { [selectedFieldName]: { ...fieldData }, ...subform },
+        resetOptions
+      );
     }
   }, [selectedField]);
 

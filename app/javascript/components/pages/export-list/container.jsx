@@ -8,7 +8,7 @@ import { fromJS } from "immutable";
 import startCase from "lodash/startCase";
 import { format, parseISO } from "date-fns";
 
-import { PageContainer, PageHeading, PageContent } from "../../page";
+import PageContainer, { PageHeading, PageContent } from "../../page";
 import IndexTable from "../../index-table";
 import { useI18n } from "../../i18n";
 import { DATE_TIME_FORMAT } from "../../../config";
