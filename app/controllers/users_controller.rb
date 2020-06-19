@@ -55,12 +55,14 @@ class UsersController < ApplicationController
     end
   end
 
+  # Use can?(:search, User) instead of authorize! so users with REMOVE_ASSIGNED_USERS permission can do so
+  # without the assigned_user_names select box breaking
+  # In this scenario, it will just send back an empty user list
   def search
-    authorize! :search, User
-
     allowed_transitions = [Transition::TYPE_REFERRAL, Transition::TYPE_TRANSFER, Transition::TYPE_REASSIGN]
     transition_type =  params[:transition_type]
-    users = if transition_type.present? &&
+    users = if can?(:search, User) &&
+               transition_type.present? &&
                allowed_transitions.include?(transition_type) &&
                can_perform_query?(transition_type)
               # NOTE: per_page number tells solr to return all the results: https://wiki.apache.org/solr/CommonQueryParameters#rows

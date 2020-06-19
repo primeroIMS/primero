@@ -199,10 +199,13 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
     var self = this;
 
     if (this.collection.status) {
-      var models = this.collection.models.map(function(model){ return model.attributes; });
-      var options = self.convertToOptions(models);
-      self.addOptions(options, $select_box);
-
+      if (this.collection.models.length > 0) {
+        var models = this.collection.models.map(function (model) {
+          return model.attributes;
+        });
+        var options = self.convertToOptions(models);
+        self.addOptions(options, $select_box);
+      }
     } else {
       this.disableAjaxSelectBoxes();
     }
