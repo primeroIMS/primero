@@ -11,7 +11,7 @@ import { buildFilter } from "../utils";
 const DashboardTable = ({ columns, data, query }) => {
   const dispatch = useDispatch();
   const options = {
-    responsive: "stacked",
+    responsive: "vertical",
     fixedHeader: false,
     elevation: 0,
     filter: false,

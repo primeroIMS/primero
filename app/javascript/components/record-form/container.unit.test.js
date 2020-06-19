@@ -6,7 +6,7 @@ import { fromJS, Map, List, OrderedMap } from "immutable";
 import { CircularProgress } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
-import { PageContainer } from "../page";
+import PageContainer from "../page";
 import LoadingIndicator from "../loading-indicator";
 import RecordOwner from "../record-owner";
 import { PrimeroModuleRecord } from "../application/records";

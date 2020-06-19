@@ -2408,13 +2408,10 @@ en:
     add_custom_field: "Create Custom Field"
     add_existing_field: "Add Existing Field"
     add_field_type: "Add %{file_type}"
-    options_indications:  "You may use either pre-defined lookups or create unique values. You cannot do both."
     predifined_lookups: "Use pre-defined lookup"
     create_unique_values: "Create unique values"
     remove: "Remove"
-    options_indications_lookup: "You may use either pre-defined lookups"
-    options_indications_or: "or"
-    options_indications_unique_val: "create unique values."
+    options_indications_lookup_values: "You may use either pre-defined lookups or create unique values."
     options_indications_restrictions: "You cannot do both."
     on_collapsed_subform: "On collapsed subform?"
     multi_select_box: "Multi-select"
@@ -2524,6 +2521,8 @@ en:
 
   reports:
     register_new_report: "Create Report"
+    delete_report: "Delete Report"
+    delete_report_message: "Are you sure you want to delete this report? Deletion can not be undone. Click OK to delete report"
     label: "Reports"
     tabs:
       table: "Table"

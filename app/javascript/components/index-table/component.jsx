@@ -8,8 +8,9 @@ import uniqBy from "lodash/uniqBy";
 import isEmpty from "lodash/isEmpty";
 import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
+import { ThemeProvider } from "@material-ui/styles";
 
-import { compare, dataToJS } from "../../libs";
+import { compare, dataToJS, ConditionalWrapper } from "../../libs";
 import LoadingIndicator from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
@@ -18,6 +19,7 @@ import { useI18n } from "../i18n";
 import { STRING_SOURCES_TYPES, RECORD_PATH } from "../../config";
 import { ALERTS_COLUMNS } from "../record-list/constants";
 
+import recordListTheme from "./theme";
 import { NAME } from "./config";
 import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
 import CustomToolbarSelect from "./custom-toolbar-select";
@@ -37,7 +39,7 @@ const Component = ({
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
-  const [sortOrder, setSortOrder] = useState();
+  const [sortDir, setSortDir] = useState();
   const data = useSelector(state => getRecords(state, recordType), compare);
   const loading = useSelector(state => getLoading(state, recordType));
   const errors = useSelector(state => getErrors(state, recordType));
@@ -171,7 +173,7 @@ const Component = ({
 
     if (sortedColumn) {
       componentColumns = componentColumns.setIn(
-        [sortedColumn, "options", "sortDirection"],
+        [sortedColumn, "options", "sortOrder"],
         order
       );
     }
@@ -180,7 +182,7 @@ const Component = ({
   const handleTableChange = (action, tableState) => {
     const options = { ...defaultFilters.merge(filters).toJS() };
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
-    const { activeColumn, columns: tableColumns, rowsPerPage } = tableState;
+    const { rowsPerPage, sortOrder } = tableState;
 
     options.per = rowsPerPage;
 
@@ -192,14 +194,11 @@ const Component = ({
             const customSortFields = {
               photo: "has_photo"
             };
-            const { sortDirection, name } = tableColumns[activeColumn];
+            const { direction, name } = sortOrder;
 
-            if (typeof sortOrder === "undefined") {
-              options.order = sortDirection;
-            } else {
-              options.order = sortOrder === sortDirection ? "asc" : "desc";
-            }
-            setSortOrder(options.order);
+            options.order = direction;
+
+            setSortDir(sortOrder);
             options.order_by = Object.keys(customSortFields).includes(name)
               ? customSortFields[name]
               : name;
@@ -228,7 +227,7 @@ const Component = ({
     selectedRecords[currentPage];
 
   // eslint-disable-next-line react/no-multi-comp, react/display-name
-  const custonToolbarSelect = (selectedRows, displayData) => (
+  const customToolbarSelect = (selectedRows, displayData) => (
     <CustomToolbarSelect
       displayData={displayData}
       recordType={recordType}
@@ -241,7 +240,7 @@ const Component = ({
   );
 
   const options = {
-    responsive: "stacked",
+    responsive: "vertical",
     count: total,
     rowsPerPage: per,
     rowHover: true,
@@ -259,7 +258,7 @@ const Component = ({
     rowsSelected: selectedRecordsOnCurrentPage?.length
       ? selectedRecordsOnCurrentPage
       : [],
-    onRowsSelect: (currentRowsSelected, allRowsSelected) => {
+    onRowSelectionChange: (currentRowsSelected, allRowsSelected) => {
       setSelectedRecords({
         [currentPage]: allRowsSelected.map(ars => ars.dataIndex)
       });
@@ -268,6 +267,8 @@ const Component = ({
     onTableChange: handleTableChange,
     rowsPerPageOptions: [20, 50, 75, 100],
     page: currentPage,
+    enableNestedDataAccess: ".",
+    sortOrder: sortDir,
     onCellClick: (colData, cellMeta) => {
       const { dataIndex } = cellMeta;
 
@@ -279,7 +280,7 @@ const Component = ({
         }
       }
     },
-    customToolbarSelect: custonToolbarSelect,
+    customToolbarSelect,
     ...tableOptionsProps
   };
 
@@ -325,7 +326,13 @@ const Component = ({
 
   return (
     <LoadingIndicator {...loadingIndicatorProps}>
-      <MUIDataTable {...tableOptions} />
+      <ConditionalWrapper
+        condition={validRecordTypes}
+        wrapper={ThemeProvider}
+        theme={recordListTheme}
+      >
+        <MUIDataTable {...tableOptions} />
+      </ConditionalWrapper>
     </LoadingIndicator>
   );
 };
