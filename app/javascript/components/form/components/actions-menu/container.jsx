@@ -42,6 +42,7 @@ const Container = ({ actionItems }) => {
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}
+        color="primary"
       >
         <MoreVertIcon />
       </IconButton>

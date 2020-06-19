@@ -1,20 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Button,
+  Fab,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   DialogContentText,
   CircularProgress,
-  Typography
+  Typography,
+  useMediaQuery
 } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../i18n";
+import { useThemeHelper } from "../../libs";
 
 import TitleWithClose from "./text-with-close";
 import styles from "./styles.css";
@@ -40,6 +42,8 @@ const ActionDialog = ({
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const { theme } = useThemeHelper(styles);
+  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleClose = event => {
     event.stopPropagation();
@@ -59,12 +63,10 @@ const ActionDialog = ({
   const stopPropagation = event => event.stopPropagation();
 
   const defaultSuccessButtonProps = {
-    color: "primary",
     autoFocus: true
   };
 
   const defaulCancelButtonProps = {
-    color: "primary",
     autoFocus: false
   };
 
@@ -95,18 +97,24 @@ const ActionDialog = ({
     ) : (
       <CheckIcon />
     );
+
+  const renderConfirmText = !mobileDisplay ? confirmButtonLabel : null;
   const submitButton = (
     <div className={css.submitButtonWrapper}>
-      <Button
+      <Fab
         {...{ ...successButtonProps, onClick: handleSuccess }}
         disabled={pending || !enabledSuccessButton}
+        variant="extended"
+        className={css.actionButton}
       >
         {iconConfirmButtom}
-        <span>{confirmButtonLabel}</span>
-      </Button>
+        {renderConfirmText}
+      </Fab>
       {pending && <CircularProgress size={24} className={css.buttonProgress} />}
     </div>
   );
+
+  const renderCancelText = !mobileDisplay ? i18n.t("cancel") : null;
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
@@ -132,13 +140,15 @@ const ActionDialog = ({
           <DialogActions>
             {submitButton}
             {cancelHandler && (
-              <Button
+              <Fab
                 {...{ ...defaulCancelButtonProps, ...cancelButtonProps }}
                 onClick={cancelHandler}
+                variant="extended"
+                className={css.actionButtonCancel}
               >
                 <CloseIcon />
-                <span>{i18n.t("cancel")}</span>
-              </Button>
+                {renderCancelText}
+              </Fab>
             )}
           </DialogActions>
         )}

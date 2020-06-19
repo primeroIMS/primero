@@ -129,7 +129,7 @@ const Component = () => {
   const newFormBtn = canAddForms ? (
     <FormAction
       actionHandler={handleNew}
-      text={i18n.t("buttons.add")}
+      text={i18n.t("buttons.new")}
       startIcon={<AddIcon />}
     />
   ) : null;

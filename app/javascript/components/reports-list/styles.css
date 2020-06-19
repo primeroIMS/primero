@@ -36,6 +36,27 @@
   padding: 0 1.3em;
 }
 
+.showActionButton {
+  background-color: $(theme.primero.colors.blue);
+  border-radius: 24px;
+  color: $(theme.primero.colors.white);
+  width: 8em;
+  height: 32px;
+  margin-left: 10px;
+
+   &:hover {
+    color: $(theme.primero.colors.black);
+  }
+}
+
+
+@media $(theme.breakpoints.down("sm")) {
+  .showActionButton {
+    width: 0;
+  }
+}
+
+
 @media $(theme.breakpoints.only("md")) {
   .reportsListContainer {
     grid-template-columns: repeat(2, 1fr);
@@ -47,3 +68,5 @@
     grid-template-columns: repeat(1, 1fr);
   }
 }
+
+

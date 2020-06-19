@@ -2,8 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useLocation, Link } from "react-router-dom";
-import { Button } from "@material-ui/core";
+import { Button, useMediaQuery } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
+import { makeStyles } from "@material-ui/styles";
 
 import { getPermissionsByRecord } from "../../../../user/selectors";
 import { ACTION_BUTTONS_NAME } from "../constants";
@@ -18,7 +21,8 @@ import {
   WRITE_RECORDS,
   checkPermissions
 } from "../../../../../libs/permissions";
-import { compare } from "../../../../../libs";
+import { compare, useThemeHelper } from "../../../../../libs";
+import styles from "../../styles.css";
 
 const Component = ({
   formMode,
@@ -28,6 +32,10 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
+  const css = makeStyles(styles)();
+  const { theme } = useThemeHelper(styles);
+  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+
   const saving = useSelector(state => getSavingRecord(state));
   const rolePermissions = useSelector(
     state => getPermissionsByRecord(state, RESOURCES.roles),
@@ -39,24 +47,29 @@ const Component = ({
         cancel
         actionHandler={handleCancel}
         text={i18n.t("buttons.cancel")}
+        startIcon={<ClearIcon />}
       />
       <FormAction
         actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
         savingRecord={saving}
+        startIcon={<CheckIcon />}
       />
     </>
   );
+
+  const showEditText = !mobileDisplay ? i18n.t("buttons.edit") : null;
 
   const editButton = formMode.get("isShow") && (
     <Permission resources={RESOURCES.roles} actions={WRITE_RECORDS}>
       <Button
         to={`${pathname}/edit`}
         component={Link}
-        startIcon={<CreateIcon />}
         size="small"
+        className={css.showActionButton}
       >
-        {i18n.t("buttons.edit")}
+        <CreateIcon />
+        {showEditText}
       </Button>
     </Permission>
   );

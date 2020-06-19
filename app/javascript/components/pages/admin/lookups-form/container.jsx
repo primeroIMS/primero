@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
+import CreateIcon from "@material-ui/icons/Create";
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
 
 import { PageHeading, PageContent } from "../../../page";
 import { useI18n } from "../../../i18n";
@@ -50,7 +53,7 @@ const Container = ({ mode }) => {
   }
 
   const handleCancel = () => {
-    dispatch(push(`${ROUTES.lookups}/${id}`));
+    dispatch(push(ROUTES.lookups));
   };
 
   const handleEdit = () => {
@@ -67,17 +70,23 @@ const Container = ({ mode }) => {
         cancel
         actionHandler={handleCancel}
         text={i18n.t("buttons.cancel")}
+        startIcon={<ClearIcon />}
       />
       <FormAction
         actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
         savingRecord={saving}
+        startIcon={<CheckIcon />}
       />
     </>
   );
 
   const editButton = formMode.get("isShow") && (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} />
+    <FormAction
+      actionHandler={handleEdit}
+      text={i18n.t("buttons.edit")}
+      startIcon={<CreateIcon />}
+    />
   );
 
   return (

@@ -32,17 +32,6 @@ const Container = () => {
     dispatch(fetchPerformedBy({ options: { per: 999 } }));
   }, []);
 
-  const newUserGroupBtn = (
-    <Button
-      to={ROUTES.lookups}
-      component={Link}
-      color="primary"
-      startIcon={<AddIcon />}
-    >
-      {i18n.t("buttons.new")}
-    </Button>
-  );
-
   const filterProps = {
     clearFields: [USER_NAME, TIMESTAMP],
     filters: getFilters(filterUsers),
@@ -107,9 +96,7 @@ const Container = () => {
       actions={SHOW_AUDIT_LOGS}
       redirect
     >
-      <PageHeading title={i18n.t("settings.navigation.audit_logs")}>
-        {newUserGroupBtn}
-      </PageHeading>
+      <PageHeading title={i18n.t("settings.navigation.audit_logs")} />
       <PageContent>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={9}>

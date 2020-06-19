@@ -5,7 +5,8 @@ import {
   CardActionArea,
   TablePagination,
   Box,
-  Button
+  Button,
+  useMediaQuery
 } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +19,7 @@ import LoadingIndicator from "../loading-indicator";
 import { ROUTES } from "../../config";
 import { usePermissions } from "../user";
 import { CREATE_RECORDS } from "../../libs/permissions";
+import { useThemeHelper } from "../../libs";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
@@ -32,6 +34,8 @@ const Reports = () => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const { theme } = useThemeHelper(styles);
+  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
   const reports = useSelector(state => selectReports(state));
   const isLoading = useSelector(state => selectLoading(state));
@@ -80,14 +84,17 @@ const Reports = () => {
     component: "div"
   };
 
+  const showNewText = !mobileDisplay ? i18n.t("buttons.new") : null;
+
   const newReportBtn = canAddReport ? (
     <Button
       to={ROUTES.reports_new}
       component={Link}
       color="primary"
-      startIcon={<AddIcon />}
+      className={css.showActionButton}
     >
-      {i18n.t("buttons.new")}
+      <AddIcon />
+      {showNewText}
     </Button>
   ) : null;
 

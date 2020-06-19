@@ -2,20 +2,25 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
   Box,
-  Button,
+  Fab,
   IconButton,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle
+  DialogTitle,
+  useMediaQuery
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import CheckIcon from "@material-ui/icons/Check";
+import { makeStyles } from "@material-ui/styles";
 
 import FormSectionField from "../../form-section-field";
 import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
 import { serviceHasReferFields } from "../../utils";
+import { useThemeHelper } from "../../../../../libs";
+import styles from "../../styles.css";
 
 const Component = ({
   index,
@@ -28,21 +33,31 @@ const Component = ({
   i18n,
   formik
 }) => {
+  const css = makeStyles(styles)();
+  const { theme } = useThemeHelper(styles);
+  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+
   const handleClose = () => {
     setOpen({ open: false, index: null });
   };
 
+  const renderSubmitText = !mobileDisplay
+    ? i18n.t(dialogIsNew ? "buttons.add" : "buttons.update")
+    : null;
+
   if (index !== null) {
     const actionButton =
       mode.isEdit || mode.isNew ? (
-        <Button
+        <Fab
           onClick={handleClose}
           variant="contained"
           color="primary"
           elevation={0}
+          className={css.actionButton}
         >
-          {i18n.t(dialogIsNew ? "buttons.add" : "buttons.update")}
-        </Button>
+          <CheckIcon />
+          {renderSubmitText}
+        </Fab>
       ) : null;
 
     return (

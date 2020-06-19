@@ -10,7 +10,13 @@ import { FlagForm, ListFlags, FlagDialog } from "./components";
 import { fetchFlags } from "./action-creators";
 import { selectFlags } from "./selectors";
 
-const Flagging = ({ recordType, record, control }) => {
+const Flagging = ({
+  control,
+  mobileVisible,
+  record,
+  recordType,
+  showActionButtonCss
+}) => {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const dispatch = useDispatch();
@@ -53,11 +59,18 @@ const Flagging = ({ recordType, record, control }) => {
     record
   };
 
+  const renderFlagsText = !mobileVisible ? i18n.t("buttons.flags") : null;
+
   return (
     <>
       {(control && <control onClick={handleOpen} />) || (
-        <Button onClick={handleOpen} startIcon={<FlagIcon />} size="small">
-          {i18n.t("buttons.flags")}
+        <Button
+          onClick={handleOpen}
+          size="small"
+          className={showActionButtonCss}
+        >
+          <FlagIcon />
+          {renderFlagsText}
         </Button>
       )}
       <FlagDialog {...flagDialogProps}>
@@ -76,8 +89,10 @@ Flagging.displayName = "Flagging";
 
 Flagging.propTypes = {
   control: PropTypes.node,
+  mobileVisible: PropTypes.bool,
   record: PropTypes.string,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  showActionButtonCss: PropTypes.string
 };
 
 export default Flagging;

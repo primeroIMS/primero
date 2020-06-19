@@ -5,11 +5,15 @@ import { Menu, MenuItem, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import { push } from "connected-react-router";
+import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../i18n";
 import { useApp } from "../application";
 
-const AddRecordMenu = ({ recordType }) => {
+import styles from "./styles.css";
+
+const AddRecordMenu = ({ mobileDisplay, recordType }) => {
+  const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -29,10 +33,17 @@ const AddRecordMenu = ({ recordType }) => {
     setAnchorEl(null);
   };
 
+  const showNewButton = !mobileDisplay ? i18n.t("buttons.new") : null;
+
   return (
     <>
-      <Button startIcon={<AddIcon />} onClick={handleClick} color="primary">
-        {i18n.t("buttons.new")}
+      <Button
+        onClick={handleClick}
+        color="primary"
+        className={css.showActionButton}
+      >
+        <AddIcon />
+        {showNewButton}
       </Button>
       <Menu
         anchorEl={anchorEl}
@@ -57,6 +68,7 @@ const AddRecordMenu = ({ recordType }) => {
 AddRecordMenu.displayName = "AddRecordMenu";
 
 AddRecordMenu.propTypes = {
+  mobileDisplay: PropTypes.bool,
   recordType: PropTypes.string.isRequired
 };
 

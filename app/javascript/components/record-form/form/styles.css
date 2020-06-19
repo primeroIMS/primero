@@ -207,3 +207,23 @@
 .menu {
   white-space: normal
 }
+
+.showActionButton {
+  background-color: $(theme.primero.colors.blue);
+  border-radius: 24px;
+  color: $(theme.primero.colors.white);
+  width: 8em;
+  height: 32px;
+  margin-left: 10px;
+
+   &:hover {
+    color: $(theme.primero.colors.black);
+  }
+}
+
+
+@media $(theme.breakpoints.down("sm")) {
+  .actionButton, .actionButtonCancel, .showActionButton {
+    width: 0;
+  }
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
-import { Button, Grid } from "@material-ui/core";
+import { Button, Grid, makeStyles, useMediaQuery } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 
@@ -13,6 +13,8 @@ import { usePermissions, getListHeaders } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { headersToColumns } from "../utils";
 import { Filters as AdminFilters } from "../components";
+import { useThemeHelper } from "../../../../libs";
+import styles from "../styles.css";
 
 import { fetchAgencies } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
@@ -24,6 +26,9 @@ const Container = () => {
   const dispatch = useDispatch();
   const canAddAgencies = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.agencies;
+  const css = makeStyles(styles)();
+  const { theme } = useThemeHelper(styles);
+  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
   const headers = useSelector(state =>
     getListHeaders(state, RESOURCES.agencies)
@@ -54,14 +59,17 @@ const Container = () => {
     }
   };
 
+  const renderNewText = !mobileDisplay ? i18n.t("buttons.new") : null;
+
   const newAgencyBtn = canAddAgencies ? (
     <Button
       to={ROUTES.admin_agencies_new}
       component={Link}
       color="primary"
-      startIcon={<AddIcon />}
+      className={css.showActionButton}
     >
-      {i18n.t("buttons.new")}
+      <AddIcon />
+      {renderNewText}
     </Button>
   ) : null;
 

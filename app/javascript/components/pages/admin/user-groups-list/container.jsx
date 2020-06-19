@@ -1,6 +1,6 @@
 import React from "react";
 import { fromJS } from "immutable";
-import { Button } from "@material-ui/core";
+import { Button, makeStyles, useMediaQuery } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -12,6 +12,8 @@ import { ROUTES } from "../../../../config";
 import { usePermissions, getListHeaders } from "../../../user";
 import NAMESPACE from "../namespace";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
+import { useThemeHelper } from "../../../../libs";
+import styles from "../styles.css";
 
 import { NAME } from "./constants";
 import { fetchUserGroups } from "./action-creators";
@@ -30,6 +32,10 @@ const Container = () => {
     ...rest
   }));
 
+  const css = makeStyles(styles)();
+  const { theme } = useThemeHelper(styles);
+  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+
   const tableOptions = {
     recordType,
     columns,
@@ -43,14 +49,17 @@ const Container = () => {
     onTableChange: fetchUserGroups
   };
 
+  const renderNewText = !mobileDisplay ? i18n.t("buttons.new") : null;
+
   const newUserGroupBtn = canAddUserGroups ? (
     <Button
       to={ROUTES.admin_user_groups_new}
       component={Link}
       color="primary"
-      startIcon={<AddIcon />}
+      className={css.showActionButton}
     >
-      {i18n.t("buttons.new")}
+      <AddIcon />
+      {renderNewText}
     </Button>
   ) : null;
 

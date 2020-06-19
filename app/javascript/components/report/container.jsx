@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Paper } from "@material-ui/core";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
+import CreateIcon from "@material-ui/icons/Create";
 
 import { BarChart as BarChartGraphic, TableValues } from "../charts";
 import { getLoading, getErrors } from "../index-table/selectors";
@@ -51,7 +52,11 @@ const Report = ({ mode }) => {
   };
 
   const editButton = formMode.get("isShow") && canEditReport && (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} />
+    <FormAction
+      actionHandler={handleEdit}
+      text={i18n.t("buttons.edit")}
+      startIcon={<CreateIcon />}
+    />
   );
 
   return (

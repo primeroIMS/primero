@@ -7,6 +7,8 @@ import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import omit from "lodash/omit";
 import { FormContext, useForm } from "react-hook-form";
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
 
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
@@ -155,11 +157,13 @@ const Container = ({ mode }) => {
         cancel
         actionHandler={handleCancel}
         text={i18n.t("buttons.cancel")}
+        startIcon={<ClearIcon />}
       />
       <FormAction
         actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
         savingRecord={false}
+        startIcon={<CheckIcon />}
       />
     </>
   );
