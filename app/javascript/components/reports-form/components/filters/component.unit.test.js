@@ -25,7 +25,10 @@ describe("<ReportFilters /> - Component", () => {
   });
 
   const props = {
-    indexes: DEFAULT_FILTERS.map((data, index) => ({ index, data })),
+    indexes: [
+      ...DEFAULT_FILTERS,
+      ...[{ attribute: "test_numeric_field", constraint: ">", value: "10" }]
+    ].map((data, index) => ({ index, data })),
     setIndexes: () => {},
     allRecordForms: fromJS([
       {

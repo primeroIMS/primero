@@ -10,7 +10,7 @@ import isEmpty from "lodash/isEmpty";
 import { useI18n } from "../../../i18n";
 import { DATE_FIELD } from "../../../form";
 import FiltersDialog from "../filters-dialog";
-import { CONSTRAINTS, MODULES_FIELD, RECORD_TYPE_FIELD } from "../../constants";
+import { MODULES_FIELD, NOT_NULL, RECORD_TYPE_FIELD } from "../../constants";
 import { formattedFields } from "../../utils";
 import { compare, dataToJS } from "../../../../libs";
 import { getOptions } from "../../../record-form/selectors";
@@ -24,7 +24,7 @@ import {
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
-import { registerValues, formatValue } from "./utils";
+import { formatValue, getConstraintLabel, registerValues } from "./utils";
 
 const Container = ({
   indexes,
@@ -48,7 +48,7 @@ const Container = ({
 
     if (
       [DATE_FIELD, NUMERIC_FIELD].includes(currentField.type) &&
-      currentReportFilter.constraint === "not_null"
+      currentReportFilter.constraint === NOT_NULL
     ) {
       data.value = "";
     }
@@ -59,7 +59,7 @@ const Container = ({
       currentReportFilter.constraint
     ) {
       data.constraint = false;
-      data.value = ["not_null"];
+      data.value = [NOT_NULL];
     }
 
     if (Object.is(index, null)) {
@@ -130,16 +130,10 @@ const Container = ({
   const renderReportFilterList = () =>
     Object.entries(indexes).map(filter => {
       const [index, { data }] = filter;
-      const { attribute, constraint, value } = data;
-      const constraintLabel =
-        // eslint-disable-next-line no-nested-ternary
-        constraint && typeof constraint === "boolean"
-          ? i18n.t(CONSTRAINTS.not_null)
-          : CONSTRAINTS[constraint] ||
-            (Array.isArray(value) && value.includes("not_null"))
-          ? i18n.t(CONSTRAINTS[constraint] || CONSTRAINTS.not_null)
-          : "";
+      const { attribute, value } = data;
       const field = fields.find(f => f.id === attribute);
+
+      const constraintLabel = getConstraintLabel(data, field, i18n);
       const lookups = [
         ...dataToJS(allLookups),
         ...[{ unique_id: OPTION_TYPES.LOCATION, values: dataToJS(location) }],
