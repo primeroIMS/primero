@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
-import { Box, useMediaQuery } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { Box } from "@material-ui/core";
 import { fromJS } from "immutable";
 import { withRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,7 +8,7 @@ import { push } from "connected-react-router";
 import qs from "qs";
 
 import IndexTable from "../index-table";
-import { PageContainer } from "../page";
+import PageContainer from "../page";
 import { useI18n } from "../i18n";
 import Filters, { getFiltersValuesByRecordType } from "../index-filters";
 import { getPermissionsByRecord } from "../user";
@@ -38,9 +37,7 @@ import ViewModal from "./view-modal";
 
 const Container = ({ match, location }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
-  const { theme } = useThemeHelper({});
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { css, mobileDisplay } = useThemeHelper(styles);
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [drawer, setDrawer] = useState(false);
 
@@ -182,7 +179,7 @@ const Container = ({ match, location }) => {
 
   return (
     <>
-      <PageContainer>
+      <PageContainer fullWidthMobile>
         <Box className={css.content}>
           <Box className={css.tableContainer} flexGrow={1}>
             <RecordListToolbar {...recordListToolbarProps} />

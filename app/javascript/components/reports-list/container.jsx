@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import makeStyles from "@material-ui/styles/makeStyles";
 import AddIcon from "@material-ui/icons/Add";
 
-import { PageContainer, PageHeading, PageContent } from "../page";
+import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
 import { ROUTES } from "../../config";
