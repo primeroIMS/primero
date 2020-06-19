@@ -72,19 +72,19 @@ const Container = ({
   const [incidentDialog, setIncidentDialog] = useState(false);
   const [serviceDialog, setServiceDialog] = useState(false);
   const requestDialog = useSelector(state =>
-    selectDialog(REQUEST_APPROVAL_DIALOG, state)
+    selectDialog(state, REQUEST_APPROVAL_DIALOG)
   );
   const dialogPending = useSelector(state => selectDialogPending(state));
   const approveDialog = useSelector(state =>
-    selectDialog(APPROVAL_DIALOG, state)
+    selectDialog(state, APPROVAL_DIALOG)
   );
-  const referDialog = useSelector(state => selectDialog(REFER_DIALOG, state));
+  const referDialog = useSelector(state => selectDialog(state, REFER_DIALOG));
   const transferDialog = useSelector(state =>
-    selectDialog(TRANSFER_DIALOG, state)
+    selectDialog(state, TRANSFER_DIALOG)
   );
-  const assignDialog = useSelector(state => selectDialog(ASSIGN_DIALOG, state));
+  const assignDialog = useSelector(state => selectDialog(state, ASSIGN_DIALOG));
   const openExportsDialog = useSelector(state =>
-    selectDialog(EXPORT_DIALOG, state)
+    selectDialog(state, EXPORT_DIALOG)
   );
   const setRequestDialog = open => {
     dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open }));

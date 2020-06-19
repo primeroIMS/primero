@@ -22,7 +22,7 @@ const Component = () => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const openFieldDialog = useSelector(state =>
-    selectDialog(CUSTOM_FIELD_DIALOG, state)
+    selectDialog(state, CUSTOM_FIELD_DIALOG)
   );
 
   const handleDialog = () => {

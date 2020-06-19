@@ -24,7 +24,7 @@ const ReferralActionMenu = ({ transition, recordType }) => {
   const [referralMenu, setReferralMenu] = useState(null);
   const [referralType, setReferralType] = useState(DONE);
   const referralOpen = useSelector(state =>
-    selectDialog(REFERRAL_DONE_DIALOG, state)
+    selectDialog(state, REFERRAL_DONE_DIALOG)
   );
   const setReferralOpen = open => {
     dispatch(setDialog({ dialog: REFERRAL_DONE_DIALOG, open }));
