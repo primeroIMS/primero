@@ -142,7 +142,9 @@ const overrides = {
       fontWeight: "900",
       textTransform: "uppercase",
       fontSize: muiTheme.typography.pxToRem(12),
-      color: `${colors.grey}`
+      color: `${colors.grey}`,
+      lineHeight: "1.3em",
+      padding: ".5em"
     }
   },
   MuiChip: {
