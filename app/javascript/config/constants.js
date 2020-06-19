@@ -346,3 +346,12 @@ export const APPROVALS_TYPES = Object.freeze({
   case_plan: "case_plan",
   closure: "closure"
 });
+
+export const ALERTS_FOR = {
+  field_change: "field_change",
+  incident_details: "incident_details",
+  services_section: "services_section",
+  approval: "approval",
+  new_form: "new_form",
+  transfer_request: "transfer_request"
+};

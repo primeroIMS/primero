@@ -78,6 +78,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("SAVING");
     expect(constants).to.have.property("APPLICATION_NAV");
     expect(constants).to.have.property("APPROVALS_TYPES");
+    expect(constants).to.have.property("ALERTS_FOR");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -131,6 +132,7 @@ describe("Verifying config constant", () => {
     delete constants.SAVING;
     delete constants.APPLICATION_NAV;
     delete constants.APPROVALS_TYPES;
+    delete constants.ALERTS_FOR;
 
     expect(constants).to.deep.equal({});
   });
@@ -192,6 +194,14 @@ describe("Verifying config constant", () => {
       "assessment",
       "case_plan",
       "closure"
+    );
+    expect(constants.ALERTS_FOR).to.have.all.keys(
+      "approval",
+      "field_change",
+      "incident_details",
+      "new_form",
+      "services_section",
+      "transfer_request"
     );
   });
 });

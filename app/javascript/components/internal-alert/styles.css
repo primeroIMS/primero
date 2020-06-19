@@ -1,0 +1,72 @@
+.icon {
+  margin-right: 8px;
+  padding: 10px 0;
+  & svg {
+    font-size: $(theme.typography.pxToRem(20));
+  }
+}
+
+.alertTitle {
+  display: inline-flex;
+  align-items: center;
+
+  &.disableCollapse {
+    pointer-events: none;
+  }
+
+  & span {
+    &.message {
+      padding: 10px 0;
+    }
+  }
+}
+
+.alert {
+  border-radius: 5px;
+  color: $(theme.primero.colors.grey);
+  font-size: $(theme.typography.pxToRem(14));
+
+  &.info {
+    border: 1px solid $(theme.primero.colors.moonYellow);
+    & .icon {
+      color: $(theme.primero.colors.moonYellow);
+    }
+  }
+
+  &.warning {
+    border: 1px solid $(theme.primero.colors.solidOrange);
+    & .icon {
+      color: $(theme.primero.colors.orange);
+    }
+  }
+
+  &.success {
+    border: 1px solid $(theme.primero.colors.solidGreen);
+    & .icon {
+      color: $(theme.primero.colors.green);
+    }
+  }
+
+  &.error {
+    border: 1px solid $(theme.primero.colors.red);
+    & .icon {
+      color: $(theme.primero.colors.red);
+    }
+  }
+}
+
+.alertItems {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+
+  & li {
+    list-style: none;
+    border-bottom: 1px solid $(theme.primero.colors.lightGrey);
+    padding: 5px 0px;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}

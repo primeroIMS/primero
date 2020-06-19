@@ -14,6 +14,7 @@ import { enqueueSnackbar } from "../../notifier";
 import ActionDialog from "../../action-dialog";
 import { constructInitialValues } from "../utils";
 import { NUMERIC_FIELD, DATE_FIELD, SUBFORM_SECTION } from "../constants";
+import RecordFormAlerts from "../../record-form-alerts";
 
 import RecordFormTitle from "./record-form-title";
 import { RECORD_FORM_NAME } from "./constants";
@@ -120,6 +121,8 @@ const RecordForm = ({
               handleToggleNav={handleToggleNav}
               displayText={form.name[i18n.locale]}
             />
+
+            <RecordFormAlerts recordType={recordType} form={form} />
 
             {form.fields.map(field => {
               const fieldProps = {
