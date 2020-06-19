@@ -53,12 +53,14 @@ module Exporters
 
     def constrain_fields(records, user, options)
       forms = forms_to_export(records, user)
+      forms += find_nested_filds(options[:field_names]&.select { |field| field.include?(':') })
       fields = fields_to_export(forms, options)
       self.forms = [selected_fields_form(fields)]
     end
 
     def constrain_forms_and_fields(records, user, options)
       forms = forms_to_export(records, user)
+      forms += find_nested_filds(options[:field_names]&.select { |field| field.include?(':') })
       field_names = fields_to_export(forms, options).map(&:name)
       self.forms = forms.map do |form|
         form_dup = form.dup
@@ -66,6 +68,17 @@ module Exporters
         form_dup
       end
       self.forms = self.forms.select { |f| f.fields.size.positive? }
+    end
+
+    def find_nested_filds(options)
+      return [] if options.blank?
+
+      options.group_by { |option| option.split(':')[0] }.map do |form, fields|
+        new_form = FormSection.find_by(unique_id: form)
+        new_form_dup = new_form.dup
+        new_form_dup.fields = new_form.fields.where(name: fields.map { |field| field.split(':').last }).map(&:dup)
+        new_form_dup
+      end
     end
 
     private

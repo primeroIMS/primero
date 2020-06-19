@@ -213,4 +213,26 @@ describe Exporters::SelectedFieldsExcelExporter do
       expect(Field.count).to eq(10)
     end
   end
+
+  context 'Selected nested forms and fields' do
+    it 'contains a sheet for the selected nested fields' do
+      data = Exporters::SelectedFieldsExcelExporter.export(
+        @records, @user,
+        field_names: ['first_name', 'cases_test_subform_2:field_3', 'cases_test_subform_2:field_4']
+      )
+      workbook = Spreadsheet.open(StringIO.new(data))
+      expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID first_name field_3 field_4])
+    end
+
+    it 'contains a sheet for the selected nested fields with their form' do
+      data = Exporters::SelectedFieldsExcelExporter.export(
+        @records, @user,
+        form_unique_ids: %w[cases_test_subform_2],
+        field_names: ['first_name', 'cases_test_subform_2:field_3', 'cases_test_subform_2:field_4']
+      )
+      workbook = Spreadsheet.open(StringIO.new(data))
+      expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID first_name])
+      expect(workbook.worksheets[1].row(0).to_a).to eq(%w[ID field_3 field_4])
+    end
+  end
 end

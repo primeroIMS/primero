@@ -132,7 +132,7 @@ module Exporters
 
       # TODO: Don't forget this:
       # user.can?(:write, model_class) ? permitted_fields : permitted_fields.select(&:showable?)
-      options[:field_names].map do |field_name|
+      options[:field_names].map { |field| field.split(':').last }.map do |field_name|
         fields.find { |field| field.name == field_name }
       end.compact
     end
