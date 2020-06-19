@@ -90,7 +90,7 @@
     "mini-css-extract-plugin": "^0.8.2",
     "mocha": "^6.2.3",
     "msal": "^1.2.2",
-    "mui-datatables": "^2.14.0",
+    "mui-datatables": "^3.0.1",
     "mutationobserver-shim": "^0.3.5",
     "nock": "^10.0.6",
     "normalizr": "^3.6.0",

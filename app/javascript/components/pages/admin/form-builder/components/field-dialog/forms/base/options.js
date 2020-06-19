@@ -82,18 +82,13 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
 export const optionsForm = (fieldName, i18n, mode, field, lookups, css) => {
   const optionsFormFields = [
     FieldRecord({
-      display_name: i18n.t("fields.options_indications"),
+      display_name: i18n.t("fields.options_indications_lookup_values"),
       name: "options_indications",
-      boldWords: [
-        i18n.t("fields.options_indications_or"),
-        i18n.t("fields.options_indications_restrictions")
-      ],
-      phraseParts: [
-        i18n.t("fields.options_indications_lookup"),
-        i18n.t("fields.options_indications_or"),
-        i18n.t("fields.options_indications_unique_val"),
-        i18n.t("fields.options_indications_restrictions")
-      ],
+      type: LABEL_FIELD
+    }),
+    FieldRecord({
+      display_name: i18n.t("fields.options_indications_restrictions"),
+      name: "options_indications",
       inputClassname: css.boldLabel,
       type: LABEL_FIELD
     }),

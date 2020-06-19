@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 
-import styles from "./styles.css";
+import styles from "../styles.css";
 
 const PageContent = ({ children }) => {
   const css = makeStyles(styles)();
