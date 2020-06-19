@@ -13,7 +13,7 @@ import LoadingIndicator from "../loading-indicator";
 import { FormAction, FormSection, whichFormMode } from "../form";
 import { fetchReport } from "../report/action-creators";
 import { getReport } from "../report/selectors";
-import { PageContainer, PageContent, PageHeading } from "../page";
+import PageContainer, { PageContent, PageHeading } from "../page";
 import bindFormSubmit from "../../libs/submit-form";
 import { ROUTES, SAVE_METHODS } from "../../config";
 import { getAgeRanges } from "../application/selectors";

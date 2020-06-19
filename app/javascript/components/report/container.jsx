@@ -9,7 +9,7 @@ import { BarChart as BarChartGraphic, TableValues } from "../charts";
 import { getLoading, getErrors } from "../index-table/selectors";
 import LoadingIndicator from "../loading-indicator";
 import { useI18n } from "../i18n";
-import { PageContainer, PageContent, PageHeading } from "../page";
+import PageContainer, { PageContent, PageHeading } from "../page";
 import { FormAction, whichFormMode } from "../form";
 import { usePermissions } from "../user";
 import { WRITE_RECORDS } from "../../libs/permissions";
