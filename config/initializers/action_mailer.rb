@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 email_settings = YAML.safe_load(File.open("#{Rails.root}/config/mailers.yml"))[Rails.env.to_s]
-                     .with_indifferent_access
+                     .deep_symbolize_keys
 
 Rails.application.config.action_mailer.tap do |action_mailer|
   action_mailer.delivery_method = email_settings[:delivery_method].to_sym
