@@ -1,8 +1,10 @@
 import { fromJS, Map, OrderedMap } from "immutable";
 import Divider from "@material-ui/core/Divider";
+import CancelIcon from "@material-ui/icons/Cancel";
 
 import { setupMountedComponent } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
+import { ConditionalWrapper } from "../../../libs";
 
 import Nav from "./Nav";
 import NavGroup from "./NavGroup";
@@ -117,11 +119,16 @@ describe("<Nav />", () => {
     isNew: true,
     mobileDisplay: true,
     selectedForm: "",
-    selectedRecord: ""
+    selectedRecord: "",
+    toggleNav: false
   };
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(Nav, props, initialState));
+  });
+
+  it("renders a CancelIcon component />", () => {
+    expect(component.find(CancelIcon)).to.have.lengthOf(1);
   });
 
   it("renders a Nav component />", () => {
@@ -140,6 +147,10 @@ describe("<Nav />", () => {
     expect(component.find(NavGroup)).to.have.lengthOf(2);
   });
 
+  it("renders a ConditionalWrapper />", () => {
+    expect(component.find(ConditionalWrapper)).to.have.lengthOf(1);
+  });
+
   it("should render valid props", () => {
     const navProps = { ...component.find(Nav).props() };
 
@@ -151,7 +162,8 @@ describe("<Nav />", () => {
       "isNew",
       "mobileDisplay",
       "selectedForm",
-      "selectedRecord"
+      "selectedRecord",
+      "toggleNav"
     ].forEach(property => {
       expect(navProps).to.have.property(property);
       delete navProps[property];
