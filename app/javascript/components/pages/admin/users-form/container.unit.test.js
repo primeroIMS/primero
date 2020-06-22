@@ -6,7 +6,7 @@ import { FormAction } from "../../../form";
 
 import UsersForm from "./container";
 
-describe("<UsersList />", () => {
+describe("<UsersForm />", () => {
   let component;
 
   beforeEach(() => {
@@ -57,10 +57,11 @@ describe("<UsersList />", () => {
   });
 
   it("renders submit button with valid props", () => {
-    const saveButtonProps = { ...component.find(FormAction).at(1).props() };
+    const saveButton = component.find(FormAction).at(1);
+    const saveButtonProps = { ...saveButton.props() };
 
-    expect(component.find(saveButtonProps)).to.have.lengthOf(1);
-    ["actionHandler", "text", "savingRecord"].forEach(property => {
+    expect(saveButton).to.have.lengthOf(1);
+    ["actionHandler", "text", "savingRecord", "startIcon"].forEach(property => {
       expect(saveButtonProps).to.have.property(property);
       delete saveButtonProps[property];
     });

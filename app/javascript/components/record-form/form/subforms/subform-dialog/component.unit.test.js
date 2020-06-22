@@ -31,7 +31,7 @@ describe("<SubformDialog />", () => {
       isShow: true
     },
     index: 0,
-    i18n: {},
+    i18n: { t: value => value },
     open: true,
     setOpen: () => {},
     title: "Family details"
@@ -91,7 +91,7 @@ describe("<SubformDialog />", () => {
         isShow: true
       },
       index: 0,
-      i18n: {},
+      i18n: { t: value => value },
       open: true,
       setOpen: () => {},
       title: "Family details"
