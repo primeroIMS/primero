@@ -125,7 +125,6 @@ const identityUserFields = (i18n, identityOptions) => [
     display_name: i18n.t("user.identity_provider"),
     name: IDENTITY_PROVIDER_ID,
     type: SELECT_FIELD,
-    disabled: true,
     required: true,
     editable: false,
     option_strings_text: identityOptions

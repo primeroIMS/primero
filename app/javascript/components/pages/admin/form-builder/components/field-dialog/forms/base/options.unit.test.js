@@ -19,7 +19,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - op
       const form = optionsForm("test_1", i18n, mode, newField, [], css);
 
       expect(form.unique_id).to.equal("field_form_options");
-      expect(form.fields).to.have.lengthOf(2);
+      expect(form.fields).to.have.lengthOf(3);
     });
 
     it("DEPRECATED should return the options form with passed fields", () => {

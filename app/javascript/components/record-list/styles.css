@@ -46,7 +46,21 @@
 
 .photoHeader, .photoIcon, .alerts {
   width: 45px;
-  text-align: center;
+}
+
+.alerts {
+  display: flex;
+
+  & > span {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & svg {
+      margin: 0;
+    }
+  }
 }
 
 .showActionButton {

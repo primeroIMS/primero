@@ -26,7 +26,7 @@ const Component = ({
   return (
     <Box mb={3} alignItems="center" display="flex" className={css.toolbar}>
       <Box flexGrow={1}>
-        <PageHeading title={title} />
+        <PageHeading title={title} mobileHeading />
       </Box>
       <Box>
         {mobileDisplay && (

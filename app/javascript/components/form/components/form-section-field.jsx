@@ -61,9 +61,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     groupBy,
     tooltip,
     numeric,
-    onChange,
-    boldWords,
-    phraseParts
+    onChange
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -135,9 +133,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     selectedValue,
     tooltip,
     numeric,
-    onChange,
-    boldWords,
-    phraseParts
+    onChange
   };
 
   const Field = (fieldType => {

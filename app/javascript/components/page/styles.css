@@ -16,6 +16,10 @@
   padding: 1.563em 2em 4em 2em;
 }
 
+.noWrap {
+  padding: 0
+}
+
 .appBar {
   background-color: $(theme.primero.colors.contentGrey);
 }
@@ -26,6 +30,10 @@
 
 .toolbar {
   padding: 0;
+}
+
+.toolbarMobile {
+  padding: .8em 1em 0;
 }
 
 .heading {
