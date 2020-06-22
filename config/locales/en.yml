@@ -2198,6 +2198,8 @@ en:
     required_field: "%{field} is a required field"
     type_label: "Type"
     select_label: "Select"
+    subform_not_found: "No %{subform_name} found."
+    subform_need_to_be_added: "They need to be added."
 
   form_section:
     name: "Name"

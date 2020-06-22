@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { IconButton, Box } from "@material-ui/core";
+import { Fab, Box, makeStyles, useMediaQuery } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
+import isEmpty from "lodash/isEmpty";
 
 import SubformFields from "../subform-fields";
 import SubformDialog from "../subform-dialog";
+import SubformEmptyData from "../subform-empty-data";
 import { SUBFORM_FIELD_ARRAY } from "../constants";
+import { useThemeHelper } from "../../../../../libs";
+import styles from "../styles.css";
 
 const Component = ({
   arrayHelpers,
@@ -21,6 +25,9 @@ const Component = ({
   const values = getIn(formik.values, name);
   const [openDialog, setOpenDialog] = useState({ open: false, index: null });
   const [dialogIsNew, setDialogIsNew] = useState(false);
+  const css = makeStyles(styles)();
+  const { theme } = useThemeHelper(styles);
+  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleAddSubform = async () => {
     await arrayHelpers.push(initialSubformValue);
@@ -30,27 +37,17 @@ const Component = ({
 
   const { open, index } = openDialog;
   const title = displayName?.[i18n.locale];
+  const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
 
-  return (
+  const renderEmptyData = isEmpty(values) ? (
+    <SubformEmptyData
+      handleClick={handleAddSubform}
+      i18n={i18n}
+      mode={mode}
+      subformName={title}
+    />
+  ) : (
     <>
-      <Box display="flex" alignItems="center">
-        <Box flexGrow={1}>
-          <h4>
-            {!mode.isShow && i18n.t("fields.add")} {title}
-          </h4>
-        </Box>
-        <Box>
-          {!mode.isShow && (
-            <IconButton
-              size="medium"
-              variant="contained"
-              onClick={handleAddSubform}
-            >
-              <AddIcon />
-            </IconButton>
-          )}
-        </Box>
-      </Box>
       <SubformFields
         arrayHelpers={arrayHelpers}
         field={field}
@@ -72,6 +69,31 @@ const Component = ({
         i18n={i18n}
         formik={formik}
       />
+    </>
+  );
+
+  return (
+    <>
+      <Box display="flex" alignItems="center">
+        <Box flexGrow={1}>
+          <h3>
+            {!mode.isShow && i18n.t("fields.add")} {title}
+          </h3>
+        </Box>
+        <Box>
+          {!mode.isShow && (
+            <Fab
+              className={css.actionButtonSubform}
+              variant="extended"
+              onClick={handleAddSubform}
+            >
+              <AddIcon />
+              {renderAddText}
+            </Fab>
+          )}
+        </Box>
+      </Box>
+      {renderEmptyData}
     </>
   );
 };
