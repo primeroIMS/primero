@@ -346,3 +346,5 @@ export const APPROVALS_TYPES = Object.freeze({
   case_plan: "case_plan",
   closure: "closure"
 });
+
+export const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];

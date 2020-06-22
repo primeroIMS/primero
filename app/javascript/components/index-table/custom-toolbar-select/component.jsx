@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { ButtonBase, Typography, TablePagination } from "@material-ui/core";
 
 import { useI18n } from "../../i18n";
+import { ROWS_PER_PAGE_OPTIONS } from "../../../config/constants";
 
 import styles from "./styles.css";
 import { NAME } from "./constants";
@@ -16,7 +17,6 @@ const Component = ({
   page,
   perPage,
   recordType,
-  rowsPerPageOptions,
   selectedFilters,
   selectedRecords,
   selectedRows,
@@ -71,7 +71,7 @@ const Component = ({
     count: totalRecords,
     page: page - 1,
     rowsPerPage: perPage,
-    rowsPerPageOptions,
+    rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
     component: "div",
     onChangePage: (e, currentPage) => {
       dispatch(
@@ -106,7 +106,6 @@ Component.propTypes = {
   page: PropTypes.number,
   perPage: PropTypes.number,
   recordType: PropTypes.string,
-  rowsPerPageOptions: PropTypes.array,
   selectedFilters: PropTypes.object,
   selectedRecords: PropTypes.object,
   selectedRows: PropTypes.object,

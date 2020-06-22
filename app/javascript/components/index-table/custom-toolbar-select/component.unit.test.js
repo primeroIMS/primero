@@ -17,7 +17,6 @@ describe("<CustomToolbarSelect />", () => {
     selectedRows: { data: { length: 4 } },
     totalRecords: 7,
     page: 1,
-    rowsPerPageOptions: [1, 2],
     selectedFilters: {},
     fetchRecords: () => {}
   };

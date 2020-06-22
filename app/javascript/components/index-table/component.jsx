@@ -16,7 +16,11 @@ import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
 import { selectAgencies } from "../application/selectors";
 import { useI18n } from "../i18n";
-import { STRING_SOURCES_TYPES, RECORD_PATH } from "../../config";
+import {
+  STRING_SOURCES_TYPES,
+  RECORD_PATH,
+  ROWS_PER_PAGE_OPTIONS
+} from "../../config";
 import { ALERTS_COLUMNS } from "../record-list/constants";
 
 import recordListTheme from "./theme";
@@ -229,8 +233,6 @@ const Component = ({
     }
   };
 
-  const rowsPerPageOptions = [20, 50, 75, 100];
-
   const currentPage = page - 1;
 
   const selectedRecordsOnCurrentPage =
@@ -251,7 +253,6 @@ const Component = ({
       page={page}
       fetchRecords={onTableChange}
       selectedFilters={selectedFilters}
-      rowsPerPageOptions={rowsPerPageOptions}
     />
   );
 
@@ -281,7 +282,7 @@ const Component = ({
     },
     onColumnSortChange: () => selectedRecords && setSelectedRecords({}),
     onTableChange: handleTableChange,
-    rowsPerPageOptions,
+    rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
     page: currentPage,
     enableNestedDataAccess: ".",
     sortOrder: sortDir,
