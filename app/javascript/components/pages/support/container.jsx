@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import makeStyles from "@material-ui/styles/makeStyles";
 
 import { useI18n } from "../../i18n";
-import { PageContainer, PageContent } from "../../page";
+import PageContainer, { PageContent } from "../../page";
 import DisplayData from "../../display-data";
 
 import styles from "./styles.css";

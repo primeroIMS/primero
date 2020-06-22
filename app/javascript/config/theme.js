@@ -139,57 +139,20 @@ const overrides = {
   },
   MuiTableRow: {
     hover: {
+      cursor: "pointer",
       "&:hover": {
         background: colors.lightGrey
       }
     }
   },
-  MUIDataTableBodyRow: {
-    hover: {
-      cursor: "pointer"
-    }
-  },
-  MUIDataTableBodyCell: {
-    root: {
-      padding: "10px",
-      [muiTheme.breakpoints.down("sm")]: {
-        "&:nth-last-child(2), &:last-child": {
-          border: "none"
-        }
-      }
-    },
-    stackedCommon: {
-      [muiTheme.breakpoints.down("sm")]: {
-        width: "50%",
-        height: "40px",
-        display: "flex",
-        fontSize: muiTheme.typography.pxToRem(14),
-        backgroundColor: colors.white,
-        alignItems: "center",
-        float: "left",
-        fontWeight: 600,
-        padding: "2em 10px"
-      }
-    },
-    responsiveStackedSmall: {
-      [muiTheme.breakpoints.down("sm")]: {
-        width: "50%",
-        height: "40px",
-        display: "flex",
-        fontSize: muiTheme.typography.pxToRem(14),
-        alignItems: "center",
-        float: "left",
-        padding: "2em 0"
-      }
-    }
-  },
   MUIDataTableHeadCell: {
     root: {
-      padding: "10px",
       fontWeight: "900",
       textTransform: "uppercase",
       fontSize: muiTheme.typography.pxToRem(12),
-      color: `${colors.grey}`
+      color: `${colors.grey}`,
+      lineHeight: "1.3em",
+      padding: ".5em"
     }
   },
   MuiChip: {

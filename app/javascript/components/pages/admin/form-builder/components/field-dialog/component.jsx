@@ -51,7 +51,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(mode);
   const openFieldDialog = useSelector(state =>
-    selectDialog(ADMIN_FIELDS_DIALOG, state)
+    selectDialog(state, ADMIN_FIELDS_DIALOG)
   );
   const i18n = useI18n();
   const formRef = useRef();

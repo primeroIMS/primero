@@ -8,7 +8,7 @@ import clsx from "clsx";
 
 import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
-import { PageContainer } from "../page";
+import PageContainer from "../page";
 import Transitions, { fetchTransitions } from "../transitions";
 import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";

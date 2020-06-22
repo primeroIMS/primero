@@ -140,7 +140,7 @@ describe("<IndexTable />", () => {
     expect(component.find(MUIDataTable)).to.have.lengthOf(1);
   });
 
-  it("should change sort order to descending if user clicks on a column", () => {
+  it("should change sort order to ascending if user clicks on a column", () => {
     const nameColumnIndex = 3;
     const table = component.find(IndexTable);
 
@@ -150,7 +150,7 @@ describe("<IndexTable />", () => {
     table.find("thead th span").at(nameColumnIndex).simulate("click");
 
     expect(table.find("div").last().text()).to.be.be.equals(
-      "Table now sorted by name : descending"
+      "Table now sorted by name : ascending"
     );
   });
 
