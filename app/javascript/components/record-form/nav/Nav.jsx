@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { List, IconButton, Drawer } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
-import CancelIcon from "@material-ui/icons/Cancel";
+import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/styles";
 
 import { getRecordAlerts } from "../../records/selectors";
@@ -72,7 +72,7 @@ const Nav = ({
         aria-label="Menu"
         onClick={handleToggleNav}
       >
-        <CancelIcon />
+        <CloseIcon />
       </IconButton>
     </div>
   );

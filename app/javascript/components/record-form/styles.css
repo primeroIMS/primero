@@ -46,7 +46,7 @@
 
 .formNavOpen {
   & .recordNav {
-    flex: 3;
+    flex: 0;
     width: 100%;
   }
 
@@ -58,9 +58,7 @@
 
 @media $(theme.breakpoints.down("sm")) {
   .recordNav {
-    flex: 0;
     width: auto;
-    padding: 0;
   }
 
   .recordForms {

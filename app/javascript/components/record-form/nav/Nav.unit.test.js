@@ -1,6 +1,6 @@
 import { fromJS, Map, OrderedMap } from "immutable";
 import Divider from "@material-ui/core/Divider";
-import CancelIcon from "@material-ui/icons/Cancel";
+import CloseIcon from "@material-ui/icons/Close";
 
 import { setupMountedComponent } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
@@ -127,8 +127,8 @@ describe("<Nav />", () => {
     ({ component } = setupMountedComponent(Nav, props, initialState));
   });
 
-  it("renders a CancelIcon component />", () => {
-    expect(component.find(CancelIcon)).to.have.lengthOf(1);
+  it("renders a CloseIcon component />", () => {
+    expect(component.find(CloseIcon)).to.have.lengthOf(1);
   });
 
   it("renders a Nav component />", () => {
