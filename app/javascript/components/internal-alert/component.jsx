@@ -19,15 +19,13 @@ import { generate } from "../notifier/utils";
 import { useI18n } from "../i18n";
 
 import { NAME, SEVERITY } from "./constants";
+import { expansionPanelSummaryClasses } from "./theme";
 import styles from "./styles.css";
 
 const Component = ({ items, severity }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
-  const classes = makeStyles({
-    expanded: { opacity: 1 },
-    content: { "&$expanded": { margin: 0 } }
-  })();
+  const classes = makeStyles(expansionPanelSummaryClasses)();
 
   const renderItems = () => {
     return (
