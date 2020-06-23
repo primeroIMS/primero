@@ -71,8 +71,8 @@ class Header < ValueObject
       header_list << CASE_OPENING_DATE if user.has_module?(PrimeroModule::GBV)
       header_list << PHOTO if user.has_module?(PrimeroModule::CP) && user.can?(:view_photo, Child)
       header_list << SOCIAL_WORKER if user.is_manager?
-      header_list << ALERT_COUNT if user.has_module?(PrimeroModule::CP) || user.has_module?(PrimeroModule::GBV)
-      header_list << FLAG_COUNT if user.has_module?(PrimeroModule::CP) || user.has_module?(PrimeroModule::GBV)
+      header_list << ALERT_COUNT
+      header_list << FLAG_COUNT
 
       header_list
     end
