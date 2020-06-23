@@ -2071,9 +2071,9 @@ en:
       export_custom: "Export custom"
       export_duplicate_id_csv: "Export duplicates"
       import: "Import"
-      transfer: "Transfer"
+      transfer: "Can be used for transfer"
       reassign: "Reassign"
-      referral: "Referral"
+      referral: "Can be used for referral"
       sync_mobile: "Sync with mobile device"
       request_approval: "Request for approval"
       request_approval_assessment: "Request %{approval_label} approval"
@@ -2150,6 +2150,10 @@ en:
       receive_referral: "Receive Referral"
       reopen: "Reopen"
       close: "Close"
+      case_exports: "Case Exports"
+      case_approvals: "Case Approvals"
+      cases_managed_other_users: "Cases managed by other users"
+      case_assignments_referrals_transfers: "Case assignments, referrals, and transfers"
 
   forms:
     label: "Forms"
