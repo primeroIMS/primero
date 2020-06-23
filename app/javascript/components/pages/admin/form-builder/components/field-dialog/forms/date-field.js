@@ -14,7 +14,7 @@ import {
   visibilityForm
 } from "./base";
 
-const customFields = (field, i18n, css) => {
+const customFields = ({ field, i18n, css }) => {
   const fieldName = field.get("name");
   const includeTime = field.get("date_include_time");
 
@@ -45,19 +45,19 @@ const customFields = (field, i18n, css) => {
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export const dateFieldForm = (field, i18n, css, mode) => {
+export const dateFieldForm = ({ field, i18n, css, formMode, isNested }) => {
   const fieldName = field.get("name");
-  const custom = customFields(field, i18n, css, mode);
-  const formFields = [
-    ...Object.values(generalFields(fieldName, i18n, mode)),
+  const custom = customFields({ field, i18n, css, formMode });
+  const fields = [
+    ...Object.values(generalFields({ fieldName, i18n, formMode })),
     ...custom
   ];
 
   return {
     forms: fromJS([
-      generalForm(fieldName, i18n, mode, formFields),
-      visibilityForm(fieldName, i18n)
+      generalForm({ fieldName, i18n, formMode, fields }),
+      visibilityForm({ fieldName, i18n, isNested })
     ]),
-    validationSchema: validationSchema(fieldName, i18n)
+    validationSchema: validationSchema({ fieldName, i18n })
   };
 };

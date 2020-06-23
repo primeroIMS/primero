@@ -4,7 +4,7 @@ import { textFieldForm } from "./text-field";
 
 describe("textFieldForm()", () => {
   const i18n = { t: value => value };
-  const mode = fromJS({
+  const formMode = fromJS({
     isNew: false,
     isEdit: true
   });
@@ -13,7 +13,7 @@ describe("textFieldForm()", () => {
     const { forms } = textFieldForm({
       field: fromJS({ name: "field_1" }),
       i18n,
-      mode
+      formMode
     });
 
     expect(forms).to.have.sizeOf(2);

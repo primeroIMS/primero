@@ -2,12 +2,6 @@ import { fromJS } from "immutable";
 import { object, string, array } from "yup";
 
 import {
-  FieldRecord,
-  SELECT_FIELD,
-  ORDERABLE_OPTIONS_FIELD
-} from "../../../../../../form";
-
-import {
   validationSchema,
   generalForm,
   optionsForm,
@@ -15,24 +9,19 @@ import {
 } from "./base";
 
 /* eslint-disable import/prefer-default-export */
-export const selectFieldForm = ({ field, i18n, mode }) => {
+export const selectFieldForm = ({
+  css,
+  field,
+  formMode,
+  i18n,
+  isNested,
+  lookups
+}) => {
   const fieldName = field.get("name");
   const options = field.get("option_strings_text", fromJS({}));
-  let optionsFormFields = [];
   let extraValidations = {};
 
   if (options?.size) {
-    optionsFormFields = optionsFormFields.concat(
-      FieldRecord({
-        display_name: i18n.t("fields.find_lookup"),
-        name: `${fieldName}.option_strings_text`,
-        type: ORDERABLE_OPTIONS_FIELD,
-        disabled: mode.get("isEdit"),
-        selected_value: field.get("selected_value"),
-        option_strings_text: options?.size ? options.toJS() : {}
-      })
-    );
-
     extraValidations = {
       selected_value: string().nullable(),
       option_strings_text: object().shape({
@@ -49,22 +38,6 @@ export const selectFieldForm = ({ field, i18n, mode }) => {
       })
     };
   } else if (field.get("option_strings_source")) {
-    optionsFormFields = optionsFormFields.concat([
-      FieldRecord({
-        display_name: i18n.t("fields.find_lookup"),
-        name: `${fieldName}.option_strings_source`,
-        type: SELECT_FIELD,
-        option_strings_source: "Lookups",
-        disabled: mode.get("isEdit")
-      }),
-      FieldRecord({
-        display_name: i18n.t("fields.default_value"),
-        name: `${fieldName}.selected_value`,
-        type: SELECT_FIELD,
-        option_strings_source: field.get("option_strings_source")
-      })
-    ]);
-
     extraValidations = {
       option_strings_source: string().required(),
       selected_value: string().nullable()
@@ -73,10 +46,14 @@ export const selectFieldForm = ({ field, i18n, mode }) => {
 
   return {
     forms: fromJS([
-      generalForm(fieldName, i18n, mode),
-      optionsForm(fieldName, i18n, optionsFormFields),
-      visibilityForm(fieldName, i18n)
+      generalForm({ fieldName, i18n, formMode }),
+      optionsForm({ fieldName, i18n, formMode, field, lookups, css }),
+      visibilityForm({ fieldName, i18n, isNested })
     ]),
-    validationSchema: validationSchema(fieldName, i18n, extraValidations)
+    validationSchema: validationSchema({
+      fieldName,
+      i18n,
+      overrides: extraValidations
+    })
   };
 };

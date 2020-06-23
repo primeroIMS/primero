@@ -105,7 +105,9 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
               value={value.alert_count}
               icon={ALERTS_COLUMNS.alert_count}
             />
-          ) : null;
+          ) : (
+            <span />
+          );
 
         const flagIcon =
           // eslint-disable-next-line camelcase
@@ -114,7 +116,9 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
               value={value.flag_count}
               icon={ALERTS_COLUMNS.flag_count}
             />
-          ) : null;
+          ) : (
+            <span />
+          );
 
         return (
           <div className={css.alerts}>

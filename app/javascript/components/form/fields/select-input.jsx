@@ -5,14 +5,17 @@ import { TextField, Chip } from "@material-ui/core";
 import Autocomplete, {
   createFilterOptions
 } from "@material-ui/lab/Autocomplete";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
+
+import InputLabel from "../components/input-label";
 
 const filter = createFilterOptions();
 
 const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
-  const { multiSelect, freeSolo, groupBy } = metaInputProps;
+  const { multiSelect, freeSolo, groupBy, tooltip, onChange } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
+  const methods = useFormContext();
 
   const optionLabel = option => {
     if (typeof option === "string" && option === "") {
@@ -35,6 +38,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const defaultValue = multiSelect ? [] : optionsUseIntegerIds ? null : null;
 
   const handleChange = data => {
+    if (onChange) {
+      onChange(methods);
+    }
+
     return multiSelect
       ? data?.[1]?.map(selected =>
           typeof selected === "object" ? selected?.id : selected
@@ -82,7 +89,17 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       }
     };
 
-    return <TextField {...inputParams} margin="normal" {...props} />;
+    // eslint-disable-next-line react/prop-types
+    const { label, ...rest } = props;
+
+    return (
+      <TextField
+        {...inputParams}
+        label={<InputLabel tooltip={tooltip} text={label} />}
+        margin="normal"
+        {...rest}
+      />
+    );
   };
 
   const renderTags = (value, getTagProps) =>
@@ -129,6 +146,7 @@ SelectInput.propTypes = {
     disabled: PropTypes.bool,
     groupBy: PropTypes.string,
     helperText: PropTypes.string,
+    label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
   }),
   metaInputProps: PropTypes.object,

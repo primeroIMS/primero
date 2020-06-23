@@ -1,30 +1,53 @@
+import { fromJS } from "immutable";
+
 import { FieldRecord, TEXT_FIELD } from "../../../../../../../form";
 
 import { optionsForm } from "./options";
 
 describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - options", () => {
   const i18n = { t: value => value };
+  const formMode = fromJS({ isEdit: true });
+  const css = { boldLabel: "" };
 
   describe("optionsForm", () => {
     it("should return the options form with default fields", () => {
-      const form = optionsForm("test_1", i18n);
-      const fieldNames = form.fields.map(field => field.name);
+      const newField = FieldRecord({
+        display_name: "new_field",
+        name: "new_field",
+        type: TEXT_FIELD
+      });
+      const form = optionsForm({
+        fieldName: "test_1",
+        i18n,
+        formMode,
+        field: newField,
+        lookups: [],
+        css
+      });
 
       expect(form.unique_id).to.equal("field_form_options");
-      expect(fieldNames).to.deep.equal([]);
+      expect(form.fields).to.have.lengthOf(3);
     });
 
-    it("should return the options form with passed fields", () => {
+    it("DEPRECATED should return the options form with passed fields", () => {
       const customField = FieldRecord({
         display_name: "Custom Field 1",
         name: "custom_field_1",
         type: TEXT_FIELD
       });
-      const form = optionsForm("test_1", i18n, [customField]);
+
+      const form = optionsForm({
+        fieldName: "test_1",
+        i18n,
+        formMode,
+        field: customField,
+        lookups: [],
+        css
+      });
       const fieldNames = form.fields.map(field => field.name);
 
       expect(form.unique_id).to.equal("field_form_options");
-      expect(fieldNames).to.deep.equal(["custom_field_1"]);
+      expect(fieldNames).to.not.equal(["custom_field_1"]);
     });
   });
 });

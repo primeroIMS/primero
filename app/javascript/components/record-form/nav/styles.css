@@ -23,3 +23,16 @@
     border-radius: 4px;
   }
 }
+
+@media $(theme.breakpoints.down("sm")) {
+  .closeButtonRecordNav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    max-height: 2em;
+  }
+
+  .drawerPaper {
+    top: inherit;
+  }
+}

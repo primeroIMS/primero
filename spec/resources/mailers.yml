@@ -1,0 +1,15 @@
+---
+test:
+  delivery_method: smtp
+  smtp_conf:
+    address: test.sample.com
+    port: 25
+    domain: test.primero.org
+    authentication: $SMTP_AUTH
+    user_name: $SMTP_USER
+    password: $SMTP_PASSWORD
+    enable_starttls_auto: $SMTP_STARTTLS_AUTO
+  notifications:
+    host: test.primero.org
+  default_options:
+    from: notifier@test.primero.org

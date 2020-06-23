@@ -78,7 +78,6 @@ en:
     enter_each_in_one_line: "Enter each option on a new line"
     record_count: "Showing %{start} to %{end} of %{total} records"
     form_sections_help_text_for_edit: "Click the EDIT button to add %{form_section_name} details"
-    form_sections_case_update_alert: "A new %{form_section_name} was added to the case on %{alert_time}"
     service_provision: "service provision"
     enable_disable_record: "Clicking OK will change the state of this record to '%{action}'"
     reopen_record: "Clicking OK will change the status of this case to Open"
@@ -90,12 +89,15 @@ en:
     forms_export: "This export provides a spreadsheet of the available Forms and form fields. This spreadsheet is used for creating the mapping of the Form configuration to be used in the implementation. Note that this spreadsheet cannot be used to import data into Primero."
     string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
     system_settings_failed: "System Settings failed to load."
-    approval_alert: "Approval is pending for %{form_name}"
     field_change_alert: "The %{form_name} form was updated by the service provider on %{date}"
-    transfer_request_alert: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
     loading: "Loading..."
     no_changes: "You made no field changes"
     dashboard_offline: "You're offline. The dashboard will be fully functional when you are back online"
+    alert_items: "You got %{items} items of note."
+    alerts_for:
+      field_change: "A new %{form_section_name} was added to the case on %{alert_time}"
+      approval: "Approval is pending for %{form_section_name}"
+      transfer_request: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -1069,9 +1071,13 @@ en:
     name: "Agency Name"
     code: "Agency Code"
     services: "Agency Services"
+    agency_logos: "Agency Logos"
     logo_icon: "Icon Logo"
+    logo_icon_help: "This will appear on small screen sizes, tablets, and phones. This should be a square."
     logo_large: "Large Logo"
+    logo_large_help: "This will appear on large screen sizes. This should be a rectangle, with the length longer than the height."
     logo_enabled: "Logo Enabled?"
+    logo_enabled_help: "Display these logos on the Login page and Navigation menu."
     description: "Description"
     telephone: "Telephone"
     disabled: "Disabled"
@@ -1281,6 +1287,7 @@ en:
     resource:
       group:
         label: "What records does this role affect?"
+        explanation: "Controls which records (Cases, Tracing Requests, or Incidents), the role can access. If the role has access to Users and User Groups, this also controls which Users and User Groups they can access. Roles with access to \"No Records\" can only access system configuration such as Forms, Users, and Reports."
         actions:
           self:
             label: "Access only my records or user"
@@ -1298,7 +1305,7 @@ en:
             label: "Access all records or users"
             explanation: "The role can access all records, users, and user groups in the system, regardless of which user
                 groups they belong to themselves."
-          admin:
+          admin_only:
             label: "No records - Admin functionality only"
             explanation: "This means that users with this role will only be able to see things related to administration
                 of the system, such as reports, form and lookup configuration, users, roles, and user groups. They will
@@ -1461,24 +1468,29 @@ en:
                 from happening. Users without this permission also cannot sync their mobile devices with the web application
                 in general, meaning that they cannot use the mobile app to manage cases."
           request_approval_bia:
-            label: "Request BIA approval"
-            explanation: "Allows a user (usually a case worker) to request that their manager approve their Best Interest
-                Assessment (BIA). Many contexts do not use the BIA form."
+            label: "Request %{approval_label} approval"
+            explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
+          request_approval_assessment:
+            label: "Request %{approval_label} approval"
+            explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
           request_approval_case_plan:
-            label: "Request Case Plan approval"
-            explanation: "Allows a user (usually a case worker) to request that their manager approve their case plan."
+            label: "Request %{approval_label} approval"
+            explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
           request_approval_closure:
-            label: "Request Closure approval"
-            explanation: "Allows a user (usually a case worker) to request that their manager approve the closure of their case."
+            label: "Request %{approval_label} approval"
+            explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
           approve_bia:
-            label: "Approve BIA form"
-            explanation: "Allows a manager to approve the Best Interest Assessment (BIA) for their case workers' cases. Many contexts do not use the BIA form."
+            label: "Approve %{approval_label} form"
+            explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
+          approve_assessment:
+            label: "Approve %{approval_label} form"
+            explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
           approve_case_plan:
-            label: "Approve Case Plan"
-            explanation: "Allows a manager to approve their case workers' case plan."
+            label: "Approve %{approval_label}"
+            explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
           approve_closure:
-            label: "Approve Closure form"
-            explanation: "Allows a manager to approve the closure of their case workers' cases."
+            label: "Approve %{approval_label} form"
+            explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
           search_owned_by_others:
             label: "Search for case records owned by other users"
             explanation: "Allows a user to perform a search for records which they would not usually have access to, either
@@ -1677,7 +1689,7 @@ en:
             explanation: "User can generate a CSV file export from the tracing request list or tracing request show pages,
                 which contains all fields to which the current user has access, for one, multiple, or all tracing requests
                 to which the user has access."
-          export_pdf:
+          export_case_pdf:
             label: "Export PDF"
             explanation: "User can generate a PDF file export from the tracing requests list or tracing request show pages,
                 which contains all fields to which the current user has access, for one, multiple, or all records to which
@@ -1897,7 +1909,7 @@ en:
           case_risk:
             label: "Cases by risk level"
             explanation: "Shows how many cases are at each risk level."
-          dash_reporting_locations:
+          dash_reporting_location:
             label: "Cases by Reporting Location"
             explanation: "Table which shows how many cases there are at each location (at a single level of specificity such
                 as \"Province\" or \"District\"). Each row of the table is a location, and the columns indicate different
@@ -1951,10 +1963,25 @@ en:
             label: "View Protection Concerns By Location"
             explanation: "This is the same as the \"View Protection Concerns\" dashboard, except that the user can select
                 a location from a dropdown to show statistics on protection concern prevalence only in that location."
-          view_no_risk_level:
+          dash_show_none_values:
             label: "View cases with 'No Risk Level' in Assessment Dashboard"
             explanation: "Adds an additional \"No Risk Level\" category to all dashboards which break down cases by risk level.
                 This is specifically for configurations which have a fourth \"No Risk\" option for risk level fields."
+          dash_shared_with_me:
+            label: "Shared With Me"
+            explanation: "Shows how many cases have been referred or transferred to you."
+          dash_shared_with_others:
+            label: "Shared With Others"
+            explanation: "Shows how many of my cases have active referrals, pending transfers, or rejected transfers. Not typically for managers, unless they manage cases themselves."
+          dash_group_overview:
+            label: "My Group's Cases"
+            explanation: "Shows a manager the number of open and closed cases managed by the users in their team."
+          dash_shared_with_my_team:
+            label: "Shared With My Team"
+            explanation: "Shows a manager the number of cases referred or transferred to each one of the users in their team."
+          dash_shared_from_my_team:
+            label:  "Shared From My Team"
+            explanation: "Shows a manager the number of cases managed by each user in their team, which are being referred or transferred to other users."
           dash_tasks:
             label: "Tasks Page"
             explanation: "Allows the user to see the tasks page. This should be used for case workers and service providers,
@@ -2044,9 +2071,9 @@ en:
       export_custom: "Export custom"
       export_duplicate_id_csv: "Export duplicates"
       import: "Import"
-      transfer: "Transfer"
+      transfer: "Can be used for transfer"
       reassign: "Reassign"
-      referral: "Referral"
+      referral: "Can be used for referral"
       sync_mobile: "Sync with mobile device"
       request_approval: "Request for approval"
       request_approval_assessment: "Request %{approval_label} approval"
@@ -2123,6 +2150,10 @@ en:
       receive_referral: "Receive Referral"
       reopen: "Reopen"
       close: "Close"
+      case_exports: "Case Exports"
+      case_approvals: "Case Approvals"
+      cases_managed_other_users: "Cases managed by other users"
+      case_assignments_referrals_transfers: "Case assignments, referrals, and transfers"
 
   forms:
     label: "Forms"
@@ -2383,7 +2414,14 @@ en:
     add_custom_field: "Create Custom Field"
     add_existing_field: "Add Existing Field"
     add_field_type: "Add %{file_type}"
-
+    predifined_lookups: "Use pre-defined lookup"
+    create_unique_values: "Create unique values"
+    remove: "Remove"
+    options_indications_lookup_values: "You may use either pre-defined lookups or create unique values."
+    options_indications_restrictions: "You cannot do both."
+    on_collapsed_subform: "On collapsed subform?"
+    multi_select_box: "Multi-select"
+    date_time: "Date-Time"
     subform_section:
       name: "Subform Title"
       description: "Subform Description"
@@ -2489,6 +2527,8 @@ en:
 
   reports:
     register_new_report: "Create Report"
+    delete_report: "Delete Report"
+    delete_report_message: "Are you sure you want to delete this report? Deletion can not be undone. Click OK to delete report"
     label: "Reports"
     tabs:
       table: "Table"
@@ -2518,6 +2558,8 @@ en:
     group_dates_by: "Use date ranges"
     add_default_filters: "Include default filters"
     add_default_filters_help: "Open and valid"
+    no_filters_added: "No filters added"
+    not_selected: "Not selected"
     date_ranges:
       date: "Day"
       week: "Week"
@@ -2525,9 +2567,17 @@ en:
       year: "Year"
     filters:
       label: "Report filters"
+      label_new: "New report filter"
       attribute: "Filter"
       value: "With"
-      not_null: "Form value is not blank"
+      not_null: "Is not blank?"
+      less_than: "Less than"
+      greater_than: "Greater than"
+      equal_to: "Equal to"
+      not_blank: "Not blank"
+      is: "is"
+      before: "Before"
+      after: "After"
     is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
@@ -2542,6 +2592,9 @@ en:
     edit: "Edit"
     empty_rows: "Do not display empty rows?"
     empty_rows_help_text: "Excludes rows from the report table if all values are zero"
+    attribute: "Attribute"
+    constraint: "Constraint"
+    value: "Value"
 
   encrypt:
     password_title: "Create Password"
@@ -3145,6 +3198,10 @@ en:
       all: JSON
       one: JSON
       selected: Selected to JSON
+    incident_recorder_xls:
+      all: Incident Recorder
+      one: Incident Recorder
+      selected: Selected to Incident Recorder
     unhcr_csv:
       all: UNHCR
       one: UNHCR

@@ -1,18 +1,19 @@
 /* eslint-disable camelcase */
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import omit from "lodash/omit";
+import { FormContext, useForm } from "react-hook-form";
 
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
-import Form, { FormAction, whichFormMode } from "../form";
+import { FormAction, FormSection, whichFormMode } from "../form";
 import { fetchReport } from "../report/action-creators";
 import { getReport } from "../report/selectors";
-import { PageContainer, PageContent, PageHeading } from "../page";
+import PageContainer, { PageContent, PageHeading } from "../page";
 import bindFormSubmit from "../../libs/submit-form";
 import { ROUTES, SAVE_METHODS } from "../../config";
 import { getAgeRanges } from "../application/selectors";
@@ -23,12 +24,19 @@ import {
   AGGREGATE_BY_FIELD,
   DISAGGREGATE_BY_FIELD,
   DEFAULT_FILTERS,
-  REPORT_FIELD_TYPES
+  REPORT_FIELD_TYPES,
+  FILTERS_FIELD
 } from "./constants";
 import NAMESPACE from "./namespace";
 import { form, validations } from "./form";
-import { buildReportFields, formatAgeRange, formatReport } from "./utils";
+import {
+  buildReportFields,
+  checkValue,
+  formatAgeRange,
+  formatReport
+} from "./utils";
 import { clearSelectedReport, saveReport } from "./action-creators";
+import ReportFilters from "./components/filters";
 
 const Container = ({ mode }) => {
   const i18n = useI18n();
@@ -39,6 +47,14 @@ const Container = ({ mode }) => {
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const primeroAgeRanges = useSelector(state => getAgeRanges(state));
   const report = useSelector(state => getReport(state));
+
+  const [indexes, setIndexes] = useState(
+    DEFAULT_FILTERS.map((data, index) => ({ index, data }))
+  );
+
+  const methods = useForm({
+    validationSchema: validations(i18n)
+  });
 
   const allRecordForms = useSelector(state =>
     getRecordForms(state, { all: true })
@@ -56,6 +72,26 @@ const Container = ({ mode }) => {
     };
   }, [id]);
 
+  useEffect(() => {
+    if (report.size) {
+      methods.register({ name: FILTERS_FIELD });
+
+      const selectedReport = {
+        ...formatReport(report.toJS())
+      };
+
+      setIndexes(
+        selectedReport.filters.map((data, index) => ({ index, data }))
+      );
+
+      methods.reset(selectedReport);
+    }
+    if (formMode.get("isNew")) {
+      methods.reset({});
+      setIndexes(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
+    }
+  }, [report]);
+
   const onSubmit = data => {
     const { aggregate_by, disaggregate_by } = data;
 
@@ -68,7 +104,10 @@ const Container = ({ mode }) => {
       data: {
         ...omit(data, [AGGREGATE_BY_FIELD, DISAGGREGATE_BY_FIELD]),
         fields,
-        filters: DEFAULT_FILTERS
+        filters: indexes.map(({ data: filter }) => ({
+          ...filter,
+          value: checkValue(filter)
+        }))
       }
     };
 
@@ -85,6 +124,14 @@ const Container = ({ mode }) => {
       })
     );
   };
+
+  useImperativeHandle(formRef, () => ({
+    submitForm(e) {
+      methods.handleSubmit(data => {
+        onSubmit(data);
+      })(e);
+    }
+  }));
 
   const formSections = form(
     i18n,
@@ -117,28 +164,34 @@ const Container = ({ mode }) => {
     </>
   );
 
-  const initialValues = formMode.get("isNew")
-    ? {}
-    : formatReport(report.toJS());
+  const renderFormSections = () =>
+    formSections.map(formSection => (
+      <FormSection formSection={formSection} key={formSection.unique_id} />
+    ));
 
   return (
     <LoadingIndicator
-      hasData={formMode.get("isNew") || report?.size > 0}
+      hasData={
+        formMode.get("isNew") || (report?.size > 0 && allRecordForms.size > 0)
+      }
+      loading={!report.size}
       type={NAMESPACE}
     >
       <PageContainer>
         <PageHeading title={pageHeading}>{saveButton}</PageHeading>
         <PageContent>
-          <Form
-            submitAllFields
-            useCancelPrompt
-            mode={mode}
-            formSections={formSections}
-            onSubmit={onSubmit}
-            ref={formRef}
-            validations={validations(i18n)}
-            initialValues={initialValues}
-          />
+          <FormContext {...methods} formMode={formMode}>
+            <form>
+              {renderFormSections()}
+              <ReportFilters
+                allRecordForms={allRecordForms}
+                parentFormMethods={methods}
+                selectedReport={report}
+                indexes={indexes}
+                setIndexes={setIndexes}
+              />
+            </form>
+          </FormContext>
         </PageContent>
       </PageContainer>
     </LoadingIndicator>
