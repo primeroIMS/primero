@@ -79,7 +79,14 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
 };
 
 /* eslint-disable import/prefer-default-export */
-export const optionsForm = (fieldName, i18n, mode, field, lookups, css) => {
+export const optionsForm = ({
+  fieldName,
+  i18n,
+  formMode,
+  field,
+  lookups,
+  css
+}) => {
   const optionsFormFields = [
     FieldRecord({
       display_name: i18n.t("fields.options_indications_lookup_values"),
@@ -93,7 +100,7 @@ export const optionsForm = (fieldName, i18n, mode, field, lookups, css) => {
       type: LABEL_FIELD
     }),
     {
-      tabs: optionsTabs(fieldName, i18n, mode, field, lookups)
+      tabs: optionsTabs(fieldName, i18n, formMode, field, lookups)
     }
   ];
 

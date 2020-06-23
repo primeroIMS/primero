@@ -386,8 +386,8 @@ describe("<FormsBuilder /> - Reducers", () => {
           id: 1,
           unique_id: "form_1",
           fields: [
-            { id: 1, name: "field_1" },
-            { id: 2, name: "field_2" }
+            { id: 1, name: "field_1", on_collapsed_subform: false },
+            { id: 2, name: "field_2", on_collapsed_subform: false }
           ]
         });
         const action = {
@@ -477,30 +477,31 @@ describe("<FormsBuilder /> - Reducers", () => {
   });
 
   describe("UPDATE_SELECTED_SUBFORM", () => {
+    const selectedSubform = {
+      id: 1,
+      unique_id: "form_1",
+      name: { en: "Form Section 1" },
+      fields: [
+        { id: 1, name: "field_1", display_name: { en: "Field 1" } },
+        { id: 2, name: "field_2", display_name: { en: "Field 2" } }
+      ],
+      collapsed_field_names: []
+    };
+
+    const updatedSubform = {
+      ...selectedSubform,
+      name: { en: "Updated Form Section 1 " },
+      fields: [
+        {
+          id: 1,
+          name: "field_1",
+          display_name: { en: "Updated Field 1" }
+        },
+        { id: 2, name: "field_2", display_name: { en: "Field 2" } }
+      ]
+    };
+
     it("updates the subform properties and fields", () => {
-      const selectedSubform = {
-        id: 1,
-        unique_id: "form_1",
-        name: { en: "Form Section 1" },
-        fields: [
-          { id: 1, name: "field_1", display_name: { en: "Field 1" } },
-          { id: 2, name: "field_2", display_name: { en: "Field 2" } }
-        ]
-      };
-
-      const updatedSubform = {
-        ...selectedSubform,
-        name: { en: "Updated Form Section 1 " },
-        fields: [
-          {
-            id: 1,
-            name: "field_1",
-            display_name: { en: "Updated Field 1" }
-          },
-          { id: 2, name: "field_2", display_name: { en: "Field 2" } }
-        ]
-      };
-
       const expected = fromJS({
         subforms: [updatedSubform],
         selectedSubform: updatedSubform
@@ -523,6 +524,55 @@ describe("<FormsBuilder /> - Reducers", () => {
                 id: 1,
                 name: "field_1",
                 display_name: { en: "Updated Field 1" }
+              }
+            }
+          }
+        }
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("updates the collapsed_field_names", () => {
+      const expectedSubform = {
+        ...updatedSubform,
+        fields: [
+          {
+            id: 1,
+            name: "field_1",
+            display_name: { en: "Updated Field 1" },
+            on_collapsed_subform: true
+          },
+          { id: 2, name: "field_2", display_name: { en: "Field 2" } }
+        ],
+        collapsed_field_names: ["field_1"]
+      };
+
+      const expected = fromJS({
+        subforms: [expectedSubform],
+        selectedSubform: expectedSubform
+      });
+
+      const currentState = fromJS({
+        subforms: [selectedSubform],
+        selectedSubform
+      });
+
+      const action = {
+        type: actions.UPDATE_SELECTED_SUBFORM,
+        payload: {
+          data: {
+            id: 1,
+            unique_id: "form_1",
+            name: { en: "Updated Form Section 1 " },
+            fields: {
+              field_1: {
+                id: 1,
+                name: "field_1",
+                display_name: { en: "Updated Field 1" },
+                on_collapsed_subform: true
               }
             }
           }

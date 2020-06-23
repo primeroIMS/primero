@@ -59,6 +59,7 @@ describe Exporters::SelectedFieldsExcelExporter do
     )
     form3.fields << Field.new(name: 'first_name', type: Field::TEXT_FIELD, display_name: 'first_name')
     form3.fields << Field.new(name: 'last_name', type: Field::TEXT_FIELD, display_name: 'last_name')
+    form3.fields << Field.new(name: 'second_name', type: Field::TEXT_FIELD, display_name: 'second_name', visible: false)
     form3.fields << Field.new(
       name: 'subform_field_1', type: Field::SUBFORM,
       display_name: 'subform field', subform_section_id: subform.id
@@ -68,6 +69,11 @@ describe Exporters::SelectedFieldsExcelExporter do
     @primero_module = create(
       :primero_module,
       name: 'CP', description: 'Child Protection', associated_record_types: ['case']
+    )
+
+    agency = Agency.create(
+      name: 'agency one', agency_code: '1111',
+      name_en: 'My English Agency', name_es: 'My Spanish Agency'
     )
 
     @records = [
@@ -84,7 +90,8 @@ describe Exporters::SelectedFieldsExcelExporter do
         'subform_field_2' => [
           { 'unique_id' => '2', 'field_3' => 'field_3 value', 'field_4' => 'field_4 value' },
           { 'unique_id' => '21', 'field_3' => 'field_33 value', 'field_4' => 'field_44 value' }
-        ]
+        ],
+        'created_organization' => agency.attributes
       ),
       create(
         :child,
@@ -94,7 +101,8 @@ describe Exporters::SelectedFieldsExcelExporter do
         'subform_field_2' => [
           { 'unique_id' => '21', 'field_3' => 'field_31 value', 'field_4' => 'field_41 value' },
           { 'unique_id' => '211', 'field_3' => 'field_331 value', 'field_4' => 'field_441 value' }
-        ]
+        ],
+        'created_organization' => agency.attributes
       ),
       create(:child, 'first_name' => 'Jimmy', 'last_name' => 'James', 'id' => '00000000003'),
       create(:child, 'first_name' => 'Timmy', 'last_name' => 'Tom', 'id' => '00000000004'),
@@ -133,7 +141,22 @@ describe Exporters::SelectedFieldsExcelExporter do
       expect(sheet.rows.size).to eq (1 + 6)
     end
 
-    it 'contains a worksheet for every form and nested subform' do
+    it 'contains the correct created_organization en name' do
+      sheet = workbook.worksheets.last
+      created_organization_values = sheet.rows.map { |row| row[1] }.compact
+      expect(created_organization_values).to eq(['created_organization', 'My English Agency', 'My English Agency'])
+    end
+
+    it 'contains the correct created_organization es name' do
+      I18n.locale = 'es'
+      data = Exporters::SelectedFieldsExcelExporter.export(@records, @user, {})
+      Spreadsheet.open(StringIO.new(data))
+      sheet = workbook.worksheets.last
+      created_organization_values = sheet.rows.map { |row| row[1] }.compact
+      expect(created_organization_values).to eq(['created_organization', 'My Spanish Agency', 'My Spanish Agency'])
+    end
+
+    it 'contains a worksheet for every form and nested subform unless the fields visible: false' do
       expect(workbook.worksheets.size).to eq(4 + 1)
       expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID field_3 field_4])
       expect(workbook.worksheets[1].row(0).to_a).to eq(%w[ID relationship array_field])
@@ -156,7 +179,7 @@ describe Exporters::SelectedFieldsExcelExporter do
       Spreadsheet.open(StringIO.new(data))
     end
 
-    it 'contains a sheet for the selected form' do
+    it 'contains a sheet for the selected form unless the fields visible: false' do
       expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID first_name last_name])
     end
 
@@ -200,17 +223,17 @@ describe Exporters::SelectedFieldsExcelExporter do
     end
 
     it 'contains a sheet for the selected form with only the selected fields' do
-      expect(Field.count).to eq(10)
+      expect(Field.count).to eq(11)
       expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID first_name])
-      expect(Field.count).to eq(10)
+      expect(Field.count).to eq(11)
     end
 
     it 'contains no other form but the metadata form' do
-      expect(Field.count).to eq(10)
+      expect(Field.count).to eq(11)
       partial_metadata_header = %w[ID created_organization created_by_full_name last_updated_at]
       expect(workbook.worksheets.size).to eq(2)
       expect(workbook.worksheets[1].row(0).to_a[0..3]).to eq(partial_metadata_header)
-      expect(Field.count).to eq(10)
+      expect(Field.count).to eq(11)
     end
   end
 end

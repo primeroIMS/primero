@@ -16,7 +16,9 @@ const colors = {
   goldYellow: "#f4ac22",
   red: "#d0021b",
   green: "#839e3c",
+  solidGreen: "#7ba024",
   orange: "#e7712d",
+  solidOrange: "#ff9500",
   purple: "#7c347b",
   warmGrey1: "#e0dfd7",
   warmGrey2: "#bcbcad",
@@ -116,14 +118,22 @@ const overrides = {
   },
   MUIDataTableToolbar: {
     root: {
-      display: "none !important"
+      paddingLeft: "26px",
+      paddingRight: "26px",
+      paddingTop: "8px",
+      paddingBottom: "8px",
+      justifyContent: "flex-start"
     }
   },
   MUIDataTableToolbarSelect: {
     root: {
       paddingLeft: "26px",
       paddingRight: "26px",
-      justifyContent: "flex-start"
+      paddingTop: "8px",
+      paddingBottom: "8px",
+      justifyContent: "flex-start",
+      backgroundColor: colors.white,
+      boxShadow: "none"
     },
     title: {
       display: "none"

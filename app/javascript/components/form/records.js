@@ -34,7 +34,9 @@ export const FieldRecord = Record({
   tooltip: "",
   tick_box_label: Map({}),
   numeric: false,
-  onChange: null
+  onChange: null,
+  mobile_visible: false,
+  on_collapsed_subform: false
 });
 
 export const FormSectionRecord = Record({

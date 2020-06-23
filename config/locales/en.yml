@@ -78,7 +78,6 @@ en:
     enter_each_in_one_line: "Enter each option on a new line"
     record_count: "Showing %{start} to %{end} of %{total} records"
     form_sections_help_text_for_edit: "Click the EDIT button to add %{form_section_name} details"
-    form_sections_case_update_alert: "A new %{form_section_name} was added to the case on %{alert_time}"
     service_provision: "service provision"
     enable_disable_record: "Clicking OK will change the state of this record to '%{action}'"
     reopen_record: "Clicking OK will change the status of this case to Open"
@@ -90,12 +89,15 @@ en:
     forms_export: "This export provides a spreadsheet of the available Forms and form fields. This spreadsheet is used for creating the mapping of the Form configuration to be used in the implementation. Note that this spreadsheet cannot be used to import data into Primero."
     string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
     system_settings_failed: "System Settings failed to load."
-    approval_alert: "Approval is pending for %{form_name}"
     field_change_alert: "The %{form_name} form was updated by the service provider on %{date}"
-    transfer_request_alert: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
     loading: "Loading..."
     no_changes: "You made no field changes"
     dashboard_offline: "You're offline. The dashboard will be fully functional when you are back online"
+    alert_items: "You got %{items} items of note."
+    alerts_for:
+      field_change: "A new %{form_section_name} was added to the case on %{alert_time}"
+      approval: "Approval is pending for %{form_section_name}"
+      transfer_request: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -2069,9 +2071,9 @@ en:
       export_custom: "Export custom"
       export_duplicate_id_csv: "Export duplicates"
       import: "Import"
-      transfer: "Transfer"
+      transfer: "Can be used for transfer"
       reassign: "Reassign"
-      referral: "Referral"
+      referral: "Can be used for referral"
       sync_mobile: "Sync with mobile device"
       request_approval: "Request for approval"
       request_approval_assessment: "Request %{approval_label} approval"
@@ -2148,6 +2150,10 @@ en:
       receive_referral: "Receive Referral"
       reopen: "Reopen"
       close: "Close"
+      case_exports: "Case Exports"
+      case_approvals: "Case Approvals"
+      cases_managed_other_users: "Cases managed by other users"
+      case_assignments_referrals_transfers: "Case assignments, referrals, and transfers"
 
   forms:
     label: "Forms"
@@ -2415,9 +2421,9 @@ en:
     remove: "Remove"
     options_indications_lookup_values: "You may use either pre-defined lookups or create unique values."
     options_indications_restrictions: "You cannot do both."
+    on_collapsed_subform: "On collapsed subform?"
     multi_select_box: "Multi-select"
     date_time: "Date-Time"
-
     subform_section:
       name: "Subform Title"
       description: "Subform Description"
@@ -3194,6 +3200,10 @@ en:
       all: JSON
       one: JSON
       selected: Selected to JSON
+    incident_recorder_xls:
+      all: Incident Recorder
+      one: Incident Recorder
+      selected: Selected to Incident Recorder
     unhcr_csv:
       all: UNHCR
       one: UNHCR
