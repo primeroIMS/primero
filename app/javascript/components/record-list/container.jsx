@@ -145,7 +145,8 @@ const Container = ({ match, location }) => {
       }
     },
     selectedRecords,
-    setSelectedRecords
+    setSelectedRecords,
+    showCustomToolbar: true
   };
 
   const handleDrawer = () => {

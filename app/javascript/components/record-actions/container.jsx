@@ -313,7 +313,7 @@ const Container = ({
         setTransitionType("referral");
         setReferDialog(true);
       },
-      recordType,
+      recordType: RECORD_PATH.cases,
       enabledFor: ENABLED_FOR_ONE_MANY,
       condition: canRefer,
       disableOffline: true
@@ -321,7 +321,7 @@ const Container = ({
     {
       name: `${i18n.t("buttons.reassign")} ${formRecordType}`,
       action: () => setAssignDialog(true),
-      recordType,
+      recordType: RECORD_PATH.cases,
       recordListAction: true,
       enabledFor: ENABLED_FOR_ONE_MANY,
       condition: canAssign,
@@ -330,7 +330,7 @@ const Container = ({
     {
       name: `${i18n.t("buttons.transfer")} ${formRecordType}`,
       action: () => setTransferDialog(true),
-      recordType: ["cases", "incidents"],
+      recordType: RECORD_PATH.cases,
       enabledFor: ENABLED_FOR_ONE_MANY,
       condition: canTransfer,
       disableOffline: true
@@ -362,32 +362,32 @@ const Container = ({
     {
       name: i18n.t(`actions.${openState}`),
       action: handleReopenDialogOpen,
-      recordType: RECORD_TYPES.all,
+      recordType: RECORD_TYPES.cases,
       condition: mode && mode.isShow && canOpenOrClose
     },
     {
       name: i18n.t(`actions.${enableState}`),
       action: handleEnableDialogOpen,
-      recordType: RECORD_TYPES.all,
+      recordType: RECORD_TYPES.cases,
       condition: mode && mode.isShow && canEnable
     },
     {
       name: i18n.t("actions.notes"),
       action: handleNotesOpen,
-      recordType: RECORD_TYPES.all,
+      recordType: RECORD_TYPES.cases,
       condition: canAddNotes,
       disableOffline: true
     },
     {
       name: i18n.t("actions.request_approval"),
       action: handleRequestOpen,
-      recordType: "all",
+      recordType: RECORD_PATH.cases,
       condition: canRequest
     },
     {
       name: i18n.t("actions.approvals"),
       action: handleApprovalOpen,
-      recordType: "all",
+      recordType: RECORD_PATH.cases,
       condition: canApprove,
       disableOffline: true
     },
@@ -425,16 +425,16 @@ const Container = ({
       const actionCondition =
         typeof item.condition === "undefined" || item.condition;
 
-      if (showListActions) {
+      const allowedRecordType =
+        [RECORD_TYPES.all, recordType].includes(item.recordType) ||
+        (Array.isArray(item.recordType) &&
+          item.recordType.includes(recordType));
+
+      if (showListActions && allowedRecordType) {
         return item.recordListAction && actionCondition;
       }
 
-      return (
-        ([RECORD_TYPES.all, recordType].includes(item.recordType) ||
-          (Array.isArray(item.recordType) &&
-            item.recordType.includes(recordType))) &&
-        actionCondition
-      );
+      return allowedRecordType && actionCondition;
     });
 
   const filteredActions = filterItems(actions);

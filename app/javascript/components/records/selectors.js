@@ -37,3 +37,8 @@ export const getLoadingRecordState = (state, recordType) =>
 
 export const getRecordAlerts = (state, recordType) =>
   state.getIn(["records", recordType, "recordAlerts"], List([]));
+
+export const getRecordFormAlerts = (state, recordType, formUniqueId) =>
+  state
+    .getIn(["records", recordType, "recordAlerts"], List([]))
+    .filter(alert => alert.get("form_unique_id") === formUniqueId);

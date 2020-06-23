@@ -21,6 +21,7 @@ import {
   RADIO_FIELD,
   SELECT_FIELD
 } from "../../../form/constants";
+import ActionDialog from "../../../action-dialog";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -36,6 +37,7 @@ const Container = ({
   const css = makeStyles(styles)();
 
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [open, setOpen] = useState(false);
 
   const onSuccess = (index, currentReportFilter, currentField) => {
@@ -116,11 +118,23 @@ const Container = ({
     setOpen(true);
   };
 
-  const handleDelete = index => {
+  const handleDelete = () => {
+    const index = selectedIndex;
+
     setIndexes([
       ...indexes.slice(0, parseInt(index, 10)),
       ...indexes.slice(parseInt(index, 10) + 1, indexes.length)
     ]);
+  };
+
+  const handleOpenModal = index => {
+    setSelectedIndex(index);
+    setDeleteModal(true);
+  };
+
+  const cancelHandler = () => {
+    setDeleteModal(false);
+    setSelectedIndex(null);
   };
 
   if (isEmpty(indexes)) {
@@ -156,7 +170,7 @@ const Container = ({
         <Box key={index} display="flex" alignItems="center">
           <Box flexGrow={1}>{formattedReportFilterName}</Box>
           <Box>
-            <IconButton onClick={() => handleDelete(index)}>
+            <IconButton onClick={() => handleOpenModal(index)}>
               <DeleteIcon />
             </IconButton>
             <IconButton onClick={() => handleEdit(index)}>
@@ -178,6 +192,15 @@ const Container = ({
       </Typography>
 
       {renderReportFilterList()}
+
+      <ActionDialog
+        open={deleteModal}
+        successHandler={handleDelete}
+        cancelHandler={cancelHandler}
+        dialogTitle={i18n.t("fields.remove")}
+        dialogText={i18n.t("fields.subform_remove_message")}
+        confirmButtonLabel={i18n.t("buttons.ok")}
+      />
 
       <FiltersDialog
         selectedIndex={selectedIndex}

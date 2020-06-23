@@ -20,6 +20,7 @@ import { ROUTES } from "../../config";
 import { usePermissions } from "../user";
 import { CREATE_RECORDS } from "../../libs/permissions";
 import { useThemeHelper } from "../../libs";
+import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
@@ -78,7 +79,7 @@ const Reports = () => {
     },
     page: reportsPagination.get("page") - 1,
     rowsPerPage: reportsPagination.get("per"),
-    rowsPerPageOptions: [20, 50, 75, 100],
+    rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
     onChangeRowsPerPage: ({ target }) =>
       dispatch(fetchReports({ options: { page: 1, per: target.value } })),
     component: "div"
