@@ -72,10 +72,10 @@ const Container = ({
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
   const serviceDialog = useSelector(state =>
-    selectDialog(SERVICE_DIALOG, state)
+    selectDialog(state, SERVICE_DIALOG)
   );
   const incidentDialog = useSelector(state =>
-    selectDialog(INCIDENT_DIALOG, state)
+    selectDialog(state, INCIDENT_DIALOG)
   );
   const requestDialog = useSelector(state =>
     selectDialog(state, REQUEST_APPROVAL_DIALOG)

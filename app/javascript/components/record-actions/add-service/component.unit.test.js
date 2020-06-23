@@ -114,10 +114,12 @@ describe("<AddService />", () => {
     })
   });
   const props = {
-    openServiceDialog: true,
     close: () => {},
+    openServiceDialog: true,
+    pending: false,
     recordType: RECORD_PATH.cases,
-    selectedRowsIndex: [0]
+    selectedRowsIndex: [0],
+    setPending: () => {}
   };
 
   beforeEach(() => {
@@ -143,12 +145,17 @@ describe("<AddService />", () => {
   it("renders component with valid props", () => {
     const addService = { ...component.find(AddService).props() };
 
-    ["openServiceDialog", "close", "recordType", "selectedRowsIndex"].forEach(
-      property => {
-        expect(addService).to.have.property(property);
-        delete addService[property];
-      }
-    );
+    [
+      "close",
+      "openServiceDialog",
+      "pending",
+      "recordType",
+      "selectedRowsIndex",
+      "setPending"
+    ].forEach(property => {
+      expect(addService).to.have.property(property);
+      delete addService[property];
+    });
     expect(addService).to.be.empty;
   });
 });
