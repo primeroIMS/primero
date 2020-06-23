@@ -22,6 +22,7 @@
 }
 
 .alert {
+  margin-top: 10px;
   border-radius: 5px;
   color: $(theme.primero.colors.grey);
   font-size: $(theme.typography.pxToRem(14));
