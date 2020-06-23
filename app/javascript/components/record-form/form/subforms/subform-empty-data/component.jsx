@@ -13,7 +13,7 @@ const Component = ({ handleClick, i18n, mode, subformName }) => {
   const css = makeStyles(styles)();
 
   const { isShow } = mode;
-  const renderAddButton = !isShow ? (
+  const renderAddButton = !isShow && (
     <Fab
       className={css.actionButtonSubform}
       variant="extended"
@@ -22,7 +22,7 @@ const Component = ({ handleClick, i18n, mode, subformName }) => {
       <AddIcon />
       {i18n.t("fields.add")}
     </Fab>
-  ) : null;
+  );
 
   return (
     <Box
@@ -30,7 +30,6 @@ const Component = ({ handleClick, i18n, mode, subformName }) => {
       alignItems="center"
       className={css.emptySubformContainer}
     >
-      {" "}
       <ErrorIcon />
       <span>
         <strong>

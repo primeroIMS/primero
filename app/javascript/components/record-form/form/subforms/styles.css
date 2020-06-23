@@ -49,6 +49,11 @@
   }
 }
 
+.subformFieldArrayContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 @media $(theme.breakpoints.down("sm")) {
   .actionButtonSubform {

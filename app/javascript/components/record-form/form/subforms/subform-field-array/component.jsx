@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Fab, Box, makeStyles, useMediaQuery } from "@material-ui/core";
+import { Fab } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
@@ -25,9 +25,7 @@ const Component = ({
   const values = getIn(formik.values, name);
   const [openDialog, setOpenDialog] = useState({ open: false, index: null });
   const [dialogIsNew, setDialogIsNew] = useState(false);
-  const css = makeStyles(styles)();
-  const { theme } = useThemeHelper(styles);
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { css, mobileDisplay } = useThemeHelper(styles);
 
   const handleAddSubform = async () => {
     await arrayHelpers.push(initialSubformValue);
@@ -74,13 +72,13 @@ const Component = ({
 
   return (
     <>
-      <Box display="flex" alignItems="center">
-        <Box flexGrow={1}>
+      <div className={css.subformFieldArrayContainer}>
+        <div>
           <h3>
             {!mode.isShow && i18n.t("fields.add")} {title}
           </h3>
-        </Box>
-        <Box>
+        </div>
+        <div>
           {!mode.isShow && (
             <Fab
               className={css.actionButtonSubform}
@@ -91,8 +89,8 @@ const Component = ({
               {renderAddText}
             </Fab>
           )}
-        </Box>
-      </Box>
+        </div>
+      </div>
       {renderEmptyData}
     </>
   );
