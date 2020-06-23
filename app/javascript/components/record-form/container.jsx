@@ -18,7 +18,8 @@ import {
   RECORD_TYPES,
   REFERRAL,
   RECORD_OWNER,
-  TRANSITION_TYPE
+  TRANSITION_TYPE,
+  RECORD_PATH
 } from "../../config";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
@@ -186,7 +187,7 @@ const Container = ({ match, mode }) => {
   const canRefer = usePermissions(params.recordType, REFERRAL);
 
   useEffect(() => {
-    if (!containerMode.isNew) {
+    if (!containerMode.isNew && params.recordType === RECORD_PATH.cases) {
       batch(() => {
         dispatch(fetchTransitions(params.recordType, params.id));
 
