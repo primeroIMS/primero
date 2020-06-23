@@ -11,28 +11,37 @@ import {
 
 import { ALL_EXPORT_TYPES } from "./constants";
 
-export const allowedExports = (userPermissions, i18n, isShowPage) => {
+export const allowedExports = (
+  userPermissions,
+  i18n,
+  isShowPage,
+  recordType
+) => {
   const exportsTypes = [...ALL_EXPORT_TYPES];
   let allowedExportsOptions = [];
 
   if (userPermissions.includes(ACTIONS.MANAGE)) {
-    allowedExportsOptions = exportsTypes.map(exportType => {
-      return {
-        ...exportType,
-        display_name: i18n.t(`exports.${exportType.id}.all`)
-      };
-    });
+    allowedExportsOptions = exportsTypes
+      .filter(exportType => exportType.recordTypes.includes(recordType))
+      .map(exportType => {
+        return {
+          ...exportType,
+          display_name: i18n.t(`exports.${exportType.id}.all`)
+        };
+      });
   } else {
-    allowedExportsOptions = exportsTypes.reduce((acc, obj) => {
-      if (userPermissions.includes(obj.permission)) {
-        return [
-          ...acc,
-          { ...obj, display_name: i18n.t(`exports.${obj.id}.all`) }
-        ];
-      }
+    allowedExportsOptions = exportsTypes
+      .filter(exportType => exportType.recordTypes.includes(recordType))
+      .reduce((acc, obj) => {
+        if (userPermissions.includes(obj.permission)) {
+          return [
+            ...acc,
+            { ...obj, display_name: i18n.t(`exports.${obj.id}.all`) }
+          ];
+        }
 
-      return [...acc, {}];
-    }, []);
+        return [...acc, {}];
+      }, []);
   }
 
   const allExports = allowedExportsOptions.filter(

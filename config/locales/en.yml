@@ -3192,6 +3192,10 @@ en:
       all: JSON
       one: JSON
       selected: Selected to JSON
+    incident_recorder_xls:
+      all: Incident Recorder
+      one: Incident Recorder
+      selected: Selected to Incident Recorder
     unhcr_csv:
       all: UNHCR
       one: UNHCR
