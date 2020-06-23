@@ -7,7 +7,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/styles";
 
 import { getRecordAlerts } from "../../records/selectors";
-import { getSelectedRecord } from "../selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
 import { ConditionalWrapper } from "../../../libs";
 
@@ -27,39 +26,32 @@ const Nav = ({
   selectedRecord,
   toggleNav
 }) => {
-  const [open, setOpen] = useState({});
+  const [open, setOpen] = useState("");
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
 
   const handleClick = args => {
     const { group, formId, parentItem } = args;
 
-    if (group) {
-      setOpen({ ...open, [group]: !open[group] });
+    if (group !== open) {
+      setOpen(group);
     }
 
-    if (!parentItem) {
-      dispatch(setSelectedForm(formId));
+    dispatch(setSelectedForm(formId));
 
-      if (mobileDisplay) {
-        handleToggleNav();
-      }
+    if (!parentItem && mobileDisplay) {
+      handleToggleNav();
     }
   };
 
-  const storedRecord = useSelector(state => getSelectedRecord(state));
+  useEffect(() => {
+    dispatch(setSelectedForm(firstTab.unique_id));
+  }, []);
 
   useEffect(() => {
-    if (!selectedRecord || selectedRecord !== storedRecord) {
-      dispatch(setSelectedForm(firstTab.unique_id));
-    }
-
     dispatch(setSelectedRecord(selectedRecord));
 
-    setOpen({
-      ...open,
-      [firstTab.form_group_id]: !open[firstTab.form_group_id]
-    });
+    setOpen(firstTab.form_group_id);
   }, [firstTab]);
 
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
