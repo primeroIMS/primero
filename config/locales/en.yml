@@ -2413,9 +2413,9 @@ en:
     remove: "Remove"
     options_indications_lookup_values: "You may use either pre-defined lookups or create unique values."
     options_indications_restrictions: "You cannot do both."
+    on_collapsed_subform: "On collapsed subform?"
     multi_select_box: "Multi-select"
     date_time: "Date-Time"
-
     subform_section:
       name: "Subform Title"
       description: "Subform Description"
