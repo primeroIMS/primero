@@ -2,7 +2,7 @@ import {
   ExpansionPanelDetails,
   ExpansionPanelSummary
 } from "@material-ui/core";
-import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React from "react";
 
 import renderDetails from "./render-details";
@@ -14,7 +14,7 @@ export default (transition, css, recordType, showMode) => (
   <div key={transition.id}>
     <TransitionPanel key={transition.id} name={transition.id}>
       <ExpansionPanelSummary
-        expandIcon={<ArrowIcon />}
+        expandIcon={<ExpandMoreIcon />}
         aria-controls="filter-controls-content"
         id={transition.id}
       >
