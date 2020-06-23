@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/exhaustive-deps, no-param-reassign */
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
@@ -16,7 +16,11 @@ import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
 import { selectAgencies } from "../application/selectors";
 import { useI18n } from "../i18n";
-import { STRING_SOURCES_TYPES, RECORD_PATH } from "../../config";
+import {
+  STRING_SOURCES_TYPES,
+  RECORD_PATH,
+  ROWS_PER_PAGE_OPTIONS
+} from "../../config";
 import { ALERTS_COLUMNS } from "../record-list/constants";
 
 import recordListTheme from "./theme";
@@ -35,7 +39,8 @@ const Component = ({
   bypassInitialFetch,
   selectedRecords,
   setSelectedRecords,
-  localizedFields
+  localizedFields,
+  showCustomToolbar
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -179,14 +184,10 @@ const Component = ({
     }
   }
 
-  const handleTableChange = (action, tableState) => {
-    const options = { ...defaultFilters.merge(filters).toJS() };
-    const validActions = ["sort", "changeRowsPerPage", "changePage"];
-    const { rowsPerPage, sortOrder } = tableState;
+  const selectedFilters = (options, action, tableState) => {
+    const { sortOrder } = tableState;
 
-    options.per = rowsPerPage;
-
-    const selectedFilters = {
+    return {
       ...options,
       ...(() => {
         switch (action) {
@@ -213,9 +214,22 @@ const Component = ({
         }
       })()
     };
+  };
+
+  const handleTableChange = (action, tableState) => {
+    const options = { ...defaultFilters.merge(filters).toJS() };
+    const validActions = ["sort", "changeRowsPerPage", "changePage"];
+    const { rowsPerPage } = tableState;
+
+    options.per = rowsPerPage;
 
     if (validActions.includes(action)) {
-      dispatch(onTableChange({ recordType, data: selectedFilters }));
+      dispatch(
+        onTableChange({
+          recordType,
+          data: selectedFilters(options, action, tableState)
+        })
+      );
     }
   };
 
@@ -236,6 +250,9 @@ const Component = ({
       selectedRows={selectedRows}
       setSelectedRecords={setSelectedRecords}
       totalRecords={total}
+      page={page}
+      fetchRecords={onTableChange}
+      selectedFilters={selectedFilters}
     />
   );
 
@@ -245,7 +262,7 @@ const Component = ({
     rowsPerPage: per,
     rowHover: true,
     filterType: "checkbox",
-    fixedHeader: false,
+    fixedHeader: true,
     elevation: 3,
     filter: false,
     download: false,
@@ -253,7 +270,7 @@ const Component = ({
     print: false,
     viewColumns: false,
     serverSide: true,
-    customToolbar: () => null,
+    customToolbar: showCustomToolbar && customToolbarSelect,
     selectableRows: "multiple",
     rowsSelected: selectedRecordsOnCurrentPage?.length
       ? selectedRecordsOnCurrentPage
@@ -265,7 +282,7 @@ const Component = ({
     },
     onColumnSortChange: () => selectedRecords && setSelectedRecords({}),
     onTableChange: handleTableChange,
-    rowsPerPageOptions: [20, 50, 75, 100],
+    rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
     page: currentPage,
     enableNestedDataAccess: ".",
     sortOrder: sortDir,
@@ -340,7 +357,8 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.defaultProps = {
-  bypassInitialFetch: false
+  bypassInitialFetch: false,
+  showCustomToolbar: false
 };
 
 Component.propTypes = {
@@ -354,6 +372,7 @@ Component.propTypes = {
   recordType: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   selectedRecords: PropTypes.object,
   setSelectedRecords: PropTypes.func,
+  showCustomToolbar: PropTypes.bool,
   targetRecordType: PropTypes.string
 };
 
