@@ -34,14 +34,20 @@ export default (
   individualFields,
   css,
   modules,
-  fields
+  fields,
+  recordType
 ) => [
   FieldRecord({
     display_name: i18n.t("encrypt.export_type"),
     name: EXPORT_TYPE_FIELD,
     type: SELECT_FIELD,
     option_strings_text: {
-      [i18n.locale]: allowedExports(userPermissions, i18n, isShowPage)
+      [i18n.locale]: allowedExports(
+        userPermissions,
+        i18n,
+        isShowPage,
+        recordType
+      )
     },
     multi_select: false,
     required: true
