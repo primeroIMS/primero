@@ -3,6 +3,7 @@ import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React from "react";
 import { push } from "connected-react-router";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 import { dataToJS } from "../../../libs";
 import { ROUTES } from "../../../config";
@@ -51,7 +52,22 @@ const DashboardTable = ({ columns, data, query }) => {
     data: dataToJS(data)
   };
 
-  return <MUIDataTable {...tableOptions} />;
+  const getMuiTheme = () =>
+    createMuiTheme({
+      overrides: {
+        MUIDataTableToolbar: {
+          root: {
+            display: "none !important"
+          }
+        }
+      }
+    });
+
+  return (
+    <MuiThemeProvider theme={getMuiTheme()}>
+      <MUIDataTable {...tableOptions} />
+    </MuiThemeProvider>
+  );
 };
 
 DashboardTable.displayName = "DashboardTable";

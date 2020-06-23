@@ -1,8 +1,10 @@
 .customToolbarFull {
   width: 100%;
   box-sizing: border-box;
-  display: border-box;
-  flex-direction: column;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* align-content: space-between; */
 }
 
 .selectAllButton {
@@ -12,32 +14,60 @@
 }
 
 .customToolbarTitle {
+  display: flex;
+  /* flex: 1; */
   padding-top: 1em;
-  float: left;
+  padding-right: 1em;
+  /* float: left; */
   color: $(theme.primero.colors.black);
 }
 
-.customToolbarAll {
+.customToolbarButton {
+  display: flex;
   float: left;
-  padding-top: 1.1em;
-  padding-left: 1em;
+  /* padding-top: 1.1em; */
+  flex-wrap: wrap;
+  /* flex: 1; */
+}
+.firstGroup {
+  display: flex;
+  flex: 1 1;
+  flex-wrap: wrap;
+}
+.lastGroup {
+  flex-wrap: wrap;
+  display: flex;
+  flex: 1 1;
+  justify-content: flex-end;
+}
+
+
+.customToolbarPagination{
+  display: flex;
+  /* flex: 1; */
+  flex-direction: row;
+  justify-content: right;
+
 }
 
 @media $(theme.breakpoints.down('sm')) {
   .customToolbarFull {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
   }
 
-  .customToolbarAll {
-    float: left;
+  .customToolbarButton {
+    /* float: left; */
     padding-left: 0em;
     padding-top: 1em;
+    flex-wrap: wrap;
   }
 
-  .customToolbarPagination {
+  /* .customToolbarPagination {
     & > div:first-of-type {
       padding-left: 0em;
     }
-  }
+  } */
 }
