@@ -59,7 +59,10 @@ const Component = () => {
         {newUserGroupBtn}
       </PageHeading>
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <IndexTable
+          title={i18n.t("settings.navigation.lookups")}
+          {...tableOptions}
+        />
       </PageContent>
     </Permission>
   );

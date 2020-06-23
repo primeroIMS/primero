@@ -8,7 +8,7 @@ import { dataToJS } from "../../../libs";
 import { ROUTES } from "../../../config";
 import { buildFilter } from "../utils";
 
-const DashboardTable = ({ columns, data, query }) => {
+const DashboardTable = ({ columns, data, query, title }) => {
   const dispatch = useDispatch();
   const options = {
     responsive: "vertical",
@@ -48,7 +48,8 @@ const DashboardTable = ({ columns, data, query }) => {
   const tableOptions = {
     columns,
     options,
-    data: dataToJS(data)
+    data: dataToJS(data),
+    title
   };
 
   return <MUIDataTable {...tableOptions} />;
@@ -59,7 +60,8 @@ DashboardTable.displayName = "DashboardTable";
 DashboardTable.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  query: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
+  query: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  title: PropTypes.string
 };
 
 export default DashboardTable;

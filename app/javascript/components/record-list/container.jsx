@@ -184,7 +184,10 @@ const Container = ({ match, location }) => {
           <Box className={css.tableContainer} flexGrow={1}>
             <RecordListToolbar {...recordListToolbarProps} />
             <Box className={css.table}>
-              <IndexTable {...indexTableProps} />
+              <IndexTable
+                title={i18n.t(`${recordType}.label`)}
+                {...indexTableProps}
+              />
             </Box>
           </Box>
           <FilterContainer {...filterContainerProps}>

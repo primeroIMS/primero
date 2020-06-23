@@ -139,7 +139,7 @@ const TaskList = () => {
     <PageContainer>
       <PageHeading title={i18n.t("navigation.tasks")} />
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <IndexTable title={i18n.t("navigation.tasks")} {...tableOptions} />
       </PageContent>
     </PageContainer>
   );
