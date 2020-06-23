@@ -181,5 +181,6 @@ It's assumed that a Primero configuration directory will have a script named `lo
 
 ```
 cd docker
+./compose.prod.sh run application primero-bootstrap
 ./compose.configure.sh /path/to/primero/config/directory
 ```
