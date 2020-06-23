@@ -1,2 +1,2 @@
-/* eslint-disable import/prefer-default-export */
 export const NAME = "FormBuilder";
+export const NEW_FIELD = "new_field";

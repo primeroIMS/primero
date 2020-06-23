@@ -1,8 +1,14 @@
+import { fromJS } from "immutable";
+
 import { separatorFieldForm } from "./separator-field";
 
 describe("separatorFieldForm", () => {
   const i18n = { t: value => value };
-  const separator = separatorFieldForm("test_name", i18n);
+  const formMode = fromJS({
+    isNew: false,
+    isEdit: true
+  });
+  const separator = separatorFieldForm("test_name", i18n, formMode);
   const generalSection = separator.forms.first().fields;
   const visibilitySection = separator.forms.last().fields[1].row;
 

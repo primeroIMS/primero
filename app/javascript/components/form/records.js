@@ -30,11 +30,16 @@ export const FieldRecord = Record({
   handleWatchedInputs: null,
   check_errors: List([]),
   hint: "",
-  groupBy: null
+  groupBy: null,
+  tooltip: "",
+  tick_box_label: Map({}),
+  numeric: false,
+  onChange: null
 });
 
 export const FormSectionRecord = Record({
   id: "",
+  description: Map({}),
   unique_id: "",
   name: Map({}),
   visible: null,
@@ -48,11 +53,14 @@ export const FormSectionRecord = Record({
   form_group_name: "",
   fields: List([]),
   is_nested: null,
+  subform_append_only: false,
   subform_prevent_item_removal: false,
+  initial_subforms: 0,
   collapsed_field_names: List([]),
   check_errors: List([]),
   expandable: false,
-  expanded: false
+  expanded: false,
+  tooltip: ""
 });
 
 export const Option = Record({

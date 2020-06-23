@@ -12,20 +12,25 @@ describe("pages/admin/<RolesForm>/forms - utils", () => {
       const expected = [
         {
           id: "action_1",
-          display_text: "permissions.permission.action_1"
+          display_text: "permissions.resource.case.actions.action_1.label",
+          tooltip: "permissions.resource.case.actions.action_1.explanation"
         },
         {
           id: "action_2",
-          display_text: "permissions.permission.action_2"
+          display_text: "permissions.resource.case.actions.action_2.label",
+          tooltip: "permissions.resource.case.actions.action_2.explanation"
         },
         {
           id: "request_approval_assessment",
-          display_text: "permissions.permission.request_approval_assessment"
+          display_text:
+            "permissions.resource.case.actions.request_approval_assessment.label",
+          tooltip:
+            "permissions.resource.case.actions.request_approval_assessment.explanation"
         }
       ];
 
       expect(
-        buildPermissionOptions(actions, i18n, approvalsLabels)
+        buildPermissionOptions(actions, i18n, "case", approvalsLabels)
       ).to.deep.equal(expected);
     });
   });

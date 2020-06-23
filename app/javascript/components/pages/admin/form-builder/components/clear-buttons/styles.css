@@ -1,0 +1,14 @@
+.clearButton {
+  color: $(theme.primero.colors.darkBrown);
+  font-weight: bold;
+}
+
+.fieldRow {
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 1px solid #efefef;
+}
+
+.fieldColumn {
+  /* flex: 1 1; */
+}

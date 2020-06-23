@@ -45,17 +45,17 @@ const customFields = (field, i18n, css) => {
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export const dateFieldForm = (field, i18n, css) => {
+export const dateFieldForm = (field, i18n, css, mode) => {
   const fieldName = field.get("name");
-  const custom = customFields(field, i18n, css);
+  const custom = customFields(field, i18n, css, mode);
   const formFields = [
-    ...Object.values(generalFields(fieldName, i18n)),
+    ...Object.values(generalFields(fieldName, i18n, mode)),
     ...custom
   ];
 
   return {
     forms: fromJS([
-      generalForm(fieldName, i18n, formFields),
+      generalForm(fieldName, i18n, mode, formFields),
       visibilityForm(fieldName, i18n)
     ]),
     validationSchema: validationSchema(fieldName, i18n)

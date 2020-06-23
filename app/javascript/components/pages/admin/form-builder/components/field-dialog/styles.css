@@ -4,6 +4,9 @@
     text-transform: uppercase;
     font-weight: bold;
   }
+  & div {
+    padding: 0
+  }
 }
 
 .cancelButton {
@@ -19,4 +22,8 @@
 
 .hiddenField {
   display: none;
+}
+
+.boldLabel {
+  font-weight: bold;
 }

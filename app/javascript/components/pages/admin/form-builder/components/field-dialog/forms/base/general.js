@@ -5,14 +5,16 @@ import {
   TICK_FIELD
 } from "../../../../../../../form";
 
-export const generalFields = (fieldName, i18n) => ({
+export const generalFields = (fieldName, i18n, formMode) => ({
   displayName: FieldRecord({
     display_name: i18n.t("fields.name"),
     name: `${fieldName}.display_name.en`,
     type: TEXT_FIELD,
     required: true,
     help_text: i18n.t("fields.must_be_english"),
-    hint: `${i18n.t("fields.db_name")}: ${fieldName}`
+    hint: formMode.get("isNew")
+      ? ""
+      : `${i18n.t("fields.db_name")}: ${fieldName}`
   }),
   helpText: FieldRecord({
     display_name: i18n.t("fields.help_text"),
@@ -34,10 +36,10 @@ export const generalFields = (fieldName, i18n) => ({
   })
 });
 
-export const generalForm = (fieldName, i18n, fields = []) =>
+export const generalForm = (fieldName, i18n, formMode, fields = []) =>
   FormSectionRecord({
     unique_id: "field_form",
     fields: fields.length
       ? fields
-      : Object.values(generalFields(fieldName, i18n))
+      : Object.values(generalFields(fieldName, i18n, formMode))
   });

@@ -251,7 +251,13 @@ describe Api::V2::ReportsController, type: :request do
       report_data = {
         'name' => { 'en' => 'Test report', 'fr' => 'Test report in French', 'es' => '' },
         'description' => { 'en' => 'Description', 'fr' => 'Description in French', 'es' => '' },
-        'graph' => false, 'graph_type' => 'bar',
+        'editable' => true,
+        'graph' => false,
+        'graph_type' => 'bar',
+        'group_ages' => false,
+        'group_dates_by' => 'date',
+        'module_id' => ['primeromodule-cp'],
+        'record_type' => 'case',
         'fields' => [
           {
             'name' => 'protection_concerns', 'display_name' => { 'en' => 'Protection Concerns', 'es' => '', 'fr' => '' },
@@ -261,6 +267,21 @@ describe Api::V2::ReportsController, type: :request do
             'name' => 'owned_by_location', 'display_name' => { 'en' => 'Owned by location', 'es' => '', 'fr' => '' },
             'position' => { 'type' => 'horizontal', 'order' => 1 }, 'option_strings_source' => 'Location',
             'admin_level' => 0
+          }
+        ],
+        'filters' => [
+          {
+            "attribute" => "status",
+            "constraint" => "",
+            "value" => ["open"]
+          },
+          {
+            "attribute" => "status",
+            "value" => ["open"]
+          },
+          {
+            "attribute" => "record_state",
+            "value" => ["true"]
           }
         ]
       }
@@ -517,6 +538,11 @@ describe Api::V2::ReportsController, type: :request do
         'description' => { 'en' => 'Description test', 'es' => 'Prueba de la descripcion', 'fr' => '' },
         'graph' => true,
         'graph_type' => 'bar',
+        'editable' => true,
+        'group_ages' => true,
+        'group_dates_by' => 'year',
+        'module_id' => ['primeromodule-cp'],
+        'record_type' => 'case',
         'fields' => [
           {
             'name' => 'protection_concerns',
@@ -527,6 +553,13 @@ describe Api::V2::ReportsController, type: :request do
             'name' => 'owned_by_location', 'display_name' => { 'en' => 'Owned by location', 'es' => '', 'fr' => '' },
             'position' => { 'type' => 'vertical', 'order' => 0 }, 'option_strings_source' => 'Location',
             'admin_level' => 0
+          }
+        ],
+        "filters" => [
+          {
+            "attribute" => "status",
+            "constraint" => "",
+            "value" => ["open"]
           }
         ]
       }

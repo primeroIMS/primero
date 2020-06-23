@@ -14,7 +14,7 @@ const stateWithDialogs = fromJS({
 describe("<RecordActions /> - Selectors", () => {
   describe("selectDialog", () => {
     it("should return dialog open status", () => {
-      const openDialog = selectDialog("requestApproval", stateWithDialogs);
+      const openDialog = selectDialog(stateWithDialogs, "requestApproval");
 
       expect(openDialog).to.equal(true);
     });

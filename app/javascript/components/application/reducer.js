@@ -22,6 +22,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         base_language: baseLanguage,
         primero_version: primeroVersion,
         reporting_location_config: reportingLocationConfig,
+        age_ranges: ageRanges,
         approvals_labels: approvalsLabels
       } = payload;
 
@@ -34,6 +35,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           baseLanguage,
           primeroVersion,
           reportingLocationConfig,
+          ageRanges,
           approvalsLabels
         })
       );

@@ -14,8 +14,9 @@ import { reducer as recordActionsReducer } from "./components/record-actions";
 import { reducer as requestApprovalReducer } from "./components/record-actions/request-approval";
 import { reducer as bulkTranstionsReducer } from "./components/record-actions/bulk-transtions";
 import { reducer as potentialMatchesReducer } from "./components/pages/potential-matches";
-import { reducer as reportReducer } from "./components/pages/report";
-import { reducer as reportsListReducer } from "./components/pages/reports-list";
+import { reducer as reportReducer } from "./components/report";
+import { reducer as reportsListReducer } from "./components/reports-list";
+import { reducer as reportFormReducer } from "./components/reports-form";
 import { reducer as supportReducer } from "./components/pages/support";
 import { reducer as taskListReducer } from "./components/pages/task-list";
 import { reducer as usersListReducer } from "./components/pages/admin/users-list";
@@ -62,7 +63,11 @@ const rootReducer = {
           return o;
         }, {})
       },
-      reports: reduceReducers(reportsListReducer, reportReducer),
+      reports: reduceReducers(
+        reportsListReducer,
+        reportReducer,
+        reportFormReducer
+      ),
       transitions: reduceReducers(
         recordActionsTransitionsReducer,
         transitionsReducer,

@@ -19,8 +19,8 @@ export const appendDisabledAgency = (agencies, agencyUniqueId) =>
     : agencies;
 
 export const appendDisabledUser = (users, userName) =>
-  userName && !users.map(user => user.get("user_name")).includes(userName)
-    ? users.push(fromJS({ user_name: userName, isDisabled: true }))
+  userName && !users?.map(user => user.get("user_name")).includes(userName)
+    ? users?.push(fromJS({ user_name: userName, isDisabled: true }))
     : users;
 
 export const getConnectedFields = index => {
@@ -157,7 +157,12 @@ export const serviceHasReferFields = service => {
   );
 };
 
-export const serviceIsReferrable = (service, services, agencies, users) => {
+export const serviceIsReferrable = (
+  service,
+  services,
+  agencies,
+  users = []
+) => {
   const {
     service_type: serviceType,
     service_implementing_agency: agencyUniqueId,

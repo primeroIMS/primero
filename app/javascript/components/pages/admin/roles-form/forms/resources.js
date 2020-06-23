@@ -26,7 +26,12 @@ export default (resourceActions, roles, i18n, approvalsLabels) =>
           name: `permissions[${resource}]`,
           type: CHECK_BOX_FIELD,
           option_strings_text:
-            buildPermissionOptions(actions, i18n, approvalsLabels)?.toJS() || []
+            buildPermissionOptions(
+              actions,
+              i18n,
+              resource,
+              approvalsLabels
+            )?.toJS() || []
         })
       ],
       expandable: true,
