@@ -3,6 +3,7 @@ import { fromJS } from "immutable";
 import { fake } from "../../../test";
 import { ACTIONS } from "../../../libs/permissions";
 import { TEXT_FIELD, SUBFORM_SECTION } from "../../record-form/constants";
+import { RECORD_PATH } from "../../../config/constants";
 
 import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";
 import * as utils from "./utils";
@@ -31,19 +32,21 @@ describe("<RecordActions /> - exports/utils", () => {
       t: fake.returns("test.label")
     };
 
-    it("should return all export types if userPermission contains manage permission", () => {
+    it("should return all export types if userPermission contains manage permission and recordType is cases", () => {
       const userPermission = fromJS(["manage"]);
 
-      const expected = ALL_EXPORT_TYPES.map(a => {
+      const expected = ALL_EXPORT_TYPES.filter(exportType =>
+        exportType.recordTypes.includes(RECORD_PATH.cases)
+      ).map(a => {
         return {
           ...a,
           display_name: "test.label"
         };
       });
 
-      expect(utils.allowedExports(userPermission, i18n, false)).to.deep.equal(
-        expected
-      );
+      expect(
+        utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)
+      ).to.deep.equal(expected);
     });
 
     it("should return export types contained in userPermission", () => {
@@ -52,21 +55,23 @@ describe("<RecordActions /> - exports/utils", () => {
           id: "csv",
           display_name: "test.label",
           permission: ACTIONS.EXPORT_CSV,
-          format: EXPORT_FORMAT.CSV
+          format: EXPORT_FORMAT.CSV,
+          recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
         },
         {
           id: "json",
           display_name: "test.label",
           permission: ACTIONS.EXPORT_JSON,
-          format: EXPORT_FORMAT.JSON
+          format: EXPORT_FORMAT.JSON,
+          recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
         }
       ];
 
       const userPermission = fromJS([ACTIONS.EXPORT_CSV, ACTIONS.EXPORT_JSON]);
 
-      expect(utils.allowedExports(userPermission, i18n, false)).to.deep.equal(
-        expected
-      );
+      expect(
+        utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)
+      ).to.deep.equal(expected);
     });
   });
 

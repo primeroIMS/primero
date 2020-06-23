@@ -12,7 +12,12 @@ describe("dateFieldForm", () => {
     isNew: false,
     isEdit: true
   });
-  const date = dateFieldForm(field, i18n, { hiddenField: "" }, formMode);
+  const date = dateFieldForm({
+    field,
+    i18n,
+    css: { hiddenField: "" },
+    formMode
+  });
   const generalSection = date.forms.first().fields;
   const visibilitySection = date.forms.last().fields[1].row;
 

@@ -1,3 +1,8 @@
+import {
+  MULTI_SELECT_FIELD,
+  DATE_TIME_FIELD
+} from "./custom-field-selector-dialog/constants";
+
 export const getFieldsAttribute = isNested =>
   isNested ? "subform_section.fields" : "fields";
 
@@ -29,3 +34,17 @@ export const getFiedListItemTheme = currentTheme => ({
     }
   }
 });
+
+export const getLabelTypeField = field => {
+  const isMultiSelect = field.get("multi_select");
+  const isDateTime = field.get("date_include_time");
+
+  if (isMultiSelect) {
+    return MULTI_SELECT_FIELD;
+  }
+  if (isDateTime) {
+    return DATE_TIME_FIELD;
+  }
+
+  return field.get("type");
+};

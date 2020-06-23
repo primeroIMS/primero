@@ -1,5 +1,5 @@
 import { IconButton } from "@material-ui/core";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import MenuOpen from "@material-ui/icons/MenuOpen";
 import React from "react";
 import PropTypes from "prop-types";
 import makeStyles from "@material-ui/styles/makeStyles";
@@ -11,14 +11,14 @@ const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay }) => {
 
   const showMobileIcon = mobileDisplay ? (
     <IconButton onClick={handleToggleNav}>
-      <ArrowBackIosIcon />
+      <MenuOpen />
     </IconButton>
   ) : null;
 
   return (
     <div className={css.formTitle}>
       {showMobileIcon}
-      <h1 className={css.formHeading}>{displayText}</h1>
+      <span className={css.formHeading}>{displayText}</span>
     </div>
   );
 };

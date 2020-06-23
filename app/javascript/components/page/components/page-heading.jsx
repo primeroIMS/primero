@@ -1,12 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { AppBar, Toolbar, Box } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
 
-import styles from "./styles.css";
+import { useThemeHelper } from "../../../libs";
+import styles from "../styles.css";
 
-const PageHeading = ({ title, prefixAction, children, whiteHeading }) => {
-  const css = makeStyles(styles)();
+const PageHeading = ({
+  title,
+  prefixAction,
+  children,
+  whiteHeading,
+  mobileHeading
+}) => {
+  const { css, mobileDisplay } = useThemeHelper(styles);
+
+  const toolbarClass =
+    mobileDisplay && mobileHeading ? css.toolbarMobile : css.toolbar;
 
   return (
     <AppBar
@@ -15,7 +24,7 @@ const PageHeading = ({ title, prefixAction, children, whiteHeading }) => {
       elevation={0}
       color="inherit"
     >
-      <Toolbar className={css.toolbar}>
+      <Toolbar className={toolbarClass}>
         {prefixAction && (
           <Box>
             <div>{prefixAction()}</div>
@@ -30,8 +39,13 @@ const PageHeading = ({ title, prefixAction, children, whiteHeading }) => {
 
 PageHeading.displayName = "PageHeading";
 
+PageHeading.defaultProps = {
+  mobileHeading: false
+};
+
 PageHeading.propTypes = {
   children: PropTypes.node,
+  mobileHeading: PropTypes.bool,
   prefixAction: PropTypes.func,
   title: PropTypes.string.isRequired,
   whiteHeading: PropTypes.bool

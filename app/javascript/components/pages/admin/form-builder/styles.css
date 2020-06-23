@@ -14,3 +14,8 @@
   fong-weight: bold;
   flex: 1;
 }
+
+.tabHeader:disabled {
+  cursor: not-allowed;
+  pointer-events: auto;
+}

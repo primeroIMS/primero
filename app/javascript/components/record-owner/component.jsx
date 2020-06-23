@@ -1,18 +1,31 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
 
 import { FieldRecord, FormSectionField } from "../record-form";
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
+import { selectAgencies } from "../application";
+import { compare } from "../../libs";
 
 import { NAME, FIELDS } from "./constants";
 
 const Component = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
   const i18n = useI18n();
+  const agencies = useSelector(state => selectAgencies(state), compare);
 
-  const recordOwnerValues = FIELDS.map(a => a.name).reduce((acum, field) => {
-    return { ...acum, [field]: record?.get(field) };
+  const recordOwnerValues = FIELDS.reduce((acum, field) => {
+    let fieldValue = record?.get(field.name);
+
+    if (field.option_strings_source === "Agency") {
+      fieldValue = agencies
+        .filter(agency => agency.get("id") === fieldValue)
+        ?.first()
+        ?.get("unique_id");
+    }
+
+    return { ...acum, [field.name]: fieldValue };
   }, {});
 
   const renderFields = FIELDS.map(f => {

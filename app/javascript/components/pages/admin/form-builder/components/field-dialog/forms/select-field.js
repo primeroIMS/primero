@@ -9,7 +9,14 @@ import {
 } from "./base";
 
 /* eslint-disable import/prefer-default-export */
-export const selectFieldForm = ({ field, i18n, mode, lookups, css }) => {
+export const selectFieldForm = ({
+  css,
+  field,
+  formMode,
+  i18n,
+  isNested,
+  lookups
+}) => {
   const fieldName = field.get("name");
   const options = field.get("option_strings_text", fromJS({}));
   let extraValidations = {};
@@ -39,10 +46,14 @@ export const selectFieldForm = ({ field, i18n, mode, lookups, css }) => {
 
   return {
     forms: fromJS([
-      generalForm(fieldName, i18n, mode),
-      optionsForm(fieldName, i18n, mode, field, lookups, css),
-      visibilityForm(fieldName, i18n)
+      generalForm({ fieldName, i18n, formMode }),
+      optionsForm({ fieldName, i18n, formMode, field, lookups, css }),
+      visibilityForm({ fieldName, i18n, isNested })
     ]),
-    validationSchema: validationSchema(fieldName, i18n, extraValidations)
+    validationSchema: validationSchema({
+      fieldName,
+      i18n,
+      overrides: extraValidations
+    })
   };
 };

@@ -22,6 +22,7 @@ import { RECORD_TYPES } from "../../../../../config";
 import Permission from "../../../../application/permission";
 import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
 import { currentUser } from "../../../../user";
+import DisableOffline from "../../../../disable-offline";
 
 import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
@@ -72,40 +73,42 @@ const Component = ({ index, recordType, values }) => {
   }
 
   return (
-    <Permission resources={RESOURCES.cases} actions={REFER_FROM_SERVICE}>
-      <IconButton
-        aria-label="more"
-        aria-controls="long-menu"
-        aria-haspopup="true"
-        onClick={event => handleClick(event)}
-        key={`refer-option-${index}`}
-      >
-        <MoreVertIcon />
-      </IconButton>
-      <Menu
-        id={`service-menu-${index}`}
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        key={`service-menu-${index}`}
-        ref={ref}
-      >
-        {serviceIsReferrable(
-          values[index],
-          services,
-          agencies,
-          referralUsers
-        ) ? (
-          <ReferAction
-            index={index}
-            handleReferral={handleReferral}
-            values={values}
-          />
-        ) : (
-          loading && <CircularProgress className={css.loadingIndicator} />
-        )}
-      </Menu>
-    </Permission>
+    <DisableOffline>
+      <Permission resources={RESOURCES.cases} actions={REFER_FROM_SERVICE}>
+        <IconButton
+          aria-label="more"
+          aria-controls="long-menu"
+          aria-haspopup="true"
+          onClick={event => handleClick(event)}
+          key={`refer-option-${index}`}
+        >
+          <MoreVertIcon />
+        </IconButton>
+        <Menu
+          id={`service-menu-${index}`}
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+          key={`service-menu-${index}`}
+          ref={ref}
+        >
+          {serviceIsReferrable(
+            values[index],
+            services,
+            agencies,
+            referralUsers
+          ) ? (
+            <ReferAction
+              index={index}
+              handleReferral={handleReferral}
+              values={values}
+            />
+          ) : (
+            loading && <CircularProgress className={css.loadingIndicator} />
+          )}
+        </Menu>
+      </Permission>
+    </DisableOffline>
   );
 };
 

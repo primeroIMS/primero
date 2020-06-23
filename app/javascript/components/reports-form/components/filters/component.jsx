@@ -10,7 +10,7 @@ import isEmpty from "lodash/isEmpty";
 import { useI18n } from "../../../i18n";
 import { DATE_FIELD } from "../../../form";
 import FiltersDialog from "../filters-dialog";
-import { CONSTRAINTS, MODULES_FIELD, RECORD_TYPE_FIELD } from "../../constants";
+import { MODULES_FIELD, NOT_NULL, RECORD_TYPE_FIELD } from "../../constants";
 import { formattedFields } from "../../utils";
 import { compare, dataToJS } from "../../../../libs";
 import { getOptions } from "../../../record-form/selectors";
@@ -21,10 +21,11 @@ import {
   RADIO_FIELD,
   SELECT_FIELD
 } from "../../../form/constants";
+import ActionDialog from "../../../action-dialog";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
-import { registerValues, formatValue } from "./utils";
+import { formatValue, getConstraintLabel, registerValues } from "./utils";
 
 const Container = ({
   indexes,
@@ -36,6 +37,7 @@ const Container = ({
   const css = makeStyles(styles)();
 
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [open, setOpen] = useState(false);
 
   const onSuccess = (index, currentReportFilter, currentField) => {
@@ -48,7 +50,7 @@ const Container = ({
 
     if (
       [DATE_FIELD, NUMERIC_FIELD].includes(currentField.type) &&
-      currentReportFilter.constraint === "not_null"
+      currentReportFilter.constraint === NOT_NULL
     ) {
       data.value = "";
     }
@@ -59,7 +61,7 @@ const Container = ({
       currentReportFilter.constraint
     ) {
       data.constraint = false;
-      data.value = ["not_null"];
+      data.value = [NOT_NULL];
     }
 
     if (Object.is(index, null)) {
@@ -116,11 +118,23 @@ const Container = ({
     setOpen(true);
   };
 
-  const handleDelete = index => {
+  const handleDelete = () => {
+    const index = selectedIndex;
+
     setIndexes([
       ...indexes.slice(0, parseInt(index, 10)),
       ...indexes.slice(parseInt(index, 10) + 1, indexes.length)
     ]);
+  };
+
+  const handleOpenModal = index => {
+    setSelectedIndex(index);
+    setDeleteModal(true);
+  };
+
+  const cancelHandler = () => {
+    setDeleteModal(false);
+    setSelectedIndex(null);
   };
 
   if (isEmpty(indexes)) {
@@ -130,16 +144,10 @@ const Container = ({
   const renderReportFilterList = () =>
     Object.entries(indexes).map(filter => {
       const [index, { data }] = filter;
-      const { attribute, constraint, value } = data;
-      const constraintLabel =
-        // eslint-disable-next-line no-nested-ternary
-        constraint && typeof constraint === "boolean"
-          ? i18n.t(CONSTRAINTS.not_null)
-          : CONSTRAINTS[constraint] ||
-            (Array.isArray(value) && value.includes("not_null"))
-          ? i18n.t(CONSTRAINTS[constraint] || CONSTRAINTS.not_null)
-          : "";
+      const { attribute, value } = data;
       const field = fields.find(f => f.id === attribute);
+
+      const constraintLabel = getConstraintLabel(data, field, i18n);
       const lookups = [
         ...dataToJS(allLookups),
         ...[{ unique_id: OPTION_TYPES.LOCATION, values: dataToJS(location) }],
@@ -162,7 +170,7 @@ const Container = ({
         <Box key={index} display="flex" alignItems="center">
           <Box flexGrow={1}>{formattedReportFilterName}</Box>
           <Box>
-            <IconButton onClick={() => handleDelete(index)}>
+            <IconButton onClick={() => handleOpenModal(index)}>
               <DeleteIcon />
             </IconButton>
             <IconButton onClick={() => handleEdit(index)}>
@@ -184,6 +192,15 @@ const Container = ({
       </Typography>
 
       {renderReportFilterList()}
+
+      <ActionDialog
+        open={deleteModal}
+        successHandler={handleDelete}
+        cancelHandler={cancelHandler}
+        dialogTitle={i18n.t("fields.remove")}
+        dialogText={i18n.t("fields.subform_remove_message")}
+        confirmButtonLabel={i18n.t("buttons.ok")}
+      />
 
       <FiltersDialog
         selectedIndex={selectedIndex}

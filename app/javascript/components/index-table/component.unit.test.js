@@ -1,6 +1,11 @@
 import { fromJS, List } from "immutable";
 import MUIDataTable from "mui-datatables";
-import { CircularProgress, Typography, Checkbox } from "@material-ui/core";
+import {
+  CircularProgress,
+  Typography,
+  Checkbox,
+  TablePagination
+} from "@material-ui/core";
 
 import LoadingIndicator from "../loading-indicator";
 import { setupMountedComponent, fake } from "../../test";
@@ -135,7 +140,7 @@ describe("<IndexTable />", () => {
     expect(component.find(MUIDataTable)).to.have.lengthOf(1);
   });
 
-  it("should change sort order to descending if user clicks on a column", () => {
+  it("should change sort order to ascending if user clicks on a column", () => {
     const nameColumnIndex = 3;
     const table = component.find(IndexTable);
 
@@ -145,7 +150,7 @@ describe("<IndexTable />", () => {
     table.find("thead th span").at(nameColumnIndex).simulate("click");
 
     expect(table.find("div").last().text()).to.be.be.equals(
-      "Table now sorted by name : descending"
+      "Table now sorted by name : ascending"
     );
   });
 
@@ -214,10 +219,16 @@ describe("<IndexTable />", () => {
       const customToolbarSelect = recordsSelectedComponent.find(
         CustomToolbarSelect
       );
-      const label = customToolbarSelect.find(Typography);
+      const label = customToolbarSelect.find(Typography).find("h6");
 
       expect(label).to.have.lengthOf(1);
       expect(label.text()).to.eql("cases.selected_records");
+    });
+
+    it("renders TablePagination component", () => {
+      expect(recordsSelectedComponent.find(TablePagination)).to.have.lengthOf(
+        2
+      );
     });
   });
 
@@ -227,15 +238,20 @@ describe("<IndexTable />", () => {
     before(() => {
       ({ component: noRecordsSelectedComponent } = setupMountedComponent(
         IndexTable,
-        props,
+        { ...props, showCustomToolbar: true },
         initialState
       ));
     });
 
-    it("should not render CustomToolbarSelect component", () => {
+    it("should render CustomToolbarSelect called in CustomToolbar props", () => {
       expect(
         noRecordsSelectedComponent.find(CustomToolbarSelect)
-      ).to.have.lengthOf(0);
+      ).to.have.lengthOf(1);
+    });
+    it("renders TablePagination component", () => {
+      expect(noRecordsSelectedComponent.find(TablePagination)).to.have.lengthOf(
+        2
+      );
     });
   });
 

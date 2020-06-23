@@ -131,7 +131,15 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
         const fields = subform
           .get("fields")
-          .map(fieldId => state.getIn(["fields", fieldId.toString()]));
+          .map(fieldId => state.getIn(["fields", fieldId.toString()]))
+          .map(field =>
+            field.set(
+              "on_collapsed_subform",
+              subform
+                .get("collapsed_field_names", fromJS([]))
+                .includes(field.get("name"))
+            )
+          );
 
         const selectedSubforms = state.get("subforms", fromJS([]));
 
@@ -195,19 +203,26 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       const subform = state.get("selectedSubform", fromJS({}));
       const data = fromJS(payload.data);
 
-      const fields = subform
-        .get("fields")
-        .map(field => fromJS({ [field.get("name")]: field }))
-        .reduce((acc, field) => acc.merge(field), fromJS({}))
-        .mergeDeep(data.get("fields"))
-        .valueSeq()
-        .toList();
+      const fields = subform.get("fields").map(field => {
+        const fieldName = field.get("name");
+
+        return field.mergeDeep(data.getIn(["fields", fieldName], fromJS({})));
+      });
 
       const subformIndex = state
         .get("subforms", fromJS([]))
         .findIndex(form => form.get("unique_id") === subform.get("unique_id"));
 
-      const mergedSubform = subform.merge(data).set("fields", fields);
+      const collapsedFieldNames = fields
+        .filter(field => field.get("on_collapsed_subform") === true)
+        .map(field => field.get("name"))
+        .toSet()
+        .toList();
+
+      const mergedSubform = subform
+        .merge(data)
+        .set("fields", fields)
+        .set("collapsed_field_names", collapsedFieldNames);
 
       return state
         .setIn(["subforms", subformIndex], mergedSubform)

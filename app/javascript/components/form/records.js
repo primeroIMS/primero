@@ -35,8 +35,8 @@ export const FieldRecord = Record({
   tick_box_label: Map({}),
   numeric: false,
   onChange: null,
-  boldWords: List([]),
-  phraseParts: List([])
+  mobile_visible: false,
+  on_collapsed_subform: false
 });
 
 export const FormSectionRecord = Record({

@@ -16,7 +16,9 @@ const colors = {
   goldYellow: "#f4ac22",
   red: "#d0021b",
   green: "#839e3c",
+  solidGreen: "#7ba024",
   orange: "#e7712d",
+  solidOrange: "#ff9500",
   purple: "#7c347b",
   warmGrey1: "#e0dfd7",
   warmGrey2: "#bcbcad",
@@ -116,14 +118,22 @@ const overrides = {
   },
   MUIDataTableToolbar: {
     root: {
-      display: "none !important"
+      paddingLeft: "26px",
+      paddingRight: "26px",
+      paddingTop: "8px",
+      paddingBottom: "8px",
+      justifyContent: "flex-start"
     }
   },
   MUIDataTableToolbarSelect: {
     root: {
       paddingLeft: "26px",
       paddingRight: "26px",
-      justifyContent: "flex-start"
+      paddingTop: "8px",
+      paddingBottom: "8px",
+      justifyContent: "flex-start",
+      backgroundColor: colors.white,
+      boxShadow: "none"
     },
     title: {
       display: "none"
@@ -131,57 +141,20 @@ const overrides = {
   },
   MuiTableRow: {
     hover: {
+      cursor: "pointer",
       "&:hover": {
         background: colors.lightGrey
       }
     }
   },
-  MUIDataTableBodyRow: {
-    hover: {
-      cursor: "pointer"
-    }
-  },
-  MUIDataTableBodyCell: {
-    root: {
-      padding: "10px",
-      [muiTheme.breakpoints.down("sm")]: {
-        "&:nth-last-child(2), &:last-child": {
-          border: "none"
-        }
-      }
-    },
-    stackedCommon: {
-      [muiTheme.breakpoints.down("sm")]: {
-        width: "50%",
-        height: "40px",
-        display: "flex",
-        fontSize: muiTheme.typography.pxToRem(14),
-        backgroundColor: colors.white,
-        alignItems: "center",
-        float: "left",
-        fontWeight: 600,
-        padding: "2em 10px"
-      }
-    },
-    responsiveStackedSmall: {
-      [muiTheme.breakpoints.down("sm")]: {
-        width: "50%",
-        height: "40px",
-        display: "flex",
-        fontSize: muiTheme.typography.pxToRem(14),
-        alignItems: "center",
-        float: "left",
-        padding: "2em 0"
-      }
-    }
-  },
   MUIDataTableHeadCell: {
     root: {
-      padding: "10px",
       fontWeight: "900",
       textTransform: "uppercase",
       fontSize: muiTheme.typography.pxToRem(12),
-      color: `${colors.grey}`
+      color: `${colors.grey}`,
+      lineHeight: "1.3em",
+      padding: ".5em"
     }
   },
   MuiChip: {

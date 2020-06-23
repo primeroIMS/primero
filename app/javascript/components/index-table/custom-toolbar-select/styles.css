@@ -1,6 +1,8 @@
 .customToolbarFull {
   width: 100%;
   box-sizing: border-box;
+  display: border-box;
+  flex-direction: column;
 }
 
 .selectAllButton {
@@ -10,16 +12,32 @@
 }
 
 .customToolbarTitle {
+  padding-top: 1em;
   float: left;
   color: $(theme.primero.colors.black);
 }
 
 .customToolbarAll {
-  float: right;
+  float: left;
+  padding-top: 1.1em;
+  padding-left: 1em;
 }
 
 @media $(theme.breakpoints.down('sm')) {
+  .customToolbarFull {
+    display: flex;
+    flex-direction: column;
+  }
+
   .customToolbarAll {
     float: left;
+    padding-left: 0em;
+    padding-top: 1em;
+  }
+
+  .customToolbarPagination {
+    & > div:first-of-type {
+      padding-left: 0em;
+    }
   }
 }

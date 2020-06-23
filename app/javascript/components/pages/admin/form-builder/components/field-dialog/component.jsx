@@ -31,6 +31,7 @@ import ClearButtons from "../clear-buttons";
 import { NEW_FIELD } from "../../constants";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
 import { getOptions } from "../../../../../record-form/selectors";
+import { getLabelTypeField } from "../utils";
 
 import styles from "./styles.css";
 import {
@@ -38,7 +39,7 @@ import {
   getSubformValues,
   isSubformField,
   setInitialForms,
-  setSubformName,
+  setSubformData,
   subformContainsFieldName,
   transformValues,
   toggleHideOnViewPage,
@@ -50,7 +51,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(mode);
   const openFieldDialog = useSelector(state =>
-    selectDialog(ADMIN_FIELDS_DIALOG, state)
+    selectDialog(state, ADMIN_FIELDS_DIALOG)
   );
   const i18n = useI18n();
   const formRef = useRef();
@@ -66,12 +67,14 @@ const Component = ({ mode, onClose, onSuccess }) => {
   )?.last();
   const selectedFieldName = selectedField?.get("name");
   const lookups = useSelector(state => getOptions(state), compare);
+  const isNested = subformContainsFieldName(selectedSubform, selectedFieldName);
   const { forms: fieldsForm, validationSchema } = getFormField({
     field: selectedField,
     i18n,
-    mode: formMode,
+    formMode,
     css,
-    lookups
+    lookups,
+    isNested
   });
 
   const formMethods = useForm({ validationSchema });
@@ -84,17 +87,12 @@ const Component = ({ mode, onClose, onSuccess }) => {
       dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
     }
 
-    if (
-      selectedSubform.toSeq().size &&
-      subformContainsFieldName(selectedSubform, selectedFieldName)
-    ) {
+    if (selectedSubform.toSeq().size && isNested) {
       dispatch(clearSelectedSubformField());
     } else {
       dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
     }
   };
-
-  const typeField = selectedField.get("type");
 
   const editDialogTitle = isSubformField(selectedField)
     ? selectedSubform.getIn(["name", i18n.locale])
@@ -103,7 +101,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const dialogTitle = formMode.get("isEdit")
     ? editDialogTitle
     : i18n.t("fields.add_field_type", {
-        file_type: i18n.t(`fields.${typeField}`)
+        file_type: i18n.t(`fields.${getLabelTypeField(selectedField)}`)
       });
 
   const confirmButtonLabel = formMode.get("isEdit")
@@ -135,9 +133,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
     if (selectedFieldName === NEW_FIELD) {
       dispatch(createSelectedField(fieldData));
     } else {
-      const subformId =
-        subformContainsFieldName(selectedSubform, selectedFieldName) &&
-        selectedSubform?.get("unique_id");
+      const subformId = isNested && selectedSubform?.get("unique_id");
 
       dispatch(updateSelectedField(fieldData, subformId));
 
@@ -149,21 +145,20 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
   const onSubmit = data => {
     const subformData = setInitialForms(data.subform_section);
-    const fieldData = setSubformName(
+    const fieldData = setSubformData(
       toggleHideOnViewPage(data[selectedFieldName]),
       subformData
     );
 
     const dataToSave = buildDataToSave(
-      selectedFieldName,
+      selectedField,
       fieldData,
-      typeField,
       i18n.locale,
       lastField?.get("order")
     );
 
     batch(() => {
-      if (!subformContainsFieldName(selectedSubform, selectedFieldName)) {
+      if (!isNested) {
         onSuccess(dataToSave);
         dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
       }
@@ -207,10 +202,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
           ? getSubformValues(selectedSubform)
           : {};
 
-      const resetOptions = subformContainsFieldName(
-        selectedSubform,
-        selectedFieldName
-      )
+      const resetOptions = isNested
         ? { errors: true, dirtyFields: true, dirty: true, touched: true }
         : {};
 

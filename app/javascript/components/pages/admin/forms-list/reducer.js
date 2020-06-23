@@ -2,7 +2,7 @@ import { OrderedMap, Map, fromJS } from "immutable";
 
 import { mapEntriesToRecord } from "../../../../libs";
 import { normalizeFormData } from "../../../../schemas";
-import { FieldRecord, FormSectionRecord } from "../../../record-form/records";
+import { FieldRecord, FormSectionRecord } from "../../../form/records";
 
 import {
   reorderElems,

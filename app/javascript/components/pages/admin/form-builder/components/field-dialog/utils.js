@@ -47,28 +47,52 @@ const getSelectedDateValue = (field, isSubmit) => {
   ).find(obj => obj[1] === field.selected_value)[0];
 };
 
-export const getFormField = ({ field, i18n, mode, css, lookups }) => {
+const appendSettingsAttributes = (
+  data,
+  selectedField,
+  newFieldName,
+  lastFieldOrder
+) => {
+  const type = selectedField.get("type");
+  const order = lastFieldOrder ? lastFieldOrder + 1 : 0;
+  const multiSelect = {
+    multi_select: Boolean(selectedField.get("multi_select"))
+  };
+  const dateIncludeTime = {
+    date_include_time: Boolean(selectedField.get("date_include_time"))
+  };
+
+  return {
+    ...data,
+    type,
+    name: newFieldName,
+    order,
+    ...multiSelect,
+    ...dateIncludeTime
+  };
+};
+
+export const getFormField = fieldOptions => {
+  const { field } = fieldOptions;
+
   if (!field?.toSeq()?.size) {
     return { forms: [], validationSchema: {} };
   }
 
-  const type = field?.get("type");
-  const name = field?.get("name");
-
-  switch (type) {
+  switch (field?.get("type")) {
     case DATE_FIELD:
-      return dateFieldForm(field, i18n, css, mode);
+      return dateFieldForm(fieldOptions);
     case RADIO_FIELD:
     case SELECT_FIELD:
-      return selectFieldForm({ field, i18n, mode, lookups, css });
+      return selectFieldForm(fieldOptions);
     case SEPARATOR:
-      return separatorFieldForm(name, i18n, mode);
+      return separatorFieldForm(fieldOptions);
     case SUBFORM_SECTION:
-      return subformField({ name, i18n });
+      return subformField(fieldOptions);
     case TICK_FIELD:
-      return tickboxFieldForm(name, i18n, mode);
+      return tickboxFieldForm(fieldOptions);
     default:
-      return textFieldForm({ field, i18n, mode });
+      return textFieldForm(fieldOptions);
   }
 };
 
@@ -128,7 +152,7 @@ export const getSubformValues = subform => {
   };
 };
 
-export const setSubformName = (field, subform) => {
+export const setSubformData = (field, subform) => {
   if (subform) {
     return {
       ...field,
@@ -140,12 +164,13 @@ export const setSubformName = (field, subform) => {
 };
 
 export const buildDataToSave = (
-  fieldName,
+  selectedField,
   data,
-  type,
   locale,
   lastFieldOrder
 ) => {
+  const fieldName = selectedField?.get("name");
+
   if (fieldName !== NEW_FIELD) {
     return { [fieldName]: data };
   }
@@ -154,10 +179,15 @@ export const buildDataToSave = (
     .join("_")
     .toLowerCase();
 
-  const order = lastFieldOrder ? lastFieldOrder + 1 : 0;
+  const dataToSave = appendSettingsAttributes(
+    data,
+    selectedField,
+    newFieldName,
+    lastFieldOrder
+  );
 
   return {
-    [newFieldName]: { ...data, type, name: newFieldName, order }
+    [newFieldName]: dataToSave
   };
 };
 

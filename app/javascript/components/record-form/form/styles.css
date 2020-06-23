@@ -25,6 +25,9 @@
   text-transform: uppercase;
   font-size: $(theme.typography.pxToRem(22));
 }
+.formHeading {
+  font-size: 1.25rem;
+}
 
 .toolbarHeading {
   font-size: $(theme.typography.pxToRem(20));

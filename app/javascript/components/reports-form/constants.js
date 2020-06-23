@@ -56,3 +56,5 @@ export const DEFAULT_FILTERS = [
   Object.freeze({ attribute: "status", value: ["open"] }),
   Object.freeze({ attribute: "record_state", value: ["true"] })
 ];
+
+export const NOT_NULL = "not_null";
