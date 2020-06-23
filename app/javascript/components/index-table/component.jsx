@@ -356,8 +356,9 @@ Component.propTypes = {
   recordType: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   selectedRecords: PropTypes.object,
   setSelectedRecords: PropTypes.func,
+  showCustomToolbar: PropTypes.bool,
   targetRecordType: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.string.isRequired
 };
 
 export default Component;
