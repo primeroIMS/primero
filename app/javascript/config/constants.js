@@ -355,3 +355,5 @@ export const ALERTS_FOR = {
   new_form: "new_form",
   transfer_request: "transfer_request"
 };
+
+export const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];
