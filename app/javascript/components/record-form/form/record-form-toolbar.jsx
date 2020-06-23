@@ -161,7 +161,6 @@ const RecordFormToolbar = ({
           recordType={params.recordType}
           record={record}
           mode={mode}
-          iconColor="primary"
         />
       </Box>
     </Box>

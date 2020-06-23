@@ -214,7 +214,7 @@
   color: $(theme.primero.colors.white);
   width: 8em;
   height: 32px;
-  margin-left: 10px;
+  margin-left: 5px;
 
    &:hover {
     color: $(theme.primero.colors.black);

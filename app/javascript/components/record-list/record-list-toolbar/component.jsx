@@ -9,7 +9,6 @@ import RecordActions from "../../record-actions";
 import Permission from "../../application/permission";
 import { CREATE_RECORDS } from "../../../libs/permissions";
 import AddRecordMenu from "../add-record-menu";
-import styles from "../styles.css";
 
 import { NAME } from "./constants";
 
@@ -19,10 +18,9 @@ const Component = ({
   handleDrawer,
   mobileDisplay,
   selectedRecords,
-  currentPage
+  currentPage,
+  css
 }) => {
-  const css = makeStyles(styles)();
-
   return (
     <Box mb={3} alignItems="center" display="flex" className={css.toolbar}>
       <Box flexGrow={1}>
@@ -44,7 +42,6 @@ const Component = ({
           currentPage={currentPage}
           selectedRecords={selectedRecords}
           recordType={recordType}
-          iconColor="primary"
           mode={{ isShow: true }}
           showListActions
         />
@@ -54,6 +51,7 @@ const Component = ({
 };
 
 Component.propTypes = {
+  css: PropTypes.object,
   currentPage: PropTypes.number,
   handleDrawer: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
