@@ -9,7 +9,7 @@ class IdentitySyncJob < ApplicationJob
     user = User.find_by(id: user_id)
     result = IdentitySyncService.sync!(user)
     result[:one_time_password].present? &&
-      UserMailer.welcome(user_id, admin_user_id, result[:one_time_password])
+      UserMailer.welcome(user_id, admin_user_id, result[:one_time_password]).deliver_now
   rescue StandardError => e
     Rails.logger.error("Error syncing User with id #{user_id}. Error: #{e.message}")
   end
