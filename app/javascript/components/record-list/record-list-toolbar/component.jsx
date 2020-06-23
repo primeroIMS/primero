@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Box, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
 import { PageHeading } from "../../page";

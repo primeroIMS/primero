@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Fab, CircularProgress, useMediaQuery } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Fab, CircularProgress } from "@material-ui/core";
 
 import { useThemeHelper } from "../../../libs";
 
@@ -15,9 +14,7 @@ const FormAction = ({
   startIcon,
   text
 }) => {
-  const css = makeStyles(styles)();
-  const { theme } = useThemeHelper(styles);
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { css, mobileDisplay } = useThemeHelper(styles);
 
   const renderCircularProgress = savingRecord && !cancel && (
     <CircularProgress size={24} value={25} className={css.loadingMargin} />

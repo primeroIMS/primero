@@ -2,11 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useLocation, Link } from "react-router-dom";
-import { Button, useMediaQuery } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
-import { makeStyles } from "@material-ui/styles";
 
 import { getPermissionsByRecord } from "../../../../user/selectors";
 import { ACTION_BUTTONS_NAME } from "../constants";
@@ -32,9 +31,7 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
-  const css = makeStyles(styles)();
-  const { theme } = useThemeHelper(styles);
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { css, mobileDisplay } = useThemeHelper(styles);
 
   const saving = useSelector(state => getSavingRecord(state));
   const rolePermissions = useSelector(

@@ -7,12 +7,10 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
-  useMediaQuery
+  DialogTitle
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckIcon from "@material-ui/icons/Check";
-import { makeStyles } from "@material-ui/styles";
 
 import FormSectionField from "../../form-section-field";
 import { SUBFORM_DIALOG } from "../constants";
@@ -33,9 +31,7 @@ const Component = ({
   i18n,
   formik
 }) => {
-  const css = makeStyles(styles)();
-  const { theme } = useThemeHelper(styles);
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { css, mobileDisplay } = useThemeHelper(styles);
 
   const handleClose = () => {
     setOpen({ open: false, index: null });

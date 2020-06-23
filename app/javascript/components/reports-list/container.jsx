@@ -5,12 +5,10 @@ import {
   CardActionArea,
   TablePagination,
   Box,
-  Button,
-  useMediaQuery
+  Button
 } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import makeStyles from "@material-ui/styles/makeStyles";
 import AddIcon from "@material-ui/icons/Add";
 
 import PageContainer, { PageHeading, PageContent } from "../page";
@@ -32,11 +30,9 @@ import {
 import NAMESPACE from "./namespace";
 
 const Reports = () => {
-  const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { theme } = useThemeHelper(styles);
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { css, mobileDisplay } = useThemeHelper(styles);
 
   const reports = useSelector(state => selectReports(state));
   const isLoading = useSelector(state => selectLoading(state));

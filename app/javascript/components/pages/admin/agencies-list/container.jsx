@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
-import { Button, Grid, makeStyles, useMediaQuery } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 
@@ -26,9 +26,7 @@ const Container = () => {
   const dispatch = useDispatch();
   const canAddAgencies = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.agencies;
-  const css = makeStyles(styles)();
-  const { theme } = useThemeHelper(styles);
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { css, mobileDisplay } = useThemeHelper(styles);
 
   const headers = useSelector(state =>
     getListHeaders(state, RESOURCES.agencies)

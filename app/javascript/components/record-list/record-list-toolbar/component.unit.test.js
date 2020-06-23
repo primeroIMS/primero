@@ -19,7 +19,8 @@ describe("<RecordListToolbar />", () => {
     handleDrawer: () => {},
     mobileDisplay: false,
     currentPage: 0,
-    selectedRecords: { 0: [0, 1] }
+    selectedRecords: { 0: [0, 1] },
+    css: { toolbar: "" }
   };
   const initialState = fromJS({
     application: {
@@ -121,7 +122,6 @@ describe("<RecordListToolbar />", () => {
       "currentPage",
       "selectedRecords",
       "recordType",
-      "iconColor",
       "mode",
       "showListActions"
     ].forEach(property => {
@@ -137,7 +137,8 @@ describe("<RecordListToolbar />", () => {
       recordType: RECORD_PATH.cases,
       handleDrawer: () => {},
       mobileDisplay: false,
-      currentPage: 0
+      currentPage: 0,
+      css: { toolbar: "" }
     };
 
     beforeEach(() => {
@@ -172,7 +173,8 @@ describe("<RecordListToolbar />", () => {
       "mobileDisplay",
       "recordType",
       "selectedRecords",
-      "title"
+      "title",
+      "css"
     ].forEach(property => {
       expect(recordListToolbarProps).to.have.property(property);
       delete recordListToolbarProps[property];

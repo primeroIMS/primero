@@ -1,6 +1,6 @@
 import React from "react";
 import { fromJS, List } from "immutable";
-import { Button, makeStyles, useMediaQuery } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 
@@ -17,9 +17,7 @@ import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
 
 const Container = () => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
-  const { theme } = useThemeHelper(styles);
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { css, mobileDisplay } = useThemeHelper(styles);
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),

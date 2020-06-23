@@ -200,6 +200,7 @@ describe("<RecordList />", () => {
 
     expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
     [
+      "css",
       "title",
       "recordType",
       "handleDrawer",

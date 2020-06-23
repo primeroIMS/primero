@@ -1,14 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Box,
-  Button,
-  Fab,
-  CircularProgress,
-  useMediaQuery
-} from "@material-ui/core";
+import { Box, Button, Fab, CircularProgress } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import { useSelector } from "react-redux";
 import CheckIcon from "@material-ui/icons/Check";
@@ -40,9 +33,7 @@ const RecordFormToolbar = ({
   recordType,
   shortId
 }) => {
-  const css = makeStyles(styles)();
-  const { theme } = useThemeHelper(styles);
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { css, mobileDisplay } = useThemeHelper(styles);
   const i18n = useI18n();
   const savingRecord = useSelector(state =>
     getSavingRecord(state, params.recordType)

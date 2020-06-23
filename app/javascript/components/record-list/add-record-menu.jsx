@@ -5,15 +5,15 @@ import { Menu, MenuItem, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import { push } from "connected-react-router";
-import { makeStyles } from "@material-ui/styles";
 
+import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import { useApp } from "../application";
 
 import styles from "./styles.css";
 
 const AddRecordMenu = ({ mobileDisplay, recordType }) => {
-  const css = makeStyles(styles)();
+  const { css } = useThemeHelper(styles);
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);

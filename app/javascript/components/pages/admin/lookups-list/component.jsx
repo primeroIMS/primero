@@ -1,10 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Button, useMediaQuery } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import { fromJS } from "immutable";
-import { makeStyles } from "@material-ui/core/styles";
 import { push } from "connected-react-router";
 
 import { useI18n } from "../../../i18n";
@@ -24,10 +23,8 @@ import { columns } from "./utils";
 const Component = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
-  const cssAdmin = makeStyles(adminStyles)();
-  const { theme } = useThemeHelper(styles);
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { css: cssAdmin } = useThemeHelper(adminStyles);
+  const { css, mobileDisplay } = useThemeHelper(styles);
 
   const renderNewText = !mobileDisplay ? i18n.t("buttons.new") : null;
 

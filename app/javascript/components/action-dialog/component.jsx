@@ -8,12 +8,10 @@ import {
   DialogTitle,
   DialogContentText,
   CircularProgress,
-  Typography,
-  useMediaQuery
+  Typography
 } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
-import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../i18n";
 import { useThemeHelper } from "../../libs";
@@ -41,9 +39,7 @@ const ActionDialog = ({
   disableActions
 }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
-  const { theme } = useThemeHelper(styles);
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { css, mobileDisplay } = useThemeHelper(styles);
 
   const handleClose = event => {
     event.stopPropagation();
