@@ -19,6 +19,7 @@ class Role < ApplicationRecord
                    uniqueness: { message: 'errors.models.role.unique_name' }
 
   before_create :generate_unique_id
+  before_create :reject_form_by_module
 
   scope :by_referral, -> { where(referral: true) }
   scope :by_transfer, -> { where(transfer: true) }
@@ -159,6 +160,17 @@ class Role < ApplicationRecord
     permissions_with_forms.map do |permission|
       self.form_sections << forms_by_parent[permission.resource].reject {|f| self.form_sections.include?(f)}
       self.save
+    end
+  end
+
+  def reject_form_by_module
+    self.form_sections = form_sections.reject do |form|
+      form_modules = form.primero_modules.map(&:unique_id)
+      if form_modules.blank?
+        false
+      else
+        (primero_modules.map(&:unique_id) & form_modules).blank?
+      end
     end
   end
 

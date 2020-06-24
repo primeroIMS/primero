@@ -198,5 +198,30 @@ describe Role do
         expect(@role.form_sections).to match_array [@form_section_a, @form_section_b, @form_section_c]
       end
     end
+    context 'form from another primero-module' do
+      before do
+        clean_data(PrimeroModule, PrimeroProgram, Role)
+        @primero_module = create(
+          :primero_module, name: 'CP', description: 'Child Protection', associated_record_types: ['case']
+        )
+        @primero_module_gbv = create(
+          :primero_module, name: 'GBV', description: 'gbv', associated_record_types: ['case']
+        )
+        @form_section_c = FormSection.create!(
+          unique_id: 'C', name: 'C', parent_form: 'case', form_group_id: 'x', primero_modules: [@primero_module_gbv]
+        )
+      end
+      it 'Reject forms from another primero-module' do
+        role = create(:role, modules: [@primero_module], form_sections: [@form_section_c])
+        expect(role.form_sections).to eq([])
+      end
+      it "Reject forms from any primero-module if the role doesn't have primero-module" do
+        role = create(:role, modules: [], form_sections: [@form_section_c])
+        expect(role.form_sections).to eq([])
+      end
+      after do
+        clean_data(PrimeroModule, PrimeroProgram, Role)
+      end
+    end
   end
 end
