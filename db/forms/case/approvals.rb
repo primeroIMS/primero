@@ -26,7 +26,9 @@ approvals_fields_subform = [
     "display_name_en" => "Case Plan type",
     "editable"=> false,
     "disabled"=> true,
-    "option_strings_source" => "lookup lookup-approval-type"
+    "option_strings_source" => "lookup lookup-approval-type",
+    "mobile_visible" => false,
+    "visible" => false
   }),
   Field.new({"name" => "approval_date",
     "type" => "date_field",
