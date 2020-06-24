@@ -1,6 +1,8 @@
 const baseStyle = theme => ({
   backgroundColor: theme.primero.colors.white,
-  color: theme.primero.colors.grey
+  color: theme.primero.colors.grey,
+  fontWeight: "bold",
+  fontSize: theme.typography.pxToRem(12)
 });
 
 export const snackVariantClasses = theme => ({
@@ -40,13 +42,13 @@ export const snackVariantClasses = theme => ({
 export const snackContentClasses = theme => ({
   message: {
     "& svg": {
-      fontSize: theme.typography.pxToRem(20),
+      fontSize: theme.typography.pxToRem(16),
       marginRight: "5px"
     }
   },
   action: {
     "& svg": {
-      fontSize: theme.typography.pxToRem(20),
+      fontSize: theme.typography.pxToRem(16),
       color: theme.primero.colors.darkGrey
     }
   }
