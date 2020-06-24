@@ -539,10 +539,11 @@ class User < CouchRest::Model::Base
   def update_user_cases_groups_and_location
     # TODO: The following gets all the cases by user and updates the location/district.
     # Performance degrades on save if the user changes their location.
-    if location_changed? || user_group_ids_changed?
+    if location_changed? || user_group_ids_changed? || agency_office_changed?
       Child.by_owned_by.key(self.user_name).all.each do |child|
         child.owned_by_location = self.location if location_changed?
         child.owned_by_groups = self.user_group_ids if user_group_ids_changed?
+        child.owned_by_agency_office = self.agency_office if agency_office_changed?
         child.save!
       end
       @refresh_associated_user_groups = user_group_ids_changed?
@@ -573,6 +574,10 @@ class User < CouchRest::Model::Base
 
   def user_group_ids_changed?
     self.changes['user_group_ids'].present? && !self.changes['user_group_ids'].eql?([nil,""])
+  end
+
+  def agency_office_changed?
+    self.changes['agency_office'].present? && !self.changes['agency_office'].eql?([nil,""])
   end
 
   def encrypt_password

@@ -12,6 +12,7 @@ module Ownable
     property :owned_by_groups, [String]
     property :owned_by_location, String
     property :owned_by_user_code, String
+    property :owned_by_agency_office, String
 
     #TODO - this field is deprecated
     #TODO - remove this in a future refactor
@@ -21,6 +22,7 @@ module Ownable
     property :previously_owned_by_full_name, String
     property :previously_owned_by_agency, String
     property :previously_owned_by_location, String
+    property :previously_owned_by_agency_office, String
     property :assigned_user_names, :type => [String]
     property :associated_user_groups, :type => [String]
     property :database_operator_user_name, String
@@ -86,8 +88,10 @@ module Ownable
       self.owned_by_groups = self.owner.try(:user_group_ids)
       self.owned_by_location = self.owner.try(:location)
       self.owned_by_user_code = self.owner.try(:code)
+      self.owned_by_agency_office = self.owner.try(:agency_office)
       self.previously_owned_by_agency = self.changes['owned_by_agency'].try(:fetch, 0) || owned_by_agency
       self.previously_owned_by_location = self.changes['owned_by_location'].try(:fetch, 0) || owned_by_location
+      self.previously_owned_by_agency_office = self.changes['owned_by_agency_office'].try(:fetch, 0) || owned_by_agency_office
     end
 
     if (self.changes['assigned_user_names'].present? || self.new?)

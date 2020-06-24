@@ -205,7 +205,7 @@ module Searchable
       ["unique_identifier", "short_id",
        "created_by", "created_by_full_name",
        "last_updated_by", "last_updated_by_full_name",
-       "created_organization", "owned_by_agency", "owned_by_location"] +
+       "created_organization", "owned_by_agency", "owned_by_location", "owned_by_agency_office"] +
       searchable_approvable_fields +
       searchable_transition_fields +
       Field.all_filterable_field_names(self.parent_form)
