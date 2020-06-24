@@ -8,10 +8,7 @@ describe("<RecordInformation />", () => {
   let component;
 
   const props = {
-    open: {
-      identification_registration: true,
-      record_information: true
-    },
+    open: "record_information",
     handleClick: () => {},
     selectedForm: ""
   };
