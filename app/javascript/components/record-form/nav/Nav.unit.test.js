@@ -120,7 +120,7 @@ describe("<Nav />", () => {
     mobileDisplay: true,
     selectedForm: "",
     selectedRecord: "",
-    toggleNav: false
+    toggleNav: true
   };
 
   beforeEach(() => {

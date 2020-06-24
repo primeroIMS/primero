@@ -37,7 +37,9 @@ import {
   EXPORT_DIALOG,
   ENABLED_FOR_ONE,
   ENABLED_FOR_ONE_MANY,
-  ENABLED_FOR_ONE_MANY_ALL
+  ENABLED_FOR_ONE_MANY_ALL,
+  SERVICE_DIALOG,
+  INCIDENT_DIALOG
 } from "./constants";
 import { NAME } from "./config";
 import Notes from "./notes";
@@ -71,8 +73,12 @@ const Container = ({
   const [approvalType, setApprovalType] = useState(APPROVAL_TYPE);
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
-  const [incidentDialog, setIncidentDialog] = useState(false);
-  const [serviceDialog, setServiceDialog] = useState(false);
+  const serviceDialog = useSelector(state =>
+    selectDialog(state, SERVICE_DIALOG)
+  );
+  const incidentDialog = useSelector(state =>
+    selectDialog(state, INCIDENT_DIALOG)
+  );
   const requestDialog = useSelector(state =>
     selectDialog(state, REQUEST_APPROVAL_DIALOG)
   );
@@ -108,6 +114,12 @@ const Container = ({
   };
   const setOpenExportsDialog = open => {
     dispatch(setDialog({ dialog: EXPORT_DIALOG, open }));
+  };
+  const setServiceDialog = open => {
+    dispatch(setDialog({ dialog: SERVICE_DIALOG, open }));
+  };
+  const setIncidentDialog = open => {
+    dispatch(setDialog({ dialog: INCIDENT_DIALOG, open }));
   };
 
   const metadata = useSelector(state => getMetadata(state, recordType));
@@ -556,6 +568,8 @@ const Container = ({
           recordType={recordType}
           records={[]}
           selectedRowsIndex={selectedRecordsOnCurrentPage}
+          pending={dialogPending}
+          setPending={setDialogPending}
         />
       </Permission>
 
@@ -565,6 +579,8 @@ const Container = ({
           close={() => setServiceDialog(false)}
           recordType={recordType}
           selectedRowsIndex={selectedRecordsOnCurrentPage}
+          pending={dialogPending}
+          setPending={setDialogPending}
         />
       </Permission>
 

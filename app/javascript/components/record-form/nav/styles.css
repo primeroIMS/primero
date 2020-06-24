@@ -29,10 +29,10 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    max-height: 2em;
   }
 
   .drawerPaper {
-    top: inherit;
+    top: 4em;
+    height: 93.5%;
   }
 }

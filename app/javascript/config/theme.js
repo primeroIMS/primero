@@ -118,17 +118,20 @@ const overrides = {
   },
   MUIDataTableToolbar: {
     root: {
-      paddingLeft: "26px",
-      paddingRight: "26px",
+      paddingLeft: "5px",
+      paddingRight: "5px",
       paddingTop: "8px",
       paddingBottom: "8px",
       justifyContent: "flex-start"
+    },
+    left: {
+      display: "none !important"
     }
   },
   MUIDataTableToolbarSelect: {
     root: {
-      paddingLeft: "26px",
-      paddingRight: "26px",
+      paddingLeft: "5px",
+      paddingRight: "5px",
       paddingTop: "8px",
       paddingBottom: "8px",
       justifyContent: "flex-start",

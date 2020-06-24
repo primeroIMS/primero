@@ -47,6 +47,27 @@ export default createMuiTheme(
             }
           }
         }
+      },
+      MuiToolbar: {
+        root: {
+          [theme.breakpoints.down("sm")]: {
+            justifyContent: "center"
+          }
+        }
+      },
+      MuiTablePagination: {
+        spacer: {
+          [theme.breakpoints.down("sm")]: {
+            flex: "0 1 auto"
+          }
+        }
+      },
+      MuiTableFooter:{
+        root: {
+          "& tr td:last-of-type": {
+            padding: "0px 0px 0px 24px"
+          }
+        }
       }
     }
   },
