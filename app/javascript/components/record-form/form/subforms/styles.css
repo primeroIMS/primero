@@ -35,6 +35,8 @@
 }
 
 .emptySubformContainer {
+  display: flex;
+  align-items: center;
 
   & > svg:first-of-type {
     color: $(theme.primero.colors.yellow);

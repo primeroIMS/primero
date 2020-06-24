@@ -25,11 +25,7 @@ const Component = ({ handleClick, i18n, mode, subformName }) => {
   );
 
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      className={css.emptySubformContainer}
-    >
+    <div className={css.emptySubformContainer}>
       <ErrorIcon />
       <span>
         <strong>
@@ -38,7 +34,7 @@ const Component = ({ handleClick, i18n, mode, subformName }) => {
         {i18n.t("forms.subform_need_to_be_added")}
       </span>
       {renderAddButton}
-    </Box>
+    </div>
   );
 };
 

@@ -40,8 +40,8 @@ describe("<SubformEmptyData />", () => {
     ({ component } = setupMountedComponent(SubformEmptyData, props, {}));
   });
 
-  it("should render the Box component", () => {
-    expect(component.find(Box)).to.have.lengthOf(1);
+  it("should render one div", () => {
+    expect(component.find("div")).to.have.lengthOf(1);
   });
 
   it("should render the correct subform name", () => {
