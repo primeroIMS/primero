@@ -3,10 +3,13 @@ import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React from "react";
 import { push } from "connected-react-router";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 
 import { dataToJS } from "../../../libs";
 import { ROUTES } from "../../../config";
 import { buildFilter } from "../utils";
+
+import dashboardTableTheme from "./theme";
 
 const DashboardTable = ({ columns, data, query }) => {
   const dispatch = useDispatch();
@@ -51,7 +54,11 @@ const DashboardTable = ({ columns, data, query }) => {
     data: dataToJS(data)
   };
 
-  return <MUIDataTable {...tableOptions} />;
+  return (
+    <MuiThemeProvider theme={dashboardTableTheme}>
+      <MUIDataTable {...tableOptions} />
+    </MuiThemeProvider>
+  );
 };
 
 DashboardTable.displayName = "DashboardTable";

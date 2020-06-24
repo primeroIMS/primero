@@ -53,7 +53,7 @@ const Component = ({
 
   const selectAllButton = selectedRows &&
     selectedRows.data.length === displayData?.length && (
-      <div className={css.customToolbarAll}>
+      <div className={css.customToolbarButton}>
         <ButtonBase className={css.selectAllButton} onClick={handleClick}>
           {selectAllMessage}
         </ButtonBase>
@@ -93,9 +93,13 @@ const Component = ({
 
   return (
     <div className={css.customToolbarFull}>
-      {renderSelectedRecordMessage}
-      {selectAllButton}
-      <TablePagination {...paginationProps} />
+      <div className={css.firstGroup}>
+        {renderSelectedRecordMessage}
+        {selectAllButton}
+      </div>
+      <div className={css.lastGroup}>
+        <TablePagination {...paginationProps} />
+      </div>
     </div>
   );
 };
