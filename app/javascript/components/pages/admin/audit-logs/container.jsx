@@ -113,7 +113,10 @@ const Container = () => {
       <PageContent>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={9}>
-            <IndexTable {...tableOptions} />
+            <IndexTable
+              title={i18n.t("settings.navigation.audit_logs")}
+              {...tableOptions}
+            />
           </Grid>
           <Grid item xs={12} sm={3}>
             <AdminFilters {...filterProps} />

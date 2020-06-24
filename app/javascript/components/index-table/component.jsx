@@ -29,6 +29,7 @@ import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
 import CustomToolbarSelect from "./custom-toolbar-select";
 
 const Component = ({
+  title,
   columns,
   recordType,
   onTableChange,
@@ -324,6 +325,7 @@ const Component = ({
       : tableData;
 
   const tableOptions = {
+    title,
     columns: componentColumns,
     options,
     data: dataWithAlertsColumn
@@ -373,7 +375,8 @@ Component.propTypes = {
   selectedRecords: PropTypes.object,
   setSelectedRecords: PropTypes.func,
   showCustomToolbar: PropTypes.bool,
-  targetRecordType: PropTypes.string
+  targetRecordType: PropTypes.string,
+  title: PropTypes.string
 };
 
 export default Component;

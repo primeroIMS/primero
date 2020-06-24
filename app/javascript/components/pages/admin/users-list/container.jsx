@@ -53,7 +53,7 @@ const Container = () => {
     <>
       <PageHeading title={i18n.t("users.label")}>{newUserBtn}</PageHeading>
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <IndexTable title={i18n.t("users.label")} {...tableOptions} />
       </PageContent>
     </>
   );

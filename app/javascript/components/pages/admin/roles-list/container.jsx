@@ -47,7 +47,7 @@ const Container = () => {
         </IconButton>
       </PageHeading>
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <IndexTable title={i18n.t("roles.label")} {...tableOptions} />
       </PageContent>
     </>
   );

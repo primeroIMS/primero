@@ -30,7 +30,10 @@ const Component = ({ loadingIndicator }) => {
           {...loadingIndicator}
           hasData={Boolean(sharedFromMyTeam.size)}
         >
-          <DashboardTable {...sharedFromMyTeamProps} />
+          <DashboardTable
+            title={i18n.t("dashboard.dash_shared_from_my_team")}
+            {...sharedFromMyTeamProps}
+          />
         </OptionsBox>
       </Grid>
     </Permission>

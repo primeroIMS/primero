@@ -68,7 +68,10 @@ const Component = ({ loadingIndicator }) => {
           hasData={hasData}
           {...loadingIndicator}
         >
-          <DashboardTable {...tasksOverdueProps} />
+          <DashboardTable
+            title={i18n.t("dashboard.cases_by_task_overdue")}
+            {...tasksOverdueProps}
+          />
         </OptionsBox>
       </Grid>
     </Permission>

@@ -109,7 +109,10 @@ const ExportList = () => {
     <PageContainer>
       <PageHeading title={i18n.t("navigation.bulk_exports")} />
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <IndexTable
+          title={i18n.t("navigation.bulk_exports")}
+          {...tableOptions}
+        />
       </PageContent>
     </PageContainer>
   );
