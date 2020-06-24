@@ -2,6 +2,8 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
 import { RECORD_PATH } from "../../config/constants";
+import { ENQUEUE_SNACKBAR } from "../notifier";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "../record-actions/actions";
 
 import * as actionCreators from "./action-creators";
 
@@ -93,6 +95,35 @@ describe("records - Action Creators", () => {
           expect(actions[0].api.path).to.eql("cases/123");
           expect(actions[0].api.method).to.eql("PATCH");
           expect(actions[0].api.body).to.eql(body);
+        });
+    });
+
+    it("should return 3 success callback actions if there is a dialogName", () => {
+      const store = configureStore([thunk])({});
+      const expected = [ENQUEUE_SNACKBAR, SET_DIALOG, SET_DIALOG_PENDING];
+
+      return store
+        .dispatch(
+          actionCreators.saveRecord(
+            RECORD_PATH.cases,
+            "update",
+            body,
+            "123",
+            "Saved Successfully",
+            false,
+            false,
+            false,
+            "testDialog"
+          )
+        )
+        .then(() => {
+          const successCallbacks = store.getActions()[0].api.successCallback;
+
+          expect(successCallbacks).to.be.an("array");
+          expect(successCallbacks).to.have.lengthOf(3);
+          expect(successCallbacks.map(({ action }) => action)).to.deep.equals(
+            expected
+          );
         });
     });
   });
