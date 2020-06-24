@@ -285,7 +285,7 @@ GEM
       pry (~> 0.10)
     public_suffix (3.1.1)
     puma (3.12.1)
-    rack (2.0.8)
+    rack (2.1.4)
     rack-mini-profiler (1.0.2)
       rack (>= 1.2.0)
     rack-test (1.1.0)
@@ -502,7 +502,7 @@ DEPENDENCIES
   pry
   pry-byebug
   puma (~> 3.7)
-  rack (~> 2.0.8)
+  rack (~> 2.1.4)
   rack-mini-profiler (>= 1.0.0)
   rack_session_access
   rails (= 5.1.6.2)

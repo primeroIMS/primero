@@ -62,7 +62,7 @@ gem 'jquery-turbolinks'
 gem 'arabic-letter-connector', :git => 'https://github.com/Quoin/arabic-letter-connector', :branch => 'support-lam-alef-ligatures'
 gem 'twitter_cldr'
 
-gem 'rack', '~> 2.0.8'
+gem 'rack', '~> 2.1.4'
 
 #Security assertions:
 gem "nokogiri", ">= 1.10.4"
