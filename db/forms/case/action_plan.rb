@@ -269,7 +269,9 @@ action_plan_fields = [
             "disabled" => true,
             "display_name_en" => "Approval Type",
             "option_strings_source" => "lookup lookup-approval-type",
-            "help_text_en"=> "Case Plan, Action Plan, Service Provision"
+            "help_text_en"=> "Case Plan, Action Plan, Service Provision",
+            "mobile_visible" => false,
+            "visible" => false
           }),
   Field.new({"name" => "case_plan_approved",
              "type" => "tick_box",
