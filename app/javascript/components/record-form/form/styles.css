@@ -224,6 +224,10 @@
   }
 }
 
+.actionsContainer {
+  display: flex;
+  align-items: center;
+}
 
 @media $(theme.breakpoints.down("sm")) {
   .actionButton, .actionButtonCancel, .showActionButton {

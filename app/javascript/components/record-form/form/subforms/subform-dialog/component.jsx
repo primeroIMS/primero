@@ -19,6 +19,7 @@ import SubformMenu from "../subform-menu";
 import { serviceHasReferFields } from "../../utils";
 import { useThemeHelper } from "../../../../../libs";
 import styles from "../../styles.css";
+import ButtonText from "../../../../button-text";
 
 const Component = ({
   index,
@@ -31,15 +32,13 @@ const Component = ({
   i18n,
   formik
 }) => {
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css } = useThemeHelper(styles);
 
   const handleClose = () => {
     setOpen({ open: false, index: null });
   };
 
-  const renderSubmitText = !mobileDisplay
-    ? i18n.t(dialogIsNew ? "buttons.add" : "buttons.update")
-    : null;
+  const buttonDialogText = dialogIsNew ? "buttons.add" : "buttons.update";
 
   if (index !== null) {
     const actionButton =
@@ -52,7 +51,7 @@ const Component = ({
           className={css.actionButton}
         >
           <CheckIcon />
-          {renderSubmitText}
+          <ButtonText text={i18n.t(buttonDialogText)} />
         </Fab>
       ) : null;
 

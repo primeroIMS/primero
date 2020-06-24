@@ -9,10 +9,11 @@ import { push } from "connected-react-router";
 import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import { useApp } from "../application";
+import ButtonText from "../button-text";
 
 import styles from "./styles.css";
 
-const AddRecordMenu = ({ mobileDisplay, recordType }) => {
+const AddRecordMenu = ({ recordType }) => {
   const { css } = useThemeHelper(styles);
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -33,8 +34,6 @@ const AddRecordMenu = ({ mobileDisplay, recordType }) => {
     setAnchorEl(null);
   };
 
-  const showNewButton = !mobileDisplay ? i18n.t("buttons.new") : null;
-
   return (
     <>
       <Button
@@ -43,7 +42,7 @@ const AddRecordMenu = ({ mobileDisplay, recordType }) => {
         className={css.showActionButton}
       >
         <AddIcon />
-        {showNewButton}
+        <ButtonText text={i18n.t("buttons.new")} />
       </Button>
       <Menu
         anchorEl={anchorEl}
@@ -68,7 +67,6 @@ const AddRecordMenu = ({ mobileDisplay, recordType }) => {
 AddRecordMenu.displayName = "AddRecordMenu";
 
 AddRecordMenu.propTypes = {
-  mobileDisplay: PropTypes.bool,
   recordType: PropTypes.string.isRequired
 };
 

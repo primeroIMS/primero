@@ -15,6 +15,7 @@ import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../i18n";
 import { useThemeHelper } from "../../libs";
+import ButtonText from "../button-text";
 
 import TitleWithClose from "./text-with-close";
 import styles from "./styles.css";
@@ -39,7 +40,7 @@ const ActionDialog = ({
   disableActions
 }) => {
   const i18n = useI18n();
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css } = useThemeHelper(styles);
 
   const handleClose = event => {
     event.stopPropagation();
@@ -94,7 +95,6 @@ const ActionDialog = ({
       <CheckIcon />
     );
 
-  const renderConfirmText = !mobileDisplay ? confirmButtonLabel : null;
   const submitButton = (
     <div className={css.submitButtonWrapper}>
       <Fab
@@ -104,13 +104,11 @@ const ActionDialog = ({
         className={css.actionButton}
       >
         {iconConfirmButtom}
-        {renderConfirmText}
+        <ButtonText text={confirmButtonLabel} />
       </Fab>
       {pending && <CircularProgress size={24} className={css.buttonProgress} />}
     </div>
   );
-
-  const renderCancelText = !mobileDisplay ? i18n.t("cancel") : null;
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
@@ -143,7 +141,7 @@ const ActionDialog = ({
                 className={css.actionButtonCancel}
               >
                 <CloseIcon />
-                {renderCancelText}
+                <ButtonText text={i18n.t("cancel")} />
               </Fab>
             )}
           </DialogActions>

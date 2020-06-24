@@ -19,6 +19,7 @@ import { usePermissions } from "../user";
 import { CREATE_RECORDS } from "../../libs/permissions";
 import { useThemeHelper } from "../../libs";
 import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
+import ButtonText from "../button-text";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
@@ -32,7 +33,7 @@ import NAMESPACE from "./namespace";
 const Reports = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css } = useThemeHelper(styles);
 
   const reports = useSelector(state => selectReports(state));
   const isLoading = useSelector(state => selectLoading(state));
@@ -81,8 +82,6 @@ const Reports = () => {
     component: "div"
   };
 
-  const showNewText = !mobileDisplay ? i18n.t("buttons.new") : null;
-
   const newReportBtn = canAddReport ? (
     <Button
       to={ROUTES.reports_new}
@@ -91,7 +90,7 @@ const Reports = () => {
       className={css.showActionButton}
     >
       <AddIcon />
-      {showNewText}
+      <ButtonText text={i18n.t("buttons.new")} />
     </Button>
   ) : null;
 

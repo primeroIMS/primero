@@ -22,6 +22,7 @@ import {
 } from "../../../../../libs/permissions";
 import { compare, useThemeHelper } from "../../../../../libs";
 import styles from "../../styles.css";
+import ButtonText from "../../../../button-text";
 
 const Component = ({
   formMode,
@@ -31,7 +32,7 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css } = useThemeHelper(styles);
 
   const saving = useSelector(state => getSavingRecord(state));
   const rolePermissions = useSelector(
@@ -55,8 +56,6 @@ const Component = ({
     </>
   );
 
-  const showEditText = !mobileDisplay ? i18n.t("buttons.edit") : null;
-
   const editButton = formMode.get("isShow") && (
     <Permission resources={RESOURCES.roles} actions={WRITE_RECORDS}>
       <Button
@@ -66,7 +65,7 @@ const Component = ({
         className={css.showActionButton}
       >
         <CreateIcon />
-        {showEditText}
+        <ButtonText text={i18n.t("buttons.edit")} />
       </Button>
     </Permission>
   );

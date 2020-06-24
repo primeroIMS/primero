@@ -5,18 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import FlagIcon from "@material-ui/icons/Flag";
 
 import { useI18n } from "../i18n";
+import ButtonText from "../button-text";
 
 import { FlagForm, ListFlags, FlagDialog } from "./components";
 import { fetchFlags } from "./action-creators";
 import { selectFlags } from "./selectors";
 
-const Flagging = ({
-  control,
-  mobileVisible,
-  record,
-  recordType,
-  showActionButtonCss
-}) => {
+const Flagging = ({ control, record, recordType, showActionButtonCss }) => {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const dispatch = useDispatch();
@@ -59,8 +54,6 @@ const Flagging = ({
     record
   };
 
-  const renderFlagsText = !mobileVisible ? i18n.t("buttons.flags") : null;
-
   return (
     <>
       {(control && <control onClick={handleOpen} />) || (
@@ -70,7 +63,7 @@ const Flagging = ({
           className={showActionButtonCss}
         >
           <FlagIcon />
-          {renderFlagsText}
+          <ButtonText text={i18n.t("buttons.flags")} />
         </Button>
       )}
       <FlagDialog {...flagDialogProps}>
@@ -89,7 +82,6 @@ Flagging.displayName = "Flagging";
 
 Flagging.propTypes = {
   control: PropTypes.node,
-  mobileVisible: PropTypes.bool,
   record: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   showActionButtonCss: PropTypes.string

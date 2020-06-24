@@ -14,6 +14,7 @@ import { MANAGE, RESOURCES } from "../../../../libs/permissions";
 import Permission from "../../../application/permission";
 import { useThemeHelper } from "../../../../libs";
 import adminStyles from "../styles.css";
+import ButtonText from "../../../button-text";
 
 import { NAME } from "./constants";
 import { fetchAdminLookups } from "./action-creators";
@@ -24,9 +25,7 @@ const Component = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { css: cssAdmin } = useThemeHelper(adminStyles);
-  const { css, mobileDisplay } = useThemeHelper(styles);
-
-  const renderNewText = !mobileDisplay ? i18n.t("buttons.new") : null;
+  const { css } = useThemeHelper(styles);
 
   const newUserGroupBtn = (
     <Button
@@ -36,7 +35,7 @@ const Component = () => {
       className={cssAdmin.showActionButton}
     >
       <AddIcon />
-      {renderNewText}
+      <ButtonText text={i18n.t("buttons.new")} />
     </Button>
   );
 

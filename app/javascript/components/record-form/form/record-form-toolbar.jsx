@@ -16,6 +16,7 @@ import { getSavingRecord } from "../../records/selectors";
 import { RECORD_PATH } from "../../../config";
 import DisableOffline from "../../disable-offline";
 import { useThemeHelper } from "../../../libs";
+import ButtonText from "../../button-text";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -33,7 +34,7 @@ const RecordFormToolbar = ({
   recordType,
   shortId
 }) => {
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css } = useThemeHelper(styles);
   const i18n = useI18n();
   const savingRecord = useSelector(state =>
     getSavingRecord(state, params.recordType)
@@ -47,10 +48,6 @@ const RecordFormToolbar = ({
     <CircularProgress size={24} value={25} className={css.loadingMargin} />
   );
 
-  const showSaveText = !mobileDisplay ? i18n.t("buttons.save") : null;
-  const showCancelText = !mobileDisplay ? i18n.t("buttons.cancel") : null;
-  const showEditText = !mobileDisplay ? i18n.t("buttons.edit") : null;
-
   const renderSaveButton = (
     <Fab
       className={css.actionButton}
@@ -61,7 +58,7 @@ const RecordFormToolbar = ({
     >
       <CheckIcon />
       {renderCircularProgress}
-      {showSaveText}
+      <ButtonText text={i18n.t("buttons.save")} />
     </Fab>
   );
 
@@ -108,12 +105,11 @@ const RecordFormToolbar = ({
         />
         {renderRecordStatusIndicator}
       </Box>
-      <Box display="flex" alignItems="center">
+      <div className={css.actionsContainer}>
         {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <DisableOffline button>
               <Flagging
-                mobileVisible={mobileDisplay}
                 record={params.id}
                 recordType={params.recordType}
                 showActionButtonCss={css.showActionButton}
@@ -130,7 +126,7 @@ const RecordFormToolbar = ({
               onClick={goBack}
             >
               <ClearIcon />
-              {showCancelText}
+              <ButtonText text={i18n.t("buttons.cancel")} />
             </Fab>
             {renderSaveButton}
           </div>
@@ -144,7 +140,7 @@ const RecordFormToolbar = ({
               className={css.showActionButton}
             >
               <CreateIcon />
-              {showEditText}
+              <ButtonText text={i18n.t("buttons.edit")} />
             </Button>
           </Permission>
         )}
@@ -153,7 +149,7 @@ const RecordFormToolbar = ({
           record={record}
           mode={mode}
         />
-      </Box>
+      </div>
     </Box>
   );
 };

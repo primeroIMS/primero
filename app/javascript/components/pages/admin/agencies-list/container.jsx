@@ -15,6 +15,7 @@ import { headersToColumns } from "../utils";
 import { Filters as AdminFilters } from "../components";
 import { useThemeHelper } from "../../../../libs";
 import styles from "../styles.css";
+import ButtonText from "../../../button-text";
 
 import { fetchAgencies } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
@@ -26,7 +27,7 @@ const Container = () => {
   const dispatch = useDispatch();
   const canAddAgencies = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.agencies;
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css } = useThemeHelper(styles);
 
   const headers = useSelector(state =>
     getListHeaders(state, RESOURCES.agencies)
@@ -57,8 +58,6 @@ const Container = () => {
     }
   };
 
-  const renderNewText = !mobileDisplay ? i18n.t("buttons.new") : null;
-
   const newAgencyBtn = canAddAgencies ? (
     <Button
       to={ROUTES.admin_agencies_new}
@@ -67,7 +66,7 @@ const Container = () => {
       className={css.showActionButton}
     >
       <AddIcon />
-      {renderNewText}
+      <ButtonText text={i18n.t("buttons.new")} />
     </Button>
   ) : null;
 

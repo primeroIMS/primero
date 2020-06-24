@@ -11,20 +11,19 @@ import { ROUTES } from "../../../../config";
 import { NAMESPACE } from "../roles-form";
 import { useThemeHelper } from "../../../../libs";
 import styles from "../styles.css";
+import ButtonText from "../../../button-text";
 
 import { fetchRoles } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
 
 const Container = () => {
   const i18n = useI18n();
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css } = useThemeHelper(styles);
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
     ...rest
   }));
-
-  const renderNewText = !mobileDisplay ? i18n.t("buttons.new") : null;
 
   const tableOptions = {
     recordType: [ADMIN_NAMESPACE, NAMESPACE],
@@ -50,7 +49,7 @@ const Container = () => {
           className={css.showActionButton}
         >
           <AddIcon />
-          {renderNewText}
+          <ButtonText text={i18n.t("buttons.new")} />
         </Button>
       </PageHeading>
       <PageContent>

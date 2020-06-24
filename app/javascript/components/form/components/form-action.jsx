@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { Fab, CircularProgress } from "@material-ui/core";
 
 import { useThemeHelper } from "../../../libs";
+import ButtonText from "../../button-text";
 
 import styles from "./styles.css";
 
@@ -20,8 +21,6 @@ const FormAction = ({
     <CircularProgress size={10} value={25} className={css.loadingMargin} />
   );
 
-  const renderText = !mobileDisplay ? text : null;
-
   return (
     <Fab
       className={cancel ? css.actionButtonCancel : css.actionButton}
@@ -37,7 +36,7 @@ const FormAction = ({
           [css.actionButtonText]: Boolean(startIcon) && !mobileDisplay
         })}
       >
-        {renderText}
+        <ButtonText text={text} />
       </span>
     </Fab>
   );

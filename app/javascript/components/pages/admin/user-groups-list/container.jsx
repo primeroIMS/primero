@@ -14,6 +14,7 @@ import NAMESPACE from "../namespace";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { useThemeHelper } from "../../../../libs";
 import styles from "../styles.css";
+import ButtonText from "../../../button-text";
 
 import { NAME } from "./constants";
 import { fetchUserGroups } from "./action-creators";
@@ -32,7 +33,7 @@ const Container = () => {
     ...rest
   }));
 
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css } = useThemeHelper(styles);
 
   const tableOptions = {
     recordType,
@@ -47,8 +48,6 @@ const Container = () => {
     onTableChange: fetchUserGroups
   };
 
-  const renderNewText = !mobileDisplay ? i18n.t("buttons.new") : null;
-
   const newUserGroupBtn = canAddUserGroups ? (
     <Button
       to={ROUTES.admin_user_groups_new}
@@ -57,7 +56,7 @@ const Container = () => {
       className={css.showActionButton}
     >
       <AddIcon />
-      {renderNewText}
+      <ButtonText text={i18n.t("buttons.new")} />
     </Button>
   ) : null;
 

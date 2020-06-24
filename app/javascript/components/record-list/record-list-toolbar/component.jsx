@@ -32,10 +32,7 @@ const Component = ({
           </IconButton>
         )}
         <Permission resources={recordType} actions={CREATE_RECORDS}>
-          <AddRecordMenu
-            recordType={recordType}
-            mobileDisplay={mobileDisplay}
-          />
+          <AddRecordMenu recordType={recordType} />
         </Permission>
         <RecordActions
           currentPage={currentPage}

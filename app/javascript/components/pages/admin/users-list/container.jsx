@@ -13,6 +13,7 @@ import NAMESPACE from "../namespace";
 import { CREATE_RECORDS } from "../../../../libs/permissions";
 import { useThemeHelper } from "../../../../libs";
 import styles from "../styles.css";
+import ButtonText from "../../../button-text";
 
 import { fetchUsers } from "./action-creators";
 import { LIST_HEADERS } from "./constants";
@@ -21,7 +22,7 @@ const Container = () => {
   const i18n = useI18n();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = "users";
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css } = useThemeHelper(styles);
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
@@ -41,8 +42,6 @@ const Container = () => {
     onTableChange: fetchUsers
   };
 
-  const renderNewText = !mobileDisplay ? i18n.t("buttons.new") : null;
-
   const newUserBtn = canAddUsers && (
     <Button
       to={ROUTES.admin_users_new}
@@ -51,7 +50,7 @@ const Container = () => {
       className={css.showActionButton}
     >
       <AddIcon />
-      {renderNewText}
+      <ButtonText text={i18n.t("buttons.new")} />
     </Button>
   );
 
