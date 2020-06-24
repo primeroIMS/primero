@@ -10,6 +10,7 @@ import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
 import { DATE_FIELD_NAME } from "../constants";
+import { NOT_FUTURE_DATE } from "../../constants";
 
 const DateField = ({ name, helperText, mode, formik, ...rest }) => {
   const i18n = useI18n();
@@ -83,8 +84,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
             return form.setFieldValue(name, date, true);
           },
           disableFuture:
-            rest.field &&
-            rest.field.get("date_validation") === "not_future_date",
+            rest.field && rest.field.get("date_validation") === NOT_FUTURE_DATE,
           error: !!(fieldError && fieldTouched)
         };
 

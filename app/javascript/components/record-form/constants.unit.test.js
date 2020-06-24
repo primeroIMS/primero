@@ -10,6 +10,7 @@ describe("Verifying config constant", () => {
       "DOCUMENT_FIELD",
       "NAME",
       "NAME_FIELD",
+      "NOT_FUTURE_DATE",
       "NUMERIC_FIELD",
       "PHOTO_FIELD",
       "RADIO_FIELD",
