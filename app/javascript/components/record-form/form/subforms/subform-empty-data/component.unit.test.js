@@ -1,4 +1,4 @@
-import { Box, Fab } from "@material-ui/core";
+import { Fab } from "@material-ui/core";
 import isEmpty from "lodash/isEmpty";
 
 import { setupMountedComponent, spy } from "../../../../../test";
