@@ -3,6 +3,10 @@ interview_details_fields = [
              "type" => "date_field",
              "display_name_en" => "Arrival Date"
             }),
+  Field.new({"name" => "interview_date",
+             "type" => "date_field",
+             "display_name_en" => "Interview Date"
+            }),
   Field.new({"name" => "interviewer_name",
              "type" => "text_field",
              "display_name_en" => "Interviewer Name"
