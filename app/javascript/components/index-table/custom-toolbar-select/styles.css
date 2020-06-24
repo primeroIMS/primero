@@ -39,12 +39,10 @@
   justify-content: flex-end;
 }
 
-
 .customToolbarPagination{
   display: flex;
   flex-direction: row;
   justify-content: right;
-
 }
 
 @media $(theme.breakpoints.down('sm')) {
