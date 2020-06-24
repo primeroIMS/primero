@@ -66,20 +66,15 @@ const Nav = ({
 
   const renderCloseButtonNavBar = mobileDisplay && (
     <div className={css.closeButtonRecordNav}>
-      <IconButton
-        edge="start"
-        color="default"
-        aria-label="Menu"
-        onClick={handleToggleNav}
-      >
+      <IconButton onClick={handleToggleNav}>
         <CloseIcon />
       </IconButton>
     </div>
   );
   const drawerProps = {
-    variant: "persistent",
     anchor: "left",
     open: toggleNav,
+    onClose: handleToggleNav,
     classes: {
       paper: css.drawerPaper
     }
