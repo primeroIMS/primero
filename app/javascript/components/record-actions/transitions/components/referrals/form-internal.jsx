@@ -34,9 +34,7 @@ const FormInternal = ({ fields, disabled, isReferralFromService }) => {
       const { value } = field;
       const selected = f.options?.find(option => option.value === value);
 
-      return value !== ""
-        ? selected
-        : { value: "", label: i18n.t("fields.select_single") };
+      return value !== "" ? selected : null;
     };
 
     const searchTextFieldProps = (field, form) => {
@@ -66,14 +64,15 @@ const FormInternal = ({ fields, disabled, isReferralFromService }) => {
             <>
               <SearchableSelect
                 id={f.id}
+                name={f.id}
                 isDisabled={disabled}
                 options={f.options}
-                value={searchableValue(field)}
+                defaultValues={searchableValue(field)}
                 onChange={data => f.onChange(data, field, form)}
                 TextFieldProps={searchTextFieldProps(f, form)}
                 {...other}
                 onBlur={field.onBlur}
-                onMenuOpen={f.onMenuOpen}
+                onOpen={f.onMenuOpen}
                 isLoading={f.isLoading}
               />
             </>

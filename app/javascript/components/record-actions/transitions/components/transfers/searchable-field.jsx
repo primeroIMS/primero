@@ -14,9 +14,10 @@ export default (searchField, props, disableControl, i18n) => {
   return (
     <SearchableSelect
       id={id}
+      name={id}
       isDisabled={disableControl}
       options={options}
-      value={searchableValue(field, options, disableControl, i18n)}
+      defaultValues={searchableValue(field, options, disableControl, i18n)}
       onChange={data => searchField.onChange(data, field, form)}
       TextFieldProps={searchTextFieldProps(searchField, form, i18n)}
       {...other}
