@@ -13,3 +13,4 @@ export const AUDIO_FIELD = "audio_upload_box";
 export const NAME_FIELD = "name";
 export const NAME = "RecordForms";
 export const URL_LOOKUPS = "lookups";
+export const NOT_FUTURE_DATE = "not_future_date";
