@@ -892,7 +892,7 @@ en:
     history_of: "History of %{user_name}"
     disabled: "Disabled"
     agency: "Agency"
-    agency_office: "Agency Office"
+    agency_office: "Agency Office (GBV field)"
     position: Position
     actions:
       delete: "Delete"
