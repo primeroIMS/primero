@@ -44,6 +44,7 @@ describe("<IndexTable />", () => {
     }
   };
   const props = {
+    title: "testTitle",
     onTableChange: fake.returns({
       type: "test",
       payload: []
@@ -138,6 +139,12 @@ describe("<IndexTable />", () => {
 
   it("should render MUIDataTable", () => {
     expect(component.find(MUIDataTable)).to.have.lengthOf(1);
+  });
+
+  it("should render Caption", () => {
+    const testTitle = component.find(IndexTable).find("caption").text();
+
+    expect(testTitle).to.equals("testTitle");
   });
 
   it("should change sort order to ascending if user clicks on a column", () => {
