@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { PageContainer, PageHeading, PageContent } from "components/page";
+import { default as PageContainer, PageHeading, PageContent } from "components/page";
 import {
   Grid,
   Box
