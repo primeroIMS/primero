@@ -1,6 +1,15 @@
-import { Drawer, List, useMediaQuery } from "@material-ui/core";
-import React, { useEffect, useCallback } from "react";
+import {
+  Drawer,
+  List,
+  useMediaQuery,
+  Hidden,
+  Divider,
+  IconButton
+} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
@@ -14,22 +23,15 @@ import { getPermissions } from "../user";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
-import {
-  openDrawer as openDrawerActionCreator,
-  fetchAlerts
-} from "./action-creators";
-import { selectDrawerOpen, selectUsername, selectAlerts } from "./selectors";
+import { fetchAlerts } from "./action-creators";
+import { selectUsername, selectAlerts } from "./selectors";
 import MenuEntry from "./components/menu-entry";
 
 const Nav = () => {
   const { css, theme } = useThemeHelper(styles);
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
-
-  const openDrawer = useCallback(
-    value => dispatch(openDrawerActionCreator(value)),
-    [dispatch]
-  );
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAlerts());
@@ -38,17 +40,20 @@ const Nav = () => {
   const { userModules } = useApp();
   const module = userModules.first();
 
-  // TODO: Username should come from redux once user built.
   const username = useSelector(state => selectUsername(state));
-  const drawerOpen = useSelector(state => selectDrawerOpen(state));
   const dataAlerts = useSelector(state => selectAlerts(state));
   const permissions = useSelector(state => getPermissions(state));
 
-  useEffect(() => {
-    if (!mobileDisplay && !drawerOpen) {
-      openDrawer(true);
+  const handleToggleDrawer = open => event => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
     }
-  }, [drawerOpen, mobileDisplay, openDrawer]);
+
+    setDrawerOpen(open);
+  };
 
   const permittedMenuEntries = menuEntries => {
     return menuEntries.map(menuEntry => {
@@ -60,6 +65,7 @@ const Nav = () => {
           mobileDisplay={mobileDisplay}
           jewelCount={jewel}
           username={username}
+          closeDrawer={handleToggleDrawer(false)}
         />
       );
 
@@ -77,35 +83,67 @@ const Nav = () => {
     });
   };
 
+  const drawerContent = (
+    <>
+      <Hidden smDown implementation="css">
+        <ModuleLogo
+          moduleLogo={module ? module.unique_id : "primero"}
+          username={username}
+        />
+      </Hidden>
+      <Hidden mdUp implementation="css">
+        <div className={css.drawerHeader}>
+          <IconButton onClick={handleToggleDrawer(false)}>
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
+        </div>
+        <Divider />
+      </Hidden>
+      <List className={css.navList}>
+        {permittedMenuEntries(APPLICATION_NAV(permissions))}
+      </List>
+      <div className={css.navAgencies}>
+        <AgencyLogo />
+      </div>
+      <Hidden smDown implementation="css">
+        <TranslationsToggle />
+      </Hidden>
+    </>
+  );
+
+  const commonDrawerProps = {
+    anchor: "left",
+    open: drawerOpen,
+    classes: {
+      root: css.drawerRoot,
+      paper: css.drawerPaper
+    },
+    onClose: handleToggleDrawer(false)
+  };
+
   return (
     <>
-      <MobileToolbar
-        drawerOpen={drawerOpen}
-        openDrawer={openDrawer}
-        mobileDisplay={mobileDisplay}
-      />
-      <Drawer
-        variant="persistent"
-        anchor="left"
-        open={drawerOpen}
-        classes={{
-          paper: css.drawerPaper
-        }}
-      >
-        {!mobileDisplay && (
-          <ModuleLogo
-            moduleLogo={module ? module.unique_id : "primero"}
-            username={username}
-          />
-        )}
-        <List className={css.navList}>
-          {permittedMenuEntries(APPLICATION_NAV(permissions))}
-        </List>
-        <div className={css.navAgencies}>
-          <AgencyLogo />
-        </div>
-        {!mobileDisplay && <TranslationsToggle />}
-      </Drawer>
+      <MobileToolbar openDrawer={handleToggleDrawer(true)} />
+      <Hidden mdUp implementation="css">
+        <Drawer
+          variant="temporary"
+          {...commonDrawerProps}
+          ModalProps={{
+            keepMounted: true
+          }}
+        >
+          {drawerContent}
+        </Drawer>
+      </Hidden>
+      <Hidden smDown implementation="css">
+        <Drawer variant="permanent" {...commonDrawerProps}>
+          {drawerContent}
+        </Drawer>
+      </Hidden>
     </>
   );
 };

@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 import MenuIcon from "@material-ui/icons/Menu";
-import { AppBar, Toolbar, IconButton, makeStyles } from "@material-ui/core";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  makeStyles,
+  Hidden
+} from "@material-ui/core";
 import PropTypes from "prop-types";
 
 import OfflineIndicator from "../offline-indicator";
@@ -9,53 +15,32 @@ import ModuleLogo from "../module-logo";
 
 import styles from "./styles.css";
 
-const MobileToolbar = ({ drawerOpen, openDrawer, mobileDisplay }) => {
+const MobileToolbar = ({ openDrawer }) => {
   const css = makeStyles(styles)();
 
-  const handleToggleDrawer = () => {
-    openDrawer(!drawerOpen);
-  };
-
-  useEffect(() => {
-    if (mobileDisplay) {
-      openDrawer(false);
-    }
-  }, [mobileDisplay, openDrawer]);
-
-  if (mobileDisplay) {
-    return (
-      <>
-        <AppBar
-          position="fixed"
-          className={clsx(css.appBar, {
-            [css.appBarShift]: drawerOpen
-          })}
-        >
-          <OfflineIndicator mobile />
-          <Toolbar className={css.toolbar}>
-            <IconButton
-              edge="start"
-              color="default"
-              aria-label="Menu"
-              onClick={handleToggleDrawer}
-            >
-              <MenuIcon />
-            </IconButton>
-            <ModuleLogo className={css.logo} />
-          </Toolbar>
-        </AppBar>
-      </>
-    );
-  }
-
-  return null;
+  return (
+    <Hidden mdUp implementation="css">
+      <AppBar position="fixed">
+        <OfflineIndicator mobile />
+        <Toolbar className={css.toolbar}>
+          <IconButton
+            edge="start"
+            color="default"
+            aria-label="Menu"
+            onClick={openDrawer}
+          >
+            <MenuIcon />
+          </IconButton>
+          <ModuleLogo className={css.logo} />
+        </Toolbar>
+      </AppBar>
+    </Hidden>
+  );
 };
 
 MobileToolbar.displayName = "MobileToolbar";
 
 MobileToolbar.propTypes = {
-  drawerOpen: PropTypes.bool.isRequired,
-  mobileDisplay: PropTypes.bool.isRequired,
   openDrawer: PropTypes.func.isRequired
 };
 
