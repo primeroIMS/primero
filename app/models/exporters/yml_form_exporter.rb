@@ -1,16 +1,26 @@
 module Exporters
   class YmlFormExporter
+    class << self
+      def id
+        'ymlform'
+      end
 
-    def initialize(form_id, record_type='case', module_id='primeromodule-cp', opts={})
-      if form_id.present?
-        @form_id = form_id
+      def mime_type
+        'yml'
+      end
+
+      def supported_models
+        [Child]
+      end
+    end
+
+    def initialize(stored_file_name, opts={})
+      @stored_file_name = stored_file_name || CleansingTmpDir.temp_file_name
+      if opts['form_id'].present?
+        @form_id = opts['form_id']
       else
-        @record_type = record_type
-        @primero_module = PrimeroModule.find_by(unique_id: module_id)
-        if @primero_module.blank?
-          Rails.logger.error {"YmlFormExporter: Invalid Module ID: #{module_id}"}
-          raise ArgumentError.new("Invalid Module ID: #{module_id}")
-        end
+        @record_type = opts['record_type'] || 'case'
+        @primero_module = PrimeroModule.find_by(unique_id: (opts['module_id'] || 'primeromodule-cp'))
       end
       @export_dir_path = dir
       @show_hidden_forms = opts[:show_hidden_forms].present?
@@ -42,10 +52,8 @@ module Exporters
       filename = File.join(@export_dir_path, "#{file_name}.yml")
     end
 
-    def create_file_for_form(export_file=nil)
-      Rails.logger.info {"Creating file #{export_file}.yml"}
-      export_file_name = yml_file_name(export_file.to_s)
-      @io = File.new(export_file_name, "w")
+    def create_file_for_form(_)
+      @io = File.new(@stored_file_name, "w")
     end
 
     def complete
@@ -53,7 +61,7 @@ module Exporters
       return @io
     end
 
-    def export_forms_to_yaml
+    def export(*_args)
       Rails.logger.info {"Begging of Forms YAML Exporter..."}
       Rails.logger.info {"Writing files to directory location: '#{@export_dir_path}"}
       @form_id.present? ? export_one_form : export_multiple_forms
