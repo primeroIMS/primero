@@ -1,41 +1,50 @@
-import * as actions from "../../action-creators";
-import * as selectors from "../../selectors";
 import { connect } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { fromJS } from "immutable";
-import { DateRangeSelect, CommonDateRanges } from "components/key-performance-indicators";
+import {
+  DateRangeSelect,
+  CommonDateRanges
+} from "components/key-performance-indicators";
 import { OptionsBox, DashboardTable } from "components/dashboard";
 import { useI18n } from "components/i18n";
 
-function ReferralsPerService({ fetchReferralsPerService, referralsPerService }) {
-  let i18n = useI18n();
+import { referralsPerService } from "../../selectors";
+import { fetchReferralsPerService } from "../../action-creators";
 
-  let commonDateRanges = CommonDateRanges.from(new Date());
+function ReferralsPerService({
+  fetchReferralsPerService,
+  referralsPerService
+}) {
+  const i18n = useI18n();
 
-  let dateRanges = [
-    commonDateRanges.CurrentMonth
-  ];
+  const commonDateRanges = CommonDateRanges.from(new Date());
 
-  let [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
+  const dateRanges = [commonDateRanges.CurrentMonth];
+
+  const [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
 
   useEffect(() => {
     fetchReferralsPerService(currentDateRange);
   }, [currentDateRange]);
 
-  let columns = [{
-    name: 'service',
-    label: 'Service'
-  },{
-    name: 'referrals',
-    label: 'Referrals'
-  }];
+  const columns = [
+    {
+      name: "service",
+      label: "Service"
+    },
+    {
+      name: "referrals",
+      label: "Referrals"
+    }
+  ];
 
-  let rows = referralsPerService.get("data")
+  const rows = referralsPerService
+    .get("data")
     .map(row => columns.map(column => row.get(column.name)));
-  
+
   return (
     <OptionsBox
-      title={i18n.t('key_performance_indicators.referrals_per_service.title')}
+      title={i18n.t("key_performance_indicators.referrals_per_service.title")}
       action={
         <DateRangeSelect
           ranges={dateRanges}
@@ -45,22 +54,19 @@ function ReferralsPerService({ fetchReferralsPerService, referralsPerService }) 
         />
       }
     >
-      <DashboardTable
-        columns={columns}
-        data={fromJS(rows)}
-      />
+      <DashboardTable columns={columns} data={fromJS(rows)} />
     </OptionsBox>
   );
 }
 
 const mapStateToProps = state => {
   return {
-    referralsPerService: selectors.referralsPerService(state)
+    referralsPerService: referralsPerService(state)
   };
 };
 
 const mapDispatchToProps = {
-  fetchReferralsPerService: actions.fetchReferralsPerService
+  fetchReferralsPerService
 };
 
 export default connect(

@@ -1,23 +1,23 @@
-import * as selectors from "../selectors";
-import * as actions from "../action-creators";
 import { DateRangeSelect } from "components/key-performance-indicators/date-range-select";
 import { OptionsBox } from "components/dashboard";
 import { connect } from "react-redux";
 import { useI18n } from "components/i18n";
 import React, { useEffect, useState } from "react";
 
+import { forKPI } from "../selectors";
+
 export default function asKeyPerformanceIndicator(identifier, defaultData) {
-  return (Visualizer) => {
+  return Visualizer => {
     // TODO: need a better name for this
-    let enhance = connect(
-      (state) => ({ data: selectors.forKPI(identifier, state, defaultData) }),
-      { fetchData: actions.forKPI(identifier) }
+    const enhance = connect(
+      state => ({ data: forKPI(identifier, state, defaultData) }),
+      { fetchData: forKPI(identifier) }
     );
 
     return enhance(({ data, fetchData, dateRanges, ...props }) => {
-      let i18n = useI18n();
+      const i18n = useI18n();
 
-      let [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
+      const [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
 
       useEffect(() => {
         fetchData(currentDateRange);

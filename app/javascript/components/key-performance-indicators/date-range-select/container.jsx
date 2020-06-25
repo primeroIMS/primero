@@ -10,24 +10,26 @@ import {
   DialogActions,
   Button
 } from "@material-ui/core";
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider
+} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { useI18n } from "components/i18n";
+
 import DateRange from "./date-range";
 
 function CustomRangeDialog({ open, onClose, currentRange, setRange }) {
-  let [from, setFrom] = useState(currentRange.from);
-  let [to, setTo] = useState(currentRange.to);
+  const [from, setFrom] = useState(currentRange.from);
+  const [to, setTo] = useState(currentRange.to);
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-    >
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle>Custom Date Range</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Once this change is applied, data will be selected from between the two dates bellow
+          Once this change is applied, data will be selected from between the
+          two dates bellow
         </DialogContentText>
         <FormControl>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -40,7 +42,7 @@ function CustomRangeDialog({ open, onClose, currentRange, setRange }) {
               value={from}
               onChange={setFrom}
               KeyboardButtonProps={{
-                'aria-label': 'Data will be selected after this date'
+                "aria-label": "Data will be selected after this date"
               }}
             />
             <KeyboardDatePicker
@@ -52,17 +54,19 @@ function CustomRangeDialog({ open, onClose, currentRange, setRange }) {
               value={to}
               onChange={setTo}
               KeyboardButtonProps={{
-                'aria-label': 'Data will be selected before this date'
+                "aria-label": "Data will be selected before this date"
               }}
             />
           </MuiPickersUtilsProvider>
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => {
-          setRange(from, to);
-          onClose();
-        }}>
+        <Button
+          onClick={() => {
+            setRange(from, to);
+            onClose();
+          }}
+        >
           Apply
         </Button>
       </DialogActions>
@@ -70,53 +74,78 @@ function CustomRangeDialog({ open, onClose, currentRange, setRange }) {
   );
 }
 
-function DateRangeSelect({ ranges, selectedRange, withCustomRange, setSelectedRange, disabled }) {
+function DateRangeSelect({
+  ranges,
+  selectedRange,
+  withCustomRange,
+  setSelectedRange,
+  disabled
+}) {
   // FIXME: We should use 'useI18n' but it retruns a null object when called
   // from here.
-  let i18n = window.I18n;
+  const i18n = window.I18n;
 
-  let [showRangePicker, setShowRangePicker] = useState(false);
-  let [customRange, setCustomRange] = useState(new DateRange(
-    'custom-range',
-    'Custom Range',
-    selectedRange.from,
-    selectedRange.to));
+  const [showRangePicker, setShowRangePicker] = useState(false);
+  const [customRange, setCustomRange] = useState(
+    new DateRange(
+      "custom-range",
+      "Custom Range",
+      selectedRange.from,
+      selectedRange.to
+    )
+  );
 
-  let updateSelectedRange = (e) => {
-    if (e.target.value === 'custom-range')
-      return;
+  const updateSelectedRange = e => {
+    if (e.target.value === "custom-range") return;
 
-    let newSelectedRange = ranges.filter(r => r.value === e.target.value)[0];
+    const newSelectedRange = ranges.filter(r => r.value === e.target.value)[0];
+
     setSelectedRange(newSelectedRange);
   };
 
   return (
     <FormControl>
-      <Select onChange={updateSelectedRange} value={selectedRange.value} disabled={disabled}>
-        { ranges.map(r => <MenuItem value={r.value}>{r.name}</MenuItem>) }
-        { withCustomRange &&
-          <MenuItem value={customRange.value} onClick={ () => setShowRangePicker(true) }>
-            {`${i18n.toTime('key_performance_indicators.date_format', customRange.from)} - ${i18n.toTime('key_performance_indicators.date_format', customRange.to)}`}
+      <Select
+        onChange={updateSelectedRange}
+        value={selectedRange.value}
+        disabled={disabled}
+      >
+        {ranges.map(r => (
+          <MenuItem value={r.value}>{r.name}</MenuItem>
+        ))}
+        {withCustomRange && (
+          <MenuItem
+            value={customRange.value}
+            onClick={() => setShowRangePicker(true)}
+          >
+            {`${i18n.toTime(
+              "key_performance_indicators.date_format",
+              customRange.from
+            )} - ${i18n.toTime(
+              "key_performance_indicators.date_format",
+              customRange.to
+            )}`}
           </MenuItem>
-        }
+        )}
       </Select>
       <CustomRangeDialog
         open={showRangePicker}
         onClose={() => setShowRangePicker(false)}
         currentRange={customRange}
         setRange={(from, to) => {
-          let newRange = new DateRange(
-            'custom-range',
-            'Custom Range',
+          const newRange = new DateRange(
+            "custom-range",
+            "Custom Range",
             from,
             to
           );
+
           setSelectedRange(newRange);
           setCustomRange(newRange);
         }}
       />
     </FormControl>
-  )
+  );
 }
 
 export default DateRangeSelect;

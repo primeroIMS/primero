@@ -3,6 +3,7 @@ import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { TablePercentageBar } from "components/key-performance-indicators";
 import { DashboardTable } from "components/dashboard";
+
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
 // TODO: This shoud be renamed: ProgressTowardsGoals and refererences to
@@ -11,44 +12,39 @@ import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 // try and keep the language used here within the goals domain. The backend
 // can handle the translation from needs to goals.
 function GoalProgressPerNeed({ data, identifier }) {
-  let i18n = useI18n();
-  let css = makeStyles({
+  const i18n = useI18n();
+  const css = makeStyles({
     root: {
-      '> tbody > tr > td:first-child': {
-        minWidth: '10em',
-        width: '20%'
+      "> tbody > tr > td:first-child": {
+        minWidth: "10em",
+        width: "20%"
       }
     }
   })();
 
-  let columns = [
+  const columns = [
     {
       name: "need",
       label: i18n.t(`key_performance_indicators.${identifier}.need`)
-    }, {
+    },
+    {
       name: "percentage",
       label: " ",
       options: {
-        customBodyRender: (value) => {
-          return (<TablePercentageBar percentage={value} />);
+        customBodyRender: value => {
+          return <TablePercentageBar percentage={value} />;
         }
       }
     }
   ];
 
-  let rows = data.get("data")
+  const rows = data
+    .get("data")
     .map(row => columns.map(column => row.get(column.name)));
 
-  return (
-    <DashboardTable
-      className={css.root}
-      columns={columns}
-      data={rows}
-    />
-  );
+  return <DashboardTable className={css.root} columns={columns} data={rows} />;
 }
 
-export default asKeyPerformanceIndicator(
-  'goal_progress_per_need',
-  { data: [] }
-)(GoalProgressPerNeed);
+export default asKeyPerformanceIndicator("goal_progress_per_need", {
+  data: []
+})(GoalProgressPerNeed);

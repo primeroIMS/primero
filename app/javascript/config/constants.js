@@ -127,7 +127,7 @@ export const ROUTES = {
   not_authorized: "/not-authorized",
   reports: "/reports",
   reports_new: "/reports/new",
-  key_performance_indicators: '/key_performance_indicators',
+  key_performance_indicators: "/key_performance_indicators",
   support: "/support",
   tasks: "/tasks",
   tracing_requests: "/tracing_requests"
