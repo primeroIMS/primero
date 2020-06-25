@@ -15,3 +15,8 @@ export const fetchUsers = params => {
     }
   };
 };
+
+export const setUsersFilters = payload => ({
+  type: actions.SET_USERS_FILTER,
+  payload
+});
