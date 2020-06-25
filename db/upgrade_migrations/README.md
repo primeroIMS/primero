@@ -49,8 +49,6 @@ Things to verify in the generated config scripts and correct if necessary
   
 - Remove all associated forms of MRM module (for non-MRM upgrades).
 
-- Cleanup empty user-groups on Users
-
 - SystemSettings reporting location config uses a regex in some old configurations. 
   If you do this in v1.6 and above, it will break. Remove any regex from this file.
   
@@ -79,6 +77,12 @@ Things to verify in the generated config scripts and correct if necessary
 
 - Create lookup:  lookup-approval-type
 
+- Cleanup empty user-groups on Users.
+  This is usually done in a cleanup users script in the config fixtures directory
+
+- Cleanup owned_by_groups, owned_by_agency, owned_by_location.
+  This is usually done in a cleanup cases script in the config fixtures directory
+
 
 1.7 only upgrades
 -----------------
@@ -86,9 +90,11 @@ Things to verify in the generated config scripts and correct if necessary
   - Create manually form-group lookups
   - Replace form-group-name with form-group-id in each form
 
-- Agencies and users must to have associated services for selecting them in a services form
+- Agencies and users must to have associated services for selecting them in a services form.
+  This is usually done in a cleanup users script in the config fixtures directory
 
 - Users must to associate a location
+  This is usually done in a cleanup users script in the config fixtures directory
 
 Additional cleanup / patches
 ------------------------------
@@ -96,3 +102,6 @@ You can run the script db/upgrade_migrations/dev_fixtures/bad_lookup_values.rb t
 get migrated because they do not match any of the options in their lookup.
 The output of this can be used to identify any cleanup patch scripts needed to map these values to the correct value
 or to determine if any modifications to the lookups are required.
+
+On the prod server, run the users_report.rb script (found in db/upgrade_migrations/dev_fixtures).
+This script will generate .csv files that can be used to identify problems with existing prod users.
