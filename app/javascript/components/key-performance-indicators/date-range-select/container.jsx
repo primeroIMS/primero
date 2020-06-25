@@ -1,80 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import {
   Select,
   MenuItem,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  FormControl,
-  DialogActions,
-  Button
+  FormControl
 } from "@material-ui/core";
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider
-} from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
-import { useI18n } from "components/i18n";
 
+import DateRangeDialog from "../date-range-dialog";
 import DateRange from "./date-range";
 
-function CustomRangeDialog({ open, onClose, currentRange, setRange }) {
-  const [from, setFrom] = useState(currentRange.from);
-  const [to, setTo] = useState(currentRange.to);
-
-  return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Custom Date Range</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Once this change is applied, data will be selected from between the
-          two dates bellow
-        </DialogContentText>
-        <FormControl>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-              variant="inline"
-              // TODO: This should be localized
-              format="dd/MM/yyyy"
-              margin="normal"
-              label="From"
-              value={from}
-              onChange={setFrom}
-              KeyboardButtonProps={{
-                "aria-label": "Data will be selected after this date"
-              }}
-            />
-            <KeyboardDatePicker
-              variant="inline"
-              // TODO: This should be localized
-              format="dd/MM/yyyy"
-              margin="normal"
-              label="To"
-              value={to}
-              onChange={setTo}
-              KeyboardButtonProps={{
-                "aria-label": "Data will be selected before this date"
-              }}
-            />
-          </MuiPickersUtilsProvider>
-        </FormControl>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={() => {
-            setRange(from, to);
-            onClose();
-          }}
-        >
-          Apply
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-}
-
-function DateRangeSelect({
+export default function DateRangeSelect({
   ranges,
   selectedRange,
   withCustomRange,
@@ -128,7 +62,7 @@ function DateRangeSelect({
           </MenuItem>
         )}
       </Select>
-      <CustomRangeDialog
+      <DateRangeDialog
         open={showRangePicker}
         onClose={() => setShowRangePicker(false)}
         currentRange={customRange}
@@ -146,6 +80,4 @@ function DateRangeSelect({
       />
     </FormControl>
   );
-}
-
-export default DateRangeSelect;
+};

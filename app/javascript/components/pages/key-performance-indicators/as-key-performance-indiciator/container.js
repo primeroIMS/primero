@@ -4,14 +4,15 @@ import { connect } from "react-redux";
 import { useI18n } from "components/i18n";
 import React, { useEffect, useState } from "react";
 
-import { forKPI } from "../selectors";
+import { forKPI as actionsForKPI } from "../action-creators";
+import { forKPI as selectorsForKPI} from "../selectors";
 
 export default function asKeyPerformanceIndicator(identifier, defaultData) {
   return Visualizer => {
     // TODO: need a better name for this
     const enhance = connect(
-      state => ({ data: forKPI(identifier, state, defaultData) }),
-      { fetchData: forKPI(identifier) }
+      state => ({ data: selectorsForKPI(identifier, state, defaultData) }),
+      { fetchData: actionsForKPI(identifier) }
     );
 
     return enhance(({ data, fetchData, dateRanges, ...props }) => {
