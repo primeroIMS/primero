@@ -4,7 +4,7 @@ import { StackedPercentageBar } from "components/key-performance-indicators";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-function CompletedSupervisorApprovedCaseActionPlan({ data, identifier }) {
+const CompletedSupervisorApprovedCaseActionPlan = ({ data, identifier }) => {
   const i18n = useI18n();
 
   return (
@@ -19,7 +19,7 @@ function CompletedSupervisorApprovedCaseActionPlan({ data, identifier }) {
       ]}
     />
   );
-}
+};
 
 export default asKeyPerformanceIndicator(
   "completed_supervisor_approved_case_action_plans",

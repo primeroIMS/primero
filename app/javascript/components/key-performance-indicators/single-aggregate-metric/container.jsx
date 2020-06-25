@@ -3,7 +3,7 @@ import makeStyles from "@material-ui/styles/makeStyles";
 
 import styles from "./styles.css";
 
-export default function SingleAggregateMetric({ value, label }) {
+const SingleAggregateMetric = ({ value, label }) => {
   const css = makeStyles(styles)();
   const displayValue = value?.toFixed ? value.toFixed(1) : value;
 
@@ -14,3 +14,5 @@ export default function SingleAggregateMetric({ value, label }) {
     </div>
   );
 }
+
+export default SingleAggregateMetric;

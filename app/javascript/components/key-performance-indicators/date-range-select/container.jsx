@@ -8,13 +8,13 @@ import {
 import DateRangeDialog from "../date-range-dialog";
 import DateRange from "./date-range";
 
-export default function DateRangeSelect({
+const DateRangeSelect = ({
   ranges,
   selectedRange,
   withCustomRange,
   setSelectedRange,
   disabled
-}) {
+}) => {
   // FIXME: We should use 'useI18n' but it retruns a null object when called
   // from here.
   const i18n = window.I18n;
@@ -81,3 +81,5 @@ export default function DateRangeSelect({
     </FormControl>
   );
 };
+
+export default DateRangeSelect;

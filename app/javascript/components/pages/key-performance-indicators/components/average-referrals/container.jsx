@@ -4,7 +4,7 @@ import { SingleAggregateMetric } from "components/key-performance-indicators";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-function AverageReferrals({ data, identifier }) {
+const AverageReferrals = ({ data, identifier }) => {
   const i18n = useI18n();
 
   return (
@@ -13,7 +13,7 @@ function AverageReferrals({ data, identifier }) {
       label={i18n.t(`key_performance_indicators.${identifier}.label`)}
     />
   );
-}
+};
 
 export default asKeyPerformanceIndicator("average_referrals", {
   data: { average_referrals: 0 }

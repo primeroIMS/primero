@@ -5,7 +5,7 @@ import {
   SingleAggregateMetric
 } from "components/key-performance-indicators";
 
-export default function TotalFollowupMeetings() {
+const TotalFollowupMeetings = () => {
   const threeMonthsAgo = new Date();
 
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
@@ -32,4 +32,5 @@ export default function TotalFollowupMeetings() {
       <SingleAggregateMetric value="45" label="Total follow-up meetings" />
     </OptionsBox>
   );
-}
+};
+export default TotalFollowupMeetings;

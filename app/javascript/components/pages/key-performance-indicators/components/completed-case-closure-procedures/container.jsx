@@ -5,7 +5,7 @@ import {
   StackedPercentageBar
 } from "components/key-performance-indicators";
 
-export default function CompletedCaseClosureProcedures() {
+const CompletedCaseClosureProcedures = () => {
   const threeMonthsAgo = new Date();
 
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
@@ -34,4 +34,5 @@ export default function CompletedCaseClosureProcedures() {
       />
     </OptionsBox>
   );
-}
+};
+export default CompletedCaseClosureProcedures;

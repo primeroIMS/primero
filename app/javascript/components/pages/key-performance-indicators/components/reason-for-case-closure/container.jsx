@@ -2,7 +2,7 @@ import React from "react";
 import { fromJS } from "immutable";
 import { OptionsBox, DashboardTable } from "components/dashboard";
 
-export default function ReasonForCaseClosure() {
+const ReasonForCaseClosure = () => {
   const columns = ["Reason for Closure", "Percentage of Cases"];
   const rows = fromJS([
     [
@@ -20,4 +20,5 @@ export default function ReasonForCaseClosure() {
       <DashboardTable columns={columns} data={rows} />
     </OptionsBox>
   );
-}
+};
+export default ReasonForCaseClosure;

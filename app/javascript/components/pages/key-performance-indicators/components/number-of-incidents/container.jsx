@@ -4,7 +4,7 @@ import { DashboardTable } from "components/dashboard";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-function NumberOfIncidents({ data, identifier }) {
+const NumberOfIncidents = ({ data, identifier }) => {
   const i18n = useI18n();
   const columns = [
     {
@@ -28,7 +28,7 @@ function NumberOfIncidents({ data, identifier }) {
     .map(row => columns.map(column => row.get(column.name)));
 
   return <DashboardTable columns={columns} data={rows} />;
-}
+};
 
 export default asKeyPerformanceIndicator("number_of_incidents", {
   dates: [],

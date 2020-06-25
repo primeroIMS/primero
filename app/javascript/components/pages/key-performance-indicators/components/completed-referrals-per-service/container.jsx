@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { DateRangeSelect } from "components/key-performance-indicators";
 import { OptionsBox, DashboardTable } from "components/dashboard";
 
-export default function CompletedReferralsPerService({}) {
+const CompletedReferralsPerService = ({}) => {
   const columns = ["Service", "Referrals"];
 
   const rows = [
@@ -41,4 +41,5 @@ export default function CompletedReferralsPerService({}) {
       <DashboardTable columns={columns} data={fromJS(rows)} />
     </OptionsBox>
   );
-}
+};
+export default CompletedReferralsPerService;

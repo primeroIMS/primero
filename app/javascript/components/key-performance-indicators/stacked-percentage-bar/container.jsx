@@ -3,7 +3,7 @@ import makeStyles from "@material-ui/styles/makeStyles";
 
 import styles from "./styles.css";
 
-export default function StackedPercentageBar({ percentages, className }) {
+const StackedPercentageBar = ({ percentages, className }) => {
   const css = makeStyles(styles)();
 
   if (percentages.length > 2)
@@ -55,4 +55,5 @@ export default function StackedPercentageBar({ percentages, className }) {
       </div>
     </div>
   );
-}
+};
+export default StackedPercentageBar;

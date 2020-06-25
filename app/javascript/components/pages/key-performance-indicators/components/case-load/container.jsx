@@ -4,7 +4,7 @@ import { DashboardTable } from "components/dashboard";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-function CaseLoad({ data, identifier }) {
+const CaseLoad = ({ data, identifier }) => {
   const i18n = useI18n();
 
   const columns = [
@@ -26,6 +26,6 @@ function CaseLoad({ data, identifier }) {
     .map(row => columns.map(column => column.transform(row.get(column.name))));
 
   return <DashboardTable columns={columns} data={rows} />;
-}
+};
 
 export default asKeyPerformanceIndicator("case_load", { data: [] })(CaseLoad);

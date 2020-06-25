@@ -5,7 +5,7 @@ import {
   SingleAggregateMetric
 } from "components/key-performance-indicators";
 
-export default function ActiveCaseworkers() {
+const ActiveCaseworkers = () => {
   const threeMonthsAgo = new Date();
 
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
@@ -32,4 +32,5 @@ export default function ActiveCaseworkers() {
       <SingleAggregateMetric value="32" label="Caseworkers" />
     </OptionsBox>
   );
-}
+};
+export default ActiveCaseworkers;

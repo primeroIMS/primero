@@ -5,7 +5,7 @@ import { DashboardTable } from "components/dashboard";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-function ServiceAccessDelay({ data, identifier }) {
+const ServiceAccessDelay = ({ data, identifier }) => {
   const i18n = useI18n();
 
   const columns = [
@@ -37,7 +37,7 @@ function ServiceAccessDelay({ data, identifier }) {
   });
 
   return <DashboardTable columns={columns} data={rows} />;
-}
+};
 
 export default asKeyPerformanceIndicator("service_access_delay", { data: [] })(
   ServiceAccessDelay

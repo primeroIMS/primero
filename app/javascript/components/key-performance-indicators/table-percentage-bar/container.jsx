@@ -3,7 +3,7 @@ import makeStyles from "@material-ui/styles/makeStyles";
 
 import styles from "./styles.css";
 
-export default function TablePercentageBar({ percentage, className }) {
+const TablePercentageBar = ({ percentage, className }) => {
   const css = makeStyles(styles)();
 
   // Set a minimum of 5 percent so that there is always something
@@ -33,4 +33,5 @@ export default function TablePercentageBar({ percentage, className }) {
       </div>
     </div>
   );
-}
+};
+export default TablePercentageBar;

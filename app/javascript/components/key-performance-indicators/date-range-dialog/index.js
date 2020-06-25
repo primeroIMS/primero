@@ -14,7 +14,7 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
-export default function DateRangeDialog({ open, onClose, currentRange, setRange }) {
+const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
   const [from, setFrom] = useState(currentRange.from);
   const [to, setTo] = useState(currentRange.to);
 
@@ -68,3 +68,5 @@ export default function DateRangeDialog({ open, onClose, currentRange, setRange 
     </Dialog>
   );
 };
+
+export default DateRangeDialog;

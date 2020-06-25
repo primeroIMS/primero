@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { DateRangeSelect } from "components/key-performance-indicators";
 import { OptionsBox, DashboardTable } from "components/dashboard";
 
-export default function TimeFromCaseOpenToCloseHighRisk({}) {
+const TimeFromCaseOpenToCloseHighRisk = ({}) => {
   const columns = ["Time", "Percent of Cases"];
 
   const rows = [
@@ -39,4 +39,5 @@ export default function TimeFromCaseOpenToCloseHighRisk({}) {
       <DashboardTable columns={columns} data={fromJS(rows)} />
     </OptionsBox>
   );
-}
+};
+export default TimeFromCaseOpenToCloseHighRisk;

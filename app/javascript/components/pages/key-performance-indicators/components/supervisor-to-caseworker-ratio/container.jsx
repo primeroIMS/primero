@@ -4,7 +4,7 @@ import { SingleAggregateMetric } from "components/key-performance-indicators";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-function SupervisorToCaseworkerRatio({ data, identifier }) {
+const SupervisorToCaseworkerRatio = ({ data, identifier }) => {
   const i18n = useI18n();
   const supervisors = data.get("data").get("supervisors");
   const caseWorkers = data.get("data").get("case_workers");
@@ -15,7 +15,7 @@ function SupervisorToCaseworkerRatio({ data, identifier }) {
       label={i18n.t(`key_performance_indicators.${identifier}.label`)}
     />
   );
-}
+};
 
 export default asKeyPerformanceIndicator("supervisor_to_caseworker_ratio", {
   data: { supervisors: 0, case_workers: 0 }

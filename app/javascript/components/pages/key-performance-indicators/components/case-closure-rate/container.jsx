@@ -4,7 +4,7 @@ import { DashboardTable } from "components/dashboard";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-function CaseClosureRate({ data, identifier }) {
+const CaseClosureRate = ({ data, identifier }) => {
   const i18n = useI18n();
 
   const columns = [
@@ -29,7 +29,7 @@ function CaseClosureRate({ data, identifier }) {
     .map(row => columns.map(column => row.get(column.name)));
 
   return <DashboardTable columns={columns} data={rows} />;
-}
+};
 
 export default asKeyPerformanceIndicator("case_closure_rate", {
   dates: [],

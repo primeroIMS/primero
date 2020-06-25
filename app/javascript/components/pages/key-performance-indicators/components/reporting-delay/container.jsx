@@ -5,7 +5,7 @@ import { DashboardTable } from "components/dashboard";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-function ReportingDelay({ data, identifier }) {
+const ReportingDelay = ({ data, identifier }) => {
   const i18n = useI18n();
 
   const columns = [
@@ -37,7 +37,7 @@ function ReportingDelay({ data, identifier }) {
   });
 
   return <DashboardTable columns={columns} data={rows} />;
-}
+};
 
 export default asKeyPerformanceIndicator("reporting_delay", { data: [] })(
   ReportingDelay

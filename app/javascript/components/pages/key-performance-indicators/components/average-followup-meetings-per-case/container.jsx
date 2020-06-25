@@ -4,7 +4,7 @@ import { SingleAggregateMetric } from "components/key-performance-indicators";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-function AverageFollowupMeetingsPerCase({ data, identifier }) {
+const AverageFollowupMeetingsPerCase = ({ data, identifier }) => {
   const i18n = useI18n();
 
   return (
@@ -13,7 +13,7 @@ function AverageFollowupMeetingsPerCase({ data, identifier }) {
       label={i18n.t(`key_performance_indicators.${identifier}.label`)}
     />
   );
-}
+};
 
 export default asKeyPerformanceIndicator("average_followup_meetings_per_case", {
   data: { average_meetings: 0 }

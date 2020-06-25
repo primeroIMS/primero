@@ -4,7 +4,7 @@ import { StackedPercentageBar } from "components/key-performance-indicators";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-function AssessmentStatus({ data, identifier }) {
+const AssessmentStatus = ({ data, identifier }) => {
   const i18n = useI18n();
 
   return (
@@ -17,7 +17,7 @@ function AssessmentStatus({ data, identifier }) {
       ]}
     />
   );
-}
+};
 
 export default asKeyPerformanceIndicator("assessment_status", {
   data: { completed: 0 }

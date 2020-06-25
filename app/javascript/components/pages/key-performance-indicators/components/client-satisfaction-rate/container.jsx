@@ -4,7 +4,7 @@ import { StackedPercentageBar } from "components/key-performance-indicators";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-function ClientSatisfactionRate({ data, identifier }) {
+const ClientSatisfactionRate = ({ data, identifier }) => {
   const i18n = useI18n();
 
   return (
@@ -17,7 +17,7 @@ function ClientSatisfactionRate({ data, identifier }) {
       ]}
     />
   );
-}
+};
 
 export default asKeyPerformanceIndicator("client_satisfaction_rate", {
   data: { satisfaction_rate: 0 }

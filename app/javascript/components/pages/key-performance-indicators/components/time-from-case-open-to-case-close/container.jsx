@@ -4,7 +4,7 @@ import { useI18n } from "components/i18n";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-function TimeFromCaseOpenToClose({ data, identifier }) {
+const TimeFromCaseOpenToClose = ({ data, identifier }) => {
   const i18n = useI18n();
 
   const columns = [
@@ -26,7 +26,7 @@ function TimeFromCaseOpenToClose({ data, identifier }) {
     .map(row => columns.map(column => column.transform(row.get(column.name))));
 
   return <DashboardTable columns={columns} data={rows} />;
-}
+};
 
 export default asKeyPerformanceIndicator("time_from_case_open_to_close", {
   data: []

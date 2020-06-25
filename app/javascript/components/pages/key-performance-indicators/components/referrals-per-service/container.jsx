@@ -11,10 +11,10 @@ import { useI18n } from "components/i18n";
 import { referralsPerService } from "../../selectors";
 import { fetchReferralsPerService } from "../../action-creators";
 
-function ReferralsPerService({
+const ReferralsPerService = ({
   fetchReferralsPerService,
   referralsPerService
-}) {
+}) => {
   const i18n = useI18n();
 
   const commonDateRanges = CommonDateRanges.from(new Date());
@@ -57,7 +57,7 @@ function ReferralsPerService({
       <DashboardTable columns={columns} data={fromJS(rows)} />
     </OptionsBox>
   );
-}
+};
 
 const mapStateToProps = state => {
   return {

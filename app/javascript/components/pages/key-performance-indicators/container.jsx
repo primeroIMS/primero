@@ -32,7 +32,7 @@ import {
   CaseLoad
 } from "./components";
 
-function KeyPerformanceIndicators({}) {
+const KeyPerformanceIndicators = ({}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const commonDateRanges = CommonDateRanges.from(new Date());
@@ -204,6 +204,6 @@ function KeyPerformanceIndicators({}) {
       </PageContainer>
     </div>
   );
-}
+};
 
 export default withRouter(KeyPerformanceIndicators);

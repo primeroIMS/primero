@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { forKPI as actionsForKPI } from "../action-creators";
 import { forKPI as selectorsForKPI} from "../selectors";
 
-export default function asKeyPerformanceIndicator(identifier, defaultData) {
+const asKeyPerformanceIndicator = (identifier, defaultData) => {
   return Visualizer => {
     // TODO: need a better name for this
     const enhance = connect(
@@ -41,4 +41,5 @@ export default function asKeyPerformanceIndicator(identifier, defaultData) {
       );
     });
   };
-}
+};
+export default asKeyPerformanceIndicator;

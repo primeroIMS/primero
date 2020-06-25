@@ -11,7 +11,7 @@ import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 // fundementally this is about goals (which are about needs) and we should
 // try and keep the language used here within the goals domain. The backend
 // can handle the translation from needs to goals.
-function GoalProgressPerNeed({ data, identifier }) {
+const GoalProgressPerNeed = ({ data, identifier }) => {
   const i18n = useI18n();
   const css = makeStyles({
     root: {
@@ -43,7 +43,7 @@ function GoalProgressPerNeed({ data, identifier }) {
     .map(row => columns.map(column => row.get(column.name)));
 
   return <DashboardTable className={css.root} columns={columns} data={rows} />;
-}
+};
 
 export default asKeyPerformanceIndicator("goal_progress_per_need", {
   data: []
