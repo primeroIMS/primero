@@ -1,0 +1,14 @@
+.moreButton {
+  background-color: $(theme.primero.colors.blue);
+  box-shadow: none;
+  color: $(theme.primero.colors.white);
+  width: 3em;
+  height: 31px;
+  min-height: 31px;
+  margin-left: 5px;
+  border-radius: 20px;
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+  }
+}

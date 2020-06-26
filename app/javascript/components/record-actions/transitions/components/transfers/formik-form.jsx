@@ -75,7 +75,7 @@ export default (
       ),
       onChange: (data, field, form) => {
         form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
-        sharedOnChange(data, field, form, [AGENCY_FIELD], recordType);
+        sharedOnChange(data, field, form, [AGENCY_FIELD], recordType, dispatch);
       }
     },
     {
@@ -83,14 +83,17 @@ export default (
       label: i18n.t("transfer.recipient_label"),
       required: true,
       options: users
-        ? users.valueSeq().map(user => {
-            const userName = user.get(USER_NAME_FIELD);
+        ? users
+            .valueSeq()
+            .map(user => {
+              const userName = user.get(USER_NAME_FIELD);
 
-            return {
-              value: userName.toLowerCase(),
-              label: userName
-            };
-          })
+              return {
+                value: userName.toLowerCase(),
+                label: userName
+              };
+            })
+            .toJS()
         : [],
       onChange: (data, field, form) => {
         sharedOnChange(data, field, form);

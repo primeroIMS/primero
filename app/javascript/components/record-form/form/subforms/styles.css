@@ -21,6 +21,22 @@
   margin: 0 20px;
 }
 
+.actionButton {
+  box-shadow: none;
+  color: $(theme.primero.colors.white);
+  background: $(theme.primero.colors.blue);
+  min-width: 8em;
+  height: 32px;
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+  }
+
+  & svg {
+    margin-left: -10px;
+  }
+}
+
 .actionButtonSubform {
   background-color: $(theme.primero.colors.blue);
   border-radius: 24px;
@@ -58,6 +74,14 @@
 }
 
 @media $(theme.breakpoints.down("sm")) {
+  .actionButton {
+    min-width: 0;
+
+    & svg {
+      margin-left: 0;
+    }
+  }
+
   .actionButtonSubform {
     width: 0;
   }

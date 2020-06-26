@@ -137,12 +137,16 @@ const Component = ({ mode }) => {
   }, [id]);
 
   useEffect(() => {
-    if (selectedForm?.size) {
-      const fieldTree = convertToFieldsObject(
-        selectedForm.get("fields").toJS()
-      );
+    if (selectedForm?.toSeq()?.size) {
+      if (selectedForm.get("is_nested")) {
+        dispatch(push(ROUTES.forms));
+      } else {
+        const fieldTree = convertToFieldsObject(
+          selectedForm.get("fields").toJS()
+        );
 
-      methods.reset(selectedForm.set("fields", fieldTree).toJS());
+        methods.reset(selectedForm.set("fields", fieldTree).toJS());
+      }
     }
   }, [selectedForm]);
 
@@ -177,7 +181,7 @@ const Component = ({ mode }) => {
         formMode.get("isNew") ||
         (formMode.get("isEdit") && selectedForm?.toSeq()?.size)
       }
-      loading={isLoading}
+      loading={isLoading || !selectedForm?.toSeq()?.size}
       type={NAMESPACE}
     >
       <PageHeading

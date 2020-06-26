@@ -93,7 +93,7 @@ en:
     loading: "Loading..."
     no_changes: "You made no field changes"
     dashboard_offline: "You're offline. The dashboard will be fully functional when you are back online"
-    alert_items: "You got %{items} items of note."
+    alert_items: "You have %{items} items of note."
     alerts_for:
       field_change: "A new %{form_section_name} was added to the case on %{alert_time}"
       approval: "Approval is pending for %{form_section_name}"

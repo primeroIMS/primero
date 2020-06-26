@@ -8,10 +8,6 @@
   &:hover {
     color: $(theme.primero.colors.black);
   }
-
-  & svg {
-    margin-left: -10px;
-  }
 }
 
 .actionButtonCancel {
@@ -63,4 +59,14 @@
 
 .panelContent {
   display: block;
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .actionButton, .actionButtonCancel {
+    min-width: 0;
+
+    & svg {
+      margin-left: 0;
+    }
+  }
 }
