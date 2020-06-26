@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  Button,
+  Fab,
   Dialog,
   DialogActions,
   DialogContent,
@@ -56,8 +56,8 @@ describe("<ActionDialog />", () => {
     expect(component.find(IconButton)).to.have.lengthOf(1);
   });
 
-  it("should render Button", () => {
-    expect(component.find(Button)).to.have.lengthOf(2);
+  it("should render Fab", () => {
+    expect(component.find(Fab)).to.have.lengthOf(2);
   });
 
   it("should accept valid props", () => {

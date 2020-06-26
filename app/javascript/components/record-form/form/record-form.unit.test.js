@@ -1,5 +1,8 @@
 import { fromJS, Map } from "immutable";
+import { Formik } from "formik";
+import { TextField as MuiTextField } from "formik-material-ui";
 
+import { NUMERIC_FIELD } from "../constants";
 import { getRecordForms } from "../selectors";
 import { RECORD_TYPES } from "../../../config";
 import { setupMountedComponent, stub } from "../../../test";
@@ -28,7 +31,7 @@ describe("<RecordForm />", () => {
           visible: true,
           is_nested: false,
           parent_form: RECORD_TYPES.cases,
-          fields: [1, 2]
+          fields: [1, 2, 3]
         }
       }),
       fields: Map({
@@ -36,9 +39,10 @@ describe("<RecordForm />", () => {
           id: 1,
           name: "field_1",
           display_name: {
-            en: "Field 2"
+            en: "Field 1"
           },
           type: TEXT_FIELD_NAME,
+          required: true,
           visible: true
         },
         2: {
@@ -48,6 +52,15 @@ describe("<RecordForm />", () => {
             en: "Field 2"
           },
           type: TEXT_FIELD_NAME,
+          visible: true
+        },
+        3: {
+          id: 3,
+          name: "field_age",
+          display_name: {
+            en: "Field Age"
+          },
+          type: NUMERIC_FIELD,
           visible: true
         }
       })
@@ -84,7 +97,26 @@ describe("<RecordForm />", () => {
 
   it("renders the selected form and fields", () => {
     expect(component.find(RecordForm)).to.have.lengthOf(1);
-    expect(component.find(FormSectionField)).to.have.lengthOf(2);
+    expect(component.find(FormSectionField)).to.have.lengthOf(3);
+  });
+
+  it("returns validation errors when the form is submitted and has an age field", async () => {
+    const field1 = component
+      .find(RecordForm)
+      .find(Formik)
+      .find(MuiTextField)
+      .first();
+
+    field1.props().form.setFieldValue("field_1", "");
+    field1.props().form.setFieldValue("field_age", 140);
+    field1.props().form.submitForm();
+
+    const errors = await field1.props().form.validateForm();
+
+    expect(errors).to.deep.equal({
+      field_1: "form_section.required_field",
+      field_age: "errors.models.child.age"
+    });
   });
 
   afterEach(() => {

@@ -1,11 +1,10 @@
 import React from "react";
-import clsx from "clsx";
 import { makeStyles } from "@material-ui/styles";
 import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-import Nav, { selectDrawerOpen } from "../nav";
+import Nav from "../nav";
 import Notifier from "../notifier";
 import SessionTimeoutDialog from "../session-timeout-dialog";
 import { hasUserPermissions } from "../user/selectors";
@@ -16,7 +15,6 @@ import styles from "./styles.css";
 const AppLayout = ({ children }) => {
   const css = makeStyles(styles)();
   const hasPermissions = useSelector(state => hasUserPermissions(state));
-  const drawerOpen = useSelector(state => selectDrawerOpen(state));
 
   if (!hasPermissions) {
     return (
@@ -31,11 +29,7 @@ const AppLayout = ({ children }) => {
       <Notifier />
       <Nav />
       <SessionTimeoutDialog />
-      <main
-        className={clsx(css.content, {
-          [css.contentShift]: drawerOpen
-        })}
-      >
+      <main className={css.content}>
         <OfflineIndicator />
         {children}
       </main>

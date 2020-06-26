@@ -5,13 +5,22 @@ import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
 import { TEXT_AREA } from "../constants";
+import InputLabel from "../components/input-label";
 
 import styles from "./styles.css";
 
 const TextInput = ({ commonInputProps, metaInputProps }) => {
   const css = makeStyles(styles)();
-  const { type, password, hint } = metaInputProps;
-  const inputType = password ? "password" : "text";
+  const { type, password, hint, tooltip, numeric } = metaInputProps;
+  let inputType = "text";
+
+  if (password) {
+    inputType = "password";
+  }
+  if (numeric) {
+    inputType = "number";
+  }
+  const { label, helperText, ...rest } = commonInputProps;
 
   const renderHint = hint ? <span className={css.hint}>{hint}</span> : null;
 
@@ -19,10 +28,11 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
     <Controller
       type={inputType}
       as={TextField}
-      {...commonInputProps}
+      label={<InputLabel tooltip={tooltip} text={label} />}
+      {...rest}
       helperText={
         <>
-          {commonInputProps.helperText}
+          {helperText}
           {renderHint}
         </>
       }

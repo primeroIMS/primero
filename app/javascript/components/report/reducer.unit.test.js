@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import * as actions from "./actions";
+import actions from "./actions";
 import reducer from "./reducer";
 
 describe("<Reports /> - Reducers", () => {

@@ -3,6 +3,17 @@
   flex-shrink: 0;
 }
 
+.drawerRoot {
+  height: 100%;
+}
+
+.drawerHeader {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: $(theme.spacing(0,1))
+}
+
 .drawerPaper {
   width: $(theme.primero.components.drawerWidth);
   background: linear-gradient(
@@ -143,6 +154,18 @@
 
   & div {
     height: 100%;
+  }
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .drawerPaper {
+    box-shadow: none
+  }
+
+  .navActive {
+    &:before, &:after {
+      display: none;
+    }
   }
 }
 

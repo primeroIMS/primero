@@ -4,7 +4,7 @@ import { makeStyles, Tab, Tabs } from "@material-ui/core";
 import { FormContext, useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import LoadingIndicator from "../../../loading-indicator";
@@ -79,23 +79,21 @@ const Component = ({ mode }) => {
     selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
 
   const onSubmit = data => {
-    batch(() => {
-      dispatch(
-        saveForm({
-          id,
-          saveMethod: formMode.get("isEdit")
-            ? SAVE_METHODS.update
-            : SAVE_METHODS.new,
-          body: {
-            data: { ...data, fields: convertToFieldsArray(data.fields) }
-          },
-          message: i18n.t(
-            `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-          ),
-          subforms: selectedSubforms.toJS()
-        })
-      );
-    });
+    dispatch(
+      saveForm({
+        id,
+        saveMethod: formMode.get("isEdit")
+          ? SAVE_METHODS.update
+          : SAVE_METHODS.new,
+        body: {
+          data: { ...data, fields: convertToFieldsArray(data.fields || {}) }
+        },
+        message: i18n.t(
+          `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
+        ),
+        subforms: selectedSubforms.toJS()
+      })
+    );
   };
 
   useEffect(() => {
@@ -114,11 +112,16 @@ const Component = ({ mode }) => {
           }
         }
       });
+
+      if (formMode.get("isNew")) {
+        dispatch(push(`${ROUTES.forms}/${updatedFormIds.first()}/edit`));
+      }
     }
   }, [updatedFormIds]);
 
   useEffect(() => {
     dispatch(fetchForms());
+    dispatch(clearSelectedForm());
   }, []);
 
   useEffect(() => {
@@ -134,12 +137,16 @@ const Component = ({ mode }) => {
   }, [id]);
 
   useEffect(() => {
-    if (selectedForm?.size) {
-      const fieldTree = convertToFieldsObject(
-        selectedForm.get("fields").toJS()
-      );
+    if (selectedForm?.toSeq()?.size) {
+      if (selectedForm.get("is_nested")) {
+        dispatch(push(ROUTES.forms));
+      } else {
+        const fieldTree = convertToFieldsObject(
+          selectedForm.get("fields").toJS()
+        );
 
-      methods.reset(selectedForm.set("fields", fieldTree).toJS());
+        methods.reset(selectedForm.set("fields", fieldTree).toJS());
+      }
     }
   }, [selectedForm]);
 
@@ -171,9 +178,10 @@ const Component = ({ mode }) => {
   return (
     <LoadingIndicator
       hasData={
-        formMode.get("isNew") || (formMode.get("isEdit") && selectedForm?.size)
+        formMode.get("isNew") ||
+        (formMode.get("isEdit") && selectedForm?.toSeq()?.size)
       }
-      loading={isLoading}
+      loading={isLoading || !selectedForm?.toSeq()?.size}
       type={NAMESPACE}
     >
       <PageHeading
@@ -194,8 +202,16 @@ const Component = ({ mode }) => {
           <form>
             <Tabs value={tab} onChange={handleChange}>
               <Tab label={i18n.t("forms.settings")} />
-              <Tab label={i18n.t("forms.fields")} />
-              <Tab label={i18n.t("forms.translations")} />
+              <Tab
+                className={css.tabHeader}
+                label={i18n.t("forms.fields")}
+                disabled={formMode.get("isNew")}
+              />
+              <Tab
+                className={css.tabHeader}
+                label={i18n.t("forms.translations")}
+                disabled={formMode.get("isNew")}
+              />
             </Tabs>
             <TabPanel tab={tab} index={0}>
               <div className={css.tabContent}>

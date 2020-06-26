@@ -56,15 +56,15 @@ describe("<Nav />", () => {
   });
 
   it("renders a module logo", () => {
-    expect(component.find(ModuleLogo)).to.have.lengthOf(1);
+    expect(component.find(ModuleLogo)).to.have.lengthOf(3);
   });
 
   it("renders an agency logo", () => {
-    expect(component.find(AgencyLogo)).to.have.lengthOf(1);
+    expect(component.find(AgencyLogo)).to.have.lengthOf(2);
   });
 
   it("renders translation toggle", () => {
-    expect(component.find(TranslationsToggle)).to.have.lengthOf(1);
+    expect(component.find(TranslationsToggle)).to.have.lengthOf(2);
   });
 
   describe("nav links", () => {
@@ -74,7 +74,7 @@ describe("<Nav />", () => {
         component
           .find(NavLink)
           .findWhere(link => link.prop("to") === ROUTES.dashboard)
-      ).to.have.lengthOf(1);
+      ).to.have.lengthOf(2);
     });
 
     it("renders tasks link", () => {
@@ -82,7 +82,7 @@ describe("<Nav />", () => {
         component
           .find(NavLink)
           .findWhere(link => link.prop("to") === ROUTES.tasks)
-      ).to.have.lengthOf(1);
+      ).to.have.lengthOf(2);
     });
 
     it("renders cases link", () => {
@@ -90,7 +90,7 @@ describe("<Nav />", () => {
         component
           .find(NavLink)
           .findWhere(link => link.prop("to") === ROUTES.cases)
-      ).to.have.lengthOf(1);
+      ).to.have.lengthOf(2);
     });
 
     it("renders incidents link", () => {
@@ -98,7 +98,7 @@ describe("<Nav />", () => {
         component
           .find(NavLink)
           .findWhere(link => link.prop("to") === ROUTES.incidents)
-      ).to.have.lengthOf(1);
+      ).to.have.lengthOf(2);
     });
 
     it("renders tracing requests link", () => {
@@ -106,7 +106,7 @@ describe("<Nav />", () => {
         component
           .find(NavLink)
           .findWhere(link => link.prop("to") === ROUTES.tracing_requests)
-      ).to.have.lengthOf(1);
+      ).to.have.lengthOf(2);
     });
 
     // TODO: Temporary removed
@@ -123,7 +123,7 @@ describe("<Nav />", () => {
         component
           .find(NavLink)
           .findWhere(link => link.prop("to") === ROUTES.reports)
-      ).to.have.lengthOf(1);
+      ).to.have.lengthOf(2);
     });
 
     it("renders exports link", () => {
@@ -131,7 +131,7 @@ describe("<Nav />", () => {
         component
           .find(NavLink)
           .findWhere(link => link.prop("to") === ROUTES.exports)
-      ).to.have.lengthOf(1);
+      ).to.have.lengthOf(2);
     });
   });
 
@@ -170,7 +170,7 @@ describe("<Nav />", () => {
         component
           .find(NavLink)
           .findWhere(link => link.prop("to") === ROUTES.cases)
-      ).to.have.lengthOf(1);
+      ).to.have.lengthOf(2);
     });
     it("doesn't renders export link", () => {
       expect(

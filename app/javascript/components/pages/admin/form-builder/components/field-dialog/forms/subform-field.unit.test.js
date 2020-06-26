@@ -1,3 +1,5 @@
+import { fromJS } from "immutable";
+
 import { subformField } from "./subform-field";
 
 describe("subformField()", () => {
@@ -5,7 +7,7 @@ describe("subformField()", () => {
 
   it("should return the forms for the Subform Field", () => {
     const { forms } = subformField({
-      name: "field_1",
+      field: fromJS({ name: "field_1" }),
       i18n
     });
 
@@ -14,7 +16,7 @@ describe("subformField()", () => {
 
   it("should return the correct fields for the visibilityForm", () => {
     const { forms } = subformField({
-      name: "field_1",
+      field: fromJS({ name: "field_1" }),
       i18n
     });
 

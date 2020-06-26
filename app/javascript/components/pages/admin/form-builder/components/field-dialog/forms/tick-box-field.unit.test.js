@@ -8,7 +8,11 @@ describe("tickboxFieldForm", () => {
     isNew: false,
     isEdit: true
   });
-  const tickboxContainer = tickboxFieldForm("test_name", i18n, formMode);
+  const tickboxContainer = tickboxFieldForm({
+    field: fromJS({ name: "test_name" }),
+    i18n,
+    formMode
+  });
   const generalSection = tickboxContainer.forms.first().fields;
   const visibilitySection = tickboxContainer.forms.last().fields[1].row;
 

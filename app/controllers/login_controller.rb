@@ -1,15 +1,18 @@
-class LoginController < ApplicationController
+# frozen_string_literal: true
 
-  rescue_from ActionView::MissingTemplate do |e|
+# Controller used to handle OpenId Connect redirect urls.
+# The expected route is '/login/:id' where :id is actially the provider_type
+class LoginController < ApplicationController
+  rescue_from ActionView::MissingTemplate do
     render_404
   end
 
-  def index
-    @identity_provider = IdentityProvider.find_by(provider_type: params[:provider])
-    
+  def show
+    provider_type = params[:id]
+    @identity_provider = IdentityProvider.find_by(provider_type: provider_type)
     return render_404 unless @identity_provider.present?
 
-    render layout: 'identity', template: "login/#{params[:provider]}"
+    render layout: 'identity', template: "login/#{provider_type}"
   end
 
   def render_404

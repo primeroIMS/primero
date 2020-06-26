@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Button, CircularProgress, InputLabel } from "@material-ui/core";
+import {
+  Button,
+  CircularProgress,
+  InputLabel,
+  FormHelperText
+} from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
 import { makeStyles } from "@material-ui/styles";
 
@@ -21,7 +26,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
   });
 
   const { type } = metaInputProps;
-  const { name, label, disabled } = commonInputProps;
+  const { name, label, disabled, helperText, error } = commonInputProps;
 
   const fileBase64 = watch(`${name}_base64`);
   const fileUrl = watch(`${name}_url`);
@@ -88,6 +93,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
     <div className={css.attachment}>
       <label htmlFor={name}>
         <InputLabel>{label}</InputLabel>
+        <FormHelperText error={error}>{helperText}</FormHelperText>
         {renderButton()}
       </label>
       <div className={css.inputField}>

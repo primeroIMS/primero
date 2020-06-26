@@ -18,11 +18,13 @@
 }
 
 .preview {
-  height: 100px;
+  max-width: 11em;
+  padding: 2em;
 }
 
 .buttonWrapper {
   position: relative;
+  margin: .5em 0;
 }
 
 .buttonProgress {
@@ -102,7 +104,7 @@
 .optionsFieldActions {
   display: flex;
   justify-content: space-between;
-  margin: 0.5em 0 1.5em 0;
+  margin: 1.5em 0;
 
   & button {
     font-weight: bold;
@@ -125,4 +127,8 @@
 .inputOptionField {
   width: 100%;
   margin-bottom: 0.5em;
+}
+
+.removeIcon {
+  color: $(theme.primero.colors.red);
 }

@@ -7,7 +7,7 @@ import isEqual from "lodash/isEqual";
 import { useI18n } from "../../i18n";
 import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
 import IndexTable from "../../index-table";
-import { PageContainer, PageHeading, PageContent } from "../../page";
+import PageContainer, { PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
 import { getOption } from "../../record-form";
 import { LOOKUPS } from "../../../config";

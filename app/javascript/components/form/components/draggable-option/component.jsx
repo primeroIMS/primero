@@ -5,6 +5,8 @@ import { Draggable } from "react-beautiful-dnd";
 import { Controller, useFormContext } from "react-hook-form";
 import { Checkbox, makeStyles, Radio } from "@material-ui/core";
 import get from "lodash/get";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
 
 import TextInput from "../../fields/text-input";
 import styles from "../../fields/styles.css";
@@ -13,9 +15,9 @@ import { generateIdFromDisplayText } from "../../utils/handle-options";
 
 import { NAME } from "./constants";
 
-const Component = ({ defaultOptionId, index, name, option }) => {
+const Component = ({ defaultOptionId, index, name, option, onRemoveClick }) => {
   const css = makeStyles(styles)();
-  const { errors, setValue, watch, formState } = useFormContext();
+  const { errors, setValue, watch, formState, formMode } = useFormContext();
   const displayTextName = `${name}.option_strings_text.en[${index}].display_text`;
   const optionId = watch(
     `${name}.option_strings_text.en[${index}].id`,
@@ -49,6 +51,20 @@ const Component = ({ defaultOptionId, index, name, option }) => {
     return value;
   };
 
+  const renderCheckbox = formMode.get("isEdit") && (
+    <Checkbox disabled checked />
+  );
+
+  const renderRemoveButton = formMode.get("isNew") && (
+    <IconButton
+      aria-label="delete"
+      className={css.removeIcon}
+      onClick={() => onRemoveClick(option.id)}
+    >
+      <DeleteIcon />
+    </IconButton>
+  );
+
   return (
     <Draggable draggableId={option.id} index={index}>
       {provided => (
@@ -80,7 +96,8 @@ const Component = ({ defaultOptionId, index, name, option }) => {
               />
             </div>
             <div className={css.fieldColumn}>
-              <Checkbox disabled checked />
+              {renderCheckbox}
+              {renderRemoveButton}
             </div>
           </div>
         </div>
@@ -98,6 +115,7 @@ Component.propTypes = {
   disabled: PropTypes.bool,
   index: PropTypes.number,
   name: PropTypes.string.isRequired,
+  onRemoveClick: PropTypes.func,
   option: PropTypes.object
 };
 

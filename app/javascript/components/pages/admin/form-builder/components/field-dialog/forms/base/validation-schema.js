@@ -1,7 +1,7 @@
 import { boolean, object, string } from "yup";
 
 /* eslint-disable import/prefer-default-export */
-export const validationSchema = (fieldName, i18n, overrides = {}) =>
+export const validationSchema = ({ fieldName, i18n, overrides = {} }) =>
   object().shape({
     [fieldName]: object().shape({
       display_name: object().shape({

@@ -5,18 +5,15 @@ export const getSelectedForm = state =>
   state.getIn(["records", "admin", "forms", "selectedForm"], fromJS({}));
 
 export const getSelectedSubform = state =>
-  state.getIn(
-    ["records", "admin", "forms", "selectedFieldSubform"],
-    fromJS({})
-  );
+  state.getIn(["records", "admin", "forms", "selectedSubform"], fromJS({}));
 
 export const getSelectedSubforms = state =>
-  state.getIn(["records", "admin", "forms", "selectedSubforms"], fromJS([]));
+  state.getIn(["records", "admin", "forms", "subforms"], fromJS([]));
 
 export const getSelectedFields = (state, subform) => {
   const fields = subform
     ? state.getIn(
-        ["records", "admin", "forms", "selectedFieldSubform", "fields"],
+        ["records", "admin", "forms", "selectedSubform", "fields"],
         fromJS([])
       )
     : state.getIn(["records", "admin", "forms", "selectedFields"], fromJS([]));
@@ -24,8 +21,21 @@ export const getSelectedFields = (state, subform) => {
   return fields.sortBy(field => field.get("order"));
 };
 
-export const getSelectedField = state =>
-  state.getIn(["records", "admin", "forms", "selectedField"], fromJS({}));
+export const getSelectedField = state => {
+  const subformField = state.getIn(
+    ["records", "admin", "forms", "selectedSubformField"],
+    fromJS({})
+  );
+
+  if (subformField.toSeq()?.size) {
+    return subformField;
+  }
+
+  return state.getIn(
+    ["records", "admin", "forms", "selectedField"],
+    fromJS({})
+  );
+};
 
 export const getSavingRecord = state =>
   state.getIn(["records", "admin", "forms", "saving"], false);

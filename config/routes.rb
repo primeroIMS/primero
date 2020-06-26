@@ -18,8 +18,8 @@ Rails.application.routes.draw do
     defaults: { format: :json }, constraints: { format: :json }
   )
 
-  resources :login, only: [:index]
   resources :health, only: %i[index show]
+  resources :login, only: [:show]
 
   namespace :api do
     namespace :v2, defaults: { format: :json },

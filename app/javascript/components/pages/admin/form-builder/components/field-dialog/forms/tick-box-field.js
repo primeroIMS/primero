@@ -10,7 +10,7 @@ import {
   visibilityForm
 } from "./base";
 
-const labelField = (fieldName, i18n) =>
+const labelField = ({ fieldName, i18n }) =>
   FieldRecord({
     display_name: i18n.t("fields.tick_box_label"),
     name: `${fieldName}.tick_box_label.en`,
@@ -20,16 +20,17 @@ const labelField = (fieldName, i18n) =>
   });
 
 // eslint-disable-next-line import/prefer-default-export
-export const tickboxFieldForm = (fieldName, i18n, mode) => {
-  const general = Object.values(generalFields(fieldName, i18n, mode));
-  const newField = labelField(fieldName, i18n);
-  const formFields = addWithIndex(general, 1, newField);
+export const tickboxFieldForm = ({ field, i18n, formMode, isNested }) => {
+  const fieldName = field.get("name");
+  const general = Object.values(generalFields({ fieldName, i18n, formMode }));
+  const newField = labelField({ fieldName, i18n });
+  const fields = addWithIndex(general, 1, newField);
 
   return {
     forms: fromJS([
-      generalForm(fieldName, i18n, mode, formFields),
-      visibilityForm(fieldName, i18n)
+      generalForm({ fieldName, i18n, formMode, fields }),
+      visibilityForm({ fieldName, i18n, isNested })
     ]),
-    validationSchema: validationSchema(fieldName, i18n)
+    validationSchema: validationSchema({ fieldName, i18n, isNested })
   };
 };

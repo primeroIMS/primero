@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import { useLocation, Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
 
 import { getPermissionsByRecord } from "../../../../user/selectors";
 import { ACTION_BUTTONS_NAME } from "../constants";
@@ -18,7 +20,9 @@ import {
   WRITE_RECORDS,
   checkPermissions
 } from "../../../../../libs/permissions";
-import { compare } from "../../../../../libs";
+import { compare, useThemeHelper } from "../../../../../libs";
+import styles from "../../styles.css";
+import ButtonText from "../../../../button-text";
 
 const Component = ({
   formMode,
@@ -28,6 +32,8 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
+  const { css } = useThemeHelper(styles);
+
   const saving = useSelector(state => getSavingRecord(state));
   const rolePermissions = useSelector(
     state => getPermissionsByRecord(state, RESOURCES.roles),
@@ -39,11 +45,13 @@ const Component = ({
         cancel
         actionHandler={handleCancel}
         text={i18n.t("buttons.cancel")}
+        startIcon={<ClearIcon />}
       />
       <FormAction
         actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
         savingRecord={saving}
+        startIcon={<CheckIcon />}
       />
     </>
   );
@@ -53,10 +61,11 @@ const Component = ({
       <Button
         to={`${pathname}/edit`}
         component={Link}
-        startIcon={<CreateIcon />}
         size="small"
+        className={css.showActionButton}
       >
-        {i18n.t("buttons.edit")}
+        <CreateIcon />
+        <ButtonText text={i18n.t("buttons.edit")} />
       </Button>
     </Permission>
   );

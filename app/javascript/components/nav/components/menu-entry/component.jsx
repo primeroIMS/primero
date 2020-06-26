@@ -13,7 +13,13 @@ import DisableOffline from "../../../disable-offline";
 import { getPermissions } from "../../../user/selectors";
 import { ConditionalWrapper } from "../../../../libs";
 
-const Component = ({ menuEntry, mobileDisplay, jewelCount, username }) => {
+const Component = ({
+  closeDrawer,
+  menuEntry,
+  mobileDisplay,
+  jewelCount,
+  username
+}) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -34,7 +40,12 @@ const Component = ({ menuEntry, mobileDisplay, jewelCount, username }) => {
   const renderDivider = divider && <div className={css.navSeparator} />;
 
   const navlinkProps = {
-    ...(!disabled && { component: NavLink, to, activeClassName: css.navActive })
+    ...(!disabled && {
+      component: NavLink,
+      to,
+      activeClassName: css.navActive,
+      onClick: closeDrawer
+    })
   };
   const userPermissions = useSelector(state => getPermissions(state));
   const userRecordTypes = [...userPermissions.keys()];
@@ -73,6 +84,7 @@ const Component = ({ menuEntry, mobileDisplay, jewelCount, username }) => {
 };
 
 Component.propTypes = {
+  closeDrawer: PropTypes.func.isRequired,
   jewelCount: PropTypes.number,
   menuEntry: PropTypes.object.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,

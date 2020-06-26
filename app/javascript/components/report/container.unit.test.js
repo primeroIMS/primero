@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { PageContainer, PageContent, PageHeading } from "../page";
+import PageContainer, { PageContent, PageHeading } from "../page";
 import { setupMountedComponent } from "../../test";
 import { TableValues } from "../charts";
 import LoadingIndicator from "../loading-indicator";

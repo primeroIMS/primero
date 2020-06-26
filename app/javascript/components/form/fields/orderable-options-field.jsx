@@ -25,6 +25,7 @@ const OrderableOptionsField = ({
 }) => {
   const i18n = useI18n();
   const [fieldOptions, setFieldOptions] = useState(options);
+  const [removed, setRemoved] = useState([]);
   const css = makeStyles(styles)();
   const { name } = commonInputProps;
   const { selectedValue } = metaInputProps;
@@ -36,7 +37,8 @@ const OrderableOptionsField = ({
     reset,
     setValue,
     unregister,
-    watch
+    watch,
+    formMode
   } = useFormContext();
 
   const watchSelectedValue = watch(
@@ -80,7 +82,7 @@ const OrderableOptionsField = ({
   const handleDragEnd = result => {
     if (result && result.source && result.destination) {
       const currentOptionValues = getValues({ nest: true })[fieldName]
-        .option_strings_text.en;
+        .option_strings_text?.en;
       const reorderedOptions = mergeOptions(fieldOptions, currentOptionValues);
       const sourceIndex = result.source.index;
       const targetIndex = result.destination.index;
@@ -107,7 +109,7 @@ const OrderableOptionsField = ({
 
   const onAddOption = () => {
     const currentOptionValues = getValues({ nest: true })[fieldName]
-      .option_strings_text.en;
+      .option_strings_text?.en;
     const reorderedOptions = mergeOptions(fieldOptions, currentOptionValues);
 
     setFieldOptions(
@@ -118,6 +120,13 @@ const OrderableOptionsField = ({
       })
     );
   };
+  const onRemoveValue = item => {
+    const currentOptionValues = getValues({ nest: true })[fieldName]
+      .option_strings_text?.en;
+
+    setRemoved([...removed, item]);
+    setFieldOptions([...currentOptionValues.filter(key => key.id !== item)]);
+  };
 
   const renderOptions = () =>
     fieldOptions.map((option, index) => (
@@ -127,6 +136,7 @@ const OrderableOptionsField = ({
         option={option}
         index={index}
         key={option.id}
+        onRemoveClick={onRemoveValue}
       />
     ));
 
@@ -146,6 +156,10 @@ const OrderableOptionsField = ({
         </Button>
       </div>
     ) : null;
+
+  const renderLastColumn = formMode.get("isNew")
+    ? i18n.t("fields.remove")
+    : i18n.t("fields.enabled");
 
   return (
     <div>
@@ -171,7 +185,7 @@ const OrderableOptionsField = ({
                   {i18n.t("fields.default")}
                 </div>
                 <div className={clsx([css.fieldColumn, css.fieldHeader])}>
-                  {i18n.t("fields.enabled")}
+                  {renderLastColumn}
                 </div>
               </div>
               {renderOptions(fieldOptions)}
@@ -188,6 +202,7 @@ const OrderableOptionsField = ({
 OrderableOptionsField.displayName = ORDERABLE_OPTIONS_FIELD_NAME;
 
 OrderableOptionsField.defaultProps = {
+  options: [],
   showActionButtons: true
 };
 

@@ -238,7 +238,8 @@ const Component = ({
     individualFields,
     css,
     modules,
-    fields
+    fields,
+    recordType
   );
 
   const enabledSuccessButton =

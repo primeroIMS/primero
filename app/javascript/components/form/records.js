@@ -30,7 +30,13 @@ export const FieldRecord = Record({
   handleWatchedInputs: null,
   check_errors: List([]),
   hint: "",
-  groupBy: null
+  groupBy: null,
+  tooltip: "",
+  tick_box_label: Map({}),
+  numeric: false,
+  onChange: null,
+  mobile_visible: false,
+  on_collapsed_subform: false
 });
 
 export const FormSectionRecord = Record({
@@ -55,7 +61,8 @@ export const FormSectionRecord = Record({
   collapsed_field_names: List([]),
   check_errors: List([]),
   expandable: false,
-  expanded: false
+  expanded: false,
+  tooltip: ""
 });
 
 export const Option = Record({

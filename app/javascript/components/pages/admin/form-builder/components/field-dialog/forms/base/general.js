@@ -5,7 +5,7 @@ import {
   TICK_FIELD
 } from "../../../../../../../form";
 
-export const generalFields = (fieldName, i18n, formMode) => ({
+export const generalFields = ({ fieldName, formMode, i18n }) => ({
   displayName: FieldRecord({
     display_name: i18n.t("fields.name"),
     name: `${fieldName}.display_name.en`,
@@ -36,10 +36,10 @@ export const generalFields = (fieldName, i18n, formMode) => ({
   })
 });
 
-export const generalForm = (fieldName, i18n, formMode, fields = []) =>
+export const generalForm = ({ fields = [], fieldName, formMode, i18n }) =>
   FormSectionRecord({
     unique_id: "field_form",
     fields: fields.length
       ? fields
-      : Object.values(generalFields(fieldName, i18n, formMode))
+      : Object.values(generalFields({ fieldName, formMode, i18n }))
   });

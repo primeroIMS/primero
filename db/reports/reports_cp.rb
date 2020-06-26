@@ -7,7 +7,9 @@ default_case_filters = [
   {'attribute' => 'record_state', 'value' => ['true']}
 ]
 
-Report.create_or_update({
+Report.where(editable: false).destroy_all
+
+Report.create({
   name_all: 'Registration CP',
   description_all: 'Case registrations over time',
   module_id: PrimeroModule::CP,
@@ -19,7 +21,7 @@ Report.create_or_update({
   editable: false
 })
 
-Report.create_or_update({
+Report.create({
   name_all: 'Registration GBV',
   description_all: 'Case registrations over time',
   module_id: PrimeroModule::GBV,
@@ -32,7 +34,7 @@ Report.create_or_update({
 })
 
 #TODO: This doesn't account for referrals
-Report.create_or_update({
+Report.create({
   name_all: 'Caseload Summary CP',
   description_all: 'Number of cases for each case worker',
   module_id: PrimeroModule::CP,
@@ -43,7 +45,7 @@ Report.create_or_update({
   editable: false
 })
 
-Report.create_or_update({
+Report.create({
   name_all: 'Caseload Summary GBV',
   description_all: 'Number of cases for each case worker',
   module_id: PrimeroModule::GBV,
@@ -54,7 +56,7 @@ Report.create_or_update({
   editable: false
 })
 
-Report.create_or_update({
+Report.create({
   name_all: 'Case status by case worker CP',
   description_all: 'Status of cases held by case workers',
   module_id: PrimeroModule::CP,
@@ -66,7 +68,7 @@ Report.create_or_update({
   editable: false
 })
 
-Report.create_or_update({
+Report.create({
   name_all: 'Case status by case worker GBV',
   description_all: 'Status of cases held by case workers',
   module_id: PrimeroModule::GBV,
@@ -78,7 +80,7 @@ Report.create_or_update({
   editable: false
 })
 
-Report.create_or_update({
+Report.create({
   name_all: 'Cases by Agency CP',
   description_all: 'Number of cases broken down by agency',
   module_id: PrimeroModule::CP,
@@ -89,7 +91,7 @@ Report.create_or_update({
   editable: false
 })
 
-Report.create_or_update({
+Report.create({
   name_all: 'Cases by Agency GBV',
   description_all: 'Number of cases broken down by agency',
   module_id: PrimeroModule::GBV,
@@ -100,7 +102,7 @@ Report.create_or_update({
   editable: false
 })
 
-Report.create_or_update({
+Report.create({
   name_all: 'Cases by Nationality',
   description_all: 'Number of cases broken down by nationality',
   module_id: PrimeroModule::CP,
@@ -111,7 +113,7 @@ Report.create_or_update({
   editable: false
 })
 
-Report.create_or_update({
+Report.create({
   name_all: 'Cases by Age and Sex',
   description_all: 'Number of cases broken down by age and sex',
   module_id: PrimeroModule::CP,
@@ -124,7 +126,7 @@ Report.create_or_update({
   editable: false
 })
 
-Report.create_or_update({
+Report.create({
   name_all: 'Cases by Protection Concern',
   description_all: 'Number of cases broken down by protection concern and sex',
   module_id: PrimeroModule::CP,
@@ -136,7 +138,7 @@ Report.create_or_update({
   editable: false
 })
 
-Report.create_or_update({
+Report.create({
   name_all: 'Current Care Arrangements',
   description_all: 'The care arrangements broken down by age and sex',
   module_id: PrimeroModule::CP,
@@ -149,7 +151,7 @@ Report.create_or_update({
   editable: false
 })
 
-Report.create_or_update({
+Report.create({
   name_all: 'Workflow Status',
   description_all: 'Cases broken down by current workflow status',
   module_id: PrimeroModule::CP,
@@ -161,7 +163,7 @@ Report.create_or_update({
   editable: false
 })
 
-Report.create_or_update(
+Report.create(
   name_all: "Follow up by month by Agency",
   description_all: "Number of followups broken down by month and agency",
   module_id:  PrimeroModule::CP,
@@ -194,7 +196,7 @@ Report.create_or_update(
   editable: false,
 )
 
-Report.create_or_update(
+Report.create(
   name_all: "Follow up by week by Agency",
   description_all: "Number of followups broken down by week and agency",
   module_id:  PrimeroModule::CP,
@@ -227,7 +229,7 @@ Report.create_or_update(
   editable: false,
 )
 
-Report.create_or_update(
+Report.create(
   name_all: "Cases per Month",
   description_all: " Number of newly registered cases per month per location ",
   module_id:  PrimeroModule::CP,
@@ -241,7 +243,7 @@ Report.create_or_update(
   editable: false,
 )
 
-Report.create_or_update({
+Report.create({
   name_all: 'Cases with case plans',
   description_all: 'How many registered cases have case plans?',
   module_id: PrimeroModule::CP,

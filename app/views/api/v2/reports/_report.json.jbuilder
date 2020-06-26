@@ -15,6 +15,7 @@ report_hash = FieldI18nService.fill_keys(
     group_dates_by: report.group_dates_by,
     group_ages: report.group_ages,
     editable: report.editable,
+    filters: report.filters,
     fields: fields.map { |f| FieldI18nService.fill_keys([:display_name], f) }
   }
 )

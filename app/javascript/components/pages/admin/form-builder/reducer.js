@@ -12,7 +12,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state
         .set("selectedForm", fromJS({}))
         .set("errors", false)
-        .set("serverErrors", fromJS([]));
+        .set("serverErrors", fromJS([]))
+        .set("selectedFields", fromJS([]));
     case actions.CREATE_SELECTED_FIELD: {
       const fieldName = Object.keys(payload.data)[0];
 
@@ -20,6 +21,12 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         fields.push(fromJS(transformValues(payload.data[fieldName], true)))
       );
     }
+    case actions.CLEAR_SELECTED_FIELD:
+      return state.delete("selectedField");
+    case actions.CLEAR_SELECTED_SUBFORM_FIELD:
+      return state.delete("selectedSubformField");
+    case actions.CLEAR_SELECTED_SUBFORM:
+      return state.delete("selectedSubform");
     case actions.FETCH_FORM_FAILURE:
       return state
         .set("errors", true)
@@ -40,7 +47,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.REORDER_FIELDS: {
       const { name, order, isSubform } = payload;
       const fieldsPath = isSubform
-        ? ["selectedFieldSubform", "fields"]
+        ? ["selectedSubform", "fields"]
         : ["selectedFields"];
       const selectedFields = state.getIn(fieldsPath, fromJS([]));
 
@@ -113,7 +120,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.SET_SELECTED_SUBFORM: {
       const { id } = payload;
       const selectedSubform = state
-        .get("selectedSubforms", fromJS([]))
+        .get("subforms", fromJS([]))
         .find(form => form.get("id") === id);
 
       if (!selectedSubform) {
@@ -124,22 +131,59 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
         const fields = subform
           .get("fields")
-          .map(fieldId => state.getIn(["fields", fieldId.toString()]));
+          .map(fieldId => state.getIn(["fields", fieldId.toString()]))
+          .map(field =>
+            field.set(
+              "on_collapsed_subform",
+              subform
+                .get("collapsed_field_names", fromJS([]))
+                .includes(field.get("name"))
+            )
+          );
 
-        const selectedSubforms = state.get("selectedSubforms", fromJS([]));
+        const selectedSubforms = state.get("subforms", fromJS([]));
 
         return state
-          .set("selectedFieldSubform", subform.set("fields", fromJS(fields)))
+          .set("selectedSubform", subform.set("fields", fromJS(fields)))
           .set(
-            "selectedSubforms",
+            "subforms",
             selectedSubforms.push(subform.set("fields", fromJS(fields)))
           );
       }
 
-      return state.set("selectedFieldSubform", selectedSubform);
+      return state.set("selectedSubform", selectedSubform);
+    }
+    case actions.SET_SELECTED_SUBFORM_FIELD: {
+      const selectedField = state
+        .getIn(["selectedSubform", "fields"], fromJS([]))
+        .find(field => field.get("name") === payload.name);
+
+      return state.set("selectedSubformField", selectedField);
     }
     case actions.UPDATE_SELECTED_FIELD: {
       const fieldName = Object.keys(payload.data)[0];
+
+      if (payload.subformId) {
+        const fieldIndex = state
+          .getIn(["selectedSubform", "fields"], fromJS([]))
+          .findIndex(field => field.get("name") === fieldName);
+
+        const selectedSubformField = state.getIn([
+          "selectedSubform",
+          "fields",
+          fieldIndex
+        ]);
+
+        const mergedField = selectedSubformField.merge(
+          fromJS(transformValues(payload.data[fieldName], true))
+        );
+
+        return state.setIn(
+          ["selectedSubform", "fields", fieldIndex],
+          mergedField
+        );
+      }
+
       const selectedFieldIndex = state
         .get("selectedFields", fromJS([]))
         .findIndex(field => field.get("name") === fieldName);
@@ -147,33 +191,42 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       const selectedFieldPath = ["selectedFields", selectedFieldIndex];
       const selectedField = state.getIn(selectedFieldPath);
 
-      return state.setIn(
-        selectedFieldPath,
-        selectedField.merge(
-          fromJS(transformValues(payload.data[fieldName], true))
-        )
+      const mergedField = selectedField.merge(
+        fromJS(transformValues(payload.data[fieldName], true))
       );
+
+      return state
+        .setIn(selectedFieldPath, mergedField)
+        .set("selectedField", mergedField);
     }
     case actions.UPDATE_SELECTED_SUBFORM: {
-      const subform = state.get("selectedFieldSubform", fromJS({}));
+      const subform = state.get("selectedSubform", fromJS({}));
       const data = fromJS(payload.data);
 
-      const fields = subform
-        .get("fields")
-        .map(field => fromJS({ [field.get("name")]: field }))
-        .reduce((acc, field) => acc.merge(field), fromJS({}))
-        .mergeDeep(data.get("fields"))
-        .valueSeq()
-        .toList();
+      const fields = subform.get("fields").map(field => {
+        const fieldName = field.get("name");
+
+        return field.mergeDeep(data.getIn(["fields", fieldName], fromJS({})));
+      });
 
       const subformIndex = state
-        .get("selectedSubforms", fromJS([]))
+        .get("subforms", fromJS([]))
         .findIndex(form => form.get("unique_id") === subform.get("unique_id"));
 
-      return state.setIn(
-        ["selectedSubforms", subformIndex],
-        subform.merge(data).set("fields", fields)
-      );
+      const collapsedFieldNames = fields
+        .filter(field => field.get("on_collapsed_subform") === true)
+        .map(field => field.get("name"))
+        .toSet()
+        .toList();
+
+      const mergedSubform = subform
+        .merge(data)
+        .set("fields", fields)
+        .set("collapsed_field_names", collapsedFieldNames);
+
+      return state
+        .setIn(["subforms", subformIndex], mergedSubform)
+        .set("selectedSubform", mergedSubform);
     }
     default:
       return state;
