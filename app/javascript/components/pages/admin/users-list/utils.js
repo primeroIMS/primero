@@ -3,7 +3,7 @@ import { FILTER_TYPES } from "../../../index-filters";
 
 import { AGENCY, DISABLED } from "./constants";
 
-export const searchableAgencies = data => {
+const searchableAgencies = data => {
   const agencies = dataToJS(data);
 
   return agencies.reduce(

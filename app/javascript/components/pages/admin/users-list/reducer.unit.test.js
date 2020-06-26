@@ -47,4 +47,23 @@ describe("<UsersList /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle SET_USERS_FILTER", () => {
+    const payload = {
+      user_name: "test"
+    };
+
+    const expected = fromJS({
+      filters: payload
+    });
+
+    const action = {
+      type: actions.SET_USERS_FILTER,
+      payload
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });

@@ -38,7 +38,6 @@ const Container = () => {
   }, []);
 
   const tableOptions = {
-    // recordType,
     columns,
     options: {
       selectableRows: "none"
@@ -48,7 +47,7 @@ const Container = () => {
       page: 1
     }),
     onTableChange: fetchUsers,
-    recordType: ["admin", "users"],
+    recordType: ["admin", recordType],
     bypassInitialFetch: true
   };
 
