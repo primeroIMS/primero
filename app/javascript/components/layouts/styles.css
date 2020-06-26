@@ -16,15 +16,9 @@
   }));
   margin-left: -240px;
   overflow-x: hidden;
-}
-
-.contentShift {
-  transition: $(theme.transitions.create('margin', {
-    easing: theme.transitions.easing.easeOut,
-    duration: theme.transitions.duration.enteringScreen,
-  }));
   padding-top: 0;
   margin-left: 0;
+  width: 100%;
 }
 
 .loadingIndicator {

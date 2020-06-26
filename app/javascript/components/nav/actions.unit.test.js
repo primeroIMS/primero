@@ -7,12 +7,10 @@ describe("<Nav /> - Actions", () => {
 
   it("should have known properties", () => {
     expect(actions).to.be.an("object");
-    ["OPEN_DRAWER", "FETCH_ALERTS", "FETCH_ALERTS_SUCCESS"].forEach(
-      property => {
-        expect(actionsNav).to.have.property(property);
-        delete actionsNav[property];
-      }
-    );
+    ["FETCH_ALERTS", "FETCH_ALERTS_SUCCESS"].forEach(property => {
+      expect(actionsNav).to.have.property(property);
+      delete actionsNav[property];
+    });
 
     expect(actionsNav).to.be.empty;
   });
