@@ -76,6 +76,7 @@ const rootReducer = {
       ),
       ...potentialMatchesReducer,
       ...taskListReducer,
+      users: reduceReducers(usersListReducer, usersFormReducer),
       agencies: reduceReducers(agenciesListReducer, agenciesFormReducer),
       roles: reduceReducers(rolesListReducer),
       user_groups: reduceReducers(userGroupsListReducer, userGroupsFormReducer),
@@ -85,7 +86,6 @@ const rootReducer = {
       ...flaggingReducer,
       ...savedSearchesReducer,
       admin: combineReducers({
-        users: reduceReducers(usersListReducer, usersFormReducer),
         forms: reduceReducers(adminFormListReducer, adminFormBuilderReducer),
         audit_logs: reduceReducers(AuditLogsReducers),
         roles: reduceReducers(rolesListReducer, rolesFormReducer),

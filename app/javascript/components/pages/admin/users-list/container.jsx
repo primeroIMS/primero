@@ -38,10 +38,11 @@ const Container = () => {
 
   useEffect(() => {
     dispatch(fetchAgencies({ options: { per: 999 } }));
-    dispatch(fetchUsers());
+    dispatch(fetchUsers({ data: { [DISABLED]: ["false"] } }));
   }, []);
 
   const tableOptions = {
+    recordType,
     columns,
     options: {
       selectableRows: "none"
@@ -51,7 +52,6 @@ const Container = () => {
       page: 1
     }),
     onTableChange: fetchUsers,
-    recordType: ["admin", recordType],
     bypassInitialFetch: true
   };
 
