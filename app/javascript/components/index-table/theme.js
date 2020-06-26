@@ -62,7 +62,7 @@ export default createMuiTheme(
           }
         }
       },
-      MuiTableFooter:{
+      MuiTableFooter: {
         root: {
           "& tr td:last-of-type": {
             padding: "0px 0px 0px 24px"

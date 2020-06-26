@@ -15,6 +15,9 @@ import { CREATE_RECORDS } from "../../../../libs/permissions";
 import { Filters as AdminFilters } from "../components";
 import { fetchAgencies } from "../agencies-list/action-creators";
 import { getEnabledAgencies } from "../../../application/selectors";
+import { useThemeHelper } from "../../../../libs";
+import styles from "../styles.css";
+import ButtonText from "../../../button-text";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED } from "./constants";
@@ -25,6 +28,7 @@ const Container = () => {
   const dispatch = useDispatch();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = "users";
+  const { css } = useThemeHelper(styles);
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
@@ -56,9 +60,10 @@ const Container = () => {
       to={ROUTES.admin_users_new}
       component={Link}
       color="primary"
-      startIcon={<AddIcon />}
+      className={css.showActionButton}
     >
-      {i18n.t("buttons.new")}
+      <AddIcon />
+      <ButtonText text={i18n.t("buttons.new")} />
     </Button>
   );
 

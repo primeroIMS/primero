@@ -9,7 +9,7 @@ import * as offlineDispatchSuccess from "./offline-dispatch-success";
 import * as withGeneratedProperties from "./with-generated-properties";
 
 describe("middleware/utils/retrieve-data.js", () => {
-  const store = createMockStore();
+  const { store } = createMockStore();
 
   it("sync indexeddb and calls offlineDispatchSuccess", async () => {
     const action = {

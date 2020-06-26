@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
   Box,
-  Button,
+  Fab,
   IconButton,
   Dialog,
   DialogActions,
@@ -10,12 +10,16 @@ import {
   DialogTitle
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import CheckIcon from "@material-ui/icons/Check";
 
 import FormSectionField from "../../form-section-field";
 import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
 import { serviceHasReferFields } from "../../utils";
+import { useThemeHelper } from "../../../../../libs";
+import styles from "../../styles.css";
+import ButtonText from "../../../../button-text";
 
 const Component = ({
   index,
@@ -28,21 +32,27 @@ const Component = ({
   i18n,
   formik
 }) => {
+  const { css } = useThemeHelper(styles);
+
   const handleClose = () => {
     setOpen({ open: false, index: null });
   };
 
+  const buttonDialogText = dialogIsNew ? "buttons.add" : "buttons.update";
+
   if (index !== null) {
     const actionButton =
       mode.isEdit || mode.isNew ? (
-        <Button
+        <Fab
           onClick={handleClose}
           variant="contained"
           color="primary"
           elevation={0}
+          className={css.actionButton}
         >
-          {i18n.t(dialogIsNew ? "buttons.add" : "buttons.update")}
-        </Button>
+          <CheckIcon />
+          <ButtonText text={i18n.t(buttonDialogText)} />
+        </Fab>
       ) : null;
 
     return (

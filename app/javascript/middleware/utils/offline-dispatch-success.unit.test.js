@@ -4,7 +4,7 @@ import offlineDispatchSuccess from "./offline-dispatch-success";
 import * as handleRestCallback from "./handle-rest-callback";
 
 describe("middleware/utils/offline-dispatch-success.js", () => {
-  const store = createMockStore();
+  const { store } = createMockStore();
   const payload = {
     data: {
       test: "payload"

@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import FlagIcon from "@material-ui/icons/Flag";
 
 import { useI18n } from "../i18n";
+import ButtonText from "../button-text";
 
 import { FlagForm, ListFlags, FlagDialog } from "./components";
 import { fetchFlags } from "./action-creators";
 import { selectFlags } from "./selectors";
 
-const Flagging = ({ recordType, record, control }) => {
+const Flagging = ({ control, record, recordType, showActionButtonCss }) => {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const dispatch = useDispatch();
@@ -56,8 +57,13 @@ const Flagging = ({ recordType, record, control }) => {
   return (
     <>
       {(control && <control onClick={handleOpen} />) || (
-        <Button onClick={handleOpen} startIcon={<FlagIcon />} size="small">
-          {i18n.t("buttons.flags")}
+        <Button
+          onClick={handleOpen}
+          size="small"
+          className={showActionButtonCss}
+        >
+          <FlagIcon />
+          <ButtonText text={i18n.t("buttons.flags")} />
         </Button>
       )}
       <FlagDialog {...flagDialogProps}>
@@ -77,7 +83,8 @@ Flagging.displayName = "Flagging";
 Flagging.propTypes = {
   control: PropTypes.node,
   record: PropTypes.string,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  showActionButtonCss: PropTypes.string
 };
 
 export default Flagging;
