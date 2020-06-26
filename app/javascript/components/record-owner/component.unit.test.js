@@ -68,9 +68,7 @@ describe("<RecordOwner />", () => {
   it("renders a RecordOwner component and its fields/>", () => {
     expect(component.find(RecordOwner)).to.have.lengthOf(1);
     expect(component.find(FormSectionField)).to.have.lengthOf(12);
-    expect(
-      component.find(SearchableSelect).at(0).find("p").at(0).text()
-    ).to.equal("UNICEF");
+    expect(component.find(SearchableSelect)).to.have.lengthOf(1);
   });
 
   it("renders Form", () => {
