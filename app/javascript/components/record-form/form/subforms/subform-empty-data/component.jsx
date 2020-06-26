@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Fab } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import AddIcon from "@material-ui/icons/Add";
 import ErrorIcon from "@material-ui/icons/Error";
@@ -14,14 +14,14 @@ const Component = ({ handleClick, i18n, mode, subformName }) => {
 
   const { isShow } = mode;
   const renderAddButton = !isShow && (
-    <Fab
+    <Button
       className={css.actionButtonSubform}
       variant="extended"
       onClick={handleClick}
+      startIcon={<AddIcon />}
     >
-      <AddIcon />
       {i18n.t("fields.add")}
-    </Fab>
+    </Button>
   );
 
   return (

@@ -33,8 +33,8 @@ const Component = () => {
       component={Link}
       color="primary"
       className={cssAdmin.showActionButton}
+      startIcon={<AddIcon />}
     >
-      <AddIcon />
       <ButtonText text={i18n.t("buttons.new")} />
     </Button>
   );

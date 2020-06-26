@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Fab,
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -97,15 +97,15 @@ const ActionDialog = ({
 
   const submitButton = (
     <div className={css.submitButtonWrapper}>
-      <Fab
+      <Button
         {...{ ...successButtonProps, onClick: handleSuccess }}
         disabled={pending || !enabledSuccessButton}
-        variant="extended"
         className={css.actionButton}
+        startIcon={iconConfirmButtom}
+        size="small"
       >
-        {iconConfirmButtom}
         <ButtonText text={confirmButtonLabel} />
-      </Fab>
+      </Button>
       {pending && <CircularProgress size={24} className={css.buttonProgress} />}
     </div>
   );
@@ -134,15 +134,15 @@ const ActionDialog = ({
           <DialogActions>
             {submitButton}
             {cancelHandler && (
-              <Fab
+              <Button
                 {...{ ...defaulCancelButtonProps, ...cancelButtonProps }}
                 onClick={cancelHandler}
-                variant="extended"
+                size="small"
                 className={css.actionButtonCancel}
+                startIcon={<CloseIcon />}
               >
-                <CloseIcon />
                 <ButtonText text={i18n.t("cancel")} />
-              </Fab>
+              </Button>
             )}
           </DialogActions>
         )}

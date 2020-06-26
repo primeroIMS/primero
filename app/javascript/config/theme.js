@@ -178,6 +178,12 @@ const overrides = {
       fontSize: muiTheme.typography.pxToRem(17),
       fontWeight: "bold"
     }
+  },
+  MuiFab: {
+    sizeSmall: {
+      width: "36px",
+      height: "36px"
+    }
   }
 };
 

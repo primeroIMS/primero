@@ -1,9 +1,10 @@
 .actionButton, .actionButtonCancel {
+  border-radius: 24px;
   box-shadow: none;
   color: $(theme.primero.colors.white);
   background: $(theme.primero.colors.blue);
   min-width: 8em;
-  height: 32px;
+  height: 36px;
 
   &:hover {
     color: $(theme.primero.colors.black);
@@ -67,6 +68,13 @@
 
     & svg {
       margin-left: 0;
+    }
+
+    & span {
+
+      & span {
+        margin: 0;
+      }
     }
   }
 }

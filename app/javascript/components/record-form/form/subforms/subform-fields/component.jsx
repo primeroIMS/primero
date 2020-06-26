@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { sortBy } from "lodash";
-import { Box, IconButton } from "@material-ui/core";
+import { Box, Fab } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 
@@ -12,6 +12,8 @@ import { SUBFORM_FIELDS } from "../constants";
 import { serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import { useI18n } from "../../../../i18n";
+import { useThemeHelper } from "../../../../../libs";
+import styles from "../styles.css";
 
 const Component = ({
   arrayHelpers,
@@ -26,6 +28,7 @@ const Component = ({
   const i18n = useI18n();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const { css } = useThemeHelper(styles);
 
   const {
     subform_sort_by: subformSortBy,
@@ -109,9 +112,13 @@ const Component = ({
               </Box>
               <Box>
                 {!subformPreventItemRemoval && !mode.isShow ? (
-                  <IconButton onClick={() => handleOpenModal(index)}>
+                  <Fab
+                    size="small"
+                    className={css.subformFieldActions}
+                    onClick={() => handleOpenModal(index)}
+                  >
                     <DeleteIcon />
-                  </IconButton>
+                  </Fab>
                 ) : null}
                 {mode.isShow && serviceHasReferFields(values[index]) ? (
                   <SubformMenu
@@ -120,9 +127,13 @@ const Component = ({
                     recordType={recordType}
                   />
                 ) : null}
-                <IconButton onClick={() => handleEdit(index)}>
+                <Fab
+                  size="small"
+                  className={css.subformFieldActions}
+                  onClick={() => handleEdit(index)}
+                >
                   <ArrowIcon />
-                </IconButton>
+                </Fab>
               </Box>
             </Box>
           );

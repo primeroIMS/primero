@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
   Box,
-  Fab,
+  Button,
   IconButton,
   Dialog,
   DialogActions,
@@ -43,16 +43,14 @@ const Component = ({
   if (index !== null) {
     const actionButton =
       mode.isEdit || mode.isNew ? (
-        <Fab
+        <Button
           onClick={handleClose}
-          variant="contained"
-          color="primary"
           elevation={0}
           className={css.actionButton}
+          startIcon={<CheckIcon />}
         >
-          <CheckIcon />
           <ButtonText text={i18n.t(buttonDialogText)} />
-        </Fab>
+        </Button>
       ) : null;
 
     return (

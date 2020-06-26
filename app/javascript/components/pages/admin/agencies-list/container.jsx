@@ -64,8 +64,8 @@ const Container = () => {
       component={Link}
       color="primary"
       className={css.showActionButton}
+      startIcon={<AddIcon />}
     >
-      <AddIcon />
       <ButtonText text={i18n.t("buttons.new")} />
     </Button>
   ) : null;

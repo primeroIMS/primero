@@ -49,17 +49,16 @@ const RecordFormToolbar = ({
   );
 
   const renderSaveButton = (
-    <Fab
+    <Button
       className={css.actionButton}
-      variant="extended"
-      aria-label={i18n.t("buttons.save")}
       onClick={handleFormSubmit}
       disabled={savingRecord}
+      size="small"
+      startIcon={<CheckIcon />}
     >
-      <CheckIcon />
       {renderCircularProgress}
       <ButtonText text={i18n.t("buttons.save")} />
-    </Fab>
+    </Button>
   );
 
   let renderRecordStatusIndicator = null;
@@ -119,15 +118,14 @@ const RecordFormToolbar = ({
         )}
         {(mode.isEdit || mode.isNew) && (
           <div className={css.actionButtonsContainer}>
-            <Fab
+            <Button
               className={css.actionButtonCancel}
-              variant="extended"
-              aria-label={i18n.t("buttons.cancel")}
+              size="small"
               onClick={goBack}
+              startIcon={<ClearIcon />}
             >
-              <ClearIcon />
               <ButtonText text={i18n.t("buttons.cancel")} />
-            </Fab>
+            </Button>
             {renderSaveButton}
           </div>
         )}
@@ -138,8 +136,8 @@ const RecordFormToolbar = ({
               component={Link}
               size="small"
               className={css.showActionButton}
+              startIcon={<CreateIcon />}
             >
-              <CreateIcon />
               <ButtonText text={i18n.t("buttons.edit")} />
             </Button>
           </Permission>

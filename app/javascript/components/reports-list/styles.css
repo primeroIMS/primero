@@ -41,7 +41,7 @@
   border-radius: 24px;
   color: $(theme.primero.colors.white);
   width: 8em;
-  height: 32px;
+  height: 36px;
   margin-left: 10px;
 
    &:hover {
@@ -53,6 +53,13 @@
 @media $(theme.breakpoints.down("sm")) {
   .showActionButton {
     width: 0;
+
+    & span {
+
+      & span {
+        margin: 0;
+      }
+    }
   }
 }
 

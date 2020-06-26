@@ -537,6 +537,7 @@ const Container = ({
           aria-controls="long-menu"
           aria-haspopup="true"
           onClick={handleClick}
+          size="small"
           className={css.moreButton}
         >
           <MoreVertIcon color={iconColor} />

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Fab } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
@@ -80,14 +80,15 @@ const Component = ({
         </div>
         <div>
           {!mode.isShow && (
-            <Fab
+            <Button
               className={css.actionButtonSubform}
               variant="extended"
               onClick={handleAddSubform}
+              size="small"
+              startIcon={<AddIcon />}
             >
-              <AddIcon />
               {renderAddText}
-            </Fab>
+            </Button>
           )}
         </div>
       </div>

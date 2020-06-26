@@ -61,8 +61,8 @@ const Flagging = ({ control, record, recordType, showActionButtonCss }) => {
           onClick={handleOpen}
           size="small"
           className={showActionButtonCss}
+          startIcon={<FlagIcon />}
         >
-          <FlagIcon />
           <ButtonText text={i18n.t("buttons.flags")} />
         </Button>
       )}
