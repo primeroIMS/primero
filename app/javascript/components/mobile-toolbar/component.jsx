@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React from "react";
 import MenuIcon from "@material-ui/icons/Menu";
 import {
   AppBar,
