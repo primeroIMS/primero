@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import makeStyles from "@material-ui/styles/makeStyles";
 import AddIcon from "@material-ui/icons/Add";
 
 import PageContainer, { PageHeading, PageContent } from "../page";
@@ -18,7 +17,9 @@ import LoadingIndicator from "../loading-indicator";
 import { ROUTES } from "../../config";
 import { usePermissions } from "../user";
 import { CREATE_RECORDS } from "../../libs/permissions";
+import { useThemeHelper } from "../../libs";
 import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
+import ButtonText from "../button-text";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
@@ -30,9 +31,9 @@ import {
 import NAMESPACE from "./namespace";
 
 const Reports = () => {
-  const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const { css } = useThemeHelper(styles);
 
   const reports = useSelector(state => selectReports(state));
   const isLoading = useSelector(state => selectLoading(state));
@@ -86,9 +87,10 @@ const Reports = () => {
       to={ROUTES.reports_new}
       component={Link}
       color="primary"
-      startIcon={<AddIcon />}
+      className={css.showActionButton}
     >
-      {i18n.t("buttons.new")}
+      <AddIcon />
+      <ButtonText text={i18n.t("buttons.new")} />
     </Button>
   ) : null;
 
