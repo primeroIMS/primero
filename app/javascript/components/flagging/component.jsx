@@ -9,8 +9,9 @@ import { useI18n } from "../i18n";
 import { FlagForm, ListFlags, FlagDialog } from "./components";
 import { fetchFlags } from "./action-creators";
 import { selectFlags } from "./selectors";
+import { NAME } from "./constants";
 
-const Flagging = ({ recordType, record, control }) => {
+const Component = ({ recordType, record, control }) => {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const dispatch = useDispatch();
@@ -35,7 +36,6 @@ const Flagging = ({ recordType, record, control }) => {
   const flagFormProps = {
     recordType,
     record,
-    handleOpen,
     handleActiveTab
   };
 
@@ -72,12 +72,12 @@ const Flagging = ({ recordType, record, control }) => {
   );
 };
 
-Flagging.displayName = "Flagging";
+Component.displayName = NAME;
 
-Flagging.propTypes = {
+Component.propTypes = {
   control: PropTypes.node,
   record: PropTypes.string,
   recordType: PropTypes.string.isRequired
 };
 
-export default Flagging;
+export default Component;

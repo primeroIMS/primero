@@ -10,3 +10,112 @@
     text-transform: uppercase;
   }
 }
+
+.resolvedFlagList {
+  margin-top: 30px;
+}
+
+.activedFlagList {
+  margin-top: 10px;
+}
+
+.item {
+  padding: 0;
+  font-size: 2.95em;
+}
+
+.itemResolved {
+  padding: 0;
+  font-size: 0.95em;
+  color: $(theme.primero.colors.warmGrey6);
+}
+.itemText {
+  margin-top: 0;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.flagInfo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 5px 0px 5px 0px;
+}
+
+.actions {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: flex-end;
+  & div:first-of-type, & div:last-of-type {
+    align-self: center;
+  }
+}
+
+.rotateIcon {
+  transform: scaleX(-1);
+}
+
+.verticalDivider {
+  height: 107%;
+}
+
+.date {
+  font-size: 0.95em;
+}
+
+.resolveButton {
+  padding-right: 0;
+  & button {
+    & span {
+      font-size: 0.95em;
+    }
+  }
+}
+
+.flagTab {
+  min-width: 50%;
+}
+
+.flagRemovedInfo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-end
+}
+
+.elementContent, .flagUser {
+  font-size: 0.95em;
+  display: flex;
+  align-items: center;
+}
+
+.resolvedReason, .flagUser {
+  font-style: italic;
+  font-size: 0.85em;
+}
+
+.actionDivider {
+  padding: 0px 20px 0 20px;
+}
+
+.saveButton, .cancelButton{
+  border-radius: 50px;
+  box-shadow: none;
+  color: $(theme.primero.colors.white);
+  background: $(theme.primero.colors.blue);
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+  }
+
+}
+
+.cancelButton {
+  background: $(theme.primero.colors.grey);
+}

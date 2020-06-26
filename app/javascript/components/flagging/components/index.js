@@ -1,3 +1,3 @@
-export { default as FlagDialog } from "./FlagDialog";
-export { default as ListFlags } from "./ListFlags";
-export { default as FlagForm } from "./FlagForm";
+export { default as FlagDialog } from "./flag-dialog";
+export { default as ListFlags } from "./list-flags";
+export { default as FlagForm } from "./flag-form";

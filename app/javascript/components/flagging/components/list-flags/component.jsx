@@ -3,13 +3,14 @@ import { List, Divider, Box, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import FlagIcon from "@material-ui/icons/Flag";
 
-import { useI18n } from "../../i18n";
+import { useI18n } from "../../../i18n";
+import ListFlagsItem from "../list-flags-item";
+import Unflag from "../Unflag";
+import styles from "../styles.css";
 
-import ListFlagsItem from "./ListFlagsItem";
-import Unflag from "./Unflag";
-import styles from "./styles.css";
+import { NAME } from "./constants";
 
-const ListFlags = ({ flags, recordType, record }) => {
+const Component = ({ flags, recordType, record }) => {
   const [deleteFlag, setDeleteFlag] = useState({ deleteMode: false, id: "" });
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -38,6 +39,30 @@ const ListFlags = ({ flags, recordType, record }) => {
     record
   };
 
+  const flagsActived = flags.size && flags.filter(flag => !flag.removed);
+  const flagsResolved = flags.size && flags.filter(flag => flag.removed);
+
+  const renderFlagsActived =
+    flags.size &&
+    flagsActived.valueSeq().map((flag, index) => (
+      <div key={flag.id}>
+        <ListFlagsItem flag={flag} {...listFlagsItemProps} />
+        {flags.size !== index + 1 && <Divider component="li" />}
+      </div>
+    ));
+
+  const renderFlagsResolved =
+    flags.size &&
+    flagsResolved.valueSeq().map((flag, index) => (
+      <>
+        <h3>{i18n.t("flags.resolved")}</h3>
+        <div key={flag.id}>
+          <ListFlagsItem flag={flag} {...listFlagsItemProps} />
+          {flags.size !== index + 1 && <Divider component="li" />}
+        </div>
+      </>
+    ));
+
   return (
     <>
       {flags.size ? (
@@ -51,12 +76,8 @@ const ListFlags = ({ flags, recordType, record }) => {
             </>
           ) : (
             <>
-              {flags.valueSeq().map((flag, index) => (
-                <div key={flag.id}>
-                  <ListFlagsItem flag={flag} {...listFlagsItemProps} />
-                  {flags.size !== index + 1 && <Divider component="li" />}
-                </div>
-              ))}
+              <div className={css.activedFlagList}>{renderFlagsActived}</div>
+              <div className={css.resolvedFlagList}>{renderFlagsResolved}</div>
             </>
           )}
         </List>
@@ -73,12 +94,12 @@ const ListFlags = ({ flags, recordType, record }) => {
   );
 };
 
-ListFlags.displayName = "ListFlags";
+Component.displayName = NAME;
 
-ListFlags.propTypes = {
+Component.propTypes = {
   flags: PropTypes.object,
   record: PropTypes.string,
   recordType: PropTypes.string.isRequired
 };
 
-export default ListFlags;
+export default Component;

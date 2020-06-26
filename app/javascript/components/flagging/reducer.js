@@ -1,4 +1,4 @@
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 
 import { listEntriesToRecord } from "../../libs";
 
@@ -20,11 +20,13 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.update("data", data => {
         return data.push(FlagRecord(payload.data));
       });
-    case UNFLAG_SUCCESS:
-      return state.set(
-        "data",
-        state.get("data").filter(i => i.id !== payload.data.id)
-      );
+    case UNFLAG_SUCCESS: {
+      const flagIndex = state
+        .get("data", fromJS([]))
+        .findIndex(flag => flag.get("id") === payload.data.id);
+
+      return state.setIn(["data", flagIndex], FlagRecord(payload.data));
+    }
     default:
       return state;
   }

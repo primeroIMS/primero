@@ -3778,7 +3778,7 @@ en:
 
   flags:
     flags_tab: "Flags"
-    add_flag_tab: "Add Flag"
+    add_flag_tab: "Add New Flag"
     flag_reason: "Flag Reason"
     flag_date: "Flag Date"
     unflag_reason: "Unflag Reason"
@@ -3786,6 +3786,12 @@ en:
     no_flags: "No flags found"
     flag_added: "Flag added successfully"
     flag_deleted: "Flag deleted"
+    title: "Flags"
+    date: "Date:"
+    resolve: "Resolve:"
+    resolved: "Resolved Flags"
+    resolved_reason: "Resolve Reason:"
+    resolved_date: "Resolved:"
 
   record_information:
     assigned_user_names: "Other Assigned Users"
