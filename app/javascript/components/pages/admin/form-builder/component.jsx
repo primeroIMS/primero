@@ -177,7 +177,7 @@ const Component = ({ mode }) => {
         formMode.get("isNew") ||
         (formMode.get("isEdit") && selectedForm?.toSeq()?.size)
       }
-      loading={isLoading}
+      loading={isLoading || !selectedForm?.toSeq()?.size}
       type={NAMESPACE}
     >
       <PageHeading

@@ -146,6 +146,7 @@ const Container = ({ mode }) => {
   return (
     <LoadingIndicator
       hasData={formMode.get("isNew") || user?.size > 0}
+      loading={!user?.size}
       type={NAMESPACE}
     >
       <PageHeading title={pageHeading}>

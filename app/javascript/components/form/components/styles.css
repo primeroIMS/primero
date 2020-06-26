@@ -8,10 +8,6 @@
   &:hover {
     color: $(theme.primero.colors.black);
   }
-
-  & svg {
-    margin-left: -10px;
-  }
 }
 
 .actionButtonCancel {
