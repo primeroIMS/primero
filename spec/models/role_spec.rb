@@ -168,7 +168,7 @@ describe Role do
 
   describe 'associate_all_forms' do
     before do
-      clean_data(Role, Field, FormSection)
+      clean_data(Role, Field, FormSection, PrimeroModule, PrimeroProgram)
       @form_section_a = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
       @form_section_b = FormSection.create!(unique_id: 'B', name: 'B', parent_form: 'case', form_group_id: 'x')
       @form_section_child =
@@ -197,6 +197,19 @@ describe Role do
         @role.form_sections.size.should eql 3
         expect(@role.form_sections).to match_array [@form_section_a, @form_section_b, @form_section_c]
       end
+      it 'Reject forms from another primero-module with the associate_all_forms method' do
+        primero_module = create(
+          :primero_module, name: 'CP', description: 'Child Protection', associated_record_types: ['case']
+        )
+        @form_section_c = FormSection.create!(
+          unique_id: 'parent', name: 'parent_form', parent_form: 'case', fields: [@field_subform],
+          primero_modules: [primero_module]
+        )
+        @role.associate_all_forms
+        @role.reload
+        @role.form_sections.size.should eql 2
+        expect(@role.form_sections).to match_array [@form_section_a, @form_section_b]
+      end
     end
     context 'form from another primero-module' do
       before do
@@ -211,12 +224,22 @@ describe Role do
           unique_id: 'C', name: 'C', parent_form: 'case', form_group_id: 'x', primero_modules: [@primero_module_gbv]
         )
       end
-      it 'Reject forms from another primero-module' do
+      it 'When save, reject forms from another primero-module' do
         role = create(:role, modules: [@primero_module], form_sections: [@form_section_c])
         expect(role.form_sections).to eq([])
       end
-      it "Reject forms from any primero-module if the role doesn't have primero-module" do
+      it "When save, eject forms from any primero-module if the role doesn't have primero-module" do
         role = create(:role, modules: [], form_sections: [@form_section_c])
+        expect(role.form_sections).to eq([])
+      end
+      it 'When update, reject forms from another primero-module' do
+        role = create(:role, modules: [@primero_module])
+        role.update(form_sections: [@form_section_c])
+        expect(role.form_sections).to eq([])
+      end
+      it "When update, reject forms from any primero-module if the role doesn't have primero-module" do
+        role = create(:role, modules: [])
+        role.update(form_sections: [@form_section_c])
         expect(role.form_sections).to eq([])
       end
       after do
