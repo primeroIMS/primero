@@ -29,6 +29,7 @@
   font-size: 0.95em;
   color: $(theme.primero.colors.warmGrey6);
 }
+
 .itemText {
   margin-top: 0;
 }
@@ -53,7 +54,7 @@
   flex-direction: row;
   justify-content: flex-end;
   & div:first-of-type, & div:last-of-type {
-    align-self: center;
+    margin-top: 10px;
   }
 }
 
@@ -62,7 +63,7 @@
 }
 
 .verticalDivider {
-  height: 107%;
+  min-height: 105%;
 }
 
 .date {
@@ -71,6 +72,7 @@
 
 .resolveButton {
   padding-right: 0;
+  min-width: 101px;
   & button {
     & span {
       font-size: 0.95em;
@@ -92,7 +94,10 @@
 .elementContent, .flagUser {
   font-size: 0.95em;
   display: flex;
-  align-items: center;
+  & span {
+    text-align: justify;
+    margin: 0px 20px 0px 5px;
+  }
 }
 
 .resolvedReason, .flagUser {

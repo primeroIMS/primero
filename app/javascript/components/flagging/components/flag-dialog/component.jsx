@@ -16,7 +16,7 @@ const Component = ({ open, setOpen, children, isBulkFlags, tab, setTab }) => {
   const dialogProps = {
     onClose: handleClose,
     open,
-    maxSize: "sm",
+    maxSize: "md",
     disableBackdropClick: true,
     dialogTitle: i18n.t("flags.title"),
     disableActions: true

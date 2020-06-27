@@ -34,24 +34,16 @@ const Component = ({ flag, handleDelete }) => {
   }
   const renderFlagActions = showResolveButton && (
     <>
-      <div className={css.actionDivider}>
-        <Divider
-          orientation="vertical"
-          classes={{ vertical: css.verticalDivider }}
-        />
-      </div>
-      <div className={css.resolveButton}>
-        <Fab
-          size="small"
-          color="primary"
-          variant="extended"
-          aria-label="delete"
-          onClick={() => handleDelete(flag.id)}
-        >
-          <ResolvedFlagIcon fontSize="small" />
-          {i18n.t("flags.resolve")}
-        </Fab>
-      </div>
+      <Fab
+        size="small"
+        color="primary"
+        variant="extended"
+        aria-label="delete"
+        onClick={() => handleDelete(flag.id)}
+      >
+        <ResolvedFlagIcon fontSize="small" />
+        {i18n.t("flags.resolve")}
+      </Fab>
     </>
   );
 
@@ -70,7 +62,13 @@ const Component = ({ flag, handleDelete }) => {
       <div className={css.date}>
         {i18n.t("flags.date")} {i18n.l("date.formats.default", flag.date)}
       </div>
-      {renderFlagActions}
+      <div className={css.actionDivider}>
+        <Divider
+          orientation="vertical"
+          classes={{ vertical: css.verticalDivider }}
+        />
+      </div>
+      <div className={css.resolveButton}>{renderFlagActions}</div>
     </div>
   );
 

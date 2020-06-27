@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import FlagIcon from "@material-ui/icons/Flag";
 
 import { useI18n } from "../i18n";
@@ -9,7 +9,6 @@ import ButtonText from "../button-text";
 
 import { FlagForm, ListFlags, FlagDialog } from "./components";
 import { fetchFlags } from "./action-creators";
-import { selectFlags } from "./selectors";
 import { NAME } from "./constants";
 
 const Component = ({ control, record, recordType, showActionButtonCss }) => {
@@ -21,8 +20,6 @@ const Component = ({ control, record, recordType, showActionButtonCss }) => {
   useEffect(() => {
     dispatch(fetchFlags(recordType, record));
   }, [dispatch, recordType, record]);
-
-  const flags = useSelector(state => selectFlags(state, record, recordType));
 
   const isBulkFlags = Array.isArray(record);
 
@@ -49,7 +46,6 @@ const Component = ({ control, record, recordType, showActionButtonCss }) => {
   };
 
   const listFlagsProps = {
-    flags,
     recordType,
     record
   };
