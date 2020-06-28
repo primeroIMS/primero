@@ -38,7 +38,7 @@ describe("<Flagging /> - Action Creators", () => {
     const record = "d6a6dbb4-e5e9-4720-a661-e181a12fd3a0";
     const flagId = "1";
 
-    actionCreators.unFlag(flagId, {}, "message", recordType, record)(dispatch);
+    dispatch(actionCreators.unFlag(flagId, {}, "message", recordType, record));
 
     expect(dispatch.getCall(0).returnValue.type).to.eql("flags/UNFLAG");
     expect(dispatch.getCall(0).returnValue.api.path).to.eql(

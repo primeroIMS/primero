@@ -107,7 +107,13 @@ const ActionDialog = ({
         {iconConfirmButtom}
         <ButtonText text={confirmButtonLabel} />
       </Fab>
-      {pending && <CircularProgress size={24} className={css.buttonProgress} />}
+      {pending && (
+        <CircularProgress
+          size={24}
+          className={css.buttonProgress}
+          disableShrink
+        />
+      )}
     </div>
   );
 

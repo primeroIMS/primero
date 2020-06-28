@@ -11,14 +11,8 @@ export const fetchFlags = (recordType, record) => async dispatch => {
   });
 };
 
-export const unFlag = (
-  id,
-  body,
-  message,
-  recordType,
-  record
-) => async dispatch => {
-  await dispatch({
+export const unFlag = (id, body, message, recordType, record) => {
+  return {
     type: UNFLAG,
     api: {
       path: `${recordType}/${record}/flags/${id}`,
@@ -35,7 +29,7 @@ export const unFlag = (
         }
       }
     }
-  });
+  };
 };
 
 export const addFlag = (body, message, path) => async dispatch => {

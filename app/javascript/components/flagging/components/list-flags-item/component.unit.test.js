@@ -53,7 +53,7 @@ describe("<ListFlagsItem />", () => {
   });
 
   it("should render the Divider", () => {
-    expect(component.find(Divider)).to.have.lengthOf(1);
+    expect(component.find(Divider)).to.have.lengthOf(2);
   });
 
   it("should render the Fab", () => {

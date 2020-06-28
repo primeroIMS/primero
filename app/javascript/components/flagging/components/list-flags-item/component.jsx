@@ -1,51 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  ListItem,
-  ListItemText,
-  Divider,
-  makeStyles,
-  Fab
-} from "@material-ui/core";
+import { ListItem, ListItemText, Divider, makeStyles } from "@material-ui/core";
 import FlagIcon from "@material-ui/icons/Flag";
 import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
-import {
-  UserArrowIcon,
-  ResolvedFlagIcon
-} from "../../../../images/primero-icons";
+import { UserArrowIcon } from "../../../../images/primero-icons";
 import { currentUser } from "../../../user";
 import styles from "../styles.css";
+import Unflag from "../unflag";
 
 import { NAME } from "./constants";
 
-const Component = ({ flag, handleDelete }) => {
+const Component = ({ flag }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const itemClass = flag?.removed ? css.itemResolved : css.item;
   const userName = useSelector(state => currentUser(state));
   const showResolveButton =
     // eslint-disable-next-line camelcase
-    handleDelete && !flag?.removed && userName === flag?.flagged_by;
+    !flag?.removed && userName === flag?.flagged_by;
 
   if (!flag) {
     return null;
   }
-  const renderFlagActions = showResolveButton && (
-    <>
-      <Fab
-        size="small"
-        color="primary"
-        variant="extended"
-        aria-label="delete"
-        onClick={() => handleDelete(flag.id)}
-      >
-        <ResolvedFlagIcon fontSize="small" />
-        {i18n.t("flags.resolve")}
-      </Fab>
-    </>
-  );
+  const renderFlagActions = showResolveButton && <Unflag flag={flag} />;
 
   const renderActions = flag.removed ? (
     <div className={css.flagRemovedInfo}>
@@ -73,31 +52,33 @@ const Component = ({ flag, handleDelete }) => {
   );
 
   return (
-    <ListItem className={itemClass}>
-      <ListItemText className={css.itemText}>
-        <div className={css.wrapper}>
-          <div className={css.flagInfo}>
-            <div className={css.elementContent}>
-              <FlagIcon />
-              <span>{flag.message}</span>
+    <>
+      <ListItem className={itemClass}>
+        <ListItemText className={css.itemText}>
+          <div className={css.wrapper}>
+            <div className={css.flagInfo}>
+              <div className={css.elementContent}>
+                <FlagIcon />
+                <span>{flag.message}</span>
+              </div>
+              <div className={css.flagUser}>
+                <UserArrowIcon className={css.rotateIcon} />
+                <span>{flag.flagged_by}</span>
+              </div>
             </div>
-            <div className={css.flagUser}>
-              <UserArrowIcon className={css.rotateIcon} />
-              <span>{flag.flagged_by}</span>
-            </div>
+            {renderActions}
           </div>
-          {renderActions}
-        </div>
-      </ListItemText>
-    </ListItem>
+        </ListItemText>
+      </ListItem>
+      <Divider component="li" />
+    </>
   );
 };
 
 Component.displayName = NAME;
 
 Component.propTypes = {
-  flag: PropTypes.object.isRequired,
-  handleDelete: PropTypes.func
+  flag: PropTypes.object.isRequired
 };
 
 export default Component;

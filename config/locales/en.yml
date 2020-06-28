@@ -3788,10 +3788,13 @@ en:
     flag_deleted: "Flag deleted"
     title: "Flags"
     date: "Date:"
-    resolve: "Resolve:"
+    resolve_label: "Resolve:"
+    resolve_button: "Resolve"
     resolved: "Resolved Flags"
     resolved_reason: "Resolve Reason:"
     resolved_date: "Resolved:"
+    resolve_reason: "Resolve Reason"
+    resolve_flag: "Resolve Flags"
 
   record_information:
     assigned_user_names: "Other Assigned Users"

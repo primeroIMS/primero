@@ -72,7 +72,7 @@
 
 .resolveButton {
   padding-right: 0;
-  min-width: 101px;
+  min-width: 127px;
   & button {
     & span {
       font-size: 0.95em;
@@ -114,6 +114,7 @@
   box-shadow: none;
   color: $(theme.primero.colors.white);
   background: $(theme.primero.colors.blue);
+  margin-right: 0.5em;
 
   &:hover {
     color: $(theme.primero.colors.black);
@@ -123,4 +124,8 @@
 
 .cancelButton {
   background: $(theme.primero.colors.grey);
+}
+
+.loadingIndicator {
+  position: absolute;
 }
