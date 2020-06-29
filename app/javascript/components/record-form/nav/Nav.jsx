@@ -58,7 +58,10 @@ const Nav = ({
 
   const renderCloseButtonNavBar = mobileDisplay && (
     <div className={css.closeButtonRecordNav}>
-      <IconButton onClick={handleToggleNav}>
+      <IconButton
+        onClick={handleToggleNav}
+        className={css.closeIconButtonRecordNav}
+      >
         <CloseIcon />
       </IconButton>
     </div>
@@ -97,7 +100,7 @@ const Nav = ({
           {...drawerProps}
         >
           {renderCloseButtonNavBar}
-          <List>
+          <List className={css.listRecordNav}>
             <RecordInformation
               handleClick={handleClick}
               open={open}
