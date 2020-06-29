@@ -5,6 +5,7 @@ import { Paper, Typography } from "@material-ui/core";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import { BarChart as BarChartGraphic, TableValues } from "../charts";
 import { getLoading, getErrors } from "../index-table/selectors";
@@ -91,6 +92,7 @@ const Report = ({ mode }) => {
       actionHandler={() => setDeleteModal(true)}
       cancel
       text={i18n.t("buttons.delete")}
+      startIcon={<DeleteIcon />}
     />
   );
 

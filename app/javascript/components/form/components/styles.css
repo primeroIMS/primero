@@ -3,8 +3,8 @@
   box-shadow: none;
   color: $(theme.primero.colors.white);
   background: $(theme.primero.colors.blue);
-  min-width: 8em;
-  height: 36px;
+  height: 35px;
+  padding: 0 15px;
 
   &:hover {
     color: $(theme.primero.colors.black);
@@ -64,7 +64,9 @@
 
 @media $(theme.breakpoints.down("sm")) {
   .actionButton, .actionButtonCancel {
-    min-width: 0;
+    min-width: 3em;
+    border-radius: 50%;
+    padding: 0;
 
     & svg {
       margin-left: 0;

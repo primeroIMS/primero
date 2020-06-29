@@ -14,6 +14,9 @@ export default (transition, css, recordType, showMode) => (
   <div key={transition.id}>
     <TransitionPanel key={transition.id} name={transition.id}>
       <ExpansionPanelSummary
+        classes={{
+          expandIcon: css.expandIcon
+        }}
         expandIcon={<ExpandMoreIcon />}
         aria-controls="filter-controls-content"
         id={transition.id}

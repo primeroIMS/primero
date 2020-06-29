@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { Menu, IconButton, CircularProgress } from "@material-ui/core";
+import { Menu, Fab, CircularProgress } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { makeStyles } from "@material-ui/styles";
 
 import { getEnabledAgencies } from "../../../../application/selectors";
 import {
@@ -23,6 +22,7 @@ import Permission from "../../../../application/permission";
 import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
 import { currentUser } from "../../../../user";
 import DisableOffline from "../../../../disable-offline";
+import { useThemeHelper } from "../../../../../libs";
 
 import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
@@ -31,7 +31,7 @@ const Component = ({ index, recordType, values }) => {
   const i18n = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
+  const css = useThemeHelper(styles);
 
   const services = useSelector(state =>
     getOption(state, "lookup-service-type", i18n.locale)
@@ -75,15 +75,16 @@ const Component = ({ index, recordType, values }) => {
   return (
     <DisableOffline>
       <Permission resources={RESOURCES.cases} actions={REFER_FROM_SERVICE}>
-        <IconButton
+        <Fab
           aria-label="more"
           aria-controls="long-menu"
           aria-haspopup="true"
           onClick={event => handleClick(event)}
           key={`refer-option-${index}`}
+          className={css.moreButton}
         >
           <MoreVertIcon />
-        </IconButton>
+        </Fab>
         <Menu
           id={`service-menu-${index}`}
           anchorEl={anchorEl}
