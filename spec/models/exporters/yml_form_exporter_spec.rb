@@ -64,7 +64,7 @@ module Exporters
         data = Exporters::YmlFormExporter.new(nil).export(nil, nil, 'locale' => 'es')
         file_content = File.open(data.path).read.delete("\n").delete(' ')
         expect(file_content).to eq(
-          '---:es:lookup-location-type:name:lookup_values:country:Paísregion:
+          '---es:lookup-location-type:name:TipodeLocaciónlookup_values:country:Paísregion:
           Regiónlookup-form-group-cp-tracing-request:name:lookup_values:photos_audio:
           PhotosandAudioother_reportable_fields:OtherReportableFields'.delete("\n").delete(' ')
         )

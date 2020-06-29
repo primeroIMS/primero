@@ -80,9 +80,12 @@ namespace :primero do
     show_hidden_fields = args[:show_hidden_fields].present? && ['Y','y','T','t'].include?(args[:show_hidden_fields][0])
     locale = args[:locale].present? ? args[:locale] : ''
     puts "Exporting forms... Check rails log for details..."
-    forms_exporter = Exporters::YmlFormExporter.new(form_id, type, module_id, show_hidden_forms: show_hidden_forms,
-                                                    show_hidden_fields: show_hidden_fields, locale: locale)
-    forms_exporter.export_forms_to_yaml
+    forms_exporter = Exporters::YmlFormExporter.new
+    forms_exporter.export(
+      nil, nil,
+      form_id: form_id, record_type: type, module_id: module_id, show_hidden_forms: show_hidden_forms,
+      show_hidden_fields: show_hidden_fields, locale: locale
+    )
     puts "Done!"
   end
 

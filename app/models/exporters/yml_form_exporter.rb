@@ -16,8 +16,8 @@ module Exporters
       end
     end
 
-    def initialize(stored_file_name)
-      @stored_file_name = stored_file_name || CleansingTmpDir.temp_file_name
+    def initialize(stored_file_name = nil)
+      @export_api_dir_path = stored_file_name
     end
 
     def dir_name
@@ -39,8 +39,10 @@ module Exporters
       File.join(@export_dir_path, "#{file_name}.yml")
     end
 
-    def create_file_for_form(_)
-      @io = File.new(@stored_file_name, 'w')
+    def create_file_for_form(export_file = nil)
+      Rails.logger.info { "Creating file #{export_file}.yml" }
+      export_file_name = @export_api_dir_path || yml_file_name(export_file.to_s)
+      @io = File.new(export_file_name, 'w')
     end
 
     def complete
@@ -53,12 +55,20 @@ module Exporters
         @form_id = opts['form_id']
       else
         @record_type = opts['record_type'] || 'case'
-        @primero_module = PrimeroModule.find_by(unique_id: (opts['module_id'] || 'primeromodule-cp'))
+        module_unique_id = opts['module_id'] || 'primeromodule-cp'
+        @primero_module = PrimeroModule.find_by(unique_id: module_unique_id)
+        if @primero_module.blank?
+          Rails.logger.error { "YmlFormExporter: Invalid Module ID: #{module_unique_id}" }
+          raise StandardError, "Invalid Module ID: #{module_unique_id}"
+        end
       end
-      @show_hidden_forms = opts['show_hidden_forms'].present?
-      @show_hidden_fields = opts['show_hidden_fields'].present?
-      @locale = opts['locale'].present? ? opts['locale'].to_sym : Primero::Application::BASE_LANGUAGE
       @export_dir_path = dir
+      @show_hidden_forms = opts[:show_hidden_forms].present?
+      @show_hidden_fields = opts[:show_hidden_fields].present?
+      @locale = opts['locale'].present? ? opts['locale'] : Primero::Application::BASE_LANGUAGE
+
+      Rails.logger.info { 'Begging of Forms YAML Exporter...' }
+      Rails.logger.info { "Writing files to directory location: '#{@export_dir_path}" }
       @form_id.present? ? export_one_form : export_multiple_forms
     end
 
@@ -79,8 +89,8 @@ module Exporters
       forms = @primero_module.associated_forms_grouped_by_record_type(true)
       if forms.present?
         Rails.logger.info(
-          "Record Type: #{@record_type}, Module: #{@primero_module.unique_id}, Show Hidden Forms: #{@show_hidden_forms},
-          Show Hidden Fields: #{@show_hidden_fields}, Locale: #{@locale}"
+          "Record Type: #{@record_type}, Module: #{@primero_module.unique_id},
+          Show Hidden Forms: #{@show_hidden_forms}, Show Hidden Fields: #{@show_hidden_fields}, Locale: #{@locale}"
         )
         forms_record_type = forms[@record_type]
         subforms = FormSection.get_subforms(forms_record_type)
@@ -110,10 +120,10 @@ module Exporters
     end
 
     def export_lookups
-      Rails.logger.info('Exporting Lookups...')
+      Rails.logger.info { 'Exporting Lookups...' }
       lookups = Lookup.all
       if lookups.present?
-        Rails.logger.info("Locale: #{@locale}")
+        Rails.logger.info { "Locale: #{@locale}" }
         create_file_for_form('lookups')
         lookup_hash = {}
         lookups.each { |lkp| lookup_hash[lkp.unique_id] = lkp.localized_property_hash(@locale) }
