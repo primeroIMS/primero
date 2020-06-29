@@ -5,6 +5,11 @@ import { setupMountedComponent } from "../../test";
 import { useI18n } from "./provider";
 
 describe("I18nProvider - changeLocale", () => {
+  after(() => {
+    window.I18n.locale = "en";
+    document.documentElement.lang = "en";
+  });
+
   it("should have defaults for window and document", () => {
     const defaultLocale = "en";
 
