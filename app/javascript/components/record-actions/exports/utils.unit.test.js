@@ -16,8 +16,9 @@ describe("<RecordActions /> - exports/utils", () => {
       [
         "allowedExports",
         "buildFields",
-        "formatFileName",
-        "exporterFilters"
+        "exporterFilters",
+        "formatFields",
+        "formatFileName"
       ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
@@ -285,6 +286,17 @@ describe("<RecordActions /> - exports/utils", () => {
 
     it("should return fields from forms and subforms when individual fields is false", () => {
       expect(utils.buildFields(data, "en")).to.have.lengthOf(3);
+    });
+  });
+
+  describe("formatFields", () => {
+    it("should return an array of strings with field_names", () => {
+      const fields = ["form1:field1", "form2:field1", "form3:field10"];
+
+      expect(utils.formatFields(fields)).to.be.deep.equals([
+        "field1",
+        "field10"
+      ]);
     });
   });
 });
