@@ -24,6 +24,8 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
 
   const renderHint = hint ? <span className={css.hint}>{hint}</span> : null;
 
+  const textAreaProps = type === TEXT_AREA ? { multiline: true, rows: 4 } : {};
+
   return (
     <Controller
       type={inputType}
@@ -36,7 +38,7 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
           {renderHint}
         </>
       }
-      multiline={type && type === TEXT_AREA}
+      {...textAreaProps}
       defaultValue=""
     />
   );
