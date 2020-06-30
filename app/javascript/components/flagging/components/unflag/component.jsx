@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector, batch } from "react-redux";
 import PropTypes from "prop-types";
-import { Formik, Field } from "formik";
-import { TextField } from "formik-material-ui";
-import { Box } from "@material-ui/core";
 import { object, string } from "yup";
+import { List } from "immutable";
 
 import { useI18n } from "../../../i18n";
 import { unFlag } from "../../action-creators";
@@ -15,12 +13,13 @@ import {
 } from "../../../record-actions/selectors";
 import { setDialog, setPending } from "../../../record-actions/action-creators";
 import { FLAG_DIALOG } from "../../constants";
+import Form, {
+  FieldRecord,
+  FormSectionRecord,
+  FORM_MODE_DIALOG
+} from "../../../form";
 
 import { NAME, UNFLAG_DIALOG } from "./constants";
-
-const initialFormikValues = {
-  unflag_message: ""
-};
 
 const validationSchema = object().shape({
   unflag_message: string().required()
@@ -29,16 +28,8 @@ const validationSchema = object().shape({
 const Component = ({ flag }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const formRef = useRef();
 
-  const inputProps = {
-    component: TextField,
-    multiline: true,
-    fullWidth: true,
-    autoFocus: true,
-    InputLabelProps: {
-      shrink: true
-    }
-  };
   const openUnflagDialog = useSelector(state =>
     selectDialog(state, UNFLAG_DIALOG)
   );
@@ -59,7 +50,13 @@ const Component = ({ flag }) => {
     return null;
   }
 
-  const onSubmit = data => {
+  const handleReset = () => {
+    dispatch(setDialog({ dialog: UNFLAG_DIALOG, open: false }));
+    setDialogPending(false);
+    dispatch(setDialog({ dialog: FLAG_DIALOG, open: true }));
+  };
+
+  const handleSubmit = data => {
     batch(() => {
       setDialogPending(true);
       dispatch(
@@ -71,52 +68,49 @@ const Component = ({ flag }) => {
           flag.record_id
         )
       );
+      dispatch(setDialog({ dialog: UNFLAG_DIALOG, open: false }));
       dispatch(setDialog({ dialog: FLAG_DIALOG, open: true }));
     });
   };
 
-  const onReset = (data, actions) => {
-    actions.resetForm(initialFormikValues);
-    dispatch(setDialog({ dialog: UNFLAG_DIALOG, open: false }));
-    setDialogPending(false);
-    dispatch(setDialog({ dialog: FLAG_DIALOG, open: true }));
+  const bindFormSubmit = () => {
+    formRef.current.submitForm();
   };
 
-  const formProps = {
-    initialValues: initialFormikValues,
-    validationSchema,
-    onSubmit,
-    onReset,
-    validateOnBlur: false,
-    validateOnChange: false
-  };
+  const formSections = List([
+    FormSectionRecord({
+      unique_id: "resolve_flag",
+      fields: List([
+        FieldRecord({
+          display_name: i18n.t("flags.resolve_reason"),
+          name: "unflag_message",
+          type: "text_field",
+          required: true,
+          autoFocus: true
+        })
+      ])
+    })
+  ]);
 
   return (
-    <Formik {...formProps}>
-      {({ handleSubmit, handleReset }) => (
-        <>
-          <ActionDialog
-            open={openUnflagDialog}
-            maxSize="sm"
-            dialogTitle={i18n.t("flags.resolve_flag")}
-            confirmButtonLabel={i18n.t("flags.resolve_button")}
-            successHandler={handleSubmit}
-            cancelHandler={handleReset}
-            pending={dialogPending}
-          >
-            <form onSubmit={handleSubmit} autoComplete="off" noValidate>
-              <Box px={2}>
-                <Field
-                  name="unflag_message"
-                  label={i18n.t("flags.resolve_reason")}
-                  {...inputProps}
-                />
-              </Box>
-            </form>
-          </ActionDialog>
-        </>
-      )}
-    </Formik>
+    <ActionDialog
+      open={openUnflagDialog}
+      maxSize="sm"
+      dialogTitle={i18n.t("flags.resolve_flag")}
+      confirmButtonLabel={i18n.t("flags.resolve_button")}
+      successHandler={bindFormSubmit}
+      cancelHandler={handleReset}
+      pending={dialogPending}
+      omitCloseAfterSuccess
+    >
+      <Form
+        mode={FORM_MODE_DIALOG}
+        formSections={formSections}
+        onSubmit={handleSubmit}
+        ref={formRef}
+        validations={validationSchema}
+      />
+    </ActionDialog>
   );
 };
 

@@ -26,6 +26,7 @@ const Component = ({ control, record, recordType, showActionButtonCss }) => {
   const isBulkFlags = Array.isArray(record);
 
   const openDialog = useSelector(state => selectDialog(state, FLAG_DIALOG));
+  const selectedFlag = useSelector(state => getSelectedFlag(state));
 
   const handleOpen = () => {
     dispatch(setDialog({ dialog: FLAG_DIALOG, open: true }));
@@ -53,8 +54,6 @@ const Component = ({ control, record, recordType, showActionButtonCss }) => {
     record
   };
 
-  const selecteFlag = useSelector(state => getSelectedFlag(state));
-
   return (
     <>
       {(control && <control onClick={handleOpen} />) || (
@@ -75,7 +74,7 @@ const Component = ({ control, record, recordType, showActionButtonCss }) => {
           <FlagForm {...flagFormProps} />
         </div>
       </FlagDialog>
-      <Unflag flag={selecteFlag} />
+      <Unflag flag={selectedFlag} />
     </>
   );
 };

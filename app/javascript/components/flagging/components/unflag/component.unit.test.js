@@ -1,8 +1,8 @@
-import { Formik, Field } from "formik";
 import { Fab } from "@material-ui/core";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
+import Form, { FormSection, FormSectionField } from "../../../form";
 
 import Unflag from "./component";
 import { UNFLAG_DIALOG } from "./constants";
@@ -34,16 +34,16 @@ describe("<Unflag />", () => {
     expect(component.find(Unflag)).to.have.lengthOf(1);
   });
 
-  it("should render Formik", () => {
-    expect(component.find(Formik)).to.have.lengthOf(1);
+  it("renders Form", () => {
+    expect(component.find(Form)).to.have.lengthOf(1);
   });
 
-  it("renders form", () => {
-    expect(component.find("form")).to.have.lengthOf(1);
+  it("renders FormSectionRecord", () => {
+    expect(component.find(FormSection)).to.have.lengthOf(1);
   });
 
-  it("renders Field", () => {
-    expect(component.find(Field)).to.have.lengthOf(1);
+  it("renders FieldRecord", () => {
+    expect(component.find(FormSectionField)).to.have.lengthOf(1);
   });
 
   it("renders Fab", () => {
