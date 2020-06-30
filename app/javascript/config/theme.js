@@ -114,7 +114,8 @@ const overrides = {
   },
   MuiFormHelperText: {
     root: {
-      lineHeight: "1.4em"
+      lineHeight: "1.4em",
+      whiteSpace: "pre-wrap"
     }
   },
   MUIDataTableToolbar: {
