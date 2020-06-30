@@ -13,6 +13,8 @@ import {
   AUDIO_FIELD,
   DOCUMENT_FIELD
 } from "../constants";
+import Tooltip from "../../tooltip";
+import { ConditionalWrapper } from "../../../libs";
 
 import { GuidingQuestions } from "./components";
 import { FORM_SECTION_FIELD_NAME } from "./constants";
@@ -60,9 +62,11 @@ const FormSectionField = ({
     InputProps: {
       readOnly: mode.isShow,
       classes: {
-        root: css.input
+        root: css.input,
+        disabled: css.inputDisabled
       },
-      autoComplete: "new-password"
+      autoComplete: "new-password",
+      disableUnderline: mode.isShow
     },
     InputLabelProps: {
       shrink: true,
@@ -75,6 +79,7 @@ const FormSectionField = ({
     helperText: helpText ? helpText[i18n.locale] : "",
     disabled: mode.isShow || disabled,
     checked: ["t", "true"].includes(selectedValue),
+    ...(mode.isShow && { placeholder: "--" }),
     index
   };
 
@@ -111,10 +116,16 @@ const FormSectionField = ({
   if ((mode?.isShow && hideOnViewPage) || !visible) return false;
 
   return (
-    <>
-      <FieldComponent {...fieldProps} mode={mode} />
-      {renderGuidingQuestions}
-    </>
+    <ConditionalWrapper
+      condition={!mode.isShow && disabled}
+      wrapper={Tooltip}
+      title={i18n.t("messages.cannot_edit")}
+    >
+      <div>
+        <FieldComponent {...fieldProps} mode={mode} />
+        {renderGuidingQuestions}
+      </div>
+    </ConditionalWrapper>
   );
 };
 

@@ -96,7 +96,8 @@ describe("<ReassignForm />", () => {
       "isDisabled",
       "isLoading",
       "multiple",
-      "options"
+      "options",
+      "mode"
     ].forEach(property => {
       expect(reactSelectProps).to.have.property(property);
       delete reactSelectProps[property];

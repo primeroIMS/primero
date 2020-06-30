@@ -107,9 +107,6 @@ const overrides = {
       "&$disabled": {
         color: colors.black
       }
-    },
-    disabled: {
-      color: colors.black
     }
   },
   MuiFormHelperText: {
