@@ -157,23 +157,25 @@ class Role < ApplicationRecord
   def associate_all_forms
     permissions_with_forms = permissions.select{ |p| p.resource.in?(Permission.records) }
     forms_by_parent = FormSection.all_forms_grouped_by_parent
+    role_module_ids = primero_modules.pluck(:unique_id)
     permissions_with_forms.map do |permission|
-      form_sections << forms_by_parent[permission.resource].reject { |f| form_sections.include?(f) || reject_form(f) }
+      form_sections << forms_by_parent[permission.resource].reject do |form|
+        form_sections.include?(form) || reject_form?(form, role_module_ids)
+      end
       save
     end
   end
 
-  def reject_form(form)
-    form_modules = form.primero_modules.map(&:unique_id)
-    if form_modules.blank?
-      false
-    else
-      (primero_modules.map(&:unique_id) & form_modules).blank?
-    end
+  def reject_form?(form, role_module_ids)
+    form_modules = form.primero_modules.pluck(:unique_id)
+    return false unless form_modules.present?
+
+    (role_module_ids & form_modules).blank?
   end
 
   def reject_form_by_module
-    self.form_sections = form_sections.reject { |form| reject_form(form) }
+    role_module_ids = primero_modules.map(&:unique_id)
+    self.form_sections = form_sections.reject { |form| reject_form?(form, role_module_ids) }
   end
 
   def form_section_unique_ids
