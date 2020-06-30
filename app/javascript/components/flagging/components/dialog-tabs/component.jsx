@@ -1,14 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Tab, Tabs, Box, IconButton } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { Tab, Tabs, Box, makeStyles } from "@material-ui/core";
 
-import { useI18n } from "../../i18n";
+import { useI18n } from "../../../i18n";
+import TabPanel from "../TabPanel";
+import styles from "../styles.css";
 
-import TabPanel from "./TabPanel";
+import { NAME } from "./constants";
 
-const DialogTabs = ({ children, closeDialog, isBulkFlags, tab, setTab }) => {
+const Component = ({ children, isBulkFlags, tab, setTab }) => {
   const i18n = useI18n();
+  const css = makeStyles(styles)();
 
   const tabs = [i18n.t("flags.flags_tab"), i18n.t("flags.add_flag_tab")];
   const filteredTabs = isBulkFlags
@@ -33,14 +35,14 @@ const DialogTabs = ({ children, closeDialog, isBulkFlags, tab, setTab }) => {
           <Box flexGrow={1}>
             <Tabs onChange={handleTabChange} value={tab}>
               {filteredTabs.map((t, index) => (
-                <Tab label={t} {...a11yProps(index)} key={t} />
+                <Tab
+                  label={t}
+                  {...a11yProps(index)}
+                  key={t}
+                  className={css.flagTab}
+                />
               ))}
             </Tabs>
-          </Box>
-          <Box>
-            <IconButton onClick={closeDialog}>
-              <CloseIcon />
-            </IconButton>
           </Box>
         </Box>
         {children
@@ -58,14 +60,13 @@ const DialogTabs = ({ children, closeDialog, isBulkFlags, tab, setTab }) => {
   return null;
 };
 
-DialogTabs.displayName = "DialogTabs";
+Component.displayName = NAME;
 
-DialogTabs.propTypes = {
+Component.propTypes = {
   children: PropTypes.node.isRequired,
-  closeDialog: PropTypes.func.isRequired,
   isBulkFlags: PropTypes.bool.isRequired,
   setTab: PropTypes.func,
   tab: PropTypes.number
 };
 
-export default DialogTabs;
+export default Component;

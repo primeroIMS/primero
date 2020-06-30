@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Button, Fab, CircularProgress } from "@material-ui/core";
+import { Box, Button, Fab, CircularProgress, Badge } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import { useSelector } from "react-redux";
@@ -17,6 +17,7 @@ import { RECORD_PATH } from "../../../config";
 import DisableOffline from "../../disable-offline";
 import { useThemeHelper } from "../../../libs";
 import ButtonText from "../../button-text";
+import { getActiveFlags } from "../../flagging/selectors";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -46,6 +47,10 @@ const RecordFormToolbar = ({
 
   const renderCircularProgress = savingRecord && (
     <CircularProgress size={24} value={25} className={css.loadingMargin} />
+  );
+
+  const flags = useSelector(state =>
+    getActiveFlags(state, params.id, params.recordType)
   );
 
   const renderSaveButton = (
@@ -109,11 +114,13 @@ const RecordFormToolbar = ({
         {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <DisableOffline button>
-              <Flagging
-                record={params.id}
-                recordType={params.recordType}
-                showActionButtonCss={css.showActionButton}
-              />
+              <Badge color="error" badgeContent={flags.size}>
+                <Flagging
+                  record={params.id}
+                  recordType={params.recordType}
+                  showActionButtonCss={css.showActionButton}
+                />
+              </Badge>
             </DisableOffline>
           </Permission>
         )}
