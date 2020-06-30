@@ -19,11 +19,12 @@
 }
 
 .badge {
-  font-size: .2rem;
+  font-size: .7rem;
+  font-weight: bold;
   height: 10px;
   min-width: 10px;
   padding: 0 3px;
   line-height: 0;
-  top: 11px;
+  top: 12px;
   right: 9px;
 }
