@@ -125,5 +125,8 @@ export const DateRangeInput = props => (
   </SvgIcon>
 )
 
-
-
+export const FlagIcon = props => (
+  <SvgIcon {...props}>
+    <path d="M14.28 5.42857143L13.8 3 3 3 3 21 6.03230794 21 6.03230794 17.1428571 12.12 17.1428571 12.6 19.5714286 20.9995117 19.5714286 20.9995117 5.42857143z" />
+  </SvgIcon>
+);
