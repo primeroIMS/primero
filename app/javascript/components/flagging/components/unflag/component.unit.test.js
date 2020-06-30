@@ -3,7 +3,6 @@ import { Fab } from "@material-ui/core";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
-import { FormAction } from "../../../form";
 
 import Unflag from "./component";
 import { UNFLAG_DIALOG } from "./constants";
@@ -24,7 +23,7 @@ describe("<Unflag />", () => {
   };
 
   const initialState = fromJS({
-    ui: { dialogs: { [`${UNFLAG_DIALOG}_${props.flag.id}`]: true } }
+    ui: { dialogs: { [UNFLAG_DIALOG]: true } }
   });
 
   beforeEach(() => {
@@ -33,10 +32,6 @@ describe("<Unflag />", () => {
 
   it("should render the Unflag", () => {
     expect(component.find(Unflag)).to.have.lengthOf(1);
-  });
-
-  it("renders FormAction", () => {
-    expect(component.find(FormAction)).to.have.lengthOf(1);
   });
 
   it("should render Formik", () => {
@@ -51,8 +46,8 @@ describe("<Unflag />", () => {
     expect(component.find(Field)).to.have.lengthOf(1);
   });
 
-  it("renders Form", () => {
-    expect(component.find(Fab)).to.have.lengthOf(3);
+  it("renders Fab", () => {
+    expect(component.find(Fab)).to.have.lengthOf(2);
   });
 
   it("renders component with valid props", () => {

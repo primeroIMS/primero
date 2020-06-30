@@ -9,13 +9,12 @@ import { object, string } from "yup";
 import { useI18n } from "../../../i18n";
 import { unFlag } from "../../action-creators";
 import ActionDialog from "../../../action-dialog";
-import { ResolvedFlagIcon } from "../../../../images/primero-icons";
 import {
   selectDialog,
   selectDialogPending
 } from "../../../record-actions/selectors";
 import { setDialog, setPending } from "../../../record-actions/action-creators";
-import { FormAction } from "../../../form";
+import { FLAG_DIALOG } from "../../constants";
 
 import { NAME, UNFLAG_DIALOG } from "./constants";
 
@@ -40,9 +39,8 @@ const Component = ({ flag }) => {
       shrink: true
     }
   };
-
-  const openFieldDialog = useSelector(state =>
-    selectDialog(state, `${UNFLAG_DIALOG}_${flag.id}`)
+  const openUnflagDialog = useSelector(state =>
+    selectDialog(state, UNFLAG_DIALOG)
   );
 
   const dialogPending = useSelector(state => selectDialogPending(state));
@@ -51,12 +49,15 @@ const Component = ({ flag }) => {
   };
 
   useEffect(() => {
-    dispatch(setPending(false));
-  }, [Boolean(openFieldDialog)]);
+    if (openUnflagDialog) {
+      setDialogPending(false);
+      dispatch(setDialog({ dialog: FLAG_DIALOG, open: false }));
+    }
+  }, [openUnflagDialog]);
 
-  const handleDialog = () => {
-    dispatch(setDialog({ dialog: `${UNFLAG_DIALOG}_${flag.id}`, open: true }));
-  };
+  if (!flag) {
+    return null;
+  }
 
   const onSubmit = data => {
     batch(() => {
@@ -70,13 +71,15 @@ const Component = ({ flag }) => {
           flag.record_id
         )
       );
+      dispatch(setDialog({ dialog: FLAG_DIALOG, open: true }));
     });
   };
 
   const onReset = (data, actions) => {
     actions.resetForm(initialFormikValues);
-    dispatch(setDialog({ dialog: `${UNFLAG_DIALOG}_${flag.id}`, open: false }));
+    dispatch(setDialog({ dialog: UNFLAG_DIALOG, open: false }));
     setDialogPending(false);
+    dispatch(setDialog({ dialog: FLAG_DIALOG, open: true }));
   };
 
   const formProps = {
@@ -92,20 +95,14 @@ const Component = ({ flag }) => {
     <Formik {...formProps}>
       {({ handleSubmit, handleReset }) => (
         <>
-          <FormAction
-            actionHandler={handleDialog}
-            text={i18n.t("flags.resolve_button")}
-            startIcon={<ResolvedFlagIcon fontSize="small" />}
-          />
           <ActionDialog
-            open={openFieldDialog}
+            open={openUnflagDialog}
             maxSize="sm"
             dialogTitle={i18n.t("flags.resolve_flag")}
             confirmButtonLabel={i18n.t("flags.resolve_button")}
             successHandler={handleSubmit}
             cancelHandler={handleReset}
             pending={dialogPending}
-            omitCloseAfterSuccess
           >
             <form onSubmit={handleSubmit} autoComplete="off" noValidate>
               <Box px={2}>

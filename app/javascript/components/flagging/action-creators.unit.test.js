@@ -10,9 +10,11 @@ describe("<Flagging /> - Action Creators", () => {
     expect(creators).to.have.property("fetchFlags");
     expect(creators).to.have.property("unFlag");
     expect(creators).to.have.property("addFlag");
+    expect(creators).to.have.property("setSelectedFlag");
     delete creators.fetchFlags;
     delete creators.unFlag;
     delete creators.addFlag;
+    delete creators.setSelectedFlag;
 
     expect(creators).to.deep.equal({});
   });
@@ -57,5 +59,17 @@ describe("<Flagging /> - Action Creators", () => {
 
     expect(dispatch.getCall(0).returnValue.type).to.eql("flags/ADD_FLAG");
     expect(dispatch.getCall(0).returnValue.api.path).to.eql(path);
+  });
+
+  it("should check the 'setSelectedFlag' action creator to return the correct object", () => {
+    const id = "123";
+    const dispatch = sinon.spy(actionCreators, "setSelectedFlag");
+
+    actionCreators.setSelectedFlag(id);
+
+    expect(dispatch.getCall(0).returnValue).to.eql({
+      type: "flags/SET_SELECTED_FLAG",
+      payload: { id }
+    });
   });
 });

@@ -19,6 +19,7 @@ import { object, string } from "yup";
 import { useI18n } from "../../../i18n";
 import { addFlag } from "../../action-creators";
 import styles from "../styles.css";
+import ButtonText from "../../../button-text";
 
 import { NAME } from "./constants";
 
@@ -132,26 +133,20 @@ const Component = ({ recordType, record, handleActiveTab }) => {
             </Box>
             <Box display="flex" my={3} justifyContent="flex-start">
               <Button
-                size="medium"
-                disableElevation
-                variant="contained"
                 className={css.saveButton}
                 type="submit"
                 startIcon={<CheckIcon />}
                 disabled={savingFlag}
               >
-                {i18n.t("buttons.save")}
+                <ButtonText text={i18n.t("buttons.save")} />
                 {renderCircularProgress}
               </Button>
               <Button
-                size="medium"
-                disableElevation
                 onClick={handleReset}
-                variant="contained"
                 className={css.cancelButton}
                 startIcon={<CloseIcon />}
               >
-                {i18n.t("buttons.cancel")}
+                <ButtonText text={i18n.t("buttons.cancel")} />
               </Button>
             </Box>
           </Form>

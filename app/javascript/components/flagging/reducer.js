@@ -6,7 +6,8 @@ import NAMESPACE from "./namespace";
 import {
   FETCH_FLAGS_SUCCESS,
   ADD_FLAG_SUCCESS,
-  UNFLAG_SUCCESS
+  UNFLAG_SUCCESS,
+  SET_SELECTED_FLAG
 } from "./actions";
 import { FlagRecord } from "./records";
 
@@ -20,6 +21,13 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.update("data", data => {
         return data.push(FlagRecord(payload.data));
       });
+    case SET_SELECTED_FLAG: {
+      const selectedFlag = state
+        .get("data", fromJS([]))
+        .find(flag => flag.get("id") === payload.id);
+
+      return state.set("selectedFlag", selectedFlag);
+    }
     case UNFLAG_SUCCESS: {
       const flagIndex = state
         .get("data", fromJS([]))

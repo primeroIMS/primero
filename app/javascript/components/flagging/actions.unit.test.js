@@ -1,10 +1,19 @@
-import * as constants from "./constants";
+import * as constants from "./actions";
 
 describe("Flagging - Constants", () => {
   it("should have known properties", () => {
     const clonedConstants = { ...constants };
 
-    ["NAME", "FLAG_DIALOG"].forEach(property => {
+    [
+      "FETCH_FLAGS",
+      "FETCH_FLAGS_SUCCESS",
+      "UNFLAG",
+      "UNFLAG_SUCCESS",
+      "ADD_FLAG",
+      "ADD_FLAG_SUCCESS",
+      "SET_SELECTED_FLAG",
+      "SET_SELECTED_FLAG_SUCCESS"
+    ].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];
     });

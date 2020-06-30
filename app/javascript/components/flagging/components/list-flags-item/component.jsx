@@ -2,18 +2,26 @@ import React from "react";
 import PropTypes from "prop-types";
 import { ListItem, ListItemText, Divider, makeStyles } from "@material-ui/core";
 import FlagIcon from "@material-ui/icons/Flag";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
-import { UserArrowIcon } from "../../../../images/primero-icons";
+import {
+  UserArrowIcon,
+  ResolvedFlagIcon
+} from "../../../../images/primero-icons";
 import { currentUser } from "../../../user";
+import { FormAction } from "../../../form";
 import styles from "../styles.css";
-import Unflag from "../unflag";
+import { setDialog } from "../../../record-actions/action-creators";
+import { UNFLAG_DIALOG } from "../unflag/constants";
+import { FLAG_DIALOG } from "../../constants";
+import { setSelectedFlag } from "../../action-creators";
 
 import { NAME } from "./constants";
 
 const Component = ({ flag }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const itemClass = flag?.removed ? css.itemResolved : css.item;
   const userName = useSelector(state => currentUser(state));
@@ -24,7 +32,20 @@ const Component = ({ flag }) => {
   if (!flag) {
     return null;
   }
-  const renderFlagActions = showResolveButton && <Unflag flag={flag} />;
+
+  const handleUnflagDialog = () => {
+    dispatch(setSelectedFlag(flag.id));
+    dispatch(setDialog({ dialog: FLAG_DIALOG, open: false }));
+    dispatch(setDialog({ dialog: UNFLAG_DIALOG, open: true }));
+  };
+
+  const renderFlagActions = showResolveButton && (
+    <FormAction
+      actionHandler={handleUnflagDialog}
+      text={i18n.t("flags.resolve_button")}
+      startIcon={<ResolvedFlagIcon fontSize="small" />}
+    />
+  );
 
   const renderActions = flag.removed ? (
     <div className={css.flagRemovedInfo}>

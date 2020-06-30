@@ -114,7 +114,9 @@
   box-shadow: none;
   color: $(theme.primero.colors.white);
   background: $(theme.primero.colors.blue);
-  margin-right: 0.5em;
+  width: 8em;
+  height: 32px;
+  margin-left: 10px;
 
   &:hover {
     color: $(theme.primero.colors.black);

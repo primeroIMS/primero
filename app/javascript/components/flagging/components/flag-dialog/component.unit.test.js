@@ -12,8 +12,7 @@ describe("<FlagDialog />", () => {
     isBulkFlags: false,
     tab: 0,
     setTab: () => {},
-    open: true,
-    setOpen: () => {}
+    openDialog: true
   };
 
   beforeEach(() => {
@@ -35,7 +34,7 @@ describe("<FlagDialog />", () => {
   it("renders component with valid props", () => {
     const flagDialogProps = { ...component.find(FlagDialog).props() };
 
-    ["children", "isBulkFlags", "tab", "setTab", "open", "setOpen"].forEach(
+    ["children", "isBulkFlags", "tab", "setTab", "openDialog"].forEach(
       property => {
         expect(flagDialogProps).to.have.property(property);
         delete flagDialogProps[property];

@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FlagIcon from "@material-ui/icons/Flag";
 
 import { useI18n } from "../i18n";
 import ButtonText from "../button-text";
+import { setDialog } from "../record-actions/action-creators";
+import { selectDialog } from "../record-actions/selectors";
 
-import { FlagForm, ListFlags, FlagDialog } from "./components";
+import { FlagForm, ListFlags, FlagDialog, Unflag } from "./components";
 import { fetchFlags } from "./action-creators";
-import { NAME } from "./constants";
+import { NAME, FLAG_DIALOG } from "./constants";
+import { getSelectedFlag } from "./selectors";
 
 const Component = ({ control, record, recordType, showActionButtonCss }) => {
-  const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -23,8 +25,10 @@ const Component = ({ control, record, recordType, showActionButtonCss }) => {
 
   const isBulkFlags = Array.isArray(record);
 
+  const openDialog = useSelector(state => selectDialog(state, FLAG_DIALOG));
+
   const handleOpen = () => {
-    setOpen(!open);
+    dispatch(setDialog({ dialog: FLAG_DIALOG, open: true }));
   };
 
   const handleActiveTab = value => {
@@ -39,8 +43,7 @@ const Component = ({ control, record, recordType, showActionButtonCss }) => {
 
   const flagDialogProps = {
     isBulkFlags,
-    setOpen,
-    open,
+    openDialog,
     tab,
     setTab
   };
@@ -49,6 +52,8 @@ const Component = ({ control, record, recordType, showActionButtonCss }) => {
     recordType,
     record
   };
+
+  const selecteFlag = useSelector(state => getSelectedFlag(state));
 
   return (
     <>
@@ -70,6 +75,7 @@ const Component = ({ control, record, recordType, showActionButtonCss }) => {
           <FlagForm {...flagFormProps} />
         </div>
       </FlagDialog>
+      <Unflag flag={selecteFlag} />
     </>
   );
 };

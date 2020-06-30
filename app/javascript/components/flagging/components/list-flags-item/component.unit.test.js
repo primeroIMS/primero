@@ -4,6 +4,7 @@ import FlagIcon from "@material-ui/icons/Flag";
 
 import { setupMountedComponent } from "../../../../test";
 import { UserArrowIcon } from "../../../../images/primero-icons";
+import { FormAction } from "../../../form";
 
 import ListFlagsItem from "./component";
 
@@ -58,6 +59,10 @@ describe("<ListFlagsItem />", () => {
 
   it("should render the Fab", () => {
     expect(component.find(Fab)).to.have.lengthOf(1);
+  });
+
+  it("renders FormAction", () => {
+    expect(component.find(FormAction)).to.have.lengthOf(1);
   });
 
   it("renders component with valid props", () => {
