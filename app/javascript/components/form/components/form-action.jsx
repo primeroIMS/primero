@@ -1,11 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, CircularProgress } from "@material-ui/core";
 
-import { useThemeHelper } from "../../../libs";
-import ButtonText from "../../button-text";
-
-import styles from "./styles.css";
+import ActionButton from "../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
 const FormAction = ({
   actionHandler,
@@ -14,23 +11,18 @@ const FormAction = ({
   startIcon,
   text
 }) => {
-  const { css } = useThemeHelper(styles);
-
-  const renderCircularProgress = savingRecord && !cancel && (
-    <CircularProgress size={24} value={25} className={css.loadingMargin} />
-  );
-
   return (
-    <Button
-      className={cancel ? css.actionButtonCancel : css.actionButton}
-      onClick={actionHandler}
-      disabled={savingRecord}
-      startIcon={startIcon}
-      size="small"
-    >
-      {renderCircularProgress}
-      <ButtonText text={text} />
-    </Button>
+    <ActionButton
+      icon={startIcon}
+      text={text}
+      type={ACTION_BUTTON_TYPES.default}
+      pending={savingRecord}
+      isCancel={cancel}
+      rest={{
+        onClick: actionHandler,
+        disabled: savingRecord && !cancel
+      }}
+    />
   );
 };
 

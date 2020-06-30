@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
@@ -11,6 +10,8 @@ import SubformEmptyData from "../subform-empty-data";
 import { SUBFORM_FIELD_ARRAY } from "../constants";
 import { useThemeHelper } from "../../../../../libs";
 import styles from "../styles.css";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 const Component = ({
   arrayHelpers,
@@ -80,15 +81,14 @@ const Component = ({
         </div>
         <div>
           {!mode.isShow && (
-            <Button
-              className={css.actionButtonSubform}
-              variant="extended"
-              onClick={handleAddSubform}
-              size="small"
-              startIcon={<AddIcon />}
-            >
-              {renderAddText}
-            </Button>
+            <ActionButton
+              icon={<AddIcon />}
+              text={renderAddText}
+              type={ACTION_BUTTON_TYPES.default}
+              rest={{
+                onClick: handleAddSubform
+              }}
+            />
           )}
         </div>
       </div>

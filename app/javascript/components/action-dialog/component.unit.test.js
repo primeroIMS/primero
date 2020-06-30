@@ -12,6 +12,7 @@ import Add from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
 
 import { setupMountedComponent } from "../../test";
+import ActionButton from "../action-button";
 
 import ActionDialog from "./component";
 
@@ -56,8 +57,8 @@ describe("<ActionDialog />", () => {
     expect(component.find(IconButton)).to.have.lengthOf(1);
   });
 
-  it("should render Fab", () => {
-    expect(component.find(Fab)).to.have.lengthOf(2);
+  it("should render ActionButton", () => {
+    expect(component.find(ActionButton)).to.have.lengthOf(2);
   });
 
   it("should accept valid props", () => {

@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import FlagIcon from "@material-ui/icons/Flag";
 
 import { useI18n } from "../i18n";
-import ButtonText from "../button-text";
+import ActionButton from "../action-button";
+import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 
 import { FlagForm, ListFlags, FlagDialog } from "./components";
 import { fetchFlags } from "./action-creators";
 import { selectFlags } from "./selectors";
 
-const Flagging = ({ control, record, recordType, showActionButtonCss }) => {
+const Flagging = ({ control, record, recordType }) => {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const dispatch = useDispatch();
@@ -57,14 +57,14 @@ const Flagging = ({ control, record, recordType, showActionButtonCss }) => {
   return (
     <>
       {(control && <control onClick={handleOpen} />) || (
-        <Button
-          onClick={handleOpen}
-          size="small"
-          className={showActionButtonCss}
-          startIcon={<FlagIcon />}
-        >
-          <ButtonText text={i18n.t("buttons.flags")} />
-        </Button>
+        <ActionButton
+          icon={<FlagIcon />}
+          text={i18n.t("buttons.flags")}
+          type={ACTION_BUTTON_TYPES.default}
+          rest={{
+            onClick: handleOpen
+          }}
+        />
       )}
       <FlagDialog {...flagDialogProps}>
         <div hidetab={isBulkFlags.toString()}>

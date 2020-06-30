@@ -21,36 +21,6 @@
   margin: 0 20px;
 }
 
-.actionButton {
-  border-radius: 24px;
-  box-shadow: none;
-  color: $(theme.primero.colors.white);
-  background: $(theme.primero.colors.blue);
-  height: 35px;
-  padding: 0 15px;
-
-  &:hover {
-    color: $(theme.primero.colors.black);
-  }
-
-  & svg {
-    margin-left: -10px;
-  }
-}
-
-.actionButtonSubform {
-  background-color: $(theme.primero.colors.blue);
-  border-radius: 24px;
-  box-shadow: none;
-  color: $(theme.primero.colors.white);
-  height: 35px;
-  padding: 0 15px;
-
-   &:hover {
-    color: $(theme.primero.colors.black);
-  }
-}
-
 .emptySubformContainer {
   display: flex;
   align-items: center;
@@ -72,45 +42,4 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.subformFieldActions {
-  background-color: $(theme.primero.colors.blue);
-  box-shadow: none;
-  color: $(theme.primero.colors.white);
-  margin-left: 5px;
-
-  &:hover {
-    color: $(theme.primero.colors.black);
-  }
-}
-
-.moreButton {
-  background-color: $(theme.primero.colors.blue);
-  box-shadow: none;
-  color: $(theme.primero.colors.white);
-  margin-left: 5px;
-
-  &:hover {
-    color: $(theme.primero.colors.black);
-  }
-}
-
-@media $(theme.breakpoints.down("sm")) {
-  .actionButton {
-    min-width: 3em;
-    border-radius: 50%;
-    padding: 0;
-
-    & svg {
-      margin-left: 0;
-    }
-
-    & span {
-
-      & span {
-        margin: 0;
-      }
-    }
-  }
 }

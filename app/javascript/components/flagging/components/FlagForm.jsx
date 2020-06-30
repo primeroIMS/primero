@@ -3,10 +3,14 @@ import { useDispatch } from "react-redux";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
 import PropTypes from "prop-types";
-import { Box, Button, InputAdornment } from "@material-ui/core";
+import { Box, InputAdornment } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
 
+import ActionButton from "../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { useI18n } from "../../i18n";
 import { addFlag } from "../action-creators";
 
@@ -97,8 +101,23 @@ const FlagForm = ({ recordType, record, handleOpen, handleActiveTab }) => {
               />
             </Box>
             <Box display="flex" my={3} justifyContent="flex-end">
-              <Button onClick={handleOpen}>{i18n.t("buttons.cancel")}</Button>
-              <Button type="submit">{i18n.t("buttons.save")}</Button>
+              <ActionButton
+                icon={<CheckIcon />}
+                text={i18n.t("buttons.save")}
+                type={ACTION_BUTTON_TYPES.default}
+                rest={{
+                  type: "submit"
+                }}
+              />
+              <ActionButton
+                icon={<ClearIcon />}
+                text={i18n.t("buttons.cancel")}
+                type={ACTION_BUTTON_TYPES.default}
+                isCancel
+                rest={{
+                  onClick: handleOpen
+                }}
+              />
             </Box>
           </Form>
         )}

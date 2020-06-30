@@ -1,4 +1,4 @@
-.moreButton {
+.iconActionButton {
   background-color: $(theme.primero.colors.blue);
   box-shadow: none;
   color: $(theme.primero.colors.white);
@@ -7,4 +7,8 @@
   &:hover {
     color: $(theme.primero.colors.black);
   }
+}
+
+.isTransparent {
+  background-color: transparent;
 }

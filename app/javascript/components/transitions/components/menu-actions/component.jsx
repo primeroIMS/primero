@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { Fab, Menu, MenuItem } from "@material-ui/core";
+import { Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { TRANSITION_STATUS, TRANSITIONS_TYPES } from "../../constants";
@@ -19,15 +19,14 @@ import {
   selectDialogPending
 } from "../../../record-actions/selectors";
 import { setDialog, setPending } from "../../../record-actions/action-creators";
-import { useThemeHelper } from "../../../../libs";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import { NAME, REVOKE_MODAL } from "./constants";
-import styles from "./styles.css";
 
 const Component = ({ transition, showMode, recordType, classes }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { css } = useThemeHelper(styles);
   const [optionMenu, setOptionMenu] = useState(null);
   const dialogPending = useSelector(state => selectDialogPending(state));
   const setDialogPending = pending => {
@@ -164,16 +163,16 @@ const Component = ({ transition, showMode, recordType, classes }) => {
 
   return (
     <div className={classes.iconBar}>
-      <Fab
-        aria-label="more"
-        aria-controls="long-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-        size="small"
-        className={css.moreButton}
-      >
-        <MoreVertIcon />
-      </Fab>
+      <ActionButton
+        icon={<MoreVertIcon />}
+        type={ACTION_BUTTON_TYPES.icon}
+        rest={{
+          "aria-label": "more",
+          "aria-controls": "long-menu",
+          "aria-haspopup": "true",
+          onClick: handleClick
+        }}
+      />
       <Menu
         id="long-menu"
         anchorEl={optionMenu}

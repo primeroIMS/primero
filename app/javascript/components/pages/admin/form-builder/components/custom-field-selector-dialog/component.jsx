@@ -136,17 +136,6 @@ const Component = () => {
     });
   };
 
-  const confirmButtonProps = {
-    color: "primary",
-    variant: "contained",
-    autoFocus: true
-  };
-  const cancelButtonProps = {
-    color: "primary",
-    variant: "contained",
-    className: css.cancelButton
-  };
-
   return (
     <>
       <ActionDialog
@@ -156,8 +145,6 @@ const Component = () => {
         confirmButtonLabel={i18n.t("buttons.select")}
         successHandler={handleSelected}
         cancelHandler={handleClose}
-        confirmButtonProps={confirmButtonProps}
-        cancelButtonProps={cancelButtonProps}
       >
         <List>
           <ListSubheader>

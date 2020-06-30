@@ -4,8 +4,7 @@ import {
   CardContent,
   CardActionArea,
   TablePagination,
-  Box,
-  Button
+  Box
 } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +18,8 @@ import { usePermissions } from "../user";
 import { CREATE_RECORDS } from "../../libs/permissions";
 import { useThemeHelper } from "../../libs";
 import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
-import ButtonText from "../button-text";
+import ActionButton from "../action-button";
+import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
@@ -83,15 +83,15 @@ const Reports = () => {
   };
 
   const newReportBtn = canAddReport ? (
-    <Button
-      to={ROUTES.reports_new}
-      component={Link}
-      color="primary"
-      className={css.showActionButton}
-      startIcon={<AddIcon />}
-    >
-      <ButtonText text={i18n.t("buttons.new")} />
-    </Button>
+    <ActionButton
+      icon={<AddIcon />}
+      text={i18n.t("buttons.new")}
+      type={ACTION_BUTTON_TYPES.default}
+      rest={{
+        to: ROUTES.reports_new,
+        component: Link
+      }}
+    />
   ) : null;
 
   return (

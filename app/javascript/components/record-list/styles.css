@@ -62,32 +62,3 @@
     }
   }
 }
-
-.showActionButton {
-  background-color: $(theme.primero.colors.blue);
-  border-radius: 24px;
-  color: $(theme.primero.colors.white);
-  height: 35px;
-  padding: 0 15px;
-  margin-left: 10px;
-
-   &:hover {
-    color: $(theme.primero.colors.black);
-  }
-}
-
-
-@media $(theme.breakpoints.down("sm")) {
-  .showActionButton {
-    min-width: 3em;
-    border-radius: 50%;
-    padding: 0;
-
-    & span {
-
-      & span {
-        margin: 0;
-      }
-    }
-  }
-}

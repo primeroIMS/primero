@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Button, Fab, CircularProgress } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import { useSelector } from "react-redux";
@@ -16,7 +16,8 @@ import { getSavingRecord } from "../../records/selectors";
 import { RECORD_PATH } from "../../../config";
 import DisableOffline from "../../disable-offline";
 import { useThemeHelper } from "../../../libs";
-import ButtonText from "../../button-text";
+import ActionButton from "../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -44,21 +45,16 @@ const RecordFormToolbar = ({
     history.goBack();
   };
 
-  const renderCircularProgress = savingRecord && (
-    <CircularProgress size={24} value={25} className={css.loadingMargin} />
-  );
-
   const renderSaveButton = (
-    <Button
-      className={css.actionButton}
-      onClick={handleFormSubmit}
-      disabled={savingRecord}
-      size="small"
-      startIcon={<CheckIcon />}
-    >
-      {renderCircularProgress}
-      <ButtonText text={i18n.t("buttons.save")} />
-    </Button>
+    <ActionButton
+      icon={<CheckIcon />}
+      text={i18n.t("buttons.save")}
+      type={ACTION_BUTTON_TYPES.default}
+      pending={savingRecord}
+      rest={{
+        onClick: handleFormSubmit
+      }}
+    />
   );
 
   let renderRecordStatusIndicator = null;
@@ -108,38 +104,35 @@ const RecordFormToolbar = ({
         {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <DisableOffline button>
-              <Flagging
-                record={params.id}
-                recordType={params.recordType}
-                showActionButtonCss={css.showActionButton}
-              />
+              <Flagging record={params.id} recordType={params.recordType} />
             </DisableOffline>
           </Permission>
         )}
         {(mode.isEdit || mode.isNew) && (
           <div className={css.actionButtonsContainer}>
-            <Button
-              className={css.actionButtonCancel}
-              size="small"
-              onClick={goBack}
-              startIcon={<ClearIcon />}
-            >
-              <ButtonText text={i18n.t("buttons.cancel")} />
-            </Button>
+            <ActionButton
+              icon={<ClearIcon />}
+              text={i18n.t("buttons.cancel")}
+              type={ACTION_BUTTON_TYPES.default}
+              isCancel
+              rest={{
+                onClick: goBack
+              }}
+            />
             {renderSaveButton}
           </div>
         )}
         {mode.isShow && (
           <Permission resources={params.recordType} actions={WRITE_RECORDS}>
-            <Button
-              to={`/${params.recordType}/${params.id}/edit`}
-              component={Link}
-              size="small"
-              className={css.showActionButton}
-              startIcon={<CreateIcon />}
-            >
-              <ButtonText text={i18n.t("buttons.edit")} />
-            </Button>
+            <ActionButton
+              icon={<CreateIcon />}
+              text={i18n.t("buttons.edit")}
+              type={ACTION_BUTTON_TYPES.default}
+              rest={{
+                to: `/${params.recordType}/${params.id}/edit`,
+                component: Link
+              }}
+            />
           </Permission>
         )}
         <RecordActions

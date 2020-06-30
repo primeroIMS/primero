@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
   Box,
-  Button,
   IconButton,
   Dialog,
   DialogActions,
@@ -17,9 +16,8 @@ import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
 import { serviceHasReferFields } from "../../utils";
-import { useThemeHelper } from "../../../../../libs";
-import styles from "../../styles.css";
-import ButtonText from "../../../../button-text";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 const Component = ({
   index,
@@ -32,8 +30,6 @@ const Component = ({
   i18n,
   formik
 }) => {
-  const { css } = useThemeHelper(styles);
-
   const handleClose = () => {
     setOpen({ open: false, index: null });
   };
@@ -43,14 +39,14 @@ const Component = ({
   if (index !== null) {
     const actionButton =
       mode.isEdit || mode.isNew ? (
-        <Button
-          onClick={handleClose}
-          elevation={0}
-          className={css.actionButton}
-          startIcon={<CheckIcon />}
-        >
-          <ButtonText text={i18n.t(buttonDialogText)} />
-        </Button>
+        <ActionButton
+          icon={<CheckIcon />}
+          text={i18n.t(buttonDialogText)}
+          type={ACTION_BUTTON_TYPES.default}
+          rest={{
+            onClick: handleClose
+          }}
+        />
       ) : null;
 
     return (
