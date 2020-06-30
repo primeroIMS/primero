@@ -212,10 +212,12 @@ const SelectField = ({
     isClearable: true,
     options: buildOptions(),
     isLoading: selectIsLoading(name),
+    mode,
     multiple: multiSelect,
     TextFieldProps: {
       label,
-      error: fieldError && fieldTouched
+      error: fieldError && fieldTouched,
+      InputProps
     },
     onOpen: () => {
       if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {

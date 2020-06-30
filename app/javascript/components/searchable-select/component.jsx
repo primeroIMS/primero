@@ -2,10 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { TextField, Chip, CircularProgress } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../i18n";
 
 import { NAME } from "./constants";
+import styles from "./styles.css";
 
 const SearchableSelect = ({
   defaultValues,
@@ -19,10 +21,13 @@ const SearchableSelect = ({
   onBlur,
   onOpen,
   options,
-  TextFieldProps
+  TextFieldProps,
+  mode
 }) => {
   const i18n = useI18n();
   const defaultEmptyValue = multiple ? [] : null;
+  const { InputProps, ...restTextFieldProps } = TextFieldProps;
+  const css = makeStyles(styles)();
 
   const optionLabel = option => {
     if (typeof option === "string" && option === "") {
@@ -54,15 +59,18 @@ const SearchableSelect = ({
     return defaultValues || defaultEmptyValue;
   };
 
+  const disabledPlaceholder = mode?.isShow && !initialValues() ? "--" : "";
+
   const textFieldProps = params => ({
     InputProps: {
       ...params.InputProps,
       endAdornment: (
         <>
           {isLoading && <CircularProgress color="inherit" size={20} />}
-          {params.InputProps.endAdornment}
+          {mode?.isShow || params.InputProps.endAdornment}
         </>
-      )
+      ),
+      ...InputProps
     },
     fullWidth: true,
     helperText,
@@ -71,9 +79,9 @@ const SearchableSelect = ({
       shrink: true
     },
     placeholder: isDisabled
-      ? ""
+      ? disabledPlaceholder
       : i18n.t(`fields.select_${multiple ? "multiple" : "single"}`),
-    ...TextFieldProps
+    ...restTextFieldProps
   });
 
   const renderTags = (value, getTagProps) =>
@@ -81,7 +89,12 @@ const SearchableSelect = ({
       const { onDelete, ...rest } = { ...getTagProps({ index }) };
       const chipProps = {
         ...(isDisabled || { onDelete }),
-        ...rest
+        ...rest,
+        classes: {
+          ...(mode.isShow && {
+            disabled: css.disabledChip
+          })
+        }
       };
 
       return (
@@ -128,6 +141,7 @@ SearchableSelect.defaultProps = {
   isClearable: true,
   isDisabled: false,
   isLoading: false,
+  mode: {},
   multiple: false,
   options: [],
   TextFieldProps: {}
@@ -143,6 +157,7 @@ SearchableSelect.propTypes = {
   isClearable: PropTypes.bool,
   isDisabled: PropTypes.bool,
   isLoading: PropTypes.bool,
+  mode: PropTypes.object,
   multiple: PropTypes.bool,
   name: PropTypes.string.isRequired,
   onBlur: PropTypes.func,
