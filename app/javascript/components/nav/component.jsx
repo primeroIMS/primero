@@ -8,8 +8,7 @@ import {
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import CloseIcon from "@material-ui/icons/Close";
 
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
@@ -91,18 +90,16 @@ const Nav = () => {
           username={username}
         />
       </Hidden>
-      <Hidden mdUp implementation="css">
-        <div className={css.drawerHeader}>
-          <IconButton onClick={handleToggleDrawer(false)}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
-        </div>
-        <Divider />
-      </Hidden>
+      <div className={css.drawerHeaderContainer}>
+        <Hidden mdUp implementation="css">
+          <div className={css.drawerHeader}>
+            <IconButton onClick={handleToggleDrawer(false)}>
+              <CloseIcon />
+            </IconButton>
+          </div>
+          <Divider />
+        </Hidden>
+      </div>
       <List className={css.navList}>
         {permittedMenuEntries(APPLICATION_NAV(permissions))}
       </List>

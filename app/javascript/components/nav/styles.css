@@ -7,11 +7,18 @@
   height: 100%;
 }
 
+.drawerHeaderContainer {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
 .drawerHeader {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: $(theme.spacing(0,1))
+  padding: $(theme.spacing(0,1));
+  background: $(theme.primero.colors.lightGrey);
 }
 
 .drawerPaper {
