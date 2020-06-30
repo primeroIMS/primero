@@ -446,7 +446,7 @@ const Container = ({
         return item.recordListAction && actionCondition;
       }
 
-      return allowedRecordType && actionCondition;
+      return actionCondition;
     });
 
   const filteredActions = filterItems(actions);
