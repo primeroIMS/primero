@@ -1,6 +1,6 @@
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
-import { FETCH_FLAGS, UNFLAG, ADD_FLAG } from "./actions";
+import { FETCH_FLAGS, UNFLAG, ADD_FLAG, SET_SELECTED_FLAG } from "./actions";
 
 export const fetchFlags = (recordType, record) => async dispatch => {
   dispatch({
@@ -11,14 +11,8 @@ export const fetchFlags = (recordType, record) => async dispatch => {
   });
 };
 
-export const unFlag = (
-  id,
-  body,
-  message,
-  recordType,
-  record
-) => async dispatch => {
-  await dispatch({
+export const unFlag = (id, body, message, recordType, record) => {
+  return {
     type: UNFLAG,
     api: {
       path: `${recordType}/${record}/flags/${id}`,
@@ -35,7 +29,7 @@ export const unFlag = (
         }
       }
     }
-  });
+  };
 };
 
 export const addFlag = (body, message, path) => async dispatch => {
@@ -58,3 +52,8 @@ export const addFlag = (body, message, path) => async dispatch => {
     }
   });
 };
+
+export const setSelectedFlag = id => ({
+  type: SET_SELECTED_FLAG,
+  payload: { id }
+});
