@@ -5,5 +5,6 @@ export default namespaceActions(NAMESPACE, [
   "USERS",
   "USERS_FINISHED",
   "USERS_STARTED",
-  "USERS_SUCCESS"
+  "USERS_SUCCESS",
+  "SET_USERS_FILTER"
 ]);
