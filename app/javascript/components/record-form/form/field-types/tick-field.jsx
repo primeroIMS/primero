@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { FastField, connect, getIn } from "formik";
-import { Switch } from "formik-material-ui";
+import { Checkbox } from "formik-material-ui";
 import pickBy from "lodash/pickBy";
 import { FormControlLabel } from "@material-ui/core";
 
@@ -27,7 +27,7 @@ const TickField = ({ name, label, formik, ...rest }) => {
           name={name}
           render={renderProps => {
             return (
-              <Switch
+              <Checkbox
                 {...fieldProps}
                 form={renderProps.form}
                 field={{

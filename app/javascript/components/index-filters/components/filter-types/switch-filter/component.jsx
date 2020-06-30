@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import {
-  Switch,
+  Checkbox,
   FormControl,
   FormGroup,
   FormControlLabel
@@ -118,7 +118,7 @@ const Component = ({
           <FormControlLabel
             labelPlacement="end"
             control={
-              <Switch
+              <Checkbox
                 onChange={handleChange}
                 checked={Boolean(inputValue) || false}
               />
