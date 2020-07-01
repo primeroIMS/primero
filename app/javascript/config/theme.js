@@ -123,6 +123,14 @@ const overrides = {
       paddingTop: "8px",
       paddingBottom: "8px",
       justifyContent: "flex-start"
+    },
+    titleText: {
+      position: "absolute",
+      left: "-10000px",
+      top: "auto",
+      width: "1px",
+      height: "1px",
+      overflow: "hidden"
     }
   },
   MUIDataTableToolbarSelect: {
