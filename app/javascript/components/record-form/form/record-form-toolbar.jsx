@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box } from "@material-ui/core";
+import { Box, Badge } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import { useSelector } from "react-redux";
@@ -18,6 +18,7 @@ import DisableOffline from "../../disable-offline";
 import { useThemeHelper } from "../../../libs";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
+import { getActiveFlags } from "../../flagging/selectors";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -44,6 +45,10 @@ const RecordFormToolbar = ({
   const goBack = () => {
     history.goBack();
   };
+
+  const flags = useSelector(state =>
+    getActiveFlags(state, params.id, params.recordType)
+  );
 
   const renderSaveButton = (
     <ActionButton
@@ -105,6 +110,13 @@ const RecordFormToolbar = ({
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <DisableOffline button>
               <Flagging record={params.id} recordType={params.recordType} />
+              <Badge color="error" badgeContent={flags.size}>
+                <Flagging
+                  record={params.id}
+                  recordType={params.recordType}
+                  showActionButtonCss={css.showActionButton}
+                />
+              </Badge>
             </DisableOffline>
           </Permission>
         )}

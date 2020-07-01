@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
+import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 
@@ -12,12 +14,17 @@ import NAMESPACE from "../namespace";
 import { CREATE_RECORDS } from "../../../../libs/permissions";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { Filters as AdminFilters } from "../components";
+import { fetchAgencies } from "../agencies-list/action-creators";
+import { getEnabledAgencies } from "../../../application/selectors";
 
-import { fetchUsers } from "./action-creators";
-import { LIST_HEADERS } from "./constants";
+import { fetchUsers, setUsersFilters } from "./action-creators";
+import { LIST_HEADERS, AGENCY, DISABLED } from "./constants";
+import { buildUsersQuery, getFilters } from "./utils";
 
 const Container = () => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = "users";
 
@@ -25,6 +32,12 @@ const Container = () => {
     label: i18n.t(label),
     ...rest
   }));
+  const filterAgencies = useSelector(state => getEnabledAgencies(state));
+
+  useEffect(() => {
+    dispatch(fetchAgencies({ options: { per: 999 } }));
+    dispatch(fetchUsers({ data: { [DISABLED]: ["false"] } }));
+  }, []);
 
   const tableOptions = {
     recordType,
@@ -36,7 +49,8 @@ const Container = () => {
       per: 20,
       page: 1
     }),
-    onTableChange: fetchUsers
+    onTableChange: fetchUsers,
+    bypassInitialFetch: true
   };
 
   const newUserBtn = canAddUsers && (
@@ -51,11 +65,34 @@ const Container = () => {
     />
   );
 
+  const filterProps = {
+    clearFields: [AGENCY, DISABLED],
+    filters: getFilters(i18n, filterAgencies),
+    defaultFilters: {
+      [DISABLED]: ["false"]
+    },
+    onSubmit: data => {
+      const filters = buildUsersQuery(data);
+
+      batch(() => {
+        dispatch(setUsersFilters(filters));
+        dispatch(fetchUsers({ data: { ...filters } }));
+      });
+    }
+  };
+
   return (
     <>
       <PageHeading title={i18n.t("users.label")}>{newUserBtn}</PageHeading>
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={9}>
+            <IndexTable {...tableOptions} />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <AdminFilters {...filterProps} />
+          </Grid>
+        </Grid>
       </PageContent>
     </>
   );

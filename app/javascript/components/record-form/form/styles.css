@@ -8,6 +8,10 @@
   font-size: $(theme.typography.pxToRem(14));
 }
 
+.inputDisabled {
+  color: $(theme.primero.colors.solidBlack) !important
+}
+
 .input,
 .selectField label + div {
   margin-top: 0 !important;

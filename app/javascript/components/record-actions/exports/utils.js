@@ -1,4 +1,6 @@
+/* eslint-disable camelcase */
 import isEmpty from "lodash/isEmpty";
+import uniq from "lodash/uniq";
 
 import { ACTIONS } from "../../../libs/permissions";
 import {
@@ -128,7 +130,6 @@ export const buildFields = (data, locale) => {
 
   return data
     .reduce((acc, form) => {
-      // eslint-disable-next-line camelcase
       const { unique_id, name, fields } = form;
 
       const filteredFields = fields
@@ -155,7 +156,7 @@ export const buildFields = (data, locale) => {
           }
 
           return {
-            id: field.name,
+            id: `${unique_id}:${field.name}`,
             display_text: field.display_name[locale],
             formSectionId: unique_id,
             formSectionName: name[locale]
@@ -166,3 +167,6 @@ export const buildFields = (data, locale) => {
     }, [])
     .flat();
 };
+
+export const formatFields = fields =>
+  uniq(fields.map(field => field.split(":")[1]));

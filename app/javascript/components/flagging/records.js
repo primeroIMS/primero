@@ -8,5 +8,8 @@ export const FlagRecord = Record({
   record_type: null,
   date: null,
   message: "",
-  flagged_by: null
+  flagged_by: null,
+  removed: null,
+  unflag_message: "",
+  unflagged_date: null
 });

@@ -2,7 +2,8 @@ import {
   FieldRecord,
   FormSectionRecord,
   TEXT_FIELD,
-  TICK_FIELD
+  TICK_FIELD,
+  TEXT_AREA
 } from "../../../../../../../form";
 
 export const generalFields = ({ fieldName, formMode, i18n }) => ({
@@ -19,13 +20,13 @@ export const generalFields = ({ fieldName, formMode, i18n }) => ({
   helpText: FieldRecord({
     display_name: i18n.t("fields.help_text"),
     name: `${fieldName}.help_text.en`,
-    type: TEXT_FIELD,
+    type: TEXT_AREA,
     help_text: i18n.t("fields.must_be_english")
   }),
   guidingQuestions: FieldRecord({
     display_name: i18n.t("fields.guidance"),
     name: `${fieldName}.guiding_questions.en`,
-    type: TEXT_FIELD,
+    type: TEXT_AREA,
     help_text: i18n.t("fields.must_be_english")
   }),
   required: FieldRecord({

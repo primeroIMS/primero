@@ -29,7 +29,8 @@ describe("<ActionDialog />", () => {
     onClose: () => {},
     confirmButtonProps: {},
     omitCloseAfterSuccess: false,
-    dialogSubHeader: "Test SubHeader"
+    dialogSubHeader: "Test SubHeader",
+    disableBackdropClick: false
   };
 
   beforeEach(() => {
@@ -78,7 +79,8 @@ describe("<ActionDialog />", () => {
       "omitCloseAfterSuccess",
       "dialogSubtitle",
       "enabledSuccessButton",
-      "dialogSubHeader"
+      "dialogSubHeader",
+      "disableBackdropClick"
     ].forEach(property => {
       expect(actionDialogProps).to.have.property(property);
       delete actionDialogProps[property];

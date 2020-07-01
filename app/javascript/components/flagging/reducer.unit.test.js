@@ -97,13 +97,41 @@ describe("<Flagging /> - Reducers", () => {
 
   it("should handle UNFLAG_SUCCESS", () => {
     const expected = Map({
-      data: List([])
+      data: List([
+        FlagRecord({
+          id: 7,
+          record_id: "d6a6dbb4-e5e9-4720-a661-e181a12fd3a0",
+          record_type: "cases",
+          date: "2019-08-01",
+          message: "This is a flag 1",
+          flagged_by: "primero",
+          removed: true,
+          unflag_message: "Removing flag",
+          unflagged_date: "2020-06-25",
+          unflagged_by: "primero"
+        })
+      ])
     });
     const action = {
       type: "flags/UNFLAG_SUCCESS",
       payload: {
         data: {
-          id: 7
+          record_id: "d6a6dbb4-e5e9-4720-a661-e181a12fd3a0",
+          record_type: "cases",
+          unflag_message: "Removing flag",
+          unflagged_date: "2020-06-25",
+          unflagged_by: "primero",
+          removed: true,
+          id: 7,
+          message: "This is a flag 1",
+          date: "2019-08-01",
+          flagged_by: "primero",
+          created_at: "2020-06-24T21:40:04.161Z",
+          system_generated_followup: false,
+          record_access_denied: false,
+          record: {
+            id: "d6a6dbb4-e5e9-4720-a661-e181a12fd3a0"
+          }
         }
       }
     };

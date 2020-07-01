@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import { RECORD_PATH } from "../../../../config";
 
 import actions from "./actions";
@@ -15,3 +13,8 @@ export const fetchUsers = params => {
     }
   };
 };
+
+export const setUsersFilters = payload => ({
+  type: actions.SET_USERS_FILTER,
+  payload
+});

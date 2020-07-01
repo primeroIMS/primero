@@ -98,6 +98,7 @@ en:
       field_change: "A new %{form_section_name} was added to the case on %{alert_time}"
       approval: "Approval is pending for %{form_section_name}"
       transfer_request: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
+    cannot_edit: "You cannot edit this"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -3778,7 +3779,7 @@ en:
 
   flags:
     flags_tab: "Flags"
-    add_flag_tab: "Add Flag"
+    add_flag_tab: "Add New Flag"
     flag_reason: "Flag Reason"
     flag_date: "Flag Date"
     unflag_reason: "Unflag Reason"
@@ -3786,6 +3787,15 @@ en:
     no_flags: "No flags found"
     flag_added: "Flag added successfully"
     flag_deleted: "Flag deleted"
+    title: "Flags"
+    date: "Date:"
+    resolve_label: "Resolve:"
+    resolve_button: "Resolve"
+    resolved: "Resolved Flags"
+    resolved_reason: "Resolve Reason:"
+    resolved_date: "Resolved:"
+    resolve_reason: "Resolve Reason"
+    resolve_flag: "Resolve Flags"
 
   record_information:
     assigned_user_names: "Other Assigned Users"

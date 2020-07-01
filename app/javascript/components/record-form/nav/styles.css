@@ -29,10 +29,21 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    flex: 0 0 auto;
+  }
+
+  .closeIconButtonRecordNav {
+    padding-top: 10px;
+    padding-bottom: 5px;
   }
 
   .drawerPaper {
     top: 4em;
     height: 93.5%;
+  }
+
+  .listRecordNav {
+    flex: 1 1 auto;
+    overflow: auto;
   }
 }

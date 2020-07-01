@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Switch,
+  Checkbox,
   FormControl,
   FormGroup,
   FormControlLabel,
@@ -25,7 +25,9 @@ const ToggleInput = ({ commonInputProps }) => {
         <FormControlLabel
           disabled={disabled}
           labelPlacement="end"
-          control={<Controller name={name} as={Switch} defaultValue={false} />}
+          control={
+            <Controller name={name} as={Checkbox} defaultValue={false} />
+          }
           label={label}
         />
       </FormGroup>

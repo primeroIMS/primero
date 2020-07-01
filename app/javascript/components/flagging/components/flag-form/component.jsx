@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
@@ -7,21 +7,29 @@ import { Box, InputAdornment } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
+import CloseIcon from "@material-ui/icons/Close";
+import { object, string } from "yup";
 
-import ActionButton from "../../action-button";
-import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
-import { useI18n } from "../../i18n";
-import { addFlag } from "../action-creators";
+import { useI18n } from "../../../i18n";
+import { addFlag } from "../../action-creators";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+
+import { NAME } from "./constants";
 
 const initialFormikValues = {
   date: null,
   message: ""
 };
 
-const FlagForm = ({ recordType, record, handleOpen, handleActiveTab }) => {
+const validationSchema = object().shape({
+  message: string().required()
+});
+
+const Component = ({ recordType, record, handleActiveTab }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const [savingFlag, setSavingFlag] = useState(false);
 
   const path = Array.isArray(record)
     ? `${recordType}/flags`
@@ -51,25 +59,33 @@ const FlagForm = ({ recordType, record, handleOpen, handleActiveTab }) => {
     }
   };
 
+  const onReset = (data, actions) => {
+    actions.resetForm(initialFormikValues);
+    handleActiveTab(0);
+    setSavingFlag(false);
+  };
+
   const onSubmit = async (data, actions) => {
+    setSavingFlag(true);
     const body = Array.isArray(record)
       ? { data: { data, record, record_type: recordType } }
       : { data };
 
     await dispatch(addFlag(body, i18n.t("flags.flag_added"), path));
-    actions.resetForm(initialFormikValues);
-    handleActiveTab(0);
+    onReset(data, actions);
   };
 
   const formProps = {
     initialValues: initialFormikValues,
-    onSubmit
+    validationSchema,
+    onSubmit,
+    onReset
   };
 
   return (
     <Box mx={4} mt={4}>
       <Formik {...formProps}>
-        {({ handleSubmit }) => (
+        {({ handleSubmit, handleReset }) => (
           <Form onSubmit={handleSubmit}>
             <Box my={2}>
               <Field
@@ -100,22 +116,24 @@ const FlagForm = ({ recordType, record, handleOpen, handleActiveTab }) => {
                 }}
               />
             </Box>
-            <Box display="flex" my={3} justifyContent="flex-end">
+            <Box display="flex" my={3} justifyContent="flex-start">
               <ActionButton
                 icon={<CheckIcon />}
                 text={i18n.t("buttons.save")}
                 type={ACTION_BUTTON_TYPES.default}
+                pending={savingFlag}
                 rest={{
-                  type: "submit"
+                  type: "submit",
+                  disabled: savingFlag
                 }}
               />
               <ActionButton
-                icon={<ClearIcon />}
+                icon={<CloseIcon />}
                 text={i18n.t("buttons.cancel")}
                 type={ACTION_BUTTON_TYPES.default}
                 isCancel
                 rest={{
-                  onClick: handleOpen
+                  onClick: handleReset
                 }}
               />
             </Box>
@@ -126,13 +144,12 @@ const FlagForm = ({ recordType, record, handleOpen, handleActiveTab }) => {
   );
 };
 
-FlagForm.displayName = "FlagForm";
+Component.displayName = NAME;
 
-FlagForm.propTypes = {
+Component.propTypes = {
   handleActiveTab: PropTypes.func,
-  handleOpen: PropTypes.func.isRequired,
   record: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired
 };
 
-export default FlagForm;
+export default Component;

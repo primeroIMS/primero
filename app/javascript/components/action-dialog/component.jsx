@@ -36,7 +36,8 @@ const ActionDialog = ({
   enabledSuccessButton,
   dialogSubHeader,
   cancelButtonProps,
-  disableActions
+  disableActions,
+  disableBackdropClick
 }) => {
   const i18n = useI18n();
   const { css } = useThemeHelper(styles);
@@ -120,6 +121,7 @@ const ActionDialog = ({
         maxWidth={maxSize || "sm"}
         aria-labelledby="action-dialog-title"
         aria-describedby="action-dialog-description"
+        disableBackdropClick={disableBackdropClick}
       >
         {dialogHeader}
         {subHeader}
@@ -157,6 +159,7 @@ ActionDialog.displayName = "ActionDialog";
 
 ActionDialog.defaultProps = {
   cancelButtonProps: {},
+  disableBackdropClick: false,
   enabledSuccessButton: true
 };
 
@@ -174,6 +177,7 @@ ActionDialog.propTypes = {
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.string,
   disableActions: PropTypes.bool,
+  disableBackdropClick: PropTypes.bool,
   enabledSuccessButton: PropTypes.bool,
   maxSize: PropTypes.string,
   omitCloseAfterSuccess: PropTypes.bool,

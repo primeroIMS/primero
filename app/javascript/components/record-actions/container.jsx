@@ -374,19 +374,19 @@ const Container = ({
     {
       name: i18n.t(`actions.${openState}`),
       action: handleReopenDialogOpen,
-      recordType: RECORD_TYPES.cases,
+      recordType: RECORD_PATH.cases,
       condition: mode && mode.isShow && canOpenOrClose
     },
     {
       name: i18n.t(`actions.${enableState}`),
       action: handleEnableDialogOpen,
-      recordType: RECORD_TYPES.cases,
+      recordType: RECORD_PATH.cases,
       condition: mode && mode.isShow && canEnable
     },
     {
       name: i18n.t("actions.notes"),
       action: handleNotesOpen,
-      recordType: RECORD_TYPES.cases,
+      recordType: RECORD_PATH.cases,
       condition: canAddNotes,
       disableOffline: true
     },
