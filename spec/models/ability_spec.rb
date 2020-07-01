@@ -196,7 +196,7 @@ describe Ability do
         ability = Ability.new @user1
 
         expect(@user1.super_user?).to be_truthy
-        expect(super_role2.is_super_user_role?).to be_truthy
+        expect(super_role2.super_user_role?).to be_truthy
         expect(ability).not_to authorize(:write, super_role2)
       end
 
@@ -209,7 +209,7 @@ describe Ability do
         ability = Ability.new @user1
 
         expect(@user1.super_user?).to be_truthy
-        expect(super_role2.is_super_user_role?).to be_truthy
+        expect(super_role2.super_user_role?).to be_truthy
         expect(ability).to authorize(:assign, @super_role)
         expect(ability).to authorize(:assign, super_role2)
       end
@@ -238,7 +238,7 @@ describe Ability do
 
         expect(@user1.super_user?).to be_falsey
         expect(@user2.super_user?).to be_falsey
-        expect(@super_role.is_super_user_role?).to be_truthy
+        expect(@super_role.super_user_role?).to be_truthy
         expect(ability1).not_to authorize(:write, @super_role)
         expect(ability1).not_to authorize(:assign, @super_role)
         expect(ability2).not_to authorize(:write, @super_role)

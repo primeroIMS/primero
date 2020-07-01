@@ -65,7 +65,7 @@ describe Role do
     expect(role.unique_id).to eq('role-test-role-1234')
   end
 
-  describe 'is_super_user_role?' do
+  describe '.super_user_role?' do
     before do
       super_user_permissions_to_manage = [
         Permission::CASE, Permission::INCIDENT, Permission::REPORT,
@@ -83,20 +83,20 @@ describe Role do
         @role_not_super_user = Role.new(name: 'not_super_user_role', permissions: [@permission_not_super_user])
       end
       context 'if the role manages all of the permissions of the super user' do
-        it 'should return true for is_super_user_role?' do
-          expect(@role_super_user.is_super_user_role?).to be_truthy
+        it 'should return true for super_user_role?' do
+          expect(@role_super_user.super_user_role?).to be_truthy
         end
       end
 
       context 'if the role does not manage all of the permissions of the super user' do
-        it 'should return false for is_super_user_role?' do
-          expect(@role_not_super_user.is_super_user_role?).to be_falsey
+        it 'should return false for super_user_role?' do
+          expect(@role_not_super_user.super_user_role?).to be_falsey
         end
       end
     end
   end
 
-  describe 'is_user_admin_role?' do
+  describe 'user_admin_role?' do
     before do
       user_admin_permissions_to_manage = [
         Permission::ROLE, Permission::USER, Permission::USER_GROUP,
@@ -113,14 +113,14 @@ describe Role do
         @role_not_user_admin = Role.new(name: 'not_super_user_role', permissions: [@permission_not_user_admin])
       end
       context 'if the role manages all of the permissions of the user admin' do
-        it 'should return true for is_user_admin_role?' do
-          expect(@role_user_admin.is_user_admin_role?).to be_truthy
+        it 'should return true for user_admin_role?' do
+          expect(@role_user_admin.user_admin_role?).to be_truthy
         end
       end
 
       context 'if the role does not manage all of the permissions of the user admin' do
-        it 'should return false for is_user_admin_role?' do
-          expect(@role_not_user_admin.is_user_admin_role?).to be_falsey
+        it 'should return false for user_admin_role?' do
+          expect(@role_not_user_admin.user_admin_role?).to be_falsey
         end
       end
     end

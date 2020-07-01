@@ -347,11 +347,11 @@ class User < ApplicationRecord
   end
 
   def super_user?
-    role&.is_super_user_role? && admin?
+    role&.super_user_role? && admin?
   end
 
   def user_admin?
-    role&.is_user_admin_role? && group_permission?(Permission::ADMIN_ONLY)
+    role&.user_admin_role? && group_permission?(Permission::ADMIN_ONLY)
   end
 
   def send_welcome_email(admin_user)
