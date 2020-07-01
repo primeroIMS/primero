@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  Button,
+  Fab,
   Dialog,
   DialogActions,
   DialogContent,
@@ -29,7 +29,8 @@ describe("<ActionDialog />", () => {
     onClose: () => {},
     confirmButtonProps: {},
     omitCloseAfterSuccess: false,
-    dialogSubHeader: "Test SubHeader"
+    dialogSubHeader: "Test SubHeader",
+    disableBackdropClick: false
   };
 
   beforeEach(() => {
@@ -56,8 +57,8 @@ describe("<ActionDialog />", () => {
     expect(component.find(IconButton)).to.have.lengthOf(1);
   });
 
-  it("should render Button", () => {
-    expect(component.find(Button)).to.have.lengthOf(2);
+  it("should render Fab", () => {
+    expect(component.find(Fab)).to.have.lengthOf(2);
   });
 
   it("should accept valid props", () => {
@@ -78,7 +79,8 @@ describe("<ActionDialog />", () => {
       "omitCloseAfterSuccess",
       "dialogSubtitle",
       "enabledSuccessButton",
-      "dialogSubHeader"
+      "dialogSubHeader",
+      "disableBackdropClick"
     ].forEach(property => {
       expect(actionDialogProps).to.have.property(property);
       delete actionDialogProps[property];

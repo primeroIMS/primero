@@ -163,6 +163,7 @@ const Container = ({ match, location }) => {
   const currentPage = page - 1;
 
   const recordListToolbarProps = {
+    css,
     title: i18n.t(`${recordType}.label`),
     recordType,
     handleDrawer,

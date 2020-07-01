@@ -59,6 +59,7 @@
 @media $(theme.breakpoints.down("sm")) {
   .recordNav {
     width: auto;
+    overflow-y: hidden;
   }
 
   .recordForms {

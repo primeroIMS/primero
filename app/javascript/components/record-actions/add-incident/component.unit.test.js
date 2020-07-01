@@ -116,10 +116,12 @@ describe("<AddIncident />", () => {
     })
   });
   const props = {
-    openIncidentDialog: true,
     close: () => {},
+    openIncidentDialog: true,
+    pending: false,
     recordType: RECORD_PATH.cases,
-    selectedRowsIndex: [0]
+    selectedRowsIndex: [0],
+    setPending: () => {}
   };
 
   beforeEach(() => {
@@ -145,12 +147,17 @@ describe("<AddIncident />", () => {
   it("renders component with valid props", () => {
     const addIncidentProps = { ...component.find(AddIncident).props() };
 
-    ["openIncidentDialog", "close", "recordType", "selectedRowsIndex"].forEach(
-      property => {
-        expect(addIncidentProps).to.have.property(property);
-        delete addIncidentProps[property];
-      }
-    );
+    [
+      "close",
+      "openIncidentDialog",
+      "pending",
+      "recordType",
+      "selectedRowsIndex",
+      "setPending"
+    ].forEach(property => {
+      expect(addIncidentProps).to.have.property(property);
+      delete addIncidentProps[property];
+    });
     expect(addIncidentProps).to.be.empty;
   });
 });

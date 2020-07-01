@@ -1,9 +1,9 @@
 import { fromJS } from "immutable";
-import { Flag } from "@material-ui/icons";
 
 import { setupMountedComponent } from "../../../test";
 import Jewel from "../../jewel";
 import { ALERTS_COLUMNS } from "../../record-list/constants";
+import { FlagIcon } from "../../../images/primero-icons";
 
 import ToggleIconCell from "./ToggleIconCell";
 
@@ -52,7 +52,7 @@ describe("<ToggleIconCell /> - Component", () => {
     it("render the Flag component with number of flags", () => {
       const componeneRendered = component.find(ToggleIconCell);
 
-      expect(componeneRendered.find(Flag)).to.have.lengthOf(1);
+      expect(componeneRendered.find(FlagIcon)).to.have.lengthOf(1);
       expect(componeneRendered.text()).to.equal("3");
     });
   });

@@ -120,7 +120,7 @@ class User < ApplicationRecord
       users = User.all
       if filters.present?
         filters = filters.compact
-        filters['disabled'] = (filters['disabled'] == 'true')
+        filters['disabled'] = filters['disabled'].values if filters['disabled'].present?
         users = users.where(filters)
         if user.present? && user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
           users = users.where(organization: user.organization)

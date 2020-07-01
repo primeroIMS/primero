@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Button, Fab, CircularProgress } from "@material-ui/core";
+import { Box, Button, Fab, CircularProgress, Badge } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import { useSelector } from "react-redux";
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
 
 import { useI18n } from "../../i18n";
 import Flagging from "../../flagging";
@@ -14,6 +15,9 @@ import { FLAG_RECORDS, WRITE_RECORDS } from "../../../libs/permissions";
 import { getSavingRecord } from "../../records/selectors";
 import { RECORD_PATH } from "../../../config";
 import DisableOffline from "../../disable-offline";
+import { useThemeHelper } from "../../../libs";
+import ButtonText from "../../button-text";
+import { getActiveFlags } from "../../flagging/selectors";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -31,7 +35,7 @@ const RecordFormToolbar = ({
   recordType,
   shortId
 }) => {
-  const css = makeStyles(styles)();
+  const { css } = useThemeHelper(styles);
   const i18n = useI18n();
   const savingRecord = useSelector(state =>
     getSavingRecord(state, params.recordType)
@@ -45,6 +49,10 @@ const RecordFormToolbar = ({
     <CircularProgress size={24} value={25} className={css.loadingMargin} />
   );
 
+  const flags = useSelector(state =>
+    getActiveFlags(state, params.id, params.recordType)
+  );
+
   const renderSaveButton = (
     <Fab
       className={css.actionButton}
@@ -53,8 +61,9 @@ const RecordFormToolbar = ({
       onClick={handleFormSubmit}
       disabled={savingRecord}
     >
+      <CheckIcon />
       {renderCircularProgress}
-      {i18n.t("buttons.save")}
+      <ButtonText text={i18n.t("buttons.save")} />
     </Fab>
   );
 
@@ -101,11 +110,17 @@ const RecordFormToolbar = ({
         />
         {renderRecordStatusIndicator}
       </Box>
-      <Box display="flex">
+      <div className={css.actionsContainer}>
         {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <DisableOffline button>
-              <Flagging recordType={params.recordType} record={params.id} />
+              <Badge color="error" badgeContent={flags.size}>
+                <Flagging
+                  record={params.id}
+                  recordType={params.recordType}
+                  showActionButtonCss={css.showActionButton}
+                />
+              </Badge>
             </DisableOffline>
           </Permission>
         )}
@@ -117,7 +132,8 @@ const RecordFormToolbar = ({
               aria-label={i18n.t("buttons.cancel")}
               onClick={goBack}
             >
-              {i18n.t("buttons.cancel")}
+              <ClearIcon />
+              <ButtonText text={i18n.t("buttons.cancel")} />
             </Fab>
             {renderSaveButton}
           </div>
@@ -127,10 +143,11 @@ const RecordFormToolbar = ({
             <Button
               to={`/${params.recordType}/${params.id}/edit`}
               component={Link}
-              startIcon={<CreateIcon />}
               size="small"
+              className={css.showActionButton}
             >
-              {i18n.t("buttons.edit")}
+              <CreateIcon />
+              <ButtonText text={i18n.t("buttons.edit")} />
             </Button>
           </Permission>
         )}
@@ -139,7 +156,7 @@ const RecordFormToolbar = ({
           record={record}
           mode={mode}
         />
-      </Box>
+      </div>
     </Box>
   );
 };

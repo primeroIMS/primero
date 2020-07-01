@@ -2,7 +2,7 @@
   margin-right: 8px;
   padding: 10px 0;
   & svg {
-    font-size: $(theme.typography.pxToRem(20));
+    font-size: $(theme.typography.pxToRem(16));
   }
 }
 
@@ -25,7 +25,8 @@
   margin-top: 10px;
   border-radius: 5px;
   color: $(theme.primero.colors.grey);
-  font-size: $(theme.typography.pxToRem(14));
+  font-weight: bold;
+  font-size: $(theme.typography.pxToRem(12));
 
   &.info {
     border: 1px solid $(theme.primero.colors.moonYellow);

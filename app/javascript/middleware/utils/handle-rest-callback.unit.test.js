@@ -1,9 +1,9 @@
-import { spy, createMockStore, stub } from "../../test";
+import { spy, createMockStore } from "../../test";
 
 import handleRestCallback from "./handle-rest-callback";
 
 describe("middleware/utils/handle-success-callback.js", () => {
-  const store = createMockStore();
+  const { store } = createMockStore();
   const json = { data: { id: 1234 } };
   const pushAction = path => ({
     payload: { args: [path], method: "push" },
@@ -11,16 +11,13 @@ describe("middleware/utils/handle-success-callback.js", () => {
   });
 
   let dispatch;
-  let pushState;
 
   beforeEach(() => {
     dispatch = spy(store, "dispatch");
-    pushState = stub(global.history, "pushState");
   });
 
   afterEach(() => {
     dispatch.restore();
-    pushState.restore();
   });
 
   it("pass through no successCallback", () => {

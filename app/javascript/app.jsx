@@ -75,7 +75,8 @@ const App = () => {
                       variantSuccess: classes.success,
                       variantError: classes.error,
                       variantWarning: classes.warning,
-                      variantInfo: classes.info
+                      variantInfo: classes.info,
+                      base: classes.base
                     }}
                     ContentProps={{ classes: contentClasses }}
                   >

@@ -13,7 +13,7 @@ module Api::V2
 
     def index
       authorize! :index, User
-      filters = params.permit(:agency, :location, :services, :disabled).to_h
+      filters = params.permit(:agency, :location, :services, disabled: {}).to_h
       results = User.find_permitted_users(
         filters.compact, pagination, { user_name: :asc }, current_user
       )

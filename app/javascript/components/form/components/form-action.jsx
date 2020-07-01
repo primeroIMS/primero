@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Fab, CircularProgress } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+
+import { useThemeHelper } from "../../../libs";
+import ButtonText from "../../button-text";
 
 import styles from "./styles.css";
 
@@ -13,7 +15,7 @@ const FormAction = ({
   startIcon,
   text
 }) => {
-  const css = makeStyles(styles)();
+  const { css, mobileDisplay } = useThemeHelper(styles);
 
   const renderCircularProgress = savingRecord && !cancel && (
     <CircularProgress size={24} value={25} className={css.loadingMargin} />
@@ -29,8 +31,12 @@ const FormAction = ({
     >
       {renderCircularProgress}
       {startIcon}
-      <span className={clsx({ [css.actionButtonText]: Boolean(startIcon) })}>
-        {text}
+      <span
+        className={clsx({
+          [css.actionButtonText]: Boolean(startIcon) && !mobileDisplay
+        })}
+      >
+        <ButtonText text={text} />
       </span>
     </Fab>
   );

@@ -5,13 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import FlagIcon from "@material-ui/icons/Flag";
 
 import { useI18n } from "../i18n";
+import ButtonText from "../button-text";
+import { setDialog } from "../record-actions/action-creators";
+import { selectDialog } from "../record-actions/selectors";
 
-import { FlagForm, ListFlags, FlagDialog } from "./components";
+import { FlagForm, ListFlags, FlagDialog, Unflag } from "./components";
 import { fetchFlags } from "./action-creators";
-import { selectFlags } from "./selectors";
+import { NAME, FLAG_DIALOG } from "./constants";
+import { getSelectedFlag } from "./selectors";
 
-const Flagging = ({ recordType, record, control }) => {
-  const [open, setOpen] = useState(false);
+const Component = ({ control, record, recordType, showActionButtonCss }) => {
   const [tab, setTab] = useState(0);
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -20,12 +23,13 @@ const Flagging = ({ recordType, record, control }) => {
     dispatch(fetchFlags(recordType, record));
   }, [dispatch, recordType, record]);
 
-  const flags = useSelector(state => selectFlags(state, record, recordType));
-
   const isBulkFlags = Array.isArray(record);
 
+  const openDialog = useSelector(state => selectDialog(state, FLAG_DIALOG));
+  const selectedFlag = useSelector(state => getSelectedFlag(state));
+
   const handleOpen = () => {
-    setOpen(!open);
+    dispatch(setDialog({ dialog: FLAG_DIALOG, open: true }));
   };
 
   const handleActiveTab = value => {
@@ -35,20 +39,17 @@ const Flagging = ({ recordType, record, control }) => {
   const flagFormProps = {
     recordType,
     record,
-    handleOpen,
     handleActiveTab
   };
 
   const flagDialogProps = {
     isBulkFlags,
-    setOpen,
-    open,
+    openDialog,
     tab,
     setTab
   };
 
   const listFlagsProps = {
-    flags,
     recordType,
     record
   };
@@ -56,8 +57,13 @@ const Flagging = ({ recordType, record, control }) => {
   return (
     <>
       {(control && <control onClick={handleOpen} />) || (
-        <Button onClick={handleOpen} startIcon={<FlagIcon />} size="small">
-          {i18n.t("buttons.flags")}
+        <Button
+          onClick={handleOpen}
+          size="small"
+          className={showActionButtonCss}
+        >
+          <FlagIcon />
+          <ButtonText text={i18n.t("buttons.flags")} />
         </Button>
       )}
       <FlagDialog {...flagDialogProps}>
@@ -68,16 +74,18 @@ const Flagging = ({ recordType, record, control }) => {
           <FlagForm {...flagFormProps} />
         </div>
       </FlagDialog>
+      <Unflag flag={selectedFlag} />
     </>
   );
 };
 
-Flagging.displayName = "Flagging";
+Component.displayName = NAME;
 
-Flagging.propTypes = {
+Component.propTypes = {
   control: PropTypes.node,
   record: PropTypes.string,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  showActionButtonCss: PropTypes.string
 };
 
-export default Flagging;
+export default Component;

@@ -1,5 +1,5 @@
 import React from "react";
-import { List } from "immutable";
+import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { useSelector } from "react-redux";
@@ -21,7 +21,7 @@ const RecordInformation = ({ open, handleClick, selectedForm, match }) => {
   const { params } = match;
   const { recordType } = params;
   const i18n = useI18n();
-  const recordInformationForms = List([
+  const recordInformationForms = fromJS([
     NavRecord({
       group: "record_information",
       groupName: i18n.t("forms.record_types.record_information"),
@@ -69,11 +69,11 @@ const RecordInformation = ({ open, handleClick, selectedForm, match }) => {
       isEmpty(form.permission_actions) ||
       checkPermissions(userPermissions, form.permission_actions)
     ) {
-      return [...acum, form];
+      return acum.push(form);
     }
 
     return acum;
-  }, List([]));
+  }, fromJS([]));
 
   return (
     <>
@@ -92,7 +92,7 @@ RecordInformation.displayName = "RecordInformation";
 RecordInformation.propTypes = {
   handleClick: PropTypes.func,
   match: PropTypes.object.isRequired,
-  open: PropTypes.object,
+  open: PropTypes.string,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 

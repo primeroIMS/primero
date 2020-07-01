@@ -13,6 +13,9 @@ import { usePermissions, getListHeaders } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { headersToColumns } from "../utils";
 import { Filters as AdminFilters } from "../components";
+import { useThemeHelper } from "../../../../libs";
+import styles from "../styles.css";
+import ButtonText from "../../../button-text";
 
 import { fetchAgencies } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
@@ -24,6 +27,7 @@ const Container = () => {
   const dispatch = useDispatch();
   const canAddAgencies = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.agencies;
+  const { css } = useThemeHelper(styles);
 
   const headers = useSelector(state =>
     getListHeaders(state, RESOURCES.agencies)
@@ -59,9 +63,10 @@ const Container = () => {
       to={ROUTES.admin_agencies_new}
       component={Link}
       color="primary"
-      startIcon={<AddIcon />}
+      className={css.showActionButton}
     >
-      {i18n.t("buttons.new")}
+      <AddIcon />
+      <ButtonText text={i18n.t("buttons.new")} />
     </Button>
   ) : null;
 

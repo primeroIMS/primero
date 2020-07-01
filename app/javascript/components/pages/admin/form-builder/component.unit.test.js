@@ -1,9 +1,11 @@
 import { fromJS } from "immutable";
 import { Tab } from "@material-ui/core";
+import { Router } from "react-router-dom";
 
+import { ROUTES } from "../../../../config";
 import { setupMountedComponent } from "../../../../test";
 import { mapEntriesToRecord } from "../../../../libs";
-import { FormSectionRecord } from "../../../record-form/records";
+import { FormSectionRecord } from "../../../form/records";
 import { RECORD_TYPES } from "../../../../config/constants";
 
 import FormBuilderActionButtons from "./components/action-buttons";
@@ -21,7 +23,8 @@ describe("<FormsBuilder />", () => {
       module_ids: ["primeromodule-cp"],
       order: 1,
       form_group_id: "group_1",
-      order_form_group: 2
+      order_form_group: 2,
+      fields: fromJS([])
     },
     {
       id: 2,
@@ -30,7 +33,8 @@ describe("<FormsBuilder />", () => {
       module_ids: ["primeromodule-cp"],
       order: 2,
       form_group_id: "group_1",
-      order_form_group: 2
+      order_form_group: 2,
+      fields: fromJS([])
     },
     {
       id: 5,
@@ -39,7 +43,19 @@ describe("<FormsBuilder />", () => {
       module_ids: ["primeromodule-cp"],
       order: 1,
       form_group_id: "group_2",
-      order_form_group: 1
+      order_form_group: 1,
+      fields: fromJS([])
+    },
+    {
+      id: 6,
+      unique_id: "form_section_6",
+      parent_form: "case",
+      module_ids: ["primeromodule-cp"],
+      order: 1,
+      is_nested: true,
+      form_group_id: "group_2",
+      order_form_group: 1,
+      fields: fromJS([])
     }
   ];
 
@@ -65,7 +81,7 @@ describe("<FormsBuilder />", () => {
             FormSectionRecord,
             true
           ),
-          selectedForm: FormSectionRecord(formSections)
+          selectedForm: FormSectionRecord(formSections[0])
         }
       }
     }
@@ -115,6 +131,36 @@ describe("<FormsBuilder />", () => {
       expect(component.find(Tab).at(0).props().disabled).to.be.undefined;
       expect(component.find(Tab).at(1).props().disabled).to.be.false;
       expect(component.find(Tab).at(2).props().disabled).to.be.false;
+    });
+  });
+
+  describe("when the form is a subform", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        FormsBuilder,
+        { mode: "edit" },
+        fromJS({
+          records: {
+            admin: {
+              forms: {
+                formSections: mapEntriesToRecord(
+                  formSections,
+                  FormSectionRecord,
+                  true
+                ),
+                selectedForm: FormSectionRecord(formSections[3])
+              }
+            }
+          }
+        })
+      ));
+    });
+
+    it("redirects to forms list since subforms are edited through the field dialog", () => {
+      const { history } = component.find(Router).props();
+
+      expect(history.action).to.equal("PUSH");
+      expect(history.location.pathname).to.equal(ROUTES.forms);
     });
   });
 });

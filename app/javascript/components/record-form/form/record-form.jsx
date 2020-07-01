@@ -13,7 +13,12 @@ import { useI18n } from "../../i18n";
 import { enqueueSnackbar } from "../../notifier";
 import ActionDialog from "../../action-dialog";
 import { constructInitialValues } from "../utils";
-import { NUMERIC_FIELD, DATE_FIELD, SUBFORM_SECTION } from "../constants";
+import {
+  NUMERIC_FIELD,
+  DATE_FIELD,
+  SUBFORM_SECTION,
+  NOT_FUTURE_DATE
+} from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
 
 import RecordFormTitle from "./record-form-title";
@@ -68,7 +73,7 @@ const RecordForm = ({
       }
     } else if (DATE_FIELD === type) {
       validations[name] = date().nullable();
-      if (field.date_validation === "default_date_validation") {
+      if (field.date_validation === NOT_FUTURE_DATE) {
         validations[name] = validations[name].max(
           addDays(new Date(), 1),
           i18n.t("fields.future_date_not_valid")

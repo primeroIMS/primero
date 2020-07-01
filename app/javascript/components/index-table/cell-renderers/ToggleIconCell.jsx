@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Icon, Badge } from "@material-ui/core";
-import { Photo, Flag } from "@material-ui/icons";
+import { Photo } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 
 import Jewel from "../../jewel";
 import { ALERTS_COLUMNS } from "../../record-list/constants";
 import { ConditionalWrapper } from "../../../libs";
+import { FlagIcon } from "../../../images/primero-icons";
 
 import styles from "./styles.css";
 
@@ -19,7 +20,7 @@ const ToggleIconCell = ({ value, icon }) => {
 
   const renderIconType = {
     photo: <Photo />,
-    flag_count: <Flag className={css.flagIcon} />,
+    flag_count: <FlagIcon className={css.flagIcon} />,
     alert_count: <Jewel isList />
   }[icon];
 
