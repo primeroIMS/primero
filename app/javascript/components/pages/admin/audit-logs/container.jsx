@@ -34,10 +34,11 @@ const Container = () => {
     clearFields: [USER_NAME, TIMESTAMP],
     filters: getFilters(filterUsers),
     onSubmit: data => {
-      const filters = buildAuditLogsQuery(data);
+      const filters =
+        typeof data === "undefined" ? {} : buildAuditLogsQuery(data);
       let queryParams = {};
 
-      if (TIMESTAMP in data) {
+      if (typeof data !== "undefined" && TIMESTAMP in data) {
         queryParams = data[TIMESTAMP];
 
         delete filters.timestamp;
