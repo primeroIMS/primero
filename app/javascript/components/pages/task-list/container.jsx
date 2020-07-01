@@ -101,8 +101,10 @@ const TaskList = () => {
 
                   return (
                     <div className={css.link}>
-                      {overdue === true ? <TasksOverdue /> : null}
-                      {upcomingSoon === true ? <TasksPending /> : null}
+                      {overdue === true ? <TasksOverdue color="red" /> : null}
+                      {upcomingSoon === true ? (
+                        <TasksPending color="primary" />
+                      ) : null}
                     </div>
                   );
                 }

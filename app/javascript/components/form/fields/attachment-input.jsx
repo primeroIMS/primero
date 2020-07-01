@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  Button,
-  CircularProgress,
-  InputLabel,
-  FormHelperText
-} from "@material-ui/core";
+import { InputLabel, FormHelperText } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
 import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../../i18n";
 import { toBase64 } from "../../../libs";
 import { PHOTO_FIELD } from "../constants";
+import ActionButton from "../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
 import styles from "./styles.css";
 
@@ -74,17 +71,16 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
   const renderButton = () => {
     return disabled ? null : (
       <div className={css.buttonWrapper}>
-        <Button
-          variant="outlined"
-          color="primary"
-          component="span"
-          disabled={disabled || fieldDisabled()}
-        >
-          {i18n.t("fields.file_upload_box.select_file_button_text")}
-          {file.loading && (
-            <CircularProgress size={24} className={css.buttonProgress} />
-          )}
-        </Button>
+        <ActionButton
+          text={i18n.t("fields.file_upload_box.select_file_button_text")}
+          type={ACTION_BUTTON_TYPES.default}
+          pending={file.loading}
+          rest={{
+            component: "span",
+            variant: "outlined",
+            disabled: disabled || fieldDisabled()
+          }}
+        />
       </div>
     );
   };
