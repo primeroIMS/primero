@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/styles/";
 import { fromJS } from "immutable";
 import { useSelector } from "react-redux";
 import isEqual from "lodash/isEqual";
+import Tooltip from "@material-ui/core/Tooltip";
+import clsx from "clsx";
 
 import { useI18n } from "../../i18n";
 import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
@@ -98,12 +100,21 @@ const TaskList = () => {
                   const recordData = data.get("data").get(tableMeta.rowIndex);
                   const overdue = recordData.get("overdue");
                   const upcomingSoon = recordData.get("upcoming_soon");
+                  const cssNames = clsx([
+                    css.link,
+                    { [css.overdue]: overdue, [css.pending]: upcomingSoon }
+                  ]);
+                  const tooltipTitle = i18n.t(
+                    `dashboard.${overdue ? "due" : "almost_due"}`
+                  );
 
                   return (
-                    <div className={css.link}>
-                      {overdue === true ? <TasksOverdue /> : null}
-                      {upcomingSoon === true ? <TasksPending /> : null}
-                    </div>
+                    <Tooltip placement="left" title={tooltipTitle}>
+                      <div className={cssNames}>
+                        {overdue === true ? <TasksOverdue /> : null}
+                        {upcomingSoon === true ? <TasksPending /> : null}
+                      </div>
+                    </Tooltip>
                   );
                 }
               }

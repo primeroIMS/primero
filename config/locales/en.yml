@@ -2705,6 +2705,7 @@ en:
     awaiting_acceptance: 'Awaiting acceptance'
     near_deadline: 'Near Deadline'
     due: 'Overdue'
+    almost_due: 'Almost due'
     in_progress: 'In Progress'
     response: 'Response <span>(In Progress)</span>'
     immediate_response: 'Immediate Response'
