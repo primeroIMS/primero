@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useI18n } from "components/i18n";
 import {
   Dialog,
   DialogTitle,
@@ -14,24 +15,26 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
+
 const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
+  const i18n = useI18n();
   const [from, setFrom] = useState(currentRange.from);
   const [to, setTo] = useState(currentRange.to);
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Custom Date Range</DialogTitle>
+      <DialogTitle>{i18n.t('key_performance_indicators.date_range_dialog.title')}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Once this change is applied, data will be selected from between the
-          two dates bellow
+          {i18n.t('key_performance_indicators.date_range_dialog.description')}
         </DialogContentText>
         <FormControl>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               variant="inline"
-              // TODO: This should be localized
-              format="dd/MM/yyyy"
+              // NOTE: using translations here causes an error, probably becuase of missing
+              //       translations. How do we handle translations in tests?
+              format="dd/MM/yyyy" //{i18n.t('key_performance_indicators.long_date_format')}
               margin="normal"
               label="From"
               value={from}
@@ -42,8 +45,9 @@ const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
             />
             <KeyboardDatePicker
               variant="inline"
-              // TODO: This should be localized
-              format="dd/MM/yyyy"
+              // NOTE: using translations here causes an error, probably becuase of missing
+              //       translations. How do we handle translations in tests?
+              format="dd/MM/yyyy" //{i18n.t('key_performance_indicators.long_date_format')}
               margin="normal"
               label="To"
               value={to}
@@ -62,7 +66,7 @@ const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
             onClose();
           }}
         >
-          Apply
+          {i18n.t('key_performance_indicators.date_range_dialog.apply')}
         </Button>
       </DialogActions>
     </Dialog>

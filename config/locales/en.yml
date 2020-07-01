@@ -2658,6 +2658,7 @@ en:
     feedback: "Feedback"
     other: "Other"
     date_format: "%b %Y"
+    long_date_format: "dd/MM/yyyy"
     time_periods:
       all_time: 'All Time'
       current_month: "Current Month"
@@ -2673,7 +2674,6 @@ en:
       1-month: "< 1 Month"
       3-6months: "3 - 6 Months"
       7-months: "> 6 Months"
-
     number_of_cases:
       title: "1. Number of recorded Cases"
       reporting_site: "Reporting Site"
@@ -2743,6 +2743,12 @@ en:
       20cases: "< 20 Cases"
       21-30cases: "21 - 30 Cases"
       30cases: "> 30 Cases"
+    date_range_dialog:
+      title: "Custom Date Range"
+      description: "Once this change is applied, data will be selected from between the two dates bellow."
+      apply: 'Apply'
+
+
 
   reports:
     register_new_report: "Create Report"
