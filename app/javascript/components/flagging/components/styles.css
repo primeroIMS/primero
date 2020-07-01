@@ -131,3 +131,13 @@
 .loadingIndicator {
   position: absolute;
 }
+
+.containerTabs {
+  position: sticky;
+  top: 0;
+}
+
+.containerTabsBody {
+  overflow: auto;
+  max-height: 50vh;;
+}
