@@ -1,10 +1,11 @@
 import { fromJS } from "immutable";
-import { CircularProgress, Fab } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../test";
 import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
 import { ACTIONS } from "../../../libs/permissions";
 import { PrimeroModuleRecord } from "../../application/records";
+import ActionButton from "../../action-button";
 
 import { WorkflowIndicator } from "./components";
 import RecordFormToolbar from "./record-form-toolbar";
@@ -116,7 +117,7 @@ describe("<RecordFormToolbar />", () => {
 
   it("renders a RecordFormToolbar/>", () => {
     expect(component.find(RecordFormToolbar)).to.have.lengthOf(1);
-    expect(component.find(Fab)).to.have.lengthOf(2);
+    expect(component.find(ActionButton)).to.have.lengthOf(2);
   });
 
   it("renders a <WorkflowIndicator /> component, when record is enabled", () => {
