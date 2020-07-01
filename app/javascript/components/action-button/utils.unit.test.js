@@ -1,5 +1,3 @@
-import { fromJS } from "immutable";
-
 import { DefaultButton, IconButton } from "./components";
 import * as helper from "./utils";
 import { ACTION_BUTTON_TYPES } from "./constants";

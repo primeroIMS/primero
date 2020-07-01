@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { IconButton, Menu, MenuItem } from "@material-ui/core";
+import { Menu, MenuItem } from "@material-ui/core";
 
 import { ACTIONS } from "../../../../../libs/permissions";
 import { setupMountedComponent } from "../../../../../test";
