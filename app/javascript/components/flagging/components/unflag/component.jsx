@@ -63,7 +63,7 @@ const Component = ({ flag }) => {
         unFlag(
           flag.id,
           { data },
-          i18n.t("flags.flag_deleted"),
+          i18n.t("flags.flag_resolved"),
           flag.record_type,
           flag.record_id
         )
