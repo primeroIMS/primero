@@ -17,7 +17,7 @@ import { LOOKUPS } from "../../../config";
 import { selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
 import styles from "./styles.css";
-import { TASK_TYPES } from "./constants";
+import { TASK_TYPES, TASK_STATUS } from "./constants";
 
 const TaskList = () => {
   const i18n = useI18n();
@@ -98,21 +98,26 @@ const TaskList = () => {
                 // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customBodyRender: (value, tableMeta) => {
                   const recordData = data.get("data").get(tableMeta.rowIndex);
-                  const overdue = recordData.get("overdue");
-                  const upcomingSoon = recordData.get("upcoming_soon");
+                  const overdue = recordData.get(TASK_STATUS.overdue);
+                  const upcomingSoon = recordData.get(TASK_STATUS.upcomingSoon);
                   const cssNames = clsx([
                     css.link,
-                    { [css.overdue]: overdue, [css.pending]: upcomingSoon }
+                    {
+                      [css[TASK_STATUS.overdue]]: overdue,
+                      [css[TASK_STATUS.upcomingSoon]]: upcomingSoon
+                    }
                   ]);
                   const tooltipTitle = i18n.t(
-                    `dashboard.${overdue ? "due" : "almost_due"}`
+                    `task.statuses.${
+                      overdue ? TASK_STATUS.overdue : TASK_STATUS.upcomingSoon
+                    }`
                   );
 
                   return (
                     <Tooltip placement="left" title={tooltipTitle}>
                       <div className={cssNames}>
-                        {overdue === true ? <TasksOverdue /> : null}
-                        {upcomingSoon === true ? <TasksPending /> : null}
+                        {overdue ? <TasksOverdue /> : null}
+                        {upcomingSoon ? <TasksPending /> : null}
                       </div>
                     </Tooltip>
                   );
