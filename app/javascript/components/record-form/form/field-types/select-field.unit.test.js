@@ -4,6 +4,7 @@ import { setupMountedComponent } from "../../../../test";
 import { whichFormMode } from "../../../form";
 import SearchableSelect from "../../../searchable-select";
 import { CUSTOM_STRINGS_SOURCE } from "../constants";
+import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
 
 import SelectField from "./select-field";
 
@@ -48,6 +49,67 @@ describe("<SelectField />", () => {
 
     it("render the select field with options", () => {
       const expected = [{ value: "agency-test-1" }, { value: "agency-test-2" }];
+      const selectField = component.find(SelectField);
+      const searchableSelect = selectField.find(SearchableSelect);
+
+      expect(searchableSelect).to.have.lengthOf(1);
+      expect(searchableSelect.props().options).to.deep.equal(expected);
+    });
+  });
+  context("when is service_type", () => {
+    const props = {
+      name: SERVICE_SECTION_FIELDS.type,
+      field: {
+        option_strings_source: "lookup lookup-service-type"
+      },
+      label: "Type of Service",
+      mode: whichFormMode("edit"),
+      open: true
+    };
+
+    const initialState = fromJS({
+      forms: {
+        options: {
+          lookups: {
+            data: [
+              {
+                id: 20,
+                unique_id: "lookup-service-type",
+                name: {
+                  en: "Service Type"
+                },
+                values: [
+                  {
+                    id: "health_medical_service",
+                    display_text: {
+                      en: "Health/Medical Service"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    });
+
+    const { component } = setupMountedComponent(
+      SelectField,
+      props,
+      initialState,
+      [],
+      {
+        initialValues: {
+          service_type: "health_medical_service"
+        }
+      }
+    );
+
+    it("render the select field with options", () => {
+      const expected = [
+        { label: "Health/Medical Service", value: "health_medical_service" }
+      ];
+
       const selectField = component.find(SelectField);
       const searchableSelect = selectField.find(SearchableSelect);
 
