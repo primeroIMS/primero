@@ -65,7 +65,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
           ...(column.get("name") === "case_opening_date"
             ? {
                 customBodyRender: value =>
-                  format(parseISO(value), "dd-MMM-yyyy HH:mm")
+                  value && format(parseISO(value), "dd-MMM-yyyy HH:mm")
               }
             : {})
         }
