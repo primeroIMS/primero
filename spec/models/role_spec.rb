@@ -65,7 +65,7 @@ describe Role do
     expect(role.unique_id).to eq('role-test-role-1234')
   end
 
-  describe 'is_super_user_role?' do
+  describe '.super_user_role?' do
     before do
       super_user_permissions_to_manage = [
         Permission::CASE, Permission::INCIDENT, Permission::REPORT,
@@ -83,20 +83,20 @@ describe Role do
         @role_not_super_user = Role.new(name: 'not_super_user_role', permissions: [@permission_not_super_user])
       end
       context 'if the role manages all of the permissions of the super user' do
-        it 'should return true for is_super_user_role?' do
-          expect(@role_super_user.is_super_user_role?).to be_truthy
+        it 'should return true for super_user_role?' do
+          expect(@role_super_user.super_user_role?).to be_truthy
         end
       end
 
       context 'if the role does not manage all of the permissions of the super user' do
-        it 'should return false for is_super_user_role?' do
-          expect(@role_not_super_user.is_super_user_role?).to be_falsey
+        it 'should return false for super_user_role?' do
+          expect(@role_not_super_user.super_user_role?).to be_falsey
         end
       end
     end
   end
 
-  describe 'is_user_admin_role?' do
+  describe 'user_admin_role?' do
     before do
       user_admin_permissions_to_manage = [
         Permission::ROLE, Permission::USER, Permission::USER_GROUP,
@@ -113,14 +113,14 @@ describe Role do
         @role_not_user_admin = Role.new(name: 'not_super_user_role', permissions: [@permission_not_user_admin])
       end
       context 'if the role manages all of the permissions of the user admin' do
-        it 'should return true for is_user_admin_role?' do
-          expect(@role_user_admin.is_user_admin_role?).to be_truthy
+        it 'should return true for user_admin_role?' do
+          expect(@role_user_admin.user_admin_role?).to be_truthy
         end
       end
 
       context 'if the role does not manage all of the permissions of the user admin' do
-        it 'should return false for is_user_admin_role?' do
-          expect(@role_not_user_admin.is_user_admin_role?).to be_falsey
+        it 'should return false for user_admin_role?' do
+          expect(@role_not_user_admin.user_admin_role?).to be_falsey
         end
       end
     end
@@ -168,7 +168,7 @@ describe Role do
 
   describe 'associate_all_forms' do
     before do
-      clean_data(Role, Field, FormSection)
+      clean_data(Role, Field, FormSection, PrimeroModule, PrimeroProgram)
       @form_section_a = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
       @form_section_b = FormSection.create!(unique_id: 'B', name: 'B', parent_form: 'case', form_group_id: 'x')
       @form_section_child =
@@ -196,6 +196,54 @@ describe Role do
         @role.reload
         @role.form_sections.size.should eql 3
         expect(@role.form_sections).to match_array [@form_section_a, @form_section_b, @form_section_c]
+      end
+      it 'Reject forms from another primero-module with the associate_all_forms method' do
+        primero_module = create(
+          :primero_module, name: 'CP', description: 'Child Protection', associated_record_types: ['case']
+        )
+        @form_section_c = FormSection.create!(
+          unique_id: 'parent', name: 'parent_form', parent_form: 'case', fields: [@field_subform],
+          primero_modules: [primero_module]
+        )
+        @role.associate_all_forms
+        @role.reload
+        @role.form_sections.size.should eql 2
+        expect(@role.form_sections).to match_array [@form_section_a, @form_section_b]
+      end
+    end
+    context 'form from another primero-module' do
+      before do
+        clean_data(PrimeroModule, PrimeroProgram, Role)
+        @primero_module = create(
+          :primero_module, name: 'CP', description: 'Child Protection', associated_record_types: ['case']
+        )
+        @primero_module_gbv = create(
+          :primero_module, name: 'GBV', description: 'gbv', associated_record_types: ['case']
+        )
+        @form_section_c = FormSection.create!(
+          unique_id: 'C', name: 'C', parent_form: 'case', form_group_id: 'x', primero_modules: [@primero_module_gbv]
+        )
+      end
+      it 'When save, reject forms from another primero-module' do
+        role = create(:role, modules: [@primero_module], form_sections: [@form_section_c])
+        expect(role.form_sections).to eq([])
+      end
+      it "When save, eject forms from any primero-module if the role doesn't have primero-module" do
+        role = create(:role, modules: [], form_sections: [@form_section_c])
+        expect(role.form_sections).to eq([])
+      end
+      it 'When update, reject forms from another primero-module' do
+        role = create(:role, modules: [@primero_module])
+        role.update(form_sections: [@form_section_c])
+        expect(role.form_sections).to eq([])
+      end
+      it "When update, reject forms from any primero-module if the role doesn't have primero-module" do
+        role = create(:role, modules: [])
+        role.update(form_sections: [@form_section_c])
+        expect(role.form_sections).to eq([])
+      end
+      after do
+        clean_data(PrimeroModule, PrimeroProgram, Role)
       end
     end
   end

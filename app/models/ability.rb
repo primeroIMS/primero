@@ -109,9 +109,9 @@ class Ability
   def role_permissions permission
     actions = permission.action_symbols
     can actions, Role do |instance|
-      if instance.is_super_user_role?
+      if instance.super_user_role?
         false
-      elsif instance.is_user_admin_role? && !user.super_user?
+      elsif instance.user_admin_role? && !user.super_user?
         false
      # TODO-permission: The following code prevents a role from having access to itself.
      # As written it is too broad and won't let a user see or assign its own role.
