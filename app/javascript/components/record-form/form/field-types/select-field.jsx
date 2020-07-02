@@ -186,7 +186,7 @@ const SelectField = ({
     }
 
     if (name.endsWith(SERVICE_SECTION_FIELDS.type)) {
-      form.setFieldValue(name, data, false);
+      form.setFieldValue(name, data?.value, false);
       setFilterState({ filtersChanged: true, userIsSelected: false });
     }
   };
