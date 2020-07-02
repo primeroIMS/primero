@@ -331,7 +331,7 @@ module Exporters
             model.incident_id, '111-222', 'test01', I18n.l(model.date_of_first_report), I18n.l(model.incident_date),
             I18n.l(model.data['date_of_birth']), 'F', 'ethnicity3', 'andorra', 'divorced_separated', 'refugee',
             'mental_disability', 'separated_child', 'during_flight', 'afternoon', 'garden', 'Guinea', 'Kindia', 'town',
-            'sexual_assault', 'type_of_practice_1', 'false', 'forced_conscription', 'non-gbvims-org', 'true', 2,
+            'sexual_assault', 'type_of_practice_1', 'false', 'forced_conscription', 'non-gbvims-org', 'true', '2',
             'M and F', 'Yes', 'Age 18 - 25', 'supervisor_employer', 'occupation_2', 'police_other_service',
             'services_already_received_from_another_agency', 'service_provided_by_your_agency',
             'service_not_applicable', 'Undecided at time of report', 'service_not_applicable',

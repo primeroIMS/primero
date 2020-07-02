@@ -187,7 +187,7 @@ module Exporters
       end
 
       def incident_recorder_age_group(perpetrators)
-        age = perpetrators&.first.try(:[], 'age_group')
+        age = perpetrators&.first&.[]('age_group')
         AGE_GROUP[age] || age
       end
 
@@ -223,7 +223,7 @@ module Exporters
 
       def primary_alleged_perpetrator(model)
         @alleged_perpetrators ||= model.data['alleged_perpetrator']
-                                       .try(:select) { |ap| ap['primary_perpetrator'] == 'primary' }
+                                       &.select { |ap| ap['primary_perpetrator'] == 'primary' }
         @alleged_perpetrators.present? ? @alleged_perpetrators : []
       end
 
@@ -254,36 +254,20 @@ module Exporters
           end,
           'date_of_interview' => 'date_of_first_report',
           'date_of_incident' => 'incident_date',
-          'date_of_birth' => lambda do |model|
-            model.data['date_of_birth']
-          end,
+          'date_of_birth' => 'date_of_birth',
           'sex' => lambda do |model|
             #Need to convert 'Female' to 'F' and 'Male' to 'M' because
             #the spreadsheet is expecting those values.
             incident_recorder_sex(model.data['sex'])
           end,
           #NOTE: 'H' is hidden and protected in the spreadsheet.
-          'ethnicity' => lambda do |model|
-            model.data['ethnicity']
-          end,
-          'country_of_origin' => lambda do |model|
-            model.data['country_of_origin']
-          end,
-          'marital_status' => lambda do |model|
-            model.data['maritial_status']
-          end,
-          'displacement_status' => lambda do |model|
-            model.data['displacement_status']
-          end,
-          'disability_type' => lambda do |model|
-            model.data['disability_type']
-          end,
-          'unaccompanied_separated_status' => lambda do |model|
-            model.data['unaccompanied_separated_status']
-          end,
-          'stage_of_displacement' => lambda do |model|
-            model.data['displacement_incident']
-          end,
+          'ethnicity' => 'ethnicity',
+          'country_of_origin' => 'country_of_origin',
+          'marital_status' => 'maritial_status',
+          'displacement_status' => 'displacement_status',
+          'disability_type' => 'disability_type',
+          'unaccompanied_separated_status' => 'unaccompanied_separated_status',
+          'stage_of_displacement' => 'displacement_incident',
           'time_of_day' => lambda do |model|
             incident_timeofday = model.data['incident_timeofday']
             return if incident_timeofday.blank?
@@ -292,9 +276,7 @@ module Exporters
             #Do not use the display text that is between the parens ()
             timeofday_translated.present? ? timeofday_translated.split('(').first.strip : nil
           end,
-          'location' => lambda do |model|
-            model.data['incident_location_type']
-          end,
+          'location' => 'incident_location_type',
           'county' => lambda do |model|
             county_name = location_from_hierarchy(model.data['incident_location'], ['country'])
             #Collect information to the "2. Menu Data sheet."
@@ -307,27 +289,13 @@ module Exporters
             @districts[district_name] = district_name if district_name.present?
             district_name
           end,
-          'camp_town' => lambda do |model|
-            model.data['incident_camp_town']
-          end,
-          'gbv_type' => lambda do |model|
-            model.data['gbv_sexual_violence_type']
-          end,
-          'harmful_traditional_practice' => lambda do |model|
-            model.data['harmful_traditional_practice']
-          end,
-          'goods_money_exchanged' => lambda do |model|
-            model.data['goods_money_exchanged'].to_s
-          end,
-          'abduction_type' => lambda do |model|
-            model.data['abduction_status_time_of_incident']
-          end,
-          'previously_reported' => lambda do |model|
-            model.data['gbv_reported_elsewhere']
-          end,
-          'gbv_previous_incidents' => lambda do |model|
-            model.data['gbv_previous_incidents'].to_s
-          end,
+          'camp_town' => 'incident_camp_town',
+          'gbv_type' => 'gbv_sexual_violence_type',
+          'harmful_traditional_practice' => 'harmful_traditional_practice',
+          'goods_money_exchanged' => 'goods_money_exchanged',
+          'abduction_type' => 'abduction_status_time_of_incident',
+          'previously_reported' => 'gbv_reported_elsewhere',
+          'gbv_previous_incidents' => 'gbv_previous_incidents',
           ##### ALLEGED PERPETRATOR INFORMATION #####
           'number_primary_perpetrators' => lambda do |model|
             all_alleged_perpetrators(model).size
@@ -413,9 +381,7 @@ module Exporters
                                  .try(:first).try(:[], 'service_protection_referral')
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
-          'consent' => lambda do |model|
-            model.data['consent_reporting'].to_s
-          end,
+          'consent' => 'consent_reporting',
           'agency_code' => lambda do |model|
             model.data['created_organization'].try(:[], 'agency_code')
           end
@@ -443,8 +409,8 @@ module Exporters
           @props.each_with_index do |(_, prop), index|
             next unless prop.present?
 
-            value = prop.is_a?(Proc) ? prop.call(model) : model.try(prop.to_sym)
-            formatted_value = format_value(prop, value)
+            value = prop.is_a?(Proc) ? prop.call(model) : model.data[prop]
+            formatted_value = format_value(prop, value).to_s
             @data_worksheet.write(@row_data, index, formatted_value) unless formatted_value.nil?
           end
           @row_data += 1
