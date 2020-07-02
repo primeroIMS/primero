@@ -7,7 +7,7 @@ require 'spreadsheet'
 module Exporters
   describe IncidentRecorderExporter do
     before :each do
-      clean_data(Agency, Role, UserGroup, User, PrimeroProgram, Field, FormSection, PrimeroModule, Incident)
+      clean_data(Agency, Role, UserGroup, User, PrimeroProgram, Field, FormSection, PrimeroModule, Incident, Location)
       subform = FormSection.new(
         name: 'cases_test_subform_2', parent_form: 'case', 'visible' => false, 'is_nested' => true,
         order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_subform_2',
@@ -57,14 +57,195 @@ module Exporters
         :primero_module, name: 'CP', description: 'Child Protection', associated_record_types: %w[case]
       )
       @role = create(:role, modules: [@primero_module], form_sections: [form1, form2, form3])
-      @user = create(:user, user_name: 'fakeadmin', role: @role)
+      @user = create(:user, user_name: 'fakeadmin', role: @role, code: 'test01')
 
       incident_a = Incident.create!(
-        data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1',
-                owned_by: @user.user_name, incidentid_ir: 'test' }
+        data: {
+          incident_date: Date.new(2019, 3, 1), description: 'Test 1', owned_by: @user.user_name, incidentid_ir: 'test',
+          alleged_perpetrator: [
+            {
+              age_type: 'adult',
+              unique_id: '3341413f-15e4-411c-8158-5535e4cf2fae',
+              perpetrator_sex: 'male',
+              former_perpetrator: true,
+              perpetrator_ethnicity: 'ethnicity4',
+              perpetrator_occupation: 'occupation_1',
+              perpetrator_nationality: 'nationality2',
+              perpetrator_relationship: 'supervisor_employer'
+            }
+          ]
+        }
       )
       incident_b = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
       @records = [incident_a, incident_b]
+
+      Location.create!(placename: 'Guinea', type: 'country', location_code: 'GUI', admin_level: 0)
+      Location.create!(placename: 'Kindia', type: 'province', location_code: 'GUI123', hierarchy: ['GUI'], admin_level: 1)
+
+      incident_c = Incident.create!(
+        data: {
+          age: 14,
+          sex: 'female',
+          status: 'open',
+          owned_by: @user.user_name,
+          religion: 'religion4',
+          short_id: '61246a4',
+          estimated: false,
+          ethnicity: 'ethnicity3',
+          module_id: 'primeromodule-gbv',
+          created_by: 'primero',
+          incident_id: '881d482d-3a36-4e65-8de4-72bd461246a4',
+          nationality: 'nationality2',
+          record_state: true,
+          date_of_birth: '2006-03-02',
+          incident_code: '61246a4',
+          incident_date: '2020-03-01',
+          incidentid_ir: '111-22-ir',
+          survivor_code: '111-222',
+          disability_type: 'mental_disability',
+          maritial_status: 'divorced_separated',
+          consent_reporting: true,
+          country_of_origin: 'andorra',
+          incident_location: 'GUI123',
+          incident_camp_town: 'town',
+          incident_timeofday: 'afternoon',
+          non_gbv_type_notes: 'non',
+          owned_by_agency_id: 1,
+          alleged_perpetrator:
+            [
+              {
+                age_group: '18_25',
+                unique_id: '3341413f-15e4-411c-8158-5535e4cf2fae',
+                perpetrator_sex: 'male',
+                former_perpetrator: true,
+                perpetrator_ethnicity: 'ethnicity4',
+                perpetrator_occupation: 'occupation_1',
+                perpetrator_nationality: 'nationality2',
+                perpetrator_relationship: 'supervisor_employer'
+              },
+              {
+                age_group: '18_30',
+                unique_id: '3341413f-154e-411c-8158-5535e4cf2fae',
+                perpetrator_sex: 'female',
+                former_perpetrator: true,
+                primary_perpetrator: 'primary',
+                perpetrator_ethnicity: 'ethnicity4',
+                perpetrator_occupation: 'occupation_2',
+                perpetrator_nationality: 'nationality3',
+                perpetrator_relationship: 'supervisor_employer'
+              }
+            ],
+          displacement_status: 'refugee',
+          previously_owned_by: 'primero',
+          created_organization:
+            {
+              id: 1,
+              order: 0,
+              disabled: false,
+              services: %w[psychosocial_service child_protection_service],
+              name_i18n: { en: 'UNICEF' },
+              unique_id: 'agency-unicef',
+              agency_code: 'UNICEF',
+              logo_enabled: false,
+              description_i18n: {},
+              logo_full_file_name: '0.png',
+              logo_icon_file_name: 'coat-of-arms copy.png'
+            },
+          date_of_first_report: '2020-03-02',
+          incident_description: 'test account',
+          displacement_incident: 'during_flight',
+          goods_money_exchanged: false,
+          service_referred_from: 'police_other_service',
+          gbv_previous_incidents: true,
+          gbv_reported_elsewhere: 'non-gbvims-org',
+          incident_location_type: 'garden',
+          gbv_sexual_violence_type: 'sexual_assault',
+          service_safehouse_location: 'loc',
+          service_safehouse_provider: 'provider',
+          service_safehouse_referral: 'services_already_received_from_another_agency',
+          service_referred_from_other: 'asdfasdf',
+          harmful_traditional_practice: 'type_of_practice_1',
+          unaccompanied_separated_status: 'separated_child',
+          service_safehouse_referral_notes: 'note',
+          abduction_status_time_of_incident: 'forced_conscription',
+          service_safehouse_appointment_date: '2020-06-23',
+          service_safehouse_appointment_time: 'time',
+          livelihoods_services_subform_section:
+            [
+              {
+                unique_id: 'cfdbcb5f-02c7-4fd7-b56a-2e453647c5d7',
+                service_livelihoods_location: 'kmlfdjgr',
+                service_livelihoods_provider: 'i39',
+                service_livelihoods_referral: 'service_not_applicable',
+                service_livelihoods_referral_notes: 'kjfig',
+                service_livelihoods_appointment_date: '2020-06-14T22:07:00.000Z',
+                service_livelihoods_appointment_time: 'sdrtyio'
+              }
+            ],
+          health_medical_referral_subform_section:
+            [
+              {
+                unique_id: 'b569d95b-08f3-4433-8ffd-0cf136f3a6dd',
+                service_medical_location: 'sdfgt',
+                service_medical_provider: 'asdf',
+                service_medical_referral: 'service_provided_by_your_agency',
+                service_medical_referral_notes: 'd',
+                service_medical_appointment_date: '2020-06-23T22:06:39.023Z',
+                service_medical_appointment_time: 'asdf'
+              }
+            ],
+          child_protection_services_subform_section:
+            [
+              {
+                unique_id: '97e391c7-45cf-4d25-a7f6-e894bb2401e7',
+                service_protection_location: 'oifgut',
+                service_protection_provider: 'klwfjir',
+                service_protection_referral: 'services_already_received_from_another_agency',
+                service_protection_referral_notes: ',fmdkjjnd;fskj',
+                service_protection_appointment_date: '2020-06-22T22:07:00.000Z',
+                service_protection_appointment_time: 'dsfgtoi'
+              }
+            ],
+          legal_assistance_services_subform_section:
+            [
+              {
+                unique_id: '872fd2ca-57db-42f8-a86a-f994d2558552',
+                pursue_legal_action: false,
+                service_legal_location: 'kjcviu',
+                service_legal_provider: 'vkcjbh',
+                service_legal_referral: 'service_not_applicable',
+                service_legal_referral_notes: 'jri',
+                service_legal_appointment_date: '2020-06-20T22:07:09.304Z',
+                service_legal_appointment_time: 'asdfgh n'
+              }
+            ],
+          psychosocial_counseling_services_subform_section:
+            [
+              {
+                unique_id: 'bf14784d-42f6-497f-9955-79a555ccf592',
+                service_psycho_provider: 'rtiu',
+                service_psycho_referral: 'service_not_applicable',
+                service_psycho_referral_notes: 'nfbgiu',
+                service_psycho_appointment_date: '2020-06-02T22:06:00.000Z',
+                service_psycho_appointment_time: 'asdf',
+                service_psycho_service_location: 'xcmvn'
+              }
+            ],
+          police_or_other_type_of_security_services_subform_section:
+            [
+              {
+                unique_id: 'e12082d3-b290-4832-be11-ac3e891c1dfe',
+                service_police_location: 'igro',
+                service_police_provider: 'vjkobi04',
+                service_police_referral: 'referral_declined_by_survivor',
+                service_police_referral_notes: 'kjsdfgh oiew',
+                service_police_appointment_date: '2020-06-14T22:07:00.000Z',
+                service_police_appointment_time: 'errt5y'
+              }
+            ]
+        }
+      )
+      @record_with_all_fields = [incident_c]
     end
 
     describe 'Export format' do
@@ -137,6 +318,47 @@ module Exporters
         expect(workbook.worksheets.size).to eq(2)
         expect(workbook.worksheets[1].row(0).to_a[0..3]).to eq(partial_metadata_header)
       end
+    end
+
+    context 'Test the data form the record' do
+      it 'contains the correct data' do
+        data = IncidentRecorderExporter.export(@record_with_all_fields, @user, {})
+        workbook = Spreadsheet.open(StringIO.new(data))
+        expect(workbook.worksheets.size).to eq(2)
+        model = @record_with_all_fields.first
+        expect(workbook.worksheets[0].row(1).to_a).to eq(
+          [
+            model.incident_id, '111-222', 'test01', I18n.l(model.date_of_first_report), I18n.l(model.incident_date),
+            I18n.l(model.data['date_of_birth']), 'F', 'ethnicity3', 'andorra', 'divorced_separated', 'refugee',
+            'mental_disability', 'separated_child', 'during_flight', 'afternoon', 'garden', 'Guinea', 'Kindia', 'town',
+            'sexual_assault', 'type_of_practice_1', 'false', 'forced_conscription', 'non-gbvims-org', 'true', 2,
+            'M and F', 'Yes', 'Age 18 - 25', 'supervisor_employer', 'occupation_2', 'police_other_service',
+            'services_already_received_from_another_agency', 'service_provided_by_your_agency',
+            'service_not_applicable', 'Undecided at time of report', 'service_not_applicable',
+            'referral_declined_by_survivor', 'service_not_applicable', 'services_already_received_from_another_agency',
+            'true', 'UNICEF'
+          ]
+        )
+      end
+
+      it 'Get age_type form perpetrators' do
+        form_perpetrator = FormSection.new(
+          name: 'alleged_perpetrator', parent_form: 'case', 'visible' => true, order_form_group: 0,
+          order: 0, order_subform: 0, form_group_id: 'cases_test_subform_2', unique_id: 'alleged_perpetrator'
+        )
+        form_perpetrator.fields << Field.new(name: 'age_type', type: Field::TEXT_FIELD, display_name: 'age_type')
+        form_perpetrator.save!
+
+        data = IncidentRecorderExporter.export(@records, @user, {})
+        workbook = Spreadsheet.open(StringIO.new(data))
+        expect(workbook.worksheets[0].rows.count).to eq(3)
+        expect(workbook.worksheets[0].row(0)[28]).to eq('ALLEGED PERPETRATOR AGE TYPE')
+        expect(workbook.worksheets[0].row(1)[28]).to eq('Adult')
+      end
+    end
+
+    after :each do
+      clean_data(Agency, Role, UserGroup, User, PrimeroProgram, Field, FormSection, PrimeroModule, Incident, Location)
     end
   end
 end
