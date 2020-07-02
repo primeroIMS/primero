@@ -38,9 +38,9 @@ export default createMuiTheme(
             },
             "& td:last-of-type:not(.datatables-noprint)": {
               position: "absolute",
-              right: "2%",
-              width: "48px",
-              top: 0
+              right: "3%",
+              paddingTop: 2,
+              width: "48px"
             },
             "& .datatables-noprint": {
               width: "100%"
