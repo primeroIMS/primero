@@ -298,7 +298,13 @@ module Exporters
           'gbv_previous_incidents' => 'gbv_previous_incidents',
           ##### ALLEGED PERPETRATOR INFORMATION #####
           'number_primary_perpetrators' => lambda do |model|
-            all_alleged_perpetrators(model).size
+            calculated = all_alleged_perpetrators(model).size
+            from_ir = model.try(:number_of_individual_perpetrators_from_ir)
+            if from_ir.present?
+              calculated.present? && calculated > 1 ? calculated : from_ir
+            else
+              calculated
+            end
           end,
           'perpetrator.sex' => lambda do |model|
             perpetrators_sex(all_alleged_perpetrators(model))
