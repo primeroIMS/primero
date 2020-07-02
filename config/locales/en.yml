@@ -545,6 +545,9 @@ en:
       case_plan: "Case Plan"
       follow_up: "Follow Up - %{subtype}"
       service: "Service - %{subtype}"
+    statuses:
+      overdue: 'Overdue'
+      upcoming_soon: 'Almost due'
 
 
   case:
