@@ -65,8 +65,8 @@ class Location < ApplicationRecord
 
     def find_types_in_hierarchy(location_code, location_types)
       hierarchy = [location_code]
-      hierarchy << Location.find_by(location_code: location_code).try(:hierarchy_path)
-      Location.find_by(type: location_types, location_code: hierarchy_path.flatten.compact)
+      hierarchy << Location.find_by(location_code: location_code)&.hierarchy_path&.split('.')
+      Location.find_by(type: location_types, location_code: hierarchy.flatten.compact)
     end
 
     # This method returns a list of id / display_text value pairs
