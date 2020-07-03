@@ -30,6 +30,8 @@ class ReportFieldService
     if field&.is_location?
       admin_level = pivot_name.last.is_number? ? pivot_name.last.to_i : 0
       { option_strings_source: 'Location', admin_level: admin_level }
+    elsif field&.is_agency?
+      { option_strings_source: 'Agency' }
     elsif field&.option_strings_text_i18n.present?
       all_options = FieldI18nService.fill_options(field.option_strings_text_i18n)
       { option_labels: all_options }
