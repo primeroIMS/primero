@@ -1,16 +1,20 @@
 .gbv {
+  border: 1px solid $(theme.primero.colors.purple);
   background-color: $(theme.primero.colors.purple);
 }
 
 .mrm {
+  border: 1px solid $(theme.primero.colors.blue);
   background-color: $(theme.primero.colors.blue);
 }
 
 .cpims {
+  border: 1px solid $(theme.primero.colors.orange);
   background-color: $(theme.primero.colors.orange);
 }
 
 .cp {
+  border: 1px solid $(theme.primero.colors.blue);
   background-color: $(theme.primero.colors.blue);
 }
 

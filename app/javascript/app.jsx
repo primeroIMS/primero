@@ -17,7 +17,7 @@ import ErrorIcon from "@material-ui/icons/Error";
 import CheckIcon from "@material-ui/icons/Check";
 import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 
-import { snackContentClasses, snackVariantClasses } from "./theme";
+import { snackVariantClasses } from "./theme";
 import { theme, routes } from "./config";
 import I18nProvider from "./components/i18n";
 import NAMESPACE from "./components/i18n/namespace";
@@ -51,8 +51,6 @@ const App = () => {
 
   const classes = makeStyles(snackVariantClasses(theme))();
 
-  const contentClasses = makeStyles(snackContentClasses(theme))();
-
   return (
     <StylesProvider jss={jss} generateClassName={generateClassName}>
       <CssBaseline />
@@ -75,10 +73,8 @@ const App = () => {
                       variantSuccess: classes.success,
                       variantError: classes.error,
                       variantWarning: classes.warning,
-                      variantInfo: classes.info,
-                      base: classes.base
+                      variantInfo: classes.info
                     }}
-                    ContentProps={{ classes: contentClasses }}
                   >
                     <ApplicationRoutes routes={routes} />
                   </SnackbarProvider>
