@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 user_hash = user.attributes.reject { |k, _| User.hidden_attributes.include?(k) }
 user_hash = user_hash.merge({
   agency_id: user.agency_id,
@@ -10,8 +12,9 @@ user_hash = user_hash.merge({
 if @extended
   user_hash = user_hash.merge(
     permissions: {
-      list: user.role.permissions.map{ |p| { resource: p.resource.pluralize, actions: p.actions } },
+      list: user.role.permissions.map { |p| { resource: p.resource.pluralize, actions: p.actions } }
     },
+    permitted_form_unique_ids: user.role.form_section_unique_ids,
     filters: [
       Child.parent_form,
       Incident.parent_form,
