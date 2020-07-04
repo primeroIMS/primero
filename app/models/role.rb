@@ -98,6 +98,10 @@ class Role < ApplicationRecord
     end
   end
 
+  def permitted_forms(record_type = nil, visible_only = false)
+    form_sections.where({ parent_form: record_type, visible: (visible_only || nil) }.compact)
+  end
+
   def permitted_roles
     return Role.none if permitted_role_unique_ids.blank?
 
