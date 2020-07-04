@@ -127,6 +127,7 @@ describe("<RecordForms /> - Component", () => {
       errors: false
     }),
     user: fromJS({
+      permittedForms: ["basic_identity"],
       modules: ["primeromodule-cp"]
     }),
     application
@@ -193,7 +194,8 @@ describe("<RecordForms /> - Component", () => {
         errors: false
       }),
       user: fromJS({
-        modules: ["primeromodule-cp"]
+        modules: ["primeromodule-cp"],
+        permittedForms: ["basic_identity"]
       }),
       application
     });
@@ -245,7 +247,8 @@ describe("<RecordForms /> - Component", () => {
         errors: false
       }),
       user: fromJS({
-        modules: ["primeromodule-cp"]
+        modules: ["primeromodule-cp"],
+        permittedForms: ["basic_identity"]
       }),
       application
     });
@@ -311,7 +314,8 @@ describe("<RecordForms /> - Component", () => {
         errors: false
       }),
       user: fromJS({
-        modules: ["primeromodule-cp"]
+        modules: ["primeromodule-cp"],
+        permittedForms: ["basic_identity"]
       }),
       application
     });
@@ -364,7 +368,8 @@ describe("<RecordForms /> - Component", () => {
         errors: false
       },
       user: fromJS({
-        modules: ["primeromodule-cp"]
+        modules: ["primeromodule-cp"],
+        permittedForms: ["basic_identity"]
       }),
       application
     });
@@ -448,6 +453,105 @@ describe("<RecordForms /> - Component", () => {
     it("should render CircularProgress", () => {
       expect(component.find(RecordForms)).to.have.lengthOf(1);
       expect(component.find(CircularProgress)).to.have.lengthOf(1);
+    });
+  });
+
+  describe("when the user only has permitted one form", () => {
+    const formSectionsOnePermitted = OrderedMap({
+      1: FormSectionRecord({
+        id: 1,
+        form_group_id: "identification_registration",
+        form_group_name: {
+          en: "Identification / Registration",
+          fr: "",
+          ar: ""
+        },
+        order_form_group: 30,
+        name: {
+          en: "Basic Identity",
+          fr: "",
+          ar: ""
+        },
+        order: 10,
+        unique_id: "basic_identity",
+        is_first_tab: true,
+        visible: true,
+        is_nested: false,
+        module_ids: ["primeromodule-cp"],
+        parent_form: "case",
+        fields: [1]
+      }),
+      2: FormSectionRecord({
+        id: 2,
+        form_group_id: "client_feedback",
+        form_group_name: {
+          en: "client_feedback",
+          fr: "",
+          ar: ""
+        },
+        order_form_group: 40,
+        name: {
+          en: "Client feedback",
+          fr: "",
+          ar: ""
+        },
+        order: 20,
+        unique_id: "client_feedback",
+        is_first_tab: true,
+        visible: true,
+        is_nested: false,
+        module_ids: ["primeromodule-cp"],
+        parent_form: "case",
+        fields: [1]
+      })
+    });
+    const initialState = fromJS({
+      records: Map({
+        cases: Map({
+          data: List([Map(record)]),
+          metadata: Map({ per: 20, page: 1, total: 1 }),
+          filters: Map({ status: "open" })
+        })
+      }),
+      forms: Map({
+        selectedForm: "client_feedback",
+        selectedRecord: record,
+        formSections: formSectionsOnePermitted,
+        fields,
+        loading: false,
+        errors: false
+      }),
+      user: fromJS({
+        permittedForms: ["client_feedback"],
+        modules: ["primeromodule-cp"]
+      }),
+      application
+    });
+
+    beforeEach(() => {
+      const routedComponent = initialProps => {
+        return (
+          <Route
+            path="/:recordType(cases|incidents|tracing_requests)/:id"
+            component={props => (
+              <RecordForms {...{ ...props, ...initialProps }} />
+            )}
+          />
+        );
+      };
+
+      ({ component } = setupMountedComponent(
+        routedComponent,
+        {
+          mode: "show"
+        },
+        initialState,
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
+      ));
+    });
+
+    it("should render just one RecordForm ", () => {
+      expect(component.find(RecordForm)).to.have.lengthOf(1);
     });
   });
 });

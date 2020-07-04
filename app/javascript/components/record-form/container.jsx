@@ -26,6 +26,7 @@ import Approvals from "../approvals";
 import { getLoadingRecordState } from "../records/selectors";
 import { usePermissions } from "../user";
 import { fetchRecordsAlerts } from "../records/action-creators";
+import { getPermittedFormsIds } from "../user/selectors";
 
 import { NAME } from "./constants";
 import Nav from "./nav";
@@ -62,9 +63,14 @@ const Container = ({ match, mode }) => {
     selectRecord(state, containerMode, params.recordType, params.id)
   );
 
+  const userPermittedFormsIds = useSelector(state =>
+    getPermittedFormsIds(state)
+  );
+
   const selectedModule = {
     recordType,
-    primeroModule: record ? record.get("module_id") : params.module
+    primeroModule: record ? record.get("module_id") : params.module,
+    formsIds: userPermittedFormsIds
   };
 
   const formNav = useSelector(state => getFormNav(state, selectedModule));
