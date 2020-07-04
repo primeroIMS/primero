@@ -18,4 +18,3 @@ Lookup.all.rows.map {|r| Lookup.database.get(r["id"]) }.each do |lookup|
 
   lookup.save
 end
-

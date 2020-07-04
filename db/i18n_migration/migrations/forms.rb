@@ -69,4 +69,3 @@ FormSection.all.rows.map {|r| FormSection.database.get(r["id"]) }.each do |fs|
 
   fs.save
 end
-
