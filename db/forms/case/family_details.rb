@@ -196,5 +196,3 @@ FormSection.create_or_update_form_section({
   description_en: "Family Details",
   mobile_form: true
 })
-
-

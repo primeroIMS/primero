@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - db/schema.rb
+    - tmp
 
 Layout/LineLength:
   Max: 120
