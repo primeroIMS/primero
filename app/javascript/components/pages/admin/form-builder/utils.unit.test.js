@@ -1,5 +1,7 @@
 import { fromJS } from "immutable";
 
+import { SAVE_METHODS } from "../../../../config";
+
 import * as utils from "./utils";
 
 describe("<FormBuilder /> - utils", () => {
@@ -79,6 +81,14 @@ describe("<FormBuilder /> - utils", () => {
 
         expect(orderUpdater(currentOrder)).to.deep.equal(expectedOrder);
       });
+    });
+  });
+
+  describe("getFormRequestPath", () => {
+    it("should return the correct path", () => {
+      expect(utils.getFormRequestPath(1, SAVE_METHODS.update)).to.equal(
+        "forms/1"
+      );
     });
   });
 });

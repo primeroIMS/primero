@@ -11,7 +11,8 @@ import { useI18n } from "../i18n";
 import {
   selectModules,
   selectNetworkStatus,
-  selectUserModules
+  selectUserModules,
+  getApprovalsLabels
 } from "./selectors";
 import { setNetworkStatus } from "./action-creators";
 
@@ -24,6 +25,9 @@ const ApplicationProvider = ({ children }) => {
   const userModules = useSelector(state => selectUserModules(state));
   const online = useSelector(state => selectNetworkStatus(state));
   const authenticated = useSelector(state => getIsAuthenticated(state));
+  const approvalsLabels = useSelector(state =>
+    getApprovalsLabels(state, i18n.locale)
+  );
 
   const handleNetworkChange = isOnline => {
     const message = i18n.t(isOnline ? "connected" : "connection_lost");
@@ -57,7 +61,7 @@ const ApplicationProvider = ({ children }) => {
   }, [online, authenticated]);
 
   return (
-    <Context.Provider value={{ modules, userModules, online }}>
+    <Context.Provider value={{ modules, userModules, online, approvalsLabels }}>
       {children}
     </Context.Provider>
   );

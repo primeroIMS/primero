@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
-import { Button, Grid } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import { Link } from "react-router-dom";
+import { Grid } from "@material-ui/core";
 import { fromJS } from "immutable";
 import { format, parseISO } from "date-fns";
 
 import { useI18n } from "../../../i18n";
-import { DATE_TIME_FORMAT, ROUTES } from "../../../../config";
+import { DATE_TIME_FORMAT } from "../../../../config";
 import { RESOURCES, SHOW_AUDIT_LOGS } from "../../../../libs/permissions";
 import { PageContent, PageHeading } from "../../../page";
 import IndexTable from "../../../index-table";
@@ -32,25 +30,15 @@ const Container = () => {
     dispatch(fetchPerformedBy({ options: { per: 999 } }));
   }, []);
 
-  const newUserGroupBtn = (
-    <Button
-      to={ROUTES.lookups}
-      component={Link}
-      color="primary"
-      startIcon={<AddIcon />}
-    >
-      {i18n.t("buttons.new")}
-    </Button>
-  );
-
   const filterProps = {
     clearFields: [USER_NAME, TIMESTAMP],
     filters: getFilters(filterUsers),
     onSubmit: data => {
-      const filters = buildAuditLogsQuery(data);
+      const filters =
+        typeof data === "undefined" ? {} : buildAuditLogsQuery(data);
       let queryParams = {};
 
-      if (TIMESTAMP in data) {
+      if (typeof data !== "undefined" && TIMESTAMP in data) {
         queryParams = data[TIMESTAMP];
 
         delete filters.timestamp;
@@ -107,9 +95,7 @@ const Container = () => {
       actions={SHOW_AUDIT_LOGS}
       redirect
     >
-      <PageHeading title={i18n.t("settings.navigation.audit_logs")}>
-        {newUserGroupBtn}
-      </PageHeading>
+      <PageHeading title={i18n.t("settings.navigation.audit_logs")} />
       <PageContent>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={9}>

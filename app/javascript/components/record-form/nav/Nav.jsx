@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { List } from "@material-ui/core";
+import { List, IconButton, Drawer } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
+import CloseIcon from "@material-ui/icons/Close";
+import { makeStyles } from "@material-ui/styles";
 
 import { getRecordAlerts } from "../../records/selectors";
-import { getSelectedRecord } from "../selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
+import { ConditionalWrapper } from "../../../libs";
 
 import { NAME } from "./constants";
 import NavGroup from "./NavGroup";
 import RecordInformation from "./components/record-information";
+import styles from "./styles.css";
 
 const Nav = ({
   firstTab,
@@ -20,43 +23,57 @@ const Nav = ({
   mobileDisplay,
   recordType,
   selectedForm,
-  selectedRecord
+  selectedRecord,
+  toggleNav
 }) => {
-  const [open, setOpen] = useState({});
+  const [open, setOpen] = useState("");
   const dispatch = useDispatch();
+  const css = makeStyles(styles)();
 
   const handleClick = args => {
     const { group, formId, parentItem } = args;
 
-    if (group) {
-      setOpen({ ...open, [group]: !open[group] });
+    if (group !== open) {
+      setOpen(group);
     }
 
-    if (!parentItem) {
-      dispatch(setSelectedForm(formId));
+    dispatch(setSelectedForm(formId));
 
-      if (mobileDisplay) {
-        handleToggleNav();
-      }
+    if (!parentItem && mobileDisplay) {
+      handleToggleNav();
     }
   };
 
-  const storedRecord = useSelector(state => getSelectedRecord(state));
+  useEffect(() => {
+    dispatch(setSelectedForm(firstTab.unique_id));
+  }, []);
 
   useEffect(() => {
-    if (!selectedRecord || selectedRecord !== storedRecord) {
-      dispatch(setSelectedForm(firstTab.unique_id));
-    }
-
     dispatch(setSelectedRecord(selectedRecord));
 
-    setOpen({
-      ...open,
-      [firstTab.form_group_id]: !open[firstTab.form_group_id]
-    });
+    setOpen(firstTab.form_group_id);
   }, [firstTab]);
 
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
+
+  const renderCloseButtonNavBar = mobileDisplay && (
+    <div className={css.closeButtonRecordNav}>
+      <IconButton
+        onClick={handleToggleNav}
+        className={css.closeIconButtonRecordNav}
+      >
+        <CloseIcon />
+      </IconButton>
+    </div>
+  );
+  const drawerProps = {
+    anchor: "left",
+    open: toggleNav,
+    onClose: handleToggleNav,
+    classes: {
+      paper: css.drawerPaper
+    }
+  };
 
   if (formNav) {
     const [...formGroups] = formNav.values();
@@ -76,15 +93,24 @@ const Nav = ({
     });
 
     return (
-      <List>
-        <RecordInformation
-          handleClick={handleClick}
-          open={open}
-          selectedForm={selectedForm}
-        />
-        <Divider />
-        {renderFormGroups}
-      </List>
+      <>
+        <ConditionalWrapper
+          condition={mobileDisplay}
+          wrapper={Drawer}
+          {...drawerProps}
+        >
+          {renderCloseButtonNavBar}
+          <List className={css.listRecordNav}>
+            <RecordInformation
+              handleClick={handleClick}
+              open={open}
+              selectedForm={selectedForm}
+            />
+            <Divider />
+            {renderFormGroups}
+          </List>
+        </ConditionalWrapper>
+      </>
     );
   }
 
@@ -101,7 +127,8 @@ Nav.propTypes = {
   mobileDisplay: PropTypes.bool.isRequired,
   recordType: PropTypes.string,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  selectedRecord: PropTypes.string
+  selectedRecord: PropTypes.string,
+  toggleNav: PropTypes.bool
 };
 
 export default Nav;

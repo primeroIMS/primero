@@ -343,6 +343,7 @@ describe("<RecordForm /> - Selectors", () => {
             name: "name_first",
             option_strings_source: null,
             option_strings_text: null,
+            order: null,
             required: true,
             selected_value: "",
             show_on_minify_form: false,
@@ -418,6 +419,7 @@ describe("<RecordForm /> - Selectors", () => {
             name: "name_first",
             option_strings_source: null,
             option_strings_text: null,
+            order: null,
             required: true,
             selected_value: "",
             show_on_minify_form: false,
@@ -444,20 +446,21 @@ describe("<RecordForm /> - Selectors", () => {
   });
 
   describe("getFormNav", () => {
-    it("should return the forms nav", () => {
-      const expected = OrderedMap({
-        identification_registration: OrderedMap({
-          "62": R.NavRecord({
-            group: "identification_registration",
-            groupName: "Identification / Registration",
-            groupOrder: 30,
-            name: "Basic Identity",
-            order: 10,
-            formId: "basic_identity",
-            is_first_tab: true
-          })
+    const expected = OrderedMap({
+      identification_registration: OrderedMap({
+        "62": R.NavRecord({
+          group: "identification_registration",
+          groupName: "Identification / Registration",
+          groupOrder: 30,
+          name: "Basic Identity",
+          order: 10,
+          formId: "basic_identity",
+          is_first_tab: true
         })
-      });
+      })
+    });
+
+    it("should return the forms nav", () => {
       const record = selectors.getFormNav(stateWithRecords, {
         primeroModule: "primeromodule-cp",
         recordType: "case"
@@ -470,6 +473,16 @@ describe("<RecordForm /> - Selectors", () => {
       const record = selectors.getFormNav(stateWithRecords, {});
 
       expect(record).to.be.equal(OrderedMap({}));
+    });
+
+    it("should return an empty ordered map when there are not any options", () => {
+      const record = selectors.getFormNav(stateWithRecords, {
+        primeroModule: "primeromodule-cp",
+        recordType: "case",
+        formsIds: ["basic_identity"]
+      });
+
+      expect(record).to.be.equal(expected);
     });
   });
 

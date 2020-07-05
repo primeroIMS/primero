@@ -1,7 +1,7 @@
 import { List } from "immutable";
 
 import NAMESPACE from "./namespace";
-import { PERMISSIONS, LIST_HEADERS } from "./constants";
+import { PERMISSIONS, LIST_HEADERS, PERMITTED_FORMS } from "./constants";
 
 export const currentUser = state => state.getIn([NAMESPACE, "username"]);
 
@@ -22,3 +22,6 @@ export const getIsAuthenticated = state =>
 
 export const getListHeaders = (state, resource) =>
   state.getIn([NAMESPACE, LIST_HEADERS, resource], List([]));
+
+export const getPermittedFormsIds = state =>
+  state.getIn([NAMESPACE, PERMITTED_FORMS], List([]));

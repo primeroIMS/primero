@@ -5,7 +5,7 @@ import {
   ExpansionPanelDetails,
   ExpansionPanelSummary
 } from "@material-ui/core";
-import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import ApprovalSummary from "../summary";
 import ApprovalDetail from "../detail";
@@ -36,7 +36,7 @@ const Component = ({ approvalSubform, css }) => {
         className={css.panel}
       >
         <ExpansionPanelSummary
-          expandIcon={<ArrowIcon />}
+          expandIcon={<ExpandMoreIcon />}
           aria-controls="filter-controls-content"
           id={approvalSubform.get("unique_id")}
         >

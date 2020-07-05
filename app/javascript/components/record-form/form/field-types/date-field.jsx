@@ -10,8 +10,9 @@ import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
 import { DATE_FIELD_NAME } from "../constants";
+import { NOT_FUTURE_DATE } from "../../constants";
 
-const DateField = ({ name, helperText, mode, formik, ...rest }) => {
+const DateField = ({ name, helperText, mode, formik, InputProps, ...rest }) => {
   const i18n = useI18n();
   const allowedDefaultValues = ["TODAY", "NOW"];
 
@@ -71,11 +72,14 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
             i18n.t("fields.date_help"),
           clearable: true,
           InputProps: {
-            endAdornment: (
-              <InputAdornment position="end">
-                <CalendarTodayIcon />
-              </InputAdornment>
-            )
+            ...InputProps,
+            ...(mode.isShow || {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <CalendarTodayIcon />
+                </InputAdornment>
+              )
+            })
           },
           onChange: date => {
             updateAgeField(form, date);
@@ -83,8 +87,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
             return form.setFieldValue(name, date, true);
           },
           disableFuture:
-            rest.field &&
-            rest.field.get("date_validation") === "not_future_date",
+            rest.field && rest.field.get("date_validation") === NOT_FUTURE_DATE,
           error: !!(fieldError && fieldTouched)
         };
 
@@ -103,6 +106,7 @@ DateField.displayName = DATE_FIELD_NAME;
 DateField.propTypes = {
   formik: PropTypes.object.isRequired,
   helperText: PropTypes.string,
+  InputProps: PropTypes.object,
   mode: PropTypes.object,
   name: PropTypes.string,
   value: PropTypes.string

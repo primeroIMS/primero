@@ -6,7 +6,7 @@ describe Approval do
   before :each do
     SystemSettings.create!(
       approval_forms_to_alert: {
-        'cp_bia_form' => 'bia',
+        'cp_bia_form' => 'assessment',
         'cp_case_plan' => 'case_plan',
         'closure_form' => 'closure'
       }
@@ -85,10 +85,10 @@ describe Approval do
       end
     end
 
-    context 'and the alert_for is "bia"' do
+    context 'and the alert_for is "assessment"' do
       before do
         approval = Approval.get!(
-          Approval::BIA,
+          Approval::ASSESSMENT,
           @case,
           @user1.user_name,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
@@ -114,6 +114,45 @@ describe Approval do
 
       it 'should return the correct form for closure type' do
         expect(Alert.last.form_sidebar_id).to eq('closure_form')
+      end
+    end
+  end
+
+  describe 'get!' do
+    context 'for assessment approvals' do
+      it 'should return the correct approvals' do
+        approval = Approval.get!(
+          Approval::ASSESSMENT,
+          @case,
+          @user1.user_name,
+          approval_status: Approval::APPROVAL_STATUS_REQUESTED
+        )
+        expect(approval.class).to eq(Approval)
+        expect(approval.approval_id).to eq(Approval::ASSESSMENT)
+      end
+    end
+    context 'for case_plan approvals' do
+      it 'should return the correct approvals' do
+        approval = Approval.get!(
+          Approval::CASE_PLAN,
+          @case,
+          @user1.user_name,
+          approval_status: Approval::APPROVAL_STATUS_REQUESTED
+        )
+        expect(approval.class).to eq(Approval)
+        expect(approval.approval_id).to eq(Approval::CASE_PLAN)
+      end
+    end
+    context 'for closure approvals' do
+      it 'should return the correct approvals' do
+        approval = Approval.get!(
+          Approval::CLOSURE,
+          @case,
+          @user1.user_name,
+          approval_status: Approval::APPROVAL_STATUS_REQUESTED
+        )
+        expect(approval.class).to eq(Approval)
+        expect(approval.approval_id).to eq(Approval::CLOSURE)
       end
     end
   end

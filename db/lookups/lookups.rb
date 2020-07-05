@@ -709,7 +709,7 @@ create_or_update_lookup(
     :name_en => "Service Implemented",
     :locked => true,
     :lookup_values_en => [
-        {id: "not-implemented", display_text: "Not Implemented"},
+        {id: "not_implemented", display_text: "Not Implemented"},
         {id: "implemented", display_text: "Implemented"}
     ].map(&:with_indifferent_access)
 )

@@ -8,7 +8,8 @@ import {
   FormControl,
   FormLabel,
   RadioGroup,
-  Radio
+  Radio,
+  Select
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
@@ -67,19 +68,15 @@ const Component = ({
         <FormLabel component="legend">
           {i18n.t("cases.approval_select")}
         </FormLabel>
-        <TextField
+        <Select
           id="outlined-select-approval-native"
-          select
           fullWidth
           value={requestType}
           onChange={handleChangeType}
           className={css.selectApprovalType}
-          SelectProps={{
-            native: true
-          }}
         >
           {selectOptions}
-        </TextField>
+        </Select>
         <FormLabel component="legend">
           {i18n.t("cases.approval_comments")}
         </FormLabel>

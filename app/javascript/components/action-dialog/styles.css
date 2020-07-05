@@ -1,8 +1,5 @@
 .submitButtonWrapper {
   position: relative;
-  & button {
-    padding-left: 5px;
-  }
 }
 
 .buttonProgress {
@@ -21,17 +18,39 @@
   }
 }
 
-.actionButtonCancel {
-  background: $(theme.primero.colors.grey);
+.actionButton, .actionButtonCancel {
+  box-shadow: none;
   color: $(theme.primero.colors.white);
-  margin: 0 .5em;
+  background: $(theme.primero.colors.blue);
+  min-width: 8em;
+  height: 32px;
 
   &:hover {
     color: $(theme.primero.colors.black);
   }
+
+  & svg {
+    margin-left: -10px;
+  }
+}
+
+.actionButtonCancel {
+  background: $(theme.primero.colors.grey);
+  margin: 0 .5em;
 }
 
 .subHeader {
   font-size: 0.8rem;
   margin-left: 1.5rem;
+}
+
+
+@media $(theme.breakpoints.down("sm")) {
+  .actionButton, .actionButtonCancel {
+    min-width: 0;
+
+    & svg {
+      margin-left: 0;
+    }
+  }
 }

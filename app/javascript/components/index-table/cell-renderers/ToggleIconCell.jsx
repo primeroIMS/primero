@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon } from "@material-ui/core";
-import { Photo, Flag } from "@material-ui/icons";
+import { Icon, Badge } from "@material-ui/core";
+import { Photo } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 
 import Jewel from "../../jewel";
 import { ALERTS_COLUMNS } from "../../record-list/constants";
+import { ConditionalWrapper } from "../../../libs";
+import { FlagIcon } from "../../../images/primero-icons";
 
 import styles from "./styles.css";
 
@@ -15,22 +17,25 @@ const ToggleIconCell = ({ value, icon }) => {
   if (!value) {
     return null;
   }
-  const renderValue = icon === ALERTS_COLUMNS.flag_count && (
-    <span className={css.iconValue}>{value}</span>
-  );
+
   const renderIconType = {
     photo: <Photo />,
-    flag_count: <Flag className={css.flagIcon} />,
+    flag_count: <FlagIcon className={css.flagIcon} />,
     alert_count: <Jewel isList />
   }[icon];
 
   return (
-    <>
+    <ConditionalWrapper
+      condition={icon === ALERTS_COLUMNS.flag_count}
+      wrapper={Badge}
+      badgeContent={value}
+      color="secondary"
+      classes={{ badge: css.badge }}
+    >
       <Icon color="primary" className={css.iconButton}>
-        {renderValue}
         {renderIconType}
       </Icon>
-    </>
+    </ConditionalWrapper>
   );
 };
 

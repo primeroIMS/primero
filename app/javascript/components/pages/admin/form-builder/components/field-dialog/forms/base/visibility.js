@@ -5,7 +5,7 @@ import {
   TICK_FIELD
 } from "../../../../../../../form";
 
-export const visibilityFields = (fieldName, i18n) => ({
+export const visibilityFields = ({ fieldName, i18n }) => ({
   showOn: FieldRecord({
     display_name: i18n.t("fields.show_on"),
     name: `${fieldName}.show_on`,
@@ -30,26 +30,36 @@ export const visibilityFields = (fieldName, i18n) => ({
     display_name: i18n.t("fields.show_on_minify_form"),
     name: `${fieldName}.show_on_minify_form`,
     type: TICK_FIELD
+  }),
+  onCollapsedSubform: FieldRecord({
+    display_name: i18n.t("fields.on_collapsed_subform"),
+    name: `${fieldName}.on_collapsed_subform`,
+    type: TICK_FIELD
   })
 });
 
-export const visibilityForm = (fieldName, i18n, fields = []) => {
+export const visibilityForm = ({
+  fieldName,
+  fields = [],
+  i18n,
+  isNested = false
+}) => {
   const {
     showOn,
     visible,
     mobileVisible,
     hideOnViewPage,
-    showOnMinifyForm
-  } = visibilityFields(fieldName, i18n);
+    showOnMinifyForm,
+    onCollapsedSubform
+  } = visibilityFields({ fieldName, i18n });
+
+  const row = [visible, mobileVisible, hideOnViewPage].concat(
+    isNested ? onCollapsedSubform : showOnMinifyForm
+  );
 
   return FormSectionRecord({
     unique_id: "field_visibility",
     name: i18n.t("fields.visibility"),
-    fields: fields.length
-      ? fields
-      : [
-          showOn,
-          { row: [visible, mobileVisible, hideOnViewPage, showOnMinifyForm] }
-        ]
+    fields: fields.length ? fields : [showOn, { row }]
   });
 };

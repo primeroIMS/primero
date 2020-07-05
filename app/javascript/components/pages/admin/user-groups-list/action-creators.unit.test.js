@@ -13,16 +13,16 @@ describe("<UserGroupsList /> - Action Creators", () => {
   });
 
   it("should check fetchUserGroups return the correct object", () => {
-    const options = { per: 1 };
+    const data = { per: 1 };
 
     const expectedAction = {
       type: "user_groups/USER_GROUPS",
       api: {
-        params: options,
+        params: data,
         path: "user_groups"
       }
     };
 
-    expect(actions.fetchUserGroups({ options })).to.deep.equal(expectedAction);
+    expect(actions.fetchUserGroups({ data })).to.deep.equal(expectedAction);
   });
 });

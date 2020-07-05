@@ -30,7 +30,7 @@ describe TracingRequest do
     before(:each) do
       clean_data(FormSection, Field)
       form = create(:form_section, parent_form: "tracing_request", is_nested: false)
-      %w(approval_status_bia
+      %w(approval_status_assessment
          approval_status_case_plan
          approval_status_closure
          transfer_status).each {|f| create(:select_field, name: f, multi_select: false, form_section_id: form.id) }
@@ -43,7 +43,7 @@ describe TracingRequest do
       TracingRequest.searchable_string_fields.should =~ ["unique_identifier", "short_id", "created_by", "created_by_full_name",
                                                          "last_updated_by", "last_updated_by_full_name","created_organization",
                                                          "owned_by_agency_id", "owned_by_location",
-                                                         "approval_status_bia", "approval_status_case_plan", "approval_status_closure",
+                                                         "approval_status_assessment", "approval_status_case_plan", "approval_status_closure",
                                                          "transfer_status"]
     end
 

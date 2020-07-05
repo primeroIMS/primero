@@ -6,17 +6,19 @@ import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
 import FormSection from "../../../form/components/form-section";
 import { submitHandler, whichFormMode } from "../../../form";
-import { ROUTES, SAVE_METHODS } from "../../../../config";
+import { ROUTES, SAVE_METHODS, MODES } from "../../../../config";
 import { compare } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
 
+import CustomFieldDialog from "./components/custom-field-dialog";
 import {
   FieldDialog,
   FieldsList,
@@ -25,10 +27,18 @@ import {
 } from "./components";
 import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
-import { NAME } from "./constants";
-import { getSelectedForm } from "./selectors";
+import { NAME, NEW_FIELD } from "./constants";
+import {
+  getSavingRecord,
+  getSelectedField,
+  getSelectedForm,
+  getSelectedSubforms,
+  getServerErrors,
+  getUpdatedFormIds
+} from "./selectors";
 import { convertToFieldsArray, convertToFieldsObject } from "./utils";
 import styles from "./styles.css";
+import { transformValues } from "./components/field-dialog/utils";
 
 const Component = ({ mode }) => {
   const css = makeStyles(styles)();
@@ -38,7 +48,18 @@ const Component = ({ mode }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const [tab, setTab] = useState(0);
+  const saving = useSelector(state => getSavingRecord(state), compare);
+  const errors = useSelector(state => getServerErrors(state), compare);
+  const updatedFormIds = useSelector(
+    state => getUpdatedFormIds(state),
+    compare
+  );
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
+  const selectedField = useSelector(state => getSelectedField(state), compare);
+  const selectedSubforms = useSelector(
+    state => getSelectedSubforms(state),
+    compare
+  );
   const isLoading = useSelector(state => getIsLoading(state));
   const methods = useForm({
     validationSchema: validationSchema(i18n),
@@ -54,6 +75,9 @@ const Component = ({ mode }) => {
     dispatch(push(ROUTES.forms));
   };
 
+  const modeForFieldDialog =
+    selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
+
   const onSubmit = data => {
     dispatch(
       saveForm({
@@ -61,16 +85,43 @@ const Component = ({ mode }) => {
         saveMethod: formMode.get("isEdit")
           ? SAVE_METHODS.update
           : SAVE_METHODS.new,
-        body: { data: { ...data, fields: convertToFieldsArray(data.fields) } },
+        body: {
+          data: { ...data, fields: convertToFieldsArray(data.fields || {}) }
+        },
         message: i18n.t(
           `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-        )
+        ),
+        subforms: selectedSubforms.toJS()
       })
     );
   };
 
   useEffect(() => {
+    if (saving && (errors?.size || updatedFormIds?.size)) {
+      const successful = !errors?.size && updatedFormIds?.size;
+
+      dispatch({
+        type: ENQUEUE_SNACKBAR,
+        payload: {
+          message: successful
+            ? i18n.t("forms.messages.save_success")
+            : i18n.t("forms.messages.save_with_errors"),
+          options: {
+            variant: successful ? "success" : "error",
+            key: generate.messageKey()
+          }
+        }
+      });
+
+      if (formMode.get("isNew")) {
+        dispatch(push(`${ROUTES.forms}/${updatedFormIds.first()}/edit`));
+      }
+    }
+  }, [updatedFormIds]);
+
+  useEffect(() => {
     dispatch(fetchForms());
+    dispatch(clearSelectedForm());
   }, []);
 
   useEffect(() => {
@@ -86,12 +137,16 @@ const Component = ({ mode }) => {
   }, [id]);
 
   useEffect(() => {
-    if (selectedForm?.size) {
-      const fieldTree = convertToFieldsObject(
-        selectedForm.get("fields").toJS()
-      );
+    if (selectedForm?.toSeq()?.size) {
+      if (selectedForm.get("is_nested")) {
+        dispatch(push(ROUTES.forms));
+      } else {
+        const fieldTree = convertToFieldsObject(
+          selectedForm.get("fields").toJS()
+        );
 
-      methods.reset(selectedForm.set("fields", fieldTree).toJS());
+        methods.reset(selectedForm.set("fields", fieldTree).toJS());
+      }
     }
   }, [selectedForm]);
 
@@ -108,22 +163,25 @@ const Component = ({ mode }) => {
   );
 
   const onSuccess = data => {
-    Object.entries(data).forEach(entry =>
-      Object.entries(entry[1]).forEach(valueEntry => {
-        if (!methods.control[`fields.${entry[0]}.${valueEntry[0]}`]) {
-          methods.register({ name: `fields.${entry[0]}.${valueEntry[0]}` });
+    Object.entries(data).forEach(([fieldName, fieldData]) => {
+      const transformedFieldValues = transformValues(fieldData, true);
+
+      Object.entries(transformedFieldValues).forEach(([key, value]) => {
+        if (!methods.control[`fields.${fieldName}.${key}`]) {
+          methods.register({ name: `fields.${fieldName}.${key}` });
         }
-        methods.setValue(`fields.${entry[0]}.${valueEntry[0]}`, valueEntry[1]);
-      })
-    );
+        methods.setValue(`fields.${fieldName}.${key}`, value);
+      });
+    });
   };
 
   return (
     <LoadingIndicator
       hasData={
-        formMode.get("isNew") || (formMode.get("isEdit") && selectedForm?.size)
+        formMode.get("isNew") ||
+        (formMode.get("isEdit") && selectedForm?.toSeq()?.size)
       }
-      loading={isLoading}
+      loading={isLoading || !selectedForm?.toSeq()?.size}
       type={NAMESPACE}
     >
       <PageHeading
@@ -144,8 +202,16 @@ const Component = ({ mode }) => {
           <form>
             <Tabs value={tab} onChange={handleChange}>
               <Tab label={i18n.t("forms.settings")} />
-              <Tab label={i18n.t("forms.fields")} />
-              <Tab label={i18n.t("forms.translations")} />
+              <Tab
+                className={css.tabHeader}
+                label={i18n.t("forms.fields")}
+                disabled={formMode.get("isNew")}
+              />
+              <Tab
+                className={css.tabHeader}
+                label={i18n.t("forms.translations")}
+                disabled={formMode.get("isNew")}
+              />
             </Tabs>
             <TabPanel tab={tab} index={0}>
               <div className={css.tabContent}>
@@ -158,11 +224,12 @@ const Component = ({ mode }) => {
               </div>
             </TabPanel>
             <TabPanel tab={tab} index={1}>
-              <div className={css.tabContent}>
-                <h1>{i18n.t("forms.fields")}</h1>
+              <div className={css.tabFields}>
+                <h1 className={css.heading}>{i18n.t("forms.fields")}</h1>
+                <CustomFieldDialog />
               </div>
               <FieldsList />
-              <FieldDialog onSuccess={onSuccess} />
+              <FieldDialog mode={modeForFieldDialog} onSuccess={onSuccess} />
             </TabPanel>
             <TabPanel tab={tab} index={2}>
               Item Three

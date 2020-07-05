@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { CircularProgress, Fab } from "@material-ui/core";
+import { CircularProgress, Fab, Badge } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../test";
 import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
@@ -22,7 +22,7 @@ describe("<RecordFormToolbar />", () => {
   };
 
   const record = fromJS({
-    record_state: true,
+    enabled: true,
     sex: "female",
     owned_by_agency_id: 1,
     notes_section: [],
@@ -50,7 +50,7 @@ describe("<RecordFormToolbar />", () => {
     complete: true,
     case_status_reopened: true,
     type: "cases",
-    id: "b4db8e58-f7c8-4b89-b92f-507c32d8aaf0",
+    id: "ca1c1365-3be6-427f-9b56-000e35e2ef20",
     flag_count: 0,
     name_first: "martes",
     short_id: "6965869",
@@ -99,7 +99,7 @@ describe("<RecordFormToolbar />", () => {
     user: {
       modules: [MODULES.CP],
       permissions: {
-        cases: [ACTIONS.CREATE]
+        cases: [ACTIONS.CREATE, ACTIONS.FLAG]
       }
     }
   };
@@ -126,7 +126,7 @@ describe("<RecordFormToolbar />", () => {
   it("renders 'Case is disabled' text, when record is disabled", () => {
     const { component: recordFormToolbarComponent } = setupMountedComponent(
       RecordFormToolbar,
-      { ...props, record: fromJS({ record_state: false }) },
+      { ...props, record: fromJS({ enabled: false }) },
       fromJS(initialState)
     );
 
@@ -159,6 +159,45 @@ describe("<RecordFormToolbar />", () => {
     it("renders a RecordFormToolbar/>", () => {
       expect(savingComponent.find(RecordFormToolbar)).to.have.lengthOf(1);
       expect(savingComponent.find(CircularProgress)).to.have.lengthOf(1);
+    });
+  });
+
+  describe("when is show mode", () => {
+    const initialStateShowMode = {
+      ...initialState,
+      records: {
+        flags: {
+          data: [
+            {
+              id: 7,
+              record_id: "ca1c1365-3be6-427f-9b56-000e35e2ef20",
+              record_type: "cases",
+              date: "2019-08-01",
+              message: "This is a flag 1",
+              flagged_by: "primero",
+              removed: false
+            }
+          ]
+        }
+      }
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordFormToolbar,
+        {
+          ...props,
+          mode: {
+            isNew: false,
+            isEdit: false,
+            isShow: true
+          }
+        },
+        fromJS(initialStateShowMode)
+      ));
+    });
+    it("renders a Badge indicator for Flag", () => {
+      expect(component.find(Badge)).to.have.lengthOf(1);
     });
   });
 });

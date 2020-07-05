@@ -11,6 +11,10 @@ class PermittedFieldService
     referred_users_present
     transferred_to_users
     has_photo
+    survivor_code
+    survivor_code_no
+    case_id_display
+    created_at
   ].freeze
 
   def initialize(user, model_class, action_name = nil)
@@ -44,7 +48,7 @@ class PermittedFieldService
 
   def permitted_approval_field_names
     approval_field_names = []
-    [Approval::BIA, Approval::CASE_PLAN, Approval::CLOSURE].each do |approval_id|
+    [Approval::ASSESSMENT, Approval::CASE_PLAN, Approval::CLOSURE].each do |approval_id|
       if user.can?(:"request_approval_#{approval_id}", model_class) ||
          user.can?(:"approve_#{approval_id}", model_class)
         approval_field_names << 'approval_subforms'

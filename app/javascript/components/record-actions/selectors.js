@@ -1,4 +1,4 @@
-export const selectDialog = (dialogType, state) =>
+export const selectDialog = (state, dialogType) =>
   state.getIn(["ui", "dialogs", dialogType], false);
 
 export const selectDialogPending = state =>

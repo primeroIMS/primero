@@ -61,7 +61,10 @@ const Component = ({
       moreSectionFilters,
       setMoreSectionFilters
     );
-    addFilterToList({ [fieldName]: undefined });
+
+    if (addFilterToList) {
+      addFilterToList({ [fieldName]: undefined });
+    }
   };
 
   useEffect(() => {
@@ -121,7 +124,10 @@ const Component = ({
         getValues()[fieldName]
       );
     }
-    addFilterToList({ [fieldName]: getValues()[fieldName] || undefined });
+
+    if (addFilterToList) {
+      addFilterToList({ [fieldName]: getValues()[fieldName] || undefined });
+    }
   };
 
   const renderOptions = () =>
@@ -166,7 +172,7 @@ Component.defaultProps = {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  addFilterToList: PropTypes.func.isRequired,
+  addFilterToList: PropTypes.func,
   filter: PropTypes.object.isRequired,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,

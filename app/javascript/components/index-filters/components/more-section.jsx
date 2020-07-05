@@ -93,7 +93,7 @@ const MoreSection = ({
 MoreSection.displayName = NAME;
 
 MoreSection.propTypes = {
-  addFilterToList: PropTypes.func.isRequired,
+  addFilterToList: PropTypes.func,
   allAvailable: PropTypes.object,
   defaultFilters: PropTypes.object,
   filterToList: PropTypes.object,

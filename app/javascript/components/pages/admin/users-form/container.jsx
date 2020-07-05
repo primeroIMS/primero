@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
+import CreateIcon from "@material-ui/icons/Create";
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
 
 import { useI18n } from "../../../i18n";
 import Form, { FormAction, whichFormMode } from "../../../form";
@@ -56,7 +59,7 @@ const Container = ({ mode }) => {
   const saving = useSelector(state => getSavingRecord(state));
 
   const userConfirmationOpen = useSelector(state =>
-    selectDialog(USER_CONFIRMATION_DIALOG, state)
+    selectDialog(state, USER_CONFIRMATION_DIALOG)
   );
   const setUserConfirmationOpen = open => {
     dispatch(setDialog({ dialog: USER_CONFIRMATION_DIALOG, open }));
@@ -120,17 +123,23 @@ const Container = ({ mode }) => {
         cancel
         actionHandler={handleCancel}
         text={i18n.t("buttons.cancel")}
+        startIcon={<ClearIcon />}
       />
       <FormAction
         actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
         savingRecord={saving}
+        startIcon={<CheckIcon />}
       />
     </>
   );
 
   const editButton = formMode.get("isShow") && (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} />
+    <FormAction
+      actionHandler={handleEdit}
+      text={i18n.t("buttons.edit")}
+      startIcon={<CreateIcon />}
+    />
   );
 
   const pageHeading = user?.size
@@ -146,6 +155,7 @@ const Container = ({ mode }) => {
   return (
     <LoadingIndicator
       hasData={formMode.get("isNew") || user?.size > 0}
+      loading={!user?.size}
       type={NAMESPACE}
     >
       <PageHeading title={pageHeading}>

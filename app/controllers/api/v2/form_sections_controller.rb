@@ -38,7 +38,7 @@ module Api::V2
     protected
 
     def form_section_params
-      nested_props = [{"fields" => [Field.permitted_api_params]}, {"module_ids" => []}, {"form_group_name" => {}}]
+      nested_props = [{"fields" => [Field.permitted_api_params]}, {"module_ids" => []}]
       @form_section_params = params.require(:data).permit(FormSection.permitted_api_params + nested_props)
     end
 

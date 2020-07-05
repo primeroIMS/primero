@@ -85,7 +85,7 @@ describe Filter do
       { id: 'date_closure', display_name: 'Date of Case Closure ' },
       { id: 'created_at', display_name: 'Date of Creation' }
     ]
-    expect(filters_cp[0]['cases'][10].options[:en]).to eq(filter_by_date_cp)
+    expect(filters_cp[0]['cases'][13].options[:en]).to eq(filter_by_date_cp)
     filters_cp_gbv = %w[case incident tracing_request].map { |record_type| { record_type.pluralize => Filter.filters(@user_b, record_type) } }
     filter_by_date_cp_gbv = [
       { id: 'registration_date', display_name: 'Date of Registration' },
@@ -94,7 +94,16 @@ describe Filter do
       { id: 'date_closure', display_name: 'Date of Case Closure ' },
       { id: 'created_at', display_name: 'Case Open Date' }
     ]
-    expect(filters_cp_gbv[0]['cases'][11].options[:en]).to eq(filter_by_date_cp_gbv)
+    expect(filters_cp_gbv[0]['cases'][14].options[:en]).to eq(filter_by_date_cp_gbv)
+  end
+
+  it 'approvals.assessment will be present on filters' do
+    filters_assessment = %w[case incident tracing_request].map { |record_type| { record_type.pluralize => Filter.filters(@user_a, record_type) } }
+    filters_approval_assessment = [
+      {id: 'pending', display_name: 'Pending'},
+      {id: 'approved', display_name: 'Approved'},
+      {id: 'rejected', display_name: 'Rejected'}]
+    expect(filters_assessment[0]['cases'][6].options[:en]).to eq(filters_approval_assessment)
   end
 
   after do

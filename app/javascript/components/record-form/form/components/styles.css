@@ -2,6 +2,7 @@
   width: 80%;
 
   & p {
+    white-space: pre-wrap;
     padding: 16px;
   }
 }

@@ -436,34 +436,7 @@ describe User do
     end
   end
 
-  describe "permitted forms" do
-
-    before :all do
-      clean_data(FormSection, PrimeroModule, Role, PrimeroProgram, User, UserGroup)
-      @form_section_a = create(:form_section, unique_id: "A", name: "A")
-      @form_section_b = create(:form_section, unique_id: "B", name: "B")
-      @form_section_c = create(:form_section, unique_id: "C", name: "C")
-      @primero_module = create(:primero_module, form_sections: [@form_section_a, @form_section_b])
-      @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
-      @role = Role.create!(
-        form_sections: [@form_section_b, @form_section_c],
-        name: "Test Role", permissions: [@permission_case_read],
-        modules: [@primero_module])
-    end
-
-    let(:user) { build(:user, user_name: "test_user", role: @role) }
-
-    it "not inherits the forms permitted by the modules" do
-      expect(user.permitted_forms).to_not match_array([@form_section_a, @form_section_b])
-    end
-
-    it "will be permitted to only use forms granted by roles if such forms are explicitly set" do
-      expect(user.permitted_forms).to match_array([@form_section_b, @form_section_c])
-    end
-  end
-
-  describe "manager" do
-
+  describe 'manager' do
     before :each do
       clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
 
@@ -507,7 +480,7 @@ describe User do
     before :each do
       clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
       @permission_list = [
-                           Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SYNC_MOBILE, Permission::APPROVE_CASE_PLAN]),
+                           Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SYNC_MOBILE, Permission::APPROVE_CASE_PLAN, Permission::APPROVE_ASSESSMENT]),
                            Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ]),
                          ]
       @role = create(:role, permissions: @permission_list, group_permission: Permission::SELF)
@@ -528,6 +501,10 @@ describe User do
 
     it "should not have WRITE permission" do
       expect(@user_perm.has_permission? Permission::WRITE).to be_falsey
+    end
+
+    it "should can_approve_assessment? equals true" do
+      expect(@user_perm.can_approve_assessment?).to be_truthy
     end
   end
 

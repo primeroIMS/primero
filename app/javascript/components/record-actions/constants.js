@@ -9,3 +9,5 @@ export const REFER_DIALOG = "referral";
 export const REQUEST_APPROVAL_DIALOG = "requestApproval";
 export const REQUEST_TYPE = "request";
 export const TRANSFER_DIALOG = "transfer";
+export const SERVICE_DIALOG = "serviceDialog";
+export const INCIDENT_DIALOG = "incidentDialog";

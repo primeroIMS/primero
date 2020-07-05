@@ -37,7 +37,11 @@ describe("reducer-helpers", () => {
         last_name: "James",
         countries: ["united_states", "spain"],
         nationality: ["brazillian", "british"],
-        photos: [{ id: 3, attachment_url: "url 3" }],
+        photos: [
+          { id: 1, attachment_url: "url 1" },
+          { id: 2, attachment_url: "url 2" },
+          { id: 3, attachment_url: "url 3" }
+        ],
         followups: [
           {
             unique_id: 2,
@@ -71,23 +75,18 @@ describe("reducer-helpers", () => {
         ],
         followups: [
           {
-            unique_id: 1,
-            field: "field-value-1"
-          },
-          {
             unique_id: 2,
-            field2: "field2-value-2",
             field3: "field3-value-2",
             nationality: ["japanese", "american"]
-          },
-          {
-            unique_id: 4,
-            field1: ""
           },
           {
             unique_id: 3,
             field2: "field2-value-3",
             field3: "field3-value-3"
+          },
+          {
+            unique_id: 4,
+            field1: ""
           }
         ]
       });

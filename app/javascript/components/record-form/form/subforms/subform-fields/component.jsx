@@ -1,5 +1,5 @@
 /* eslint-disable  react/no-array-index-key */
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { sortBy } from "lodash";
 import { Box, IconButton } from "@material-ui/core";
@@ -10,6 +10,8 @@ import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
 import { SUBFORM_FIELDS } from "../constants";
 import { serviceHasReferFields } from "../../utils";
+import ActionDialog from "../../../../action-dialog";
+import { useI18n } from "../../../../i18n";
 
 const Component = ({
   arrayHelpers,
@@ -21,6 +23,10 @@ const Component = ({
   setOpen,
   values
 }) => {
+  const i18n = useI18n();
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(null);
+
   const {
     subform_sort_by: subformSortBy,
     display_name: displayName,
@@ -34,7 +40,9 @@ const Component = ({
 
   const { isEdit, isNew } = mode;
 
-  const handleDelete = index => {
+  const handleDelete = () => {
+    const index = selectedIndex;
+
     if (isEdit || isNew) {
       // eslint-disable-next-line camelcase
       const uniqueId = values?.[index]?.unique_id;
@@ -44,7 +52,19 @@ const Component = ({
       } else {
         arrayHelpers.remove(index);
       }
+
+      setSelectedIndex(null);
     }
+  };
+
+  const handleOpenModal = index => {
+    setSelectedIndex(index);
+    setDeleteModal(true);
+  };
+
+  const cancelHandler = () => {
+    setDeleteModal(false);
+    setSelectedIndex(null);
   };
 
   const handleEdit = index => {
@@ -89,7 +109,7 @@ const Component = ({
               </Box>
               <Box>
                 {!subformPreventItemRemoval && !mode.isShow ? (
-                  <IconButton onClick={() => handleDelete(index)}>
+                  <IconButton onClick={() => handleOpenModal(index)}>
                     <DeleteIcon />
                   </IconButton>
                 ) : null}
@@ -107,6 +127,14 @@ const Component = ({
             </Box>
           );
         })}
+        <ActionDialog
+          open={deleteModal}
+          successHandler={handleDelete}
+          cancelHandler={cancelHandler}
+          dialogTitle={i18n.t("fields.remove")}
+          dialogText={i18n.t("fields.subform_remove_message")}
+          confirmButtonLabel={i18n.t("buttons.ok")}
+        />
       </>
     );
   }

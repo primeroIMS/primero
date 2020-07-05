@@ -1,4 +1,4 @@
-import { Map, fromJS } from "immutable";
+import { fromJS } from "immutable";
 import { Box, Grid } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../test";
@@ -20,8 +20,22 @@ describe("<ApprovalDetail /> - Component", () => {
     isResponse: true
   };
 
+  const initialState = fromJS({
+    application: {
+      approvalsLabels: {
+        case_plan: {
+          en: CASE_PLAN
+        }
+      }
+    }
+  });
+
   beforeEach(() => {
-    ({ component } = setupMountedComponent(ApprovalDetail, props, Map({})));
+    ({ component } = setupMountedComponent(
+      ApprovalDetail,
+      props,
+      initialState
+    ));
   });
 
   it("render ApprovalDetail component", () => {
@@ -38,6 +52,12 @@ describe("<ApprovalDetail /> - Component", () => {
 
   it("render a DisplayData", () => {
     expect(component.find(DisplayData)).to.have.lengthOf(4);
+  });
+
+  it("render the correct approvals label", () => {
+    expect(
+      component.find(DisplayData).first().find("p").last().text()
+    ).to.be.equal(CASE_PLAN);
   });
 
   it("renders component with valid props", () => {

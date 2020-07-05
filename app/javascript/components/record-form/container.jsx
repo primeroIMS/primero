@@ -8,7 +8,7 @@ import clsx from "clsx";
 
 import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
-import { PageContainer } from "../page";
+import PageContainer from "../page";
 import Transitions, { fetchTransitions } from "../transitions";
 import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";
@@ -18,13 +18,15 @@ import {
   RECORD_TYPES,
   REFERRAL,
   RECORD_OWNER,
-  TRANSITION_TYPE
+  TRANSITION_TYPE,
+  RECORD_PATH
 } from "../../config";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import { getLoadingRecordState } from "../records/selectors";
 import { usePermissions } from "../user";
 import { fetchRecordsAlerts } from "../records/action-creators";
+import { getPermittedFormsIds } from "../user/selectors";
 
 import { NAME } from "./constants";
 import Nav from "./nav";
@@ -61,9 +63,14 @@ const Container = ({ match, mode }) => {
     selectRecord(state, containerMode, params.recordType, params.id)
   );
 
+  const userPermittedFormsIds = useSelector(state =>
+    getPermittedFormsIds(state)
+  );
+
   const selectedModule = {
     recordType,
-    primeroModule: record ? record.get("module_id") : params.module
+    primeroModule: record ? record.get("module_id") : params.module,
+    formsIds: userPermittedFormsIds
   };
 
   const formNav = useSelector(state => getFormNav(state, selectedModule));
@@ -166,7 +173,8 @@ const Container = ({ match, mode }) => {
     mobileDisplay,
     recordType: params.recordType,
     selectedForm,
-    selectedRecord: record ? record.get("id") : null
+    selectedRecord: record ? record.get("id") : null,
+    toggleNav
   };
 
   useEffect(() => {
@@ -185,7 +193,7 @@ const Container = ({ match, mode }) => {
   const canRefer = usePermissions(params.recordType, REFERRAL);
 
   useEffect(() => {
-    if (!containerMode.isNew) {
+    if (!containerMode.isNew && params.recordType === RECORD_PATH.cases) {
       batch(() => {
         dispatch(fetchTransitions(params.recordType, params.id));
 

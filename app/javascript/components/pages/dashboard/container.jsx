@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
 
 import { useI18n } from "../../i18n";
-import { PageContainer, PageHeading, PageContent } from "../../page";
+import PageContainer, { PageHeading, PageContent } from "../../page";
 import { getPermissions } from "../../user/selectors";
 import { getLoading, getErrors } from "../../index-table";
 import { OfflineAlert } from "../../disable-offline";
@@ -52,10 +52,10 @@ const Dashboard = () => {
             loadingIndicator={indicatorProps}
             userPermissions={userPermissions}
           />
+          <Approvals loadingIndicator={indicatorProps} />
           <SharedFromMyTeam loadingIndicator={indicatorProps} />
           <SharedWithMyTeam loadingIndicator={indicatorProps} />
           <WorkflowIndividualCases loadingIndicator={indicatorProps} />
-          <Approvals loadingIndicator={indicatorProps} />
           <OverdueTasks loadingIndicator={indicatorProps} />
           <WorkflowTeamCases loadingIndicator={indicatorProps} />
           <ReportingLocation loadingIndicator={indicatorProps} />

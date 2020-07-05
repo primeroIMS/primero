@@ -1,12 +1,12 @@
 /* eslint-disable react/display-name, react/no-multi-comp, react/prop-types */
 import { routerMiddleware } from "connected-react-router/immutable";
 import { Form, Formik } from "formik";
-import { createBrowserHistory } from "history";
+import { createMemoryHistory } from "history";
 import { isEmpty } from "lodash";
 import { SnackbarProvider } from "notistack";
 import React from "react";
 import { Provider } from "react-redux";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Router } from "react-router-dom";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import DateFnsUtils from "@date-io/date-fns";
@@ -57,11 +57,11 @@ const setupFormInputProps = (field = {}, props = {}, mode, errors = []) => {
 };
 
 export const createMockStore = (defaultState = fromJS({}), initialState) => {
-  const history = createBrowserHistory();
+  const history = createMemoryHistory();
   const mockStore = configureStore([routerMiddleware(history), thunk]);
   const store = mockStore(defaultState.merge(fromJS(initialState)));
 
-  return store;
+  return { store, history };
 };
 
 export const setupMountedComponent = (
@@ -77,7 +77,7 @@ export const setupMountedComponent = (
     }
   });
 
-  const store = createMockStore(defaultState, initialState);
+  const { store, history } = createMockStore(defaultState, initialState);
 
   const FormikComponent = ({ formikProps, componentProps }) => {
     if (isEmpty(formikProps)) {
@@ -102,9 +102,9 @@ export const setupMountedComponent = (
     if (isEmpty(initialEntries)) {
       return (
         <ThemeProvider theme={theme}>
-          <MemoryRouter>
+          <Router history={history}>
             <FormikComponent {...formikComponentProps} />
-          </MemoryRouter>
+          </Router>
         </ThemeProvider>
       );
     }
@@ -132,9 +132,7 @@ export const setupMountedComponent = (
     </Provider>
   );
 
-  return {
-    component
-  };
+  return { component, store };
 };
 
 export const setupMountedThemeComponent = (TestComponent, props = {}) =>
@@ -153,11 +151,12 @@ export const setupMockFormComponent = (
   Component,
   props = {},
   parentProps = {},
-  state = {}
+  state = {},
+  defaultValues = {}
 ) => {
   const MockFormComponent = () => {
     const { inputProps, field, mode } = props;
-    const formMethods = useForm();
+    const formMethods = useForm({ defaultValues });
     const formMode = whichFormMode(mode);
 
     const commonInputProps = setupFormInputProps(
@@ -202,7 +201,7 @@ export const setupMockFieldComponent = (
 export const createSimpleMount = component => createMount()(component);
 
 export const createMiddleware = (middleware, initialState) => {
-  const store = createMockStore(fromJS({}), initialState);
+  const { store } = createMockStore(fromJS({}), initialState);
 
   const next = spy();
 

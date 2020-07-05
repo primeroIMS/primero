@@ -2,7 +2,7 @@
 
 # The model for Role
 class Role < ApplicationRecord
-  #include Importable #TODO: This will need to be rewritten
+  # include Importable #TODO: This will need to be rewritten
   # include Memoizable
   include Cloneable
   include Configuration
@@ -19,6 +19,7 @@ class Role < ApplicationRecord
                    uniqueness: { message: 'errors.models.role.unique_name' }
 
   before_create :generate_unique_id
+  before_save :reject_form_by_module
 
   scope :by_referral, -> { where(referral: true) }
   scope :by_transfer, -> { where(transfer: true) }
@@ -28,32 +29,31 @@ class Role < ApplicationRecord
   end
 
   class << self
-
     def memoized_dependencies
       [FormSection, PrimeroModule, User]
     end
 
-    #TODO: Used by importer. Refactor?
+    # TODO: Used by importer. Refactor?
     def get_unique_instance(attributes)
       find_by_name(attributes['name'])
     end
 
     def names_and_ids_by_referral
-      self.by_referral.pluck(:name, :unique_id)
+      by_referral.pluck(:name, :unique_id)
     end
     # memoize_in_prod :names_and_ids_by_referral
 
     def names_and_ids_by_transfer
-      self.by_transfer.pluck(:name, :unique_id)
+      by_transfer.pluck(:name, :unique_id)
     end
     # memoize_in_prod :names_and_ids_by_transfer
 
     def create_or_update(attributes = {})
-      record = self.find_by(unique_id: attributes[:unique_id])
+      record = find_by(unique_id: attributes[:unique_id])
       if record.present?
         record.update_attributes(attributes)
       else
-        self.create!(attributes)
+        create!(attributes)
       end
     end
 
@@ -64,7 +64,7 @@ class Role < ApplicationRecord
     alias super_clear clear
     def clear
       # According documentation this is the best way to delete the values on HABTM relation
-      self.all.each do |f|
+      all.each do |f|
         f.form_sections.destroy(f.form_sections)
       end
       super_clear
@@ -77,7 +77,7 @@ class Role < ApplicationRecord
     end
 
     def export
-      self.all.map do |record|
+      all.map do |record|
         record.attributes.tap do |r|
           r.delete('id')
           r['form_sections'] = record.form_sections.pluck(:unique_id)
@@ -98,6 +98,10 @@ class Role < ApplicationRecord
     end
   end
 
+  def permitted_forms(record_type = nil, visible_only = false)
+    form_sections.where({ parent_form: record_type, visible: (visible_only || nil) }.compact)
+  end
+
   def permitted_roles
     return Role.none if permitted_role_unique_ids.blank?
 
@@ -106,7 +110,7 @@ class Role < ApplicationRecord
 
   def permitted_role_unique_ids
     role_permission = permissions.find { |permission| permission.resource == Permission::ROLE }
-    return [] if role_permission.blank?
+    return [] if role_permission&.role_unique_ids&.blank?
 
     role_permission.role_unique_ids
   end
@@ -125,41 +129,57 @@ class Role < ApplicationRecord
     dashboards.compact
   end
 
-  def is_super_user_role?
+  def super_user_role?
     superuser_resources = [
       Permission::CASE, Permission::INCIDENT, Permission::REPORT,
       Permission::ROLE, Permission::USER, Permission::USER_GROUP,
       Permission::AGENCY, Permission::METADATA, Permission::SYSTEM
     ]
-    has_managed_resources?(superuser_resources)
+    managed_resources?(superuser_resources)
   end
 
-  def is_user_admin_role?
+  def user_admin_role?
     admin_only_resources = [
       Permission::ROLE, Permission::USER, Permission::USER_GROUP,
       Permission::AGENCY, Permission::METADATA, Permission::SYSTEM
     ]
-    has_managed_resources?(admin_only_resources)
+    managed_resources?(admin_only_resources)
   end
 
   def permitted_to_export?
-    permissions&.map(&:actions).flatten.compact.any? { |p| p.start_with?('export') } ||
+    permissions&.map(&:actions)&.flatten&.compact&.any? { |p| p.start_with?('export') } ||
       permissions&.any? { |p| Permission.records.include?(p.resource) && p.actions.include?(Permission::MANAGE) }
   end
 
   def generate_unique_id
-    if self.name.present? && self.unique_id.blank?
-      self.unique_id = "#{self.class.name}-#{self.name}".parameterize.dasherize
-    end
+    self.unique_id ||= Role.id_from_name(name) if name.present?
+  end
+
+  def permissions_with_forms
+    permissions.select { |p| p.resource.in?(Permission.records) }
   end
 
   def associate_all_forms
-    permissions_with_forms = permissions.select{ |p| p.resource.in?(Permission.records) }
     forms_by_parent = FormSection.all_forms_grouped_by_parent
+    role_module_ids = primero_modules.pluck(:unique_id)
     permissions_with_forms.map do |permission|
-      self.form_sections << forms_by_parent[permission.resource].reject {|f| self.form_sections.include?(f)}
-      self.save
+      form_sections << forms_by_parent[permission.resource].reject do |form|
+        form_sections.include?(form) || reject_form?(form, role_module_ids)
+      end
+      save
     end
+  end
+
+  def reject_form?(form, role_module_ids)
+    form_modules = form&.primero_modules&.pluck(:unique_id)
+    return false unless form_modules.present?
+
+    (role_module_ids & form_modules).blank?
+  end
+
+  def reject_form_by_module
+    role_module_ids = primero_modules.map(&:unique_id)
+    self.form_sections = form_sections.reject { |form| reject_form?(form, role_module_ids) }
   end
 
   def form_section_unique_ids
@@ -181,8 +201,8 @@ class Role < ApplicationRecord
 
   private
 
-  def has_managed_resources?(resources)
-    current_managed_resources = self.permissions.select{ |p| p.actions == [Permission::MANAGE] }.map(&:resource)
+  def managed_resources?(resources)
+    current_managed_resources = permissions.select { |p| p.actions == [Permission::MANAGE] }.map(&:resource)
     (resources - current_managed_resources).empty?
   end
 end

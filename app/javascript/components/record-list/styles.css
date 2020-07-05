@@ -46,5 +46,39 @@
 
 .photoHeader, .photoIcon, .alerts {
   width: 45px;
-  text-align: center;
+}
+
+.alerts {
+  display: flex;
+
+  & > span {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & svg {
+      margin: 0;
+    }
+  }
+}
+
+.showActionButton {
+  background-color: $(theme.primero.colors.blue);
+  border-radius: 24px;
+  color: $(theme.primero.colors.white);
+  width: 8em;
+  height: 32px;
+  margin-left: 10px;
+
+   &:hover {
+    color: $(theme.primero.colors.black);
+  }
+}
+
+
+@media $(theme.breakpoints.down("sm")) {
+  .showActionButton {
+    width: 0;
+  }
 }

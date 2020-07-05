@@ -3,19 +3,19 @@ module Approvable
 
   included do
     store_accessor :data,
-      :bia_approved, :case_plan_approved, :closure_approved,
-      :approval_status_bia, :approval_status_case_plan, :approval_status_closure, :case_plan_approval_type,
-      :bia_approved_date, :closure_approved_date, :case_plan_approved_date,
-      :bia_approved_comments, :case_plan_approved_comments, :closure_approved_comments,
+      :assessment_approved, :case_plan_approved, :closure_approved,
+      :approval_status_assessment, :approval_status_case_plan, :approval_status_closure, :case_plan_approval_type,
+      :assessment_approved_date, :closure_approved_date, :case_plan_approved_date,
+      :assessment_approved_comments, :case_plan_approved_comments, :closure_approved_comments,
       :approval_subforms
 
     searchable do
-      string :approval_status_bia, as: 'approval_status_bia_sci'
+      string :approval_status_assessment, as: 'approval_status_assessment_sci'
       string :approval_status_case_plan, as: 'approval_status_case_plan_sci'
       string :approval_status_closure, as: 'approval_status_closure_sci'
       string :case_plan_approval_type, as: 'case_plan_approval_type_sci'
       date :case_plan_approved_date
-      date :bia_approved_date
+      date :assessment_approved_date
       date :closure_approved_date
     end
 

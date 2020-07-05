@@ -22,7 +22,8 @@ const Component = ({
   initialValues,
   formRef,
   useCancelPrompt,
-  formErrors
+  formErrors,
+  submitAllFields
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -41,7 +42,8 @@ const Component = ({
       formMode,
       i18n,
       initialValues,
-      onSubmit
+      onSubmit,
+      submitAllFields
     })
   );
 
@@ -76,7 +78,8 @@ const Component = ({
 Component.displayName = "Form";
 
 Component.defaultProps = {
-  formErrors: fromJS([])
+  formErrors: fromJS([]),
+  submitAllFields: false
 };
 
 Component.propTypes = {
@@ -86,6 +89,7 @@ Component.propTypes = {
   initialValues: PropTypes.object,
   mode: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  submitAllFields: PropTypes.bool,
   useCancelPrompt: PropTypes.bool,
   validations: PropTypes.object
 };

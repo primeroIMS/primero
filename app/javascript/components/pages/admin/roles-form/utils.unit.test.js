@@ -13,7 +13,8 @@ describe("pages/admin/<RolesForm> - utils", () => {
         roleActions: fromJS([]),
         agencyActions: fromJS([]),
         formSections: fromJS([]),
-        i18n: { t: () => "" }
+        i18n: { t: () => "" },
+        approvalsLabels: {}
       });
 
       expect(formsToRender).to.have.sizeOf(6);

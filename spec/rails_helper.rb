@@ -125,3 +125,12 @@ def clean_data(*models)
   SystemSettings.reset if models.include?(SystemSettings)
   Sunspot.commit if self.class.metadata&.dig(:search)
 end
+
+def compute_checksum_in_chunks(io)
+  Digest::MD5.new.tap do |checksum|
+    while chunk = io.read(5.megabytes)
+      checksum << chunk
+    end
+    io.rewind
+  end.base64digest
+end

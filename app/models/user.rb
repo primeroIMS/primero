@@ -120,7 +120,7 @@ class User < ApplicationRecord
       users = User.all
       if filters.present?
         filters = filters.compact
-        filters['disabled'] = (filters['disabled'] == 'true')
+        filters['disabled'] = filters['disabled'].values if filters['disabled'].present?
         users = users.where(filters)
         if user.present? && user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
           users = users.where(organization: user.organization)
@@ -129,8 +129,8 @@ class User < ApplicationRecord
       end
       results = { total: users.size }
       pagination = { per_page: 20, page: 1 } if pagination.blank?
-      pagination[:page] = pagination[:page] > 1 ? pagination[:per_page] * pagination[:page] : 0
-      users = users.limit(pagination[:per_page]).offset(pagination[:page])
+      pagination[:offset] = pagination[:per_page] * (pagination[:page] - 1)
+      users = users.limit(pagination[:per_page]).offset(pagination[:offset])
       users = users.order(sort) if sort.present?
       results.merge(users: users)
     end
@@ -274,12 +274,6 @@ class User < ApplicationRecord
     role&.group_permission == permission
   end
 
-  # TODO: Refactor when addressing Roles Exporter
-  def has_permitted_form_id?(form_id)
-    permitted_form_ids = permitted_forms.map(&:unique_id)
-    permitted_form_ids&.include?(form_id)
-  end
-
   def has_any_permission?(*any_of_permissions)
     (any_of_permissions.flatten - role.permissions).count <
       any_of_permissions.flatten.count
@@ -347,11 +341,11 @@ class User < ApplicationRecord
   end
 
   def super_user?
-    role&.is_super_user_role? && admin?
+    role&.super_user_role? && admin?
   end
 
   def user_admin?
-    role&.is_user_admin_role? && group_permission?(Permission::ADMIN_ONLY)
+    role&.user_admin_role? && group_permission?(Permission::ADMIN_ONLY)
   end
 
   def send_welcome_email(admin_user)
@@ -401,38 +395,16 @@ class User < ApplicationRecord
     modules.select { |m| m.associated_record_types.include?(record_type) }
   end
 
-  def permitted_forms(record_type = nil, visible_only = false)
-    permitted_forms = FormSection.joins(:roles).where(
-      form_sections: { roles: { id: role_id } }
-    )
-    if record_type.present?
-      permitted_forms = permitted_forms.where(
-        parent_form: record_type
-      )
-    end
-    if visible_only
-      permitted_forms = permitted_forms.where(
-        visible: true
-      )
-    end
-    permitted_forms
-  end
-
   def permitted_fields(record_type = nil, visible_forms_only = false)
-    permitted_fields = Field.joins(form_section: :roles).where(
-      fields: { form_sections: { roles: { id: role_id } } }
+    Field.joins(form_section: :roles).where(
+      fields: {
+        form_sections: {
+          roles: { id: role_id },
+          parent_form: record_type,
+          visible: (visible_forms_only || nil)
+        }.compact
+      }
     )
-    if record_type.present?
-      permitted_fields = permitted_fields.where(
-        fields: { form_sections: { parent_form: record_type } }
-      )
-    end
-    if visible_forms_only
-      permitted_fields = permitted_fields.where(
-        fields: { form_sections: { visible: true } }
-      )
-    end
-    permitted_fields
   end
 
   def permitted_field_names_from_forms(record_type = nil, visible_forms_only = false)
@@ -462,8 +434,8 @@ class User < ApplicationRecord
     { total: tasks.size, tasks: tasks.paginate(pagination) }
   end
 
-  def can_approve_bia?
-    can?(:approve_bia, Child) || can?(:request_approval_bia, Child)
+  def can_approve_assessment?
+    can?(:approve_assessment, Child) || can?(:request_approval_assessment, Child)
   end
 
   def can_approve_case_plan?

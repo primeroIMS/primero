@@ -1,5 +1,5 @@
 import { setupMountedComponent } from "../../../test";
-import { PageContainer, PageHeading, PageContent } from "../../page";
+import PageContainer, { PageHeading, PageContent } from "../../page";
 
 import {
   Overview,

@@ -129,7 +129,7 @@ module Exporters
       def perpetrators_sex(perpetrators = [])
         return unless perpetrators.present?
 
-        gender_list = perpetrators.map(&:perpetrator_sex)
+        gender_list = perpetrators.map { |model| model['perpetrator_sex'] }
         male_count = gender_list.count { |gender| gender == 'male' }
         female_count = gender_list.count { |gender| gender == 'female' }
 
@@ -187,14 +187,14 @@ module Exporters
       end
 
       def incident_recorder_age_group(perpetrators)
-        age = perpetrators.first.try(:age_group)
+        age = perpetrators&.first&.[]('age_group')
         AGE_GROUP[age] || age
       end
 
       def incident_recorder_age_type(perpetrators)
         return unless perpetrators.present?
 
-        age_type_list = perpetrators.map(&:age_type)
+        age_type_list = perpetrators.map { |perpetrator| perpetrator['age_type'] }
         adult_count = age_type_list.count { |age_type| age_type == 'adult' }
         minor_count = age_type_list.count { |age_type| age_type == 'minor' }
         unknown_count = age_type_list.count { |age_type| age_type == 'unknown' }
@@ -222,13 +222,13 @@ module Exporters
       end
 
       def primary_alleged_perpetrator(model)
-        @alleged_perpetrators ||= model.try(:alleged_perpetrator)
-                                       .try(:select) { |ap| ap.try(:primary_perpetrator) == 'primary' }
+        @alleged_perpetrators ||= model.data['alleged_perpetrator']
+                                       &.select { |ap| ap['primary_perpetrator'] == 'primary' }
         @alleged_perpetrators.present? ? @alleged_perpetrators : []
       end
 
       def all_alleged_perpetrators(model)
-        alleged_perpetrators = model.try(:alleged_perpetrators)
+        alleged_perpetrators = model.data['alleged_perpetrator']
         alleged_perpetrators.present? ? alleged_perpetrators : []
       end
 
@@ -247,14 +247,10 @@ module Exporters
       def props
          ##### ADMINISTRATIVE INFORMATION #####
         {
-          'incident_id' => 'incidentid_ir',
+          'incident_id' => 'incident_id',
           'survivor_code' => 'survivor_code',
           'case_manager_code' => lambda do |model|
-            caseworker_code = @caseworker_code[model.owned_by]
-            caseworker_code = model.try(:owner).try(:code) if caseworker_code.blank?
-            #Collect information to the "Menu Data" sheet
-            @caseworker_code[caseworker_code] = caseworker_code if caseworker_code.present?
-            caseworker_code
+            model&.owner&.code
           end,
           'date_of_interview' => 'date_of_first_report',
           'date_of_incident' => 'incident_date',
@@ -262,7 +258,7 @@ module Exporters
           'sex' => lambda do |model|
             #Need to convert 'Female' to 'F' and 'Male' to 'M' because
             #the spreadsheet is expecting those values.
-            incident_recorder_sex(model.try(:sex))
+            incident_recorder_sex(model.data['sex'])
           end,
           #NOTE: 'H' is hidden and protected in the spreadsheet.
           'ethnicity' => 'ethnicity',
@@ -273,7 +269,7 @@ module Exporters
           'unaccompanied_separated_status' => 'unaccompanied_separated_status',
           'stage_of_displacement' => 'displacement_incident',
           'time_of_day' => lambda do |model|
-            incident_timeofday = model.try(:incident_timeofday)
+            incident_timeofday = model.data['incident_timeofday']
             return if incident_timeofday.blank?
 
             timeofday_translated = export_value(incident_timeofday, @fields['incident_timeofday'])
@@ -282,13 +278,13 @@ module Exporters
           end,
           'location' => 'incident_location_type',
           'county' => lambda do |model|
-            county_name = location_from_hierarchy(model.try(:incident_location), ['county'])
+            county_name = location_from_hierarchy(model.data['incident_location'], ['country'])
             #Collect information to the "2. Menu Data sheet."
             @counties[county_name] = county_name if county_name.present?
             county_name
           end,
           'district' => lambda do |model|
-            district_name = location_from_hierarchy(model.try(:incident_location), ['province'])
+            district_name = location_from_hierarchy(model.data['incident_location'], ['province'])
             #Collect information to the "2. Menu Data sheet."
             @districts[district_name] = district_name if district_name.present?
             district_name
@@ -314,7 +310,7 @@ module Exporters
             perpetrators_sex(all_alleged_perpetrators(model))
           end,
           'perpetrator.former' => lambda do |model|
-            former_perpetrators = primary_alleged_perpetrator(model).map { |ap| ap.try(:former_perpetrator) }
+            former_perpetrators = primary_alleged_perpetrator(model).map { |ap| ap['former_perpetrator'] }
                                                                     .reject(&:nil?)
             if former_perpetrators.include? true
               I18n.t('exports.incident_recorder_xls.yes')
@@ -326,16 +322,16 @@ module Exporters
             incident_recorder_age(all_alleged_perpetrators(model))
           end,
           'perpetrator.relationship' => lambda do |model|
-            relationship = primary_alleged_perpetrator(model).first.try(:perpetrator_relationship)
+            relationship = primary_alleged_perpetrator(model).first.try(:[], 'perpetrator_relationship')
             export_value(relationship, @fields['perpetrator_relationship']) if relationship.present?
           end,
           'perpetrator.occupation' => lambda do |model|
-            occupation = primary_alleged_perpetrator(model).first.try(:perpetrator_occupation)
+            occupation = primary_alleged_perpetrator(model).first.try(:[], 'perpetrator_occupation')
             export_value(occupation, @fields['perpetrator_occupation']) if occupation.present?
           end,
           ##### REFERRAL PATHWAY DATA #####
           'service.referred_from' => lambda do |model|
-            services = model.try(:service_referred_from)
+            services = model.data['service_referred_from']
             if services.present?
               if services.is_a?(Array)
                 services.map { |service| incident_recorder_service_referral_from(service) }.join(' & ')
@@ -345,7 +341,7 @@ module Exporters
             end
           end,
           'service.safehouse_referral' => lambda do |model|
-            incident_recorder_service_referral(model.try(:service_safehouse_referral))
+            incident_recorder_service_referral(model.data['service_safehouse_referral'])
           end,
           'service.medical_referral' => lambda do |model|
             service_value = model.health_medical_referral_subform_section.try(:first)
@@ -393,7 +389,7 @@ module Exporters
           end,
           'consent' => 'consent_reporting',
           'agency_code' => lambda do |model|
-            model.owner.try(:agency).try(:agency_code)
+            model.data['created_organization'].try(:[], 'agency_code')
           end
         }
       end
@@ -416,14 +412,12 @@ module Exporters
         incident_data_header
         models.each do |model|
           @alleged_perpetrators = nil
-          j = 0
-          @props.each do |_, prop|
-            if prop.present?
-              value = prop.is_a?(Proc) ? prop.call(model) : model.try(prop.to_sym)
-              formatted_value = format_value(prop, value)
-              @data_worksheet.write(@row_data, j, formatted_value) unless formatted_value.nil?
-            end
-            j += 1
+          @props.each_with_index do |(_, prop), index|
+            next unless prop.present?
+
+            value = prop.is_a?(Proc) ? prop.call(model) : model.data[prop]
+            formatted_value = format_value(prop, value).to_s
+            @data_worksheet.write(@row_data, index, formatted_value) unless formatted_value.nil?
           end
           @row_data += 1
         end

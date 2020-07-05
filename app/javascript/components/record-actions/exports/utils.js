@@ -1,4 +1,6 @@
+/* eslint-disable camelcase */
 import isEmpty from "lodash/isEmpty";
+import uniq from "lodash/uniq";
 
 import { ACTIONS } from "../../../libs/permissions";
 import {
@@ -11,28 +13,37 @@ import {
 
 import { ALL_EXPORT_TYPES } from "./constants";
 
-export const allowedExports = (userPermissions, i18n, isShowPage) => {
+export const allowedExports = (
+  userPermissions,
+  i18n,
+  isShowPage,
+  recordType
+) => {
   const exportsTypes = [...ALL_EXPORT_TYPES];
   let allowedExportsOptions = [];
 
   if (userPermissions.includes(ACTIONS.MANAGE)) {
-    allowedExportsOptions = exportsTypes.map(exportType => {
-      return {
-        ...exportType,
-        display_name: i18n.t(`exports.${exportType.id}.all`)
-      };
-    });
+    allowedExportsOptions = exportsTypes
+      .filter(exportType => exportType.recordTypes.includes(recordType))
+      .map(exportType => {
+        return {
+          ...exportType,
+          display_name: i18n.t(`exports.${exportType.id}.all`)
+        };
+      });
   } else {
-    allowedExportsOptions = exportsTypes.reduce((acc, obj) => {
-      if (userPermissions.includes(obj.permission)) {
-        return [
-          ...acc,
-          { ...obj, display_name: i18n.t(`exports.${obj.id}.all`) }
-        ];
-      }
+    allowedExportsOptions = exportsTypes
+      .filter(exportType => exportType.recordTypes.includes(recordType))
+      .reduce((acc, obj) => {
+        if (userPermissions.includes(obj.permission)) {
+          return [
+            ...acc,
+            { ...obj, display_name: i18n.t(`exports.${obj.id}.all`) }
+          ];
+        }
 
-      return [...acc, {}];
-    }, []);
+        return [...acc, {}];
+      }, []);
   }
 
   const allExports = allowedExportsOptions.filter(
@@ -114,27 +125,48 @@ export const buildFields = (data, locale) => {
     AUDIO_FIELD,
     DOCUMENT_FIELD,
     PHOTO_FIELD,
-    SEPERATOR,
-    SUBFORM_SECTION
+    SEPERATOR
   ];
 
   return data
     .reduce((acc, form) => {
-      // eslint-disable-next-line camelcase
       const { unique_id, name, fields } = form;
 
       const filteredFields = fields
         .filter(
           field => !excludeFieldTypes.includes(field.type) && field.visible
         )
-        .map(field => ({
-          id: field.name,
-          display_text: field.display_name[locale],
-          formSectionId: unique_id,
-          formSectionName: name[locale]
-        }));
+        .map(field => {
+          if (field.type === SUBFORM_SECTION) {
+            const subFormSectionFields = field.subform_section_id.fields
+              .filter(subformField => subformField.visible)
+              .map(subformField => {
+                const subFormSection = field.subform_section_id;
 
-      return [...acc, filteredFields];
+                return {
+                  id: `${subFormSection.unique_id}:${subformField.name}`,
+                  display_text: subformField.display_name[locale],
+                  formSectionId: subFormSection.unique_id,
+                  formSectionName: subFormSection.name[locale],
+                  type: SUBFORM_SECTION
+                };
+              });
+
+            return subFormSectionFields;
+          }
+
+          return {
+            id: `${unique_id}:${field.name}`,
+            display_text: field.display_name[locale],
+            formSectionId: unique_id,
+            formSectionName: name[locale]
+          };
+        });
+
+      return [...acc, filteredFields.flat()];
     }, [])
     .flat();
 };
+
+export const formatFields = fields =>
+  uniq(fields.map(field => field.split(":")[1]));

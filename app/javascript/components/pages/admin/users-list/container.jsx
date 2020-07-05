@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 
@@ -11,19 +12,35 @@ import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import NAMESPACE from "../namespace";
 import { CREATE_RECORDS } from "../../../../libs/permissions";
+import { Filters as AdminFilters } from "../components";
+import { fetchAgencies } from "../agencies-list/action-creators";
+import { getEnabledAgencies } from "../../../application/selectors";
+import { useThemeHelper } from "../../../../libs";
+import styles from "../styles.css";
+import ButtonText from "../../../button-text";
 
-import { fetchUsers } from "./action-creators";
-import { LIST_HEADERS } from "./constants";
+import { fetchUsers, setUsersFilters } from "./action-creators";
+import { LIST_HEADERS, AGENCY, DISABLED } from "./constants";
+import { buildUsersQuery, getFilters } from "./utils";
 
 const Container = () => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = "users";
+  const { css } = useThemeHelper(styles);
+  const defaultFilters = { [DISABLED]: ["false"] };
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
     ...rest
   }));
+  const filterAgencies = useSelector(state => getEnabledAgencies(state));
+
+  useEffect(() => {
+    dispatch(fetchAgencies({ options: { per: 999 } }));
+    dispatch(fetchUsers({ data: { [DISABLED]: ["false"] } }));
+  }, []);
 
   const tableOptions = {
     recordType,
@@ -35,7 +52,8 @@ const Container = () => {
       per: 20,
       page: 1
     }),
-    onTableChange: fetchUsers
+    onTableChange: fetchUsers,
+    bypassInitialFetch: true
   };
 
   const newUserBtn = canAddUsers && (
@@ -43,17 +61,40 @@ const Container = () => {
       to={ROUTES.admin_users_new}
       component={Link}
       color="primary"
-      startIcon={<AddIcon />}
+      className={css.showActionButton}
     >
-      {i18n.t("buttons.new")}
+      <AddIcon />
+      <ButtonText text={i18n.t("buttons.new")} />
     </Button>
   );
+
+  const filterProps = {
+    clearFields: [AGENCY, DISABLED],
+    filters: getFilters(i18n, filterAgencies),
+    defaultFilters,
+    onSubmit: data => {
+      const filters =
+        typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
+
+      batch(() => {
+        dispatch(setUsersFilters(filters));
+        dispatch(fetchUsers({ data: { ...filters } }));
+      });
+    }
+  };
 
   return (
     <>
       <PageHeading title={i18n.t("users.label")}>{newUserBtn}</PageHeading>
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={9}>
+            <IndexTable {...tableOptions} />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <AdminFilters {...filterProps} />
+          </Grid>
+        </Grid>
       </PageContent>
     </>
   );

@@ -22,11 +22,13 @@ import {
   getApprovalsCasePlan,
   getApprovalsClosure
 } from "../../selectors";
+import { useApp } from "../../../../application";
 
 import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
+  const { approvalsLabels } = useApp();
 
   const approvalsAssessmentPending = useSelector(state =>
     getApprovalsAssessmentPending(state)
@@ -71,7 +73,7 @@ const Component = ({ loadingIndicator }) => {
       actions: ACTIONS.DASH_APPROVALS_ASSESSMENT,
       options: {
         items: approvalsAssessment,
-        sumTitle: i18n.t(approvalsAssessment.get("name"))
+        sumTitle: approvalsLabels.assessment
       }
     },
     {
@@ -79,7 +81,7 @@ const Component = ({ loadingIndicator }) => {
       actions: ACTIONS.DASH_APPROVALS_CASE_PLAN,
       options: {
         items: approvalsCasePlan,
-        sumTitle: i18n.t(approvalsCasePlan.get("name"))
+        sumTitle: approvalsLabels.case_plan
       }
     },
     {
@@ -87,7 +89,7 @@ const Component = ({ loadingIndicator }) => {
       actions: ACTIONS.DASH_APPROVALS_CLOSURE,
       options: {
         items: approvalsClosure,
-        sumTitle: i18n.t(approvalsClosure.get("name"))
+        sumTitle: approvalsLabels.closure
       }
     }
   ];

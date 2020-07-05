@@ -7,7 +7,7 @@ describe Api::V2::ApprovalsController, type: :request do
     SystemSettings.create!(
       default_locale: 'en',
       approval_forms_to_alert: {
-        'cp_bia_form' => 'bia',
+        'cp_bia_form' => 'assessment',
         'cp_case_plan' => 'case_plan',
         'closure_form' => 'closure'
       }
@@ -213,19 +213,19 @@ describe Api::V2::ApprovalsController, type: :request do
   let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
 
   describe 'PATCH /api/v2/case/:id/:approval_id' do
-    context 'when the approval_id is BIA' do
-      let(:approval_id) { Approval::BIA }
+    context 'when the approval_id is ASSESSMENT' do
+      let(:approval_id) { Approval::ASSESSMENT }
 
       it_behaves_like 'request for the record' do
-        let(:approval_permission) { Permission::REQUEST_APPROVAL_BIA }
+        let(:approval_permission) { Permission::REQUEST_APPROVAL_ASSESSMENT }
       end
 
       it_behaves_like 'approve for the record' do
-        let(:approval_permission) { Permission::APPROVE_BIA }
+        let(:approval_permission) { Permission::APPROVE_ASSESSMENT }
       end
 
       it_behaves_like 'reject for the record' do
-        let(:approval_permission) { Permission::APPROVE_BIA }
+        let(:approval_permission) { Permission::APPROVE_ASSESSMENT }
       end
 
       it_behaves_like 'forbidden approval request'
@@ -294,23 +294,23 @@ describe Api::V2::ApprovalsController, type: :request do
     it 'should return 404 not found if the record_id does not exist' do
       login_for_test(permissions:
         [
-          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_BIA])
+          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_ASSESSMENT])
         ])
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED } }
 
-      patch "/api/v2/cases/77ad6b98-3c5e-11ea-b77f-2e728ce88125/approvals/bia", params: params
+      patch "/api/v2/cases/77ad6b98-3c5e-11ea-b77f-2e728ce88125/approvals/assessment", params: params
 
       expect(response).to have_http_status(404)
       expect(json['errors'][0]['status']).to eq(404)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/77ad6b98-3c5e-11ea-b77f-2e728ce88125/approvals/bia")
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/77ad6b98-3c5e-11ea-b77f-2e728ce88125/approvals/assessment")
       expect(json['errors'][0]['message']).to eq('Not Found')
     end
 
     it 'should return 404 not found if the approval_id does not exist' do
       login_for_test(permissions:
         [
-          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_BIA])
+          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_ASSESSMENT])
         ])
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED } }
@@ -326,16 +326,16 @@ describe Api::V2::ApprovalsController, type: :request do
     it 'should return 422 not found if the approval_status does not exist' do
       login_for_test(permissions:
         [
-          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_BIA])
+          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_ASSESSMENT])
         ])
 
       params = { data: { approval_status: 'open' } }
 
-      patch "/api/v2/cases/#{@case.id}/approvals/bia", params: params
+      patch "/api/v2/cases/#{@case.id}/approvals/assessment", params: params
 
       expect(response).to have_http_status(422)
       expect(json['errors'][0]['status']).to eq(422)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/approvals/bia")
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/approvals/assessment")
       expect(json['errors'][0]['message']).to eq('approvals.error_invalid_status')
     end
   end

@@ -9,7 +9,7 @@ import Form, { whichFormMode, PARENT_FORM } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { ROUTES } from "../../../../config";
-import { getSystemPermissions } from "../../../application";
+import { getSystemPermissions, useApp } from "../../../application";
 import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
 import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
@@ -29,18 +29,18 @@ import {
   fetchRole,
   saveRole
 } from "./action-creators";
-import { getRole, getLoading } from "./selectors";
+import { getRole } from "./selectors";
 import { NAME } from "./constants";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const formRef = useRef();
+  const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
   const { id } = useParams();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const loading = useSelector(state => getLoading(state));
   const roles = useSelector(
     state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]),
     compare
@@ -101,7 +101,8 @@ const Container = ({ mode }) => {
     roles,
     formSections: formsByParentForm,
     i18n,
-    formMode
+    formMode,
+    approvalsLabels
   });
 
   const initialValues = groupSelectedIdsByParentForm(
@@ -133,7 +134,7 @@ const Container = ({ mode }) => {
   return (
     <LoadingIndicator
       hasData={formMode.get("isNew") || role?.size > 0}
-      loading={loading}
+      loading={!role.size}
       type={NAMESPACE}
     >
       <PageHeading title={pageHeading}>

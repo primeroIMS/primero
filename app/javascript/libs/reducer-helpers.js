@@ -60,17 +60,12 @@ export const mergeRecord = (record, payload) => {
     return result.set(item.get("unique_id") || item.get("id"), item);
   };
 
-  const mergeSubforms = (prev, next) => {
-    return prev.merge(next);
-  };
-
   return record.mergeWith((prev, next) => {
     // Merge subforms
     if (List.isList(next) && next.some(s => s instanceof Map)) {
-      const prevSubforms = prev.reduce(reduceSubformToMap, Map());
       const nextSubforms = next.reduce(reduceSubformToMap, Map());
 
-      return [...prevSubforms.mergeWith(mergeSubforms, nextSubforms).values()];
+      return [...nextSubforms.values()];
     }
 
     // Everything else

@@ -10,6 +10,7 @@ const stateWithUser = fromJS({
     isAuthenticated: true,
     username: "primero",
     modules: ["primeromodule-test1", "primeromodule-test2"],
+    permittedForms: ["record_owner", "client_feedback"],
     permissions: {
       incidents: [ACTIONS.MANAGE],
       tracing_requests: [ACTIONS.MANAGE],
@@ -97,6 +98,15 @@ describe("User - Selectors", () => {
       const meta = selectors.getIsAuthenticated(stateWithoutUser);
 
       expect(meta).to.deep.equal(false);
+    });
+  });
+
+  describe("getPermittedFormsIds", () => {
+    it("should return list of permitted forms", () => {
+      const expectedFormsIds = fromJS(["record_owner", "client_feedback"]);
+      const selector = selectors.getPermittedFormsIds(stateWithUser);
+
+      expect(selector).to.deep.equal(expectedFormsIds);
     });
   });
 });

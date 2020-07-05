@@ -163,7 +163,9 @@ const fetchMultiPayload = (action, store, options) => {
 
       fetchStatus({ store, type }, "FINISHED", false);
 
-      store.dispatch(finishedCallback);
+      if (finishedCallback) {
+        store.dispatch(finishedCallback);
+      }
     }
   };
 

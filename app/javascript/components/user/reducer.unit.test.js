@@ -45,6 +45,7 @@ describe("User - Reducers", () => {
     const expected = fromJS({
       isAuthenticated: false,
       modules: ["primeromodule-cp", "primeromodule-gbv"],
+      permittedForms: ["record_owner", "client_feedback"],
       permissions: mapListToObject(
         [
           {
@@ -97,6 +98,7 @@ describe("User - Reducers", () => {
       agency_id: 1,
       role_unique_id: 19,
       module_unique_ids: ["primeromodule-cp", "primeromodule-gbv"],
+      permitted_form_unique_ids: ["record_owner", "client_feedback"],
       agency: 1,
       permissions: {
         list: [

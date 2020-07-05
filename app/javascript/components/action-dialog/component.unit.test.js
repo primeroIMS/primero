@@ -1,5 +1,6 @@
+import React from "react";
 import {
-  Button,
+  Fab,
   Dialog,
   DialogActions,
   DialogContent,
@@ -7,6 +8,8 @@ import {
   IconButton,
   Typography
 } from "@material-ui/core";
+import Add from "@material-ui/icons/Add";
+import CheckIcon from "@material-ui/icons/Check";
 
 import { setupMountedComponent } from "../../test";
 
@@ -26,7 +29,8 @@ describe("<ActionDialog />", () => {
     onClose: () => {},
     confirmButtonProps: {},
     omitCloseAfterSuccess: false,
-    dialogSubHeader: "Test SubHeader"
+    dialogSubHeader: "Test SubHeader",
+    disableBackdropClick: false
   };
 
   beforeEach(() => {
@@ -53,8 +57,8 @@ describe("<ActionDialog />", () => {
     expect(component.find(IconButton)).to.have.lengthOf(1);
   });
 
-  it("should render Button", () => {
-    expect(component.find(Button)).to.have.lengthOf(2);
+  it("should render Fab", () => {
+    expect(component.find(Fab)).to.have.lengthOf(2);
   });
 
   it("should accept valid props", () => {
@@ -75,7 +79,8 @@ describe("<ActionDialog />", () => {
       "omitCloseAfterSuccess",
       "dialogSubtitle",
       "enabledSuccessButton",
-      "dialogSubHeader"
+      "dialogSubHeader",
+      "disableBackdropClick"
     ].forEach(property => {
       expect(actionDialogProps).to.have.property(property);
       delete actionDialogProps[property];
@@ -113,5 +118,24 @@ describe("<ActionDialog />", () => {
     );
 
     expect(componentWithoutSubtitle.find(Typography)).to.be.empty;
+  });
+
+  it("should render the default icon for the confirm button", () => {
+    expect(component.find(CheckIcon)).to.have.lengthOf(1);
+  });
+
+  it("should render the icon prop for the confirm button", () => {
+    const propsWithConfirmButton = {
+      ...props,
+      confirmButtonProps: { icon: <Add /> }
+    };
+
+    const { component: componentWithDifferentIcon } = setupMountedComponent(
+      ActionDialog,
+      propsWithConfirmButton,
+      {}
+    );
+
+    expect(componentWithDifferentIcon.find(Add)).to.have.lengthOf(1);
   });
 });

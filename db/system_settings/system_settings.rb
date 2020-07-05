@@ -39,7 +39,7 @@ create_or_update_system_setting(
   },
   show_alerts: true,
   approval_forms_to_alert: {
-    "cp_bia_form" => "bia",
+    "cp_bia_form" => "assessment",
     "cp_case_plan" => "case_plan",
     "closure_form" => "closure"
   },
@@ -57,5 +57,15 @@ create_or_update_system_setting(
     "duplicate_id" => "export-duplicate-id-csv"
   },
   duplicate_export_field: "national_id_no",
-  use_identity_provider: false
+  use_identity_provider: false,
+  approvals_labels_en: {
+    assessment: 'Assessment',
+    case_plan: 'Case Plan',
+    closure: 'Closure'
+  },
+  approvals_labels_ar: {
+    assessment: 'Assessment',
+    case_plan: 'Case Plan',
+    closure: 'Closure'
+  }
 )

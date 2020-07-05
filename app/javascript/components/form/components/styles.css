@@ -2,16 +2,11 @@
   box-shadow: none;
   color: $(theme.primero.colors.white);
   background: $(theme.primero.colors.blue);
-  width: 8em;
+  min-width: 8em;
   height: 32px;
 
   &:hover {
     color: $(theme.primero.colors.black);
-  }
-
-  & svg {
-    position: absolute;
-    left: 0.3em;
   }
 }
 
@@ -50,7 +45,6 @@
 }
 
 .actionButtonText {
-  position: absolute;
   margin: 0 0.5em;
 }
 
@@ -65,4 +59,14 @@
 
 .panelContent {
   display: block;
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .actionButton, .actionButtonCancel {
+    min-width: 0;
+
+    & svg {
+      margin-left: 0;
+    }
+  }
 }

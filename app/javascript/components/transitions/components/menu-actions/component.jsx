@@ -32,14 +32,14 @@ const Component = ({ transition, showMode, recordType, classes }) => {
   };
   const revokeModalName = `${REVOKE_MODAL}-${transition.id}`;
   const openRevokeDialog = useSelector(state =>
-    selectDialog(revokeModalName, state)
+    selectDialog(state, revokeModalName)
   );
   const setRevokeDialog = open => {
     dispatch(setDialog({ dialog: revokeModalName, open }));
   };
   const [approvalType, setApprovalType] = useState(ACCEPTED);
   const approvalOpen = useSelector(state =>
-    selectDialog(TRANSFER_APPROVAL_DIALOG, state)
+    selectDialog(state, TRANSFER_APPROVAL_DIALOG)
   );
   const setApprovalOpen = open => {
     dispatch(setDialog({ dialog: TRANSFER_APPROVAL_DIALOG, open }));
@@ -47,7 +47,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
 
   const [referralType, setReferralType] = useState(DONE);
   const referralOpen = useSelector(state =>
-    selectDialog(REFERRAL_DONE_DIALOG, state)
+    selectDialog(state, REFERRAL_DONE_DIALOG)
   );
   const setReferralOpen = open => {
     dispatch(setDialog({ dialog: REFERRAL_DONE_DIALOG, open }));

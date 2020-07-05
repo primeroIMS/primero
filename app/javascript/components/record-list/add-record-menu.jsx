@@ -6,10 +6,15 @@ import { Link } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import { push } from "connected-react-router";
 
+import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import { useApp } from "../application";
+import ButtonText from "../button-text";
+
+import styles from "./styles.css";
 
 const AddRecordMenu = ({ recordType }) => {
+  const { css } = useThemeHelper(styles);
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -31,8 +36,13 @@ const AddRecordMenu = ({ recordType }) => {
 
   return (
     <>
-      <Button startIcon={<AddIcon />} onClick={handleClick} color="primary">
-        {i18n.t("buttons.new")}
+      <Button
+        onClick={handleClick}
+        color="primary"
+        className={css.showActionButton}
+      >
+        <AddIcon />
+        <ButtonText text={i18n.t("buttons.new")} />
       </Button>
       <Menu
         anchorEl={anchorEl}

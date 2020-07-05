@@ -90,7 +90,7 @@ services_subform = [
     "type" => "select_box",
     "display_name_en" => "Service implemented",
     "option_strings_source" => "lookup lookup-service-implemented",
-    "selected_value" => "not-implemented",
+    "selected_value" => "not_implemented",
     "disabled" => true
   }),
   Field.new({

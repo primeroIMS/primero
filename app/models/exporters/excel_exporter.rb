@@ -73,7 +73,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def worksheet_name(form)
-    name = form.name('en')
+    name = form.name(locale.to_s)
     name.sub(%r{[\[\]:*?\/\\]}, ' ')
         .encode('iso-8859-1', undef: :replace, replace: '')
         .strip.truncate(31)
@@ -103,6 +103,8 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
   def export_value(value, field)
     value = super(value, field)
+    return value['name_i18n'][locale.to_s] if field.name == 'created_organization' && value.present?
+
     return value unless value.is_a? Array
 
     value.join(' ||| ')

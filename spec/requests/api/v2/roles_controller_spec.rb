@@ -275,7 +275,7 @@ describe Api::V2::RolesController, type: :request do
       post '/api/v2/roles', params: params
       expect(response).to have_http_status(200)
       expect(json['data']['name']).to eq(params[:data][:name])
-      expect(json['data']['form_section_unique_ids']).to eq(params[:data][:form_section_unique_ids])
+      expect(json['data']['form_section_unique_ids']).to match_array(params[:data][:form_section_unique_ids])
       expect(json['data']['permissions']).to eq(params[:data][:permissions].deep_stringify_keys)
     end
 

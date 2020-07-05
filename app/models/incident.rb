@@ -34,7 +34,7 @@ class Incident < ApplicationRecord
       date_of_interview date_of_incident violence_type
       incident_location violations social_worker date_of_first_report
       cp_incident_violence_type cp_incident_date
-      gbv_sexual_violence_type incident_date
+      gbv_sexual_violence_type incident_date survivor_code
     ]
   end
 

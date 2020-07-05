@@ -100,4 +100,3 @@ activities = FormSection.create_or_update_form_section({
   name_en: "Activities",
   description_en: "Activities"
 })
-

@@ -367,6 +367,27 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(@form_1.visible).to eq(params[:data][:visible])
     end
 
+    it "updates the collapsed_field_names with 200" do
+      login_for_test({
+        permissions: [
+          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
+        ]
+      })
+
+      params = {
+        data: {
+          is_nested: true,
+          collapsed_field_names: ["fs1_field_1"]
+        }
+      }
+      patch "/api/v2/forms/#{@form_1.id}", params: params
+
+      @form_1.reload
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@form_1.id)
+      expect(@form_1.collapsed_fields.map(&:name)).to eq(params[:data][:collapsed_field_names])
+    end
+
     it "merges the changes in a form with fields and returns 200" do
       login_for_test({
         permissions: [

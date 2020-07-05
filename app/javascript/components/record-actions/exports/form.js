@@ -9,6 +9,7 @@ import {
   TEXT_FIELD,
   TOGGLE_FIELD
 } from "../../form";
+import { SUBFORM_SECTION } from "../../record-form/constants";
 
 import { allowedExports } from "./utils";
 import {
@@ -33,14 +34,20 @@ export default (
   individualFields,
   css,
   modules,
-  fields
+  fields,
+  recordType
 ) => [
   FieldRecord({
     display_name: i18n.t("encrypt.export_type"),
     name: EXPORT_TYPE_FIELD,
     type: SELECT_FIELD,
     option_strings_text: {
-      [i18n.locale]: allowedExports(userPermissions, i18n, isShowPage)
+      [i18n.locale]: allowedExports(
+        userPermissions,
+        i18n,
+        isShowPage,
+        recordType
+      )
     },
     multi_select: false,
     required: true
@@ -89,10 +96,12 @@ export default (
     type: SELECT_FIELD,
     multi_select: true,
     option_strings_text: uniqBy(
-      fields.map(field => ({
-        id: field.formSectionId,
-        display_text: field.formSectionName
-      })),
+      fields
+        .filter(field => field?.type !== SUBFORM_SECTION)
+        .map(field => ({
+          id: field.formSectionId,
+          display_text: field.formSectionName
+        })),
       "id"
     ),
     inputClassname:

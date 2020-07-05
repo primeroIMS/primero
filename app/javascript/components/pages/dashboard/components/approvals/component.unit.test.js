@@ -40,7 +40,7 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
             type: "indicator",
             indicators: {
               approval_case_plan_pending: {
-                count: 1,
+                count: 2,
                 query: []
               }
             }
@@ -50,7 +50,7 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
             type: "indicator",
             indicators: {
               approval_closure_pending: {
-                count: 1,
+                count: 3,
                 query: []
               }
             }
@@ -70,6 +70,19 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
     },
     user: {
       permissions
+    },
+    application: {
+      approvalsLabels: {
+        assessment: {
+          en: "Assessment"
+        },
+        case_plan: {
+          en: "Case Plan"
+        },
+        closure: {
+          en: "Closure"
+        }
+      }
     }
   });
 
@@ -85,6 +98,18 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
     expect(component.find(OverviewBox)).to.have.lengthOf(4);
     expect(component.find("li")).to.have.lengthOf(4);
     expect(component.find("button")).to.have.lengthOf(4);
+  });
+
+  it("should render the correct approvals label", () => {
+    expect(
+      component.find(OverviewBox).find("div div").at(1).text()
+    ).to.be.equal("1 Assessment");
+    expect(
+      component.find(OverviewBox).find("div div").at(2).text()
+    ).to.be.equal("2 Case Plan");
+    expect(
+      component.find(OverviewBox).find("div div").last().text()
+    ).to.be.equal("3 Closure");
   });
 
   describe("when the data is loading", () => {

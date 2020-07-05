@@ -160,7 +160,10 @@ Initiate and query for exports
 Endpoints for querying and manipulating individual cases and related resources in Primero.
 
 * [Query for reports](v2/docs/reports/get.md) : `GET /api/v2/reports`
-* [Fetch an individual case](v2/docs/reports/id/get.md) : `GET /api/v2/reports/:id`
+* [Fetch an individual reports](v2/docs/reports/id/get.md) : `GET /api/v2/reports/:id`
+* [Create a new reports](v2/docs/reports/post.md) : `POST /api/v2/reports`
+* [Update an existing reports](v2/docs/reports/id/patch.md) : `PATCH /api/v2/reports/:id`
+* [Delete an existing reports](v2/docs/reports/id/delete.md) : `DELETE /api/v2/reports/:id`
 
 ## Lookup Endpoints
 

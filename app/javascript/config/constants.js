@@ -73,6 +73,7 @@ export const RECORD_PATH = {
   forms: "forms",
   incidents: "incidents",
   lookups: "lookups",
+  reports: "reports",
   roles: "roles",
   tasks: "tasks",
   tracing_requests: "tracing_requests",
@@ -123,6 +124,7 @@ export const ROUTES = {
   matches: "/matches",
   not_authorized: "/not-authorized",
   reports: "/reports",
+  reports_new: "/reports/new",
   support: "/support",
   tasks: "/tasks",
   tracing_requests: "/tracing_requests"
@@ -200,7 +202,9 @@ export const ADMIN_NAV = [
     items: [
       {
         to: "/forms",
-        label: "settings.navigation.forms"
+        label: "settings.navigation.forms",
+        permission: MANAGE,
+        recordType: RESOURCES.metadata
       },
       {
         to: "/lookups",
@@ -208,7 +212,9 @@ export const ADMIN_NAV = [
         permission: MANAGE,
         recordType: RESOURCES.metadata
       }
-    ]
+    ],
+    permission: MANAGE,
+    recordType: RESOURCES.metadata
   },
   { to: "/locations", label: "settings.navigation.locations", disabled: true },
   {
@@ -334,3 +340,20 @@ export const ACCEPT = "accept";
 export const REJECTED = "rejected";
 export const REJECT = "reject";
 export const SAVING = "saving";
+
+export const APPROVALS_TYPES = Object.freeze({
+  assessment: "assessment",
+  case_plan: "case_plan",
+  closure: "closure"
+});
+
+export const ALERTS_FOR = {
+  field_change: "field_change",
+  incident_details: "incident_details",
+  services_section: "services_section",
+  approval: "approval",
+  new_form: "new_form",
+  transfer_request: "transfer_request"
+};
+
+export const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];

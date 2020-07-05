@@ -13,8 +13,6 @@ import Login, {
   NotAuthorized,
   NotFound,
   PotentialMatches,
-  Report,
-  Reports,
   RolesForm,
   RolesList,
   Support,
@@ -24,11 +22,15 @@ import Login, {
   UsersForm,
   UsersList
 } from "../components/pages";
+import Report from "../components/report";
+import Reports from "../components/reports-list";
+import ReportsForm from "../components/reports-form";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
 import { AppLayout, LoginLayout } from "../components/layouts";
 import {
   CREATE_RECORDS,
+  CREATE_REPORTS,
   RECORD_RESOURCES,
   READ_RECORDS,
   READ_REPORTS,
@@ -103,14 +105,35 @@ export default [
         actions: READ_RECORDS
       },
       {
-        path: ROUTES.reports,
-        component: Reports,
+        path: `${ROUTES.reports}/new`,
+        component: ReportsForm,
         resources: RESOURCES.reports,
-        actions: READ_REPORTS
+        extraProps: {
+          mode: MODES.new
+        },
+        actions: CREATE_REPORTS
       },
       {
-        path: `${ROUTES.reports}/:id`,
+        path: `${ROUTES.reports}/:id(\\d+)`,
         component: Report,
+        resources: RESOURCES.reports,
+        actions: READ_REPORTS,
+        extraProps: {
+          mode: MODES.show
+        }
+      },
+      {
+        path: `${ROUTES.reports}/:id/edit`,
+        component: ReportsForm,
+        resources: RESOURCES.reports,
+        actions: READ_REPORTS,
+        extraProps: {
+          mode: MODES.edit
+        }
+      },
+      {
+        path: ROUTES.reports,
+        component: Reports,
         resources: RESOURCES.reports,
         actions: READ_REPORTS
       },

@@ -12,6 +12,9 @@ import { ROUTES } from "../../../../config";
 import { usePermissions, getListHeaders } from "../../../user";
 import NAMESPACE from "../namespace";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
+import { useThemeHelper } from "../../../../libs";
+import styles from "../styles.css";
+import ButtonText from "../../../button-text";
 
 import { NAME } from "./constants";
 import { fetchUserGroups } from "./action-creators";
@@ -29,6 +32,8 @@ const Container = () => {
     name: fieldName,
     ...rest
   }));
+
+  const { css } = useThemeHelper(styles);
 
   const tableOptions = {
     recordType,
@@ -48,9 +53,10 @@ const Container = () => {
       to={ROUTES.admin_user_groups_new}
       component={Link}
       color="primary"
-      startIcon={<AddIcon />}
+      className={css.showActionButton}
     >
-      {i18n.t("buttons.new")}
+      <AddIcon />
+      <ButtonText text={i18n.t("buttons.new")} />
     </Button>
   ) : null;
 

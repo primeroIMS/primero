@@ -50,3 +50,7 @@
   transform: rotate(90deg);
   transform-origin: 50% 50%;
 }
+
+.tabContent {
+  padding: 0 1em;
+}

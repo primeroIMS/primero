@@ -6,7 +6,7 @@ import { Card, CardContent } from "@material-ui/core";
 import makeStyles from "@material-ui/styles/makeStyles";
 
 import { useI18n } from "../../i18n";
-import { PageContainer, PageHeading, PageContent } from "../../page";
+import PageContainer, { PageHeading, PageContent } from "../../page";
 
 import styles from "./styles.css";
 import { fetchPotentialMatches } from "./action-creators";
@@ -27,7 +27,7 @@ const PotentialMatches = ({ getPotentialMatches, potentialMatches }) => {
     i18n.t("potential_match.inquirer_tr_name")
   ];
   const options = {
-    responsive: "stacked",
+    responsive: "vertical",
     fixedHeader: false,
     elevation: 0,
     filter: false,

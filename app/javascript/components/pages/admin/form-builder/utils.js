@@ -1,5 +1,7 @@
 import range from "lodash/range";
 
+import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
+
 export const convertToFieldsObject = fields =>
   fields
     .map(field => ({ [field.name]: field }))
@@ -32,3 +34,8 @@ export const buildOrderUpdater = (currentOrder, newOrder) => {
 
   return field => field.set("order", field.get("order") + 1);
 };
+
+export const getFormRequestPath = (id, saveMethod) =>
+  saveMethod === SAVE_METHODS.update
+    ? `${RECORD_PATH.forms}/${id}`
+    : RECORD_PATH.forms;

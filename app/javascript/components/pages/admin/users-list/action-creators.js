@@ -1,17 +1,20 @@
-/* eslint-disable import/prefer-default-export */
-
 import { RECORD_PATH } from "../../../../config";
 
 import actions from "./actions";
 
-export const fetchUsers = data => {
-  const { options } = data || {};
+export const fetchUsers = params => {
+  const { data } = params || {};
 
   return {
     type: actions.USERS,
     api: {
       path: RECORD_PATH.users,
-      params: options
+      params: data
     }
   };
 };
+
+export const setUsersFilters = payload => ({
+  type: actions.SET_USERS_FILTER,
+  payload
+});

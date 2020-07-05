@@ -75,7 +75,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_bia', value: Approval::APPROVAL_STATUS_PENDING)
+        SearchFilters::Value.new(field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
 
@@ -83,7 +83,7 @@ module Indicators
       name: 'approval_assessment_pending_group',
       record_model: Child,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_bia', value: Approval::APPROVAL_STATUS_PENDING)
+        SearchFilters::Value.new(field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
 
@@ -92,7 +92,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_bia', value: Approval::APPROVAL_STATUS_REJECTED)
+        SearchFilters::Value.new(field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_REJECTED)
       ]
     ).freeze
 
@@ -101,7 +101,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_bia', value: Approval::APPROVAL_STATUS_APPROVED)
+        SearchFilters::Value.new(field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_APPROVED)
       ]
     ).freeze
 

@@ -7,6 +7,7 @@ import qs from "qs";
 import { useForm, FormContext } from "react-hook-form";
 import { makeStyles } from "@material-ui/styles";
 import isEmpty from "lodash/isEmpty";
+import uniq from "lodash/uniq";
 
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
@@ -36,7 +37,12 @@ import {
   NAME,
   PASSWORD_FIELD
 } from "./constants";
-import { buildFields, exporterFilters, formatFileName } from "./utils";
+import {
+  buildFields,
+  exporterFilters,
+  formatFileName,
+  formatFields
+} from "./utils";
 import form from "./form";
 import { saveExport } from "./action-creators";
 import styles from "./styles.css";
@@ -122,7 +128,7 @@ const Component = ({
       primeroModule: selectedModule || record?.get("module_id")
     })
   );
-  const fields = buildFields(recordTypesForms, i18n.locale);
+  const fields = buildFields(recordTypesForms, i18n.locale, individualFields);
 
   const handleSubmit = values => {
     const { form_unique_ids: formUniqueIds, field_names: fieldNames } = values;
@@ -155,11 +161,29 @@ const Component = ({
     let exportParams = {};
 
     if (!isEmpty(formUniqueIds)) {
-      exportParams = { ...exportParams, [FORM_TO_EXPORT_FIELD]: formUniqueIds };
+      exportParams = {
+        ...exportParams,
+        [FORM_TO_EXPORT_FIELD]: formUniqueIds
+      };
     }
 
     if (!isEmpty(fieldNames)) {
-      exportParams = { ...exportParams, [FIELDS_TO_EXPORT_FIELD]: fieldNames };
+      exportParams = {
+        ...exportParams,
+        [FIELDS_TO_EXPORT_FIELD]: formatFields(fieldNames)
+      };
+    }
+
+    // If we selected individual fields, we should pass forms and fields
+    if (individualFields) {
+      exportParams = {
+        ...exportParams,
+        [FORM_TO_EXPORT_FIELD]: uniq(
+          fields
+            .filter(field => fieldNames.includes(field.id))
+            .map(field => field.formSectionId)
+        )
+      };
     }
 
     const body = isCustomExport
@@ -228,7 +252,8 @@ const Component = ({
     individualFields,
     css,
     modules,
-    fields
+    fields,
+    recordType
   );
 
   const enabledSuccessButton =

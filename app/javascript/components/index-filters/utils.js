@@ -1,6 +1,8 @@
 import isEmpty from "lodash/isEmpty";
 import isObject from "lodash/isObject";
 
+import { APPROVALS, APPROVALS_TYPES } from "../../config";
+
 import { FILTER_TYPES } from "./constants";
 import {
   CheckboxFilter,
@@ -45,3 +47,16 @@ export const compactFilters = values =>
 
     return obj;
   }, {});
+
+export const buildNameFilter = (item, i18n, approvalsLabels) => {
+  switch (item) {
+    case `${APPROVALS}.${APPROVALS_TYPES.assessment}`:
+      return approvalsLabels.assessment;
+    case `${APPROVALS}.${APPROVALS_TYPES.case_plan}`:
+      return approvalsLabels.case_plan;
+    case `${APPROVALS}.${APPROVALS_TYPES.closure}`:
+      return approvalsLabels.closure;
+    default:
+      return i18n.t(item);
+  }
+};

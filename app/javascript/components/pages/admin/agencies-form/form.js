@@ -8,7 +8,8 @@ import {
   TEXT_FIELD,
   TEXT_AREA,
   SELECT_FIELD,
-  PHOTO_FIELD
+  PHOTO_FIELD,
+  SEPARATOR
 } from "../../../form";
 
 export const validations = () =>
@@ -55,19 +56,47 @@ export const form = i18n => {
           option_strings_source: "lookup-service-type"
         }),
         FieldRecord({
+          display_name: i18n.t("agency.agency_logos"),
+          type: SEPARATOR
+        }),
+        FieldRecord({
           display_name: i18n.t("agency.logo_icon"),
           name: "logo_icon",
-          type: PHOTO_FIELD
+          type: PHOTO_FIELD,
+          help_text: i18n.t("agency.logo_icon_help")
         }),
         FieldRecord({
           display_name: i18n.t("agency.logo_large"),
           name: "logo_full",
-          type: PHOTO_FIELD
+          type: PHOTO_FIELD,
+          help_text: i18n.t("agency.logo_large_help")
         }),
         FieldRecord({
           display_name: i18n.t("agency.logo_enabled"),
           name: "logo_enabled",
-          type: TICK_FIELD
+          type: TICK_FIELD,
+          watchedInputs: [
+            "logo_icon",
+            "logo_full",
+            "logo_full_url",
+            "logo_icon_url"
+          ],
+          help_text: i18n.t("agency.logo_enabled_help"),
+          handleWatchedInputs: value => {
+            const {
+              logo_full: logoFull,
+              logo_icon: logoIcon,
+              logo_full_url: logoFullUrl,
+              logo_icon_url: logoIconUrl
+            } = value;
+
+            return {
+              disabled: !(
+                (logoFull?.length && logoIcon?.length) ||
+                (logoIconUrl && logoFullUrl)
+              )
+            };
+          }
         }),
         FieldRecord({
           display_name: i18n.t("agency.disabled"),
