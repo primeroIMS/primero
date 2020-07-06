@@ -171,10 +171,11 @@ const Container = ({ match, mode }) => {
     handleToggleNav,
     isNew: containerMode.isNew,
     mobileDisplay,
-    recordType: params.recordType,
+    recordType,
     selectedForm,
     selectedRecord: record ? record.get("id") : null,
-    toggleNav
+    toggleNav,
+    primeroModule: selectedModule.primeroModule
   };
 
   useEffect(() => {
