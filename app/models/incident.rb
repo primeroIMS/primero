@@ -57,7 +57,7 @@ class Incident < CouchRest::Model::Base
   property :description
   property :date_of_first_report, Date
 
-  validate :validate_date_of_first_report
+  #validate :validate_date_of_first_report
 
   def initialize *args
     self['histories'] = []
