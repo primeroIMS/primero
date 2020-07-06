@@ -72,9 +72,9 @@ class Child < CouchRest::Model::Base
   property :incident_links, [], :default => []
   property :matched_tracing_request_id
 
-  #validate :validate_date_of_birth
-  #validate :validate_registration_date
-  validate :validate_child_wishes
+  # validate :validate_date_of_birth
+  # validate :validate_registration_date
+  # validate :validate_child_wishes
   # validate :validate_date_closure
 
   before_save :sync_protection_concerns
