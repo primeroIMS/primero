@@ -6,9 +6,6 @@ import styles from "./styles.css";
 const TablePercentageBar = ({ percentage, className }) => {
   const css = makeStyles(styles)();
 
-  // Set a minimum of 5 percent so that there is always something
-  // visible. It's not meant to be a super accurate assessment but
-  // a quick visual assessment if we're using a percentage bar.
   const percentageValue = percentage * 100;
   const isSmall = percentage < 0.1;
 
