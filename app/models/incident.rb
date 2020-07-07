@@ -52,6 +52,11 @@ class Incident < ApplicationRecord
   validate :validate_date_of_first_report
 
   before_update :clean_incident_date
+  after_save :index_record
+
+  def index_record
+    Sunspot.index!(self.case) if self.case.present?
+  end
 
   alias super_defaults defaults
   def defaults

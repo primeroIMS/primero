@@ -64,7 +64,7 @@ class Child < ApplicationRecord
     :duplicate, :location_current, :tracing_status, :name_caregiver,
     :urgent_protection_concern
 
-  has_many :incidents
+  has_many :incidents, foreign_key: :incident_case_id
   belongs_to :matched_tracing_request, class_name: 'TracingRequest', optional: true
 
   has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
@@ -128,6 +128,10 @@ class Child < ApplicationRecord
 
     date :followup_due_dates, multiple: true do
       Tasks::FollowUpTask.from_case(self).map(&:due_date)
+    end
+
+    boolean :has_incidents, as: 'has_incidents_b' do
+      incidents.present?
     end
   end
 
