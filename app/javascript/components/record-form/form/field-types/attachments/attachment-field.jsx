@@ -60,7 +60,7 @@ const AttachmentField = ({
         </Box>
         {disabled && !mode.isShow && (
           <div>
-            <IconButton onClick={handleRemove}>
+            <IconButton aria-label="menu" onClick={handleRemove}>
               <DeleteIcon />
             </IconButton>
           </div>

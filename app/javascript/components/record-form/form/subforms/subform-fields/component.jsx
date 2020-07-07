@@ -109,7 +109,10 @@ const Component = ({
               </Box>
               <Box>
                 {!subformPreventItemRemoval && !mode.isShow ? (
-                  <IconButton onClick={() => handleOpenModal(index)}>
+                  <IconButton
+                    aria-label="menu"
+                    onClick={() => handleOpenModal(index)}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 ) : null}
@@ -120,7 +123,7 @@ const Component = ({
                     recordType={recordType}
                   />
                 ) : null}
-                <IconButton onClick={() => handleEdit(index)}>
+                <IconButton aria-label="menu" onClick={() => handleEdit(index)}>
                   <ArrowIcon />
                 </IconButton>
               </Box>

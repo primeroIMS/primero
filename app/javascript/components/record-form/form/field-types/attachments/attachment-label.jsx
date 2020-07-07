@@ -21,6 +21,7 @@ const AttachmentLabel = ({
       {disabled && !mode.isShow && (
         <div>
           <IconButton
+            aria-label="menu"
             variant="contained"
             onClick={() => handleAttachmentAddition(arrayHelpers)}
           >

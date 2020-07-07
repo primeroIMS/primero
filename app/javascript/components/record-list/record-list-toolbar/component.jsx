@@ -27,7 +27,7 @@ const Component = ({
       </Box>
       <Box>
         {mobileDisplay && (
-          <IconButton onClick={handleDrawer} color="primary">
+          <IconButton aria-label="menu" onClick={handleDrawer} color="primary">
             <FilterListIcon />
           </IconButton>
         )}

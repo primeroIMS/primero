@@ -150,7 +150,11 @@ const OrderableOptionsField = ({
           variant="outlined"
           actionHandler={onAddOption}
         />
-        <Button className={css.clearDefaultButton} onClick={onClearDefault}>
+        <Button
+          aria-label="test"
+          className={css.clearDefaultButton}
+          onClick={onClearDefault}
+        >
           <CloseIcon />
           {i18n.t("buttons.clear_default")}
         </Button>

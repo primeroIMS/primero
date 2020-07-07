@@ -84,6 +84,7 @@ const Reports = () => {
 
   const newReportBtn = canAddReport ? (
     <Button
+      aria-label="label"
       to={ROUTES.reports_new}
       component={Link}
       color="primary"

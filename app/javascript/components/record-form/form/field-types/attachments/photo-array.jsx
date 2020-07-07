@@ -39,7 +39,7 @@ const PhotoArray = ({ images }) => {
         open={selected.open}
         onClick={handleClose}
       >
-        <IconButton className={css.backdropClose}>
+        <IconButton aria-label="menu" className={css.backdropClose}>
           <CloseIcon />
         </IconButton>
         <img src={images[selected.index]} alt="" />

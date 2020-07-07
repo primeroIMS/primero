@@ -69,7 +69,7 @@ const Component = ({
                   values={formik.values.services_section}
                 />
               ) : null}
-              <IconButton onClick={handleClose}>
+              <IconButton aria-label="menu" onClick={handleClose}>
                 <CloseIcon />
               </IconButton>
             </Box>

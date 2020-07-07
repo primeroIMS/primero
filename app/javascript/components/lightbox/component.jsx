@@ -19,12 +19,17 @@ const Component = ({ trigger, image }) => {
 
   return (
     <>
-      <button onClick={handleClose} type="button" className={css.button}>
+      <button
+        aria-label="ab"
+        onClick={handleClose}
+        type="button"
+        className={css.button}
+      >
         {trigger}
       </button>
       {image && (
         <Backdrop className={css.backdrop} open={open} onClick={handleClose}>
-          <IconButton className={css.backdropClose}>
+          <IconButton aria-label="menu" className={css.backdropClose}>
             <CloseIcon />
           </IconButton>
           <img src={image} alt="" />

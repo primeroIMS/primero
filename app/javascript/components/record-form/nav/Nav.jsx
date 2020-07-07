@@ -59,6 +59,7 @@ const Nav = ({
   const renderCloseButtonNavBar = mobileDisplay && (
     <div className={css.closeButtonRecordNav}>
       <IconButton
+        aria-label="menu"
         onClick={handleToggleNav}
         className={css.closeIconButtonRecordNav}
       >

@@ -26,7 +26,7 @@ const SnackbarAction = ({
           {actionLabel}
         </Button>
       ) : null}
-      <IconButton onClick={handleSnackClose}>
+      <IconButton aria-label="menu" onClick={handleSnackClose}>
         <CloseIcon />
       </IconButton>
     </>

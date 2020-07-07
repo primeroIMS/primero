@@ -83,6 +83,7 @@ const Search = ({ handleReset }) => {
           endAdornment={
             <InputAdornment position="end">
               <IconButton
+                aria-label="menu"
                 className={css.iconSearchButton}
                 onClick={handleClear}
               >
