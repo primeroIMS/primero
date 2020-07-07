@@ -21,24 +21,25 @@ import TitleWithClose from "./text-with-close";
 import styles from "./styles.css";
 
 const ActionDialog = ({
-  open,
-  successHandler,
+  cancelButtonProps,
   cancelHandler,
-  dialogTitle,
+  children,
+  confirmButtonLabel,
+  confirmButtonProps,
+  dialogActions,
+  dialogSubHeader,
   dialogSubtitle,
   dialogText,
-  confirmButtonLabel,
-  children,
-  onClose,
-  confirmButtonProps,
-  omitCloseAfterSuccess,
-  maxSize,
-  pending,
-  enabledSuccessButton,
-  dialogSubHeader,
-  cancelButtonProps,
+  dialogTitle,
   disableActions,
-  disableBackdropClick
+  disableBackdropClick,
+  enabledSuccessButton,
+  maxSize,
+  omitCloseAfterSuccess,
+  onClose,
+  open,
+  pending,
+  successHandler
 }) => {
   const i18n = useI18n();
   const { css } = useThemeHelper(styles);
@@ -78,6 +79,7 @@ const ActionDialog = ({
       dialogTitle={dialogTitle}
       dialogSubtitle={dialogSubtitle}
       closeHandler={handleClose}
+      dialogActions={dialogActions}
     />
   ) : (
     <DialogTitle className={css.dialogTitle}>{dialogTitle}</DialogTitle>
@@ -138,7 +140,7 @@ const ActionDialog = ({
             children
           )}
         </DialogContent>
-        {disableActions || (
+        {!disableActions && (
           <DialogActions>
             {submitButton}
             {cancelHandler && (
@@ -176,6 +178,7 @@ ActionDialog.propTypes = {
   ]),
   confirmButtonLabel: PropTypes.string,
   confirmButtonProps: PropTypes.object,
+  dialogActions: PropTypes.object,
   dialogSubHeader: PropTypes.string,
   dialogSubtitle: PropTypes.string,
   dialogText: PropTypes.string,

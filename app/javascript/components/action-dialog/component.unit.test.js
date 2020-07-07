@@ -18,19 +18,23 @@ import ActionDialog from "./component";
 describe("<ActionDialog />", () => {
   let component;
   const props = {
-    open: true,
-    successHandler: () => {},
     cancelHandler: () => {},
-    dialogTitle: "",
+    children: [],
+    confirmButtonLabel: "",
+    confirmButtonProps: {},
+    dialogActions: <></>,
+    dialogSubHeader: "Test SubHeader",
     dialogSubtitle: "Test Subtitle",
     dialogText: "",
-    confirmButtonLabel: "",
-    children: [],
-    onClose: () => {},
-    confirmButtonProps: {},
+    dialogTitle: "",
+    disableActions: false,
+    disableBackdropClick: false,
+    maxSize: "sm",
     omitCloseAfterSuccess: false,
-    dialogSubHeader: "Test SubHeader",
-    disableBackdropClick: false
+    onClose: () => {},
+    open: true,
+    pending: false,
+    successHandler: () => {}
   };
 
   beforeEach(() => {
@@ -66,21 +70,25 @@ describe("<ActionDialog />", () => {
 
     expect(component.find(ActionDialog)).to.have.lengthOf(1);
     [
-      "open",
-      "successHandler",
-      "cancelHandler",
-      "dialogTitle",
-      "dialogText",
-      "confirmButtonLabel",
-      "children",
-      "onClose",
       "cancelButtonProps",
+      "cancelHandler",
+      "children",
+      "confirmButtonLabel",
       "confirmButtonProps",
-      "omitCloseAfterSuccess",
-      "dialogSubtitle",
-      "enabledSuccessButton",
+      "dialogActions",
       "dialogSubHeader",
-      "disableBackdropClick"
+      "dialogSubtitle",
+      "dialogText",
+      "dialogTitle",
+      "disableActions",
+      "disableBackdropClick",
+      "enabledSuccessButton",
+      "maxSize",
+      "omitCloseAfterSuccess",
+      "onClose",
+      "open",
+      "pending",
+      "successHandler"
     ].forEach(property => {
       expect(actionDialogProps).to.have.property(property);
       delete actionDialogProps[property];

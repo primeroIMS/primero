@@ -1,81 +1,79 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  Box,
-  Fab,
-  IconButton,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import CheckIcon from "@material-ui/icons/Check";
+import { Box } from "@material-ui/core";
 
 import FormSectionField from "../../form-section-field";
 import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
 import { serviceHasReferFields } from "../../utils";
-import { useThemeHelper } from "../../../../../libs";
-import styles from "../../styles.css";
-import ButtonText from "../../../../button-text";
+import ActionDialog from "../../../../action-dialog";
+import { compactValues, emptyValues } from "../../../utils";
 
 const Component = ({
-  index,
+  arrayHelpers,
+  currentValue,
+  dialogIsNew,
   field,
+  formik,
+  i18n,
+  index,
+  isFormShow,
   mode,
+  oldValue,
   open,
   setOpen,
-  title,
-  dialogIsNew,
-  i18n,
-  formik
+  title
 }) => {
-  const { css } = useThemeHelper(styles);
+  const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
+  const changed = !emptyValues(compactValues(currentValue, oldValue));
 
   const handleClose = () => {
-    setOpen({ open: false, index: null });
+    if (changed) {
+      setOpenConfirmationModal(true);
+    } else {
+      setOpen({ open: false, index: null });
+    }
   };
 
   const buttonDialogText = dialogIsNew ? "buttons.add" : "buttons.update";
 
-  if (index !== null) {
-    const actionButton =
-      mode.isEdit || mode.isNew ? (
-        <Fab
-          onClick={handleClose}
-          variant="contained"
-          color="primary"
-          elevation={0}
-          className={css.actionButton}
-        >
-          <CheckIcon />
-          <ButtonText text={i18n.t(buttonDialogText)} />
-        </Fab>
-      ) : null;
+  const dialogActions =
+    field.subform_section_id.unique_id === "services_section" &&
+    mode.isShow &&
+    serviceHasReferFields(formik.values.services_section[index]) ? (
+      <SubformMenu index={index} values={formik.values.services_section} />
+    ) : null;
 
+  const modalConfirmationProps = {
+    open: openConfirmationModal,
+    maxSize: "xs",
+    confirmButtonLabel: i18n.t("buttons.ok"),
+    dialogTitle: title,
+    dialogText: i18n.t("messages.confirmation_message"),
+    disableBackdropClick: true,
+    cancelHandler: () => setOpenConfirmationModal(false),
+    successHandler: () => {
+      arrayHelpers.replace(index, oldValue);
+      setOpen({ open: false, index: null });
+      setOpenConfirmationModal(true);
+    }
+  };
+
+  if (index !== null) {
     return (
-      <Dialog open={open} maxWidth="sm" fullWidth>
-        <DialogTitle disableTypography>
-          <Box display="flex" alignItems="center">
-            <Box flexGrow={1}>{title}</Box>
-            <Box>
-              {field.subform_section_id.unique_id === "services_section" &&
-              mode.isShow &&
-              serviceHasReferFields(formik.values.services_section[index]) ? (
-                <SubformMenu
-                  index={index}
-                  values={formik.values.services_section}
-                />
-              ) : null}
-              <IconButton onClick={handleClose}>
-                <CloseIcon />
-              </IconButton>
-            </Box>
-          </Box>
-        </DialogTitle>
-        <DialogContent>
+      <>
+        <ActionDialog
+          open={open}
+          successHandler={() => setOpen({ open: false, index: null })}
+          cancelHandler={handleClose}
+          dialogTitle={title}
+          omitCloseAfterSuccess
+          confirmButtonLabel={i18n.t(buttonDialogText)}
+          onClose={handleClose}
+          dialogActions={dialogActions}
+          disableActions={isFormShow}
+        >
           {field.subform_section_id.unique_id === "services_section" ? (
             <ServicesSubform
               field={field}
@@ -100,9 +98,9 @@ const Component = ({
               );
             })
           )}
-        </DialogContent>
-        <DialogActions>{actionButton}</DialogActions>
-      </Dialog>
+        </ActionDialog>
+        <ActionDialog {...modalConfirmationProps} />
+      </>
     );
   }
 
@@ -112,12 +110,16 @@ const Component = ({
 Component.displayName = SUBFORM_DIALOG;
 
 Component.propTypes = {
+  arrayHelpers: PropTypes.object.isRequired,
+  currentValue: PropTypes.object,
   dialogIsNew: PropTypes.bool.isRequired,
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
+  isFormShow: PropTypes.bool,
   mode: PropTypes.object.isRequired,
+  oldValue: PropTypes.object,
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired

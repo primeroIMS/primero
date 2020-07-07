@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Fab } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
@@ -25,6 +25,7 @@ const Component = ({
   const values = getIn(formik.values, name);
   const [openDialog, setOpenDialog] = useState({ open: false, index: null });
   const [dialogIsNew, setDialogIsNew] = useState(false);
+  const [selectedValue, setSelectedValue] = useState({});
   const { css, mobileDisplay } = useThemeHelper(styles);
 
   const handleAddSubform = async () => {
@@ -37,15 +38,22 @@ const Component = ({
   const title = displayName?.[i18n.locale];
   const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
 
-  const renderEmptyData = isEmpty(values) ? (
-    <SubformEmptyData
-      handleClick={handleAddSubform}
-      i18n={i18n}
-      mode={mode}
-      subformName={title}
-    />
-  ) : (
-    <>
+  useEffect(() => {
+    if (typeof index === "number") {
+      setSelectedValue(values[index]);
+    }
+  }, [index]);
+
+  const renderEmptyData =
+    values.filter(currValue => Object.values(currValue).every(isEmpty))
+      .length === values.length ? (
+      <SubformEmptyData
+        handleClick={handleAddSubform}
+        i18n={i18n}
+        mode={mode}
+        subformName={title}
+      />
+    ) : (
       <SubformFields
         arrayHelpers={arrayHelpers}
         field={field}
@@ -56,19 +64,7 @@ const Component = ({
         setDialogIsNew={setDialogIsNew}
         recordType={recordType}
       />
-      <SubformDialog
-        index={index !== null ? index : values.length - 1}
-        field={field}
-        mode={mode}
-        open={open}
-        setOpen={setOpenDialog}
-        title={title}
-        dialogIsNew={dialogIsNew}
-        i18n={i18n}
-        formik={formik}
-      />
-    </>
-  );
+    );
 
   return (
     <>
@@ -92,6 +88,21 @@ const Component = ({
         </div>
       </div>
       {renderEmptyData}
+      <SubformDialog
+        arrayHelpers={arrayHelpers}
+        currentValue={values[index !== null ? index : values.length - 1]}
+        dialogIsNew={dialogIsNew}
+        field={field}
+        formik={formik}
+        i18n={i18n}
+        index={index !== null ? index : values.length - 1}
+        isFormShow={mode.isShow}
+        mode={mode}
+        oldValue={!dialogIsNew ? selectedValue : {}}
+        open={open}
+        setOpen={setOpenDialog}
+        title={title}
+      />
     </>
   );
 };

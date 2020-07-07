@@ -1,3 +1,4 @@
+import React from "react";
 import { DialogTitle, IconButton } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../test";
@@ -9,7 +10,8 @@ describe("<TitleWithClose />", () => {
   const props = {
     closeHandler: () => {},
     dialogSubtitle: "Test Subtitle",
-    dialogTitle: "Test Title"
+    dialogTitle: "Test Title",
+    dialogAction: <></>
   };
 
   beforeEach(() => {
@@ -28,10 +30,12 @@ describe("<TitleWithClose />", () => {
     const TitleWithCloseProps = { ...component.find(TitleWithClose).props() };
 
     expect(component.find(TitleWithClose)).to.have.lengthOf(1);
-    ["closeHandler", "dialogSubtitle", "dialogTitle"].forEach(property => {
-      expect(TitleWithCloseProps).to.have.property(property);
-      delete TitleWithCloseProps[property];
-    });
+    ["closeHandler", "dialogAction", "dialogSubtitle", "dialogTitle"].forEach(
+      property => {
+        expect(TitleWithCloseProps).to.have.property(property);
+        delete TitleWithCloseProps[property];
+      }
+    );
     expect(TitleWithCloseProps).to.be.empty;
   });
 

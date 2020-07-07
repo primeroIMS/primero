@@ -12,6 +12,7 @@ import { SUBFORM_FIELDS } from "../constants";
 import { serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import { useI18n } from "../../../../i18n";
+import { emptyValues } from "../../../utils";
 
 const Component = ({
   arrayHelpers,
@@ -94,7 +95,9 @@ const Component = ({
     return (
       <>
         {sortedValues.map((c, index) => {
-          if (values?.[index]?._destroy) return false;
+          if (values?.[index]?._destroy || emptyValues(c)) {
+            return false;
+          }
 
           return (
             <Box key={`${name}-${index}`} display="flex" alignItems="center">
