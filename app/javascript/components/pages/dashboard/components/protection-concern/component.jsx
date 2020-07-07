@@ -34,6 +34,7 @@ const Component = ({ loadingIndicator }) => {
           {...loadingIndicator}
         >
           <DashboardTable
+            title={i18n.t("dashboard.protection_concerns")}
             {...toProtectionConcernTable(
               protectionConcerns,
               i18n,

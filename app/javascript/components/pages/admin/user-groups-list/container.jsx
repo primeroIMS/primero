@@ -66,7 +66,7 @@ const Container = () => {
         {newUserGroupBtn}
       </PageHeading>
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <IndexTable title={i18n.t("user_groups.label")} {...tableOptions} />
       </PageContent>
     </>
   );
