@@ -138,7 +138,9 @@ const ActionDialog = ({
             children
           )}
         </DialogContent>
-        {disableActions || (
+        {disableActions ? (
+          <></>
+        ) : (
           <DialogActions>
             {submitButton}
             {cancelHandler && (

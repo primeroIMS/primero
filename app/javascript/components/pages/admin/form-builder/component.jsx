@@ -179,7 +179,7 @@ const Component = ({ mode }) => {
     <LoadingIndicator
       hasData={
         formMode.get("isNew") ||
-        (formMode.get("isEdit") && selectedForm?.toSeq()?.size)
+        Boolean(formMode.get("isEdit") && selectedForm?.toSeq()?.size)
       }
       loading={isLoading || !selectedForm?.toSeq()?.size}
       type={NAMESPACE}

@@ -51,6 +51,7 @@ const Component = () => {
         open={openFieldDialog}
         maxSize="xs"
         disableActions
+        confirmButtonLabel=""
         dialogTitle={i18n.t("fields.add_field")}
       >
         <div>
