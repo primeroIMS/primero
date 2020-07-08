@@ -3,7 +3,7 @@ import { batch, useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Menu, IconButton, CircularProgress } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { getEnabledAgencies } from "../../../../application/selectors";
 import {

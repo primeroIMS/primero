@@ -2,7 +2,7 @@ import React from "react";
 import Chip from "@material-ui/core/Chip";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import makeStyles from "@material-ui/styles/makeStyles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { useI18n } from "../i18n";
 

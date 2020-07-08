@@ -4,7 +4,7 @@ import { List, IconButton, Drawer } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { getRecordFormsByUniqueId } from "../selectors";
 import { getRecordAlerts } from "../../records/selectors";

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Fab } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 import ErrorIcon from "@material-ui/icons/Error";
 

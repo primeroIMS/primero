@@ -2,7 +2,7 @@ import Box from "@material-ui/core/Box";
 import Chart from "chart.js";
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/styles/makeStyles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import styles from "./styles.css";
 

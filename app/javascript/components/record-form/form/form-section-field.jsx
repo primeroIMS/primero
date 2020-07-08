@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../i18n";
 import {
@@ -62,8 +62,7 @@ const FormSectionField = ({
     InputProps: {
       readOnly: mode.isShow,
       classes: {
-        root: css.input,
-        disabled: css.inputDisabled
+        root: css.input
       },
       autoComplete: "new-password",
       disableUnderline: mode.isShow

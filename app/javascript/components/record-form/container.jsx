@@ -2,7 +2,7 @@ import React, { useEffect, memo, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
 
