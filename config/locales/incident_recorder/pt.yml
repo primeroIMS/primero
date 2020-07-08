@@ -10,6 +10,7 @@ pt:
       'yes': "Sim"
       'no': "Não"
       gender:
+        male: "M"
         female: "F"
         both: "M e F"
       age_group:
