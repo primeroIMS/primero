@@ -6,7 +6,7 @@ import {
   FormLabel,
   FormHelperText
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Controller } from "react-hook-form";
 
 import CheckboxGroup from "./checkbox-group";

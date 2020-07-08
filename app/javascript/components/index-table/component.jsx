@@ -8,7 +8,7 @@ import uniqBy from "lodash/uniqBy";
 import isEmpty from "lodash/isEmpty";
 import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
-import { ThemeProvider } from "@material-ui/styles";
+import { ThemeProvider } from "@material-ui/core/styles";
 
 import { compare, dataToJS, ConditionalWrapper } from "../../libs";
 import LoadingIndicator from "../loading-indicator";

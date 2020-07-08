@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { Select, MenuItem } from "@material-ui/core";
 import { DatePicker, DateTimePicker } from "@material-ui/pickers";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";

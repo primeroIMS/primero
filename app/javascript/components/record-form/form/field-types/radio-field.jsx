@@ -8,7 +8,7 @@ import {
   InputLabel,
   Box
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { RadioGroup } from "formik-material-ui";
 import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
