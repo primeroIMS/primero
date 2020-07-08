@@ -8,6 +8,7 @@ class Header < ValueObject
   CASE_ID_DISPLAY = Header.new(name: 'id', field_name: 'case_id_display', id_search: true)
   CASE_NAME = Header.new(name: 'name', field_name: 'name')
   SURVIVOR_CODE = Header.new(name: 'survivor_code', field_name: 'survivor_code_no')
+  SURVIVOR_CODE_INCIDENT = Header.new(name: 'survivor_code', field_name: 'survivor_code')
   AGE = Header.new(name: 'age', field_name: 'age', id_search: true)
   SEX = Header.new(name: 'sex', field_name: 'sex', id_search: true)
   REGISTRATION_DATE = Header.new(name: 'registration_date', field_name: 'registration_date')
@@ -81,7 +82,7 @@ class Header < ValueObject
       header_list = []
       header_list << SHORT_ID
       header_list << DATE_OF_INCIDENT if user.has_module?(PrimeroModule::MRM)
-      header_list << SURVIVOR_CODE if !user.is_manager? && user.has_module?(PrimeroModule::GBV)
+      header_list << SURVIVOR_CODE_INCIDENT if !user.is_manager? && user.has_module?(PrimeroModule::GBV)
       header_list << DATE_OF_INTERVIEW if user.has_module?(PrimeroModule::GBV) || user.has_module?(PrimeroModule::CP)
       header_list << GBV_DATE_OF_INCIDENT if user.has_module?(PrimeroModule::GBV)
       header_list << GBV_VIOLENCE_TYPE if user.has_module?(PrimeroModule::GBV)

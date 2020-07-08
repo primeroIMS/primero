@@ -64,7 +64,7 @@ const RecordFormToolbar = ({
 
   let renderRecordStatusIndicator = null;
 
-  if (record && !record.get("record_state")) {
+  if (record && !record.get("enabled")) {
     renderRecordStatusIndicator = (
       <h3 className={css.caseDisabled}>
         {i18n.t("case.messages.case_disabled")}

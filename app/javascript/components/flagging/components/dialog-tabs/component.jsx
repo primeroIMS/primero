@@ -28,10 +28,21 @@ const Component = ({ children, isBulkFlags, tab, setTab }) => {
     setTab(value);
   };
 
+  const filterChildren = children.filter(child =>
+    ["false", undefined].includes(child.props.hidetab)
+  );
+
+  const renderChildren = filterChildren.map((child, index) => (
+    // eslint-disable-next-line react/no-array-index-key
+    <TabPanel value={tab} index={index} key={`tab-${index}`}>
+      {child}
+    </TabPanel>
+  ));
+
   if (tabs) {
     return (
       <>
-        <Box display="flex">
+        <Box display="flex" className={css.containerTabs}>
           <Box flexGrow={1}>
             <Tabs onChange={handleTabChange} value={tab}>
               {filteredTabs.map((t, index) => (
@@ -45,14 +56,7 @@ const Component = ({ children, isBulkFlags, tab, setTab }) => {
             </Tabs>
           </Box>
         </Box>
-        {children
-          .filter(child => ["false", undefined].includes(child.props.hidetab))
-          .map((child, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <TabPanel value={tab} index={index} key={`tab-${index}`}>
-              {child}
-            </TabPanel>
-          ))}
+        <div className={css.containerTabsBody}>{renderChildren}</div>
       </>
     );
   }

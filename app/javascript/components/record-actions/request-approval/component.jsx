@@ -51,7 +51,7 @@ const Component = ({
     // eslint-disable-next-line camelcase
     ?.first()?.options?.selectable_approval_types;
   const alertTypes = useSelector(state =>
-    getOptions(state, APPROVAL_TYPE_LOOKUP, i18n.locale)
+    getOptions(state, APPROVAL_TYPE_LOOKUP, i18n)
   );
 
   useEffect(() => {

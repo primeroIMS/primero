@@ -178,6 +178,29 @@ const overrides = {
       fontWeight: "bold"
     }
   },
+  MuiSnackbarContent: {
+    root: {
+      backgroundColor: `${colors.white} !important`,
+      color: `${colors.grey} !important`,
+      fontWeight: "bold !important",
+      fontSize: `${muiTheme.typography.pxToRem(12)} !important`
+    },
+    message: {
+      backgroundColor: `${colors.white} !important`,
+      "& svg": {
+        fontSize: `${muiTheme.typography.pxToRem(16)} !important`,
+        marginRight: "5px"
+      }
+    },
+    action: {
+      paddingLeft: 0,
+      backgroundColor: `${colors.white} !important`,
+      "& svg": {
+        fontSize: `${muiTheme.typography.pxToRem(16)} !important`,
+        color: `${colors.darkGrey} !important`
+      }
+    }
+  },
   MuiFab: {
     sizeSmall: {
       width: "36px",

@@ -21,10 +21,9 @@ const Component = ({ filters, onSubmit, clearFields, defaultFilters }) => {
     });
 
   const onClear = () => {
+    clearFields.map(field => methods.setValue(field, undefined));
     if (defaultFiltersKeys.length) {
       setDefaultFilters();
-    } else {
-      clearFields.map(field => methods.setValue(field, undefined));
     }
     onSubmit();
   };

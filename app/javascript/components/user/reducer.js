@@ -25,7 +25,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         permissions,
         role_unique_id: roleId,
         list_headers: listHeaders,
-        filters
+        filters,
+        permitted_form_unique_ids: permittedForms
       } = payload;
 
       return state.merge(
@@ -37,6 +38,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
             listHeaders,
             ListHeaderRecord
           ),
+          permittedForms,
           filters: mapObjectPropertiesToRecords(filters, FilterRecord)
         })
       );

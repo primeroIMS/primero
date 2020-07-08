@@ -54,7 +54,7 @@ const Component = ({
         <DialogTitle disableTypography>
           <Box display="flex" alignItems="center">
             <Box flexGrow={1}>{title}</Box>
-            <Box>
+            <Box display="flex">
               {field.subform_section_id.unique_id === "services_section" &&
               mode.isShow &&
               serviceHasReferFields(formik.values.services_section[index]) ? (

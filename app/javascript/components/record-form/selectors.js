@@ -6,7 +6,10 @@ import { denormalizeFormData } from "../../schemas";
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
 
-const forms = (state, { recordType, primeroModule, checkVisible, all }) => {
+const forms = (
+  state,
+  { recordType, primeroModule, checkVisible, all, formsIds }
+) => {
   const allFormSections = state.getIn([NAMESPACE, "formSections"]);
 
   if (isEmpty(allFormSections)) return null;
@@ -15,7 +18,11 @@ const forms = (state, { recordType, primeroModule, checkVisible, all }) => {
     return allFormSections;
   }
 
-  const formSections = allFormSections.filter(
+  const userFormSection = formsIds
+    ? allFormSections.filter(fs => formsIds.includes(fs.unique_id))
+    : allFormSections;
+
+  const formSections = userFormSection.filter(
     fs =>
       (Array.isArray(primeroModule)
         ? fs.module_ids.some(mod => primeroModule.includes(mod))
@@ -46,7 +53,7 @@ export const getFirstTab = (state, query) => {
     return form;
   }
 
-  return null;
+  return selectedForms.first();
 };
 
 export const getFormNav = (state, query) => {

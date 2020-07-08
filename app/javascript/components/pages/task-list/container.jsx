@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/styles/";
 import { fromJS } from "immutable";
 import { useSelector } from "react-redux";
 import isEqual from "lodash/isEqual";
+import Tooltip from "@material-ui/core/Tooltip";
+import clsx from "clsx";
 
 import { useI18n } from "../../i18n";
 import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
@@ -15,7 +17,7 @@ import { LOOKUPS } from "../../../config";
 import { selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
 import styles from "./styles.css";
-import { TASK_TYPES } from "./constants";
+import { TASK_TYPES, TASK_STATUS } from "./constants";
 
 const TaskList = () => {
   const i18n = useI18n();
@@ -96,16 +98,28 @@ const TaskList = () => {
                 // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customBodyRender: (value, tableMeta) => {
                   const recordData = data.get("data").get(tableMeta.rowIndex);
-                  const overdue = recordData.get("overdue");
-                  const upcomingSoon = recordData.get("upcoming_soon");
+                  const overdue = recordData.get(TASK_STATUS.overdue);
+                  const upcomingSoon = recordData.get(TASK_STATUS.upcomingSoon);
+                  const cssNames = clsx([
+                    css.link,
+                    {
+                      [css[TASK_STATUS.overdue]]: overdue,
+                      [css[TASK_STATUS.upcomingSoon]]: upcomingSoon
+                    }
+                  ]);
+                  const tooltipTitle = i18n.t(
+                    `task.statuses.${
+                      overdue ? TASK_STATUS.overdue : TASK_STATUS.upcomingSoon
+                    }`
+                  );
 
                   return (
-                    <div className={css.link}>
-                      {overdue === true ? <TasksOverdue color="red" /> : null}
-                      {upcomingSoon === true ? (
-                        <TasksPending color="primary" />
-                      ) : null}
-                    </div>
+                    <Tooltip placement="left" title={tooltipTitle}>
+                      <div className={cssNames}>
+                        {overdue ? <TasksOverdue /> : null}
+                        {upcomingSoon ? <TasksPending /> : null}
+                      </div>
+                    </Tooltip>
                   );
                 }
               }

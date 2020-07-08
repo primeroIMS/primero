@@ -23,7 +23,7 @@ describe("<RecordFormToolbar />", () => {
   };
 
   const record = fromJS({
-    record_state: true,
+    enabled: true,
     sex: "female",
     owned_by_agency_id: 1,
     notes_section: [],
@@ -127,7 +127,7 @@ describe("<RecordFormToolbar />", () => {
   it("renders 'Case is disabled' text, when record is disabled", () => {
     const { component: recordFormToolbarComponent } = setupMountedComponent(
       RecordFormToolbar,
-      { ...props, record: fromJS({ record_state: false }) },
+      { ...props, record: fromJS({ enabled: false }) },
       fromJS(initialState)
     );
 

@@ -27,6 +27,7 @@ const Container = () => {
   const dispatch = useDispatch();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = "users";
+  const defaultFilters = { [DISABLED]: ["false"] };
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
@@ -68,11 +69,10 @@ const Container = () => {
   const filterProps = {
     clearFields: [AGENCY, DISABLED],
     filters: getFilters(i18n, filterAgencies),
-    defaultFilters: {
-      [DISABLED]: ["false"]
-    },
+    defaultFilters,
     onSubmit: data => {
-      const filters = buildUsersQuery(data);
+      const filters =
+        typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
 
       batch(() => {
         dispatch(setUsersFilters(filters));

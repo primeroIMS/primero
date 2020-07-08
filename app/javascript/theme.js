@@ -1,10 +1,5 @@
+/* eslint-disable import/prefer-default-export */
 export const snackVariantClasses = theme => ({
-  base: {
-    backgroundColor: theme.primero.colors.white,
-    color: theme.primero.colors.grey,
-    fontWeight: "bold",
-    fontSize: theme.typography.pxToRem(12)
-  },
   lessPadding: {
     padding: "0 10px"
   },
@@ -30,21 +25,6 @@ export const snackVariantClasses = theme => ({
     border: `1px solid ${theme.primero.colors.moonYellow}`,
     "& svg": {
       color: theme.primero.colors.moonYellow
-    }
-  }
-});
-
-export const snackContentClasses = theme => ({
-  message: {
-    "& svg": {
-      fontSize: theme.typography.pxToRem(16),
-      marginRight: "5px"
-    }
-  },
-  action: {
-    "& svg": {
-      fontSize: theme.typography.pxToRem(16),
-      color: theme.primero.colors.darkGrey
     }
   }
 });

@@ -545,6 +545,9 @@ en:
       case_plan: "Case Plan"
       follow_up: "Follow Up - %{subtype}"
       service: "Service - %{subtype}"
+    statuses:
+      overdue: 'Overdue'
+      upcoming_soon: 'Almost due'
 
 
   case:
@@ -3786,7 +3789,7 @@ en:
     unflag: "Unflag"
     no_flags: "No flags found"
     flag_added: "Flag added successfully"
-    flag_deleted: "Flag deleted"
+    flag_resolved: "Flag resolved"
     title: "Flags"
     date: "Date:"
     resolve_label: "Resolve:"

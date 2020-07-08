@@ -11,6 +11,10 @@ class PermittedFieldService
     referred_users_present
     transferred_to_users
     has_photo
+    survivor_code
+    survivor_code_no
+    case_id_display
+    created_at
   ].freeze
 
   def initialize(user, model_class, action_name = nil)

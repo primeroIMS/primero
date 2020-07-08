@@ -148,7 +148,7 @@ describe Header do
 
     expect(Header.get_headers(@user_gbv_worker, 'incident')).to eq(
       [
-        Header::SHORT_ID, Header::SURVIVOR_CODE, Header::DATE_OF_INTERVIEW,
+        Header::SHORT_ID, Header::SURVIVOR_CODE_INCIDENT, Header::DATE_OF_INTERVIEW,
         Header::GBV_DATE_OF_INCIDENT, Header::GBV_VIOLENCE_TYPE, Header::FLAG_COUNT
       ]
     )

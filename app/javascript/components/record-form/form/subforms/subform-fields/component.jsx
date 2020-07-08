@@ -109,7 +109,7 @@ const Component = ({
                   values={values}
                 />
               </Box>
-              <Box>
+              <Box display="flex">
                 {!subformPreventItemRemoval && !mode.isShow ? (
                   <ActionButton
                     icon={<DeleteIcon />}
