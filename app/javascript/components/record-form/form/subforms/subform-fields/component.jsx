@@ -107,7 +107,7 @@ const Component = ({
                   values={values}
                 />
               </Box>
-              <Box>
+              <Box display="flex">
                 {!subformPreventItemRemoval && !mode.isShow ? (
                   <IconButton onClick={() => handleOpenModal(index)}>
                     <DeleteIcon />
