@@ -1,5 +1,6 @@
-import React from "react";
-import { fromJS, List } from "immutable";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { List } from "immutable";
 import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
@@ -12,6 +13,7 @@ import { NAMESPACE } from "../roles-form";
 import { useThemeHelper } from "../../../../libs";
 import styles from "../styles.css";
 import ButtonText from "../../../button-text";
+import { getMetadata } from "../../../record-list";
 
 import { fetchRoles } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
@@ -19,11 +21,18 @@ import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
 const Container = () => {
   const i18n = useI18n();
   const { css } = useThemeHelper(styles);
+  const dispatch = useDispatch();
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
     ...rest
   }));
+  const metadata = useSelector(state => getMetadata(state, "roles"));
+  const defaultFilters = metadata;
+
+  useEffect(() => {
+    dispatch(fetchRoles({ data: defaultFilters.toJS() }));
+  }, []);
 
   const tableOptions = {
     recordType: [ADMIN_NAMESPACE, NAMESPACE],
@@ -31,12 +40,10 @@ const Container = () => {
     options: {
       selectableRows: "none"
     },
-    defaultFilters: fromJS({
-      per: 20,
-      page: 1
-    }),
+    defaultFilters,
     onTableChange: fetchRoles,
-    targetRecordType: NAMESPACE
+    targetRecordType: NAMESPACE,
+    bypassInitialFetch: true
   };
 
   return (

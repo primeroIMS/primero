@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Button, Grid } from "@material-ui/core";
@@ -16,6 +16,7 @@ import { Filters as AdminFilters } from "../components";
 import { useThemeHelper } from "../../../../libs";
 import styles from "../styles.css";
 import ButtonText from "../../../button-text";
+import { getMetadata } from "../../../record-list";
 
 import { fetchAgencies } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
@@ -33,7 +34,19 @@ const Container = () => {
     getListHeaders(state, RESOURCES.agencies)
   );
 
+  const metadata = useSelector(state => getMetadata(state, recordType));
+  const defaultFilters = fromJS({
+    ...{
+      [DISABLED]: ["false"]
+    },
+    ...metadata?.toJS()
+  });
+
   const columns = headersToColumns(headers, i18n);
+
+  useEffect(() => {
+    dispatch(fetchAgencies({ data: defaultFilters.toJS() }));
+  }, []);
 
   const tableOptions = {
     recordType,
@@ -41,21 +54,17 @@ const Container = () => {
     options: {
       selectableRows: "none"
     },
-    defaultFilters: fromJS({
-      per: 20,
-      page: 1
-    }),
+    defaultFilters,
     onTableChange: fetchAgencies,
-    localizedFields: ["name", "description"]
+    localizedFields: ["name", "description"],
+    bypassInitialFetch: true
   };
 
   const filterProps = {
     clearFields: [DISABLED],
     filters: getFilters(i18n),
-    onSubmit: data => dispatch(fetchAgencies({ options: data })),
-    defaultFilters: {
-      [DISABLED]: ["false"]
-    }
+    onSubmit: data => dispatch(fetchAgencies({ data })),
+    defaultFilters
   };
 
   const newAgencyBtn = canAddAgencies ? (

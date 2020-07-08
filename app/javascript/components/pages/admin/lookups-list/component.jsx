@@ -1,9 +1,8 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
-import { fromJS } from "immutable";
 import { push } from "connected-react-router";
 
 import { useI18n } from "../../../i18n";
@@ -15,6 +14,7 @@ import Permission from "../../../application/permission";
 import { useThemeHelper } from "../../../../libs";
 import adminStyles from "../styles.css";
 import ButtonText from "../../../button-text";
+import { getMetadata } from "../../../record-list";
 
 import { NAME } from "./constants";
 import { fetchAdminLookups } from "./action-creators";
@@ -26,6 +26,9 @@ const Component = () => {
   const dispatch = useDispatch();
   const { css: cssAdmin } = useThemeHelper(adminStyles);
   const { css } = useThemeHelper(styles);
+  const recordType = ["admin", "lookups"];
+  const metadata = useSelector(state => getMetadata(state, recordType));
+  const defaultFilters = metadata;
 
   const newUserGroupBtn = (
     <Button
@@ -39,22 +42,24 @@ const Component = () => {
     </Button>
   );
 
+  useEffect(() => {
+    dispatch(fetchAdminLookups({ data: defaultFilters.toJS() }));
+  }, []);
+
   const onRowClick = data =>
     dispatch(push(`${RECORD_PATH.lookups}/${data?.rowData[0]}`));
 
   const tableOptions = {
-    recordType: ["admin", "lookups"],
+    recordType,
     columns: columns(i18n, css, onRowClick),
     options: {
       selectableRows: "none"
     },
-    defaultFilters: fromJS({
-      per: 20,
-      page: 1
-    }),
+    defaultFilters,
     onTableChange: fetchAdminLookups,
     localizedFields: ["name", "values"],
-    targetRecordType: "lookups"
+    targetRecordType: "lookups",
+    bypassInitialFetch: true
   };
 
   return (

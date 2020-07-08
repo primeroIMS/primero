@@ -18,6 +18,7 @@ import { getEnabledAgencies } from "../../../application/selectors";
 import { useThemeHelper } from "../../../../libs";
 import styles from "../styles.css";
 import ButtonText from "../../../button-text";
+import { getMetadata } from "../../../record-list";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED } from "./constants";
@@ -29,17 +30,23 @@ const Container = () => {
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = "users";
   const { css } = useThemeHelper(styles);
-  const defaultFilters = { [DISABLED]: ["false"] };
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
     ...rest
   }));
   const filterAgencies = useSelector(state => getEnabledAgencies(state));
+  const metadata = useSelector(state => getMetadata(state, recordType));
+  const defaultFilters = fromJS({
+    ...{
+      [DISABLED]: ["false"]
+    },
+    ...metadata?.toJS()
+  });
 
   useEffect(() => {
     dispatch(fetchAgencies({ options: { per: 999 } }));
-    dispatch(fetchUsers({ data: { [DISABLED]: ["false"] } }));
+    dispatch(fetchUsers({ data: defaultFilters.toJS() }));
   }, []);
 
   const tableOptions = {
@@ -48,10 +55,7 @@ const Container = () => {
     options: {
       selectableRows: "none"
     },
-    defaultFilters: fromJS({
-      per: 20,
-      page: 1
-    }),
+    defaultFilters,
     onTableChange: fetchUsers,
     bypassInitialFetch: true
   };

@@ -73,7 +73,7 @@ const Container = ({ match, location }) => {
     getPermissionsByRecord(state, recordType)
   );
 
-  const defaultFilters = fromJS(DEFAULT_FILTERS);
+  const defaultFilters = fromJS({ ...DEFAULT_FILTERS, ...metadata?.toJS() });
 
   useEffect(() => {
     dispatch(
