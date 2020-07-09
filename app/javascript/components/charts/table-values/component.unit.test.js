@@ -55,8 +55,15 @@ describe("<TableValues />", () => {
       }
     });
 
+    const agencies = [
+      {
+        id: 1,
+        name: "Test agency"
+      }
+    ];
+
     const component = setupMountedThemeComponent(TableValues, {
-      ...buildDataForTable(data, { t: () => "Total" })
+      ...buildDataForTable(data, { t: () => "Total" }, { agencies })
     });
 
     expect(component.find(TableRow)).to.have.lengthOf(6);

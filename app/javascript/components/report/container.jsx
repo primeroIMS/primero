@@ -17,6 +17,8 @@ import { WRITE_RECORDS, MANAGE } from "../../libs/permissions";
 import ActionDialog from "../action-dialog";
 import { selectDialog, selectDialogPending } from "../record-actions/selectors";
 import { setPending, setDialog } from "../record-actions/action-creators";
+import { getOptions } from "../form/selectors";
+import { STRING_SOURCES_TYPES } from "../../config";
 
 import { buildDataForGraph, buildDataForTable } from "./utils";
 import { getReport } from "./selectors";
@@ -38,6 +40,9 @@ const Report = ({ mode }) => {
   const errors = useSelector(state => getErrors(state, namespace));
   const loading = useSelector(state => getLoading(state, namespace));
   const report = useSelector(state => getReport(state));
+  const agencies = useSelector(state =>
+    getOptions(state, STRING_SOURCES_TYPES.AGENCY, i18n)
+  );
 
   const deleteModal = useSelector(state => selectDialog(state, DELETE_MODAL));
   const setDeleteModal = open => {
@@ -107,12 +112,12 @@ const Report = ({ mode }) => {
           {report.get("graph") && (
             <Paper>
               <BarChartGraphic
-                {...buildDataForGraph(report, i18n)}
+                {...buildDataForGraph(report, i18n, { agencies })}
                 showDetails
               />
             </Paper>
           )}
-          <TableValues {...buildDataForTable(report, i18n)} />
+          <TableValues {...buildDataForTable(report, i18n, { agencies })} />
         </LoadingIndicator>
         <ActionDialog
           open={deleteModal}
