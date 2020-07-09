@@ -70,6 +70,7 @@ approvals_section = FormSection.create_or_update_form_section({
     :fields => approvals_fields_subform,
     :initial_subforms => 0,
     :hide_subform_placeholder => true,
+    :subform_prevent_add => true,
     "name_en" => "Approval Subform",
     "description_en" => "Approval Subform",
     "collapsed_fields" => [
