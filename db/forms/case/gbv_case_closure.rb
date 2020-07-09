@@ -26,6 +26,11 @@ case_closure_fields = [
              "option_strings_source" => "lookup lookup-approval-status",
              "help_text_en"=> "Requested, Pending, Approved, Rejected",
             }),
+  Field.new({"name" => "closure_header_section",
+             "mobile_visible" => true,
+             "type" => "separator",
+             "display_name_en" => "Case Closure"
+            }),
   Field.new({"name" => "created_at",
              "mobile_visible" => true,
              "type" => "date_field",
