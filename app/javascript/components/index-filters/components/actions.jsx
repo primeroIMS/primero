@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../i18n";
 import DisableOffline from "../../disable-offline";
+import ActionButton from "../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
 import styles from "./styles.css";
 
@@ -14,29 +15,40 @@ const Actions = ({ handleSave, handleClear }) => {
 
   const showSave = handleSave && (
     <DisableOffline button>
-      <Button onClick={handleSave} variant="outlined">
-        {i18n.t("filters.save_filters")}
-      </Button>
+      <ActionButton
+        text={i18n.t("filters.save_filters")}
+        type={ACTION_BUTTON_TYPES.default}
+        isTransparent
+        rest={{
+          onClick: handleSave,
+          variant: "outlined"
+        }}
+      />
     </DisableOffline>
   );
 
   return (
     <div className={css.actionButtons}>
       <DisableOffline button>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          disableElevation
-        >
-          {i18n.t("filters.apply_filters")}
-        </Button>
+        <ActionButton
+          text={i18n.t("filters.apply_filters")}
+          type={ACTION_BUTTON_TYPES.default}
+          rest={{
+            type: "submit"
+          }}
+        />
       </DisableOffline>
       {showSave}
       <DisableOffline button>
-        <Button onClick={handleClear} variant="outlined">
-          {i18n.t("filters.clear_filters")}
-        </Button>
+        <ActionButton
+          text={i18n.t("filters.clear_filters")}
+          type={ACTION_BUTTON_TYPES.default}
+          isTransparent
+          rest={{
+            onClick: handleClear,
+            variant: "outlined"
+          }}
+        />
       </DisableOffline>
     </div>
   );

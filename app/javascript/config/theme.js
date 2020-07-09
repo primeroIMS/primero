@@ -217,6 +217,20 @@ const overrides = {
         color: `${colors.darkGrey} !important`
       }
     }
+  },
+  MuiFab: {
+    sizeSmall: {
+      width: "36px",
+      height: "36px"
+    }
+  },
+  MuiButton: {
+    root: {
+      "&$disabled": {
+        color: "rgba(0, 0, 0, 0.26)",
+        backgroundColor: `${colors.lightGrey} !important`
+      }
+    }
   }
 };
 

@@ -112,15 +112,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const modalProps = {
     confirmButtonLabel,
     confirmButtonProps: {
-      color: "primary",
-      variant: "contained",
-      autoFocus: true,
       icon: confirmButtonIcon
-    },
-    cancelButtonProps: {
-      color: "primary",
-      variant: "contained",
-      className: css.cancelButton
     },
     dialogTitle,
     open: openFieldDialog,

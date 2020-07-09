@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { IconButton } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "../../styles.css";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 const AttachmentLabel = ({
   label,
@@ -20,12 +21,20 @@ const AttachmentLabel = ({
       <h4>{label}</h4>
       {disabled && !mode.isShow && (
         <div>
-          <IconButton
+          {/* <IconButton
             variant="contained"
             onClick={() => handleAttachmentAddition(arrayHelpers)}
           >
             <AddIcon />
-          </IconButton>
+          </IconButton> */}
+          <ActionButton
+            icon={<AddIcon />}
+            text="Add"
+            type={ACTION_BUTTON_TYPES.icon}
+            rest={{
+              onClick: () => handleAttachmentAddition(arrayHelpers)
+            }}
+          />
         </div>
       )}
     </div>

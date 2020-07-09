@@ -12,6 +12,7 @@
   & svg {
     position: absolute;
     left: 0.6em;
+    top: 8px
   }
 }
 

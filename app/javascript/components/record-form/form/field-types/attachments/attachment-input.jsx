@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { FastField } from "formik";
-import { Button, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../../../i18n";
 import { toBase64 } from "../../../../../libs";
 import styles from "../../styles.css";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 import { ATTACHMENT_TYPES } from "./constants";
 import renderPreview from "./render-preview";
@@ -58,17 +59,16 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
       <label htmlFor={fields.attachment}>
         <div className={css.buttonWrapper}>
           {!file.data && (
-            <Button
-              variant="outlined"
-              color="primary"
-              component="span"
-              disabled={fieldDisabled()}
-            >
-              {i18n.t("fields.file_upload_box.select_file_button_text")}
-              {file.loading && (
-                <CircularProgress size={24} className={css.buttonProgress} />
-              )}
-            </Button>
+            <ActionButton
+              text={i18n.t("fields.file_upload_box.select_file_button_text")}
+              type={ACTION_BUTTON_TYPES.default}
+              pending={file.loading}
+              rest={{
+                component: "span",
+                disabled: fieldDisabled(),
+                variant: "outlined"
+              }}
+            />
           )}
         </div>
       </label>
