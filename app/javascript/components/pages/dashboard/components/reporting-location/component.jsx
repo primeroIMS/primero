@@ -35,6 +35,7 @@ const Component = ({ loadingIndicator }) => {
           {...loadingIndicator}
         >
           <DashboardTable
+            title={i18n.t("cases.label")}
             {...toReportingLocationTable(
               reportingLocation,
               reportingLocationConfig?.get("label_key"),
