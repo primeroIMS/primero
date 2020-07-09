@@ -445,7 +445,6 @@ gbv_worker_permissions = [
       Permission::SYNC_MOBILE,
       Permission::INCIDENT_FROM_CASE,
       Permission::CREATE,
-      Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::ENABLE_DISABLE_RECORD,
       Permission::REQUEST_APPROVAL_CASE_PLAN,
       Permission::REQUEST_APPROVAL_CLOSURE
@@ -499,7 +498,6 @@ gbv_manager_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
       Permission::SYNC_MOBILE,
-      Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::REMOVE_ASSIGNED_USERS,
       Permission::ENABLE_DISABLE_RECORD,
       Permission::APPROVE_CASE_PLAN,
@@ -601,7 +599,6 @@ gbv_user_manager_permissions = [
             Permission::EXPORT_CASE_PDF,
             Permission::EXPORT_UNHCR,
             Permission::SYNC_MOBILE,
-            Permission::VIEW_PROTECTION_CONCERNS_FILTER,
             Permission::APPROVE_CASE_PLAN,
             Permission::APPROVE_CLOSURE,
             Permission::REASSIGN
