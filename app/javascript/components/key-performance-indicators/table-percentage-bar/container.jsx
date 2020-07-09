@@ -31,4 +31,5 @@ const TablePercentageBar = ({ percentage, className }) => {
     </div>
   );
 };
+
 export default TablePercentageBar;

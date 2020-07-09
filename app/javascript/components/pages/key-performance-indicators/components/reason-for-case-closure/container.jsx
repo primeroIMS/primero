@@ -21,4 +21,5 @@ const ReasonForCaseClosure = () => {
     </OptionsBox>
   );
 };
+
 export default ReasonForCaseClosure;

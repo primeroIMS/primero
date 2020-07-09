@@ -1,1 +1,1 @@
-export { default as SingleAggregateMetric } from "./container";
+export { default } from "./container";

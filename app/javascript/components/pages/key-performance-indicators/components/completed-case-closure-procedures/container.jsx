@@ -35,4 +35,5 @@ const CompletedCaseClosureProcedures = () => {
     </OptionsBox>
   );
 };
+
 export default CompletedCaseClosureProcedures;

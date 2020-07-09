@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import {
-  Select,
-  MenuItem,
-  FormControl
-} from "@material-ui/core";
+import PropTypes from "prop-types";
+import { Select, MenuItem, FormControl } from "@material-ui/core";
 
 import DateRangeDialog from "../date-range-dialog";
+
 import DateRange from "./date-range";
 
 const DateRangeSelect = ({
@@ -44,8 +42,10 @@ const DateRangeSelect = ({
         value={selectedRange.value}
         disabled={disabled}
       >
-        {ranges.map((r,i) => (
-          <MenuItem key={i} value={r.value}>{r.name}</MenuItem>
+        {ranges.map(r => (
+          <MenuItem key={r.value} value={r.value}>
+            {r.name}
+          </MenuItem>
         ))}
         {withCustomRange && (
           <MenuItem
@@ -53,13 +53,17 @@ const DateRangeSelect = ({
             value={customRange.value}
             onClick={() => setShowRangePicker(true)}
           >
-            `${i18n.toTime(
+            `$
+            {i18n.toTime(
               "key_performance_indicators.date_format",
               customRange.from
-            )} - ${i18n.toTime(
+            )}{" "}
+            - $
+            {i18n.toTime(
               "key_performance_indicators.date_format",
               customRange.to
-            )}`}
+            )}
+            `
           </MenuItem>
         )}
       </Select>
@@ -81,6 +85,19 @@ const DateRangeSelect = ({
       />
     </FormControl>
   );
+};
+
+DateRangeSelect.displayName = "DateRangeSelect";
+
+DateRangeSelect.proptypes = {
+  ranges: PropTypes.array,
+  selectedRange: PropTypes.objectOf({
+    from: PropTypes.instanceOf(Date),
+    to: PropTypes.instanceOf(Date)
+  }),
+  withCustomRange: PropTypes.bool,
+  setSelectedRange: PropTypes.func,
+  disabled: PropTypes.bool
 };
 
 export default DateRangeSelect;

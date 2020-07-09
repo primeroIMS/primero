@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useI18n } from "components/i18n";
+import PropTypes from "prop-types";
 import {
   Dialog,
   DialogTitle,
@@ -15,6 +15,7 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
+import { useI18n } from "../../i18n";
 
 const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
   const i18n = useI18n();
@@ -23,10 +24,12 @@ const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>{i18n.t('key_performance_indicators.date_range_dialog.title')}</DialogTitle>
+      <DialogTitle>
+        {i18n.t("key_performance_indicators.date_range_dialog.title")}
+      </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {i18n.t('key_performance_indicators.date_range_dialog.description')}
+          {i18n.t("key_performance_indicators.date_range_dialog.description")}
         </DialogContentText>
         <FormControl>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -34,7 +37,7 @@ const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
               variant="inline"
               // NOTE: using translations here causes an error, probably becuase of missing
               //       translations. How do we handle translations in tests?
-              format="dd/MM/yyyy" //{i18n.t('key_performance_indicators.long_date_format')}
+              format="dd/MM/yyyy" // {i18n.t('key_performance_indicators.long_date_format')}
               margin="normal"
               label="From"
               value={from}
@@ -47,7 +50,7 @@ const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
               variant="inline"
               // NOTE: using translations here causes an error, probably becuase of missing
               //       translations. How do we handle translations in tests?
-              format="dd/MM/yyyy" //{i18n.t('key_performance_indicators.long_date_format')}
+              format="dd/MM/yyyy" // {i18n.t('key_performance_indicators.long_date_format')}
               margin="normal"
               label="To"
               value={to}
@@ -66,11 +69,23 @@ const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
             onClose();
           }}
         >
-          {i18n.t('key_performance_indicators.date_range_dialog.apply')}
+          {i18n.t("key_performance_indicators.date_range_dialog.apply")}
         </Button>
       </DialogActions>
     </Dialog>
   );
+};
+
+DateRangeDialog.displayName = "DateRangeDialog";
+
+DateRangeDialog.propTypes = {
+  currentRange: PropTypes.objectOf({
+    from: PropTypes.instanceOf(Date),
+    to: PropTypes.instanceOf(Date)
+  }),
+  onClose: PropTypes.func,
+  open: PropTypes.bool,
+  setRange: PropTypes.func
 };
 
 export default DateRangeDialog;

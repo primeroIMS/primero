@@ -33,4 +33,5 @@ const TotalFollowupMeetings = () => {
     </OptionsBox>
   );
 };
+
 export default TotalFollowupMeetings;

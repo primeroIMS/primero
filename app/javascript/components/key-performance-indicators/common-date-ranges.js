@@ -1,5 +1,4 @@
-import { useI18n } from "components/i18n";
-import { subMonths, addMonths, startOfMonth, endOfMonth } from "date-fns";
+import { subMonths, startOfMonth, endOfMonth } from "date-fns";
 
 import { DateRange } from "./date-range-select";
 
@@ -7,9 +6,7 @@ import { DateRange } from "./date-range-select";
 const i18n = window.I18n;
 
 const CommonDateRanges = {
-  from(today) {
-    today = today || new Date();
-
+  from(today = new Date()) {
     return {
       AllTime: new DateRange(
         "all-time",

@@ -56,4 +56,5 @@ const StackedPercentageBar = ({ percentages, className }) => {
     </div>
   );
 };
+
 export default StackedPercentageBar;

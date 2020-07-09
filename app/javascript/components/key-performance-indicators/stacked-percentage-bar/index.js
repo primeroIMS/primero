@@ -1,1 +1,1 @@
-export { default as StackedPercentageBar } from "./container";
+export { default } from "./container";

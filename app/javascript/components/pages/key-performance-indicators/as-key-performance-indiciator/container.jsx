@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-
 import { DateRangeSelect } from "components/key-performance-indicators/date-range-select";
 // NOTE:  Importing 'compoenent/dashboard' casues tests to fail through
 //        the 'pirates' module used in mocha I assume. No idea why this is.
 import OptionsBox from "components/dashboard/options-box";
 import { useI18n } from "components/i18n";
+
 import { forKPI as actionsForKPI } from "../action-creators";
 import { forKPI as selectorsForKPI } from "../selectors";
 

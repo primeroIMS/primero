@@ -1,1 +1,1 @@
-export { default as TablePercentageBar } from "./container";
+export { default } from "./container";
