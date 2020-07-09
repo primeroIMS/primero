@@ -15,6 +15,7 @@ class PermittedFieldService
     survivor_code_no
     case_id_display
     created_at
+    has_incidents
   ].freeze
 
   def initialize(user, model_class, action_name = nil)
