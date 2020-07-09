@@ -27,7 +27,6 @@ import {
   TimeFromCaseOpenToClose,
   CaseClosureRate,
   ClientSatisfactionRate,
-  ActiveCaseworkers,
   SupervisorToCaseworkerRatio,
   CaseLoad
 } from "./components";

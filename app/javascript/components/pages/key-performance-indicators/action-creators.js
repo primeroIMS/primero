@@ -1,9 +1,9 @@
-import { forKPI as Actions_forKPI } from "./actions";
-import { forKPI as Paths_forKPI } from "./paths";
+import { forKPI as actionsForKPI } from "./actions";
+import { forKPI as pathsForKPI } from "./paths";
 
 export const forKPI = identifier => {
-  const getKPI = Actions_forKPI(identifier);
-  const path = Paths_forKPI(identifier);
+  const getKPI = actionsForKPI(identifier);
+  const path = pathsForKPI(identifier);
 
   return dateRange => async dispatch => {
     dispatch({

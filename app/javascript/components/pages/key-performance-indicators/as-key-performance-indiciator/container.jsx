@@ -1,11 +1,13 @@
-import { DateRangeSelect } from "components/key-performance-indicators/date-range-select";
-import { OptionsBox } from "components/dashboard";
-import { connect } from "react-redux";
-import { useI18n } from "components/i18n";
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 
+import { DateRangeSelect } from "components/key-performance-indicators/date-range-select";
+// NOTE:  Importing 'compoenent/dashboard' casues tests to fail through
+//        the 'pirates' module used in mocha I assume. No idea why this is.
+import OptionsBox from "components/dashboard/options-box";
+import { useI18n } from "components/i18n";
 import { forKPI as actionsForKPI } from "../action-creators";
-import { forKPI as selectorsForKPI} from "../selectors";
+import { forKPI as selectorsForKPI } from "../selectors";
 
 const asKeyPerformanceIndicator = (identifier, defaultData) => {
   return Visualizer => {
@@ -42,4 +44,5 @@ const asKeyPerformanceIndicator = (identifier, defaultData) => {
     });
   };
 };
+
 export default asKeyPerformanceIndicator;
