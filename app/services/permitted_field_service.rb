@@ -17,6 +17,20 @@ class PermittedFieldService
     created_at
   ].freeze
 
+  PERMITTED_RECORD_INFORMATION_FIELDS = %W[
+    assigned_user_names
+    created_by
+    created_by_agency
+    module_id
+    owned_by
+    owned_by_agency_id
+    owned_by_text
+    previous_agency
+    previously_owned_by
+    reassigned_tranferred_on
+    reopened_logs
+  ].freeze
+
   def initialize(user, model_class, action_name = nil)
     self.user = user
     self.model_class = model_class
@@ -43,6 +57,7 @@ class PermittedFieldService
     @permitted_field_names << 'flagged' if user.can?(:flag, model_class)
     @permitted_field_names += permitted_approval_field_names
     @permitted_field_names += permitted_overdue_task_field_names
+    @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS
     @permitted_field_names
   end
 
