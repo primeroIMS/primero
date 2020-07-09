@@ -38,7 +38,7 @@ const Container = ({ actionItems }) => {
   return (
     <>
       <IconButton
-        aria-label="more"
+        aria-label="menu"
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}

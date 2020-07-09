@@ -58,7 +58,7 @@ const Component = ({ control, record, recordType, showActionButtonCss }) => {
     <>
       {(control && <control onClick={handleOpen} />) || (
         <Button
-          aria-label="test"
+          aria-label={i18n.t("buttons.flags")}
           onClick={handleOpen}
           size="small"
           className={showActionButtonCss}

@@ -110,7 +110,7 @@ const Component = ({
               <Box>
                 {!subformPreventItemRemoval && !mode.isShow ? (
                   <IconButton
-                    aria-label="menu"
+                    aria-label={i18n.t("buttons.delete")}
                     onClick={() => handleOpenModal(index)}
                   >
                     <DeleteIcon />
@@ -123,7 +123,10 @@ const Component = ({
                     recordType={recordType}
                   />
                 ) : null}
-                <IconButton aria-label="menu" onClick={() => handleEdit(index)}>
+                <IconButton
+                  aria-label={i18n.t("buttons.edit")}
+                  onClick={() => handleEdit(index)}
+                >
                   <ArrowIcon />
                 </IconButton>
               </Box>

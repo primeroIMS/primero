@@ -32,7 +32,6 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
         key={`${name}-${option.id}`}
         control={
           <Checkbox
-            aria-label="checkbox"
             as={Checkbox}
             onChange={handleChange}
             value={option.id}
@@ -42,7 +41,6 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
         }
         label={
           <InputLabel
-            id="checkbox"
             text={optionText(option, i18n.locale)}
             tooltip={option?.tooltip}
           />

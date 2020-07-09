@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/styles";
 import { getRecordAlerts } from "../../records/selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
 import { ConditionalWrapper } from "../../../libs";
+import { useI18n } from "../../i18n";
 
 import { NAME } from "./constants";
 import NavGroup from "./NavGroup";
@@ -26,6 +27,7 @@ const Nav = ({
   selectedRecord,
   toggleNav
 }) => {
+  const i18n = useI18n();
   const [open, setOpen] = useState("");
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
@@ -59,7 +61,7 @@ const Nav = ({
   const renderCloseButtonNavBar = mobileDisplay && (
     <div className={css.closeButtonRecordNav}>
       <IconButton
-        aria-label="menu"
+        aria-label={i18n.t("buttons.close")}
         onClick={handleToggleNav}
         className={css.closeIconButtonRecordNav}
       >

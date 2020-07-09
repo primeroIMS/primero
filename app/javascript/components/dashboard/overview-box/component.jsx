@@ -73,7 +73,7 @@ const OverviewBox = ({
       return (
         <li key={item}>
           <button
-            aria-label="itemButton"
+            aria-label={i18n.t("buttons.menu")}
             className={css.itemButton}
             type="button"
             onClick={() => handleClick(indicators.getIn([item, "query"], []))}

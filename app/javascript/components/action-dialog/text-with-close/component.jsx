@@ -4,11 +4,14 @@ import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/styles";
 import { DialogTitle, IconButton } from "@material-ui/core";
 
+import { useI18n } from "../../i18n";
+
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
 const Component = ({ dialogTitle, dialogSubtitle, closeHandler }) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
   const subtitle = dialogSubtitle ? (
     <span className={css.dialogSubtitle}>{dialogSubtitle}</span>
   ) : null;
@@ -18,7 +21,7 @@ const Component = ({ dialogTitle, dialogSubtitle, closeHandler }) => {
       {dialogTitle}
       {subtitle}
       <IconButton
-        aria-label="close"
+        aria-label={i18n.t("buttons.close")}
         className={css.closeButton}
         onClick={closeHandler}
       >

@@ -1,0 +1,238 @@
+diff --git a/app/javascript/components/action-dialog/text-with-close/component.jsx b/app/javascript/components/action-dialog/text-with-close/component.jsx
+index 92b06caa7..d02e90e71 100644
+--- a/app/javascript/components/action-dialog/text-with-close/component.jsx
++++ b/app/javascript/components/action-dialog/text-with-close/component.jsx
+@@ -4,11 +4,14 @@ import CloseIcon from "@material-ui/icons/Close";
+ import { makeStyles } from "@material-ui/styles";
+ import { DialogTitle, IconButton } from "@material-ui/core";
+ 
++import { useI18n } from "../../i18n";
++
+ import { NAME } from "./constants";
+ import styles from "./styles.css";
+ 
+ const Component = ({ dialogTitle, dialogSubtitle, closeHandler }) => {
+   const css = makeStyles(styles)();
++  const i18n = useI18n();
+   const subtitle = dialogSubtitle ? (
+     <span className={css.dialogSubtitle}>{dialogSubtitle}</span>
+   ) : null;
+@@ -18,7 +21,7 @@ const Component = ({ dialogTitle, dialogSubtitle, closeHandler }) => {
+       {dialogTitle}
+       {subtitle}
+       <IconButton
+-        aria-label="close"
++        aria-label={i18n.t("button.close")}
+         className={css.closeButton}
+         onClick={closeHandler}
+       >
+diff --git a/app/javascript/components/dashboard/action-menu/component.jsx b/app/javascript/components/dashboard/action-menu/component.jsx
+index 95a934795..988b9784a 100644
+--- a/app/javascript/components/dashboard/action-menu/component.jsx
++++ b/app/javascript/components/dashboard/action-menu/component.jsx
+@@ -41,7 +41,7 @@ const ActionMenu = ({ open, onOpen, onClose, items }) => {
+   return (
+     <MuiThemeProvider theme={{ ...currentTheme, ...getMuiTheme() }}>
+       <IconButton
+-        aria-label="More"
++        aria-label="Menu"
+         aria-controls="long-menu"
+         aria-haspopup="true"
+         variant="contained"
+diff --git a/app/javascript/components/dashboard/overview-box/component.jsx b/app/javascript/components/dashboard/overview-box/component.jsx
+index 1e47821b8..328563672 100644
+--- a/app/javascript/components/dashboard/overview-box/component.jsx
++++ b/app/javascript/components/dashboard/overview-box/component.jsx
+@@ -73,7 +73,7 @@ const OverviewBox = ({
+       return (
+         <li key={item}>
+           <button
+-            aria-label="itemButton"
++            aria-label={i18n.t("buttons.menu")}
+             className={css.itemButton}
+             type="button"
+             onClick={() => handleClick(indicators.getIn([item, "query"], []))}
+diff --git a/app/javascript/components/flagging/component.jsx b/app/javascript/components/flagging/component.jsx
+index 6628ad109..0d5524f9f 100644
+--- a/app/javascript/components/flagging/component.jsx
++++ b/app/javascript/components/flagging/component.jsx
+@@ -58,7 +58,7 @@ const Component = ({ control, record, recordType, showActionButtonCss }) => {
+     <>
+       {(control && <control onClick={handleOpen} />) || (
+         <Button
+-          aria-label="test"
++          aria-label={i18n.t("buttons.flags")}
+           onClick={handleOpen}
+           size="small"
+           className={showActionButtonCss}
+diff --git a/app/javascript/components/form/components/actions-menu/container.jsx b/app/javascript/components/form/components/actions-menu/container.jsx
+index aaed47ede..e35eb767e 100644
+--- a/app/javascript/components/form/components/actions-menu/container.jsx
++++ b/app/javascript/components/form/components/actions-menu/container.jsx
+@@ -38,7 +38,7 @@ const Container = ({ actionItems }) => {
+   return (
+     <>
+       <IconButton
+-        aria-label="more"
++        aria-label="menu"
+         aria-controls="long-menu"
+         aria-haspopup="true"
+         onClick={handleClick}
+diff --git a/app/javascript/components/form/fields/checkbox-group.jsx b/app/javascript/components/form/fields/checkbox-group.jsx
+index c0eff5992..20f7f4e8f 100644
+--- a/app/javascript/components/form/fields/checkbox-group.jsx
++++ b/app/javascript/components/form/fields/checkbox-group.jsx
+@@ -32,7 +32,6 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
+         key={`${name}-${option.id}`}
+         control={
+           <Checkbox
+-            aria-label="checkbox"
+             as={Checkbox}
+             onChange={handleChange}
+             value={option.id}
+@@ -42,7 +41,6 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
+         }
+         label={
+           <InputLabel
+-            id="checkbox"
+             text={optionText(option, i18n.locale)}
+             tooltip={option?.tooltip}
+           />
+diff --git a/app/javascript/components/form/fields/orderable-options-field.jsx b/app/javascript/components/form/fields/orderable-options-field.jsx
+index 85c4d3033..7aa648548 100644
+--- a/app/javascript/components/form/fields/orderable-options-field.jsx
++++ b/app/javascript/components/form/fields/orderable-options-field.jsx
+@@ -151,7 +151,7 @@ const OrderableOptionsField = ({
+           actionHandler={onAddOption}
+         />
+         <Button
+-          aria-label="test"
++          aria-label={i18n.t("buttons.clear_default")}
+           className={css.clearDefaultButton}
+           onClick={onClearDefault}
+         >
+diff --git a/app/javascript/components/index-filters/components/filter-types/search.jsx b/app/javascript/components/index-filters/components/filter-types/search.jsx
+index b77a6efff..b392f6880 100644
+--- a/app/javascript/components/index-filters/components/filter-types/search.jsx
++++ b/app/javascript/components/index-filters/components/filter-types/search.jsx
+@@ -66,7 +66,7 @@ const Search = ({ handleReset }) => {
+         <DisableOffline button>
+           <IconButton
+             className={css.iconSearchButton}
+-            aria-label="menu"
++            aria-label={i18n.t("navigation.search")}
+             type="submit"
+           >
+             <SearchIcon />
+@@ -83,7 +83,7 @@ const Search = ({ handleReset }) => {
+           endAdornment={
+             <InputAdornment position="end">
+               <IconButton
+-                aria-label="menu"
++                aria-label={i18n.t("navigation.search")}
+                 className={css.iconSearchButton}
+                 onClick={handleClear}
+               >
+diff --git a/app/javascript/components/lightbox/component.jsx b/app/javascript/components/lightbox/component.jsx
+index 47c83b9ed..f7b421527 100644
+--- a/app/javascript/components/lightbox/component.jsx
++++ b/app/javascript/components/lightbox/component.jsx
+@@ -4,10 +4,13 @@ import { Backdrop, IconButton } from "@material-ui/core";
+ import { makeStyles } from "@material-ui/styles";
+ import CloseIcon from "@material-ui/icons/Close";
+ 
++import { useI18n } from "../i18n";
++
+ import styles from "./styles.css";
+ 
+ const Component = ({ trigger, image }) => {
+   const css = makeStyles(styles)();
++  const i18n = useI18n();
+ 
+   const [open, setOpen] = useState(false);
+ 
+@@ -20,7 +23,7 @@ const Component = ({ trigger, image }) => {
+   return (
+     <>
+       <button
+-        aria-label="ab"
++        aria-label={i18n.t("buttons.close")}
+         onClick={handleClose}
+         type="button"
+         className={css.button}
+@@ -29,7 +32,10 @@ const Component = ({ trigger, image }) => {
+       </button>
+       {image && (
+         <Backdrop className={css.backdrop} open={open} onClick={handleClose}>
+-          <IconButton aria-label="menu" className={css.backdropClose}>
++          <IconButton
++            aria-label={i18n.t("buttons.close")}
++            className={css.backdropClose}
++          >
+             <CloseIcon />
+           </IconButton>
+           <img src={image} alt="" />
+diff --git a/app/javascript/components/record-actions/request-approval/approval-form.jsx b/app/javascript/components/record-actions/request-approval/approval-form.jsx
+index bd361d8a4..46f53ceee 100644
+--- a/app/javascript/components/record-actions/request-approval/approval-form.jsx
++++ b/app/javascript/components/record-actions/request-approval/approval-form.jsx
+@@ -33,7 +33,7 @@ const Component = ({
+   return (
+     <>
+       <IconButton
+-        aria-label="close"
++        aria-label={i18n.t("buttons.close")}
+         className={css.closeButton}
+         onClick={close}
+       >
+diff --git a/app/javascript/components/record-actions/request-approval/component.jsx b/app/javascript/components/record-actions/request-approval/component.jsx
+index 4dd8973ab..ea0bd9057 100644
+--- a/app/javascript/components/record-actions/request-approval/component.jsx
++++ b/app/javascript/components/record-actions/request-approval/component.jsx
+@@ -169,7 +169,7 @@ const Component = ({
+   const requestDialogContent = (
+     <>
+       <IconButton
+-        aria-label="close"
++        aria-label={i18n.t("buttons.close")}
+         className={css.closeButton}
+         onClick={close}
+       >
+diff --git a/app/javascript/components/record-form/form/field-types/attachments/attachment-field.jsx b/app/javascript/components/record-form/form/field-types/attachments/attachment-field.jsx
+index 5ea9017cf..b7afae3ca 100644
+--- a/app/javascript/components/record-form/form/field-types/attachments/attachment-field.jsx
++++ b/app/javascript/components/record-form/form/field-types/attachments/attachment-field.jsx
+@@ -60,7 +60,7 @@ const AttachmentField = ({
+         </Box>
+         {disabled && !mode.isShow && (
+           <div>
+-            <IconButton aria-label="menu" onClick={handleRemove}>
++            <IconButton aria-label="delete" onClick={handleRemove}>
+               <DeleteIcon />
+             </IconButton>
+           </div>
+diff --git a/app/javascript/components/record-form/form/field-types/attachments/attachment-label.jsx b/app/javascript/components/record-form/form/field-types/attachments/attachment-label.jsx
+index 36bfefc94..50a211e03 100644
+--- a/app/javascript/components/record-form/form/field-types/attachments/attachment-label.jsx
++++ b/app/javascript/components/record-form/form/field-types/attachments/attachment-label.jsx
+@@ -21,7 +21,6 @@ const AttachmentLabel = ({
+       {disabled && !mode.isShow && (
+         <div>
+           <IconButton
+-            aria-label="menu"
+             variant="contained"
+             onClick={() => handleAttachmentAddition(arrayHelpers)}
+           >
+diff --git a/app/javascript/components/record-form/form/record-form-title.jsx b/app/javascript/components/record-form/form/record-form-title.jsx
+index b90e3732d..5f2ff583f 100644
+--- a/app/javascript/components/record-form/form/record-form-title.jsx
++++ b/app/javascript/components/record-form/form/record-form-title.jsx
+@@ -10,7 +10,7 @@ const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay }) => {
+   const css = makeStyles(styles)();
+ 
+   const showMobileIcon = mobileDisplay ? (
+-    <IconButton aria-label="menu" onClick={handleToggleNav}>
++    <IconButton onClick={handleToggleNav}>
+       <MenuOpen />
+     </IconButton>
+   ) : null;

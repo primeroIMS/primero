@@ -8,6 +8,7 @@ import RecordActions from "../../record-actions";
 import Permission from "../../application/permission";
 import { CREATE_RECORDS } from "../../../libs/permissions";
 import AddRecordMenu from "../add-record-menu";
+import { useI18n } from "../../i18n";
 
 import { NAME } from "./constants";
 
@@ -20,6 +21,8 @@ const Component = ({
   currentPage,
   css
 }) => {
+  const i18n = useI18n();
+
   return (
     <Box mb={3} alignItems="center" display="flex" className={css.toolbar}>
       <Box flexGrow={1}>
@@ -27,7 +30,11 @@ const Component = ({
       </Box>
       <Box>
         {mobileDisplay && (
-          <IconButton aria-label="menu" onClick={handleDrawer} color="primary">
+          <IconButton
+            aria-label={i18n.t("buttons.filter_label")}
+            onClick={handleDrawer}
+            color="primary"
+          >
             <FilterListIcon />
           </IconButton>
         )}

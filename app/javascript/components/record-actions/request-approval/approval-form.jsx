@@ -33,7 +33,7 @@ const Component = ({
   return (
     <>
       <IconButton
-        aria-label="close"
+        aria-label={i18n.t("buttons.close")}
         className={css.closeButton}
         onClick={close}
       >

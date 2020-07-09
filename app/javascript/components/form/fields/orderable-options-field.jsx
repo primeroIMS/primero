@@ -151,7 +151,7 @@ const OrderableOptionsField = ({
           actionHandler={onAddOption}
         />
         <Button
-          aria-label="test"
+          aria-label={i18n.t("buttons.clear_default")}
           className={css.clearDefaultButton}
           onClick={onClearDefault}
         >

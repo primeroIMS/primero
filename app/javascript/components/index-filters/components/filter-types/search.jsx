@@ -66,7 +66,7 @@ const Search = ({ handleReset }) => {
         <DisableOffline button>
           <IconButton
             className={css.iconSearchButton}
-            aria-label="menu"
+            aria-label={i18n.t("navigation.search")}
             type="submit"
           >
             <SearchIcon />
@@ -83,7 +83,7 @@ const Search = ({ handleReset }) => {
           endAdornment={
             <InputAdornment position="end">
               <IconButton
-                aria-label="menu"
+                aria-label={i18n.t("navigation.search")}
                 className={css.iconSearchButton}
                 onClick={handleClear}
               >

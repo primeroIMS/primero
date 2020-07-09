@@ -97,7 +97,7 @@ const ListSavedSearches = ({
             <ListItemText primary={savedSearch.name} />
             <ListItemSecondaryAction>
               <IconButton
-                aria-label="menu"
+                aria-label={i18n.t("buttons.delete")}
                 edge="end"
                 onClick={() => handleDeleteFilter(savedSearch.id)}
               >

@@ -171,12 +171,15 @@ const Container = ({
           <Box flexGrow={1}>{formattedReportFilterName}</Box>
           <Box>
             <IconButton
-              aria-label="menu"
+              aria-label={i18n.t("buttons.close")}
               onClick={() => handleOpenModal(index)}
             >
               <DeleteIcon />
             </IconButton>
-            <IconButton aria-label="menu" onClick={() => handleEdit(index)}>
+            <IconButton
+              aria-label={i18n.t("buttons.edit")}
+              onClick={() => handleEdit(index)}
+            >
               <ArrowIcon />
             </IconButton>
           </Box>
@@ -189,7 +192,7 @@ const Container = ({
       <Typography className={css.filtersHeading}>
         {i18n.t("report.filters.label")}
         <IconButton
-          aria-label="menu"
+          aria-label={i18n.t("buttons.new")}
           size="small"
           onClick={handleNew}
           className={css.addFilter}
