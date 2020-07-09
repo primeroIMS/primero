@@ -3,7 +3,7 @@ import React, { useEffect, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { batch, useSelector, useDispatch } from "react-redux";
 import { FormContext, useForm } from "react-hook-form";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Add from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
 

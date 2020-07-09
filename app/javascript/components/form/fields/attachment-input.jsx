@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { InputLabel, FormHelperText } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../i18n";
 import { toBase64 } from "../../../libs";

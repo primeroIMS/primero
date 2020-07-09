@@ -20,7 +20,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
+const TextField = ({
+  name,
+  field,
+  formik,
+  mode,
+  recordType,
+  recordID,
+  ...rest
+}) => {
   const css = useStyles();
 
   const { type } = field;
@@ -94,7 +102,7 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
               }}
               {...fieldProps}
             />
-            {name === "name" && fieldProps.mode.isEdit ? (
+            {name === "name" && mode.isEdit ? (
               <ButtonBase
                 className={css.hideNameStyle}
                 onClick={() => hideFieldValue(renderProps)}
@@ -116,6 +124,7 @@ TextField.displayName = TEXT_FIELD_NAME;
 TextField.propTypes = {
   field: PropTypes.object,
   formik: PropTypes.object,
+  mode: PropTypes.object.isRequired,
   name: PropTypes.string,
   recordID: PropTypes.string,
   recordType: PropTypes.string

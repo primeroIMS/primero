@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 

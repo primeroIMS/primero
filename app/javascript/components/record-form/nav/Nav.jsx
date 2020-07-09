@@ -4,11 +4,12 @@ import { List, IconButton, Drawer } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
+import { getRecordFormsByUniqueId } from "../selectors";
 import { getRecordAlerts } from "../../records/selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
-import { ConditionalWrapper } from "../../../libs";
+import { compare, ConditionalWrapper } from "../../../libs";
 
 import { NAME } from "./constants";
 import NavGroup from "./NavGroup";
@@ -22,13 +23,24 @@ const Nav = ({
   isNew,
   mobileDisplay,
   recordType,
-  selectedForm,
   selectedRecord,
-  toggleNav
+  toggleNav,
+  primeroModule,
+  selectedForm
 }) => {
   const [open, setOpen] = useState("");
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
+  const selectedRecordForm = useSelector(
+    state =>
+      getRecordFormsByUniqueId(state, {
+        recordType,
+        primeroModule,
+        formName: selectedForm || firstTab.unique_id,
+        checkVisible: true
+      }),
+    compare
+  );
 
   const handleClick = args => {
     const { group, formId, parentItem } = args;
@@ -45,13 +57,22 @@ const Nav = ({
   };
 
   useEffect(() => {
-    dispatch(setSelectedForm(firstTab.unique_id));
+    if (!selectedForm || isNew) {
+      dispatch(setSelectedForm(firstTab.unique_id));
+    } else if (
+      !selectedRecordForm?.isEmpty() &&
+      open !== selectedRecordForm.first().form_group_id
+    ) {
+      setOpen(selectedRecordForm.first().form_group_id);
+    }
   }, []);
 
   useEffect(() => {
     dispatch(setSelectedRecord(selectedRecord));
 
-    setOpen(firstTab.form_group_id);
+    if (!selectedForm || isNew) {
+      setOpen(firstTab.form_group_id);
+    }
   }, [firstTab]);
 
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
@@ -125,6 +146,7 @@ Nav.propTypes = {
   handleToggleNav: PropTypes.func.isRequired,
   isNew: PropTypes.bool,
   mobileDisplay: PropTypes.bool.isRequired,
+  primeroModule: PropTypes.string,
   recordType: PropTypes.string,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   selectedRecord: PropTypes.string,

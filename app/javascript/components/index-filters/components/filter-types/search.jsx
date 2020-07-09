@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { IconButton, InputBase, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import DisableOffline from "../../../disable-offline";
 import { useI18n } from "../../../i18n";

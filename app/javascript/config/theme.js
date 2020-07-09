@@ -64,6 +64,15 @@ const overrides = {
     }
   },
   MuiInput: {
+    root: {
+      "&:read-only": {
+        color: colors.black
+      },
+      "&:read-only ::placeholder": {
+        color: colors.black,
+        opacity: 1
+      }
+    },
     formControl: {
       "label + &": {
         marginTop: 0

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Alert from "@material-ui/lab/Alert";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import SignalWifiOff from "@material-ui/icons/SignalWifiOff";
 
 import { useApp } from "../../../application";

@@ -1270,4 +1270,29 @@ describe "record field model" do
       expect(fields_with_append_only_subform.first.name).to eq(@field_subform_append_only.name)
     end
   end
+
+  describe 'is_agency?' do
+    context 'when option_strings_sources is Agency' do
+      it 'should be true' do
+          field = Field.new({
+            name: "test_agency",
+            type: "select_box",
+            display_name_all: "Test field",
+            option_strings_source: "Agency"
+          })
+          expect(field.is_agency?).to be_truthy
+      end
+    end
+    context 'when option_strings_sources is not Agency' do
+      it 'should be false' do
+        field = Field.new({
+          name: "test_agency",
+          type: "select_box",
+          display_name_all: "Test field",
+          option_strings_source: "Location"
+        })
+        expect(field.is_agency?).to be_falsy
+      end
+    end
+  end
 end

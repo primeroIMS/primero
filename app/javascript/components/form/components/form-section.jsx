@@ -10,7 +10,7 @@ import {
   Typography
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import get from "lodash/get";
 
 import Tooltip from "../../tooltip";

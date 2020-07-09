@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { useTheme } from "@material-ui/styles";
+import { useTheme } from "@material-ui/core/styles";
 
 import PrioritySummary from "../priority-summary";
 import { useI18n } from "../../i18n";

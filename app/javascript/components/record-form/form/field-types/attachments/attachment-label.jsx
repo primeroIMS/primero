@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import AddIcon from "@material-ui/icons/Add";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "../../styles.css";
 import ActionButton from "../../../../action-button";

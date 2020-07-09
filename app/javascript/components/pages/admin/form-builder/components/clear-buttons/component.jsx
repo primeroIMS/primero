@@ -4,7 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import CloseIcon from "@material-ui/icons/Close";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../../../../i18n";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";

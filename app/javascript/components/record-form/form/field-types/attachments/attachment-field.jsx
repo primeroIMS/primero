@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "../../styles.css";
 import ActionButton from "../../../../action-button";
