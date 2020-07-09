@@ -5,7 +5,7 @@ ku:
   name: "ناو"
   home:
     fr: "فره نسی"
-    en: "انكليزي"
+    en: "English"
     ar: "عره بی"
     ar-LB: "عرەبى(لوبنانى)"
     zh: "چینى"
@@ -17,7 +17,6 @@ ku:
     my: "میانمار"
     th: "تایلەندى"
     ku: "کوردى"
-    pt: "Português"
     dashboard: "داشبورد"
     welcome: "بەخێربێى بو پریمێرو"
     current_time_zone: "کاتى شوێنى دیارکراو"
@@ -33,7 +32,7 @@ ku:
         وریاکردنەوە: ئەگەر بەردەوام بىت،هەر زانیارییەک بەم بەشەوە پەیوەست بێت لەدەست دەدەیت
         ئەگەر دلنیانیت بەشەکە لەکاربێخە
         بو گەرانەوە کلیک لەسەر رەدکردن بکە. کلیک لەسەر باشە بکە بو سرینەوەى بەشەکە
-    move_item: "ئەم شوێنە خەریکە دەگوێزرێتەوە بو بەشەکى ترى فورم (کلیلى-هەلبژاردن). رازیت لەسەر ئەمە؟"
+    move_item: "ئەم شوێنە خەریکە دەگوێزرێتەوە بو بەشەکى ترى فورم ({{کلیلى-هەلبژاردن}}). رازیت لەسەر ئەمە؟"
     enter_valid_date: "تکایە رێککەوتێک بنووەسە لە سەر شێوەیەکى کارپێکراو (ر- م -س)"
     enter_valid_field_value: "تکایە زنجیرەیەکى شوێنى کارپێکراو بنووسە"
     enter_valid_number_in_tally: "%{field}: %{tally}) پێویستە ژمارەیەکى کارپێکراو بێت"
@@ -111,6 +110,7 @@ ku:
     tracing_request: "داخوازیەکانى بەدواداچون"
     incidents: "رووداو"
     potential_match: "هاوبەش"
+    duplicates: "دووبارەبووەکان"
     children: "منالةكان"
     forms: "فورمەکان"
     lookups: "گەراندنەوەکان"
@@ -143,11 +143,11 @@ ku:
     disable_photo_wall: "وێنەى دواوە لەکاربێخە"
     create_incident: "تومارکردنى رووداو"
     create_case: "تومارکردنى كه يسه كان"
-    guiding_questions: "پرسیارە رابەریەکان"
     filter_label: "فیلتەر:"
     filter: "فیلتەرى بەکاربێنە"
     filter_clear: "فیلتەرەکە لایبە"
     find_tracing_match: "دوزينةوةى بةيوةندى بةدواداجون"
+    filter_restore: "گەرانەوەی رێکخستنی سیستەم"
     flag_records: "نیشان "
     flag_model: "نیشان%{model}"
     unflag_model: "نیشان نەکە%{model}"
@@ -194,7 +194,7 @@ ku:
       my_cases: "کەیسەکانم"
       workflow: "کەیسەکان لەلایەن ستافى کار"
       no_activity: "چالاکى نیە"
-      3month_inactivity: "بو ٣+ مانگ"
+      3month_inactivity: " بۆ 3+ مانگ"
       referred_cases: "کەیسەکانى بو لاى من هەناردەکراو"
       agency: "دامەزراوە"
       status: "دوخ:"
@@ -361,7 +361,7 @@ ku:
     type: "جورى کردار"
     due_date: "رێککەوتى گونجاو"
     types:
-      assessment: "لێکولینەوە"
+      assessment: "هەلسەنگاندن"
       case_plan: "پلانی كەیسەكە"
       follow_up: "دوزینەوەى١ %{subtype}"
       service: "خزمەتگوزارى١%{subtype}"
@@ -467,6 +467,7 @@ ku:
     selectable_date_options:
       date_of_first_report: "رێککەوتى چاوپێکەوتنەکە"
       incident_date_derived: "رێککەوتى روداوەکە"
+    violations_tab: "توندوتیژیەکان"
     filter_by:
       flag: "دەستنیانکرا:"
       flag_label: "دەستنیشانکرا؟"
@@ -485,7 +486,6 @@ ku:
       incident_location: "شوێنى رووداوەکە:"
       incident_date: "رێککەوتى روداوەکە"
       unaccompanied_separated_status: "دوخى پاراستن:"
-      armed_force_group_name: "هێزى چەکدار یان گروپ:"
       armed_force_group_type: "جورى هێزى چەکدار یان گروپ:"
       record_state: "دوخى تومارکردن:"
       interview_date: "رێککەوتى چاوپێکەوتنەکە"
@@ -539,18 +539,13 @@ ku:
     change_log: "لوگوکە بگورە"
     actions:
       change_log: "لوگوکە بگورە"
+      delete_document: "زانیارى بسرێتەوە؟"
     history_of: "مێژووى%{record_id}"
     violation:
       violation: "توندوتیژى"
-      pending: 'پالپشتى لە چاوەروانی دایە'
       killing: "کوشتن"
       maiming: "پەککردن"
-      recruitment: "بەسەربازکردن"
-      sexual_violence: "توندوتیژى جەستەیى"
       abduction: "رفاندنى مروڤ"
-      attack_on_schools: "پەلامار لە قوتابخانەکان"
-      attack_on_hospitals: "پەلامار لە نەخوشخانەکان"
-      denial_humanitarian_access: "رێنەدان بە خزمەتگوزارى خێرخوازى"
       other_violation: "توندوتیژیەکانى تر"
   tracing_request:
     label: "ناسنامەى لێکولەر"
@@ -643,14 +638,33 @@ ku:
       likely: 'لەوانەیە'
       possible: 'لەوانەیە'
   duplicates:
+    search_for_duplicates: 'ليگه ريانى دووبارەبووەکان'
     clear_filter: 'روونە'
     filter_by:
       name: "ناو"
       name_nickname: "ناز ناو"
-      name_other: "ناوةكى تر"
+      name_other: "ناوێکی تر"
       sex: "رەگەز"
       age: "تەمەن"
+      age_range: "رێزى تەمەن"
       date_of_birth: "رێککەوتى لەدایکبون"
+      nationality: "نەتەوە"
+      location_last: "دوایین شوێن"
+      telephone_last: "دوایین ژمارە تێلەفۆن"
+      ethnicity: "ئینتیمای"
+      date_of_separation: "رێککەوتى جیابونەوە"
+      separation_cause: "ئەگەری سەرەکی جیابونەوە"
+      location_separation: "شوێنى جیابونەوە"
+      relation_name: "ناوى خزم"
+      relation: "پەیوەندی"
+      relation_nickname: "ناز ناوى خزم"
+      relation_language: "زمانى خزم"
+      relation_religion: "ئايينى خزم"
+      relation_ethnicity: "ئینتیمای خزم"
+      relation_nationality: "نەتەوەی خزم"
+      relation_address_current: "ناونیشانی ئێستای خزم"
+      relation_location_current: "شوێنی ئێستای خزم"
+      relation_telephone: "ژمارەى ته له فونی خزم"
   audit_log:
     timestamp: "دیارکەرى کاتى رووداو- UTC"
     user_name: "ناوى بەکارهێنەر"
@@ -846,6 +860,7 @@ ku:
     history_of: "مێژووى %{user_name}"
     disabled: "لەکارخست"
     services: "خزمەتگوزاریەکان"
+    agency_office: "ئۆفیسی دامەزراوە"
     position: پۆست
     actions:
       delete: "بسرەوە"
@@ -883,8 +898,8 @@ ku:
   email: "ئیمێل"
   organization: "رێکخراو"
   position: "پۆست"
-  'false': "هەلە"
-  'true': "راستە"
+  'false': "نه خێر "
+  'true': "به لێ"
   mandatory_field: "دەستنیشانکردنى شوێنەکان زورەملى نە"
   add: "زیادبکە"
   belonging_to: "تایبەتە بە"
@@ -892,6 +907,7 @@ ku:
   blacklisted: "لیستى رەش؟"
   visible_for_web: "بینراو بو ئەپلیکەیشنى وێب"
   visible_for_mobile: "بینراو بو ئەپلیکەیشنى موبایل"
+  selective_syncing_mobile: "هەلبژاردەی رێکخستنی (مۆبایل)"
   hidden: "شاردرانەوە"
   help_text: "دەقى هاوکارى"
   multi_select: "هەلبژاردنى زور"
@@ -976,6 +992,8 @@ ku:
       dashboard: "داشبورد"
       view_approvals: "پەسەندەکان پیشانبدە"
       view_assessment: "ڤەکولینەکان پیشانبدە"
+      form: "فورمەکان"
+      lookup: "گەراندنەوەکان"
       dash_reporting_location: "شوێنى ریپورتکردن پیشانبدە"
       dash_protection_concerns: "بایەخەکان پاراستن پیشانبدە"
       dash_matching_results: "ئەنجامەکانى هاوبەش پیشانبدە"
@@ -987,7 +1005,6 @@ ku:
       dash_cases_by_workflow: "کەیسەکان لەلایەن ستافى کارەوە پیشانبدە"
       dash_cases_by_task_overdue: "کەیسەکانى دواکەوتوو پیشانبدە"
       dash_cases_to_assign: "کەیسەکان پیشانبدە بو دابين كردن"
-      dash_show_none_values: "نەگرنگەکان پیشانبدە"
       dash_tasks: "پێداچونا ئەرکان"
       search_owned_by_others: "لێگەریانى تومارەکانى کەیس کە بەکارهێنەرەکانى تر هەیەتى"
       incident_from_case: "درستکردنى فورکى رووداوى کەیس"
@@ -1008,6 +1025,9 @@ ku:
       add_note: "تێبینیێ زێدەکە"
       assign_within_agency: "نيشانكرا لةناو وةكالةى"
       assign_within_user_group: "نيشانكرا لة ناو بكارهينةرى كروب"
+      find_tracing_match: "دۆزینەوەی پەیوەندی بەدواداچون لە کەیس"
+      duplicate: "لێگەریانی دووبارە"
+      view_response: "نیشاندانی وەلامەکان"
   forms:
     label: "فورمەکان"
     save: "خەزنکردنى فورم"
@@ -1049,7 +1069,7 @@ ku:
       show_confirmation: "دلنیاى دەتەوێ فیلدەکان پیشانبدەى؟"
       drag_drop_help_text: 'دەتوانیت کلیک لەسەر شوێنەکە بکەیت بو راکێشان & amp: بو دابەزینى کردارى داخوازکراو'
       updated: "بەشى فورم  بەسەركەوتووى زیادکرا"
-    hide: "شاردرانەوە؟"
+    hide: "شاردنەوە؟"
     show: "پیشانبدە"
     manage: "بەرێوەبردنى بەشى فورم"
     edit: "دەستکاریکردنى بەشەکانى فورمەکە"
@@ -1066,6 +1086,7 @@ ku:
     translation: "وه رگێران"
     translation_missing: "(وەرگێران ناتەواوە بو %{lang})"
     base_language_help_text: "ئەمە دەبێت بچێتە نا %{lang}"
+    selective_syncing_mobile_help_text: "بەشی نا سەرەکی رێکنەخرا لە گەل خزمەتگوزاری مۆبایل، بەلام بەکارهێنەر ئەتوانێت بەشی نا سەرەکی زیاد بکات لە مۆبایل کە دوای رێکدەخرێت لە خزمەتگوزاری"
     form_group_translation_help_text: "بو ئادكردنى وةركيرانةوه بو دروستكردنى كروب ودةستبةكاركردنى ليكةرانى دروستكردنى كروب "
     initial_lang_help_text: "فیلدەکە دەبێت دروستکردبێت لە %{lang} پێش ئەوى وەرگێران بو زیادبکرێت"
     field_db_help_text: "ئەگەر بەتال بەجێ هێلا، ناوى DB دروست دەکرێت. تەنیا پیتەکانى لاتینى، ژمارەکان، وە خالەکانى ژێرەوە رێگەپێدراوە"
@@ -1082,7 +1103,7 @@ ku:
     select_a_criteria: "بژاردەکانى  A هەلبژێرە"
     records_found:
       one: "١%{`ژمارە} تومار دوزییانەوە"
-      other: "%{count}  تومارەکان دوزرانەوە"
+      other: "%{count}  تۆمارەکان دۆزرانەوە"
   search: "لێگەریان"
   select_all: "هەموو تومارەکان هەلببژێرە"
   no_results_found: "هیچ ئەنجامێک نەياندۆزيەوە"
@@ -1175,14 +1196,20 @@ ku:
     file_upload_box:
       select_file_button_text: "فایلەکە هەلبژێرە"
       no_file_selected: "هیچ فایلێک هەلنەبژاردووە"
-      document_file_restrictions_message: "فایلەکان نابێ زیاتربن لە ٢MB (فایلەکانى (.exe) وەک پروگرام ناتوانێت ئاپلود بکرێن)."
-      photo_file_restrictions_message: "وێنەکان نابێت لە ١٠MB زیاتربن. فایلەکانى دەنگ نابێت لە ١٠MBزیاتربن. چەند بچووكتربێت باشترە"
-      add_document_label: "بەڵگەنامە زياد بكە"
+      document_file_restrictions_message: "فایلەکان نابێ زیاتربن لە 2 MB (فایلەکانى (.exe) وەک پروگرام ناتوانێت ئاپلود بکرێن)."
+      photo_file_restrictions_message: "وێنەکان نابێت لە 10MB زیاتربن. فایلەکانى دەنگ نابێت لە 10MBزیاتربن. چەند بچووكتربێت باشترە"
       add_photo_label: "وێنە زیادبکە"
       recorded_audio_label: "دەنگى تومارکراو"
       add_new_document_button_text: "بەلگەیەکى تر زیادبکە"
       add_new_photo_button_text: "وێنەیەکى تر زیادبکە"
       document_description: "شروڤەکردنى بەلگەنامە"
+      document:
+        add_document_label: "بەڵگەنامە زياد بكە"
+        current_document_label: "ئەمە بەلگەنامەى بەکارهاتووە؟"
+        document_name_label: "ناوى بەلگەنامەکە"
+        document_date_label: "رێککەوتى بەلگەنامەکە"
+        comment_label: "تێبینیەکان"
+        add_button_text: "بەلگەیەکى تر زیادبکە"
     upload_bia_document: "بەلگەنامەى BIA"
     upload_bid_document: "بەلگەنامەى BID"
     upload_other_document: "بەلگەنامەکانى تر"
@@ -1193,6 +1220,7 @@ ku:
       current: "ئەمە بەلگەنامەى بەکارهاتووە؟"
     audio:
       current: "دەنگى بەکارهاتوو"
+    upload_supporting_material: "فایل"
   replication:
     label: وەلام
     index: وەلامەکان رێکبخە
@@ -1329,6 +1357,16 @@ ku:
     messages:
       delete_success: "ریپیورت  بەسەركەوتووى سرییەوە"
     edit: "دەستکاریکرن"
+    report_filters:
+      filters: "فیلتەرەکان"
+      filter: "فلتەر"
+      clear: "روونە"
+      date_prompt: "رێککەوت هەلبژێرە"
+      from: "له"
+      to: "بۆ"
+      registration_date: "رێککەوتى تومارکردن"
+      date_of_incident: "رێککەوتى روداوەکە"
+      incident_location: "شوێن"
   encrypt:
     password_title: "دروستکردنى ژمارەى نهێنى"
     password_label: "تکایە ژمارەیەکى نهێنى بنوسە کە بتوانى فایلەکەت ب پارێزێت"
@@ -1353,9 +1391,9 @@ ku:
     validations:
       blank: "1%s دەبێت بەتال نەبێت"
   gbv_report:
-    18_and_over_age: "تەمەنى ١٨ و زیاتر"
-    12_17_age: "١٢-١٧"
-    0_11_age: "٠-١١"
+    18_and_over_age: "تەمەنى 18 و زیاتر"
+    12_17_age: "12-17"
+    0_11_age: "0-11"
     unknown: "نەزانراو"
     adult: "پێگەیشتوو"
     child: "منال"
@@ -1379,7 +1417,7 @@ ku:
     harmful_traditional_practice: "نەریتە زیانبەخشەکان"
     possible_sexual_exploitation: "له وانه يه چەوساندنەوەى سێکسى"
     possible_sexual_slavery: "له وانه يه بەندایەتى سێکسى"
-    over_1_month: "گەورەتر لە ١ مانگ"
+    over_1_month: "گەورەتر لە 1 مانگ"
     2_weeks_1_month: "٢ حەفتى - ١ مانگ"
     6_14_days: "٦-١٤ روژ"
     4_5_days: "٤-٥ روژ"
@@ -1482,6 +1520,7 @@ ku:
     current_owner: "خاوەنى ئێستا"
     last_updated: "دوواین نوێکردنەوە"
     case_stats: "کەیسەکان"
+    national_admin_stats: "کەیسەکان"
     tr_stats: "داخوازیەکانى بەدواداچون"
     cases_by_social_worker: "کەیسەکانى له لايةن لێکولەرى کومەلایەتى"
     approvals: "پەسەندان"
@@ -1646,6 +1685,13 @@ ku:
         delete_field: "شوێنى جێگیر نابێت بسرێتەوە"
         unique_name: "ناوى %{name}' بەکارهێنراوە"
         unique_id: "ناسنامەى بێهاوتا  %{unique_id} بەکارهێنراوە"
+      enquiry:
+        presence_of_criteria: "تكايە پێوانە زياد بكە بۆ لێپرسينەوەت"
+        presence_of_enquirer_name: "تکایە ناوى لێکولەر لە لێپرسینەکە زیادبکە"
+        presence_of_reporter_details: "تکایە ناوى هەوالنێر لە لێپرسینەکە زیادبکە"
+        create_forbidden: "قەدەغە دەكات"
+        not_found: "نەدوزرا"
+        malformed_query: "داخوازى هەلە"
       role:
         name_present: "شوێنى ناو دەبێت بەتال نەمێنیت"
         permission_presence: "تکایە بە لایەنى کەمەوە یەک مولەت هەلبژێرە"
@@ -1836,6 +1882,7 @@ ku:
       male_abbreviation: "نێر"
       unknown_abbreviation: "U"
       headers:
+        moha_id: "MOHA ID DEPRECATED"
         national_id_no: "زماره ناسنامةى نةتةوةيى"
         case_id: "ناسنامەى كەیسەكە"
         progress_id: "ناسنامەى بەدواداچوون"
@@ -2116,6 +2163,9 @@ ku:
         other: "پیشاندان 1هەموو%{count}1 %{model}"
       multi_page_html: "پیشاندان %{model} 1%{from} - %{to}1 هى 2%{count}2 iسەرجەمیان"
     models:
+      agency:
+        one: "دامەزراوە كان"
+        other: "دامەزراوە كان"
       report:
         one: "ریپرتەکان"
         other: "ریپرتەکان"
@@ -2134,3 +2184,6 @@ ku:
       task:
         one: "ئەرک"
         other: "ئەرکەکان"
+      user_group:
+        one: "گروپەکانى بەکارهێنەر"
+        other: "گروپەکانى بەکارهێنەر"

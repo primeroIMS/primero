@@ -10,8 +10,8 @@ fr:
     ar-LB: "Arabe (Libanais)"
     zh: "中文"
     es: "Español"
+    ru: "Русский"
     so: "Af-Soomaali"
-    id: "Bahasa"
     bn: "বাংলা"
     id: "Bahasa"
     my: "ဗမာစာ"
@@ -144,7 +144,6 @@ fr:
     disable_photo_wall: "Désactiver le mur de photos"
     create_incident: "Créer un Incident"
     create_case: "Créer un Cas"
-    guiding_questions: "Questions Directrices"
     filter_label: "Filtre :"
     filter: "Appliquer les filtres "
     filter_clear: "Supprimer les filtres "
@@ -469,6 +468,7 @@ fr:
     selectable_date_options:
       date_of_first_report: "Date de l'entretien "
       incident_date_derived: "Date de l'incident"
+    violations_tab: "Violations"
     filter_by:
       flag: "Signalé : "
       flag_label: "Signalé ?"
@@ -487,7 +487,6 @@ fr:
       incident_location: "Lieu de l'incident :"
       incident_date: "Date de l'incident :"
       unaccompanied_separated_status: "Statut de protection :"
-      armed_force_group_name: "Forces armées ou groupe armé :"
       armed_force_group_type: "Type de forces armées ou de groupe armé :"
       record_state: "État du dossier :"
       interview_date: "Date de l'Entretien"
@@ -541,18 +540,13 @@ fr:
     change_log: "Modifier le journal"
     actions:
       change_log: "Modifier le journal"
+      delete_document: "Supprimer le document ?"
     history_of: "Historique de %{short_id}"
     violation:
       violation: "Violation"
-      pending: 'Vérification en attente'
       killing: "Meurtre"
       maiming: "Mutilation"
-      recruitment: "Recrutement "
-      sexual_violence: "Violence sexuelle "
       abduction: "Enlèvement"
-      attack_on_schools: "Attaque sur des écoles "
-      attack_on_hospitals: "Attaque sur des hôpitaux "
-      denial_humanitarian_access: "Refus d'un accès humanitaire"
       other_violation: "Autre violation"
   tracing_request:
     label: "Identifiant de l'enquêteur"
@@ -999,6 +993,8 @@ fr:
       dashboard: "Tableau de Bord"
       view_approvals: "Voir Approbations"
       view_assessment: "Voir Evaluation"
+      form: "Formulaires"
+      lookup: "Références"
       dash_reporting_location: "Afficher les zones de rapportages"
       dash_protection_concerns: "Afficher les problèmes de protection"
       dash_matching_results: "Afficher les résultats des demandes de traçage"
@@ -1204,12 +1200,18 @@ fr:
       no_file_selected: "Aucun fichier sélectionné."
       document_file_restrictions_message: "Les fichiers doivent être pas plus de 2 Mo (exécutable (.exe) ne peuvent pas être téléchargés)"
       photo_file_restrictions_message: "Les photos ne doivent pas excéder 10 Mo. Les fichiers audio ne doivent pas excéder 10 Mo. Choisir de préférence des fichiers de taille réduite."
-      add_document_label: "Ajouter un document"
       add_photo_label: "Ajouter une photo"
       recorded_audio_label: "Enregistrer un audio"
       add_new_document_button_text: "Ajouter un autre document"
       add_new_photo_button_text: "Ajouter une autre photo"
       document_description: "Description du document"
+      document:
+        add_document_label: "Ajouter un document"
+        current_document_label: "Est-ce le document récent?"
+        document_name_label: "Nom du document"
+        document_date_label: "Date du document"
+        comment_label: "Commentaire"
+        add_button_text: "Ajouter un autre document"
     upload_bia_document: "Documents BIA"
     upload_bid_document: "Documents BID"
     upload_other_document: "Autres Documents"
@@ -1220,6 +1222,7 @@ fr:
       current: "Est-ce le document récent?"
     audio:
       current: "Audio reçent"
+    upload_supporting_material: "Fichier"
   replication:
     label: Reproduction
     index: Gérer les reproductions
@@ -1356,6 +1359,16 @@ fr:
     messages:
       delete_success: "Le rapport a bien été supprimé."
     edit: "Éditer"
+    report_filters:
+      filters: "Filtres"
+      filter: "Filtre"
+      clear: "Supprimer"
+      date_prompt: "Sélectionner une date"
+      from: "De"
+      to: "à"
+      registration_date: "Date d'enregistrement"
+      date_of_incident: "Date de l'incident "
+      incident_location: "Lieu"
   encrypt:
     password_title: "Créer un mot de passe"
     password_label: "Veuillez saisir un mot de passe qui cryptera votre fichier."
@@ -1509,6 +1522,7 @@ fr:
     current_owner: "Propriétaire actuel"
     last_updated: "Dernière mise à jour"
     case_stats: "Cas"
+    national_admin_stats: "Cas"
     tr_stats: "Demandes de traçage"
     cases_by_social_worker: "Cas par travailleur social"
     approvals: "Approbations"
@@ -1673,6 +1687,13 @@ fr:
         delete_field: "Impossible de supprimer un champ qui ne peut pas être édité"
         unique_name: "Le nom '%{name}' est déjà pris."
         unique_id: "L'identifiant unique '%{unique_id}' est déjà pris."
+      enquiry:
+        presence_of_criteria: "Ajoutez des critères à votre enquête"
+        presence_of_enquirer_name: "Ajoutez le nom de l'enquêteur à votre enquête"
+        presence_of_reporter_details: "Ajoutez des renseignements sur le registre à votre enquête"
+        create_forbidden: "Interdit"
+        not_found: "Non trouvé"
+        malformed_query: "Demande invalide"
       role:
         name_present: "Le nom ne doit pas être laissé vide"
         permission_presence: "Veuillez sélectionner au moins une permission"

@@ -17,7 +17,6 @@ id:
     my: "ဗမာစာ"
     th: "ไทย"
     ku: "کوردی"
-    pt: "Português"
     dashboard: "Dashboard"
     welcome: "Selamat Datang di Primero"
     current_time_zone: "Zona waktu setempat"
@@ -144,7 +143,6 @@ id:
     disable_photo_wall: "Nonaktifkan dinding foto"
     create_incident: "Buat Data Insiden"
     create_case: "Buat Data Kasus"
-    guiding_questions: "Pertanyaan Panduan"
     filter_label: "Filter:"
     filter: "Terapkan Filtrasi"
     filter_clear: "Hapus Filter"
@@ -469,6 +467,7 @@ id:
     selectable_date_options:
       date_of_first_report: "Tanggal Wawancara"
       incident_date_derived: "Tanggal Kejadian"
+    violations_tab: "Pelanggaran"
     filter_by:
       flag: "Ditandai Bendera"
       flag_label: "Ditandai Bendera?"
@@ -487,7 +486,6 @@ id:
       incident_location: "Lokasi Insiden"
       incident_date: "Tanggal Insiden"
       unaccompanied_separated_status: "Status Perlindungan:"
-      armed_force_group_name: "Angkatan Bersenjata atau Grup:"
       armed_force_group_type: "Tipe Grup"
       record_state: "Data Menerangkan:"
       interview_date: "Tanggal Wawancara:"
@@ -541,18 +539,13 @@ id:
     change_log: "Ubah Log"
     actions:
       change_log: "Ubah Log"
+      delete_document: "Hapus dokumen?"
     history_of: "Riwayat dari %{short_id}"
     violation:
       violation: "Pelanggaran"
-      pending: 'Verifikasi tertunda'
       killing: "Membunuh"
       maiming: "Mencacatkan"
-      recruitment: "Pengerahan"
-      sexual_violence: "Kekerasan Seksual"
       abduction: "Penculikan"
-      attack_on_schools: "Diserang di Sekolah"
-      attack_on_hospitals: "Diserang di Rumah Sakit"
-      denial_humanitarian_access: "Penyangkalan Akses Kemanusiaan"
       other_violation: "Pelanggaran Lain"
   tracing_request:
     label: "ID Penyelidik"
@@ -905,8 +898,8 @@ id:
   email: "Surat Elektronik"
   organization: "Organisasi"
   position: "Posisi"
-  false: "Tidak"
-  true: "Ya"
+  'false': "Tidak"
+  'true': "Ya"
   mandatory_field: "Kolom yang ditandai wajib diisi"
   add: "Tambah"
   belonging_to: "Milik"
@@ -999,6 +992,8 @@ id:
       dashboard: "Dashboard"
       view_approvals: "Lihat Persetujuan"
       view_assessment: "Lihat Penilaian"
+      form: "Formulir"
+      lookup: "Lihat Referensi"
       dash_reporting_location: "Lihat Lokasi Laporan"
       dash_protection_concerns: "Lihat Masalah perlindungan:"
       dash_matching_results: "Tinjau Hasil Pencocokan"
@@ -1010,7 +1005,6 @@ id:
       dash_cases_by_workflow: "Tinjau Kasus berdasar Alur Penanganan"
       dash_cases_by_task_overdue: "Tinjau Kasus yang Mengalami Keterlambatan"
       dash_cases_to_assign: "Tinjau Kasus untuk Ditetapkan Penugasannya"
-      dash_show_none_values: "Tinjau "
       dash_tasks: "Tinjau tugas-tugas"
       search_owned_by_others: "Cari catatan kasus milik pengguna lain"
       incident_from_case: "Buat insiden dari sebuah kasus"
@@ -1203,12 +1197,18 @@ id:
       no_file_selected: "Tidak ada dokumen dipilih"
       document_file_restrictions_message: "File seharusnya tidak lebih besar dari 2 MB (file executable (exe) tidak dapat diunggah)."
       photo_file_restrictions_message: "Foto seharusnya tidak lebih besar dari 10mb. File audio seharusnya tidak lebih besar dari 10mb. Semakin kecil semakin baik."
-      add_document_label: "Tambah Dokumen"
       add_photo_label: "Tambah Photo"
       recorded_audio_label: "Rekaman Suara"
       add_new_document_button_text: "Tambah dokumen lain"
       add_new_photo_button_text: "Tambah photo lain"
       document_description: "Deskripsi Dokumen"
+      document:
+        add_document_label: "Tambah Dokumen"
+        current_document_label: "Apakah ini dokumen terbaru?"
+        document_name_label: "Nama Dokumen"
+        document_date_label: "Tanggal Dokumen"
+        comment_label: "Komentar"
+        add_button_text: "Tambah dokumen lain"
     upload_bia_document: "Dokumen BIA"
     upload_bid_document: "Dokumen BID"
     upload_other_document: "Dokumen Lain"
@@ -1219,6 +1219,7 @@ id:
       current: "Apakah ini dokumen terbaru?"
     audio:
       current: "Audio yang ada"
+    upload_supporting_material: "File"
   replication:
     label: Replikasi
     index: Kelola Replikasi
@@ -1355,6 +1356,16 @@ id:
     messages:
       delete_success: "Laporan sudah berhasil di hapus"
     edit: "Ubah"
+    report_filters:
+      filters: "Saringan"
+      filter: "Saring"
+      clear: "Bersihkan"
+      date_prompt: "Pilih Tanggal"
+      from: "Dari"
+      to: "Untuk"
+      registration_date: "Tanggal Pendaftaran"
+      date_of_incident: "Tanggal dari Insiden"
+      incident_location: "Lokasi"
   encrypt:
     password_title: "Buat Kata Sandi"
     password_label: "Silahkan masukkan password yang akan meng-enkripsi data"
@@ -1508,6 +1519,7 @@ id:
     current_owner: "Pemilik saat ini"
     last_updated: "Terakhir diperbarui"
     case_stats: "Kasus"
+    national_admin_stats: "Kasus"
     tr_stats: "Permintaan Penelusuran"
     cases_by_social_worker: "Kasus berdasarkan pekerja sosial"
     approvals: "Persetujuan"
@@ -1654,6 +1666,13 @@ id:
         delete_field: "Kolom yang tidak dapat diubah tidak dapat dihapus"
         unique_name: "Nama '%{name}' sudah diambil."
         unique_id: "Id unik '%{unique_id}' sudah diambil."
+      enquiry:
+        presence_of_criteria: "Tolong tambahkan kriteria untuk pertanyaan anda"
+        presence_of_enquirer_name: "Tolong tambahkan nama penanya untuk pertanyaan anda"
+        presence_of_reporter_details: "Tolong tambahkan rincian reporter untuk pertanyaan anda"
+        create_forbidden: "Terlarang"
+        not_found: "Tidak ditemukan"
+        malformed_query: "Permintaan tidak valid"
       role:
         name_present: "Nama tidak boleh kosong"
         permission_presence: "Harap pilih setidaknya satu izin"
@@ -2126,26 +2145,18 @@ id:
       multi_page_html: "Menampilkan %{model} <b>%{from} - %{to}</b> dari <b>%{count}</b> total"
     models:
       agency:
-        one: "Lembaga-Lembaga"
         other: "Lembaga-Lembaga"
       report:
-        one: "Laporan"
         other: "Laporan"
       child:
-        one: "Kasus"
         other: "Kasus"
       incident:
-        one: "Kejadian"
         other: "Kejadian"
       hash:
-        one: "Hasil Pencocokan"
         other: "Hasil Pencocokan"
       bulk_export:
-        one: "Ekspor kumpulan file"
         other: "Ekspor kumpulan file"
       task:
-        one: "Tugas-tugas"
         other: "Tugas-tugas"
       user_group:
-        one: "Kelompok Pengguna"
         other: "Kelompok Pengguna"

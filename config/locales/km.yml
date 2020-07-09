@@ -8,6 +8,7 @@ km:
     en: "អង់គ្លេស"
     ar: "العربية"
     ar-LB: "العربية (اللبنانية)"
+    ar-JO: "العربية (الأردنية)"
     zh: "中文"
     es: "Español"
     ru: "Русский"
@@ -18,7 +19,6 @@ km:
     th: "ไทย"
     ku: "کوردی"
     pt: "Português"
-    km: "ភាសាខ្មែរ"
     dashboard: "ផ្ទាំងគ្រប់គ្រង"
     welcome: "សូម​ស្វាគមន៍​មក​កាន់ Primero"
     current_time_zone: "ល្វែងម៉ោងបច្ចុប្បន្ន"
@@ -54,7 +54,7 @@ km:
     record_navigation_confirmation_message: "ការ​ចុច​យល់ព្រម នឹង​បោះបង់​ការ​ផ្លាស់ប្ដូរ​ដែល​មិនបាន​រក្សាទុក និង​រុករក​ទៅ​ទំព័រ​ដែល​បាន​ស្នើ។ ចុច​បោះបង់ ដើម្បី​ត្រឡប់​ទៅ​កំណត់​ត្រា​វិញ។"
     confirmation_message: "ការ​ចុច​យល់ព្រម នឹង​បោះបង់​ការ​ផ្លាស់ប្ដូរ​ដែល​មិនបាន​រក្សាទុក និងត្រឡប់​ទៅ​ទិដ្ឋភាព​បញ្ជី។ ចុច​បោះបង់ ដើម្បី​ត្រឡប់​ទៅ​កំណត់​ត្រា​វិញ។"
     cancel_confirmation: "តើអ្នកពិតជាចង់បោះបង់មែន​ទេ?"
-    logoff_warning_prefix: "អ្នកនឹង​ត្រូវ​បាន​ចេញពី"
+    logoff_warning_prefix: "អ្នកនឹង​ត្រូវ​ចាក​​ចេញក្នុង​រយៈពេល"
     logoff_warning_suffix: "វិនាទី។"
     logoff_confirmation: "តើអ្នកចង់បន្តសកម្មភាពរបស់អ្នកដែរឬទេ?"
     warning: |
@@ -84,7 +84,7 @@ km:
     delete_all_documents: "បាន​លុប​ឯកសាររបស់កុមារទាំងអស់"
     operation_not_allowed: "ប្រតិបត្តិការ​មិន​បាន​អនុញ្ញាត​នៅ​ក្នុង​បរិស្ថាន %{rails_env} ទេ"
   login:
-    details: "ព័ត៌មាន​លម្អិត​អំពី​ការ​ចូល"
+    details: "ព័ត៌មាន​​​ចូល"
     username: "អ្នកប្រើប្រាស់"
     notification:
       enter_user_name: 'សូមបញ្ចូល​ឈ្មោះ​អ្នក​ប្រើប្រាស់'
@@ -110,7 +110,7 @@ km:
     home: "ទំព័រដើម"
     cases: "ករណី"
     tracing_request: "សំណើ​ស្វែងរក"
-    incidents: "ឧប្បត្តិហេតុ"
+    incidents: "ហេតុការណ៍"
     potential_match: "ការផ្គូរផ្គង"
     duplicates: "ស្ទួន"
     children: "កុមារ"
@@ -143,9 +143,8 @@ km:
     change_password: "ផ្លាស់ប្តូរពាក្យសម្ងាត់"
     enable_photo_wall: "បើក​ផ្ទាំង​រូបថត"
     disable_photo_wall: "បិទ​ផ្ទាំង​រូបថត"
-    create_incident: "បង្កើតឧប្បត្តិហេតុ"
+    create_incident: "បង្កើតហេតុការណ៍"
     create_case: "បង្កើតករណី"
-    guiding_questions: "សំណួរ​ណែនាំ"
     filter_label: "តម្រង៖"
     filter: "អនុវត្ត​តម្រង"
     filter_clear: "លុបតម្រង"
@@ -164,8 +163,8 @@ km:
     transfer: "ផ្ទេរ %{model}"
     reassign: "ចាត់ចែង %{model}"
     referral: "យោង %{model}"
-    mark_for_mobile: "សម្គាល់​សម្រាប់​ឧបករណ៍​ចល័ត"
-    unmark_for_mobile: "មិន​សម្គាល់​សម្រាប់ឧបករណ៍​ចល័ត"
+    mark_for_mobile: "ប្រើ​សម្រាប់​ទូរស័ព្ទ"
+    unmark_for_mobile: "មិន​ប្រើ​សម្រាប់​ទូរស័ព្ទ"
     approve_bia: "អនុម័ត BIA"
     approve_case_plan: "អនុម័ត​ផែនការ​ករណី"
     sort_by_tr: "សំណើ​ស្វែងរក"
@@ -192,14 +191,14 @@ km:
       flag: "បាន​សម្គាល់៖"
       flag_label: "បាន​សម្គាល់​ឬ?"
       mobile: "ឧបករណ៍​ចល័ត៖"
-      mobile_label: "បាន​សម្គាល់​សម្រាប់​ឧបករណ៍​ចល័ត"
-      social_worker: "កន្លែង​បញ្ចូល/ករណី/បុគ្គលិក​សង្គម៖"
+      mobile_label: "ប្រើ​សម្រាប់​ទូរស័ព្ទ​ឬ?"
+      social_worker: "អ្នកកាន់ករណី"
       my_cases: "ករណីរបស់ខ្ញុំ"
       workflow: "ករណី​តាមលំហូរ​ការងារ"
       no_activity: "គ្មានសកម្មភាព"
       3month_inactivity: "សម្រាប់លើស​ពី 3 ខែ"
       referred_cases: "ករណី​បានបញ្ជូន​មក​ខ្ញុំ"
-      agency: "ទីភ្នាក់ងារ៖"
+      agency: "ស្ថាប័ន៖"
       status: "ស្ថានភាព៖"
       age_range: "អាយុចន្លោះ ៖"
       sex: "ភេទ៖"
@@ -210,7 +209,7 @@ km:
       urgent_protection_concern: "កង្វល់​អំពី​ការការពារ​បន្ទាន់"
       protection_concerns: "កង្វល់​អំពី​ការការពារ​"
       type_of_risk: "ប្រភេទហានីភ័យ"
-      risk_level: "កម្រិតហានីភ័យ"
+      risk_level: "កម្រិតហានិភ័យ"
       current_location: "ទីតាំងបច្ចុប្បន្ន៖"
       district: "ស្រុក៖"
       registration_date: "កាលបរិច្ឆេទ​ចុះឈ្មោះ៖"
@@ -252,7 +251,7 @@ km:
       assessment_requested_on: 'កាលបរិច្ឆេទ​ប៉ាន់ប្រមាណ'
       date_case_plan_initiated: 'កាលបរិច្ឆេទ​នៃ​ផែនការ​ករណី'
       closure_approved_date: 'កាលបរិច្ឆេទ​នៃការបិទករណី'
-      created_at: 'កាលបរិច្ឆេទ​នៃការបើកករណី'
+      created_at: 'កាលបរិច្ឆេទ​បើកករណី'
     filter_by:
       label: "ត្រង​តាម"
       all: "ទាំងអស់"
@@ -296,7 +295,7 @@ km:
     another_duplicate_before_link: "កំណត់​ត្រា​ផ្សេង​ទៀត​ត្រូវ​បាន​សម្គាល់​ថា​ស្ទួន​ជា​មួយ​កំណត់ត្រា​មួយ​នេះ។ ចុច"
     another_duplicate_after_link: "ដើម្បីមើលកំណត់ដែលស្ទួន។"
     export_error: "មិនមាន​កំណត់ត្រាទេ!"
-    id: "ID#"
+    id: "លេខរៀង"
     name: "ឈ្មោះ"
     age: "អាយុ"
     sex: "ភេទ"
@@ -359,7 +358,7 @@ km:
     saved_searches_tab: "ការ​ស្វែងរក​ដែល​បាន​រក្សាទុក"
     filters_tab: "តម្រង"
   task:
-    id: "ID#"
+    id: "លេខរៀង"
     priority: "កម្រិត​អាទិភាព"
     type: "ប្រភេទសកម្មភាព"
     due_date: "កាលបរិច្ឆេទកំណត់"
@@ -409,7 +408,7 @@ km:
     another_duplicate_before_link: "កំណត់​ត្រា​ផ្សេង​ទៀត​ត្រូវ​បាន​សម្គាល់​ថា​ស្ទួន​ជា​មួយ​កំណត់ត្រា​មួយ​នេះ។ ចុច"
     another_duplicate_after_link: "ដើម្បីមើលកំណត់ដែលស្ទួន។"
     select: "ជ្រើសរើស"
-    id: "ID#"
+    id: "លេខរៀង"
     name: "ឈ្មោះ"
     age: "អាយុ"
     sex: "ភេទ"
@@ -417,10 +416,10 @@ km:
     status: "ស្ថានភាព"
     social_worker: "បុគ្គលិកសង្គម"
     survivor_code: "លេខកូដ​អ្នកនៅ​មាន​ជីវិត"
-    case_opening_date: "កាលបរិច្ឆេទ​នៃការបើកករណី"
+    case_opening_date: "កាលបរិច្ឆេទ​បើកករណី"
     photo: "រូបថត"
     owned_by: 'ម្ចាស់​កំណត់​ត្រា'
-    owned_by_agency: 'ទីភ្នាក់ងារ​ម្ចាស់​កំណត់​ត្រា'
+    owned_by_agency: 'ស្ថាប័ន​ម្ចាស់​កំណត់​ត្រា'
     messages:
       update_success: "បាន​ធ្វើ​បច្ចុប្បន្ន​ភាព​ករណី %{record_id} ដោយជោគជ័យ។"
       investigation_error_message: "សូម​បញ្ជាក់​កំណត់ត្រា​ដែល​បាន​សម្គាល់​ថា​គួរ​ត្រូវ​បាន​សម្គាល់​ថា​បាន​ស៊ើបអង្កេត ហើយ​បញ្ចូល​ព័ត៌មាន​លម្អិត​ដែល​អ្នក​មាន។"
@@ -462,22 +461,23 @@ km:
     edit: "កែសម្រួល​ករណី"
     mark_child_as_duplicate: "សម្គាល់ %{short_id} ថា​ស្ទួន"
     history_of: "ប្រវត្តិនៃ %{short_id}"
-    incident_details_separator: "ព័ត៌មាន​លម្អិត​អំពី​ឧប្បត្តិហេតុ"
+    incident_details_separator: "ព័ត៌មាន​លម្អិត​អំពី​ឧហេតុការណ៍"
     services_section_separator: "ទិដ្ឋភាព​ទូទៅ​នៃ​ការ​ឆ្លើយតប"
   incidents:
-    label: "ឧប្បត្តិហេតុ"
-    register_new_incident: "ឧប្បត្តិហេតុ​​ថ្មី"
+    label: "ហេតុការណ៍"
+    register_new_incident: "ហេតុការណ៍​​ថ្មី"
     selectable_date_options:
       date_of_first_report: "កាលបរិច្ឆេទ​សម្ភាសន៍"
-      incident_date_derived: "កាលបរិច្ឆេទ​ឧប្បត្តិហេតុ"
+      incident_date_derived: "កាលបរិច្ឆេទកើត​ហេតុការណ៍"
+    violations_tab: "ការរំលោភបំពាន"
     filter_by:
       flag: "បាន​សម្គាល់៖"
       flag_label: "បាន​សម្គាល់​ឬ?"
       mobile: "ឧបករណ៍​ចល័ត៖"
-      mobile_label: "បាន​សម្គាល់​សម្រាប់​ឧបករណ៍​ចល័តឬ?"
+      mobile_label: "ប្រើ​សម្រាប់​ទូរស័ព្ទ​ឬ?"
       violation: "ការរំលោភបំពាន៖"
       violence_type: "ប្រភេទនៃការរំលោភបំពាន៖"
-      social_worker: "អ្នក​ធ្វើការ​​អំពី​ករណី៖"
+      social_worker: "អ្នកកាន់ករណី៖"
       status: "ស្ថានភាព៖"
       age_range: "អាយុចន្លោះ៖"
       children: "កុមារ៖"
@@ -485,15 +485,14 @@ km:
       girls: "កុមារី"
       unknown: "មិនស្គាល់"
       verification_status: "ស្ថានភាពការ​ផ្ទៀងផ្ទាត់៖"
-      incident_location: "ទីតាំង​ឧប្បត្តិហេតុ៖"
-      incident_date: "ថ្ងៃខែឆ្នាំឧប្បត្តិហេតុ៖"
+      incident_location: "ទីតាំង​ហេតុការណ៍៖"
+      incident_date: "កាលបរិច្ឆេទ​កើត​ហេតុការណ៍៖"
       unaccompanied_separated_status: "ស្ថានភាពនៃការការពារ៖"
-      armed_force_group_name: "ក្រុម ឬ​កងកម្លាំង​ប្រដាប់​អាវុធ៖"
       armed_force_group_type: "ប្រភេទក្រុម ឬ​កងកម្លាំង​ប្រដាប់​អាវុធ៖"
       record_state: "ស្ថានភាព​កំណត់ត្រា៖"
       interview_date: "កាលបរិច្ឆេទ​សម្ភាសន៍៖"
   incident:
-    label: "លេខ​សម្គាល់ឧប្បត្តិហេតុ"
+    label: "លេខ​សម្គាល់ហេតុការណ៍"
     flagged_by: "បាន​សម្គាល់​ដោយ៖"
     last_updated: "បាន​ធ្វើ​បច្ចុប្បន្នភាពចុងក្រោយ"
     registered_by: "បានចុះឈ្មោះដោយ"
@@ -520,40 +519,35 @@ km:
     another_duplicate_before_link: "កំណត់​ត្រា​ផ្សេង​ទៀត​ត្រូវ​បាន​សម្គាល់​ថា​ស្ទួន​ជា​មួយ​កំណត់ត្រា​មួយ​នេះ។ ចុច"
     another_duplicate_after_link: "ដើម្បីមើលកំណត់ដែលស្ទួន។"
     violation_status_verified: "បានផ្ទៀងផ្ទាត់"
-    empty_violation: "ដើម្បី​បញ្ចូល​ការ​រំលោភបំពាន បញ្ចូល​ប្រភេទ​ការ​រំលោភបំពាន​នៅ​លើ​ទម្រង់​ឧប្បត្តិហេតុ ដើម្បី​មើល​ទម្រង់​រំលោភបំពាន​ដែល​ទាក់ទង។"
+    empty_violation: "ដើម្បី​បញ្ចូល​ការ​រំលោភបំពាន បញ្ចូល​ប្រភេទ​ការ​រំលោភបំពាន​នៅ​លើ​ទម្រង់​ហេតុការណ៍ ដើម្បី​មើល​ទម្រង់​រំលោភបំពាន​ដែល​ទាក់ទង។"
     add_violations: "ចុច ដើម្បី​បញ្ចូល​ព័ត៌មាន​លម្អិត​អំពី​ការរំលោភបំពាន។"
-    create_incident_cp: "បង្កើត​កំណត់ត្រា​​ឧប្បត្តិហេតុ​ដែល​អាច​បោះពុម្ព​បាន​ដែរ​ឬទេ?"
-    link_to_incident: "ភ្ជាប់ជា​មួយ​ឧប្បត្តិហេតុ"
+    create_incident_cp: "បង្កើត​កំណត់ត្រាហេតុការណ៍​​ដែល​អាច​បោះពុម្ព​បាន​ដែរ​ឬទេ?"
+    link_to_incident: "ភ្ជាប់ជា​មួយហេតុការណ៍"
     messages:
-      update_success: "បាន​ធ្វើ​បច្ចុប្បន្នភាព​ឧប្បត្តិហេតុ %{record_id} ដោយ​ជោគជ័យ។"
-      creation_success: "បាន​បង្កើត​កំណត់ត្រា​ឧប្បត្តិហេតុ %{record_id} ដោយ​ជោគជ័យ។"
-    view: "មើល​ឧប្បត្តិហេតុ %{short_id}"
-    edit: "កែសម្រួល​ឧប្បត្តិហេតុ"
+      update_success: "បាន​ធ្វើ​បច្ចុប្បន្នភាពហេតុការណ៍ %{record_id} ដោយ​ជោគជ័យ។"
+      creation_success: "បាន​បង្កើត​កំណត់ត្រា​ហេតុការណ៍ %{record_id} ដោយ​ជោគជ័យ។"
+    view: "មើល​ហេតុការណ៍ %{short_id}"
+    edit: "កែសម្រួលហេតុការណ៍"
     select: "ជ្រើសរើស"
-    id: "ID#"
+    id: "លេខរៀង"
     survivor_code: "លេខកូដ​អ្នកនៅ​មាន​ជីវិត"
-    case_worker_code: "លេខ​កូដ​​បុគ្គលិក​សង្គម"
+    case_worker_code: "លេខ​កូដ​​អ្នកកាន់ករណី"
     date_of_interview: "កាលបរិច្ឆេទ​សម្ភាសន៍"
-    date_of_incident: "កាលបរិច្ឆេទ​ឧប្បត្តិហេតុ"
+    date_of_incident: "កាលបរិច្ឆេទកើត​ហេតុការណ៍"
     violence_type: "ប្រភេទនៃការរំលោភបំពាន"
-    incident_location: "ទីតាំង​ឧប្បត្តិហេតុ"
+    incident_location: "ទីតាំង​ហេតុការណ៍"
     violations: "ការរំលោភបំពាន"
     social_worker: "បុគ្គលិកសង្គម"
     change_log: "កំណត់ហេតុនៃការផ្លាស់ប្តូរ"
     actions:
       change_log: "កំណត់ហេតុនៃការផ្លាស់ប្តូរ"
+      delete_document: "លុបឯកសារឬ?"
     history_of: "ប្រវត្តិនៃ %{short_id}"
     violation:
       violation: "ការរំលោភបំពាន"
-      pending: 'ការផ្ទៀងផ្ទាត់​ដែល​កំពុង​រង់ចាំ'
       killing: "ការ​សម្លាប់"
       maiming: "ការ​ធ្វើ​ឲ្យ​ពិការ"
-      recruitment: "ការជ្រើសរើស"
-      sexual_violence: "អំពើហិង្សាផ្លូវភេទ"
       abduction: "ការចាប់ជំរិត"
-      attack_on_schools: "ការវាយប្រហារនៅឯសាលារៀន"
-      attack_on_hospitals: "ការវាយប្រហារនៅក្នុងមន្ទីរពេទ្យ"
-      denial_humanitarian_access: "ការបដិសេធប្រើប្រាស់​មនុស្ស​ធម៌"
       other_violation: "ការរំលោភបំពានផ្សេងៗ"
   tracing_request:
     label: "លេខសម្គាល់​អ្នក​សង្កេត"
@@ -591,7 +585,7 @@ km:
     view: "មើល​សំណើ​ស្វែងរក %{short_id}"
     edit: "កែសម្រួល​សំណើ​ស្វែងរក"
     select: "ជ្រើសរើស"
-    id: "ID#"
+    id: "លេខរៀង"
     enquirer_name: "ឈ្មោះ​អ្នកសង្កេត"
     enquirer_date: "កាលបរិច្ឆេទ​សាកសួរ"
     history_of: "ប្រវត្តិនៃ %{short_id}"
@@ -603,11 +597,11 @@ km:
     filter_by:
       flag: "បាន​សម្គាល់៖"
       flag_label: "បាន​សម្គាល់​ឬ?"
-      social_worker: "កន្លែង​បញ្ចូល/ករណី/បុគ្គលិក​សង្គម៖"
+      social_worker: "អ្នកកាន់ករណី"
       inquiry_date: "កាលបរិច្ឆេទ​សាកសួរ៖"
       inquiry_status: "ស្ថានភាពការ​សាកសួរ៖"
-      location_separation: "ទីតាំងលែងលះ៖"
-      separation_cause: "មូលហេតុ​នៃការ​លែងលះ៖"
+      location_separation: "ទីតាំងការ​បំបែក៖"
+      separation_cause: "មូលហេតុ​នៃការបំបែក៖"
       record_state: "ស្ថានភាព​កំណត់ត្រា៖"
   potential_matches:
     empty: "សូម​​ចូលមើល​ការ​ផ្គូផ្គង​តាមរយៈ​សំណើ​ស្វែងរក"
@@ -633,7 +627,7 @@ km:
     child_date_of_birth: 'ថ្ងៃខែឆ្នាំកំណើត'
     reg_date: 'កាលបរិច្ឆេទ​ចុះឈ្មោះ'
     social_worker: 'បុគ្គលិកសង្គម'
-    social_worker_agency: 'ទីភ្នាក់ងារ៖'
+    social_worker_agency: 'ស្ថាប័ន៖'
     score: 'ពិន្ទុ'
     show_more: 'បង្ហាញ​ច្រើន​ជាង'
     show_less: 'បង្ហាញ​តិច​ជាង'
@@ -658,11 +652,11 @@ km:
       date_of_birth: "ថ្ងៃខែឆ្នាំកំណើត"
       nationality: "សញ្ជាតិ"
       location_last: "ទីតាំង​ចុងក្រោយ"
-      telephone_last: "លេខទូរសព្ទ​ចុងក្រោយ"
+      telephone_last: "លេខទូរស័ព្ទ​"
       ethnicity: "ជនជាតិ"
-      date_of_separation: "កាលបរិច្ឆេទ​លែងលះ"
-      separation_cause: "មូលហេតុចម្បង​នៃ​ការ​លែងលះ"
-      location_separation: "ទីតាំងលែងលះ"
+      date_of_separation: "កាលបរិច្ឆេទ​បំបែក"
+      separation_cause: "មូលហេតុចម្បង​នៃ​ការ​បំបែក"
+      location_separation: "ទីតាំងការបំបែក"
       relation_name: "ឈ្មោះ​សាច់ញាតិ"
       relation: "ទំនាក់ទំនង"
       relation_nickname: "ឈ្មោះ​ហៅ​ក្រៅ​របស់​សាច់ញាតិ"
@@ -672,7 +666,7 @@ km:
       relation_nationality: "សញ្ជាតិ​របស់​សាច់ញាតិ"
       relation_address_current: "អាសយដ្ឋាន​បច្ចុប្បន្ន​របស់​សាច់ញាតិ"
       relation_location_current: "ទីតាំង​បច្ចុប្បន្ន​របស់​សាច់ញាតិ"
-      relation_telephone: "លេខទូរសព្ទ​របស់​សាច់ញាតិ"
+      relation_telephone: "លេខទូរស័ព្ទ​របស់​សាច់ញាតិ"
   audit_log:
     timestamp: "ពេលវេលា - UTC"
     user_name: "ឈ្មោះអ្នកប្រើប្រាស់"
@@ -722,12 +716,12 @@ km:
     sort_by:
       label: "តម្រៀប​តាម"
       full_name: "ឈ្មោះ​ពេញ"
-      agency: "ទីភ្នាក់ងារ"
+      agency: "ស្ថាប័ន"
     filter_by:
       status: "ស្ថានភាព"
       enabled: "បាន​បើក"
       disabled: "បាន​បិទ"
-      agency: "ទីភ្នាក់ងារ"
+      agency: "ស្ថាប័ន"
     register_new_user: "បង្កើត​អ្នកប្រើប្រាស់"
   roles:
     label: "តួនាទី"
@@ -760,14 +754,15 @@ km:
     transfer_label: "តើ​អាច​ប្រើប្រាស់​តួនាទី​នេះ​សម្រាប់ការ​ផ្ទេរ​បាន​ដែ​ររទេ?"
     referral_label: "តើ​អាច​ប្រើប្រាស់​តួនាទី​នេះ​សម្រាប់​ការ​បញ្ជូន​បាន​ដែរ​ឬទេ?"
     group_permission_label: "តើ​តួនាទី​នេះ​ប៉ះពាល់​ដល់​កំណត់ត្រា​អ្វីដែរ?​"
+    reporting_location_level_label: "តើ​​ប្រភេទ​ទីតាំង​អ្វី​ដែល​គួរ​ត្រូវ​បានប្រើប្រាស់​សម្រាប់​រាយការណ៍​អំពី​តួនាទី​នេះ?"
     role_ids_label: "តួនាទី​ផ្សេង​បានគ្រប់គ្រង​ដោយ​តួនាទី​នេះ"
   agencies:
     logo: 'រូបសញ្ញា'
     logo_enabled: 'តើ​បាន​បើក​រូប​សញ្ញា?'
-    label: "ទីភ្នាក់ងារ"
-    view: "មើល​ទីភ្នាក់ងារ"
-    successfully_created: "បាន​បង្កើត​ទីភ្នាក់ងារ​ដោយ​ជោគជ័យ។"
-    successfully_updated: "បាន​ធ្វើ​បច្ចុប្បន្នភាព​ទីភ្នាក់ងារ​ដោយ​ជោគជ័យ។"
+    label: "ស្ថាប័ន"
+    view: "មើល​ស្ថាប័ន"
+    successfully_created: "បាន​បង្កើតស្ថាប័ន​​ដោយ​ជោគជ័យ។"
+    successfully_updated: "បាន​ធ្វើ​បច្ចុប្បន្នភាពស្ថាប័ន​ដោយ​ជោគជ័យ។"
     actions:
       show_all: "បង្ហាញ​ទាំងអស់"
       show: "បង្ហាញ"
@@ -780,14 +775,14 @@ km:
       enabled: "បាន​បើក"
       disabled: "បាន​បិទ"
     messages:
-      confirmation: "តើអ្នក​ប្រាកដ​ជា​ចង់​លុប​ទីភ្នាក់ងារ​នេះ​ដែរ​ឬទេ? ការ​លុប​មិន​អាច​ត្រឡប់​វិញ​បាន​ទេ។ ចុចយល់ព្រម​ ដើម្បី​លុប​ទីភ្នាក់ងារ។"
-    select_prompt: "សូម​ជ្រើសរើស​ទីភ្នាក់ងារ"
-    error_in_updating: "មានបញ្ហា​ក្នុងការ​ធ្វើ​បច្ចុប្បន្នភាព​ព័ត៌មាន​លម្អិត​អំពី​ទីភ្នាក់ងារ។"
+      confirmation: "តើអ្នក​ប្រាកដ​ជា​ចង់​លុប​ស្ថាប័ន​​នេះ​ដែរ​ឬទេ? ការ​លុប​មិន​អាច​ត្រឡប់​វិញ​បាន​ទេ។ ចុចយល់ព្រម​ ដើម្បី​លុប​ស្ថាប័ន។"
+    select_prompt: "សូម​ជ្រើសរើសស្ថាប័ន"
+    error_in_updating: "មានបញ្ហា​ក្នុងការ​ធ្វើ​បច្ចុប្បន្នភាព​ព័ត៌មាន​លម្អិត​អំពីស្ថាប័ន។"
   agency:
-    edit: 'កែសម្រួល​ទីភ្នាក់ងារ'
-    name: 'ឈ្មោះ​ទីភ្នាក់ងារ'
-    code: 'លេខកូដ​ទីភ្នាក់ងារ'
-    services: 'សេវាកម្ម​ទីភ្នាក់ងារ'
+    edit: 'កែសម្រួល​ស្ថាប័ន'
+    name: 'ឈ្មោះ​ស្ថាប័ន'
+    code: 'លេខកូដ​ស្ថាប័ន'
+    services: 'សេវាកម្ម​ស្ថាប័ន'
   system_settings:
     label: "ការកំណត់ប្រព័ន្ធ"
     edit: "កែសម្រួល​ការកំណត់​ប្រព័ន្ធ"
@@ -868,7 +863,7 @@ km:
     history_of: "ប្រវត្តិ​របស់ %{user_name}"
     disabled: "បាន​បិទ"
     services: "សេវាកម្ម"
-    agency_office: "ការិយាល័យ​ទីភ្នាក់ងារ"
+    agency_office: "ការិយាល័យស្ថាប័ន"
     position: មុខតំណែង
     actions:
       delete: "លុប"
@@ -894,7 +889,7 @@ km:
     no_activity: "គ្មាន​សកម្មភាព​ទេ"
     location: "ទីតាំង"
     organization: "ស្ថាប័ន"
-    agency: "ទីភ្នាក់ងារ"
+    agency: "ស្ថាប័ន"
     manager: "អ្នក​គ្រប់គ្រង"
     send_mail: "តើ​ទទួល​បាន​ការ​ជូន​ដំណឹង​តាម​អ៊ីមែល​ដែ​រឬទេ?"
     welcome_email:
@@ -902,7 +897,7 @@ km:
       url_label: "Primero"
       enabled_label: "តើ​ផ្ញើ​អ៊ីមែល​ស្វាគមន៍​ឬ?"
       text_label: "អត្ថបទ​អ៊ីមែល​ស្វាគមន៍"
-  phone: "ទូរសព្ទ"
+  phone: "ទូរស័ព្ទ"
   email: "អ៊ីមែល"
   organization: "ស្ថាប័ន"
   position: "មុខតំណែង"
@@ -914,7 +909,7 @@ km:
   imei: "IMEI"
   blacklisted: "បាន​ដាក់ក្នុង​បញ្ជី​ខ្មៅ?"
   visible_for_web: "កម្មវិធី​បណ្ដាញ​អាច​មើលឃើញ"
-  visible_for_mobile: "កម្មវិធី​ឧបករណ៍​ចល័ត​អាច​មើល​ឃើញ"
+  visible_for_mobile: "កម្មវិធី​ទូរស័ព្ទ​អាច​មើល​ឃើញ"
   selective_syncing_mobile: "ការ​ធ្វើសមកាលកម្ម​ដោយ​ជ្រើសរើស (ឧបករណ៍​ចល័ត)"
   hidden: "បានលាក់"
   help_text: "អត្ថបទ​ជំនួយ"
@@ -952,13 +947,13 @@ km:
       flag: "សម្គាល់"
       assign: "ចាត់ចែង"
       case: "ករណី"
-      incident: "ឧប្បត្តិហេតុ"
+      incident: "ហេតុការណ៍"
       tracing_request: "សំណើ​ស្វែងរក"
       potential_match: "ការ​ផ្គូផ្គង​ខ្លាំង"
       role: "តួនាទី"
       user: "អ្នកប្រើប្រាស់"
       user_group: "ក្រុម​អ្នកប្រើប្រាស់"
-      agency: "ទីភ្នាក់ងារ"
+      agency: "ស្ថាប័ន"
       metadata: "ទម្រង់, ការ​រក​មើល"
       system: "ប្រព័ន្ធ"
       report: "របាយការណ៍"
@@ -996,27 +991,29 @@ km:
       manage: "គ្រប់គ្រង"
       administrator_read: "​អ្នក​គ្រប់គ្រងអាន"
       group_read: "ក្រុម​អាន"
-      agency_read: "ទីភ្នាក់ងារ​អាន"
+      agency_read: "ស្ថាប័ន​អាន"
       dashboard: "ផ្ទាំងគ្រប់គ្រង"
       view_approvals: "មើល​ការ​អនុម័ត"
       view_assessment: "មើល​ការ​ប៉ាន់ប្រមាណ"
+      form: "ទម្រង់"
+      lookup: "រក​មើល"
       dash_reporting_location: "មើល​ទីតាំង​រាយការណ៍"
       dash_protection_concerns: "មើល​កង្វល់​អំពី​ការការពារ​"
       dash_matching_results: "មើល​លទ្ធផល​ផ្គូផ្គង"
       dash_service_provisions: "មើល​ការ​ផ្ដល់​សេវាកម្ម"
       dash_referrals_by_socal_worker: "មើល​ការ​បញ្ជូន​ដោយ​បុគ្គលិកសង្គម"
       dash_transfers_by_socal_worker: "មើល​កា​រផ្ទេរ​ដោយ​បុគ្គលិកសង្គម"
-      dash_cases_by_social_worker: "មើល​ករណី​ដោយ​បុគ្គលិកសង្គម"
+      dash_cases_by_social_worker: "មើល​ករណី​តាម​អ្នកកាន់​ករណី"
       dash_manager_transfers: "មើល​អ្នកគ្រប់គ្រង​ការ​ផ្ទេរ"
       dash_cases_by_workflow: "មើល​ករណី​តាម​លំហូរ​ការងារ"
       dash_cases_by_task_overdue: "មើលករណី​តាម​ការ​ហួស​ពេលកំណត់​នៃ​កិច្ចការ"
       dash_cases_to_assign: "មើល​ករណី​ដើម្បី​ចាត់ចែង"
-      dash_show_none_values: "មើល​ករណី​ជា​មួយ 'កម្រិត​គ្មាន​ហានីភ័យ' នៅ​ក្នុង​ផ្ទាំង​គ្រប់គ្រង​ការ​ប៉ាន់ប្រមាណ"
+      dash_show_none_values: "មើល​ករណី​ជា​មួយ 'កម្រិត​គ្មាន​ហានិភ័យ' នៅ​ក្នុង​ផ្ទាំង​គ្រប់គ្រង​ការ​ប៉ាន់ប្រមាណ"
       dash_tasks: "មើលកិច្ចការ"
       dash_protection_concerns_by_location: "មើល​កង្វល់​អំពី​ការការពារ​តាម​ទីតាំង"
       search_owned_by_others: "ស្វែងរក​កំណត់ត្រា​ករណីដែល​បាន​គ្រប់គ្រង​ដោយ​អ្នកប្រើប្រាស់​ផ្សេង"
-      incident_from_case: "បង្កើត​ឧបទ្ទវហេតុ​ពី​ករណី"
-      incident_details_from_case: "បញ្ចូល​ព័ត៌មាន​លម្អិត​អំពី​ឧប្បត្តិហេតុ​ទៅ​ក្នុង​ករណី​របស់​អ្នក​ប្រើប្រាស់​ផ្សេង"
+      incident_from_case: "បង្កើត​ហេតុការណ៍​​ពី​ករណី"
+      incident_details_from_case: "បញ្ចូល​ព័ត៌មាន​លម្អិត​អំពី​ហេតុការណ៍​ទៅ​ក្នុង​ករណី​របស់​អ្នក​ប្រើប្រាស់​ផ្សេង"
       services_section_from_case: "បញ្ចូល​ការ​ផ្ដល់​សេវាកម្ម​ទៅ​ក្នុង​ករណី​របស់​អ្នក​អ្នក​ប្រើប្រាស់​ផ្សេង"
       create: "បង្កើត"
       referral_from_service: "បញ្ជូន​ករណី​ពី​ទម្រង់​សេវាកម្ម"
@@ -1026,12 +1023,12 @@ km:
       remove_assigned_users: "ដក​​អ្នកប្រើប្រាស់​ដែល​បាន​ចាត់ចែង​ផ្សេងៗ​ចេញ (ការ​បញ្ជូន)"
       audit_log: "កំណត់​ហេតុ​ត្រួតពិនិត្យ"
       display_view_page: "បង្ហាញ​ទំព័រ​ទិដ្ឋភាព"
-      service_provision_incident_details: "មើល​ការ​បញ្ចូល​ប៊ូតុង​ផ្ដល់សេវាកម្ម​នៅ​លើ​បែបបទ​ព័ត៌មាន​លម្អិត​អំពី​ឧប្បត្តិហេតុ"
+      service_provision_incident_details: "មើល​ការ​បញ្ចូល​ប៊ូតុង​ផ្ដល់សេវាកម្ម​នៅ​លើ​បែបបទ​ព័ត៌មាន​លម្អិត​អំពី​ហេតុការណ៍"
       request_transfer: "ស្នើសុំការផ្ទេរ"
       view_photo: "មើល​រូបថត"
       matching_configuration: "ផ្គូផ្គង​ការ​កំណត់​រចនាសម្ព័ន្ធ"
       add_note: "បញ្ចូល​កំណត់សម្គាល់"
-      assign_within_agency: "ចាត់ចែង​នៅ​ក្នុង​ទីភ្នាក់ងារ"
+      assign_within_agency: "ចាត់ចែង​នៅ​ក្នុង​ស្ថាប័ន"
       assign_within_user_group: "ចាត់ចែង​នៅ​ក្នុង​ក្រុម​របស់​អ្នក​ប្រើប្រាស់"
       receive_referral: "ទទួល​ការ​បញ្ជូន"
       receive_transfer: "ទទួល​ការ​ផ្ទេរ"
@@ -1049,12 +1046,12 @@ km:
     record_types:
       case: "ករណី"
       child: "ករណី"
-      incident: "ឧប្បត្តិហេតុ"
+      incident: "ហេតុការណ៍"
       tracing_request: "សំណើ​ស្វែងរក"
       potential_match: "ការ​ផ្គូផ្គង​ខ្លាំង"
       violation: "ការរំលោភបំពាន"
       reportable_service: "សេវាកម្ម"
-      reportable_follow_up: "តាមដាន"
+      reportable_follow_up: "ការតាមដាន"
       reportable_protection_concern: "កង្វល់​អំពី​ការការពារ​"
   form_section:
     name: "ឈ្មោះ"
@@ -1096,7 +1093,7 @@ km:
     translation: "ការ​បកប្រែ"
     translation_missing: "(បាត់​ការ​បកប្រែ​សម្រាប់ %{lang})"
     base_language_help_text: "ត្រូវ​តែ​បញ្ចូល​នៅ​ក្នុង %{lang} ។"
-    selective_syncing_mobile_help_text: "ទម្រង់​រង​នឹង​មិន​ធ្វើ​សមកាលកម្ម​ពី​ម៉ាស៊ីន​ទៅ​ឧបករណ៍​ចល័តទេ ប៉ុន្តែ​អ្នក​ប្រើប្រាស់​អាច​បញ្ចូល​ទម្រង់​រង​នៅ​លើ​ឧបករណ៍​ចល័ត​ដែល​បន្ទាប់​មក​នឹង​ធ្វើ​សមកាលកម្ម​ទៅ​ម៉ាស៊ីន​មេ។"
+    selective_syncing_mobile_help_text: "ទម្រង់​រង​នឹង​មិន​ធ្វើ​សមកាលកម្ម​ពី​ម៉ាស៊ីន​ទៅ​ទូរស័ព្ទ​ទេ ប៉ុន្តែ​អ្នក​ប្រើប្រាស់​អាច​បញ្ចូល​ទម្រង់​រង​នៅ​លើ​​ទូរស័ព្ទ​​ដែល​បន្ទាប់​មក​នឹង​ធ្វើ​សមកាលកម្ម​ទៅ​ម៉ាស៊ីន​មេ។"
     form_group_translation_help_text: "ដើម្បី​បញ្ចូល​ការ​បកប្រែ​សម្រាប់​ក្រុម​ទម្រង់ កែសម្រួល​ការ​ស្វែងរក​​ក្រុម​​ទម្រង់​នៅ​ក្នុងកម្មវិធី​កែ​ការ​ស្វែងរក។"
     initial_lang_help_text: "ត្រូវ​តែ​បង្កើតកន្លែង​បញ្ចូល​នៅ​ក្នុង %{lang} មុន​ការ​បកប្រែ​អាច​ត្រូវ​បាន​បញ្ចូល។"
     field_db_help_text: "ប្រសិន​បើ​ទុក​ទំនេរ ឈ្មោះប្រព័ន្ធ​ទិន្នន័យ​នឹង​ត្រូវ​បាន​បង្កើត​។ អនុញ្ញាត​តែ​អក្សរ​ឡាតាំង លេខ និង​សញ្ញា (_) ។"
@@ -1126,7 +1123,7 @@ km:
       position: "មុខតំណែង"
       organization: "ស្ថាប័ន"
       email: "អ៊ីមែល"
-      phone: "ទូរសព្ទ"
+      phone: "ទូរស័ព្ទ"
       location: "ទីតាំង"
       other_information: "ព័ត៌មាន​ផ្សេងៗ"
       support_forum: "វេទិកា​ជំនួយ"
@@ -1199,7 +1196,7 @@ km:
     date_help_with_time: "dd-mmm-yyyy hh:mm"
     date_range:
       from: "ពី"
-      to: "ទៅ"
+      to: "ដល់"
       date: "កាលបរិច្ឆេទ"
       date_range: "ចន្លោះ​កាលបរិច្ឆេទ"
     file_upload_box:
@@ -1207,12 +1204,18 @@ km:
       no_file_selected: "គ្មាន​ឯកសារ​បាន​ជ្រើសរើស​ទេ។"
       document_file_restrictions_message: "ឯកសារ​មិន​គួរ​ធំជាង 2 MB មិន​អាច​បង្ហោះ​ឯកសារ (executable (.exe) បាន​ទេ)។"
       photo_file_restrictions_message: "រូបថត​មិនគួរ​ធំ​ជាង 10mb ទេ ។ ឯកសារ​សំឡេង​មិន​គួរ​ធំជាង 10mb ទេ។ កាន់តែ​តូច​កាន់តែ​ល្អ។"
-      add_document_label: "បញ្ចូល​ឯកសារ"
       add_photo_label: "បញ្ចូល​រូបថត"
       recorded_audio_label: "សំឡេង​ដែល​បាន​ថត"
       add_new_document_button_text: "បញ្ចូល​ឯកសារ​ផ្សេង​ទៀត"
       add_new_photo_button_text: "បញ្ចូល​រូបថត​ផ្សេង​ទៀត"
       document_description: "ការពណ៌នា​អំពី​ឯកសារ"
+      document:
+        add_document_label: "បញ្ចូល​ឯកសារ"
+        current_document_label: "តើ​នេះ​ជា​ឯកសារ​បច្ចុប្បន្ន​ឬ?"
+        document_name_label: "ឈ្មោះ​ឯកសារ"
+        document_date_label: "កាលបរិច្ឆេទ​ឯកសារ"
+        comment_label: "មតិយោបល់"
+        add_button_text: "បញ្ចូល​ឯកសារ​ផ្សេង​ទៀត"
     upload_bia_document: "ឯកសារ BIA"
     upload_bid_document: "ឯកសារ BID"
     upload_other_document: "ឯកសារ​ផ្សេងៗ"
@@ -1223,6 +1226,7 @@ km:
       current: "តើ​នេះ​ជា​ឯកសារ​បច្ចុប្បន្ន​ឬ?"
     audio:
       current: "សំឡេង​បច្ចុប្បន្ន"
+    upload_supporting_material: "ឯកសារ"
   replication:
     label: ការ​ចម្លង
     index: គ្រប់គ្រង​ការ​ចម្លង
@@ -1360,6 +1364,16 @@ km:
       delete_success: "បានលុប​របាយការណ៍​ដោយជោគជ័យ។"
     edit: "កែសម្រួល"
     exclude_empty_rows: "កុំ​បង្ហាញ​ជួរដេក​ទទេ"
+    report_filters:
+      filters: "តម្រង"
+      filter: "តម្រង"
+      clear: "សម្អាត"
+      date_prompt: "ជ្រើសរើស​កាលបរិច្ឆេទ"
+      from: "ពី"
+      to: "ដល់"
+      registration_date: "កាលបរិច្ឆេទ​ចុះឈ្មោះ៖"
+      date_of_incident: "កាលបរិច្ឆេទហេតុការណ៍"
+      incident_location: "ទីតាំង"
   encrypt:
     password_title: "បង្កើត​ពាក្យសម្ងាត់"
     password_label: "សូម​បញ្ចូល​ពាក្យសម្ងាត់​ដែល​នឹង​អ៊ីនគ្រិប​ឯកសារ​របស់​អ្នក។"
@@ -1456,16 +1470,16 @@ km:
     overdue_cases_to_assign: 'ករណី​ហួស​ពេលកំណត់​ត្រូវ​ចាត់ចែង'
     closed: 'បានបិទ'
     comprehensive_need_intervention: 'ការឆ្លើយតប​ពេញលេញ'
-    new_incident: 'ឧប្បត្តិហេតុ​ថ្មីៗ'
+    new_incident: 'ហេតុការណ៍​ថ្មីៗ'
     new_service_provision: 'ការ​ផ្ដល់​សេវាកម្ម​ថ្មីៗ'
     all_services_implemented: 'បាន​អនុវត្ត​សេវាកម្ម​ទាំងអស់'
     services_implemented: 'បាន​អនុវត្ត​សេវាកម្ម'
     approved: 'បាន​អនុម័ត'
     cases_by_workflow: 'ករណី​តាម​លំហូរ​ការងារ'
-    cases_by_task_overdue: 'កិច្ចការ​ដែល​ហួស​ពេលកំណត់'
+    cases_by_task_overdue: 'កិច្ចការ​ដែល​ផុត​កំណត់'
     assessment: 'ការ​ប៉ាន់ប្រមាណ'
     case_plan: 'ផែនការករណី'
-    follow_up: 'តាមដាន'
+    follow_up: 'ការ​តាមដាន'
     services: 'សេវាកម្ម'
     admin_only: "ចុច​លើ %{links} ដើម្បី​ធ្វើការ​ផ្លាស់ប្ដូរ​ចំពោះ​កម្មវិធី។"
     forms: "ផ្ទាំង​ទម្រង់"
@@ -1474,10 +1488,10 @@ km:
     no_recent_activities: "គ្មាន​សកម្មភាព​ថ្មីៗ​ទេ"
     no_scheduled_activities: "គ្មាន​សកម្មភាព​ដែល​បានកំណត់​កាលវិភាគ​ទេ"
     no_overdue_activities: "គ្មាន​សកម្មភាព​ដែល​ហួស​ពេល​កំណត់​ទេ"
-    no_caseworker_data: "គ្មាន​ទិន្នន័យ​​អ្នក​ធ្វើការ​លើ​ករណី​ទេ"
+    no_caseworker_data: "គ្មាន​ទិន្នន័យ​អ្នកកាន់​ករណី​​ទេ"
     no_flagged_child: "គ្មាន​ករណី​ដែល​បាន​សម្គាល់​ទេ"
-    no_flagged_incident: "គ្មាន​ឧប្បត្តិហេតុ​ដែល​បាន​សម្គាល់​ទេ"
-    no_open_incidents: "គ្មាន​ឧប្បត្តិហេតុ​ដែល​បានបើក​ទេ"
+    no_flagged_incident: "គ្មាន​ហេតុការណ៍​​ដែល​បាន​សម្គាល់​ទេ"
+    no_open_incidents: "គ្មានហេតុការណ៍​​ដែល​បានបើក​ទេ"
     no_case_stats: "គ្មាន​ស្ថិតិ​ករណីទេ"
     scheduled_activities: "ករណី​ដែល​បាន​កំណត់កាលវិភាគ"
     overdue_activities: "ករណី​ហួស​ពេល​កំណត់"
@@ -1486,26 +1500,26 @@ km:
     name: "ឈ្មោះ"
     activity: "សកម្មភាព"
     date: "កាលបរិច្ឆេទ"
-    incident_id: "លេខ​សម្គាល់​ឧប្បត្តិហេតុ"
-    incident_location: "ទីតាំង​ឧប្បត្តិហេតុ"
+    incident_id: "លេខ​សម្គាល់​ហេតុការណ៍"
+    incident_location: "ទីតាំង​ហេតុការណ៍"
     new_child_assigned_to_you: "ករណី​ថ្មីៗ​បាន​ចាត់ចែង​ឲ្យ​អ្នក"
-    new_incident_assigned_to_you: "ឧប្បត្តិហេតុ​ដែល​បាន​ចាត់ចែង​ថ្មីៗ"
+    new_incident_assigned_to_you: "ហេតុការណ៍ដែល​បាន​ចាត់ចែង​ថ្មីៗ"
     recently_flagged_child: "ករណី​ដែល​បាន​សម្គាល់​ថ្មីៗ"
     flagged_by_me: "បាន​សម្គាល់​ដោយ​ខ្ញុំ"
     flagged_by_other: "បាន​សម្គាល់​ដោយ​អ្នក​ផ្សេង"
-    recently_flagged_incident: "ឧប្បត្តិហេតុ​ដែល​បាន​សម្គាល់​ថ្មីៗ"
-    incident_status_open: "បើក"
+    recently_flagged_incident: "ហេតុការណ៍​ដែល​បាន​សម្គាល់​ថ្មីៗ"
+    incident_status_open: "បានបើក"
     number_of_victims: "ចំនួន​ជនរងគ្រោះ"
     number_of_violations: "ចំនួន​ការរំលោភបំពាន"
     number_of_violations_verified: "បាន​ផ្ទៀងផ្ទាត់​ការ​រំលោភបំពាន"
     link_see_all: "មើល​ទាំងអស់"
-    open_incidents: "បើក​ឧប្បត្តិហេតុ"
+    open_incidents: "បើក​ហេតុការណ៍"
     status_of_cases: "ស្ថានភាព​ករណី"
-    case_worker: "អ្នក​ធ្វើការ​លើករណី"
+    case_worker: "អ្នកកាន់ករណី"
     total_cases: "ករណី​សរុប"
     cases_this_week: "ករណី​ក្នុង​សប្ដាហ៍​នេះ"
     missed_cases: "ករណី​ដែល​បាន​ខកខាន"
-    date_of_incident: "កាលបរិច្ឆេទ​ឧប្បត្តិហេតុ"
+    date_of_incident: "កាលបរិច្ឆេទហេតុការណ៍"
     violence_type: "ប្រភេទនៃការរំលោភបំពាន"
     date_of_interview: "កាលបរិច្ឆេទ​សម្ភាសន៍"
     system_user: "ប្រព័ន្ធ"
@@ -1513,19 +1527,20 @@ km:
     current_owner: "ម្ចាស់​បច្ចុប្បន្ន"
     last_updated: "បាន​ធ្វើបច្ចុប្បន្នភាព​ចុងក្រោយ"
     case_stats: "ករណី"
+    national_admin_stats: "ករណី"
     tr_stats: "សំណើ​ស្វែងរក"
-    cases_by_social_worker: "ករណី​ដោយ​បុគ្គលិកសង្គម"
-    approvals: "អនុម័ត"
+    cases_by_social_worker: "ករណី​តាម​អ្នកកាន់​ករណី"
+    approvals: "ការ​អនុម័ត"
     referrals_by_social_worker: "ការ​បញ្ជូន​ដោយ​បុគ្គលិកសង្គម"
     transfers_by_social_worker: "ការ​ផ្ទេរ​ដោយ​បុគ្គលិកសង្គម"
-    case_stat_by_assessment_level: "ករណី​ដោយ​កម្រិត​ប៉ាន់ប្រមាណ"
-    case_stat_by_approval_type: "អនុម័ត"
+    case_stat_by_assessment_level: "ករណី​តាម​​កម្រិត​ប៉ាន់ប្រមាណ"
+    case_stat_by_approval_type: "ការអនុម័ត"
     case_stat_referrals: "ការ​បញ្ជូន"
     protection_concern: "កង្វល់​អំពី​ការការពារ​"
     protection_concerns: "កង្វល់​អំពី​ការការពារ​"
     geographic_area: "តំបន់​ភូមិសាស្ត្រ"
     all_cases: "គ្រប់ករណី​ទាំង​អស់"
-    open: "បើក"
+    open: "បានបើក"
     range4: "0-4"
     range4_8: "4-8"
     range8_12: "8-12"
@@ -1670,6 +1685,7 @@ km:
         name_present: "ឈ្មោះ​មិន​ត្រូវ​ទទេ"
         permission_presence: "សូម​ជ្រើសរើស​កា​រអនុញ្ញាត​យ៉ាង​ហោចណាស់​មួយ"
         unique_name: "មាន​តួនាទី​ដែល​មាន​ឈ្មោះ​នោះ​រួច​ហើយ សូម​បញ្ចូល​តួនាទី​ផ្សេង"
+        reporting_location_level: "កម្រិត​ទីតាំង​គួរ​តែ​ជា​តម្លៃកម្រិត​មួយ​ក្នុង​ចំណោម​កម្រិត​ទីតាំង​រាយការណ៍"
         permission:
           resource_presence: "សូម​ជ្រើសរើស​ធនធានមួយ"
       primero_module:
@@ -1699,7 +1715,7 @@ km:
         associated_user_names_present: "ត្រូវ​តែ​ភ្ជាប់​អ្នកប្រើប្រាស់​ជា​មួយ​កំណត់​ត្រា​នេះ"
         module_id_prsesnt: "ត្រូវ​តែ​ភ្ជាប់​ម៉ូឌុលជា​មួយ​កំណត់​ត្រា​នេះ"
       agency:
-        unique_name: "មាន​ទីភ្នាក់ងារ​ដែល​មាន​ឈ្មោះ​នោះ​រួច​ហើយ សូម​បញ្ចូល​ឈ្មោះ​ផ្សេង"
+        unique_name: "មានស្ថាប័ន​​ដែល​មាន​ឈ្មោះ​នោះ​រួច​ហើយ សូម​បញ្ចូល​ឈ្មោះ​ផ្សេង"
         name_present: "មិន​អាច​ទទេ​"
         code_present: "មិន​អាច​ទទេ​"
       location:
@@ -1721,8 +1737,11 @@ km:
       system_settings:
         default_locale: "ភាសា​ប្រព័ន្ធ​មិន​អាច​ទទេ"
         locales: "ត្រូវ​តែ​មាន​ភាសា​អង់គ្លេស​ជា​ភាសា​ប្រព័ន្ធ"
+        reporting_locations:
+          no_primary: "ទីតាំង​រាយការណ៍​គួរ​តែ​មាន​ទីតាំង​រាយការណ៍​ចម្បង​ 1"
+          too_many_primary: "ទីតាំង​រាយការណ៍​គួរ​តែ​មាន​ទីតាំង​រាយការណ៍​ចម្បង​ 1"
       export_configuration:
-        record_type: "ប្រភេទ​កំណត់​ត្រា​មិន​ត្រឹមត្រូវ។ ត្រូវ​តែ​ជា​កុមារ សំណើ​ស្វែងរក ឬ​ឧប្បត្តិហេតុ។"
+        record_type: "ប្រភេទ​កំណត់​ត្រា​មិន​ត្រឹមត្រូវ។ ត្រូវ​តែ​ជា​កុមារ សំណើ​ស្វែងរក ឬ​ហេតុការណ៍។"
         opt_out_field_does_not_exist: "មិនមាន​កន្លែង​បញ្ចូល opt_out ដែល​បាន​បញ្ជាក់​នៅ​លើ​កំណត់​ត្រា។"
   select_all_results: "ជ្រើសរើស​លទ្ធផល​ទាំងអស់"
   histories:
@@ -1761,7 +1780,7 @@ km:
     enable: "បើក"
     disable: "បិទ"
     reopen: "បើក​ឡើងវិញ"
-    incident_details_from_case: "បញ្ចូល​ឧប្បត្តិហេតុ"
+    incident_details_from_case: "បញ្ចូល​ហេតុការណ៍"
     services_section_from_case: "បញ្ចូល​ការ​ផ្ដល់​សេវាកម្ម"
     description:
       valid: "កំណត់ត្រា​ត្រឹមត្រូវ"
@@ -1838,7 +1857,7 @@ km:
         sex_mapping_m_f_u: "ភេទ"
         date_of_birth: "ថ្ងៃខែឆ្នាំកំណតើ"
         age: "អាយុ"
-        causes_of_separation: "មូលហេតុនៃ​ការ​លែងលះ"
+        causes_of_separation: "មូលហេតុនៃ​ការ​បំបែក"
         country_of_origin: "ប្រទេស​កំណើត"
         current_care_arrangement: "ការ​រៀបចំ​ថែទាំ​បច្ចុប្បន្ន"
         reunification_status: "ស្ថានភាពបង្រួបបង្រួម"
@@ -1903,7 +1922,7 @@ km:
     type_label: "ប្រភេទ​ការ​បញ្ជូន"
     existing_user_label: "អ្នកប្រើប្រាស់​ដែល​មាន​ស្រាប់"
     other_user_label: "អ្នកប្រើប្រាស់​ផ្សេងៗ"
-    other_user_agency_label: "ទីភ្នាក់ងារ​​របស់​អ្នក​ប្រើប្រាស់​ផ្សេង"
+    other_user_agency_label: "ស្ថាប័ន​​របស់​អ្នក​ប្រើប្រាស់​ផ្សេង"
     service_label: "សេវាកម្ម"
     consent_label: "កំណត់ត្រា​មិន​បានផ្ដល់​ការ​យល់ព្រម​ទេ។"
     consent_override_label: "តើ​អ្នក​ចង់​សរសេរ​ជាន់លើ​ការ​កំណត់​នេះ​ដែ​រឬទេ?"
@@ -1924,7 +1943,7 @@ km:
     user_local_status_done: "រួចរាល់"
     complete_referral_label: "ការ​ចុច​យល់ព្រម​មាន​ន័យ​ថា​អ្នក​បានបញ្ចប់​ការងារយោង​​ដែល​បាន​ភ្ជាប់​ជា​មួយ​ករណី​នេះ។ នៅ​ពេល​អ្នក​ចុច​យល់ព្រម អ្នក​នឹង​លែង​អាច​ចូលប្រើប្រាស់​កំណត់ត្រា​នេះ​បាន​ហើយ។"
     done_success_message: "ការ​បញ្ជូន​រួចរាល់។"
-    agency_label: "ទីភ្នាក់ងារ៖"
+    agency_label: "ស្ថាប័ន៖"
     location_label: "ទីតាំង"
   reassign:
     reassign_case_title: "ចាត់ចែង​ករណី​ទៅ​ឲ្យ៖"
@@ -1936,7 +1955,7 @@ km:
     type_label: "ប្រភេទ​ការ​ផ្ទេរ"
     existing_user_label: "អ្នកប្រើប្រាស់​ដែល​មាន​ស្រាប់"
     other_user_label: "អ្នកប្រើប្រាស់​ផ្សេងៗ"
-    other_user_agency_label: "ទីភ្នាក់ងារ​​របស់​អ្នក​ប្រើប្រាស់​ផ្សេង"
+    other_user_agency_label: "ស្ថាប័ន​​របស់​អ្នក​ប្រើប្រាស់​ផ្សេង"
     consent_label: "កំណត់ត្រា​មិន​បានផ្ដល់​ការ​យល់ព្រម​ទេ។"
     consent_override_label: "តើ​អ្នក​ចង់​សរសេរ​ជាន់លើ​ការ​កំណត់​នេះ​ដែ​រឬទេ?"
     is_remote_label: "តើ​អ្នកកំពុង​ផ្ទេរ​ទៅ​ប្រព័ន្ធ​ពី​ចម្ងាយ​មែនទេ?"
@@ -1963,7 +1982,7 @@ km:
     search:
       rejected: "បានបដិសេធ"
       in_progress: "កំពុងដំណើរការ"
-    agency_label: "ទីភ្នាក់ងារ៖"
+    agency_label: "ស្ថាប័ន៖"
     location_label: "ទីតាំង"
   request_transfer:
     success: "បាន​ផ្ញើ​សំណើ​ផ្ទេរ"
@@ -2013,7 +2032,7 @@ km:
     subject_label: "ប្រធានបទ"
     no_records_selected: "គ្មាន​កំណត់ត្រា​បាន​ជ្រើសរើស​ទេ"
     error_adding_note: "មាន​បញ្ហា​ក្នុង​ការ​បញ្ចូលកំណត់​សម្គាល់"
-  per_page_translation: "ក្នុង​មួយ page _MENU_"
+  per_page_translation: "ក្នុង​មួយទំព័រ _MENU_"
   total: សរុប
   caregiver: " (អ្នក​ថែទាំ)"
   disabled:
@@ -2030,7 +2049,7 @@ km:
     to_user: "ចំពោះ​អ្នកប្រើប្រាស់"
     by_user: "ដោយ​អ្នកប្រើប្រាស់"
     login: "ចូលប្រើប្រាស់"
-    logout: "ចាកចេញ"
+    logout: "ចេញ"
     create: "បង្កើត"
     copy: "ចម្លង"
     destroy: "លុប"
@@ -2072,8 +2091,8 @@ km:
       case_plan: "ទម្រង់​ផែនការករណី"
       closure: "ទម្រង់​បិទ"
     mark_for_mobile:
-      'false': "មិន​សម្គាល់​សម្រាប់​ឧបករណ៍​ចល័ត"
-      'true': "កំណត់ចំណាំសម្រាប់កម្មវិធីទូរស័ព្ទ"
+      'false': "មិនប្រើ​សម្រាប់​ទូរស័ព្ទ"
+      'true': "ប្រើ​សម្រាប់​ទូរស័ព្ទ"
     record_state:
       'false': "បិទ"
       'true': "បើក"
@@ -2119,7 +2138,7 @@ km:
     referral: "%{user} ពី %{agency} បាន​ផ្ទេរ​%{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖%{record_id} សម្រាប់ %{service_type} ។"
     transfer: "%{user} បាន​ផ្ទេរ %{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ %{record_id} ។"
     reassign: "%{user} បាន​ចាត់ចែក​ %{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ %{record_id} ។"
-    transfer_request: "អ្នក​ប្រើប្រាស់ Primero %{user} ពី %{agency} កំពុង​ស្នើសុំ​ឲ្យ​អ្នក​ផ្ទេរ​​ភាព​ជា​ម្ចាស់​របស់កំណត់ត្រា %{record_type} %{record_id} ដូច្នេះ​ពួកគេ​អាច​ផ្ដល់​សេវាកម្ម​គ្រប់គ្រង %{record_type} សម្រាប់​កំណត់ត្រា​នីមួយៗ​នៅ​ក្នុង​តំបន់​របស់​ពួកគេ។ ប្រសិនបើ​ការ​ផ្ទេរ​នេះ​អ្នក​អាច​ទទួលួក​បាន សូម​ចុច​លើ​តំណ​លេខ​សម្គាល់ %{record_type} នៅ​ក្នុង​អ៊ីមែល ដើម្បី​បើក %{record_type} នៅ​ក្នុង Primero និង​ចាប់ផ្ដើម​ការ​ផ្ទេរ។"
+    transfer_request: "អ្នក​ប្រើប្រាស់ Primero %{user} ពី %{agency} កំពុង​ស្នើសុំ​ឲ្យ​អ្នក​ផ្ទេរ​​ភាព​ជា​ម្ចាស់​របស់កំណត់ត្រា %{record_type} %{record_id} ដូច្នេះ​ពួកគេ​អាច​ផ្ដល់​សេវាកម្ម​គ្រប់គ្រង %{record_type} សម្រាប់​កំណត់ត្រា​នីមួយៗ​នៅ​ក្នុង​តំបន់​របស់​ពួកគេ។ ប្រសិនបើ​ការ​ផ្ទេរ​នេះ​អ្នក​អាច​ទទួលយក​​បាន សូម​ចុច​លើ​តំណ​លេខ​សម្គាល់ %{record_type} នៅ​ក្នុង​អ៊ីមែល ដើម្បី​បើក %{record_type} នៅ​ក្នុង Primero និង​ចាប់ផ្ដើម​ការ​ផ្ទេរ។"
     approval_request_html: "អ្នក​ប្រើប្រាស់ <strong>%{user}</strong> កំពុង​ស្នើសុំ​ការ​អនុម័ត​សម្រាប់ <strong> %{approval_type}</strong> នៅ​លើ​ករណី <strong>%{case_id}</strong> ។"
     approval_response_html: "<strong>%{user}</strong> មានសំណើ <strong>%{status}</strong> សម្រាប់​ការ​អនុម័ត​សម្រាប់ <strong>%{approval_type}</strong> សម្រាប់ករណី <strong>%{case_id}</strong> ។"
     referral_html: "<strong>%{user}</strong> ពី %{agency} បាន​ផ្ទេរ​ %{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ <strong>%{record_id}</strong> សម្រាប់ %{service_type} ។"
@@ -2135,30 +2154,22 @@ km:
       single_page_html:
         zero: "រកមិន​ឃើញ %{model}"
         one: "បង្ហាញ <b>1</b> %{model}"
-        other: "បង្ហាញ <b>ទាំងអស់ %{count}</b> %{model}"
+        other: "បង្ហាញ<b>ទាំងអស់ %{count}</b> %{model}"
       multi_page_html: "បង្ហាញ %{model} <b>%{from} - %{to}</b> នៃ <b>%{count}</b> សរុប"
     models:
       agency:
-        one: "ទីភ្នាក់ងារ៖"
-        other: "ទីភ្នាក់ងារ៖"
+        other: "ស្ថាប័ន"
       report:
-        one: "របាយការណ៍"
         other: "របាយការណ៍"
       child:
-        one: "ករណី"
         other: "ករណី"
       incident:
-        one: "ឧប្បត្តិហេតុ"
-        other: "ឧប្បត្តិហេតុ"
+        other: "ហេតុការណ៍"
       hash:
-        one: "លទ្ធផល​ផ្គូផ្គង"
         other: "លទ្ធផល​ផ្គូផ្គង"
       bulk_export:
-        one: "នាំចេញឯកសារ​ច្រើន"
         other: "នាំចេញឯកសារ​ច្រើន"
       task:
-        one: "កិច្ចការ"
         other: "កិច្ចការ"
       user_group:
-        one: "ក្រុម​អ្នកប្រើប្រាស់"
         other: "ក្រុម​អ្នកប្រើប្រាស់"
