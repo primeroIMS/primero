@@ -37,7 +37,7 @@ const AddRecordMenu = ({ recordType }) => {
   return (
     <>
       <Button
-      aria-label="test"
+        aria-label={i18n.t("buttons.new")}
         onClick={handleClick}
         color="primary"
         className={css.showActionButton}

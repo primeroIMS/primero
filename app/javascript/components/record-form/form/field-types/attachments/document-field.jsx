@@ -91,7 +91,7 @@ const DocumentField = ({
           {value.description}
         </div>
         <div>
-          <IconButton aria-label="menu" onClick={handleOpen}>
+          <IconButton aria-label={i18n.t("buttons.view")} onClick={handleOpen}>
             <KeyboardArrowRightIcon />
           </IconButton>
         </div>
@@ -106,7 +106,10 @@ const DocumentField = ({
         <DialogTitle disableTypography className={css.title}>
           <div className={css.titleText}>{title}</div>
           <div>
-            <IconButton aria-label="menu" onClick={handleClose}>
+            <IconButton
+              aria-label={i18n.t("buttons.close")}
+              onClick={handleClose}
+            >
               <CloseIcon />
             </IconButton>
           </div>
@@ -124,7 +127,10 @@ const DocumentField = ({
               />
             )}
             {mode.isShow || (
-              <IconButton aria-label="menu" onClick={handleRemove}>
+              <IconButton
+                aria-label={i18n.t("buttons.delete")}
+                onClick={handleRemove}
+              >
                 <DeleteIcon />
               </IconButton>
             )}

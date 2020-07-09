@@ -4,6 +4,8 @@ import { IconButton, Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 
+import { useI18n } from "../i18n";
+
 const SnackbarAction = ({
   action,
   actionLabel,
@@ -11,6 +13,7 @@ const SnackbarAction = ({
   closeSnackbar,
   key
 }) => {
+  const i18n = useI18n();
   const handleSnackClose = () => {
     closeSnackbar(key);
   };
@@ -26,7 +29,10 @@ const SnackbarAction = ({
           {actionLabel}
         </Button>
       ) : null}
-      <IconButton aria-label="menu" onClick={handleSnackClose}>
+      <IconButton
+        aria-label={i18n.t("buttons.close")}
+        onClick={handleSnackClose}
+      >
         <CloseIcon />
       </IconButton>
     </>

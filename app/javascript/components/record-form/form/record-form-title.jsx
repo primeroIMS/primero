@@ -10,7 +10,7 @@ const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay }) => {
   const css = makeStyles(styles)();
 
   const showMobileIcon = mobileDisplay ? (
-    <IconButton aria-label="toggle" onClick={handleToggleNav}>
+    <IconButton onClick={handleToggleNav}>
       <MenuOpen />
     </IconButton>
   ) : null;

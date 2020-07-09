@@ -41,7 +41,7 @@ const ActionMenu = ({ open, onOpen, onClose, items }) => {
   return (
     <MuiThemeProvider theme={{ ...currentTheme, ...getMuiTheme() }}>
       <IconButton
-        aria-label="Menu"
+        aria-label="More"
         aria-controls="long-menu"
         aria-haspopup="true"
         variant="contained"
