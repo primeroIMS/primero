@@ -5,7 +5,7 @@ import { object, string } from "yup";
 import { withRouter, useLocation } from "react-router-dom";
 import qs from "qs";
 import { useForm, FormContext } from "react-hook-form";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 

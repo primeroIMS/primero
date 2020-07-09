@@ -1,6 +1,10 @@
+/* eslint-disable camelcase */
 import isEqual from "lodash/isEqual";
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
+
+import { dataToJS } from "../../libs";
+import { REPORT_FIELD_TYPES } from "../reports-form/constants";
 
 const getColors = () => {
   return ["#e0dfd6", "#595951", "#bcbcab", "green", "red", "yellow", "blue"];
@@ -51,15 +55,31 @@ const containsColumns = (columns, data, i18n) => {
   return isEqual(columns, keys);
 };
 
-const dataSet = (columns, data, i18n) => {
+const getTranslatedKey = (key, field, { agencies }) => {
+  if (field?.option_strings_source === "Agency" && agencies) {
+    return dataToJS(agencies).find(agency => agency.id === parseInt(key, 10))
+      ?.display_text;
+  }
+
+  return key;
+};
+
+const dataSet = (columns, data, i18n, fields, { agencies }) => {
   const totalLabel = i18n.t("report.total");
   const dataResults = [];
+  const field =
+    fields.length > 1
+      ? fields.find(
+          reportField =>
+            reportField.position.type === REPORT_FIELD_TYPES.vertical
+        )
+      : fields.shift();
 
   if (!isEmpty(columns)) {
-    columns.forEach((c, i) => {
+    columns.forEach((column, i) => {
       dataResults.push({
-        label: c,
-        data: getColumnData(c, data, i18n),
+        label: getTranslatedKey(column, field, { agencies }),
+        data: getColumnData(column, data, i18n),
         backgroundColor: getColorsByIndex(i)
       });
     });
@@ -74,16 +94,17 @@ const dataSet = (columns, data, i18n) => {
   return dataResults;
 };
 
-const getRows = (columns, data, i18n) => {
+const getRows = (columns, data, i18n, fields, { agencies }) => {
   const totalLabel = i18n.t("report.total");
   const currentRows = [];
+  const field = fields.shift();
   const keys = Object.keys(data);
   const values = Object.values(data);
 
   keys
     .filter(key => key !== totalLabel)
     .forEach(key => {
-      const newRow = [key];
+      const newRow = [getTranslatedKey(key, field, { agencies })];
 
       if (!(values.length === 1 && keys.includes(totalLabel))) {
         if (!containsColumns(columns, data[key], i18n)) {
@@ -99,25 +120,30 @@ const getRows = (columns, data, i18n) => {
         }
       }
 
-      currentRows.push(getRows(columns, data[key], i18n));
+      currentRows.push(getRows(columns, data[key], i18n, fields, { agencies }));
     });
 
   return currentRows;
 };
 
-const getLabels = (columns, data, i18n) => {
+const getLabels = (columns, data, i18n, fields, { agencies }) => {
   const totalLabel = i18n.t("report.total");
   const currentLabels = [];
+  const field = fields.shift();
   const keys = Object.keys(data);
 
   keys.forEach(key => {
     if (containsColumns(columns, data[key], i18n)) {
       currentLabels.push(keys.filter(label => label !== totalLabel));
     }
-    currentLabels.concat(getLabels(columns, data[key], i18n));
+    currentLabels.concat(
+      getLabels(columns, data[key], i18n, fields, { agencies })
+    );
   });
 
-  return uniq(currentLabels.flat());
+  return uniq(currentLabels.flat()).map(key =>
+    getTranslatedKey(key, field, { agencies })
+  );
 };
 
 const translateKeys = (keys, field, locale) => {
@@ -188,28 +214,38 @@ export const translateReportData = (report, i18n) => {
   return translatedReport;
 };
 
-export const buildDataForGraph = (report, i18n) => {
+export const buildDataForGraph = (report, i18n, { agencies }) => {
   const reportData = report.toJS();
 
   if (!reportData.report_data) {
     return {};
   }
+  const { fields } = report.toJS();
   const translatedReport = translateReportData(reportData, i18n);
   const columns = getColumns(translatedReport.report_data, i18n);
+
   const graphData = {
     description: translatedReport.description
       ? translatedReport.description[i18n.locale]
       : "",
     data: {
-      labels: getLabels(columns, translatedReport.report_data, i18n),
-      datasets: dataSet(columns, translatedReport.report_data, i18n)
+      labels: getLabels(
+        columns,
+        translatedReport.report_data,
+        i18n,
+        report.toJS().fields,
+        { agencies }
+      ),
+      datasets: dataSet(columns, translatedReport.report_data, i18n, fields, {
+        agencies
+      })
     }
   };
 
   return graphData;
 };
 
-export const buildDataForTable = (report, i18n) => {
+export const buildDataForTable = (report, i18n, { agencies }) => {
   const totalLabel = i18n.t("report.total");
   const reportData = report.toJS();
   const translatedReport = translateReportData(reportData, i18n);
@@ -218,9 +254,26 @@ export const buildDataForTable = (report, i18n) => {
     return { columns: [], values: [] };
   }
 
+  const { fields } = report.toJS();
+  const field = fields.filter(
+    reportField => reportField.position.type === REPORT_FIELD_TYPES.vertical
+  )[0];
   const dataColumns = getColumns(translatedReport.report_data, i18n);
-  const columns = ["", dataColumns, totalLabel].flat();
-  const values = getRows(dataColumns, translatedReport.report_data, i18n);
+  const columns = ["", dataColumns, totalLabel].flat().map(column => {
+    if (column === "" || column === totalLabel) {
+      return column;
+    }
+
+    return getTranslatedKey(column, field, { agencies });
+  });
+
+  const values = getRows(
+    dataColumns,
+    translatedReport.report_data,
+    i18n,
+    fields,
+    { agencies }
+  );
 
   return { columns, values };
 };

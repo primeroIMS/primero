@@ -39,6 +39,9 @@ const Component = ({ approvalSubform, css }) => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="filter-controls-content"
           id={approvalSubform.get("unique_id")}
+          classes={{
+            expandIcon: css.expandIcon
+          }}
         >
           <ApprovalSummary {...sharedProps} />
         </ExpansionPanelSummary>

@@ -11,7 +11,7 @@ import {
   DialogTitle,
   IconButton
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { FastField } from "formik";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import CloseIcon from "@material-ui/icons/Close";

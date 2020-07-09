@@ -12,7 +12,7 @@ import thunk from "redux-thunk";
 import DateFnsUtils from "@date-io/date-fns";
 import { createMount } from "@material-ui/core/test-utils";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import ThemeProvider from "@material-ui/styles/ThemeProvider";
+import { ThemeProvider } from "@material-ui/core/styles";
 import { useForm, FormContext } from "react-hook-form";
 import { fromJS } from "immutable";
 import capitalize from "lodash/capitalize";

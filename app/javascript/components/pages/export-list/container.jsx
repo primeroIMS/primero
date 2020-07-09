@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/styles/";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import DownloadIcon from "@material-ui/icons/GetApp";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { fromJS } from "immutable";
@@ -109,7 +109,10 @@ const ExportList = () => {
     <PageContainer>
       <PageHeading title={i18n.t("navigation.bulk_exports")} />
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <IndexTable
+          title={i18n.t("navigation.bulk_exports")}
+          {...tableOptions}
+        />
       </PageContent>
     </PageContainer>
   );

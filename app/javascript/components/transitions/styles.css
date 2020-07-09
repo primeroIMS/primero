@@ -145,3 +145,17 @@
   margin-left: 10px;
   padding-left: 10px;
 }
+
+.expandIcon {
+  background-color: $(theme.primero.colors.blue);
+  box-shadow: none;
+  color: $(theme.primero.colors.white);
+  margin-left: 5px;
+  width: 36px;
+  height: 36px;
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+  }
+}
+

@@ -6,7 +6,7 @@ import {
   ExpansionPanelDetails,
   IconButton
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import isEmpty from "lodash/isEmpty";
 

@@ -4,10 +4,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import CloseIcon from "@material-ui/icons/Close";
-import { Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../../../../i18n";
+import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
+import ActionButton from "../../../../../action-button";
 
 import { NAME, GROUP_BY, SORT_BY } from "./constants";
 import styles from "./styles.css";
@@ -31,10 +32,15 @@ const Component = ({ subformField }) => {
   const renderClearButton = (fieldBy, onClick) =>
     ((fieldBy === SORT_BY && subformSortBy) ||
       (fieldBy === GROUP_BY && subformGroupBy)) && (
-      <Button className={css.clearButton} onClick={onClick}>
-        <CloseIcon />
-        {i18n.t(`fields.clear_${fieldBy}`)}
-      </Button>
+      <ActionButton
+        icon={<CloseIcon />}
+        text={i18n.t(`fields.clear_${fieldBy}`)}
+        type={ACTION_BUTTON_TYPES.default}
+        isCancel
+        rest={{
+          onClick
+        }}
+      />
     );
 
   return (

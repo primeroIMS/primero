@@ -1,7 +1,10 @@
-import ThemeProvider from "@material-ui/styles/ThemeProvider";
-import createGenerateClassName from "@material-ui/styles/createGenerateClassName";
-import jssPreset from "@material-ui/styles/jssPreset";
-import StylesProvider from "@material-ui/styles/StylesProvider";
+import {
+  ThemeProvider,
+  createGenerateClassName,
+  jssPreset,
+  StylesProvider,
+  makeStyles
+} from "@material-ui/core/styles";
 import { ConnectedRouter } from "connected-react-router/immutable";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { create } from "jss";
@@ -11,7 +14,6 @@ import { Provider } from "react-redux";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { SnackbarProvider } from "notistack";
-import { makeStyles } from "@material-ui/core/styles";
 import { Brightness1 as Circle } from "@material-ui/icons";
 import ErrorIcon from "@material-ui/icons/Error";
 import CheckIcon from "@material-ui/icons/Check";

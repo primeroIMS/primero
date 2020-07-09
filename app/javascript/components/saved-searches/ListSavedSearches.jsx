@@ -6,7 +6,6 @@ import {
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
-  IconButton,
   Divider,
   makeStyles
 } from "@material-ui/core";
@@ -17,6 +16,8 @@ import qs from "qs";
 import { useI18n } from "../i18n";
 import ActionDialog from "../action-dialog";
 import { ROUTES } from "../../config";
+import ActionButton from "../action-button";
+import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 
 import { removeSavedSearch } from "./action-creators";
 import { selectSavedSearchesById } from "./selectors";
@@ -96,12 +97,14 @@ const ListSavedSearches = ({
           >
             <ListItemText primary={savedSearch.name} />
             <ListItemSecondaryAction>
-              <IconButton
-                edge="end"
-                onClick={() => handleDeleteFilter(savedSearch.id)}
-              >
-                <DeleteIcon />
-              </IconButton>
+              <ActionButton
+                icon={<DeleteIcon />}
+                type={ACTION_BUTTON_TYPES.icon}
+                rest={{
+                  edge: "end",
+                  onClick: () => handleDeleteFilter(savedSearch.id)
+                }}
+              />
             </ListItemSecondaryAction>
           </ListItem>
         ))}

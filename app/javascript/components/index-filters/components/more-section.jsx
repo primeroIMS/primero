@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../i18n";
 import { RECORD_PATH } from "../../../config";
 import { filterType } from "../utils";
 import { MY_CASES_FILTER_NAME, OR_FILTER_NAME } from "../constants";
+import ActionButton from "../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
 import styles from "./styles.css";
 import { NAME } from "./constants";
@@ -76,16 +77,19 @@ const MoreSection = ({
   return (
     <>
       {filters}
-      <Button
-        className={css.moreBtn}
-        color="primary"
-        size="small"
-        variant="outlined"
-        fullWidth
-        onClick={handleMore}
-      >
-        {renderText}
-      </Button>
+      <ActionButton
+        text={renderText}
+        type={ACTION_BUTTON_TYPES.default}
+        isTransparent
+        rest={{
+          onClick: handleMore,
+          className: css.moreBtn,
+          fullWidth: true,
+          color: "primary",
+          variant: "outlined",
+          size: "small"
+        }}
+      />
     </>
   );
 };
