@@ -15,8 +15,8 @@ const DateRangeSelect = ({
   setSelectedRange,
   disabled
 }) => {
-  // FIXME: We should use 'useI18n' but it retruns a null object when called
-  // from here.
+  // FIXME: We should use 'useI18n' but it returns a null object when called
+  //        from here.
   const i18n = window.I18n;
 
   const [showRangePicker, setShowRangePicker] = useState(false);
@@ -44,15 +44,16 @@ const DateRangeSelect = ({
         value={selectedRange.value}
         disabled={disabled}
       >
-        {ranges.map(r => (
-          <MenuItem value={r.value}>{r.name}</MenuItem>
+        {ranges.map((r,i) => (
+          <MenuItem key={i} value={r.value}>{r.name}</MenuItem>
         ))}
         {withCustomRange && (
           <MenuItem
+            key="custom-range"
             value={customRange.value}
             onClick={() => setShowRangePicker(true)}
           >
-            {`${i18n.toTime(
+            `${i18n.toTime(
               "key_performance_indicators.date_format",
               customRange.from
             )} - ${i18n.toTime(

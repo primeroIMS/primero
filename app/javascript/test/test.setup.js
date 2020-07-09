@@ -60,7 +60,8 @@ global.window.I18n = {
   defaultLocale: "en",
   locale: "en",
   t: path => path,
-  l: (path, value) => formatDate(parseISO(value), get(DATE_FORMATS, path))
+  l: (path, value) => formatDate(parseISO(value), get(DATE_FORMATS, path)),
+  toTime: (path, time) => path
 };
 global.document.documentElement.lang = "en";
 
