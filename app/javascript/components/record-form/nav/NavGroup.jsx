@@ -11,17 +11,28 @@ const NavGroup = ({
   isNew,
   open,
   recordAlerts,
-  selectedForm
+  selectedForm,
+  validationErrors
 }) => {
   const [...forms] = group.values();
   const isNested = forms.length > 1;
   const parentForm = forms[0];
 
+  const groupHasError = validationErrors?.some(
+    error => error.get("form_group_id") === parentForm.group
+  );
+
+  const formHasError = form =>
+    Boolean(
+      validationErrors?.find(error => error.get("unique_id") === form.formId)
+    );
+
   const parentFormProps = {
     form: parentForm,
     name: isNested ? parentForm.groupName : parentForm.name,
     open: open === parentForm.group,
-    isNested
+    isNested,
+    hasError: groupHasError
   };
 
   const sharedProps = {
@@ -44,6 +55,7 @@ const NavGroup = ({
                 name={f.name}
                 key={f.formId}
                 groupItem
+                hasError={formHasError(f)}
                 {...sharedProps}
               />
             ))}
@@ -64,7 +76,8 @@ NavGroup.propTypes = {
   open: PropTypes.string,
   recordAlerts: PropTypes.object,
   recordOwner: PropTypes.string,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  validationErrors: PropTypes.object
 };
 
 export default NavGroup;

@@ -7,6 +7,7 @@ import { useI18n } from "../i18n";
 import InternalAlert from "../internal-alert";
 import { compare } from "../../libs";
 import { getRecordFormAlerts } from "../records";
+import { getValidationErrors } from "../record-form";
 
 import { getMessageData } from "./utils";
 import { NAME } from "./constants";
@@ -18,6 +19,18 @@ const Component = ({ form, recordType }) => {
     compare
   );
 
+  const validationErrors = useSelector(
+    state => getValidationErrors(state, form.unique_id),
+    compare
+  );
+
+  const errors =
+    validationErrors?.size &&
+    validationErrors
+      .get("errors", fromJS([]))
+      .entrySeq()
+      .map(([, value]) => fromJS({ message: value }));
+
   const items = recordAlerts.map(alert =>
     fromJS({
       message: i18n.t(
@@ -27,7 +40,20 @@ const Component = ({ form, recordType }) => {
     })
   );
 
-  return items?.size ? <InternalAlert items={fromJS(items)} /> : null;
+  return (
+    <>
+      {errors?.size ? (
+        <InternalAlert
+          title={i18n.t("error_message.address_form_fields", {
+            fields: errors?.size
+          })}
+          items={fromJS(errors)}
+          severity="error"
+        />
+      ) : null}
+      {items?.size ? <InternalAlert items={fromJS(items)} /> : null}
+    </>
+  );
 };
 
 Component.displayName = NAME;

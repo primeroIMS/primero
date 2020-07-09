@@ -151,7 +151,8 @@ const Container = ({ match, mode }) => {
     forms,
     mode: containerMode,
     record,
-    recordType: params.recordType
+    recordType: params.recordType,
+    primeroModule: selectedModule.primeroModule
   };
 
   const toolbarProps = {

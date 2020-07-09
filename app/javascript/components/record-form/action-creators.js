@@ -69,3 +69,8 @@ export const fetchAgencies = params => ({
     params
   }
 });
+
+export const setValidationErrors = payload => ({
+  type: Actions.SET_VALIDATION_ERRORS,
+  payload
+});

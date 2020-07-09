@@ -1,16 +1,13 @@
 import React, { memo, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { number, date, array, object, string } from "yup";
 import { Formik, Form } from "formik";
 import { addDays } from "date-fns";
 import isEmpty from "lodash/isEmpty";
-import some from "lodash/some";
 import { Box } from "@material-ui/core";
 import NavigationPrompt from "react-router-navigation-prompt";
 
 import { useI18n } from "../../i18n";
-import { enqueueSnackbar } from "../../notifier";
 import ActionDialog from "../../action-dialog";
 import { constructInitialValues } from "../utils";
 import {
@@ -21,21 +18,11 @@ import {
 } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
 
+import { ValidationErrors } from "./components";
 import RecordFormTitle from "./record-form-title";
 import { RECORD_FORM_NAME } from "./constants";
 import FormSectionField from "./form-section-field";
 import SubformField from "./subforms";
-
-const ValidationErrors = () => {
-  const dispatch = useDispatch();
-  const i18n = useI18n();
-
-  useEffect(() => {
-    dispatch(enqueueSnackbar(i18n.t("error_message.notice"), "error"));
-  }, []);
-
-  return null;
-};
 
 const RecordForm = ({
   bindSubmitForm,
@@ -174,7 +161,6 @@ const RecordForm = ({
       >
         {({ handleSubmit, submitForm, errors, dirty, isSubmitting }) => {
           bindSubmitForm(submitForm);
-          const hasErrors = some(errors, e => !isEmpty(e));
 
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -190,7 +176,7 @@ const RecordForm = ({
                   />
                 )}
               </NavigationPrompt>
-              {!isEmpty(hasErrors) && <ValidationErrors />}
+              <ValidationErrors formErrors={errors} forms={forms} />
               {renderFormSections(forms)}
             </Form>
           );

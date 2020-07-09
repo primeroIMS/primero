@@ -62,6 +62,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("selectedRecord", payload);
     case Actions.SET_SERVICE_TO_REFER:
       return state.set("serviceToRefer", fromJS(payload));
+    case Actions.SET_VALIDATION_ERRORS:
+      return state.set("validationErrors", fromJS(payload));
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
     default:

@@ -6,7 +6,7 @@ import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { getRecordFormsByUniqueId } from "../selectors";
+import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
 import { getRecordAlerts } from "../../records/selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
 import { compare, ConditionalWrapper } from "../../../libs";
@@ -39,6 +39,10 @@ const Nav = ({
         formName: selectedForm || firstTab.unique_id,
         checkVisible: true
       }),
+    compare
+  );
+  const validationErrors = useSelector(
+    state => getValidationErrors(state),
     compare
   );
 
@@ -109,6 +113,7 @@ const Nav = ({
           open={open}
           recordAlerts={recordAlerts}
           selectedForm={selectedForm}
+          validationErrors={validationErrors}
         />
       );
     });

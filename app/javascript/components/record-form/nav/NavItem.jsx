@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+/* eslint-disable react/no-multi-comp */
 import React from "react";
 import PropTypes from "prop-types";
 import { ListItem, ListItemText } from "@material-ui/core";
@@ -21,7 +23,8 @@ const NavItem = ({
   name,
   open,
   recordAlerts,
-  selectedForm
+  selectedForm,
+  hasError
 }) => {
   const css = makeStyles(styles)();
 
@@ -46,7 +49,20 @@ const NavItem = ({
     ? itemsOfGroup?.some(alert => validateAlert(alert))
     : validateAlert(formId);
 
-  const formText = !isNew && showJewel ? <Jewel value={name} isForm /> : name;
+  const formText = () => {
+    return (
+      <>
+        {!isNew && showJewel ? (
+          <Jewel value={name} isForm isError={hasError} />
+        ) : (
+          <>
+            {name}
+            {hasError && <Jewel isError={hasError} />}
+          </>
+        )}
+      </>
+    );
+  };
 
   return (
     <ListItem
@@ -60,7 +76,7 @@ const NavItem = ({
       }}
     >
       <ListItemText className={groupItem ? css.nestedItem : css.item}>
-        {formText}
+        {formText()}
       </ListItemText>
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}
     </ListItem>
@@ -73,6 +89,7 @@ NavItem.propTypes = {
   form: PropTypes.object,
   groupItem: PropTypes.bool,
   handleClick: PropTypes.func,
+  hasError: PropTypes.bool,
   isNested: PropTypes.bool,
   isNew: PropTypes.bool,
   itemsOfGroup: PropTypes.array,
