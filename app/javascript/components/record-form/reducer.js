@@ -16,6 +16,8 @@ const DEFAULT_STATE = Map({
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
+    case Actions.CLEAR_VALIDATION_ERRORS:
+      return state.delete("validationErrors");
     case Actions.FETCH_AGENCIES_FAILURE:
       return state.setIn(["options", "errors"], true);
     case Actions.FETCH_AGENCIES_FINISHED:

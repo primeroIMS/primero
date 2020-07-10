@@ -3,6 +3,7 @@ import { namespaceActions } from "../../libs";
 import NAMESPACE from "./namespace";
 
 export default namespaceActions(NAMESPACE, [
+  "CLEAR_VALIDATION_ERRORS",
   "FETCH_AGENCIES",
   "FETCH_AGENCIES_FAILURE",
   "FETCH_AGENCIES_FINISHED",

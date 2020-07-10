@@ -74,3 +74,7 @@ export const setValidationErrors = payload => ({
   type: Actions.SET_VALIDATION_ERRORS,
   payload
 });
+
+export const clearValidationErrors = () => ({
+  type: Actions.CLEAR_VALIDATION_ERRORS
+});
