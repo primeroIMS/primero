@@ -2,12 +2,15 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import { fromJS } from "immutable";
+import PropTypes from "prop-types";
 
 import { compare } from "../../../../libs";
 import { useI18n } from "../../../i18n";
 import { enqueueSnackbar } from "../../../notifier";
 import { getValidationErrors } from "../../selectors";
 import { setValidationErrors } from "../../action-creators";
+
+import { VALIDATION_ERRORS_NAME } from "./constants";
 
 const ValidationErrors = ({ formErrors, forms }) => {
   const dispatch = useDispatch();
@@ -57,5 +60,12 @@ const ValidationErrors = ({ formErrors, forms }) => {
 
   return null;
 };
+
+ValidationErrors.displayName = VALIDATION_ERRORS_NAME;
+
+ValidationErrors.propTypes = {
+  formErrors: PropTypes.object,
+  forms: PropTypes.object
+}
 
 export default ValidationErrors;
