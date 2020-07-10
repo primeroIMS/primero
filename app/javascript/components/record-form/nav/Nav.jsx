@@ -79,7 +79,10 @@ const Nav = ({
     }
   }, [firstTab]);
 
-  const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
+  const recordAlerts = useSelector(
+    state => getRecordAlerts(state, recordType),
+    compare
+  );
 
   const renderCloseButtonNavBar = mobileDisplay && (
     <div className={css.closeButtonRecordNav}>
