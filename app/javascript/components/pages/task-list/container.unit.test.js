@@ -1,9 +1,10 @@
-import { fromJS } from "immutable";
+import { fromJS, OrderedMap } from "immutable";
 import MUIDataTable, { TableBodyRow } from "mui-datatables";
 
 import { setupMountedComponent } from "../../../test";
 import { DashboardChip } from "../../dashboard";
 import { ListHeaderRecord } from "../../user/records";
+import { FieldRecord, FormSectionRecord } from "../../record-form/records";
 
 import TaskList from "./container";
 
@@ -25,7 +26,8 @@ describe("<TaskList />", () => {
                 priority: "high",
                 type: "service",
                 due_date: "2019-07-01",
-                detail: "a"
+                detail: "a",
+                field_name: "test"
               },
               {
                 id: "0df32f52-4290-4ce1-b859-74ac14c081bf",
@@ -34,7 +36,8 @@ describe("<TaskList />", () => {
                 priority: "low",
                 type: "service",
                 due_date: "2019-07-01",
-                detail: "b"
+                detail: "b",
+                field_name: "test"
               }
             ],
             metadata: {
@@ -76,6 +79,27 @@ describe("<TaskList />", () => {
           }
         },
         forms: {
+          formSections: OrderedMap({
+            1: FormSectionRecord({
+              id: 1,
+              unique_id: "cp_incident_record_owner",
+              parent_form: "incident",
+              name: { en: "Form name" },
+              fields: [1]
+            })
+          }),
+          fields: OrderedMap({
+            1: FieldRecord({
+              id: 1,
+              name: "test",
+              display_name: { en: "Test Field" },
+              type: "text_field",
+              multi_select: false,
+              form_section_id: 1,
+              visible: true,
+              mobile_visible: true
+            })
+          }),
           options: {
             lookups: {
               data: [

@@ -11,7 +11,7 @@ import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
 import IndexTable from "../../index-table";
 import PageContainer, { PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
-import { getOption } from "../../record-form";
+import { getOption, getFields, getAllForms } from "../../record-form";
 import { LOOKUPS } from "../../../config";
 
 import { selectListHeaders } from "./selectors";
@@ -40,6 +40,9 @@ const TaskList = () => {
       return isEqual(prev, actual);
     }
   );
+
+  const fields = useSelector(state => getFields(state));
+  const forms = useSelector(state => getAllForms(state));
 
   const columns = data => {
     return listHeaders.map(c => {
@@ -119,6 +122,36 @@ const TaskList = () => {
                         {overdue ? <TasksOverdue /> : null}
                         {upcomingSoon ? <TasksPending /> : null}
                       </div>
+                    </Tooltip>
+                  );
+                }
+              }
+            : {}),
+          ...(c.name === "due_date"
+            ? {
+                // eslint-disable-next-line react/no-multi-comp, react/display-name
+                customBodyRender: (value, tableMeta) => {
+                  const recordData = data.get("data").get(tableMeta.rowIndex);
+                  const fieldName = recordData.get("field_name");
+                  const selectedField = fields.filter(
+                    field => field.name === fieldName
+                  );
+  
+                  const fieldKey = [...selectedField.keys()][0];
+                  const translatedFieldName = selectedField.first()
+                    .display_name[i18n.locale];
+                  const selectedForm = forms.find(form =>
+                    form.get("fields").includes(parseInt(fieldKey, 10))
+                  );
+
+                  return (
+                    <Tooltip
+                      title={i18n.t("messages.field_name_on_form_name", {
+                        field_name: translatedFieldName,
+                        form_name: selectedForm.name[i18n.locale]
+                      })}
+                    >
+                      <span>{value}</span>
                     </Tooltip>
                   );
                 }

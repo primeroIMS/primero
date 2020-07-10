@@ -33,5 +33,9 @@ module Tasks
       I18n.t("task.types.#{self.type}",
             subtype:  Lookup.display_value('lookup-followup-type', followup['followup_type'], lookups))
     end
+
+    def field_name
+      'followup_needed_by_date'
+    end
   end
 end

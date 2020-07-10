@@ -33,5 +33,10 @@ module Tasks
       I18n.t("task.types.#{self.type}",
             subtype:  Lookup.display_value('lookup-service-type', service['service_type'], lookups))
     end
+
+    def field_name
+      'service_appointment_date' if SystemSettings.current&.due_date_from_appointment_date
+      'service_response_timeframe'
+    end
   end
 end

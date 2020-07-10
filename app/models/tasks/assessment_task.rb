@@ -16,5 +16,9 @@ module Tasks
     def due_date
       self.parent_case.assessment_due_date
     end
+
+    def field_name
+      'assessment_due_date'
+    end
   end
 end
