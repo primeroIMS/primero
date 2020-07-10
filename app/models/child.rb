@@ -131,7 +131,7 @@ class Child < ApplicationRecord
     end
 
     boolean :has_incidents, as: 'has_incidents_b' do
-      incidents.present?
+      incidents?
     end
   end
 
@@ -359,6 +359,10 @@ class Child < ApplicationRecord
   #Override method in record concern
   def display_id
     case_id_display
+  end
+
+  def incidents?
+    incidents.size.positive?
   end
 
 end
