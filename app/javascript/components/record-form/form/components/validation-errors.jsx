@@ -66,6 +66,6 @@ ValidationErrors.displayName = VALIDATION_ERRORS_NAME;
 ValidationErrors.propTypes = {
   formErrors: PropTypes.object,
   forms: PropTypes.object
-}
+};
 
 export default ValidationErrors;

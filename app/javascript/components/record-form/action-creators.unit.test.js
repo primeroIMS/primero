@@ -12,13 +12,15 @@ describe("<RecordForm /> - Action Creators", () => {
     const creators = clone(actionCreators);
 
     [
+      "clearValidationErrors",
       "fetchAgencies",
       "fetchForms",
       "fetchLookups",
       "fetchOptions",
       "setSelectedForm",
       "setSelectedRecord",
-      "setServiceToRefer"
+      "setServiceToRefer",
+      "setValidationErrors"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -124,5 +126,27 @@ describe("<RecordForm /> - Action Creators", () => {
     };
 
     expect(actionCreators.fetchAgencies()).to.deep.equals(expected);
+  });
+
+  it("should check the 'setValidationErrors' action creator return the correct object", () => {
+    const validationErrors = [{
+      unique_id: "form_1",
+      form_group_id: "group_1",
+      errors: {
+        field_1: "field_1 is required"
+      }
+    }];
+    const expected = {
+      type: actions.SET_VALIDATION_ERRORS,
+      payload: validationErrors
+    };
+
+    expect(actionCreators.setValidationErrors(validationErrors)).to.deep.equals(expected);
+  });
+
+  it("should check the 'clearValidationErrors' action creator return the correct object", () => {
+    const expected = { type: actions.CLEAR_VALIDATION_ERRORS };
+
+    expect(actionCreators.clearValidationErrors()).to.deep.equals(expected);
   });
 });

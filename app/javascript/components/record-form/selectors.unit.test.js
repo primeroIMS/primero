@@ -121,6 +121,16 @@ const serviceToRefer = {
   service_implementing_agency_individual: "some_user"
 };
 
+const validationErrors = [
+  {
+    unique_id: "form_1",
+    form_group_id: "group_1",
+    errors: {
+      field_1: "field_1 is required"
+    }
+  }
+];
+
 const stateWithNoRecords = Map({});
 const stateWithRecords = fromJS({
   ui: {
@@ -168,7 +178,8 @@ const stateWithRecords = fromJS({
       registration_date: "2019-08-06",
       sex: "male",
       short_id: "2063a4b"
-    }
+    },
+    validationErrors
   }
 });
 
@@ -603,5 +614,15 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(forms).to.be.empty;
     });
+  });
+
+  describe("getValidationErrors", () => {
+    it("should return the validation errors for the forms", () => {
+      const expected = fromJS(validationErrors);
+
+      const result = selectors.getValidationErrors(stateWithRecords);
+
+      expect(result).to.deep.equal(expected);
+    })
   });
 });
