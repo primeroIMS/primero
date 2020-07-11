@@ -4,6 +4,7 @@ import { useFormContext } from "react-hook-form";
 import {
   FormGroup,
   FormControlLabel,
+  FormLabel,
   FormControl,
   Checkbox
 } from "@material-ui/core";
@@ -159,6 +160,7 @@ const Component = ({
       selectedDefaultValueField={isObject ? "or" : null}
     >
       <FormControl component="fieldset">
+        <FormLabel component="legend">{i18n.t("cases.status")}</FormLabel>
         <FormGroup>{renderOptions()}</FormGroup>
       </FormControl>
     </Panel>
