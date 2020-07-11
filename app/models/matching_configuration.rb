@@ -4,6 +4,20 @@
 class MatchingConfiguration
   include ActiveModel::Model
 
+  DEFAULT_CHILD_FIELDS = %w[
+    name name_nickname name_other
+    sex age date_of_birth nationality ethnicity religion language
+    location_last telephone_last location_birth location_current address_current
+    date_of_separation separation_cause separation_cause_other
+    location_before_separation location_separation
+  ].freeze
+
+  DEFAULT_INQUIRER_FIELDS = %w[
+    relation relation_name relation_nickname relation_language relation_religion relation_ethnicity relation_nationality
+    relation_other_family relation_telephone relation_location_current relation_address_current location_last telephone_last
+    date_of_separation separation_cause separation_cause_other location_separation
+  ].freeze
+
   # TODO: Create rspec tests
   # TODO: This is just broken. Refactor this whole class when migrating to Postgres
 

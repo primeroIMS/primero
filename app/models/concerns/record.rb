@@ -93,7 +93,6 @@ module Record
     end
   end
 
-
   # Override this in the implementing classes to set your own defaults
   def defaults
     self.record_state = true if record_state.nil?
@@ -123,6 +122,10 @@ module Record
 
   def display_id
     short_id
+  end
+
+  def values_from_subform(subform_field_name, field_name)
+    data[subform_field_name]&.map { |fds| fds[field_name] }&.compact&.uniq
   end
 
   # TODO: Refactor or delete with UIUX. This looks like its only useful for setting and getting via the form

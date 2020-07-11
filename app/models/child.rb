@@ -99,9 +99,18 @@ class Child < ApplicationRecord
     (records_referred_users + records_owned_by).uniq.count
   end
 
+  def self.child_matching_field_names
+    MatchingConfiguration.matchable_fields('case', false).pluck(:name) | MatchingConfiguration::DEFAULT_CHILD_FIELDS
+  end
+
+  def self.family_matching_field_names
+    MatchingConfiguration.matchable_fields('case', true).pluck(:name) | MatchingConfiguration::DEFAULT_INQUIRER_FIELDS
+  end
+
   searchable do
     extend Matchable::Searchable
-    configure_searchable(Child)
+    Child.child_matching_field_names.each { |f| configure_for_matching(f) }
+    Child.family_matching_field_names.each { |f| configure_for_matching_from_subform('family_details_section', f) }
 
     quicksearch_fields.each do |f|
       text(f) { data[f] }
@@ -120,6 +129,7 @@ class Child < ApplicationRecord
     string :national_id_no, as: 'national_id_no_sci'
     string :protection_concerns, multiple: true
     boolean :urgent_protection_concern, as: 'urgent_protection_concern_b'
+    boolean :consent_for_tracing
 
     date :assessment_due_dates, multiple: true do
       Tasks::AssessmentTask.from_case(self).map(&:due_date)
@@ -149,10 +159,12 @@ class Child < ApplicationRecord
     self.notes_section ||= []
   end
 
+  # TODO: Delete after matching refactor
   def subform_match_values(field)
     family_detail_values(field)
   end
 
+  # TODO: Delete after matching refactor
   def family_detail_values(field)
     family_details_section&.map { |fds| fds[field] }&.compact&.uniq&.join(' ')
   end
@@ -257,6 +269,7 @@ class Child < ApplicationRecord
     [case_id_code, short_id].compact.join(auto_populate_separator('case_id_code', system_settings))
   end
 
+  # TODO: Delete after matching refactor
   def family(relation = nil)
     result = family_details_section || []
     if relation.present?
@@ -267,14 +280,17 @@ class Child < ApplicationRecord
     result
   end
 
+  # TODO: Delete after matching refactor?
   def fathers_name
     family('father').first.try(:[], 'relation_name')
   end
 
+  # TODO: Delete after matching refactor?
   def mothers_name
     family('mother').first.try(:[], 'relation_name')
   end
 
+  # TODO: Delete after matching refactor?
   def caregivers_name
     data['name_caregiver'] || family.select { |fd| fd['relation_is_caregiver'] }.first.try(:[], 'relation_name')
   end

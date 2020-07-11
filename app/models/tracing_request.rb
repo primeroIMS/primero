@@ -7,12 +7,13 @@ class TracingRequest < ApplicationRecord
   include Ownable
   include Historical
   include Flaggable
-  include Matchable
   include Alertable
   include Attachable
 
+  has_many :traces
   store_accessor :data,
                  :tracing_request_id, :inquiry_date, :relation_name, :relation_age,
+                 :relation_date_of_birth, :relation_sex,
                  :relation_nickname, :relation_other_family, :relation,
                  :relation_nationality, :relation_language, :relation_religion,
                  :relation_ethnicity, :relation_sub_ethnicity1, :relation_sub_ethnicity2,
@@ -30,14 +31,11 @@ class TracingRequest < ApplicationRecord
 
   def self.summary_field_names
     common_summary_fields + %w[
-      relation_name inquiry_date tracing_requests
+      relation_name inquiry_date tracing_names
     ]
   end
 
   searchable do
-    extend Matchable::Searchable
-    configure_searchable(TracingRequest)
-
     string :status, as: 'status_sci'
     quicksearch_fields.each do |f|
       text(f) { data[f] }
@@ -48,15 +46,6 @@ class TracingRequest < ApplicationRecord
   def defaults
     super_defaults
     self.inquiry_date ||= Date.today
-    self.tracing_request_subform_section ||= []
-  end
-
-  def subform_match_values(field)
-    tracing_request_subform_details(field)
-  end
-
-  def tracing_request_subform_details(field)
-    self.tracing_request_subform_section.map { |fds| fds[field] }.compact.uniq.join(' ')
   end
 
   def self.minimum_reportable_fields
@@ -68,16 +57,6 @@ class TracingRequest < ApplicationRecord
     }
   end
 
-  def traces(trace_id = nil)
-    @traces ||= (tracing_request_subform_section || [])
-    @traces = @traces.select { |trace| trace['unique_id'] == trace_id } if trace_id
-    @traces
-  end
-
-  def trace_by_id(trace_id)
-    traces(trace_id).first
-  end
-
   def tracing_names
     traces.map { |t| t['name'] }.compact
   end
@@ -86,38 +65,7 @@ class TracingRequest < ApplicationRecord
     traces.map { |t| t['name_nickname'] }.compact
   end
 
-  def fathers_name
-    relation_name if relation_name.present? && relation&.downcase == 'father'
-  end
-
-  def mothers_name
-    relation_name if relation_name.present? && relation&.downcase == 'mother'
-  end
-
   def set_instance_id
     self.tracing_request_id ||= unique_identifier
-  end
-
-  def matching_cases(trace_id = nil, trace_fields = {})
-    traces(trace_id).map do |tr|
-      matching_criteria = match_criteria(tr, trace_fields)
-      match_result = TracingRequest.find_match_records(matching_criteria, Child, nil)
-      PotentialMatch.matches_from_search(match_result) do |child_id, score, average_score|
-        child = Child.find_by(id: child_id)
-        PotentialMatch.build_potential_match(child, self, score, average_score, tr['unique_id'])
-      end
-    end.flatten.compact
-  end
-
-  alias inherited_match_criteria match_criteria
-  def match_criteria(match_request = nil, trace_fields = nil)
-    match_criteria = inherited_match_criteria(match_request, trace_fields)
-    if match_request.present?
-      TracingRequest.subform_matchable_fields(trace_fields).each do |field|
-        match_field, match_value = TracingRequest.match_multi_criteria(field, match_request)
-        match_criteria[:"#{match_field}"] = match_value if match_value.present?
-      end
-    end
-    match_criteria.compact
   end
 end

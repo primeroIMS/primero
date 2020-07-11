@@ -18,7 +18,7 @@ class PotentialMatch < ValueObject
     'potential_match'
   end
 
-  attr_accessor :child, :tracing_request, :tr_subform_id, :average_rating, :aggregate_average_score,
+  attr_accessor :child, :trace, :average_rating, :aggregate_average_score,
                 :likelihood, :status, :unique_identifier
 
   def self.comparable_name_fields
@@ -28,13 +28,6 @@ class PotentialMatch < ValueObject
   def set_likelihood(score, aggregate_average_score)
     self.aggregate_average_score = aggregate_average_score
     self.likelihood = Matchable::Utils.calculate_likelihood(score, aggregate_average_score)
-  end
-
-  def trace
-    return @trace if @trace.present?
-
-    traces = tracing_request&.tracing_request_subform_section
-    @trace = traces&.find { |t| t['unique_id'] == tr_subform_id } || {}
   end
 
   def case_and_trace_matched?
@@ -89,6 +82,7 @@ class PotentialMatch < ValueObject
   end
 
   class << self
+    # TODO: Potentially deprecated. See if if we still need this after we do the API
     def group_match_records(match_records, type)
       grouped_records = []
       if type == 'case'
@@ -100,6 +94,7 @@ class PotentialMatch < ValueObject
       grouped_records
     end
 
+    # TODO: Potentially deprecated. See if if we still need this after we do the API
     def sort_list(potential_matches)
       potential_matches.sort_by { |pm| -find_max_score_element(pm.last).try(:average_rating) }
     end
@@ -129,12 +124,8 @@ class PotentialMatch < ValueObject
       end
     end
 
-    def build_potential_match(child, tracing_request, score, aggregate_average_score, subform_id)
-      PotentialMatch.new.tap do |potential_match|
-        potential_match.child = child
-        potential_match.tracing_request = tracing_request
-        potential_match.tr_subform_id = subform_id
-        potential_match.average_rating = score
+    def build_potential_match(child, trace, score, aggregate_average_score)
+      PotentialMatch.new(child: child, trace: trace, average_rating: score).tap do |potential_match|
         potential_match.set_likelihood(score, aggregate_average_score)
       end
     end
