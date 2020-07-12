@@ -19,7 +19,7 @@ module Matchable
       text(field_name) { data[field_name] }
       return unless PHONETIC_FIELD_NAMES.include?(field_name)
 
-      text(field_name, as: "#{field_name}_ph") { data[field] }
+      text(field_name, as: "#{field_name}_ph") { data[field_name] }
     end
 
     def configure_for_matching_from_subform(subform_field_name, field_name)
@@ -29,7 +29,8 @@ module Matchable
       return unless PHONETIC_FIELD_NAMES.include?(field_name)
 
       text(field_name, as: "#{field_name}_ph") do
-        values_from_subform(subform_field_name, field_name)&.join(' ')
+        value = values_from_subform(subform_field_name, field_name)&.join(' ')
+        text(field_name, as: "#{field_name}_ph") { value }
       end
     end
   end

@@ -43,7 +43,8 @@ class MatchingService
           match_fields = this.match_field_names(key.to_s)
           fulltext(value) do
             fields(*match_fields)
-            boost_fields(this.match_field_boost(key.to_s))
+            matched_boost_fields = this.match_field_boost(key.to_s)
+            boost_fields(matched_boost_fields) if matched_boost_fields.present?
             minimum_match(1)
           end
         end
@@ -58,7 +59,9 @@ class MatchingService
   # rubocop:enable Metrics/MethodLength
 
   def match_field_names(field_name)
-    match_field = MATCH_FIELDS.find(fields: [field_name]) { |f| f[:fields].include?(field_name) }
+    match_field = MATCH_FIELDS.find(-> { { fields: [field_name] } }) do |f|
+      f[:fields].include?(field_name)
+    end
     match_field[:fields]
   end
 

@@ -3,11 +3,11 @@
 # The central Primero model object that represents an individual's case.
 # In spite of the name, this will represent adult cases as well.
 class Child < ApplicationRecord
-  self.table_name = 'cases'
-
   CHILD_PREFERENCE_MAX = 3
   RISK_LEVEL_HIGH = 'high'
   RISK_LEVEL_NONE = 'none'
+
+  self.table_name = 'cases'
 
   class << self
     def parent_form
@@ -44,18 +44,15 @@ class Child < ApplicationRecord
   include Attachable
   include Noteable
 
-  # include Importable #TODO: Refactor with Imports and Exports
-
   store_accessor(
     :data,
     :case_id, :case_id_code, :case_id_display,
     :nickname, :name, :protection_concerns, :consent_for_tracing, :hidden_name,
     :name_first, :name_middle, :name_last, :name_nickname, :name_other,
     :registration_date, :age, :estimated, :date_of_birth, :sex, :address_last,
-    :reunited, :reunited_message, :investigated, :verified, # TODO: These are RapidFTR attributes and should be removed
     :risk_level, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
     :date_closure,
-    :system_generated_followup,
+    :system_generated_followup, # TODO: this is deprecated functionality; surgically remove.
     :assessment_due_date, :assessment_requested_on,
     :followup_subform_section, :protection_concern_detail_subform_section,
     :disclosure_other_orgs,
@@ -107,6 +104,8 @@ class Child < ApplicationRecord
     MatchingConfiguration.matchable_fields('case', true).pluck(:name) | MatchingConfiguration::DEFAULT_INQUIRER_FIELDS
   end
 
+  # Almost never disable Rubocop, but Sunspot searchable blocks are what they are.
+  # rubocop:disable Metrics/BlockLength
   searchable do
     extend Matchable::Searchable
     Child.child_matching_field_names.each { |f| configure_for_matching(f) }
@@ -143,10 +142,9 @@ class Child < ApplicationRecord
       Tasks::FollowUpTask.from_case(self).map(&:due_date)
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   validate :validate_date_of_birth
-  validate :validate_registration_date
-  validate :validate_child_wishes
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
@@ -157,16 +155,6 @@ class Child < ApplicationRecord
     super_defaults
     self.registration_date ||= Date.today
     self.notes_section ||= []
-  end
-
-  # TODO: Delete after matching refactor
-  def subform_match_values(field)
-    family_detail_values(field)
-  end
-
-  # TODO: Delete after matching refactor
-  def family_detail_values(field)
-    family_details_section&.map { |fds| fds[field] }&.compact&.uniq&.join(' ')
   end
 
   def self.report_filters
@@ -213,24 +201,6 @@ class Child < ApplicationRecord
     end
   end
 
-  def validate_registration_date
-    if registration_date.present? && (!registration_date.is_a?(Date) || registration_date.year > Date.today.year)
-      errors.add(:registration_date, I18n.t('messages.enter_valid_date'))
-      false
-    else
-      true
-    end
-  end
-
-  def validate_child_wishes
-    return true if child_preferences_section.nil? || child_preferences_section.size <= CHILD_PREFERENCE_MAX
-
-    errors.add(
-      :child_preferences_section,
-      I18n.t('errors.models.child.wishes_preferences_count', preferences_count: CHILD_PREFERENCE_MAX)
-    )
-  end
-
   def to_s
     if name.present?
       "#{name} (#{unique_identifier})"
@@ -269,30 +239,8 @@ class Child < ApplicationRecord
     [case_id_code, short_id].compact.join(auto_populate_separator('case_id_code', system_settings))
   end
 
-  # TODO: Delete after matching refactor
-  def family(relation = nil)
-    result = family_details_section || []
-    if relation.present?
-      result = result.select do |member|
-        member['relation'] == relation
-      end
-    end
-    result
-  end
-
-  # TODO: Delete after matching refactor?
-  def fathers_name
-    family('father').first.try(:[], 'relation_name')
-  end
-
-  # TODO: Delete after matching refactor?
-  def mothers_name
-    family('mother').first.try(:[], 'relation_name')
-  end
-
-  # TODO: Delete after matching refactor?
-  def caregivers_name
-    data['name_caregiver'] || family.select { |fd| fd['relation_is_caregiver'] }.first.try(:[], 'relation_name')
+  def display_id
+    case_id_display
   end
 
   def day_of_birth
@@ -307,6 +255,7 @@ class Child < ApplicationRecord
     yday
   end
 
+  # TODO: Move age calculations into a service
   def calculated_age
     return nil unless date_of_birth.present? && date_of_birth.is_a?(Date)
 
@@ -340,35 +289,22 @@ class Child < ApplicationRecord
       (matched_trace_id == trace['unique_id']) && (matched_tracing_request_id == tracing_request.id)
   end
 
-  def matching_tracing_requests(case_fields = {})
-    matching_criteria = match_criteria(data, case_fields)
-    match_result = Child.find_match_records(matching_criteria, TracingRequest, nil)
-    PotentialMatch.matches_from_search(match_result) do |tr_id, score, average_score|
-      tracing_request = TracingRequest.find_by(id: tr_id)
-      traces = tracing_request.try(:traces) || []
-      traces.map do |trace|
-        PotentialMatch.build_potential_match(self, tracing_request, score, average_score, trace['unique_id'])
-      end
-    end.flatten
+  def match_criteria
+    match_criteria = data.slice(*Child.child_matching_field_names).compact
+    match_criteria = match_criteria.merge(
+      Child.family_matching_field_names.map do |field_name|
+        [field_name, values_from_subform('family_details_section', field_name)]
+      end.to_h
+    )
+    match_criteria = match_criteria.transform_values { |v| v.is_a?(Array) ? v.join(' ') : v }
+    match_criteria.select { |_, v| v.present? }
   end
 
-  alias inherited_match_criteria match_criteria
-  def match_criteria(match_request = nil, case_fields = nil)
-    match_criteria = inherited_match_criteria(match_request, case_fields)
-    match_criteria_subform = {}
-    Child.subform_matchable_fields(case_fields).each do |field|
-      match_values = []
-      match_field = nil
-      family.map do |member|
-        match_field, match_value = Child.match_multi_criteria(field, member)
-        match_values += match_value
-      end
-      match_criteria_subform[:"#{match_field}"] = match_values if match_values.present?
+  def find_matching_traces
+    match_result = MatchingService.find_match_records(match_criteria, Trace)
+    PotentialMatch.matches_from_search(match_result) do |trace_id, score, average_score|
+      trace = Trace.find_by(id: trace_id)
+      PotentialMatch.build_potential_match(self, trace, score, average_score)
     end
-    match_criteria.merge(match_criteria_subform) { |_key, v1, v2| v1 + v2 }.compact
-  end
-
-  def display_id
-    case_id_display
   end
 end
