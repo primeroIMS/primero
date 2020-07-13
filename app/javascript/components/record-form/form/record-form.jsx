@@ -176,7 +176,9 @@ const RecordForm = ({
                   />
                 )}
               </NavigationPrompt>
-              <ValidationErrors formErrors={errors} forms={forms} />
+              {isSubmitting && (
+                <ValidationErrors formErrors={errors} forms={forms} />
+              )}
               {renderFormSections(forms)}
             </Form>
           );
