@@ -43,7 +43,13 @@ describe("<TaskList />", () => {
             metadata: {
               total: 2,
               per: 20,
-              page: 1
+              page: 1,
+              field_names: {
+                assessment: "test_assessment",
+                case_plan: "test_case_plan",
+                service: "test_service",
+                follow_up: "test_follow_up"
+              }
             }
           }
         },
@@ -91,7 +97,7 @@ describe("<TaskList />", () => {
           fields: OrderedMap({
             1: FieldRecord({
               id: 1,
-              name: "test",
+              name: "test_service",
               display_name: { en: "Test Field" },
               type: "text_field",
               multi_select: false,

@@ -13,12 +13,12 @@ module Tasks
       !record.assessment_requested_on.present?
     end
 
-    def due_date
-      self.parent_case.assessment_due_date
+    def self.field_name
+      'assessment_due_date'
     end
 
-    def field_name
-      'assessment_due_date'
+    def due_date
+      self.parent_case.assessment_due_date
     end
   end
 end

@@ -19,6 +19,10 @@ module Tasks
       !followup['followup_date'].present?
     end
 
+    def self.field_name
+      'followup_needed_by_date'
+    end
+
     def initialize(record, followup)
       super(record)
       self.followup = followup
@@ -32,10 +36,6 @@ module Tasks
     def type_display(lookups=nil)
       I18n.t("task.types.#{self.type}",
             subtype:  Lookup.display_value('lookup-followup-type', followup['followup_type'], lookups))
-    end
-
-    def field_name
-      'followup_needed_by_date'
     end
   end
 end
