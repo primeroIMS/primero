@@ -27,7 +27,8 @@ Create a new form
         "send_mail": true,
         "password_confirmation": "a12345678",
         "password": "a12345678",
-        "identity_provider_unique_id": "primeroims_2"
+        "identity_provider_unique_id": "primeroims_2",
+        "agency_office": "Agency Office 1"
     }
 }
 ```
