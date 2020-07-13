@@ -20,6 +20,7 @@ import { applyFilters } from "../../../index-filters/action-creators";
 import { DEFAULT_FILTERS } from "../../../record-list/constants";
 
 import { REASSIGN_FORM_NAME } from "./constants";
+import { searchableValue } from "./utils";
 
 const initialValues = { transitioned_to: "", notes: "" };
 
@@ -90,14 +91,17 @@ const ReassignForm = ({
     },
     excludeEmpty: true,
     options: users
-      ? users.valueSeq().map(user => {
-          const userName = user.get(USER_NAME_FIELD);
+      ? users
+          .valueSeq()
+          .map(user => {
+            const userName = user.get(USER_NAME_FIELD);
 
-          return {
-            value: userName.toLowerCase(),
-            label: userName
-          };
-        })
+            return {
+              value: userName.toLowerCase(),
+              label: userName
+            };
+          })
+          .toJS()
       : []
   };
 
@@ -145,6 +149,12 @@ const ReassignForm = ({
                 return (
                   <>
                     <SearchableSelect
+                      defaultValues={searchableValue(
+                        field,
+                        searchableSelectProps.options,
+                        false,
+                        i18n
+                      )}
                       onChange={data => {
                         const { value } = data;
 

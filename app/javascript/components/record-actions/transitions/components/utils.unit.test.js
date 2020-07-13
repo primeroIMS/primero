@@ -13,7 +13,8 @@ describe("<Transition /> - utils", () => {
       "getInternalFields",
       "getUserFilters",
       "hasProvidedConsent",
-      "internalFieldsDirty"
+      "internalFieldsDirty",
+      "searchableValue"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("function");
@@ -137,6 +138,54 @@ describe("<Transition /> - utils", () => {
       const expected = { services: "test", location: "1234a" };
 
       expect(utils.getUserFilters(filters)).to.deep.equal(expected);
+    });
+  });
+
+  describe("searchableValue", () => {
+    const field = {
+      value: "test_2"
+    };
+
+    const i18n = {
+      t: value => value
+    };
+
+    const options = [
+      {
+        value: "test_1",
+        label: "test_1"
+      },
+      {
+        value: "test_2",
+        label: "test_2"
+      }
+    ];
+
+    it("returns selected value from options", () => {
+      const expected = {
+        value: "test_2",
+        label: "test_2"
+      };
+
+      expect(utils.searchableValue(field, options, false, i18n)).to.deep.equal(
+        expected
+      );
+    });
+
+    it("returns default value from options if disableControl is true", () => {
+      const expected = { value: "", label: i18n.t("fields.select_single") };
+
+      expect(utils.searchableValue(field, options, true, i18n)).to.deep.equal(
+        expected
+      );
+    });
+
+    it("returns default value from options if any values is selected", () => {
+      const expected = { value: "", label: i18n.t("fields.select_single") };
+
+      expect(
+        utils.searchableValue({ ...field, value: "" }, options, false, i18n)
+      ).to.deep.equal(expected);
     });
   });
 });
