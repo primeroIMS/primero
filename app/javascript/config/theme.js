@@ -233,6 +233,12 @@ const overrides = {
         backgroundColor: `${colors.lightGrey} !important`
       }
     }
+  },
+  MuiBadge: {
+    badge: {
+      top: "2px !important",
+      right: "8px !important"
+    }
   }
 };
 
