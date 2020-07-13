@@ -36,11 +36,7 @@ class Trace < ApplicationRecord
     match_criteria.transform_values { |v| v.is_a?(Array) ? v.join(' ') : v }
   end
 
-  def find_matching_cases
-    match_result = MatchingService.find_match_records(match_criteria, Child)
-    PotentialMatch.matches_from_search(match_result) do |child_id, score, average_score|
-      child = Child.find_by(id: child_id)
-      PotentialMatch.build_potential_match(child, self, score, average_score)
-    end
+  def matches_to
+    Child
   end
 end

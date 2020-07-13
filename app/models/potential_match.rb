@@ -18,16 +18,16 @@ class PotentialMatch < ValueObject
     'potential_match'
   end
 
-  attr_accessor :child, :trace, :average_rating, :aggregate_average_score,
+  attr_accessor :child, :trace, :score, :average_score,
                 :likelihood, :status, :unique_identifier
 
   def self.comparable_name_fields
     %w[name name_other name_nickname]
   end
 
-  def set_likelihood(score, aggregate_average_score)
-    self.aggregate_average_score = aggregate_average_score
-    self.likelihood = Matchable::Utils.calculate_likelihood(score, aggregate_average_score)
+  def set_likelihood(score, average_score)
+    self.average_score = average_score
+    self.likelihood = Matchable::Utils.calculate_likelihood(score, average_score)
   end
 
   def case_and_trace_matched?
@@ -96,7 +96,7 @@ class PotentialMatch < ValueObject
 
     # TODO: Potentially deprecated. See if if we still need this after we do the API
     def sort_list(potential_matches)
-      potential_matches.sort_by { |pm| -find_max_score_element(pm.last).try(:average_rating) }
+      potential_matches.sort_by { |pm| -find_max_score_element(pm.last).try(:score) }
     end
 
     # # TODO: Ugly code. Technically this stuff doesn't belong on the model. Certainly not on this model.
@@ -124,9 +124,11 @@ class PotentialMatch < ValueObject
       end
     end
 
-    def build_potential_match(child, trace, score, aggregate_average_score)
-      PotentialMatch.new(child: child, trace: trace, average_rating: score).tap do |potential_match|
-        potential_match.set_likelihood(score, aggregate_average_score)
+    def build_potential_match(params = {})
+      return nil unless (%i[child trace score average_score] - params.keys).empty?
+
+      PotentialMatch.new(params.slice(:child, :trace, :score)).tap do |potential_match|
+        potential_match.set_likelihood(params[:score], params[:average_score])
       end
     end
 
@@ -140,7 +142,7 @@ class PotentialMatch < ValueObject
     private
 
     def find_max_score_element(potential_match_detail_list)
-      potential_match_detail_list.max_by(&:average_rating)
+      potential_match_detail_list.max_by(&:score)
     end
 
     # def format_case_list_for_json(potential_matches)
@@ -167,7 +169,7 @@ class PotentialMatch < ValueObject
     #       'inquiry_date' => potential_match.tracing_request_inquiry_date,
     #       'relation_name' => potential_match.tracing_request_relation_name,
     #       # 'visible' => potential_match.visible,
-    #       'average_rating' => potential_match.average_rating,
+    #       'score' => potential_match.score,
     #       'owned_by' => potential_match.case_owned_by
     #     }
     #   end
@@ -203,7 +205,7 @@ class PotentialMatch < ValueObject
     #       'registration_date' => potential_match.case_registration_date,
     #       'owned_by' => potential_match.case_owned_by,
     #       # 'visible' => potential_match.visible,
-    #       'average_rating' => potential_match.average_rating
+    #       'score' => potential_match.score
     #     }
     #   end
     # end

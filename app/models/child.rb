@@ -300,11 +300,7 @@ class Child < ApplicationRecord
     match_criteria.select { |_, v| v.present? }
   end
 
-  def find_matching_traces
-    match_result = MatchingService.find_match_records(match_criteria, Trace)
-    PotentialMatch.matches_from_search(match_result) do |trace_id, score, average_score|
-      trace = Trace.find_by(id: trace_id)
-      PotentialMatch.build_potential_match(self, trace, score, average_score)
-    end
+  def matches_to
+    Trace
   end
 end

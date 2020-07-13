@@ -20,8 +20,19 @@ class MatchingService
     { fields: %w[sub_ethnicity_2 relation_sub_ethnicity2] }
   ].freeze
 
-  def self.find_match_records(match_criteria, match_class, child_id = nil, require_consent = true)
-    MatchingService.new.find_match_records(match_criteria, match_class, child_id, require_consent)
+  def self.matches_for(matchable)
+    MatchingService.new.matches_for(matchable)
+  end
+
+  def matches_for(matchable)
+    match_result = find_match_records(matchable.match_criteria, matchable.matches_to)
+    PotentialMatch.matches_from_search(match_result) do |id, score, average_score|
+      match = matchable.matches_to.find_by(id: id)
+      params = { score: score, average_score: average_score }
+      params.store(make_key(matchable), matchable)
+      params.store(make_key(match), match)
+      PotentialMatch.build_potential_match(params)
+    end
   end
 
   def find_match_records(match_criteria, match_class, child_id = nil, require_consent = true)
@@ -70,5 +81,9 @@ class MatchingService
     return unless boost_field.present?
 
     boost_field[:fields].map { |f| [f, boost_field[:boost]] }.to_h
+  end
+
+  def make_key(record)
+    record.class.name.downcase.to_sym
   end
 end

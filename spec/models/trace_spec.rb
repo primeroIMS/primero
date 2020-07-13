@@ -111,7 +111,7 @@ describe Trace, search: true do
     end
 
     it 'finds all matching cases for this trace' do
-      matches = trace.find_matching_cases
+      matches = trace.find_matches
       expect(matches.size).to eq(1)
       expect(matches[0].trace).to eq(trace)
       expect(matches[0].child.id).to eq(case1.id)

@@ -808,7 +808,7 @@ describe Child do
       end
 
       it 'finds all matching cases for this trace' do
-        matches = case1.find_matching_traces
+        matches = case1.find_matches
         expect(matches.size).to eq(1)
         expect(matches[0].trace.id).to eq(trace1.id)
         expect(matches[0].child.id).to eq(case1.id)

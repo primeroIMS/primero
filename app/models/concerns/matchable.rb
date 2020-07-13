@@ -10,8 +10,12 @@ module Matchable
   POSSIBLE = 'possible'
   LIKELIHOOD_THRESHOLD = 0.7
   NORMALIZED_THRESHOLD = 0.1
-  #
+
   PHONETIC_FIELD_NAMES = %w[name name_nickname name_other relation_name relation_nickname].freeze
+
+  def find_matches
+    MatchingService.matches_for(self)
+  end
 
   # Sunspot/Solr configurations for fuzzy search
   module Searchable
