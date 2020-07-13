@@ -112,10 +112,7 @@ const RecordFormToolbar = ({
               <Badge
                 color="error"
                 badgeContent={flags.size}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right"
-                }}
+                className={css.badgeIndicator}
               >
                 <Flagging record={params.id} recordType={params.recordType} />
               </Badge>
