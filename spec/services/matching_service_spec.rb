@@ -36,13 +36,13 @@ describe MatchingService, search: true do
     before(:each) { case1 && Sunspot.commit }
 
     it 'runs a Solr query based on given criteria' do
-      result = MatchingService.find_match_records({ name: 'Usama', age: 13 }, Child, nil, false)
+      result = MatchingService.new.find_match_records({ name: 'Usama', age: 13 }, Child, false)
       expect(result.size).to eq(1)
       expect(result[case1.id]).to be
     end
 
     it 'will not find results for case that have not provided consent' do
-      result = MatchingService.find_match_records({ name: 'Usama', age: 13 }, Child)
+      result = MatchingService.new.find_match_records({ name: 'Usama', age: 13 }, Child)
       expect(result.size).to eq(0)
     end
   end

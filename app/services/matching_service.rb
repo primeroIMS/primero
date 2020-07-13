@@ -35,10 +35,10 @@ class MatchingService
     end
   end
 
-  def find_match_records(match_criteria, match_class, child_id = nil, require_consent = true)
+  def find_match_records(match_criteria, match_class, require_consent = true)
     return {} if match_criteria.blank?
 
-    search(match_criteria, match_class, child_id, require_consent).hits.map do |hit|
+    search(match_criteria, match_class, require_consent).hits.map do |hit|
       [hit.result.id, hit.score]
     end.to_h
   end
@@ -46,7 +46,7 @@ class MatchingService
   # Almost never disable Rubocop, but Sunspot queries are what they are.
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
-  def search(match_criteria, match_class, child_id, require_consent)
+  def search(match_criteria, match_class, require_consent)
     this = self
     Sunspot.search(match_class) do
       any do
@@ -60,7 +60,6 @@ class MatchingService
           end
         end
       end
-      with(:id, child_id) if child_id.present?
       with(:consent_for_tracing, true) if require_consent && match_class == Child
       order_by(:score, :desc)
       paginate(page: 1, per_page: 20)
