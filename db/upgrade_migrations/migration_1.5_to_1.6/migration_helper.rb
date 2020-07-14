@@ -92,6 +92,8 @@ module MigrationHelper
     @locations ||= get_locations
 
     FormSection.find_by_parent_form(prefix).each do |fs|
+      # Subforms will be handled in subfield block below
+      next if fs.is_nested
       i18n_fields = get_fields(fs)
 
       i18n_fields.each do |field|
@@ -103,6 +105,7 @@ module MigrationHelper
             fields[field.name][sf.name] = sub_options if sub_options.present?
           end
         else
+          next if fields[field.name].present?
           options = get_option_list(field, @locations)
           fields[field.name] = options if options.present?
         end
