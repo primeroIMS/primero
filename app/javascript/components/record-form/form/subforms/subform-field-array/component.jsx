@@ -16,6 +16,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 const Component = ({
   arrayHelpers,
   field,
+  form,
   formik,
   i18n,
   initialSubformValue,
@@ -56,6 +57,7 @@ const Component = ({
         setOpen={setOpenDialog}
         setDialogIsNew={setDialogIsNew}
         recordType={recordType}
+        form={form}
       />
       <SubformDialog
         index={index !== null ? index : values.length - 1}
@@ -102,6 +104,7 @@ Component.displayName = SUBFORM_FIELD_ARRAY;
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
   initialSubformValue: PropTypes.object.isRequired,

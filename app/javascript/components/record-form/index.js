@@ -22,6 +22,7 @@ export {
   getReportingLocations,
   getSelectedForm,
   getServiceToRefer,
+  getSubformsDisplayName,
   getValidationErrors
 } from "./selectors";
 export { FormSectionField } from "./form";

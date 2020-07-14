@@ -3575,6 +3575,7 @@ en:
   string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
 
   error_message:
+    address_subform_fields: "%{subform} has %{fields} invalid fields"
     address_form_fields: "You need to address %{fields} fields on this form"
     address_fields: "You need to address %{fields} fields on %{forms} forms"
     notice: 'Errors prohibited this record from being saved'

@@ -119,6 +119,7 @@ const RecordForm = ({
             {form.fields.map(field => {
               const fieldProps = {
                 field,
+                form,
                 mode,
                 recordType,
                 recordID: record?.get("id")
