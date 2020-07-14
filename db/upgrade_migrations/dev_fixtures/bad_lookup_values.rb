@@ -19,6 +19,8 @@ def get_lookup_fields(record_type, locations)
   lookup_fields = {}
   record_type = 'case' if record_type == 'child'
   FormSection.find_by_parent_form(record_type).each do |fs|
+    # Subforms will be handled in subfield block below
+    next if fs.is_nested
     fields = get_fields(fs)
     fields.each do |field|
       if field.subform_section.present?
@@ -35,6 +37,7 @@ def get_lookup_fields(record_type, locations)
           end
         end
       else
+        next if lookup_fields[field.name].present?
         options = get_option_list(field, locations)
         if options.present?
           field_hash = {}
