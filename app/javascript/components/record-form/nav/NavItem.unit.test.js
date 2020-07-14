@@ -151,5 +151,4 @@ describe("<NavItem />", () => {
   it("renders <Jewel/> for error", () => {
     expect(component.find(Jewel)).to.have.lengthOf(1);
   });
-
 });

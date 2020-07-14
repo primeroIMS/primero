@@ -69,6 +69,6 @@ describe("<InternalAlert />", () => {
       {}
     );
 
-   expect(component.find(ExpansionPanelSummary).text()).to.be.equal(title);
+    expect(component.find(ExpansionPanelSummary).text()).to.be.equal(title);
   });
 });

@@ -623,6 +623,6 @@ describe("<RecordForm /> - Selectors", () => {
       const result = selectors.getValidationErrors(stateWithRecords);
 
       expect(result).to.deep.equal(expected);
-    })
+    });
   });
 });

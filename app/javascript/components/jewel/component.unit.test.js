@@ -11,14 +11,11 @@ describe("<Jewel />", () => {
   });
 
   it("renders error and alert canvas", () => {
-    const component = setupMountedThemeComponent(
-      Jewel,
-      {
-        value: "Menu 1",
-        isForm: true,
-        isError: true
-      }
-    );
+    const component = setupMountedThemeComponent(Jewel, {
+      value: "Menu 1",
+      isForm: true,
+      isError: true
+    });
 
     expect(component.find("svg").length).to.equal(2);
     expect(component.find("circle").length).to.equal(2);
