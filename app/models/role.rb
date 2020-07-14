@@ -192,14 +192,30 @@ class Role < ApplicationRecord
 
   def update_properties(role_properties)
     assign_attributes(role_properties.except(:permissions, :form_section_unique_ids, :module_unique_ids))
-    self.form_sections = FormSection.where(unique_id: role_properties[:form_section_unique_ids])
-    if role_properties[:permissions].present?
-      self.permissions = Permission::PermissionSerializer.load(role_properties[:permissions].to_h)
-    end
-    self.modules = PrimeroModule.where(unique_id: role_properties[:module_unique_ids])
+    update_forms_sections(role_properties[:form_section_unique_ids])
+    update_permissions(role_properties[:permissions])
+    update_modules(role_properties[:module_unique_ids])
   end
 
   private
+
+  def update_forms_sections(form_section_unique_ids)
+    return if form_section_unique_ids.blank?
+
+    self.form_sections = FormSection.where(unique_id: form_section_unique_ids)
+  end
+
+  def update_permissions(permissions)
+    return if permissions.blank?
+
+    self.permissions = Permission::PermissionSerializer.load(permissions.to_h)
+  end
+
+  def update_modules(module_unique_ids)
+    return if module_unique_ids.blank?
+
+    self.modules = PrimeroModule.where(unique_id: module_unique_ids)
+  end
 
   def managed_resources?(resources)
     current_managed_resources = permissions.select { |p| p.actions == [Permission::MANAGE] }.map(&:resource)
