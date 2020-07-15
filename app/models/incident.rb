@@ -52,6 +52,9 @@ class Incident < ApplicationRecord
   validate :validate_date_of_first_report
 
   before_update :clean_incident_date
+  # TODO: Reconsider whether this is necessary.
+  # We will only be creating an incident from a case using a special business logic that
+  # will certainly trigger a reindex on the case
   after_save :index_record
 
   def index_record
