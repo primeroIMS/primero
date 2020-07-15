@@ -17,10 +17,7 @@ import { useI18n } from "../../../../i18n";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { compare } from "../../../../../libs";
-import {
-  getSubformsDisplayName,
-  getValidationErrors
-} from "../../../../record-form";
+import { getValidationErrors } from "../../..";
 
 const Component = ({
   arrayHelpers,
@@ -89,9 +86,10 @@ const Component = ({
   const hasError = index =>
     Boolean(
       validationErrors?.size &&
-      validationErrors.getIn(
-        ["errors", subformField.get("unique_id"), index], false
-      )
+        validationErrors.getIn(
+          ["errors", subformField.get("unique_id"), index],
+          false
+        )
     );
 
   if (values && values.length > 0) {

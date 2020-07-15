@@ -1,4 +1,5 @@
 import React from "react";
+import { Formik, Form, getIn } from "formik";
 import PropTypes from "prop-types";
 import {
   Box,
@@ -10,7 +11,9 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckIcon from "@material-ui/icons/Check";
+import { object } from "yup";
 
+import { fieldValidations } from "../../validations";
 import FormSectionField from "../../form-section-field";
 import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
@@ -18,6 +21,7 @@ import SubformMenu from "../subform-menu";
 import { serviceHasReferFields } from "../../utils";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
+import SubformErrors from "../subform-errors";
 
 const Component = ({
   index,
@@ -28,13 +32,78 @@ const Component = ({
   title,
   dialogIsNew,
   i18n,
-  formik
+  formik,
+  initialSubformValue
 }) => {
+  const subformValues = getIn(
+    formik.values,
+    `${field.subform_section_id.unique_id}[${index}]`
+  );
+
+  const initialSubformValues = { ...initialSubformValue, ...subformValues };
+
+  const initialSubformErrors = getIn(
+    formik.errors,
+    `${field.subform_section_id.unique_id}[${index}]`
+  );
+
+  const buildSchema = () => {
+    const subformSchema = field.subform_section_id.fields.map(sf =>
+      fieldValidations(sf, i18n)
+    );
+
+    return object().shape(Object.assign({}, ...subformSchema));
+  };
+
   const handleClose = () => {
     setOpen({ open: false, index: null });
   };
 
+  let boundSubmitForm = null;
+
+  const bindSubmitForm = submitForm => {
+    boundSubmitForm = submitForm;
+  };
+
+  const onSubmit = values => {
+    formik.setFieldValue(
+      `${field.subform_section_id.unique_id}[${index}]`,
+      values,
+      false
+    );
+    formik.validateForm();
+    handleClose();
+  };
+
   const buttonDialogText = dialogIsNew ? "buttons.add" : "buttons.update";
+
+  const renderSubform = (subformField, subformIndex) => {
+    if (subformField.subform_section_id.unique_id === "services_section") {
+      return (
+        <ServicesSubform
+          field={subformField}
+          index={subformIndex}
+          mode={mode}
+        />
+      );
+    }
+
+    return field.subform_section_id.fields.map(f => {
+      const fieldProps = {
+        name: `${field.name}[${index}].${f.name}`,
+        field: f,
+        mode,
+        index,
+        parentField: field
+      };
+
+      return (
+        <Box my={3} key={f.name}>
+          <FormSectionField {...fieldProps} />
+        </Box>
+      );
+    });
+  };
 
   if (index !== null) {
     const actionButton =
@@ -44,7 +113,7 @@ const Component = ({
           text={i18n.t(buttonDialogText)}
           type={ACTION_BUTTON_TYPES.default}
           rest={{
-            onClick: handleClose
+            onClick: e => boundSubmitForm && boundSubmitForm(e)
           }}
         />
       ) : null;
@@ -70,30 +139,30 @@ const Component = ({
           </Box>
         </DialogTitle>
         <DialogContent>
-          {field.subform_section_id.unique_id === "services_section" ? (
-            <ServicesSubform
-              field={field}
-              index={index}
-              mode={mode}
-              formik={formik}
-            />
-          ) : (
-            field.subform_section_id.fields.map(f => {
-              const fieldProps = {
-                name: `${field.name}[${index}].${f.name}`,
-                field: f,
-                mode,
-                index,
-                parentField: field
-              };
+          <Formik
+            initialValues={initialSubformValues}
+            validationSchema={buildSchema()}
+            validateOnBlur={false}
+            validateOnChange={false}
+            enableReinitialize
+            onSubmit={values => onSubmit(values)}
+          >
+            {({ handleSubmit, submitForm, setErrors, setTouched, errors }) => {
+              bindSubmitForm(submitForm);
 
               return (
-                <Box my={3} key={f.name}>
-                  <FormSectionField {...fieldProps} />
-                </Box>
+                <Form autoComplete="off" onSubmit={handleSubmit}>
+                  <SubformErrors
+                    initialErrors={initialSubformErrors}
+                    errors={errors}
+                    setErrors={setErrors}
+                    setTouched={setTouched}
+                  />
+                  {renderSubform(field, index)}
+                </Form>
               );
-            })
-          )}
+            }}
+          </Formik>
         </DialogContent>
         <DialogActions>{actionButton}</DialogActions>
       </Dialog>
@@ -111,6 +180,7 @@ Component.propTypes = {
   formik: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
+  initialSubformValue: PropTypes.object.isRequired,
   mode: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,

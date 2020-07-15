@@ -17,7 +17,7 @@ const Component = ({ field, form, formik, mode, recordType }) => {
 
   return (
     <>
-      <FieldArray name={name}>
+      <FieldArray name={name} validateOnChange={false} validateOnBlur={false}>
         {arrayHelpers => (
           <SubformFieldArray
             arrayHelpers={arrayHelpers}

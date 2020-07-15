@@ -158,7 +158,7 @@ const SelectField = ({
         ? data?.map(selected =>
             typeof selected === "object" ? selected?.value : selected
           )
-        : data.value || defaultEmptyValue,
+        : data?.value || defaultEmptyValue,
       false
     );
 
