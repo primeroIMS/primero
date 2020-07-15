@@ -200,19 +200,19 @@ class Role < ApplicationRecord
   private
 
   def update_forms_sections(form_section_unique_ids)
-    return if form_section_unique_ids.blank?
+    return if form_section_unique_ids.nil?
 
     self.form_sections = FormSection.where(unique_id: form_section_unique_ids)
   end
 
   def update_permissions(permissions)
-    return if permissions.blank?
+    return if permissions.nil?
 
     self.permissions = Permission::PermissionSerializer.load(permissions.to_h)
   end
 
   def update_modules(module_unique_ids)
-    return if module_unique_ids.blank?
+    return if module_unique_ids.nil?
 
     self.modules = PrimeroModule.where(unique_id: module_unique_ids)
   end
