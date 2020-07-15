@@ -57,7 +57,7 @@ class PermittedFieldService
     @permitted_field_names << 'flagged' if user.can?(:flag, model_class)
     @permitted_field_names += permitted_approval_field_names
     @permitted_field_names += permitted_overdue_task_field_names
-    @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS
+    @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
     @permitted_field_names
   end
 
