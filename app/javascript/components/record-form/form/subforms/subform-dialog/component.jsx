@@ -71,7 +71,11 @@ const Component = ({
       values,
       false
     );
-    formik.validateForm();
+
+    // Trigger validations only if the form was already submitted.
+    if (formik.submitCount) {
+      formik.validateForm();
+    }
     handleClose();
   };
 
