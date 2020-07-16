@@ -147,6 +147,14 @@ describe("<IndexTable />", () => {
     expect(testTitle).to.equals("testTitle");
   });
 
+  it("should have attribute aria-label", () => {
+    const label = component.find(MUIDataTable).find("table").first().props()[
+      "aria-label"
+    ];
+
+    expect(label).to.equals(props.title);
+  });
+
   it("should change sort order to ascending if user clicks on a column", () => {
     const nameColumnIndex = 3;
     const table = component.find(IndexTable);

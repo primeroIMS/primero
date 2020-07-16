@@ -23,6 +23,7 @@ const DashboardTable = ({ columns, data, query, title }) => {
     print: false,
     viewColumns: false,
     serverSide: true,
+    setTableProps: () => ({ "aria-label": title }),
     customToolbar: () => null,
     customToolbarSelect: () => null,
     onTableChange: () => null,
