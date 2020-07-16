@@ -8,12 +8,12 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
 
-import Jewel from "../../jewel";
+import Jewel from "../../../../jewel";
 
-import styles from "./styles.css";
-import { NAV_ITEM } from "./constants";
+import styles from "../../styles.css";
+import { NAME } from "./constants";
 
-const NavItem = ({
+const Component = ({
   form,
   groupItem,
   handleClick,
@@ -83,9 +83,9 @@ const NavItem = ({
   );
 };
 
-NavItem.displayName = NAV_ITEM;
+Component.displayName = NAME;
 
-NavItem.propTypes = {
+Component.propTypes = {
   form: PropTypes.object,
   groupItem: PropTypes.bool,
   handleClick: PropTypes.func,
@@ -99,4 +99,4 @@ NavItem.propTypes = {
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
-export default NavItem;
+export default Component;

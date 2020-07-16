@@ -12,11 +12,10 @@ import { setSelectedForm, setSelectedRecord } from "../action-creators";
 import { compare, ConditionalWrapper } from "../../../libs";
 
 import { NAME } from "./constants";
-import NavGroup from "./NavGroup";
-import RecordInformation from "./components/record-information";
+import { NavGroup, RecordInformation } from "./components";
 import styles from "./styles.css";
 
-const Nav = ({
+const Component = ({
   firstTab,
   formNav,
   handleToggleNav,
@@ -146,9 +145,9 @@ const Nav = ({
   return null;
 };
 
-Nav.displayName = NAME;
+Component.displayName = NAME;
 
-Nav.propTypes = {
+Component.propTypes = {
   firstTab: PropTypes.object,
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
@@ -161,4 +160,4 @@ Nav.propTypes = {
   toggleNav: PropTypes.bool
 };
 
-export default Nav;
+export default Component;
