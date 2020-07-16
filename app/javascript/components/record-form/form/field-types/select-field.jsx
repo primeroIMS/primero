@@ -37,7 +37,6 @@ const SelectField = ({
   mode,
   disabled,
   formik,
-  index,
   ...other
 }) => {
   const i18n = useI18n();
@@ -179,8 +178,7 @@ const SelectField = ({
           data,
           agencies,
           reportingLocations,
-          form,
-          index
+          form
         });
       }
     }
@@ -290,7 +288,6 @@ SelectField.propTypes = {
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   helperText: PropTypes.string,
-  index: PropTypes.number,
   InputLabelProps: PropTypes.object,
   InputProps: PropTypes.object,
   label: PropTypes.string.isRequired,
