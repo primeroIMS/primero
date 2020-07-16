@@ -255,7 +255,7 @@ const SelectField = ({
   }, [location]);
 
   useEffect(() => {
-    if (mode.isNew && selectedValue && (value === null || value.length === 0)) {
+    if (mode.isNew && selectedValue && (value === null || value?.length === 0)) {
       formik.setFieldValue(name, selectedValue, false);
     }
 
