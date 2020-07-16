@@ -53,11 +53,7 @@ export const handleChangeOnServiceUser = ({
     if (
       reportingLocations.find(current => current.get("code") === userLocation)
     ) {
-      form.setFieldValue(
-        getConnectedFields().location,
-        userLocation,
-        false
-      );
+      form.setFieldValue(getConnectedFields().location, userLocation, false);
     }
   }
 
