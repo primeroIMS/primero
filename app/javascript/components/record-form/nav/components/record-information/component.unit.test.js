@@ -1,8 +1,8 @@
-import NavGroup from "../NavGroup";
-import NavItem from "../NavItem";
-import { setupMountedComponent } from "../../../../test";
+import { setupMountedComponent } from "../../../../../test";
+import NavGroup from "../nav-group";
+import NavItem from "../nav-item";
 
-import RecordInformation from "./record-information";
+import RecordInformation from "./component";
 
 describe("<RecordInformation />", () => {
   let component;

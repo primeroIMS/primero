@@ -1,10 +1,10 @@
 import { fromJS, Map, OrderedMap } from "immutable";
 
-import { setupMountedComponent } from "../../../test";
-import { FormSectionRecord, FieldRecord } from "../records";
+import { setupMountedComponent } from "../../../../../test";
+import { FormSectionRecord, FieldRecord } from "../../../records";
+import NavItem from "../nav-item";
 
-import NavItem from "./NavItem";
-import NavGroup from "./NavGroup";
+import NavGroup from "./component";
 
 describe("<NavGroup />", () => {
   let component;

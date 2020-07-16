@@ -6,9 +6,8 @@ import { setupMountedComponent } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
 import { ConditionalWrapper } from "../../../libs";
 
-import Nav from "./Nav";
-import NavGroup from "./NavGroup";
-import RecordInformation from "./components/record-information";
+import { NavGroup, RecordInformation } from "./components";
+import Nav from "./component";
 
 describe("<Nav />", () => {
   let component;

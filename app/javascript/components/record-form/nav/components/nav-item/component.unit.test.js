@@ -1,11 +1,11 @@
 import { fromJS, Map, OrderedMap } from "immutable";
 import { ListItem, ListItemText } from "@material-ui/core";
 
-import Jewel from "../../jewel";
-import { setupMountedComponent } from "../../../test";
-import { FormSectionRecord, FieldRecord } from "../records";
+import Jewel from "../../../../jewel";
+import { setupMountedComponent } from "../../../../../test";
+import { FormSectionRecord, FieldRecord } from "../../../records";
 
-import NavItem from "./NavItem";
+import NavItem from "./component";
 
 describe("<NavItem />", () => {
   let component;

@@ -11,7 +11,10 @@ import {
   REFERRAL,
   APPROVALS
 } from "../../../../../config";
-import { SHOW_APPROVALS, checkPermissions } from "../../../../../libs/permissions";
+import {
+  SHOW_APPROVALS,
+  checkPermissions
+} from "../../../../../libs/permissions";
 import NavGroup from "../nav-group";
 import { NavRecord } from "../../../records";
 import { useI18n } from "../../../../i18n";

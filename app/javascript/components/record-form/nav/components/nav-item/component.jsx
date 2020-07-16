@@ -9,8 +9,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
 
 import Jewel from "../../../../jewel";
-
 import styles from "../../styles.css";
+
 import { NAME } from "./constants";
 
 const Component = ({
