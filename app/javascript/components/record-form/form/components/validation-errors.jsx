@@ -16,10 +16,23 @@ const ValidationErrors = ({ formErrors, forms }) => {
   const dispatch = useDispatch();
   const errors = useSelector(state => getValidationErrors(state), compare);
   const i18n = useI18n();
+  const errorsWithoutEmptySubforms = Object.entries(formErrors)
+    .filter(([, value]) => {
+      if (Array.isArray(value)) {
+        if (value.length > 0) {
+          return true;
+        }
+
+        return false;
+      }
+
+      return true;
+    })
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
   useEffect(() => {
-    if (!isEmpty(formErrors)) {
-      const fieldNames = Object.keys(formErrors);
+    if (!isEmpty(errorsWithoutEmptySubforms)) {
+      const fieldNames = Object.keys(errorsWithoutEmptySubforms);
 
       const formsWithErrors = forms.filter(value =>
         value
@@ -45,7 +58,7 @@ const ValidationErrors = ({ formErrors, forms }) => {
       dispatch(
         enqueueSnackbar(
           i18n.t("error_message.address_fields", {
-            fields: Object.keys(formErrors).length,
+            fields: Object.keys(errorsWithoutEmptySubforms).length,
             forms: formsWithErrors?.count() || 0
           }),
           "error"
