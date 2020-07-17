@@ -23,10 +23,10 @@ class Trace < ApplicationRecord
   end
 
   searchable do
-    extend Matchable::Searchable
-    Trace.trace_matching_field_names.each { |f| configure_for_matching(f) }
+    extend Searchable::TextIndexing
+    Trace.trace_matching_field_names.each { |f| text_index(f) }
     Trace.tracing_request_matching_field_names.each do |f|
-      configure_for_matching(f, :tracing_request)
+      text_index(f, :tracing_request)
     end
   end
 

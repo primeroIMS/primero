@@ -104,43 +104,28 @@ class Child < ApplicationRecord
     MatchingConfiguration.matchable_fields('case', true).pluck(:name) | MatchingConfiguration::DEFAULT_INQUIRER_FIELDS
   end
 
-  # Almost never disable Rubocop, but Sunspot searchable blocks are what they are.
-  # rubocop:disable Metrics/BlockLength
   searchable do
-    extend Matchable::Searchable
-    Child.child_matching_field_names.each { |f| configure_for_matching(f) }
-    Child.family_matching_field_names.each { |f| configure_for_matching_from_subform('family_details_section', f) }
-
-    quicksearch_fields.each { |f| configure_for_matching(f) }
-
+    Child.child_matching_field_names.each { |f| text_index(f) }
+    Child.family_matching_field_names.each { |f| text_index_from_subform('family_details_section', f) }
+    quicksearch_fields.each { |f| text_index(f) }
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
-    boolean :estimated
-    integer :day_of_birth
-    integer :age
-
-    string :status, as: 'status_sci'
+    %w[estimated urgent_protection_concern consent_for_tracing].each { |f| boolean(f) }
+    %w[day_of_birth age].each { |f| integer(f) }
+    %w[status sex national_id_no].each { |f| string(f, as: "#{f}_sci") }
     string :risk_level, as: 'risk_level_sci' do
       risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end
-    string :sex, as: 'sex_sci'
-    string :national_id_no, as: 'national_id_no_sci'
     string :protection_concerns, multiple: true
-    boolean :urgent_protection_concern, as: 'urgent_protection_concern_b'
-    boolean :consent_for_tracing
-
     date :assessment_due_dates, multiple: true do
       Tasks::AssessmentTask.from_case(self).map(&:due_date)
     end
-
     date :case_plan_due_dates, multiple: true do
       Tasks::CasePlanTask.from_case(self).map(&:due_date)
     end
-
     date :followup_due_dates, multiple: true do
       Tasks::FollowUpTask.from_case(self).map(&:due_date)
     end
   end
-  # rubocop:enable Metrics/BlockLength
 
   validate :validate_date_of_birth
 
