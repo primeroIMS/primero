@@ -76,7 +76,7 @@ class Child < ApplicationRecord
   def self.quicksearch_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
-    %w[ unique_identifier short_id case_id_display name name_nickname name_other
+    %w[ unique_identifier short_id case_id_display
         ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
         other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
         family_count_no dss_id camp_id tent_number nfi_distribution_id ]
@@ -111,9 +111,7 @@ class Child < ApplicationRecord
     Child.child_matching_field_names.each { |f| configure_for_matching(f) }
     Child.family_matching_field_names.each { |f| configure_for_matching_from_subform('family_details_section', f) }
 
-    quicksearch_fields.each do |f|
-      text(f) { data[f] }
-    end
+    quicksearch_fields.each { |f| configure_for_matching(f) }
 
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
     boolean :estimated

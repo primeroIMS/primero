@@ -7,9 +7,7 @@ describe MatchingService, search: true do
 
   let(:case1) do
     Child.create!(
-      name_first: 'Usama',
-      name_middle: 'Yazan',
-      name_last: 'Al-Rashid',
+      name: 'Usama Yazan Al-Rashid',
       name_nickname: 'Usman Beg',
       sex: 'male',
       age: 13,

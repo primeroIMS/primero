@@ -11,7 +11,7 @@ module Matchable
   LIKELIHOOD_THRESHOLD = 0.7
   NORMALIZED_THRESHOLD = 0.1
 
-  PHONETIC_FIELD_NAMES = %w[name name_nickname name_other relation_name relation_nickname].freeze
+  PHONETIC_FIELD_NAMES = %w[name name_nickname name_other relation_name relation_nickname relation_other_family].freeze
 
   def find_matches
     MatchingService.matches_for(self)
@@ -19,22 +19,23 @@ module Matchable
 
   # Sunspot/Solr configurations for fuzzy search
   module Searchable
-    def configure_for_matching(field_name)
-      text(field_name) { data[field_name] }
-      return unless PHONETIC_FIELD_NAMES.include?(field_name)
-
-      text(field_name, as: "#{field_name}_ph") { data[field_name] }
+    def configure_for_matching(field_name, from = :itself)
+      if PHONETIC_FIELD_NAMES.include?(field_name)
+        text(field_name, as: "#{field_name}_ph") { send(from).data[field_name] }
+      else
+        text(field_name) { send(from).data[field_name] }
+      end
     end
 
-    def configure_for_matching_from_subform(subform_field_name, field_name)
-      text(field_name) do
-        values_from_subform(subform_field_name, field_name)&.join(' ')
-      end
-      return unless PHONETIC_FIELD_NAMES.include?(field_name)
-
-      text(field_name, as: "#{field_name}_ph") do
-        value = values_from_subform(subform_field_name, field_name)&.join(' ')
-        text(field_name, as: "#{field_name}_ph") { value }
+    def configure_for_matching_from_subform(subform_field_name, field_name, from = :itself)
+      if PHONETIC_FIELD_NAMES.include?(field_name)
+        text(field_name, as: "#{field_name}_ph") do
+          send(from).values_from_subform(subform_field_name, field_name)&.join(' ')
+        end
+      else
+        text(field_name) do
+          send(from).values_from_subform(subform_field_name, field_name)&.join(' ')
+        end
       end
     end
   end

@@ -4,6 +4,7 @@
 class TracingRequest < ApplicationRecord
   include Record
   include Searchable
+  include Matchable
   include Ownable
   include Historical
   include Flaggable
@@ -36,10 +37,9 @@ class TracingRequest < ApplicationRecord
   end
 
   searchable do
+    extend Matchable::Searchable
     string :status, as: 'status_sci'
-    quicksearch_fields.each do |f|
-      text(f) { data[f] }
-    end
+    quicksearch_fields.each { |f| configure_for_matching(f) }
   end
 
   alias super_defaults defaults

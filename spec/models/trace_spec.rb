@@ -34,9 +34,7 @@ describe Trace, search: true do
 
   let(:case1) do
     Child.create!(
-      name_first: 'Usama',
-      name_middle: 'Yazan',
-      name_last: 'Al-Rashid',
+      name: 'Usama Yazan Al-Rashid',
       name_nickname: 'Usman Beg',
       sex: 'male',
       age: 13,
@@ -52,7 +50,7 @@ describe Trace, search: true do
           relation: 'father',
           relation_age: 51,
           relation_date_of_birth: Date.new(1969, 1, 1),
-          relation_ethicity: ['arab'],
+          relation_ethnicity: ['arab'],
           relation_nationality: ['iraq']
         }
       ]
@@ -61,9 +59,7 @@ describe Trace, search: true do
 
   let(:case2) do
     Child.create!(
-      name_first: 'Anna',
-      name_middle: 'Cartmel',
-      name_last: 'Ventura',
+      name: 'Anna Cartmel Ventura',
       name_nickname: 'Annie',
       sex: 'female',
       age: 9,
@@ -79,7 +75,7 @@ describe Trace, search: true do
           relation: 'father',
           relation_age: 49,
           relation_date_of_birth: Date.new(1971, 2, 1),
-          relation_ethicity: ['other'],
+          relation_ethnicity: ['other'],
           relation_nationality: ['usa']
         }
       ]

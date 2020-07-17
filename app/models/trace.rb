@@ -25,7 +25,9 @@ class Trace < ApplicationRecord
   searchable do
     extend Matchable::Searchable
     Trace.trace_matching_field_names.each { |f| configure_for_matching(f) }
-    Trace.tracing_request_matching_field_names.each { |f| configure_for_matching(f) }
+    Trace.tracing_request_matching_field_names.each do |f|
+      configure_for_matching(f, :tracing_request)
+    end
   end
 
   # Returns a hash representing the potential match query for this trace

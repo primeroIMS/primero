@@ -14,8 +14,8 @@ class MatchingConfiguration
 
   DEFAULT_INQUIRER_FIELDS = %w[
     relation relation_name relation_nickname relation_language relation_religion relation_ethnicity relation_nationality
-    relation_other_family relation_telephone relation_location_current relation_address_current location_last telephone_last
-    date_of_separation separation_cause separation_cause_other location_separation
+    relation_other_family relation_telephone relation_location_current relation_address_current location_last
+    telephone_last date_of_separation separation_cause separation_cause_other location_separation
   ].freeze
 
   # TODO: Create rspec tests
