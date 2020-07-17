@@ -144,27 +144,6 @@ class Incident < ApplicationRecord
     return incident_map
   end
 
-  #Returns the 20 latest open incidents. Used in dashboards.
-  # TODO: Jacob's designs drop this? Delete? Refactor UIUX
-  #TODO refactoring pagination?
-  def self.open_incidents(user)
-    filters = { "record_state" =>{:type => "single", :value => "true"},
-                "module_id" => {:type => "single", :value => PrimeroModule::MRM},
-                "status" => {:type => "single", :value => STATUS_OPEN},
-              }
-    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
-  end
-
-  #Returns the 20 latest open incidents. Used in dashboards.
-  # TODO: Jacob's designs drop this? Delete?, Refactor UIUX
-  def self.open_gbv_incidents(user)
-    filters = { "record_state" =>{:type => "single", :value => "true"},
-                "module_id" => {:type => "single", :value => PrimeroModule::GBV},
-                "status" => {:type => "single", :value => STATUS_OPEN},
-              }
-    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
-  end
-
   def validate_date_of_first_report
     if self.date_of_first_report.present? && (!self.date_of_first_report.is_a?(Date) || self.date_of_first_report > Date.today)
       errors.add(:date_of_first_report, I18n.t("messages.enter_valid_date"))
