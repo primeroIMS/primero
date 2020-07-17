@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Fab } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 import ErrorIcon from "@material-ui/icons/Error";
 
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import styles from "../styles.css";
 
 import { NAME } from "./constants";
@@ -14,14 +15,14 @@ const Component = ({ handleClick, i18n, mode, subformName }) => {
 
   const { isShow } = mode;
   const renderAddButton = !isShow && (
-    <Fab
-      className={css.actionButtonSubform}
-      variant="extended"
-      onClick={handleClick}
-    >
-      <AddIcon />
-      {i18n.t("fields.add")}
-    </Fab>
+    <ActionButton
+      icon={<AddIcon />}
+      text={i18n.t("fields.add")}
+      type={ACTION_BUTTON_TYPES.default}
+      rest={{
+        onClick: handleClick
+      }}
+    />
   );
 
   return (

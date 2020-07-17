@@ -8,10 +8,6 @@
   font-size: $(theme.typography.pxToRem(14));
 }
 
-.inputDisabled {
-  color: $(theme.primero.colors.solidBlack) !important
-}
-
 .input,
 .selectField label + div {
   margin-top: 0 !important;
@@ -44,19 +40,6 @@
 .actionButtonsContainer {
   width: 260px;
   text-align: right;
-}
-
-.actionButton,
-.actionButtonCancel {
-  box-shadow: none;
-  color: $(theme.primero.colors.white);
-  background: $(theme.primero.colors.blue);
-  width: 8em;
-  height: 32px;
-
-  &:hover {
-    color: $(theme.primero.colors.black);
-  }
 }
 
 .actionButtonCancel {
@@ -215,26 +198,13 @@
   white-space: normal
 }
 
-.showActionButton {
-  background-color: $(theme.primero.colors.blue);
-  border-radius: 24px;
-  color: $(theme.primero.colors.white);
-  width: 8em;
-  height: 32px;
-  margin-left: 5px;
-
-   &:hover {
-    color: $(theme.primero.colors.black);
-  }
-}
-
 .actionsContainer {
   display: flex;
   align-items: center;
 }
 
 @media $(theme.breakpoints.down("sm")) {
-  .actionButton, .actionButtonCancel, .showActionButton {
-    width: 0;
+  .actionButtonsContainer {
+    width: 95px;
   }
 }

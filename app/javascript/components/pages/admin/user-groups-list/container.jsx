@@ -1,6 +1,5 @@
 import React from "react";
 import { fromJS } from "immutable";
-import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -12,9 +11,8 @@ import { ROUTES } from "../../../../config";
 import { usePermissions, getListHeaders } from "../../../user";
 import NAMESPACE from "../namespace";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
-import { useThemeHelper } from "../../../../libs";
-import styles from "../styles.css";
-import ButtonText from "../../../button-text";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import { NAME } from "./constants";
 import { fetchUserGroups } from "./action-creators";
@@ -33,8 +31,6 @@ const Container = () => {
     ...rest
   }));
 
-  const { css } = useThemeHelper(styles);
-
   const tableOptions = {
     recordType,
     columns,
@@ -49,15 +45,15 @@ const Container = () => {
   };
 
   const newUserGroupBtn = canAddUserGroups ? (
-    <Button
-      to={ROUTES.admin_user_groups_new}
-      component={Link}
-      color="primary"
-      className={css.showActionButton}
-    >
-      <AddIcon />
-      <ButtonText text={i18n.t("buttons.new")} />
-    </Button>
+    <ActionButton
+      icon={<AddIcon />}
+      text={i18n.t("buttons.new")}
+      type={ACTION_BUTTON_TYPES.default}
+      rest={{
+        to: ROUTES.admin_user_groups_new,
+        component: Link
+      }}
+    />
   ) : null;
 
   return (
@@ -66,7 +62,7 @@ const Container = () => {
         {newUserGroupBtn}
       </PageHeading>
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <IndexTable title={i18n.t("user_groups.label")} {...tableOptions} />
       </PageContent>
     </>
   );

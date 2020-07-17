@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { IconButton, Box } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "../../styles.css";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
@@ -60,9 +62,14 @@ const AttachmentField = ({
         </Box>
         {disabled && !mode.isShow && (
           <div>
-            <IconButton onClick={handleRemove}>
-              <DeleteIcon />
-            </IconButton>
+            <ActionButton
+              icon={<DeleteIcon />}
+              type={ACTION_BUTTON_TYPES.icon}
+              isCancel
+              rest={{
+                onClick: handleRemove
+              }}
+            />
           </div>
         )}
       </Box>

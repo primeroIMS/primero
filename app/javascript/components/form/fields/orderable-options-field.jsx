@@ -4,15 +4,16 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useFormContext } from "react-hook-form";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Button, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../../i18n";
 import { getListStyle } from "../../pages/admin/forms-list/utils";
 import DraggableOption from "../components/draggable-option";
-import FormAction from "../components/form-action";
 import { generateIdForNewOption, mergeOptions } from "../utils/handle-options";
+import ActionButton from "../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
 import { ORDERABLE_OPTIONS_FIELD_NAME } from "./constants";
 import styles from "./styles.css";
@@ -144,16 +145,23 @@ const OrderableOptionsField = ({
   const renderActionButtons = () =>
     showActionButtons ? (
       <div className={css.optionsFieldActions}>
-        <FormAction
-          startIcon={<AddIcon />}
+        <ActionButton
+          icon={<AddIcon />}
           text={i18n.t("buttons.add_another_option")}
-          variant="outlined"
-          actionHandler={onAddOption}
+          type={ACTION_BUTTON_TYPES.default}
+          rest={{
+            onClick: onAddOption
+          }}
         />
-        <Button className={css.clearDefaultButton} onClick={onClearDefault}>
-          <CloseIcon />
-          {i18n.t("buttons.clear_default")}
-        </Button>
+        <ActionButton
+          icon={<CloseIcon />}
+          text={i18n.t("buttons.clear_default")}
+          type={ACTION_BUTTON_TYPES.default}
+          isCancel
+          rest={{
+            onClick: onClearDefault
+          }}
+        />
       </div>
     ) : null;
 

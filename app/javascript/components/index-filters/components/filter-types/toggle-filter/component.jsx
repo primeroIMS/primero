@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
 
 import Panel from "../../panel";

@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { Menu, MenuItem, Button } from "@material-ui/core";
+import { Menu, MenuItem } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import { push } from "connected-react-router";
 
-import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import { useApp } from "../application";
-import ButtonText from "../button-text";
-
-import styles from "./styles.css";
+import ActionButton from "../action-button";
+import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 
 const AddRecordMenu = ({ recordType }) => {
-  const { css } = useThemeHelper(styles);
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -36,14 +33,14 @@ const AddRecordMenu = ({ recordType }) => {
 
   return (
     <>
-      <Button
-        onClick={handleClick}
-        color="primary"
-        className={css.showActionButton}
-      >
-        <AddIcon />
-        <ButtonText text={i18n.t("buttons.new")} />
-      </Button>
+      <ActionButton
+        icon={<AddIcon />}
+        text={i18n.t("buttons.new")}
+        type={ACTION_BUTTON_TYPES.default}
+        rest={{
+          onClick: handleClick
+        }}
+      />
       <Menu
         anchorEl={anchorEl}
         keepMounted

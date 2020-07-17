@@ -1,8 +1,8 @@
-import { Fab } from "@material-ui/core";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
 import Form, { FormSection, FormSectionField } from "../../../form";
+import ActionButton from "../../../action-button";
 
 import Unflag from "./component";
 import { UNFLAG_DIALOG } from "./constants";
@@ -46,8 +46,8 @@ describe("<Unflag />", () => {
     expect(component.find(FormSectionField)).to.have.lengthOf(1);
   });
 
-  it("renders Fab", () => {
-    expect(component.find(Fab)).to.have.lengthOf(2);
+  it("renders ActionButton", () => {
+    expect(component.find(ActionButton)).to.have.lengthOf(2);
   });
 
   it("renders component with valid props", () => {

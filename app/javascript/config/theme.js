@@ -64,6 +64,15 @@ const overrides = {
     }
   },
   MuiInput: {
+    root: {
+      "&:read-only": {
+        color: colors.black
+      },
+      "&:read-only ::placeholder": {
+        color: colors.black,
+        opacity: 1
+      }
+    },
     formControl: {
       "label + &": {
         marginTop: 0
@@ -122,6 +131,14 @@ const overrides = {
       paddingTop: "8px",
       paddingBottom: "8px",
       justifyContent: "flex-start"
+    },
+    titleText: {
+      position: "absolute",
+      left: "-10000px",
+      top: "auto",
+      width: "1px",
+      height: "1px",
+      overflow: "hidden"
     },
     left: {
       display: "none !important"
@@ -198,6 +215,22 @@ const overrides = {
       "& svg": {
         fontSize: `${muiTheme.typography.pxToRem(16)} !important`,
         color: `${colors.darkGrey} !important`
+      }
+    }
+  },
+  MuiFab: {
+    sizeSmall: {
+      width: "36px",
+      height: "36px"
+    }
+  },
+  MuiButton: {
+    root: {
+      lineHeight: "1.7",
+
+      "&$disabled": {
+        color: "rgba(0, 0, 0, 0.26)",
+        backgroundColor: `${colors.lightGrey} !important`
       }
     }
   }

@@ -10,7 +10,9 @@ server {
         root /usr/share/nginx/html/;
     }
 
-    rewrite ^(.*)$ https://$host:${NGINX_HTTPS_PORT}$1 redirect;
+    location / {
+        return 301 https://$host:${NGINX_HTTPS_PORT}$1;
+    }
 }
 
 limit_req_zone $binary_remote_addr zone=login_app_limit:10m rate=1r/s;

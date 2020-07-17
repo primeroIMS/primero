@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
@@ -9,10 +9,11 @@ import { useSelector, useDispatch, batch } from "react-redux";
 import ActionDialog from "../../../../../action-dialog";
 import CustomFieldSelectorDialog from "../custom-field-selector-dialog";
 import { useI18n } from "../../../../../i18n";
-import { FormAction } from "../../../../../form";
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { setDialog } from "../../../../../record-actions/action-creators";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
+import ActionButton from "../../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
 import styles from "./styles.css";
 import { NAME, CUSTOM_FIELD_DIALOG } from "./constants";
@@ -42,10 +43,13 @@ const Component = () => {
 
   return (
     <>
-      <FormAction
-        actionHandler={handleDialog}
+      <ActionButton
+        icon={<AddIcon />}
         text={i18n.t("fields.add_field")}
-        startIcon={<AddIcon />}
+        type={ACTION_BUTTON_TYPES.default}
+        rest={{
+          onClick: handleDialog
+        }}
       />
       <ActionDialog
         open={openFieldDialog}
@@ -54,37 +58,38 @@ const Component = () => {
         dialogTitle={i18n.t("fields.add_field")}
       >
         <div>
-          <Button
-            disabled
-            fullWidth
-            disableElevation
-            variant="contained"
-            className={css.existingFieldButton}
-          >
-            <SearchIcon />
-            {i18n.t("fields.add_existing_field")}
-          </Button>
-          <Button
-            fullWidth
-            color="primary"
-            variant="contained"
-            disableElevation
-            onClick={handleCustomFieldSelectorDialog}
-            className={css.existingFieldButton}
-          >
-            <FormatListBulletedIcon />
-            <span>{i18n.t("fields.add_custom_field")}</span>
-          </Button>
-          <Button
-            fullWidth
-            disableElevation
-            onClick={handleClose}
-            variant="contained"
-            className={css.cancelButton}
-          >
-            <CloseIcon />
-            {i18n.t("buttons.cancel")}
-          </Button>
+          <ActionButton
+            icon={<SearchIcon />}
+            text={i18n.t("fields.add_existing_field")}
+            type={ACTION_BUTTON_TYPES.default}
+            rest={{
+              onClick: handleClose,
+              disabled: true,
+              fullWidth: true,
+              className: css.existingFieldButton
+            }}
+          />
+          <ActionButton
+            icon={<FormatListBulletedIcon />}
+            text={i18n.t("fields.add_custom_field")}
+            type={ACTION_BUTTON_TYPES.default}
+            rest={{
+              onClick: handleCustomFieldSelectorDialog,
+              fullWidth: true,
+              className: css.existingFieldButton
+            }}
+          />
+          <ActionButton
+            icon={<CloseIcon />}
+            text={i18n.t("buttons.cancel")}
+            type={ACTION_BUTTON_TYPES.default}
+            isCancel
+            rest={{
+              onClick: handleClose,
+              fullWidth: true,
+              className: css.cancelButton
+            }}
+          />
         </div>
       </ActionDialog>
       <CustomFieldSelectorDialog key="custom-field-selector-dialog" />

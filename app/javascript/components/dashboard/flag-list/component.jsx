@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import React from "react";
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/styles/makeStyles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { useI18n } from "../../i18n";
 import FlagBox from "../flag-box";
