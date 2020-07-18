@@ -3,7 +3,6 @@
 # Describes a trace for an individual child
 class Trace < ApplicationRecord
   include Indexable
-  include Matchable
 
   belongs_to :tracing_request
   store_accessor :data,

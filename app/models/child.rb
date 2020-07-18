@@ -40,7 +40,6 @@ class Child < ApplicationRecord
   include Reopenable
   include Approvable
   include Alertable
-  include Matchable
   include Attachable
   include Noteable
 
