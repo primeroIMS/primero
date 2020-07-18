@@ -12,7 +12,7 @@ describe Child do
     it 'can find a child by survivor code' do
       child = Child.create!(data: { name: 'Lonnie', survivor_code_no: 'ABC123XYZ' })
       child.index!
-      search_result = Child.list_records({}, { created_at: :desc }, {}, [], 'ABC123XYZ').results
+      search_result = SearchService.search(Child, [], {}, 'ABC123XYZ').results
       expect(search_result).to have(1).child
       expect(search_result.first.survivor_code_no).to eq('ABC123XYZ')
     end
@@ -467,7 +467,7 @@ describe Child do
         SystemSettings.update(default_locale: 'en', auto_populate_list: [ap1_custom_date_format])
         SystemSettings.current(true)
         child = Child.create!(data: { case_id: 'zzz', created_by: @user3.user_name })
-        expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.created_at.strftime("%m/%y")}-#{child.short_id}")
+        expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.created_at.strftime('%m/%y')}-#{child.short_id}")
       end
 
       it 'should create a case id display with default date format' do
@@ -484,7 +484,7 @@ describe Child do
         SystemSettings.update(default_locale: 'en', auto_populate_list: [ap1_default_date_format])
         SystemSettings.current(true)
         child = Child.create!(data: { case_id: 'zzz', created_by: @user3.user_name })
-        expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.created_at.strftime("%Y%m%d")}-#{child.short_id}")
+        expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.created_at.strftime('%Y%m%d')}-#{child.short_id}")
       end
     end
   end
@@ -530,36 +530,7 @@ describe Child do
 
   describe 'calculate age', search: true do
     before do
-      Child.destroy_all
-
-      # The following is necessary so we get back date_of_birth from the DB as a Date object, not as a string
-      Field.destroy_all
-      FormSection.destroy_all
-      fields = [
-        Field.new(
-          'name' => 'status',
-          'type' => 'text_field',
-          'display_name_all' => 'Child Status'
-        ),
-        Field.new(
-          'name' => 'date_of_birth',
-          'type' => 'date_field',
-          'display_name_all' => 'Date of Birth'
-        ),
-        Field.new(
-          'name' => 'age',
-          'type' => 'numeric_field',
-          'display_name_all' => 'Age'
-        )]
-      form = FormSection.new(
-        :unique_id => 'form_section_test',
-        :parent_form => 'case',
-        'visible' => true,
-        'name_all' => 'Form Section Test',
-        :fields => fields
-      )
-      form.save!
-
+      clean_data(Child)
       @case1 = Child.create(data: { name: 'case1', date_of_birth: Date.new(2010, 10, 11) })
       @case2 = Child.create(data: { name: 'case2', date_of_birth: Date.new(2008, 10, 11) })
       @case3 = Child.create(data: { name: 'case3', date_of_birth: Date.new(2008, 3, 13) })
@@ -692,53 +663,7 @@ describe Child do
     end
   end
 
-  describe 'matching to trace', search: true do
-    let(:tracing_request1) do
-      TracingRequest.create!(
-        relation_name: 'Yazen Al-Rashid',
-        relation_sex: 'male'
-      )
-    end
-
-    let(:trace1) do
-      Trace.create!(
-        tracing_request_id: tracing_request1.id,
-        relation: 'father',
-        name: 'Ausama Al Rashid',
-        name_nickname: 'Asman beg',
-        age: 13,
-        date_of_birth: Date.new(2007, 1, 16),
-        sex: 'male',
-        religion: ['sunni'],
-        nationality: ['syria'],
-        language: %w[arabic kurdish],
-        ethnicity: ['kurd']
-      )
-    end
-
-    let(:tracing_request2) do
-      TracingRequest.create!(
-        relation_name: 'Benjamin Allen',
-        relation_sex: 'male'
-      )
-    end
-
-    let(:trace2) do
-      Trace.create!(
-        tracing_request_id: tracing_request2.id,
-        relation: 'brother',
-        name: 'Arabella Allen',
-        name_nickname: 'Bella',
-        age: 17,
-        date_of_birth: Date.new(2003, 1, 16),
-        sex: 'female',
-        religion: ['christian'],
-        nationality: ['uk'],
-        language: %w[english french],
-        ethnicity: ['english']
-      )
-    end
-
+  describe '.match_criteria' do
     let(:case1) do
       Child.create!(
         name: 'Usama Yazan Al-Rashid',
@@ -772,45 +697,25 @@ describe Child do
       )
     end
 
-    before :each do
-      clean_data(Child, Trace, TracingRequest)
-    end
-
     after :each do
-      clean_data(Child, Trace, TracingRequest)
+      clean_data(Child)
     end
 
-    describe '.match_criteria' do
-      let(:match_criteria) { case1.match_criteria }
+    let(:match_criteria) { case1.match_criteria }
 
-      it 'fetches all matching criteria from the case' do
-        case_match_criteria = %w[
-          name name_nickname age date_of_birth sex ethnicity
-        ]
-        expect(match_criteria.keys).to include(*case_match_criteria)
-      end
-
-      it 'fetches all matching criteria from the family members' do
-        expect(match_criteria.keys).to include('relation', 'relation_name', 'relation_nationality')
-      end
-
-      it 'joins family values into a single string' do
-        expect(match_criteria['relation']).to eq('father mother')
-      end
+    it 'fetches all matching criteria from the case' do
+      case_match_criteria = %w[
+        name name_nickname age date_of_birth sex ethnicity
+      ]
+      expect(match_criteria.keys).to include(*case_match_criteria)
     end
 
-    describe '.find_matching_traces' do
-      before :each do
-        tracing_request1 && trace1 && case1 && tracing_request2 && trace2 && Sunspot.commit
-      end
+    it 'fetches all matching criteria from the family members' do
+      expect(match_criteria.keys).to include('relation', 'relation_name', 'relation_nationality')
+    end
 
-      it 'finds all matching cases for this trace' do
-        matches = case1.find_matches
-        expect(matches.size).to eq(1)
-        expect(matches[0].trace.id).to eq(trace1.id)
-        expect(matches[0].child.id).to eq(case1.id)
-        # TODO: Likelihood?
-      end
+    it 'joins family values into a single string' do
+      expect(match_criteria['relation']).to eq('father mother')
     end
   end
 
@@ -876,9 +781,11 @@ describe Child do
 
   private
 
-  def create_child(name, options={})
+  def create_child(name, options = {})
     # TODO: - i18n
-    options.merge!('name' => name, 'last_known_location' => 'new york', 'created_by' => 'me', 'created_organization' => 'stc')
+    options.merge!(
+      'name' => name, 'last_known_location' => 'new york', 'created_by' => 'me', 'created_organization' => 'stc'
+    )
     Child.create(data: options)
   end
 

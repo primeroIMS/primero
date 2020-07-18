@@ -13,6 +13,7 @@ class Duplicate
 
   class << self
     # TODO: refactor this. Why are we pretending this is a record?
+    # TODO: This code will not work now, and needs to change to use the MatchingService
     # Emulate 'find' since this isn't persisted in a DB
     def find(match_fields = {}, search_parameters = {})
       return [] if search_parameters.blank?

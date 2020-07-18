@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Trace, search: true do
   before :each do
-    clean_data(Child, TracingRequest, Trace)
+    clean_data(TracingRequest, Trace)
   end
 
   let(:tracing_request) do
@@ -32,56 +32,6 @@ describe Trace, search: true do
     )
   end
 
-  let(:case1) do
-    Child.create!(
-      name: 'Usama Yazan Al-Rashid',
-      name_nickname: 'Usman Beg',
-      sex: 'male',
-      age: 13,
-      date_of_birth: Date.new(2006, 10, 19),
-      nationality: ['syria'],
-      location_current: 'ABC123',
-      ethnicity: ['kurd'],
-      language: ['arabic'],
-      consent_for_tracing: true,
-      family_details_section: [
-        {
-          relation_name: 'Yazan Al-Rashid',
-          relation: 'father',
-          relation_age: 51,
-          relation_date_of_birth: Date.new(1969, 1, 1),
-          relation_ethnicity: ['arab'],
-          relation_nationality: ['iraq']
-        }
-      ]
-    )
-  end
-
-  let(:case2) do
-    Child.create!(
-      name: 'Anna Cartmel Ventura',
-      name_nickname: 'Annie',
-      sex: 'female',
-      age: 9,
-      date_of_birth: Date.new(2010, 10, 19),
-      nationality: ['usa'],
-      location_current: 'XYZ789',
-      ethnicity: ['other'],
-      language: ['english'],
-      consent_for_tracing: true,
-      family_details_section: [
-        {
-          relation_name: 'Bill Ventura',
-          relation: 'father',
-          relation_age: 49,
-          relation_date_of_birth: Date.new(1971, 2, 1),
-          relation_ethnicity: ['other'],
-          relation_nationality: ['usa']
-        }
-      ]
-    )
-  end
-
   describe '.match_criteria' do
     let(:match_criteria) { trace.match_criteria }
 
@@ -101,21 +51,7 @@ describe Trace, search: true do
     end
   end
 
-  describe '.find_matching_cases' do
-    before :each do
-      tracing_request && trace && case1 && case2 && Sunspot.commit
-    end
-
-    it 'finds all matching cases for this trace' do
-      matches = trace.find_matches
-      expect(matches.size).to eq(1)
-      expect(matches[0].trace).to eq(trace)
-      expect(matches[0].child.id).to eq(case1.id)
-      # TODO: Likelihood?
-    end
-  end
-
   after :each do
-    clean_data(Child, TracingRequest, Trace)
+    clean_data(TracingRequest, Trace)
   end
 end

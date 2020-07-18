@@ -415,20 +415,4 @@ describe PotentialMatch do
       end
     end
   end
-
-  describe 'likelihood' do
-    before do
-      @potential_match = PotentialMatch.new(average_rating: 0.9)
-    end
-
-    it 'marks a potential match as "likely" if it is more than 0.7 away from the average' do
-      @potential_match.set_likelihood(@potential_match.average_rating, 0.15)
-      expect(@potential_match.likelihood).to eq(Matchable::LIKELY)
-    end
-
-    it 'marks a potential match as "possible" if it is less than 0.7 away from the average' do
-      @potential_match.set_likelihood(@potential_match.average_rating, 0.7)
-      expect(@potential_match.likelihood).to eq(Matchable::POSSIBLE)
-    end
-  end
 end

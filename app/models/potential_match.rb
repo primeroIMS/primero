@@ -4,30 +4,13 @@
 # and a case (Child). It contains logic for comparing the two records and pass judgement
 # on how likely it is that they represent the same person.
 class PotentialMatch < ValueObject
-  ALL_FILTER = 'all'
-  POTENTIAL = 'POTENTIAL'
-  DELETED = 'DELETED'
-
-  NORMALIZED_THRESHOLD = 0.1
-  LIKELIHOOD_THRESHOLD = 0.7
-
   VALUE_MATCH = 'match'
   VALUE_MISMATCH = 'mismatch'
 
-  def self.parent_form
-    'potential_match'
-  end
-
-  attr_accessor :child, :trace, :score, :average_score,
-                :likelihood, :status, :unique_identifier
+  attr_accessor :child, :trace, :score, :likelihood, :status, :unique_identifier
 
   def self.comparable_name_fields
     %w[name name_other name_nickname]
-  end
-
-  def set_likelihood(score, average_score)
-    self.average_score = average_score
-    self.likelihood = Matchable::Utils.calculate_likelihood(score, average_score)
   end
 
   def case_and_trace_matched?
@@ -108,29 +91,6 @@ class PotentialMatch < ValueObject
     #     format_tr_list_for_json(potential_matches)
     #   end
     # end
-
-    # TODO: MATCHING: Consider thresholding and normalizing in separate testable methods
-    # Consider taking out the PM generation methods from matchable concern, case and TRs and putting them all here
-    def matches_from_search(search_result)
-      return [] unless search_result.present?
-
-      scores = search_result.values
-      max_score = scores.max
-      average_score = scores.reduce(0) { |sum, x| sum + (x / max_score.to_f) } / scores.count.to_f
-      normalized_search_result = search_result.map { |k, v| [k, v / max_score.to_f] }
-      thresholded_search_result = normalized_search_result.select { |_, v| v > NORMALIZED_THRESHOLD }
-      thresholded_search_result.map do |id, score|
-        yield(id, score, average_score)
-      end
-    end
-
-    def build_potential_match(params = {})
-      return nil unless (%i[child trace score average_score] - params.keys).empty?
-
-      PotentialMatch.new(params.slice(:child, :trace, :score)).tap do |potential_match|
-        potential_match.set_likelihood(params[:score], params[:average_score])
-      end
-    end
 
     def case_fields_for_comparison
       MatchingConfiguration

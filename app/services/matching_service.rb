@@ -20,19 +20,46 @@ class MatchingService
     { fields: %w[sub_ethnicity_2 relation_sub_ethnicity2] }
   ].freeze
 
+  NORMALIZED_THRESHOLD = 0.1
+  LIKELIHOOD_THRESHOLD = 0.7
+
+  LIKELY = 'likely'
+  POSSIBLE = 'possible'
+
   def self.matches_for(matchable)
     MatchingService.new.matches_for(matchable)
   end
 
   def matches_for(matchable)
     match_result = find_match_records(matchable.match_criteria, matchable.matches_to)
-    PotentialMatch.matches_from_search(match_result) do |id, score, average_score|
+    normalize_search_results(match_result).map do |id, normalized|
       match = matchable.matches_to.find_by(id: id)
-      params = { score: score, average_score: average_score }
+      params = normalized.clone
       params.store(make_key(matchable), matchable)
       params.store(make_key(match), match)
-      PotentialMatch.build_potential_match(params)
+      PotentialMatch.new(params)
     end
+  end
+
+  def normalize_search_results(results)
+    return {} unless results.present?
+
+    normalized_search_result = results.map { |k, v| [k, v / results.values.max.to_f] }
+    thresholded_search_result = normalized_search_result.select { |_, v| v > NORMALIZED_THRESHOLD }
+    thresholded_search_result.map do |id, score|
+      [id, { score: score, likelihood: likelihood(score, average_score(results), thresholded_search_result.size) }]
+    end.to_h
+  end
+
+  def average_score(results)
+    scores = results.values
+    scores.reduce(0) { |sum, x| sum + (x / scores.max.to_f) } / scores.count.to_f
+  end
+
+  def likelihood(score, average_score, result_size)
+    return LIKELY if result_size == 1
+
+    (score - average_score) > LIKELIHOOD_THRESHOLD ? LIKELY : POSSIBLE
   end
 
   def find_match_records(match_criteria, match_class, require_consent = true)
