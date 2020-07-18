@@ -1,43 +1,61 @@
-module FakeDeviseLogin
+# frozen_string_literal: true
 
+# Helpers for request specs that require a logged in user.
+module FakeDeviseLogin
   def permission_case
-    @permission_case ||= Permission.new(:resource => Permission::CASE,
-                                        :actions => [Permission::READ, Permission::WRITE, Permission::CREATE])
+    @permission_case ||= Permission.new(
+      resource: Permission::CASE,
+      actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
+    )
   end
 
   def permission_incident
-    @permission_incident ||= Permission.new(:resource => Permission::INCIDENT,
-                                            :actions => [Permission::READ, Permission::WRITE, Permission::CREATE])
+    @permission_incident ||= Permission.new(
+      resource: Permission::INCIDENT,
+      actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
+    )
   end
 
   def permission_tracing_request
-    @permission_tracing_request ||= Permission.new(:resource => Permission::TRACING_REQUEST,
-                                                   :actions => [Permission::READ, Permission::WRITE, Permission::CREATE])
+    @permission_tracing_request ||= Permission.new(
+      resource: Permission::TRACING_REQUEST,
+      actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
+    )
   end
 
   def permission_flag_record
     @permission_flag_record = [
-      Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]),
-      Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]),
-      Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG])
+      Permission.new(
+        resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
+      ),
+      Permission.new(
+        resource: Permission::TRACING_REQUEST,
+        actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
+      ),
+      Permission.new(
+        esource: Permission::INCIDENT,
+        actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
+      )
     ]
   end
 
-
-
   def common_permitted_field_names
-    @common_permitted_field_names ||= %w(
+    @common_permitted_field_names ||= %w[
       name age sex protection_concerns registration_date record_sate status family_details
-      description incident_date
+      description incident_date date_of_birth
       inquiry_date relation_name relation
-     )
+    ]
   end
 
-  def fake_user_name ; 'faketest' ; end
+  def fake_user_name
+    'faketest'
+  end
 
-  def fake_user_id ; nil ; end
+  def fake_user_id
+    nil
+  end
 
-  def login_for_test(opts={})
+  def login_for_test(opts = {})
     user_name = opts[:user_name] || fake_user_name
     user = User.new(user_name: user_name)
     permissions = opts[:permissions] || [permission_case, permission_incident, permission_tracing_request]
@@ -53,5 +71,4 @@ module FakeDeviseLogin
     user.stub(:permitted_field_names_from_forms).and_return(permitted_field_names)
     sign_in(user)
   end
-
 end

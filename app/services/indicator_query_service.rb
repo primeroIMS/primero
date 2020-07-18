@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Build and execute a Solr Sunspot query based on a collection of desired indicators.
+# Indicators are used by the dashboards to compute aggregate statistics about records.
 class IndicatorQueryService
   class << self
     def query(indicators, user)
@@ -21,7 +23,8 @@ class IndicatorQueryService
     def record_query(record_model, indicators, user)
       record_model.search do
         user_query_scope = user.record_query_scope(record_model, false)
-        SearchService.with_query_scope(self, user_query_scope)
+        SearchService.with_user_scope(user_query_scope[:user])
+        SearchService.with_module_scope(user_query_scope[:module])
 
         indicators.each do |indicator|
           indicator.query(self, user)
@@ -37,12 +40,9 @@ class IndicatorQueryService
       indicators.group_by do |indicator|
         scope_key = indicator.scope&.map(&:to_h) || {}
         [
-          indicator.scope_to_owner,
-          indicator.scope_to_referred,
-          indicator.scope_to_transferred,
-          indicator.scope_to_owned_by_groups,
-          indicator.scope_to_not_last_update,
-          scope_key
+          indicator.scope_to_owner, indicator.scope_to_referred,
+          indicator.scope_to_transferred, indicator.scope_to_owned_by_groups,
+          indicator.scope_to_not_last_update, scope_key
         ]
       end
     end

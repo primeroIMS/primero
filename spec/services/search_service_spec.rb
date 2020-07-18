@@ -12,7 +12,7 @@ describe SearchService, search: true do
 
     it 'searches with filters' do
       filter = SearchFilters::Value.new(field_name: 'sex', value: 'female')
-      search = SearchService.search(Child, [filter])
+      search = SearchService.search(Child, filters: [filter])
 
       expect(search.total).to eq(1)
       expect(search.results.first.name).to eq(@correct_match.name)
@@ -20,7 +20,7 @@ describe SearchService, search: true do
 
     it 'searches with filters not value' do
       filter = SearchFilters::NotValue.new(field_name: 'sex', values: 'male')
-      search = SearchService.search(Child, [filter])
+      search = SearchService.search(Child, filters: [filter])
 
       expect(search.total).to eq(1)
       expect(search.results.first.name).to eq(@correct_match.name)
@@ -49,28 +49,30 @@ describe SearchService, search: true do
     end
 
     it 'limits access for currently associated users if user scope is provided' do
-      search = SearchService.search(Child, [], user: @user)
+      search = SearchService.search(Child, query_scope: { user: { 'user' => @user.user_name } })
 
       expect(search.total).to eq(1)
       expect(search.results.first.name).to eq(@case1.name)
     end
 
     it 'limits access by user group if group scope is provided' do
-      search = SearchService.search(Child, [],
-                                    user: { Permission::GROUP => [@user_group.unique_id, @user_group_b.unique_id] })
+      search = SearchService.search(
+        Child,
+        query_scope: { user: { Permission::GROUP => [@user_group.unique_id, @user_group_b.unique_id] } }
+      )
 
       expect(search.total).to eq(3)
       expect(search.results.map(&:name)).to include(@case2.name, @case3.name)
     end
 
     it 'limits access by agency if agency scope is provided' do
-      search = SearchService.search(Child, [], user: { Permission::AGENCY => @agency.unique_id })
+      search = SearchService.search(Child, query_scope: { user: { Permission::AGENCY => @agency.unique_id } })
       expect(search.total).to eq(2)
       expect(search.results.map(&:name)).to include(@case1.name, @case3.name)
     end
 
     it "doesn't limit access if no user scope is provided" do
-      search = SearchService.search(Child, [], [])
+      search = SearchService.search(Child)
 
       expect(search.total).to eq(3)
       expect(search.results.map(&:name)).to include(@case1.name, @case2.name, @case3.name)
@@ -85,16 +87,13 @@ describe SearchService, search: true do
     end
 
     it 'limits search results by module' do
-      search = SearchService.search(Child, [], module: ['primeromodule-cp'])
+      search = SearchService.search(Child, query_scope: { module: ['primeromodule-cp'] })
       expect(search.total).to eq(1)
       expect(search.results[0].name).to eq(@case1.name)
     end
   end
 
   after :example do
-    Agency.destroy_all
-    UserGroup.destroy_all
-    User.destroy_all
-    Child.destroy_all
+    clean_data(Agency, UserGroup, User, Child)
   end
 end
