@@ -31,7 +31,6 @@ class Trace < ApplicationRecord
 
   # Returns a hash representing the potential match query for this trace
   def match_criteria
-    # TODO: Are clustered fields still a thing? eg. name, nickname
     match_criteria = tracing_request.data.slice(*Trace.tracing_request_matching_field_names).compact
     match_criteria = match_criteria.merge(data.slice(*Trace.trace_matching_field_names).compact)
     match_criteria.transform_values { |v| v.is_a?(Array) ? v.join(' ') : v }
@@ -39,5 +38,18 @@ class Trace < ApplicationRecord
 
   def matches_to
     Child
+  end
+
+  # Try to fetch the value first from the trace then from the tracing request.
+  # Some field names correspond, so try those fields
+  def value_for(field_name)
+    data[field_name] ||
+      tracing_request.data[corresponding_field_name(field_name)] ||
+      data[corresponding_field_name(field_name)] ||
+      tracing_request.data[field_name]
+  end
+
+  def corresponding_field_name(field_name)
+    FIELD_CORRESPONDANCE[field_name] || field_name
   end
 end
