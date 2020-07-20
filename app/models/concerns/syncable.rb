@@ -275,7 +275,8 @@ module Syncable
 
         props
       when Hash
-        if existing_value.present?
+        # The respond_to? is a patch to make sure violations do not crash the edit/save
+        if existing_value.present? && existing_value.respond_to?(:to_hash)
           props[k] = existing_value.to_hash.inject(props[k]) do |acc, (sub_k,ev)|
             acc.merge(merger.call(acc, [sub_k, ev, changes_for_key.call(existing_changes_for_value, sub_k)]))
           end
