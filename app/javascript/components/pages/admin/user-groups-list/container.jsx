@@ -1,8 +1,7 @@
-import React from "react";
-import { fromJS } from "immutable";
+import React, { useEffect } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -11,6 +10,7 @@ import { ROUTES } from "../../../../config";
 import { usePermissions, getListHeaders } from "../../../user";
 import NAMESPACE from "../namespace";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
+import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
@@ -19,11 +19,14 @@ import { fetchUserGroups } from "./action-creators";
 
 const Container = () => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const headers = useSelector(state =>
     getListHeaders(state, RESOURCES.user_groups)
   );
   const canAddUserGroups = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.user_groups;
+  const metadata = useSelector(state => getMetadata(state, recordType));
+  const defaultFilters = metadata;
 
   const columns = headers.map(({ name, field_name: fieldName, ...rest }) => ({
     label: i18n.t(name),
@@ -31,17 +34,19 @@ const Container = () => {
     ...rest
   }));
 
+  useEffect(() => {
+    dispatch(fetchUserGroups({ data: defaultFilters.toJS() }));
+  }, []);
+
   const tableOptions = {
     recordType,
     columns,
     options: {
       selectableRows: "none"
     },
-    defaultFilters: fromJS({
-      per: 20,
-      page: 1
-    }),
-    onTableChange: fetchUserGroups
+    defaultFilters,
+    onTableChange: fetchUserGroups,
+    bypassInitialFetch: true
   };
 
   const newUserGroupBtn = canAddUserGroups ? (
