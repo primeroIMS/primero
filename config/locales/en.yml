@@ -2433,6 +2433,7 @@ en:
     on_collapsed_subform: "On collapsed subform?"
     multi_select_box: "Multi-select"
     date_time: "Date-Time"
+    disabled: "Disabled"
     subform_section:
       name: "Subform Title"
       description: "Subform Description"
