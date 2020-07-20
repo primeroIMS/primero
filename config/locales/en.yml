@@ -1182,7 +1182,7 @@ en:
     disabled: "Disabled"
     agency: "Agency"
     services: "Services"
-    agency_office: "Agency Office"
+    agency_office: "Agency Office (GBV field)"
     position: Position
     phone: "Phone"
     email: "Email"
