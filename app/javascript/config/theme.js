@@ -226,7 +226,7 @@ const overrides = {
   },
   MuiButton: {
     root: {
-      lineHeight: "1.7",
+      lineHeight: "1.43",
 
       "&$disabled": {
         color: "rgba(0, 0, 0, 0.26)",
