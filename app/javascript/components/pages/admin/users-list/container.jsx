@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
-import { Button, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 
@@ -12,12 +12,12 @@ import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import NAMESPACE from "../namespace";
 import { CREATE_RECORDS } from "../../../../libs/permissions";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { Filters as AdminFilters } from "../components";
 import { fetchAgencies } from "../agencies-list/action-creators";
 import { getEnabledAgencies } from "../../../application/selectors";
-import { useThemeHelper } from "../../../../libs";
-import styles from "../styles.css";
-import ButtonText from "../../../button-text";
+import { getMetadata } from "../../../record-list";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED } from "./constants";
@@ -28,18 +28,23 @@ const Container = () => {
   const dispatch = useDispatch();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = "users";
-  const { css } = useThemeHelper(styles);
-  const defaultFilters = { [DISABLED]: ["false"] };
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
     ...rest
   }));
   const filterAgencies = useSelector(state => getEnabledAgencies(state));
+  const metadata = useSelector(state => getMetadata(state, recordType));
+  const defaultFilters = fromJS({
+    ...{
+      [DISABLED]: ["false"]
+    },
+    ...metadata?.toJS()
+  });
 
   useEffect(() => {
     dispatch(fetchAgencies({ options: { per: 999 } }));
-    dispatch(fetchUsers({ data: { [DISABLED]: ["false"] } }));
+    dispatch(fetchUsers({ data: defaultFilters.toJS() }));
   }, []);
 
   const tableOptions = {
@@ -48,24 +53,21 @@ const Container = () => {
     options: {
       selectableRows: "none"
     },
-    defaultFilters: fromJS({
-      per: 20,
-      page: 1
-    }),
+    defaultFilters,
     onTableChange: fetchUsers,
     bypassInitialFetch: true
   };
 
   const newUserBtn = canAddUsers && (
-    <Button
-      to={ROUTES.admin_users_new}
-      component={Link}
-      color="primary"
-      className={css.showActionButton}
-    >
-      <AddIcon />
-      <ButtonText text={i18n.t("buttons.new")} />
-    </Button>
+    <ActionButton
+      icon={<AddIcon />}
+      text={i18n.t("buttons.new")}
+      type={ACTION_BUTTON_TYPES.default}
+      rest={{
+        to: ROUTES.admin_users_new,
+        component: Link
+      }}
+    />
   );
 
   const filterProps = {
@@ -89,7 +91,7 @@ const Container = () => {
       <PageContent>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={9}>
-            <IndexTable {...tableOptions} />
+            <IndexTable title={i18n.t("users.label")} {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>
             <AdminFilters {...filterProps} />

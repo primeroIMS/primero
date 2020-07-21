@@ -132,6 +132,14 @@ const overrides = {
       paddingBottom: "8px",
       justifyContent: "flex-start"
     },
+    titleText: {
+      position: "absolute",
+      left: "-10000px",
+      top: "auto",
+      width: "1px",
+      height: "1px",
+      overflow: "hidden"
+    },
     left: {
       display: "none !important"
     }
@@ -207,6 +215,22 @@ const overrides = {
       "& svg": {
         fontSize: `${muiTheme.typography.pxToRem(16)} !important`,
         color: `${colors.darkGrey} !important`
+      }
+    }
+  },
+  MuiFab: {
+    sizeSmall: {
+      width: "36px",
+      height: "36px"
+    }
+  },
+  MuiButton: {
+    root: {
+      lineHeight: "1.43",
+
+      "&$disabled": {
+        color: "rgba(0, 0, 0, 0.26)",
+        backgroundColor: `${colors.lightGrey} !important`
       }
     }
   }

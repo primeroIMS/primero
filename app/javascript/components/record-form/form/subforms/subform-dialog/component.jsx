@@ -2,13 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
   Box,
-  Fab,
-  IconButton,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckIcon from "@material-ui/icons/Check";
 
@@ -17,9 +16,10 @@ import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
 import { serviceHasReferFields } from "../../utils";
-import { useThemeHelper } from "../../../../../libs";
-import styles from "../../styles.css";
-import ButtonText from "../../../../button-text";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
+
+import styles from "./styles.css";
 
 const Component = ({
   index,
@@ -30,10 +30,10 @@ const Component = ({
   title,
   dialogIsNew,
   i18n,
-  formik
+  formik,
+  recordType
 }) => {
-  const { css } = useThemeHelper(styles);
-
+  const css = makeStyles(styles)();
   const handleClose = () => {
     setOpen({ open: false, index: null });
   };
@@ -43,16 +43,14 @@ const Component = ({
   if (index !== null) {
     const actionButton =
       mode.isEdit || mode.isNew ? (
-        <Fab
-          onClick={handleClose}
-          variant="contained"
-          color="primary"
-          elevation={0}
-          className={css.actionButton}
-        >
-          <CheckIcon />
-          <ButtonText text={i18n.t(buttonDialogText)} />
-        </Fab>
+        <ActionButton
+          icon={<CheckIcon />}
+          text={i18n.t(buttonDialogText)}
+          type={ACTION_BUTTON_TYPES.default}
+          rest={{
+            onClick: handleClose
+          }}
+        />
       ) : null;
 
     return (
@@ -67,11 +65,18 @@ const Component = ({
                 <SubformMenu
                   index={index}
                   values={formik.values.services_section}
+                  recordType={recordType}
                 />
               ) : null}
-              <IconButton onClick={handleClose}>
-                <CloseIcon />
-              </IconButton>
+              <ActionButton
+                icon={<CloseIcon />}
+                type={ACTION_BUTTON_TYPES.icon}
+                isTransparent
+                rest={{
+                  onClick: handleClose,
+                  className: css.modalClosesBtn
+                }}
+              />
             </Box>
           </Box>
         </DialogTitle>
@@ -119,6 +124,7 @@ Component.propTypes = {
   index: PropTypes.number.isRequired,
   mode: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
+  recordType: PropTypes.string,
   setOpen: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired
 };

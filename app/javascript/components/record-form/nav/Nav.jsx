@@ -47,9 +47,17 @@ const Nav = ({
 
     if (group !== open) {
       setOpen(group);
+    } else if (parentItem && group === open) {
+      setOpen("");
     }
 
-    dispatch(setSelectedForm(formId));
+    dispatch(
+      setSelectedForm(
+        parentItem && (group === open || open === "")
+          ? selectedRecordForm.first().unique_id
+          : formId
+      )
+    );
 
     if (!parentItem && mobileDisplay) {
       handleToggleNav();
@@ -105,7 +113,6 @@ const Nav = ({
           group={formGroup}
           handleClick={handleClick}
           isNew={isNew}
-          key={formGroup.first().formId}
           open={open}
           recordAlerts={recordAlerts}
           selectedForm={selectedForm}

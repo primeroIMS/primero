@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  Button,
   makeStyles,
   Dialog,
   DialogActions,
@@ -14,6 +13,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import { ENQUEUE_SNACKBAR, generate } from "../../../../../notifier";
 import { useI18n } from "../../../../../i18n";
 import { compare } from "../../../../../../libs";
+import ActionButton from "../../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 import {
   getReorderIsLoading,
   getReorderErrors,
@@ -69,24 +70,26 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
       hideBackdrop={!reorderLoading}
     >
       <DialogActions classes={{ root: css.reorderActions }}>
-        <Button
-          color="primary"
-          className={css.actionButtonCancel}
-          onClick={handleCancel}
-          disabled={reorderLoading}
-        >
-          <CloseIcon />
-          <span>{i18n.t("buttons.cancel")}</span>
-        </Button>
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={handleSuccess}
-          disabled={reorderLoading}
-        >
-          {icon}
-          <span>{i18n.t("buttons.save_changes")}</span>
-        </Button>
+        <ActionButton
+          icon={<CloseIcon />}
+          text={i18n.t("buttons.cancel")}
+          type={ACTION_BUTTON_TYPES.default}
+          isCancel
+          rest={{
+            onClick: handleCancel,
+            disabled: reorderLoading
+          }}
+        />
+
+        <ActionButton
+          icon={icon}
+          text={i18n.t("buttons.save_changes")}
+          type={ACTION_BUTTON_TYPES.default}
+          rest={{
+            onClick: handleSuccess,
+            disabled: reorderLoading
+          }}
+        />
       </DialogActions>
     </Dialog>
   );

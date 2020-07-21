@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useLocation, Link } from "react-router-dom";
-import { Button } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -20,9 +19,9 @@ import {
   WRITE_RECORDS,
   checkPermissions
 } from "../../../../../libs/permissions";
-import { compare, useThemeHelper } from "../../../../../libs";
-import styles from "../../styles.css";
-import ButtonText from "../../../../button-text";
+import { compare } from "../../../../../libs";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 const Component = ({
   formMode,
@@ -32,7 +31,6 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
-  const { css } = useThemeHelper(styles);
 
   const saving = useSelector(state => getSavingRecord(state));
   const rolePermissions = useSelector(
@@ -58,15 +56,15 @@ const Component = ({
 
   const editButton = formMode.get("isShow") && (
     <Permission resources={RESOURCES.roles} actions={WRITE_RECORDS}>
-      <Button
-        to={`${pathname}/edit`}
-        component={Link}
-        size="small"
-        className={css.showActionButton}
-      >
-        <CreateIcon />
-        <ButtonText text={i18n.t("buttons.edit")} />
-      </Button>
+      <ActionButton
+        icon={<CreateIcon />}
+        text={i18n.t("buttons.edit")}
+        type={ACTION_BUTTON_TYPES.default}
+        rest={{
+          to: `${pathname}/edit`,
+          component: Link
+        }}
+      />
     </Permission>
   );
 

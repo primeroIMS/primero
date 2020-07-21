@@ -3,7 +3,7 @@ import { Button } from "@material-ui/core";
 
 import { setupMockFormComponent } from "../../../test";
 import DraggableOption from "../components/draggable-option";
-import FormAction from "../components/form-action";
+import ActionButton from "../../action-button";
 
 import OrderableOptionsField from "./orderable-options-field";
 
@@ -45,7 +45,7 @@ describe("<Form /> - fields/<OrderableOptionsField />", () => {
   });
 
   it("renders the action buttons", () => {
-    expect(component.find(FormAction)).to.have.lengthOf(1);
-    expect(component.find(Button)).to.have.lengthOf(1);
+    expect(component.find(ActionButton)).to.have.lengthOf(2);
+    expect(component.find(Button)).to.have.lengthOf(2);
   });
 });
