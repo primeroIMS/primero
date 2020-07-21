@@ -43,13 +43,13 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
     loadingFile(true);
 
     if (selectedFile) {
-      toBase64(selectedFile).then(data => {
+      const data = await toBase64(selectedFile);
+
+      if (data) {
         setValue(`${name}_base64`, data.result);
         setValue(`${name}_file_name`, data.fileName);
         loadingFile(false, data);
-
-        return data.result;
-      });
+      }
     }
   };
 

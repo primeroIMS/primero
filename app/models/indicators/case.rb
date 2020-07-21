@@ -377,6 +377,22 @@ module Indicators
       ]
     ).freeze
 
+    WITH_INCIDENTS = QueriedIndicator.new(
+      name: 'with_incidents',
+      record_model: Child,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'has_incidents', value: true)
+      ]
+    ).freeze
+
+    WITHOUT_INCIDENTS = QueriedIndicator.new(
+      name: 'without_incidents',
+      record_model: Child,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'has_incidents', value: false)
+      ]
+    ).freeze
+
     def self.reporting_location_indicators
       reporting_location_config = SystemSettings.current.reporting_location_config
       admin_level = reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL

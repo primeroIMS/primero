@@ -13,6 +13,10 @@ module Tasks
       !record.date_case_plan.present?
     end
 
+    def self.field_name
+      'case_plan_due_date'
+    end
+
     def due_date
       self.parent_case.case_plan_due_date
     end
