@@ -80,6 +80,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("APPROVALS_TYPES");
     expect(constants).to.have.property("ALERTS_FOR");
     expect(constants).to.have.property("ROWS_PER_PAGE_OPTIONS");
+    expect(constants).to.have.property("MAX_IMAGE_SIZE");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -135,6 +136,7 @@ describe("Verifying config constant", () => {
     delete constants.APPROVALS_TYPES;
     delete constants.ALERTS_FOR;
     delete constants.ROWS_PER_PAGE_OPTIONS;
+    delete constants.MAX_IMAGE_SIZE;
 
     expect(constants).to.deep.equal({});
   });

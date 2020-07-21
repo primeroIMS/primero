@@ -67,6 +67,7 @@ const Component = ({
         dialogIsNew={dialogIsNew}
         i18n={i18n}
         formik={formik}
+        recordType={recordType}
       />
     </>
   );

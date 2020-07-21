@@ -175,8 +175,7 @@ export const buildDataToSave = (
     return { [fieldName]: data };
   }
   const newFieldName = data.display_name[locale]
-    .split(" ")
-    .join("_")
+    .replace(/[^\w]/g, "_")
     .toLowerCase();
 
   const dataToSave = appendSettingsAttributes(

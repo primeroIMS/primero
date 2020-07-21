@@ -108,6 +108,7 @@ describe("buildDataToSave", () => {
       utils.buildDataToSave(selectedField, data[fieldName], "en")
     ).to.deep.equals(data);
   });
+
   describe("when its a new field", () => {
     const objectData = {
       display_name: { en: "test field" },
@@ -181,6 +182,27 @@ describe("buildDataToSave", () => {
           order: 2
         }
       });
+    });
+
+    it("should replace the special characters with underscore for the field_name in the DB", () => {
+      const selectedField = fromJS({
+        name: NEW_FIELD,
+        type: TEXT_FIELD
+      });
+      const data = {
+        display_name: { en: "TEST field*name 1" },
+        guiding_questions: { en: "" },
+        help_text: { en: "e" },
+        mobile_visible: true,
+        required: false,
+        show_on_minify_form: false,
+        visible: true
+      };
+      const expected = "test_field_name_1";
+
+      expect(
+        Object.keys(utils.buildDataToSave(selectedField, data, "en", 1))[0]
+      ).to.deep.equals(expected);
     });
   });
 });

@@ -109,12 +109,12 @@ const RecordFormToolbar = ({
         {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <DisableOffline button>
-              <Badge color="error" badgeContent={flags.size}>
-                <Flagging
-                  record={params.id}
-                  recordType={params.recordType}
-                  showActionButtonCss={css.showActionButton}
-                />
+              <Badge
+                color="error"
+                badgeContent={flags.size}
+                className={css.badgeIndicator}
+              >
+                <Flagging record={params.id} recordType={params.recordType} />
               </Badge>
             </DisableOffline>
           </Permission>

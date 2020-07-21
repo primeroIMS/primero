@@ -32,7 +32,7 @@ describe("dateFieldForm", () => {
   });
 
   it("should return 8 fields from the general section form", () => {
-    expect(generalSection).to.have.lengthOf(8);
+    expect(generalSection).to.have.lengthOf(9);
   });
 
   it("should return 4 fields from the visible ection form", () => {
