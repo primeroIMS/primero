@@ -23,9 +23,6 @@ class MatchingService
   NORMALIZED_THRESHOLD = 0.1
   LIKELIHOOD_THRESHOLD = 0.7
 
-  LIKELY = 'likely'
-  POSSIBLE = 'possible'
-
   def self.matches_for(matchable)
     MatchingService.new.matches_for(matchable)
   end
@@ -59,7 +56,7 @@ class MatchingService
   def likelihood(score, average_score, result_size)
     return LIKELY if result_size == 1
 
-    (score - average_score) > LIKELIHOOD_THRESHOLD ? LIKELY : POSSIBLE
+    (score - average_score) > LIKELIHOOD_THRESHOLD ? PotentialMatch::LIKELY : PotentialMatch::POSSIBLE
   end
 
   def find_match_records(match_criteria, match_class, require_consent = true)

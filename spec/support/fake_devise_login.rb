@@ -23,6 +23,13 @@ module FakeDeviseLogin
     )
   end
 
+  def permission_potential_match
+    @permission_potential_match ||= Permission.new(
+      resource: Permission::POTENTIAL_MATCH,
+      actions: [Permission::READ]
+    )
+  end
+
   def permission_flag_record
     @permission_flag_record = [
       Permission.new(

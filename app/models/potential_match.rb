@@ -8,6 +8,9 @@ class PotentialMatch < ValueObject
   VALUE_MISMATCH = 'mismatch'
   VALUE_BLANK = 'blank'
 
+  LIKELY = 'likely'
+  POSSIBLE = 'possible'
+
   FIELD_CORRESPONDANCE = {
     'nationality' => 'relation_nationality', 'relation_nationality' => 'nationality',
     'language' => 'relation_language', 'relation_language' => 'language',

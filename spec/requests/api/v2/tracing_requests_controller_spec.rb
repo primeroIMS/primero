@@ -69,8 +69,8 @@ describe Api::V2::TracingRequestsController, type: :request do
       params = { data: { inquiry_date: '2019-04-01', relation_name: 'Test' } }
       post '/api/v2/tracing_requests', params: params
 
-      %w(data).each do |fp|
-        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/) 
+      %w[data].each do |fp|
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
       end
     end
   end
@@ -95,8 +95,8 @@ describe Api::V2::TracingRequestsController, type: :request do
       params = { data: { inquiry_date: '2019-04-01', relation_name: 'Tester' } }
       patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params: params
 
-      %w(data).each do |fp|
-        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/) 
+      %w[data].each do |fp|
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
       end
     end
   end

@@ -146,7 +146,6 @@ describe MatchingService, search: true do
         expect(matches.size).to eq(1)
         expect(matches[0].trace).to eq(trace1)
         expect(matches[0].child.id).to eq(case1.id)
-        # TODO: Likelihood?
       end
     end
 
@@ -160,7 +159,6 @@ describe MatchingService, search: true do
         expect(matches.size).to eq(1)
         expect(matches[0].trace.id).to eq(trace1.id)
         expect(matches[0].child.id).to eq(case1.id)
-        # TODO: Likelihood?
       end
     end
   end
@@ -179,7 +177,7 @@ describe MatchingService, search: true do
     end
 
     it 'marks a result as likely if its the only one left after thresholding' do
-      expect(normalized_results['a'][:likelihood]).to eq(MatchingService::LIKELY)
+      expect(normalized_results['a'][:likelihood]).to eq(PotentialMatch::LIKELY)
     end
   end
 
