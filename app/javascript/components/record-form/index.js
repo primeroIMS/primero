@@ -8,8 +8,10 @@ export {
 } from "./action-creators";
 export { default as reducer } from "./reducer";
 export {
+  getAllForms,
   getAssignableForms,
   getErrors,
+  getFields,
   getFirstTab,
   getFormNav,
   getLoadingState,

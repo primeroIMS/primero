@@ -203,6 +203,14 @@
   align-items: center;
 }
 
+.badgeIndicator {
+
+  & span {
+    top: 2px;
+    right: 8px;
+  }
+}
+
 @media $(theme.breakpoints.down("sm")) {
   .actionButtonsContainer {
     width: 95px;

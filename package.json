@@ -79,6 +79,7 @@
     "history": "^4.9.0",
     "i18n-js": "^3.5.1",
     "idb": "^4.0.4",
+    "image-blob-reduce": "^1.0.4",
     "immutable": "^4.0.0-rc.12",
     "jscpd": "~3.1.0",
     "jsdom": "^15.1.0",

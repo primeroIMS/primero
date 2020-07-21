@@ -731,7 +731,7 @@ gbv_caseworker_permissions = [
       actions: [
         Permission::DASH_APPROVALS_CASE_PLAN,
         Permission::DASH_APPROVALS_CLOSURE,
-        Permission::DASH_CASE_OVERVIEW
+        Permission::DASH_CASE_INCIDENT_OVERVIEW
       ]
     )
 ]
@@ -782,7 +782,7 @@ gbv_mobile_caseworker_permissions = [
     Permission.new(
       resource: Permission::DASHBOARD,
       actions: [
-        Permission::DASH_CASE_OVERVIEW
+        Permission::DASH_CASE_INCIDENT_OVERVIEW
       ]
     )
 ]

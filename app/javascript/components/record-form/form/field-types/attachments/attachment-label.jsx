@@ -15,18 +15,13 @@ const AttachmentLabel = ({
   handleAttachmentAddition
 }) => {
   const css = makeStyles(styles)();
+  const isDisabled = !disabled && !mode.isShow;
 
   return (
     <div className={css.attachmentHeading}>
       <h4>{label}</h4>
-      {disabled && !mode.isShow && (
+      {isDisabled && (
         <div>
-          {/* <IconButton
-            variant="contained"
-            onClick={() => handleAttachmentAddition(arrayHelpers)}
-          >
-            <AddIcon />
-          </IconButton> */}
           <ActionButton
             icon={<AddIcon />}
             text="Add"

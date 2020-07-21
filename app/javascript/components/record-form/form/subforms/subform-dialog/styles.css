@@ -1,0 +1,3 @@
+.modalClosesBtn {
+  color: $(theme.primero.colors.darkGrey) !important;
+}

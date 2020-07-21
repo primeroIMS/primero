@@ -27,7 +27,6 @@ const Component = ({
 }) => {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const changed = !emptyValues(compactValues(currentValue, oldValue));
-
   const handleClose = () => {
     if (changed) {
       setOpenConfirmationModal(true);
@@ -121,6 +120,7 @@ Component.propTypes = {
   mode: PropTypes.object.isRequired,
   oldValue: PropTypes.object,
   open: PropTypes.bool.isRequired,
+  recordType: PropTypes.string,
   setOpen: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired
 };

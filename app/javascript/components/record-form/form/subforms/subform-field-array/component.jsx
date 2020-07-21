@@ -55,16 +55,30 @@ const Component = ({
         subformName={title}
       />
     ) : (
-      <SubformFields
-        arrayHelpers={arrayHelpers}
-        field={field}
-        values={values}
-        locale={i18n.locale}
-        mode={mode}
-        setOpen={setOpenDialog}
-        setDialogIsNew={setDialogIsNew}
-        recordType={recordType}
-      />
+      <>
+        <SubformFields
+          arrayHelpers={arrayHelpers}
+          field={field}
+          values={values}
+          locale={i18n.locale}
+          mode={mode}
+          setOpen={setOpenDialog}
+          setDialogIsNew={setDialogIsNew}
+          recordType={recordType}
+        />
+        <SubformDialog
+          index={index !== null ? index : values.length - 1}
+          field={field}
+          mode={mode}
+          open={open}
+          setOpen={setOpenDialog}
+          title={title}
+          dialogIsNew={dialogIsNew}
+          i18n={i18n}
+          formik={formik}
+          recordType={recordType}
+        />
+      </>
     );
 
   return (
