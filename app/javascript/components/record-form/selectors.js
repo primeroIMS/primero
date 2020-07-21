@@ -176,3 +176,7 @@ export const getValidationErrors = (state, formUniqueId) => {
     error => error.get("unique_id") === formUniqueId
   );
 };
+
+export const getFields = state => state.getIn([NAMESPACE, "fields"]);
+
+export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);

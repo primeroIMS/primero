@@ -4,6 +4,7 @@ import { Menu, MenuItem } from "@material-ui/core";
 import { setupMountedComponent } from "../../test";
 import { ACTIONS } from "../../libs/permissions";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
+import ActionButton from "../action-button";
 
 import Notes from "./notes";
 import RecordActions from "./container";
@@ -137,6 +138,32 @@ describe("<RecordActions />", () => {
     mode: { isShow: true },
     record: fromJS({ status: "open" })
   };
+
+  describe("Component ActionButton", () => {
+    it("should render and ActionButton component", () => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        props,
+        defaultState
+      ));
+      expect(component.find(ActionButton)).to.have.lengthOf(1);
+    });
+
+    it("should not render and ActionButton component if there are not actions", () => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        props,
+        fromJS({
+          user: {
+            permissions: {
+              cases: ["gbv_referral_form", "record_owner"]
+            }
+          }
+        })
+      ));
+      expect(component.find(ActionButton)).to.be.empty;
+    });
+  });
 
   describe("Component ToggleOpen", () => {
     beforeEach(() => {

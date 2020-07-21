@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Button, CircularProgress } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
 import ButtonText from "../../../button-text";
@@ -15,19 +15,22 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, rest }) => {
   const renderLoadingIndicator = pending && (
     <CircularProgress size={24} className={css.buttonProgress} />
   );
+  const renderContent = !renderIcon ? <>{text}</> : <ButtonText text={text} />;
 
   return (
     <>
       <Button
-        className={clsx(css.defaultActionButton, {
+        className={clsx({
+          [css.defaultActionButton]: renderIcon,
           [css.isTransparent]: isTransparent,
-          [css.isCancel]: isCancel
+          [css.isCancel]: isCancel,
+          [css.onlyText]: !renderIcon
         })}
         startIcon={renderIcon}
         disabled={pending}
         {...rest}
       >
-        <ButtonText text={text} />
+        {renderContent}
       </Button>
       {renderLoadingIndicator}
     </>

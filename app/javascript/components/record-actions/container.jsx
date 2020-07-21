@@ -531,7 +531,7 @@ const Container = ({
 
   return (
     <>
-      {mode && mode.isShow ? (
+      {mode && mode.isShow && actionItems.length ? (
         <ActionButton
           icon={<MoreVertIcon color={iconColor} />}
           type={ACTION_BUTTON_TYPES.icon}

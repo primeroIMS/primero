@@ -11,6 +11,9 @@ import {
   ADMIN_ACTIONS
 } from "../libs/permissions";
 
+// Max allowed image size for attachments
+export const MAX_IMAGE_SIZE = 600;
+
 // Time (ms) when fetch request will timeout
 export const FETCH_TIMEOUT = 50000;
 
