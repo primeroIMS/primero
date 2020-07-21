@@ -167,25 +167,18 @@ describe("<Transition /> - utils", () => {
         label: "test_2"
       };
 
-      expect(utils.searchableValue(field, options, false, i18n)).to.deep.equal(
+      expect(utils.searchableValue(field, options, false)).to.deep.equal(
         expected
       );
     });
 
     it("returns default value from options if disableControl is true", () => {
-      const expected = { value: "", label: i18n.t("fields.select_single") };
-
-      expect(utils.searchableValue(field, options, true, i18n)).to.deep.equal(
-        expected
-      );
+      expect(utils.searchableValue(field, options, true)).to.be.null;
     });
 
     it("returns default value from options if any values is selected", () => {
-      const expected = { value: "", label: i18n.t("fields.select_single") };
-
-      expect(
-        utils.searchableValue({ ...field, value: "" }, options, false, i18n)
-      ).to.deep.equal(expected);
+      expect(utils.searchableValue({ ...field, value: "" }, options, false)).to
+        .be.null;
     });
   });
 });

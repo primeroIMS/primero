@@ -152,13 +152,14 @@ const ReassignForm = ({
                       defaultValues={searchableValue(
                         field,
                         searchableSelectProps.options,
-                        false,
-                        i18n
+                        false
                       )}
                       onChange={data => {
-                        const { value } = data;
-
-                        form.setFieldValue(field.name, value, false);
+                        form.setFieldValue(
+                          field.name,
+                          data?.value || [],
+                          false
+                        );
                       }}
                       {...searchableSelectProps}
                       {...other}

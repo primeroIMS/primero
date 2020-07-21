@@ -45,11 +45,9 @@ export const getUserFilters = filters =>
     return entry[1] ? { ...acc, [entry[0]]: entry[1] } : acc;
   }, {});
 
-export const searchableValue = (field, options, disableControl, i18n) => {
+export const searchableValue = (field, options, disableControl) => {
   const { value } = field;
   const selected = options.filter(option => option.value === value)[0];
 
-  return !disableControl && value !== ""
-    ? selected
-    : { value: "", label: i18n.t("fields.select_single") };
+  return !disableControl && value !== "" ? selected : null;
 };
