@@ -99,7 +99,7 @@ en:
       approval: "Approval is pending for %{form_section_name}"
       transfer_request: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
     cannot_edit: "You cannot edit this"
-    field_name_on_form_name: "%{field_name} on %{form_name}"
+    field_name_on_form_name: "'%{field_name}' field on '%{form_name}' form."
 
   data_base:
     delete_all_documents: "Deleted all child documents"
