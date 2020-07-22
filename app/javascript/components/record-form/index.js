@@ -23,7 +23,8 @@ export {
   getRecordFormsByUniqueId,
   getReportingLocations,
   getSelectedForm,
-  getServiceToRefer
+  getServiceToRefer,
+  getValidationErrors
 } from "./selectors";
 export { FormSectionField } from "./form";
 export { FieldRecord } from "./records";

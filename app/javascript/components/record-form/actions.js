@@ -3,6 +3,7 @@ import { namespaceActions } from "../../libs";
 import NAMESPACE from "./namespace";
 
 export default namespaceActions(NAMESPACE, [
+  "CLEAR_VALIDATION_ERRORS",
   "FETCH_AGENCIES",
   "FETCH_AGENCIES_FAILURE",
   "FETCH_AGENCIES_FINISHED",
@@ -26,5 +27,6 @@ export default namespaceActions(NAMESPACE, [
   "SET_OPTIONS_SUCCESS",
   "SET_SELECTED_FORM",
   "SET_SELECTED_RECORD",
-  "SET_SERVICE_TO_REFER"
+  "SET_SERVICE_TO_REFER",
+  "SET_VALIDATION_ERRORS"
 ]);

@@ -6,17 +6,16 @@ import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { getRecordFormsByUniqueId } from "../selectors";
+import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
 import { getRecordAlerts } from "../../records/selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
 import { compare, ConditionalWrapper } from "../../../libs";
 
 import { NAME } from "./constants";
-import NavGroup from "./NavGroup";
-import RecordInformation from "./components/record-information";
+import { NavGroup, RecordInformation } from "./components";
 import styles from "./styles.css";
 
-const Nav = ({
+const Component = ({
   firstTab,
   formNav,
   handleToggleNav,
@@ -39,6 +38,10 @@ const Nav = ({
         formName: selectedForm || firstTab.unique_id,
         checkVisible: true
       }),
+    compare
+  );
+  const validationErrors = useSelector(
+    state => getValidationErrors(state),
     compare
   );
 
@@ -83,7 +86,10 @@ const Nav = ({
     }
   }, [firstTab]);
 
-  const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
+  const recordAlerts = useSelector(
+    state => getRecordAlerts(state, recordType),
+    compare
+  );
 
   const renderCloseButtonNavBar = mobileDisplay && (
     <div className={css.closeButtonRecordNav}>
@@ -116,6 +122,7 @@ const Nav = ({
           open={open}
           recordAlerts={recordAlerts}
           selectedForm={selectedForm}
+          validationErrors={validationErrors}
         />
       );
     });
@@ -145,9 +152,9 @@ const Nav = ({
   return null;
 };
 
-Nav.displayName = NAME;
+Component.displayName = NAME;
 
-Nav.propTypes = {
+Component.propTypes = {
   firstTab: PropTypes.object,
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
@@ -160,4 +167,4 @@ Nav.propTypes = {
   toggleNav: PropTypes.bool
 };
 
-export default Nav;
+export default Component;
