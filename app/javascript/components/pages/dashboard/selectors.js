@@ -125,3 +125,6 @@ export const getSharedFromMyTeam = state =>
 
 export const getSharedWithMyTeam = state =>
   getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_MY_TEAM);
+
+export const getCaseIncidentOverview = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.CASE_INCIDENT_OVERVIEW);

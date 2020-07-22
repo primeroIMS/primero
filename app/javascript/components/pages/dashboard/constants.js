@@ -7,6 +7,7 @@ export const DASHBOARD_NAMES = Object.freeze({
   APPROVALS_CASE_PLAN: "dashboard.approvals_case_plan",
   APPROVALS_CLOSURE_PENDING: "dashboard.approvals_closure_pending",
   APPROVALS_CLOSURE: "dashboard.approvals_closure",
+  CASE_INCIDENT_OVERVIEW: "dashboard.dash_case_incident_overview",
   CASE_OVERVIEW: "dashboard.case_overview",
   CASE_RISK: "dashboard.case_risk",
   CASES_BY_TASK_OVERDUE_ASSESSMENT:

@@ -92,7 +92,8 @@ const sharedUserFields = (i18n, formMode) => [
   {
     display_name: i18n.t("user.agency_office"),
     name: "agency_office",
-    type: TEXT_FIELD
+    type: SELECT_FIELD,
+    option_strings_source: "lookup-agency-office"
   },
   {
     display_name: i18n.t("user.position"),

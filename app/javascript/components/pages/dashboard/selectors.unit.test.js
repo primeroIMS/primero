@@ -227,6 +227,29 @@ const sharedWithMyTeam = {
   }
 };
 
+const myCasesIncidents = {
+  name: "dashboard.dash_case_incident_overview",
+  type: "indicator",
+  indicators: {
+    new_or_updated: {
+      query: ["record_state=true", "status=open", "not_edited_by_owner=true"],
+      count: 1
+    },
+    total: {
+      query: ["record_state=true", "status=open"],
+      count: 2
+    },
+    with_incidents: {
+      query: ["record_state=true", "status=open", "has_incidents=true"],
+      count: 0
+    },
+    without_incidents: {
+      query: ["record_state=true", "status=open", "has_incidents=false"],
+      count: 1
+    }
+  }
+};
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
   records: {
@@ -260,7 +283,8 @@ const initialState = fromJS({
         sharedWithOthers,
         groupOverview,
         caseOverview,
-        sharedWithMyTeam
+        sharedWithMyTeam,
+        myCasesIncidents
       ]
     }
   }
@@ -403,6 +427,14 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getSharedWithMyTeam(initialState);
 
       expect(values).to.deep.equal(fromJS(sharedWithMyTeam));
+    });
+  });
+
+  describe("getCaseIncidentOverview", () => {
+    it("should return the Overview - My Cases / Incidents dashboard", () => {
+      const values = selectors.getCaseIncidentOverview(initialState);
+
+      expect(values).to.deep.equal(fromJS(myCasesIncidents));
     });
   });
 });

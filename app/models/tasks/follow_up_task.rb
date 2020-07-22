@@ -19,6 +19,10 @@ module Tasks
       !followup['followup_date'].present?
     end
 
+    def self.field_name
+      'followup_needed_by_date'
+    end
+
     def initialize(record, followup)
       super(record)
       self.followup = followup

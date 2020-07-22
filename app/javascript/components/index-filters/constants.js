@@ -22,7 +22,8 @@ export const HIDDEN_FIELDS = [
   "referred_users",
   "referred_users_present",
   "service_due_dates",
-  "transferred_to_users"
+  "transferred_to_users",
+  "has_incidents"
 ];
 
 export const PRIMARY_FILTERS = [

@@ -16,6 +16,7 @@ describe("Verifying config constant", () => {
       "ASSIGN_WITHIN_USER_GROUP",
       "CLOSE",
       "CREATE",
+      "DASH_CASE_INCIDENT_OVERVIEW",
       "DASH_APPROVALS_ASSESSMENT",
       "DASH_APPROVALS_ASSESSMENT_PENDING",
       "DASH_APPROVALS_CASE_PLAN",
