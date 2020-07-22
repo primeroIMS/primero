@@ -131,6 +131,10 @@ const ReassignForm = ({
     );
   };
 
+  const handleTransitionedTo = (data, form, field) => {
+    form.setFieldValue(field.name, data?.value || [], false);
+  };
+
   const formProps = {
     initialValues,
     validationSchema,
@@ -154,13 +158,7 @@ const ReassignForm = ({
                         searchableSelectProps.options,
                         false
                       )}
-                      onChange={data => {
-                        form.setFieldValue(
-                          field.name,
-                          data?.value || [],
-                          false
-                        );
-                      }}
+                      onChange={data => handleTransitionedTo(data, form, field)}
                       {...searchableSelectProps}
                       {...other}
                       onBlur={field.onBlur}
