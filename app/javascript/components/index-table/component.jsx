@@ -271,6 +271,7 @@ const Component = ({
     print: false,
     viewColumns: false,
     serverSide: true,
+    setTableProps: () => ({ "aria-label": title }),
     customToolbar: showCustomToolbar && customToolbarSelect,
     selectableRows: "multiple",
     rowsSelected: selectedRecordsOnCurrentPage?.length
