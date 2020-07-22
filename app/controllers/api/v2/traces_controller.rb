@@ -6,4 +6,14 @@ class Api::V2::TracesController < ApplicationApiController
     @trace = Trace.find(params[:id])
     authorize! :read, @trace
   end
+
+  def update
+    @trace = Trace.find(params[:id])
+    authorize! :write, @trace
+    @trace.update_attributes!(trace_params)
+  end
+
+  def trace_params
+    params.require(:data).permit(:matched_case_id)
+  end
 end

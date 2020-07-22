@@ -21,4 +21,19 @@ describe Api::V2::TracesController, type: :request do
       expect(json['data']['tracing_request_id']).to eq(tracing_request.id)
     end
   end
+
+  describe 'PATCH /api/v2/traces/:id' do
+    let(:case1) { Child.create!(name: 'Test', age: 5, sex: 'male') }
+
+    it 'associates a case and a matched trace' do
+      login_for_test
+      params = { data: { matched_case_id: case1.id } }
+      patch "/api/v2/traces/#{trace.id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['matched_case_id']).to eq(case1.id)
+      expect(case1.matched_traces.count.positive?).to be_truthy
+      expect(case1.matched_traces[0].id).to eq(trace.id)
+    end
+  end
 end

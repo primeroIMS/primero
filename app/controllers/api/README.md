@@ -43,6 +43,20 @@ The API behavior is identical to that of cases. See the case endpoints above for
 * Update an existing tracing request: `PATCH /api/v2/tracing_requests/:id`
 * Disable an existing tracing request: `DELETE /api/v2/tracing_requests/:id`
 
+## Traces
+
+Endpoints for fetching data about an individual trace or matching a trace to case.
+Trace data will be maintained as part of the tracing request above.
+
+* [Fetch an individual trace](v2/docs/traces/id/get.md): `GET /api/v2/traces/:id`
+* [Match a trace to a case](v2/docs/traces/id/patch.md): `PATCH /api/v2/traces/:id`
+
+# Potential Matches
+
+Search for potential matches for family tracing for a particular trace or case record
+* [Search for traces matching a case](v2/docs/potential_matches/get.md): `GET /api/v2/cases/:id/potential_matches`
+* [Search for cases matching a trace](v2/docs/potential_matches/get.md): `GET /api/v2/traces/:id/potential_matches`
+
 ## Flagging Endpoints
 
 Endpoints for query and manipulating flags for cases, tracing request and incidents
@@ -57,12 +71,6 @@ Endpoints for query and manipulating flags for cases, tracing request and incide
 Endpoints for associating files with records.
 * [Attach a file](v2/docs/attachments/post.md): `POST /api/v2/:recordType/:recordId/attachments`
 * [Detach a file](v2/docs/attachments/id/delete.md): `DELETE /api/v2/:recordType/:recordId/attachments/:id`
-
-## Potential Matches
-
-Search for potential matches for family tracing for a particular trace or case record
-* [Search for traces matching a case](v2/docs/potential_matches/get.md): `GET /api/v2/cases/:id/potential_matches`
-* [Search for cases matching a trace](v2/docs/potential_matches/get.md): `GET /api/v2/traces/:id/potential_matches`
 
 ## Transitions
 

@@ -26,9 +26,8 @@ class PotentialMatch < ValueObject
     %w[name name_other name_nickname]
   end
 
-  # TODO: This doesnt work. fix.
   def case_and_trace_matched?
-    child&.matched_to_trace?(tracing_request, trace)
+    trace.matched_case_id == child.id
   end
 
   def comparison

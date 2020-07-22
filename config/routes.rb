@@ -63,7 +63,7 @@ Rails.application.routes.draw do
         get :record_history, to: 'record_histories#index'
       end
 
-      resources :traces, only: %i[show] do
+      resources :traces, only: %i[show update] do
         resources :potential_matches, only: %i[index]
       end
 

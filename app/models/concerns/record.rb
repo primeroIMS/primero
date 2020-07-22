@@ -78,16 +78,6 @@ module Record
       ).pluck(:name)
     end
 
-    # TODO: Refactor with UIUX
-    def model_name_for_messages
-      name.titleize.downcase
-    end
-
-    # TODO: Refactor with UIUX
-    def locale_prefix
-      name.underscore.downcase
-    end
-
     def nested_reportable_types
       []
     end

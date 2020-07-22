@@ -5,10 +5,13 @@ class Trace < ApplicationRecord
   include Indexable
 
   belongs_to :tracing_request
+  belongs_to :matched_case, foreign_key: 'matched_case_id', class_name: 'Child', optional: true
+
   store_accessor :data,
                  :unique_id,
                  :relation, :name, :name_nickname, :age, :date_of_birth, :sex,
                  :religion, :nationality, :language, :ethnicity
+
   class << self
     def trace_matching_field_names
       MatchingConfiguration.matchable_fields('tracing_request', true).pluck(:name) |

@@ -9,17 +9,7 @@ class Child < ApplicationRecord
 
   self.table_name = 'cases'
 
-  class << self
-    def parent_form
-      'case'
-    end
-
-    def model_name_for_messages
-      'case'
-    end
-  end
-
-  def locale_prefix
+  def self.parent_form
     'case'
   end
 
@@ -65,8 +55,7 @@ class Child < ApplicationRecord
   )
 
   has_many :incidents
-  belongs_to :matched_tracing_request, class_name: 'TracingRequest', optional: true
-
+  has_many :matched_traces, class_name: 'Trace', foreign_key: 'matched_case_id'
   has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
   belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id', optional: true
 
@@ -184,11 +173,7 @@ class Child < ApplicationRecord
   end
 
   def to_s
-    if name.present?
-      "#{name} (#{unique_identifier})"
-    else
-      unique_identifier
-    end
+    name.present? ? "#{name} (#{unique_identifier})" : unique_identifier
   end
 
   def auto_populate_name
@@ -257,18 +242,6 @@ class Child < ApplicationRecord
   def mark_as_duplicate(parent_id)
     self.duplicate = true
     self.duplicate_case_id = parent_id
-  end
-
-  # TODO: Matching methods. Refactor!!!!
-
-  def match_to_trace(tracing_request, trace)
-    self.matched_tracing_request_id = tracing_request.id
-    self.matched_trace_id = trace['unique_id']
-  end
-
-  def matched_to_trace?(tracing_request, trace)
-    matched_tracing_request_id.present? && matched_trace_id.present? &&
-      (matched_trace_id == trace['unique_id']) && (matched_tracing_request_id == tracing_request.id)
   end
 
   def match_criteria
