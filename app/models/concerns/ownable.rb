@@ -5,10 +5,10 @@ module Ownable
   extend ActiveSupport::Concern
 
   included do
-    store_accessor :data,
-      :owned_by, :owned_by_full_name, :owned_by_agency_id, :owned_by_groups, :owned_by_location, :owned_by_user_code,
-      :previously_owned_by, :previously_owned_by_full_name, :previously_owned_by_agency, :previously_owned_by_location,
-      :assigned_user_names, :module_id, :associated_user_groups, :associated_user_agencies
+    store_accessor :data, :owned_by, :owned_by_full_name, :owned_by_agency_id, :owned_by_groups, :owned_by_location,
+                   :owned_by_user_code, :owned_by_agency_office, :previously_owned_by, :previously_owned_by_full_name,
+                   :previously_owned_by_agency, :previously_owned_by_location, :previously_owned_by_agency_office,
+                   :assigned_user_names, :module_id, :associated_user_groups, :associated_user_agencies
 
     searchable do
       string :associated_user_names, multiple: true
@@ -68,7 +68,7 @@ module Ownable
 
   def users_by_association
     @users_by_association ||= associated_users.reduce(assigned_users: []) do |hash, user|
-      hash[:owner] = user if (user.user_name == owned_by)
+      hash[:owner] = user if user.user_name == owned_by
       # TODO: Put this in only if we need to get user info about the other assigned users (probably transfers)
       # hash[:assigned_users] << user if assigned_user_names && assigned_user_names.include? user.user_name
       hash
@@ -84,10 +84,7 @@ module Ownable
     @users_by_association = nil
     @associated_users = nil
     @record_agency = nil
-
-    unless owner.present?
-      self.owned_by = nil
-    end
+    self.owned_by = nil if owner.blank?
 
     previous_data_changes = changes['data'].try(:fetch, 0)
     self.previously_owned_by = previous_data_changes.try(:[], 'owned_by') || owned_by
@@ -98,9 +95,12 @@ module Ownable
       self.owned_by_groups = owner&.user_group_ids # TODO: This is wrong. This need to the stable unique_id
       self.owned_by_location = owner&.location
       self.owned_by_user_code = owner&.code
+      self.owned_by_agency_office = owner&.agency_office
       unless new_record? || !will_save_change_to_attribute?('data')
         self.previously_owned_by_agency = attributes_in_database['data']['owned_by_agency_id'] || owned_by_agency_id
         self.previously_owned_by_location = attributes_in_database['data']['owned_by_location'] || owned_by_location
+        self.previously_owned_by_agency_office = attributes_in_database['data']['owned_by_agency_office'] ||
+                                                 owned_by_agency_office
       end
     end
 
