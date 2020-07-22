@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+/* eslint-disable react/no-multi-comp */
 import React from "react";
 import PropTypes from "prop-types";
 import { ListItem, ListItemText } from "@material-ui/core";
@@ -6,12 +8,12 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
 
-import Jewel from "../../jewel";
+import Jewel from "../../../../jewel";
+import styles from "../../styles.css";
 
-import styles from "./styles.css";
-import { NAV_ITEM } from "./constants";
+import { NAME } from "./constants";
 
-const NavItem = ({
+const Component = ({
   form,
   groupItem,
   handleClick,
@@ -21,7 +23,8 @@ const NavItem = ({
   name,
   open,
   recordAlerts,
-  selectedForm
+  selectedForm,
+  hasError
 }) => {
   const css = makeStyles(styles)();
 
@@ -46,7 +49,20 @@ const NavItem = ({
     ? itemsOfGroup?.some(alert => validateAlert(alert))
     : validateAlert(formId);
 
-  const formText = !isNew && showJewel ? <Jewel value={name} isForm /> : name;
+  const formText = () => {
+    return (
+      <>
+        {!isNew && showJewel ? (
+          <Jewel value={name} isForm isError={hasError} />
+        ) : (
+          <>
+            {name}
+            {hasError && <Jewel isError={hasError} />}
+          </>
+        )}
+      </>
+    );
+  };
 
   return (
     <ListItem
@@ -60,19 +76,20 @@ const NavItem = ({
       }}
     >
       <ListItemText className={groupItem ? css.nestedItem : css.item}>
-        {formText}
+        {formText()}
       </ListItemText>
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}
     </ListItem>
   );
 };
 
-NavItem.displayName = NAV_ITEM;
+Component.displayName = NAME;
 
-NavItem.propTypes = {
+Component.propTypes = {
   form: PropTypes.object,
   groupItem: PropTypes.bool,
   handleClick: PropTypes.func,
+  hasError: PropTypes.bool,
   isNested: PropTypes.bool,
   isNew: PropTypes.bool,
   itemsOfGroup: PropTypes.array,
@@ -82,4 +99,4 @@ NavItem.propTypes = {
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
-export default NavItem;
+export default Component;

@@ -99,7 +99,7 @@ en:
       approval: "Approval is pending for %{form_section_name}"
       transfer_request: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
     cannot_edit: "You cannot edit this"
-    field_name_on_form_name: "%{field_name} on %{form_name}"
+    field_name_on_form_name: "'%{field_name}' field on '%{form_name}' form."
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -2696,6 +2696,8 @@ en:
 
   dashboard:
     total: 'Total'
+    with_incidents: "With Incidents"
+    without_incidents: "Without Incidents"
     new: 'New & Updated'
     outstanding_transfers: 'Outstanding Transfers'
     pending_transfers: 'Pending Transfers'
@@ -3582,6 +3584,8 @@ en:
   string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
 
   error_message:
+    address_form_fields: "You need to address %{fields} fields on this form"
+    address_fields: "You need to address %{fields} fields on %{forms} forms"
     notice: 'Errors prohibited this record from being saved'
     fields_notice: 'There were problems with the following fields:'
 

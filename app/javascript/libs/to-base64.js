@@ -18,7 +18,7 @@ const readFileAsync = file =>
 export default async (file, max = MAX_IMAGE_SIZE) => {
   try {
     const image = await reduce().toBlob(file, { max });
-    console.log(file)
+
     const results = await readFileAsync(image);
 
     const parsedResults = results.match(/(^.*base64,)(.*)/);
