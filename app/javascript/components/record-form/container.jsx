@@ -28,6 +28,7 @@ import { usePermissions } from "../user";
 import { fetchRecordsAlerts } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
 
+import { clearValidationErrors } from "./action-creators";
 import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
@@ -151,7 +152,8 @@ const Container = ({ match, mode }) => {
     forms,
     mode: containerMode,
     record,
-    recordType: params.recordType
+    recordType: params.recordType,
+    primeroModule: selectedModule.primeroModule
   };
 
   const toolbarProps = {
@@ -171,7 +173,7 @@ const Container = ({ match, mode }) => {
     handleToggleNav,
     isNew: containerMode.isNew,
     mobileDisplay,
-    recordType,
+    recordType: params.recordType,
     selectedForm,
     selectedRecord: record ? record.get("id") : null,
     toggleNav,
@@ -208,6 +210,10 @@ const Container = ({ match, mode }) => {
       });
     }
   }, [params.recordType, params.id]);
+
+  useEffect(() => {
+    return () => dispatch(clearValidationErrors());
+  }, []);
 
   // TODO: When transfer_request be implement change the transition_ype
   const isRecordOwnerForm = RECORD_OWNER === selectedForm;

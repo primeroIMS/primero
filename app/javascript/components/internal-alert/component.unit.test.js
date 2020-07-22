@@ -53,4 +53,22 @@ describe("<InternalAlert />", () => {
         .map(f => f.text())
     ).to.deep.equal(["Alert Message 1", "Alert Message 2"]);
   });
+
+  it("renders the specified title", () => {
+    const title = "This is the title";
+    const { component } = setupMountedComponent(
+      InternalAlert,
+      {
+        title,
+        items: fromJS([
+          { message: "Alert Message 1" },
+          { message: "Alert Message 2" }
+        ]),
+        severity: "warning"
+      },
+      {}
+    );
+
+    expect(component.find(ExpansionPanelSummary).text()).to.be.equal(title);
+  });
 });

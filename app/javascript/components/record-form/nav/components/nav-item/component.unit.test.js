@@ -1,10 +1,11 @@
 import { fromJS, Map, OrderedMap } from "immutable";
 import { ListItem, ListItemText } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../../test";
-import { FormSectionRecord, FieldRecord } from "../records";
+import Jewel from "../../../../jewel";
+import { setupMountedComponent } from "../../../../../test";
+import { FormSectionRecord, FieldRecord } from "../../../records";
 
-import NavItem from "./NavItem";
+import NavItem from "./component";
 
 describe("<NavItem />", () => {
   let component;
@@ -104,7 +105,8 @@ describe("<NavItem />", () => {
     name: "",
     open: false,
     recordAlerts: {},
-    selectedForm: ""
+    selectedForm: "",
+    hasError: true
   };
 
   beforeEach(() => {
@@ -133,11 +135,20 @@ describe("<NavItem />", () => {
       "name",
       "open",
       "recordAlerts",
-      "selectedForm"
+      "selectedForm",
+      "hasError"
     ].forEach(property => {
       expect(NavItemProps).to.have.property(property);
       delete NavItemProps[property];
     });
     expect(NavItemProps).to.be.empty;
+  });
+
+  it("renders a ListItemText component />", () => {
+    expect(component.find(ListItemText)).to.have.lengthOf(1);
+  });
+
+  it("renders <Jewel/> for error", () => {
+    expect(component.find(Jewel)).to.have.lengthOf(1);
   });
 });

@@ -22,7 +22,7 @@ import { NAME, SEVERITY } from "./constants";
 import { expansionPanelSummaryClasses } from "./theme";
 import styles from "./styles.css";
 
-const Component = ({ items, severity }) => {
+const Component = ({ title, items, severity }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const classes = makeStyles(expansionPanelSummaryClasses)();
@@ -57,7 +57,7 @@ const Component = ({ items, severity }) => {
   const renderTitle = () => {
     const titleMessage =
       items?.size > 1
-        ? i18n.t("messages.alert_items", { items: items.size })
+        ? title || i18n.t("messages.alert_items", { items: items.size })
         : items?.first()?.get("message");
 
     return (
@@ -96,7 +96,8 @@ Component.defaultProps = {
 
 Component.propTypes = {
   items: PropTypes.object,
-  severity: PropTypes.string
+  severity: PropTypes.string,
+  title: PropTypes.string
 };
 
 export default Component;

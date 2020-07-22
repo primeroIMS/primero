@@ -397,4 +397,51 @@ describe("<RecordForm /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle forms/CLEAR_VALIDATION_ERRORS", () => {
+    const initialState = fromJS({
+      validationErrors: [
+        {
+          unique_id: "form_1",
+          form_group_id: "group_1",
+          errors: {
+            field_1: "field_1 is required"
+          }
+        }
+      ]
+    });
+
+    const expected = fromJS({});
+
+    const action = { type: actions.CLEAR_VALIDATION_ERRORS };
+
+    const newState = reducer.forms(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle forms/SET_VALIDATION_ERRORS", () => {
+    const validationErrors = [
+      {
+        unique_id: "form_1",
+        form_group_id: "group_1",
+        errors: {
+          field_1: "field_1 is required"
+        }
+      }
+    ];
+
+    const initialState = fromJS({});
+
+    const expected = fromJS({ validationErrors });
+
+    const action = {
+      type: actions.SET_VALIDATION_ERRORS,
+      payload: validationErrors
+    };
+
+    const newState = reducer.forms(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });

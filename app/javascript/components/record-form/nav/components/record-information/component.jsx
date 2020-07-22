@@ -10,14 +10,19 @@ import {
   TRANSFERS_ASSIGNMENTS,
   REFERRAL,
   APPROVALS
-} from "../../../../config";
-import { SHOW_APPROVALS, checkPermissions } from "../../../../libs/permissions";
-import NavGroup from "../NavGroup";
-import { NavRecord } from "../../records";
-import { useI18n } from "../../../i18n";
-import { getPermissionsByRecord } from "../../../user/selectors";
+} from "../../../../../config";
+import {
+  SHOW_APPROVALS,
+  checkPermissions
+} from "../../../../../libs/permissions";
+import NavGroup from "../nav-group";
+import { NavRecord } from "../../../records";
+import { useI18n } from "../../../../i18n";
+import { getPermissionsByRecord } from "../../../../user/selectors";
 
-const RecordInformation = ({ open, handleClick, selectedForm, match }) => {
+import { NAME } from "./constants";
+
+const Component = ({ open, handleClick, selectedForm, match }) => {
   const { params } = match;
   const { recordType } = params;
   const i18n = useI18n();
@@ -87,13 +92,13 @@ const RecordInformation = ({ open, handleClick, selectedForm, match }) => {
   );
 };
 
-RecordInformation.displayName = "RecordInformation";
+Component.displayName = NAME;
 
-RecordInformation.propTypes = {
+Component.propTypes = {
   handleClick: PropTypes.func,
   match: PropTypes.object.isRequired,
   open: PropTypes.string,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
-export default withRouter(RecordInformation);
+export default withRouter(Component);

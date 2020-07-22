@@ -16,6 +16,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - ge
       expect(fields.displayName.name).to.equal("test_1.display_name.en");
       expect(fields.helpText.name).to.equal("test_1.help_text.en");
       expect(fields.required.name).to.equal("test_1.required");
+      expect(fields.disabled.name).to.equal("test_1.disabled");
     });
   });
 
@@ -29,7 +30,8 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - ge
         "test_1.display_name.en",
         "test_1.help_text.en",
         "test_1.guiding_questions.en",
-        "test_1.required"
+        "test_1.required",
+        "test_1.disabled"
       ]);
     });
 
