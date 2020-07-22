@@ -2,10 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { List, Collapse } from "@material-ui/core";
 
-import NavItem from "./NavItem";
-import { NAV_GROUP } from "./constants";
+import NavItem from "../nav-item";
 
-const NavGroup = ({
+import { NAME } from "./constants";
+
+const Component = ({
   group,
   handleClick,
   isNew,
@@ -66,9 +67,9 @@ const NavGroup = ({
   );
 };
 
-NavGroup.displayName = NAV_GROUP;
+Component.displayName = NAME;
 
-NavGroup.propTypes = {
+Component.propTypes = {
   currentUser: PropTypes.string,
   group: PropTypes.object,
   handleClick: PropTypes.func,
@@ -80,4 +81,4 @@ NavGroup.propTypes = {
   validationErrors: PropTypes.object
 };
 
-export default NavGroup;
+export default Component;

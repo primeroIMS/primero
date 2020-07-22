@@ -29,13 +29,15 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
     });
   };
 
-  const handleChange = (form, event) => {
+  const handleChange = async (form, event) => {
     const selectedFile = event?.target?.files?.[0];
 
     loadingFile(true);
 
     if (selectedFile) {
-      toBase64(selectedFile).then(data => {
+      const data = await toBase64(selectedFile);
+
+      if (data) {
         form.setFieldValue(fields.attachment, data?.result, true);
         form.setFieldValue(fields.contentType, data?.fileType, true);
         form.setFieldValue(fields.fileName, data?.fileName, true);
@@ -48,7 +50,7 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
           form.setFieldValue(fields.date, new Date(), true);
         }
         loadingFile(false, data);
-      });
+      }
     }
   };
 

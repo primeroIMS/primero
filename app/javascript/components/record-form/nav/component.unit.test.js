@@ -1,12 +1,15 @@
 import { fromJS, Map, OrderedMap } from "immutable";
+import Divider from "@material-ui/core/Divider";
+import CloseIcon from "@material-ui/icons/Close";
 
 import { setupMountedComponent } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
+import { ConditionalWrapper } from "../../../libs";
 
-import NavItem from "./NavItem";
-import NavGroup from "./NavGroup";
+import { NavGroup, RecordInformation } from "./components";
+import Nav from "./component";
 
-describe("<NavGroup />", () => {
+describe("<Nav />", () => {
   let component;
 
   const record = fromJS({
@@ -109,37 +112,61 @@ describe("<NavGroup />", () => {
   });
 
   const props = {
-    group: formNav,
-    handleClick: () => {},
-    isNew: false,
-    open: {},
-    recordAlerts: {},
-    selectedForm: ""
+    firstTab: {},
+    formNav,
+    handleToggleNav: () => {},
+    isNew: true,
+    mobileDisplay: true,
+    selectedForm: "",
+    selectedRecord: "",
+    toggleNav: true
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(NavGroup, props, initialState));
+    ({ component } = setupMountedComponent(Nav, props, initialState));
   });
 
-  it("renders a NavItem component />", () => {
-    expect(component.find(NavItem)).to.have.lengthOf(1);
+  it("renders a CloseIcon component />", () => {
+    expect(component.find(CloseIcon)).to.have.lengthOf(1);
+  });
+
+  it("renders a Nav component />", () => {
+    expect(component.find(Nav)).to.have.lengthOf(1);
+  });
+
+  it("renders a RecordInformation component />", () => {
+    expect(component.find(RecordInformation)).to.have.lengthOf(1);
+  });
+
+  it("renders a Divider component />", () => {
+    expect(component.find(Divider)).to.have.lengthOf(1);
+  });
+
+  it("renders a NavGroup component from record information and another one from the others forms groups />", () => {
+    expect(component.find(NavGroup)).to.have.lengthOf(2);
+  });
+
+  it("renders a ConditionalWrapper />", () => {
+    expect(component.find(ConditionalWrapper)).to.have.lengthOf(1);
   });
 
   it("should render valid props", () => {
-    const navGroupProps = { ...component.find(NavGroup).props() };
+    const navProps = { ...component.find(Nav).props() };
 
-    expect(component.find(NavGroup)).to.have.lengthOf(1);
+    expect(component.find(Nav)).to.have.lengthOf(1);
     [
-      "group",
-      "handleClick",
+      "firstTab",
+      "formNav",
+      "handleToggleNav",
       "isNew",
-      "open",
-      "recordAlerts",
-      "selectedForm"
+      "mobileDisplay",
+      "selectedForm",
+      "selectedRecord",
+      "toggleNav"
     ].forEach(property => {
-      expect(navGroupProps).to.have.property(property);
-      delete navGroupProps[property];
+      expect(navProps).to.have.property(property);
+      delete navProps[property];
     });
-    expect(navGroupProps).to.be.empty;
+    expect(navProps).to.be.empty;
   });
 });

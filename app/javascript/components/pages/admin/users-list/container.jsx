@@ -17,6 +17,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { Filters as AdminFilters } from "../components";
 import { fetchAgencies } from "../agencies-list/action-creators";
 import { getEnabledAgencies } from "../../../application/selectors";
+import { getMetadata } from "../../../record-list";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED } from "./constants";
@@ -27,17 +28,23 @@ const Container = () => {
   const dispatch = useDispatch();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = "users";
-  const defaultFilters = { [DISABLED]: ["false"] };
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
     ...rest
   }));
   const filterAgencies = useSelector(state => getEnabledAgencies(state));
+  const metadata = useSelector(state => getMetadata(state, recordType));
+  const defaultFilters = fromJS({
+    ...{
+      [DISABLED]: ["false"]
+    },
+    ...metadata?.toJS()
+  });
 
   useEffect(() => {
     dispatch(fetchAgencies({ options: { per: 999 } }));
-    dispatch(fetchUsers({ data: { [DISABLED]: ["false"] } }));
+    dispatch(fetchUsers({ data: defaultFilters.toJS() }));
   }, []);
 
   const tableOptions = {
@@ -46,10 +53,7 @@ const Container = () => {
     options: {
       selectableRows: "none"
     },
-    defaultFilters: fromJS({
-      per: 20,
-      page: 1
-    }),
+    defaultFilters,
     onTableChange: fetchUsers,
     bypassInitialFetch: true
   };

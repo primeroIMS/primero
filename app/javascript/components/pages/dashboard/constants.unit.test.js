@@ -28,6 +28,7 @@ describe("Verifying config constant", () => {
       "APPROVALS_CASE_PLAN",
       "APPROVALS_CLOSURE_PENDING",
       "APPROVALS_CLOSURE",
+      "CASE_INCIDENT_OVERVIEW",
       "CASE_OVERVIEW",
       "CASE_RISK",
       "CASES_BY_TASK_OVERDUE_ASSESSMENT",

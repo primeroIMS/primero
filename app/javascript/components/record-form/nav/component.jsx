@@ -12,11 +12,10 @@ import { setSelectedForm, setSelectedRecord } from "../action-creators";
 import { compare, ConditionalWrapper } from "../../../libs";
 
 import { NAME } from "./constants";
-import NavGroup from "./NavGroup";
-import RecordInformation from "./components/record-information";
+import { NavGroup, RecordInformation } from "./components";
 import styles from "./styles.css";
 
-const Nav = ({
+const Component = ({
   firstTab,
   formNav,
   handleToggleNav,
@@ -51,9 +50,17 @@ const Nav = ({
 
     if (group !== open) {
       setOpen(group);
+    } else if (parentItem && group === open) {
+      setOpen("");
     }
 
-    dispatch(setSelectedForm(formId));
+    dispatch(
+      setSelectedForm(
+        parentItem && (group === open || open === "")
+          ? selectedRecordForm.first().unique_id
+          : formId
+      )
+    );
 
     if (!parentItem && mobileDisplay) {
       handleToggleNav();
@@ -112,7 +119,6 @@ const Nav = ({
           group={formGroup}
           handleClick={handleClick}
           isNew={isNew}
-          key={formGroup.first().formId}
           open={open}
           recordAlerts={recordAlerts}
           selectedForm={selectedForm}
@@ -146,9 +152,9 @@ const Nav = ({
   return null;
 };
 
-Nav.displayName = NAME;
+Component.displayName = NAME;
 
-Nav.propTypes = {
+Component.propTypes = {
   firstTab: PropTypes.object,
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
@@ -161,4 +167,4 @@ Nav.propTypes = {
   toggleNav: PropTypes.bool
 };
 
-export default Nav;
+export default Component;

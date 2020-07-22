@@ -99,6 +99,7 @@ en:
       approval: "Approval is pending for %{form_section_name}"
       transfer_request: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
     cannot_edit: "You cannot edit this"
+    field_name_on_form_name: "'%{field_name}' field on '%{form_name}' form."
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -1181,7 +1182,7 @@ en:
     disabled: "Disabled"
     agency: "Agency"
     services: "Services"
-    agency_office: "Agency Office"
+    agency_office: "Agency Office (GBV field)"
     position: Position
     phone: "Phone"
     email: "Email"
@@ -1986,6 +1987,9 @@ en:
           dash_shared_from_my_team:
             label:  "Shared From My Team"
             explanation: "Shows a manager the number of cases managed by each user in their team, which are being referred or transferred to other users."
+          dash_case_incident_overview:
+            label: "Overview - My Cases / Incidents"
+            explanation: "."
           dash_tasks:
             label: "Tasks Page"
             explanation: "Allows the user to see the tasks page. This should be used for case workers and service providers,
@@ -2127,6 +2131,7 @@ en:
       dash_group_overview: "My Group's Cases"
       dash_shared_with_my_team: "Shared With My Team"
       dash_shared_from_my_team: "Shared From My Team"
+      dash_case_incident_overview: "Overview - My Cases / Incidents"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
       incident_details_from_case: "Add Incident Details to another user's case"
@@ -2428,6 +2433,7 @@ en:
     on_collapsed_subform: "On collapsed subform?"
     multi_select_box: "Multi-select"
     date_time: "Date-Time"
+    disabled: "Disabled"
     subform_section:
       name: "Subform Title"
       description: "Subform Description"
@@ -2690,6 +2696,8 @@ en:
 
   dashboard:
     total: 'Total'
+    with_incidents: "With Incidents"
+    without_incidents: "Without Incidents"
     new: 'New & Updated'
     outstanding_transfers: 'Outstanding Transfers'
     pending_transfers: 'Pending Transfers'
@@ -2897,6 +2905,7 @@ en:
     shared_from_my_team_pending_transfers: "Pending Transfers"
     shared_from_my_team_rejected_transfers: "Rejected Transfers"
     dash_shared_with_my_team: "Shared With My Team"
+    dash_case_incident_overview: "Overview - My Cases / Incidents"
     shared_with_my_team_referrals: "Referrals"
     shared_with_my_team_pending_transfers: "Pending Transfers"
 

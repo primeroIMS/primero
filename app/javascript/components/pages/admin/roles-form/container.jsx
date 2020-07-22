@@ -15,6 +15,7 @@ import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
 import { compare } from "../../../../libs";
 import ActionDialog from "../../../action-dialog";
+import { getMetadata } from "../../../record-list";
 
 import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";
@@ -45,6 +46,7 @@ const Container = ({ mode }) => {
     state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]),
     compare
   );
+  const metadata = useSelector(state => getMetadata(state, "roles"));
   const role = useSelector(state => getRole(state), compare);
   const systemPermissions = useSelector(
     state => getSystemPermissions(state),
@@ -79,7 +81,7 @@ const Container = ({ mode }) => {
   };
 
   useEffect(() => {
-    dispatch(fetchRoles());
+    dispatch(fetchRoles({ data: metadata?.toJS() }));
   }, []);
 
   useEffect(() => {

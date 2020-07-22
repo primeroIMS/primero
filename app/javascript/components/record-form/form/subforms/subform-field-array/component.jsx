@@ -70,6 +70,7 @@ const Component = ({
         i18n={i18n}
         initialSubformValue={initialSubformValue}
         formik={formik}
+        recordType={recordType}
       />
     </>
   );

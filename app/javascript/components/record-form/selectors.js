@@ -183,3 +183,7 @@ export const getSubformsDisplayName = (state, locale) =>
     .filter(fs => fs.is_nested)
     .map(fs => fromJS({ [fs.unique_id]: fs.getIn(["name", locale]) }))
     .reduce((acc, next) => acc.merge(next), fromJS({}));
+
+export const getFields = state => state.getIn([NAMESPACE, "fields"]);
+
+export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);

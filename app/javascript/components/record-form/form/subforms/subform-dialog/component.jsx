@@ -3,12 +3,12 @@ import { Formik, Form, getIn } from "formik";
 import PropTypes from "prop-types";
 import {
   Box,
-  IconButton,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckIcon from "@material-ui/icons/Check";
 import { object } from "yup";
@@ -23,6 +23,8 @@ import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import SubformErrors from "../subform-errors";
 
+import styles from "./styles.css";
+
 const Component = ({
   index,
   field,
@@ -33,8 +35,11 @@ const Component = ({
   dialogIsNew,
   i18n,
   formik,
+  recordType,
   initialSubformValue
 }) => {
+  const css = makeStyles(styles)();
+
   const subformValues = getIn(
     formik.values,
     `${field.subform_section_id.unique_id}[${index}]`
@@ -134,11 +139,18 @@ const Component = ({
                 <SubformMenu
                   index={index}
                   values={formik.values.services_section}
+                  recordType={recordType}
                 />
               ) : null}
-              <IconButton onClick={handleClose}>
-                <CloseIcon />
-              </IconButton>
+              <ActionButton
+                icon={<CloseIcon />}
+                type={ACTION_BUTTON_TYPES.icon}
+                isTransparent
+                rest={{
+                  onClick: handleClose,
+                  className: css.modalClosesBtn
+                }}
+              />
             </Box>
           </Box>
         </DialogTitle>
@@ -187,6 +199,7 @@ Component.propTypes = {
   initialSubformValue: PropTypes.object.isRequired,
   mode: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
+  recordType: PropTypes.string,
   setOpen: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired
 };
