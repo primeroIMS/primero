@@ -11,3 +11,24 @@
   color: $(theme.primero.colors.darkGrey);
   margin-left: 5px;
 }
+
+.dialogTitle {
+  display: flex;
+  align-items: center;
+
+  & div:first-of-type {
+    flex: 7;
+  }
+
+  & div:not(:first-of-type) {
+    flex: 0.5;
+  }
+
+  & div:last-of-type {
+
+    & button {
+      top: 10px !important;
+    }
+  }
+
+}
