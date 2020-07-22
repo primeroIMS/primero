@@ -2696,6 +2696,8 @@ en:
 
   dashboard:
     total: 'Total'
+    with_incidents: "With Incidents"
+    without_incidents: "Without Incidents"
     new: 'New & Updated'
     outstanding_transfers: 'Outstanding Transfers'
     pending_transfers: 'Pending Transfers'
