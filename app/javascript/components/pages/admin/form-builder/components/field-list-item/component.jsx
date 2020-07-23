@@ -84,8 +84,11 @@ const Component = ({ field, index, subformField }) => {
       if (isNested) {
         onNested(fieldName);
       } else {
+        const fieldData = getValues({ nest: true })[fieldsAttribute][fieldName];
+
         dispatch(clearSelectedField());
         dispatch(setSelectedField(fieldName));
+        dispatch(updateSelectedField({ [fieldName]: fieldData }));
       }
 
       if (field?.get("type") === SUBFORM_SECTION) {
