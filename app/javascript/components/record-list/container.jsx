@@ -73,7 +73,7 @@ const Container = ({ match, location }) => {
     getPermissionsByRecord(state, recordType)
   );
 
-  const defaultFilters = fromJS(DEFAULT_FILTERS);
+  const defaultFilters = fromJS({ ...DEFAULT_FILTERS, ...metadata?.toJS() });
 
   useEffect(() => {
     dispatch(
@@ -186,7 +186,10 @@ const Container = ({ match, location }) => {
           <Box className={css.tableContainer} flexGrow={1}>
             <RecordListToolbar {...recordListToolbarProps} />
             <Box className={css.table}>
-              <IndexTable {...indexTableProps} />
+              <IndexTable
+                title={i18n.t(`${recordType}.label`)}
+                {...indexTableProps}
+              />
             </Box>
           </Box>
           <FilterContainer {...filterContainerProps}>

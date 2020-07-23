@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 
 import { RECORD_TYPES } from "../../../../../../config/constants";
 import styles from "../../styles.css";
 import { useI18n } from "../../../../../i18n";
 import FiltersExpansionPanel from "../filters-expansion-panel";
+import ActionButton from "../../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
 const Component = ({
   filterValues,
@@ -60,14 +62,17 @@ const Component = ({
 
   return (
     <div className={clsx({ [css.disabledFilters]: disabled })}>
-      <Button
-        fullWidth
-        variant="outlined"
-        onClick={handleClearValue}
-        className={css.clearBtn}
-      >
-        {i18n.t("clear")}
-      </Button>
+      <ActionButton
+        text={i18n.t("clear")}
+        type={ACTION_BUTTON_TYPES.default}
+        isTransparent
+        rest={{
+          onClick: handleClearValue,
+          variant: "outlined",
+          fullWidth: true
+        }}
+      />
+
       {renderExpansionPanels()}
     </div>
   );

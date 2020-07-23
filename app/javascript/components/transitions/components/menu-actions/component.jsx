@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { IconButton, Menu, MenuItem } from "@material-ui/core";
+import { Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { TRANSITION_STATUS, TRANSITIONS_TYPES } from "../../constants";
@@ -19,6 +19,8 @@ import {
   selectDialogPending
 } from "../../../record-actions/selectors";
 import { setDialog, setPending } from "../../../record-actions/action-creators";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import { NAME, REVOKE_MODAL } from "./constants";
 
@@ -161,15 +163,16 @@ const Component = ({ transition, showMode, recordType, classes }) => {
 
   return (
     <div className={classes.iconBar}>
-      <IconButton
-        aria-label="more"
-        aria-controls="long-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-        size="small"
-      >
-        <MoreVertIcon />
-      </IconButton>
+      <ActionButton
+        icon={<MoreVertIcon />}
+        type={ACTION_BUTTON_TYPES.icon}
+        rest={{
+          "aria-label": "more",
+          "aria-controls": "long-menu",
+          "aria-haspopup": "true",
+          onClick: handleClick
+        }}
+      />
       <Menu
         id="long-menu"
         anchorEl={optionMenu}

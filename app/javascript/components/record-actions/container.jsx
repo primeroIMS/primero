@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { Fab, Menu, MenuItem } from "@material-ui/core";
+import { Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { RECORD_TYPES, RECORD_PATH, APPROVALS_TYPES } from "../../config";
@@ -21,9 +21,11 @@ import {
 } from "../../libs/permissions";
 import Permission from "../application/permission";
 import DisableOffline from "../disable-offline";
-import { ConditionalWrapper, useThemeHelper } from "../../libs";
+import { ConditionalWrapper } from "../../libs";
 import { getMetadata } from "../record-list/selectors";
 import { useApp } from "../application";
+import ActionButton from "../action-button";
+import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 
 import { setDialog, setPending } from "./action-creators";
 import {
@@ -52,7 +54,6 @@ import RequestApproval from "./request-approval";
 import Exports from "./exports";
 import { selectDialog, selectDialogPending } from "./selectors";
 import { isDisabledAction } from "./utils";
-import styles from "./styles.css";
 
 const Container = ({
   recordType,
@@ -64,7 +65,6 @@ const Container = ({
   selectedRecords
 }) => {
   const i18n = useI18n();
-  const { css } = useThemeHelper(styles);
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -531,16 +531,17 @@ const Container = ({
 
   return (
     <>
-      {mode && mode.isShow ? (
-        <Fab
-          aria-label="more"
-          aria-controls="long-menu"
-          aria-haspopup="true"
-          onClick={handleClick}
-          className={css.moreButton}
-        >
-          <MoreVertIcon color={iconColor} />
-        </Fab>
+      {mode && mode.isShow && actionItems.length ? (
+        <ActionButton
+          icon={<MoreVertIcon color={iconColor} />}
+          type={ACTION_BUTTON_TYPES.icon}
+          rest={{
+            "aria-label": "more",
+            "aria-controls": "long-menu",
+            "aria-haspopup": "true",
+            onClick: handleClick
+          }}
+        />
       ) : null}
 
       <Menu

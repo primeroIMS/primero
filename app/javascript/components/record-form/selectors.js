@@ -161,3 +161,22 @@ export const getAssignableForms = state =>
   state
     .getIn([NAMESPACE, "formSections"], fromJS([]))
     .filter(form => !form.get("is_nested") && form.get("visible"));
+
+export const getValidationErrors = (state, formUniqueId) => {
+  const validationErrors = state.getIn(
+    [NAMESPACE, "validationErrors"],
+    fromJS([])
+  );
+
+  if (!formUniqueId) {
+    return validationErrors;
+  }
+
+  return validationErrors.find(
+    error => error.get("unique_id") === formUniqueId
+  );
+};
+
+export const getFields = state => state.getIn([NAMESPACE, "fields"]);
+
+export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);

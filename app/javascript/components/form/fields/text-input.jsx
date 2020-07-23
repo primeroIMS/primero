@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
 import { TextField } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { TEXT_AREA } from "../constants";
 import InputLabel from "../components/input-label";

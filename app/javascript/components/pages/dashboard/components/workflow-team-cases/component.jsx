@@ -37,7 +37,10 @@ const Component = ({ loadingIndicator }) => {
           hasData={Boolean(casesWorkflowTeam.size)}
           {...loadingIndicator}
         >
-          <DashboardTable {...toListTable(casesWorkflowTeam, workflowLabels)} />
+          <DashboardTable
+            title={i18n.t("dashboard.workflow_team")}
+            {...toListTable(casesWorkflowTeam, workflowLabels)}
+          />
         </OptionsBox>
       </Grid>
     </Permission>

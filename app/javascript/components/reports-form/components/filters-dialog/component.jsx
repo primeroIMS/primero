@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 import { FormContext, useForm } from "react-hook-form";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
 
 import ActionDialog from "../../../action-dialog";

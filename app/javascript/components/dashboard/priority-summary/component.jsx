@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import makeStyles from "@material-ui/styles/makeStyles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { useI18n } from "../../i18n";
 import DashboardChip from "../dashboard-chip";

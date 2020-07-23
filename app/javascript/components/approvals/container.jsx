@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/styles/makeStyles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";

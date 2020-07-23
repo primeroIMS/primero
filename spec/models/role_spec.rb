@@ -247,4 +247,174 @@ describe Role do
       end
     end
   end
+
+  describe '#update_properties' do
+    before :each do
+      clean_data(Field, FormSection, Role, PrimeroProgram, PrimeroModule)
+      @program = PrimeroProgram.create!(
+        unique_id: 'primeroprogram-primero',
+        name: 'Primero',
+        description: 'Default Primero Program'
+      )
+      @form_section_a = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
+      @module_cp = PrimeroModule.create!(
+        unique_id: 'primeromodule-cp-a',
+        name: 'CPA',
+        description: 'Child Protection A',
+        associated_record_types: %w[case tracing_request incident],
+        primero_program: @program,
+        form_sections: [@form_section_a]
+      )
+      @permissions_test = [
+        Permission.new(
+          resource: Permission::ROLE,
+          actions: [
+            Permission::EXPORT_PDF,
+            Permission::CREATE
+          ],
+          role_unique_ids: %w[
+            role-cp-case-worker
+            role-cp-manager
+          ]
+        ),
+        Permission.new(
+          resource: Permission::USER,
+          actions: [
+            Permission::READ,
+            Permission::WRITE,
+            Permission::CREATE
+          ]
+        )
+      ]
+      Role.create(
+        unique_id: 'role_test_01',
+        name: 'name_test_01',
+        description: 'description_test_01',
+        group_permission: 'all',
+        referral: false,
+        transfer: false,
+        is_manager: true,
+        permissions: @permissions_test,
+        form_sections: [@form_section_a],
+        modules: [@module_cp]
+      )
+    end
+    let(:full_properties) do
+      {
+        name: 'CP Administrator 00',
+        description: 'updating full attributes',
+        group_permission: 'all',
+        referral: false,
+        transfer: false,
+        is_manager: true,
+        form_section_unique_ids: %w[C],
+        module_unique_ids: [@module_cp.unique_id],
+        permissions: {
+          agency: %w[
+            read
+            delete
+          ],
+          role: %w[
+            delete
+            read
+          ],
+          objects: {
+            agency: %w[
+              test_update_agency_00
+              test_update_agency_01
+            ],
+            role: %w[
+              test_update_role_01
+              test_update_role_02
+            ]
+          }
+        }
+      }
+    end
+    let(:properties_without_permission) do
+      {
+        name: 'CP Administrator 01',
+        description: 'no updating permission',
+        group_permission: 'all',
+        referral: false,
+        transfer: false,
+        is_manager: true,
+        form_section_unique_ids: %w[C],
+        module_unique_ids: [@module_cp.unique_id]
+      }
+    end
+    let(:properties_without_module) do
+      {
+        name: 'CP Administrator 02',
+        description: 'no updating module',
+        group_permission: 'all',
+        referral: false,
+        transfer: false,
+        is_manager: true,
+        form_section_unique_ids: %w[C]
+      }
+    end
+    let(:properties_without_forms) do
+      {
+        name: 'CP Administrator 03',
+        description: 'no updating forms',
+        group_permission: 'all',
+        referral: false,
+        transfer: false,
+        is_manager: true
+      }
+    end
+    subject { Role.last }
+
+    context 'when update all attributes' do
+      before do
+        subject.update_properties(full_properties)
+        subject.save
+      end
+
+      it 'should update the role' do
+        expect(subject.name).to eq('CP Administrator 00')
+        expect(subject.description).to eq('updating full attributes')
+      end
+    end
+
+    context 'when update attributes but not permission' do
+      before do
+        subject.update_properties(properties_without_permission)
+        subject.save
+      end
+
+      it 'should update the role' do
+        expect(subject.name).to eq('CP Administrator 01')
+        expect(subject.description).to eq('no updating permission')
+        expect(subject.permissions.size).to eq(2)
+      end
+    end
+
+    context 'when update attributes but not module' do
+      before do
+        subject.update_properties(properties_without_module)
+        subject.save
+      end
+
+      it 'should update the role' do
+        expect(subject.name).to eq('CP Administrator 02')
+        expect(subject.description).to eq('no updating module')
+        expect(subject.modules).to eq([@module_cp])
+      end
+    end
+
+    context 'when update attributes but not forms' do
+      before do
+        subject.update_properties(properties_without_forms)
+        subject.save
+      end
+
+      it 'should update the role' do
+        expect(subject.name).to eq('CP Administrator 03')
+        expect(subject.description).to eq('no updating forms')
+        expect(subject.form_sections).to eq([@form_section_a])
+      end
+    end
+  end
 end

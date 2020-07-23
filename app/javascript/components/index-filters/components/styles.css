@@ -28,6 +28,7 @@
   justify-content: center;
 
   & > * {
+    border-radius: 24px;
     margin: 0 2.5px;
   }
 }
@@ -79,6 +80,7 @@
 
 .moreBtn {
   margin-top: 1em;
+  border-radius: 24px;
 }
 
 @media $(theme.breakpoints.up("md")) {

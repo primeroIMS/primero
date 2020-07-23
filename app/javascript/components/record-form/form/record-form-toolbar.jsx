@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Button, Fab, CircularProgress, Badge } from "@material-ui/core";
+import { Box, Badge } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import { useSelector } from "react-redux";
@@ -16,7 +16,8 @@ import { getSavingRecord } from "../../records/selectors";
 import { RECORD_PATH } from "../../../config";
 import DisableOffline from "../../disable-offline";
 import { useThemeHelper } from "../../../libs";
-import ButtonText from "../../button-text";
+import ActionButton from "../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { getActiveFlags } from "../../flagging/selectors";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
@@ -45,26 +46,20 @@ const RecordFormToolbar = ({
     history.goBack();
   };
 
-  const renderCircularProgress = savingRecord && (
-    <CircularProgress size={24} value={25} className={css.loadingMargin} />
-  );
-
   const flags = useSelector(state =>
     getActiveFlags(state, params.id, params.recordType)
   );
 
   const renderSaveButton = (
-    <Fab
-      className={css.actionButton}
-      variant="extended"
-      aria-label={i18n.t("buttons.save")}
-      onClick={handleFormSubmit}
-      disabled={savingRecord}
-    >
-      <CheckIcon />
-      {renderCircularProgress}
-      <ButtonText text={i18n.t("buttons.save")} />
-    </Fab>
+    <ActionButton
+      icon={<CheckIcon />}
+      text={i18n.t("buttons.save")}
+      type={ACTION_BUTTON_TYPES.default}
+      pending={savingRecord}
+      rest={{
+        onClick: handleFormSubmit
+      }}
+    />
   );
 
   let renderRecordStatusIndicator = null;
@@ -114,41 +109,41 @@ const RecordFormToolbar = ({
         {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <DisableOffline button>
-              <Badge color="error" badgeContent={flags.size}>
-                <Flagging
-                  record={params.id}
-                  recordType={params.recordType}
-                  showActionButtonCss={css.showActionButton}
-                />
+              <Badge
+                color="error"
+                badgeContent={flags.size}
+                className={css.badgeIndicator}
+              >
+                <Flagging record={params.id} recordType={params.recordType} />
               </Badge>
             </DisableOffline>
           </Permission>
         )}
         {(mode.isEdit || mode.isNew) && (
           <div className={css.actionButtonsContainer}>
-            <Fab
-              className={css.actionButtonCancel}
-              variant="extended"
-              aria-label={i18n.t("buttons.cancel")}
-              onClick={goBack}
-            >
-              <ClearIcon />
-              <ButtonText text={i18n.t("buttons.cancel")} />
-            </Fab>
+            <ActionButton
+              icon={<ClearIcon />}
+              text={i18n.t("buttons.cancel")}
+              type={ACTION_BUTTON_TYPES.default}
+              isCancel
+              rest={{
+                onClick: goBack
+              }}
+            />
             {renderSaveButton}
           </div>
         )}
         {mode.isShow && (
           <Permission resources={params.recordType} actions={WRITE_RECORDS}>
-            <Button
-              to={`/${params.recordType}/${params.id}/edit`}
-              component={Link}
-              size="small"
-              className={css.showActionButton}
-            >
-              <CreateIcon />
-              <ButtonText text={i18n.t("buttons.edit")} />
-            </Button>
+            <ActionButton
+              icon={<CreateIcon />}
+              text={i18n.t("buttons.edit")}
+              type={ACTION_BUTTON_TYPES.default}
+              rest={{
+                to: `/${params.recordType}/${params.id}/edit`,
+                component: Link
+              }}
+            />
           </Permission>
         )}
         <RecordActions

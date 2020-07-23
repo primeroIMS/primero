@@ -183,6 +183,17 @@ class Dashboard < ValueObject
     ]
   ).freeze
 
+  DASH_CASE_INCIDENT_OVERVIEW = Dashboard.new(
+    name: 'dash_case_incident_overview',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::OPEN,
+      Indicators::Case::UPDATED,
+      Indicators::Case::WITH_INCIDENTS,
+      Indicators::Case::WITHOUT_INCIDENTS
+    ].freeze
+  )
+
   def self.dash_reporting_location
     Dashboard.new(
       name: 'reporting_location',

@@ -1,6 +1,6 @@
 import Chip from "@material-ui/core/Chip";
 import clsx from "clsx";
-import makeStyles from "@material-ui/styles/makeStyles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import PropTypes from "prop-types";
 import React from "react";
 

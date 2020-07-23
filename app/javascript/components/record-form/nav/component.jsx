@@ -4,40 +4,63 @@ import { List, IconButton, Drawer } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
+import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
 import { getRecordAlerts } from "../../records/selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
-import { ConditionalWrapper } from "../../../libs";
+import { compare, ConditionalWrapper } from "../../../libs";
 
 import { NAME } from "./constants";
-import NavGroup from "./NavGroup";
-import RecordInformation from "./components/record-information";
+import { NavGroup, RecordInformation } from "./components";
 import styles from "./styles.css";
 
-const Nav = ({
+const Component = ({
   firstTab,
   formNav,
   handleToggleNav,
   isNew,
   mobileDisplay,
   recordType,
-  selectedForm,
   selectedRecord,
-  toggleNav
+  toggleNav,
+  primeroModule,
+  selectedForm
 }) => {
   const [open, setOpen] = useState("");
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
+  const selectedRecordForm = useSelector(
+    state =>
+      getRecordFormsByUniqueId(state, {
+        recordType,
+        primeroModule,
+        formName: selectedForm || firstTab.unique_id,
+        checkVisible: true
+      }),
+    compare
+  );
+  const validationErrors = useSelector(
+    state => getValidationErrors(state),
+    compare
+  );
 
   const handleClick = args => {
     const { group, formId, parentItem } = args;
 
     if (group !== open) {
       setOpen(group);
+    } else if (parentItem && group === open) {
+      setOpen("");
     }
 
-    dispatch(setSelectedForm(formId));
+    dispatch(
+      setSelectedForm(
+        parentItem && (group === open || open === "")
+          ? selectedRecordForm.first().unique_id
+          : formId
+      )
+    );
 
     if (!parentItem && mobileDisplay) {
       handleToggleNav();
@@ -45,16 +68,28 @@ const Nav = ({
   };
 
   useEffect(() => {
-    dispatch(setSelectedForm(firstTab.unique_id));
+    if (!selectedForm || isNew) {
+      dispatch(setSelectedForm(firstTab.unique_id));
+    } else if (
+      !selectedRecordForm?.isEmpty() &&
+      open !== selectedRecordForm.first().form_group_id
+    ) {
+      setOpen(selectedRecordForm.first().form_group_id);
+    }
   }, []);
 
   useEffect(() => {
     dispatch(setSelectedRecord(selectedRecord));
 
-    setOpen(firstTab.form_group_id);
+    if (!selectedForm || isNew) {
+      setOpen(firstTab.form_group_id);
+    }
   }, [firstTab]);
 
-  const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
+  const recordAlerts = useSelector(
+    state => getRecordAlerts(state, recordType),
+    compare
+  );
 
   const renderCloseButtonNavBar = mobileDisplay && (
     <div className={css.closeButtonRecordNav}>
@@ -84,10 +119,10 @@ const Nav = ({
           group={formGroup}
           handleClick={handleClick}
           isNew={isNew}
-          key={formGroup.first().formId}
           open={open}
           recordAlerts={recordAlerts}
           selectedForm={selectedForm}
+          validationErrors={validationErrors}
         />
       );
     });
@@ -117,18 +152,19 @@ const Nav = ({
   return null;
 };
 
-Nav.displayName = NAME;
+Component.displayName = NAME;
 
-Nav.propTypes = {
+Component.propTypes = {
   firstTab: PropTypes.object,
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
   isNew: PropTypes.bool,
   mobileDisplay: PropTypes.bool.isRequired,
+  primeroModule: PropTypes.string,
   recordType: PropTypes.string,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   selectedRecord: PropTypes.string,
   toggleNav: PropTypes.bool
 };
 
-export default Nav;
+export default Component;

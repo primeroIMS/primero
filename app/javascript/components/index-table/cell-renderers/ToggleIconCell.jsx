@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Icon, Badge } from "@material-ui/core";
 import { Photo } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import Jewel from "../../jewel";
 import { ALERTS_COLUMNS } from "../../record-list/constants";

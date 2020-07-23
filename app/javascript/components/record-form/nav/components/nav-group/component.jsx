@@ -2,26 +2,38 @@ import React from "react";
 import PropTypes from "prop-types";
 import { List, Collapse } from "@material-ui/core";
 
-import NavItem from "./NavItem";
-import { NAV_GROUP } from "./constants";
+import NavItem from "../nav-item";
 
-const NavGroup = ({
+import { NAME } from "./constants";
+
+const Component = ({
   group,
   handleClick,
   isNew,
   open,
   recordAlerts,
-  selectedForm
+  selectedForm,
+  validationErrors
 }) => {
   const [...forms] = group.values();
   const isNested = forms.length > 1;
   const parentForm = forms[0];
 
+  const groupHasError = validationErrors?.some(
+    error => error.get("form_group_id") === parentForm.group
+  );
+
+  const formHasError = form =>
+    Boolean(
+      validationErrors?.find(error => error.get("unique_id") === form.formId)
+    );
+
   const parentFormProps = {
     form: parentForm,
     name: isNested ? parentForm.groupName : parentForm.name,
     open: open === parentForm.group,
-    isNested
+    isNested,
+    hasError: groupHasError
   };
 
   const sharedProps = {
@@ -44,6 +56,7 @@ const NavGroup = ({
                 name={f.name}
                 key={f.formId}
                 groupItem
+                hasError={formHasError(f)}
                 {...sharedProps}
               />
             ))}
@@ -54,9 +67,9 @@ const NavGroup = ({
   );
 };
 
-NavGroup.displayName = NAV_GROUP;
+Component.displayName = NAME;
 
-NavGroup.propTypes = {
+Component.propTypes = {
   currentUser: PropTypes.string,
   group: PropTypes.object,
   handleClick: PropTypes.func,
@@ -64,7 +77,8 @@ NavGroup.propTypes = {
   open: PropTypes.string,
   recordAlerts: PropTypes.object,
   recordOwner: PropTypes.string,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  validationErrors: PropTypes.object
 };
 
-export default NavGroup;
+export default Component;

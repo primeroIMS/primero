@@ -1,10 +1,11 @@
 import { fromJS } from "immutable";
-import { ListItem, ListItemText, Divider, Fab } from "@material-ui/core";
+import { ListItem, ListItemText, Divider } from "@material-ui/core";
 import FlagIcon from "@material-ui/icons/Flag";
 
 import { setupMountedComponent } from "../../../../test";
 import { UserArrowIcon } from "../../../../images/primero-icons";
 import { FormAction } from "../../../form";
+import ActionButton from "../../../action-button";
 
 import ListFlagsItem from "./component";
 
@@ -57,8 +58,8 @@ describe("<ListFlagsItem />", () => {
     expect(component.find(Divider)).to.have.lengthOf(2);
   });
 
-  it("should render the Fab", () => {
-    expect(component.find(Fab)).to.have.lengthOf(1);
+  it("should render the ActionButton", () => {
+    expect(component.find(ActionButton)).to.have.lengthOf(1);
   });
 
   it("renders FormAction", () => {

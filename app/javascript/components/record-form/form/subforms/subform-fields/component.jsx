@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { sortBy } from "lodash";
-import { Box, IconButton } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 
@@ -12,6 +12,8 @@ import { SUBFORM_FIELDS } from "../constants";
 import { serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import { useI18n } from "../../../../i18n";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 const Component = ({
   arrayHelpers,
@@ -107,11 +109,15 @@ const Component = ({
                   values={values}
                 />
               </Box>
-              <Box>
+              <Box display="flex">
                 {!subformPreventItemRemoval && !mode.isShow ? (
-                  <IconButton onClick={() => handleOpenModal(index)}>
-                    <DeleteIcon />
-                  </IconButton>
+                  <ActionButton
+                    icon={<DeleteIcon />}
+                    type={ACTION_BUTTON_TYPES.icon}
+                    rest={{
+                      onClick: () => handleOpenModal(index)
+                    }}
+                  />
                 ) : null}
                 {mode.isShow && serviceHasReferFields(values[index]) ? (
                   <SubformMenu
@@ -120,9 +126,13 @@ const Component = ({
                     recordType={recordType}
                   />
                 ) : null}
-                <IconButton onClick={() => handleEdit(index)}>
-                  <ArrowIcon />
-                </IconButton>
+                <ActionButton
+                  icon={<ArrowIcon />}
+                  type={ACTION_BUTTON_TYPES.icon}
+                  rest={{
+                    onClick: () => handleEdit(index)
+                  }}
+                />
               </Box>
             </Box>
           );

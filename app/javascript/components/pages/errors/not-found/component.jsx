@@ -1,10 +1,12 @@
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
-import { Button, CssBaseline, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { CssBaseline, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
 import { ROUTES } from "../../../../config";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import styles from "./styles.css";
 
@@ -22,14 +24,14 @@ const NotFound = () => {
         {i18n.t("error_page.not_found.something_went_wrong")}
       </Typography>
       <Typography>{i18n.t("error_page.not_found.contact_admin")}</Typography>
-      <Button
-        to={ROUTES.dashboard}
-        variant="contained"
-        color="primary"
-        component={Link}
-      >
-        {i18n.t("navigation.home")}
-      </Button>
+      <ActionButton
+        text={i18n.t("navigation.home")}
+        type={ACTION_BUTTON_TYPES.default}
+        rest={{
+          to: ROUTES.dashboard,
+          component: Link
+        }}
+      />
     </div>
   );
 };

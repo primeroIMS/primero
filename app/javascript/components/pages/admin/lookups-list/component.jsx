@@ -1,9 +1,7 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { Button } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
-import { fromJS } from "immutable";
 import { push } from "connected-react-router";
 
 import { useI18n } from "../../../i18n";
@@ -13,8 +11,9 @@ import IndexTable from "../../../index-table";
 import { MANAGE, RESOURCES } from "../../../../libs/permissions";
 import Permission from "../../../application/permission";
 import { useThemeHelper } from "../../../../libs";
-import adminStyles from "../styles.css";
-import ButtonText from "../../../button-text";
+import { getMetadata } from "../../../record-list";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import { NAME } from "./constants";
 import { fetchAdminLookups } from "./action-creators";
@@ -24,37 +23,41 @@ import { columns } from "./utils";
 const Component = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { css: cssAdmin } = useThemeHelper(adminStyles);
   const { css } = useThemeHelper(styles);
+  const recordType = ["admin", "lookups"];
+  const metadata = useSelector(state => getMetadata(state, recordType));
+  const defaultFilters = metadata;
 
   const newUserGroupBtn = (
-    <Button
-      to={ROUTES.lookups_new}
-      component={Link}
-      color="primary"
-      className={cssAdmin.showActionButton}
-    >
-      <AddIcon />
-      <ButtonText text={i18n.t("buttons.new")} />
-    </Button>
+    <ActionButton
+      icon={<AddIcon />}
+      text={i18n.t("buttons.new")}
+      type={ACTION_BUTTON_TYPES.default}
+      rest={{
+        to: ROUTES.lookups_new,
+        component: Link
+      }}
+    />
   );
+
+  useEffect(() => {
+    dispatch(fetchAdminLookups({ data: defaultFilters.toJS() }));
+  }, []);
 
   const onRowClick = data =>
     dispatch(push(`${RECORD_PATH.lookups}/${data?.rowData[0]}`));
 
   const tableOptions = {
-    recordType: ["admin", "lookups"],
+    recordType,
     columns: columns(i18n, css, onRowClick),
     options: {
       selectableRows: "none"
     },
-    defaultFilters: fromJS({
-      per: 20,
-      page: 1
-    }),
+    defaultFilters,
     onTableChange: fetchAdminLookups,
     localizedFields: ["name", "values"],
-    targetRecordType: "lookups"
+    targetRecordType: "lookups",
+    bypassInitialFetch: true
   };
 
   return (
@@ -63,7 +66,10 @@ const Component = () => {
         {newUserGroupBtn}
       </PageHeading>
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <IndexTable
+          title={i18n.t("settings.navigation.lookups")}
+          {...tableOptions}
+        />
       </PageContent>
     </Permission>
   );
