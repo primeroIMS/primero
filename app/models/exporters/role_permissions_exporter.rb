@@ -8,8 +8,9 @@ module Exporters
       export_duplicate_id_csv export_json export_custom import sync_mobile
     ]
     CASE_APPROVALS = %w[
-      request_approval_bia request_approval_case_plan request_approval_closure
-      approve_bia approve_case_plan approve_closure
+      request_approval_assessment request_approval_case_plan request_approval_closure request_approval_action_plan
+      request_approval_gbv_closure approve_assessment approve_case_plan approve_closure approve_action_plan
+      approve_gbv_closure
     ]
     CASE_MANAGED_OTHER_USERS = %w[
       search_owned_by_others display_view_page view_photo incident_from_case

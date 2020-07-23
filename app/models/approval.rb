@@ -5,6 +5,8 @@ class Approval < ValueObject
   ASSESSMENT = 'assessment'
   CASE_PLAN = 'case_plan'
   CLOSURE = 'closure'
+  ACTION_PLAN = 'action_plan'
+  GBV_CLOSURE = 'gbv_closure'
 
   APPROVAL_STATUS_PENDING = 'pending'
   APPROVAL_STATUS_REQUESTED = 'requested'
@@ -33,9 +35,24 @@ class Approval < ValueObject
     approved_comments: 'closure_approved_comments'
   }.freeze
 
+  ACTION_PLAN_FIELDS = {
+    approved: 'action_plan_approved',
+    approval_status: 'approval_status_action_plan',
+    approved_date: 'action_plan_approved_date',
+    approved_comments: 'action_plan_approved_comments',
+    approval_type: 'action_plan_approval_type'
+  }.freeze
+
+  GBV_CLOSURE_FIELDS = {
+    approved: 'gbv_closure_approved',
+    approval_status: 'approval_status_gbv_closure',
+    approved_date: 'gbv_closure_approved_date',
+    approved_comments: 'gbv_closure_approved_comments'
+  }.freeze
+
   def self.get!(approval_id, record, user_name, params = {})
     raise Errors::UnknownPrimeroEntityType, 'approvals.error_invalid_approval' if [
-      Approval::ASSESSMENT, Approval::CLOSURE, Approval::CASE_PLAN
+      Approval::ASSESSMENT, Approval::CLOSURE, Approval::CASE_PLAN, Approval::ACTION_PLAN, Approval::GBV_CLOSURE
     ].exclude?(approval_id)
 
     Approval.new(

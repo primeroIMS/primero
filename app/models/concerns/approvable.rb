@@ -3,20 +3,25 @@ module Approvable
 
   included do
     store_accessor :data,
-      :assessment_approved, :case_plan_approved, :closure_approved,
-      :approval_status_assessment, :approval_status_case_plan, :approval_status_closure, :case_plan_approval_type,
-      :assessment_approved_date, :closure_approved_date, :case_plan_approved_date,
-      :assessment_approved_comments, :case_plan_approved_comments, :closure_approved_comments,
+      :assessment_approved, :case_plan_approved, :closure_approved, :action_plan_approved, :gbv_closure_approved,
+      :approval_status_assessment, :approval_status_case_plan, :approval_status_closure, :approval_status_action_plan,
+      :approval_status_gbv_closure, :case_plan_approval_type,
+      :assessment_approved_date, :closure_approved_date, :case_plan_approved_date, :action_plan_approved_date, :gbv_closure_approved_date,
+      :assessment_approved_comments, :case_plan_approved_comments, :closure_approved_comments, :action_plan_approved_comments, :gbv_closure_approved_comments,
       :approval_subforms
 
     searchable do
       string :approval_status_assessment, as: 'approval_status_assessment_sci'
       string :approval_status_case_plan, as: 'approval_status_case_plan_sci'
       string :approval_status_closure, as: 'approval_status_closure_sci'
+      string :approval_status_action_plan, as: 'approval_status_action_plan_sci'
+      string :approval_status_gbv_closure, as: 'approval_status_gbv_closure_sci'
       string :case_plan_approval_type, as: 'case_plan_approval_type_sci'
       date :case_plan_approved_date
       date :assessment_approved_date
       date :closure_approved_date
+      date :action_plan_approved_date
+      date :gbv_closure_approved_date
     end
 
     after_commit :send_approval_mail

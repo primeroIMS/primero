@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import { RECORD_TYPES, RECORD_PATH, APPROVALS_TYPES } from "../../config";
+import { RECORD_TYPES, RECORD_PATH, APPROVALS_TYPES, MODULES } from "../../config";
 import { useI18n } from "../i18n";
 import { getPermissionsByRecord } from "../user/selectors";
 import { getFiltersValuesByRecordType } from "../index-filters/selectors";
@@ -497,6 +497,20 @@ const Container = ({
       condition: canRequestClosure,
       recordType: RECORD_TYPES.all,
       value: APPROVALS_TYPES.closure
+    },
+    {
+      name: approvalsLabels.action_plan,
+      condition: canRequestActionPlan,
+      recordType: RECORD_TYPES.all,
+      primeroModule: MODULES.GBV,
+      value: APPROVALS_TYPES.action_plan
+    },
+    {
+      name: approvalsLabels.gbv_closure,
+      condition: canRequestGbvClosure,
+      recordType: RECORD_TYPES.all,
+      primeroModule: MODULES.GBV,
+      value: APPROVALS_TYPES.gbv_closure
     }
   ];
 
@@ -518,6 +532,20 @@ const Container = ({
       condition: canApproveClosure,
       recordType: RECORD_TYPES.all,
       value: APPROVALS_TYPES.closure
+    },
+    {
+      name: approvalsLabels.action_plan,
+      condition: canApproveActionPlan,
+      recordType: RECORD_TYPES.all,
+      primeroModule: MODULES.GBV,
+      value: APPROVALS_TYPES.action_plan
+    },
+    {
+      name: approvalsLabels.gbv_closure,
+      condition: canApproveGbvClosure,
+      recordType: RECORD_TYPES.all,
+      primeroModule: MODULES.GBV,
+      value: APPROVALS_TYPES.gbv_closure
     }
   ];
 

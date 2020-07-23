@@ -1484,6 +1484,12 @@ en:
           request_approval_closure:
             label: "Request %{approval_label} approval"
             explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
+          request_approval_action_plan:
+            label: "Request %{approval_label} approval"
+            explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
+          request_approval_gbv_closure:
+            label: "Request %{approval_label} approval"
+            explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
           approve_bia:
             label: "Approve %{approval_label} form"
             explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
@@ -1494,6 +1500,12 @@ en:
             label: "Approve %{approval_label}"
             explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
           approve_closure:
+            label: "Approve %{approval_label} form"
+            explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
+          approve_action_plan:
+            label: "Approve %{approval_label}"
+            explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
+          approve_gbv_closure:
             label: "Approve %{approval_label} form"
             explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
           search_owned_by_others:
@@ -2087,9 +2099,13 @@ en:
       request_approval_assessment: "Request %{approval_label} approval"
       request_approval_case_plan: "Request %{approval_label} approval"
       request_approval_closure: "Request %{approval_label} approval"
+      request_approval_action_plan: "Request %{approval_label} approval"
+      request_approval_gbv_closure: "Request %{approval_label} approval"
       approve_assessment: "Approve %{approval_label} form"
       approve_case_plan: "Approve %{approval_label}"
       approve_closure: "Approve %{approval_label} form"
+      approve_action_plan: "Approve %{approval_label}"
+      approve_gbv_closure: "Approve %{approval_label} form"
       copy: "Copy"
       manage: "Manage"
       administrator_read: "Administrator Read"

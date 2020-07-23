@@ -29,6 +29,8 @@ class Filter < ValueObject
   APPROVALS_STATUS_ASSESSMENT = Filter.new(name: 'approvals.assessment', field_name: 'approval_status_assessment')
   APPROVALS_STATUS_CASE_PLAN = Filter.new(name: 'approvals.case_plan', field_name: 'approval_status_case_plan')
   APPROVALS_STATUS_CLOSURE = Filter.new(name: 'approvals.closure', field_name: 'approval_status_closure')
+  APPROVALS_STATUS_ACTION_PLAN = Filter.new(name: 'approvals.action_plan', field_name: 'approval_status_action_plan')
+  APPROVALS_STATUS_GBV_CLOSURE = Filter.new(name: 'approvals.gbv_closure', field_name: 'approval_status_gbv_closure')
   AGENCY =  Filter.new(name: 'cases.filter_by.agency', field_name: 'owned_by_agency_id', type: 'checkbox')
   STATUS =  Filter.new(
     name: 'cases.filter_by.status',
@@ -245,6 +247,8 @@ class Filter < ValueObject
       filters << APPROVALS_STATUS_ASSESSMENT if user.can_approve_assessment?
       filters << APPROVALS_STATUS_CASE_PLAN if user.can_approve_case_plan?
       filters << APPROVALS_STATUS_CLOSURE if user.can_approve_closure?
+      filters << APPROVALS_STATUS_ACTION_PLAN if user.can_approve_action_plan?
+      filters << APPROVALS_STATUS_GBV_CLOSURE if user.can_approve_gbv_closure?
       if user.can?(:view_protection_concerns_filter, Child) && visible?('protection_concerns', filter_fields)
         filters << PROTECTION_CONCERNS
       end
@@ -380,7 +384,7 @@ class Filter < ValueObject
         }
         { locale => locale_options }
       end.inject(&:merge)
-    when 'approval_status_assessment', 'approval_status_case_plan', 'approval_status_closure'
+    when 'approval_status_assessment', 'approval_status_case_plan', 'approval_status_closure', 'approval_status_action_plan', 'approval_status_gbv_closure'
       self.options = I18n.available_locales.map do |locale|
         {
           locale => [
