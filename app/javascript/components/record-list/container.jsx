@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { fromJS } from "immutable";
-import { withRouter } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import qs from "qs";
@@ -26,6 +26,8 @@ import {
 } from "../record-actions/bulk-transtions/selectors";
 import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
 import { enqueueSnackbar } from "../notifier";
+import { DEFAULT_METADATA } from "../../config";
+import { clearMetadata } from "../records/action-creators";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
 import FilterContainer from "./filter-container";
@@ -40,6 +42,7 @@ const Container = ({ match, location }) => {
   const { css, mobileDisplay } = useThemeHelper(styles);
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [drawer, setDrawer] = useState(false);
+  const history = useHistory();
 
   const { url } = match;
   const { search } = location;
@@ -84,6 +87,41 @@ const Container = ({ match, location }) => {
           : defaultFilters.toJS()
       })
     );
+  }, []);
+
+  /* This useEffect was added because when the user clicks on case-list icon,
+    from the case-list view, pagination should be set as default */
+  useEffect(() => {
+    const currentPer = metadata?.toJS()?.per;
+    const currentPage = metadata?.toJS()?.page;
+
+    if (
+      history.action === "PUSH" &&
+      location.pathname === history.location.pathname &&
+      (currentPer !== DEFAULT_METADATA.per ||
+        currentPage !== DEFAULT_METADATA.page)
+    ) {
+      dispatch(
+        applyFilters({
+          recordType,
+          data: DEFAULT_METADATA // TODO: Should check DEFAULT FILTERS
+        })
+      );
+    }
+  }, [location]);
+
+  useEffect(() => {
+    return () => {
+      const previous = location.pathname;
+      const current = history.location.pathname;
+
+      if (
+        previous.split("/").filter(value => value)[0] !==
+        current.split("/").filter(value => value)[0]
+      ) {
+        dispatch(clearMetadata(recordType));
+      }
+    };
   }, []);
 
   const numberErrorsBulkAssign = useSelector(state =>

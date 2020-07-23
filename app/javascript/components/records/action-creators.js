@@ -2,7 +2,12 @@ import { DB_COLLECTIONS_NAMES } from "../../db";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 import { SET_DIALOG, SET_DIALOG_PENDING } from "../record-actions/actions";
 
-import { RECORD, SAVE_RECORD, FETCH_RECORD_ALERTS } from "./actions";
+import {
+  CLEAR_METADATA,
+  RECORD,
+  SAVE_RECORD,
+  FETCH_RECORD_ALERTS
+} from "./actions";
 
 const getSuccessCallback = ({
   dialogName,
@@ -49,6 +54,10 @@ const getSuccessCallback = ({
 
   return defaultSuccessCallback;
 };
+
+export const clearMetadata = recordType => ({
+  type: `${recordType}/${CLEAR_METADATA}`
+});
 
 export const fetchRecord = (recordType, id) => async dispatch => {
   dispatch({

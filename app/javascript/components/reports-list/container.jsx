@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   Card,
   CardContent,
@@ -6,20 +7,22 @@ import {
   TablePagination,
   Box
 } from "@material-ui/core";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter, Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 
 import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
-import { ROUTES } from "../../config";
+import { ROUTES, DEFAULT_METADATA } from "../../config";
 import { usePermissions } from "../user";
 import { CREATE_RECORDS } from "../../libs/permissions";
 import { useThemeHelper } from "../../libs";
 import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
+import { getMetadata } from "../record-list";
+import { clearMetadata } from "../records/action-creators";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
@@ -30,10 +33,11 @@ import {
 } from "./selectors";
 import NAMESPACE from "./namespace";
 
-const Reports = () => {
+const Reports = ({ location }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { css } = useThemeHelper(styles);
+  const history = useHistory();
 
   const reports = useSelector(state => selectReports(state));
   const isLoading = useSelector(state => selectLoading(state));
@@ -60,13 +64,45 @@ const Reports = () => {
   //   }
   // ]);
 
-  const defaultFilters = {
-    page: 1,
-    per: 20
-  };
+  const metadata = useSelector(state => getMetadata(state, NAMESPACE));
+  const defaultFilters = metadata?.toJS();
 
   useEffect(() => {
     dispatch(fetchReports({ options: defaultFilters }));
+  }, []);
+
+  /* This useEffect was added because when the user clicks on case-list icon,
+  from the case-list view, pagination should be set as default */
+  useEffect(() => {
+    const currentPer = metadata?.toJS()?.per;
+    const currentPage = metadata?.toJS()?.page;
+
+    if (
+      history.action === "PUSH" &&
+      location.pathname === history.location.pathname &&
+      (currentPer !== DEFAULT_METADATA.per ||
+        currentPage !== DEFAULT_METADATA.page)
+    ) {
+      dispatch(
+        fetchReports({
+          options: DEFAULT_METADATA
+        })
+      );
+    }
+  }, [location]);
+
+  useEffect(() => {
+    return () => {
+      const previous = location.pathname;
+      const current = history.location.pathname;
+
+      if (
+        previous.split("/").filter(value => value)[0] !==
+        current.split("/").filter(value => value)[0]
+      ) {
+        dispatch(clearMetadata(NAMESPACE));
+      }
+    };
   }, []);
 
   const paginationProps = {
@@ -143,5 +179,9 @@ const Reports = () => {
 };
 
 Reports.displayName = "Reports";
+
+Reports.propTypes = {
+  location: PropTypes.object.isRequired
+};
 
 export default withRouter(Reports);
