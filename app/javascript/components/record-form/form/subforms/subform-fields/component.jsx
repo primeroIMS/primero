@@ -96,8 +96,8 @@ const Component = ({
 
     return (
       <>
-        {sortedValues.map((c, index) => {
-          if (values?.[index]?._destroy || emptyValues(c)) {
+        {sortedValues.map((sortedValue, index) => {
+          if (values?.[index]?._destroy || emptyValues(sortedValue)) {
             return false;
           }
 
