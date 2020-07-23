@@ -105,9 +105,10 @@ describe Filter do
   it 'approvals.assessment will be present on filters' do
     filters_assessment = %w[case incident tracing_request].map { |record_type| { record_type.pluralize => Filter.filters(@user_a, record_type) } }
     filters_approval_assessment = [
-      {id: 'pending', display_name: 'Pending'},
-      {id: 'approved', display_name: 'Approved'},
-      {id: 'rejected', display_name: 'Rejected'}]
+      { id: 'pending', display_name: 'Pending' },
+      { id: 'approved', display_name: 'Approved' },
+      { id: 'rejected', display_name: 'Rejected' }
+    ]
     expect(filters_assessment[0]['cases'][6].options[:en]).to eq(filters_approval_assessment)
   end
 

@@ -7,7 +7,6 @@
 # Some actions actually represent sub-resources. For example a user may be granted the ability to see dashboards,
 # but each individual dashboard entitlement is treated as an action grant.
 class Permission < ValueObject
-
   # The role_unique_ids property is used solely for the ROLE resource
   # It associates other roles with this ROLE permission
   # That restricts this role to only be able to manage those associated roles
@@ -164,7 +163,7 @@ class Permission < ValueObject
     MATCHING_CONFIGURATION => [MANAGE]
   }.freeze
 
-  def initialize(args={})
+  def initialize(args = {})
     super(args)
   end
 
@@ -172,8 +171,8 @@ class Permission < ValueObject
     I18n.t("permission.#{permission}")
   end
 
-  # TODO: For right now we are just listing the different exports, but it will need a matrix setup. We eventually want to
-  # limit export permission based on the resource.
+  # TODO: For right now we are just listing the different exports, but it will need a matrix setup.
+  # We eventually want to limit export permission based on the resource.
 
   # TODO: Refactor. We really should get rid of this method, and use the per-resource methods below.
   def self.actions
@@ -290,7 +289,7 @@ class Permission < ValueObject
   end
 
   def is_record?
-    [CASE, INCIDENT, TRACING_REQUEST].include? self.resource
+    [CASE, INCIDENT, TRACING_REQUEST].include? resource
   end
 
   def resource_class
@@ -335,5 +334,4 @@ class Permission < ValueObject
       end
     end
   end
-
 end

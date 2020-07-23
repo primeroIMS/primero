@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Approval < ValueObject
   attr_accessor :record, :fields, :user_name, :approval_type, :approval_id, :comments
 
@@ -17,7 +18,7 @@ class Approval < ValueObject
     approved: 'assessment_approved',
     approval_status: 'approval_status_assessment',
     approved_date: 'assessment_approved_date',
-    approved_comments: 'assessment_approved_comments',
+    approved_comments: 'assessment_approved_comments'
   }.freeze
 
   CASE_PLAN_FIELDS = {
@@ -55,14 +56,9 @@ class Approval < ValueObject
       Approval::ASSESSMENT, Approval::CLOSURE, Approval::CASE_PLAN, Approval::ACTION_PLAN, Approval::GBV_CLOSURE
     ].exclude?(approval_id)
 
-    Approval.new(
-      approval_id: approval_id,
-      record: record,
-      user_name: user_name,
-      fields: "Approval::#{approval_id.upcase}_FIELDS".constantize,
-      approval_type: params[:approval_type],
-      comments: params[:notes]
-    )
+    Approval.new(approval_id: approval_id, record: record, user_name: user_name,
+                 fields: "Approval::#{approval_id.upcase}_FIELDS".constantize, approval_type: params[:approval_type],
+                 comments: params[:notes])
   end
 
   def perform!(status)
@@ -93,12 +89,8 @@ class Approval < ValueObject
     record.send("#{fields[:approved_date]}=", Date.today)
     record.send("#{fields[:approved_comments]}=", comments) if comments.present?
     record.approval_subforms ||= []
-    record.approval_subforms << approval_response_action(
-      Approval::APPROVAL_STATUS_APPROVED,
-      approval_id,
-      user_name,
-      comments
-    )
+    record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_APPROVED, approval_id, user_name,
+                                                         comments)
     delete_approval_alerts
   end
 
@@ -108,12 +100,8 @@ class Approval < ValueObject
     record.send("#{fields[:approved_date]}=", Date.today)
     record.send("#{fields[:approved_comments]}=", comments) if comments.present?
     record.approval_subforms ||= []
-    record.approval_subforms << approval_response_action(
-      Approval::APPROVAL_STATUS_REJECTED,
-      approval_id,
-      user_name,
-      comments
-    )
+    record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_REJECTED, approval_id, user_name,
+                                                         comments)
   end
 
   protected
@@ -123,26 +111,15 @@ class Approval < ValueObject
   end
 
   def approval_response_action(status, approval_id, approved_by, comments = nil)
-    approval_action(
-      status,
-      approval_response_for: approval_id,
-      approval_status: status,
-      approved_by: approved_by,
-      approval_manager_comments: comments
-    )
+    approval_action(status, approval_response_for: approval_id, approval_status: status, approved_by: approved_by,
+                            approval_manager_comments: comments)
   end
 
   def approval_action(status, properties)
-    action = {
-      approval_requested_for: nil,
-      approval_response_for: nil,
-      approval_for_type: nil,
-      approval_date: Date.today,
-      approval_status: status == Approval::APPROVAL_STATUS_PENDING ? Approval::APPROVAL_STATUS_REQUESTED : status,
-      approved_by: nil,
-      requested_by: nil,
-      approval_manager_comments: nil
-    }.merge(properties)
+    status = Approval::APPROVAL_STATUS_REQUESTED if status == Approval::APPROVAL_STATUS_PENDING
+    action = { approval_requested_for: nil, approval_response_for: nil, approval_for_type: nil,
+               approval_date: Date.today, approval_status: status, approved_by: nil, requested_by: nil,
+               approval_manager_comments: nil }.merge(properties)
 
     if [action[:approval_requested_for], action[:approval_response_for]].include?(Approval::CASE_PLAN)
       action = action.merge(approval_for_type: record.case_plan_approval_type)
