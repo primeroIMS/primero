@@ -6,6 +6,7 @@ describe Api::V2::TracingRequestsController, type: :request do
   before :each do
     @tracing_request1 = TracingRequest.create!(data: { inquiry_date: Date.new(2019, 3, 1), relation_name: 'Test 1' })
     @tracing_request2 = TracingRequest.create!(data: { inquiry_date: Date.new(2018, 3, 1), relation_name: 'Test 2' })
+    @trace = Trace.create!(tracing_request: @tracing_request1, name: 'Test Trace')
     Sunspot.commit
   end
 
@@ -47,6 +48,14 @@ describe Api::V2::TracingRequestsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@tracing_request1.id)
+    end
+
+    it 'contains traces embedded in the data hash' do
+      login_for_test
+      get "/api/v2/tracing_requests/#{@tracing_request1.id}"
+
+      expect(json['data']['tracing_request_subform_section'].size).to eq(1)
+      expect(json['data']['tracing_request_subform_section'][0]['unique_id']).to eq(@trace.id)
     end
   end
 

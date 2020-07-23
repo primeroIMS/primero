@@ -95,6 +95,14 @@ module Record
     set_instance_id
   end
 
+  def associations_as_data
+    {}
+  end
+
+  def associations_as_data_keys
+    []
+  end
+
   def display_field(field_or_name, lookups = nil)
     result = ''
     if field_or_name.present?

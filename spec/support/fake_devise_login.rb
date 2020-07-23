@@ -40,7 +40,7 @@ module FakeDeviseLogin
         actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
       ),
       Permission.new(
-        esource: Permission::INCIDENT,
+        resource: Permission::INCIDENT,
         actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
       )
     ]
@@ -50,7 +50,7 @@ module FakeDeviseLogin
     @common_permitted_field_names ||= %w[
       name age sex protection_concerns registration_date record_sate status family_details
       description incident_date date_of_birth
-      inquiry_date relation_name relation
+      inquiry_date relation_name relation tracing_request_subform_section
     ]
   end
 

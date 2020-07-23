@@ -12,6 +12,8 @@ class Trace < ApplicationRecord
                  :relation, :name, :name_nickname, :age, :date_of_birth, :sex,
                  :religion, :nationality, :language, :ethnicity
 
+  after_initialize :set_unique_id
+
   class << self
     def trace_matching_field_names
       MatchingConfiguration.matchable_fields('tracing_request', true).pluck(:name) |
@@ -54,5 +56,9 @@ class Trace < ApplicationRecord
 
   def corresponding_field_name(field_name)
     FIELD_CORRESPONDANCE[field_name] || field_name
+  end
+
+  def set_unique_id
+    self.unique_id = id
   end
 end

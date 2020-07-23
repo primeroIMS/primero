@@ -18,9 +18,9 @@ class TracingRequest < ApplicationRecord
                  :relation_nationality, :relation_language, :relation_religion,
                  :relation_ethnicity, :relation_sub_ethnicity1, :relation_sub_ethnicity2,
                  :monitor_number, :survivor_code, :reunited, :inquiry_date,
-                 :tracing_request_subform_section,
                  :location_last
   alias inquirer_id tracing_request_id
+  after_save :save_traces
 
   def self.quicksearch_fields
     %w[
@@ -53,6 +53,41 @@ class TracingRequest < ApplicationRecord
       'multistring' => %w[associated_user_names owned_by_groups],
       'date' => ['inquiry_date']
     }
+  end
+
+  alias super_update_properties update_properties
+  def update_properties(data, user_name)
+    build_or_update_traces(data.delete('tracing_request_subform_section'))
+    super_update_properties(data, user_name)
+  end
+
+  def build_or_update_traces(traces_data)
+    return unless traces_data
+
+    @traces_to_save = traces_data.map do |trace_data|
+      trace = Trace.find_or_initialize_by(id: trace_data['unique_id']) do |new_trace|
+        new_trace.data = trace_data
+        new_trace.tracing_request = self
+      end
+      trace.data = RecordMergeDataHashService.merge_data(trace.data, trace_data) unless trace.new_record?
+      trace
+    end
+  end
+
+  def save_traces
+    return unless @traces_to_save
+
+    Trace.transaction do
+      @traces_to_save.each(&:save!)
+    end
+  end
+
+  def associations_as_data
+    @associations_as_data ||= { 'tracing_request_subform_section' => traces.map(&:data) }
+  end
+
+  def associations_as_data_keys
+    %w[tracing_request_subform_section]
   end
 
   def tracing_names
