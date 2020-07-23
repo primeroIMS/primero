@@ -6,7 +6,12 @@ import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
+import { RECORD_TYPES } from "../../../config";
+import {
+  getRecordFormsByUniqueId,
+  getSelectedRecord,
+  getValidationErrors
+} from "../selectors";
 import { getRecordAlerts } from "../../records/selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
 import { compare, ConditionalWrapper } from "../../../libs";
@@ -33,7 +38,7 @@ const Component = ({
   const selectedRecordForm = useSelector(
     state =>
       getRecordFormsByUniqueId(state, {
-        recordType,
+        recordType: RECORD_TYPES[recordType],
         primeroModule,
         formName: selectedForm || firstTab.unique_id,
         checkVisible: true
@@ -42,6 +47,12 @@ const Component = ({
   );
   const validationErrors = useSelector(
     state => getValidationErrors(state),
+    compare
+  );
+  const currentSelectedRecord = useSelector(state => getSelectedRecord(state));
+
+  const recordAlerts = useSelector(
+    state => getRecordAlerts(state, recordType),
     compare
   );
 
@@ -68,7 +79,7 @@ const Component = ({
   };
 
   useEffect(() => {
-    if (!selectedForm || isNew) {
+    if (!selectedForm || isNew || currentSelectedRecord !== selectedRecord) {
       dispatch(setSelectedForm(firstTab.unique_id));
     } else if (
       !selectedRecordForm?.isEmpty() &&
@@ -85,11 +96,6 @@ const Component = ({
       setOpen(firstTab.form_group_id);
     }
   }, [firstTab]);
-
-  const recordAlerts = useSelector(
-    state => getRecordAlerts(state, recordType),
-    compare
-  );
 
   const renderCloseButtonNavBar = mobileDisplay && (
     <div className={css.closeButtonRecordNav}>
@@ -120,6 +126,7 @@ const Component = ({
           handleClick={handleClick}
           isNew={isNew}
           open={open}
+          key={formGroup.keySeq().first()}
           recordAlerts={recordAlerts}
           selectedForm={selectedForm}
           validationErrors={validationErrors}
