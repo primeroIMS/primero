@@ -12,7 +12,7 @@ describe Child do
     it 'can find a child by survivor code' do
       child = Child.create!(data: { name: 'Lonnie', survivor_code_no: 'ABC123XYZ' })
       child.index!
-      search_result = SearchService.search(Child, [], {}, 'ABC123XYZ').results
+      search_result = SearchService.search(Child, query: 'ABC123XYZ').results
       expect(search_result).to have(1).child
       expect(search_result.first.survivor_code_no).to eq('ABC123XYZ')
     end

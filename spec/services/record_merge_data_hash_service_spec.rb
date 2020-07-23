@@ -42,7 +42,7 @@ describe RecordMergeDataHashService do
             { 'unique_id' => '1', 'relation_type' => 'mother', 'age' => 35 }
           ]
         }
-        result = Record::Utils.merge_data(old, new)
+        result = RecordMergeDataHashService.merge_data(old, new)
 
         expect(result).to eql(
           'family_details' => [

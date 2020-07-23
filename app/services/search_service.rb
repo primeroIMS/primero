@@ -3,6 +3,15 @@
 # Query for records using Sunspot Solr
 class SearchService
   class << self
+    # Query for records using Sunspot Solr.
+    # record_class: The class of the type of record queried for.
+    # search_params: A hash of search options used to build the query.
+    #   filters: A hash where the key is the field_name, and value an expected value. See SearchFilterService
+    #   query: A text query
+    #   query_scope: A hash with user scope and module scope.
+    #                eg. { user: { user: 'u', agency: 'a', group: 'g'}, module: 'primeromodule-cp' } }
+    #   sort: A hash indicating the field to sort by and the direction. eg { created_at: :desc }
+    #   paginattion: A hash indicating the pagination
     def search(record_class, search_params = {})
       params = with_defaults(search_params)
 

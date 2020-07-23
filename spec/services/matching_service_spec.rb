@@ -177,7 +177,7 @@ describe MatchingService, search: true do
     end
 
     it 'marks a result as likely if its the only one left after thresholding' do
-      expect(normalized_results['a'][:likelihood]).to eq(PotentialMatch::LIKELY)
+      expect(normalized_results['a'][:likelihood]).to eq(MatchingService::LIKELY)
     end
   end
 

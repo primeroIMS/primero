@@ -10,8 +10,7 @@ class IndicatorQueryService
         record_type = record_model.parent_form
         result[record_type] = {}
         group_indicators_by_scope(record_indicators).each do |_, scoped_indicators|
-          search = record_query(record_model, scoped_indicators, user)
-          stats = scoped_indicators.map { |i| [i.name, i.stats_from_search(search, user)] }.to_h
+          stats = statistics_for_indicators(scoped_indicators, record_model, user)
           result[record_type] = result[record_type].merge(stats)
         end
       end
@@ -20,11 +19,16 @@ class IndicatorQueryService
 
     private
 
+    def statistics_for_indicators(indicators, record_model, user)
+      search = record_query(record_model, indicators, user)
+      indicators.map { |i| [i.name, i.stats_from_search(search, user)] }.to_h
+    end
+
     def record_query(record_model, indicators, user)
       record_model.search do
         user_query_scope = user.record_query_scope(record_model, false)
-        SearchService.with_user_scope(user_query_scope[:user])
-        SearchService.with_module_scope(user_query_scope[:module])
+        SearchService.with_user_scope(self, user_query_scope[:user])
+        SearchService.with_module_scope(self, user_query_scope[:module])
 
         indicators.each do |indicator|
           indicator.query(self, user)

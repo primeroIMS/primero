@@ -18,8 +18,8 @@ describe Api::V2::PotentialMatchesController, type: :request do
   let(:trace2) { Trace.create!(tracing_request: tracing_request, name: 'Test 3', age: 10, sex: 'female') }
   let(:potential_matches) do
     [
-      PotentialMatch.new(child: case1, trace: trace1, score: 1.0, likelihood: PotentialMatch::LIKELY),
-      PotentialMatch.new(child: case2, trace: trace2, score: 0.2, likelihood: PotentialMatch::POSSIBLE)
+      PotentialMatch.new(child: case1, trace: trace1, score: 1.0, likelihood: MatchingService::LIKELY),
+      PotentialMatch.new(child: case2, trace: trace2, score: 0.2, likelihood: MatchingService::POSSIBLE)
     ]
   end
 
@@ -35,7 +35,7 @@ describe Api::V2::PotentialMatchesController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['potential_matches'].size).to eq(2)
       expect(json['data']['potential_matches'][0]['score']).to eq(1.0)
-      expect(json['data']['potential_matches'][0]['likelihood']).to eq(PotentialMatch::LIKELY)
+      expect(json['data']['potential_matches'][0]['likelihood']).to eq(MatchingService::LIKELY)
       expect(json['data']['potential_matches'][0]['case']['id']).to eq(case1.id)
       expect(json['data']['potential_matches'][0]['trace']['id']).to eq(trace1.id)
       expect(json['data']['potential_matches'][0]['comparison']['case_to_trace'].size.positive?).to be_truthy
@@ -64,7 +64,7 @@ describe Api::V2::PotentialMatchesController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['potential_matches'].size).to eq(2)
       expect(json['data']['potential_matches'][0]['score']).to eq(1.0)
-      expect(json['data']['potential_matches'][0]['likelihood']).to eq(PotentialMatch::LIKELY)
+      expect(json['data']['potential_matches'][0]['likelihood']).to eq(MatchingService::LIKELY)
       expect(json['data']['potential_matches'][0]['case']['id']).to eq(case1.id)
       expect(json['data']['potential_matches'][0]['trace']['id']).to eq(trace1.id)
       expect(json['data']['potential_matches'][0]['comparison']['case_to_trace'].size.positive?).to be_truthy
