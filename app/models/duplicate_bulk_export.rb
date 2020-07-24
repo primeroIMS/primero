@@ -40,7 +40,7 @@ class DuplicateBulkExport < BulkExport
       filters = filters_for_duplicates(duplicate_field_name, values)
 
       search = SearchService.search(
-        model_class, filters, {}, query, { created_at: :desc }, pagination
+        model_class, filters: filters, query: query, pagination: pagination
       )
       results = search.results
       yield(results)

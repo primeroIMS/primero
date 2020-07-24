@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_02_160905) do
+ActiveRecord::Schema.define(version: 2020_06_07_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -382,6 +382,15 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
     t.string "primero_version"
     t.jsonb "system_options"
     t.jsonb "approvals_labels_i18n"
+  end
+
+  create_table "traces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.uuid "tracing_request_id"
+    t.uuid "matched_case_id"
+    t.index ["data"], name: "index_traces_on_data", using: :gin
+    t.index ["matched_case_id"], name: "index_traces_on_matched_case_id"
+    t.index ["tracing_request_id"], name: "index_traces_on_tracing_request_id"
   end
 
   create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

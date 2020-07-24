@@ -11,7 +11,8 @@ class RecordDataService
       data = embed_flag_metadata(data, record, selected_field_names)
       data = embed_alert_metadata(data, record, selected_field_names)
       data = embed_photo_metadata(data, record, selected_field_names)
-      embed_attachments(data, record, selected_field_names)
+      data = embed_attachments(data, record, selected_field_names)
+      embed_associations_as_data(data, record, selected_field_names)
     end
 
     def select_fields(data, selected_field_names)
@@ -65,6 +66,12 @@ class RecordDataService
 
       data['alert_count'] = record.alert_count
       data
+    end
+
+    def embed_associations_as_data(data, record, selected_field_names)
+      return data unless (record.associations_as_data_keys & selected_field_names).present?
+
+      data.merge(record.associations_as_data)
     end
 
     def visible_name(record)

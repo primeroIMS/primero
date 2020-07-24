@@ -35,6 +35,7 @@ Rails.application.routes.draw do
         resources :transitions, only: [:index]
         resources :attachments, only: %i[create destroy]
         resources :approvals, only: [:update]
+        resources :potential_matches, only: [:index]
         get :record_history, to: 'record_histories#index'
         collection do
           post :flags, to: 'flags#create_bulk'
@@ -60,6 +61,10 @@ Rails.application.routes.draw do
         resources :attachments, only: %i[create destroy]
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
+      end
+
+      resources :traces, only: %i[show update] do
+        resources :potential_matches, only: %i[index]
       end
 
       resources :form_sections, as: :forms, path: :forms
