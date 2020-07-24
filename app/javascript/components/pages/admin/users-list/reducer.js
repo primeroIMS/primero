@@ -1,5 +1,7 @@
 import { fromJS } from "immutable";
 
+import { DEFAULT_METADATA } from "../../../../config";
+
 import actions from "./actions";
 
 const DEFAULT_STATE = fromJS({});
@@ -16,6 +18,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("loading", false);
     case actions.SET_USERS_FILTER:
       return state.set("filters", fromJS(payload));
+    case actions.CLEAR_METADATA:
+      return state.set("metadata", fromJS(DEFAULT_METADATA));
     default:
       return state;
   }

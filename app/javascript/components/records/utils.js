@@ -3,6 +3,13 @@
 import { Map } from "immutable";
 import pickBy from "lodash/pickBy";
 
+import { DEFAULT_METADATA } from "../../config";
+
+import { clearMetadata } from "./action-creators";
+
+const getRouteValue = (index, data) =>
+  data.split("/").filter(value => value)[index];
+
 export const cleanUpFilters = filters => {
   const filterSelector = filters instanceof Map ? filters.toJS() : filters;
 
@@ -49,4 +56,56 @@ export const cleanUpFilters = filters => {
   }, {});
 
   return result;
+};
+
+export const fetchDataIfNotBackButton = (
+  metadata,
+  location,
+  history,
+  onFetch,
+  searchingKey,
+  { dispatch, defaultFilterFields }
+) => {
+  const { per: currentPer, page: currentPage, total: currentTotal } = metadata;
+  const sameLocation = location.pathname === history.location.pathname;
+  const differentPageOrPer =
+    currentPer !== DEFAULT_METADATA.per ||
+    currentPage !== DEFAULT_METADATA.page;
+
+  if (history.action === "PUSH" && sameLocation && differentPageOrPer) {
+    dispatch(
+      onFetch({
+        [searchingKey]: { ...defaultFilterFields, ...DEFAULT_METADATA }
+      })
+    );
+  } else if (
+    sameLocation &&
+    (differentPageOrPer || currentTotal !== "undefined")
+  ) {
+    const defaultFilters = { ...defaultFilterFields, ...metadata };
+
+    dispatch(onFetch({ [searchingKey]: defaultFilters }));
+  }
+};
+
+export const clearMetadataOnLocationChange = (
+  location,
+  history,
+  recordType,
+  routeIndexValue,
+  { dispatch }
+) => {
+  const previous = location.pathname;
+  const current = history.location.pathname;
+
+  if (
+    getRouteValue(routeIndexValue, previous) !==
+    getRouteValue(routeIndexValue, current)
+  ) {
+    dispatch(
+      clearMetadata(
+        Array.isArray(recordType) ? recordType.join("/") : recordType
+      )
+    );
+  }
 };

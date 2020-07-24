@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -16,6 +16,10 @@ import { Filters as AdminFilters } from "../components";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import {
+  fetchDataIfNotBackButton,
+  clearMetadataOnLocationChange
+} from "../../../records";
 
 import { fetchAgencies } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
@@ -30,19 +34,38 @@ const Container = () => {
   const headers = useSelector(state =>
     getListHeaders(state, RESOURCES.agencies)
   );
+  const history = useHistory();
+  const location = useLocation();
 
   const metadata = useSelector(state => getMetadata(state, recordType));
+  const defaultMetadata = metadata?.toJS();
+  const defaultFilterFields = {
+    [DISABLED]: ["false"]
+  };
   const defaultFilters = fromJS({
-    ...{
-      [DISABLED]: ["false"]
-    },
-    ...metadata?.toJS()
+    ...defaultFilterFields,
+    ...defaultMetadata
   });
 
   const columns = headersToColumns(headers, i18n);
 
   useEffect(() => {
-    dispatch(fetchAgencies({ data: defaultFilters.toJS() }));
+    fetchDataIfNotBackButton(
+      metadata?.toJS(),
+      location,
+      history,
+      fetchAgencies,
+      "data",
+      { dispatch, defaultFilterFields }
+    );
+  }, [location]);
+
+  useEffect(() => {
+    return () => {
+      clearMetadataOnLocationChange(location, history, recordType, 1, {
+        dispatch
+      });
+    };
   }, []);
 
   const tableOptions = {

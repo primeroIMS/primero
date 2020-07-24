@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
 
 import { useI18n } from "../../../i18n";
@@ -14,6 +14,10 @@ import { useThemeHelper } from "../../../../libs";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import {
+  fetchDataIfNotBackButton,
+  clearMetadataOnLocationChange
+} from "../../../records";
 
 import { NAME } from "./constants";
 import { fetchAdminLookups } from "./action-creators";
@@ -27,6 +31,8 @@ const Component = () => {
   const recordType = ["admin", "lookups"];
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultFilters = metadata;
+  const history = useHistory();
+  const location = useLocation();
 
   const newUserGroupBtn = (
     <ActionButton
@@ -41,7 +47,22 @@ const Component = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchAdminLookups({ data: defaultFilters.toJS() }));
+    fetchDataIfNotBackButton(
+      metadata?.toJS(),
+      location,
+      history,
+      fetchAdminLookups,
+      "data",
+      { dispatch }
+    );
+  }, [location]);
+
+  useEffect(() => {
+    return () => {
+      clearMetadataOnLocationChange(location, history, recordType, 1, {
+        dispatch
+      });
+    };
   }, []);
 
   const onRowClick = data =>

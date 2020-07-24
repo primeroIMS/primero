@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { List } from "immutable";
 import AddIcon from "@material-ui/icons/Add";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -12,6 +12,11 @@ import { NAMESPACE } from "../roles-form";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { RESOURCES } from "../../../../libs/permissions";
+import {
+  fetchDataIfNotBackButton,
+  clearMetadataOnLocationChange
+} from "../../../records";
 
 import { fetchRoles } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
@@ -19,6 +24,7 @@ import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
 const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const recordType = RESOURCES.roles;
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
@@ -26,9 +32,26 @@ const Container = () => {
   }));
   const metadata = useSelector(state => getMetadata(state, "roles"));
   const defaultFilters = metadata;
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
-    dispatch(fetchRoles({ data: defaultFilters.toJS() }));
+    fetchDataIfNotBackButton(
+      metadata?.toJS(),
+      location,
+      history,
+      fetchRoles,
+      "data",
+      { dispatch }
+    );
+  }, [location]);
+
+  useEffect(() => {
+    return () => {
+      clearMetadataOnLocationChange(location, history, recordType, 1, {
+        dispatch
+      });
+    };
   }, []);
 
   const tableOptions = {

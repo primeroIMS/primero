@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import AddIcon from "@material-ui/icons/Add";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
@@ -13,6 +13,10 @@ import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import {
+  fetchDataIfNotBackButton,
+  clearMetadataOnLocationChange
+} from "../../../records";
 
 import { NAME } from "./constants";
 import { fetchUserGroups } from "./action-creators";
@@ -33,9 +37,26 @@ const Container = () => {
     name: fieldName,
     ...rest
   }));
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
-    dispatch(fetchUserGroups({ data: defaultFilters.toJS() }));
+    fetchDataIfNotBackButton(
+      metadata?.toJS(),
+      location,
+      history,
+      fetchUserGroups,
+      "data",
+      { dispatch }
+    );
+  }, [location]);
+
+  useEffect(() => {
+    return () => {
+      clearMetadataOnLocationChange(location, history, recordType, 1, {
+        dispatch
+      });
+    };
   }, []);
 
   const tableOptions = {
