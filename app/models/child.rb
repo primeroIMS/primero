@@ -47,7 +47,7 @@ class Child < ApplicationRecord
     :tent_number, :nfi_distribution_id,
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
-    :duplicate, :location_current, :tracing_status, :name_caregiver,
+    :location_current, :tracing_status, :name_caregiver,
     :urgent_protection_concern, :child_preferences_section, :family_details_section
   )
 
@@ -208,11 +208,6 @@ class Child < ApplicationRecord
     protection_concerns = self.protection_concerns || []
     from_subforms = protection_concern_detail_subform_section&.map { |pc| pc['protection_concern_type'] }&.compact || []
     self.protection_concerns = (protection_concerns + from_subforms).uniq
-  end
-
-  def mark_as_duplicate(parent_id)
-    self.duplicate = true
-    self.duplicate_case_id = parent_id
   end
 
   def match_criteria

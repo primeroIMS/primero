@@ -654,13 +654,6 @@ describe Child do
     Child.create(data: options)
   end
 
-  def create_duplicate(parent)
-    duplicate = Child.create(name: 'dupe')
-    duplicate.mark_as_duplicate(parent['short_id'])
-    duplicate.save!
-    duplicate
-  end
-
   def child_with_created_by(created_by, options = {})
     agency = Agency.last
     user = User.new(user_name: created_by, agency_id: agency.id)
