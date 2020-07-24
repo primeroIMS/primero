@@ -10,25 +10,14 @@ import { enqueueSnackbar } from "../../../notifier";
 import { getValidationErrors } from "../../selectors";
 import { setValidationErrors } from "../../action-creators";
 
+import { removeEmptyArrays } from "./utils";
 import { VALIDATION_ERRORS_NAME } from "./constants";
 
 const ValidationErrors = ({ formErrors, forms }) => {
   const dispatch = useDispatch();
-  const errors = useSelector(state => getValidationErrors(state), compare);
   const i18n = useI18n();
-  const errorsWithoutEmptySubforms = Object.entries(formErrors)
-    .filter(([, value]) => {
-      if (Array.isArray(value)) {
-        if (value.length > 0) {
-          return true;
-        }
-
-        return false;
-      }
-
-      return true;
-    })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+  const errors = useSelector(state => getValidationErrors(state), compare);
+  const errorsWithoutEmptySubforms = removeEmptyArrays(formErrors);
 
   useEffect(() => {
     if (!isEmpty(errorsWithoutEmptySubforms)) {
