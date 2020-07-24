@@ -203,6 +203,7 @@ const overrides = {
       fontSize: `${muiTheme.typography.pxToRem(12)} !important`
     },
     message: {
+      flex: "1 0",
       backgroundColor: `${colors.white} !important`,
       "& svg": {
         fontSize: `${muiTheme.typography.pxToRem(16)} !important`,
