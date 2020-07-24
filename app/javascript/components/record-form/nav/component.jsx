@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { List, IconButton, Drawer } from "@material-ui/core";
@@ -28,6 +30,7 @@ const Component = ({
   selectedForm
 }) => {
   const [open, setOpen] = useState("");
+  const [previousGroup, setPreviousGroup] = useState("");
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const selectedRecordForm = useSelector(
@@ -51,16 +54,22 @@ const Component = ({
     if (group !== open) {
       setOpen(group);
     } else if (parentItem && group === open) {
+      setPreviousGroup(group);
       setOpen("");
     }
 
-    dispatch(
-      setSelectedForm(
-        parentItem && (group === open || open === "")
-          ? selectedRecordForm.first().unique_id
-          : formId
-      )
-    );
+    const selected =
+      parentItem && (group === open || open === "")
+        ? selectedRecordForm?.first()?.unique_id
+        : formId;
+
+    if (selected) {
+      dispatch(setSelectedForm(selected));
+    } else if (open === "" && parentItem) {
+      dispatch(
+        setSelectedForm(previousGroup !== group ? formId : selectedForm)
+      );
+    }
 
     if (!parentItem && mobileDisplay) {
       handleToggleNav();
