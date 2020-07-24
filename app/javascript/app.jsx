@@ -21,6 +21,7 @@ import { loginSystemSettings } from "./components/pages/login";
 import { ApplicationProvider } from "./components/application";
 import configureStore, { history } from "./store";
 import ApplicationRoutes from "./components/application-routes";
+import CustomSnackbarProvider from "./components/custom-snackbar-provider";
 
 const store = configureStore();
 
@@ -53,7 +54,9 @@ const App = () => {
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <ApplicationProvider>
                 <ConnectedRouter history={history}>
-                  <ApplicationRoutes routes={routes} />
+                  <CustomSnackbarProvider>
+                    <ApplicationRoutes routes={routes} />
+                  </CustomSnackbarProvider>
                 </ConnectedRouter>
               </ApplicationProvider>
             </MuiPickersUtilsProvider>
