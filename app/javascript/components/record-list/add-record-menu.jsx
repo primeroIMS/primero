@@ -61,13 +61,13 @@ const AddRecordMenu = ({ recordType }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {primeroModules.map(m => (
+        {primeroModules.map(primeroModule => (
           <MenuItem
-            key={m.unique_id}
+            key={primeroModule.unique_id}
             component={Button}
-            onClick={() => handleModuleClick(m)}
+            onClick={() => handleModuleClick(primeroModule)}
           >
-            {m.name}
+            {primeroModule.name}
           </MenuItem>
         ))}
       </Menu>

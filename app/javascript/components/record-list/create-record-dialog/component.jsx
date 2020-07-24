@@ -2,7 +2,6 @@ import React, { useEffect, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { push } from "connected-react-router";
 import {
-  Box,
   IconButton,
   Dialog,
   DialogActions,
@@ -16,7 +15,7 @@ import { FormContext, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { getRecords } from "../../index-table";
+import { getRecordsData } from "../../index-table";
 import { applyFilters } from "../../index-filters";
 import FormSection from "../../form/components/form-section";
 import { submitHandler, whichFormMode } from "../../form";
@@ -40,8 +39,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
   const i18n = useI18n();
   const formMode = whichFormMode(FORM_MODE_NEW);
   const methods = useForm({ defaultValues: {} });
-  const data = useSelector(state => getRecords(state, recordType), compare);
-  const records = data.get("data");
+  const data = useSelector(state => getRecordsData(state, recordType), compare);
 
   const onSubmit = formData => {
     dispatch(
@@ -58,7 +56,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
   };
 
   useEffect(() => {
-    const hasData = Boolean(records?.size);
+    const hasData = Boolean(data?.size);
 
     if (open && methods.formState.isSubmitted) {
       if (hasData) {
@@ -76,7 +74,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
         );
       }
     }
-  }, [records]);
+  }, [data]);
 
   useImperativeHandle(
     formRef,
@@ -93,14 +91,16 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
   return (
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle disableTypography>
-        <Box display="flex" alignItems="center">
-          <Box flexGrow={1}>{i18n.t("cases.register_new_case")}</Box>
-          <Box display="flex">
+        <div className={css.title}>
+          <div className={css.registerNewCase}>
+            {i18n.t("cases.register_new_case")}
+          </div>
+          <div className={css.close}>
             <IconButton onClick={handleClose}>
               <CloseIcon />
             </IconButton>
-          </Box>
-        </Box>
+          </div>
+        </div>
       </DialogTitle>
       <DialogContent>
         <FormContext {...methods} formMode={formMode}>
@@ -115,21 +115,16 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
         </FormContext>
       </DialogContent>
       <DialogActions>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          className={css.actions}
-        >
-          <Box flexGrow={1} flexShrink={1}>
+        <div className={css.actions}>
+          <div className={css.createNewCase}>
             <ActionButton
               icon={<AddIcon />}
               text={i18n.t("case.create_new_case")}
               type={ACTION_BUTTON_TYPES.default}
               rest={{ onClick: handleCreateNewCase }}
             />
-          </Box>
-          <Box flexGrow={1} flexShrink={1} className={css.search}>
+          </div>
+          <div className={css.search}>
             <ActionButton
               icon={<SearchIcon />}
               text={i18n.t("navigation.search")}
@@ -138,8 +133,8 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
                 onClick: () => bindFormSubmit(formRef)
               }}
             />
-          </Box>
-        </Box>
+          </div>
+        </div>
       </DialogActions>
     </Dialog>
   );

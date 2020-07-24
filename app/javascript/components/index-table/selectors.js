@@ -10,6 +10,9 @@ export const getRecords = (state, namespace) => {
   return data?.filter(keyIn("data", "metadata"));
 };
 
+export const getRecordsData = (state, namespace) =>
+  getRecords(state, namespace).get("data");
+
 export const getFilters = (state, namespace) =>
   state.getIn(getNamespacePath(namespace).concat("filters"), Map({}));
 
