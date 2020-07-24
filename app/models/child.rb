@@ -3,7 +3,6 @@
 # The central Primero model object that represents an individual's case.
 # In spite of the name, this will represent adult cases as well.
 class Child < ApplicationRecord
-  CHILD_PREFERENCE_MAX = 3
   RISK_LEVEL_HIGH = 'high'
   RISK_LEVEL_NONE = 'none'
 
@@ -40,9 +39,7 @@ class Child < ApplicationRecord
     :name_first, :name_middle, :name_last, :name_nickname, :name_other,
     :registration_date, :age, :estimated, :date_of_birth, :sex, :address_last,
     :risk_level, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
-    :date_closure,
-    :system_generated_followup, # TODO: this is deprecated functionality; surgically remove.
-    :assessment_due_date, :assessment_requested_on,
+    :date_closure, :assessment_due_date, :assessment_requested_on,
     :followup_subform_section, :protection_concern_detail_subform_section,
     :disclosure_other_orgs,
     :ration_card_no, :icrc_ref_no, :unhcr_id_no, :unhcr_individual_no, :un_no, :other_agency_id,
@@ -154,16 +151,6 @@ class Child < ApplicationRecord
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
   end
 
-  def self.by_date_of_birth_range(start_date, end_date)
-    return [] unless start_date.is_a?(Date) && end_date.is_a?(Date)
-
-    start_yday = normal_yday(start_date)
-    end_yday = normal_yday(end_date)
-    Child.search do
-      with(:day_of_birth, start_yday..end_yday)
-    end.results
-  end
-
   def validate_date_of_birth
     if date_of_birth.present? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
       errors.add(:date_of_birth, I18n.t('errors.models.child.date_of_birth'))
@@ -214,24 +201,7 @@ class Child < ApplicationRecord
   def day_of_birth
     return nil unless date_of_birth.is_a? Date
 
-    Child.normal_yday(date_of_birth)
-  end
-
-  def self.normal_yday(date)
-    yday = date.yday
-    yday -= 1 if date.leap? && (yday >= 60)
-    yday
-  end
-
-  # TODO: Move age calculations into a service
-  def calculated_age
-    return nil unless date_of_birth.present? && date_of_birth.is_a?(Date)
-
-    now = Date.current
-    born_later_this_month = (now.month == date_of_birth.month) && (now.day >= date_of_birth.day)
-    born_later_this_year = now.month > date_of_birth.month
-    offset = born_later_this_month || born_later_this_year ? 0 : 1
-    now.year - date_of_birth.year - offset
+    AgeService.day_of_year(date_of_birth)
   end
 
   def sync_protection_concerns
