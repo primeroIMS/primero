@@ -30,7 +30,7 @@ describe TracingRequest do
       )
       tracing_request.save!
       tracing_request[:id].should_not be_nil
-      tracing_request.inquiry_date.should eq '19/Jul/2014'
+      tracing_request.inquiry_date.should eq('19/Jul/2014')
     end
   end
 

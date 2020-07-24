@@ -54,7 +54,7 @@ class Child < ApplicationRecord
     :urgent_protection_concern, :child_preferences_section, :family_details_section
   )
 
-  has_many :incidents
+  has_many :incidents, foreign_key: :incident_case_id
   has_many :matched_traces, class_name: 'Trace', foreign_key: 'matched_case_id'
   has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
   belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id', optional: true
@@ -113,6 +113,7 @@ class Child < ApplicationRecord
     date :followup_due_dates, multiple: true do
       Tasks::FollowUpTask.from_case(self).map(&:due_date)
     end
+    boolean(:has_incidents) { incidents.size.positive? }
   end
 
   validate :validate_date_of_birth

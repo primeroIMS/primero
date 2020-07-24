@@ -1,12 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
-import { Fab, CircularProgress } from "@material-ui/core";
 
-import { useThemeHelper } from "../../../libs";
-import ButtonText from "../../button-text";
-
-import styles from "./styles.css";
+import ActionButton from "../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
 const FormAction = ({
   actionHandler,
@@ -15,30 +11,18 @@ const FormAction = ({
   startIcon,
   text
 }) => {
-  const { css, mobileDisplay } = useThemeHelper(styles);
-
-  const renderCircularProgress = savingRecord && !cancel && (
-    <CircularProgress size={24} value={25} className={css.loadingMargin} />
-  );
-
   return (
-    <Fab
-      className={cancel ? css.actionButtonCancel : css.actionButton}
-      variant="extended"
-      aria-label={text}
-      onClick={actionHandler}
-      disabled={savingRecord}
-    >
-      {renderCircularProgress}
-      {startIcon}
-      <span
-        className={clsx({
-          [css.actionButtonText]: Boolean(startIcon) && !mobileDisplay
-        })}
-      >
-        <ButtonText text={text} />
-      </span>
-    </Fab>
+    <ActionButton
+      icon={startIcon}
+      text={text}
+      type={ACTION_BUTTON_TYPES.default}
+      pending={savingRecord}
+      isCancel={cancel}
+      rest={{
+        onClick: actionHandler,
+        disabled: savingRecord && !cancel
+      }}
+    />
   );
 };
 

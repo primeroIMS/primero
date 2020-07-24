@@ -3,13 +3,7 @@ import { useDispatch } from "react-redux";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
 import PropTypes from "prop-types";
-import {
-  Box,
-  Button,
-  InputAdornment,
-  makeStyles,
-  CircularProgress
-} from "@material-ui/core";
+import { Box, InputAdornment } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import CheckIcon from "@material-ui/icons/Check";
@@ -18,8 +12,8 @@ import { object, string } from "yup";
 
 import { useI18n } from "../../../i18n";
 import { addFlag } from "../../action-creators";
-import styles from "../styles.css";
-import ButtonText from "../../../button-text";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import { NAME } from "./constants";
 
@@ -35,7 +29,6 @@ const validationSchema = object().shape({
 const Component = ({ recordType, record, handleActiveTab }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
   const [savingFlag, setSavingFlag] = useState(false);
 
   const path = Array.isArray(record)
@@ -88,14 +81,6 @@ const Component = ({ recordType, record, handleActiveTab }) => {
     onSubmit,
     onReset
   };
-  const renderCircularProgress = savingFlag && (
-    <CircularProgress
-      size={24}
-      value={24}
-      className={css.loadingIndicator}
-      disableShrink
-    />
-  );
 
   return (
     <Box mx={4} mt={4}>
@@ -132,22 +117,25 @@ const Component = ({ recordType, record, handleActiveTab }) => {
               />
             </Box>
             <Box display="flex" my={3} justifyContent="flex-start">
-              <Button
-                className={css.saveButton}
-                type="submit"
-                startIcon={<CheckIcon />}
-                disabled={savingFlag}
-              >
-                <ButtonText text={i18n.t("buttons.save")} />
-                {renderCircularProgress}
-              </Button>
-              <Button
-                onClick={handleReset}
-                className={css.cancelButton}
-                startIcon={<CloseIcon />}
-              >
-                <ButtonText text={i18n.t("buttons.cancel")} />
-              </Button>
+              <ActionButton
+                icon={<CheckIcon />}
+                text={i18n.t("buttons.save")}
+                type={ACTION_BUTTON_TYPES.default}
+                pending={savingFlag}
+                rest={{
+                  type: "submit",
+                  disabled: savingFlag
+                }}
+              />
+              <ActionButton
+                icon={<CloseIcon />}
+                text={i18n.t("buttons.cancel")}
+                type={ACTION_BUTTON_TYPES.default}
+                isCancel
+                rest={{
+                  onClick: handleReset
+                }}
+              />
             </Box>
           </Form>
         )}

@@ -8,6 +8,7 @@ export const ACTIONS = {
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   CLOSE: "close",
   CREATE: "create",
+  DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
   DASH_APPROVALS_ASSESSMENT: "approvals_assessment",
   DASH_APPROVALS_ASSESSMENT_PENDING: "approvals_assessment_pending",
   DASH_APPROVALS_CASE_PLAN: "approvals_case_plan",

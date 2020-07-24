@@ -14,7 +14,8 @@ import {
   getSharedWithMe,
   getSharedWithOthers,
   getGroupOverview,
-  getCaseOverview
+  getCaseOverview,
+  getCaseIncidentOverview
 } from "../../selectors";
 import { getOption } from "../../../../record-form";
 import { LOOKUPS } from "../../../../../config";
@@ -33,6 +34,9 @@ const Component = ({ loadingIndicator, userPermissions }) => {
   const labelsRiskLevel = useSelector(state =>
     getOption(state, LOOKUPS.risk_level, i18n)
   );
+  const caseIncidentOverview = useSelector(state =>
+    getCaseIncidentOverview(state)
+  );
 
   const overviewDashHasData = Boolean(
     casesByAssessmentLevel.size ||
@@ -43,6 +47,15 @@ const Component = ({ loadingIndicator, userPermissions }) => {
   );
 
   const dashboards = [
+    {
+      type: DASHBOARD_TYPES.OVERVIEW_BOX,
+      actions: ACTIONS.DASH_CASE_INCIDENT_OVERVIEW,
+      options: {
+        items: caseIncidentOverview,
+        sumTitle: i18n.t("dashboard.dash_case_incident_overview"),
+        withTotal: false
+      }
+    },
     {
       type: DASHBOARD_TYPES.BADGED_INDICATOR,
       actions: ACTIONS.DASH_CASE_RISK,

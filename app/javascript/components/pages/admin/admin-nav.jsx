@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { List, Collapse } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 
 import { getPermissions } from "../../user/selectors";

@@ -2,7 +2,7 @@ import React, { useEffect, memo, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
 
@@ -28,6 +28,7 @@ import { usePermissions } from "../user";
 import { fetchRecordsAlerts } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
 
+import { clearValidationErrors } from "./action-creators";
 import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
@@ -151,7 +152,8 @@ const Container = ({ match, mode }) => {
     forms,
     mode: containerMode,
     record,
-    recordType: params.recordType
+    recordType: params.recordType,
+    primeroModule: selectedModule.primeroModule
   };
 
   const toolbarProps = {
@@ -174,7 +176,8 @@ const Container = ({ match, mode }) => {
     recordType: params.recordType,
     selectedForm,
     selectedRecord: record ? record.get("id") : null,
-    toggleNav
+    toggleNav,
+    primeroModule: selectedModule.primeroModule
   };
 
   useEffect(() => {
@@ -207,6 +210,10 @@ const Container = ({ match, mode }) => {
       });
     }
   }, [params.recordType, params.id]);
+
+  useEffect(() => {
+    return () => dispatch(clearValidationErrors());
+  }, []);
 
   // TODO: When transfer_request be implement change the transition_ype
   const isRecordOwnerForm = RECORD_OWNER === selectedForm;

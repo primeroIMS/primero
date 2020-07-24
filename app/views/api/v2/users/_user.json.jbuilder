@@ -6,7 +6,8 @@ user_hash = user_hash.merge({
   module_unique_ids: user.module_unique_ids,
   role_unique_id: user.role.unique_id,
   user_group_unique_ids: user.user_group_unique_ids,
-  identity_provider_unique_id: user.identity_provider&.unique_id
+  identity_provider_unique_id: user.identity_provider&.unique_id,
+  agency_office: user.agency_office
 }.compact)
 
 if @extended

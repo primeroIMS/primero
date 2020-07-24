@@ -504,6 +504,10 @@ class Field < ApplicationRecord
     self.option_strings_source == 'Location'
   end
 
+  def is_agency?
+    self.option_strings_source == 'Agency'
+  end
+
   def is_yes_no?
     self.option_strings_source == 'lookup lookup-yes-no' || self.option_strings_source == 'lookup lookup-yes-no-unknown'
   end
