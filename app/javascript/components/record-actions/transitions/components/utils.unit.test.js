@@ -146,10 +146,6 @@ describe("<Transition /> - utils", () => {
       value: "test_2"
     };
 
-    const i18n = {
-      t: value => value
-    };
-
     const options = [
       {
         value: "test_1",
