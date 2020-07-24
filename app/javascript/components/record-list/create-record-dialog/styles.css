@@ -1,0 +1,28 @@
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+.search {
+  text-align: right;
+  flex: 1 1;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+
+  & .newCase {
+    flex: 1 1;
+  }
+
+  & .close {
+    display: flex;
+  }
+}
+
+.createNewCase {
+  flex: 1 1;
+}

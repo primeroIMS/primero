@@ -44,3 +44,10 @@ export const getUserFilters = filters =>
   Object.entries(filters).reduce((acc, entry) => {
     return entry[1] ? { ...acc, [entry[0]]: entry[1] } : acc;
   }, {});
+
+export const searchableValue = (field, options, disableControl) => {
+  const { value } = field;
+  const selected = options.filter(option => option.value === value)[0];
+
+  return !disableControl && value !== "" ? selected : null;
+};

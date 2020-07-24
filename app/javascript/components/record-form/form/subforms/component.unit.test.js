@@ -11,6 +11,7 @@ describe("<SubformField />", () => {
     ({ component } = setupMountedComponent(
       SubformField,
       {
+        form: { unique_id: "form_1" },
         field: {
           subform_section_id: {
             id: 1,

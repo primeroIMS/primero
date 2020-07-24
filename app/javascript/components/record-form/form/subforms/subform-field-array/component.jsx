@@ -16,6 +16,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 const Component = ({
   arrayHelpers,
   field,
+  form,
   formik,
   i18n,
   initialSubformValue,
@@ -55,30 +56,17 @@ const Component = ({
         subformName={title}
       />
     ) : (
-      <>
-        <SubformFields
-          arrayHelpers={arrayHelpers}
-          field={field}
-          values={values}
-          locale={i18n.locale}
-          mode={mode}
-          setOpen={setOpenDialog}
-          setDialogIsNew={setDialogIsNew}
-          recordType={recordType}
-        />
-        <SubformDialog
-          index={index !== null ? index : values.length - 1}
-          field={field}
-          mode={mode}
-          open={open}
-          setOpen={setOpenDialog}
-          title={title}
-          dialogIsNew={dialogIsNew}
-          i18n={i18n}
-          formik={formik}
-          recordType={recordType}
-        />
-      </>
+      <SubformFields
+        arrayHelpers={arrayHelpers}
+        field={field}
+        values={values}
+        locale={i18n.locale}
+        mode={mode}
+        setOpen={setOpenDialog}
+        setDialogIsNew={setDialogIsNew}
+        recordType={recordType}
+        form={form}
+      />
     );
 
   return (
@@ -117,6 +105,7 @@ const Component = ({
         open={open}
         setOpen={setOpenDialog}
         title={title}
+        initialSubformValue={initialSubformValue}
       />
     </>
   );
@@ -127,6 +116,7 @@ Component.displayName = SUBFORM_FIELD_ARRAY;
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
   initialSubformValue: PropTypes.object.isRequired,

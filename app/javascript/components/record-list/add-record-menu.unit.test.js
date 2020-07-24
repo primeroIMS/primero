@@ -6,6 +6,7 @@ import { RECORD_PATH } from "../../config";
 import { PrimeroModuleRecord } from "../application/records";
 
 import AddRecordMenu from "./add-record-menu";
+import CreateRecordDialog from "./create-record-dialog";
 
 describe("<AddRecordMenu /> record-list/add-record-menu", () => {
   const props = {
@@ -27,7 +28,8 @@ describe("<AddRecordMenu /> record-list/add-record-menu", () => {
         }),
         PrimeroModuleRecord({
           unique_id: "primerotest-3",
-          name: "T3"
+          name: "T3",
+          options: { allow_searchable_ids: true }
         })
       ]
     }
@@ -40,11 +42,52 @@ describe("<AddRecordMenu /> record-list/add-record-menu", () => {
   });
 
   it("renders a single <Menu /> because user has access more than one module", () => {
-    const { component } = setupMountedComponent(AddRecordMenu, props, {
-      ...state,
-      user: { modules: ["primerotest-1", "primerotest-3"] }
-    });
+    const { component } = setupMountedComponent(
+      AddRecordMenu,
+      props,
+      state.merge(
+        fromJS({ user: { modules: ["primerotest-1", "primerotest-3"] } })
+      )
+    );
 
     expect(component.find(Menu)).to.have.lengthOf(1);
+  });
+
+  it("opens a <CreateRecordDialog /> if module allow_searchable_ids", () => {
+    const { component } = setupMountedComponent(
+      AddRecordMenu,
+      props,
+      state.merge(fromJS({ user: { modules: ["primerotest-3"] } }))
+    );
+
+    component.find(Button).simulate("click");
+    const createRecordDialog = component.find(CreateRecordDialog);
+
+    expect(createRecordDialog).to.have.lengthOf(1);
+    expect(createRecordDialog.props().open).to.be.true;
+  });
+
+  it("does not render <CreateRecordDialog /> if module does not allow_searchable_ids", () => {
+    const { component } = setupMountedComponent(
+      AddRecordMenu,
+      props,
+      state.merge(fromJS({ user: { modules: ["primerotest-1"] } }))
+    );
+
+    component.find(Button).first().simulate("click");
+
+    expect(component.find(CreateRecordDialog)).to.have.lengthOf(0);
+  });
+
+  it("does not render <CreateRecordDialog /> if recordType is not cases", () => {
+    const { component } = setupMountedComponent(
+      AddRecordMenu,
+      { recordType: RECORD_PATH.tracing_requests },
+      state.merge(fromJS({ user: { modules: ["primerotest-1"] } }))
+    );
+
+    component.find(Button).first().simulate("click");
+
+    expect(component.find(CreateRecordDialog)).to.have.lengthOf(0);
   });
 });
