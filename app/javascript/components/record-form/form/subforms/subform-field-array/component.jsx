@@ -13,6 +13,8 @@ import styles from "../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
+import { valuesWithDisplayConditions } from "./utils";
+
 const Component = ({
   arrayHelpers,
   field,
@@ -23,8 +25,13 @@ const Component = ({
   mode,
   recordType
 }) => {
-  const { display_name: displayName, name } = field;
-  const values = getIn(formik.values, name);
+  const {
+    display_name: displayName,
+    name,
+    display_conditions: displayConditions
+  } = field;
+  const oldValues = getIn(formik.values, name);
+  const values = valuesWithDisplayConditions(oldValues, displayConditions);
   const [openDialog, setOpenDialog] = useState({ open: false, index: null });
   const [dialogIsNew, setDialogIsNew] = useState(false);
   const { css, mobileDisplay } = useThemeHelper(styles);

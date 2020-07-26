@@ -9,6 +9,7 @@ class Field < ApplicationRecord
   localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label, :option_strings_text
 
   attr_reader :options
+  store_accessor :subform_section_configuration, :subform_sort_by, :subform_group_by
 
   # Since Rails 5 belongs_to acts as a validate_presence_of.
   # This relation will be optional because the scoped association in FormSection will fail otherwise.

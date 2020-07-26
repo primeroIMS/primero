@@ -20,7 +20,8 @@ export const FieldRecord = Record({
   selected_value: "",
   subform_sort_by: "",
   show_on_minify_form: false,
-  order: null
+  order: null,
+  display_conditions: null
 });
 
 export const FormSectionRecord = Record({

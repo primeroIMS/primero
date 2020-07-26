@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_07_000000) do
+ActiveRecord::Schema.define(version: 2020_07_15_232433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -184,6 +184,7 @@ ActiveRecord::Schema.define(version: 2020_06_07_000000) do
     t.string "date_validation", default: "default_date_validation"
     t.boolean "date_include_time", default: false, null: false
     t.boolean "matchable", default: false, null: false
+    t.jsonb "display_conditions"
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"
@@ -231,6 +232,7 @@ ActiveRecord::Schema.define(version: 2020_06_07_000000) do
     t.boolean "hide_subform_placeholder", default: false, null: false
     t.boolean "mobile_form", default: false, null: false
     t.text "header_message_link"
+    t.jsonb "display_conditions"
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
