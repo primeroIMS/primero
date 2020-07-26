@@ -53,11 +53,11 @@ module Historical
   end
 
   def creation_fields_for(user)
-    self.last_updated_by = user.try(:user_name)
-    self.created_by = user.try(:user_name)
-    self.created_by_full_name = user.try(:full_name)
-    self.created_organization = user.try(:organization)
-    self.created_agency_office = user.try(:agency_office)
+    self.last_updated_by = user&.user_name
+    self.created_by = user&.user_name
+    self.created_by_full_name = user&.full_name
+    self.created_organization = user&.organization
+    self.created_agency_office = user&.agency_office
     self.last_updated_at ||= self.created_at ||= DateTime.now
     self.posted_at = DateTime.now
   end
@@ -80,7 +80,7 @@ module Historical
     record_histories.order(datetime: :desc)
   end
 
-  #This is an alias to make migration easier
+  # This is an alias to make migration easier
   def histories
     ordered_histories
   end
@@ -103,8 +103,7 @@ module Historical
     return unless saved_changes_to_record.present?
 
     RecordHistory.create(
-      record: self,
-      record_type: self.class.name,
+      record: self, record_type: self.class.name,
       user_name: last_updated_by,
       datetime: self.last_updated_at,
       action: EVENT_UPDATE,
@@ -132,7 +131,7 @@ module Historical
     saved_changes_to_record
   end
 
-  #TODO: For performance reasons, consider caching this and assuming that
+  # TODO: For performance reasons, consider caching this and assuming that
   #      by the time the before_save callback is invoked, all changes have taken place
   def changes_to_save_for_record
     changes_to_save_for_record = {}

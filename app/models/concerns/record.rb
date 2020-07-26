@@ -40,7 +40,7 @@ module Record
         record.id = id if id.present?
         record.data = RecordMergeDataHashService.merge_data(record.data, data)
         record.creation_fields_for(user)
-        record.set_owner_fields_for(user)
+        record.owner_fields_for(user)
       end
     end
 

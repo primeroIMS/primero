@@ -17,18 +17,17 @@ class IncidentCreationService
     { source: 'unaccompanied_separated_status', target: 'unaccompanied_separated_status' }
   ].map(&:with_indifferent_access).freeze
 
-  def self.incident_from_case(case_record, incident_data = {}, module_id = nil)
-    IncidentCreationService.new.incident_from_case(case_record, incident_data, module_id)
+  def self.incident_from_case(case_record, incident_data = {}, module_id = nil, user = nil)
+    IncidentCreationService.new.incident_from_case(case_record, incident_data, module_id, user)
   end
 
-  def incident_from_case(case_record, incident_data, module_id)
+  def incident_from_case(case_record, incident_data, module_id, user)
     module_id ||= case_record.module_id
-    Incident.new(data: incident_data).tap do |incident|
+    Incident.new_with_user(user, incident_data).tap do |incident|
       field_mapping(module_id).each do |map|
         incident.data[map['target']] = case_record.data[map['source']]
       end
       incident.module_id = map_to_module_id(module_id)
-      # TODO: Ownership?
     end
   end
 
