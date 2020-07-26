@@ -29,20 +29,19 @@ module Record
   end
 
   def self.map_name(name)
-    name = name.underscore
-    name = 'case' if name == 'child'
-    name
+    name == 'child' ? 'case' : name.underscore
   end
 
+  # Class methods for all Record types
   module ClassMethods
     def new_with_user(user, data = {})
-      id = data.delete('id')
-      record = new
-      record.id = id if id.present?
-      record.data = RecordMergeDataHashService.merge_data(record.data, data)
-      record.creation_fields_for(user)
-      record.set_owner_fields_for(user)
-      record
+      new.tap do |record|
+        id = data.delete('id')
+        record.id = id if id.present?
+        record.data = RecordMergeDataHashService.merge_data(record.data, data)
+        record.creation_fields_for(user)
+        record.set_owner_fields_for(user)
+      end
     end
 
     def common_summary_fields
@@ -50,21 +49,8 @@ module Record
          flag_count status record_in_scope short_id alert_count]
     end
 
-    # TODO: This method is currently unused, but should eventually replace the mess in the record actions controller
-    def find_or_initialize(unique_identifier)
-      record = find_by_unique_identifier(unique_identifier)
-      if record.nil?
-        record = self.new
-      end
-      record
-    end
-
     def find_by_unique_identifier(unique_identifier)
       find_by('data @> ?', { unique_identifier: unique_identifier }.to_json)
-    end
-
-    def generate_unique_id
-      SecureRandom.uuid
     end
 
     def parent_form
@@ -90,7 +76,7 @@ module Record
   end
 
   def create_identification
-    self.unique_identifier ||= self.class.generate_unique_id
+    self.unique_identifier ||= SecureRandom.uuid
     self.short_id ||= self.unique_identifier.to_s.last(7)
     set_instance_id
   end
@@ -103,21 +89,6 @@ module Record
     []
   end
 
-  def display_field(field_or_name, lookups = nil)
-    result = ''
-    if field_or_name.present?
-      if field_or_name.is_a?(Field)
-        result = field_or_name.display_text(data[field_or_name.name], lookups)
-      else
-        field = Field.get_by_name(field_or_name)
-        if field.present?
-          result = field.display_text(data[field_or_name], lookups)
-        end
-      end
-    end
-    result
-  end
-
   def display_id
     short_id
   end
@@ -126,25 +97,14 @@ module Record
     data[subform_field_name]&.map { |fds| fds[field_name] }&.compact&.uniq
   end
 
-  # TODO: Refactor or delete with UIUX. This looks like its only useful for setting and getting via the form
   # TODO: This is used in configurable exporters. Rename to something meaningful if useful
   # # @param attr_keys: An array whose elements are properties and array indeces
   #   # Ex: `child.value_for_attr_keys(['family_details_section', 0, 'relation_name'])`
   #   # is equivalent to doing `child.family_details_section[0].relation_name`
   def value_for_attr_keys(attr_keys)
-    attr_keys.inject(self.data) do |acc, attr|
-      if acc.blank?
-        nil
-      else
-        acc[attr]
-      end
+    attr_keys.inject(data) do |acc, attr|
+      acc.blank? ? nil : acc[attr]
     end
-  end
-
-  # TODO: Refactor or delete with UIUX. This looks like its only useful for setting and getting via the form
-  def set_value_for_attr_keys(attr_keys, value)
-    parent = value_for_attr_keys(attr_keys[0..-2])
-    parent[attr_keys[-1]] = value
   end
 
   def update_properties(data, user_name)
@@ -153,12 +113,8 @@ module Record
   end
 
   def nested_reportables_hash
-    # TODO: Consider returning this as a straight list
-    self.class.nested_reportable_types.reduce({}) do |hash, type|
-      if self.try(type.record_field_name).present?
-        hash[type] = type.from_record(self)
-      end
-      hash
+    self.class.nested_reportable_types.each_with_object({}) do |type, hash|
+      hash[type] = type.from_record(self) if try(type.record_field_name).present?
     end
   end
 
