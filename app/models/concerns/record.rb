@@ -36,7 +36,7 @@ module Record
   module ClassMethods
     def new_with_user(user, data = {})
       new.tap do |record|
-        id = data.delete('id')
+        id = data.delete('id') || data.delete(:id)
         record.id = id if id.present?
         record.data = RecordMergeDataHashService.merge_data(record.data, data)
         record.creation_fields_for(user)

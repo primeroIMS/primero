@@ -21,14 +21,22 @@ class IncidentCreationService
     IncidentCreationService.new.incident_from_case(case_record, incident_data, module_id, user)
   end
 
+  def self.copy_from_case(incident, case_record, module_id = nil)
+    return unless incident && case_record
+
+    IncidentCreationService.new.copy_from_case(incident, case_record, module_id)
+  end
+
   def incident_from_case(case_record, incident_data, module_id, user)
     module_id ||= case_record.module_id
-    Incident.new_with_user(user, incident_data).tap do |incident|
-      field_mapping(module_id).each do |map|
-        incident.data[map['target']] = case_record.data[map['source']]
-      end
-      incident.module_id = map_to_module_id(module_id)
+    copy_from_case(Incident.new_with_user(user, incident_data), case_record, module_id)
+  end
+
+  def copy_from_case(incident, case_record, module_id)
+    field_mapping(module_id).each do |map|
+      incident.data[map['target']] = case_record.data[map['source']]
     end
+    incident.module_id = map_to_module_id(module_id)
   end
 
   def field_mapping(module_id)

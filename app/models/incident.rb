@@ -44,6 +44,7 @@ class Incident < ApplicationRecord
     quicksearch_fields.each { |f| text_index(f) }
   end
 
+  before_save :copy_from_case
   # TODO: Reconsider whether this is necessary.
   # We will only be creating an incident from a case using a special business logic that
   # will certainly trigger a reindex on the case
@@ -59,13 +60,28 @@ class Incident < ApplicationRecord
     self.date_of_first_report ||= Date.today
   end
 
-  def self.minimum_reportable_fields
-    {
-      'boolean' => %w[record_state],
-      'string' => %w[status owned_by],
-      'multistring' => %w[associated_user_names owned_by_groups],
-      'date' => %w[incident_date_derived]
-    }
+  class << self
+    alias super_new_with_user new_with_user
+    def new_with_user(user, data = {})
+      super_new_with_user(user, data).tap do |incident|
+        incident.incident_case_id ||= incident.data.delete('incident_case_id')
+      end
+    end
+
+    def minimum_reportable_fields
+      {
+        'boolean' => %w[record_state],
+        'string' => %w[status owned_by],
+        'multistring' => %w[associated_user_names owned_by_groups],
+        'date' => %w[incident_date_derived]
+      }
+    end
+  end
+
+  def copy_from_case
+    return unless incident_case_id && will_save_change_to_attribute?(:incident_case_id)
+
+    IncidentCreationService.copy_from_case(self, self.case, module_id)
   end
 
   def set_instance_id
