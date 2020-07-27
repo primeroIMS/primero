@@ -23,29 +23,17 @@ export const appendDisabledUser = (users, userName) =>
     ? users?.push(fromJS({ user_name: userName, isDisabled: true }))
     : users;
 
-export const getConnectedFields = index => {
-  if (index >= 0) {
-    return {
-      service: `services_section[${index}]${SERVICE_SECTION_FIELDS.type}`,
-      agency: `services_section[${index}]${SERVICE_SECTION_FIELDS.implementingAgency}`,
-      location: `services_section[${index}]${SERVICE_SECTION_FIELDS.deliveryLocation}`,
-      user: `services_section[${index}]${SERVICE_SECTION_FIELDS.implementingAgencyIndividual}`
-    };
-  }
-
-  return {
-    service: SERVICE_SECTION_FIELDS.type,
-    agency: SERVICE_SECTION_FIELDS.implementingAgency,
-    location: SERVICE_SECTION_FIELDS.deliveryLocation,
-    user: SERVICE_SECTION_FIELDS.implementingAgencyIndividual
-  };
-};
+export const getConnectedFields = () => ({
+  service: SERVICE_SECTION_FIELDS.type,
+  agency: SERVICE_SECTION_FIELDS.implementingAgency,
+  location: SERVICE_SECTION_FIELDS.deliveryLocation,
+  user: SERVICE_SECTION_FIELDS.implementingAgencyIndividual
+});
 
 export const handleChangeOnServiceUser = ({
   agencies,
   data,
   form,
-  index,
   referralUsers,
   reportingLocations,
   setFilterState
@@ -59,17 +47,13 @@ export const handleChangeOnServiceUser = ({
     const userLocation = selectedUser.get("location");
 
     if (agencies.find(current => current.get("unique_id") === userAgency)) {
-      form.setFieldValue(getConnectedFields(index).agency, userAgency, false);
+      form.setFieldValue(getConnectedFields().agency, userAgency, false);
     }
 
     if (
       reportingLocations.find(current => current.get("code") === userLocation)
     ) {
-      form.setFieldValue(
-        getConnectedFields(index).location,
-        userLocation,
-        false
-      );
+      form.setFieldValue(getConnectedFields().location, userLocation, false);
     }
   }
 

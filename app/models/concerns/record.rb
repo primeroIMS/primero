@@ -39,7 +39,7 @@ module Record
       id = data.delete('id')
       record = new
       record.id = id if id.present?
-      record.data = Utils.merge_data(record.data, data)
+      record.data = RecordMergeDataHashService.merge_data(record.data, data)
       record.creation_fields_for(user)
       record.set_owner_fields_for(user)
       record
@@ -78,21 +78,10 @@ module Record
       ).pluck(:name)
     end
 
-    # TODO: Refactor with UIUX
-    def model_name_for_messages
-      name.titleize.downcase
-    end
-
-    # TODO: Refactor with UIUX
-    def locale_prefix
-      name.underscore.downcase
-    end
-
     def nested_reportable_types
       []
     end
   end
-
 
   # Override this in the implementing classes to set your own defaults
   def defaults
@@ -104,6 +93,14 @@ module Record
     self.unique_identifier ||= self.class.generate_unique_id
     self.short_id ||= self.unique_identifier.to_s.last(7)
     set_instance_id
+  end
+
+  def associations_as_data
+    {}
+  end
+
+  def associations_as_data_keys
+    []
   end
 
   def display_field(field_or_name, lookups = nil)
@@ -123,6 +120,10 @@ module Record
 
   def display_id
     short_id
+  end
+
+  def values_from_subform(subform_field_name, field_name)
+    data[subform_field_name]&.map { |fds| fds[field_name] }&.compact&.uniq
   end
 
   # TODO: Refactor or delete with UIUX. This looks like its only useful for setting and getting via the form
@@ -147,7 +148,7 @@ module Record
   end
 
   def update_properties(data, user_name)
-    self.data = Utils.merge_data(self.data, data)
+    self.data = RecordMergeDataHashService.merge_data(self.data, data)
     self.last_updated_by = user_name
   end
 
@@ -183,39 +184,6 @@ module Record
   def unindex_nested_reportables
     nested_reportables_hash.each do |_, reportables|
       Sunspot.remove! reportables if reportables.present?
-    end
-  end
-
-  class Utils
-    def self.merge_data(old_data, new_data)
-      if old_data.is_a?(Hash) && new_data.is_a?(Hash)
-        old_data.merge(new_data) do |_, old_value, new_value|
-          merge_data(old_value, new_value)
-        end
-      elsif is_an_array_of_hashes?(old_data) && is_an_array_of_hashes?(new_data)
-        merged_old_data = old_data.inject([]) do |result, old_nested_record|
-          nested_record_id = old_nested_record['unique_id']
-          if nested_record_id.present?
-            new_nested_record = new_data.find{|r| r['unique_id'] == nested_record_id}
-            if new_nested_record
-              result << merge_data(old_nested_record, new_nested_record)
-            else
-              result << old_nested_record
-            end
-          else
-            result << old_nested_record
-          end
-          result
-        end
-        append = new_data.reject{|new_record| merged_old_data.find{|r| r['unique_id'] == new_record['unique_id']}}
-        (merged_old_data + append).reject{|record| record['_destroy']}
-      else
-        new_data
-      end
-    end
-
-    def self.is_an_array_of_hashes?(value)
-      value.is_a?(Array) && (value.blank? || value.first.is_a?(Hash))
     end
   end
 end

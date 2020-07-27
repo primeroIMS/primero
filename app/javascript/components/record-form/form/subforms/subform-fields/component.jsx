@@ -1,5 +1,6 @@
 /* eslint-disable  react/no-array-index-key */
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { sortBy } from "lodash";
 import { Box } from "@material-ui/core";
@@ -11,13 +12,18 @@ import SubformHeader from "../subform-header";
 import { SUBFORM_FIELDS } from "../constants";
 import { serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
+import Jewel from "../../../../jewel";
 import { useI18n } from "../../../../i18n";
+import { emptyValues } from "../../../utils";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
+import { compare } from "../../../../../libs";
+import { getValidationErrors } from "../../..";
 
 const Component = ({
   arrayHelpers,
   field,
+  form,
   locale,
   mode,
   recordType,
@@ -28,6 +34,10 @@ const Component = ({
   const i18n = useI18n();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const validationErrors = useSelector(
+    state => getValidationErrors(state, form.unique_id),
+    compare
+  );
 
   const {
     subform_sort_by: subformSortBy,
@@ -74,6 +84,15 @@ const Component = ({
     setOpen({ open: true, index });
   };
 
+  const hasError = index =>
+    Boolean(
+      validationErrors?.size &&
+        validationErrors.getIn(
+          ["errors", subformField.get("unique_id"), index],
+          false
+        )
+    );
+
   if (values && values.length > 0) {
     let sortedValues = [];
 
@@ -95,8 +114,10 @@ const Component = ({
 
     return (
       <>
-        {sortedValues.map((c, index) => {
-          if (values?.[index]?._destroy) return false;
+        {sortedValues.map((sortedValue, index) => {
+          if (values?.[index]?._destroy || emptyValues(sortedValue)) {
+            return false;
+          }
 
           return (
             <Box key={`${name}-${index}`} display="flex" alignItems="center">
@@ -110,6 +131,7 @@ const Component = ({
                 />
               </Box>
               <Box display="flex">
+                {hasError(index) && <Jewel isError />}
                 {!subformPreventItemRemoval && !mode.isShow ? (
                   <ActionButton
                     icon={<DeleteIcon />}
@@ -157,6 +179,7 @@ Component.displayName = SUBFORM_FIELDS;
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
   recordType: PropTypes.string,

@@ -72,17 +72,15 @@ describe("appendDisabledUser", () => {
 });
 
 describe("getConnectedFields", () => {
-  it("should return the connected fields for the service_section index", () => {
-    const expected = {
-      service: `services_section[0]${SERVICE_SECTION_FIELDS.type}`,
-      agency: `services_section[0]${SERVICE_SECTION_FIELDS.implementingAgency}`,
-      location: `services_section[0]${SERVICE_SECTION_FIELDS.deliveryLocation}`,
-      user: `services_section[0]${SERVICE_SECTION_FIELDS.implementingAgencyIndividual}`
-    };
+  it("should know the connected fields", () => {
+    const connectedFields = { ...helpers.getConnectedFields() };
 
-    const connectedFields = helpers.getConnectedFields(0);
+    ["service", "agency", "location", "user"].forEach(property => {
+      expect(connectedFields).to.have.property(property);
+      delete connectedFields[property];
+    });
 
-    expect(connectedFields).to.deep.equal(expected);
+    expect(connectedFields).to.deep.equal({});
   });
 
   it("should return the connected fields", () => {

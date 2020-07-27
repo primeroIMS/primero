@@ -1,12 +1,12 @@
 # Primero API
 
-This document describes the Primero API version 2. A deprecated version 1 of the API, currently used by the mobile application, is still available under /api. This may not be available in the future.  
+This document describes the Primero API version 2. A deprecated version 1 of the API, currently used by the mobile application, is still available under /api. This may not be available in the future.
 
 
 ## Authentication
 
 All other endpoints will require the Authorization header set with a bearer token issued by these endpoints.
-The tokens expire after 60 minutes. 
+The tokens expire after 60 minutes.
 
 * [Issue or re-issue a new JWT token](v2/docs/tokens/post.md) : `POST /api/v2/tokens`
 * [Invalidate an existing token](v2/docs/tokens/delete.md) : `DELETE /api/v2/tokens`
@@ -43,6 +43,20 @@ The API behavior is identical to that of cases. See the case endpoints above for
 * Update an existing tracing request: `PATCH /api/v2/tracing_requests/:id`
 * Disable an existing tracing request: `DELETE /api/v2/tracing_requests/:id`
 
+## Traces
+
+Endpoints for fetching data about an individual trace or matching a trace to case.
+Trace data will be maintained as part of the tracing request above.
+
+* [Fetch an individual trace](v2/docs/traces/id/get.md): `GET /api/v2/traces/:id`
+* [Match a trace to a case](v2/docs/traces/id/patch.md): `PATCH /api/v2/traces/:id`
+
+# Potential Matches
+
+Search for potential matches for family tracing for a particular trace or case record
+* [Search for traces matching a case](v2/docs/potential_matches/get.md): `GET /api/v2/cases/:id/potential_matches`
+* [Search for cases matching a trace](v2/docs/potential_matches/get.md): `GET /api/v2/traces/:id/potential_matches`
+
 ## Flagging Endpoints
 
 Endpoints for query and manipulating flags for cases, tracing request and incidents
@@ -60,7 +74,7 @@ Endpoints for associating files with records.
 
 ## Transitions
 
-Transitions change the access rights of users to records. 
+Transitions change the access rights of users to records.
 Currently only case records may be transitioned. We have the following:
 
 ### Assigns
@@ -81,7 +95,7 @@ A referral grants an additional user access to this record.
 
 ### Transfers
 
-A transfer initiates a process to switch the record owner. 
+A transfer initiates a process to switch the record owner.
 The receiving user must accept or reject the transfer before becoming the record owner.
 * [List all transfers that took place for a record](v2/docs/transfers/get.md): `GET /api/v2/cases/:id/transfers`
 * [Transfer a record](v2/docs/transfers/id/post.md): `POST /api/v2/cases/:id/transfers`
@@ -99,6 +113,7 @@ A transfer request starts the workflow for initiating a transfer to the requesti
 
 A transition is a Transfer, Assign, Referral, or TransferRequests.
 * [List all transitions for this record](v2/docs/transitions/get.md): `GET /api/v2/cases/:id/transitions`
+
 
 ## Form Section Endpoints
 
