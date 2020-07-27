@@ -2159,18 +2159,26 @@ km:
       multi_page_html: "បង្ហាញ %{model} <b>%{from} - %{to}</b> នៃ <b>%{count}</b> សរុប"
     models:
       agency:
+        one: "ស្ថាប័ន"
         other: "ស្ថាប័ន"
       report:
+        one: "របាយការណ៍"
         other: "របាយការណ៍"
       child:
+        one: "ករណី"
         other: "ករណី"
       incident:
+        one: "ហេតុការណ៍"
         other: "ហេតុការណ៍"
       hash:
+        one: "ផ្គូផ្គងលទ្ធផល​"
         other: "ផ្គូផ្គងលទ្ធផល​"
       bulk_export:
+        one: "នាំចេញឯកសារ​ច្រើន"
         other: "នាំចេញឯកសារ​ច្រើន"
       task:
+        one: "កិច្ចការ"
         other: "កិច្ចការ"
       user_group:
+        one: "ក្រុម​អ្នកប្រើប្រាស់"
         other: "ក្រុម​អ្នកប្រើប្រាស់"
