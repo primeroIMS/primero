@@ -12,7 +12,7 @@ module Exporters
 
     describe 'Export format' do
       # TODO: Refactor this test.  It is way too complex and brittle
-      xit 'contains the default permission list in the exporter file' do
+      it 'contains the default permission list in the exporter file' do
         data = RolePermissionsExporter.new(nil).export(nil)
         workbook = Spreadsheet.open(data.path)
 
@@ -57,7 +57,7 @@ module Exporters
       end
 
       # TODO: Refactor this test. It is way to complex and brittle
-      xit 'contains roles and actions and FormSection list in the exporter file' do
+      it 'contains roles and actions and FormSection list in the exporter file' do
         data = RolePermissionsExporter.new(nil).export(nil)
         workbook = Spreadsheet.open(data.path).worksheets.last.rows
         expect(workbook[0]).to eq(['Resource', 'Action', Role.first.name])

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import { RECORD_TYPES, RECORD_PATH, APPROVALS_TYPES, MODULES } from "../../config";
+import { RECORD_TYPES, RECORD_PATH, APPROVALS_TYPES } from "../../config";
 import { useI18n } from "../i18n";
 import { getPermissionsByRecord } from "../user/selectors";
 import { getFiltersValuesByRecordType } from "../index-filters/selectors";
@@ -183,7 +183,9 @@ const Container = ({
     ACTIONS.MANAGE,
     ACTIONS.REQUEST_APPROVAL_ASSESSMENT,
     ACTIONS.REQUEST_APPROVAL_CASE_PLAN,
-    ACTIONS.REQUEST_APPROVAL_CLOSURE
+    ACTIONS.REQUEST_APPROVAL_CLOSURE,
+    ACTIONS.REQUEST_APPROVAL_ACTION_PLAN,
+    ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
   ]);
 
   const canRequestBia = checkPermissions(userPermissions, [
@@ -201,11 +203,23 @@ const Container = ({
     ACTIONS.REQUEST_APPROVAL_CLOSURE
   ]);
 
+  const canRequestActionPlan = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.REQUEST_APPROVAL_ACTION_PLAN
+  ]);
+
+  const canRequestGbvClosure = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
+  ]);
+
   const canApprove = checkPermissions(userPermissions, [
     ACTIONS.MANAGE,
     ACTIONS.APPROVE_ASSESSMENT,
     ACTIONS.APPROVE_CASE_PLAN,
-    ACTIONS.APPROVE_CLOSURE
+    ACTIONS.APPROVE_CLOSURE,
+    ACTIONS.APPROVE_ACTION_PLAN,
+    ACTIONS.APPROVE_GBV_CLOSURE
   ]);
 
   const canApproveBia = checkPermissions(userPermissions, [
@@ -221,6 +235,16 @@ const Container = ({
   const canApproveClosure = checkPermissions(userPermissions, [
     ACTIONS.MANAGE,
     ACTIONS.APPROVE_CLOSURE
+  ]);
+
+  const canApproveActionPlan = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_ACTIONE_PLAN
+  ]);
+
+  const canApproveGbvClosure = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_GBV_CLOSURE
   ]);
 
   const canAddIncident = checkPermissions(userPermissions, ADD_INCIDENT);
@@ -502,14 +526,12 @@ const Container = ({
       name: approvalsLabels.action_plan,
       condition: canRequestActionPlan,
       recordType: RECORD_TYPES.all,
-      primeroModule: MODULES.GBV,
       value: APPROVALS_TYPES.action_plan
     },
     {
       name: approvalsLabels.gbv_closure,
       condition: canRequestGbvClosure,
       recordType: RECORD_TYPES.all,
-      primeroModule: MODULES.GBV,
       value: APPROVALS_TYPES.gbv_closure
     }
   ];
@@ -537,14 +559,12 @@ const Container = ({
       name: approvalsLabels.action_plan,
       condition: canApproveActionPlan,
       recordType: RECORD_TYPES.all,
-      primeroModule: MODULES.GBV,
       value: APPROVALS_TYPES.action_plan
     },
     {
       name: approvalsLabels.gbv_closure,
       condition: canApproveGbvClosure,
       recordType: RECORD_TYPES.all,
-      primeroModule: MODULES.GBV,
       value: APPROVALS_TYPES.gbv_closure
     }
   ];
