@@ -37,7 +37,6 @@ const SelectField = ({
   mode,
   disabled,
   formik,
-  index,
   ...other
 }) => {
   const i18n = useI18n();
@@ -158,7 +157,7 @@ const SelectField = ({
         ? data?.map(selected =>
             typeof selected === "object" ? selected?.value : selected
           )
-        : data.value || defaultEmptyValue,
+        : data?.value || defaultEmptyValue,
       false
     );
 
@@ -179,8 +178,7 @@ const SelectField = ({
           data,
           agencies,
           reportingLocations,
-          form,
-          index
+          form
         });
       }
     }
@@ -257,7 +255,11 @@ const SelectField = ({
   }, [location]);
 
   useEffect(() => {
-    if (mode.isNew && selectedValue && (value === null || value.length === 0)) {
+    if (
+      mode.isNew &&
+      selectedValue &&
+      (value === null || value?.length === 0)
+    ) {
       formik.setFieldValue(name, selectedValue, false);
     }
 
@@ -290,7 +292,6 @@ SelectField.propTypes = {
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   helperText: PropTypes.string,
-  index: PropTypes.number,
   InputLabelProps: PropTypes.object,
   InputProps: PropTypes.object,
   label: PropTypes.string.isRequired,

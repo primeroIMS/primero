@@ -14,11 +14,12 @@ module Ownable
       string :associated_user_names, multiple: true
       string :associated_user_groups, multiple: true
       string :associated_user_agencies, multiple: true
-      string :owned_by
       integer :owned_by_groups, multiple: true
       string :assigned_user_names, multiple: true
-      string :module_id, as: :module_id_sci
       boolean :not_edited_by_owner
+      %w[
+        owned_by_agency_id owned_by_location owned_by_agency_office module_id owned_by
+      ].each { |f| string(f, as: "#{f}_sci") }
     end
 
     scope :owned_by, ->(username) { where('data @> ?', { owned_by: username }.to_json) }

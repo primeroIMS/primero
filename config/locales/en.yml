@@ -555,7 +555,7 @@ en:
     create_new_case: "Create New Case"
     enter_id_number: "Enter the ID number to search for an existing record"
     id_number_required: "Id number is required"
-    id_search_no_results: "There is no match in the system for “%{id}”, please create a new record."
+    id_search_no_results: "There is no match in the system for “%{search_query}”. Please create a new record."
     id_search_results_html: "for <span>%{id}</span>"
     label: "Case ID"
     case_id_display: "Case ID"
@@ -3600,6 +3600,7 @@ en:
   string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
 
   error_message:
+    address_subform_fields: "%{subform} has %{fields} invalid fields"
     address_form_fields: "You need to address %{fields} fields on this form"
     address_fields: "You need to address %{fields} fields on %{forms} forms"
     notice: 'Errors prohibited this record from being saved'

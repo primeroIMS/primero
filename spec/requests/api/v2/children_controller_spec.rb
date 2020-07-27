@@ -325,14 +325,14 @@ describe Api::V2::ChildrenController, type: :request do
     it 'returns a 422 if the case record is invalid' do
       login_for_test
       params = {
-        data: { name: 'Test', age: 12, sex: 'female', registration_date: 'is invalid' }
+        data: { name: 'Test', age: 12, sex: 'female', date_of_birth: 'is invalid' }
       }
       post '/api/v2/cases', params: params
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/cases')
-      expect(json['errors'][0]['detail']).to eq('registration_date')
+      expect(json['errors'][0]['detail']).to eq('date_of_birth')
     end
   end
 
@@ -439,14 +439,14 @@ describe Api::V2::ChildrenController, type: :request do
     it 'returns a 422 if the case record is invalid' do
       login_for_test
       params = {
-        data: { name: 'Test', age: 12, sex: 'female', registration_date: 'is invalid' }
+        data: { name: 'Test', age: 12, sex: 'female', date_of_birth: 'is invalid' }
       }
       patch "/api/v2/cases/#{@case1.id}", params: params
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
-      expect(json['errors'][0]['detail']).to eq('registration_date')
+      expect(json['errors'][0]['detail']).to eq('date_of_birth')
     end
 
     it 'sets the case name to be hidden' do

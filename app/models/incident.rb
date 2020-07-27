@@ -24,8 +24,9 @@ class Incident < ApplicationRecord
   scope :by_incident_detail_id, ->(incident_detail_id) { where('data @> ?', {incident_detail_id: incident_detail_id}.to_json) }
 
   def self.quicksearch_fields
-    %w[incident_id incident_code super_incident_name incident_description
-       monitor_number survivor_code individual_ids incidentid_ir
+    %w[
+      incident_id incident_code super_incident_name incident_description
+      monitor_number survivor_code individual_ids incidentid_ir
     ]
   end
 
@@ -39,14 +40,9 @@ class Incident < ApplicationRecord
   end
 
   searchable do
-    date :incident_date_derived do
-      self.incident_date_derived
-    end
-
+    date :incident_date_derived
     string :status, as: 'status_sci'
-    quicksearch_fields.each do |f|
-      text(f) { self.data[f] }
-    end
+    quicksearch_fields.each { |f| text_index(f) }
   end
 
   validate :validate_date_of_first_report
@@ -150,27 +146,6 @@ class Incident < ApplicationRecord
       end
     end
     return incident_map
-  end
-
-  #Returns the 20 latest open incidents. Used in dashboards.
-  # TODO: Jacob's designs drop this? Delete? Refactor UIUX
-  #TODO refactoring pagination?
-  def self.open_incidents(user)
-    filters = { "record_state" =>{:type => "single", :value => "true"},
-                "module_id" => {:type => "single", :value => PrimeroModule::MRM},
-                "status" => {:type => "single", :value => STATUS_OPEN},
-              }
-    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
-  end
-
-  #Returns the 20 latest open incidents. Used in dashboards.
-  # TODO: Jacob's designs drop this? Delete?, Refactor UIUX
-  def self.open_gbv_incidents(user)
-    filters = { "record_state" =>{:type => "single", :value => "true"},
-                "module_id" => {:type => "single", :value => PrimeroModule::GBV},
-                "status" => {:type => "single", :value => STATUS_OPEN},
-              }
-    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
   end
 
   def validate_date_of_first_report

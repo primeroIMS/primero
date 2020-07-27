@@ -364,13 +364,6 @@ describe Incident do
     Incident.create(options)
   end
 
-  def create_duplicate(parent)
-    duplicate = Incident.create(:description => "dupe")
-    duplicate.mark_as_duplicate(parent['short_id'])
-    duplicate.save!
-    duplicate
-  end
-
   def create_incident_with_created_by(created_by,options = {})
     user = User.new(user_name: created_by, agency_id: Agency.last.id )
     Incident.new_with_user(user, options)

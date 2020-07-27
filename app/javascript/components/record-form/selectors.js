@@ -177,6 +177,13 @@ export const getValidationErrors = (state, formUniqueId) => {
   );
 };
 
+export const getSubformsDisplayName = (state, locale) =>
+  state
+    .getIn([NAMESPACE, "formSections"], fromJS([]))
+    .filter(fs => fs.is_nested)
+    .map(fs => fromJS({ [fs.unique_id]: fs.getIn(["name", locale]) }))
+    .reduce((acc, next) => acc.merge(next), fromJS({}));
+
 export const getFields = state => state.getIn([NAMESPACE, "fields"]);
 
 export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);
