@@ -47,7 +47,10 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
     }
 
     dispatch(
-      applyFilters({ recordType, data: { ...DEFAULT_FILTERS, ...formData } })
+      applyFilters({
+        recordType,
+        data: { ...DEFAULT_FILTERS, ...formData, id_search: true }
+      })
     );
   };
 
