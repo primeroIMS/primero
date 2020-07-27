@@ -38,7 +38,13 @@ function compareArray(value, base) {
       } else {
         const newSubform = pickBy(v, identity);
 
-        if (!isEmpty(newSubform)) acc.push(newSubform);
+        if (emptyValues(newSubform)) {
+          return acc;
+        }
+
+        if (!isEmpty(newSubform)) {
+          acc.push(newSubform);
+        }
       }
     } else {
       if (!isEmpty(v)) {
@@ -79,6 +85,8 @@ function difference(object, base, nested) {
     }
   });
 }
+
+export const emptyValues = element => Object.values(element).every(isEmpty);
 
 export const compactValues = (values, initialValues) =>
   difference(values, initialValues);
