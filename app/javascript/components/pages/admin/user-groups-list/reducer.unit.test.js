@@ -1,5 +1,7 @@
 import { fromJS } from "immutable";
 
+import { DEFAULT_METADATA } from "../../../../config";
+
 import actions from "./actions";
 import reducer from "./reducer";
 
@@ -16,6 +18,20 @@ describe("<UserGroupsList /> - Reducers", () => {
         data: [{ id: 1, unique_id: "usergroup-my-usergroup" }],
         metadata: { per: 20 }
       }
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle CLEAR_METADATA", () => {
+    const expected = fromJS({
+      metadata: DEFAULT_METADATA
+    });
+
+    const action = {
+      type: actions.CLEAR_METADATA
     };
 
     const newState = reducer(fromJS({}), action);

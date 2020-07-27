@@ -26,12 +26,14 @@ describe("records - Action Creators", () => {
     expect(creators).to.have.property("fetchRecord");
     expect(creators).to.have.property("saveRecord");
     expect(creators).to.have.property("fetchRecordsAlerts");
+    expect(creators).to.have.property("clearMetadata");
     delete creators.setFilters;
     delete creators.fetchCases;
     delete creators.fetchIncidents;
     delete creators.fetchTracingRequests;
     delete creators.fetchRecord;
     delete creators.fetchRecordsAlerts;
+    delete creators.clearMetadata;
     delete creators.saveRecord;
 
     expect(creators).to.be.empty;
@@ -140,5 +142,15 @@ describe("records - Action Creators", () => {
     expect(
       actionCreators.fetchRecordsAlerts(RECORD_PATH.cases, recordId)
     ).be.deep.equals(expected);
+  });
+
+  it("should check the 'clearMetadata' action creator to return the correct object", () => {
+    const expected = {
+      type: "TestRecordType/CLEAR_METADATA"
+    };
+
+    expect(actionCreators.clearMetadata("TestRecordType")).be.deep.equals(
+      expected
+    );
   });
 });

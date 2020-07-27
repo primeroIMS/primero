@@ -26,8 +26,11 @@ import {
 } from "../record-actions/bulk-transtions/selectors";
 import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
 import { enqueueSnackbar } from "../notifier";
+import {
+  clearMetadataOnLocationChange,
+  fetchDataIfNotBackButton
+} from "../records";
 import { DEFAULT_METADATA } from "../../config";
-import { clearMetadata } from "../records/action-creators";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
 import FilterContainer from "./filter-container";
@@ -76,51 +79,35 @@ const Container = ({ match, location }) => {
     getPermissionsByRecord(state, recordType)
   );
 
-  const defaultFilters = fromJS({ ...DEFAULT_FILTERS, ...metadata?.toJS() });
+  const defaultMetadata = metadata?.toJS();
+  const defaultFilterFields = DEFAULT_FILTERS;
+  const defaultFilters = fromJS({
+    ...defaultFilterFields,
+    ...defaultMetadata
+  });
 
   useEffect(() => {
-    dispatch(
-      applyFilters({
-        recordType,
-        data: Object.keys(queryParams).length
+    fetchDataIfNotBackButton(
+      metadata?.toJS(),
+      location,
+      history,
+      applyFilters,
+      "data",
+      {
+        dispatch,
+        defaultFilterFields: Object.keys(queryParams).length
           ? queryParams
-          : defaultFilters.toJS()
-      })
+          : defaultFilters.toJS(),
+        restActionParams: { recordType }
+      }
     );
-  }, []);
-
-  /* This useEffect was added because when the user clicks on case-list icon,
-    from the case-list view, pagination should be set as default */
-  useEffect(() => {
-    const currentPer = metadata?.toJS()?.per;
-    const currentPage = metadata?.toJS()?.page;
-
-    if (
-      history.action === "PUSH" &&
-      location.pathname === history.location.pathname &&
-      (currentPer !== DEFAULT_METADATA.per ||
-        currentPage !== DEFAULT_METADATA.page)
-    ) {
-      dispatch(
-        applyFilters({
-          recordType,
-          data: DEFAULT_METADATA // TODO: Should check DEFAULT FILTERS
-        })
-      );
-    }
   }, [location]);
 
   useEffect(() => {
     return () => {
-      const previous = location.pathname;
-      const current = history.location.pathname;
-
-      if (
-        previous.split("/").filter(value => value)[0] !==
-        current.split("/").filter(value => value)[0]
-      ) {
-        dispatch(clearMetadata(recordType));
-      }
+      clearMetadataOnLocationChange(location, history, recordType, 0, {
+        dispatch
+      });
     };
   }, []);
 
@@ -212,7 +199,10 @@ const Container = ({ match, location }) => {
 
   const filterProps = {
     recordType,
-    defaultFilters,
+    defaultFilters: fromJS({
+      ...defaultFilterFields,
+      ...DEFAULT_METADATA
+    }),
     setSelectedRecords,
     fromDashboard: Boolean(searchParams.get("fromDashboard"))
   };

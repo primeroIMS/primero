@@ -64,7 +64,7 @@ export const fetchDataIfNotBackButton = (
   history,
   onFetch,
   searchingKey,
-  { dispatch, defaultFilterFields }
+  { dispatch, defaultFilterFields, restActionParams }
 ) => {
   const { per: currentPer, page: currentPage, total: currentTotal } = metadata;
   const sameLocation = location.pathname === history.location.pathname;
@@ -75,6 +75,7 @@ export const fetchDataIfNotBackButton = (
   if (history.action === "PUSH" && sameLocation && differentPageOrPer) {
     dispatch(
       onFetch({
+        ...restActionParams,
         [searchingKey]: { ...defaultFilterFields, ...DEFAULT_METADATA }
       })
     );
@@ -84,7 +85,7 @@ export const fetchDataIfNotBackButton = (
   ) {
     const defaultFilters = { ...defaultFilterFields, ...metadata };
 
-    dispatch(onFetch({ [searchingKey]: defaultFilters }));
+    dispatch(onFetch({ ...restActionParams, [searchingKey]: defaultFilters }));
   }
 };
 

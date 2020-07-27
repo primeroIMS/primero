@@ -1,6 +1,9 @@
 import { fromJS } from "immutable";
 
+import { DEFAULT_METADATA } from "../../config";
+
 import {
+  CLEAR_METADATA,
   FETCH_REPORTS_SUCCESS,
   FETCH_REPORTS_STARTED,
   FETCH_REPORTS_FINISHED,
@@ -208,6 +211,20 @@ describe("<Reports /> - Reducers", () => {
     };
 
     const newState = reducer(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle CLEAR_METADATA", () => {
+    const expected = fromJS({
+      metadata: DEFAULT_METADATA
+    });
+
+    const action = {
+      type: CLEAR_METADATA
+    };
+
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });

@@ -6,6 +6,7 @@ describe("<RolesList /> - Actions", () => {
 
     expect(clonedActions).to.be.an("object");
     [
+      "CLEAR_METADATA",
       "ROLES",
       "ROLES_STARTED",
       "ROLES_SUCCESS",

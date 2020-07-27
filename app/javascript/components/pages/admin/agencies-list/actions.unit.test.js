@@ -10,7 +10,8 @@ describe("<AgenciesList /> - Actions", () => {
       "AGENCIES_STARTED",
       "AGENCIES_SUCCESS",
       "AGENCIES_FAILURE",
-      "AGENCIES_FINISHED"
+      "AGENCIES_FINISHED",
+      "CLEAR_METADATA"
     ].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];

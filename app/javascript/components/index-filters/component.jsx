@@ -238,7 +238,6 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
     dispatch(setFilters({ recordType, data: defaultFilters.toJS() }));
 
     dispatch(push({}));
-    dispatch(applyFilters({ recordType, data: defaultFilters.toJS() }));
 
     setMoreSectionFilters({});
     setReset(true);

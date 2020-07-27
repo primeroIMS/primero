@@ -14,7 +14,7 @@ import AddIcon from "@material-ui/icons/Add";
 import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
-import { ROUTES, DEFAULT_METADATA } from "../../config";
+import { ROUTES } from "../../config";
 import { usePermissions } from "../user";
 import { CREATE_RECORDS } from "../../libs/permissions";
 import { useThemeHelper } from "../../libs";
@@ -22,7 +22,10 @@ import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import { getMetadata } from "../record-list";
-import { clearMetadata } from "../records/action-creators";
+import {
+  fetchDataIfNotBackButton,
+  clearMetadataOnLocationChange
+} from "../records";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
@@ -65,43 +68,23 @@ const Reports = ({ location }) => {
   // ]);
 
   const metadata = useSelector(state => getMetadata(state, NAMESPACE));
-  const defaultFilters = metadata?.toJS();
 
   useEffect(() => {
-    dispatch(fetchReports({ options: defaultFilters }));
-  }, []);
-
-  /* This useEffect was added because when the user clicks on case-list icon,
-  from the case-list view, pagination should be set as default */
-  useEffect(() => {
-    const currentPer = metadata?.toJS()?.per;
-    const currentPage = metadata?.toJS()?.page;
-
-    if (
-      history.action === "PUSH" &&
-      location.pathname === history.location.pathname &&
-      (currentPer !== DEFAULT_METADATA.per ||
-        currentPage !== DEFAULT_METADATA.page)
-    ) {
-      dispatch(
-        fetchReports({
-          options: DEFAULT_METADATA
-        })
-      );
-    }
+    fetchDataIfNotBackButton(
+      metadata?.toJS(),
+      location,
+      history,
+      fetchReports,
+      "options",
+      { dispatch }
+    );
   }, [location]);
 
   useEffect(() => {
     return () => {
-      const previous = location.pathname;
-      const current = history.location.pathname;
-
-      if (
-        previous.split("/").filter(value => value)[0] !==
-        current.split("/").filter(value => value)[0]
-      ) {
-        dispatch(clearMetadata(NAMESPACE));
-      }
+      clearMetadataOnLocationChange(location, history, NAMESPACE, 0, {
+        dispatch
+      });
     };
   }, []);
 
