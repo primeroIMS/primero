@@ -16,9 +16,17 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .set("selectedFields", fromJS([]));
     case actions.CREATE_SELECTED_FIELD: {
       const fieldName = Object.keys(payload.data)[0];
+      const lastOrder = state
+        .get("selectedFields", fromJS([]))
+        .sortBy(field => field.get("order"))
+        .last()
+        ?.get("order");
+      const order = lastOrder >= 0 ? lastOrder + 1 : 0;
 
       return state.update("selectedFields", fields =>
-        fields.push(fromJS(transformValues(payload.data[fieldName], true)))
+        fields.push(
+          fromJS(transformValues({ ...payload.data[fieldName], order }, true))
+        )
       );
     }
     case actions.CLEAR_SELECTED_FIELD:
