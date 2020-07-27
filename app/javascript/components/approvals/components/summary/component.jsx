@@ -6,6 +6,7 @@ import Chip from "@material-ui/core/Chip";
 import clsx from "clsx";
 
 import { useI18n } from "../../../i18n";
+import { TRANSITIONS_DATE_FORMAT } from "../../../../config";
 import { NAME_SUMMARY } from "../../constants";
 import { useApp } from "../../../application";
 
@@ -43,7 +44,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
       return false;
     }
 
-    return format(new Date(approvalDate), "MMM dd,yyyy");
+    return format(new Date(approvalDate), TRANSITIONS_DATE_FORMAT);
   };
 
   return (
