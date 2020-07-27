@@ -41,7 +41,11 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
   const methods = useForm({ defaultValues: {} });
   const data = useSelector(state => getRecordsData(state, recordType), compare);
 
-  const onSubmit = formData => {
+  const onSubmit = (formData, event) => {
+    if (event) {
+      event.preventDefault();
+    }
+
     dispatch(
       applyFilters({ recordType, data: { ...DEFAULT_FILTERS, ...formData } })
     );
@@ -102,7 +106,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
       </DialogTitle>
       <DialogContent>
         <FormContext {...methods} formMode={formMode}>
-          <form>
+          <form onSubmit={methods.handleSubmit(onSubmit)}>
             {searchForm(i18n).map(formSection => (
               <FormSection
                 formSection={formSection}
