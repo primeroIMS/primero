@@ -92,9 +92,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle disableTypography>
         <div className={css.title}>
-          <div className={css.registerNewCase}>
-            {i18n.t("cases.register_new_case")}
-          </div>
+          <div className={css.newCase}>{i18n.t("cases.register_new_case")}</div>
           <div className={css.close}>
             <IconButton onClick={handleClose}>
               <CloseIcon />
