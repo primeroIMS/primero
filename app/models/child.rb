@@ -56,7 +56,7 @@ class Child < ApplicationRecord
     :urgent_protection_concern, :child_preferences_section, :family_details_section,
     :duplicate, :location_current, :tracing_status, :name_caregiver,
     :urgent_protection_concern, :survivor_assessment_form, :safety_plan,
-    :action_plan
+    :action_plan, :client_feedback
   )
 
   has_many :incidents, foreign_key: :incident_case_id
@@ -142,6 +142,7 @@ class Child < ApplicationRecord
     float :justice_goals_progress
     float :other_goals_progress
     boolean :duplicate
+    string :satisfaction_status
   end
 
   validate :validate_date_of_birth
@@ -314,6 +315,10 @@ class Child < ApplicationRecord
     Array(field_or_forms).flat_map { |result| find_in_form(rest, result) }
   end
 
+  def fields_in_form(form, fields)
+    fields.map { |field| form[field] }
+  end
+
   # #form_is_completed(form : {}, mandatory_fields : [String]) : Boolean
   #
   # Checks to see if all of the mandatory fields are present in the form.
@@ -450,6 +455,67 @@ class Child < ApplicationRecord
       # This naming is not the same as the other goals which is jarring.
       'gbv_assessment_other_goals'
     ]))
+  end
+
+  def self.client_satisfaction_fields
+    [
+      "opening_hours_when_client_could_attend",
+      "client_comfortable_with_case_worker",
+      "same_case_worker_each_visit",
+      "could_client_choose_support_person",
+      "client_informed_of_options",
+      "client_decided_what_next",
+      "client_referred_elsewhere",
+      "survivor_discreet_access",
+      "staff_respect_confidentiality",
+      "client_private_meeting",
+      "staff_friendly",
+      "staff_open_minded",
+      "staff_answered_all_questions",
+      "staff_client_could_understand",
+      "staff_allowed_enough_time",
+      "staff_helpful",
+      "client_feel_better",
+      "would_client_recommend_friend"
+    ]
+  end
+
+  def satisfaction_status
+    feedback_forms = find_in_form(['client_feedback'])
+
+    return nil unless !feedback_forms.empty?
+
+    # calculate satisifaction per form as otherwise we'd be weighting
+    # forms with more ansers more heavily that those with fewer answers.
+    is_satisfied = feedback_forms.
+      map do |f|
+        default = { 'yes' => 0, 'no' => 0, 'n_a' => 0 }
+
+        tally = fields_in_form(f, self.class.client_satisfaction_fields).
+          compact.
+          group_by(&:itself).
+          transform_values(&:count)
+
+        next nil if tally.empty?
+
+        answers = default.merge(tally)
+
+        next nil unless answers['yes'] > 0 || answers['no'] > 0
+
+        answers['yes'] >= answers['no']
+      end.
+      compact
+
+    return nil if is_satisfied.empty?
+
+    satisfied = is_satisfied.select(&:itself).count 
+    unsatisfied = is_satisfied.reject(&:itself).count
+
+    if satisfied >= unsatisfied
+      'satisfied'
+    else
+      'unsatisfied'
+    end
   end
 end
 # rubocop:enable Metrics/ClassLength
