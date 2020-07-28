@@ -24,6 +24,11 @@ record_classes.each do |record_type|
                 # Get the data from the raw db query...
                 # to handle case where field type changed which could cause new model to step all over old data
                 # EXAMPLE 'Yes' 'No' now handled as a boolean true/false... old 'Yes' 'No' vales seen as nil by the model
+                if db_records[rec_index][k].nil? || db_records[rec_index][k][index].nil?
+                  puts "==============================================="
+                  puts "Bad subform data case id: #{db_records[rec_index][:_id]}  section: #{k}  index: #{index}"
+                  next
+                end
                 subform_field_value = db_records[rec_index][k][index][sub_key]
                 new_value = MigrationHelper.get_value(subform_field_value, sub_options)
                 record[k][index][sub_key] = new_value if new_value.present? || new_value == false

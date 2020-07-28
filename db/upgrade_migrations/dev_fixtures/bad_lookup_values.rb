@@ -19,6 +19,8 @@ def get_lookup_fields(record_type, locations)
   lookup_fields = {}
   record_type = 'case' if record_type == 'child'
   FormSection.find_by_parent_form(record_type).each do |fs|
+    # Subforms will be handled in subfield block below
+    next if fs.is_nested
     fields = get_fields(fs)
     fields.each do |field|
       if field.subform_section.present?
@@ -35,6 +37,7 @@ def get_lookup_fields(record_type, locations)
           end
         end
       else
+        next if lookup_fields[field.name].present?
         options = get_option_list(field, locations)
         if options.present?
           field_hash = {}
@@ -99,6 +102,11 @@ record_classes.each do |record_type|
                 # Get the data from the raw db query...
                 # to handle case where field type changed which could cause new model to step all over old data
                 # EXAMPLE 'Yes' 'No' now handled as a boolean true/false... old 'Yes' 'No' vales seen as nil by the model
+                if db_records[rec_index][k].nil? || db_records[rec_index][k][index].nil?
+                  puts "==============================================="
+                  puts "Bad subform data case id: #{db_records[rec_index][:_id]}  section: #{k}  index: #{index}"
+                  next
+                end
                 subform_field_value = db_records[rec_index][k][index][sub_key]
                 next if subform_field_value.blank?
                 sub_options = sub_value[:lookup] == 'Location' ? locations : sub_value[:options]
