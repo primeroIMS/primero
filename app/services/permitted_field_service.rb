@@ -26,6 +26,7 @@ class PermittedFieldService
     owned_by
     owned_by_agency_id
     owned_by_text
+    owned_by_agency_office
     previous_agency
     previously_owned_by
     reassigned_tranferred_on
