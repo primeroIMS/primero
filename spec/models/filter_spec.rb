@@ -78,7 +78,9 @@ describe Filter do
 
   context 'when CP' do
     before do
-      @filters_cp = %w[case incident tracing_request].map { |record_type| { record_type.pluralize => Filter.filters(@user_a, record_type) } }
+      @filters_cp = %w[case incident tracing_request].map do |record_type|
+        { record_type.pluralize => Filter.filters(@user_a, record_type) }
+      end
     end
 
     it 'returns filters' do
@@ -96,7 +98,8 @@ describe Filter do
 
       it 'has sex filter' do
         # TODO: using the index 5 is a little brittle... try to find an include matcher that will work
-        expect(@filters_cp[0]['cases'][5]).to have_attributes(name: 'cases.filter_by.sex', field_name: 'sex', type: 'checkbox')
+        expect(@filters_cp[0]['cases'][5]).to have_attributes(name: 'cases.filter_by.sex', field_name: 'sex',
+                                                              type: 'checkbox')
       end
 
       it 'has date options' do
@@ -112,9 +115,10 @@ describe Filter do
 
       it 'has approvals assessment' do
         filters_approval_assessment = [
-          {id: 'pending', display_name: 'Pending'},
-          {id: 'approved', display_name: 'Approved'},
-          {id: 'rejected', display_name: 'Rejected'}]
+          { id: 'pending', display_name: 'Pending' },
+          { id: 'approved', display_name: 'Approved' },
+          { id: 'rejected', display_name: 'Rejected' }
+        ]
         expect(@filters_cp[0]['cases'][6].options[:en]).to eq(filters_approval_assessment)
       end
 
@@ -126,7 +130,9 @@ describe Filter do
 
   context 'when CP and GBV' do
     before do
-      @filters_cp_gbv = %w[case incident tracing_request].map { |record_type| { record_type.pluralize => Filter.filters(@user_b, record_type) } }
+      @filters_cp_gbv = %w[case incident tracing_request].map do |record_type|
+        { record_type.pluralize => Filter.filters(@user_b, record_type) }
+      end
     end
 
     it 'returns filters' do
@@ -144,12 +150,15 @@ describe Filter do
 
       it 'has sex filter' do
         # TODO: using the index 5 is a little brittle... try to find an include matcher that will work
-        expect(@filters_cp_gbv[0]['cases'][5]).to have_attributes(name: 'cases.filter_by.sex', field_name: 'sex', type: 'checkbox')
+        expect(@filters_cp_gbv[0]['cases'][5]).to have_attributes(name: 'cases.filter_by.sex', field_name: 'sex',
+                                                                  type: 'checkbox')
       end
 
       it 'has agency office filter' do
         # TODO: using the index 11 is a little brittle... try to find an include matcher that will work
-        expect(@filters_cp_gbv[0]['cases'][11]).to have_attributes(name: 'user.agency_office', field_name: 'owned_by_agency_office', type: 'checkbox')
+        expect(@filters_cp_gbv[0]['cases'][11]).to have_attributes(name: 'user.agency_office',
+                                                                   field_name: 'owned_by_agency_office',
+                                                                   type: 'checkbox')
       end
 
       it 'has date options' do
