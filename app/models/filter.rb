@@ -84,7 +84,7 @@ class Filter < ValueObject
   )
   AGENCY_OFFICE = Filter.new(
     name: 'user.agency_office',
-    field_name: 'created_agency_office',
+    field_name: 'owned_by_agency_office',
     option_strings_source: 'lookup-agency-office'
   )
   USER_GROUP = Filter.new(name: 'permissions.permission.user_group', field_name: 'owned_by_groups')
