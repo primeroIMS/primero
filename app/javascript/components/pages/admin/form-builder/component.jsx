@@ -99,16 +99,17 @@ const Component = ({ mode }) => {
   useEffect(() => {
     if (saving && (errors?.size || updatedFormIds?.size)) {
       const successful = !errors?.size && updatedFormIds?.size;
+      const message = successful
+        ? i18n.t("forms.messages.save_success")
+        : i18n.t("forms.messages.save_with_errors");
 
       dispatch({
         type: ENQUEUE_SNACKBAR,
         payload: {
-          message: successful
-            ? i18n.t("forms.messages.save_success")
-            : i18n.t("forms.messages.save_with_errors"),
+          message,
           options: {
             variant: successful ? "success" : "error",
-            key: generate.messageKey()
+            key: generate.messageKey(message)
           }
         }
       });
