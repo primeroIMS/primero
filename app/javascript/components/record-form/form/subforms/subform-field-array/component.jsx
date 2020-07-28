@@ -93,7 +93,6 @@ const Component = ({
       {renderEmptyData}
       <SubformDialog
         arrayHelpers={arrayHelpers}
-        currentValue={values[index !== null ? index : values.length - 1]}
         dialogIsNew={dialogIsNew}
         field={field}
         formik={formik}
