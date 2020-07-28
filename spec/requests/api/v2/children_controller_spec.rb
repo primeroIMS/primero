@@ -83,7 +83,7 @@ describe Api::V2::ChildrenController, type: :request do
     )
     @case4 = Child.new_with_user(
       @user_owned_others,
-      { name: 'Test4', age: 5, sex: 'male' }
+      name: 'Test4', age: 5, sex: 'male'
     )
     @case4.save!
     Attachment.new(
@@ -204,9 +204,9 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(200)
     end
 
-     context 'when a user can only see his own records but has search_owned_by_others' do
-       it 'lists only those cases a user has permission to see' do
-         sign_in(@user_owned_others)
+    context 'when a user can only see his own records but has search_owned_by_others' do
+      it 'lists only those cases a user has permission to see' do
+        sign_in(@user_owned_others)
 
         get '/api/v2/cases'
 
