@@ -23,7 +23,7 @@ describe Incident do
       Field.stub(:all_searchable_field_names).and_return []
       Incident.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name",
                                                    "last_updated_by", "last_updated_by_full_name","created_organization",
-                                                   "owned_by_agency", "owned_by_location",
+                                                   "owned_by_agency", "owned_by_location", "owned_by_agency_office",
                                                    "approval_status_bia", "approval_status_case_plan", "approval_status_closure",
                                                    "transfer_status"]
     end

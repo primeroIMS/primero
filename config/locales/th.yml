@@ -1,31 +1,31 @@
 th:
-  valid: "ใช้การได้/ถูกต้อง"
-  invalid: "ใช้การไม่ได้/ไม่ถูกต้อง"
+  valid: "ถูกต้อง"
+  invalid: "ไม่ถูกต้อง"
   offline: โปรแกรมนี้ไม่ได้เชื่อมต่อ
   name: "ชื่อ"
   home:
-    fr: "Français"
-    en: "English"
+    fr: "ภาษาฝรั่งเศส"
+    en: "ภาษาอังกฤษ"
     ar: "العربية"
     ar-LB: "العربية (اللبنانية)"
-    zh: "中文"
-    es: "Español"
+    zh: "ภาษาจีน"
+    es: "ภาษาสเปน"
     ru: "Русский"
     so: "Af-Soomaali"
     bn: "বাংলা"
     id: "Bahasa"
     my: "ဗမာစာ"
-    th: "ไทย"
-    pt: "Português"
-    dashboard: "แผงหน้าปัด"
+    th: "ภาษาไทย"
+    ku: "کوردی"
+    dashboard: "กระดานภาพรวม"
     welcome: "ยินดีต้อนรับสู่ Primero"
-    current_time_zone: "โซนเวลา"
+    current_time_zone: "โซนเวลาปัจจุบัน"
     language: "ภาษา"
     view_records: "ดูข้อมูลที่มีอยู่"
     users: "จัดการผู้ใช้งาน"
-    manage_system_users: "จัดการผู้ใช้งานการประสานข้อมูลเครื่องเสิร์ฟเวอร์"
+    manage_system_users: "จัดการผู้ใช้งานในการประสานข้อมูลเครื่องเสิร์ฟเวอร์"
     records_need_attention: "ข้อมูลที่ต้องให้ความสนใจ"
-    label: "บ้าน"
+    label: "หน้าหลัก"
   clear: "ชัดเจน"
   messages:
     delete_item: |
@@ -39,17 +39,19 @@ th:
     enter_valid_number_in_tally: "%{field}:%{tally} ต้องเป็นตัวเลขที่ถูกต้อง"
     enter_valid_number: "%{field} ต้องเป็นตัวเลขที่ถูกต้อง"
     more_than_200_chars: "%{field}ไม่สามารถใส่ข้อมูลได้มากกว่า 200 ตัวอักษร"
-    no_more_than_x_chars: "%{field}ไม่สามารถมีตัวอักษรมากกว่า %{length}"
+    no_more_than_x_chars: "%{field}ไม่สามารถใส่ข้อมูลได้มากกว่า %{length} ตัวอักษร"
     valid_search_criteria: "กรุณาระบุเกณฑ์ในการค้นหาอย่างน้อย 1 ข้อ"
     show_hide_forms: "กรุณาเลือก แบบฟอร์ม ที่ต้องการแสดง/ ซ่อน"
-    show_forms: "คุณแน่ใจหรือไม่ที่จะเปิดเผย แบบฟอร์ม (เหล่า) นี้?"
-    hide_forms: "คุณแน่ใจหรือไม่ที่ต้องการซ่อน แบบฟอร์ม (เหล่า) นี้?"
+    show_forms: "คุณแน่ใจหรือไม่ที่จะแสดงแบบฟอร์ม (เหล่า) นี้?"
+    hide_forms: "คุณแน่ใจหรือไม่ที่ต้องการซ่อนแบบฟอร์ม (เหล่า) นี้?"
     primary_photo_changed: "มีการเปลี่ยนรูปภาพหลัก"
     select_photo: "กรุณาเลือกรูปภาพ"
-    are_you_sure: "คุณแน่ใจหรือไม่"
+    are_you_sure: "คุณแน่ใจหรือไม่ว่าต้องการที่จะ"
     this_user: "ผู้ใช้งานรายนี้?"
     keep_working: "ใช่, ดำเนินการต่อ"
     logoff: "ไม่ใช่, ออกจากโปรแกรม"
+    record_navigation_confirmation_message: "หากเลือก \"ตกลง\" จะยกเลิกการเปลี่ยนแปลงที่ยังไม่ได้บันทึกทั้งหมด และเลื่อนไปยังหน้าที่ร้องขอ หากเลือก \"ยกเลิก\" จะกลับไปที่บันทึกที่ดำเนินการอยู่"
+    confirmation_message: "หากเลือก \"ตกลง\" จะยกเลิกการเปลี่ยนแปลงที่ยังไม่ได้บันทึกทั้งหมด และกลับไปที่แถบตัวเลือก หากเลือก \"ยกเลิก\" จะกลับไปที่บันทึกที่ดำเนินการอยู่"
     cancel_confirmation: "แน่ใจหรือไม่ว่าต้องการ ยกเลิก?"
     logoff_warning_prefix: "คุณกำลังจะออกจากโปรแกรมใน "
     logoff_warning_suffix: "วินาที"
@@ -59,17 +61,20 @@ th:
         หากไม่แน่ใจ ให้ disable รายการนี้แทน;
         เลือก "ยกเลิก" เพื่อย้อนกลับไป;
         เลือก "ตกลง" เพื่อลบรายการทิ้ง
-    enter_each_in_one_line: "ป้อนแต่ละตัวเลือกในบรรทัดใหม่"
+    enter_each_in_one_line: "ใส่แต่ละตัวเลือกบนบรรทัดใหม่"
     record_count: "แสดง %{start}ถึง %{end}จาก %{total}บันทึกที่มีอยู่"
-    form_sections_help_text_for_edit: "เลือกปุ่ม ปรับแก้ เพื่อเติมรายละเอียด %{form_section_name}"
+    form_sections_help_text_for_edit: "เลือกปุ่ม \"ปรับแก้\" เพื่อเติมรายละเอียด %{form_section_name}"
     form_sections_case_update_alert: "มีการเติม %{form_section_name}เข้ามาใหม่ เมื่อ %{alert_time}"
     service_provision: "การจัดบริการ"
     enable_disable_record: "เลือก ตกลง จะเปลี่ยนสถานะของบันทึกนี้เป็น %{action}"
-    reopen_record: "เลือก ตกลง จะเปลี่ยนสถานะของกรณีนี้เป็น เปิด"
-    invalid_date_filter_value: "ตัวกรองใช้ไม่ได้เนื่องจากค่าวันที่ไม่ถูกต้อง กรุณาตรวจสอบค่าตัวกรองวันที่"
+    reopen_record: "เลือก \"ตกลง\" จะเปลี่ยนสถานะของกรณีนี้เป็น \"เปิด\""
+    flag_multiple_records_error_message: "มีความผิดพลาดเกิดขึ้นในการพยายาม \"แจ้งเตือน\" บนบันทึก"
+    record_not_flagged_message: "%{short_id}: ไม่มีการแจ้งเตือน"
+    invalid_date_filter_value: "ตัวกรองใช้การไม่ได้เนื่องจากค่าวันที่ไม่ถูกต้อง กรุณาตรวจสอบวันที่ในค่าตัวกรอง"
     scroll_up: "เลื่อนขึ้น เพื่อดูรายละเอียดเพิ่มเติม"
     scroll_down: "เลื่อนลง เพื่อดูรายละเอียดเพิ่มเติม"
-    string_sources_failed: "เกิดความผิดพลาดในการดึงข้อมูลบางส่วน ทำการ refresh เพื่อให้มีการดึงข้อมูลทั้งหมด"
+    forms_export: "การส่งออกข้อมูลนี้เพื่อเตรียมตารางสำหรับแบบฟอร์มและค่าข้อมูลที่มีอยู่ ตารางนี้ใช้สำหรับสร้างxxxxx ทั้งนี้ตารางนี้ไม่สามารถใช้ในการนำข้อมูลเข้าสู่ Primero"
+    string_sources_failed: "เกิดความผิดพลาดในการดึงข้อมูลบางส่วน ทำการล้างหน้าจอ เพื่อให้มีการดึงข้อมูลทั้งหมด"
     system_settings_failed: "ดึงข้อมูลการตัังค่าระบบไม่สำเร็จ"
     approval_alert: "รอการอนุมัติจาก %{form_name}"
     field_change_alert: "มีการปรับปรุงแบบฟอร์ม %{form_name} เมื่อ %{date}"
@@ -83,15 +88,15 @@ th:
     username: "ชื่อผู้ใช้งาน"
     notification:
       enter_user_name: 'ใส่ชื่อผู้ใช้งาน'
-      users_requested_password_reset: "ผู้ใช้งานได้ขอเปลี่ยนรหัสผ่าน กรุณาติดต่อทันที"
+      users_requested_password_reset: "ผู้ใช้งานได้ขอเปลี่ยนรหัสผ่าน กรุณาติดต่อโดยทันที"
       users_does_not_exist: "%{user}จาก %{created} ผู้ใช้งานรายนี้ไม่อยู่ในระบบ"
       at: "ที่%{created}"
-      cannot_remember_username: "หากท่านไม่สามารถจำชื่อผู้ใช้งานได้ ขอให้ใส่ชื่อ หรือข้อมูลใดๆ ที่ทาง admin จะสามารถใช้ระบุและติดต่อกับท่านได้"
+      cannot_remember_username: "หากท่านไม่สามารถจำชื่อผู้ใช้งานของท่านได้ ขอให้ใส่ชื่อ หรือข้อมูลใดๆ ที่ทาง admin จะสามารถใช้ระบุและติดต่อกับท่านได้"
     password:
       label: "รหัสผ่าน"
       reset: "ขอเปลี่ยน รหัสผ่าน"
       re_enter: "ใส่ รหัสผ่าน อีกครั้ง"
-      success_notice: "ขอบคุณ admin ของ A RapidFTR จะติดต่อคุณโดยเร็ว หรือคุณอาจติดต่อ admin ได้โดยตรง"
+      success_notice: "ขอบคุณ ทาง admin ของ A RapidFTR จะติดต่อคุณโดยเร็ว หรือคุณอาจติดต่อ admin ได้โดยตรง"
       successfully_hidden: "ซ่อนการแจ้งเตือนคำขอรหัสผ่านสำเร็จแล้ว"
     label: "เข้าใช้งาน"
   header:
@@ -107,7 +112,7 @@ th:
     tracing_request: "ติดตามคำร้อง"
     incidents: "เหตุการณ์"
     potential_match: "จับคู่"
-    duplicates: "ทำซ้ำ/ทำสำเนา"
+    duplicates: "ซ้ำกัน"
     children: "เด็ก"
     forms: "แบบฟอร์ม"
     lookups: "การค้นหา"
@@ -129,27 +134,26 @@ th:
     save: "บันทึก"
     save_and_add_service_provision: "บันทึกและเพิ่มการจัดบริการ"
     login: "เข้าใช้งาน"
-    reunite: "รวมตัว"
+    reunite: "คืนสู่ครอบครัว"
     edit: "แก้ไข"
     back: "ย้อนกลับ"
     submit: "ส่งข้อมูล"
     export: "ส่งออก"
     import: "นำเข้า"
-    change_password: "เปลี่ยน รหัสผ่าน"
+    change_password: "เปลี่ยนรหัสผ่าน"
     enable_photo_wall: "เปิดการใช้งานผนังภาพ"
     disable_photo_wall: "ปิดการใช้งานผนังภาพ"
     create_incident: "สร้างเหตุการณ์"
     create_case: "สร้างแฟ้มรายกรณี"
-    guiding_questions: "แนวคำถาม"
     filter_label: "ตัวกรอง"
     filter: "ใช้ตัวกรอง"
     filter_clear: "เลิกใช้ตัวกรอง"
     find_tracing_match: "ค้นหาการจับคู่การติดตาม"
     filter_restore: "กู้คืนการตั้งค่าระบบ"
-    flag_records: "การกำหนดธง"
-    flag_model: "กำหนดธง%{model}"
-    unflag_model: "ยกเลิกการกำหนดธง%{model}"
-    unflag_model_history: "ประวัติตัวบ่งชี้%{model}"
+    flag_records: "แจ้งเตือน"
+    flag_model: "แจ้งเตือน %{model}"
+    unflag_model: "ยกเลิกการแจ้งเตือน%{model}"
+    unflag_model_history: "ประวัติการแจ้งเตือน%{model}"
     ok: 'ตกลง'
     cancel: "ยกเลิก"
     edit_subform: 'แก้ไขแบบฟอร์มย่อย'
@@ -159,6 +163,9 @@ th:
     transfer: "ส่งต่อ %{model}"
     reassign: "มอบหมาย %{model}"
     referral: "ส่งต่อ%{model}"
+    mark_for_mobile: "เลือกสำหรับการใช้งานบนมือถือ"
+    unmark_for_mobile: "ยกเลิกการเลือกสำหรับการใช้งานบนมือถือ"
+    approve_bia: "อนุมัติ BIA"
     approve_case_plan: "อนุมัติแผนรายกรณี"
     sort_by_tr: "ติดตามคำร้อง"
     sort_by_case: "กรณี"
@@ -181,15 +188,16 @@ th:
     register_new_case: "กรณีใหม่"
     export: "ส่งออก"
     filter_by:
-      flag: "ถูกกำหนดธง"
-      flag_label: "ถูกกำหนดธง?"
+      flag: "มีการแจ้งเตือน"
+      flag_label: "มีการแจ้งเตือน?"
       mobile: "เบอร์โทรศัพท์มือถือ"
+      mobile_label: "เลือกสำหรับการใช้งานบนมือถือ?"
       social_worker: "ผู้ดูแลรายกรณี/ นักสังคมสงเคราะห์"
       my_cases: "รายกรณีของฉัน"
-      workflow: "รายกรณีโดยขั้นตอนการทำงาน"
+      workflow: "รายกรณีตามขั้นตอนการทำงาน"
       no_activity: "ไม่มีกิจกรรม"
       3month_inactivity: "สำหรับ 3 เดือนขึ้นไป"
-      referred_cases: "รายกรณีที่ถูกส่งต่อถึงฉัน"
+      referred_cases: "รายกรณีที่ถูกส่งต่อให้ฉัน"
       agency: "หน่วยงาน:"
       status: "สถานะ: "
       age_range: "ช่วงอายุ:"
@@ -200,9 +208,9 @@ th:
       protection_status: "สถานะการคุ้มครอง: "
       urgent_protection_concern: "ประเด็นการคุ้มครองเร่งด่วน"
       protection_concerns: "ประเด็นการคุ้มครอง: "
-      type_of_risk: "ประเภทของ ความเสี่ยง:"
-      risk_level: "ระดับ ความเสี่ยง"
-      current_location: "ที่อยู่/ สถานที่ตั้งในปัจจุบัน: "
+      type_of_risk: "ประเภทของความเสี่ยง:"
+      risk_level: "ระดับความเสี่ยง"
+      current_location: "ที่อยู่ปัจจุบัน: "
       district: "อำเภอ:  "
       registration_date: "วันขึ้นทะเบียน:"
       case_open_date: "วันที่เปิดรายกรณี"
@@ -223,7 +231,7 @@ th:
       most_recently: "ล่าสุด"
       label: "จัดลำดับตาม"
       name: "ชื่อ"
-    flag_summary: "สรุปตัวบ่งชี้"
+    flag_summary: "สรุปการแจ้งเตือน"
     filer_by:
       all: "ทั้งหมด"
       active: "ใช้งานอยู่"
@@ -233,7 +241,7 @@ th:
     ok: "ตกลง"
     hide_name_error: "มีความผิดพลาดในการบันทึกสิ่งที่ปรับเปลี่ยน กรุณาลองใหม่อีกครั้ง"
     quick_view:
-      tracing_message: "หมายเหตุ: มีบันทึกในระบบว่ามีคนตามหาเด็กคนนี้ ติดต่อนักสังคมสงเคราะห์ที่ดูแลเด็กคนนี้เพื่อให้ดำเนินการต่อหากเป็นความประสงค์ของเด็ก"
+      tracing_message: "หมายเหตุ: มีบันทึกในระบบว่ามีคนตามหาเด็กคนนี้ ติดต่อนักสังคมสงเคราะห์ที่ดูแลบันทึกนี้เพื่อดำเนินการต่อหากเป็นความประสงค์ของเด็ก"
   children:
     label: "เด็ก"
     register_new_child: "ขึ้นทะเบียนเด็กคนใหม่"
@@ -242,91 +250,99 @@ th:
       registration_date: 'วันที่ขึ้นทะเบียน'
       assessment_requested_on: 'วันที่ทำการประเมิน'
       date_case_plan_initiated: 'วันที่วางแผนรายกรณี'
-      closure_approved_date: 'วันที่ปิด/ยุติ บริการ'
+      closure_approved_date: 'วันที่ยุติบริการ'
       created_at: 'วันที่เปิดรายกรณี'
     filter_by:
       label: "กรองด้วย"
       all: "ทั้งหมด"
       active: "ยังทำงานอยู่"
-      reunited: "ที่รวมตัวกัน"
-      flag: "ที่ถูกตั้งค่าสถานะ"
+      reunited: "คืนสู่ครอบครัว"
+      flag: "มีการแจ้งเตือน"
       created: "สร้าง"
     order_by:
       most_recently: "ล่าสุด"
       label: "จัดลำดับตาม"
       name: "ชื่อ"
-    flag_summary: "สรุปตัวบ่งชี้"
+    flag_summary: "สรุปการแจ้งเตือน"
     filer_by:
       all: "ทั้งหมด"
-      active: "ยังทำงานอยู่"
-      reunited: "ที่รวมตัวกัน"
-      flagged: "ถูกตั้งค่าสถานะ"
+      active: "ยังทำงานอยู่ ยังใช้งานอยู่"
+      reunited: "คืนสู่ครอบครัว"
+      flagged: "มีการแจ้งเตือน"
   child:
-    flagged_by: "ถูกตั้งค่าสถานะโดย"
+    flagged_by: "แจ้งเตือนโดย"
     last_updated: "อัปเดตครั้งล่าสุด"
     registered_by: "ขึ้นทะเบียนโดย"
     mark_as_duplicate: "ทำเครื่องหมายว่าซ้ำกัน"
-    flag_record: "ตัวบ่งชี้"
-    flag_label: "ตั้งค่าสถานะ"
-    flag_reason: "เหตุผลการตั้งค่าสถานะ"
+    flag_record: "การแจ้งเตือน"
+    flag_label: "แจ้งเตือน"
+    flag_reason: "เหตุผลในการแจ้งเตือน"
     flag_reason_date: "วันที่ (ทางเลือก)"
-    unflag_record: "ยกเลิกการตั้งค่าสถานะบันทึก"
-    unflag_reason: "เหตุผลที่ยกเลิกการตั้งค่าสถานะ"
+    unflag_record: "ยกเลิกการแจ้งเตือน"
+    unflag_reason: "เหตุผลที่ยกเลิกการแจ้งเตือน"
     unflagged_label: "เหตุผล"
     unflag_date: "วันที่"
-    unflag_by: "ถูกตั้งค่าสถานะ"
-    unflag_label: "ยกเลิกการตั้งค่าสถานะ"
-    unflag_error_message: "กรุณาอธิบายว่าทำไมคุณยกเลิกการตั้งค่าสถานะบันทึกนี้"
-    id_of_record_this_duplicate_of: "กรอกหมายเลขประจำตัวของบันทึกว่าอันนี้ซ้ำซ้อนกับ:"
-    duplicate_header: "การทำเครื่องหมาย %{child_name} ว่าซ้ำซ้อน"
-    flag_error_message: "โปรดอธิบายว่าทำไมคุณจึงตั้งค่าสถานะบันทึกนี้"
-    flag_records_error_message: "กรอกเหตุผลflag และหากต้องการเพิ่มวันที่ให้ใช้รูปแบบวันที่ที่ถูกต้อง "
-    selected_records_error_message: "กรุณาเลือกหนึ่งบันทึกหรือมากกว่าเพื่อตั้งค่าสถานะ"
-    investigation_details: "รายละเอียดการสอบสวน"
-    reunite_details: "รายละเอียดการรวมตัว"
-    another_duplicate_before_link: "บันทึกอื่นถูกทำเครื่องหมายว่าซ้ำซ้อนกับบันทึกนี้ คลิก"
-    another_duplicate_after_link: "เพื่อดูบันทึกที่ซ้ำซ้อน"
+    unflag_by: "ยกเลิกการแจ้งเตือน"
+    unflag_label: "ยกเลิกการแจ้งเตือน"
+    unflag_error_message: "กรุณาอธิบายว่าเหตุใดคุณจึงยกเลิกการแจ้งเตือนสำหรับบันทึกนี้"
+    id_of_record_this_duplicate_of: "ใส่เลขประจำตัวของบันทึกที่ซ้ำกัน:"
+    duplicate_header: "ทำเครื่องหมายว่า %{child_name} ซ้ำกัน"
+    flag_error_message: "กรุณาอธิบายว่าเหตุใดคุณจึงแจ้งเตือนสำหรับบันทึกนี้"
+    flag_records_error_message: "กรอกเหตุผลการแจ้งเตือน และหากต้องการใส่วันที่ ให้ใช้รูปแบบวันที่ที่ถูกต้อง "
+    selected_records_error_message: "กรุณาเลือกบันทึก (อาจมากกว่าหนึ่งบันทึก) ที่ต้องการแจ้งเตือน"
+    investigation_details: "รายละเอียดการสอบสวน:"
+    reunite_details: "รายละเอียดการคืนสู่ครอบครัว:"
+    another_duplicate_before_link: "มีการทำเครื่องหมายในอีกบันทึกหนึ่งว่าซ้ำกับบันทึกนี้ คลิก"
+    another_duplicate_after_link: "เพื่อดูบันทึกที่ซ้ำกัน"
     export_error: "ไม่มีบันทึกที่ต้องการ!"
-    id: "เลขประจำตัว"
+    id: "เลขประจำตัว#"
     name: "ชื่อ"
     age: "อายุ"
     sex: "เพศ"
     registration_date: "วันที่ขึ้นทะเบียน"
     status: "สถานะ"
     match_record: "จับคู่"
-    match_record_success: "จับคู่บันทึก"
+    match_record_success: "บันทึกที่เข้าคู่กัน"
     match_record_failed: "ไม่พบคู่ที่เหมือนกัน"
     messages:
       update_success: "อัปเดตรายกรณี%{record_id}สำเร็จแล้ว"
-      investigation_error_message: "กรุณายืนยันว่าควรทำเครื่องหมายบันทึกเป็นสอบสวนแล้ว และกรอกรายละเอียดใดๆ ที่คุณมี"
-      undo_investigation_error_message: "ยกเลิกรายละเอียดการตรวจสอบ"
-      reunite_error_message: "กรุณายืนยันว่าเด็กกลับไปอยู่กับครอบครัวหรือผู้ดูแลแล้ว และกรอกรายละเอียดใดๆ ที่คุณมี"
-      see_full_size: "คลิ๊กรูปเพื่อดูขนาดเต็ม"
+      investigation_error_message: "กรุณายืนยันว่าบันทึกที่ได้รับการแจ้งเตือนควรจะมีการระบุว่าได้มีการสอบสวนแล้ว และกรอกรายละเอียดที่มีอยู่"
+      undo_investigation_error_message: "รายละเอียดการยกเลิกการสอบสวน:"
+      reunite_error_message: "กรุณายืนยันว่าเด็กกลับไปอยู่กับครอบครัวหรือผู้ดูแลแล้ว และกรอกรายละเอียดที่มีอยู่"
+      undo_reunite_error_message: "กรุณายืนยันว่าเด็กควรจะมีการระบุว่าไม่คืนสู่ครอบครัว และกรอกรายละเอียดที่มีอยู่"
+      see_full_size: "คลิ๊กที่รูปเพื่อดูรูปขนาดเต็ม"
       creation_success: "สร้างบันทึกรายกรณี%{record_id}สำเร็จแล้ว"
-      not_found: "ไม่พบเด็กตามหมายเลขประจำตัว"
+      not_found: "ไม่พบเด็กตามหมายเลขประจำตัวที่ระบุ"
       confirm_duplicate: "คุณแน่ใจว่าต้องการดำเนินต่อหรือไม่? ถ้าใช่ กด \"ตกลง\" ถ้าไม่ใช่ กด \"ยกเลิก\""
-      create_details_error: "ให้แน่ใจว่าเลือกเพียงหนึ่งรายกรณี"
+      create_details_error: "ตรวจสอบให้แน่ใจว่าเลือกเพียงหนึ่งรายกรณี"
     actions:
-      mark_as_investigated: "ทำเครื่องหมายว่าตรวจสอบแล้ว"
+      mark_as_investigated: "ทำเครื่องหมายว่าสอบสวนแล้ว"
+      mark_as_reunited: "ทำเครื่องหมายว่าส่งคืนสู่ครอบครัวแล้ว"
+      export_to_photo_wall: "ส่งออกไปยังผนังภาพ"
       export_to_pdf: "ส่งออกเป็นไฟล์ PDF"
       export_to_csv: "ส่งออกเป็นไฟล์ CSV"
       change_log: "เปลี่ยนบันทึก"
-      mark_as_not_investigated: "ทำเครื่องหมายว่าไม่ได้ตรวจสอบ"
-      reunited_details: "รายละเอียดการรวมตัว"
-      reunite: "รวมตัว"
+      mark_as_not_investigated: "ทำเครื่องหมายว่าไม่ได้สอบสวน"
+      reunited: "ทำเครื่องหมายว่าส่งคืนสู่ครอบครัวแล้ว"
+      reunited_details: "รายละเอียดการคืนสู่ครอบครัว"
+      reunite: "คืนสู่ครอบครัว"
+      not_reunited: "ทำเครื่องหมายว่าไม่ได้ส่งคืนสู่ครอบครัว"
+      undo_reunited_details: "เหตุผลการยกเลิกการคืนสู่ครอบครัว:"
+      undo_reunite: "การยกเลิกการคืนสู่ครอบครัว"
       investigation_details: "รายละเอียดการสอบสวน "
-      undo_investigation_details: "ยกเลิกรายละเอียดการสอบสวน "
+      undo_investigation_details: "รายละเอียดการยกเลิกการสอบสวน "
+      undo_investigated: "ยกเลิกการสอบสวน"
       cancel: "ยกเลิก"
       delete_photo: "ลบรูปภาพ?"
       delete_audio: "ลบเสียง?"
       delete_document: "ลบเอกสาร?"
-      choose_as_primary_photo: "เลือกให้เป็นรูปภาพหลัก"
+      choose_as_primary_photo: "เลือกเป็นรูปภาพหลัก"
       rotate_anti_clockwise: "หมุนทวนเข็มนาฬิกา"
-      restore_image: "คืนค่ารูปภาพดั้งเดิม"
+      restore_image: "กลับไปใช้รูปภาพดั้งเดิม"
       rotate_clockwise: "หมุนตามเข็มนาฬิกา"
       view_full_size_photo: "ดูรูปภาพขนาดเต็ม"
     change_log: "เปลี่ยนบันทึก"
-    flagged_as_suspected: "ตั้งสถานะโดย"
+    flagged_as_suspected: "แจ้งเตือนโดย"
     posted_from_mobile: "โพสต์จากมือถือที่:"
     edit_photo: "แก้ไขรูปภาพ"
     manage_photos: "จัดการรูปภาพ"
@@ -342,7 +358,7 @@ th:
     saved_searches_tab: "การค้นหาที่บันทึกไว้"
     filters_tab: "ตัวกรอง"
   task:
-    id: "เลขประจำตัว"
+    id: "เลขประจำตัว#"
     priority: "ระดับความสำคัญ"
     type: "ประเภทของปฏิบัติการ"
     due_date: "วันที่ครบกำหนด"
@@ -355,40 +371,44 @@ th:
     create_new_case: "สร้างรายกรณีใหม่"
     enter_id_number: "ใส่เลขประจำตัวเพื่อค้นหาบันทึกที่มีอยู่แล้ว"
     id_number_required: "ต้องระบุหมายเลขประจำตัว"
-    id_search_no_results: "ไม่มีคู่สำหรับ \"%{id}\" ในระบบ  กรุณาสร้างบันทึกใหม่"
+    id_search_no_results: "ไม่สามารถจับคู่สำหรับ \"%{id}\" ในระบบ กรุณาสร้างบันทึกใหม่"
     id_search_results_html: "สำหรับ <span>%{id}</span>"
     label: "หมายเลขประจำตัวรายกรณี"
     workflow:
       created_on: "สร้างเมื่อ"
+      on_label: "เมื่อ"
       in_progress: "กำลังดำเนินการ"
       new: "ใหม่"
       closed: "ปิด"
       reopened: "เปิดอีกครั้ง"
+      service_implemented: การบริการที่ดำเนินการ
+      services_implemented: การบริการที่ดำเนินการ
       case_plan: "แผนงานรายกรณี"
       assessment: "การประเมิน"
-    flagged_by: "ตั้งสถานะโดย"
+    flagged_by: "แจ้งเตือนโดย"
     last_updated: "อัปเดตครั้งล่าสุด"
     registered_by: "ขึ้นทะเบียนโดย"
-    mark_as_duplicate: "ทำเครื่องหมายว่าซ้ำซ้อน"
-    flag_label: "ปักธง"
-    flag_reason: "เหตุผลการกำหนดธง"
+    mark_as_duplicate: "ทำเครื่องหมายว่าซ้ำกัน"
+    flag_record: "บันทึกที่มีการแจ้งเตือน"
+    flag_label: "แจ้งเตือน"
+    flag_reason: "เหตุผลการแจ้งเตือน"
     flag_reason_date: "วันที่ (ทางเลือก)"
-    unflag_record: "เหตุผลที่ยกเลิกการตั้งค่าสถานะ"
-    unflag_reason: "เหตุผลที่ยกเลิกการตั้งค่าสถานะ"
+    unflag_record: "บันทึกที่ถูกยกเลิกการแจ้งเตือน"
+    unflag_reason: "เหตุผลที่ยกเลิกการแจ้งเตือน"
     unflagged_label: "เหตุผล"
     unflag_date: "วันที่"
-    unflag_by: "ถูกเอาธงออก"
-    unflag_label: "เอาธงออก"
-    unflag_error_message: "กรุณาอธิบายว่าทำไมคุณยกเลิกการกำหนดธงบันทึกนี้"
-    id_of_record_this_duplicate_of: "กรอกรหัสบันทึกว่าอันนี้ซ้ำซ้อนกับ:"
-    duplicate_header: "การทำเครื่องหมาย %{child_name} ว่าซ้ำซ้อน"
-    flag_error_message: "โปรดอธิบายว่าทำไมคุณจึงตั้งค่าสถานะบันทึกนี้"
+    unflag_by: "ยกเลิกการแจ้งเตือน"
+    unflag_label: "ยกเลิกการแจ้งเตือน"
+    unflag_error_message: "กรุณาอธิบายว่าเหตุใดคุณจึงยกเลิกการแจ้งเตือนสำหรับบันทึกนี้"
+    id_of_record_this_duplicate_of: "ใส่เลขประจำตัวของบันทึกที่ซ้ำกัน:"
+    duplicate_header: "การทำเครื่องหมายว่า %{child_name} ซ้ำกัน"
+    flag_error_message: "กรุณาอธิบายว่าเหตุใดคุณจึงแจ้งเตือนบันทึกนี้"
     investigation_details: "รายละเอียดการสอบสวน"
-    reunite_details: "รายละเอียดการรวมตัว"
-    another_duplicate_before_link: "บันทึกอื่นถูกทำเครื่องหมายว่าซ้ำซ้อนกับบันทึกนี้ คลิก"
-    another_duplicate_after_link: "เพื่อดูบันทึกที่ซ้ำซ้อน"
+    reunite_details: "รายละเอียดการคืนสู่ครอบครัว"
+    another_duplicate_before_link: "มีการทำเครื่องหมายในอีกบันทึกหนึ่งว่าซ้ำกับบันทึกนี้ คลิก"
+    another_duplicate_after_link: "เพื่อดูบันทึกที่ซ้ำกัน"
     select: "เลือก"
-    id: "เลขประจำตัว"
+    id: "เลขประจำตัว#"
     name: "ชื่อ"
     age: "อายุ"
     sex: "เพศ"
@@ -402,37 +422,44 @@ th:
     owned_by_agency: 'หน่วยงานเจ้าของบันทึก'
     messages:
       update_success: "อัปเดตรายกรณี%{record_id}สำเร็จแล้ว"
-      investigation_error_message: "กรุณายืนยันว่าบันทึกได้รับการสอบสวนแล้ว และกรอกรายละเอียดใดๆ ที่คุณมี"
-      undo_investigation_error_message: "ยกเลิกรายละเอียดการสอบสวน"
-      reunite_error_message: "กรุณายืนยันว่ารายกรณีนี้ได้รวมตัวกับครอบครัวหรือผู้ให้ความดูแลแล้ว และกรอกรายละเอียดใดๆ ที่คุณมี"
-      see_full_size: "คลิกรูปเพื่อดูขนาดเต็ม"
+      investigation_error_message: "กรุณายืนยันว่าบันทึกที่ถูกแจ้งเตือนได้รับการสืบสวนแล้ว พร้อมทั้งกรอกรายละเอียดที่มีอยู่"
+      undo_investigation_error_message: "รายละเอียดการยกเลิกการสอบสวน:"
+      reunite_error_message: "กรุณายืนยันว่าเด็กได้ถูกส่งคืนครอบครัวหรือผู้ดูแลแล้ว และกรอกรายละเอียดที่มีอยู่"
+      undo_reunite_error_message: "กรุณายืนยันว่ากรณีนี้ควรจะระบุว่า ไม่ส่งคืนครอบครัว และกรอกรายละเอียดที่มีอยู่"
+      see_full_size: "คลิกที่รูปเพื่อดูรูปขนาดเต็ม"
       creation_success: "สร้างบันทึกรายกรณีสำเร็จแล้ว"
-      not_found: "ไม่พบเด็กตามหมายเลขประจำตัว"
+      not_found: "ไม่พบเด็กตามหมายเลขประจำตัวที่ระบุ"
       confirm_duplicate: "คุณแน่ใจว่าต้องการดำเนินต่อหรือไม่? ถ้าใช่ กด \"โอเค\" ถ้าไม่ใช่ กด \"ยกเลิก\""
     actions:
       mark_as_investigated: "ทำเครื่องหมายว่าสอบสวนแล้ว"
+      mark_as_reunited: "ทำเครื่องหมายว่าส่งคืนสู่ครอบครัวแล้ว"
       change_log: "เปลี่ยนบันทึก"
       mark_as_not_investigated: "ทำเครื่องหมายว่าไม่ได้สอบสวน"
-      reunited_details: "รายละเอียดการรวมตัว"
-      reunite: "รวมตัว"
+      reunited: "ทำเครื่องหมายว่าส่งคืนสู่ครอบครัวแล้ว"
+      reunited_details: "รายละเอียดการคืนสู่ครอบครัว"
+      reunite: "คืนสู่ครอบครัว"
+      not_reunited: "ทำเครื่องหมายว่าไม่ได้ส่งคืนสู่ครอบครัว"
+      undo_reunited_details: "เหตุผลการยกเลิกการคืนสู่ครอบครัว:"
+      undo_reunite: "การยกเลิกการคืนสู่ครอบครัว"
       investigation_details: "รายละเอียดการสอบสวน "
-      undo_investigation_details: "ยกเลิกรายละเอียดการสอบสวน "
+      undo_investigation_details: "รายละเอียดการยกเลิกการสอบสวน "
+      undo_investigated: "ยกเลิกการสอบสวน"
       cancel: "ยกเลิก"
       delete_photo: "ลบรูป"
       delete_audio: "ลบเสียง?"
-      choose_as_primary_photo: "เลือกให้เป็นรูปภาพหลัก"
+      choose_as_primary_photo: "เลือกใช้เป็นรูปภาพหลัก"
       rotate_anti_clockwise: "หมุนทวนเข็มนาฬิกา"
-      restore_image: "คืนค่ารูปภาพดั้งเดิม"
+      restore_image: "กลับไปใช้รูปภาพดั้งเดิม"
       rotate_clockwise: "หมุนตามเข็มนาฬิกา"
       view_full_size_photo: "ดูรูปภาพขนาดเต็ม"
     change_log: "เปลี่ยนบันทึก"
-    flagged_as_suspected: "ตั้งสถานะโดย"
+    flagged_as_suspected: "แจ้งเตือนโดย"
     posted_from_mobile: "โพสต์จากมือถือที่:"
     edit_photo: "แก้ไขรูปภาพ"
     manage_photos: "จัดการรูปภาพ"
     view: "ดูรายกรณี%{short_id}"
     edit: "แก้ไขรายกรณี"
-    mark_child_as_duplicate: "ทำเครื่องหมาย%{short_id}ว่าซ้ำกัน"
+    mark_child_as_duplicate: "ทำเครื่องหมายว่า%{short_id}ซ้ำกัน"
     history_of: "ประวัติของ%{short_id}"
     incident_details_separator: "รายละเอียดเหตุการณ์"
     services_section_separator: "ภาพรวมการตอบสนอง"
@@ -442,10 +469,12 @@ th:
     selectable_date_options:
       date_of_first_report: "วันที่สัมภาษณ์"
       incident_date_derived: "วันที่เกิดเหตุ"
+    violations_tab: "การละเมิด"
     filter_by:
-      flag: "ถูกกำหนดธง"
-      flag_label: "ถูกกำหนดธง?"
+      flag: "มีการแจ้งเตือน"
+      flag_label: "มีการแจ้งเตือน?"
       mobile: "มือถือ:"
+      mobile_label: "เลือกสำหรับการใช้งานบนมือถือ?"
       violation: "การละเมิด:"
       violence_type: "ประเภทของความรุนแรง"
       social_worker: "ผู้ดูแลรายกรณี:"
@@ -459,49 +488,48 @@ th:
       incident_location: "สถานที่เกิดเหตุ:"
       incident_date: "วันที่เกิดเหตุ:"
       unaccompanied_separated_status: "สถานะการคุ้มครอง: "
-      armed_force_group_name: "กลุ่มหรือกองกำลังติดอาวุธ:"
       armed_force_group_type: "ประเภทของกลุ่มหรือกองกำลังติดอาวุธ:"
       record_state: "สถานะการบันทึก"
       interview_date: "วันที่สัมภาษณ์:"
   incident:
     label: "หมายเลขประจำตัวเหตุการณ์"
-    flagged_by: "ถูกกำหนดธงโดย"
+    flagged_by: "แจ้งเตือนโดย"
     last_updated: "อัปเดตครั้งล่าสุด"
     registered_by: "ขึ้นทะเบียนโดย"
-    mark_as_duplicate: "ทำเครื่องหมายว่าซ้ำซ้อน"
-    flag_record: "ธง/ตัวบ่งชี้"
-    flag_label: "ปักธง"
-    flag_reason: "เหตุผลการกำหนดธง"
+    mark_as_duplicate: "ทำเครื่องหมายว่าซ้ำกัน"
+    flag_record: "แจ้งเตือน"
+    flag_label: "แจ้งเตือน"
+    flag_reason: "เหตุผลของการแจ้งเตือน"
     flag_reason_date: "วันที่ (ทางเลือก)"
-    unflag_record: "เหตุผลที่ยกเลิกการตั้งค่าสถานะ"
-    unflag_reason: "เหตุผลที่ยกเลิกการตั้งค่าสถานะ"
+    unflag_record: "บันทึกที่มีการยกเลิกการแจ้งเตือน"
+    unflag_reason: "เหตุผลที่ยกเลิกการแจ้งเตือน"
     unflagged_label: "เหตุผล"
     unflag_date: "วันที่"
-    unflag_by: "ถูกเอาธงออก"
-    unflag_label: "เอาธงออก"
-    unflag_error_message: "กรุณาอธิบายว่าทำไมคุณยกเลิกการกำหนดธงบันทึกนี้"
-    flagged_as_suspected: "ตั้งสถานะโดย"
-    id_of_record_this_duplicate_of: "กรอกรหัสบันทึกว่าอันนี้ซ้ำซ้อนกับ:"
-    duplicate_header: "การทำเครื่องหมาย %{child_name} ว่าซ้ำซ้อน"
-    flag_error_message: "โปรดอธิบายว่าทำไมคุณจึงตั้งค่าสถานะบันทึกนี้"
-    flag_records_error_message: "กรอกเหตุผลflag และหากต้องการเพิ่มวันที่ให้ใช้รูปแบบวันที่ที่ถูกต้อง "
-    selected_records_error_message: "กรุณาเลือกหนึ่งบันทึกหรือมากกว่าเพื่อตั้งค่าสถานะ"
+    unflag_by: "ยกเลิกการแจ้งเตือน"
+    unflag_label: "ยกเลิกการแจ้งเตือน"
+    unflag_error_message: "กรุณาอธิบายว่าเหตุใดคุณจึงยกเลิกการแจ้งเตือนบันทึกนี้"
+    flagged_as_suspected: "แจ้งเตือนโดย"
+    id_of_record_this_duplicate_of: "ใส่เลขประจำตัวของบันทึกที่ซ้ำกัน:"
+    duplicate_header: "การทำเครื่องหมายว่า %{child_name} ซ้ำกัน"
+    flag_error_message: "กรุณาอธิบายว่าเหตุใดคุณจึงแจ้งเตือนบันทึกนี้"
+    flag_records_error_message: "กรอกเหตุผลการแจ้งเตือน และหากต้องการใส่วันที่ให้ใช้รูปแบบวันที่ที่ถูกต้อง "
+    selected_records_error_message: "กรุณาเลือกบันทึก (อาจมากกว่าหนึ่งบันทึก) ที่ต้องการแจ้งเตือน"
     investigation_details: "รายละเอียดการสอบสวน"
-    reunite_details: "รายละเอียดการรวมตัว"
-    another_duplicate_before_link: "บันทึกอื่นถูกทำเครื่องหมายว่าซ้ำซ้อนกับบันทึกนี้ คลิก"
-    another_duplicate_after_link: "เพื่อดูบันทึกที่ซ้ำซ้อน"
+    reunite_details: "รายละเอียดการคืนสู่ครอบครัว"
+    another_duplicate_before_link: "มีการทำเครื่องหมายในอีกบันทึกหนึ่งว่าซ้ำกับบันทึกนี้ คลิก"
+    another_duplicate_after_link: "เพื่อดูบันทึกที่ซ้ำกัน"
     violation_status_verified: "ตรวจสอบแล้ว"
     empty_violation: "เพื่อเพิ่มการละเมิด ให้เพิ่มหมวดหมู่การละเมิดในแบบฟอร์มเหตุการณ์เพื่อดูแบบฟอร์มการละเมิดที่เกี่ยวข้อง"
-    add_violations: "คลิก เพิ่มเติม เพื่อกรอกรายละเอียดการละเมิด"
+    add_violations: "คลิก \"เพิ่มเติม\" เพื่อกรอกรายละเอียดการละเมิด"
     create_incident_cp: "สร้างบันทึกเหตุการณ์ที่รายงานได้ หรือไม่?"
     link_to_incident: "เชื่อมโยงกับเหตุการณ์"
     messages:
       update_success: "อัปเดตเหตุการณ์ %{record_id} สำเร็จแล้ว"
-      creation_success: "สร้างบันทึกเหตุการณ์สำเร็จแล้ว"
+      creation_success: "สร้างบันทึกเหตุการณ์%{record_id}สำเร็จแล้ว"
     view: "ดูเหตุการณ์ %{short_id}"
     edit: "แก้ไขเหตุการณ์"
     select: "เลือก"
-    id: "เลขประจำตัว"
+    id: "เลขประจำตัว#"
     survivor_code: "รหัสผู้รอดชีวิต"
     case_worker_code: "รหัสผู้ดูแลรายกรณี"
     date_of_interview: "วันที่สัมภาษณ์"
@@ -513,94 +541,134 @@ th:
     change_log: "เปลี่ยนบันทึก"
     actions:
       change_log: "เปลี่ยนบันทึก"
+      delete_document: "ลบเอกสาร?"
     history_of: "ประวัติของ%{short_id}"
     violation:
       violation: "การละเมิด"
-      pending: 'รอการยืนยัน'
       killing: "การฆ่า การสังหาร"
       maiming: "การทำให้พิการ"
-      recruitment: "การสรรหา"
-      sexual_violence: "ความรุนแรงทางเพศ"
       abduction: "การลักพาตัว"
-      attack_on_schools: "การโจมตีโรงเรียน"
-      attack_on_hospitals: "การโจมตีโรงพยาบาล"
-      denial_humanitarian_access: "การปฏิเสธการเข้าถึงเพื่อมนุษยธรรม"
       other_violation: "การละเมิดอื่นๆ"
   tracing_request:
-    label: "หมายเลขประจำตัวผู้ไต่สวน"
-    register_new_tracing_request: "คำขอการติดตามใหม่"
-    name_of_inquirer: "ชื่อผู้ไต่สวน"
-    date_of_inquiry: "วันที่ไต่สวน"
-    tracing_requests: "ติดตามคำร้อง"
+    label: "หมายเลขประจำตัวผู้ร้องขอ"
+    register_new_tracing_request: "คำร้องขอใหม่ให้มีการติดตามตัว"
+    name_of_inquirer: "ชื่อผู้ร้องขอ"
+    date_of_inquiry: "วันที่ร้องขอ"
+    tracing_requests: "คำร้องให้มีการติดตามตัว"
     change_log: "เปลี่ยนบันทึก"
     last_updated: "อัปเดตครั้งล่าสุด"
     registered_by: "ขึ้นทะเบียนโดย"
     edit_photo: "แก้ไขรูปภาพ"
-    flag_record: "ธง/ตัวบ่งชี้"
-    flag_label: "ปักธง"
-    flag_reason: "เหตุผลการกำหนดธง"
+    flag_record: "แจ้งเตือน"
+    flag_label: "แจ้งเตือน"
+    flag_reason: "เหตุผลการแจ้งเตือน"
     flag_reason_date: "วันที่ (ทางเลือก)"
-    flag_records_error_message: "กรอกเหตุผลflag และหากต้องการเพิ่มวันที่ให้ใช้รูปแบบวันที่ที่ถูกต้อง "
-    selected_records_error_message: "กรุณาเลือกหนึ่งบันทึกหรือมากกว่าเพื่อตั้งค่าสถานะ"
-    unflag_record: "เหตุผลที่ยกเลิกการตั้งค่าสถานะ"
-    unflag_reason: "เหตุผลที่ยกเลิกการตั้งค่าสถานะ"
+    flag_records_error_message: "กรอกเหตุผลการแจ้งเตือน และหากต้องการใส่วันที่ให้ใช้รูปแบบวันที่ที่ถูกต้อง "
+    selected_records_error_message: "กรุณาเลือกบันทึก (อาจมากกว่าหนึ่งบันทึก) ที่ต้องการแจ้งเตือน"
+    unflag_record: "บันทึกที่ยกเลิกการแจ้งเตือน"
+    unflag_reason: "เหตุผลที่ยกเลิกการแจ้งเตือน"
     unflagged_label: "เหตุผล"
     unflag_date: "วันที่"
-    unflag_by: "ถูกเอาธงออก"
-    unflag_label: "เอาธงออก"
-    unflag_error_message: "กรุณาอธิบายว่าทำไมคุณยกเลิกการกำหนดธงบันทึกนี้"
-    flag_error_message: "โปรดอธิบายว่าทำไมคุณจึงตั้งค่าสถานะบันทึกนี้"
-    flagged_as_suspected: "ตั้งสถานะโดย"
+    unflag_by: "ยกเลิกการแจ้งเตือน"
+    unflag_label: "ยกเลิกการแจ้งเตือน"
+    unflag_error_message: "กรุณาอธิบายว่าเหตุใดคุณจึงยกเลิกการแจ้งเตือนของบันทึกนี้"
+    flag_error_message: "กรุณาอธิบายว่าเหตุใดคุณจึงแจ้งเตือนบันทึกนี้"
+    flagged_as_suspected: "แจ้งเตือนโดย"
     find_match: "ค้นหาคู่เหมือน"
     actions:
       change_log: "เปลี่ยนบันทึก"
-      delete_photo: "ลบรูป"
+      delete_photo: "ลบรูป?"
       delete_audio: "ลบเสียง?"
     messages:
       update_success: "อัปเดตการติดตามคำร้อง %{record_id} สำเร็จแล้ว"
       creation_success: "สร้างบันทึกการติดตามคำร้อง %{record_id} สำเร็จแล้ว"
     view: "ดูการติดตามคำร้อง %{short_id}"
-    edit: "แก้ไขการติดตามคำร้อง"
+    edit: "แก้ไขคำร้องให้มีการติดตามตัว"
     select: "เลือก"
-    id: "เลขประจำตัว"
-    enquirer_name: "ชื่อผู้ไต่สวน"
-    enquirer_date: "วันที่ไต่สวน"
+    id: "เลขประจำตัว#"
+    enquirer_name: "ชื่อผู้ร้องขอ"
+    enquirer_date: "วันที่ร้องขอ"
     history_of: "ประวัติของ%{short_id}"
   tracing_requests:
-    register_new_tracing_request: "คำขอการติดตามใหม่"
+    register_new_tracing_request: "คำร้องขอใหม่ให้มีการติดตามตัว"
     export: "ส่งออก"
     selectable_date_options:
-      inquiry_date: "วันที่ไต่สวน"
+      inquiry_date: "วันที่ร้องขอ"
     filter_by:
-      flag: "ถูกกำหนดธง"
-      flag_label: "ถูกกำหนดธง?"
+      flag: "มีการแจ้งเตือน"
+      flag_label: "มีการแจ้งเตือน?"
       social_worker: "ผู้ดูแลรายกรณี/ นักสังคมสงเคราะห์"
-      inquiry_date: "วันที่ไต่สวน"
-      inquiry_status: "สถานะการไต่สวน:"
-      location_separation: "สถานที่แยกจากกัน"
+      inquiry_date: "วันที่ร้องขอ"
+      inquiry_status: "สถานะคำร้อง:"
+      location_separation: "ตำแหน่ง/สถานที่ที่พรากจากกัน"
       separation_cause: "สาเหตุการแยกจากกัน"
-      record_state: "สถานะบันทึก"
+      record_state: "สถานะการบันทึก"
   potential_matches:
     empty: "โปรดเข้าถึงการจับคู่ผ่านคำขอการติดตาม"
     no_match: "ไม่มีคู่เหมือนในระบบสำหรับ %{type}%{id}"
+    display: "แสดงการจับคู่ที่มีศักยกภาพสำหรับ %{type}%{id}"
     filter_by:
       score_range: "ช่วงคะแนน"
       age_range_case: "ช่วงอายุของรายกรณี"
+      age_range_tracing_request: "ช่วงอายุของคำร้องการติดตามตัว"
+      sex_case: "เพศของรายกรณี"
+      sex_tracing_request: "เพศของคำร้องการติดตามตัว"
       male: "ชาย"
       female: "หญิง"
   potential_match:
+    header_key: "เกณฑ์การจับคู่"
+    inquirer_id: 'หมายเลขประจำตัวผู้ร้องขอ#'
+    inquirer_name: 'ชื่อผู้ร้องขอ'
+    inquiry_date: 'วันที่ร้องขอ'
+    inquirer_tr_name: 'คำร้องการติดตามตัว'
+    child_id: 'เลขประจำตัวเด็ก#'
     child_age: 'อายุ'
+    child_gender: 'เพศ'
+    child_date_of_birth: 'วันเกิด'
+    reg_date: 'วันที่ลงทะเบียน'
+    social_worker: 'นักสังคมสงเคราะห์'
     social_worker_agency: 'หน่วยงาน'
+    score: 'คะแนน'
+    show_more: 'แสดงเพิ่มเติม'
+    show_less: 'แสดงน้อยลง'
+    trace: 'ติดตาม'
     case: 'รายกรณี'
     name: 'ชื่อ'
+    name_other: 'ชื่ออื่น'
+    name_nickname: 'ชื่อเล่น'
+    likelihood:
+      likely: 'น่าจะ'
+      possible: 'ที่เป็นไปได้'
   duplicates:
+    search_for_duplicates: 'ค้นหาข้อมูลที่ซ้ำ'
     clear_filter: 'ชัดเจน'
     filter_by:
       name: "ชื่อ"
+      name_nickname: "ชื่อเล่น"
+      name_other: "ชื่ออื่น"
       sex: "เพศ"
       age: "อายุ"
       age_range: "ช่วงอายุ"
+      date_of_birth: "วันเกิด"
+      nationality: "สัญชาติ"
+      location_last: "ตำแหน่งล่าสุด"
+      telephone_last: "เบอร์โทรศัพท์ล่าสุด"
+      ethnicity: "เชื้อชาติ"
+      date_of_separation: "วันที่แยกจากครอบครัว"
+      separation_cause: "สาเหตุหลักของการแยกจากครอบครัว"
+      location_separation: "ตำแหน่งที่แยกจากครอบครัว"
+      relation_name: "ชื่อของญาติ"
+      relation: "ความสัมพันธ์"
+      relation_nickname: "ชื่อเช่นของญาติ"
+      relation_language: "ภาษาของญาติ"
+      relation_religion: "ศาสนาของญาติ"
+      relation_ethnicity: "เชื้อชาติของญาติ"
+      relation_nationality: "สัญชาติของญาติ"
+      relation_address_current: "ที่อยู่ปัจจุบันของญาติ"
+      relation_location_current: "ตำแหน่งที่ตั้งปัจจุบันของญาติ"
+      relation_telephone: "เบอร์โทรศัพท์ของญาติ"
   audit_log:
+    timestamp: "ตราเวลา - UTC"
     user_name: "ชื่อผู้ใช้งาน"
     action: "การปฏิบัติการ"
     description: "รายละเอียด"
@@ -610,7 +678,7 @@ th:
       login: "เข้าใช้งาน"
       logout: "เลิกใช้งาน"
       create: "กำลังสร้าง"
-      copy: "คัดลอก"
+      copy: "กำลังคัดลอก"
       destroy: "กำลังลบ"
       show: "กำลังดู"
       edit: "กำลังแก้ไข"
@@ -626,10 +694,12 @@ th:
       timestamp: 'การประทับเวลา'
       user: 'ชื่อผู้ใช้งาน'
   preposition:
-    because: "เพราะ"
+    on_label: "เมื่อ"
+    because: "เนื่องจาก"
     at_label: "ที่"
   pagination:
     zero: "ไม่พบ %{model}"
+    page_entries_info: แสดง_จุดเริ่ม_ถึง_จุดสิ้นสุด_ของ_ทั้งหมด_%{model}
   users:
     unverified: "ผู้ใช้ที่ไม่ผ่านการตรวจสอบ"
     select_role: "กรุณาเลือกบทบาทก่อนที่จะตรวจสอบผู้ใช้"
@@ -638,11 +708,11 @@ th:
     create: "สร้างผู้ใช้"
     account_details: "รายละเอียดบัญชี"
     actions:
-      show_all: "กำลังแสดงทั้งหมด"
+      show_all: "แสดงผลทั้งหมด"
       show: "แสดง"
       edit: "แก้ไข"
     messages:
-      disable: 'คุณแน่ใจหรือไม่ว่าต้องการปิดการใช้งานผู้ใช้รายรายนี้?'
+      disable: 'คุณแน่ใจหรือไม่ว่าต้องการปิดการใช้งานของผู้ใช้รายนี้?'
     sort_by:
       label: "จัดเรียงตาม"
       full_name: "ชื่อเต็ม"
@@ -662,7 +732,7 @@ th:
       descending: "จากมากไปน้อย"
     name: "ชื่อบทบาท"
     actions:
-      show_all: "กำลังแสดงทั้งหมด"
+      show_all: "แสดงผลทั้งหมด"
       show: "แสดง"
       edit: "แก้ไข"
       update: "อัปเดต"
@@ -693,10 +763,10 @@ th:
     successfully_created: "สร้างหน่วยงานสำเร็จแล้ว"
     successfully_updated: "อัปเดตหน่วยงานสำเร็จแล้ว"
     actions:
-      show_all: "กำลังแสดงทั้งหมด"
+      show_all: "แสดงผลทั้งหมด"
       show: "แสดง"
       edit: "แก้ไข"
-      update: "อัปเดตให้เป็นปัจจุบัน"
+      update: "อัปเดต"
       create: "สร้าง"
       delete: "ลบทิ้ง"
     filter_by:
@@ -719,11 +789,13 @@ th:
     updated: "อัปเดตการตั้งค่าระบบสำเร็จแล้ว"
     primero_version: "รุ่นของระบบ"
   primero_modules:
+    label: "โมดูล"
+    view: "ดูโมดูล"
     actions:
-      show_all: "กำลังแสดงทั้งหมด"
+      show_all: "แสดงผลทั้งหมด"
       show: "แสดง"
       edit: "แก้ไข"
-      update: "อัปเดตให้เป็นปัจจุบัน"
+      update: "อัปเดต"
       create: "สร้าง"
       delete: "ลบทิ้ง"
     messages:
@@ -732,21 +804,24 @@ th:
   primero_module:
     create: "สร้างโมดูล"
     edit: "แก้ไขโมดูล"
-    show: "ดูรายละเอียด"
+    show: "ดู"
     name: "ชื่อ"
     description: "รายละเอียด"
     successfully_updated: "อัปเดตรายละเอียดโมดูลสำเร็จแล้ว"
     error_in_updating: "เกิดข้อผิดพลาดในการอัปเดตรายละเอียดโมดูล"
     record_type: "ประเภทของบันทึกสำหรับโมดูลนี้"
     forms: "แบบฟอร์มที่กำหนดให้โมดูลนี้"
+    program: "โปรแกรม"
     associated_record_types: "ประเภทบันทึกที่เกี่ยวข้อง"
     associated_form_ids: "หมายเลขประจำแบบฟอร์มที่เกี่ยวข้อง"
   primero_programs:
+    label: "โปรแกรม"
+    view: "ดูโปรแกรม"
     actions:
-      show_all: "กำลังแสดงทั้งหมด"
+      show_all: "แสดงผลทั้งหมด"
       show: "แสดง"
       edit: "แก้ไข"
-      update: "อัปเดตให้เป็นปัจจุบัน"
+      update: "อัปเดต"
       create: "สร้าง"
       delete: "ลบทิ้ง"
     messages:
@@ -765,16 +840,16 @@ th:
     label: "กลุ่มผู้ใช้งาน"
     view: "ดูกลุ่มผู้ใช้งาน"
     actions:
-      show_all: "กำลังแสดงทั้งหมด"
+      show_all: "แสดงผลทั้งหมด"
       show: "แสดง"
       edit: "แก้ไข"
-      update: "อัปเดตให้เป็นปัจจุบัน"
+      update: "อัปเดต"
       create: "สร้าง"
       delete: "ลบทิ้ง"
     messages:
-      confirmation: "คุณแน่ใจหรือไม่ว่าต้องการลบทิ้งผู้ใช้งานกลุ่มนี้? การลบทิ้งไม่สามารถยกเลิกได้ คลิก ตกลง เพื่อลบกลุ่มผู้ใช้งาน"
+      confirmation: "คุณแน่ใจหรือไม่ว่าต้องการลบทิ้งผู้ใช้งานกลุ่มนี้? การลบทิ้งไม่สามารถย้อนกลับได้ คลิก ตกลง เพื่อลบกลุ่มผู้ใช้งาน"
   user_group:
-    create: "สร้างกลุมผู้ใช้งาน"
+    create: "สร้างกลุ่มผู้ใช้งาน"
     edit: "แก้ไขกลุ่มผู้ใช้งาน"
     name: "ชื่อ"
     description: "รายละเอียด"
@@ -798,11 +873,11 @@ th:
       not_found: "ไม่พบผู้ใช้งานตามหมายเลขประจำตัวนี้"
       passwords_do_not_match: "ไม่ตรงกับรหัสผ่านปัจจุบัน"
       password_changed_successfully: "เปลี่ยนรหัสผ่านสำเร็จแล้ว"
-      time_zone_updated: "อัปเดตการเปลี่ยนแปลงสำร็จแล้ว"
-    update: "อัปเดตให้เป็นปัจจุบัน"
+      time_zone_updated: "อัปเดตการเปลี่ยนแปลงสำเร็จแล้ว"
+    update: "อัปเดต"
     verify: "ตรวจสอบ"
     create: "สร้าง"
-    no_blank: "ชื่อผู้ใช้งานไม่ควรมีช่องว่าง"
+    no_blank: "ชื่อผู้ใช้งานไม่ควรมีการเว้นวรรค"
     manage_password: "เปลี่ยน รหัสผ่าน"
     old_password: "รหัสผ่านเดิม"
     new_password: "รหัสผ่านใหม่"
@@ -818,17 +893,19 @@ th:
     send_mail: "รับการแจ้งเตือนทางอีเมลหรือไม่?"
     welcome_email:
       greeting: "ยินดีต้อนรับสู่ Primero"
+      url_label: "Primero"
       enabled_label: "ส่งอีเมลต้อนรับหรือไม่?"
       text_label: "ข้อความอีเมลต้อนรับ"
   phone: "โทรศัพท์"
   email: "อีเมล"
   organization: "องค์กร"
   position: "ตำแหน่ง"
-  'false': "เท็จ"
-  'true': "จริง"
+  'false': "ไม่ใช่"
+  'true': "ใช่"
   mandatory_field: "ช่องที่ทำเครื่องหมายเป็นช่องบังคับ"
   add: "เพิ่ม"
   belonging_to: "เป็นของ"
+  imei: "IMEI"
   blacklisted: "ถูกขึ้นบัญชีดำ?"
   visible_for_web: "มองเห็นได้สำหรับเว็บแอป"
   visible_for_mobile: "มองเห็นได้สำหรับแอปบนมือถือ"
@@ -865,6 +942,7 @@ th:
       read: "อ่าน"
       write: "เขียน"
       enable_disable_record: "ปิดการใช้งาน"
+      flag: "แจ้งเตือน"
       assign: "มอบหมาย กำหนด"
       case: "รายกรณี"
       incident: "เหตุการณ์"
@@ -884,18 +962,24 @@ th:
       All: "ทั้งหมด"
       specific_roles: "เข้าถึงรายการบทบาทที่ระบุ"
       export_xls: "ส่งออกเป็นไฟล์ xls"
+      export_photowall: "ส่งออกผนังภาพ"
       export_pdf: "ส่งออกเป็นไฟล์ pdf"
+      export_case_pdf: "ส่งออกไฟล์รายกรณีเป็น pdf"
+      export_json: "ส่งออกไฟล์ json"
+      export_custom: "กำหนดการส่งออกเอง"
+      export_duplicate_id_csv: "การส่งออกซ้ำ"
       import: "นำเข้า"
       transfer: "โอนย้าย"
+      reassign: "มอบหมายอีกครั้ง"
       referral: "การส่งต่อ"
       sync_mobile: "ซิงค์กับอุปกรณ์มือถือ"
-      request_approval: "คำขออนุมัติ"
+      request_approval: "คำร้องขออนุมัติ"
       request_approval_bia: "ขออนุมัติ BIA"
       request_approval_case_plan: "ขออนุมัติแผนรายกรณี"
       request_approval_closure: "ขออนุมัติการยุติบริการ"
-      approve_bia: "อนุมัติแบบฟอร์ม BIA"
+      approve_bia: "แบบฟอร์มอนุมัติ BIA"
       approve_case_plan: "อนุมัติแผนรายกรณี"
-      approve_closure: "อนุมัติแบบฟอร์มการยุติบริการ"
+      approve_closure: "แบบฟอร์มอนุมัติการยุติบริการ"
       copy: "คัดลอก"
       manage: "จัดการ"
       administrator_read: "ผู้ดูแลระบบอ่าน"
@@ -904,6 +988,8 @@ th:
       dashboard: "แผงหน้าปัด"
       view_approvals: "ดูการอนุมัติ"
       view_assessment: "ดูการประเมิน"
+      form: "แบบฟอร์ม"
+      lookup: "การค้นหา"
       dash_reporting_location: "ดูตำแหน่งที่รายงาน"
       dash_protection_concerns: "ดูประเด็นการคุ้มครอง"
       dash_matching_results: "ดูผลลัพธ์การจับคู่"
@@ -913,8 +999,9 @@ th:
       dash_cases_by_social_worker: "ดูรายกรณีโดยนักสังคมสงเคราะห์"
       dash_manager_transfers: "ดูการโยกย้ายผู้จัดการ"
       dash_cases_by_workflow: "ดูรายกรณีโดยขั้นตอนการทำงาน"
-      dash_cases_by_task_overdue: "ดูรายกรณีโดยงานที่เกินกำหนด"
-      dash_tasks: "ดูภาระกิจ"
+      dash_cases_by_task_overdue: "ดูรายกรณีโดยภารกิจที่เกินกำหนด"
+      dash_cases_to_assign: "ดูรายกรณีเพื่อมอบหมาย"
+      dash_tasks: "ดูภารกิจ"
       search_owned_by_others: "เรียกดูบันทึกรายกรณีที่ผู้ใช้งานรายอื่นเป็นเจ้าของ"
       incident_from_case: "สร้างเหตุการณ์จากรายกรณี"
       incident_details_from_case: "เพิ่มรายละเอียดเหตุการณ์ในรายกรณีของผู้ใช้งานรายอื่น"
@@ -924,6 +1011,7 @@ th:
       view_protection_concerns_filter: "ดูตัวกรองประเด็นการคุ้มครอง"
       saved_search: "บันทึกการค้นหา"
       save_search: "บันทึกการค้นหา"
+      remove_assigned_users: "เอาผู้ใช้งานที่ได้รับมอบหมายอื่นๆ ออก (การส่งต่อ)"
       audit_log: "บันทึกการตรวจสอบ"
       display_view_page: "แสดงหน้ามุมมอง"
       request_transfer: "คำร้องขอส่งต่อ"
@@ -967,24 +1055,34 @@ th:
     actions:
       label: "ปฏิบัติการ"
       add_custom_field: "เพิ่มช่องที่กำหนดเอง"
+      save_order: "บันทึกการจัดลำดับ"
     messages:
+      order_saved: "บันทึกการจัดลำดับสำเร็จแล้ว"
+      cannot_create: "ไม่สามารถสร้างส่วนที่เกี่ยวกับแบบฟอร์มได้"
       correct_errors: "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้และส่งอีกครั้ง"
       hide_confirmation: "คุณแน่ใจหรือไม่ว่าต้องการซ่อนช่อง"
       show_confirmation: "คุณแน่ใจหรือไม่ว่าต้องการแสดงช่อง"
+      drag_drop_help_text: คุณสามารถคลิกที่ช่องข้อมูลเพื่อลากและวางตามลำดับที่ต้องการ
+      updated: "เพิ่มส่วนที่เกี่ยวกับแบบฟอร์มสำเร็จแล้ว"
     hide: "ซ่อน?"
     show: "แสดง"
+    manage: "จัดการส่วนที่เกี่ยวกับแบบฟอร์ม"
+    edit: "แก้ไขส่วนที่เกี่ยวกับแบบฟอร์ม"
     buttons:
       add: "เพิ่ม"
     options: "ตัวเลือก"
     confirm_delete: "คุณแน่ใจหรือไม่ว่าต้องการลบแบบฟอร์มนี้"
     required_field: "ต้องระบุข้อมูลใน %{field}นี้"
     required_field_js: "คือช่องที่ต้องระบุข้อมูล ขณะนี้ช่องว่างหรือข้อมูลไม่ถูกต้อง"
+    form_group_name: "ชื่อกลุ่มแบบฟอร์ม"
+    form_group: "กลุ่มแบบฟอร์ม"
     modal_sidebar_help: "เลือกประเภทช่อง"
     modal_sidebar_help_selected: "ประเภทช่อง"
     translation: "คำแปล"
     translation_missing: "(ขาดคำแปลสำหรับ%{lang})"
     base_language_help_text: "ต้องกรอกใน %{lang}"
     selective_syncing_mobile_help_text: "แบบฟอร์มย่อยจะไม่ซิงค์จากเซิร์ฟเวอร์ไปยังมือถือ แต่ผู้ใช้งานสามารถเพิ่มแบบฟอร์มย่อยบนมือถือ ซึ่งจากนั้นจะซิงค์ไปยังเซิร์ฟเวอร์"
+    form_group_translation_help_text: "เพิ่มคำแปลสำหรับกลุ่มแบบฟอร์ม แก้ไขการค้นหากลุ่มแบบฟอร์มในตัวแก้ไขการค้นหา"
     initial_lang_help_text: "ต้องสร้างช่องใน %{lang}ก่อนเพิ่มคำแปล"
     field_db_help_text: "หากเว้นว่างไว้ชื่อฐานข้อมูลจะถูกสร้างขึ้น อนุญาตให้ใช้ตัวอักษรละติน ตัวเลข และขีดล่าง"
   advanced_search:
@@ -1054,6 +1152,8 @@ th:
     subform_remove_message: "คุณแน่ใจหรือไม่ว่าต้องการเอาแบบฟอร์มย่อยนี้ออก?"
     text_field: "ช่องข้อความ"
     check_box: "ช่องทำเครื่องหมาย"
+    select_box: "เลือกเลื่อนลง ?"
+    radio_button: "ปุ่มวิทยุ"
     text_area: "พื้นที่ข้อความ"
     textarea: "พื้นที่ข้อความ"
     numeric_field: "ช่องตัวเลข"
@@ -1091,12 +1191,18 @@ th:
       no_file_selected: "ไม่ได้เลือกไฟล์"
       document_file_restrictions_message: "ขนาดไฟล์ไม่ควรใหญ่กว่า 2 MB (ไฟล์ปฏิบัติการ (.exe) ไม่สามารถอัปโหลดได้)"
       photo_file_restrictions_message: "ไฟล์รูปภาพไม่ควรใหญ่กว่า 10 MB ไฟล์เสียงไม่ควรใหญ่กว่า 10 MB ยิ่งเล็กยิ่งดี"
-      add_document_label: "เพิ่มเอกสาร"
       add_photo_label: "เพิ่มรูปภาพ"
       recorded_audio_label: "บันทึกเสียง"
       add_new_document_button_text: "เพิ่มเอกสารอื่น"
       add_new_photo_button_text: "เพิ่มรูปภาพอื่น"
       document_description: "รายละเอียดเอกสาร"
+      document:
+        add_document_label: "เพิ่มเอกสาร"
+        current_document_label: "นี่คือเอกสารปัจจุบันใช่หรือไม่?"
+        document_name_label: "ชื่อเอกสาร"
+        document_date_label: "วันที่เอกสาร"
+        comment_label: "ความคิดเห็น"
+        add_button_text: "เพิ่มเอกสารอื่น"
     upload_bia_document: "เอกสาร BIA "
     upload_bid_document: "เอกสาร BID"
     upload_other_document: "เอกสารอื่น"
@@ -1107,6 +1213,7 @@ th:
       current: "นี่คือเอกสารปัจจุบันใช่หรือไม่?"
     audio:
       current: "เสียงปัจจุบัน"
+    upload_supporting_material: "แฟ้ม"
   replication:
     label: การทำสำเนา
     index: จัดการการทำสำเนา
@@ -1122,6 +1229,9 @@ th:
     triggered: กำลังดำเนินการ
     error: ล้มเหลว
     confirm_delete: คุณแน่ใจหรือไม่ว่าต้องการลบการทำสำเนานี้?
+    start: เริ่มการประสานข้อมูล
+    stop: หยุดการประสานข้อมูล
+    configure_a_server: ตั้งค่าเซิร์ฟเวอร์
     reindex_pending: ทำดัชนีที่รอดำเนินการอีกครั้ง
     is_continuous: ต่อเนื่อง
   lookup:
@@ -1152,6 +1262,7 @@ th:
     confirm_delete: คุณแน่ใจหรือไม่ว่าต้องการลบตำแหน่งนี้
     placename: "ชื่อสถานที่"
     type: "ประเภท"
+    parent: "ที่อยู่ของพ่อแม่"
     admin_level: "ระดับผู้ดูแลระบบ"
     messages:
       cannot_create: "สร้างตำแหน่งไม่ได้"
@@ -1163,6 +1274,7 @@ th:
       region: 'ภูมิภาค'
       province: 'จังหวัด'
       district: 'อำเภอ'
+      governorate: 'เขตการปกครอง'
       chiefdom: 'ความเป็นผู้นำ'
       county: 'เขต'
       state: 'รัฐ'
@@ -1176,14 +1288,19 @@ th:
       sub-district: 'ตำบล'
   matching_configuration:
     edit: "แก้ไขการกำหนดค่าการจับคู่"
+    case_fields: "ช่องรายกรณีที่สามารถจับคู่ได้"
+    tracing_request_fields: "ช่องคำร้องการติดตามตัวที่สามารถจับคู่ได้"
     updated: "อัปเดตการกำหนดค่าการจับคู่แล้ว"
     update_error: "ข้อผิดพลาดในการอัปเดตการกำหนดค่าการจับคู่"
     label: "จับคู่การกำหนดค่า"
   session:
-    about_to_expire: "รอบของคุณกำลังจะหมดเวลา!"
-    has_expired: "รอบของคุณหมดเวลาแล้ว กรุณาเข้าใช้งานอีกครั้ง"
+    about_to_expire: "การเข้าใช้งานของคุณกำลังจะหมดเวลา!"
+    has_expired: "การเข้าใช้งานของคุณหมดเวลาแล้ว กรุณาเข้าใช้งานอีกครั้ง"
     invalid_credentials: "ข้อมูลประจำตัวไม่ถูกต้อง กรุณาลองอีกครั้ง!"
     login_error: "มีปัญหาในการเข้าใช้งาน กรุณาลองอีกครั้ง"
+    invalid_token: "หมายเลขโทเค็นการเข้าใช้ของคุณไม่ถูกต้อง"
+    no_token_provided: "ไม่มีหมายเลขโทเค็นการเข้าใช้งาน"
+    no_token_in_header: "ไม่มีโทเค็นการเข้าใช้งานในส่วนหัวหรือคุกกี้"
   reports:
     register_new_report: "สร้างรายงาน"
     label: "รายงาน"
@@ -1192,6 +1309,7 @@ th:
       graph: "กราฟ"
     actions:
       delete: "ลบทิ้ง"
+    limited_pivots: "เลือกเพียงช่องวันที่เดียวเพื่อเป็นแกนหมุนสำหรับรายงานนี้ ให้ช่องวันที่เป็นแกนหลักที่หนึ่งหรือที่สองได้เท่านั้น"
     messages:
       confirmation: "คุณแน่ใจหรือไม่ว่าต้องการลบรายงานนี้? การลบไม่สามารถยกเลิกได้ กด ตกลง เพื่อลบรายงาน"
   report:
@@ -1203,6 +1321,7 @@ th:
     download: "ดาวน์โหลด"
     all: "รวมทั้งหมด"
     total: "รวมทั้งหมด"
+    modules: "โมดูล"
     record_type: "ประเภทบันทึก"
     aggregate_by: "จัดกลุ่มตามแถว"
     disaggregate_by: "จัดกลุ่มตามคอลัมน์"
@@ -1231,6 +1350,16 @@ th:
     messages:
       delete_success: "ลบรายงานแล้ว"
     edit: "แก้ไข"
+    report_filters:
+      filters: "ตัวกรอง"
+      filter: "ตัวกรอง"
+      clear: "ชัดเจน"
+      date_prompt: "เลือกวันที่"
+      from: "จาก"
+      to: "ถึง"
+      registration_date: "วันที่ขึ้นทะเบียน"
+      date_of_incident: "วันที่เกิดเหตุการณ์"
+      incident_location: "ตำแหน่งที่ตั้ง"
   encrypt:
     password_title: "สร้างรหัสผ่าน"
     password_label: "กรุณาใส่รหัสผ่านที่จะเข้ารหัสไฟล์ของคุณ"
@@ -1320,7 +1449,10 @@ th:
     rejected: 'ไม่อนุมัติ'
     near_deadline: 'ใกล้กำหนดเวลา'
     due: 'เกินกำหนด'
+    response: 'การตอบสนอง <span>(อยู่ระหว่างดำเนินการ)</span>'
     immediate_response: 'การตอบสนองทันที'
+    cases_to_assign: 'รายกรณีที่ต้องมอบหมาย'
+    overdue_cases_to_assign: 'รายกรณีเกินกำหนดที่ต้องมอบหมาย'
     closed: 'ปิด ยุติ'
     comprehensive_need_intervention: 'การตอบสนองที่ครอบคลุม'
     new_incident: 'เหตุการณ์ใหม่'
@@ -1329,7 +1461,7 @@ th:
     services_implemented: 'การบริการที่ดำเนินการ'
     approved: 'อนุมัติ'
     cases_by_workflow: 'รายกรณีโดยขั้นตอนการทำงาน'
-    cases_by_task_overdue: 'งานที่เกินกำหนด'
+    cases_by_task_overdue: 'ภารกิจที่เกินกำหนด'
     assessment: 'การประเมิน'
     case_plan: 'แผนรายกรณี'
     follow_up: 'การติดตาม'
@@ -1337,14 +1469,18 @@ th:
     admin_only: "คลิกที่ %{links} เพื่อทำการเปลี่ยนแปลงแอปพลิเคชัน"
     forms: "แท็บ \"แบบฟอร์ม\""
     users: "ไอคอน \"การตั้งค่า\""
+    flagged_by: "แจ้งเตือนโดย"
     no_recent_activities: "ไม่มีกิจกรรมล่าสุด"
     no_scheduled_activities: "ไม่มีกิจกรรมที่กำหนดไว้"
     no_overdue_activities: "ไม่มีกิจกรรมที่เกินกำหนด"
     no_caseworker_data: "ไม่มีข้อมูลผู้ดูแลรายกรณี"
+    no_flagged_child: "ไม่มีกรณีที่แจ้งเตือน"
+    no_flagged_incident: "ไม่มีเหตุการณ์ที่แจ้งเตือน"
     no_open_incidents: "ไม่มีเหตุการณ์ที่เปิดค้างไว้"
+    no_case_stats: "ไม่มีสถานะรายกรณี status พิมพ์ผิดป่าว"
     scheduled_activities: "กิจกรรมที่กำหนดไว้"
     overdue_activities: "กิจกรรมที่เกินกำหนด"
-    recent_activities: "กิจกรรมล่าสุด"
+    recent_activities: "กิจกรรมเมื่อเร็วๆ นี้"
     case_id: "หมายเลขประจำตัวรายกรณี"
     name: "ชื่อ"
     activity: "กิจกรรม"
@@ -1353,6 +1489,10 @@ th:
     incident_location: "สถานที่เกิดเหตุการณ์"
     new_child_assigned_to_you: "รายกรณีใหม่ที่มอบหมายให้คุณ"
     new_incident_assigned_to_you: "เหตุการณ์ที่ได้รับมอบหมายใหม่"
+    recently_flagged_child: "กรณีที่แจ้งเตือนในช่วงเวลาที่ผ่านมา"
+    flagged_by_me: "แจ้งเตือนโดยฉัน"
+    flagged_by_other: "แจ้งเตือนโดยบุคคลอื่น"
+    recently_flagged_incident: "เหตุการณ์ที่แจ้งเตือนในช่วงเวลาที่ผ่านมา"
     incident_status_open: "เปิด"
     number_of_victims: "จำนวนผู้ตกเป็นเหยื่อ"
     number_of_violations: "จำนวนการละเมิด"
@@ -1372,6 +1512,7 @@ th:
     current_owner: "เจ้าของปัจจุบัน"
     last_updated: "อัปเดตล่าสุด"
     case_stats: "กรณี"
+    national_admin_stats: "รายกรณี"
     tr_stats: "ติดตามคำร้อง"
     cases_by_social_worker: "รายกรณีโดยนักสังคมสงเคราะห์"
     approvals: "อนุมัติ"
@@ -1466,9 +1607,9 @@ th:
         password_text: "- กรุณาสร้างรหัสผ่านที่มีความยาวอย่างน้อย 8 ตัว และต้องมีทั้งตัวอักษรและตัวเลข"
         role_ids: "กรุณาสร้างอย่างน้อยหนึ่งบทบาท"
         module_ids: "กรุณาสร้างอย่างน้อยหนึ่งโมดูล"
-        organization: "กรุณากรอกชื่อองค์กรของผู้ใช้งาน"
-        user_name: "กรุณากรอกชื่อผู้ใช้งานที่ถูกต้อง"
-        email: "กรุณากรอกที่อยู่อีเมล์ที่ถูกต้อง"
+        organization: "กรุณาใส่ชื่อองค์กรของผู้ใช้งาน"
+        user_name: "กรุณาใส่ชื่อผู้ใช้งานที่ถูกต้อง"
+        email: "กรุณาใส่ที่อยู่อีเมล์ที่ถูกต้อง"
         user_name_uniqueness: "ชื่อผู้ใช้งานถูกใช้แล้ว! กรุณาเลือกชื่อผู้ใช้งานใหม่"
         authenticate: "ไม่สามารถรับรองผู้ใช้งานที่ไม่ได้บันทึก"
         invalid_locale: "สถานที่เกิดเหตุ %{user_locale} ไม่ถูกต้อง"
@@ -1504,86 +1645,350 @@ th:
         presence_of_name: "ชื่อต้องไม่เว้นว่าง"
         presence_of_base_language_name: "ชื่อของภาษาหลัก '%{base_language}' ไม่สามารถเว้นว่างไว้ได้"
         format_of_name: "ชื่อจะต้องมีตัวอักษรผสมตัวเลขและช่องว่างเท่านั้น"
+        add_field_to_form_section: "ส่วนของแบบฟอร์มไม่สามารถแก้ไขได้"
+        delete_field: "ช่องที่แก้ไขไม่ได้ไม่สามารถลบได้"
+        unique_name: "ชื่อ '%{name}' ถูกใช้แล้ว"
+        unique_id: "มีการใช้รหัสประจำตัว %{unique_id} แล้ว"
       role:
         name_present: "ชื่อต้องไม่เว้นว่าง"
+        permission_presence: "โปรดเลือกการอนุญาตอย่างน้อยหนึ่งรายการ"
+        unique_name: "มีบทบาทที่ใช้ชื่อนั้นแล้ว โปรดใส่ชื่ออื่น"
+        permission:
+          resource_presence: "โปรดเลือกทรัพยากร"
       primero_module:
         name_present: "ชื่อต้องไม่เว้นว่าง"
+        unique_name: "มีโมดูลที่ใช้ชื่อนั้นแล้ว โปรดใส่ชื่ออื่น"
+        program: "ต้องมีโปรแกรมที่เชื่อมโยงกับโมดูลนี้"
+        associated_form_ids: "ต้องมีแบบฟอร์มอย่างน้อยหนึ่งอย่างที่เชื่อมโยงกับโมดูลนี้"
+        associated_record_types: "ต้องมีชนิดของแบบฟอร์มอย่างน้อยหนึ่งชนิดเชื่อมโยงกับโมดูลนี้"
       primero_program:
         name_present: "ชื่อต้องไม่เว้นว่าง"
+        unique_name: "มีโปรแกรมที่ใช้ชื่อนั้นแล้ว กรุณาใส่ชื่ออื่น"
       lookup:
         name_present: "ชื่อต้องไม่เว้นว่าง"
+        value_presence: "โปรดเลือกค่าการค้นหาอย่างน้อยหนึ่งค่า"
+        unique_name: "มีการค้นหาที่ใช้ชื่อนั้นแล้ว กรุณาใส่ชื่ออื่น"
+        being_used: "กำลังมีการใช้งานการค้นหานี้ และไม่สามารถลบได้"
       system_users:
         username_unique: "ชื่อผู้ใช้งานถูกใช้แล้ว! กรุณาเลือกชื่อผู้ใช้งานใหม่"
+      replication:
+        remote_app_uri: "กรุณาใส่ Primero URL ที่ถูกต้อง"
+        remote_unauthorized: "ชื่อผู้ใช้งานและรหัสผ่านไม่ถูกต้อง"
+        remote_error: "ไม่สามรถเชื่อมต่อกับเครื่องคอมพิวเตอร์หลักระยะไกล\nไม่สามรถเชื่อมต่อกับเครื่องเซิร์ฟเวอร์ระยะไกล"
+        is_continuous: 'การทำสำเนาแบบต่อเนื่อง?'
       password_recovery_request:
         user_name_mandatory: "กรุณากรอกชื่อผู้ใช้งานที่ถูกต้อง"
       ownership:
-        associated_user_names_present: "ผู้ใช้ต้องถูกเชื่อมโยงกับบันทึกนี้"
+        associated_user_names_present: "ต้องมีผู้ใช้งานเชื่อมโยงกับบันทึกนี้"
+        module_id_prsesnt: "ต้องมีโมดูลเชื่อมโยงกับบันทึกนี้"
+      agency:
+        unique_name: "มีหน่วยงานที่ใช้ชื่อนั้นแล้ว กรุณาใส่ชื่ออื่น"
+        name_present: "ต้องไม่เว้นว่าง"
+        code_present: "ต้องไม่เว้นว่าง"
+      location:
+        name_present: "ต้องไม่เว้นว่าง"
+        code_present: "ต้องไม่เว้นว่าง"
+        admin_level_present: "ต้องไม่เว้นว่าง"
+        unique_name: "มีตำแหน่งที่ตั้งใช้ชื่อนั้นแล้ว กรุณาใส่ชื่ออื่น"
+        unique_location_code: "มีตำแหน่งที่ใช้รหัสตำแหน่งนั้นแล้ว กรุณาใส่รหัสตำแหน่งอื่น"
+      reporting_location:
+        label_key: "รหัสป้ายกำกับต้องเป็นหนึ่งในค่าประเภทฐานที่ตั้ง"
+        admin_level: "ระดับผู้ดูแลระบบต้องเป็นหนึ่งในค่าระดับผู้ดูแลระบบที่ตั้ง"
       report:
         name_presence: "ชื่อต้องไม่เว้นว่าง"
+        module_presence: "โมดูลต้องไม่เว้นว่าง"
+        module_syntax: "โมดูลรายงานทั้งหมดต้องมีอยู่แล้ว"
+        record_type_presence: "ประเภทบันทึกต้องไม่เว้นว่าง"
+        group_by_row_presence: "จับกลุ่มโดยแถวต้องไม่เว้นว่าง"
         use_date_ranges_presence: "ช่วงวันที่ใช้งานต้องไม่เว้นว่าง"
+      system_settings:
+        default_locale: "ตำแหน่งที่ตั้งของระบบต้องไม่เว้นว่าง"
+        locales: "ภาษาอังกฤษต้องเป็นภาษาของระบบ"
+      export_configuration:
+        record_type: "ประเภทบันทึกไม่ถูกต้อง ต้องเป็น \"เด็ก\" \"การติดตามคำร้อง\" หรือ \"เหตุการณ์\""
+        opt_out_field_does_not_exist: "ช่อง \"เลือกออก\" ที่ระบุไม่มีอยู่ในบันทึก"
+  select_all_results: "เลือกผลลัพธ์ทั้งหมด"
   histories:
+    of: "ของ"
+    to: "ไปยัง"
+    by: "โดย"
+    added_by: "เพิ่มโดย"
     belong_to: "เป็นของ"
+    because: "เพราะ:"
+    deleted_by: "ลบโดย"
+    referral: "ส่งต่อให้%{to_user} โดย%{by_user}"
+    transfer: "โอนให้%{to_user} โดย%{by_user}"
+    record_by: "สร้างบันทึกโดย"
+    child_status_changed: "เปลี่ยนสถานะของเด็กและส่งเด็กคืนสู่ครอบครัวโดย"
+    system_logs:
+      records_performed_by: "บันทึกดำเนินการโดย"
+      performed_by: "ดำเนินการ"
+      of_child_with_id: "ของเด็กที่มีเลขประจำตัว"
+    audio:
+      audio: "เสียง"
+      audio_change: "เปลี่ยนเสียงจาก"
+    duplicate:
+      mark_as_duplicate: "ทำเครื่องหมายบันทึกนี้ว่าซ้ำกับ"
+      no_longer_active: "บันทึกปัจจุบันไม่สามารถใช้งานหรือแก้ไขได้อีกต่อไป"
+    flag:
+      record_flagged_by: "มีการแจ้งเตือนบันทึกนี้โดย"
+      record_unflagged_by: "มีการยกเลิกการแจ้งเตือนบันทึกนี้โดย"
+    investigated:
+      mark_as_investigated_by: "ทำเครื่องหมายบันทึกว่าสอบสวนแล้วโดย"
+      mark_as_not_investigated_by: "ทำเครื่องหมายบันทึกว่าสอบสวนแล้วโดย"
+    reunited:
+      child_status_changed: "เปลี่ยนสถานะเด็กเป็น \"มีการใช้งาน\" โดย"
+      with_details: "ด้วยรายละเอียดนี้:"
   actions:
     button: "ปฏิบัติการ"
     enable: "เปิดการใช้งาน"
     disable: "ปิดการใช้งาน"
+    reopen: "เปิดใช้งานอีกครั้ง"
+    incident_details_from_case: "เพิ่มเหตุการณ์"
+    services_section_from_case: "เพิ่มการจัดบริการ"
+    description:
+      valid: "บันทึกถูกต้อง"
+      invalid: "บันทึกไม่ถูกต้อง"
   record_panel:
+    valid: "บันทึกถูกต้อง"
+    invalid: "บันทึกไม่ถูกต้อง"
+    record_state: "สถานะบันทึก"
+    created_by: "สร้างโดย"
     last_update: "อัปเดตล่าสุด"
     current_owner: "เจ้าของปัจจุบัน"
     change_log: "เปลี่ยนบันทึก"
+    record_information: "ข้อมูลบันทึก"
+    name_date_seperator: "เมื่อ"
   bulk_export:
+    file_name: "แฟ้ม"
     record_type: "ประเภท"
+    started_on: "เริ่มต้น"
     status: "สถานะ"
+    retry: "การส่งออกไม่ถูกต้อง กรุณาสร้างการส่งออกอีกครั้ง"
   exports:
     no_records: "ไม่มีบันทึกที่ต้องการ"
+    queueing: "กำลังสร้างไฟล์การส่งออก"
+    pdf:
+      all: PDF
+      one: PDF
+      selected: เลือกเป็น PDF
+    photowall:
+      all: ผนังภาพ
+      one: ผนังภาพ
+      selected: เลือกไปยังผนังภาพ
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: เลือกเป็น PDF
+    list_view_csv:
+      all: ส่งออกมุมมองรายการ
+      selected: เลือกไปยัง CSV
+    csv:
+      all: CSV
+      one: CSV
+      selected: เลือกไปยัง CSV
+    xls:
+      all: Excel
+      one: Excel
+      selected: เลือกไปยัง Excel
+    selected_xls:
+      all: Excel
+      one: Excel
+      selected: เลือกไปยัง Excel
+    json:
+      all: JSON
+      one: JSON
+      selected: เลือกไปยัง JSON
     unhcr_csv:
+      all: UNHCR
+      one: UNHCR
+      selected: เลือกไปยัง UNHCR
+      female_abbreviation: "ญ"
+      male_abbreviation: "ช"
+      unknown_abbreviation: "ไม่ทราบ"
       headers:
+        id: "เลขประจำตัว"
+        cpims_code: "รหัส CPIMS"
         primary_protection_concerns: "ประเด็นการคุ้มครองหลัก"
         secondary_protection_concerns: "ประเด็นการคุ้มครองรอง"
+        governorate_country: "เขตการปกครอง - ประเทศ"
         sex: "เพศ"
         sex_mapping_m_f_u: "เพศ"
+        date_of_birth: "วันเกิด"
         age: "อายุ"
-        current_care_arrangement: "การจัดการการดูแลปัจจุบัน"
+        causes_of_separation: "สาเหตุของการแยกจากครอบครัว"
+        country_of_origin: "ประเทศต้นทาง"
+        current_care_arrangement: "การจัดการการดูแลในปัจจุบัน"
+        reunification_status: "สถานะการคืนสู่ครอบครัว"
+        case_status: "สถานะรายการณี"
+        family_count_no: "หมายเลขครอบครัว"
+        name_of_child_last_first: "ชื่อเต็มของเด็ก"
+        name_of_caregiver: "ชื่อเต็มของผู้ให้ความดูแล"
+        vulnerability_code: "รหัสความเปราะบาง รหัสภาวะเสี่ยง"
+        vulnerability_details_code: "รหัสรายละเอียดภาวะเสี่ยง"
     duplicate_id_csv:
+      all: เลขประจำตัวซ้ำ
+      female_abbreviation: "ญ"
+      male_abbreviation: "ช"
+      unknown_abbreviation: "ไม่ทราบ"
       headers:
-        case_id: "หมายเลขรายกรณี"
+        national_id_no: "หมายเลขประจำตัวประชาชน"
+        case_id: "เลขประจำตัวรายกรณี"
+        child_name_last_first: "ชื่อเด็ก"
         age: "อายุ"
         sex_mapping_m_f_u: "เพศ"
+        family_size: "ขนาดครอบครัว"
+    mrm_violation_xls:
+      all: การละเมิด MRM
+      one: การละเมิด MRM
+      selected: เลือกไปยังการละเมิด MRM
     custom_exports:
+      label: กำหนดการส่งออกเอง
+      format_label: เลือกรูปแบบ
+      field_label: ช่อง
       form_label: แบบฟอร์ม
+      forms: เลือกรูปแบบที่จะส่งออก
+      fields: เลือกช่องที่จะส่งออก
       submit: ตกลง
+      select_module: เลือกโมดูล
+      choose_fields: คุณต้องการเลือกแต่ละช่องสำหรับแบบฟอร์มหรือไม่
+      module_placeholder: กรุณาเลือกโมดูล
       empty_password: กรุณาใส่รหัสผ่านที่จะเข้ารหัสไฟล์ของคุณ
+      empty_fields_forms: กรุณาเลือกแบบฟอร์มหรือช่องที่จะส่งออก
+      empty_format: กรุณาเลือกรูปแบบที่จะส่งออก
+      empty_module: กรุณาเลือกโมดูลที่จะส่งออก
+    pdf_exports:
+      label: PDF
     forms:
       label: ส่งออก
+      button: ส่งออกแบบฟอร์ม
+  imports:
+    password_label: "รหัสผ่าน (ถ้าจำเป็น)"
+    format_label: "รูปแบบ"
+    successful: "นำเข้าไฟล์สำเร็จแล้ว"
+    error: "เกิดข้อผิดพลาดในการนำเข้าดังนี้: %{error}"
+    file_missing: "คุณต้องเลือกไฟล์ที่จะนำเข้า"
+    unknown_type: "นำเข้าประเภทไฟล์ที่ไม่รู้จักหรือไม่ถูกต้อง"
+    decrypt_error: "ไม่สามารถถอดรหัสไฟล์ด้วยรหัสผ่านที่กำหนด"
+    guess_file_type_option: "ตรวจสอบอัตโนมัติตามนามสกุลไฟล์"
+    zip_file:
+      unknown_type: "หน่วยเก็บเอกสารถาวรมีหนึ่งไฟล์หรือมากกว่าที่ไม่รู้จักประเภทของไฟล์"
   referral:
+    type_label: "ประเภทของการส่งต่อ"
+    existing_user_label: "ผู้ใช้งานที่มีอยู่"
+    other_user_label: "ผู้ใช้งานอื่น"
+    other_user_agency_label: "หน่วยงานของผู้ใช้งานอื่น"
     service_label: "บริการ"
+    consent_label: "บันทึกไม่ได้ให้ความยินยอม"
+    consent_override_label: "คุณต้องการแทนที่การตั้งค่านี้หรือไม่?"
+    is_remote_label: "คุณต้องการส่งต่อไปยังระบบระยะไกลหรือไม่"
+    type_of_export: "คุณต้องการการส่งออกประเภทใด"
+    notes_label: "หมายเหตุ"
+    user_mandatory: "ต้องระบุชื่อผู้ใช้งาน"
+    no_records_selected: "ไม่ได้เลือกบันทึก"
+    failure: "การส่งต่อ%{record_type}%{id}ล้มเหลว (ตรวจดูว่าได้เลือกช่องความยินยอมหรือไม่)"
+    success: "%{record_type}%{id}"
+    failure_batch: "%{failed_count}การส่งต่อล้มเหลว (ตรวจให้แน่ใจว่าช่องความยินยอมได้ถูกเลือก)"
     to_user_local_status_label: "สถานะ"
     user_local_status_pending: "อยู่ระหว่างดำเนินการ"
+    user_local_status_accepted: "ยอมรับ"
     user_local_status_rejected: "ไม่อนุมัติ"
     user_local_status_inprogress: "กำลังดำเนินการ"
     user_local_status_done: "ดำเนินการเสร็จสิ้น"
+    complete_referral_label: "กด \"ตกลง\" หมายความว่าคุณได้ทำการส่งต่อที่เกี่ยวกับรายกรณีนี้เสร็จสิ้นแล้ว ทันทีที่คุณกด \"ตกลง\" คุณจะไม่สามารถเข้าถึงบันทึกนี้ได้อีก"
+    done_success_message: "การส่งต่อทำเสร็จแล้ว"
     agency_label: "หน่วยงาน"
     location_label: "ตำแหน่งที่ตั้ง"
+  reassign:
+    reassign_case_title: "มอบหมายรายกรณีแก่:"
+    existing_user_label: "ผู้ใช้งานที่มีอยู่"
+    user_mandatory: "ต้องระบุชื่อผู้ใช้งาน"
+    no_records_selected: "ไม่ได้เลือกบันทึก"
+    notes_label: "หมายเหตุ"
   transfer:
+    type_label: "ประเภทของการโอน"
+    existing_user_label: "ผู้ใช้งานที่มีอยู่"
+    other_user_label: "ผู้ใช้งานอื่นๆ"
+    other_user_agency_label: "หน่วยงานของผู้ใช้งานอื่น"
+    consent_label: "บันทึกไม่ได้ให้ความยินยอม"
+    consent_override_label: "คุณต้องการลบล้างการตั้งค่านี้หรือไม่?"
+    is_remote_label: "คุณจะโอนไปยังระบบระยะไกลหรือไม่"
+    consent_individual_transfer: "คุณได้รับความยินยอมจากบุคคลที่คุณจะโอนไปหรือไม่"
+    type_of_export: "คุณต้องการการส่งออกประเภทใด"
+    notes_label: "หมายเหตุ"
+    user_mandatory: "ต้องระบุชื่อผู้ใช้งาน"
+    failure: "การโอน %{record_type}%{id} ล้มเหลว (ตรวจสอบว่าได้เลือกช่องความยินยอมแล้ว)"
+    success: "โอน%{record_type}%{id}สำเร็จแล้ว"
+    rejected: "การโอน %{record_type}%{id}ได้รับการปฏิเสธ"
+    failure_batch: "%{failed_count}การโอนล้มเหลว (ตรวจสอบว่าได้เลือกช่องความยินยอมแล้ว)"
+    success_batch: "%{success_count} การโอนทำสำเร็จแล้ว"
     to_user_local_status_label: "สถานะ"
     user_local_status_pending: "อยู่ระหว่างดำเนินการ"
+    user_local_status_accepted: "ยอมรับ"
     user_local_status_rejected: "ไม่อนุมัติ"
     user_local_status_inprogress: "กำลังดำเนินการ"
+    reject: "เหตุผลการปฏิเสธ"
+    accept_label: "โดยการกด \"ยอมรับ\" คุณยอมรับความรับผิดชอบสำหรับรายกรณีนี้ ทันทีที่คุณกด \"ตกลง\" คุณจะกลายเป็นเจ้าของบันทึกในระบบ"
+    reject_label: "โดยการกด \"ปฏิเสธ\" คุณกำลังแสดงว่าคุณยังไม่พร้อมที่จะยอมรับความรับผิดชอบในรายกรณีนี้ในขณะนี้ กรุณาใส่เหตุผลที่คุณปฏิเสธ ทันทีที่คุณกด \"ตกลง\" คุณจะไม่สามารถเข้าถึงบันทึกรายกรณีนี้ได้อีก"
+    unknown_status: "ไม่รู้จักสุถานะการโอน: %{status}"
+    unknown_transfer: "%{record_type}%{id}โอนไม่ถูกต้อง "
     not_valid_transfer: "%{record_type} %{id} การโอนย้ายไม่ถูกต้อง ไม่สามารถอัปเดตได้ หรือคุณไม่ได้รับอนุญาตในรายกรณีนี้"
     search:
       rejected: "ไม่อนุมัติ"
       in_progress: "กำลังดำเนินการ"
     agency_label: "หน่วยงาน"
     location_label: "ตำแหน่งที่ตั้ง"
+  request_transfer:
+    success: "ส่งคำร้องขอโอนแล้ว"
+    notes_label: "หมายเหตุ"
+    submit_label: "ส่งคำร้องขอ"
+    error:
+      owner_has_no_email: "เจ้าของบันทึกไม่มีที่อยู่อีเมล"
+      record_not_found: "ไม่พบบันทึก"
+      record_not_saved: "บันทึกคำร้องขอการโอนล้มเหลว"
+  transition:
+    export_type:
+      primero: "Primero"
+      non_primero: "ที่ไม่ใช่ Primero"
+      pdf_export: "ส่งออกเป็น PDF"
+  mark_for_mobile:
+    no_records_selected: "ไม่ได้เลือกบันทึก"
+    failure: "%{record_type}%{id} ทำเครื่องหมายใช้บนมือถือล้มเหลว"
+    success: "%{record_type}%{id} ทำเครื่องหมายใช้บนมือถือสำเร็จ"
+    failure_batch: "%{failed_count}บันทึก ทำเครื่องหมายใช้บนมือถือล้มเหลว"
+    success_batch: "%{success_count}บันทึก ทำเครื่องหมายใช้บนมือถือสำเร็จ"
+  unmark_for_mobile:
+    failure: "%{record_type}%{id}เลิกทำเครื่องหมายใช้บนมือถือล้มเหลว"
+    success: "%{record_type}%{id} ทำเครื่องหมายใช้บนมือถือสำเร็จ"
+    failure_batch: "เลิกทำเครื่องหมายใช้บนมือถือล้มเหลว%{failed_count}บันทึก "
+    success_batch: "เลิกทำเครื่องหมายใช้บนมือถือสำเร็จ %{success_count}บันทึก"
   approvals:
+    approve_bia: "ขออนุมัติสำหรับแบบฟอร์ม BIA ใช่หรือไม่?"
+    approve_bia_label: "อนุมัติแบบฟอร์ม BIA"
+    approve_care_plan: "ขออนุมัติสำหรับแบบฟอร์มแผนรายกรณีใช่หรือไม่?"
     approve_case_plan_label: "อนุมัติแผนรายกรณี"
+    approve_case_plan: "ขออนุมัติสำหรับแบบฟอร์มแผนรายกรณีใช่หรือไม่?"
+    approve_case_plan_with_selectable_type: "ขออนุมัติสำหรับแผนรายกรณีใช่หรือไม่?"
+    approve_closure: "ขออนุมัติสำหรับแบบฟอร์มการยุติบริการใช่หรือไม่?"
+    approve_closure_label: "อนุมัติแบบฟอร์มการยุติบริการ"
+    bia: "BIA"
     case_plan: "แผนรายกรณี"
+    closure: "การยุติบริการ"
     comments_label: "ความคิดเห็น"
+    error_select_an_approval_type: "กรุณาเลือกประเภทการอนุมัติ"
+    case_plan_type_label: "ประเภทของแผนรายกรณี:"
     status:
       pending: "อยู่ระหว่างดำเนินการ"
       approved: "อนุมัติ"
       rejected: "ไม่อนุมัติ"
+  notes:
+    notes_label: "หมายเหตุ"
+    subject_label: "หัวข้อ"
+    no_records_selected: "ไม่ได้เลือกบันทึก"
+    error_adding_note: "เกิดข้อผิดพลาดในการเพิ่มเติมหมายเหตุ"
+  per_page_translation: "ต่อหน้า_เมนู_"
   total: รวม
+  caregiver: "(ผู้ให้ความดูแล)"
   disabled:
     filter_label: "แสดง"
     status:
@@ -1594,39 +1999,128 @@ th:
   sort_by:
     label: "จัดเรียงตาม"
   logger:
+    to: "ไปยัง"
+    to_user: "ไปยังผู้ใช้งาน"
+    by_user: "โดยผู้ใช้งาน"
     login: "เข้าใช้งาน"
     logout: "เลิกใช้งาน"
-    create: "กำลังสร้าง"
+    create: "สร้าง"
     copy: "คัดลอก"
-    destroy: "กำลังลบ"
-    show: "กำลังดู"
-    edit: "กำลังแก้ไข"
-    update: "กำลังอัปเดต"
+    destroy: "ลบ"
+    show: "ดู"
+    edit: "แก้ไข"
+    update: "อัปเดต"
     export: "กำลังส่งข้อมูลออกเพื่อ"
-    referral: "กำลังส่งต่อ"
-    reassign: "กำลังมอบหมาย"
-    transfer: "การถ่ายโอน"
-    reopen_case: "กำลังเปิดอีกครั้ง"
+    referral: "ส่งต่อ"
+    reassign: "มอบหมาย"
+    transfer: "การโอนย้าย"
+    reopen_case: "เปิดอีกครั้ง"
+    quick_view: "การดูมุมมองด่วน"
+    request_transfer_view: "ดูการขอโอนย้าย"
+    request_transfer: "ส่งคำขอโอนย้าย"
+    save_subform: "บันทึกแบบฟอร์มย่อย"
+    create_subform: "สร้างแบบฟอร์มย่อย"
+    consent_count: "การนับความยินยอม"
+    match_record: "จับคู่บันทึก"
+    index: "รายชื่อบันทึก"
+    relinquish_referral: "ยกเลิกการส่งต่อเสร็จสิ้น"
+    flag: การแจ้งเตือน
+    unflag: ยกเลิกการแจ้งเตือน
+    flag_records: การแจ้งเตือน
+    transfer_status:
+      Accepted: "ยอมรับการโอนย้าย"
+      Rejected: "ปฏิเสธการโอนย้าย"
     hide_name:
       protect: "ซ่อนชื่อ"
       view: "แสดงชื่อ"
+    request_approval:
+      bia: "ขออนุมัติแบบฟอร์ม BIA "
+      case_plan: "ขออนุมัติแบบฟอร์มแผนรายกรณี"
+      closure: "ขออนุมัติแบบฟอร์มการยุติบริการ"
+    approve_form:
+      'false': "ปฏิเสธ"
+      'true': "อนุมัติ"
+      bia: "แบบฟอร์ม BIA"
+      case_plan: "แบบฟอร์มแผนรายกรณี"
+      closure: "แบบฟอร์มการยุติบริการ"
     mark_for_mobile:
-      'true': "ทำเครื่งหมายสำหรับโทรศัพท์มือถือ"
+      'false': "ยกเลิกการใช้งานบนมือถือ"
+      'true': "ทำเครื่องหมายการใช้งานบนมือถือ"
+    record_state:
+      'false': "ปิดการใช้งาน"
+      'true': "เปิดการใช้งาน"
+    graph_data: "แสดงข้อมูลเป็นกราฟ"
+    permitted_field_list: รายการช่องที่อนุญาต
+    lookups_for_field: ค้นหาช่อง
+  job:
+    status:
+      complete: 'เสร็จสมบูรณ์'
   string_sources_failed: "เกิดความผิดพลาดในการดึงข้อมูลบางส่วน ทำการ refresh เพื่อให้มีการดึงข้อมูลทั้งหมด"
   error_message:
+    notice: 'เกิดข้อผิดพลาดที่ไม่อนุญาตให้บันทึกข้อมูลนีั'
     fields_notice: 'มีปัญหากับช่องดังต่อไปนี้'
+  error_page:
+    internal_server_error:
+      something_went_wrong: ขออภัย มีบางอย่างผิดพลาด!
+      contact_admin: กรุณาติดต่อผู้ดูแลระบบหากปัญหายังคงมีอยู่
+      server_error: เกิดข้อผิดพลาดที่เครื่องเซิร์ฟเวอร์
+    not_found:
+      something_went_wrong: ขออภัย มีบางอย่างผิดพลาด!
+      contact_admin: หาคุณเข้ามาด้วยความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ
+      server_error: ไม่พบหน้าที่ต้องการ
   audio:
     update_browser:
       title: 'จำเป็นต้องอัปเดต'
       message: "ในการเล่นสื่อคุณจะต้องอัปเดตเบราว์เซอร์เป็นเวอร์ชันล่าสุดหรืออัปเดตของคุณ"
   saved_searches:
+    no_save_searches: "ไม่มีคำค้นหาที่บันทึกไว้"
     name: "ชื่อ"
+    save_search: "บันทึกการค้นหา"
+    delete: "คลิก \"โอเค\" จะลบ \"%{filter_name}\""
   email_notification:
-    transfer_request: "%{user} ผู้ใช้ Primero จาก %{agency} ขอให้คุณโอนความเป็นเจ้าของของบันทึก %{record_type} %{record_id} นี้ เพื่อให้พวกเขาสามารถให้บริการการจัดการ %{record_type}สำหรับบุคคลในพื้นที่ของพวกเขา หากคุณยอมรับการโอนนี้ กรุณาคลิก ลิงค์หมายเลขประจำตัว %{record_type} ในอีเมลนี้เพื่อเปิด %{record_type} ในพรีเมโร และเริ่มการโอน"
-    transfer_request_html: "<strong>%{user}</strong> ผู้ใช้ Primero จาก %{agency} ขอให้คุณโอนความเป็นเจ้าของของบันทึก %{record_type}<strong>%{record_id}</strong>นี้ เพื่อให้พวกเขาสามารถให้บริการการจัดการ %{record_type}สำหรับบุคคลในพื้นที่ของพวกเขา หากคุณยอมรับการโอนนี้ กรุณาคลิก ลิงค์หมายเลขประจำตัว %{record_type}ในอีเมลนี้เพื่อเปิด %{record_type}ในพรีเมโร และเริ่มการโอน"
+    enabled_label: "ส่งการแจ้งเตือนทางอีเมล์"
+    approval_request_subject: "รายกรณี: %{id} - ขอการอนุมัติ"
+    approval_response_subject: "รายกรณี: %{id}- ตอบกลับการอนุมัติ"
+    referral_subject: "%{record_type}:%{id} - การส่งต่อ"
+    transfer_subject: "%{record_type}:%{id} - การโอนย้าย"
+    transfer_request_subject: "การขอโอนย้ายรายกรณีของคุณ"
+    reassign_subject: "%{record_type}:%{id} - ที่มอบหมายให้คุณ"
+    approval_request: "ผู้ใช้งาน %{user} กำลังขอนุมัติ %{approval_type} แก่รายกรณี %{case_id}"
+    approval_response: "%{user}มี%{status}การขออนุมัติ%{approval_type}สำหรับรายกรณี%{case_id}"
+    referral: "%{user}จาก%{agency}ได้ส่งต่อ%{record_type}มาให้คุณ: %{record_id}สำหรับ%{service_type}"
+    transfer: "%{user}ได้โอน%{record_type}มาให้คุณ: %{record_id}"
+    reassign: "%{user}ได้มอบหมาย%{record_type}มาให้คุณ: %{record_id}"
+    transfer_request: "%{user} ผู้ใช้ Primero จาก %{agency} ขอให้คุณโอนความเป็นเจ้าของของบันทึก %{record_type} %{record_id} นี้ เพื่อให้พวกเขาสามารถให้บริการการจัดการ %{record_type}สำหรับบุคคลในพื้นที่ของพวกเขา หากคุณยอมรับการโอนนี้ กรุณาคลิก ลิงค์หมายเลขประจำตัว %{record_type} ในอีเมลนี้เพื่อเปิด %{record_type} ใน Primero และเริ่มการโอน"
+    approval_request_html: "ผู้ใช้งาน <strong>%{user}</strong> กำลังขออนุมัติ <strong>%{approval_type}</strong> แก่รายกรณี <strong>%{case_id}</strong>"
+    approval_response_html: "<strong>%{user}</strong>มี<strong>%{status}</strong>การขออนุมัติ<strong>%{approval_type}</strong> สำหรับรายกรณี<strong>%{case_id}</strong>"
+    referral_html: "<strong>%{user}</strong>จาก%{agency}ได้ส่งต่อ%{record_type}มาให้คุณ: <strong>%{record_id}</strong>เพื่อ%{service_type}"
+    transfer_html: "<strong>%{user}</strong>ได้โอน%{record_type}มาให้คุณ: <strong>%{record_id}</strong>"
+    reassign_html: "<strong>%{user}</strong>ได้มอบหมาย%{record_type}ให้คุณ: <strong>%{record_id}</strong>"
+    transfer_request_html: "<strong>%{user}</strong> ผู้ใช้ Primero จาก %{agency} ขอให้คุณโอนความเป็นเจ้าของของบันทึก %{record_type}<strong>%{record_id}</strong>นี้ เพื่อให้พวกเขาสามารถให้บริการการจัดการ %{record_type}สำหรับบุคคลในพื้นที่ของพวกเขา หากคุณยอมรับการโอนนี้ กรุณาคลิก ลิงค์หมายเลขประจำตัว %{record_type}ในอีเมลนี้เพื่อเปิด %{record_type}ใน Premero และเริ่มการโอน"
+    transfer_request_notes_html: "หมายเหตุจากบุคคลที่ทำการร้องขอ: %{request_transfer_notes}"
   will_paginate:
+    previous_label: "&#8592; ก่อนหน้า"
+    next_label: "ถัดไป &#8594;"
     page_entries_info:
       single_page_html:
         zero: "ไม่พบ %{model}"
-        one: "Displaying <b>1</b> %{model}"
-        other: "Displaying <b>all %{count}</b> %{model}"
+        one: "แสดง <b>1</b> %{model}"
+        other: "แสดง <b>ทั้งหมด %{count}</b>%{model}"
+      multi_page_html: "แสดง%{model} <b>%{from} - %{to}</b>ของจำนวนทั้งหมด <b>%{count}</b>"
+    models:
+      agency:
+        other: "หน่วยงาน"
+      report:
+        other: "รายงาน"
+      child:
+        other: "รายกรณี"
+      incident:
+        other: "เหตุการณ์"
+      hash:
+        other: "การจับคู่ผลลัพธ์"
+      bulk_export:
+        other: "การส่งออกไฟล์จำนวนมาก"
+      task:
+        other: "ภารกิจ"
+      user_group:
+        other: "กลุ่มผู้ใช้งาน"

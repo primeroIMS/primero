@@ -144,7 +144,6 @@ ar:
     disable_photo_wall: "تعطيل photo wall"
     create_incident: "إنشاء حادثة جديدة"
     create_case: "إنشاء حالة"
-    guiding_questions: "نصوص توجيهية"
     filter_label: "عامل التصفية:"
     filter: "تطبيق عامل التصفية"
     filter_clear: "مسح عوامل التصفية"
@@ -469,6 +468,7 @@ ar:
     selectable_date_options:
       date_of_first_report: "تاريخ المقابلة"
       incident_date_derived: "تاريخ الحادثة"
+    violations_tab: "الانتهاكات"
     filter_by:
       flag: "مُميز بعلامة:"
       flag_label: "هل كان مُميز بعلامة؟"
@@ -487,7 +487,6 @@ ar:
       incident_location: "موقع الحادثة:"
       incident_date: "تاريخ الحادثة:"
       unaccompanied_separated_status: "حالة الحماية:"
-      armed_force_group_name: "القوات المسلحة أو المجموعة:"
       armed_force_group_type: "القوات المسلحة أو نوع المجموعة:"
       record_state: "حالة التسجيل:"
       interview_date: "تاريخ المقابلة:"
@@ -541,18 +540,13 @@ ar:
     change_log: "تغيير السجل "
     actions:
       change_log: "تغيير السجل "
+      delete_document: "هل تريد حذف المستند؟"
     history_of: "تاريخ %{short_id}"
     violation:
       violation: "انتهاك"
-      pending: 'تحقق من الصحة معلق'
       killing: "القتل"
       maiming: "التشويه"
-      recruitment: "تعيين"
-      sexual_violence: "اعتداء جنسي"
       abduction: "الخطف"
-      attack_on_schools: "الهجوم على المدارس"
-      attack_on_hospitals: "الهجوم على المستشفيات"
-      denial_humanitarian_access: "الحرمان من الوصول إلى الخدمات الإنسانية"
       other_violation: "انتهاك آخر"
   tracing_request:
     label: "مُعرف المُستعلِم"
@@ -999,6 +993,8 @@ ar:
       dashboard: "لوحة التحكم"
       view_approvals: "عرض المصادقات "
       view_assessment: "عرض التقييم"
+      form: "نماذج"
+      lookup: "عمليات البحث"
       dash_reporting_location: "عرض مواقع الإبلاغ"
       dash_protection_concerns: "عرض الأمور الخاصة بالحماية"
       dash_matching_results: "عرض النتائج المتشابهة"
@@ -1208,12 +1204,18 @@ ar:
       no_file_selected: "لم يتم ارفاق أي ملف."
       document_file_restrictions_message: " يجب أن لا يتعدى حجم الملف 2mb أوأن لا يكون صيغة الملف exe."
       photo_file_restrictions_message: "لا ينبغي أن تكون الصور أكبر من 10 ميجابايت. لا ينبغي أن تكون ملفات الصوت أكبر من 10 ميجابايت. كلما كانت الملفات أصغر كان ذلك أفضل."
-      add_document_label: "إضافة مستند"
       add_photo_label: "إضافة صورة"
       recorded_audio_label: "اضافة التسجيل صوتي"
       add_new_document_button_text: "إضافة مستند آخر"
       add_new_photo_button_text: "إضافة صورة أخرى"
       document_description: "وصف المستند"
+      document:
+        add_document_label: "إضافة مستند"
+        current_document_label: "هل هذا المستند محدث؟"
+        document_name_label: "اسم المستند"
+        document_date_label: "تاريخ المستند"
+        comment_label: "ملاحظات"
+        add_button_text: "إضافة مستند آخر"
     upload_bia_document: "مستند BIA"
     upload_bid_document: "مستند BID"
     upload_other_document: "مستندات أخرى"
@@ -1224,6 +1226,7 @@ ar:
       current: "هل هذا المستند محدث؟"
     audio:
       current: "التسجيل الحالي"
+    upload_supporting_material: "ملف"
   replication:
     label: نسخ متماثلة
     index: إدارة النسخ المتماثلة
@@ -1360,6 +1363,16 @@ ar:
     messages:
       delete_success: "تم حذف التقرير بنجاح"
     edit: "تعديل"
+    report_filters:
+      filters: "مرشحات"
+      filter: "عامل التصفية"
+      clear: "مسح"
+      date_prompt: "اختر التاريخ"
+      from: "من"
+      to: "إلى"
+      registration_date: "تاريخ التسجيل"
+      date_of_incident: "تاريخ الحادثة"
+      incident_location: "الموقع"
   encrypt:
     password_title: "إنشاء كلمة مرور"
     password_label: "الرجاء إدخال كلمة المرور التي سوف تشفّر ملفك."
@@ -1513,6 +1526,7 @@ ar:
     current_owner: "المالك الحالي"
     last_updated: "آخر تحديث"
     case_stats: "الحالات"
+    national_admin_stats: "حالات"
     tr_stats: "تتبع الطلبات"
     cases_by_social_worker: "الحالات حسب الباحث الاجتماعي"
     approvals: "المصادقات"
