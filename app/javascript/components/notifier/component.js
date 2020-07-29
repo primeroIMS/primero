@@ -70,8 +70,8 @@ const Notifier = () => {
       }
 
       enqueueSnackbar(snackMessage, {
-        ...otherOptions,
         ...snackbarOptions,
+        ...otherOptions,
         key,
         onExited: (event, snackKey) => {
           removeMessage(snackKey);

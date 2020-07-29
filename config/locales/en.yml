@@ -17,7 +17,7 @@ en:
   valid: "Valid"
   invalid: "Invalid"
   offline: "Offline"
-  connection_lost: "Connection Lost"
+  connection_lost: "Currently in offline mode"
   connected: "Connected"
   name: "Name"
   home:

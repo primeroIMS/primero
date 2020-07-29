@@ -42,7 +42,7 @@ export const saveUser = ({
             message,
             options: {
               variant: "success",
-              key: generate.messageKey()
+              key: generate.messageKey(message)
             }
           },
           redirectWithIdFromResponse: saveMethod !== SAVE_METHODS.update,
@@ -69,7 +69,7 @@ export const saveUser = ({
             message: failureMessage,
             options: {
               variant: "error",
-              key: generate.messageKey()
+              key: generate.messageKey(failureMessage)
             }
           }
         },

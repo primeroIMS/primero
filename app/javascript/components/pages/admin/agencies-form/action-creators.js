@@ -30,7 +30,7 @@ export const saveAgency = ({ id, body, saveMethod, message }) => {
           message,
           options: {
             variant: "success",
-            key: generate.messageKey()
+            key: generate.messageKey(message)
           }
         },
         redirectWithIdFromResponse: saveMethod !== SAVE_METHODS.update,

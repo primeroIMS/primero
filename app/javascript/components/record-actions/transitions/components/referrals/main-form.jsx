@@ -144,7 +144,7 @@ const MainForm = ({ formProps, rest }) => {
       .join(", ");
 
     if (messages !== "") {
-      dispatch(enqueueSnackbar(messages, "error"));
+      dispatch(enqueueSnackbar(messages, { type: "error" }));
     }
   }, [hasErrors]);
 
