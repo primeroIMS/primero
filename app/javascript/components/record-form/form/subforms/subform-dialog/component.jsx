@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { Formik, Form, getIn } from "formik";
 import { object } from "yup";
@@ -15,7 +15,6 @@ import SubformErrors from "../subform-errors";
 
 const Component = ({
   arrayHelpers,
-  currentValue,
   dialogIsNew,
   field,
   formik,
@@ -30,7 +29,7 @@ const Component = ({
   initialSubformValue
 }) => {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
-  const changed = !emptyValues(compactValues(currentValue, oldValue));
+  const childFormikRef = useRef();
 
   const subformValues = getIn(
     formik.values,
@@ -53,6 +52,10 @@ const Component = ({
   };
 
   const handleClose = () => {
+    const changed = !emptyValues(
+      compactValues(childFormikRef.current.state.values, initialSubformValues)
+    );
+
     if (changed) {
       setOpenConfirmationModal(true);
     } else {
@@ -77,7 +80,8 @@ const Component = ({
     if (formik.submitCount) {
       formik.validateForm();
     }
-    handleClose();
+
+    setOpen({ open: false, index: null });
   };
 
   const buttonDialogText = dialogIsNew ? "buttons.add" : "buttons.update";
@@ -153,6 +157,7 @@ const Component = ({
             validateOnChange={false}
             enableReinitialize
             onSubmit={values => onSubmit(values)}
+            ref={childFormikRef}
           >
             {({ handleSubmit, submitForm, setErrors, setTouched, errors }) => {
               bindSubmitForm(submitForm);
@@ -183,7 +188,6 @@ Component.displayName = SUBFORM_DIALOG;
 
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
-  currentValue: PropTypes.object,
   dialogIsNew: PropTypes.bool.isRequired,
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
