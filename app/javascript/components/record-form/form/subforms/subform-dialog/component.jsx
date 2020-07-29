@@ -30,18 +30,19 @@ const Component = ({
 }) => {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const childFormikRef = useRef();
+  const isValidIndex = index === 0 || index > 0;
 
-  const subformValues = getIn(
+  const subformValues = isValidIndex ? getIn(
     formik.values,
     `${field.subform_section_id.unique_id}[${index}]`
-  );
+  ) : {};
 
   const initialSubformValues = { ...initialSubformValue, ...subformValues };
 
-  const initialSubformErrors = getIn(
+  const initialSubformErrors = isValidIndex ? getIn(
     formik.errors,
     `${field.subform_section_id.unique_id}[${index}]`
-  );
+  ) : {};
 
   const buildSchema = () => {
     const subformSchema = field.subform_section_id.fields.map(sf =>
@@ -70,7 +71,7 @@ const Component = ({
   };
 
   const onSubmit = values => {
-    if (index === 0 || index > 0) {
+    if (isValidIndex) {
       formik.setFieldValue(
         `${field.subform_section_id.unique_id}[${index}]`,
         values,
