@@ -5,9 +5,16 @@ class Session < CouchRest::Model::Base
 
   property :imei
   property :user_name
+  property :timestamp, DateTime
 
   design do
     view :by_user_name
+  end
+
+  def initialize(*args)
+    super
+
+    self.timestamp ||= DateTime.now
   end
 
   def self.for_user( user, imei)

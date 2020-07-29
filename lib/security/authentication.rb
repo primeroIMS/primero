@@ -6,7 +6,17 @@ module Security
       @current_session ||= if current_token.nil?
                              nil
                            else
-                             Session.get current_token rescue nil
+                             begin
+                               session_user = Session.get(current_token)
+                               if session_user.present?
+                                 if session_user.timestamp.blank? || ((DateTime.now.to_time - session_user.timestamp.to_time) / 1.seconds) > Rails.application.config.primero_session_duration
+                                  session_user.destroy
+                                 end
+                               end
+                               Session.get current_token
+                             rescue
+                               nil
+                             end
                            end
     end
 
