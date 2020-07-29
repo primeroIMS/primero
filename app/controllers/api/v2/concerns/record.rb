@@ -14,7 +14,7 @@ module Api::V2::Concerns::Record
   def index
     authorize! :index, model_class
     search = SearchService.search(
-      model_class, filters: search_filters, record_query_scope: query_scope, query: params[:query],
+      model_class, filters: search_filters, query_scope: query_scope, query: params[:query],
                    order: sort_order, pagination: pagination
     )
     @records = search.results
