@@ -48,15 +48,6 @@ const Component = ({ loadingIndicator, userPermissions }) => {
 
   const dashboards = [
     {
-      type: DASHBOARD_TYPES.OVERVIEW_BOX,
-      actions: ACTIONS.DASH_CASE_INCIDENT_OVERVIEW,
-      options: {
-        items: caseIncidentOverview,
-        sumTitle: i18n.t("dashboard.dash_case_incident_overview"),
-        withTotal: false
-      }
-    },
-    {
       type: DASHBOARD_TYPES.BADGED_INDICATOR,
       actions: ACTIONS.DASH_CASE_RISK,
       options: {
@@ -64,6 +55,15 @@ const Component = ({ loadingIndicator, userPermissions }) => {
         sectionTitle: i18n.t("dashboard.case_risk"),
         indicator: INDICATOR_NAMES.RISK_LEVEL,
         lookup: labelsRiskLevel
+      }
+    },
+    {
+      type: DASHBOARD_TYPES.OVERVIEW_BOX,
+      actions: ACTIONS.DASH_CASE_INCIDENT_OVERVIEW,
+      options: {
+        items: caseIncidentOverview,
+        sumTitle: i18n.t("dashboard.dash_case_incident_overview"),
+        withTotal: false
       }
     },
     {
