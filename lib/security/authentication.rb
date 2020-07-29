@@ -10,7 +10,7 @@ module Security
                                Session.get(current_token).unexpired!
                              rescue
                                nil
-                            end
+                             end
                            end
     end
 
