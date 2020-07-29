@@ -161,9 +161,8 @@ const Component = () => {
             const [name, Icon] = field;
 
             return (
-              <>
+              <React.Fragment key={field}>
                 <ListItem
-                  key={field}
                   selected={isItemSelected(name)}
                   onClick={() => handleListItem(name)}
                 >
@@ -189,7 +188,7 @@ const Component = () => {
                   </ListItemSecondaryAction>
                 </ListItem>
                 <Divider />
-              </>
+              </React.Fragment>
             );
           })}
         </List>

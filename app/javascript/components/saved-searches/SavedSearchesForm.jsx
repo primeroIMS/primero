@@ -31,7 +31,9 @@ const FormErrors = () => {
   const i18n = useI18n();
 
   useEffect(() => {
-    dispatch(enqueueSnackbar(i18n.t("saved_search.no_filters"), "error"));
+    dispatch(
+      enqueueSnackbar(i18n.t("saved_search.no_filters"), { type: "error" })
+    );
   }, [dispatch, i18n]);
 
   return null;

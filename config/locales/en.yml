@@ -17,7 +17,7 @@ en:
   valid: "Valid"
   invalid: "Invalid"
   offline: "Offline"
-  connection_lost: "Connection Lost"
+  connection_lost: "Currently in offline mode"
   connected: "Connected"
   name: "Name"
   home:
@@ -2131,7 +2131,7 @@ en:
       dash_group_overview: "My Group's Cases"
       dash_shared_with_my_team: "Shared With My Team"
       dash_shared_from_my_team: "Shared From My Team"
-      dash_case_incident_overview: "Overview - My Cases / Incidents"
+      dash_case_incident_overview: "My Cases / Incidents"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
       incident_details_from_case: "Add Incident Details to another user's case"
@@ -2906,7 +2906,7 @@ en:
     shared_from_my_team_pending_transfers: "Pending Transfers"
     shared_from_my_team_rejected_transfers: "Rejected Transfers"
     dash_shared_with_my_team: "Shared With My Team"
-    dash_case_incident_overview: "Overview - My Cases / Incidents"
+    dash_case_incident_overview: "My Cases / Incidents"
     shared_with_my_team_referrals: "Referrals"
     shared_with_my_team_pending_transfers: "Pending Transfers"
 

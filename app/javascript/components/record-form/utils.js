@@ -10,6 +10,8 @@ import {
 } from "lodash";
 import { isDate, format } from "date-fns";
 
+import { DATE_FORMAT } from "../../config";
+
 import {
   SUBFORM_SECTION,
   PHOTO_FIELD,
@@ -68,7 +70,7 @@ function difference(object, base, nested) {
         val =
           !isEmpty(initialValue) && initialValue.length === currentValue.length
             ? value.toISOString()
-            : format(value, "dd-MMM-yyyy");
+            : format(value, DATE_FORMAT);
       }
 
       if (Array.isArray(val)) {

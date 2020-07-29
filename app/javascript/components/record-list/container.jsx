@@ -104,10 +104,10 @@ const Container = ({ match, location }) => {
     });
 
     if (numberErrorsBulkAssign) {
-      dispatch(enqueueSnackbar(errorMessages, "error"));
+      dispatch(enqueueSnackbar(errorMessages, { type: "error" }));
     }
     if (numberRecordsBulkAssign) {
-      dispatch(enqueueSnackbar(successMessages, "success"));
+      dispatch(enqueueSnackbar(successMessages, { type: "success" }));
     }
 
     return () => {

@@ -35,7 +35,7 @@ const Component = ({ subformField }) => {
     fields.forEach(field => {
       const name = field.get("name");
 
-      if (!methods.control[`${fieldsAttribute}.${name}.order`]) {
+      if (!methods.control.fields[`${fieldsAttribute}.${name}.order`]) {
         methods.register({ name: `${fieldsAttribute}.${name}.order` });
       }
 

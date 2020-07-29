@@ -263,10 +263,51 @@ describe("<FormsBuilder /> - Reducers", () => {
       show_on_minify_form: false,
       type: RADIO_FIELD,
       name: "test_4",
-      disabled: true
+      disabled: true,
+      order: 0
     };
     const expected = fromJS({
       selectedFields: [{ ...objectData, disabled: false }]
+    });
+
+    const action = {
+      type: actions.CREATE_SELECTED_FIELD,
+      payload: {
+        data: {
+          test_4: objectData
+        }
+      }
+    };
+
+    const newState = reducer(initialStateCreateField, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should increase the order of the new field when CREATE_SELECTED_FIELD", () => {
+    const field1 = { name: "test_1", order: 0 };
+    const initialStateCreateField = fromJS({ selectedFields: [field1] });
+    const objectData = {
+      display_name: {
+        en: "test 4"
+      },
+      help_text: {
+        en: "test 4"
+      },
+      guiding_questions: {
+        en: ""
+      },
+      required: false,
+      visible: false,
+      mobile_visible: false,
+      hide_on_view_page: false,
+      show_on_minify_form: false,
+      type: RADIO_FIELD,
+      name: "test_4",
+      order: 1
+    };
+    const expected = fromJS({
+      selectedFields: [field1, { ...objectData, disabled: true }]
     });
 
     const action = {

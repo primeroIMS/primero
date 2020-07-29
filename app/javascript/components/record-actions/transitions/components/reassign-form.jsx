@@ -61,7 +61,7 @@ const ReassignForm = ({
       .join(", ");
 
     if (messages !== "") {
-      dispatch(enqueueSnackbar(messages, "error"));
+      dispatch(enqueueSnackbar(messages, { type: "error" }));
     }
   }, [hasErrors]);
 

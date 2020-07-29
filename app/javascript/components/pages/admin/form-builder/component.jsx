@@ -99,16 +99,17 @@ const Component = ({ mode }) => {
   useEffect(() => {
     if (saving && (errors?.size || updatedFormIds?.size)) {
       const successful = !errors?.size && updatedFormIds?.size;
+      const message = successful
+        ? i18n.t("forms.messages.save_success")
+        : i18n.t("forms.messages.save_with_errors");
 
       dispatch({
         type: ENQUEUE_SNACKBAR,
         payload: {
-          message: successful
-            ? i18n.t("forms.messages.save_success")
-            : i18n.t("forms.messages.save_with_errors"),
+          message,
           options: {
             variant: successful ? "success" : "error",
-            key: generate.messageKey()
+            key: generate.messageKey(message)
           }
         }
       });
@@ -167,7 +168,7 @@ const Component = ({ mode }) => {
       const transformedFieldValues = transformValues(fieldData, true);
 
       Object.entries(transformedFieldValues).forEach(([key, value]) => {
-        if (!methods.control[`fields.${fieldName}.${key}`]) {
+        if (!methods.control.fields[`fields.${fieldName}.${key}`]) {
           methods.register({ name: `fields.${fieldName}.${key}` });
         }
         methods.setValue(`fields.${fieldName}.${key}`, value);
@@ -179,7 +180,7 @@ const Component = ({ mode }) => {
     <LoadingIndicator
       hasData={
         formMode.get("isNew") ||
-        (formMode.get("isEdit") && selectedForm?.toSeq()?.size)
+        Boolean(formMode.get("isEdit") && selectedForm?.toSeq()?.size)
       }
       loading={isLoading || !selectedForm?.toSeq()?.size}
       type={NAMESPACE}
