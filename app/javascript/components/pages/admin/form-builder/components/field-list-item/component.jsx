@@ -53,6 +53,10 @@ const Component = ({ field, index, subformField }) => {
   const subformGroupBy = isNested
     ? watch(`${parentFieldName}.${SUBFORM_GROUP_BY}`, "")
     : null;
+  const visible = watch(
+    `${fieldsAttribute}.${field.get("name")}.visible`,
+    false
+  );
 
   const themeOverrides = createMuiTheme(getFiedListItemTheme(currentTheme));
 
@@ -80,8 +84,11 @@ const Component = ({ field, index, subformField }) => {
       if (isNested) {
         onNested(fieldName);
       } else {
+        const fieldData = getValues({ nest: true })[fieldsAttribute][fieldName];
+
         dispatch(clearSelectedField());
         dispatch(setSelectedField(fieldName));
+        dispatch(updateSelectedField({ [fieldName]: fieldData }));
       }
 
       if (field?.get("type") === SUBFORM_SECTION) {
@@ -154,6 +161,7 @@ const Component = ({ field, index, subformField }) => {
                     name: `${fieldsAttribute}.${field.get("name")}.visible`,
                     disabled: isNotEditable
                   }}
+                  metaInputProps={{ selectedValue: visible }}
                 />
               </MuiThemeProvider>
             </div>

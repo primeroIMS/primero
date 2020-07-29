@@ -40,7 +40,7 @@ export const approvalRecord = ({
             message,
             options: {
               variant: "success",
-              key: generate.messageKey()
+              key: generate.messageKey(message)
             }
           }
         },
@@ -65,7 +65,7 @@ export const approvalRecord = ({
             message: failureMessage,
             options: {
               variant: "error",
-              key: generate.messageKey()
+              key: generate.messageKey(failureMessage)
             }
           }
         },

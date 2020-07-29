@@ -14,6 +14,7 @@ import { useI18n } from "../../../i18n";
 import { addFlag } from "../../action-creators";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { DATE_FORMAT } from "../../../../config";
 
 import { NAME } from "./constants";
 
@@ -48,7 +49,7 @@ const Component = ({ recordType, record, handleActiveTab }) => {
     InputLabelProps: {
       shrink: true
     },
-    format: "dd-MMM-yyyy",
+    format: DATE_FORMAT,
     clearable: true,
     InputProps: {
       endAdornment: (

@@ -42,7 +42,7 @@ export const revokeTransition = ({
             message,
             options: {
               variant: "success",
-              key: generate.messageKey()
+              key: generate.messageKey(message)
             }
           }
         },
@@ -67,7 +67,7 @@ export const revokeTransition = ({
             message: failureMessage,
             options: {
               variant: "error",
-              key: generate.messageKey()
+              key: generate.messageKey(failureMessage)
             }
           }
         },

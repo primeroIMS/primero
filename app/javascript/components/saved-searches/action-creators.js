@@ -28,7 +28,7 @@ export const saveSearch = (body, message) => async dispatch => {
           message,
           options: {
             variant: "success",
-            key: generate.messageKey()
+            key: generate.messageKey(message)
           }
         }
       }
@@ -48,7 +48,7 @@ export const removeSavedSearch = (id, message) => dispatch => {
           message,
           options: {
             variant: "success",
-            key: generate.messageKey()
+            key: generate.messageKey(message)
           }
         }
       }

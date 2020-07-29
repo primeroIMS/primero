@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { getIsAuthenticated } from "../user/selectors";
 import { fetchContactInformation } from "../pages/support/action-creators";
 import Queue from "../../libs/queue";
-import { enqueueSnackbar } from "../notifier";
+import { enqueueSnackbar, closeSnackbar } from "../notifier";
 import { useI18n } from "../i18n";
 
 import {
@@ -18,9 +18,13 @@ import { setNetworkStatus } from "./action-creators";
 
 const Context = createContext();
 
+const CONNECTED = "connected";
+const CONNECTION_LOST = "connection_lost";
+
 const ApplicationProvider = ({ children }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
+
   const modules = useSelector(state => selectModules(state));
   const userModules = useSelector(state => selectUserModules(state));
   const online = useSelector(state => selectNetworkStatus(state));
@@ -30,11 +34,27 @@ const ApplicationProvider = ({ children }) => {
   );
 
   const handleNetworkChange = isOnline => {
-    const message = i18n.t(isOnline ? "connected" : "connection_lost");
     const snackbarType = isOnline ? "success" : "warning";
+    const messageKey = isOnline ? CONNECTED : CONNECTION_LOST;
+    const config = {
+      ...(!isOnline && {
+        persist: true,
+        dense: true,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center"
+        }
+      }),
+      messageKey,
+      type: snackbarType
+    };
+
+    if (isOnline) {
+      dispatch(closeSnackbar(CONNECTION_LOST));
+    }
 
     dispatch(setNetworkStatus(isOnline));
-    dispatch(enqueueSnackbar(message, snackbarType));
+    dispatch(enqueueSnackbar(null, config));
   };
 
   useEffect(() => {

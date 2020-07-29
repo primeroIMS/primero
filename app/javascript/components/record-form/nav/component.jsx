@@ -101,7 +101,7 @@ const Component = ({
   useEffect(() => {
     dispatch(setSelectedRecord(selectedRecord));
 
-    if (!selectedForm || isNew) {
+    if (!selectedForm || isNew || currentSelectedRecord !== selectedRecord) {
       setOpen(firstTab.form_group_id);
     }
   }, [firstTab]);

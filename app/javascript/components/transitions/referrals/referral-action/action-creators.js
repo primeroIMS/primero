@@ -29,7 +29,7 @@ export const referralDone = ({
             message,
             options: {
               variant: "success",
-              key: generate.messageKey()
+              key: generate.messageKey(message)
             }
           },
           redirectWithIdFromResponse: false,
@@ -56,7 +56,7 @@ export const referralDone = ({
             message: failureMessage,
             options: {
               variant: "error",
-              key: generate.messageKey()
+              key: generate.messageKey(failureMessage)
             }
           }
         },

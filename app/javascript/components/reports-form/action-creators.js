@@ -21,7 +21,7 @@ export const saveReport = ({ id, body, saveMethod, message }) => {
           message,
           options: {
             variant: SNACKBAR_VARIANTS.success,
-            key: generate.messageKey()
+            key: generate.messageKey(message)
           }
         },
         redirectWithIdFromResponse: saveMethod !== SAVE_METHODS.update,

@@ -6,7 +6,7 @@ import TableCell from "@material-ui/core/TableCell";
 
 import Lightbox from "../lightbox";
 import { ToggleIconCell } from "../index-table";
-import { RECORD_PATH } from "../../config";
+import { RECORD_PATH, DATE_TIME_FORMAT, DATE_FORMAT } from "../../config";
 
 import { ALERTS_COLUMNS, ALERTS } from "./constants";
 
@@ -58,14 +58,13 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
             : {}),
           ...(column.get("name") === "registration_date"
             ? {
-                customBodyRender: value =>
-                  format(parseISO(value), "dd-MMM-yyyy")
+                customBodyRender: value => format(parseISO(value), DATE_FORMAT)
               }
             : {}),
           ...(column.get("name") === "case_opening_date"
             ? {
                 customBodyRender: value =>
-                  value && format(parseISO(value), "dd-MMM-yyyy HH:mm")
+                  value && format(parseISO(value), DATE_TIME_FORMAT)
               }
             : {})
         }
