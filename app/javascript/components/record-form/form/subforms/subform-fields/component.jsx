@@ -14,6 +14,7 @@ import { serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import Jewel from "../../../../jewel";
 import { useI18n } from "../../../../i18n";
+import { emptyValues } from "../../../utils";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { compare } from "../../../../../libs";
@@ -113,8 +114,10 @@ const Component = ({
 
     return (
       <>
-        {sortedValues.map((c, index) => {
-          if (values?.[index]?._destroy) return false;
+        {sortedValues.map((sortedValue, index) => {
+          if (values?.[index]?._destroy || emptyValues(sortedValue)) {
+            return false;
+          }
 
           return (
             <Box key={`${name}-${index}`} display="flex" alignItems="center">

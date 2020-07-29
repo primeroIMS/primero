@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 
-import OfflineIndicator from "../offline-indicator";
 import ModuleLogo from "../module-logo";
 
 import styles from "./styles.css";
@@ -20,7 +19,6 @@ const MobileToolbar = ({ openDrawer }) => {
   return (
     <Hidden mdUp implementation="css">
       <AppBar position="fixed">
-        <OfflineIndicator mobile />
         <Toolbar className={css.toolbar}>
           <IconButton
             edge="start"

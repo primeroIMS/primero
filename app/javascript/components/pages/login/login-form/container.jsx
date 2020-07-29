@@ -35,7 +35,7 @@ const Container = () => {
   const authErrors = useSelector(state => selectAuthErrors(state));
 
   useEffect(() => {
-    dispatch(enqueueSnackbar(authErrors, "error"));
+    dispatch(enqueueSnackbar(authErrors, { type: "error" }));
   }, [authErrors, dispatch]);
 
   const initialValues = {

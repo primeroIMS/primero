@@ -29,7 +29,7 @@ export const saveRole = ({ id, body, saveMethod, message }) => ({
         message,
         options: {
           variant: SNACKBAR_VARIANTS.success,
-          key: generate.messageKey()
+          key: generate.messageKey(message)
         }
       },
       redirectWithIdFromResponse: saveMethod !== "update",
@@ -53,7 +53,7 @@ export const deleteRole = ({ id, message }) => ({
         message,
         options: {
           variant: SNACKBAR_VARIANTS.success,
-          key: generate.messageKey()
+          key: generate.messageKey(message)
         }
       },
       redirectWithIdFromResponse: false,

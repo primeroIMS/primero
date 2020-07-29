@@ -20,7 +20,7 @@ const getSuccessCallback = ({
         messageForQueue,
         options: {
           variant: "success",
-          key: generate.messageKey()
+          key: generate.messageKey(message)
         }
       },
       redirectWithIdFromResponse: saveMethod !== "update",
