@@ -11,9 +11,9 @@ class Session < CouchRest::Model::Base
     view :by_user_name
   end
 
-  def initialize(*args)
-    super
+  before_create :create_timestamp
 
+  def create_timestamp
     self.timestamp ||= DateTime.now
   end
 
