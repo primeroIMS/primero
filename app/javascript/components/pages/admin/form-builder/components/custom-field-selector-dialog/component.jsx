@@ -66,7 +66,7 @@ const fields = [
   // [SUBFORM_SECTION, SubformField]
 ];
 
-const Component = () => {
+const Component = ({ isSubform }) => {
   const [selectedItem, setSelectedItem] = useState("");
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -116,11 +116,14 @@ const Component = () => {
         })
       );
       dispatch(
-        setNewField({
-          ...newFieldAttributtes,
-          ...multiSelectAttributtes,
-          ...dateTimeAttributtes
-        })
+        setNewField(
+          {
+            ...newFieldAttributtes,
+            ...multiSelectAttributtes,
+            ...dateTimeAttributtes
+          },
+          isSubform
+        )
       );
     });
   };

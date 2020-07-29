@@ -195,10 +195,12 @@ export const subformContainsFieldName = (subform, fieldName) => {
     return false;
   }
 
-  return Boolean(
-    subform
-      ?.get("fields")
-      .find(field => field.get("name") === fieldName)
-      ?.toSeq()?.size
+  return (
+    Boolean(
+      subform
+        ?.get("fields")
+        .find(field => field.get("name") === fieldName)
+        ?.toSeq()?.size
+    ) || fieldName === NEW_FIELD
   );
 };

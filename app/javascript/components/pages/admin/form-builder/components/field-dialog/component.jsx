@@ -32,6 +32,7 @@ import { NEW_FIELD } from "../../constants";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
 import { getOptions } from "../../../../../record-form/selectors";
 import { getLabelTypeField } from "../utils";
+import CustomFieldDialog from "../custom-field-dialog";
 
 import styles from "./styles.css";
 import {
@@ -83,14 +84,17 @@ const Component = ({ mode, onClose, onSuccess }) => {
       onClose();
     }
 
-    if (selectedFieldName === NEW_FIELD) {
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
-    }
-
     if (selectedSubform.toSeq().size && isNested) {
+      if (selectedFieldName === NEW_FIELD) {
+        dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+      }
       dispatch(clearSelectedSubformField());
     } else {
       dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+    }
+
+    if (selectedFieldName === NEW_FIELD) {
+      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
     }
   };
 
@@ -122,10 +126,17 @@ const Component = ({ mode, onClose, onSuccess }) => {
   };
 
   const addOrUpdatedSelectedField = fieldData => {
+    const subformUniqueId = selectedSubform?.get("unique_id");
+
     if (selectedFieldName === NEW_FIELD) {
-      dispatch(createSelectedField(fieldData));
+      if (subformUniqueId) {
+        dispatch(updateSelectedField(fieldData, subformUniqueId));
+        dispatch(clearSelectedSubformField());
+      } else {
+        dispatch(createSelectedField(fieldData));
+      }
     } else {
-      const subformId = isNested && selectedSubform?.get("unique_id");
+      const subformId = isNested && subformUniqueId;
 
       dispatch(updateSelectedField(fieldData, subformId));
 
@@ -173,7 +184,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const renderFieldsList = () =>
     isSubformField(selectedField) && (
       <>
-        <h1>{i18n.t("forms.fields")}</h1>
+        <div className={css.subformFieldTitle}>
+          <h1>{i18n.t("forms.fields")}</h1>
+          <CustomFieldDialog />
+        </div>
         <FieldsList subformField={selectedField} />
       </>
     );
