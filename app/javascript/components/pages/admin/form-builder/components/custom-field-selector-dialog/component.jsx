@@ -91,7 +91,8 @@ const Component = () => {
       type: selectedItem,
       visible: true,
       mobile_visible: true,
-      hide_on_view_page: false
+      hide_on_view_page: false,
+      disabled: false
     };
     const multiSelectAttributtes = selectedItem === MULTI_SELECT_FIELD && {
       type: SELECT_FIELD,
