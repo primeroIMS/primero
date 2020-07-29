@@ -8,6 +8,7 @@ import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
 
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../config";
 import { useI18n } from "../../../i18n";
 import { DATE_FIELD_NAME } from "../constants";
 import { NOT_FUTURE_DATE } from "../../constants";
@@ -65,7 +66,7 @@ const DateField = ({ name, helperText, mode, formik, InputProps, ...rest }) => {
         const dateProps = {
           ...{ ...field, value: getDateValue(form, field) },
           ...omitBy(rest, (v, k) => ["recordType", "recordID"].includes(k)),
-          format: dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy",
+          format: dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT,
           helperText:
             (fieldTouched && fieldError) ||
             helperText ||

@@ -14,6 +14,7 @@ import ToggleField from "../fields/toggle-input";
 import DateField from "../fields/date-input";
 import Seperator from "../fields/seperator";
 import OrderableOptionsField from "../fields/orderable-options-field";
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../config";
 import {
   CHECK_BOX_FIELD,
   ERROR_FIELD,
@@ -99,7 +100,7 @@ const FormSectionField = ({ checkErrors, field }) => {
         )
       : false;
 
-  const format = dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy";
+  const format = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
 
   const commonInputProps = {
     name,
