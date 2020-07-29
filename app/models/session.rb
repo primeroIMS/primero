@@ -47,4 +47,17 @@ class Session < CouchRest::Model::Base
     false
   end
 
+  def expired?
+    timestamp.blank? ||
+      ((DateTime.now.to_time - self.timestamp.to_time) / 1.seconds) > Rails.application.config.primero_session_duration
+  end
+
+  def unexpired!
+    if expired?
+      destroy
+      nil
+    else
+      self
+    end
+  end
 end
