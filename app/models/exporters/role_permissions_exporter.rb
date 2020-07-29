@@ -1,12 +1,10 @@
-# frozen_string_literal: true
-
 require 'writeexcel'
 
 module Exporters
   class RolePermissionsExporter
     CASE = %w[referral transfer read create write enable_disable_record flag manage add_note reopen close].freeze
     CASE_EXPORTS = %w[
-      export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv consent_override
+      export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv export_case_pdf consent_override
       export_duplicate_id_csv export_json export_custom import sync_mobile
     ].freeze
     CASE_APPROVALS = %w[
