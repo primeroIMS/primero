@@ -167,7 +167,7 @@ const Component = ({ mode }) => {
       const transformedFieldValues = transformValues(fieldData, true);
 
       Object.entries(transformedFieldValues).forEach(([key, value]) => {
-        if (!methods.control[`fields.${fieldName}.${key}`]) {
+        if (!methods.control.fields[`fields.${fieldName}.${key}`]) {
           methods.register({ name: `fields.${fieldName}.${key}` });
         }
         methods.setValue(`fields.${fieldName}.${key}`, value);
@@ -179,7 +179,7 @@ const Component = ({ mode }) => {
     <LoadingIndicator
       hasData={
         formMode.get("isNew") ||
-        (formMode.get("isEdit") && selectedForm?.toSeq()?.size)
+        Boolean(formMode.get("isEdit") && selectedForm?.toSeq()?.size)
       }
       loading={isLoading || !selectedForm?.toSeq()?.size}
       type={NAMESPACE}

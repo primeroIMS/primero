@@ -21,23 +21,27 @@ const SwitchInput = ({ commonInputProps, metaInputProps }) => {
     className
   } = commonInputProps;
 
-  const { tooltip } = metaInputProps || {};
+  const { tooltip, selectedValue } = metaInputProps || {};
+
+  const checkBoxProps = selectedValue
+    ? { checked: selectedValue, defaultValue: selectedValue }
+    : { defaultValue: false };
 
   return (
     <FormControl error={error}>
       <FormGroup>
-        <FormControlLabel
-          labelPlacement="end"
-          control={
-            <Controller
-              name={name}
-              as={Checkbox}
-              disabled={disabled}
-              defaultValue={false}
+        <Controller
+          name={name}
+          as={
+            <FormControlLabel
+              labelPlacement="end"
+              control={<Checkbox {...checkBoxProps} />}
+              label={<InputLabel tooltip={tooltip} text={label} />}
+              className={className}
             />
           }
-          label={<InputLabel tooltip={tooltip} text={label} />}
-          className={className}
+          disabled={disabled}
+          defaultValue={false}
         />
       </FormGroup>
       {helperText && <FormHelperText>{helperText}</FormHelperText>}

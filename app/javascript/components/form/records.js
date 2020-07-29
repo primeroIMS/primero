@@ -36,7 +36,8 @@ export const FieldRecord = Record({
   numeric: false,
   onChange: null,
   mobile_visible: false,
-  on_collapsed_subform: false
+  on_collapsed_subform: false,
+  order: null
 });
 
 export const FormSectionRecord = Record({
