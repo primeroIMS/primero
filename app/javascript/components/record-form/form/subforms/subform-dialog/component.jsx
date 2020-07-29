@@ -1,10 +1,10 @@
+/* eslint-disable react/no-multi-comp, react/display-name */
 import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { Formik, Form, getIn } from "formik";
 import { object } from "yup";
 
 import { fieldValidations } from "../../validations";
-import FormSectionField from "../../form-section-field";
 import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
@@ -12,6 +12,7 @@ import { serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import { compactValues, emptyValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
+import SubformDialogFields from "../subform-dialog-fields";
 
 const Component = ({
   arrayHelpers,
@@ -32,17 +33,15 @@ const Component = ({
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
 
-  const subformValues = isValidIndex ? getIn(
-    formik.values,
-    `${field.subform_section_id.unique_id}[${index}]`
-  ) : {};
+  const subformValues = isValidIndex
+    ? getIn(formik.values, `${field.subform_section_id.unique_id}[${index}]`)
+    : {};
 
   const initialSubformValues = { ...initialSubformValue, ...subformValues };
 
-  const initialSubformErrors = isValidIndex ? getIn(
-    formik.errors,
-    `${field.subform_section_id.unique_id}[${index}]`
-  ) : {};
+  const initialSubformErrors = isValidIndex
+    ? getIn(formik.errors, `${field.subform_section_id.unique_id}[${index}]`)
+    : {};
 
   const buildSchema = () => {
     const subformSchema = field.subform_section_id.fields.map(sf =>
@@ -109,21 +108,13 @@ const Component = ({
       );
     }
 
-    return field.subform_section_id.fields.map(subformSectionField => {
-      const fieldProps = {
-        name: subformSectionField.name,
-        field: subformSectionField,
-        mode,
-        index,
-        parentField: field
-      };
-
-      return (
-        <div key={subformSectionField.name}>
-          <FormSectionField {...fieldProps} />
-        </div>
-      );
-    });
+    return (
+      <SubformDialogFields
+        field={subformField}
+        mode={mode}
+        index={subformIndex}
+      />
+    );
   };
 
   const modalConfirmationProps = {
