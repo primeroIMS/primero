@@ -70,11 +70,15 @@ const Component = ({
   };
 
   const onSubmit = values => {
-    formik.setFieldValue(
-      `${field.subform_section_id.unique_id}[${index}]`,
-      values,
-      false
-    );
+    if (index === 0 || index > 0) {
+      formik.setFieldValue(
+        `${field.subform_section_id.unique_id}[${index}]`,
+        values,
+        false
+      );
+    } else {
+      arrayHelpers.push({ ...initialSubformValues, ...values });
+    }
 
     // Trigger validations only if the form was already submitted.
     if (formik.submitCount) {
@@ -136,52 +140,48 @@ const Component = ({
     }
   };
 
-  if (index !== null) {
-    return (
-      <>
-        <ActionDialog
-          open={open}
-          successHandler={e => boundSubmitForm(e)}
-          cancelHandler={handleClose}
-          dialogTitle={title}
-          omitCloseAfterSuccess
-          confirmButtonLabel={i18n.t(buttonDialogText)}
-          onClose={handleClose}
-          dialogActions={dialogActions}
-          disableActions={isFormShow}
+  return (
+    <>
+      <ActionDialog
+        open={open}
+        successHandler={e => boundSubmitForm(e)}
+        cancelHandler={handleClose}
+        dialogTitle={title}
+        omitCloseAfterSuccess
+        confirmButtonLabel={i18n.t(buttonDialogText)}
+        onClose={handleClose}
+        dialogActions={dialogActions}
+        disableActions={isFormShow}
+      >
+        <Formik
+          initialValues={initialSubformValues}
+          validationSchema={buildSchema()}
+          validateOnBlur={false}
+          validateOnChange={false}
+          enableReinitialize
+          onSubmit={values => onSubmit(values)}
+          ref={childFormikRef}
         >
-          <Formik
-            initialValues={initialSubformValues}
-            validationSchema={buildSchema()}
-            validateOnBlur={false}
-            validateOnChange={false}
-            enableReinitialize
-            onSubmit={values => onSubmit(values)}
-            ref={childFormikRef}
-          >
-            {({ handleSubmit, submitForm, setErrors, setTouched, errors }) => {
-              bindSubmitForm(submitForm);
+          {({ handleSubmit, submitForm, setErrors, setTouched, errors }) => {
+            bindSubmitForm(submitForm);
 
-              return (
-                <Form autoComplete="off" onSubmit={handleSubmit}>
-                  <SubformErrors
-                    initialErrors={initialSubformErrors}
-                    errors={errors}
-                    setErrors={setErrors}
-                    setTouched={setTouched}
-                  />
-                  {renderSubform(field, index)}
-                </Form>
-              );
-            }}
-          </Formik>
-        </ActionDialog>
-        <ActionDialog {...modalConfirmationProps} />
-      </>
-    );
-  }
-
-  return null;
+            return (
+              <Form autoComplete="off" onSubmit={handleSubmit}>
+                <SubformErrors
+                  initialErrors={initialSubformErrors}
+                  errors={errors}
+                  setErrors={setErrors}
+                  setTouched={setTouched}
+                />
+                {renderSubform(field, index)}
+              </Form>
+            );
+          }}
+        </Formik>
+      </ActionDialog>
+      <ActionDialog {...modalConfirmationProps} />
+    </>
+  );
 };
 
 Component.displayName = SUBFORM_DIALOG;
@@ -192,7 +192,7 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
+  index: PropTypes.number,
   initialSubformValue: PropTypes.object.isRequired,
   isFormShow: PropTypes.bool,
   mode: PropTypes.object.isRequired,
