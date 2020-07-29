@@ -17,7 +17,7 @@ export const saveExport = (body, message, actionLabel, dialogName) => ({
           message,
           options: {
             variant: "success",
-            key: generate.messageKey()
+            key: generate.messageKey(message)
           },
           actionLabel,
           actionUrl: "/exports"

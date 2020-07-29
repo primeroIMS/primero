@@ -41,9 +41,16 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
   const methods = useForm({ defaultValues: {} });
   const data = useSelector(state => getRecordsData(state, recordType), compare);
 
-  const onSubmit = formData => {
+  const onSubmit = (formData, event) => {
+    if (event) {
+      event.preventDefault();
+    }
+
     dispatch(
-      applyFilters({ recordType, data: { ...DEFAULT_FILTERS, ...formData } })
+      applyFilters({
+        recordType,
+        data: { ...DEFAULT_FILTERS, ...formData, id_search: true }
+      })
     );
   };
 
@@ -92,9 +99,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle disableTypography>
         <div className={css.title}>
-          <div className={css.registerNewCase}>
-            {i18n.t("cases.register_new_case")}
-          </div>
+          <div className={css.newCase}>{i18n.t("cases.register_new_case")}</div>
           <div className={css.close}>
             <IconButton onClick={handleClose}>
               <CloseIcon />
@@ -104,7 +109,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
       </DialogTitle>
       <DialogContent>
         <FormContext {...methods} formMode={formMode}>
-          <form>
+          <form onSubmit={methods.handleSubmit(onSubmit)}>
             {searchForm(i18n).map(formSection => (
               <FormSection
                 formSection={formSection}

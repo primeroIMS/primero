@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
 
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
 import Panel from "../../panel";
 import styles from "../styles.css";
@@ -167,7 +168,7 @@ const Component = ({
       </MenuItem>
     ));
 
-  const pickerFormat = dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy";
+  const pickerFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
 
   const renderPickers = ["from", "to"].map(picker => {
     const props = {

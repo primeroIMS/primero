@@ -31,7 +31,6 @@ const Component = ({
     subform_section_configuration: subformSectionConfiguration,
     disabled: isDisabled
   } = field;
-  console.info("arrayHelpers", arrayHelpers)
   // eslint-disable-next-line camelcase
   const displayConditions = subformSectionConfiguration?.display_conditions;
   const storedValues = getIn(formik.values, name);
@@ -46,7 +45,6 @@ const Component = ({
     setDialogIsNew(true);
     setOpenDialog({ open: true, index: null });
   };
-debugger;
   const { open, index } = openDialog;
   const title = displayName?.[i18n.locale];
   const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
@@ -104,7 +102,6 @@ debugger;
       {renderEmptyData}
       <SubformDialog
         arrayHelpers={arrayHelpers}
-        currentValue={values[index !== null ? index : values.length - 1]}
         dialogIsNew={dialogIsNew}
         field={field}
         formik={formik}
