@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateFields < ActiveRecord::Migration[5.0]
   def change
     create_table :fields do |t|
@@ -28,13 +30,10 @@ class CreateFields < ActiveRecord::Migration[5.0]
       t.text 'link_to_path'  #Used to handle a text field as a link on the show pages
       t.boolean 'link_to_path_external', null: false, default: true #TODO: Delete after UIUX refactor
       t.string 'field_tags', array: true, default: [] #TODO: Maybe not needed after UIUX refactor
-      t.boolean 'searchable_select', null: false, default: false #TODO: Delete after UIUX refactor
       t.string 'custom_template' #TODO: Maybe not needed after UIUX refactor
       t.boolean 'expose_unique_id', null: false, default: false
-      t.string 'subform_sort_by'
-      t.string 'subform_group_by'
       t.boolean 'required', null: false, default: false
-      t.string 'date_validation', :default => 'default_date_validation'
+      t.string 'date_validation', default: 'default_date_validation'
       t.boolean 'date_include_time', null: false, default: false
       t.boolean 'matchable', null: false, default: false
     end

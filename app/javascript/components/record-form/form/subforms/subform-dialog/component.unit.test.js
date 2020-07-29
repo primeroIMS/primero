@@ -137,4 +137,74 @@ describe("<SubformDialog />", () => {
       expect(component.find(TextField)).lengthOf(1);
     });
   });
+
+  describe("when a list of field is present on subform_section_configuration", () => {
+    const propsRenderSomeFields = {
+      dialogIsNew: true,
+      field: FieldRecord({
+        name: "services_section",
+        subform_section_id: FormSectionRecord({
+          unique_id: "services_subform_section",
+          fields: [
+            FieldRecord({
+              name: "relation_name",
+              visible: true,
+              type: "text_field"
+            }),
+            FieldRecord({
+              name: "relation_child_is_in_contact",
+              visible: true,
+              type: "text_field"
+            }),
+            FieldRecord({
+              name: "relation_field_wont_be_rendered",
+              visible: true,
+              type: "text_field"
+            })
+          ]
+        }),
+        subform_section_configuration: {
+          fields: ["relation_name", "relation_child_is_in_contact", ""]
+        }
+      }),
+      formik: {
+        values: [],
+        errors: { services_subform_section: [{ relation_name: "required" }] }
+      },
+      mode: {
+        isShow: true
+      },
+      initialSubformValue: {
+        relation_name: "",
+        relation_child_is_in_contact: "",
+        relation_field_wont_be_rendered: "  "
+      },
+      index: 0,
+      i18n: { t: value => value },
+      open: true,
+      setOpen: () => {},
+      title: "Family details"
+    };
+
+    const formPropsRenderSomeFields = {
+      initialValues: {
+        relation_name: "",
+        relation_child_is_in_contact: ""
+      }
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        SubformDialog,
+        propsRenderSomeFields,
+        {},
+        [],
+        formPropsRenderSomeFields
+      ));
+    });
+
+    it("renders some FormSectionField", () => {
+      expect(component.find(TextField)).lengthOf(2);
+    });
+  });
 });

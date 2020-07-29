@@ -21,7 +21,7 @@ export const FieldRecord = Record({
   subform_sort_by: "",
   show_on_minify_form: false,
   order: null,
-  display_conditions: null
+  subform_section_configuration: null
 });
 
 export const FormSectionRecord = Record({

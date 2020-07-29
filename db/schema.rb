@@ -175,16 +175,13 @@ ActiveRecord::Schema.define(version: 2020_07_15_232433) do
     t.text "link_to_path"
     t.boolean "link_to_path_external", default: true, null: false
     t.string "field_tags", default: [], array: true
-    t.boolean "searchable_select", default: false, null: false
     t.string "custom_template"
     t.boolean "expose_unique_id", default: false, null: false
-    t.string "subform_sort_by"
-    t.string "subform_group_by"
     t.boolean "required", default: false, null: false
     t.string "date_validation", default: "default_date_validation"
     t.boolean "date_include_time", default: false, null: false
     t.boolean "matchable", default: false, null: false
-    t.jsonb "display_conditions"
+    t.jsonb "subform_section_configuration"
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"

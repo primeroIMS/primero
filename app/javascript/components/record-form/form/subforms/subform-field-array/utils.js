@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { isEmpty } from "lodash";
 
 const dataMeetConditions = (objectToEval, displayConditions) => {
@@ -39,7 +38,13 @@ export const valuesWithDisplayConditions = (values, displayConditions) => {
     return values;
   }
 
-  // const conditions = buildConditions(displayConditions);
-
   return values.filter(val => dataMeetConditions(val, displayConditions));
+};
+
+export const fieldsToRender = (listFields, fields) => {
+  if (isEmpty(listFields)) {
+    return fields;
+  }
+
+  return fields.filter(field => listFields.includes(field.name));
 };
