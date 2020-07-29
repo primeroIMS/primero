@@ -233,4 +233,83 @@ describe("<Nav />", () => {
       expect(setAction).to.deep.equal(expectedAction);
     });
   });
+
+  describe("when clicking a formGroup", () => {
+    const formNavWithGroups = OrderedMap({
+      1: OrderedMap({
+        1: {
+          formId: "basic_identity",
+          group: "identification_registration",
+          groupName: "Identification / Registration",
+          groupOrder: 30,
+          is_first_tab: true,
+          name: "Basic Identity",
+          order: 10,
+          permission_actions: []
+        },
+        2: {
+          formId: "incident_details_container",
+          group: "identification_registration",
+          groupName: "Identification / Registration",
+          groupOrder: 30,
+          is_first_tab: false,
+          name: "Incident Details",
+          order: 0,
+          permission_actions: []
+        }
+      }),
+      2: OrderedMap({
+        3: {
+          formId: "family_details",
+          group: "family_partner_details",
+          groupName: "Family / Partner Details",
+          groupOrder: 50,
+          is_first_tab: false,
+          name: "Family Details",
+          order: 10,
+          permission_actions: []
+        },
+        4: {
+          formId: "partner_details",
+          group: "family_partner_details",
+          groupName: "Family / Partner Details",
+          groupOrder: 50,
+          is_first_tab: false,
+          name: "Partner/Spouse Details",
+          order: 20,
+          permission_actions: []
+        }
+      })
+    });
+    const navGroupProps = {
+      formNav: formNavWithGroups,
+      firstTab: {},
+      handleToggleNav: () => {},
+      isNew: true,
+      mobileDisplay: false,
+      selectedForm: "basic_identity",
+      selectedRecord: "1d8d84eb-25e3-4d8b-8c32-8452eee3e71c",
+      toggleNav: true,
+      recordType: "cases",
+      primeroModule: "primeromodule-cp"
+    };
+
+    it("should select first form of the form group", () => {
+      const { component: navComponent } = setupMountedComponent(
+        Nav,
+        navGroupProps,
+        initialState
+      );
+      const registrationGroup = navComponent.find(".MuiListItem-gutters").at(3);
+
+      expect(registrationGroup.text()).to.be.equal(
+        "Identification / Registration"
+      );
+
+      registrationGroup.simulate("click");
+      expect(navComponent.find(".Mui-selected").at(0).text()).to.be.equal(
+        "Basic Identity"
+      );
+    });
+  });
 });
