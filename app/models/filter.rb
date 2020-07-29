@@ -229,8 +229,10 @@ class Filter < ValueObject
 
     def case_filters(user)
       filter_fields = Field.get_by_name(CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
-      reporting_location_label = SystemSettings.current.reporting_location_config.try(:label_key) || ReportingLocation::DEFAULT_LABEL_KEY
-      admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      reporting_location_label = SystemSettings.current.reporting_location_config.try(:label_key) ||
+                                 ReportingLocation::DEFAULT_LABEL_KEY
+      admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) ||
+                    ReportingLocation::DEFAULT_ADMIN_LEVEL
       permitted_form_ids = user.role.permitted_forms('case', true).pluck(:unique_id)
 
       filters = []
@@ -395,17 +397,19 @@ class Filter < ValueObject
   end
 
   def resolve_type
-    return unless type.blank?
+    return if type.present?
 
-    if options.present?
-      options_length = options.is_a?(Array) ? options.length : options[I18n.default_locale].length
-      if options_length == 1
-        self.type = 'toggle'
-      elsif [2, 3].include?(options_length)
-        self.type = 'multi_toggle'
-      elsif options_length > 3
-        self.type = 'checkbox'
-      end
+    if options.blank?
+      self.type = 'checkbox'
+      return
+    end
+
+    options_length = options.is_a?(Array) ? options.length : options[I18n.default_locale].length
+    case options_length
+    when 1
+      self.type = 'toggle'
+    when 2, 3
+      self.type = 'multi_toggle'
     else
       self.type = 'checkbox'
     end
