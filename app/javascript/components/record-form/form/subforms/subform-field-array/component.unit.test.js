@@ -30,7 +30,7 @@ describe("<SubformFieldArray />", () => {
     },
     field: FieldRecord({
       name: "family_details_section",
-      displayName: { 'en': "Family Details" },
+      displayName: { en: "Family Details" },
       subform_section_id: FormSectionRecord({
         unique_id: "family_section",
         fields: [
