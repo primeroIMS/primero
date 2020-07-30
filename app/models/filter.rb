@@ -86,7 +86,7 @@ class Filter < ValueObject
   )
   AGENCY_OFFICE = Filter.new(
     name: 'user.agency_office',
-    field_name: 'created_agency_office',
+    field_name: 'owned_by_agency_office',
     option_strings_source: 'lookup-agency-office'
   )
   USER_GROUP = Filter.new(name: 'permissions.permission.user_group', field_name: 'owned_by_groups')
@@ -401,17 +401,19 @@ class Filter < ValueObject
   end
 
   def resolve_type
-    return unless type.blank?
+    return if type.present?
 
-    if options.present?
-      options_length = options.is_a?(Array) ? options.length : options[I18n.default_locale].length
-      if options_length == 1
-        self.type = 'toggle'
-      elsif [2, 3].include?(options_length)
-        self.type = 'multi_toggle'
-      elsif options_length > 3
-        self.type = 'checkbox'
-      end
+    if options.blank?
+      self.type = 'checkbox'
+      return
+    end
+
+    options_length = options.is_a?(Array) ? options.length : options[I18n.default_locale].length
+    case options_length
+    when 1
+      self.type = 'toggle'
+    when 2, 3
+      self.type = 'multi_toggle'
     else
       self.type = 'checkbox'
     end

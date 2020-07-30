@@ -111,7 +111,10 @@ export const transformValues = (field, isSubmit = false) => {
         selected_value: getSelectedDateValue(field, isSubmit)
       };
     default:
-      return { ...field };
+      return {
+        ...field,
+        disabled: !field.disabled
+      };
   }
 };
 

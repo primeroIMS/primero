@@ -2450,6 +2450,7 @@ en:
     multi_select_box: "Multi-select"
     date_time: "Date-Time"
     disabled: "Disabled"
+    enabled_label: "Enabled"
     subform_section:
       name: "Subform Title"
       description: "Subform Description"
