@@ -48,7 +48,7 @@ Component.displayName = NAME;
 Component.propTypes = {
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
+  index: PropTypes.number,
   mode: PropTypes.object.isRequired
 };
 

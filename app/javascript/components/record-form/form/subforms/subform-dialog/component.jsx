@@ -59,7 +59,7 @@ const Component = ({
 
   const initialSubformValues = {
     ...initialSubformValue,
-    ...subformValues
+    ...subformValues()
   };
 
   const initialSubformErrors = isValidIndex
