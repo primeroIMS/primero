@@ -267,7 +267,7 @@ describe("<FormsBuilder /> - Reducers", () => {
       order: 0
     };
     const expected = fromJS({
-      selectedFields: [{ ...objectData, disabled: false }]
+      selectedFields: [{ ...objectData }]
     });
 
     const action = {
@@ -307,7 +307,7 @@ describe("<FormsBuilder /> - Reducers", () => {
       order: 1
     };
     const expected = fromJS({
-      selectedFields: [field1, { ...objectData, disabled: true }]
+      selectedFields: [field1, { ...objectData }]
     });
 
     const action = {
@@ -493,8 +493,7 @@ describe("<FormsBuilder /> - Reducers", () => {
           {
             id: "1",
             name: "field_1",
-            display_name: { en: "Updated Field 1" },
-            disabled: true
+            display_name: { en: "Updated Field 1" }
           },
           {
             id: "2",
@@ -505,8 +504,7 @@ describe("<FormsBuilder /> - Reducers", () => {
         selectedField: {
           id: "1",
           name: "field_1",
-          display_name: { en: "Updated Field 1" },
-          disabled: true
+          display_name: { en: "Updated Field 1" }
         }
       });
       const currentState = fromJS({

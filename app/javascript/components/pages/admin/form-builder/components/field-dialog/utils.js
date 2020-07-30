@@ -112,8 +112,7 @@ export const transformValues = (field, isSubmit = false) => {
       };
     default:
       return {
-        ...field,
-        disabled: !field.disabled
+        ...field
       };
   }
 };

@@ -168,10 +168,15 @@ const Component = ({ mode }) => {
       const transformedFieldValues = transformValues(fieldData, true);
 
       Object.entries(transformedFieldValues).forEach(([key, value]) => {
+        const isDisabledProp = key === "disabled";
+
         if (!methods.control.fields[`fields.${fieldName}.${key}`]) {
           methods.register({ name: `fields.${fieldName}.${key}` });
         }
-        methods.setValue(`fields.${fieldName}.${key}`, value);
+        methods.setValue(
+          `fields.${fieldName}.${key}`,
+          isDisabledProp ? !value : value
+        );
       });
     });
   };
