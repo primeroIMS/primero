@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { getIn, connect } from "formik";
-import { Box } from "@material-ui/core";
 
-import FormSectionField from "../../form-section-field";
+import SubformDialogFields from "../subform-dialog-fields";
 
 import { NAME } from "./constants";
 
@@ -31,28 +30,16 @@ const Component = ({ formik, field, index, mode }) => {
   };
 
   return (
-    <>
-      {field.subform_section_id.fields.map(f => {
-        const fieldProps = {
-          name: f.name,
-          field: f,
-          mode,
-          index,
-          parentField: field,
-          filters: {
-            values: filters(field, f.option_strings_source),
-            filterState,
-            setFilterState
-          }
-        };
-
-        return (
-          <Box my={3} key={f.name}>
-            <FormSectionField {...fieldProps} />
-          </Box>
-        );
-      })}
-    </>
+    <SubformDialogFields
+      field={field}
+      index={index}
+      mode={mode}
+      filterState={filterState}
+      setFilterState={setFilterState}
+      filterFunc={(parentField, subformField) =>
+        filters(parentField, subformField.option_strings_source)
+      }
+    />
   );
 };
 
