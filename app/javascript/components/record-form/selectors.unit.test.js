@@ -361,7 +361,8 @@ describe("<RecordForm /> - Selectors", () => {
             subform_section_id: null,
             subform_sort_by: "",
             type: "text_field",
-            visible: true
+            visible: true,
+            subform_section_configuration: null
           }
         ],
         is_nested: null
@@ -437,7 +438,8 @@ describe("<RecordForm /> - Selectors", () => {
             subform_section_id: null,
             subform_sort_by: "",
             type: "text_field",
-            visible: true
+            visible: true,
+            subform_section_configuration: null
           }
         ],
         is_nested: null

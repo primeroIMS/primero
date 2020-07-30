@@ -12,6 +12,10 @@ import { serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import { compactValues, emptyValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
+import {
+  valuesWithDisplayConditions,
+  fieldsToRender
+} from "../subform-field-array/utils";
 
 const Component = ({
   arrayHelpers,
@@ -30,13 +34,26 @@ const Component = ({
 }) => {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const childFormikRef = useRef();
+  const {
+    subform_section_configuration: subformSectionConfiguration,
+    disabled: isParentFieldDisabled
+  } = field;
 
-  const subformValues = getIn(
-    formik.values,
-    `${field.subform_section_id.unique_id}[${index}]`
-  );
+  // eslint-disable-next-line camelcase
+  const displayConditions = subformSectionConfiguration?.display_conditions;
+  const listFieldsToRender = subformSectionConfiguration?.fields;
 
-  const initialSubformValues = { ...initialSubformValue, ...subformValues };
+  const subformValues = displayConditions
+    ? valuesWithDisplayConditions(
+        getIn(formik.values, field.subform_section_id.unique_id),
+        displayConditions
+      )[index]
+    : getIn(formik.values, `${field.subform_section_id.unique_id}[${index}]`);
+
+  const initialSubformValues = {
+    ...initialSubformValue,
+    ...subformValues
+  };
 
   const initialSubformErrors = getIn(
     formik.errors,
@@ -93,6 +110,11 @@ const Component = ({
       <SubformMenu index={index} values={formik.values.services_section} />
     ) : null;
 
+  const fieldsToDisplay = fieldsToRender(
+    listFieldsToRender,
+    field.subform_section_id.fields
+  );
+
   const renderSubform = (subformField, subformIndex) => {
     if (subformField.subform_section_id.unique_id === "services_section") {
       return (
@@ -104,13 +126,20 @@ const Component = ({
       );
     }
 
-    return field.subform_section_id.fields.map(subformSectionField => {
+    return fieldsToDisplay.map(subformSectionField => {
       const fieldProps = {
         name: subformSectionField.name,
         field: subformSectionField,
-        mode,
+        mode: isParentFieldDisabled
+          ? {
+              isShow: true,
+              isEdit: false,
+              isNew: false
+            }
+          : mode,
         index,
-        parentField: field
+        parentField: field,
+        disabled: subformSectionField.disabled || isParentFieldDisabled
       };
 
       return (
@@ -200,6 +229,7 @@ Component.propTypes = {
   open: PropTypes.bool.isRequired,
   recordType: PropTypes.string,
   setOpen: PropTypes.func.isRequired,
+  subformSectionConfiguration: PropTypes.object,
   title: PropTypes.string.isRequired
 };
 
