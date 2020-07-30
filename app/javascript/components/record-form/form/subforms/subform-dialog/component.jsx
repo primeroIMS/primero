@@ -13,6 +13,7 @@ import ActionDialog from "../../../../action-dialog";
 import { compactValues, emptyValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
 import SubformDialogFields from "../subform-dialog-fields";
+import { valuesWithDisplayConditions } from "../subform-field-array/utils";
 
 const Component = ({
   arrayHelpers,
@@ -33,11 +34,33 @@ const Component = ({
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
 
-  const subformValues = isValidIndex
-    ? getIn(formik.values, `${field.subform_section_id.unique_id}[${index}]`)
-    : {};
+  const { subform_section_configuration: subformSectionConfiguration } = field;
 
-  const initialSubformValues = { ...initialSubformValue, ...subformValues };
+  const { display_conditions: displayConditions } =
+    subformSectionConfiguration || {};
+
+  const subformValues = () => {
+    if (isValidIndex) {
+      if (displayConditions) {
+        return valuesWithDisplayConditions(
+          getIn(formik.values, field.subform_section_id.unique_id),
+          displayConditions
+        )[index];
+      }
+
+      return getIn(
+        formik.values,
+        `${field.subform_section_id.unique_id}[${index}]`
+      );
+    }
+
+    return {};
+  };
+
+  const initialSubformValues = {
+    ...initialSubformValue,
+    ...subformValues
+  };
 
   const initialSubformErrors = isValidIndex
     ? getIn(formik.errors, `${field.subform_section_id.unique_id}[${index}]`)
@@ -192,6 +215,7 @@ Component.propTypes = {
   open: PropTypes.bool.isRequired,
   recordType: PropTypes.string,
   setOpen: PropTypes.func.isRequired,
+  subformSectionConfiguration: PropTypes.object,
   title: PropTypes.string.isRequired
 };
 

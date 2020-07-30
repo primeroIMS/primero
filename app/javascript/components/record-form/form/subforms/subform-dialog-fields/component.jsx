@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "formik";
 
 import FormSectionField from "../../form-section-field";
+import { fieldsToRender } from "../subform-field-array/utils";
 
 import { NAME } from "./constants";
 
@@ -14,11 +15,26 @@ const Component = ({
   setFilterState,
   field
 }) => {
-  return field.subform_section_id.fields.map(subformSectionField => {
+  const { subform_section_configuration: subformSectionConfiguration } = field;
+
+  const { fields: listFieldsToRender } = subformSectionConfiguration || {};
+
+  const fieldsToDisplay = fieldsToRender(
+    listFieldsToRender,
+    field.subform_section_id.fields
+  );
+
+  return fieldsToDisplay.map(subformSectionField => {
     const fieldProps = {
       name: subformSectionField.name,
       field: subformSectionField,
-      mode,
+      mode: field.disabled
+        ? {
+            isShow: true,
+            isEdit: false,
+            isNew: false
+          }
+        : mode,
       index,
       parentField: field,
       filters:
@@ -28,7 +44,8 @@ const Component = ({
               filterState,
               setFilterState
             }
-          : {}
+          : {},
+      disabled: subformSectionField.disabled || field.disabled
     };
 
     return (
@@ -40,6 +57,10 @@ const Component = ({
 };
 
 Component.displayName = NAME;
+
+Component.defaultProps = {
+  isParentFieldDisabled: false
+};
 
 Component.propTypes = {
   field: PropTypes.object.isRequired,

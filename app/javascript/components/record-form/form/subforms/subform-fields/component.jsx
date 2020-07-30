@@ -43,7 +43,8 @@ const Component = ({
     subform_sort_by: subformSortBy,
     display_name: displayName,
     name,
-    subform_section_id: subformField
+    subform_section_id: subformField,
+    disabled: isDisabled
   } = field;
 
   const {
@@ -132,7 +133,7 @@ const Component = ({
               </Box>
               <Box display="flex">
                 {hasError(index) && <Jewel isError />}
-                {!subformPreventItemRemoval && !mode.isShow ? (
+                {!subformPreventItemRemoval && !isDisabled && !mode.isShow ? (
                   <ActionButton
                     icon={<DeleteIcon />}
                     type={ACTION_BUTTON_TYPES.icon}

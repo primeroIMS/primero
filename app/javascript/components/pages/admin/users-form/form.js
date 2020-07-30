@@ -9,7 +9,12 @@ import {
   CHECK_BOX_FIELD
 } from "../../../form";
 
-import { ROLE_OPTIONS } from "./constants";
+import {
+  ROLE_OPTIONS,
+  IDENTITY_PROVIDER_ID,
+  USER_GROUP_UNIQUE_IDS,
+  USERGROUP_PRIMERO_GBV
+} from "./constants";
 
 const sharedUserFields = (i18n, formMode) => [
   {
@@ -93,7 +98,11 @@ const sharedUserFields = (i18n, formMode) => [
     display_name: i18n.t("user.agency_office"),
     name: "agency_office",
     type: SELECT_FIELD,
-    option_strings_source: "lookup-agency-office"
+    option_strings_source: "lookup-agency-office",
+    watchedInputs: USER_GROUP_UNIQUE_IDS,
+    handleWatchedInputs: value => ({
+      visible: value.includes(USERGROUP_PRIMERO_GBV)
+    })
   },
   {
     display_name: i18n.t("user.position"),
@@ -118,8 +127,6 @@ const sharedUserFields = (i18n, formMode) => [
     type: TICK_FIELD
   }
 ];
-
-const IDENTITY_PROVIDER_ID = "identity_provider_id";
 
 const identityUserFields = (i18n, identityOptions) => [
   {
