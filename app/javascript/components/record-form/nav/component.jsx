@@ -62,10 +62,10 @@ const Component = ({
   const handleClick = args => {
     const { group, formId, parentItem } = args;
 
+    setPreviousGroup(group);
     if (group !== open) {
       setOpen(group);
     } else if (parentItem && group === open) {
-      setPreviousGroup(group);
       setOpen("");
     }
 
