@@ -40,8 +40,7 @@ const Component = ({
   const [selectedValue, setSelectedValue] = useState({});
   const { css, mobileDisplay } = useThemeHelper(styles);
 
-  const handleAddSubform = async () => {
-    await arrayHelpers.push(initialSubformValue);
+  const handleAddSubform = () => {
     setDialogIsNew(true);
     setOpenDialog({ open: true, index: null });
   };
@@ -106,7 +105,7 @@ const Component = ({
         field={field}
         formik={formik}
         i18n={i18n}
-        index={index !== null ? index : values.length - 1}
+        index={index}
         isFormShow={mode.isShow || isDisabled}
         mode={mode}
         oldValue={!dialogIsNew ? selectedValue : {}}

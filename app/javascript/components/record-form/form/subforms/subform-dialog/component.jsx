@@ -1,10 +1,10 @@
+/* eslint-disable react/no-multi-comp, react/display-name */
 import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { Formik, Form, getIn } from "formik";
 import { object } from "yup";
 
 import { fieldValidations } from "../../validations";
-import FormSectionField from "../../form-section-field";
 import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
@@ -12,10 +12,8 @@ import { serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import { compactValues, emptyValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
-import {
-  valuesWithDisplayConditions,
-  fieldsToRender
-} from "../subform-field-array/utils";
+import SubformDialogFields from "../subform-dialog-fields";
+import { valuesWithDisplayConditions } from "../subform-field-array/utils";
 
 const Component = ({
   arrayHelpers,
@@ -34,31 +32,39 @@ const Component = ({
 }) => {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const childFormikRef = useRef();
-  const {
-    subform_section_configuration: subformSectionConfiguration,
-    disabled: isParentFieldDisabled
-  } = field;
+  const isValidIndex = index === 0 || index > 0;
 
-  // eslint-disable-next-line camelcase
-  const displayConditions = subformSectionConfiguration?.display_conditions;
-  const listFieldsToRender = subformSectionConfiguration?.fields;
+  const { subform_section_configuration: subformSectionConfiguration } = field;
 
-  const subformValues = displayConditions
-    ? valuesWithDisplayConditions(
-        getIn(formik.values, field.subform_section_id.unique_id),
-        displayConditions
-      )[index]
-    : getIn(formik.values, `${field.subform_section_id.unique_id}[${index}]`);
+  const { display_conditions: displayConditions } =
+    subformSectionConfiguration || {};
+
+  const subformValues = () => {
+    if (isValidIndex) {
+      if (displayConditions) {
+        return valuesWithDisplayConditions(
+          getIn(formik.values, field.subform_section_id.unique_id),
+          displayConditions
+        )[index];
+      }
+
+      return getIn(
+        formik.values,
+        `${field.subform_section_id.unique_id}[${index}]`
+      );
+    }
+
+    return {};
+  };
 
   const initialSubformValues = {
     ...initialSubformValue,
-    ...subformValues
+    ...subformValues()
   };
 
-  const initialSubformErrors = getIn(
-    formik.errors,
-    `${field.subform_section_id.unique_id}[${index}]`
-  );
+  const initialSubformErrors = isValidIndex
+    ? getIn(formik.errors, `${field.subform_section_id.unique_id}[${index}]`)
+    : {};
 
   const buildSchema = () => {
     const subformSchema = field.subform_section_id.fields.map(sf =>
@@ -87,11 +93,15 @@ const Component = ({
   };
 
   const onSubmit = values => {
-    formik.setFieldValue(
-      `${field.subform_section_id.unique_id}[${index}]`,
-      values,
-      false
-    );
+    if (isValidIndex) {
+      formik.setFieldValue(
+        `${field.subform_section_id.unique_id}[${index}]`,
+        values,
+        false
+      );
+    } else {
+      arrayHelpers.push({ ...initialSubformValues, ...values });
+    }
 
     // Trigger validations only if the form was already submitted.
     if (formik.submitCount) {
@@ -110,11 +120,6 @@ const Component = ({
       <SubformMenu index={index} values={formik.values.services_section} />
     ) : null;
 
-  const fieldsToDisplay = fieldsToRender(
-    listFieldsToRender,
-    field.subform_section_id.fields
-  );
-
   const renderSubform = (subformField, subformIndex) => {
     if (subformField.subform_section_id.unique_id === "services_section") {
       return (
@@ -126,28 +131,13 @@ const Component = ({
       );
     }
 
-    return fieldsToDisplay.map(subformSectionField => {
-      const fieldProps = {
-        name: subformSectionField.name,
-        field: subformSectionField,
-        mode: isParentFieldDisabled
-          ? {
-              isShow: true,
-              isEdit: false,
-              isNew: false
-            }
-          : mode,
-        index,
-        parentField: field,
-        disabled: subformSectionField.disabled || isParentFieldDisabled
-      };
-
-      return (
-        <div key={subformSectionField.name}>
-          <FormSectionField {...fieldProps} />
-        </div>
-      );
-    });
+    return (
+      <SubformDialogFields
+        field={subformField}
+        mode={mode}
+        index={subformIndex}
+      />
+    );
   };
 
   const modalConfirmationProps = {
@@ -165,52 +155,48 @@ const Component = ({
     }
   };
 
-  if (index !== null) {
-    return (
-      <>
-        <ActionDialog
-          open={open}
-          successHandler={e => boundSubmitForm(e)}
-          cancelHandler={handleClose}
-          dialogTitle={title}
-          omitCloseAfterSuccess
-          confirmButtonLabel={i18n.t(buttonDialogText)}
-          onClose={handleClose}
-          dialogActions={dialogActions}
-          disableActions={isFormShow}
+  return (
+    <>
+      <ActionDialog
+        open={open}
+        successHandler={e => boundSubmitForm(e)}
+        cancelHandler={handleClose}
+        dialogTitle={title}
+        omitCloseAfterSuccess
+        confirmButtonLabel={i18n.t(buttonDialogText)}
+        onClose={handleClose}
+        dialogActions={dialogActions}
+        disableActions={isFormShow}
+      >
+        <Formik
+          initialValues={initialSubformValues}
+          validationSchema={buildSchema()}
+          validateOnBlur={false}
+          validateOnChange={false}
+          enableReinitialize
+          onSubmit={values => onSubmit(values)}
+          ref={childFormikRef}
         >
-          <Formik
-            initialValues={initialSubformValues}
-            validationSchema={buildSchema()}
-            validateOnBlur={false}
-            validateOnChange={false}
-            enableReinitialize
-            onSubmit={values => onSubmit(values)}
-            ref={childFormikRef}
-          >
-            {({ handleSubmit, submitForm, setErrors, setTouched, errors }) => {
-              bindSubmitForm(submitForm);
+          {({ handleSubmit, submitForm, setErrors, setTouched, errors }) => {
+            bindSubmitForm(submitForm);
 
-              return (
-                <Form autoComplete="off" onSubmit={handleSubmit}>
-                  <SubformErrors
-                    initialErrors={initialSubformErrors}
-                    errors={errors}
-                    setErrors={setErrors}
-                    setTouched={setTouched}
-                  />
-                  {renderSubform(field, index)}
-                </Form>
-              );
-            }}
-          </Formik>
-        </ActionDialog>
-        <ActionDialog {...modalConfirmationProps} />
-      </>
-    );
-  }
-
-  return null;
+            return (
+              <Form autoComplete="off" onSubmit={handleSubmit}>
+                <SubformErrors
+                  initialErrors={initialSubformErrors}
+                  errors={errors}
+                  setErrors={setErrors}
+                  setTouched={setTouched}
+                />
+                {renderSubform(field, index)}
+              </Form>
+            );
+          }}
+        </Formik>
+      </ActionDialog>
+      <ActionDialog {...modalConfirmationProps} />
+    </>
+  );
 };
 
 Component.displayName = SUBFORM_DIALOG;
@@ -221,7 +207,7 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
+  index: PropTypes.number,
   initialSubformValue: PropTypes.object.isRequired,
   isFormShow: PropTypes.bool,
   mode: PropTypes.object.isRequired,
