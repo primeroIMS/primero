@@ -118,6 +118,7 @@ class Child < ApplicationRecord
   before_save :sync_protection_concerns
   before_save :auto_populate_name
   before_create :hide_name
+  after_save :save_incidents
 
   alias super_defaults defaults
   def defaults
@@ -152,11 +153,37 @@ class Child < ApplicationRecord
   end
 
   def validate_date_of_birth
-    if date_of_birth.present? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
-      errors.add(:date_of_birth, I18n.t('errors.models.child.date_of_birth'))
-      false
-    else
-      true
+    return unless date_of_birth.present? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
+
+    errors.add(:date_of_birth, I18n.t('errors.models.child.date_of_birth'))
+  end
+
+  alias super_update_properties update_properties
+  def update_properties(user, data)
+    build_or_update_incidents(user, (data.delete('incident_details') || []))
+    super_update_properties(user, data)
+  end
+
+  def build_or_update_incidents(user, incidents_data)
+    return unless incidents_data
+
+    @incidents_to_save = incidents_data.map do |incident_data|
+      incident = Incident.find_by(id: incident_data['unique_id'])
+      incident ||= IncidentCreationService.incident_from_case(self, incident_data, module_id, user)
+      unless incident.new_record?
+        incident_data.delete('unique_id')
+        incident.data = RecordMergeDataHashService.merge_data(incident.data, incident_data) unless incident.new_record?
+      end
+      incident.has_changes_to_save? ? incident : nil
+    end.compact
+    self.mark_for_reopen = @incidents_to_save.present?
+  end
+
+  def save_incidents
+    return unless @incidents_to_save
+
+    Incident.transaction do
+      @incidents_to_save.each(&:save!)
     end
   end
 

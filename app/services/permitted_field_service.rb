@@ -17,6 +17,13 @@ class PermittedFieldService
     owned_by_text previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
   ].freeze
 
+  PERMITTED_FIELDS_FOR_ACTION = {
+    Permission::ADD_NOTE => %w[notes_section], Permission::INCIDENT_DETAILS_FROM_CASE => %w[incident_details],
+    Permission::SERVICES_SECTION_FROM_CASE => %w[services_section], Permission::CLOSE => %w[status],
+    Permission::REOPEN => %w[status workflow case_status_reopened],
+    Permission::ENABLE_DISABLE_RECORD => %w[record_state], Permission::INCIDENT_FROM_CASE => %w[incident_case_id]
+  }.freeze
+
   def initialize(user, model_class, action_name = nil)
     self.user = user
     self.model_class = model_class
@@ -33,7 +40,7 @@ class PermittedFieldService
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
     @permitted_field_names << 'record_state' if user.can?(:enable_disable_record, model_class)
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
-    @permitted_field_names << %w[flag_count flagged] if user.can?(:flag, model_class)
+    @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
     if model_class == Incident && user.can?(Permission::INCIDENT_FROM_CASE, Child)
       @permitted_field_names << 'incident_case_id'
     end
@@ -47,8 +54,8 @@ class PermittedFieldService
     [Approval::ASSESSMENT, Approval::CASE_PLAN, Approval::CLOSURE].map do |approval_id|
       next unless approval_access?(user, approval_id)
 
-      approval_fields = %W[approval_subforms #{approval_id}_approved approval_status_#{approval_id} #{approval_id}_approved_date
-                           #{approval_id}_approved_comments]
+      approval_fields = %W[approval_subforms #{approval_id}_approved approval_status_#{approval_id}
+                           #{approval_id}_approved_date #{approval_id}_approved_comments]
       approval_id == Approval::CASE_PLAN ? approval_fields << "#{approval_id}_approval_type" : approval_fields
     end.compact.flatten
   end
@@ -59,20 +66,9 @@ class PermittedFieldService
   end
 
   def permitted_field_names_from_action_name
-    case permitted_action(action_name)
-    when Permission::ADD_NOTE then %w[notes_section]
-    when Permission::INCIDENT_DETAILS_FROM_CASE then %w[incident_details]
-    when Permission::SERVICES_SECTION_FROM_CASE then %w[services_section]
-    when Permission::CLOSE then %w[status]
-    when Permission::REOPEN then %w[status workflow case_status_reopened]
-    when Permission::ENABLE_DISABLE_RECORD then %w[record_state]
-    when Permission::INCIDENT_FROM_CASE then %w[incident_case_id]
-    else raise Errors::InvalidPrimeroEntityType, 'case.invalid_action_name'
-    end
-  end
+    return [] unless action_name && user.can?(action_name.to_sym, model_class)
 
-  def permitted_action(action_name)
-    user.can?(action_name.to_sym, model_class) && action_name
+    PERMITTED_FIELDS_FOR_ACTION[action_name] || []
   end
 
   def permitted_overdue_task_field_names

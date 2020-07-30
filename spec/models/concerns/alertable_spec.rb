@@ -238,7 +238,7 @@ describe Alertable do
 
     it 'creates an alert when a non-record-owner updates the notes field' do
       @case1.update_properties(
-        { notes_section: [{ note_subject: 'test', note_text: 'this' }] }, 'bar'
+        fake_user, notes_section: [{ note_subject: 'test', note_text: 'this' }]
       )
       @case1.save!
 

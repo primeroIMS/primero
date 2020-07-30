@@ -56,9 +56,9 @@ class TracingRequest < ApplicationRecord
   end
 
   alias super_update_properties update_properties
-  def update_properties(data, user_name)
+  def update_properties(user, data)
     build_or_update_traces(data.delete('tracing_request_subform_section'))
-    super_update_properties(data, user_name)
+    super_update_properties(user, data)
   end
 
   def build_or_update_traces(traces_data)

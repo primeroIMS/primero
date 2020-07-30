@@ -29,7 +29,8 @@ module Record
   end
 
   def self.map_name(name)
-    name == 'child' ? 'case' : name.underscore
+    name = name.underscore
+    name == 'child' ? 'case' : name
   end
 
   # Class methods for all Record types
@@ -107,9 +108,9 @@ module Record
     end
   end
 
-  def update_properties(data, user_name)
+  def update_properties(user, data)
     self.data = RecordMergeDataHashService.merge_data(self.data, data)
-    self.last_updated_by = user_name
+    self.last_updated_by = user&.user_name
   end
 
   def nested_reportables_hash

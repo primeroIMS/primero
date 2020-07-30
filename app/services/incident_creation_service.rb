@@ -29,7 +29,11 @@ class IncidentCreationService
 
   def incident_from_case(case_record, incident_data, module_id, user)
     module_id ||= case_record.module_id
-    copy_from_case(Incident.new_with_user(user, incident_data), case_record, module_id)
+    incident_data['id'] = incident_data.delete('unique_id')
+    incident = Incident.new_with_user(user, incident_data)
+    copy_from_case(incident, case_record, module_id)
+    incident.incident_case_id ||= case_record.id
+    incident
   end
 
   def copy_from_case(incident, case_record, module_id)
