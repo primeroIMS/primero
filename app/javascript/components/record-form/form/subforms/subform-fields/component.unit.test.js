@@ -1,6 +1,5 @@
 import { setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
-import ActionDialog from "../../../../action-dialog";
 
 import SubformFields from "./component";
 
