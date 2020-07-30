@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import sortBy from "lodash/sortBy";
-import isEmpty from "lodash/isEmpty";
+import { sortBy } from "lodash";
 import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
@@ -15,6 +14,7 @@ import { serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import Jewel from "../../../../jewel";
 import { useI18n } from "../../../../i18n";
+import { emptyValues } from "../../../utils";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { compare } from "../../../../../libs";
@@ -115,7 +115,7 @@ const Component = ({
     return (
       <>
         {sortedValues.map((sortedValue, index) => {
-          if (values?.[index]?._destroy || isEmpty(sortedValue)) {
+          if (values?.[index]?._destroy || emptyValues(sortedValue)) {
             return false;
           }
 
