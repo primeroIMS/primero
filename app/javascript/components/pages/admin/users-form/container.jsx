@@ -42,18 +42,22 @@ const Container = ({ mode }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
+
   const user = useSelector(state => getUser(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const idp = useSelector(state => getIdentityProviders(state));
+
   const useIdentityProviders = idp?.get("use_identity_provider");
   const providers = idp?.get("identity_providers");
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+
   const validationSchema = validations(
     formMode,
     i18n,
     useIdentityProviders,
     providers
   );
+
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
   const [userData, setUserData] = React.useState({});
   const saving = useSelector(state => getSavingRecord(state));

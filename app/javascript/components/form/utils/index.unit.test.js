@@ -9,7 +9,8 @@ describe("<Form /> - Utils", () => {
       "touchedFormData",
       "whichFormMode",
       "optionText",
-      "whichOptions"
+      "whichOptions",
+      "notVisible"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
