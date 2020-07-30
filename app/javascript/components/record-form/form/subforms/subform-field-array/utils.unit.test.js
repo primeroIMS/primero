@@ -1,5 +1,3 @@
-import { fromJS } from "immutable";
-
 import * as helpers from "./utils";
 
 describe("Verifying utils", () => {
