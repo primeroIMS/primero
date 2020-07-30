@@ -24,16 +24,15 @@ const Summary = ({ transition, classes, showMode, recordType }) => {
   ) : null;
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} alignItems="center">
       <Grid item md={9} xs={9}>
         <div className={classes.wrapper}>
-          <div className={classes.titleHeader}>
-            {i18n.t("transition.type.referral")}
-          </div>
-
           {/* TODO: The date should be localized */}
           <div className={classes.date}>
             {format(new Date(transition.created_at), TRANSITIONS_DATE_FORMAT)}
+          </div>
+          <div className={classes.titleHeader}>
+            {i18n.t("transition.type.referral")}
           </div>
         </div>
       </Grid>

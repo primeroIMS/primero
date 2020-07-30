@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
-import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
@@ -19,6 +19,7 @@ import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { compare } from "../../../../../libs";
 import { getValidationErrors } from "../../..";
+import styles from "../styles.css";
 
 const Component = ({
   arrayHelpers,
@@ -32,6 +33,7 @@ const Component = ({
   values
 }) => {
   const i18n = useI18n();
+  const css = makeStyles(styles)();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const validationErrors = useSelector(
@@ -121,8 +123,8 @@ const Component = ({
           }
 
           return (
-            <Box key={`${name}-${index}`} display="flex" alignItems="center">
-              <Box flexGrow={1}>
+            <div key={`${name}-${index}`} className={css.subformFields}>
+              <div className={css.subformHeaderBox}>
                 <SubformHeader
                   field={field}
                   index={index}
@@ -130,8 +132,8 @@ const Component = ({
                   locale={locale}
                   values={values}
                 />
-              </Box>
-              <Box display="flex">
+              </div>
+              <div className={css.subformHeaderActions}>
                 {hasError(index) && <Jewel isError />}
                 {!subformPreventItemRemoval && !isDisabled && !mode.isShow ? (
                   <ActionButton
@@ -153,11 +155,12 @@ const Component = ({
                   icon={<ArrowIcon />}
                   type={ACTION_BUTTON_TYPES.icon}
                   rest={{
+                    className: css.subformShow,
                     onClick: () => handleEdit(index)
                   }}
                 />
-              </Box>
-            </Box>
+              </div>
+            </div>
           );
         })}
         <ActionDialog

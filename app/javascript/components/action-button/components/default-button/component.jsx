@@ -17,15 +17,18 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, rest }) => {
   );
   const renderContent = !renderIcon ? <>{text}</> : <ButtonText text={text} />;
 
+  const classes = clsx({
+    [css.defaultActionButton]: renderIcon,
+    [css.isTransparent]: isTransparent,
+    [css.isCancel]: isCancel,
+    [css.onlyText]: !renderIcon,
+    [rest.className]: Boolean(rest.className)
+  });
+
   return (
     <>
       <Button
-        className={clsx({
-          [css.defaultActionButton]: renderIcon,
-          [css.isTransparent]: isTransparent,
-          [css.isCancel]: isCancel,
-          [css.onlyText]: !renderIcon
-        })}
+        className={classes}
         startIcon={renderIcon}
         disabled={pending}
         {...rest}

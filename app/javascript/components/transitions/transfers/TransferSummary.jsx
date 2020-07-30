@@ -27,13 +27,12 @@ const TransferSummary = ({ transition, classes, showMode, recordType }) => {
     <Grid container spacing={2} alignItems="center">
       <Grid item md={9} xs={9}>
         <div className={classes.wrapper}>
-          <div className={classes.titleHeader}>
-            {i18n.t("transition.type.transfer")}
-          </div>
-
           {/* TODO: The date should be localized */}
           <div className={classes.date}>
             {format(new Date(transition.created_at), TRANSITIONS_DATE_FORMAT)}
+          </div>
+          <div className={classes.titleHeader}>
+            {i18n.t("transition.type.transfer")}
           </div>
         </div>
       </Grid>

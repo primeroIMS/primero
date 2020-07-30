@@ -3,6 +3,7 @@ import { batch, useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Menu, CircularProgress } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { getEnabledAgencies } from "../../../../application/selectors";
 import {
@@ -22,7 +23,6 @@ import Permission from "../../../../application/permission";
 import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
 import { currentUser } from "../../../../user";
 import DisableOffline from "../../../../disable-offline";
-import { useThemeHelper } from "../../../../../libs";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
@@ -33,7 +33,7 @@ const Component = ({ index, recordType, values }) => {
   const i18n = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
-  const css = useThemeHelper(styles);
+  const css = makeStyles(styles)();
 
   const services = useSelector(state =>
     getOption(state, "lookup-service-type", i18n.locale)
@@ -82,6 +82,7 @@ const Component = ({ index, recordType, values }) => {
           icon={<MoreVertIcon />}
           type={ACTION_BUTTON_TYPES.icon}
           rest={{
+            className: css.moreActions,
             "aria-label": "more",
             "aria-controls": "long-menu",
             "aria-haspopup": "true",

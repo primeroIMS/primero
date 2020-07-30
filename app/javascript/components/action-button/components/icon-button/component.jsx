@@ -13,10 +13,12 @@ const Component = ({ icon, isTransparent, rest }) => {
   const classes = clsx(
     css.iconActionButton,
     {
-      [css.isTransparent]: isTransparent
-    },
-    className
+      [css.isTransparent]: isTransparent,
+      [className]: Boolean(className)
+    }
   );
+
+  console.log(className);
 
   return (
     <Fab className={classes} size="small" {...res}>

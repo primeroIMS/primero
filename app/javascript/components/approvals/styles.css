@@ -30,12 +30,12 @@
 .titleHeader {
   text-transform: uppercase;
   font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(17));
+  font-size: $(theme.typography.pxToRem(15));
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
-  color: $(theme.primero.colors.solidBlack);
+  color: $(theme.primero.colors.blue);
   margin-right: 1em;
 }
 
@@ -77,19 +77,16 @@
 }
 
 .approvalsStatus {
+  padding: 8px 10px 8px 0;
+  border-right: solid 1px $(theme.primero.colors.lightGrey);
   text-align: right;
   font-size: $(theme.typography.pxToRem(15));
 }
 
 .expandIcon {
-  background-color: $(theme.primero.colors.blue);
   box-shadow: none;
-  color: $(theme.primero.colors.white);
+  color: $(theme.primero.colors.black);
   margin-left: 5px;
   width: 36px;
   height: 36px;
-
-  &:hover {
-    color: $(theme.primero.colors.black);
-  }
 }

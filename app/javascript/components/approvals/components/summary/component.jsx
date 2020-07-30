@@ -48,16 +48,14 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} alignItems="center">
       <Grid item md={10} xs={8}>
         <div className={css.wrapper}>
-          <div className={css.titleHeader}>{title}</div>
+          <div className={css.titleHeader}>{renderApprovalDate()}</div>
           <div className={css.approvalsValueSummary}>{renderApprovalValue}</div>
           <div className={(css.approvalsValueSummary, css.separator)}>-</div>
           {/* TODO: The date should be localized */}
-          <div className={css.approvalsValueSummary}>
-            {renderApprovalDate()}
-          </div>
+          <div className={css.approvalsValueSummary}>{title}</div>
         </div>
       </Grid>
       {renderStatus}
