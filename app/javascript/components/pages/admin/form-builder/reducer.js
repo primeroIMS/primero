@@ -195,7 +195,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
             data.push(
               FieldRecord({
                 ...Object.values(payload.data)[0],
-                order: lastOrder + 1
+                order: lastOrder
               })
             )
           );

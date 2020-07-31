@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   Radio,
   ListItem,
@@ -201,5 +202,9 @@ const Component = ({ isSubform }) => {
 };
 
 Component.displayName = NAME;
+
+Component.propTypes = {
+  isSubform: PropTypes.bool
+};
 
 export default Component;
