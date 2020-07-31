@@ -123,12 +123,16 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
   const addOrUpdatedSelectedField = fieldData => {
     let newFieldData = fieldData;
+    const currentFieldName =
+      selectedFieldName === NEW_FIELD
+        ? Object.keys(fieldData)[0]
+        : selectedFieldName;
 
-    if (typeof fieldData[selectedFieldName].disabled !== "undefined") {
+    if (typeof fieldData[currentFieldName].disabled !== "undefined") {
       newFieldData = {
-        [selectedFieldName]: {
-          ...fieldData[selectedFieldName],
-          disabled: !fieldData.disabled
+        [currentFieldName]: {
+          ...fieldData[currentFieldName],
+          disabled: !fieldData[currentFieldName].disabled
         }
       };
     }
