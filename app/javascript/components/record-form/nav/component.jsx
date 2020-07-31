@@ -62,24 +62,24 @@ const Component = ({
   const handleClick = args => {
     const { group, formId, parentItem } = args;
 
+    setPreviousGroup(group);
     if (group !== open) {
       setOpen(group);
     } else if (parentItem && group === open) {
-      setPreviousGroup(group);
       setOpen("");
     }
 
-    const selected =
-      parentItem && (group === open || open === "")
-        ? selectedRecordForm?.first()?.unique_id
-        : formId;
-
-    if (selected) {
-      dispatch(setSelectedForm(selected));
-    } else if (open === "" && parentItem) {
-      dispatch(
-        setSelectedForm(previousGroup !== group ? formId : selectedForm)
-      );
+    if (parentItem) {
+      if (
+        (open === "" || group === open) &&
+        (previousGroup === "" || previousGroup === group)
+      ) {
+        dispatch(setSelectedForm(selectedForm));
+      } else {
+        dispatch(setSelectedForm(formId));
+      }
+    } else {
+      dispatch(setSelectedForm(formId));
     }
 
     if (!parentItem && mobileDisplay) {

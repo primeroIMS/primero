@@ -263,10 +263,11 @@ describe("<FormsBuilder /> - Reducers", () => {
       show_on_minify_form: false,
       type: RADIO_FIELD,
       name: "test_4",
+      disabled: true,
       order: 0
     };
     const expected = fromJS({
-      selectedFields: [objectData]
+      selectedFields: [{ ...objectData }]
     });
 
     const action = {
@@ -306,7 +307,7 @@ describe("<FormsBuilder /> - Reducers", () => {
       order: 1
     };
     const expected = fromJS({
-      selectedFields: [field1, objectData]
+      selectedFields: [field1, { ...objectData }]
     });
 
     const action = {
@@ -489,8 +490,16 @@ describe("<FormsBuilder /> - Reducers", () => {
     it("updates the field properties", () => {
       const expected = fromJS({
         selectedFields: [
-          { id: "1", name: "field_1", display_name: { en: "Updated Field 1" } },
-          { id: "2", name: "field_2", display_name: { en: "Field 2" } }
+          {
+            id: "1",
+            name: "field_1",
+            display_name: { en: "Updated Field 1" }
+          },
+          {
+            id: "2",
+            name: "field_2",
+            display_name: { en: "Field 2" }
+          }
         ],
         selectedField: {
           id: "1",

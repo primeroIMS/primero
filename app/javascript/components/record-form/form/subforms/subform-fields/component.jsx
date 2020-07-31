@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { sortBy } from "lodash";
+import sortBy from "lodash/sortBy";
+import isEmpty from "lodash/isEmpty";
 import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
@@ -14,7 +15,6 @@ import { serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import Jewel from "../../../../jewel";
 import { useI18n } from "../../../../i18n";
-import { emptyValues } from "../../../utils";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { compare } from "../../../../../libs";
@@ -43,7 +43,8 @@ const Component = ({
     subform_sort_by: subformSortBy,
     display_name: displayName,
     name,
-    subform_section_id: subformField
+    subform_section_id: subformField,
+    disabled: isDisabled
   } = field;
 
   const {
@@ -115,7 +116,7 @@ const Component = ({
     return (
       <>
         {sortedValues.map((sortedValue, index) => {
-          if (values?.[index]?._destroy || emptyValues(sortedValue)) {
+          if (values?.[index]?._destroy || isEmpty(sortedValue)) {
             return false;
           }
 
@@ -132,7 +133,7 @@ const Component = ({
               </Box>
               <Box display="flex">
                 {hasError(index) && <Jewel isError />}
-                {!subformPreventItemRemoval && !mode.isShow ? (
+                {!subformPreventItemRemoval && !isDisabled && !mode.isShow ? (
                   <ActionButton
                     icon={<DeleteIcon />}
                     type={ACTION_BUTTON_TYPES.icon}

@@ -76,34 +76,102 @@ describe Filter do
     SystemSettings.current(true)
   end
 
-  it 'filter' do
-    filters_cp = %w[case incident tracing_request].map { |record_type| { record_type.pluralize => Filter.filters(@user_a, record_type) } }
-    filter_by_date_cp = [
-      { id: 'registration_date', display_name: 'Date of Registration' },
-      { id: 'assessment_requested_on', display_name: 'Date of Assessment' },
-      { id: 'date_case_plan', display_name: 'Date of Case Plan' },
-      { id: 'date_closure', display_name: 'Date of Case Closure ' },
-      { id: 'created_at', display_name: 'Date of Creation' }
-    ]
-    expect(filters_cp[0]['cases'][13].options[:en]).to eq(filter_by_date_cp)
-    filters_cp_gbv = %w[case incident tracing_request].map { |record_type| { record_type.pluralize => Filter.filters(@user_b, record_type) } }
-    filter_by_date_cp_gbv = [
-      { id: 'registration_date', display_name: 'Date of Registration' },
-      { id: 'assessment_requested_on', display_name: 'Date of Assessment' },
-      { id: 'date_case_plan', display_name: 'Date of Case Plan' },
-      { id: 'date_closure', display_name: 'Date of Case Closure ' },
-      { id: 'created_at', display_name: 'Case Open Date' }
-    ]
-    expect(filters_cp_gbv[0]['cases'][14].options[:en]).to eq(filter_by_date_cp_gbv)
+  context 'when CP' do
+    before do
+      @filters_cp = %w[case incident tracing_request].map do |record_type|
+        { record_type.pluralize => Filter.filters(@user_a, record_type) }
+      end
+    end
+
+    it 'returns filters' do
+      expect(@filters_cp.count).to eq(3)
+    end
+
+    describe 'case filters' do
+      it 'has 15 filters' do
+        expect(@filters_cp[0]['cases'].count).to eq(15)
+      end
+
+      it 'has filters' do
+        expect(@filters_cp[0]['cases'].first).to be_a(Filter)
+      end
+
+      it 'has sex filter' do
+        # TODO: using the index 5 is a little brittle... try to find an include matcher that will work
+        expect(@filters_cp[0]['cases'][5]).to have_attributes(name: 'cases.filter_by.sex', field_name: 'sex',
+                                                              type: 'checkbox')
+      end
+
+      it 'has date options' do
+        filter_by_date_cp = [
+          { id: 'registration_date', display_name: 'Date of Registration' },
+          { id: 'assessment_requested_on', display_name: 'Date of Assessment' },
+          { id: 'date_case_plan', display_name: 'Date of Case Plan' },
+          { id: 'date_closure', display_name: 'Date of Case Closure ' },
+          { id: 'created_at', display_name: 'Date of Creation' }
+        ]
+        expect(@filters_cp[0]['cases'][13].options[:en]).to eq(filter_by_date_cp)
+      end
+
+      it 'has approvals assessment' do
+        filters_approval_assessment = [
+          { id: 'pending', display_name: 'Pending' },
+          { id: 'approved', display_name: 'Approved' },
+          { id: 'rejected', display_name: 'Rejected' }
+        ]
+        expect(@filters_cp[0]['cases'][6].options[:en]).to eq(filters_approval_assessment)
+      end
+
+      # TODO: add more
+    end
+
+    # TODO: test incident & tracing_request filters
   end
 
-  it 'approvals.assessment will be present on filters' do
-    filters_assessment = %w[case incident tracing_request].map { |record_type| { record_type.pluralize => Filter.filters(@user_a, record_type) } }
-    filters_approval_assessment = [
-      {id: 'pending', display_name: 'Pending'},
-      {id: 'approved', display_name: 'Approved'},
-      {id: 'rejected', display_name: 'Rejected'}]
-    expect(filters_assessment[0]['cases'][6].options[:en]).to eq(filters_approval_assessment)
+  context 'when CP and GBV' do
+    before do
+      @filters_cp_gbv = %w[case incident tracing_request].map do |record_type|
+        { record_type.pluralize => Filter.filters(@user_b, record_type) }
+      end
+    end
+
+    it 'returns filters' do
+      expect(@filters_cp_gbv.count).to eq(3)
+    end
+
+    describe 'case filters' do
+      it 'has 16 filters' do
+        expect(@filters_cp_gbv[0]['cases'].count).to eq(16)
+      end
+
+      it 'has filters' do
+        expect(@filters_cp_gbv[0]['cases'].first).to be_a(Filter)
+      end
+
+      it 'has sex filter' do
+        # TODO: using the index 5 is a little brittle... try to find an include matcher that will work
+        expect(@filters_cp_gbv[0]['cases'][5]).to have_attributes(name: 'cases.filter_by.sex', field_name: 'sex',
+                                                                  type: 'checkbox')
+      end
+
+      it 'has agency office filter' do
+        # TODO: using the index 11 is a little brittle... try to find an include matcher that will work
+        expect(@filters_cp_gbv[0]['cases'][11]).to have_attributes(name: 'user.agency_office',
+                                                                   field_name: 'owned_by_agency_office',
+                                                                   type: 'checkbox')
+      end
+
+      it 'has date options' do
+        filter_by_date_cp = [
+          { id: 'registration_date', display_name: 'Date of Registration' },
+          { id: 'assessment_requested_on', display_name: 'Date of Assessment' },
+          { id: 'date_case_plan', display_name: 'Date of Case Plan' },
+          { id: 'date_closure', display_name: 'Date of Case Closure ' },
+          { id: 'created_at', display_name: 'Case Open Date' }
+        ]
+        expect(@filters_cp_gbv[0]['cases'][14].options[:en]).to eq(filter_by_date_cp)
+      end
+    end
   end
 
   after do

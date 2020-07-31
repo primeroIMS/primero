@@ -126,7 +126,21 @@ const Component = ({ mode, onClose, onSuccess }) => {
   };
 
   const addOrUpdatedSelectedField = fieldData => {
+    let newFieldData = fieldData;
     const subformUniqueId = selectedSubform?.get("unique_id");
+    const currentFieldName =
+      selectedFieldName === NEW_FIELD
+        ? Object.keys(fieldData)[0]
+        : selectedFieldName;
+
+    if (typeof fieldData[currentFieldName].disabled !== "undefined") {
+      newFieldData = {
+        [currentFieldName]: {
+          ...fieldData[currentFieldName],
+          disabled: !fieldData[currentFieldName].disabled
+        }
+      };
+    }
 
     if (selectedFieldName === NEW_FIELD) {
       if (subformUniqueId) {
@@ -138,7 +152,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
     } else {
       const subformId = isNested && subformUniqueId;
 
-      dispatch(updateSelectedField(fieldData, subformId));
+      dispatch(updateSelectedField(newFieldData, subformId));
 
       if (subformId) {
         dispatch(clearSelectedSubformField());
@@ -213,7 +227,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
         : {};
 
       formMethods.reset(
-        { [selectedFieldName]: { ...fieldData }, ...subform },
+        {
+          [selectedFieldName]: { ...fieldData, disabled: !fieldData.disabled },
+          ...subform
+        },
         resetOptions
       );
     }
