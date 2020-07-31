@@ -29,12 +29,13 @@
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
-  padding-top: 0.2em;
+  line-height: 2;
   color: $(theme.primero.colors.solidBlack);
 }
 
 .wrapper {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .transtionLabel {
@@ -159,3 +160,12 @@
   height: 36px;
 }
 
+@media $(theme.breakpoints.down("sm")) {
+  .date {
+    font-size: $(theme.typography.pxToRem(12));
+  }
+
+  .titleHeader {
+    line-height: 1.27;
+  }
+}

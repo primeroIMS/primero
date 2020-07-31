@@ -25,10 +25,10 @@
 
 .wrapper {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .titleHeader {
-  text-transform: uppercase;
   font-family: $(theme.typography.fontFamily);
   font-size: $(theme.typography.pxToRem(15));
   font-weight: bold;
@@ -45,9 +45,8 @@
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.27;
   letter-spacing: normal;
-  padding-top: 0.5em;
+  line-height: 2;
   color: $(theme.primero.colors.solidBlack);
 }
 
@@ -89,4 +88,14 @@
   margin-left: 5px;
   width: 36px;
   height: 36px;
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .titleHeader {
+    font-size: $(theme.typography.pxToRem(12));
+  }
+
+  .approvalsValueSummary {
+    line-height: 1.27;
+  }
 }

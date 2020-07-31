@@ -53,7 +53,7 @@ describe("<ApprovalSummary /> - Component", () => {
   it("render the correct approvals label value", () => {
     expect(
       component.find("div.approvalsValueSummary").first().text()
-    ).to.be.equal("Assessment");
+    ).to.be.equal("Assessment - approvals.response_for_title");
   });
 
   it("renders component with valid props", () => {
