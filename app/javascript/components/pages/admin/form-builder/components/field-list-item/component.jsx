@@ -69,9 +69,10 @@ const Component = ({ field, index, subformField }) => {
       dispatch(updateSelectedSubform(subformData));
       dispatch(
         updateSelectedField({
-          [parentFieldName]: toggleHideOnViewPage(
-            currentFormData[parentFieldName]
-          )
+          [parentFieldName]: {
+            ...toggleHideOnViewPage(currentFormData[parentFieldName]),
+            disabled: !currentFormData[parentFieldName].disabled
+          }
         })
       );
     }
