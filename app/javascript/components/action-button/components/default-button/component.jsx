@@ -23,12 +23,11 @@ const Component = ({
   const renderLoadingIndicator = pending && (
     <CircularProgress size={24} className={css.buttonProgress} />
   );
-  const renderContent =
-    !renderIcon || keepTextOnMobile ? (
-      <>{text}</>
-    ) : (
-      <ButtonText text={text} keepTextOnMobile={keepTextOnMobile} />
-    );
+  const renderContent = !renderIcon ? (
+    <>{text}</>
+  ) : (
+    <ButtonText text={text} keepTextOnMobile={keepTextOnMobile} />
+  );
 
   return (
     <>

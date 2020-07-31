@@ -39,7 +39,7 @@ const Component = () => {
   );
 
   const handleDialog = () => {
-    if (isSubform && selectedSubform) {
+    if (isSubform) {
       dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
     }
     dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true }));
@@ -53,7 +53,7 @@ const Component = () => {
   };
 
   const handleClose = () => {
-    if (isSubform) {
+    if (isSubform && selectedSubform.toSeq().size) {
       dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: true }));
     }
     dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: false }));
