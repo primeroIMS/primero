@@ -23,6 +23,7 @@ import {
 import {
   createSelectedField,
   clearSelectedSubformField,
+  clearSelectedSubform,
   updateSelectedField,
   updateSelectedSubform
 } from "../../action-creators";
@@ -82,6 +83,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const handleClose = () => {
     if (onClose) {
       onClose();
+    }
+
+    if (selectedSubform.toSeq().size && !isNested) {
+      dispatch(clearSelectedSubform());
     }
 
     if (selectedSubform.toSeq().size && isNested) {
@@ -144,10 +149,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
     if (selectedFieldName === NEW_FIELD) {
       if (subformUniqueId) {
-        dispatch(updateSelectedField(fieldData, subformUniqueId));
+        dispatch(updateSelectedField(newFieldData, subformUniqueId));
         dispatch(clearSelectedSubformField());
       } else {
-        dispatch(createSelectedField(fieldData));
+        dispatch(createSelectedField(newFieldData));
       }
     } else {
       const subformId = isNested && subformUniqueId;

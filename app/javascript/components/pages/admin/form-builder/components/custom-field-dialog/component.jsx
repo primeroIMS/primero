@@ -17,7 +17,7 @@ import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { compare } from "../../../../../../libs";
-import { getSelectedField } from "../../selectors";
+import { getSelectedField, getSelectedSubform } from "../../selectors";
 import { isSubformField } from "../field-dialog/utils";
 
 import styles from "./styles.css";
@@ -33,9 +33,13 @@ const Component = () => {
   );
 
   const isSubform = isSubformField(selectedField);
+  const selectedSubform = useSelector(
+    state => getSelectedSubform(state),
+    compare
+  );
 
   const handleDialog = () => {
-    if (isSubform) {
+    if (isSubform && selectedSubform) {
       dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
     }
     dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true }));
@@ -83,6 +87,7 @@ const Component = () => {
               fullWidth: true,
               className: css.existingFieldButton
             }}
+            keepTextOnMobile
           />
           <ActionButton
             icon={<FormatListBulletedIcon />}
@@ -93,6 +98,7 @@ const Component = () => {
               fullWidth: true,
               className: css.existingFieldButton
             }}
+            keepTextOnMobile
           />
           <ActionButton
             icon={<CloseIcon />}
@@ -104,6 +110,7 @@ const Component = () => {
               fullWidth: true,
               className: css.cancelButton
             }}
+            keepTextOnMobile
           />
         </div>
       </ActionDialog>
