@@ -62,6 +62,7 @@ const Component = ({
         i18n={i18n}
         mode={mode}
         subformName={title}
+        subformIsDisabled={isDisabled}
       />
     ) : (
       <SubformFields
@@ -82,7 +83,7 @@ const Component = ({
       <div className={css.subformFieldArrayContainer}>
         <div>
           <h3>
-            {!mode.isShow && i18n.t("fields.add")} {title}
+            {!mode.isShow && !displayConditions && i18n.t("fields.add")} {title}
           </h3>
         </div>
         <div>
