@@ -454,6 +454,7 @@ en:
     photo: "Photo"
     owned_by: 'Record Owner'
     owned_by_agency: 'Record Owner Agency'
+    refer_again: 'again'
 
     messages:
       update_success: "Case %{record_id} was successfully updated."
