@@ -480,7 +480,7 @@ module RecordActions
   end
 
   def create_or_update_record(id, property_names=[])
-    @record = model_class.by_short_id(:key => record_short_id).first if record_params[:unique_identifier]
+    @record = model_class.by_short_id(:key => record_short_id).first if record_params[:unique_identifier] || record_params[:short_id]
     if @record.nil?
       record_params_permitted = select_permitted_fields(record_params, property_names, is_remote_request?)
       @record = model_class.new_with_user_name(current_user, record_params_permitted)
