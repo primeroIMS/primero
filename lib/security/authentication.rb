@@ -6,7 +6,11 @@ module Security
       @current_session ||= if current_token.nil?
                              nil
                            else
-                             Session.get current_token rescue nil
+                             begin
+                               Session.get(current_token).unexpired!
+                             rescue
+                               nil
+                             end
                            end
     end
 
