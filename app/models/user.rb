@@ -449,7 +449,7 @@ class User < ApplicationRecord
   end
 
   def can_approve_action_plan?
-    can?(:approve_approve_plan, Child) || can?(:request_approval_action_plan, Child)
+    can?(:approve_action_plan, Child) || can?(:request_approval_action_plan, Child)
   end
 
   def can_approve_gbv_closure?
