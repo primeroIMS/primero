@@ -83,6 +83,16 @@ describe("Application - Reducers", () => {
           en: "Assessment",
           fr: "",
           ar: "Assessment-AR"
+        },
+        action_plan: {
+          en: "Action Plan",
+          fr: "",
+          ar: "Action Plan-AR"
+        },
+        gbv_closure: {
+          en: "GBV Closure",
+          fr: "",
+          ar: "GBV Closure-AR"
         }
       }
     });
@@ -148,6 +158,16 @@ describe("Application - Reducers", () => {
             en: "Assessment",
             fr: "",
             ar: "Assessment-AR"
+          },
+          action_plan: {
+            en: "Action Plan",
+            fr: "",
+            ar: "Action Plan-AR"
+          },
+          gbv_closure: {
+            en: "GBV Closure",
+            fr: "",
+            ar: "GBV Closure-AR"
           }
         }
       }
