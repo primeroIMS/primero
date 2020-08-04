@@ -45,11 +45,20 @@ export const validationSchema = i18n =>
     visible: boolean()
   });
 
-export const settingsForm = i18n =>
+export const settingsForm = ({ formMode, onManageTranslation, i18n }) =>
   fromJS([
     FormSectionRecord({
       unique_id: "settings",
       name: i18n.t("forms.settings"),
+      actions: formMode.get("isEdit")
+        ? [
+            {
+              text: i18n.t("forms.translations.manage"),
+              outlined: true,
+              rest: { onClick: onManageTranslation }
+            }
+          ]
+        : [],
       fields: [
         FieldRecord({
           display_name: i18n.t("forms.title"),

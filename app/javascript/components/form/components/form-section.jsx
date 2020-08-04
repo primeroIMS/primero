@@ -1,4 +1,4 @@
-/* eslint-disable react/no-multi-comp */
+/* eslint-disable react/no-multi-comp, react/display-name */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import get from "lodash/get";
 
 import Tooltip from "../../tooltip";
+import ActionButton from "../../action-button";
 
 import { FORM_SECTION_NAME } from "./constants";
 import FormSectionField from "./form-section-field";
@@ -70,7 +71,15 @@ const FormSection = ({ formSection }) => {
     setExpanded(!expanded);
   };
 
-  // eslint-disable-next-line react/display-name
+  const renderActions = formActions =>
+    formActions?.length ? (
+      <div className={css.formActions}>
+        {formActions.map(action => (
+          <ActionButton key={action.text} {...action} />
+        ))}
+      </div>
+    ) : null;
+
   const renderExpandableFormSection = () => (
     <ExpansionPanel elevation={3} expanded={expanded} onChange={handleChange}>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -87,15 +96,16 @@ const FormSection = ({ formSection }) => {
       </ExpansionPanelSummary>
       <ExpansionPanelDetails classes={{ root: css.panelContent }}>
         {renderFields(fields)}
+        {renderActions(formSection.actions)}
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );
 
-  // eslint-disable-next-line react/display-name
   const renderFormSection = () => (
     <>
       <FormSectionTitle formSection={formSection} />
       {renderFields(fields)}
+      {renderActions(formSection.actions)}
     </>
   );
 

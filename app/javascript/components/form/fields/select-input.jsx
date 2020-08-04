@@ -12,7 +12,15 @@ import InputLabel from "../components/input-label";
 const filter = createFilterOptions();
 
 const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
-  const { multiSelect, freeSolo, groupBy, tooltip, onChange } = metaInputProps;
+  const {
+    multiSelect,
+    freeSolo,
+    groupBy,
+    tooltip,
+    onChange,
+    disableClearable,
+    selectedValue
+  } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
   const methods = useFormContext();
@@ -114,7 +122,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   return (
     <Controller
       name={name}
-      defaultValue={defaultValue}
+      defaultValue={selectedValue || defaultValue}
       onChange={handleChange}
       as={
         <Autocomplete
@@ -125,6 +133,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
           getOptionSelected={optionEquality}
           disabled={disabled}
           filterSelectedOptions
+          disableClearable={disableClearable}
           freeSolo={freeSolo}
           {...filterOptions}
           renderInput={params => renderTextField(params, commonProps)}

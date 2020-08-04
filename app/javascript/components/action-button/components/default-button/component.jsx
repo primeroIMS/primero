@@ -9,7 +9,15 @@ import ButtonText from "../../../button-text";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ icon, isCancel, isTransparent, pending, text, rest }) => {
+const Component = ({
+  icon,
+  isCancel,
+  isTransparent,
+  pending,
+  text,
+  outlined,
+  rest
+}) => {
   const css = makeStyles(styles)();
   const renderIcon = icon || null;
   const renderLoadingIndicator = pending && (
@@ -24,7 +32,8 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, rest }) => {
           [css.defaultActionButton]: renderIcon,
           [css.isTransparent]: isTransparent,
           [css.isCancel]: isCancel,
-          [css.onlyText]: !renderIcon
+          [css.onlyText]: !renderIcon,
+          [css.outlined]: outlined
         })}
         startIcon={renderIcon}
         disabled={pending}
@@ -43,6 +52,7 @@ Component.propTypes = {
   icon: PropTypes.object,
   isCancel: PropTypes.bool,
   isTransparent: PropTypes.bool,
+  outlined: PropTypes.bool,
   pending: PropTypes.bool,
   rest: PropTypes.object,
   text: PropTypes.string

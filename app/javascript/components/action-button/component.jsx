@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { buttonType } from "./utils";
-import { NAME } from "./constants";
+import { NAME, ACTION_BUTTON_TYPES } from "./constants";
 
 const Component = ({
   icon,
@@ -11,6 +11,7 @@ const Component = ({
   pending,
   text,
   type,
+  outlined,
   rest
 }) => {
   const ButtonType = buttonType(type);
@@ -23,6 +24,7 @@ const Component = ({
         isTransparent={isTransparent}
         pending={pending}
         rest={rest}
+        outlined={outlined}
         text={text}
       />
     </>
@@ -31,14 +33,20 @@ const Component = ({
 
 Component.displayName = NAME;
 
+Component.defaultProps = {
+  outlined: false,
+  type: ACTION_BUTTON_TYPES.default
+};
+
 Component.propTypes = {
   icon: PropTypes.object,
   isCancel: PropTypes.bool,
   isTransparent: PropTypes.bool,
+  outlined: PropTypes.bool,
   pending: PropTypes.bool,
   rest: PropTypes.object,
   text: PropTypes.string,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string
 };
 
 export default Component;

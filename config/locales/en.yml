@@ -2176,7 +2176,11 @@ en:
     module: "Module"
     settings: "Settings"
     fields: "Fields"
-    translations: "Translations"
+    translations:
+      title: "Translations"
+      manage: "Manage translations"
+      edit: "Edit translations"
+      select_language: "Select language"
     visibility: "Visibility"
     web_app: "Web App"
     mobile_app: "Mobile App"
@@ -2215,6 +2219,8 @@ en:
     select_label: "Select"
     subform_not_found: "No %{subform_name} found."
     subform_need_to_be_added: "They need to be added."
+    form_title: "Form title"
+    form_description: "Description"
 
   form_section:
     name: "Name"

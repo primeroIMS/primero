@@ -6,6 +6,7 @@ import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import { setDialog } from "../../../record-actions/action-creators";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
@@ -18,13 +19,15 @@ import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
 
-import CustomFieldDialog from "./components/custom-field-dialog";
 import {
+  CustomFieldDialog,
   FieldDialog,
   FieldsList,
   FormBuilderActionButtons,
+  FormTranslationsDialog,
   TabPanel
 } from "./components";
+import { NAME as FormTranslationsDialogName } from "./components/form-translations-dialog/constants";
 import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME, NEW_FIELD } from "./constants";
@@ -94,6 +97,21 @@ const Component = ({ mode }) => {
         subforms: selectedSubforms.toJS()
       })
     );
+  };
+
+  const onManageTranslation = () => {
+    dispatch(setDialog({ dialog: FormTranslationsDialogName, open: true }));
+  };
+
+  const onUpdateTranslation = data => {
+    Object.entries(data).forEach(([fieldName, locales]) => {
+      Object.entries(locales).forEach(([localeId, value]) => {
+        if (!methods.control.fields[`${fieldName}.${localeId}`]) {
+          methods.register({ name: `${fieldName}.${localeId}` });
+        }
+        methods.setValue(`${fieldName}.${localeId}`, value);
+      });
+    });
   };
 
   useEffect(() => {
@@ -215,19 +233,27 @@ const Component = ({ mode }) => {
               />
               <Tab
                 className={css.tabHeader}
-                label={i18n.t("forms.translations")}
+                label={i18n.t("forms.translations.title")}
                 disabled={formMode.get("isNew")}
               />
             </Tabs>
             <TabPanel tab={tab} index={0}>
               <div className={css.tabContent}>
-                {settingsForm(i18n).map(formSection => (
-                  <FormSection
-                    formSection={formSection}
-                    key={formSection.unique_id}
-                  />
-                ))}
+                {settingsForm({ formMode, onManageTranslation, i18n }).map(
+                  formSection => (
+                    <FormSection
+                      formSection={formSection}
+                      key={formSection.unique_id}
+                    />
+                  )
+                )}
               </div>
+              <FormTranslationsDialog
+                mode={mode}
+                formSection={selectedForm}
+                currentValues={methods.getValues({ nest: true })}
+                onSuccess={onUpdateTranslation}
+              />
             </TabPanel>
             <TabPanel tab={tab} index={1}>
               <div className={css.tabFields}>
