@@ -54,7 +54,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       login_for_test(
         permissions: [
-          Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::AUDIT_LOG])
+          Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::CHANGE_LOG])
         ]
       )
 
@@ -96,7 +96,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       login_for_test(
         permissions: [
-          Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::AUDIT_LOG])
+          Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::CHANGE_LOG])
         ]
       )
 
@@ -139,7 +139,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       login_for_test(
         permissions: [
-          Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::AUDIT_LOG])
+          Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::CHANGE_LOG])
         ]
       )
 
@@ -195,7 +195,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       login_for_test(
         permissions: [
-          Permission.new(resource: Permission::CASE, actions: [Permission::AUDIT_LOG])
+          Permission.new(resource: Permission::CASE, actions: [Permission::CHANGE_LOG])
         ]
       )
 

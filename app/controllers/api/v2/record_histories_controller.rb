@@ -7,7 +7,7 @@ module Api::V2
 
     def index
       authorize!(:read, @record)
-      authorize!(:audit_log, @record)
+      authorize!(:change_log, @record)
       filter_record_histories = @record.ordered_histories
       @total = filter_record_histories.size
       @record_histories = filter_record_histories.paginate(pagination)
