@@ -66,7 +66,8 @@ class PermittedFieldService
 
   def permitted_approval_field_names
     approval_field_names = []
-    [Approval::ASSESSMENT, Approval::CASE_PLAN, Approval::CLOSURE].each do |approval_id|
+    [Approval::ASSESSMENT, Approval::CASE_PLAN, Approval::CLOSURE, Approval::ACTION_PLAN,
+     Approval::GBV_CLOSURE].each do |approval_id|
       if user.can?(:"request_approval_#{approval_id}", model_class) ||
          user.can?(:"approve_#{approval_id}", model_class)
         approval_field_names << 'approval_subforms'
@@ -75,8 +76,6 @@ class PermittedFieldService
         approval_field_names << "#{approval_id}_approved_date"
         approval_field_names << "#{approval_id}_approved_comments"
         approval_field_names << "#{approval_id}_approval_type" if approval_id == Approval::CASE_PLAN
-      else
-        next
       end
     end
     approval_field_names
