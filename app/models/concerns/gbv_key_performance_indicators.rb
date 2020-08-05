@@ -56,21 +56,19 @@ module GBVKeyPerformanceIndicators
     mandatory_fields.all? { |field| form[field].present? }
   end
 
-  # Should be an attribute on Field
-  def self.survivor_assessment_mandatory_fields
-    [
-      'assessment_emotional_state_start',
-      'assessment_emotional_state_end',
-      'assessment_presenting_problem',
-      'assessment_main_concerns',
-      'assessment_current_situation'
-    ]
-  end
+
+  SURVIVOR_ASSESSMENT_MANDATORY_FIELDS = [
+    'assessment_emotional_state_start',
+    'assessment_emotional_state_end',
+    'assessment_presenting_problem',
+    'assessment_main_concerns',
+    'assessment_current_situation'
+  ]
 
   def completed_survivor_assessment
     find_in_form(['survivor_assessment_form'])
       .all? do |form|
-        form_is_complete(form, self.class.survivor_assessment_mandatory_fields)
+        form_is_complete(form, SURVIVOR_ASSESSMENT_MANDATORY_FIELDS)
       end
   end
 
