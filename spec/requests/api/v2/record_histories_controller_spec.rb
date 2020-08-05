@@ -60,7 +60,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       record_history_a = {
         record_id: TracingRequest.first.id,
-        record_type: 'TracingRequest',
+        record_type: 'tracing_requests',
         datetime: RecordHistory.last.datetime.iso8601,
         user_name: 'faketest',
         action: 'update',
@@ -72,7 +72,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       record_history_b = {
         record_id: TracingRequest.first.id,
-        record_type: 'TracingRequest',
+        record_type: 'tracing_requests',
         datetime: RecordHistory.first.datetime.iso8601,
         user_name: 'faketest', action: 'create', record_changes: []
       }
@@ -104,7 +104,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       record_history_a = {
         record_id: Incident.first.id,
-        record_type: 'Incident',
+        record_type: 'incidents',
         datetime: RecordHistory.last.datetime.iso8601,
         user_name: 'faketest',
         action: 'update',
@@ -116,7 +116,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       record_history_b = {
         record_id: Incident.first.id,
-        record_type: 'Incident',
+        record_type: 'incidents',
         datetime: RecordHistory.first.datetime.iso8601,
         user_name: 'faketest',
         action: 'create', record_changes: []
@@ -147,7 +147,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       record_history_a = {
         record_id: Child.first.id,
-        record_type: 'Child',
+        record_type: 'cases',
         datetime: RecordHistory.last.datetime.iso8601,
         user_name: 'faketest',
         action: 'update',
@@ -160,7 +160,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       record_history_b = {
         record_id: Child.first.id,
-        record_type: 'Child',
+        record_type: 'cases',
         datetime: RecordHistory.first.datetime.iso8601,
         user_name: 'faketest',
         action: 'create',
