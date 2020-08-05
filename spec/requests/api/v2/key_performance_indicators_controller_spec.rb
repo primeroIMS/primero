@@ -36,7 +36,7 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
       sign_in(@primero_kpi)
 
       get '/api/v2/key_performance_indicators/number_of_cases', params: {
-        from: Date.today,
+        from: Date.today - 31,
         to: Date.today + 1
       }
 
@@ -44,6 +44,53 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
       expect(json[:data][0]).to be
       expect(json[:data][0][:reporting_site]).to eq(@london.placename)
       expect(json[:data][0][json[:dates].last.to_sym]).to eq(1)
+    end
+  end
+
+  describe 'GET /api/v2/key_performance_indicators/number_of_incidents', search: true do
+    it 'renders test data appropriately' do
+      incident = Incident.new_with_user(@primero_kpi, {
+        incident_date: Date.today.prev_day(6)
+      }).save!
+      Sunspot.commit
+
+      sign_in(@primero_kpi)
+
+      get '/api/v2/key_performance_indicators/number_of_incidents', params: {
+        from: Date.today - 31,
+        to: Date.today + 1
+      }
+
+      expect(response).to have_http_status(200)
+      expect(json[:data][0]).to be
+      expect(json[:data][0][:reporting_site]).to eq(@london.placename)
+      expect(json[:data][0][json[:dates].last.to_sym]).to eq(1)
+    end
+  end
+
+  describe 'GET /api/v2/key_performance_indicators/reporting_delay', search: true do
+    it 'renders test data appropriately' do
+      incident = Incident.new_with_user(@primero_kpi, {
+        incident_date: Date.today.prev_day(6)
+      }).save!
+      Sunspot.commit
+
+      sign_in(@primero_kpi)
+
+      get '/api/v2/key_performance_indicators/reporting_delay', params: {
+        from: Date.today - 31,
+        to: Date.today + 1
+      }
+
+      expect(response).to have_http_status(200)
+      expect(json[:data]).to be
+      result = json[:data].
+        select { |result| result[:total_incidents] > 0 }.
+        first
+
+      expect(result[:delay]).to eql('6-14days')
+      expect(result[:total_incidents]).to eql(1)
+      expect(result[:percentage]).to eql(1.0)
     end
   end
 end

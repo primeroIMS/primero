@@ -8,6 +8,9 @@ module Api::V2
     skip_after_action :write_audit_log
 
     def number_of_cases
+      owned_by_location = SolrUtils.indexed_field_name(Incident, :owned_by_location)
+      created_at = SolrUtils.indexed_field_name(Incident, :created_at)
+
       search = Child.search do
         facet :created_at,
           tag: :per_month,
@@ -15,8 +18,11 @@ module Api::V2
           range_interval: '+1MONTH',
           minimum_count: -1
 
-        pivot :owned_by_location,
-          range: :per_month
+        adjust_solr_params do |params|
+          params[:'facet.pivot'] = [
+            "{!range=per_month}#{owned_by_location}"
+          ]
+        end
 
         paginate page: 1, per_page: 0
       end
@@ -24,20 +30,26 @@ module Api::V2
       @columns = search.facet(:created_at).rows.
         map { |result| result.value.first.iso8601(0) }
 
-      @data = search.pivot(:owned_by_location).rows.
-        map do |row|
-          # use instance to get this?
+      @data = search.facet_response.
+        dig('facet_pivot', owned_by_location).
+        map do |pivot|
           location = Location.
-            find_by({ location_code: row.result['value'].upcase }).
+            find_by({ location_code: pivot['value'].upcase }).
             placename
 
-          counts = row.range(:created_at).counts
+          counts = pivot.
+            dig('ranges', created_at, 'counts').
+            each_cons(2).
+            to_h
 
           { reporting_site: location }.merge(counts)
         end
     end
 
     def number_of_incidents
+      owned_by_location = SolrUtils.indexed_field_name(Incident, :owned_by_location)
+      created_at = SolrUtils.indexed_field_name(Incident, :created_at)
+
       search = Incident.search do
         facet :created_at,
           tag: :per_month,
@@ -45,8 +57,11 @@ module Api::V2
           range_interval: '+1MONTH',
           minimum_count: -1
 
-        pivot :owned_by_location,
-          range: :per_month
+        adjust_solr_params do |params|
+          params[:'facet.pivot'] = [
+            "{!range=per_month}#{owned_by_location}"
+          ]
+        end
 
         paginate page: 1, per_page: 0
       end
@@ -54,14 +69,17 @@ module Api::V2
       @columns = search.facet(:created_at).rows.
         map { |result| result.value.first.iso8601(0) }
 
-      @data = search.pivot(:owned_by_location).rows.
-        map do |row|
-          # use instance to get this?
+      @data = search.facet_response.
+        dig('facet_pivot', owned_by_location).
+        map do |pivot|
           location = Location.
-            find_by({ location_code: row.result['value'].upcase }).
+            find_by({ location_code: pivot['value'].upcase }).
             placename
 
-          counts = row.range(:created_at).counts
+          counts = pivot.
+            dig('ranges', created_at, 'counts').
+            each_cons(2).
+            to_h
 
           { reporting_site: location }.merge(counts)
         end
@@ -97,10 +115,6 @@ module Api::V2
 
       @total = search.total
       @results = search.facet_response['facet_queries']
-    end
-
-    def service_access_delay
-      # On hold until new forms UI / system is complete
     end
 
     def assessment_status

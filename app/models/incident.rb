@@ -40,6 +40,7 @@ class Incident < ApplicationRecord
 
   searchable do
     date :incident_date_derived
+    date :date_of_first_report
     string :status, as: 'status_sci'
     quicksearch_fields.each { |f| text_index(f) }
   end

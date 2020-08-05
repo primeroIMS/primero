@@ -1,7 +1,7 @@
 json.data do
-  json.array! @results do |delay, total_cases|
+  json.array! @results do |delay, number_of_incidents|
     json.delay delay
-    json.total_incidents total_cases
-    json.percentage total_cases.to_f / @total
+    json.total_incidents number_of_incidents
+    json.percentage number_of_incidents.to_f / @total
   end
 end
