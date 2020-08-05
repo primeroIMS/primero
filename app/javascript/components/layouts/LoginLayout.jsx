@@ -7,7 +7,6 @@ import ModuleLogo from "../module-logo";
 import AgencyLogo from "../agency-logo";
 import TranslationsToggle from "../translations-toggle";
 import Notifier from "../notifier";
-import OfflineIndicator from "../offline-indicator";
 
 import styles from "./login-styles.css";
 
@@ -20,7 +19,6 @@ const LoginLayout = ({ children }) => {
   return (
     <>
       <Notifier />
-      <OfflineIndicator />
       <Box className={[css.primeroBackground, css[primeroModule]].join(" ")}>
         <div className={css.content}>
           <div className={css.loginHeader}>

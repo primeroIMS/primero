@@ -4,6 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
 import get from "lodash/get";
 
+import { notVisible } from "../utils";
 import { useI18n } from "../../i18n";
 import TextInput from "../fields/text-input";
 import SwitchInput from "../fields/switch-input";
@@ -14,6 +15,7 @@ import ToggleField from "../fields/toggle-input";
 import DateField from "../fields/date-input";
 import Seperator from "../fields/seperator";
 import OrderableOptionsField from "../fields/orderable-options-field";
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../config";
 import {
   CHECK_BOX_FIELD,
   ERROR_FIELD,
@@ -83,10 +85,6 @@ const FormSectionField = ({ checkErrors, field }) => {
     (prev, next) => prev.equals(next)
   );
 
-  if (typeof visible === "boolean" && !visible) {
-    return null;
-  }
-
   const watchedInputsValues = watchedInputs ? watch(watchedInputs) : null;
   const watchedInputProps = handleWatchedInputs
     ? handleWatchedInputs(watchedInputsValues, name, { error, methods })
@@ -99,7 +97,7 @@ const FormSectionField = ({ checkErrors, field }) => {
         )
       : false;
 
-  const format = dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy";
+  const format = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
 
   const commonInputProps = {
     name,
@@ -164,6 +162,10 @@ const FormSectionField = ({ checkErrors, field }) => {
         return TextInput;
     }
   })(type);
+
+  if (notVisible(visible) || notVisible(watchedInputProps?.visible)) {
+    return null;
+  }
 
   return (
     <div>

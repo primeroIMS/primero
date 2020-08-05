@@ -10,6 +10,8 @@ import {
 } from "lodash";
 import { isDate, format } from "date-fns";
 
+import { DATE_FORMAT } from "../../config";
+
 import {
   SUBFORM_SECTION,
   PHOTO_FIELD,
@@ -38,7 +40,13 @@ function compareArray(value, base) {
       } else {
         const newSubform = pickBy(v, identity);
 
-        if (!isEmpty(newSubform)) acc.push(newSubform);
+        if (emptyValues(newSubform)) {
+          return acc;
+        }
+
+        if (!isEmpty(newSubform)) {
+          acc.push(newSubform);
+        }
       }
     } else {
       if (!isEmpty(v)) {
@@ -62,7 +70,7 @@ function difference(object, base, nested) {
         val =
           !isEmpty(initialValue) && initialValue.length === currentValue.length
             ? value.toISOString()
-            : format(value, "dd-MMM-yyyy");
+            : format(value, DATE_FORMAT);
       }
 
       if (Array.isArray(val)) {
@@ -79,6 +87,8 @@ function difference(object, base, nested) {
     }
   });
 }
+
+export const emptyValues = element => Object.values(element).every(isEmpty);
 
 export const compactValues = (values, initialValues) =>
   difference(values, initialValues);

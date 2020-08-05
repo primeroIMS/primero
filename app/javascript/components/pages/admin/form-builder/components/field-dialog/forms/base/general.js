@@ -36,7 +36,7 @@ export const generalFields = ({ fieldName, formMode, i18n }) => ({
     required: true
   }),
   disabled: FieldRecord({
-    display_name: i18n.t("fields.disabled"),
+    display_name: i18n.t("fields.enabled_label"),
     name: `${fieldName}.disabled`,
     type: TICK_FIELD
   })

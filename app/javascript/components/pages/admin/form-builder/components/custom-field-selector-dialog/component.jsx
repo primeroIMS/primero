@@ -91,7 +91,8 @@ const Component = () => {
       type: selectedItem,
       visible: true,
       mobile_visible: true,
-      hide_on_view_page: false
+      hide_on_view_page: false,
+      disabled: false
     };
     const multiSelectAttributtes = selectedItem === MULTI_SELECT_FIELD && {
       type: SELECT_FIELD,
@@ -160,9 +161,8 @@ const Component = () => {
             const [name, Icon] = field;
 
             return (
-              <>
+              <React.Fragment key={field}>
                 <ListItem
-                  key={field}
                   selected={isItemSelected(name)}
                   onClick={() => handleListItem(name)}
                 >
@@ -188,7 +188,7 @@ const Component = () => {
                   </ListItemSecondaryAction>
                 </ListItem>
                 <Divider />
-              </>
+              </React.Fragment>
             );
           })}
         </List>

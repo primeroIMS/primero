@@ -14,7 +14,7 @@ class PermittedFieldService
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
     assigned_user_names created_by created_by_agency module_id owned_by owned_by_agency_id
-    owned_by_text previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
+    owned_by_text owned_by_agency_office previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
   ].freeze
 
   PERMITTED_FIELDS_FOR_ACTION = {
