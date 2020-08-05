@@ -56,7 +56,6 @@ module GBVKeyPerformanceIndicators
     mandatory_fields.all? { |field| form[field].present? }
   end
 
-
   SURVIVOR_ASSESSMENT_MANDATORY_FIELDS = [
     'assessment_emotional_state_start',
     'assessment_emotional_state_end',
@@ -72,16 +71,14 @@ module GBVKeyPerformanceIndicators
       end
   end
 
-  def self.safety_plan_mandatory_fields
-    [
-      'safety_plan_needed',
-      'safety_plan_developed_with_survivor',
-      'safety_plan_completion_date',
-      'safety_plan_main_concern',
-      'safety_plan_preparedness_signal',
-      'safety_plan_preparedness_gathered_things'
-    ]
-  end
+  SAFETY_PLAN_MANDATORY_FIELDS = [
+    'safety_plan_needed',
+    'safety_plan_developed_with_survivor',
+    'safety_plan_completion_date',
+    'safety_plan_main_concern',
+    'safety_plan_preparedness_signal',
+    'safety_plan_preparedness_gathered_things'
+  ]
 
   def requires_safety_plan?
     find_in_form(['safety_plan']).
@@ -94,22 +91,20 @@ module GBVKeyPerformanceIndicators
   def completed_safety_plan
     find_in_form(['safety_plan'])
       .any? do |plan|
-        form_is_complete(plan, self.class.safety_plan_mandatory_fields)
+        form_is_complete(plan, SAFETY_PLAN_MANDATORY_FIELDS)
       end
   end
 
-  def self.action_plan_mandatory_fields
-    [
-      'service_type',
-      'service_referral',
-      'service_referral_written_consent'
-    ]
-  end
+  ACTION_PLAN_MANDATORY_FIELDS = [
+    'service_type',
+    'service_referral',
+    'service_referral_written_consent'
+  ]
 
   def completed_action_plan
     find_in_form(['action_plan'])
       .any? do |plan|
-        form_is_complete(plan, self.class.action_plan_mandatory_fields)
+        form_is_complete(plan, ACTION_PLAN_MANDATORY_FIELDS)
       end
   end
 

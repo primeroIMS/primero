@@ -126,4 +126,57 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
       end
     end
   end
+
+  describe 'GET /api/v2/key_performance_indicators/completed_case_safety_plans', search: true do
+    with '1 case with a filled out case safety plan' do
+      it 'shows safety plan completed status of 100%' do
+        child = Child.new_with_user(@primero_kpi, {
+          "safety_plan" => [{
+            'safety_plan_needed' => 'yes',
+            'safety_plan_developed_with_survivor' => 'yes',
+            'safety_plan_completion_date' => Date.today,
+            'safety_plan_main_concern' => 'covid-19',
+            'safety_plan_preparedness_signal' => 'Firing workers',
+            'safety_plan_preparedness_gathered_things' => 'Ill prespared'
+          }]
+        }).save!
+        Sunspot.commit
+
+        sign_in(@primero_kpi)
+
+        get '/api/v2/key_performance_indicators/completed_case_safety_plans', params: {
+          from: Date.today - 31,
+          to: Date.today + 1
+        }
+
+        expect(response).to have_http_status(200)
+        expect(json[:data][:completed]).to eql(1.0)
+      end
+    end
+  end
+
+  describe 'GET /api/v2/key_performance_indicators/completed_case_action_plans', search: true do
+    with '1 case with a filled out case action plan' do
+      it 'shows safety plan completed status of 100%' do
+        child = Child.new_with_user(@primero_kpi, {
+          "action_plan" => [{
+            'service_type' => 'fiscal',
+            'service_referral' => 'advice',
+            'service_referral_written_consent' => 'yes'
+          }]
+        }).save!
+        Sunspot.commit
+
+        sign_in(@primero_kpi)
+
+        get '/api/v2/key_performance_indicators/completed_case_action_plans', params: {
+          from: Date.today - 31,
+          to: Date.today + 1
+        }
+
+        expect(response).to have_http_status(200)
+        expect(json[:data][:completed]).to eql(1.0)
+      end
+    end
+  end
 end
