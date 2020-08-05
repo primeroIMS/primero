@@ -20,6 +20,7 @@ Endpoints for querying and manipulating individual cases and related resources i
 * [Create a new case](v2/docs/cases/post.md) : `POST /api/v2/cases`
 * [Update an existing case](v2/docs/cases/id/patch.md) : `PATCH /api/v2/cases/:id`
 * [Disable an existing case](v2/docs/cases/id/delete.md) : `DELETE /api/v2/cases/:id`
+* [List all incidents for this case](v2/docs/cases/id/incidents/get.md): `GET /api/v2/cases/:id/incidents`
 
 ## Incident Endpoints
 
@@ -92,7 +93,6 @@ A referral grants an additional user access to this record.
 * [Refer a set of records in bulk](v2/docs/referrals/post.md): `POST /api/v2/cases/referrals`
 * [Relinquish or retract a referral](v2/docs/referrals/id/delete.md): `DELETE /api/v2/cases/:id/referrals/:referral_id`
 
-
 ### Transfers
 
 A transfer initiates a process to switch the record owner.
@@ -113,7 +113,6 @@ A transfer request starts the workflow for initiating a transfer to the requesti
 
 A transition is a Transfer, Assign, Referral, or TransferRequests.
 * [List all transitions for this record](v2/docs/transitions/get.md): `GET /api/v2/cases/:id/transitions`
-
 
 ## Form Section Endpoints
 
@@ -150,10 +149,6 @@ Query and manipulate users
 * [Query for users to assign records to](v2/docs/users/assign-to.md): `GET /api/v2/users/assign-to`
 * [Query for users to transfer records to](v2/docs/users/transfer-to.md): `GET /api/v2/users/transfer-to`
 * [Query for users to refer records to](v2/docs/users/refer-to.md): `GET /api/v2/users/refer-to`
-* [Query for flags of a record](v2/docs/flags/get.md) : `GET /api/v2/:recordType/:recordId/flags`
-* [Create a new flag of a record](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
-* [Unflag a record](v2/docs/flags/id/patch.md) `POST /api/v2/:recordType/:recordId/flags/:id`
-* [Create a bulk of flags for multiple records](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
 
 ## Dashboard Endpoint
 

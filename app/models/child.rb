@@ -161,6 +161,7 @@ class Child < ApplicationRecord
   alias super_update_properties update_properties
   def update_properties(user, data)
     build_or_update_incidents(user, (data.delete('incident_details') || []))
+    self.mark_for_reopen = @incidents_to_save.present?
     super_update_properties(user, data)
   end
 
@@ -176,7 +177,6 @@ class Child < ApplicationRecord
       end
       incident.has_changes_to_save? ? incident : nil
     end.compact
-    self.mark_for_reopen = @incidents_to_save.present?
   end
 
   def save_incidents
@@ -253,7 +253,12 @@ class Child < ApplicationRecord
   end
 
   def associations_as_data
-    @associations_as_data ||= { 'incident_details' => incidents.map(&:data) }
+    return @associations_as_data if @associations_as_data
+
+    incident_details = incidents.map do |incident|
+      incident.data&.select { |_, v| !(v.is_a?(Hash) || v.is_a?(Array)) }
+    end.compact || []
+    @associations_as_data = { 'incident_details' => incident_details }
   end
 
   def associations_as_data_keys

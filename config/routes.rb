@@ -26,6 +26,7 @@ Rails.application.routes.draw do
                    constraints: { format: :json },
                    only: %i[index create show update destroy] do
       resources :children, as: :cases, path: :cases do
+        resources :children_incidents, as: :incidents, path: :incidents, only: %i[index]
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
         resources :assigns, only: %i[index create]
