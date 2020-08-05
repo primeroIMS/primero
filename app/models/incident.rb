@@ -13,7 +13,7 @@ class Incident < ApplicationRecord
 
   store_accessor(
     :data,
-    :incident_id, :incidentid_ir, :individual_ids, :incident_code, :description, :super_incident_name,
+    :unique_id, :incident_id, :incidentid_ir, :individual_ids, :incident_code, :description, :super_incident_name,
     :incident_detail_id, :incident_description, :monitor_number, :survivor_code, :date_of_first_report,
     :date_of_incident_date_or_date_range, :incident_date, :date_of_incident, :date_of_incident_from,
     :date_of_incident_to, :individual_details_subform_section,
@@ -44,6 +44,7 @@ class Incident < ApplicationRecord
     quicksearch_fields.each { |f| text_index(f) }
   end
 
+  after_initialize :set_unique_id
   before_save :copy_from_case
   # TODO: Reconsider whether this is necessary.
   # We will only be creating an incident from a case using a special business logic that
@@ -87,6 +88,10 @@ class Incident < ApplicationRecord
   def set_instance_id
     self.incident_id ||= unique_identifier
     self.incident_code ||= incident_id.to_s.last(7)
+  end
+
+  def set_unique_id
+    self.unique_id = id
   end
 
   def incident_date_derived

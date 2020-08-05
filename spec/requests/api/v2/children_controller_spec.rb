@@ -6,7 +6,7 @@ describe Api::V2::ChildrenController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    clean_data(Alert, Flag, Attachment, Child, Agency, User, Role, Lookup)
+    clean_data(Alert, Flag, Attachment, Incident, Child, Agency, User, Role, Lookup)
     @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
     role_self = Role.create!(
       name: 'Test Role 3',
@@ -55,6 +55,10 @@ describe Api::V2::ChildrenController, type: :request do
         ]
       },
       alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request')]
+    )
+    @incident1 = Incident.create!(
+      case: @case1,
+      data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' }
     )
     Attachment.new(
       record: @case1, field_name: 'photos', attachment_type: Attachment::IMAGE,
@@ -225,6 +229,16 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(200)
       photo = json['data']['photo']
       expect(photo).to match(/.+jorge\.jpg$/)
+    end
+
+    it 'contains incidents embedded in the incident_details hash array' do
+      login_for_test(permitted_field_names: (common_permitted_field_names << 'incident_details'))
+      get "/api/v2/cases/#{@case1.id}"
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['incident_details'].size).to eq(1)
+      expect(json['data']['incident_details'][0]['unique_id']).to eq(@incident1.id)
+      expect(json['data']['incident_details'][0]['description']).to eq(@incident1.data['description'])
     end
 
     it 'enqueues an audit log job that records the case read attempt' do

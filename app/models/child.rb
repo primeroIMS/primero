@@ -251,4 +251,12 @@ class Child < ApplicationRecord
   def matches_to
     Trace
   end
+
+  def associations_as_data
+    @associations_as_data ||= { 'incident_details' => incidents.map(&:data) }
+  end
+
+  def associations_as_data_keys
+    %w[incident_details]
+  end
 end
