@@ -1,8 +1,14 @@
+# frozen_string_literal: true
+
 require 'writeexcel'
 
 module Exporters
+  # Exports Role Permissions to an Excel file
   class RolePermissionsExporter
-    CASE = %w[referral transfer read create write enable_disable_record flag manage add_note reopen close].freeze
+    CASE = %w[
+      referral transfer read create write enable_disable_record flag manage add_note reopen close
+      change_log
+    ].freeze
     CASE_EXPORTS = %w[
       export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv export_case_pdf consent_override
       export_duplicate_id_csv export_json export_custom import sync_mobile

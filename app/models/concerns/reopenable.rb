@@ -7,6 +7,7 @@ module Reopenable
 
   included do
     store_accessor :data, :reopened_logs, :case_status_reopened
+    attr_accessor :mark_for_reopen
 
     after_initialize :default_reopened_logs
     before_save :close_record
@@ -36,7 +37,7 @@ module Reopenable
 
   def reopen_record
     return unless status == Record::STATUS_CLOSED
-    return unless (changes_to_save_for_record.keys & %w[services_section incident_details]).present?
+    return unless mark_for_reopen || (changes_to_save_for_record.keys & %w[services_section]).present?
 
     self.status = Record::STATUS_OPEN
     self.case_status_reopened = true

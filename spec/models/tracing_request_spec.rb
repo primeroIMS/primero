@@ -47,7 +47,7 @@ describe TracingRequest do
           { 'unique_id' => uuid, 'relation' => 'uncle', 'name' => 'Maria Jones' },
           { 'unique_id' => trace1.id, 'relation' => 'father', 'name' => 'Ethel Jones' }
         ]
-        tracing_request.update_properties(data, 'test')
+        tracing_request.update_properties(fake_user, data)
         tracing_request.save!
       end
 

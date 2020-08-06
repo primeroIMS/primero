@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_15_232433) do
+ActiveRecord::Schema.define(version: 2020_08_05_210050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -316,7 +316,7 @@ ActiveRecord::Schema.define(version: 2020_07_15_232433) do
   end
 
   create_table "record_histories", id: :serial, force: :cascade do |t|
-    t.integer "record_id"
+    t.string "record_id"
     t.string "record_type"
     t.datetime "datetime"
     t.string "user_name"

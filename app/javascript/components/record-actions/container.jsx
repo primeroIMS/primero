@@ -239,7 +239,7 @@ const Container = ({
 
   const canApproveActionPlan = checkPermissions(userPermissions, [
     ACTIONS.MANAGE,
-    ACTIONS.APPROVE_ACTIONE_PLAN
+    ACTIONS.APPROVE_ACTION_PLAN
   ]);
 
   const canApproveGbvClosure = checkPermissions(userPermissions, [

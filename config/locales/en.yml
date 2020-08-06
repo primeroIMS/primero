@@ -1620,6 +1620,9 @@ en:
           close:
             label: "Close"
             explanation: "Allows a user to set the status of an open case to closed."
+          change_log:
+            label: "Change Log"
+            explanation: "Allows a user to view change log of the case"
           manage:
             label: "Manage (all permissions for this resource type)"
             explanation: "Allows a user to perform all available actions on cases. The \"Manage\" permission essentially means \"everything\"."
@@ -1689,6 +1692,9 @@ en:
                 be synced between the user's mobile device and the web application, while un-marking an incident for mobile
                 stops this syncing from happening. Users without this permission also cannot sync their mobile devices with
                 the web application in general, meaning that they cannot use the mobile app to manage incidents."
+          change_log:
+            label: "Change Log"
+            explanation: "Allows a user to view change log of the incident"
           manage:
             label: "Manage (all permissions for this resource type)"
             explanation: "Allows a user to perform all available actions on incidents. The \"Manage\" permission essentially
@@ -1747,6 +1753,9 @@ en:
                 The imported file must be formatted *very* specifically for information to be imported properly. This function
                 should only be available for administrative users with advanced technical skills and an in-depth knowledge
                 of how data is formatted in Primero. Only performed from case list page."
+          change_log:
+            label: "Change Log"
+            explanation: "Allows a user to view change log of the tracing request"
           manage:
             label: "Manage (all permissions for this resource type)"
             explanation: "Allows a user to perform all available actions on tracing requests. The \"Manage\" permission
@@ -3185,6 +3194,7 @@ en:
     description:
       valid: "Valid record"
       invalid: "Invalid record"
+    change_log: "Change Log"
 
   record_panel:
     valid: "Valid record"
