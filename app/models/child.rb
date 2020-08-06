@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
+# The truth of it is, this is a long class.
+# Just the same, it shouldn't exceed 300 lines (250 lines of active code).
+
 # The central Primero model object that represents an individual's case.
 # In spite of the name, this will represent adult cases as well.
 class Child < ApplicationRecord
@@ -265,3 +269,4 @@ class Child < ApplicationRecord
     %w[incident_details]
   end
 end
+# rubocop:enable Metrics/ClassLength

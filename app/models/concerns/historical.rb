@@ -18,9 +18,7 @@ module Historical
       %i[created_organization created_agency_office created_by last_updated_by last_updated_organization].each do |f|
         string f, as: "#{f}_sci"
       end
-      %i[created_at last_updated_at posted_at].each do |f|
-        time f
-      end
+      %i[created_at last_updated_at posted_at].each { |f| time(f) }
     end
 
     validate :validate_created_at
@@ -87,10 +85,8 @@ module Historical
 
   def add_creation_history
     RecordHistory.create(
-      record: self,
-      record_type: self.class.name,
-      user_name: created_by,
-      datetime: self.created_at,
+      record: self, record_type: self.class.name,
+      user_name: created_by, datetime: self.created_at,
       action: EVENT_CREATE
     )
   end
@@ -104,10 +100,8 @@ module Historical
 
     RecordHistory.create(
       record: self, record_type: self.class.name,
-      user_name: last_updated_by,
-      datetime: self.last_updated_at,
-      action: EVENT_UPDATE,
-      record_changes: saved_changes_to_record
+      user_name: last_updated_by, datetime: self.last_updated_at,
+      action: EVENT_UPDATE, record_changes: saved_changes_to_record
     )
   end
 
@@ -132,7 +126,7 @@ module Historical
   end
 
   # TODO: For performance reasons, consider caching this and assuming that
-  #      by the time the before_save callback is invoked, all changes have taken place
+  #       by the time the before_save callback is invoked, all changes have taken place
   def changes_to_save_for_record
     changes_to_save_for_record = {}
     if will_save_change_to_attribute?('data')
