@@ -7,7 +7,6 @@
 # Some actions actually represent sub-resources. For example a user may be granted the ability to see dashboards,
 # but each individual dashboard entitlement is treated as an action grant.
 class Permission < ValueObject
-
   # The role_unique_ids property is used solely for the ROLE resource
   # It associates other roles with this ROLE permission
   # That restricts this role to only be able to manage those associated roles
@@ -325,5 +324,4 @@ class Permission < ValueObject
       end
     end
   end
-
 end

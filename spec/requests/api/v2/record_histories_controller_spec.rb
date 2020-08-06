@@ -109,6 +109,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
         user_name: 'faketest',
         action: 'update',
         record_changes: [
+          { unique_id: { from: nil, to: Incident.first.id } },
           { description: { from: 'Test', to: 'Tester' } },
           { incident_date: { from: '2019-04-01', to: '2019-02-01' } }
         ]

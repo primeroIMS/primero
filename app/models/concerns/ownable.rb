@@ -33,9 +33,9 @@ module Ownable
     before_save :update_ownership
   end
 
-  def set_owner_fields_for(user)
-    self.owned_by = user.user_name
-    self.owned_by_full_name = user.full_name
+  def owner_fields_for(user)
+    self.owned_by = user&.user_name
+    self.owned_by_full_name = user&.full_name
   end
 
   def owner

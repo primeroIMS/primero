@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
+# The truth of it is, this is a long class.
+# Just the same, it shouldn't exceed 300 lines (250 lines of active code).
+
 # The central Primero model object that represents an individual's case.
 # In spite of the name, this will represent adult cases as well.
 class Child < ApplicationRecord
@@ -118,6 +122,7 @@ class Child < ApplicationRecord
   before_save :sync_protection_concerns
   before_save :auto_populate_name
   before_create :hide_name
+  after_save :save_incidents
 
   alias super_defaults defaults
   def defaults
@@ -152,11 +157,37 @@ class Child < ApplicationRecord
   end
 
   def validate_date_of_birth
-    if date_of_birth.present? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
-      errors.add(:date_of_birth, I18n.t('errors.models.child.date_of_birth'))
-      false
-    else
-      true
+    return unless date_of_birth.present? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
+
+    errors.add(:date_of_birth, I18n.t('errors.models.child.date_of_birth'))
+  end
+
+  alias super_update_properties update_properties
+  def update_properties(user, data)
+    build_or_update_incidents(user, (data.delete('incident_details') || []))
+    self.mark_for_reopen = @incidents_to_save.present?
+    super_update_properties(user, data)
+  end
+
+  def build_or_update_incidents(user, incidents_data)
+    return unless incidents_data
+
+    @incidents_to_save = incidents_data.map do |incident_data|
+      incident = Incident.find_by(id: incident_data['unique_id'])
+      incident ||= IncidentCreationService.incident_from_case(self, incident_data, module_id, user)
+      unless incident.new_record?
+        incident_data.delete('unique_id')
+        incident.data = RecordMergeDataHashService.merge_data(incident.data, incident_data) unless incident.new_record?
+      end
+      incident.has_changes_to_save? ? incident : nil
+    end.compact
+  end
+
+  def save_incidents
+    return unless @incidents_to_save
+
+    Incident.transaction do
+      @incidents_to_save.each(&:save!)
     end
   end
 
@@ -224,4 +255,18 @@ class Child < ApplicationRecord
   def matches_to
     Trace
   end
+
+  def associations_as_data
+    return @associations_as_data if @associations_as_data
+
+    incident_details = incidents.map do |incident|
+      incident.data&.select { |_, v| !(v.is_a?(Hash) || v.is_a?(Array)) }
+    end.compact || []
+    @associations_as_data = { 'incident_details' => incident_details }
+  end
+
+  def associations_as_data_keys
+    %w[incident_details]
+  end
 end
+# rubocop:enable Metrics/ClassLength
