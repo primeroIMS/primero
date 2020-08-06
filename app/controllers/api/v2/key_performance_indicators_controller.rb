@@ -230,9 +230,6 @@ module Api::V2
       @average_referrals = search.stats_response.first.last['mean']
     end
 
-    def referrals_per_service
-    end
-
     def average_followup_meetings_per_case
       search = Child.search do
         with :status, Record::STATUS_OPEN

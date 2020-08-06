@@ -216,4 +216,29 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
     end
   end
 
+  describe 'GET /api/v2/key_performance_indicators/average_referrals', search: true do
+    with 'a single case that has been referred once' do
+      it 'should return an average referral rate of 1.0' do
+        chidl = Child.new_with_user(@primero_kpi, {
+          'action_plan' => [{
+            'action_plan_subform_section' => [{
+              'service_referral' => 'Referred'
+            }]
+          }]
+        }).save!
+        Sunspot.commit
+
+        sign_in(@primero_kpi)
+
+        get '/api/v2/key_performance_indicators/average_referrals', params: {
+          from: Date.today - 31,
+          to: Date.today + 1
+        }
+
+        expect(response).to have_http_status(200)
+        expect(json[:data][:average_referrals]).to eql(1.0)
+      end
+    end
+  end
+
 end
