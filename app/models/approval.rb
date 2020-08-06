@@ -54,9 +54,7 @@ class Approval < ValueObject
 
   class << self
     def get!(approval_id, record, user_name, params = {})
-      raise Errors::UnknownPrimeroEntityType, 'approvals.error_invalid_approval' if [
-        Approval::ASSESSMENT, Approval::CLOSURE, Approval::CASE_PLAN, Approval::ACTION_PLAN, Approval::GBV_CLOSURE
-      ].exclude?(approval_id)
+      raise Errors::UnknownPrimeroEntityType, 'approvals.error_invalid_approval' if types.exclude?(approval_id)
 
       Approval.new(approval_id: approval_id, record: record, user_name: user_name,
                    fields: "Approval::#{approval_id.upcase}_FIELDS".constantize, approval_type: params[:approval_type],
