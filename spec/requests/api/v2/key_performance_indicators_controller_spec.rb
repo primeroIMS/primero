@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
   before(:each) do
-    clean_data(Location, Agency, Role, UserGroup, User, Child)
+    clean_data(Lookup, Location, Agency, Role, UserGroup, User, Child)
 
     @uk = Location.create!(location_code: 'GBR', name: 'United Kingdom', placename: 'United Kingdom', type: 'Country', hierarchy_path: 'GBR', admin_level: 0)
     @england = Location.create!(location_code: '01', name: 'England', placename: 'England', type: 'Region', hierarchy_path: 'GBR.01', admin_level: 1)
@@ -179,4 +179,41 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
       end
     end
   end
+
+  describe 'GET /api/v2/key_performance_indicators/completed_supervisor_approved_case_action_plans', search: true do
+    skip
+  end
+
+  describe 'GET /api/v2/key_performance_indicators/services_provided', search: true do
+    with 'service-type lookups and a case with a service_type_provided' do
+      it 'it returns a list of 1 service and a count of the times it was provided' do
+        Lookup.create!({
+          :unique_id => "lookup-service-type",
+          :name_en => "Service Type",
+          :lookup_values_en => [
+            {id: "safehouse_service", display_text: "Safehouse Service"}.with_indifferent_access
+          ]
+        })
+        child = Child.new_with_user(@primero_kpi, {
+          "action_plan" => [{
+            "gbv_follow_up_subform_section" => [{
+              "service_type_provided" => "safehouse_service"
+            }]
+          }]
+        }).save!
+        Sunspot.commit
+
+        sign_in(@primero_kpi)
+
+        get '/api/v2/key_performance_indicators/services_provided', params: {
+          from: Date.today - 31,
+          to: Date.today + 1
+        }
+
+        expect(response).to have_http_status(200)
+        expect(json[:data][:services_provided].length).to eql(1)
+      end
+    end
+  end
+
 end
