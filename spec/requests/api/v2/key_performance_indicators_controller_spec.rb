@@ -241,4 +241,68 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
     end
   end
 
+  describe 'GET /api/v2/key_performance_indicators/average_followup_meetings_per_case', search: true do
+    with 'a single case that has been followedup 4 times' do
+      it 'should return an average referral rate of 4.0' do
+        Child.new_with_user(@primero_kpi, {
+          'action_plan' => [{
+            'gbv_follow_up_subform_section' => [{
+              'followup_date' => Date.today
+            }, {
+              'followup_date' => Date.today
+            }, {
+              'followup_date' => Date.today
+            }, {
+              'followup_date' => Date.today
+            }]
+          }]
+        }).save!
+        Sunspot.commit
+
+        sign_in(@primero_kpi)
+
+        get '/api/v2/key_performance_indicators/average_followup_meetings_per_case', params: {
+          from: Date.today - 31,
+          to: Date.today + 1
+        }
+
+        expect(response).to have_http_status(200)
+        expect(json[:data][:average_meetings]).to eql(4.0)
+      end
+    end
+  end
+
+  describe 'GET /api/v2/key_performance_indicators/goal_progress_per_need', search: true do
+    with 'a single case with all needs filled out, some mets, some not' do
+      it 'should return an average of 0 for all unmet needs and 1.0 for met needs' do
+        Child.new_with_user(@primero_kpi, {
+          'action_plan' => [{
+            'gbv_follow_up_subform_section' => [{
+              'gbv_assessment_progress_safety' => 'n_a',
+              'gbv_assessment_progress_health' => 'in_progress',
+              'gbv_assessment_progress_psychosocial' => 'in_progress',
+              'gbv_assessment_progress_justice' => 'met',
+              'gbv_assessment_other_goals' => 'met'
+            }]
+          }]
+        }).save!
+        Sunspot.commit
+
+        sign_in(@primero_kpi)
+
+        get '/api/v2/key_performance_indicators/goal_progress_per_need', params: {
+          from: Date.today - 31,
+          to: Date.today + 1
+        }
+
+        expect(response).to have_http_status(200)
+        expect(json[:data][0][:percentage]).to eql(0.0)
+        expect(json[:data][1][:percentage]).to eql(0.0)
+        expect(json[:data][2][:percentage]).to eql(0.0)
+        expect(json[:data][3][:percentage]).to eql(1.0)
+        expect(json[:data][4][:percentage]).to eql(1.0)
+      end
+    end
+  end
+
 end

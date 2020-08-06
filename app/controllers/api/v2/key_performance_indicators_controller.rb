@@ -253,29 +253,36 @@ module Api::V2
           :other_goals_progress
       end
 
-      # TODO: Translate these needs / goals
       @data = [
         {
           need: I18n.t('key_performance_indicators.goal_progress_per_need.safety'),
-          percentage: search.stats(:safety_goals_progress).mean || 0
+          percentage: handle_solr_stats_value(search.stats(:safety_goals_progress).mean)
         },
         {
           need: I18n.t('key_performance_indicators.goal_progress_per_need.health'),
-          percentage: search.stats(:health_goals_progress).mean || 0
+          percentage: handle_solr_stats_value(search.stats(:health_goals_progress).mean)
         },
         {
           need: I18n.t('key_performance_indicators.goal_progress_per_need.psychosocial'),
-          percentage: search.stats(:psychosocial_goals_progress).mean || 0
+          percentage: handle_solr_stats_value(search.stats(:psychosocial_goals_progress).mean)
         },
         {
           need: I18n.t('key_performance_indicators.goal_progress_per_need.justice'),
-          percentage: search.stats(:justice_goals_progress).mean || 0
+          percentage: handle_solr_stats_value(search.stats(:justice_goals_progress).mean)
         },
         {
           need: I18n.t('key_performance_indicators.goal_progress_per_need.other'),
-          percentage: search.stats(:other_goals_progress).mean || 0
+          percentage: handle_solr_stats_value(search.stats(:other_goals_progress).mean)
         }
       ]
+    end
+    
+    def handle_solr_stats_value(value)
+      if value == "NaN" || value.nil?
+        0.0
+      else
+        value
+      end
     end
 
     def time_from_case_open_to_close
