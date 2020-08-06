@@ -9,6 +9,7 @@
 class Child < ApplicationRecord
   RISK_LEVEL_HIGH = 'high'
   RISK_LEVEL_NONE = 'none'
+  NAME_FIELDS = %w[name name_nickname name_other].freeze
 
   self.table_name = 'cases'
 
@@ -68,7 +69,7 @@ class Child < ApplicationRecord
     %w[ unique_identifier short_id case_id_display
         ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
         other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
-        family_count_no dss_id camp_id tent_number nfi_distribution_id ]
+        family_count_no dss_id camp_id tent_number nfi_distribution_id ] + NAME_FIELDS
   end
 
   def self.summary_field_names
@@ -96,7 +97,7 @@ class Child < ApplicationRecord
   searchable do
     Child.child_matching_field_names.each { |f| text_index(f) }
     Child.family_matching_field_names.each { |f| text_index_from_subform('family_details_section', f) }
-    quicksearch_fields.each { |f| text_index(f) }
+    (quicksearch_fields - NAME_FIELDS).each { |f| text_index(f) }
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
     %w[estimated urgent_protection_concern consent_for_tracing].each { |f| boolean(f) }
     %w[day_of_birth age].each { |f| integer(f) }
