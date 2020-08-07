@@ -22,13 +22,14 @@ import {
   SEPARATOR,
   NUMERIC_FIELD,
   RADIO_FIELD,
-  SELECT_FIELD
+  SELECT_FIELD,
+  SUBFORM_SECTION
 } from "../../../../../form";
 import { setDialog } from "../../../../../record-actions/action-creators";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { useI18n } from "../../../../../i18n";
 import { NEW_FIELD } from "../../constants";
-import { setNewField } from "../../action-creators";
+import { setNewField, setTemporarySubform } from "../../action-creators";
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { CUSTOM_FIELD_DIALOG } from "../custom-field-dialog/constants";
 import {
@@ -41,7 +42,8 @@ import {
   RadioInput,
   SelectInput,
   MultiSelectInput,
-  DateAndTimeInput
+  DateAndTimeInput,
+  SubformField
 } from "../../../../../../images/primero-icons";
 
 import styles from "./styles.css";
@@ -63,8 +65,8 @@ const fields = [
   [DATE_FIELD, DateInput],
   [DATE_TIME_FIELD, DateAndTimeInput],
   // [DATE_FIELD, DateRangeInput],
-  [SEPARATOR, Seperator]
-  // [SUBFORM_SECTION, SubformField]
+  [SEPARATOR, Seperator],
+  [SUBFORM_SECTION, SubformField]
 ];
 
 const Component = ({ isSubform }) => {
@@ -127,6 +129,20 @@ const Component = ({ isSubform }) => {
           isSubform
         )
       );
+
+      if (selectedItem === SUBFORM_SECTION) {
+        const selectedSubformParams = {
+          temp_id: Math.floor(Math.random() * 1000),
+          isSubformNew: true
+        };
+
+        dispatch(
+          setTemporarySubform({
+            ...newFieldAttributtes,
+            ...selectedSubformParams
+          })
+        );
+      }
     });
   };
 
@@ -163,6 +179,10 @@ const Component = ({ isSubform }) => {
           <Divider />
           {fields.map(field => {
             const [name, Icon] = field;
+
+            if (name === SUBFORM_SECTION && isSubform) {
+              return null;
+            }
 
             return (
               <React.Fragment key={field}>

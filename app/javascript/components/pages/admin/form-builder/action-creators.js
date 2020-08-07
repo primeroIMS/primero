@@ -15,9 +15,9 @@ export const setSelectedField = name => ({
   payload: { name }
 });
 
-export const setSelectedSubform = id => ({
+export const setSelectedSubform = payload => ({
   type: actions.SET_SELECTED_SUBFORM,
-  payload: { id }
+  payload
 });
 
 export const setSelectedSubformField = name => ({
@@ -88,4 +88,14 @@ export const clearSelectedField = () => ({
 
 export const clearSelectedSubformField = () => ({
   type: actions.CLEAR_SELECTED_SUBFORM_FIELD
+});
+
+export const setNewSubform = payload => ({
+  type: actions.SET_NEW_SUBFORM,
+  payload
+});
+
+export const setTemporarySubform = payload => ({
+  type: actions.SET_TEMPORARY_SUBFORM,
+  payload
 });

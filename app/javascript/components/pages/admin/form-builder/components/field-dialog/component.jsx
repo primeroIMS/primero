@@ -10,7 +10,11 @@ import CheckIcon from "@material-ui/icons/Check";
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { setDialog } from "../../../../../record-actions/action-creators";
 import bindFormSubmit from "../../../../../../libs/submit-form";
-import { submitHandler, whichFormMode } from "../../../../../form";
+import {
+  submitHandler,
+  whichFormMode,
+  SUBFORM_SECTION
+} from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
@@ -18,14 +22,17 @@ import { compare } from "../../../../../../libs";
 import {
   getSelectedField,
   getSelectedSubform,
-  getSelectedFields
+  getSelectedFields,
+  getSelectedSubformField
 } from "../../selectors";
 import {
   createSelectedField,
   clearSelectedSubformField,
   clearSelectedSubform,
   updateSelectedField,
-  updateSelectedSubform
+  updateSelectedSubform,
+  setNewSubform,
+  clearSelectedField
 } from "../../action-creators";
 import FieldsList from "../fields-list";
 import ClearButtons from "../clear-buttons";
@@ -59,6 +66,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const selectedField = useSelector(state => getSelectedField(state), compare);
+  const selectedSubformField = useSelector(
+    state => getSelectedSubformField(state),
+    compare
+  );
   const selectedSubform = useSelector(
     state => getSelectedSubform(state),
     compare
@@ -85,7 +96,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
       onClose();
     }
 
-    if (selectedSubform.toSeq().size && !isNested) {
+    if (
+      (selectedSubform.toSeq().size && !isNested) ||
+      selectedSubform.get("isSubformNew")
+    ) {
       dispatch(clearSelectedSubform());
     }
 
@@ -100,6 +114,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
     if (selectedFieldName === NEW_FIELD) {
       dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
+    }
+
+    if (!isNested) {
+      dispatch(clearSelectedField());
     }
   };
 
@@ -133,12 +151,16 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const addOrUpdatedSelectedField = fieldData => {
     let newFieldData = fieldData;
     const subformUniqueId = selectedSubform?.get("unique_id");
+    const subformTempId = selectedSubform?.get("temp_id");
     const currentFieldName =
       selectedFieldName === NEW_FIELD
         ? Object.keys(fieldData)[0]
         : selectedFieldName;
 
-    if (typeof fieldData[currentFieldName].disabled !== "undefined") {
+    if (
+      typeof fieldData[currentFieldName].disabled !== "undefined" ||
+      selectedFieldName === NEW_FIELD
+    ) {
       newFieldData = {
         [currentFieldName]: {
           ...fieldData[currentFieldName],
@@ -148,24 +170,45 @@ const Component = ({ mode, onClose, onSuccess }) => {
     }
 
     if (selectedFieldName === NEW_FIELD) {
-      if (subformUniqueId) {
-        dispatch(updateSelectedField(newFieldData, subformUniqueId));
+      if (
+        (subformUniqueId || subformTempId) &&
+        !selectedSubformField.size <= 0
+      ) {
+        dispatch(
+          updateSelectedField(newFieldData, subformUniqueId || subformTempId)
+        );
         dispatch(clearSelectedSubformField());
       } else {
-        dispatch(createSelectedField(newFieldData));
+        // Overrides subform_section_temp_id if it's not an existing subform
+        dispatch(
+          createSelectedField(
+            subformTempId
+              ? {
+                  [currentFieldName]: {
+                    ...newFieldData[currentFieldName],
+                    subform_section_temp_id: subformTempId
+                  }
+                }
+              : newFieldData
+          )
+        );
       }
     } else {
-      const subformId = isNested && subformUniqueId;
+      const subformId = isNested && (subformUniqueId || subformTempId);
 
       dispatch(updateSelectedField(newFieldData, subformId));
 
       if (subformId) {
         dispatch(clearSelectedSubformField());
+        if (!isNested) {
+          dispatch(clearSelectedSubform());
+        }
       }
     }
   };
 
   const onSubmit = data => {
+    const randomSubformId = Math.floor(Math.random() * 1000);
     const subformData = setInitialForms(data.subform_section);
     const fieldData = setSubformData(
       toggleHideOnViewPage(data[selectedFieldName]),
@@ -176,7 +219,8 @@ const Component = ({ mode, onClose, onSuccess }) => {
       selectedField,
       fieldData,
       i18n.locale,
-      lastField?.get("order")
+      lastField?.get("order"),
+      randomSubformId
     );
 
     batch(() => {
@@ -190,7 +234,24 @@ const Component = ({ mode, onClose, onSuccess }) => {
       }
 
       if (isSubformField(selectedField)) {
-        dispatch(updateSelectedSubform(subformData));
+        if (selectedField.get("name") === NEW_FIELD) {
+          dispatch(
+            setNewSubform({
+              ...subformData,
+              temp_id: selectedSubform?.get("temp_id")
+            })
+          );
+          dispatch(clearSelectedField());
+          dispatch(clearSelectedSubform());
+          dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+        } else {
+          dispatch(updateSelectedSubform(subformData));
+        }
+      }
+
+      if (!isNested) {
+        dispatch(clearSelectedField());
+        dispatch(clearSelectedSubform());
       }
     });
   };
@@ -205,7 +266,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
       <>
         <div className={css.subformFieldTitle}>
           <h1>{i18n.t("forms.fields")}</h1>
-          <CustomFieldDialog />
+          <CustomFieldDialog fromSubform />
         </div>
         <FieldsList subformField={selectedField} />
       </>
@@ -227,9 +288,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
           ? getSubformValues(selectedSubform)
           : {};
 
-      const resetOptions = isNested
-        ? { errors: true, dirtyFields: true, dirty: true, touched: true }
-        : {};
+      const resetOptions =
+        isNested || isSubformField(selectedField)
+          ? { errors: true, dirtyFields: true, dirty: true, touched: true }
+          : {};
 
       formMethods.reset(
         {
@@ -249,7 +311,9 @@ const Component = ({ mode, onClose, onSuccess }) => {
       formMode,
       i18n,
       initialValues: {},
-      onSubmit
+      onSubmit,
+      submitAllFields:
+        selectedFieldName === NEW_FIELD && isSubformField(selectedField)
     })
   );
 

@@ -21,11 +21,14 @@ export const getSelectedFields = (state, subform) => {
   return fields.sortBy(field => field.get("order"));
 };
 
-export const getSelectedField = state => {
-  const subformField = state.getIn(
+export const getSelectedSubformField = state =>
+  state.getIn(
     ["records", "admin", "forms", "selectedSubformField"],
     fromJS({})
   );
+
+export const getSelectedField = state => {
+  const subformField = getSelectedSubformField(state);
 
   if (subformField.toSeq()?.size) {
     return subformField;

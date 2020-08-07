@@ -93,7 +93,16 @@ const Component = ({ field, index, subformField }) => {
       }
 
       if (field?.get("type") === SUBFORM_SECTION) {
-        dispatch(setSelectedSubform(field.get("subform_section_id")));
+        const selectedSubformParams = {
+          id:
+            field.get("subform_section_id") ||
+            field.get("subform_section_temp_id"),
+          isSubformNew:
+            typeof field.get("subform_section_id") === "undefined" ||
+            Object.is(field.get("subform_section_id"), null)
+        };
+
+        dispatch(setSelectedSubform(selectedSubformParams));
       }
     });
   };

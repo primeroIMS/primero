@@ -82,21 +82,22 @@ const Component = ({ mode }) => {
     selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
 
   const onSubmit = data => {
-    dispatch(
-      saveForm({
-        id,
-        saveMethod: formMode.get("isEdit")
-          ? SAVE_METHODS.update
-          : SAVE_METHODS.new,
-        body: {
-          data: { ...data, fields: convertToFieldsArray(data.fields || {}) }
-        },
-        message: i18n.t(
-          `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-        ),
-        subforms: selectedSubforms.toJS()
-      })
-    );
+    console.log("subforms:", selectedSubforms?.toJS());
+    // dispatch(
+    //   saveForm({
+    //     id,
+    //     saveMethod: formMode.get("isEdit")
+    //       ? SAVE_METHODS.update
+    //       : SAVE_METHODS.new,
+    //     body: {
+    //       data: { ...data, fields: convertToFieldsArray(data.fields || {}) }
+    //     },
+    //     message: i18n.t(
+    //       `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
+    //     ),
+    //     subforms: selectedSubforms.toJS()
+    //   })
+    // );
   };
 
   const onManageTranslation = () => {
@@ -258,7 +259,7 @@ const Component = ({ mode }) => {
             <TabPanel tab={tab} index={1}>
               <div className={css.tabFields}>
                 <h1 className={css.heading}>{i18n.t("forms.fields")}</h1>
-                <CustomFieldDialog />
+                <CustomFieldDialog showAll />
               </div>
               <FieldsList />
               <FieldDialog mode={modeForFieldDialog} onSuccess={onSuccess} />

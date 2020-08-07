@@ -169,7 +169,8 @@ export const buildDataToSave = (
   selectedField,
   data,
   locale,
-  lastFieldOrder
+  lastFieldOrder,
+  randomSubformId
 ) => {
   const fieldName = selectedField?.get("name");
 
@@ -187,8 +188,13 @@ export const buildDataToSave = (
     lastFieldOrder
   );
 
+  isSubformField(selectedField);
+
   return {
-    [newFieldName]: dataToSave
+    [newFieldName]:
+      isSubformField(selectedField) && fieldName === NEW_FIELD
+        ? { ...dataToSave, subform_section_temp_id: randomSubformId }
+        : dataToSave
   };
 };
 
@@ -201,7 +207,7 @@ export const subformContainsFieldName = (subform, fieldName) => {
     Boolean(
       subform
         ?.get("fields")
-        .find(field => field.get("name") === fieldName)
+        ?.find(field => field.get("name") === fieldName)
         ?.toSeq()?.size
     ) || fieldName === NEW_FIELD
   );

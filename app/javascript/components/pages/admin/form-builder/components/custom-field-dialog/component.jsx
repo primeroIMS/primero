@@ -5,6 +5,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import { useSelector, useDispatch, batch } from "react-redux";
+import PropTypes from "prop-types";
 
 import ActionDialog from "../../../../../action-dialog";
 import CustomFieldSelectorDialog from "../custom-field-selector-dialog";
@@ -22,7 +23,7 @@ import { isSubformField } from "../field-dialog/utils";
 import styles from "./styles.css";
 import { NAME, CUSTOM_FIELD_DIALOG } from "./constants";
 
-const Component = () => {
+const Component = ({ showAll }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
@@ -31,11 +32,11 @@ const Component = () => {
     selectDialog(state, CUSTOM_FIELD_DIALOG)
   );
 
-  const isSubform = isSubformField(selectedField);
   const selectedSubform = useSelector(
     state => getSelectedSubform(state),
     compare
   );
+  const isSubform = isSubformField(selectedField);
 
   const handleDialog = () => {
     if (isSubform) {
@@ -115,7 +116,8 @@ const Component = () => {
       </ActionDialog>
       <CustomFieldSelectorDialog
         key="custom-field-selector-dialog"
-        isSubform={isSubform}
+        showAll={showAll}
+        isSubform={selectedSubform.toSeq().size > 0 && isSubform}
       />
     </>
   );
@@ -123,8 +125,8 @@ const Component = () => {
 
 Component.displayName = NAME;
 
-Component.defaultProps = {
-  isSubform: false
+Component.propTypes = {
+  showAll: PropTypes.bool
 };
 
 export default Component;
