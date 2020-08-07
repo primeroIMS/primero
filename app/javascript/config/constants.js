@@ -362,3 +362,7 @@ export const ALERTS_FOR = {
 };
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];
+
+export const LOCALE_KEYS = {
+  en: "en"
+};

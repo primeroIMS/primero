@@ -63,7 +63,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     groupBy,
     tooltip,
     numeric,
-    onChange
+    onChange,
+    disableClearable
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -131,7 +132,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     selectedValue,
     tooltip,
     numeric,
-    onChange
+    onChange,
+    disableClearable
   };
 
   const Field = (fieldType => {

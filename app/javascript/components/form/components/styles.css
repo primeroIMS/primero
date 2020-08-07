@@ -43,3 +43,7 @@
 .panelContent {
   display: block;
 }
+
+.formActions {
+  padding: 20px 0;
+}

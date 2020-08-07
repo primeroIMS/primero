@@ -15,6 +15,7 @@ const Component = ({
   isTransparent,
   pending,
   text,
+  outlined,
   keepTextOnMobile,
   rest
 }) => {
@@ -34,6 +35,7 @@ const Component = ({
     [css.isTransparent]: isTransparent,
     [css.isCancel]: isCancel,
     [css.onlyText]: !renderIcon,
+    [css.outlined]: outlined,
     [rest.className]: Boolean(rest.className)
   });
 
@@ -59,6 +61,7 @@ Component.propTypes = {
   isCancel: PropTypes.bool,
   isTransparent: PropTypes.bool,
   keepTextOnMobile: PropTypes.bool,
+  outlined: PropTypes.bool,
   pending: PropTypes.bool,
   rest: PropTypes.object,
   text: PropTypes.string
