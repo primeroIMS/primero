@@ -982,6 +982,10 @@ en:
       timestamp: 'Timestamp'
       user: 'User Name'
 
+  change_logs:
+    create: "Created record"
+    update: "Changed from %{field_name} from %{from_value} to %{to_value}"
+
   preposition:
     on_label: "on"
     because: "Because"

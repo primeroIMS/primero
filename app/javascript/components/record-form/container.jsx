@@ -27,6 +27,7 @@ import { getLoadingRecordState } from "../records/selectors";
 import { usePermissions } from "../user";
 import { fetchRecordsAlerts } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
+import { fetchChangeLogs } from "../record-actions/change-logs/action-creators";
 
 import { clearValidationErrors } from "./action-creators";
 import { NAME } from "./constants";
@@ -184,6 +185,7 @@ const Container = ({ match, mode }) => {
     if (params.id && (containerMode.isShow || containerMode.isEdit)) {
       dispatch(fetchRecord(params.recordType, params.id));
       dispatch(fetchRecordsAlerts(params.recordType, params.id));
+      dispatch(fetchChangeLogs(params.recordType, params.id));
     }
   }, [
     containerMode.isEdit,

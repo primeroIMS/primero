@@ -8,6 +8,7 @@ export const ACTIONS = {
   ASSIGN: "assign",
   ASSIGN_WITHIN_AGENCY_PERMISSIONS: "assign_within_agency permissions",
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
+  CHANGE_LOG: "change_log",
   CLOSE: "close",
   CREATE: "create",
   DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
@@ -222,3 +223,5 @@ export const GROUP_PERMISSIONS = {
   GROUP: "group",
   SELF: "self"
 };
+
+export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.CHANGE_LOG];

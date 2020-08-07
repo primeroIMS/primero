@@ -17,6 +17,7 @@ import {
   REQUEST_APPROVAL,
   APPROVAL,
   SHOW_EXPORTS,
+  SHOW_CHANGE_LOG,
   checkPermissions
 } from "../../libs/permissions";
 import Permission from "../application/permission";
@@ -41,7 +42,8 @@ import {
   ENABLED_FOR_ONE_MANY,
   ENABLED_FOR_ONE_MANY_ALL,
   SERVICE_DIALOG,
-  INCIDENT_DIALOG
+  INCIDENT_DIALOG,
+  CHANGE_LOG_DIALOG
 } from "./constants";
 import { NAME } from "./config";
 import Notes from "./notes";
@@ -54,6 +56,7 @@ import RequestApproval from "./request-approval";
 import Exports from "./exports";
 import { selectDialog, selectDialogPending } from "./selectors";
 import { isDisabledAction } from "./utils";
+import ChangeLogs from "./change-logs";
 
 const Container = ({
   recordType,
@@ -94,6 +97,9 @@ const Container = ({
   const openExportsDialog = useSelector(state =>
     selectDialog(state, EXPORT_DIALOG)
   );
+  const openChangeLogDialog = useSelector(state =>
+    selectDialog(state, CHANGE_LOG_DIALOG)
+  );
   const setRequestDialog = open => {
     dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open }));
   };
@@ -120,6 +126,9 @@ const Container = ({
   };
   const setIncidentDialog = open => {
     dispatch(setDialog({ dialog: INCIDENT_DIALOG, open }));
+  };
+  const setOpenChangeLogDialog = open => {
+    dispatch(setDialog({ dialog: CHANGE_LOG_DIALOG, open }));
   };
 
   const metadata = useSelector(state => getMetadata(state, recordType));
@@ -253,6 +262,8 @@ const Container = ({
 
   const canShowExports = checkPermissions(userPermissions, SHOW_EXPORTS);
 
+  const canShowChangeLog = checkPermissions(userPermissions, SHOW_CHANGE_LOG);
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -333,6 +344,11 @@ const Container = ({
   const handleServiceDialog = () => {
     setServiceDialog(true);
   };
+
+  const handleChangeLogClose = () => {
+    setOpenChangeLogDialog(false);
+  };
+
 
   const canOpenOrClose =
     (canReopen && openState === "reopen") ||
@@ -435,6 +451,12 @@ const Container = ({
       enabledFor: ENABLED_FOR_ONE_MANY_ALL,
       condition: canShowExports,
       disableOffline: true
+    },
+    {
+      name: i18n.t("actions.change_log"),
+      action: () => setOpenChangeLogDialog(true),
+      recordType: RECORD_TYPES.all,
+      condition: canShowChangeLog
     }
   ];
 
@@ -683,6 +705,15 @@ const Container = ({
           selectedRecords={selectedRecords}
           pending={dialogPending}
           setPending={setDialogPending}
+        />
+      </Permission>
+
+      <Permission resources={recordType} actions={SHOW_CHANGE_LOG}>
+        <ChangeLogs
+          close={handleChangeLogClose}
+          openChangeLog={openChangeLogDialog}
+          record={record}
+          recordType={recordType}
         />
       </Permission>
     </>

@@ -44,6 +44,7 @@ import { reducer as AdminLookupsFormReducers } from "./components/pages/admin/lo
 import { reducer as adminFormListReducer } from "./components/pages/admin/forms-list";
 import { reducer as adminFormBuilderReducer } from "./components/pages/admin/form-builder";
 import { reducer as AuditLogsReducers } from "./components/pages/admin/audit-logs";
+import { reducer as changeLogsReducers } from "./components/record-actions/change-logs";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -85,6 +86,7 @@ const rootReducer = {
       support: reduceReducers(contactInformationReducer, supportReducer),
       ...flaggingReducer,
       ...savedSearchesReducer,
+      ...changeLogsReducers,
       admin: combineReducers({
         forms: reduceReducers(adminFormListReducer, adminFormBuilderReducer),
         audit_logs: reduceReducers(AuditLogsReducers),

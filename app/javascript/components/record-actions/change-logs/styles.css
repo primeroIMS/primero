@@ -1,0 +1,15 @@
+.root {
+  & li:before {
+    content: none;
+  }
+}
+
+.itemContainer {
+  display: flex;
+  flex-direction: column
+}
+
+.itemHeader {
+  font-size: 0.875rem;
+  font-weight: bold;
+}
