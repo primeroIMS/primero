@@ -41,7 +41,7 @@ module Api::V2::Concerns::Record
   def update
     @record = find_record
     authorize_update!
-    @record.update_properties(record_params, current_user.name)
+    @record.update_properties(current_user, record_params)
     @record.save!
     select_updated_fields
     render 'api/v2/records/update'
@@ -50,7 +50,7 @@ module Api::V2::Concerns::Record
   def destroy
     authorize! :enable_disable_record, model_class
     @record = find_record
-    @record.update_properties({ record_state: false }, current_user.name)
+    @record.update_properties(current_user, record_state: false)
     @record.save!
     render 'api/v2/records/destroy'
   end

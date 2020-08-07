@@ -6,7 +6,7 @@ import Chip from "@material-ui/core/Chip";
 import clsx from "clsx";
 
 import { useI18n } from "../../../i18n";
-import { TRANSITIONS_DATE_FORMAT } from "../../../../config";
+import { DATE_FORMAT } from "../../../../config";
 import { NAME_SUMMARY } from "../../constants";
 import { useApp } from "../../../application";
 
@@ -44,19 +44,17 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
       return false;
     }
 
-    return format(new Date(approvalDate), TRANSITIONS_DATE_FORMAT);
+    return format(new Date(approvalDate), DATE_FORMAT);
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} alignItems="center">
       <Grid item md={10} xs={8}>
         <div className={css.wrapper}>
-          <div className={css.titleHeader}>{title}</div>
-          <div className={css.approvalsValueSummary}>{renderApprovalValue}</div>
-          <div className={(css.approvalsValueSummary, css.separator)}>-</div>
           {/* TODO: The date should be localized */}
+          <div className={css.titleHeader}>{renderApprovalDate()}</div>
           <div className={css.approvalsValueSummary}>
-            {renderApprovalDate()}
+            {renderApprovalValue} - {title}
           </div>
         </div>
       </Grid>

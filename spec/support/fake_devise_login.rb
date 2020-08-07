@@ -31,18 +31,11 @@ module FakeDeviseLogin
   end
 
   def permission_flag_record
+    actions = [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
     @permission_flag_record = [
-      Permission.new(
-        resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
-      ),
-      Permission.new(
-        resource: Permission::TRACING_REQUEST,
-        actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
-      ),
-      Permission.new(
-        resource: Permission::INCIDENT,
-        actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
-      )
+      Permission.new(resource: Permission::CASE, actions: actions),
+      Permission.new(resource: Permission::TRACING_REQUEST, actions: actions),
+      Permission.new(resource: Permission::INCIDENT, actions: actions)
     ]
   end
 
@@ -54,17 +47,7 @@ module FakeDeviseLogin
     ]
   end
 
-  def fake_user_name
-    'faketest'
-  end
-
-  def fake_user_id
-    nil
-  end
-
-  def login_for_test(opts = {})
-    user_name = opts[:user_name] || fake_user_name
-    user = User.new(user_name: user_name)
+  def fake_role(opts = {})
     permissions = opts[:permissions] || [permission_case, permission_incident, permission_tracing_request]
     group_permission = opts[:group_permission] || Permission::ALL
     role = Role.new(
@@ -73,9 +56,27 @@ module FakeDeviseLogin
       form_sections: opts[:form_sections] || []
     )
     role.stub(:modules).and_return(opts[:modules] || [])
-    user.stub(:role).and_return(role)
+    role
+  end
+
+  def fake_user_name
+    'faketest'
+  end
+
+  def fake_user_id
+    nil
+  end
+
+  def fake_user(opts = {})
+    user_name = opts[:user_name] || fake_user_name
+    user = User.new(user_name: user_name)
+    user.stub(:role).and_return(fake_role(opts))
     permitted_field_names = opts[:permitted_field_names] || common_permitted_field_names
     user.stub(:permitted_field_names_from_forms).and_return(permitted_field_names)
-    sign_in(user)
+    user
+  end
+
+  def login_for_test(opts = {})
+    sign_in(fake_user(opts))
   end
 end

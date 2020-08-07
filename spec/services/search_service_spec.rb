@@ -27,6 +27,21 @@ describe SearchService, search: true do
     end
   end
 
+  describe 'Text search' do
+    before :example do
+      @correct_match = Child.create!(data: { name: 'Augustina Link', sex: 'female' })
+      @incorrect_match = Child.create!(data: { name: 'Ahmad MacPherson', sex: 'male' })
+      Sunspot.commit
+    end
+
+    it 'searches with plain text' do
+      search = SearchService.search(Child, query: 'Augustina')
+
+      expect(search.total).to eq(1)
+      expect(search.results.first.name).to eq(@correct_match.name)
+    end
+  end
+
   describe 'Authorization' do
     before :example do
       @user_group = UserGroup.new(id: 1, unique_id: 'user_group_1')

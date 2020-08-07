@@ -90,6 +90,16 @@ const stateWithRecords = fromJS({
         en: "Assessment",
         fr: "",
         ar: "Assessment-AR"
+      },
+      action_plan: {
+        en: "Action Plan",
+        fr: "",
+        ar: "Action Plan-AR"
+      },
+      gbv_closure: {
+        en: "GBV Closure",
+        fr: "",
+        ar: "GBV Closure-AR"
       }
     }
   }
@@ -248,7 +258,9 @@ describe("Application - Selectors", () => {
       const expectedApprovalsLabels = {
         closure: "Closure",
         case_plan: "Case Plan",
-        assessment: "Assessment"
+        assessment: "Assessment",
+        action_plan: "Action Plan",
+        gbv_closure: "GBV Closure"
       };
       const approvalsLabels = selectors.getApprovalsLabels(
         stateWithRecords,

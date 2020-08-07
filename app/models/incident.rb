@@ -1,5 +1,7 @@
-class Incident < ApplicationRecord
+# frozen_string_literal: true
 
+# Model representing an event. Some events are correlated to a case, forming a historical record.
+class Incident < ApplicationRecord
   include Record
   include Searchable
   include Historical
@@ -7,27 +9,24 @@ class Incident < ApplicationRecord
   include Flaggable
   include Alertable
   include Attachable
-  #include Importable #TODO: refactor with Import
-  #include IncidentMonitoringRecording #TODO: Refactor with Violations
+  # include IncidentMonitoringRecording #TODO: Refactor with Violations
 
-  store_accessor :data,
-    :incident_id, :incidentid_ir, :individual_ids, :incident_code, :description, :super_incident_name,
+  store_accessor(
+    :data,
+    :unique_id, :incident_id, :incidentid_ir, :individual_ids, :incident_code, :description, :super_incident_name,
     :incident_detail_id, :incident_description, :monitor_number, :survivor_code, :date_of_first_report,
-    :date_of_incident_date_or_date_range, :incident_date, :date_of_incident, :date_of_incident_from, :date_of_incident_to,
-    :individual_details_subform_section,
+    :date_of_incident_date_or_date_range, :incident_date, :date_of_incident, :date_of_incident_from,
+    :date_of_incident_to, :individual_details_subform_section,
     :health_medical_referral_subform_section, :psychosocial_counseling_services_subform_section,
     :legal_assistance_services_subform_section, :police_or_other_type_of_security_services_subform_section,
     :livelihoods_services_subform_section, :child_protection_services_subform_section
+  )
 
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
 
-  scope :by_incident_detail_id, ->(incident_detail_id) { where('data @> ?', {incident_detail_id: incident_detail_id}.to_json) }
-
   def self.quicksearch_fields
-    %w[
-      incident_id incident_code super_incident_name incident_description
-      monitor_number survivor_code individual_ids incidentid_ir
-    ]
+    %w[incident_id incident_code super_incident_name incident_description
+       monitor_number survivor_code individual_ids incidentid_ir]
   end
 
   def self.summary_field_names
@@ -45,9 +44,8 @@ class Incident < ApplicationRecord
     quicksearch_fields.each { |f| text_index(f) }
   end
 
-  validate :validate_date_of_first_report
-
-  before_update :clean_incident_date
+  after_initialize :set_unique_id
+  before_save :copy_from_case
   # TODO: Reconsider whether this is necessary.
   # We will only be creating an incident from a case using a special business logic that
   # will certainly trigger a reindex on the case
@@ -63,127 +61,40 @@ class Incident < ApplicationRecord
     self.date_of_first_report ||= Date.today
   end
 
-  def self.new_incident_from_case(module_id, child=nil, from_module_id=nil, incident_detail_id=nil)
-    incident = Incident.new
-    incident.module_id = module_id
-
-    if child.present?
-      incident.incident_case_id = child.id
-      if incident_detail_id.present?
-        incident.incident_detail_id = incident_detail_id
+  class << self
+    alias super_new_with_user new_with_user
+    def new_with_user(user, data = {})
+      super_new_with_user(user, data).tap do |incident|
+        incident.incident_case_id ||= incident.data.delete('incident_case_id')
       end
-
-      incident_map = self.incident_mapping(from_module_id)
-      incident.copy_case_information(child, incident_detail_id, incident_map, )
-      #TODO: All Primero handling of dates should be refactored
-      #This provides the current date according to local time
-      #Typically things saved to models should be in UTC, but this is an exception
-      #What matters here is the date for the person creating the incident
-      #After its creation the date will not have a timezone
-      incident.date_of_first_report = DateTime.current.to_date
-      incident.status = STATUS_OPEN
     end
-    return incident
+
+    def minimum_reportable_fields
+      {
+        'boolean' => %w[record_state],
+        'string' => %w[status owned_by],
+        'multistring' => %w[associated_user_names owned_by_groups],
+        'date' => %w[incident_date_derived]
+      }
+    end
   end
 
+  def copy_from_case
+    return unless incident_case_id && will_save_change_to_attribute?(:incident_case_id)
 
-  def self.minimum_reportable_fields
-    {
-      'boolean' => ['record_state'],
-      'string' => ['status', 'owned_by'],
-      'multistring' => ['associated_user_names', 'owned_by_groups'],
-      'date' => ['incident_date_derived']
-    }
+    IncidentCreationService.copy_from_case(self, self.case, module_id)
   end
 
   def set_instance_id
-    self.incident_id ||= self.unique_identifier
-    self.incident_code ||= self.unique_identifier.to_s.last(7)
+    self.incident_id ||= unique_identifier
+    self.incident_code ||= incident_id.to_s.last(7)
   end
 
-  #TODO: Rspec!
-  #Copy some fields values from Survivor Information to GBV Individual Details.
-  def copy_case_information(case_record, incident_id, mapping)
-    if mapping.present?
-      mapping.each do |record_mapping|
-        #source_value = case_record
-        target_key = record_mapping["target"]
-        source_key = record_mapping["source"][0]
-        if source_key == "incident_details"
-          incident_key = record_mapping["source"][1]
-          incident_details = source_value[source_key]
-          incident_detail = incident_details.find{|incident| incident["unique_id"] == incident_id}
-          source_value = incident_detail[incident_key] if incident_detail.present?
-        else
-          source_value = case_record[source_key]
-        end
-        self.data[target_key] = source_value unless source_value.nil?
-      end
-    end
+  def set_unique_id
+    self.unique_id = id
   end
 
-  DEFAULT_INCIDENT_MAPPING = [
-    {"source" => ["survivor_code_no"], "target" => "survivor_code"},
-    {"source" => ["age"], "target" => "age"},
-    {"source" => ["date_of_birth"], "target" => "date_of_birth"},
-    {"source" => ["sex"], "target" => "sex"},
-    {"source" => ["gbv_ethnicity"], "target" => "ethnicity"},
-    {"source" => ["country_of_origin"], "target" => "country_of_origin"},
-    {"source" => ["gbv_nationality"], "target" => "nationality"},
-    {"source" => ["gbv_religion"], "target" => "religion"},
-    {"source" => ["maritial_status"], "target" => "maritial_status"},
-    {"source" => ["gbv_displacement_status"], "target" => "displacement_status"},
-    {"source" => ["gbv_disability_type"], "target" => "disability_type"},
-    {"source" => ["unaccompanied_separated_status"], "target" => "unaccompanied_separated_status"}
-  ]
-
-  def incident_mapping(from_module_id)
-    incident_map = Incident::DEFAULT_INCIDENT_MAPPING
-    if from_module_id.present?
-      from_module = PrimeroModule.find_by(unique_id: from_module_id)
-      if from_module.present?
-        incident_map = from_module.field_map_fields if from_module.field_map_fields.present?
-      end
-    end
-    return incident_map
-  end
-
-  def validate_date_of_first_report
-    if self.date_of_first_report.present? && (!self.date_of_first_report.is_a?(Date) || self.date_of_first_report > Date.today)
-      errors.add(:date_of_first_report, I18n.t("messages.enter_valid_date"))
-      error_with_section(:date_of_first_report, I18n.t("messages.enter_valid_date"))
-      false
-    else
-      true
-    end
-  end
-
-  def clean_incident_date
-    if self.date_of_incident_date_or_date_range == 'date'
-      self.date_of_incident_from = nil
-      self.date_of_incident_to = nil
-    else
-      self.date_of_incident = nil
-    end
-  end
-
-  #TODO - Need rspec test for this
   def incident_date_derived
-    return self.incident_date if self.incident_date.present?
-    return self.date_of_incident_from if self.date_of_incident_from.present?
-    return self.date_of_incident if self.date_of_incident.present?
-    return nil
+    incident_date || date_of_incident_from || date_of_incident
   end
-
-  #To format the value in the export of the view list.
-  def incident_date_to_export
-    if self.date_of_incident_from.present? && self.date_of_incident_to.present?
-      "#{self.date_of_incident_from.strftime('%d-%b-%Y')} - #{self.date_of_incident_to.strftime('%d-%b-%Y')}"
-    elsif self.date_of_incident.present?
-      I18n.l(self.date_of_incident)
-    elsif self.incident_date.present?
-      I18n.l(self.incident_date)
-    end
-  end
-
 end

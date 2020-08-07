@@ -16,6 +16,7 @@ const Component = ({
   pending,
   text,
   outlined,
+  keepTextOnMobile,
   rest
 }) => {
   const css = makeStyles(styles)();
@@ -23,18 +24,25 @@ const Component = ({
   const renderLoadingIndicator = pending && (
     <CircularProgress size={24} className={css.buttonProgress} />
   );
-  const renderContent = !renderIcon ? <>{text}</> : <ButtonText text={text} />;
+  const renderContent = !renderIcon ? (
+    <>{text}</>
+  ) : (
+    <ButtonText text={text} keepTextOnMobile={keepTextOnMobile} />
+  );
+
+  const classes = clsx({
+    [css.defaultActionButton]: renderIcon,
+    [css.isTransparent]: isTransparent,
+    [css.isCancel]: isCancel,
+    [css.onlyText]: !renderIcon,
+    [css.outlined]: outlined,
+    [rest.className]: Boolean(rest.className)
+  });
 
   return (
     <>
       <Button
-        className={clsx({
-          [css.defaultActionButton]: renderIcon,
-          [css.isTransparent]: isTransparent,
-          [css.isCancel]: isCancel,
-          [css.onlyText]: !renderIcon,
-          [css.outlined]: outlined
-        })}
+        className={classes}
         startIcon={renderIcon}
         disabled={pending}
         {...rest}
@@ -52,6 +60,7 @@ Component.propTypes = {
   icon: PropTypes.object,
   isCancel: PropTypes.bool,
   isTransparent: PropTypes.bool,
+  keepTextOnMobile: PropTypes.bool,
   outlined: PropTypes.bool,
   pending: PropTypes.bool,
   rest: PropTypes.object,

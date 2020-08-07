@@ -347,7 +347,9 @@ export const SAVING = "saving";
 export const APPROVALS_TYPES = Object.freeze({
   assessment: "assessment",
   case_plan: "case_plan",
-  closure: "closure"
+  closure: "closure",
+  action_plan: "action_plan",
+  gbv_closure: "gbv_closure"
 });
 
 export const ALERTS_FOR = {

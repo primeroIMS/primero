@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 
-import { TRANSITIONS_DATE_FORMAT } from "../../../config";
+import { DATE_FORMAT } from "../../../config";
 import { useI18n } from "../../i18n";
 
 import { ASSIGNMENTS_SUMMARY_NAME as NAME } from "./constants";
@@ -28,7 +28,7 @@ const AssignmentsSummary = ({ transition, classes }) => {
 
           {/* TODO: The date should be localized */}
           <div className={classes.date}>
-            {format(new Date(transition.created_at), TRANSITIONS_DATE_FORMAT)}
+            {format(new Date(transition.created_at), DATE_FORMAT)}
           </div>
         </div>
       </Grid>

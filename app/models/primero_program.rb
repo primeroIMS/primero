@@ -30,5 +30,4 @@ class PrimeroProgram < ApplicationRecord
     errors.add(:name, 'errors.models.primero_program.name_present')
     false
   end
-
 end

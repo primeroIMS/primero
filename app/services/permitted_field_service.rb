@@ -1,38 +1,28 @@
 # frozen_string_literal: true
 
 # TODO: This class will need some cleanup/refactor
+# Calculate the permitted fields for a receord based on the user's role
 class PermittedFieldService
   attr_accessor :user, :model_class, :action_name
 
   # Calculated fields needed to perform searches
   PERMITTED_FILTER_FIELD_NAMES = %w[
-    associated_user_names
-    not_edited_by_owner
-    referred_users
-    referred_users_present
-    transferred_to_users
-    has_photo
-    survivor_code
-    survivor_code_no
-    case_id_display
-    created_at
-    has_incidents
+    associated_user_names not_edited_by_owner referred_users referred_users_present
+    transferred_to_users has_photo survivor_code survivor_code_no case_id_display
+    created_at has_incidents
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
-    assigned_user_names
-    created_by
-    created_by_agency
-    module_id
-    owned_by
-    owned_by_agency_id
-    owned_by_text
-    owned_by_agency_office
-    previous_agency
-    previously_owned_by
-    reassigned_tranferred_on
-    reopened_logs
+    assigned_user_names created_by created_by_agency module_id owned_by owned_by_agency_id
+    owned_by_text owned_by_agency_office previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
   ].freeze
+
+  PERMITTED_FIELDS_FOR_ACTION = {
+    Permission::ADD_NOTE => %w[notes_section], Permission::INCIDENT_DETAILS_FROM_CASE => %w[incident_details],
+    Permission::SERVICES_SECTION_FROM_CASE => %w[services_section], Permission::CLOSE => %w[status],
+    Permission::REOPEN => %w[status workflow case_status_reopened],
+    Permission::ENABLE_DISABLE_RECORD => %w[record_state], Permission::INCIDENT_FROM_CASE => %w[incident_case_id]
+  }.freeze
 
   def initialize(user, model_class, action_name = nil)
     self.user = user
@@ -42,22 +32,18 @@ class PermittedFieldService
 
   def permitted_field_names
     return @permitted_field_names if @permitted_field_names.present?
-
     return permitted_field_names_from_action_name if action_name.present?
 
-    @permitted_field_names = []
-    @permitted_field_names += %w[id record_in_scope]
+    @permitted_field_names = %w[id record_in_scope or not cases_by_date alert_count]
     @permitted_field_names += user.permitted_field_names_from_forms(model_class.parent_form)
-    @permitted_field_names << 'or'
-    @permitted_field_names << 'not'
-    @permitted_field_names << 'cases_by_date'
-    @permitted_field_names << 'alert_count'
     @permitted_field_names += PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
     @permitted_field_names << 'record_state' if user.can?(:enable_disable_record, model_class)
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
-    @permitted_field_names << 'flag_count' if user.can?(:flag, model_class)
-    @permitted_field_names << 'flagged' if user.can?(:flag, model_class)
+    @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
+    if model_class == Incident && user.can?(Permission::INCIDENT_FROM_CASE, Child)
+      @permitted_field_names << 'incident_case_id'
+    end
     @permitted_field_names += permitted_approval_field_names
     @permitted_field_names += permitted_overdue_task_field_names
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
@@ -65,35 +51,24 @@ class PermittedFieldService
   end
 
   def permitted_approval_field_names
-    approval_field_names = []
-    [Approval::ASSESSMENT, Approval::CASE_PLAN, Approval::CLOSURE].each do |approval_id|
-      if user.can?(:"request_approval_#{approval_id}", model_class) ||
-         user.can?(:"approve_#{approval_id}", model_class)
-        approval_field_names << 'approval_subforms'
-        approval_field_names << "#{approval_id}_approved"
-        approval_field_names << "approval_status_#{approval_id}"
-        approval_field_names << "#{approval_id}_approved_date"
-        approval_field_names << "#{approval_id}_approved_comments"
-        approval_field_names << "#{approval_id}_approval_type" if approval_id == Approval::CASE_PLAN
-      else
-        next
-      end
-    end
-    approval_field_names
+    Approval.types.map do |approval_id|
+      next unless approval_access?(user, approval_id)
+
+      approval_fields = %W[approval_subforms #{approval_id}_approved approval_status_#{approval_id}
+                           #{approval_id}_approved_date #{approval_id}_approved_comments]
+      approval_id == Approval::CASE_PLAN ? approval_fields << "#{approval_id}_approval_type" : approval_fields
+    end.compact.flatten
+  end
+
+  def approval_access?(user, approval_id)
+    user.can?(:"request_approval_#{approval_id}", model_class) ||
+      user.can?(:"approve_#{approval_id}", model_class)
   end
 
   def permitted_field_names_from_action_name
-    case action_name
-    when Permission::ADD_NOTE then %w[notes_section] if user.can?(:add_note, model_class)
-    when Permission::INCIDENT_DETAILS_FROM_CASE then %w[incident_details] if user.can?(:incident_details_from_case,
-                                                                                       model_class)
-    when Permission::SERVICES_SECTION_FROM_CASE then %w[services_section] if user.can?(:services_section_from_case,
-                                                                                       model_class)
-    when Permission::CLOSE then %w[status] if user.can?(:close, model_class)
-    when Permission::REOPEN then %w[status workflow case_status_reopened] if user.can?(:reopen, model_class)
-    when Permission::ENABLE_DISABLE_RECORD then %w[record_state] if user.can?(:enable_disable_record, model_class)
-    else raise Errors::InvalidPrimeroEntityType, 'case.invalid_action_name'
-    end
+    return [] unless action_name && user.can?(action_name.to_sym, model_class)
+
+    PERMITTED_FIELDS_FOR_ACTION[action_name] || []
   end
 
   def permitted_overdue_task_field_names

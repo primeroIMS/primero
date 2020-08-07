@@ -64,8 +64,8 @@ export const saveForm = ({ id, body, saveMethod, subforms = [] }) => {
   };
 };
 
-export const setNewField = data => ({
-  type: actions.SET_NEW_FIELD,
+export const setNewField = (data, isSubform) => ({
+  type: isSubform ? actions.SET_NEW_FIELD_SUBFORM : actions.SET_NEW_FIELD,
   payload: data
 });
 

@@ -22,7 +22,7 @@ describe Child do
     it 'should replace old properties with updated ones' do
       child = Child.new(data: { 'name' => 'Dave', 'age' => 28, 'last_known_location' => 'London' })
       new_properties = { 'name' => 'Dave', 'age' => 35 }
-      child.update_properties(new_properties, 'some_user')
+      child.update_properties(fake_user, new_properties)
       expect(child.age).to eq(35)
       expect(child.name).to eq('Dave')
       expect(child.data['last_known_location']).to eq('London')
@@ -31,15 +31,61 @@ describe Child do
     it 'should not replace old properties when when missing from update' do
       child = Child.new(data: { 'origin' => 'Croydon', 'last_known_location' => 'London' })
       new_properties = { 'last_known_location' => 'Manchester' }
-      child.update_properties(new_properties, 'some_user')
+      child.update_properties(fake_user, new_properties)
       expect(child.data['last_known_location']).to eq('Manchester')
       expect(child.data['origin']).to eq('Croydon')
     end
 
     it 'should populate last_updated_by field with the user_name who is updating' do
       child = Child.new
-      child.update_properties({}, 'jdoe')
-      expect(child.last_updated_by).to eq('jdoe')
+      child.update_properties(fake_user, {})
+      expect(child.last_updated_by).to eq(fake_user_name)
+    end
+  end
+
+  describe 'incidents from case' do
+    describe 'update_properties' do
+      let(:case1) { Child.create!(age: 12, sex: 'male') }
+      let(:incident1) { Incident.create!(case: case1, description: 'incident1') }
+      let(:incident2) { Incident.create!(case: case1, description: 'incident2') }
+      let(:uuid) { SecureRandom.uuid }
+
+      before do
+        data = case1.data.clone
+        data['incident_details'] = [
+          { 'unique_id' => incident1.id, 'description' => 'incident1 - modified' },
+          { 'unique_id' => uuid, 'description' => 'incident3' }
+        ]
+        case1.update_properties(fake_user, data)
+        case1.save!
+      end
+
+      it 'creates associated incident records from the incident_details data key' do
+        incident = Incident.find_by(id: uuid)
+        expect(incident).to be
+        expect(incident.data['description']).to eq('incident3')
+      end
+
+      it 'copies mapped fields from the case to the incident' do
+        incident = Incident.find_by(id: uuid)
+        expect(incident.data['age']).to eq(case1.age)
+        expect(incident.data['sex']).to eq(case1.sex)
+      end
+
+      it 'updates existing associated incident records from the incident_details data key' do
+        incident1.reload
+        expect(incident1.data['description']).to eq('incident1 - modified')
+      end
+
+      it 'does not retain incident data under the incident_details data key' do
+        expect(case1.data['incident_details']).to be_nil
+      end
+
+      it 'does not remove associated inicdents that are not represented in the incident_details data key' do
+        incident2.reload
+        expect(incident2).to be
+        expect(incident2.incident_case_id).to eq(case1.id)
+      end
     end
   end
 
@@ -131,10 +177,7 @@ describe Child do
     end
 
     it 'should assign name property as nil if name is not passed before saving child record' do
-      child = Child.new_with_user(
-        double('user', user_name: 'user', organization: 'org', full_name: 'UserN'),
-        'some_field' => 'some_value'
-      )
+      child = Child.new_with_user(fake_user, 'some_field' => 'some_value')
       child.save
       child = Child.find(child.id)
       expect(child.name).to be_nil
@@ -581,36 +624,6 @@ describe Child do
 
     it 'joins family values into a single string' do
       expect(match_criteria['relation']).to eq('father mother')
-    end
-  end
-
-  xdescribe 'incident from case' do
-    it 'should copy field values from case to incident even with value of false' do
-      child = _Child.new(
-        'name' => 'existing name',
-        'incident_details' => [{ 'unique_id' => 'incident_123', 'cp_incident_previous_incidents' => 'false' }]
-      )
-      incident = Incident.new.tap do |inc|
-        inc.copy_case_information(
-          child,
-          [
-            {
-              'source' => %w[incident_details cp_incident_previous_incidents],
-              'target' => 'cp_incident_previous_incidents'
-            }
-          ],
-          'incident_123'
-        )
-      end
-      incident['cp_incident_previous_incidents'].should == 'false'
-    end
-
-    it 'should create incident from case even with no case to incident mapping' do
-      child = _Child.new('name' => 'existing name', 'incident_details' => [{ 'unique_id' => 'incident_123', 'cp_incident_previous_incidents' => 'false' }])
-      incident = Incident.new.tap do |inc|
-        inc.copy_case_information(child, nil, 'incident_123')
-      end
-      incident['age'].should == nil
     end
   end
 
