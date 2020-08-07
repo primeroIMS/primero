@@ -183,7 +183,9 @@ const Container = ({
     ACTIONS.MANAGE,
     ACTIONS.REQUEST_APPROVAL_ASSESSMENT,
     ACTIONS.REQUEST_APPROVAL_CASE_PLAN,
-    ACTIONS.REQUEST_APPROVAL_CLOSURE
+    ACTIONS.REQUEST_APPROVAL_CLOSURE,
+    ACTIONS.REQUEST_APPROVAL_ACTION_PLAN,
+    ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
   ]);
 
   const canRequestBia = checkPermissions(userPermissions, [
@@ -201,11 +203,23 @@ const Container = ({
     ACTIONS.REQUEST_APPROVAL_CLOSURE
   ]);
 
+  const canRequestActionPlan = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.REQUEST_APPROVAL_ACTION_PLAN
+  ]);
+
+  const canRequestGbvClosure = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
+  ]);
+
   const canApprove = checkPermissions(userPermissions, [
     ACTIONS.MANAGE,
     ACTIONS.APPROVE_ASSESSMENT,
     ACTIONS.APPROVE_CASE_PLAN,
-    ACTIONS.APPROVE_CLOSURE
+    ACTIONS.APPROVE_CLOSURE,
+    ACTIONS.APPROVE_ACTION_PLAN,
+    ACTIONS.APPROVE_GBV_CLOSURE
   ]);
 
   const canApproveBia = checkPermissions(userPermissions, [
@@ -221,6 +235,16 @@ const Container = ({
   const canApproveClosure = checkPermissions(userPermissions, [
     ACTIONS.MANAGE,
     ACTIONS.APPROVE_CLOSURE
+  ]);
+
+  const canApproveActionPlan = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_ACTION_PLAN
+  ]);
+
+  const canApproveGbvClosure = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_GBV_CLOSURE
   ]);
 
   const canAddIncident = checkPermissions(userPermissions, ADD_INCIDENT);
@@ -497,6 +521,18 @@ const Container = ({
       condition: canRequestClosure,
       recordType: RECORD_TYPES.all,
       value: APPROVALS_TYPES.closure
+    },
+    {
+      name: approvalsLabels.action_plan,
+      condition: canRequestActionPlan,
+      recordType: RECORD_TYPES.all,
+      value: APPROVALS_TYPES.action_plan
+    },
+    {
+      name: approvalsLabels.gbv_closure,
+      condition: canRequestGbvClosure,
+      recordType: RECORD_TYPES.all,
+      value: APPROVALS_TYPES.gbv_closure
     }
   ];
 
@@ -518,6 +554,18 @@ const Container = ({
       condition: canApproveClosure,
       recordType: RECORD_TYPES.all,
       value: APPROVALS_TYPES.closure
+    },
+    {
+      name: approvalsLabels.action_plan,
+      condition: canApproveActionPlan,
+      recordType: RECORD_TYPES.all,
+      value: APPROVALS_TYPES.action_plan
+    },
+    {
+      name: approvalsLabels.gbv_closure,
+      condition: canApproveGbvClosure,
+      recordType: RECORD_TYPES.all,
+      value: APPROVALS_TYPES.gbv_closure
     }
   ];
 

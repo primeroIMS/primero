@@ -197,7 +197,9 @@ describe("Verifying config constant", () => {
     expect(constants.APPROVALS_TYPES).to.have.all.keys(
       "assessment",
       "case_plan",
-      "closure"
+      "closure",
+      "action_plan",
+      "gbv_closure"
     );
 
     expect(constants.ALERTS_FOR).to.have.all.keys(

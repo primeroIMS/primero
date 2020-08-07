@@ -1,24 +1,31 @@
+# TODO: Adding the frozen_string_literal breaks rspec tests
+
 require 'writeexcel'
 
 module Exporters
+  # Exports Role Permissions to an Excel file
   class RolePermissionsExporter
-    CASE = %w[referral transfer read create write enable_disable_record flag manage add_note reopen close change_log]
+    CASE = %w[
+      referral transfer read create write enable_disable_record flag manage add_note reopen close
+      change_log
+    ].freeze
     CASE_EXPORTS = %w[
-      export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv consent_override
+      export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv export_case_pdf consent_override
       export_duplicate_id_csv export_json export_custom import sync_mobile
-    ]
+    ].freeze
     CASE_APPROVALS = %w[
-      request_approval_bia request_approval_case_plan request_approval_closure
-      approve_bia approve_case_plan approve_closure
-    ]
+      request_approval_assessment request_approval_case_plan request_approval_closure request_approval_action_plan
+      request_approval_gbv_closure approve_assessment approve_case_plan approve_closure approve_action_plan
+      approve_gbv_closure
+    ].freeze
     CASE_MANAGED_OTHER_USERS = %w[
       search_owned_by_others display_view_page view_photo incident_from_case
       incident_details_from_case service_provision_incident_details services_section_from_case
-    ]
+    ].freeze
     CASE_ASSIGNMENT_REFERRALS_TRANSFERS = %w[
       assign assign_within_agency assign_within_user_group remove_assigned_users
       receive_transfer receive_referral request_transfer referral_from_service find_tracing_match
-    ]
+    ].freeze
 
     class << self
       def id
