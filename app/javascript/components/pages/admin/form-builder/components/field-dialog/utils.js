@@ -158,7 +158,7 @@ export const setSubformData = (field, subform) => {
   if (subform) {
     return {
       ...field,
-      display_name: { en: subform?.name?.en || "" }
+      display_name: subform?.name
     };
   }
 

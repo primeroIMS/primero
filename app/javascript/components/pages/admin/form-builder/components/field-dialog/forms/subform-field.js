@@ -10,7 +10,12 @@ import {
 } from "./base";
 
 /* eslint-disable import/prefer-default-export */
-export const subformField = ({ field, i18n, formMode }) => {
+export const subformField = ({
+  field,
+  i18n,
+  formMode,
+  onManageTranslations
+}) => {
   const fieldName = field.get("name");
   const { showOn, visible, mobileVisible, hideOnViewPage } = visibilityFields({
     fieldName,
@@ -21,7 +26,13 @@ export const subformField = ({ field, i18n, formMode }) => {
   return {
     forms: fromJS([
       subform({ i18n }),
-      generalForm({ fields: [disabled], fieldName, formMode, i18n }),
+      generalForm({
+        fields: [disabled],
+        fieldName,
+        formMode,
+        i18n,
+        onManageTranslations
+      }),
       visibilityForm({
         fieldName,
         i18n,

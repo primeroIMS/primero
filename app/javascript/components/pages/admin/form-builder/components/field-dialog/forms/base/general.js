@@ -42,9 +42,24 @@ export const generalFields = ({ fieldName, formMode, i18n }) => ({
   })
 });
 
-export const generalForm = ({ fields = [], fieldName, formMode, i18n }) =>
+export const generalForm = ({
+  fields = [],
+  fieldName,
+  formMode,
+  i18n,
+  onManageTranslations
+}) =>
   FormSectionRecord({
     unique_id: "field_form",
+    actions: formMode.get("isEdit")
+      ? [
+          {
+            text: i18n.t("forms.translations.manage"),
+            outlined: true,
+            rest: { onClick: onManageTranslations }
+          }
+        ]
+      : [],
     fields: fields.length
       ? fields
       : Object.values(generalFields({ fieldName, formMode, i18n }))

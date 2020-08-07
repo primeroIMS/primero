@@ -15,7 +15,8 @@ export const selectFieldForm = ({
   formMode,
   i18n,
   isNested,
-  lookups
+  lookups,
+  onManageTranslations
 }) => {
   const fieldName = field.get("name");
   const options = field.get("option_strings_text", fromJS({}));
@@ -46,7 +47,7 @@ export const selectFieldForm = ({
 
   return {
     forms: fromJS([
-      generalForm({ fieldName, i18n, formMode }),
+      generalForm({ fieldName, i18n, formMode, onManageTranslations }),
       optionsForm({ fieldName, i18n, formMode, field, lookups, css }),
       visibilityForm({ fieldName, i18n, isNested })
     ]),
