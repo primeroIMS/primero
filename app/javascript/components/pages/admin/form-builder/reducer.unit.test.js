@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { RADIO_FIELD } from "../../../form";
+import { FieldRecord, RADIO_FIELD } from "../../../form";
 
 import actions from "./actions";
 import reducer from "./reducer";
@@ -409,6 +409,7 @@ describe("<FormsBuilder /> - Reducers", () => {
       ]
     };
     const stateWithData = fromJS({
+      selectedSubform,
       formSections: {
         "1": { id: 1, unique_id: "form_1", fields: [1, 2] },
         "2": { id: 2, unique_id: "form_2", fields: [2, 3] },
@@ -517,6 +518,56 @@ describe("<FormsBuilder /> - Reducers", () => {
         type: actions.UPDATE_SELECTED_FIELD,
         payload: {
           data: { field_1: { display_name: { en: "Updated Field 1" } } }
+        }
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("adds a new field on selectedSubform", () => {
+      const expected = fromJS({
+        selectedSubform: {
+          fields: [
+            FieldRecord({
+              id: "1",
+              name: "field_1",
+              display_name: fromJS({ en: "Field 1" }),
+              order: 0
+            }),
+            FieldRecord({
+              name: "field_2",
+              display_name: fromJS({ en: "New Field 2" }),
+              order: 1
+            })
+          ]
+        }
+      });
+
+      const currentState = fromJS({
+        selectedSubform: {
+          fields: [
+            FieldRecord({
+              id: "1",
+              name: "field_1",
+              display_name: fromJS({ en: "Field 1" }),
+              order: 0
+            })
+          ]
+        }
+      });
+
+      const action = {
+        type: actions.UPDATE_SELECTED_FIELD,
+        payload: {
+          subformId: "test",
+          data: {
+            field_2: {
+              name: "field_2",
+              display_name: fromJS({ en: "New Field 2" })
+            }
+          }
         }
       };
 

@@ -23,6 +23,7 @@ describe("<FormBuilder /> - Actions", () => {
       "SAVE_FORM_STARTED",
       "SAVE_FORM_SUCCESS",
       "SET_NEW_FIELD",
+      "SET_NEW_FIELD_SUBFORM",
       "SET_SELECTED_FIELD",
       "SET_SELECTED_SUBFORM",
       "SET_SELECTED_SUBFORM_FIELD",

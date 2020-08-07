@@ -1,5 +1,7 @@
 import { fromJS } from "immutable";
 
+import { FieldRecord } from "../../../form";
+
 import actions from "./actions";
 import { affectedOrderRange, buildOrderUpdater } from "./utils";
 import { transformValues } from "./components/field-dialog/utils";
@@ -125,6 +127,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     }
     case actions.SET_NEW_FIELD:
       return state.set("selectedField", fromJS(payload));
+    case actions.SET_NEW_FIELD_SUBFORM:
+      return state.set("selectedSubformField", fromJS(payload));
     case actions.SET_SELECTED_SUBFORM: {
       const { id } = payload;
       const selectedSubform = state
@@ -159,7 +163,14 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           );
       }
 
-      return state.set("selectedSubform", selectedSubform);
+      const prevSelectedSubform = state.get("selectedSubform", fromJS({}));
+
+      return state.set(
+        "selectedSubform",
+        prevSelectedSubform.unique_id === selectedSubform.unique_id
+          ? prevSelectedSubform
+          : selectedSubform
+      );
     }
     case actions.SET_SELECTED_SUBFORM_FIELD: {
       const selectedField = state
@@ -175,6 +186,20 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         const fieldIndex = state
           .getIn(["selectedSubform", "fields"], fromJS([]))
           .findIndex(field => field.get("name") === fieldName);
+
+        if (fieldIndex <= 0) {
+          const lastOrder =
+            state.getIn(["selectedSubform", "fields"])?.last()?.order + 1;
+
+          return state.updateIn(["selectedSubform", "fields"], data =>
+            data.push(
+              FieldRecord({
+                ...Object.values(payload.data)[0],
+                order: lastOrder
+              })
+            )
+          );
+        }
 
         const selectedSubformField = state.getIn([
           "selectedSubform",

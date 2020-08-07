@@ -23,6 +23,7 @@ import {
 import {
   createSelectedField,
   clearSelectedSubformField,
+  clearSelectedSubform,
   updateSelectedField,
   updateSelectedSubform
 } from "../../action-creators";
@@ -32,6 +33,7 @@ import { NEW_FIELD } from "../../constants";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
 import { getOptions } from "../../../../../record-form/selectors";
 import { getLabelTypeField } from "../utils";
+import CustomFieldDialog from "../custom-field-dialog";
 
 import styles from "./styles.css";
 import {
@@ -83,14 +85,21 @@ const Component = ({ mode, onClose, onSuccess }) => {
       onClose();
     }
 
-    if (selectedFieldName === NEW_FIELD) {
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
+    if (selectedSubform.toSeq().size && !isNested) {
+      dispatch(clearSelectedSubform());
     }
 
     if (selectedSubform.toSeq().size && isNested) {
+      if (selectedFieldName === NEW_FIELD) {
+        dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+      }
       dispatch(clearSelectedSubformField());
     } else {
       dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+    }
+
+    if (selectedFieldName === NEW_FIELD) {
+      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
     }
   };
 
@@ -123,6 +132,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
   const addOrUpdatedSelectedField = fieldData => {
     let newFieldData = fieldData;
+    const subformUniqueId = selectedSubform?.get("unique_id");
     const currentFieldName =
       selectedFieldName === NEW_FIELD
         ? Object.keys(fieldData)[0]
@@ -138,9 +148,14 @@ const Component = ({ mode, onClose, onSuccess }) => {
     }
 
     if (selectedFieldName === NEW_FIELD) {
-      dispatch(createSelectedField(newFieldData));
+      if (subformUniqueId) {
+        dispatch(updateSelectedField(newFieldData, subformUniqueId));
+        dispatch(clearSelectedSubformField());
+      } else {
+        dispatch(createSelectedField(newFieldData));
+      }
     } else {
-      const subformId = isNested && selectedSubform?.get("unique_id");
+      const subformId = isNested && subformUniqueId;
 
       dispatch(updateSelectedField(newFieldData, subformId));
 
@@ -188,7 +203,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const renderFieldsList = () =>
     isSubformField(selectedField) && (
       <>
-        <h1>{i18n.t("forms.fields")}</h1>
+        <div className={css.subformFieldTitle}>
+          <h1>{i18n.t("forms.fields")}</h1>
+          <CustomFieldDialog />
+        </div>
         <FieldsList subformField={selectedField} />
       </>
     );

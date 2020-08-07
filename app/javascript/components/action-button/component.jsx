@@ -11,6 +11,7 @@ const Component = ({
   pending,
   text,
   type,
+  keepTextOnMobile,
   rest
 }) => {
   const ButtonType = buttonType(type);
@@ -24,6 +25,7 @@ const Component = ({
         pending={pending}
         rest={rest}
         text={text}
+        keepTextOnMobile={keepTextOnMobile}
       />
     </>
   );
@@ -35,6 +37,7 @@ Component.propTypes = {
   icon: PropTypes.object,
   isCancel: PropTypes.bool,
   isTransparent: PropTypes.bool,
+  keepTextOnMobile: PropTypes.bool,
   pending: PropTypes.bool,
   rest: PropTypes.object,
   text: PropTypes.string,
