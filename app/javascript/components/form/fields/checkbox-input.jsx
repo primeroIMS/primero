@@ -23,7 +23,9 @@ const CheckboxInput = ({ commonInputProps, options, metaInputProps }) => {
       error={error}
       className={css.checkboxContainer}
     >
-      <FormLabel required={required}>{label}</FormLabel>
+      <FormLabel component="legend" required={required}>
+        {label}
+      </FormLabel>
       <FormGroup row={inlineCheckboxes}>
         <Controller
           name={name}

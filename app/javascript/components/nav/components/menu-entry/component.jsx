@@ -52,7 +52,7 @@ const Component = ({
   const navItemName = name === "username" ? username : i18n.t(name);
 
   const renderNavAction = (
-    <div>
+    <li>
       {renderDivider}
       <ConditionalWrapper
         condition={disableOffline}
@@ -70,7 +70,7 @@ const Component = ({
           {jewel}
         </ListItem>
       </ConditionalWrapper>
-    </div>
+    </li>
   );
 
   if (typeof validateWithUserPermissions !== "undefined") {
