@@ -27,3 +27,15 @@
 .boldLabel {
   font-weight: bold;
 }
+
+.subformFieldTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1em;
+
+  & h1 {
+    flex: 1
+  }
+}

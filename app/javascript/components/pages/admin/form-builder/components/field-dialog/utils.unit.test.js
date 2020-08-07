@@ -218,7 +218,11 @@ describe("subformContainsFieldName", () => {
     expect(utils.subformContainsFieldName(subform, "field_2")).to.be.false;
   });
 
-  it("return true if the subform does not have the field name", () => {
+  it("return true if the subform have the field name", () => {
     expect(utils.subformContainsFieldName(subform, "field_1")).to.be.true;
+  });
+
+  it("return true if the subform field is new", () => {
+    expect(utils.subformContainsFieldName(subform, NEW_FIELD)).to.be.true;
   });
 });

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   Radio,
   ListItem,
@@ -66,7 +67,7 @@ const fields = [
   // [SUBFORM_SECTION, SubformField]
 ];
 
-const Component = () => {
+const Component = ({ isSubform }) => {
   const [selectedItem, setSelectedItem] = useState("");
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -117,11 +118,14 @@ const Component = () => {
         })
       );
       dispatch(
-        setNewField({
-          ...newFieldAttributtes,
-          ...multiSelectAttributtes,
-          ...dateTimeAttributtes
-        })
+        setNewField(
+          {
+            ...newFieldAttributtes,
+            ...multiSelectAttributtes,
+            ...dateTimeAttributtes
+          },
+          isSubform
+        )
       );
     });
   };
@@ -198,5 +202,9 @@ const Component = () => {
 };
 
 Component.displayName = NAME;
+
+Component.propTypes = {
+  isSubform: PropTypes.bool
+};
 
 export default Component;
