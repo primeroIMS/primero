@@ -208,7 +208,8 @@ describe("<Nav />", () => {
     const notSelectedProps = {
       ...props,
       firstTab: { unique_id: "basic_identity" },
-      selectedRecord: ""
+      selectedRecord: "",
+      isNew: true
     };
 
     beforeEach(() => {

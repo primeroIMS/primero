@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { fromJS } from "immutable";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, batch } from "react-redux";
 import isEqual from "lodash/isEqual";
 import Tooltip from "@material-ui/core/Tooltip";
 import clsx from "clsx";
+import { push } from "connected-react-router";
 
 import { useI18n } from "../../i18n";
 import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
@@ -12,8 +13,9 @@ import IndexTable from "../../index-table";
 import PageContainer, { PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
 import { getOption, getFields, getAllForms } from "../../record-form";
-import { LOOKUPS } from "../../../config";
+import { LOOKUPS, RECORD_TYPES } from "../../../config";
 import { compare } from "../../../libs";
+import { setSelectedForm } from "../../record-form/action-creators";
 
 import { getMetadata, selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
@@ -182,6 +184,37 @@ const TaskList = () => {
     });
   };
 
+  const onRowClick = record => {
+    const fieldName = fieldNames.get(record.get("type"));
+    const selectedField = fields.filter(field => field.name === fieldName);
+
+    const fieldKey = [...selectedField.keys()][0];
+    const selectedForm = forms.find(form =>
+      form.get("fields").includes(parseInt(fieldKey, 10))
+    );
+    const to = Object.keys(RECORD_TYPES).find(
+      key => RECORD_TYPES[key] === record.get("record_type")
+    );
+    let formName = selectedForm.unique_id;
+
+    if (selectedForm.is_nested) {
+      const subformKey = Object.entries(fields.toMap().toJS()).find(
+        field => field[1].subform_section_id === selectedForm.id
+      )[0];
+
+      formName = forms.find(form =>
+        form.fields.includes(parseInt(subformKey, 10))
+      ).unique_id;
+    }
+
+    batch(() => {
+      dispatch(push(`${to}/${record.get("id")}`));
+      if (formName !== "basic_identity") {
+        dispatch(setSelectedForm(formName));
+      }
+    });
+  };
+
   const options = {
     selectableRows: "none"
   };
@@ -193,7 +226,8 @@ const TaskList = () => {
     defaultFilters: fromJS(defaultFilters),
     onTableChange: fetchTasks,
     targetRecordType: "cases",
-    bypassInitialFetch: true
+    bypassInitialFetch: true,
+    onRowClick: record => onRowClick(record)
   };
 
   return (

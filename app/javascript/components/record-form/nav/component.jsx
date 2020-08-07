@@ -88,12 +88,18 @@ const Component = ({
   };
 
   useEffect(() => {
-    if (!selectedForm || isNew || currentSelectedRecord !== selectedRecord) {
+    if (isNew) {
       dispatch(setSelectedForm(firstTab.unique_id));
-    } else if (
-      !selectedRecordForm?.isEmpty() &&
-      open !== selectedRecordForm.first().form_group_id
-    ) {
+    } else if (!selectedForm) {
+      if (currentSelectedRecord !== selectedRecord) {
+        dispatch(setSelectedForm(firstTab.unique_id));
+      } else if (
+        !selectedRecordForm?.isEmpty() &&
+        open !== selectedRecordForm.first().form_group_id
+      ) {
+        setOpen(selectedRecordForm.first().form_group_id);
+      }
+    } else if (!selectedRecordForm?.isEmpty()) {
       setOpen(selectedRecordForm.first().form_group_id);
     }
   }, []);
