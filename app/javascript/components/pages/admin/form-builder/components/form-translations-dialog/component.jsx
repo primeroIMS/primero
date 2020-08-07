@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
 import { useSelector, useDispatch } from "react-redux";
 
+import { LOCALE_KEYS } from "../../../../../../config";
 import FormSection from "../../../../../form/components/form-section";
 import bindFormSubmit from "../../../../../../libs/submit-form";
 import ActionDialog from "../../../../../action-dialog";
@@ -39,7 +40,7 @@ const Component = ({
   });
   const openTranslationDialog = useSelector(state => selectDialog(state, NAME));
   const locales = i18n.applicationLocales.filter(
-    locale => locale.get("id") !== "en"
+    locale => locale.get("id") !== LOCALE_KEYS.en
   );
   const selectedLocaleId = formMethods.watch(
     "locale_id",
