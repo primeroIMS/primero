@@ -1945,6 +1945,20 @@ en:
           approvals_closure_pending:
             label: "Manager Closure approvals"
             explanation: "Shows the number of cases in a manager's team with pending Closure approval requests."
+          approvals_action_plan:
+            label: "Case worker Action Plan approvals"
+            explanation: "Shows the number of the current user's cases with Action Plan approval requests which are Pending,
+                Approved, or Rejected."
+          approvals_action_plan_pending:
+            label: "Manager Action Plan approvals"
+            explanation: "Shows the number of cases in a manager's team with pending Action Plan approval requests."
+          approvals_gbv_closure:
+            label: "Case worker GBV Closure approvals"
+            explanation: "Shows the number of the current user's cases with GBV Closure approval requests which are Pending,
+                Approved, or Rejected."
+          approvals_gbv_closure_pending:
+            label: "Manager GBV Closure approvals"
+            explanation: "Shows the number of cases in a manager's team with pending GBV Closure approval requests."
           view_response:
             label: "View Responses"
             explanation: "For each response type, shows how many cases at each risk level have services which are near deadline
