@@ -18,6 +18,8 @@ import {
   getApprovalsAssessmentPending,
   getApprovalsClosurePending,
   getApprovalsCasePlanPending,
+  getApprovalsActionPlanPending,
+  getApprovalsGbvClosurePending,
   getApprovalsAssessment,
   getApprovalsCasePlan,
   getApprovalsClosure
