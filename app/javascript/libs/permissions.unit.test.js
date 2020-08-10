@@ -16,6 +16,7 @@ describe("Verifying config constant", () => {
       "ASSIGN",
       "ASSIGN_WITHIN_AGENCY_PERMISSIONS",
       "ASSIGN_WITHIN_USER_GROUP",
+      "CHANGE_LOG",
       "CLOSE",
       "CREATE",
       "DASH_CASE_INCIDENT_OVERVIEW",

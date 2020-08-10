@@ -8,5 +8,5 @@ export const ChangeLogsRecord = Record({
   datetime: null,
   user_name: null,
   action: null,
-  record_changes: null
+  record_changes: []
 });

@@ -13,3 +13,8 @@
   font-size: 0.875rem;
   font-weight: bold;
 }
+
+.container {
+  overflow: auto;
+  max-height: 50vh;
+}
