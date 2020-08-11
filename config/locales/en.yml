@@ -2946,10 +2946,20 @@ en:
     approval_assessment_pending: "Pending"
     approval_assessment_rejected: "Rejected"
     approval_assessment_approved: "Approved"
+    approvals_action_plan: "Action Plan"
+    approval_action_plan_pending: "Pending"
+    approval_action_plan_rejected: "Rejected"
+    approval_action_plan_approved: "Approved"
+    approvals_gbv_closure: "GBV Closure"
+    approval_gbv_closure_pending: "Pending"
+    approval_gbv_closure_rejected: "Rejected"
+    approval_gbv_closure_approved: "Approved"
     pending_approvals: "Pending Approvals"
     approval_assessment_pending_group: "Assessment"
     approval_case_plan_pending_group: "Case Plan"
     approval_closure_pending_group: "Closure"
+    approval_action_plan_pending_group: "Action Plan"
+    approval_gbv_closure_pending_group: "GBV Closure"
     dash_shared_with_me: "Shared With Me"
     shared_with_me_total_referrals: "Total Referrals"
     shared_with_me_new_referrals: "New Referrals"
@@ -3628,6 +3638,8 @@ en:
       bia: "Request Approval for the BIA form"
       case_plan: "Request Approval for the Case Plan form"
       closure: "Request Approval for the Closure form"
+      action_plan: "Request Approval for the Action Plan form"
+      gbv_closure: "Request Approval for the GBV Closure form"
 
     approve_form:
       "false": "Rejecting"
@@ -3635,6 +3647,8 @@ en:
       bia: "BIA form"
       case_plan: "Case Plan form"
       closure: "Closure form"
+      action_plan: "Action Plan form"
+      gbv_closure: "GBV Closure form"
 
     mark_for_mobile:
       "false": "Un-Mark for mobile"

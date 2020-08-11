@@ -72,6 +72,26 @@ class Dashboard < ValueObject
     ]
   ).freeze
 
+  APPROVALS_ACTION_PLAN = Dashboard.new(
+    name: 'approvals_action_plan',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::APPROVALS_ACTION_PLAN_PENDING,
+      Indicators::Case::APPROVALS_ACTION_PLAN_REJECTED,
+      Indicators::Case::APPROVALS_ACTION_PLAN_APPROVED
+    ]
+  ).freeze
+
+  APPROVALS_GBV_CLOSURE = Dashboard.new(
+    name: 'approvals_gbv_closure',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::APPROVALS_GBV_CLOSURE_PENDING,
+      Indicators::Case::APPROVALS_GBV_CLOSURE_REJECTED,
+      Indicators::Case::APPROVALS_GBV_CLOSURE_APPROVED
+    ]
+  ).freeze
+
   APPROVALS_ASSESSMENT_PENDING = Dashboard.new(
     name: 'approvals_assessment_pending',
     type: 'indicator',
@@ -88,6 +108,18 @@ class Dashboard < ValueObject
     name: 'approvals_closure_pending',
     type: 'indicator',
     indicators: [Indicators::Case::APPROVALS_CLOSURE_PENDING_GROUP]
+  ).freeze
+
+  APPROVALS_ACTION_PLAN_PENDING = Dashboard.new(
+    name: 'approvals_action_plan_pending',
+    type: 'indicator',
+    indicators: [Indicators::Case::APPROVALS_ACTION_PLAN_PENDING_GROUP]
+  ).freeze
+
+  APPROVALS_GBV_CLOSURE_PENDING = Dashboard.new(
+    name: 'approvals_gbv_closure_pending',
+    type: 'indicator',
+    indicators: [Indicators::Case::APPROVALS_GBV_CLOSURE_PENDING_GROUP]
   ).freeze
 
   def self.cases_by_task_overdue_assessment
