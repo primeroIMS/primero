@@ -36,7 +36,9 @@ describe("middleware/utils/generate-record-properties.js", () => {
           { method: "POST", subform: true },
           false
         )
-      ).to.deep.equal({ unique_id: "dd3b8e93-0cce-415b-ad2b-d06bb454b66f" });
+      ).to.deep.equal({
+        unique_id: "dd3b8e93-0cce-415b-ad2b-d06bb454b66f"
+      });
     });
   });
 

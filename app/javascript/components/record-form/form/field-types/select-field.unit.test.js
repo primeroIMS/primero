@@ -44,7 +44,9 @@ describe("<SelectField />", () => {
       props,
       initialState,
       [],
-      { initialValues: { agency: "agency-test-1" } }
+      {
+        initialValues: { agency: "agency-test-1" }
+      }
     );
 
     it("render the select field with options", () => {

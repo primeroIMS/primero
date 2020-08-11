@@ -31,7 +31,9 @@ describe("<ClearButtons />", () => {
       props,
       {},
       initialState,
-      { field_1: { subform_group_by: "field_2" } }
+      {
+        field_1: { subform_group_by: "field_2" }
+      }
     );
     const groupButton = component.find(Button);
 
@@ -45,7 +47,9 @@ describe("<ClearButtons />", () => {
       props,
       {},
       initialState,
-      { field_1: { subform_sort_by: "field_2" } }
+      {
+        field_1: { subform_sort_by: "field_2" }
+      }
     );
     const groupButton = component.find(Button);
 

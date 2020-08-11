@@ -51,7 +51,10 @@ export const visibilityForm = ({
     hideOnViewPage,
     showOnMinifyForm,
     onCollapsedSubform
-  } = visibilityFields({ fieldName, i18n });
+  } = visibilityFields({
+    fieldName,
+    i18n
+  });
 
   const row = [visible, mobileVisible, hideOnViewPage].concat(
     isNested ? onCollapsedSubform : showOnMinifyForm

@@ -36,16 +36,28 @@ const Component = ({ loadingIndicator }) => {
     getApprovalsAssessmentPending(state)
   );
   const approvalsCasePlanPending = useSelector(state =>
-    getApprovalsClosurePending(state)
+    getApprovalsCasePlanPending(state)
   );
   const approvalsClosurePending = useSelector(state =>
-    getApprovalsCasePlanPending(state)
+    getApprovalsClosurePending(state)
+  );
+  const approvalsActionPlanPending = useSelector(state =>
+    getApprovalsActionPlanPending(state)
+  );
+  const approvalsGbvClosurePending = useSelector(state =>
+    getApprovalsGbvClosurePending(state)
   );
   const approvalsAssessment = useSelector(state =>
     getApprovalsAssessment(state)
   );
   const approvalsCasePlan = useSelector(state => getApprovalsCasePlan(state));
   const approvalsClosure = useSelector(state => getApprovalsClosure(state));
+  const approvalsActionPlan = useSelector(state =>
+    getApprovalsActionPlan(state)
+  );
+  const approvalsGbvClosure = useSelector(state =>
+    getApprovalsGbvClosure(state)
+  );
 
   const pendingApprovalsItems = toApprovalsManager([
     approvalsAssessmentPending,
@@ -92,6 +104,22 @@ const Component = ({ loadingIndicator }) => {
       options: {
         items: approvalsClosure,
         sumTitle: approvalsLabels.closure
+      }
+    },
+    {
+      type: DASHBOARD_TYPES.OVERVIEW_BOX,
+      actions: ACTIONS.DASH_APPROVALS_ACTION_PLAN,
+      options: {
+        items: approvalsActionPlan,
+        sumTitle: approvalsLabels.action_plan
+      }
+    },
+    {
+      type: DASHBOARD_TYPES.OVERVIEW_BOX,
+      actions: ACTIONS.DASH_APPROVALS_GBV_CLOSURE,
+      options: {
+        items: approvalsGbvClosure,
+        sumTitle: approvalsLabels.gbv_closure
       }
     }
   ];
