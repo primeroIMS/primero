@@ -73,7 +73,9 @@ const Component = ({ loadingIndicator }) => {
     pendingApprovalsItems.get("indicators").size ||
       approvalsAssessment.size ||
       approvalsCasePlan.size ||
-      approvalsClosure.size
+      approvalsClosure.size ||
+      approvalsActionPlan.size ||
+      approvalsGbvClosure.size
   );
 
   const dashboards = [
