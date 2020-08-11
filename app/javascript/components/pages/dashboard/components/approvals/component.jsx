@@ -22,7 +22,9 @@ import {
   getApprovalsGbvClosurePending,
   getApprovalsAssessment,
   getApprovalsCasePlan,
-  getApprovalsClosure
+  getApprovalsClosure,
+  getApprovalsActionPlan,
+  getApprovalsGbvClosure
 } from "../../selectors";
 import { useApp } from "../../../../application";
 
@@ -62,7 +64,9 @@ const Component = ({ loadingIndicator }) => {
   const pendingApprovalsItems = toApprovalsManager([
     approvalsAssessmentPending,
     approvalsCasePlanPending,
-    approvalsClosurePending
+    approvalsClosurePending,
+    approvalsActionPlanPending,
+    approvalsGbvClosurePending
   ]);
 
   const approvalsDashHasData = Boolean(
