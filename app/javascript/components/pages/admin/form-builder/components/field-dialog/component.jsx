@@ -115,10 +115,6 @@ const Component = ({ mode, onClose, onSuccess }) => {
     if (selectedFieldName === NEW_FIELD) {
       dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
     }
-
-    if (!isNested) {
-      dispatch(clearSelectedField());
-    }
   };
 
   const editDialogTitle = isSubformField(selectedField)
