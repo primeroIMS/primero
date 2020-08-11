@@ -1625,7 +1625,7 @@ en:
             explanation: "Allows a user to set the status of an open case to closed."
           change_log:
             label: "Change Log"
-            explanation: "Allows a user to view change log of the case"
+            explanation: "User can see a history of all changes made to the record since it was created. This includes values recorded for all fields."
           manage:
             label: "Manage (all permissions for this resource type)"
             explanation: "Allows a user to perform all available actions on cases. The \"Manage\" permission essentially means \"everything\"."
@@ -1697,7 +1697,7 @@ en:
                 the web application in general, meaning that they cannot use the mobile app to manage incidents."
           change_log:
             label: "Change Log"
-            explanation: "Allows a user to view change log of the incident"
+            explanation: "User can see a history of all changes made to the record since it was created. This includes values recorded for all fields."
           manage:
             label: "Manage (all permissions for this resource type)"
             explanation: "Allows a user to perform all available actions on incidents. The \"Manage\" permission essentially
@@ -1758,7 +1758,7 @@ en:
                 of how data is formatted in Primero. Only performed from case list page."
           change_log:
             label: "Change Log"
-            explanation: "Allows a user to view change log of the tracing request"
+            explanation: "User can see a history of all changes made to the record since it was created. This includes values recorded for all fields."
           manage:
             label: "Manage (all permissions for this resource type)"
             explanation: "Allows a user to perform all available actions on tracing requests. The \"Manage\" permission
