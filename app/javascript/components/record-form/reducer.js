@@ -25,9 +25,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.FETCH_AGENCIES_STARTED:
       return state.setIn(["options", "loading"], true);
     case Actions.FETCH_AGENCIES_SUCCESS:
-      return state
-        .setIn(["options", "agencies"], fromJS(payload.data))
-        .setIn(["options", "errors"], false);
+      return state.setIn(["options", "agencies"], fromJS(payload.data)).setIn(["options", "errors"], false);
     case Actions.RECORD_FORMS_FAILURE:
       return state.set("errors", true);
     case Actions.RECORD_FORMS_FINISHED:
@@ -37,20 +35,9 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.RECORD_FORMS_SUCCESS:
       if (payload) {
         return state
-          .set(
-            "attachmentFields",
-            fromJS(
-              listAttachmentFields(
-                payload.fields,
-                Object.keys(FIELD_ATTACHMENT_TYPES)
-              )
-            )
-          )
+          .set("attachmentFields", fromJS(listAttachmentFields(payload.fields, Object.keys(FIELD_ATTACHMENT_TYPES))))
           .set("fields", mapEntriesToRecord(payload.fields, FieldRecord, true))
-          .set(
-            "formSections",
-            mapEntriesToRecord(payload.formSections, FormSectionRecord, true)
-          );
+          .set("formSections", mapEntriesToRecord(payload.formSections, FormSectionRecord, true));
       }
 
       return state;

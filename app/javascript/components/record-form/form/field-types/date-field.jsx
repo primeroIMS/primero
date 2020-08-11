@@ -17,10 +17,7 @@ const DateField = ({ name, helperText, mode, formik, InputProps, ...rest }) => {
   const i18n = useI18n();
   const allowedDefaultValues = ["TODAY", "NOW"];
 
-  const {
-    date_include_time: dateIncludeTime,
-    selected_value: selectedValue
-  } = rest.field;
+  const { date_include_time: dateIncludeTime, selected_value: selectedValue } = rest.field;
 
   const fieldProps = {
     name
@@ -42,18 +39,12 @@ const DateField = ({ name, helperText, mode, formik, InputProps, ...rest }) => {
 
     if (value) {
       dateValue = value;
-    } else if (
-      !value &&
-      allowedDefaultValues.includes(selectedValue.toUpperCase()) &&
-      !mode?.isShow
-    ) {
+    } else if (!value && allowedDefaultValues.includes(selectedValue.toUpperCase()) && !mode?.isShow) {
       dateValue = new Date();
     }
     form.setFieldValue(name, dateValue, true);
 
-    return dateIncludeTime || isEmpty(value)
-      ? dateValue
-      : dateValue.concat("T00:00:00");
+    return dateIncludeTime || isEmpty(value) ? dateValue : dateValue.concat("T00:00:00");
   };
 
   const fieldError = getIn(formik.errors, name);
@@ -67,10 +58,7 @@ const DateField = ({ name, helperText, mode, formik, InputProps, ...rest }) => {
           ...{ ...field, value: getDateValue(form, field) },
           ...omitBy(rest, (v, k) => ["recordType", "recordID"].includes(k)),
           format: dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT,
-          helperText:
-            (fieldTouched && fieldError) ||
-            helperText ||
-            i18n.t("fields.date_help"),
+          helperText: (fieldTouched && fieldError) || helperText || i18n.t("fields.date_help"),
           clearable: true,
           InputProps: {
             ...InputProps,
@@ -87,16 +75,11 @@ const DateField = ({ name, helperText, mode, formik, InputProps, ...rest }) => {
 
             return form.setFieldValue(name, date, true);
           },
-          disableFuture:
-            rest.field && rest.field.get("date_validation") === NOT_FUTURE_DATE,
+          disableFuture: rest.field && rest.field.get("date_validation") === NOT_FUTURE_DATE,
           error: !!(fieldError && fieldTouched)
         };
 
-        return dateIncludeTime ? (
-          <DateTimePicker {...dateProps} />
-        ) : (
-          <DatePicker {...dateProps} />
-        );
+        return dateIncludeTime ? <DateTimePicker {...dateProps} /> : <DatePicker {...dateProps} />;
       }}
     />
   );

@@ -32,11 +32,7 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
       value: "region",
       optionsStringSource: "lookup lookup-location-type"
     };
-    const { component } = setupMountedComponent(
-      SubformLookupHeader,
-      props,
-      initialState
-    );
+    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
     expect(component.text()).to.be.equal("Region");
   });
@@ -46,11 +42,7 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
       value: "",
       optionsStringSource: "lookup lookup-location-type"
     };
-    const { component } = setupMountedComponent(
-      SubformLookupHeader,
-      props,
-      initialState
-    );
+    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
     expect(component.text()).to.be.empty;
   });
@@ -77,11 +69,7 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
         fr: []
       }
     };
-    const { component } = setupMountedComponent(
-      SubformLookupHeader,
-      props,
-      initialState
-    );
+    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
     expect(component.text()).to.be.equal("Test 2");
   });

@@ -6,13 +6,7 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
 import styles from "../../styles.css";
 
-const Component = ({
-  handleSetFilterValue,
-  options,
-  name,
-  filterValues,
-  id: filterID
-}) => {
+const Component = ({ handleSetFilterValue, options, name, filterValues, id: filterID }) => {
   const css = makeStyles(styles)();
 
   const renderOptions = () =>

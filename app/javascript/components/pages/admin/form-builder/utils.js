@@ -3,15 +3,11 @@ import range from "lodash/range";
 import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
 
 export const convertToFieldsObject = fields =>
-  fields
-    .map(field => ({ [field.name]: field }))
-    .reduce((acc, value) => ({ ...acc, ...value }), {});
+  fields.map(field => ({ [field.name]: field })).reduce((acc, value) => ({ ...acc, ...value }), {});
 
-export const convertToFieldsArray = fields =>
-  Object.keys(fields).map(key => ({ name: key, ...fields[key] }));
+export const convertToFieldsArray = fields => Object.keys(fields).map(key => ({ name: key, ...fields[key] }));
 
-export const getOrderDirection = (currentOrder, newOrder) =>
-  newOrder - currentOrder;
+export const getOrderDirection = (currentOrder, newOrder) => newOrder - currentOrder;
 
 export const affectedOrderRange = (currentOrder, newOrder, step = 1) => {
   const orderDirection = getOrderDirection(currentOrder, newOrder);
@@ -36,6 +32,4 @@ export const buildOrderUpdater = (currentOrder, newOrder) => {
 };
 
 export const getFormRequestPath = (id, saveMethod) =>
-  saveMethod === SAVE_METHODS.update
-    ? `${RECORD_PATH.forms}/${id}`
-    : RECORD_PATH.forms;
+  saveMethod === SAVE_METHODS.update ? `${RECORD_PATH.forms}/${id}` : RECORD_PATH.forms;

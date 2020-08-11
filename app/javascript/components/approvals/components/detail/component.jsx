@@ -3,12 +3,7 @@ import PropTypes from "prop-types";
 import { Box, Grid } from "@material-ui/core";
 
 import { useI18n } from "../../../i18n";
-import {
-  CASE_PLAN,
-  NAME_DETAIL,
-  STATUS_APPROVED,
-  STATUS_REJECTED
-} from "../../constants";
+import { CASE_PLAN, NAME_DETAIL, STATUS_APPROVED, STATUS_REJECTED } from "../../constants";
 import DisplayData from "../../../display-data";
 import { useApp } from "../../../application";
 
@@ -17,9 +12,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
   const { approvalsLabels } = useApp();
 
   const renderApprovalLabel =
-    isRequest && !isResponse
-      ? i18n.t("approvals.requested_for_label")
-      : i18n.t("approvals.response_for_label");
+    isRequest && !isResponse ? i18n.t("approvals.requested_for_label") : i18n.t("approvals.response_for_label");
 
   const renderApprovalValue =
     isRequest && !isResponse
@@ -65,20 +58,14 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
       <Grid container spacing={2}>
         <Grid item md={6} xs={12}>
           <Box className={css.spaceGrid}>
-            <DisplayData
-              label={renderApprovalLabel}
-              value={renderApprovalValue}
-            />
+            <DisplayData label={renderApprovalLabel} value={renderApprovalValue} />
           </Box>
         </Grid>
         <Grid item md={6} xs={12}>
           <Box className={css.spaceGrid}>
             <DisplayData
               label={renderApprovedByLabel}
-              value={
-                approvalSubform.get("approved_by", false) ||
-                approvalSubform.get("requested_by")
-              }
+              value={approvalSubform.get("approved_by", false) || approvalSubform.get("requested_by")}
             />
           </Box>
         </Grid>

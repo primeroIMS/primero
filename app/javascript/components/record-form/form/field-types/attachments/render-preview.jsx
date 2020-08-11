@@ -8,11 +8,5 @@ export default (attachment, file, css) => {
 
   if (!data) return false;
 
-  return (
-    <AttachmentPreview
-      attachment={attachment}
-      attachmentUrl={data}
-      className={css.preview}
-    />
-  );
+  return <AttachmentPreview attachment={attachment} attachmentUrl={data} className={css.preview} />;
 };

@@ -21,9 +21,7 @@ const getColumnData = (column, data, i18n) => {
   return keys
     .filter(key => key !== totalLabel)
     .map(key => {
-      const columnValue = data[key][column]
-        ? data[key][column][totalLabel]
-        : getColumnData(column, data[key], i18n);
+      const columnValue = data[key][column] ? data[key][column][totalLabel] : getColumnData(column, data[key], i18n);
 
       return columnValue;
     })
@@ -40,9 +38,7 @@ const getColumns = (data, i18n, prevData) => {
     return [];
   }
   if (values.length === 1 && keys.includes(totalLabel)) {
-    return prevData
-      ? Object.keys(prevData).filter(key => key !== totalLabel)
-      : [];
+    return prevData ? Object.keys(prevData).filter(key => key !== totalLabel) : [];
   }
 
   return getColumns(values[0], i18n, data);
@@ -57,8 +53,7 @@ const containsColumns = (columns, data, i18n) => {
 
 const getTranslatedKey = (key, field, { agencies }) => {
   if (field?.option_strings_source === "Agency" && agencies) {
-    return dataToJS(agencies).find(agency => agency.id === parseInt(key, 10))
-      ?.display_text;
+    return dataToJS(agencies).find(agency => agency.id === parseInt(key, 10))?.display_text;
   }
 
   return key;
@@ -69,10 +64,7 @@ const dataSet = (columns, data, i18n, fields, { agencies }) => {
   const dataResults = [];
   const field =
     fields.length > 1
-      ? fields.find(
-          reportField =>
-            reportField.position.type === REPORT_FIELD_TYPES.vertical
-        )
+      ? fields.find(reportField => reportField.position.type === REPORT_FIELD_TYPES.vertical)
       : fields.shift();
 
   if (!isEmpty(columns)) {
@@ -136,14 +128,10 @@ const getLabels = (columns, data, i18n, fields, { agencies }) => {
     if (containsColumns(columns, data[key], i18n)) {
       currentLabels.push(keys.filter(label => label !== totalLabel));
     }
-    currentLabels.concat(
-      getLabels(columns, data[key], i18n, fields, { agencies })
-    );
+    currentLabels.concat(getLabels(columns, data[key], i18n, fields, { agencies }));
   });
 
-  return uniq(currentLabels.flat()).map(key =>
-    getTranslatedKey(key, field, { agencies })
-  );
+  return uniq(currentLabels.flat()).map(key => getTranslatedKey(key, field, { agencies }));
 };
 
 const translateKeys = (keys, field, locale) => {
@@ -186,11 +174,7 @@ const translateData = (data, fields, i18n) => {
           currentTranslations[translatedKey] = { ...data[key] };
           delete currentTranslations[key];
         }
-        const translatedData = translateData(
-          data[key],
-          [...storedFields],
-          i18n
-        );
+        const translatedData = translateData(data[key], [...storedFields], i18n);
 
         currentTranslations[translatedKey] = translatedData;
       }
@@ -204,11 +188,7 @@ export const translateReportData = (report, i18n) => {
   const translatedReport = { ...report };
 
   if (translatedReport.report_data) {
-    translatedReport.report_data = translateData(
-      report.report_data,
-      report.fields,
-      i18n
-    );
+    translatedReport.report_data = translateData(report.report_data, report.fields, i18n);
   }
 
   return translatedReport;
@@ -225,17 +205,9 @@ export const buildDataForGraph = (report, i18n, { agencies }) => {
   const columns = getColumns(translatedReport.report_data, i18n);
 
   const graphData = {
-    description: translatedReport.description
-      ? translatedReport.description[i18n.locale]
-      : "",
+    description: translatedReport.description ? translatedReport.description[i18n.locale] : "",
     data: {
-      labels: getLabels(
-        columns,
-        translatedReport.report_data,
-        i18n,
-        report.toJS().fields,
-        { agencies }
-      ),
+      labels: getLabels(columns, translatedReport.report_data, i18n, report.toJS().fields, { agencies }),
       datasets: dataSet(columns, translatedReport.report_data, i18n, fields, {
         agencies
       })
@@ -255,9 +227,7 @@ export const buildDataForTable = (report, i18n, { agencies }) => {
   }
 
   const { fields } = report.toJS();
-  const field = fields.filter(
-    reportField => reportField.position.type === REPORT_FIELD_TYPES.vertical
-  )[0];
+  const field = fields.filter(reportField => reportField.position.type === REPORT_FIELD_TYPES.vertical)[0];
   const dataColumns = getColumns(translatedReport.report_data, i18n);
   const columns = ["", dataColumns, totalLabel].flat().map(column => {
     if (column === "" || column === totalLabel) {
@@ -267,13 +237,7 @@ export const buildDataForTable = (report, i18n, { agencies }) => {
     return getTranslatedKey(column, field, { agencies });
   });
 
-  const values = getRows(
-    dataColumns,
-    translatedReport.report_data,
-    i18n,
-    fields,
-    { agencies }
-  );
+  const values = getRows(dataColumns, translatedReport.report_data, i18n, fields, { agencies });
 
   return { columns, values };
 };

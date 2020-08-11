@@ -61,20 +61,14 @@ describe("bulk-transitons - Selectors", () => {
   describe("getNumberErrorsBulkAssign", () => {
     it("should return the number of errors in the assign", () => {
       const expected = 1;
-      const values = selectors.getNumberErrorsBulkAssign(
-        stateWithRecords,
-        "cases"
-      );
+      const values = selectors.getNumberErrorsBulkAssign(stateWithRecords, "cases");
 
       expect(values).to.deep.equal(expected);
     });
 
     it("should return zero when there are not errors in store", () => {
       const expected = 0;
-      const values = selectors.getNumberErrorsBulkAssign(
-        stateWithNoRecords,
-        "cases"
-      );
+      const values = selectors.getNumberErrorsBulkAssign(stateWithNoRecords, "cases");
 
       expect(values).to.be.equal(expected);
     });

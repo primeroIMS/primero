@@ -8,12 +8,7 @@ import Queue from "../../libs/queue";
 import { enqueueSnackbar, closeSnackbar } from "../notifier";
 import { useI18n } from "../i18n";
 
-import {
-  selectModules,
-  selectNetworkStatus,
-  selectUserModules,
-  getApprovalsLabels
-} from "./selectors";
+import { selectModules, selectNetworkStatus, selectUserModules, getApprovalsLabels } from "./selectors";
 import { setNetworkStatus } from "./action-creators";
 
 const Context = createContext();
@@ -29,9 +24,7 @@ const ApplicationProvider = ({ children }) => {
   const userModules = useSelector(state => selectUserModules(state));
   const online = useSelector(state => selectNetworkStatus(state));
   const authenticated = useSelector(state => getIsAuthenticated(state));
-  const approvalsLabels = useSelector(state =>
-    getApprovalsLabels(state, i18n.locale)
-  );
+  const approvalsLabels = useSelector(state => getApprovalsLabels(state, i18n.locale));
 
   const handleNetworkChange = isOnline => {
     const snackbarType = isOnline ? "success" : "warning";
@@ -80,11 +73,7 @@ const ApplicationProvider = ({ children }) => {
     }
   }, [online, authenticated]);
 
-  return (
-    <Context.Provider value={{ modules, userModules, online, approvalsLabels }}>
-      {children}
-    </Context.Provider>
-  );
+  return <Context.Provider value={{ modules, userModules, online, approvalsLabels }}>{children}</Context.Provider>;
 };
 
 ApplicationProvider.displayName = "ApplicationProvider";

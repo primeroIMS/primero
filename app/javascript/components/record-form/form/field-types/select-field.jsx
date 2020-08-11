@@ -6,19 +6,11 @@ import isEmpty from "lodash/isEmpty";
 
 import { useApp } from "../../../application";
 import { useI18n } from "../../../i18n";
-import {
-  getLocations,
-  getOption,
-  getOptionsAreLoading,
-  getReportingLocations
-} from "../../selectors";
+import { getLocations, getOption, getOptionsAreLoading, getReportingLocations } from "../../selectors";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { getUsersByTransitionType } from "../../../record-actions/transitions/selectors";
 import { valuesToSearchableSelect } from "../../../../libs";
-import {
-  getEnabledAgencies,
-  getReportingLocationConfig
-} from "../../../application/selectors";
+import { getEnabledAgencies, getReportingLocationConfig } from "../../../application/selectors";
 import SearchableSelect from "../../../searchable-select";
 import { SELECT_FIELD_NAME, CUSTOM_STRINGS_SOURCE } from "../constants";
 import { getLoading } from "../../../index-table";
@@ -48,9 +40,7 @@ const SelectField = ({
   const value = getIn(formik.values, name);
   const defaultEmptyValue = multiSelect ? [] : null;
 
-  const selectedValue = field.multi_select
-    ? [field.selected_value]
-    : field.selected_value;
+  const selectedValue = field.multi_select ? [field.selected_value] : field.selected_value;
 
   const { service, agency, location } = other?.filters?.values || {};
 
@@ -67,9 +57,7 @@ const SelectField = ({
     (agencies1, agencies2) => agencies1.equals(agencies2)
   );
 
-  const adminLevel = useSelector(state =>
-    getReportingLocationConfig(state).get("admin_level")
-  );
+  const adminLevel = useSelector(state => getReportingLocationConfig(state).get("admin_level"));
 
   const locations = useSelector(
     state => getLocations(state, i18n),
@@ -104,13 +92,9 @@ const SelectField = ({
     CUSTOM_STRINGS_SOURCE.user
   ];
 
-  const endpointLookups = [
-    CUSTOM_STRINGS_SOURCE.agency,
-    CUSTOM_STRINGS_SOURCE.user
-  ];
+  const endpointLookups = [CUSTOM_STRINGS_SOURCE.agency, CUSTOM_STRINGS_SOURCE.user];
 
-  const disableOfflineEndpointOptions =
-    !online && endpointLookups.includes(option);
+  const disableOfflineEndpointOptions = !online && endpointLookups.includes(option);
 
   const fieldError = getIn(formik.errors, name);
   const fieldTouched = getIn(formik.touched, name);
@@ -138,9 +122,7 @@ const SelectField = ({
   });
 
   const selectIsLoading = fieldName => {
-    if (
-      fieldName.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
-    ) {
+    if (fieldName.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
       return loading;
     }
     if (fieldName.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)) {
@@ -154,19 +136,16 @@ const SelectField = ({
     form.setFieldValue(
       name,
       multiSelect
-        ? data?.map(selected =>
-            typeof selected === "object" ? selected?.value : selected
-          )
+        ? data?.map(selected => (typeof selected === "object" ? selected?.value : selected))
         : data?.value || defaultEmptyValue,
       false
     );
 
     if (customLookups.includes(option)) {
       if (
-        [
-          SERVICE_SECTION_FIELDS.deliveryLocation,
-          SERVICE_SECTION_FIELDS.implementingAgency
-        ].find(fieldName => name.endsWith(fieldName))
+        [SERVICE_SECTION_FIELDS.deliveryLocation, SERVICE_SECTION_FIELDS.implementingAgency].find(fieldName =>
+          name.endsWith(fieldName)
+        )
       ) {
         setFilterState({ filtersChanged: true, userIsSelected: false });
       }
@@ -204,8 +183,7 @@ const SelectField = ({
   const fieldProps = {
     id: name,
     name,
-    isDisabled:
-      !options || mode.isShow || disabled || disableOfflineEndpointOptions,
+    isDisabled: !options || mode.isShow || disabled || disableOfflineEndpointOptions,
     helperText: inputHelperText(),
     isClearable: true,
     options: buildOptions(),
@@ -224,9 +202,7 @@ const SelectField = ({
     },
     defaultValues: value
       ? buildOptions().filter(optionObject =>
-          multiSelect
-            ? value.includes(String(optionObject.value))
-            : String(optionObject.value) === value.toString()
+          multiSelect ? value.includes(String(optionObject.value)) : String(optionObject.value) === value.toString()
         )
       : defaultEmptyValue
   };
@@ -235,10 +211,9 @@ const SelectField = ({
     if (
       filterState?.filtersChanged &&
       !filterState?.userIsSelected &&
-      [
-        SERVICE_SECTION_FIELDS.implementingAgencyIndividual,
-        SERVICE_SECTION_FIELDS.implementingAgency
-      ].find(fieldName => name.endsWith(fieldName))
+      [SERVICE_SECTION_FIELDS.implementingAgencyIndividual, SERVICE_SECTION_FIELDS.implementingAgency].find(fieldName =>
+        name.endsWith(fieldName)
+      )
     ) {
       formik.setFieldValue(name, null, false);
     }
@@ -255,11 +230,7 @@ const SelectField = ({
   }, [location]);
 
   useEffect(() => {
-    if (
-      mode.isNew &&
-      selectedValue &&
-      (value === null || value?.length === 0)
-    ) {
+    if (mode.isNew && selectedValue && (value === null || value?.length === 0)) {
       formik.setFieldValue(name, selectedValue, false);
     }
 
@@ -275,12 +246,7 @@ const SelectField = ({
   return (
     <Field name={name}>
       {/* eslint-disable-next-line no-unused-vars */}
-      {({ f, form }) => (
-        <SearchableSelect
-          {...fieldProps}
-          onChange={data => handleChange(data, form)}
-        />
-      )}
+      {({ f, form }) => <SearchableSelect {...fieldProps} onChange={data => handleChange(data, form)} />}
     </Field>
   );
 };

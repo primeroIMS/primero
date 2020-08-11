@@ -18,13 +18,7 @@ import styles from "../styles.css";
 import { translationsForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
 
-const Component = ({
-  currentValues,
-  formSection,
-  mode,
-  onClose,
-  onSuccess
-}) => {
+const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const formRef = useRef();
@@ -39,13 +33,8 @@ const Component = ({
     validationSchema: validationSchema(i18n)
   });
   const openTranslationDialog = useSelector(state => selectDialog(state, NAME));
-  const locales = i18n.applicationLocales.filter(
-    locale => locale.get("id") !== LOCALE_KEYS.en
-  );
-  const selectedLocaleId = formMethods.watch(
-    "locale_id",
-    locales.first()?.get("id")
-  );
+  const locales = i18n.applicationLocales.filter(locale => locale.get("id") !== LOCALE_KEYS.en);
+  const selectedLocaleId = formMethods.watch("locale_id", locales.first()?.get("id"));
 
   const handleClose = () => {
     if (onClose) {

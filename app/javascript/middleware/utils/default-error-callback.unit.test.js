@@ -40,12 +40,7 @@ describe("middleware/utils/default-error-callback.js", () => {
     ];
 
     defaultErrorCallback(store, response, {});
-    expect(handleRestCallbackSpy).to.have.been.calledOnceWith(
-      store,
-      errorPayload,
-      response,
-      {}
-    );
+    expect(handleRestCallbackSpy).to.have.been.calledOnceWith(store, errorPayload, response, {});
   });
 
   it("extracts errors from json", () => {
@@ -81,12 +76,7 @@ describe("middleware/utils/default-error-callback.js", () => {
     ];
 
     defaultErrorCallback(store, response, json);
-    expect(handleRestCallbackSpy).to.have.been.calledOnceWith(
-      store,
-      errorPayload,
-      response,
-      json
-    );
+    expect(handleRestCallbackSpy).to.have.been.calledOnceWith(store, errorPayload, response, json);
   });
 
   it("does not call handleRestCallback if response 401", () => {

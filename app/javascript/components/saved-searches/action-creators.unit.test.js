@@ -26,9 +26,7 @@ describe("<RecordForm /> - Action Creators", () => {
 
     actionCreators.fetchSavedSearches()(dispatch);
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql(
-      "savedSearches/FETCH_SAVED_SEARCHES"
-    );
+    expect(dispatch.getCall(0).returnValue.type).to.eql("savedSearches/FETCH_SAVED_SEARCHES");
     expect(dispatch.getCall(0).returnValue.api.path).to.eql("saved_searches");
   });
 
@@ -63,18 +61,12 @@ describe("<RecordForm /> - Action Creators", () => {
 
     actionCreators.saveSearch(body, "Success Message")(dispatch);
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql(
-      "savedSearches/SAVE_SEARCH"
-    );
+    expect(dispatch.getCall(0).returnValue.type).to.eql("savedSearches/SAVE_SEARCH");
     expect(dispatch.getCall(0).returnValue.api.path).to.eql("saved_searches");
     expect(dispatch.getCall(0).returnValue.api.method).to.eql("POST");
     expect(dispatch.getCall(0).returnValue.api.body).to.eql(body);
-    expect(dispatch.getCall(0).returnValue.api.successCallback.action).to.eql(
-      "notifications/ENQUEUE_SNACKBAR"
-    );
-    expect(
-      dispatch.getCall(0).returnValue.api.successCallback.payload.message
-    ).to.eql("Success Message");
+    expect(dispatch.getCall(0).returnValue.api.successCallback.action).to.eql("notifications/ENQUEUE_SNACKBAR");
+    expect(dispatch.getCall(0).returnValue.api.successCallback.payload.message).to.eql("Success Message");
   });
 
   it("should check the 'removeSavedSearch' action creator to return the correct object", () => {
@@ -84,16 +76,10 @@ describe("<RecordForm /> - Action Creators", () => {
 
     actionCreators.removeSavedSearch(id, "Deleted Message")(dispatch);
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql(
-      "savedSearches/REMOVE_SAVED_SEARCH"
-    );
+    expect(dispatch.getCall(0).returnValue.type).to.eql("savedSearches/REMOVE_SAVED_SEARCH");
     expect(dispatch.getCall(0).returnValue.api.path).to.eql("saved_searches/1");
     expect(dispatch.getCall(0).returnValue.api.method).to.eql("DELETE");
-    expect(dispatch.getCall(0).returnValue.api.successCallback.action).to.eql(
-      "notifications/ENQUEUE_SNACKBAR"
-    );
-    expect(
-      dispatch.getCall(0).returnValue.api.successCallback.payload.message
-    ).to.eql("Deleted Message");
+    expect(dispatch.getCall(0).returnValue.api.successCallback.action).to.eql("notifications/ENQUEUE_SNACKBAR");
+    expect(dispatch.getCall(0).returnValue.api.successCallback.payload.message).to.eql("Deleted Message");
   });
 });

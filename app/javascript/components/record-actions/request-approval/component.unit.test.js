@@ -46,11 +46,7 @@ describe("<RequestApproval />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      RequestApproval,
-      props,
-      initialState
-    ));
+    ({ component } = setupMountedComponent(RequestApproval, props, initialState));
   });
 
   it("renders RequestApproval", () => {

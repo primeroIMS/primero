@@ -32,13 +32,7 @@ describe("<RequestForm />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      RequestForm,
-      props,
-      {},
-      {},
-      formProps
-    ));
+    ({ component } = setupMountedComponent(RequestForm, props, {}, {}, formProps));
   });
 
   it("should render DisplayData", () => {

@@ -13,13 +13,7 @@ describe("<RecordActions /> - exports/utils", () => {
     it("should have known methods", () => {
       const clone = { ...utils };
 
-      [
-        "allowedExports",
-        "buildFields",
-        "exporterFilters",
-        "formatFields",
-        "formatFileName"
-      ].forEach(property => {
+      ["allowedExports", "buildFields", "exporterFilters", "formatFields", "formatFileName"].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
         delete clone[property];
@@ -36,18 +30,16 @@ describe("<RecordActions /> - exports/utils", () => {
     it("should return all export types if userPermission contains manage permission and recordType is cases", () => {
       const userPermission = fromJS(["manage"]);
 
-      const expected = ALL_EXPORT_TYPES.filter(exportType =>
-        exportType.recordTypes.includes(RECORD_PATH.cases)
-      ).map(a => {
-        return {
-          ...a,
-          display_name: "test.label"
-        };
-      });
+      const expected = ALL_EXPORT_TYPES.filter(exportType => exportType.recordTypes.includes(RECORD_PATH.cases)).map(
+        a => {
+          return {
+            ...a,
+            display_name: "test.label"
+          };
+        }
+      );
 
-      expect(
-        utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)
-      ).to.deep.equal(expected);
+      expect(utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)).to.deep.equal(expected);
     });
 
     it("should return export types contained in userPermission", () => {
@@ -70,9 +62,7 @@ describe("<RecordActions /> - exports/utils", () => {
 
       const userPermission = fromJS([ACTIONS.EXPORT_CSV, ACTIONS.EXPORT_JSON]);
 
-      expect(
-        utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)
-      ).to.deep.equal(expected);
+      expect(utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)).to.deep.equal(expected);
     });
   });
 
@@ -119,17 +109,9 @@ describe("<RecordActions /> - exports/utils", () => {
     it("should return filters with short_id, if isShowPage true", () => {
       const expected = { filters: { short_id: shortIds } };
 
-      expect(
-        utils.exporterFilters(
-          true,
-          false,
-          shortIds,
-          appliedFilters,
-          {},
-          record,
-          false
-        )
-      ).to.be.deep.equals(expected);
+      expect(utils.exporterFilters(true, false, shortIds, appliedFilters, {}, record, false)).to.be.deep.equals(
+        expected
+      );
     });
 
     it(
@@ -138,34 +120,18 @@ describe("<RecordActions /> - exports/utils", () => {
       () => {
         const expected = { filters: { short_id: shortIds } };
 
-        expect(
-          utils.exporterFilters(
-            false,
-            false,
-            shortIds,
-            fromJS({}),
-            {},
-            record,
-            false
-          )
-        ).to.be.deep.equals(expected);
+        expect(utils.exporterFilters(false, false, shortIds, fromJS({}), {}, record, false)).to.be.deep.equals(
+          expected
+        );
       }
     );
 
     it("should return and object with applied filters, if isShowPage is false and allRowsSelected is true", () => {
       const expected = { filters: { short_id: shortIds } };
 
-      expect(
-        utils.exporterFilters(
-          false,
-          true,
-          shortIds,
-          appliedFilters,
-          {},
-          record,
-          false
-        )
-      ).to.be.deep.equals(expected);
+      expect(utils.exporterFilters(false, true, shortIds, appliedFilters, {}, record, false)).to.be.deep.equals(
+        expected
+      );
     });
 
     it(
@@ -175,17 +141,9 @@ describe("<RecordActions /> - exports/utils", () => {
         const query = "test";
         const expected = { filters: { short_id: shortIds } };
 
-        expect(
-          utils.exporterFilters(
-            false,
-            true,
-            shortIds,
-            fromJS({ query }),
-            {},
-            record,
-            false
-          )
-        ).to.be.deep.equals(expected);
+        expect(utils.exporterFilters(false, true, shortIds, fromJS({ query }), {}, record, false)).to.be.deep.equals(
+          expected
+        );
       }
     );
 
@@ -196,17 +154,9 @@ describe("<RecordActions /> - exports/utils", () => {
         const query = "test";
         const expected = { filters: { short_id: shortIds } };
 
-        expect(
-          utils.exporterFilters(
-            false,
-            true,
-            shortIds,
-            fromJS({ query }),
-            {},
-            record,
-            false
-          )
-        ).to.be.deep.equals(expected);
+        expect(utils.exporterFilters(false, true, shortIds, fromJS({ query }), {}, record, false)).to.be.deep.equals(
+          expected
+        );
       }
     );
 
@@ -218,17 +168,7 @@ describe("<RecordActions /> - exports/utils", () => {
         }
       };
 
-      expect(
-        utils.exporterFilters(
-          false,
-          false,
-          shortIds,
-          fromJS({}),
-          {},
-          record,
-          true
-        )
-      ).to.be.deep.equals(expected);
+      expect(utils.exporterFilters(false, false, shortIds, fromJS({}), {}, record, true)).to.be.deep.equals(expected);
     });
   });
 
@@ -293,10 +233,7 @@ describe("<RecordActions /> - exports/utils", () => {
     it("should return an array of strings with field_names", () => {
       const fields = ["form1:field1", "form2:field1", "form3:field10"];
 
-      expect(utils.formatFields(fields)).to.be.deep.equals([
-        "field1",
-        "field10"
-      ]);
+      expect(utils.formatFields(fields)).to.be.deep.equals(["field1", "field10"]);
     });
   });
 });

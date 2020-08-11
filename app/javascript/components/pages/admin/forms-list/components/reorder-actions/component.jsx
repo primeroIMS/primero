@@ -1,12 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  makeStyles,
-  Dialog,
-  DialogActions,
-  CircularProgress
-} from "@material-ui/core";
+import { makeStyles, Dialog, DialogActions, CircularProgress } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 
@@ -15,11 +10,7 @@ import { useI18n } from "../../../../../i18n";
 import { compare } from "../../../../../../libs";
 import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
-import {
-  getReorderIsLoading,
-  getReorderErrors,
-  getReorderPendings
-} from "../../selectors";
+import { getReorderIsLoading, getReorderErrors, getReorderPendings } from "../../selectors";
 
 import styles from "./styles.css";
 import { NAME } from "./constants";
@@ -30,17 +21,12 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
   const dispatch = useDispatch();
   const reorderLoading = useSelector(state => getReorderIsLoading(state));
   const errors = useSelector(state => getReorderErrors(state), compare);
-  const reorderPendings = useSelector(
-    state => getReorderPendings(state),
-    compare
-  );
+  const reorderPendings = useSelector(state => getReorderPendings(state), compare);
 
   useEffect(() => {
     if (open && !reorderLoading) {
       const successful = !errors?.size && !reorderPendings?.size;
-      const message = successful
-        ? i18n.t("forms.messages.save_success")
-        : i18n.t("forms.messages.save_with_errors");
+      const message = successful ? i18n.t("forms.messages.save_success") : i18n.t("forms.messages.save_with_errors");
 
       dispatch({
         type: ENQUEUE_SNACKBAR,
@@ -55,11 +41,7 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
     }
   }, [reorderLoading]);
 
-  const icon = !reorderLoading ? (
-    <CheckIcon />
-  ) : (
-    <CircularProgress size={24} className={css.buttonProgress} />
-  );
+  const icon = !reorderLoading ? <CheckIcon /> : <CircularProgress size={24} className={css.buttonProgress} />;
 
   return (
     <Dialog

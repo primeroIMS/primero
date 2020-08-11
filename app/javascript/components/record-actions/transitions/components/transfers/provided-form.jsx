@@ -18,19 +18,11 @@ const ProvidedForm = ({ setDisabled, canConsentOverride, recordType }) => {
   const dispatch = useDispatch();
 
   const fieldTransferAnyway = (
-    <Field
-      name="transfer"
-      render={props =>
-        onChangeTransferAnyway(props, dispatch, setDisabled, recordType)
-      }
-    />
+    <Field name="transfer" render={props => onChangeTransferAnyway(props, dispatch, setDisabled, recordType)} />
   );
 
   const transferAnyway = canConsentOverride ? (
-    <FormControlLabel
-      control={fieldTransferAnyway}
-      label={i18n.t("transfer.transfer_label")}
-    />
+    <FormControlLabel control={fieldTransferAnyway} label={i18n.t("transfer.transfer_label")} />
   ) : null;
 
   return (

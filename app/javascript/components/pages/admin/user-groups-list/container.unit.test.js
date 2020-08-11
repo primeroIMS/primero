@@ -42,9 +42,7 @@ describe("<UserGroupsList />", () => {
       }
     });
 
-    ({ component } = setupMountedComponent(UserGroupsList, {}, initialState, [
-      `/admin/${NAMESPACE}`
-    ]));
+    ({ component } = setupMountedComponent(UserGroupsList, {}, initialState, [`/admin/${NAMESPACE}`]));
   });
 
   it("should render record list table", () => {
@@ -61,17 +59,11 @@ describe("<UserGroupsList />", () => {
       type: `${NAMESPACE}/USER_GROUPS`
     };
 
-    expect(indexTable.find("p").at(1).text()).to.be.equals(
-      `1-20 of ${dataLength}`
-    );
+    expect(indexTable.find("p").at(1).text()).to.be.equals(`1-20 of ${dataLength}`);
     expect(component.props().store.getActions()).to.have.lengthOf(2);
     indexTable.find("#pagination-next").at(0).simulate("click");
 
-    expect(indexTable.find("p").at(1).text()).to.be.equals(
-      `21-${dataLength} of ${dataLength}`
-    );
-    expect(component.props().store.getActions()[2]).to.deep.equals(
-      expectAction
-    );
+    expect(indexTable.find("p").at(1).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
+    expect(component.props().store.getActions()[2]).to.deep.equals(expectAction);
   });
 });

@@ -32,9 +32,7 @@ const Component = ({ recordType, record, handleActiveTab }) => {
   const dispatch = useDispatch();
   const [savingFlag, setSavingFlag] = useState(false);
 
-  const path = Array.isArray(record)
-    ? `${recordType}/flags`
-    : `${recordType}/${record}/flags`;
+  const path = Array.isArray(record) ? `${recordType}/flags` : `${recordType}/${record}/flags`;
 
   const inputProps = {
     component: TextField,
@@ -68,9 +66,7 @@ const Component = ({ recordType, record, handleActiveTab }) => {
 
   const onSubmit = async (data, actions) => {
     setSavingFlag(true);
-    const body = Array.isArray(record)
-      ? { data: { data, record, record_type: recordType } }
-      : { data };
+    const body = Array.isArray(record) ? { data: { data, record, record_type: recordType } } : { data };
 
     await dispatch(addFlag(body, i18n.t("flags.flag_added"), path));
     onReset(data, actions);
@@ -89,13 +85,7 @@ const Component = ({ recordType, record, handleActiveTab }) => {
         {({ handleSubmit, handleReset }) => (
           <Form onSubmit={handleSubmit}>
             <Box my={2}>
-              <Field
-                name="message"
-                label={i18n.t("flags.flag_reason")}
-                {...inputProps}
-                multiline
-                autoFocus
-              />
+              <Field name="message" label={i18n.t("flags.flag_reason")} {...inputProps} multiline autoFocus />
             </Box>
             <Box my={2}>
               <Field
@@ -106,9 +96,7 @@ const Component = ({ recordType, record, handleActiveTab }) => {
                       {...field}
                       label={i18n.t("flags.flag_date")}
                       onChange={date => {
-                        return (
-                          date && form.setFieldValue(field.name, date, true)
-                        );
+                        return date && form.setFieldValue(field.name, date, true);
                       }}
                       {...dateInputProps}
                       {...other}

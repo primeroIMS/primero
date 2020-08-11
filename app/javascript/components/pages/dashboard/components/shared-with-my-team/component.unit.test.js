@@ -59,15 +59,11 @@ describe("<SharedWithMyTeam> - pages/dashboard/components/shared-with-my-team", 
   });
 
   it("should render shared_with_my_team_referrals column", () => {
-    expect(tableCells.at(1).text()).to.equal(
-      "dashboard.shared_with_my_team_referrals"
-    );
+    expect(tableCells.at(1).text()).to.equal("dashboard.shared_with_my_team_referrals");
   });
 
   it("should render shared_with_my_team_pending_transfers column", () => {
-    expect(tableCells.at(2).text()).to.equal(
-      "dashboard.shared_with_my_team_pending_transfers"
-    );
+    expect(tableCells.at(2).text()).to.equal("dashboard.shared_with_my_team_pending_transfers");
   });
 
   describe("when the data is loading", () => {
@@ -81,21 +77,17 @@ describe("<SharedWithMyTeam> - pages/dashboard/components/shared-with-my-team", 
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(
-        SharedWithMyTeam,
-        props,
-        {
-          records: {
-            dashboard: {
-              data: [],
-              loading: true
-            }
-          },
-          user: {
-            permissions
+      const { component: loadingComponent } = setupMountedComponent(SharedWithMyTeam, props, {
+        records: {
+          dashboard: {
+            data: [],
+            loading: true
           }
+        },
+        user: {
+          permissions
         }
-      );
+      });
 
       expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
     });

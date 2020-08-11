@@ -17,12 +17,7 @@ import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { FormAction } from "../../../form";
 
 import NAMESPACE from "./namespace";
-import {
-  FormGroup,
-  FormSection,
-  FormFilters,
-  ReorderActions
-} from "./components";
+import { FormGroup, FormSection, FormFilters, ReorderActions } from "./components";
 import {
   clearFormsReorder,
   enableReorder,
@@ -32,11 +27,7 @@ import {
   reorderedForms,
   saveFormsReorder
 } from "./action-creators";
-import {
-  getFormSectionsByFormGroup,
-  getIsLoading,
-  getReorderEnabled
-} from "./selectors";
+import { getFormSectionsByFormGroup, getIsLoading, getReorderEnabled } from "./selectors";
 import { getListStyle } from "./utils";
 import { NAME, FORM_GROUP_PREFIX, ORDER_TYPE } from "./constants";
 import styles from "./styles.css";
@@ -53,9 +44,7 @@ const Component = () => {
   const [filterValues, setFilterValues] = useState(defaultFilterValues);
   const isLoading = useSelector(state => getIsLoading(state));
   const isReorderEnabled = useSelector(state => getReorderEnabled(state));
-  const formSectionsByGroup = useSelector(state =>
-    getFormSectionsByFormGroup(state, filterValues)
-  );
+  const formSectionsByGroup = useSelector(state => getFormSectionsByFormGroup(state, filterValues));
   const { modules } = useApp();
 
   const handleSetFilterValue = (name, value) => {
@@ -78,10 +67,7 @@ const Component = () => {
   }, []);
 
   const handleDragEnd = result => {
-    if (
-      result.destination &&
-      result.destination.droppableId === result.source.droppableId
-    ) {
+    if (result.destination && result.destination.droppableId === result.source.droppableId) {
       const order = result.destination.index * 10;
 
       if (result.type === ORDER_TYPE.formSection) {
@@ -89,21 +75,14 @@ const Component = () => {
       }
 
       if (result.type === ORDER_TYPE.formGroup) {
-        dispatch(
-          reorderFormGroups(
-            result.draggableId.replace(`${FORM_GROUP_PREFIX}-`, ""),
-            order,
-            filterValues
-          )
-        );
+        dispatch(reorderFormGroups(result.draggableId.replace(`${FORM_GROUP_PREFIX}-`, ""), order, filterValues));
       }
     }
   };
 
   const renderFormSections = () =>
     formSectionsByGroup.map((group, index) => {
-      const { form_group_name: formGroupName, form_group_id: formGroupID } =
-        group.first() || {};
+      const { form_group_name: formGroupName, form_group_id: formGroupID } = group.first() || {};
 
       return (
         <FormGroup
@@ -113,11 +92,7 @@ const Component = () => {
           id={formGroupID}
           isDragDisabled={!isReorderEnabled}
         >
-          <FormSection
-            group={group}
-            collection={formGroupID}
-            isDragDisabled={!isReorderEnabled}
-          />
+          <FormSection group={group} collection={formGroupID} isDragDisabled={!isReorderEnabled} />
         </FormGroup>
       );
     });
@@ -127,11 +102,7 @@ const Component = () => {
   };
 
   const newFormBtn = canAddForms ? (
-    <FormAction
-      actionHandler={handleNew}
-      text={i18n.t("buttons.new")}
-      startIcon={<AddIcon />}
-    />
+    <FormAction actionHandler={handleNew} text={i18n.t("buttons.new")} startIcon={<AddIcon />} />
   ) : null;
 
   const onClickReorder = () => {
@@ -161,17 +132,8 @@ const Component = () => {
       <PageContent>
         <div className={css.indexContainer}>
           <div className={css.forms}>
-            <LoadingIndicator
-              hasData={hasFormSectionsByGroup}
-              loading={isLoading}
-              type={NAMESPACE}
-            >
-              <Button
-                className={css.reorderButton}
-                startIcon={<ListIcon />}
-                size="small"
-                onClick={onClickReorder}
-              >
+            <LoadingIndicator hasData={hasFormSectionsByGroup} loading={isLoading} type={NAMESPACE}>
+              <Button className={css.reorderButton} startIcon={<ListIcon />} size="small" onClick={onClickReorder}>
                 {i18n.t("buttons.reorder")}
               </Button>
               <DragDropContext onDragEnd={handleDragEnd}>
@@ -199,11 +161,7 @@ const Component = () => {
               disabled={isReorderEnabled}
             />
           </div>
-          <ReorderActions
-            open={isReorderEnabled}
-            handleCancel={closeReoderActions}
-            handleSuccess={saveReorder}
-          />
+          <ReorderActions open={isReorderEnabled} handleCancel={closeReoderActions} handleSuccess={saveReorder} />
         </div>
       </PageContent>
     </>

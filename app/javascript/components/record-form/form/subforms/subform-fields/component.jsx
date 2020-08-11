@@ -21,25 +21,12 @@ import { compare } from "../../../../../libs";
 import { getValidationErrors } from "../../..";
 import styles from "../styles.css";
 
-const Component = ({
-  arrayHelpers,
-  field,
-  form,
-  locale,
-  mode,
-  recordType,
-  setDialogIsNew,
-  setOpen,
-  values
-}) => {
+const Component = ({ arrayHelpers, field, form, locale, mode, recordType, setDialogIsNew, setOpen, values }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const validationErrors = useSelector(
-    state => getValidationErrors(state, form.unique_id),
-    compare
-  );
+  const validationErrors = useSelector(state => getValidationErrors(state, form.unique_id), compare);
 
   const {
     subform_sort_by: subformSortBy,
@@ -49,9 +36,7 @@ const Component = ({
     disabled: isDisabled
   } = field;
 
-  const {
-    subform_prevent_item_removal: subformPreventItemRemoval
-  } = subformField;
+  const { subform_prevent_item_removal: subformPreventItemRemoval } = subformField;
 
   const { isEdit, isNew } = mode;
 
@@ -88,13 +73,7 @@ const Component = ({
   };
 
   const hasError = index =>
-    Boolean(
-      validationErrors?.size &&
-        validationErrors.getIn(
-          ["errors", subformField.get("unique_id"), index],
-          false
-        )
-    );
+    Boolean(validationErrors?.size && validationErrors.getIn(["errors", subformField.get("unique_id"), index], false));
 
   if (values && values.length > 0) {
     let sortedValues = [];
@@ -125,13 +104,7 @@ const Component = ({
           return (
             <div key={`${name}-${index}`} className={css.subformFields}>
               <div className={css.subformHeaderBox}>
-                <SubformHeader
-                  field={field}
-                  index={index}
-                  displayName={displayName}
-                  locale={locale}
-                  values={values}
-                />
+                <SubformHeader field={field} index={index} displayName={displayName} locale={locale} values={values} />
               </div>
               <div className={css.subformHeaderActions}>
                 {hasError(index) && <Jewel isError />}
@@ -145,11 +118,7 @@ const Component = ({
                   />
                 ) : null}
                 {mode.isShow && serviceHasReferFields(values[index]) ? (
-                  <SubformMenu
-                    index={index}
-                    values={values}
-                    recordType={recordType}
-                  />
+                  <SubformMenu index={index} values={values} recordType={recordType} />
                 ) : null}
                 <ActionButton
                   icon={<ArrowIcon />}

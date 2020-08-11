@@ -8,19 +8,8 @@ import { fromJS } from "immutable";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 
-import {
-  buildValues,
-  getInitialValues,
-  getInitialNames,
-  reorderValues,
-  validations
-} from "../../utils";
-import {
-  FieldRecord,
-  TEXT_FIELD,
-  SELECT_FIELD,
-  whichFormMode
-} from "../../../../../form";
+import { buildValues, getInitialValues, getInitialNames, reorderValues, validations } from "../../utils";
+import { FieldRecord, TEXT_FIELD, SELECT_FIELD, whichFormMode } from "../../../../../form";
 import FormSectionField from "../../../../../form/components/form-section-field";
 import { useI18n } from "../../../../../i18n";
 import { dataToJS } from "../../../../../../libs";
@@ -54,10 +43,7 @@ const Component = ({ formRef, mode, lookup }) => {
   const [items, setItems] = useState(keys);
   const [removed, setRemoved] = useState([]);
 
-  const values = getInitialValues(
-    localesKeys,
-    dataToJS(lookup.get(LOOKUP_VALUES, fromJS([])))
-  );
+  const values = getInitialValues(localesKeys, dataToJS(lookup.get(LOOKUP_VALUES, fromJS([]))));
 
   const defaultValues = {
     name: getInitialNames(localesKeys, dataToJS(lookup.get(LOOKUP_NAME))),
@@ -78,13 +64,9 @@ const Component = ({ formRef, mode, lookup }) => {
     dispatch(
       saveLookup({
         id,
-        saveMethod: formMode.get("isEdit")
-          ? SAVE_METHODS.update
-          : SAVE_METHODS.new,
+        saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
         body,
-        message: i18n.t(
-          `lookup.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-        )
+        message: i18n.t(`lookup.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
       })
     );
   };
@@ -139,9 +121,7 @@ const Component = ({ formRef, mode, lookup }) => {
         <FormSectionField
           field={FieldRecord({
             display_name:
-              defaultLocale === locale.id
-                ? i18n.t("lookup.english_label")
-                : i18n.t("lookup.translation_label"),
+              defaultLocale === locale.id ? i18n.t("lookup.english_label") : i18n.t("lookup.translation_label"),
             name: `name.${locale.id}`,
             type: TEXT_FIELD,
             required: true,
@@ -187,11 +167,7 @@ const Component = ({ formRef, mode, lookup }) => {
         {renderLookupLocalizedName()}
         <Grid container spacing={1}>
           <span className={css.optionsLabel}>{i18n.t("lookup.values")}</span>
-          <Grid
-            item
-            xs={12}
-            className={formMode.get("isShow") ? css.showColor : ""}
-          >
+          <Grid item xs={12} className={formMode.get("isShow") ? css.showColor : ""}>
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId="droppableLookup" type="lookupGroup">
                 {(provided, snapshot) => (
@@ -200,9 +176,7 @@ const Component = ({ formRef, mode, lookup }) => {
                     ref={provided.innerRef}
                     style={getListStyle(snapshot.isDraggingOver)}
                   >
-                    <HeaderValues
-                      hideTranslationColumn={defaultLocale === selectedOption}
-                    />
+                    <HeaderValues hideTranslationColumn={defaultLocale === selectedOption} />
                     {renderLookupsValues()}
                     {provided.placeholder}
                   </div>

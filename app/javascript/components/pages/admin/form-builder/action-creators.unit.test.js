@@ -135,9 +135,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: { name: "field_1" }
     };
 
-    expect(actionCreators.setSelectedSubformField("field_1")).to.deep.equal(
-      expected
-    );
+    expect(actionCreators.setSelectedSubformField("field_1")).to.deep.equal(expected);
   });
 
   it("should check the 'updateSelectedField' action creator to return the correct object", () => {
@@ -157,9 +155,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: { data: subform }
     };
 
-    expect(actionCreators.updateSelectedSubform(subform)).to.deep.equal(
-      expected
-    );
+    expect(actionCreators.updateSelectedSubform(subform)).to.deep.equal(expected);
   });
 
   it("should check the 'createSelectedField' action creator to return the correct object", () => {
@@ -199,9 +195,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: { name: "field_1", order: 0, isSubform: true }
     };
 
-    expect(actionCreators.reorderFields("field_1", 0, true)).to.deep.equal(
-      expected
-    );
+    expect(actionCreators.reorderFields("field_1", 0, true)).to.deep.equal(expected);
   });
 
   afterEach(() => {

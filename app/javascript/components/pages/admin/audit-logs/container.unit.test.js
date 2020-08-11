@@ -19,9 +19,7 @@ describe("<AuditLogs />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(AuditLogs, {}, state, [
-      "/admin/audit_logs"
-    ]));
+    ({ component } = setupMountedComponent(AuditLogs, {}, state, ["/admin/audit_logs"]));
   });
 
   it("renders <PageHeading /> component", () => {

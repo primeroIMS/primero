@@ -38,17 +38,13 @@ const RecordFormToolbar = ({
 }) => {
   const { css } = useThemeHelper(styles);
   const i18n = useI18n();
-  const savingRecord = useSelector(state =>
-    getSavingRecord(state, params.recordType)
-  );
+  const savingRecord = useSelector(state => getSavingRecord(state, params.recordType));
 
   const goBack = () => {
     history.goBack();
   };
 
-  const flags = useSelector(state =>
-    getActiveFlags(state, params.id, params.recordType)
-  );
+  const flags = useSelector(state => getActiveFlags(state, params.id, params.recordType));
 
   const renderSaveButton = (
     <ActionButton
@@ -65,15 +61,8 @@ const RecordFormToolbar = ({
   let renderRecordStatusIndicator = null;
 
   if (record && !record.get("enabled")) {
-    renderRecordStatusIndicator = (
-      <h3 className={css.caseDisabled}>
-        {i18n.t("case.messages.case_disabled")}
-      </h3>
-    );
-  } else if (
-    (mode.isShow || mode.isEdit) &&
-    params.recordType === RECORD_PATH.cases
-  ) {
+    renderRecordStatusIndicator = <h3 className={css.caseDisabled}>{i18n.t("case.messages.case_disabled")}</h3>;
+  } else if ((mode.isShow || mode.isEdit) && params.recordType === RECORD_PATH.cases) {
     renderRecordStatusIndicator = (
       <WorkflowIndicator
         locale={i18n.locale}
@@ -85,14 +74,7 @@ const RecordFormToolbar = ({
   }
 
   return (
-    <Box
-      className={css.toolbar}
-      width="100%"
-      px={2}
-      mb={3}
-      display="flex"
-      alignItems="center"
-    >
+    <Box className={css.toolbar} width="100%" px={2} mb={3} display="flex" alignItems="center">
       <Box flexGrow={1} display="flex" flexDirection="column">
         <PageHeading
           caseIdDisplay={caseIdDisplay}
@@ -109,11 +91,7 @@ const RecordFormToolbar = ({
         {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <DisableOffline button>
-              <Badge
-                color="error"
-                badgeContent={flags.size}
-                className={css.badgeIndicator}
-              >
+              <Badge color="error" badgeContent={flags.size} className={css.badgeIndicator}>
                 <Flagging record={params.id} recordType={params.recordType} />
               </Badge>
             </DisableOffline>
@@ -146,11 +124,7 @@ const RecordFormToolbar = ({
             />
           </Permission>
         )}
-        <RecordActions
-          recordType={params.recordType}
-          record={record}
-          mode={mode}
-        />
+        <RecordActions recordType={params.recordType} record={record} mode={mode} />
       </div>
     </Box>
   );

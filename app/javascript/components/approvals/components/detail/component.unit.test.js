@@ -31,11 +31,7 @@ describe("<ApprovalDetail /> - Component", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      ApprovalDetail,
-      props,
-      initialState
-    ));
+    ({ component } = setupMountedComponent(ApprovalDetail, props, initialState));
   });
 
   it("render ApprovalDetail component", () => {
@@ -55,9 +51,7 @@ describe("<ApprovalDetail /> - Component", () => {
   });
 
   it("render the correct approvals label", () => {
-    expect(
-      component.find(DisplayData).first().find("p").last().text()
-    ).to.be.equal(CASE_PLAN);
+    expect(component.find(DisplayData).first().find("p").last().text()).to.be.equal(CASE_PLAN);
   });
 
   it("renders component with valid props", () => {

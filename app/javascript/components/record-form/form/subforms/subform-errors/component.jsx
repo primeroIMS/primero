@@ -9,9 +9,7 @@ import InternalAlert from "../../../../internal-alert";
 const Component = ({ initialErrors, errors, setErrors, setTouched }) => {
   const i18n = useI18n();
 
-  const errorMessages = Object.entries(
-    isEmpty(errors) ? initialErrors || {} : errors
-  ).map(([, value]) => ({
+  const errorMessages = Object.entries(isEmpty(errors) ? initialErrors || {} : errors).map(([, value]) => ({
     message: value
   }));
 

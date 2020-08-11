@@ -15,9 +15,7 @@ describe("components/notifier/utils.js", () => {
     it("should return message as is if isMessageKey", () => {
       const expected = "this-is-a-test";
 
-      expect(utils.generate.messageKey("this-is-a-test", true)).to.equal(
-        expected
-      );
+      expect(utils.generate.messageKey("this-is-a-test", true)).to.equal(expected);
     });
 
     it("should return generated key if no message", () => {

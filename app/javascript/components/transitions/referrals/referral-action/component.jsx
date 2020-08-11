@@ -35,8 +35,7 @@ const Component = ({
     event.stopPropagation();
   };
 
-  const message =
-    referralType === DONE ? i18n.t(`${recordType}.referral_done_success`) : "";
+  const message = referralType === DONE ? i18n.t(`${recordType}.referral_done_success`) : "";
 
   const handleOk = () => {
     setPending(true);
@@ -68,8 +67,7 @@ const Component = ({
     ) : (
       ""
     );
-  const confirmButtonLabel =
-    referralType === DONE ? "buttons.done" : "buttons.ok";
+  const confirmButtonLabel = referralType === DONE ? "buttons.done" : "buttons.ok";
 
   return (
     <ActionDialog

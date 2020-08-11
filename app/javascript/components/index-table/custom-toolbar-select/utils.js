@@ -10,8 +10,7 @@ export const selectAllRecords = (totalRecords, perPage) => {
   let recordsInCurrentPage = totalRecords;
 
   for (let i = 0; i < keys; i += 1) {
-    const recordsPerPage =
-      perPage > recordsInCurrentPage ? recordsInCurrentPage : perPage;
+    const recordsPerPage = perPage > recordsInCurrentPage ? recordsInCurrentPage : perPage;
 
     recordsSelected[i] = [...Array(recordsPerPage).keys()];
     recordsInCurrentPage -= perPage;

@@ -66,12 +66,7 @@ const Container = ({ mode }) => {
 
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
-      <FormAction
-        cancel
-        actionHandler={handleCancel}
-        text={i18n.t("buttons.cancel")}
-        startIcon={<ClearIcon />}
-      />
+      <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
         actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
@@ -82,19 +77,11 @@ const Container = ({ mode }) => {
   );
 
   const editButton = formMode.get("isShow") && (
-    <FormAction
-      actionHandler={handleEdit}
-      text={i18n.t("buttons.edit")}
-      startIcon={<CreateIcon />}
-    />
+    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
   );
 
   return (
-    <LoadingIndicator
-      hasData={formMode.get("isNew") || lookup?.size > 0}
-      loading={!lookup.size}
-      type={NAMESPACE}
-    >
+    <LoadingIndicator hasData={formMode.get("isNew") || lookup?.size > 0} loading={!lookup.size} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
         {editButton}
         {saveButton}

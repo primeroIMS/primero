@@ -17,11 +17,7 @@ describe("<SubformErrors />", () => {
   });
 
   it("should render an InternalAlert if there are errors", () => {
-    const { component } = setupMountedComponent(
-      SubformErrors,
-      { errors: { field_1: "required" }, ...setters },
-      {}
-    );
+    const { component } = setupMountedComponent(SubformErrors, { errors: { field_1: "required" }, ...setters }, {});
 
     expect(component.find(InternalAlert)).lengthOf(1);
   });

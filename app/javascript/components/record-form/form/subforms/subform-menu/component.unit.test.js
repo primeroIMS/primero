@@ -88,11 +88,7 @@ describe("<SubformMenu />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(
-      SubformMenu,
-      props,
-      initialState
-    );
+    const { component } = setupMountedComponent(SubformMenu, props, initialState);
 
     component.find(ActionButton).find("button").simulate("click");
 

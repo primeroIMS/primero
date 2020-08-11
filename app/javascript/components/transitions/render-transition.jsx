@@ -1,7 +1,4 @@
-import {
-  ExpansionPanelDetails,
-  ExpansionPanelSummary
-} from "@material-ui/core";
+import { ExpansionPanelDetails, ExpansionPanelSummary } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React from "react";
 
@@ -23,9 +20,7 @@ export default (transition, css, recordType, showMode) => (
       >
         {renderSummary(transition, css, recordType, showMode)}
       </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
-        {renderDetails(transition, css)}
-      </ExpansionPanelDetails>
+      <ExpansionPanelDetails>{renderDetails(transition, css)}</ExpansionPanelDetails>
     </TransitionPanel>
   </div>
 );

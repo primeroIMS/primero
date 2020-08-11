@@ -1,22 +1,12 @@
 import React, { useEffect, useRef, useCallback } from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button
-} from "@material-ui/core";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@material-ui/core";
 import IdleTimer from "react-idle-timer";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 
 import { refreshToken } from "../user";
 import { useI18n } from "../i18n";
-import {
-  IDLE_TIMEOUT,
-  IDLE_LOGOUT_TIMEOUT,
-  TOKEN_REFRESH_INTERVAL
-} from "../../config";
+import { IDLE_TIMEOUT, IDLE_LOGOUT_TIMEOUT, TOKEN_REFRESH_INTERVAL } from "../../config";
 import { setUserIdle, selectUserIdle } from "../application";
 
 import { NAME } from "./constants";
@@ -111,12 +101,7 @@ const SessionTimeoutDialog = () => {
 
   return (
     <>
-      <IdleTimer
-        ref={idleRef}
-        element={document}
-        timeout={IDLE_TIMEOUT}
-        onIdle={onIdle}
-      />
+      <IdleTimer ref={idleRef} element={document} timeout={IDLE_TIMEOUT} onIdle={onIdle} />
       <Dialog open={userIdle}>
         <DialogTitle>{i18n.t("messages.logout_confirmation")}</DialogTitle>
         <DialogContent>{i18n.t("messages.logout_warning")}</DialogContent>

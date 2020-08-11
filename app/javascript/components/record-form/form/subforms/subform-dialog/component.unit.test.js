@@ -54,13 +54,7 @@ describe("<SubformDialog />", () => {
   let component;
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      SubformDialog,
-      props,
-      {},
-      [],
-      formProps
-    ));
+    ({ component } = setupMountedComponent(SubformDialog, props, {}, [], formProps));
   });
 
   it("render the subform", () => {
@@ -120,13 +114,7 @@ describe("<SubformDialog />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        SubformDialog,
-        propsFieldNotVisible,
-        {},
-        [],
-        visibleFieldFormProps
-      ));
+      ({ component } = setupMountedComponent(SubformDialog, propsFieldNotVisible, {}, [], visibleFieldFormProps));
     });
 
     it("render the subform", () => {
@@ -194,13 +182,7 @@ describe("<SubformDialog />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        SubformDialog,
-        propsRenderSomeFields,
-        {},
-        [],
-        formPropsRenderSomeFields
-      ));
+      ({ component } = setupMountedComponent(SubformDialog, propsRenderSomeFields, {}, [], formPropsRenderSomeFields));
     });
 
     it("renders some FormSectionField", () => {

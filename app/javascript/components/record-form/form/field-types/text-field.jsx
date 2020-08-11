@@ -20,24 +20,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TextField = ({
-  name,
-  field,
-  formik,
-  mode,
-  recordType,
-  recordID,
-  ...rest
-}) => {
+const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest }) => {
   const css = useStyles();
 
   const { type } = field;
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const recordName = useSelector(state =>
-    selectRecordAttribute(state, recordType, recordID, "name")
-  );
+  const recordName = useSelector(state => selectRecordAttribute(state, recordType, recordID, "name"));
   const isHiddenName = /\*{2,}/.test(recordName);
 
   useEffect(() => {
@@ -93,23 +83,14 @@ const TextField = ({
 
                   updateDateBirthField(renderProps.form, value);
 
-                  return renderProps.form.setFieldValue(
-                    renderProps.field.name,
-                    value,
-                    true
-                  );
+                  return renderProps.form.setFieldValue(renderProps.field.name, value, true);
                 }
               }}
               {...fieldProps}
             />
             {name === "name" && mode.isEdit ? (
-              <ButtonBase
-                className={css.hideNameStyle}
-                onClick={() => hideFieldValue(renderProps)}
-              >
-                {isHiddenName
-                  ? i18n.t("logger.hide_name.view")
-                  : i18n.t("logger.hide_name.protect")}
+              <ButtonBase className={css.hideNameStyle} onClick={() => hideFieldValue(renderProps)}>
+                {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
               </ButtonBase>
             ) : null}
           </>

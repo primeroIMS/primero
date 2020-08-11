@@ -45,9 +45,7 @@ describe("<AddRecordMenu /> record-list/add-record-menu", () => {
     const { component } = setupMountedComponent(
       AddRecordMenu,
       props,
-      state.merge(
-        fromJS({ user: { modules: ["primerotest-1", "primerotest-3"] } })
-      )
+      state.merge(fromJS({ user: { modules: ["primerotest-1", "primerotest-3"] } }))
     );
 
     expect(component.find(Menu)).to.have.lengthOf(1);

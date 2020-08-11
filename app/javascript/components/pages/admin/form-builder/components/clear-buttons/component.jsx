@@ -30,8 +30,7 @@ const Component = ({ subformField }) => {
   };
 
   const renderClearButton = (fieldBy, onClick) =>
-    ((fieldBy === SORT_BY && subformSortBy) ||
-      (fieldBy === GROUP_BY && subformGroupBy)) && (
+    ((fieldBy === SORT_BY && subformSortBy) || (fieldBy === GROUP_BY && subformGroupBy)) && (
       <ActionButton
         icon={<CloseIcon />}
         text={i18n.t(`fields.clear_${fieldBy}`)}
@@ -45,12 +44,8 @@ const Component = ({ subformField }) => {
 
   return (
     <div className={css.fieldRow}>
-      <div className={css.fieldColumn}>
-        {renderClearButton(SORT_BY, onClearSortBy)}
-      </div>
-      <div className={css.fieldColumn}>
-        {renderClearButton(GROUP_BY, onClearGroupBy)}
-      </div>
+      <div className={css.fieldColumn}>{renderClearButton(SORT_BY, onClearSortBy)}</div>
+      <div className={css.fieldColumn}>{renderClearButton(GROUP_BY, onClearGroupBy)}</div>
     </div>
   );
 };
