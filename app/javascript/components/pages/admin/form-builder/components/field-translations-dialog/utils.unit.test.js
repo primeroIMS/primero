@@ -22,7 +22,7 @@ describe("<FieldTranslationsDialog>- Utils", () => {
       ...options,
       es: [{ id: "option_1", display_text: "" }]
     };
-    const locales = fromJS([{ id: "en" }, { id: "es" } ]);
+    const locales = fromJS([{ id: "en" }, { id: "es" }]);
 
     expect(expected).to.deep.equal(
       utils.buildDefaultOptionStringsText(options, locales)

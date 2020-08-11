@@ -44,7 +44,9 @@ const Component = ({ field, selectedLocaleId }) => {
       <FormSectionField
         field={FieldRecord({
           display_name: "",
-          name: `${field.get("name")}.option_strings_text.${id}[${index}].display_text`,
+          name: `${field.get(
+            "name"
+          )}.option_strings_text.${id}[${index}].display_text`,
           type: TEXT_FIELD,
           disabled: id === LOCALE_KEYS.en,
           inputClassname: hideField ? css.hideField : null

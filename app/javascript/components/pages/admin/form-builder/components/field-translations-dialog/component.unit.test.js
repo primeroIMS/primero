@@ -195,7 +195,6 @@ describe("<FieldTranslationsDialog />", () => {
       .find(FormSectionField)
       .map(field => field.props().field.name);
 
-
     expect(
       component.find(FieldTranslationsDialog).find(FormSectionField)
     ).to.have.lengthOf(13);
