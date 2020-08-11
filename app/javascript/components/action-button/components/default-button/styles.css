@@ -18,8 +18,9 @@
   font-weight: bold;
 
   &:hover {
-    color: $(theme.primero.colors.grey);
-    border: 2px solid $(theme.primero.colors.grey);
+    color: $(theme.primero.colors.white);
+    border: 2px solid $(theme.primero.colors.blue);
+    background: $(theme.primero.colors.blue);
   }
 }
 
