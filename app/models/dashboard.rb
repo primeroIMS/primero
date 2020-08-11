@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# This represents the elements that are to be displayed on the Dashboard
 class Dashboard < ValueObject
   attr_accessor :name, :type, :indicators
 
