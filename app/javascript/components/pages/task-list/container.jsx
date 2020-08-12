@@ -172,12 +172,8 @@ const TaskList = () => {
     const selectedField = fields.filter(field => field.name === fieldName);
 
     const fieldKey = [...selectedField.keys()][0];
-    const selectedForm = forms.find(form =>
-      form.get("fields").includes(parseInt(fieldKey, 10))
-    );
-    const to = Object.keys(RECORD_TYPES).find(
-      key => RECORD_TYPES[key] === record.get("record_type")
-    );
+    const selectedForm = forms.find(form => form.get("fields").includes(parseInt(fieldKey, 10)));
+    const to = Object.keys(RECORD_TYPES).find(key => RECORD_TYPES[key] === record.get("record_type"));
     let formName = selectedForm.unique_id;
 
     if (selectedForm.is_nested) {
@@ -185,9 +181,7 @@ const TaskList = () => {
         field => field[1].subform_section_id === selectedForm.id
       )[0];
 
-      formName = forms.find(form =>
-        form.fields.includes(parseInt(subformKey, 10))
-      ).unique_id;
+      formName = forms.find(form => form.fields.includes(parseInt(subformKey, 10))).unique_id;
     }
 
     batch(() => {
