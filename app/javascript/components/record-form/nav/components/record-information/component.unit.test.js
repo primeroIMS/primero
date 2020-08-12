@@ -26,8 +26,6 @@ describe("<RecordInformation />", () => {
   });
 
   it("renders a NavItem component />", () => {
-    expect(component.find(NavGroup).find("ul").find(NavItem)).to.have.lengthOf(
-      3
-    );
+    expect(component.find(NavGroup).find("ul").find(NavItem)).to.have.lengthOf(3);
   });
 });

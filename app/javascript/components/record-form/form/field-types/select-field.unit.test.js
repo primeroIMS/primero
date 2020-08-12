@@ -39,13 +39,9 @@ describe("<SelectField />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(
-      SelectField,
-      props,
-      initialState,
-      [],
-      { initialValues: { agency: "agency-test-1" } }
-    );
+    const { component } = setupMountedComponent(SelectField, props, initialState, [], {
+      initialValues: { agency: "agency-test-1" }
+    });
 
     it("render the select field with options", () => {
       const expected = [{ value: "agency-test-1" }, { value: "agency-test-2" }];
@@ -93,22 +89,14 @@ describe("<SelectField />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(
-      SelectField,
-      props,
-      initialState,
-      [],
-      {
-        initialValues: {
-          service_type: "health_medical_service"
-        }
+    const { component } = setupMountedComponent(SelectField, props, initialState, [], {
+      initialValues: {
+        service_type: "health_medical_service"
       }
-    );
+    });
 
     it("render the select field with options", () => {
-      const expected = [
-        { label: "Health/Medical Service", value: "health_medical_service" }
-      ];
+      const expected = [{ label: "Health/Medical Service", value: "health_medical_service" }];
 
       const selectField = component.find(SelectField);
       const searchableSelect = selectField.find(SearchableSelect);

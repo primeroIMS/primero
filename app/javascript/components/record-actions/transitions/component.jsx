@@ -9,12 +9,7 @@ import { getRecords } from "../../index-table";
 
 import { NAME } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
-import {
-  TransitionDialog,
-  ReferralForm,
-  ReassignForm,
-  TransferForm
-} from "./components";
+import { TransitionDialog, ReferralForm, ReassignForm, TransferForm } from "./components";
 
 const Transitions = ({
   record,
@@ -39,9 +34,7 @@ const Transitions = ({
   const [disabledReferButton, setDisabledReferButton] = useState(false);
   const [disabledTransferButton, setDisabledTransferButton] = useState(false);
 
-  const records = useSelector(state => getRecords(state, recordType)).get(
-    "data"
-  );
+  const records = useSelector(state => getRecords(state, recordType)).get("data");
 
   const selectedIds =
     selectedRecords && records
@@ -92,9 +85,7 @@ const Transitions = ({
       );
     }
     if (t.assignDialog) {
-      return (
-        <ReassignForm {...commonTransitionProps} assignRef={assignFormikRef} />
-      );
+      return <ReassignForm {...commonTransitionProps} assignRef={assignFormikRef} />;
     }
 
     return null;

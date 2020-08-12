@@ -37,12 +37,7 @@ describe("<AgencyForm />", () => {
       }
     });
 
-    ({ component } = setupMountedComponent(
-      AgenciesForm,
-      { mode: "new" },
-      initialState,
-      ["/admin/agencies"]
-    ));
+    ({ component } = setupMountedComponent(AgenciesForm, { mode: "new" }, initialState, ["/admin/agencies"]));
   });
 
   it("renders record form", () => {
@@ -51,10 +46,8 @@ describe("<AgencyForm />", () => {
 
   it("renders heading with action buttons", () => {
     expect(component.find("header h1").contains("agencies.label")).to.be.true;
-    expect(component.find("header button").at(0).contains("buttons.cancel")).to
-      .be.true;
-    expect(component.find("header button").at(1).contains("buttons.save")).to.be
-      .true;
+    expect(component.find("header button").at(0).contains("buttons.cancel")).to.be.true;
+    expect(component.find("header button").at(1).contains("buttons.save")).to.be.true;
   });
 
   it("renders submit button with valid props", () => {

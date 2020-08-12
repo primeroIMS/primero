@@ -1,13 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from "@material-ui/core";
+import { Paper, Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import styles from "./styles.css";
@@ -17,13 +10,9 @@ const TableValues = ({ columns, values }) => {
 
   // eslint-disable-next-line react/no-multi-comp, react/display-name
   const singleRowRender = rowValues => (
-    <TableRow
-      key={`${rowValues[0]}-${Math.floor(Math.random() * 100 + 1)}-data`}
-    >
+    <TableRow key={`${rowValues[0]}-${Math.floor(Math.random() * 100 + 1)}-data`}>
       {rowValues.map(row => (
-        <TableCell key={`${row}-${Math.floor(Math.random() * 100 + 1)}-value`}>
-          {row}
-        </TableCell>
+        <TableCell key={`${row}-${Math.floor(Math.random() * 100 + 1)}-value`}>{row}</TableCell>
       ))}
     </TableRow>
   );

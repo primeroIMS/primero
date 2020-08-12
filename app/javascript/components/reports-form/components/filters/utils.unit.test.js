@@ -8,13 +8,11 @@ describe("<ReportFilters /> - utils", () => {
     it("should have known methods", () => {
       const clone = { ...utils };
 
-      ["formatValue", "registerValues", "getConstraintLabel"].forEach(
-        property => {
-          expect(clone).to.have.property(property);
-          expect(clone[property]).to.be.a("function");
-          delete clone[property];
-        }
-      );
+      ["formatValue", "registerValues", "getConstraintLabel"].forEach(property => {
+        expect(clone).to.have.property(property);
+        expect(clone[property]).to.be.a("function");
+        delete clone[property];
+      });
       expect(clone).to.be.empty;
     });
   });
@@ -25,9 +23,7 @@ describe("<ReportFilters /> - utils", () => {
     it("should return a formatted date field if value is a valid date object", () => {
       const value = new Date("01/01/2020");
 
-      expect(
-        utils.formatValue(value, i18n, { field: {}, lookups: {} })
-      ).to.be.equals("01-Jan-2020");
+      expect(utils.formatValue(value, i18n, { field: {}, lookups: {} })).to.be.equals("01-Jan-2020");
     });
 
     describe("when field type is tick-field type", () => {
@@ -127,9 +123,7 @@ describe("<ReportFilters /> - utils", () => {
     it("should return not_blank when constraint is a boolean and it's true", () => {
       const data = { value: ["true"], constraint: true };
 
-      expect(utils.getConstraintLabel(data, {}, i18n)).to.be.equals(
-        "report.filters.not_blank"
-      );
+      expect(utils.getConstraintLabel(data, {}, i18n)).to.be.equals("report.filters.not_blank");
     });
 
     it("should return not_blank when value is an array an contains not_null value", () => {
@@ -139,9 +133,7 @@ describe("<ReportFilters /> - utils", () => {
         attribute: "test"
       };
 
-      expect(utils.getConstraintLabel(data, {}, i18n)).to.be.equals(
-        "report.filters.not_blank"
-      );
+      expect(utils.getConstraintLabel(data, {}, i18n)).to.be.equals("report.filters.not_blank");
     });
 
     it("should return a valid constraint if value is not an array", () => {
@@ -151,9 +143,7 @@ describe("<ReportFilters /> - utils", () => {
         attribute: "test"
       };
 
-      expect(utils.getConstraintLabel(data, {}, i18n)).to.be.equals(
-        "report.filters.equal_to"
-      );
+      expect(utils.getConstraintLabel(data, {}, i18n)).to.be.equals("report.filters.equal_to");
     });
 
     describe("when the field is DATE_FIELD type", () => {
@@ -165,14 +155,12 @@ describe("<ReportFilters /> - utils", () => {
       };
 
       it("should return after if the constraint is >", () => {
-        expect(utils.getConstraintLabel(data, field, i18n)).to.be.equals(
-          "report.filters.after"
-        );
+        expect(utils.getConstraintLabel(data, field, i18n)).to.be.equals("report.filters.after");
       });
       it("should return before if the constraint is <", () => {
-        expect(
-          utils.getConstraintLabel({ ...data, constraint: "<" }, field, i18n)
-        ).to.be.equals("report.filters.before");
+        expect(utils.getConstraintLabel({ ...data, constraint: "<" }, field, i18n)).to.be.equals(
+          "report.filters.before"
+        );
       });
     });
   });

@@ -47,29 +47,16 @@ const ReferralForm = ({
   const referralFromService = serviceToRefer?.size
     ? {
         [SERVICE_FIELD]: serviceToRefer.get(SERVICE_SECTION_FIELDS.type),
-        [AGENCY_FIELD]: serviceToRefer.get(
-          SERVICE_SECTION_FIELDS.implementingAgency
-        ),
-        [LOCATION_FIELD]: serviceToRefer.get(
-          SERVICE_SECTION_FIELDS.deliveryLocation
-        ),
-        [TRANSITIONED_TO_FIELD]: serviceToRefer.get(
-          SERVICE_SECTION_FIELDS.implementingAgencyIndividual
-        ),
-        [SERVICE_RECORD_FIELD]: serviceToRefer.get(
-          SERVICE_SECTION_FIELDS.uniqueId
-        )
+        [AGENCY_FIELD]: serviceToRefer.get(SERVICE_SECTION_FIELDS.implementingAgency),
+        [LOCATION_FIELD]: serviceToRefer.get(SERVICE_SECTION_FIELDS.deliveryLocation),
+        [TRANSITIONED_TO_FIELD]: serviceToRefer.get(SERVICE_SECTION_FIELDS.implementingAgencyIndividual),
+        [SERVICE_RECORD_FIELD]: serviceToRefer.get(SERVICE_SECTION_FIELDS.uniqueId)
       }
     : {};
 
   useEffect(() => {
-    const selectedAgencyId = serviceToRefer.get(
-      SERVICE_SECTION_FIELDS.implementingAgency,
-      ""
-    );
-    const selectedAgency = agencies.find(
-      current => current.get("unique_id") === selectedAgencyId
-    );
+    const selectedAgencyId = serviceToRefer.get(SERVICE_SECTION_FIELDS.implementingAgency, "");
+    const selectedAgency = agencies.find(current => current.get("unique_id") === selectedAgencyId);
 
     if (selectedAgency?.size) {
       referralFromService[AGENCY_FIELD] = selectedAgencyId;
@@ -99,9 +86,7 @@ const ReferralForm = ({
   };
 
   const validationSchema = object().shape({
-    [TRANSITIONED_TO_FIELD]: string().required(
-      i18n.t("referral.user_mandatory_label")
-    )
+    [TRANSITIONED_TO_FIELD]: string().required(i18n.t("referral.user_mandatory_label"))
   });
 
   const formProps = {

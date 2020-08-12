@@ -10,8 +10,7 @@ export const getMessageData = ({ alert, form, i18n }) => {
     case ALERTS_FOR.field_change:
       return {
         form_section_name: form.getIn(["name", i18n.locale]),
-        alert_time:
-          alert.get("date") && format(parseISO(alert.get("date")), DATE_FORMAT)
+        alert_time: alert.get("date") && format(parseISO(alert.get("date")), DATE_FORMAT)
       };
     case ALERTS_FOR.approval:
       return { form_section_name: form.getIn(["name", i18n.locale]) };

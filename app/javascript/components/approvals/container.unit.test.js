@@ -1,8 +1,5 @@
 import { fromJS } from "immutable";
-import {
-  ExpansionPanelDetails,
-  ExpansionPanelSummary
-} from "@material-ui/core";
+import { ExpansionPanelDetails, ExpansionPanelSummary } from "@material-ui/core";
 
 import RecordFormTitle from "../record-form/form/record-form-title";
 import { setupMountedComponent } from "../../test";
@@ -93,11 +90,7 @@ describe("<Approvals /> - Component", () => {
     };
 
     beforeEach(() => {
-      ({ component: noDataComponent } = setupMountedComponent(
-        Approvals,
-        emptyProps,
-        {}
-      ));
+      ({ component: noDataComponent } = setupMountedComponent(Approvals, emptyProps, {}));
     });
 
     it("renders Approvals component", () => {
@@ -106,9 +99,7 @@ describe("<Approvals /> - Component", () => {
     it("not renders ApprovalPanel only the title", () => {
       expect(noDataComponent.find(ApprovalPanel)).to.have.lengthOf(0);
       expect(noDataComponent.find(RecordFormTitle)).to.have.lengthOf(1);
-      expect(noDataComponent.find(RecordFormTitle).text()).to.equal(
-        "forms.record_types.approvals"
-      );
+      expect(noDataComponent.find(RecordFormTitle).text()).to.equal("forms.record_types.approvals");
     });
   });
 });

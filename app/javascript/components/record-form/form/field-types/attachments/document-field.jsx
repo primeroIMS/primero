@@ -2,15 +2,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { TextField } from "formik-material-ui";
-import {
-  Box,
-  Dialog,
-  Button,
-  DialogContent,
-  DialogActions,
-  DialogTitle,
-  IconButton
-} from "@material-ui/core";
+import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { FastField } from "formik";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
@@ -85,9 +77,7 @@ const DocumentField = ({
     <>
       <div className={css.attachment}>
         <div className={css.attachmentMeta}>
-          <span>
-            {value.date && i18n.l("date.formats.default", value.date)}
-          </span>
+          <span>{value.date && i18n.l("date.formats.default", value.date)}</span>
           {value.description}
         </div>
         <div>
@@ -97,12 +87,7 @@ const DocumentField = ({
         </div>
       </div>
 
-      <Dialog
-        open={open || dialog}
-        onClose={handleClose}
-        maxWidth="sm"
-        fullWidth
-      >
+      <Dialog open={open || dialog} onClose={handleClose} maxWidth="sm" fullWidth>
         <DialogTitle disableTypography className={css.title}>
           <div className={css.titleText}>{title}</div>
           <div>
@@ -116,12 +101,7 @@ const DocumentField = ({
             {attachmentUrl ? (
               <Button href={attachmentUrl}>{i18n.t("buttons.download")}</Button>
             ) : (
-              <AttachmentInput
-                fields={fields}
-                attachment={attachment}
-                value={value.attachment}
-                name={name}
-              />
+              <AttachmentInput fields={fields} attachment={attachment} value={value.attachment} name={name} />
             )}
             {mode.isShow || (
               <IconButton onClick={handleRemove}>
@@ -159,12 +139,7 @@ const DocumentField = ({
         </DialogContent>
 
         <DialogActions>
-          <Button
-            onClick={handleClose}
-            color="primary"
-            variant="contained"
-            disableElevation
-          >
+          <Button onClick={handleClose} color="primary" variant="contained" disableElevation>
             {i18n.t(dialogActionText)}
           </Button>
         </DialogActions>

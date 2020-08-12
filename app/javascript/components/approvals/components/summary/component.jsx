@@ -16,9 +16,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
   const status = approvalSubform.get("approval_status");
 
   const title =
-    isRequest && !isResponse
-      ? i18n.t("approvals.requested_for_title")
-      : i18n.t("approvals.response_for_title");
+    isRequest && !isResponse ? i18n.t("approvals.requested_for_title") : i18n.t("approvals.response_for_title");
 
   const renderApprovalValue =
     isRequest && !isResponse
@@ -28,11 +26,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
   const renderStatus = isResponse ? (
     <Grid item md={2} xs={4}>
       <div className={css.approvalsStatus}>
-        <Chip
-          label={i18n.t(`approvals.status.${status}`)}
-          className={clsx(css.chip, css[status])}
-          size="small"
-        />
+        <Chip label={i18n.t(`approvals.status.${status}`)} className={clsx(css.chip, css[status])} size="small" />
       </div>
     </Grid>
   ) : null;

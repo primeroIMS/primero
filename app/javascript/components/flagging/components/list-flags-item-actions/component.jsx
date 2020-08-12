@@ -45,8 +45,7 @@ const Component = ({ flag }) => {
   const renderActions = flag.removed ? (
     <div className={css.flagRemovedInfo}>
       <div className={css.date}>
-        {i18n.t("flags.resolved_date")}{" "}
-        {i18n.l("date.formats.default", flag.unflagged_date)}
+        {i18n.t("flags.resolved_date")} {i18n.l("date.formats.default", flag.unflagged_date)}
       </div>
       <div className={css.resolvedReason}>
         {i18n.t("flags.resolved_reason")} {flag.unflag_message}
@@ -58,10 +57,7 @@ const Component = ({ flag }) => {
         {i18n.t("flags.date")} {i18n.l("date.formats.default", flag.date)}
       </div>
       <div className={css.actionDivider}>
-        <Divider
-          orientation="vertical"
-          classes={{ vertical: css.verticalDivider }}
-        />
+        <Divider orientation="vertical" classes={{ vertical: css.verticalDivider }} />
       </div>
       <div className={css.resolveButton}>{renderFlagActions}</div>
     </div>

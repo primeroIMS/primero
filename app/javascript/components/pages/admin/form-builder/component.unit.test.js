@@ -65,22 +65,14 @@ describe("<FormsBuilder />", () => {
         {
           unique_id: "primeromodule-cp",
           name: "CP",
-          associated_record_types: [
-            RECORD_TYPES.cases,
-            RECORD_TYPES.tracing_requests,
-            RECORD_TYPES.incidents
-          ]
+          associated_record_types: [RECORD_TYPES.cases, RECORD_TYPES.tracing_requests, RECORD_TYPES.incidents]
         }
       ]
     },
     records: {
       admin: {
         forms: {
-          formSections: mapEntriesToRecord(
-            formSections,
-            FormSectionRecord,
-            true
-          ),
+          formSections: mapEntriesToRecord(formSections, FormSectionRecord, true),
           selectedForm: FormSectionRecord(formSections[0])
         }
       }
@@ -89,11 +81,7 @@ describe("<FormsBuilder />", () => {
 
   describe("when is a new form", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        FormsBuilder,
-        { mode: "new" },
-        initialState
-      ));
+      ({ component } = setupMountedComponent(FormsBuilder, { mode: "new" }, initialState));
     });
 
     it("renders a enabled Settings Tab ", () => {
@@ -119,12 +107,7 @@ describe("<FormsBuilder />", () => {
 
   describe("when in edit mode", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        FormsBuilder,
-        { mode: "edit" },
-        initialState,
-        ["/admin/forms/1/edit"]
-      ));
+      ({ component } = setupMountedComponent(FormsBuilder, { mode: "edit" }, initialState, ["/admin/forms/1/edit"]));
     });
 
     it("renders all tabs enabled ", () => {
@@ -143,11 +126,7 @@ describe("<FormsBuilder />", () => {
           records: {
             admin: {
               forms: {
-                formSections: mapEntriesToRecord(
-                  formSections,
-                  FormSectionRecord,
-                  true
-                ),
+                formSections: mapEntriesToRecord(formSections, FormSectionRecord, true),
                 selectedForm: FormSectionRecord(formSections[3])
               }
             }

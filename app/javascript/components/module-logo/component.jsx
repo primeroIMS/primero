@@ -37,11 +37,7 @@ const ModuleLogo = ({ moduleLogo, white }) => {
 
   return (
     <Box className={css.logoContainer}>
-      <img
-        src={tabletDisplay ? logo[1] : logo[0]}
-        alt="Primero"
-        className={css.logo}
-      />
+      <img src={tabletDisplay ? logo[1] : logo[0]} alt="Primero" className={css.logo} />
     </Box>
   );
 };

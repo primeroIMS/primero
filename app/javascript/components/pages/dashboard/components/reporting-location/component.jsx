@@ -18,30 +18,16 @@ const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
   const locations = useSelector(state => getLocations(state));
-  const reportingLocationConfig = useSelector(state =>
-    getReportingLocationConfig(state)
-  );
+  const reportingLocationConfig = useSelector(state => getReportingLocationConfig(state));
   const reportingLocation = useSelector(state => getReportingLocation(state));
 
   return (
-    <Permission
-      resources={RESOURCES.dashboards}
-      actions={ACTIONS.DASH_REPORTING_LOCATION}
-    >
+    <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_REPORTING_LOCATION}>
       <Grid item xl={9} md={8} xs={12}>
-        <OptionsBox
-          title={i18n.t("cases.label")}
-          hasData={Boolean(reportingLocation.size)}
-          {...loadingIndicator}
-        >
+        <OptionsBox title={i18n.t("cases.label")} hasData={Boolean(reportingLocation.size)} {...loadingIndicator}>
           <DashboardTable
             title={i18n.t("cases.label")}
-            {...toReportingLocationTable(
-              reportingLocation,
-              reportingLocationConfig?.get("label_key"),
-              i18n,
-              locations
-            )}
+            {...toReportingLocationTable(reportingLocation, reportingLocationConfig?.get("label_key"), i18n, locations)}
           />
         </OptionsBox>
       </Grid>

@@ -5,13 +5,7 @@ import { PERMITTED_URL } from "../../config";
 import Permission from "../application/permission";
 
 const SubRoute = ({ subRoute }) => {
-  const {
-    path,
-    resources,
-    actions,
-    component: Component,
-    extraProps
-  } = subRoute;
+  const { path, resources, actions, component: Component, extraProps } = subRoute;
 
   return PERMITTED_URL.includes(path) ? (
     <Component {...extraProps} />

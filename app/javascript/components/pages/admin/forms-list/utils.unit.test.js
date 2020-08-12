@@ -95,9 +95,7 @@ describe("<FormsList /> - Utils", () => {
         })
       ]);
 
-      expect(utils.getFormGroupId(formSections, "form_1")).to.be.equal(
-        "group_1"
-      );
+      expect(utils.getFormGroupId(formSections, "form_1")).to.be.equal("group_1");
     });
   });
 
@@ -121,9 +119,7 @@ describe("<FormsList /> - Utils", () => {
 
       const filter = { primeroModule: "module_1", recordType: "parent_2" };
 
-      expect(utils.filterFormSections(formSections, filter)).to.deep.equal(
-        expected
-      );
+      expect(utils.filterFormSections(formSections, filter)).to.deep.equal(expected);
     });
   });
 
@@ -141,13 +137,9 @@ describe("<FormsList /> - Utils", () => {
       module_ids: ["module_1"]
     });
 
-    const formSectionsByGroup = utils.groupByFormGroup(
-      fromJS([formSection1, formSection2])
-    );
+    const formSectionsByGroup = utils.groupByFormGroup(fromJS([formSection1, formSection2]));
 
-    expect(formSectionsByGroup.keySeq()).to.deep.equal(
-      fromJS(["group_1", "group_2"])
-    );
+    expect(formSectionsByGroup.keySeq()).to.deep.equal(fromJS(["group_1", "group_2"]));
   });
 
   describe("setInitialFormOrder", () => {
@@ -166,10 +158,7 @@ describe("<FormsList /> - Utils", () => {
         module_ids: ["module_1"]
       };
 
-      const formSections = fromJS([
-        FormSectionRecord({ ...formSection1 }),
-        FormSectionRecord({ ...formSection2 })
-      ]);
+      const formSections = fromJS([FormSectionRecord({ ...formSection1 }), FormSectionRecord({ ...formSection2 })]);
 
       const expected = fromJS([
         FormSectionRecord({ ...formSection1, order: 0 }),
@@ -181,14 +170,8 @@ describe("<FormsList /> - Utils", () => {
       expect(
         utils
           .setInitialFormOrder(formSections, filter)
-          .map(formSection =>
-            fromJS([formSection.unique_id, formSection.order])
-          )
-      ).to.deep.equal(
-        expected.map(formSection =>
-          fromJS([formSection.unique_id, formSection.order])
-        )
-      );
+          .map(formSection => fromJS([formSection.unique_id, formSection.order]))
+      ).to.deep.equal(expected.map(formSection => fromJS([formSection.unique_id, formSection.order])));
     });
   });
 
@@ -208,10 +191,7 @@ describe("<FormsList /> - Utils", () => {
         module_ids: ["module_1"]
       };
 
-      const formSections = fromJS([
-        FormSectionRecord({ ...formSection1 }),
-        FormSectionRecord({ ...formSection2 })
-      ]);
+      const formSections = fromJS([FormSectionRecord({ ...formSection1 }), FormSectionRecord({ ...formSection2 })]);
 
       const expected = fromJS([
         FormSectionRecord({ ...formSection1, order_form_group: 0 }),
@@ -223,14 +203,8 @@ describe("<FormsList /> - Utils", () => {
       expect(
         utils
           .setInitialGroupOrder(formSections, filter)
-          .map(formSection =>
-            fromJS([formSection.unique_id, formSection.order_form_group])
-          )
-      ).to.deep.equal(
-        expected.map(formSection =>
-          fromJS([formSection.unique_id, formSection.order_form_group])
-        )
-      );
+          .map(formSection => fromJS([formSection.unique_id, formSection.order_form_group]))
+      ).to.deep.equal(expected.map(formSection => fromJS([formSection.unique_id, formSection.order_form_group])));
     });
   });
 });

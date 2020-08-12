@@ -25,11 +25,7 @@ describe("<ReportingLocation> - pages/dashboard/components/reporting-location", 
               reporting_location_open: {
                 "1506060": {
                   count: 1,
-                  query: [
-                    "record_state=true",
-                    "status=open",
-                    "owned_by_location2=1506060"
-                  ]
+                  query: ["record_state=true", "status=open", "owned_by_location2=1506060"]
                 }
               },
               reporting_location_open_last_week: {
@@ -96,11 +92,7 @@ describe("<ReportingLocation> - pages/dashboard/components/reporting-location", 
 
   it("should render a <DasboardTable /> component", () => {
     expect(
-      component
-        .find({ title: "cases.label" })
-        .find(DashboardTable)
-        .find(TableBody)
-        .find(TableRow)
+      component.find({ title: "cases.label" }).find(DashboardTable).find(TableBody).find(TableRow)
     ).to.have.lengthOf(1);
   });
 
@@ -115,21 +107,17 @@ describe("<ReportingLocation> - pages/dashboard/components/reporting-location", 
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(
-        ReportingLocation,
-        props,
-        {
-          records: {
-            dashboard: {
-              data: [],
-              loading: true
-            }
-          },
-          user: {
-            permissions
+      const { component: loadingComponent } = setupMountedComponent(ReportingLocation, props, {
+        records: {
+          dashboard: {
+            data: [],
+            loading: true
           }
+        },
+        user: {
+          permissions
         }
-      );
+      });
 
       expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
     });

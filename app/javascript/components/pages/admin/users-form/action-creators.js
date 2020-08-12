@@ -1,9 +1,6 @@
 import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
-import {
-  SET_DIALOG,
-  SET_DIALOG_PENDING
-} from "../../../record-actions/actions";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "../../../record-actions/actions";
 
 import actions from "./actions";
 
@@ -16,18 +13,8 @@ export const fetchUser = id => {
   };
 };
 
-export const saveUser = ({
-  id,
-  body,
-  dialogName,
-  saveMethod,
-  message,
-  failureMessage
-}) => {
-  const path =
-    saveMethod === SAVE_METHODS.update
-      ? `${RECORD_PATH.users}/${id}`
-      : RECORD_PATH.users;
+export const saveUser = ({ id, body, dialogName, saveMethod, message, failureMessage }) => {
+  const path = saveMethod === SAVE_METHODS.update ? `${RECORD_PATH.users}/${id}` : RECORD_PATH.users;
 
   return {
     type: actions.SAVE_USER,

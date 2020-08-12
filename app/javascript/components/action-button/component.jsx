@@ -4,17 +4,7 @@ import PropTypes from "prop-types";
 import { buttonType } from "./utils";
 import { NAME, ACTION_BUTTON_TYPES } from "./constants";
 
-const Component = ({
-  icon,
-  isCancel,
-  isTransparent,
-  pending,
-  text,
-  type,
-  outlined,
-  keepTextOnMobile,
-  rest
-}) => {
+const Component = ({ icon, isCancel, isTransparent, pending, text, type, outlined, keepTextOnMobile, rest }) => {
   const ButtonType = buttonType(type);
 
   return (

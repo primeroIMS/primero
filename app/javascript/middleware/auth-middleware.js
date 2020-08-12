@@ -3,11 +3,7 @@ import get from "lodash/get";
 
 import { LOGIN_SUCCESS_CALLBACK } from "../components/pages/login/login-form";
 import { signOut } from "../components/pages/login/idp-selection";
-import {
-  Actions,
-  attemptSignout,
-  setAuthenticatedUser
-} from "../components/user";
+import { Actions, attemptSignout, setAuthenticatedUser } from "../components/user";
 import DB from "../db";
 import { ROUTES } from "../config";
 
@@ -39,12 +35,9 @@ async function loginSuccessHandler(store, user) {
 const authMiddleware = store => next => action => {
   const routeChanged = action.type === "@@router/LOCATION_CHANGE";
 
-  const location =
-    routeChanged && get(action, "payload.location.pathname", false);
+  const location = routeChanged && get(action, "payload.location.pathname", false);
 
-  const isAuthenticated = store
-    .getState()
-    .getIn(["user", "isAuthenticated"], false);
+  const isAuthenticated = store.getState().getIn(["user", "isAuthenticated"], false);
 
   if (routeChanged && location === "/logout") {
     startSignout(store, attemptSignout, signOut);

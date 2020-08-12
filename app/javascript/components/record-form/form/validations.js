@@ -2,12 +2,7 @@
 import { number, date, array, object, string } from "yup";
 import { addDays } from "date-fns";
 
-import {
-  NUMERIC_FIELD,
-  DATE_FIELD,
-  SUBFORM_SECTION,
-  NOT_FUTURE_DATE
-} from "../constants";
+import { NUMERIC_FIELD, DATE_FIELD, SUBFORM_SECTION, NOT_FUTURE_DATE } from "../constants";
 
 export const fieldValidations = (field, i18n) => {
   const { name, type, required } = field;
@@ -27,19 +22,14 @@ export const fieldValidations = (field, i18n) => {
   } else if (DATE_FIELD === type) {
     validations[name] = date().nullable();
     if (field.date_validation === NOT_FUTURE_DATE) {
-      validations[name] = validations[name].max(
-        addDays(new Date(), 1),
-        i18n.t("fields.future_date_not_valid")
-      );
+      validations[name] = validations[name].max(addDays(new Date(), 1), i18n.t("fields.future_date_not_valid"));
     }
   } else if (SUBFORM_SECTION === type) {
     const subformSchema = field.subform_section_id.fields.map(sf => {
       return fieldValidations(sf, i18n);
     });
 
-    validations[name] = array().of(
-      object().shape(Object.assign({}, ...subformSchema))
-    );
+    validations[name] = array().of(object().shape(Object.assign({}, ...subformSchema)));
   }
 
   if (required) {

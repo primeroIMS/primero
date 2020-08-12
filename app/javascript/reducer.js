@@ -63,11 +63,7 @@ const rootReducer = {
           return o;
         }, {})
       },
-      reports: reduceReducers(
-        reportsListReducer,
-        reportReducer,
-        reportFormReducer
-      ),
+      reports: reduceReducers(reportsListReducer, reportReducer, reportFormReducer),
       transitions: reduceReducers(
         recordActionsTransitionsReducer,
         transitionsReducer,

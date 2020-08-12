@@ -27,15 +27,10 @@ const Component = () => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const selectedField = useSelector(state => getSelectedField(state), compare);
-  const openFieldDialog = useSelector(state =>
-    selectDialog(state, CUSTOM_FIELD_DIALOG)
-  );
+  const openFieldDialog = useSelector(state => selectDialog(state, CUSTOM_FIELD_DIALOG));
 
   const isSubform = isSubformField(selectedField);
-  const selectedSubform = useSelector(
-    state => getSelectedSubform(state),
-    compare
-  );
+  const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
 
   const handleDialog = () => {
     if (isSubform) {
@@ -113,10 +108,7 @@ const Component = () => {
           />
         </div>
       </ActionDialog>
-      <CustomFieldSelectorDialog
-        key="custom-field-selector-dialog"
-        isSubform={isSubform}
-      />
+      <CustomFieldSelectorDialog key="custom-field-selector-dialog" isSubform={isSubform} />
     </>
   );
 };

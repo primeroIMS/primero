@@ -31,12 +31,7 @@ describe("<RecordActions /> - exports/action-creators", () => {
     };
     const message = "Test message";
     const actionLabel = "Test action label";
-    const returnObject = actionCreators.saveExport(
-      { data },
-      message,
-      actionLabel,
-      EXPORT_DIALOG
-    );
+    const returnObject = actionCreators.saveExport({ data }, message, actionLabel, EXPORT_DIALOG);
 
     const expected = {
       type: actions.EXPORT,

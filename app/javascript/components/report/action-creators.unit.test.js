@@ -12,19 +12,10 @@ describe("<Reports /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    expect(creators, "DEPRECATED fetchCasesByNationality").to.not.have.property(
-      "fetchCasesByNationality"
-    );
-    expect(creators, "DEPRECATED fetchCasesByAgeAndSex").to.not.have.property(
-      "fetchCasesByAgeAndSex"
-    );
-    expect(
-      creators,
-      "DEPRECATED fetchCasesByProtectionConcern"
-    ).to.not.have.property("fetchCasesByProtectionConcern");
-    expect(creators, "DEPRECATED fetchCasesByAgency").to.not.have.property(
-      "fetchCasesByAgency"
-    );
+    expect(creators, "DEPRECATED fetchCasesByNationality").to.not.have.property("fetchCasesByNationality");
+    expect(creators, "DEPRECATED fetchCasesByAgeAndSex").to.not.have.property("fetchCasesByAgeAndSex");
+    expect(creators, "DEPRECATED fetchCasesByProtectionConcern").to.not.have.property("fetchCasesByProtectionConcern");
+    expect(creators, "DEPRECATED fetchCasesByAgency").to.not.have.property("fetchCasesByAgency");
     expect(creators).to.have.property("fetchReport");
     expect(creators).to.have.property("deleteReport");
 

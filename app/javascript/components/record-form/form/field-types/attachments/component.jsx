@@ -9,11 +9,7 @@ import { useI18n } from "../../../../i18n";
 import { ATTACHMENT_FIELD_NAME } from "../../constants";
 import { PHOTO_FIELD, AUDIO_FIELD } from "../../../constants";
 
-import {
-  ATTACHMENT_FIELDS_INITIAL_VALUES,
-  ATTACHMENT_TYPES,
-  FIELD_ATTACHMENT_TYPES
-} from "./constants";
+import { ATTACHMENT_FIELDS_INITIAL_VALUES, ATTACHMENT_TYPES, FIELD_ATTACHMENT_TYPES } from "./constants";
 import AttachmentLabel from "./attachment-label";
 import DocumentField from "./document-field";
 import AttachmentField from "./attachment-field";

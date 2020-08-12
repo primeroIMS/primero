@@ -7,16 +7,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({
-  dialogTitle,
-  dialogSubtitle,
-  closeHandler,
-  dialogActions
-}) => {
+const Component = ({ dialogTitle, dialogSubtitle, closeHandler, dialogActions }) => {
   const css = makeStyles(styles)();
-  const subtitle = dialogSubtitle ? (
-    <span className={css.dialogSubtitle}>{dialogSubtitle}</span>
-  ) : null;
+  const subtitle = dialogSubtitle ? <span className={css.dialogSubtitle}>{dialogSubtitle}</span> : null;
 
   return (
     <DialogTitle>
@@ -27,11 +20,7 @@ const Component = ({
         </div>
         <div>{dialogActions}</div>
         <div>
-          <IconButton
-            aria-label="close"
-            className={css.closeButton}
-            onClick={closeHandler}
-          >
+          <IconButton aria-label="close" className={css.closeButton} onClick={closeHandler}>
             <CloseIcon />
           </IconButton>
         </div>

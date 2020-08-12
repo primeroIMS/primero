@@ -12,8 +12,7 @@ import { NAME } from "./constants";
 const ToggleOpen = ({ close, openReopenDialog, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const setValue =
-    record && record.get("status") === "open" ? "close" : "reopen";
+  const setValue = record && record.get("status") === "open" ? "close" : "reopen";
   const body =
     record && record.get("status") === "open"
       ? { data: { status: "closed" }, record_action: ACTIONS.CLOSE }
@@ -24,16 +23,7 @@ const ToggleOpen = ({ close, openReopenDialog, record, recordType }) => {
 
   const handleOk = () => {
     dispatch(
-      saveRecord(
-        recordType,
-        "update",
-        body,
-        record.get("id"),
-        i18n.t(`cases.${setValue}_success`),
-        false,
-        false,
-        false
-      )
+      saveRecord(recordType, "update", body, record.get("id"), i18n.t(`cases.${setValue}_success`), false, false, false)
     );
     close();
   };

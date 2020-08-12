@@ -31,10 +31,7 @@ export default (dashboard, i18n) => {
             return {
               [column.name]:
                 typeof indicators[column.name] !== "undefined" &&
-                Object.prototype.hasOwnProperty.call(
-                  indicators[column.name],
-                  caseWorker
-                )
+                Object.prototype.hasOwnProperty.call(indicators[column.name], caseWorker)
                   ? indicators[column.name][caseWorker][key]
                   : 0
             };

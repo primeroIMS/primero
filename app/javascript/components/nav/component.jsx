@@ -1,11 +1,4 @@
-import {
-  Drawer,
-  List,
-  useMediaQuery,
-  Hidden,
-  Divider,
-  IconButton
-} from "@material-ui/core";
+import { Drawer, List, useMediaQuery, Hidden, Divider, IconButton } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
@@ -44,10 +37,7 @@ const Nav = () => {
   const permissions = useSelector(state => getPermissions(state));
 
   const handleToggleDrawer = open => event => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
+    if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
       return;
     }
 
@@ -71,11 +61,7 @@ const Nav = () => {
       return PERMITTED_URL.includes(menuEntry.to) ? (
         renderedMenuEntries
       ) : (
-        <Permission
-          key={menuEntry.to}
-          resources={menuEntry.resources}
-          actions={menuEntry.actions}
-        >
+        <Permission key={menuEntry.to} resources={menuEntry.resources} actions={menuEntry.actions}>
           {renderedMenuEntries}
         </Permission>
       );
@@ -85,10 +71,7 @@ const Nav = () => {
   const drawerContent = (
     <>
       <Hidden smDown implementation="css">
-        <ModuleLogo
-          moduleLogo={module ? module.unique_id : "primero"}
-          username={username}
-        />
+        <ModuleLogo moduleLogo={module ? module.unique_id : "primero"} username={username} />
       </Hidden>
       <div className={css.drawerHeaderContainer}>
         <Hidden mdUp implementation="css">
@@ -100,9 +83,7 @@ const Nav = () => {
           <Divider />
         </Hidden>
       </div>
-      <List className={css.navList}>
-        {permittedMenuEntries(APPLICATION_NAV(permissions))}
-      </List>
+      <List className={css.navList}>{permittedMenuEntries(APPLICATION_NAV(permissions))}</List>
       <div className={css.navAgencies}>
         <AgencyLogo />
       </div>

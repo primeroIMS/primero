@@ -20,9 +20,7 @@ import { fetchUserGroups } from "./action-creators";
 const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const headers = useSelector(state =>
-    getListHeaders(state, RESOURCES.user_groups)
-  );
+  const headers = useSelector(state => getListHeaders(state, RESOURCES.user_groups));
   const canAddUserGroups = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.user_groups;
   const metadata = useSelector(state => getMetadata(state, recordType));
@@ -63,9 +61,7 @@ const Container = () => {
 
   return (
     <>
-      <PageHeading title={i18n.t("user_groups.label")}>
-        {newUserGroupBtn}
-      </PageHeading>
+      <PageHeading title={i18n.t("user_groups.label")}>{newUserGroupBtn}</PageHeading>
       <PageContent>
         <IndexTable title={i18n.t("user_groups.label")} {...tableOptions} />
       </PageContent>

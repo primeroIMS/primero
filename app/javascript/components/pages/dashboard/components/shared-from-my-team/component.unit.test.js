@@ -27,12 +27,7 @@ describe("<SharedFromMyTeam> - pages/dashboard/components/shared-from-my-team", 
               shared_from_my_team_pending_transfers: {
                 primero_cp: {
                   count: 1,
-                  query: [
-                    "record_state=true",
-                    "status=open",
-                    "transfer_status=in_progress",
-                    "owned_by_groups=[1]"
-                  ]
+                  query: ["record_state=true", "status=open", "transfer_status=in_progress", "owned_by_groups=[1]"]
                 }
               },
               shared_from_my_team_rejected_transfers: {}
@@ -65,21 +60,15 @@ describe("<SharedFromMyTeam> - pages/dashboard/components/shared-from-my-team", 
   });
 
   it("should render shared_from_my_team_referrals column", () => {
-    expect(tableCells.at(1).text()).to.equal(
-      "dashboard.shared_from_my_team_referrals"
-    );
+    expect(tableCells.at(1).text()).to.equal("dashboard.shared_from_my_team_referrals");
   });
 
   it("should render shared_from_my_team_pending_transfers column", () => {
-    expect(tableCells.at(2).text()).to.equal(
-      "dashboard.shared_from_my_team_pending_transfers"
-    );
+    expect(tableCells.at(2).text()).to.equal("dashboard.shared_from_my_team_pending_transfers");
   });
 
   it("should render shared_from_my_team_rejected_transfers column", () => {
-    expect(tableCells.at(3).text()).to.equal(
-      "dashboard.shared_from_my_team_rejected_transfers"
-    );
+    expect(tableCells.at(3).text()).to.equal("dashboard.shared_from_my_team_rejected_transfers");
   });
 
   describe("when the data is loading", () => {
@@ -93,21 +82,17 @@ describe("<SharedFromMyTeam> - pages/dashboard/components/shared-from-my-team", 
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(
-        SharedFromMyTeam,
-        props,
-        {
-          records: {
-            dashboard: {
-              data: [],
-              loading: true
-            }
-          },
-          user: {
-            permissions
+      const { component: loadingComponent } = setupMountedComponent(SharedFromMyTeam, props, {
+        records: {
+          dashboard: {
+            data: [],
+            loading: true
           }
+        },
+        user: {
+          permissions
         }
-      );
+      });
 
       expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
     });

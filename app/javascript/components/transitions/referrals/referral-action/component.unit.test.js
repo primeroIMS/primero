@@ -34,11 +34,7 @@ describe("<ReferralAction /> - Component", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      ReferralAction,
-      props,
-      initialState
-    ));
+    ({ component } = setupMountedComponent(ReferralAction, props, initialState));
   });
 
   it("renders ReferralAction component", () => {

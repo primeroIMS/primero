@@ -27,15 +27,7 @@ import RadioField from "./field-types/radio-field";
 import AttachmentField from "./field-types/attachments";
 import styles from "./styles.css";
 
-const FormSectionField = ({
-  name,
-  field,
-  mode,
-  recordType,
-  recordID,
-  filters,
-  index
-}) => {
+const FormSectionField = ({ name, field, mode, recordType, recordID, filters, index }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -82,14 +74,9 @@ const FormSectionField = ({
     index
   };
 
-  const renderGuidingQuestions = guidingQuestions &&
-    guidingQuestions[i18n.locale] &&
-    (mode.isEdit || mode.isNew) && (
-      <GuidingQuestions
-        label={i18n.t("buttons.guidance")}
-        text={guidingQuestions[i18n.locale]}
-      />
-    );
+  const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (
+    <GuidingQuestions label={i18n.t("buttons.guidance")} text={guidingQuestions[i18n.locale]} />
+  );
 
   const FieldComponent = (t => {
     switch (t) {
@@ -115,11 +102,7 @@ const FormSectionField = ({
   if ((mode?.isShow && hideOnViewPage) || !visible) return false;
 
   return (
-    <ConditionalWrapper
-      condition={!mode.isShow && disabled}
-      wrapper={Tooltip}
-      title={i18n.t("messages.cannot_edit")}
-    >
+    <ConditionalWrapper condition={!mode.isShow && disabled} wrapper={Tooltip} title={i18n.t("messages.cannot_edit")}>
       <div>
         <FieldComponent {...fieldProps} mode={mode} />
         {renderGuidingQuestions}

@@ -15,11 +15,7 @@ const Component = ({ group, collection, isDragDisabled }) => {
   return (
     <Droppable droppableId={`fs-${collection}`} type="formSection">
       {provided => (
-        <div
-          className={css.container}
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-        >
+        <div className={css.container} ref={provided.innerRef} {...provided.draggableProps}>
           <div className={clsx(css.row, css.header)}>
             <div />
             <div>{i18n.t("form_section.form_name")}</div>
