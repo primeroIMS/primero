@@ -19,14 +19,7 @@ const Component = ({ recordChangeLogs }) => {
   const locations = useSelector(state => getLocations(state));
 
   const renderUpdateMessage = (fieldRecord, field, value) => {
-    const fieldsTranslated = getFieldsAndValuesTranslations(
-      allLookups,
-      locations,
-      i18n,
-      fieldRecord,
-      field,
-      value
-    );
+    const fieldsTranslated = getFieldsAndValuesTranslations(allLookups, locations, i18n, fieldRecord, field, value);
 
     if (fieldRecord?.get("type") === "subform" || field === APPROVALS) {
       return i18n.t("change_logs.update_subform", {
@@ -50,30 +43,19 @@ const Component = ({ recordChangeLogs }) => {
       };
 
       if (log.action === CREATE_ACTION) {
-        return (
-          <ChangeLogItem
-            {...commonProps}
-            changeLogMessage={i18n.t("change_logs.create")}
-          />
-        );
+        return <ChangeLogItem {...commonProps} changeLogMessage={i18n.t("change_logs.create")} />;
       }
 
       return log.record_changes.map(change => {
         const fieldName = Object.keys(change)[0];
         const fieldChanges = Object.values(change)[0];
 
-        const fieldRecord = allFields
-          .filter(recordField => recordField.name === fieldName)
-          ?.first();
+        const fieldRecord = allFields.filter(recordField => recordField.name === fieldName)?.first();
 
         return (
           <ChangeLogItem
             {...commonProps}
-            changeLogMessage={renderUpdateMessage(
-              fieldRecord,
-              fieldName,
-              fieldChanges
-            )}
+            changeLogMessage={renderUpdateMessage(fieldRecord, fieldName, fieldChanges)}
           />
         );
       });

@@ -5,16 +5,8 @@ import isEmpty from "lodash/isEmpty";
 import { useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import {
-  RECORD_OWNER,
-  TRANSFERS_ASSIGNMENTS,
-  REFERRAL,
-  APPROVALS
-} from "../../../../../config";
-import {
-  SHOW_APPROVALS,
-  checkPermissions
-} from "../../../../../libs/permissions";
+import { RECORD_OWNER, TRANSFERS_ASSIGNMENTS, REFERRAL, APPROVALS } from "../../../../../config";
+import { SHOW_APPROVALS, checkPermissions } from "../../../../../libs/permissions";
 import NavGroup from "../nav-group";
 import { NavRecord } from "../../../records";
 import { useI18n } from "../../../../i18n";
@@ -66,14 +58,9 @@ const Component = ({ open, handleClick, selectedForm, match }) => {
     })
   ]);
 
-  const userPermissions = useSelector(state =>
-    getPermissionsByRecord(state, recordType)
-  );
+  const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
   const forms = recordInformationForms.reduce((acum, form) => {
-    if (
-      isEmpty(form.permission_actions) ||
-      checkPermissions(userPermissions, form.permission_actions)
-    ) {
+    if (isEmpty(form.permission_actions) || checkPermissions(userPermissions, form.permission_actions)) {
       return acum.push(form);
     }
 
@@ -82,12 +69,7 @@ const Component = ({ open, handleClick, selectedForm, match }) => {
 
   return (
     <>
-      <NavGroup
-        group={forms}
-        handleClick={handleClick}
-        open={open}
-        selectedForm={selectedForm}
-      />
+      <NavGroup group={forms} handleClick={handleClick} open={open} selectedForm={selectedForm} />
     </>
   );
 };

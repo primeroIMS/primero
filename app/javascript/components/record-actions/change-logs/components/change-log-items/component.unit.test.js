@@ -100,8 +100,7 @@ describe("ChangeLogItems - Component", () => {
   });
 
   before(() => {
-    component = setupMountedComponent(ChangeLogItems, props, defaultState)
-      .component;
+    component = setupMountedComponent(ChangeLogItems, props, defaultState).component;
   });
 
   it("renders ChangeLogs", () => {

@@ -83,11 +83,7 @@ describe("<ReportFiltersDialog /> - Component", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      ReportFiltersDialog,
-      props,
-      initialState
-    ));
+    ({ component } = setupMountedComponent(ReportFiltersDialog, props, initialState));
   });
 
   it("should render <ActionDialog>", () => {

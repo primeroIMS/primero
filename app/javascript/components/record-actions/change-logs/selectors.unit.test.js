@@ -38,14 +38,10 @@ describe("ChangeLogs - Selectors", () => {
       })
     });
 
-    const expected = List([
-      state.getIn(["records", NAMESPACE, "data"]).first()
-    ]);
+    const expected = List([state.getIn(["records", NAMESPACE, "data"]).first()]);
 
     it("should return the correct value", () => {
-      expect(
-        getChangeLogs(state, "38c82975-99aa-4798-9c3d-dabea104d992", "cases")
-      ).to.deep.equal(expected);
+      expect(getChangeLogs(state, "38c82975-99aa-4798-9c3d-dabea104d992", "cases")).to.deep.equal(expected);
     });
   });
 });

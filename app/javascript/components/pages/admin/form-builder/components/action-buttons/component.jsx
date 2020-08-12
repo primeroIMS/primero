@@ -16,12 +16,7 @@ const Component = ({ formMode, formRef, handleCancel }) => {
   const saving = useSelector(state => getSavingRecord(state));
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
-      <FormAction
-        cancel
-        actionHandler={handleCancel}
-        text={i18n.t("buttons.cancel")}
-        startIcon={<CloseIcon />}
-      />
+      <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<CloseIcon />} />
       <FormAction
         actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}

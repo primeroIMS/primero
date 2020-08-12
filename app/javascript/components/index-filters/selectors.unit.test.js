@@ -2,10 +2,7 @@ import { fromJS } from "immutable";
 
 import { RECORD_PATH } from "../../config";
 
-import {
-  getFiltersByRecordType,
-  getFiltersValuesByRecordType
-} from "./selectors";
+import { getFiltersByRecordType, getFiltersValuesByRecordType } from "./selectors";
 
 const stateWithoutRecords = fromJS({});
 
@@ -57,10 +54,7 @@ describe("<IndexFilters /> - Selectors", () => {
     });
 
     it("should return empty list", () => {
-      const records = getFiltersByRecordType(
-        stateWithoutRecords,
-        RECORD_PATH.cases
-      );
+      const records = getFiltersByRecordType(stateWithoutRecords, RECORD_PATH.cases);
 
       expect(records).to.be.empty;
     });
@@ -78,10 +72,7 @@ describe("<IndexFilters /> - Selectors", () => {
     });
 
     it("should return empty map", () => {
-      const records = getFiltersValuesByRecordType(
-        stateWithoutRecords,
-        RECORD_PATH.cases
-      );
+      const records = getFiltersValuesByRecordType(stateWithoutRecords, RECORD_PATH.cases);
 
       expect(records).to.be.empty;
     });

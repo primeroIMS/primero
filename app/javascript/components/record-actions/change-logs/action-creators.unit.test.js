@@ -24,11 +24,7 @@ describe("ChangeLogs - Action Creators", () => {
 
     actionCreators.fetchChangeLogs(recordType, record)(dispatch);
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql(
-      actions.FETCH_CHANGE_LOGS
-    );
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql(
-      `${recordType}/${record}/record_history`
-    );
+    expect(dispatch.getCall(0).returnValue.type).to.eql(actions.FETCH_CHANGE_LOGS);
+    expect(dispatch.getCall(0).returnValue.api.path).to.eql(`${recordType}/${record}/record_history`);
   });
 });

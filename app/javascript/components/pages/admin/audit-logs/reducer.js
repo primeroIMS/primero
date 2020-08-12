@@ -16,17 +16,11 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.FETCH_AUDIT_LOGS_STARTED:
       return state.set(LOADING, fromJS(payload)).set(ERRORS, false);
     case actions.FETCH_AUDIT_LOGS_SUCCESS:
-      return state
-        .set(DATA, fromJS(payload.data))
-        .set(METADATA, fromJS(payload.metadata));
+      return state.set(DATA, fromJS(payload.data)).set(METADATA, fromJS(payload.metadata));
     case actions.FETCH_PERFORMED_BY_FAILURE:
-      return state
-        .setIn(filtersPath(ERRORS), true)
-        .setIn(filtersPath(LOADING), false);
+      return state.setIn(filtersPath(ERRORS), true).setIn(filtersPath(LOADING), false);
     case actions.FETCH_PERFORMED_BY_FINISHED:
-      return state
-        .setIn(filtersPath(ERRORS), false)
-        .setIn(filtersPath(LOADING), false);
+      return state.setIn(filtersPath(ERRORS), false).setIn(filtersPath(LOADING), false);
     case actions.FETCH_PERFORMED_BY_SUCCESS:
       return state
         .setIn(filtersPath(DATA), fromJS(payload.data))

@@ -13,10 +13,7 @@ export const fetchAgency = id => {
 };
 
 export const saveAgency = ({ id, body, saveMethod, message }) => {
-  const path =
-    saveMethod === SAVE_METHODS.update
-      ? `${RECORD_PATH.agencies}/${id}`
-      : RECORD_PATH.agencies;
+  const path = saveMethod === SAVE_METHODS.update ? `${RECORD_PATH.agencies}/${id}` : RECORD_PATH.agencies;
 
   return {
     type: actions.SAVE_AGENCY,

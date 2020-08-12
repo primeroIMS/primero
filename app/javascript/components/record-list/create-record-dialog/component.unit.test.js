@@ -23,28 +23,15 @@ describe("<CreateRecordDialog /> record-list/create-record-dialog", () => {
   });
 
   it("renders a <CreateRecordDialog />", () => {
-    const { component } = setupMountedComponent(
-      CreateRecordDialog,
-      props,
-      state
-    );
+    const { component } = setupMountedComponent(CreateRecordDialog, props, state);
 
     expect(component.find(CreateRecordDialog)).to.have.lengthOf(1);
   });
 
   it("redirects to new case if create new case is clicked", () => {
-    const { component } = setupMountedComponent(
-      CreateRecordDialog,
-      props,
-      state
-    );
+    const { component } = setupMountedComponent(CreateRecordDialog, props, state);
 
-    component
-      .find(CreateRecordDialog)
-      .find(ActionButton)
-      .first()
-      .props()
-      .rest.onClick();
+    component.find(CreateRecordDialog).find(ActionButton).first().props().rest.onClick();
 
     const { history } = component.find(Router).props();
 

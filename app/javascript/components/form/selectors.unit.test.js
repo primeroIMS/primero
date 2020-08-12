@@ -30,11 +30,7 @@ describe("Forms - Selectors", () => {
 
   describe("getOptions", () => {
     it("should return all lookup types including customs", () => {
-      const options = selectors.getOptions(
-        stateWithLookups,
-        OPTION_TYPES.LOOKUPS,
-        i18n
-      );
+      const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.LOOKUPS, i18n);
 
       expect(options).to.deep.equal(
         fromJS([

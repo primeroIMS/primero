@@ -46,18 +46,8 @@ export default (data, i18n, lookups) => {
       return acc;
     }, {});
 
-    const countValues = dashboardTableData(
-      lookupsByCode,
-      result.indicators,
-      indicators,
-      "count"
-    );
-    const queryValues = dashboardTableData(
-      lookupsByCode,
-      result.indicators,
-      indicators,
-      "query"
-    );
+    const countValues = dashboardTableData(lookupsByCode, result.indicators, indicators, "count");
+    const queryValues = dashboardTableData(lookupsByCode, result.indicators, indicators, "query");
 
     const aaa = {
       columns,

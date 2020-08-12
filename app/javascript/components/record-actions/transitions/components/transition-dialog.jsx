@@ -24,10 +24,7 @@ const TransitionDialog = ({
 
   const title = (type => {
     const recordSelected = record ? record.toJS() : {};
-    const {
-      case_id_display: caseId,
-      incident_code: incidentId
-    } = recordSelected;
+    const { case_id_display: caseId, incident_code: incidentId } = recordSelected;
     const recordId = caseId || incidentId || "";
 
     const recordTypeLabel =

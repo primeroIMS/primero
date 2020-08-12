@@ -1,10 +1,6 @@
 import React from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import {
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  Typography
-} from "@material-ui/core";
+import { ExpansionPanel, ExpansionPanelSummary, Typography } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../../test";
 import DragIndicator from "../drag-indicator";

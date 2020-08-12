@@ -15,16 +15,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 import { valuesWithDisplayConditions } from "./utils";
 
-const Component = ({
-  arrayHelpers,
-  field,
-  form,
-  formik,
-  i18n,
-  initialSubformValue,
-  mode,
-  recordType
-}) => {
+const Component = ({ arrayHelpers, field, form, formik, i18n, initialSubformValue, mode, recordType }) => {
   const {
     display_name: displayName,
     name,
@@ -55,8 +46,7 @@ const Component = ({
   }, [index]);
 
   const renderEmptyData =
-    values.filter(currValue => Object.values(currValue).every(isEmpty))
-      .length === values.length ? (
+    values.filter(currValue => Object.values(currValue).every(isEmpty)).length === values.length ? (
       <SubformEmptyData
         handleClick={handleAddSubform}
         i18n={i18n}

@@ -1,9 +1,6 @@
 import { spy, useFakeTimers } from "../../../../test";
 
-import handleFilterChange, {
-  valueParser,
-  getFilterProps
-} from "./value-handlers";
+import handleFilterChange, { valueParser, getFilterProps } from "./value-handlers";
 
 describe("<IndexFilters />/filter-types/value-handlers", () => {
   let methods;
@@ -41,10 +38,7 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
       handleFilterChange(methods);
 
       expect(methods.setInputValue).to.have.been.calledWith([1, 2]);
-      expect(methods.setValue).to.have.been.calledWith(methods.fieldName, [
-        1,
-        2
-      ]);
+      expect(methods.setValue).to.have.been.calledWith(methods.fieldName, [1, 2]);
     });
 
     it("handles checkboxes with object value", () => {
@@ -57,10 +51,7 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
       handleFilterChange(methods);
 
       expect(methods.setInputValue).to.have.been.calledWith(expectedValue);
-      expect(methods.setValue).to.have.been.calledWith(
-        methods.fieldName,
-        expectedValue
-      );
+      expect(methods.setValue).to.have.been.calledWith(methods.fieldName, expectedValue);
     });
   });
 

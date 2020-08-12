@@ -11,10 +11,7 @@ import { SUBFORM_HEADER } from "../constants";
 
 const Component = ({ field, values, locale, displayName, index }) => {
   const css = makeStyles(styles)();
-  const {
-    collapsed_field_names: collapsedFieldNames,
-    fields
-  } = field.subform_section_id;
+  const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
 
   const subformValues = collapsedFieldNames
     .map(collapsedFieldName => {

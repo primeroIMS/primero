@@ -473,8 +473,8 @@ gbv_worker_permissions = [
     resource: Permission::DASHBOARD,
     actions: [
       Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
-      Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
-      Permission::DASH_APPROVALS_CLOSURE_PENDING,
+      Permission::DASH_APPROVALS_ACTION_PLAN_PENDING,
+      Permission::DASH_APPROVALS_GBV_CLOSURE_PENDING,
       Permission::DASH_CASE_OVERVIEW
     ]
   )
@@ -546,8 +546,8 @@ gbv_manager_permissions = [
     resource: Permission::DASHBOARD,
     actions: [
       Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
-      Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
-      Permission::DASH_APPROVALS_CLOSURE_PENDING,
+      Permission::DASH_APPROVALS_ACTION_PLAN_PENDING,
+      Permission::DASH_APPROVALS_GBV_CLOSURE_PENDING,
       Permission::DASH_REPORTING_LOCATION,
       Permission::DASH_GROUP_OVERVIEW,
       Permission::DASH_SHARED_FROM_MY_TEAM,
@@ -641,8 +641,8 @@ gbv_user_manager_permissions = [
     resource: Permission::DASHBOARD,
     actions: [
       Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
-      Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
-      Permission::DASH_APPROVALS_CLOSURE_PENDING,
+      Permission::DASH_APPROVALS_ACTION_PLAN_PENDING,
+      Permission::DASH_APPROVALS_GBV_CLOSURE_PENDING,
       Permission::DASH_GROUP_OVERVIEW
     ]
   )
@@ -695,8 +695,8 @@ gbv_caseworker_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      Permission::DASH_APPROVALS_CASE_PLAN,
-      Permission::DASH_APPROVALS_CLOSURE,
+      Permission::DASH_APPROVALS_ACTION_PLAN,
+      Permission::DASH_APPROVALS_GBV_CLOSURE,
       Permission::DASH_CASE_INCIDENT_OVERVIEW
     ]
   )

@@ -241,7 +241,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_gbv_status_closure', value: Approval::APPROVAL_STATUS_APPROVED)
+        SearchFilters::Value.new(field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_APPROVED)
       ]
     ).freeze
 

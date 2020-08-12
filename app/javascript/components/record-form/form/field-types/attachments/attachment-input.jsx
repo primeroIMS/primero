@@ -44,9 +44,7 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
         form.setFieldValue(fields.attachmentType, attachment, true);
         form.setFieldValue(fields.fieldName, name, true);
 
-        if (
-          [ATTACHMENT_TYPES.photo, ATTACHMENT_TYPES.audio].includes(attachment)
-        ) {
+        if ([ATTACHMENT_TYPES.photo, ATTACHMENT_TYPES.audio].includes(attachment)) {
           form.setFieldValue(fields.date, new Date(), true);
         }
         loadingFile(false, data);

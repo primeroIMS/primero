@@ -16,11 +16,7 @@ import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
 import { selectAgencies } from "../application/selectors";
 import { useI18n } from "../i18n";
-import {
-  STRING_SOURCES_TYPES,
-  RECORD_PATH,
-  ROWS_PER_PAGE_OPTIONS
-} from "../../config";
+import { STRING_SOURCES_TYPES, RECORD_PATH, ROWS_PER_PAGE_OPTIONS } from "../../config";
 import { ALERTS_COLUMNS } from "../record-list/constants";
 
 import recordListTheme from "./theme";
@@ -57,51 +53,36 @@ const Component = ({
   const total = data.getIn(["metadata", "total"], 0);
   const page = data.getIn(["metadata", "page"], 1);
   const url = targetRecordType || recordType;
-  const validRecordTypes = [
-    RECORD_PATH.cases,
-    RECORD_PATH.incidents,
-    RECORD_PATH.tracing_requests
-  ].includes(recordType);
+  const validRecordTypes = [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests].includes(
+    recordType
+  );
   let translatedRecords = [];
 
   const allFields = useSelector(state => getFields(state), compare);
   const allLookups = useSelector(state => getOptions(state), compare);
   const allAgencies = useSelector(state => selectAgencies(state), compare);
 
-  let componentColumns =
-    typeof columns === "function" ? columns(data) : columns;
+  let componentColumns = typeof columns === "function" ? columns(data) : columns;
 
   if (allFields.size && records && validRecordTypes) {
     const columnsName = componentColumns.toJS().map(col => col.name);
 
     const fieldWithColumns = allFields.toSeq().filter(fieldName => {
-      if (
-        columnsName.includes(fieldName.get("name")) &&
-        !isEmpty(fieldName.get("option_strings_source"))
-      ) {
+      if (columnsName.includes(fieldName.get("name")) && !isEmpty(fieldName.get("option_strings_source"))) {
         return fieldName;
       }
 
       return null;
     });
 
-    const columnsWithLookups = uniqBy(
-      fieldWithColumns.toList().toJS(),
-      "option_strings_source"
-    );
+    const columnsWithLookups = uniqBy(fieldWithColumns.toList().toJS(), "option_strings_source");
 
     translatedRecords = records.reduce((accum, record) => {
       const result = record.mapEntries(recordEntry => {
         const [key, value] = recordEntry;
 
-        if (
-          columnsWithLookups
-            .map(columnWithLookup => columnWithLookup.name)
-            .includes(key)
-        ) {
-          const optionStringsSource = columnsWithLookups.find(
-            el => el.name === key
-          ).option_strings_source;
+        if (columnsWithLookups.map(columnWithLookup => columnWithLookup.name).includes(key)) {
+          const optionStringsSource = columnsWithLookups.find(el => el.name === key).option_strings_source;
 
           let recordValue = value;
 
@@ -117,15 +98,11 @@ const Component = ({
                     .get("display_text")
                 : null;
 
-            recordValue = valueFromLookup
-              ? valueFromLookup.get(i18n.locale)
-              : "";
+            recordValue = valueFromLookup ? valueFromLookup.get(i18n.locale) : "";
           } else {
             switch (optionStringsSource) {
               case STRING_SOURCES_TYPES.AGENCY:
-                recordValue = allAgencies
-                  .find(a => a.get("id") === value)
-                  .get("name");
+                recordValue = allAgencies.find(a => a.get("id") === value).get("name");
                 break;
               default:
                 recordValue = value;
@@ -178,10 +155,7 @@ const Component = ({
     const sortedColumn = componentColumns.findIndex(c => c.name === orderBy);
 
     if (sortedColumn) {
-      componentColumns = componentColumns.setIn(
-        [sortedColumn, "options", "sortOrder"],
-        order
-      );
+      componentColumns = componentColumns.setIn([sortedColumn, "options", "sortOrder"], order);
     }
   }
 
@@ -201,9 +175,7 @@ const Component = ({
             options.order = direction;
 
             setSortDir(sortOrder);
-            options.order_by = Object.keys(customSortFields).includes(name)
-              ? customSortFields[name]
-              : name;
+            options.order_by = Object.keys(customSortFields).includes(name) ? customSortFields[name] : name;
             options.page = page === 0 ? 1 : page;
             break;
           }
@@ -237,9 +209,7 @@ const Component = ({
   const currentPage = page - 1;
 
   const selectedRecordsOnCurrentPage =
-    selectedRecords &&
-    Object.keys(selectedRecords).length &&
-    selectedRecords[currentPage];
+    selectedRecords && Object.keys(selectedRecords).length && selectedRecords[currentPage];
 
   // eslint-disable-next-line react/no-multi-comp, react/display-name
   const customToolbarSelect = (selectedRows, displayData) => (
@@ -274,9 +244,7 @@ const Component = ({
     setTableProps: () => ({ "aria-label": title }),
     customToolbar: showCustomToolbar && customToolbarSelect,
     selectableRows: "multiple",
-    rowsSelected: selectedRecordsOnCurrentPage?.length
-      ? selectedRecordsOnCurrentPage
-      : [],
+    rowsSelected: selectedRecordsOnCurrentPage?.length ? selectedRecordsOnCurrentPage : [],
     onRowSelectionChange: (currentRowsSelected, allRowsSelected) => {
       setSelectedRecords({
         [currentPage]: allRowsSelected.map(ars => ars.dataIndex)
@@ -303,17 +271,12 @@ const Component = ({
     ...tableOptionsProps
   };
 
-  const tableData =
-    validRecordTypes || localizedFields
-      ? dataToJS(translatedRecords)
-      : dataToJS(records);
+  const tableData = validRecordTypes || localizedFields ? dataToJS(translatedRecords) : dataToJS(records);
 
-  const rowKeys =
-    typeof tableData?.[0] !== "undefined" ? Object.keys(tableData[0]) : [];
+  const rowKeys = typeof tableData?.[0] !== "undefined" ? Object.keys(tableData[0]) : [];
 
   const dataWithAlertsColumn =
-    rowKeys &&
-    rowKeys.includes(ALERTS_COLUMNS.alert_count, ALERTS_COLUMNS.flag_count)
+    rowKeys && rowKeys.includes(ALERTS_COLUMNS.alert_count, ALERTS_COLUMNS.flag_count)
       ? tableData.map(row => ({
           ...row,
           alerts: {
@@ -346,11 +309,7 @@ const Component = ({
 
   return (
     <LoadingIndicator {...loadingIndicatorProps}>
-      <ConditionalWrapper
-        condition={validRecordTypes}
-        wrapper={ThemeProvider}
-        theme={recordListTheme}
-      >
+      <ConditionalWrapper condition={validRecordTypes} wrapper={ThemeProvider} theme={recordListTheme}>
         <MUIDataTable {...tableOptions} />
       </ConditionalWrapper>
     </LoadingIndicator>

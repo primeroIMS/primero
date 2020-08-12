@@ -1,13 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  DialogContentText,
-  Typography
-} from "@material-ui/core";
+import { Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Typography } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 
@@ -69,9 +62,7 @@ const ActionDialog = ({
   };
 
   const successButtonProps =
-    confirmButtonProps && Object.keys(confirmButtonProps)
-      ? confirmButtonProps
-      : defaultSuccessButtonProps;
+    confirmButtonProps && Object.keys(confirmButtonProps) ? confirmButtonProps : defaultSuccessButtonProps;
 
   const dialogHeader = onClose ? (
     <TitleWithClose
@@ -90,12 +81,7 @@ const ActionDialog = ({
     </Typography>
   );
 
-  const iconConfirmButtom =
-    confirmButtonProps && confirmButtonProps.icon ? (
-      confirmButtonProps.icon
-    ) : (
-      <CheckIcon />
-    );
+  const iconConfirmButtom = confirmButtonProps && confirmButtonProps.icon ? confirmButtonProps.icon : <CheckIcon />;
 
   const submitButton = (
     <div className={css.submitButtonWrapper}>
@@ -127,13 +113,7 @@ const ActionDialog = ({
       >
         {dialogHeader}
         {subHeader}
-        <DialogContent>
-          {dialogText ? (
-            <DialogContentText>{dialogText}</DialogContentText>
-          ) : (
-            children
-          )}
-        </DialogContent>
+        <DialogContent>{dialogText ? <DialogContentText>{dialogText}</DialogContentText> : children}</DialogContent>
         {!disableActions && (
           <DialogActions>
             {submitButton}
@@ -168,10 +148,7 @@ ActionDialog.defaultProps = {
 ActionDialog.propTypes = {
   cancelButtonProps: PropTypes.object,
   cancelHandler: PropTypes.func,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   confirmButtonLabel: PropTypes.string,
   confirmButtonProps: PropTypes.object,
   dialogActions: PropTypes.object,

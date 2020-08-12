@@ -16,11 +16,7 @@ const AgencyLogo = ({ alwaysFullLogo }) => {
 
   const renderLogos = () => {
     return agencyLogos.map(agency => {
-      const {
-        unique_id: uniqueId,
-        logo_icon: logoIcon,
-        logo_full: logoFull
-      } = agency;
+      const { unique_id: uniqueId, logo_icon: logoIcon, logo_full: logoFull } = agency;
 
       const logo = tabletDisplay && !alwaysFullLogo ? logoIcon : logoFull;
 

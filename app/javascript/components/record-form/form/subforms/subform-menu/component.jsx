@@ -6,10 +6,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { getEnabledAgencies } from "../../../../application/selectors";
-import {
-  getLoadingTransitionType,
-  getUsersByTransitionType
-} from "../../../../record-actions/transitions/selectors";
+import { getLoadingTransitionType, getUsersByTransitionType } from "../../../../record-actions/transitions/selectors";
 import { REFERRAL_TYPE } from "../../../../record-actions/transitions";
 import { setServiceToRefer } from "../../../action-creators";
 import { getOption } from "../../../selectors";
@@ -35,17 +32,11 @@ const Component = ({ index, recordType, values }) => {
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
 
-  const services = useSelector(state =>
-    getOption(state, "lookup-service-type", i18n.locale)
-  );
+  const services = useSelector(state => getOption(state, "lookup-service-type", i18n.locale));
 
-  const referralUsers = useSelector(state =>
-    getUsersByTransitionType(state, REFERRAL_TYPE)
-  );
+  const referralUsers = useSelector(state => getUsersByTransitionType(state, REFERRAL_TYPE));
 
-  const loading = useSelector(state =>
-    getLoadingTransitionType(state, REFERRAL_TYPE)
-  );
+  const loading = useSelector(state => getLoadingTransitionType(state, REFERRAL_TYPE));
 
   const userName = useSelector(state => currentUser(state));
 
@@ -97,17 +88,8 @@ const Component = ({ index, recordType, values }) => {
           key={`service-menu-${index}`}
           ref={ref}
         >
-          {serviceIsReferrable(
-            values[index],
-            services,
-            agencies,
-            referralUsers
-          ) ? (
-            <ReferAction
-              index={index}
-              handleReferral={handleReferral}
-              values={values}
-            />
+          {serviceIsReferrable(values[index], services, agencies, referralUsers) ? (
+            <ReferAction index={index} handleReferral={handleReferral} values={values} />
           ) : (
             loading && <CircularProgress className={css.loadingIndicator} />
           )}

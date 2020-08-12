@@ -45,12 +45,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
       recordID: record?.get("id")
     };
 
-    return (
-      <FormSectionField
-        key={`${formattedField.name}-record-owner-form`}
-        {...fieldProps}
-      />
-    );
+    return <FormSectionField key={`${formattedField.name}-record-owner-form`} {...fieldProps} />;
   });
 
   return (

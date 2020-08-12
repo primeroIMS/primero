@@ -77,9 +77,7 @@ describe("<IndexFitlers>/components/filter-types/utils", () => {
     it("handles basic input from array values", () => {
       const setMoreFilters = spy();
 
-      handleMoreFiltersChange(moreFilters, setMoreFilters, fieldName, [
-        "option-1"
-      ]);
+      handleMoreFiltersChange(moreFilters, setMoreFilters, fieldName, ["option-1"]);
 
       expect(setMoreFilters.getCalls()?.length).to.be.equal(1);
       expect(setMoreFilters).to.have.been.calledWith({ filter1: ["option-1"] });
@@ -102,13 +100,7 @@ describe("<IndexFitlers>/components/filter-types/utils", () => {
     it("should call setMoreSectionFilters if secondary is true", () => {
       const setMoreSectionFilters = spy();
 
-      resetSecondaryFilter(
-        true,
-        fieldName,
-        [],
-        moreSectionFilters,
-        setMoreSectionFilters
-      );
+      resetSecondaryFilter(true, fieldName, [], moreSectionFilters, setMoreSectionFilters);
 
       expect(setMoreSectionFilters.getCalls().length).to.be.equal(1);
       expect(setMoreSectionFilters).to.have.been.calledWith({});
@@ -117,13 +109,7 @@ describe("<IndexFitlers>/components/filter-types/utils", () => {
     it("should not call setMoreSectionFilters if secondary is false", () => {
       const setMoreSectionFilters = spy();
 
-      resetSecondaryFilter(
-        false,
-        fieldName,
-        [],
-        moreSectionFilters,
-        setMoreSectionFilters
-      );
+      resetSecondaryFilter(false, fieldName, [], moreSectionFilters, setMoreSectionFilters);
 
       expect(setMoreSectionFilters).to.have.not.been.called;
     });

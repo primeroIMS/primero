@@ -3,15 +3,8 @@ import { FIELDS } from "../../record-owner/constants";
 
 import { APPROVALS } from "./constants";
 
-const getValueFromOptions = (
-  allLookups,
-  locations,
-  i18n,
-  optionSelected,
-  value
-) => {
-  const valueToTranslated =
-    typeof value === "boolean" ? value.toString() : value;
+const getValueFromOptions = (allLookups, locations, i18n, optionSelected, value) => {
+  const valueToTranslated = typeof value === "boolean" ? value.toString() : value;
 
   switch (optionSelected) {
     case "Location":
@@ -23,10 +16,7 @@ const getValueFromOptions = (
 
     default:
       return allLookups
-        ?.find(
-          lookup =>
-            lookup.get("unique_id") === optionSelected.replace(/lookup /, "")
-        )
+        ?.find(lookup => lookup.get("unique_id") === optionSelected.replace(/lookup /, ""))
         ?.get("values")
         ?.find(v => v.get("id") === valueToTranslated)
         ?.get("display_text")
@@ -34,39 +24,17 @@ const getValueFromOptions = (
   }
 };
 
-const getFieldValueFromOptionSource = (
-  allLookups,
-  locations,
-  i18n,
-  selectedFieldOptionsSource,
-  fieldValue
-) => {
+const getFieldValueFromOptionSource = (allLookups, locations, i18n, selectedFieldOptionsSource, fieldValue) => {
   if (Array.isArray(fieldValue)) {
     return fieldValue.map(valueFrom =>
-      getValueFromOptions(
-        allLookups,
-        locations,
-        i18n,
-        selectedFieldOptionsSource,
-        valueFrom
-      )
+      getValueFromOptions(allLookups, locations, i18n, selectedFieldOptionsSource, valueFrom)
     );
   }
 
-  return getValueFromOptions(
-    allLookups,
-    locations,
-    i18n,
-    selectedFieldOptionsSource,
-    fieldValue
-  );
+  return getValueFromOptions(allLookups, locations, i18n, selectedFieldOptionsSource, fieldValue);
 };
 
-const getFieldValueFromOptionText = (
-  i18n,
-  selectedFieldOptionsText,
-  fieldValue
-) => {
+const getFieldValueFromOptionText = (i18n, selectedFieldOptionsText, fieldValue) => {
   const valueTranslated = value =>
     selectedFieldOptionsText?.[i18n.locale]?.find(
       optionStringText => optionStringText.id === value
@@ -80,14 +48,7 @@ const getFieldValueFromOptionText = (
   return valueTranslated(fieldValue);
 };
 
-export const getFieldsAndValuesTranslations = (
-  allLookups,
-  locations,
-  i18n,
-  selectedField,
-  field,
-  value
-) => {
+export const getFieldsAndValuesTranslations = (allLookups, locations, i18n, selectedField, field, value) => {
   let fieldDisplayName;
   let fieldValueFrom = value.from;
   let fieldValueTo = value.to;
@@ -95,9 +56,7 @@ export const getFieldsAndValuesTranslations = (
   if (field === APPROVALS) {
     fieldDisplayName = i18n.t("forms.record_types.approvals");
   }
-  const fieldRecordInformation = FIELDS.filter(
-    fieldInformation => fieldInformation.name === field
-  );
+  const fieldRecordInformation = FIELDS.filter(fieldInformation => fieldInformation.name === field);
 
   if (fieldRecordInformation.length) {
     fieldDisplayName = i18n.t(`record_information.${field}`);
@@ -107,9 +66,7 @@ export const getFieldsAndValuesTranslations = (
     fieldDisplayName = selectedField?.get("display_name")[i18n.locale];
   }
 
-  const selectedFieldOptionsSource = selectedField?.get(
-    "option_strings_source"
-  );
+  const selectedFieldOptionsSource = selectedField?.get("option_strings_source");
   const selectedFieldOptionsText = selectedField?.get("option_strings_text");
 
   if (selectedFieldOptionsSource) {
@@ -120,26 +77,12 @@ export const getFieldsAndValuesTranslations = (
       selectedFieldOptionsSource,
       fieldValueFrom
     );
-    fieldValueTo = getFieldValueFromOptionSource(
-      allLookups,
-      locations,
-      i18n,
-      selectedFieldOptionsSource,
-      fieldValueTo
-    );
+    fieldValueTo = getFieldValueFromOptionSource(allLookups, locations, i18n, selectedFieldOptionsSource, fieldValueTo);
   }
 
   if (selectedFieldOptionsText?.[i18n.locale]) {
-    fieldValueFrom = getFieldValueFromOptionText(
-      i18n,
-      selectedFieldOptionsText,
-      fieldValueFrom
-    );
-    fieldValueTo = getFieldValueFromOptionText(
-      i18n,
-      selectedFieldOptionsText,
-      fieldValueTo
-    );
+    fieldValueFrom = getFieldValueFromOptionText(i18n, selectedFieldOptionsText, fieldValueFrom);
+    fieldValueTo = getFieldValueFromOptionText(i18n, selectedFieldOptionsText, fieldValueTo);
   }
 
   return {

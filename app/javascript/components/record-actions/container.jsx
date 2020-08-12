@@ -58,15 +58,7 @@ import { selectDialog, selectDialogPending } from "./selectors";
 import { isDisabledAction } from "./utils";
 import ChangeLogs from "./change-logs";
 
-const Container = ({
-  recordType,
-  iconColor,
-  record,
-  mode,
-  showListActions,
-  currentPage,
-  selectedRecords
-}) => {
+const Container = ({ recordType, iconColor, record, mode, showListActions, currentPage, selectedRecords }) => {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
@@ -76,30 +68,16 @@ const Container = ({
   const [approvalType, setApprovalType] = useState(APPROVAL_TYPE);
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
-  const serviceDialog = useSelector(state =>
-    selectDialog(state, SERVICE_DIALOG)
-  );
-  const incidentDialog = useSelector(state =>
-    selectDialog(state, INCIDENT_DIALOG)
-  );
-  const requestDialog = useSelector(state =>
-    selectDialog(state, REQUEST_APPROVAL_DIALOG)
-  );
+  const serviceDialog = useSelector(state => selectDialog(state, SERVICE_DIALOG));
+  const incidentDialog = useSelector(state => selectDialog(state, INCIDENT_DIALOG));
+  const requestDialog = useSelector(state => selectDialog(state, REQUEST_APPROVAL_DIALOG));
   const dialogPending = useSelector(state => selectDialogPending(state));
-  const approveDialog = useSelector(state =>
-    selectDialog(state, APPROVAL_DIALOG)
-  );
+  const approveDialog = useSelector(state => selectDialog(state, APPROVAL_DIALOG));
   const referDialog = useSelector(state => selectDialog(state, REFER_DIALOG));
-  const transferDialog = useSelector(state =>
-    selectDialog(state, TRANSFER_DIALOG)
-  );
+  const transferDialog = useSelector(state => selectDialog(state, TRANSFER_DIALOG));
   const assignDialog = useSelector(state => selectDialog(state, ASSIGN_DIALOG));
-  const openExportsDialog = useSelector(state =>
-    selectDialog(state, EXPORT_DIALOG)
-  );
-  const openChangeLogDialog = useSelector(state =>
-    selectDialog(state, CHANGE_LOG_DIALOG)
-  );
+  const openExportsDialog = useSelector(state => selectDialog(state, EXPORT_DIALOG));
+  const openChangeLogDialog = useSelector(state => selectDialog(state, CHANGE_LOG_DIALOG));
   const setRequestDialog = open => {
     dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open }));
   };
@@ -134,11 +112,9 @@ const Container = ({
   const metadata = useSelector(state => getMetadata(state, recordType));
   const totalRecords = metadata?.get("total", 0);
 
-  const enableState =
-    record && record.get("record_state") ? "disable" : "enable";
+  const enableState = record && record.get("record_state") ? "disable" : "enable";
 
-  const openState =
-    record && record.get("status") === "open" ? "close" : "reopen";
+  const openState = record && record.get("status") === "open" ? "close" : "reopen";
 
   const assignPermissions = [
     ACTIONS.MANAGE,
@@ -147,46 +123,24 @@ const Container = ({
     ACTIONS.ASSIGN_WITHIN_AGENCY_PERMISSIONS
   ];
 
-  const userPermissions = useSelector(state =>
-    getPermissionsByRecord(state, recordType)
-  );
+  const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
 
-  const idSearch = useSelector(state =>
-    getFiltersValuesByRecordType(state, recordType).get("id_search")
-  );
+  const idSearch = useSelector(state => getFiltersValuesByRecordType(state, recordType).get("id_search"));
 
   const isSearchFromList = Boolean(idSearch);
 
-  const canAddNotes = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.ADD_NOTE
-  ]);
-  const canReopen = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.REOPEN
-  ]);
+  const canAddNotes = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.ADD_NOTE]);
+  const canReopen = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REOPEN]);
 
-  const canRefer = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.REFERRAL
-  ]);
+  const canRefer = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REFERRAL]);
 
-  const canClose = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.CLOSE
-  ]);
+  const canClose = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.CLOSE]);
 
-  const canEnable = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.ENABLE_DISABLE_RECORD
-  ]);
+  const canEnable = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.ENABLE_DISABLE_RECORD]);
 
   const canAssign = checkPermissions(userPermissions, assignPermissions);
 
-  const canTransfer = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.TRANSFER
-  ]);
+  const canTransfer = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.TRANSFER]);
 
   const canRequest = checkPermissions(userPermissions, [
     ACTIONS.MANAGE,
@@ -197,20 +151,11 @@ const Container = ({
     ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
   ]);
 
-  const canRequestBia = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.REQUEST_APPROVAL_ASSESSMENT
-  ]);
+  const canRequestBia = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REQUEST_APPROVAL_ASSESSMENT]);
 
-  const canRequestCasePlan = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.REQUEST_APPROVAL_CASE_PLAN
-  ]);
+  const canRequestCasePlan = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REQUEST_APPROVAL_CASE_PLAN]);
 
-  const canRequestClosure = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.REQUEST_APPROVAL_CLOSURE
-  ]);
+  const canRequestClosure = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REQUEST_APPROVAL_CLOSURE]);
 
   const canRequestActionPlan = checkPermissions(userPermissions, [
     ACTIONS.MANAGE,
@@ -231,30 +176,15 @@ const Container = ({
     ACTIONS.APPROVE_GBV_CLOSURE
   ]);
 
-  const canApproveBia = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.APPROVE_ASSESSMENT
-  ]);
+  const canApproveBia = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.APPROVE_ASSESSMENT]);
 
-  const canApproveCasePlan = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.APPROVE_CASE_PLAN
-  ]);
+  const canApproveCasePlan = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.APPROVE_CASE_PLAN]);
 
-  const canApproveClosure = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.APPROVE_CLOSURE
-  ]);
+  const canApproveClosure = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.APPROVE_CLOSURE]);
 
-  const canApproveActionPlan = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.APPROVE_ACTION_PLAN
-  ]);
+  const canApproveActionPlan = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.APPROVE_ACTION_PLAN]);
 
-  const canApproveGbvClosure = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.APPROVE_GBV_CLOSURE
-  ]);
+  const canApproveGbvClosure = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.APPROVE_GBV_CLOSURE]);
 
   const canAddIncident = checkPermissions(userPermissions, ADD_INCIDENT);
 
@@ -349,14 +279,9 @@ const Container = ({
     setOpenChangeLogDialog(false);
   };
 
+  const canOpenOrClose = (canReopen && openState === "reopen") || (canClose && openState === "close");
 
-  const canOpenOrClose =
-    (canReopen && openState === "reopen") ||
-    (canClose && openState === "close");
-
-  const formRecordType = i18n.t(
-    `forms.record_types.${RECORD_TYPES[recordType]}`
-  );
+  const formRecordType = i18n.t(`forms.record_types.${RECORD_TYPES[recordType]}`);
 
   const actions = [
     {
@@ -393,9 +318,7 @@ const Container = ({
       recordType: RECORD_PATH.cases,
       recordListAction: true,
       enabledFor: ENABLED_FOR_ONE,
-      condition: showListActions
-        ? canAddIncident
-        : canAddIncident && isSearchFromList,
+      condition: showListActions ? canAddIncident : canAddIncident && isSearchFromList,
       disableOffline: true,
       enabledOnSearch: true
     },
@@ -405,9 +328,7 @@ const Container = ({
       recordType: RECORD_PATH.cases,
       recordListAction: true,
       enabledFor: ENABLED_FOR_ONE,
-      condition: showListActions
-        ? canAddService
-        : canAddService && isSearchFromList,
+      condition: showListActions ? canAddService : canAddService && isSearchFromList,
       disableOffline: true,
       enabledOnSearch: true
     },
@@ -480,13 +401,11 @@ const Container = ({
 
   const filterItems = items =>
     items.filter(item => {
-      const actionCondition =
-        typeof item.condition === "undefined" || item.condition;
+      const actionCondition = typeof item.condition === "undefined" || item.condition;
 
       const allowedRecordType =
         [RECORD_TYPES.all, recordType].includes(item.recordType) ||
-        (Array.isArray(item.recordType) &&
-          item.recordType.includes(recordType));
+        (Array.isArray(item.recordType) && item.recordType.includes(recordType));
 
       if (showListActions && allowedRecordType) {
         return item.recordListAction && actionCondition;
@@ -499,21 +418,10 @@ const Container = ({
   const actionItems = filteredActions?.map(action => {
     const disabled =
       showListActions &&
-      isDisabledAction(
-        action.enabledFor,
-        action.enabledOnSearch,
-        isSearchFromList,
-        selectedRecords,
-        totalRecords
-      );
+      isDisabledAction(action.enabledFor, action.enabledOnSearch, isSearchFromList, selectedRecords, totalRecords);
 
     return (
-      <ConditionalWrapper
-        condition={action.disableOffline}
-        wrapper={DisableOffline}
-        button
-        key={action.name}
-      >
+      <ConditionalWrapper condition={action.disableOffline} wrapper={DisableOffline} button key={action.name}>
         <MenuItem
           selected={action.name === "Pyxis"}
           onClick={() => handleItemAction(action.action)}
@@ -594,10 +502,7 @@ const Container = ({
   const allowedRequestsApproval = filterItems(requestsApproval);
   const allowedApprovals = filterItems(approvals);
   const selectedRecordsOnCurrentPage =
-    (selectedRecords &&
-      Boolean(Object.keys(selectedRecords).length) &&
-      selectedRecords[currentPage]) ||
-    [];
+    (selectedRecords && Boolean(Object.keys(selectedRecords).length) && selectedRecords[currentPage]) || [];
 
   return (
     <>
@@ -614,13 +519,7 @@ const Container = ({
         />
       ) : null}
 
-      <Menu
-        id="long-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
+      <Menu id="long-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         {actionItems}
       </Menu>
 
@@ -656,12 +555,7 @@ const Container = ({
       </Permission>
 
       <Permission resources={recordType} actions={ADD_NOTE}>
-        <Notes
-          close={handleNotesClose}
-          openNotesDialog={openNotesDialog}
-          record={record}
-          recordType={recordType}
-        />
+        <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} record={record} recordType={recordType} />
       </Permission>
 
       <Permission resources={recordType} actions={REQUEST_APPROVAL}>

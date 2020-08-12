@@ -17,9 +17,7 @@ export const revokeTransition = ({
   failureMessage
 }) => {
   const isReferral = transitionType === TRANSITIONS_TYPES.referral;
-  const path = `${recordType}/${recordId}/${
-    isReferral ? "referrals" : "transfers"
-  }/${transitionId}`;
+  const path = `${recordType}/${recordId}/${isReferral ? "referrals" : "transfers"}/${transitionId}`;
   const method = isReferral ? "DELETE" : "PATCH";
   const body = isReferral
     ? {}

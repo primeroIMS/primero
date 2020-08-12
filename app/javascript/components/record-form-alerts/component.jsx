@@ -14,18 +14,9 @@ import { NAME } from "./constants";
 
 const Component = ({ form, recordType }) => {
   const i18n = useI18n();
-  const recordAlerts = useSelector(
-    state => getRecordFormAlerts(state, recordType, form.unique_id),
-    compare
-  );
-  const validationErrors = useSelector(
-    state => getValidationErrors(state, form.unique_id),
-    compare
-  );
-  const subformDisplayNames = useSelector(
-    state => getSubformsDisplayName(state, i18n.locale),
-    compare
-  );
+  const recordAlerts = useSelector(state => getRecordFormAlerts(state, recordType, form.unique_id), compare);
+  const validationErrors = useSelector(state => getValidationErrors(state, form.unique_id), compare);
+  const subformDisplayNames = useSelector(state => getSubformsDisplayName(state, i18n.locale), compare);
 
   const errors =
     validationErrors?.size &&
@@ -37,9 +28,7 @@ const Component = ({ form, recordType }) => {
           return fromJS({
             message: i18n.t("error_message.address_subform_fields", {
               subform: subformDisplayNames.get(key),
-              fields: value
-                .filter(subform => Boolean(subform))
-                .flatMap(subform => subform.keySeq()).size
+              fields: value.filter(subform => Boolean(subform)).flatMap(subform => subform.keySeq()).size
             })
           });
         }
@@ -49,10 +38,7 @@ const Component = ({ form, recordType }) => {
 
   const items = recordAlerts.map(alert =>
     fromJS({
-      message: i18n.t(
-        `messages.alerts_for.${alert.get("alert_for")}`,
-        getMessageData({ alert, form, i18n })
-      )
+      message: i18n.t(`messages.alerts_for.${alert.get("alert_for")}`, getMessageData({ alert, form, i18n }))
     })
   );
 

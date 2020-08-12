@@ -162,6 +162,7 @@
   },
   "prettier": {
     "arrowParens": "avoid",
-    "trailingComma": "none"
+    "trailingComma": "none",
+    "printWidth": 120
   }
 }

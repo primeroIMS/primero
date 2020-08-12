@@ -22,11 +22,7 @@ const PhotoArray = ({ images }) => {
 
   const renderImages = images.map((image, index) => (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
-    <div
-      key={image}
-      className={css.imgContainer}
-      onClick={() => handleToggle(index)}
-    >
+    <div key={image} className={css.imgContainer} onClick={() => handleToggle(index)}>
       <img src={image} alt="Record" className={css.img} />
     </div>
   ));
@@ -34,11 +30,7 @@ const PhotoArray = ({ images }) => {
   return (
     <>
       <div className={css.imgsContainer}>{renderImages}</div>
-      <Backdrop
-        className={css.backdrop}
-        open={selected.open}
-        onClick={handleClose}
-      >
+      <Backdrop className={css.backdrop} open={selected.open} onClick={handleClose}>
         <IconButton className={css.backdropClose}>
           <CloseIcon />
         </IconButton>

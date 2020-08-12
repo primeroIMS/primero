@@ -75,12 +75,7 @@ export const form = i18n => {
           display_name: i18n.t("agency.logo_enabled"),
           name: "logo_enabled",
           type: TICK_FIELD,
-          watchedInputs: [
-            "logo_icon",
-            "logo_full",
-            "logo_full_url",
-            "logo_icon_url"
-          ],
+          watchedInputs: ["logo_icon", "logo_full", "logo_full_url", "logo_icon_url"],
           help_text: i18n.t("agency.logo_enabled_help"),
           handleWatchedInputs: value => {
             const {
@@ -91,10 +86,7 @@ export const form = i18n => {
             } = value;
 
             return {
-              disabled: !(
-                (logoFull?.length && logoIcon?.length) ||
-                (logoIconUrl && logoFullUrl)
-              )
+              disabled: !((logoFull?.length && logoIcon?.length) || (logoIconUrl && logoFullUrl))
             };
           }
         }),

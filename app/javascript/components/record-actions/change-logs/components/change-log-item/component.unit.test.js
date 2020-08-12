@@ -11,8 +11,7 @@ import ChangeLogItem from "./component";
 
 describe("ChangeLogItems - Component", () => {
   let component;
-  const changeLogMessage =
-    "Changed from Nationality from Canada to Canada,Australia";
+  const changeLogMessage = "Changed from Nationality from Canada to Canada,Australia";
   const changeLogUser = "primero";
   const props = {
     changeLogDate: "2020-08-11T10:27:33Z",
@@ -21,8 +20,7 @@ describe("ChangeLogItems - Component", () => {
   };
 
   before(() => {
-    component = setupMountedComponent(ChangeLogItem, props, fromJS({}))
-      .component;
+    component = setupMountedComponent(ChangeLogItem, props, fromJS({})).component;
   });
 
   it("renders ChangeLogItem", () => {
@@ -51,11 +49,7 @@ describe("ChangeLogItems - Component", () => {
 
   it("renders div", () => {
     expect(component.find(TimelineContent).find("div")).to.have.lengthOf(5);
-    expect(
-      component.find(TimelineContent).find("div").at(3).text()
-    ).to.be.equal(changeLogMessage);
-    expect(
-      component.find(TimelineContent).find("div").last().text()
-    ).to.be.equal(changeLogUser);
+    expect(component.find(TimelineContent).find("div").at(3).text()).to.be.equal(changeLogMessage);
+    expect(component.find(TimelineContent).find("div").last().text()).to.be.equal(changeLogUser);
   });
 });

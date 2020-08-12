@@ -20,37 +20,16 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("TRANSITION_TYPE");
     expect(constants).to.have.property("RECORD_OWNER");
     expect(constants).to.have.property("TRANSFERS_ASSIGNMENTS");
-    expect(constants, "DEPRECATED CASES_BY_NATIONALITY").to.not.have.property(
-      "CASES_BY_NATIONALITY"
-    );
-    expect(constants, "DEPRECATED CASES_BY_AGE_AND_SEX").to.not.have.property(
-      "CASES_BY_AGE_AND_SEX"
-    );
-    expect(
-      constants,
-      "DEPRECATED CASES_BY_PROTECTION_CONCERN"
-    ).to.not.have.property("CASES_BY_PROTECTION_CONCERN");
-    expect(constants, "DEPRECATED CASES_BY_AGENCY").to.not.have.property(
-      "CASES_BY_AGENCY"
-    );
-    expect(constants, "DEPRECATED USERS_ASSIGN_TO").to.not.have.property(
-      "USERS_ASSIGN_TO"
-    );
-    expect(constants, "DEPRECATED USERS_TRANSFER_TO").to.not.have.property(
-      "USERS_TRANSFER_TO"
-    );
-    expect(constants, "DEPRECATED USERS_REFER_TO").to.not.have.property(
-      "USERS_REFER_TO"
-    );
-    expect(constants, "DEPRECATED CASES_ASSIGNS").to.not.have.property(
-      "CASES_ASSIGNS"
-    );
-    expect(constants, "DEPRECATED CASES_TRANSFERS").to.not.have.property(
-      "CASES_TRANSFERS"
-    );
-    expect(constants, "DEPRECATED CASES_REFERRALS").to.not.have.property(
-      "CASES_REFERRALS"
-    );
+    expect(constants, "DEPRECATED CASES_BY_NATIONALITY").to.not.have.property("CASES_BY_NATIONALITY");
+    expect(constants, "DEPRECATED CASES_BY_AGE_AND_SEX").to.not.have.property("CASES_BY_AGE_AND_SEX");
+    expect(constants, "DEPRECATED CASES_BY_PROTECTION_CONCERN").to.not.have.property("CASES_BY_PROTECTION_CONCERN");
+    expect(constants, "DEPRECATED CASES_BY_AGENCY").to.not.have.property("CASES_BY_AGENCY");
+    expect(constants, "DEPRECATED USERS_ASSIGN_TO").to.not.have.property("USERS_ASSIGN_TO");
+    expect(constants, "DEPRECATED USERS_TRANSFER_TO").to.not.have.property("USERS_TRANSFER_TO");
+    expect(constants, "DEPRECATED USERS_REFER_TO").to.not.have.property("USERS_REFER_TO");
+    expect(constants, "DEPRECATED CASES_ASSIGNS").to.not.have.property("CASES_ASSIGNS");
+    expect(constants, "DEPRECATED CASES_TRANSFERS").to.not.have.property("CASES_TRANSFERS");
+    expect(constants, "DEPRECATED CASES_REFERRALS").to.not.have.property("CASES_REFERRALS");
     expect(constants).to.have.property("ROUTES");
     expect(constants).to.have.property("REFERRAL");
     expect(constants).to.have.property("NAME_FIELD");
@@ -168,10 +147,7 @@ describe("Verifying config constant", () => {
       "primeromodule-gbv": "disclosure_other_orgs"
     });
     expect(constants.MODULE_TYPE_FIELD).to.equal("module_id");
-    expect(constants.TRANSITION_TYPE).to.deep.equal([
-      "transfers_assignments",
-      "referral"
-    ]);
+    expect(constants.TRANSITION_TYPE).to.deep.equal(["transfers_assignments", "referral"]);
     expect(constants.RECORD_OWNER).to.equal("record_owner");
     expect(constants.TRANSFERS_ASSIGNMENTS).to.equal("transfers_assignments");
     expect(constants.REFERRAL).to.equal("referral");

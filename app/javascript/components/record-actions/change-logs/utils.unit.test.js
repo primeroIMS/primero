@@ -72,16 +72,9 @@ describe("ChangeLogs - Utils", () => {
     };
 
     it("should return object with field and values translated", () => {
-      expect(
-        utils.getFieldsAndValuesTranslations(
-          lookups,
-          locations,
-          i18n,
-          selectedField,
-          field,
-          value
-        )
-      ).to.deep.equal(result);
+      expect(utils.getFieldsAndValuesTranslations(lookups, locations, i18n, selectedField, field, value)).to.deep.equal(
+        result
+      );
     });
   });
 });

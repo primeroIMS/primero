@@ -1,17 +1,9 @@
 import { push } from "connected-react-router";
 
-const handleRestCallback = (
-  store,
-  successCallback,
-  response,
-  json,
-  fromQueue = false
-) => {
+const handleRestCallback = (store, successCallback, response, json, fromQueue = false) => {
   if (successCallback) {
     if (Array.isArray(successCallback)) {
-      successCallback.forEach(callback =>
-        handleRestCallback(store, callback, response, json, fromQueue)
-      );
+      successCallback.forEach(callback => handleRestCallback(store, callback, response, json, fromQueue));
     } else {
       const isCallbackObject = typeof successCallback === "object";
       const successPayload = isCallbackObject

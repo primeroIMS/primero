@@ -11,14 +11,7 @@ const DashboardChip = ({ label, type, handleClick }) => {
 
   const handler = typeof handleClick === "function" ? handleClick : null;
 
-  return (
-    <Chip
-      label={label}
-      className={clsx(css.chip, css[type])}
-      size="small"
-      onClick={handler}
-    />
-  );
+  return <Chip label={label} className={clsx(css.chip, css[type])} size="small" onClick={handler} />;
 };
 
 DashboardChip.displayName = "DashboardChip";

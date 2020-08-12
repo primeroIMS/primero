@@ -1,9 +1,4 @@
-import {
-  FieldRecord,
-  FormSectionRecord,
-  LABEL_FIELD,
-  TICK_FIELD
-} from "../../../../../../../form";
+import { FieldRecord, FormSectionRecord, LABEL_FIELD, TICK_FIELD } from "../../../../../../../form";
 
 export const visibilityFields = ({ fieldName, i18n }) => ({
   showOn: FieldRecord({
@@ -38,24 +33,13 @@ export const visibilityFields = ({ fieldName, i18n }) => ({
   })
 });
 
-export const visibilityForm = ({
-  fieldName,
-  fields = [],
-  i18n,
-  isNested = false
-}) => {
-  const {
-    showOn,
-    visible,
-    mobileVisible,
-    hideOnViewPage,
-    showOnMinifyForm,
-    onCollapsedSubform
-  } = visibilityFields({ fieldName, i18n });
+export const visibilityForm = ({ fieldName, fields = [], i18n, isNested = false }) => {
+  const { showOn, visible, mobileVisible, hideOnViewPage, showOnMinifyForm, onCollapsedSubform } = visibilityFields({
+    fieldName,
+    i18n
+  });
 
-  const row = [visible, mobileVisible, hideOnViewPage].concat(
-    isNested ? onCollapsedSubform : showOnMinifyForm
-  );
+  const row = [visible, mobileVisible, hideOnViewPage].concat(isNested ? onCollapsedSubform : showOnMinifyForm);
 
   return FormSectionRecord({
     unique_id: "field_visibility",

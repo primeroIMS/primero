@@ -3,12 +3,7 @@ import { fromJS } from "immutable";
 import { FieldRecord, TEXT_FIELD } from "../../../../../../form";
 import { addWithIndex } from "../utils";
 
-import {
-  validationSchema,
-  generalFields,
-  generalForm,
-  visibilityForm
-} from "./base";
+import { validationSchema, generalFields, generalForm, visibilityForm } from "./base";
 
 const labelField = ({ fieldName, i18n }) =>
   FieldRecord({
@@ -27,10 +22,7 @@ export const tickboxFieldForm = ({ field, i18n, formMode, isNested }) => {
   const fields = addWithIndex(general, 1, newField);
 
   return {
-    forms: fromJS([
-      generalForm({ fieldName, i18n, formMode, fields }),
-      visibilityForm({ fieldName, i18n, isNested })
-    ]),
+    forms: fromJS([generalForm({ fieldName, i18n, formMode, fields }), visibilityForm({ fieldName, i18n, isNested })]),
     validationSchema: validationSchema({ fieldName, i18n, isNested })
   };
 };

@@ -1,9 +1,4 @@
-import {
-  FieldRecord,
-  FormSectionRecord,
-  TEXT_FIELD,
-  TICK_FIELD
-} from "../../../../../../../form";
+import { FieldRecord, FormSectionRecord, TEXT_FIELD, TICK_FIELD } from "../../../../../../../form";
 
 export const subformFields = ({ i18n }) => ({
   name: FieldRecord({

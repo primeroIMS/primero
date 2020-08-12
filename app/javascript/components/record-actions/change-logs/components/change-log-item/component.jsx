@@ -24,9 +24,7 @@ const Component = ({ changeLogDate, changeLogMessage, changeLogUser }) => {
       </TimelineSeparator>
       <TimelineContent>
         <div className={css.itemContainer}>
-          <div className={css.itemHeader}>
-            {i18n.l("date.formats.with_time", changeLogDate)}
-          </div>
+          <div className={css.itemHeader}>{i18n.l("date.formats.with_time", changeLogDate)}</div>
           <div>{changeLogMessage}</div>
           <div>{changeLogUser}</div>
         </div>

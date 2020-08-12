@@ -70,11 +70,7 @@ describe("<BadgedIndicator />", () => {
     };
 
     before(() => {
-      ({ component: loadingComponent } = setupMountedComponent(
-        BadgedIndicator,
-        propsDataLoading,
-        {}
-      ));
+      ({ component: loadingComponent } = setupMountedComponent(BadgedIndicator, propsDataLoading, {}));
     });
 
     it("renders BadgedIndicator component", () => {

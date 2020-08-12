@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import {
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  IconButton
-} from "@material-ui/core";
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import isEmpty from "lodash/isEmpty";
@@ -17,20 +12,11 @@ import { useApp } from "../../application";
 
 import styles from "./styles.css";
 
-const Panel = ({
-  filter,
-  getValues,
-  selectedDefaultValueField,
-  handleReset,
-  moreSectionFilters,
-  children
-}) => {
+const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, moreSectionFilters, children }) => {
   const css = makeStyles(styles)();
   const { name, field_name: fieldName } = filter;
 
-  const hasValue = !isEmpty(
-    getValues()?.[selectedDefaultValueField || fieldName]
-  );
+  const hasValue = !isEmpty(getValues()?.[selectedDefaultValueField || fieldName]);
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const [open, setOpen] = useState(false);
@@ -43,21 +29,12 @@ const Panel = ({
     setOpen(hasValue);
   }, [hasValue]);
 
-  const expanded =
-    open ||
-    Object.keys(moreSectionFilters).includes(
-      selectedDefaultValueField || fieldName
-    );
+  const expanded = open || Object.keys(moreSectionFilters).includes(selectedDefaultValueField || fieldName);
 
   const filterLabel = buildNameFilter(name, i18n, approvalsLabels);
 
   return (
-    <ExpansionPanel
-      className={css.panel}
-      elevation={3}
-      expanded={expanded}
-      onChange={handleChange}
-    >
+    <ExpansionPanel className={css.panel} elevation={3} expanded={expanded} onChange={handleChange}>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
         <div className={css.heading}>
           <div className={css.panelTitle}>{filterLabel}</div>
@@ -73,9 +50,7 @@ const Panel = ({
           )}
         </div>
       </ExpansionPanelSummary>
-      <ExpansionPanelDetails className={css.panelDetails}>
-        {children}
-      </ExpansionPanelDetails>
+      <ExpansionPanelDetails className={css.panelDetails}>{children}</ExpansionPanelDetails>
     </ExpansionPanel>
   );
 };

@@ -1,9 +1,6 @@
 import { fromJS } from "immutable";
 
-import {
-  selectContactInformation,
-  selectSavingContactInformation
-} from "./selectors";
+import { selectContactInformation, selectSavingContactInformation } from "./selectors";
 
 const contactInformation = fromJS({
   name: "Primero test",
@@ -46,9 +43,7 @@ describe("<AgenciesForm /> - Selectors", () => {
     it("should return errors", () => {
       const expected = false;
 
-      expect(selectSavingContactInformation(defaultState)).to.deep.equal(
-        expected
-      );
+      expect(selectSavingContactInformation(defaultState)).to.deep.equal(expected);
     });
   });
 });

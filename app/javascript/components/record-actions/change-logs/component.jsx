@@ -15,9 +15,7 @@ import ChangeLogItems from "./components/change-log-items";
 const Component = ({ close, openChangeLog, record, recordType }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const recordChangeLogs = useSelector(state =>
-    getChangeLogs(state, record?.get("id"), recordType)
-  );
+  const recordChangeLogs = useSelector(state => getChangeLogs(state, record?.get("id"), recordType));
 
   return (
     <ActionDialog

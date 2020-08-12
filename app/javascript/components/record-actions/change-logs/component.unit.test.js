@@ -113,8 +113,7 @@ describe("ChangeLogs - Component", () => {
   });
 
   before(() => {
-    component = setupMountedComponent(ChangeLogs, props, defaultState)
-      .component;
+    component = setupMountedComponent(ChangeLogs, props, defaultState).component;
   });
 
   it("renders ChangeLogs", () => {

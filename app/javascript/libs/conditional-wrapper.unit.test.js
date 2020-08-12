@@ -26,11 +26,7 @@ describe("libs/conditional-wrapper", () => {
 
   it("does not wrap component if condition false", () => {
     const component = createSimpleMount(
-      <ConditionalWrapper
-        condition={false}
-        wrapper={wrapper}
-        text="wrapper content"
-      >
+      <ConditionalWrapper condition={false} wrapper={wrapper} text="wrapper content">
         <div>wrapped children</div>
       </ConditionalWrapper>
     );

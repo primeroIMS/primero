@@ -6,12 +6,7 @@ import { TICK_FIELD } from "../form";
 import { dataToJS } from "../../libs";
 import { AGE_MAX, DATE_FORMAT } from "../../config";
 
-import {
-  ALLOWED_FIELD_TYPES,
-  DESCRIPTION_FIELD,
-  NAME_FIELD,
-  REPORTABLE_TYPES
-} from "./constants";
+import { ALLOWED_FIELD_TYPES, DESCRIPTION_FIELD, NAME_FIELD, REPORTABLE_TYPES } from "./constants";
 
 export const dependantFields = formSections => {
   const data = dataToJS(formSections);
@@ -28,13 +23,10 @@ export const dependantFields = formSections => {
   }, {});
 };
 
-export const formatAgeRange = data =>
-  data.join(", ").replace(/\../g, "-").replace(`-${AGE_MAX}`, "+");
+export const formatAgeRange = data => data.join(", ").replace(/\../g, "-").replace(`-${AGE_MAX}`, "+");
 
 export const getFormName = selectedRecordType => {
-  return /(\w*reportable\w*)$/.test(selectedRecordType)
-    ? REPORTABLE_TYPES[selectedRecordType]
-    : "";
+  return /(\w*reportable\w*)$/.test(selectedRecordType) ? REPORTABLE_TYPES[selectedRecordType] : "";
 };
 
 export const buildFields = (data, locale, isReportable) => {
@@ -49,10 +41,7 @@ export const buildFields = (data, locale, isReportable) => {
       display_text: field.display_name[locale],
       formSection,
       type: field.type,
-      option_strings_source: field.option_strings_source?.replace(
-        /lookup /,
-        ""
-      ),
+      option_strings_source: field.option_strings_source?.replace(/lookup /, ""),
       option_strings_text: field.option_strings_text,
       tick_box_label: field.tick_box_label?.[locale]
     }));
@@ -64,18 +53,13 @@ export const buildFields = (data, locale, isReportable) => {
       const { name, fields } = form;
 
       const filteredFields = fields
-        .filter(
-          field => ALLOWED_FIELD_TYPES.includes(field.type) && field.visible
-        )
+        .filter(field => ALLOWED_FIELD_TYPES.includes(field.type) && field.visible)
         .map(field => ({
           id: field.name,
           display_text: field.display_name[locale],
           formSection: name[locale],
           type: field.type,
-          option_strings_source: field.option_strings_source?.replace(
-            /lookup /,
-            ""
-          ),
+          option_strings_source: field.option_strings_source?.replace(/lookup /, ""),
           option_strings_text: field.option_strings_text,
           tick_box_label: field.tick_box_label?.[locale]
         }));
@@ -114,12 +98,8 @@ export const formatReport = report => {
       case "description":
         return { ...acc, [key]: value === null ? "" : value };
       case "fields": {
-        const rows = value
-          .filter(({ position }) => position.type === "horizontal")
-          .map(({ name }) => name);
-        const columns = value
-          .filter(({ position }) => position.type === "vertical")
-          .map(({ name }) => name);
+        const rows = value.filter(({ position }) => position.type === "horizontal").map(({ name }) => name);
+        const columns = value.filter(({ position }) => position.type === "vertical").map(({ name }) => name);
 
         return { ...acc, aggregate_by: rows, disaggregate_by: columns };
       }
@@ -136,9 +116,7 @@ export const formattedFields = (allFields, modules, recordType, locale) => {
       : formSection.module_ids.includes(modules)
   );
   const formName = getFormName(recordType);
-  const recordTypesForms = formsByModuleAndRecordType.filter(
-    formSection => formSection.parent_form === recordType
-  );
+  const recordTypesForms = formsByModuleAndRecordType.filter(formSection => formSection.parent_form === recordType);
 
   const reportableForm = formName
     ? formsByModuleAndRecordType
@@ -147,11 +125,7 @@ export const formattedFields = (allFields, modules, recordType, locale) => {
         ?.toJS()?.[0]?.fields?.[0]?.subform_section_id
     : [];
 
-  return buildFields(
-    formName ? reportableForm : recordTypesForms,
-    locale,
-    Boolean(formName)
-  );
+  return buildFields(formName ? reportableForm : recordTypesForms, locale, Boolean(formName));
 };
 
 export const checkValue = filter => {

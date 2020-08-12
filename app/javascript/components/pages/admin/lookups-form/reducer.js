@@ -16,9 +16,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.FETCH_LOOKUP_STARTED:
       return state.set("loading", fromJS(payload)).set("errors", false);
     case actions.FETCH_LOOKUP_SUCCESS:
-      return state
-        .set("selectedLookup", fromJS(payload.data))
-        .set("errors", false);
+      return state.set("selectedLookup", fromJS(payload.data)).set("errors", false);
     case actions.SAVE_LOOKUP_FINISHED:
       return state.set("saving", false);
     case actions.SAVE_LOOKUP_STARTED:

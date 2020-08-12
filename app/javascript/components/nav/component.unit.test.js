@@ -48,11 +48,7 @@ describe("<Nav />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      ProvidedNav,
-      { username: "joshua" },
-      initialState
-    ));
+    ({ component } = setupMountedComponent(ProvidedNav, { username: "joshua" }, initialState));
   });
 
   it("renders a module logo", () => {
@@ -70,43 +66,25 @@ describe("<Nav />", () => {
   describe("nav links", () => {
     // TODO: These will change based on permissions
     it("renders home link", () => {
-      expect(
-        component
-          .find(NavLink)
-          .findWhere(link => link.prop("to") === ROUTES.dashboard)
-      ).to.have.lengthOf(2);
+      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.dashboard)).to.have.lengthOf(2);
     });
 
     it("renders tasks link", () => {
-      expect(
-        component
-          .find(NavLink)
-          .findWhere(link => link.prop("to") === ROUTES.tasks)
-      ).to.have.lengthOf(2);
+      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.tasks)).to.have.lengthOf(2);
     });
 
     it("renders cases link", () => {
-      expect(
-        component
-          .find(NavLink)
-          .findWhere(link => link.prop("to") === ROUTES.cases)
-      ).to.have.lengthOf(2);
+      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.cases)).to.have.lengthOf(2);
     });
 
     it("renders incidents link", () => {
-      expect(
-        component
-          .find(NavLink)
-          .findWhere(link => link.prop("to") === ROUTES.incidents)
-      ).to.have.lengthOf(2);
+      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.incidents)).to.have.lengthOf(2);
     });
 
     it("renders tracing requests link", () => {
-      expect(
-        component
-          .find(NavLink)
-          .findWhere(link => link.prop("to") === ROUTES.tracing_requests)
-      ).to.have.lengthOf(2);
+      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.tracing_requests)).to.have.lengthOf(
+        2
+      );
     });
 
     // TODO: Temporary removed
@@ -119,19 +97,11 @@ describe("<Nav />", () => {
     // });
 
     it("renders reports link", () => {
-      expect(
-        component
-          .find(NavLink)
-          .findWhere(link => link.prop("to") === ROUTES.reports)
-      ).to.have.lengthOf(2);
+      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.reports)).to.have.lengthOf(2);
     });
 
     it("renders exports link", () => {
-      expect(
-        component
-          .find(NavLink)
-          .findWhere(link => link.prop("to") === ROUTES.exports)
-      ).to.have.lengthOf(2);
+      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.exports)).to.have.lengthOf(2);
     });
   });
 
@@ -158,26 +128,14 @@ describe("<Nav />", () => {
     });
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        ProvidedNav,
-        { username: "username" },
-        restrictedPermissionInitialState
-      ));
+      ({ component } = setupMountedComponent(ProvidedNav, { username: "username" }, restrictedPermissionInitialState));
     });
 
     it("renders cases link", () => {
-      expect(
-        component
-          .find(NavLink)
-          .findWhere(link => link.prop("to") === ROUTES.cases)
-      ).to.have.lengthOf(2);
+      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.cases)).to.have.lengthOf(2);
     });
     it("doesn't renders export link", () => {
-      expect(
-        component
-          .find(NavLink)
-          .findWhere(link => link.prop("to") === ROUTES.exports)
-      ).to.have.lengthOf(0);
+      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.exports)).to.have.lengthOf(0);
     });
   });
 
@@ -205,11 +163,7 @@ describe("<Nav />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        ProvidedNav,
-        { username: "username" },
-        initialStateActions
-      ));
+      ({ component } = setupMountedComponent(ProvidedNav, { username: "username" }, initialStateActions));
     });
 
     it("should fetch alerts", () => {

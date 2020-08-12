@@ -9,11 +9,7 @@ describe("<Label />", () => {
   const initialState = fromJS({});
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      Label,
-      { commonInputProps: { label: "Some text" } },
-      initialState
-    ));
+    ({ component } = setupMountedComponent(Label, { commonInputProps: { label: "Some text" } }, initialState));
   });
 
   it("renders the Label", () => {

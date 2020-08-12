@@ -7,16 +7,9 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useI18n } from "../../i18n";
 import { ACCEPTED, REJECTED, REJECT } from "../../../config";
 import { setDialog, setPending } from "../../record-actions/action-creators";
-import {
-  selectDialog,
-  selectDialogPending
-} from "../../record-actions/selectors";
+import { selectDialog, selectDialogPending } from "../../record-actions/selectors";
 
-import {
-  APPROVE,
-  TRANSFER_APPROVAL_DIALOG,
-  TRANSFER_ACTION_MENU_NAME as NAME
-} from "./constants";
+import { APPROVE, TRANSFER_APPROVAL_DIALOG, TRANSFER_ACTION_MENU_NAME as NAME } from "./constants";
 import TransferApproval from "./transfer-approval";
 
 const TransferActionMenu = ({ transition, recordType }) => {
@@ -27,9 +20,7 @@ const TransferActionMenu = ({ transition, recordType }) => {
   const handleTransferMenuClose = () => {
     setTransferMenu(null);
   };
-  const approvalOpen = useSelector(state =>
-    selectDialog(state, TRANSFER_APPROVAL_DIALOG)
-  );
+  const approvalOpen = useSelector(state => selectDialog(state, TRANSFER_APPROVAL_DIALOG));
   const setApprovalOpen = open => {
     dispatch(setDialog({ dialog: TRANSFER_APPROVAL_DIALOG, open }));
   };
@@ -63,12 +54,7 @@ const TransferActionMenu = ({ transition, recordType }) => {
 
   return (
     <>
-      <IconButton
-        aria-label="more"
-        aria-controls="long-menu"
-        aria-haspopup="true"
-        onClick={handleTransferMenuClick}
-      >
+      <IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleTransferMenuClick}>
         <MoreVertIcon />
       </IconButton>
       <Menu
@@ -78,20 +64,10 @@ const TransferActionMenu = ({ transition, recordType }) => {
         open={Boolean(transferMenu)}
         onClose={handleTransferMenuClose}
       >
-        <MenuItem
-          key={APPROVE}
-          selected={false}
-          onClick={handleAcceptOpen}
-          disabled={false}
-        >
+        <MenuItem key={APPROVE} selected={false} onClick={handleAcceptOpen} disabled={false}>
           {i18n.t("buttons.accept")}
         </MenuItem>
-        <MenuItem
-          key={REJECT}
-          selected={false}
-          onClick={handleRejectOpen}
-          disabled={false}
-        >
+        <MenuItem key={REJECT} selected={false} onClick={handleRejectOpen} disabled={false}>
           {i18n.t("buttons.reject")}
         </MenuItem>
       </Menu>

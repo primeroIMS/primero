@@ -94,12 +94,7 @@ export const APPROVALS = "approvals";
 
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
-export const RECORD_INFORMATION = [
-  APPROVALS,
-  RECORD_OWNER,
-  REFERRAL,
-  TRANSFERS_ASSIGNMENTS
-];
+export const RECORD_INFORMATION = [APPROVALS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS];
 
 export const ROUTES = {
   account: "/account",
@@ -235,9 +230,7 @@ export const ADMIN_NAV = [
 ];
 
 export const APPLICATION_NAV = permissions => {
-  const adminResources = ADMIN_RESOURCES.filter(adminResource =>
-    permissions.keySeq().includes(adminResource)
-  );
+  const adminResources = ADMIN_RESOURCES.filter(adminResource => permissions.keySeq().includes(adminResource));
   const adminSettingsOption = `/admin/${adminResources[0]}`;
 
   return [
