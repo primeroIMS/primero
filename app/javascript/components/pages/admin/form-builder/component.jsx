@@ -82,10 +82,10 @@ const Component = ({ mode }) => {
     selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
 
   const onSubmit = data => {
-    console.log("body:", {
+    console.log("BODY:", {
       data: { ...data, fields: convertToFieldsArray(data.fields || {}) }
     });
-    console.log("subforms:", selectedSubforms?.toJS());
+    console.log("SUBFORMS:", selectedSubforms?.toJS());
 
     dispatch(
       saveForm({

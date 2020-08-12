@@ -80,7 +80,11 @@ const Component = ({ mode, onClose, onSuccess }) => {
   )?.last();
   const selectedFieldName = selectedField?.get("name");
   const lookups = useSelector(state => getOptions(state), compare);
-  const isNested = subformContainsFieldName(selectedSubform, selectedFieldName);
+  const isNested = subformContainsFieldName(
+    selectedSubform,
+    selectedFieldName,
+    selectedSubformField
+  );
   const { forms: fieldsForm, validationSchema } = getFormField({
     field: selectedField,
     i18n,
@@ -234,7 +238,8 @@ const Component = ({ mode, onClose, onSuccess }) => {
           dispatch(
             setNewSubform({
               ...subformData,
-              temp_id: selectedSubform?.get("temp_id")
+              temp_id: selectedSubform?.get("temp_id"),
+              is_nested: true
             })
           );
           dispatch(clearSelectedField());

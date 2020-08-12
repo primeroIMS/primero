@@ -1,3 +1,5 @@
+import { fromJS } from "immutable";
+
 import {
   DATE_FIELD,
   RADIO_FIELD,
@@ -198,17 +200,23 @@ export const buildDataToSave = (
   };
 };
 
-export const subformContainsFieldName = (subform, fieldName) => {
+export const subformContainsFieldName = (
+  subform,
+  fieldName,
+  selectedSubformField = fromJS({})
+) => {
+  if (selectedSubformField.size > 0) {
+    return true;
+  }
+
   if (!subform?.toSeq()?.size) {
     return false;
   }
 
-  return (
-    Boolean(
-      subform
-        ?.get("fields")
-        ?.find(field => field.get("name") === fieldName)
-        ?.toSeq()?.size
-    ) || fieldName === NEW_FIELD
+  return Boolean(
+    subform
+      ?.get("fields")
+      ?.find(field => field.get("name") === fieldName)
+      ?.toSeq()?.size
   );
 };

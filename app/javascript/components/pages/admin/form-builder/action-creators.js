@@ -53,13 +53,25 @@ export const saveForm = ({ id, body, saveMethod, subforms = [] }) => {
         body
       }
     ].concat(
-      subforms.map(subform => ({
-        path: getFormRequestPath(subform.id, saveMethod),
-        method,
-        body: {
+      subforms.map(subform => {
+        const subfomBody = {
           data: subform
+        };
+
+        if (subform?.id) {
+          return {
+            path: getFormRequestPath(subform.id, saveMethod),
+            method,
+            body: subfomBody
+          };
         }
-      }))
+
+        return {
+          path: getFormRequestPath("", SAVE_METHODS.new),
+          method: METHODS.POST,
+          body: subfomBody
+        };
+      })
     )
   };
 };
