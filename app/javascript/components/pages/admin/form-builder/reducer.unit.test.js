@@ -267,7 +267,7 @@ describe("<FormsBuilder /> - Reducers", () => {
       order: 0
     };
     const expected = fromJS({
-      selectedFields: [{ ...objectData }]
+      selectedFields: [FieldRecord({ ...objectData })]
     });
 
     const action = {
@@ -307,7 +307,7 @@ describe("<FormsBuilder /> - Reducers", () => {
       order: 1
     };
     const expected = fromJS({
-      selectedFields: [field1, { ...objectData }]
+      selectedFields: [field1, FieldRecord({ ...objectData })]
     });
 
     const action = {

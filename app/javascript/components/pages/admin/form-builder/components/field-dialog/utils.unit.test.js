@@ -214,6 +214,10 @@ describe("subformContainsFieldName", () => {
     fields: [{ id: 1, name: "field_1" }]
   });
 
+  const subformField = fromJS({
+    name: "subform_field_2"
+  });
+
   it("return false if the subform does not have the field name", () => {
     expect(utils.subformContainsFieldName(subform, "field_2")).to.be.false;
   });
@@ -223,6 +227,6 @@ describe("subformContainsFieldName", () => {
   });
 
   it("return true if the subform field is new", () => {
-    expect(utils.subformContainsFieldName(subform, NEW_FIELD)).to.be.true;
+    expect(utils.subformContainsFieldName(subform, NEW_FIELD, subformField)).to.be.true;
   });
 });

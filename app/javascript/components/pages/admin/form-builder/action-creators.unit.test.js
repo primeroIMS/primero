@@ -18,9 +18,11 @@ describe("<FormsBuilder /> - Action Creators", () => {
       "reorderFields",
       "saveForm",
       "setNewField",
+      "setNewSubform",
       "setSelectedField",
       "setSelectedSubform",
       "setSelectedSubformField",
+      "setTemporarySubform",
       "updateSelectedField",
       "updateSelectedSubform"
     ].forEach(property => {
@@ -123,7 +125,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
   it("should check the 'setSelectedSubform' action creator to return the correct object", () => {
     const expected = {
       type: actions.SET_SELECTED_SUBFORM,
-      payload: { id: 1 }
+      payload: 1
     };
 
     expect(actionCreators.setSelectedSubform(1)).to.deep.equal(expected);
