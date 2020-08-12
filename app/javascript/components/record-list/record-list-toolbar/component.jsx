@@ -11,15 +11,7 @@ import AddRecordMenu from "../add-record-menu";
 
 import { NAME } from "./constants";
 
-const Component = ({
-  title,
-  recordType,
-  handleDrawer,
-  mobileDisplay,
-  selectedRecords,
-  currentPage,
-  css
-}) => {
+const Component = ({ title, recordType, handleDrawer, mobileDisplay, selectedRecords, currentPage, css }) => {
   return (
     <Box mb={3} alignItems="center" display="flex" className={css.toolbar}>
       <Box flexGrow={1}>

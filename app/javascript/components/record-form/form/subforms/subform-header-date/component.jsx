@@ -10,9 +10,7 @@ const Component = ({ value, includeTime }) => {
   if (isEmpty(value)) return value || "";
 
   const formattedDate = parseISO(value);
-  const dateValue = includeTime
-    ? format(formattedDate, DATE_TIME_FORMAT)
-    : format(formattedDate, DATE_FORMAT);
+  const dateValue = includeTime ? format(formattedDate, DATE_TIME_FORMAT) : format(formattedDate, DATE_FORMAT);
 
   return <span>{dateValue}</span>;
 };

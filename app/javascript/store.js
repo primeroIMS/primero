@@ -1,7 +1,4 @@
-import {
-  connectRouter,
-  routerMiddleware
-} from "connected-react-router/immutable";
+import { connectRouter, routerMiddleware } from "connected-react-router/immutable";
 import { createBrowserHistory } from "history";
 import { fromJS } from "immutable";
 import { applyMiddleware, compose, createStore } from "redux";
@@ -34,9 +31,7 @@ export default () => {
   }
 
   const composeEnhancers =
-    process.env.NODE_ENV !== "development" ||
-    typeof window !== "object" ||
-    !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    process.env.NODE_ENV !== "development" || typeof window !== "object" || !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? compose
       : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
           trace: true,

@@ -64,11 +64,7 @@ const Search = ({ handleReset }) => {
     <div className={css.searchContainer}>
       <div className={css.searchInputContainer}>
         <DisableOffline button>
-          <IconButton
-            className={css.iconSearchButton}
-            aria-label="menu"
-            type="submit"
-          >
+          <IconButton className={css.iconSearchButton} aria-label="menu" type="submit">
             <SearchIcon />
           </IconButton>
         </DisableOffline>
@@ -82,10 +78,7 @@ const Search = ({ handleReset }) => {
           inputProps={{ "aria-label": i18n.t("navigation.search") }}
           endAdornment={
             <InputAdornment position="end">
-              <IconButton
-                className={css.iconSearchButton}
-                onClick={handleClear}
-              >
+              <IconButton className={css.iconSearchButton} onClick={handleClear}>
                 <ClearIcon />
               </IconButton>
             </InputAdornment>

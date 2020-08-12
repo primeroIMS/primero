@@ -1,12 +1,7 @@
 import { fromJS } from "immutable";
 
 import reducer from "./reducer";
-import {
-  TASKS_SUCCESS,
-  TASKS_STARTED,
-  TASKS_FINISHED,
-  TASKS_FAILURE
-} from "./actions";
+import { TASKS_SUCCESS, TASKS_STARTED, TASKS_FINISHED, TASKS_FAILURE } from "./actions";
 
 describe("<TaskList /> - Reducer", () => {
   it("should handle tasks/TASKS_STARTED", () => {

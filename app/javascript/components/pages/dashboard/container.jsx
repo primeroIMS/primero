@@ -48,10 +48,7 @@ const Dashboard = () => {
       <PageContent>
         <OfflineAlert text={i18n.t("messages.dashboard_offline")} />
         <Grid container spacing={3}>
-          <Overview
-            loadingIndicator={indicatorProps}
-            userPermissions={userPermissions}
-          />
+          <Overview loadingIndicator={indicatorProps} userPermissions={userPermissions} />
           <Approvals loadingIndicator={indicatorProps} />
           <SharedFromMyTeam loadingIndicator={indicatorProps} />
           <SharedWithMyTeam loadingIndicator={indicatorProps} />

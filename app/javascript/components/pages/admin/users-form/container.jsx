@@ -16,10 +16,7 @@ import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import { setDialog, setPending } from "../../../record-actions/action-creators";
-import {
-  selectDialog,
-  selectDialogPending
-} from "../../../record-actions/selectors";
+import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
 import { fetchSystemSettings } from "../../../application";
 import bindFormSubmit from "../../../../libs/submit-form";
 
@@ -27,12 +24,7 @@ import { form } from "./form";
 import validations from "./validations";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
 import { USER_CONFIRMATION_DIALOG } from "./constants";
-import {
-  getUser,
-  getServerErrors,
-  getIdentityProviders,
-  getSavingRecord
-} from "./selectors";
+import { getUser, getServerErrors, getIdentityProviders, getSavingRecord } from "./selectors";
 import UserConfirmation from "./user-confirmation";
 
 const Container = ({ mode }) => {
@@ -51,20 +43,13 @@ const Container = ({ mode }) => {
   const providers = idp?.get("identity_providers");
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
-  const validationSchema = validations(
-    formMode,
-    i18n,
-    useIdentityProviders,
-    providers
-  );
+  const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
 
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
   const [userData, setUserData] = React.useState({});
   const saving = useSelector(state => getSavingRecord(state));
 
-  const userConfirmationOpen = useSelector(state =>
-    selectDialog(state, USER_CONFIRMATION_DIALOG)
-  );
+  const userConfirmationOpen = useSelector(state => selectDialog(state, USER_CONFIRMATION_DIALOG));
   const setUserConfirmationOpen = open => {
     dispatch(setDialog({ dialog: USER_CONFIRMATION_DIALOG, open }));
   };
@@ -87,9 +72,7 @@ const Container = ({ mode }) => {
       saveUser({
         id,
         dialogName: USER_CONFIRMATION_DIALOG,
-        saveMethod: formMode.get("isEdit")
-          ? SAVE_METHODS.update
-          : SAVE_METHODS.new,
+        saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
         body: { data },
         message: i18n.t("user.messages.updated"),
         failureMessage: i18n.t("user.messages.failure")
@@ -123,12 +106,7 @@ const Container = ({ mode }) => {
 
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
-      <FormAction
-        cancel
-        actionHandler={handleCancel}
-        text={i18n.t("buttons.cancel")}
-        startIcon={<ClearIcon />}
-      />
+      <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
         actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
@@ -139,16 +117,10 @@ const Container = ({ mode }) => {
   );
 
   const editButton = formMode.get("isShow") && (
-    <FormAction
-      actionHandler={handleEdit}
-      text={i18n.t("buttons.edit")}
-      startIcon={<CreateIcon />}
-    />
+    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
   );
 
-  const pageHeading = user?.size
-    ? `${i18n.t("users.label")} ${user.get("full_name")}`
-    : i18n.t("users.label");
+  const pageHeading = user?.size ? `${i18n.t("users.label")} ${user.get("full_name")}` : i18n.t("users.label");
 
   const identityOptions = providers
     ? providers.toJS().map(provider => {
@@ -157,11 +129,7 @@ const Container = ({ mode }) => {
     : [];
 
   return (
-    <LoadingIndicator
-      hasData={formMode.get("isNew") || user?.size > 0}
-      loading={!user?.size}
-      type={NAMESPACE}
-    >
+    <LoadingIndicator hasData={formMode.get("isNew") || user?.size > 0} loading={!user?.size} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
         {canEditUsers && editButton}
         {saveButton}
@@ -170,13 +138,7 @@ const Container = ({ mode }) => {
         <Form
           useCancelPrompt
           mode={mode}
-          formSections={form(
-            i18n,
-            formMode,
-            useIdentityProviders,
-            providers,
-            identityOptions
-          )}
+          formSections={form(i18n, formMode, useIdentityProviders, providers, identityOptions)}
           onSubmit={formMode.get("isEdit") ? handleEditSubmit : handleSubmit}
           ref={formRef}
           validations={validationSchema}
@@ -193,9 +155,7 @@ const Container = ({ mode }) => {
           isIdp={useIdentityProviders}
           dialogName={USER_CONFIRMATION_DIALOG}
           userData={userData}
-          userName={
-            formMode.get("isEdit") ? user.get("user_name") : userData.user_name
-          }
+          userName={formMode.get("isEdit") ? user.get("user_name") : userData.user_name}
           identityOptions={identityOptions}
         />
       </PageContent>

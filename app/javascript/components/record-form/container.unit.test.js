@@ -138,9 +138,7 @@ describe("<RecordForms /> - Component", () => {
       return (
         <Route
           path="/:recordType(cases|incidents|tracing_requests)/:id"
-          component={props => (
-            <RecordForms {...{ ...props, ...initialProps }} />
-          )}
+          component={props => <RecordForms {...{ ...props, ...initialProps }} />}
         />
       );
     };
@@ -205,9 +203,7 @@ describe("<RecordForms /> - Component", () => {
         return (
           <Route
             path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => (
-              <RecordForms {...{ ...props, ...initialProps }} />
-            )}
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
           />
         );
       };
@@ -258,9 +254,7 @@ describe("<RecordForms /> - Component", () => {
         return (
           <Route
             path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => (
-              <RecordForms {...{ ...props, ...initialProps }} />
-            )}
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
           />
         );
       };
@@ -325,9 +319,7 @@ describe("<RecordForms /> - Component", () => {
         return (
           <Route
             path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => (
-              <RecordForms {...{ ...props, ...initialProps }} />
-            )}
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
           />
         );
       };
@@ -379,9 +371,7 @@ describe("<RecordForms /> - Component", () => {
         return (
           <Route
             path="/:recordType(cases|incidents|tracing_requests)/:module/new"
-            component={props => (
-              <RecordForms {...{ ...props, ...initialProps }} />
-            )}
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
           />
         );
       };
@@ -433,9 +423,7 @@ describe("<RecordForms /> - Component", () => {
         return (
           <Route
             path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => (
-              <RecordForms {...{ ...props, ...initialProps }} />
-            )}
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
           />
         );
       };
@@ -533,9 +521,7 @@ describe("<RecordForms /> - Component", () => {
         return (
           <Route
             path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => (
-              <RecordForms {...{ ...props, ...initialProps }} />
-            )}
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
           />
         );
       };

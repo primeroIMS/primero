@@ -22,16 +22,12 @@ describe("pages/admin/<RolesForm>/forms - utils", () => {
         },
         {
           id: "request_approval_assessment",
-          display_text:
-            "permissions.resource.case.actions.request_approval_assessment.label",
-          tooltip:
-            "permissions.resource.case.actions.request_approval_assessment.explanation"
+          display_text: "permissions.resource.case.actions.request_approval_assessment.label",
+          tooltip: "permissions.resource.case.actions.request_approval_assessment.explanation"
         }
       ];
 
-      expect(
-        buildPermissionOptions(actions, i18n, "case", approvalsLabels)
-      ).to.deep.equal(expected);
+      expect(buildPermissionOptions(actions, i18n, "case", approvalsLabels)).to.deep.equal(expected);
     });
   });
 });

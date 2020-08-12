@@ -4,13 +4,7 @@ import { IconButton, Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 
-const SnackbarAction = ({
-  action,
-  actionLabel,
-  actionUrl,
-  closeSnackbar,
-  key
-}) => {
+const SnackbarAction = ({ action, actionLabel, actionUrl, closeSnackbar, key }) => {
   const handleSnackClose = () => {
     closeSnackbar(key);
   };

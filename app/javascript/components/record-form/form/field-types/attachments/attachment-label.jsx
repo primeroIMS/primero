@@ -7,13 +7,7 @@ import styles from "../../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-const AttachmentLabel = ({
-  label,
-  disabled,
-  mode,
-  arrayHelpers,
-  handleAttachmentAddition
-}) => {
+const AttachmentLabel = ({ label, disabled, mode, arrayHelpers, handleAttachmentAddition }) => {
   const css = makeStyles(styles)();
   const isDisabled = !disabled && !mode.isShow;
 

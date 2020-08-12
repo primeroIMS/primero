@@ -37,12 +37,7 @@ import {
   NAME,
   PASSWORD_FIELD
 } from "./constants";
-import {
-  buildFields,
-  exporterFilters,
-  formatFileName,
-  formatFields
-} from "./utils";
+import { buildFields, exporterFilters, formatFileName, formatFields } from "./utils";
 import form from "./form";
 import { saveExport } from "./action-creators";
 import styles from "./styles.css";
@@ -87,23 +82,16 @@ const Component = ({
     defaultValues
   });
 
-  const records = useSelector(state => getRecords(state, recordType)).get(
-    "data"
-  );
+  const records = useSelector(state => getRecords(state, recordType)).get("data");
   const metadata = useSelector(state => getMetadata(state, recordType));
-  const appliedFilters = useSelector(state =>
-    getFiltersValuesByRecordType(state, recordType)
-  );
+  const appliedFilters = useSelector(state => getFiltersValuesByRecordType(state, recordType));
 
   const totalRecords = metadata?.get("total", 0);
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
-  const selectedRecordsLength = Object.values(selectedRecords || {}).flat()
-    ?.length;
+  const selectedRecordsLength = Object.values(selectedRecords || {}).flat()?.length;
   const allCurrentRowsSelected =
-    selectedRecordsLength > 0 &&
-    records.size > 0 &&
-    selectedRecordsLength === records.size;
+    selectedRecordsLength > 0 && records.size > 0 && selectedRecordsLength === records.size;
   const allRecordsSelected = selectedRecordsLength === totalRecords;
 
   const exportType = formMethods.watch(EXPORT_TYPE_FIELD);
@@ -132,9 +120,7 @@ const Component = ({
 
   const handleSubmit = values => {
     const { form_unique_ids: formUniqueIds, field_names: fieldNames } = values;
-    const { id, format, message } = ALL_EXPORT_TYPES.find(
-      e => e.id === values.export_type
-    );
+    const { id, format, message } = ALL_EXPORT_TYPES.find(e => e.id === values.export_type);
     const fileName = formatFileName(values.custom_export_file_name, format);
     const shortIds = records
       .toJS()
@@ -179,9 +165,7 @@ const Component = ({
       exportParams = {
         ...exportParams,
         [FORM_TO_EXPORT_FIELD]: uniq(
-          fields
-            .filter(field => fieldNames.includes(field.id))
-            .map(field => field.formSectionId)
+          fields.filter(field => fieldNames.includes(field.id)).map(field => field.formSectionId)
         )
       };
     }
@@ -257,9 +241,7 @@ const Component = ({
   );
 
   const enabledSuccessButton =
-    !isCustomExport ||
-    (formatType !== "" &&
-      (!isEmpty(formsToExport) || !isEmpty(fieldsToExport)));
+    !isCustomExport || (formatType !== "" && (!isEmpty(formsToExport) || !isEmpty(fieldsToExport)));
 
   return (
     <ActionDialog

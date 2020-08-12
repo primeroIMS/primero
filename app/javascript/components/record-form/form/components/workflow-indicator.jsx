@@ -1,12 +1,6 @@
 /* eslint-disable camelcase */
 import React from "react";
-import {
-  Stepper,
-  Step,
-  StepLabel,
-  useMediaQuery,
-  Badge
-} from "@material-ui/core";
+import { Stepper, Step, StepLabel, useMediaQuery, Badge } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
@@ -21,13 +15,9 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   const { css, theme } = useThemeHelper(styles);
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const selectedModuleWorkflow = useSelector(state =>
-    selectModule(state, primeroModule)
-  );
+  const selectedModuleWorkflow = useSelector(state => selectModule(state, primeroModule));
 
-  const workflowSteps = selectedModuleWorkflow?.workflows?.[
-    RECORD_TYPES[recordType]
-  ]?.[locale]?.filter(
+  const workflowSteps = selectedModuleWorkflow?.workflows?.[RECORD_TYPES[recordType]]?.[locale]?.filter(
     w =>
       !(
         (record.get("case_status_reopened") && w.id === "new") ||
@@ -35,9 +25,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
       )
   );
 
-  const activeStep = workflowSteps?.findIndex(
-    s => s.id === record.get("workflow")
-  );
+  const activeStep = workflowSteps?.findIndex(s => s.id === record.get("workflow"));
 
   if (mobileDisplay) {
     return (
@@ -60,11 +48,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
 
         return (
           <Step key={s.id} {...stepProps}>
-            <StepLabel
-              classes={{ label: css.stepLabel, active: css.styleLabelActive }}
-            >
-              {label}
-            </StepLabel>
+            <StepLabel classes={{ label: css.stepLabel, active: css.styleLabelActive }}>{label}</StepLabel>
           </Step>
         );
       })}

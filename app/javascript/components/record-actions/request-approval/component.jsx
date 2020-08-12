@@ -50,9 +50,7 @@ const Component = ({
     .filter(userModule => userModule.unique_id === MODULES.CP)
     // eslint-disable-next-line camelcase
     ?.first()?.options?.selectable_approval_types;
-  const alertTypes = useSelector(state =>
-    getOptions(state, APPROVAL_TYPE_LOOKUP, i18n)
-  );
+  const alertTypes = useSelector(state => getOptions(state, APPROVAL_TYPE_LOOKUP, i18n));
 
   useEffect(() => {
     if (requestType === CASE_PLAN) {
@@ -72,8 +70,7 @@ const Component = ({
   const handleChangeComment = event => {
     setComment(event.target.value);
   };
-  const handleChangeTypeOfCasePlan = event =>
-    setTypeOfCasePlan(event.target.value);
+  const handleChangeTypeOfCasePlan = event => setTypeOfCasePlan(event.target.value);
   const handleCancel = () => {
     close();
     setRequestType(startRequestType);
@@ -83,8 +80,7 @@ const Component = ({
 
   const actionBody = { data: {} };
 
-  actionBody.data.approval_status =
-    approvalType === "request" ? "requested" : approval;
+  actionBody.data.approval_status = approvalType === "request" ? "requested" : approval;
 
   if (comment !== "") {
     actionBody.data.notes = comment;
@@ -151,9 +147,7 @@ const Component = ({
 
   const selectTypeOfCasePlan = showTypeOfCasePlan && renderCasePlan && (
     <>
-      <InputLabel>
-        {i18n.t("cases.request_approval_type_of_case_plan")}
-      </InputLabel>
+      <InputLabel>{i18n.t("cases.request_approval_type_of_case_plan")}</InputLabel>
       <Select
         id="outlined-select-case-plan-type"
         fullWidth
@@ -168,17 +162,11 @@ const Component = ({
 
   const requestDialogContent = (
     <>
-      <IconButton
-        aria-label="close"
-        className={css.closeButton}
-        onClick={close}
-      >
+      <IconButton aria-label="close" className={css.closeButton} onClick={close}>
         <CloseIcon />
       </IconButton>
       <form noValidate autoComplete="off" className={css.centerForm}>
-        <InputLabel>
-          {i18n.t(`${recordType}.request_approval_select`)}
-        </InputLabel>
+        <InputLabel>{i18n.t(`${recordType}.request_approval_select`)}</InputLabel>
         <Select
           id="outlined-select-approval-native"
           fullWidth
@@ -203,8 +191,7 @@ const Component = ({
     selectOptions
   });
 
-  const dialogContent =
-    approvalType === "approval" ? approvalDialogContent : requestDialogContent;
+  const dialogContent = approvalType === "approval" ? approvalDialogContent : requestDialogContent;
 
   return (
     <ActionDialog

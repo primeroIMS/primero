@@ -25,14 +25,9 @@ export default (data, localeLabels) => {
   if (result.length || Object.keys(result).length) {
     const indicatorData = result.indicators[INDICATOR_NAMES.WORKFLOW_TEAM];
 
-    const columns = Object.keys(
-      indicatorData[first(Object.keys(indicatorData))]
-    )
+    const columns = Object.keys(indicatorData[first(Object.keys(indicatorData))])
       .reduce((acum, value) => {
-        return [
-          ...acum,
-          { name: value, label: translateSingleLabel(value, localeLabels) }
-        ];
+        return [...acum, { name: value, label: translateSingleLabel(value, localeLabels) }];
       }, [])
       .filter(column => typeof column.label !== "undefined")
       .sort((a, b) => {

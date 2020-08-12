@@ -125,9 +125,7 @@ describe("<IndexFilters /> - Utils", () => {
         }
       ];
 
-      expect(
-        utils.buildReportFields(["test"], REPORT_FIELD_TYPES.horizontal)
-      ).to.deep.equal(expected);
+      expect(utils.buildReportFields(["test"], REPORT_FIELD_TYPES.horizontal)).to.deep.equal(expected);
     });
   });
 
@@ -160,9 +158,7 @@ describe("<IndexFilters /> - Utils", () => {
     });
 
     it("should return disaggregate_by key with an array of fields with 'horizontal' type ", () => {
-      expect(utils.formatReport(report).disaggregate_by).to.deep.equal([
-        "test_2"
-      ]);
+      expect(utils.formatReport(report).disaggregate_by).to.deep.equal(["test_2"]);
     });
   });
 

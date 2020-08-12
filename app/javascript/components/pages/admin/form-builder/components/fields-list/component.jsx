@@ -23,10 +23,7 @@ const Component = ({ subformField }) => {
   const methods = useFormContext();
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size);
-  const fields = useSelector(
-    state => getSelectedFields(state, isNested),
-    compare
-  );
+  const fields = useSelector(state => getSelectedFields(state, isNested), compare);
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const fieldsAttribute = getFieldsAttribute(isNested);
@@ -44,60 +41,28 @@ const Component = ({ subformField }) => {
   }, [fields]);
 
   const handleDragEnd = result => {
-    dispatch(
-      reorderFields(result.draggableId, result.destination.index, isNested)
-    );
+    dispatch(reorderFields(result.draggableId, result.destination.index, isNested));
   };
 
   const renderFields = () =>
     fields.map((field, index) => (
-      <FieldListItem
-        subformField={subformField}
-        field={field}
-        index={index}
-        key={field.get("name")}
-      />
+      <FieldListItem subformField={subformField} field={field} index={index} key={field.get("name")} />
     ));
 
-  const renderColumn = text =>
-    isNested && (
-      <div className={clsx([css.fieldColumn, css.fieldHeader])}>{text}</div>
-    );
+  const renderColumn = text => isNested && <div className={clsx([css.fieldColumn, css.fieldHeader])}>{text}</div>;
 
   return (
     <>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="droppable" type="field">
           {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
-            >
+            <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
               <div className={css.fieldRow}>
-                <div
-                  className={clsx([
-                    css.fieldColumn,
-                    css.fieldName,
-                    css.fieldHeader
-                  ])}
-                >
-                  {i18n.t("fields.name")}
-                </div>
-                <div className={clsx([css.fieldColumn, css.fieldHeader])}>
-                  {i18n.t("fields.type")}
-                </div>
+                <div className={clsx([css.fieldColumn, css.fieldName, css.fieldHeader])}>{i18n.t("fields.name")}</div>
+                <div className={clsx([css.fieldColumn, css.fieldHeader])}>{i18n.t("fields.type")}</div>
                 {renderColumn(i18n.t("fields.subform_sort_by"))}
                 {renderColumn(i18n.t("fields.subform_group_by"))}
-                <div
-                  className={clsx([
-                    css.fieldColumn,
-                    css.fieldHeader,
-                    css.fieldShow
-                  ])}
-                >
-                  {i18n.t("fields.show")}
-                </div>
+                <div className={clsx([css.fieldColumn, css.fieldHeader, css.fieldShow])}>{i18n.t("fields.show")}</div>
               </div>
               {renderFields()}
               {provided.placeholder}

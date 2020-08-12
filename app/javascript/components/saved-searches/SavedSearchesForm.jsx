@@ -2,13 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { compact } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogActions,
-  TextField
-} from "@material-ui/core";
+import { Dialog, DialogContent, DialogTitle, DialogActions, TextField } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { object, string } from "yup";
 import qs from "qs";
@@ -31,9 +25,7 @@ const FormErrors = () => {
   const i18n = useI18n();
 
   useEffect(() => {
-    dispatch(
-      enqueueSnackbar(i18n.t("saved_search.no_filters"), { type: "error" })
-    );
+    dispatch(enqueueSnackbar(i18n.t("saved_search.no_filters"), { type: "error" }));
   }, [dispatch, i18n]);
 
   return null;

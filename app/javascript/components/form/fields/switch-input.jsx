@@ -1,25 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Checkbox,
-  FormControl,
-  FormGroup,
-  FormControlLabel,
-  FormHelperText
-} from "@material-ui/core";
+import { Checkbox, FormControl, FormGroup, FormControlLabel, FormHelperText } from "@material-ui/core";
 import { Controller } from "react-hook-form";
 
 import InputLabel from "../components/input-label";
 
 const SwitchInput = ({ commonInputProps, metaInputProps }) => {
-  const {
-    helperText,
-    error,
-    disabled,
-    name,
-    label,
-    className
-  } = commonInputProps;
+  const { helperText, error, disabled, name, label, className } = commonInputProps;
 
   const { tooltip, selectedValue } = metaInputProps || {};
 

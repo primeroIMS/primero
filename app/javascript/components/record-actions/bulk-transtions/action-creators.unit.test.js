@@ -58,15 +58,9 @@ describe("bulk-transitons - Action Creators", () => {
       }
     };
 
-    expect(
-      dispatch(
-        actionCreators.saveBulkAssignedUser(
-          RECORD_PATH.cases,
-          [12345, 67890],
-          body
-        )
-      )
-    ).to.deep.equals(expected);
+    expect(dispatch(actionCreators.saveBulkAssignedUser(RECORD_PATH.cases, [12345, 67890], body))).to.deep.equals(
+      expected
+    );
   });
 
   it("should check the 'removeBulkAssignMessages' action creator to remove all the bulk assign", () => {
@@ -74,8 +68,6 @@ describe("bulk-transitons - Action Creators", () => {
       type: `${RECORD_PATH.cases}/${actions.CLEAR_BULK_ASSIGN_MESSAGES}`
     };
 
-    expect(
-      dispatch(actionCreators.removeBulkAssignMessages(RECORD_PATH.cases))
-    ).to.deep.equals(expected);
+    expect(dispatch(actionCreators.removeBulkAssignMessages(RECORD_PATH.cases))).to.deep.equals(expected);
   });
 });

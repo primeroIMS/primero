@@ -62,9 +62,7 @@ describe("appendDisabledAgency", () => {
 describe("appendDisabledUser", () => {
   it("should append the user if not present in the users list", () => {
     const users = fromJS([{ user_name: "user-1" }, { user_name: "user-2" }]);
-    const expected = users.push(
-      fromJS({ user_name: "user-3", isDisabled: true })
-    );
+    const expected = users.push(fromJS({ user_name: "user-3", isDisabled: true }));
     const options = helpers.appendDisabledUser(users, "user-3");
 
     expect(options).to.deep.equal(expected);
@@ -102,18 +100,12 @@ describe("getConnectedFields", () => {
       const formMock = mock(form);
       const setFilterState = mock();
       const agencies = fromJS([{ unique_id: "agency-1" }]);
-      const referralUsers = fromJS([
-        { user_name: "user-1", agency: "agency-1", location: "location-1" }
-      ]);
+      const referralUsers = fromJS([{ user_name: "user-1", agency: "agency-1", location: "location-1" }]);
       const reportingLocations = fromJS([{ code: "location-1" }]);
 
-      formMock
-        .expects("setFieldValue")
-        .withArgs(helpers.getConnectedFields(0).agency, "agency-1", false);
+      formMock.expects("setFieldValue").withArgs(helpers.getConnectedFields(0).agency, "agency-1", false);
 
-      formMock
-        .expects("setFieldValue")
-        .withArgs(helpers.getConnectedFields(0).location, "location-1", false);
+      formMock.expects("setFieldValue").withArgs(helpers.getConnectedFields(0).location, "location-1", false);
 
       helpers.handleChangeOnServiceUser({
         agencies,
@@ -137,9 +129,7 @@ describe("getConnectedFields", () => {
     });
 
     it("should return the translated displayText for english", () => {
-      expect(helpers.translatedText({ en: "string" }, i18n)).to.be.equal(
-        "string"
-      );
+      expect(helpers.translatedText({ en: "string" }, i18n)).to.be.equal("string");
     });
 
     it("should return empty if the translation does not exist", () => {
@@ -168,9 +158,7 @@ describe("getConnectedFields", () => {
 
   describe("buildCustomLookupsConfig", () => {
     const locations = fromJS([{ id: 1, code: "location-1", admin_level: 1 }]);
-    const reportingLocations = fromJS([
-      { id: 1, code: "location-1", admin_level: 2 }
-    ]);
+    const reportingLocations = fromJS([{ id: 1, code: "location-1", admin_level: 2 }]);
     const agencies = fromJS([{ unique_id: "agency-1", name: "Agency 1" }]);
     const referralUsers = fromJS([{ user_name: "New User " }]);
     const defaultConfig = {

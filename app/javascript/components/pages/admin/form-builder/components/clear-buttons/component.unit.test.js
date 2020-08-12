@@ -15,26 +15,15 @@ describe("<ClearButtons />", () => {
   };
 
   it("should render the ClearButtons component", () => {
-    const { component } = setupMockFormComponent(
-      ClearButtons,
-      props,
-      {},
-      initialState
-    );
+    const { component } = setupMockFormComponent(ClearButtons, props, {}, initialState);
 
     expect(component.find(ClearButtons)).to.have.lengthOf(1);
   });
 
   it("renders the clear group by button if subform_group_by is set", () => {
-    const { component } = setupMockFormComponent(
-      ClearButtons,
-      props,
-      {},
-      initialState,
-      {
-        field_1: { subform_group_by: "field_2" }
-      }
-    );
+    const { component } = setupMockFormComponent(ClearButtons, props, {}, initialState, {
+      field_1: { subform_group_by: "field_2" }
+    });
     const groupButton = component.find(Button);
 
     expect(groupButton).to.have.lengthOf(1);
@@ -42,15 +31,9 @@ describe("<ClearButtons />", () => {
   });
 
   it("renders the clear sort by button if subform_sort_by is set", () => {
-    const { component } = setupMockFormComponent(
-      ClearButtons,
-      props,
-      {},
-      initialState,
-      {
-        field_1: { subform_sort_by: "field_2" }
-      }
-    );
+    const { component } = setupMockFormComponent(ClearButtons, props, {}, initialState, {
+      field_1: { subform_sort_by: "field_2" }
+    });
     const groupButton = component.find(Button);
 
     expect(groupButton).to.have.lengthOf(1);

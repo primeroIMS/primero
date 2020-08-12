@@ -22,23 +22,15 @@ describe("<TransferRequest /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    dispatch(
-      actionCreators.saveTransferRequest("123abc", body, "Success Message")
-    );
+    dispatch(actionCreators.saveTransferRequest("123abc", body, "Success Message"));
 
     const firstCallReturnValue = dispatch.getCall(0).returnValue;
 
     expect(firstCallReturnValue.type).to.equal(actions.TRANSFER_REQUEST);
-    expect(firstCallReturnValue.api.path).to.equal(
-      `cases/123abc/${actions.TRANSFER_REQUEST_URL}`
-    );
+    expect(firstCallReturnValue.api.path).to.equal(`cases/123abc/${actions.TRANSFER_REQUEST_URL}`);
     expect(firstCallReturnValue.api.method).to.equal("POST");
     expect(firstCallReturnValue.api.body).to.equal(body);
-    expect(firstCallReturnValue.api.successCallback.action).to.equal(
-      "notifications/ENQUEUE_SNACKBAR"
-    );
-    expect(firstCallReturnValue.api.successCallback.payload.message).to.equal(
-      "Success Message"
-    );
+    expect(firstCallReturnValue.api.successCallback.action).to.equal("notifications/ENQUEUE_SNACKBAR");
+    expect(firstCallReturnValue.api.successCallback.payload.message).to.equal("Success Message");
   });
 });

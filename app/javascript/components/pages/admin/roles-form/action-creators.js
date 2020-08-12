@@ -1,9 +1,5 @@
 import { RECORD_PATH } from "../../../../config";
-import {
-  ENQUEUE_SNACKBAR,
-  generate,
-  SNACKBAR_VARIANTS
-} from "../../../notifier";
+import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../../../notifier";
 
 import actions from "./actions";
 
@@ -17,10 +13,7 @@ export const fetchRole = id => ({
 export const saveRole = ({ id, body, saveMethod, message }) => ({
   type: actions.SAVE_ROLE,
   api: {
-    path:
-      saveMethod === "update"
-        ? `${RECORD_PATH.roles}/${id}`
-        : RECORD_PATH.roles,
+    path: saveMethod === "update" ? `${RECORD_PATH.roles}/${id}` : RECORD_PATH.roles,
     method: saveMethod === "update" ? "PATCH" : "POST",
     body,
     successCallback: {
@@ -33,11 +26,7 @@ export const saveRole = ({ id, body, saveMethod, message }) => ({
         }
       },
       redirectWithIdFromResponse: saveMethod !== "update",
-      redirect: `/admin/${
-        saveMethod === "update"
-          ? `${RECORD_PATH.roles}/${id}`
-          : RECORD_PATH.roles
-      }`
+      redirect: `/admin/${saveMethod === "update" ? `${RECORD_PATH.roles}/${id}` : RECORD_PATH.roles}`
     }
   }
 });

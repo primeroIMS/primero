@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  Divider,
-  makeStyles
-} from "@material-ui/core";
+import { List, ListItem, ListItemText, ListItemSecondaryAction, Divider, makeStyles } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { push } from "connected-react-router";
 import qs from "qs";
@@ -24,12 +17,7 @@ import { selectSavedSearchesById } from "./selectors";
 import { buildFiltersState } from "./utils";
 import styles from "./styles.css";
 
-const ListSavedSearches = ({
-  recordType,
-  savedSearches,
-  setTabIndex,
-  setRerender
-}) => {
+const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
@@ -37,9 +25,7 @@ const ListSavedSearches = ({
   const [open, setOpenDialog] = useState(false);
   const [deleteSavedSearch, setDeleteSavedSearch] = useState(null);
 
-  const selectedSearch = useSelector(state =>
-    selectSavedSearchesById(state, recordType, selectedSavedSearch).first()
-  );
+  const selectedSearch = useSelector(state => selectSavedSearchesById(state, recordType, selectedSavedSearch).first());
 
   useEffect(() => {
     if (selectedSavedSearch) {
@@ -73,9 +59,7 @@ const ListSavedSearches = ({
     dialogText: i18n.t("saved_search.title_description"),
     confirmButtonLabel: i18n.t("yes_label"),
     successHandler: () => {
-      dispatch(
-        removeSavedSearch(deleteSavedSearch, i18n.t("saved_search.deleted"))
-      );
+      dispatch(removeSavedSearch(deleteSavedSearch, i18n.t("saved_search.deleted")));
     },
     cancelHandler: () => {
       setOpenDialog(false);
@@ -90,11 +74,7 @@ const ListSavedSearches = ({
       <Divider light />
       <List component="nav">
         {savedSearches.valueSeq().map(savedSearch => (
-          <ListItem
-            button
-            onClick={() => handleApplyFilter(savedSearch.id)}
-            key={savedSearch.id}
-          >
+          <ListItem button onClick={() => handleApplyFilter(savedSearch.id)} key={savedSearch.id}>
             <ListItemText primary={savedSearch.name} />
             <ListItemSecondaryAction>
               <ActionButton

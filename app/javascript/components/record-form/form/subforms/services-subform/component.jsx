@@ -36,9 +36,7 @@ const Component = ({ formik, field, index, mode }) => {
       mode={mode}
       filterState={filterState}
       setFilterState={setFilterState}
-      filterFunc={(parentField, subformField) =>
-        filters(parentField, subformField.option_strings_source)
-      }
+      filterFunc={(parentField, subformField) => filters(parentField, subformField.option_strings_source)}
     />
   );
 };

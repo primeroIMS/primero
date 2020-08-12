@@ -91,9 +91,7 @@ describe("reducer-helpers", () => {
         ]
       });
 
-      expect(mergeRecord(record, payload).toJS()).to.deep.equal(
-        expected.toJS()
-      );
+      expect(mergeRecord(record, payload).toJS()).to.deep.equal(expected.toJS());
     });
   });
 });

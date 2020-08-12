@@ -2,12 +2,7 @@ import { fromJS } from "immutable";
 
 import NAMESPACE from "../user-groups-list/namespace";
 
-import {
-  getUserGroup,
-  getErrors,
-  getServerErrors,
-  getSavingRecord
-} from "./selectors";
+import { getUserGroup, getErrors, getServerErrors, getSavingRecord } from "./selectors";
 
 const stateWithHeaders = fromJS({
   records: {
@@ -25,11 +20,7 @@ const stateWithoutHeaders = fromJS({});
 describe("<UserGroupsForm /> - Selectors", () => {
   describe("getUserGroup", () => {
     it("should return selected user group", () => {
-      const expected = stateWithHeaders.getIn([
-        "records",
-        NAMESPACE,
-        "selectedUserGroup"
-      ]);
+      const expected = stateWithHeaders.getIn(["records", NAMESPACE, "selectedUserGroup"]);
 
       const userGroup = getUserGroup(stateWithHeaders);
 
@@ -61,11 +52,7 @@ describe("<UserGroupsForm /> - Selectors", () => {
 
   describe("getServerErrors", () => {
     it("should return server errors", () => {
-      const expected = stateWithHeaders.getIn([
-        "records",
-        NAMESPACE,
-        "serverErrors"
-      ]);
+      const expected = stateWithHeaders.getIn(["records", NAMESPACE, "serverErrors"]);
 
       const serverErrors = getServerErrors(stateWithHeaders);
 

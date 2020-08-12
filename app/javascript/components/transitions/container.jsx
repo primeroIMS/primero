@@ -11,37 +11,19 @@ import { TRANSITIONS_NAME } from "./constants";
 import renderTransition from "./render-transition";
 import styles from "./styles.css";
 
-const Transitions = ({
-  isReferral,
-  recordType,
-  record,
-  showMode,
-  mobileDisplay,
-  handleToggleNav
-}) => {
+const Transitions = ({ isReferral, recordType, record, showMode, mobileDisplay, handleToggleNav }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
-  const dataTransitions = useSelector(state =>
-    selectTransitions(state, recordType, record, isReferral)
-  );
+  const dataTransitions = useSelector(state => selectTransitions(state, recordType, record, isReferral));
   const renderDataTransitions =
-    dataTransitions &&
-    dataTransitions.map(transition =>
-      renderTransition(transition, css, recordType, showMode)
-    );
+    dataTransitions && dataTransitions.map(transition => renderTransition(transition, css, recordType, showMode));
 
-  const transitionTitle = isReferral
-    ? i18n.t("forms.record_types.referrals")
-    : i18n.t("transfer_assignment.title");
+  const transitionTitle = isReferral ? i18n.t("forms.record_types.referrals") : i18n.t("transfer_assignment.title");
 
   return (
     <div>
-      <RecordFormTitle
-        mobileDisplay={mobileDisplay}
-        handleToggleNav={handleToggleNav}
-        displayText={transitionTitle}
-      />
+      <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={transitionTitle} />
       {renderDataTransitions}
     </div>
   );

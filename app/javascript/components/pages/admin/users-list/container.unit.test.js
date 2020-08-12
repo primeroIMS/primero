@@ -33,9 +33,7 @@ describe("<UsersList />", () => {
       }
     });
 
-    ({ component } = setupMountedComponent(UsersList, {}, initialState, [
-      "/admin/users"
-    ]));
+    ({ component } = setupMountedComponent(UsersList, {}, initialState, ["/admin/users"]));
   });
 
   it("renders record list table", () => {

@@ -122,11 +122,7 @@ describe("<Permission />", () => {
     });
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        Permission,
-        wrongPermissionsProps,
-        initialStateDashboad
-      ));
+      ({ component } = setupMountedComponent(Permission, wrongPermissionsProps, initialStateDashboad));
     });
 
     it("doesn't render children", () => {

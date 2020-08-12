@@ -16,11 +16,7 @@ describe("<CustomFieldDialog />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      CustomFieldDialog,
-      {},
-      initialState
-    ));
+    ({ component } = setupMountedComponent(CustomFieldDialog, {}, initialState));
   });
 
   it("should render the CustomFieldDialog component", () => {

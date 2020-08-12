@@ -5,25 +5,14 @@ import { RECORD_PATH } from "../../../config";
 
 import { RECORD_FORM_TOOLBAR_PAGE_HEADING_NAME } from "./constants";
 
-const Component = ({
-  i18n,
-  mode,
-  params,
-  recordType,
-  shortId,
-  caseIdDisplay,
-  toolbarHeading
-}) => {
+const Component = ({ i18n, mode, params, recordType, shortId, caseIdDisplay, toolbarHeading }) => {
   let heading = "";
 
   if (mode.isNew) {
     heading = i18n.t(`${params.recordType}.register_new_${recordType}`);
   } else if (mode.isEdit || mode.isShow) {
     heading = i18n.t(`${params.recordType}.show_${recordType}`, {
-      short_id:
-        params.recordType === RECORD_PATH.cases
-          ? caseIdDisplay
-          : shortId || "-------"
+      short_id: params.recordType === RECORD_PATH.cases ? caseIdDisplay : shortId || "-------"
     });
   }
 

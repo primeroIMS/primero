@@ -42,9 +42,7 @@ export const getDashboardByName = (state, name) => {
   if (!currentState) {
     return noDashboard;
   }
-  const dashboardData = currentState
-    .filter(f => f.get("name") === name)
-    .first();
+  const dashboardData = currentState.filter(f => f.get("name") === name).first();
 
   return dashboardData?.size ? dashboardData : noDashboard;
 };
@@ -55,40 +53,28 @@ export const getCasesByAssessmentLevel = state => {
   if (!currentState) {
     return fromJS({});
   }
-  const dashboardData = currentState
-    .filter(f => f.get("name") === DASHBOARD_NAMES.CASE_RISK)
-    .first();
+  const dashboardData = currentState.filter(f => f.get("name") === DASHBOARD_NAMES.CASE_RISK).first();
 
   return dashboardData?.size ? dashboardData : fromJS({});
 };
 
 export const getWorkflowIndividualCases = state => {
-  return getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW).deleteIn([
-    "stats",
-    "closed"
-  ]);
+  return getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW).deleteIn(["stats", "closed"]);
 };
 
-export const getApprovalsAssessment = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ASSESSMENT);
+export const getApprovalsAssessment = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ASSESSMENT);
 
-export const getApprovalsCasePlan = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CASE_PLAN);
+export const getApprovalsCasePlan = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CASE_PLAN);
 
-export const getApprovalsClosure = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE);
+export const getApprovalsClosure = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE);
 
-export const getApprovalsActionPlan = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ACTION_PLAN);
+export const getApprovalsActionPlan = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ACTION_PLAN);
 
-export const getApprovalsGbvClosure = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_GBV_CLOSURE);
+export const getApprovalsGbvClosure = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_GBV_CLOSURE);
 
-export const getWorkflowTeamCases = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW_TEAM);
+export const getWorkflowTeamCases = state => getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW_TEAM);
 
-export const getReportingLocation = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.REPORTING_LOCATION);
+export const getReportingLocation = state => getDashboardByName(state, DASHBOARD_NAMES.REPORTING_LOCATION);
 
 export const getApprovalsAssessmentPending = state =>
   getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ASSESSMENT_PENDING);
@@ -105,8 +91,7 @@ export const getApprovalsActionPlanPending = state =>
 export const getApprovalsGbvClosurePending = state =>
   getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_GBV_CLOSURE_PENDING);
 
-export const getProtectionConcerns = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.PROTECTION_CONCERNS);
+export const getProtectionConcerns = state => getDashboardByName(state, DASHBOARD_NAMES.PROTECTION_CONCERNS);
 
 export const getCasesByTaskOverdueAssessment = state =>
   getDashboardByName(state, DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_ASSESSMENT);
@@ -120,23 +105,16 @@ export const getCasesByTaskOverdueServices = state =>
 export const getCasesByTaskOverdueFollowups = state =>
   getDashboardByName(state, DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_FOLLOWUPS);
 
-export const getSharedWithMe = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_ME);
+export const getSharedWithMe = state => getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_ME);
 
-export const getSharedWithOthers = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_OTHERS);
+export const getSharedWithOthers = state => getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_OTHERS);
 
-export const getGroupOverview = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.GROUP_OVERVIEW);
+export const getGroupOverview = state => getDashboardByName(state, DASHBOARD_NAMES.GROUP_OVERVIEW);
 
-export const getCaseOverview = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.CASE_OVERVIEW);
+export const getCaseOverview = state => getDashboardByName(state, DASHBOARD_NAMES.CASE_OVERVIEW);
 
-export const getSharedFromMyTeam = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.SHARED_FROM_MY_TEAM);
+export const getSharedFromMyTeam = state => getDashboardByName(state, DASHBOARD_NAMES.SHARED_FROM_MY_TEAM);
 
-export const getSharedWithMyTeam = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_MY_TEAM);
+export const getSharedWithMyTeam = state => getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_MY_TEAM);
 
-export const getCaseIncidentOverview = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.CASE_INCIDENT_OVERVIEW);
+export const getCaseIncidentOverview = state => getDashboardByName(state, DASHBOARD_NAMES.CASE_INCIDENT_OVERVIEW);

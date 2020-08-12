@@ -52,10 +52,7 @@ describe("<CustomToolbarSelect />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        CustomToolbarSelect,
-        propsAllRecordsSelected
-      ));
+      ({ component } = setupMountedComponent(CustomToolbarSelect, propsAllRecordsSelected));
     });
 
     it("renders ButtonBase with a label to clear selection", () => {
@@ -74,10 +71,7 @@ describe("<CustomToolbarSelect />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        CustomToolbarSelect,
-        propRecordsSelected
-      ));
+      ({ component } = setupMountedComponent(CustomToolbarSelect, propRecordsSelected));
     });
 
     it("should not renders ButtonBase for select_all or clear_selection", () => {

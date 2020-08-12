@@ -1,10 +1,5 @@
 import { fromJS } from "immutable";
-import {
-  ListItemText,
-  List,
-  ListSubheader,
-  ListItemSecondaryAction
-} from "@material-ui/core";
+import { ListItemText, List, ListSubheader, ListItemSecondaryAction } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../../test";
 import ActionDialog from "../../../../../action-dialog";
@@ -29,11 +24,7 @@ describe("<CustomFieldSelectorDialog />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      CustomFieldSelectorDialog,
-      {},
-      initialState
-    ));
+    ({ component } = setupMountedComponent(CustomFieldSelectorDialog, {}, initialState));
   });
 
   it("should render the CustomFieldSelectorDialog component", () => {
@@ -58,15 +49,9 @@ describe("<CustomFieldSelectorDialog />", () => {
 
     expect(component.find(List)).to.have.lengthOf(1);
     expect(component.find(ListSubheader)).to.have.lengthOf(1);
-    expect(component.find(ListSubheader).find(ListItemText).text()).to.equal(
-      "forms.type_label"
-    );
-    expect(
-      component.find(ListSubheader).find(ListItemSecondaryAction).text()
-    ).to.equal("forms.select_label");
+    expect(component.find(ListSubheader).find(ListItemText).text()).to.equal("forms.type_label");
+    expect(component.find(ListSubheader).find(ListItemSecondaryAction).text()).to.equal("forms.select_label");
     expect(component.find(ListItemText)).to.have.lengthOf(11);
-    expect(component.find(ListItemText).map(item => item.text())).to.deep.equal(
-      fields
-    );
+    expect(component.find(ListItemText).map(item => item.text())).to.deep.equal(fields);
   });
 });

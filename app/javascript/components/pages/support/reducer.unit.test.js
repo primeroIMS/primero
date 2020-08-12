@@ -34,9 +34,7 @@ describe("<RecordList /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState.get("data")).to.deep.equal(
-      ContactInformationRecord(expected)
-    );
+    expect(newState.get("data")).to.deep.equal(ContactInformationRecord(expected));
   });
 
   it("should handle FETCH_DATA_STARTED", () => {

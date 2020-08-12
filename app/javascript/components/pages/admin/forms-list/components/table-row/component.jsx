@@ -12,16 +12,7 @@ import { MODULES, RECORD_PATH } from "../../../../../../config/constants";
 import styles from "../../styles.css";
 import DragIndicator from "../drag-indicator";
 
-const Component = ({
-  name,
-  modules,
-  parentForm,
-  uniqueID,
-  id,
-  index,
-  editable,
-  isDragDisabled
-}) => {
+const Component = ({ name, modules, parentForm, uniqueID, id, index, editable, isDragDisabled }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const nameStyles = clsx({
@@ -29,31 +20,16 @@ const Component = ({
     [css.protected]: !editable
   });
 
-  const formSectionModules = modules
-    .map(module => findKey(MODULES, value => module === value))
-    ?.join(", ");
+  const formSectionModules = modules.map(module => findKey(MODULES, value => module === value))?.join(", ");
 
-  const renderIcon = !editable ? (
-    <VpnKeyIcon className={css.rotateIcon} />
-  ) : null;
+  const renderIcon = !editable ? <VpnKeyIcon className={css.rotateIcon} /> : null;
 
   return (
-    <Draggable
-      draggableId={uniqueID}
-      index={index}
-      isDragDisabled={isDragDisabled}
-    >
+    <Draggable draggableId={uniqueID} index={index} isDragDisabled={isDragDisabled}>
       {provided => (
-        <div
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          className={css.row}
-        >
+        <div ref={provided.innerRef} {...provided.draggableProps} className={css.row}>
           <div>
-            <DragIndicator
-              {...provided.dragHandleProps}
-              isDragDisabled={isDragDisabled}
-            />
+            <DragIndicator {...provided.dragHandleProps} isDragDisabled={isDragDisabled} />
           </div>
           <div className={nameStyles}>
             {renderIcon}

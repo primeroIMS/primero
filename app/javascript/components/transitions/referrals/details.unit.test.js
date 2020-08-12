@@ -16,9 +16,7 @@ describe("<ReferralDetail />", () => {
           {
             id: 1,
             unique_id: "lookup-service-type",
-            values: [
-              { id: "health", display_text: { en: "Health", es: "Salud" } }
-            ]
+            values: [{ id: "health", display_text: { en: "Health", es: "Salud" } }]
           }
         ]
       }
@@ -46,11 +44,7 @@ describe("<ReferralDetail />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      ReferralDetail,
-      props,
-      initialState
-    ));
+    ({ component } = setupMountedComponent(ReferralDetail, props, initialState));
   });
 
   it("renders 2 <TransitionUser />", () => {

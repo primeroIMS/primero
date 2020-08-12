@@ -18,15 +18,10 @@ const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
   const protectionConcerns = useSelector(state => getProtectionConcerns(state));
-  const protectionConcernsLookup = useSelector(state =>
-    getOption(state, LOOKUPS.protection_concerns, i18n.locale)
-  );
+  const protectionConcernsLookup = useSelector(state => getOption(state, LOOKUPS.protection_concerns, i18n.locale));
 
   return (
-    <Permission
-      resources={RESOURCES.dashboards}
-      actions={ACTIONS.DASH_PROTECTION_CONCERNS}
-    >
+    <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_PROTECTION_CONCERNS}>
       <Grid item xl={9} md={8} xs={12}>
         <OptionsBox
           title={i18n.t("dashboard.protection_concerns")}
@@ -35,11 +30,7 @@ const Component = ({ loadingIndicator }) => {
         >
           <DashboardTable
             title={i18n.t("dashboard.protection_concerns")}
-            {...toProtectionConcernTable(
-              protectionConcerns,
-              i18n,
-              protectionConcernsLookup
-            )}
+            {...toProtectionConcernTable(protectionConcerns, i18n, protectionConcernsLookup)}
           />
         </OptionsBox>
       </Grid>

@@ -6,16 +6,9 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { useI18n } from "../../i18n";
 import { setDialog, setPending } from "../../record-actions/action-creators";
-import {
-  selectDialog,
-  selectDialogPending
-} from "../../record-actions/selectors";
+import { selectDialog, selectDialogPending } from "../../record-actions/selectors";
 
-import {
-  DONE,
-  REFERRAL_DONE_DIALOG,
-  REFERRAL_ACTION_MENU_NAME as NAME
-} from "./constants";
+import { DONE, REFERRAL_DONE_DIALOG, REFERRAL_ACTION_MENU_NAME as NAME } from "./constants";
 import ReferralAction from "./referral-action";
 
 const ReferralActionMenu = ({ transition, recordType }) => {
@@ -23,9 +16,7 @@ const ReferralActionMenu = ({ transition, recordType }) => {
   const dispatch = useDispatch();
   const [referralMenu, setReferralMenu] = useState(null);
   const [referralType, setReferralType] = useState(DONE);
-  const referralOpen = useSelector(state =>
-    selectDialog(state, REFERRAL_DONE_DIALOG)
-  );
+  const referralOpen = useSelector(state => selectDialog(state, REFERRAL_DONE_DIALOG));
   const setReferralOpen = open => {
     dispatch(setDialog({ dialog: REFERRAL_DONE_DIALOG, open }));
   };
@@ -55,12 +46,7 @@ const ReferralActionMenu = ({ transition, recordType }) => {
 
   return (
     <>
-      <IconButton
-        aria-label="more"
-        aria-controls="long-menu"
-        aria-haspopup="true"
-        onClick={handleReferralMenuClick}
-      >
+      <IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleReferralMenuClick}>
         <MoreVertIcon />
       </IconButton>
       <Menu
@@ -70,12 +56,7 @@ const ReferralActionMenu = ({ transition, recordType }) => {
         open={Boolean(referralMenu)}
         onClose={handleReferralMenuClose}
       >
-        <MenuItem
-          key={DONE}
-          selected={false}
-          onClick={handleDoneOpen}
-          disabled={false}
-        >
+        <MenuItem key={DONE} selected={false} onClick={handleDoneOpen} disabled={false}>
           {i18n.t("buttons.done")}
         </MenuItem>
       </Menu>

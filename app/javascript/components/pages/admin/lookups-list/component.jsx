@@ -44,8 +44,7 @@ const Component = () => {
     dispatch(fetchAdminLookups({ data: defaultFilters.toJS() }));
   }, []);
 
-  const onRowClick = data =>
-    dispatch(push(`${RECORD_PATH.lookups}/${data?.rowData[0]}`));
+  const onRowClick = data => dispatch(push(`${RECORD_PATH.lookups}/${data?.rowData[0]}`));
 
   const tableOptions = {
     recordType,
@@ -62,14 +61,9 @@ const Component = () => {
 
   return (
     <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
-      <PageHeading title={i18n.t("settings.navigation.lookups")}>
-        {newUserGroupBtn}
-      </PageHeading>
+      <PageHeading title={i18n.t("settings.navigation.lookups")}>{newUserGroupBtn}</PageHeading>
       <PageContent>
-        <IndexTable
-          title={i18n.t("settings.navigation.lookups")}
-          {...tableOptions}
-        />
+        <IndexTable title={i18n.t("settings.navigation.lookups")} {...tableOptions} />
       </PageContent>
     </Permission>
   );

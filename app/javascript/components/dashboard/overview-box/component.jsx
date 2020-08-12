@@ -16,14 +16,7 @@ import { useApp } from "../../application";
 
 import styles from "./styles.css";
 
-const OverviewBox = ({
-  items,
-  chartData,
-  sumTitle,
-  withTotal,
-  loading,
-  errors
-}) => {
+const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
@@ -40,10 +33,7 @@ const OverviewBox = ({
   };
 
   const sum = () => {
-    return indicatorsKeys.reduce(
-      (prev, current) => prev + (indicators.getIn([current, "count"]) || 0),
-      0
-    );
+    return indicatorsKeys.reduce((prev, current) => prev + (indicators.getIn([current, "count"]) || 0), 0);
   };
 
   const handleClick = query => {

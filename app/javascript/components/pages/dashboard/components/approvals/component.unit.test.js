@@ -1,10 +1,7 @@
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../../test";
-import {
-  ACTIONS,
-  DASH_APPROVALS_PENDING
-} from "../../../../../libs/permissions";
+import { ACTIONS, DASH_APPROVALS_PENDING } from "../../../../../libs/permissions";
 import { OverviewBox, OptionsBox } from "../../../../dashboard";
 import LoadingIndicator from "../../../../loading-indicator";
 
@@ -129,21 +126,11 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
   });
 
   it("should render the correct approvals label", () => {
-    expect(
-      component.find(OverviewBox).find("div div").at(1).text()
-    ).to.be.equal("1 Assessment");
-    expect(
-      component.find(OverviewBox).find("div div").at(2).text()
-    ).to.be.equal("2 Case Plan");
-    expect(
-      component.find(OverviewBox).find("div div").at(3).text()
-    ).to.be.equal("3 Closure");
-    expect(
-      component.find(OverviewBox).find("div div").at(4).text()
-    ).to.be.equal("4 Action Plan");
-    expect(
-      component.find(OverviewBox).find("div div").last().text()
-    ).to.be.equal("5 GBV Closure");
+    expect(component.find(OverviewBox).find("div div").at(1).text()).to.be.equal("1 Assessment");
+    expect(component.find(OverviewBox).find("div div").at(2).text()).to.be.equal("2 Case Plan");
+    expect(component.find(OverviewBox).find("div div").at(3).text()).to.be.equal("3 Closure");
+    expect(component.find(OverviewBox).find("div div").at(4).text()).to.be.equal("4 Action Plan");
+    expect(component.find(OverviewBox).find("div div").last().text()).to.be.equal("5 GBV Closure");
   });
 
   describe("when the data is loading", () => {
@@ -157,21 +144,17 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(
-        Approvals,
-        props,
-        {
-          records: {
-            dashboard: {
-              data: [],
-              loading: true
-            }
-          },
-          user: {
-            permissions
+      const { component: loadingComponent } = setupMountedComponent(Approvals, props, {
+        records: {
+          dashboard: {
+            data: [],
+            loading: true
           }
+        },
+        user: {
+          permissions
         }
-      );
+      });
 
       expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
     });
