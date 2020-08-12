@@ -79,8 +79,7 @@ export const getReportingLocation = state => getDashboardByName(state, DASHBOARD
 export const getApprovalsAssessmentPending = state =>
   getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ASSESSMENT_PENDING);
 
-export const getApprovalsClosurePending = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE_PENDING);
+export const getApprovalsClosurePending = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE_PENDING);
 
 export const getApprovalsCasePlanPending = state =>
   getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CASE_PLAN_PENDING);
