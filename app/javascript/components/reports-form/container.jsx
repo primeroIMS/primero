@@ -31,12 +31,7 @@ import {
 } from "./constants";
 import NAMESPACE from "./namespace";
 import { form, validations } from "./form";
-import {
-  buildReportFields,
-  checkValue,
-  formatAgeRange,
-  formatReport
-} from "./utils";
+import { buildReportFields, checkValue, formatAgeRange, formatReport } from "./utils";
 import { clearSelectedReport, saveReport } from "./action-creators";
 import ReportFilters from "./components/filters";
 
@@ -50,17 +45,13 @@ const Container = ({ mode }) => {
   const primeroAgeRanges = useSelector(state => getAgeRanges(state));
   const report = useSelector(state => getReport(state));
 
-  const [indexes, setIndexes] = useState(
-    DEFAULT_FILTERS.map((data, index) => ({ index, data }))
-  );
+  const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
 
   const methods = useForm({
     validationSchema: validations(i18n)
   });
 
-  const allRecordForms = useSelector(state =>
-    getRecordForms(state, { all: true })
-  );
+  const allRecordForms = useSelector(state => getRecordForms(state, { all: true }));
 
   useEffect(() => {
     if (isEditOrShow) {
@@ -82,9 +73,7 @@ const Container = ({ mode }) => {
         ...formatReport(report.toJS())
       };
 
-      setIndexes(
-        selectedReport.filters.map((data, index) => ({ index, data }))
-      );
+      setIndexes(selectedReport.filters.map((data, index) => ({ index, data })));
 
       methods.reset(selectedReport);
     }
@@ -116,13 +105,9 @@ const Container = ({ mode }) => {
     dispatch(
       saveReport({
         id,
-        saveMethod: formMode.get("isEdit")
-          ? SAVE_METHODS.update
-          : SAVE_METHODS.new,
+        saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
         body,
-        message: formMode.get("isEdit")
-          ? i18n.t("report.messages.updated")
-          : i18n.t("report.messages.success")
+        message: formMode.get("isEdit") ? i18n.t("report.messages.updated") : i18n.t("report.messages.success")
       })
     );
   };
@@ -135,12 +120,7 @@ const Container = ({ mode }) => {
     }
   }));
 
-  const formSections = form(
-    i18n,
-    formatAgeRange(primeroAgeRanges),
-    allRecordForms,
-    formMode.get("isNew")
-  );
+  const formSections = form(i18n, formatAgeRange(primeroAgeRanges), allRecordForms, formMode.get("isNew"));
 
   const handleCancel = () => {
     dispatch(push(ROUTES.reports));
@@ -153,12 +133,7 @@ const Container = ({ mode }) => {
 
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
-      <FormAction
-        cancel
-        actionHandler={handleCancel}
-        text={i18n.t("buttons.cancel")}
-        startIcon={<ClearIcon />}
-      />
+      <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
         actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
@@ -169,15 +144,11 @@ const Container = ({ mode }) => {
   );
 
   const renderFormSections = () =>
-    formSections.map(formSection => (
-      <FormSection formSection={formSection} key={formSection.unique_id} />
-    ));
+    formSections.map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);
 
   return (
     <LoadingIndicator
-      hasData={
-        formMode.get("isNew") || (report?.size > 0 && allRecordForms.size > 0)
-      }
+      hasData={formMode.get("isNew") || (report?.size > 0 && allRecordForms.size > 0)}
       loading={!report.size}
       type={NAMESPACE}
     >

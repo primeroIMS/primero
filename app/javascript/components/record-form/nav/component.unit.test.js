@@ -173,9 +173,7 @@ describe("<Nav />", () => {
   });
 
   it("renders the NavGroup component for record information open", () => {
-    expect(component.find(NavGroup).first().props().open).to.equal(
-      "record_information"
-    );
+    expect(component.find(NavGroup).first().props().open).to.equal("record_information");
   });
 
   it("renders a ConditionalWrapper />", () => {
@@ -213,11 +211,7 @@ describe("<Nav />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        Nav,
-        notSelectedProps,
-        initialState
-      ));
+      ({ component } = setupMountedComponent(Nav, notSelectedProps, initialState));
     });
 
     it("sets the firstTab as selectedForm", () => {
@@ -296,21 +290,13 @@ describe("<Nav />", () => {
     };
 
     it("should select first form of the form group", () => {
-      const { component: navComponent } = setupMountedComponent(
-        Nav,
-        navGroupProps,
-        initialState
-      );
+      const { component: navComponent } = setupMountedComponent(Nav, navGroupProps, initialState);
       const registrationGroup = navComponent.find(".MuiListItem-gutters").at(3);
 
-      expect(registrationGroup.text()).to.be.equal(
-        "Identification / Registration"
-      );
+      expect(registrationGroup.text()).to.be.equal("Identification / Registration");
 
       registrationGroup.simulate("click");
-      expect(navComponent.find(".Mui-selected").at(0).text()).to.be.equal(
-        "Basic Identity"
-      );
+      expect(navComponent.find(".Mui-selected").at(0).text()).to.be.equal("Basic Identity");
     });
   });
 });

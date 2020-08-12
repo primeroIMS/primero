@@ -12,10 +12,7 @@ export default async (store, action) => {
   await queueIndexedDB.add({ ...touchedAction, fromQueue: uuid.v4() });
 
   try {
-    const payloadFromDB = await syncIndexedDB(
-      api?.db,
-      touchedAction?.api?.body
-    );
+    const payloadFromDB = await syncIndexedDB(api?.db, touchedAction?.api?.body);
 
     offlineDispatchSuccess(store, action, payloadFromDB);
   } catch (error) {

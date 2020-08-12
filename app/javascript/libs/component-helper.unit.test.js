@@ -1,10 +1,6 @@
 import { fromJS } from "immutable";
 
-import {
-  compare,
-  dataToJS,
-  valuesToSearchableSelect
-} from "./component-helpers";
+import { compare, dataToJS, valuesToSearchableSelect } from "./component-helpers";
 
 describe("component-helpers", () => {
   describe("dataToJS", () => {
@@ -35,9 +31,7 @@ describe("component-helpers", () => {
         { value: "user-2", label: "User 2" }
       ];
 
-      expect(
-        valuesToSearchableSelect(data, "id", "userName", "en")
-      ).to.deep.equal(expected);
+      expect(valuesToSearchableSelect(data, "id", "userName", "en")).to.deep.equal(expected);
     });
 
     it("should convert values to searchableSelect value with locale es", () => {
@@ -46,9 +40,7 @@ describe("component-helpers", () => {
         { value: "user-2", label: "Usuario 2" }
       ];
 
-      expect(
-        valuesToSearchableSelect(data, "id", "userName", "es")
-      ).to.deep.equal(expected);
+      expect(valuesToSearchableSelect(data, "id", "userName", "es")).to.deep.equal(expected);
     });
   });
 

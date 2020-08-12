@@ -12,10 +12,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.TRANSFER_REQUEST_FAILURE:
       return state
         .setIn([NAMESPACE, "errors"], true)
-        .setIn(
-          [NAMESPACE, "message"],
-          fromJS(payload.errors.map(e => e.message).flat())
-        );
+        .setIn([NAMESPACE, "message"], fromJS(payload.errors.map(e => e.message).flat()));
     case actions.TRANSFER_REQUEST_STARTED:
       return state.setIn([NAMESPACE, "errors"], false);
     case actions.TRANSFER_REQUEST_SUCCESS:

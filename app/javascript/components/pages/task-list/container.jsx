@@ -31,9 +31,7 @@ const TaskList = () => {
     per: 20,
     page: 1
   };
-  const listHeaders = useSelector(state =>
-    selectListHeaders(state, recordType)
-  );
+  const listHeaders = useSelector(state => selectListHeaders(state, recordType));
 
   const lookupServiceType = useSelector(
     state => getOption(state, LOOKUPS.service_type, i18n.locale),
@@ -51,10 +49,7 @@ const TaskList = () => {
 
   const fields = useSelector(state => getFields(state), compare);
   const forms = useSelector(state => getAllForms(state), compare);
-  const fieldNames = useSelector(
-    state => getMetadata(state).get("field_names"),
-    compare
-  );
+  const fieldNames = useSelector(state => getMetadata(state).get("field_names"), compare);
 
   useEffect(() => {
     dispatch(fetchTasks({ options: defaultFilters }));
@@ -71,9 +66,7 @@ const TaskList = () => {
                   return (
                     <DashboardChip
                       label={
-                        value
-                          ? i18n.t(`task.priorities.${value}_level`)
-                          : i18n.t("task.priorities.no_action_level")
+                        value ? i18n.t(`task.priorities.${value}_level`) : i18n.t("task.priorities.no_action_level")
                       }
                       type={value}
                     />
@@ -99,10 +92,7 @@ const TaskList = () => {
                           // eslint-disable-next-line camelcase
                         )?.display_text[i18n.locale];
 
-                  const renderValue = [
-                    TASK_TYPES.SERVICE,
-                    TASK_TYPES.FOLLOW_UP
-                  ].includes(value)
+                  const renderValue = [TASK_TYPES.SERVICE, TASK_TYPES.FOLLOW_UP].includes(value)
                     ? i18n.t(`task.types.${value}`, {
                         subtype: translatedValue
                       })
@@ -127,9 +117,7 @@ const TaskList = () => {
                     }
                   ]);
                   const tooltipTitle = i18n.t(
-                    `task.statuses.${
-                      overdue ? TASK_STATUS.overdue : TASK_STATUS.upcomingSoon
-                    }`
+                    `task.statuses.${overdue ? TASK_STATUS.overdue : TASK_STATUS.upcomingSoon}`
                   );
 
                   return (
@@ -149,16 +137,11 @@ const TaskList = () => {
                 customBodyRender: (value, tableMeta) => {
                   const recordData = data.get("data").get(tableMeta.rowIndex);
                   const fieldName = fieldNames.get(recordData.get("type"));
-                  const selectedField = fields.filter(
-                    field => field.name === fieldName
-                  );
+                  const selectedField = fields.filter(field => field.name === fieldName);
 
                   const fieldKey = [...selectedField.keys()][0];
-                  const translatedFieldName = selectedField.first()
-                    .display_name[i18n.locale];
-                  const selectedForm = forms.find(form =>
-                    form.get("fields").includes(parseInt(fieldKey, 10))
-                  );
+                  const translatedFieldName = selectedField.first().display_name[i18n.locale];
+                  const selectedForm = forms.find(form => form.get("fields").includes(parseInt(fieldKey, 10)));
 
                   return (
                     <Tooltip

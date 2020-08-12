@@ -32,9 +32,7 @@ describe("<BarChart />", () => {
       showDetails
     });
 
-    expect(component.find("p").props().children).to.equal(
-      "Number of cases broken down by nationality"
-    );
+    expect(component.find("p").props().children).to.equal("Number of cases broken down by nationality");
     expect(component.find("canvas")).to.have.lengthOf(1);
   });
 });

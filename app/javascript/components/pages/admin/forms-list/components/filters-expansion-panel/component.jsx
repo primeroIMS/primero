@@ -1,26 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  ExpansionPanel,
-  ExpansionPanelDetails,
-  ExpansionPanelSummary
-} from "@material-ui/core";
+import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import FilterInput from "../filter-input";
 
-const Component = ({
-  name,
-  handleSetFilterValue,
-  options,
-  id,
-  filterValues
-}) => {
+const Component = ({ name, handleSetFilterValue, options, id, filterValues }) => {
   return (
     <ExpansionPanel elevation={3} defaultExpanded>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-        {name}
-      </ExpansionPanelSummary>
+      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>{name}</ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <FilterInput
           handleSetFilterValue={handleSetFilterValue}

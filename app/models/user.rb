@@ -448,6 +448,14 @@ class User < ApplicationRecord
     can?(:approve_closure, Child) || can?(:request_approval_closure, Child)
   end
 
+  def can_approve_action_plan?
+    can?(:approve_action_plan, Child) || can?(:request_approval_action_plan, Child)
+  end
+
+  def can_approve_gbv_closure?
+    can?(:approve_gbv_closure, Child) || can?(:request_approval_gbv_closure, Child)
+  end
+
   # If we set something we gonna assume we need to update the user_groups
   def user_groups=(user_groups)
     @refresh_associated_user_groups = true

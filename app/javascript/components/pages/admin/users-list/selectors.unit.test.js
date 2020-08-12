@@ -17,11 +17,7 @@ const stateWithoutHeaders = fromJS({});
 describe("<UsersList /> - Selectors", () => {
   describe("selectListHeaders", () => {
     it("should return list headers", () => {
-      const expected = stateWithHeaders.getIn([
-        "user",
-        "listHeaders",
-        NAMESPACE
-      ]);
+      const expected = stateWithHeaders.getIn(["user", "listHeaders", NAMESPACE]);
 
       const headers = selectListHeaders(stateWithHeaders, NAMESPACE);
 

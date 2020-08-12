@@ -6,27 +6,14 @@ import NavItem from "../nav-item";
 
 import { NAME } from "./constants";
 
-const Component = ({
-  group,
-  handleClick,
-  isNew,
-  open,
-  recordAlerts,
-  selectedForm,
-  validationErrors
-}) => {
+const Component = ({ group, handleClick, isNew, open, recordAlerts, selectedForm, validationErrors }) => {
   const [...forms] = group.values();
   const isNested = forms.length > 1;
   const parentForm = forms[0];
 
-  const groupHasError = validationErrors?.some(
-    error => error.get("form_group_id") === parentForm.group
-  );
+  const groupHasError = validationErrors?.some(error => error.get("form_group_id") === parentForm.group);
 
-  const formHasError = form =>
-    Boolean(
-      validationErrors?.find(error => error.get("unique_id") === form.formId)
-    );
+  const formHasError = form => Boolean(validationErrors?.find(error => error.get("unique_id") === form.formId));
 
   const parentFormProps = {
     form: parentForm,
@@ -51,14 +38,7 @@ const Component = ({
         <Collapse in={open === parentForm.group} timeout="auto" unmountOnExit>
           <List disablePadding dense>
             {forms.map(f => (
-              <NavItem
-                form={f}
-                name={f.name}
-                key={f.formId}
-                groupItem
-                hasError={formHasError(f)}
-                {...sharedProps}
-              />
+              <NavItem form={f} name={f.name} key={f.formId} groupItem hasError={formHasError(f)} {...sharedProps} />
             ))}
           </List>
         </Collapse>

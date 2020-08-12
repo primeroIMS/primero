@@ -10,13 +10,10 @@ import styles from "./styles.css";
 const Component = ({ icon, isTransparent, rest }) => {
   const css = makeStyles(styles)();
   const { className, ...res } = rest;
-  const classes = clsx(
-    css.iconActionButton,
-    {
-      [css.isTransparent]: isTransparent
-    },
-    className
-  );
+  const classes = clsx(css.iconActionButton, {
+    [css.isTransparent]: isTransparent,
+    [className]: Boolean(className)
+  });
 
   return (
     <Fab className={classes} size="small" {...res}>

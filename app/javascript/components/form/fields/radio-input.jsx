@@ -15,13 +15,7 @@ import styles from "./styles.css";
 
 const RadioInput = ({ commonInputProps, options }) => {
   const css = makeStyles(styles)();
-  const {
-    helperText,
-    error,
-    name,
-    label: radioGroupLabel,
-    className
-  } = commonInputProps;
+  const { helperText, error, name, label: radioGroupLabel, className } = commonInputProps;
 
   const { control } = useForm();
 
@@ -32,20 +26,10 @@ const RadioInput = ({ commonInputProps, options }) => {
       </FormLabel>
       <Controller
         as={
-          <RadioGroup
-            aria-label="format"
-            name={name}
-            className={css.rowDirection}
-            control={control}
-          >
+          <RadioGroup aria-label="format" name={name} className={css.rowDirection} control={control}>
             {options &&
               options.map(({ id, label }) => (
-                <FormControlLabel
-                  key={`form-control-label-${id}`}
-                  value={id}
-                  label={label}
-                  control={<Radio />}
-                />
+                <FormControlLabel key={`form-control-label-${id}`} value={id} label={label} control={<Radio />} />
               ))}
           </RadioGroup>
         }

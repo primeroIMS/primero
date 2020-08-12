@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   Radio,
   ListItem,
@@ -44,12 +45,7 @@ import {
 } from "../../../../../../images/primero-icons";
 
 import styles from "./styles.css";
-import {
-  CUSTOM_FIELD_SELECTOR_DIALOG,
-  DATE_TIME_FIELD,
-  NAME,
-  MULTI_SELECT_FIELD
-} from "./constants";
+import { CUSTOM_FIELD_SELECTOR_DIALOG, DATE_TIME_FIELD, NAME, MULTI_SELECT_FIELD } from "./constants";
 
 const fields = [
   [TEXT_FIELD, TextInput],
@@ -66,14 +62,12 @@ const fields = [
   // [SUBFORM_SECTION, SubformField]
 ];
 
-const Component = () => {
+const Component = ({ isSubform }) => {
   const [selectedItem, setSelectedItem] = useState("");
   const dispatch = useDispatch();
   const i18n = useI18n();
   const css = makeStyles(styles)();
-  const openFieldSelectorDialog = useSelector(state =>
-    selectDialog(state, CUSTOM_FIELD_SELECTOR_DIALOG)
-  );
+  const openFieldSelectorDialog = useSelector(state => selectDialog(state, CUSTOM_FIELD_SELECTOR_DIALOG));
 
   useEffect(() => {
     setSelectedItem("");
@@ -117,20 +111,21 @@ const Component = () => {
         })
       );
       dispatch(
-        setNewField({
-          ...newFieldAttributtes,
-          ...multiSelectAttributtes,
-          ...dateTimeAttributtes
-        })
+        setNewField(
+          {
+            ...newFieldAttributtes,
+            ...multiSelectAttributtes,
+            ...dateTimeAttributtes
+          },
+          isSubform
+        )
       );
     });
   };
 
   const handleClose = () => {
     batch(() => {
-      dispatch(
-        setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: false })
-      );
+      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: false }));
       if (selectedItem === "") {
         dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true }));
       }
@@ -149,12 +144,8 @@ const Component = () => {
       >
         <List>
           <ListSubheader>
-            <ListItemText className={css.listHeader}>
-              {i18n.t("forms.type_label")}
-            </ListItemText>
-            <ListItemSecondaryAction className={css.listHeader}>
-              {i18n.t("forms.select_label")}
-            </ListItemSecondaryAction>
+            <ListItemText className={css.listHeader}>{i18n.t("forms.type_label")}</ListItemText>
+            <ListItemSecondaryAction className={css.listHeader}>{i18n.t("forms.select_label")}</ListItemSecondaryAction>
           </ListSubheader>
           <Divider />
           {fields.map(field => {
@@ -162,29 +153,19 @@ const Component = () => {
 
             return (
               <React.Fragment key={field}>
-                <ListItem
-                  selected={isItemSelected(name)}
-                  onClick={() => handleListItem(name)}
-                >
+                <ListItem selected={isItemSelected(name)} onClick={() => handleListItem(name)}>
                   <ListItemText className={css.label}>
                     <div>{i18n.t(`fields.${name}`)}</div>
                     <div className={css.inputPreviewContainer}>
                       <Icon
                         className={clsx(css.inputIcon, {
-                          [css.inputIconTickBox]: [
-                            RADIO_FIELD,
-                            TICK_FIELD
-                          ].includes(name)
+                          [css.inputIconTickBox]: [RADIO_FIELD, TICK_FIELD].includes(name)
                         })}
                       />
                     </div>
                   </ListItemText>
                   <ListItemSecondaryAction>
-                    <Radio
-                      value={name}
-                      checked={isItemSelected(name)}
-                      onChange={() => handleListItem(name)}
-                    />
+                    <Radio value={name} checked={isItemSelected(name)} onChange={() => handleListItem(name)} />
                   </ListItemSecondaryAction>
                 </ListItem>
                 <Divider />
@@ -198,5 +179,9 @@ const Component = () => {
 };
 
 Component.displayName = NAME;
+
+Component.propTypes = {
+  isSubform: PropTypes.bool
+};
 
 export default Component;

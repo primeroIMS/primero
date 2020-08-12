@@ -63,25 +63,18 @@ const FormSectionField = ({ checkErrors, field }) => {
     groupBy,
     tooltip,
     numeric,
-    onChange
+    onChange,
+    disableClearable
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
   const { formMode, errors, watch } = methods;
   const error = errors ? get(errors, name) : undefined;
 
-  const errorsToCheck = checkErrors
-    ? checkErrors.concat(fieldCheckErrors)
-    : fieldCheckErrors;
+  const errorsToCheck = checkErrors ? checkErrors.concat(fieldCheckErrors) : fieldCheckErrors;
 
   const optionSource = useSelector(
-    state =>
-      getOptions(
-        state,
-        optionStringsSource,
-        i18n,
-        options || optionsStringsText
-      ),
+    state => getOptions(state, optionStringsSource, i18n, options || optionsStringsText),
     (prev, next) => prev.equals(next)
   );
 
@@ -92,9 +85,7 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   const renderError = () =>
     checkErrors?.size && errors
-      ? Object.keys(errors).some(
-          errorKey => checkErrors.includes(errorKey) && name.includes(errorKey)
-        )
+      ? Object.keys(errors).some(errorKey => checkErrors.includes(errorKey) && name.includes(errorKey))
       : false;
 
   const format = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
@@ -102,9 +93,7 @@ const FormSectionField = ({ checkErrors, field }) => {
   const commonInputProps = {
     name,
     disabled:
-      typeof disabled === "boolean"
-        ? disabled
-        : formMode.get("isShow") || (formMode.get("isEdit") && !editable),
+      typeof disabled === "boolean" ? disabled : formMode.get("isShow") || (formMode.get("isEdit") && !editable),
     required,
     autoFocus,
     error: typeof error !== "undefined" || renderError(),
@@ -131,7 +120,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     selectedValue,
     tooltip,
     numeric,
-    onChange
+    onChange,
+    disableClearable
   };
 
   const Field = (fieldType => {

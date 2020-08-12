@@ -8,12 +8,7 @@ export const dataToJS = data => {
   return data;
 };
 
-export const valuesToSearchableSelect = (
-  data,
-  searchValue,
-  searchLabel,
-  locale
-) => {
+export const valuesToSearchableSelect = (data, searchValue, searchLabel, locale) => {
   const values = dataToJS(data);
 
   const result =

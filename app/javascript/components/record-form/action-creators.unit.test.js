@@ -143,9 +143,7 @@ describe("<RecordForm /> - Action Creators", () => {
       payload: validationErrors
     };
 
-    expect(actionCreators.setValidationErrors(validationErrors)).to.deep.equals(
-      expected
-    );
+    expect(actionCreators.setValidationErrors(validationErrors)).to.deep.equals(expected);
   });
 
   it("should check the 'clearValidationErrors' action creator return the correct object", () => {

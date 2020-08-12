@@ -145,14 +145,7 @@ describe("<AddService />", () => {
   it("renders component with valid props", () => {
     const addService = { ...component.find(AddService).props() };
 
-    [
-      "close",
-      "openServiceDialog",
-      "pending",
-      "recordType",
-      "selectedRowsIndex",
-      "setPending"
-    ].forEach(property => {
+    ["close", "openServiceDialog", "pending", "recordType", "selectedRowsIndex", "setPending"].forEach(property => {
       expect(addService).to.have.property(property);
       delete addService[property];
     });

@@ -38,8 +38,6 @@ describe("<LoginSelection />", () => {
   });
 
   it("renders login buttons for providers", () => {
-    expect(
-      component.find(".loginSelection button.provider-login")
-    ).to.have.lengthOf(2);
+    expect(component.find(".loginSelection button.provider-login")).to.have.lengthOf(2);
   });
 });

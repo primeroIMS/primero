@@ -84,12 +84,7 @@ const handleFilterChange = methods => {
 };
 
 const getFilterProps = ({ filter, user, i18n }) => {
-  const {
-    field_name: fieldName,
-    options,
-    option_strings_source: optionStringsSource,
-    isObject
-  } = filter;
+  const { field_name: fieldName, options, option_strings_source: optionStringsSource, isObject } = filter;
 
   switch (fieldName) {
     case CUSTOM_FILTERS.LAST_UPDATED_AT:

@@ -11,6 +11,18 @@
   }
 }
 
+.outlined {
+  border: 2px solid $(theme.primero.colors.blue);
+  color: $(theme.primero.colors.blue);
+  background: $(theme.primero.colors.white);
+  font-weight: bold;
+
+  &:hover {
+    color: $(theme.primero.colors.grey);
+    border: 2px solid $(theme.primero.colors.grey);
+  }
+}
+
 .isTransparent {
   color: $(theme.primero.colors.grey);
   background-color: transparent;

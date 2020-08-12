@@ -10,13 +10,7 @@ import FiltersExpansionPanel from "../filters-expansion-panel";
 import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
-const Component = ({
-  filterValues,
-  modules,
-  handleSetFilterValue,
-  handleClearValue,
-  disabled
-}) => {
+const Component = ({ filterValues, modules, handleSetFilterValue, handleClearValue, disabled }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 

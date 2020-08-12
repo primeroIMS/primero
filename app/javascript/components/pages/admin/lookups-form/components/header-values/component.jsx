@@ -18,9 +18,7 @@ const Component = ({ hideTranslationColumn }) => {
       <div className={css.dragIndicatorContainer} />
       <div>{i18n.t("lookup.english_label")}</div>
       <div className={hide}>{i18n.t("lookup.translation_label")}</div>
-      <div className={css.dragIndicatorContainer}>
-        {i18n.t("lookup.remove")}
-      </div>
+      <div className={css.dragIndicatorContainer}>{i18n.t("lookup.remove")}</div>
     </div>
   );
 };

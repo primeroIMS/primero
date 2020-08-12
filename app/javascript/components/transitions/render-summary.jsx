@@ -11,23 +11,9 @@ export default (transition, css, recordType, showMode) => {
     case "Assign":
       return <AssignmentsSummary transition={transition} classes={css} />;
     case "Transfer":
-      return (
-        <TransferSummary
-          transition={transition}
-          classes={css}
-          showMode={showMode}
-          recordType={recordType}
-        />
-      );
+      return <TransferSummary transition={transition} classes={css} showMode={showMode} recordType={recordType} />;
     case "Referral":
-      return (
-        <ReferralSummary
-          transition={transition}
-          classes={css}
-          showMode={showMode}
-          recordType={recordType}
-        />
-      );
+      return <ReferralSummary transition={transition} classes={css} showMode={showMode} recordType={recordType} />;
     case "TransferRequest":
       return <TransferRequestSummary transition={transition} classes={css} />;
     default:

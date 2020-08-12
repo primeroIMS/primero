@@ -61,13 +61,7 @@ describe("<Fields />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      Fields,
-      props,
-      initialState,
-      [],
-      formProps
-    ));
+    ({ component } = setupMountedComponent(Fields, props, initialState, [], formProps));
   });
 
   it("renders 1 FormSectionField", () => {

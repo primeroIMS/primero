@@ -41,12 +41,10 @@ describe("<Form /> - Constants", () => {
 
     expect(clonedOptionTypes).to.be.an("object");
 
-    ["AGENCY", "LOCATION", "MODULE", "FORM_GROUP", "LOOKUPS", "USER"].forEach(
-      property => {
-        expect(clonedOptionTypes).to.have.property(property);
-        delete clonedOptionTypes[property];
-      }
-    );
+    ["AGENCY", "LOCATION", "MODULE", "FORM_GROUP", "LOOKUPS", "USER"].forEach(property => {
+      expect(clonedOptionTypes).to.have.property(property);
+      delete clonedOptionTypes[property];
+    });
 
     expect(clonedOptionTypes).to.be.empty;
   });

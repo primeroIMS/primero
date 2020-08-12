@@ -7,10 +7,7 @@ import { TextField } from "formik-material-ui";
 import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../config";
-import {
-  getUsersByTransitionType,
-  getErrorsByTransitionType
-} from "../selectors";
+import { getUsersByTransitionType, getErrorsByTransitionType } from "../selectors";
 import { saveAssignedUser, fetchAssignUsers } from "../action-creators";
 import { saveBulkAssignedUser } from "../../bulk-transtions/action-creators";
 import SearchableSelect from "../../../searchable-select";
@@ -24,13 +21,7 @@ import { searchableValue } from "./utils";
 
 const initialValues = { transitioned_to: "", notes: "" };
 
-const ReassignForm = ({
-  record,
-  recordType,
-  setPending,
-  assignRef,
-  selectedIds
-}) => {
+const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const transitionType = "reassign";
@@ -41,13 +32,9 @@ const ReassignForm = ({
     dispatch(fetchAssignUsers(RECORD_TYPES[recordType]));
   }, []);
 
-  const users = useSelector(state =>
-    getUsersByTransitionType(state, transitionType)
-  );
+  const users = useSelector(state => getUsersByTransitionType(state, transitionType));
 
-  const hasErrors = useSelector(state =>
-    getErrorsByTransitionType(state, transitionType)
-  );
+  const hasErrors = useSelector(state => getErrorsByTransitionType(state, transitionType));
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -106,19 +93,11 @@ const ReassignForm = ({
   };
 
   const handleAssign = (values, { setSubmitting }) => {
-    const data = isEmpty(selectedIds)
-      ? values
-      : { ...values, ids: selectedIds };
+    const data = isEmpty(selectedIds) ? values : { ...values, ids: selectedIds };
 
     setPending(true);
     if (record) {
-      dispatch(
-        saveAssignedUser(
-          record.get("id"),
-          { data },
-          i18n.t("reassign.successfully")
-        )
-      );
+      dispatch(saveAssignedUser(record.get("id"), { data }, i18n.t("reassign.successfully")));
     } else {
       dispatch(saveBulkAssignedUser(recordType, selectedIds, { data }));
     }
@@ -153,20 +132,14 @@ const ReassignForm = ({
                 return (
                   <>
                     <SearchableSelect
-                      defaultValues={searchableValue(
-                        field,
-                        searchableSelectProps.options,
-                        false
-                      )}
+                      defaultValues={searchableValue(field, searchableSelectProps.options, false)}
                       onChange={data => handleTransitionedTo(data, form, field)}
                       {...searchableSelectProps}
                       {...other}
                       onBlur={field.onBlur}
                     />
                     {form.touched[field.name] && form.errors[field.name] && (
-                      <div className="MuiFormHelperText-root Mui-error">
-                        {form.errors[field.name]}
-                      </div>
+                      <div className="MuiFormHelperText-root Mui-error">{form.errors[field.name]}</div>
                     )}
                   </>
                 );

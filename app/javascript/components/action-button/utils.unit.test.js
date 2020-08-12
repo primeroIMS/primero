@@ -18,9 +18,7 @@ describe("<AuditLogs /> - Helpers", () => {
 
   describe("buttonType", () => {
     it("should return <DefaultButton /> Component if ACTION_BUTTON_TYPES is default", () => {
-      expect(helper.buttonType(ACTION_BUTTON_TYPES.default)).to.equal(
-        DefaultButton
-      );
+      expect(helper.buttonType(ACTION_BUTTON_TYPES.default)).to.equal(DefaultButton);
     });
 
     it("should return <IconButton /> Component if ACTION_BUTTON_TYPES is icon", () => {

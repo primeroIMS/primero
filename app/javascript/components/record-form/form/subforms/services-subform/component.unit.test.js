@@ -43,13 +43,7 @@ describe("<ServicesSubform />", () => {
   let component;
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      ServicesSubform,
-      props,
-      {},
-      [],
-      formProps
-    ));
+    ({ component } = setupMountedComponent(ServicesSubform, props, {}, [], formProps));
   });
 
   it("renders the subform", () => {
@@ -92,13 +86,7 @@ describe("<ServicesSubform />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        ServicesSubform,
-        propsFieldNotVisible,
-        {},
-        [],
-        visibleFieldFormProps
-      ));
+      ({ component } = setupMountedComponent(ServicesSubform, propsFieldNotVisible, {}, [], visibleFieldFormProps));
     });
 
     it("renders the subform", () => {

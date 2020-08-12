@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # TODO: Refactor this!!! Write some tests!
 
 class Ability
@@ -53,7 +55,7 @@ class Ability
       when Permission::TRACING_REQUEST
         configure_tracing_request(permission.action_symbols)
       else
-        configure_resource permission.resource_class, permission.action_symbols, permission.is_record?
+        configure_resource permission.resource_class, permission.action_symbols, permission.record?
       end
     end
 
@@ -82,10 +84,12 @@ class Ability
         true
       elsif uzer.user_admin?
         false
-      elsif user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) && user.agency == uzer.agency
+      elsif user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
+            user.agency == uzer.agency
         true
       # TODO: should this be limited in a more generic way rather than by not agency user admin?
-      elsif !user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) && (user.group_permission?(Permission::GROUP) || user.group_permission?(Permission::ALL))
+      elsif !user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
+            (user.group_permission?(Permission::GROUP) || user.group_permission?(Permission::ALL))
         # TODO-permission: Add check that the current user has the ability to edit the uzer's role
         # True if, The user's role's associated_role_ids include the uzer's role_id
         (user.user_group_ids & uzer.user_group_ids).present?
@@ -108,7 +112,7 @@ class Ability
     end
   end
 
-  def role_permissions permission
+  def role_permissions(permission)
     actions = permission.action_symbols
     can actions, Role do |instance|
       if instance.super_user_role?

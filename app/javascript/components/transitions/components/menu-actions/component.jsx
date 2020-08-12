@@ -14,10 +14,7 @@ import TransferApproval from "../../transfers/transfer-approval";
 import ReferralAction from "../../referrals/referral-action";
 import { DONE, REFERRAL_DONE_DIALOG } from "../../referrals/constants";
 import { TRANSFER_APPROVAL_DIALOG } from "../../transfers/constants";
-import {
-  selectDialog,
-  selectDialogPending
-} from "../../../record-actions/selectors";
+import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
 import { setDialog, setPending } from "../../../record-actions/action-creators";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
@@ -33,40 +30,28 @@ const Component = ({ transition, showMode, recordType, classes }) => {
     dispatch(setPending({ pending }));
   };
   const revokeModalName = `${REVOKE_MODAL}-${transition.id}`;
-  const openRevokeDialog = useSelector(state =>
-    selectDialog(state, revokeModalName)
-  );
+  const openRevokeDialog = useSelector(state => selectDialog(state, revokeModalName));
   const setRevokeDialog = open => {
     dispatch(setDialog({ dialog: revokeModalName, open }));
   };
   const [approvalType, setApprovalType] = useState(ACCEPTED);
-  const approvalOpen = useSelector(state =>
-    selectDialog(state, TRANSFER_APPROVAL_DIALOG)
-  );
+  const approvalOpen = useSelector(state => selectDialog(state, TRANSFER_APPROVAL_DIALOG));
   const setApprovalOpen = open => {
     dispatch(setDialog({ dialog: TRANSFER_APPROVAL_DIALOG, open }));
   };
 
   const [referralType, setReferralType] = useState(DONE);
-  const referralOpen = useSelector(state =>
-    selectDialog(state, REFERRAL_DONE_DIALOG)
-  );
+  const referralOpen = useSelector(state => selectDialog(state, REFERRAL_DONE_DIALOG));
   const setReferralOpen = open => {
     dispatch(setDialog({ dialog: REFERRAL_DONE_DIALOG, open }));
   };
   const username = useSelector(state => currentUser(state));
-  const userPermissions = useSelector(state =>
-    getPermissionsByRecord(state, recordType)
-  );
+  const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
   const isInProgress = transition.status === TRANSITION_STATUS.inProgress;
-  const canRevokeTransition = checkPermissions(userPermissions, [
-    ACTIONS.REMOVE_ASSIGNED_USERS,
-    ACTIONS.MANAGE
-  ]);
+  const canRevokeTransition = checkPermissions(userPermissions, [ACTIONS.REMOVE_ASSIGNED_USERS, ACTIONS.MANAGE]);
   const isCurrentUserRecipient = transition.transitioned_to === username;
 
-  const showRevokeAction =
-    isInProgress && canRevokeTransition && !isCurrentUserRecipient && showMode;
+  const showRevokeAction = isInProgress && canRevokeTransition && !isCurrentUserRecipient && showMode;
 
   const showTransferApproval =
     isInProgress &&
@@ -147,11 +132,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
   const filteredActions = options.filter(option => option.condition);
   const actions = filteredActions.map(option => {
     return (
-      <MenuItem
-        key={option.name}
-        selected={option === "Pyxis"}
-        onClick={event => handleAction(event, option.action)}
-      >
+      <MenuItem key={option.name} selected={option === "Pyxis"} onClick={event => handleAction(event, option.action)}>
         {option.name}
       </MenuItem>
     );
@@ -173,12 +154,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
           onClick: handleClick
         }}
       />
-      <Menu
-        id="long-menu"
-        anchorEl={optionMenu}
-        open={Boolean(optionMenu)}
-        onClose={event => handleClose(event)}
-      >
+      <Menu id="long-menu" anchorEl={optionMenu} open={Boolean(optionMenu)} onClose={event => handleClose(event)}>
         {actions}
       </Menu>
 

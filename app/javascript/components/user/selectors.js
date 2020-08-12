@@ -17,11 +17,8 @@ export const hasUserPermissions = state => {
   return state.hasIn([NAMESPACE, PERMISSIONS], false);
 };
 
-export const getIsAuthenticated = state =>
-  state.getIn([NAMESPACE, "isAuthenticated"], false);
+export const getIsAuthenticated = state => state.getIn([NAMESPACE, "isAuthenticated"], false);
 
-export const getListHeaders = (state, resource) =>
-  state.getIn([NAMESPACE, LIST_HEADERS, resource], List([]));
+export const getListHeaders = (state, resource) => state.getIn([NAMESPACE, LIST_HEADERS, resource], List([]));
 
-export const getPermittedFormsIds = state =>
-  state.getIn([NAMESPACE, PERMITTED_FORMS], List([]));
+export const getPermittedFormsIds = state => state.getIn([NAMESPACE, PERMITTED_FORMS], List([]));

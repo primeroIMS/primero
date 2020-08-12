@@ -19,11 +19,7 @@ describe("toProtectionConcernTable - pages/dashboard/utils/", () => {
         protection_concerns_open_cases: {
           sexually_exploited: {
             count: 1,
-            query: [
-              "record_state=true",
-              "status=open",
-              "protection_concerns=sexually_exploited"
-            ]
+            query: ["record_state=true", "status=open", "protection_concerns=sexually_exploited"]
           }
         },
         protection_concerns_new_this_week: {
@@ -40,10 +36,7 @@ describe("toProtectionConcernTable - pages/dashboard/utils/", () => {
         protection_concerns_all_cases: {
           sexually_exploited: {
             count: 4,
-            query: [
-              "record_state=true",
-              "protection_concerns=sexually_exploited"
-            ]
+            query: ["record_state=true", "protection_concerns=sexually_exploited"]
           }
         },
         protection_concerns_closed_this_week: {
@@ -80,10 +73,7 @@ describe("toProtectionConcernTable - pages/dashboard/utils/", () => {
       query: [
         {
           "": "Sexually Exploited",
-          protection_concerns_all_cases: [
-            "record_state=true",
-            "protection_concerns=sexually_exploited"
-          ],
+          protection_concerns_all_cases: ["record_state=true", "protection_concerns=sexually_exploited"],
           protection_concerns_open_cases: [
             "record_state=true",
             "status=open",

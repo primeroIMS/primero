@@ -97,9 +97,7 @@ const fetchParamsBuilder = (api, options, controller) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  fetchOptions.headers = new Headers(
-    Object.assign(fetchOptions.headers, headers)
-  );
+  fetchOptions.headers = new Headers(Object.assign(fetchOptions.headers, headers));
 
   const fetchPath = buildPath(path, options, params, external);
 
@@ -115,9 +113,7 @@ const fetchMultiPayload = (action, store, options) => {
 
   const { type, finishedCallback } = action;
 
-  const fetchParams = action.api.map(apiParams =>
-    fetchParamsBuilder(apiParams, options, controller)
-  );
+  const fetchParams = action.api.map(apiParams => fetchParamsBuilder(apiParams, options, controller));
 
   const fetch = async () => {
     fetchStatus({ store, type }, "STARTED", true);
@@ -221,9 +217,7 @@ const fetchSinglePayload = (action, store, options) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  fetchOptions.headers = new Headers(
-    Object.assign(fetchOptions.headers, headers)
-  );
+  fetchOptions.headers = new Headers(Object.assign(fetchOptions.headers, headers));
 
   const fetchPath = buildPath(path, options, params, external);
 
@@ -332,10 +326,7 @@ const fetchFromCache = (action, store, options, next) => {
 };
 
 const restMiddleware = options => store => next => action => {
-  if (
-    !(action.api && (Array.isArray(action.api) || "path" in action.api)) ||
-    !isOnline(store)
-  ) {
+  if (!(action.api && (Array.isArray(action.api) || "path" in action.api)) || !isOnline(store)) {
     return next(action);
   }
 

@@ -9,11 +9,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { RECORD_TYPES } from "../../../config";
-import {
-  getRecordFormsByUniqueId,
-  getSelectedRecord,
-  getValidationErrors
-} from "../selectors";
+import { getRecordFormsByUniqueId, getSelectedRecord, getValidationErrors } from "../selectors";
 import { getRecordAlerts } from "../../records/selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
 import { compare, ConditionalWrapper } from "../../../libs";
@@ -48,16 +44,10 @@ const Component = ({
       }),
     compare
   );
-  const validationErrors = useSelector(
-    state => getValidationErrors(state),
-    compare
-  );
+  const validationErrors = useSelector(state => getValidationErrors(state), compare);
   const currentSelectedRecord = useSelector(state => getSelectedRecord(state));
 
-  const recordAlerts = useSelector(
-    state => getRecordAlerts(state, recordType),
-    compare
-  );
+  const recordAlerts = useSelector(state => getRecordAlerts(state, recordType), compare);
 
   const handleClick = args => {
     const { group, formId, parentItem } = args;
@@ -70,10 +60,7 @@ const Component = ({
     }
 
     if (parentItem) {
-      if (
-        (open === "" || group === open) &&
-        (previousGroup === "" || previousGroup === group)
-      ) {
+      if ((open === "" || group === open) && (previousGroup === "" || previousGroup === group)) {
         dispatch(setSelectedForm(selectedForm));
       } else {
         dispatch(setSelectedForm(formId));
@@ -93,10 +80,7 @@ const Component = ({
     } else if (!selectedForm) {
       if (currentSelectedRecord !== selectedRecord) {
         dispatch(setSelectedForm(firstTab.unique_id));
-      } else if (
-        !selectedRecordForm?.isEmpty() &&
-        open !== selectedRecordForm.first().form_group_id
-      ) {
+      } else if (!selectedRecordForm?.isEmpty() && open !== selectedRecordForm.first().form_group_id) {
         setOpen(selectedRecordForm.first().form_group_id);
       }
     } else if (!selectedRecordForm?.isEmpty()) {
@@ -114,10 +98,7 @@ const Component = ({
 
   const renderCloseButtonNavBar = mobileDisplay && (
     <div className={css.closeButtonRecordNav}>
-      <IconButton
-        onClick={handleToggleNav}
-        className={css.closeIconButtonRecordNav}
-      >
+      <IconButton onClick={handleToggleNav} className={css.closeIconButtonRecordNav}>
         <CloseIcon />
       </IconButton>
     </div>
@@ -151,18 +132,10 @@ const Component = ({
 
     return (
       <>
-        <ConditionalWrapper
-          condition={mobileDisplay}
-          wrapper={Drawer}
-          {...drawerProps}
-        >
+        <ConditionalWrapper condition={mobileDisplay} wrapper={Drawer} {...drawerProps}>
           {renderCloseButtonNavBar}
           <List className={css.listRecordNav}>
-            <RecordInformation
-              handleClick={handleClick}
-              open={open}
-              selectedForm={selectedForm}
-            />
+            <RecordInformation handleClick={handleClick} open={open} selectedForm={selectedForm} />
             <Divider />
             {renderFormGroups}
           </List>

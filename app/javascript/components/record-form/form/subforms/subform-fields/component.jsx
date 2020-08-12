@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
-import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
@@ -19,25 +19,14 @@ import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { compare } from "../../../../../libs";
 import { getValidationErrors } from "../../..";
+import styles from "../styles.css";
 
-const Component = ({
-  arrayHelpers,
-  field,
-  form,
-  locale,
-  mode,
-  recordType,
-  setDialogIsNew,
-  setOpen,
-  values
-}) => {
+const Component = ({ arrayHelpers, field, form, locale, mode, recordType, setDialogIsNew, setOpen, values }) => {
   const i18n = useI18n();
+  const css = makeStyles(styles)();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const validationErrors = useSelector(
-    state => getValidationErrors(state, form.unique_id),
-    compare
-  );
+  const validationErrors = useSelector(state => getValidationErrors(state, form.unique_id), compare);
 
   const {
     subform_sort_by: subformSortBy,
@@ -47,9 +36,7 @@ const Component = ({
     disabled: isDisabled
   } = field;
 
-  const {
-    subform_prevent_item_removal: subformPreventItemRemoval
-  } = subformField;
+  const { subform_prevent_item_removal: subformPreventItemRemoval } = subformField;
 
   const { isEdit, isNew } = mode;
 
@@ -86,13 +73,7 @@ const Component = ({
   };
 
   const hasError = index =>
-    Boolean(
-      validationErrors?.size &&
-        validationErrors.getIn(
-          ["errors", subformField.get("unique_id"), index],
-          false
-        )
-    );
+    Boolean(validationErrors?.size && validationErrors.getIn(["errors", subformField.get("unique_id"), index], false));
 
   if (values && values.length > 0) {
     let sortedValues = [];
@@ -121,17 +102,11 @@ const Component = ({
           }
 
           return (
-            <Box key={`${name}-${index}`} display="flex" alignItems="center">
-              <Box flexGrow={1}>
-                <SubformHeader
-                  field={field}
-                  index={index}
-                  displayName={displayName}
-                  locale={locale}
-                  values={values}
-                />
-              </Box>
-              <Box display="flex">
+            <div key={`${name}-${index}`} className={css.subformFields}>
+              <div className={css.subformHeaderBox}>
+                <SubformHeader field={field} index={index} displayName={displayName} locale={locale} values={values} />
+              </div>
+              <div className={css.subformHeaderActions}>
                 {hasError(index) && <Jewel isError />}
                 {!subformPreventItemRemoval && !isDisabled && !mode.isShow ? (
                   <ActionButton
@@ -143,21 +118,18 @@ const Component = ({
                   />
                 ) : null}
                 {mode.isShow && serviceHasReferFields(values[index]) ? (
-                  <SubformMenu
-                    index={index}
-                    values={values}
-                    recordType={recordType}
-                  />
+                  <SubformMenu index={index} values={values} recordType={recordType} />
                 ) : null}
                 <ActionButton
                   icon={<ArrowIcon />}
                   type={ACTION_BUTTON_TYPES.icon}
                   rest={{
+                    className: css.subformShow,
                     onClick: () => handleEdit(index)
                   }}
                 />
-              </Box>
-            </Box>
+              </div>
+            </div>
           );
         })}
         <ActionDialog

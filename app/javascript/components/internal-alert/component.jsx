@@ -3,11 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import clsx from "clsx";
-import {
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails
-} from "@material-ui/core";
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Brightness1 as Circle } from "@material-ui/icons";
 import ErrorIcon from "@material-ui/icons/Error";
@@ -56,9 +52,7 @@ const Component = ({ title, items, severity }) => {
 
   const renderTitle = () => {
     const titleMessage =
-      items?.size > 1
-        ? title || i18n.t("messages.alert_items", { items: items.size })
-        : items?.first()?.get("message");
+      items?.size > 1 ? title || i18n.t("messages.alert_items", { items: items.size }) : items?.first()?.get("message");
 
     return (
       <>

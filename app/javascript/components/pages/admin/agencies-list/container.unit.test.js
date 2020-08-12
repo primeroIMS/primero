@@ -42,9 +42,7 @@ describe("<AgenciesList />", () => {
       }
     });
 
-    ({ component } = setupMountedComponent(AgenciesList, {}, initialState, [
-      "/admin/agencies"
-    ]));
+    ({ component } = setupMountedComponent(AgenciesList, {}, initialState, ["/admin/agencies"]));
   });
 
   it("renders record list table", () => {
@@ -65,18 +63,12 @@ describe("<AgenciesList />", () => {
       type: "users/AGENCIES"
     };
 
-    expect(indexTable.find("p").at(1).text()).to.be.equals(
-      `1-20 of ${dataLength}`
-    );
+    expect(indexTable.find("p").at(1).text()).to.be.equals(`1-20 of ${dataLength}`);
     expect(component.props().store.getActions()).to.have.lengthOf(2);
 
     indexTable.find("#pagination-next").at(0).simulate("click");
 
-    expect(indexTable.find("p").at(1).text()).to.be.equals(
-      `21-${dataLength} of ${dataLength}`
-    );
-    expect(component.props().store.getActions()[2]).to.deep.equals(
-      expectAction
-    );
+    expect(indexTable.find("p").at(1).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
+    expect(component.props().store.getActions()[2]).to.deep.equals(expectAction);
   });
 });

@@ -7,9 +7,7 @@ import styles from "../../styles.css";
 
 const Component = ({ isDragDisabled, ...props }) => {
   const css = makeStyles(styles)();
-  const classes = isDragDisabled
-    ? { classes: { root: css.dragIndicator } }
-    : {};
+  const classes = isDragDisabled ? { classes: { root: css.dragIndicator } } : {};
 
   return (
     <Icon {...props} {...classes}>

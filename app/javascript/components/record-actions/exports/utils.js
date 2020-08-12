@@ -3,22 +3,11 @@ import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 
 import { ACTIONS } from "../../../libs/permissions";
-import {
-  AUDIO_FIELD,
-  DOCUMENT_FIELD,
-  PHOTO_FIELD,
-  SEPERATOR,
-  SUBFORM_SECTION
-} from "../../record-form/constants";
+import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR, SUBFORM_SECTION } from "../../record-form/constants";
 
 import { ALL_EXPORT_TYPES } from "./constants";
 
-export const allowedExports = (
-  userPermissions,
-  i18n,
-  isShowPage,
-  recordType
-) => {
+export const allowedExports = (userPermissions, i18n, isShowPage, recordType) => {
   const exportsTypes = [...ALL_EXPORT_TYPES];
   let allowedExportsOptions = [];
 
@@ -36,19 +25,14 @@ export const allowedExports = (
       .filter(exportType => exportType.recordTypes.includes(recordType))
       .reduce((acc, obj) => {
         if (userPermissions.includes(obj.permission)) {
-          return [
-            ...acc,
-            { ...obj, display_name: i18n.t(`exports.${obj.id}.all`) }
-          ];
+          return [...acc, { ...obj, display_name: i18n.t(`exports.${obj.id}.all`) }];
         }
 
         return [...acc, {}];
       }, []);
   }
 
-  const allExports = allowedExportsOptions.filter(
-    item => Object.keys(item).length
-  );
+  const allExports = allowedExportsOptions.filter(item => Object.keys(item).length);
 
   if (isShowPage) {
     return allExports.filter(item => !item.showOnlyOnList);
@@ -95,10 +79,7 @@ export const exporterFilters = (
 
     if (!allRecordsSelected && (allCurrentRowsSelected || shortIds.length)) {
       filters = { short_id: shortIds };
-    } else if (
-      Object.keys(queryParams || {}).length ||
-      Object.keys(applied || {}).length
-    ) {
+    } else if (Object.keys(queryParams || {}).length || Object.keys(applied || {}).length) {
       filters = { ...(queryParams || {}), ...(applied || {}) };
     } else {
       filters = defaultFilters;
@@ -107,9 +88,7 @@ export const exporterFilters = (
 
   const { query, ...restFilters } = filters;
 
-  const returnFilters = Object.keys(restFilters).length
-    ? restFilters
-    : { short_id: shortIds };
+  const returnFilters = Object.keys(restFilters).length ? restFilters : { short_id: shortIds };
 
   if (!isEmpty(query)) {
     return { filters: returnFilters, query };
@@ -121,21 +100,14 @@ export const exporterFilters = (
 };
 
 export const buildFields = (data, locale) => {
-  const excludeFieldTypes = [
-    AUDIO_FIELD,
-    DOCUMENT_FIELD,
-    PHOTO_FIELD,
-    SEPERATOR
-  ];
+  const excludeFieldTypes = [AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR];
 
   return data
     .reduce((acc, form) => {
       const { unique_id, name, fields } = form;
 
       const filteredFields = fields
-        .filter(
-          field => !excludeFieldTypes.includes(field.type) && field.visible
-        )
+        .filter(field => !excludeFieldTypes.includes(field.type) && field.visible)
         .map(field => {
           if (field.type === SUBFORM_SECTION) {
             const subFormSectionFields = field.subform_section_id.fields
@@ -168,5 +140,4 @@ export const buildFields = (data, locale) => {
     .flat();
 };
 
-export const formatFields = fields =>
-  uniq(fields.map(field => field.split(":")[1]));
+export const formatFields = fields => uniq(fields.map(field => field.split(":")[1]));

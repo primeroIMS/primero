@@ -84,9 +84,7 @@ const Component = ({
   const commentField =
     approvalType === REJECTED ? (
       <>
-        <FormLabel component="legend">
-          {i18n.t(`${recordType}.transfer_reject_reason_label`)}
-        </FormLabel>
+        <FormLabel component="legend">{i18n.t(`${recordType}.transfer_reject_reason_label`)}</FormLabel>
         <TextField
           id="outlined-multiline-static"
           label=""

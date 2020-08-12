@@ -42,12 +42,7 @@ const Component = ({ recordType, fields, formik }) => {
         }
       };
 
-      return (
-        <FormSectionField
-          key={`${formattedField.name}-incident`}
-          {...fieldProps}
-        />
-      );
+      return <FormSectionField key={`${formattedField.name}-incident`} {...fieldProps} />;
     });
 
   return <>{renderFields}</>;

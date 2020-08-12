@@ -89,12 +89,7 @@ describe("<TransferForm />", () => {
   it("renders ProvidedConsent with valid props", () => {
     const providedConsentProps = { ...component.find(ProvidedConsent).props() };
 
-    [
-      "canConsentOverride",
-      "providedConsent",
-      "setDisabled",
-      "recordType"
-    ].forEach(property => {
+    ["canConsentOverride", "providedConsent", "setDisabled", "recordType"].forEach(property => {
       expect(providedConsentProps).to.have.property(property);
       delete providedConsentProps[property];
     });

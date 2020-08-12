@@ -39,9 +39,7 @@ describe("<FormsList /> - Action Creators", () => {
       payload: { formGroupId, order, filter }
     };
 
-    expect(
-      actionCreators.reorderFormGroups(formGroupId, order, filter)
-    ).to.deep.equal(expected);
+    expect(actionCreators.reorderFormGroups(formGroupId, order, filter)).to.deep.equal(expected);
   });
 
   it("should check the 'reorderFormSections' action creator returns the correct object", () => {
@@ -53,9 +51,7 @@ describe("<FormsList /> - Action Creators", () => {
       payload: { id, order, filter }
     };
 
-    expect(actionCreators.reorderFormSections(id, order, filter)).to.deep.equal(
-      expected
-    );
+    expect(actionCreators.reorderFormSections(id, order, filter)).to.deep.equal(expected);
   });
 
   it("should check the 'reorderedForms' action creator returns the correct object", () => {

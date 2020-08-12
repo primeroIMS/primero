@@ -14,12 +14,7 @@ describe("<OverviewBox />", () => {
       indicators: {
         approval_closure_pending: {
           count: 5,
-          query: [
-            "owned_by=primero",
-            "record_state=true",
-            "status=open",
-            "approval_status_closure=pending"
-          ]
+          query: ["owned_by=primero", "record_state=true", "status=open", "approval_status_closure=pending"]
         }
       }
     }),
@@ -39,11 +34,7 @@ describe("<OverviewBox />", () => {
 
   describe("when withTotal props is false", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        OverviewBox,
-        { ...props, withTotal: false },
-        {}
-      ));
+      ({ component } = setupMountedComponent(OverviewBox, { ...props, withTotal: false }, {}));
     });
     it("renders the header without total/>", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
@@ -66,11 +57,7 @@ describe("<OverviewBox />", () => {
     };
 
     before(() => {
-      ({ component: loadingComponent } = setupMountedComponent(
-        OverviewBox,
-        loadingProps,
-        {}
-      ));
+      ({ component: loadingComponent } = setupMountedComponent(OverviewBox, loadingProps, {}));
     });
 
     it("renders BadgedIndicator component", () => {
@@ -89,11 +76,7 @@ describe("<OverviewBox />", () => {
         indicators: {
           approval_assessment_pending_group: {
             count: 1,
-            query: [
-              "record_state=true",
-              "status=open",
-              "approval_status_assessment=pending"
-            ]
+            query: ["record_state=true", "status=open", "approval_status_assessment=pending"]
           }
         }
       }),
@@ -110,11 +93,7 @@ describe("<OverviewBox />", () => {
     });
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        OverviewBox,
-        propsApprovals,
-        initialState
-      ));
+      ({ component } = setupMountedComponent(OverviewBox, propsApprovals, initialState));
     });
 
     it("renders a component with its respective label />", () => {

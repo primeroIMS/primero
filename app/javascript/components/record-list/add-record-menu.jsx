@@ -25,10 +25,7 @@ const AddRecordMenu = ({ recordType }) => {
   const showDialogOrRedirectNew = primeroModule => {
     const { unique_id: uniqueId, options } = primeroModule;
 
-    if (
-      options.allow_searchable_ids &&
-      RECORD_TYPES.cases === RECORD_TYPES[recordType]
-    ) {
+    if (options.allow_searchable_ids && RECORD_TYPES.cases === RECORD_TYPES[recordType]) {
       setModuleUniqueId(uniqueId);
       setOpen(true);
     } else {
@@ -55,18 +52,9 @@ const AddRecordMenu = ({ recordType }) => {
 
   const renderMenu = primeroModules =>
     primeroModules?.size > 1 ? (
-      <Menu
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
+      <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         {primeroModules.map(primeroModule => (
-          <MenuItem
-            key={primeroModule.unique_id}
-            component={Button}
-            onClick={() => handleModuleClick(primeroModule)}
-          >
+          <MenuItem key={primeroModule.unique_id} component={Button} onClick={() => handleModuleClick(primeroModule)}>
             {primeroModule.name}
           </MenuItem>
         ))}
@@ -74,14 +62,7 @@ const AddRecordMenu = ({ recordType }) => {
     ) : null;
 
   const renderDialog = uniqueId =>
-    uniqueId && (
-      <CreateRecordDialog
-        setOpen={setOpen}
-        open={open}
-        recordType={recordType}
-        moduleUniqueId={uniqueId}
-      />
-    );
+    uniqueId && <CreateRecordDialog setOpen={setOpen} open={open} recordType={recordType} moduleUniqueId={uniqueId} />;
 
   return (
     <>

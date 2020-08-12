@@ -57,16 +57,10 @@ const ViewModal = ({ close, openViewModal, currentRecord }) => {
             </Grid>
           </Grid>
           <Divider />
-          <DisplayData
-            label={i18n.t("cases.full_name")}
-            value={currentRecord && currentRecord.get("name")}
-          />
+          <DisplayData label={i18n.t("cases.full_name")} value={currentRecord && currentRecord.get("name")} />
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              <DisplayData
-                label={i18n.t("cases.sex")}
-                value={currentRecord && currentRecord.get("sex")}
-              />
+              <DisplayData label={i18n.t("cases.sex")} value={currentRecord && currentRecord.get("sex")} />
             </Grid>
             <Grid item xs={3}>
               <DisplayData
@@ -75,10 +69,7 @@ const ViewModal = ({ close, openViewModal, currentRecord }) => {
               />
             </Grid>
             <Grid item xs={3}>
-              <DisplayData
-                label={i18n.t("cases.age")}
-                value={currentRecord && currentRecord.get("age")}
-              />
+              <DisplayData label={i18n.t("cases.age")} value={currentRecord && currentRecord.get("age")} />
             </Grid>
             <Grid item xs={3}>
               <DisplayData

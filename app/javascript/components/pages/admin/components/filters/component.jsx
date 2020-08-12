@@ -40,13 +40,7 @@ const Component = ({ filters, onSubmit, clearFields, defaultFilters }) => {
 
       if (!Filter) return null;
 
-      return (
-        <Filter
-          key={filter.field_name}
-          filter={filter}
-          multiple={filter.multiple}
-        />
-      );
+      return <Filter key={filter.field_name} filter={filter} multiple={filter.multiple} />;
     });
   };
 

@@ -1,20 +1,8 @@
 import { fromJS } from "immutable";
 
-import {
-  FormSectionRecord,
-  FieldRecord,
-  TICK_FIELD,
-  TEXT_FIELD,
-  SELECT_FIELD,
-  CHECK_BOX_FIELD
-} from "../../../form";
+import { FormSectionRecord, FieldRecord, TICK_FIELD, TEXT_FIELD, SELECT_FIELD, CHECK_BOX_FIELD } from "../../../form";
 
-import {
-  ROLE_OPTIONS,
-  IDENTITY_PROVIDER_ID,
-  USER_GROUP_UNIQUE_IDS,
-  USERGROUP_PRIMERO_GBV
-} from "./constants";
+import { ROLE_OPTIONS, IDENTITY_PROVIDER_ID, USER_GROUP_UNIQUE_IDS, USERGROUP_PRIMERO_GBV } from "./constants";
 
 const sharedUserFields = (i18n, formMode) => [
   {
@@ -142,22 +130,14 @@ const identityUserFields = (i18n, identityOptions) => [
 const EXCLUDED_IDENITITY_FIELDS = ["password", "password_confirmation"];
 
 // eslint-disable-next-line import/prefer-default-export
-export const form = (
-  i18n,
-  formMode,
-  useIdentityProviders,
-  providers,
-  identityOptions
-) => {
+export const form = (i18n, formMode, useIdentityProviders, providers, identityOptions) => {
   const useIdentity = useIdentityProviders && providers;
   const sharedFields = sharedUserFields(i18n, formMode);
   const identityFields = identityUserFields(i18n, identityOptions);
 
   const providersDisable = (value, name, { error }) => {
     const provider = providers
-      ? providers.find(
-          currentProvider => currentProvider.get("id") === parseInt(value, 10)
-        )
+      ? providers.find(currentProvider => currentProvider.get("id") === parseInt(value, 10))
       : null;
 
     return {
@@ -176,10 +156,7 @@ export const form = (
     };
   };
 
-  const formFields = [
-    ...(useIdentity ? identityFields : []),
-    ...sharedFields
-  ].reduce((prev, field) => {
+  const formFields = [...(useIdentity ? identityFields : []), ...sharedFields].reduce((prev, field) => {
     if (!(useIdentity && EXCLUDED_IDENITITY_FIELDS.includes(field.name))) {
       const fieldProps = {
         ...field,

@@ -63,9 +63,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
       type: "test-action-3"
     });
 
-    expect(dispatch.getCall(3)).to.have.been.calledWith(
-      pushAction("/record-type/1234")
-    );
+    expect(dispatch.getCall(3)).to.have.been.calledWith(pushAction("/record-type/1234"));
   });
 
   describe("success payload", () => {
@@ -129,9 +127,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
         false
       );
 
-      expect(dispatch.getCall(1)).to.have.been.calledWith(
-        pushAction("/record-type/1234")
-      );
+      expect(dispatch.getCall(1)).to.have.been.calledWith(pushAction("/record-type/1234"));
     });
 
     it("to edit", () => {
@@ -147,9 +143,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
         false
       );
 
-      expect(dispatch.getCall(1)).to.have.been.calledWith(
-        pushAction("/record-type/1234/edit")
-      );
+      expect(dispatch.getCall(1)).to.have.been.calledWith(pushAction("/record-type/1234/edit"));
     });
   });
 });

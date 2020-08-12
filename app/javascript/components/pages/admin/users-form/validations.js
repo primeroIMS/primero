@@ -8,10 +8,7 @@ export default (formMode, i18n, useIdentityProviders, providers) => {
     // eslint-disable-next-line func-names, consistent-return
     return this.test("isIdpProvider", message, function (value) {
       const providerId = this.resolve(inputRef);
-      const provider = providers.find(
-        currentProvider =>
-          currentProvider.get("id") === parseInt(providerId, 10)
-      );
+      const provider = providers.find(currentProvider => currentProvider.get("id") === parseInt(providerId, 10));
 
       if (provider) {
         const regexMatch = new RegExp(`@${provider.get("user_domain")}$`);
@@ -56,22 +53,15 @@ export default (formMode, i18n, useIdentityProviders, providers) => {
         );
 
         if (formMode.get("isNew")) {
-          return defaultValidation
-            .required()
-            .label(i18n.t("user.password_confirmation"));
+          return defaultValidation.required().label(i18n.t("user.password_confirmation"));
         }
 
         return defaultValidation;
       }),
     role_unique_id: string().required().label(i18n.t("user.role_id")),
-    user_group_unique_ids: array()
-      .required()
-      .label(i18n.t("user.user_group_unique_ids")),
+    user_group_unique_ids: array().required().label(i18n.t("user.user_group_unique_ids")),
     user_name: useProviders
-      ? string()
-          .required()
-          .label(i18n.t("user.user_name"))
-          .isIdpProvider(ref("identity_provider_id"))
+      ? string().required().label(i18n.t("user.user_name")).isIdpProvider(ref("identity_provider_id"))
       : string().required().label(i18n.t("user.user_name"))
   });
 };

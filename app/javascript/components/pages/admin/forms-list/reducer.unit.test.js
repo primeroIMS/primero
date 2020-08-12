@@ -29,17 +29,10 @@ describe("<FormsList /> - Reducers", () => {
       }
     ];
 
-    const {
-      fields: normalizedFields,
-      formSections: normalizedFormSections
-    } = normalizeFormData(formSections).entities;
+    const { fields: normalizedFields, formSections: normalizedFormSections } = normalizeFormData(formSections).entities;
 
     const expectedState = Map({
-      formSections: mapEntriesToRecord(
-        normalizedFormSections,
-        FormSectionRecord,
-        true
-      ),
+      formSections: mapEntriesToRecord(normalizedFormSections, FormSectionRecord, true),
       fields: mapEntriesToRecord(normalizedFields, FieldRecord, true)
     });
 

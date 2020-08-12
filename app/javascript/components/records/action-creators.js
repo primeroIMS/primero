@@ -4,14 +4,7 @@ import { SET_DIALOG, SET_DIALOG_PENDING } from "../record-actions/actions";
 
 import { RECORD, SAVE_RECORD, FETCH_RECORD_ALERTS } from "./actions";
 
-const getSuccessCallback = ({
-  dialogName,
-  message,
-  messageForQueue,
-  recordType,
-  redirect,
-  saveMethod
-}) => {
+const getSuccessCallback = ({ dialogName, message, messageForQueue, recordType, redirect, saveMethod }) => {
   const defaultSuccessCallback = [
     {
       action: ENQUEUE_SNACKBAR,

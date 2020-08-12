@@ -1,10 +1,7 @@
 import { fromJS } from "immutable";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import {
-  setupMountedComponent,
-  setupMockFormComponent
-} from "../../../../test";
+import { setupMountedComponent, setupMockFormComponent } from "../../../../test";
 import { ACTIONS } from "../../../../libs/permissions";
 import { ActionsMenu } from "../../../form";
 import FormSection from "../../../form/components/form-section";
@@ -44,12 +41,7 @@ describe("<RolesForm />", () => {
         }
       });
 
-      ({ component } = setupMountedComponent(
-        RolesForm,
-        { mode: "new" },
-        initialState,
-        [ROUTES.admin_roles]
-      ));
+      ({ component } = setupMountedComponent(RolesForm, { mode: "new" }, initialState, [ROUTES.admin_roles]));
     });
 
     it("renders role form", () => {
@@ -58,10 +50,8 @@ describe("<RolesForm />", () => {
 
     it("renders heading with action buttons", () => {
       expect(component.find("header h1").contains("role.label ")).to.be.true;
-      expect(component.find("header button").at(0).contains("buttons.cancel"))
-        .to.be.true;
-      expect(component.find("header button").at(1).contains("buttons.save")).to
-        .be.true;
+      expect(component.find("header button").at(0).contains("buttons.cancel")).to.be.true;
+      expect(component.find("header button").at(1).contains("buttons.save")).to.be.true;
     });
 
     it("will not render actions menu", () => {
@@ -112,13 +102,7 @@ describe("<RolesForm />", () => {
         }
       });
 
-      ({ component } = setupMockFormComponent(
-        RolesForm,
-        { mode: "show" },
-        {},
-        initialState,
-        ["/admin/roles/10"]
-      ));
+      ({ component } = setupMockFormComponent(RolesForm, { mode: "show" }, {}, initialState, ["/admin/roles/10"]));
     });
 
     it("renders role form sections", () => {
@@ -135,11 +119,7 @@ describe("<RolesForm />", () => {
       expect(
         autocomplete
           .map(current => current.props())
-          .find(
-            props =>
-              props.name === "module_unique_ids" &&
-              props.value.includes("primeromodule-cp")
-          )
+          .find(props => props.name === "module_unique_ids" && props.value.includes("primeromodule-cp"))
       ).to.exist;
     });
   });

@@ -13,15 +13,7 @@ import { RECORD_PATH } from "../../../../config";
 import { revokeTransition } from "./action-creators";
 import { NAME } from "./constants";
 
-const Component = ({
-  name,
-  close,
-  open,
-  pending,
-  recordType,
-  setPending,
-  transition
-}) => {
+const Component = ({ name, close, open, pending, recordType, setPending, transition }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const transitionType = transition.type.toLowerCase();
@@ -30,10 +22,7 @@ const Component = ({
   const inProgressTransitions = useSelector(state =>
     selectTransitionByTypeAndStatus(
       state,
-      [
-        upperFirst(TRANSITIONS_TYPES.referral),
-        upperFirst(TRANSITIONS_TYPES.transfer)
-      ],
+      [upperFirst(TRANSITIONS_TYPES.referral), upperFirst(TRANSITIONS_TYPES.transfer)],
       TRANSITION_STATUS.inProgress
     )
   );

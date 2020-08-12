@@ -7,22 +7,12 @@ import { fieldsToRender } from "../subform-field-array/utils";
 
 import { NAME } from "./constants";
 
-const Component = ({
-  mode,
-  index,
-  filterFunc,
-  filterState,
-  setFilterState,
-  field
-}) => {
+const Component = ({ mode, index, filterFunc, filterState, setFilterState, field }) => {
   const { subform_section_configuration: subformSectionConfiguration } = field;
 
   const { fields: listFieldsToRender } = subformSectionConfiguration || {};
 
-  const fieldsToDisplay = fieldsToRender(
-    listFieldsToRender,
-    field.subform_section_id.fields
-  );
+  const fieldsToDisplay = fieldsToRender(listFieldsToRender, field.subform_section_id.fields);
 
   return fieldsToDisplay.map(subformSectionField => {
     const fieldProps = {

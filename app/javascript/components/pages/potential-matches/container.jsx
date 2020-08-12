@@ -64,9 +64,7 @@ const PotentialMatches = ({ getPotentialMatches, potentialMatches }) => {
       ""
     ],
     options,
-    data: potentialMatches.get("matches")
-      ? potentialMatches.get("matches").toJS()
-      : []
+    data: potentialMatches.get("matches") ? potentialMatches.get("matches").toJS() : []
   };
 
   return (

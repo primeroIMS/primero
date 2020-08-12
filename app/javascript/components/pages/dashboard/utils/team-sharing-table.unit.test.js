@@ -60,16 +60,12 @@ describe("teamSharingTable - pages/dashboard/utils/", () => {
         {
           caseWorker: "primero_cp",
           shared_with_my_team_referrals: ["referred_users=primero_cp"],
-          shared_with_my_team_pending_transfers: [
-            "transferred_to_users=primero_cp"
-          ]
+          shared_with_my_team_pending_transfers: ["transferred_to_users=primero_cp"]
         },
         {
           caseWorker: "primero_cp_ar",
           shared_with_my_team_referrals: 0,
-          shared_with_my_team_pending_transfers: [
-            "transferred_to_users=primero_cp_ar"
-          ]
+          shared_with_my_team_pending_transfers: ["transferred_to_users=primero_cp_ar"]
         }
       ]
     };

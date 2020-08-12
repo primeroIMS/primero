@@ -51,7 +51,7 @@ class PermittedFieldService
   end
 
   def permitted_approval_field_names
-    [Approval::ASSESSMENT, Approval::CASE_PLAN, Approval::CLOSURE].map do |approval_id|
+    Approval.types.map do |approval_id|
       next unless approval_access?(user, approval_id)
 
       approval_fields = %W[approval_subforms #{approval_id}_approved approval_status_#{approval_id}

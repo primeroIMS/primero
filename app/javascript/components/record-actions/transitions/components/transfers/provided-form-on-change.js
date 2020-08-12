@@ -2,20 +2,10 @@ import { RECORD_TYPES } from "../../../../../config";
 import { fetchTransferUsers } from "../../action-creators";
 import { internalFieldsDirty } from "../utils";
 
-import {
-  AGENCY_FIELD,
-  LOCATION_FIELD,
-  TRANSITIONED_TO_FIELD
-} from "./constants";
+import { AGENCY_FIELD, LOCATION_FIELD, TRANSITIONED_TO_FIELD } from "./constants";
 
 export default (dispatch, field, form, setDisabled, recordType) => {
-  if (
-    internalFieldsDirty(form.values, [
-      AGENCY_FIELD,
-      LOCATION_FIELD,
-      TRANSITIONED_TO_FIELD
-    ])
-  ) {
+  if (internalFieldsDirty(form.values, [AGENCY_FIELD, LOCATION_FIELD, TRANSITIONED_TO_FIELD])) {
     dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }));
   }
   setDisabled(!field.value);

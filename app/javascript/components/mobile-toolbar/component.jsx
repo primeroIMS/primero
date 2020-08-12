@@ -1,12 +1,6 @@
 import React from "react";
 import MenuIcon from "@material-ui/icons/Menu";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  makeStyles,
-  Hidden
-} from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, makeStyles, Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 import ModuleLogo from "../module-logo";
@@ -20,12 +14,7 @@ const MobileToolbar = ({ openDrawer }) => {
     <Hidden mdUp implementation="css">
       <AppBar position="fixed">
         <Toolbar className={css.toolbar}>
-          <IconButton
-            edge="start"
-            color="default"
-            aria-label="Menu"
-            onClick={openDrawer}
-          >
+          <IconButton edge="start" color="default" aria-label="Menu" onClick={openDrawer}>
             <MenuIcon />
           </IconButton>
           <ModuleLogo className={css.logo} />

@@ -77,13 +77,7 @@ describe("<SubformFieldArray />", () => {
   let component;
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      SubformFieldArray,
-      props,
-      {},
-      [],
-      formProps
-    ));
+    ({ component } = setupMountedComponent(SubformFieldArray, props, {}, [], formProps));
   });
 
   it("render the subform", () => {

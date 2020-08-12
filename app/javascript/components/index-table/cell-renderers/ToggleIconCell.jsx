@@ -42,16 +42,8 @@ const ToggleIconCell = ({ value, icon }) => {
 ToggleIconCell.displayName = "ToggleIconCell";
 
 ToggleIconCell.propTypes = {
-  icon: PropTypes.oneOf([
-    ALERTS_COLUMNS.photo,
-    ALERTS_COLUMNS.flag_count,
-    ALERTS_COLUMNS.alert_count
-  ]),
-  value: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.array,
-    PropTypes.number
-  ])
+  icon: PropTypes.oneOf([ALERTS_COLUMNS.photo, ALERTS_COLUMNS.flag_count, ALERTS_COLUMNS.alert_count]),
+  value: PropTypes.oneOfType([PropTypes.bool, PropTypes.array, PropTypes.number])
 };
 
 export default ToggleIconCell;

@@ -1,9 +1,4 @@
-import {
-  ThemeProvider,
-  createGenerateClassName,
-  jssPreset,
-  StylesProvider
-} from "@material-ui/core/styles";
+import { ThemeProvider, createGenerateClassName, jssPreset, StylesProvider } from "@material-ui/core/styles";
 import { ConnectedRouter } from "connected-react-router/immutable";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { create } from "jss";
@@ -34,12 +29,7 @@ const generateClassName = createGenerateClassName();
 
 const App = () => {
   store.subscribe(() => {
-    document
-      .querySelector("body")
-      .setAttribute(
-        "dir",
-        store.getState().get("ui").get(NAMESPACE).get("dir")
-      );
+    document.querySelector("body").setAttribute("dir", store.getState().get("ui").get(NAMESPACE).get("dir"));
   });
 
   store.dispatch(checkUserAuthentication());
