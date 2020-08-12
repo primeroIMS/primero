@@ -13,10 +13,7 @@ import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
-import {
-  fetchDataIfNotBackButton,
-  clearMetadataOnLocationChange
-} from "../../../records";
+import { fetchDataIfNotBackButton, clearMetadataOnLocationChange } from "../../../records";
 
 import { NAME } from "./constants";
 import { fetchUserGroups } from "./action-creators";
@@ -39,14 +36,7 @@ const Container = () => {
   const location = useLocation();
 
   useEffect(() => {
-    fetchDataIfNotBackButton(
-      metadata?.toJS(),
-      location,
-      history,
-      fetchUserGroups,
-      "data",
-      { dispatch }
-    );
+    fetchDataIfNotBackButton(metadata?.toJS(), location, history, fetchUserGroups, "data", { dispatch });
   }, [location]);
 
   useEffect(() => {

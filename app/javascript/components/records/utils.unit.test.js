@@ -14,11 +14,7 @@ describe("<Records /> - utils", () => {
       expect(clone).to.be.empty;
     });
 
-    [
-      "cleanUpFilters",
-      "clearMetadataOnLocationChange",
-      "fetchDataIfNotBackButton"
-    ].forEach(property => {
+    ["cleanUpFilters", "clearMetadataOnLocationChange", "fetchDataIfNotBackButton"].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(utils).to.have.property(property);
         delete clone[property];
@@ -38,14 +34,7 @@ describe("<Records /> - utils", () => {
     const rest = { dispatch: spy(), defaultFilterFields: { disabled: true } };
 
     it("should dispatch an action with DEFAULT_METADATA and defaultFilters", () => {
-      utils.fetchDataIfNotBackButton(
-        metadata,
-        location,
-        history,
-        onFetch,
-        searchingKey,
-        rest
-      );
+      utils.fetchDataIfNotBackButton(metadata, location, history, onFetch, searchingKey, rest);
 
       expect(rest.dispatch).to.have.been.called;
       expect(onFetch).to.have.been.called;
@@ -59,14 +48,7 @@ describe("<Records /> - utils", () => {
     });
 
     it("should dispatch an action with metadata values and defaultFilters", () => {
-      utils.fetchDataIfNotBackButton(
-        { per: 75, page: 2 },
-        location,
-        history,
-        onFetch,
-        searchingKey,
-        rest
-      );
+      utils.fetchDataIfNotBackButton({ per: 75, page: 2 }, location, history, onFetch, searchingKey, rest);
 
       expect(rest.dispatch).to.have.been.called;
       expect(onFetch).to.have.been.called;
@@ -87,25 +69,13 @@ describe("<Records /> - utils", () => {
     const rest = { dispatch: spy() };
 
     it("should not dispatch an action if previous and next route are equals", () => {
-      utils.clearMetadataOnLocationChange(
-        location,
-        history,
-        recordType,
-        0,
-        rest
-      );
+      utils.clearMetadataOnLocationChange(location, history, recordType, 0, rest);
 
       expect(rest.dispatch).to.have.not.been.calledOnce;
     });
 
     it("should dispatch an action if previous and next route are different", () => {
-      utils.clearMetadataOnLocationChange(
-        { pathname: "test_other_path" },
-        history,
-        recordType,
-        0,
-        rest
-      );
+      utils.clearMetadataOnLocationChange({ pathname: "test_other_path" }, history, recordType, 0, rest);
 
       const firstCallArg = rest.dispatch.getCall(0).args[0];
 

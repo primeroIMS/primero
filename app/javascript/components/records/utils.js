@@ -7,8 +7,7 @@ import { DEFAULT_METADATA } from "../../config";
 
 import { clearMetadata } from "./action-creators";
 
-const getRouteValue = (index, data) =>
-  data.split("/").filter(value => value)[index];
+const getRouteValue = (index, data) => data.split("/").filter(value => value)[index];
 
 export const cleanUpFilters = filters => {
   const filterSelector = filters instanceof Map ? filters.toJS() : filters;
@@ -64,9 +63,7 @@ export const fetchDataIfNotBackButton = (
 ) => {
   const { per: currentPer, page: currentPage, total: currentTotal } = metadata;
   const sameLocation = location.pathname === history.location.pathname;
-  const differentPageOrPer =
-    currentPer !== DEFAULT_METADATA.per ||
-    currentPage !== DEFAULT_METADATA.page;
+  const differentPageOrPer = currentPer !== DEFAULT_METADATA.per || currentPage !== DEFAULT_METADATA.page;
 
   if (history.action === "PUSH" && sameLocation && differentPageOrPer) {
     dispatch(
@@ -75,34 +72,18 @@ export const fetchDataIfNotBackButton = (
         [searchingKey]: { ...defaultFilterFields, ...DEFAULT_METADATA }
       })
     );
-  } else if (
-    sameLocation &&
-    (differentPageOrPer || currentTotal !== "undefined")
-  ) {
+  } else if (sameLocation && (differentPageOrPer || currentTotal !== "undefined")) {
     const defaultFilters = { ...defaultFilterFields, ...metadata };
 
     dispatch(onFetch({ ...restActionParams, [searchingKey]: defaultFilters }));
   }
 };
 
-export const clearMetadataOnLocationChange = (
-  location,
-  history,
-  recordType,
-  routeIndexValue,
-  { dispatch }
-) => {
+export const clearMetadataOnLocationChange = (location, history, recordType, routeIndexValue, { dispatch }) => {
   const previous = location.pathname;
   const current = history.location.pathname;
 
-  if (
-    getRouteValue(routeIndexValue, previous) !==
-    getRouteValue(routeIndexValue, current)
-  ) {
-    dispatch(
-      clearMetadata(
-        Array.isArray(recordType) ? recordType.join("/") : recordType
-      )
-    );
+  if (getRouteValue(routeIndexValue, previous) !== getRouteValue(routeIndexValue, current)) {
+    dispatch(clearMetadata(Array.isArray(recordType) ? recordType.join("/") : recordType));
   }
 };

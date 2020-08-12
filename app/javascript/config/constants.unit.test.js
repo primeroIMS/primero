@@ -62,7 +62,8 @@ describe("Verifying config constant", () => {
       "ALERTS_FOR",
       "ROWS_PER_PAGE_OPTIONS",
       "MAX_IMAGE_SIZE",
-      "DEFAULT_METADATA"
+      "DEFAULT_METADATA",
+      "LOCALE_KEYS"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);
@@ -140,7 +141,13 @@ describe("Verifying config constant", () => {
         expect(constants.RECORD_INFORMATION).to.be.an("array");
         expect(constants.APPROVALS).to.be.an("string");
         expect(constants.APPROVALS_TYPES).to.be.an("object");
-        expect(constants.APPROVALS_TYPES).to.have.all.keys("assessment", "case_plan", "closure");
+        expect(constants.APPROVALS_TYPES).to.have.all.keys(
+          "action_plan",
+          "assessment",
+          "case_plan",
+          "closure",
+          "gbv_closure"
+        );
 
         expect(constants.ALERTS_FOR).to.have.all.keys(
           "approval",

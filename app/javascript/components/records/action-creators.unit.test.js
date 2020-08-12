@@ -127,8 +127,6 @@ describe("records - Action Creators", () => {
       type: "TestRecordType/CLEAR_METADATA"
     };
 
-    expect(actionCreators.clearMetadata("TestRecordType")).be.deep.equals(
-      expected
-    );
+    expect(actionCreators.clearMetadata("TestRecordType")).be.deep.equals(expected);
   });
 });

@@ -14,10 +14,7 @@ import { useThemeHelper } from "../../../../libs";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
-import {
-  fetchDataIfNotBackButton,
-  clearMetadataOnLocationChange
-} from "../../../records";
+import { fetchDataIfNotBackButton, clearMetadataOnLocationChange } from "../../../records";
 
 import { NAME } from "./constants";
 import { fetchAdminLookups } from "./action-creators";
@@ -47,14 +44,7 @@ const Component = () => {
   );
 
   useEffect(() => {
-    fetchDataIfNotBackButton(
-      metadata?.toJS(),
-      location,
-      history,
-      fetchAdminLookups,
-      "data",
-      { dispatch }
-    );
+    fetchDataIfNotBackButton(metadata?.toJS(), location, history, fetchAdminLookups, "data", { dispatch });
   }, [location]);
 
   useEffect(() => {
