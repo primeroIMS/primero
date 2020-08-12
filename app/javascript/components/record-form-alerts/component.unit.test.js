@@ -57,11 +57,7 @@ describe("<RecordFormAlerts />", () => {
     );
 
     expect(component.find(InternalAlert)).to.have.lengthOf(2);
-    expect(component.find(InternalAlert).first().props().severity).to.equal(
-      "error"
-    );
-    expect(component.find(InternalAlert).last().props().severity).to.equal(
-      "info"
-    );
+    expect(component.find(InternalAlert).first().props().severity).to.equal("error");
+    expect(component.find(InternalAlert).last().props().severity).to.equal("info");
   });
 });

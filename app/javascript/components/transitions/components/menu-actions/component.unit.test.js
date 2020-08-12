@@ -52,11 +52,7 @@ describe("<MenuActions /> - Component", () => {
 
       describe("when user has access to all menus", () => {
         beforeEach(() => {
-          ({ component } = setupMountedComponent(
-            TransitionActions,
-            props,
-            state
-          ));
+          ({ component } = setupMountedComponent(TransitionActions, props, state));
         });
 
         it("renders Menu", () => {
@@ -70,8 +66,7 @@ describe("<MenuActions /> - Component", () => {
         });
 
         it("renders MenuItem with revoke option", () => {
-          const menuChildrenAction = component.find(Menu).props().children[0]
-            .props.children;
+          const menuChildrenAction = component.find(Menu).props().children[0].props.children;
 
           expect(menuChildrenAction).to.be.equals("actions.revoke");
         });
@@ -130,11 +125,7 @@ describe("<MenuActions /> - Component", () => {
 
       describe("when user has access to all menus", () => {
         beforeEach(() => {
-          ({ component } = setupMountedComponent(
-            TransitionActions,
-            props,
-            state
-          ));
+          ({ component } = setupMountedComponent(TransitionActions, props, state));
         });
 
         it("renders Menu", () => {
@@ -148,8 +139,7 @@ describe("<MenuActions /> - Component", () => {
         });
 
         it("renders MenuItem with revoke option", () => {
-          const menuChildrenAction = component.find(Menu).props().children[0]
-            .props.children;
+          const menuChildrenAction = component.find(Menu).props().children[0].props.children;
 
           expect(menuChildrenAction).to.be.equals("actions.revoke");
         });
@@ -219,15 +209,7 @@ describe("<MenuActions /> - Component", () => {
       const exportProps = { ...component.find(RevokeModal).props() };
 
       expect(component.find(RevokeModal)).to.have.lengthOf(1);
-      [
-        "name",
-        "open",
-        "transition",
-        "close",
-        "recordType",
-        "pending",
-        "setPending"
-      ].forEach(property => {
+      ["name", "open", "transition", "close", "recordType", "pending", "setPending"].forEach(property => {
         expect(exportProps).to.have.property(property);
         delete exportProps[property];
       });

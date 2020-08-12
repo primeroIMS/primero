@@ -41,9 +41,7 @@ describe("<RolesList />", () => {
       }
     });
 
-    ({ component } = setupMountedComponent(RolesList, {}, initialState, [
-      "/admin/roles"
-    ]));
+    ({ component } = setupMountedComponent(RolesList, {}, initialState, ["/admin/roles"]));
   });
 
   it("renders record list table", () => {
@@ -60,17 +58,11 @@ describe("<RolesList />", () => {
       type: "roles/ROLES"
     };
 
-    expect(indexTable.find("p").at(1).text()).to.be.equals(
-      `1-20 of ${dataLength}`
-    );
+    expect(indexTable.find("p").at(1).text()).to.be.equals(`1-20 of ${dataLength}`);
     expect(component.props().store.getActions()).to.have.lengthOf(2);
     indexTable.find("#pagination-next").at(0).simulate("click");
 
-    expect(indexTable.find("p").at(1).text()).to.be.equals(
-      `21-${dataLength} of ${dataLength}`
-    );
-    expect(component.props().store.getActions()[2]).to.deep.equals(
-      expectAction
-    );
+    expect(indexTable.find("p").at(1).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
+    expect(component.props().store.getActions()[2]).to.deep.equals(expectAction);
   });
 });

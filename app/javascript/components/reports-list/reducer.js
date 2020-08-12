@@ -17,10 +17,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case FETCH_REPORTS_STARTED:
       return state.set("loading", fromJS(payload)).set("errors", false);
     case FETCH_REPORTS_SUCCESS:
-      return state
-        .set("data", fromJS(payload.data))
-        .set("metadata", fromJS(payload.metadata))
-        .set("errors", false);
+      return state.set("data", fromJS(payload.data)).set("metadata", fromJS(payload.metadata)).set("errors", false);
     case FETCH_REPORTS_FINISHED:
       return state.set("loading", fromJS(payload));
     case FETCH_REPORTS_FAILURE:

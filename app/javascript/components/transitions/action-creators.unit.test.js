@@ -22,11 +22,7 @@ describe("<Transitions /> - Action Creators", () => {
 
     actionCreators.fetchTransitions(recordType, record)(dispatch);
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql(
-      actions.FETCH_TRANSITIONS
-    );
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql(
-      "cases/d6a6dbb4-e5e9-4720-a661-e181a12fd3a0/transitions"
-    );
+    expect(dispatch.getCall(0).returnValue.type).to.eql(actions.FETCH_TRANSITIONS);
+    expect(dispatch.getCall(0).returnValue.api.path).to.eql("cases/d6a6dbb4-e5e9-4720-a661-e181a12fd3a0/transitions");
   });
 });

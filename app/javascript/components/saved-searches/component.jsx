@@ -13,9 +13,7 @@ const SavedSearches = ({ recordType, setTabIndex, setRerender }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
-  const savedSearches = useSelector(state =>
-    selectSavedSearches(state, recordType)
-  );
+  const savedSearches = useSelector(state => selectSavedSearches(state, recordType));
 
   const listSavedSearchesProps = {
     recordType,

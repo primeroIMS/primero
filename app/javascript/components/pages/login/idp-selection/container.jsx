@@ -43,9 +43,7 @@ const Container = () => {
   return (
     <>
       <PageHeading title={i18n.t("login.title")} whiteHeading />
-      <div className={`${css.loginSelection} loginSelection`}>
-        {showIdps(identityProviders, i18n, dispatch)}
-      </div>
+      <div className={`${css.loginSelection} loginSelection`}>{showIdps(identityProviders, i18n, dispatch)}</div>
     </>
   );
 };

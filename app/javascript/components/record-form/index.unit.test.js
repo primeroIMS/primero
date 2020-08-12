@@ -30,6 +30,7 @@ describe("<RecordForm /> - index", () => {
       "getReportingLocations",
       "getSelectedForm",
       "getServiceToRefer",
+      "getSubformsDisplayName",
       "getValidationErrors",
       "reducer",
       "setSelectedForm"

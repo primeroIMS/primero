@@ -24,5 +24,4 @@ export const getResolvedFlags = (state, id, recordType) => {
   return flags.filter(flag => flag.removed);
 };
 
-export const getSelectedFlag = state =>
-  state.getIn(["records", NAMESPACE, "selectedFlag"]);
+export const getSelectedFlag = state => state.getIn(["records", NAMESPACE, "selectedFlag"]);

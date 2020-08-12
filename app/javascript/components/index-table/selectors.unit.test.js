@@ -63,9 +63,7 @@ describe("<RecordList /> - Selectors", () => {
 
   describe("selectMeta", () => {
     it("should not find removed function selectMeta", () => {
-      expect(selectors, "DEPRECATED selectMeta").to.not.have.property(
-        "selectMeta"
-      );
+      expect(selectors, "DEPRECATED selectMeta").to.not.have.property("selectMeta");
     });
   });
 

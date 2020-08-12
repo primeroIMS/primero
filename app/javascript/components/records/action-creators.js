@@ -9,14 +9,7 @@ import {
   FETCH_RECORD_ALERTS
 } from "./actions";
 
-const getSuccessCallback = ({
-  dialogName,
-  message,
-  messageForQueue,
-  recordType,
-  redirect,
-  saveMethod
-}) => {
+const getSuccessCallback = ({ dialogName, message, messageForQueue, recordType, redirect, saveMethod }) => {
   const defaultSuccessCallback = [
     {
       action: ENQUEUE_SNACKBAR,
@@ -25,7 +18,7 @@ const getSuccessCallback = ({
         messageForQueue,
         options: {
           variant: "success",
-          key: generate.messageKey()
+          key: generate.messageKey(message)
         }
       },
       redirectWithIdFromResponse: saveMethod !== "update",

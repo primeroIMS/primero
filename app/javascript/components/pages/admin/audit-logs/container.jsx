@@ -13,11 +13,7 @@ import Permission from "../../../application/permission";
 import { Filters as AdminFilters } from "../components";
 
 import { AUDIT_LOG, NAME, TIMESTAMP, USER_NAME } from "./constants";
-import {
-  fetchAuditLogs,
-  fetchPerformedBy,
-  setAuditLogsFilters
-} from "./action-creators";
+import { fetchAuditLogs, fetchPerformedBy, setAuditLogsFilters } from "./action-creators";
 import { getFilterUsers } from "./selectors";
 import { buildAuditLogsQuery, getFilters } from "./utils";
 
@@ -34,8 +30,7 @@ const Container = () => {
     clearFields: [USER_NAME, TIMESTAMP],
     filters: getFilters(filterUsers),
     onSubmit: data => {
-      const filters =
-        typeof data === "undefined" ? {} : buildAuditLogsQuery(data);
+      const filters = typeof data === "undefined" ? {} : buildAuditLogsQuery(data);
       let queryParams = {};
 
       if (typeof data !== "undefined" && TIMESTAMP in data) {
@@ -90,19 +85,12 @@ const Container = () => {
   };
 
   return (
-    <Permission
-      resources={RESOURCES.audit_logs}
-      actions={SHOW_AUDIT_LOGS}
-      redirect
-    >
+    <Permission resources={RESOURCES.audit_logs} actions={SHOW_AUDIT_LOGS} redirect>
       <PageHeading title={i18n.t("settings.navigation.audit_logs")} />
       <PageContent>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={9}>
-            <IndexTable
-              title={i18n.t("settings.navigation.audit_logs")}
-              {...tableOptions}
-            />
+            <IndexTable title={i18n.t("settings.navigation.audit_logs")} {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>
             <AdminFilters {...filterProps} />

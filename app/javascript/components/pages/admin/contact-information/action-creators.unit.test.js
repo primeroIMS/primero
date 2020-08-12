@@ -49,9 +49,7 @@ describe("<ContactInformation /> - Action Creators", () => {
       }
     };
 
-    expect(actionsCreators.saveContactInformation(args)).to.deep.equal(
-      expectedAction
-    );
+    expect(actionsCreators.saveContactInformation(args)).to.deep.equal(expectedAction);
 
     generate.messageKey.restore();
   });

@@ -15,5 +15,4 @@ export const getServerErrors = state => {
   return state.getIn(["records", NAMESPACE, "serverErrors"], fromJS([]));
 };
 
-export const getSavingRecord = state =>
-  state.getIn(["records", NAMESPACE, SAVING], false);
+export const getSavingRecord = state => state.getIn(["records", NAMESPACE, SAVING], false);

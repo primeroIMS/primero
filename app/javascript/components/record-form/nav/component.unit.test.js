@@ -5,6 +5,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { setupMountedComponent } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
 import { ConditionalWrapper } from "../../../libs";
+import Actions from "../actions";
 
 import { NavGroup, RecordInformation } from "./components";
 import Nav from "./component";
@@ -52,6 +53,29 @@ describe("<Nav />", () => {
       module_ids: ["primeromodule-cp"],
       parent_form: "case",
       fields: [1]
+    }),
+    2: FormSectionRecord({
+      id: 2,
+      form_group_id: "record_information",
+      form_group_name: {
+        en: "Record information",
+        fr: "",
+        ar: ""
+      },
+      order_form_group: 30,
+      name: {
+        en: "Record information",
+        fr: "",
+        ar: ""
+      },
+      order: 10,
+      unique_id: "record_owner",
+      is_first_tab: true,
+      visible: true,
+      is_nested: false,
+      module_ids: ["primeromodule-cp"],
+      parent_form: "case",
+      fields: [1]
     })
   });
 
@@ -90,7 +114,7 @@ describe("<Nav />", () => {
         name: "Basic Identity",
         order: 9,
         formId: "basic_identity",
-        is_first_tab: false
+        is_first_tab: true
       }
     })
   });
@@ -115,11 +139,13 @@ describe("<Nav />", () => {
     firstTab: {},
     formNav,
     handleToggleNav: () => {},
-    isNew: true,
+    isNew: false,
     mobileDisplay: true,
-    selectedForm: "",
-    selectedRecord: "",
-    toggleNav: true
+    selectedForm: "record_owner",
+    selectedRecord: "1d8d84eb-25e3-4d8b-8c32-8452eee3e71c",
+    toggleNav: true,
+    recordType: "cases",
+    primeroModule: "primeromodule-cp"
   };
 
   beforeEach(() => {
@@ -146,6 +172,10 @@ describe("<Nav />", () => {
     expect(component.find(NavGroup)).to.have.lengthOf(2);
   });
 
+  it("renders the NavGroup component for record information open", () => {
+    expect(component.find(NavGroup).first().props().open).to.equal("record_information");
+  });
+
   it("renders a ConditionalWrapper />", () => {
     expect(component.find(ConditionalWrapper)).to.have.lengthOf(1);
   });
@@ -160,6 +190,8 @@ describe("<Nav />", () => {
       "handleToggleNav",
       "isNew",
       "mobileDisplay",
+      "primeroModule",
+      "recordType",
       "selectedForm",
       "selectedRecord",
       "toggleNav"
@@ -168,5 +200,102 @@ describe("<Nav />", () => {
       delete navProps[property];
     });
     expect(navProps).to.be.empty;
+  });
+
+  describe("when the selected record is not the current record", () => {
+    const notSelectedProps = {
+      ...props,
+      firstTab: { unique_id: "basic_identity" },
+      selectedRecord: ""
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(Nav, notSelectedProps, initialState));
+    });
+
+    it("sets the firstTab as selectedForm", () => {
+      const expectedAction = {
+        type: Actions.SET_SELECTED_FORM,
+        payload: "basic_identity"
+      };
+
+      const setAction = component
+        .props()
+        .store.getActions()
+        .find(action => action.type === Actions.SET_SELECTED_FORM);
+
+      expect(setAction).to.deep.equal(expectedAction);
+    });
+  });
+
+  describe("when clicking a formGroup", () => {
+    const formNavWithGroups = OrderedMap({
+      1: OrderedMap({
+        1: {
+          formId: "basic_identity",
+          group: "identification_registration",
+          groupName: "Identification / Registration",
+          groupOrder: 30,
+          is_first_tab: true,
+          name: "Basic Identity",
+          order: 10,
+          permission_actions: []
+        },
+        2: {
+          formId: "incident_details_container",
+          group: "identification_registration",
+          groupName: "Identification / Registration",
+          groupOrder: 30,
+          is_first_tab: false,
+          name: "Incident Details",
+          order: 0,
+          permission_actions: []
+        }
+      }),
+      2: OrderedMap({
+        3: {
+          formId: "family_details",
+          group: "family_partner_details",
+          groupName: "Family / Partner Details",
+          groupOrder: 50,
+          is_first_tab: false,
+          name: "Family Details",
+          order: 10,
+          permission_actions: []
+        },
+        4: {
+          formId: "partner_details",
+          group: "family_partner_details",
+          groupName: "Family / Partner Details",
+          groupOrder: 50,
+          is_first_tab: false,
+          name: "Partner/Spouse Details",
+          order: 20,
+          permission_actions: []
+        }
+      })
+    });
+    const navGroupProps = {
+      formNav: formNavWithGroups,
+      firstTab: {},
+      handleToggleNav: () => {},
+      isNew: true,
+      mobileDisplay: false,
+      selectedForm: "basic_identity",
+      selectedRecord: "1d8d84eb-25e3-4d8b-8c32-8452eee3e71c",
+      toggleNav: true,
+      recordType: "cases",
+      primeroModule: "primeromodule-cp"
+    };
+
+    it("should select first form of the form group", () => {
+      const { component: navComponent } = setupMountedComponent(Nav, navGroupProps, initialState);
+      const registrationGroup = navComponent.find(".MuiListItem-gutters").at(3);
+
+      expect(registrationGroup.text()).to.be.equal("Identification / Registration");
+
+      registrationGroup.simulate("click");
+      expect(navComponent.find(".Mui-selected").at(0).text()).to.be.equal("Basic Identity");
+    });
   });
 });

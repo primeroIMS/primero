@@ -24,10 +24,7 @@ const RequestForm = ({ formProps, record }) => {
       <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <DisplayData
-              label={i18n.t("cases.case_worker_code")}
-              value={record && record.get("owned_by")}
-            />
+            <DisplayData label={i18n.t("cases.case_worker_code")} value={record && record.get("owned_by")} />
           </Grid>
           <Grid item xs={6}>
             <DisplayData label={i18n.t("cases.agency")} />

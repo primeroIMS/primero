@@ -20,8 +20,7 @@ export const cleanUpFilters = filters => {
       value === "" ||
       value === null ||
       (Array.isArray(value) && value.length === 0) ||
-      ((isMap || typeof value === "object") &&
-        Object.values(isMap ? value.toJS() : value).includes(null))
+      ((isMap || typeof value === "object") && Object.values(isMap ? value.toJS() : value).includes(null))
     );
   });
 
@@ -31,10 +30,7 @@ export const cleanUpFilters = filters => {
 
     if (Array.isArray(value)) {
       filterObject[key] = value.join(",");
-    } else if (
-      typeof value === "object" &&
-      !Object.values(value).includes(null)
-    ) {
+    } else if (typeof value === "object" && !Object.values(value).includes(null)) {
       const valueConverted = {};
 
       Object.entries(value).forEach(keys => {

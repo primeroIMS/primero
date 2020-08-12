@@ -1,3 +1,4 @@
+import React from "react";
 import { DialogTitle, IconButton } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../test";
@@ -9,7 +10,8 @@ describe("<TitleWithClose />", () => {
   const props = {
     closeHandler: () => {},
     dialogSubtitle: "Test Subtitle",
-    dialogTitle: "Test Title"
+    dialogTitle: "Test Title",
+    dialogAction: <></>
   };
 
   beforeEach(() => {
@@ -28,7 +30,7 @@ describe("<TitleWithClose />", () => {
     const TitleWithCloseProps = { ...component.find(TitleWithClose).props() };
 
     expect(component.find(TitleWithClose)).to.have.lengthOf(1);
-    ["closeHandler", "dialogSubtitle", "dialogTitle"].forEach(property => {
+    ["closeHandler", "dialogAction", "dialogSubtitle", "dialogTitle"].forEach(property => {
       expect(TitleWithCloseProps).to.have.property(property);
       delete TitleWithCloseProps[property];
     });
@@ -36,21 +38,13 @@ describe("<TitleWithClose />", () => {
   });
 
   it("should render a title with subtitle ", () => {
-    expect(component.find(DialogTitle).text()).to.be.equal(
-      "Test TitleTest Subtitle"
-    );
+    expect(component.find(DialogTitle).text()).to.be.equal("Test TitleTest Subtitle");
   });
 
   it("should render a title without subtitle", () => {
     delete props.dialogSubtitle;
-    const { component: componentWithoutSubtitle } = setupMountedComponent(
-      TitleWithClose,
-      props,
-      {}
-    );
+    const { component: componentWithoutSubtitle } = setupMountedComponent(TitleWithClose, props, {});
 
-    expect(componentWithoutSubtitle.find(DialogTitle).text()).to.be.equal(
-      "Test Title"
-    );
+    expect(componentWithoutSubtitle.find(DialogTitle).text()).to.be.equal("Test Title");
   });
 });

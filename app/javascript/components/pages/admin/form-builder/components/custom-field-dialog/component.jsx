@@ -14,6 +14,10 @@ import { setDialog } from "../../../../../record-actions/action-creators";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
 import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
+import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
+import { compare } from "../../../../../../libs";
+import { getSelectedField, getSelectedSubform } from "../../selectors";
+import { isSubformField } from "../field-dialog/utils";
 
 import styles from "./styles.css";
 import { NAME, CUSTOM_FIELD_DIALOG } from "./constants";
@@ -22,11 +26,16 @@ const Component = () => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
-  const openFieldDialog = useSelector(state =>
-    selectDialog(state, CUSTOM_FIELD_DIALOG)
-  );
+  const selectedField = useSelector(state => getSelectedField(state), compare);
+  const openFieldDialog = useSelector(state => selectDialog(state, CUSTOM_FIELD_DIALOG));
+
+  const isSubform = isSubformField(selectedField);
+  const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
 
   const handleDialog = () => {
+    if (isSubform) {
+      dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+    }
     dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true }));
   };
 
@@ -38,6 +47,9 @@ const Component = () => {
   };
 
   const handleClose = () => {
+    if (isSubform && selectedSubform.toSeq().size) {
+      dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: true }));
+    }
     dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: false }));
   };
 
@@ -55,6 +67,7 @@ const Component = () => {
         open={openFieldDialog}
         maxSize="xs"
         disableActions
+        confirmButtonLabel=""
         dialogTitle={i18n.t("fields.add_field")}
       >
         <div>
@@ -68,6 +81,7 @@ const Component = () => {
               fullWidth: true,
               className: css.existingFieldButton
             }}
+            keepTextOnMobile
           />
           <ActionButton
             icon={<FormatListBulletedIcon />}
@@ -78,6 +92,7 @@ const Component = () => {
               fullWidth: true,
               className: css.existingFieldButton
             }}
+            keepTextOnMobile
           />
           <ActionButton
             icon={<CloseIcon />}
@@ -89,16 +104,19 @@ const Component = () => {
               fullWidth: true,
               className: css.cancelButton
             }}
+            keepTextOnMobile
           />
         </div>
       </ActionDialog>
-      <CustomFieldSelectorDialog key="custom-field-selector-dialog" />
+      <CustomFieldSelectorDialog key="custom-field-selector-dialog" isSubform={isSubform} />
     </>
   );
 };
 
 Component.displayName = NAME;
 
-Component.propTypes = {};
+Component.defaultProps = {
+  isSubform: false
+};
 
 export default Component;

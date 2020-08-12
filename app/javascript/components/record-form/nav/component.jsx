@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { List, IconButton, Drawer } from "@material-ui/core";
@@ -6,7 +8,8 @@ import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
+import { RECORD_TYPES } from "../../../config";
+import { getRecordFormsByUniqueId, getSelectedRecord, getValidationErrors } from "../selectors";
 import { getRecordAlerts } from "../../records/selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
 import { compare, ConditionalWrapper } from "../../../libs";
@@ -28,39 +31,43 @@ const Component = ({
   selectedForm
 }) => {
   const [open, setOpen] = useState("");
+  const [previousGroup, setPreviousGroup] = useState("");
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const selectedRecordForm = useSelector(
     state =>
       getRecordFormsByUniqueId(state, {
-        recordType,
+        recordType: RECORD_TYPES[recordType],
         primeroModule,
         formName: selectedForm || firstTab.unique_id,
         checkVisible: true
       }),
     compare
   );
-  const validationErrors = useSelector(
-    state => getValidationErrors(state),
-    compare
-  );
+  const validationErrors = useSelector(state => getValidationErrors(state), compare);
+  const currentSelectedRecord = useSelector(state => getSelectedRecord(state));
+
+  const recordAlerts = useSelector(state => getRecordAlerts(state, recordType), compare);
 
   const handleClick = args => {
     const { group, formId, parentItem } = args;
 
+    setPreviousGroup(group);
     if (group !== open) {
       setOpen(group);
     } else if (parentItem && group === open) {
       setOpen("");
     }
 
-    dispatch(
-      setSelectedForm(
-        parentItem && (group === open || open === "")
-          ? selectedRecordForm.first().unique_id
-          : formId
-      )
-    );
+    if (parentItem) {
+      if ((open === "" || group === open) && (previousGroup === "" || previousGroup === group)) {
+        dispatch(setSelectedForm(selectedForm));
+      } else {
+        dispatch(setSelectedForm(formId));
+      }
+    } else {
+      dispatch(setSelectedForm(formId));
+    }
 
     if (!parentItem && mobileDisplay) {
       handleToggleNav();
@@ -68,12 +75,9 @@ const Component = ({
   };
 
   useEffect(() => {
-    if (!selectedForm || isNew) {
+    if (!selectedForm || isNew || currentSelectedRecord !== selectedRecord) {
       dispatch(setSelectedForm(firstTab.unique_id));
-    } else if (
-      !selectedRecordForm?.isEmpty() &&
-      open !== selectedRecordForm.first().form_group_id
-    ) {
+    } else if (!selectedRecordForm?.isEmpty() && open !== selectedRecordForm.first().form_group_id) {
       setOpen(selectedRecordForm.first().form_group_id);
     }
   }, []);
@@ -81,22 +85,14 @@ const Component = ({
   useEffect(() => {
     dispatch(setSelectedRecord(selectedRecord));
 
-    if (!selectedForm || isNew) {
+    if (!selectedForm || isNew || currentSelectedRecord !== selectedRecord) {
       setOpen(firstTab.form_group_id);
     }
   }, [firstTab]);
 
-  const recordAlerts = useSelector(
-    state => getRecordAlerts(state, recordType),
-    compare
-  );
-
   const renderCloseButtonNavBar = mobileDisplay && (
     <div className={css.closeButtonRecordNav}>
-      <IconButton
-        onClick={handleToggleNav}
-        className={css.closeIconButtonRecordNav}
-      >
+      <IconButton onClick={handleToggleNav} className={css.closeIconButtonRecordNav}>
         <CloseIcon />
       </IconButton>
     </div>
@@ -120,6 +116,7 @@ const Component = ({
           handleClick={handleClick}
           isNew={isNew}
           open={open}
+          key={formGroup.keySeq().first()}
           recordAlerts={recordAlerts}
           selectedForm={selectedForm}
           validationErrors={validationErrors}
@@ -129,18 +126,10 @@ const Component = ({
 
     return (
       <>
-        <ConditionalWrapper
-          condition={mobileDisplay}
-          wrapper={Drawer}
-          {...drawerProps}
-        >
+        <ConditionalWrapper condition={mobileDisplay} wrapper={Drawer} {...drawerProps}>
           {renderCloseButtonNavBar}
           <List className={css.listRecordNav}>
-            <RecordInformation
-              handleClick={handleClick}
-              open={open}
-              selectedForm={selectedForm}
-            />
+            <RecordInformation handleClick={handleClick} open={open} selectedForm={selectedForm} />
             <Divider />
             {renderFormGroups}
           </List>

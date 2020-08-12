@@ -3,12 +3,10 @@ import { batch, useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Menu, CircularProgress } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { getEnabledAgencies } from "../../../../application/selectors";
-import {
-  getLoadingTransitionType,
-  getUsersByTransitionType
-} from "../../../../record-actions/transitions/selectors";
+import { getLoadingTransitionType, getUsersByTransitionType } from "../../../../record-actions/transitions/selectors";
 import { REFERRAL_TYPE } from "../../../../record-actions/transitions";
 import { setServiceToRefer } from "../../../action-creators";
 import { getOption } from "../../../selectors";
@@ -22,7 +20,6 @@ import Permission from "../../../../application/permission";
 import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
 import { currentUser } from "../../../../user";
 import DisableOffline from "../../../../disable-offline";
-import { useThemeHelper } from "../../../../../libs";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
@@ -33,19 +30,13 @@ const Component = ({ index, recordType, values }) => {
   const i18n = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
-  const css = useThemeHelper(styles);
+  const css = makeStyles(styles)();
 
-  const services = useSelector(state =>
-    getOption(state, "lookup-service-type", i18n.locale)
-  );
+  const services = useSelector(state => getOption(state, "lookup-service-type", i18n.locale));
 
-  const referralUsers = useSelector(state =>
-    getUsersByTransitionType(state, REFERRAL_TYPE)
-  );
+  const referralUsers = useSelector(state => getUsersByTransitionType(state, REFERRAL_TYPE));
 
-  const loading = useSelector(state =>
-    getLoadingTransitionType(state, REFERRAL_TYPE)
-  );
+  const loading = useSelector(state => getLoadingTransitionType(state, REFERRAL_TYPE));
 
   const userName = useSelector(state => currentUser(state));
 
@@ -82,6 +73,7 @@ const Component = ({ index, recordType, values }) => {
           icon={<MoreVertIcon />}
           type={ACTION_BUTTON_TYPES.icon}
           rest={{
+            className: css.moreActions,
             "aria-label": "more",
             "aria-controls": "long-menu",
             "aria-haspopup": "true",
@@ -96,17 +88,8 @@ const Component = ({ index, recordType, values }) => {
           key={`service-menu-${index}`}
           ref={ref}
         >
-          {serviceIsReferrable(
-            values[index],
-            services,
-            agencies,
-            referralUsers
-          ) ? (
-            <ReferAction
-              index={index}
-              handleReferral={handleReferral}
-              values={values}
-            />
+          {serviceIsReferrable(values[index], services, agencies, referralUsers) ? (
+            <ReferAction index={index} handleReferral={handleReferral} values={values} />
           ) : (
             loading && <CircularProgress className={css.loadingIndicator} />
           )}

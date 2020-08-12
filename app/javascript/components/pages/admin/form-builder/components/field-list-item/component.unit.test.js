@@ -43,17 +43,14 @@ describe("<FieldListItem />", () => {
     });
 
     it("should render a enabled show? checkbox ", () => {
-      expect(component.find(SwitchInput).props().commonInputProps.disabled).to
-        .be.false;
+      expect(component.find(SwitchInput).props().commonInputProps.disabled).to.be.false;
     });
     it("should render name", () => {
       expect(component.find(Button).text()).to.equal("Field 1");
     });
 
     it("should render type", () => {
-      expect(component.find("div").at(4).text()).to.equal(
-        `fields.${TEXT_FIELD}`
-      );
+      expect(component.find("div").at(4).text()).to.equal(`fields.${TEXT_FIELD}`);
     });
   });
 
@@ -89,14 +86,11 @@ describe("<FieldListItem />", () => {
     });
 
     it("should render a disabled show? checkbox", () => {
-      expect(component.find(SwitchInput).props().commonInputProps.disabled).to
-        .be.true;
+      expect(component.find(SwitchInput).props().commonInputProps.disabled).to.be.true;
     });
 
     it("should render type", () => {
-      expect(component.find("div").at(4).text()).to.equal(
-        `fields.multi_select_box`
-      );
+      expect(component.find("div").at(4).text()).to.equal(`fields.multi_select_box`);
     });
   });
 });

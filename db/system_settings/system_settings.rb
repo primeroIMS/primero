@@ -39,9 +39,11 @@ create_or_update_system_setting(
   },
   show_alerts: true,
   approval_forms_to_alert: {
-    "cp_bia_form" => "assessment",
-    "cp_case_plan" => "case_plan",
-    "closure_form" => "closure"
+    cp_bia_form: 'assessment',
+    cp_case_plan: 'case_plan',
+    closure_form: 'closure',
+    action_plan_form: 'action_plan',
+    gbv_case_closure_form: 'gbv_closure'
   },
   changes_field_to_form: {
     notes_section: 'notes',
@@ -61,11 +63,15 @@ create_or_update_system_setting(
   approvals_labels_en: {
     assessment: 'Assessment',
     case_plan: 'Case Plan',
-    closure: 'Closure'
+    closure: 'Closure',
+    action_plan: 'Action Plan',
+    gbv_closure: 'GBV Closure'
   },
   approvals_labels_ar: {
     assessment: 'Assessment',
     case_plan: 'Case Plan',
-    closure: 'Closure'
+    closure: 'Closure',
+    action_plan: 'Action Plan',
+    gbv_closure: 'GBV Closure'
   }
 )

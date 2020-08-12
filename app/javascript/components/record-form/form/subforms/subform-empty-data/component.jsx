@@ -10,11 +10,11 @@ import styles from "../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ handleClick, i18n, mode, subformName }) => {
+const Component = ({ handleClick, i18n, mode, subformName, subformIsDisabled }) => {
   const css = makeStyles(styles)();
 
   const { isShow } = mode;
-  const renderAddButton = !isShow && (
+  const renderAddButton = !isShow && !subformIsDisabled && (
     <ActionButton
       icon={<AddIcon />}
       text={i18n.t("fields.add")}
@@ -29,9 +29,7 @@ const Component = ({ handleClick, i18n, mode, subformName }) => {
     <div className={css.emptySubformContainer}>
       <ErrorIcon />
       <span>
-        <strong>
-          {i18n.t("forms.subform_not_found", { subform_name: subformName })}
-        </strong>
+        <strong>{i18n.t("forms.subform_not_found", { subform_name: subformName })}</strong>
         {i18n.t("forms.subform_need_to_be_added")}
       </span>
       {renderAddButton}
@@ -45,6 +43,7 @@ Component.propTypes = {
   handleClick: PropTypes.func.isRequired,
   i18n: PropTypes.object.isRequired,
   mode: PropTypes.object.isRequired,
+  subformIsDisabled: PropTypes.bool,
   subformName: PropTypes.string
 };
 

@@ -26,6 +26,7 @@ Rails.application.routes.draw do
                    constraints: { format: :json },
                    only: %i[index create show update destroy] do
       resources :children, as: :cases, path: :cases do
+        resources :children_incidents, as: :incidents, path: :incidents, only: %i[index]
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
         resources :assigns, only: %i[index create]
@@ -35,6 +36,7 @@ Rails.application.routes.draw do
         resources :transitions, only: [:index]
         resources :attachments, only: %i[create destroy]
         resources :approvals, only: [:update]
+        resources :potential_matches, only: [:index]
         get :record_history, to: 'record_histories#index'
         collection do
           post :flags, to: 'flags#create_bulk'
@@ -60,6 +62,10 @@ Rails.application.routes.draw do
         resources :attachments, only: %i[create destroy]
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
+      end
+
+      resources :traces, only: %i[show update] do
+        resources :potential_matches, only: %i[index]
       end
 
       resources :form_sections, as: :forms, path: :forms

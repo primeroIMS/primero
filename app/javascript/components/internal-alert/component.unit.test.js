@@ -1,8 +1,5 @@
 import { fromJS } from "immutable";
-import {
-  ExpansionPanelSummary,
-  ExpansionPanelDetails
-} from "@material-ui/core";
+import { ExpansionPanelSummary, ExpansionPanelDetails } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
 
@@ -17,9 +14,7 @@ describe("<InternalAlert />", () => {
     );
 
     expect(component.find(InternalAlert)).to.have.lengthOf(1);
-    expect(component.find(ExpansionPanelSummary).text()).to.be.equal(
-      "Alert Message 1"
-    );
+    expect(component.find(ExpansionPanelSummary).text()).to.be.equal("Alert Message 1");
   });
 
   it("does not render details if there is only one alert", () => {
@@ -36,10 +31,7 @@ describe("<InternalAlert />", () => {
     const { component } = setupMountedComponent(
       InternalAlert,
       {
-        items: fromJS([
-          { message: "Alert Message 1" },
-          { message: "Alert Message 2" }
-        ]),
+        items: fromJS([{ message: "Alert Message 1" }, { message: "Alert Message 2" }]),
         severity: "warning"
       },
       {}
@@ -60,10 +52,7 @@ describe("<InternalAlert />", () => {
       InternalAlert,
       {
         title,
-        items: fromJS([
-          { message: "Alert Message 1" },
-          { message: "Alert Message 2" }
-        ]),
+        items: fromJS([{ message: "Alert Message 1" }, { message: "Alert Message 2" }]),
         severity: "warning"
       },
       {}

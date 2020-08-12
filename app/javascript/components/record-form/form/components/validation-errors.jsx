@@ -10,16 +10,18 @@ import { enqueueSnackbar } from "../../../notifier";
 import { getValidationErrors } from "../../selectors";
 import { setValidationErrors } from "../../action-creators";
 
+import { removeEmptyArrays } from "./utils";
 import { VALIDATION_ERRORS_NAME } from "./constants";
 
 const ValidationErrors = ({ formErrors, forms }) => {
   const dispatch = useDispatch();
-  const errors = useSelector(state => getValidationErrors(state), compare);
   const i18n = useI18n();
+  const errors = useSelector(state => getValidationErrors(state), compare);
+  const errorsWithoutEmptySubforms = removeEmptyArrays(formErrors);
 
   useEffect(() => {
-    if (!isEmpty(formErrors)) {
-      const fieldNames = Object.keys(formErrors);
+    if (!isEmpty(errorsWithoutEmptySubforms)) {
+      const fieldNames = Object.keys(errorsWithoutEmptySubforms);
 
       const formsWithErrors = forms.filter(value =>
         value
@@ -45,7 +47,7 @@ const ValidationErrors = ({ formErrors, forms }) => {
       dispatch(
         enqueueSnackbar(
           i18n.t("error_message.address_fields", {
-            fields: Object.keys(formErrors).length,
+            fields: Object.keys(errorsWithoutEmptySubforms).length,
             forms: formsWithErrors?.count() || 0
           }),
           "error"

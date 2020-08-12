@@ -129,12 +129,7 @@ describe("Records - Selectors", () => {
     });
 
     it("should return empty object when records empty", () => {
-      const records = selectRecord(
-        stateWithoutRecords,
-        { ...mode, isNew: true, isShow: false },
-        recordType,
-        id
-      );
+      const records = selectRecord(stateWithoutRecords, { ...mode, isNew: true, isShow: false }, recordType, id);
 
       expect(records).to.be.null;
     });
@@ -146,23 +141,13 @@ describe("Records - Selectors", () => {
     it("should return records", () => {
       const expected = "male";
 
-      const records = selectRecordAttribute(
-        stateWithRecords,
-        recordType,
-        id,
-        attribute
-      );
+      const records = selectRecordAttribute(stateWithRecords, recordType, id, attribute);
 
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
-      const records = selectRecordAttribute(
-        stateWithoutRecords,
-        recordType,
-        id,
-        attribute
-      );
+      const records = selectRecordAttribute(stateWithoutRecords, recordType, id, attribute);
 
       expect(records).to.be.empty;
     });
@@ -174,21 +159,13 @@ describe("Records - Selectors", () => {
     it("should return records", () => {
       const expected = [fromJS(record)];
 
-      const records = selectRecordsByIndexes(
-        stateWithRecords,
-        recordType,
-        indexes
-      );
+      const records = selectRecordsByIndexes(stateWithRecords, recordType, indexes);
 
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty array when records empty", () => {
-      const records = selectRecordsByIndexes(
-        stateWithoutRecords,
-        recordType,
-        []
-      );
+      const records = selectRecordsByIndexes(stateWithoutRecords, recordType, []);
 
       expect(records).to.be.empty;
     });
@@ -220,19 +197,13 @@ describe("Records - Selectors", () => {
     });
 
     it("should return loading state value", () => {
-      const loadingState = getLoadingRecordState(
-        stateWithLoadingTrue,
-        recordType
-      );
+      const loadingState = getLoadingRecordState(stateWithLoadingTrue, recordType);
 
       expect(loadingState).to.be.true;
     });
 
     it("should return false when there is not any loading state", () => {
-      const loadingState = getLoadingRecordState(
-        stateWithLoadingFalse,
-        recordType
-      );
+      const loadingState = getLoadingRecordState(stateWithLoadingFalse, recordType);
 
       expect(loadingState).to.be.false;
     });
@@ -265,9 +236,7 @@ describe("Records - Selectors", () => {
         }
       ]);
 
-      expect(
-        getRecordAlerts(stateWithRecordAlerts, RECORD_PATH.cases)
-      ).to.deep.equals(expected);
+      expect(getRecordAlerts(stateWithRecordAlerts, RECORD_PATH.cases)).to.deep.equals(expected);
     });
 
     it("should return an empty array when there are not any options", () => {

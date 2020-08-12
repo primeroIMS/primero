@@ -47,9 +47,7 @@ describe("<Flagging /> - Selectors", () => {
   });
 
   describe("getResolvedFlags", () => {
-    const expected = List([
-      FlagRecord({ record_id: 2, record_type: "cases", removed: true })
-    ]);
+    const expected = List([FlagRecord({ record_id: 2, record_type: "cases", removed: true })]);
 
     it("should return the correct value", () => {
       expect(getResolvedFlags(state, 2, "cases")).to.deep.equal(expected);

@@ -34,16 +34,12 @@ const SearchableSelect = ({
       return "";
     }
 
-    const { label } =
-      typeof option === "object"
-        ? option
-        : options?.find(opt => opt.value === option) || "";
+    const { label } = typeof option === "object" ? option : options?.find(opt => opt.value === option) || "";
 
     return label || "";
   };
 
-  const optionEquality = (option, selected) =>
-    option?.value === selected || option?.value === selected?.value;
+  const optionEquality = (option, selected) => option?.value === selected || option?.value === selected?.value;
 
   const initialValues = () => {
     if (Array.isArray(defaultValues)) {
@@ -78,9 +74,7 @@ const SearchableSelect = ({
       htmlFor: name,
       shrink: true
     },
-    placeholder: isDisabled
-      ? disabledPlaceholder
-      : i18n.t(`fields.select_${multiple ? "multiple" : "single"}`),
+    placeholder: isDisabled ? disabledPlaceholder : i18n.t(`fields.select_${multiple ? "multiple" : "single"}`),
     ...restTextFieldProps
   });
 
@@ -97,14 +91,7 @@ const SearchableSelect = ({
         }
       };
 
-      return (
-        <Chip
-          size="small"
-          label={optionLabel(option)}
-          {...chipProps}
-          disabled={isDisabled}
-        />
-      );
+      return <Chip size="small" label={optionLabel(option)} {...chipProps} disabled={isDisabled} />;
     });
 
   return (
@@ -121,13 +108,7 @@ const SearchableSelect = ({
       onOpen={onOpen && onOpen}
       multiple={multiple}
       onBlur={onBlur}
-      renderInput={params => (
-        <TextField
-          {...params}
-          {...textFieldProps(params)}
-          disabled={isDisabled}
-        />
-      )}
+      renderInput={params => <TextField {...params} {...textFieldProps(params)} disabled={isDisabled} />}
       renderTags={(value, getTagProps) => renderTags(value, getTagProps)}
     />
   );
@@ -148,11 +129,7 @@ SearchableSelect.defaultProps = {
 };
 
 SearchableSelect.propTypes = {
-  defaultValues: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.string,
-    PropTypes.object
-  ]),
+  defaultValues: PropTypes.oneOfType([PropTypes.array, PropTypes.string, PropTypes.object]),
   helperText: PropTypes.string,
   isClearable: PropTypes.bool,
   isDisabled: PropTypes.bool,

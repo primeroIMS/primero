@@ -16,10 +16,7 @@ import { Filters as AdminFilters } from "../components";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
-import {
-  fetchDataIfNotBackButton,
-  clearMetadataOnLocationChange
-} from "../../../records";
+import { fetchDataIfNotBackButton, clearMetadataOnLocationChange } from "../../../records";
 
 import { fetchAgencies } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
@@ -31,9 +28,7 @@ const Container = () => {
   const dispatch = useDispatch();
   const canAddAgencies = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.agencies;
-  const headers = useSelector(state =>
-    getListHeaders(state, RESOURCES.agencies)
-  );
+  const headers = useSelector(state => getListHeaders(state, RESOURCES.agencies));
   const history = useHistory();
   const location = useLocation();
 
@@ -50,14 +45,10 @@ const Container = () => {
   const columns = headersToColumns(headers, i18n);
 
   useEffect(() => {
-    fetchDataIfNotBackButton(
-      metadata?.toJS(),
-      location,
-      history,
-      fetchAgencies,
-      "data",
-      { dispatch, defaultFilterFields }
-    );
+    fetchDataIfNotBackButton(metadata?.toJS(), location, history, fetchAgencies, "data", {
+      dispatch,
+      defaultFilterFields
+    });
   }, [location]);
 
   useEffect(() => {

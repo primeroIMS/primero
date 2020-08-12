@@ -2,21 +2,11 @@
 
 import { RECORD_PATH } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
-import {
-  SET_DIALOG,
-  SET_DIALOG_PENDING
-} from "../../../record-actions/actions";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "../../../record-actions/actions";
 
 import actions from "./actions";
 
-export const referralDone = ({
-  dialogName,
-  message,
-  failureMessage,
-  recordId,
-  recordType,
-  transistionId
-}) => {
+export const referralDone = ({ dialogName, message, failureMessage, recordId, recordType, transistionId }) => {
   return {
     type: actions.REFERRAL_DONE,
     api: {
@@ -29,7 +19,7 @@ export const referralDone = ({
             message,
             options: {
               variant: "success",
-              key: generate.messageKey()
+              key: generate.messageKey(message)
             }
           },
           redirectWithIdFromResponse: false,
@@ -56,7 +46,7 @@ export const referralDone = ({
             message: failureMessage,
             options: {
               variant: "error",
-              key: generate.messageKey()
+              key: generate.messageKey(failureMessage)
             }
           }
         },

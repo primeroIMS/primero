@@ -24,10 +24,7 @@ export const getInitialValues = (locales, values) => {
   }
 
   return locales.reduce((acumulator, locale) => {
-    const result = values.reduce(
-      (acc, value) => ({ ...acc, [value.id]: value.display_text[locale] }),
-      {}
-    );
+    const result = values.reduce((acc, value) => ({ ...acc, [value.id]: value.display_text[locale] }), {});
 
     return { ...acumulator, [locale]: result };
   }, {});
@@ -53,10 +50,7 @@ export const buildValues = (values, defaultLocale, removedValues) => {
 
     return {
       id: key,
-      display_text: locales.reduce(
-        (acc, locale) => ({ ...acc, [locale]: values[locale][key] }),
-        {}
-      )
+      display_text: locales.reduce((acc, locale) => ({ ...acc, [locale]: values[locale][key] }), {})
     };
   });
 };

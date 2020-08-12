@@ -34,11 +34,7 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
               },
               shared_with_me_new_referrals: {
                 count: 0,
-                query: [
-                  "record_state=true",
-                  "status=open",
-                  "not_edited_by_owner=true"
-                ]
+                query: ["record_state=true", "status=open", "not_edited_by_owner=true"]
               },
               shared_with_me_transfers_awaiting_acceptance: {
                 count: 0,
@@ -52,30 +48,15 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
             indicators: {
               shared_with_others_referrals: {
                 count: 0,
-                query: [
-                  "owned_by=primero_cp",
-                  "record_state=true",
-                  "status=open",
-                  "referred_users_present=true"
-                ]
+                query: ["owned_by=primero_cp", "record_state=true", "status=open", "referred_users_present=true"]
               },
               shared_with_others_pending_transfers: {
                 count: 0,
-                query: [
-                  "owned_by=primero_cp",
-                  "record_state=true",
-                  "status=open",
-                  "transfer_status=in_progress"
-                ]
+                query: ["owned_by=primero_cp", "record_state=true", "status=open", "transfer_status=in_progress"]
               },
               shared_with_others_rejected_transfers: {
                 count: 0,
-                query: [
-                  "owned_by=primero_cp",
-                  "record_state=true",
-                  "status=open",
-                  "transfer_status=rejected"
-                ]
+                query: ["owned_by=primero_cp", "record_state=true", "status=open", "transfer_status=rejected"]
               }
             }
           },
@@ -134,36 +115,28 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
   it("renders the dash_group_overview dashboard", () => {
     const groupOverview = component.find(OverviewBox).at(0);
 
-    expect(groupOverview.find("div div").text()).to.be.equal(
-      "dashboard.dash_group_overview"
-    );
+    expect(groupOverview.find("div div").text()).to.be.equal("dashboard.dash_group_overview");
     expect(groupOverview.find("div").find("ul li")).to.have.lengthOf(2);
   });
 
   it("renders the case_overview dashboard", () => {
     const caseOverview = component.find(OverviewBox).at(1);
 
-    expect(caseOverview.find("div div").text()).to.be.equal(
-      "dashboard.case_overview"
-    );
+    expect(caseOverview.find("div div").text()).to.be.equal("dashboard.case_overview");
     expect(caseOverview.find("div").find("ul li")).to.have.lengthOf(2);
   });
 
   it("renders the shared_with_me dashboard", () => {
     const sharedWithMe = component.find(OverviewBox).at(2);
 
-    expect(sharedWithMe.find("div div").text()).to.be.equal(
-      "dashboard.dash_shared_with_me"
-    );
+    expect(sharedWithMe.find("div div").text()).to.be.equal("dashboard.dash_shared_with_me");
     expect(sharedWithMe.find("div").find("ul li")).to.have.lengthOf(3);
   });
 
   it("renders the dash_shared_with_others dashboard", () => {
     const sharedWithOthers = component.find(OverviewBox).at(3);
 
-    expect(sharedWithOthers.find("div div").text()).to.be.equal(
-      "dashboard.dash_shared_with_others"
-    );
+    expect(sharedWithOthers.find("div div").text()).to.be.equal("dashboard.dash_shared_with_others");
     expect(sharedWithOthers.find("div").find("ul li")).to.have.lengthOf(3);
   });
 
@@ -179,21 +152,17 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(
-        Overview,
-        loadingProps,
-        {
-          records: {
-            dashboard: {
-              data: [],
-              loading: true
-            }
-          },
-          user: {
-            permissions
+      const { component: loadingComponent } = setupMountedComponent(Overview, loadingProps, {
+        records: {
+          dashboard: {
+            data: [],
+            loading: true
           }
+        },
+        user: {
+          permissions
         }
-      );
+      });
 
       expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
     });

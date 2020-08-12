@@ -17,7 +17,7 @@ en:
   valid: "Valid"
   invalid: "Invalid"
   offline: "Offline"
-  connection_lost: "Connection Lost"
+  connection_lost: "Currently in offline mode"
   connected: "Connected"
   name: "Name"
   home:
@@ -100,6 +100,9 @@ en:
       transfer_request: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
     cannot_edit: "You cannot edit this"
     field_name_on_form_name: "'%{field_name}' field on '%{form_name}' form."
+    subform_section:
+      status: 
+        error: "Error"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -222,9 +225,11 @@ en:
     unmark_for_mobile: "Un-mark for mobile"
     approve_bia: "Approve BIA"
     approve_case_plan: "Approve Case Plan"
+    approve_action_plan: "Approve Action Plan"
     sort_by_tr: "Tracing Requests"
     sort_by_case: "Cases"
     approve_closure: "Approve Closure"
+    approve_gbv_closure: "Approve GBV Closure"
     view_flags_history: "View History"
     request_approval: "Request Approval"
     approvals: "Approvals"
@@ -263,6 +268,8 @@ en:
       bia: "BIA"
       case_plan: "Case Plan"
       closure: "Closure"
+      action_plan: "Action Plan"
+      gbv_closure: "GBV Closure"
       approval_status: 'Approvals Status'
       high: "High"
       medium: "Medium"
@@ -354,9 +361,13 @@ en:
     request_approve_bia: "Approve Assessment?"
     request_approve_case_plan: "Approve Case Plan?"
     request_approve_closure: "Approve Closure?"
+    request_approve_action_plan: "Approve Action Plan?"
+    request_approve_gbv_closure: "Approve GBV Closure?"
     request_approval_success_assessment: "Approval requested for %{approval_label} form."
     request_approval_success_case_plan: "Approval requested for %{approval_label} form."
     request_approval_success_closure: "Approval requested for %{approval_label} form."
+    request_approval_success_action_plan: "Approval requested for %{approval_label} form."
+    request_approval_success_gbv_closure: "Approval requested for %{approval_label} form."
     request_approval_failure: "An error occurred, please contact support."
     request_approval_type_of_case_plan: "Type of Case Plan Approval"
     revoke_failure: "An error occurred while revoking the %{transition_type}, please contact support."
@@ -368,6 +379,10 @@ en:
     rejected_success_bia: "%{approval_label} - Not Approved"
     approved_success_assessment: "%{approval_label} - Approved"
     rejected_success_assessment: "%{approval_label} - Not Approved"
+    approved_success_action_plan: "%{approval_label} - Approved"
+    rejected_success_action_plan: "%{approval_label} - Not Approved"
+    approved_success_gbv_closure: "%{approval_label} - Approved"
+    rejected_success_gbv_closure: "%{approval_label} - Not Approved"
     approval_select: "The form for"
     approval_radio: "I would like to"
     approval_radio_accept: "Approve"
@@ -376,6 +391,8 @@ en:
     assessment: "Assessment"
     case_plan: "Case Plan"
     closure: "Closure"
+    action_plan: "Action Plan"
+    gbv_closure: "GBV Closure"
     revoke_message: "By clicking ‘Revoke’, you will remove the %{transition_type} recipient’s access to the case."
     revoke_success_message: "Case %{case_id} %{transition_type} to %{recipient_username} revoked."
     referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
@@ -555,7 +572,7 @@ en:
     create_new_case: "Create New Case"
     enter_id_number: "Enter the ID number to search for an existing record"
     id_number_required: "Id number is required"
-    id_search_no_results: "There is no match in the system for “%{id}”, please create a new record."
+    id_search_no_results: "There is no match in the system for “%{search_query}”. Please create a new record."
     id_search_results_html: "for <span>%{id}</span>"
     label: "Case ID"
     case_id_display: "Case ID"
@@ -1484,6 +1501,12 @@ en:
           request_approval_closure:
             label: "Request %{approval_label} approval"
             explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
+          request_approval_action_plan:
+            label: "Request %{approval_label} approval"
+            explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
+          request_approval_gbv_closure:
+            label: "Request %{approval_label} approval"
+            explanation: "Allows a user (usually a case worker) to request that their manager approve their case's %{approval_label}."
           approve_bia:
             label: "Approve %{approval_label} form"
             explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
@@ -1494,6 +1517,12 @@ en:
             label: "Approve %{approval_label}"
             explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
           approve_closure:
+            label: "Approve %{approval_label} form"
+            explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
+          approve_action_plan:
+            label: "Approve %{approval_label}"
+            explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
+          approve_gbv_closure:
             label: "Approve %{approval_label} form"
             explanation: "Allows a manager to approve the %{approval_label} for their case workers' cases."
           search_owned_by_others:
@@ -1594,6 +1623,9 @@ en:
           close:
             label: "Close"
             explanation: "Allows a user to set the status of an open case to closed."
+          change_log:
+            label: "Change Log"
+            explanation: "Allows a user to view change log of the case"
           manage:
             label: "Manage (all permissions for this resource type)"
             explanation: "Allows a user to perform all available actions on cases. The \"Manage\" permission essentially means \"everything\"."
@@ -1663,6 +1695,9 @@ en:
                 be synced between the user's mobile device and the web application, while un-marking an incident for mobile
                 stops this syncing from happening. Users without this permission also cannot sync their mobile devices with
                 the web application in general, meaning that they cannot use the mobile app to manage incidents."
+          change_log:
+            label: "Change Log"
+            explanation: "Allows a user to view change log of the incident"
           manage:
             label: "Manage (all permissions for this resource type)"
             explanation: "Allows a user to perform all available actions on incidents. The \"Manage\" permission essentially
@@ -1721,6 +1756,9 @@ en:
                 The imported file must be formatted *very* specifically for information to be imported properly. This function
                 should only be available for administrative users with advanced technical skills and an in-depth knowledge
                 of how data is formatted in Primero. Only performed from case list page."
+          change_log:
+            label: "Change Log"
+            explanation: "Allows a user to view change log of the tracing request"
           manage:
             label: "Manage (all permissions for this resource type)"
             explanation: "Allows a user to perform all available actions on tracing requests. The \"Manage\" permission
@@ -2087,9 +2125,13 @@ en:
       request_approval_assessment: "Request %{approval_label} approval"
       request_approval_case_plan: "Request %{approval_label} approval"
       request_approval_closure: "Request %{approval_label} approval"
+      request_approval_action_plan: "Request %{approval_label} approval"
+      request_approval_gbv_closure: "Request %{approval_label} approval"
       approve_assessment: "Approve %{approval_label} form"
       approve_case_plan: "Approve %{approval_label}"
       approve_closure: "Approve %{approval_label} form"
+      approve_action_plan: "Approve %{approval_label}"
+      approve_gbv_closure: "Approve %{approval_label} form"
       copy: "Copy"
       manage: "Manage"
       administrator_read: "Administrator Read"
@@ -2131,7 +2173,7 @@ en:
       dash_group_overview: "My Group's Cases"
       dash_shared_with_my_team: "Shared With My Team"
       dash_shared_from_my_team: "Shared From My Team"
-      dash_case_incident_overview: "Overview - My Cases / Incidents"
+      dash_case_incident_overview: "My Cases / Incidents"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
       incident_details_from_case: "Add Incident Details to another user's case"
@@ -2176,7 +2218,11 @@ en:
     module: "Module"
     settings: "Settings"
     fields: "Fields"
-    translations: "Translations"
+    translations:
+      title: "Translations"
+      manage: "Manage translations"
+      edit: "Edit translations"
+      select_language: "Select language"
     visibility: "Visibility"
     web_app: "Web App"
     mobile_app: "Mobile App"
@@ -2215,6 +2261,8 @@ en:
     select_label: "Select"
     subform_not_found: "No %{subform_name} found."
     subform_need_to_be_added: "They need to be added."
+    form_title: "Form title"
+    form_description: "Description"
 
   form_section:
     name: "Name"
@@ -2434,6 +2482,7 @@ en:
     multi_select_box: "Multi-select"
     date_time: "Date-Time"
     disabled: "Disabled"
+    enabled_label: "Enabled"
     subform_section:
       name: "Subform Title"
       description: "Subform Description"
@@ -2905,7 +2954,7 @@ en:
     shared_from_my_team_pending_transfers: "Pending Transfers"
     shared_from_my_team_rejected_transfers: "Rejected Transfers"
     dash_shared_with_my_team: "Shared With My Team"
-    dash_case_incident_overview: "Overview - My Cases / Incidents"
+    dash_case_incident_overview: "My Cases / Incidents"
     shared_with_my_team_referrals: "Referrals"
     shared_with_my_team_pending_transfers: "Pending Transfers"
 
@@ -3154,6 +3203,7 @@ en:
     description:
       valid: "Valid record"
       invalid: "Invalid record"
+    change_log: "Change Log"
 
   record_panel:
     valid: "Valid record"
@@ -3465,9 +3515,15 @@ en:
     approve_case_plan_with_selectable_type: "Request Approval for the Case Plan?"
     approve_closure: "Request Approval for the Closure form?"
     approve_closure_label: "Approve Closure Form"
+    approve_action_plan_label: "Approve Action Plan"
+    approve_action_plan: "Request Approval for the Action Plan form?"
+    approve_gbv_closure: "Request Approval for the Closure form?"
+    approve_gbv_closure_label: "Approve Closure Form"
     bia: "Assessment"
     case_plan: "Case Plan"
     closure: "Closure"
+    action_plan: "Action Plan"
+    gbv_closure: "GBV Closure"
     assessment: "Assessment"
     comments_label: "Comments"
     error_select_an_approval_type: "Please select an approval type"
@@ -3584,6 +3640,7 @@ en:
   string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
 
   error_message:
+    address_subform_fields: "%{subform} has %{fields} invalid fields"
     address_form_fields: "You need to address %{fields} fields on this form"
     address_fields: "You need to address %{fields} fields on %{forms} forms"
     notice: 'Errors prohibited this record from being saved'
@@ -3765,6 +3822,8 @@ en:
     bia: "BIA"
     case_plan: "Case Plan"
     closure: "Closure"
+    action_plan: "Action Plan"
+    gbv_closure: "GBV Closure"
     open: "Open"
     closed: "Closed"
     transferred: "Transferred"

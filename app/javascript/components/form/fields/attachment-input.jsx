@@ -53,8 +53,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
     }
   };
 
-  const fieldDisabled = () =>
-    file.loading || Boolean(fileBase64 && !file?.data);
+  const fieldDisabled = () => file.loading || Boolean(fileBase64 && !file?.data);
 
   // eslint-disable-next-line react/no-multi-comp, react/display-name
   const renderPreview = () => {

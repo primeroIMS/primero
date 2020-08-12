@@ -871,8 +871,7 @@ export default {
       options: [
         {
           id: "disclosure_complaint_by_the_abused_person_or_family_member",
-          display_text:
-            "Disclosure / complaint by the abused person or family member"
+          display_text: "Disclosure / complaint by the abused person or family member"
         },
         {
           id: "discovered_by_service_provider",
@@ -880,8 +879,7 @@ export default {
         },
         {
           id: "report_by_the_institution_providing_the_service_discovery",
-          display_text:
-            "Report by the institution providing the service (discovery)"
+          display_text: "Report by the institution providing the service (discovery)"
         },
         { id: "other", display_text: "Other" }
       ]

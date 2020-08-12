@@ -1,11 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  FormGroup,
-  FormControl,
-  FormLabel,
-  FormHelperText
-} from "@material-ui/core";
+import { FormGroup, FormControl, FormLabel, FormHelperText } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Controller } from "react-hook-form";
 
@@ -18,12 +13,10 @@ const CheckboxInput = ({ commonInputProps, options, metaInputProps }) => {
   const { inlineCheckboxes } = metaInputProps;
 
   return (
-    <FormControl
-      component="fieldset"
-      error={error}
-      className={css.checkboxContainer}
-    >
-      <FormLabel required={required}>{label}</FormLabel>
+    <FormControl component="fieldset" error={error} className={css.checkboxContainer}>
+      <FormLabel component="legend" required={required}>
+        {label}
+      </FormLabel>
       <FormGroup row={inlineCheckboxes}>
         <Controller
           name={name}

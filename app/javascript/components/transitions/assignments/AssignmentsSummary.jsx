@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 
+import { DATE_FORMAT } from "../../../config";
 import { useI18n } from "../../i18n";
 
 import { ASSIGNMENTS_SUMMARY_NAME as NAME } from "./constants";
@@ -21,14 +22,10 @@ const AssignmentsSummary = ({ transition, classes }) => {
     <Grid container spacing={2}>
       <Grid item md={6} xs={10}>
         <div className={classes.wrapper}>
-          <div className={classes.titleHeader}>
-            {i18n.t("transition.type.assign")}
-          </div>
+          <div className={classes.titleHeader}>{i18n.t("transition.type.assign")}</div>
 
           {/* TODO: The date should be localized */}
-          <div className={classes.date}>
-            {format(new Date(transition.created_at), "MMM dd,yyyy")}
-          </div>
+          <div className={classes.date}>{format(new Date(transition.created_at), DATE_FORMAT)}</div>
         </div>
       </Grid>
       {/*  TODO: It has to be modified, on summary should print username */}

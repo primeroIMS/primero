@@ -1,6 +1,8 @@
 import { format, subMonths } from "date-fns";
 import omit from "lodash/omit";
 
+import { DATE_FORMAT } from "../../../../config";
+
 import { ageParser } from "./utils";
 
 const CUSTOM_FILTERS = {
@@ -16,7 +18,7 @@ const customCheckBoxFilters = {
   [CUSTOM_FILTERS.LAST_UPDATED_AT]: ({ fieldName, i18n }) => ({
     options: [
       {
-        id: `01-Jan-0000.${format(subMonths(new Date(), 3), "dd-MMM-yyyy")}`,
+        id: `01-Jan-0000.${format(subMonths(new Date(), 3), DATE_FORMAT)}`,
         display_name: i18n.t("cases.filter_by.3month_inactivity")
       }
     ],
@@ -82,12 +84,7 @@ const handleFilterChange = methods => {
 };
 
 const getFilterProps = ({ filter, user, i18n }) => {
-  const {
-    field_name: fieldName,
-    options,
-    option_strings_source: optionStringsSource,
-    isObject
-  } = filter;
+  const { field_name: fieldName, options, option_strings_source: optionStringsSource, isObject } = filter;
 
   switch (fieldName) {
     case CUSTOM_FILTERS.LAST_UPDATED_AT:

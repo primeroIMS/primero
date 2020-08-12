@@ -24,17 +24,18 @@
 .titleHeader {
   text-transform: uppercase;
   font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(17));
-  font-weight: bold;
+  font-size: $(theme.typography.pxToRem(11));
+  font-weight: normal;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
+  line-height: 2;
   color: $(theme.primero.colors.solidBlack);
-  margin-right: .5em;
 }
 
 .wrapper {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .transtionLabel {
@@ -61,14 +62,14 @@
 
 .date {
   font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(11));
-  font-weight: normal;
+  font-size: $(theme.typography.pxToRem(15));
+  font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.27;
   letter-spacing: normal;
-  padding-top: 0.5em;
-  color: $(theme.primero.colors.solidBlack);
+  padding-right: 0.5em;
+  color: $(theme.primero.colors.blue);
 }
 
 .spaceGrid {
@@ -117,12 +118,14 @@
 }
 
 .transtionStatus {
+  padding: 8px 10px 8px 0;
+  border-right: solid 1px $(theme.primero.colors.lightGrey);
   text-align: right;
   font-size: $(theme.typography.pxToRem(15));
 }
 
 .panel {
-  box-shadow: 0 1px 7px 0 rgba(125, 125, 125, 0.23);
+  box-shadow: 0 2px 12px 0 rgba(125, 125, 125, 0.23);
   margin-bottom: 2px;
 
   &:before {
@@ -141,21 +144,28 @@
 }
 
 .iconBar{
-  border-left: solid 1px $(theme.primero.colors.darkGrey);
-  margin-left: 10px;
   padding-left: 10px;
-}
 
-.expandIcon {
-  background-color: $(theme.primero.colors.blue);
-  box-shadow: none;
-  color: $(theme.primero.colors.white);
-  margin-left: 5px;
-  width: 36px;
-  height: 36px;
-
-  &:hover {
-    color: $(theme.primero.colors.black);
+  & button {
+    width: 30px;
+    height: 30px;
+    min-height: 30px;
   }
 }
 
+.expandIcon {
+  box-shadow: none;
+  margin-left: 5px;
+  width: 36px;
+  height: 36px;
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .date {
+    font-size: $(theme.typography.pxToRem(12));
+  }
+
+  .titleHeader {
+    line-height: 1.27;
+  }
+}

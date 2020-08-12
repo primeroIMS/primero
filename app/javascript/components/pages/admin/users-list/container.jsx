@@ -101,8 +101,7 @@ const Container = () => {
     filters: getFilters(i18n, filterAgencies),
     defaultFilters,
     onSubmit: data => {
-      const filters =
-        typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
+      const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
 
       batch(() => {
         dispatch(setUsersFilters(filters));

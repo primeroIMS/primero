@@ -52,10 +52,7 @@ describe("middleware/offline-middleware.js", () => {
       fromQueue
     });
 
-    const testMethods = assertion =>
-      [METHODS.DELETE, METHODS.PATCH, METHODS.POST, METHODS.PUT].forEach(
-        assertion
-      );
+    const testMethods = assertion => [METHODS.DELETE, METHODS.PATCH, METHODS.POST, METHODS.PUT].forEach(assertion);
 
     beforeEach(() => {
       queueDataSpy = spy(queueData, "default");

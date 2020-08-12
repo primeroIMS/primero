@@ -7,17 +7,10 @@ import { List } from "immutable";
 import { useI18n } from "../../../i18n";
 import { unFlag } from "../../action-creators";
 import ActionDialog from "../../../action-dialog";
-import {
-  selectDialog,
-  selectDialogPending
-} from "../../../record-actions/selectors";
+import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
 import { setDialog, setPending } from "../../../record-actions/action-creators";
 import { FLAG_DIALOG } from "../../constants";
-import Form, {
-  FieldRecord,
-  FormSectionRecord,
-  FORM_MODE_DIALOG
-} from "../../../form";
+import Form, { FieldRecord, FormSectionRecord, FORM_MODE_DIALOG } from "../../../form";
 
 import { NAME, UNFLAG_DIALOG } from "./constants";
 
@@ -30,9 +23,7 @@ const Component = ({ flag }) => {
   const dispatch = useDispatch();
   const formRef = useRef();
 
-  const openUnflagDialog = useSelector(state =>
-    selectDialog(state, UNFLAG_DIALOG)
-  );
+  const openUnflagDialog = useSelector(state => selectDialog(state, UNFLAG_DIALOG));
 
   const dialogPending = useSelector(state => selectDialogPending(state));
   const setDialogPending = pending => {
@@ -59,15 +50,7 @@ const Component = ({ flag }) => {
   const handleSubmit = data => {
     batch(() => {
       setDialogPending(true);
-      dispatch(
-        unFlag(
-          flag.id,
-          { data },
-          i18n.t("flags.flag_resolved"),
-          flag.record_type,
-          flag.record_id
-        )
-      );
+      dispatch(unFlag(flag.id, { data }, i18n.t("flags.flag_resolved"), flag.record_type, flag.record_id));
       dispatch(setDialog({ dialog: UNFLAG_DIALOG, open: false }));
       dispatch(setDialog({ dialog: FLAG_DIALOG, open: true }));
     });

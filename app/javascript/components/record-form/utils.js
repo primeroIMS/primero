@@ -1,14 +1,8 @@
 /* eslint-disable no-param-reassign, no-shadow, func-names, no-use-before-define, no-lonely-if */
-import {
-  isEmpty,
-  transform,
-  isObject,
-  isEqual,
-  find,
-  pickBy,
-  identity
-} from "lodash";
+import { isEmpty, transform, isObject, isEqual, find, pickBy, identity } from "lodash";
 import { isDate, format } from "date-fns";
+
+import { DATE_FORMAT } from "../../config";
 
 import {
   SUBFORM_SECTION,
@@ -30,15 +24,17 @@ function compareArray(value, base) {
       if (baseSubform) {
         const diff = difference(v, baseSubform, true);
 
-        if (
-          !isEmpty(diff) &&
-          !("unique_id" in diff && Object.keys(diff).length === 1)
-        )
-          acc.push(diff);
+        if (!isEmpty(diff) && !("unique_id" in diff && Object.keys(diff).length === 1)) acc.push(diff);
       } else {
         const newSubform = pickBy(v, identity);
 
-        if (!isEmpty(newSubform)) acc.push(newSubform);
+        if (emptyValues(newSubform)) {
+          return acc;
+        }
+
+        if (!isEmpty(newSubform)) {
+          acc.push(newSubform);
+        }
       }
     } else {
       if (!isEmpty(v)) {
@@ -62,7 +58,7 @@ function difference(object, base, nested) {
         val =
           !isEmpty(initialValue) && initialValue.length === currentValue.length
             ? value.toISOString()
-            : format(value, "dd-MMM-yyyy");
+            : format(value, DATE_FORMAT);
       }
 
       if (Array.isArray(val)) {
@@ -80,8 +76,9 @@ function difference(object, base, nested) {
   });
 }
 
-export const compactValues = (values, initialValues) =>
-  difference(values, initialValues);
+export const emptyValues = element => Object.values(element).every(isEmpty);
+
+export const compactValues = (values, initialValues) => difference(values, initialValues);
 
 export const constructInitialValues = formMap => {
   const [...forms] = formMap;
@@ -96,12 +93,7 @@ export const constructInitialValues = formMap => {
               let defaultValue;
 
               if (
-                [
-                  SUBFORM_SECTION,
-                  PHOTO_FIELD,
-                  AUDIO_FIELD,
-                  DOCUMENT_FIELD
-                ].includes(f.type) ||
+                [SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD].includes(f.type) ||
                 (f.type === SELECT_FIELD && f.multi_select)
               ) {
                 defaultValue = [];

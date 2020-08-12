@@ -6,7 +6,7 @@ import TableCell from "@material-ui/core/TableCell";
 
 import Lightbox from "../lightbox";
 import { ToggleIconCell } from "../index-table";
-import { RECORD_PATH } from "../../config";
+import { RECORD_PATH, DATE_TIME_FORMAT, DATE_FORMAT } from "../../config";
 
 import { ALERTS_COLUMNS, ALERTS } from "./constants";
 
@@ -17,12 +17,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
   const emptyHeader = name => <th key={name} className={css.overdueHeading} />;
 
   const columns = allowedColumns
-    .filter(
-      column =>
-        ![ALERTS_COLUMNS.flag_count, ALERTS_COLUMNS.alert_count].includes(
-          column.get("name")
-        )
-    )
+    .filter(column => ![ALERTS_COLUMNS.flag_count, ALERTS_COLUMNS.alert_count].includes(column.get("name")))
     .map(column => {
       const options = {
         ...{
@@ -44,12 +39,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
                 customBodyRender: value => (
                   <div className={css.photoIcon}>
                     <Lightbox
-                      trigger={
-                        <ToggleIconCell
-                          value={Boolean(value)}
-                          icon={ALERTS_COLUMNS.photo}
-                        />
-                      }
+                      trigger={<ToggleIconCell value={Boolean(value)} icon={ALERTS_COLUMNS.photo} />}
                       image={value}
                     />
                   </div>
@@ -58,23 +48,19 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
             : {}),
           ...(column.get("name") === "registration_date"
             ? {
-                customBodyRender: value =>
-                  format(parseISO(value), "dd-MMM-yyyy")
+                customBodyRender: value => format(parseISO(value), DATE_FORMAT)
               }
             : {}),
           ...(column.get("name") === "case_opening_date"
             ? {
-                customBodyRender: value =>
-                  value && format(parseISO(value), "dd-MMM-yyyy HH:mm")
+                customBodyRender: value => value && format(parseISO(value), DATE_TIME_FORMAT)
               }
             : {})
         }
       };
 
       return {
-        label: iconColumns.includes(column.get("name"))
-          ? ""
-          : i18n.t(`${recordType}.${column.get("name")}`),
+        label: iconColumns.includes(column.get("name")) ? "" : i18n.t(`${recordType}.${column.get("name")}`),
         name: column.get("field_name"),
         id: column.get("id_search"),
         options
@@ -82,12 +68,8 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
     })
     .sortBy(column => (iconColumns.includes(column.name) ? 1 : 0));
 
-  const canShowAlertIcon = allowedColumns
-    .map(allowedColumn => allowedColumn.name)
-    .includes(ALERTS_COLUMNS.alert_count);
-  const canShowFlagIcon = allowedColumns
-    .map(allowedColumn => allowedColumn.name)
-    .includes(ALERTS_COLUMNS.flag_count);
+  const canShowAlertIcon = allowedColumns.map(allowedColumn => allowedColumn.name).includes(ALERTS_COLUMNS.alert_count);
+  const canShowFlagIcon = allowedColumns.map(allowedColumn => allowedColumn.name).includes(ALERTS_COLUMNS.flag_count);
 
   const columsWithAlerts = columns.push({
     label: "",
@@ -101,10 +83,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
         const alertIcon =
           // eslint-disable-next-line camelcase
           canShowAlertIcon && value?.alert_count > 0 ? (
-            <ToggleIconCell
-              value={value.alert_count}
-              icon={ALERTS_COLUMNS.alert_count}
-            />
+            <ToggleIconCell value={value.alert_count} icon={ALERTS_COLUMNS.alert_count} />
           ) : (
             <span />
           );
@@ -112,10 +91,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
         const flagIcon =
           // eslint-disable-next-line camelcase
           canShowFlagIcon && value?.flag_count > 0 ? (
-            <ToggleIconCell
-              value={value.flag_count}
-              icon={ALERTS_COLUMNS.flag_count}
-            />
+            <ToggleIconCell value={value.flag_count} icon={ALERTS_COLUMNS.flag_count} />
           ) : (
             <span />
           );
@@ -130,11 +106,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
     }
   });
 
-  return [
-    RECORD_PATH.cases,
-    RECORD_PATH.incidents,
-    RECORD_PATH.tracing_requests
-  ].includes(recordType)
+  return [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests].includes(recordType)
     ? columsWithAlerts
     : columns;
 };

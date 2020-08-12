@@ -69,15 +69,7 @@ describe("<FormInternal />", () => {
       ...component.find(SearchableSelect).first().props().TextFieldProps
     };
 
-    [
-      "label",
-      "required",
-      "error",
-      "helperText",
-      "margin",
-      "placeholder",
-      "InputLabelProps"
-    ].forEach(property => {
+    ["label", "required", "error", "helperText", "margin", "placeholder", "InputLabelProps"].forEach(property => {
       expect(textFieldProps).to.have.property(property);
       delete textFieldProps[property];
     });

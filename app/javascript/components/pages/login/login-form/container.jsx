@@ -35,7 +35,7 @@ const Container = () => {
   const authErrors = useSelector(state => selectAuthErrors(state));
 
   useEffect(() => {
-    dispatch(enqueueSnackbar(authErrors, "error"));
+    dispatch(enqueueSnackbar(authErrors, { type: "error" }));
   }, [authErrors, dispatch]);
 
   const initialValues = {
@@ -70,12 +70,7 @@ const Container = () => {
         {...formProps}
         render={() => (
           <Form className={css.loginForm} autoComplete="off" noValidate>
-            <Field
-              id="user_name"
-              name="user_name"
-              label={i18n.t("login.username")}
-              {...inputProps}
-            />
+            <Field id="user_name" name="user_name" label={i18n.t("login.username")} {...inputProps} />
             <Field
               id="password"
               name="password"

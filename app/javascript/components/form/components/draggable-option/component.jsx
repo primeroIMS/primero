@@ -19,10 +19,7 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick }) => {
   const css = makeStyles(styles)();
   const { errors, setValue, watch, formState, formMode } = useFormContext();
   const displayTextName = `${name}.option_strings_text.en[${index}].display_text`;
-  const optionId = watch(
-    `${name}.option_strings_text.en[${index}].id`,
-    option.id
-  );
+  const optionId = watch(`${name}.option_strings_text.en[${index}].id`, option.id);
   const selectedValue = watch(`${name}.selected_value`, defaultOptionId);
   const error = errors ? get(errors, displayTextName) : undefined;
   const classes = makeStyles({
@@ -51,16 +48,10 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick }) => {
     return value;
   };
 
-  const renderCheckbox = formMode.get("isEdit") && (
-    <Checkbox disabled checked />
-  );
+  const renderCheckbox = formMode.get("isEdit") && <Checkbox disabled checked />;
 
   const renderRemoveButton = formMode.get("isNew") && (
-    <IconButton
-      aria-label="delete"
-      className={css.removeIcon}
-      onClick={() => onRemoveClick(option.id)}
-    >
+    <IconButton aria-label="delete" className={css.removeIcon} onClick={() => onRemoveClick(option.id)}>
       <DeleteIcon />
     </IconButton>
   );

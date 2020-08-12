@@ -4,12 +4,7 @@ import taskOverdueHasData from "./tasks-overdue-has-data";
 
 describe("taskOverdueHasData - pages/dashboard/utils/", () => {
   it("should respond false when taskOverdue has not data", () => {
-    const result = taskOverdueHasData(
-      fromJS({}),
-      fromJS({}),
-      fromJS({}),
-      fromJS({})
-    );
+    const result = taskOverdueHasData(fromJS({}), fromJS({}), fromJS({}), fromJS({}));
 
     expect(result).to.be.false;
   });

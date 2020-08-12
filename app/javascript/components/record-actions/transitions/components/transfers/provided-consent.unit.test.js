@@ -16,13 +16,7 @@ describe("<ProvidedConsent /> - transfers", () => {
       canConsentOverride: false,
       providedConsent: true
     };
-    const { component } = setupMountedComponent(
-      ProvidedConsent,
-      props,
-      {},
-      [],
-      formProps
-    );
+    const { component } = setupMountedComponent(ProvidedConsent, props, {}, [], formProps);
 
     expect(component).to.be.empty;
   });
@@ -32,13 +26,7 @@ describe("<ProvidedConsent /> - transfers", () => {
       canConsentOverride: true,
       providedConsent: true
     };
-    const { component } = setupMountedComponent(
-      ProvidedConsent,
-      props,
-      {},
-      [],
-      formProps
-    );
+    const { component } = setupMountedComponent(ProvidedConsent, props, {}, [], formProps);
 
     expect(component).to.be.empty;
   });
@@ -48,13 +36,7 @@ describe("<ProvidedConsent /> - transfers", () => {
       canConsentOverride: true,
       providedConsent: false
     };
-    const { component } = setupMountedComponent(
-      ProvidedConsent,
-      props,
-      {},
-      [],
-      formProps
-    );
+    const { component } = setupMountedComponent(ProvidedConsent, props, {}, [], formProps);
 
     expect(component.find(ProvidedForm)).to.have.lengthOf(1);
   });
@@ -64,13 +46,7 @@ describe("<ProvidedConsent /> - transfers", () => {
       canConsentOverride: false,
       providedConsent: false
     };
-    const { component } = setupMountedComponent(
-      ProvidedConsent,
-      props,
-      {},
-      [],
-      formProps
-    );
+    const { component } = setupMountedComponent(ProvidedConsent, props, {}, [], formProps);
 
     expect(component.find(ProvidedForm)).to.have.lengthOf(1);
   });
@@ -82,13 +58,7 @@ describe("<ProvidedConsent /> - transfers", () => {
       setDisabled: () => {},
       recordType: RECORD_TYPES.cases
     };
-    const { component } = setupMountedComponent(
-      ProvidedConsent,
-      props,
-      {},
-      [],
-      formProps
-    );
+    const { component } = setupMountedComponent(ProvidedConsent, props, {}, [], formProps);
     const providedForm = { ...component.find(ProvidedForm).props() };
 
     ["canConsentOverride", "setDisabled", "recordType"].forEach(property => {

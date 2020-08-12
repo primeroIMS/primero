@@ -43,11 +43,7 @@ describe("<LoadingIndicator />", () => {
     };
 
     before(() => {
-      ({ component: loadingComponent } = setupMountedComponent(
-        LoadingIndicator,
-        propsDataLoading,
-        {}
-      ));
+      ({ component: loadingComponent } = setupMountedComponent(LoadingIndicator, propsDataLoading, {}));
     });
 
     it("renders LoadingIndicator component", () => {
@@ -73,11 +69,7 @@ describe("<LoadingIndicator />", () => {
     };
 
     before(() => {
-      ({ component: noDataComponent } = setupMountedComponent(
-        LoadingIndicator,
-        propsDataLoading,
-        {}
-      ));
+      ({ component: noDataComponent } = setupMountedComponent(LoadingIndicator, propsDataLoading, {}));
     });
 
     it("renders LoadingIndicator component", () => {

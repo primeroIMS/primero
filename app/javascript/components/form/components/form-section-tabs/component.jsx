@@ -15,19 +15,10 @@ const Component = ({ tabs }) => {
 
   const handleChange = (event, selectedTab) => setTab(selectedTab);
 
-  const renderTab = () =>
-    tabs.map(data => (
-      <Tab
-        label={data.name}
-        key={`tab-${data.name}`}
-        disabled={data.disabled}
-      />
-    ));
+  const renderTab = () => tabs.map(data => <Tab label={data.name} key={`tab-${data.name}`} disabled={data.disabled} />);
 
   const renderFormSectionField = fieldData =>
-    fieldData.fields.map(field => (
-      <FormSectionField field={field} key={`fsf-${field.name}`} />
-    ));
+    fieldData.fields.map(field => <FormSectionField field={field} key={`fsf-${field.name}`} />);
 
   const renderTabPanel = () =>
     tabs.map((data, index) => {

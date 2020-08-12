@@ -90,6 +90,16 @@ const stateWithRecords = fromJS({
         en: "Assessment",
         fr: "",
         ar: "Assessment-AR"
+      },
+      action_plan: {
+        en: "Action Plan",
+        fr: "",
+        ar: "Action Plan-AR"
+      },
+      gbv_closure: {
+        en: "GBV Closure",
+        fr: "",
+        ar: "GBV Closure-AR"
       }
     }
   }
@@ -200,10 +210,7 @@ describe("Application - Selectors", () => {
 
   describe("getResourceActions", () => {
     it("should return the resource actions", () => {
-      const selector = selectors.getResourceActions(
-        stateWithRecords,
-        RECORD_TYPES.cases
-      );
+      const selector = selectors.getResourceActions(stateWithRecords, RECORD_TYPES.cases);
 
       expect(selector).to.deep.equal(fromJS([ACTIONS.READ]));
     });
@@ -219,19 +226,13 @@ describe("Application - Selectors", () => {
 
     it("should return enabled agencies with the selected service", () => {
       const expected = fromJS([agency2]);
-      const agenciesWithService = selectors.getEnabledAgencies(
-        stateWithRecords,
-        "service_test_2"
-      );
+      const agenciesWithService = selectors.getEnabledAgencies(stateWithRecords, "service_test_2");
 
       expect(agenciesWithService).to.deep.equal(expected);
     });
 
     it("should return empty if there are no agencies with the selected service", () => {
-      const agenciesWithService = selectors.getEnabledAgencies(
-        stateWithRecords,
-        "service_test_5"
-      );
+      const agenciesWithService = selectors.getEnabledAgencies(stateWithRecords, "service_test_5");
 
       expect(agenciesWithService).to.be.empty;
     });
@@ -248,12 +249,11 @@ describe("Application - Selectors", () => {
       const expectedApprovalsLabels = {
         closure: "Closure",
         case_plan: "Case Plan",
-        assessment: "Assessment"
+        assessment: "Assessment",
+        action_plan: "Action Plan",
+        gbv_closure: "GBV Closure"
       };
-      const approvalsLabels = selectors.getApprovalsLabels(
-        stateWithRecords,
-        "en"
-      );
+      const approvalsLabels = selectors.getApprovalsLabels(stateWithRecords, "en");
 
       expect(approvalsLabels).to.deep.equal(expectedApprovalsLabels);
     });

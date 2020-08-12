@@ -25,19 +25,9 @@ describe("middleware/utils/offline-dispatch-success.js", () => {
   });
 
   it("dispatch success and callbacks", () => {
-    offlineDispatchSuccess(
-      store,
-      { type: "test-action", api: { path: "/" } },
-      payload
-    );
+    offlineDispatchSuccess(store, { type: "test-action", api: { path: "/" } }, payload);
 
-    expect(handleRestCallbackSpy).to.have.been.calledWith(
-      store,
-      undefined,
-      null,
-      payload,
-      undefined
-    );
+    expect(handleRestCallbackSpy).to.have.been.calledWith(store, undefined, null, payload, undefined);
     expect(dispatch.getCall(0).returnValue).to.deep.equal({
       payload,
       type: "test-action_SUCCESS"

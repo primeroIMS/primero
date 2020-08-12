@@ -1,10 +1,4 @@
-import {
-  ThemeProvider,
-  createGenerateClassName,
-  jssPreset,
-  StylesProvider,
-  makeStyles
-} from "@material-ui/core/styles";
+import { ThemeProvider, createGenerateClassName, jssPreset, StylesProvider } from "@material-ui/core/styles";
 import { ConnectedRouter } from "connected-react-router/immutable";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { create } from "jss";
@@ -13,13 +7,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { SnackbarProvider } from "notistack";
-import { Brightness1 as Circle } from "@material-ui/icons";
-import ErrorIcon from "@material-ui/icons/Error";
-import CheckIcon from "@material-ui/icons/Check";
-import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 
-import { snackVariantClasses } from "./theme";
 import { theme, routes } from "./config";
 import I18nProvider from "./components/i18n";
 import NAMESPACE from "./components/i18n/namespace";
@@ -28,6 +16,7 @@ import { loginSystemSettings } from "./components/pages/login";
 import { ApplicationProvider } from "./components/application";
 import configureStore, { history } from "./store";
 import ApplicationRoutes from "./components/application-routes";
+import CustomSnackbarProvider from "./components/custom-snackbar-provider";
 
 const store = configureStore();
 
@@ -40,18 +29,11 @@ const generateClassName = createGenerateClassName();
 
 const App = () => {
   store.subscribe(() => {
-    document
-      .querySelector("body")
-      .setAttribute(
-        "dir",
-        store.getState().get("ui").get(NAMESPACE).get("dir")
-      );
+    document.querySelector("body").setAttribute("dir", store.getState().get("ui").get(NAMESPACE).get("dir"));
   });
 
   store.dispatch(checkUserAuthentication());
   store.dispatch(loginSystemSettings());
-
-  const classes = makeStyles(snackVariantClasses(theme))();
 
   return (
     <StylesProvider jss={jss} generateClassName={generateClassName}>
@@ -62,24 +44,9 @@ const App = () => {
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <ApplicationProvider>
                 <ConnectedRouter history={history}>
-                  <SnackbarProvider
-                    maxSnack={3}
-                    iconVariant={{
-                      success: <CheckIcon />,
-                      error: <ErrorIcon />,
-                      warning: <SignalWifiOffIcon />,
-                      info: <Circle />
-                    }}
-                    classes={{
-                      lessPadding: classes.lessPadding,
-                      variantSuccess: classes.success,
-                      variantError: classes.error,
-                      variantWarning: classes.warning,
-                      variantInfo: classes.info
-                    }}
-                  >
+                  <CustomSnackbarProvider>
                     <ApplicationRoutes routes={routes} />
-                  </SnackbarProvider>
+                  </CustomSnackbarProvider>
                 </ConnectedRouter>
               </ApplicationProvider>
             </MuiPickersUtilsProvider>

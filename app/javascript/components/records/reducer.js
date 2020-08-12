@@ -65,10 +65,7 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       const index = state.get("data").findIndex(r => r.get("id") === data.id);
 
       if (index !== -1) {
-        const {
-          incident_details: incidents,
-          services_section: services
-        } = data;
+        const { incident_details: incidents, services_section: services } = data;
 
         const stateWithAlertCount = {
           ...data,
@@ -77,14 +74,7 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
 
         return state
           .updateIn(["data", index], u =>
-            mergeRecord(
-              u,
-              fromJS(
-                incidents?.length || services?.length
-                  ? stateWithAlertCount
-                  : data
-              )
-            )
+            mergeRecord(u, fromJS(incidents?.length || services?.length ? stateWithAlertCount : data))
           )
           .set("errors", false);
       }
@@ -105,30 +95,21 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return DEFAULT_STATE;
     case `${namespace}/${SERVICE_REFERRED_SAVE}`: {
       const serviceRecordId = payload.json.data.service_record_id;
-      const {
-        id: recordId,
-        services_section: servicesSection
-      } = payload.json.data.record;
+      const { id: recordId, services_section: servicesSection } = payload.json.data.record;
 
       const referredService = fromJS(servicesSection || []).find(
         service => service.get("unique_id") === serviceRecordId
       );
 
       if (referredService?.size) {
-        const recordIndex = state
-          .get("data")
-          .findIndex(record => record.get("id") === recordId);
+        const recordIndex = state.get("data").findIndex(record => record.get("id") === recordId);
 
         const serviceIndex = state
           .getIn(["data", recordIndex, "services_section"])
-          ?.findIndex(
-            service =>
-              service.get("unique_id") === referredService.get("unique_id")
-          );
+          ?.findIndex(service => service.get("unique_id") === referredService.get("unique_id"));
 
-        return state.updateIn(
-          ["data", recordIndex, "services_section", serviceIndex],
-          data => data?.merge(referredService)
+        return state.updateIn(["data", recordIndex, "services_section", serviceIndex], data =>
+          data?.merge(referredService)
         );
       }
 

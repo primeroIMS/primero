@@ -32,11 +32,7 @@ describe("pages/admin/<RolesForm> - utils", () => {
       };
 
       const expected = {
-        form_section_unique_ids: [
-          "case_form_1",
-          "tracing_request_form_1",
-          "incident_form_1"
-        ]
+        form_section_unique_ids: ["case_form_1", "tracing_request_form_1", "incident_form_1"]
       };
 
       expect(utils.mergeFormSections(data)).to.deep.equal(expected);
@@ -60,11 +56,7 @@ describe("pages/admin/<RolesForm> - utils", () => {
         unique_id: "form_section_3",
         parent_form: "parent_1"
       };
-      const assignableForms = fromJS([
-        formSection1,
-        formSection2,
-        formSection3
-      ]);
+      const assignableForms = fromJS([formSection1, formSection2, formSection3]);
       const expected = Map({
         form_section_unique_ids: OrderedMap({
           parent_1: Seq(["form_section_1"]),

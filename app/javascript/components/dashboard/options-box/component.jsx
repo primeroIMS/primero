@@ -10,18 +10,7 @@ import { ConditionalWrapper } from "../../../libs";
 
 import styles from "./styles.css";
 
-const OptionsBox = ({
-  title,
-  action,
-  children,
-  to,
-  flat,
-  overlay,
-  type,
-  loading,
-  errors,
-  hasData
-}) => {
+const OptionsBox = ({ title, action, children, to, flat, overlay, type, loading, errors, hasData }) => {
   const css = makeStyles(styles)();
 
   const loadingIndicatorProps = {

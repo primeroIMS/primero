@@ -46,10 +46,7 @@ describe("<AddIncident />", () => {
           fields: [2],
           is_nested: true,
           subform_prevent_item_removal: false,
-          collapsed_field_names: [
-            "cp_incident_date",
-            "cp_incident_violence_type"
-          ]
+          collapsed_field_names: ["cp_incident_date", "cp_incident_violence_type"]
         }),
         2: FormSectionRecord({
           id: 2,
@@ -147,14 +144,7 @@ describe("<AddIncident />", () => {
   it("renders component with valid props", () => {
     const addIncidentProps = { ...component.find(AddIncident).props() };
 
-    [
-      "close",
-      "openIncidentDialog",
-      "pending",
-      "recordType",
-      "selectedRowsIndex",
-      "setPending"
-    ].forEach(property => {
+    ["close", "openIncidentDialog", "pending", "recordType", "selectedRowsIndex", "setPending"].forEach(property => {
       expect(addIncidentProps).to.have.property(property);
       delete addIncidentProps[property];
     });

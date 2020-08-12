@@ -51,7 +51,7 @@ describe("<RequestApproval /> - Action Creators", () => {
               message: args.message,
               options: {
                 variant: "success",
-                key: generate.messageKey()
+                key: generate.messageKey(args.message)
               }
             }
           },
@@ -79,7 +79,7 @@ describe("<RequestApproval /> - Action Creators", () => {
               message: args.failureMessage,
               options: {
                 variant: "error",
-                key: generate.messageKey()
+                key: generate.messageKey(args.failureMessage)
               }
             }
           },

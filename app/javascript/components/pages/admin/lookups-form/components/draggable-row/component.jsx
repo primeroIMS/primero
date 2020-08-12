@@ -26,8 +26,7 @@ const Component = ({
   const renderTranslationValues = () => {
     return localesKeys.map(localeKey => {
       const name = `values.${localeKey}.${uniqueId}`;
-      const show =
-        firstLocaleOption === localeKey || selectedOption === localeKey;
+      const show = firstLocaleOption === localeKey || selectedOption === localeKey;
 
       return (
         <div key={name} className={!show ? css.hideTranslationsFields : null}>
@@ -38,20 +37,10 @@ const Component = ({
   };
 
   return (
-    <Draggable
-      key={uniqueId}
-      draggableId={uniqueId}
-      index={index}
-      isDragDisabled={isDragDisabled}
-    >
+    <Draggable key={uniqueId} draggableId={uniqueId} index={index} isDragDisabled={isDragDisabled}>
       {provider => {
         return (
-          <div
-            ref={provider.innerRef}
-            {...provider.draggableProps}
-            {...provider.dragHandleProps}
-            className={css.row}
-          >
+          <div ref={provider.innerRef} {...provider.draggableProps} {...provider.dragHandleProps} className={css.row}>
             <div className={css.dragIndicatorContainer}>
               <DragIndicator {...provider.dragHandleProps} />
             </div>

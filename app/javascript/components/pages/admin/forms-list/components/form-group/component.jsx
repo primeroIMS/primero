@@ -1,18 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  makeStyles
-} from "@material-ui/core";
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, makeStyles } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import {
-  createMuiTheme,
-  MuiThemeProvider,
-  useTheme
-} from "@material-ui/core/styles";
+import { createMuiTheme, MuiThemeProvider, useTheme } from "@material-ui/core/styles";
 
 import styles from "../../styles.css";
 import DragIndicator from "../drag-indicator";
@@ -37,11 +28,7 @@ const Component = ({ name, id, index, children, isDragDisabled }) => {
   });
 
   return (
-    <Draggable
-      draggableId={`${FORM_GROUP_PREFIX}-${id}`}
-      index={index}
-      isDragDisabled={isDragDisabled}
-    >
+    <Draggable draggableId={`${FORM_GROUP_PREFIX}-${id}`} index={index} isDragDisabled={isDragDisabled}>
       {provided => (
         <div ref={provided.innerRef} {...provided.draggableProps}>
           <MuiThemeProvider theme={themeOverrides}>
@@ -50,15 +37,10 @@ const Component = ({ name, id, index, children, isDragDisabled }) => {
                 classes={{ root: css.summary, content: css.summaryContent }}
                 expandIcon={<ExpandMoreIcon />}
               >
-                <DragIndicator
-                  {...provided.dragHandleProps}
-                  isDragDisabled={isDragDisabled}
-                />
+                <DragIndicator {...provided.dragHandleProps} isDragDisabled={isDragDisabled} />
                 {name}
               </ExpansionPanelSummary>
-              <ExpansionPanelDetails classes={{ root: css.details }}>
-                {children}
-              </ExpansionPanelDetails>
+              <ExpansionPanelDetails classes={{ root: css.details }}>{children}</ExpansionPanelDetails>
             </ExpansionPanel>
           </MuiThemeProvider>
         </div>

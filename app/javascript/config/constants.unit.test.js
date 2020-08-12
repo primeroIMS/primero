@@ -115,14 +115,9 @@ describe("Verifying config constant", () => {
           "primeromodule-gbv": "disclosure_other_orgs"
         });
         expect(constants.MODULE_TYPE_FIELD).to.equal("module_id");
-        expect(constants.TRANSITION_TYPE).to.deep.equal([
-          "transfers_assignments",
-          "referral"
-        ]);
+        expect(constants.TRANSITION_TYPE).to.deep.equal(["transfers_assignments", "referral"]);
         expect(constants.RECORD_OWNER).to.equal("record_owner");
-        expect(constants.TRANSFERS_ASSIGNMENTS).to.equal(
-          "transfers_assignments"
-        );
+        expect(constants.TRANSFERS_ASSIGNMENTS).to.equal("transfers_assignments");
         expect(constants.REFERRAL).to.equal("referral");
         expect(constants.NAME_FIELD).to.be.equal("name");
         expect(constants.DATE_FORMAT).to.equal("dd-MMM-yyyy");
@@ -145,11 +140,7 @@ describe("Verifying config constant", () => {
         expect(constants.RECORD_INFORMATION).to.be.an("array");
         expect(constants.APPROVALS).to.be.an("string");
         expect(constants.APPROVALS_TYPES).to.be.an("object");
-        expect(constants.APPROVALS_TYPES).to.have.all.keys(
-          "assessment",
-          "case_plan",
-          "closure"
-        );
+        expect(constants.APPROVALS_TYPES).to.have.all.keys("assessment", "case_plan", "closure");
 
         expect(constants.ALERTS_FOR).to.have.all.keys(
           "approval",

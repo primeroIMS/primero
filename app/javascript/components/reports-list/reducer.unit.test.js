@@ -82,8 +82,7 @@ describe("<Reports /> - Reducers", () => {
         casesByProtectionConcern: {
           title: "Cases by Protection Concern",
           column_name: "Protection Concern",
-          description:
-            "Number of cases broken down by protection concern and sex",
+          description: "Number of cases broken down by protection concern and sex",
           data: {
             "HIGH VULNERABILITY TO ABUSE": {
               Female: 4,

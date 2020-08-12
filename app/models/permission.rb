@@ -7,7 +7,6 @@
 # Some actions actually represent sub-resources. For example a user may be granted the ability to see dashboards,
 # but each individual dashboard entitlement is treated as an action grant.
 class Permission < ValueObject
-
   # The role_unique_ids property is used solely for the ROLE resource
   # It associates other roles with this ROLE permission
   # That restricts this role to only be able to manage those associated roles
@@ -53,9 +52,13 @@ class Permission < ValueObject
   REQUEST_APPROVAL_ASSESSMENT = 'request_approval_assessment'
   REQUEST_APPROVAL_CASE_PLAN = 'request_approval_case_plan'
   REQUEST_APPROVAL_CLOSURE = 'request_approval_closure'
+  REQUEST_APPROVAL_ACTION_PLAN = 'request_approval_action_plan'
+  REQUEST_APPROVAL_GBV_CLOSURE = 'request_approval_gbv_closure'
   APPROVE_ASSESSMENT = 'approve_assessment'
   APPROVE_CASE_PLAN = 'approve_case_plan'
   APPROVE_CLOSURE = 'approve_closure'
+  APPROVE_ACTION_PLAN = 'approve_action_plan'
+  APPROVE_GBV_CLOSURE = 'approve_gbv_closure'
   COPY = 'copy'
   MANAGE = 'manage'
   GROUP_READ = 'group_read'
@@ -115,24 +118,27 @@ class Permission < ValueObject
   REOPEN = 'reopen'
   CLOSE = 'close'
   DELETE = 'delete'
+  CHANGE_LOG = 'change_log'
   RESOURCE_ACTIONS = {
     CASE => [
       READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, INCIDENT_FROM_CASE, INCIDENT_DETAILS_FROM_CASE,
       SERVICE_PROVISION_INCIDENT_DETAILS, SERVICES_SECTION_FROM_CASE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL,
       EXPORT_PHOTO_WALL, EXPORT_UNHCR, EXPORT_PDF, EXPORT_DUPLICATE_ID, EXPORT_JSON, EXPORT_CUSTOM, IMPORT,
       CONSENT_OVERRIDE, SYNC_MOBILE, REQUEST_APPROVAL_ASSESSMENT, REQUEST_APPROVAL_CASE_PLAN,
-      REQUEST_APPROVAL_CLOSURE, APPROVE_ASSESSMENT, APPROVE_CASE_PLAN, APPROVE_CLOSURE, MANAGE, SEARCH_OWNED_BY_OTHERS,
-      DISPLAY_VIEW_PAGE, REQUEST_TRANSFER, VIEW_PHOTO, REFERRAL_FROM_SERVICE, ADD_NOTE, FIND_TRACING_MATCH,
-      ASSIGN, ASSIGN_WITHIN_AGENCY, ASSIGN_WITHIN_USER_GROUP, REMOVE_ASSIGNED_USERS, TRANSFER, RECEIVE_TRANSFER,
-      REFERRAL, RECEIVE_REFERRAL, REOPEN, CLOSE
+      REQUEST_APPROVAL_CLOSURE, REQUEST_APPROVAL_ACTION_PLAN, REQUEST_APPROVAL_GBV_CLOSURE,
+      APPROVE_ASSESSMENT, APPROVE_CASE_PLAN, APPROVE_CLOSURE, APPROVE_ACTION_PLAN, APPROVE_GBV_CLOSURE,
+      SEARCH_OWNED_BY_OTHERS, DISPLAY_VIEW_PAGE, REQUEST_TRANSFER, VIEW_PHOTO, REFERRAL_FROM_SERVICE, ADD_NOTE,
+      FIND_TRACING_MATCH, ASSIGN, ASSIGN_WITHIN_AGENCY, ASSIGN_WITHIN_USER_GROUP, REMOVE_ASSIGNED_USERS, TRANSFER,
+      RECEIVE_TRANSFER, REFERRAL, RECEIVE_REFERRAL, REOPEN, CLOSE, CHANGE_LOG, MANAGE
     ],
     INCIDENT => [
       READ, CREATE, WRITE, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF,
-      EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, SYNC_MOBILE, MANAGE
+      EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, SYNC_MOBILE, CHANGE_LOG,
+      MANAGE
     ],
     TRACING_REQUEST => [
       READ, CREATE, WRITE, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_PDF,
-      EXPORT_JSON, EXPORT_CUSTOM, IMPORT, MANAGE
+      EXPORT_JSON, EXPORT_CUSTOM, IMPORT, CHANGE_LOG, MANAGE
     ],
     ROLE => [CREATE, READ, WRITE, ASSIGN, COPY, MANAGE, DELETE],
     USER => [CREATE, READ, AGENCY_READ, WRITE, MANAGE],
@@ -158,7 +164,7 @@ class Permission < ValueObject
     MATCHING_CONFIGURATION => [MANAGE]
   }.freeze
 
-  def initialize(args={})
+  def initialize(args = {})
     super(args)
   end
 
@@ -166,8 +172,8 @@ class Permission < ValueObject
     I18n.t("permission.#{permission}")
   end
 
-  # TODO: For right now we are just listing the different exports, but it will need a matrix setup. We eventually want to
-  # limit export permission based on the resource.
+  # TODO: For right now we are just listing the different exports, but it will need a matrix setup.
+  # We eventually want to limit export permission based on the resource.
 
   # TODO: Refactor. We really should get rid of this method, and use the per-resource methods below.
   def self.actions
@@ -206,9 +212,13 @@ class Permission < ValueObject
       REQUEST_APPROVAL_ASSESSMENT,
       REQUEST_APPROVAL_CASE_PLAN,
       REQUEST_APPROVAL_CLOSURE,
+      REQUEST_APPROVAL_ACTION_PLAN,
+      REQUEST_APPROVAL_GBV_CLOSURE,
       APPROVE_ASSESSMENT,
       APPROVE_CASE_PLAN,
       APPROVE_CLOSURE,
+      APPROVE_ACTION_PLAN,
+      APPROVE_GBV_CLOSURE,
       COPY,
       MANAGE,
       GROUP_READ,
@@ -279,8 +289,8 @@ class Permission < ValueObject
     resources.map { |r| Permission.new(resource: r, actions: RESOURCE_ACTIONS[r]) }
   end
 
-  def is_record?
-    [CASE, INCIDENT, TRACING_REQUEST].include? self.resource
+  def record?
+    [CASE, INCIDENT, TRACING_REQUEST].include? resource
   end
 
   def resource_class
@@ -325,5 +335,4 @@ class Permission < ValueObject
       end
     end
   end
-
 end

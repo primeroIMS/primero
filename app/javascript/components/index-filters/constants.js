@@ -26,20 +26,9 @@ export const HIDDEN_FIELDS = [
   "has_incidents"
 ];
 
-export const PRIMARY_FILTERS = [
-  "sex",
-  "age",
-  "risk_level",
-  "approval_status_case_plan",
-  "last_updated_at"
-];
+export const PRIMARY_FILTERS = ["sex", "age", "risk_level", "approval_status_case_plan", "last_updated_at"];
 
-export const DEFAULT_FILTERS = [
-  "fields",
-  "status",
-  "record_state",
-  "id_search"
-];
+export const DEFAULT_FILTERS = ["fields", "status", "record_state", "id_search"];
 
 export const OR_FIELDS = ["owned_by", "assigned_user_names"];
 

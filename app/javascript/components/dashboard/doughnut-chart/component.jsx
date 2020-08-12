@@ -36,12 +36,7 @@ Chart.pluginService.register({
 
       innerTextConfig.forEach(textConfig => {
         const { text, fontStyle } = textConfig;
-        const fontSize = calculateFontSize(
-          ctx,
-          textConfig,
-          elementWidth,
-          elementHeight
-        );
+        const fontSize = calculateFontSize(ctx, textConfig, elementWidth, elementHeight);
 
         ctx.font = `${fontSize}px ${fontStyle}`;
         ctx.fillText(text, centerX, textY);

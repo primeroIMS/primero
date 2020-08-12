@@ -25,15 +25,9 @@ const Container = ({ actionItems }) => {
   };
 
   const actionMenuItems = actionItems
-    .filter(
-      action => typeof action.condition === "undefined" || action.condition
-    )
+    .filter(action => typeof action.condition === "undefined" || action.condition)
     .map(action => (
-      <MenuItem
-        key={action.name}
-        selected={action.name === "Pyxis"}
-        onClick={() => handleItemAction(action.action)}
-      >
+      <MenuItem key={action.name} selected={action.name === "Pyxis"} onClick={() => handleItemAction(action.action)}>
         {action.name}
       </MenuItem>
     ));
@@ -51,13 +45,7 @@ const Container = ({ actionItems }) => {
         }}
       />
 
-      <Menu
-        id="long-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
+      <Menu id="long-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         {actionMenuItems}
       </Menu>
     </>

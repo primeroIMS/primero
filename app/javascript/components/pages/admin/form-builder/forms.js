@@ -2,54 +2,46 @@ import { fromJS } from "immutable";
 import { array, boolean, object, string } from "yup";
 
 import { RECORD_TYPES } from "../../../../config/constants";
-import {
-  FieldRecord,
-  FormSectionRecord,
-  TEXT_FIELD,
-  SELECT_FIELD,
-  TICK_FIELD,
-  LABEL_FIELD
-} from "../../../form";
+import { FieldRecord, FormSectionRecord, TEXT_FIELD, SELECT_FIELD, TICK_FIELD, LABEL_FIELD } from "../../../form";
 
 export const validationSchema = i18n =>
   object().shape({
     description: object().shape({
-      en: string().required(
-        i18n.t("forms.required_field", { field: i18n.t("forms.description") })
-      )
+      en: string().required(i18n.t("forms.required_field", { field: i18n.t("forms.description") }))
     }),
     form_group_id: string()
       .nullable()
-      .required(
-        i18n.t("forms.required_field", { field: i18n.t("forms.form_group") })
-      ),
+      .required(i18n.t("forms.required_field", { field: i18n.t("forms.form_group") })),
     module_ids: array()
       .of(
         string()
           .nullable()
-          .required(
-            i18n.t("forms.required_field", { field: i18n.t("forms.module") })
-          )
+          .required(i18n.t("forms.required_field", { field: i18n.t("forms.module") }))
       )
       .nullable(),
     name: object().shape({
-      en: string().required(
-        i18n.t("forms.required_field", { field: i18n.t("forms.title") })
-      )
+      en: string().required(i18n.t("forms.required_field", { field: i18n.t("forms.title") }))
     }),
     parent_form: string()
       .nullable()
-      .required(
-        i18n.t("forms.required_field", { field: i18n.t("forms.record_type") })
-      ),
+      .required(i18n.t("forms.required_field", { field: i18n.t("forms.record_type") })),
     visible: boolean()
   });
 
-export const settingsForm = i18n =>
+export const settingsForm = ({ formMode, onManageTranslation, i18n }) =>
   fromJS([
     FormSectionRecord({
       unique_id: "settings",
       name: i18n.t("forms.settings"),
+      actions: formMode.get("isEdit")
+        ? [
+            {
+              text: i18n.t("forms.translations.manage"),
+              outlined: true,
+              rest: { onClick: onManageTranslation }
+            }
+          ]
+        : [],
       fields: [
         FieldRecord({
           display_name: i18n.t("forms.title"),
@@ -80,19 +72,16 @@ export const settingsForm = i18n =>
               display_name: i18n.t("forms.record_type"),
               name: "parent_form",
               type: SELECT_FIELD,
-              option_strings_text: Object.values(RECORD_TYPES).reduce(
-                (results, item) => {
-                  if (item !== RECORD_TYPES.all) {
-                    results.push({
-                      id: item,
-                      display_text: i18n.t(`forms.record_types.${item}`)
-                    });
-                  }
+              option_strings_text: Object.values(RECORD_TYPES).reduce((results, item) => {
+                if (item !== RECORD_TYPES.all) {
+                  results.push({
+                    id: item,
+                    display_text: i18n.t(`forms.record_types.${item}`)
+                  });
+                }
 
-                  return results;
-                },
-                []
-              ),
+                return results;
+              }, []),
               required: true
             }),
             FieldRecord({

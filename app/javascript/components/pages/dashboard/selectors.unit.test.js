@@ -29,11 +29,7 @@ const reportingLocation = {
     reporting_location_open: {
       "1506060": {
         count: 1,
-        query: [
-          "record_state=true",
-          "status=open",
-          "owned_by_location2=1506060"
-        ]
+        query: ["record_state=true", "status=open", "owned_by_location2=1506060"]
       }
     },
     reporting_location_open_last_week: {},
@@ -59,11 +55,7 @@ const approvalsCasePlanPending = {
   indicators: {
     approval_case_plan_pending_group: {
       count: 2,
-      query: [
-        "record_state=true",
-        "status=open",
-        "approval_status_case_plan=pending"
-      ]
+      query: ["record_state=true", "status=open", "approval_status_case_plan=pending"]
     }
   }
 };
@@ -73,11 +65,7 @@ const approvalsClosurePending = {
   indicators: {
     approval_closure_pending_group: {
       count: 1,
-      query: [
-        "record_state=true",
-        "status=open",
-        "approval_status_closure=pending"
-      ]
+      query: ["record_state=true", "status=open", "approval_status_closure=pending"]
     }
   }
 };
@@ -89,11 +77,7 @@ const protectionConcern = {
     protection_concerns_open_cases: {
       statelessness: {
         count: 2,
-        query: [
-          "record_state=true",
-          "status=open",
-          "protection_concerns=statelessness"
-        ]
+        query: ["record_state=true", "status=open", "protection_concerns=statelessness"]
       }
     },
     protection_concerns_new_this_week: {
@@ -152,30 +136,15 @@ const sharedWithOthers = {
   indicators: {
     shared_with_others_referrals: {
       count: 0,
-      query: [
-        "owned_by=primero_cp",
-        "record_state=true",
-        "status=open",
-        "referred_users_present=true"
-      ]
+      query: ["owned_by=primero_cp", "record_state=true", "status=open", "referred_users_present=true"]
     },
     shared_with_others_pending_transfers: {
       count: 0,
-      query: [
-        "owned_by=primero_cp",
-        "record_state=true",
-        "status=open",
-        "transfer_status=in_progress"
-      ]
+      query: ["owned_by=primero_cp", "record_state=true", "status=open", "transfer_status=in_progress"]
     },
     shared_with_others_rejected_transfers: {
       count: 0,
-      query: [
-        "owned_by=primero_cp",
-        "record_state=true",
-        "status=open",
-        "transfer_status=rejected"
-      ]
+      query: ["owned_by=primero_cp", "record_state=true", "status=open", "transfer_status=rejected"]
     }
   }
 };
@@ -328,9 +297,7 @@ describe("<Dashboard /> - Selectors", () => {
         stats: {}
       });
 
-      const expected = selectors.getCasesByAssessmentLevel(
-        emptyValueInitialState
-      );
+      const expected = selectors.getCasesByAssessmentLevel(emptyValueInitialState);
 
       expect(emptyResult).to.deep.equal(expected);
     });
