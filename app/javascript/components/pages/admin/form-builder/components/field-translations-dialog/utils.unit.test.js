@@ -24,8 +24,6 @@ describe("<FieldTranslationsDialog>- Utils", () => {
     };
     const locales = fromJS([{ id: "en" }, { id: "es" }]);
 
-    expect(expected).to.deep.equal(
-      utils.buildDefaultOptionStringsText(options, locales)
-    );
+    expect(expected).to.deep.equal(utils.buildDefaultOptionStringsText(options, locales));
   });
 });

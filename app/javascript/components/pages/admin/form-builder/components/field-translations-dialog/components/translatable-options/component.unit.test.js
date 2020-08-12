@@ -24,8 +24,6 @@ describe("<TranslatableOptions />", () => {
     );
 
     expect(component.find(TranslatableOptions)).to.have.lengthOf(1);
-    expect(
-      component.find(TranslatableOptions).find(FormSectionField)
-    ).to.have.lengthOf(2);
+    expect(component.find(TranslatableOptions).find(FormSectionField)).to.have.lengthOf(2);
   });
 });

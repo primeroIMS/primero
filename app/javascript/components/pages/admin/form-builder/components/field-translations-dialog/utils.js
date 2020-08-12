@@ -14,9 +14,7 @@ export const buildDefaultOptionStringsText = (optionStringsText, locales) => {
 
       return {
         [localeId]: optionIds.map(id => {
-          const currentOption = (optionStringsText[localeId] || [])?.find(
-            option => option.id === id
-          );
+          const currentOption = (optionStringsText[localeId] || [])?.find(option => option.id === id);
 
           return currentOption || { id, display_text: "" };
         })

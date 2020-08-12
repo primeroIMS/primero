@@ -30,9 +30,7 @@ import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/co
 import { getOptions } from "../../../../../record-form/selectors";
 import { getLabelTypeField } from "../utils";
 import CustomFieldDialog from "../custom-field-dialog";
-import FieldTranslationsDialog, {
-  NAME as FieldTranslationsDialogName
-} from "../field-translations-dialog";
+import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "../field-translations-dialog";
 
 import styles from "./styles.css";
 import {

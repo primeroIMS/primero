@@ -1,13 +1,7 @@
 import { fromJS } from "immutable";
 
 import { setupMockFormComponent } from "../../../../../../test";
-import {
-  FormSectionField,
-  SUBFORM_SECTION,
-  SELECT_FIELD,
-  TEXT_FIELD,
-  TICK_FIELD
-} from "../../../../../form";
+import { FormSectionField, SUBFORM_SECTION, SELECT_FIELD, TEXT_FIELD, TICK_FIELD } from "../../../../../form";
 
 import { TranslatableOptions } from "./components";
 import FieldTranslationsDialog from "./component";
@@ -69,9 +63,7 @@ describe("<FieldTranslationsDialog />", () => {
       .find(FormSectionField)
       .map(field => field.props().field.name);
 
-    expect(
-      component.find(FieldTranslationsDialog).find(FormSectionField)
-    ).to.have.lengthOf(7);
+    expect(component.find(FieldTranslationsDialog).find(FormSectionField)).to.have.lengthOf(7);
     expect(fieldNames).to.deep.equal(expectedFieldNames);
   });
 
@@ -111,9 +103,7 @@ describe("<FieldTranslationsDialog />", () => {
       .find(FormSectionField)
       .map(field => field.props().field.name);
 
-    expect(
-      component.find(FieldTranslationsDialog).find(FormSectionField)
-    ).to.have.lengthOf(9);
+    expect(component.find(FieldTranslationsDialog).find(FormSectionField)).to.have.lengthOf(9);
     expect(fieldNames).to.deep.equal(expectedFieldNames);
   });
 
@@ -149,9 +139,7 @@ describe("<FieldTranslationsDialog />", () => {
       .find(FormSectionField)
       .map(field => field.props().field.name);
 
-    expect(
-      component.find(FieldTranslationsDialog).find(FormSectionField)
-    ).to.have.lengthOf(9);
+    expect(component.find(FieldTranslationsDialog).find(FormSectionField)).to.have.lengthOf(9);
     expect(fieldNames).to.deep.equal(expectedFieldNames);
   });
 
@@ -195,9 +183,7 @@ describe("<FieldTranslationsDialog />", () => {
       .find(FormSectionField)
       .map(field => field.props().field.name);
 
-    expect(
-      component.find(FieldTranslationsDialog).find(FormSectionField)
-    ).to.have.lengthOf(13);
+    expect(component.find(FieldTranslationsDialog).find(FormSectionField)).to.have.lengthOf(13);
     expect(fieldNames).to.deep.equal(expectedFieldNames);
     expect(component.find(TranslatableOptions)).to.have.lengthOf(1);
   });

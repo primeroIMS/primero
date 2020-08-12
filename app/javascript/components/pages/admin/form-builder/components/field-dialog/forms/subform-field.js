@@ -4,12 +4,7 @@ import { object, string } from "yup";
 import { generalForm, generalFields, subform, visibilityFields, visibilityForm } from "./base";
 
 /* eslint-disable import/prefer-default-export */
-export const subformField = ({
-  field,
-  i18n,
-  formMode,
-  onManageTranslations
-}) => {
+export const subformField = ({ field, i18n, formMode, onManageTranslations }) => {
   const fieldName = field.get("name");
   const { showOn, visible, mobileVisible, hideOnViewPage } = visibilityFields({
     fieldName,

@@ -6,11 +6,7 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../../../../../../i18n";
-import {
-  FieldRecord,
-  FormSectionField,
-  TEXT_FIELD
-} from "../../../../../../../form";
+import { FieldRecord, FormSectionField, TEXT_FIELD } from "../../../../../../../form";
 import { LOCALE_KEYS } from "../../../../../../../../config";
 import styles from "../../../styles.css";
 
@@ -19,13 +15,8 @@ import { NAME } from "./constants";
 const Component = ({ field, selectedLocaleId }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const locales = i18n.applicationLocales.filter(
-    locale => locale.get("id") !== LOCALE_KEYS.en
-  );
-  const englishOptions = field.getIn(
-    ["option_strings_text", LOCALE_KEYS.en],
-    fromJS([])
-  );
+  const locales = i18n.applicationLocales.filter(locale => locale.get("id") !== LOCALE_KEYS.en);
+  const englishOptions = field.getIn(["option_strings_text", LOCALE_KEYS.en], fromJS([]));
 
   if (!englishOptions?.size) {
     return null;
@@ -44,9 +35,7 @@ const Component = ({ field, selectedLocaleId }) => {
       <FormSectionField
         field={FieldRecord({
           display_name: "",
-          name: `${field.get(
-            "name"
-          )}.option_strings_text.${id}[${index}].display_text`,
+          name: `${field.get("name")}.option_strings_text.${id}[${index}].display_text`,
           type: TEXT_FIELD,
           disabled: id === LOCALE_KEYS.en,
           inputClassname: hideField ? css.hideField : null
@@ -56,22 +45,13 @@ const Component = ({ field, selectedLocaleId }) => {
   );
 
   const renderEnglishOptions = () =>
-    englishOptions.map((option, index) =>
-      renderLocalizedOption(LOCALE_KEYS.en, index, option, false)
-    );
+    englishOptions.map((option, index) => renderLocalizedOption(LOCALE_KEYS.en, index, option, false));
 
   const renderOptions = () =>
     englishOptions.map((option, index) =>
       locales
         .map(locale => locale.get("id"))
-        .map(localeId =>
-          renderLocalizedOption(
-            localeId,
-            index,
-            option,
-            localeId !== selectedLocaleId
-          )
-        )
+        .map(localeId => renderLocalizedOption(localeId, index, option, localeId !== selectedLocaleId))
     );
 
   return (
@@ -80,15 +60,11 @@ const Component = ({ field, selectedLocaleId }) => {
         <h1>{i18n.t("fields.option_strings_text")}</h1>
       </Grid>
       <Grid item xs={12} md={6}>
-        <h1 className={css.translationHeader}>
-          {i18n.t("fields.english_text")}
-        </h1>
+        <h1 className={css.translationHeader}>{i18n.t("fields.english_text")}</h1>
         {renderEnglishOptions()}
       </Grid>
       <Grid item xs={12} md={6}>
-        <h1 className={css.translationHeader}>
-          {i18n.t("fields.translation_text")}
-        </h1>
+        <h1 className={css.translationHeader}>{i18n.t("fields.translation_text")}</h1>
         {renderOptions()}
       </Grid>
     </Grid>

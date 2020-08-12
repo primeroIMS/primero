@@ -21,22 +21,13 @@ import { buildDefaultOptionStringsText } from "./utils";
 import { translationsFieldForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
 
-const Component = ({
-  currentValues,
-  field,
-  mode,
-  onClose,
-  onSuccess,
-  subform
-}) => {
+const Component = ({ currentValues, field, mode, onClose, onSuccess, subform }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
-  const locales = i18n.applicationLocales.filter(
-    locale => locale.get("id") !== LOCALE_KEYS.en
-  );
+  const locales = i18n.applicationLocales.filter(locale => locale.get("id") !== LOCALE_KEYS.en);
   const {
     name: fieldName,
     display_name: displayName,
@@ -48,10 +39,7 @@ const Component = ({
 
   const { name, description } = subform?.toJS() || {};
 
-  const initialOptionStringsText = buildDefaultOptionStringsText(
-    optionStringsText,
-    locales
-  );
+  const initialOptionStringsText = buildDefaultOptionStringsText(optionStringsText, locales);
 
   const defaultOptions = {
     en: optionStringsText?.en || [],
@@ -71,10 +59,7 @@ const Component = ({
     },
     validationSchema: validationSchema(i18n)
   });
-  const selectedLocaleId = formMethods.watch(
-    "locale_id",
-    locales.first()?.get("id")
-  );
+  const selectedLocaleId = formMethods.watch("locale_id", locales.first()?.get("id"));
   const openTranslationDialog = useSelector(state => selectDialog(state, NAME));
 
   const handleClose = () => {
@@ -159,10 +144,7 @@ const Component = ({
       <FormContext {...formMethods} formMode={formMode}>
         <form className={css.formBuilderDialog}>
           {renderForms()}
-          <TranslatableOptions
-            field={field}
-            selectedLocaleId={selectedLocaleId}
-          />
+          <TranslatableOptions field={field} selectedLocaleId={selectedLocaleId} />
         </form>
       </FormContext>
     </ActionDialog>
