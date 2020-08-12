@@ -132,7 +132,7 @@ const Component = ({ isSubform }) => {
 
       if (selectedItem === SUBFORM_SECTION) {
         const selectedSubformParams = {
-          temp_id: Math.floor(Math.random() * 1000),
+          temp_id: Math.floor(Math.random() * 100000),
           isSubformNew: true
         };
 

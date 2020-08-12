@@ -208,7 +208,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   };
 
   const onSubmit = data => {
-    const randomSubformId = Math.floor(Math.random() * 1000);
+    const randomSubformId = Math.floor(Math.random() * 100000);
     const subformData = setInitialForms(data.subform_section);
     const fieldData = setSubformData(
       toggleHideOnViewPage(data[selectedFieldName]),

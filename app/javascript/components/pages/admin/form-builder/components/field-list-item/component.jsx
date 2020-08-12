@@ -89,6 +89,12 @@ const Component = ({ field, index, subformField }) => {
 
         dispatch(clearSelectedField());
         dispatch(setSelectedField(fieldName));
+        if (
+          fieldData.subform_section_temp_id !==
+          field.get("subform_section_temp_id")
+        ) {
+          delete fieldData.subform_section_temp_id;
+        }
         dispatch(updateSelectedField({ [fieldName]: fieldData }));
       }
 
