@@ -985,6 +985,7 @@ en:
   change_logs:
     create: "Created record"
     update: "Changed from %{field_name} from %{from_value} to %{to_value}"
+    update_subform: "Updated %{subform_name}"
 
   preposition:
     on_label: "on"

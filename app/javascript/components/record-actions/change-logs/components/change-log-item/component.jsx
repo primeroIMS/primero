@@ -19,7 +19,7 @@ const Component = ({ changeLogDate, changeLogMessage, changeLogUser }) => {
   return (
     <TimelineItem>
       <TimelineSeparator>
-        <TimelineDot />
+        <TimelineDot variant="outlined" color="primary" />
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent>

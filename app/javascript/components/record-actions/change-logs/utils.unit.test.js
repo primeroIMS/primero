@@ -1,4 +1,4 @@
-import { fromJS, OrderedMap } from "immutable";
+import { fromJS } from "immutable";
 
 import { FieldRecord } from "../../record-form";
 
@@ -19,45 +19,24 @@ describe("ChangeLogs - Utils", () => {
   });
 
   describe("getFieldsAndValuesTranslations", () => {
-    const fields = OrderedMap({
-      0: FieldRecord({
-        id: 1,
-        name: "name_first",
-        type: "text_field",
-        editable: true,
-        disabled: null,
-        visible: true,
-        display_name: {
-          en: "First Name"
-        },
-        subform_section_id: null,
-        help_text: {},
-        multi_select: null,
-        option_strings_source: null,
-        option_strings_text: null,
-        guiding_questions: "",
-        required: true,
-        date_validation: "default_date_validation"
-      }),
-      1: FieldRecord({
-        id: 1,
-        name: "nationality",
-        type: "select_box",
-        editable: true,
-        disabled: null,
-        visible: true,
-        display_name: {
-          en: "Nationality"
-        },
-        subform_section_id: null,
-        help_text: {},
-        multi_select: null,
-        option_strings_source: "lookup lookup-country",
-        option_strings_text: null,
-        guiding_questions: "",
-        required: true,
-        date_validation: "default_date_validation"
-      })
+    const selectedField = FieldRecord({
+      id: 1,
+      name: "nationality",
+      type: "select_box",
+      editable: true,
+      disabled: null,
+      visible: true,
+      display_name: {
+        en: "Nationality"
+      },
+      subform_section_id: null,
+      help_text: {},
+      multi_select: null,
+      option_strings_source: "lookup lookup-country",
+      option_strings_text: null,
+      guiding_questions: "",
+      required: true,
+      date_validation: "default_date_validation"
     });
     const lookups = fromJS([
       {
@@ -95,10 +74,10 @@ describe("ChangeLogs - Utils", () => {
     it("should return object with field and values translated", () => {
       expect(
         utils.getFieldsAndValuesTranslations(
-          fields,
           lookups,
           locations,
           i18n,
+          selectedField,
           field,
           value
         )

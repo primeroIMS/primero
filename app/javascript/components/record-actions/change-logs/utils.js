@@ -81,10 +81,10 @@ const getFieldValueFromOptionText = (
 };
 
 export const getFieldsAndValuesTranslations = (
-  allFields,
   allLookups,
   locations,
   i18n,
+  selectedField,
   field,
   value
 ) => {
@@ -103,20 +103,14 @@ export const getFieldsAndValuesTranslations = (
     fieldDisplayName = i18n.t(`record_information.${field}`);
   }
 
-  const selectedField = allFields.filter(
-    recordField => recordField.name === field
-  );
-
-  if (selectedField.size) {
-    fieldDisplayName = selectedField?.first()?.get("display_name")[i18n.locale];
+  if (selectedField) {
+    fieldDisplayName = selectedField?.get("display_name")[i18n.locale];
   }
 
-  const selectedFieldOptionsSource = selectedField
-    ?.first()
-    ?.get("option_strings_source");
-  const selectedFieldOptionsText = selectedField
-    ?.first()
-    ?.get("option_strings_text");
+  const selectedFieldOptionsSource = selectedField?.get(
+    "option_strings_source"
+  );
+  const selectedFieldOptionsText = selectedField?.get("option_strings_text");
 
   if (selectedFieldOptionsSource) {
     fieldValueFrom = getFieldValueFromOptionSource(
