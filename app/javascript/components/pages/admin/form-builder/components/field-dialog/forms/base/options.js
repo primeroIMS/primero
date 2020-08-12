@@ -31,15 +31,12 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
           display_name: i18n.t("fields.default_value"),
           name: `${fieldName}.selected_value`,
           type: SELECT_FIELD,
-          option_strings_source:
-            mode.get("isEdit") && field.get("option_strings_source"),
+          option_strings_source: mode.get("isEdit") && field.get("option_strings_source"),
           watchedInputs: [`${fieldName}.option_strings_source`],
           handleWatchedInputs: value => {
             const emptyOptions = [{ id: "", display_text: "" }];
             const lookupSelected = lookups.find(
-              lookup =>
-                lookup.get("unique_id") ===
-                Object.values(value)[0]?.split(" ")?.pop()
+              lookup => lookup.get("unique_id") === Object.values(value)[0]?.split(" ")?.pop()
             );
             const newSelectOptions = lookupSelected
               ? emptyOptions.concat(
@@ -79,14 +76,7 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
 };
 
 /* eslint-disable import/prefer-default-export */
-export const optionsForm = ({
-  fieldName,
-  i18n,
-  formMode,
-  field,
-  lookups,
-  css
-}) => {
+export const optionsForm = ({ fieldName, i18n, formMode, field, lookups, css }) => {
   const optionsFormFields = [
     FieldRecord({
       display_name: i18n.t("fields.options_indications_lookup_values"),

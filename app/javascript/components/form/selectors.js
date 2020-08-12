@@ -12,9 +12,7 @@ const formGroups = (state, i18n) =>
         result.push(
           Map({
             id: item.first().getIn(["form_group_id"], null),
-            display_text: item
-              .first()
-              .getIn(["form_group_name", i18n.locale], "")
+            display_text: item.first().getIn(["form_group_name", i18n.locale], "")
           })
         ),
       fromJS([])
@@ -42,12 +40,7 @@ const modules = state =>
 const lookupValues = (state, optionStringsSource, i18n) =>
   state
     .getIn(["forms", "options", "lookups", "data"], fromJS([]))
-    .find(
-      option =>
-        option.get("unique_id") === optionStringsSource.replace(/lookup /, ""),
-      null,
-      fromJS({})
-    )
+    .find(option => option.get("unique_id") === optionStringsSource.replace(/lookup /, ""), null, fromJS({}))
     .get("values", fromJS([]))
     .reduce(
       (result, item) =>

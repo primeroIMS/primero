@@ -5,9 +5,7 @@ const Records = {
     const { id } = db;
 
     return {
-      data: id
-        ? await DB.getRecord(collection, id)
-        : await DB.getAllFromIndex(collection, "type", recordType)
+      data: id ? await DB.getRecord(collection, id) : await DB.getAllFromIndex(collection, "type", recordType)
     };
   },
 

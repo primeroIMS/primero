@@ -39,9 +39,7 @@ describe("<IndexFilters /> - Utils", () => {
     it("return approval label filter if it's an approval", () => {
       const item = `${APPROVALS}.${APPROVALS_TYPES.assessment}`;
 
-      expect(buildNameFilter(item, i18n, approvalsLabels)).to.deep.equal(
-        approvalsLabels.assessment
-      );
+      expect(buildNameFilter(item, i18n, approvalsLabels)).to.deep.equal(approvalsLabels.assessment);
     });
   });
 });

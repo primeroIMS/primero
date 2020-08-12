@@ -41,12 +41,7 @@ describe("<AppLayout />", () => {
         }
       });
 
-      component = setupMountedComponent(
-        AppLayout,
-        { route: routes[0] },
-        state,
-        ["/cases"]
-      ).component;
+      component = setupMountedComponent(AppLayout, { route: routes[0] }, state, ["/cases"]).component;
     });
 
     it("renders navigation", () => {
@@ -55,13 +50,8 @@ describe("<AppLayout />", () => {
 
     // TODO: Need to figure out how to better test
     it("navigates to incidents list", () => {
-      component
-        .find('a[href="/incidents"]')
-        .at(1)
-        .simulate("click", { button: 0 });
-      expect(
-        component.find('a[href="/incidents"]').at(1).hasClass("active")
-      ).to.equal(true);
+      component.find('a[href="/incidents"]').at(1).simulate("click", { button: 0 });
+      expect(component.find('a[href="/incidents"]').at(1).hasClass("active")).to.equal(true);
     });
   });
 
@@ -84,12 +74,7 @@ describe("<AppLayout />", () => {
         }
       });
 
-      component = setupMountedComponent(
-        AppLayout,
-        { route: routes[0] },
-        state,
-        ["/cases"]
-      ).component;
+      component = setupMountedComponent(AppLayout, { route: routes[0] }, state, ["/cases"]).component;
     });
 
     it("renders CircularProgress", () => {

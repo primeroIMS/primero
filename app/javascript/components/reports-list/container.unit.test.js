@@ -1,11 +1,5 @@
 import { fromJS } from "immutable";
-import {
-  Card,
-  CardContent,
-  CardActionArea,
-  TablePagination,
-  Box
-} from "@material-ui/core";
+import { Card, CardContent, CardActionArea, TablePagination, Box } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
 import { setupMountedComponent } from "../../test";
@@ -84,11 +78,7 @@ describe("<Reports /> - Component", () => {
 
   describe("When doesn't have permission to create report", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        Reports,
-        {},
-        initialState.get("records")
-      ));
+      ({ component } = setupMountedComponent(Reports, {}, initialState.get("records")));
     });
 
     it("should not render AddIcon", () => {

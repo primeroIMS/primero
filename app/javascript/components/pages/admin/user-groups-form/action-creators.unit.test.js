@@ -9,12 +9,10 @@ describe("<UserGroupsForm /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["fetchUserGroup", "saveUserGroup", "clearSelectedUserGroup"].forEach(
-      property => {
-        expect(creators).to.have.property(property);
-        delete creators[property];
-      }
-    );
+    ["fetchUserGroup", "saveUserGroup", "clearSelectedUserGroup"].forEach(property => {
+      expect(creators).to.have.property(property);
+      delete creators[property];
+    });
 
     expect(creators).to.be.empty;
   });

@@ -101,11 +101,7 @@ describe("<RecordForm />", () => {
   });
 
   it("returns validation errors when the form is submitted and has an age field", async () => {
-    const field1 = component
-      .find(RecordForm)
-      .find(Formik)
-      .find(MuiTextField)
-      .first();
+    const field1 = component.find(RecordForm).find(Formik).find(MuiTextField).first();
 
     field1.props().form.setFieldValue("field_1", "");
     field1.props().form.setFieldValue("field_age", 140);

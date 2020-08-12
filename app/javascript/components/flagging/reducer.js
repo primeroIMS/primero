@@ -3,12 +3,7 @@ import { Map, fromJS } from "immutable";
 import { listEntriesToRecord } from "../../libs";
 
 import NAMESPACE from "./namespace";
-import {
-  FETCH_FLAGS_SUCCESS,
-  ADD_FLAG_SUCCESS,
-  UNFLAG_SUCCESS,
-  SET_SELECTED_FLAG
-} from "./actions";
+import { FETCH_FLAGS_SUCCESS, ADD_FLAG_SUCCESS, UNFLAG_SUCCESS, SET_SELECTED_FLAG } from "./actions";
 import { FlagRecord } from "./records";
 
 const DEFAULT_STATE = Map({ data: [] });
@@ -22,16 +17,12 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         return data.push(FlagRecord(payload.data));
       });
     case SET_SELECTED_FLAG: {
-      const selectedFlag = state
-        .get("data", fromJS([]))
-        .find(flag => flag.get("id") === payload.id);
+      const selectedFlag = state.get("data", fromJS([])).find(flag => flag.get("id") === payload.id);
 
       return state.set("selectedFlag", selectedFlag);
     }
     case UNFLAG_SUCCESS: {
-      const flagIndex = state
-        .get("data", fromJS([]))
-        .findIndex(flag => flag.get("id") === payload.data.id);
+      const flagIndex = state.get("data", fromJS([])).findIndex(flag => flag.get("id") === payload.data.id);
 
       return state.setIn(["data", flagIndex], FlagRecord(payload.data));
     }

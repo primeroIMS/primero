@@ -15,11 +15,7 @@ const TransitionStatus = ({ status }) => {
 
   return (
     <div className={css.transtionStatus}>
-      <Chip
-        label={i18n.t(`transition.status.${status}`)}
-        className={clsx(css.chip, css[status])}
-        size="small"
-      />
+      <Chip label={i18n.t(`transition.status.${status}`)} className={clsx(css.chip, css[status])} size="small" />
     </div>
   );
 };

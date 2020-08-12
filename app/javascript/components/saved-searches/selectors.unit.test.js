@@ -75,10 +75,7 @@ describe("<SavedSearches /> - Selectors", () => {
           ]
         })
       ]);
-      const filtersFromState = selectors.selectSavedSearches(
-        stateWithRecords,
-        "incidents"
-      );
+      const filtersFromState = selectors.selectSavedSearches(stateWithRecords, "incidents");
 
       expect(filtersFromState.toJS()).to.eql(expected.toJS());
     });
@@ -106,11 +103,7 @@ describe("<SavedSearches /> - Selectors", () => {
           ]
         })
       ]);
-      const filtersFromState = selectors.selectSavedSearchesById(
-        stateWithRecords,
-        "incidents",
-        1
-      );
+      const filtersFromState = selectors.selectSavedSearchesById(stateWithRecords, "incidents", 1);
 
       expect(filtersFromState.toJS()).to.eql(expected.toJS());
     });

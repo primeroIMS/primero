@@ -129,14 +129,7 @@ describe("<NavGroup />", () => {
     const navGroupProps = { ...component.find(NavGroup).props() };
 
     expect(component.find(NavGroup)).to.have.lengthOf(1);
-    [
-      "group",
-      "handleClick",
-      "isNew",
-      "open",
-      "recordAlerts",
-      "selectedForm"
-    ].forEach(property => {
+    ["group", "handleClick", "isNew", "open", "recordAlerts", "selectedForm"].forEach(property => {
       expect(navGroupProps).to.have.property(property);
       delete navGroupProps[property];
     });

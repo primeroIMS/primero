@@ -74,17 +74,12 @@ describe("<MoreSection>", () => {
 
     const clone = { ...component.find(CheckboxFilter).props() };
 
-    [
-      "addFilterToList",
-      "filter",
-      "filterToList",
-      "mode",
-      "moreSectionFilters",
-      "setMoreSectionFilters"
-    ].forEach(property => {
-      expect(clone).to.have.property(property);
-      delete clone[property];
-    });
+    ["addFilterToList", "filter", "filterToList", "mode", "moreSectionFilters", "setMoreSectionFilters"].forEach(
+      property => {
+        expect(clone).to.have.property(property);
+        delete clone[property];
+      }
+    );
 
     expect(clone).to.be.empty;
   });

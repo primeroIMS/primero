@@ -32,25 +32,13 @@ const Component = ({
 
   return (
     <>
-      <IconButton
-        aria-label="close"
-        className={css.closeButton}
-        onClick={close}
-      >
+      <IconButton aria-label="close" className={css.closeButton} onClick={close}>
         <CloseIcon />
       </IconButton>
       <form noValidate autoComplete="off">
         <FormControl component="fieldset">
-          <FormLabel component="legend">
-            {i18n.t("cases.approval_radio")}
-          </FormLabel>
-          <RadioGroup
-            aria-label="position"
-            name="position"
-            value={approval}
-            onChange={handleChangeApproval}
-            row
-          >
+          <FormLabel component="legend">{i18n.t("cases.approval_radio")}</FormLabel>
+          <RadioGroup aria-label="position" name="position" value={approval} onChange={handleChangeApproval} row>
             <FormControlLabel
               value="approved"
               control={<Radio color="primary" />}
@@ -65,9 +53,7 @@ const Component = ({
             />
           </RadioGroup>
         </FormControl>
-        <FormLabel component="legend">
-          {i18n.t("cases.approval_select")}
-        </FormLabel>
+        <FormLabel component="legend">{i18n.t("cases.approval_select")}</FormLabel>
         <Select
           id="outlined-select-approval-native"
           fullWidth
@@ -77,9 +63,7 @@ const Component = ({
         >
           {selectOptions}
         </Select>
-        <FormLabel component="legend">
-          {i18n.t("cases.approval_comments")}
-        </FormLabel>
+        <FormLabel component="legend">{i18n.t("cases.approval_comments")}</FormLabel>
         <TextField
           id="outlined-multiline-static"
           multiline

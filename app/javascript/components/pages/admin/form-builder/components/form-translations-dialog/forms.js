@@ -2,12 +2,7 @@
 import { fromJS } from "immutable";
 import { object, string } from "yup";
 
-import {
-  FieldRecord,
-  FormSectionRecord,
-  TEXT_FIELD,
-  SELECT_FIELD
-} from "../../../../../form";
+import { FieldRecord, FormSectionRecord, TEXT_FIELD, SELECT_FIELD } from "../../../../../form";
 
 export const validationSchema = i18n =>
   object().shape({
@@ -20,14 +15,7 @@ export const validationSchema = i18n =>
       )
   });
 
-export const translationsForm = ({
-  i18n,
-  selectedLocaleId,
-  cssHideField,
-  cssTranslationField,
-  locales,
-  formSection
-}) =>
+export const translationsForm = ({ i18n, selectedLocaleId, cssHideField, cssTranslationField, locales, formSection }) =>
   fromJS([
     FormSectionRecord({
       unique_id: "edit_translations",
@@ -48,16 +36,10 @@ export const translationsForm = ({
       name: i18n.t("forms.form_title"),
       fields: locales.map(locale =>
         FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${formSection.getIn([
-            "name",
-            "en"
-          ])}`,
+          display_name: `${i18n.t("home.en")}: ${formSection.getIn(["name", "en"])}`,
           name: `name.${locale.get("id")}`,
           type: TEXT_FIELD,
-          inputClassname:
-            locale.get("id") !== selectedLocaleId
-              ? cssHideField
-              : cssTranslationField
+          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
         })
       )
     }),
@@ -66,16 +48,10 @@ export const translationsForm = ({
       name: i18n.t("forms.form_description"),
       fields: locales.map(locale =>
         FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${formSection.getIn([
-            "description",
-            "en"
-          ])}`,
+          display_name: `${i18n.t("home.en")}: ${formSection.getIn(["description", "en"])}`,
           name: `description.${locale.get("id")}`,
           type: TEXT_FIELD,
-          inputClassname:
-            locale.get("id") !== selectedLocaleId
-              ? cssHideField
-              : cssTranslationField
+          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
         })
       )
     })

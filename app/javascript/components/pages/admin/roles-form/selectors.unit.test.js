@@ -23,24 +23,17 @@ describe("<RolesForm /> - Selectors", () => {
   it("should have known the selectors", () => {
     const creators = { ...selectors };
 
-    ["getLoading", "getRole", "getServerErrors", "getSavingRecord"].forEach(
-      property => {
-        expect(creators).to.have.property(property);
-        delete creators[property];
-      }
-    );
+    ["getLoading", "getRole", "getServerErrors", "getSavingRecord"].forEach(property => {
+      expect(creators).to.have.property(property);
+      delete creators[property];
+    });
 
     expect(creators).to.be.empty;
   });
 
   describe("getRole", () => {
     it("should return selected role", () => {
-      const expected = stateWithHeaders.getIn([
-        "records",
-        "admin",
-        NAMESPACE,
-        "selectedRole"
-      ]);
+      const expected = stateWithHeaders.getIn(["records", "admin", NAMESPACE, "selectedRole"]);
 
       const role = selectors.getRole(stateWithHeaders);
 
@@ -56,12 +49,7 @@ describe("<RolesForm /> - Selectors", () => {
 
   describe("getServerErrors", () => {
     it("should return server errors", () => {
-      const expected = stateWithHeaders.getIn([
-        "records",
-        "admin",
-        NAMESPACE,
-        "serverErrors"
-      ]);
+      const expected = stateWithHeaders.getIn(["records", "admin", NAMESPACE, "serverErrors"]);
 
       const serverErrors = selectors.getServerErrors(stateWithHeaders);
 
@@ -77,12 +65,7 @@ describe("<RolesForm /> - Selectors", () => {
 
   describe("getSavingRecord", () => {
     it("should return saving", () => {
-      const expected = stateWithHeaders.getIn([
-        "records",
-        "admin",
-        NAMESPACE,
-        "saving"
-      ]);
+      const expected = stateWithHeaders.getIn(["records", "admin", NAMESPACE, "saving"]);
 
       const saving = selectors.getSavingRecord(stateWithHeaders);
 
@@ -92,12 +75,7 @@ describe("<RolesForm /> - Selectors", () => {
 
   describe("getLoading", () => {
     it("should return loading", () => {
-      const expected = stateWithHeaders.getIn([
-        "records",
-        "admin",
-        NAMESPACE,
-        "loading"
-      ]);
+      const expected = stateWithHeaders.getIn(["records", "admin", NAMESPACE, "loading"]);
 
       const loading = selectors.getLoading(stateWithHeaders);
 

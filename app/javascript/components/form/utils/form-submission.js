@@ -21,17 +21,10 @@ export const submitHandler = ({
   return {
     submitForm(e) {
       formMethods.handleSubmit(data => {
-        const changedFormData = touchedFormData(
-          touchedFields,
-          data,
-          formMode.get("isEdit"),
-          initialValues
-        );
+        const changedFormData = touchedFormData(touchedFields, data, formMode.get("isEdit"), initialValues);
 
         if (isEmpty(changedFormData)) {
-          return dispatch(
-            enqueueSnackbar(i18n.t("messages.no_changes"), "error")
-          );
+          return dispatch(enqueueSnackbar(i18n.t("messages.no_changes"), "error"));
         }
 
         return onSubmit(submitAllFields ? data : changedFormData);

@@ -1,9 +1,5 @@
 import { RECORD_PATH, SAVE_METHODS, METHODS } from "../../../../config";
-import {
-  ENQUEUE_SNACKBAR,
-  generate,
-  SNACKBAR_VARIANTS
-} from "../../../notifier";
+import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../../../notifier";
 
 import actions from "./actions";
 
@@ -19,10 +15,7 @@ export const fetchLookup = id => {
 };
 
 export const saveLookup = ({ id, body, saveMethod, message }) => {
-  const path =
-    saveMethod === SAVE_METHODS.update
-      ? `${RECORD_PATH.lookups}/${id}`
-      : RECORD_PATH.lookups;
+  const path = saveMethod === SAVE_METHODS.update ? `${RECORD_PATH.lookups}/${id}` : RECORD_PATH.lookups;
 
   return {
     type: actions.SAVE_LOOKUP,

@@ -15,11 +15,7 @@ const TransitionPanel = ({ children }) => {
   const css = makeStyles(styles)();
 
   return (
-    <ExpansionPanel
-      expanded={expanded}
-      onChange={handleExpanded}
-      className={css.panel}
-    >
+    <ExpansionPanel expanded={expanded} onChange={handleExpanded} className={css.panel}>
       {children}
     </ExpansionPanel>
   );

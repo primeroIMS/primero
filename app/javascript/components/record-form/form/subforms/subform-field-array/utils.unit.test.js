@@ -59,10 +59,7 @@ describe("valuesWithDisplayConditions", () => {
       }
     ];
 
-    const options = helpers.valuesWithDisplayConditions(
-      values,
-      displayConditions
-    );
+    const options = helpers.valuesWithDisplayConditions(values, displayConditions);
 
     expect(options).to.deep.equal(expected);
   });

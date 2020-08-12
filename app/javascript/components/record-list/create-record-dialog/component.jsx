@@ -1,13 +1,7 @@
 import React, { useEffect, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { push } from "connected-react-router";
-import {
-  IconButton,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle
-} from "@material-ui/core";
+import { IconButton, Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
@@ -73,12 +67,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
 
         setOpen(false);
         handleCreateNewCase();
-        dispatch(
-          enqueueSnackbar(
-            i18n.t("case.id_search_no_results", { search_query: query }),
-            "error"
-          )
-        );
+        dispatch(enqueueSnackbar(i18n.t("case.id_search_no_results", { search_query: query }), "error"));
       }
     }
   }, [data]);
@@ -111,10 +100,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
         <FormContext {...methods} formMode={formMode}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             {searchForm(i18n).map(formSection => (
-              <FormSection
-                formSection={formSection}
-                key={formSection.unique_id}
-              />
+              <FormSection formSection={formSection} key={formSection.unique_id} />
             ))}
           </form>
         </FormContext>

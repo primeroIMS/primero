@@ -24,11 +24,7 @@ const Tooltip = ({ children, title, i18nTitle }) => {
   };
 
   return (
-    <ConditionalWrapper
-      condition={Boolean(title)}
-      wrapper={MuiToolTip}
-      {...commonTooltipProps}
-    >
+    <ConditionalWrapper condition={Boolean(title)} wrapper={MuiToolTip} {...commonTooltipProps}>
       {children}
     </ConditionalWrapper>
   );

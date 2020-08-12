@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  ExpansionPanel,
-  ExpansionPanelDetails,
-  ExpansionPanelSummary
-} from "@material-ui/core";
+import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import ApprovalSummary from "../summary";
@@ -30,11 +26,7 @@ const Component = ({ approvalSubform, css }) => {
 
   return (
     <div key={approvalSubform.get("unique_id")}>
-      <ExpansionPanel
-        expanded={expanded}
-        onChange={handleExpanded}
-        className={css.panel}
-      >
+      <ExpansionPanel expanded={expanded} onChange={handleExpanded} className={css.panel}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="filter-controls-content"

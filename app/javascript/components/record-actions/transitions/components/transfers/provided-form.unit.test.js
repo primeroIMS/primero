@@ -19,23 +19,11 @@ describe("<ProvidedForm /> - transfers", () => {
     const props = {
       canConsentOverride: true
     };
-    const { component } = setupMountedComponent(
-      ProvidedForm,
-      props,
-      {},
-      [],
-      formProps
-    );
+    const { component } = setupMountedComponent(ProvidedForm, props, {}, [], formProps);
 
     expect(component.find(Grid), "renders 3 Grid").to.have.lengthOf(3);
-    expect(
-      component.find(FormControlLabel),
-      "renders single FormControlLabel"
-    ).to.have.lengthOf(1);
-    expect(
-      component.find(Checkbox),
-      "renders single Checkbox"
-    ).to.have.lengthOf(1);
+    expect(component.find(FormControlLabel), "renders single FormControlLabel").to.have.lengthOf(1);
+    expect(component.find(Checkbox), "renders single Checkbox").to.have.lengthOf(1);
     expect(component.find(Field), "renders single Field").to.have.lengthOf(1);
   });
 
@@ -44,27 +32,15 @@ describe("<ProvidedForm /> - transfers", () => {
       canConsentOverride: false
     };
 
-    const { component } = setupMountedComponent(
-      ProvidedForm,
-      props,
-      {},
-      [],
-      formProps
-    );
+    const { component } = setupMountedComponent(ProvidedForm, props, {}, [], formProps);
 
     expect(component.find(Grid), "renders 3 Grid").to.have.lengthOf(3);
     expect(
       component.find(Grid).find("span").props().children,
       "renders span with transfer.provided_consent_labe"
     ).to.be.equal("transfer.provided_consent_label");
-    expect(
-      component.find(FormControlLabel),
-      "should not render FormControlLabel"
-    ).to.not.have.lengthOf(1);
-    expect(
-      component.find(Checkbox),
-      "should not render Checkbox"
-    ).to.not.have.lengthOf(1);
+    expect(component.find(FormControlLabel), "should not render FormControlLabel").to.not.have.lengthOf(1);
+    expect(component.find(Checkbox), "should not render Checkbox").to.not.have.lengthOf(1);
   });
 
   it("should reload users if any agency, location or user has changed", () => {
@@ -73,13 +49,7 @@ describe("<ProvidedForm /> - transfers", () => {
       setDisabled: () => {},
       recordType: "cases"
     };
-    const { component } = setupMountedComponent(
-      ProvidedForm,
-      props,
-      {},
-      [],
-      formProps
-    );
+    const { component } = setupMountedComponent(ProvidedForm, props, {}, [], formProps);
     const trasnferAnyway = component.find(Checkbox);
     const storeActions = component.props().store.getActions();
     const expectedAction = {
@@ -92,9 +62,7 @@ describe("<ProvidedForm /> - transfers", () => {
       }
     };
 
-    trasnferAnyway
-      .find("input")
-      .simulate("change", { target: { checked: true } });
+    trasnferAnyway.find("input").simulate("change", { target: { checked: true } });
 
     expect(storeActions[1]).to.deep.equal(expectedAction);
   });

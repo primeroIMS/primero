@@ -10,13 +10,7 @@ import styles from "../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({
-  handleClick,
-  i18n,
-  mode,
-  subformName,
-  subformIsDisabled
-}) => {
+const Component = ({ handleClick, i18n, mode, subformName, subformIsDisabled }) => {
   const css = makeStyles(styles)();
 
   const { isShow } = mode;
@@ -35,9 +29,7 @@ const Component = ({
     <div className={css.emptySubformContainer}>
       <ErrorIcon />
       <span>
-        <strong>
-          {i18n.t("forms.subform_not_found", { subform_name: subformName })}
-        </strong>
+        <strong>{i18n.t("forms.subform_not_found", { subform_name: subformName })}</strong>
         {i18n.t("forms.subform_need_to_be_added")}
       </span>
       {renderAddButton}

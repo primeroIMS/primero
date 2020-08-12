@@ -1,11 +1,5 @@
 export { default } from "./container";
-export {
-  fetchAgencies,
-  fetchForms,
-  fetchLookups,
-  fetchOptions,
-  setSelectedForm
-} from "./action-creators";
+export { fetchAgencies, fetchForms, fetchLookups, fetchOptions, setSelectedForm } from "./action-creators";
 export { default as reducer } from "./reducer";
 export {
   getAllForms,

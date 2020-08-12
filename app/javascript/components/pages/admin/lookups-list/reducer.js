@@ -9,9 +9,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.FETCH_LOOKUPS_STARTED:
       return state.set("loading", fromJS(payload)).set("errors", false);
     case actions.FETCH_LOOKUPS_SUCCESS:
-      return state
-        .set("data", fromJS(payload.data))
-        .set("metadata", fromJS(payload.metadata));
+      return state.set("data", fromJS(payload.data)).set("metadata", fromJS(payload.metadata));
     case actions.FETCH_LOOKUPS_FAILURE:
       return state.set("errors", true).set("loading", false);
     case actions.FETCH_LOOKUPS_FINISHED:

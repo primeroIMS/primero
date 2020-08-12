@@ -26,11 +26,8 @@ describe("<ToggleIconCell /> - Component", () => {
   });
 
   beforeEach(() => {
-    component = setupMountedComponent(
-      ToggleIconCell,
-      { value: true, icon: ALERTS_COLUMNS.alert_count },
-      initialState
-    ).component;
+    component = setupMountedComponent(ToggleIconCell, { value: true, icon: ALERTS_COLUMNS.alert_count }, initialState)
+      .component;
   });
 
   it("renders ToggleIconCell component", () => {
@@ -43,11 +40,7 @@ describe("<ToggleIconCell /> - Component", () => {
 
   describe("when the record has flag", () => {
     beforeEach(() => {
-      component = setupMountedComponent(
-        ToggleIconCell,
-        { value: 3, icon: ALERTS_COLUMNS.flag_count },
-        {}
-      ).component;
+      component = setupMountedComponent(ToggleIconCell, { value: 3, icon: ALERTS_COLUMNS.flag_count }, {}).component;
     });
     it("render the Flag component with number of flags", () => {
       const componeneRendered = component.find(ToggleIconCell);

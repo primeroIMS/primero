@@ -59,9 +59,7 @@ class LoadingIndicator extends React.Component {
           <div className={classes.errorContainer}>
             <div className={classes.error}>
               <ListIcon icon={type} className={classes.errorIcon} />
-              <h5 className={classes.errorMessage}>
-                {errorMessage || i18n.t("errors.error_loading")}
-              </h5>
+              <h5 className={classes.errorMessage}>{errorMessage || i18n.t("errors.error_loading")}</h5>
               <Button
                 variant="outlined"
                 size="small"
@@ -86,9 +84,7 @@ class LoadingIndicator extends React.Component {
           <div className={classes.emptyContainer}>
             <div className={classes.empty}>
               <ListIcon icon={type} className={classes.emptyIcon} />
-              <h5 className={classes.emptyMessage}>
-                {emptyMessage || i18n.t("errors.not_found")}
-              </h5>
+              <h5 className={classes.emptyMessage}>{emptyMessage || i18n.t("errors.not_found")}</h5>
             </div>
           </div>
         )

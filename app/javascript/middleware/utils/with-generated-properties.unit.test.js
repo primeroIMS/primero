@@ -7,10 +7,7 @@ describe("middleware/utils/with-generated-properties.js", () => {
   it("build action with generated properties", () => {
     const action = { api: { path: "/" } };
     const expected = { api: { path: "/", body: { data: { test: "hello" } } } };
-    const generateRecordPropertiesStub = stub(
-      generateRecordProperties,
-      "default"
-    ).returns({
+    const generateRecordPropertiesStub = stub(generateRecordProperties, "default").returns({
       test: "hello"
     });
 

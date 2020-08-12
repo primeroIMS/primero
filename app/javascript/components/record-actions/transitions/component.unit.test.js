@@ -3,12 +3,7 @@ import { fromJS } from "immutable";
 import { setupMountedComponent } from "../../../test";
 import { MODULES } from "../../../config";
 
-import {
-  TransitionDialog,
-  ReferralForm,
-  ReassignForm,
-  TransferForm
-} from "./components";
+import { TransitionDialog, ReferralForm, ReassignForm, TransferForm } from "./components";
 import mockUsers from "./mocked-users";
 import Transitions from "./component";
 

@@ -1,13 +1,7 @@
 import { fromJS } from "immutable";
 import { object, string } from "yup";
 
-import {
-  generalForm,
-  generalFields,
-  subform,
-  visibilityFields,
-  visibilityForm
-} from "./base";
+import { generalForm, generalFields, subform, visibilityFields, visibilityForm } from "./base";
 
 /* eslint-disable import/prefer-default-export */
 export const subformField = ({

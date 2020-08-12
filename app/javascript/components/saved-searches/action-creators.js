@@ -1,10 +1,6 @@
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
-import {
-  FETCH_SAVED_SEARCHES,
-  SAVE_SEARCH,
-  REMOVE_SAVED_SEARCH
-} from "./actions";
+import { FETCH_SAVED_SEARCHES, SAVE_SEARCH, REMOVE_SAVED_SEARCH } from "./actions";
 
 export const fetchSavedSearches = () => async dispatch => {
   dispatch({

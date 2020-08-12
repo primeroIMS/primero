@@ -6,10 +6,7 @@ import { AGENCY, DISABLED } from "./constants";
 const searchableAgencies = data => {
   const agencies = dataToJS(data);
 
-  return agencies.reduce(
-    (acc, agency) => [...acc, { id: agency.id, display_name: agency.name }],
-    []
-  );
+  return agencies.reduce((acc, agency) => [...acc, { id: agency.id, display_name: agency.name }], []);
 };
 
 export const buildUsersQuery = data => {

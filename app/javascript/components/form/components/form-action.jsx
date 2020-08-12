@@ -4,13 +4,7 @@ import PropTypes from "prop-types";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
-const FormAction = ({
-  actionHandler,
-  cancel,
-  savingRecord,
-  startIcon,
-  text
-}) => {
+const FormAction = ({ actionHandler, cancel, savingRecord, startIcon, text }) => {
   return (
     <ActionButton
       icon={startIcon}

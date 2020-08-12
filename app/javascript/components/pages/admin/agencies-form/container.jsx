@@ -20,11 +20,7 @@ import bindFormSubmit from "../../../../libs/submit-form";
 import { localizeData, translateFields } from "./utils";
 import { NAME } from "./constants";
 import { form, validations } from "./form";
-import {
-  fetchAgency,
-  clearSelectedAgency,
-  saveAgency
-} from "./action-creators";
+import { fetchAgency, clearSelectedAgency, saveAgency } from "./action-creators";
 import { getAgency, getServerErrors, getSavingRecord } from "./selectors";
 
 const Container = ({ mode }) => {
@@ -57,13 +53,9 @@ const Container = ({ mode }) => {
     dispatch(
       saveAgency({
         id,
-        saveMethod: formMode.get("isEdit")
-          ? SAVE_METHODS.update
-          : SAVE_METHODS.new,
+        saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
         body: { data: localizedData },
-        message: i18n.t(
-          `agency.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-        )
+        message: i18n.t(`agency.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
       })
     );
   };
@@ -90,12 +82,7 @@ const Container = ({ mode }) => {
 
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
-      <FormAction
-        cancel
-        actionHandler={handleCancel}
-        text={i18n.t("buttons.cancel")}
-        startIcon={<ClearIcon />}
-      />
+      <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
         actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
@@ -106,11 +93,7 @@ const Container = ({ mode }) => {
   );
 
   const editButton = formMode.get("isShow") && (
-    <FormAction
-      actionHandler={handleEdit}
-      text={i18n.t("buttons.edit")}
-      startIcon={<CreateIcon />}
-    />
+    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
   );
 
   const pageHeading = agency?.size
@@ -126,11 +109,7 @@ const Container = ({ mode }) => {
   };
 
   return (
-    <LoadingIndicator
-      hasData={formMode.get("isNew") || agency?.size > 0}
-      loading={!agency.size}
-      type={NAMESPACE}
-    >
+    <LoadingIndicator hasData={formMode.get("isNew") || agency?.size > 0} loading={!agency.size} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
         {canEditAgencies && editButton}
         {saveButton}
@@ -143,11 +122,7 @@ const Container = ({ mode }) => {
           onSubmit={handleSubmit}
           ref={formRef}
           validations={validationSchema}
-          initialValues={translateFields(
-            selectedAgency,
-            ["name", "description"],
-            i18n
-          )}
+          initialValues={translateFields(selectedAgency, ["name", "description"], i18n)}
           formErrors={formErrors}
         />
       </PageContent>

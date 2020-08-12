@@ -97,11 +97,7 @@ describe("<RecordListToolbar />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      RecordListToolbarForm,
-      props,
-      initialState
-    ));
+    ({ component } = setupMountedComponent(RecordListToolbarForm, props, initialState));
   });
 
   it("should render RecordListToolbar with AddRecordMenu", () => {
@@ -118,13 +114,7 @@ describe("<RecordListToolbar />", () => {
     const recordActionsProps = { ...component.find(RecordActions).props() };
 
     expect(component.find(RecordActions)).to.have.lengthOf(1);
-    [
-      "currentPage",
-      "selectedRecords",
-      "recordType",
-      "mode",
-      "showListActions"
-    ].forEach(property => {
+    ["currentPage", "selectedRecords", "recordType", "mode", "showListActions"].forEach(property => {
       expect(recordActionsProps).to.have.property(property);
       delete recordActionsProps[property];
     });
@@ -167,18 +157,12 @@ describe("<RecordListToolbar />", () => {
     };
 
     expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
-    [
-      "currentPage",
-      "handleDrawer",
-      "mobileDisplay",
-      "recordType",
-      "selectedRecords",
-      "title",
-      "css"
-    ].forEach(property => {
-      expect(recordListToolbarProps).to.have.property(property);
-      delete recordListToolbarProps[property];
-    });
+    ["currentPage", "handleDrawer", "mobileDisplay", "recordType", "selectedRecords", "title", "css"].forEach(
+      property => {
+        expect(recordListToolbarProps).to.have.property(property);
+        delete recordListToolbarProps[property];
+      }
+    );
     expect(recordListToolbarProps).to.be.empty;
   });
 });

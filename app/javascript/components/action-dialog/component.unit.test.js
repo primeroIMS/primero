@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Typography
-} from "@material-ui/core";
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from "@material-ui/core";
 import Add from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
 
@@ -101,29 +94,19 @@ describe("<ActionDialog />", () => {
   });
 
   it("should render dialogSubHeader with it's correct value ", () => {
-    expect(component.find(Typography).last().text()).to.be.equal(
-      "Test SubHeader"
-    );
+    expect(component.find(Typography).last().text()).to.be.equal("Test SubHeader");
   });
 
   it("should not render DialogSubtitle because isn't passed in props ", () => {
     delete props.dialogSubtitle;
-    const { component: componentWithoutSubtitle } = setupMountedComponent(
-      ActionDialog,
-      props,
-      {}
-    );
+    const { component: componentWithoutSubtitle } = setupMountedComponent(ActionDialog, props, {});
 
     expect(componentWithoutSubtitle.find(DialogTitle).text()).to.be.empty;
   });
 
   it("should not render dialogSubHeader because isn't passed in props ", () => {
     delete props.dialogSubHeader;
-    const { component: componentWithoutSubtitle } = setupMountedComponent(
-      ActionDialog,
-      props,
-      {}
-    );
+    const { component: componentWithoutSubtitle } = setupMountedComponent(ActionDialog, props, {});
 
     expect(componentWithoutSubtitle.find(Typography)).to.be.empty;
   });
@@ -138,11 +121,7 @@ describe("<ActionDialog />", () => {
       confirmButtonProps: { icon: <Add /> }
     };
 
-    const { component: componentWithDifferentIcon } = setupMountedComponent(
-      ActionDialog,
-      propsWithConfirmButton,
-      {}
-    );
+    const { component: componentWithDifferentIcon } = setupMountedComponent(ActionDialog, propsWithConfirmButton, {});
 
     expect(componentWithDifferentIcon.find(Add)).to.have.lengthOf(1);
   });

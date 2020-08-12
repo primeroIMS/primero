@@ -1,10 +1,6 @@
-import {
-  MULTI_SELECT_FIELD,
-  DATE_TIME_FIELD
-} from "./custom-field-selector-dialog/constants";
+import { MULTI_SELECT_FIELD, DATE_TIME_FIELD } from "./custom-field-selector-dialog/constants";
 
-export const getFieldsAttribute = isNested =>
-  isNested ? "subform_section.fields" : "fields";
+export const getFieldsAttribute = isNested => (isNested ? "subform_section.fields" : "fields");
 
 export const getFiedListItemTheme = currentTheme => ({
   ...currentTheme,

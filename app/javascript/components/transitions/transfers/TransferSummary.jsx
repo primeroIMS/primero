@@ -14,12 +14,7 @@ const TransferSummary = ({ transition, classes, showMode, recordType }) => {
   const transitionStatus = transition.status ? (
     <Grid item md={3} xs={3} className={classes.status}>
       <TransitionStatus status={transition.status} />
-      <TransitionActions
-        classes={classes}
-        transition={transition}
-        showMode={showMode}
-        recordType={recordType}
-      />
+      <TransitionActions classes={classes} transition={transition} showMode={showMode} recordType={recordType} />
     </Grid>
   ) : null;
 
@@ -28,12 +23,8 @@ const TransferSummary = ({ transition, classes, showMode, recordType }) => {
       <Grid item md={9} xs={9}>
         <div className={classes.wrapper}>
           {/* TODO: The date should be localized */}
-          <div className={classes.date}>
-            {format(new Date(transition.created_at), DATE_FORMAT)}
-          </div>
-          <div className={classes.titleHeader}>
-            {i18n.t("transition.type.transfer")}
-          </div>
+          <div className={classes.date}>{format(new Date(transition.created_at), DATE_FORMAT)}</div>
+          <div className={classes.titleHeader}>{i18n.t("transition.type.transfer")}</div>
         </div>
       </Grid>
       {transitionStatus}

@@ -14,9 +14,7 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       const index = state.get("data").findIndex(r => r.get("id") === record.id);
 
       if (index !== -1) {
-        return state
-          .updateIn(["data", index], u => mergeRecord(u, fromJS(record)))
-          .set("errors", false);
+        return state.updateIn(["data", index], u => mergeRecord(u, fromJS(record))).set("errors", false);
       }
 
       return state

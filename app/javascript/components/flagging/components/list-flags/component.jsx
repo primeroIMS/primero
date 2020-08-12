@@ -15,13 +15,9 @@ const Component = ({ recordType, record }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
-  const flagsActived = useSelector(state =>
-    getActiveFlags(state, record, recordType)
-  );
+  const flagsActived = useSelector(state => getActiveFlags(state, record, recordType));
 
-  const flagsResolved = useSelector(state =>
-    getResolvedFlags(state, record, recordType)
-  );
+  const flagsResolved = useSelector(state => getResolvedFlags(state, record, recordType));
 
   const renderFlagsActived =
     Boolean(flagsActived.size) &&

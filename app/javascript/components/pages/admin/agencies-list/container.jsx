@@ -27,9 +27,7 @@ const Container = () => {
   const dispatch = useDispatch();
   const canAddAgencies = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.agencies;
-  const headers = useSelector(state =>
-    getListHeaders(state, RESOURCES.agencies)
-  );
+  const headers = useSelector(state => getListHeaders(state, RESOURCES.agencies));
 
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultFilters = fromJS({

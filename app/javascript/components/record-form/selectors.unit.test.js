@@ -230,10 +230,7 @@ describe("<RecordForm /> - Selectors", () => {
         { id: "region", display_text: "Region" }
       ];
 
-      const record = selectors.getOption(
-        stateWithRecords,
-        "lookup lookup-location-type"
-      );
+      const record = selectors.getOption(stateWithRecords, "lookup lookup-location-type");
 
       expect(Object.keys(record)).to.deep.equal(Object.keys(expected));
       expect(Object.values(record)).to.deep.equal(Object.values(expected));
@@ -288,13 +285,9 @@ describe("<RecordForm /> - Selectors", () => {
 
       const [...formValues] = forms.values();
 
-      expect(List(Object.keys(formValues["0"].toJS()))).to.deep.equal(
-        List(Object.keys(expected.toJS()[0]))
-      );
+      expect(List(Object.keys(formValues["0"].toJS()))).to.deep.equal(List(Object.keys(expected.toJS()[0])));
 
-      expect(Object.values(formValues["0"].toJS()).length).to.be.equal(
-        Object.values(expected.toJS()[0]).length
-      );
+      expect(Object.values(formValues["0"].toJS()).length).to.be.equal(Object.values(expected.toJS()[0]).length);
     });
 
     it("should return an empty array when there are not any options", () => {
@@ -444,15 +437,12 @@ describe("<RecordForm /> - Selectors", () => {
         ],
         is_nested: null
       });
-      const forms = selectors.getRecordFormsByUniqueId(
-        stateWithInvisibleForms,
-        {
-          primeroModule: "primeromodule-cp",
-          recordType: "case",
-          formName: "invisible_form",
-          checkVisible: false
-        }
-      );
+      const forms = selectors.getRecordFormsByUniqueId(stateWithInvisibleForms, {
+        primeroModule: "primeromodule-cp",
+        recordType: "case",
+        formName: "invisible_form",
+        checkVisible: false
+      });
 
       expect(forms.toJS()[0]).to.deep.equal(expected.toJS());
     });
@@ -582,9 +572,7 @@ describe("<RecordForm /> - Selectors", () => {
 
   describe("getAssignableForms", () => {
     it("should return the forms that can be assigned to a role", () => {
-      const expected = fromJS(
-        mapEntriesToRecord(formSections, R.FormSectionRecord)
-      );
+      const expected = fromJS(mapEntriesToRecord(formSections, R.FormSectionRecord));
       const forms = selectors.getAssignableForms(stateWithRecords);
 
       expect(forms).to.deep.equal(expected);

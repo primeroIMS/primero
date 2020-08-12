@@ -15,11 +15,7 @@ import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
 import { compare } from "../../../../../../libs";
-import {
-  getSelectedField,
-  getSelectedSubform,
-  getSelectedFields
-} from "../../selectors";
+import { getSelectedField, getSelectedSubform, getSelectedFields } from "../../selectors";
 import {
   createSelectedField,
   clearSelectedSubformField,
@@ -55,21 +51,13 @@ import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 const Component = ({ mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(mode);
-  const openFieldDialog = useSelector(state =>
-    selectDialog(state, ADMIN_FIELDS_DIALOG)
-  );
+  const openFieldDialog = useSelector(state => selectDialog(state, ADMIN_FIELDS_DIALOG));
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
   const selectedField = useSelector(state => getSelectedField(state), compare);
-  const selectedSubform = useSelector(
-    state => getSelectedSubform(state),
-    compare
-  );
-  const lastField = useSelector(
-    state => getSelectedFields(state, false),
-    compare
-  )?.last();
+  const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
+  const lastField = useSelector(state => getSelectedFields(state, false), compare)?.last();
   const selectedFieldName = selectedField?.get("name");
   const lookups = useSelector(state => getOptions(state), compare);
   const isNested = subformContainsFieldName(selectedSubform, selectedFieldName);
@@ -119,9 +107,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
         file_type: i18n.t(`fields.${getLabelTypeField(selectedField)}`)
       });
 
-  const confirmButtonLabel = formMode.get("isEdit")
-    ? i18n.t("buttons.update")
-    : i18n.t("buttons.add");
+  const confirmButtonLabel = formMode.get("isEdit") ? i18n.t("buttons.update") : i18n.t("buttons.add");
   const confirmButtonIcon = formMode.get("isNew") ? <Add /> : <CheckIcon />;
 
   const modalProps = {
@@ -139,10 +125,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const addOrUpdatedSelectedField = fieldData => {
     let newFieldData = fieldData;
     const subformUniqueId = selectedSubform?.get("unique_id");
-    const currentFieldName =
-      selectedFieldName === NEW_FIELD
-        ? Object.keys(fieldData)[0]
-        : selectedFieldName;
+    const currentFieldName = selectedFieldName === NEW_FIELD ? Object.keys(fieldData)[0] : selectedFieldName;
 
     if (typeof fieldData[currentFieldName].disabled !== "undefined") {
       newFieldData = {
@@ -173,17 +156,9 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
   const onSubmit = data => {
     const subformData = setInitialForms(data.subform_section);
-    const fieldData = setSubformData(
-      toggleHideOnViewPage(data[selectedFieldName]),
-      subformData
-    );
+    const fieldData = setSubformData(toggleHideOnViewPage(data[selectedFieldName]), subformData);
 
-    const dataToSave = buildDataToSave(
-      selectedField,
-      fieldData,
-      i18n.locale,
-      lastField?.get("order")
-    );
+    const dataToSave = buildDataToSave(selectedField, fieldData, i18n.locale, lastField?.get("order"));
 
     batch(() => {
       if (!isNested) {
@@ -202,9 +177,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   };
 
   const renderForms = () =>
-    fieldsForm.map(formSection => (
-      <FormSection formSection={formSection} key={formSection.unique_id} />
-    ));
+    fieldsForm.map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);
 
   const renderFieldsList = () =>
     isSubformField(selectedField) && (
@@ -217,10 +190,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
       </>
     );
 
-  const renderClearButtons = () =>
-    isSubformField(selectedField) && (
-      <ClearButtons subformField={selectedField} />
-    );
+  const renderClearButtons = () => isSubformField(selectedField) && <ClearButtons subformField={selectedField} />;
 
   const setLocaleField = (fieldName, locales) => {
     Object.entries(locales).forEach(([localeId, value]) => {
@@ -248,18 +218,12 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
   useEffect(() => {
     if (selectedField?.toSeq()?.size) {
-      const fieldData = toggleHideOnViewPage(
-        transformValues(selectedField.toJS())
-      );
+      const fieldData = toggleHideOnViewPage(transformValues(selectedField.toJS()));
 
       const subform =
-        isSubformField(selectedField) && selectedSubform.toSeq()?.size
-          ? getSubformValues(selectedSubform)
-          : {};
+        isSubformField(selectedField) && selectedSubform.toSeq()?.size ? getSubformValues(selectedSubform) : {};
 
-      const resetOptions = isNested
-        ? { errors: true, dirtyFields: true, dirty: true, touched: true }
-        : {};
+      const resetOptions = isNested ? { errors: true, dirtyFields: true, dirty: true, touched: true } : {};
 
       formMethods.reset(
         {

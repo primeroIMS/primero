@@ -22,8 +22,7 @@ describe("<FormBuilderActionButtons />", () => {
   });
 
   it("renders the FormBuilderActionButtons", () => {
-    const findButtonWithtext = text =>
-      component.findWhere(elem => elem.text() === text);
+    const findButtonWithtext = text => component.findWhere(elem => elem.text() === text);
 
     expect(component.find(FormAction)).to.have.lengthOf(2);
 

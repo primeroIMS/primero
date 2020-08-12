@@ -50,11 +50,7 @@ const Component = ({
   useEffect(() => {
     // eslint-disable-next-line no-unused-expressions
     formErrors?.forEach(error => {
-      formMethods.setError(
-        error.get("detail"),
-        "",
-        i18n.t(error.getIn(["message", 0]))
-      );
+      formMethods.setError(error.get("detail"), "", i18n.t(error.getIn(["message", 0])));
     });
   }, [formErrors]);
 
@@ -63,9 +59,7 @@ const Component = ({
   }, [initialValues]);
 
   const renderFormSections = () =>
-    formSections.map(formSection => (
-      <FormSection formSection={formSection} key={formSection.unique_id} />
-    ));
+    formSections.map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);
 
   return (
     <FormContext {...formMethods} formMode={formMode}>
@@ -94,6 +88,4 @@ Component.propTypes = {
   validations: PropTypes.object
 };
 
-export default forwardRef((props, ref) => (
-  <Component {...props} formRef={ref} />
-));
+export default forwardRef((props, ref) => <Component {...props} formRef={ref} />);

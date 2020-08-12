@@ -12,15 +12,7 @@ import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
 import AttachmentPreview from "./attachment-preview";
 
-const AttachmentField = ({
-  name,
-  index,
-  attachment,
-  disabled,
-  mode,
-  arrayHelpers,
-  value
-}) => {
+const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers, value }) => {
   const css = makeStyles(styles)();
   const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
 
@@ -46,16 +38,9 @@ const AttachmentField = ({
           {!mode.isShow && (
             <>
               {attachmentUrl ? (
-                <AttachmentPreview
-                  attachment={attachment}
-                  attachmentUrl={attachmentUrl}
-                />
+                <AttachmentPreview attachment={attachment} attachmentUrl={attachmentUrl} />
               ) : (
-                <AttachmentInput
-                  fields={fields}
-                  attachment={attachment}
-                  name={name}
-                />
+                <AttachmentInput fields={fields} attachment={attachment} name={name} />
               )}
             </>
           )}

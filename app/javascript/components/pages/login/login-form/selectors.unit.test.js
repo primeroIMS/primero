@@ -17,9 +17,7 @@ describe("<LoginForm /> - Selectors", () => {
     it("should return records", () => {
       const records = selectModules(stateWithRecords);
 
-      expect(records).to.deep.equal(
-        fromJS(["primeromodule-cp", "primeromodule-gbv"])
-      );
+      expect(records).to.deep.equal(fromJS(["primeromodule-cp", "primeromodule-gbv"]));
     });
 
     it("should return empty object when records empty", () => {
