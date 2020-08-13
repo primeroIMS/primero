@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 describe ReportingLocation do
   before :all do
     Lookup.destroy_all
-    lookup1 = create :lookup, :id => "lookup-location-type", :lookup_values => [
-      {:id => "district", :display_text => "district"},
-      {:id => "country", :display_text => "country"}
-    ]
+    create(:lookup, id: 'lookup-location-type',
+                    lookup_values: [{ id: 'district', display_text: 'district' },
+                                    { id: 'country', display_text: 'country' }])
   end
 
   describe 'Validation' do
@@ -36,10 +37,10 @@ describe ReportingLocation do
   end
 
   describe '.map_reporting_location_level_to_admin_level' do
-    #TODO
+    # TODO
   end
 
   describe '.reporting_location_levels' do
-    #TODO
+    # TODO
   end
 end
