@@ -3,7 +3,6 @@
 class Field < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
-  # include Memoizable
 
   localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label, :option_strings_text
 
@@ -328,8 +327,11 @@ class Field < ApplicationRecord
     end
   end
 
-  def merge_with(another_field)
-
+  def configuration_hash
+    hash = attributes.except('id', 'form_section_id', 'subform_section_id', 'collapsed_field_for_subform')
+    hash['subform_unique_id'] = subform&.unique_id
+    hash['collapsed_field_for_subform_unique_id'] = collapsed_field_for_subform&.unique_id
+    hash.with_indifferent_access
   end
 
   def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil, opts={}, reporting_locations=nil)
@@ -457,13 +459,12 @@ class Field < ApplicationRecord
     subform_group_by_values
   end
 
-
   def localized_attributes_hash(locales, lookups=nil, locations=nil)
     field_hash = attributes.clone
     Field.localized_properties.each do |property|
       field_hash[property] = {}
-      key = "#{property.to_s}_i18n"
-      Primero::Application::locales.each do |locale|
+      key = "#{property}_i18n"
+      Primero::Application.locales.each do |locale|
         if property == :option_strings_text
           # value = field.options_list(@lookups) #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
           value = self.options_list(nil, lookups, locations)

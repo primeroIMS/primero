@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe FormSection do
   before :each do
-    [
-      Field, FormSection, PrimeroModule,
-      PrimeroProgram, Role, Lookup
-    ].each(&:destroy_all)
+    clean_data(Field, FormSection, PrimeroModule,PrimeroProgram, Role, Lookup)
 
     @lookup = Lookup.create!(:unique_id => "lookup-form-group-cp-case",
                              :name => "Form Group CP Case",
@@ -1156,6 +1154,52 @@ describe FormSection do
                                                                          {'id'=>'option_3', 'display_text'=>'Spanish Option Three Translated'}])
           end
         end
+      end
+    end
+  end
+
+  describe 'ConfigurationRecord' do
+    before(:each) { clean_data(Field, FormSection, PrimeroModule) }
+    describe '#configuration_hash' do
+      let(:form1) { FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm') }
+      let(:field1) { Field.create!(name: 'test', display_name: 'test', type: Field::TEXT_FIELD, form_section_id: form1.id) }
+      let(:subform) do
+        FormSection.create!(
+          unique_id: 'B', name: 'B', parent_form: 'case', form_group_id: 'm', is_nested: true
+        )
+      end
+      let(:field_on_subform) do
+        Field.create!(
+          name: 'test2', type: Field::TEXT_FIELD, form_section_id: subform.id, display_name: 'test',
+          collapsed_field_for_subform_section_id: subform.id
+        )
+      end
+      let(:subform_field) do
+        Field.create!(
+          name: 'test3', type: Field::SUBFORM, form_section_id: form1.id,
+          subform_section_id: subform.id, display_name: 'test'
+        )
+      end
+      let(:module1) do
+        PrimeroModule.create!(
+          unique_id: 'primeromodule-cp-a',
+          name: 'CPA',
+          description: 'Child Protection A',
+          associated_record_types: %w[case tracing_request incident],
+          form_sections: [form1]
+        )
+      end
+
+      before { form1 && field1 && subform && field_on_subform && subform_field && module1 && form1.reload }
+
+      it 'returns the configuration hash' do
+        configuration_hash = form1.configuration_hash
+        expect(configuration_hash['id']).to be_nil
+        expect(configuration_hash['name']).to be_nil
+        expect(configuration_hash['name_i18n']['en']).to eq(form1.name)
+        expect(configuration_hash['module_unique_ids']).to eq([module1.unique_id])
+        expect(configuration_hash['fields'].size).to eq(2)
+        expect(configuration_hash['fields'].map  {|f| f['name'] }).to match_array([field1.name, subform_field.name])
       end
     end
   end

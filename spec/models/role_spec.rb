@@ -417,4 +417,40 @@ describe Role do
       end
     end
   end
+
+  describe 'ConfigurationRecord' do
+    describe '#configuration_hash' do
+      before(:each) { clean_data(Role, Field, FormSection, PrimeroModule, PrimeroProgram) }
+      let(:form1) { FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm') }
+      let(:form2) { FormSection.create!(unique_id: 'B', name: 'B', parent_form: 'case', form_group_id: 'x') }
+      let(:module1) do
+        PrimeroModule.create!(
+          unique_id: 'primeromodule-cp-a',
+          name: 'CPA',
+          description: 'Child Protection A',
+          associated_record_types: %w[case tracing_request incident],
+          primero_program: PrimeroProgram.new(name: 'program'),
+          form_sections: [form1, form2]
+        )
+      end
+      let(:role) do
+        Role.create!(
+          name: 'Role',
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+          ],
+          form_sections: [form1, form2],
+          primero_modules: [module1]
+        )
+      end
+
+      it 'returns a role with permissions, associated forms, and associated modules in a hash' do
+        configuration_hash = role.configuration_hash
+        expect(configuration_hash['name']).to eq(role.name)
+        expect(configuration_hash['permissions'][Permission::CASE]).to eq([Permission::READ])
+        expect(configuration_hash['form_section_unique_ids']).to match_array([form1.unique_id, form2.unique_id])
+        expect(configuration_hash['module_unique_ids']).to eq([module1.unique_id])
+      end
+    end
+  end
 end

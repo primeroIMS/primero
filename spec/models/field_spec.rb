@@ -1295,4 +1295,52 @@ describe "record field model" do
       end
     end
   end
+
+  describe 'ConfigurationRecord' do
+    describe '#configuration_hash' do
+      let(:form1) { FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm') }
+      let(:field1) { Field.create!(name: 'test', display_name: 'test', type: Field::TEXT_FIELD, form_section_id: form1.id) }
+      let(:subform) { FormSection.create!(unique_id: 'B', name: 'B', parent_form: 'case', form_group_id: 'm', is_nested: true) }
+      let(:field_on_subform) do
+        Field.create!(
+          name: 'test2', type: Field::TEXT_FIELD, form_section_id: subform.id, display_name: 'test',
+          collapsed_field_for_subform_section_id: subform.id
+        )
+      end
+      let(:subform_field) do
+        Field.create!(
+          name: 'test3', type: Field::SUBFORM, form_section_id: form1.id,
+          subform_section_id: subform.id, display_name: 'test'
+        )
+      end
+
+      context 'regular form field' do
+        let(:configuration_hash) { field1.configuration_hash }
+
+        it 'returns field properties in the configuration hash' do
+          expect(configuration_hash['name']).to eq(field1.name)
+          expect(configuration_hash['type']).to eq(field1.type)
+          expect(configuration_hash['id']).to be_nil
+          expect(configuration_hash['form_section_id']).to be_nil
+        end
+      end
+
+      context 'field on subform' do
+        let(:configuration_hash) { field_on_subform.configuration_hash }
+
+        it 'contains the pointer to the subform' do
+          expect(configuration_hash['collapsed_field_for_subform_unique_id']).to eq(subform.unique_id)
+          expect(configuration_hash['subform_unique_id']).to be_nil
+        end
+      end
+
+      context 'subform field' do
+        let(:configuration_hash) { subform_field.configuration_hash }
+
+        it 'contains the pointer to the subform' do
+          expect(configuration_hash['subform_unique_id']).to eq(subform.unique_id)
+        end
+      end
+    end
+  end
 end

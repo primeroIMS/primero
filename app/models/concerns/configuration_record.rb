@@ -13,7 +13,7 @@ module ConfigurationRecord
       configuration_record
     end
 
-    # TODO: Do we need this?
+    # TODO: Do we need this? Used by config_bundle.rb; this may be deprecated
     def clear
       delete_all
     end
@@ -31,6 +31,6 @@ module ConfigurationRecord
   end
 
   def configuration_hash
-    attributes.except('id')
+    attributes.except('id').with_indifferent_access
   end
 end

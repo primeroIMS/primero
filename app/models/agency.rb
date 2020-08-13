@@ -81,6 +81,13 @@ class Agency < ApplicationRecord
     self[:logo_icon_file_name] || (logo_icon.attached? && logo_icon&.filename&.to_s)
   end
 
+  def configuration_hash
+    attributes.except('id')
+              .merge(configuration_hash_for_logo(logo_full))
+              .merge(configuration_hash_for_logo(logo_icon))
+              .with_indifferent_access
+  end
+
   private
 
   def attach_logo(file_name, logo_base64, logo)
@@ -94,6 +101,15 @@ class Agency < ApplicationRecord
 
   def detach_logo(logo)
     logo.purge
+  end
+
+  def configuration_hash_for_logo(logo)
+    return {} unless logo.attached?
+
+    {}.tap do |hash|
+      hash["#{logo.name}_base64"] = Base64.encode64(logo.download)
+      hash["#{logo.name}_file_name"] = logo.blob.filename.to_s
+    end
   end
 
   def validate_name_in_english

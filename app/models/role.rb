@@ -22,7 +22,7 @@ class Role < ApplicationRecord
   scope :by_referral, -> { where(referral: true) }
   scope :by_transfer, -> { where(transfer: true) }
 
-  def has_permitted_form_id?(form_unique_id_id)
+  def permitted_form_id?(form_unique_id_id)
     form_sections.map(&:unique_id).include?(form_unique_id_id)
   end
 
@@ -59,6 +59,7 @@ class Role < ApplicationRecord
       "#{self.name}-#{name}".parameterize.dasherize
     end
 
+    # TODO: this is used by the config bundle code. This may be deprecated and replaced by what we are doing in configuration.rb
     alias super_clear clear
     def clear
       # According documentation this is the best way to delete the values on HABTM relation
@@ -68,12 +69,14 @@ class Role < ApplicationRecord
       super_clear
     end
 
+    # TODO: this may be deprecated; review with imports
     alias super_import import
     def import(data)
       data['form_sections'] = FormSection.where(unique_id: data['form_sections']) if data['form_sections'].present?
       super_import(data)
     end
 
+    # TODO: this may be deprecated
     def export
       all.map do |record|
         record.attributes.tap do |r|
@@ -193,6 +196,14 @@ class Role < ApplicationRecord
     update_forms_sections(role_properties[:form_section_unique_ids])
     update_permissions(role_properties[:permissions])
     update_modules(role_properties[:module_unique_ids])
+  end
+
+  def configuration_hash
+    hash = attributes.except('id', 'permissions')
+    hash['permissions'] = Permission::PermissionSerializer.dump(permissions)
+    hash['form_section_unique_ids'] = form_section_unique_ids
+    hash['module_unique_ids'] = module_unique_ids
+    hash.with_indifferent_access
   end
 
   private

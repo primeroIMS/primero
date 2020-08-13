@@ -82,7 +82,6 @@ describe Agency do
   end
 
   describe 'logos' do
-
     it 'should not allow invalid logo uploads' do
       agency = Agency.new(name: 'Agency I', agency_code: 'agency_i')
       agency.logo_icon.attach(FilesTestHelper.uploadable_audio_mp3)
@@ -191,6 +190,22 @@ describe Agency do
 
       it 'returns Arabic description' do
         expect(@agency3.description).to eq('Arabic Description')
+      end
+    end
+  end
+
+  describe 'ConfigurationRecord' do
+    let(:agency) { Agency.create(name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo, logo_full: logo_old) }
+
+    describe '#configuration_hash' do
+      it 'returns the configuration hash' do
+        configuration_hash = agency.configuration_hash
+        expect(configuration_hash['id']).to be_nil
+        expect(configuration_hash['name_i18n']['en']).to eq(agency.name)
+        expect(configuration_hash['logo_full_base64'].length.positive?).to be_truthy
+        expect(configuration_hash['logo_full_file_name']).to eq('unicef-old.png')
+        expect(configuration_hash['logo_icon_base64'].length.positive?).to be_truthy
+        expect(configuration_hash['logo_icon_file_name']).to eq('unicef.png')
       end
     end
   end
