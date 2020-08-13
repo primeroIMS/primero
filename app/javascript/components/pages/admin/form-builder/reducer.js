@@ -39,6 +39,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.delete("selectedSubformField");
     case actions.CLEAR_SELECTED_SUBFORM:
       return state.delete("selectedSubform");
+    case actions.CLEAR_SUBFORMS:
+      return state.delete("subforms");
     case actions.FETCH_FORM_FAILURE:
       return state
         .set("errors", true)
@@ -100,12 +102,13 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.SAVE_FORM_FINISHED:
       return state.set("saving", false);
     case actions.SAVE_FORM_STARTED:
+      return state.set("saving", true);
+    case actions.SAVE_SUBFORMS_STARTED:
       return state
-        .set("saving", true)
         .set("errors", false)
         .set("serverErrors", fromJS([]))
         .set("updatedFormIds", fromJS([]));
-    case actions.SAVE_FORM_SUCCESS: {
+    case actions.SAVE_SUBFORMS_SUCCESS: {
       const formIds = payload
         .filter(data => data.ok)
         .map(data => data.json.data.id);

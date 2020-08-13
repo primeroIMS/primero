@@ -48,3 +48,6 @@ export const getServerErrors = state =>
 
 export const getUpdatedFormIds = state =>
   state.getIn(["records", "admin", "forms", "updatedFormIds"], fromJS([]));
+
+export const getSavedSubforms = state =>
+  state.getIn(["records", "admin", "forms", "savedSubforms"], fromJS([]));

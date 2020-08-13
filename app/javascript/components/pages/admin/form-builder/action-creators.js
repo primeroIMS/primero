@@ -1,3 +1,4 @@
+import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { METHODS, RECORD_PATH, SAVE_METHODS } from "../../../../config";
 
 import { getFormRequestPath } from "./utils";
@@ -40,39 +41,55 @@ export const reorderFields = (name, order, isSubform) => ({
   payload: { name, order, isSubform }
 });
 
-export const saveForm = ({ id, body, saveMethod, subforms = [] }) => {
+export const saveForm = ({ id, body, saveMethod, message }) => {
   const method =
     saveMethod === SAVE_METHODS.update ? METHODS.PATCH : METHODS.POST;
 
   return {
     type: actions.SAVE_FORM,
-    api: [
-      {
-        path: getFormRequestPath(id, saveMethod),
-        method,
-        body
-      }
-    ].concat(
-      subforms.map(subform => {
-        const subfomBody = {
-          data: subform
-        };
-
-        if (subform?.id) {
-          return {
-            path: getFormRequestPath(subform.id, saveMethod),
-            method,
-            body: subfomBody
-          };
+    api: {
+      path: getFormRequestPath(id, saveMethod),
+      method,
+      body,
+      successCallback: {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          message,
+          options: {
+            variant: "success",
+            key: generate.messageKey()
+          }
         }
+      }
+    }
+  };
+};
 
-        return {
-          path: getFormRequestPath("", SAVE_METHODS.new),
-          method: METHODS.POST,
-          body: subfomBody
-        };
-      })
-    )
+export const saveSubforms = (subforms, { id, body, saveMethod, message }) => {
+  const subformsRequest = subforms.map(subform => {
+    const subfomBody = {
+      data: subform
+    };
+
+    if (subform?.id) {
+      return {
+        path: getFormRequestPath(subform.id, SAVE_METHODS.update),
+        method: METHODS.PATCH,
+        body: subfomBody
+      };
+    }
+
+    return {
+      path: getFormRequestPath("", SAVE_METHODS.new),
+      method: METHODS.POST,
+      body: subfomBody
+    };
+  });
+
+  return {
+    type: actions.SAVE_SUBFORMS,
+    api: [...subformsRequest],
+    finishedCallbackSubforms: saveForm({ id, body, saveMethod, message })
   };
 };
 
@@ -100,6 +117,10 @@ export const clearSelectedField = () => ({
 
 export const clearSelectedSubformField = () => ({
   type: actions.CLEAR_SELECTED_SUBFORM_FIELD
+});
+
+export const clearSubforms = () => ({
+  type: actions.CLEAR_SUBFORMS
 });
 
 export const setNewSubform = payload => ({

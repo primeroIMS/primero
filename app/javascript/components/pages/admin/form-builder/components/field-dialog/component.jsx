@@ -52,7 +52,8 @@ import {
   subformContainsFieldName,
   transformValues,
   toggleHideOnViewPage,
-  buildDataToSave
+  buildDataToSave,
+  generateUniqueId
 } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 
@@ -186,7 +187,8 @@ const Component = ({ mode, onClose, onSuccess }) => {
               ? {
                   [currentFieldName]: {
                     ...newFieldData[currentFieldName],
-                    subform_section_temp_id: subformTempId
+                    subform_section_temp_id: subformTempId,
+                    subform_section_unique_id: currentFieldName
                   }
                 }
               : newFieldData
@@ -239,7 +241,8 @@ const Component = ({ mode, onClose, onSuccess }) => {
             setNewSubform({
               ...subformData,
               temp_id: selectedSubform?.get("temp_id"),
-              is_nested: true
+              is_nested: true,
+              unique_id: generateUniqueId(subformData.name, i18n.locale)
             })
           );
           dispatch(clearSelectedField());

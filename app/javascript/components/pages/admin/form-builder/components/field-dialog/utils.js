@@ -167,6 +167,9 @@ export const setSubformData = (field, subform) => {
   return field;
 };
 
+export const generateUniqueId = (data, locale) =>
+  data[locale].replace(/[^\w]/g, "_").toLowerCase();
+
 export const buildDataToSave = (
   selectedField,
   data,
@@ -179,9 +182,7 @@ export const buildDataToSave = (
   if (fieldName !== NEW_FIELD) {
     return { [fieldName]: data };
   }
-  const newFieldName = data.display_name[locale]
-    .replace(/[^\w]/g, "_")
-    .toLowerCase();
+  const newFieldName = generateUniqueId(data.display_name, locale);
 
   const dataToSave = appendSettingsAttributes(
     data,
@@ -190,12 +191,14 @@ export const buildDataToSave = (
     lastFieldOrder
   );
 
-  isSubformField(selectedField);
-
   return {
     [newFieldName]:
       isSubformField(selectedField) && fieldName === NEW_FIELD
-        ? { ...dataToSave, subform_section_temp_id: randomSubformId }
+        ? {
+            ...dataToSave,
+            subform_section_temp_id: randomSubformId,
+            subform_section_unique_id: newFieldName
+          }
         : dataToSave
   };
 };

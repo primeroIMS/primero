@@ -28,7 +28,13 @@ import {
   TabPanel
 } from "./components";
 import { NAME as FormTranslationsDialogName } from "./components/form-translations-dialog/constants";
-import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
+import {
+  clearSelectedForm,
+  clearSubforms,
+  fetchForm,
+  saveForm,
+  saveSubforms
+} from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME, NEW_FIELD } from "./constants";
 import {
@@ -82,26 +88,28 @@ const Component = ({ mode }) => {
     selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
 
   const onSubmit = data => {
-    console.log("BODY:", {
-      data: { ...data, fields: convertToFieldsArray(data.fields || {}) }
-    });
-    console.log("SUBFORMS:", selectedSubforms?.toJS());
+    const subforms = selectedSubforms?.toJS();
+    const updatedNewFields = convertToFieldsArray(data.fields || {});
+    const body = {
+      data: { ...data, fields: updatedNewFields }
+    };
+    const parentFormParams = {
+      id,
+      saveMethod: formMode.get("isEdit")
+        ? SAVE_METHODS.update
+        : SAVE_METHODS.new,
+      body,
+      message: i18n.t(
+        `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
+      )
+    };
 
-    dispatch(
-      saveForm({
-        id,
-        saveMethod: formMode.get("isEdit")
-          ? SAVE_METHODS.update
-          : SAVE_METHODS.new,
-        body: {
-          data: { ...data, fields: convertToFieldsArray(data.fields || {}) }
-        },
-        message: i18n.t(
-          `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-        ),
-        subforms: selectedSubforms.toJS()
-      })
-    );
+    if (subforms.length > 0) {
+      dispatch(saveSubforms(subforms, parentFormParams));
+    } else {
+      dispatch(saveForm(parentFormParams));
+    }
+    dispatch(clearSubforms());
   };
 
   const onManageTranslation = () => {
@@ -156,6 +164,7 @@ const Component = ({ mode }) => {
     return () => {
       if (isEditOrShow) {
         dispatch(clearSelectedForm());
+        dispatch(clearSubforms());
       }
     };
   }, [id]);

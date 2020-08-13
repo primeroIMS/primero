@@ -51,14 +51,18 @@ const Component = ({ subformField }) => {
   };
 
   const renderFields = () =>
-    fields.map((field, index) => (
-      <FieldListItem
-        subformField={subformField}
-        field={field}
-        index={index}
-        key={field.get("name")}
-      />
-    ));
+    fields.map((field, index) => {
+      const id = field.get("id") || field.get("subform_section_temp_id");
+
+      return (
+        <FieldListItem
+          subformField={subformField}
+          field={field}
+          index={index}
+          key={`${field.get("name")}_${id}`}
+        />
+      );
+    });
 
   const renderColumn = text =>
     isNested && (
