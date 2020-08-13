@@ -40,9 +40,10 @@ describe Role do
 
     describe 'reporting_location_level' do
       before do
-        @role = Role.new(name: "some_role", permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
+        @role = Role.new(name: 'some_role',
+                         permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
 
-        ReportingLocation.stub(:reporting_location_levels).and_return(['district', 'province', 'governorate'])
+        ReportingLocation.stub(:reporting_location_levels).and_return(%w[district province governorate])
       end
 
       context 'with a valid admin_level' do
@@ -62,7 +63,8 @@ describe Role do
 
         it 'returns an error message' do
           @role.valid?
-          expect(@role.errors.messages[:reporting_location_level]).to eq(['Location Level must be one of ReportingLocation Level values'])
+          expect(@role.errors.messages[:reporting_location_level])
+            .to eq(['Location Level must be one of ReportingLocation Level values'])
         end
       end
     end
