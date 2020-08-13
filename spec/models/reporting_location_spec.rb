@@ -20,7 +20,7 @@ describe ReportingLocation do
         end
 
         it 'is valid' do
-          expect(@reporting_location.is_valid_admin_level?).to be_truthy
+          expect(@reporting_location.valid_admin_level?).to be_truthy
         end
       end
 
@@ -30,7 +30,7 @@ describe ReportingLocation do
         end
 
         it 'is not valid' do
-          expect(@reporting_location.is_valid_admin_level?).to be_falsey
+          expect(@reporting_location.valid_admin_level?).to be_falsey
         end
       end
     end

@@ -116,10 +116,10 @@ class SystemSettings < ApplicationRecord
   end
 
   def validate_reporting_location
-    unless reporting_location_config.is_valid_admin_level?
+    unless reporting_location_config.valid_admin_level?
       errors.add(:admin_level, 'errors.models.reporting_location.admin_level')
     end
-    reporting_location_config.is_valid_admin_level?
+    reporting_location_config.valid_admin_level?
   end
 
   class << self
