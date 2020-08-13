@@ -13,9 +13,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       const index = state.get("data").findIndex(r => r.get("id") === data.id);
 
       if (index !== -1) {
-        return state
-          .updateIn(["data", index], u => mergeRecord(u, fromJS(data)))
-          .set("errors", false);
+        return state.updateIn(["data", index], u => mergeRecord(u, fromJS(data))).set("errors", false);
       }
 
       return state

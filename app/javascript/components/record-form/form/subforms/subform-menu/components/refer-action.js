@@ -8,14 +8,8 @@ const ReferAction = ({ index, handleReferral, values }, ref) => {
   const i18n = useI18n();
 
   return (
-    <MenuItem
-      key={`refer-option-${index}`}
-      onClick={() => handleReferral()}
-      ref={ref}
-    >
-      {values[index].service_status_referred
-        ? i18n.t("buttons.referral_again")
-        : i18n.t("buttons.referral")}
+    <MenuItem key={`refer-option-${index}`} onClick={() => handleReferral()} ref={ref}>
+      {values[index].service_status_referred ? i18n.t("buttons.referral_again") : i18n.t("buttons.referral")}
     </MenuItem>
   );
 };

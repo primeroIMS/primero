@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Box } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { NAME_FIELD, DATE_FIELD, SELECT_FIELD } from "../../../constants";
 import SubformLookupHeader from "../subform-header-lookup";
@@ -11,10 +11,7 @@ import { SUBFORM_HEADER } from "../constants";
 
 const Component = ({ field, values, locale, displayName, index }) => {
   const css = makeStyles(styles)();
-  const {
-    collapsed_field_names: collapsedFieldNames,
-    fields
-  } = field.subform_section_id;
+  const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
 
   const subformValues = collapsedFieldNames
     .map(collapsedFieldName => {

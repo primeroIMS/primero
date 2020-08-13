@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Box, useMediaQuery } from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 
 import { getAgencyLogos } from "../application/selectors";
@@ -16,11 +16,7 @@ const AgencyLogo = ({ alwaysFullLogo }) => {
 
   const renderLogos = () => {
     return agencyLogos.map(agency => {
-      const {
-        unique_id: uniqueId,
-        logo_icon: logoIcon,
-        logo_full: logoFull
-      } = agency;
+      const { unique_id: uniqueId, logo_icon: logoIcon, logo_full: logoFull } = agency;
 
       const logo = tabletDisplay && !alwaysFullLogo ? logoIcon : logoFull;
 

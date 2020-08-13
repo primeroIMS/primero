@@ -10,10 +10,7 @@ const DEFAULT_STATE = Map({ data: [] });
 export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case FETCH_TRANSITIONS_SUCCESS:
-      return state.set(
-        "data",
-        listEntriesToRecord(payload.data, TransitionRecord)
-      );
+      return state.set("data", listEntriesToRecord(payload.data, TransitionRecord));
     default:
       return state;
   }

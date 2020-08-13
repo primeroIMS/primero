@@ -3,11 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import clsx from "clsx";
-import {
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails
-} from "@material-ui/core";
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Brightness1 as Circle } from "@material-ui/icons";
 import ErrorIcon from "@material-ui/icons/Error";
@@ -22,7 +18,7 @@ import { NAME, SEVERITY } from "./constants";
 import { expansionPanelSummaryClasses } from "./theme";
 import styles from "./styles.css";
 
-const Component = ({ items, severity }) => {
+const Component = ({ title, items, severity }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const classes = makeStyles(expansionPanelSummaryClasses)();
@@ -56,9 +52,7 @@ const Component = ({ items, severity }) => {
 
   const renderTitle = () => {
     const titleMessage =
-      items?.size > 1
-        ? i18n.t("messages.alert_items", { items: items.size })
-        : items?.first()?.get("message");
+      items?.size > 1 ? title || i18n.t("messages.alert_items", { items: items.size }) : items?.first()?.get("message");
 
     return (
       <>
@@ -96,7 +90,8 @@ Component.defaultProps = {
 
 Component.propTypes = {
   items: PropTypes.object,
-  severity: PropTypes.string
+  severity: PropTypes.string,
+  title: PropTypes.string
 };
 
 export default Component;

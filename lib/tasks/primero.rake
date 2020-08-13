@@ -187,14 +187,14 @@ namespace :primero do
     puts 'Done!'
   end
 
-  # Example usage: bundle exec rake db:data:role_permissions_to_spreadsheet['tmp/test.xls','en']
+  # Example usage: bundle exec rails primero:role_permissions_to_spreadsheet['tmp/test.xls','en']
   desc 'Exports roles permissions to an Excel spreadsheet'
   task :role_permissions_to_spreadsheet, %i[file_name locale] => :environment do |_, args|
     file_name = args[:file_name] || 'role_permissions.xls'
     locale = args[:locale] || :en
     puts "Writing role permissions to #{file_name}"
     roles_exporter = Exporters::RolePermissionsExporter.new(file_name, locale)
-    roles_exporter.export_role_permissions_to_spreadsheet
+    roles_exporter.export
     puts 'Done!'
   end
 

@@ -29,12 +29,7 @@ describe("<LookupsForm /> - container", () => {
       }
     });
 
-    ({ component } = setupMountedComponent(
-      LookupsForm,
-      { mode: "edit" },
-      initialState,
-      ["/admin/lookups/1"]
-    ));
+    ({ component } = setupMountedComponent(LookupsForm, { mode: "edit" }, initialState, ["/admin/lookups/1"]));
   });
 
   it("renders LookupForm component", () => {

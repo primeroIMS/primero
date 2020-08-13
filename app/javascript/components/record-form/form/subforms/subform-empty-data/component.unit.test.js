@@ -1,7 +1,7 @@
-import { Fab } from "@material-ui/core";
 import isEmpty from "lodash/isEmpty";
 
 import { setupMountedComponent, spy } from "../../../../../test";
+import ActionButton from "../../../../action-button";
 
 import SubformEmptyData from "./component";
 
@@ -45,13 +45,11 @@ describe("<SubformEmptyData />", () => {
   });
 
   it("should render the correct subform name", () => {
-    expect(component.find("strong").at(0).text()).to.be.equals(
-      "No Test form found."
-    );
+    expect(component.find("strong").at(0).text()).to.be.equals("No Test form found.");
   });
 
-  it("should render the Fab component", () => {
-    expect(component.find(Fab)).to.have.lengthOf(1);
+  it("should render the ActionButton component", () => {
+    expect(component.find(ActionButton)).to.have.lengthOf(1);
   });
 
   it("should call onClick event passed as a prop", () => {

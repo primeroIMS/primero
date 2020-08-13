@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/styles/";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import DownloadIcon from "@material-ui/icons/GetApp";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { fromJS } from "immutable";
@@ -23,16 +23,11 @@ const ExportList = () => {
   const css = makeStyles(styles)();
   const recordType = "bulk_exports";
 
-  const listHeaders = useSelector(state =>
-    selectListHeaders(state, recordType)
-  );
+  const listHeaders = useSelector(state => selectListHeaders(state, recordType));
 
   const isRecordProcessing = status => status === EXPORT_STATUS.processing;
 
-  const onRowClick = record =>
-    !isRecordProcessing(record.status)
-      ? window.open(record.export_file, "_self")
-      : null;
+  const onRowClick = record => (!isRecordProcessing(record.status) ? window.open(record.export_file, "_self") : null);
 
   const columns = data =>
     listHeaders.map(c => {
@@ -74,8 +69,7 @@ const ExportList = () => {
             : {}),
           ...(c.name === EXPORT_COLUMNS.startedOn
             ? {
-                customBodyRender: value =>
-                  format(parseISO(value), DATE_TIME_FORMAT)
+                customBodyRender: value => format(parseISO(value), DATE_TIME_FORMAT)
               }
             : {})
         }
@@ -109,7 +103,7 @@ const ExportList = () => {
     <PageContainer>
       <PageHeading title={i18n.t("navigation.bulk_exports")} />
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <IndexTable title={i18n.t("navigation.bulk_exports")} {...tableOptions} />
       </PageContent>
     </PageContainer>
   );

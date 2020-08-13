@@ -1,19 +1,21 @@
 import { fromJS } from "immutable";
 import { object, string } from "yup";
 
-import { subform, visibilityFields, visibilityForm } from "./base";
+import { generalForm, generalFields, subform, visibilityFields, visibilityForm } from "./base";
 
 /* eslint-disable import/prefer-default-export */
-export const subformField = ({ field, i18n }) => {
+export const subformField = ({ field, i18n, formMode }) => {
   const fieldName = field.get("name");
   const { showOn, visible, mobileVisible, hideOnViewPage } = visibilityFields({
     fieldName,
     i18n
   });
+  const { disabled } = generalFields({ fieldName, formMode, i18n });
 
   return {
     forms: fromJS([
       subform({ i18n }),
+      generalForm({ fields: [disabled], fieldName, formMode, i18n }),
       visibilityForm({
         fieldName,
         i18n,

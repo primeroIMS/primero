@@ -6,6 +6,7 @@ import Chip from "@material-ui/core/Chip";
 import clsx from "clsx";
 
 import { useI18n } from "../../../i18n";
+import { DATE_FORMAT } from "../../../../config";
 import { NAME_SUMMARY } from "../../constants";
 import { useApp } from "../../../application";
 
@@ -15,9 +16,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
   const status = approvalSubform.get("approval_status");
 
   const title =
-    isRequest && !isResponse
-      ? i18n.t("approvals.requested_for_title")
-      : i18n.t("approvals.response_for_title");
+    isRequest && !isResponse ? i18n.t("approvals.requested_for_title") : i18n.t("approvals.response_for_title");
 
   const renderApprovalValue =
     isRequest && !isResponse
@@ -27,11 +26,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
   const renderStatus = isResponse ? (
     <Grid item md={2} xs={4}>
       <div className={css.approvalsStatus}>
-        <Chip
-          label={i18n.t(`approvals.status.${status}`)}
-          className={clsx(css.chip, css[status])}
-          size="small"
-        />
+        <Chip label={i18n.t(`approvals.status.${status}`)} className={clsx(css.chip, css[status])} size="small" />
       </div>
     </Grid>
   ) : null;
@@ -43,19 +38,17 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
       return false;
     }
 
-    return format(new Date(approvalDate), "MMM dd,yyyy");
+    return format(new Date(approvalDate), DATE_FORMAT);
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} alignItems="center">
       <Grid item md={10} xs={8}>
         <div className={css.wrapper}>
-          <div className={css.titleHeader}>{title}</div>
-          <div className={css.approvalsValueSummary}>{renderApprovalValue}</div>
-          <div className={(css.approvalsValueSummary, css.separator)}>-</div>
           {/* TODO: The date should be localized */}
+          <div className={css.titleHeader}>{renderApprovalDate()}</div>
           <div className={css.approvalsValueSummary}>
-            {renderApprovalDate()}
+            {renderApprovalValue} - {title}
           </div>
         </div>
       </Grid>

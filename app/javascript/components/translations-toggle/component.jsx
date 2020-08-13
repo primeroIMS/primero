@@ -35,6 +35,7 @@ const TranslationsToggle = () => {
     <>
       <Button
         className={css.button}
+        fullWidth
         onClick={handleClick}
         aria-haspopup="true"
         aria-owns={anchorEl ? "simple-menu" : undefined}

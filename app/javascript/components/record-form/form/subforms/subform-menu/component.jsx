@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { Menu, IconButton, CircularProgress } from "@material-ui/core";
+import { Menu, CircularProgress } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { makeStyles } from "@material-ui/styles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { getEnabledAgencies } from "../../../../application/selectors";
-import {
-  getLoadingTransitionType,
-  getUsersByTransitionType
-} from "../../../../record-actions/transitions/selectors";
+import { getLoadingTransitionType, getUsersByTransitionType } from "../../../../record-actions/transitions/selectors";
 import { REFERRAL_TYPE } from "../../../../record-actions/transitions";
 import { setServiceToRefer } from "../../../action-creators";
 import { getOption } from "../../../selectors";
@@ -23,6 +20,8 @@ import Permission from "../../../../application/permission";
 import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
 import { currentUser } from "../../../../user";
 import DisableOffline from "../../../../disable-offline";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
@@ -33,17 +32,11 @@ const Component = ({ index, recordType, values }) => {
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
 
-  const services = useSelector(state =>
-    getOption(state, "lookup-service-type", i18n.locale)
-  );
+  const services = useSelector(state => getOption(state, "lookup-service-type", i18n.locale));
 
-  const referralUsers = useSelector(state =>
-    getUsersByTransitionType(state, REFERRAL_TYPE)
-  );
+  const referralUsers = useSelector(state => getUsersByTransitionType(state, REFERRAL_TYPE));
 
-  const loading = useSelector(state =>
-    getLoadingTransitionType(state, REFERRAL_TYPE)
-  );
+  const loading = useSelector(state => getLoadingTransitionType(state, REFERRAL_TYPE));
 
   const userName = useSelector(state => currentUser(state));
 
@@ -75,15 +68,18 @@ const Component = ({ index, recordType, values }) => {
   return (
     <DisableOffline>
       <Permission resources={RESOURCES.cases} actions={REFER_FROM_SERVICE}>
-        <IconButton
-          aria-label="more"
-          aria-controls="long-menu"
-          aria-haspopup="true"
-          onClick={event => handleClick(event)}
+        <ActionButton
           key={`refer-option-${index}`}
-        >
-          <MoreVertIcon />
-        </IconButton>
+          icon={<MoreVertIcon />}
+          type={ACTION_BUTTON_TYPES.icon}
+          rest={{
+            className: css.moreActions,
+            "aria-label": "more",
+            "aria-controls": "long-menu",
+            "aria-haspopup": "true",
+            onClick: event => handleClick(event)
+          }}
+        />
         <Menu
           id={`service-menu-${index}`}
           anchorEl={anchorEl}
@@ -92,17 +88,8 @@ const Component = ({ index, recordType, values }) => {
           key={`service-menu-${index}`}
           ref={ref}
         >
-          {serviceIsReferrable(
-            values[index],
-            services,
-            agencies,
-            referralUsers
-          ) ? (
-            <ReferAction
-              index={index}
-              handleReferral={handleReferral}
-              values={values}
-            />
+          {serviceIsReferrable(values[index], services, agencies, referralUsers) ? (
+            <ReferAction index={index} handleReferral={handleReferral} values={values} />
           ) : (
             loading && <CircularProgress className={css.loadingIndicator} />
           )}

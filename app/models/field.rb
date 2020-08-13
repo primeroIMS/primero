@@ -9,11 +9,12 @@ class Field < ApplicationRecord
   localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label, :option_strings_text
 
   attr_reader :options
+  store_accessor :subform_section_configuration, :subform_sort_by, :subform_group_by
 
   # Since Rails 5 belongs_to acts as a validate_presence_of.
   # This relation will be optional because the scoped association in FormSection will fail otherwise.
   belongs_to :form_section, optional: true
-  belongs_to :subform, foreign_key: 'subform_section_id', class_name: 'FormSection', optional: true, dependent: :destroy
+  belongs_to :subform, foreign_key: 'subform_section_id', class_name: 'FormSection', optional: true
   belongs_to :collapsed_field_for_subform, foreign_key: 'collapsed_field_for_subform_section_id', class_name: 'FormSection', optional: true
 
   alias_attribute :form, :form_section
@@ -502,6 +503,10 @@ class Field < ApplicationRecord
 
   def is_location?
     self.option_strings_source == 'Location'
+  end
+
+  def is_agency?
+    self.option_strings_source == 'Agency'
   end
 
   def is_yes_no?

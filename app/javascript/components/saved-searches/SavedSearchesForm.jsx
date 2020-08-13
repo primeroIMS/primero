@@ -2,23 +2,20 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { compact } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogActions,
-  TextField
-} from "@material-ui/core";
+import { Dialog, DialogContent, DialogTitle, DialogActions, TextField } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { object, string } from "yup";
 import qs from "qs";
 import { push } from "connected-react-router";
+import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
 
 import { enqueueSnackbar } from "../notifier";
 import { selectModules } from "../pages/login/login-form/selectors";
 import { useI18n } from "../i18n";
 import { ROUTES } from "../../config";
+import ActionButton from "../action-button";
+import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 
 import { saveSearch } from "./action-creators";
 import { buildFiltersApi, buildFiltersState } from "./utils";
@@ -28,7 +25,7 @@ const FormErrors = () => {
   const i18n = useI18n();
 
   useEffect(() => {
-    dispatch(enqueueSnackbar(i18n.t("saved_search.no_filters"), "error"));
+    dispatch(enqueueSnackbar(i18n.t("saved_search.no_filters"), { type: "error" }));
   }, [dispatch, i18n]);
 
   return null;
@@ -99,12 +96,23 @@ const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button type="submit" variant="contained" color="primary">
-            {i18n.t("buttons.save")}
-          </Button>
-          <Button onClick={closeModal} color="primary">
-            {i18n.t("buttons.cancel")}
-          </Button>
+          <ActionButton
+            icon={<CheckIcon />}
+            text={i18n.t("buttons.save")}
+            type={ACTION_BUTTON_TYPES.default}
+            rest={{
+              type: "submit"
+            }}
+          />
+          <ActionButton
+            icon={<CloseIcon />}
+            text={i18n.t("buttons.cancel")}
+            type={ACTION_BUTTON_TYPES.default}
+            isCancel
+            rest={{
+              onClick: closeModal
+            }}
+          />
         </DialogActions>
         {formErrors && <FormErrors />}
       </form>

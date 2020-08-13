@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../i18n";
 import {
@@ -27,15 +27,7 @@ import RadioField from "./field-types/radio-field";
 import AttachmentField from "./field-types/attachments";
 import styles from "./styles.css";
 
-const FormSectionField = ({
-  name,
-  field,
-  mode,
-  recordType,
-  recordID,
-  filters,
-  index
-}) => {
+const FormSectionField = ({ name, field, mode, recordType, recordID, filters, index }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -62,8 +54,7 @@ const FormSectionField = ({
     InputProps: {
       readOnly: mode.isShow,
       classes: {
-        root: css.input,
-        disabled: css.inputDisabled
+        root: css.input
       },
       autoComplete: "new-password",
       disableUnderline: mode.isShow
@@ -83,14 +74,9 @@ const FormSectionField = ({
     index
   };
 
-  const renderGuidingQuestions = guidingQuestions &&
-    guidingQuestions[i18n.locale] &&
-    (mode.isEdit || mode.isNew) && (
-      <GuidingQuestions
-        label={i18n.t("buttons.guidance")}
-        text={guidingQuestions[i18n.locale]}
-      />
-    );
+  const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (
+    <GuidingQuestions label={i18n.t("buttons.guidance")} text={guidingQuestions[i18n.locale]} />
+  );
 
   const FieldComponent = (t => {
     switch (t) {
@@ -116,11 +102,7 @@ const FormSectionField = ({
   if ((mode?.isShow && hideOnViewPage) || !visible) return false;
 
   return (
-    <ConditionalWrapper
-      condition={!mode.isShow && disabled}
-      wrapper={Tooltip}
-      title={i18n.t("messages.cannot_edit")}
-    >
+    <ConditionalWrapper condition={!mode.isShow && disabled} wrapper={Tooltip} title={i18n.t("messages.cannot_edit")}>
       <div>
         <FieldComponent {...fieldProps} mode={mode} />
         {renderGuidingQuestions}

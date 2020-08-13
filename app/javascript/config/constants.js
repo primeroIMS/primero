@@ -11,6 +11,9 @@ import {
   ADMIN_ACTIONS
 } from "../libs/permissions";
 
+// Max allowed image size for attachments
+export const MAX_IMAGE_SIZE = 600;
+
 // Time (ms) when fetch request will timeout
 export const FETCH_TIMEOUT = 50000;
 
@@ -91,12 +94,7 @@ export const APPROVALS = "approvals";
 
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
-export const RECORD_INFORMATION = [
-  APPROVALS,
-  RECORD_OWNER,
-  REFERRAL,
-  TRANSFERS_ASSIGNMENTS
-];
+export const RECORD_INFORMATION = [APPROVALS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS];
 
 export const ROUTES = {
   account: "/account",
@@ -232,9 +230,7 @@ export const ADMIN_NAV = [
 ];
 
 export const APPLICATION_NAV = permissions => {
-  const adminResources = ADMIN_RESOURCES.filter(adminResource =>
-    permissions.keySeq().includes(adminResource)
-  );
+  const adminResources = ADMIN_RESOURCES.filter(adminResource => permissions.keySeq().includes(adminResource));
   const adminSettingsOption = `/admin/${adminResources[0]}`;
 
   return [
@@ -344,7 +340,9 @@ export const SAVING = "saving";
 export const APPROVALS_TYPES = Object.freeze({
   assessment: "assessment",
   case_plan: "case_plan",
-  closure: "closure"
+  closure: "closure",
+  action_plan: "action_plan",
+  gbv_closure: "gbv_closure"
 });
 
 export const ALERTS_FOR = {
@@ -357,3 +355,7 @@ export const ALERTS_FOR = {
 };
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];
+
+export const LOCALE_KEYS = {
+  en: "en"
+};

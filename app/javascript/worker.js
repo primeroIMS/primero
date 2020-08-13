@@ -1,10 +1,6 @@
 /* eslint-disable no-restricted-globals */
 
-import {
-  precacheAndRoute,
-  getCacheKeyForURL,
-  cleanupOutdatedCaches
-} from "workbox-precaching";
+import { precacheAndRoute, getCacheKeyForURL, cleanupOutdatedCaches } from "workbox-precaching";
 import { setCatchHandler, registerRoute } from "workbox-routing";
 import { NetworkOnly, CacheFirst, NetworkFirst } from "workbox-strategies";
 import { clientsClaim, skipWaiting, cacheNames } from "workbox-core";

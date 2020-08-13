@@ -5,9 +5,11 @@ describe("pages/admin/<FormBuilder>/components - index", () => {
 
   it("should have known properties", () => {
     [
-      "FieldsList",
+      "CustomFieldDialog",
       "FieldDialog",
+      "FieldsList",
       "FormBuilderActionButtons",
+      "FormTranslationsDialog",
       "TabPanel"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);

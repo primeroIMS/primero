@@ -13,9 +13,7 @@ const Component = ({ children, isBulkFlags, tab, setTab }) => {
   const css = makeStyles(styles)();
 
   const tabs = [i18n.t("flags.flags_tab"), i18n.t("flags.add_flag_tab")];
-  const filteredTabs = isBulkFlags
-    ? tabs.filter(t => t !== i18n.t("flags.flags_tab"))
-    : tabs;
+  const filteredTabs = isBulkFlags ? tabs.filter(t => t !== i18n.t("flags.flags_tab")) : tabs;
 
   const a11yProps = index => {
     return {
@@ -28,9 +26,7 @@ const Component = ({ children, isBulkFlags, tab, setTab }) => {
     setTab(value);
   };
 
-  const filterChildren = children.filter(child =>
-    ["false", undefined].includes(child.props.hidetab)
-  );
+  const filterChildren = children.filter(child => ["false", undefined].includes(child.props.hidetab));
 
   const renderChildren = filterChildren.map((child, index) => (
     // eslint-disable-next-line react/no-array-index-key
@@ -46,12 +42,7 @@ const Component = ({ children, isBulkFlags, tab, setTab }) => {
           <Box flexGrow={1}>
             <Tabs onChange={handleTabChange} value={tab}>
               {filteredTabs.map((t, index) => (
-                <Tab
-                  label={t}
-                  {...a11yProps(index)}
-                  key={t}
-                  className={css.flagTab}
-                />
+                <Tab label={t} {...a11yProps(index)} key={t} className={css.flagTab} />
               ))}
             </Tabs>
           </Box>

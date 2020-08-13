@@ -27,13 +27,10 @@ const Component = ({
   const dispatch = useDispatch();
   const i18n = useI18n();
 
-  const allRecordsSelected =
-    Object.values(selectedRecords).flat()?.length === totalRecords;
+  const allRecordsSelected = Object.values(selectedRecords).flat()?.length === totalRecords;
 
   const selectedRecordsMessage = i18n.t(`${recordType}.selected_records`, {
-    select_records: allRecordsSelected
-      ? totalRecords
-      : selectedRows?.data.length
+    select_records: allRecordsSelected ? totalRecords : selectedRows?.data.length
   });
 
   const selectAllMessage = allRecordsSelected
@@ -51,17 +48,15 @@ const Component = ({
     setSelectedRecords(selectAllRecords(totalRecords, perPage));
   };
 
-  const selectAllButton = selectedRows &&
-    selectedRows.data.length === displayData?.length && (
-      <div className={css.customToolbarButton}>
-        <ButtonBase className={css.selectAllButton} onClick={handleClick}>
-          {selectAllMessage}
-        </ButtonBase>
-      </div>
-    );
+  const selectAllButton = selectedRows && selectedRows.data.length === displayData?.length && (
+    <div className={css.customToolbarButton}>
+      <ButtonBase className={css.selectAllButton} onClick={handleClick}>
+        {selectAllMessage}
+      </ButtonBase>
+    </div>
+  );
 
-  const renderSelectedRecordMessage = (allRecordsSelected ||
-    selectedRows?.data.length) && (
+  const renderSelectedRecordMessage = (allRecordsSelected || selectedRows?.data.length) && (
     <div className={css.customToolbarTitle}>
       <Typography component="h6">{selectedRecordsMessage}</Typography>
     </div>

@@ -92,14 +92,12 @@ describe("User - Action Creators", () => {
       username: "primero"
     };
 
-    return store
-      .dispatch(actionCreators.setAuthenticatedUser(user))
-      .then(() => {
-        const actions = store.getActions();
+    return store.dispatch(actionCreators.setAuthenticatedUser(user)).then(() => {
+      const actions = store.getActions();
 
-        expect(actions).to.have.lengthOf(7);
-        expect(actions).to.be.deep.equal(expectedAsyncActions);
-      });
+      expect(actions).to.have.lengthOf(7);
+      expect(actions).to.be.deep.equal(expectedAsyncActions);
+    });
   });
 
   it("should check the 'setUser' action creator to return the correct object", () => {

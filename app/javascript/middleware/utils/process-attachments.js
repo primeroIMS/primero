@@ -9,9 +9,7 @@ export default ({ attachments, id, recordType }) => {
       const method = attachment?._destroy ? METHODS.DELETE : METHODS.POST;
       const isDelete = method === "DELETE";
 
-      const path = `${recordType}/${id}/attachments${
-        isDelete ? `/${attachment?._destroy}` : ""
-      }`;
+      const path = `${recordType}/${id}/attachments${isDelete ? `/${attachment?._destroy}` : ""}`;
 
       const action = isDelete ? "DELETE_ATTACHMENT" : "SAVE_ATTACHMENT";
 

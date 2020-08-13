@@ -1,10 +1,11 @@
 import { fromJS } from "immutable";
-import { CircularProgress, Fab, Badge } from "@material-ui/core";
+import { CircularProgress, Badge } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../test";
 import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
 import { ACTIONS } from "../../../libs/permissions";
 import { PrimeroModuleRecord } from "../../application/records";
+import ActionButton from "../../action-button";
 
 import { WorkflowIndicator } from "./components";
 import RecordFormToolbar from "./record-form-toolbar";
@@ -107,16 +108,12 @@ describe("<RecordFormToolbar />", () => {
   let component;
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      RecordFormToolbar,
-      props,
-      fromJS(initialState)
-    ));
+    ({ component } = setupMountedComponent(RecordFormToolbar, props, fromJS(initialState)));
   });
 
   it("renders a RecordFormToolbar/>", () => {
     expect(component.find(RecordFormToolbar)).to.have.lengthOf(1);
-    expect(component.find(Fab)).to.have.lengthOf(2);
+    expect(component.find(ActionButton)).to.have.lengthOf(2);
   });
 
   it("renders a <WorkflowIndicator /> component, when record is enabled", () => {
@@ -131,9 +128,7 @@ describe("<RecordFormToolbar />", () => {
     );
 
     expect(recordFormToolbarComponent.find(WorkflowIndicator)).to.be.empty;
-    expect(recordFormToolbarComponent.find("h3").text()).to.be.equals(
-      "case.messages.case_disabled"
-    );
+    expect(recordFormToolbarComponent.find("h3").text()).to.be.equals("case.messages.case_disabled");
   });
 
   describe("when records is being save", () => {

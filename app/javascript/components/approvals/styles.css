@@ -25,17 +25,17 @@
 
 .wrapper {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .titleHeader {
-  text-transform: uppercase;
   font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(17));
+  font-size: $(theme.typography.pxToRem(15));
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
-  color: $(theme.primero.colors.solidBlack);
+  color: $(theme.primero.colors.blue);
   margin-right: 1em;
 }
 
@@ -45,9 +45,8 @@
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.27;
   letter-spacing: normal;
-  padding-top: 0.5em;
+  line-height: 2;
   color: $(theme.primero.colors.solidBlack);
 }
 
@@ -77,6 +76,26 @@
 }
 
 .approvalsStatus {
+  padding: 8px 10px 8px 0;
+  border-right: solid 1px $(theme.primero.colors.lightGrey);
   text-align: right;
   font-size: $(theme.typography.pxToRem(15));
+}
+
+.expandIcon {
+  box-shadow: none;
+  color: $(theme.primero.colors.black);
+  margin-left: 5px;
+  width: 36px;
+  height: 36px;
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .titleHeader {
+    font-size: $(theme.typography.pxToRem(12));
+  }
+
+  .approvalsValueSummary {
+    line-height: 1.27;
+  }
 }

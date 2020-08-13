@@ -3,6 +3,27 @@
   color: $(theme.primero.colors.darkGrey);
 }
 
+.subformHeaderBox {
+  flex-grow: 1;
+}
+
+.subformHeaderActions {
+  display: flex;
+  padding: 5px;
+  align-items: center;
+
+  & .subformShow {
+    background-color: inherit;
+    color: $(theme.primero.colors.black);
+  }
+}
+
+.moreActions {
+  width: 30px;
+  height: 30px;
+  min-height: 30px;
+}
+
 .subformHeader { display:inline-block; padding:0; text-align:center }
 
 .subformHeader span { display:inline }
@@ -21,35 +42,6 @@
   margin: 0 20px;
 }
 
-.actionButton {
-  box-shadow: none;
-  color: $(theme.primero.colors.white);
-  background: $(theme.primero.colors.blue);
-  min-width: 8em;
-  height: 32px;
-
-  &:hover {
-    color: $(theme.primero.colors.black);
-  }
-
-  & svg {
-    margin-left: -10px;
-  }
-}
-
-.actionButtonSubform {
-  background-color: $(theme.primero.colors.blue);
-  border-radius: 24px;
-  box-shadow: none;
-  color: $(theme.primero.colors.white);
-  width: 7em;
-  height: 35px;
-
-   &:hover {
-    color: $(theme.primero.colors.black);
-  }
-}
-
 .emptySubformContainer {
   display: flex;
   align-items: center;
@@ -58,7 +50,7 @@
     color: $(theme.primero.colors.yellow);
   }
 
-  & span {
+  & > span {
     padding: 0 10px;
 
     & strong {
@@ -73,16 +65,13 @@
   align-items: center;
 }
 
-@media $(theme.breakpoints.down("sm")) {
-  .actionButton {
-    min-width: 0;
-
-    & svg {
-      margin-left: 0;
-    }
-  }
-
-  .actionButtonSubform {
-    width: 0;
-  }
+.subformFields {
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 12px 0 rgba(125, 125, 125, 0.23);
+  border-radius: 4px;
+  padding: 0 8px;
+  font-family: $(theme.typography.fontFamily);
+  font-size: $(theme.typography.pxToRem(12));
+  margin-bottom: 2px;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
@@ -8,7 +8,6 @@ import Nav from "../nav";
 import Notifier from "../notifier";
 import SessionTimeoutDialog from "../session-timeout-dialog";
 import { hasUserPermissions } from "../user/selectors";
-import OfflineIndicator from "../offline-indicator/component";
 
 import styles from "./styles.css";
 
@@ -29,10 +28,7 @@ const AppLayout = ({ children }) => {
       <Notifier />
       <Nav />
       <SessionTimeoutDialog />
-      <main className={css.content}>
-        <OfflineIndicator />
-        {children}
-      </main>
+      <main className={css.content}>{children}</main>
     </div>
   );
 };

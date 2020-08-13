@@ -36,7 +36,9 @@ export const FieldRecord = Record({
   numeric: false,
   onChange: null,
   mobile_visible: false,
-  on_collapsed_subform: false
+  on_collapsed_subform: false,
+  order: null,
+  disableClearable: false
 });
 
 export const FormSectionRecord = Record({
@@ -62,7 +64,8 @@ export const FormSectionRecord = Record({
   check_errors: List([]),
   expandable: false,
   expanded: false,
-  tooltip: ""
+  tooltip: "",
+  actions: null
 });
 
 export const Option = Record({

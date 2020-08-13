@@ -1,12 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  CardActionArea,
-  TablePagination,
-  Box,
-  Button
-} from "@material-ui/core";
+import { Card, CardContent, CardActionArea, TablePagination, Box } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
@@ -19,15 +12,12 @@ import { usePermissions } from "../user";
 import { CREATE_RECORDS } from "../../libs/permissions";
 import { useThemeHelper } from "../../libs";
 import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
-import ButtonText from "../button-text";
+import ActionButton from "../action-button";
+import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
-import {
-  selectReportsPagination,
-  selectReports,
-  selectLoading
-} from "./selectors";
+import { selectReportsPagination, selectReports, selectLoading } from "./selectors";
 import NAMESPACE from "./namespace";
 
 const Reports = () => {
@@ -37,9 +27,7 @@ const Reports = () => {
 
   const reports = useSelector(state => selectReports(state));
   const isLoading = useSelector(state => selectLoading(state));
-  const reportsPagination = useSelector(state =>
-    selectReportsPagination(state)
-  );
+  const reportsPagination = useSelector(state => selectReportsPagination(state));
   const canAddReport = usePermissions(NAMESPACE, CREATE_RECORDS);
 
   // const actionMenuItems = fromJS([
@@ -77,56 +65,36 @@ const Reports = () => {
     page: reportsPagination.get("page") - 1,
     rowsPerPage: reportsPagination.get("per"),
     rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
-    onChangeRowsPerPage: ({ target }) =>
-      dispatch(fetchReports({ options: { page: 1, per: target.value } })),
+    onChangeRowsPerPage: ({ target }) => dispatch(fetchReports({ options: { page: 1, per: target.value } })),
     component: "div"
   };
 
   const newReportBtn = canAddReport ? (
-    <Button
-      aria-label={i18n.t("buttons.new")}
-      to={ROUTES.reports_new}
-      component={Link}
-      color="primary"
-      className={css.showActionButton}
-    >
-      <AddIcon />
-      <ButtonText text={i18n.t("buttons.new")} />
-    </Button>
+    <ActionButton
+      icon={<AddIcon />}
+      text={i18n.t("buttons.new")}
+      type={ACTION_BUTTON_TYPES.default}
+      rest={{
+        to: ROUTES.reports_new,
+        component: Link
+      }}
+    />
   ) : null;
 
   return (
     <div>
       <PageContainer>
-        <PageHeading title={i18n.t("reports.label")}>
-          {newReportBtn}
-        </PageHeading>
+        <PageHeading title={i18n.t("reports.label")}>{newReportBtn}</PageHeading>
         <PageContent>
-          <LoadingIndicator
-            hasData={reports.size > 0}
-            loading={isLoading}
-            type="reports"
-          >
+          <LoadingIndicator hasData={reports.size > 0} loading={isLoading} type="reports">
             <div className={css.reportsListContainer}>
               {reports.map(report => {
                 return (
-                  <Card
-                    key={report.get("id")}
-                    className={css.card}
-                    elevation={3}
-                  >
-                    <CardActionArea
-                      to={`/reports/${report.get("id")}`}
-                      component={Link}
-                      disableRipple
-                    >
+                  <Card key={report.get("id")} className={css.card} elevation={3}>
+                    <CardActionArea to={`/reports/${report.get("id")}`} component={Link} disableRipple>
                       <CardContent className={css.cardContent}>
-                        <h3 className={css.title}>
-                          {report.getIn(["name", i18n.locale], "")}
-                        </h3>
-                        <p className={css.description}>
-                          {report.getIn(["description", i18n.locale], "")}
-                        </p>
+                        <h3 className={css.title}>{report.getIn(["name", i18n.locale], "")}</h3>
+                        <p className={css.description}>{report.getIn(["description", i18n.locale], "")}</p>
                       </CardContent>
                     </CardActionArea>
                   </Card>

@@ -4,11 +4,7 @@ import { openDB } from "idb";
 
 import { DATABASE_NAME } from "../config/constants";
 
-import {
-  DB_COLLECTIONS_NAMES,
-  DB_COLLECTIONS_V1,
-  DB_COLLECTIONS_V2
-} from "./constants";
+import { DB_COLLECTIONS_NAMES, DB_COLLECTIONS_V1, DB_COLLECTIONS_V2 } from "./constants";
 
 class DB {
   constructor() {
@@ -18,14 +14,10 @@ class DB {
       this._db = openDB(DATABASE_NAME, 2, {
         upgrade(db, oldVersion) {
           if (oldVersion < 1) {
-            DB_COLLECTIONS_V1.forEach(collection =>
-              self.createCollections(collection, db)
-            );
+            DB_COLLECTIONS_V1.forEach(collection => self.createCollections(collection, db));
           }
           if (oldVersion < 2) {
-            DB_COLLECTIONS_V2.forEach(collection =>
-              self.createCollections(collection, db)
-            );
+            DB_COLLECTIONS_V2.forEach(collection => self.createCollections(collection, db));
           }
         }
       });
@@ -51,15 +43,12 @@ class DB {
   }
 
   async clearDB() {
-    return this.asyncForEach(
-      Object.keys(DB_COLLECTIONS_NAMES),
-      async collection => {
-        const store = DB_COLLECTIONS_NAMES[collection];
-        const tx = (await this._db).transaction(store, "readwrite");
+    return this.asyncForEach(Object.keys(DB_COLLECTIONS_NAMES), async collection => {
+      const store = DB_COLLECTIONS_NAMES[collection];
+      const tx = (await this._db).transaction(store, "readwrite");
 
-        await tx.objectStore(store).clear();
-      }
-    );
+      await tx.objectStore(store).clear();
+    });
   }
 
   async getRecord(store, key) {
@@ -116,31 +105,23 @@ class DB {
     const tx = (await this._db).transaction(store, "readwrite");
     const collection = tx.objectStore(store);
 
-    this.asyncForEach(
-      isDataArray ? records : Object.keys(records),
-      async record => {
-        const r = record;
+    this.asyncForEach(isDataArray ? records : Object.keys(records), async record => {
+      const r = record;
 
-        if (queryIndex) {
-          r.type = queryIndex.value;
-        }
-
-        try {
-          const prev = (await this._db).get(
-            store,
-            isDataArray ? r.id : records[r]?.id
-          );
-
-          if (prev) {
-            await collection.put(
-              isDataArray ? merge(prev, r) : merge(prev, records[r])
-            );
-          }
-        } catch (e) {
-          await collection.put(isDataArray ? r : records[r]);
-        }
+      if (queryIndex) {
+        r.type = queryIndex.value;
       }
-    );
+
+      try {
+        const prev = (await this._db).get(store, isDataArray ? r.id : records[r]?.id);
+
+        if (prev) {
+          await collection.put(isDataArray ? merge(prev, r) : merge(prev, records[r]));
+        }
+      } catch (e) {
+        await collection.put(isDataArray ? r : records[r]);
+      }
+    });
 
     await tx.done;
   }

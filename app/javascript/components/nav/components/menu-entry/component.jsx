@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 
@@ -13,29 +13,13 @@ import DisableOffline from "../../../disable-offline";
 import { getPermissions } from "../../../user/selectors";
 import { ConditionalWrapper } from "../../../../libs";
 
-const Component = ({
-  closeDrawer,
-  menuEntry,
-  mobileDisplay,
-  jewelCount,
-  username
-}) => {
+const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
-  const {
-    to,
-    divider,
-    icon,
-    name,
-    disableOffline,
-    disabled,
-    validateWithUserPermissions
-  } = menuEntry;
+  const { to, divider, icon, name, disableOffline, disabled, validateWithUserPermissions } = menuEntry;
 
-  const jewel = jewelCount ? (
-    <Jewel value={jewelCount} mobileDisplay={mobileDisplay} />
-  ) : null;
+  const jewel = jewelCount ? <Jewel value={jewelCount} mobileDisplay={mobileDisplay} /> : null;
 
   const renderDivider = divider && <div className={css.navSeparator} />;
 
@@ -52,32 +36,22 @@ const Component = ({
   const navItemName = name === "username" ? username : i18n.t(name);
 
   const renderNavAction = (
-    <div>
+    <li>
       {renderDivider}
-      <ConditionalWrapper
-        condition={disableOffline}
-        wrapper={DisableOffline}
-        button
-      >
+      <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button>
         <ListItem {...navlinkProps} className={css.navLink}>
           <ListItemIcon classes={{ root: css.listIcon }}>
             <ListIcon icon={icon} />
           </ListItemIcon>
-          <ListItemText
-            primary={navItemName}
-            classes={{ primary: css.listText }}
-          />
+          <ListItemText primary={navItemName} classes={{ primary: css.listText }} />
           {jewel}
         </ListItem>
       </ConditionalWrapper>
-    </div>
+    </li>
   );
 
   if (typeof validateWithUserPermissions !== "undefined") {
-    return validateWithUserPermissions &&
-      userRecordTypes.includes(to.replace("/", ""))
-      ? renderNavAction
-      : null;
+    return validateWithUserPermissions && userRecordTypes.includes(to.replace("/", "")) ? renderNavAction : null;
   }
 
   return renderNavAction;

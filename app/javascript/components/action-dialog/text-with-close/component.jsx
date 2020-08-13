@@ -1,38 +1,39 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CloseIcon from "@material-ui/icons/Close";
-import { makeStyles } from "@material-ui/styles";
 import { DialogTitle, IconButton } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../i18n";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ dialogTitle, dialogSubtitle, closeHandler }) => {
+const Component = ({ dialogTitle, dialogSubtitle, closeHandler, dialogActions }) => {
   const css = makeStyles(styles)();
-  const i18n = useI18n();
-  const subtitle = dialogSubtitle ? (
-    <span className={css.dialogSubtitle}>{dialogSubtitle}</span>
-  ) : null;
+  const subtitle = dialogSubtitle ? <span className={css.dialogSubtitle}>{dialogSubtitle}</span> : null;
 
   return (
     <DialogTitle>
-      {dialogTitle}
-      {subtitle}
-      <IconButton
-        aria-label={i18n.t("buttons.close")}
-        className={css.closeButton}
-        onClick={closeHandler}
-      >
-        <CloseIcon />
-      </IconButton>
+      <div className={css.dialogTitle}>
+        <div>
+          {dialogTitle}
+          {subtitle}
+        </div>
+        <div>{dialogActions}</div>
+        <div>
+          <IconButton aria-label="close" className={css.closeButton} onClick={closeHandler}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+      </div>
     </DialogTitle>
   );
 };
 
 Component.propTypes = {
   closeHandler: PropTypes.func.isRequired,
+  dialogActions: PropTypes.object,
   dialogSubtitle: PropTypes.string,
   dialogTitle: PropTypes.string.isRequired
 };

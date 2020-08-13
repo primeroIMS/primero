@@ -45,12 +45,8 @@ export default (overdueTasksDashboards, i18n) => {
     }
   };
 
-  const columns = [
-    { name: "case_worker", label: i18n.t("dashboard.case_worker") }
-  ].concat(
-    overdueTasksDashboards
-      .filter(dashboard => dashboard.size)
-      .map(dashboard => dashboardColumns[dashboard.get("name")])
+  const columns = [{ name: "case_worker", label: i18n.t("dashboard.case_worker") }].concat(
+    overdueTasksDashboards.filter(dashboard => dashboard.size).map(dashboard => dashboardColumns[dashboard.get("name")])
   );
 
   return {

@@ -8,7 +8,7 @@ import merge from "lodash/merge";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
 import { Tabs, Tab } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { fromJS } from "immutable";
 
 import SavedSearches, { fetchSavedSearches } from "../saved-searches";
@@ -53,33 +53,21 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   };
 
   const methods = useForm({
-    defaultValues: isEmpty(queryParams)
-      ? merge(defaultFilters.toJS(), filterToList)
-      : queryParams
+    defaultValues: isEmpty(queryParams) ? merge(defaultFilters.toJS(), filterToList) : queryParams
   });
 
-  const reportingLocationConfig = useSelector(state =>
-    getReportingLocationConfig(state)
-  );
+  const reportingLocationConfig = useSelector(state => getReportingLocationConfig(state));
 
-  const ownedByLocation = `${reportingLocationConfig.get(
-    "field_key"
-  )}${reportingLocationConfig.get("admin_level")}`;
+  const ownedByLocation = `${reportingLocationConfig.get("field_key")}${reportingLocationConfig.get("admin_level")}`;
 
-  const filters = useSelector(state =>
-    getFiltersByRecordType(state, recordType)
-  );
+  const filters = useSelector(state => getFiltersByRecordType(state, recordType));
 
   const userName = useSelector(state => currentUser(state));
 
   const addFilterToList = data => setFilterToList({ ...filterToList, ...data });
 
-  const allPrimaryFilters = filters.filter(f =>
-    PRIMARY_FILTERS.includes(f.field_name)
-  );
-  const allDefaultFilters = filters.filter(f =>
-    [...defaultFilters.keys()].includes(f.field_name)
-  );
+  const allPrimaryFilters = filters.filter(f => PRIMARY_FILTERS.includes(f.field_name));
+  const allDefaultFilters = filters.filter(f => [...defaultFilters.keys()].includes(f.field_name));
 
   const queryParamsKeys = Object.keys(queryParams);
   const moreSectionKeys = Object.keys(moreSectionFilters);
@@ -96,10 +84,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
       return false;
     }
 
-    return (
-      datesOption?.filter(dateOption => keys.includes(dateOption.id))?.length >
-      0
-    );
+    return datesOption?.filter(dateOption => keys.includes(dateOption.id))?.length > 0;
   };
 
   const renderFilters = () => {
@@ -107,8 +92,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
 
     if (recordType === RECORD_PATH.cases) {
       const showMyCasesFilter = (field, keys) =>
-        field.field_name === MY_CASES_FILTER_NAME &&
-        keys.includes(OR_FILTER_NAME);
+        field.field_name === MY_CASES_FILTER_NAME && keys.includes(OR_FILTER_NAME);
 
       const selectedFromMoreSection = primaryFilters.filter(
         f =>
@@ -124,8 +108,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
             showMyCasesFilter(f, queryParamsKeys) ||
             isDateFieldFromValue(f, queryParamsKeys)) &&
           !(
-            defaultFilterNames.includes(f.field_name) ||
-            allPrimaryFilters.map(t => t.field_name).includes(f.field_name)
+            defaultFilterNames.includes(f.field_name) || allPrimaryFilters.map(t => t.field_name).includes(f.field_name)
           )
       );
 
@@ -143,8 +126,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
       const Filter = filterType(filter.type);
       const secondary =
         moreSectionKeys.includes(filter.field_name) ||
-        (filter.field_name === MY_CASES_FILTER_NAME &&
-          moreSectionKeys.includes(OR_FILTER_NAME)) ||
+        (filter.field_name === MY_CASES_FILTER_NAME && moreSectionKeys.includes(OR_FILTER_NAME)) ||
         isDateFieldFromValue(filter, moreSectionKeys);
 
       const mode = {
@@ -171,16 +153,12 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   };
 
   useEffect(() => {
-    [...HIDDEN_FIELDS, ownedByLocation].forEach(field =>
-      methods.register({ name: field })
-    );
+    [...HIDDEN_FIELDS, ownedByLocation].forEach(field => methods.register({ name: field }));
 
     methods.setValue("fields", "short");
 
     return () => {
-      [...HIDDEN_FIELDS, ownedByLocation].forEach(field =>
-        methods.unregister({ name: field })
-      );
+      [...HIDDEN_FIELDS, ownedByLocation].forEach(field => methods.unregister({ name: field }));
     };
   }, []);
 
@@ -195,9 +173,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
 
   useEffect(() => {
     if (rerender) {
-      const filtersToApply = isEmpty(queryParams)
-        ? defaultFilters.toJS()
-        : queryParams;
+      const filtersToApply = isEmpty(queryParams) ? defaultFilters.toJS() : queryParams;
 
       Object.keys(methods.getValues()).forEach(value => {
         if (!Object.keys(filtersToApply).includes(value) && !isEmpty(value)) {
@@ -207,9 +183,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
       setMoreSectionFilters({});
       methods.reset(filtersToApply);
       resetSelectedRecords();
-      dispatch(
-        applyFilters({ recordType, data: compactFilters(filtersToApply) })
-      );
+      dispatch(applyFilters({ recordType, data: compactFilters(filtersToApply) }));
 
       setRerender(false);
       setFilterToList(DEFAULT_FILTERS);
@@ -292,20 +266,11 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
             </>
           )}
           {tabIndex === 1 && (
-            <SavedSearches
-              recordType={recordType}
-              setTabIndex={setTabIndex}
-              setRerender={setRerender}
-            />
+            <SavedSearches recordType={recordType} setTabIndex={setTabIndex} setRerender={setRerender} />
           )}
         </form>
       </FormContext>
-      <SavedSearchesForm
-        recordType={recordType}
-        getValues={methods.getValues}
-        open={open}
-        setOpen={setOpen}
-      />
+      <SavedSearchesForm recordType={recordType} getValues={methods.getValues} open={open} setOpen={setOpen} />
     </div>
   );
 };

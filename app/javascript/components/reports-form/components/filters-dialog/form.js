@@ -102,9 +102,7 @@ const constraintInputType = (currentField, i18n) => {
       return {
         id,
         display_text: i18n.t(
-          currentField?.type === DATE_FIELD && ["<", ">"].includes(id)
-            ? DATE_CONSTRAINTS[id]
-            : translationKey
+          currentField?.type === DATE_FIELD && ["<", ">"].includes(id) ? DATE_CONSTRAINTS[id] : translationKey
         )
       };
     })

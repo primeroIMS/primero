@@ -21,22 +21,12 @@ describe("<Transitions /> - Constants", () => {
 
     expect(constants).to.have.property("TRANSITION_STATUS");
     expect(constants.TRANSITION_STATUS).to.be.an("object");
-    expect(constants.TRANSITION_STATUS).to.have.all.keys(
-      "pending",
-      "accepted",
-      "rejected",
-      "done",
-      "inProgress"
-    );
+    expect(constants.TRANSITION_STATUS).to.have.all.keys("pending", "accepted", "rejected", "done", "inProgress");
     delete constants.TRANSITION_STATUS;
 
     expect(constants).to.have.property("TRANSITIONS_TYPES");
     expect(constants.TRANSITIONS_TYPES).to.be.an("object");
-    expect(constants.TRANSITIONS_TYPES).to.have.all.keys(
-      "transfer",
-      "referral",
-      "reassign"
-    );
+    expect(constants.TRANSITIONS_TYPES).to.have.all.keys("transfer", "referral", "reassign");
     delete constants.TRANSITIONS_TYPES;
 
     expect(constants).to.be.empty;

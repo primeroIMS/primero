@@ -1,15 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useTheme } from "@material-ui/styles";
+import { useTheme } from "@material-ui/core/styles";
 import { useMediaQuery } from "@material-ui/core";
 
 import { NAME } from "./constants";
 
-const Component = ({ text }) => {
+const Component = ({ text, keepTextOnMobile }) => {
   const theme = useTheme();
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
-  if (mobileDisplay) {
+  if (mobileDisplay && !keepTextOnMobile) {
     return null;
   }
 
@@ -18,7 +18,12 @@ const Component = ({ text }) => {
 
 Component.displayName = NAME;
 
+Component.defaultProps = {
+  keepTextOnMobile: false
+};
+
 Component.propTypes = {
+  keepTextOnMobile: PropTypes.bool,
   text: PropTypes.string.isRequired
 };
 

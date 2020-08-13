@@ -1,13 +1,12 @@
 import React from "react";
 import { Grid, Box } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 
 import ModuleLogo from "../module-logo";
 import AgencyLogo from "../agency-logo";
 import TranslationsToggle from "../translations-toggle";
 import Notifier from "../notifier";
-import OfflineIndicator from "../offline-indicator";
 
 import styles from "./login-styles.css";
 
@@ -20,7 +19,6 @@ const LoginLayout = ({ children }) => {
   return (
     <>
       <Notifier />
-      <OfflineIndicator />
       <Box className={[css.primeroBackground, css[primeroModule]].join(" ")}>
         <div className={css.content}>
           <div className={css.loginHeader}>

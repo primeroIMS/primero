@@ -18,26 +18,23 @@ const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
   const workflowLabels = useSelector(
-    state =>
-      selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]?.[
-        i18n.locale
-      ]
+    state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]?.[i18n.locale]
   );
 
   const casesWorkflowTeam = useSelector(state => getWorkflowTeamCases(state));
 
   return (
-    <Permission
-      resources={RESOURCES.dashboards}
-      actions={ACTIONS.DASH_WORKFLOW_TEAM}
-    >
+    <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_WORKFLOW_TEAM}>
       <Grid item xl={9} md={8} xs={12}>
         <OptionsBox
           title={i18n.t("dashboard.workflow_team")}
           hasData={Boolean(casesWorkflowTeam.size)}
           {...loadingIndicator}
         >
-          <DashboardTable {...toListTable(casesWorkflowTeam, workflowLabels)} />
+          <DashboardTable
+            title={i18n.t("dashboard.workflow_team")}
+            {...toListTable(casesWorkflowTeam, workflowLabels)}
+          />
         </OptionsBox>
       </Grid>
     </Permission>

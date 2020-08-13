@@ -6,11 +6,7 @@ import { object, string } from "yup";
 
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
-import Form, {
-  FieldRecord,
-  FormSectionRecord,
-  FORM_MODE_DIALOG
-} from "../../form";
+import Form, { FieldRecord, FormSectionRecord, FORM_MODE_DIALOG } from "../../form";
 import { getRecordAlerts, saveRecord } from "../../records";
 import { ACTIONS } from "../../../libs/permissions";
 import { fetchRecordsAlerts } from "../../records/action-creators";

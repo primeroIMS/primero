@@ -35,9 +35,7 @@ describe("Application - Action Creators", () => {
 
     dispatch(actionCreators.fetchSystemSettings());
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql(
-      "application/FETCH_SYSTEM_SETTINGS"
-    );
+    expect(dispatch.getCall(0).returnValue.type).to.eql("application/FETCH_SYSTEM_SETTINGS");
 
     expect(dispatch.getCall(0).returnValue.api).to.eql(expected);
   });

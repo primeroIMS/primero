@@ -14,23 +14,13 @@ export const selectTransitions = (state, recordType, id, isReferral) => {
       f =>
         f.record_type === type &&
         f.record_id === id &&
-        (isReferral
-          ? f.type === capitalizedReferral
-          : f.type !== capitalizedReferral)
+        (isReferral ? f.type === capitalizedReferral : f.type !== capitalizedReferral)
     );
 
   return transitions.size ? transitions : List([]);
 };
 
-export const selectTransitionByTypeAndStatus = (
-  state,
-  transitionTypes,
-  status
-) =>
+export const selectTransitionByTypeAndStatus = (state, transitionTypes, status) =>
   state
     .getIn(["records", NAMESPACE, "data"], List([]))
-    .filter(
-      transition =>
-        transitionTypes.includes(transition.type) &&
-        transition.status === status
-    );
+    .filter(transition => transitionTypes.includes(transition.type) && transition.status === status);

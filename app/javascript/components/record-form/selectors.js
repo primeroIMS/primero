@@ -6,10 +6,7 @@ import { denormalizeFormData } from "../../schemas";
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
 
-const forms = (
-  state,
-  { recordType, primeroModule, checkVisible, all, formsIds }
-) => {
+const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }) => {
   const allFormSections = state.getIn([NAMESPACE, "formSections"]);
 
   if (isEmpty(allFormSections)) return null;
@@ -18,9 +15,7 @@ const forms = (
     return allFormSections;
   }
 
-  const userFormSection = formsIds
-    ? allFormSections.filter(fs => formsIds.includes(fs.unique_id))
-    : allFormSections;
+  const userFormSection = formsIds ? allFormSections.filter(fs => formsIds.includes(fs.unique_id)) : allFormSections;
 
   const formSections = userFormSection.filter(
     fs =>
@@ -43,9 +38,7 @@ export const getFirstTab = (state, query) => {
 
   if (selectedForms.isEmpty()) return null;
 
-  const firstFormSection = selectedForms.filter(
-    fs => fs.get("is_first_tab") === true
-  );
+  const firstFormSection = selectedForms.filter(fs => fs.get("is_first_tab") === true);
 
   if (firstFormSection && firstFormSection.size > 0) {
     const form = firstFormSection.first();
@@ -82,10 +75,7 @@ export const getRecordForms = (state, query) => {
   const selectedForms = forms(state, query);
 
   if (!selectedForms) return null;
-  const denormalizedForms = denormalizeFormData(
-    OrderedMap(selectedForms.map(f => f.id)),
-    state.getIn(["forms"])
-  );
+  const denormalizedForms = denormalizeFormData(OrderedMap(selectedForms.map(f => f.id)), state.getIn(["forms"]));
 
   return denormalizedForms.valueSeq();
 };
@@ -113,8 +103,7 @@ export const getOption = (state, option, locale) => {
   return option && option[locale] ? option[locale] : [];
 };
 
-export const getOptions = state =>
-  state.getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]));
+export const getOptions = state => state.getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]));
 
 export const getLookups = (state, page = 1, per = 20) => {
   const data = state.getIn([NAMESPACE, "options", "lookups"], fromJS({}));
@@ -129,35 +118,44 @@ export const getLookups = (state, page = 1, per = 20) => {
   return fromJS({});
 };
 
-export const getLocations = state =>
-  state.getIn([NAMESPACE, "options", "locations"], fromJS([]));
+export const getLocations = state => state.getIn([NAMESPACE, "options", "locations"], fromJS([]));
 
 export const getReportingLocations = (state, adminLevel) => {
-  return adminLevel
-    ? getLocations(state).filter(
-        location => location.get("admin_level") === adminLevel
-      )
-    : fromJS([]);
+  return adminLevel ? getLocations(state).filter(location => location.get("admin_level") === adminLevel) : fromJS([]);
 };
 
-export const getLoadingState = state =>
-  state.getIn([NAMESPACE, "loading"], false);
+export const getLoadingState = state => state.getIn([NAMESPACE, "loading"], false);
 
 export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
 
-export const getSelectedForm = state =>
-  state.getIn([NAMESPACE, "selectedForm"]);
+export const getSelectedForm = state => state.getIn([NAMESPACE, "selectedForm"]);
 
-export const getSelectedRecord = state =>
-  state.getIn([NAMESPACE, "selectedRecord"]);
+export const getSelectedRecord = state => state.getIn([NAMESPACE, "selectedRecord"]);
 
-export const getServiceToRefer = state =>
-  state.getIn([NAMESPACE, "serviceToRefer"], fromJS({}));
+export const getServiceToRefer = state => state.getIn([NAMESPACE, "serviceToRefer"], fromJS({}));
 
-export const getOptionsAreLoading = state =>
-  state.getIn([NAMESPACE, "options", "loading"], false);
+export const getOptionsAreLoading = state => state.getIn([NAMESPACE, "options", "loading"], false);
 
 export const getAssignableForms = state =>
+  state.getIn([NAMESPACE, "formSections"], fromJS([])).filter(form => !form.get("is_nested") && form.get("visible"));
+
+export const getValidationErrors = (state, formUniqueId) => {
+  const validationErrors = state.getIn([NAMESPACE, "validationErrors"], fromJS([]));
+
+  if (!formUniqueId) {
+    return validationErrors;
+  }
+
+  return validationErrors.find(error => error.get("unique_id") === formUniqueId);
+};
+
+export const getSubformsDisplayName = (state, locale) =>
   state
     .getIn([NAMESPACE, "formSections"], fromJS([]))
-    .filter(form => !form.get("is_nested") && form.get("visible"));
+    .filter(fs => fs.is_nested)
+    .map(fs => fromJS({ [fs.unique_id]: fs.getIn(["name", locale]) }))
+    .reduce((acc, next) => acc.merge(next), fromJS({}));
+
+export const getFields = state => state.getIn([NAMESPACE, "fields"]);
+
+export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);

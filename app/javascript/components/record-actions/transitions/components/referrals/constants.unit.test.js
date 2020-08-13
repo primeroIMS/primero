@@ -29,13 +29,7 @@ describe("<Referral /> - Constants", () => {
   it("should have known SERVICE_SECTION_FIELDS properties", () => {
     const constants = { ...referralConstants.SERVICE_SECTION_FIELDS };
 
-    [
-      "deliveryLocation",
-      "implementingAgency",
-      "implementingAgencyIndividual",
-      "uniqueId",
-      "type"
-    ].forEach(property => {
+    ["deliveryLocation", "implementingAgency", "implementingAgencyIndividual", "uniqueId", "type"].forEach(property => {
       expect(constants).to.have.property(property);
       delete constants[property];
     });

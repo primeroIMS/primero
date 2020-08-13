@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_02_160905) do
+ActiveRecord::Schema.define(version: 2020_08_05_210050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -175,15 +175,13 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
     t.text "link_to_path"
     t.boolean "link_to_path_external", default: true, null: false
     t.string "field_tags", default: [], array: true
-    t.boolean "searchable_select", default: false, null: false
     t.string "custom_template"
     t.boolean "expose_unique_id", default: false, null: false
-    t.string "subform_sort_by"
-    t.string "subform_group_by"
     t.boolean "required", default: false, null: false
     t.string "date_validation", default: "default_date_validation"
     t.boolean "date_include_time", default: false, null: false
     t.boolean "matchable", default: false, null: false
+    t.jsonb "subform_section_configuration"
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"
@@ -231,6 +229,7 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
     t.boolean "hide_subform_placeholder", default: false, null: false
     t.boolean "mobile_form", default: false, null: false
     t.text "header_message_link"
+    t.jsonb "display_conditions"
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
@@ -317,7 +316,7 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
   end
 
   create_table "record_histories", id: :serial, force: :cascade do |t|
-    t.integer "record_id"
+    t.string "record_id"
     t.string "record_type"
     t.datetime "datetime"
     t.string "user_name"
@@ -382,6 +381,15 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
     t.string "primero_version"
     t.jsonb "system_options"
     t.jsonb "approvals_labels_i18n"
+  end
+
+  create_table "traces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.uuid "tracing_request_id"
+    t.uuid "matched_case_id"
+    t.index ["data"], name: "index_traces_on_data", using: :gin
+    t.index ["matched_case_id"], name: "index_traces_on_matched_case_id"
+    t.index ["tracing_request_id"], name: "index_traces_on_tracing_request_id"
   end
 
   create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

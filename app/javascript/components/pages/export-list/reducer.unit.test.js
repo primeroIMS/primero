@@ -16,8 +16,7 @@ describe("<ExportList /> - pages/export-list/reducer", () => {
       status: EXPORT_STATUS.complete,
       started_on: "2020-02-04T20:32:50.078Z",
       file_name: "cases-20200204.325032079.csv",
-      export_file:
-        "/rails/active_storage/blobs/cases-20200204.325032079.csv.zip",
+      export_file: "/rails/active_storage/blobs/cases-20200204.325032079.csv.zip",
       record_type: "case"
     };
     const metadata = {

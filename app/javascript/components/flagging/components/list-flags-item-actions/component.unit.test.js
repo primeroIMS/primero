@@ -1,8 +1,9 @@
 import { fromJS } from "immutable";
-import { Divider, Fab } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../test";
 import { FormAction } from "../../../form";
+import ActionButton from "../../../action-button";
 
 import ListFlagsItemActions from "./component";
 
@@ -28,11 +29,7 @@ describe("<ListFlagsItemActions />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      ListFlagsItemActions,
-      props,
-      initialState
-    ));
+    ({ component } = setupMountedComponent(ListFlagsItemActions, props, initialState));
   });
 
   it("should render the ListFlagsItem", () => {
@@ -47,8 +44,8 @@ describe("<ListFlagsItemActions />", () => {
     expect(component.find(FormAction)).to.have.lengthOf(1);
   });
 
-  it("should render the Fab", () => {
-    expect(component.find(Fab)).to.have.lengthOf(1);
+  it("should render the ActionButton", () => {
+    expect(component.find(ActionButton)).to.have.lengthOf(1);
   });
 
   it("renders component with valid props", () => {

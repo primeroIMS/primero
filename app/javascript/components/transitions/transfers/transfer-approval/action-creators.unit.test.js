@@ -1,9 +1,6 @@
 import { stub } from "../../../../test";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
-import {
-  SET_DIALOG,
-  SET_DIALOG_PENDING
-} from "../../../record-actions/actions";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "../../../record-actions/actions";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";

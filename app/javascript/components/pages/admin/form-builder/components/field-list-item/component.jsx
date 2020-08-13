@@ -6,11 +6,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Draggable } from "react-beautiful-dnd";
 import { Button, makeStyles, Radio } from "@material-ui/core";
-import {
-  createMuiTheme,
-  MuiThemeProvider,
-  useTheme
-} from "@material-ui/core/styles";
+import { createMuiTheme, MuiThemeProvider, useTheme } from "@material-ui/core/styles";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 import { SUBFORM_SECTION } from "../../../../../form";
@@ -27,11 +23,7 @@ import { setDialog } from "../../../../../record-actions/action-creators";
 import { useI18n } from "../../../../../i18n";
 import SwitchInput from "../../../../../form/fields/switch-input";
 import DragIndicator from "../../../forms-list/components/drag-indicator";
-import {
-  getFieldsAttribute,
-  getFiedListItemTheme,
-  getLabelTypeField
-} from "../utils";
+import { getFieldsAttribute, getFiedListItemTheme, getLabelTypeField } from "../utils";
 import styles from "../fields-list/styles.css";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { setInitialForms, toggleHideOnViewPage } from "../field-dialog/utils";
@@ -47,12 +39,9 @@ const Component = ({ field, index, subformField }) => {
   const isNested = Boolean(subformField?.toSeq()?.size);
   const parentFieldName = subformField?.get("name", "");
   const fieldsAttribute = getFieldsAttribute(isNested);
-  const subformSortBy = isNested
-    ? watch(`${parentFieldName}.${SUBFORM_SORT_BY}`, "")
-    : null;
-  const subformGroupBy = isNested
-    ? watch(`${parentFieldName}.${SUBFORM_GROUP_BY}`, "")
-    : null;
+  const subformSortBy = isNested ? watch(`${parentFieldName}.${SUBFORM_SORT_BY}`, "") : null;
+  const subformGroupBy = isNested ? watch(`${parentFieldName}.${SUBFORM_GROUP_BY}`, "") : null;
+  const visible = watch(`${fieldsAttribute}.${field.get("name")}.visible`, false);
 
   const themeOverrides = createMuiTheme(getFiedListItemTheme(currentTheme));
 
@@ -65,9 +54,10 @@ const Component = ({ field, index, subformField }) => {
       dispatch(updateSelectedSubform(subformData));
       dispatch(
         updateSelectedField({
-          [parentFieldName]: toggleHideOnViewPage(
-            currentFormData[parentFieldName]
-          )
+          [parentFieldName]: {
+            ...toggleHideOnViewPage(currentFormData[parentFieldName]),
+            disabled: !currentFormData[parentFieldName].disabled
+          }
         })
       );
     }
@@ -80,8 +70,11 @@ const Component = ({ field, index, subformField }) => {
       if (isNested) {
         onNested(fieldName);
       } else {
+        const fieldData = getValues({ nest: true })[fieldsAttribute][fieldName];
+
         dispatch(clearSelectedField());
         dispatch(setSelectedField(fieldName));
+        dispatch(updateSelectedField({ [fieldName]: fieldData }));
       }
 
       if (field?.get("type") === SUBFORM_SECTION) {
@@ -93,19 +86,12 @@ const Component = ({ field, index, subformField }) => {
   const isNotEditable = field.get("editable") === false;
 
   const renderFieldName = () => {
-    const icon = isNotEditable ? (
-      <VpnKeyIcon className={css.rotateIcon} />
-    ) : (
-      <span />
-    );
+    const icon = isNotEditable ? <VpnKeyIcon className={css.rotateIcon} /> : <span />;
 
     return (
       <>
         {icon}
-        <Button
-          className={clsx({ [css.editable]: !isNotEditable })}
-          onClick={() => handleClick(field.get("name"))}
-        >
+        <Button className={clsx({ [css.editable]: !isNotEditable })} onClick={() => handleClick(field.get("name"))}>
           {field.getIn(["display_name", i18n.locale])}
         </Button>
       </>
@@ -139,12 +125,8 @@ const Component = ({ field, index, subformField }) => {
             <div className={clsx([css.fieldColumn, css.dragIndicatorColumn])}>
               <DragIndicator {...provided.dragHandleProps} />
             </div>
-            <div className={clsx([css.fieldColumn, css.fieldName])}>
-              {renderFieldName(field)}
-            </div>
-            <div className={css.fieldColumn}>
-              {i18n.t(`fields.${getLabelTypeField(field)}`)}
-            </div>
+            <div className={clsx([css.fieldColumn, css.fieldName])}>{renderFieldName(field)}</div>
+            <div className={css.fieldColumn}>{i18n.t(`fields.${getLabelTypeField(field)}`)}</div>
             {renderColumn(SUBFORM_SORT_BY)}
             {renderColumn(SUBFORM_GROUP_BY)}
             <div className={clsx([css.fieldColumn, css.fieldShow])}>
@@ -154,6 +136,7 @@ const Component = ({ field, index, subformField }) => {
                     name: `${fieldsAttribute}.${field.get("name")}.visible`,
                     disabled: isNotEditable
                   }}
+                  metaInputProps={{ selectedValue: visible }}
                 />
               </MuiThemeProvider>
             </div>

@@ -17,10 +17,7 @@ import { NAME } from "./constants";
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
   const workflowLabels = useSelector(
-    state =>
-      selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]?.[
-        i18n.locale
-      ]
+    state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]?.[i18n.locale]
   );
   const casesWorkflow = useSelector(state => getWorkflowIndividualCases(state));
   const casesWorkflowProps = {
@@ -28,16 +25,9 @@ const Component = ({ loadingIndicator }) => {
   };
 
   return (
-    <Permission
-      resources={RESOURCES.dashboards}
-      actions={ACTIONS.DASH_WORKFLOW}
-    >
+    <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_WORKFLOW}>
       <Grid item xl={3} md={4} xs={12}>
-        <OptionsBox
-          title={i18n.t("dashboard.workflow")}
-          hasData={Boolean(casesWorkflow.size)}
-          {...loadingIndicator}
-        >
+        <OptionsBox title={i18n.t("dashboard.workflow")} hasData={Boolean(casesWorkflow.size)} {...loadingIndicator}>
           <PieChart {...casesWorkflowProps} />
         </OptionsBox>
       </Grid>

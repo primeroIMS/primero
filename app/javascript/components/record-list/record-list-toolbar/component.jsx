@@ -12,17 +12,7 @@ import { useI18n } from "../../i18n";
 
 import { NAME } from "./constants";
 
-const Component = ({
-  title,
-  recordType,
-  handleDrawer,
-  mobileDisplay,
-  selectedRecords,
-  currentPage,
-  css
-}) => {
-  const i18n = useI18n();
-
+const Component = ({ title, recordType, handleDrawer, mobileDisplay, selectedRecords, currentPage, css }) => {
   return (
     <Box mb={3} alignItems="center" display="flex" className={css.toolbar}>
       <Box flexGrow={1}>

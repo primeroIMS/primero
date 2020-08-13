@@ -9,9 +9,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.USERS_STARTED:
       return state.set("loading", true);
     case actions.USERS_SUCCESS:
-      return state
-        .set("data", fromJS(payload.data))
-        .set("metadata", fromJS(payload.metadata));
+      return state.set("data", fromJS(payload.data)).set("metadata", fromJS(payload.metadata));
     case actions.USERS_FINISHED:
       return state.set("loading", false);
     case actions.SET_USERS_FILTER:

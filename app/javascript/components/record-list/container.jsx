@@ -12,18 +12,11 @@ import PageContainer from "../page";
 import { useI18n } from "../i18n";
 import Filters, { getFiltersValuesByRecordType } from "../index-filters";
 import { getPermissionsByRecord } from "../user";
-import {
-  ACTIONS,
-  DISPLAY_VIEW_PAGE,
-  checkPermissions
-} from "../../libs/permissions";
+import { ACTIONS, DISPLAY_VIEW_PAGE, checkPermissions } from "../../libs/permissions";
 import Permission from "../application/permission";
 import { useThemeHelper } from "../../libs";
 import { applyFilters } from "../index-filters/action-creators";
-import {
-  getNumberErrorsBulkAssign,
-  getNumberBulkAssign
-} from "../record-actions/bulk-transtions/selectors";
+import { getNumberErrorsBulkAssign, getNumberBulkAssign } from "../record-actions/bulk-transtions/selectors";
 import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
 import { enqueueSnackbar } from "../notifier";
 
@@ -51,13 +44,9 @@ const Container = ({ match, location }) => {
   const [currentRecord, setCurrentRecord] = useState(null);
   const [selectedRecords, setSelectedRecords] = useState({});
 
-  const userPermissions = useSelector(state =>
-    getPermissionsByRecord(state, recordType)
-  );
+  const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
 
-  const canViewModal = checkPermissions(userPermissions, [
-    ACTIONS.DISPLAY_VIEW_PAGE
-  ]);
+  const canViewModal = checkPermissions(userPermissions, [ACTIONS.DISPLAY_VIEW_PAGE]);
 
   const handleViewModalClose = () => {
     setOpenViewModal(false);
@@ -65,34 +54,24 @@ const Container = ({ match, location }) => {
   const searchParams = new URLSearchParams(search);
 
   // eslint-disable-next-line camelcase
-  const filters = useSelector(state =>
-    getFiltersValuesByRecordType(state, recordType)
-  );
+  const filters = useSelector(state => getFiltersValuesByRecordType(state, recordType));
 
-  const permissions = useSelector(state =>
-    getPermissionsByRecord(state, recordType)
-  );
+  const permissions = useSelector(state => getPermissionsByRecord(state, recordType));
 
-  const defaultFilters = fromJS(DEFAULT_FILTERS);
+  const defaultFilters = fromJS({ ...DEFAULT_FILTERS, ...metadata?.toJS() });
 
   useEffect(() => {
     dispatch(
       applyFilters({
         recordType,
-        data: Object.keys(queryParams).length
-          ? queryParams
-          : defaultFilters.toJS()
+        data: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS()
       })
     );
   }, []);
 
-  const numberErrorsBulkAssign = useSelector(state =>
-    getNumberErrorsBulkAssign(state, recordType)
-  );
+  const numberErrorsBulkAssign = useSelector(state => getNumberErrorsBulkAssign(state, recordType));
 
-  const numberRecordsBulkAssign = useSelector(state =>
-    getNumberBulkAssign(state, recordType)
-  );
+  const numberRecordsBulkAssign = useSelector(state => getNumberBulkAssign(state, recordType));
 
   useEffect(() => {
     const errorMessages = i18n.t("reassign.multiple_error", {
@@ -104,10 +83,10 @@ const Container = ({ match, location }) => {
     });
 
     if (numberErrorsBulkAssign) {
-      dispatch(enqueueSnackbar(errorMessages, "error"));
+      dispatch(enqueueSnackbar(errorMessages, { type: "error" }));
     }
     if (numberRecordsBulkAssign) {
-      dispatch(enqueueSnackbar(successMessages, "success"));
+      dispatch(enqueueSnackbar(successMessages, { type: "success" }));
     }
 
     return () => {
@@ -115,15 +94,11 @@ const Container = ({ match, location }) => {
     };
   }, [numberErrorsBulkAssign, numberRecordsBulkAssign]);
 
-  const canSearchOthers =
-    permissions.includes(ACTIONS.MANAGE) ||
-    permissions.includes(ACTIONS.SEARCH_OWNED_BY_OTHERS);
+  const canSearchOthers = permissions.includes(ACTIONS.MANAGE) || permissions.includes(ACTIONS.SEARCH_OWNED_BY_OTHERS);
 
   const listHeaders =
     // eslint-disable-next-line camelcase
-    filters.id_search && canSearchOthers
-      ? headers.filter(header => header.id_search)
-      : headers;
+    filters.id_search && canSearchOthers ? headers.filter(header => header.id_search) : headers;
 
   const indexTableProps = {
     recordType,
@@ -133,9 +108,7 @@ const Container = ({ match, location }) => {
     onTableChange: applyFilters,
     onRowClick: record => {
       const allowedToOpenRecord =
-        record && typeof record.get("record_in_scope") !== "undefined"
-          ? record.get("record_in_scope")
-          : false;
+        record && typeof record.get("record_in_scope") !== "undefined" ? record.get("record_in_scope") : false;
 
       if (allowedToOpenRecord) {
         dispatch(push(`${recordType}/${record.get("id")}`));
@@ -186,7 +159,7 @@ const Container = ({ match, location }) => {
           <Box className={css.tableContainer} flexGrow={1}>
             <RecordListToolbar {...recordListToolbarProps} />
             <Box className={css.table}>
-              <IndexTable {...indexTableProps} />
+              <IndexTable title={i18n.t(`${recordType}.label`)} {...indexTableProps} />
             </Box>
           </Box>
           <FilterContainer {...filterContainerProps}>
@@ -195,11 +168,7 @@ const Container = ({ match, location }) => {
         </Box>
       </PageContainer>
       <Permission resources={recordType} actions={DISPLAY_VIEW_PAGE}>
-        <ViewModal
-          close={handleViewModalClose}
-          openViewModal={openViewModal}
-          currentRecord={currentRecord}
-        />
+        <ViewModal close={handleViewModalClose} openViewModal={openViewModal} currentRecord={currentRecord} />
       </Permission>
     </>
   );

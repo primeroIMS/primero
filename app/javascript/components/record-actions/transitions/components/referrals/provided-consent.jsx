@@ -4,12 +4,7 @@ import PropTypes from "prop-types";
 import { PROVIDED_CONSENT_NAME as NAME } from "./constants";
 import ProvidedForm from "./provided-form";
 
-const ProvidedConsent = ({
-  canConsentOverride,
-  providedConsent,
-  setDisabled,
-  recordType
-}) => {
+const ProvidedConsent = ({ canConsentOverride, providedConsent, setDisabled, recordType }) => {
   if (providedConsent) {
     return null;
   }

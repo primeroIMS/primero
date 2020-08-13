@@ -13,6 +13,10 @@
 .circle, .circleForm {
   font-size: $(theme.typography.pxToRem(28));
   color: $(theme.primero.colors.moonYellow) !important;
+
+  &.error { 
+    color:  $(theme.primero.colors.red) !important;
+  }
 }
 
 .circleForm {

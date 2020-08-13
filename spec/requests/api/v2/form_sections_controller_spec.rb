@@ -644,7 +644,6 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@form_3.id)
       expect(FormSection.find_by(id: @form_3.id)).to be_nil
-      expect(FormSection.find_by(id: @form_4.id)).to be_nil
       expect(Field.where(name: 'subform_form_4').first).to be_nil
     end
 

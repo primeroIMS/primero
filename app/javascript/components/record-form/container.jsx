@@ -2,7 +2,7 @@ import React, { useEffect, memo, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
 
@@ -13,14 +13,7 @@ import Transitions, { fetchTransitions } from "../transitions";
 import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
-import {
-  APPROVALS,
-  RECORD_TYPES,
-  REFERRAL,
-  RECORD_OWNER,
-  TRANSITION_TYPE,
-  RECORD_PATH
-} from "../../config";
+import { APPROVALS, RECORD_TYPES, REFERRAL, RECORD_OWNER, TRANSITION_TYPE, RECORD_PATH } from "../../config";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import { getLoadingRecordState } from "../records/selectors";
@@ -28,18 +21,12 @@ import { usePermissions } from "../user";
 import { fetchRecordsAlerts } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
 
+import { clearValidationErrors } from "./action-creators";
 import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import {
-  getFirstTab,
-  getFormNav,
-  getRecordForms,
-  getLoadingState,
-  getErrors,
-  getSelectedForm
-} from "./selectors";
+import { getFirstTab, getFormNav, getRecordForms, getLoadingState, getErrors, getSelectedForm } from "./selectors";
 import { compactValues } from "./utils";
 
 const Container = ({ match, mode }) => {
@@ -59,13 +46,9 @@ const Container = ({ match, mode }) => {
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
 
-  const record = useSelector(state =>
-    selectRecord(state, containerMode, params.recordType, params.id)
-  );
+  const record = useSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
 
-  const userPermittedFormsIds = useSelector(state =>
-    getPermittedFormsIds(state)
-  );
+  const userPermittedFormsIds = useSelector(state => getPermittedFormsIds(state));
 
   const selectedModule = {
     recordType,
@@ -77,9 +60,7 @@ const Container = ({ match, mode }) => {
   const forms = useSelector(state => getRecordForms(state, selectedModule));
   const firstTab = useSelector(state => getFirstTab(state, selectedModule));
   const loadingForm = useSelector(state => getLoadingState(state));
-  const loadingRecord = useSelector(state =>
-    getLoadingRecordState(state, params.recordType)
-  );
+  const loadingRecord = useSelector(state => getLoadingRecordState(state, params.recordType));
   const errors = useSelector(state => getErrors(state));
   const selectedForm = useSelector(state => getSelectedForm(state));
 
@@ -101,9 +82,7 @@ const Container = ({ match, mode }) => {
       const body = {
         data: {
           ...compactValues(values, initialValues),
-          ...(!containerMode.isEdit
-            ? { module_id: selectedModule.primeroModule }
-            : {})
+          ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {})
         }
       };
       const message = queue => {
@@ -113,28 +92,13 @@ const Container = ({ match, mode }) => {
           ? i18n.t(`${recordType}.messages.update_success${appendQueue}`, {
               record_id: record.get("short_id")
             })
-          : i18n.t(
-              `${recordType}.messages.creation_success${appendQueue}`,
-              recordType
-            );
+          : i18n.t(`${recordType}.messages.creation_success${appendQueue}`, recordType);
       };
 
-      const redirect = containerMode.isNew
-        ? `/${params.recordType}`
-        : `/${params.recordType}/${params.id}`;
+      const redirect = containerMode.isNew ? `/${params.recordType}` : `/${params.recordType}/${params.id}`;
 
       batch(async () => {
-        await dispatch(
-          saveRecord(
-            params.recordType,
-            saveMethod,
-            body,
-            params.id,
-            message(),
-            message(true),
-            redirect
-          )
-        );
+        await dispatch(saveRecord(params.recordType, saveMethod, body, params.id, message(), message(true), redirect));
         if (containerMode.isEdit) {
           dispatch(fetchRecordsAlerts(params.recordType, params.id));
         }
@@ -151,7 +115,8 @@ const Container = ({ match, mode }) => {
     forms,
     mode: containerMode,
     record,
-    recordType: params.recordType
+    recordType: params.recordType,
+    primeroModule: selectedModule.primeroModule
   };
 
   const toolbarProps = {
@@ -174,7 +139,8 @@ const Container = ({ match, mode }) => {
     recordType: params.recordType,
     selectedForm,
     selectedRecord: record ? record.get("id") : null,
-    toggleNav
+    toggleNav,
+    primeroModule: selectedModule.primeroModule
   };
 
   useEffect(() => {
@@ -182,13 +148,7 @@ const Container = ({ match, mode }) => {
       dispatch(fetchRecord(params.recordType, params.id));
       dispatch(fetchRecordsAlerts(params.recordType, params.id));
     }
-  }, [
-    containerMode.isEdit,
-    containerMode.isShow,
-    dispatch,
-    params.id,
-    params.recordType
-  ]);
+  }, [containerMode.isEdit, containerMode.isShow, dispatch, params.id, params.recordType]);
 
   const canRefer = usePermissions(params.recordType, REFERRAL);
 
@@ -207,6 +167,10 @@ const Container = ({ match, mode }) => {
       });
     }
   }, [params.recordType, params.id]);
+
+  useEffect(() => {
+    return () => dispatch(clearValidationErrors());
+  }, []);
 
   // TODO: When transfer_request be implement change the transition_ype
   const isRecordOwnerForm = RECORD_OWNER === selectedForm;
@@ -236,11 +200,7 @@ const Container = ({ match, mode }) => {
     );
   } else if (isApprovalsForm) {
     renderForm = (
-      <Approvals
-        approvals={approvalSubforms}
-        mobileDisplay={mobileDisplay}
-        handleToggleNav={handleToggleNav}
-      />
+      <Approvals approvals={approvalSubforms} mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} />
     );
   } else if (isTransitions) {
     renderForm = <Transitions {...transitionProps} />;
@@ -248,19 +208,12 @@ const Container = ({ match, mode }) => {
     renderForm = <RecordForm {...formProps} />;
   }
 
-  const hasData = Boolean(
-    forms && formNav && firstTab && (containerMode.isNew || record)
-  );
+  const hasData = Boolean(forms && formNav && firstTab && (containerMode.isNew || record));
   const loading = Boolean(loadingForm || loadingRecord);
 
   return (
     <PageContainer twoCol>
-      <LoadingIndicator
-        hasData={hasData}
-        type={params.recordType}
-        loading={loading}
-        errors={errors}
-      >
+      <LoadingIndicator hasData={hasData} type={params.recordType} loading={loading} errors={errors}>
         <RecordFormToolbar {...toolbarProps} />
         <div
           className={clsx(css.recordContainer, {
@@ -270,9 +223,7 @@ const Container = ({ match, mode }) => {
           <div className={css.recordNav}>
             <Nav {...navProps} />
           </div>
-          <div className={`${css.recordForms} record-form-container`}>
-            {renderForm}
-          </div>
+          <div className={`${css.recordForms} record-form-container`}>{renderForm}</div>
         </div>
       </LoadingIndicator>
     </PageContainer>

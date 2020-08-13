@@ -15,20 +15,12 @@ import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
 import { compare } from "../../../../libs";
 import ActionDialog from "../../../action-dialog";
+import { getMetadata } from "../../../record-list";
 
 import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";
-import {
-  getFormsToRender,
-  mergeFormSections,
-  groupSelectedIdsByParentForm
-} from "./utils";
-import {
-  clearSelectedRole,
-  deleteRole,
-  fetchRole,
-  saveRole
-} from "./action-creators";
+import { getFormsToRender, mergeFormSections, groupSelectedIdsByParentForm } from "./utils";
+import { clearSelectedRole, deleteRole, fetchRole, saveRole } from "./action-creators";
 import { getRole } from "./selectors";
 import { NAME } from "./constants";
 
@@ -41,23 +33,13 @@ const Container = ({ mode }) => {
   const { id } = useParams();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const roles = useSelector(
-    state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]),
-    compare
-  );
+  const roles = useSelector(state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]), compare);
+  const metadata = useSelector(state => getMetadata(state, "roles"));
   const role = useSelector(state => getRole(state), compare);
-  const systemPermissions = useSelector(
-    state => getSystemPermissions(state),
-    compare
-  );
-  const assignableForms = useSelector(
-    state => getAssignableForms(state),
-    compare
-  );
+  const systemPermissions = useSelector(state => getSystemPermissions(state), compare);
+  const assignableForms = useSelector(state => getAssignableForms(state), compare);
 
-  const formsByParentForm = assignableForms.groupBy(assignableForm =>
-    assignableForm.get(PARENT_FORM)
-  );
+  const formsByParentForm = assignableForms.groupBy(assignableForm => assignableForm.get(PARENT_FORM));
 
   const validationSchema = Validations(i18n);
 
@@ -67,9 +49,7 @@ const Container = ({ mode }) => {
         id,
         saveMethod: formMode.get("isEdit") ? "update" : "new",
         body: { data: mergeFormSections(data) },
-        message: i18n.t(
-          `role.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-        )
+        message: i18n.t(`role.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
       })
     );
   };
@@ -79,7 +59,7 @@ const Container = ({ mode }) => {
   };
 
   useEffect(() => {
-    dispatch(fetchRoles());
+    dispatch(fetchRoles({ data: metadata?.toJS() }));
   }, []);
 
   useEffect(() => {
@@ -132,11 +112,7 @@ const Container = ({ mode }) => {
   ) : null;
 
   return (
-    <LoadingIndicator
-      hasData={formMode.get("isNew") || role?.size > 0}
-      loading={!role.size}
-      type={NAMESPACE}
-    >
+    <LoadingIndicator hasData={formMode.get("isNew") || role?.size > 0} loading={!role.size} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
         <ActionButtons
           formMode={formMode}

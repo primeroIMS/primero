@@ -9,5 +9,4 @@ export const getLocale = state => {
     : defaultLocale;
 };
 
-export const getLocales = state =>
-  state.getIn(["application", "locales"], fromJS([]));
+export const getLocales = state => state.getIn(["application", "locales"], fromJS([]));

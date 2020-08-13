@@ -17,9 +17,7 @@ describe("<LoginForm /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    dispatch(
-      actionCreators.attemptLogin({ user_name: "primero", password: "test" })
-    );
+    dispatch(actionCreators.attemptLogin({ user_name: "primero", password: "test" }));
 
     expect(dispatch.getCall(0).returnValue.type).to.eql("user/LOGIN");
     expect(dispatch.getCall(0).returnValue.api.body).to.eql({

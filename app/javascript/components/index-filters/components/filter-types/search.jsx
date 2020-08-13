@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { IconButton, InputBase, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import DisableOffline from "../../../disable-offline";
 import { useI18n } from "../../../i18n";
@@ -64,11 +64,7 @@ const Search = ({ handleReset }) => {
     <div className={css.searchContainer}>
       <div className={css.searchInputContainer}>
         <DisableOffline button>
-          <IconButton
-            className={css.iconSearchButton}
-            aria-label={i18n.t("navigation.search")}
-            type="submit"
-          >
+          <IconButton className={css.iconSearchButton} aria-label="menu" type="submit">
             <SearchIcon />
           </IconButton>
         </DisableOffline>
@@ -82,11 +78,7 @@ const Search = ({ handleReset }) => {
           inputProps={{ "aria-label": i18n.t("navigation.search") }}
           endAdornment={
             <InputAdornment position="end">
-              <IconButton
-                aria-label={i18n.t("navigation.search")}
-                className={css.iconSearchButton}
-                onClick={handleClear}
-              >
+              <IconButton className={css.iconSearchButton} onClick={handleClear}>
                 <ClearIcon />
               </IconButton>
             </InputAdornment>

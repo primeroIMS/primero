@@ -1,24 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { IconButton, Box } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "../../styles.css";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
 import AttachmentPreview from "./attachment-preview";
 
-const AttachmentField = ({
-  name,
-  index,
-  attachment,
-  disabled,
-  mode,
-  arrayHelpers,
-  value
-}) => {
+const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers, value }) => {
   const css = makeStyles(styles)();
   const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
 
@@ -44,25 +38,23 @@ const AttachmentField = ({
           {!mode.isShow && (
             <>
               {attachmentUrl ? (
-                <AttachmentPreview
-                  attachment={attachment}
-                  attachmentUrl={attachmentUrl}
-                />
+                <AttachmentPreview attachment={attachment} attachmentUrl={attachmentUrl} />
               ) : (
-                <AttachmentInput
-                  fields={fields}
-                  attachment={attachment}
-                  name={name}
-                />
+                <AttachmentInput fields={fields} attachment={attachment} name={name} />
               )}
             </>
           )}
         </Box>
         {disabled && !mode.isShow && (
           <div>
-            <IconButton aria-label="delete" onClick={handleRemove}>
-              <DeleteIcon />
-            </IconButton>
+            <ActionButton
+              icon={<DeleteIcon />}
+              type={ACTION_BUTTON_TYPES.icon}
+              isCancel
+              rest={{
+                onClick: handleRemove
+              }}
+            />
           </div>
         )}
       </Box>

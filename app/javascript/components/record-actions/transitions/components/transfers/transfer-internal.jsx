@@ -29,13 +29,7 @@ const TransferInternal = ({ disableControl, fields }) => {
       );
     }
 
-    return (
-      <Field
-        key={f.id}
-        name={f.id}
-        render={props => searchableField(f, props, disableControl, i18n)}
-      />
-    );
+    return <Field key={f.id} name={f.id} render={props => searchableField(f, props, disableControl, i18n)} />;
   });
 
   return <>{transferInternalForm}</>;

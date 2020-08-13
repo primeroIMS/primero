@@ -4,12 +4,7 @@ import { useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 
 import Permission from "../../../../application/permission";
-import {
-  RESOURCES,
-  ACTIONS,
-  DASH_APPROVALS,
-  DASH_APPROVALS_PENDING
-} from "../../../../../libs/permissions";
+import { RESOURCES, ACTIONS, DASH_APPROVALS, DASH_APPROVALS_PENDING } from "../../../../../libs/permissions";
 import { OptionsBox } from "../../../../dashboard";
 import { DASHBOARD_TYPES } from "../../constants";
 import { useI18n } from "../../../../i18n";
@@ -18,9 +13,13 @@ import {
   getApprovalsAssessmentPending,
   getApprovalsClosurePending,
   getApprovalsCasePlanPending,
+  getApprovalsActionPlanPending,
+  getApprovalsGbvClosurePending,
   getApprovalsAssessment,
   getApprovalsCasePlan,
-  getApprovalsClosure
+  getApprovalsClosure,
+  getApprovalsActionPlan,
+  getApprovalsGbvClosure
 } from "../../selectors";
 import { useApp } from "../../../../application";
 
@@ -30,32 +29,32 @@ const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
 
-  const approvalsAssessmentPending = useSelector(state =>
-    getApprovalsAssessmentPending(state)
-  );
-  const approvalsCasePlanPending = useSelector(state =>
-    getApprovalsClosurePending(state)
-  );
-  const approvalsClosurePending = useSelector(state =>
-    getApprovalsCasePlanPending(state)
-  );
-  const approvalsAssessment = useSelector(state =>
-    getApprovalsAssessment(state)
-  );
+  const approvalsAssessmentPending = useSelector(state => getApprovalsAssessmentPending(state));
+  const approvalsCasePlanPending = useSelector(state => getApprovalsClosurePending(state));
+  const approvalsClosurePending = useSelector(state => getApprovalsCasePlanPending(state));
+  const approvalsActionPlanPending = useSelector(state => getApprovalsActionPlanPending(state));
+  const approvalsGbvClosurePending = useSelector(state => getApprovalsGbvClosurePending(state));
+  const approvalsAssessment = useSelector(state => getApprovalsAssessment(state));
   const approvalsCasePlan = useSelector(state => getApprovalsCasePlan(state));
   const approvalsClosure = useSelector(state => getApprovalsClosure(state));
+  const approvalsActionPlan = useSelector(state => getApprovalsActionPlan(state));
+  const approvalsGbvClosure = useSelector(state => getApprovalsGbvClosure(state));
 
   const pendingApprovalsItems = toApprovalsManager([
     approvalsAssessmentPending,
     approvalsCasePlanPending,
-    approvalsClosurePending
+    approvalsClosurePending,
+    approvalsActionPlanPending,
+    approvalsGbvClosurePending
   ]);
 
   const approvalsDashHasData = Boolean(
     pendingApprovalsItems.get("indicators").size ||
       approvalsAssessment.size ||
       approvalsCasePlan.size ||
-      approvalsClosure.size
+      approvalsClosure.size ||
+      approvalsActionPlan.size ||
+      approvalsGbvClosure.size
   );
 
   const dashboards = [
@@ -91,6 +90,22 @@ const Component = ({ loadingIndicator }) => {
         items: approvalsClosure,
         sumTitle: approvalsLabels.closure
       }
+    },
+    {
+      type: DASHBOARD_TYPES.OVERVIEW_BOX,
+      actions: ACTIONS.DASH_APPROVALS_ACTION_PLAN,
+      options: {
+        items: approvalsActionPlan,
+        sumTitle: approvalsLabels.action_plan
+      }
+    },
+    {
+      type: DASHBOARD_TYPES.OVERVIEW_BOX,
+      actions: ACTIONS.DASH_APPROVALS_GBV_CLOSURE,
+      options: {
+        items: approvalsGbvClosure,
+        sumTitle: approvalsLabels.gbv_closure
+      }
     }
   ];
 
@@ -100,11 +115,7 @@ const Component = ({ loadingIndicator }) => {
       const Dashboard = dashboardType(type);
 
       return (
-        <Permission
-          key={actions}
-          resources={RESOURCES.dashboards}
-          actions={actions}
-        >
+        <Permission key={actions} resources={RESOURCES.dashboards} actions={actions}>
           <Grid item xs>
             <OptionsBox flat>
               <Dashboard {...options} />
@@ -118,11 +129,7 @@ const Component = ({ loadingIndicator }) => {
   return (
     <Permission resources={RESOURCES.dashboards} actions={DASH_APPROVALS}>
       <Grid item xl={9} md={8} xs={12}>
-        <OptionsBox
-          title={i18n.t("dashboard.approvals")}
-          hasData={approvalsDashHasData}
-          {...loadingIndicator}
-        >
+        <OptionsBox title={i18n.t("dashboard.approvals")} hasData={approvalsDashHasData} {...loadingIndicator}>
           <Grid item md={12}>
             <Grid container>{renderDashboards()}</Grid>
           </Grid>

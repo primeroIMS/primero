@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
 
@@ -38,25 +38,15 @@ const Component = ({
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();
-  const {
-    options,
-    field_name: fieldName,
-    option_strings_source: optionStringsSource
-  } = filter;
+  const { options, field_name: fieldName, option_strings_source: optionStringsSource } = filter;
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
 
-  const lookup = useSelector(state =>
-    getOption(state, optionStringsSource, i18n.locale)
-  );
+  const lookup = useSelector(state => getOption(state, optionStringsSource, i18n.locale));
 
-  const locations = useSelector(state =>
-    getLocations(state, optionStringsSource === "Location")
-  );
+  const locations = useSelector(state => getLocations(state, optionStringsSource === "Location"));
 
-  const lookups = ["Location"].includes(optionStringsSource)
-    ? locations?.toJS()
-    : lookup;
+  const lookups = ["Location"].includes(optionStringsSource) ? locations?.toJS() : lookup;
 
   const setSecondaryValues = (name, values) => {
     setValue(name, values);
@@ -65,13 +55,7 @@ const Component = ({
 
   const handleReset = () => {
     setValue(fieldName, []);
-    resetSecondaryFilter(
-      mode?.secondary,
-      fieldName,
-      getValues()[fieldName],
-      moreSectionFilters,
-      setMoreSectionFilters
-    );
+    resetSecondaryFilter(mode?.secondary, fieldName, getValues()[fieldName], moreSectionFilters, setMoreSectionFilters);
 
     if (addFilterToList) {
       addFilterToList({ [fieldName]: undefined });
@@ -88,16 +72,9 @@ const Component = ({
       isMultiSelect: multiple
     });
 
-    const value = lookups.filter(l =>
-      moreSectionFilters?.[fieldName]?.includes(l?.code || l?.id)
-    );
+    const value = lookups.filter(l => moreSectionFilters?.[fieldName]?.includes(l?.code || l?.id));
 
-    setMoreFilterOnPrimarySection(
-      moreSectionFilters,
-      fieldName,
-      setSecondaryValues,
-      value
-    );
+    setMoreFilterOnPrimarySection(moreSectionFilters, fieldName, setSecondaryValues, value);
 
     if (reset && !mode?.defaultFilter) {
       handleReset();
@@ -107,9 +84,7 @@ const Component = ({
       const paramValues = queryParams[fieldName];
 
       if (paramValues?.length) {
-        const selected = lookups.filter(l =>
-          paramValues.includes(l?.code?.toString() || l?.id?.toString())
-        );
+        const selected = lookups.filter(l => paramValues.includes(l?.code?.toString() || l?.id?.toString()));
 
         setValue(fieldName, selected);
         setInputValue(selected);
@@ -143,12 +118,7 @@ const Component = ({
     });
 
     if (mode?.secondary) {
-      handleMoreFiltersChange(
-        moreSectionFilters,
-        setMoreSectionFilters,
-        fieldName,
-        getValues()[fieldName]
-      );
+      handleMoreFiltersChange(moreSectionFilters, setMoreSectionFilters, fieldName, getValues()[fieldName]);
     }
 
     if (addFilterToList) {
@@ -160,9 +130,7 @@ const Component = ({
     let foundOption = option;
 
     if (typeof option === "string") {
-      [foundOption] = lookups.filter(lookupValue =>
-        [lookupValue?.code, lookupValue?.id].includes(option)
-      );
+      [foundOption] = lookups.filter(lookupValue => [lookupValue?.code, lookupValue?.id].includes(option));
     }
 
     return (
@@ -188,9 +156,7 @@ const Component = ({
         options={filterOptions}
         value={inputValue}
         getOptionSelected={(option, value) => option.id === value.id}
-        renderInput={params => (
-          <TextField {...params} fullWidth margin="normal" variant="outlined" />
-        )}
+        renderInput={params => <TextField {...params} fullWidth margin="normal" variant="outlined" />}
       />
     </Panel>
   );

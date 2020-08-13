@@ -1,8 +1,9 @@
 import { fromJS } from "immutable";
-import { IconButton, Menu, MenuItem } from "@material-ui/core";
+import { Menu, MenuItem } from "@material-ui/core";
 
 import { ACTIONS } from "../../../../../libs/permissions";
 import { setupMountedComponent } from "../../../../../test";
+import ActionButton from "../../../../action-button";
 
 import SubformMenu from "./component";
 
@@ -87,13 +88,9 @@ describe("<SubformMenu />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(
-      SubformMenu,
-      props,
-      initialState
-    );
+    const { component } = setupMountedComponent(SubformMenu, props, initialState);
 
-    component.find(IconButton).find("button").simulate("click");
+    component.find(ActionButton).find("button").simulate("click");
 
     expect(component.find(MenuItem)).lengthOf(1);
   });

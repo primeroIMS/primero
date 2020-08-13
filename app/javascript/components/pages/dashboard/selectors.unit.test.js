@@ -29,11 +29,7 @@ const reportingLocation = {
     reporting_location_open: {
       "1506060": {
         count: 1,
-        query: [
-          "record_state=true",
-          "status=open",
-          "owned_by_location2=1506060"
-        ]
+        query: ["record_state=true", "status=open", "owned_by_location2=1506060"]
       }
     },
     reporting_location_open_last_week: {},
@@ -59,11 +55,7 @@ const approvalsCasePlanPending = {
   indicators: {
     approval_case_plan_pending_group: {
       count: 2,
-      query: [
-        "record_state=true",
-        "status=open",
-        "approval_status_case_plan=pending"
-      ]
+      query: ["record_state=true", "status=open", "approval_status_case_plan=pending"]
     }
   }
 };
@@ -73,11 +65,7 @@ const approvalsClosurePending = {
   indicators: {
     approval_closure_pending_group: {
       count: 1,
-      query: [
-        "record_state=true",
-        "status=open",
-        "approval_status_closure=pending"
-      ]
+      query: ["record_state=true", "status=open", "approval_status_closure=pending"]
     }
   }
 };
@@ -89,11 +77,7 @@ const protectionConcern = {
     protection_concerns_open_cases: {
       statelessness: {
         count: 2,
-        query: [
-          "record_state=true",
-          "status=open",
-          "protection_concerns=statelessness"
-        ]
+        query: ["record_state=true", "status=open", "protection_concerns=statelessness"]
       }
     },
     protection_concerns_new_this_week: {
@@ -152,30 +136,15 @@ const sharedWithOthers = {
   indicators: {
     shared_with_others_referrals: {
       count: 0,
-      query: [
-        "owned_by=primero_cp",
-        "record_state=true",
-        "status=open",
-        "referred_users_present=true"
-      ]
+      query: ["owned_by=primero_cp", "record_state=true", "status=open", "referred_users_present=true"]
     },
     shared_with_others_pending_transfers: {
       count: 0,
-      query: [
-        "owned_by=primero_cp",
-        "record_state=true",
-        "status=open",
-        "transfer_status=in_progress"
-      ]
+      query: ["owned_by=primero_cp", "record_state=true", "status=open", "transfer_status=in_progress"]
     },
     shared_with_others_rejected_transfers: {
       count: 0,
-      query: [
-        "owned_by=primero_cp",
-        "record_state=true",
-        "status=open",
-        "transfer_status=rejected"
-      ]
+      query: ["owned_by=primero_cp", "record_state=true", "status=open", "transfer_status=rejected"]
     }
   }
 };
@@ -227,6 +196,29 @@ const sharedWithMyTeam = {
   }
 };
 
+const myCasesIncidents = {
+  name: "dashboard.dash_case_incident_overview",
+  type: "indicator",
+  indicators: {
+    new_or_updated: {
+      query: ["record_state=true", "status=open", "not_edited_by_owner=true"],
+      count: 1
+    },
+    total: {
+      query: ["record_state=true", "status=open"],
+      count: 2
+    },
+    with_incidents: {
+      query: ["record_state=true", "status=open", "has_incidents=true"],
+      count: 0
+    },
+    without_incidents: {
+      query: ["record_state=true", "status=open", "has_incidents=false"],
+      count: 1
+    }
+  }
+};
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
   records: {
@@ -260,7 +252,8 @@ const initialState = fromJS({
         sharedWithOthers,
         groupOverview,
         caseOverview,
-        sharedWithMyTeam
+        sharedWithMyTeam,
+        myCasesIncidents
       ]
     }
   }
@@ -304,9 +297,7 @@ describe("<Dashboard /> - Selectors", () => {
         stats: {}
       });
 
-      const expected = selectors.getCasesByAssessmentLevel(
-        emptyValueInitialState
-      );
+      const expected = selectors.getCasesByAssessmentLevel(emptyValueInitialState);
 
       expect(emptyResult).to.deep.equal(expected);
     });
@@ -342,17 +333,17 @@ describe("<Dashboard /> - Selectors", () => {
     });
   });
 
-  describe("getApprovalsClosurePending", () => {
+  describe("getApprovalsCasePlanPending", () => {
     it("should return the approvals case plan pending", () => {
-      const values = selectors.getApprovalsClosurePending(initialState);
+      const values = selectors.getApprovalsCasePlanPending(initialState);
 
       expect(values).to.deep.equal(fromJS(approvalsCasePlanPending));
     });
   });
 
-  describe("getApprovalsCasePlanPending", () => {
-    it("should return the  approvals closure pending", () => {
-      const values = selectors.getApprovalsCasePlanPending(initialState);
+  describe("getApprovalsClosurePending", () => {
+    it("should return the approvals closure pending", () => {
+      const values = selectors.getApprovalsClosurePending(initialState);
 
       expect(values).to.deep.equal(fromJS(approvalsClosurePending));
     });
@@ -403,6 +394,14 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getSharedWithMyTeam(initialState);
 
       expect(values).to.deep.equal(fromJS(sharedWithMyTeam));
+    });
+  });
+
+  describe("getCaseIncidentOverview", () => {
+    it("should return the Overview - My Cases / Incidents dashboard", () => {
+      const values = selectors.getCaseIncidentOverview(initialState);
+
+      expect(values).to.deep.equal(fromJS(myCasesIncidents));
     });
   });
 });

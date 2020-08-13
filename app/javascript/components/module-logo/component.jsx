@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles, useTheme } from "@material-ui/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Box, useMediaQuery } from "@material-ui/core";
 
 import PrimeroLogo from "../../images/primero-logo.png";
@@ -37,11 +37,7 @@ const ModuleLogo = ({ moduleLogo, white }) => {
 
   return (
     <Box className={css.logoContainer}>
-      <img
-        src={tabletDisplay ? logo[1] : logo[0]}
-        alt="Primero"
-        className={css.logo}
-      />
+      <img src={tabletDisplay ? logo[1] : logo[0]} alt="Primero" className={css.logo} />
     </Box>
   );
 };

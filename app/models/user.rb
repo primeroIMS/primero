@@ -316,18 +316,20 @@ class User < ApplicationRecord
   # Returns the Agency if can only query from the agency this user has access to
   # Returns empty list if can query for all records in the system
   def record_query_scope(record_model, id_search = false)
-    searching_owned_by_others = can?(:search_owned_by_others, record_model) && id_search
-    user_scope =
-      if group_permission?(Permission::ALL) || searching_owned_by_others
-        {}
-      elsif group_permission?(Permission::AGENCY)
-        { Permission::AGENCY => agency.unique_id }
-      elsif group_permission?(Permission::GROUP) && user_group_ids.present?
-        { Permission::GROUP => user_groups.pluck(:unique_id).compact }
-      else
-        self
-      end
+    user_scope = if can_search_for_all?(record_model, id_search)
+                   {}
+                 elsif group_permission?(Permission::AGENCY)
+                   { 'agency' => agency.unique_id }
+                 elsif group_permission?(Permission::GROUP) && user_group_ids.present?
+                   { 'group' => user_groups.pluck(:unique_id).compact }
+                 else
+                   { 'user' => user_name }
+                 end
     { user: user_scope, module: module_unique_ids }
+  end
+
+  def can_search_for_all?(record_model, id_search = false)
+    group_permission?(Permission::ALL) || (can?(:search_owned_by_others, record_model) && id_search)
   end
 
   def mobile_login_history
@@ -446,6 +448,14 @@ class User < ApplicationRecord
     can?(:approve_closure, Child) || can?(:request_approval_closure, Child)
   end
 
+  def can_approve_action_plan?
+    can?(:approve_action_plan, Child) || can?(:request_approval_action_plan, Child)
+  end
+
+  def can_approve_gbv_closure?
+    can?(:approve_gbv_closure, Child) || can?(:request_approval_gbv_closure, Child)
+  end
+
   # If we set something we gonna assume we need to update the user_groups
   def user_groups=(user_groups)
     @refresh_associated_user_groups = true
@@ -464,15 +474,18 @@ class User < ApplicationRecord
     # location/district. Performance degrades on save if the user
     # changes their location.
     return if ENV['PRIMERO_BOOTSTRAP']
-    return unless location_changed? || @refresh_associated_user_groups || agency_id_changed?
+    return unless location_changed? || @refresh_associated_user_groups || agency_id_changed? || agency_office_changed?
 
-    Child.owned_by(user_name).each do |child|
-      child.owned_by_location = location if location_changed?
-      child.owned_by_groups = user_group_ids if @refresh_associated_user_groups
-      child.owned_by_agency_id = agency_id if agency_id_changed?
-      child.save!
-    end
+    Child.owned_by(user_name).each { |child| update_child_owned_by_fields(child) }
     @refresh_associated_user_agencies = agency_id_changed?
+  end
+
+  def update_child_owned_by_fields(child)
+    child.owned_by_location = location if location_changed?
+    child.owned_by_groups = user_group_ids if @refresh_associated_user_groups
+    child.owned_by_agency_id = agency_id if agency_id_changed?
+    child.owned_by_agency_office = agency_office if agency_office_changed?
+    child.save!
   end
 
   def set_locale
@@ -490,6 +503,10 @@ class User < ApplicationRecord
 
   def agency_id_changed?
     changes_to_save['agency_id'].present?
+  end
+
+  def agency_office_changed?
+    changes_to_save['agency_office'].present? && !changes_to_save['agency_office'].eql?([nil, ''])
   end
 
   def make_user_name_lowercase

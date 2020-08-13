@@ -18,11 +18,7 @@ import { WRITE_RECORDS } from "../../../../libs/permissions";
 import bindFormSubmit from "../../../../libs/submit-form";
 
 import { form, validations } from "./form";
-import {
-  fetchUserGroup,
-  clearSelectedUserGroup,
-  saveUserGroup
-} from "./action-creators";
+import { fetchUserGroup, clearSelectedUserGroup, saveUserGroup } from "./action-creators";
 import { getUserGroup, getServerErrors, getSavingRecord } from "./selectors";
 import { NAME } from "./constants";
 
@@ -45,15 +41,9 @@ const Container = ({ mode }) => {
     dispatch(
       saveUserGroup({
         id,
-        saveMethod: formMode.get("isEdit")
-          ? SAVE_METHODS.update
-          : SAVE_METHODS.new,
+        saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
         body: { data },
-        message: i18n.t(
-          `user_group.messages.${
-            formMode.get("isEdit") ? "updated" : "created"
-          }`
-        )
+        message: i18n.t(`user_group.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
       })
     );
   };
@@ -81,12 +71,7 @@ const Container = ({ mode }) => {
   const saveButton =
     formMode.get("isEdit") || formMode.get("isNew") ? (
       <>
-        <FormAction
-          cancel
-          actionHandler={handleCancel}
-          text={i18n.t("buttons.cancel")}
-          startIcon={<ClearIcon />}
-        />
+        <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
         <FormAction
           actionHandler={() => bindFormSubmit(formRef)}
           text={i18n.t("buttons.save")}
@@ -97,11 +82,7 @@ const Container = ({ mode }) => {
     ) : null;
 
   const editButton = formMode.get("isShow") ? (
-    <FormAction
-      actionHandler={handleEdit}
-      text={i18n.t("buttons.edit")}
-      startIcon={<CreateIcon />}
-    />
+    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
   ) : null;
 
   const pageHeading = userGroup?.size

@@ -5,10 +5,7 @@ import { Formik, Form } from "formik";
 
 import ActionDialog from "../../action-dialog";
 import { useI18n } from "../../i18n";
-import {
-  getRecordFormsByUniqueId,
-  constructInitialValues
-} from "../../record-form";
+import { getRecordFormsByUniqueId, constructInitialValues } from "../../record-form";
 import { MODULES, RECORD_TYPES, ID_FIELD } from "../../../config";
 import { saveRecord, selectRecordsByIndexes } from "../../records";
 import { compactValues } from "../../record-form/utils";
@@ -22,14 +19,7 @@ import { INCIDENT_DIALOG } from "../constants";
 import { NAME, INCIDENT_SUBFORM } from "./constants";
 import Fields from "./fields";
 
-const Component = ({
-  openIncidentDialog,
-  close,
-  pending,
-  recordType,
-  selectedRowsIndex,
-  setPending
-}) => {
+const Component = ({ openIncidentDialog, close, pending, recordType, selectedRowsIndex, setPending }) => {
   const formikRef = useRef();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -44,9 +34,7 @@ const Component = ({
   );
 
   const selectedIds = useSelector(state =>
-    selectRecordsByIndexes(state, recordType, selectedRowsIndex).map(record =>
-      record.get(ID_FIELD)
-    )
+    selectRecordsByIndexes(state, recordType, selectedRowsIndex).map(record => record.get(ID_FIELD))
   );
 
   useEffect(() => {
@@ -59,10 +47,7 @@ const Component = ({
     return [];
   }
 
-  const {
-    subform_section_id: subformSectionID,
-    name: subformName
-  } = form.first().fields[0];
+  const { subform_section_id: subformSectionID, name: subformName } = form.first().fields[0];
   const initialFormValues = constructInitialValues([subformSectionID]);
 
   const modalProps = {

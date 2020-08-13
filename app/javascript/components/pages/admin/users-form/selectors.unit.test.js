@@ -2,12 +2,7 @@ import { fromJS } from "immutable";
 
 import NAMESPACE from "../namespace";
 
-import {
-  getUser,
-  getErrors,
-  getServerErrors,
-  getSavingRecord
-} from "./selectors";
+import { getUser, getErrors, getServerErrors, getSavingRecord } from "./selectors";
 
 const stateWithHeaders = fromJS({
   records: {
@@ -25,11 +20,7 @@ const stateWithoutHeaders = fromJS({});
 describe("<UsersForm /> - Selectors", () => {
   describe("getUser", () => {
     it("should return selected user", () => {
-      const expected = stateWithHeaders.getIn([
-        "records",
-        NAMESPACE,
-        "selectedUser"
-      ]);
+      const expected = stateWithHeaders.getIn(["records", NAMESPACE, "selectedUser"]);
 
       const user = getUser(stateWithHeaders);
 
@@ -61,11 +52,7 @@ describe("<UsersForm /> - Selectors", () => {
 
   describe("getServerErrors", () => {
     it("should return server errors", () => {
-      const expected = stateWithHeaders.getIn([
-        "records",
-        NAMESPACE,
-        "serverErrors"
-      ]);
+      const expected = stateWithHeaders.getIn(["records", NAMESPACE, "serverErrors"]);
 
       const serverErrors = getServerErrors(stateWithHeaders);
 

@@ -1,11 +1,6 @@
 import { fromJS, List } from "immutable";
 import MUIDataTable from "mui-datatables";
-import {
-  CircularProgress,
-  Typography,
-  Checkbox,
-  TablePagination
-} from "@material-ui/core";
+import { CircularProgress, Typography, Checkbox, TablePagination } from "@material-ui/core";
 
 import LoadingIndicator from "../loading-indicator";
 import { setupMountedComponent, fake } from "../../test";
@@ -44,6 +39,7 @@ describe("<IndexTable />", () => {
     }
   };
   const props = {
+    title: "testTitle",
     onTableChange: fake.returns({
       type: "test",
       payload: []
@@ -140,6 +136,18 @@ describe("<IndexTable />", () => {
     expect(component.find(MUIDataTable)).to.have.lengthOf(1);
   });
 
+  it("should render Caption", () => {
+    const testTitle = component.find(IndexTable).find("caption").text();
+
+    expect(testTitle).to.equals("testTitle");
+  });
+
+  it("should have attribute aria-label", () => {
+    const label = component.find(MUIDataTable).find("table").first().props()["aria-label"];
+
+    expect(label).to.equals(props.title);
+  });
+
   it("should change sort order to ascending if user clicks on a column", () => {
     const nameColumnIndex = 3;
     const table = component.find(IndexTable);
@@ -149,9 +157,7 @@ describe("<IndexTable />", () => {
 
     table.find("thead th span").at(nameColumnIndex).simulate("click");
 
-    expect(table.find("div").last().text()).to.be.be.equals(
-      "Table now sorted by name : ascending"
-    );
+    expect(table.find("div").last().text()).to.be.be.equals("Table now sorted by name : ascending");
   });
 
   describe("When data still loading", () => {
@@ -179,11 +185,7 @@ describe("<IndexTable />", () => {
     });
 
     before(() => {
-      ({ component: loadingComponent } = setupMountedComponent(
-        IndexTable,
-        props,
-        loadingInitialState
-      ));
+      ({ component: loadingComponent } = setupMountedComponent(IndexTable, props, loadingInitialState));
     });
 
     it("renders IndexTable component", () => {
@@ -203,22 +205,14 @@ describe("<IndexTable />", () => {
     };
 
     before(() => {
-      ({ component: recordsSelectedComponent } = setupMountedComponent(
-        IndexTable,
-        propsRecordsSelected,
-        initialState
-      ));
+      ({ component: recordsSelectedComponent } = setupMountedComponent(IndexTable, propsRecordsSelected, initialState));
     });
 
     it("renders CustomToolbarSelect component", () => {
-      expect(
-        recordsSelectedComponent.find(CustomToolbarSelect)
-      ).to.have.lengthOf(1);
+      expect(recordsSelectedComponent.find(CustomToolbarSelect)).to.have.lengthOf(1);
     });
     it("renders Typography component", () => {
-      const customToolbarSelect = recordsSelectedComponent.find(
-        CustomToolbarSelect
-      );
+      const customToolbarSelect = recordsSelectedComponent.find(CustomToolbarSelect);
       const label = customToolbarSelect.find(Typography).find("h6");
 
       expect(label).to.have.lengthOf(1);
@@ -226,9 +220,7 @@ describe("<IndexTable />", () => {
     });
 
     it("renders TablePagination component", () => {
-      expect(recordsSelectedComponent.find(TablePagination)).to.have.lengthOf(
-        2
-      );
+      expect(recordsSelectedComponent.find(TablePagination)).to.have.lengthOf(2);
     });
   });
 
@@ -244,14 +236,10 @@ describe("<IndexTable />", () => {
     });
 
     it("should render CustomToolbarSelect called in CustomToolbar props", () => {
-      expect(
-        noRecordsSelectedComponent.find(CustomToolbarSelect)
-      ).to.have.lengthOf(1);
+      expect(noRecordsSelectedComponent.find(CustomToolbarSelect)).to.have.lengthOf(1);
     });
     it("renders TablePagination component", () => {
-      expect(noRecordsSelectedComponent.find(TablePagination)).to.have.lengthOf(
-        2
-      );
+      expect(noRecordsSelectedComponent.find(TablePagination)).to.have.lengthOf(2);
     });
   });
 

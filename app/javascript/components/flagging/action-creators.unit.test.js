@@ -28,9 +28,7 @@ describe("<Flagging /> - Action Creators", () => {
     actionCreators.fetchFlags(recordType, record)(dispatch);
 
     expect(dispatch.getCall(0).returnValue.type).to.eql("flags/FETCH_FLAGS");
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql(
-      `${recordType}/${record}/flags`
-    );
+    expect(dispatch.getCall(0).returnValue.api.path).to.eql(`${recordType}/${record}/flags`);
   });
 
   it("should check the 'unFlag' action creator to return the correct object", () => {
@@ -43,9 +41,7 @@ describe("<Flagging /> - Action Creators", () => {
     dispatch(actionCreators.unFlag(flagId, {}, "message", recordType, record));
 
     expect(dispatch.getCall(0).returnValue.type).to.eql("flags/UNFLAG");
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql(
-      `${recordType}/${record}/flags/${flagId}`
-    );
+    expect(dispatch.getCall(0).returnValue.api.path).to.eql(`${recordType}/${record}/flags/${flagId}`);
   });
 
   it("should check the 'addFlag' action creator to return the correct object", () => {

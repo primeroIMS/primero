@@ -1,7 +1,7 @@
-import React from "react";
-import { makeStyles } from "@material-ui/styles/";
+import React, { useEffect } from "react";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import { fromJS } from "immutable";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import isEqual from "lodash/isEqual";
 import Tooltip from "@material-ui/core/Tooltip";
 import clsx from "clsx";
@@ -11,10 +11,11 @@ import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
 import IndexTable from "../../index-table";
 import PageContainer, { PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
-import { getOption } from "../../record-form";
+import { getOption, getFields, getAllForms } from "../../record-form";
 import { LOOKUPS } from "../../../config";
+import { compare } from "../../../libs";
 
-import { selectListHeaders } from "./selectors";
+import { getMetadata, selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
 import styles from "./styles.css";
 import { TASK_TYPES, TASK_STATUS } from "./constants";
@@ -23,9 +24,12 @@ const TaskList = () => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const recordType = "tasks";
-  const listHeaders = useSelector(state =>
-    selectListHeaders(state, recordType)
-  );
+  const dispatch = useDispatch();
+  const defaultFilters = {
+    per: 20,
+    page: 1
+  };
+  const listHeaders = useSelector(state => selectListHeaders(state, recordType));
 
   const lookupServiceType = useSelector(
     state => getOption(state, LOOKUPS.service_type, i18n.locale),
@@ -41,6 +45,14 @@ const TaskList = () => {
     }
   );
 
+  const fields = useSelector(state => getFields(state), compare);
+  const forms = useSelector(state => getAllForms(state), compare);
+  const fieldNames = useSelector(state => getMetadata(state).get("field_names"), compare);
+
+  useEffect(() => {
+    dispatch(fetchTasks({ options: defaultFilters }));
+  }, []);
+
   const columns = data => {
     return listHeaders.map(c => {
       const options = {
@@ -52,9 +64,7 @@ const TaskList = () => {
                   return (
                     <DashboardChip
                       label={
-                        value
-                          ? i18n.t(`task.priorities.${value}_level`)
-                          : i18n.t("task.priorities.no_action_level")
+                        value ? i18n.t(`task.priorities.${value}_level`) : i18n.t("task.priorities.no_action_level")
                       }
                       type={value}
                     />
@@ -80,10 +90,7 @@ const TaskList = () => {
                           // eslint-disable-next-line camelcase
                         )?.display_text[i18n.locale];
 
-                  const renderValue = [
-                    TASK_TYPES.SERVICE,
-                    TASK_TYPES.FOLLOW_UP
-                  ].includes(value)
+                  const renderValue = [TASK_TYPES.SERVICE, TASK_TYPES.FOLLOW_UP].includes(value)
                     ? i18n.t(`task.types.${value}`, {
                         subtype: translatedValue
                       })
@@ -108,9 +115,7 @@ const TaskList = () => {
                     }
                   ]);
                   const tooltipTitle = i18n.t(
-                    `task.statuses.${
-                      overdue ? TASK_STATUS.overdue : TASK_STATUS.upcomingSoon
-                    }`
+                    `task.statuses.${overdue ? TASK_STATUS.overdue : TASK_STATUS.upcomingSoon}`
                   );
 
                   return (
@@ -119,6 +124,31 @@ const TaskList = () => {
                         {overdue ? <TasksOverdue /> : null}
                         {upcomingSoon ? <TasksPending /> : null}
                       </div>
+                    </Tooltip>
+                  );
+                }
+              }
+            : {}),
+          ...(c.name === "due_date"
+            ? {
+                // eslint-disable-next-line react/no-multi-comp, react/display-name
+                customBodyRender: (value, tableMeta) => {
+                  const recordData = data.get("data").get(tableMeta.rowIndex);
+                  const fieldName = fieldNames.get(recordData.get("type"));
+                  const selectedField = fields.filter(field => field.name === fieldName);
+
+                  const fieldKey = [...selectedField.keys()][0];
+                  const translatedFieldName = selectedField.first().display_name[i18n.locale];
+                  const selectedForm = forms.find(form => form.get("fields").includes(parseInt(fieldKey, 10)));
+
+                  return (
+                    <Tooltip
+                      title={i18n.t("messages.field_name_on_form_name", {
+                        field_name: translatedFieldName,
+                        form_name: selectedForm.name[i18n.locale]
+                      })}
+                    >
+                      <span>{value}</span>
                     </Tooltip>
                   );
                 }
@@ -143,19 +173,17 @@ const TaskList = () => {
     recordType,
     columns,
     options,
-    defaultFilters: fromJS({
-      per: 20,
-      page: 1
-    }),
+    defaultFilters: fromJS(defaultFilters),
     onTableChange: fetchTasks,
-    targetRecordType: "cases"
+    targetRecordType: "cases",
+    bypassInitialFetch: true
   };
 
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.tasks")} />
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <IndexTable title={i18n.t("navigation.tasks")} {...tableOptions} />
       </PageContent>
     </PageContainer>
   );

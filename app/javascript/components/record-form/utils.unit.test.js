@@ -93,9 +93,27 @@ describe("<RecordForms /> - utils", () => {
         ]
       };
 
-      expect(utils.compactValues(values, initialValues)).to.deep.equal(
-        expected
-      );
+      expect(utils.compactValues(values, initialValues)).to.deep.equal(expected);
+    });
+  });
+
+  describe("emptyValues", () => {
+    it("should return true if all of the object's values are empty", () => {
+      const testObject = {
+        a: [],
+        b: {},
+        c: false
+      };
+
+      expect(utils.emptyValues(testObject)).to.be.true;
+    });
+    it("should return false if any of the object's values are not empty", () => {
+      const testObject = {
+        a: [],
+        b: "Test 2"
+      };
+
+      expect(utils.emptyValues(testObject)).to.be.false;
     });
   });
 });

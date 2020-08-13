@@ -6,12 +6,7 @@ import { TRANSFER_CHECKBOX_NAME as NAME } from "./constants";
 
 const TransferCheckbox = ({ checked, onChange, label, disabled }) => {
   return (
-    <FormControlLabel
-      control={
-        <Checkbox checked={checked} onChange={onChange} disabled={disabled} />
-      }
-      label={label}
-    />
+    <FormControlLabel control={<Checkbox checked={checked} onChange={onChange} disabled={disabled} />} label={label} />
   );
 };
 

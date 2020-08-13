@@ -4,6 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
 import get from "lodash/get";
 
+import { notVisible } from "../utils";
 import { useI18n } from "../../i18n";
 import TextInput from "../fields/text-input";
 import SwitchInput from "../fields/switch-input";
@@ -14,6 +15,7 @@ import ToggleField from "../fields/toggle-input";
 import DateField from "../fields/date-input";
 import Seperator from "../fields/seperator";
 import OrderableOptionsField from "../fields/orderable-options-field";
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../config";
 import {
   CHECK_BOX_FIELD,
   ERROR_FIELD,
@@ -61,31 +63,20 @@ const FormSectionField = ({ checkErrors, field }) => {
     groupBy,
     tooltip,
     numeric,
-    onChange
+    onChange,
+    disableClearable
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
   const { formMode, errors, watch } = methods;
   const error = errors ? get(errors, name) : undefined;
 
-  const errorsToCheck = checkErrors
-    ? checkErrors.concat(fieldCheckErrors)
-    : fieldCheckErrors;
+  const errorsToCheck = checkErrors ? checkErrors.concat(fieldCheckErrors) : fieldCheckErrors;
 
   const optionSource = useSelector(
-    state =>
-      getOptions(
-        state,
-        optionStringsSource,
-        i18n,
-        options || optionsStringsText
-      ),
+    state => getOptions(state, optionStringsSource, i18n, options || optionsStringsText),
     (prev, next) => prev.equals(next)
   );
-
-  if (typeof visible === "boolean" && !visible) {
-    return null;
-  }
 
   const watchedInputsValues = watchedInputs ? watch(watchedInputs) : null;
   const watchedInputProps = handleWatchedInputs
@@ -94,19 +85,15 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   const renderError = () =>
     checkErrors?.size && errors
-      ? Object.keys(errors).some(
-          errorKey => checkErrors.includes(errorKey) && name.includes(errorKey)
-        )
+      ? Object.keys(errors).some(errorKey => checkErrors.includes(errorKey) && name.includes(errorKey))
       : false;
 
-  const format = dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy";
+  const format = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
 
   const commonInputProps = {
     name,
     disabled:
-      typeof disabled === "boolean"
-        ? disabled
-        : formMode.get("isShow") || (formMode.get("isEdit") && !editable),
+      typeof disabled === "boolean" ? disabled : formMode.get("isShow") || (formMode.get("isEdit") && !editable),
     required,
     autoFocus,
     error: typeof error !== "undefined" || renderError(),
@@ -133,7 +120,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     selectedValue,
     tooltip,
     numeric,
-    onChange
+    onChange,
+    disableClearable
   };
 
   const Field = (fieldType => {
@@ -164,6 +152,10 @@ const FormSectionField = ({ checkErrors, field }) => {
         return TextInput;
     }
   })(type);
+
+  if (notVisible(visible) || notVisible(watchedInputProps?.visible)) {
+    return null;
+  }
 
   return (
     <div>

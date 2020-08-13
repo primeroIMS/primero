@@ -11,17 +11,24 @@ describe("Verifying config constant", () => {
       "APPROVE_ASSESSMENT",
       "APPROVE_CASE_PLAN",
       "APPROVE_CLOSURE",
+      "APPROVE_ACTION_PLAN",
+      "APPROVE_GBV_CLOSURE",
       "ASSIGN",
       "ASSIGN_WITHIN_AGENCY_PERMISSIONS",
       "ASSIGN_WITHIN_USER_GROUP",
       "CLOSE",
       "CREATE",
+      "DASH_CASE_INCIDENT_OVERVIEW",
       "DASH_APPROVALS_ASSESSMENT",
       "DASH_APPROVALS_ASSESSMENT_PENDING",
       "DASH_APPROVALS_CASE_PLAN",
       "DASH_APPROVALS_CASE_PLAN_PENDING",
       "DASH_APPROVALS_CLOSURE",
       "DASH_APPROVALS_CLOSURE_PENDING",
+      "DASH_APPROVALS_ACTION_PLAN",
+      "DASH_APPROVALS_ACTION_PLAN_PENDING",
+      "DASH_APPROVALS_GBV_CLOSURE",
+      "DASH_APPROVALS_GBV_CLOSURE_PENDING",
       "DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT",
       "DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN",
       "DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS",
@@ -67,6 +74,8 @@ describe("Verifying config constant", () => {
       "REQUEST_APPROVAL_ASSESSMENT",
       "REQUEST_APPROVAL_CASE_PLAN",
       "REQUEST_APPROVAL_CLOSURE",
+      "REQUEST_APPROVAL_ACTION_PLAN",
+      "REQUEST_APPROVAL_GBV_CLOSURE",
       "SEARCH_OWNED_BY_OTHERS",
       "SERVICES_SECTION_FROM_CASE",
       "TRANSFER",
@@ -83,17 +92,13 @@ describe("Verifying config constant", () => {
       const currentPermissions = List(["refer"]);
       const allowedPermissions = ["refer"];
 
-      expect(
-        PERMISSIONS.checkPermissions(currentPermissions, allowedPermissions)
-      ).to.be.true;
+      expect(PERMISSIONS.checkPermissions(currentPermissions, allowedPermissions)).to.be.true;
     });
     it("should send false because current permission is not allowed", () => {
       const currentPermissions = List(["manage"]);
       const allowedPermissions = ["read"];
 
-      expect(
-        PERMISSIONS.checkPermissions(currentPermissions, allowedPermissions)
-      ).to.be.false;
+      expect(PERMISSIONS.checkPermissions(currentPermissions, allowedPermissions)).to.be.false;
     });
   });
 
@@ -129,12 +134,10 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.CREATE_REPORTS];
 
     expect(permissions).to.be.a("array");
-    [PERMISSIONS.ACTIONS.CREATE, PERMISSIONS.ACTIONS.MANAGE].forEach(
-      element => {
-        expect(permissions).to.include(element);
-        permissions.splice(permissions.indexOf(element), 1);
-      }
-    );
+    [PERMISSIONS.ACTIONS.CREATE, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
     expect(permissions).to.be.empty;
   });
 
@@ -142,11 +145,7 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.READ_REPORTS];
 
     expect(permissions).to.be.a("array");
-    [
-      PERMISSIONS.ACTIONS.READ,
-      PERMISSIONS.ACTIONS.GROUP_READ,
-      PERMISSIONS.ACTIONS.MANAGE
-    ].forEach(element => {
+    [PERMISSIONS.ACTIONS.READ, PERMISSIONS.ACTIONS.GROUP_READ, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
     });
@@ -157,12 +156,10 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.EXPORT_CUSTOM];
 
     expect(permissions).to.be.a("array");
-    [PERMISSIONS.ACTIONS.EXPORT_CUSTOM, PERMISSIONS.ACTIONS.MANAGE].forEach(
-      element => {
-        expect(permissions).to.include(element);
-        permissions.splice(permissions.indexOf(element), 1);
-      }
-    );
+    [PERMISSIONS.ACTIONS.EXPORT_CUSTOM, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
     expect(permissions).to.be.empty;
   });
 
@@ -170,12 +167,10 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.CREATE_RECORDS];
 
     expect(permissions).to.be.a("array");
-    [PERMISSIONS.ACTIONS.CREATE, PERMISSIONS.ACTIONS.MANAGE].forEach(
-      element => {
-        expect(permissions).to.include(element);
-        permissions.splice(permissions.indexOf(element), 1);
-      }
-    );
+    [PERMISSIONS.ACTIONS.CREATE, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
 
     expect(permissions).to.be.empty;
   });
@@ -206,10 +201,7 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.ENABLE_DISABLE_RECORD];
 
     expect(permissions).to.be.a("array");
-    [
-      PERMISSIONS.ACTIONS.ENABLE_DISABLE_RECORD,
-      PERMISSIONS.ACTIONS.MANAGE
-    ].forEach(element => {
+    [PERMISSIONS.ACTIONS.ENABLE_DISABLE_RECORD, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
     });
@@ -231,12 +223,10 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.ADD_NOTE];
 
     expect(permissions).to.be.a("array");
-    [PERMISSIONS.ACTIONS.ADD_NOTE, PERMISSIONS.ACTIONS.MANAGE].forEach(
-      element => {
-        expect(permissions).to.include(element);
-        permissions.splice(permissions.indexOf(element), 1);
-      }
-    );
+    [PERMISSIONS.ACTIONS.ADD_NOTE, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
     expect(permissions).to.be.empty;
   });
 
@@ -244,12 +234,10 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.DISPLAY_VIEW_PAGE];
 
     expect(permissions).to.be.a("array");
-    [PERMISSIONS.ACTIONS.DISPLAY_VIEW_PAGE, PERMISSIONS.ACTIONS.MANAGE].forEach(
-      element => {
-        expect(permissions).to.include(element);
-        permissions.splice(permissions.indexOf(element), 1);
-      }
-    );
+    [PERMISSIONS.ACTIONS.DISPLAY_VIEW_PAGE, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
     expect(permissions).to.be.empty;
   });
 
@@ -257,12 +245,10 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.SHOW_TASKS];
 
     expect(permissions).to.be.a("array");
-    [PERMISSIONS.ACTIONS.DASH_TASKS, PERMISSIONS.ACTIONS.MANAGE].forEach(
-      element => {
-        expect(permissions).to.include(element);
-        permissions.splice(permissions.indexOf(element), 1);
-      }
-    );
+    [PERMISSIONS.ACTIONS.DASH_TASKS, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
     expect(permissions).to.be.empty;
   });
 
@@ -298,7 +284,9 @@ describe("Verifying config constant", () => {
     [
       PERMISSIONS.ACTIONS.DASH_APPROVALS_ASSESSMENT_PENDING,
       PERMISSIONS.ACTIONS.DASH_APPROVALS_CASE_PLAN_PENDING,
-      PERMISSIONS.ACTIONS.DASH_APPROVALS_CLOSURE_PENDING
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CLOSURE_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_ACTION_PLAN_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_GBV_CLOSURE_PENDING
     ].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
@@ -314,9 +302,13 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.DASH_APPROVALS_ASSESSMENT_PENDING,
       PERMISSIONS.ACTIONS.DASH_APPROVALS_CASE_PLAN_PENDING,
       PERMISSIONS.ACTIONS.DASH_APPROVALS_CLOSURE_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_ACTION_PLAN_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_GBV_CLOSURE_PENDING,
       PERMISSIONS.ACTIONS.DASH_APPROVALS_ASSESSMENT,
       PERMISSIONS.ACTIONS.DASH_APPROVALS_CASE_PLAN,
-      PERMISSIONS.ACTIONS.DASH_APPROVALS_CLOSURE
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CLOSURE,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_ACTION_PLAN,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_GBV_CLOSURE
     ].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
@@ -343,7 +335,9 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.MANAGE,
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_ASSESSMENT,
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_CASE_PLAN,
-      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_CLOSURE
+      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_CLOSURE,
+      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_ACTION_PLAN,
+      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
     ].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
@@ -359,6 +353,8 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.APPROVE_ASSESSMENT,
       PERMISSIONS.ACTIONS.APPROVE_CASE_PLAN,
       PERMISSIONS.ACTIONS.APPROVE_CLOSURE,
+      PERMISSIONS.ACTIONS.APPROVE_ACTION_PLAN,
+      PERMISSIONS.ACTIONS.APPROVE_GBV_CLOSURE,
       PERMISSIONS.ACTIONS.MANAGE
     ].forEach(element => {
       expect(permissions).to.include(element);
@@ -375,10 +371,14 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.APPROVE_ASSESSMENT,
       PERMISSIONS.ACTIONS.APPROVE_CASE_PLAN,
       PERMISSIONS.ACTIONS.APPROVE_CLOSURE,
+      PERMISSIONS.ACTIONS.APPROVE_ACTION_PLAN,
+      PERMISSIONS.ACTIONS.APPROVE_GBV_CLOSURE,
       PERMISSIONS.ACTIONS.MANAGE,
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_ASSESSMENT,
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_CASE_PLAN,
-      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_CLOSURE
+      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_CLOSURE,
+      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_ACTION_PLAN,
+      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
     ].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);

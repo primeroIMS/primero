@@ -86,9 +86,7 @@ describe("<FormBuilder /> - utils", () => {
 
   describe("getFormRequestPath", () => {
     it("should return the correct path", () => {
-      expect(utils.getFormRequestPath(1, SAVE_METHODS.update)).to.equal(
-        "forms/1"
-      );
+      expect(utils.getFormRequestPath(1, SAVE_METHODS.update)).to.equal("forms/1");
     });
   });
 });
