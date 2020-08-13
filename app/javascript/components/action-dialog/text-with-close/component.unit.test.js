@@ -30,31 +30,21 @@ describe("<TitleWithClose />", () => {
     const TitleWithCloseProps = { ...component.find(TitleWithClose).props() };
 
     expect(component.find(TitleWithClose)).to.have.lengthOf(1);
-    ["closeHandler", "dialogAction", "dialogSubtitle", "dialogTitle"].forEach(
-      property => {
-        expect(TitleWithCloseProps).to.have.property(property);
-        delete TitleWithCloseProps[property];
-      }
-    );
+    ["closeHandler", "dialogAction", "dialogSubtitle", "dialogTitle"].forEach(property => {
+      expect(TitleWithCloseProps).to.have.property(property);
+      delete TitleWithCloseProps[property];
+    });
     expect(TitleWithCloseProps).to.be.empty;
   });
 
   it("should render a title with subtitle ", () => {
-    expect(component.find(DialogTitle).text()).to.be.equal(
-      "Test TitleTest Subtitle"
-    );
+    expect(component.find(DialogTitle).text()).to.be.equal("Test TitleTest Subtitle");
   });
 
   it("should render a title without subtitle", () => {
     delete props.dialogSubtitle;
-    const { component: componentWithoutSubtitle } = setupMountedComponent(
-      TitleWithClose,
-      props,
-      {}
-    );
+    const { component: componentWithoutSubtitle } = setupMountedComponent(TitleWithClose, props, {});
 
-    expect(componentWithoutSubtitle.find(DialogTitle).text()).to.be.equal(
-      "Test Title"
-    );
+    expect(componentWithoutSubtitle.find(DialogTitle).text()).to.be.equal("Test Title");
   });
 });

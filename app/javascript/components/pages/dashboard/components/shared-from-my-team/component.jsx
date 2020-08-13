@@ -20,20 +20,14 @@ const Component = ({ loadingIndicator }) => {
   };
 
   return (
-    <Permission
-      resources={RESOURCES.dashboards}
-      actions={ACTIONS.DASH_SHARED_FROM_MY_TEAM}
-    >
+    <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_SHARED_FROM_MY_TEAM}>
       <Grid item xl={9} md={8} xs={12}>
         <OptionsBox
           title={i18n.t("dashboard.dash_shared_from_my_team")}
           {...loadingIndicator}
           hasData={Boolean(sharedFromMyTeam.size)}
         >
-          <DashboardTable
-            title={i18n.t("dashboard.dash_shared_from_my_team")}
-            {...sharedFromMyTeamProps}
-          />
+          <DashboardTable title={i18n.t("dashboard.dash_shared_from_my_team")} {...sharedFromMyTeamProps} />
         </OptionsBox>
       </Grid>
     </Permission>

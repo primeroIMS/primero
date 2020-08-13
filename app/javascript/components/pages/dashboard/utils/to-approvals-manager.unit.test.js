@@ -11,11 +11,7 @@ describe("toApprovalsManager - pages/dashboard/utils/", () => {
         indicators: {
           approval_assessment_pending_group: {
             count: 3,
-            query: [
-              "record_state=true",
-              "status=open",
-              "approval_status_bia=pending"
-            ]
+            query: ["record_state=true", "status=open", "approval_status_bia=pending"]
           }
         }
       },
@@ -25,11 +21,7 @@ describe("toApprovalsManager - pages/dashboard/utils/", () => {
         indicators: {
           approval_case_plan_pending_group: {
             count: 2,
-            query: [
-              "record_state=true",
-              "status=open",
-              "approval_status_case_plan=pending"
-            ]
+            query: ["record_state=true", "status=open", "approval_status_case_plan=pending"]
           }
         }
       }
@@ -38,19 +30,11 @@ describe("toApprovalsManager - pages/dashboard/utils/", () => {
       indicators: {
         approval_assessment_pending_group: {
           count: 3,
-          query: [
-            "record_state=true",
-            "status=open",
-            "approval_status_bia=pending"
-          ]
+          query: ["record_state=true", "status=open", "approval_status_bia=pending"]
         },
         approval_case_plan_pending_group: {
           count: 2,
-          query: [
-            "record_state=true",
-            "status=open",
-            "approval_status_case_plan=pending"
-          ]
+          query: ["record_state=true", "status=open", "approval_status_case_plan=pending"]
         }
       }
     });
@@ -67,11 +51,7 @@ describe("toApprovalsManager - pages/dashboard/utils/", () => {
         indicators: {
           approval_assessment_pending_group: {
             count: 3,
-            query: [
-              "record_state=true",
-              "status=open",
-              "approval_status_bia=pending"
-            ]
+            query: ["record_state=true", "status=open", "approval_status_bia=pending"]
           }
         }
       },
@@ -85,11 +65,7 @@ describe("toApprovalsManager - pages/dashboard/utils/", () => {
       indicators: {
         approval_assessment_pending_group: {
           count: 3,
-          query: [
-            "record_state=true",
-            "status=open",
-            "approval_status_bia=pending"
-          ]
+          query: ["record_state=true", "status=open", "approval_status_bia=pending"]
         }
       }
     });

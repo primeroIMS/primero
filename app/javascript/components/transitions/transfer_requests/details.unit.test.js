@@ -41,11 +41,7 @@ describe("<ReferralDetail />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      ReferralDetail,
-      props,
-      initialState
-    ));
+    ({ component } = setupMountedComponent(ReferralDetail, props, initialState));
   });
 
   it("renders 2 <TransitionUser />", () => {

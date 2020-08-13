@@ -28,15 +28,10 @@ const Component = ({ showAll }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const selectedField = useSelector(state => getSelectedField(state), compare);
-  const openFieldDialog = useSelector(state =>
-    selectDialog(state, CUSTOM_FIELD_DIALOG)
-  );
+  const openFieldDialog = useSelector(state => selectDialog(state, CUSTOM_FIELD_DIALOG));
 
-  const selectedSubform = useSelector(
-    state => getSelectedSubform(state),
-    compare
-  );
   const isSubform = isSubformField(selectedField);
+  const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
 
   const handleDialog = () => {
     if (isSubform) {

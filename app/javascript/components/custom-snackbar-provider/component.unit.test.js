@@ -19,8 +19,6 @@ describe("<CustomSnackbarProvider /> - Component", () => {
   });
 
   it("renders <SnackbarProvider/>", () => {
-    expect(
-      component.find(CustomSnackbarProvider).find(SnackbarProvider)
-    ).to.have.lengthOf(1);
+    expect(component.find(CustomSnackbarProvider).find(SnackbarProvider)).to.have.lengthOf(1);
   });
 });

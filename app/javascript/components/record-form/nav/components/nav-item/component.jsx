@@ -37,17 +37,11 @@ const Component = ({
   };
 
   const formsWithAlerts =
-    recordAlerts?.size &&
-    [...recordAlerts.map(alert => alert.get("form_unique_id"))].filter(
-      alert => !isEmpty(alert)
-    );
+    recordAlerts?.size && [...recordAlerts.map(alert => alert.get("form_unique_id"))].filter(alert => !isEmpty(alert));
 
-  const validateAlert = item =>
-    !isEmpty(formsWithAlerts) && formsWithAlerts?.includes(item);
+  const validateAlert = item => !isEmpty(formsWithAlerts) && formsWithAlerts?.includes(item);
 
-  const showJewel = isNested
-    ? itemsOfGroup?.some(alert => validateAlert(alert))
-    : validateAlert(formId);
+  const showJewel = isNested ? itemsOfGroup?.some(alert => validateAlert(alert)) : validateAlert(formId);
 
   const formText = () => {
     return (
@@ -75,9 +69,7 @@ const Component = ({
         root: css.root
       }}
     >
-      <ListItemText className={groupItem ? css.nestedItem : css.item}>
-        {formText()}
-      </ListItemText>
+      <ListItemText className={groupItem ? css.nestedItem : css.item}>{formText()}</ListItemText>
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}
     </ListItem>
   );

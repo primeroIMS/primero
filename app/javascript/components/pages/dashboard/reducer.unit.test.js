@@ -2,12 +2,7 @@ import { fromJS } from "immutable";
 
 import * as userActions from "../../user/actions";
 
-import {
-  DASHBOARDS_STARTED,
-  DASHBOARDS_SUCCESS,
-  DASHBOARDS_FINISHED,
-  DASHBOARDS_FAILURE
-} from "./actions";
+import { DASHBOARDS_STARTED, DASHBOARDS_SUCCESS, DASHBOARDS_FINISHED, DASHBOARDS_FAILURE } from "./actions";
 import reducer from "./reducer";
 
 describe("<Dashboard /> - Reducers", () => {

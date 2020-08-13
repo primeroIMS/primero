@@ -29,11 +29,7 @@ describe("<ListFlagsItemActions />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      ListFlagsItemActions,
-      props,
-      initialState
-    ));
+    ({ component } = setupMountedComponent(ListFlagsItemActions, props, initialState));
   });
 
   it("should render the ListFlagsItem", () => {

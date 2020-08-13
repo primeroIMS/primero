@@ -36,18 +36,13 @@ describe("User - Selectors", () => {
 
   describe("with getPermissionsByRecord", () => {
     it("should return permissions if they're set", () => {
-      const permissionsByRecord = selectors.getPermissionsByRecord(
-        stateWithUser,
-        "cases"
-      );
+      const permissionsByRecord = selectors.getPermissionsByRecord(stateWithUser, "cases");
 
       expect(permissionsByRecord).to.deep.equal(fromJS([ACTIONS.MANAGE]));
     });
 
     it("should not return permissions if not set", () => {
-      const permissionsByRecord = selectors.getPermissionsByRecord(
-        stateWithoutUser
-      );
+      const permissionsByRecord = selectors.getPermissionsByRecord(stateWithoutUser);
 
       expect(permissionsByRecord).to.deep.equal(fromJS([]));
     });

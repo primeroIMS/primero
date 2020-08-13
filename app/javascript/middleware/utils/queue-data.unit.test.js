@@ -22,10 +22,7 @@ describe("middleware/utils/retrieve-data.js", () => {
     const resolvedData = {
       data: [{ field: "test" }]
     };
-    const generatedProperties = stub(
-      withGeneratedProperties,
-      "default"
-    ).returns({ ...action, fromQueue: "1234" });
+    const generatedProperties = stub(withGeneratedProperties, "default").returns({ ...action, fromQueue: "1234" });
 
     const id = stub(uuid, "v4").returns("1234");
     const queue = stub(queueIndexedDB, "add").resolves();

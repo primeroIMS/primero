@@ -47,29 +47,22 @@ const Component = ({
   };
 
   const { display_text: identityDisplayText } = identityOptions
-    ? identityOptions.find(
-        currentIdentity => currentIdentity.id === userData.identity_provider_id
-      ) || {}
+    ? identityOptions.find(currentIdentity => currentIdentity.id === userData.identity_provider_id) || {}
     : "";
 
   const { display_text: roleDisplayText } =
-    ROLE_OPTIONS.find(
-      currentRole => currentRole.id === userData.role_unique_id
-    ) || {};
+    ROLE_OPTIONS.find(currentRole => currentRole.id === userData.role_unique_id) || {};
 
   const dialogContent = (
     <p
       // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{
-        __html: i18n.t(
-          `user.messages.new_confirm_${isIdp ? "" : "non_identity_"}html`,
-          {
-            username: userName,
-            identity: identityDisplayText,
-            role: roleDisplayText,
-            email: userData.email
-          }
-        )
+        __html: i18n.t(`user.messages.new_confirm_${isIdp ? "" : "non_identity_"}html`, {
+          username: userName,
+          identity: identityDisplayText,
+          role: roleDisplayText,
+          email: userData.email
+        })
       }}
     />
   );

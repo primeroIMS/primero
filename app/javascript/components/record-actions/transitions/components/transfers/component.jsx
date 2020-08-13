@@ -10,10 +10,7 @@ import { enqueueSnackbar } from "../../../../notifier";
 import { selectAgencies } from "../../../../application/selectors";
 import { getLocations } from "../../../../record-form/selectors";
 import { RECORD_TYPES } from "../../../../../config";
-import {
-  getUsersByTransitionType,
-  getErrorsByTransitionType
-} from "../../selectors";
+import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selectors";
 import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
 import { TRANSITIONS_TYPES } from "../../../../transitions/constants";
 
@@ -48,13 +45,9 @@ const TransferForm = ({
     dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }));
   }, []);
 
-  const users = useSelector(state =>
-    getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer)
-  );
+  const users = useSelector(state => getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer));
 
-  const hasErrors = useSelector(state =>
-    getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer)
-  );
+  const hasErrors = useSelector(state => getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer));
 
   const agencies = useSelector(state => selectAgencies(state));
 
@@ -85,9 +78,7 @@ const TransferForm = ({
   const disableControl = !providedConsent && !disabled;
 
   const validationSchema = object().shape({
-    [TRANSITIONED_TO_FIELD]: string().required(
-      i18n.t("transfer.user_mandatory")
-    )
+    [TRANSITIONED_TO_FIELD]: string().required(i18n.t("transfer.user_mandatory"))
   });
 
   const formProps = {

@@ -1,10 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  createMuiTheme,
-  MuiThemeProvider,
-  useTheme
-} from "@material-ui/core/styles";
+import { createMuiTheme, MuiThemeProvider, useTheme } from "@material-ui/core/styles";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 

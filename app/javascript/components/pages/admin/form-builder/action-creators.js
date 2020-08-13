@@ -42,8 +42,7 @@ export const reorderFields = (name, order, isSubform) => ({
 });
 
 export const saveForm = ({ id, body, saveMethod, message }) => {
-  const method =
-    saveMethod === SAVE_METHODS.update ? METHODS.PATCH : METHODS.POST;
+  const method = saveMethod === SAVE_METHODS.update ? METHODS.PATCH : METHODS.POST;
 
   return {
     type: actions.SAVE_FORM,

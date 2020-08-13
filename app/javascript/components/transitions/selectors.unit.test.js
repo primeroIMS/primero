@@ -32,11 +32,7 @@ describe("<Transitions /> - Selectors", () => {
 
   describe("selectTransitions", () => {
     it("should return list of transitions", () => {
-      const records = selectors.selectTransitions(
-        state,
-        recordType,
-        "6b0018e7-d421-4d6b-80bf-ca4cbf488907"
-      );
+      const records = selectors.selectTransitions(state, recordType, "6b0018e7-d421-4d6b-80bf-ca4cbf488907");
 
       expect(records).to.deep.equal(dataExpected);
     });

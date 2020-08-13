@@ -36,22 +36,17 @@ const Component = ({
 
   const { subform_section_configuration: subformSectionConfiguration } = field;
 
-  const { display_conditions: displayConditions } =
-    subformSectionConfiguration || {};
+  const { display_conditions: displayConditions } = subformSectionConfiguration || {};
 
   const subformValues = () => {
     if (isValidIndex) {
       if (displayConditions) {
-        return valuesWithDisplayConditions(
-          getIn(formik.values, field.subform_section_id.unique_id),
-          displayConditions
-        )[index];
+        return valuesWithDisplayConditions(getIn(formik.values, field.subform_section_id.unique_id), displayConditions)[
+          index
+        ];
       }
 
-      return getIn(
-        formik.values,
-        `${field.subform_section_id.unique_id}[${index}]`
-      );
+      return getIn(formik.values, `${field.subform_section_id.unique_id}[${index}]`);
     }
 
     return {};
@@ -67,17 +62,13 @@ const Component = ({
     : {};
 
   const buildSchema = () => {
-    const subformSchema = field.subform_section_id.fields.map(sf =>
-      fieldValidations(sf, i18n)
-    );
+    const subformSchema = field.subform_section_id.fields.map(sf => fieldValidations(sf, i18n));
 
     return object().shape(Object.assign({}, ...subformSchema));
   };
 
   const handleClose = () => {
-    const changed = !emptyValues(
-      compactValues(childFormikRef.current.state.values, initialSubformValues)
-    );
+    const changed = !emptyValues(compactValues(childFormikRef.current.state.values, initialSubformValues));
 
     if (changed) {
       setOpenConfirmationModal(true);
@@ -94,11 +85,7 @@ const Component = ({
 
   const onSubmit = values => {
     if (isValidIndex) {
-      formik.setFieldValue(
-        `${field.subform_section_id.unique_id}[${index}]`,
-        values,
-        false
-      );
+      formik.setFieldValue(`${field.subform_section_id.unique_id}[${index}]`, values, false);
     } else {
       arrayHelpers.push({ ...initialSubformValues, ...values });
     }
@@ -122,22 +109,10 @@ const Component = ({
 
   const renderSubform = (subformField, subformIndex) => {
     if (subformField.subform_section_id.unique_id === "services_section") {
-      return (
-        <ServicesSubform
-          field={subformField}
-          index={subformIndex}
-          mode={mode}
-        />
-      );
+      return <ServicesSubform field={subformField} index={subformIndex} mode={mode} />;
     }
 
-    return (
-      <SubformDialogFields
-        field={subformField}
-        mode={mode}
-        index={subformIndex}
-      />
-    );
+    return <SubformDialogFields field={subformField} mode={mode} index={subformIndex} />;
   };
 
   const modalConfirmationProps = {

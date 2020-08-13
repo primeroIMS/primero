@@ -18,12 +18,7 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { ORDERABLE_OPTIONS_FIELD_NAME } from "./constants";
 import styles from "./styles.css";
 
-const OrderableOptionsField = ({
-  commonInputProps,
-  metaInputProps,
-  options,
-  showActionButtons
-}) => {
+const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, showActionButtons }) => {
   const i18n = useI18n();
   const [fieldOptions, setFieldOptions] = useState(options);
   const [removed, setRemoved] = useState([]);
@@ -31,21 +26,9 @@ const OrderableOptionsField = ({
   const { name } = commonInputProps;
   const { selectedValue } = metaInputProps;
   const fieldName = name.split(".")[0];
-  const {
-    control,
-    getValues,
-    register,
-    reset,
-    setValue,
-    unregister,
-    watch,
-    formMode
-  } = useFormContext();
+  const { control, getValues, register, reset, setValue, unregister, watch, formMode } = useFormContext();
 
-  const watchSelectedValue = watch(
-    `${fieldName}.selected_value`,
-    selectedValue
-  );
+  const watchSelectedValue = watch(`${fieldName}.selected_value`, selectedValue);
 
   useEffect(() => {
     fieldOptions.forEach((option, index) => {
@@ -82,8 +65,7 @@ const OrderableOptionsField = ({
 
   const handleDragEnd = result => {
     if (result && result.source && result.destination) {
-      const currentOptionValues = getValues({ nest: true })[fieldName]
-        .option_strings_text?.en;
+      const currentOptionValues = getValues({ nest: true })[fieldName].option_strings_text?.en;
       const reorderedOptions = mergeOptions(fieldOptions, currentOptionValues);
       const sourceIndex = result.source.index;
       const targetIndex = result.destination.index;
@@ -92,9 +74,7 @@ const OrderableOptionsField = ({
       reorderedOptions.splice(targetIndex, 0, sourceOption);
 
       reorderedOptions.forEach((option, index) => {
-        if (
-          !control.fields[`${fieldName}.option_strings_text.en[${index}].id`]
-        ) {
+        if (!control.fields[`${fieldName}.option_strings_text.en[${index}].id`]) {
           register(`${fieldName}.option_strings_text.en[${index}].id`);
         }
         setValue(`${fieldName}.option_strings_text.en[${index}].id`, option.id);
@@ -109,8 +89,7 @@ const OrderableOptionsField = ({
   };
 
   const onAddOption = () => {
-    const currentOptionValues = getValues({ nest: true })[fieldName]
-      .option_strings_text?.en;
+    const currentOptionValues = getValues({ nest: true })[fieldName].option_strings_text?.en;
     const reorderedOptions = mergeOptions(fieldOptions, currentOptionValues);
 
     setFieldOptions(
@@ -122,8 +101,7 @@ const OrderableOptionsField = ({
     );
   };
   const onRemoveValue = item => {
-    const currentOptionValues = getValues({ nest: true })[fieldName]
-      .option_strings_text?.en;
+    const currentOptionValues = getValues({ nest: true })[fieldName].option_strings_text?.en;
 
     setRemoved([...removed, item]);
     setFieldOptions([...currentOptionValues.filter(key => key.id !== item)]);
@@ -165,36 +143,20 @@ const OrderableOptionsField = ({
       </div>
     ) : null;
 
-  const renderLastColumn = formMode.get("isNew")
-    ? i18n.t("fields.remove")
-    : i18n.t("fields.enabled");
+  const renderLastColumn = formMode.get("isNew") ? i18n.t("fields.remove") : i18n.t("fields.enabled");
 
   return (
     <div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="droppable" type="option">
           {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
-            >
+            <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
               <div className={css.fieldHeaderRow}>
-                <div
-                  className={clsx([
-                    css.fieldColumn,
-                    css.fieldInput,
-                    css.fieldHeader
-                  ])}
-                >
+                <div className={clsx([css.fieldColumn, css.fieldInput, css.fieldHeader])}>
                   {i18n.t("fields.english_text")}
                 </div>
-                <div className={clsx([css.fieldColumn, css.fieldHeader])}>
-                  {i18n.t("fields.default")}
-                </div>
-                <div className={clsx([css.fieldColumn, css.fieldHeader])}>
-                  {renderLastColumn}
-                </div>
+                <div className={clsx([css.fieldColumn, css.fieldHeader])}>{i18n.t("fields.default")}</div>
+                <div className={clsx([css.fieldColumn, css.fieldHeader])}>{renderLastColumn}</div>
               </div>
               {renderOptions(fieldOptions)}
               {provided.placeholder}

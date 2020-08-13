@@ -34,23 +34,13 @@ describe("<FieldDialog />", () => {
   });
 
   it("should render the dialog", () => {
-    const { component } = setupMockFormComponent(
-      FieldDialog,
-      { mode: "edit" },
-      {},
-      initialState
-    );
+    const { component } = setupMockFormComponent(FieldDialog, { mode: "edit" }, {}, initialState);
 
     expect(component.find(FieldDialog)).to.have.lengthOf(1);
   });
 
   it("should render the FieldList if selectedField is subform", () => {
-    const { component } = setupMockFormComponent(
-      FieldDialog,
-      { mode: "edit" },
-      {},
-      initialState
-    );
+    const { component } = setupMockFormComponent(FieldDialog, { mode: "edit" }, {}, initialState);
 
     expect(component.find(FieldsList)).to.have.lengthOf(1);
   });
@@ -72,16 +62,9 @@ describe("<FieldDialog />", () => {
     });
 
     it("should render the dialog", () => {
-      const { component } = setupMockFormComponent(
-        FieldDialog,
-        { mode: "new" },
-        {},
-        initialStateNewMode
-      );
+      const { component } = setupMockFormComponent(FieldDialog, { mode: "new" }, {}, initialStateNewMode);
 
-      expect(component.find(FieldDialog).find(DialogTitle).text()).to.equal(
-        `fields.add_field_type`
-      );
+      expect(component.find(FieldDialog).find(DialogTitle).text()).to.equal(`fields.add_field_type`);
     });
   });
 });

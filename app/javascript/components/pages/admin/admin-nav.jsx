@@ -38,32 +38,18 @@ const AdminNav = () => {
 
     if (isParent) {
       const renderChildren = nav.items.map(navItem => {
-        const {
-          recordType: navItemRecordType,
-          permission: navItemPermission
-        } = navItem;
+        const { recordType: navItemRecordType, permission: navItemPermission } = navItem;
 
         if (!hasNavPermission(navItemRecordType, navItemPermission)) {
           return null;
         }
 
-        return (
-          <AdminNavItem
-            key={`${navItem.to}-child`}
-            item={navItem}
-            nestedClass={css.nestedItem}
-          />
-        );
+        return <AdminNavItem key={`${navItem.to}-child`} item={navItem} nestedClass={css.nestedItem} />;
       });
 
       return (
         <React.Fragment key={`${nav.to}-parent`}>
-          <AdminNavItem
-            item={nav}
-            open={open}
-            handleClick={handleClick}
-            isParent
-          />
+          <AdminNavItem item={nav} open={open} handleClick={handleClick} isParent />
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {renderChildren}

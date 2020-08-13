@@ -1,13 +1,6 @@
 import { fromJS } from "immutable";
 
-import {
-  DATE_FIELD,
-  RADIO_FIELD,
-  SELECT_FIELD,
-  SEPARATOR,
-  SUBFORM_SECTION,
-  TICK_FIELD
-} from "../../../../../form";
+import { DATE_FIELD, RADIO_FIELD, SELECT_FIELD, SEPARATOR, SUBFORM_SECTION, TICK_FIELD } from "../../../../../form";
 import { NEW_FIELD } from "../../constants";
 import { convertToFieldsObject } from "../../utils";
 
@@ -26,9 +19,7 @@ const getDateValidation = (field, isSubmit) => {
     return DATE_FIELD_CUSTOM_VALUES.date_validation[field.date_validation];
   }
 
-  return Object.entries(DATE_FIELD_CUSTOM_VALUES.date_validation).find(
-    obj => obj[1] === field.date_validation
-  )[0];
+  return Object.entries(DATE_FIELD_CUSTOM_VALUES.date_validation).find(obj => obj[1] === field.date_validation)[0];
 };
 
 const getSelectedDateValue = (field, isSubmit) => {
@@ -44,17 +35,12 @@ const getSelectedDateValue = (field, isSubmit) => {
       : selectedValue.withoutTime[field.selected_value];
   }
 
-  return Object.entries(
-    field.date_include_time ? selectedValue.withTime : selectedValue.withoutTime
-  ).find(obj => obj[1] === field.selected_value)[0];
+  return Object.entries(field.date_include_time ? selectedValue.withTime : selectedValue.withoutTime).find(
+    obj => obj[1] === field.selected_value
+  )[0];
 };
 
-const appendSettingsAttributes = (
-  data,
-  selectedField,
-  newFieldName,
-  lastFieldOrder
-) => {
+const appendSettingsAttributes = (data, selectedField, newFieldName, lastFieldOrder) => {
   const type = selectedField.get("type");
   const order = lastFieldOrder ? lastFieldOrder + 1 : 0;
   const multiSelect = {
@@ -98,11 +84,7 @@ export const getFormField = fieldOptions => {
   }
 };
 
-export const addWithIndex = (arr, index, newItem) => [
-  ...arr.slice(0, index),
-  newItem,
-  ...arr.slice(index)
-];
+export const addWithIndex = (arr, index, newItem) => [...arr.slice(0, index), newItem, ...arr.slice(index)];
 
 export const transformValues = (field, isSubmit = false) => {
   switch (field.type) {
@@ -160,23 +142,16 @@ export const setSubformData = (field, subform) => {
   if (subform) {
     return {
       ...field,
-      display_name: { en: subform?.name?.en || "" }
+      display_name: subform?.name
     };
   }
 
   return field;
 };
 
-export const generateUniqueId = (data, locale) =>
-  data[locale].replace(/[^\w]/g, "_").toLowerCase();
+export const generateUniqueId = (data, locale) => data[locale].replace(/[^\w]/g, "_").toLowerCase();
 
-export const buildDataToSave = (
-  selectedField,
-  data,
-  locale,
-  lastFieldOrder,
-  randomSubformId
-) => {
+export const buildDataToSave = (selectedField, data, locale, lastFieldOrder, randomSubformId) => {
   const fieldName = selectedField?.get("name");
 
   if (fieldName !== NEW_FIELD) {
@@ -184,12 +159,7 @@ export const buildDataToSave = (
   }
   const newFieldName = generateUniqueId(data.display_name, locale);
 
-  const dataToSave = appendSettingsAttributes(
-    data,
-    selectedField,
-    newFieldName,
-    lastFieldOrder
-  );
+  const dataToSave = appendSettingsAttributes(data, selectedField, newFieldName, lastFieldOrder);
 
   return {
     [newFieldName]:
@@ -203,11 +173,7 @@ export const buildDataToSave = (
   };
 };
 
-export const subformContainsFieldName = (
-  subform,
-  fieldName,
-  selectedSubformField = fromJS({})
-) => {
+export const subformContainsFieldName = (subform, fieldName, selectedSubformField = fromJS({})) => {
   if (selectedSubformField.size > 0) {
     return true;
   }

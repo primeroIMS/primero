@@ -93,9 +93,7 @@ describe("<RecordForms /> - utils", () => {
         ]
       };
 
-      expect(utils.compactValues(values, initialValues)).to.deep.equal(
-        expected
-      );
+      expect(utils.compactValues(values, initialValues)).to.deep.equal(expected);
     });
   });
 

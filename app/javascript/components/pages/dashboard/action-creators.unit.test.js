@@ -35,12 +35,8 @@ describe("<Dashboard /> - Action Creators", () => {
 
     dispatch(actionCreators.fetchDashboards());
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql(
-      actionsValues.DASHBOARDS
-    );
+    expect(dispatch.getCall(0).returnValue.type).to.eql(actionsValues.DASHBOARDS);
 
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql(
-      RECORD_PATH.dashboards
-    );
+    expect(dispatch.getCall(0).returnValue.api.path).to.eql(RECORD_PATH.dashboards);
   });
 });

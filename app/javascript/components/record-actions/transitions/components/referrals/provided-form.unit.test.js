@@ -18,23 +18,11 @@ describe("<ProvidedForm /> - referrals", () => {
     const props = {
       canConsentOverride: true
     };
-    const { component } = setupMountedComponent(
-      ProvidedForm,
-      props,
-      {},
-      [],
-      formProps
-    );
+    const { component } = setupMountedComponent(ProvidedForm, props, {}, [], formProps);
 
     expect(component.find(Grid), "renders 3 Grid").to.have.lengthOf(3);
-    expect(
-      component.find(FormControlLabel),
-      "renders single FormControlLabel"
-    ).to.have.lengthOf(1);
-    expect(
-      component.find(Checkbox),
-      "renders single Checkbox"
-    ).to.have.lengthOf(1);
+    expect(component.find(FormControlLabel), "renders single FormControlLabel").to.have.lengthOf(1);
+    expect(component.find(Checkbox), "renders single Checkbox").to.have.lengthOf(1);
     expect(component.find(Field), "renders single Field").to.have.lengthOf(1);
   });
 
@@ -42,26 +30,14 @@ describe("<ProvidedForm /> - referrals", () => {
     const props = {
       canConsentOverride: false
     };
-    const { component } = setupMountedComponent(
-      ProvidedForm,
-      props,
-      {},
-      [],
-      formProps
-    );
+    const { component } = setupMountedComponent(ProvidedForm, props, {}, [], formProps);
 
     expect(component.find(Grid), "renders 3 Grid").to.have.lengthOf(3);
     expect(
       component.find(Grid).find("span").props().children,
       "renders span with referral.provided_consent_labe"
     ).to.be.equal("referral.provided_consent_label");
-    expect(
-      component.find(FormControlLabel),
-      "should not render FormControlLabel"
-    ).to.not.have.lengthOf(1);
-    expect(
-      component.find(Checkbox),
-      "should not render Checkbox"
-    ).to.not.have.lengthOf(1);
+    expect(component.find(FormControlLabel), "should not render FormControlLabel").to.not.have.lengthOf(1);
+    expect(component.find(Checkbox), "should not render Checkbox").to.not.have.lengthOf(1);
   });
 });

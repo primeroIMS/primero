@@ -1,14 +1,7 @@
 import isEmpty from "lodash/isEmpty";
 import uniqBy from "lodash/uniqBy";
 
-import {
-  FieldRecord,
-  SELECT_FIELD,
-  RADIO_FIELD,
-  TEXT_AREA,
-  TEXT_FIELD,
-  TOGGLE_FIELD
-} from "../../form";
+import { FieldRecord, SELECT_FIELD, RADIO_FIELD, TEXT_AREA, TEXT_FIELD, TOGGLE_FIELD } from "../../form";
 import { SUBFORM_SECTION } from "../../record-form/constants";
 
 import { allowedExports } from "./utils";
@@ -42,12 +35,7 @@ export default (
     name: EXPORT_TYPE_FIELD,
     type: SELECT_FIELD,
     option_strings_text: {
-      [i18n.locale]: allowedExports(
-        userPermissions,
-        i18n,
-        isShowPage,
-        recordType
-      )
+      [i18n.locale]: allowedExports(userPermissions, i18n, isShowPage, recordType)
     },
     multi_select: false,
     required: true
@@ -58,8 +46,7 @@ export default (
     type: SELECT_FIELD,
     option_strings_text: modules,
     editable: modules.length > 1,
-    inputClassname:
-      !isCustomExport || isShowPage ? css.hideCustomExportFields : null,
+    inputClassname: !isCustomExport || isShowPage ? css.hideCustomExportFields : null,
     required: isCustomExport && !isShowPage
   }),
   FieldRecord({
@@ -84,10 +71,7 @@ export default (
     name: INDIVIDUAL_FIELDS_FIELD,
     display_name: i18n.t("exports.custom_exports.choose_fields"),
     type: TOGGLE_FIELD,
-    inputClassname:
-      !isCustomExport || formatType === FIELD_ID
-        ? css.hideCustomExportFields
-        : null,
+    inputClassname: !isCustomExport || formatType === FIELD_ID ? css.hideCustomExportFields : null,
     disabled: formatType === ""
   }),
   FieldRecord({
@@ -105,10 +89,7 @@ export default (
       "id"
     ),
     inputClassname:
-      !isCustomExport ||
-      (isCustomExport && isEmpty(formatType)) ||
-      individualFields ||
-      formatType === FIELD_ID
+      !isCustomExport || (isCustomExport && isEmpty(formatType)) || individualFields || formatType === FIELD_ID
         ? css.hideCustomExportFields
         : null
   }),
@@ -120,9 +101,7 @@ export default (
     groupBy: "formSectionName",
     option_strings_text: fields,
     inputClassname:
-      !isCustomExport ||
-      (isCustomExport && isEmpty(formatType)) ||
-      (!individualFields && formatType === FORMS_ID)
+      !isCustomExport || (isCustomExport && isEmpty(formatType)) || (!individualFields && formatType === FORMS_ID)
         ? css.hideCustomExportFields
         : null
   }),

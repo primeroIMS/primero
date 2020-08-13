@@ -441,9 +441,7 @@ describe("<FormsBuilder /> - Reducers", () => {
         const newState = reducer(stateWithData, action);
 
         expect(newState.get("selectedSubform")).to.deep.equal(expected);
-        expect(newState.get("subforms")).to.deep.equal(
-          fromJS([selectedSubform, expected])
-        );
+        expect(newState.get("subforms")).to.deep.equal(fromJS([selectedSubform, expected]));
       });
     });
 
@@ -481,9 +479,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(stateWithData, action);
 
-      expect(newState.get("selectedSubformField")).to.deep.equal(
-        fromJS(field2)
-      );
+      expect(newState.get("selectedSubformField")).to.deep.equal(fromJS(field2));
     });
   });
 

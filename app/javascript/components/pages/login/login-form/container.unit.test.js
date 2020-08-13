@@ -33,12 +33,8 @@ describe("<LoginForm />", () => {
   });
 
   it("renders username and password input fields", () => {
-    expect(component.find("input").first().prop("name")).to.have.equal(
-      "user_name"
-    );
-    expect(component.find("input").last().prop("name")).to.have.equal(
-      "password"
-    );
+    expect(component.find("input").first().prop("name")).to.have.equal("user_name");
+    expect(component.find("input").last().prop("name")).to.have.equal("password");
   });
 
   // TODO: Temp removal

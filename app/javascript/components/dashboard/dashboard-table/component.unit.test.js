@@ -39,9 +39,7 @@ describe("<DashboardTable />", () => {
   });
 
   it("should have attribute aria-label", () => {
-    const label = component.find(MUIDataTable).find("table").first().props()[
-      "aria-label"
-    ];
+    const label = component.find(MUIDataTable).find("table").first().props()["aria-label"];
 
     expect(label).to.equals(props.title);
   });

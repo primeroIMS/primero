@@ -40,11 +40,7 @@ const RecordForm = ({
 
   const buildValidationSchema = formSections => {
     const schema = formSections.reduce((obj, item) => {
-      return Object.assign(
-        {},
-        obj,
-        ...item.fields.map(f => fieldValidations(f, i18n))
-      );
+      return Object.assign({}, obj, ...item.fields.map(f => fieldValidations(f, i18n)));
     }, {});
 
     return object().shape(schema);

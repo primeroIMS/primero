@@ -5,13 +5,7 @@ describe("<LookupsForm> - utils", () => {
     it("should have known methods", () => {
       const clone = { ...utils };
 
-      [
-        "buildValues",
-        "getInitialNames",
-        "getInitialValues",
-        "reorderValues",
-        "validations"
-      ].forEach(property => {
+      ["buildValues", "getInitialNames", "getInitialValues", "reorderValues", "validations"].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
         delete clone[property];
@@ -25,9 +19,7 @@ describe("<LookupsForm> - utils", () => {
       const i18n = { t: () => {} };
       const expected = ["name"];
 
-      expect(Object.keys(utils.validations(i18n).fields)).to.deep.equal(
-        expected
-      );
+      expect(Object.keys(utils.validations(i18n).fields)).to.deep.equal(expected);
     });
   });
 

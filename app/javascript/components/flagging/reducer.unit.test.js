@@ -90,9 +90,7 @@ describe("<Flagging /> - Reducers", () => {
     };
     const newState = nsReducer(defaultState, action);
 
-    expect(List(newState.get("data"))).to.deep.equal(
-      List(expected.get("data"))
-    );
+    expect(List(newState.get("data"))).to.deep.equal(List(expected.get("data")));
   });
 
   it("should handle UNFLAG_SUCCESS", () => {

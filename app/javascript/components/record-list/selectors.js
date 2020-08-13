@@ -2,8 +2,7 @@ import { fromJS } from "immutable";
 
 const getNamespacePath = namespace => ["records"].concat(namespace);
 
-export const getListHeaders = (state, namespace) =>
-  state.getIn(["user", "listHeaders", namespace], fromJS([]));
+export const getListHeaders = (state, namespace) => state.getIn(["user", "listHeaders", namespace], fromJS([]));
 
 export const getFields = state => state.getIn(["forms", "fields"], fromJS([]));
 

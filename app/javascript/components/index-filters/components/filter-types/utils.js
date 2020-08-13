@@ -22,8 +22,7 @@ export const registerInput = ({
           setInputValue(data || defaultValue);
 
           // eslint-disable-next-line no-param-reassign
-          ref.current =
-            isMultiSelect && data ? data.map(d => d?.code || d.id) : data;
+          ref.current = isMultiSelect && data ? data.map(d => d?.code || d.id) : data;
 
           if (!data && clearSecondaryInput) {
             clearSecondaryInput();
@@ -37,12 +36,7 @@ export const registerInput = ({
   );
 };
 
-export const whichOptions = ({
-  optionStringsSource,
-  options,
-  i18n,
-  lookups
-}) => {
+export const whichOptions = ({ optionStringsSource, options, i18n, lookups }) => {
   if (optionStringsSource) {
     return lookups;
   }
@@ -70,12 +64,7 @@ export const ageParser = value => {
   return "";
 };
 
-export const handleMoreFiltersChange = (
-  moreFilters,
-  setMoreFilters,
-  fieldName,
-  values
-) => {
+export const handleMoreFiltersChange = (moreFilters, setMoreFilters, fieldName, values) => {
   setMoreFilters({
     ...moreFilters,
     [fieldName]: values
@@ -88,13 +77,7 @@ export const handleMoreFiltersChange = (
   }
 };
 
-export const resetSecondaryFilter = (
-  isSecondary,
-  filterName,
-  values,
-  moreSectionFilters,
-  setMoreSectionFilters
-) => {
+export const resetSecondaryFilter = (isSecondary, filterName, values, moreSectionFilters, setMoreSectionFilters) => {
   if (isSecondary && isEmpty(values)) {
     const { [filterName]: deleted, ...rest } = moreSectionFilters;
 
@@ -102,12 +85,7 @@ export const resetSecondaryFilter = (
   }
 };
 
-export const setMoreFilterOnPrimarySection = (
-  filters,
-  name,
-  setValues,
-  values = null
-) => {
+export const setMoreFilterOnPrimarySection = (filters, name, setValues, values = null) => {
   const filtersKeys = Object.keys(filters);
 
   if (filtersKeys?.length && filtersKeys.includes(name)) {

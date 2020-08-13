@@ -1,11 +1,6 @@
 import { fromJS } from "immutable";
 
-import {
-  FETCH_REPORTS_SUCCESS,
-  FETCH_REPORTS_STARTED,
-  FETCH_REPORTS_FINISHED,
-  FETCH_REPORTS_FAILURE
-} from "./actions";
+import { FETCH_REPORTS_SUCCESS, FETCH_REPORTS_STARTED, FETCH_REPORTS_FINISHED, FETCH_REPORTS_FAILURE } from "./actions";
 import reducer from "./reducer";
 
 describe("<Reports /> - Reducers", () => {
@@ -79,8 +74,7 @@ describe("<Reports /> - Reducers", () => {
         casesByProtectionConcern: {
           title: "Cases by Protection Concern",
           column_name: "Protection Concern",
-          description:
-            "Number of cases broken down by protection concern and sex",
+          description: "Number of cases broken down by protection concern and sex",
           data: {
             "HIGH VULNERABILITY TO ABUSE": {
               Female: 4,

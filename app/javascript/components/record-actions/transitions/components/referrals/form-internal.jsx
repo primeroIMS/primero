@@ -19,9 +19,7 @@ const FormInternal = ({ fields, disabled, isReferralFromService }) => {
           name={f.id}
           label={f.label}
           margin="normal"
-          disabled={
-            f.id === NOTES_FIELD && isReferralFromService ? false : disabled
-          }
+          disabled={f.id === NOTES_FIELD && isReferralFromService ? false : disabled}
           InputLabelProps={{
             shrink: true
           }}

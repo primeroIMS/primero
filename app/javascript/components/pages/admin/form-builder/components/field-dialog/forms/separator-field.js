@@ -1,14 +1,9 @@
 import { fromJS } from "immutable";
 
-import {
-  validationSchema,
-  generalFields,
-  generalForm,
-  visibilityForm
-} from "./base";
+import { validationSchema, generalFields, generalForm, visibilityForm } from "./base";
 
 // eslint-disable-next-line import/prefer-default-export
-export const separatorFieldForm = ({ field, i18n, formMode, isNested }) => {
+export const separatorFieldForm = ({ field, i18n, formMode, isNested, onManageTranslations }) => {
   const fieldName = field.get("name");
   const generalFormFields = generalFields({ fieldName, i18n, formMode });
 
@@ -18,11 +13,8 @@ export const separatorFieldForm = ({ field, i18n, formMode, isNested }) => {
         fieldName,
         i18n,
         formMode,
-        fields: [
-          generalFormFields.displayName,
-          generalFormFields.helpText,
-          generalFormFields.guidingQuestions
-        ]
+        fields: [generalFormFields.displayName, generalFormFields.helpText, generalFormFields.guidingQuestions],
+        onManageTranslations
       }),
       visibilityForm({ fieldName, i18n, isNested })
     ]),

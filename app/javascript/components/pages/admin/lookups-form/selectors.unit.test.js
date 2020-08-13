@@ -32,12 +32,7 @@ describe("<LookupsForm /> - selectors", () => {
 
   describe("getLookup", () => {
     it("should return selected role", () => {
-      const expected = state.getIn([
-        "records",
-        "admin",
-        "lookups",
-        "selectedLookup"
-      ]);
+      const expected = state.getIn(["records", "admin", "lookups", "selectedLookup"]);
 
       const role = selectors.getLookup(state);
 

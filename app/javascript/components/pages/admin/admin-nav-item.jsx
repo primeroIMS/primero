@@ -18,17 +18,13 @@ const AdminNavItem = ({ item, isParent, open, handleClick, nestedClass }) => {
 
   let customProps = {};
 
-  customProps = isParent
-    ? { onClick: handleClick }
-    : { component: NavLink, to: `/admin${item.to}` };
+  customProps = isParent ? { onClick: handleClick } : { component: NavLink, to: `/admin${item.to}` };
 
   const handleOpen = open ? <ExpandLess /> : <ExpandMore />;
 
   return (
     <ListItem {...customProps} {...sharedProps}>
-      <ListItemText className={nestedClass || null}>
-        {i18n.t(item.label)}
-      </ListItemText>
+      <ListItemText className={nestedClass || null}>{i18n.t(item.label)}</ListItemText>
       {isParent ? handleOpen : null}
     </ListItem>
   );

@@ -34,12 +34,10 @@ describe("<FlagDialog />", () => {
   it("renders component with valid props", () => {
     const flagDialogProps = { ...component.find(FlagDialog).props() };
 
-    ["children", "isBulkFlags", "tab", "setTab", "openDialog"].forEach(
-      property => {
-        expect(flagDialogProps).to.have.property(property);
-        delete flagDialogProps[property];
-      }
-    );
+    ["children", "isBulkFlags", "tab", "setTab", "openDialog"].forEach(property => {
+      expect(flagDialogProps).to.have.property(property);
+      delete flagDialogProps[property];
+    });
     expect(flagDialogProps).to.be.empty;
   });
 });

@@ -72,11 +72,7 @@ describe("<TransferApproval /> - Component", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      TransferApproval,
-      props,
-      initialState
-    ));
+    ({ component } = setupMountedComponent(TransferApproval, props, initialState));
   });
 
   it("renders Transitions component", () => {

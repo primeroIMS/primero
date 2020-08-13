@@ -12,25 +12,15 @@ const Details = ({ transition, classes }) => {
   return (
     <Grid container spacing={2}>
       <Grid item md={6} xs={12}>
-        <TransitionUser
-          label="transition.recipient"
-          transitionUser={transition.transitioned_to}
-          classes={classes}
-        />
+        <TransitionUser label="transition.recipient" transitionUser={transition.transitioned_to} classes={classes} />
       </Grid>
       <Grid item md={6} xs={12}>
-        <TransitionUser
-          label="transition.requested_by"
-          transitionUser={transition.transitioned_by}
-          classes={classes}
-        />
+        <TransitionUser label="transition.requested_by" transitionUser={transition.transitioned_by} classes={classes} />
       </Grid>
       <Grid item md={12} xs={12}>
         <Box>
           <Divider />
-          <div className={classes.transtionLabel}>
-            {i18n.t("transition.notes")}
-          </div>
+          <div className={classes.transtionLabel}>{i18n.t("transition.notes")}</div>
           <div className={classes.transtionValue}>{transition.notes}</div>
         </Box>
       </Grid>

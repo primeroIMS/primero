@@ -1,12 +1,6 @@
 import { fromJS } from "immutable";
 
-import {
-  SEPARATOR,
-  TEXT_FIELD,
-  TICK_FIELD,
-  SELECT_FIELD,
-  DATE_FIELD
-} from "../../../../../form";
+import { SEPARATOR, TEXT_FIELD, TICK_FIELD, SELECT_FIELD, DATE_FIELD } from "../../../../../form";
 import { NEW_FIELD } from "../../constants";
 
 import * as utils from "./utils";
@@ -104,9 +98,7 @@ describe("buildDataToSave", () => {
       }
     };
 
-    expect(
-      utils.buildDataToSave(selectedField, data[fieldName], "en")
-    ).to.deep.equals(data);
+    expect(utils.buildDataToSave(selectedField, data[fieldName], "en")).to.deep.equals(data);
   });
 
   describe("when its a new field", () => {
@@ -125,9 +117,7 @@ describe("buildDataToSave", () => {
     it("should set the data for create", () => {
       const selectedField = fromJS({ name: NEW_FIELD, type: TEXT_FIELD });
 
-      expect(
-        utils.buildDataToSave(selectedField, objectData, "en", 1)
-      ).to.deep.equals({
+      expect(utils.buildDataToSave(selectedField, objectData, "en", 1)).to.deep.equals({
         test_field: {
           ...objectData,
           type: TEXT_FIELD,
@@ -148,9 +138,7 @@ describe("buildDataToSave", () => {
         multi_select: true
       };
 
-      expect(
-        utils.buildDataToSave(selectedField, objectDataSelectField, "en", 1)
-      ).to.deep.equals({
+      expect(utils.buildDataToSave(selectedField, objectDataSelectField, "en", 1)).to.deep.equals({
         test_field: {
           ...objectDataSelectField,
           type: SELECT_FIELD,
@@ -172,9 +160,7 @@ describe("buildDataToSave", () => {
         date_include_time: true
       };
 
-      expect(
-        utils.buildDataToSave(selectedField, objectDataDateTimeField, "en", 1)
-      ).to.deep.equals({
+      expect(utils.buildDataToSave(selectedField, objectDataDateTimeField, "en", 1)).to.deep.equals({
         test_field: {
           ...objectDataDateTimeField,
           type: DATE_FIELD,
@@ -200,9 +186,7 @@ describe("buildDataToSave", () => {
       };
       const expected = "test_field_name_1";
 
-      expect(
-        Object.keys(utils.buildDataToSave(selectedField, data, "en", 1))[0]
-      ).to.deep.equals(expected);
+      expect(Object.keys(utils.buildDataToSave(selectedField, data, "en", 1))[0]).to.deep.equals(expected);
     });
   });
 });

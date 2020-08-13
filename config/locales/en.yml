@@ -1625,7 +1625,7 @@ en:
             explanation: "Allows a user to set the status of an open case to closed."
           change_log:
             label: "Change Log"
-            explanation: "Allows a user to view change log of the case"
+            explanation: "User can see a history of all changes made to the record since it was created. This includes values recorded for all fields."
           manage:
             label: "Manage (all permissions for this resource type)"
             explanation: "Allows a user to perform all available actions on cases. The \"Manage\" permission essentially means \"everything\"."
@@ -1697,7 +1697,7 @@ en:
                 the web application in general, meaning that they cannot use the mobile app to manage incidents."
           change_log:
             label: "Change Log"
-            explanation: "Allows a user to view change log of the incident"
+            explanation: "User can see a history of all changes made to the record since it was created. This includes values recorded for all fields."
           manage:
             label: "Manage (all permissions for this resource type)"
             explanation: "Allows a user to perform all available actions on incidents. The \"Manage\" permission essentially
@@ -1758,7 +1758,7 @@ en:
                 of how data is formatted in Primero. Only performed from case list page."
           change_log:
             label: "Change Log"
-            explanation: "Allows a user to view change log of the tracing request"
+            explanation: "User can see a history of all changes made to the record since it was created. This includes values recorded for all fields."
           manage:
             label: "Manage (all permissions for this resource type)"
             explanation: "Allows a user to perform all available actions on tracing requests. The \"Manage\" permission
@@ -1945,6 +1945,20 @@ en:
           approvals_closure_pending:
             label: "Manager Closure approvals"
             explanation: "Shows the number of cases in a manager's team with pending Closure approval requests."
+          approvals_action_plan:
+            label: "Case worker Action Plan approvals"
+            explanation: "Shows the number of the current user's cases with Action Plan approval requests which are Pending,
+                Approved, or Rejected."
+          approvals_action_plan_pending:
+            label: "Manager Action Plan approvals"
+            explanation: "Shows the number of cases in a manager's team with pending Action Plan approval requests."
+          approvals_gbv_closure:
+            label: "Case worker GBV Closure approvals"
+            explanation: "Shows the number of the current user's cases with GBV Closure approval requests which are Pending,
+                Approved, or Rejected."
+          approvals_gbv_closure_pending:
+            label: "Manager GBV Closure approvals"
+            explanation: "Shows the number of cases in a manager's team with pending GBV Closure approval requests."
           view_response:
             label: "View Responses"
             explanation: "For each response type, shows how many cases at each risk level have services which are near deadline
@@ -2462,6 +2476,7 @@ en:
     show_on: "Show on"
     mobile_visible: "Mobile app"
     english_text: "English Text"
+    translation_text: "Translation Text"
     enabled: "Enabled?"
     default: "Default?"
     subform_sort_by: "Sort by"
@@ -2933,10 +2948,20 @@ en:
     approval_assessment_pending: "Pending"
     approval_assessment_rejected: "Rejected"
     approval_assessment_approved: "Approved"
+    approvals_action_plan: "Action Plan"
+    approval_action_plan_pending: "Pending"
+    approval_action_plan_rejected: "Rejected"
+    approval_action_plan_approved: "Approved"
+    approvals_gbv_closure: "GBV Closure"
+    approval_gbv_closure_pending: "Pending"
+    approval_gbv_closure_rejected: "Rejected"
+    approval_gbv_closure_approved: "Approved"
     pending_approvals: "Pending Approvals"
     approval_assessment_pending_group: "Assessment"
     approval_case_plan_pending_group: "Case Plan"
     approval_closure_pending_group: "Closure"
+    approval_action_plan_pending_group: "Action Plan"
+    approval_gbv_closure_pending_group: "GBV Closure"
     dash_shared_with_me: "Shared With Me"
     shared_with_me_total_referrals: "Total Referrals"
     shared_with_me_new_referrals: "New Referrals"
@@ -3615,6 +3640,8 @@ en:
       bia: "Request Approval for the BIA form"
       case_plan: "Request Approval for the Case Plan form"
       closure: "Request Approval for the Closure form"
+      action_plan: "Request Approval for the Action Plan form"
+      gbv_closure: "Request Approval for the GBV Closure form"
 
     approve_form:
       "false": "Rejecting"
@@ -3622,6 +3649,8 @@ en:
       bia: "BIA form"
       case_plan: "Case Plan form"
       closure: "Closure form"
+      action_plan: "Action Plan form"
+      gbv_closure: "GBV Closure form"
 
     mark_for_mobile:
       "false": "Un-Mark for mobile"

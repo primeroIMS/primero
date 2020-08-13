@@ -54,14 +54,7 @@ describe("<IndexFilters />/<Panel />", () => {
 
     const clone = { ...component.find(Panel).props() };
 
-    [
-      "filter",
-      "getValues",
-      "handleReset",
-      "children",
-      "commonInputProps",
-      "moreSectionFilters"
-    ].forEach(property => {
+    ["filter", "getValues", "handleReset", "children", "commonInputProps", "moreSectionFilters"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });
@@ -96,15 +89,8 @@ describe("<IndexFilters />/<Panel />", () => {
         }
       }
     });
-    const { component } = setupMockFormComponent(
-      Panel,
-      propsApprovals,
-      {},
-      initialStateApprovals
-    );
+    const { component } = setupMockFormComponent(Panel, propsApprovals, {}, initialStateApprovals);
 
-    expect(component.find(ExpansionPanelSummary).text()).to.be.equal(
-      "Case Plan"
-    );
+    expect(component.find(ExpansionPanelSummary).text()).to.be.equal("Case Plan");
   });
 });

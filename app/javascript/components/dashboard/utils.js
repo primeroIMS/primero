@@ -13,9 +13,7 @@ export const buildFilter = (queryValue, isManager = false) => {
 
     return {
       ...acum,
-      ...(OR_FIELDS.includes(filterName) && !isManager
-        ? { or: { [filterName]: filterValue } }
-        : { [filterName]: val })
+      ...(OR_FIELDS.includes(filterName) && !isManager ? { or: { [filterName]: filterValue } } : { [filterName]: val })
     };
   }, {});
 

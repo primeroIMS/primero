@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  IconButton
-} from "@material-ui/core";
+import { Dialog, DialogTitle, DialogContent, IconButton } from "@material-ui/core";
 import { Map } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
@@ -55,9 +50,7 @@ describe("<TransitionDialog />", () => {
     });
 
     it("should render 'Referral Case No.' as title", () => {
-      expect(component.find(DialogTitle).text()).to.equals(
-        "transition.type.referral forms.record_types.case 1234abc"
-      );
+      expect(component.find(DialogTitle).text()).to.equals("transition.type.referral forms.record_types.case 1234abc");
     });
   });
 
@@ -72,9 +65,7 @@ describe("<TransitionDialog />", () => {
     });
 
     it("should render 'Assign Case No.' as title", () => {
-      expect(component.find(DialogTitle).text()).to.equals(
-        "transition.type.reassign forms.record_types.case 1234abc"
-      );
+      expect(component.find(DialogTitle).text()).to.equals("transition.type.reassign forms.record_types.case 1234abc");
     });
   });
 
@@ -89,9 +80,7 @@ describe("<TransitionDialog />", () => {
     });
 
     it("should render 'Transfer Case No.' as title", () => {
-      expect(component.find(DialogTitle).text()).to.equals(
-        "transition.type.transfer forms.record_types.case 1234abc"
-      );
+      expect(component.find(DialogTitle).text()).to.equals("transition.type.transfer forms.record_types.case 1234abc");
     });
   });
 
@@ -111,9 +100,7 @@ describe("<TransitionDialog />", () => {
     });
 
     it("should render 'Assign Cases' as title", () => {
-      expect(component.find(DialogTitle).text()).to.equals(
-        "transition.type.reassign cases.label "
-      );
+      expect(component.find(DialogTitle).text()).to.equals("transition.type.reassign cases.label ");
     });
   });
 
@@ -134,11 +121,7 @@ describe("<TransitionDialog />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        TransitionDialog,
-        propsRendered,
-        {}
-      ));
+      ({ component } = setupMountedComponent(TransitionDialog, propsRendered, {}));
     });
 
     it("should accept valid props", () => {

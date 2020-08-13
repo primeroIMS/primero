@@ -7,8 +7,7 @@ import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../config";
 import { CUSTOM_STRINGS_SOURCE } from "./constants";
 
 export const appendDisabledAgency = (agencies, agencyUniqueId) =>
-  agencyUniqueId &&
-  !agencies.map(agency => agency.get("unique_id")).includes(agencyUniqueId)
+  agencyUniqueId && !agencies.map(agency => agency.get("unique_id")).includes(agencyUniqueId)
     ? agencies.push(
         fromJS({
           unique_id: agencyUniqueId,
@@ -38,9 +37,7 @@ export const handleChangeOnServiceUser = ({
   reportingLocations,
   setFilterState
 }) => {
-  const selectedUser = referralUsers.find(
-    user => user.get("user_name") === data?.value
-  );
+  const selectedUser = referralUsers.find(user => user.get("user_name") === data?.value);
 
   if (selectedUser?.size) {
     const userAgency = selectedUser.get("agency");
@@ -50,9 +47,7 @@ export const handleChangeOnServiceUser = ({
       form.setFieldValue(getConnectedFields().agency, userAgency, false);
     }
 
-    if (
-      reportingLocations.find(current => current.get("code") === userLocation)
-    ) {
+    if (reportingLocations.find(current => current.get("code") === userLocation)) {
       form.setFieldValue(getConnectedFields().location, userLocation, false);
     }
   }
@@ -61,28 +56,17 @@ export const handleChangeOnServiceUser = ({
 };
 
 export const translatedText = (displayText, i18n) => {
-  return displayText instanceof Object
-    ? displayText?.[i18n.locale] || ""
-    : displayText;
+  return displayText instanceof Object ? displayText?.[i18n.locale] || "" : displayText;
 };
 
-export const findOptionDisplayText = ({
-  agencies,
-  customLookups,
-  i18n,
-  option,
-  options,
-  value
-}) => {
+export const findOptionDisplayText = ({ agencies, customLookups, i18n, option, options, value }) => {
   const foundOptions = find(options, { id: value }) || {};
   let optionValue = [];
 
   if (Object.keys(foundOptions).length && !customLookups.includes(option)) {
     optionValue = translatedText(foundOptions.display_text, i18n);
   } else if (option === CUSTOM_STRINGS_SOURCE.agency) {
-    optionValue = value
-      ? agencies.find(a => a.get("id") === value)?.get("name")
-      : value;
+    optionValue = value ? agencies.find(a => a.get("id") === value)?.get("name") : value;
   } else {
     optionValue = "";
   }
@@ -108,8 +92,7 @@ export const buildCustomLookupsConfig = ({
     fieldLabel: NAME_FIELD,
     fieldValue: UNIQUE_ID_FIELD,
     options:
-      !filterState?.filtersChanged &&
-      name.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)
+      !filterState?.filtersChanged && name.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)
         ? appendDisabledAgency(agencies, value)
         : agencies
   },
@@ -122,8 +105,7 @@ export const buildCustomLookupsConfig = ({
     fieldLabel: "user_name",
     fieldValue: "user_name",
     options:
-      !filterState?.filtersChanged &&
-      name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
+      !filterState?.filtersChanged && name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
         ? appendDisabledUser(referralUsers, value)
         : referralUsers
   }
@@ -134,19 +116,10 @@ export const serviceHasReferFields = service => {
     return false;
   }
 
-  return (
-    service.service_response_type &&
-    service.service_type &&
-    service.service_implementing_agency_individual
-  );
+  return service.service_response_type && service.service_type && service.service_implementing_agency_individual;
 };
 
-export const serviceIsReferrable = (
-  service,
-  services,
-  agencies,
-  users = []
-) => {
+export const serviceIsReferrable = (service, services, agencies, users = []) => {
   const {
     service_type: serviceType,
     service_implementing_agency: agencyUniqueId,
@@ -155,16 +128,12 @@ export const serviceIsReferrable = (
 
   if (services.find(type => type.id === serviceType)) {
     const serviceUser = users.find(
-      user =>
-        user.get("user_name") === userName &&
-        user.get("services")?.includes(serviceType)
+      user => user.get("user_name") === userName && user.get("services")?.includes(serviceType)
     );
 
     if (serviceUser && agencyUniqueId) {
       const serviceAgency = agencies.find(
-        agency =>
-          agency.get("unique_id") === agencyUniqueId &&
-          agency.get("services")?.includes(serviceType)
+        agency => agency.get("unique_id") === agencyUniqueId && agency.get("services")?.includes(serviceType)
       );
 
       if (!serviceAgency) {

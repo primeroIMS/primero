@@ -18,13 +18,7 @@ export default (i18n, disableControl) => {
   return sharedFields.map(field => (
     <FormControlLabel
       key={field.id}
-      control={
-        <Field
-          name={field.id}
-          component={MuiCheckbox}
-          disabled={disableControl}
-        />
-      }
+      control={<Field name={field.id} component={MuiCheckbox} disabled={disableControl} />}
       label={field.label}
     />
   ));

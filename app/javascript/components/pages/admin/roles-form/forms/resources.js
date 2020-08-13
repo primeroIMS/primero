@@ -1,10 +1,6 @@
 import { fromJS } from "immutable";
 
-import {
-  FieldRecord,
-  FormSectionRecord,
-  CHECK_BOX_FIELD
-} from "../../../../form";
+import { FieldRecord, FormSectionRecord, CHECK_BOX_FIELD } from "../../../../form";
 import { RESOURCES, FORM_CHECK_ERRORS } from "../constants";
 
 import { buildPermissionOptions } from "./utils";
@@ -25,13 +21,7 @@ export default (resourceActions, roles, i18n, approvalsLabels) =>
         FieldRecord({
           name: `permissions[${resource}]`,
           type: CHECK_BOX_FIELD,
-          option_strings_text:
-            buildPermissionOptions(
-              actions,
-              i18n,
-              resource,
-              approvalsLabels
-            )?.toJS() || []
+          option_strings_text: buildPermissionOptions(actions, i18n, resource, approvalsLabels)?.toJS() || []
         })
       ],
       expandable: true,

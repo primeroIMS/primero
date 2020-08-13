@@ -23,9 +23,7 @@ const NotAuthorized = () => {
       <Typography variant="h6" gutterBottom>
         {i18n.t("error_page.not_authorized.title")}
       </Typography>
-      <Typography>
-        {i18n.t("error_page.not_authorized.server_error")}
-      </Typography>
+      <Typography>{i18n.t("error_page.not_authorized.server_error")}</Typography>
       <ActionButton
         text={i18n.t("navigation.home")}
         type={ACTION_BUTTON_TYPES.default}

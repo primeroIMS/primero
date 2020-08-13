@@ -28,13 +28,7 @@ import {
   TabPanel
 } from "./components";
 import { NAME as FormTranslationsDialogName } from "./components/form-translations-dialog/constants";
-import {
-  clearSelectedForm,
-  clearSubforms,
-  fetchForm,
-  saveForm,
-  saveSubforms
-} from "./action-creators";
+import { clearSelectedForm, clearSubforms, fetchForm, saveForm, saveSubforms } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME, NEW_FIELD } from "./constants";
 import {
@@ -59,16 +53,10 @@ const Component = ({ mode }) => {
   const [tab, setTab] = useState(0);
   const saving = useSelector(state => getSavingRecord(state), compare);
   const errors = useSelector(state => getServerErrors(state), compare);
-  const updatedFormIds = useSelector(
-    state => getUpdatedFormIds(state),
-    compare
-  );
+  const updatedFormIds = useSelector(state => getUpdatedFormIds(state), compare);
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
   const selectedField = useSelector(state => getSelectedField(state), compare);
-  const selectedSubforms = useSelector(
-    state => getSelectedSubforms(state),
-    compare
-  );
+  const selectedSubforms = useSelector(state => getSelectedSubforms(state), compare);
   const isLoading = useSelector(state => getIsLoading(state));
   const methods = useForm({
     validationSchema: validationSchema(i18n),
@@ -84,8 +72,7 @@ const Component = ({ mode }) => {
     dispatch(push(ROUTES.forms));
   };
 
-  const modeForFieldDialog =
-    selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
+  const modeForFieldDialog = selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
 
   const onSubmit = data => {
     const subforms = selectedSubforms?.toJS();
@@ -95,13 +82,9 @@ const Component = ({ mode }) => {
     };
     const parentFormParams = {
       id,
-      saveMethod: formMode.get("isEdit")
-        ? SAVE_METHODS.update
-        : SAVE_METHODS.new,
+      saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
       body,
-      message: i18n.t(
-        `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-      )
+      message: i18n.t(`forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
     };
 
     if (subforms.length > 0) {
@@ -119,10 +102,12 @@ const Component = ({ mode }) => {
   const onUpdateTranslation = data => {
     Object.entries(data).forEach(([fieldName, locales]) => {
       Object.entries(locales).forEach(([localeId, value]) => {
-        if (!methods.control.fields[`${fieldName}.${localeId}`]) {
-          methods.register({ name: `${fieldName}.${localeId}` });
+        const fieldPath = `${fieldName}.${localeId}`;
+
+        if (!methods.control.fields[fieldPath]) {
+          methods.register({ name: fieldPath });
         }
-        methods.setValue(`${fieldName}.${localeId}`, value);
+        methods.setValue(`${fieldPath}`, value);
       });
     });
   };
@@ -130,9 +115,7 @@ const Component = ({ mode }) => {
   useEffect(() => {
     if (saving && (errors?.size || updatedFormIds?.size)) {
       const successful = !errors?.size && updatedFormIds?.size;
-      const message = successful
-        ? i18n.t("forms.messages.save_success")
-        : i18n.t("forms.messages.save_with_errors");
+      const message = successful ? i18n.t("forms.messages.save_success") : i18n.t("forms.messages.save_with_errors");
 
       dispatch({
         type: ENQUEUE_SNACKBAR,
@@ -174,9 +157,7 @@ const Component = ({ mode }) => {
       if (selectedForm.get("is_nested")) {
         dispatch(push(ROUTES.forms));
       } else {
-        const fieldTree = convertToFieldsObject(
-          selectedForm.get("fields").toJS()
-        );
+        const fieldTree = convertToFieldsObject(selectedForm.get("fields").toJS());
 
         methods.reset(selectedForm.set("fields", fieldTree).toJS());
       }
@@ -205,46 +186,30 @@ const Component = ({ mode }) => {
         if (!methods.control.fields[`fields.${fieldName}.${key}`]) {
           methods.register({ name: `fields.${fieldName}.${key}` });
         }
-        methods.setValue(
-          `fields.${fieldName}.${key}`,
-          isDisabledProp ? !value : value
-        );
+        methods.setValue(`fields.${fieldName}.${key}`, isDisabledProp ? !value : value);
       });
     });
   };
 
   return (
     <LoadingIndicator
-      hasData={
-        formMode.get("isNew") ||
-        Boolean(formMode.get("isEdit") && selectedForm?.toSeq()?.size)
-      }
+      hasData={formMode.get("isNew") || Boolean(formMode.get("isEdit") && selectedForm?.toSeq()?.size)}
       loading={isLoading || !selectedForm?.toSeq()?.size}
       type={NAMESPACE}
     >
       <PageHeading
         title={
-          formMode.get("isNew")
-            ? i18n.t("forms.add")
-            : selectedForm.getIn(["name", i18n.locale], i18n.t("forms.label"))
+          formMode.get("isNew") ? i18n.t("forms.add") : selectedForm.getIn(["name", i18n.locale], i18n.t("forms.label"))
         }
       >
-        <FormBuilderActionButtons
-          formMode={formMode}
-          formRef={formRef}
-          handleCancel={handleCancel}
-        />
+        <FormBuilderActionButtons formMode={formMode} formRef={formRef} handleCancel={handleCancel} />
       </PageHeading>
       <PageContent>
         <FormContext {...methods} formMode={formMode}>
           <form>
             <Tabs value={tab} onChange={handleChange}>
               <Tab label={i18n.t("forms.settings")} />
-              <Tab
-                className={css.tabHeader}
-                label={i18n.t("forms.fields")}
-                disabled={formMode.get("isNew")}
-              />
+              <Tab className={css.tabHeader} label={i18n.t("forms.fields")} disabled={formMode.get("isNew")} />
               <Tab
                 className={css.tabHeader}
                 label={i18n.t("forms.translations.title")}
@@ -253,14 +218,9 @@ const Component = ({ mode }) => {
             </Tabs>
             <TabPanel tab={tab} index={0}>
               <div className={css.tabContent}>
-                {settingsForm({ formMode, onManageTranslation, i18n }).map(
-                  formSection => (
-                    <FormSection
-                      formSection={formSection}
-                      key={formSection.unique_id}
-                    />
-                  )
-                )}
+                {settingsForm({ formMode, onManageTranslation, i18n }).map(formSection => (
+                  <FormSection formSection={formSection} key={formSection.unique_id} />
+                ))}
               </div>
               <FormTranslationsDialog
                 mode={mode}

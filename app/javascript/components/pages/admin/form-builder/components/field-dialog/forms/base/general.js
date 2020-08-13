@@ -1,10 +1,4 @@
-import {
-  FieldRecord,
-  FormSectionRecord,
-  TEXT_FIELD,
-  TICK_FIELD,
-  TEXT_AREA
-} from "../../../../../../../form";
+import { FieldRecord, FormSectionRecord, TEXT_FIELD, TICK_FIELD, TEXT_AREA } from "../../../../../../../form";
 
 export const generalFields = ({ fieldName, formMode, i18n }) => ({
   displayName: FieldRecord({
@@ -13,9 +7,7 @@ export const generalFields = ({ fieldName, formMode, i18n }) => ({
     type: TEXT_FIELD,
     required: true,
     help_text: i18n.t("fields.must_be_english"),
-    hint: formMode.get("isNew")
-      ? ""
-      : `${i18n.t("fields.db_name")}: ${fieldName}`
+    hint: formMode.get("isNew") ? "" : `${i18n.t("fields.db_name")}: ${fieldName}`
   }),
   helpText: FieldRecord({
     display_name: i18n.t("fields.help_text"),
@@ -42,10 +34,17 @@ export const generalFields = ({ fieldName, formMode, i18n }) => ({
   })
 });
 
-export const generalForm = ({ fields = [], fieldName, formMode, i18n }) =>
+export const generalForm = ({ fields = [], fieldName, formMode, i18n, onManageTranslations }) =>
   FormSectionRecord({
     unique_id: "field_form",
-    fields: fields.length
-      ? fields
-      : Object.values(generalFields({ fieldName, formMode, i18n }))
+    actions: formMode.get("isEdit")
+      ? [
+          {
+            text: i18n.t("forms.translations.manage"),
+            outlined: true,
+            rest: { onClick: onManageTranslations }
+          }
+        ]
+      : [],
+    fields: fields.length ? fields : Object.values(generalFields({ fieldName, formMode, i18n }))
   });
