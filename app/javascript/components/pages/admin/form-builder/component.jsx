@@ -95,10 +95,12 @@ const Component = ({ mode }) => {
   const onUpdateTranslation = data => {
     Object.entries(data).forEach(([fieldName, locales]) => {
       Object.entries(locales).forEach(([localeId, value]) => {
-        if (!methods.control.fields[`${fieldName}.${localeId}`]) {
-          methods.register({ name: `${fieldName}.${localeId}` });
+        const fieldPath = `${fieldName}.${localeId}`;
+
+        if (!methods.control.fields[fieldPath]) {
+          methods.register({ name: fieldPath });
         }
-        methods.setValue(`${fieldName}.${localeId}`, value);
+        methods.setValue(`${fieldPath}`, value);
       });
     });
   };

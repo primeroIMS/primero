@@ -15,14 +15,17 @@ const labelField = ({ fieldName, i18n }) =>
   });
 
 // eslint-disable-next-line import/prefer-default-export
-export const tickboxFieldForm = ({ field, i18n, formMode, isNested }) => {
+export const tickboxFieldForm = ({ field, i18n, formMode, isNested, onManageTranslations }) => {
   const fieldName = field.get("name");
   const general = Object.values(generalFields({ fieldName, i18n, formMode }));
   const newField = labelField({ fieldName, i18n });
   const fields = addWithIndex(general, 1, newField);
 
   return {
-    forms: fromJS([generalForm({ fieldName, i18n, formMode, fields }), visibilityForm({ fieldName, i18n, isNested })]),
+    forms: fromJS([
+      generalForm({ fieldName, i18n, formMode, fields, onManageTranslations }),
+      visibilityForm({ fieldName, i18n, isNested })
+    ]),
     validationSchema: validationSchema({ fieldName, i18n, isNested })
   };
 };
