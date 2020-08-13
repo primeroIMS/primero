@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_05_210050) do
+ActiveRecord::Schema.define(version: 2020_08_12_155523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -229,7 +229,6 @@ ActiveRecord::Schema.define(version: 2020_08_05_210050) do
     t.boolean "hide_subform_placeholder", default: false, null: false
     t.boolean "mobile_form", default: false, null: false
     t.text "header_message_link"
-    t.jsonb "display_conditions"
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
@@ -349,6 +348,7 @@ ActiveRecord::Schema.define(version: 2020_08_05_210050) do
     t.boolean "referral", default: false, null: false
     t.boolean "transfer", default: false, null: false
     t.boolean "is_manager", default: false, null: false
+    t.string "reporting_location_level"
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end

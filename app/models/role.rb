@@ -17,12 +17,23 @@ class Role < ApplicationRecord
   validates :permissions, presence: { message: 'errors.models.role.permission_presence' }
   validates :name, presence: { message: 'errors.models.role.name_present' },
                    uniqueness: { message: 'errors.models.role.unique_name' }
+  validate :validate_reporting_location_level
 
   before_create :generate_unique_id
   before_save :reject_form_by_module
 
   scope :by_referral, -> { where(referral: true) }
   scope :by_transfer, -> { where(transfer: true) }
+
+  def validate_reporting_location_level
+    reporting_location_levels = ReportingLocation.reporting_location_levels
+    return true if reporting_location_level.blank? ||
+                   reporting_location_levels.blank? ||
+                   reporting_location_levels.include?(reporting_location_level)
+
+    errors.add(:reporting_location_level, I18n.t("errors.models.role.reporting_location_level"))
+    false
+  end
 
   def has_permitted_form_id?(form_unique_id_id)
     form_sections.map(&:unique_id).include?(form_unique_id_id)

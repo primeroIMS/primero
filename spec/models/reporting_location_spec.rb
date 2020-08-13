@@ -34,4 +34,12 @@ describe ReportingLocation do
       end
     end
   end
+
+  describe '.map_reporting_location_level_to_admin_level' do
+    #TODO
+  end
+
+  describe '.reporting_location_levels' do
+    #TODO
+  end
 end

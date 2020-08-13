@@ -898,4 +898,59 @@ describe User do
       expect(@child_3.associated_user_agencies).to include(@agency_1.unique_id)
     end
   end
+
+  describe 'reporting location' do
+    before do
+      clean_data(User, Role, Location, SystemSettings)
+      SystemSettings.all.each &:destroy
+      Primero::Application.stub :locales => [ Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_FRENCH]
+      Primero::Application.stub :default_locale => Primero::Application::LOCALE_ENGLISH
+
+      @country = create :location, admin_level: 0, placename_all: 'MyCountry', type: 'country', location_code: 'MC01'
+      @province1 = create :location, hierarchy: [@country.location_code], placename_all: 'Province 1', type: 'province', location_code: 'PR01'
+      @district = create :location, hierarchy: [@country.location_code, @province1.location_code], placename_all: 'District 1', type: 'district', location_code: 'D01'
+
+      @role_province = Role.create!(name: "Admin", permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])], reporting_location_level: 'province')
+      @role_district = Role.create!(name: "Field Worker", permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])], reporting_location_level: 'district')
+      @role_no_level = Role.create!(name: "Field Worker 2", permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
+
+      reporting_location = ReportingLocation.new(field_key: 'test',
+                                                 label_key: 'district',
+                                                 admin_level: 2)
+      @system_settings = SystemSettings.create(default_locale: "en",
+                                               reporting_location_config: reporting_location)
+    end
+
+    context 'when role does not specify reporting location level' do
+      before do
+        @user = build_user(location: @district.location_code, role_id: @role_no_level.id)
+      end
+
+      it 'returns the admin level location specified in System Settings' do
+        expect(@user.reporting_location).to eq(@district)
+      end
+    end
+
+    context 'when role specifies reporting location level' do
+      context 'and specified location level is district' do
+        before do
+          @user = build_user(location: @district.location_code, role_id: @role_district.id)
+        end
+
+        it 'returns the district location' do
+          expect(@user.reporting_location).to eq(@district)
+        end
+      end
+
+      context 'and specified location level is province' do
+        before do
+          @user = build_user(location: @district.location_code, role_id: @role_province.id)
+        end
+
+        it 'returns the province location' do
+          expect(@user.reporting_location).to eq(@province1)
+        end
+      end
+    end
+  end
 end

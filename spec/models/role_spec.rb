@@ -6,34 +6,66 @@ describe Role do
   before :each do
     clean_data(Role, PrimeroModule)
   end
-  it 'should not be valid if name is empty' do
-    role = Role.new
-    role.should_not be_valid
-    role.errors[:name].should == ['errors.models.role.name_present']
-  end
 
-  it 'should not be valid if permissions is empty' do
-    role = Role.new
-    role.should_not be_valid
-    role.errors[:permissions].should == ['errors.models.role.permission_presence']
-  end
+  describe 'Validations' do
+    it 'should not be valid if name is empty' do
+      role = Role.new
+      role.should_not be_valid
+      role.errors[:name].should == ['errors.models.role.name_present']
+    end
 
-  it 'should sanitize and check for permissions' do
-    role = Role.new(name: 'Name', permissions: [])
-    role.save
-    role.should_not be_valid
-    role.errors[:permissions].should == ['errors.models.role.permission_presence']
-  end
+    it 'should not be valid if permissions is empty' do
+      role = Role.new
+      role.should_not be_valid
+      role.errors[:permissions].should == ['errors.models.role.permission_presence']
+    end
 
-  it 'should not be valid if a role name has been taken already' do
-    Role.create(
-      name: 'Unique', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
-    )
-    role = Role.new(
-      name: 'Unique', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
-    )
-    role.should_not be_valid
-    role.errors[:name].should == ['errors.models.role.unique_name']
+    it 'should sanitize and check for permissions' do
+      role = Role.new(name: 'Name', permissions: [])
+      role.save
+      role.should_not be_valid
+      role.errors[:permissions].should == ['errors.models.role.permission_presence']
+    end
+
+    it 'should not be valid if a role name has been taken already' do
+      Role.create(
+        name: 'Unique', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
+      )
+      role = Role.new(
+        name: 'Unique', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
+      )
+      role.should_not be_valid
+      role.errors[:name].should == ['errors.models.role.unique_name']
+    end
+
+    describe 'reporting_location_level' do
+      before do
+        @role = Role.new(name: "some_role", permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
+
+        ReportingLocation.stub(:reporting_location_levels).and_return(['district', 'province', 'governorate'])
+      end
+
+      context 'with a valid admin_level' do
+        before :each do
+          @role.reporting_location_level = 'district'
+        end
+
+        it 'is valid' do
+          expect(@role).to be_valid
+        end
+      end
+
+      context 'with an invalid admin_level' do
+        before :each do
+          @role.reporting_location_level = 'bad_level'
+        end
+
+        it 'returns an error message' do
+          @role.valid?
+          expect(@role.errors.messages[:reporting_location_level]).to eq(['Location Level must be one of ReportingLocation Level values'])
+        end
+      end
+    end
   end
 
   it 'should create a valid role' do

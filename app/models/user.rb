@@ -236,9 +236,45 @@ class User < ApplicationRecord
   end
 
   def reporting_location
-    return if user_location.blank? || exists_reporting_location == false
+    location = self.user_location
+    return nil if location.blank?
 
-    @reporting_location ||= Location.get_reporting_location(user_location)
+    admin_level = reporting_location_admin_level
+    return location if location.admin_level == admin_level
+
+    location.ancestor_by_admin_level(admin_level)
+  end
+
+  def reporting_location_admin_level
+    reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+  end
+
+  def reporting_location_config
+    @system_settings ||= SystemSettings.current
+    return nil if @system_settings.blank?
+
+    ss_reporting_location = @system_settings&.reporting_location_config
+    return nil if ss_reporting_location.blank?
+
+    reporting_location_config = set_secondary_reporting_location(ss_reporting_location)
+    reporting_location_config
+  end
+
+  # If the user's Role has a secondary reporting location (indicated by reporting_location_level),
+  # override the reporting location from SystemSettings
+  def set_secondary_reporting_location(ss_reporting_location)
+    role_reporting_location_level = role&.reporting_location_level
+    return ss_reporting_location if role_reporting_location_level.blank?
+
+    admin_level = ss_reporting_location.map_reporting_location_level_to_admin_level(role_reporting_location_level)
+    return ss_reporting_location if admin_level == ss_reporting_location.admin_level
+
+    reporting_location = ReportingLocation.new(admin_level: admin_level,
+                                               label_key: role_reporting_location_level,
+                                               field_key: ss_reporting_location.field_key,
+                                               hierarchy_filter: ss_reporting_location.hierarchy_filter,
+                                               admin_level_map: ss_reporting_location.admin_level_map)
+    reporting_location
   end
 
   def last_login
