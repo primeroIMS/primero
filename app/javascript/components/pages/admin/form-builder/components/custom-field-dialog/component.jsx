@@ -60,6 +60,7 @@ const Component = () => {
         text={i18n.t("fields.add_field")}
         type={ACTION_BUTTON_TYPES.default}
         rest={{
+          "aria-label": i18n.t("buttons.new"),
           onClick: handleDialog
         }}
       />
@@ -76,6 +77,7 @@ const Component = () => {
             text={i18n.t("fields.add_existing_field")}
             type={ACTION_BUTTON_TYPES.default}
             rest={{
+              "aria-label": i18n.t("fields.add_existing_field"),
               onClick: handleClose,
               disabled: true,
               fullWidth: true,
@@ -88,6 +90,7 @@ const Component = () => {
             text={i18n.t("fields.add_custom_field")}
             type={ACTION_BUTTON_TYPES.default}
             rest={{
+              "aria-label": i18n.t("fields.add_custom_field"),
               onClick: handleCustomFieldSelectorDialog,
               fullWidth: true,
               className: css.existingFieldButton
@@ -100,6 +103,7 @@ const Component = () => {
             type={ACTION_BUTTON_TYPES.default}
             isCancel
             rest={{
+              "aria-label": i18n.t("buttons.cancel"),
               onClick: handleClose,
               fullWidth: true,
               className: css.cancelButton

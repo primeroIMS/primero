@@ -37,6 +37,7 @@ const Component = ({ subformField }) => {
         type={ACTION_BUTTON_TYPES.default}
         isCancel
         rest={{
+          "aria-label": i18n.t(`fields.clear_${fieldBy}`),
           onClick
         }}
       />

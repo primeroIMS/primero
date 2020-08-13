@@ -22,20 +22,12 @@ const Component = ({ trigger, image }) => {
 
   return (
     <>
-      <button
-        aria-label={i18n.t("buttons.close")}
-        onClick={handleClose}
-        type="button"
-        className={css.button}
-      >
+      <button aria-label={i18n.t("buttons.close")} onClick={handleClose} type="button" className={css.button}>
         {trigger}
       </button>
       {image && (
         <Backdrop className={css.backdrop} open={open} onClick={handleClose}>
-          <IconButton
-            aria-label={i18n.t("buttons.close")}
-            className={css.backdropClose}
-          >
+          <IconButton aria-label={i18n.t("buttons.close")} className={css.backdropClose}>
             <CloseIcon />
           </IconButton>
           <img src={image} alt="" />

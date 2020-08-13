@@ -62,6 +62,7 @@ const Component = ({ control, record, recordType }) => {
           text={i18n.t("buttons.flags")}
           type={ACTION_BUTTON_TYPES.default}
           rest={{
+            "aria-label": i18n.t("buttons.flags"),
             onClick: handleOpen
           }}
         />

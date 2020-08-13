@@ -59,6 +59,7 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
           type={ACTION_BUTTON_TYPES.default}
           isCancel
           rest={{
+            "aria-label": i18n.t("buttons.cancel"),
             onClick: handleCancel,
             disabled: reorderLoading
           }}
@@ -69,6 +70,7 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
           text={i18n.t("buttons.save_changes")}
           type={ACTION_BUTTON_TYPES.default}
           rest={{
+            "aria-label": i18n.t("buttons.save_changes"),
             onClick: handleSuccess,
             disabled: reorderLoading
           }}

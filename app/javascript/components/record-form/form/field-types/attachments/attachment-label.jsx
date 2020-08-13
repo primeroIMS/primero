@@ -21,6 +21,7 @@ const AttachmentLabel = ({ label, disabled, mode, arrayHelpers, handleAttachment
             text="Add"
             type={ACTION_BUTTON_TYPES.icon}
             rest={{
+              "aria-label": i18n.t("buttons.new"),
               onClick: () => handleAttachmentAddition(arrayHelpers)
             }}
           />

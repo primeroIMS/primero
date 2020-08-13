@@ -78,7 +78,7 @@ const Search = ({ handleReset }) => {
           inputProps={{ "aria-label": i18n.t("navigation.search") }}
           endAdornment={
             <InputAdornment position="end">
-              <IconButton className={css.iconSearchButton} onClick={handleClear}>
+              <IconButton aria-label="Menu" className={css.iconSearchButton} onClick={handleClear}>
                 <ClearIcon />
               </IconButton>
             </InputAdornment>

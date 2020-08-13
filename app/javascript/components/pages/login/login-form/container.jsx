@@ -82,6 +82,7 @@ const Container = () => {
               text={i18n.t("buttons.login")}
               type={ACTION_BUTTON_TYPES.default}
               rest={{
+                "aria-label": i18n.t("buttons.login"),
                 type: "submit"
               }}
             />

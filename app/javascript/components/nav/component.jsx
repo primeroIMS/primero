@@ -76,7 +76,7 @@ const Nav = () => {
       <div className={css.drawerHeaderContainer}>
         <Hidden mdUp implementation="css">
           <div className={css.drawerHeader}>
-            <IconButton aria-label="menu" onClick={handleToggleDrawer(false)}>
+            <IconButton aria-label="Menu" onClick={handleToggleDrawer(false)}>
               <CloseIcon />
             </IconButton>
           </div>

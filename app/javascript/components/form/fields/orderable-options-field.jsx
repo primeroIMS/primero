@@ -128,6 +128,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, show
           text={i18n.t("buttons.add_another_option")}
           type={ACTION_BUTTON_TYPES.default}
           rest={{
+            "aria-label": i18n.t("buttons.add_another_option"),
             onClick: onAddOption
           }}
         />
@@ -137,6 +138,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, show
           type={ACTION_BUTTON_TYPES.default}
           isCancel
           rest={{
+            "aria-label": i18n.t("buttons.clear_default"),
             onClick: onClearDefault
           }}
         />

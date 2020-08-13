@@ -20,6 +20,7 @@ const Component = ({ handleClick, i18n, mode, subformName, subformIsDisabled }) 
       text={i18n.t("fields.add")}
       type={ACTION_BUTTON_TYPES.default}
       rest={{
+        "aria-label": i18n.t("buttons.new"),
         onClick: handleClick
       }}
     />

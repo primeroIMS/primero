@@ -20,10 +20,7 @@ const SnackbarAction = ({ action, actionLabel, actionUrl, closeSnackbar, key }) 
           {actionLabel}
         </Button>
       ) : null}
-      <IconButton
-        aria-label={i18n.t("buttons.close")}
-        onClick={handleSnackClose}
-      >
+      <IconButton onClick={handleSnackClose}>
         <CloseIcon />
       </IconButton>
     </>

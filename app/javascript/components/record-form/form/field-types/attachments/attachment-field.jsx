@@ -52,6 +52,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
               type={ACTION_BUTTON_TYPES.icon}
               isCancel
               rest={{
+                "aria-label": i18n.t("buttons.delete"),
                 onClick: handleRemove
               }}
             />

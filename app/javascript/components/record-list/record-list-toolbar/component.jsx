@@ -20,11 +20,7 @@ const Component = ({ title, recordType, handleDrawer, mobileDisplay, selectedRec
       </Box>
       <Box>
         {mobileDisplay && (
-          <IconButton
-            aria-label={i18n.t("buttons.filter_label")}
-            onClick={handleDrawer}
-            color="primary"
-          >
+          <IconButton aria-label={i18n.t("buttons.filter_label")} onClick={handleDrawer} color="primary">
             <FilterListIcon />
           </IconButton>
         )}
