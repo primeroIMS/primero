@@ -22,9 +22,9 @@ class Ability
       uzer.user_name == user.user_name
     end
 
-    can :search, User if user.has_permission_by_permission_type?(Permission::CASE, Permission::TRANSFER) ||
-                         user.has_permission_by_permission_type?(Permission::CASE, Permission::ASSIGN) ||
-                         user.has_permission_by_permission_type?(Permission::CASE, Permission::REFERRAL)
+    can :search, User if user.permission_by_permission_type?(Permission::CASE, Permission::TRANSFER) ||
+                         user.permission_by_permission_type?(Permission::CASE, Permission::ASSIGN) ||
+                         user.permission_by_permission_type?(Permission::CASE, Permission::REFERRAL)
 
     can [:read_reports], Report do |report|
       can?(:read, report) || can?(:group_read, report)
@@ -84,11 +84,11 @@ class Ability
         true
       elsif uzer.user_admin?
         false
-      elsif user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
+      elsif user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
             user.agency == uzer.agency
         true
       # TODO: should this be limited in a more generic way rather than by not agency user admin?
-      elsif !user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
+      elsif !user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
             (user.group_permission?(Permission::GROUP) || user.group_permission?(Permission::ALL))
         # TODO-permission: Add check that the current user has the ability to edit the uzer's role
         # True if, The user's role's associated_role_ids include the uzer's role_id
@@ -169,7 +169,7 @@ class Ability
       can actions, resource do |instance|
         permitted_to_access_record?(user, instance)
       end
-      can(:index, Task) if (resource == Child) && user.has_permission?(Permission::DASH_TASKS)
+      can(:index, Task) if (resource == Child) && user.permission?(Permission::DASH_TASKS)
     else
       can actions, resource
     end

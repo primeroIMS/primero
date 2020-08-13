@@ -443,9 +443,9 @@ describe User do
     end
 
     it 'is a manager if set flag' do
-      expect(@manager.is_manager?).to be_truthy
-      expect(@grunt1.is_manager?).to be_falsey
-      expect(@grunt2.is_manager?).to be_falsey
+      expect(@manager.manager?).to be_truthy
+      expect(@grunt1.manager?).to be_falsey
+      expect(@grunt2.manager?).to be_falsey
     end
 
     it 'manages all people in its group including itself' do
@@ -474,19 +474,19 @@ describe User do
     end
 
     it 'should have READ permission' do
-      expect(@user_perm.has_permission?(Permission::READ)).to be_truthy
+      expect(@user_perm.permission?(Permission::READ)).to be_truthy
     end
 
     it 'should have SYNC_MOBILE permission' do
-      expect(@user_perm.has_permission?(Permission::SYNC_MOBILE)).to be_truthy
+      expect(@user_perm.permission?(Permission::SYNC_MOBILE)).to be_truthy
     end
 
     it 'should have APPROVE_CASE_PLAN permission' do
-      expect(@user_perm.has_permission?(Permission::APPROVE_CASE_PLAN)).to be_truthy
+      expect(@user_perm.permission?(Permission::APPROVE_CASE_PLAN)).to be_truthy
     end
 
     it 'should not have WRITE permission' do
-      expect(@user_perm.has_permission?(Permission::WRITE)).to be_falsey
+      expect(@user_perm.permission?(Permission::WRITE)).to be_falsey
     end
 
     it 'should can_approve_assessment? equals true' do

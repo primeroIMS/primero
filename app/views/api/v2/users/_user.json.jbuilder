@@ -35,7 +35,7 @@ if @extended
       { users: Header.user_headers },
       { user_groups: Header.user_group_headers }
     ]).inject(&:merge),
-    is_manager: user.is_manager?
+    is_manager: user.manager?
   )
 end
 

@@ -122,7 +122,7 @@ class User < ApplicationRecord
         filters = filters.compact
         filters['disabled'] = filters['disabled'].values if filters['disabled'].present?
         users = users.where(filters)
-        if user.present? && user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
+        if user.present? && user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
           users = users.where(organization: user.organization)
         end
         users
@@ -139,16 +139,16 @@ class User < ApplicationRecord
       return User.none unless model.present?
 
       users = where(disabled: false).where.not(id: user.id)
-      if user.can? :assign, model
-        users
-      elsif user.can? :assign_within_agency, model
-        users.where(agency_id: user.agency_id)
-      elsif user.can? :assign_within_user_group, model
-        users.joins('join user_groups_users on users.id = user_groups_users.user_id')
-             .where('user_groups_users.user_group_id in (?)', user.user_groups.pluck(:id))
-      else
-        []
+      return users if user.can? :assign, model
+
+      return users.where(agency_id: user.agency_id) if user.can? :assign_within_agency, model
+
+      if user.can? :assign_within_user_group, model
+        return users.joins('join user_groups_users on users.id = user_groups_users.user_id')
+                    .where('user_groups_users.user_group_id in (?)', user.user_groups.pluck(:id))
       end
+
+      []
     end
 
     def users_for_referral(user, model, filters)
@@ -160,18 +160,16 @@ class User < ApplicationRecord
     end
 
     def users_for_transition(user, model, filters, permission)
-      return User.none unless model.present?
+      return User.none if model.blank?
 
-      users = users_with_permission(model, permission)
-              .where(disabled: false)
-              .where.not(id: user.id)
-      if filters.present?
-        services_filter = filters.delete('services')
-        agencies_filter = filters.delete('agency')
-        users = users.where(filters) if filters.present?
-        users = users.where(':service = ANY (users.services)', service: services_filter) if services_filter.present?
-        users = users.joins(:agency).where(agencies: { unique_id: agencies_filter }) if agencies_filter.present?
-      end
+      users = users_with_permission(model, permission).where(disabled: false).where.not(id: user.id)
+      return users if filters.blank?
+
+      services_filter = filters.delete('services')
+      agencies_filter = filters.delete('agency')
+      users = users.where(filters) if filters.present?
+      users = users.where(':service = ANY (users.services)', service: services_filter) if services_filter.present?
+      users = users.joins(:agency).where(agencies: { unique_id: agencies_filter }) if agencies_filter.present?
       users
     end
 
@@ -236,7 +234,7 @@ class User < ApplicationRecord
   end
 
   def reporting_location
-    location = self.user_location
+    location = user_location
     return nil if location.blank?
 
     admin_level = reporting_location_admin_level
@@ -256,13 +254,13 @@ class User < ApplicationRecord
     ss_reporting_location = @system_settings&.reporting_location_config
     return nil if ss_reporting_location.blank?
 
-    reporting_location_config = set_secondary_reporting_location(ss_reporting_location)
+    reporting_location_config = secondary_reporting_location(ss_reporting_location)
     reporting_location_config
   end
 
   # If the user's Role has a secondary reporting location (indicated by reporting_location_level),
   # override the reporting location from SystemSettings
-  def set_secondary_reporting_location(ss_reporting_location)
+  def secondary_reporting_location(ss_reporting_location)
     role_reporting_location_level = role&.reporting_location_level
     return ss_reporting_location if role_reporting_location_level.blank?
 
@@ -290,16 +288,16 @@ class User < ApplicationRecord
     @module_unique_ids ||= modules.pluck(:unique_id)
   end
 
-  def has_module?(module_unique_id)
+  def module?(module_unique_id)
     module_unique_ids.include?(module_unique_id)
   end
 
-  def has_permission?(permission)
+  def permission?(permission)
     role.permissions && role.permissions
                             .map(&:actions).flatten.include?(permission)
   end
 
-  def has_permission_by_permission_type?(permission_type, permission)
+  def permission_by_permission_type?(permission_type, permission)
     permissions_for_type = role.permissions
                                .select { |perm| perm.resource == permission_type }
     permissions_for_type.present? &&
@@ -310,13 +308,8 @@ class User < ApplicationRecord
     role&.group_permission == permission
   end
 
-  def has_any_permission?(*any_of_permissions)
-    (any_of_permissions.flatten - role.permissions).count <
-      any_of_permissions.flatten.count
-  end
-
   def can_preview?(record_type)
-    has_permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
+    permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
   end
 
   def managed_users
@@ -337,7 +330,7 @@ class User < ApplicationRecord
 
   def user_managers
     @managers = User.all.select do |u|
-      (u.user_group_ids & user_group_ids).any? && u.is_manager?
+      (u.user_group_ids & user_group_ids).any? && u.manager?
     end
   end
 
@@ -417,11 +410,11 @@ class User < ApplicationRecord
     end&.dig('display_text')
   end
 
-  def has_reporting_location_filter?
+  def reporting_location_filter?
     modules.any?(&:reporting_location_filter)
   end
 
-  def has_user_group_filter?
+  def user_group_filter?
     modules.any?(&:user_group_filter)
   end
 
@@ -457,12 +450,12 @@ class User < ApplicationRecord
     @ability ||= Ability.new(self)
   end
 
-  def is_manager?
+  def manager?
     role.is_manager
   end
 
   def gbv?
-    has_module?(PrimeroModule::GBV)
+    module?(PrimeroModule::GBV)
   end
 
   def tasks(pagination = { per_page: 100, page: 1 })
