@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# Users belong to user groups which may be used to limit the records that an individual user may have access to.
 class UserGroup < ApplicationRecord
-  include Configuration
+  include ConfigurationRecord
 
   before_create :set_unique_id
 

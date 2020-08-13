@@ -2,7 +2,7 @@
 
 # Configures the behavior of a module of Primero
 class PrimeroModule < ApplicationRecord
-  include Configuration
+  include ConfigurationRecord
 
   CP = 'primeromodule-cp'
   GBV = 'primeromodule-gbv'

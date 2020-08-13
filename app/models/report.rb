@@ -2,7 +2,7 @@ class Report < ApplicationRecord
 
   # include Memoizable
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
 
   REPORTABLE_FIELD_TYPES = [
     #Field::TEXT_FIELD,

@@ -3,7 +3,7 @@
 # Represents an administrative level: country, state, province, township
 class Location < ApplicationRecord
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
 
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5].freeze
   ADMIN_LEVEL_OUT_OF_RANGE = 100

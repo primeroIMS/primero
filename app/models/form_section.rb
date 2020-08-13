@@ -1,7 +1,7 @@
 class FormSection < ApplicationRecord
 
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
   # include Importable # TODO: This will need to be rewritten
   # include Memoizable
 

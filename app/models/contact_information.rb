@@ -1,11 +1,10 @@
+# frozen_string_literal: true
+
+# System-level contact info
 class ContactInformation < ApplicationRecord
-  include Configuration
+  include ConfigurationRecord
 
   def self.current
     ContactInformation.first
-  end
-
-  def self.get_or_create
-    ContactInformation.first || ContactInformation.create
   end
 end

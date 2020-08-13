@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class Field < ApplicationRecord
-
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
   # include Memoizable
 
   localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label, :option_strings_text
@@ -15,11 +14,11 @@ class Field < ApplicationRecord
   # This relation will be optional because the scoped association in FormSection will fail otherwise.
   belongs_to :form_section, optional: true
   belongs_to :subform, foreign_key: 'subform_section_id', class_name: 'FormSection', optional: true
-  belongs_to :collapsed_field_for_subform, foreign_key: 'collapsed_field_for_subform_section_id', class_name: 'FormSection', optional: true
+  belongs_to :collapsed_field_for_subform, foreign_key: 'collapsed_field_for_subform_section_id',
+                                           class_name: 'FormSection', optional: true
 
   alias_attribute :form, :form_section
   alias_attribute :subform_section, :subform
-
 
   TEXT_FIELD = 'text_field'
   TEXT_AREA = 'textarea'
@@ -63,18 +62,18 @@ class Field < ApplicationRecord
     ]
   end
 
-  #TODO: Move to migration
+  # TODO: Move to migration
   def defaults
     self.date_validation ||= 'default_date_validation'
     self.autosum_group ||= ''
-    #self.attributes = properties #TODO: what is this?
+    # self.attributes = properties #TODO: what is this?
   end
 
-  def localized_property_hash(locale=Primero::Application::BASE_LANGUAGE)
+  def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE)
     lh = localized_hash(locale)
-    if self.option_strings_text.present?
+    if option_strings_text.present?
       fh = {}
-      self.option_strings_text(locale).each{|os| fh[os['id']] = os['display_text']}
+      option_strings_text(locale).each{|os| fh[os['id']] = os['display_text']}
       lh['option_strings_text'] = fh
     end
     lh
@@ -84,41 +83,41 @@ class Field < ApplicationRecord
     special_characters = /[*!@#%$\^]/
     white_spaces = /^(\s+)$/
     if (display_name_en =~ special_characters) || (display_name_en =~ white_spaces)
-      #TODO: I18n!
+      # TODO: I18n!
       errors.add(:display_name, I18n.t('errors.models.field.display_name_format'))
-      return false
+      false
     else
-      return true
+      true
     end
   end
 
-  #Only allow name to have lower case alpha, numbers and underscore
+  # Only allow name to have lower case alpha, numbers and underscore
   def validate_name_format
     if name.blank?
       errors.add(:name, I18n.t('errors.models.field.name_presence'))
-      return false
+      false
     elsif name =~ /[^a-z0-9_]/
       errors.add(:name, I18n.t('errors.models.field.name_format'))
-      return false
+      false
     elsif name =~ /^\d/
       errors.add(:name, I18n.t('errors.models.field.name_format_number_first'))
-      return false
+      false
     else
-      return true
+      true
     end
   end
 
   def validate_display_name_in_english
-    unless (self.display_name(Primero::Application::BASE_LANGUAGE).present?)
+    unless (display_name(Primero::Application::BASE_LANGUAGE).present?)
       errors.add(:display_name, I18n.t('errors.models.field.display_name_presence'))
-      return false
+      false
     end
   end
 
   def validate_option_strings_text
     base_options = self.option_strings_text(Primero::Application::BASE_LANGUAGE)
     if base_options.blank?
-      #If base options are blank, then all translated options should also be blank
+      # If base options are blank, then all translated options should also be blank
       if Primero::Application::locales.any? {|locale| self.option_strings_text(locale).present?}
         errors.add(:option_strings_text, I18n.t('errors.models.field.option_strings_text.translations_not_empty'))
         return false
@@ -226,7 +225,6 @@ class Field < ApplicationRecord
     end
   end
 
-
   class << self
     def fields_for_record(parent_form, is_subform=false)
       Field.joins(:form_section).where(form_sections: {parent_form: parent_form, is_nested: is_subform})
@@ -273,9 +271,9 @@ class Field < ApplicationRecord
       end
       result
     end
-    #memoize_in_prod :get_by_name
+    # memoize_in_prod :get_by_name
 
-    #TODO: This is a HACK to pull back location fields from admin solr index names,
+    # TODO: This is a HACK to pull back location fields from admin solr index names,
     #      completely based on assumptions.
     #      Also it's inefficient, and potentially inconsistent with itself
     def find_by_name(field_name)
@@ -305,7 +303,7 @@ class Field < ApplicationRecord
       return field
     end
 
-    #This allows us to use the property 'type' on Field, normally reserved by ActiveRecord
+    # This allows us to use the property 'type' on Field, normally reserved by ActiveRecord
     def inheritance_column ; 'type_inheritance' ; end
 
     def find_with_append_only_subform
@@ -323,7 +321,7 @@ class Field < ApplicationRecord
   end
 
   def export
-    self.attributes.tap do |form|
+    attributes.tap do |form|
       form.delete('id')
       form['form_section_id'] = self.form_section.unique_id
       form['subform_section_id'] = self.subform.unique_id if self.subform.present?
@@ -342,7 +340,7 @@ class Field < ApplicationRecord
       options_list << {id: 'false', display_text: I18n.t('false')}
     elsif self.option_strings_source.present?
       source_options = self.option_strings_source.split
-      #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
+      # TODO: PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
       #       Bad smell: really we need this to be generic for any kind of lookup for any kind of class
 
       # TODO: This will have to be refactored as we move more of these to the /source_options endpoint. JT
@@ -360,18 +358,18 @@ class Field < ApplicationRecord
       when 'User'
         options_list += []
       else
-        #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
-        clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
+        # TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
+        clazz = Kernel.const_get(source_options.first) # TODO: hoping this guy exists and is a class!
         options_list += clazz.all_names
       end
     else
-      options_list += (self.option_strings_text.present? ? display_option_strings(locale) : [])
+      options_list += (option_strings_text.present? ? display_option_strings(locale) : [])
     end
     return options_list
   end
 
-  #Use the current locale's options only if its display text is present.
-  #Else use the default locale's options
+  # Use the current locale's options only if its display text is present.
+  # Else use the default locale's options
   def display_option_strings(current_locale)
     locale_options = self.option_strings_text(current_locale)
     return locale_options if locale_options.any?{|op| op['display_text'].present?}
@@ -419,7 +417,7 @@ class Field < ApplicationRecord
   end
 
   def default_value
-    case self.type
+    case type
     when TEXT_FIELD, TEXT_AREA, RADIO_BUTTON, SELECT_BOX, DATE_FIELD, DATE_RANGE, NUMERIC_FIELD, TALLY_FIELD
       ''
     when PHOTO_UPLOAD_BOX, AUDIO_UPLOAD_BOX, DOCUMENT_UPLOAD_BOX, SUBFORM
@@ -431,21 +429,21 @@ class Field < ApplicationRecord
     end
   end
 
-  #TODO: Refactor with UIUX
+  # TODO: Refactor with UIUX
   def tag_name_attribute(objName = 'child')
     "#{objName}[#{name}]"
   end
 
   def subform_group_by_field
     # TODO: This is an extra DB query
-    if self.type == SUBFORM && self.subform_group_by.present?
+    if type == SUBFORM && subform_group_by.present?
       unless @subform_group_by_field.present?
         @subform_group_by_field = subform_section.joins(:fields)
           .where(fields: {name: self.subform_group_by, type: [ Field::RADIO_BUTTON, Field::SELECT_BOX] })
           .first
       end
     end
-    return @subform_group_by_field
+    @subform_group_by_field
   end
 
   def subform_group_by_values
@@ -456,18 +454,18 @@ class Field < ApplicationRecord
         [o['id'], o['display_text']]
       end.to_h
     end
-    return subform_group_by_values
+    subform_group_by_values
   end
 
 
   def localized_attributes_hash(locales, lookups=nil, locations=nil)
-    field_hash = self.attributes.clone
+    field_hash = attributes.clone
     Field.localized_properties.each do |property|
       field_hash[property] = {}
       key = "#{property.to_s}_i18n"
       Primero::Application::locales.each do |locale|
         if property == :option_strings_text
-          #value = field.options_list(@lookups) #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
+          # value = field.options_list(@lookups) #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
           value = self.options_list(nil, lookups, locations)
         elsif  field_hash[key].present?
           value = field_hash[key][locale]
@@ -634,5 +632,4 @@ class Field < ApplicationRecord
     self.send("option_strings_text_#{locale}=", options)
     self.save!
   end
-
 end

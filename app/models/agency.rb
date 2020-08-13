@@ -3,7 +3,7 @@
 # Organizations that users who manage the the data in Primero belong to.
 class Agency < ApplicationRecord
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
 
   LOGO_DIMENSION = {
     logo_full: { width: 512, height: 512 },

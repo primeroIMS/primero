@@ -2,10 +2,8 @@
 
 # The model for Role
 class Role < ApplicationRecord
-  # include Importable #TODO: This will need to be rewritten
-  # include Memoizable
   include Cloneable
-  include Configuration
+  include ConfigurationRecord
 
   has_and_belongs_to_many :form_sections, -> { distinct }
   has_and_belongs_to_many :primero_modules, -> { distinct }

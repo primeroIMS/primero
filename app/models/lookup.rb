@@ -2,15 +2,14 @@
 
 # Model for Lookup
 class Lookup < ApplicationRecord
-  # include Memoizable
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
 
   localize_properties :name
   localize_properties :lookup_values
 
-  #TODO - seems to be causing trouble
-  #TODO - remove  (No longer using in lookup seeds / config)
+  # TODO: seems to be causing trouble
+  # TODO: remove  (No longer using in lookup seeds / config)
   DEFAULT_UNKNOWN_ID_TO_NIL = 'default_convert_unknown_id_to_nil'
 
   validate :validate_name_in_english
@@ -40,7 +39,6 @@ class Lookup < ApplicationRecord
                end
       lookup.present? ? (lookup.lookup_values(locale) || []) : []
     end
-    # memoize_in_prod :values
 
     def values_for_select(lookup_id, lookups = nil, opts = {})
       opts[:locale] = I18n.locale
@@ -55,7 +53,6 @@ class Lookup < ApplicationRecord
       locale = opts[:locale].presence || I18n.locale
       form_group_names[locale.to_s]
     end
-    # memoize_in_prod :form_group_name
 
     # This replaces form_group_name above
     def form_group_name_all(form_group_id, parent_form, module_name, lookups = nil)
@@ -106,7 +103,6 @@ class Lookup < ApplicationRecord
     def get_location_types
       find_by(unique_id: 'lookup-location-type')
     end
-    # memoize_in_prod :get_location_types
 
     def import_translations(locale, lookups_hash = {})
       if locale.present? && Primero::Application.locales.include?(locale)
@@ -255,13 +251,14 @@ class Lookup < ApplicationRecord
       option_id_updated = false
       if option.is_a?(Hash)
         if option['id'].blank? && option['display_text'].present?
-          #TODO - examine if this is proper
-          #TODO - Using a random number at the end screws things up when exporting the lookup.yml to load into Transifex
+          # TODO: examine if this is proper
+          # TODO: Using a random number at the end screws things up when exporting the lookup.yml
+          #       to load into Transifex
           new_option_id = option['display_text'].parameterize.underscore + '_' + rand.to_s[2..6]
           option_id_updated = true
         elsif option['id'] == DEFAULT_UNKNOWN_ID_TO_NIL
-          #TODO - seems to be causing trouble
-          #TODO - remove  (No longer using in lookup seeds / config)
+          # TODO: seems to be causing trouble
+          # TODO: remove  (No longer using in lookup seeds / config)
           new_option_id = nil
           option_id_updated = true
         end
@@ -276,7 +273,7 @@ class Lookup < ApplicationRecord
   end
 
   def sync_lookup_values
-    #Do not create any new lookup values that do not have a matching lookup value in the default language
+    # Do not create any new lookup values that do not have a matching lookup value in the default language
     default_ids = lookup_values_en&.map { |lv| lv['id'] }
 
     return unless default_ids.present?
