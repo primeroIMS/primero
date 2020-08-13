@@ -31,11 +31,11 @@ class Role < ApplicationRecord
                    reporting_location_levels.blank? ||
                    reporting_location_levels.include?(reporting_location_level)
 
-    errors.add(:reporting_location_level, I18n.t("errors.models.role.reporting_location_level"))
+    errors.add(:reporting_location_level, I18n.t('errors.models.role.reporting_location_level'))
     false
   end
 
-  def has_permitted_form_id?(form_unique_id_id)
+  def permitted_form_id?(form_unique_id_id)
     form_sections.map(&:unique_id).include?(form_unique_id_id)
   end
 
