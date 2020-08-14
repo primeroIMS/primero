@@ -2190,6 +2190,7 @@ en:
     service_label: "Service"
     consent_label: "records have not provided consent."
     consent_override_label: "Do you wish to override this setting?"
+    notes_referral_label: "Notes on referral from provider"
     is_remote_label: "Are you referring to a remote system?"
     type_of_export: "What type of export do you want"
     notes_label: "Notes"
