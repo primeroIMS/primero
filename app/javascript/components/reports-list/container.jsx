@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card, CardContent, CardActionArea, TablePagination, Box } from "@material-ui/core";
-import { withRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 
@@ -23,7 +23,7 @@ import styles from "./styles.css";
 import { selectReportsPagination, selectReports, selectLoading } from "./selectors";
 import NAMESPACE from "./namespace";
 
-const Reports = ({ location }) => {
+const Reports = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { css } = useThemeHelper(styles);
@@ -52,7 +52,7 @@ const Reports = ({ location }) => {
   //   }
   // ]);
 
-  useMetadata(NAMESPACE, metadata, location, fetchReports, "options");
+  useMetadata(NAMESPACE, metadata, fetchReports, "options");
 
   const paginationProps = {
     count: reportsPagination.get("total"),
@@ -114,4 +114,4 @@ Reports.propTypes = {
   location: PropTypes.object.isRequired
 };
 
-export default withRouter(Reports);
+export default Reports;

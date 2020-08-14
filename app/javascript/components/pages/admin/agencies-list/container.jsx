@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -29,7 +29,6 @@ const Container = () => {
   const canAddAgencies = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.agencies;
   const headers = useSelector(state => getListHeaders(state, RESOURCES.agencies));
-  const location = useLocation();
 
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultMetadata = metadata?.toJS();
@@ -42,7 +41,7 @@ const Container = () => {
   });
   const columns = headersToColumns(headers, i18n);
 
-  useMetadata(recordType, metadata, location, fetchAgencies, "data", { defaultFilterFields });
+  useMetadata(recordType, metadata, fetchAgencies, "data", { defaultFilterFields });
 
   const tableOptions = {
     recordType,

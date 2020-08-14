@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { push } from "connected-react-router";
 
 import { useI18n } from "../../../i18n";
@@ -28,7 +28,6 @@ const Component = () => {
   const recordType = ["admin", "lookups"];
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultFilters = metadata;
-  const location = useLocation();
 
   const newUserGroupBtn = (
     <ActionButton
@@ -42,7 +41,7 @@ const Component = () => {
     />
   );
 
-  useMetadata(recordType, metadata, location, fetchAdminLookups, "data");
+  useMetadata(recordType, metadata, fetchAdminLookups, "data");
 
   const onRowClick = data => dispatch(push(`${RECORD_PATH.lookups}/${data?.rowData[0]}`));
 

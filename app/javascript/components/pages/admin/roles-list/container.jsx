@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { List } from "immutable";
 import AddIcon from "@material-ui/icons/Add";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -28,9 +28,8 @@ const Container = () => {
   }));
   const metadata = useSelector(state => getMetadata(state, "roles"));
   const defaultFilters = metadata;
-  const location = useLocation();
 
-  useMetadata(recordType, metadata, location, fetchRoles, "data");
+  useMetadata(recordType, metadata, fetchRoles, "data");
 
   const tableOptions = {
     recordType: [ADMIN_NAMESPACE, NAMESPACE],

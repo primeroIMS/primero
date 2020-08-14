@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { fromJS } from "immutable";
-import { withRouter, useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import qs from "qs";
@@ -35,7 +35,6 @@ const Container = ({ match, location }) => {
   const { css, mobileDisplay } = useThemeHelper(styles);
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [drawer, setDrawer] = useState(false);
-  const history = useHistory();
 
   const { url } = match;
   const { search } = location;
@@ -68,7 +67,7 @@ const Container = ({ match, location }) => {
     ...defaultMetadata
   });
 
-  useMetadata(recordType, metadata, location, applyFilters, "data", {
+  useMetadata(recordType, metadata, applyFilters, "data", {
     defaultFilterFields: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS(),
     restActionParams: { recordType }
   });

@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AddIcon from "@material-ui/icons/Add";
-import { Link, useHistory, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -31,9 +31,8 @@ const Container = () => {
     name: fieldName,
     ...rest
   }));
-  const location = useLocation();
 
-  useMetadata(recordType, metadata, location, fetchUserGroups, "data");
+  useMetadata(recordType, metadata, fetchUserGroups, "data");
 
   const tableOptions = {
     recordType,

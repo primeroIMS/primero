@@ -3,7 +3,7 @@ import { batch, useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -29,8 +29,6 @@ const Container = () => {
   const dispatch = useDispatch();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = "users";
-  const history = useHistory();
-  const location = useLocation();
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
@@ -51,7 +49,7 @@ const Container = () => {
     dispatch(fetchAgencies({ options: { per: 999 } }));
   }, []);
 
-  useMetadata(recordType, metadata, location, fetchUsers, "data");
+  useMetadata(recordType, metadata, fetchUsers, "data");
 
   const tableOptions = {
     recordType,

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { Map } from "immutable";
 import pickBy from "lodash/pickBy";
 
@@ -93,13 +93,13 @@ export const cleanUpFilters = filters => {
 export const useMetadata = (
   recordType,
   metadata,
-  location,
   fetch,
   fetchParam,
   { defaultFilterFields, restActionParams } = {}
 ) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     fetchDataIfNotBackButton(metadata?.toJS(), location, history, fetch, fetchParam, {
