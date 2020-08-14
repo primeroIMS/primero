@@ -69,6 +69,7 @@ describe Api::V2::RolesController, type: :request do
       referral: false,
       transfer: false,
       is_manager: true,
+      reporting_location_level: 'district',
       permissions: @permissions_test,
       form_sections: [@form_section_a],
       modules: [@cp_b]
@@ -81,6 +82,7 @@ describe Api::V2::RolesController, type: :request do
       referral: false,
       transfer: false,
       is_manager: true,
+      reporting_location_level: 'province',
       permissions: @permissions_test,
       form_sections: [@form_section_a],
       modules: [@cp_a]
@@ -164,14 +166,15 @@ describe Api::V2::RolesController, type: :request do
     it 'list only those roles authorized for the user' do
       login_for_test(
         permissions: [
-          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE], role_unique_ids: [@role_a.unique_id, @role_b.unique_id])
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE],
+                         role_unique_ids: [@role_a.unique_id, @role_b.unique_id])
         ]
       )
 
       get '/api/v2/roles'
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
-      expect(json['data'].map { |role| role['unique_id'] }).to include("role_test_01", "role_test_02")
+      expect(json['data'].map { |role| role['unique_id'] }).to include('role_test_01', 'role_test_02')
     end
   end
 
@@ -381,6 +384,7 @@ describe Api::V2::RolesController, type: :request do
           referral: false,
           transfer: false,
           is_manager: true,
+          reporting_location_level: 'province',
           form_section_unique_ids: %w[C],
           module_unique_ids: [@cp_b.unique_id],
           permissions: {
@@ -427,6 +431,7 @@ describe Api::V2::RolesController, type: :request do
           referral: false,
           transfer: false,
           is_manager: true,
+          reporting_location_level: 'province',
           form_section_unique_ids: %w[C],
           module_unique_ids: [@cp_b.unique_id]
         }

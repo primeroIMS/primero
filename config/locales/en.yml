@@ -2095,6 +2095,9 @@ en:
               information contained in the fields on that form. If the current user has limited form access and has the
               ability to manage the form configuration, limiting their form access also limits which forms they can configure.
               NOTE: If no forms are specified, it means the role has access to all the forms for cases."
+      reporting_location_level:
+        label: "What location type should be used for reporting for this role?"
+        explanation: "TODO"
 
     permission:
       read: "Read"

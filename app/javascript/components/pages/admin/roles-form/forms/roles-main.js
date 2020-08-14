@@ -51,6 +51,13 @@ export default (groupPermissions, i18n) => {
         name: FIELD_NAMES.groupPermission,
         type: SELECT_FIELD,
         option_strings_text: buildPermissionOptions(groupPermissions, i18n, "group").toJS()
+      }),
+      FieldRecord({
+        display_name: i18n.t("permissions.resource.reporting_location_level.label"),
+        tooltip: i18n.t("permissions.resource.reporting_location_level.explanation"),
+        name: FIELD_NAMES.reportingLocationLevel,
+        type: SELECT_FIELD,
+        option_strings_source: "lookup-reporting-location-type"
       })
     ]
   });
