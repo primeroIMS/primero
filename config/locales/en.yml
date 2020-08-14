@@ -2476,6 +2476,7 @@ en:
     show_on: "Show on"
     mobile_visible: "Mobile app"
     english_text: "English Text"
+    translation_text: "Translation Text"
     enabled: "Enabled?"
     default: "Default?"
     subform_sort_by: "Sort by"

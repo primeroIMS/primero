@@ -30,6 +30,7 @@ import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/co
 import { getOptions } from "../../../../../record-form/selectors";
 import { getLabelTypeField } from "../utils";
 import CustomFieldDialog from "../custom-field-dialog";
+import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "../field-translations-dialog";
 
 import styles from "./styles.css";
 import {
@@ -64,7 +65,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
     formMode,
     css,
     lookups,
-    isNested
+    isNested,
+    onManageTranslations: () => {
+      dispatch(setDialog({ dialog: FieldTranslationsDialogName, open: true }));
+    }
   });
 
   const formMethods = useForm({ validationSchema });
@@ -186,6 +190,30 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
   const renderClearButtons = () => isSubformField(selectedField) && <ClearButtons subformField={selectedField} />;
 
+  const setLocaleField = (fieldName, locales) => {
+    Object.entries(locales).forEach(([localeId, value]) => {
+      if (!localeId) {
+        return;
+      }
+
+      const fieldPath = `${fieldName}.${localeId}`;
+
+      if (!formMethods.control.fields[fieldPath]) {
+        formMethods.register({ name: fieldPath });
+      }
+
+      formMethods.setValue(`${fieldPath}`, value);
+    });
+  };
+
+  const onUpdateTranslation = data => {
+    Object.entries(data).forEach(([fieldKey, fieldNames]) => {
+      Object.entries(fieldNames).forEach(([fieldName, locales]) => {
+        setLocaleField(`${fieldKey}.${fieldName}`, locales);
+      });
+    });
+  };
+
   useEffect(() => {
     if (selectedField?.toSeq()?.size) {
       const fieldData = toggleHideOnViewPage(transformValues(selectedField.toJS()));
@@ -224,15 +252,25 @@ const Component = ({ mode, onClose, onSuccess }) => {
   }, []);
 
   return (
-    <ActionDialog {...modalProps}>
-      <FormContext {...formMethods} formMode={formMode}>
-        <form className={css.fieldDialog}>
-          {renderForms()}
-          {renderFieldsList()}
-          {renderClearButtons()}
-        </form>
-      </FormContext>
-    </ActionDialog>
+    <>
+      <ActionDialog {...modalProps}>
+        <FormContext {...formMethods} formMode={formMode}>
+          <form className={css.fieldDialog}>
+            {renderForms()}
+            {renderFieldsList()}
+            {renderClearButtons()}
+          </form>
+        </FormContext>
+      </ActionDialog>
+
+      <FieldTranslationsDialog
+        mode={mode}
+        field={selectedField}
+        subform={selectedSubform}
+        currentValues={formMethods.getValues({ nest: true })}
+        onSuccess={onUpdateTranslation}
+      />
+    </>
   );
 };
 
