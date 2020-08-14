@@ -14,7 +14,7 @@ import { useThemeHelper } from "../../../../libs";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
-import { fetchDataIfNotBackButton, clearMetadataOnLocationChange } from "../../../records";
+import { useMetadata } from "../../../records";
 
 import { NAME } from "./constants";
 import { fetchAdminLookups } from "./action-creators";
@@ -28,7 +28,6 @@ const Component = () => {
   const recordType = ["admin", "lookups"];
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultFilters = metadata;
-  const history = useHistory();
   const location = useLocation();
 
   const newUserGroupBtn = (
@@ -43,17 +42,7 @@ const Component = () => {
     />
   );
 
-  useEffect(() => {
-    fetchDataIfNotBackButton(metadata?.toJS(), location, history, fetchAdminLookups, "data", { dispatch });
-  }, [location]);
-
-  useEffect(() => {
-    return () => {
-      clearMetadataOnLocationChange(location, history, recordType, 1, {
-        dispatch
-      });
-    };
-  }, []);
+  useMetadata(recordType, metadata, location, fetchAdminLookups, "data");
 
   const onRowClick = data => dispatch(push(`${RECORD_PATH.lookups}/${data?.rowData[0]}`));
 

@@ -18,7 +18,7 @@ import { Filters as AdminFilters } from "../components";
 import { fetchAgencies } from "../agencies-list/action-creators";
 import { getEnabledAgencies } from "../../../application/selectors";
 import { getMetadata } from "../../../record-list";
-import { fetchDataIfNotBackButton, clearMetadataOnLocationChange } from "../../../records";
+import { useMetadata } from "../../../records";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED } from "./constants";
@@ -51,20 +51,7 @@ const Container = () => {
     dispatch(fetchAgencies({ options: { per: 999 } }));
   }, []);
 
-  useEffect(() => {
-    fetchDataIfNotBackButton(metadata?.toJS(), location, history, fetchUsers, "data", {
-      dispatch,
-      defaultFilterFields
-    });
-  }, [location]);
-
-  useEffect(() => {
-    return () => {
-      clearMetadataOnLocationChange(location, history, recordType, 1, {
-        dispatch
-      });
-    };
-  }, []);
+  useMetadata(recordType, metadata, location, fetchUsers, "data");
 
   const tableOptions = {
     recordType,

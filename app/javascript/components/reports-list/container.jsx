@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Card, CardContent, CardActionArea, TablePagination, Box } from "@material-ui/core";
-import { withRouter, Link, useHistory } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 
@@ -16,7 +16,7 @@ import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import { getMetadata } from "../record-list";
-import { fetchDataIfNotBackButton, clearMetadataOnLocationChange } from "../records";
+import { useMetadata } from "../records";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
@@ -27,11 +27,11 @@ const Reports = ({ location }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { css } = useThemeHelper(styles);
-  const history = useHistory();
 
   const reports = useSelector(state => selectReports(state));
   const isLoading = useSelector(state => selectLoading(state));
   const reportsPagination = useSelector(state => selectReportsPagination(state));
+  const metadata = useSelector(state => getMetadata(state, NAMESPACE));
   const canAddReport = usePermissions(NAMESPACE, CREATE_RECORDS);
 
   // const actionMenuItems = fromJS([
@@ -52,19 +52,7 @@ const Reports = ({ location }) => {
   //   }
   // ]);
 
-  const metadata = useSelector(state => getMetadata(state, NAMESPACE));
-
-  useEffect(() => {
-    fetchDataIfNotBackButton(metadata?.toJS(), location, history, fetchReports, "options", { dispatch });
-  }, [location]);
-
-  useEffect(() => {
-    return () => {
-      clearMetadataOnLocationChange(location, history, NAMESPACE, 0, {
-        dispatch
-      });
-    };
-  }, []);
+  useMetadata(NAMESPACE, metadata, location, fetchReports, "options");
 
   const paginationProps = {
     count: reportsPagination.get("total"),

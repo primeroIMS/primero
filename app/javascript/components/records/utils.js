@@ -1,5 +1,6 @@
-/* eslint-disable import/prefer-default-export */
-
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Map } from "immutable";
 import pickBy from "lodash/pickBy";
 
@@ -8,6 +9,42 @@ import { DEFAULT_METADATA } from "../../config";
 import { clearMetadata } from "./action-creators";
 
 const getRouteValue = (index, data) => data.split("/").filter(value => value)[index];
+
+const fetchDataIfNotBackButton = (
+  metadata,
+  location,
+  history,
+  onFetch,
+  searchingKey,
+  { dispatch, defaultFilterFields, restActionParams }
+) => {
+  const { per: currentPer, page: currentPage, total: currentTotal } = metadata;
+  const sameLocation = location.pathname === history.location.pathname;
+  const differentPageOrPer = currentPer !== DEFAULT_METADATA.per || currentPage !== DEFAULT_METADATA.page;
+
+  if (history.action === "PUSH" && sameLocation && differentPageOrPer) {
+    dispatch(
+      onFetch({
+        ...restActionParams,
+        [searchingKey]: { ...defaultFilterFields, ...DEFAULT_METADATA }
+      })
+    );
+  } else if (sameLocation && (differentPageOrPer || currentTotal !== "undefined")) {
+    const defaultFilters = { ...defaultFilterFields, ...metadata };
+
+    dispatch(onFetch({ ...restActionParams, [searchingKey]: defaultFilters }));
+  }
+};
+
+const clearMetadataOnLocationChange = (location, history, recordType, { dispatch }) => {
+  const previous = location.pathname;
+  const current = history.location.pathname;
+  const routeIndexValue = previous.split("/").length <= 2 ? 0 : 1;
+
+  if (getRouteValue(routeIndexValue, previous) !== getRouteValue(routeIndexValue, current)) {
+    dispatch(clearMetadata(Array.isArray(recordType) ? recordType.join("/") : recordType));
+  }
+};
 
 export const cleanUpFilters = filters => {
   const filterSelector = filters instanceof Map ? filters.toJS() : filters;
@@ -53,37 +90,30 @@ export const cleanUpFilters = filters => {
   return result;
 };
 
-export const fetchDataIfNotBackButton = (
+export const useMetadata = (
+  recordType,
   metadata,
   location,
-  history,
-  onFetch,
-  searchingKey,
-  { dispatch, defaultFilterFields, restActionParams }
+  fetch,
+  fetchParam,
+  { defaultFilterFields, restActionParams } = {}
 ) => {
-  const { per: currentPer, page: currentPage, total: currentTotal } = metadata;
-  const sameLocation = location.pathname === history.location.pathname;
-  const differentPageOrPer = currentPer !== DEFAULT_METADATA.per || currentPage !== DEFAULT_METADATA.page;
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  if (history.action === "PUSH" && sameLocation && differentPageOrPer) {
-    dispatch(
-      onFetch({
-        ...restActionParams,
-        [searchingKey]: { ...defaultFilterFields, ...DEFAULT_METADATA }
-      })
-    );
-  } else if (sameLocation && (differentPageOrPer || currentTotal !== "undefined")) {
-    const defaultFilters = { ...defaultFilterFields, ...metadata };
+  useEffect(() => {
+    fetchDataIfNotBackButton(metadata?.toJS(), location, history, fetch, fetchParam, {
+      dispatch,
+      defaultFilterFields: defaultFilterFields || {},
+      restActionParams: restActionParams || {}
+    });
+  }, [location]);
 
-    dispatch(onFetch({ ...restActionParams, [searchingKey]: defaultFilters }));
-  }
-};
-
-export const clearMetadataOnLocationChange = (location, history, recordType, routeIndexValue, { dispatch }) => {
-  const previous = location.pathname;
-  const current = history.location.pathname;
-
-  if (getRouteValue(routeIndexValue, previous) !== getRouteValue(routeIndexValue, current)) {
-    dispatch(clearMetadata(Array.isArray(recordType) ? recordType.join("/") : recordType));
-  }
+  useEffect(() => {
+    return () => {
+      clearMetadataOnLocationChange(location, history, recordType, {
+        dispatch
+      });
+    };
+  }, []);
 };

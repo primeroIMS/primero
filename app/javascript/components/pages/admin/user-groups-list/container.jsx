@@ -13,14 +13,13 @@ import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
-import { fetchDataIfNotBackButton, clearMetadataOnLocationChange } from "../../../records";
+import { useMetadata } from "../../../records";
 
 import { NAME } from "./constants";
 import { fetchUserGroups } from "./action-creators";
 
 const Container = () => {
   const i18n = useI18n();
-  const dispatch = useDispatch();
   const headers = useSelector(state => getListHeaders(state, RESOURCES.user_groups));
   const canAddUserGroups = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.user_groups;
@@ -32,20 +31,9 @@ const Container = () => {
     name: fieldName,
     ...rest
   }));
-  const history = useHistory();
   const location = useLocation();
 
-  useEffect(() => {
-    fetchDataIfNotBackButton(metadata?.toJS(), location, history, fetchUserGroups, "data", { dispatch });
-  }, [location]);
-
-  useEffect(() => {
-    return () => {
-      clearMetadataOnLocationChange(location, history, recordType, 1, {
-        dispatch
-      });
-    };
-  }, []);
+  useMetadata(recordType, metadata, location, fetchUserGroups, "data");
 
   const tableOptions = {
     recordType,

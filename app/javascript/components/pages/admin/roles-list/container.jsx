@@ -13,14 +13,13 @@ import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { RESOURCES } from "../../../../libs/permissions";
-import { fetchDataIfNotBackButton, clearMetadataOnLocationChange } from "../../../records";
+import { useMetadata } from "../../../records";
 
 import { fetchRoles } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
 
 const Container = () => {
   const i18n = useI18n();
-  const dispatch = useDispatch();
   const recordType = RESOURCES.roles;
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
@@ -29,20 +28,9 @@ const Container = () => {
   }));
   const metadata = useSelector(state => getMetadata(state, "roles"));
   const defaultFilters = metadata;
-  const history = useHistory();
   const location = useLocation();
 
-  useEffect(() => {
-    fetchDataIfNotBackButton(metadata?.toJS(), location, history, fetchRoles, "data", { dispatch });
-  }, [location]);
-
-  useEffect(() => {
-    return () => {
-      clearMetadataOnLocationChange(location, history, recordType, 1, {
-        dispatch
-      });
-    };
-  }, []);
+  useMetadata(recordType, metadata, location, fetchRoles, "data");
 
   const tableOptions = {
     recordType: [ADMIN_NAMESPACE, NAMESPACE],

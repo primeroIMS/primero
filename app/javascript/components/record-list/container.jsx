@@ -19,7 +19,7 @@ import { applyFilters } from "../index-filters/action-creators";
 import { getNumberErrorsBulkAssign, getNumberBulkAssign } from "../record-actions/bulk-transtions/selectors";
 import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
 import { enqueueSnackbar } from "../notifier";
-import { clearMetadataOnLocationChange, fetchDataIfNotBackButton } from "../records";
+import { useMetadata } from "../records";
 import { DEFAULT_METADATA } from "../../config";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
@@ -68,21 +68,10 @@ const Container = ({ match, location }) => {
     ...defaultMetadata
   });
 
-  useEffect(() => {
-    fetchDataIfNotBackButton(metadata?.toJS(), location, history, applyFilters, "data", {
-      dispatch,
-      defaultFilterFields: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS(),
-      restActionParams: { recordType }
-    });
-  }, [location]);
-
-  useEffect(() => {
-    return () => {
-      clearMetadataOnLocationChange(location, history, recordType, 0, {
-        dispatch
-      });
-    };
-  }, []);
+  useMetadata(recordType, metadata, location, applyFilters, "data", {
+    defaultFilterFields: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS(),
+    restActionParams: { recordType }
+  });
 
   const numberErrorsBulkAssign = useSelector(state => getNumberErrorsBulkAssign(state, recordType));
 
