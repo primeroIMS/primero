@@ -10,7 +10,7 @@ import InputLabel from "../components/input-label";
 const filter = createFilterOptions();
 
 const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
-  const { multiSelect, freeSolo, groupBy, tooltip, onChange, disableClearable, selectedValue } = metaInputProps;
+  const { multiSelect, freeSolo, groupBy, tooltip, onChange, disableClearable } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
   const methods = useFormContext();
@@ -93,7 +93,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   return (
     <Controller
       name={name}
-      defaultValue={selectedValue || defaultValue}
+      defaultValue={defaultValue}
       onChange={handleChange}
       as={
         <Autocomplete

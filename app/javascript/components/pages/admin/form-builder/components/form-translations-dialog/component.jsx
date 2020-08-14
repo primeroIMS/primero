@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
 import { useSelector, useDispatch } from "react-redux";
 
-import { LOCALE_KEYS } from "../../../../../../config";
+import { localesToRender } from "../utils";
 import FormSection from "../../../../../form/components/form-section";
 import bindFormSubmit from "../../../../../../libs/submit-form";
 import ActionDialog from "../../../../../action-dialog";
@@ -33,7 +33,7 @@ const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => 
     validationSchema: validationSchema(i18n)
   });
   const openTranslationDialog = useSelector(state => selectDialog(state, NAME));
-  const locales = i18n.applicationLocales.filter(locale => locale.get("id") !== LOCALE_KEYS.en);
+  const locales = localesToRender(i18n);
   const selectedLocaleId = formMethods.watch("locale_id", locales.first()?.get("id"));
 
   const handleClose = () => {
@@ -86,11 +86,14 @@ const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => 
   );
 
   useEffect(() => {
-    formMethods.reset({
-      name: { ...name, ...currentValues.name },
-      description: { ...description, ...currentValues.description }
-    });
-  }, [currentValues]);
+    if (openTranslationDialog) {
+      formMethods.reset({
+        locale_id: locales?.first()?.get("id"),
+        name: { ...name, ...currentValues.translations.name },
+        description: { ...description, ...currentValues.translations.description }
+      });
+    }
+  }, [openTranslationDialog]);
 
   return (
     <ActionDialog {...modalProps}>

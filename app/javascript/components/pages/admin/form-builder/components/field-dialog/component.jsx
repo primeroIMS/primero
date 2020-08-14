@@ -50,6 +50,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(mode);
   const openFieldDialog = useSelector(state => selectDialog(state, ADMIN_FIELDS_DIALOG));
+  const openTranslationDialog = useSelector(state => selectDialog(state, FieldTranslationsDialogName));
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
@@ -214,8 +215,20 @@ const Component = ({ mode, onClose, onSuccess }) => {
     });
   };
 
+  const renderTranslationsDialog = () =>
+    openTranslationDialog ? (
+      <FieldTranslationsDialog
+        open={openTranslationDialog}
+        mode={mode}
+        isNested={isNested}
+        field={selectedField}
+        currentValues={formMethods.getValues({ nest: true })}
+        onSuccess={onUpdateTranslation}
+      />
+    ) : null;
+
   useEffect(() => {
-    if (selectedField?.toSeq()?.size) {
+    if (openFieldDialog && selectedField?.toSeq()?.size) {
       const fieldData = toggleHideOnViewPage(transformValues(selectedField.toJS()));
 
       const subform =
@@ -231,7 +244,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
         resetOptions
       );
     }
-  }, [selectedField]);
+  }, [openFieldDialog, selectedField]);
 
   useImperativeHandle(
     formRef,
@@ -261,15 +274,8 @@ const Component = ({ mode, onClose, onSuccess }) => {
             {renderClearButtons()}
           </form>
         </FormContext>
+        {renderTranslationsDialog()}
       </ActionDialog>
-
-      <FieldTranslationsDialog
-        mode={mode}
-        field={selectedField}
-        subform={selectedSubform}
-        currentValues={formMethods.getValues({ nest: true })}
-        onSuccess={onUpdateTranslation}
-      />
     </>
   );
 };

@@ -59,7 +59,8 @@ export const saveForm = ({ id, body, saveMethod, subforms = [] }) => {
           data: subform
         }
       }))
-    )
+    ),
+    finishedCallback: id ? fetchForm(id) : null
   };
 };
 
@@ -87,4 +88,9 @@ export const clearSelectedField = () => ({
 
 export const clearSelectedSubformField = () => ({
   type: actions.CLEAR_SELECTED_SUBFORM_FIELD
+});
+
+export const updateFieldTranslations = translations => ({
+  type: actions.UPDATE_FIELD_TRANSLATIONS,
+  payload: translations
 });

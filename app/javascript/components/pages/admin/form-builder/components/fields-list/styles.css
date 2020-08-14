@@ -25,6 +25,7 @@
       color: $(theme.primero.colors.blue);
       text-transform: none;
       text-align: left;
+      justify-content: left;
 
       &.editable {
         margin-left: 1.7em;

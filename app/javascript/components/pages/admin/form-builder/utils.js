@@ -1,4 +1,6 @@
 import range from "lodash/range";
+import merge from "lodash/merge";
+import { fromJS } from "immutable";
 
 import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
 
@@ -33,3 +35,36 @@ export const buildOrderUpdater = (currentOrder, newOrder) => {
 
 export const getFormRequestPath = (id, saveMethod) =>
   saveMethod === SAVE_METHODS.update ? `${RECORD_PATH.forms}/${id}` : RECORD_PATH.forms;
+
+export const getFieldsTranslations = fields =>
+  Object.keys(fields)
+    .map(key => ({ [key]: { display_name: { en: fields[key].display_name?.en } } }))
+    .reduce((acc, elem) => ({ ...acc, ...elem }), {});
+
+export const mergeTranslations = data => {
+  const translations = { ...data.translations };
+  const source = { ...data };
+
+  delete source.translations;
+  delete source.selected_locale_id;
+
+  return merge(source, translations);
+};
+
+export const buildFormGroupUniqueId = (moduleId, parentForm) => {
+  if (!moduleId || !parentForm) {
+    return "";
+  }
+
+  return `lookup-form-group-${moduleId?.replace("primeromodule-", "")}-${parentForm}`;
+};
+
+export const getSubformFields = (state, subform) =>
+  fromJS(
+    subform
+      .get("fields")
+      .map(fieldId => state.getIn(["fields", fieldId.toString()]))
+      .map(field =>
+        field.set("on_collapsed_subform", subform.get("collapsed_field_names", fromJS([])).includes(field.get("name")))
+      )
+  );
