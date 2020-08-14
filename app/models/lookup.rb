@@ -27,10 +27,11 @@ class Lookup < ApplicationRecord
         id: lookup_properties[:id],
         unique_id: lookup_properties[:unique_id],
         name_i18n: lookup_properties[:name],
-        lookup_values_i18n: FieldI18nService.to_localized_options(lookup_properties[:values])
+        lookup_values_i18n: lookup_properties[:values]
       )
     end
 
+    # TODO: Review this method due the values structure changed.
     def values(lookup_unique_id, lookups = nil, opts = {})
       locale = opts[:locale].presence || I18n.locale
       lookup = if lookups.present?
@@ -48,6 +49,7 @@ class Lookup < ApplicationRecord
     end
 
     # TODO: This method will go away after UIUX refactor
+    # TODO: Pavel review, I want to get rid of this.
     def form_group_name(form_group_id, parent_form, module_name, opts = {})
       form_group_names = form_group_name_all(form_group_id, parent_form, module_name)
       return '' if form_group_names.blank?
@@ -108,6 +110,7 @@ class Lookup < ApplicationRecord
     end
     # memoize_in_prod :get_location_types
 
+    # TODO: Review this method due the values structure changed.
     def import_translations(locale, lookups_hash = {})
       if locale.present? && Primero::Application.locales.include?(locale)
         lookups_hash.each do |key, value|
@@ -149,6 +152,7 @@ class Lookup < ApplicationRecord
     lookup_values_i18n.values.flatten.find { |form_group| form_group['id'] == option_id }.present?
   end
 
+  # TODO: Review this method due the values structure changed.
   def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE)
     lh = localized_hash(locale)
     lvh = {}
@@ -158,10 +162,12 @@ class Lookup < ApplicationRecord
     lh
   end
 
+  # TODO: Review this method due the values structure changed.
   def sanitize_lookup_values
     lookup_values&.reject!(&:blank?)
   end
 
+  # TODO: Review this method due the values structure changed.
   def validate_values_keys_match
     default_ids = lookup_values_en&.map { |lv| lv['id'] }
     if default_ids.present?
@@ -177,6 +183,7 @@ class Lookup < ApplicationRecord
     true
   end
 
+  # TODO: Pavel review, I want to get rid of this
   def clear_all_values
     Primero::Application.locales.each do |locale|
       send("lookup_values_#{locale}=", nil)
@@ -187,7 +194,9 @@ class Lookup < ApplicationRecord
     Field.where(option_strings_source: "lookup #{unique_id}").size.positive?
   end
 
+  # TODO: Pavel review, I want to get rid of this.
   def valid?(context = :default)
+    binding.pry
     self.name = name&.titleize
     sanitize_lookup_values
     super(context)
@@ -200,6 +209,8 @@ class Lookup < ApplicationRecord
     self.unique_id = "lookup-#{name_en}-#{code}".parameterize.dasherize
   end
 
+  # TODO: Pavel review, I want to change this:
+  # before_destroy :check_is_being_used unless: is_being_used?
   def check_is_being_used
     return unless is_being_used?
 
@@ -207,6 +218,7 @@ class Lookup < ApplicationRecord
     throw(:abort)
   end
 
+  # TODO: Review this method due the values structure changed.
   def update_translations(locale, lookup_hash = {})
     if locale.present? && Primero::Application.locales.include?(locale)
       lookup_hash.each do |key, value|
@@ -222,12 +234,14 @@ class Lookup < ApplicationRecord
   end
 
   def update_properties(lookup_properties)
+    #verificar que si viene el nuevo key updated.
     self.unique_id = lookup_properties[:unique_id] if lookup_properties[:unique_id].present?
     self.name_i18n = FieldI18nService.merge_i18n_properties(
       { name_i18n: name_i18n },
       name_i18n: lookup_properties[:name]
     )[:name_i18n]
 
+    # TODO verificar como hacer para seguir manteniendo los _delete
     self.lookup_values_i18n = FieldI18nService.merge_i18n_options(
       lookup_values_i18n,
       FieldI18nService.to_localized_options(lookup_properties[:values])
@@ -247,6 +261,7 @@ class Lookup < ApplicationRecord
     false
   end
 
+  # TODO: Pavel review. what are those TODO in this method? same case line 14
   def generate_values_keys
     return unless lookup_values.present?
 
@@ -275,6 +290,7 @@ class Lookup < ApplicationRecord
     end
   end
 
+  # TODO: Pavel review. Review if this is a validation
   def sync_lookup_values
     #Do not create any new lookup values that do not have a matching lookup value in the default language
     default_ids = lookup_values_en&.map { |lv| lv['id'] }
@@ -288,6 +304,7 @@ class Lookup < ApplicationRecord
     end
   end
 
+  # TODO: Pavel review. Review if this is a validation
   def update_lookup_values_translations(lookup_values_hash, locale)
     options = (send("lookup_values_#{locale}").present? ? send("lookup_values_#{locale}") : [])
     lookup_values_hash.each do |key, value|

@@ -63,6 +63,7 @@ class Field < ApplicationRecord
     ]
   end
 
+  # TODO: Pavel review, I want to get rid of this.
   #TODO: Move to migration
   def defaults
     self.date_validation ||= 'default_date_validation'
@@ -70,6 +71,8 @@ class Field < ApplicationRecord
     #self.attributes = properties #TODO: what is this?
   end
 
+  # TODO: Review this method, can we move to localizable_json_properties
+  # similar to Lookup.localized_property_hash line:156
   def localized_property_hash(locale=Primero::Application::BASE_LANGUAGE)
     lh = localized_hash(locale)
     if self.option_strings_text.present?
@@ -115,6 +118,7 @@ class Field < ApplicationRecord
     end
   end
 
+  # TODO: Review this method due the values structure changed.
   def validate_option_strings_text
     base_options = self.option_strings_text(Primero::Application::BASE_LANGUAGE)
     if base_options.blank?
@@ -132,6 +136,7 @@ class Field < ApplicationRecord
     return true
   end
 
+  # TODO: Review this method due the values structure changed.
   def valid_option_strings_text_translations?
     default_ids = self.option_strings_text(Primero::Application::BASE_LANGUAGE).try(:map){|op| op['id']}
     Primero::Application::locales.each do |locale|
@@ -144,6 +149,7 @@ class Field < ApplicationRecord
     return true
   end
 
+  # TODO: Review this method due the values structure changed.
   def valid_option_strings?(options, is_base_language=true)
     unless options.is_a?(Array)
       errors.add(:option_strings_text, I18n.t('errors.models.field.option_strings_text.not_array'))
@@ -189,6 +195,7 @@ class Field < ApplicationRecord
     return true
   end
 
+  # TODO: Pavel review, I want to get rid of this.
   def form_type
     if [SUBFORM, SEPARATOR, TALLY_FIELD, CUSTOM].include?(self.type)
       self.type
@@ -199,6 +206,7 @@ class Field < ApplicationRecord
     end
   end
 
+  # TODO: Pavel review, I want to get rid of this.
 	def display_type
     #TODO: A hack, because we have a non-standard template names. Cleanup with UIUX
     case self.type
@@ -226,7 +234,7 @@ class Field < ApplicationRecord
     end
   end
 
-
+  # TODO: Pavel review, multiple of the next methods are used at violation.rb. but in that class were commented
   class << self
     def fields_for_record(parent_form, is_subform=false)
       Field.joins(:form_section).where(form_sections: {parent_form: parent_form, is_nested: is_subform})
@@ -334,6 +342,7 @@ class Field < ApplicationRecord
 
   end
 
+  # TODO: Review this method due the values structure changed.
   def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil, opts={}, reporting_locations=nil)
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
     options_list = []
@@ -370,6 +379,7 @@ class Field < ApplicationRecord
     return options_list
   end
 
+  # TODO: Review this method due the values structure changed.
   #Use the current locale's options only if its display text is present.
   #Else use the default locale's options
   def display_option_strings(current_locale)
@@ -389,6 +399,7 @@ class Field < ApplicationRecord
     end
   end
 
+  # TODO: Review this method due the values structure changed.
   def display_text(value = nil, lookups = nil, locale = nil)
     locale ||= I18n.locale
     value = convert_true_false_key_to_string(value) if is_yes_no?
@@ -431,6 +442,7 @@ class Field < ApplicationRecord
     end
   end
 
+  # TODO: Pavel review, I want to get rid of this
   #TODO: Refactor with UIUX
   def tag_name_attribute(objName = 'child')
     "#{objName}[#{name}]"
@@ -481,6 +493,7 @@ class Field < ApplicationRecord
     field_hash
   end
 
+  # TODO: Pavel review, I want to get rid of this
   #TODO: Delete after UIUX refactor
   def searchable_select
     if self.option_strings_source == 'Location' && !multi_select
@@ -488,9 +501,11 @@ class Field < ApplicationRecord
     end
   end
 
+  # TODO: Pavel review, I want to get rid of this
   #TODO: Delete after refactor of Record
   def create_property ; true ; end
 
+  # TODO: Pavel review, I want to get rid of this
   def selectable?
     self.option_strings_source.present? || self.option_strings_text.present?
   end
@@ -544,6 +559,7 @@ class Field < ApplicationRecord
     end
   end
 
+  # TODO: Review this method due the values structure changed.
   def sync_options_keys
     if self.option_strings_text.present? && self.option_strings_text.is_a?(Array) && self.option_strings_text.first.is_a?(Hash)
       #Do not create any new option strings that do not have a matching lookup value in the default language
@@ -557,6 +573,7 @@ class Field < ApplicationRecord
     end
   end
 
+  # TODO: Review this method due the values structure changed.
   def update_translations(field_hash={}, locale)
     if locale.present? && Primero::Application::locales.include?(locale)
       field_hash.each do |key, value|

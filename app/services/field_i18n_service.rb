@@ -164,6 +164,8 @@ class FieldI18nService
   #     }
   #   }
   # ]
+
+  # TODO see comments on _lookup.json.builder
   def self.fill_lookups_options(options)
     locales = I18n.available_locales.map {|l| {l.to_s => ""}}
 

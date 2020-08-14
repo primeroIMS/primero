@@ -60,6 +60,54 @@ module LocalizableJsonProperty
         end
       end
     end
+
+    # Methods for options and values
+    def define_current_option_accessors(store, property)
+      define_method property do |locale = nil|
+        locale = locale || I18n.locale || I18n.default_locale
+        store.inject([]) do |acc, opt|
+          acc << { 'id': opt['id'], 'display_text': opt['display_text'][locale] }
+        end
+      end
+
+      define_method "#{property}=" do |values, locale = nil|
+        locale ||= I18n.locale
+        store = values.each do |value|
+          store.find do |opt|
+            opt['id'] == value['id']
+          end['display_text'][locale] = value['display_text']
+        end
+      end
+    end
+
+    def define_option_locale_accessors(store, property, locale)
+      accessor = "#{property}_#{locale}"
+
+      # the new method needs to override the current values
+      define_method("#{accessor}=") do |value|
+        write_store_attribute(store, locale, value)
+      end
+
+      define_method(accessor) do
+        locale_store = read_store_attribute(store, locale)
+        locale_field_value(store, locale_store)
+      end
+    end
+
+    # TODO: method _all not supported on V2
+    # def define_option_all_setter; end
+
+    def localize_options(*properties)
+      properties = properties.flatten
+      properties.each do |property|
+        # I18n.available_locales.each do |locale|
+        #   define_locale_accessors(store, property, locale)
+        # end
+        define_current_option_accessors(store, property)
+      end
+
+      properties
+    end
   end
 
   def localized_hash(locale = Primero::Application::BASE_LANGUAGE)
