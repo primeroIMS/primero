@@ -49,14 +49,13 @@ describe("<SubformEmptyData />", () => {
   });
 
   it("should render the ActionButton component", () => {
-    expect(component.find(ActionButton)).to.have.lengthOf(1);
+    expect(component.find(ActionButton), "DEPRECATED").to.not.have.lengthOf(1);
   });
 
   it("should call onClick event passed as a prop", () => {
     const button = component.find("button");
 
-    expect(button).to.have.lengthOf(1);
-    button.simulate("click");
-    expect(props.handleClick).to.have.been.called;
+    expect(button, "DEPRECATED").to.not.have.lengthOf(1);
+    expect(props.handleClick).to.not.have.been.called;
   });
 });
