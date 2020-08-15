@@ -12,6 +12,7 @@ class Location < ApplicationRecord
   localize_properties :name, :placename
 
   attr_accessor :parent, :hierarchy
+  self.unique_id_attribute = 'location_code'
 
   validates :admin_level, presence: { message: I18n.t('errors.models.location.admin_level_present') },
                           if: :is_top_level?
@@ -69,6 +70,8 @@ class Location < ApplicationRecord
       Location.find_by(type: location_types, location_code: hierarchy.flatten.compact)
     end
 
+    # TODO: Used by select fields when you want to make a lookup out of all the agencies,
+    #       but that functionality is probably deprecated. Review and delete.
     # This method returns a list of id / display_text value pairs
     # It is used to create the select options list for location fields
     def all_names(opts={})
@@ -92,7 +95,6 @@ class Location < ApplicationRecord
         ancestor = location.ancestors.find { |l| l.admin_level == admin_level }
         ancestor&.location_code
       end
-
     end
 
     def type_by_admin_level(admin_level = ADMIN_LEVELS.first)

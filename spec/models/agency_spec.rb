@@ -46,7 +46,7 @@ describe Agency do
       it 'is valid' do
         agency1 = Agency.new(name: 'agency test', agency_code: 'agency-test')
         expect(agency1).to be_valid
-        expect(agency1.unique_id).to eq('agency-agency-test')
+        expect(agency1.unique_id).to match(/^agency-agency-test-[0-9a-f]{7}$/)
       end
     end
   end
@@ -195,7 +195,9 @@ describe Agency do
   end
 
   describe 'ConfigurationRecord' do
-    let(:agency) { Agency.create(name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo, logo_full: logo_old) }
+    let(:agency) do
+      Agency.create(name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo, logo_full: logo_old)
+    end
 
     describe '#configuration_hash' do
       it 'returns the configuration hash' do

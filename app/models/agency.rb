@@ -15,6 +15,7 @@ class Agency < ApplicationRecord
   attribute :logo_full_file_name, :string
   attribute :logo_icon_base64, :string
   attribute :logo_icon_file_name, :string
+  self.unique_id_from_attribute = :agency_code
 
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.agency.unique_id' }
   validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
@@ -58,6 +59,12 @@ class Agency < ApplicationRecord
       return enabled if params.blank?
 
       where(params)
+    end
+
+    # TODO: Used by forms, when you want to make a lookup out of all the agencies,
+    #       but that functionality is probably deprecated. Review and delete.
+    def all_names
+      all.map { |r| { id: r.id, display_text: r.name }.with_indifferent_access }
     end
   end
 
@@ -148,12 +155,6 @@ class Agency < ApplicationRecord
 
   def image?(logo)
     logo.attachment.content_type.start_with?('image/*')
-  end
-
-  def generate_unique_id
-    return unless agency_code.present? && unique_id.blank?
-
-    self.unique_id = "agency-#{agency_code}".parameterize.dasherize
   end
 
   def set_logo_enabled

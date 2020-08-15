@@ -27,24 +27,10 @@ class Role < ApplicationRecord
   end
 
   class << self
-    def memoized_dependencies
-      [FormSection, PrimeroModule, User]
-    end
-
     # TODO: Used by importer. Refactor?
     def get_unique_instance(attributes)
-      find_by_name(attributes['name'])
+      # find_by_name(attributes['name'])
     end
-
-    def names_and_ids_by_referral
-      by_referral.pluck(:name, :unique_id)
-    end
-    # memoize_in_prod :names_and_ids_by_referral
-
-    def names_and_ids_by_transfer
-      by_transfer.pluck(:name, :unique_id)
-    end
-    # memoize_in_prod :names_and_ids_by_transfer
 
     def create_or_update(attributes = {})
       record = find_by(unique_id: attributes[:unique_id])
@@ -55,11 +41,8 @@ class Role < ApplicationRecord
       end
     end
 
-    def id_from_name(name)
-      "#{self.name}-#{name}".parameterize.dasherize
-    end
-
-    # TODO: this is used by the config bundle code. This may be deprecated and replaced by what we are doing in configuration.rb
+    # TODO: this is used by the config bundle code.
+    # This may be deprecated and replaced by what we are doing in configuration.rb
     alias super_clear clear
     def clear
       # According documentation this is the best way to delete the values on HABTM relation
@@ -150,10 +133,6 @@ class Role < ApplicationRecord
   def permitted_to_export?
     permissions&.map(&:actions)&.flatten&.compact&.any? { |p| p.start_with?('export') } ||
       permissions&.any? { |p| Permission.records.include?(p.resource) && p.actions.include?(Permission::MANAGE) }
-  end
-
-  def generate_unique_id
-    self.unique_id ||= Role.id_from_name(name) if name.present?
   end
 
   def permissions_with_forms

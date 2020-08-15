@@ -4,9 +4,9 @@
 class UserGroup < ApplicationRecord
   include ConfigurationRecord
 
-  before_create :set_unique_id
-
   has_and_belongs_to_many :users
+
+  before_create :generate_unique_id
 
   class << self
     alias super_clear clear
@@ -28,11 +28,5 @@ class UserGroup < ApplicationRecord
     return unless [Permission::AGENCY, Permission::GROUP, Permission::SELF].include?(user.role&.group_permission)
 
     users << user
-  end
-
-  private
-
-  def set_unique_id
-    self.unique_id = "#{self.class.name}-#{name}".parameterize.dasherize unless unique_id.present?
   end
 end

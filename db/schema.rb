@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_05_210050) do
+ActiveRecord::Schema.define(version: 2020_08_14_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -125,6 +125,17 @@ ActiveRecord::Schema.define(version: 2020_08_05_210050) do
     t.datetime "applied_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
+  create_table "configurations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "version"
+    t.string "created_by"
+    t.datetime "created_on"
+    t.string "applied_by"
+    t.datetime "applied_on"
+    t.jsonb "data", default: {}
+  end
+
   create_table "contact_informations", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "organization"
@@ -229,7 +240,6 @@ ActiveRecord::Schema.define(version: 2020_08_05_210050) do
     t.boolean "hide_subform_placeholder", default: false, null: false
     t.boolean "mobile_form", default: false, null: false
     t.text "header_message_link"
-    t.jsonb "display_conditions"
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
@@ -338,6 +348,8 @@ ActiveRecord::Schema.define(version: 2020_08_05_210050) do
     t.string "group_dates_by", default: "date"
     t.boolean "is_graph", default: false, null: false
     t.boolean "editable", default: true
+    t.string "unique_id"
+    t.index ["unique_id"], name: "index_reports_on_unique_id", unique: true
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|

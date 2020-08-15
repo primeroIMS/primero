@@ -112,6 +112,8 @@ class User < ApplicationRecord
     # TODO: Review after figuring out front end lookups. We might not need this method.
     # This method returns a list of id / display_text value pairs
     # It is used to create the select options list for User fields
+    # TODO: Used by select fields when you want to make a lookup out of all the agencies,
+    #       but that functionality is probably deprecated. Review and delete.
     def all_names
       enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
     end

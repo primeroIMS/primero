@@ -62,7 +62,7 @@ describe Role do
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
     )
     role.save(validate: false)
-    expect(role.unique_id).to eq('role-test-role-1234')
+    expect(role.unique_id).to match(/^role-test-role-1234-[0-9a-f]{7}$/)
   end
 
   describe '.super_user_role?' do
@@ -122,46 +122,6 @@ describe Role do
         it 'should return false for user_admin_role?' do
           expect(@role_not_user_admin.user_admin_role?).to be_falsey
         end
-      end
-    end
-  end
-
-  describe 'class methods' do
-    before do
-      clean_data(Role)
-      role_permissions = [Permission.new(resource: Permission::CASE, actions: [Permission::READ])]
-      @referral_role = Role.create!(name: 'Referral Role', permissions: role_permissions, referral: true)
-      @transfer_role = Role.create!(name: 'Transfer Role', permissions: role_permissions, transfer: true)
-      @referral_transfer_role =
-        Role.create!(name: 'Referral Transfer Role', permissions: role_permissions, referral: true, transfer: true)
-      @neither_role = Role.create!(name: 'Neither Role', permissions: role_permissions)
-    end
-
-    describe 'names_and_ids_by_referral' do
-      it 'returns Names and IDs of all roles with referral permission' do
-        expect(Role.names_and_ids_by_referral).to include(
-          ['Referral Role', 'role-referral-role'], ['Referral Transfer Role', 'role-referral-transfer-role']
-        )
-      end
-
-      it 'does not return Names and IDs of roles that do not have referral permission' do
-        expect(Role.names_and_ids_by_referral).not_to include(
-          ['Transfer Role', 'role-transfer-role'], ['Neither Role', 'role-neither-role']
-        )
-      end
-    end
-
-    describe 'names_and_ids_by_transfer' do
-      it 'returns Names and IDs of all roles with transfer permission' do
-        expect(Role.names_and_ids_by_transfer).to include(
-          ['Transfer Role', 'role-transfer-role'], ['Referral Transfer Role', 'role-referral-transfer-role']
-        )
-      end
-
-      it 'does not return Names and IDs of roles that do not have transfer permission' do
-        expect(Role.names_and_ids_by_transfer).not_to include(
-          ['Referral Role', 'role-referral-role'], ['Neither Role', 'role-neither-role']
-        )
       end
     end
   end

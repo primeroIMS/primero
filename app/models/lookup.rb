@@ -7,6 +7,7 @@ class Lookup < ApplicationRecord
 
   localize_properties :name
   localize_properties :lookup_values
+  self.unique_id_from_attribute = 'name_en'
 
   # TODO: seems to be causing trouble
   # TODO: remove  (No longer using in lookup seeds / config)
@@ -187,13 +188,6 @@ class Lookup < ApplicationRecord
     self.name = name&.titleize
     sanitize_lookup_values
     super(context)
-  end
-
-  def generate_unique_id
-    return unless name_en.present? && unique_id.blank?
-
-    code = SecureRandom.uuid.to_s.last(7)
-    self.unique_id = "lookup-#{name_en}-#{code}".parameterize.dasherize
   end
 
   def check_is_being_used

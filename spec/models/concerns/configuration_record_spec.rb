@@ -32,13 +32,13 @@ describe ConfigurationRecord do
       }
     end
 
-    describe '.configuration_hash' do
+    describe '#configuration_hash' do
       it 'returns the configuration hash' do
         expect(lookup.configuration_hash).to eq(lookup_configuration_hash)
       end
     end
 
-    describe 'create_or_update!' do
+    describe '.create_or_update!' do
       before { lookup }
 
       it 'creates a new lookup from a configuration hash' do
@@ -58,6 +58,10 @@ describe ConfigurationRecord do
         expect(lookup2.id).to eq(lookup.id)
         expect(lookup2.name('en')).to eq('Ethnicity*')
       end
+    end
+
+    describe '#generate_unique_id' do
+
     end
   end
 end

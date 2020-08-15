@@ -18,6 +18,7 @@ class FormSection < ApplicationRecord
 
   attr_accessor :module_name
   attribute :collapsed_field_names
+  self.unique_id_from_attribute = 'name_en'
 
   validate :validate_fields_unique_name
   validate :validate_name_in_english
@@ -32,12 +33,6 @@ class FormSection < ApplicationRecord
   # TODO: Move to migration
   def defaults
     %w[order order_form_group order_subform initial_subforms].each { |p| self[p] ||= 0 }
-  end
-
-  def generate_unique_id
-    return unless name_en.present? && unique_id.blank?
-
-    self.unique_id = name_en.gsub(/[^A-Za-z0-9_ ]/, '').parameterize.underscore
   end
 
   # TODO: This method will go away after UIUX refactor
