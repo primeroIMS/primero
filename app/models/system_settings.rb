@@ -26,6 +26,8 @@ class SystemSettings < CouchRest::Model::Base
   property :due_date_from_appointment_date, TrueClass, :default => false
   property :notification_email_enabled, TrueClass, :default => false
   property :welcome_email_enabled, TrueClass, :default => false
+  property :show_provider_note_field, TrueClass, :default => false
+  property :set_service_implemented_on, TrueClass, :default => false
   property :duplicate_export_field
 
   localize_properties [:welcome_email_text]

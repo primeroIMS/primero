@@ -10,9 +10,11 @@
       </div>
       <%= form_tag(child_relinquish_referral_path, :method => 'post') do %>
         <%= hidden_field_tag("transition_id", transition_id) %>
-        <label><%=I18n.t("referral.notes_referral_label")%>
-          <%= text_area_tag("note_on_referral") %>
-        </label>
+        <% if @system_settings.try(:show_provider_note_field) %>
+          <label><%=I18n.t("referral.notes_referral_label")%>
+            <%= text_area_tag("note_on_referral") %>
+          </label>
+        <% end %>
         <div class="import_button">
             <%= submit_tag(t("buttons.ok"), class: 'button right') %>
           </div>

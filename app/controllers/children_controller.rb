@@ -261,8 +261,10 @@ class ChildrenController < ApplicationController
     @child.services_section.each do |service|
       if service.unique_id == referral.service_section_unique_id
         service.note_on_referral_from_provider = note_on_referral if params.has_key?(:note_on_referral)
-        service.service_implemented = SERVICE_IMPLEMENTED
-        service.service_implemented_day_time = DateTime.now
+        if @system_settings.try(:set_service_implemented_on)
+          service.service_implemented = SERVICE_IMPLEMENTED
+          service.service_implemented_day_time = DateTime.now
+        end
       end
     end
 
