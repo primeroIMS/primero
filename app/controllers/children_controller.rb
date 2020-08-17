@@ -251,11 +251,13 @@ class ChildrenController < ApplicationController
     referral = @child.referrals.select { |r| r.id == referral_id }.first
 
     referral.to_user_local_status = Transition::TO_USER_LOCAL_STATUS_DONE
-    referral.note_on_refferal_from_provider = note_on_refferal
+    if params.has_key?(:note_on_referral)
+      referral.note_on_refferal_from_provider = note_on_refferal
 
-    @child.services_section do |service|
-      if service.unique_id == referral.service_section_unique_id
-        service.note_on_refferal_from_provider = note_on_refferal
+      @child.services_section.each do |service|
+        if service.unique_id == referral.service_section_unique_id
+          service.note_on_refferal_from_provider = note_on_refferal
+        end
       end
     end
 
