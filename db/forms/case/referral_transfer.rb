@@ -104,6 +104,12 @@ transitions_subform = [
                "mobile_visible" => false,
                "display_name_en" => "Service Form ID",
               }),
+    Field.new({"name" => "note_on_referral_from_provider",
+               "type" => "textarea",
+               "display_name_en" => "Notes on the referral from provider",
+               "disabled" => true,
+               "editable" => false
+              })
 ]
 
 transitions = FormSection.create_or_update_form_section({

@@ -11,7 +11,7 @@ class Transition
   property :to_user_local_status, String
   property :rejected_reason, String
   property :notes, String
-  property :note_on_refferal_from_provider, String
+  property :note_on_referral_from_provider, String
   property :transitioned_by, String
   property :service, String #service referers to the 'Type of Service'
   property :service_section_unique_id, String
