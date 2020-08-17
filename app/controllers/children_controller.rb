@@ -20,6 +20,8 @@ class ChildrenController < ApplicationController
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
   include NoteActions
 
+  SERVICE_IMPLEMENTED = 'implemented'
+
   def edit_photo
     authorize! :update, @child
 
@@ -259,6 +261,8 @@ class ChildrenController < ApplicationController
     @child.services_section.each do |service|
       if service.unique_id == referral.service_section_unique_id
         service.note_on_referral_from_provider = note_on_referral if params.has_key?(:note_on_referral)
+        service.service_implemented = SERVICE_IMPLEMENTED
+        service.service_implemented_day_time = DateTime.now
       end
     end
 
