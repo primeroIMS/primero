@@ -60,7 +60,7 @@ const Component = ({ subformField }) => {
     return (
       <div className={css.noFiltersAdded}>
         {i18n.t("forms.no_subform_filters_added")}
-        <CustomFieldDialog fromSubform />
+        <CustomFieldDialog />
       </div>
     );
   }

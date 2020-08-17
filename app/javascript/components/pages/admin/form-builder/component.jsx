@@ -257,7 +257,7 @@ const Component = ({ mode }) => {
             <TabPanel tab={tab} index={1}>
               <div className={css.tabFields}>
                 <h1 className={css.heading}>{i18n.t("forms.fields")}</h1>
-                <CustomFieldDialog showAll />
+                <CustomFieldDialog />
               </div>
               <FieldsList />
               <FieldDialog mode={modeForFieldDialog} onSuccess={onSuccess} />

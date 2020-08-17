@@ -5,7 +5,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import { useSelector, useDispatch, batch } from "react-redux";
-import PropTypes from "prop-types";
 
 import ActionDialog from "../../../../../action-dialog";
 import CustomFieldSelectorDialog from "../custom-field-selector-dialog";
@@ -23,7 +22,7 @@ import { isSubformField } from "../field-dialog/utils";
 import styles from "./styles.css";
 import { NAME, CUSTOM_FIELD_DIALOG } from "./constants";
 
-const Component = ({ showAll }) => {
+const Component = () => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
@@ -111,7 +110,6 @@ const Component = ({ showAll }) => {
       </ActionDialog>
       <CustomFieldSelectorDialog
         key="custom-field-selector-dialog"
-        showAll={showAll}
         isSubform={selectedSubform.toSeq().size > 0 && isSubform}
       />
     </>
@@ -119,9 +117,5 @@ const Component = ({ showAll }) => {
 };
 
 Component.displayName = NAME;
-
-Component.propTypes = {
-  showAll: PropTypes.bool
-};
 
 export default Component;
