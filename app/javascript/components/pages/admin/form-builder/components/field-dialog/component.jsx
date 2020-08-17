@@ -10,7 +10,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { setDialog } from "../../../../../record-actions/action-creators";
 import bindFormSubmit from "../../../../../../libs/submit-form";
-import { submitHandler, whichFormMode, SUBFORM_SECTION } from "../../../../../form";
+import { submitHandler, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";

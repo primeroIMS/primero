@@ -13,6 +13,7 @@ describe("middleware/utils/index.js", () => {
     });
 
     [
+      "checkFieldSubformErrors",
       "defaultErrorCallback",
       "generateRecordProperties",
       "handleRestCallback",

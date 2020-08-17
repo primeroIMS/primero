@@ -92,7 +92,6 @@ const Component = ({ mode }) => {
     } else {
       dispatch(saveForm(parentFormParams));
     }
-    dispatch(clearSubforms());
   };
 
   const onManageTranslation = () => {
@@ -113,6 +112,32 @@ const Component = ({ mode }) => {
   };
 
   useEffect(() => {
+    if (errors?.size) {
+      const errorsObject = errors
+        .map(t =>
+          t
+            .get("errors")
+            .map(error => ({ message: error.get("message"), detail: error.get("detail"), value: error.get("value") }))
+        )
+        .toJS();
+
+      const errorsWithKeys = errorsObject.flat(2).map(error => ({
+        message: error.message[0],
+        rest: { [error.detail]: error.value }
+      }));
+      const messages = errorsWithKeys.map(error => i18n.t(error.message, error.rest)).join(", ");
+
+      dispatch({
+        type: ENQUEUE_SNACKBAR,
+        payload: {
+          message: messages,
+          options: {
+            variant: "error",
+            key: generate.messageKey(messages)
+          }
+        }
+      });
+    }
     if (saving && (errors?.size || updatedFormIds?.size)) {
       const successful = !errors?.size && updatedFormIds?.size;
       const message = successful ? i18n.t("forms.messages.save_success") : i18n.t("forms.messages.save_with_errors");
@@ -132,7 +157,7 @@ const Component = ({ mode }) => {
         dispatch(push(`${ROUTES.forms}/${updatedFormIds.first()}/edit`));
       }
     }
-  }, [updatedFormIds]);
+  }, [updatedFormIds, errors]);
 
   useEffect(() => {
     dispatch(fetchForms());

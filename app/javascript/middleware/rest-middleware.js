@@ -242,12 +242,27 @@ const fetchMultiPayload = (action, store, options) => {
           .then(response =>
             response
               .json()
-              .then(json => ({
-                path: fetchParam.fetchPath,
-                status: response.status,
-                ok: response.ok,
-                json
-              }))
+              .then(json => {
+                let newJson = json;
+
+                if (!response.ok) {
+                  newJson = {
+                    ...newJson,
+                    errors: newJson.errors.map(error =>
+                      error.detail
+                        ? { ...error, value: JSON.parse(fetchParam.fetchOptions.body).data[error.detail] }
+                        : error
+                    )
+                  };
+                }
+
+                return {
+                  path: fetchParam.fetchPath,
+                  status: response.status,
+                  ok: response.ok,
+                  json: newJson
+                };
+              })
               .catch(error => ({
                 path: fetchParam.fetchPath,
                 status: response.status,
