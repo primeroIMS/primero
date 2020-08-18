@@ -7,7 +7,7 @@ class Lookup < ApplicationRecord
   include Configuration
 
   localize_properties :name
-  localize_properties :lookup_values
+  localize_properties :lookup_values, values: true
 
   #TODO - seems to be causing trouble
   #TODO - remove  (No longer using in lookup seeds / config)
@@ -41,7 +41,6 @@ class Lookup < ApplicationRecord
                end
       lookup.present? ? (lookup.lookup_values(locale) || []) : []
     end
-    # memoize_in_prod :values
 
     def values_for_select(lookup_id, lookups = nil, opts = {})
       opts[:locale] = I18n.locale
@@ -196,7 +195,6 @@ class Lookup < ApplicationRecord
 
   # TODO: Pavel review, I want to get rid of this.
   def valid?(context = :default)
-    binding.pry
     self.name = name&.titleize
     sanitize_lookup_values
     super(context)
