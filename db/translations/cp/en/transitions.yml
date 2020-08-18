@@ -41,3 +41,5 @@ en:
         tick_box_label: 'Yes'
       created_at:
         display_name: Date of referral or transfer
+      note_on_referral_from_provider:
+        display_name: Notes on referral from provider

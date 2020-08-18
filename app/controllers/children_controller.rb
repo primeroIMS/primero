@@ -242,7 +242,7 @@ class ChildrenController < ApplicationController
   def relinquish_referral
     #TODO move business logic to the model.
     referral_id = params[:transition_id]
-    note_on_refferal = params[:note_on_referral]
+    note_on_referral = params[:note_on_referral]
 
     # TODO: this may require its own permission in the future.
     authorize! :read, @child
@@ -253,12 +253,12 @@ class ChildrenController < ApplicationController
     referral.to_user_local_status = Transition::TO_USER_LOCAL_STATUS_DONE
 
     if params.has_key?(:note_on_referral)
-      referral.note_on_referral_from_provider = note_on_refferal
+      referral.note_on_referral_from_provider = note_on_referral
     end
 
     @child.services_section.each do |service|
       if service.unique_id == referral.service_section_unique_id
-        service.note_on_referral_from_provider = note_on_refferal if params.has_key?(:note_on_referral)
+        service.note_on_referral_from_provider = note_on_referral if params.has_key?(:note_on_referral)
       end
     end
 
