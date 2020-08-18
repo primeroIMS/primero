@@ -54,5 +54,7 @@ create_or_update_system_setting(
     "duplicate_id" => "export-duplicate-id-csv"
   },
   changes_field_to_form: {'notes_section': 'notes'},
-  duplicate_export_field: "national_id_no"
+  duplicate_export_field: "national_id_no",
+  show_provider_note_field: true,
+  set_service_implemented_on: false
 )
