@@ -12,23 +12,26 @@ module Api::V2
       created_at = SolrUtils.indexed_field_name(Incident, :created_at)
 
       search = Child.search do
-        facet :created_at,
-          tag: :per_month,
-          range: from..to,
-          range_interval: '+1MONTH',
-          minimum_count: -1
-
         adjust_solr_params do |params|
-          params[:'facet.pivot'] = [
-            "{!range=per_month}#{owned_by_location}"
-          ]
+          params.merge!({
+            'facet': true,
+            'facet.range': "{!tag=per_month}#{created_at}",
+            'facet.range.start': from,
+            'facet.range.end': to,
+            'facet.range.gap': '+1MONTH',
+            'facet.pivot': [
+              "{!range=per_month}#{owned_by_location}"
+            ]
+          })
         end
 
         paginate page: 1, per_page: 0
       end
 
-      @columns = search.facet(:created_at).rows.
-        map { |result| result.value.first.iso8601(0) }
+      @columns = search.facet_response.
+        dig('facet_ranges', created_at, 'counts').
+        each_cons(2).
+        map(&:first)
 
       @data = extract_pivot_range_counts(search, owned_by_location, created_at).
         map do |value, counts|
@@ -44,23 +47,26 @@ module Api::V2
       created_at = SolrUtils.indexed_field_name(Incident, :created_at)
 
       search = Incident.search do
-        facet :created_at,
-          tag: :per_month,
-          range: from..to,
-          range_interval: '+1MONTH',
-          minimum_count: -1
-
         adjust_solr_params do |params|
-          params[:'facet.pivot'] = [
-            "{!range=per_month}#{owned_by_location}"
-          ]
+          params.merge!({
+            'facet': true,
+            'facet.range': "{!tag=per_month}#{created_at}",
+            'facet.range.start': from,
+            'facet.range.end': to,
+            'facet.range.gap': '+1MONTH',
+            'facet.pivot': [
+              "{!range=per_month}#{owned_by_location}"
+            ]
+          })
         end
 
         paginate page: 1, per_page: 0
       end
 
-      @columns = search.facet(:created_at).rows.
-        map { |result| result.value.first.iso8601(0) }
+      @columns = search.facet_response.
+        dig('facet_ranges', created_at, 'counts').
+        each_cons(2).
+        map(&:first)
 
       @data = extract_pivot_range_counts(search, owned_by_location, created_at).
         map do |value, counts|
@@ -301,23 +307,26 @@ module Api::V2
       date_closure = SolrUtils.indexed_field_name(Child, :date_closure)
 
       search = Child.search do
-        facet :date_closure,
-          tag: :per_month,
-          range: from..to,
-          range_interval: '+1MONTH',
-          minimum_count: -1
-
         adjust_solr_params do |params|
-          params[:'facet.pivot'] = [
-            "{!range=per_month}#{owned_by_location}"
-          ]
+          params.merge!({
+            'facet': true,
+            'facet.range': "{!tag=per_month}#{date_closure}",
+            'facet.range.start': from,
+            'facet.range.end': to,
+            'facet.range.gap': '+1MONTH',
+            'facet.pivot': [
+              "{!range=per_month}#{owned_by_location}"
+            ]
+          })
         end
 
         paginate page: 1, per_page: 0
       end
 
-      @columns = search.facet(:date_closure).rows.
-        map { |result| result.value.first.to_datetime.utc.iso8601(0) }
+      @columns = search.facet_response.
+        dig('facet_ranges', date_closure, 'counts').
+        each_cons(2).
+        map(&:first)
 
       @data = extract_pivot_range_counts(search, owned_by_location, date_closure).
         map do |value, counts|
@@ -406,11 +415,11 @@ module Api::V2
 
     # TODO: Add these to permitted params
     def from
-      params[:from]
+      Sunspot::Type.for_class(Date).to_indexed(params[:from])
     end
 
     def to
-      params[:to]
+      Sunspot::Type.for_class(Date).to_indexed(params[:to])
     end
 
     # This handles cases where 0% of something exists as in normal
