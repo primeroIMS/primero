@@ -47,13 +47,7 @@ const Component = ({ arrayHelpers, field, form, formik, i18n, initialSubformValu
 
   const renderEmptyData =
     values.filter(currValue => Object.values(currValue).every(isEmpty)).length === values.length ? (
-      <SubformEmptyData
-        handleClick={handleAddSubform}
-        i18n={i18n}
-        mode={mode}
-        subformName={title}
-        subformIsDisabled={isDisabled}
-      />
+      <SubformEmptyData i18n={i18n} subformName={title} />
     ) : (
       <SubformFields
         arrayHelpers={arrayHelpers}
