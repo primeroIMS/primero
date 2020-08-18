@@ -26,7 +26,7 @@ namespace :sunspot do
   desc 'Reindex all indexeable models'
   task reindex: :wait do
     puts 'Reindexing Solr...'
-    [Child, Incident, TracingRequest, User].each {|m| batch_reindex(m) }
+    [Child, Incident, TracingRequest].each {|m| batch_reindex(m) }
     puts 'Solr successfully reindexed'
   end
 
@@ -35,8 +35,7 @@ namespace :sunspot do
     indexed_types = [
       Child, Incident, TracingRequest,
       Flag, ReportableFollowUp, ReportableProtectionConcern,
-      ReportableService, Violation,
-      User
+      ReportableService, Violation
     ]
 
     puts "Removing the following record types from the Solr index: #{indexed_types.join(', ')}"
