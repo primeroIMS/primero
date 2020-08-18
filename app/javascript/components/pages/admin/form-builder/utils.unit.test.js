@@ -1,5 +1,6 @@
 import { fromJS } from "immutable";
 
+import { translateOptions } from "../../../../test";
 import { SAVE_METHODS } from "../../../../config";
 
 import * as utils from "./utils";
@@ -87,6 +88,36 @@ describe("<FormBuilder /> - utils", () => {
   describe("getFormRequestPath", () => {
     it("should return the correct path", () => {
       expect(utils.getFormRequestPath(1, SAVE_METHODS.update)).to.equal("forms/1");
+    });
+  });
+
+  describe("getSubformErrorMessages", () => {
+    it("should return an array of translated error messages", () => {
+      const translations = {
+        "errors.models.form_section.unique_id": "The unique id '%{unique_id}' is already taken."
+      };
+      const i18n = { t: (value, options) => translateOptions(value, options, translations) };
+      const subformServerErrors = fromJS([
+        {
+          errors: [
+            {
+              status: 422,
+              resource: "/api/v2/forms",
+              detail: "unique_id",
+              message: ["errors.models.form_section.unique_id"],
+              value: "new_subform_1"
+            },
+            {
+              status: 500,
+              resource: "/api/v2/forms/1733",
+              message: "Internal Server Error"
+            }
+          ]
+        }
+      ]);
+      const expected = fromJS(["The unique id 'new_subform_1' is already taken.", "Internal Server Error"]);
+
+      expect(utils.getSubformErrorMessages(subformServerErrors, i18n)).to.deep.equal(expected);
     });
   });
 });

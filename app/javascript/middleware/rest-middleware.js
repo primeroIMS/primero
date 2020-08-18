@@ -14,7 +14,7 @@ import {
   processAttachments,
   defaultErrorCallback,
   startSignout,
-  checkFieldSubformErrors
+  processSubforms
 } from "./utils";
 
 const defaultFetchOptions = {
@@ -297,31 +297,9 @@ const fetchMultiPayload = (action, store, options) => {
       }
 
       if (finishedCallbackSubforms) {
-        const { body: parentFormPayload } = finishedCallbackSubforms.api;
-        const { fields } = parentFormPayload.data;
+        const subformsCallback = processSubforms(finishedCallbackSubforms, responses);
 
-        const subforms = responses.filter(({ value }) => value.ok).map(({ value }) => value.json.data);
-
-        const errors = responses
-          .filter(({ value }) => !value.ok)
-          .map(({ value }) => value.json.errors)
-          .flat();
-
-        const updatedSubformFields = fields.map(field => {
-          const foundSubform = subforms.find(
-            subform => "unique_id" in subform && subform.unique_id === field.subform_section_unique_id
-          );
-
-          return foundSubform && typeof field.subform_section_id === "undefined"
-            ? {
-                ...field,
-                subform_section_id: foundSubform.id
-              }
-            : field;
-        });
-
-        finishedCallbackSubforms.api.body.data.fields = checkFieldSubformErrors(updatedSubformFields, errors);
-        fetchSinglePayload(finishedCallbackSubforms, store, options);
+        fetchSinglePayload(subformsCallback, store, options);
       }
     }
   };

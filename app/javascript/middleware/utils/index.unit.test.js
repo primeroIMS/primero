@@ -22,7 +22,8 @@ describe("middleware/utils/index.js", () => {
       "processAttachments",
       "startSignout",
       "retrieveData",
-      "queueData"
+      "queueData",
+      "processSubforms"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(modules).to.have.property(property);

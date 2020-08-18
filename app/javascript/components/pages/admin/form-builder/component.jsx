@@ -14,7 +14,7 @@ import { PageContent, PageHeading } from "../../../page";
 import FormSection from "../../../form/components/form-section";
 import { submitHandler, whichFormMode } from "../../../form";
 import { ROUTES, SAVE_METHODS, MODES } from "../../../../config";
-import { compare } from "../../../../libs";
+import { compare, dataToJS } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
@@ -39,7 +39,7 @@ import {
   getServerErrors,
   getUpdatedFormIds
 } from "./selectors";
-import { convertToFieldsArray, convertToFieldsObject } from "./utils";
+import { convertToFieldsArray, convertToFieldsObject, getSubformErrorMessages } from "./utils";
 import styles from "./styles.css";
 import { transformValues } from "./components/field-dialog/utils";
 
@@ -113,19 +113,7 @@ const Component = ({ mode }) => {
 
   useEffect(() => {
     if (errors?.size) {
-      const errorsObject = errors
-        .map(t =>
-          t
-            .get("errors")
-            .map(error => ({ message: error.get("message"), detail: error.get("detail"), value: error.get("value") }))
-        )
-        .toJS();
-
-      const errorsWithKeys = errorsObject.flat(2).map(error => ({
-        message: error.message[0],
-        rest: { [error.detail]: error.value }
-      }));
-      const messages = errorsWithKeys.map(error => i18n.t(error.message, error.rest)).join(", ");
+      const messages = dataToJS(getSubformErrorMessages(errors, i18n));
 
       dispatch({
         type: ENQUEUE_SNACKBAR,

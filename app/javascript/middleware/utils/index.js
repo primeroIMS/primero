@@ -8,6 +8,7 @@ import defaultErrorCallback from "./default-error-callback";
 import retrieveData from "./retrieve-data";
 import queueData from "./queue-data";
 import checkFieldSubformErrors from "./check-fields-subform-errors";
+import processSubforms from "./process-subforms";
 
 export {
   defaultErrorCallback,
@@ -19,5 +20,6 @@ export {
   startSignout,
   queueData,
   retrieveData,
-  checkFieldSubformErrors
+  checkFieldSubformErrors,
+  processSubforms
 };

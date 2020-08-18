@@ -31,6 +31,7 @@ const Component = () => {
 
   const isSubform = isSubformField(selectedField);
   const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
+  const isSelectedSubform = selectedSubform.toSeq().size > 0 && isSubform;
 
   const handleDialog = () => {
     if (isSubform) {
@@ -108,10 +109,7 @@ const Component = () => {
           />
         </div>
       </ActionDialog>
-      <CustomFieldSelectorDialog
-        key="custom-field-selector-dialog"
-        isSubform={selectedSubform.toSeq().size > 0 && isSubform}
-      />
+      <CustomFieldSelectorDialog key="custom-field-selector-dialog" isSubform={isSelectedSubform} />
     </>
   );
 };
