@@ -30,19 +30,12 @@ module Api::V2
       @columns = search.facet(:created_at).rows.
         map { |result| result.value.first.iso8601(0) }
 
-      @data = search.facet_response.
-        dig('facet_pivot', owned_by_location).
-        map do |pivot|
-          location = Location.
-            find_by({ location_code: pivot['value'].upcase }).
+      @data = extract_pivot_range_counts(search, owned_by_location, created_at).
+        map do |value, counts|
+          placename = Location.find_by({ location_code: value.upcase }).
             placename
 
-          counts = pivot.
-            dig('ranges', created_at, 'counts').
-            each_cons(2).
-            to_h
-
-          { reporting_site: location }.merge(counts)
+          { reporting_site: placename }.merge(counts)
         end
     end
 
@@ -69,19 +62,12 @@ module Api::V2
       @columns = search.facet(:created_at).rows.
         map { |result| result.value.first.iso8601(0) }
 
-      @data = search.facet_response.
-        dig('facet_pivot', owned_by_location).
-        map do |pivot|
-          location = Location.
-            find_by({ location_code: pivot['value'].upcase }).
+      @data = extract_pivot_range_counts(search, owned_by_location, created_at).
+        map do |value, counts|
+          placename = Location.find_by({ location_code: value.upcase }).
             placename
 
-          counts = pivot.
-            dig('ranges', created_at, 'counts').
-            each_cons(2).
-            to_h
-
-          { reporting_site: location }.merge(counts)
+          { reporting_site: placename }.merge(counts)
         end
     end
 
@@ -311,6 +297,9 @@ module Api::V2
     end
 
     def case_closure_rate
+      owned_by_location = SolrUtils.indexed_field_name(Child, :owned_by_location)
+      date_closure = SolrUtils.indexed_field_name(Child, :date_closure)
+
       search = Child.search do
         facet :date_closure,
           tag: :per_month,
@@ -318,8 +307,11 @@ module Api::V2
           range_interval: '+1MONTH',
           minimum_count: -1
 
-        pivot :owned_by_location,
-          range: :per_month
+        adjust_solr_params do |params|
+          params[:'facet.pivot'] = [
+            "{!range=per_month}#{owned_by_location}"
+          ]
+        end
 
         paginate page: 1, per_page: 0
       end
@@ -327,16 +319,12 @@ module Api::V2
       @columns = search.facet(:date_closure).rows.
         map { |result| result.value.first.to_datetime.utc.iso8601(0) }
 
-      @data = search.pivot(:owned_by_location).rows.
-        map do |row|
-          # use instance to get this?
-          location = Location.
-            find_by({ location_code: row.result['value'].upcase }).
+      @data = extract_pivot_range_counts(search, owned_by_location, date_closure).
+        map do |value, counts|
+          placename = Location.find_by({ location_code: value.upcase }).
             placename
 
-          counts = row.range(:date_closure).counts
-
-          { reporting_site: location }.merge(counts)
+          { reporting_site: placename }.merge(counts)
         end
     end
 
@@ -367,19 +355,10 @@ module Api::V2
         'role-gbv-case-management-supervisor' 
       ]
 
-      search = User.search do
-        facet :role
-      end
-
-      supervisors = search.facet(:role).rows.
-        select { |row| supervisor_roles.include?(row.value) }.
-        map(&:count).
-        sum
-
-      case_workers = search.facet(:role).rows.
-        select { |row| case_worker_roles.include?(row.value) }.
-        map(&:count).
-        sum
+      supervisors = User.joins(:role).
+        where(roles: { unique_id: supervisor_roles }).count
+      case_workers = User.joins(:role).
+        where(roles: { unique_id: case_worker_roles }).count
 
       ratio = (supervisors / case_workers).rationalize
 
@@ -396,7 +375,7 @@ module Api::V2
 
       owners = search.facet(:owned_by).rows
 
-      @results = [{
+      @data = [{
         case_load: '10cases', # '<10 open cases',
         percent: nan_safe_divide(
           owners.select { |owner| owner.count < 10 }.count,
@@ -440,6 +419,20 @@ module Api::V2
     def nan_safe_divide(numerator, denominator)
       return 0 if numerator == 0
       numerator / denominator.to_f
+    end
+
+    def extract_pivot_range_counts(search, pivot, range)
+      @data = search.facet_response.
+        dig('facet_pivot', pivot).
+        map do |pivot|
+          [
+            pivot['value'],
+            pivot.
+              dig('ranges', range, 'counts').
+              each_cons(2).
+              to_h
+          ]
+        end.to_h
     end
   end
 end

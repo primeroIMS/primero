@@ -180,28 +180,26 @@ module GBVKeyPerformanceIndicators
                                       ]))
   end
 
-  def self.client_satisfaction_fields
-    [
-      "opening_hours_when_client_could_attend",
-      "client_comfortable_with_case_worker",
-      "same_case_worker_each_visit",
-      "could_client_choose_support_person",
-      "client_informed_of_options",
-      "client_decided_what_next",
-      "client_referred_elsewhere",
-      "survivor_discreet_access",
-      "staff_respect_confidentiality",
-      "client_private_meeting",
-      "staff_friendly",
-      "staff_open_minded",
-      "staff_answered_all_questions",
-      "staff_client_could_understand",
-      "staff_allowed_enough_time",
-      "staff_helpful",
-      "client_feel_better",
-      "would_client_recommend_friend"
-    ]
-  end
+  CLIENT_SATISFACTION_FIELDS = [
+    "opening_hours_when_client_could_attend",
+    "client_comfortable_with_case_worker",
+    "same_case_worker_each_visit",
+    "could_client_choose_support_person",
+    "client_informed_of_options",
+    "client_decided_what_next",
+    "client_referred_elsewhere",
+    "survivor_discreet_access",
+    "staff_respect_confidentiality",
+    "client_private_meeting",
+    "staff_friendly",
+    "staff_open_minded",
+    "staff_answered_all_questions",
+    "staff_client_could_understand",
+    "staff_allowed_enough_time",
+    "staff_helpful",
+    "client_feel_better",
+    "would_client_recommend_friend"
+  ]
 
   def satisfaction_status
     feedback_forms = find_in_form(['client_feedback'])
@@ -214,7 +212,7 @@ module GBVKeyPerformanceIndicators
                    .map do |f|
       default = { 'yes' => 0, 'no' => 0, 'n_a' => 0 }
 
-      tally = fields_in_form(f, self.class.client_satisfaction_fields)
+      tally = fields_in_form(f, CLIENT_SATISFACTION_FIELDS)
               .compact
               .group_by(&:itself)
               .transform_values(&:count)

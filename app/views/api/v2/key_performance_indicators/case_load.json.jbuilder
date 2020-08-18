@@ -1,1 +1,1 @@
-json.data @results
+json.data @data

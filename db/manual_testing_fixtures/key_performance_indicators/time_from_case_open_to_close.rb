@@ -1,6 +1,6 @@
 require_relative 'setup.rb'
 
-# create 100 cases with the time bettween the case opening
+# create 100 cases with the time between the case opening
 # and the time the case closed ditributed around 1-3 months
 (0..100).each do |index|
   days = sample_box_muller(1, 365, 75, 30).round
