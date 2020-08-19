@@ -41,12 +41,10 @@ const Component = ({
   const subformValues = () => {
     if (isValidIndex) {
       if (displayConditions) {
-        return valuesWithDisplayConditions(getIn(formik.values, field.subform_section_id.unique_id), displayConditions)[
-          index
-        ];
+        return valuesWithDisplayConditions(getIn(formik.values, field.name), displayConditions)[index];
       }
 
-      return getIn(formik.values, `${field.subform_section_id.unique_id}[${index}]`);
+      return getIn(formik.values, `${field.name}[${index}]`);
     }
 
     return {};
@@ -57,9 +55,7 @@ const Component = ({
     ...subformValues()
   };
 
-  const initialSubformErrors = isValidIndex
-    ? getIn(formik.errors, `${field.subform_section_id.unique_id}[${index}]`)
-    : {};
+  const initialSubformErrors = isValidIndex ? getIn(formik.errors, `${field.name}[${index}]`) : {};
 
   const buildSchema = () => {
     const subformSchema = field.subform_section_id.fields.map(sf => fieldValidations(sf, i18n));
@@ -85,7 +81,7 @@ const Component = ({
 
   const onSubmit = values => {
     if (isValidIndex) {
-      formik.setFieldValue(`${field.subform_section_id.unique_id}[${index}]`, values, false);
+      formik.setFieldValue(`${field.name}[${index}]`, values, false);
     } else {
       arrayHelpers.push({ ...initialSubformValues, ...values });
     }
