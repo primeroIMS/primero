@@ -129,6 +129,8 @@ class Role < ApplicationRecord
   def dashboards
     dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
     dashboards = dashboard_permissions&.actions&.map do |action|
+      next Dashboard.dash_reporting_location(self) if action == 'dash_reporting_location'
+
       next Dashboard.send(action) if Dashboard::DYNAMIC.include?(action)
 
       begin
@@ -138,6 +140,33 @@ class Role < ApplicationRecord
       end
     end || []
     dashboards.compact
+  end
+
+  def reporting_location_config
+    @system_settings ||= SystemSettings.current
+    return nil if @system_settings.blank?
+
+    ss_reporting_location = @system_settings&.reporting_location_config
+    return nil if ss_reporting_location.blank?
+
+    reporting_location_config = secondary_reporting_location(ss_reporting_location)
+    reporting_location_config
+  end
+
+  # If the Role has a secondary reporting location (indicated by reporting_location_level),
+  # override the reporting location from SystemSettings
+  def secondary_reporting_location(ss_reporting_location)
+    return ss_reporting_location if reporting_location_level.blank?
+
+    admin_level = ss_reporting_location.map_reporting_location_level_to_admin_level(reporting_location_level)
+    return ss_reporting_location if admin_level == ss_reporting_location.admin_level
+
+    reporting_location = ReportingLocation.new(admin_level: admin_level,
+                                               label_key: reporting_location_level,
+                                               field_key: ss_reporting_location.field_key,
+                                               hierarchy_filter: ss_reporting_location.hierarchy_filter,
+                                               admin_level_map: ss_reporting_location.admin_level_map)
+    reporting_location
   end
 
   def super_user_role?

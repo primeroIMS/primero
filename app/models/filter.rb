@@ -231,11 +231,12 @@ class Filter < ValueObject
 
     def case_filters(user)
       filter_fields = Field.get_by_name(CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
-      reporting_location_label = SystemSettings.current.reporting_location_config.try(:label_key) ||
-                                 ReportingLocation::DEFAULT_LABEL_KEY
-      admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) ||
-                    ReportingLocation::DEFAULT_ADMIN_LEVEL
-      permitted_form_ids = user.role.permitted_forms('case', true).pluck(:unique_id)
+      role = user&.role
+      reporting_location_config = role.try(:reporting_location_config) ||
+                                  SystemSettings.current.reporting_location_config
+      reporting_location_label = reporting_location_config.try(:label_key) || ReportingLocation::DEFAULT_LABEL_KEY
+      admin_level = reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      permitted_form_ids = role.permitted_forms('case', true).pluck(:unique_id)
 
       filters = []
       filters << FLAGGED_CASE
