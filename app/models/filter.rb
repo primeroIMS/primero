@@ -387,7 +387,8 @@ class Filter < ValueObject
         }
         { locale => locale_options }
       end.inject(&:merge)
-    when 'approval_status_assessment', 'approval_status_case_plan', 'approval_status_closure', 'approval_status_action_plan', 'approval_status_gbv_closure'
+    when 'approval_status_assessment', 'approval_status_case_plan', 'approval_status_closure',
+         'approval_status_action_plan', 'approval_status_gbv_closure'
       self.options = I18n.available_locales.map do |locale|
         {
           locale => [
