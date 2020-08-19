@@ -29,23 +29,13 @@ describe Filter do
     @role_a = Role.create!(
       name: 'Test Role 1',
       unique_id: 'test-role-1',
-      permissions: [
-        Permission.new(
-          resource: Permission::CASE,
-          actions: [Permission::MANAGE]
-        )
-      ],
+      permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
       modules: [@cp]
     )
     @role_b = Role.create!(
       name: 'Test Role 2',
       unique_id: 'test-role-2',
-      permissions: [
-        Permission.new(
-          resource: Permission::CASE,
-          actions: [Permission::MANAGE]
-        )
-      ],
+      permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
       modules: [@cp, @gbv]
     )
     @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
@@ -143,10 +133,11 @@ describe Filter do
                                                                    type: 'multi_select'))
       end
 
-      # TODO: This test isn't working.  Not sure if it is because of the '2' in field_name
-      # + Filter(name: location.base_types.district, field_name: 2, type: multi_select),
-      xit 'has reporting location filter' do
-        expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'location.base_types.distric', field_name: 2,
+      # TODO: test with different reporting location levels
+      it 'has reporting location filter' do
+        binding.pry
+        expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'location.base_types.district',
+                                                                   field_name: 'owned_by_location',
                                                                    type: 'multi_select'))
       end
 

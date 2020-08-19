@@ -2,7 +2,7 @@
 
 # The value bag representing the list view filters, and the hardcoded set of these filters in Primero
 class Filter < ValueObject
-  attr_accessor :name, :field_name, :type, :options, :option_strings_source
+  attr_accessor :name, :field_name, :type, :options, :option_strings_source, :admin_level
 
   FLAGGED_CASE = Filter.new(
     name: 'cases.filter_by.flag',
@@ -90,12 +90,13 @@ class Filter < ValueObject
     option_strings_source: 'lookup-agency-office'
   )
   USER_GROUP = Filter.new(name: 'permissions.permission.user_group', field_name: 'owned_by_groups')
-  REPORTING_LOCATION = lambda do |label, admin_level|
+  REPORTING_LOCATION = lambda do |params|
     Filter.new(
-      name: "location.base_types.#{label}",
-      field_name: admin_level.to_s,
+      name: "location.base_types.#{params[:label]}",
+      field_name: params[:field],
       option_strings_source: 'ReportingLocation',
-      type: 'multi_select'
+      type: 'multi_select',
+      admin_level: params[:admin_level]
     )
   end
   NO_ACTIVITY = Filter.new(
@@ -234,6 +235,7 @@ class Filter < ValueObject
       role = user&.role
       reporting_location_config = role.try(:reporting_location_config) ||
                                   SystemSettings.current.reporting_location_config
+      reporting_location_field = reporting_location_config.try(:field_key) ||  ReportingLocation::DEFAULT_FIELD_KEY
       reporting_location_label = reporting_location_config.try(:label_key) || ReportingLocation::DEFAULT_LABEL_KEY
       admin_level = reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
       permitted_form_ids = role.permitted_forms('case', true).pluck(:unique_id)
@@ -267,7 +269,8 @@ class Filter < ValueObject
       filters << CURRENT_LOCATION if user.module?(PrimeroModule::CP)
       filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
       filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
-      filters << REPORTING_LOCATION.call(reporting_location_label, admin_level)
+      filters << REPORTING_LOCATION.call(label: reporting_location_label, field: reporting_location_field,
+                                         admin_level: admin_level)
       filters << NO_ACTIVITY
       filters << DATE_CASE if user.module?(PrimeroModule::CP)
       filters << ENABLED
