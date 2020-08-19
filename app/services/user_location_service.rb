@@ -19,6 +19,7 @@ class UserLocationService
 
     def reporting_locations_by_location_code(locations_by_code)
       hierarchies = locations_by_code.values.map(&:hierarchy_path)
+      # TODO: fix
       reporting_locations = Location.reporting_locations_for_hierarchies(hierarchies)
 
       locations_by_code.values.inject({}) do |acc, location|

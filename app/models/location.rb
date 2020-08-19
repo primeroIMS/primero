@@ -132,22 +132,6 @@ class Location < ApplicationRecord
       value = (lct.present? ? lct.name(locale) : '')
     end
 
-    def get_reporting_location(location)
-      level = SystemSettings.current&.reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
-      if location.admin_level == level
-        location
-      else
-        location.ancestor_by_admin_level(level)
-      end
-    end
-
-    def all_names_reporting_locations(opts={})
-      admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
-      reporting_location_hierarchy_filter = SystemSettings.current.reporting_location_config.try(:hierarchy_filter) || nil
-      locale = opts[:locale] || I18n.locale
-      find_names_by_admin_level_enabled(admin_level, reporting_location_hierarchy_filter, locale: locale)
-    end
-
     # This allows us to use the property 'type' on Location, normally reserved by ActiveRecord
     def inheritance_column
       'type_inheritance'
@@ -186,6 +170,7 @@ class Location < ApplicationRecord
     end
 
     def reporting_locations_for_hierarchies(hierarchies)
+      # TODO: fix this - called from user_location_service
       admin_level = SystemSettings.current&.reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
       Location.where('hierarchy_path @> ARRAY[:ltrees]::ltree[]', ltrees: hierarchies.compact.uniq)
               .where(admin_level: admin_level)
