@@ -7,6 +7,7 @@ import SubformDialog from "./component";
 
 describe("<SubformDialog />", () => {
   const props = {
+    arrayHelpers: {},
     dialogIsNew: true,
     field: FieldRecord({
       name: "services_section",
@@ -41,7 +42,8 @@ describe("<SubformDialog />", () => {
     i18n: { t: value => value },
     open: true,
     setOpen: () => {},
-    title: "Family details"
+    title: "Family details",
+    formSection: {}
   };
 
   const formProps = {
@@ -69,8 +71,32 @@ describe("<SubformDialog />", () => {
     expect(component.find(InternalAlert)).lengthOf(1);
   });
 
+  it("renders SubformDialog with valid props", () => {
+    const subformDialogProps = { ...component.find(SubformDialog).props() };
+
+    [
+      "arrayHelpers",
+      "dialogIsNew",
+      "field",
+      "formSection",
+      "formik",
+      "i18n",
+      "index",
+      "initialSubformValue",
+      "mode",
+      "open",
+      "setOpen",
+      "title"
+    ].forEach(property => {
+      expect(subformDialogProps).to.have.property(property);
+      delete subformDialogProps[property];
+    });
+    expect(subformDialogProps).to.be.empty;
+  });
+
   describe("when field is visible should not be render", () => {
     const propsFieldNotVisible = {
+      arrayHelpers: {},
       dialogIsNew: true,
       field: FieldRecord({
         name: "services_section",
@@ -103,7 +129,8 @@ describe("<SubformDialog />", () => {
       i18n: { t: value => value },
       open: true,
       setOpen: () => {},
-      title: "Family details"
+      title: "Family details",
+      formSection: {}
     };
 
     const visibleFieldFormProps = {
@@ -128,6 +155,7 @@ describe("<SubformDialog />", () => {
 
   describe("when a list of field is present on subform_section_configuration", () => {
     const propsRenderSomeFields = {
+      arrayHelpers: {},
       dialogIsNew: true,
       field: FieldRecord({
         name: "services_section",
@@ -171,7 +199,8 @@ describe("<SubformDialog />", () => {
       i18n: { t: value => value },
       open: true,
       setOpen: () => {},
-      title: "Family details"
+      title: "Family details",
+      formSection: {}
     };
 
     const formPropsRenderSomeFields = {

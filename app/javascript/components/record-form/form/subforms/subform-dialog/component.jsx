@@ -20,15 +20,16 @@ const Component = ({
   dialogIsNew,
   field,
   formik,
+  formSection,
   i18n,
   index,
+  initialSubformValue,
   isFormShow,
   mode,
   oldValue,
   open,
   setOpen,
-  title,
-  initialSubformValue
+  title
 }) => {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const childFormikRef = useRef();
@@ -109,10 +110,10 @@ const Component = ({
 
   const renderSubform = (subformField, subformIndex) => {
     if (subformField.subform_section_id.unique_id === "services_section") {
-      return <ServicesSubform field={subformField} index={subformIndex} mode={mode} />;
+      return <ServicesSubform field={subformField} index={subformIndex} mode={mode} formSection={formSection} />;
     }
 
-    return <SubformDialogFields field={subformField} mode={mode} index={subformIndex} />;
+    return <SubformDialogFields field={subformField} mode={mode} index={subformIndex} formSection={formSection} />;
   };
 
   const modalConfirmationProps = {
@@ -181,6 +182,7 @@ Component.propTypes = {
   dialogIsNew: PropTypes.bool.isRequired,
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
+  formSection: PropTypes.object,
   i18n: PropTypes.object.isRequired,
   index: PropTypes.number,
   initialSubformValue: PropTypes.object.isRequired,
