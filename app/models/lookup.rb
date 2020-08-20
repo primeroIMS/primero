@@ -16,6 +16,7 @@ class Lookup < ApplicationRecord
   validate :validate_name_in_english
   validate :validate_values_keys_match
 
+  before_validation :titleize_name
   before_validation :generate_values_keys
   before_validation :sync_lookup_values
   before_create :generate_unique_id
@@ -72,9 +73,7 @@ class Lookup < ApplicationRecord
 
       return nil unless lookup.present?
 
-      lookup.lookup_values_i18n.map do |k, v|
-        { k => v.find { |t| t['id'] == form_group_id }&.[]('display_text') }
-      end.inject(:merge)
+      FieldI18nService.fill_names(lookup.lookup_values_i18n.select{|v| v['id']===form_group_id})
     end
 
     def add_form_group(form_group_id, form_group_description, parent_form, module_name)
@@ -148,10 +147,10 @@ class Lookup < ApplicationRecord
   end
 
   def contains_option_id?(option_id)
-    lookup_values_i18n.values.flatten.find { |form_group| form_group['id'] == option_id }.present?
+    lookup_values_i18n.any? { |value| value.dig('id') == option_id }
   end
 
-  # TODO: Review this method due the values structure changed.
+  # TODO: DELETE THIS, once we refactor YML exporter
   def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE)
     lh = localized_hash(locale)
     lvh = {}
@@ -159,11 +158,6 @@ class Lookup < ApplicationRecord
     lookup_values(locale)&.each { |lv| lvh[lv['id']] = lv['display_text'] }
     lh['lookup_values'] = lvh
     lh
-  end
-
-  # TODO: Review this method due the values structure changed.
-  def sanitize_lookup_values
-    lookup_values&.reject!(&:blank?)
   end
 
   # TODO: Review this method due the values structure changed.
@@ -182,22 +176,8 @@ class Lookup < ApplicationRecord
     true
   end
 
-  # TODO: Pavel review, I want to get rid of this
-  def clear_all_values
-    Primero::Application.locales.each do |locale|
-      send("lookup_values_#{locale}=", nil)
-    end
-  end
-
-  def is_being_used?
+  def being_used?
     Field.where(option_strings_source: "lookup #{unique_id}").size.positive?
-  end
-
-  # TODO: Pavel review, I want to get rid of this.
-  def valid?(context = :default)
-    self.name = name&.titleize
-    sanitize_lookup_values
-    super(context)
   end
 
   def generate_unique_id
@@ -207,10 +187,8 @@ class Lookup < ApplicationRecord
     self.unique_id = "lookup-#{name_en}-#{code}".parameterize.dasherize
   end
 
-  # TODO: Pavel review, I want to change this:
-  # before_destroy :check_is_being_used unless: is_being_used?
   def check_is_being_used
-    return unless is_being_used?
+    return unless being_used?
 
     errors.add(:name, I18n.t('errors.models.lookup.being_used'))
     throw(:abort)
@@ -232,22 +210,16 @@ class Lookup < ApplicationRecord
   end
 
   def update_properties(lookup_properties)
-    #verificar que si viene el nuevo key updated.
     self.unique_id = lookup_properties[:unique_id] if lookup_properties[:unique_id].present?
     self.name_i18n = FieldI18nService.merge_i18n_properties(
       { name_i18n: name_i18n },
       name_i18n: lookup_properties[:name]
     )[:name_i18n]
 
-    # TODO verificar como hacer para seguir manteniendo los _delete
-    self.lookup_values_i18n = FieldI18nService.merge_i18n_options(
+    self.lookup_values_i18n = merge_options(
       lookup_values_i18n,
-      FieldI18nService.to_localized_options(lookup_properties[:values])
+      lookup_properties[:values]
     )
-
-    lookup_values_i18n.keys.each do |key|
-      lookup_values_i18n[key] = lookup_values_i18n[key].reject { |value| value['_delete'].present? }
-    end
   end
 
   private
@@ -257,6 +229,10 @@ class Lookup < ApplicationRecord
 
     errors.add(:name, I18n.t('errors.models.lookup.name_present'))
     false
+  end
+
+  def titleize_name
+    self.name = name&.titleize
   end
 
   # TODO: Pavel review. what are those TODO in this method? same case line 14

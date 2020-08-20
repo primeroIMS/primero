@@ -6,7 +6,8 @@ class Field < ApplicationRecord
   include Configuration
   # include Memoizable
 
-  localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label, :option_strings_text
+  localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label
+  localize_properties :option_strings_text, values: true
 
   attr_reader :options
   store_accessor :subform_section_configuration, :subform_sort_by, :subform_group_by
@@ -71,8 +72,7 @@ class Field < ApplicationRecord
     #self.attributes = properties #TODO: what is this?
   end
 
-  # TODO: Review this method, can we move to localizable_json_properties
-  # similar to Lookup.localized_property_hash line:156
+  # TODO: DELETE THIS, once we refactor YML exporter
   def localized_property_hash(locale=Primero::Application::BASE_LANGUAGE)
     lh = localized_hash(locale)
     if self.option_strings_text.present?
@@ -136,6 +136,7 @@ class Field < ApplicationRecord
     return true
   end
 
+  # TODO: Pavel, Is it necessary?
   # TODO: Review this method due the values structure changed.
   def valid_option_strings_text_translations?
     default_ids = self.option_strings_text(Primero::Application::BASE_LANGUAGE).try(:map){|op| op['id']}
@@ -144,7 +145,6 @@ class Field < ApplicationRecord
       options = self.option_strings_text(locale)
       next if options.blank?
       return false unless valid_option_strings?(options, false)
-      return false unless option_keys_match?(default_ids, options)
     end
     return true
   end
@@ -173,15 +173,6 @@ class Field < ApplicationRecord
 
     if is_base_language && option['display_text'].blank?
       errors.add(:option_strings_text, I18n.t('errors.models.field.option_strings_text.display_text_blank'))
-      return false
-    end
-    return true
-  end
-
-  def option_keys_match?(default_ids, options)
-    locale_ids = options.try(:map){|op| op['id']}
-    if ((default_ids - locale_ids).present? || (locale_ids - default_ids).present?)
-      errors.add(:option_strings_text, I18n.t('errors.models.field.translated_options_do_not_match'))
       return false
     end
     return true
@@ -399,7 +390,9 @@ class Field < ApplicationRecord
     end
   end
 
-  # TODO: Review this method due the values structure changed.
+  # TODO: DELETE THIS, once we refactor PDF exporter
+  # app/models/exporters/pdf_exporter.rb L 269 274
+  # app/models/exporters/base_exporter.rb:96
   def display_text(value = nil, lookups = nil, locale = nil)
     locale ||= I18n.locale
     value = convert_true_false_key_to_string(value) if is_yes_no?
@@ -440,12 +433,6 @@ class Field < ApplicationRecord
     else
       raise I18n.t('errors.models.field.default_value') + type unless DEFAULT_VALUES.has_key? type
     end
-  end
-
-  # TODO: Pavel review, I want to get rid of this
-  #TODO: Refactor with UIUX
-  def tag_name_attribute(objName = 'child')
-    "#{objName}[#{name}]"
   end
 
   def subform_group_by_field

@@ -54,6 +54,7 @@ class FormSection < ApplicationRecord
     Lookup.form_group_name_all(form_group_id, parent_form, module_name, lookups)
   end
 
+  # TODO: DELETE THIS, once we refactor YML exporter
   def localized_property_hash(locale=Primero::Application::BASE_LANGUAGE, show_hidden_fields=false)
     lh = localized_hash(locale)
     fldz = {}
@@ -424,10 +425,11 @@ class FormSection < ApplicationRecord
         field = self.fields.find{ |f| f.name == field_props["name"] }
         if field.present?
           fieldi18n_props = FieldI18nService.merge_i18n_properties(field.attributes, field_props)
+          fieldi18n_props['option_strings_text_i18n'] = FieldI18nService.convert_options(fieldi18n_props["option_strings_text_i18n"])
           fieldi18n_props = field_props.merge(fieldi18n_props)
           fields << field.attributes.merge(fieldi18n_props)
         else
-          fields <<  field_props
+          fields << field_props
         end
       end
       formi18n_props['fields_attributes'] = fields

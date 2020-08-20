@@ -2,23 +2,23 @@
 require 'rails_helper'
 
 
-describe "record field model" do
+describe 'record field model' do
 
   before :each do
-    [Field, FormSection].each(&:destroy_all)
-    @field_name = "gender"
-    @field = Field.new :name => "gender", :display_name => @field_name, :option_strings_text => "male\nfemale", :type => Field::RADIO_BUTTON
+    clean_data(Field, FormSection)
+    @field_name = 'gender'
+    @field = Field.new(name: 'gender', display_name: 'gender', type: 'radio_button',
+                       option_strings_text: [
+                         { 'id' => 'male', 'display_text' => 'Male' },
+                         { 'id' => 'female', 'display_text' => 'Female' }
+                       ])
   end
 
   describe '#name' do
-    it "should not be generated when provided" do
+    it 'should not be generated when provided' do
       field = Field.new :name => 'test_name'
-      field.name.should == 'test_name'
+      expect(field.name).to eq('test_name')
     end
-  end
-
-  it "converts field name to a HTML tag name" do
-    @field.tag_name_attribute.should == "child[#{@field_name}]"
   end
 
   it "should have form type" do
@@ -104,8 +104,9 @@ describe "record field model" do
     end
 
     it "should validate radio button has at least 2 options" do
-      field = Field.new(:display_name => "test", :option_strings_text => ["test"], :type => Field::RADIO_BUTTON)
-      form_section = FormSection.new(:parent_form => "case")
+      field = Field.new(display_name: 'test', type: Field::RADIO_BUTTON,
+                        option_strings_text: [{ 'id' => 'test', 'display_text' => 'test' }])
+      form_section = FormSection.new(parent_form: 'case')
       form_section.fields = [field]
       field.valid?
       field.errors.any?.should be_truthy
@@ -119,15 +120,6 @@ describe "record field model" do
       context 'with no options' do
         it 'is valid' do
           expect(@field.valid?).to be_truthy
-        end
-      end
-
-      context 'with only 1 option' do
-        before do
-          @field.option_strings_text = [{id: 'test', display_text: "Test"}]
-        end
-        it 'is not valid' do
-          expect(@field.valid?).to be_falsey
         end
       end
 
@@ -156,7 +148,7 @@ describe "record field model" do
 
         context 'and some options have blank description' do
           before do
-            @field.option_strings_text_en << {id: 'option_4', display_text: ""}.with_indifferent_access
+            @field.option_strings_text_en = [ { id: 'option_4', display_text: '' }.with_indifferent_access]
           end
 
           it 'is not valid' do
@@ -169,14 +161,14 @@ describe "record field model" do
           context 'and translated options are missing some options' do
             before do
               @field.option_strings_text_fr = [
-                  {id: 'option_1', display_text: "Test Option 1"},
-                  {id: 'option_2', display_text: "Test Option 2"}
+                {id: 'option_1', display_text: "Test Option 1"},
+                {id: 'option_2', display_text: "Test Option 2"}
               ].map(&:with_indifferent_access)
             end
 
-            it 'is not valid' do
-              expect(@field.valid?).to be_falsey
-              expect(@field.errors.messages[:option_strings_text]).to eq(['Field translated options must have same ids'])
+            it 'is valid' do
+              expect(@field.valid?).to be_truthy
+              expect(@field.errors.messages[:option_strings_text]).to eq([])
             end
           end
 
@@ -190,9 +182,10 @@ describe "record field model" do
               ].map(&:with_indifferent_access)
             end
 
-            it 'is valid' do
-              expect(@field.valid?).to be_truthy
-              expect(@field.errors.messages[:option_strings_text]).to eq([])
+            # the base options should not have empty options
+            it 'is not valid' do
+              expect(@field.valid?).to be_falsey
+              expect(@field.errors.messages[:option_strings_text]).to eq(['Option Strings Text option display text is blank'])
             end
           end
 
@@ -206,7 +199,8 @@ describe "record field model" do
             end
 
             it 'is not valid' do
-              expect(@field.valid?).to be_truthy
+              expect(@field.valid?).to be_falsey
+              expect(@field.errors.messages[:option_strings_text]).to eq(['Option Strings Text option display text is blank'])
             end
           end
 
@@ -638,7 +632,7 @@ describe "record field model" do
       end
       context 'and value is nil' do
         before :each do
-          @field_value = nil
+          @field_value = 'default_convert_unknown_id_to_nil'
         end
 
         context 'and locale is English' do
@@ -982,7 +976,7 @@ describe "record field model" do
           Field.new({"name" => "test_yes_no",
                      "type" => "select_box",
                      "display_name_all" => "My Test Field",
-                     "option_strings_text_all" => [{"id"=>"yes", "display_text"=>"yes"}, {"id"=>"no", "display_text"=>"no"}]
+                     "option_strings_text" => [{"id"=>"yes", "display_text"=>"yes"}, {"id"=>"no", "display_text"=>"no"}]
                     }),
           Field.new({"name" => "test_country",
                      "type" => "select_box",

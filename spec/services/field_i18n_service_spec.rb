@@ -57,92 +57,27 @@ describe FieldI18nService do
   describe 'fill_options' do
     it 'fill the options with all the available locales' do
       I18n.stub(:available_locales).and_return([:en, :es, :fr])
-      filled = FieldI18nService.fill_options({
-                 en: [{ id: "true", display_name: "True" }],
-                 es: [{ id: "true", display_name: "Verdadero" }]
-               })
-      expect(filled).to eq({
-        en: [{ id: "true", display_name: "True" }],
-        es: [{ id: "true", display_name: "Verdadero" }],
-        fr: []
-      })
-    end
-  end
-
-  describe 'merge_i18n_options' do
-    it 'merges the localized options of the hashes' do
-      merged_hash = FieldI18nService.merge_i18n_options(
-        {
-          'en' => [
-            { 'id' => 'true', 'display_name' => 'Valid' },
-            { 'id' => 'false', 'display_name' => 'Valid' }
-          ]
-        },
-        'en' => [{ 'id' => 'false', 'display_name' => 'false' }]
+      filled = FieldI18nService.fill_options([{"id"=>"true", "display_text"=>{"en"=>"True", "es": "Verdadero"}}])
+      expect(filled).to eq(
+        'en' => [{ 'id' => 'true', 'display_text' => 'True' }],
+        'es' => [{ 'id' => 'true', 'display_text' => 'Verdadero' }],
+        'fr' => []
       )
-      expected_hash = {
-        'en' => [
-          { 'id' => 'false', 'display_name' => 'false' },
-          { 'id' => 'true', 'display_name' => 'Valid' }
-        ]
-      }
-
-      expect(merged_hash).to eq(expected_hash)
     end
   end
 
   describe 'fill_lookups_options' do
     it 'fill the lookups options with all the available locales' do
-      options = {
-        "en" => [
-          { "id"=>"1", "display_text"=>"Country"},
-          { "id"=>"2", "display_text"=>"City"}
-        ],
-        "es" => [
-          { "id"=>"1", "display_text"=>"Pais"},
-          { "id"=>"2", "display_text"=>"Ciudad"}
-        ]
-      }
+      options = [
+        { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => 'Pais' } },
+        { 'id' => '2', 'display_text' => { 'en' => 'City', 'es' => 'Ciudad' } }
+      ]
       I18n.stub(:available_locales).and_return([:en, :es, :fr])
       lookups_options = FieldI18nService.fill_lookups_options(options)
       expected_lookups_options = [
-        { "id" => "1", "display_text" => { "en" => "Country", "es" => "Pais", "fr" => "" } },
-        { "id" => "2", "display_text" => { "en" => "City", "es"=> "Ciudad", "fr" => "" } }
+        { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => 'Pais', 'fr' => '' } },
+        { 'id' => '2', 'display_text' => { 'en' => 'City', 'es' => 'Ciudad', 'fr' => '' } }
       ]
-
-      expect(lookups_options).to eq(expected_lookups_options)
-    end
-  end
-
-  describe 'to_localized_options' do
-    it 'revert fill the lookups options with all the available locales' do
-      options = [
-        { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => '', 'fr' => '' } },
-        { 'id' => '2', 'display_text' => { 'en' => 'City', 'es' => '', 'fr' => 'prueba' } }
-      ]
-      lookups_options = FieldI18nService.to_localized_options(options)
-
-      expected_lookups_options = {
-        'en' => [{ 'id' => '1', 'display_text' => 'Country' }, { 'id' => '2', 'display_text' => 'City' }],
-        'fr' => [{ 'id' => '2', 'display_text' => 'prueba' }]
-      }
-
-      expect(lookups_options).to eq(expected_lookups_options)
-    end
-
-    it 'revert fill the lookups options if the value does not have display_text bit it have _delete: true' do
-      I18n.stub(:available_locales).and_return([:en, :es, :fr])
-      options = [
-        { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => '', 'fr' => '' } },
-        { 'id' => '2', '_delete' => true }
-      ]
-      lookups_options = FieldI18nService.to_localized_options(options)
-
-      expected_lookups_options = {
-        'en' => [{ 'id' => '1', 'display_text' => 'Country' }, { 'id' => '2', '_delete' => true }],
-        'fr' => [{ 'id' => '2', '_delete' => true }],
-        'es' => [{ 'id' => '2', '_delete' => true }]
-      }
 
       expect(lookups_options).to eq(expected_lookups_options)
     end

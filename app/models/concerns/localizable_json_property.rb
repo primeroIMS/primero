@@ -28,6 +28,16 @@ module LocalizableJsonProperty
       @localized_properties
     end
 
+    def define_available_locales_accessors(is_option, store, property)
+      I18n.available_locales.each do |locale|
+        if is_option
+          define_option_locale_accessors(store, property, locale)
+        else
+          define_locale_accessors(store, property, locale)
+        end
+      end
+    end
+
     def define_locale_accessors(store, property, locale)
       accessor = "#{property}_#{locale}"
 
@@ -112,29 +122,25 @@ module LocalizableJsonProperty
     end
   end
 
-  private
+  def merge_options(current_options, new_options)
+    return current_options if new_options.nil?
 
-  def define_available_locales_accessors(is_option, store, property)
-    I18n.available_locales.each do |locale|
-      if is_option
-        define_option_locale_accessors(store, property, locale)
-      else
-        define_locale_accessors(store, property, locale)
-      end
+    options = (new_options + current_options).map do |opt|
+      opt.to_h.with_indifferent_access
     end
+
+    options.uniq { |h| h[:id] }.reject { |c| c[:_delete] }
   end
 
   def define_property_getter(store, locale)
     current_store = send(store) || []
     locale = locale || I18n.locale || I18n.default_locale
-    current_store.inject([]) do |acc, current|
-      acc << { 'id': current.dig('id'), 'display_text': current.dig('display_text', locale.to_s) }
-    end
+    current_store.map { |option| option.merge('display_text' => option['display_text'][locale.to_s]) }
   end
 
   def define_property_setter(store, values, locale)
     current_store = send(store) || []
-    values.map(&:with_indifferent_access).each do |current_value|
+    values.each do |current_value|
       current_option = find_option_to_eval(current_store, current_value['id'])
       property_setter(current_store, current_option, current_value, locale)
     end
@@ -143,7 +149,7 @@ module LocalizableJsonProperty
 
   def find_option_to_eval(current_store, id)
     current_store.find do |opt|
-      opt['id'] == id
+      opt.dig('id') == id
     end
   end
 

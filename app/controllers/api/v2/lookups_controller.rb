@@ -18,7 +18,6 @@ class Api::V2::LookupsController < ApplicationApiController
   def create
     authorize! :create, Lookup
     @lookup = Lookup.new_with_properties(lookup_params)
-    # binding.pry
     @lookup.save!
     status = params[:data][:id].present? ? 204 : 200
     render :create, status: status
