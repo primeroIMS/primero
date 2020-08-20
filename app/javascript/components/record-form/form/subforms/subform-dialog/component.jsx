@@ -10,7 +10,7 @@ import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
 import { serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
-import { compactValues, emptyValues } from "../../../utils";
+import { compactValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
 import SubformDialogFields from "../subform-dialog-fields";
 import { valuesWithDisplayConditions } from "../subform-field-array/utils";
@@ -69,9 +69,9 @@ const Component = ({
   };
 
   const handleClose = () => {
-    const changed = !emptyValues(compactValues(childFormikRef.current.state.values, initialSubformValues));
+    const compactedValues = compactValues(childFormikRef.current.state.values, initialSubformValues);
 
-    if (changed) {
+    if (Object.keys(childFormikRef.current.state.touched).length && Object.keys(compactedValues).length) {
       setOpenConfirmationModal(true);
     } else {
       setOpen({ open: false, index: null });

@@ -1,7 +1,10 @@
+import { Formik } from "formik";
+
 import { setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
 import TextField from "../../field-types/text-field";
 import InternalAlert from "../../../../internal-alert";
+import ActionDialog from "../../../../action-dialog";
 
 import SubformDialog from "./component";
 
@@ -29,10 +32,13 @@ describe("<SubformDialog />", () => {
     }),
     formik: {
       values: [],
-      errors: { services_subform_section: [{ relation_name: "required" }] }
+      errors: { services_subform_section: [{ relation_name: "required" }] },
+      // touched: {
+      //   relation_name: true
+      // }
     },
     mode: {
-      isShow: true
+      isEdit: true
     },
     initialSubformValue: {
       relation_name: "",
@@ -48,7 +54,7 @@ describe("<SubformDialog />", () => {
 
   const formProps = {
     initialValues: {
-      relation_name: "",
+      relation_name: "test",
       relation_child_is_in_contact: ""
     }
   };
@@ -69,6 +75,27 @@ describe("<SubformDialog />", () => {
 
   it("renders an InternalAlert if there are errors", () => {
     expect(component.find(InternalAlert)).lengthOf(1);
+  });
+
+  it("renders the ConfirmationModal component", () => {
+    const subformDialog = component.find(SubformDialog);
+
+    expect(component.find(ActionDialog)).lengthOf(2);
+
+    // Editing a relation_name text-field
+    subformDialog
+      .find(Formik)
+      .find("input")
+      .first()
+      .simulate("change", { target: { value: "abc" } });
+
+    // Clicking cancel button
+    subformDialog.find("button").at(2).simulate("click");
+
+    const confirmationModal = component.find(ActionDialog).last().props();
+
+    expect(confirmationModal.open).to.be.true;
+    expect(confirmationModal.dialogText).to.be.equal("messages.confirmation_message");
   });
 
   it("renders SubformDialog with valid props", () => {
