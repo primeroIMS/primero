@@ -1,5 +1,7 @@
 import { fromJS } from "immutable";
 
+import { DEFAULT_METADATA } from "../../../../config";
+
 import actions from "./actions";
 import reducer from "./reducer";
 
@@ -59,6 +61,20 @@ describe("<LookupsList /> - pages/admin/lookups-list/reducer", () => {
 
     const action = {
       type: actions.FETCH_LOOKUPS_FINISHED
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle CLEAR_METADATA", () => {
+    const expected = fromJS({
+      metadata: DEFAULT_METADATA
+    });
+
+    const action = {
+      type: actions.CLEAR_METADATA
     };
 
     const newState = reducer(fromJS({}), action);

@@ -5,7 +5,14 @@ describe("<AgenciesList /> - Actions", () => {
     const clonedActions = { ...actions };
 
     expect(clonedActions).to.be.an("object");
-    ["AGENCIES", "AGENCIES_STARTED", "AGENCIES_SUCCESS", "AGENCIES_FAILURE", "AGENCIES_FINISHED"].forEach(property => {
+    [
+      "AGENCIES",
+      "AGENCIES_STARTED",
+      "AGENCIES_SUCCESS",
+      "AGENCIES_FAILURE",
+      "AGENCIES_FINISHED",
+      "CLEAR_METADATA"
+    ].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];
     });

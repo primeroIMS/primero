@@ -19,6 +19,8 @@ import { applyFilters } from "../index-filters/action-creators";
 import { getNumberErrorsBulkAssign, getNumberBulkAssign } from "../record-actions/bulk-transtions/selectors";
 import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
 import { enqueueSnackbar } from "../notifier";
+import { useMetadata } from "../records";
+import { DEFAULT_METADATA } from "../../config";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
 import FilterContainer from "./filter-container";
@@ -58,16 +60,17 @@ const Container = ({ match, location }) => {
 
   const permissions = useSelector(state => getPermissionsByRecord(state, recordType));
 
-  const defaultFilters = fromJS({ ...DEFAULT_FILTERS, ...metadata?.toJS() });
+  const defaultMetadata = metadata?.toJS();
+  const defaultFilterFields = DEFAULT_FILTERS;
+  const defaultFilters = fromJS({
+    ...defaultFilterFields,
+    ...defaultMetadata
+  });
 
-  useEffect(() => {
-    dispatch(
-      applyFilters({
-        recordType,
-        data: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS()
-      })
-    );
-  }, []);
+  useMetadata(recordType, metadata, applyFilters, "data", {
+    defaultFilterFields: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS(),
+    restActionParams: { recordType }
+  });
 
   const numberErrorsBulkAssign = useSelector(state => getNumberErrorsBulkAssign(state, recordType));
 
@@ -147,7 +150,10 @@ const Container = ({ match, location }) => {
 
   const filterProps = {
     recordType,
-    defaultFilters,
+    defaultFilters: fromJS({
+      ...defaultFilterFields,
+      ...DEFAULT_METADATA
+    }),
     setSelectedRecords,
     fromDashboard: Boolean(searchParams.get("fromDashboard"))
   };
