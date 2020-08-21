@@ -286,7 +286,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
       i18n,
       initialValues: {},
       onSubmit,
-      submitAllFields: selectedFieldName === NEW_FIELD && isSubformField(selectedField)
+      submitAllFields: isSubformField(selectedField)
     })
   );
 
