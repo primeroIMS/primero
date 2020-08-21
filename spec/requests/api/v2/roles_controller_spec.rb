@@ -69,7 +69,7 @@ describe Api::V2::RolesController, type: :request do
       referral: false,
       transfer: false,
       is_manager: true,
-      reporting_location_level: 'district',
+      reporting_location_level: 2,
       permissions: @permissions_test,
       form_sections: [@form_section_a],
       modules: [@cp_b]
@@ -82,7 +82,7 @@ describe Api::V2::RolesController, type: :request do
       referral: false,
       transfer: false,
       is_manager: true,
-      reporting_location_level: 'province',
+      reporting_location_level: 1,
       permissions: @permissions_test,
       form_sections: [@form_section_a],
       modules: [@cp_a]
@@ -384,7 +384,7 @@ describe Api::V2::RolesController, type: :request do
           referral: false,
           transfer: false,
           is_manager: true,
-          reporting_location_level: 'province',
+          reporting_location_level: 1,
           form_section_unique_ids: %w[C],
           module_unique_ids: [@cp_b.unique_id],
           permissions: {
@@ -431,7 +431,7 @@ describe Api::V2::RolesController, type: :request do
           referral: false,
           transfer: false,
           is_manager: true,
-          reporting_location_level: 'province',
+          reporting_location_level: 1,
           form_section_unique_ids: %w[C],
           module_unique_ids: [@cp_b.unique_id]
         }

@@ -781,15 +781,15 @@ describe User do
       @role_province = Role.create!(name: 'Admin',
                                     permissions: [Permission.new(resource: Permission::CASE,
                                                                  actions: [Permission::MANAGE])],
-                                    reporting_location_level: 'province')
+                                    reporting_location_level: 1)
       @role_district = Role.create!(name: 'Field Worker',
                                     permissions: [Permission.new(resource: Permission::CASE,
                                                                  actions: [Permission::MANAGE])],
-                                    reporting_location_level: 'district')
+                                    reporting_location_level: 2)
       @role_no_level = Role.create!(name: 'Field Worker 2',
                                     permissions: [Permission.new(resource: Permission::CASE,
                                                                  actions: [Permission::MANAGE])])
-      reporting_location = ReportingLocation.new(field_key: 'test', label_key: 'district', admin_level: 2)
+      reporting_location = ReportingLocation.new(field_key: 'test', admin_level: 2)
       @system_settings = SystemSettings.create(default_locale: 'en', reporting_location_config: reporting_location)
     end
 

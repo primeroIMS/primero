@@ -25,8 +25,6 @@ class SystemSettings < ApplicationRecord
   after_initialize :set_version
   before_save :set_version
   before_save :add_english_locale
-  before_save :reporting_location_defaults,
-              if: ->(system_setting) { system_setting.reporting_location_config.present? }
 
   # For now allow empty locales for backwards compatibility with older configurations
   # The wrapper method will handle blank locales
@@ -109,10 +107,6 @@ class SystemSettings < ApplicationRecord
       result[name] = range_array.map(&:to_s)
     end
     super(result)
-  end
-
-  def reporting_location_defaults
-    reporting_location_config.default_label_key
   end
 
   def validate_reporting_location

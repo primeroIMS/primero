@@ -29,9 +29,8 @@ create_or_update_system_setting(
   ],
   reporting_location_config: {
     field_key: "owned_by_location",
-    label_key: "district",
     admin_level: 2,
-    admin_level_map: { 'country' => 0, 'province' => 1, 'district' => 2 }
+    admin_level_map: { '0' => 'country', '1' => 'province', '2' => 'district' }
   },
   primary_age_range: "primero",
   age_ranges: {

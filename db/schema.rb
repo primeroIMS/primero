@@ -348,7 +348,7 @@ ActiveRecord::Schema.define(version: 2020_08_12_155523) do
     t.boolean "referral", default: false, null: false
     t.boolean "transfer", default: false, null: false
     t.boolean "is_manager", default: false, null: false
-    t.string "reporting_location_level"
+    t.integer "reporting_location_level"
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end

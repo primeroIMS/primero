@@ -40,31 +40,64 @@ describe Role do
 
     describe 'reporting_location_level' do
       before do
+        clean_data(SystemSettings)
+        SystemSettings.create(default_locale: 'en',
+                              reporting_location_config: { field_key: 'owned_by_location', admin_level: 2,
+                                                           admin_level_map: { '0' => 'country', '1' => 'region',
+                                                                              '2' => 'district' } })
         @role = Role.new(name: 'some_role',
                          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
-
-        ReportingLocation.stub(:reporting_location_levels).and_return(%w[district province governorate])
       end
 
-      context 'with a valid admin_level' do
+      context 'with a valid reporting_location_level' do
         before :each do
-          @role.reporting_location_level = 'district'
+          @role.reporting_location_level = 1
         end
 
         it 'is valid' do
           expect(@role).to be_valid
         end
+
+        describe '.reporting_location_config' do
+          it 'returns the reporting location of the role' do
+            expect(@role.reporting_location_config.admin_level).to eq(1)
+          end
+
+          it 'returns the reporting location label_key of the role' do
+            expect(@role.reporting_location_config.label_key).to eq('region')
+          end
+        end
       end
 
-      context 'with an invalid admin_level' do
+      context 'with an invalid reporting_location_level' do
         before :each do
-          @role.reporting_location_level = 'bad_level'
+          @role.reporting_location_level = 6
         end
 
         it 'returns an error message' do
           @role.valid?
           expect(@role.errors.messages[:reporting_location_level])
             .to eq(['Location Level must be one of ReportingLocation Level values'])
+        end
+      end
+
+      context 'with a no reporting_location_level' do
+        before :each do
+          @role.reporting_location_level = nil
+        end
+
+        it 'is valid' do
+          expect(@role).to be_valid
+        end
+
+        describe '.reporting_location_config' do
+          it 'returns the default reporting location from SystemSettings' do
+            expect(@role.reporting_location_config.admin_level).to eq(2)
+          end
+
+          it 'returns the default reporting location label_key from SystemSettings' do
+            expect(@role.reporting_location_config.label_key).to eq('district')
+          end
         end
       end
     end

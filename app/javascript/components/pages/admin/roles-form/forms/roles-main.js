@@ -1,4 +1,4 @@
-import { FieldRecord, FormSectionRecord, TICK_FIELD, TEXT_FIELD, SELECT_FIELD } from "../../../../form";
+import { FieldRecord, FormSectionRecord, TICK_FIELD, TEXT_FIELD, SELECT_FIELD, NUMERIC_FIELD } from "../../../../form";
 import { FIELD_NAMES } from "../constants";
 
 import { buildPermissionOptions } from "./utils";
@@ -56,8 +56,8 @@ export default (groupPermissions, i18n) => {
         display_name: i18n.t("permissions.resource.reporting_location_level.label"),
         tooltip: i18n.t("permissions.resource.reporting_location_level.explanation"),
         name: FIELD_NAMES.reportingLocationLevel,
-        type: SELECT_FIELD,
-        option_strings_source: "lookup-reporting-location-type"
+        type: NUMERIC_FIELD,
+        help_text: i18n.t("role.reporting_location_level_help")
       })
     ]
   });

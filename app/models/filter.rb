@@ -231,8 +231,7 @@ class Filter < ValueObject
 
     def case_filters(user)
       filter_fields = Field.get_by_name(CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
-      reporting_location_label = SystemSettings.current.reporting_location_config.try(:label_key) ||
-                                 ReportingLocation::DEFAULT_LABEL_KEY
+      reporting_location_label = SystemSettings.current.reporting_location_config.try(:label_key)
       admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) ||
                     ReportingLocation::DEFAULT_ADMIN_LEVEL
       permitted_form_ids = user.role.permitted_forms('case', true).pluck(:unique_id)
@@ -386,7 +385,8 @@ class Filter < ValueObject
         }
         { locale => locale_options }
       end.inject(&:merge)
-    when 'approval_status_assessment', 'approval_status_case_plan', 'approval_status_closure', 'approval_status_action_plan', 'approval_status_gbv_closure'
+    when 'approval_status_assessment', 'approval_status_case_plan', 'approval_status_closure',
+        'approval_status_action_plan', 'approval_status_gbv_closure'
       self.options = I18n.available_locales.map do |locale|
         {
           locale => [
