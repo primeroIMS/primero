@@ -1,5 +1,6 @@
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { loadApplicationResources } from "../application";
+import { SET_USER_LOCALE } from "../i18n";
 
 import Actions from "./actions";
 
@@ -20,7 +21,8 @@ export const fetchAuthenticatedUserData = id => async dispatch => {
       },
       db: {
         collection: DB_COLLECTIONS_NAMES.USER
-      }
+      },
+      successCallback: SET_USER_LOCALE
     }
   });
 };
