@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { differenceInYears } from "date-fns";
+import { differenceInYears, parseISO } from "date-fns";
 import { DatePicker, DateTimePicker } from "@material-ui/pickers";
 import { InputAdornment } from "@material-ui/core";
 import { FastField, connect, getIn } from "formik";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import omitBy from "lodash/omitBy";
+import isEmpty from "lodash/isEmpty";
 
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../config";
 import { useI18n } from "../../../i18n";
@@ -43,7 +44,11 @@ const DateField = ({ name, helperText, mode, formik, InputProps, ...rest }) => {
     }
     form.setFieldValue(name, dateValue, true);
 
-    return dateValue;
+    if (dateIncludeTime || isEmpty(value)) {
+      return dateValue;
+    }
+
+    return parseISO(dateValue.slice(0, 10));
   };
 
   const fieldError = getIn(formik.errors, name);
