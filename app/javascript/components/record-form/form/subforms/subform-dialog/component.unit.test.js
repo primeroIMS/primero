@@ -28,7 +28,7 @@ describe("<SubformDialog />", () => {
     }),
     formik: {
       values: [],
-      errors: { services_subform_section: [{ relation_name: "required" }] }
+      errors: { services_section: [{ relation_name: "required" }] }
     },
     mode: {
       isShow: true
