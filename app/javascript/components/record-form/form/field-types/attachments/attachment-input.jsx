@@ -67,7 +67,7 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
                 component: "span",
                 disabled: fieldDisabled(),
                 variant: "outlined",
-                "aria-label": i18n.t(fields.file_upload_box.select_file_button_text)
+                "aria-label": i18n.t("fields.file_upload_box.select_file_button_text")
               }}
             />
           )}

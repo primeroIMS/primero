@@ -30,7 +30,6 @@ const Component = ({
   primeroModule,
   selectedForm
 }) => {
-  const i18n = useI18n();
   const [open, setOpen] = useState("");
   const [previousGroup, setPreviousGroup] = useState("");
   const dispatch = useDispatch();
