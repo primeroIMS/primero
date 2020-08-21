@@ -153,13 +153,14 @@ export const generateUniqueId = (data, locale) => data[locale].replace(/[^\w]/g,
 
 export const buildDataToSave = (selectedField, data, locale, lastFieldOrder, randomSubformId) => {
   const fieldName = selectedField?.get("name");
+  const newData = { ...data, disabled: selectedField?.get("type") === SEPARATOR ? true : data?.disabled };
 
   if (fieldName !== NEW_FIELD) {
-    return { [fieldName]: data };
+    return { [fieldName]: newData };
   }
-  const newFieldName = generateUniqueId(data.display_name, locale);
+  const newFieldName = generateUniqueId(newData.display_name, locale);
 
-  const dataToSave = appendSettingsAttributes(data, selectedField, newFieldName, lastFieldOrder);
+  const dataToSave = appendSettingsAttributes(newData, selectedField, newFieldName, lastFieldOrder);
 
   return {
     [newFieldName]:

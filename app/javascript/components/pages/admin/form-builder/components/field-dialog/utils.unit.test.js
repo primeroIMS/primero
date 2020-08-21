@@ -94,7 +94,8 @@ describe("buildDataToSave", () => {
         mobile_visible: true,
         required: false,
         show_on_minify_form: false,
-        visible: true
+        visible: true,
+        disabled: false
       }
     };
 
@@ -111,7 +112,8 @@ describe("buildDataToSave", () => {
       show_on_minify_form: false,
       visible: true,
       multi_select: false,
-      date_include_time: false
+      date_include_time: false,
+      disabled: false
     };
 
     it("should set the data for create", () => {

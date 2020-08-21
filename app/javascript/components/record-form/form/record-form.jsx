@@ -79,9 +79,9 @@ const RecordForm = ({
               return (
                 <Box my={3} key={field.name}>
                   {SUBFORM_SECTION === field.type ? (
-                    <SubformField {...fieldProps} />
+                    <SubformField {...{ ...fieldProps, formSection: field.subform_section_id }} />
                   ) : (
-                    <FormSectionField name={field.name} {...fieldProps} />
+                    <FormSectionField name={field.name} {...{ ...fieldProps, formSection: form }} />
                   )}
                 </Box>
               );
