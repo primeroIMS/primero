@@ -162,14 +162,16 @@ module Exporters
         #sheet name should be unique.
         modules = @sheets[fs_name]["modules"] + modules
       end
-      @sheets[fs_name] = {"work_sheet" => nil, "column_widths" => nil, "row" => 1, "properties" => props, "modules" => modules}
+      @sheets[fs_name] = {"work_sheet" => nil, "column_widths" => nil, "row" => 2, "properties" => props, "modules" => modules}
     end
 
     def build_sheet(sheet_def, form_name, workbook, counter)
       return sheet_def["work_sheet"] if sheet_def["work_sheet"].present?
       work_sheet = generate_work_sheet(workbook, form_name, counter)
+      pre_header = ["_id", "model_type"] + build_pre_header(sheet_def["properties"])
+      work_sheet.write(0, 0, pre_header)
       header = ["_id", "model_type"] + build_header(sheet_def["properties"])
-      work_sheet.write(0, 0, header)
+      work_sheet.write(1, 0, header)
       sheet_def["column_widths"] = initial_column_widths(header)
       sheet_def["work_sheet"] = work_sheet
     end
@@ -227,6 +229,30 @@ module Exporters
           property.type.properties.map{|p| p.name if p.name != "unique_id"}.compact
         else
           property.name
+        end
+      end.flatten
+    end
+
+    def build_pre_header(properties)
+      properties.map do |key, property|
+        if property.is_a?(Hash)
+          #The hash contains the selected fields for a subform.
+          property.values.map{|prop| prop.options[:display_name]}
+        elsif property.is_a?(String)
+          property
+        elsif property.array && property.type.include?(CouchRest::Model::Embeddable)
+          #Returns every property in the subform to build the header of the sheet.
+          #Remove unique_id field for subforms.
+          field_subform = property.type.properties.map{|p| p.options[:display_name] if p.name != "unique_id"}.compact
+          if field_subform.blank?
+            field_ids_subform = property.type.properties.map{|p| p.name if p.name != "unique_id"}.compact
+            fields = FormSection.by_unique_id(key: property.name).fields
+            field_subform
+          else
+            field_subform
+          end
+        else
+          property.options[:display_name]
         end
       end.flatten
     end
