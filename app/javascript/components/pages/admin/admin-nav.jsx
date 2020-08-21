@@ -20,6 +20,8 @@ const AdminNav = () => {
 
   const userPermissions = useSelector(state => getPermissions(state));
 
+  console.log(userPermissions?.toJS());
+
   const hasNavPermission = (type, permission) => {
     if (type && permission) {
       return checkPermissions(userPermissions.get(type), permission);

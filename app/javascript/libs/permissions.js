@@ -109,15 +109,12 @@ export const RECORD_RESOURCES = [RESOURCES.cases, RESOURCES.incidents, RESOURCES
 export const ADMIN_ACTIONS = [...MANAGE, ACTIONS.READ, ACTIONS.WRITE, ACTIONS.CREATE];
 
 export const ADMIN_RESOURCES = [
-  RESOURCES.agencies,
-  RESOURCES.audit_logs,
-  RESOURCES.contact_information,
-  RESOURCES.lookups,
+  RESOURCES.users,
   RESOURCES.roles,
-  RESOURCES.forms,
-  RESOURCES.systems,
   RESOURCES.user_groups,
-  RESOURCES.users
+  RESOURCES.agencies,
+  RESOURCES.forms,
+  RESOURCES.audit_logs
 ];
 
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];

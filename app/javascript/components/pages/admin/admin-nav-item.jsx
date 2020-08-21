@@ -13,7 +13,8 @@ const AdminNavItem = ({ item, isParent, open, handleClick, nestedClass }) => {
     key: item.to,
     button: true,
     activeClassName: "Mui-selected",
-    disabled: item.disabled
+    disabled: item.disabled,
+    selected: false
   };
 
   let customProps = {};

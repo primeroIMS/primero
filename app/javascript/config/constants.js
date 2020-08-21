@@ -169,12 +169,6 @@ export const ADMIN_NAV = [
     recordType: RESOURCES.users
   },
   {
-    to: "/agencies",
-    label: "settings.navigation.agencies",
-    permission: ADMIN_ACTIONS,
-    recordType: RESOURCES.agencies
-  },
-  {
     to: "/roles",
     label: "settings.navigation.roles",
     permission: ADMIN_ACTIONS,
@@ -187,13 +181,11 @@ export const ADMIN_NAV = [
     recordType: RESOURCES.user_groups
   },
   {
-    to: "/contact_information",
-    label: "settings.navigation.contact_information",
-    permission: MANAGE,
-    recordType: RESOURCES.systems
+    to: "/agencies",
+    label: "settings.navigation.agencies",
+    permission: ADMIN_ACTIONS,
+    recordType: RESOURCES.agencies
   },
-  { to: "/modules", label: "settings.navigation.modules", disabled: true },
-
   {
     to: "/forms-parent",
     label: "settings.navigation.forms",
@@ -216,22 +208,37 @@ export const ADMIN_NAV = [
   },
   { to: "/locations", label: "settings.navigation.locations", disabled: true },
   {
-    to: "/system_settings",
-    label: "settings.navigation.system_settings",
-    disabled: true
+    to: "/contact_information",
+    label: "settings.navigation.contact_information",
+    permission: MANAGE,
+    recordType: RESOURCES.systems
   },
+  { to: "/configurations", label: "settings.navigation.configurations", disabled: true },
   {
     to: "/audit_logs",
     label: "settings.navigation.audit_logs",
     permission: SHOW_AUDIT_LOGS,
     recordType: RESOURCES.audit_logs
-  },
-  { to: "/matching", label: "settings.navigation.matching", disabled: true }
+  }
+  // {
+  //   to: "/system_settings",
+  //   label: "settings.navigation.system_settings",
+  //   disabled: true
+  // },
+  // { to: "/matching", label: "settings.navigation.matching", disabled: true }
+  // { to: "/modules", label: "settings.navigation.modules", disabled: true },
 ];
 
 export const APPLICATION_NAV = permissions => {
-  const adminResources = ADMIN_RESOURCES.filter(adminResource => permissions.keySeq().includes(adminResource));
-  const adminSettingsOption = `/admin/${adminResources[0]}`;
+  const adminResources = ADMIN_RESOURCES.filter(
+    adminResource => permissions.keySeq().includes(adminResource) && permissions.get(adminResource).size > 0
+  );
+
+  const adminForm = adminResources[0] || ADMIN_RESOURCES.contact_information;
+
+  // TODO: Forms permissions looks like it's metadata. Fix!!!!
+  console.log(adminResources, adminForm);
+  const adminSettingsOption = `/admin/${adminForm}`;
 
   return [
     {
