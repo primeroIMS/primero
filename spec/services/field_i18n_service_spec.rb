@@ -54,6 +54,15 @@ describe FieldI18nService do
     end
   end
 
+  describe 'fill_with_locales' do
+    it 'return options with all the availables locales' do
+      I18n.stub available_locales: %w[en es fr]
+      source = { 'en' => 'Lastname', 'es' => 'Apellido' }
+      expected = { 'en' => 'Lastname', 'es' => 'Apellido', 'fr' => '' }
+      expect(FieldI18nService.fill_with_locales(source)).to eq(expected)
+    end
+  end
+
   describe 'fill_options' do
     it 'fill the options with all the available locales' do
       I18n.stub(:available_locales).and_return([:en, :es, :fr])
@@ -80,6 +89,31 @@ describe FieldI18nService do
       ]
 
       expect(lookups_options).to eq(expected_lookups_options)
+    end
+  end
+
+  describe 'convert_options' do
+    it 'return options with all the available locales' do
+      options = {
+        'en' => [
+          { 'id' => '1', 'display_text' => 'Country' },
+          { 'id' => '2', 'display_text' => 'City' }
+        ]
+      }
+      expected = [
+        { 'id' => '1', 'display_text' => { 'en' => 'Country' } },
+        { 'id' => '2', 'display_text' => { 'en' => 'City' } }
+      ]
+      expect(FieldI18nService.convert_options(options)).to eq(expected)
+    end
+  end
+
+  describe 'fill_names' do
+    it 'return the options hash with all the available locales' do
+      I18n.stub available_locales: %w[en es]
+      options = [{ 'id' => 'true', 'display_text' => { 'en' => 'True', 'es': 'Verdadero' } }]
+      expected = { 'en' => 'True', 'es' => 'Verdadero' }
+      expect(FieldI18nService.fill_names(options)).to eq(expected)
     end
   end
 

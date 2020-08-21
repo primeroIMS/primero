@@ -425,7 +425,9 @@ class FormSection < ApplicationRecord
         field = self.fields.find{ |f| f.name == field_props["name"] }
         if field.present?
           fieldi18n_props = FieldI18nService.merge_i18n_properties(field.attributes, field_props)
-          fieldi18n_props['option_strings_text_i18n'] = FieldI18nService.convert_options(fieldi18n_props["option_strings_text_i18n"])
+          fieldi18n_props['option_strings_text_i18n'] = FieldI18nService.convert_options(
+            fieldi18n_props['option_strings_text_i18n']
+          )
           fieldi18n_props = field_props.merge(fieldi18n_props)
           fields << field.attributes.merge(fieldi18n_props)
         else

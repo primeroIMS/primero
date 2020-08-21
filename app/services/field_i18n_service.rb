@@ -71,12 +71,12 @@ class FieldI18nService
   end
 
   #  Fill the source with all the available locales. If a locale is not
-  #  present in source then is set to empty
+  #  present in source then is set to an empty string
   #  Assumming the languages [ :en, :es, :fr ] are available
   #  Given thesource
-  #  { 'en' => "Lastname", 'es' => "Apellido" } }
+  #  { 'en' => 'Lastname', 'es' => 'Apellido' }
   #  Returns
-  #  { 'en' => "Lastname", 'es' => "Apellido", 'fr' => "" }
+  #  { 'en' => 'Lastname', 'es' => 'Apellido', 'fr' => '' }
   def self.fill_with_locales(source)
     locales = I18n.available_locales.map do |locale|
       locale = locale.to_s if source.keys.first.is_a?(String)
@@ -161,8 +161,8 @@ class FieldI18nService
     options
   end
 
-  #  Fill the lookups value options hash with all the available locales. If a locale is
-  #  not present in the hash, then is set to an empty array.
+  #  Fill the options hash with all the available locales. If a locale is
+  #  not present in the hash, then is set to an empty string.
   #  Assumming the languages [ :en, :es, :fr ] are available.
   #  Given the options
   #    {
@@ -177,18 +177,18 @@ class FieldI18nService
   #    }
   #  Returns
   # [
-  #  {"id"=>"1",
+  #  {
+  #    "id"=>"1",
   #    "display_text" => {
   #      "en"=>"Country",
-  #      "es"=>"Pais",
-  #      "fr"=>""
+  #      "es"=>"Pais"
   #    }
   #  },
-  #  {"id"=>"2",
+  #  {
+  #     "id"=>"2",
   #     "display_text" => {
   #       "en"=>"City",
-  #       "es"=>"Ciudad",
-  #       "fr"=>""
+  #       "es"=>"Ciudad"
   #     }
   #   }
   # ]
