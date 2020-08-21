@@ -60,7 +60,7 @@ const Component = () => {
 
   useEffect(() => {
     // When fields are new the inputs are not registered so we need to set the values again or they will not be visible.
-    fields.map(field => {
+    fields.forEach(field => {
       const displayName = field.getIn(["display_name", "en"]);
 
       formMethods.setValue(`fields.${field.get("name")}.display_name.en`, displayName);
