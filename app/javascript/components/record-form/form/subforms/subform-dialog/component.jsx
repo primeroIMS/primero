@@ -10,7 +10,7 @@ import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
 import { serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
-import { compactValues, emptyValues } from "../../../utils";
+import { compactValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
 import SubformDialogFields from "../subform-dialog-fields";
 import { valuesWithDisplayConditions } from "../subform-field-array/utils";
@@ -20,15 +20,16 @@ const Component = ({
   dialogIsNew,
   field,
   formik,
+  formSection,
   i18n,
   index,
+  initialSubformValue,
   isFormShow,
   mode,
   oldValue,
   open,
   setOpen,
-  title,
-  initialSubformValue
+  title
 }) => {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const childFormikRef = useRef();
@@ -64,9 +65,9 @@ const Component = ({
   };
 
   const handleClose = () => {
-    const changed = !emptyValues(compactValues(childFormikRef.current.state.values, initialSubformValues));
+    const compactedValues = compactValues(childFormikRef.current.state.values, initialSubformValues);
 
-    if (changed) {
+    if (Object.keys(childFormikRef.current.state.touched).length && Object.keys(compactedValues).length) {
       setOpenConfirmationModal(true);
     } else {
       setOpen({ open: false, index: null });
@@ -105,10 +106,10 @@ const Component = ({
 
   const renderSubform = (subformField, subformIndex) => {
     if (subformField.subform_section_id.unique_id === "services_section") {
-      return <ServicesSubform field={subformField} index={subformIndex} mode={mode} />;
+      return <ServicesSubform field={subformField} index={subformIndex} mode={mode} formSection={formSection} />;
     }
 
-    return <SubformDialogFields field={subformField} mode={mode} index={subformIndex} />;
+    return <SubformDialogFields field={subformField} mode={mode} index={subformIndex} formSection={formSection} />;
   };
 
   const modalConfirmationProps = {
@@ -177,6 +178,7 @@ Component.propTypes = {
   dialogIsNew: PropTypes.bool.isRequired,
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
+  formSection: PropTypes.object,
   i18n: PropTypes.object.isRequired,
   index: PropTypes.number,
   initialSubformValue: PropTypes.object.isRequired,
