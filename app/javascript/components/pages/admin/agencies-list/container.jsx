@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
@@ -16,6 +16,7 @@ import { Filters as AdminFilters } from "../components";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { useMetadata } from "../../../records";
 
 import { fetchAgencies } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
@@ -30,18 +31,17 @@ const Container = () => {
   const headers = useSelector(state => getListHeaders(state, RESOURCES.agencies));
 
   const metadata = useSelector(state => getMetadata(state, recordType));
+  const defaultMetadata = metadata?.toJS();
+  const defaultFilterFields = {
+    [DISABLED]: ["false"]
+  };
   const defaultFilters = fromJS({
-    ...{
-      [DISABLED]: ["false"]
-    },
-    ...metadata?.toJS()
+    ...defaultFilterFields,
+    ...defaultMetadata
   });
-
   const columns = headersToColumns(headers, i18n);
 
-  useEffect(() => {
-    dispatch(fetchAgencies({ data: defaultFilters.toJS() }));
-  }, []);
+  useMetadata(recordType, metadata, fetchAgencies, "data", { defaultFilterFields });
 
   const tableOptions = {
     recordType,

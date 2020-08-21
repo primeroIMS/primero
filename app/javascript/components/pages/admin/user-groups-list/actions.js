@@ -3,6 +3,7 @@ import { namespaceActions } from "../../../../libs";
 import NAMESPACE from "./namespace";
 
 export default namespaceActions(NAMESPACE, [
+  "CLEAR_METADATA",
   "USER_GROUPS",
   "USER_GROUPS_STARTED",
   "USER_GROUPS_SUCCESS",

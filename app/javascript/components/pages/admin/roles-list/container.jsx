@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { List } from "immutable";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
@@ -12,13 +12,15 @@ import { NAMESPACE } from "../roles-form";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { RESOURCES } from "../../../../libs/permissions";
+import { useMetadata } from "../../../records";
 
 import { fetchRoles } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
 
 const Container = () => {
   const i18n = useI18n();
-  const dispatch = useDispatch();
+  const recordType = RESOURCES.roles;
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
@@ -27,9 +29,7 @@ const Container = () => {
   const metadata = useSelector(state => getMetadata(state, "roles"));
   const defaultFilters = metadata;
 
-  useEffect(() => {
-    dispatch(fetchRoles({ data: defaultFilters.toJS() }));
-  }, []);
+  useMetadata(recordType, metadata, fetchRoles, "data");
 
   const tableOptions = {
     recordType: [ADMIN_NAMESPACE, NAMESPACE],

@@ -5,10 +5,12 @@ describe("<RolesList /> - Actions", () => {
     const clonedActions = { ...actions };
 
     expect(clonedActions).to.be.an("object");
-    ["ROLES", "ROLES_STARTED", "ROLES_SUCCESS", "ROLES_FAILURE", "ROLES_FINISHED"].forEach(property => {
-      expect(clonedActions).to.have.property(property);
-      delete clonedActions[property];
-    });
+    ["CLEAR_METADATA", "ROLES", "ROLES_STARTED", "ROLES_SUCCESS", "ROLES_FAILURE", "ROLES_FINISHED"].forEach(
+      property => {
+        expect(clonedActions).to.have.property(property);
+        delete clonedActions[property];
+      }
+    );
 
     expect(clonedActions).to.be.empty;
   });

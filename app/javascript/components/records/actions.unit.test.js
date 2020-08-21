@@ -6,6 +6,7 @@ describe("records - Actions", () => {
 
     [
       "CASES_RECORDS",
+      "CLEAR_METADATA",
       "DELETE_ATTACHMENT_SUCCESS",
       "FETCH_RECORD_ALERTS",
       "FETCH_RECORD_ALERTS_FAILURE",

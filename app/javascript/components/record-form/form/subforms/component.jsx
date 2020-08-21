@@ -8,7 +8,7 @@ import { constructInitialValues } from "../../utils";
 import SubformFieldArray from "./subform-field-array";
 import { SUBFORM_FIELD } from "./constants";
 
-const Component = ({ field, form, formik, mode, recordType }) => {
+const Component = ({ field, form, formik, mode, recordType, formSection }) => {
   const { name, subform_section_id: subformSectionID } = field;
 
   const i18n = useI18n();
@@ -28,6 +28,7 @@ const Component = ({ field, form, formik, mode, recordType }) => {
             initialSubformValue={initialSubformValue}
             mode={mode}
             recordType={recordType}
+            formSection={formSection}
           />
         )}
       </FieldArray>
@@ -41,6 +42,7 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
+  formSection: PropTypes.object.isRequired,
   mode: PropTypes.object.isRequired,
   recordType: PropTypes.string
 };

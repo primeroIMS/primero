@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
@@ -88,7 +90,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
               }}
               {...fieldProps}
             />
-            {name === "name" && mode.isEdit ? (
+            {name === "name" && mode.isEdit && !rest?.formSection?.is_nested ? (
               <ButtonBase className={css.hideNameStyle} onClick={() => hideFieldValue(renderProps)}>
                 {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
               </ButtonBase>

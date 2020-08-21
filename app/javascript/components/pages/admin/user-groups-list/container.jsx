@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -13,13 +13,13 @@ import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { useMetadata } from "../../../records";
 
 import { NAME } from "./constants";
 import { fetchUserGroups } from "./action-creators";
 
 const Container = () => {
   const i18n = useI18n();
-  const dispatch = useDispatch();
   const headers = useSelector(state => getListHeaders(state, RESOURCES.user_groups));
   const canAddUserGroups = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.user_groups;
@@ -32,9 +32,7 @@ const Container = () => {
     ...rest
   }));
 
-  useEffect(() => {
-    dispatch(fetchUserGroups({ data: defaultFilters.toJS() }));
-  }, []);
+  useMetadata(recordType, metadata, fetchUserGroups, "data");
 
   const tableOptions = {
     recordType,

@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import { Card, CardContent, CardActionArea, TablePagination, Box } from "@material-ui/core";
-import { withRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 
@@ -14,6 +15,8 @@ import { useThemeHelper } from "../../libs";
 import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
+import { getMetadata } from "../record-list";
+import { useMetadata } from "../records";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
@@ -28,6 +31,7 @@ const Reports = () => {
   const reports = useSelector(state => selectReports(state));
   const isLoading = useSelector(state => selectLoading(state));
   const reportsPagination = useSelector(state => selectReportsPagination(state));
+  const metadata = useSelector(state => getMetadata(state, NAMESPACE));
   const canAddReport = usePermissions(NAMESPACE, CREATE_RECORDS);
 
   // const actionMenuItems = fromJS([
@@ -48,14 +52,7 @@ const Reports = () => {
   //   }
   // ]);
 
-  const defaultFilters = {
-    page: 1,
-    per: 20
-  };
-
-  useEffect(() => {
-    dispatch(fetchReports({ options: defaultFilters }));
-  }, []);
+  useMetadata(NAMESPACE, metadata, fetchReports, "options");
 
   const paginationProps = {
     count: reportsPagination.get("total"),
@@ -114,4 +111,8 @@ const Reports = () => {
 
 Reports.displayName = "Reports";
 
-export default withRouter(Reports);
+Reports.propTypes = {
+  location: PropTypes.object.isRequired
+};
+
+export default Reports;

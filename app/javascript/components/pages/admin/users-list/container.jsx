@@ -18,6 +18,7 @@ import { Filters as AdminFilters } from "../components";
 import { fetchAgencies } from "../agencies-list/action-creators";
 import { getEnabledAgencies } from "../../../application/selectors";
 import { getMetadata } from "../../../record-list";
+import { useMetadata } from "../../../records";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED } from "./constants";
@@ -35,17 +36,20 @@ const Container = () => {
   }));
   const filterAgencies = useSelector(state => getEnabledAgencies(state));
   const metadata = useSelector(state => getMetadata(state, recordType));
+  const defaultMetadata = metadata?.toJS();
+  const defaultFilterFields = {
+    [DISABLED]: ["false"]
+  };
   const defaultFilters = fromJS({
-    ...{
-      [DISABLED]: ["false"]
-    },
-    ...metadata?.toJS()
+    ...defaultFilterFields,
+    ...defaultMetadata
   });
 
   useEffect(() => {
     dispatch(fetchAgencies({ options: { per: 999 } }));
-    dispatch(fetchUsers({ data: defaultFilters.toJS() }));
   }, []);
+
+  useMetadata(recordType, metadata, fetchUsers, "data");
 
   const tableOptions = {
     recordType,
