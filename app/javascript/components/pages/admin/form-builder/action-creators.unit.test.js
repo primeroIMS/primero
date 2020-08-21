@@ -21,6 +21,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       "setSelectedField",
       "setSelectedSubform",
       "setSelectedSubformField",
+      "updateFieldTranslations",
       "updateSelectedField",
       "updateSelectedSubform"
     ].forEach(property => {
@@ -79,7 +80,8 @@ describe("<FormsBuilder /> - Action Creators", () => {
           method: "POST",
           body: args.body
         }
-      ]
+      ],
+      finishedCallback: null
     };
 
     expect(actionCreators.saveForm(args)).to.deep.equal(expected);

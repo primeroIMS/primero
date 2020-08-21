@@ -72,7 +72,12 @@ export const translationsFieldForm = ({
   subform,
   currentValues
 }) => {
-  const fieldValues = currentValues[field.get("name")];
+  const {
+    display_name: displayName,
+    help_text: helpText,
+    guiding_questions: guidingQuestions,
+    tick_box_label: tickBoxLabel
+  } = currentValues[field.get("name")] || {};
 
   const fieldForms = [
     FormSectionRecord({
@@ -80,7 +85,7 @@ export const translationsFieldForm = ({
       name: i18n.t("fields.display_name"),
       fields: locales.map(locale =>
         FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${fieldValues.display_name?.en || ""}`,
+          display_name: `${i18n.t("home.en")}: ${displayName?.en || ""}`,
           name: `${field.get("name")}.display_name.${locale.get("id")}`,
           type: TEXT_FIELD,
           inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
@@ -92,7 +97,7 @@ export const translationsFieldForm = ({
       name: i18n.t("fields.help_text"),
       fields: locales.map(locale =>
         FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${fieldValues.help_text?.en || ""}`,
+          display_name: `${i18n.t("home.en")}: ${helpText?.en || ""}`,
           name: `${field.get("name")}.help_text.${locale.get("id")}`,
           type: TEXT_FIELD,
           inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
@@ -104,7 +109,7 @@ export const translationsFieldForm = ({
       name: i18n.t("fields.guidance"),
       fields: locales.map(locale =>
         FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${fieldValues.guiding_questions?.en || ""}`,
+          display_name: `${i18n.t("home.en")}: ${guidingQuestions?.en || ""}`,
           name: `${field.get("name")}.guiding_questions.${locale.get("id")}`,
           type: TEXT_FIELD,
           inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
@@ -119,7 +124,7 @@ export const translationsFieldForm = ({
       name: i18n.t("fields.tick_box_label"),
       fields: locales.map(locale =>
         FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${fieldValues.tick_box_label?.en || ""}`,
+          display_name: `${i18n.t("home.en")}: ${tickBoxLabel?.en || ""}`,
           name: `${field.get("name")}.tick_box_label.${locale.get("id")}`,
           type: TEXT_FIELD,
           inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
