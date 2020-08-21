@@ -81,6 +81,7 @@ const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => 
       formMode,
       i18n,
       initialValues: {},
+      message: i18n.t("forms.translations.no_changes_message"),
       onSubmit
     })
   );

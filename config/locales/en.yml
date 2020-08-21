@@ -2227,6 +2227,7 @@ en:
       note: "Note:"
       note_form_group:  "To add translations for the Form Group, you need to edit the Form Group lookup translations."
       edit_form_group: "Edit Form Group lookup."
+      no_changes_message: "You made no translation changes"
     visibility: "Visibility"
     web_app: "Web App"
     mobile_app: "Mobile App"
