@@ -32,12 +32,6 @@ describe Lookup do
     lookup1.id.should_not == lookup2.id
   end
 
-  it 'should titleize lookup name before validating it' do
-    lookup = Lookup.new(name: 'should be titleized')
-    lookup.valid?
-    lookup.name.should == 'Should Be Titleized'
-  end
-
   it 'should create a valid lookup' do
     Lookup.new(
       name: 'some_lookup', lookup_values: [

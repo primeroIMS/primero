@@ -7,16 +7,11 @@ class Lookup < ApplicationRecord
   include Configuration
 
   localize_properties :name
-  localize_properties :lookup_values, values: true
-
-  #TODO - seems to be causing trouble
-  #TODO - remove  (No longer using in lookup seeds / config)
-  DEFAULT_UNKNOWN_ID_TO_NIL = 'default_convert_unknown_id_to_nil'
+  localize_properties :lookup_values, options_list: true
 
   validate :validate_name_in_english
   validate :validate_values_keys_match
 
-  before_validation :titleize_name
   before_validation :generate_values_keys
   before_validation :sync_lookup_values
   before_create :generate_unique_id
@@ -32,7 +27,6 @@ class Lookup < ApplicationRecord
       )
     end
 
-    # TODO: Review this method due the values structure changed.
     def values(lookup_unique_id, lookups = nil, opts = {})
       locale = opts[:locale].presence || I18n.locale
       lookup = if lookups.present?
@@ -231,10 +225,6 @@ class Lookup < ApplicationRecord
     false
   end
 
-  def titleize_name
-    self.name = name&.titleize
-  end
-
   # TODO: Pavel review. what are those TODO in this method? same case line 14
   def generate_values_keys
     return unless lookup_values.present?
@@ -247,11 +237,6 @@ class Lookup < ApplicationRecord
           #TODO - examine if this is proper
           #TODO - Using a random number at the end screws things up when exporting the lookup.yml to load into Transifex
           new_option_id = option['display_text'].parameterize.underscore + '_' + rand.to_s[2..6]
-          option_id_updated = true
-        elsif option['id'] == DEFAULT_UNKNOWN_ID_TO_NIL
-          #TODO - seems to be causing trouble
-          #TODO - remove  (No longer using in lookup seeds / config)
-          new_option_id = nil
           option_id_updated = true
         end
       end

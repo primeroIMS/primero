@@ -10,7 +10,7 @@ describe LocalizableJsonProperty do
       include LocalizableJsonProperty
 
       localize_properties [:display_name]
-      localize_properties :option_strings_text, values: true
+      localize_properties :option_strings_text, options_list: true
     end
     @object = @klass.new
   end

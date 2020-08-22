@@ -3,7 +3,7 @@ AllCops:
     - db/schema.rb
     - tmp
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 
 Metrics/AbcSize:

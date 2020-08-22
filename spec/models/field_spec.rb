@@ -630,41 +630,6 @@ describe 'record field model' do
           end
         end
       end
-      context 'and value is nil' do
-        before :each do
-          @field_value = 'default_convert_unknown_id_to_nil'
-        end
-
-        context 'and locale is English' do
-          it 'returns the translated display text' do
-            expect(@lookup_field.display_text(@field_value)).to eq('Unknown')
-          end
-        end
-        context 'and locale is French' do
-          before :each do
-            I18n.locale = "fr"
-          end
-          it 'returns the translated display text' do
-            expect(@lookup_field.display_text(@field_value)).to eq('French Unknown')
-          end
-        end
-        context 'and locale is Spanish' do
-          before :each do
-            I18n.locale = "es"
-          end
-          it 'returns the translated display text' do
-            expect(@lookup_field.display_text(@field_value)).to eq('Spanish Unknown')
-          end
-        end
-        context 'and locale is Arabic' do
-          before :each do
-            I18n.locale = "ar"
-          end
-          it 'returns the translated display text' do
-            expect(@lookup_field.display_text(@field_value)).to eq('Arabic Unknown')
-          end
-        end
-      end
     end
   end
 
@@ -1219,28 +1184,6 @@ describe 'record field model' do
     end
     it "should return a field" do
       expect(Field.find_by_name('field_name1')['name']).to eq('field_name')
-    end
-  end
-
-  describe "generate option keys for new options added to select fields" do
-    before do
-      Lookup.all.each &:destroy
-      @field_multi_locales = Field.new({
-        "name" => "test_location_1",
-        "type" => "select_box",
-        "display_name_all" => "Test Location 1",
-        "option_strings_text_en" => [{id: "", display_text: "option string in english"}.with_indifferent_access],
-        "option_strings_text_fr" => [{id: "", display_text: "option string in french"}.with_indifferent_access]
-      })
-    end
-
-    context "when new field option has values for other locales" do
-      it "should add keys that match en version for all locales with values" do
-        @field_multi_locales.generate_options_keys
-        expect(@field_multi_locales.option_strings_text_en.first[:id]).not_to be_empty
-        expect(@field_multi_locales.option_strings_text_fr.first[:id]).not_to be_empty
-        expect(@field_multi_locales.option_strings_text_en.first[:id]).to eq(@field_multi_locales.option_strings_text_fr.first[:id])
-      end
     end
   end
 

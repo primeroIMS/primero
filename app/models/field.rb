@@ -7,7 +7,7 @@ class Field < ApplicationRecord
   # include Memoizable
 
   localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label
-  localize_properties :option_strings_text, values: true
+  localize_properties :option_strings_text, options_list: true
 
   attr_reader :options
   store_accessor :subform_section_configuration, :subform_sort_by, :subform_group_by
@@ -48,7 +48,6 @@ class Field < ApplicationRecord
   validate :validate_option_strings_text
 
   after_initialize :defaults, unless: :persisted?
-  before_validation :generate_options_keys
   before_validation :sync_options_keys
   before_create :sanitize_name
 
@@ -390,8 +389,7 @@ class Field < ApplicationRecord
     end
   end
 
-  # TODO: DELETE THIS, once we refactor PDF exporter
-  # app/models/exporters/pdf_exporter.rb L 269 274
+  # TODO: REFACTOR used in base exporter
   # app/models/exporters/base_exporter.rb:96
   def display_text(value = nil, lookups = nil, locale = nil)
     locale ||= I18n.locale
@@ -521,29 +519,6 @@ class Field < ApplicationRecord
 
   def is_multi_select?
     self.type.eql?(SELECT_BOX) && self.multi_select
-  end
-
-  #TODO add rspec test
-  def generate_options_keys
-    if self.option_strings_text.present?
-      self.option_strings_text.each do |option|
-        if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
-          option['id'] = option['display_text'].parameterize.underscore + '_' + rand.to_s[2..6]
-        end
-      end
-
-      #DOes the same thing for the other languages...
-      Primero::Application::locales.each do |locale|
-        option_strings_locale = self.option_strings_text(locale)
-        if locale != Primero::Application::BASE_LANGUAGE && option_strings_locale.present?
-          self.option_strings_text(locale).each_with_index do |option, index|
-            if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
-              option['id'] = self.option_strings_text[index]['id']
-            end
-          end
-        end
-      end
-    end
   end
 
   # TODO: Review this method due the values structure changed.

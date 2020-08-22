@@ -11,14 +11,7 @@ module LocalizableJsonProperty
       properties = properties.flatten
       properties.each do |property|
         store = "#{property}_i18n"
-
-        define_available_locales_accessors(options[:values], store, property)
-        if options[:values]
-          define_current_option_accessors(store, property)
-        else
-          define_current_accessors(store, property)
-          define_all_setter(store, property)
-        end
+        build_accessors_methods(options[:options_list], store, property)
       end
 
       (@localized_properties ||= []).concat(properties)
@@ -26,6 +19,16 @@ module LocalizableJsonProperty
 
     def localized_properties
       @localized_properties
+    end
+
+    def build_accessors_methods(options_list, store, property)
+      define_available_locales_accessors(options_list, store, property)
+      if options_list
+        define_current_option_accessors(store, property)
+      else
+        define_current_accessors(store, property)
+        define_all_setter(store, property)
+      end
     end
 
     def define_available_locales_accessors(is_option, store, property)
@@ -141,13 +144,13 @@ module LocalizableJsonProperty
   def define_property_setter(store, values, locale)
     current_store = send(store) || []
     values.each do |current_value|
-      current_option = find_option_to_eval(current_store, current_value['id'])
+      current_option = find_option_in_store(current_store, current_value['id'])
       property_setter(current_store, current_option, current_value, locale)
     end
     write_attribute(store, current_store)
   end
 
-  def find_option_to_eval(current_store, id)
+  def find_option_in_store(current_store, id)
     current_store.find do |opt|
       opt.dig('id') == id
     end
