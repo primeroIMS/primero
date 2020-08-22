@@ -75,10 +75,23 @@ class FormSection < ApplicationRecord
       ]
     end
 
-    def new_with_properties(form_properties, module_ids = [])
-      form_section = FormSection.new(form_properties)
+    def new_with_properties(form_params)
+      form_section = FormSection.new(convert_i18n_properties(form_params))
+      module_ids = form_params['module_ids']
       form_section.primero_modules = PrimeroModule.where(unique_id: module_ids) if module_ids.present?
       form_section
+    end
+
+    def convert_i18n_properties(form_params)
+      form_section_props = FieldI18nService.convert_i18n_properties(
+        FormSection, form_params.except(:fields, :module_ids)
+      )
+      if form_params.key?('fields')
+        form_section_props['fields_attributes'] = (form_params['fields'] || []).map do |field_param|
+          FieldI18nService.convert_i18n_properties(Field, field_param)
+        end
+      end
+      form_section_props
     end
 
     # TODO: Used by importer. Refactor?
@@ -312,8 +325,8 @@ class FormSection < ApplicationRecord
 
   def configuration_hash
     hash = attributes.except('id')
-    hash['fields'] = fields.map(&:configuration_hash)
-    hash['module_unique_ids'] = primero_modules.pluck(:unique_id)
+    hash['fields_attributes'] = fields.map(&:configuration_hash)
+    hash['module_ids'] = primero_modules.pluck(:unique_id)
     hash.with_indifferent_access
   end
 
@@ -403,6 +416,15 @@ class FormSection < ApplicationRecord
     end
   end
 
+  def update_properties(form_params)
+    form_params = form_params.with_indifferent_access if form_params.is_a?(Hash)
+    merge_properties(
+      FormSection.convert_i18n_properties(form_params).except('module_ids'),
+      form_params['module_ids']
+    )
+  end
+
+  # TODO: This needs to be refactored and cleaned up after Alberto finishes up his field select options changes
   def merge_properties(form_properties, module_ids = [])
     formi18n_props = FieldI18nService.merge_i18n_properties(self.attributes, form_properties)
     formi18n_props = form_properties.merge(formi18n_props)

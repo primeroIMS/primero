@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 describe ConfigurationRecord do
-  before(:each) { clean_data(Lookup) }
-  after(:each) { clean_data(Lookup) }
-
   context 'Generic functionality: Lookup' do
+    before(:each) { clean_data(Lookup) }
+    after(:each) { clean_data(Lookup) }
+
     let(:lookup) do
       Lookup.create!(
         unique_id: 'lookup-ethnicity',
@@ -58,10 +58,6 @@ describe ConfigurationRecord do
         expect(lookup2.id).to eq(lookup.id)
         expect(lookup2.name('en')).to eq('Ethnicity*')
       end
-    end
-
-    describe '#generate_unique_id' do
-
     end
   end
 end

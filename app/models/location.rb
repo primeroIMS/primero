@@ -131,7 +131,7 @@ class Location < ApplicationRecord
     def display_text(location_code, opts={})
       locale = opts[:locale].presence || I18n.locale
       lct = (location_code.present? ? Location.find_by(location_code: location_code) : '')
-      value = (lct.present? ? lct.name(locale) : '')
+      lct.present? ? lct.name(locale) : ''
     end
 
     def get_reporting_location(location)
@@ -155,7 +155,7 @@ class Location < ApplicationRecord
       'type_inheritance'
     end
 
-    def each_slice(size=500, &block)
+    def each_slice(size = 500)
       all_locations = all
       pages = (all_locations.count / size.to_f).ceil
       (1..pages).each do |page|
@@ -319,15 +319,19 @@ class Location < ApplicationRecord
   end
 
   def update_properties(location_properties)
+    location_properties = location_properties.with_indifferent_access if location_properties.is_a?(Hash)
     self.location_code = location_properties[:code] if location_properties[:code].present?
-    self.type = location_properties[:type] if location_properties[:type].present?
-    self.admin_level = location_properties[:admin_level]
     if location_properties[:parent_code].present?
       self.hierarchy_path = Location.hierarchy_path_from_parent_code(location_properties[:parent_code], location_code)
     end
-    self.placename_i18n = FieldI18nService.merge_i18n_properties(
+    self.placename_i18n = placename_from_params(location_properties)
+    self.attributes = location_properties.except(:code, :parent_code, :placename)
+  end
+
+  def placename_from_params(params)
+    FieldI18nService.merge_i18n_properties(
       { placename_i18n: placename_i18n },
-      { placename_i18n: location_properties[:placename] }
+      placename_i18n: params[:placename]
     )[:placename_i18n]
   end
 

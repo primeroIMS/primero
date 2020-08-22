@@ -22,6 +22,7 @@ class Lookup < ApplicationRecord
   before_destroy :check_is_being_used
 
   class << self
+    # TODO: Delete after we have fixed data storage with Alberto's changes.
     def new_with_properties(lookup_properties)
       Lookup.new(
         id: lookup_properties[:id],
@@ -212,11 +213,12 @@ class Lookup < ApplicationRecord
   end
 
   def update_properties(lookup_properties)
-    self.unique_id = lookup_properties[:unique_id] if lookup_properties[:unique_id].present?
+    lookup_properties = lookup_properties.with_indifferent_access if lookup_properties.is_a?(Hash)
     self.name_i18n = FieldI18nService.merge_i18n_properties(
       { name_i18n: name_i18n },
       name_i18n: lookup_properties[:name]
     )[:name_i18n]
+    self.attributes = lookup_properties.except(:name, :values)
 
     self.lookup_values_i18n = FieldI18nService.merge_i18n_options(
       lookup_values_i18n,

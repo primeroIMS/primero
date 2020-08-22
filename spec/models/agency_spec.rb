@@ -32,23 +32,6 @@ describe Agency do
         expect(agency1).to be_valid
       end
     end
-
-    context 'when unique_id is empty' do
-      it 'is not valid' do
-        agency1 = Agency.new(name: 'agency test', agency_code: 'agency-test')
-        agency1.unique_id = nil
-        expect(agency1).not_to be_valid
-        expect(agency1.errors[:unique_id]).to eq(["can't be blank"])
-      end
-    end
-
-    context 'when agency code present the unique_id is generated' do
-      it 'is valid' do
-        agency1 = Agency.new(name: 'agency test', agency_code: 'agency-test')
-        expect(agency1).to be_valid
-        expect(agency1.unique_id).to match(/^agency-agency-test-[0-9a-f]{7}$/)
-      end
-    end
   end
 
   describe 'agency id' do
@@ -114,7 +97,7 @@ describe Agency do
       agency.save
       expect(agency.logo_icon.attached?).to be_truthy
 
-      agency.update_properties(name: 'IRC')
+      agency.update_properties(name: { en: 'IRC' })
       expect(agency.logo_icon.attached?).to be_truthy
     end
   end
@@ -196,7 +179,14 @@ describe Agency do
 
   describe 'ConfigurationRecord' do
     let(:agency) do
-      Agency.create(name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo, logo_full: logo_old)
+      Agency.create(
+        name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo, logo_full: FilesTestHelper.logo_old
+      )
+    end
+
+    before(:each) do
+      clean_data(Agency)
+      agency
     end
 
     describe '#configuration_hash' do
@@ -208,6 +198,38 @@ describe Agency do
         expect(configuration_hash['logo_full_file_name']).to eq('unicef-old.png')
         expect(configuration_hash['logo_icon_base64'].length.positive?).to be_truthy
         expect(configuration_hash['logo_icon_file_name']).to eq('unicef.png')
+      end
+    end
+
+    describe '.create_or_update!' do
+      let(:configuration_hash) do
+        {
+          'name_i18n' => { 'en' => 'irc' },
+          'agency_code' => '12345',
+          'logo_icon_base64' => FilesTestHelper.logo_base64,
+          'logo_icon_file_name' => 'unicef.png',
+          'logo_full_base64' => FilesTestHelper.logo_old_base64,
+          'logo_full_file_name' => 'unicef-old.png'
+        }
+      end
+
+      it 'creates a new agency from a configuration hash' do
+        configuration_hash2 = configuration_hash.clone
+        configuration_hash2['agency_code'] = '123456'
+        new_agency = Agency.create_or_update!(configuration_hash2)
+        expect(new_agency.configuration_hash).to include(configuration_hash2)
+        expect(new_agency.id).not_to eq(agency.id)
+        expect(new_agency.logo_full.attached?).to be_truthy
+        expect(new_agency.logo_icon.attached?).to be_truthy
+      end
+
+      it 'updates an existing agency from a configuration hash' do
+        configuration_hash2 = configuration_hash.clone
+        configuration_hash2['name_i18n']['en'] = 'IRC2*'
+
+        agency2 = Agency.create_or_update!(configuration_hash2)
+        expect(agency2.id).to eq(agency.id)
+        expect(agency2.name('en')).to eq('IRC2*')
       end
     end
   end

@@ -14,7 +14,7 @@ module ConfigurationRecord
   module ClassMethods
     def create_or_update!(configuration_hash)
       configuration_record = find_or_initialize_by(unique_id_attribute => configuration_hash[unique_id_attribute])
-      configuration_record.attributes = configuration_hash
+      configuration_record.update_properties(configuration_hash)
       configuration_record.save!
       configuration_record
     end
@@ -54,6 +54,10 @@ module ConfigurationRecord
 
   def configuration_hash
     attributes.except('id').with_indifferent_access
+  end
+
+  def update_properties(configuration_hash)
+    configuration_record.attributes = configuration_hash
   end
 
   def generate_unique_id

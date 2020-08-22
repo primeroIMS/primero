@@ -56,6 +56,7 @@ class Report < ApplicationRecord
   end
 
   class << self
+    # TODO: Delete, deprecate after we have rewritten the ruby exporter
     def create_or_update(report_hash)
       report_id = report_hash[:id]
       report = Report.find_by(id: report_id)
@@ -104,11 +105,12 @@ class Report < ApplicationRecord
   end
 
   def update_properties(report_params)
+    report_params = report_params.with_indifferent_access if report_params.is_a?(Hash)
     converted_params = FieldI18nService.convert_i18n_properties(Report, report_params)
     merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
     assign_attributes(report_params.except(:name, :description, :graph, :fields).merge(merged_props))
-    self.is_graph = report_params[:graph] unless report_params[:graph].nil?
-    return if report_params[:fields].nil?
+    self.is_graph = report_params[:graph].present?
+    return unless report_params[:fields]
 
     self.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)
     self.disaggregate_by = ReportFieldService.disaggregate_by_from_params(report_params)

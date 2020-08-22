@@ -32,6 +32,7 @@ class Role < ApplicationRecord
       # find_by_name(attributes['name'])
     end
 
+    # TODO: Redundant after create_or_update!
     def create_or_update(attributes = {})
       record = find_by(unique_id: attributes[:unique_id])
       if record.present?
@@ -171,10 +172,11 @@ class Role < ApplicationRecord
   end
 
   def update_properties(role_properties)
-    assign_attributes(role_properties.except(:permissions, :form_section_unique_ids, :module_unique_ids))
-    update_forms_sections(role_properties[:form_section_unique_ids])
-    update_permissions(role_properties[:permissions])
-    update_modules(role_properties[:module_unique_ids])
+    role_properties = role_properties.with_indifferent_access if role_properties.is_a?(Hash)
+    assign_attributes(role_properties.except('permissions', 'form_section_unique_ids', 'module_unique_ids'))
+    update_forms_sections(role_properties['form_section_unique_ids'])
+    update_permissions(role_properties['permissions'])
+    update_modules(role_properties['module_unique_ids'])
   end
 
   def configuration_hash

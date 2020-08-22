@@ -15,9 +15,8 @@ class Agency < ApplicationRecord
   attribute :logo_full_file_name, :string
   attribute :logo_icon_base64, :string
   attribute :logo_icon_file_name, :string
-  self.unique_id_from_attribute = :agency_code
+  self.unique_id_attribute = :agency_code
 
-  validates :unique_id, presence: true, uniqueness: { message: 'errors.models.agency.unique_id' }
   validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
   validate :validate_name_in_english
 
@@ -36,7 +35,7 @@ class Agency < ApplicationRecord
   validate :validate_logo_full_dimension, if: -> { logo_full.attached? }
   validate :validate_logo_icon_dimension, if: -> { logo_icon.attached? }
 
-  after_initialize :generate_unique_id, unless: :persisted?
+  before_create :generate_unique_id
   before_save :set_logo_enabled
 
   class << self
@@ -69,9 +68,14 @@ class Agency < ApplicationRecord
   end
 
   def update_properties(agency_params)
+    agency_params = agency_params.with_indifferent_access if agency_params.is_a?(Hash)
     converted_params = FieldI18nService.convert_i18n_properties(Agency, agency_params)
     merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
-    assign_attributes(agency_params.except(:name, :description).merge(merged_props))
+    assign_attributes(
+      agency_params.except(
+        :name, :description, :logo_full_file_name, :logo_full_base64, :logo_icon_file_name, :logo_icon_base64
+      ).merge(merged_props)
+    )
     attach_logos(agency_params)
   end
 
@@ -93,6 +97,10 @@ class Agency < ApplicationRecord
               .merge(configuration_hash_for_logo(logo_full))
               .merge(configuration_hash_for_logo(logo_icon))
               .with_indifferent_access
+  end
+
+  def generate_unique_id
+    self.unique_id ||= agency_code
   end
 
   private

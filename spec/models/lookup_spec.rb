@@ -6,6 +6,7 @@ describe Lookup do
   before :each do
     clean_data(Lookup)
   end
+
   it 'should not be valid if name is empty' do
     lookup = Lookup.new
     lookup.should_not be_valid
@@ -18,7 +19,7 @@ describe Lookup do
   end
 
   it 'should sanitize and check for lookup values' do
-    lookup = Lookup.new(name: 'Name', lookup_values: [{ id: '', display_text: '' }]) #Need empty array, can't use %w here.
+    lookup = Lookup.new(name: 'Name', lookup_values: [{ id: '', display_text: '' }]) # Need empty array, can't use %w here.
     lookup.should be_valid
   end
 
