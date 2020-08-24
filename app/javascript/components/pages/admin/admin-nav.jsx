@@ -5,22 +5,22 @@ import { useSelector } from "react-redux";
 
 import { getPermissions } from "../../user/selectors";
 import { ADMIN_NAV } from "../../../config/constants";
-import { checkPermissions } from "../../../libs/permissions";
+import { checkPermissions, RESOURCES } from "../../../libs/permissions";
 
 import styles from "./styles.css";
 import AdminNavItem from "./admin-nav-item";
+import { getAdminResources } from "./utils";
 
 const AdminNav = () => {
   const css = makeStyles(styles)();
-  const [open, setOpen] = useState(false);
+  const userPermissions = useSelector(state => getPermissions(state));
+  const adminResources = getAdminResources(userPermissions);
+
+  const [open, setOpen] = useState(false || adminResources[0] === RESOURCES.metadata);
 
   const handleClick = () => {
     setOpen(!open);
   };
-
-  const userPermissions = useSelector(state => getPermissions(state));
-
-  console.log(userPermissions?.toJS());
 
   const hasNavPermission = (type, permission) => {
     if (type && permission) {

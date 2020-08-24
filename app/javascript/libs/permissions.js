@@ -114,6 +114,7 @@ export const ADMIN_RESOURCES = [
   RESOURCES.user_groups,
   RESOURCES.agencies,
   RESOURCES.forms,
+  RESOURCES.metadata,
   RESOURCES.audit_logs
 ];
 

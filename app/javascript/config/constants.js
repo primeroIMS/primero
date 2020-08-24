@@ -10,6 +10,7 @@ import {
   ADMIN_RESOURCES,
   ADMIN_ACTIONS
 } from "../libs/permissions";
+import { getAdminResources } from "../components/pages/admin/utils";
 
 // Max allowed image size for attachments
 export const MAX_IMAGE_SIZE = 600;
@@ -230,15 +231,9 @@ export const ADMIN_NAV = [
 ];
 
 export const APPLICATION_NAV = permissions => {
-  const adminResources = ADMIN_RESOURCES.filter(
-    adminResource => permissions.keySeq().includes(adminResource) && permissions.get(adminResource).size > 0
-  );
-
+  const adminResources = getAdminResources(permissions);
   const adminForm = adminResources[0] || ADMIN_RESOURCES.contact_information;
-
-  // TODO: Forms permissions looks like it's metadata. Fix!!!!
-  console.log(adminResources, adminForm);
-  const adminSettingsOption = `/admin/${adminForm}`;
+  const adminSettingsOption = `/admin/${adminForm === RESOURCES.metadata ? RESOURCES.forms : adminForm}`;
 
   return [
     {
