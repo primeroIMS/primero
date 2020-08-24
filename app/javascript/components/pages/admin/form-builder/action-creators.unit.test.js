@@ -1,5 +1,5 @@
 import { stub } from "../../../../test";
-import { generate } from "../../../notifier";
+import { generate, ENQUEUE_SNACKBAR } from "../../../notifier";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
@@ -13,14 +13,18 @@ describe("<FormsBuilder /> - Action Creators", () => {
       "clearSelectedForm",
       "clearSelectedSubform",
       "clearSelectedSubformField",
+      "clearSubforms",
       "createSelectedField",
       "fetchForm",
       "reorderFields",
       "saveForm",
+      "saveSubforms",
       "setNewField",
+      "setNewSubform",
       "setSelectedField",
       "setSelectedSubform",
       "setSelectedSubformField",
+      "setTemporarySubform",
       "updateSelectedField",
       "updateSelectedSubform"
     ].forEach(property => {
@@ -73,16 +77,25 @@ describe("<FormsBuilder /> - Action Creators", () => {
 
     const expected = {
       type: actions.SAVE_FORM,
-      api: [
-        {
-          path: "forms",
-          method: "POST",
-          body: args.body
+      api: {
+        path: "forms",
+        method: "POST",
+        body: args.body,
+        successCallback: {
+          action: ENQUEUE_SNACKBAR,
+          payload: {
+            message: args.message,
+            options: {
+              key: 4,
+              variant: "success"
+            }
+          }
         }
-      ]
+      }
     };
 
     expect(actionCreators.saveForm(args)).to.deep.equal(expected);
+    generate.messageKey.restore();
   });
 
   it("should check the 'setNewField' action creator to return the correct object", () => {
@@ -123,7 +136,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
   it("should check the 'setSelectedSubform' action creator to return the correct object", () => {
     const expected = {
       type: actions.SET_SELECTED_SUBFORM,
-      payload: { id: 1 }
+      payload: 1
     };
 
     expect(actionCreators.setSelectedSubform(1)).to.deep.equal(expected);

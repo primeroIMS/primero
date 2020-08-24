@@ -14,7 +14,7 @@ import { PageContent, PageHeading } from "../../../page";
 import FormSection from "../../../form/components/form-section";
 import { submitHandler, whichFormMode } from "../../../form";
 import { ROUTES, SAVE_METHODS, MODES } from "../../../../config";
-import { compare } from "../../../../libs";
+import { compare, dataToJS } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
@@ -28,7 +28,7 @@ import {
   TabPanel
 } from "./components";
 import { NAME as FormTranslationsDialogName } from "./components/form-translations-dialog/constants";
-import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
+import { clearSelectedForm, clearSubforms, fetchForm, saveForm, saveSubforms } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME, NEW_FIELD } from "./constants";
 import {
@@ -39,7 +39,7 @@ import {
   getServerErrors,
   getUpdatedFormIds
 } from "./selectors";
-import { convertToFieldsArray, convertToFieldsObject } from "./utils";
+import { convertToFieldsArray, convertToFieldsObject, getSubformErrorMessages } from "./utils";
 import styles from "./styles.css";
 import { transformValues } from "./components/field-dialog/utils";
 
@@ -75,17 +75,23 @@ const Component = ({ mode }) => {
   const modeForFieldDialog = selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
 
   const onSubmit = data => {
-    dispatch(
-      saveForm({
-        id,
-        saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
-        body: {
-          data: { ...data, fields: convertToFieldsArray(data.fields || {}) }
-        },
-        message: i18n.t(`forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`),
-        subforms: selectedSubforms.toJS()
-      })
-    );
+    const subforms = selectedSubforms?.toJS();
+    const updatedNewFields = convertToFieldsArray(data.fields || {});
+    const body = {
+      data: { ...data, fields: updatedNewFields }
+    };
+    const parentFormParams = {
+      id,
+      saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
+      body,
+      message: i18n.t(`forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
+    };
+
+    if (subforms.length > 0) {
+      dispatch(saveSubforms(subforms, parentFormParams));
+    } else {
+      dispatch(saveForm(parentFormParams));
+    }
   };
 
   const onManageTranslation = () => {
@@ -106,6 +112,20 @@ const Component = ({ mode }) => {
   };
 
   useEffect(() => {
+    if (errors?.size) {
+      const messages = dataToJS(getSubformErrorMessages(errors, i18n));
+
+      dispatch({
+        type: ENQUEUE_SNACKBAR,
+        payload: {
+          message: messages,
+          options: {
+            variant: "error",
+            key: generate.messageKey(messages)
+          }
+        }
+      });
+    }
     if (saving && (errors?.size || updatedFormIds?.size)) {
       const successful = !errors?.size && updatedFormIds?.size;
       const message = successful ? i18n.t("forms.messages.save_success") : i18n.t("forms.messages.save_with_errors");
@@ -125,7 +145,7 @@ const Component = ({ mode }) => {
         dispatch(push(`${ROUTES.forms}/${updatedFormIds.first()}/edit`));
       }
     }
-  }, [updatedFormIds]);
+  }, [updatedFormIds, errors]);
 
   useEffect(() => {
     dispatch(fetchForms());
@@ -140,6 +160,7 @@ const Component = ({ mode }) => {
     return () => {
       if (isEditOrShow) {
         dispatch(clearSelectedForm());
+        dispatch(clearSubforms());
       }
     };
   }, [id]);
