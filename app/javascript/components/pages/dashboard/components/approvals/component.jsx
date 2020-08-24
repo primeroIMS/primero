@@ -13,9 +13,13 @@ import {
   getApprovalsAssessmentPending,
   getApprovalsClosurePending,
   getApprovalsCasePlanPending,
+  getApprovalsActionPlanPending,
+  getApprovalsGbvClosurePending,
   getApprovalsAssessment,
   getApprovalsCasePlan,
-  getApprovalsClosure
+  getApprovalsClosure,
+  getApprovalsActionPlan,
+  getApprovalsGbvClosure
 } from "../../selectors";
 import { useApp } from "../../../../application";
 
@@ -28,21 +32,29 @@ const Component = ({ loadingIndicator }) => {
   const approvalsAssessmentPending = useSelector(state => getApprovalsAssessmentPending(state));
   const approvalsCasePlanPending = useSelector(state => getApprovalsClosurePending(state));
   const approvalsClosurePending = useSelector(state => getApprovalsCasePlanPending(state));
+  const approvalsActionPlanPending = useSelector(state => getApprovalsActionPlanPending(state));
+  const approvalsGbvClosurePending = useSelector(state => getApprovalsGbvClosurePending(state));
   const approvalsAssessment = useSelector(state => getApprovalsAssessment(state));
   const approvalsCasePlan = useSelector(state => getApprovalsCasePlan(state));
   const approvalsClosure = useSelector(state => getApprovalsClosure(state));
+  const approvalsActionPlan = useSelector(state => getApprovalsActionPlan(state));
+  const approvalsGbvClosure = useSelector(state => getApprovalsGbvClosure(state));
 
   const pendingApprovalsItems = toApprovalsManager([
     approvalsAssessmentPending,
     approvalsCasePlanPending,
-    approvalsClosurePending
+    approvalsClosurePending,
+    approvalsActionPlanPending,
+    approvalsGbvClosurePending
   ]);
 
   const approvalsDashHasData = Boolean(
     pendingApprovalsItems.get("indicators").size ||
       approvalsAssessment.size ||
       approvalsCasePlan.size ||
-      approvalsClosure.size
+      approvalsClosure.size ||
+      approvalsActionPlan.size ||
+      approvalsGbvClosure.size
   );
 
   const dashboards = [
@@ -77,6 +89,22 @@ const Component = ({ loadingIndicator }) => {
       options: {
         items: approvalsClosure,
         sumTitle: approvalsLabels.closure
+      }
+    },
+    {
+      type: DASHBOARD_TYPES.OVERVIEW_BOX,
+      actions: ACTIONS.DASH_APPROVALS_ACTION_PLAN,
+      options: {
+        items: approvalsActionPlan,
+        sumTitle: approvalsLabels.action_plan
+      }
+    },
+    {
+      type: DASHBOARD_TYPES.OVERVIEW_BOX,
+      actions: ACTIONS.DASH_APPROVALS_GBV_CLOSURE,
+      options: {
+        items: approvalsGbvClosure,
+        sumTitle: approvalsLabels.gbv_closure
       }
     }
   ];

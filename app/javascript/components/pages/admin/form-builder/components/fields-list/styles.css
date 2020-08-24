@@ -55,3 +55,12 @@
 .tabContent {
   padding: 0 1em;
 }
+
+.noFiltersAdded {
+  border-top: 1px solid #efefef;
+  padding: .5em !important;
+
+  & button {
+    margin-left: 8px;;
+  }
+}

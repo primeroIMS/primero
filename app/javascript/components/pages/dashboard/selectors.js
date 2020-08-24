@@ -68,6 +68,10 @@ export const getApprovalsCasePlan = state => getDashboardByName(state, DASHBOARD
 
 export const getApprovalsClosure = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE);
 
+export const getApprovalsActionPlan = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ACTION_PLAN);
+
+export const getApprovalsGbvClosure = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_GBV_CLOSURE);
+
 export const getWorkflowTeamCases = state => getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW_TEAM);
 
 export const getReportingLocation = state => getDashboardByName(state, DASHBOARD_NAMES.REPORTING_LOCATION);
@@ -75,11 +79,16 @@ export const getReportingLocation = state => getDashboardByName(state, DASHBOARD
 export const getApprovalsAssessmentPending = state =>
   getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ASSESSMENT_PENDING);
 
-export const getApprovalsClosurePending = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CASE_PLAN_PENDING);
+export const getApprovalsClosurePending = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE_PENDING);
 
 export const getApprovalsCasePlanPending = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE_PENDING);
+  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CASE_PLAN_PENDING);
+
+export const getApprovalsActionPlanPending = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ACTION_PLAN_PENDING);
+
+export const getApprovalsGbvClosurePending = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_GBV_CLOSURE_PENDING);
 
 export const getProtectionConcerns = state => getDashboardByName(state, DASHBOARD_NAMES.PROTECTION_CONCERNS);
 

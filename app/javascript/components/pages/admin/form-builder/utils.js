@@ -1,6 +1,6 @@
+import { List, fromJS } from "immutable";
 import range from "lodash/range";
 import merge from "lodash/merge";
-import { fromJS } from "immutable";
 
 import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
 
@@ -68,3 +68,22 @@ export const getSubformFields = (state, subform) =>
         field.set("on_collapsed_subform", subform.get("collapsed_field_names", fromJS([])).includes(field.get("name")))
       )
   );
+
+export const getSubformErrorMessages = (errors, i18n) => {
+  return errors
+    .map(errorParent =>
+      errorParent.get("errors").map(error => {
+        const message = error.get("message");
+        const messageWithKeys = List.isList(message);
+
+        if (!messageWithKeys) {
+          return message;
+        }
+
+        return i18n.t(message.first(), {
+          [error.get("detail")]: error.get("value")
+        });
+      })
+    )
+    .flatten();
+};

@@ -18,7 +18,7 @@ import FormSection from "../../../form/components/form-section";
 import { getLookupByUniqueId } from "../../../form/selectors";
 import { SUBFORM_SECTION, submitHandler, whichFormMode } from "../../../form";
 import { ROUTES, SAVE_METHODS, MODES } from "../../../../config";
-import { compare, getObjectPath } from "../../../../libs";
+import { compare, dataToJS, getObjectPath } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
@@ -38,8 +38,10 @@ import { localesToRender } from "./components/utils";
 import { NAME as FormTranslationsDialogName } from "./components/form-translations-dialog/constants";
 import {
   clearSelectedForm,
+  clearSubforms,
   fetchForm,
   saveForm,
+  saveSubforms,
   updateFieldTranslations,
   updateSelectedSubform
 } from "./action-creators";
@@ -58,6 +60,7 @@ import {
   convertToFieldsArray,
   convertToFieldsObject,
   getFieldsTranslations,
+  getSubformErrorMessages,
   mergeTranslations
 } from "./utils";
 import styles from "./styles.css";
@@ -104,18 +107,23 @@ const Component = ({ mode }) => {
 
   const onSubmit = data => {
     const mergedData = mergeTranslations(data);
+    const subforms = selectedSubforms?.toJS();
+    const updatedNewFields = convertToFieldsArray(mergedData.fields || {});
+    const body = {
+      data: { ...mergedData, fields: updatedNewFields }
+    };
+    const parentFormParams = {
+      id,
+      saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
+      body,
+      message: i18n.t(`forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
+    };
 
-    dispatch(
-      saveForm({
-        id,
-        saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
-        body: {
-          data: { ...mergedData, fields: convertToFieldsArray(mergedData.fields || {}) }
-        },
-        message: i18n.t(`forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`),
-        subforms: selectedSubforms.toJS()
-      })
-    );
+    if (subforms.length > 0) {
+      dispatch(saveSubforms(subforms, parentFormParams));
+    } else {
+      dispatch(saveForm(parentFormParams));
+    }
   };
 
   const onManageTranslation = () => {
@@ -179,6 +187,20 @@ const Component = ({ mode }) => {
   };
 
   useEffect(() => {
+    if (errors?.size) {
+      const messages = dataToJS(getSubformErrorMessages(errors, i18n));
+
+      dispatch({
+        type: ENQUEUE_SNACKBAR,
+        payload: {
+          message: messages,
+          options: {
+            variant: "error",
+            key: generate.messageKey(messages)
+          }
+        }
+      });
+    }
     if (saving && (errors?.size || updatedFormIds?.size)) {
       const successful = !errors?.size && updatedFormIds?.size;
       const message = successful ? i18n.t("forms.messages.save_success") : i18n.t("forms.messages.save_with_errors");
@@ -198,7 +220,7 @@ const Component = ({ mode }) => {
         dispatch(push(`${ROUTES.forms}/${updatedFormIds.first()}/edit`));
       }
     }
-  }, [updatedFormIds]);
+  }, [updatedFormIds, errors]);
 
   useEffect(() => {
     dispatch(fetchForms());
@@ -213,6 +235,7 @@ const Component = ({ mode }) => {
     return () => {
       if (isEditOrShow) {
         dispatch(clearSelectedForm());
+        dispatch(clearSubforms());
       }
     };
   }, [id]);

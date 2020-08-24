@@ -333,17 +333,17 @@ describe("<Dashboard /> - Selectors", () => {
     });
   });
 
-  describe("getApprovalsClosurePending", () => {
+  describe("getApprovalsCasePlanPending", () => {
     it("should return the approvals case plan pending", () => {
-      const values = selectors.getApprovalsClosurePending(initialState);
+      const values = selectors.getApprovalsCasePlanPending(initialState);
 
       expect(values).to.deep.equal(fromJS(approvalsCasePlanPending));
     });
   });
 
-  describe("getApprovalsCasePlanPending", () => {
-    it("should return the  approvals closure pending", () => {
-      const values = selectors.getApprovalsCasePlanPending(initialState);
+  describe("getApprovalsClosurePending", () => {
+    it("should return the approvals closure pending", () => {
+      const values = selectors.getApprovalsClosurePending(initialState);
 
       expect(values).to.deep.equal(fromJS(approvalsClosurePending));
     });
