@@ -55,7 +55,8 @@ class Field < ApplicationRecord
     [
       'id', 'name', 'type', 'multi_select', 'form_section_id', 'visible', 'mobile_visible',
       'hide_on_view_page', 'show_on_minify_form', 'disabled', { 'display_name' => {} }, { 'help_text' => {} },
-      { 'guiding_questions' => {} }, { 'tally' => {} }, { 'tick_box_label' => {} }, { 'option_strings_text' => {} },
+      { 'guiding_questions' => {} }, { 'tally' => {} }, { 'tick_box_label' => {} },
+      { 'option_strings_text' => [:id, :disabled, display_text: {}] },
       'option_strings_source', 'order', 'hidden_text_field', 'subform_section_id',
       'collapsed_field_for_subform_section_id', 'autosum_total', 'autosum_group', 'selected_value', 'link_to_path',
       'link_to_path_external', 'field_tags', 'searchable_select', 'expose_unique_id', 'subform_sort_by',
