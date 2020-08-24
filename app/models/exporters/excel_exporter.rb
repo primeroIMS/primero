@@ -239,20 +239,25 @@ module Exporters
           #The hash contains the selected fields for a subform.
           property.values.map{|prop| prop.options[:display_name]}
         elsif property.is_a?(String)
-          property
+          property.options[:display_name]
         elsif property.array && property.type.include?(CouchRest::Model::Embeddable)
           #Returns every property in the subform to build the header of the sheet.
           #Remove unique_id field for subforms.
           field_subform = property.type.properties.map{|p| p.options[:display_name] if p.name != "unique_id"}.compact
           if field_subform.blank?
             field_ids_subform = property.type.properties.map{|p| p.name if p.name != "unique_id"}.compact
-            fields = FormSection.by_unique_id(key: property.name).fields
-            field_subform
+            subform = FormSection.by_unique_id(key: property.name).first
+            if subform.present?
+              fields = subform.fields.map{|f| { f.name => f.display_name }}.inject(&:merge)
+              field_subform = field_ids_subform.map{ |f| fields[f] || f}
+            else
+              field_ids_subform
+            end
           else
             field_subform
           end
         else
-          property.options[:display_name]
+          property.options[:display_name] || Field.find_by_name(property.name).try(:display_name) || property.name
         end
       end.flatten
     end
