@@ -221,13 +221,6 @@ export const ADMIN_NAV = [
     permission: SHOW_AUDIT_LOGS,
     recordType: RESOURCES.audit_logs
   }
-  // {
-  //   to: "/system_settings",
-  //   label: "settings.navigation.system_settings",
-  //   disabled: true
-  // },
-  // { to: "/matching", label: "settings.navigation.matching", disabled: true }
-  // { to: "/modules", label: "settings.navigation.modules", disabled: true },
 ];
 
 export const APPLICATION_NAV = permissions => {
