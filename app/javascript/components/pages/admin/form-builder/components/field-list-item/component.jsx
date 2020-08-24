@@ -74,11 +74,20 @@ const Component = ({ field, index, subformField }) => {
 
         dispatch(clearSelectedField());
         dispatch(setSelectedField(fieldName));
+        if (fieldData.subform_section_temp_id !== field.get("subform_section_temp_id")) {
+          delete fieldData.subform_section_temp_id;
+        }
         dispatch(updateSelectedField({ [fieldName]: fieldData }));
       }
 
       if (field?.get("type") === SUBFORM_SECTION) {
-        dispatch(setSelectedSubform(field.get("subform_section_id")));
+        const selectedSubformParams = {
+          id: field.get("subform_section_id") || field.get("subform_section_temp_id"),
+          isSubformNew:
+            typeof field.get("subform_section_id") === "undefined" || Object.is(field.get("subform_section_id"), null)
+        };
+
+        dispatch(setSelectedSubform(selectedSubformParams));
       }
     });
   };

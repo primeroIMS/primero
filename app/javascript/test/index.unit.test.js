@@ -22,7 +22,8 @@ describe("app/javascript/test/index", () => {
     "createMockStore",
     "createMiddleware",
     "listHeaders",
-    "lookups"
+    "lookups",
+    "translateOptions"
   ].forEach(property => {
     it(`exports property '${property}'`, () => {
       expect(clone).to.have.property(property);
