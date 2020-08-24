@@ -3,6 +3,7 @@ import thunk from "redux-thunk";
 
 import { spy, stub } from "../../test";
 import * as idpSelection from "../pages/login/idp-selection";
+import { SET_USER_LOCALE } from "../i18n";
 
 import Actions from "./actions";
 import * as actionCreators from "./action-creators";
@@ -19,7 +20,8 @@ describe("User - Action Creators", () => {
       api: {
         path: "users/1",
         params: { extended: true },
-        db: { collection: "user" }
+        db: { collection: "user" },
+        successCallback: SET_USER_LOCALE
       }
     },
     {
@@ -118,7 +120,8 @@ describe("User - Action Creators", () => {
     const expected = {
       path: "users/1",
       params: { extended: true },
-      db: { collection: "user" }
+      db: { collection: "user" },
+      successCallback: SET_USER_LOCALE
     };
 
     actionCreators.fetchAuthenticatedUserData(1)(dispatch);
