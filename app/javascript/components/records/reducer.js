@@ -1,6 +1,7 @@
 import { fromJS, Map, List } from "immutable";
 
 import { mergeRecord } from "../../libs";
+import { DEFAULT_METADATA } from "../../config";
 
 import {
   RECORDS_STARTED,
@@ -17,7 +18,8 @@ import {
   RECORD_FAILURE,
   RECORD_FINISHED,
   SERVICE_REFERRED_SAVE,
-  FETCH_RECORD_ALERTS_SUCCESS
+  FETCH_RECORD_ALERTS_SUCCESS,
+  CLEAR_METADATA
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -113,6 +115,8 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
 
       return state;
     }
+    case `${namespace}/${CLEAR_METADATA}`:
+      return state.set("metadata", fromJS(DEFAULT_METADATA));
     default:
       return state;
   }

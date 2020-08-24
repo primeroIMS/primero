@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
@@ -14,6 +14,7 @@ import { useThemeHelper } from "../../../../libs";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { useMetadata } from "../../../records";
 
 import { NAME } from "./constants";
 import { fetchAdminLookups } from "./action-creators";
@@ -40,9 +41,7 @@ const Component = () => {
     />
   );
 
-  useEffect(() => {
-    dispatch(fetchAdminLookups({ data: defaultFilters.toJS() }));
-  }, []);
+  useMetadata(recordType, metadata, fetchAdminLookups, "data");
 
   const onRowClick = data => dispatch(push(`${RECORD_PATH.lookups}/${data?.rowData[0]}`));
 

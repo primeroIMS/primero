@@ -7,6 +7,7 @@ describe("pages/admin/<FormBuilder>/components - index", () => {
     [
       "CustomFieldDialog",
       "FieldDialog",
+      "FieldTranslationsDialog",
       "FieldsList",
       "FormBuilderActionButtons",
       "FormTranslationsDialog",

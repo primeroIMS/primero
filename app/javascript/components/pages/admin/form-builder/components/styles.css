@@ -1,12 +1,16 @@
 .formBuilderDialog {
   & h1 {
-    font-size: 1rem;
+    font-size: $(theme.typography.pxToRem(16));
     text-transform: uppercase;
     font-weight: bold;
   }
   & div {
     padding: 0;
   }
+}
+
+.translationHeader {
+  font-size: $(theme.typography.pxToRem(14)) !important;
 }
 
 .hideField {
