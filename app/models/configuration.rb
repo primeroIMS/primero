@@ -3,15 +3,17 @@
 # This model persists the user-modifiable state of the Primero configuration as JSON.
 # If desired, this configuration state can replace the current Primero configuration state.
 class Configuration < ApplicationRecord
-  CONFIGURABLE_MODELS = %w[FormSection Lookup Location Agency Role UserGroup Report ContactInformation].freeze
+  CONFIGURABLE_MODELS = %w[FormSection Lookup Agency Role UserGroup Report ContactInformation].freeze
 
+  attr_accessor :apply_now
   validate :validate_configuration_data
-  validates :version, presence: { message: 'errors.models.configuration.version.presence' },
-                      uniqueness: { message: 'errors.models.configuration.version.uniqueness' }
+  validates :version, uniqueness: { message: 'errors.models.configuration.version.uniqueness' }
+
+  before_create :generate_version
 
   def self.current(created_by = nil)
     new.tap do |config|
-      config.created_at = DateTime.now
+      config.created_on = DateTime.now
       config.created_by = created_by
       config.data = current_configuration_data
     end
@@ -27,12 +29,23 @@ class Configuration < ApplicationRecord
   def apply!(applied_by = nil)
     data.each do |model, model_data|
       model_class = Kernel.const_get(model)
-      model_data.each { |configuration| model_class.create_or_update(configuration) }
-      # TODO: Disable the models that aren't included in the data
+      model_data.each { |configuration| model_class.create_or_update!(configuration) }
     end
-    self.applied_at = DateTime.now
+    clear_remainder!
+    self.applied_on = DateTime.now
     self.applied_by = applied_by
     save!
+  end
+
+  def clear_remainder!
+    remainder(FormSection).destroy_all
+    remainder(Lookup).destroy_all
+  end
+
+  def remainder(model_class)
+    model_data = data[model_class.name]
+    configuration_unique_ids = model_data.map { |d| d[model_class.unique_id_attribute.to_s] }
+    model_class.where.not(model_class.unique_id_attribute => configuration_unique_ids)
   end
 
   def validate_configuration_data
@@ -42,5 +55,13 @@ class Configuration < ApplicationRecord
     return if data_is_valid
 
     errors.add(:data, 'errors.models.configuration.data')
+  end
+
+  def generate_version
+    return if version
+
+    date = DateTime.now.strftime('%Y%m%d.%H%M%S')
+    uid7 = SecureRandom.uuid.last(7)
+    self.version = "#{date}.#{uid7}"
   end
 end

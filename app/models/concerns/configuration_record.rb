@@ -57,7 +57,7 @@ module ConfigurationRecord
   end
 
   def update_properties(configuration_hash)
-    configuration_record.attributes = configuration_hash
+    self.attributes = configuration_hash
   end
 
   def generate_unique_id
