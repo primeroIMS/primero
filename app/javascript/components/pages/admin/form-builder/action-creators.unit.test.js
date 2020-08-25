@@ -24,6 +24,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       "setSelectedField",
       "setSelectedSubform",
       "setSelectedSubformField",
+      "updateFieldTranslations",
       "setTemporarySubform",
       "updateSelectedField",
       "updateSelectedSubform"
@@ -90,7 +91,8 @@ describe("<FormsBuilder /> - Action Creators", () => {
               variant: "success"
             }
           }
-        }
+        },
+        finishedCallback: null
       }
     };
 
@@ -209,6 +211,17 @@ describe("<FormsBuilder /> - Action Creators", () => {
     };
 
     expect(actionCreators.reorderFields("field_1", 0, true)).to.deep.equal(expected);
+  });
+
+  it("should check the 'updateFieldTranslations' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.UPDATE_FIELD_TRANSLATIONS,
+      payload: { field1: { display_name: { en: "Field 1" } } }
+    };
+
+    expect(actionCreators.updateFieldTranslations({ field1: { display_name: { en: "Field 1" } } })).to.deep.equal(
+      expected
+    );
   });
 
   afterEach(() => {

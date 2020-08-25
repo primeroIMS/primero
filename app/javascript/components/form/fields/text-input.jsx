@@ -11,7 +11,7 @@ import styles from "./styles.css";
 
 const TextInput = ({ commonInputProps, metaInputProps }) => {
   const css = makeStyles(styles)();
-  const { type, password, hint, tooltip, numeric } = metaInputProps;
+  const { type, password, hint, tooltip, numeric, onBlur } = metaInputProps;
   let inputType = "text";
 
   if (password) {
@@ -32,6 +32,7 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
       as={TextField}
       label={<InputLabel tooltip={tooltip} text={label} />}
       {...rest}
+      {...(onBlur ? { inputProps: { onBlur } } : {})}
       helperText={
         <>
           {helperText}

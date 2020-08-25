@@ -1,12 +1,23 @@
 .tabContent {
   padding: 0 1em;
 }
+
 .tabFields {
   padding: 0 1em;
   display: flex;
   & button {
     margin-top: 1.2em;
   }
+}
+
+.translationsNote {
+  & a {
+    color: $(theme.primero.colors.blue);
+  }
+}
+
+.tabTranslations {
+  padding: 0 1em;
 }
 
 .heading {

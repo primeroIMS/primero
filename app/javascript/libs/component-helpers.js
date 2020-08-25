@@ -37,3 +37,16 @@ export const valuesToSearchableSelect = (data, searchValue, searchLabel, locale)
 };
 
 export const compare = (prev, next) => prev.equals(next);
+
+// Based on https://github.com/react-hook-form/react-hook-form/blob/v4.4.8/src/utils/getPath.ts
+export const getObjectPath = (path, values) => {
+  const getInnerPath = (value, key, isObject) => {
+    const pathWithIndex = isObject ? `${path ? `${path}.` : path}${key}` : `${path}[${key}]`;
+
+    return !["object", "function"].includes(typeof value) ? pathWithIndex : getObjectPath(pathWithIndex, value);
+  };
+
+  return Object.entries(values)
+    .map(([key, value]) => getInnerPath(value, key, typeof values === "object"))
+    .flat(Infinity);
+};

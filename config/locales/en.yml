@@ -2233,11 +2233,16 @@ en:
     module: "Module"
     settings: "Settings"
     fields: "Fields"
+    manage: "Manage"
     translations:
       title: "Translations"
       manage: "Manage translations"
       edit: "Edit translations"
       select_language: "Select language"
+      note: "Note:"
+      note_form_group:  "To add translations for the Form Group, you need to edit the Form Group lookup translations."
+      edit_form_group: "Edit Form Group lookup."
+      no_changes_message: "You made no translation changes"
     visibility: "Visibility"
     web_app: "Web App"
     mobile_app: "Mobile App"
@@ -2506,6 +2511,7 @@ en:
       subform_append_only: "Selective Syncing on Mobile"
       subform_prevent_item_removal: "Prevent subform entry removal?"
       starts_with_one_entry: "Start with one subform entry?"
+    detail: "Detail"
 
   replication:
     label: Replication
