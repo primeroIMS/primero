@@ -1055,8 +1055,6 @@ en:
     referral_label: "Can this role be used for Referrals?"
     group_permission_label: "What records does this role affect?"
     reporting_location_level_label: "What location type should be used for reporting for this role?"
-    # TODO: Finish this... Just a hack for testing
-    reporting_location_level_help: "0 - Country, 1 - Province, 2 - District"
     role_ids_label: "Others roles managed by this role"
     agency_ids_label: "Agencies managed by this role"
     manager: "Manager"
@@ -2099,7 +2097,9 @@ en:
               NOTE: If no forms are specified, it means the role has access to all the forms for cases."
       reporting_location_level:
         label: "What location type should be used for reporting for this role?"
-        explanation: "TODO"
+        explanation: "This will control what level of locations appear for this Role in the dashboards, filters,
+              referral modals, and transfer modals. If you leave this field blank, this Role will see the system’s
+              default Reporting Location level.  Enter the number assocaited with the desired level as follows:"
 
     permission:
       read: "Read"

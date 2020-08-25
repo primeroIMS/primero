@@ -10,9 +10,23 @@ const buildLabel = (element, i18n, resource, approvalsLabel, type) => {
   });
 };
 
+const buildAdminLevelMap = (i18n, key, value) => {
+  return `${key} - ${i18n.t(`location.base_types.${value}`)}`;
+};
+
 export const buildPermissionOptions = (elements = [], i18n, resource, approvalsLabel = {}) =>
   elements.map(element => ({
     id: element,
     display_text: buildLabel(element, i18n, resource, approvalsLabel, "label"),
     tooltip: buildLabel(element, i18n, resource, approvalsLabel, "explanation")
   }));
+
+export const buildReportingLocationTooltip = (i18n, adminLevelMap) => {
+  const currentLabels = [];
+
+  adminLevelMap.mapEntries(([key, value]) => {
+    currentLabels.push(buildAdminLevelMap(i18n, key, value));
+  });
+
+  return `${i18n.t("permissions.resource.reporting_location_level.explanation")} ${currentLabels.join(", ")}`;
+};

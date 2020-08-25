@@ -7,8 +7,7 @@ describe SystemSettings do
                                              age_ranges: { 'primary' => [1..2, 3..4] },
                                              reporting_location_config: { field_key: 'owned_by_location',
                                                                           admin_level: 2,
-                                                                          admin_level_map: { '0' => 'country',
-                                                                                             '1' => 'region',
+                                                                          admin_level_map: { '1' => 'region',
                                                                                              '2' => 'district' } })
   end
 

@@ -43,8 +43,7 @@ describe Role do
         clean_data(SystemSettings)
         SystemSettings.create(default_locale: 'en',
                               reporting_location_config: { field_key: 'owned_by_location', admin_level: 2,
-                                                           admin_level_map: { '0' => 'country', '1' => 'region',
-                                                                              '2' => 'district' } })
+                                                           admin_level_map: { '1' => 'region', '2' => 'district' } })
         @role = Role.new(name: 'some_role',
                          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
       end

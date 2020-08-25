@@ -11,7 +11,7 @@ class ReportingLocation < ValueObject
     super(args)
     self.admin_level ||= DEFAULT_ADMIN_LEVEL
     self.hierarchy_filter ||= []
-    self.admin_level_map ||= { '0' => 'country', '1' => 'province', '2' => 'district' }
+    self.admin_level_map ||= { '1' => 'province', '2' => 'district' }
   end
 
   def levels
