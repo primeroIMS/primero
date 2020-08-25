@@ -6,7 +6,7 @@ describe ReportingLocation do
     context 'with a valid label_key' do
       before :each do
         @reporting_location = ReportingLocation.new(field_key: 'test', admin_level: 2,
-                                                    admin_level_map: { 1 => 'province', 2 => 'district' })
+                                                    admin_level_map: { 1 => ['province'], 2 => ['district'] })
       end
       context 'and a valid admin_level' do
         before :each do

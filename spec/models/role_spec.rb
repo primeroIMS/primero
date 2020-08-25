@@ -43,7 +43,8 @@ describe Role do
         clean_data(SystemSettings)
         SystemSettings.create(default_locale: 'en',
                               reporting_location_config: { field_key: 'owned_by_location', admin_level: 2,
-                                                           admin_level_map: { '1' => 'region', '2' => 'district' } })
+                                                           admin_level_map: { '1' => ['region'],
+                                                                              '2' => ['district'] } })
         @role = Role.new(name: 'some_role',
                          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
       end
@@ -63,7 +64,7 @@ describe Role do
           end
 
           it 'returns the reporting location label_key of the role' do
-            expect(@role.reporting_location_config.label_key).to eq('region')
+            expect(@role.reporting_location_config.label_key).to eq(['region'])
           end
         end
       end
@@ -95,7 +96,7 @@ describe Role do
           end
 
           it 'returns the default reporting location label_key from SystemSettings' do
-            expect(@role.reporting_location_config.label_key).to eq('district')
+            expect(@role.reporting_location_config.label_key).to eq(['district'])
           end
         end
       end

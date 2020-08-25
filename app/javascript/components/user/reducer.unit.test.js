@@ -59,7 +59,7 @@ describe("User - Reducers", () => {
       reportingLocationConfig: {
         field_key: "owned_by_location",
         admin_level: 2,
-        admin_level_map: { 1: "province", 2: "district" }
+        admin_level_map: { 1: ["province"], 2: ["district"] }
       },
       roleId: 19,
       listHeaders: mapObjectPropertiesToRecords(
@@ -108,7 +108,7 @@ describe("User - Reducers", () => {
       reporting_location_config: {
         field_key: "owned_by_location",
         admin_level: 2,
-        admin_level_map: { 1: "province", 2: "district" }
+        admin_level_map: { 1: ["province"], 2: ["district"] }
       },
       permissions: {
         list: [
