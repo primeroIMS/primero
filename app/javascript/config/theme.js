@@ -27,6 +27,7 @@ const colors = {
   warmGrey5: "#d5d5d5",
   warmGrey6: "#6f6f6a",
   midGrey: "#757472",
+  tundora: "#454545",
   grey: "#4a4a4a",
   contentGrey: "#fbfbfb",
   stickyGrey: "rgba(251, 251, 251, 0.95)"

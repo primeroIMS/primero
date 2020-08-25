@@ -8,6 +8,7 @@ import Context from "./context";
 import { getLocales, getLocale } from "./selectors";
 import useI18n from "./use-i18n";
 import withI18n from "./with-i18n";
+import { getLocaleDir } from "./utils";
 
 const I18nProvider = ({ children }) => {
   const locale = useSelector(state => getLocale(state));
@@ -15,22 +16,10 @@ const I18nProvider = ({ children }) => {
 
   const dispatch = useDispatch();
 
-  const dir = l => {
-    switch (l) {
-      case "ar":
-      case "ar-LB":
-      case "ku":
-      case "zh":
-        return "rtl";
-      default:
-        return "ltr";
-    }
-  };
-
   const changeLocale = value => {
     window.I18n.locale = value;
     document.documentElement.lang = value;
-    dispatch(setLocale({ locale: value, dir: dir(value) }));
+    dispatch(setLocale({ locale: value, dir: getLocaleDir(value) }));
   };
 
   const getI18nStringFromObject = i18nObject => {

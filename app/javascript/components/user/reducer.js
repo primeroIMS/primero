@@ -24,6 +24,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         list_headers: listHeaders,
         filters,
         permitted_form_unique_ids: permittedForms,
+        locale,
         reporting_location_config: reportingLocationConfig
       } = payload;
 
@@ -35,6 +36,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           listHeaders: mapObjectPropertiesToRecords(listHeaders, ListHeaderRecord),
           permittedForms,
           filters: mapObjectPropertiesToRecords(filters, FilterRecord),
+          locale,
           reportingLocationConfig
         })
       );
