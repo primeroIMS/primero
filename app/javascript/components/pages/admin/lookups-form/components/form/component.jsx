@@ -66,16 +66,14 @@ const Component = ({ formRef, mode, lookup }) => {
       }
     };
 
-    console.log("BODY", body);
-
-    // dispatch(
-    //   saveLookup({
-    //     id,
-    //     saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
-    //     body,
-    //     message: i18n.t(`lookup.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
-    //   })
-    // );
+    dispatch(
+      saveLookup({
+        id,
+        saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
+        body,
+        message: i18n.t(`lookup.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
+      })
+    );
   };
 
   useImperativeHandle(formRef, () => ({
