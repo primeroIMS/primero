@@ -11,7 +11,8 @@ describe("pages/admin/<FormBuilder>/components - index", () => {
       "FieldsList",
       "FormBuilderActionButtons",
       "FormTranslationsDialog",
-      "TabPanel"
+      "TabPanel",
+      "TranslationsForm"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

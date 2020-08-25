@@ -40,6 +40,7 @@ export const FieldRecord = Record({
   on_collapsed_subform: false,
   order: null,
   disableClearable: false,
+  onBlur: null,
   subform_section_unique_id: null
 });
 

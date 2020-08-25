@@ -1,9 +1,9 @@
 import { fromJS } from "immutable";
 
-import { FieldRecord } from "../../../form";
+import { FieldRecord, SUBFORM_SECTION } from "../../../form";
 
 import actions from "./actions";
-import { affectedOrderRange, buildOrderUpdater } from "./utils";
+import { affectedOrderRange, buildOrderUpdater, getSubformFields } from "./utils";
 import { transformValues } from "./components/field-dialog/utils";
 
 const DEFAULT_STATE = fromJS({});
@@ -118,22 +118,12 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
       if (!selectedSubform) {
         const subform = state.getIn(["formSections", id.toString()], fromJS({}));
-
-        const fields = subform
-          .get("fields")
-          .map(fieldId => state.getIn(["fields", fieldId.toString()]))
-          .map(field =>
-            field.set(
-              "on_collapsed_subform",
-              subform.get("collapsed_field_names", fromJS([])).includes(field.get("name"))
-            )
-          );
-
+        const fields = getSubformFields(state, subform);
         const selectedSubforms = state.get("subforms", fromJS([]));
 
         return state
-          .set("selectedSubform", subform.set("fields", fromJS(fields)))
-          .set("subforms", selectedSubforms.push(subform.set("fields", fromJS(fields))));
+          .set("selectedSubform", subform.set("fields", fields))
+          .set("subforms", selectedSubforms.push(subform.set("fields", fields)));
       }
 
       const prevSelectedSubform = state.get("selectedSubform", fromJS({}));
@@ -211,9 +201,43 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .toSet()
         .toList();
 
-      const mergedSubform = subform.merge(data).set("fields", fields).set("collapsed_field_names", collapsedFieldNames);
+      const mergedSubform = subform
+        .mergeDeep(data)
+        .set("fields", fields)
+        .set("collapsed_field_names", collapsedFieldNames);
 
       return state.setIn(["subforms", subformIndex], mergedSubform).set("selectedSubform", mergedSubform);
+    }
+    case actions.UPDATE_FIELD_TRANSLATIONS: {
+      const selectedFields = state.get("selectedFields");
+      const fields = Object.keys(payload);
+
+      const indexes = fields.map(field => [field, selectedFields.findIndex(value => value.get("name") === field)]);
+
+      return selectedFields
+        .filter(field => field.get("type") === SUBFORM_SECTION && fields.includes(field.get("name")))
+        .reduce((acc, elem) => {
+          const subformId = elem.get("subform_section_id");
+          const subformIndex = acc.get("subforms", fromJS([])).findIndex(subform => subformId === subform.get("id"));
+          const subformData = fromJS({ name: payload[elem.get("name")].display_name });
+
+          if (subformIndex < 0) {
+            const subformSection = acc.getIn(["formSections", subformId.toString()]);
+
+            const subformFields = getSubformFields(acc, subformSection);
+
+            return acc.set(
+              "subforms",
+              acc.get("subforms", fromJS([])).push(subformSection.mergeDeep(subformData).set("fields", subformFields))
+            );
+          }
+
+          return acc.setIn(["subforms", subformIndex], acc.getIn(["subforms", subformIndex]).mergeDeep(subformData));
+        }, state)
+        .set(
+          "selectedFields",
+          fromJS(indexes.map(([field, index]) => selectedFields.get(index).mergeDeep(fromJS(payload[field]))))
+        );
     }
     case actions.SET_NEW_SUBFORM: {
       const subforms = state.get("subforms");

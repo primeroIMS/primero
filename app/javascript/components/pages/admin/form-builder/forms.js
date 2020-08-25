@@ -28,7 +28,7 @@ export const validationSchema = i18n =>
     visible: boolean()
   });
 
-export const settingsForm = ({ formMode, onManageTranslation, i18n }) =>
+export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChange, i18n }) =>
   fromJS([
     FormSectionRecord({
       unique_id: "settings",
@@ -48,6 +48,7 @@ export const settingsForm = ({ formMode, onManageTranslation, i18n }) =>
           name: "name.en",
           type: TEXT_FIELD,
           required: true,
+          onBlur: e => onEnglishTextChange(e),
           help_text: i18n.t("forms.help_text.must_be_english")
         }),
         FieldRecord({
@@ -55,6 +56,7 @@ export const settingsForm = ({ formMode, onManageTranslation, i18n }) =>
           name: "description.en",
           type: TEXT_FIELD,
           required: true,
+          onBlur: e => onEnglishTextChange(e),
           help_text: i18n.t("forms.help_text.summariaze_purpose")
         }),
         FieldRecord({
