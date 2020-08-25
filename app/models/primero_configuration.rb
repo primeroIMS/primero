@@ -2,7 +2,7 @@
 
 # This model persists the user-modifiable state of the Primero configuration as JSON.
 # If desired, this configuration state can replace the current Primero configuration state.
-class Configuration < ApplicationRecord
+class PrimeroConfiguration < ApplicationRecord
   CONFIGURABLE_MODELS = %w[FormSection Lookup Agency Role UserGroup Report ContactInformation].freeze
 
   attr_accessor :apply_now
@@ -14,7 +14,7 @@ class Configuration < ApplicationRecord
   def self.current(created_by = nil)
     new.tap do |config|
       config.created_on = DateTime.now
-      config.created_by = created_by
+      config.created_by = created_by&.user_name
       config.data = current_configuration_data
     end
   end
@@ -33,7 +33,7 @@ class Configuration < ApplicationRecord
     end
     clear_remainder!
     self.applied_on = DateTime.now
-    self.applied_by = applied_by
+    self.applied_by = applied_by&.user_name
     save!
   end
 

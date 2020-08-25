@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Configuration do
+describe PrimeroConfiguration do
   before(:each) do
     clean_data(FormSection, Lookup, Agency, Role, UserGroup, Report, ContactInformation, PrimeroModule)
     @form1 = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
@@ -22,7 +22,7 @@ describe Configuration do
   end
 
   describe '.current_configuration_data' do
-    let(:current_configuration_data) { Configuration.current_configuration_data }
+    let(:current_configuration_data) { PrimeroConfiguration.current_configuration_data }
 
     it 'is a hash of all managed configurations' do
       expect(current_configuration_data.keys).to match_array(
@@ -37,8 +37,8 @@ describe Configuration do
 
   describe '#apply!' do
     before(:each) do
-      clean_data(Configuration)
-      @current_configuration = Configuration.current
+      clean_data(PrimeroConfiguration)
+      @current_configuration = PrimeroConfiguration.current
       @current_configuration.save!
       @form1.update_attributes!(name: 'B')
       @role1.update_attributes!(name: 'Role2')

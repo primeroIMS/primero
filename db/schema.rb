@@ -125,17 +125,6 @@ ActiveRecord::Schema.define(version: 2020_08_14_000000) do
     t.datetime "applied_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
-  create_table "configurations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
-    t.string "description"
-    t.string "version"
-    t.string "created_by"
-    t.datetime "created_on"
-    t.string "applied_by"
-    t.datetime "applied_on"
-    t.jsonb "data", default: {}
-  end
-
   create_table "contact_informations", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "organization"
@@ -288,6 +277,17 @@ ActiveRecord::Schema.define(version: 2020_08_14_000000) do
     t.jsonb "lookup_values_i18n"
     t.boolean "locked", default: false, null: false
     t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
+  end
+
+  create_table "primero_configurations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "version"
+    t.string "created_by"
+    t.datetime "created_on"
+    t.string "applied_by"
+    t.datetime "applied_on"
+    t.jsonb "data", default: {}
   end
 
   create_table "primero_modules", id: :serial, force: :cascade do |t|

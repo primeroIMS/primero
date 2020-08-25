@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class CreateConfigurations < ActiveRecord::Migration[5.2]
+class CreatePrimeroConfigurations < ActiveRecord::Migration[5.2]
   def change
-    create_table :configurations, id: :uuid, default: 'gen_random_uuid()' do |t|
+    create_table :primero_configurations, id: :uuid, default: 'gen_random_uuid()' do |t|
       t.string 'name'
       t.string 'description'
       t.string 'version'
