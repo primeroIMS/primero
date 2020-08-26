@@ -99,6 +99,15 @@ module Ownable
     if (self.changes['assigned_user_names'].present? || self.new?)
       self.update_associated_user_groups
     end
+
+    if self.new?
+      self.previously_owned_by = ''
+      self.previously_owned_by_full_name = ''
+      self.previously_owned_by_agency = ''
+      self.previously_owned_by_location = ''
+      self.previously_owned_by_agency_office = ''
+    end
+
   end
 
   def update_associated_user_groups
