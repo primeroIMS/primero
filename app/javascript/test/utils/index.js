@@ -272,3 +272,19 @@ export const lookups = () => ({
     page: 1
   }
 });
+
+export const translateOptions = (value, options, translations) => {
+  if (isEmpty(options)) {
+    return translations[value];
+  }
+
+  let currValue = translations[value];
+
+  Object.entries(options).forEach(option => {
+    const [optionKey, optionValue] = option;
+
+    currValue = currValue.replace(optionKey, optionValue);
+  });
+
+  return currValue.replace(/[^\w\s\'.]/gi, "");
+};

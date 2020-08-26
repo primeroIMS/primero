@@ -38,6 +38,6 @@ class Api::V2::LookupsController < ApplicationApiController
   end
 
   def lookup_params
-    params.require(:data).permit(:id, :unique_id, name: {}, values: [:id, :_delete, display_text: {}])
+    params.require(:data).permit(:id, :unique_id, name: {}, values: [:id, :disabled, :_delete, display_text: {}])
   end
 end

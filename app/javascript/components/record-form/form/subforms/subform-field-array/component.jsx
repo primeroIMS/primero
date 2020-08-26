@@ -15,7 +15,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 import { valuesWithDisplayConditions } from "./utils";
 
-const Component = ({ arrayHelpers, field, form, formik, i18n, initialSubformValue, mode, recordType }) => {
+const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mode, recordType, formSection }) => {
   const {
     display_name: displayName,
     name,
@@ -47,13 +47,7 @@ const Component = ({ arrayHelpers, field, form, formik, i18n, initialSubformValu
 
   const renderEmptyData =
     values.filter(currValue => Object.values(currValue).every(isEmpty)).length === values.length ? (
-      <SubformEmptyData
-        handleClick={handleAddSubform}
-        i18n={i18n}
-        mode={mode}
-        subformName={title}
-        subformIsDisabled={isDisabled}
-      />
+      <SubformEmptyData i18n={i18n} subformName={title} />
     ) : (
       <SubformFields
         arrayHelpers={arrayHelpers}
@@ -64,7 +58,7 @@ const Component = ({ arrayHelpers, field, form, formik, i18n, initialSubformValu
         setOpen={setOpenDialog}
         setDialogIsNew={setDialogIsNew}
         recordType={recordType}
-        form={form}
+        form={formSection}
       />
     );
 
@@ -104,6 +98,7 @@ const Component = ({ arrayHelpers, field, form, formik, i18n, initialSubformValu
         setOpen={setOpenDialog}
         title={title}
         initialSubformValue={initialSubformValue}
+        formSection={formSection}
       />
     </>
   );
@@ -114,8 +109,8 @@ Component.displayName = SUBFORM_FIELD_ARRAY;
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
+  formSection: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
   initialSubformValue: PropTypes.object.isRequired,
   mode: PropTypes.object.isRequired,

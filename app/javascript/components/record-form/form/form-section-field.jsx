@@ -27,7 +27,7 @@ import RadioField from "./field-types/radio-field";
 import AttachmentField from "./field-types/attachments";
 import styles from "./styles.css";
 
-const FormSectionField = ({ name, field, mode, recordType, recordID, filters, index }) => {
+const FormSectionField = ({ name, field, mode, recordType, recordID, filters, index, formSection }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -104,7 +104,7 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
   return (
     <ConditionalWrapper condition={!mode.isShow && disabled} wrapper={Tooltip} title={i18n.t("messages.cannot_edit")}>
       <div>
-        <FieldComponent {...fieldProps} mode={mode} />
+        <FieldComponent {...fieldProps} mode={mode} formSection={formSection} />
         {renderGuidingQuestions}
       </div>
     </ConditionalWrapper>
@@ -116,6 +116,7 @@ FormSectionField.displayName = FORM_SECTION_FIELD_NAME;
 FormSectionField.propTypes = {
   field: PropTypes.object.isRequired,
   filters: PropTypes.object,
+  formSection: PropTypes.object.isRequired,
   index: PropTypes.number,
   mode: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,

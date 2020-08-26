@@ -15,6 +15,7 @@ import FieldListItem from "../field-list-item";
 import { reorderFields } from "../../action-creators";
 import { getSelectedFields } from "../../selectors";
 import { getFieldsAttribute } from "../utils";
+import CustomFieldDialog from "../custom-field-dialog";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -22,7 +23,7 @@ import styles from "./styles.css";
 const Component = ({ subformField }) => {
   const methods = useFormContext();
   const dispatch = useDispatch();
-  const isNested = Boolean(subformField?.size);
+  const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
   const fields = useSelector(state => getSelectedFields(state, isNested), compare);
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -45,11 +46,24 @@ const Component = ({ subformField }) => {
   };
 
   const renderFields = () =>
-    fields.map((field, index) => (
-      <FieldListItem subformField={subformField} field={field} index={index} key={field.get("name")} />
-    ));
+    fields.map((field, index) => {
+      const id = field.get("id") || field.get("subform_section_temp_id");
+
+      return (
+        <FieldListItem subformField={subformField} field={field} index={index} key={`${field.get("name")}_${id}`} />
+      );
+    });
 
   const renderColumn = text => isNested && <div className={clsx([css.fieldColumn, css.fieldHeader])}>{text}</div>;
+
+  if (!fields.size) {
+    return (
+      <div className={css.noFiltersAdded}>
+        {i18n.t("forms.no_subform_filters_added")}
+        <CustomFieldDialog />
+      </div>
+    );
+  }
 
   return (
     <>

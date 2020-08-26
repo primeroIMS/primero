@@ -4,7 +4,7 @@ import { object, string, array } from "yup";
 import { validationSchema, generalForm, optionsForm, visibilityForm } from "./base";
 
 /* eslint-disable import/prefer-default-export */
-export const selectFieldForm = ({ css, field, formMode, i18n, isNested, lookups }) => {
+export const selectFieldForm = ({ css, field, formMode, i18n, isNested, lookups, onManageTranslations }) => {
   const fieldName = field.get("name");
   const options = field.get("option_strings_text", fromJS({}));
   let extraValidations = {};
@@ -34,7 +34,7 @@ export const selectFieldForm = ({ css, field, formMode, i18n, isNested, lookups 
 
   return {
     forms: fromJS([
-      generalForm({ fieldName, i18n, formMode }),
+      generalForm({ fieldName, i18n, formMode, onManageTranslations }),
       optionsForm({ fieldName, i18n, formMode, field, lookups, css }),
       visibilityForm({ fieldName, i18n, isNested })
     ]),

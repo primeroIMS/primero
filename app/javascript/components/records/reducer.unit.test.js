@@ -1,5 +1,7 @@
 import { Map, List, fromJS, OrderedMap } from "immutable";
 
+import { DEFAULT_METADATA } from "../../config";
+
 import reducer from "./reducer";
 
 describe("<RecordList /> - Reducers", () => {
@@ -125,6 +127,20 @@ describe("<RecordList /> - Reducers", () => {
     };
 
     const newState = nsReducer(defaultState, action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle CLEAR_METADATA", () => {
+    const expected = fromJS({
+      metadata: DEFAULT_METADATA
+    });
+
+    const action = {
+      type: "TestRecordType/CLEAR_METADATA"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
 
     expect(newState).to.deep.equals(expected);
   });

@@ -6,7 +6,7 @@ import SubformDialogFields from "../subform-dialog-fields";
 
 import { NAME } from "./constants";
 
-const Component = ({ formik, field, index, mode }) => {
+const Component = ({ formik, field, index, mode, formSection }) => {
   const [filterState, setFilterState] = useState({
     filtersChanged: false,
     userIsSelected: false
@@ -37,6 +37,7 @@ const Component = ({ formik, field, index, mode }) => {
       filterState={filterState}
       setFilterState={setFilterState}
       filterFunc={(parentField, subformField) => filters(parentField, subformField.option_strings_source)}
+      formSection={formSection}
     />
   );
 };
@@ -46,6 +47,7 @@ Component.displayName = NAME;
 Component.propTypes = {
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
+  formSection: PropTypes.object.isRequired,
   index: PropTypes.number,
   mode: PropTypes.object.isRequired
 };
