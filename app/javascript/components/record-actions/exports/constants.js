@@ -12,6 +12,12 @@ export const NAME = "Exports";
 
 export const ALL_EXPORT_TYPES = Object.freeze([
   Object.freeze({
+    id: "pdf",
+    permission: ACTIONS.EXPORT_PDF,
+    format: EXPORT_FORMAT.PDF,
+    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
+  }),
+  Object.freeze({
     id: "csv",
     permission: ACTIONS.EXPORT_CSV,
     format: EXPORT_FORMAT.CSV,

@@ -1,11 +1,11 @@
 import isEmpty from "lodash/isEmpty";
 import uniqBy from "lodash/uniqBy";
 
-import { FieldRecord, SELECT_FIELD, RADIO_FIELD, TEXT_AREA, TEXT_FIELD, TOGGLE_FIELD } from "../../form";
+import { FieldRecord, SELECT_FIELD, RADIO_FIELD, TEXT_FIELD, TOGGLE_FIELD } from "../../form";
 import { SUBFORM_SECTION } from "../../record-form/constants";
 
-import { allowedExports } from "./utils";
 import {
+  EXPORT_FORMAT,
   CUSTOM_EXPORT_FILE_NAME_FIELD,
   CUSTOM_FORMAT_TYPE_FIELD,
   EXPORT_TYPE_FIELD,
@@ -17,11 +17,13 @@ import {
   MODULE_FIELD,
   PASSWORD_FIELD
 } from "./constants";
+import { allowedExports } from "./utils";
 
 export default (
   i18n,
   userPermissions,
   isCustomExport,
+  isPdfExport,
   isShowPage,
   formatType,
   individualFields,
@@ -89,7 +91,11 @@ export default (
       "id"
     ),
     inputClassname:
-      !isCustomExport || (isCustomExport && isEmpty(formatType)) || individualFields || formatType === FIELD_ID
+      !(isPdfExport && isEmpty(formatType)) ||
+      !isCustomExport ||
+      (isCustomExport && isEmpty(formatType)) ||
+      individualFields ||
+      formatType === FIELD_ID
         ? css.hideCustomExportFields
         : null
   }),
@@ -114,11 +120,15 @@ export default (
     help_text: {
       [i18n.locale]: i18n.t("encrypt.password_extra_info")
     },
-    password: true
+    password: true,
+    watchedInputs: EXPORT_TYPE_FIELD,
+    handleWatchedInputs: value => ({
+      visible: !value.includes(EXPORT_FORMAT.PDF)
+    })
   }),
   FieldRecord({
     display_name: i18n.t("encrypt.file_name"),
     name: CUSTOM_EXPORT_FILE_NAME_FIELD,
-    type: TEXT_AREA
+    type: TEXT_FIELD
   })
 ];

@@ -3251,6 +3251,8 @@ en:
   exports:
     no_records: "No Records Available!"
     queueing: "Generating the export file%{file_name}"
+    exported: "Successfully generated the export file"
+    exported_error: "Error generating export file"
     go_to_exports: "Go to Exports page to download"
     pdf:
       all: PDF
