@@ -157,10 +157,8 @@ class Role < ApplicationRecord
   # If the Role has a secondary reporting location (indicated by reporting_location_level),
   # override the reporting location from SystemSettings
   def secondary_reporting_location(ss_reporting_location)
-    # role_reporting_location_level = role&.reporting_location_level
     return ss_reporting_location if reporting_location_level.nil?
 
-    # admin_level = ss_reporting_location.map_reporting_location_level_to_admin_level(role_reporting_location_level)
     return ss_reporting_location if reporting_location_level == ss_reporting_location.admin_level
 
     reporting_location = ReportingLocation.new(field_key: ss_reporting_location.field_key,
