@@ -20,6 +20,7 @@ const Actions = ({ handleSave, handleClear }) => {
         type={ACTION_BUTTON_TYPES.default}
         isTransparent
         rest={{
+          "aria-label": i18n.t("filters.save_filters"),
           onClick: handleSave,
           variant: "outlined"
         }}
@@ -34,6 +35,7 @@ const Actions = ({ handleSave, handleClear }) => {
           text={i18n.t("filters.apply_filters")}
           type={ACTION_BUTTON_TYPES.default}
           rest={{
+            "aria-label": i18n.t("filters.apply_filters"),
             type: "submit"
           }}
         />
@@ -45,6 +47,7 @@ const Actions = ({ handleSave, handleClear }) => {
           type={ACTION_BUTTON_TYPES.default}
           isTransparent
           rest={{
+            "aria-label": i18n.t("filters.clear_filters"),
             onClick: handleClear,
             variant: "outlined"
           }}

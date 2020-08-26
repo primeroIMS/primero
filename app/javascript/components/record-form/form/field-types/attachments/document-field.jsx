@@ -81,7 +81,7 @@ const DocumentField = ({
           {value.description}
         </div>
         <div>
-          <IconButton onClick={handleOpen}>
+          <IconButton aria-label={i18n.t("buttons.view")} onClick={handleOpen}>
             <KeyboardArrowRightIcon />
           </IconButton>
         </div>
@@ -91,7 +91,7 @@ const DocumentField = ({
         <DialogTitle disableTypography className={css.title}>
           <div className={css.titleText}>{title}</div>
           <div>
-            <IconButton onClick={handleClose}>
+            <IconButton aria-label={i18n.t("buttons.close")} onClick={handleClose}>
               <CloseIcon />
             </IconButton>
           </div>
@@ -104,7 +104,7 @@ const DocumentField = ({
               <AttachmentInput fields={fields} attachment={attachment} value={value.attachment} name={name} />
             )}
             {mode.isShow || (
-              <IconButton onClick={handleRemove}>
+              <IconButton aria-label={i18n.t("buttons.delete")} onClick={handleRemove}>
                 <DeleteIcon />
               </IconButton>
             )}

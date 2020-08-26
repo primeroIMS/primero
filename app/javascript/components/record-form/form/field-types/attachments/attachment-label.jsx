@@ -3,11 +3,13 @@ import PropTypes from "prop-types";
 import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { useI18n } from "../../../../i18n";
 import styles from "../../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 const AttachmentLabel = ({ label, disabled, mode, arrayHelpers, handleAttachmentAddition }) => {
+  const i18n = useI18n();
   const css = makeStyles(styles)();
   const isDisabled = !disabled && !mode.isShow;
 
@@ -21,6 +23,7 @@ const AttachmentLabel = ({ label, disabled, mode, arrayHelpers, handleAttachment
             text="Add"
             type={ACTION_BUTTON_TYPES.icon}
             rest={{
+              "aria-label": i18n.t("buttons.new"),
               onClick: () => handleAttachmentAddition(arrayHelpers)
             }}
           />

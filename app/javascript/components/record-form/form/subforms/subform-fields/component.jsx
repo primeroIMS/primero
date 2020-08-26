@@ -120,6 +120,7 @@ const Component = ({ arrayHelpers, field, form, locale, mode, recordType, setDia
                     icon={<DeleteIcon />}
                     type={ACTION_BUTTON_TYPES.icon}
                     rest={{
+                      "aria-label": i18n.t("buttons.delete"),
                       onClick: () => handleOpenModal(index)
                     }}
                   />
@@ -131,6 +132,7 @@ const Component = ({ arrayHelpers, field, form, locale, mode, recordType, setDia
                   icon={<ArrowIcon />}
                   type={ACTION_BUTTON_TYPES.icon}
                   rest={{
+                    "aria-label": i18n.t("buttons.edit"),
                     className: css.subformShow,
                     onClick: () => handleEdit(index)
                   }}

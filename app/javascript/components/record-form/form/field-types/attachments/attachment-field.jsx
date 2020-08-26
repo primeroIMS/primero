@@ -4,6 +4,7 @@ import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { useI18n } from "../../../../i18n";
 import styles from "../../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
@@ -15,6 +16,7 @@ import AttachmentPreview from "./attachment-preview";
 const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers, value }) => {
   const css = makeStyles(styles)();
   const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
+  const i18n = useI18n();
 
   const fields = buildAttachmentFieldsObject(name, index);
 
@@ -52,6 +54,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
               type={ACTION_BUTTON_TYPES.icon}
               isCancel
               rest={{
+                "aria-label": i18n.t("buttons.delete"),
                 onClick: handleRemove
               }}
             />

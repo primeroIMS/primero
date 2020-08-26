@@ -70,7 +70,7 @@ const AddRecordMenu = ({ recordType }) => {
         icon={<AddIcon />}
         text={i18n.t("buttons.new")}
         type={ACTION_BUTTON_TYPES.default}
-        rest={{ onClick: handleClick }}
+        rest={{ "aria-label": i18n.t("buttons.new"), onClick: handleClick }}
       />
       {renderMenu(userModules)}
       {renderDialog(moduleUniqueId)}

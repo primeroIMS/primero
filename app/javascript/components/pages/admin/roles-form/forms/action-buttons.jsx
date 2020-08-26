@@ -43,6 +43,7 @@ const Component = ({ formMode, formRef, handleCancel, setOpenDeleteDialog }) => 
         text={i18n.t("buttons.edit")}
         type={ACTION_BUTTON_TYPES.default}
         rest={{
+          "aria-label": i18n.t("buttons.edit"),
           to: `${pathname}/edit`,
           component: Link
         }}

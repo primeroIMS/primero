@@ -61,6 +61,7 @@ const Component = ({ filterValues, modules, handleSetFilterValue, handleClearVal
         type={ACTION_BUTTON_TYPES.default}
         isTransparent
         rest={{
+          "aria-label": i18n.t("clear"),
           onClick: handleClearValue,
           variant: "outlined",
           fullWidth: true

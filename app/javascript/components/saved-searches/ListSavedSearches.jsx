@@ -81,6 +81,7 @@ const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender
                 icon={<DeleteIcon />}
                 type={ACTION_BUTTON_TYPES.icon}
                 rest={{
+                  "aria-label": i18n.t("buttons.delete"),
                   edge: "end",
                   onClick: () => handleDeleteFilter(savedSearch.id)
                 }}

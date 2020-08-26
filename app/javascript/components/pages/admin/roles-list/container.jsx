@@ -51,6 +51,7 @@ const Container = () => {
           text={i18n.t("buttons.new")}
           type={ACTION_BUTTON_TYPES.default}
           rest={{
+            "aria-label": i18n.t("buttons.new"),
             to: ROUTES.admin_roles_new,
             component: Link
           }}

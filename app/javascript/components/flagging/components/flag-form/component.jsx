@@ -112,6 +112,7 @@ const Component = ({ recordType, record, handleActiveTab }) => {
                 type={ACTION_BUTTON_TYPES.default}
                 pending={savingFlag}
                 rest={{
+                  "aria-label": i18n.t("buttons.save"),
                   type: "submit",
                   disabled: savingFlag
                 }}
@@ -122,6 +123,7 @@ const Component = ({ recordType, record, handleActiveTab }) => {
                 type={ACTION_BUTTON_TYPES.default}
                 isCancel
                 rest={{
+                  "aria-label": i18n.t("buttons.cancel"),
                   onClick: handleReset
                 }}
               />

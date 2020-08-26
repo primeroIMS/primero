@@ -28,6 +28,7 @@ const NotFound = () => {
         text={i18n.t("navigation.home")}
         type={ACTION_BUTTON_TYPES.default}
         rest={{
+          "aria-label": i18n.t("navigation.home"),
           to: ROUTES.dashboard,
           component: Link
         }}

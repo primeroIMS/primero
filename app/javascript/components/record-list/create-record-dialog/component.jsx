@@ -112,7 +112,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
               icon={<AddIcon />}
               text={i18n.t("case.create_new_case")}
               type={ACTION_BUTTON_TYPES.default}
-              rest={{ onClick: handleCreateNewCase }}
+              rest={{ "aria-label": i18n.t("case.create_new_case"), onClick: handleCreateNewCase }}
             />
           </div>
           <div className={css.search}>
@@ -121,6 +121,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
               text={i18n.t("navigation.search")}
               type={ACTION_BUTTON_TYPES.default}
               rest={{
+                "aria-label": i18n.t("navigation.search"),
                 onClick: () => bindFormSubmit(formRef)
               }}
             />

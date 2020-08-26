@@ -75,6 +75,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
           type={ACTION_BUTTON_TYPES.default}
           pending={file.loading}
           rest={{
+            "aria-label": i18n.t("fields.file_upload_box.select_file_button_text"),
             component: "span",
             variant: "outlined",
             disabled: disabled || fieldDisabled()

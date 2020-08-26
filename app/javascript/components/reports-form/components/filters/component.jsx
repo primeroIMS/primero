@@ -133,10 +133,10 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
         <Box key={index} display="flex" alignItems="center">
           <Box flexGrow={1}>{formattedReportFilterName}</Box>
           <Box>
-            <IconButton onClick={() => handleOpenModal(index)}>
+            <IconButton aria-label={i18n.t("buttons.close")} onClick={() => handleOpenModal(index)}>
               <DeleteIcon />
             </IconButton>
-            <IconButton onClick={() => handleEdit(index)}>
+            <IconButton aria-label={i18n.t("buttons.edit")} onClick={() => handleEdit(index)}>
               <ArrowIcon />
             </IconButton>
           </Box>
@@ -148,7 +148,7 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
     <>
       <Typography className={css.filtersHeading}>
         {i18n.t("report.filters.label")}
-        <IconButton size="small" onClick={handleNew} className={css.addFilter}>
+        <IconButton aria-label={i18n.t("buttons.new")} size="small" onClick={handleNew} className={css.addFilter}>
           <AddIcon />
           {i18n.t("buttons.new")}
         </IconButton>

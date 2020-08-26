@@ -53,6 +53,7 @@ const RecordFormToolbar = ({
       type={ACTION_BUTTON_TYPES.default}
       pending={savingRecord}
       rest={{
+        "aria-label": i18n.t("buttons.save"),
         onClick: handleFormSubmit
       }}
     />
@@ -105,6 +106,7 @@ const RecordFormToolbar = ({
               type={ACTION_BUTTON_TYPES.default}
               isCancel
               rest={{
+                "aria-label": i18n.t("buttons.cancel"),
                 onClick: goBack
               }}
             />
@@ -118,6 +120,7 @@ const RecordFormToolbar = ({
               text={i18n.t("buttons.edit")}
               type={ACTION_BUTTON_TYPES.default}
               rest={{
+                "aria-label": i18n.t("buttons.new"),
                 to: `/${params.recordType}/${params.id}/edit`,
                 component: Link
               }}

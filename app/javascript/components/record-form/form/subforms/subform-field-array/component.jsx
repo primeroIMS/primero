@@ -77,6 +77,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mod
               text={renderAddText}
               type={ACTION_BUTTON_TYPES.default}
               rest={{
+                "aria-label": i18n.t("buttons.new"),
                 onClick: handleAddSubform
               }}
             />
