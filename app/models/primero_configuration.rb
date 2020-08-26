@@ -40,6 +40,7 @@ class PrimeroConfiguration < ApplicationRecord
   def clear_remainder!
     remainder(FormSection).destroy_all
     remainder(Lookup).destroy_all
+    remainder(Report).destroy_all
   end
 
   def remainder(model_class)
