@@ -1,0 +1,33 @@
+.header {
+  color: $(theme.primero.colors.tundora);
+  font-size: $(theme.typography.pxToRem(17));
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.fieldTitle {
+  color: $(theme.primero.colors.blue);
+  font-size: $(theme.typography.pxToRem(16));
+  padding: 13px 4px !important;
+
+  & button {
+    color: $(theme.primero.colors.blue);
+    font-size: $(theme.typography.pxToRem(16));
+    padding: 0;
+    display: inline;
+    text-align: left;
+
+    & span {
+      text-transform: none;
+      text-align: left;
+    }
+  }
+}
+
+.translationsRow {
+  border-bottom: 1px solid $(theme.primero.colors.lightGrey);
+}
+
+.hideField {
+  display: none !important;
+}

@@ -29,10 +29,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
   it("should handle SAVE_FORM_STARTED", () => {
     const expected = fromJS({
-      saving: true,
-      errors: false,
-      serverErrors: [],
-      updatedFormIds: []
+      saving: true
     });
 
     const action = {
@@ -59,8 +56,6 @@ describe("<FormsBuilder /> - Reducers", () => {
   });
 
   it("should handle SAVE_FORM_SUCCESS", () => {
-    const expected = fromJS({ updatedFormIds: [1, 2, 3] });
-
     const action = {
       type: actions.SAVE_FORM_SUCCESS,
       payload: [
@@ -72,7 +67,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).to.be.empty;
   });
 
   it("should handle SET_SELECTED_FIELD", () => {

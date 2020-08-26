@@ -42,10 +42,11 @@ const Component = ({ field, index, subformField }) => {
   const subformSortBy = isNested ? watch(`${parentFieldName}.${SUBFORM_SORT_BY}`, "") : null;
   const subformGroupBy = isNested ? watch(`${parentFieldName}.${SUBFORM_GROUP_BY}`, "") : null;
   const visible = watch(`${fieldsAttribute}.${field.get("name")}.visible`, false);
+  const fieldName = field.get("name");
 
   const themeOverrides = createMuiTheme(getFiedListItemTheme(currentTheme));
 
-  const onNested = fieldName => {
+  const onNested = () => {
     dispatch(clearSelectedSubformField());
     const currentFormData = getValues({ nest: true });
     const subformData = setInitialForms(currentFormData.subform_section);
@@ -64,7 +65,7 @@ const Component = ({ field, index, subformField }) => {
     dispatch(setSelectedSubformField(fieldName));
   };
 
-  const handleClick = fieldName => {
+  const handleClick = () => {
     batch(() => {
       dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: true }));
       if (isNested) {
@@ -74,11 +75,20 @@ const Component = ({ field, index, subformField }) => {
 
         dispatch(clearSelectedField());
         dispatch(setSelectedField(fieldName));
+        if (fieldData.subform_section_temp_id !== field.get("subform_section_temp_id")) {
+          delete fieldData.subform_section_temp_id;
+        }
         dispatch(updateSelectedField({ [fieldName]: fieldData }));
       }
 
       if (field?.get("type") === SUBFORM_SECTION) {
-        dispatch(setSelectedSubform(field.get("subform_section_id")));
+        const selectedSubformParams = {
+          id: field.get("subform_section_id") || field.get("subform_section_temp_id"),
+          isSubformNew:
+            typeof field.get("subform_section_id") === "undefined" || Object.is(field.get("subform_section_id"), null)
+        };
+
+        dispatch(setSelectedSubform(selectedSubformParams));
       }
     });
   };
@@ -91,7 +101,7 @@ const Component = ({ field, index, subformField }) => {
     return (
       <>
         {icon}
-        <Button className={clsx({ [css.editable]: !isNotEditable })} onClick={() => handleClick(field.get("name"))}>
+        <Button className={clsx({ [css.editable]: !isNotEditable })} onClick={() => handleClick()}>
           {field.getIn(["display_name", i18n.locale])}
         </Button>
       </>
@@ -100,15 +110,15 @@ const Component = ({ field, index, subformField }) => {
 
   const renderColumn = column => {
     const checked =
-      (SUBFORM_SORT_BY === column && subformSortBy === field.get("name")) ||
-      (SUBFORM_GROUP_BY === column && subformGroupBy === field.get("name"));
+      (SUBFORM_SORT_BY === column && subformSortBy === fieldName) ||
+      (SUBFORM_GROUP_BY === column && subformGroupBy === fieldName);
 
     return (
       isNested && (
         <div className={css.fieldColumn}>
           <Controller
             as={<Radio />}
-            inputProps={{ value: field.get("name") }}
+            inputProps={{ value: fieldName }}
             checked={checked}
             name={`${parentFieldName}.${column}`}
           />
@@ -118,10 +128,10 @@ const Component = ({ field, index, subformField }) => {
   };
 
   return (
-    <Draggable draggableId={field.get("name")} index={index}>
+    <Draggable draggableId={fieldName} index={index}>
       {provided => (
         <div ref={provided.innerRef} {...provided.draggableProps}>
-          <div className={css.fieldRow} key={field.get("name")}>
+          <div className={css.fieldRow} key={fieldName}>
             <div className={clsx([css.fieldColumn, css.dragIndicatorColumn])}>
               <DragIndicator {...provided.dragHandleProps} />
             </div>
@@ -133,7 +143,7 @@ const Component = ({ field, index, subformField }) => {
               <MuiThemeProvider theme={themeOverrides}>
                 <SwitchInput
                   commonInputProps={{
-                    name: `${fieldsAttribute}.${field.get("name")}.visible`,
+                    name: `${fieldsAttribute}.${fieldName}.visible`,
                     disabled: isNotEditable
                   }}
                   metaInputProps={{ selectedValue: visible }}

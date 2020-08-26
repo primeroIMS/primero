@@ -1,3 +1,5 @@
+import { LOCALE_KEYS } from "../../../../../config";
+
 import { MULTI_SELECT_FIELD, DATE_TIME_FIELD } from "./custom-field-selector-dialog/constants";
 
 export const getFieldsAttribute = isNested => (isNested ? "subform_section.fields" : "fields");
@@ -44,3 +46,5 @@ export const getLabelTypeField = field => {
 
   return field.get("type");
 };
+
+export const localesToRender = i18n => i18n.applicationLocales.filter(locale => locale.get("id") !== LOCALE_KEYS.en);

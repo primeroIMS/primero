@@ -104,7 +104,14 @@ const Component = ({ arrayHelpers, field, form, locale, mode, recordType, setDia
           return (
             <div key={`${name}-${index}`} className={css.subformFields}>
               <div className={css.subformHeaderBox}>
-                <SubformHeader field={field} index={index} displayName={displayName} locale={locale} values={values} />
+                <SubformHeader
+                  field={field}
+                  index={index}
+                  displayName={displayName}
+                  locale={locale}
+                  values={values}
+                  onClick={handleEdit}
+                />
               </div>
               <div className={css.subformHeaderActions}>
                 {hasError(index) && <Jewel isError />}

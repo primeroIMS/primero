@@ -22,7 +22,9 @@ describe("<FieldTranslationsDialog />", () => {
           type: TEXT_FIELD,
           display_name: { en: "Field 1" }
         }),
-        currentValues: {},
+        currentValues: {
+          field_1: { display_name: { en: "Field 1" } }
+        },
         mode: "edit"
       },
       {},
@@ -42,6 +44,7 @@ describe("<FieldTranslationsDialog />", () => {
           display_name: { en: "Field 1" }
         }),
         currentValues: {},
+        open: true,
         mode: "edit"
       },
       {},
@@ -76,14 +79,22 @@ describe("<FieldTranslationsDialog />", () => {
           type: SUBFORM_SECTION,
           display_name: { en: "Field 1" }
         }),
-        subform: fromJS({
-          name: { en: "Subform 1" }
-        }),
         currentValues: {},
-        mode: "edit"
+        mode: "edit",
+        open: true
       },
       {},
-      initialState
+      initialState.merge({
+        records: {
+          admin: {
+            forms: {
+              selectedSubform: fromJS({
+                name: { en: "Subform 1" }
+              })
+            }
+          }
+        }
+      })
     );
 
     const expectedFieldNames = [
@@ -91,11 +102,7 @@ describe("<FieldTranslationsDialog />", () => {
       "subform_section.name.fr",
       "subform_section.name.ar",
       "subform_section.description.fr",
-      "subform_section.description.ar",
-      "field_1.help_text.fr",
-      "field_1.help_text.ar",
-      "field_1.guiding_questions.fr",
-      "field_1.guiding_questions.ar"
+      "subform_section.description.ar"
     ];
 
     const fieldNames = component
@@ -103,7 +110,7 @@ describe("<FieldTranslationsDialog />", () => {
       .find(FormSectionField)
       .map(field => field.props().field.name);
 
-    expect(component.find(FieldTranslationsDialog).find(FormSectionField)).to.have.lengthOf(9);
+    expect(component.find(FieldTranslationsDialog).find(FormSectionField)).to.have.lengthOf(5);
     expect(fieldNames).to.deep.equal(expectedFieldNames);
   });
 
@@ -116,7 +123,8 @@ describe("<FieldTranslationsDialog />", () => {
           type: TICK_FIELD
         }),
         currentValues: {},
-        mode: "edit"
+        mode: "edit",
+        open: true
       },
       {},
       initialState
@@ -156,7 +164,8 @@ describe("<FieldTranslationsDialog />", () => {
           }
         }),
         currentValues: {},
-        mode: "edit"
+        mode: "edit",
+        open: true
       },
       {},
       initialState

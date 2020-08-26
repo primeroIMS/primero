@@ -27,6 +27,7 @@ Component.displayName = NAME;
 
 Component.defaultProps = {
   outlined: false,
+  rest: {},
   type: ACTION_BUTTON_TYPES.default
 };
 

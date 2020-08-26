@@ -46,6 +46,7 @@ describe("User - Reducers", () => {
       isAuthenticated: false,
       modules: ["primeromodule-cp", "primeromodule-gbv"],
       permittedForms: ["record_owner", "client_feedback"],
+      locale: "en",
       permissions: mapListToObject(
         [
           {
@@ -99,6 +100,7 @@ describe("User - Reducers", () => {
       role_unique_id: 19,
       module_unique_ids: ["primeromodule-cp", "primeromodule-gbv"],
       permitted_form_unique_ids: ["record_owner", "client_feedback"],
+      locale: "en",
       agency: 1,
       permissions: {
         list: [
