@@ -1,12 +1,11 @@
-/* eslint-disable react/no-multi-comp */
-/* eslint-disable react/display-name */
+/* eslint-disable react/no-multi-comp, react/display-name */
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { useFormContext } from "react-hook-form";
 import clsx from "clsx";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { makeStyles } from "@material-ui/core";
+import isEqual from "lodash/isEqual";
 
 import { compare } from "../../../../../../libs";
 import { useI18n } from "../../../../../i18n";
@@ -20,8 +19,15 @@ import CustomFieldDialog from "../custom-field-dialog";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ subformField }) => {
-  const methods = useFormContext();
+const Component = ({
+  formContextFields,
+  getValues,
+  register,
+  setValue,
+  subformField,
+  subformSortBy,
+  subformGroupBy
+}) => {
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
   const fields = useSelector(state => getSelectedFields(state, isNested), compare);
@@ -33,11 +39,18 @@ const Component = ({ subformField }) => {
     fields.forEach(field => {
       const name = field.get("name");
 
-      if (!methods.control.fields[`${fieldsAttribute}.${name}.order`]) {
-        methods.register({ name: `${fieldsAttribute}.${name}.order` });
+      if (!formContextFields[`${fieldsAttribute}.${name}.order`]) {
+        register({ name: `${fieldsAttribute}.${name}.order` });
       }
 
-      methods.setValue(`${fieldsAttribute}.${name}.order`, field.get("order"));
+      setValue(`${fieldsAttribute}.${name}.order`, field.get("order"));
+
+      i18n.applicationLocales.forEach(locale => {
+        const localeId = locale.get("id");
+        const localizedDisplayName = field.getIn(["display_name", localeId], "");
+
+        setValue(`${fieldsAttribute}.${name}.display_name.${localeId}`, localizedDisplayName);
+      });
     });
   }, [fields]);
 
@@ -50,7 +63,16 @@ const Component = ({ subformField }) => {
       const id = field.get("id") || field.get("subform_section_temp_id");
 
       return (
-        <FieldListItem subformField={subformField} field={field} index={index} key={`${field.get("name")}_${id}`} />
+        <FieldListItem
+          getValues={getValues}
+          setValue={setValue}
+          subformField={subformField}
+          field={field}
+          index={index}
+          subformSortBy={subformSortBy}
+          subformGroupBy={subformGroupBy}
+          key={`${field.get("name")}_${id}`}
+        />
       );
     });
 
@@ -90,8 +112,30 @@ const Component = ({ subformField }) => {
 
 Component.displayName = NAME;
 
+Component.whyDidYouRender = true;
+
 Component.propTypes = {
-  subformField: PropTypes.object
+  formContextFields: PropTypes.object.isRequired,
+  getValues: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  setValue: PropTypes.func.isRequired,
+  subformField: PropTypes.object,
+  subformGroupBy: PropTypes.string,
+  subformSortBy: PropTypes.string
 };
 
-export default Component;
+export default React.memo(Component, (prev, next) => {
+  const equalProps =
+    isEqual(prev.formContextFields, next.formContextFields) &&
+    prev.getValues === next.getValues &&
+    prev.register === next.register &&
+    prev.setValue === next.setValue &&
+    prev.subformSortBy === next.subformSortBy &&
+    prev.subformGroupBy === next.subformGroupBy;
+
+  if (prev.subformField) {
+    return equalProps && prev.subformField.equals(next.subformField);
+  }
+
+  return equalProps;
+});
