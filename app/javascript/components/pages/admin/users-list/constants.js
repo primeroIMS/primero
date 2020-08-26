@@ -6,4 +6,5 @@ export const LIST_HEADERS = [
 ];
 
 export const AGENCY = "agency";
+export const USER_GROUP = "userGroup";
 export const DISABLED = "disabled";

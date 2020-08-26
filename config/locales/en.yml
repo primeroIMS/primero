@@ -286,6 +286,7 @@ en:
       3month_inactivity: "For 3+ months"
       referred_cases: "Cases referred to me"
       agency: "Agency"
+      user_group: "User Group"
       status: "Status"
       age_range: "Age Range"
       sex: "Sex"

@@ -19,9 +19,10 @@ import { fetchAgencies } from "../agencies-list/action-creators";
 import { getEnabledAgencies } from "../../../application/selectors";
 import { getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
+import { fetchUserGroups } from "../user-groups-list/action-creators";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
-import { LIST_HEADERS, AGENCY, DISABLED } from "./constants";
+import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP } from "./constants";
 import { buildUsersQuery, getFilters } from "./utils";
 
 const Container = () => {
@@ -35,6 +36,7 @@ const Container = () => {
     ...rest
   }));
   const filterAgencies = useSelector(state => getEnabledAgencies(state));
+  const filterUserGroups = useSelector(state => state.get("records").get("user_groups").get("data"));
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultMetadata = metadata?.toJS();
   const defaultFilterFields = {
@@ -47,6 +49,7 @@ const Container = () => {
 
   useEffect(() => {
     dispatch(fetchAgencies({ options: { per: 999 } }));
+    dispatch(fetchUserGroups());
   }, []);
 
   useMetadata(recordType, metadata, fetchUsers, "data");
@@ -75,8 +78,8 @@ const Container = () => {
   );
 
   const filterProps = {
-    clearFields: [AGENCY, DISABLED],
-    filters: getFilters(i18n, filterAgencies),
+    clearFields: [AGENCY, DISABLED, USER_GROUP],
+    filters: getFilters(i18n, filterAgencies, filterUserGroups),
     defaultFilters,
     onSubmit: data => {
       const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
