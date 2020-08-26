@@ -1183,6 +1183,11 @@ en:
 
   configurations:
     label: "Configurations"
+    label_new: "New Configuration"
+    label_edit: "Edit Configuration"
+    name: "Name"
+    description: "Description"
+    explanation: "Clicking Save will create a record of all current configuration settings (example: Roles, Agencies, Forms) at this point in time. After you save, you can push these changes to another instance of Primero. If, in the future, you make configuration changes which you wish to undo, you can apply this Configuration record to restore all of the configuration changes you had at this point in time."
     columns:
       name: "Name"
       version: "Version"
