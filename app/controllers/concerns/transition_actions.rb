@@ -174,6 +174,15 @@ module TransitionActions
             transfer_record.reassigned_tranferred_on = DateTime.now
           end
           if transfer_record.save
+            if is_reassign? && transfer_record.incident_links.present?
+              transfer_record.incident_links.each do |incident|
+                incident_db = Incident.get(incident["incident_id"])
+                incident_db.previously_owned_by = incident_db.owned_by
+                incident_db.owned_by = @new_user.user_name
+                incident_db.owned_by_full_name = @new_user.full_name
+                incident_db.save
+              end
+            end
             transfer_record.send_transition_email(transition_type, request.base_url) if @system_settings.try(:notification_email_enabled)
           else
             failed_count += 1
