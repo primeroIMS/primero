@@ -137,7 +137,6 @@ class Field < ApplicationRecord
   # TODO: Pavel, Is it necessary?
   # TODO: Review this method due the values structure changed.
   def valid_option_strings_text_translations?
-    default_ids = self.option_strings_text(Primero::Application::BASE_LANGUAGE).try(:map){|op| op['id']}
     Primero::Application::locales.each do |locale|
       next if locale == Primero::Application::BASE_LANGUAGE
       options = self.option_strings_text(locale)

@@ -11,8 +11,8 @@ class Lookup < ApplicationRecord
 
   validate :validate_name_in_english
   validate :validate_values_keys_match
+  validate :validate_values_id
 
-  before_validation :generate_values_keys
   before_validation :sync_lookup_values
   before_create :generate_unique_id
   before_destroy :check_is_being_used
@@ -169,6 +169,11 @@ class Lookup < ApplicationRecord
     true
   end
 
+  def validate_values_id
+    return if lookup_values_i18n.blank? || lookup_values_i18n.all? { |h| h['id'].present?}
+    errors.add(:lookup_values, I18n.t('errors.models.lookup.values_ids_blank'))
+  end
+
   def being_used?
     Field.where(option_strings_source: "lookup #{unique_id}").size.positive?
   end
@@ -216,31 +221,6 @@ class Lookup < ApplicationRecord
 
     errors.add(:name, I18n.t('errors.models.lookup.name_present'))
     false
-  end
-
-  # TODO: Pavel review. what are those TODO in this method? same case line 14
-  def generate_values_keys
-    return unless lookup_values.present?
-
-    lookup_values.each_with_index do |option, i|
-      new_option_id = nil
-      option_id_updated = false
-      if option.is_a?(Hash)
-        if option['id'].blank? && option['display_text'].present?
-          # TODO: examine if this is proper
-          # TODO: Using a random number at the end screws things up when exporting the lookup.yml
-          #       to load into Transifex
-          new_option_id = option['display_text'].parameterize.underscore + '_' + rand.to_s[2..6]
-          option_id_updated = true
-        end
-      end
-      next unless option_id_updated
-
-      Primero::Application.locales.each do |locale|
-        lv = send("lookup_values_#{locale}")
-        lv[i]['id'] = new_option_id if lv.present?
-      end
-    end
   end
 
   # TODO: Pavel review. Review if this is a validation
