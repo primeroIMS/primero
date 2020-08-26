@@ -250,6 +250,7 @@ en:
     add_another_option: "Add another option"
     clear_default: "Clear default"
     select: "Select"
+    menu: "Menu"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"

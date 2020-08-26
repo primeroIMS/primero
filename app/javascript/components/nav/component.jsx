@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 
+import { useI18n } from "../i18n";
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
 import { useThemeHelper } from "../../libs";
@@ -24,6 +25,7 @@ const Nav = () => {
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const i18n = useI18n();
 
   useEffect(() => {
     dispatch(fetchAlerts());
@@ -76,7 +78,7 @@ const Nav = () => {
       <div className={css.drawerHeaderContainer}>
         <Hidden mdUp implementation="css">
           <div className={css.drawerHeader}>
-            <IconButton aria-label="Menu" onClick={handleToggleDrawer(false)}>
+            <IconButton aria-label={i18n.t("buttons.menu")} onClick={handleToggleDrawer(false)}>
               <CloseIcon />
             </IconButton>
           </div>
