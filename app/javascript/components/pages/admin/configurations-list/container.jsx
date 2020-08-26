@@ -7,7 +7,7 @@ import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
-import { usePermissions, getListHeaders } from "../../../user";
+import { usePermissions } from "../../../user";
 import NAMESPACE from "../namespace";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { getMetadata } from "../../../record-list";
