@@ -8,6 +8,7 @@ export const FieldRecord = Record({
   visible: null,
   display_name: Map({}),
   subform_section_id: null,
+  subform_section_temp_id: null,
   help_text: Map({}),
   multi_select: null,
   option_strings_source: null,
@@ -38,11 +39,14 @@ export const FieldRecord = Record({
   mobile_visible: false,
   on_collapsed_subform: false,
   order: null,
-  disableClearable: false
+  disableClearable: false,
+  onBlur: null,
+  subform_section_unique_id: null
 });
 
 export const FormSectionRecord = Record({
   id: "",
+  temp_id: null,
   description: Map({}),
   unique_id: "",
   name: Map({}),

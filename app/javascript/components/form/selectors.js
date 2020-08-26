@@ -101,3 +101,8 @@ export const getOptions = (state, optionStringsSource, i18n, options) => {
 
   return fromJS([]);
 };
+
+export const getLookupByUniqueId = (state, lookupUniqueId) =>
+  state
+    .getIn(["forms", "options", "lookups", "data"], fromJS([]))
+    .find(lookup => lookup.get("unique_id") === lookupUniqueId);

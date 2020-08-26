@@ -41,7 +41,8 @@ describe("<SubformField />", () => {
             en: "Section 1"
           }
         },
-        mode: { isShow: true }
+        mode: { isShow: true },
+        formSection: {}
       },
       {},
       [],

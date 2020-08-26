@@ -13,6 +13,7 @@ describe("<FormsBuilder /> - Selectors", () => {
       "getSelectedForm",
       "getSelectedSubform",
       "getSelectedSubforms",
+      "getSelectedSubformField",
       "getServerErrors",
       "getUpdatedFormIds"
     ].forEach(property => {
