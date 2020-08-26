@@ -80,6 +80,7 @@ export const RESOURCES = {
   agencies: "agencies",
   audit_logs: "audit_logs",
   cases: "cases",
+  configurations: "configurations",
   contact_information: "contact_information",
   dashboards: "dashboards",
   incidents: "incidents",

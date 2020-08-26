@@ -1181,6 +1181,15 @@ en:
     messages:
       confirmation: "Are you sure you want to delete this user group? Deletion can not be undone. Click OK to delete the user group."
 
+  configurations:
+    label: "Configurations"
+    columns:
+      name: "Name"
+      version: "Version"
+      description: "Description"
+      date_created: "Date Created"
+      last_applied_on: "Last Applied On"
+
   user_group:
     create: "Create User Group"
     edit: "Edit User Group"
