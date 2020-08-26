@@ -13,7 +13,8 @@ import {
   partitionObject,
   processAttachments,
   defaultErrorCallback,
-  startSignout
+  startSignout,
+  processSubforms
 } from "./utils";
 
 const defaultFetchOptions = {
@@ -102,70 +103,6 @@ const fetchParamsBuilder = (api, options, controller) => {
   const fetchPath = buildPath(path, options, params, external);
 
   return { fetchOptions, fetchPath };
-};
-
-const fetchMultiPayload = (action, store, options) => {
-  const controller = new AbortController();
-
-  setTimeout(() => {
-    controller.abort();
-  }, FETCH_TIMEOUT);
-
-  const { type, finishedCallback } = action;
-
-  const fetchParams = action.api.map(apiParams => fetchParamsBuilder(apiParams, options, controller));
-
-  const fetch = async () => {
-    fetchStatus({ store, type }, "STARTED", true);
-    const responses = await Promise.allSettled(
-      fetchParams.map(fetchParam =>
-        window
-          .fetch(fetchParam.fetchPath, fetchParam.fetchOptions)
-          .then(response =>
-            response
-              .json()
-              .then(json => ({
-                path: fetchParam.fetchPath,
-                status: response.status,
-                ok: response.ok,
-                json
-              }))
-              .catch(error => ({
-                path: fetchParam.fetchPath,
-                status: response.status,
-                ok: response.ok,
-                error
-              }))
-          )
-          .catch(error => ({
-            path: fetchParam.fetchPath,
-            ok: false,
-            error: error?.message
-          }))
-      )
-    );
-
-    const results = responses.map(result => result.value);
-
-    if (results.find(result => result && result.status === 401)) {
-      fetchStatus({ store, type }, "FAILURE", results);
-
-      startSignout(store, attemptSignout, signOut);
-    } else {
-      store.dispatch({
-        type: `${type}_SUCCESS`,
-        payload: responses.map(result => result.value)
-      });
-
-      fetchStatus({ store, type }, "FINISHED", false);
-
-      if (finishedCallback) {
-        store.dispatch(finishedCallback);
-      }
-    }
-  };
-
-  return fetch();
 };
 
 const fetchSinglePayload = (action, store, options) => {
@@ -278,6 +215,91 @@ const fetchSinglePayload = (action, store, options) => {
         handleRestCallback(store, failureCallback, {}, {});
       } else {
         defaultErrorCallback(store, {}, {});
+      }
+    }
+  };
+
+  return fetch();
+};
+
+const fetchMultiPayload = (action, store, options) => {
+  const controller = new AbortController();
+
+  setTimeout(() => {
+    controller.abort();
+  }, FETCH_TIMEOUT);
+
+  const { type, finishedCallback, finishedCallbackSubforms } = action;
+
+  const fetchParams = action.api.map(apiParams => fetchParamsBuilder(apiParams, options, controller));
+
+  const fetch = async () => {
+    fetchStatus({ store, type }, "STARTED", true);
+    const responses = await Promise.allSettled(
+      fetchParams.map(fetchParam =>
+        window
+          .fetch(fetchParam.fetchPath, fetchParam.fetchOptions)
+          .then(response =>
+            response
+              .json()
+              .then(json => {
+                let newJson = json;
+
+                if (!response.ok) {
+                  newJson = {
+                    ...newJson,
+                    errors: newJson.errors.map(error =>
+                      error.detail
+                        ? { ...error, value: JSON.parse(fetchParam.fetchOptions.body).data[error.detail] }
+                        : error
+                    )
+                  };
+                }
+
+                return {
+                  path: fetchParam.fetchPath,
+                  status: response.status,
+                  ok: response.ok,
+                  json: newJson
+                };
+              })
+              .catch(error => ({
+                path: fetchParam.fetchPath,
+                status: response.status,
+                ok: response.ok,
+                error
+              }))
+          )
+          .catch(error => ({
+            path: fetchParam.fetchPath,
+            ok: false,
+            error: error?.message
+          }))
+      )
+    );
+
+    const results = responses.map(result => result.value);
+
+    if (results.find(result => result && result.status === 401)) {
+      fetchStatus({ store, type }, "FAILURE", results);
+
+      startSignout(store, attemptSignout, signOut);
+    } else {
+      store.dispatch({
+        type: `${type}_SUCCESS`,
+        payload: responses.map(result => result.value)
+      });
+
+      fetchStatus({ store, type }, "FINISHED", false);
+
+      if (finishedCallback) {
+        store.dispatch(finishedCallback);
+      }
+
+      if (finishedCallbackSubforms) {
+        const subformsCallback = processSubforms(finishedCallbackSubforms, responses);
+
+        fetchSinglePayload(subformsCallback, store, options);
       }
     }
   };

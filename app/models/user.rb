@@ -248,7 +248,7 @@ class User < ApplicationRecord
   end
 
   def reporting_location_config
-    role.try(:reporting_location_config)
+    role&.reporting_location_config
   end
 
   def last_login

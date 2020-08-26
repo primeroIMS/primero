@@ -64,7 +64,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     tooltip,
     numeric,
     onChange,
-    disableClearable
+    disableClearable,
+    onBlur
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -121,7 +122,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     tooltip,
     numeric,
     onChange,
-    disableClearable
+    disableClearable,
+    onBlur
   };
 
   const Field = (fieldType => {

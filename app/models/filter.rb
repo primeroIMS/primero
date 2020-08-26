@@ -236,6 +236,7 @@ class Filter < ValueObject
       reporting_location_config = role.try(:reporting_location_config) ||
                                   SystemSettings.current.reporting_location_config
       reporting_location_field = reporting_location_config.try(:field_key) ||  ReportingLocation::DEFAULT_FIELD_KEY
+      # TODO: fix label stuff... because of []
       reporting_location_label = reporting_location_config.try(:label_key) || ReportingLocation::DEFAULT_LABEL_KEY
       admin_level = reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
       permitted_form_ids = role.permitted_forms('case', true).pluck(:unique_id)

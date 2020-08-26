@@ -1,9 +1,9 @@
-import { FieldRecord, FormSectionRecord, TICK_FIELD, TEXT_FIELD, SELECT_FIELD } from "../../../../form";
+import { FieldRecord, FormSectionRecord, TICK_FIELD, TEXT_FIELD, SELECT_FIELD, NUMERIC_FIELD } from "../../../../form";
 import { FIELD_NAMES } from "../constants";
 
-import { buildPermissionOptions } from "./utils";
+import { buildPermissionOptions, buildReportingLocationTooltip } from "./utils";
 
-export default (groupPermissions, i18n) => {
+export default (groupPermissions, i18n, adminLevelMap) => {
   return FormSectionRecord({
     unique_id: "roles",
     fields: [
@@ -54,10 +54,9 @@ export default (groupPermissions, i18n) => {
       }),
       FieldRecord({
         display_name: i18n.t("permissions.resource.reporting_location_level.label"),
-        tooltip: i18n.t("permissions.resource.reporting_location_level.explanation"),
+        tooltip: buildReportingLocationTooltip(i18n, adminLevelMap),
         name: FIELD_NAMES.reportingLocationLevel,
-        type: SELECT_FIELD,
-        option_strings_source: "lookup-reporting-location-type"
+        type: NUMERIC_FIELD
       })
     ]
   });

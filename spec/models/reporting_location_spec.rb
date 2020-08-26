@@ -2,17 +2,11 @@
 
 require 'rails_helper'
 describe ReportingLocation do
-  before :all do
-    Lookup.destroy_all
-    create(:lookup, id: 'lookup-location-type',
-                    lookup_values: [{ id: 'district', display_text: 'district' },
-                                    { id: 'country', display_text: 'country' }])
-  end
-
   describe 'Validation' do
     context 'with a valid label_key' do
       before :each do
-        @reporting_location = ReportingLocation.new(field_key: 'test', label_key: 'district')
+        @reporting_location = ReportingLocation.new(field_key: 'test', admin_level: 2,
+                                                    admin_level_map: { 1 => ['province'], 2 => ['district'] })
       end
       context 'and a valid admin_level' do
         before :each do
@@ -34,10 +28,6 @@ describe ReportingLocation do
         end
       end
     end
-  end
-
-  describe '.map_reporting_location_level_to_admin_level' do
-    # TODO
   end
 
   describe '.reporting_location_levels' do

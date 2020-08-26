@@ -10,14 +10,26 @@ import {
   SUBFORM_SECTION
 } from "../../../../../form";
 
-const subformForms = ({ i18n, selectedLocaleId, cssHideField, cssTranslationField, locales, subform }) => {
+const subformForms = ({
+  i18n,
+  selectedLocaleId,
+  cssHideField,
+  cssTranslationField,
+  locales,
+  currentValues,
+  subform
+}) => {
+  const subformValues = currentValues.subform_section ? fromJS(currentValues.subform_section) : subform;
+  const subformName = subformValues.getIn(["name", "en"], "");
+  const subformDescription = subformValues.getIn(["description", "en"], "");
+
   return [
     FormSectionRecord({
       unique_id: `subform_name`,
       name: i18n.t("form_section.name"),
       fields: locales.map(locale =>
         FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${subform.getIn(["name", "en"], "")}`,
+          display_name: `${i18n.t("home.en")}: ${subformName}`,
           name: `subform_section.name.${locale.get("id")}`,
           type: TEXT_FIELD,
           inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
@@ -29,7 +41,7 @@ const subformForms = ({ i18n, selectedLocaleId, cssHideField, cssTranslationFiel
       name: i18n.t("forms.form_description"),
       fields: locales.map(locale =>
         FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${subform.getIn(["description", "en"], "")}`,
+          display_name: `${i18n.t("home.en")}: ${subformDescription}`,
           name: `subform_section.description.${locale.get("id")}`,
           type: TEXT_FIELD,
           inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
@@ -57,16 +69,48 @@ export const translationsFieldForm = ({
   cssTranslationField,
   locales,
   field,
-  subform
+  subform,
+  currentValues
 }) => {
-  const displayNameForm = [
+  const {
+    display_name: displayName,
+    help_text: helpText,
+    guiding_questions: guidingQuestions,
+    tick_box_label: tickBoxLabel
+  } = currentValues[field.get("name")] || {};
+
+  const fieldForms = [
     FormSectionRecord({
       unique_id: `form_display_name`,
       name: i18n.t("fields.display_name"),
       fields: locales.map(locale =>
         FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${field.getIn(["display_name", "en"], "")}`,
+          display_name: `${i18n.t("home.en")}: ${displayName?.en || ""}`,
           name: `${field.get("name")}.display_name.${locale.get("id")}`,
+          type: TEXT_FIELD,
+          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
+        })
+      )
+    }),
+    FormSectionRecord({
+      unique_id: `form_help_text`,
+      name: i18n.t("fields.help_text"),
+      fields: locales.map(locale =>
+        FieldRecord({
+          display_name: `${i18n.t("home.en")}: ${helpText?.en || ""}`,
+          name: `${field.get("name")}.help_text.${locale.get("id")}`,
+          type: TEXT_FIELD,
+          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
+        })
+      )
+    }),
+    FormSectionRecord({
+      unique_id: `form_guidance`,
+      name: i18n.t("fields.guidance"),
+      fields: locales.map(locale =>
+        FieldRecord({
+          display_name: `${i18n.t("home.en")}: ${guidingQuestions?.en || ""}`,
+          name: `${field.get("name")}.guiding_questions.${locale.get("id")}`,
           type: TEXT_FIELD,
           inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
         })
@@ -80,7 +124,7 @@ export const translationsFieldForm = ({
       name: i18n.t("fields.tick_box_label"),
       fields: locales.map(locale =>
         FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${field.getIn(["tick_box_label", "en"], "")}`,
+          display_name: `${i18n.t("home.en")}: ${tickBoxLabel?.en || ""}`,
           name: `${field.get("name")}.tick_box_label.${locale.get("id")}`,
           type: TEXT_FIELD,
           inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
@@ -104,40 +148,17 @@ export const translationsFieldForm = ({
         })
       ]
     }),
-    ...(field.get("type") === SUBFORM_SECTION
+    ...(field.get("type") === SUBFORM_SECTION && subform?.toSeq()?.size
       ? subformForms({
           i18n,
           selectedLocaleId,
           cssHideField,
           cssTranslationField,
           locales,
-          subform
+          subform,
+          currentValues
         })
-      : displayNameForm),
-    FormSectionRecord({
-      unique_id: `form_help_text`,
-      name: i18n.t("fields.help_text"),
-      fields: locales.map(locale =>
-        FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${field.getIn(["help_text", "en"], "")}`,
-          name: `${field.get("name")}.help_text.${locale.get("id")}`,
-          type: TEXT_FIELD,
-          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
-        })
-      )
-    }),
-    FormSectionRecord({
-      unique_id: `form_guidance`,
-      name: i18n.t("fields.guidance"),
-      fields: locales.map(locale =>
-        FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${field.getIn(["guiding_questions", "en"], "")}`,
-          name: `${field.get("name")}.guiding_questions.${locale.get("id")}`,
-          type: TEXT_FIELD,
-          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
-        })
-      )
-    }),
+      : fieldForms),
     ...(field.get("type") === TICK_FIELD ? tickBoxForm : [])
   ];
 

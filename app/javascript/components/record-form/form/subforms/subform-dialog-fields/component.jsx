@@ -7,7 +7,7 @@ import { fieldsToRender } from "../subform-field-array/utils";
 
 import { NAME } from "./constants";
 
-const Component = ({ mode, index, filterFunc, filterState, setFilterState, field }) => {
+const Component = ({ mode, index, filterFunc, filterState, setFilterState, field, formSection }) => {
   const { subform_section_configuration: subformSectionConfiguration } = field;
 
   const { fields: listFieldsToRender } = subformSectionConfiguration || {};
@@ -35,7 +35,8 @@ const Component = ({ mode, index, filterFunc, filterState, setFilterState, field
               setFilterState
             }
           : {},
-      disabled: subformSectionField.disabled || field.disabled
+      disabled: subformSectionField.disabled || field.disabled,
+      formSection
     };
 
     return (
@@ -56,7 +57,8 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   filterFunc: PropTypes.func,
   filterState: PropTypes.object,
-  index: PropTypes.number.isRequired,
+  formSection: PropTypes.object.isRequired,
+  index: PropTypes.number,
   mode: PropTypes.object.isRequired,
   setFilterState: PropTypes.func
 };

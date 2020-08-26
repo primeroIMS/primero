@@ -3,35 +3,27 @@
 # Model for the Reporting Location configuration
 class ReportingLocation < ValueObject
   DEFAULT_FIELD_KEY = 'owned_by_location'
-  DEFAULT_LABEL_KEY = 'district'
   DEFAULT_ADMIN_LEVEL = 2
 
-  attr_accessor :field_key, :label_key, :admin_level, :hierarchy_filter, :admin_level_map
+  attr_accessor :field_key, :admin_level, :hierarchy_filter, :admin_level_map
 
   def initialize(args = {})
     super(args)
-    self.admin_level ||= 0
+    self.admin_level ||= DEFAULT_ADMIN_LEVEL
     self.hierarchy_filter ||= []
-    self.admin_level_map ||= { 'country' => 0, 'province' => 1, 'district' => 2 }
+    self.admin_level_map ||= { '1' => ['province'], '2' => ['district'] }
   end
 
-  class << self
-    def reporting_location_levels
-      Lookup.values('lookup-reporting-location-type').map { |l| l['id'] }
-    end
+  def levels
+    admin_level_map.keys.map(&:to_i)
   end
 
-  def default_label_key
-    self.label_key ||= ReportingLocation::DEFAULT_LABEL_KEY
+  def label_key
+    # TODO: do we need to change anything for []
+    admin_level_map[admin_level.to_s]
   end
 
   def valid_admin_level?
-    Location::ADMIN_LEVELS.include?(self.admin_level) ? true : false
-  end
-
-  def map_reporting_location_level_to_admin_level(reporting_location_level)
-    return nil if reporting_location_level.blank?
-
-    admin_level_map[reporting_location_level]
+    levels.include?(admin_level) ? true : false
   end
 end

@@ -61,7 +61,6 @@ describe("Application - Reducers", () => {
       baseLanguage: "en",
       primeroVersion: "2.0.0.1",
       reportingLocationConfig: {
-        label_key: "district",
         admin_level: 2,
         field_key: "owned_by_location"
       },
@@ -136,7 +135,6 @@ describe("Application - Reducers", () => {
         base_language: "en",
         primero_version: "2.0.0.1",
         reporting_location_config: {
-          label_key: "district",
           admin_level: 2,
           field_key: "owned_by_location"
         },

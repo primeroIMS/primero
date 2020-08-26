@@ -26,8 +26,11 @@ class Role < ApplicationRecord
   scope :by_transfer, -> { where(transfer: true) }
 
   def validate_reporting_location_level
-    reporting_location_levels = ReportingLocation.reporting_location_levels
-    return true if reporting_location_level.blank? ||
+    @system_settings ||= SystemSettings.current
+    return true if @system_settings.blank?
+
+    reporting_location_levels = @system_settings&.reporting_location_config.try(:levels)
+    return true if reporting_location_level.nil? ||
                    reporting_location_levels.blank? ||
                    reporting_location_levels.include?(reporting_location_level)
 
@@ -156,14 +159,12 @@ class Role < ApplicationRecord
   # If the Role has a secondary reporting location (indicated by reporting_location_level),
   # override the reporting location from SystemSettings
   def secondary_reporting_location(ss_reporting_location)
-    return ss_reporting_location if reporting_location_level.blank?
+    return ss_reporting_location if reporting_location_level.nil?
 
-    admin_level = ss_reporting_location.map_reporting_location_level_to_admin_level(reporting_location_level)
-    return ss_reporting_location if admin_level == ss_reporting_location.admin_level
+    return ss_reporting_location if reporting_location_level == ss_reporting_location.admin_level
 
-    reporting_location = ReportingLocation.new(admin_level: admin_level,
-                                               label_key: reporting_location_level,
-                                               field_key: ss_reporting_location.field_key,
+    reporting_location = ReportingLocation.new(field_key: ss_reporting_location.field_key,
+                                               admin_level: reporting_location_level,
                                                hierarchy_filter: ss_reporting_location.hierarchy_filter,
                                                admin_level_map: ss_reporting_location.admin_level_map)
     reporting_location
