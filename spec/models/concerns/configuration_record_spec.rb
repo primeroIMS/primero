@@ -22,12 +22,10 @@ describe ConfigurationRecord do
       {
         'unique_id' => 'lookup-ethnicity',
         'name_i18n' => { 'en' => 'Ethnicity' },
-        'lookup_values_i18n' => {
-          'en' => [
-            { 'id' => 'ethnicity1', 'display_text' => 'Ethnicity1' },
-            { 'id' => 'ethnicity2', 'display_text' => 'Ethnicity2' }
-          ]
-        },
+        'lookup_values_i18n' => [
+          { 'id' => 'ethnicity1', 'display_text' => { 'en' => 'Ethnicity1' } },
+          { 'id' => 'ethnicity2', 'display_text' => { 'en' => 'Ethnicity2' } }
+        ],
         'locked' => false
       }
     end

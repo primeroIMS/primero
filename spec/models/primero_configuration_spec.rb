@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe PrimeroConfiguration do
   before(:each) do
-    clean_data(FormSection, Lookup, Agency, Role, UserGroup, Report, ContactInformation, PrimeroModule)
+    clean_data(FormSection, Field, Lookup, Agency, Role, UserGroup, Report, ContactInformation, PrimeroModule)
     @form1 = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
     @lookup1 = Lookup.create!(unique_id: 'lookup1', name: 'lookup1')
     @agency1 = Agency.create!(name: 'irc', agency_code: '12345')
@@ -38,20 +38,21 @@ describe PrimeroConfiguration do
   describe '#apply!' do
     before(:each) do
       clean_data(PrimeroConfiguration)
-      @current_configuration = PrimeroConfiguration.current
-      @current_configuration.save!
-      @form1.update_attributes!(name: 'B')
-      @role1.update_attributes!(name: 'Role2')
-      @form2 = FormSection.create!(unique_id: 'X', name: 'X', parent_form: 'case', form_group_id: 'm')
-      @lookup2 = Lookup.create!(unique_id: 'lookupX', name: 'lookupX')
-      @report2 = Report.create!(
-        record_type: 'case', name_en: 'Test2', unique_id: 'report-test2',
-        aggregate_by: %w[a b], module_id: @module1.unique_id
-      )
-      @current_configuration.apply!
     end
 
     it 'resets the configuration to the saved state' do
+      current_configuration = PrimeroConfiguration.current
+      current_configuration.save!
+      @form1.update_attributes!(name: 'B')
+      @role1.update_attributes!(name: 'Role2')
+      FormSection.create!(unique_id: 'X', name: 'X', parent_form: 'case', form_group_id: 'm')
+      Lookup.create!(unique_id: 'lookupX', name: 'lookupX')
+      Report.create!(
+        record_type: 'case', name_en: 'Test2', unique_id: 'report-test2',
+        aggregate_by: %w[a b], module_id: @module1.unique_id
+      )
+      current_configuration.apply!
+
       expect(FormSection.count).to eq(1)
       expect(FormSection.first.name).to eq('A')
       expect(Role.count).to eq(1)
@@ -60,6 +61,28 @@ describe PrimeroConfiguration do
       expect(Lookup.first.unique_id).to eq('lookup1')
       expect(Report.count).to eq(1)
       expect(Report.first.unique_id).to eq('report-test')
+    end
+
+    it 'reverts new subforms when applying configuration state' do
+      form2 = FormSection.create!(unique_id: 'X', name: 'X', parent_form: 'case', form_group_id: 'm')
+      current_configuration = PrimeroConfiguration.current
+      current_configuration.save!
+
+      subform = FormSection.create!(unique_id: 'Y', name: 'Y - Subform', parent_form: 'case', form_group_id: 'm')
+      field_on_subform = Field.create!(
+        name: 'test2', type: Field::TEXT_FIELD, form_section_id: subform.id, display_name: 'test',
+        collapsed_field_for_subform_section_id: subform.id
+      )
+      subform_field = Field.create!(
+        name: 'test3', type: Field::SUBFORM, form_section_id: form2.id,
+        subform_section_id: subform.id, display_name: 'test'
+      )
+      current_configuration.apply!
+
+      expect(FormSection.count).to eq(2)
+      form2.reload
+      expect(form2.fields.count).to eq(0)
+      expect(Field.count).to eq(0)
     end
   end
 end
