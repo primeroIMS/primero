@@ -112,6 +112,14 @@ describe 'record field model' do
       field.errors.any?.should be_truthy
     end
 
+    it 'should not allow blank id on the option_string_text' do
+      field = Field.new(display_name: 'tesf_field')
+      field.option_strings_text = [{ id: nil, display_text: { en: 'C lot (4 pts)' } }]
+
+      expect(field.valid?).to be false
+      expect(field.errors[:option_strings_text].first).to eq('Option Strings Text option id is blank')
+    end
+
     describe 'select box option strings' do
       before :each do
         @field = Field.new(name: 'test', display_name: 'test', type: Field::SELECT_BOX)

@@ -17,11 +17,6 @@ describe Lookup do
     lookup.should be_valid
   end
 
-  it 'should sanitize and check for lookup values' do
-    lookup = Lookup.new(name: 'Name', lookup_values: [{ id: '', display_text: '' }]) #Need empty array, can't use %w here.
-    lookup.should be_valid
-  end
-
   it 'should have a unique id when the name is the same as an existing lookup' do
     lookup1 = create :lookup, name: 'Unique', lookup_values: [
       { id: 'value1', display_text: 'value1' }, { id: 'value2', display_text: 'value2' }
@@ -30,6 +25,13 @@ describe Lookup do
       { id: 'value3', display_text: 'value3' }, { id: 'value4', display_text: 'value4' }
     ]
     lookup1.id.should_not == lookup2.id
+  end
+
+  it 'should not allow blank id on the lookup_values' do
+    lookup = Lookup.new(name: 'test_lookup')
+    lookup.lookup_values = [{ id: nil, display_text: { en: 'example' } }]
+    expect(lookup.valid?).to be false
+    expect(lookup.errors[:lookup_values].first).to eq('A lookup_value id is blank')
   end
 
   it 'should create a valid lookup' do
