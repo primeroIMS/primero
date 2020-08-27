@@ -1,447 +1,175 @@
-module Api::V2
-  class KeyPerformanceIndicatorsController < ApplicationApiController
-    # This is only temporary to avoid double render errors while developing.
-    # I looks like this method wouldn't make sense for the audit log to
-    # write given that 'write_audit_log' required a record type, id etc.
-    # This response doesn't utilize any type of record yet and so cannot
-    # provide this information.
-    skip_after_action :write_audit_log
+# frozen_string_literal: true
 
-    def number_of_cases
-      owned_by_location = SolrUtils.indexed_field_name(Incident, :owned_by_location)
-      created_at = SolrUtils.indexed_field_name(Incident, :created_at)
+# Controller for Key Performance Indicator Metrics
+#
+# Making Changes:
+#
+#   KPIs exist as queries against Solr and Postgres. These queries make use
+#   of Sunspot and ActiveRecord respectively. They reside either:
+#
+#   * in the appropriately named Controller method e.g.
+#     Number of Incidents is found at
+#     KeyPerformanceIndicatorsController#number_of_incidents
+#   * in the associated Concern GBVKeyPerformanceIndicators under the
+#     Searches Module.
+#
+# **This code is currently in flux** as the proper query technolog
+# (Solr, Postgres) is yet to be solidified and the proper architecture is yet
+# to be defined in totality.
+#
+class Api::V2::KeyPerformanceIndicatorsController < ApplicationApiController
+  include Api::V2::Concerns::GBVKeyPerformanceIndicators
 
-      search = Child.search do
-        adjust_solr_params do |params|
-          params.merge!({
-            'facet': true,
-            'facet.range': "{!tag=per_month}#{created_at}",
-            'facet.range.start': from,
-            'facet.range.end': to,
-            'facet.range.gap': '+1MONTH',
-            'facet.pivot': [
-              "{!range=per_month}#{owned_by_location}"
-            ]
-          })
-        end
+  # This is only temporary to avoid double render errors while developing.
+  # I looks like this method wouldn't make sense for the audit log to
+  # write given that 'write_audit_log' required a record type, id etc.
+  # This response doesn't utilize any type of record yet and so cannot
+  # provide this information.
+  skip_after_action :write_audit_log
 
-        paginate page: 1, per_page: 0
-      end
+  def number_of_cases
+    search = Searches.number_of_cases(from, to)
+    @columns = search.columns
+    @data = search.data
+  end
 
-      @columns = search.facet_response.
-        dig('facet_ranges', created_at, 'counts').
-        each_cons(2).
-        map(&:first)
+  def number_of_incidents
+    search = Searches.number_of_incidents(from, to)
+    @columns = search.columns
+    @data = search.data
+  end
 
-      @data = extract_pivot_range_counts(search, owned_by_location, created_at).
-        map do |value, counts|
-          placename = Location.find_by({ location_code: value.upcase }).
-            placename
+  def reporting_delay
+    @data = Searches.reporting_delay(from, to)
+                    .data
+  end
 
-          { reporting_site: placename }.merge(counts)
-        end
+  def assessment_status
+    search = Searches.assessment_status(from, to)
+    @completed_percentage = nan_safe_divide(
+      search.facet(:completed_survivor_assessment).rows.count,
+      search.total
+    )
+  end
+
+  def completed_case_safety_plans
+    search = Searches.completed_case_safety_plans(from, to)
+    @completed_percentage = nan_safe_divide(
+      search.facet(:completed_safety_plan).rows.count,
+      search.total
+    )
+  end
+
+  def completed_case_action_plans
+    search = Searches.completed_case_action_plans(from, to)
+    @completed_percentage = nan_safe_divide(
+      search.facet(:completed_action_plan).rows.first&.count || 0,
+      search.total
+    )
+  end
+
+  def completed_supervisor_approved_case_action_plans
+    search = Searches.completed_supervisor_approved_case_action_plans(from, to)
+    @completed_and_approved_percentage = nan_safe_divide(
+      search.facet_response['facet_queries']['completed_and_approved'],
+      search.total
+    )
+  end
+
+  def services_provided
+    search = Child.search do
+      with :created_at, from..to
+
+      facet :services_provided
     end
 
-    def number_of_incidents
-      owned_by_location = SolrUtils.indexed_field_name(Incident, :owned_by_location)
-      created_at = SolrUtils.indexed_field_name(Incident, :created_at)
-
-      search = Incident.search do
-        adjust_solr_params do |params|
-          params.merge!({
-            'facet': true,
-            'facet.range': "{!tag=per_month}#{created_at}",
-            'facet.range.start': from,
-            'facet.range.end': to,
-            'facet.range.gap': '+1MONTH',
-            'facet.pivot': [
-              "{!range=per_month}#{owned_by_location}"
-            ]
-          })
-        end
-
-        paginate page: 1, per_page: 0
-      end
-
-      @columns = search.facet_response.
-        dig('facet_ranges', created_at, 'counts').
-        each_cons(2).
-        map(&:first)
-
-      @data = extract_pivot_range_counts(search, owned_by_location, created_at).
-        map do |value, counts|
-          placename = Location.find_by({ location_code: value.upcase }).
-            placename
-
-          { reporting_site: placename }.merge(counts)
-        end
+    @services = search.facet(:services_provided).rows.map do |row|
+      {
+        service: Lookup.display_value('lookup-service-type', row.value),
+        count: row.count
+      }
     end
+  end
 
-    def reporting_delay
-      date_of_first_report = SolrUtils.indexed_field_name(Incident, :date_of_first_report)
-      incident_date_derived = SolrUtils.indexed_field_name(Incident, :incident_date_derived)
+  def average_referrals
+    action_plan_referral_statuses = SolrUtils.indexed_field_name(Child, :action_plan_referral_statuses)
+    referred = 'Referred'
 
-      days3 = 3 * 24 * 60 * 60 * 1000
-      days5 = 5 * 24 * 60 * 60 * 1000
-      days14 = 14 * 24 * 60 * 60 * 1000
-      days30 = 30 * 24 * 60 * 60 * 1000
-      months3 = 30.4167 * 24 * 60 * 60 * 1000
+    search = Child.search do
+      with :created_at, from..to
 
-      # For the purposes of this query 1 month is 30.4167 days or
-      # 30.4167 * 24 * 60 * 60 * 1000 milliseconds
-      search = Incident.search do
-        with :date_of_first_report, from..to
-
-        adjust_solr_params do |params|
-          params[:'facet'] = true
-          params[:'facet.query'] = [
-            "{!key=0-3days frange u=#{days3}} ms(#{date_of_first_report},#{incident_date_derived})",
-            "{!key=4-5days frange l=#{days3 + 1} u=#{days5}} ms(#{date_of_first_report},#{incident_date_derived})",
-            "{!key=6-14days frange l=#{days5 + 1} u=#{days14}} ms(#{date_of_first_report},#{incident_date_derived})",
-            "{!key=15-30days frange l=#{days14 + 1} u=#{days30}} ms(#{date_of_first_report},#{incident_date_derived})",
-            "{!key=1-3months frange l=#{days30 + 1} u=#{months3}} ms(#{date_of_first_report},#{incident_date_derived})",
-            "{!key=4months frange l=#{months3 + 1}} ms(#{date_of_first_report},#{incident_date_derived})"
-          ]
-        end
-      end
-
-      @total = search.total
-      @results = search.facet_response['facet_queries']
-    end
-
-    def assessment_status
-      search = Child.search do
-        with :status, Record::STATUS_OPEN
-        with :created_at, from..to
-
-        facet :completed_survivor_assessment, only: true
-      end
-
-      number_of_cases = search.total
-      number_of_cases_with_completed_assessments = search.
-        facet(:completed_survivor_assessment).rows.count
-
-      @completed_percentage = nan_safe_divide(
-        number_of_cases_with_completed_assessments,
-        number_of_cases
-      )
-    end
-    
-    def completed_case_safety_plans
-      search = Child.search do
-        with :status, Record::STATUS_OPEN
-        with :created_at, from..to
-        with :safety_plan_required, true
-
-        facet :completed_safety_plan, only: true
-      end
-
-      requiring_safety_plan = search.total
-      with_completed_safety_plans = search.
-        facet(:completed_safety_plan).rows.count
-
-      @completed_percentage = nan_safe_divide(
-        with_completed_safety_plans,
-        requiring_safety_plan
-      )
-    end
-
-    def completed_case_action_plans
-      search = Child.search do
-        with :status, Record::STATUS_OPEN
-        with :created_at, from..to
-
-        facet :completed_action_plan, only: true
-      end
-
-      active_cases = search.total
-      with_completed_action_plans = search.
-        facet(:completed_action_plan).rows.first&.count || 0
-
-      @completed_percentage = nan_safe_divide(
-        with_completed_action_plans,
-        active_cases
-      )
-    end
-
-    def completed_supervisor_approved_case_action_plans
-      completed_action_plan = SolrUtils.indexed_field_name(Child, :completed_action_plan)
-      case_plan_approved = SolrUtils.indexed_field_name(Child, :case_plan_approved)
-
-      search = Child.search do
-        with :status, Record::STATUS_OPEN
-        with :created_at, from..to
-
-        # This seems like an obtuse way to use an in a facet query
-        adjust_solr_params do |params|
-          params[:facet] = true
-          params[:'facet.query'] = "{! key=completed_and_approved } #{completed_action_plan}:true AND #{case_plan_approved}:true"
-        end
-      end
-
-      active_cases = search.total
-      completed_and_approved = search.
-        facet_response['facet_queries']['completed_and_approved']
-
-      @completed_and_approved_percentage = nan_safe_divide(
-        completed_and_approved,
-        active_cases
-      )
-    end
-
-    def services_provided
-      search = Child.search do
-        with :created_at, from..to
-
-        facet :services_provided
-      end
-
-      @services = search.facet(:services_provided).
-        rows.
-        map  do |row| 
-          {
-            service: Lookup.display_value('lookup-service-type', row.value),
-            count: row.count
-          }
-        end
-    end
-    
-    def average_referrals
-      action_plan_referral_statuses = SolrUtils.indexed_field_name(Child, :action_plan_referral_statuses)
-      referred = 'Referred'
-
-      search = Child.search do
-        with :created_at, from..to
-
-        adjust_solr_params do |params|
-          params[:stats] = true
-          params[:'stats.field'] = "{!func}termfreq(#{action_plan_referral_statuses}, #{referred})"
-        end
-      end
-
-      @average_referrals = search.stats_response.first.last['mean']
-    end
-
-    def average_followup_meetings_per_case
-      search = Child.search do
-        with :status, Record::STATUS_OPEN
-        with :created_at, from..to
-
-        stats :number_of_meetings
-      end
-
-      @average_meetings = search.stats(:number_of_meetings).mean || 0
-    end
-
-    def goal_progress_per_need
-      search = Child.search do
-        with :status, Record::STATUS_OPEN
-        with :created_at, from..to
-
-        stats :safety_goals_progress,
-          :health_goals_progress,
-          :psychosocial_goals_progress,
-          :justice_goals_progress,
-          :other_goals_progress
-      end
-
-      @data = [
-        {
-          need: I18n.t('key_performance_indicators.goal_progress_per_need.safety'),
-          percentage: handle_solr_stats_value(search.stats(:safety_goals_progress).mean)
-        },
-        {
-          need: I18n.t('key_performance_indicators.goal_progress_per_need.health'),
-          percentage: handle_solr_stats_value(search.stats(:health_goals_progress).mean)
-        },
-        {
-          need: I18n.t('key_performance_indicators.goal_progress_per_need.psychosocial'),
-          percentage: handle_solr_stats_value(search.stats(:psychosocial_goals_progress).mean)
-        },
-        {
-          need: I18n.t('key_performance_indicators.goal_progress_per_need.justice'),
-          percentage: handle_solr_stats_value(search.stats(:justice_goals_progress).mean)
-        },
-        {
-          need: I18n.t('key_performance_indicators.goal_progress_per_need.other'),
-          percentage: handle_solr_stats_value(search.stats(:other_goals_progress).mean)
-        }
-      ]
-    end
-    
-    def handle_solr_stats_value(value)
-      if value == "NaN" || value.nil?
-        0.0
-      else
-        value
+      adjust_solr_params do |params|
+        params[:stats] = true
+        params[:'stats.field'] = "{!func}termfreq(#{action_plan_referral_statuses}, #{referred})"
       end
     end
 
-    def time_from_case_open_to_close
-      created_at = SolrUtils.indexed_field_name(Child, :created_at)
-      date_closure = SolrUtils.indexed_field_name(Child, :date_closure)
+    @average_referrals = search.stats_response.first.last['mean']
+  end
 
-      month = 2_628_000_000
+  def average_followup_meetings_per_case
+    search = Child.search do
+      with :status, Record::STATUS_OPEN
+      with :created_at, from..to
 
-      search = Child.search do
-        with :created_at, from..to
-        without :duplicate, true
-
-        adjust_solr_params do |params|
-          params[:facet] = true
-          params[:'facet.query'] = [
-            "{!key=1-month frange u=#{month}} ms(#{date_closure},#{created_at})",
-            "{!key=1-3months frange l=#{month + 1} u=#{month * 3}} ms(#{date_closure},#{created_at})",
-            "{!key=3-6months frange l=#{(month * 3) + 1} u=#{month * 6}} ms(#{date_closure},#{created_at})",
-            "{!key=7-months frange l=#{(month * 6) + 1}} ms(#{date_closure},#{created_at})"
-          ]
-        end
-      end
-
-      @total = search.total
-      @results = search.facet_response['facet_queries']
+      stats :number_of_meetings
     end
 
-    def case_closure_rate
-      owned_by_location = SolrUtils.indexed_field_name(Child, :owned_by_location)
-      date_closure = SolrUtils.indexed_field_name(Child, :date_closure)
+    @average_meetings = search.stats(:number_of_meetings).mean || 0
+  end
 
-      search = Child.search do
-        adjust_solr_params do |params|
-          params.merge!({
-            'facet': true,
-            'facet.range': "{!tag=per_month}#{date_closure}",
-            'facet.range.start': from,
-            'facet.range.end': to,
-            'facet.range.gap': '+1MONTH',
-            'facet.pivot': [
-              "{!range=per_month}#{owned_by_location}"
-            ]
-          })
-        end
+  def goal_progress_per_need
+    @data = Searches.goal_progress_per_need(from, to)
+                    .data
+  end
 
-        paginate page: 1, per_page: 0
-      end
+  def time_from_case_open_to_close
+    @data = Searches.time_from_case_open_to_close(from, to)
+                    .data
+  end
 
-      @columns = search.facet_response.
-        dig('facet_ranges', date_closure, 'counts').
-        each_cons(2).
-        map(&:first)
+  def case_closure_rate
+    search = Searches.case_closure_rate(from, to)
+    @columns = search.columns
+    @data = search.data
+  end
 
-      @data = extract_pivot_range_counts(search, owned_by_location, date_closure).
-        map do |value, counts|
-          placename = Location.find_by({ location_code: value.upcase }).
-            placename
+  def client_satisfaction_rate
+    search = Searches.client_satisfaction_rate(from, to)
+    @satisfaction_rate = nan_safe_divide(
+      search.facet(:satisfaction_status).rows.first&.count || 0,
+      search.total
+    )
+  end
 
-          { reporting_site: placename }.merge(counts)
-        end
-    end
+  def supervisor_to_caseworker_ratio
+    ratio = Searches.supervisor_to_caseworker_ratio
+    @supervisors = ratio.numerator
+    @case_workers = ratio.denominator
+  end
 
-    def client_satisfaction_rate
-      search = Child.search do
-        with :created_at, from..to
+  def case_load
+    search = Searches.case_load(from, to)
+    @data = search.data
+  end
 
-        any_of do
-          with :satisfaction_status, 'satisfied'
-          with :satisfaction_status, 'unsatisfied'
-        end
+  private
 
-        facet :satisfaction_status, only: 'satisfied'
-      end
+  # TODO: Add these to permitted params
+  def from
+    Sunspot::Type.for_class(Date).to_indexed(params[:from])
+  end
 
-      @satisfaction_rate = nan_safe_divide(
-        search.facet(:satisfaction_status).rows.first&.count || 0,
-        search.total
-      )
-    end
+  def to
+    Sunspot::Type.for_class(Date).to_indexed(params[:to])
+  end
 
-    def supervisor_to_caseworker_ratio
-      case_worker_roles = [
-        "role-gbv-mobile-caseworker",
-        "role-gbv-caseworker"
-      ]
-      supervisor_roles = [
-        'role-gbv-case-management-supervisor' 
-      ]
+  # This handles cases where 0% of something exists as in normal
+  # ruby floating point math that is 0 / total which is Float::NaN
+  # where we are looking for 0.
+  def nan_safe_divide(numerator, denominator)
+    return 0 if numerator.zero?
 
-      supervisors = User.joins(:role).
-        where(roles: { unique_id: supervisor_roles }).count
-      case_workers = User.joins(:role).
-        where(roles: { unique_id: case_worker_roles }).count
-
-      ratio = (supervisors / case_workers).rationalize
-
-      @supervisors = ratio.numerator
-      @case_workers = ratio.denominator
-    end
-
-    def case_load
-      search = Child.search do
-        with :created_at, from..to
-
-        facet :owned_by
-      end
-
-      owners = search.facet(:owned_by).rows
-
-      @data = [{
-        case_load: '10cases', # '<10 open cases',
-        percent: nan_safe_divide(
-          owners.select { |owner| owner.count < 10 }.count,
-          owners.count
-        )
-      },{
-        case_load: '20cases', # '<20 open cases',
-        percent: nan_safe_divide(
-          owners.select { |owner| owner.count < 20 }.count,
-          owners.count
-        )
-      },{
-        case_load: '21-30cases', # '21-30 open cases',
-        percent: nan_safe_divide(
-          owners.select { |owner| 21 < owner.count && owner.count <= 30 }.count,
-          owners.count
-        )
-      },{
-        case_load: '30cases', # '>30 open cases',
-        percent: nan_safe_divide(
-          owners.select { |owner| owner.count > 30 }.count,
-          owners.count
-        )
-      }]
-    end
-
-    private
-
-    # TODO: Add these to permitted params
-    def from
-      Sunspot::Type.for_class(Date).to_indexed(params[:from])
-    end
-
-    def to
-      Sunspot::Type.for_class(Date).to_indexed(params[:to])
-    end
-
-    # This handles cases where 0% of something exists as in normal
-    # ruby floating point math that is 0 / total which is Float::NaN
-    # where we are looking for 0.
-    def nan_safe_divide(numerator, denominator)
-      return 0 if numerator == 0
-      numerator / denominator.to_f
-    end
-
-    def extract_pivot_range_counts(search, pivot, range)
-      @data = search.facet_response.
-        dig('facet_pivot', pivot).
-        map do |pivot|
-          [
-            pivot['value'],
-            pivot.
-              dig('ranges', range, 'counts').
-              each_cons(2).
-              to_h
-          ]
-        end.to_h
-    end
+    numerator / denominator.to_f
   end
 end

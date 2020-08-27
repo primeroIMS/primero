@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Module for capturing all of the GBV KPI related logic.
 module GBVKeyPerformanceIndicators
   extend ActiveSupport::Concern
 
@@ -25,7 +28,7 @@ module GBVKeyPerformanceIndicators
     end
   end
 
-  #  #find_in_form(path : [String], form : Object | {}) : []
+  # #find_in_form(path : [String], form : Object | {}) : []
   #
   # This method will find all of the non nil values in a array of objects
   # which may have attributes which themselves are arrays of objects. All of the
@@ -56,13 +59,13 @@ module GBVKeyPerformanceIndicators
     mandatory_fields.all? { |field| form[field].present? }
   end
 
-  SURVIVOR_ASSESSMENT_MANDATORY_FIELDS = [
-    'assessment_emotional_state_start',
-    'assessment_emotional_state_end',
-    'assessment_presenting_problem',
-    'assessment_main_concerns',
-    'assessment_current_situation'
-  ]
+  SURVIVOR_ASSESSMENT_MANDATORY_FIELDS = %w[
+    assessment_emotional_state_start
+    assessment_emotional_state_end
+    assessment_presenting_problem
+    assessment_main_concerns
+    assessment_current_situation
+  ].freeze
 
   def completed_survivor_assessment
     find_in_form(['survivor_assessment_form'])
@@ -71,14 +74,14 @@ module GBVKeyPerformanceIndicators
       end
   end
 
-  SAFETY_PLAN_MANDATORY_FIELDS = [
-    'safety_plan_needed',
-    'safety_plan_developed_with_survivor',
-    'safety_plan_completion_date',
-    'safety_plan_main_concern',
-    'safety_plan_preparedness_signal',
-    'safety_plan_preparedness_gathered_things'
-  ]
+  SAFETY_PLAN_MANDATORY_FIELDS = %w[
+    safety_plan_needed
+    safety_plan_developed_with_survivor
+    safety_plan_completion_date
+    safety_plan_main_concern
+    safety_plan_preparedness_signal
+    safety_plan_preparedness_gathered_things
+  ].freeze
 
   def requires_safety_plan?
     find_in_form(['safety_plan']).
@@ -86,7 +89,7 @@ module GBVKeyPerformanceIndicators
       # dynamic form. Should this by dynamic? Should the form be hard coded?
       any? { |plan| plan['safety_plan_needed'] == 'yes' }
   end
-  alias :safety_plan_required :requires_safety_plan?
+  alias safety_plan_required requires_safety_plan?
 
   def completed_safety_plan
     find_in_form(['safety_plan'])
@@ -95,11 +98,11 @@ module GBVKeyPerformanceIndicators
       end
   end
 
-  ACTION_PLAN_MANDATORY_FIELDS = [
-    'service_type',
-    'service_referral',
-    'service_referral_written_consent'
-  ]
+  ACTION_PLAN_MANDATORY_FIELDS = %w[
+    service_type
+    service_referral
+    service_referral_written_consent
+  ].freeze
 
   def completed_action_plan
     find_in_form(['action_plan'])
@@ -110,20 +113,20 @@ module GBVKeyPerformanceIndicators
 
   def services_provided
     find_in_form(
-      ['action_plan', 'gbv_follow_up_subform_section', 'service_type_provided']
+      %w[action_plan gbv_follow_up_subform_section service_type_provided]
     ).uniq
   end
 
   def action_plan_referral_statuses
-    find_in_form(['action_plan', 'action_plan_subform_section', 'service_referral'])
+    find_in_form(%w[action_plan action_plan_subform_section service_referral])
   end
 
   def referred_services
-    find_in_form(['action_plan', 'gbv_follow_up_subform_section', 'service_type_provided'])
+    find_in_form(%w[action_plan gbv_follow_up_subform_section service_type_provided])
   end
 
   def number_of_meetings
-    find_in_form(['action_plan', 'gbv_follow_up_subform_section', 'followup_date'])
+    find_in_form(%w[action_plan gbv_follow_up_subform_section followup_date])
       .count
   end
 
@@ -131,43 +134,43 @@ module GBVKeyPerformanceIndicators
     return nil if goals.empty?
 
     applicable_goals = goals.count { |status| status != 'n_a' }
-    return nil if applicable_goals == 0
+    return nil if applicable_goals.zero?
 
     met_goals = goals.count { |status| status == 'met' }
-    return 0 if met_goals == 0
+    return 0 if met_goals.zero?
 
     met_goals / applicable_goals.to_f
   end
 
   def safety_goals_progress
-    percentage_goals_met(find_in_form([
-                                        'action_plan',
-                                        'gbv_follow_up_subform_section',
-                                        'gbv_assessment_progress_safety'
+    percentage_goals_met(find_in_form(%w[
+                                        action_plan
+                                        gbv_follow_up_subform_section
+                                        gbv_assessment_progress_safety
                                       ]))
   end
 
   def health_goals_progress
-    percentage_goals_met(find_in_form([
-                                        'action_plan',
-                                        'gbv_follow_up_subform_section',
-                                        'gbv_assessment_progress_health'
+    percentage_goals_met(find_in_form(%w[
+                                        action_plan
+                                        gbv_follow_up_subform_section
+                                        gbv_assessment_progress_health
                                       ]))
   end
 
   def psychosocial_goals_progress
-    percentage_goals_met(find_in_form([
-                                        'action_plan',
-                                        'gbv_follow_up_subform_section',
-                                        'gbv_assessment_progress_psychosocial'
+    percentage_goals_met(find_in_form(%w[
+                                        action_plan
+                                        gbv_follow_up_subform_section
+                                        gbv_assessment_progress_psychosocial
                                       ]))
   end
 
   def justice_goals_progress
-    percentage_goals_met(find_in_form([
-                                        'action_plan',
-                                        'gbv_follow_up_subform_section',
-                                        'gbv_assessment_progress_justice'
+    percentage_goals_met(find_in_form(%w[
+                                        action_plan
+                                        gbv_follow_up_subform_section
+                                        gbv_assessment_progress_justice
                                       ]))
   end
 
@@ -175,63 +178,77 @@ module GBVKeyPerformanceIndicators
     percentage_goals_met(find_in_form([
                                         'action_plan',
                                         'gbv_follow_up_subform_section',
-                                        #  This naming is not the same as the other goals which is jarring.
+                                        # This naming is not the same as the other goals which is jarring.
                                         'gbv_assessment_other_goals'
                                       ]))
   end
 
-  CLIENT_SATISFACTION_FIELDS = [
-    "opening_hours_when_client_could_attend",
-    "client_comfortable_with_case_worker",
-    "same_case_worker_each_visit",
-    "could_client_choose_support_person",
-    "client_informed_of_options",
-    "client_decided_what_next",
-    "client_referred_elsewhere",
-    "survivor_discreet_access",
-    "staff_respect_confidentiality",
-    "client_private_meeting",
-    "staff_friendly",
-    "staff_open_minded",
-    "staff_answered_all_questions",
-    "staff_client_could_understand",
-    "staff_allowed_enough_time",
-    "staff_helpful",
-    "client_feel_better",
-    "would_client_recommend_friend"
-  ]
+  CLIENT_SATISFACTION_FIELDS = %w[
+    opening_hours_when_client_could_attend
+    client_comfortable_with_case_worker
+    same_case_worker_each_visit
+    could_client_choose_support_person
+    client_informed_of_options
+    client_decided_what_next
+    client_referred_elsewhere
+    survivor_discreet_access
+    staff_respect_confidentiality
+    client_private_meeting
+    staff_friendly
+    staff_open_minded
+    staff_answered_all_questions
+    staff_client_could_understand
+    staff_allowed_enough_time
+    staff_helpful
+    client_feel_better
+    would_client_recommend_friend
+  ].freeze
+
+  ClientFeedbackResponse = Struct.new(:response) do
+    def assessed_field_values
+      CLIENT_SATISFACTION_FIELDS.map { |field| response[field] }
+    end
+
+    def default_tally
+      { 'yes' => 0, 'no' => 0, 'n_a' => 0 }
+    end
+
+    def tally
+      @tally ||= default_tally
+                 .merge(
+                   assessed_field_values
+                     .compact
+                     .group_by(&:itself)
+                     .transform_values(&:count)
+                 )
+    end
+
+    def satisfied?
+      tally['yes'] >= tally['no']
+    end
+  end
+
+  ClientFeedbackResponses = Struct.new(:responses) do
+    def responses
+      @responses ||= self[:responses]
+                     .map { |response| ClientFeedbackResponse.new(response) }
+    end
+
+    def satisfied
+      responses.count(&:satisfied?)
+    end
+
+    def unsatisfied
+      responses.count { |response| !response.satisfied? }
+    end
+  end
 
   def satisfaction_status
-    feedback_forms = find_in_form(['client_feedback'])
+    return nil unless client_feedback
 
-    return nil unless !feedback_forms.empty?
+    feedback_responses = ClientFeedbackResponses.new(client_feedback)
 
-    # calculate satisifaction per form as otherwise we'd be weighting
-    # forms with more ansers more heavily that those with fewer answers.
-    is_satisfied = feedback_forms
-                   .map do |f|
-      default = { 'yes' => 0, 'no' => 0, 'n_a' => 0 }
-
-      tally = fields_in_form(f, CLIENT_SATISFACTION_FIELDS)
-              .compact
-              .group_by(&:itself)
-              .transform_values(&:count)
-
-      next nil if tally.empty?
-
-      answers = default.merge(tally)
-
-      next nil unless answers['yes'] > 0 || answers['no'] > 0
-
-      answers['yes'] >= answers['no']
-    end.compact
-
-    return nil if is_satisfied.empty?
-
-    satisfied = is_satisfied.select(&:itself).count
-    unsatisfied = is_satisfied.reject(&:itself).count
-
-    if satisfied >= unsatisfied
+    if feedback_responses.satisfied >= feedback_responses.unsatisfied
       'satisfied'
     else
       'unsatisfied'
