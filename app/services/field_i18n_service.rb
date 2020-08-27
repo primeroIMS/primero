@@ -32,7 +32,7 @@ class FieldI18nService
     merged_props = {}
     localized_props1.each do |name, value|
       value2 = localized_props2.try(:[], name) || {}
-      merged_props[name] = value.try(:merge, value2) || value2
+      merged_props[name] = value2.present? ? value.try(:merge, value2) || value2 : value
     end
     merged_props
   end
