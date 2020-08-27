@@ -43,7 +43,7 @@ const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
               value={from}
               onChange={setFrom}
               KeyboardButtonProps={{
-                "aria-label": "Data will be selected after this date"
+                "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.from")
               }}
             />
             <KeyboardDatePicker
@@ -56,7 +56,7 @@ const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
               value={to}
               onChange={setTo}
               KeyboardButtonProps={{
-                "aria-label": "Data will be selected before this date"
+                "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.to")
               }}
             />
           </MuiPickersUtilsProvider>

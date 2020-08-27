@@ -2747,6 +2747,9 @@ en:
       title: "Custom Date Range"
       description: "Once this change is applied, data will be selected from between the two dates bellow."
       apply: 'Apply'
+      aria-labels:
+        from: "Data will be selected after this date"
+        to: "Data will be selected before this date"
 
 
 
