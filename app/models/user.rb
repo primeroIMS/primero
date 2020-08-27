@@ -36,7 +36,7 @@ class User < ApplicationRecord
   scope :by_user_group, (lambda do |ids|
     joins(:user_groups).where(user_groups: { id: ids })
   end)
-scope :by_user_group_unique_ids, (lambda do |unique_ids|
+  scope :by_user_group_unique_ids, (lambda do |unique_ids|
     joins(:user_groups).where(user_groups: { unique_id: unique_ids })
   end)
   scope :by_agency, (lambda do |id|
