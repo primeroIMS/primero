@@ -21,11 +21,8 @@ export const buildUsersQuery = data => {
   return Object.entries(data).reduce((acc, obj) => {
     const [key, value] = obj;
 
-    if (key === AGENCY) {
-      return { ...acc, [AGENCY]: value?.id };
-    }
-    if (key === USER_GROUP) {
-      return { ...acc, [USER_GROUP]: value?.id };
+    if ([AGENCY, USER_GROUP].includes(key)) {
+      return { ...acc, [key]: value?.id };
     }
 
     return { ...acc, [key]: value };
