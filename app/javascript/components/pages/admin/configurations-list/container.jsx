@@ -22,7 +22,7 @@ import { fetchConfigurations } from "./action-creators";
 const Container = () => {
   const i18n = useI18n();
   const canAddUserGroups = usePermissions(NAMESPACE, CREATE_RECORDS);
-  const recordType = RESOURCES.configurations;
+  const recordType = ["admin", RESOURCES.configurations];
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultFilters = metadata;
 
@@ -36,6 +36,7 @@ const Container = () => {
     },
     defaultFilters,
     onTableChange: fetchConfigurations,
+    targetRecordType: RESOURCES.configurations,
     bypassInitialFetch: true
   };
 
