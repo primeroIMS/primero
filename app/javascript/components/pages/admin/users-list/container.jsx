@@ -17,6 +17,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { Filters as AdminFilters } from "../components";
 import { fetchAgencies } from "../agencies-list/action-creators";
 import { getEnabledAgencies } from "../../../application/selectors";
+import { getUserGroups } from "../user-groups-list/selectors";
 import { getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
 import { fetchUserGroups } from "../user-groups-list/action-creators";
@@ -36,7 +37,7 @@ const Container = () => {
     ...rest
   }));
   const filterAgencies = useSelector(state => getEnabledAgencies(state));
-  const filterUserGroups = useSelector(state => state.get("records").get("user_groups").get("data"));
+  const filterUserGroups = useSelector(state => getUserGroups(state));
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultMetadata = metadata?.toJS();
   const defaultFilterFields = {

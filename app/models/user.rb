@@ -36,6 +36,9 @@ class User < ApplicationRecord
   scope :by_user_group, (lambda do |ids|
     joins(:user_groups).where(user_groups: { id: ids })
   end)
+scope :by_user_group_unique_ids, (lambda do |unique_ids|
+    joins(:user_groups).where(user_groups: { unique_id: unique_ids })
+  end)
   scope :by_agency, (lambda do |id|
     joins(:agency).where(agencies: { id: id })
   end)
@@ -121,7 +124,7 @@ class User < ApplicationRecord
       if filters.present?
         filters = filters.compact
         filters['disabled'] = filters['disabled'].values if filters['disabled'].present?
-        users = users.where(filters)
+        users = filters.has_key?('user_group_ids') ? User.by_user_group_unique_ids(filters['user_group_ids']).where(filters.except('user_group_ids')) : users.where(filters)
         if user.present? && user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
           users = users.where(organization: user.organization)
         end
