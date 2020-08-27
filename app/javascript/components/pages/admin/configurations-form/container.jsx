@@ -6,7 +6,6 @@ import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
-import { fromJS } from "immutable";
 import { Typography } from "@material-ui/core";
 
 import { useI18n } from "../../../i18n";
@@ -18,7 +17,7 @@ import { ROUTES } from "../../../../config";
 import bindFormSubmit from "../../../../libs/submit-form";
 
 import { form, validations } from "./form";
-// import { fetchUserGroup, clearSelectedUserGroup } from "./action-creators";
+import { fetchConfiguration, clearSelectedConfiguration } from "./action-creators";
 import { getConfiguration, getServerErrors, getSavingRecord } from "./selectors";
 import { NAME } from "./constants";
 
@@ -27,9 +26,9 @@ const Container = ({ mode }) => {
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
-  // const { id } = useParams();
+  const { id } = useParams();
   const { pathname } = useLocation();
-  // const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const configuration = useSelector(state => getConfiguration(state));
   const saving = useSelector(state => getSavingRecord(state));
   const formErrors = useSelector(state => getServerErrors(state));
@@ -45,17 +44,17 @@ const Container = ({ mode }) => {
     dispatch(push(ROUTES.configurations));
   };
 
-  // useEffect(() => {
-  //   if (isEditOrShow) {
-  //     dispatch(fetchUserGroup(id));
-  //   }
+  useEffect(() => {
+    if (isEditOrShow) {
+      dispatch(fetchConfiguration(id));
+    }
 
-  //   return () => {
-  //     if (isEditOrShow) {
-  //       dispatch(clearSelectedUserGroup());
-  //     }
-  //   };
-  // }, [id]);
+    return () => {
+      if (isEditOrShow) {
+        dispatch(clearSelectedConfiguration());
+      }
+    };
+  }, [id]);
 
   const pageHeading = configuration?.size
     ? `${i18n.t("configurations.label_edit")} ${configuration.get("name")}`
