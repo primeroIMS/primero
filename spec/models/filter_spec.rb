@@ -135,7 +135,6 @@ describe Filter do
 
       # TODO: test with different reporting location levels
       it 'has reporting location filter' do
-        binding.pry
         expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'location.base_types.district',
                                                                    field_name: 'owned_by_location',
                                                                    type: 'multi_select'))
