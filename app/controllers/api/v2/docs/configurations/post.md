@@ -1,6 +1,6 @@
 # Save Primero configuration state
 
-Saves off the current configuration state of Primero.
+Saves off the current configuration state of Primero. This includes Forms, Fields, Lookups, Agencies, Roles, User Groups, and Reports.
 
 **URL** : `/api/v2/configurations`
 
