@@ -34,7 +34,7 @@ import {
 const KeyPerformanceIndicators = ({}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
-  const commonDateRanges = CommonDateRanges.from(new Date());
+  const commonDateRanges = CommonDateRanges.from(new Date(), i18n.t);
 
   return (
     <div>
