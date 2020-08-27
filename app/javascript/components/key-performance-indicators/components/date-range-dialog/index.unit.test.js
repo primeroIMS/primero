@@ -1,7 +1,7 @@
 import { DialogContent, Button } from "@material-ui/core";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 
-import { spy, setupMountedComponent } from "../../../test";
+import { spy, setupMountedComponent } from "../../../../test";
 
 import DateRangeDialog from "./index";
 

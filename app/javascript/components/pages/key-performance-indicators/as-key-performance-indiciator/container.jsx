@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { DateRangeSelect } from "components/key-performance-indicators/date-range-select";
+import { DateRangeSelect } from "components/key-performance-indicators/components/date-range-select";
 // NOTE:  Importing 'compoenent/dashboard' casues tests to fail through
 //        the 'pirates' module used in mocha I assume. No idea why this is.
 import OptionsBox from "components/dashboard/options-box";

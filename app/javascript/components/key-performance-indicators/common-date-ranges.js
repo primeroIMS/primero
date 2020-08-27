@@ -1,6 +1,6 @@
 import { subMonths, startOfMonth, endOfMonth } from "date-fns";
 
-import { DateRange } from "./date-range-select";
+import DateRange from "./date-range";
 
 // not sure how to use i18n outside of react yet.
 const i18n = window.I18n;

@@ -15,7 +15,7 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
-import { useI18n } from "../../i18n";
+import { useI18n } from "../../../i18n";
 
 const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
   const i18n = useI18n();

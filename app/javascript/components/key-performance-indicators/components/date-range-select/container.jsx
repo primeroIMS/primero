@@ -4,7 +4,7 @@ import { Select, MenuItem, FormControl } from "@material-ui/core";
 
 import DateRangeDialog from "../date-range-dialog";
 
-import DateRange from "./date-range";
+import DateRange from "../../date-range";
 
 const DateRangeSelect = ({
   ranges,

@@ -1,5 +1,5 @@
-import CommonDateRanges from "../common-date-ranges";
-import { setupMountedComponent } from "../../../test";
+import CommonDateRanges from "../../common-date-ranges";
+import { setupMountedComponent } from "../../../../test";
 
 import DateRangeSelect from "./container";
 
