@@ -21,6 +21,10 @@ const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
   const i18n = useI18n();
   const [from, setFrom] = useState(currentRange.from);
   const [to, setTo] = useState(currentRange.to);
+  const confirmDateSelection = () => {
+    setRange(from, to);
+    onClose();
+  }
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -64,10 +68,7 @@ const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={() => {
-            setRange(from, to);
-            onClose();
-          }}
+          onClick={confirmDateSelection}
         >
           {i18n.t("key_performance_indicators.date_range_dialog.apply")}
         </Button>
