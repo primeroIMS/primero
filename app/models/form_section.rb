@@ -54,6 +54,7 @@ class FormSection < ApplicationRecord
     Lookup.form_group_name_all(form_group_id, parent_form, module_name, lookups)
   end
 
+  # TODO: DELETE THIS, once we refactor YML exporter
   def localized_property_hash(locale=Primero::Application::BASE_LANGUAGE, show_hidden_fields=false)
     lh = localized_hash(locale)
     fldz = {}
@@ -427,7 +428,7 @@ class FormSection < ApplicationRecord
           fieldi18n_props = field_props.merge(fieldi18n_props)
           fields << field.attributes.merge(fieldi18n_props)
         else
-          fields <<  field_props
+          fields << field_props
         end
       end
       formi18n_props['fields_attributes'] = fields
