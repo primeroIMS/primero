@@ -13,7 +13,7 @@ describe NotificationMailer, type: :mailer do
   describe 'approvals' do
     before do
       clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role)
-      @lookup = create :lookup, unique_id: 'lookup-approval-type', name: 'approval type', lookup_values_en: [{'id' => 'value1', 'display_text' => 'value1'}]
+      @lookup = Lookup.create!(id: 'lookup-approval-type', unique_id:'lookup-approval-type', name: 'approval type', lookup_values_en: [{'id' => 'value1', 'display_text' => 'value1'}])
       role = create :role, is_manager: true
       @manager1 = create :user, role: role, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
       @manager2 = create :user, role: role, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'

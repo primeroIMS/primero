@@ -1,9 +1,10 @@
 import React from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Radio, Checkbox } from "@material-ui/core";
+import { Radio } from "@material-ui/core";
 
 import { setupMockFormComponent } from "../../../../test";
 import TextInput from "../../fields/text-input";
+import SwitchInput from "../../fields/switch-input";
 
 import DraggableOption from "./component";
 
@@ -44,9 +45,10 @@ describe("<Form /> - components/<DraggableOption />", () => {
     expect(selectedValueRadio.props().checked).to.be.true;
   });
 
-  it("renders a checked RadioButton", () => {
-    const selectedValueCheckbox = component.find(Checkbox);
+  it("renders a SwitchInput", () => {
+    const selectedValueCheckbox = component.find(SwitchInput);
 
+    expect(selectedValueCheckbox.props().commonInputProps.name).to.be.equal("field_1.option_strings_text[0].disabled");
     expect(selectedValueCheckbox).to.be.exist;
   });
 });

@@ -18,7 +18,6 @@ import { getSelectedSubform } from "../../selectors";
 import styles from "../styles.css";
 
 import { TranslatableOptions } from "./components";
-import { buildDefaultOptionStringsText } from "./utils";
 import { translationsFieldForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
 
@@ -41,13 +40,6 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
 
   const { name, description } = selectedSubform?.toJS() || {};
 
-  const initialOptionStringsText = buildDefaultOptionStringsText(optionStringsText, locales);
-
-  const defaultOptions = {
-    en: optionStringsText?.en || [],
-    ...initialOptionStringsText
-  };
-
   const formMethods = useForm({
     defaultValues: {
       subform_section: { name, description },
@@ -56,7 +48,7 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
         help_text: helpText,
         guiding_questions: guidingQuestions,
         tick_box_label: tickBoxLabel,
-        option_strings_text: defaultOptions
+        option_strings_text: optionStringsText
       }
     },
     validationSchema: validationSchema(i18n)
@@ -140,7 +132,7 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
           help_text: { ...helpText, ...fieldHelpText },
           guiding_questions: { ...guidingQuestions, ...fieldGuidingQuestions },
           tick_box_label: { ...tickBoxLabel, ...fieldTickBoxLabel },
-          option_strings_text: { ...defaultOptions, ...fieldOptionStringsText }
+          option_strings_text: fieldOptionStringsText
         }
       });
     }

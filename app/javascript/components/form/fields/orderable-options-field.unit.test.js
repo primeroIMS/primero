@@ -16,9 +16,9 @@ describe("<Form /> - fields/<OrderableOptionsField />", () => {
         commonInputProps: { name: "field_1" },
         metaInputProps: { selectedValue: "option_2" },
         options: [
-          { id: "option_1", display_text: "Display text 1" },
-          { id: "option_2", display_text: "Display text 2" },
-          { id: "option_3", display_text: "Display text 3" }
+          { id: "option_1", display_text: { en: "Display text 1" } },
+          { id: "option_2", display_text: { en: "Display text 2" } },
+          { id: "option_3", display_text: { en: "Display text 3" } }
         ]
       }
     }));
@@ -31,12 +31,12 @@ describe("<Form /> - fields/<OrderableOptionsField />", () => {
   it("render the values for the field", () => {
     const expected = {
       "field_1.selected_value": undefined,
-      "field_1.option_strings_text.en[0].display_text": "Display text 1",
-      "field_1.option_strings_text.en[0].id": "option_1",
-      "field_1.option_strings_text.en[1].display_text": "Display text 2",
-      "field_1.option_strings_text.en[1].id": "option_2",
-      "field_1.option_strings_text.en[2].display_text": "Display text 3",
-      "field_1.option_strings_text.en[2].id": "option_3"
+      "field_1.option_strings_text[0].display_text.en": "Display text 1",
+      "field_1.option_strings_text[0].id": "option_1",
+      "field_1.option_strings_text[1].display_text.en": "Display text 2",
+      "field_1.option_strings_text[1].id": "option_2",
+      "field_1.option_strings_text[2].display_text.en": "Display text 3",
+      "field_1.option_strings_text[2].id": "option_3"
     };
     const formContext = component.find(FormContext);
     const values = formContext.props().getValues();

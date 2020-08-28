@@ -85,7 +85,7 @@ export const optionsForm = ({ fieldName, i18n, formMode, field, lookups, css }) 
     }),
     FieldRecord({
       display_name: i18n.t("fields.options_indications_restrictions"),
-      name: "options_indications",
+      name: "options_indications_restrictions",
       inputClassname: css.boldLabel,
       type: LABEL_FIELD
     }),
