@@ -18,7 +18,10 @@ const Component = ({ field, selectedLocaleId }) => {
   const locales = i18n.applicationLocales.filter(locale => locale.get("id") !== LOCALE_KEYS.en);
 
   const englishOptions = field.get("option_strings_text") || fromJS([]);
-  const englishOptionsSize = englishOptions.toJS().reduce((acc, curr) => acc + !!curr.display_text[LOCALE_KEYS.en], 0);
+  const englishOptionsSize = englishOptions.reduce(
+    (acc, curr) => acc + !!curr.getIn(["display_text", LOCALE_KEYS.en]),
+    0
+  );
 
   if (!englishOptionsSize) {
     return null;
