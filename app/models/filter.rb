@@ -2,7 +2,7 @@
 
 # The value bag representing the list view filters, and the hardcoded set of these filters in Primero
 class Filter < ValueObject
-  attr_accessor :name, :field_name, :type, :options, :option_strings_source, :admin_level
+  attr_accessor :name, :field_name, :type, :options, :option_strings_source
 
   FLAGGED_CASE = Filter.new(
     name: 'cases.filter_by.flag',
@@ -95,8 +95,7 @@ class Filter < ValueObject
       name: "location.base_types.#{params[:labels].try(:first)}",
       field_name: params[:field],
       option_strings_source: 'ReportingLocation',
-      type: 'multi_select',
-      admin_level: params[:admin_level]
+      type: 'multi_select'
     )
   end
   NO_ACTIVITY = Filter.new(
@@ -237,7 +236,6 @@ class Filter < ValueObject
                                   SystemSettings.current.reporting_location_config
       reporting_location_field = reporting_location_config.try(:field_key) ||  ReportingLocation::DEFAULT_FIELD_KEY
       reporting_location_labels = reporting_location_config.try(:label_keys)
-      admin_level = reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
       permitted_form_ids = role.permitted_forms('case', true).pluck(:unique_id)
 
       filters = []
@@ -269,8 +267,7 @@ class Filter < ValueObject
       filters << CURRENT_LOCATION if user.module?(PrimeroModule::CP)
       filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
       filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
-      filters << REPORTING_LOCATION.call(labels: reporting_location_labels, field: reporting_location_field,
-                                         admin_level: admin_level)
+      filters << REPORTING_LOCATION.call(labels: reporting_location_labels, field: reporting_location_field)
       filters << NO_ACTIVITY
       filters << DATE_CASE if user.module?(PrimeroModule::CP)
       filters << ENABLED

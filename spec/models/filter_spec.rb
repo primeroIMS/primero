@@ -60,7 +60,9 @@ describe Filter do
     SystemSettings.create!(
       primary_age_range: 'primary',
       age_ranges: { 'primary' => [1..2, 3..4] },
-      default_locale: 'en'
+      default_locale: 'en',
+      reporting_location_config: { field_key: 'owned_by_location', admin_level: 2,
+                                   admin_level_map: { '1' => ['region'], '2' => ['district'] } }
     )
     @system_settings = SystemSettings.current
     SystemSettings.current(true)

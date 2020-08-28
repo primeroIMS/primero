@@ -170,7 +170,6 @@ class Location < ApplicationRecord
     end
 
     def reporting_locations_for_hierarchies(hierarchies)
-      # TODO: fix this - called from user_location_service
       admin_level = SystemSettings.current&.reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
       Location.where('hierarchy_path @> ARRAY[:ltrees]::ltree[]', ltrees: hierarchies.compact.uniq)
               .where(admin_level: admin_level)
