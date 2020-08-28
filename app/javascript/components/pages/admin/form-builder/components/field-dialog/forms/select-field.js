@@ -12,18 +12,18 @@ export const selectFieldForm = ({ css, field, formMode, i18n, isNested, lookups,
   if (options?.size) {
     extraValidations = {
       selected_value: string().nullable(),
-      option_strings_text: object().shape({
-        en: array().of(
-          object().shape({
-            display_text: string().required(
+      option_strings_text: array().of(
+        object().shape({
+          display_text: object().shape({
+            en: string().required(
               i18n.t("fields.required_field", {
                 field: i18n.t("fields.english_text")
               })
-            ),
-            id: string().required()
-          })
-        )
-      })
+            )
+          }),
+          id: string().required()
+        })
+      )
     };
   } else if (field.get("option_strings_source")) {
     extraValidations = {

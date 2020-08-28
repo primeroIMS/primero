@@ -16,18 +16,20 @@ const Component = ({ field, selectedLocaleId }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const locales = i18n.applicationLocales.filter(locale => locale.get("id") !== LOCALE_KEYS.en);
-  const englishOptions = field.getIn(["option_strings_text", LOCALE_KEYS.en], fromJS([]));
 
-  if (!englishOptions?.size) {
+  const englishOptions = field.get("option_strings_text") || fromJS([]);
+  const englishOptionsSize = englishOptions.toJS().reduce((acc, curr) => acc + !!curr.display_text[LOCALE_KEYS.en], 0);
+
+  if (!englishOptionsSize) {
     return null;
   }
 
-  const renderLocalizedOption = (id, index, option, hideField) => (
-    <React.Fragment key={`${id}-${option.get("id")}`}>
+  const renderLocalizedOption = (localeId, index, option, hideField) => (
+    <React.Fragment key={`${localeId}-${option.get("id")}`}>
       <FormSectionField
         field={FieldRecord({
           display_name: "",
-          name: `${field.get("name")}.option_strings_text.${id}[${index}].id`,
+          name: `${field.get("name")}.option_strings_text[${index}].id`,
           type: TEXT_FIELD,
           inputClassname: css.hideField
         })}
@@ -35,9 +37,9 @@ const Component = ({ field, selectedLocaleId }) => {
       <FormSectionField
         field={FieldRecord({
           display_name: "",
-          name: `${field.get("name")}.option_strings_text.${id}[${index}].display_text`,
+          name: `${field.get("name")}.option_strings_text[${index}].display_text.${localeId}`,
           type: TEXT_FIELD,
-          disabled: id === LOCALE_KEYS.en,
+          disabled: localeId === LOCALE_KEYS.en,
           inputClassname: hideField ? css.hideField : null
         })}
       />

@@ -43,10 +43,12 @@ export const getObjectPath = (path, values) => {
   const getInnerPath = (value, key, isObject) => {
     const pathWithIndex = isObject ? `${path ? `${path}.` : path}${key}` : `${path}[${key}]`;
 
-    return !["object", "function"].includes(typeof value) ? pathWithIndex : getObjectPath(pathWithIndex, value);
+    return value === null || !["object", "function"].includes(typeof value)
+      ? pathWithIndex
+      : getObjectPath(pathWithIndex, value);
   };
 
   return Object.entries(values)
-    .map(([key, value]) => getInnerPath(value, key, typeof values === "object"))
+    .map(([key, value]) => getInnerPath(value, key, typeof values === "object" && !Array.isArray(values)))
     .flat(Infinity);
 };

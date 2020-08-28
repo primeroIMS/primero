@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { compare, dataToJS, valuesToSearchableSelect } from "./component-helpers";
+import { compare, dataToJS, valuesToSearchableSelect, getObjectPath } from "./component-helpers";
 
 describe("component-helpers", () => {
   describe("dataToJS", () => {
@@ -57,6 +57,43 @@ describe("component-helpers", () => {
       const obj2 = fromJS({ name: "User Name 2" });
 
       expect(compare(obj1, obj2)).to.equal(false);
+    });
+  });
+
+  // Based on https://github.com/react-hook-form/react-hook-form/blob/v4.4.8/src/utils/getPath.test.ts
+  describe("getPath", () => {
+    it("should generate the correct path", () => {
+      expect(
+        getObjectPath("test", [
+          1,
+          [1, 2],
+          {
+            data: "test",
+            kidding: { test: "data" },
+            foo: { bar: {} },
+            what: [{ bill: { haha: "test" } }, [3, 4]],
+            one: 1,
+            empty: null,
+            absent: undefined,
+            isAwesome: true,
+            answer: Symbol(42)
+          }
+        ])
+      ).to.deep.equal([
+        "test[0]",
+        "test[1][0]",
+        "test[1][1]",
+        "test[2].data",
+        "test[2].kidding.test",
+        "test[2].what[0].bill.haha",
+        "test[2].what[1][0]",
+        "test[2].what[1][1]",
+        "test[2].one",
+        "test[2].empty",
+        "test[2].absent",
+        "test[2].isAwesome",
+        "test[2].answer"
+      ]);
     });
   });
 });

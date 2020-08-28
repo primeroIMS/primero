@@ -32,13 +32,13 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, show
 
   useEffect(() => {
     fieldOptions.forEach((option, index) => {
-      register(`${fieldName}.option_strings_text.en[${index}].id`);
-      setValue(`${fieldName}.option_strings_text.en[${index}].id`, option.id);
+      register(`${fieldName}.option_strings_text[${index}].id`);
+      setValue(`${fieldName}.option_strings_text[${index}].id`, option.id);
     });
 
     return () => {
       fieldOptions.forEach((option, index) => {
-        unregister(`${fieldName}.option_strings_text.en[${index}].id`);
+        unregister(`${fieldName}.option_strings_text[${index}].id`);
       });
     };
   }, [register]);
@@ -47,9 +47,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, show
     reset(
       {
         [fieldName]: {
-          option_strings_text: {
-            en: [...fieldOptions]
-          }
+          option_strings_text: [...fieldOptions]
         }
       },
       {
@@ -65,7 +63,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, show
 
   const handleDragEnd = result => {
     if (result && result.source && result.destination) {
-      const currentOptionValues = getValues({ nest: true })[fieldName].option_strings_text?.en;
+      const currentOptionValues = getValues({ nest: true })[fieldName].option_strings_text;
       const reorderedOptions = mergeOptions(fieldOptions, currentOptionValues);
       const sourceIndex = result.source.index;
       const targetIndex = result.destination.index;
@@ -74,10 +72,10 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, show
       reorderedOptions.splice(targetIndex, 0, sourceOption);
 
       reorderedOptions.forEach((option, index) => {
-        if (!control.fields[`${fieldName}.option_strings_text.en[${index}].id`]) {
-          register(`${fieldName}.option_strings_text.en[${index}].id`);
+        if (!control.fields[`${fieldName}.option_strings_text[${index}].id`]) {
+          register(`${fieldName}.option_strings_text[${index}].id`);
         }
-        setValue(`${fieldName}.option_strings_text.en[${index}].id`, option.id);
+        setValue(`${fieldName}.option_strings_text[${index}].id`, option.id);
       });
 
       setFieldOptions([...reorderedOptions]);
@@ -89,19 +87,20 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, show
   };
 
   const onAddOption = () => {
-    const currentOptionValues = getValues({ nest: true })[fieldName].option_strings_text?.en;
+    const currentOptionValues = getValues({ nest: true })[fieldName].option_strings_text;
     const reorderedOptions = mergeOptions(fieldOptions, currentOptionValues);
 
     setFieldOptions(
       reorderedOptions.concat({
         id: generateIdForNewOption(),
         isNew: true,
-        display_text: ""
+        display_text: "",
+        disabled: true
       })
     );
   };
   const onRemoveValue = item => {
-    const currentOptionValues = getValues({ nest: true })[fieldName].option_strings_text?.en;
+    const currentOptionValues = getValues({ nest: true })[fieldName].option_strings_text;
 
     setRemoved([...removed, item]);
     setFieldOptions([...currentOptionValues.filter(key => key.id !== item)]);
