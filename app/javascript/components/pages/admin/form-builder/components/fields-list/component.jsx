@@ -15,7 +15,6 @@ import FieldListItem from "../field-list-item";
 import { reorderFields } from "../../action-creators";
 import { getSelectedFields } from "../../selectors";
 import { getFieldsAttribute } from "../utils";
-import CustomFieldDialog from "../custom-field-dialog";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
