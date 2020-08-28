@@ -36,9 +36,6 @@ class User < ApplicationRecord
   scope :by_user_group, (lambda do |ids|
     joins(:user_groups).where(user_groups: { id: ids })
   end)
-  scope :by_user_group_unique_ids, (lambda do |unique_ids|
-    joins(:user_groups).where(user_groups: { unique_id: unique_ids })
-  end)
   scope :by_agency, (lambda do |id|
     joins(:agency).where(agencies: { id: id })
   end)
@@ -108,10 +105,16 @@ class User < ApplicationRecord
       Agency.joins(:users).where('users.user_name in (?)', user_names).distinct
     end
 
+    def filter_with_groups(users, filters)
+      return users unless filters['user_group_ids'].present?
+    
+      users.joins(:user_groups).where(user_groups: { unique_id: filters['user_group_ids'] })
+    end
+
     def default_sort_field
       'full_name'
     end
-
+   
     # TODO: Review after figuring out front end lookups. We might not need this method.
     # This method returns a list of id / display_text value pairs
     # It is used to create the select options list for User fields
@@ -124,8 +127,8 @@ class User < ApplicationRecord
       if filters.present?
         filters = filters.compact
         filters['disabled'] = filters['disabled'].values if filters['disabled'].present?
-        users = User.by_user_group_unique_ids(filters['user_group_ids']) if filters.has_key?('user_group_ids')
         users = users.where(filters.except('user_group_ids'))
+        users = filter_with_groups(users, filters)
         if user.present? && user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
           users = users.where(organization: user.organization)
         end
