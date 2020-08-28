@@ -57,12 +57,7 @@ const Component = ({ subformField }) => {
   const renderColumn = text => isNested && <div className={clsx([css.fieldColumn, css.fieldHeader])}>{text}</div>;
 
   if (!fields.size) {
-    return (
-      <div className={css.noFiltersAdded}>
-        {i18n.t("forms.no_subform_filters_added")}
-        <CustomFieldDialog />
-      </div>
-    );
+    return <div className={css.noFiltersAdded}>{i18n.t("forms.no_subform_filters_added")}</div>;
   }
 
   return (
