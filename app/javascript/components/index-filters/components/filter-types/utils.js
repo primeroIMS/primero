@@ -97,3 +97,12 @@ export const setMoreFilterOnPrimarySection = (filters, name, setValues, values =
     setValues(name, value);
   }
 };
+
+export const buildFilterLookups = (optionStringsSource, locations, reportingLocations, lookup) => {
+  if (["Location"].includes(optionStringsSource)) {
+    return locations?.toJS();
+  } else if (["ReportingLocation"].includes(optionStringsSource)) {
+    return reportingLocations?.toJS();
+  }
+  return lookup;
+};

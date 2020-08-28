@@ -9,7 +9,8 @@ import { useLocation } from "react-router-dom";
 import qs from "qs";
 
 import Panel from "../../panel";
-import { getOption, getLocations } from "../../../../record-form";
+import { getOption, getLocations, getReportingLocations } from "../../../../record-form";
+import { getReportingLocationConfig } from "../../../../user/selectors";
 import { useI18n } from "../../../../i18n";
 import styles from "../styles.css";
 import {
@@ -17,7 +18,8 @@ import {
   whichOptions,
   handleMoreFiltersChange,
   resetSecondaryFilter,
-  setMoreFilterOnPrimarySection
+  setMoreFilterOnPrimarySection,
+  buildFilterLookups
 } from "../utils";
 import handleFilterChange from "../value-handlers";
 
@@ -46,7 +48,13 @@ const Component = ({
 
   const locations = useSelector(state => getLocations(state, optionStringsSource === "Location"));
 
-  const lookups = ["Location"].includes(optionStringsSource) ? locations?.toJS() : lookup;
+  const adminLevel = useSelector(state => getReportingLocationConfig(state).get("admin_level"));
+  const reportingLocations = useSelector(
+      state => getReportingLocations(state, adminLevel),
+      (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
+  );
+
+  const lookups = buildFilterLookups(optionStringsSource, locations, reportingLocations, lookup);
 
   const setSecondaryValues = (name, values) => {
     setValue(name, values);
