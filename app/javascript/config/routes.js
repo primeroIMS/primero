@@ -371,6 +371,14 @@ export default [
               }
             },
             {
+              path: `${ROUTES.configurations}/:id`,
+              component: ConfigurationsForm,
+              resources: RESOURCES.configurations,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
               path: ROUTES.configurations,
               component: ConfigurationsList,
               resources: RESOURCES.configurations

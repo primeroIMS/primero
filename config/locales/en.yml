@@ -250,6 +250,7 @@ en:
     add_another_option: "Add another option"
     clear_default: "Clear default"
     select: "Select"
+    apply: "Apply"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -1186,13 +1187,15 @@ en:
     label_new: "New Configuration"
     label_edit: "Edit Configuration"
     name: "Name"
-    description: "Description"
     explanation: "Clicking Save will create a record of all current configuration settings (example: Roles, Agencies, Forms) at this point in time. After you save, you can push these changes to another instance of Primero. If, in the future, you make configuration changes which you wish to undo, you can apply this Configuration record to restore all of the configuration changes you had at this point in time."
-    columns:
+    delete_label: "Are you sure you want to do this? This represents all of the settings from when this Configuration was created. You will not be able to go back and recover these settings once you delete this Configuration."
+    attributes:
       name: "Name"
       version: "Version"
       description: "Description"
+      created_by: "Created By"
       date_created: "Date Created"
+      last_applied_by: "Last Applied By"
       last_applied_on: "Last Applied On"
 
   user_group:
