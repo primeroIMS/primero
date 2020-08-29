@@ -14,6 +14,7 @@ class Role < ApplicationRecord
   validates :permissions, presence: { message: 'errors.models.role.permission_presence' }
   validates :name, presence: { message: 'errors.models.role.name_present' },
                    uniqueness: { message: 'errors.models.role.unique_name' }
+  validate :validate_reporting_location_level
 
   before_create :generate_unique_id
   before_save :reject_form_by_module
@@ -101,6 +102,31 @@ class Role < ApplicationRecord
     dashboards.compact
   end
 
+  def reporting_location_config
+    @system_settings ||= SystemSettings.current
+    return nil if @system_settings.blank?
+
+    ss_reporting_location = @system_settings&.reporting_location_config
+    return nil if ss_reporting_location.blank?
+
+    reporting_location_config = secondary_reporting_location(ss_reporting_location)
+    reporting_location_config
+  end
+
+  # If the Role has a secondary reporting location (indicated by reporting_location_level),
+  # override the reporting location from SystemSettings
+  def secondary_reporting_location(ss_reporting_location)
+    return ss_reporting_location if reporting_location_level.nil?
+
+    return ss_reporting_location if reporting_location_level == ss_reporting_location.admin_level
+
+    reporting_location = ReportingLocation.new(field_key: ss_reporting_location.field_key,
+                                               admin_level: reporting_location_level,
+                                               hierarchy_filter: ss_reporting_location.hierarchy_filter,
+                                               admin_level_map: ss_reporting_location.admin_level_map)
+    reporting_location
+  end
+
   def super_user_role?
     superuser_resources = [
       Permission::CASE, Permission::INCIDENT, Permission::REPORT,
@@ -175,6 +201,19 @@ class Role < ApplicationRecord
   end
 
   private
+
+  def validate_reporting_location_level
+    @system_settings ||= SystemSettings.current
+    return true if @system_settings.blank?
+
+    reporting_location_levels = @system_settings&.reporting_location_config.try(:levels)
+    return true if reporting_location_level.nil? ||
+                   reporting_location_levels.blank? ||
+                   reporting_location_levels.include?(reporting_location_level)
+
+    errors.add(:reporting_location_level, 'errors.models.role.reporting_location_level')
+    false
+  end
 
   def update_forms_sections(form_section_unique_ids)
     return if form_section_unique_ids.nil?

@@ -158,10 +158,7 @@ describe("<FieldTranslationsDialog />", () => {
         field: fromJS({
           name: "field_1",
           type: SELECT_FIELD,
-          option_strings_text: {
-            en: [{ id: "option_1", display_text: "Option 1" }],
-            es: [{ id: "option_1", display_text: "Opción 1" }]
-          }
+          option_strings_text: [{ id: "option_1", display_text: { en: "Option 1", es: "Opción 1" } }]
         }),
         currentValues: {},
         mode: "edit",
@@ -179,12 +176,12 @@ describe("<FieldTranslationsDialog />", () => {
       "field_1.help_text.ar",
       "field_1.guiding_questions.fr",
       "field_1.guiding_questions.ar",
-      "field_1.option_strings_text.en[0].id",
-      "field_1.option_strings_text.en[0].display_text",
-      "field_1.option_strings_text.fr[0].id",
-      "field_1.option_strings_text.fr[0].display_text",
-      "field_1.option_strings_text.ar[0].id",
-      "field_1.option_strings_text.ar[0].display_text"
+      "field_1.option_strings_text[0].id",
+      "field_1.option_strings_text[0].display_text.en",
+      "field_1.option_strings_text[0].id",
+      "field_1.option_strings_text[0].display_text.fr",
+      "field_1.option_strings_text[0].id",
+      "field_1.option_strings_text[0].display_text.ar"
     ];
 
     const fieldNames = component

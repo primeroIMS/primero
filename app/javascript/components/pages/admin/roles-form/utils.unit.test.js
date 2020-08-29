@@ -14,7 +14,8 @@ describe("pages/admin/<RolesForm> - utils", () => {
         agencyActions: fromJS([]),
         formSections: fromJS([]),
         i18n: { t: () => "" },
-        approvalsLabels: {}
+        approvalsLabels: {},
+        adminLevelMap: fromJS({})
       });
 
       expect(formsToRender).to.have.sizeOf(6);

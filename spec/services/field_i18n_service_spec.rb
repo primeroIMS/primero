@@ -19,7 +19,7 @@ describe FieldI18nService do
     it 'merges the localized properties of the hashes of fields' do
       merged_hash = FieldI18nService.merge_i18n_properties(
                       { name_i18n: { en: "Lastname" } },
-                      { name_i18n: { es: "Apellido"} }
+                      { name_i18n: { es: "Apellido" } }
                     )
       expect(merged_hash).to eq({ name_i18n: { en: "Lastname", es: "Apellido" } })
     end
@@ -30,6 +30,22 @@ describe FieldI18nService do
                       { name: "Apellido" }
                     )
       expect(merged_hash).to eq({})
+    end
+
+    it 'merges the option_strings_text value' do
+      fields1 = {
+        name_i18n: { en: 'Lastname' },
+        option_strings_text_i18n: [{ id: 'id1', display_text: { en: 'option1' } }]
+      }
+      fields2 = { name_i18n: { es: 'Apellido' }, option_strings_text_i18n: [] }
+
+      expected_hash = {
+        name_i18n: { en: 'Lastname', es: 'Apellido' },
+        option_strings_text_i18n: [{ id: 'id1', display_text: { en: 'option1' } }]
+      }
+      merged_hash = FieldI18nService.merge_i18n_properties(fields1, fields2)
+
+      expect(merged_hash).to eq(expected_hash)
     end
   end
 
@@ -148,7 +164,6 @@ describe FieldI18nService do
           "fr"=>"",
           "ar"=>"Closure-AR"
         }
-        
       }
       expect(FieldI18nService.to_localized_values(field)).to eq(expect_field)
     end

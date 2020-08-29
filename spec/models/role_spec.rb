@@ -6,34 +6,101 @@ describe Role do
   before :each do
     clean_data(Role, PrimeroModule)
   end
-  it 'should not be valid if name is empty' do
-    role = Role.new
-    role.should_not be_valid
-    role.errors[:name].should == ['errors.models.role.name_present']
-  end
 
-  it 'should not be valid if permissions is empty' do
-    role = Role.new
-    role.should_not be_valid
-    role.errors[:permissions].should == ['errors.models.role.permission_presence']
-  end
+  describe 'Validations' do
+    it 'should not be valid if name is empty' do
+      role = Role.new
+      role.should_not be_valid
+      role.errors[:name].should == ['errors.models.role.name_present']
+    end
 
-  it 'should sanitize and check for permissions' do
-    role = Role.new(name: 'Name', permissions: [])
-    role.save
-    role.should_not be_valid
-    role.errors[:permissions].should == ['errors.models.role.permission_presence']
-  end
+    it 'should not be valid if permissions is empty' do
+      role = Role.new
+      role.should_not be_valid
+      role.errors[:permissions].should == ['errors.models.role.permission_presence']
+    end
 
-  it 'should not be valid if a role name has been taken already' do
-    Role.create(
-      name: 'Unique', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
-    )
-    role = Role.new(
-      name: 'Unique', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
-    )
-    role.should_not be_valid
-    role.errors[:name].should == ['errors.models.role.unique_name']
+    it 'should sanitize and check for permissions' do
+      role = Role.new(name: 'Name', permissions: [])
+      role.save
+      role.should_not be_valid
+      role.errors[:permissions].should == ['errors.models.role.permission_presence']
+    end
+
+    it 'should not be valid if a role name has been taken already' do
+      Role.create(
+        name: 'Unique', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
+      )
+      role = Role.new(
+        name: 'Unique', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
+      )
+      role.should_not be_valid
+      role.errors[:name].should == ['errors.models.role.unique_name']
+    end
+
+    describe 'reporting_location_level' do
+      before do
+        clean_data(SystemSettings)
+        SystemSettings.create(default_locale: 'en',
+                              reporting_location_config: { field_key: 'owned_by_location', admin_level: 2,
+                                                           admin_level_map: { '1' => ['region'],
+                                                                              '2' => ['district'] } })
+        @role = Role.new(name: 'some_role',
+                         permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
+      end
+
+      context 'with a valid reporting_location_level' do
+        before :each do
+          @role.reporting_location_level = 1
+        end
+
+        it 'is valid' do
+          expect(@role).to be_valid
+        end
+
+        describe '.reporting_location_config' do
+          it 'returns the reporting location of the role' do
+            expect(@role.reporting_location_config.admin_level).to eq(1)
+          end
+
+          it 'returns the reporting location label_key of the role' do
+            expect(@role.reporting_location_config.label_key).to eq(['region'])
+          end
+        end
+      end
+
+      context 'with an invalid reporting_location_level' do
+        before :each do
+          @role.reporting_location_level = 6
+        end
+
+        it 'returns an error message' do
+          @role.valid?
+          expect(@role.errors.messages[:reporting_location_level])
+            .to eq(['Location Level must be one of ReportingLocation Level values'])
+        end
+      end
+
+      context 'with a no reporting_location_level' do
+        before :each do
+          @role.reporting_location_level = nil
+        end
+
+        it 'is valid' do
+          expect(@role).to be_valid
+        end
+
+        describe '.reporting_location_config' do
+          it 'returns the default reporting location from SystemSettings' do
+            expect(@role.reporting_location_config.admin_level).to eq(2)
+          end
+
+          it 'returns the default reporting location label_key from SystemSettings' do
+            expect(@role.reporting_location_config.label_key).to eq(['district'])
+          end
+        end
+      end
+    end
   end
 
   it 'should create a valid role' do

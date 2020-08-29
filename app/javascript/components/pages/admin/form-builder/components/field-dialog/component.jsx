@@ -6,6 +6,7 @@ import { FormContext, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import Add from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
+import get from "lodash/get";
 
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { setDialog } from "../../../../../record-actions/action-creators";
@@ -14,7 +15,7 @@ import { submitHandler, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
-import { compare } from "../../../../../../libs";
+import { compare, getObjectPath } from "../../../../../../libs";
 import { getSelectedField, getSelectedSubform, getSelectedFields, getSelectedSubformField } from "../../selectors";
 import {
   createSelectedField,
@@ -232,27 +233,11 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
   const renderClearButtons = () => isSubformField(selectedField) && <ClearButtons subformField={selectedField} />;
 
-  const setLocaleField = (fieldName, locales) => {
-    Object.entries(locales).forEach(([localeId, value]) => {
-      if (!localeId) {
-        return;
-      }
-
-      const fieldPath = `${fieldName}.${localeId}`;
-
-      if (!formMethods.control.fields[fieldPath]) {
-        formMethods.register({ name: fieldPath });
-      }
-
-      formMethods.setValue(`${fieldPath}`, value);
-    });
-  };
-
   const onUpdateTranslation = data => {
-    Object.entries(data).forEach(([fieldKey, fieldNames]) => {
-      Object.entries(fieldNames).forEach(([fieldName, locales]) => {
-        setLocaleField(`${fieldKey}.${fieldName}`, locales);
-      });
+    getObjectPath("", data || []).forEach(path => {
+      const value = get(data, path);
+
+      formMethods.setValue(path, value);
     });
   };
 
@@ -275,20 +260,43 @@ const Component = ({ mode, onClose, onSuccess }) => {
       const subform =
         isSubformField(selectedField) && selectedSubform.toSeq()?.size ? getSubformValues(selectedSubform) : {};
 
-      const resetOptions =
-        isNested || isSubformField(selectedField)
-          ? { errors: true, dirtyFields: true, dirty: true, touched: true }
-          : {};
+      const resetOptions = { errors: true, dirtyFields: true, dirty: true, touched: true };
 
       formMethods.reset(
         {
-          [selectedFieldName]: { ...fieldData, disabled: !fieldData.disabled },
+          [selectedFieldName]: {
+            ...fieldData,
+            disabled: !fieldData.disabled,
+            option_strings_text: fieldData.option_strings_text?.map(option => {
+              return { ...option, disabled: !option.disabled };
+            })
+          },
           ...subform
         },
         resetOptions
       );
     }
   }, [openFieldDialog, selectedField]);
+
+  useEffect(() => {
+    if (openFieldDialog && selectedFieldName !== NEW_FIELD && selectedField?.toSeq()?.size) {
+      const currentData = selectedField.toJS();
+      const objectPaths = getObjectPath("", currentData.option_strings_text || []).filter(
+        option => !option.includes(".en") && !option.includes("id") && !option.includes("disabled")
+      );
+
+      objectPaths.forEach(path => {
+        const optionStringsTextPath = `${selectedFieldName}.option_strings_text${path}`;
+
+        if (!formMethods.control.fields[optionStringsTextPath]) {
+          formMethods.register({ name: optionStringsTextPath });
+        }
+        const value = get(currentData.option_strings_text, path);
+
+        formMethods.setValue(optionStringsTextPath, value);
+      });
+    }
+  }, [openFieldDialog, selectedField, formMethods.register]);
 
   useImperativeHandle(
     formRef,
