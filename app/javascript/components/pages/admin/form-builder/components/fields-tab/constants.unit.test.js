@@ -1,10 +1,10 @@
 import * as constants from "./constants";
 
-describe("<FormBuilder />/components/<FieldListItem /> - Constants", () => {
+describe("<FormBuilder />/components/<FieldsTab /> - Constants", () => {
   it("should have known properties", () => {
     const clonedActions = { ...constants };
 
-    ["NAME", "SUBFORM_GROUP_BY", "SUBFORM_SECTION_CONFIGURATION", "SUBFORM_SORT_BY"].forEach(property => {
+    ["NAME"].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];
     });

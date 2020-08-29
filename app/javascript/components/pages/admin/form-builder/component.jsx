@@ -1,5 +1,6 @@
 /* eslint-disable react/display-name,  react/no-multi-comp */
 import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { makeStyles, Tab, Tabs } from "@material-ui/core";
 import { FormContext, useForm } from "react-hook-form";
@@ -183,7 +184,8 @@ const Component = ({ mode }) => {
             fields: getFieldsTranslations(fieldTree)
           }
         });
-        setModuleId(selectedForm.get("module_ids").first());
+
+        setModuleId(selectedForm.get("module_ids", fromJS([])).first());
         setParentForm(selectedForm.get("parent_form"));
       }
     }
