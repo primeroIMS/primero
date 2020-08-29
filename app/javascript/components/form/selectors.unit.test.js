@@ -56,6 +56,17 @@ describe("Forms - Selectors", () => {
         ])
       );
     });
+    it("should return the options for optionStringsText", () => {
+      const optionStringsText = [
+        { id: "submitted", display_text: "Submitted" },
+        { id: "pending", display_text: "Pending" },
+        { id: "no", display_text: "No" }
+      ];
+      const expected = fromJS(optionStringsText);
+      const result = selectors.getOptions(stateWithLookups, null, i18n, optionStringsText);
+
+      expect(result).to.deep.equal(expected);
+    });
   });
 
   describe("getLookupByUniqueId", () => {

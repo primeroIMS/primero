@@ -12,10 +12,7 @@ describe("<TranslatableOptions />", () => {
       {
         field: fromJS({
           name: "field_1",
-          option_strings_text: {
-            en: [{ id: "option_1", display_text: "Option 1" }],
-            es: [{ id: "option_1", display_text: "Opción 1" }]
-          }
+          option_strings_text: [{ id: "option_1", display_text: { en: "Option 1", es: "Opción 1" } }]
         }),
         selectedLocaleId: "es"
       },
