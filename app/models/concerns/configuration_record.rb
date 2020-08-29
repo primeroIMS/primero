@@ -41,12 +41,6 @@ module ConfigurationRecord
       delete_all
     end
 
-    # TODO: Do we need this? review with importable.
-    def import(data)
-      record = new(data)
-      record.save!
-    end
-
     # TODO: Do we need this? Review with exporter logic
     def export
       all.map(&:configuration_hash)

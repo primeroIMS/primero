@@ -27,11 +27,6 @@ class Role < ApplicationRecord
   end
 
   class << self
-    # TODO: Used by importer. Refactor?
-    def get_unique_instance(attributes)
-      # find_by_name(attributes['name'])
-    end
-
     # TODO: Redundant after create_or_update!
     def create_or_update(attributes = {})
       record = find_by(unique_id: attributes[:unique_id])
@@ -51,13 +46,6 @@ class Role < ApplicationRecord
         f.form_sections.destroy(f.form_sections)
       end
       super_clear
-    end
-
-    # TODO: this may be deprecated; review with imports
-    alias super_import import
-    def import(data)
-      data['form_sections'] = FormSection.where(unique_id: data['form_sections']) if data['form_sections'].present?
-      super_import(data)
     end
 
     # TODO: this may be deprecated

@@ -4,7 +4,6 @@
 class FormSection < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
-  # include Importable # TODO: This will need to be rewritten
 
   RECORD_TYPES = %w[case incident tracing_request].freeze
 
@@ -81,12 +80,6 @@ class FormSection < ApplicationRecord
     def new_with_properties(form_params)
       FormSection.new.tap { |form| form.update_properties(form_params) }
     end
-
-    # TODO: Used by importer. Refactor?
-    def get_unique_instance(attributes)
-      find_by(unique_id: attributes['unique_id'])
-    end
-    # memoize_in_prod :get_unique_instance
 
     # Given a list of forms, return their subforms
     def get_subforms(forms)
@@ -266,12 +259,6 @@ class FormSection < ApplicationRecord
         f.roles.destroy(f.roles)
       end
       super_clear
-    end
-
-    # TODO: Review; this method might no longer be relevant
-    def import(data)
-      form = create!(data.except('fields'))
-      Field.import(data['fields'], form)
     end
 
     # TODO: Review; this method might no longer be relevant

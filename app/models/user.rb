@@ -7,7 +7,6 @@
 # model is not responsible for storing authentication information, and must mirror a user
 # in external IDP (such as Azure Active Directory).
 class User < ApplicationRecord
-  include Importable
   include Devise::JWT::RevocationStrategies::Whitelist
 
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
@@ -91,10 +90,6 @@ class User < ApplicationRecord
           { module_unique_ids: [] }, :role_unique_id, :identity_provider_unique_id
         ]
       ) - User.hidden_attributes
-    end
-
-    def get_unique_instance(attributes)
-      User.find_by(user_name: attributes['user_name'])
     end
 
     def last_login_timestamp(user_name)
@@ -363,16 +358,6 @@ class User < ApplicationRecord
     return unless identity_provider&.sync_identity?
 
     IdentitySyncJob.perform_later(id, admin_user.id)
-  end
-
-  # Used by the User import to populate the password with a random string when the input file has no password
-  # This assumes an admin will have to reset the new user's password after import
-  def populate_missing_attributes
-    return if using_idp?
-    return unless password_digest.blank? && password.blank?
-
-    self.password = SecureRandom.hex(20)
-    self.password_confirmation = password
   end
 
   def agency_office_name

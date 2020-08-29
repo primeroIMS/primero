@@ -71,15 +71,6 @@ class PrimeroModule < ApplicationRecord
   end
 
   class << self
-    alias super_import import
-    def import(data)
-      data['form_sections'] = FormSection.where(unique_id: data['form_sections']) if data['form_sections'].present?
-      if data['primero_program_id'].present?
-        data['primero_program_id'] = PrimeroProgram.find_by(unique_id: data['primero_program_id']).id
-      end
-      super_import(data)
-    end
-
     def export
       all.map do |record|
         record.attributes.tap do |pm|

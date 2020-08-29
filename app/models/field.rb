@@ -302,19 +302,12 @@ class Field < ApplicationRecord
     end
 
     # This allows us to use the property 'type' on Field, normally reserved by ActiveRecord
-    def inheritance_column ; 'type_inheritance' ; end
+    def inheritance_column
+      'type_inheritance'
+    end
 
     def find_with_append_only_subform
       Field.joins(:subform).where({ type: 'subform', form_sections: { subform_append_only: true, is_nested: true } })
-    end
-
-    alias super_import import
-    def import(data, form)
-      data.each do |field|
-        field['subform_section_id'] = FormSection.find_by(unique_id: field['subform_section_id']).id if field['subform_section_id'].present?
-        field['form_section_id'] = form.id
-        super_import(field)
-      end
     end
   end
 
