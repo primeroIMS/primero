@@ -46,7 +46,6 @@ class Location < ApplicationRecord
 
     alias list_by_all all
 
-    # WARNING: Do not memoize this method.  Doing so will break the Location seeds.
     def get_by_location_code(location_code)
       if @locations_by_code.present?
         @locations_by_code[location_code]
@@ -55,7 +54,6 @@ class Location < ApplicationRecord
       end
     end
 
-    # WARNING: Do not memoize this method.  Doing so will break the Location seeds.
     def fetch_by_location_codes(location_codes)
       if @locations_by_code.present?
         location_codes.map{|l| @locations_by_code[l]}
@@ -115,7 +113,6 @@ class Location < ApplicationRecord
       location_names.each {|l| l['display_text'] = l['display_text'].split('::').last}
       location_names
     end
-    # memoize_in_prod :find_names_by_admin_level_enabled
 
     def ancestor_placename_by_name_and_admin_level(location_code, admin_level)
       return '' if location_code.blank? || ADMIN_LEVELS.exclude?(admin_level)

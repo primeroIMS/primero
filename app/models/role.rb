@@ -2,7 +2,6 @@
 
 # The model for Role
 class Role < ApplicationRecord
-  include Cloneable
   include ConfigurationRecord
 
   has_and_belongs_to_many :form_sections, -> { distinct }

@@ -269,7 +269,6 @@ class Field < ApplicationRecord
       end
       result
     end
-    # memoize_in_prod :get_by_name
 
     # TODO: This is a HACK to pull back location fields from admin solr index names,
     #      completely based on assumptions.
