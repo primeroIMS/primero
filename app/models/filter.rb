@@ -231,15 +231,14 @@ class Filter < ValueObject
 
     def case_filters(user)
       filter_fields = Field.get_by_name(CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
-      reporting_location_label = SystemSettings.current.reporting_location_config.try(:label_key) ||
-                                 ReportingLocation::DEFAULT_LABEL_KEY
+      reporting_location_label = SystemSettings.current.reporting_location_config.try(:label_key)
       admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) ||
                     ReportingLocation::DEFAULT_ADMIN_LEVEL
       permitted_form_ids = user.role.permitted_forms('case', true).pluck(:unique_id)
 
       filters = []
       filters << FLAGGED_CASE
-      filters << SOCIAL_WORKER if user.is_manager?
+      filters << SOCIAL_WORKER if user.manager?
       filters << MY_CASES
       filters << WORKFLOW
       filters << AGENCY if user.admin?
@@ -254,42 +253,42 @@ class Filter < ValueObject
       if user.can?(:view_protection_concerns_filter, Child) && visible?('protection_concerns', filter_fields)
         filters << PROTECTION_CONCERNS
       end
-      if user.has_module?(PrimeroModule::GBV) && visible?('gbv_displacement_status', filter_fields)
+      if user.module?(PrimeroModule::GBV) && visible?('gbv_displacement_status', filter_fields)
         filters << GBV_DISPLACEMENT_STATUS
       end
       filters << PROTECTION_STATUS if visible?('protection_status', filter_fields)
-      if user.has_module?(PrimeroModule::CP) && visible?('urgent_protection_concern', filter_fields)
+      if user.module?(PrimeroModule::CP) && visible?('urgent_protection_concern', filter_fields)
         filters << URGENT_PROTECTION_CONCERN
       end
-      filters << TYPE_OF_RISK if user.has_module?(PrimeroModule::CP) && visible?('type_of_risk', filter_fields)
-      filters << RISK_LEVEL if user.has_module?(PrimeroModule::CP)
-      filters << CURRENT_LOCATION if user.has_module?(PrimeroModule::CP)
-      filters << AGENCY_OFFICE if user.has_module?(PrimeroModule::GBV)
-      filters << USER_GROUP if user.has_module?(PrimeroModule::GBV) && user.has_user_group_filter?
+      filters << TYPE_OF_RISK if user.module?(PrimeroModule::CP) && visible?('type_of_risk', filter_fields)
+      filters << RISK_LEVEL if user.module?(PrimeroModule::CP)
+      filters << CURRENT_LOCATION if user.module?(PrimeroModule::CP)
+      filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
+      filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
       filters << REPORTING_LOCATION.call(reporting_location_label, admin_level)
       filters << NO_ACTIVITY
-      filters << DATE_CASE if user.has_module?(PrimeroModule::CP)
+      filters << DATE_CASE if user.module?(PrimeroModule::CP)
       filters << ENABLED
-      filters << PHOTO if permitted_form_ids.include?('photos_and_audio') && user.has_module?(PrimeroModule::CP)
+      filters << PHOTO if permitted_form_ids.include?('photos_and_audio') && user.module?(PrimeroModule::CP)
       filters
     end
 
     def incident_filters(user)
       filters = []
       filters << FLAGGED_CASE
-      filters << VIOLENCE_TYPE if user.has_module?(PrimeroModule::GBV)
-      filters << SOCIAL_WORKER if user.is_manager?
-      filters << AGENCY_OFFICE if user.has_module?(PrimeroModule::GBV)
-      filters << USER_GROUP if user.has_module?(PrimeroModule::GBV) && user.has_user_group_filter?
+      filters << VIOLENCE_TYPE if user.module?(PrimeroModule::GBV)
+      filters << SOCIAL_WORKER if user.manager?
+      filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
+      filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
       filters << STATUS
       filters << AGE_RANGE
-      filters << CHILDREN if user.has_module?(PrimeroModule::MRM)
-      filters << VERIFICATION_STATUS if user.has_module?(PrimeroModule::MRM)
+      filters << CHILDREN if user.module?(PrimeroModule::MRM)
+      filters << VERIFICATION_STATUS if user.module?(PrimeroModule::MRM)
       filters << INCIDENT_LOCATION
       filters << INCIDENT_DATE
-      filters << UNACCOMPANIED_PROTECTION_STATUS if user.has_module?(PrimeroModule::GBV)
-      filters << ARMED_FORCE_GROUP if user.has_module?(PrimeroModule::MRM)
-      filters << ARMED_FORCE_GROUP_TYPE if user.has_module?(PrimeroModule::MRM)
+      filters << UNACCOMPANIED_PROTECTION_STATUS if user.module?(PrimeroModule::GBV)
+      filters << ARMED_FORCE_GROUP if user.module?(PrimeroModule::MRM)
+      filters << ARMED_FORCE_GROUP_TYPE if user.module?(PrimeroModule::MRM)
       filters << ENABLED
       filters
     end
@@ -297,7 +296,7 @@ class Filter < ValueObject
     def tracing_request_filter(user)
       filters = []
       filters << FLAGGED_CASE
-      filters << SOCIAL_WORKER if user.is_manager?
+      filters << SOCIAL_WORKER if user.manager?
       filters << INQUIRY_DATE
       filters << STATUS
       filters << SEPARATION_LOCATION
@@ -366,7 +365,7 @@ class Filter < ValueObject
             display_name: I18n.t('children.selectable_date_options.closure_approved_date', locale: locale)
           }
         ]
-        date_label = user.has_module?(PrimeroModule::GBV) ? 'created_at' : 'date_of_creation'
+        date_label = user.module?(PrimeroModule::GBV) ? 'created_at' : 'date_of_creation'
         locale_options << { id: 'created_at',
                             display_name: I18n.t("children.selectable_date_options.#{date_label}", locale: locale) }
         { locale => locale_options }
@@ -374,7 +373,7 @@ class Filter < ValueObject
     when 'incidents_by_date'
       self.options = I18n.available_locales.map do |locale|
         locale_options = []
-        if user.has_module?(PrimeroModule::GBV)
+        if user.module?(PrimeroModule::GBV)
           locale_options << {
             id: 'date_of_first_report',
             display_name: I18n.t('incidents.selectable_date_options.date_of_first_report', locale: locale)
@@ -386,7 +385,8 @@ class Filter < ValueObject
         }
         { locale => locale_options }
       end.inject(&:merge)
-    when 'approval_status_assessment', 'approval_status_case_plan', 'approval_status_closure', 'approval_status_action_plan', 'approval_status_gbv_closure'
+    when 'approval_status_assessment', 'approval_status_case_plan', 'approval_status_closure',
+        'approval_status_action_plan', 'approval_status_gbv_closure'
       self.options = I18n.available_locales.map do |locale|
         {
           locale => [

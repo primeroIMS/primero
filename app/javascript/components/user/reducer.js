@@ -24,7 +24,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         list_headers: listHeaders,
         filters,
         permitted_form_unique_ids: permittedForms,
-        locale
+        locale,
+        reporting_location_config: reportingLocationConfig
       } = payload;
 
       return state.merge(
@@ -35,7 +36,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           listHeaders: mapObjectPropertiesToRecords(listHeaders, ListHeaderRecord),
           permittedForms,
           filters: mapObjectPropertiesToRecords(filters, FilterRecord),
-          locale
+          locale,
+          reportingLocationConfig
         })
       );
     }

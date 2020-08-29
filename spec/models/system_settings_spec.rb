@@ -1,7 +1,14 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 describe SystemSettings do
   before :each do
-    @system_settings = SystemSettings.create(primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
+    @system_settings = SystemSettings.create(primary_age_range: 'primary',
+                                             age_ranges: { 'primary' => [1..2, 3..4] },
+                                             reporting_location_config: { field_key: 'owned_by_location',
+                                                                          admin_level: 2,
+                                                                          admin_level_map: { '1' => ['region'],
+                                                                                             '2' => ['district'] } })
   end
 
   describe 'Validation' do
@@ -12,14 +19,12 @@ describe SystemSettings do
 
       context 'which is valid' do
         before :each do
-          @system_settings.reporting_location_config.label_key = 'district'
           @system_settings.reporting_location_config.admin_level = 2
         end
 
         it 'is valid' do
           expect(@system_settings).to be_valid
         end
-
       end
     end
 
@@ -69,7 +74,7 @@ describe SystemSettings do
 
         it 'is not valid' do
           expect(@system_settings).not_to be_valid
-          expect(@system_settings.errors[:locales]).to include("errors.models.system_settings.locales")
+          expect(@system_settings.errors[:locales]).to include('errors.models.system_settings.locales')
         end
       end
     end
@@ -79,7 +84,7 @@ describe SystemSettings do
         @system_settings.locales = []
       end
 
-      #TODO - for now, empty locales is valid for backwards compatibility
+      # TODO: for now, empty locales is valid for backwards compatibility
       # If / when that changes, add back this test
       # it 'is not valid' do
       #   expect(@system_settings).not_to be_valid
@@ -91,5 +96,4 @@ describe SystemSettings do
       end
     end
   end
-
 end
