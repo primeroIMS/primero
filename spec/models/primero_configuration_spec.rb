@@ -69,11 +69,13 @@ describe PrimeroConfiguration do
       current_configuration.save!
 
       subform = FormSection.create!(unique_id: 'Y', name: 'Y - Subform', parent_form: 'case', form_group_id: 'm')
-      field_on_subform = Field.create!(
+      # field_on_subform
+      Field.create!(
         name: 'test2', type: Field::TEXT_FIELD, form_section_id: subform.id, display_name: 'test',
         collapsed_field_for_subform_section_id: subform.id
       )
-      subform_field = Field.create!(
+      # subform_field
+      Field.create!(
         name: 'test3', type: Field::SUBFORM, form_section_id: form2.id,
         subform_section_id: subform.id, display_name: 'test'
       )

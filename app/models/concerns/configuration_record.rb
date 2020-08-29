@@ -13,6 +13,7 @@ module ConfigurationRecord
   # Class methods
   module ClassMethods
     def create_or_update!(configuration_hash)
+      configuration_hash = configuration_hash.with_indifferent_access if configuration_hash.is_a?(Hash)
       configuration_record = find_or_initialize_by(unique_id_attribute => configuration_hash[unique_id_attribute])
       configuration_record.update_properties(configuration_hash)
       configuration_record.save!

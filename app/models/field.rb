@@ -326,6 +326,25 @@ class Field < ApplicationRecord
     end
   end
 
+  def update_properties(field_params)
+    field_params['subform_unique_id'] &&
+      self.subform = FormSection.find_by(unique_id: field_params['subform_section_id'])
+    if field_params['collapsed_field_for_subform_unique_id']
+      self.collapsed_field_for_subform = FormSection.find_by(
+        unique_id: field_params['collapsed_field_for_subform_unique_id']
+      )
+    end
+    self.attributes = params_with_i18n(
+      field_params.except('id', 'form_section_id', 'subform_unique_id', 'collapsed_field_for_subform_unique_id')
+    )
+  end
+
+  def params_with_i18n(field_params)
+    field_params = FieldI18nService.convert_i18n_properties(Field, field_params)
+    field_params_i18n = FieldI18nService.merge_i18n_properties(attributes, field_params)
+    field_params.merge(field_params_i18n)
+  end
+
   def configuration_hash
     hash = attributes.except('id', 'form_section_id', 'subform_section_id', 'collapsed_field_for_subform')
     hash['subform_unique_id'] = subform&.unique_id

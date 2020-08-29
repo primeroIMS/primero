@@ -244,12 +244,12 @@ describe FormSection do
     end
 
     it 'should not allows empty form names in form base_language ' do
-     form_section = FormSection.new(name_en: 'English', name_es: 'Chinese')
-     I18n.default_locale = 'es'
-     expect {
-       form_section.name_en = ''
-       form_section.save!
-     }.to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Name errors.models.form_section.presence_of_name')
+      form_section = FormSection.new(name_en: 'English', name_es: 'Chinese')
+      I18n.default_locale = 'es'
+      expect {
+        form_section.name_en = ''
+        form_section.save!
+      }.to raise_error(ActiveRecord::RecordInvalid, /errors.models.form_section.presence_of_name/)
     end
 
     it 'should validate name is alpha_num' do
@@ -1108,7 +1108,7 @@ describe FormSection do
           'unique_id' => 'AB',
           'name_i18n' => { 'en' => 'AB' },
           'fields_attributes' => [
-            { 'name' => 'test', 'type' => 'text_field', 'display_name' => 'test' }
+            { 'name' => 'test', 'type' => 'text_field', 'display_name' => { 'en' => 'test' } }
           ],
           'module_ids' => ['primeromodule-cp-a']
         }
@@ -1128,7 +1128,7 @@ describe FormSection do
           'unique_id' => 'A',
           'name_i18n' => { 'en' => 'AB' },
           'fields_attributes' => [
-            { 'name' => 'test', 'type' => 'text_field', 'display_name' => 'test' }
+            { 'name' => 'test', 'type' => 'text_field', 'display_name' => { 'en' => 'test' } }
           ],
           'module_ids' => ['primeromodule-cp-a']
         }

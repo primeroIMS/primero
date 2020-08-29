@@ -10,7 +10,7 @@ class FormSection < ApplicationRecord
 
   localize_properties :name, :help_text, :description
 
-  has_many :fields, -> { order(:order) }, dependent: :destroy
+  has_many :fields, -> { order(:order) }, dependent: :destroy, autosave: true
   accepts_nested_attributes_for :fields
   has_many :collapsed_fields, class_name: 'Field', foreign_key: 'collapsed_field_for_subform_section_id'
   has_one :subform_field,
@@ -27,8 +27,8 @@ class FormSection < ApplicationRecord
   validate :validate_name_format
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
 
-  after_initialize :defaults, :generate_unique_id, unless: :persisted?
-  before_validation :calculate_fields_order
+  after_initialize :defaults, unless: :persisted?
+  before_validation :calculate_fields_order, :generate_unique_id
   before_save :sync_form_group, :recalculate_editable
   after_save :recalculate_collapsed_fields
 
@@ -79,22 +79,7 @@ class FormSection < ApplicationRecord
     end
 
     def new_with_properties(form_params)
-      form_section = FormSection.new(convert_i18n_properties(form_params))
-      module_ids = form_params['module_ids']
-      form_section.primero_modules = PrimeroModule.where(unique_id: module_ids) if module_ids.present?
-      form_section
-    end
-
-    def convert_i18n_properties(form_params)
-      form_section_props = FieldI18nService.convert_i18n_properties(
-        FormSection, form_params.except(:fields, :module_ids)
-      )
-      if form_params.key?('fields')
-        form_section_props['fields_attributes'] = (form_params['fields'] || []).map do |field_param|
-          FieldI18nService.convert_i18n_properties(Field, field_param)
-        end
-      end
-      form_section_props
+      FormSection.new.tap { |form| form.update_properties(form_params) }
     end
 
     # TODO: Used by importer. Refactor?
@@ -421,40 +406,34 @@ class FormSection < ApplicationRecord
 
   def update_properties(form_params)
     form_params = form_params.with_indifferent_access if form_params.is_a?(Hash)
-    merge_properties(
-      FormSection.convert_i18n_properties(form_params).except('module_ids'),
-      form_params['module_ids']
-    )
+    update_field_properties(form_params)
+    if form_params['module_ids'].present?
+      self.primero_modules = PrimeroModule.where(unique_id: form_params['module_ids'])
+    end
+    form_params = form_params.except('module_ids', 'fields_attributes', 'fields')
+    self.attributes = params_with_i18n(form_params)
   end
 
-  # TODO: This needs to be refactored and cleaned up after Alberto finishes up his field select options changes
-  def merge_properties(form_properties, module_ids = [])
-    formi18n_props = FieldI18nService.merge_i18n_properties(self.attributes, form_properties)
-    formi18n_props = form_properties.merge(formi18n_props)
+  def params_with_i18n(form_params)
+    form_params = FieldI18nService.convert_i18n_properties(FormSection, form_params)
+    form_params_i18n = FieldI18nService.merge_i18n_properties(attributes, form_params)
+    form_params.merge(form_params_i18n)
+  end
 
-    if form_properties.key?('fields_attributes')
-      fields = []
-      (form_properties['fields_attributes'] || []).each do |field_props|
-        field = self.fields.find{ |f| f.name == field_props["name"] }
-        if field.present?
-          fieldi18n_props = FieldI18nService.merge_i18n_properties(field.attributes, field_props)
-          fieldi18n_props = field_props.merge(fieldi18n_props)
-          fields << field.attributes.merge(fieldi18n_props)
-        else
-          fields << field_props
-        end
-      end
-      formi18n_props['fields_attributes'] = fields
+  def update_field_properties(form_params)
+    form_params['fields_attributes'] ||= form_params['fields'] unless form_params['fields']&.first.is_a?(Field)
+    return unless form_params['fields_attributes']
 
-      field_names = form_properties['fields_attributes'].map{ |field| field['name'] }
-      self.fields
-          .select{ |field| field_names.exclude?(field.name) && field.editable? }
-          .each(&:mark_for_destruction)
+    self.fields = fields_from_params(form_params['fields_attributes'])
+  end
+
+  def fields_from_params(fields_params)
+    # TODO: We are allowing updating non-editable fields via the API
+    fields_params.map do |field_params|
+      field = fields.find { |f| f.name == field_params['name'] } || Field.new
+      field.update_properties(field_params)
+      field
     end
-
-    self.assign_attributes(formi18n_props)
-
-    self.primero_modules = PrimeroModule.where(unique_id: module_ids) if module_ids.present?
   end
 
   def permitted_destroy!
