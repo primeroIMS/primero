@@ -2549,6 +2549,7 @@ en:
     english_label: "English Text"
     translation_label: "Translation Text"
     language_label: "Language"
+    enabled_label: "Enabled?"
     messages:
       cannot_create: "Lookup could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
