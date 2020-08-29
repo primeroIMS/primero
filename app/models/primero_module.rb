@@ -70,18 +70,6 @@ class PrimeroModule < ApplicationRecord
     self.form_sections = FormSection.where(unique_id: params[:form_section_unique_ids])
   end
 
-  class << self
-    def export
-      all.map do |record|
-        record.attributes.tap do |pm|
-          pm.delete('id')
-          pm['form_sections'] = record.form_sections.pluck(:unique_id)
-          pm['primero_program_id'] = record.primero_program.unique_id
-        end
-      end
-    end
-  end
-
   private
 
   def set_unique_id

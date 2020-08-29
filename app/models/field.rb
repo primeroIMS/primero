@@ -310,14 +310,6 @@ class Field < ApplicationRecord
     end
   end
 
-  def export
-    attributes.tap do |form|
-      form.delete('id')
-      form['form_section_id'] = self.form_section.unique_id
-      form['subform_section_id'] = self.subform.unique_id if self.subform.present?
-    end
-  end
-
   def update_properties(field_params)
     field_params['subform_unique_id'] &&
       self.subform = FormSection.find_by(unique_id: field_params['subform_section_id'])

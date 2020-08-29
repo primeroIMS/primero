@@ -251,26 +251,6 @@ class FormSection < ApplicationRecord
       end
     end
 
-    # TODO: Review; this method might no longer be relevant
-    alias super_clear clear
-    def clear
-      Field.delete_all
-      all.each do |f|
-        f.roles.destroy(f.roles)
-      end
-      super_clear
-    end
-
-    # TODO: Review; this method might no longer be relevant
-    def export
-      all.map do |record|
-        record.attributes.tap do |form|
-          form.delete('id')
-          form['fields'] = record.fields.map(&:export)
-        end
-      end
-    end
-
     def list(params = {})
       form_sections = all.includes(:fields, :collapsed_fields, :primero_modules)
       form_sections = form_sections.where(parent_form: params[:record_type]) if params[:record_type]

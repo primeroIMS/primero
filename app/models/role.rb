@@ -37,27 +37,6 @@ class Role < ApplicationRecord
       end
     end
 
-    # TODO: this is used by the config bundle code.
-    # This may be deprecated and replaced by what we are doing in configuration.rb
-    alias super_clear clear
-    def clear
-      # According documentation this is the best way to delete the values on HABTM relation
-      all.each do |f|
-        f.form_sections.destroy(f.form_sections)
-      end
-      super_clear
-    end
-
-    # TODO: this may be deprecated
-    def export
-      all.map do |record|
-        record.attributes.tap do |r|
-          r.delete('id')
-          r['form_sections'] = record.form_sections.pluck(:unique_id)
-        end
-      end
-    end
-
     def new_with_properties(role_params)
       role = Role.new(role_params.except(:permissions, :form_section_unique_ids, :module_unique_ids))
       if role_params[:form_section_unique_ids].present?

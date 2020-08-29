@@ -8,20 +8,10 @@ class UserGroup < ApplicationRecord
 
   before_create :generate_unique_id
 
-  class << self
-    alias super_clear clear
-    def clear
-      all.each do |ug|
-        ug.users.destroy(ug.users)
-      end
-      super_clear
-    end
-
-    def new_with_properties(params, user)
-      user_group = UserGroup.new(params)
-      user_group.add_creating_user(user)
-      user_group
-    end
+  def self.new_with_properties(params, user)
+    user_group = UserGroup.new(params)
+    user_group.add_creating_user(user)
+    user_group
   end
 
   def add_creating_user(user)

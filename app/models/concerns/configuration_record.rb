@@ -35,16 +35,6 @@ module ConfigurationRecord
     def unique_id_from_attribute=(attribute = 'name')
       @unique_id_from_attribute = attribute.to_s
     end
-
-    # TODO: Do we need this? Used by config_bundle.rb; this may be deprecated
-    def clear
-      delete_all
-    end
-
-    # TODO: Do we need this? Review with exporter logic
-    def export
-      all.map(&:configuration_hash)
-    end
   end
 
   def configuration_hash
