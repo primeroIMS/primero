@@ -196,7 +196,7 @@ class Report < ApplicationRecord
           #The numbers are off because a dimension is missing. Zero everything out!
           self.values = self.values.map{|pivots, _| [pivots, 0]}
         end
-        aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)
+        aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)&.first
         if aggregate_counts_from_field.present?
           if aggregate_counts_from_field.type == Field::TALLY_FIELD
             self.values = self.values.map do |pivots, value|
@@ -383,7 +383,7 @@ class Report < ApplicationRecord
   end
 
   def pivots_map
-    @pivots_map ||= pivots.map { |pivot| [pivot, Field.find_by_name(pivot)] }.to_h
+    @pivots_map ||= pivots.map { |pivot| [pivot, Field.find_by_name(pivot)&.first] }.to_h
   end
 
   def pivot_index(field_name)

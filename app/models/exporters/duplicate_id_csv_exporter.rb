@@ -41,7 +41,7 @@ module Exporters
 
     def initialize(output_file_path = nil)
       super(output_file_path, export_config_id)
-      @fields = Field.find_by_name(ID_FIELD_NAMES).to_a
+      @fields = Field.where(name: ID_FIELD_NAMES).to_a
       @properties = properties_to_export(PROPERTIES)
       @headers = [' '] +
                  @properties.keys.map do |prop|

@@ -259,10 +259,6 @@ class FormSection < ApplicationRecord
     end
   end
 
-  def all_mobile_fields
-    fields.select{|f| f.is_mobile?}
-  end
-
   def localized_attributes_hash(locales)
     attributes = self.attributes.clone
     # convert top level attributes

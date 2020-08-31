@@ -407,7 +407,7 @@ describe Api::V2::FormSectionsController, type: :request do
           fields: [
             {
               name: 'fs1_field_1',
-              type: 'separator',
+              type: Field::TEXT_FIELD,
               display_name: {
                 es: 'Traduccion del campo'
               },

@@ -77,7 +77,7 @@ describe Role do
         it 'returns an error message' do
           @role.valid?
           expect(@role.errors.messages[:reporting_location_level])
-            .to eq(['Location Level must be one of ReportingLocation Level values'])
+            .to eq(['errors.models.role.reporting_location_level'])
         end
       end
 
