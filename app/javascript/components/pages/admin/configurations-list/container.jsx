@@ -9,11 +9,12 @@ import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import NAMESPACE from "../namespace";
-import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
+import { CREATE_RECORDS, MANAGE, RESOURCES } from "../../../../libs/permissions";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
+import Permission from "../../../application/permission";
 
 import { NAME } from "./constants";
 import { getColumns } from "./utils";
@@ -22,7 +23,7 @@ import { fetchConfigurations } from "./action-creators";
 const Container = () => {
   const i18n = useI18n();
   const canAddUserGroups = usePermissions(NAMESPACE, CREATE_RECORDS);
-  const recordType = ["admin", RESOURCES.configurations];
+  const recordType = ["admin", NAMESPACE];
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultFilters = metadata;
 
@@ -36,7 +37,7 @@ const Container = () => {
     },
     defaultFilters,
     onTableChange: fetchConfigurations,
-    targetRecordType: RESOURCES.configurations,
+    targetRecordType: NAMESPACE,
     bypassInitialFetch: true
   };
 
@@ -53,12 +54,12 @@ const Container = () => {
   ) : null;
 
   return (
-    <>
+    <Permission resources={RESOURCES.configurations} actions={MANAGE} redirect>
       <PageHeading title={i18n.t("configurations.label")}>{newConfigurationButton}</PageHeading>
       <PageContent>
         <IndexTable title={i18n.t("configurations.label")} {...tableOptions} />
       </PageContent>
-    </>
+    </Permission>
   );
 };
 
