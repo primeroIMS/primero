@@ -63,10 +63,10 @@ const stateWithRecords = fromJS({
       }
     ],
     reportingLocationConfig: {
-      field_key: 'owned_by_location',
+      field_key: "owned_by_location",
       admin_level: 2,
       admin_level_map: { 1: ["province"], 2: ["district"] },
-      label_keys: ['district']
+      label_keys: ["district"]
     },
     permissions: fromJS({
       management: [GROUP_PERMISSIONS.SELF],
@@ -191,7 +191,7 @@ describe("Application - Selectors", () => {
         admin_level: 2,
         field_key: "owned_by_location",
         admin_level_map: { 1: ["province"], 2: ["district"] },
-        label_keys: ['district']
+        label_keys: ["district"]
       });
 
       expect(selector).to.deep.equal(config);

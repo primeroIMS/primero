@@ -83,7 +83,7 @@ describe("<ReportingLocation> - pages/dashboard/components/reporting-location", 
         field_key: "owned_by_location",
         admin_level: 2,
         admin_level_map: { 1: ["province"], 2: ["district"] },
-        label_keys: ['district']
+        label_keys: ["district"]
       }
     }
   });
@@ -126,7 +126,7 @@ describe("<ReportingLocation> - pages/dashboard/components/reporting-location", 
             field_key: "owned_by_location",
             admin_level: 2,
             admin_level_map: { 1: ["province"], 2: ["district"] },
-            label_keys: ['district']
+            label_keys: ["district"]
           }
         }
       });

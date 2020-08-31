@@ -50,8 +50,8 @@ const Component = ({
 
   const adminLevel = useSelector(state => getReportingLocationConfig(state).get("admin_level"));
   const reportingLocations = useSelector(
-      state => getReportingLocations(state, adminLevel),
-      (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
+    state => getReportingLocations(state, adminLevel),
+    (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
   );
 
   const lookups = buildFilterLookups(optionStringsSource, locations, reportingLocations, lookup);

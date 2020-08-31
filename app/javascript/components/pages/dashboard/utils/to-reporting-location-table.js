@@ -4,11 +4,12 @@ import { INDICATOR_NAMES } from "../constants";
 const reportingLocationLabel = (reportingLocationConfig, i18n) => {
   const locationTypes = [];
 
-  reportingLocationConfig["label_keys"].forEach(key => {
+  reportingLocationConfig.label_keys.forEach(key => {
     locationTypes.push(`${i18n.t(`location.base_types.${key}`)}`);
   });
+
   return `${locationTypes.join(", ")}`;
-}
+};
 
 export const dashboardTableData = (optionsByIndex, data, indicators, listKey) => {
   const rows = indicators.reduce((acc, indicator) => {
