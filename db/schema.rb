@@ -229,7 +229,6 @@ ActiveRecord::Schema.define(version: 2020_08_05_210050) do
     t.boolean "hide_subform_placeholder", default: false, null: false
     t.boolean "mobile_form", default: false, null: false
     t.text "header_message_link"
-    t.jsonb "display_conditions"
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
@@ -446,6 +445,7 @@ ActiveRecord::Schema.define(version: 2020_08_05_210050) do
     t.string "location"
     t.string "reporting_location_code"
     t.integer "role_id"
+    t.integer "identity_providers_id"
     t.string "time_zone", default: "UTC"
     t.string "locale"
     t.boolean "send_mail", default: true
@@ -461,6 +461,7 @@ ActiveRecord::Schema.define(version: 2020_08_05_210050) do
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["identity_provider_id"], name: "index_users_on_identity_provider_id"
+    t.index ["identity_providers_id"], name: "index_users_on_identity_providers_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
