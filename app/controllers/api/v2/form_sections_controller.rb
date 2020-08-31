@@ -38,16 +38,16 @@ module Api::V2
     protected
 
     def form_section_params
-      nested_props = [{"fields" => [Field.permitted_api_params]}, {"module_ids" => []}]
+      nested_props = [{ 'fields' => [Field.permitted_api_params] }, { 'module_ids' => [] }]
       @form_section_params = params.require(:data).permit(FormSection.permitted_api_params + nested_props)
     end
 
     def form_section_properties
-      form_section_props = @form_section_params.reject{ |k, _|  ['fields', 'module_ids'].include?(k) }
+      form_section_props = @form_section_params.reject { |k, _| %w[fields module_ids].include?(k) }
       formi18n_props = FieldI18nService.convert_i18n_properties(FormSection, form_section_props)
       if form_section_params.key?('fields')
         formi18n_props['fields_attributes'] = (@form_section_params['fields'] || []).map do |field_param|
-            FieldI18nService.convert_i18n_properties(Field, field_param)
+          FieldI18nService.convert_i18n_properties(Field, field_param)
         end
       end
       formi18n_props

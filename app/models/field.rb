@@ -6,7 +6,8 @@ class Field < ApplicationRecord
   include Configuration
   # include Memoizable
 
-  localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label, :option_strings_text
+  localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label
+  localize_properties :option_strings_text, options_list: true
 
   attr_reader :options
   store_accessor :subform_section_configuration, :subform_sort_by, :subform_group_by
@@ -47,7 +48,6 @@ class Field < ApplicationRecord
   validate :validate_option_strings_text
 
   after_initialize :defaults, unless: :persisted?
-  before_validation :generate_options_keys
   before_validation :sync_options_keys
   before_create :sanitize_name
 
@@ -55,7 +55,8 @@ class Field < ApplicationRecord
     [
       'id', 'name', 'type', 'multi_select', 'form_section_id', 'visible', 'mobile_visible',
       'hide_on_view_page', 'show_on_minify_form', 'disabled', { 'display_name' => {} }, { 'help_text' => {} },
-      { 'guiding_questions' => {} }, { 'tally' => {} }, { 'tick_box_label' => {} }, { 'option_strings_text' => {} },
+      { 'guiding_questions' => {} }, { 'tally' => {} }, { 'tick_box_label' => {} },
+      { 'option_strings_text' => [:id, :disabled, display_text: {}] },
       'option_strings_source', 'order', 'hidden_text_field', 'subform_section_id',
       'collapsed_field_for_subform_section_id', 'autosum_total', 'autosum_group', 'selected_value', 'link_to_path',
       'link_to_path_external', 'field_tags', 'searchable_select', 'expose_unique_id', 'subform_sort_by',
@@ -63,6 +64,7 @@ class Field < ApplicationRecord
     ]
   end
 
+  # TODO: Pavel review, I want to get rid of this.
   #TODO: Move to migration
   def defaults
     self.date_validation ||= 'default_date_validation'
@@ -70,6 +72,7 @@ class Field < ApplicationRecord
     #self.attributes = properties #TODO: what is this?
   end
 
+  # TODO: DELETE THIS, once we refactor YML exporter
   def localized_property_hash(locale=Primero::Application::BASE_LANGUAGE)
     lh = localized_hash(locale)
     if self.option_strings_text.present?
@@ -115,6 +118,7 @@ class Field < ApplicationRecord
     end
   end
 
+  # TODO: Review this method due the values structure changed.
   def validate_option_strings_text
     base_options = self.option_strings_text(Primero::Application::BASE_LANGUAGE)
     if base_options.blank?
@@ -132,18 +136,19 @@ class Field < ApplicationRecord
     return true
   end
 
+  # TODO: Pavel, Is it necessary?
+  # TODO: Review this method due the values structure changed.
   def valid_option_strings_text_translations?
-    default_ids = self.option_strings_text(Primero::Application::BASE_LANGUAGE).try(:map){|op| op['id']}
     Primero::Application::locales.each do |locale|
       next if locale == Primero::Application::BASE_LANGUAGE
       options = self.option_strings_text(locale)
       next if options.blank?
       return false unless valid_option_strings?(options, false)
-      return false unless option_keys_match?(default_ids, options)
     end
     return true
   end
 
+  # TODO: Review this method due the values structure changed.
   def valid_option_strings?(options, is_base_language=true)
     unless options.is_a?(Array)
       errors.add(:option_strings_text, I18n.t('errors.models.field.option_strings_text.not_array'))
@@ -172,15 +177,6 @@ class Field < ApplicationRecord
     return true
   end
 
-  def option_keys_match?(default_ids, options)
-    locale_ids = options.try(:map){|op| op['id']}
-    if ((default_ids - locale_ids).present? || (locale_ids - default_ids).present?)
-      errors.add(:option_strings_text, I18n.t('errors.models.field.translated_options_do_not_match'))
-      return false
-    end
-    return true
-  end
-
   def options_keys_unique?(options)
     unless options.map{|o| o['id']}.uniq.length == options.map{|o| o['id']}.length
       errors.add(:option_strings_text, I18n.t('errors.models.field.option_strings_text.id_not_unique'))
@@ -189,6 +185,7 @@ class Field < ApplicationRecord
     return true
   end
 
+  # TODO: Pavel review, I want to get rid of this.
   def form_type
     if [SUBFORM, SEPARATOR, TALLY_FIELD, CUSTOM].include?(self.type)
       self.type
@@ -199,6 +196,7 @@ class Field < ApplicationRecord
     end
   end
 
+  # TODO: Pavel review, I want to get rid of this.
 	def display_type
     #TODO: A hack, because we have a non-standard template names. Cleanup with UIUX
     case self.type
@@ -226,7 +224,7 @@ class Field < ApplicationRecord
     end
   end
 
-
+  # TODO: Pavel review, multiple of the next methods are used at violation.rb. but in that class were commented
   class << self
     def fields_for_record(parent_form, is_subform=false)
       Field.joins(:form_section).where(form_sections: {parent_form: parent_form, is_nested: is_subform})
@@ -334,6 +332,7 @@ class Field < ApplicationRecord
 
   end
 
+  # TODO: Review this method due the values structure changed.
   def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil, opts={}, reporting_locations=nil)
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
     options_list = []
@@ -370,6 +369,7 @@ class Field < ApplicationRecord
     return options_list
   end
 
+  # TODO: Review this method due the values structure changed.
   #Use the current locale's options only if its display text is present.
   #Else use the default locale's options
   def display_option_strings(current_locale)
@@ -389,6 +389,8 @@ class Field < ApplicationRecord
     end
   end
 
+  # TODO: REFACTOR used in base exporter
+  # app/models/exporters/base_exporter.rb:96
   def display_text(value = nil, lookups = nil, locale = nil)
     locale ||= I18n.locale
     value = convert_true_false_key_to_string(value) if is_yes_no?
@@ -429,11 +431,6 @@ class Field < ApplicationRecord
     else
       raise I18n.t('errors.models.field.default_value') + type unless DEFAULT_VALUES.has_key? type
     end
-  end
-
-  #TODO: Refactor with UIUX
-  def tag_name_attribute(objName = 'child')
-    "#{objName}[#{name}]"
   end
 
   def subform_group_by_field
@@ -481,6 +478,7 @@ class Field < ApplicationRecord
     field_hash
   end
 
+  # TODO: Pavel review, I want to get rid of this
   #TODO: Delete after UIUX refactor
   def searchable_select
     if self.option_strings_source == 'Location' && !multi_select
@@ -488,9 +486,11 @@ class Field < ApplicationRecord
     end
   end
 
+  # TODO: Pavel review, I want to get rid of this
   #TODO: Delete after refactor of Record
   def create_property ; true ; end
 
+  # TODO: Pavel review, I want to get rid of this
   def selectable?
     self.option_strings_source.present? || self.option_strings_text.present?
   end
@@ -521,29 +521,7 @@ class Field < ApplicationRecord
     self.type.eql?(SELECT_BOX) && self.multi_select
   end
 
-  #TODO add rspec test
-  def generate_options_keys
-    if self.option_strings_text.present?
-      self.option_strings_text.each do |option|
-        if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
-          option['id'] = option['display_text'].parameterize.underscore + '_' + rand.to_s[2..6]
-        end
-      end
-
-      #DOes the same thing for the other languages...
-      Primero::Application::locales.each do |locale|
-        option_strings_locale = self.option_strings_text(locale)
-        if locale != Primero::Application::BASE_LANGUAGE && option_strings_locale.present?
-          self.option_strings_text(locale).each_with_index do |option, index|
-            if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
-              option['id'] = self.option_strings_text[index]['id']
-            end
-          end
-        end
-      end
-    end
-  end
-
+  # TODO: Review this method due the values structure changed.
   def sync_options_keys
     if self.option_strings_text.present? && self.option_strings_text.is_a?(Array) && self.option_strings_text.first.is_a?(Hash)
       #Do not create any new option strings that do not have a matching lookup value in the default language
@@ -557,6 +535,7 @@ class Field < ApplicationRecord
     end
   end
 
+  # TODO: Review this method due the values structure changed.
   def update_translations(field_hash={}, locale)
     if locale.present? && Primero::Application::locales.include?(locale)
       field_hash.each do |key, value|
