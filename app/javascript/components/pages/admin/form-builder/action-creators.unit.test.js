@@ -90,9 +90,10 @@ describe("<FormsBuilder /> - Action Creators", () => {
               key: 4,
               variant: "success"
             }
-          }
-        },
-        finishedCallback: null
+          },
+          redirect: "/admin/forms",
+          redirectToEdit: true
+        }
       }
     };
 

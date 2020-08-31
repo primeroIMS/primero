@@ -46,7 +46,7 @@ const Component = ({ field, selectedLocaleId }) => {
     batch(() => {
       dispatch(setSelectedField(fieldName));
       if (field?.get("type") === SUBFORM_SECTION) {
-        dispatch(setSelectedSubform(field.get("subform_section_id")));
+        dispatch(setSelectedSubform({ id: field.get("subform_section_id") }));
       }
       dispatch(setDialog({ dialog: FieldTranslationsDialogName, open: true }));
     });

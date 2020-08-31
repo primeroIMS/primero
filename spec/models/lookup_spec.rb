@@ -6,6 +6,7 @@ describe Lookup do
   before :each do
     clean_data(Lookup)
   end
+
   it 'should not be valid if name is empty' do
     lookup = Lookup.new
     lookup.should_not be_valid

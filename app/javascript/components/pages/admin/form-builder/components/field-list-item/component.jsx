@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 import React from "react";
 import { useDispatch, batch } from "react-redux";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Draggable } from "react-beautiful-dnd";
@@ -28,21 +28,18 @@ import styles from "../fields-list/styles.css";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { setInitialForms, toggleHideOnViewPage } from "../field-dialog/utils";
 
-import { NAME, SUBFORM_GROUP_BY, SUBFORM_SORT_BY } from "./constants";
+import { NAME, SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "./constants";
 
-const Component = ({ field, index, subformField }) => {
+const Component = ({ field, getValues, index, subformField, subformSortBy, subformGroupBy }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const i18n = useI18n();
   const currentTheme = useTheme();
-  const { watch, getValues } = useFormContext();
   const isNested = Boolean(subformField?.toSeq()?.size);
   const parentFieldName = subformField?.get("name", "");
   const fieldsAttribute = getFieldsAttribute(isNested);
-  const subformSortBy = isNested ? watch(`${parentFieldName}.${SUBFORM_SORT_BY}`, "") : null;
-  const subformGroupBy = isNested ? watch(`${parentFieldName}.${SUBFORM_GROUP_BY}`, "") : null;
-  const visible = watch(`${fieldsAttribute}.${field.get("name")}.visible`, false);
   const fieldName = field.get("name");
+  const visibleFieldName = `${fieldsAttribute}.${fieldName}.visible`;
 
   const themeOverrides = createMuiTheme(getFiedListItemTheme(currentTheme));
 
@@ -120,7 +117,7 @@ const Component = ({ field, index, subformField }) => {
             as={<Radio />}
             inputProps={{ value: fieldName }}
             checked={checked}
-            name={`${parentFieldName}.${column}`}
+            name={`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${column}`}
           />
         </div>
       )
@@ -142,11 +139,8 @@ const Component = ({ field, index, subformField }) => {
             <div className={clsx([css.fieldColumn, css.fieldShow])}>
               <MuiThemeProvider theme={themeOverrides}>
                 <SwitchInput
-                  commonInputProps={{
-                    name: `${fieldsAttribute}.${fieldName}.visible`,
-                    disabled: isNotEditable
-                  }}
-                  metaInputProps={{ selectedValue: visible }}
+                  commonInputProps={{ name: visibleFieldName, disabled: isNotEditable }}
+                  metaInputProps={{ selectedValue: getValues()[visibleFieldName] }}
                 />
               </MuiThemeProvider>
             </div>
@@ -159,10 +153,15 @@ const Component = ({ field, index, subformField }) => {
 
 Component.displayName = NAME;
 
+Component.whyDidYouRender = true;
+
 Component.propTypes = {
   field: PropTypes.object.isRequired,
+  getValues: PropTypes.func,
   index: PropTypes.number.isRequired,
-  subformField: PropTypes.object
+  subformField: PropTypes.object,
+  subformGroupBy: PropTypes.string,
+  subformSortBy: PropTypes.string
 };
 
-export default Component;
+export default React.memo(Component);

@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import FormSectionField from "../../../../../form/components/form-section-field";
-import { setupMountedComponent } from "../../../../../../test";
+import { setupMountedComponent, lookups } from "../../../../../../test";
 import SwitchInput from "../../../../../form/fields/switch-input";
 
 import Form from "./component";
@@ -13,7 +13,7 @@ describe("<Form /> - components/form/component", () => {
   const props = {
     formRef: { current: { submitForm: () => {} } },
     mode: "show",
-    lookup: fromJS({ id: "test", values: [{ id: "test1", display_text: { en: "Test 1" } }] })
+    lookup: fromJS(lookups().data[0])
   };
 
   beforeEach(() => {
@@ -37,6 +37,6 @@ describe("<Form /> - components/form/component", () => {
   });
 
   it("renders SwitchInput component", () => {
-    expect(component.find(SwitchInput)).to.have.lengthOf(1);
+    expect(component.find(SwitchInput)).to.have.lengthOf(2);
   });
 });

@@ -67,7 +67,7 @@ const Component = ({
   const handleClose = () => {
     const compactedValues = compactValues(childFormikRef.current.state.values, initialSubformValues);
 
-    if (Object.keys(childFormikRef.current.state.touched).length && Object.keys(compactedValues).length) {
+    if (Object.keys(childFormikRef.current.state.touched).length || Object.keys(compactedValues).length) {
       setOpenConfirmationModal(true);
     } else {
       setOpen({ open: false, index: null });

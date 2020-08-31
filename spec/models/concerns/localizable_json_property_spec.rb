@@ -66,10 +66,9 @@ describe LocalizableJsonProperty do
       { id: '2', display_text: 'test 2' },
       { id: '3', display_text: 'test 3' }
     ]
-    @object = @klass.new( display_name: 'test', option_strings_text: option_string_text.first(2))
+    @object = @klass.new(display_name: 'test', option_strings_text: option_string_text.first(2))
 
-    expect(@object.merge_options(@object.option_strings_text,
-                                 option_string_text.last(1))
-                                ).to match_array(option_string_text)
+    merged_options = @object.merge_options(@object.option_strings_text, option_string_text.last(1))
+    expect(merged_options).to match_array(option_string_text)
   end
 end

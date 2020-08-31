@@ -8,7 +8,7 @@
 # and the singleton is reloaded.
 class SystemSettings < ApplicationRecord
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
 
   store_accessor(
     :system_options,
@@ -25,8 +25,6 @@ class SystemSettings < ApplicationRecord
   after_initialize :set_version
   before_save :set_version
   before_save :add_english_locale
-  before_save :reporting_location_defaults,
-              if: ->(system_setting) { system_setting.reporting_location_config.present? }
 
   # For now allow empty locales for backwards compatibility with older configurations
   # The wrapper method will handle blank locales
@@ -111,15 +109,11 @@ class SystemSettings < ApplicationRecord
     super(result)
   end
 
-  def reporting_location_defaults
-    reporting_location_config.default_label_key
-  end
-
   def validate_reporting_location
-    unless reporting_location_config.is_valid_admin_level?
+    unless reporting_location_config.valid_admin_level?
       errors.add(:admin_level, 'errors.models.reporting_location.admin_level')
     end
-    reporting_location_config.is_valid_admin_level?
+    reporting_location_config.valid_admin_level?
   end
 
   class << self

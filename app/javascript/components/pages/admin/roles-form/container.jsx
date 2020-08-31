@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
+import { fromJS } from "immutable";
 
 import { useI18n } from "../../../i18n";
 import Form, { whichFormMode, PARENT_FORM } from "../../../form";
@@ -16,6 +17,7 @@ import { getAssignableForms } from "../../../record-form";
 import { compare } from "../../../../libs";
 import ActionDialog from "../../../action-dialog";
 import { getMetadata } from "../../../record-list";
+import { getReportingLocationConfig } from "../../../user/selectors";
 
 import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";
@@ -38,6 +40,8 @@ const Container = ({ mode }) => {
   const role = useSelector(state => getRole(state), compare);
   const systemPermissions = useSelector(state => getSystemPermissions(state), compare);
   const assignableForms = useSelector(state => getAssignableForms(state), compare);
+  const reportingLocationConfig = useSelector(state => getReportingLocationConfig(state));
+  const adminLevelMap = reportingLocationConfig.get("admin_level_map") || fromJS({});
 
   const formsByParentForm = assignableForms.groupBy(assignableForm => assignableForm.get(PARENT_FORM));
 
@@ -82,7 +86,8 @@ const Container = ({ mode }) => {
     formSections: formsByParentForm,
     i18n,
     formMode,
-    approvalsLabels
+    approvalsLabels,
+    adminLevelMap
   });
 
   const initialValues = groupSelectedIdsByParentForm(

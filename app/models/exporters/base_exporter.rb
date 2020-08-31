@@ -7,7 +7,7 @@ class Exporters::BaseExporter
     Field::DATE_FIELD, Field::DATE_RANGE, Field::TICK_BOX, Field::TALLY_FIELD, Field::SUBFORM
   ].freeze
 
-  attr_accessor :locale, :lookups, :fields, :forms
+  attr_accessor :locale, :lookups, :fields, :forms, :field_value_service
 
   class << self
     def supported_models
@@ -19,7 +19,7 @@ class Exporters::BaseExporter
     end
 
     def excluded_field_names
-      Field.binary_fields.pluck(:name)
+      Field.binary.pluck(:name)
     end
 
     # TODO: Delete once we refactor PDF exporter
@@ -68,6 +68,7 @@ class Exporters::BaseExporter
             StringIO.new
           end
     self.locale = locale || I18n.locale
+    self.field_value_service = FieldValueService.new
   end
 
   def export(*_args)
@@ -86,14 +87,14 @@ class Exporters::BaseExporter
   end
 
   def export_value(value, field)
-    if value.is_a?(Date)
-      I18n.l(value)
-    elsif value.is_a?(Time)
-      I18n.l(value, format: :with_time)
+    if value.is_a?(Date) then I18n.l(value)
+    elsif value.is_a?(Time) then I18n.l(value, format: :with_time)
     elsif value.is_a?(Array)
       value.map { |v| export_value(v, field) }
+    elsif field
+      field_value_service.value(field, value, locale: locale)
     else
-      field&.display_text(value, lookups, locale) || value
+      value
     end
   end
 

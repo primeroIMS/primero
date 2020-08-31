@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
-import React, { useEffect, useImperativeHandle, useRef } from "react";
+import React, { useCallback, useEffect, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { batch, useSelector, useDispatch } from "react-redux";
 import { FormContext, useForm } from "react-hook-form";
@@ -26,14 +26,14 @@ import {
   setNewSubform,
   clearSelectedField
 } from "../../action-creators";
-import FieldsList from "../fields-list";
+import SubformFieldsList from "../subform-fields-list";
 import ClearButtons from "../clear-buttons";
 import { NEW_FIELD } from "../../constants";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
 import { getOptions } from "../../../../../record-form/selectors";
 import { getLabelTypeField } from "../utils";
-import CustomFieldDialog from "../custom-field-dialog";
 import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "../field-translations-dialog";
+import { SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "../field-list-item/constants";
 
 import styles from "./styles.css";
 import {
@@ -76,8 +76,12 @@ const Component = ({ mode, onClose, onSuccess }) => {
       dispatch(setDialog({ dialog: FieldTranslationsDialogName, open: true }));
     }
   });
-
   const formMethods = useForm({ validationSchema });
+
+  const parentFieldName = selectedField?.get("name", "");
+  const subformSortBy = formMethods.watch(`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_SORT_BY}`);
+  const subformGroupBy = formMethods.watch(`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_GROUP_BY}`);
+
   const handleClose = () => {
     if (onClose) {
       onClose();
@@ -220,22 +224,27 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const renderForms = () =>
     fieldsForm.map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);
 
-  const renderFieldsList = () =>
-    isSubformField(selectedField) && (
-      <>
-        <div className={css.subformFieldTitle}>
-          <h1>{i18n.t("forms.fields")}</h1>
-          <CustomFieldDialog />
-        </div>
-        <FieldsList subformField={selectedField} />
-      </>
-    );
+  const memoizedSetValue = useCallback((path, value) => formMethods.setValue(path, value), []);
+  const memoizedRegister = useCallback(prop => formMethods.register(prop), []);
+  const memoizedGetValues = useCallback(prop => formMethods.getValues(prop), []);
 
-  const renderClearButtons = () => isSubformField(selectedField) && <ClearButtons subformField={selectedField} />;
+  const renderClearButtons = () =>
+    isSubformField(selectedField) && (
+      <ClearButtons
+        subformField={selectedField}
+        subformSortBy={subformSortBy}
+        subformGroupBy={subformGroupBy}
+        setValue={memoizedSetValue}
+      />
+    );
 
   const onUpdateTranslation = data => {
     getObjectPath("", data || []).forEach(path => {
       const value = get(data, path);
+
+      if (!formMethods.control.fields[path]) {
+        formMethods.register({ name: path });
+      }
 
       formMethods.setValue(path, value);
     });
@@ -323,7 +332,17 @@ const Component = ({ mode, onClose, onSuccess }) => {
         <FormContext {...formMethods} formMode={formMode}>
           <form className={css.fieldDialog}>
             {renderForms()}
-            {renderFieldsList()}
+            {isSubformField(selectedField) && (
+              <SubformFieldsList
+                formContextFields={formMethods.control.fields}
+                getValues={memoizedGetValues}
+                register={memoizedRegister}
+                setValue={memoizedSetValue}
+                subformField={selectedField}
+                subformSortBy={subformSortBy}
+                subformGroupBy={subformGroupBy}
+              />
+            )}
             {renderClearButtons()}
           </form>
         </FormContext>
@@ -335,10 +354,12 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
 Component.displayName = NAME;
 
+Component.whyDidYouRender = true;
+
 Component.propTypes = {
   mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func
 };
 
-export default Component;
+export default React.memo(Component);

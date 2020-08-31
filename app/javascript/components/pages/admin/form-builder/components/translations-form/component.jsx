@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
@@ -15,29 +15,40 @@ import { FieldTranslationRow } from "./components";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = () => {
+const Component = ({ getValues, setValue }) => {
   const css = makeStyles(styles)();
-  const formMethods = useFormContext();
   const i18n = useI18n();
   const locales = localesToRender(i18n);
+  const [selectedLocaleId, setSelectedLocaleId] = useState(null);
   const fields = useSelector(state => getSelectedFields(state, false), compare);
-  const selectedLocaleId = formMethods.watch("selected_locale_id");
 
   const onEnglishTextChange = event => {
     const { name, value } = event.target;
 
-    formMethods.setValue(name.replace("translations.", ""), value);
+    setValue(name.replace("translations.", ""), value);
+  };
+
+  const onLocaleIdChange = (methods, data) => {
+    const localeId = data?.[1]?.id || null;
+
+    if (localeId !== selectedLocaleId) {
+      setSelectedLocaleId(localeId);
+    }
   };
 
   const renderFields = () =>
     fields.map(field => (
-      <FieldTranslationRow field={field} key={field.get("name")} selectedLocaleId={selectedLocaleId} />
+      <FieldTranslationRow
+        field={field}
+        key={field.get("name")}
+        selectedLocaleId={getValues({ nest: true }).selected_locale_id}
+      />
     ));
 
   const renderFormField = fieldName =>
     locales.map(locale => {
       const localeId = locale.get("id");
-      const inputClassname = localeId !== selectedLocaleId ? css.hideField : "";
+      const inputClassname = localeId !== getValues({ nest: true }).selected_locale_id ? css.hideField : "";
 
       return (
         <FormSectionField
@@ -54,18 +65,12 @@ const Component = () => {
 
   useEffect(() => {
     if (locales?.toSeq()?.size) {
-      formMethods.setValue("selected_locale_id", locales?.first()?.get("id"));
+      const localeId = locales?.first()?.get("id");
+
+      setSelectedLocaleId(localeId);
+      setValue("selected_locale_id", localeId);
     }
   }, [i18n]);
-
-  useEffect(() => {
-    // When fields are new the inputs are not registered so we need to set the values again or they will not be visible.
-    fields.forEach(field => {
-      const displayName = field.getIn(["display_name", "en"]);
-
-      formMethods.setValue(`fields.${field.get("name")}.display_name.en`, displayName);
-    });
-  }, [fields]);
 
   return (
     <>
@@ -75,6 +80,7 @@ const Component = () => {
           name: "selected_locale_id",
           type: SELECT_FIELD,
           disableClearable: true,
+          onChange: onLocaleIdChange,
           option_strings_text: locales.toJS()
         })}
       />
@@ -150,5 +156,12 @@ const Component = () => {
 };
 
 Component.displayName = NAME;
+
+Component.whyDidYouRender = true;
+
+Component.propTypes = {
+  getValues: PropTypes.func.isRequired,
+  setValue: PropTypes.func.isRequired
+};
 
 export default Component;

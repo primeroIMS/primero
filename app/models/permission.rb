@@ -40,6 +40,7 @@ class Permission < ValueObject
   ROLE = 'role'
   AGENCY = 'agency'
   METADATA = 'metadata'
+  CONFIGURATION = 'primero_configuration'
   SYSTEM = 'system'
   REPORT = 'report'
   AUDIT_LOG = 'audit_log'
@@ -153,6 +154,7 @@ class Permission < ValueObject
     POTENTIAL_MATCH => [READ],
     DUPLICATE => [READ],
     SYSTEM => [MANAGE],
+    CONFIGURATION => [MANAGE],
     DASHBOARD => [
       DASH_CASE_OVERVIEW, DASH_CASE_RISK, DASH_APPROVALS_ASSESSMENT, DASH_APPROVALS_ASSESSMENT_PENDING,
       DASH_APPROVALS_CASE_PLAN, DASH_APPROVALS_CASE_PLAN_PENDING, DASH_APPROVALS_CLOSURE,
@@ -219,7 +221,7 @@ class Permission < ValueObject
     def all
       actions + resources + management
     end
-    alias_method :all_permissions, :all
+    alias all_permissions all
 
     def all_grouped
       { 'actions' => actions, 'resource' => resources, 'management' => management }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 module Exporters
@@ -5,10 +7,13 @@ module Exporters
     before :each do
       clean_data(User, Role, Field, FormSection, PrimeroModule)
 
-      field = Field.new(name: 'sex', display_name: 'Sex', type: Field::SELECT_BOX, option_strings_text_en: [
-        { id: 'male', display_text: 'Male' },
-        { id: 'female', display_text: 'Female' }
-      ])
+      field = Field.new(
+        name: 'sex', display_name: 'Sex', type: Field::SELECT_BOX,
+        option_strings_text_en: [
+          { id: 'male', display_text: 'Male' },
+          { id: 'female', display_text: 'Female' }
+        ]
+      )
       field.save(validate: false)
       fields = [
         build(:field, name: 'name', type: Field::TEXT_FIELD),
