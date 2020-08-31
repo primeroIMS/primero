@@ -5,7 +5,7 @@
 # up a new instance of Primero.
 class PrimeroProgram < ApplicationRecord
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
 
   localize_properties :name, :description
 

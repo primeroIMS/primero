@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
+# System-level contact info
 class ContactInformation < ApplicationRecord
-  include Configuration
+  include ConfigurationRecord
+
+  self.unique_id_attribute = 'name'
 
   def self.current
     ContactInformation.first
-  end
-
-  def self.get_or_create
-    ContactInformation.first || ContactInformation.create
   end
 end

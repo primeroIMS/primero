@@ -7,7 +7,6 @@
 # model is not responsible for storing authentication information, and must mirror a user
 # in external IDP (such as Azure Active Directory).
 class User < ApplicationRecord
-  include Importable
   include Devise::JWT::RevocationStrategies::Whitelist
 
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
@@ -93,10 +92,6 @@ class User < ApplicationRecord
       ) - User.hidden_attributes
     end
 
-    def get_unique_instance(attributes)
-      User.find_by(user_name: attributes['user_name'])
-    end
-
     def last_login_timestamp(user_name)
       AuditLog.where(action_name: 'login', user_name: user_name).try(:last).try(:timestamp)
     end
@@ -112,6 +107,8 @@ class User < ApplicationRecord
     # TODO: Review after figuring out front end lookups. We might not need this method.
     # This method returns a list of id / display_text value pairs
     # It is used to create the select options list for User fields
+    # TODO: Used by select fields when you want to make a lookup out of all the agencies,
+    #       but that functionality is probably deprecated. Review and delete.
     def all_names
       enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
     end
@@ -366,16 +363,6 @@ class User < ApplicationRecord
     return unless identity_provider&.sync_identity?
 
     IdentitySyncJob.perform_later(id, admin_user.id)
-  end
-
-  # Used by the User import to populate the password with a random string when the input file has no password
-  # This assumes an admin will have to reset the new user's password after import
-  def populate_missing_attributes
-    return if using_idp?
-    return unless password_digest.blank? && password.blank?
-
-    self.password = SecureRandom.hex(20)
-    self.password_confirmation = password
   end
 
   def agency_office_name

@@ -35,7 +35,7 @@ class Api::V2::UserGroupsController < ApplicationApiController
   end
 
   def user_group_params
-    params.require(:data).permit(:id, :unique_id, :name, :description)
+    params.require(:data).permit(:id, :unique_id, :name, :description, :disabled)
   end
 
   protected
