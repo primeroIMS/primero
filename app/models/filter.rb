@@ -234,7 +234,7 @@ class Filter < ValueObject
       role = user&.role
       reporting_location_config = role.try(:reporting_location_config) ||
                                   SystemSettings.current.reporting_location_config
-      reporting_location_field = reporting_location_config.try(:field_key) ||  ReportingLocation::DEFAULT_FIELD_KEY
+      reporting_location_field = reporting_location_config.try(:field_key) || ReportingLocation::DEFAULT_FIELD_KEY
       reporting_location_labels = reporting_location_config.try(:label_keys)
       permitted_form_ids = role.permitted_forms('case', true).pluck(:unique_id)
 
@@ -340,14 +340,14 @@ class Filter < ValueObject
     end.inject(&:merge)
   end
 
-  def age_options(opts = {})
+  def age_options(_opts = {})
     system_settings = SystemSettings.current
     self.options = system_settings.age_ranges[system_settings.primary_age_range].map do |age_range|
       { id: age_range.to_s, display_name: age_range.to_s }
     end
   end
 
-  def owned_by_groups_options(opts = {})
+  def owned_by_groups_options(_opts = {})
     self.options = UserGroup.all.map { |user_group| { id: user_group.id, display_name: user_group.name } }
   end
 
@@ -395,7 +395,7 @@ class Filter < ValueObject
     end.inject(&:merge)
   end
 
-  def approval_status_options()
+  def approval_status_options
     self.options = I18n.available_locales.map do |locale|
       {
         locale => [
@@ -409,12 +409,12 @@ class Filter < ValueObject
   end
 
   def with_options_for(user, record_type)
-    if ['approval_status_assessment', 'approval_status_case_plan', 'approval_status_closure',
-        'approval_status_action_plan', 'approval_status_gbv_closure'].include? field_name
+    if %w[approval_status_assessment approval_status_case_plan approval_status_closure
+          approval_status_action_plan approval_status_gbv_closure].include? field_name
       approval_status_options
-    elsif ['owned_by', 'workflow', 'owned_by_agency_id', 'age', 'owned_by_groups', 'cases_by_date'].include? field_name
+    elsif %w[owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date].include? field_name
       opts = { user: user, record_type: record_type }
-      self.send("#{field_name}_options", opts)
+      send("#{field_name}_options", opts)
     end
   end
 
