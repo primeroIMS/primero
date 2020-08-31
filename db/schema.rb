@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_12_155523) do
+ActiveRecord::Schema.define(version: 2020_08_30_000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -118,11 +118,6 @@ ActiveRecord::Schema.define(version: 2020_08_12_155523) do
     t.string "matched_trace_id"
     t.uuid "duplicate_case_id"
     t.index ["data"], name: "index_cases_on_data", using: :gin
-  end
-
-  create_table "configuration_bundles", id: :serial, force: :cascade do |t|
-    t.string "applied_by"
-    t.datetime "applied_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "contact_informations", id: :serial, force: :cascade do |t|
@@ -279,6 +274,17 @@ ActiveRecord::Schema.define(version: 2020_08_12_155523) do
     t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
   end
 
+  create_table "primero_configurations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "version"
+    t.string "created_by"
+    t.datetime "created_on"
+    t.string "applied_by"
+    t.datetime "applied_on"
+    t.jsonb "data", default: {}
+  end
+
   create_table "primero_modules", id: :serial, force: :cascade do |t|
     t.string "unique_id"
     t.integer "primero_program_id"
@@ -337,6 +343,9 @@ ActiveRecord::Schema.define(version: 2020_08_12_155523) do
     t.string "group_dates_by", default: "date"
     t.boolean "is_graph", default: false, null: false
     t.boolean "editable", default: true
+    t.string "unique_id"
+    t.boolean "disabled", default: false, null: false
+    t.index ["unique_id"], name: "index_reports_on_unique_id", unique: true
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
@@ -349,6 +358,7 @@ ActiveRecord::Schema.define(version: 2020_08_12_155523) do
     t.boolean "transfer", default: false, null: false
     t.boolean "is_manager", default: false, null: false
     t.integer "reporting_location_level"
+    t.boolean "disabled", default: false, null: false
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
@@ -424,6 +434,7 @@ ActiveRecord::Schema.define(version: 2020_08_12_155523) do
     t.string "name"
     t.string "description"
     t.boolean "core_resource", default: false, null: false
+    t.boolean "disabled", default: false, null: false
     t.index ["unique_id"], name: "index_user_groups_on_unique_id", unique: true
   end
 

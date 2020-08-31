@@ -8,7 +8,7 @@
 # and the singleton is reloaded.
 class SystemSettings < ApplicationRecord
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
 
   store_accessor(
     :system_options,

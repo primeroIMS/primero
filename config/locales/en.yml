@@ -101,7 +101,7 @@ en:
     cannot_edit: "You cannot edit this"
     field_name_on_form_name: "'%{field_name}' field on '%{form_name}' form."
     subform_section:
-      status: 
+      status:
         error: "Error"
 
   data_base:
@@ -2555,6 +2555,7 @@ en:
     english_label: "English Text"
     translation_label: "Translation Text"
     language_label: "Language"
+    no_options: "This Lookup currently has no options."
     messages:
       cannot_create: "Lookup could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
@@ -3085,11 +3086,7 @@ en:
         unique_name_this: "Field already exists on this form"
         change_type_existing_field: "Can't change type of existing field '%{field_name}' on form '%{form_name}'"
         option_strings_text:
-          not_array: "Option Strings Text is not an array"
-          not_hash: "Option Strings Text option is not a hash"
-          id_blank: "Option Strings Text option id is blank"
-          display_text_blank: "Option Strings Text option display text is blank"
-          id_not_unique: "Option Strings Text option id is not unique"
+          not_hash: "Option Strings Text option is not a in a valid format"
 
       form_section:
         presence_of_name: "Name must not be blank"

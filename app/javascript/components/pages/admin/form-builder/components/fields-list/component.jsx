@@ -14,7 +14,6 @@ import FieldListItem from "../field-list-item";
 import { reorderFields } from "../../action-creators";
 import { getSelectedFields } from "../../selectors";
 import { getFieldsAttribute } from "../utils";
-import CustomFieldDialog from "../custom-field-dialog";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -79,12 +78,7 @@ const Component = ({
   const renderColumn = text => isNested && <div className={clsx([css.fieldColumn, css.fieldHeader])}>{text}</div>;
 
   if (!fields.size) {
-    return (
-      <div className={css.noFiltersAdded}>
-        {i18n.t("forms.no_subform_filters_added")}
-        <CustomFieldDialog />
-      </div>
-    );
+    return <div className={css.noFiltersAdded}>{i18n.t("forms.no_subform_filters_added")}</div>;
   }
 
   return (

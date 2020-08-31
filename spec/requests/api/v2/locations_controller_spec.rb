@@ -377,6 +377,7 @@ describe Api::V2::LocationsController, type: :request do
         data: {
           location_code: 'CT02',
           type: 'country',
+          admin_level: nil,
           placename: { en: 'Country02_en', es: 'Country02_es' },
           parent_code: ''
         }

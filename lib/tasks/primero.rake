@@ -6,39 +6,26 @@ namespace :primero do
   desc 'Remove records'
   task :remove_records, [:type] => :environment do |_, args|
     types = [Child, TracingRequest, Incident, PotentialMatch]
-    types = [eval(args[:type])] if args[:type].present?
+    types = [Object.const_get(args[:type])] if args[:type].present?
     puts "Deleting all #{types.join(', ').name} records"
     types.each(&:destroy_all)
     Sunspot.remove_all(type)
   end
 
-  desc 'Import the configuration bundle'
-  task :import_config_bundle, [:json_file] => :environment do |_, args|
-    puts "Importing configuration from #{args[:json_file]}"
-    File.open(args[:json_file]) do |file|
-      model_data = Importers::JSONImporter.import(file)
-      ConfigurationBundle.import(model_data, 'system_operator')
-    end
-  end
-
-  desc 'Export the configuration bundle'
-  task :export_config_bundle, [:json_file] => :environment do |_, args|
-    bundle_json = ConfigurationBundle.export_as_json
-    if args[:json_file].present?
-      puts "Exporting config bundle JSON to #{args[:json_file]}"
-      File.open(args[:json_file], 'w') { |f| f.write(bundle_json) }
+  desc 'Export the configuraton as Ruby seed files'
+  task :export_config_ruby, [:export_directory] => :environment do |_, args|
+    export_directory = args[:export_directory] || 'seed-files'
+    if export_directory == '-'
+      export_directory = 'tmp'
+      export_file = 'seeds.rb'
+      exporter = Exporters::RubyConfigExporter.new(export_dir: export_directory, file: export_file)
+      exporter.export
+      File.foreach("#{export_directory}/#{export_file}") { |line| puts line }
     else
-      puts bundle_json
+      puts "Exporting current configuration to #{export_directory}"
+      exporter = Exporters::RubyConfigExporter.new(export_dir: export_directory)
+      exporter.export
     end
-  end
-
-  desc 'Export the configuraton bundle as Ruby seed files'
-  task :export_config_seeds, [:export_directory] => :environment do |_, args|
-    export_directory = args[:export_directory]
-    export_directory = 'seed-files' unless export_directory.present?
-    puts "Exporting current configuration to #{export_directory}"
-    exporter = Exporters::RubyConfigExporter.new(export_directory)
-    exporter.export
   end
 
   desc 'Import the form translations yaml'

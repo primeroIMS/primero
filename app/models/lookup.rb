@@ -2,12 +2,12 @@
 
 # Model for Lookup
 class Lookup < ApplicationRecord
-  # include Memoizable
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
 
   localize_properties :name
   localize_properties :lookup_values, options_list: true
+  self.unique_id_from_attribute = 'name_en'
 
   validate :validate_name_in_english
   validate :validate_values_keys_match
@@ -18,6 +18,7 @@ class Lookup < ApplicationRecord
   before_destroy :check_is_being_used
 
   class << self
+    # TODO: Delete after we have fixed data storage with Alberto's changes.
     def new_with_properties(lookup_properties)
       Lookup.new(
         id: lookup_properties[:id],
@@ -51,7 +52,6 @@ class Lookup < ApplicationRecord
       locale = opts[:locale].presence || I18n.locale
       form_group_names[locale.to_s]
     end
-    # memoize_in_prod :form_group_name
 
     # This replaces form_group_name above
     def form_group_name_all(form_group_id, parent_form, module_name, lookups = nil)
@@ -100,7 +100,6 @@ class Lookup < ApplicationRecord
     def get_location_types
       find_by(unique_id: 'lookup-location-type')
     end
-    # memoize_in_prod :get_location_types
 
     # TODO: Review this method due the values structure changed.
     def import_translations(locale, lookups_hash = {})
@@ -179,13 +178,6 @@ class Lookup < ApplicationRecord
     Field.where(option_strings_source: "lookup #{unique_id}").size.positive?
   end
 
-  def generate_unique_id
-    return unless name_en.present? && unique_id.blank?
-
-    code = SecureRandom.uuid.to_s.last(7)
-    self.unique_id = "lookup-#{name_en}-#{code}".parameterize.dasherize
-  end
-
   def check_is_being_used
     return unless being_used?
 
@@ -209,11 +201,12 @@ class Lookup < ApplicationRecord
   end
 
   def update_properties(lookup_properties)
-    self.unique_id = lookup_properties[:unique_id] if lookup_properties[:unique_id].present?
+    lookup_properties = lookup_properties.with_indifferent_access if lookup_properties.is_a?(Hash)
     self.name_i18n = FieldI18nService.merge_i18n_properties(
       { name_i18n: name_i18n },
       name_i18n: lookup_properties[:name]
     )[:name_i18n]
+    self.attributes = lookup_properties.except(:name, :values)
 
     self.lookup_values_i18n = merge_options(
       lookup_values_i18n,
@@ -232,7 +225,7 @@ class Lookup < ApplicationRecord
 
   # TODO: Pavel review. Review if this is a validation
   def sync_lookup_values
-    #Do not create any new lookup values that do not have a matching lookup value in the default language
+    # Do not create any new lookup values that do not have a matching lookup value in the default language
     default_ids = lookup_values_en&.map { |lv| lv['id'] }
 
     return unless default_ids.present?

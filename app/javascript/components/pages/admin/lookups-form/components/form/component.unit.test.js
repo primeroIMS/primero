@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import FormSectionField from "../../../../../form/components/form-section-field";
-import { setupMountedComponent } from "../../../../../../test";
+import { setupMountedComponent, lookups } from "../../../../../../test";
 
 import Form from "./component";
 
@@ -12,7 +12,7 @@ describe("<Form /> - components/form/component", () => {
   const props = {
     formRef: null,
     mode: "show",
-    lookup: fromJS({})
+    lookup: fromJS(lookups().data[0])
   };
 
   beforeEach(() => {
