@@ -3,7 +3,7 @@
 # Represents an administrative level: country, state, province, township
 class Location < ApplicationRecord
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
 
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5].freeze
   ADMIN_LEVEL_OUT_OF_RANGE = 100
@@ -12,6 +12,7 @@ class Location < ApplicationRecord
   localize_properties :name, :placename
 
   attr_accessor :parent, :hierarchy
+  self.unique_id_attribute = 'location_code'
 
   validates :admin_level, presence: { message: I18n.t('errors.models.location.admin_level_present') },
                           if: :is_top_level?
@@ -45,7 +46,6 @@ class Location < ApplicationRecord
 
     alias list_by_all all
 
-    # WARNING: Do not memoize this method.  Doing so will break the Location seeds.
     def get_by_location_code(location_code)
       if @locations_by_code.present?
         @locations_by_code[location_code]
@@ -54,7 +54,6 @@ class Location < ApplicationRecord
       end
     end
 
-    # WARNING: Do not memoize this method.  Doing so will break the Location seeds.
     def fetch_by_location_codes(location_codes)
       if @locations_by_code.present?
         location_codes.map { |l| @locations_by_code[l] }
@@ -69,6 +68,8 @@ class Location < ApplicationRecord
       Location.find_by(type: location_types, location_code: hierarchy.flatten.compact)
     end
 
+    # TODO: Used by select fields when you want to make a lookup out of all the agencies,
+    #       but that functionality is probably deprecated. Review and delete.
     # This method returns a list of id / display_text value pairs
     # It is used to create the select options list for location fields
     def all_names(opts = {})
@@ -117,7 +118,6 @@ class Location < ApplicationRecord
       location_names.each { |l| l['display_text'] = l['display_text'].split('::').last }
       location_names
     end
-    # memoize_in_prod :find_names_by_admin_level_enabled
 
     def ancestor_placename_by_name_and_admin_level(location_code, admin_level)
       return '' if location_code.blank? || ADMIN_LEVELS.exclude?(admin_level)
@@ -133,7 +133,7 @@ class Location < ApplicationRecord
     def display_text(location_code, opts = {})
       locale = opts[:locale].presence || I18n.locale
       lct = (location_code.present? ? Location.find_by(location_code: location_code) : '')
-      (lct.present? ? lct.name(locale) : '')
+      lct.present? ? lct.name(locale) : ''
     end
 
     # This allows us to use the property 'type' on Location, normally reserved by ActiveRecord
@@ -141,7 +141,7 @@ class Location < ApplicationRecord
       'type_inheritance'
     end
 
-    def each_slice(size = 500, &_block)
+    def each_slice(size = 500)
       all_locations = all
       pages = (all_locations.count / size.to_f).ceil
       (1..pages).each do |page|
@@ -306,15 +306,19 @@ class Location < ApplicationRecord
   end
 
   def update_properties(location_properties)
+    location_properties = location_properties.with_indifferent_access if location_properties.is_a?(Hash)
     self.location_code = location_properties[:code] if location_properties[:code].present?
-    self.type = location_properties[:type] if location_properties[:type].present?
-    self.admin_level = location_properties[:admin_level]
     if location_properties[:parent_code].present?
       self.hierarchy_path = Location.hierarchy_path_from_parent_code(location_properties[:parent_code], location_code)
     end
-    self.placename_i18n = FieldI18nService.merge_i18n_properties(
+    self.placename_i18n = placename_from_params(location_properties)
+    self.attributes = location_properties.except(:code, :parent_code, :placename)
+  end
+
+  def placename_from_params(params)
+    FieldI18nService.merge_i18n_properties(
       { placename_i18n: placename_i18n },
-      { placename_i18n: location_properties[:placename] }
+      placename_i18n: params[:placename]
     )[:placename_i18n]
   end
 
