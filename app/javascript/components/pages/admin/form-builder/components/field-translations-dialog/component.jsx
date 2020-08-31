@@ -118,13 +118,19 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
         option_strings_text: fieldOptionStringsText
       } = currentValues[fieldName] || {};
 
+      const subformSection =
+        currentValues.subform_section ||
+        (currentValues[selectedSubform.get("unique_id")]
+          ? { name: currentValues[selectedSubform.get("unique_id")].display_name }
+          : {});
+
       formMethods.reset({
         locale_id: locales?.first()?.get("id"),
         subform_section: {
-          name: { ...name, ...currentValues.subform_section?.name },
+          name: { ...name, ...subformSection?.name },
           description: {
             ...description,
-            ...currentValues.subform_section?.description
+            ...subformSection?.description
           }
         },
         [fieldName]: {
@@ -132,7 +138,7 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
           help_text: { ...helpText, ...fieldHelpText },
           guiding_questions: { ...guidingQuestions, ...fieldGuidingQuestions },
           tick_box_label: { ...tickBoxLabel, ...fieldTickBoxLabel },
-          option_strings_text: fieldOptionStringsText
+          option_strings_text: { ...optionStringsText, ...fieldOptionStringsText }
         }
       });
     }
