@@ -268,7 +268,8 @@ class Filter < ValueObject
       filters << CURRENT_LOCATION if user.module?(PrimeroModule::CP)
       filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
       filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
-      filters << REPORTING_LOCATION.call(labels: reporting_location_labels, field: reporting_location_field, admin_level: reporting_location_admin_level)
+      filters << REPORTING_LOCATION.call(labels: reporting_location_labels, field: reporting_location_field,
+                                         admin_level: reporting_location_admin_level)
       filters << NO_ACTIVITY
       filters << DATE_CASE if user.module?(PrimeroModule::CP)
       filters << ENABLED
