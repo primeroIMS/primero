@@ -5,7 +5,7 @@ import uniq from "lodash/uniq";
 import { ACTIONS } from "../../../libs/permissions";
 import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR, SUBFORM_SECTION } from "../../record-form/constants";
 
-import { ALL_EXPORT_TYPES } from "./constants";
+import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";
 
 export const allowedExports = (userPermissions, i18n, isShowPage, recordType) => {
   const exportsTypes = [...ALL_EXPORT_TYPES];
@@ -38,7 +38,7 @@ export const allowedExports = (userPermissions, i18n, isShowPage, recordType) =>
     return allExports.filter(item => !item.showOnlyOnList);
   }
 
-  return allExports;
+  return allExports.filter(item => !item.hideOnShowPage);
 };
 
 export const formatFileName = (filename, extension) => {
@@ -139,5 +139,9 @@ export const buildFields = (data, locale) => {
     }, [])
     .flat();
 };
+
+export const isCustomExport = type => type === EXPORT_FORMAT.CUSTOM;
+
+export const isPdfExport = type => type === EXPORT_FORMAT.PDF;
 
 export const formatFields = fields => uniq(fields.map(field => field.split(":")[1]));

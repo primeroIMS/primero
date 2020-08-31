@@ -5,7 +5,8 @@ export const EXPORT_FORMAT = Object.freeze({
   JSON: "json",
   CSV: "csv",
   EXCEL: "xls",
-  PDF: "pdf"
+  PDF: "pdf",
+  CUSTOM: "custom"
 });
 
 export const NAME = "Exports";
@@ -15,7 +16,8 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     id: "pdf",
     permission: ACTIONS.EXPORT_PDF,
     format: EXPORT_FORMAT.PDF,
-    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
+    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents],
+    hideOnShowPage: true
   }),
   Object.freeze({
     id: "csv",

@@ -1,17 +1,13 @@
 import React, { useEffect, useImperativeHandle, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { object, string } from "yup";
+import { object, string, array } from "yup";
 import { withRouter, useLocation } from "react-router-dom";
 import qs from "qs";
 import { useForm, FormContext } from "react-hook-form";
-import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
-import domtoimage from "dom-to-image-more";
-import html2pdf from "html2pdf";
 
-import { enqueueSnackbar } from "../../notifier";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { whichFormMode } from "../../form";
@@ -26,6 +22,7 @@ import { submitHandler } from "../../form/utils/form-submission";
 import { getRecordForms } from "../../record-form/selectors";
 import { useApp } from "../../application";
 
+import { isCustomExport, isPdfExport, buildFields, exporterFilters, formatFileName, formatFields } from "./utils";
 import PdfExporter from "./components/pdf-exporter";
 import {
   ALL_EXPORT_TYPES,
@@ -41,10 +38,8 @@ import {
   NAME,
   PASSWORD_FIELD
 } from "./constants";
-import { buildFields, exporterFilters, formatFileName, formatFields } from "./utils";
 import form from "./form";
 import { saveExport } from "./action-creators";
-import styles from "./styles.css";
 
 const Component = ({
   close,
@@ -64,11 +59,18 @@ const Component = ({
   const dispatch = useDispatch();
   const formMode = whichFormMode("edit");
   const { params } = match;
-  const css = makeStyles(styles)();
   const isShowPage = Object.keys(params).length > 0;
+
   const validationSchema = object().shape({
-    export_type: string().required(i18n.t("encrypt.export_type"))
-    // password: string().required(i18n.t("encrypt.password_label"))
+    [EXPORT_TYPE_FIELD]: string().required(i18n.t("encrypt.export_type")),
+    [FORM_TO_EXPORT_FIELD]: array().when(EXPORT_TYPE_FIELD, {
+      is: value => isPdfExport(value),
+      then: array().required(i18n.t("exports.custom_exports.forms"))
+    }),
+    [PASSWORD_FIELD]: string().when(EXPORT_TYPE_FIELD, {
+      is: value => !isPdfExport(value),
+      then: string().required(i18n.t("encrypt.password_label"))
+    })
   });
 
   const defaultValues = {
@@ -82,8 +84,7 @@ const Component = ({
     [CUSTOM_EXPORT_FILE_NAME_FIELD]: ""
   };
   const formMethods = useForm({
-    ...(validationSchema && { validationSchema }),
-    defaultValues
+    ...(validationSchema && { validationSchema })
   });
 
   const records = useSelector(state => getRecords(state, recordType)).get("data");
@@ -104,8 +105,6 @@ const Component = ({
   const formsToExport = formMethods.watch(FORM_TO_EXPORT_FIELD);
   const fieldsToExport = formMethods.watch(FIELDS_TO_EXPORT_FIELD);
   const selectedModule = formMethods.watch(MODULE_FIELD);
-  const isCustomExport = exportType === "custom";
-  const isPdfExport = exportType === "pdf";
 
   const { userModules } = useApp();
   const modules = userModules
@@ -124,124 +123,84 @@ const Component = ({
   const fields = buildFields(recordTypesForms, i18n.locale, individualFields);
 
   const handleSubmit = values => {
-    // if (isPdfExport) {
-    const opt = {
-      filename: `${values[CUSTOM_EXPORT_FILE_NAME_FIELD] || record.get("id")}.pdf`,
-      margin: 0.5,
-      image: {
-        type: "jpeg",
-        quality: 0.98
-      },
-      renderer: {
-        class: domtoimage,
-        method: "toCanvas",
-        options: {
-          quality: 1,
-          style: {
-            display: "block"
-          }
-        }
-      },
-      pagebreak: {
-        mode: "avoid-all"
-      },
-      jsPDF: {
-        unit: "in",
-        format: "letter",
-        orientation: "portrait"
-      }
+    if (isPdfExport(values[EXPORT_TYPE_FIELD])) {
+      pdfExporterRef.current.savePdf({ setPending, close, values });
+
+      return;
+    }
+
+    const { form_unique_ids: formUniqueIds, field_names: fieldNames } = values;
+    const { id, format, message } = ALL_EXPORT_TYPES.find(e => e.id === values.export_type);
+    const fileName = formatFileName(values.custom_export_file_name, format);
+    const shortIds = records
+      .toJS()
+      .filter((_r, i) => selectedRecords?.[currentPage]?.includes(i))
+      .map(r => r.short_id);
+
+    const filters = exporterFilters(
+      isShowPage,
+      allCurrentRowsSelected,
+      shortIds,
+      appliedFilters,
+      queryParams,
+      record,
+      allRecordsSelected
+    );
+
+    const defaultBody = {
+      export_format: id,
+      record_type: RECORD_TYPES[recordType],
+      file_name: fileName,
+      password: values.password
     };
+
+    let exportParams = {};
+
+    if (!isEmpty(formUniqueIds)) {
+      exportParams = {
+        ...exportParams,
+        [FORM_TO_EXPORT_FIELD]: formUniqueIds
+      };
+    }
+
+    if (!isEmpty(fieldNames)) {
+      exportParams = {
+        ...exportParams,
+        [FIELDS_TO_EXPORT_FIELD]: formatFields(fieldNames)
+      };
+    }
+
+    // If we selected individual fields, we should pass forms and fields
+    if (individualFields) {
+      exportParams = {
+        ...exportParams,
+        [FORM_TO_EXPORT_FIELD]: uniq(
+          fields.filter(field => fieldNames.includes(field.id)).map(field => field.formSectionId)
+        )
+      };
+    }
+
+    const body = isCustomExport
+      ? {
+          ...defaultBody,
+          custom_export_params: exportParams
+        }
+      : defaultBody;
+
+    const data = { ...body, ...filters };
 
     setPending(true);
 
-    html2pdf()
-      .set(opt)
-      .from(pdfExporterRef.current)
-      .save()
-      .then(() => {
-        dispatch(enqueueSnackbar(i18n.t("exports.exported"), "success"));
-        setPending(false);
-        close();
-      })
-      .catch(() => {
-        dispatch(enqueueSnackbar(i18n.t("exports.exported_error"), "error"));
-      });
-
-    //   return;
-    // }
-
-    // const { form_unique_ids: formUniqueIds, field_names: fieldNames } = values;
-    // const { id, format, message } = ALL_EXPORT_TYPES.find(e => e.id === values.export_type);
-    // const fileName = formatFileName(values.custom_export_file_name, format);
-    // const shortIds = records
-    //   .toJS()
-    //   .filter((_r, i) => selectedRecords?.[currentPage]?.includes(i))
-    //   .map(r => r.short_id);
-
-    // const filters = exporterFilters(
-    //   isShowPage,
-    //   allCurrentRowsSelected,
-    //   shortIds,
-    //   appliedFilters,
-    //   queryParams,
-    //   record,
-    //   allRecordsSelected
-    // );
-
-    // const defaultBody = {
-    //   export_format: id,
-    //   record_type: RECORD_TYPES[recordType],
-    //   file_name: fileName,
-    //   password: values.password
-    // };
-
-    // let exportParams = {};
-
-    // if (!isEmpty(formUniqueIds)) {
-    //   exportParams = {
-    //     ...exportParams,
-    //     [FORM_TO_EXPORT_FIELD]: formUniqueIds
-    //   };
-    // }
-
-    // if (!isEmpty(fieldNames)) {
-    //   exportParams = {
-    //     ...exportParams,
-    //     [FIELDS_TO_EXPORT_FIELD]: formatFields(fieldNames)
-    //   };
-    // }
-
-    // // If we selected individual fields, we should pass forms and fields
-    // if (individualFields) {
-    //   exportParams = {
-    //     ...exportParams,
-    //     [FORM_TO_EXPORT_FIELD]: uniq(
-    //       fields.filter(field => fieldNames.includes(field.id)).map(field => field.formSectionId)
-    //     )
-    //   };
-    // }
-
-    // const body = isCustomExport
-    //   ? {
-    //       ...defaultBody,
-    //       custom_export_params: exportParams
-    //     }
-    //   : defaultBody;
-
-    // const data = { ...body, ...filters };
-
-    // setPending(true);
-
-    // dispatch(
-    //   saveExport(
-    //     { data },
-    //     i18n.t(message || "exports.queueing", {
-    //       file_name: fileName ? `: ${fileName}.` : "."
-    //     }),
-    //     i18n.t("exports.go_to_exports"),
-    //     EXPORT_DIALOG
-    //   )
-    // );
+    dispatch(
+      saveExport(
+        { data },
+        i18n.t(message || "exports.queueing", {
+          file_name: fileName ? `: ${fileName}.` : "."
+        }),
+        i18n.t("exports.go_to_exports"),
+        EXPORT_DIALOG
+      )
+    );
   };
 
   useEffect(() => {
@@ -278,22 +237,10 @@ const Component = ({
     })
   );
 
-  const formSections = form(
-    i18n,
-    userPermissions,
-    isCustomExport,
-    isPdfExport,
-    isShowPage,
-    formatType,
-    individualFields,
-    css,
-    modules,
-    fields,
-    recordType
-  );
+  const formSections = form(i18n, userPermissions, isShowPage, modules, fields, recordType);
 
   const enabledSuccessButton =
-    !isCustomExport || (formatType !== "" && (!isEmpty(formsToExport) || !isEmpty(fieldsToExport)));
+    !isCustomExport(exportType) || (formatType !== "" && (!isEmpty(formsToExport) || !isEmpty(fieldsToExport)));
 
   return (
     <ActionDialog
@@ -313,7 +260,7 @@ const Component = ({
             return <FormSectionField field={field} />;
           })}
         </form>
-        {isPdfExport && <PdfExporter record={record} forms={recordTypesForms} ref={pdfExporterRef} />}
+        {isPdfExport(exportType) && <PdfExporter record={record} forms={recordTypesForms} ref={pdfExporterRef} />}
       </FormContext>
     </ActionDialog>
   );
