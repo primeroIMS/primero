@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_14_000000) do
+ActiveRecord::Schema.define(version: 2020_08_30_000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -344,6 +344,7 @@ ActiveRecord::Schema.define(version: 2020_08_14_000000) do
     t.boolean "is_graph", default: false, null: false
     t.boolean "editable", default: true
     t.string "unique_id"
+    t.boolean "disabled", default: false, null: false
     t.index ["unique_id"], name: "index_reports_on_unique_id", unique: true
   end
 
@@ -357,6 +358,7 @@ ActiveRecord::Schema.define(version: 2020_08_14_000000) do
     t.boolean "transfer", default: false, null: false
     t.boolean "is_manager", default: false, null: false
     t.integer "reporting_location_level"
+    t.boolean "disabled", default: false, null: false
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
@@ -432,6 +434,7 @@ ActiveRecord::Schema.define(version: 2020_08_14_000000) do
     t.string "name"
     t.string "description"
     t.boolean "core_resource", default: false, null: false
+    t.boolean "disabled", default: false, null: false
     t.index ["unique_id"], name: "index_user_groups_on_unique_id", unique: true
   end
 
