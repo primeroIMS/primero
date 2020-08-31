@@ -119,9 +119,10 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
       } = currentValues[fieldName] || {};
 
       const subformSection =
-        currentValues.subform_section || currentValues[selectedSubform.get("unique_id")]
+        currentValues.subform_section ||
+        (currentValues[selectedSubform.get("unique_id")]
           ? { name: currentValues[selectedSubform.get("unique_id")].display_name }
-          : {};
+          : {});
 
       formMethods.reset({
         locale_id: locales?.first()?.get("id"),

@@ -242,6 +242,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
     getObjectPath("", data || []).forEach(path => {
       const value = get(data, path);
 
+      if (!formMethods.control.fields[path]) {
+        formMethods.register({ name: path });
+      }
+
       formMethods.setValue(path, value);
     });
   };
