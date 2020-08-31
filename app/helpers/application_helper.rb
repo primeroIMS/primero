@@ -21,7 +21,7 @@ module ApplicationHelper
 
   def available_locations
     location_file = Dir.glob("#{GenerateLocationFilesService.options_parent_dir}/options/*").first
-    return [] unless locationFile.present?
+    return [] unless location_file.present?
 
     file = location_file.match(%r{(/options/.*.json)$})
     return [] unless file
