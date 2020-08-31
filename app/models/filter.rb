@@ -230,7 +230,7 @@ class Filter < ValueObject
     end
 
     def case_filters(user)
-      filter_fields = Field.where(CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
+      filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
       role = user&.role
       reporting_location_config = role.try(:reporting_location_config) ||
                                   SystemSettings.current.reporting_location_config
