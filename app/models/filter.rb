@@ -93,7 +93,7 @@ class Filter < ValueObject
   REPORTING_LOCATION = lambda do |params|
     Filter.new(
       name: "location.base_types.#{params[:labels].try(:first)}",
-      field_name: params[:field],
+      field_name: "#{params[:field]}#{params[:admin_level]}",
       option_strings_source: 'ReportingLocation',
       type: 'multi_select'
     )
@@ -236,6 +236,7 @@ class Filter < ValueObject
                                   SystemSettings.current.reporting_location_config
       reporting_location_field = reporting_location_config.try(:field_key) || ReportingLocation::DEFAULT_FIELD_KEY
       reporting_location_labels = reporting_location_config.try(:label_keys)
+      reporting_location_admin_level = reporting_location_config.try(:admin_level)
       permitted_form_ids = role.permitted_forms('case', true).pluck(:unique_id)
 
       filters = []
@@ -267,7 +268,7 @@ class Filter < ValueObject
       filters << CURRENT_LOCATION if user.module?(PrimeroModule::CP)
       filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
       filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
-      filters << REPORTING_LOCATION.call(labels: reporting_location_labels, field: reporting_location_field)
+      filters << REPORTING_LOCATION.call(labels: reporting_location_labels, field: reporting_location_field, admin_level: reporting_location_admin_level)
       filters << NO_ACTIVITY
       filters << DATE_CASE if user.module?(PrimeroModule::CP)
       filters << ENABLED
