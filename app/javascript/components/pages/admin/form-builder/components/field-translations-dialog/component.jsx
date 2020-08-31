@@ -138,7 +138,7 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
           help_text: { ...helpText, ...fieldHelpText },
           guiding_questions: { ...guidingQuestions, ...fieldGuidingQuestions },
           tick_box_label: { ...tickBoxLabel, ...fieldTickBoxLabel },
-          option_strings_text: fieldOptionStringsText
+          option_strings_text: { ...optionStringsText, ...fieldOptionStringsText }
         }
       });
     }
