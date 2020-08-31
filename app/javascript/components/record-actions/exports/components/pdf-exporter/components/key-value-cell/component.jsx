@@ -23,7 +23,7 @@ const Component = ({ displayName, value, optionsStringSource, options }) => {
         .join(", ");
     }
 
-    if (lookups && (fieldValue !== "" || (List.isList(fieldValue) && fieldValue.isEmpty()))) {
+    if (!lookups?.isEmpty() && (fieldValue !== "" || (List.isList(fieldValue) && fieldValue.isEmpty()))) {
       return lookups
         .filter(lookup => {
           const lookupId = fromJS(lookup).get("id");

@@ -7,14 +7,6 @@ import { useI18n } from "../../../../../../i18n";
 const Component = ({ fields, record }) => {
   const i18n = useI18n();
 
-  const renderSubform = subformSectionId => {
-    return record.get(subformSectionId.unique_id, []).map(subform => {
-      console.log({ subformSectionId, subform, record });
-
-      return <Component fields={subformSectionId.fields} record={subform} />;
-    });
-  };
-
   return (
     <table>
       <tbody>

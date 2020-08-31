@@ -79,7 +79,7 @@
     "formik": "^1.5.8",
     "formik-material-ui": "^0.0.20",
     "history": "^4.9.0",
-    "html2pdf": "github:Quoin/html2pdf.js",
+    "html2pdf.js": "github:Quoin/html2pdf.js",
     "i18n-js": "^3.5.1",
     "idb": "^4.0.4",
     "image-blob-reduce": "^1.0.4",

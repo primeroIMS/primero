@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
-import html2pdf from "html2pdf";
+import html2pdf from "html2pdf.js";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useI18n } from "../../../../i18n";
@@ -14,7 +14,7 @@ import { HTML_2_PDF_OPTIONS } from "./constants";
 import styles from "./styles.css";
 import { addPageHeaderFooter, buildHeaderImage } from "./utils";
 import Table from "./components/table";
-// TODO: subforms, header
+
 const Component = ({ forms, record }, ref) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
