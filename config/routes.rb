@@ -93,6 +93,7 @@ Rails.application.routes.draw do
       resources :user_groups
       resources :primero_modules, only: %i[index show update]
       resources :audit_logs, only: [:index]
+      resources :primero_configurations, as: :configurations, path: :configurations
     end
   end
 end

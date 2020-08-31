@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe IdpToken do
-
   before do
+    clean_data(User, IdentityProvider)
     @idp = IdentityProvider.create!(
       name: 'primero',
       unique_id: 'primeroims',
@@ -39,7 +41,6 @@ describe IdpToken do
       expect do
         IdpToken.decode(@invalid_token, [@idp], @jwks)
       end.to raise_error(JWT::VerificationError)
-
     end
   end
 
@@ -71,5 +72,4 @@ describe IdpToken do
   after :each do
     clean_data(User, IdentityProvider)
   end
-
 end

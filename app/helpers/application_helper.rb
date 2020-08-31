@@ -1,5 +1,7 @@
-module ApplicationHelper
+# frozen_string_literal: true
 
+# Common controller helpers
+module ApplicationHelper
   def url_for_v2(model_object)
     "#{root_url}v2/#{resource_for_v2(model_object)}/#{model_object.id}"
   end
@@ -18,12 +20,12 @@ module ApplicationHelper
   end
 
   def available_locations
-    locationFile = Dir.glob("#{GenerateLocationFilesService.options_parent_dir}/options/*").first
+    location_file = Dir.glob("#{GenerateLocationFilesService.options_parent_dir}/options/*").first
+    return [] unless location_file.present?
 
-    return [] unless locationFile.present?
+    file = location_file.match(%r{(/options/.*.json)$})
+    return [] unless file
 
-    if file = locationFile.match(/(\/options\/.*.json)$/)
-      file[0].to_json.html_safe
-    end
+    file[0].to_json.html_safe
   end
 end

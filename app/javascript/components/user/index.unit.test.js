@@ -20,7 +20,8 @@ describe("User - index", () => {
       "usePermissions",
       "getIsAuthenticated",
       "getListHeaders",
-      "getPermittedFormsIds"
+      "getPermittedFormsIds",
+      "getReportingLocationConfig"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

@@ -1,17 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 describe ReportingLocation do
-  before :all do
-    Lookup.destroy_all
-    lookup1 = create :lookup, :id => "lookup-location-type", :lookup_values => [
-      {:id => "district", :display_text => "district"},
-      {:id => "country", :display_text => "country"}
-    ]
-  end
-
   describe 'Validation' do
     context 'with a valid label_key' do
       before :each do
-        @reporting_location = ReportingLocation.new(field_key: 'test', label_key: 'district')
+        @reporting_location = ReportingLocation.new(field_key: 'test', admin_level: 2,
+                                                    admin_level_map: { 1 => ['province'], 2 => ['district'] })
       end
       context 'and a valid admin_level' do
         before :each do
@@ -19,7 +14,7 @@ describe ReportingLocation do
         end
 
         it 'is valid' do
-          expect(@reporting_location.is_valid_admin_level?).to be_truthy
+          expect(@reporting_location.valid_admin_level?).to be_truthy
         end
       end
 
@@ -29,9 +24,13 @@ describe ReportingLocation do
         end
 
         it 'is not valid' do
-          expect(@reporting_location.is_valid_admin_level?).to be_falsey
+          expect(@reporting_location.valid_admin_level?).to be_falsey
         end
       end
     end
+  end
+
+  describe '.reporting_location_levels' do
+    # TODO
   end
 end

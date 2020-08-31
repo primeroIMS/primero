@@ -1,9 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe IdpTokenStrategy do
-
   describe '.authenticate!' do
-
     it 'passes the strategy on valid JWT token' do
       user = instance_double('User', disabled: false)
       token = instance_double('IdpToken', valid?: true, user: user)
@@ -41,7 +41,5 @@ describe IdpTokenStrategy do
       strategy.authenticate!
       expect(strategy.successful?).to be_falsey
     end
-
   end
-
 end
