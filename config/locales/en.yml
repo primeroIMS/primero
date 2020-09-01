@@ -2555,6 +2555,7 @@ en:
     english_label: "English Text"
     translation_label: "Translation Text"
     language_label: "Language"
+    enabled_label: "Enabled?"
     no_options: "This Lookup currently has no options."
     messages:
       cannot_create: "Lookup could not be created"
