@@ -32,7 +32,6 @@ import {
 import { validationSchema } from "./forms";
 import { NAME, NEW_FIELD } from "./constants";
 import {
-  getSavingRecord,
   getSelectedField,
   getSelectedForm,
   getSelectedSubforms,
@@ -59,7 +58,6 @@ const Component = ({ mode }) => {
   const [tab, setTab] = useState(0);
   const [moduleId, setModuleId] = useState("");
   const [parentForm, setParentForm] = useState("");
-  const saving = useSelector(state => getSavingRecord(state));
   const errors = useSelector(state => getServerErrors(state), compare);
   const updatedFormIds = useSelector(state => getUpdatedFormIds(state), compare);
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
@@ -101,7 +99,6 @@ const Component = ({ mode }) => {
     if (subforms.length > 0) {
       dispatch(saveSubforms(subforms, parentFormParams));
     } else {
-      console.log("HERE!!!");
       dispatch(saveForm(parentFormParams));
     }
   };
@@ -266,7 +263,7 @@ const Component = ({ mode }) => {
 
 Component.displayName = NAME;
 
-// Component.whyDidYouRender = true;
+Component.whyDidYouRender = true;
 
 Component.propTypes = {
   mode: PropTypes.string.isRequired
