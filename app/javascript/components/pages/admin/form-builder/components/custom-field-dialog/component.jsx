@@ -17,14 +17,8 @@ import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { compare } from "../../../../../../libs";
-import { getSelectedField, getSelectedSubform, getSelectedFields } from "../../selectors";
-import {
-  isSubformField,
-  setInitialForms,
-  setSubformData,
-  toggleHideOnViewPage,
-  buildDataToSave
-} from "../field-dialog/utils";
+import { getSelectedField, getSelectedSubform } from "../../selectors";
+import { isSubformField, setInitialForms, setSubformData, toggleHideOnViewPage } from "../field-dialog/utils";
 import { mergeOnSelectedSubform } from "../../action-creators";
 
 import styles from "./styles.css";
