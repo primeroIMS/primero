@@ -92,7 +92,7 @@ class Filter < ValueObject
   USER_GROUP = Filter.new(name: 'permissions.permission.user_group', field_name: 'owned_by_groups')
   REPORTING_LOCATION = lambda do |params|
     Filter.new(
-      name: "location.base_types.#{params[:labels].try(:first)}",
+      name: "location.base_types.#{params[:labels]&.first}",
       field_name: "#{params[:field]}#{params[:admin_level]}",
       option_strings_source: 'ReportingLocation',
       type: 'multi_select'
@@ -232,11 +232,11 @@ class Filter < ValueObject
     def case_filters(user)
       filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
       role = user&.role
-      reporting_location_config = role.try(:reporting_location_config) ||
+      reporting_location_config = role&.reporting_location_config ||
                                   SystemSettings.current.reporting_location_config
-      reporting_location_field = reporting_location_config.try(:field_key) || ReportingLocation::DEFAULT_FIELD_KEY
-      reporting_location_labels = reporting_location_config.try(:label_keys)
-      reporting_location_admin_level = reporting_location_config.try(:admin_level)
+      reporting_location_field = reporting_location_config&.field_key || ReportingLocation::DEFAULT_FIELD_KEY
+      reporting_location_labels = reporting_location_config&.label_keys
+      reporting_location_admin_level = reporting_location_config&.admin_level
       permitted_form_ids = role.permitted_forms('case', true).pluck(:unique_id)
 
       filters = []
