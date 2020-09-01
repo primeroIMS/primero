@@ -18,17 +18,17 @@ import styles from "../styles.css";
 import { translationsForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
 
-const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => {
+const Component = ({ getValues, mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
-  const { name, description } = formSection.toJS();
+  const currentValues = getValues({ nest: true });
   const formMethods = useForm({
     defaultValues: {
-      name,
-      description
+      name: currentValues.name,
+      description: currentValues.description
     },
     validationSchema: validationSchema(i18n)
   });
@@ -70,7 +70,7 @@ const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => 
       cssHideField: css.hideField,
       cssTranslationField: css.translationField,
       locales,
-      formSection
+      currentValues: getValues({ nest: true })
     }).map(form => <FormSection formSection={form} key={form.unique_id} />);
 
   useImperativeHandle(
@@ -88,10 +88,12 @@ const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => 
 
   useEffect(() => {
     if (openTranslationDialog) {
+      const currentFormValues = getValues({ nest: true });
+
       formMethods.reset({
         locale_id: locales?.first()?.get("id"),
-        name: { ...name, ...currentValues.translations.name },
-        description: { ...description, ...currentValues.translations.description }
+        name: { ...currentFormValues.name, ...currentFormValues.translations.name },
+        description: { ...currentFormValues.description, ...currentFormValues.translations.description }
       });
     }
   }, [openTranslationDialog]);
@@ -108,8 +110,7 @@ const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => 
 Component.displayName = NAME;
 
 Component.propTypes = {
-  currentValues: PropTypes.object.isRequired,
-  formSection: PropTypes.object.isRequired,
+  getValues: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func

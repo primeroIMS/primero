@@ -290,7 +290,7 @@ describe Child do
           'display_name_all' => 'B Range Field'
         )
       ]
-      FormSection.create_or_update_form_section(
+      FormSection.create_or_update!(
         :unique_id => 'form_section_with_dates_fields',
         'visible' => true,
         :order => 1,
@@ -510,6 +510,10 @@ describe Child do
         SystemSettings.update(default_locale: 'en', auto_populate_list: [ap1_custom_date_format])
         SystemSettings.current(true)
         child = Child.create!(data: { case_id: 'zzz', created_by: @user3.user_name })
+        # TODO: This test breaks in the evenings when running on a machine on a local time zone because
+        #       created_at is instantiated with DateTime but deserialized from Postgres jsonb
+        #       using Time defaulted to UTC. Not a problem in production where all timezones are aligned,
+        #       but until we make some guarantees, I'm ok with the test breaking at night as a reminder.
         expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.created_at.strftime('%m/%y')}-#{child.short_id}")
       end
 

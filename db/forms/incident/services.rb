@@ -36,7 +36,7 @@ health_medical_referral_subform_fields = [
             })
 ]
 
-health_medical_referral_subform_section = FormSection.create_or_update_form_section({
+health_medical_referral_subform_section = FormSection.create_or_update!({
   visible: false,
   is_nested: true,
   order_form_group: 100,
@@ -87,7 +87,7 @@ psychosocial_counseling_services_subform_fields = [
             })
 ]
 
-psychosocial_counseling_services_subform_section = FormSection.create_or_update_form_section({
+psychosocial_counseling_services_subform_section = FormSection.create_or_update!({
   "visible" => false,
   "is_nested" => true,
   :order_form_group => 100,
@@ -144,7 +144,7 @@ legal_assistance_services_subform_fields = [
             })
 ]
 
-legal_assistance_services_subform_section = FormSection.create_or_update_form_section({
+legal_assistance_services_subform_section = FormSection.create_or_update!({
   "visible" => false,
   "is_nested" => true,
   :order_form_group => 100,
@@ -195,7 +195,7 @@ police_or_other_type_of_security_services_subform_fields = [
             })
 ]
 
-police_or_other_type_of_security_services_subform_section = FormSection.create_or_update_form_section({
+police_or_other_type_of_security_services_subform_section = FormSection.create_or_update!({
   "visible" => false,
   "is_nested" => true,
   :order_form_group => 100,
@@ -246,7 +246,7 @@ livelihoods_services_subform_fields = [
             })
 ]
 
-livelihoods_services_subform_section = FormSection.create_or_update_form_section({
+livelihoods_services_subform_section = FormSection.create_or_update!({
   "visible" => false,
   "is_nested" => true,
   :order_form_group => 100,
@@ -297,7 +297,7 @@ child_protection_services_subform_fields = [
             })
 ]
 
-child_protection_services_subform_section = FormSection.create_or_update_form_section({
+child_protection_services_subform_section = FormSection.create_or_update!({
   "visible" => false,
   "is_nested" => true,
   :order_form_group => 100,
@@ -422,7 +422,7 @@ services_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   :unique_id => "incident_service_referrals",
   :parent_form=>"incident",
   "visible" => true,

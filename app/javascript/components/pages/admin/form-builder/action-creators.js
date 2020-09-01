@@ -58,9 +58,10 @@ export const saveForm = ({ id, body, saveMethod, message }) => {
             variant: "success",
             key: generate.messageKey()
           }
-        }
-      },
-      finishedCallback: id ? fetchForm(id) : null
+        },
+        redirectToEdit: true,
+        redirect: `/admin/${RECORD_PATH.forms}`
+      }
     }
   };
 };
@@ -135,5 +136,10 @@ export const setNewSubform = payload => ({
 
 export const setTemporarySubform = payload => ({
   type: actions.SET_TEMPORARY_SUBFORM,
+  payload
+});
+
+export const mergeOnSelectedSubform = payload => ({
+  type: actions.MERGE_SUBFORM_DATA,
   payload
 });

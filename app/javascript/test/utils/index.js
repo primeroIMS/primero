@@ -153,7 +153,8 @@ export const setupMockFormComponent = (
   props = {},
   parentProps = {},
   state = {},
-  defaultValues = {}
+  defaultValues = {},
+  includeFormMethods = false
 ) => {
   const MockFormComponent = () => {
     const { inputProps, field, mode } = props;
@@ -171,6 +172,7 @@ export const setupMockFormComponent = (
       <FormContext {...formMethods} formMode={formMode}>
         <Component
           {...props}
+          { ...(includeFormMethods ? formMethods : {}) }
           commonInputProps={commonInputProps}
           {...inputProps}
         />

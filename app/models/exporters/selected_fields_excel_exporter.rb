@@ -23,10 +23,6 @@ module Exporters
         [Child, TracingRequest]
       end
 
-      def excluded_forms
-        FormSection.binary_form_names
-      end
-
       def mime_type
         'xls'
       end

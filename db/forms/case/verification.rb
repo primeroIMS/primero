@@ -108,7 +108,7 @@ verification_subform_fields = [
               })
 ]
 
-verification_subform_section = FormSection.create_or_update_form_section({
+verification_subform_section = FormSection.create_or_update!({
   "visible" => false,
   "is_nested" => true,
   :order_form_group => 130,
@@ -132,7 +132,7 @@ verification_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   :unique_id => "verification",
   :parent_form=>"case",
   "visible" => true,

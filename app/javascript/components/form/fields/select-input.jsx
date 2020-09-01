@@ -34,7 +34,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
 
   const handleChange = data => {
     if (onChange) {
-      onChange(methods);
+      onChange(methods, data);
     }
 
     return multiSelect

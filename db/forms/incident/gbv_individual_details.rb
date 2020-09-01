@@ -83,7 +83,7 @@ gbv_individual_details_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "gbv_individual_details",
   parent_form: "incident",
   visible: true,
