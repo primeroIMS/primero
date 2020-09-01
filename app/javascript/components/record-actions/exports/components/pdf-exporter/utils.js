@@ -2,26 +2,42 @@
 
 import { PAGE_MARGIN } from "./constants";
 
-export const buildHeaderImage = img => {
+const getImageDimensions = async base64 => {
   const image = new Image();
 
-  return new Promise((resolve, reject) => {
-    image.src = img;
+  return new Promise(resolve => {
+    image.src = base64;
     image.onload = () => {
-      const { width } = image;
-      const { height } = image;
-      const maxWidth = 130;
-      const maxHeight = 50;
+      const { width, height } = image;
 
-      const ratio = Math.min(maxWidth / width, maxHeight / height);
-
-      resolve({ width: (width * ratio) / 72, height: (height * ratio) / 72, img });
-    };
-
-    image.onerror = error => {
-      reject(error);
+      resolve({ width, height });
     };
   });
+};
+
+export const buildHeaderImage = async img => {
+  const reader = new FileReader();
+
+  const response = await fetch(img);
+  const blob = await response.blob();
+
+  await new Promise((resolve, reject) => {
+    reader.onload = resolve;
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+
+  const { height, width } = await getImageDimensions(reader.result);
+  const maxWidth = 130;
+  const maxHeight = 50;
+
+  const ratio = Math.min(maxWidth / width, maxHeight / height);
+
+  return {
+    img: reader.result,
+    width: (width * ratio) / 72,
+    height: (height * ratio) / 72
+  };
 };
 
 export const addPageHeaderFooter = (pdf, record, i18n, logo) => {
@@ -40,7 +56,7 @@ export const addPageHeaderFooter = (pdf, record, i18n, logo) => {
   for (let page = 1; page <= totalPages; page += 1) {
     pdf.setPage(page);
 
-    if (logo) {
+    if (logo?.img) {
       pdf.addImage(logo?.img, "png", PAGE_MARGIN, 0.4, logo?.width, logo?.height);
     }
 

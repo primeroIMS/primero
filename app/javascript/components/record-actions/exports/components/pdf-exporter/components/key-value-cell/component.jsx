@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { List, fromJS } from "immutable";
+import { isEmpty } from "lodash";
 
 import { getOptions } from "../../../../../../form/selectors";
 import { optionText } from "../../../../../../form/utils";
@@ -9,10 +10,11 @@ import { useI18n } from "../../../../../../i18n";
 
 const Component = ({ displayName, value, optionsStringSource, options }) => {
   const i18n = useI18n();
+  const hasOptions = optionsStringSource || !isEmpty(options);
 
   const lookups = useSelector(
     state => getOptions(state, optionsStringSource, i18n, options),
-    () => (optionsStringSource || options) && value
+    () => hasOptions && !isEmpty(value)
   );
 
   const renderValue = fieldValue => {
@@ -22,8 +24,7 @@ const Component = ({ displayName, value, optionsStringSource, options }) => {
         ?.flatten()
         .join(", ");
     }
-
-    if (!lookups?.isEmpty() && (fieldValue !== "" || (List.isList(fieldValue) && fieldValue.isEmpty()))) {
+    if (hasOptions && !lookups?.isEmpty() && !isEmpty(fieldValue)) {
       return lookups
         .filter(lookup => {
           const lookupId = fromJS(lookup).get("id");
@@ -55,7 +56,7 @@ Component.propTypes = {
   displayName: PropTypes.string.isRequired,
   options: PropTypes.object,
   optionsStringSource: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.number])
+  value: PropTypes.any
 };
 
 export default Component;

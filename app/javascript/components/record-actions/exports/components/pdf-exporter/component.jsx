@@ -63,7 +63,7 @@ const Component = ({ forms, record }, ref) => {
   return (
     <div ref={html} className={css.container}>
       {selectedForms.map(form => (
-        <div>
+        <div key={`selected-${form.unique_id}`}>
           <h2>{i18n.getI18nStringFromObject(form.name)}</h2>
           <Table fields={form.fields} record={record} />
         </div>

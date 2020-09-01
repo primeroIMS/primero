@@ -257,7 +257,7 @@ const Component = ({
       <FormContext {...formMethods} formMode={formMode}>
         <form onSubmit={formMethods.handleSubmit(handleSubmit)}>
           {formSections.map(field => {
-            return <FormSectionField field={field} />;
+            return <FormSectionField field={field} key={field.unique_id} />;
           })}
         </form>
         {isPdfExport(exportType) && <PdfExporter record={record} forms={recordTypesForms} ref={pdfExporterRef} />}

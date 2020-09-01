@@ -21,8 +21,8 @@ const Component = ({ fields, record }) => {
           } = field;
 
           if (subformSectionId) {
-            return record.get(subformSectionId.unique_id, []).map(subform => (
-              <tr>
+            return record.get(subformSectionId.unique_id, []).map((subform, index) => (
+              <tr key={record.getIn([subformSectionId.unique_id, index, "unique_id"])}>
                 <td colSpan={2}>
                   <h4>{i18n.getI18nStringFromObject(displayName)}</h4>
                   <Component fields={subformSectionId.fields} record={subform} />
@@ -37,6 +37,7 @@ const Component = ({ fields, record }) => {
               value={record.get(name)}
               optionsStringSource={optionStringsSource}
               options={optionsStringsText || options}
+              key={`keyval-${name}`}
             />
           );
         })}
