@@ -49,7 +49,7 @@ class RecordDataService
     end
 
     def embed_attachments(data, record, selected_field_names)
-      attachment_field_names = Field.binary_field_names
+      attachment_field_names = Field.binary.pluck(:name)
       attachment_field_names &= selected_field_names
       return data unless attachment_field_names.present?
 

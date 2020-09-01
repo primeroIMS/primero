@@ -41,12 +41,10 @@ describe ReportFieldService do
       name: 'sex',
       type: Field::SELECT_BOX,
       display_name_i18n: {en: 'Sex'},
-      option_strings_text_i18n: {
-        en: [
-          { id: 'male', display_text: 'Male'},
-          { id: 'female', display_text: 'Female'}
-        ]
-      }
+      option_strings_text_i18n: [
+          { id: 'male', display_text: {'en' => 'Male'}},
+          { id: 'female', display_text: {'en' => 'Female'}}
+      ]
     )
 
     Lookup.create!({

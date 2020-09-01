@@ -1,5 +1,12 @@
 import { object, string } from "yup";
 import isEmpty from "lodash/isEmpty";
+import reject from "lodash/reject";
+
+import { generateUniqueId } from "../form-builder/components/field-dialog/utils";
+
+import { TEMP_OPTION_ID } from "./components/form/constants";
+
+const isNewOption = key => Boolean(key.match(new RegExp(`^${TEMP_OPTION_ID}_\\d+`, "g"))?.length > 0);
 
 export const validations = i18n =>
   object().shape({
@@ -43,14 +50,20 @@ export const buildValues = (values, defaultLocale, removedValues) => {
   const locales = Object.keys(values);
   const displayTextKeys = Object.keys(values[defaultLocale]);
 
-  return [...displayTextKeys, ...removedValues].map(key => {
+  const builtValues = [...displayTextKeys, ...removedValues].map(key => {
     if (removedValues.includes(key)) {
-      return { id: key, display_text: {}, _delete: true };
+      if (!isNewOption(key)) {
+        return { id: key, display_text: {}, _delete: true };
+      }
+
+      return {};
     }
 
     return {
-      id: key,
+      id: isNewOption(key) ? generateUniqueId(values.en[key]) : key,
       display_text: locales.reduce((acc, locale) => ({ ...acc, [locale]: values[locale][key] }), {})
     };
   });
+
+  return reject(builtValues, value => isEmpty(value));
 };

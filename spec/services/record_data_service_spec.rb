@@ -95,7 +95,9 @@ describe RecordDataService do
         record: @record, field_name: 'other_photos', attachment_type: Attachment::IMAGE,
         file_name: 'jeff.png', attachment: attachment_base64('jeff.png')
       ).attach!
-      allow(Field).to receive(:binary_field_names).and_return(%w[photos other_photos])
+      binary = double('binary')
+      allow(binary).to receive(:pluck).and_return(%w[photos other_photos])
+      allow(Field).to receive(:binary).and_return(binary)
     end
 
     it 'it orders attachments by date, nils last' do
@@ -115,7 +117,6 @@ describe RecordDataService do
     after :each do
       clean_data(Attachment, Child)
     end
-
   end
 
   after :each do

@@ -36,7 +36,7 @@ describe("<ConfigurationsList />", () => {
       },
       user: {
         permissions: {
-          configurations: [ACTIONS.MANAGE]
+          primero_configurations: [ACTIONS.MANAGE]
         }
       }
     });

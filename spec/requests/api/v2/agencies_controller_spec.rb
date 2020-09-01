@@ -249,7 +249,7 @@ describe Api::V2::AgenciesController, type: :request do
       expect(json['errors'][0]['resource']).to eq('/api/v2/agencies')
     end
 
-    it 'Error 422 save without unique_id and agency_code' do
+    it 'Error 422 save without agency_code' do
       login_for_test(
         permissions: [
           Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
@@ -274,9 +274,9 @@ describe Api::V2::AgenciesController, type: :request do
       }
 
       post '/api/v2/agencies', params: params
-      expect(json['errors'].map { |error| error['status'] }).to eq([422, 422])
-      expect(json['errors'].size).to eq(2)
-      expect(json['errors'].map { |error| error['detail'] }).to eq(%w[unique_id agency_code])
+      expect(json['errors'].map { |error| error['status'] }).to eq([422])
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'].map { |error| error['detail'] }).to eq(%w[agency_code])
     end
 
     it 'returns 403 if user is not authorized to access' do

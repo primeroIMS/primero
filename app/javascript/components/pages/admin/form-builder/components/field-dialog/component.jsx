@@ -1,11 +1,12 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
-import React, { useEffect, useImperativeHandle, useRef } from "react";
+import React, { useCallback, useEffect, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { batch, useSelector, useDispatch } from "react-redux";
 import { FormContext, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import Add from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
+import get from "lodash/get";
 
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { setDialog } from "../../../../../record-actions/action-creators";
@@ -14,7 +15,7 @@ import { submitHandler, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
-import { compare } from "../../../../../../libs";
+import { compare, getObjectPath } from "../../../../../../libs";
 import { getSelectedField, getSelectedSubform, getSelectedFields, getSelectedSubformField } from "../../selectors";
 import {
   createSelectedField,
@@ -25,14 +26,14 @@ import {
   setNewSubform,
   clearSelectedField
 } from "../../action-creators";
-import FieldsList from "../fields-list";
+import SubformFieldsList from "../subform-fields-list";
 import ClearButtons from "../clear-buttons";
 import { NEW_FIELD } from "../../constants";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
 import { getOptions } from "../../../../../record-form/selectors";
 import { getLabelTypeField } from "../utils";
-import CustomFieldDialog from "../custom-field-dialog";
 import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "../field-translations-dialog";
+import { SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "../field-list-item/constants";
 
 import styles from "./styles.css";
 import {
@@ -75,8 +76,12 @@ const Component = ({ mode, onClose, onSuccess }) => {
       dispatch(setDialog({ dialog: FieldTranslationsDialogName, open: true }));
     }
   });
-
   const formMethods = useForm({ validationSchema });
+
+  const parentFieldName = selectedField?.get("name", "");
+  const subformSortBy = formMethods.watch(`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_SORT_BY}`);
+  const subformGroupBy = formMethods.watch(`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_GROUP_BY}`);
+
   const handleClose = () => {
     if (onClose) {
       onClose();
@@ -219,40 +224,29 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const renderForms = () =>
     fieldsForm.map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);
 
-  const renderFieldsList = () =>
+  const memoizedSetValue = useCallback((path, value) => formMethods.setValue(path, value), []);
+  const memoizedRegister = useCallback(prop => formMethods.register(prop), []);
+  const memoizedGetValues = useCallback(prop => formMethods.getValues(prop), []);
+
+  const renderClearButtons = () =>
     isSubformField(selectedField) && (
-      <>
-        <div className={css.subformFieldTitle}>
-          <h1>{i18n.t("forms.fields")}</h1>
-          <CustomFieldDialog />
-        </div>
-        <FieldsList subformField={selectedField} />
-      </>
+      <ClearButtons
+        subformField={selectedField}
+        subformSortBy={subformSortBy}
+        subformGroupBy={subformGroupBy}
+        setValue={memoizedSetValue}
+      />
     );
 
-  const renderClearButtons = () => isSubformField(selectedField) && <ClearButtons subformField={selectedField} />;
-
-  const setLocaleField = (fieldName, locales) => {
-    Object.entries(locales).forEach(([localeId, value]) => {
-      if (!localeId) {
-        return;
-      }
-
-      const fieldPath = `${fieldName}.${localeId}`;
-
-      if (!formMethods.control.fields[fieldPath]) {
-        formMethods.register({ name: fieldPath });
-      }
-
-      formMethods.setValue(`${fieldPath}`, value);
-    });
-  };
-
   const onUpdateTranslation = data => {
-    Object.entries(data).forEach(([fieldKey, fieldNames]) => {
-      Object.entries(fieldNames).forEach(([fieldName, locales]) => {
-        setLocaleField(`${fieldKey}.${fieldName}`, locales);
-      });
+    getObjectPath("", data || []).forEach(path => {
+      const value = get(data, path);
+
+      if (!formMethods.control.fields[path]) {
+        formMethods.register({ name: path });
+      }
+
+      formMethods.setValue(path, value);
     });
   };
 
@@ -275,20 +269,43 @@ const Component = ({ mode, onClose, onSuccess }) => {
       const subform =
         isSubformField(selectedField) && selectedSubform.toSeq()?.size ? getSubformValues(selectedSubform) : {};
 
-      const resetOptions =
-        isNested || isSubformField(selectedField)
-          ? { errors: true, dirtyFields: true, dirty: true, touched: true }
-          : {};
+      const resetOptions = { errors: true, dirtyFields: true, dirty: true, touched: true };
 
       formMethods.reset(
         {
-          [selectedFieldName]: { ...fieldData, disabled: !fieldData.disabled },
+          [selectedFieldName]: {
+            ...fieldData,
+            disabled: !fieldData.disabled,
+            option_strings_text: fieldData.option_strings_text?.map(option => {
+              return { ...option, disabled: !option.disabled };
+            })
+          },
           ...subform
         },
         resetOptions
       );
     }
   }, [openFieldDialog, selectedField]);
+
+  useEffect(() => {
+    if (openFieldDialog && selectedFieldName !== NEW_FIELD && selectedField?.toSeq()?.size) {
+      const currentData = selectedField.toJS();
+      const objectPaths = getObjectPath("", currentData.option_strings_text || []).filter(
+        option => !option.includes(".en") && !option.includes("id") && !option.includes("disabled")
+      );
+
+      objectPaths.forEach(path => {
+        const optionStringsTextPath = `${selectedFieldName}.option_strings_text${path}`;
+
+        if (!formMethods.control.fields[optionStringsTextPath]) {
+          formMethods.register({ name: optionStringsTextPath });
+        }
+        const value = get(currentData.option_strings_text, path);
+
+        formMethods.setValue(optionStringsTextPath, value);
+      });
+    }
+  }, [openFieldDialog, selectedField, formMethods.register]);
 
   useImperativeHandle(
     formRef,
@@ -315,7 +332,17 @@ const Component = ({ mode, onClose, onSuccess }) => {
         <FormContext {...formMethods} formMode={formMode}>
           <form className={css.fieldDialog}>
             {renderForms()}
-            {renderFieldsList()}
+            {isSubformField(selectedField) && (
+              <SubformFieldsList
+                formContextFields={formMethods.control.fields}
+                getValues={memoizedGetValues}
+                register={memoizedRegister}
+                setValue={memoizedSetValue}
+                subformField={selectedField}
+                subformSortBy={subformSortBy}
+                subformGroupBy={subformGroupBy}
+              />
+            )}
             {renderClearButtons()}
           </form>
         </FormContext>
@@ -327,10 +354,12 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
 Component.displayName = NAME;
 
+Component.whyDidYouRender = true;
+
 Component.propTypes = {
   mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func
 };
 
-export default Component;
+export default React.memo(Component);

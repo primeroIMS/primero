@@ -16,7 +16,8 @@ describe("pages/admin/<FormBuilder>/<FormTranslationsDialog/>/forms", () => {
       i18n,
       formSection,
       locales,
-      selectedLocaleId
+      selectedLocaleId,
+      currentValues: { name: "Form 1", description: "Form Description 1" }
     });
 
     expect(forms.find(form => form.unique_id === "edit_translations")).to.exist;

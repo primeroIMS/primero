@@ -13,12 +13,12 @@ import Form, { FormAction, whichFormMode } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../user-groups-list/namespace";
-import { ROUTES } from "../../../../config";
+import { ROUTES, SAVE_METHODS } from "../../../../config";
 import bindFormSubmit from "../../../../libs/submit-form";
 import ActionDialog from "../../../action-dialog";
 
 import { form, validations } from "./form";
-import { fetchConfiguration, clearSelectedConfiguration } from "./action-creators";
+import { fetchConfiguration, clearSelectedConfiguration, saveConfiguration } from "./action-creators";
 import { getConfiguration, getServerErrors, getSavingRecord } from "./selectors";
 import { NAME } from "./constants";
 
@@ -35,7 +35,16 @@ const Container = ({ mode }) => {
   const formErrors = useSelector(state => getServerErrors(state));
   const validationSchema = validations(formMode, i18n);
 
-  const handleSubmit = data => console.log("DATA: ", data);
+  const handleSubmit = data => {
+    dispatch(
+      saveConfiguration({
+        id,
+        body: { data },
+        saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
+        message: i18n.t(`configurations.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
+      })
+    );
+  };
 
   const handleCancel = () => dispatch(push(ROUTES.configurations));
 

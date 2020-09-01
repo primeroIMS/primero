@@ -30,12 +30,6 @@ describe PrimeroModule do
     primero_module.errors[:associated_record_types].should == ["At least one record type must be associated with this module"]
   end
 
-  it "should not be valid if it doesnt have an associated program" do
-    primero_module = PrimeroModule.new
-    primero_module.should_not be_valid
-    primero_module.errors[:primero_program_id].should == ["There must be a program associated with this module"]
-  end
-
   it "should generate id" do
     primero_module = create(:primero_module, :name => 'test module 1234')
     primero_module.unique_id.should == "primeromodule-test-module-1234"

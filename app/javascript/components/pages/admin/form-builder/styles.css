@@ -10,12 +10,6 @@
   }
 }
 
-.translationsNote {
-  & a {
-    color: $(theme.primero.colors.blue);
-  }
-}
-
 .tabTranslations {
   padding: 0 1em;
 }

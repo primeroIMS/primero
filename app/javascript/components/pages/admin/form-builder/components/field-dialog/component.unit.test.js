@@ -3,6 +3,8 @@ import { DialogTitle } from "@material-ui/core";
 
 import { setupMockFormComponent } from "../../../../../../test";
 import { SUBFORM_SECTION, SELECT_FIELD } from "../../../../../form";
+import OrderableOptionsField from "../../../../../form/fields/orderable-options-field";
+import DraggableOption from "../../../../../form/components/draggable-option";
 import FieldsList from "../fields-list";
 
 import FieldDialog from "./component";
@@ -65,6 +67,59 @@ describe("<FieldDialog />", () => {
       const { component } = setupMockFormComponent(FieldDialog, { mode: "new" }, {}, initialStateNewMode);
 
       expect(component.find(FieldDialog).find(DialogTitle).text()).to.equal(`fields.add_field_type`);
+    });
+  });
+
+  describe("when is a SELECT_FIELD with option_strings_text", () => {
+    const initialStateSelectField = fromJS({
+      ui: { dialogs: { admin_fields_dialog: true } },
+      records: {
+        admin: {
+          forms: {
+            selectedField: {
+              multi_select: false,
+              editable: true,
+              guiding_questions: { en: "", fr: "", ar: "" },
+              display_name: { en: "Recommendation", fr: "", ar: "" },
+              date_validation: "default_date_validation",
+              name: "best_interest_recommendation",
+              help_text: { en: "", fr: "", ar: "" },
+              order: 2,
+              form_section_id: 7,
+              visible: true,
+              option_strings_text: [
+                {
+                  id: "medical",
+                  disabled: false,
+                  display_text: { ar: "", en: "Medical", fr: "fr3" }
+                },
+                {
+                  id: "repatriation",
+                  disabled: false,
+                  display_text: { ar: "", en: "Repatriation", fr: "fr4" }
+                },
+                {
+                  id: "reunification",
+                  disabled: false,
+                  display_text: { ar: "", en: "Reunification", fr: "fr6" }
+                }
+              ],
+              type: SELECT_FIELD,
+              id: 104,
+              disabled: false
+            }
+          }
+        }
+      }
+    });
+
+    it("should render the FieldDialog with OrderableOptionsField", () => {
+      const { component } = setupMockFormComponent(FieldDialog, { mode: "edit" }, {}, initialStateSelectField);
+
+      expect(component.find(FieldDialog)).to.have.lengthOf(1);
+      expect(component.find(OrderableOptionsField)).to.have.lengthOf(1);
+      expect(component.find(DraggableOption)).to.have.lengthOf(3);
+      expect(component.find(FieldDialog).find(DialogTitle).text()).to.equal(`fields.edit_label`);
     });
   });
 });

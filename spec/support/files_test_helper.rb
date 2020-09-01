@@ -32,4 +32,12 @@ module FilesTestHelper
     file_path = Rails.root.join('spec', 'resources', 'unicef-old.png')
     fixture_file_upload(file_path, 'image/png')
   end
+
+  def logo_base64
+    attachment_base64(Rails.root.join('spec', 'resources', 'unicef.png'))
+  end
+
+  def logo_old_base64
+    attachment_base64(Rails.root.join('spec', 'resources', 'unicef-old.png'))
+  end
 end
