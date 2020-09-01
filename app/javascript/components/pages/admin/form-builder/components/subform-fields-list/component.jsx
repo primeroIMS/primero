@@ -26,7 +26,7 @@ const Component = ({
     <>
       <div className={css.subformFieldTitle}>
         <h1>{i18n.t("forms.fields")}</h1>
-        <CustomFieldDialog />
+        <CustomFieldDialog getValues={getValues} />
       </div>
       <FieldsList
         formContextFields={formContextFields}
