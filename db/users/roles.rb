@@ -111,6 +111,10 @@ cp_admin_permissions = [
     actions: [Permission::MANAGE]
   ),
   Permission.new(
+    resource: Permission::CONFIGURATION,
+    actions: [Permission::MANAGE]
+  ),
+  Permission.new(
     resource: Permission::SYSTEM,
     actions: [Permission::MANAGE]
   ),
@@ -1117,6 +1121,10 @@ gbv_system_admin_permissions = [
     actions: [Permission::MANAGE]
   ),
   Permission.new(
+    resource: Permission::CONFIGURATION,
+    actions: [Permission::MANAGE]
+  ),
+  Permission.new(
     resource: Permission::SYSTEM,
     actions: [Permission::MANAGE]
   ),
@@ -1314,6 +1322,10 @@ superuser_permissions = [
   ),
   Permission.new(
     resource: Permission::METADATA,
+    actions: [Permission::MANAGE]
+  ),
+  Permission.new(
+    resource: Permission::CONFIGURATION,
     actions: [Permission::MANAGE]
   ),
   Permission.new(

@@ -12,18 +12,18 @@ describe("selectFieldForm()", () => {
     const options = [
       {
         id: "option_1",
-        display_text: "Display Text Option 1"
+        display_text: { en: "Display Text Option 1" }
       },
       {
         id: "option_2",
-        display_text: "Display Text Option 2"
+        display_text: { en: "Display Text Option 2" }
       }
     ];
 
     const { forms } = selectFieldForm({
       field: fromJS({
         ...fieldData,
-        option_strings_text: { en: options }
+        option_strings_text: options
       }),
       i18n,
       formMode,
@@ -40,7 +40,7 @@ describe("selectFieldForm()", () => {
 
     expect(forms).to.have.sizeOf(3);
     expect(optionsForm).to.exist;
-    expect(optionStringsText.get("option_strings_text").en).to.deep.equal(options);
+    expect(optionStringsText.get("option_strings_text")).to.deep.equal(options);
   });
 
   it("renders a select field for lookup options", () => {

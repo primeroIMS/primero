@@ -79,14 +79,13 @@ module Exporters
         @caseworker_code = {}
         @age_group_count = -1
         @age_type_count = -1
-        @fields = Field.find_by_name(
-          %w[
-            service_referred_from service_safehouse_referral perpetrator_relationship perpetrator_occupation
-            incidentid_ir survivor_code date_of_first_report incident_date date_of_birth ethnicity country_of_origin
-            maritial_status displacement_status disability_type unaccompanied_separated_status displacement_incident
-            incident_location_type incident_camp_town gbv_sexual_violence_type harmful_traditional_practice
-            goods_money_exchanged abduction_status_time_of_incident gbv_reported_elsewhere gbv_previous_incidents
-          ]
+        @fields = Field.where(
+          name: %w[service_referred_from service_safehouse_referral perpetrator_relationship perpetrator_occupation
+                   incidentid_ir survivor_code date_of_first_report incident_date date_of_birth ethnicity
+                   country_of_origin maritial_status displacement_status disability_type unaccompanied_separated_status
+                   displacement_incident incident_location_type incident_camp_town gbv_sexual_violence_type
+                   harmful_traditional_practice goods_money_exchanged abduction_status_time_of_incident
+                   gbv_reported_elsewhere gbv_previous_incidents]
         ).inject({}) { |acc, field| acc.merge(field.name => field) }
 
         @workbook = WriteExcel.new(buffer)

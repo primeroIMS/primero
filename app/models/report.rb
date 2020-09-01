@@ -1,50 +1,52 @@
-class Report < ApplicationRecord
+# frozen_string_literal: true
 
-  # include Memoizable
+# Configurable reports for aggregating data over Primero records.
+class Report < ApplicationRecord
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
 
   REPORTABLE_FIELD_TYPES = [
-    #Field::TEXT_FIELD,
-    #Field::TEXT_AREA,
+    # Field::TEXT_FIELD,
+    # Field::TEXT_AREA,
     Field::RADIO_BUTTON,
     Field::SELECT_BOX,
     Field::NUMERIC_FIELD,
     Field::DATE_FIELD,
-    #Field::DATE_RANGE,
+    # Field::DATE_RANGE,
     Field::TICK_BOX,
-    Field::TALLY_FIELD,
-  ]
+    Field::TALLY_FIELD
+  ].freeze
 
   AGGREGATE_COUNTS_FIELD_TYPES = [
     Field::NUMERIC_FIELD,
-    Field::TALLY_FIELD,
-  ]
+    Field::TALLY_FIELD
+  ].freeze
 
-  DAY = 'date' #eg. 13-Jan-2015
-  WEEK = 'week' #eg. Week 2 Jan-2015
-  MONTH = 'month' #eg. Jan-2015
-  YEAR = 'year' #eg. 2015
-  DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
+  DAY = 'date' # eg. 13-Jan-2015
+  WEEK = 'week' # eg. Week 2 Jan-2015
+  MONTH = 'month' # eg. Jan-2015
+  YEAR = 'year' # eg. 2015
+  DATE_RANGES = [DAY, WEEK, MONTH, YEAR].freeze
 
   localize_properties :name, :description
 
-  #TODO: Currently it's not worth trying to save off the report data.
-  #      The report builds a value hash with an array of strings as keys. CouchDB/CouchRest converts this array to a string.
-  #      Not clear what benefit could be gained by storing the data but converting keys to strings on the fly
+  # TODO: Currently it's not worth trying to save off the report data.
+  #      The report builds a value hash with an array of strings as keys. CouchDB/CouchRest converts this array to
+  #      a string. Not clear what benefit could be gained by storing the data but converting keys to strings on the fly
   #      when rendering the graph and table. So for now we will rebuild the data.
-  #property :data
   attr_accessor :data
   attr_accessor :add_default_filters
   attr_accessor :aggregate_by_ordered
   attr_accessor :disaggregate_by_ordered
   attr_accessor :permission_filter
+  self.unique_id_from_attribute = 'name_en'
 
-  validates_presence_of :record_type
-  validates_presence_of :aggregate_by
+  validates :record_type, presence: true
+  validates :aggregate_by, presence: true
   validate :modules_present
   validate :validate_name_in_base_language
 
+  before_create :generate_unique_id
   before_save :apply_default_filters
 
   def validate_name_in_base_language
@@ -54,7 +56,7 @@ class Report < ApplicationRecord
   end
 
   class << self
-
+    # TODO: Delete, deprecate after we have rewritten the ruby exporter
     def create_or_update(report_hash)
       report_id = report_hash[:id]
       report = Report.find_by(id: report_id)
@@ -103,11 +105,12 @@ class Report < ApplicationRecord
   end
 
   def update_properties(report_params)
+    report_params = report_params.with_indifferent_access if report_params.is_a?(Hash)
     converted_params = FieldI18nService.convert_i18n_properties(Report, report_params)
     merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
     assign_attributes(report_params.except(:name, :description, :graph, :fields).merge(merged_props))
-    self.is_graph = report_params[:graph] unless report_params[:graph].nil?
-    return if report_params[:fields].nil?
+    self.is_graph = report_params[:graph].present?
+    return unless report_params[:fields]
 
     self.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)
     self.disaggregate_by = ReportFieldService.disaggregate_by_from_params(report_params)
@@ -118,7 +121,7 @@ class Report < ApplicationRecord
   end
 
   def field_map
-    return @pivot_fields
+    @pivot_fields
   end
 
   # This method transforms the current values format: {["child_mother", "female"] => 1}
@@ -193,7 +196,7 @@ class Report < ApplicationRecord
           #The numbers are off because a dimension is missing. Zero everything out!
           self.values = self.values.map{|pivots, _| [pivots, 0]}
         end
-        aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)
+        aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)&.first
         if aggregate_counts_from_field.present?
           if aggregate_counts_from_field.type == Field::TALLY_FIELD
             self.values = self.values.map do |pivots, value|
@@ -380,7 +383,7 @@ class Report < ApplicationRecord
   end
 
   def pivots_map
-    @pivots_map ||= pivots.map { |pivot| [pivot, Field.find_by_name(pivot)] }.to_h
+    @pivots_map ||= pivots.map { |pivot| [pivot, Field.find_by_name(pivot)&.first] }.to_h
   end
 
   def pivot_index(field_name)

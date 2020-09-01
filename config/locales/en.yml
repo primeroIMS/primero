@@ -101,7 +101,7 @@ en:
     cannot_edit: "You cannot edit this"
     field_name_on_form_name: "'%{field_name}' field on '%{form_name}' form."
     subform_section:
-      status: 
+      status:
         error: "Error"
 
   data_base:
@@ -1055,6 +1055,7 @@ en:
     transfer_label: "Can this role be used for Transfers?"
     referral_label: "Can this role be used for Referrals?"
     group_permission_label: "What records does this role affect?"
+    reporting_location_level_label: "What location type should be used for reporting for this role?"
     role_ids_label: "Others roles managed by this role"
     agency_ids_label: "Agencies managed by this role"
     manager: "Manager"
@@ -2109,6 +2110,11 @@ en:
               information contained in the fields on that form. If the current user has limited form access and has the
               ability to manage the form configuration, limiting their form access also limits which forms they can configure.
               NOTE: If no forms are specified, it means the role has access to all the forms for cases."
+      reporting_location_level:
+        label: "What location type should be used for reporting for this role?"
+        explanation: "This will control what level of locations appear for this Role in the dashboards, filters,
+              referral modals, and transfer modals. If you leave this field blank, this Role will see the system’s
+              default Reporting Location level.  Enter the number assocaited with the desired level as follows:"
 
     permission:
       read: "Read"
@@ -2563,6 +2569,7 @@ en:
     english_label: "English Text"
     translation_label: "Translation Text"
     language_label: "Language"
+    no_options: "This Lookup currently has no options."
     messages:
       cannot_create: "Lookup could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
@@ -3093,11 +3100,7 @@ en:
         unique_name_this: "Field already exists on this form"
         change_type_existing_field: "Can't change type of existing field '%{field_name}' on form '%{form_name}'"
         option_strings_text:
-          not_array: "Option Strings Text is not an array"
-          not_hash: "Option Strings Text option is not a hash"
-          id_blank: "Option Strings Text option id is blank"
-          display_text_blank: "Option Strings Text option display text is blank"
-          id_not_unique: "Option Strings Text option id is not unique"
+          not_hash: "Option Strings Text option is not a in a valid format"
 
       form_section:
         presence_of_name: "Name must not be blank"
@@ -3116,6 +3119,7 @@ en:
         name_present: "Name must not be blank"
         permission_presence: "Please select at least one permission"
         unique_name: "A role with that name already exists, please enter a different name"
+        reporting_location_level: "Location Level must be one of ReportingLocation Level values"
 
         permission:
           resource_presence: "Please select a resource"
@@ -3137,6 +3141,7 @@ en:
         value_presence: "Please select at least one lookup value"
         unique_name: "A lookup with that name already exists, please enter a different name"
         being_used: "This lookup is being used and cannot be deleted"
+        values_ids_blank: "A lookup_value id is blank"
 
       system_users:
         username_unique: "User name has already been taken! Please select a new User name"

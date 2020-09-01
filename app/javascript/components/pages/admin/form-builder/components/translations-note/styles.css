@@ -1,0 +1,5 @@
+.translationsNote {
+  & a {
+    color: $(theme.primero.colors.blue);
+  }
+}

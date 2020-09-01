@@ -33,6 +33,19 @@ const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }
   return formSections.filter(fs => fs.visible);
 };
 
+const transformOptionSource = (options, locale) => {
+  if (!options || !Array.isArray(options)) {
+    return [];
+  }
+
+  const enabledOptions = options.filter(fs => !fs.disabled) || [];
+
+  return enabledOptions.map(opt => ({
+    id: opt.id,
+    display_text: opt.display_text[locale] || ""
+  }));
+};
+
 export const getFirstTab = (state, query) => {
   const selectedForms = forms(state, query);
 
@@ -100,7 +113,7 @@ export const getOption = (state, option, locale) => {
     return selectedOptions?.size ? selectedOptions.get("values").toJS() : [];
   }
 
-  return option && option[locale] ? option[locale] : [];
+  return transformOptionSource(option, locale);
 };
 
 export const getOptions = state => state.getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]));

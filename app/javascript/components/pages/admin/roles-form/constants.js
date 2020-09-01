@@ -7,7 +7,8 @@ export const FIELD_NAMES = {
   referral: "referral",
   moduleIds: "module_unique_ids",
   groupPermission: "group_permission",
-  isManager: "is_manager"
+  isManager: "is_manager",
+  reportingLocationLevel: "reporting_location_level"
 };
 export const ACTION_BUTTONS_NAME = "ActionButtons";
 

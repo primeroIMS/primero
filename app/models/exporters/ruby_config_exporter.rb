@@ -1,136 +1,117 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 
-module Exporters
-  class RubyConfigExporter
+# Exports the current state of the Primero configuration as Ruby scripts.
+# TODO: The exporter does not account for Location, PrimeroModule, PrimeroProgram, SystemSettings
+# TODO: Use PrimeroConfiguration. This will allow us to export past configuration states as Ruby.
+class Exporters::RubyConfigExporter
+  def initialize(export_dir: 'seed-files', file: nil)
+    @export_dir = export_dir
+    FileUtils.mkdir_p(@export_dir)
+    @file = file
+    FileUtils.rm("#{@export_dir}/#{@file}") if @file && File.exist?("#{@export_dir}/#{@file}")
+    @indent = 0
+  end
 
-    def initialize(export_dir='seed-files')
-      @export_dir = export_dir
-      @forms_dir = "#{export_dir}/forms"
-      @forms_case_dir = "#{@forms_dir}/case"
-      @forms_incident_dir = "#{@forms_dir}/incident"
-      @forms_tracing_request_dir = "#{@forms_dir}/tracing_request"
-      @lookups_dir = "#{export_dir}/lookups"
-      @reports_dir = "#{export_dir}/reports"
-      @system_settings_dir = "#{export_dir}/system_settings"
-      @users_dir = "#{export_dir}/users"
-      @indent = 0
+  def i
+    '  ' * @indent
+  end
+
+  def _i
+    @indent += 1
+  end
+
+  def i_
+    @indent -= 1
+  end
+
+  def file_for(config_name, config_objects = nil)
+    return "#{@export_dir}/#{@file}" if @file
+
+    if config_name == 'FormSection' && config_objects.present?
+      config_dir = "#{@export_dir}/forms/#{config_objects.last['parent_form']}"
+      FileUtils.mkdir_p(config_dir)
+      "#{config_dir}/#{config_objects.last['unique_id']}.rb"
+    else
+      config_dir = "#{@export_dir}/#{config_name.pluralize.underscore}"
+      FileUtils.mkdir_p(config_dir)
+      "#{config_dir}/#{config_name.underscore}.rb"
     end
+  end
 
-    def i
-      "  "*@indent
+  def export
+    # TODO: Location, PrimeroModule, PrimeroProgram, SystemSettings, ExportConfiguration, IdentityProvider
+    %w[Agency Lookup Report UserGroup Role ContactInformation].each do |config_name|
+      config_objects = Object.const_get(config_name).all.map(&:configuration_hash)
+      export_config_objects(config_name, config_objects)
     end
+    export_forms
+  end
 
-    def _i
-      @indent+=1
+  def export_forms
+    forms_with_subforms.each do |_, form_with_subforms|
+      export_config_objects('FormSection', form_with_subforms.map(&:configuration_hash))
     end
+  end
 
-    def i_
-      @indent-=1
+  def forms_with_subforms
+    grouped_forms = FormSection.all.group_by do |form|
+      form.is_nested ? form.subform_field&.form_section&.unique_id : form.unique_id
     end
+    grouped_forms.map do |unique_id, form_and_subforms|
+      [unique_id, form_and_subforms.sort_by { |form| form.is_nested? ? 0 : 1 }]
+    end.to_h
+  end
 
-    def export
-      FileUtils.makedirs([@forms_case_dir, @forms_incident_dir, @forms_tracing_request_dir, @lookups_dir, @reports_dir, @system_settings_dir, @users_dir])
-      configuration_hash = ConfigurationBundle.export
-
-      export_config_objects(configuration_hash['Agency'], "#{@lookups_dir}/agencies.rb")
-      export_config_objects(configuration_hash['Lookup'], "#{@lookups_dir}/lookups.rb")
-      export_config_objects(configuration_hash['Location'], "#{@lookups_dir}/locations.rb")
-      export_config_objects(configuration_hash['Report'], "#{@reports_dir}/reports.rb")
-      export_config_objects(configuration_hash['PrimeroModule'], "#{@users_dir}/default_modules.rb")
-      export_config_objects(configuration_hash['PrimeroProgram'], "#{@users_dir}/programs.rb")
-      export_config_objects(configuration_hash['UserGroup'], "#{@users_dir}/user_groups.rb")
-      export_config_objects(configuration_hash['Role'], "#{@users_dir}/roles.rb")
-      export_config_objects(configuration_hash['SystemSettings'], "#{@system_settings_dir}/system_settings.rb")
-      export_config_objects(configuration_hash['ContactInformation'], "#{@system_settings_dir}/contact_information.rb")
-
-      export_forms(configuration_hash['FormSection'])
-    end
-
-    def export_forms(form_objects)
-      grouped_forms = {}
-      forms_hash = {}
-      form_objects.each do |form_object|
-        type = form_object['parent_form']
-        unique_id = form_object['unique_id']
-        file_name = "#{@forms_dir}/#{type}/#{unique_id}.rb"
-        forms_hash[unique_id] = form_object
-        unless form_object['is_nested']
-          grouped_forms[file_name] = [unique_id]
-          form_object['fields'].each do |field|
-            if field['type'] == 'subform'
-              subform_unique_id = field['subform_section_id']
-              grouped_forms[file_name] << subform_unique_id
-            end
-          end
-        end
-      end
-
-      grouped_forms.each do |file_name, form_ids|
-        related_form_objects = form_ids.map{|id| forms_hash[id]}.reverse
-        export_config_objects(related_form_objects, file_name)
-      end
-    end
-
-
-    def export_config_objects(objects, file_name)
-      open(file_name, 'w') do |f|
-        objects.each do |config_object|
-          f << config_to_ruby_string(config_object)
-        end
+  def export_config_objects(config_name, objects)
+    file_name = file_for(config_name, objects)
+    File.open(file_name, 'a') do |f|
+      objects.each do |config_object|
+        f << config_to_ruby_string(config_name, config_object)
       end
     end
+  end
 
-    def config_to_ruby_string(config_object)
-      object_type = config_object['class_name']
-      keys = config_object.keys.reject{|k| k.start_with?('id', 'class_name', 'name')}
-      name_keys = config_object.keys.select{|k| k.start_with?('name')}
-      ruby_string =  "#{i}#{object_type}.create_or_update(\n"
+  def config_to_ruby_string(config_name, config_hash)
+    ruby_string = "#{i}#{config_name}.create_or_update!(\n"
+    _i
+    ruby_string += "#{i}#{value_to_ruby_string(config_hash)}"
+    i_
+    ruby_string + "\n#{i})\n\n"
+  end
+
+  # This is a long, recursive method.
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
+  def value_to_ruby_string(value)
+    if value.is_a?(Hash)
+      ruby_string = "{\n"
       _i
-      name_keys.each do |key|
-        ruby_string += "#{i}#{key_to_ruby(key)}: #{value_to_ruby_string(config_object[key])},\n"
-      end
-      keys.each do |key|
-        ruby_string += "#{i}#{key_to_ruby(key)}: #{value_to_ruby_string(config_object[key])},\n"
-      end
+      ruby_string += i
+      ruby_string += value.compact.map do |k, v|
+        "#{key_to_ruby(k)}: #{value_to_ruby_string(v)}"
+      end.join(",\n#{i}")
       i_
-      ruby_string += "#{i})\n\n"
-    end
-
-    def key_to_ruby(key)
-      if key.include?('-')
-        "\"#{key}\""
-      else
-        key
+      ruby_string + "\n#{i}}"
+    elsif value.is_a?(Array)
+      ruby_string = '['
+      if value.present?
+        _i
+        ruby_string += "\n#{i}"
+        ruby_string += value.map { |v| value_to_ruby_string(v) }.join(",\n#{i}")
+        i_
+        ruby_string += "\n#{i}"
       end
+      ruby_string + ']'
+    else
+      value.to_json
     end
+  end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
-    def value_to_ruby_string(value)
-      if value.is_a?(Array)
-        if value.present?
-          if value[0].is_a?(Hash)
-            ruby_string = "[\n"
-            _i
-            value.each do |v|
-              ruby_string += "#{i}{\n"
-              _i
-              ruby_string += i
-              ruby_string += v.map{|k,vv| "\"#{k}\" => #{value_to_ruby_string(vv)}"}.join(",\n#{i}")
-              i_
-              ruby_string += "\n#{i}},\n"
-            end
-            i_
-            ruby_string += "#{i}]"
-          else
-            "[ " + value.map(&:to_json).join(", ") + " ]"
-          end
-        else
-          "[]"
-        end
-
-      else
-        value.to_json
-      end
-    end
-
+  def key_to_ruby(key)
+    key.include?('-') ? "'#{key}'" : key
   end
 end

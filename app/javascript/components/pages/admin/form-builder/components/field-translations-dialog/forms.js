@@ -19,7 +19,14 @@ const subformForms = ({
   currentValues,
   subform
 }) => {
-  const subformValues = currentValues.subform_section ? fromJS(currentValues.subform_section) : subform;
+  const subformSection = currentValues[subform.get("unique_id")]
+    ? fromJS({
+        name: currentValues[subform.get("unique_id")].display_name,
+        description: subform.get("description", fromJS({}))
+      })
+    : subform;
+
+  const subformValues = currentValues.subform_section ? fromJS(currentValues.subform_section) : subformSection;
   const subformName = subformValues.getIn(["name", "en"], "");
   const subformDescription = subformValues.getIn(["description", "en"], "");
 

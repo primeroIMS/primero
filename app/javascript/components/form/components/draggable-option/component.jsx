@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Draggable } from "react-beautiful-dnd";
 import { Controller, useFormContext } from "react-hook-form";
-import { Checkbox, makeStyles, Radio } from "@material-ui/core";
+import { makeStyles, Radio } from "@material-ui/core";
 import get from "lodash/get";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 
 import TextInput from "../../fields/text-input";
+import SwitchInput from "../../fields/switch-input";
 import styles from "../../fields/styles.css";
 import DragIndicator from "../../../pages/admin/forms-list/components/drag-indicator";
 import { generateIdFromDisplayText } from "../../utils/handle-options";
@@ -18,8 +19,8 @@ import { NAME } from "./constants";
 const Component = ({ defaultOptionId, index, name, option, onRemoveClick }) => {
   const css = makeStyles(styles)();
   const { errors, setValue, watch, formState, formMode } = useFormContext();
-  const displayTextName = `${name}.option_strings_text.en[${index}].display_text`;
-  const optionId = watch(`${name}.option_strings_text.en[${index}].id`, option.id);
+  const displayTextName = `${name}.option_strings_text[${index}].display_text.en`;
+  const optionId = watch(`${name}.option_strings_text[${index}].id`, option.id);
   const selectedValue = watch(`${name}.selected_value`, defaultOptionId);
   const error = errors ? get(errors, displayTextName) : undefined;
   const classes = makeStyles({
@@ -38,7 +39,7 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick }) => {
     const newOptionId = generateIdFromDisplayText(value);
 
     if (formState.dirty && value && option.isNew) {
-      setValue(`${name}.option_strings_text.en[${index}].id`, newOptionId);
+      setValue(`${name}.option_strings_text[${index}].id`, newOptionId);
 
       if (selectedValue === optionId) {
         setValue(`${name}.selected_value`, newOptionId);
@@ -48,7 +49,9 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick }) => {
     return value;
   };
 
-  const renderCheckbox = formMode.get("isEdit") && <Checkbox disabled checked />;
+  const renderCheckbox = formMode.get("isEdit") && (
+    <SwitchInput commonInputProps={{ name: `${name}.option_strings_text[${index}].disabled` }} />
+  );
 
   const renderRemoveButton = formMode.get("isNew") && (
     <IconButton aria-label="delete" className={css.removeIcon} onClick={() => onRemoveClick(option.id)}>
