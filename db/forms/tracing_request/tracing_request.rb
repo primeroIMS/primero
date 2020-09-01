@@ -130,7 +130,7 @@ tracing_request_subform_fields = [
             })
 ]
 
-tracing_request_subform_section = FormSection.create_or_update_form_section({
+tracing_request_subform_section = FormSection.create_or_update!({
   "visible" => false,
   "is_nested" => true,
   :order_form_group => 10,
@@ -156,7 +156,7 @@ tracing_request_tracing_request_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   :unique_id => "tracing_request_tracing_request",
   :parent_form=>"tracing_request",
   "visible" => true,

@@ -61,7 +61,7 @@ interview_details_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   :unique_id=>"interview_details",
   :parent_form=>"case",
   "visible" => true,

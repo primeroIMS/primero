@@ -37,7 +37,7 @@ child_preferences_fields_subform = [
             })
 ]
 
-child_preferences_section = FormSection.create_or_update_form_section({
+child_preferences_section = FormSection.create_or_update!({
     "visible"=>false,
     "is_nested"=>true,
     :order_form_group => 130,
@@ -135,7 +135,7 @@ child_wishes_fields = [
            })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   :unique_id => "child_wishes",
   :parent_form=>"case",
   "visible" => true,

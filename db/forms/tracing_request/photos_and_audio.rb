@@ -15,7 +15,7 @@ tracing_request_photo_audio_fields = [
               })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "tracing_request_photos_and_audio",
   parent_form: "tracing_request",
   visible: true,

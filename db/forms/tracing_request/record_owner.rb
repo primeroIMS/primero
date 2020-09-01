@@ -61,7 +61,7 @@ tracing_request_record_owner_fields = [
           }),
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   :unique_id => "tracing_request_record_owner",
   :parent_form=>"tracing_request",
   "visible" => true,

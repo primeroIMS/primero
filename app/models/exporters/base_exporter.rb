@@ -22,11 +22,6 @@ class Exporters::BaseExporter
       Field.binary.pluck(:name)
     end
 
-    # TODO: Delete once we refactor PDF exporter
-    # def excluded_forms
-    #   []
-    # end
-
     def authorize_fields_to_user?
       true
     end

@@ -18,6 +18,7 @@ describe Api::V2::FormSectionsController, type: :request do
     @form1 = FormSection.create!(
       unique_id: 'form_section_1',
       name_i18n: { en: 'Form Section 1' },
+      editable: false,
       fields: [
         Field.new(
           name: 'fs1_field_1',
@@ -107,7 +108,7 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(response).to have_http_status(200)
 
       expect(json['data']['id']).to eq(@form1.id)
-      expect(json['data']['form_group_name']['en']).to eq(@form1.form_group_name)
+      expect(json['data']['form_group_name']['en']).to eq('Form Section 1')
     end
 
     it 'fetches a form which is nested' do
