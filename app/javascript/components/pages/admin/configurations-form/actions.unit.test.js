@@ -18,6 +18,7 @@ describe("configurations-form/actions.js", () => {
 
     [
       "CLEAR_SELECTED_CONFIGURATION",
+      "DELETE_CONFIGURATION",
       "FETCH_CONFIGURATION",
       "FETCH_CONFIGURATION_STARTED",
       "FETCH_CONFIGURATION_SUCCESS",

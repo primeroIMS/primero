@@ -1,3 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 export const NAME = "ConfigurationsForm";
+
+export const DELETE_CONFIGURATION_MODAL = "deleteConfigurationModal";

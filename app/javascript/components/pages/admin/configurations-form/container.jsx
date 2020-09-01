@@ -2,8 +2,8 @@ import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
-import { useLocation, useParams } from "react-router-dom";
-import CreateIcon from "@material-ui/icons/Create";
+import { useParams } from "react-router-dom";
+import DeleteIcon from "@material-ui/icons/Delete";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 import { Typography } from "@material-ui/core";
@@ -15,11 +15,19 @@ import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../user-groups-list/namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import bindFormSubmit from "../../../../libs/submit-form";
+import ActionDialog from "../../../action-dialog";
+import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
+import { setDialog, setPending } from "../../../record-actions/action-creators";
 
 import { form, validations } from "./form";
-import { fetchConfiguration, clearSelectedConfiguration, saveConfiguration } from "./action-creators";
+import {
+  fetchConfiguration,
+  clearSelectedConfiguration,
+  saveConfiguration,
+  deleteConfiguration
+} from "./action-creators";
 import { getConfiguration, getServerErrors, getSavingRecord } from "./selectors";
-import { NAME } from "./constants";
+import { NAME, DELETE_CONFIGURATION_MODAL } from "./constants";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -27,12 +35,20 @@ const Container = ({ mode }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { pathname } = useLocation();
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const configuration = useSelector(state => getConfiguration(state));
   const saving = useSelector(state => getSavingRecord(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const validationSchema = validations(formMode, i18n);
+
+  const deleteModal = useSelector(state => selectDialog(state, DELETE_CONFIGURATION_MODAL));
+  const setDeleteModal = open => {
+    dispatch(setDialog({ dialog: DELETE_CONFIGURATION_MODAL, open }));
+  };
+  const dialogPending = useSelector(state => selectDialogPending(state));
+  const setDialogPending = pending => {
+    dispatch(setPending({ pending }));
+  };
 
   const handleSubmit = data => {
     dispatch(
@@ -45,13 +61,24 @@ const Container = ({ mode }) => {
     );
   };
 
-  const handleEdit = () => {
-    dispatch(push(`${pathname}/edit`));
+  const handleCancel = () => dispatch(push(ROUTES.configurations));
+
+  const handleApply = () => handleCancel();
+
+  const handleSuccessDelete = () => {
+    setDialogPending(true);
+
+    dispatch(
+      deleteConfiguration({
+        id,
+        message: i18n.t("configurations.messages.deleted")
+      })
+    );
   };
 
-  const handleCancel = () => {
-    dispatch(push(ROUTES.configurations));
-  };
+  const handleCancelDelete = () => setDeleteModal(false);
+
+  const handleDelete = () => setDeleteModal(true);
 
   useEffect(() => {
     if (isEditOrShow) {
@@ -69,14 +96,22 @@ const Container = ({ mode }) => {
     ? `${i18n.t("configurations.label_edit")} ${configuration.get("name")}`
     : i18n.t("configurations.label_new");
 
+  const cancelButton = (
+    <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
+  );
+
   const editButton = formMode.get("isShow") ? (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
+    <>
+      {cancelButton}
+      <FormAction actionHandler={handleDelete} text={i18n.t("buttons.delete")} startIcon={<DeleteIcon />} />
+      <FormAction actionHandler={handleApply} text={i18n.t("buttons.apply")} startIcon={<CheckIcon />} />
+    </>
   ) : null;
 
   const saveButton =
     formMode.get("isEdit") || formMode.get("isNew") ? (
       <>
-        <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
+        {cancelButton}
         <FormAction
           actionHandler={() => bindFormSubmit(formRef)}
           text={i18n.t("buttons.save")}
@@ -104,12 +139,22 @@ const Container = ({ mode }) => {
         <Form
           useCancelPrompt
           mode={mode}
-          formSections={form(i18n, formMode)}
+          formSections={form(i18n, formMode.get("isShow"))}
           onSubmit={handleSubmit}
           ref={formRef}
           validations={validationSchema}
           initialValues={configuration.toJS()}
           formErrors={formErrors}
+        />
+        <ActionDialog
+          open={deleteModal}
+          successHandler={handleSuccessDelete}
+          cancelHandler={handleCancelDelete}
+          dialogTitle={i18n.t("fields.remove")}
+          dialogText={i18n.t("configurations.delete_label")}
+          confirmButtonLabel={i18n.t("buttons.delete")}
+          pending={dialogPending}
+          omitCloseAfterSuccess
         />
       </PageContent>
     </LoadingIndicator>
