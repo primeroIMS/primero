@@ -43,7 +43,7 @@ class FormSection < ApplicationRecord
   end
 
   # TODO: DELETE THIS, once we refactor YML exporter
-  def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE, show_hidden_fields = false)
+  def localized_property_hash(locale = Primero::Application::ENGLISH, show_hidden_fields = false)
     lh = localized_hash(locale)
     fldz = {}
     fields.each { |f| fldz[f.name] = f.localized_property_hash locale if show_hidden_fields || f.visible? }
@@ -147,7 +147,7 @@ class FormSection < ApplicationRecord
 
   # TODO: Refactor with Yaml I18n importer.
   def update_translations(form_hash={}, locale)
-    if locale.present? && Primero::Application::locales.include?(locale)
+    if locale.present? && I18n.avialble_locales.include?(locale)
       form_hash.each do |key, value|
         # Form Group Name is now a calculated field based on form_group_id
         # Form Group Translations are handled through Lookup

@@ -14,7 +14,7 @@ end
 
 create_or_update_system_setting(
   default_locale: Primero::Application::LOCALE_ENGLISH,
-  locales: [Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_FRENCH, Primero::Application::LOCALE_ARABIC],
+  locales: %w[en fr ar],
   auto_populate_list: [
     {
       field_key: "name",

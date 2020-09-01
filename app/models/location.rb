@@ -207,7 +207,7 @@ class Location < ApplicationRecord
   end
 
   def set_name_from_hierarchy_placenames
-    locales = Primero::Application::locales
+    locales = I18n.available_locales
     name_hash = generate_hierarchy_placenames(locales)
     return unless name_hash.present?
 

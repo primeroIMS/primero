@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe LocalizableJsonProperty do
   before :each do
-    Primero::Application.stub locales: %w[a b]
-    I18n.stub available_locales: %w[a b]
+    allow(I18n).to receive(:available_locales) { %w[a b] }
+
     @klass = Class.new(Field) do
       include LocalizableJsonProperty
 

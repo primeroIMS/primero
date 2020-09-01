@@ -103,7 +103,7 @@ class Lookup < ApplicationRecord
 
     # TODO: Review this method due the values structure changed.
     def import_translations(locale, lookups_hash = {})
-      if locale.present? && Primero::Application.locales.include?(locale)
+      if locale.present? && I18n.available_locales.include?(locale)
         lookups_hash.each do |key, value|
           if key.present?
             lookup = Lookup.find_by(unique_id: key)
@@ -144,7 +144,7 @@ class Lookup < ApplicationRecord
   end
 
   # TODO: DELETE THIS, once we refactor YML exporter
-  def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE)
+  def localized_property_hash(locale = Primero::Application::LOCALE_ENGLISH)
     lh = localized_hash(locale)
     lvh = {}
 
@@ -157,8 +157,8 @@ class Lookup < ApplicationRecord
   def validate_values_keys_match
     default_ids = lookup_values_en&.map { |lv| lv['id'] }
     if default_ids.present?
-      Primero::Application.locales.each do |locale|
-        next if locale == Primero::Application::BASE_LANGUAGE || send("lookup_values_#{locale}").blank?
+      I18n.available_locales.each do |locale|
+        next if locale == Primero::Application::LOCALE_ENGLISH || send("lookup_values_#{locale}").blank?
 
         locale_ids = send("lookup_values_#{locale}")&.map { |lv| lv['id'] }
         if (default_ids - locale_ids).present? || (locale_ids - default_ids).present?
@@ -187,7 +187,7 @@ class Lookup < ApplicationRecord
 
   # TODO: Review this method due the values structure changed.
   def update_translations(locale, lookup_hash = {})
-    if locale.present? && Primero::Application.locales.include?(locale)
+    if locale.present? && I18n.available_locales.include?(locale)
       lookup_hash.each do |key, value|
         if key == 'lookup_values'
           update_lookup_values_translations(value, locale)
@@ -230,8 +230,8 @@ class Lookup < ApplicationRecord
 
     return unless default_ids.present?
 
-    Primero::Application.locales.each do |locale|
-      next if locale == Primero::Application::BASE_LANGUAGE
+    I18n.available_locales.each do |locale|
+      next if locale == Primero::Application::LOCALE_ENGLISH
 
       send("lookup_values_#{locale}")&.reject! { |lv| default_ids.exclude?(lv['id']) }
     end

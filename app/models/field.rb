@@ -67,7 +67,7 @@ class Field < ApplicationRecord
   end
 
   # TODO: DELETE THIS, once we refactor YML exporter
-  def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE)
+  def localized_property_hash(locale = Primero::Application::LOCALE_ENGLISH)
     lh = localized_hash(locale)
     if option_strings_text.present?
       fh = {}
@@ -229,7 +229,7 @@ class Field < ApplicationRecord
   # TODO: Review this method due the values structure changed.
   # TODO: Refactor with i18n import service
   def update_translations(field_hash={}, locale)
-    if locale.present? && Primero::Application::locales.include?(locale)
+    if locale.present? && I18n.available_locales.include?(locale)
       field_hash.each do |key, value|
         if key == 'option_strings_text'
           if self.option_strings_text.present?

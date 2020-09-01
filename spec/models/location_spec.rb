@@ -5,8 +5,7 @@ require 'rails_helper'
 describe Location do
   before do
     Location.delete_all
-    Primero::Application.stub locales: [Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_FRENCH]
-    Primero::Application.stub default_locale: Primero::Application::LOCALE_ENGLISH
+    allow(I18n).to receive(:available_locales) { %w[en fr] }
 
     @country = create(
       :location, admin_level: 0, placename_all: 'MyCountry', type: 'country',

@@ -50,7 +50,7 @@ class Report < ApplicationRecord
   before_save :apply_default_filters
 
   def validate_name_in_base_language
-    return if send("name_#{Primero::Application::BASE_LANGUAGE}").present?
+    return if name_en.present?
 
     errors.add(:name, I18n.t('errors.models.report.name_presence'))
   end

@@ -65,7 +65,7 @@ module Exporters
       @export_dir_path = dir
       @show_hidden_forms = opts[:show_hidden_forms].present?
       @show_hidden_fields = opts[:show_hidden_fields].present?
-      @locale = opts['locale'].present? ? opts['locale'] : Primero::Application::BASE_LANGUAGE
+      @locale = opts['locale'].present? ? opts['locale'] : Primero::Application::LOCALE_ENGLISH
 
       Rails.logger.info { 'Begging of Forms YAML Exporter...' }
       Rails.logger.info { "Writing files to directory location: '#{@export_dir_path}" }

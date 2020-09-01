@@ -47,7 +47,7 @@ describe SystemSettings do
 
       context 'and locale is not English' do
         before do
-          @system_settings.default_locale = Primero::Application::LOCALE_ARABIC
+          @system_settings.default_locale = 'ar'
         end
 
         it 'is valid' do
@@ -59,7 +59,7 @@ describe SystemSettings do
     context 'with locales' do
       context 'and English is one of the locales' do
         before do
-          @system_settings.locales = [Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_ARABIC]
+          @system_settings.locales = [Primero::Application::LOCALE_ENGLISH, 'ar']
         end
 
         it 'is valid' do
@@ -69,7 +69,7 @@ describe SystemSettings do
 
       context 'and English is not one of the locales' do
         before do
-          @system_settings.locales = [Primero::Application::LOCALE_FRENCH, Primero::Application::LOCALE_ARABIC]
+          @system_settings.locales = %w[fr ar]
         end
 
         it 'is not valid' do

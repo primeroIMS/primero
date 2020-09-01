@@ -194,7 +194,7 @@ module Exporters
     private
 
     def compute_locales(input_locales=nil)
-      all_locales = Primero::Application::locales
+      all_locales = I18n.available_locales
       correct_locales = all_locales & input_locales
       if input_locales.empty? or correct_locales.empty?
         @locales = all_locales
