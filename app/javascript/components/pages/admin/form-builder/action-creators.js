@@ -138,3 +138,8 @@ export const setTemporarySubform = payload => ({
   type: actions.SET_TEMPORARY_SUBFORM,
   payload
 });
+
+export const mergeOnSelectedSubform = payload => ({
+  type: actions.MERGE_SUBFORM_DATA,
+  payload
+});
