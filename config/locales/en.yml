@@ -1193,7 +1193,8 @@ en:
     messages:
       created: "Configuration was successfully created."
       updated: "Configuration was successfully updated."
-    columns:
+      deleted: "Configuration was successfully deleted."
+    attributes:
       name: "Name"
       version: "Version"
       description: "Description"

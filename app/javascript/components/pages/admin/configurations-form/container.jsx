@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
@@ -16,11 +16,18 @@ import NAMESPACE from "../user-groups-list/namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import bindFormSubmit from "../../../../libs/submit-form";
 import ActionDialog from "../../../action-dialog";
+import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
+import { setDialog, setPending } from "../../../record-actions/action-creators";
 
 import { form, validations } from "./form";
-import { fetchConfiguration, clearSelectedConfiguration, saveConfiguration } from "./action-creators";
+import {
+  fetchConfiguration,
+  clearSelectedConfiguration,
+  saveConfiguration,
+  deleteConfiguration
+} from "./action-creators";
 import { getConfiguration, getServerErrors, getSavingRecord } from "./selectors";
-import { NAME } from "./constants";
+import { NAME, DELETE_CONFIGURATION_MODAL } from "./constants";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -29,11 +36,19 @@ const Container = ({ mode }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const [deleteModal, setDeleteModal] = useState(false);
   const configuration = useSelector(state => getConfiguration(state));
   const saving = useSelector(state => getSavingRecord(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const validationSchema = validations(formMode, i18n);
+
+  const deleteModal = useSelector(state => selectDialog(state, DELETE_CONFIGURATION_MODAL));
+  const setDeleteModal = open => {
+    dispatch(setDialog({ dialog: DELETE_CONFIGURATION_MODAL, open }));
+  };
+  const dialogPending = useSelector(state => selectDialogPending(state));
+  const setDialogPending = pending => {
+    dispatch(setPending({ pending }));
+  };
 
   const handleSubmit = data => {
     dispatch(
@@ -50,7 +65,16 @@ const Container = ({ mode }) => {
 
   const handleApply = () => handleCancel();
 
-  const handleSuccessDelete = () => handleCancel();
+  const handleSuccessDelete = () => {
+    setDialogPending(true);
+
+    dispatch(
+      deleteConfiguration({
+        id,
+        message: i18n.t("configurations.messages.deleted")
+      })
+    );
+  };
 
   const handleCancelDelete = () => setDeleteModal(false);
 
@@ -129,6 +153,8 @@ const Container = ({ mode }) => {
           dialogTitle={i18n.t("fields.remove")}
           dialogText={i18n.t("configurations.delete_label")}
           confirmButtonLabel={i18n.t("buttons.delete")}
+          pending={dialogPending}
+          omitCloseAfterSuccess
         />
       </PageContent>
     </LoadingIndicator>

@@ -1,5 +1,5 @@
-import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
-import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
+import { RECORD_PATH, SAVE_METHODS, METHODS } from "../../../../config";
+import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../../../notifier";
 
 import actions from "./actions";
 
@@ -19,7 +19,7 @@ export const saveConfiguration = ({ id, body, saveMethod, message }) => {
     type: actions.SAVE_CONFIGURATION,
     api: {
       path,
-      method: saveMethod === SAVE_METHODS.update ? "PATCH" : "POST",
+      method: saveMethod === SAVE_METHODS.update ? METHODS.PATCH : METHODS.POST,
       body,
       successCallback: {
         action: ENQUEUE_SNACKBAR,
@@ -36,6 +36,26 @@ export const saveConfiguration = ({ id, body, saveMethod, message }) => {
     }
   };
 };
+
+export const deleteConfiguration = ({ id, message }) => ({
+  type: actions.DELETE_CONFIGURATION,
+  api: {
+    path: `${RECORD_PATH.configurations}/${id}`,
+    method: METHODS.DELETE,
+    successCallback: {
+      action: ENQUEUE_SNACKBAR,
+      payload: {
+        message,
+        options: {
+          variant: SNACKBAR_VARIANTS.success,
+          key: generate.messageKey(message)
+        }
+      },
+      redirectWithIdFromResponse: false,
+      redirect: `/admin/${RECORD_PATH.configurations}`
+    }
+  }
+});
 
 export const clearSelectedConfiguration = () => {
   return {

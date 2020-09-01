@@ -3,6 +3,7 @@ import NAMESPACE from "../configurations-list/namespace";
 
 export default namespaceActions(NAMESPACE, [
   "CLEAR_SELECTED_CONFIGURATION",
+  "DELETE_CONFIGURATION",
   "FETCH_CONFIGURATION",
   "FETCH_CONFIGURATION_STARTED",
   "FETCH_CONFIGURATION_SUCCESS",

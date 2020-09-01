@@ -16,7 +16,7 @@ describe("configurations-form/constants.js", () => {
       expect(clone).to.be.empty;
     });
 
-    ["NAME"].forEach(property => {
+    ["DELETE_CONFIGURATION_MODAL", "NAME"].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(constants).to.have.property(property);
         delete clone[property];
