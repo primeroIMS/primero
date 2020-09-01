@@ -101,6 +101,7 @@ const Component = ({ mode }) => {
     if (subforms.length > 0) {
       dispatch(saveSubforms(subforms, parentFormParams));
     } else {
+      console.log("HERE!!!");
       dispatch(saveForm(parentFormParams));
     }
   };
@@ -127,25 +128,6 @@ const Component = ({ mode }) => {
           }
         }
       });
-    }
-    if (saving && (errors?.size || updatedFormIds?.size)) {
-      const successful = !errors?.size && updatedFormIds?.size;
-      const message = successful ? i18n.t("forms.messages.save_success") : i18n.t("forms.messages.save_with_errors");
-
-      dispatch({
-        type: ENQUEUE_SNACKBAR,
-        payload: {
-          message,
-          options: {
-            variant: successful ? "success" : "error",
-            key: generate.messageKey(message)
-          }
-        }
-      });
-
-      if (formMode.get("isNew")) {
-        dispatch(push(`${ROUTES.forms}/${updatedFormIds.first()}/edit`));
-      }
     }
   }, [updatedFormIds, errors]);
 
@@ -284,7 +266,7 @@ const Component = ({ mode }) => {
 
 Component.displayName = NAME;
 
-Component.whyDidYouRender = true;
+// Component.whyDidYouRender = true;
 
 Component.propTypes = {
   mode: PropTypes.string.isRequired
