@@ -16,7 +16,7 @@ describe("configurations-form/index.js", () => {
       expect(clone).to.be.empty;
     });
 
-    ["default"].forEach(property => {
+    ["default", "reducer"].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(index).to.have.property(property);
         delete clone[property];
