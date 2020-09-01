@@ -74,7 +74,7 @@ record_owner_fields = [
           }),
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "incident_record_owner",
   parent_form: "incident",
   visible: true,

@@ -13,7 +13,7 @@ reopened_subform = [
               })
 ]
 
-reopened_logs = FormSection.create_or_update_form_section({
+reopened_logs = FormSection.create_or_update!({
      "visible"=>false,
      "is_nested"=>true,
      :mobile_form => true,
@@ -159,7 +159,7 @@ Field.new({"name" => "reopened_logs",
           })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   :unique_id=>"record_owner",
   :parent_form=>"case",
   "visible" => false,

@@ -349,17 +349,20 @@ describe Field do
     form = FormSection.create! name: 'test_form', unique_id: 'test_form'
     field = Field.new name: 'test_field', display_name_en: 'test_field', type: Field::TEXT_FIELD
     expect(field.new_record?).to be_truthy
-    FormSection.add_field_to_formsection form, field
+    form.fields << field
+    form.save
     expect(field.new_record?).to be_falsey
   end
 
   it 'should show that the field is new after the field fails validation' do
     form = FormSection.create! name: 'test_form2', unique_id: 'test_form'
     field = Field.new name: 'test_field2', display_name_en: 'test_field', type: Field::TEXT_FIELD
-    FormSection.add_field_to_formsection form, field
+    form.fields << field
+    form.save
     # Adding duplicate field.
     field = Field.new name: 'test_field2', display_name_en: 'test_field', type: Field::TEXT_FIELD
-    FormSection.add_field_to_formsection form, field
+    form.fields << field
+    form.save
     expect(field.errors.count).to be > 0
     expect(field.new_record?).to be_truthy
   end

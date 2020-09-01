@@ -87,7 +87,7 @@ activities_fields = [
            })
 ]
 
-activities = FormSection.create_or_update_form_section({
+activities = FormSection.create_or_update!({
   unique_id: "activities",
   parent_form: "case",
   visible: true,

@@ -191,7 +191,7 @@ tracing_request_inquirer_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   :unique_id => "tracing_request_inquirer",
   :parent_form=>"tracing_request",
   "visible" => true,

@@ -33,7 +33,7 @@ case_plan_fields_subform = [
             })
 ]
 
-case_plan_section = FormSection.create_or_update_form_section({
+case_plan_section = FormSection.create_or_update!({
     "visible"=>false,
     "is_nested"=>true,
     :order_form_group => 999,
@@ -115,7 +115,7 @@ case_plan_fields = [
   ##Subform##
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   :unique_id => "cp_case_plan",
   :parent_form=>"case",
   "visible" => true,

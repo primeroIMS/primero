@@ -79,7 +79,7 @@ alleged_perpetrator_subform_fields = [
             })
 ]
 
-alleged_perpetrator_subform_section = FormSection.create_or_update_form_section({
+alleged_perpetrator_subform_section = FormSection.create_or_update!({
   "visible" => false,
   "is_nested" => true,
   :order_form_group => 80,
@@ -106,7 +106,7 @@ alleged_perpetrator_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "alleged_perpetrators_wrapper",
   parent_form: "incident",
   visible: true,
