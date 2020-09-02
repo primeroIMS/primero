@@ -25,7 +25,7 @@ class Permission < ValueObject
   EXPORT_PHOTO_WALL = 'export_photowall'
   EXPORT_UNHCR = 'export_unhcr_csv'
   EXPORT_DUPLICATE_ID = 'export_duplicate_id_csv'
-  EXPORT_PDF = 'export_case_pdf'
+  EXPORT_PDF = 'export_pdf'
   EXPORT_MRM_VIOLATION_XLS = 'export_mrm_violation_xls'
   EXPORT_INCIDENT_RECORDER = 'export_incident_recorder_xls'
   EXPORT_CUSTOM = 'export_custom'

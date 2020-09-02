@@ -104,7 +104,7 @@ const Nav = () => {
   };
 
   return (
-    <nav>
+    <nav className={css.nav}>
       <MobileToolbar openDrawer={handleToggleDrawer(true)} />
       <Hidden mdUp implementation="css">
         <Drawer

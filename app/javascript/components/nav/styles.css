@@ -1,3 +1,11 @@
+.nav {
+  height: 100%;
+
+  & > div {
+    height: 100%;
+  }
+}
+
 .drawer {
   width: $(theme.primero.components.drawerWidth);
   flex-shrink: 0;
