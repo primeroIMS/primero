@@ -51,6 +51,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     editable,
     watchedInputs,
     handleWatchedInputs,
+    showIf,
     inlineCheckboxes,
     freeSolo,
     check_errors: fieldCheckErrors,
@@ -90,6 +91,14 @@ const FormSectionField = ({ checkErrors, field }) => {
       : false;
 
   const format = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
+
+  const handleVisibility = () => {
+    if (showIf && !formMode.get("isShow")) {
+      return !showIf(watchedInputsValues);
+    }
+
+    return hideOnShow && formMode.get("isShow");
+  };
 
   const commonInputProps = {
     name,
@@ -161,7 +170,7 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   return (
     <div>
-      {(hideOnShow && formMode.get("isShow")) || (
+      {handleVisibility() || (
         <Field
           field={field}
           commonInputProps={commonInputProps}

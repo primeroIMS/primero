@@ -20,7 +20,9 @@ import Login, {
   UserGroupsForm,
   UserGroupsList,
   UsersForm,
-  UsersList
+  UsersList,
+  ConfigurationsList,
+  ConfigurationsForm
 } from "../components/pages";
 import Report from "../components/report";
 import Reports from "../components/reports-list";
@@ -359,6 +361,27 @@ export default [
               path: ROUTES.forms,
               component: FormsList,
               resources: RESOURCES.forms
+            },
+            {
+              path: `${ROUTES.configurations}/new`,
+              component: ConfigurationsForm,
+              resources: RESOURCES.configurations,
+              extraProps: {
+                mode: MODES.new
+              }
+            },
+            {
+              path: `${ROUTES.configurations}/:id`,
+              component: ConfigurationsForm,
+              resources: RESOURCES.configurations,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
+              path: ROUTES.configurations,
+              component: ConfigurationsList,
+              resources: RESOURCES.configurations
             }
           ]
         }

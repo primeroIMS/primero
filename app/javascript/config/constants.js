@@ -72,6 +72,7 @@ export const RECORD_PATH = {
   alerts: "alerts",
   audit_logs: "audit_logs",
   cases: "cases",
+  configurations: "configurations",
   contact_information: "contact_information",
   dashboards: "dashboards",
   forms: "forms",
@@ -110,6 +111,8 @@ export const ROUTES = {
   admin_users_new: "/admin/users/new",
   audit_logs: "/admin/audit_logs",
   cases: "/cases",
+  configurations: "/admin/configurations",
+  admin_configurations_new: "/admin/configurations/new",
   contact_information: "/admin/contact_information",
   dashboard: "/dashboards",
   exports: "/exports",
@@ -214,7 +217,12 @@ export const ADMIN_NAV = [
     permission: MANAGE,
     recordType: RESOURCES.systems
   },
-  { to: "/configurations", label: "settings.navigation.configurations", disabled: true },
+  {
+    to: "/configurations",
+    label: "settings.navigation.configurations",
+    permission: MANAGE,
+    recordType: RESOURCES.configurations
+  },
   {
     to: "/audit_logs",
     label: "settings.navigation.audit_logs",

@@ -70,6 +70,13 @@ describe("toReportingLocationTable - pages/dashboard/utils/", () => {
       }
     });
 
+    const reportingLocationConfig = fromJS({
+      field_key: "owned_by_location",
+      admin_level: 2,
+      admin_level_map: { 1: ["province"], 2: ["district"] },
+      label_keys: ["district"]
+    });
+
     const expected = [
       {
         "": "My District",
@@ -83,7 +90,7 @@ describe("toReportingLocationTable - pages/dashboard/utils/", () => {
 
     const i18nMock = { t: () => ({}), locale: "en" };
 
-    const converted = toReportingLocationTable(data, "district", i18nMock, locations).data;
+    const converted = toReportingLocationTable(data, reportingLocationConfig, i18nMock, locations).data;
 
     expect(converted).to.deep.equal(expected);
   });

@@ -1,6 +1,5 @@
 import { object, string } from "yup";
 import isEmpty from "lodash/isEmpty";
-import reject from "lodash/reject";
 
 import { toIdentifier } from "../form-builder/components/field-dialog/utils";
 
@@ -37,6 +36,15 @@ export const getInitialValues = (locales, values) => {
   }, {});
 };
 
+export const getDisabledInfo = values =>
+  values.reduce(
+    (acc, value) => ({
+      ...acc,
+      [value.get("id")]: !value.get("disabled")
+    }),
+    {}
+  );
+
 export const reorderValues = (items, startIndex, endIndex) => {
   const result = items;
   const [removed] = result.splice(startIndex, 1);
@@ -46,24 +54,15 @@ export const reorderValues = (items, startIndex, endIndex) => {
   return result;
 };
 
-export const buildValues = (values, defaultLocale, removedValues) => {
+export const buildValues = (values, defaultLocale, disabledValues) => {
   const locales = Object.keys(values);
   const displayTextKeys = Object.keys(values[defaultLocale]);
 
-  const builtValues = [...displayTextKeys, ...removedValues].map(key => {
-    if (removedValues.includes(key)) {
-      if (!isNewOption(key)) {
-        return { id: key, display_text: {}, _delete: true };
-      }
-
-      return {};
-    }
-
+  return displayTextKeys.map(key => {
     return {
       id: isNewOption(key) ? toIdentifier(values.en[key]) : key,
+      disabled: !disabledValues[key],
       display_text: locales.reduce((acc, locale) => ({ ...acc, [locale]: values[locale][key] }), {})
     };
   });
-
-  return reject(builtValues, value => isEmpty(value));
 };

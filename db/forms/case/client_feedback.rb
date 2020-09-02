@@ -177,7 +177,7 @@ client_feedback_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "client_feedback",
   parent_form: "case",
   visible: true,

@@ -86,7 +86,7 @@ consent_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   :unique_id=>"consent",
   :parent_form=>"case",
   "visible" => true,

@@ -27,12 +27,6 @@ describe("<RecordActions /> - exports/form", () => {
       i18n,
       List([MANAGE]),
       false,
-      false,
-      "",
-      false,
-      {
-        hideCustomExportFields: ""
-      },
       [{ id: "primeromodule-cp", display_text: "CP" }],
       fields
     );

@@ -18,6 +18,7 @@ describe("<Application /> - index", () => {
       "RESOURCES",
       "RESOURCE_ACTIONS",
       "selectAgencies",
+      "getAgency",
       "selectLocales",
       "selectModule",
       "selectModules",

@@ -91,7 +91,7 @@ care_assessment_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   :unique_id => "care_assessment",
   :parent_form=>"case",
   "visible" => true,

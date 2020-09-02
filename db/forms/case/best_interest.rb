@@ -54,8 +54,7 @@ best_interest_fields = [
              "display_name_en" => "Implementing Agency"
             })
 ]
-
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "best_interest",
   parent_form: "case",
   visible: true,

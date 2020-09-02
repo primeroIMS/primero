@@ -325,7 +325,7 @@ Component.defaultProps = {
 
 Component.propTypes = {
   bypassInitialFetch: PropTypes.bool,
-  columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.array]),
   defaultFilters: PropTypes.object,
   localizedFields: PropTypes.arrayOf(PropTypes.string),
   onRowClick: PropTypes.func,

@@ -22,11 +22,6 @@ class Exporters::BaseExporter
       Field.binary.pluck(:name)
     end
 
-    # TODO: Delete once we refactor PDF exporter
-    # def excluded_forms
-    #   []
-    # end
-
     def authorize_fields_to_user?
       true
     end
@@ -39,17 +34,6 @@ class Exporters::BaseExporter
       exporter_obj.complete
       exporter_obj.buffer.string
     end
-
-    # TODO: Delete once we refactor PDF exporter
-    # Used by the PDFExporter
-    # def case_form_sections_by_module(cases, current_user)
-    #   cases.map(&:module).compact.uniq.inject({}) do |acc, mod|
-    #     acc.merge(
-    #       mod.name => current_user.permitted_forms('case')
-    #                               .sort { |a, b| [a.order_form_group, a.order] <=> [b.order_form_group, b.order] }
-    #     )
-    #   end
-    # end
 
     # TODO: Only used by the SelectedFieldsExcelExporter
     def get_model_location_value(model, property)
