@@ -87,7 +87,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
       onClose();
     }
 
-    if ((selectedSubform.toSeq().size && !isNested) || selectedSubform.get("isSubformNew")) {
+    if (selectedSubform.toSeq().size && !isNested) {
       dispatch(clearSelectedSubform());
     }
 
