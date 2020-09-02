@@ -20,7 +20,8 @@ describe("<RecordActions /> - exports/utils", () => {
         "formatFields",
         "formatFileName",
         "isCustomExport",
-        "isPdfExport"
+        "isPdfExport",
+        "exportFormsOptions"
       ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
