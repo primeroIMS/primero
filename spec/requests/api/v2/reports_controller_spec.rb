@@ -216,6 +216,7 @@ describe Api::V2::ReportsController, type: :request do
           record_type: 'case',
           module_id: PrimeroModule::CP,
           graph: false,
+          disabled: false,
           fields: [
             {
               name: 'owned_by_location',
@@ -252,6 +253,7 @@ describe Api::V2::ReportsController, type: :request do
         'name' => { 'en' => 'Test report', 'fr' => 'Test report in French', 'es' => '' },
         'description' => { 'en' => 'Description', 'fr' => 'Description in French', 'es' => '' },
         'editable' => true,
+        'disabled' => false,
         'graph' => false,
         'graph_type' => 'bar',
         'group_ages' => false,
@@ -377,6 +379,7 @@ describe Api::V2::ReportsController, type: :request do
             fr: 'Description in French'
           },
           graph: false,
+          disabled: false,
           aggregate_counts_from: 'protection_concerns',
           group_ages: false,
           group_dates_by: 'date',
@@ -506,6 +509,7 @@ describe Api::V2::ReportsController, type: :request do
           group_ages: true,
           group_dates_by: 'year',
           graph: true,
+          disabled: false,
           editable: true,
           fields: [
             {
@@ -539,6 +543,7 @@ describe Api::V2::ReportsController, type: :request do
         'graph' => true,
         'graph_type' => 'bar',
         'editable' => true,
+        'disabled' => false,
         'group_ages' => true,
         'group_dates_by' => 'year',
         'module_id' => ['primeromodule-cp'],

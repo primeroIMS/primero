@@ -2698,6 +2698,9 @@ en:
       before: "Before"
       after: "After"
     is_graph: "Generate a graph?"
+    disabled:
+      label: "Disabled"
+      explanation: "If you disable this Report, it will not appear in the available reports."
     no_data: "No data exists for this report"
     export:
       graph: "Graph"
