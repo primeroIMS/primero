@@ -73,23 +73,23 @@ const Component = () => {
       >
         <div>
           <ActionButton
-            icon={<SearchIcon />}
-            text={i18n.t("fields.add_existing_field")}
+            icon={<FormatListBulletedIcon />}
+            text={i18n.t("fields.add_custom_field")}
             type={ACTION_BUTTON_TYPES.default}
             rest={{
-              onClick: handleClose,
-              disabled: true,
+              onClick: handleCustomFieldSelectorDialog,
               fullWidth: true,
               className: css.existingFieldButton
             }}
             keepTextOnMobile
           />
           <ActionButton
-            icon={<FormatListBulletedIcon />}
-            text={i18n.t("fields.add_custom_field")}
+            icon={<SearchIcon />}
+            text={i18n.t("fields.add_existing_field")}
             type={ACTION_BUTTON_TYPES.default}
             rest={{
-              onClick: handleCustomFieldSelectorDialog,
+              onClick: handleClose,
+              disabled: true,
               fullWidth: true,
               className: css.existingFieldButton
             }}
