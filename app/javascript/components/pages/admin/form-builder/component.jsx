@@ -32,7 +32,6 @@ import {
 import { validationSchema } from "./forms";
 import { NAME, NEW_FIELD } from "./constants";
 import {
-  getSavingRecord,
   getSelectedField,
   getSelectedForm,
   getSelectedSubforms,
@@ -59,7 +58,6 @@ const Component = ({ mode }) => {
   const [tab, setTab] = useState(0);
   const [moduleId, setModuleId] = useState("");
   const [parentForm, setParentForm] = useState("");
-  const saving = useSelector(state => getSavingRecord(state));
   const errors = useSelector(state => getServerErrors(state), compare);
   const updatedFormIds = useSelector(state => getUpdatedFormIds(state), compare);
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
@@ -127,25 +125,6 @@ const Component = ({ mode }) => {
           }
         }
       });
-    }
-    if (saving && (errors?.size || updatedFormIds?.size)) {
-      const successful = !errors?.size && updatedFormIds?.size;
-      const message = successful ? i18n.t("forms.messages.save_success") : i18n.t("forms.messages.save_with_errors");
-
-      dispatch({
-        type: ENQUEUE_SNACKBAR,
-        payload: {
-          message,
-          options: {
-            variant: successful ? "success" : "error",
-            key: generate.messageKey(message)
-          }
-        }
-      });
-
-      if (formMode.get("isNew")) {
-        dispatch(push(`${ROUTES.forms}/${updatedFormIds.first()}/edit`));
-      }
     }
   }, [updatedFormIds, errors]);
 

@@ -89,7 +89,11 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.SAVE_FORM_STARTED:
       return state.set("saving", true);
     case actions.SAVE_SUBFORMS_STARTED:
-      return state.set("errors", false).set("serverErrors", fromJS([])).set("updatedFormIds", fromJS([]));
+      return state
+        .set("saving", true)
+        .set("errors", false)
+        .set("serverErrors", fromJS([]))
+        .set("updatedFormIds", fromJS([]));
     case actions.SAVE_SUBFORMS_SUCCESS: {
       const formIds = payload.filter(data => data.ok).map(data => data.json.data.id);
 
@@ -101,6 +105,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
       return state.set("updatedFormIds", fromJS(formIds));
     }
+    case actions.SAVE_SUBFORMS_FINISHED:
+      return state.set("saving", false);
     case actions.SET_SELECTED_FIELD: {
       const selectedField = state.get("selectedFields", fromJS([])).find(field => field.get("name") === payload.name);
 
