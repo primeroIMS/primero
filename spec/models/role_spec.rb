@@ -500,7 +500,7 @@ describe Role do
         new_role = Role.create_or_update!(configuration_hash)
         expect(new_role.configuration_hash['unique_id']).to eq(configuration_hash['unique_id'])
         expect(new_role.configuration_hash['permissions']['case']).to eq(['read'])
-        expect(new_role.configuration_hash['form_section_unique_ids']).to eq(%w[A B])
+        expect(new_role.configuration_hash['form_section_unique_ids']).to contain_exactly('A', 'B')
         expect(new_role.configuration_hash['module_unique_ids']).to eq([module1.unique_id])
         expect(new_role.id).not_to eq(role.id)
       end
