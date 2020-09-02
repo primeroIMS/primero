@@ -90,10 +90,10 @@ class Filter < ValueObject
     option_strings_source: 'lookup-agency-office'
   )
   USER_GROUP = Filter.new(name: 'permissions.permission.user_group', field_name: 'owned_by_groups')
-  REPORTING_LOCATION = lambda do |label, admin_level|
+  REPORTING_LOCATION = lambda do |params|
     Filter.new(
-      name: "location.base_types.#{label}",
-      field_name: admin_level.to_s,
+      name: "location.base_types.#{params[:labels]&.first}",
+      field_name: "#{params[:field]}#{params[:admin_level]}",
       option_strings_source: 'ReportingLocation',
       type: 'multi_select'
     )
@@ -231,10 +231,13 @@ class Filter < ValueObject
 
     def case_filters(user)
       filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
-      reporting_location_label = SystemSettings.current.reporting_location_config.try(:label_key)
-      admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) ||
-                    ReportingLocation::DEFAULT_ADMIN_LEVEL
-      permitted_form_ids = user.role.permitted_forms('case', true).pluck(:unique_id)
+      role = user&.role
+      reporting_location_config = role&.reporting_location_config ||
+                                  SystemSettings.current.reporting_location_config
+      reporting_location_field = reporting_location_config&.field_key || ReportingLocation::DEFAULT_FIELD_KEY
+      reporting_location_labels = reporting_location_config&.label_keys
+      reporting_location_admin_level = reporting_location_config&.admin_level
+      permitted_form_ids = role.permitted_forms('case', true).pluck(:unique_id)
 
       filters = []
       filters << FLAGGED_CASE
@@ -265,7 +268,8 @@ class Filter < ValueObject
       filters << CURRENT_LOCATION if user.module?(PrimeroModule::CP)
       filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
       filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
-      filters << REPORTING_LOCATION.call(reporting_location_label, admin_level)
+      filters << REPORTING_LOCATION.call(labels: reporting_location_labels, field: reporting_location_field,
+                                         admin_level: reporting_location_admin_level)
       filters << NO_ACTIVITY
       filters << DATE_CASE if user.module?(PrimeroModule::CP)
       filters << ENABLED
@@ -317,86 +321,102 @@ class Filter < ValueObject
     super(args)
   end
 
-  def with_options_for(user, record_type)
+  def owned_by_options(opts = {})
+    managed_user_names = opts[:user].managed_user_names
+    self.options = managed_user_names.map { |user_name| { id: user_name, display_name: user_name } }
+  end
+
+  def workflow_options(opts = {})
+    user_modules = opts[:user].modules_for_record_type(opts[:record_type])
+    self.options = Child.workflow_statuses(user_modules)
+  end
+
+  def owned_by_agency_id_options(opts = {})
+    managed_user_names = opts[:user].managed_user_names
+    agencies = User.agencies_for_user_names(managed_user_names)
+    self.options = I18n.available_locales.map do |locale|
+      locale_options = agencies.map do |agency|
+        { id: agency.id, display_name: agency.name(locale) }
+      end
+      { locale => locale_options }
+    end.inject(&:merge)
+  end
+
+  def age_options(_opts = {})
     system_settings = SystemSettings.current
-    managed_user_names = user.managed_user_names
-    user_modules = user.modules_for_record_type(record_type)
-    # TODO: I18n all the display_name
-    case field_name
-    when 'owned_by'
-      self.options = managed_user_names.map do |user_name|
-        { id: user_name, display_name: user_name }
-      end
-    when 'workflow'
-      self.options = Child.workflow_statuses(user_modules)
-    when 'owned_by_agency_id'
-      agencies = User.agencies_for_user_names(managed_user_names)
-      self.options = I18n.available_locales.map do |locale|
-        locale_options = agencies.map do |agency|
-          { id: agency.id, display_name: agency.name(locale) }
-        end
-        { locale => locale_options }
-      end.inject(&:merge)
-    when 'age'
-      self.options = system_settings.age_ranges[system_settings.primary_age_range].map do |age_range|
-        { id: age_range.to_s, display_name: age_range.to_s }
-      end
-    when 'owned_by_groups'
-      self.options = UserGroup.all.map do |user_group|
-        { id: user_group.id, display_name: user_group.name }
-      end
-    when 'cases_by_date'
-      self.options = I18n.available_locales.map do |locale|
-        locale_options = [
-          {
-            id: 'registration_date',
-            display_name: I18n.t('children.selectable_date_options.registration_date', locale: locale)
-          },
-          {
-            id: 'assessment_requested_on',
-            display_name: I18n.t('children.selectable_date_options.assessment_requested_on', locale: locale)
-          },
-          {
-            id: 'date_case_plan',
-            display_name: I18n.t('children.selectable_date_options.date_case_plan_initiated', locale: locale)
-          },
-          {
-            id: 'date_closure',
-            display_name: I18n.t('children.selectable_date_options.closure_approved_date', locale: locale)
-          }
-        ]
-        date_label = user.module?(PrimeroModule::GBV) ? 'created_at' : 'date_of_creation'
-        locale_options << { id: 'created_at',
-                            display_name: I18n.t("children.selectable_date_options.#{date_label}", locale: locale) }
-        { locale => locale_options }
-      end.inject(&:merge)
-    when 'incidents_by_date'
-      self.options = I18n.available_locales.map do |locale|
-        locale_options = []
-        if user.module?(PrimeroModule::GBV)
-          locale_options << {
-            id: 'date_of_first_report',
-            display_name: I18n.t('incidents.selectable_date_options.date_of_first_report', locale: locale)
-          }
-        end
-        locale_options << {
-          id: 'incident_date_derived',
-          display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale: locale)
-        }
-        { locale => locale_options }
-      end.inject(&:merge)
-    when 'approval_status_assessment', 'approval_status_case_plan', 'approval_status_closure',
-        'approval_status_action_plan', 'approval_status_gbv_closure'
-      self.options = I18n.available_locales.map do |locale|
+    self.options = system_settings.age_ranges[system_settings.primary_age_range].map do |age_range|
+      { id: age_range.to_s, display_name: age_range.to_s }
+    end
+  end
+
+  def owned_by_groups_options(_opts = {})
+    self.options = UserGroup.all.map { |user_group| { id: user_group.id, display_name: user_group.name } }
+  end
+
+  def cases_by_date_options(opts = {})
+    self.options = I18n.available_locales.map do |locale|
+      locale_options = [
         {
-          locale => [
-            Approval::APPROVAL_STATUS_PENDING, Approval::APPROVAL_STATUS_APPROVED,
-            Approval::APPROVAL_STATUS_REJECTED
-          ].map do |status|
-            { id: status, display_name: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
-          end
+          id: 'registration_date',
+          display_name: I18n.t('children.selectable_date_options.registration_date', locale: locale)
+        },
+        {
+          id: 'assessment_requested_on',
+          display_name: I18n.t('children.selectable_date_options.assessment_requested_on', locale: locale)
+        },
+        {
+          id: 'date_case_plan',
+          display_name: I18n.t('children.selectable_date_options.date_case_plan_initiated', locale: locale)
+        },
+        {
+          id: 'date_closure',
+          display_name: I18n.t('children.selectable_date_options.closure_approved_date', locale: locale)
         }
-      end.inject(&:merge)
+      ]
+      date_label = opts[:user].module?(PrimeroModule::GBV) ? 'created_at' : 'date_of_creation'
+      locale_options << { id: 'created_at',
+                          display_name: I18n.t("children.selectable_date_options.#{date_label}", locale: locale) }
+      { locale => locale_options }
+    end.inject(&:merge)
+  end
+
+  def incidents_by_date_options(opts = {})
+    self.options = I18n.available_locales.map do |locale|
+      locale_options = []
+      if opts[:user].module?(PrimeroModule::GBV)
+        locale_options << {
+          id: 'date_of_first_report',
+          display_name: I18n.t('incidents.selectable_date_options.date_of_first_report', locale: locale)
+        }
+      end
+      locale_options << {
+        id: 'incident_date_derived',
+        display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale: locale)
+      }
+      { locale => locale_options }
+    end.inject(&:merge)
+  end
+
+  def approval_status_options
+    self.options = I18n.available_locales.map do |locale|
+      {
+        locale => [
+          Approval::APPROVAL_STATUS_PENDING, Approval::APPROVAL_STATUS_APPROVED,
+          Approval::APPROVAL_STATUS_REJECTED
+        ].map do |status|
+          { id: status, display_name: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
+        end
+      }
+    end.inject(&:merge)
+  end
+
+  def with_options_for(user, record_type)
+    if %w[approval_status_assessment approval_status_case_plan approval_status_closure
+          approval_status_action_plan approval_status_gbv_closure].include? field_name
+      approval_status_options
+    elsif %w[owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date].include? field_name
+      opts = { user: user, record_type: record_type }
+      send("#{field_name}_options", opts)
     end
   end
 

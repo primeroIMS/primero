@@ -1,3 +1,5 @@
+import { fromJS } from "immutable";
+
 import { setupMountedComponent } from "../../../test";
 import PageContainer, { PageHeading, PageContent } from "../../page";
 
@@ -17,8 +19,19 @@ import Dashboard from "./container";
 describe("<Dashboard />", () => {
   let component;
 
+  const initialState = fromJS({
+    user: {
+      reportingLocationConfig: {
+        field_key: "owned_by_location",
+        admin_level: 2,
+        admin_level_map: { 1: ["province"], 2: ["district"] },
+        label_keys: ["district"]
+      }
+    }
+  });
+
   beforeEach(() => {
-    ({ component } = setupMountedComponent(Dashboard, {}));
+    ({ component } = setupMountedComponent(Dashboard, {}, initialState));
   });
 
   it("should render a <PageContainer /> component", () => {

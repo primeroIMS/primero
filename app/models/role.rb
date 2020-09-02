@@ -70,6 +70,8 @@ class Role < ApplicationRecord
   def dashboards
     dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
     dashboards = dashboard_permissions&.actions&.map do |action|
+      next Dashboard.dash_reporting_location(self) if action == 'dash_reporting_location'
+
       next Dashboard.send(action) if Dashboard::DYNAMIC.include?(action)
 
       begin

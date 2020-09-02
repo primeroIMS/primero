@@ -2,6 +2,7 @@
 
 json.data do
   json.merge! FieldI18nService.fill_keys(['welcome_email_text_i18n'], @system_setting.attributes.except('id', 'approvals_labels_i18n'))
+  json.reporting_location_config current_user.role.reporting_location_config
   json.approvals_labels FieldI18nService.to_localized_values(@system_setting.approvals_labels_i18n)
   if @agencies.present?
     json.agencies do
