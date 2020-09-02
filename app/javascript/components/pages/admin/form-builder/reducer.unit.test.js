@@ -521,13 +521,13 @@ describe("<FormsBuilder /> - Reducers", () => {
       const expected = fromJS({
         selectedSubform: {
           fields: [
-            FieldRecord({
+            fromJS({
               id: "1",
               name: "field_1",
               display_name: fromJS({ en: "Field 1" }),
               order: 0
             }),
-            FieldRecord({
+            fromJS({
               name: "field_2",
               display_name: fromJS({ en: "New Field 2" }),
               order: 1
@@ -539,7 +539,7 @@ describe("<FormsBuilder /> - Reducers", () => {
       const currentState = fromJS({
         selectedSubform: {
           fields: [
-            FieldRecord({
+            fromJS({
               id: "1",
               name: "field_1",
               display_name: fromJS({ en: "Field 1" }),
