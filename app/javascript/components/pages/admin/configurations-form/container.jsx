@@ -5,8 +5,7 @@ import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
-import { Typography } from "@material-ui/core";
+import { Typography, Tooltip } from "@material-ui/core";
 
 import { useI18n } from "../../../i18n";
 import Form, { FormAction, whichFormMode } from "../../../form";
@@ -92,26 +91,22 @@ const Container = ({ mode }) => {
     };
   }, [id]);
 
-  const pageHeading = configuration?.size
-    ? `${i18n.t("configurations.label_edit")} ${configuration.get("name")}`
-    : i18n.t("configurations.label_new");
-
-  const cancelButton = (
-    <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
-  );
+  const pageHeading = configuration?.size ? configuration.get("name") : i18n.t("configurations.label_new");
 
   const editButton = formMode.get("isShow") ? (
     <>
-      {cancelButton}
       <FormAction actionHandler={handleDelete} text={i18n.t("buttons.delete")} startIcon={<DeleteIcon />} />
-      <FormAction actionHandler={handleApply} text={i18n.t("buttons.apply")} startIcon={<CheckIcon />} />
+      <Tooltip title={i18n.t("configurations.not_allowed")}>
+        <span>
+          <FormAction actionHandler={handleApply} text={i18n.t("buttons.apply")} startIcon={<CheckIcon />} disabled />
+        </span>
+      </Tooltip>
     </>
   ) : null;
 
   const saveButton =
     formMode.get("isEdit") || formMode.get("isNew") ? (
       <>
-        {cancelButton}
         <FormAction
           actionHandler={() => bindFormSubmit(formRef)}
           text={i18n.t("buttons.save")}

@@ -1190,6 +1190,7 @@ en:
     name: "Name"
     explanation: "Clicking Save will create a record of all current configuration settings (example: Roles, Agencies, Forms) at this point in time. After you save, you can push these changes to another instance of Primero. If, in the future, you make configuration changes which you wish to undo, you can apply this Configuration record to restore all of the configuration changes you had at this point in time."
     delete_label: "Are you sure you want to do this? This represents all of the settings from when this Configuration was created. You will not be able to go back and recover these settings once you delete this Configuration."
+    not_allowed: "Not-allowed"
     messages:
       created: "Configuration was successfully created."
       updated: "Configuration was successfully updated."
