@@ -143,7 +143,7 @@ family_details_section_fields = [
            })
 ]
 
-family_details_section = FormSection.create_or_update_form_section({
+family_details_section = FormSection.create_or_update!({
     visible: false,
     is_nested: true,
     mobile_form: true,
@@ -182,7 +182,7 @@ family_details_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "family_details",
   parent_form: "case",
   visible: true,

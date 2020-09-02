@@ -16,6 +16,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       "clearSubforms",
       "createSelectedField",
       "fetchForm",
+      "mergeOnSelectedSubform",
       "reorderFields",
       "saveForm",
       "saveSubforms",
@@ -24,8 +25,8 @@ describe("<FormsBuilder /> - Action Creators", () => {
       "setSelectedField",
       "setSelectedSubform",
       "setSelectedSubformField",
-      "updateFieldTranslations",
       "setTemporarySubform",
+      "updateFieldTranslations",
       "updateSelectedField",
       "updateSelectedSubform"
     ].forEach(property => {
@@ -229,5 +230,18 @@ describe("<FormsBuilder /> - Action Creators", () => {
     if (generate.messageKey.restore) {
       generate.messageKey.restore();
     }
+  });
+
+  it("should check the 'mergeOnSelectedSubform' action creator to return the correct object", () => {
+    const payload = {
+      display_name: { en: "Field 1" }
+    };
+
+    const expected = {
+      type: actions.MERGE_SUBFORM_DATA,
+      payload
+    };
+
+    expect(actionCreators.mergeOnSelectedSubform(payload)).to.deep.equal(expected);
   });
 });

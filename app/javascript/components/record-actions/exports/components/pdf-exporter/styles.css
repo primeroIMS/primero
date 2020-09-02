@@ -1,0 +1,26 @@
+.container {
+  display: none
+}
+
+.container table table {
+  margin: 10px 0
+}
+
+.container table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.container tr td:first-child {
+  width: 300px;
+}
+
+.container td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.container tr:nth-child(even) {
+  background: #f7f7f7;
+}
+

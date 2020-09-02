@@ -14,7 +14,7 @@ fields = [
         }),
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   :unique_id=>"other_reportable_fields_incident",
   :parent_form=>"incident",
   "visible" => false,

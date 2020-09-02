@@ -161,7 +161,7 @@ case_closure_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "gbv_case_closure_form",
   parent_form: "case",
   visible: true,

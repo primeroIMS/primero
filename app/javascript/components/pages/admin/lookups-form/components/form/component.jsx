@@ -11,7 +11,14 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 
-import { buildValues, getInitialValues, getInitialNames, reorderValues, validations } from "../../utils";
+import {
+  buildValues,
+  getInitialValues,
+  getInitialNames,
+  reorderValues,
+  validations,
+  getDisabledInfo
+} from "../../utils";
 import { FieldRecord, TEXT_FIELD, SELECT_FIELD, whichFormMode } from "../../../../../form";
 import FormSectionField from "../../../../../form/components/form-section-field";
 import { useI18n } from "../../../../../i18n";
@@ -38,31 +45,32 @@ const Component = ({ formRef, mode, lookup }) => {
   const firstLocaleOption = locales?.[0];
   const defaultLocale = firstLocaleOption?.id;
   const validationsSchema = validations(i18n);
+  const currentLookupValues = lookup.get(LOOKUP_VALUES, fromJS([]));
 
   const formMethods = useForm({
     ...(validationsSchema && { validationSchema: validationsSchema })
   });
   const watchedOption = formMethods.watch("options");
   const selectedOption = watchedOption?.id || watchedOption;
-  const keys = [...lookup.get(LOOKUP_VALUES, fromJS([])).map(t => t.get("id"))];
+  const keys = [...currentLookupValues.map(t => t.get("id"))];
   const [items, setItems] = useState(keys);
-  const [removed, setRemoved] = useState([]);
 
-  const values = getInitialValues(localesKeys, dataToJS(lookup.get(LOOKUP_VALUES, fromJS([]))));
+  const values = getInitialValues(localesKeys, dataToJS(currentLookupValues));
 
   const defaultValues = {
     name: getInitialNames(localesKeys, dataToJS(lookup.get(LOOKUP_NAME))),
     options: firstLocaleOption,
+    disabled: getDisabledInfo(currentLookupValues),
     values
   };
 
   const onSubmit = data => {
-    const { name, values: lookupValues } = data;
+    const { name, values: lookupValues, disabled } = data;
 
     const body = {
       data: {
         name,
-        values: buildValues(lookupValues, i18n.locale, removed)
+        values: buildValues(lookupValues, i18n.locale, disabled)
       }
     };
 
@@ -94,11 +102,6 @@ const Component = ({ formRef, mode, lookup }) => {
   const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? "transparent" : "ligthblue"
   });
-
-  const onRemoveValue = item => {
-    setRemoved([...removed, item]);
-    setItems([...items.filter(key => key !== item)]);
-  };
 
   const onDragEnd = result => {
     const { source, destination } = result;
@@ -140,22 +143,19 @@ const Component = ({ formRef, mode, lookup }) => {
     });
 
   const renderLookupsValues = () => {
-    return items
-      .filter(item => !removed.includes(item))
-      .map((item, index) => {
-        return (
-          <DraggableRow
-            key={item}
-            firstLocaleOption={defaultLocale}
-            index={index}
-            isDragDisabled={formMode.get("isShow")}
-            localesKeys={localesKeys}
-            onRemoveClick={onRemoveValue}
-            selectedOption={selectedOption}
-            uniqueId={item}
-          />
-        );
-      });
+    return items.map((item, index) => {
+      return (
+        <DraggableRow
+          key={item}
+          firstLocaleOption={defaultLocale}
+          index={index}
+          isDragDisabled={!formMode.get("isShow")}
+          localesKeys={localesKeys}
+          selectedOption={selectedOption}
+          uniqueId={item}
+        />
+      );
+    });
   };
 
   const renderOptions = () => {

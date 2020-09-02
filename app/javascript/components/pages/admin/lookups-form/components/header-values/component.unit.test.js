@@ -22,6 +22,6 @@ describe("<HeadersValues /> - components/header-values/component", () => {
   });
 
   it("should render english text column", () => {
-    expect(component.find("div").at(4).text()).to.be.equal("lookup.remove");
+    expect(component.find("div").at(4).text()).to.be.equal("lookup.enabled_label");
   });
 });

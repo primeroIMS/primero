@@ -20,32 +20,23 @@ class FormSection < ApplicationRecord
   attr_accessor :module_name
   attribute :collapsed_field_names
   self.unique_id_from_attribute = 'name_en'
+  alias_attribute :to_param, :unique_id # TODO: Something to do with audit logs?
 
   validate :validate_fields_unique_name
-  validate :validate_name_in_english
   validate :validate_name_format
+  validates :name_en, presence: { message: 'errors.models.form_section.presence_of_name' }
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
 
   after_initialize :defaults, unless: :persisted?
   before_validation :calculate_fields_order, :generate_unique_id
-  before_save :sync_form_group, :recalculate_editable
-  after_save :recalculate_collapsed_fields
+  before_save :sync_form_group
+  after_save :calculate_subform_collapsed_fields
 
-  # TODO: Move to migration
   def defaults
     %w[order order_form_group order_subform initial_subforms].each { |p| self[p] ||= 0 }
   end
 
-  # TODO: This method will go away after UIUX refactor
-  def form_group_name(opts = {})
-    locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
-    return name(locale) if form_group_id.blank?
-
-    form_group_name_all[locale.to_s]
-  end
-
-  # This replaces form_group_name above
-  def form_group_name_all(lookups = nil)
+  def form_group_name_i18n(lookups = nil)
     return name_i18n if form_group_id.blank?
 
     Lookup.form_group_name_all(form_group_id, parent_form, module_name, lookups)
@@ -64,8 +55,6 @@ class FormSection < ApplicationRecord
     "FormSection(#{name}, form_group_id => '#{form_group_id}')"
   end
 
-  alias_attribute :to_param, :unique_id
-
   class << self
     def permitted_api_params
       [
@@ -81,6 +70,7 @@ class FormSection < ApplicationRecord
       FormSection.new.tap { |form| form.update_properties(form_params) }
     end
 
+    # TODO: Refactor/delete with Yaml exporter
     # Given a list of forms, return their subforms
     def get_subforms(forms)
       form_ids = forms.map(&:id)
@@ -88,45 +78,11 @@ class FormSection < ApplicationRecord
       subform_fields.map(&:subform).compact
     end
 
-    def all_forms_grouped_by_parent(include_subforms=false)
+    # TODO: Used by the RolePermissionsExporter
+    def all_forms_grouped_by_parent(include_subforms = false)
       forms = FormSection.where(is_nested: false)
       forms = forms.unscope(:where) if include_subforms
-      forms.group_by { |f| f.parent_form }
-    end
-
-    # Create the form section if does not exists.
-    # If the form section does exist will attempt
-    # to create fields if the fields does not exists.
-    def create_or_update_form_section(properties = {})
-      unique_id = properties[:unique_id]
-      return nil if unique_id.blank?
-
-      fields = properties[:fields]
-
-      form_section = find_by(unique_id: unique_id)
-      if form_section.present?
-        Rails.logger.info {"Updating form section #{unique_id}"}
-        fields = fields.map do |field|
-          updated_field = Field.find_or_initialize_by(name: field.name, form_section_id: form_section.id)
-          attributes = field.attributes.select{|k,_| !([:id, :form_section_id, 'id', 'form_section_id'].include?(k))}
-          updated_field.assign_attributes(attributes)
-          updated_field
-        end
-        properties[:fields] = fields
-        form_section.update_attributes(properties)
-        form_section
-      else
-        Rails.logger.info {"Creating form section #{unique_id}"}
-        FormSection.create!(properties)
-      end
-    end
-    alias create_or_update create_or_update_form_section
-
-    # TODO: This method may be removed, depending on how the all_searchable_* get refactored
-    def find_by_parent_form(parent_form, subforms=true)
-      forms = FormSection.where(parent_form: parent_form, is_nested: false)
-      forms = forms.unscope(where: :is_nested) if subforms
-      forms.order(order_form_group: :asc, order: :asc, order_subform: :asc)
+      forms.group_by(&:parent_form)
     end
 
     def violation_forms
@@ -136,101 +92,11 @@ class FormSection < ApplicationRecord
       []
     end
 
-    # TODO: This needs to be made not hard-coded. Used only in Exporters to exclude binary data
-    def binary_form_names
-      ['Photos and Audio', 'Other Documents', 'BID Records', 'BIA Records']
-    end
-
     def form_group_lookups
       Lookup.where("unique_id like 'lookup-form-group-%'")
     end
 
-    # Force eager loading of subforms
-    def link_subforms(forms)
-      subform_fields = forms.map(&:fields).flatten.select { |f| f.type == Field::SUBFORM }
-      ActiveRecord::Associations::Preloader.new.preload(subform_fields, :subform)
-      subforms = subform_fields.map(&:subform)
-      ActiveRecord::Associations::Preloader.new.preload(subforms, %i[fields collapsed_fields])
-      forms
-    end
-
-    # Return a hash of subforms, where the keys are the form groupings
-    # TODO: This method might no longer be relevant. Investigate! We should avoid sorting in Ruby. UIUX?
-    def group_forms(forms)
-      grouped_forms = {}
-
-      # Order these forms by group and form
-      sorted_forms = forms.sort_by { |f| [f.order_form_group, f.order] }
-
-      if sorted_forms.present?
-        grouped_forms = sorted_forms.group_by { |f| f.form_group_name }
-      end
-      grouped_forms
-    end
-
-    def form_sections_by_ids_and_parent_form(form_ids, parent_form)
-      FormSection.find_by_parent_form(parent_form, true).where(unique_id: form_ids)
-    end
-
-    def add_field_to_formsection(formsection, field)
-      raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
-
-      field.form_section = formsection
-      if field.type == Field::SUBFORM
-        subform = create_subform(formsection, field)
-        field.subform_section_id = subform.id
-      end
-      field.save
-    end
-
-    def create_subform(formsection, field)
-      create_or_update_form_section(
-        visible: false,
-        is_nested: true,
-        core_form: false,
-        editable: true,
-        order_form_group: formsection.order_form_group,
-        order: formsection.order,
-        order_subform: 1,
-        unique_id: field.name,
-        parent_form: formsection.parent_form,
-        name_all: field.display_name, # TODO: is _all or _en better?
-        description_all: field.display_name
-      )
-    end
-
-    def has_photo_form
-      photo_form = find_by(unique_id: 'photos_and_audio')
-      photo_form.present? && photo_form.visible
-    end
-
-    def new_custom(form_section, module_name = 'CP')
-      form_section[:core_form] = false   # Indicates this is a user-added form
-
-      # TODO - need more elegant way to set the form's order
-      # form_section[:order] = by_order.last ? (by_order.last.order + 1) : 1
-      form_section[:order] = 999
-      form_section[:order_form_group] = 999
-      form_section[:order_subform] = 0
-      form_section[:module_name] = module_name
-
-      fs = FormSection.new(form_section)
-      fs.unique_id = "#{module_name}_#{fs.name_en}".parameterize.underscore
-      fs
-    end
-
-    def determine_parent_form(record_type, apply_to_reports=false)
-      if record_type == "violation"
-        "incident"
-      elsif record_type.starts_with?("reportable") && apply_to_reports
-        # Used to figure out if reportable nested form belongs to incident, child, or tracing request.
-        parent_record_type = Object.const_get(record_type.camelize).parent_record_type.to_s.downcase
-        parent_record_type == "child" ? "case" : parent_record_type
-      else
-        record_type
-      end
-    end
-
+    # TODO: Refactor with YML i18n import
     def import_translations(form_hash={}, locale)
       if locale.present? && I18n.available_locales.include?(locale.try(:to_sym))
         unique_id = form_hash.keys.first
@@ -259,21 +125,6 @@ class FormSection < ApplicationRecord
     end
   end
 
-  def localized_attributes_hash(locales)
-    attributes = self.attributes.clone
-    # convert top level attributes
-    FormSection.localized_properties.each do |property|
-      attributes[property] = {}
-      key = "#{property}_i18n"
-      Primero::Application.locales.each do |locale|
-        value = attributes.try(:[], key).try(:[], locale) || ''
-        attributes[property][locale] = value if locales.include? locale
-      end
-      attributes.delete(key)
-    end
-    attributes
-  end
-
   def configuration_hash
     hash = attributes.except('id')
     hash['fields_attributes'] = fields.map(&:configuration_hash)
@@ -281,75 +132,20 @@ class FormSection < ApplicationRecord
     hash.with_indifferent_access
   end
 
-  # TODO: Do we still need this after splitting FormSection and Field?
-  def properties=(properties)
-    properties.each_pair do |name, value|
-      send("#{name}=", value) unless value == nil
-    end
-  end
-
-  # TODO: Refactor with Field. No longer necessary?
-  # def add_field field
-  #   self["fields"] << Field.new(field)
-  # end
-
-  def section_name
-    unique_id
-  end
-
-  # TODO: Is this used?
-  def delete_field(field_to_delete)
-    field = fields.where(name: field_to_delete, editable: true).first
-    return field.destroy if field
-
-    raise I18n.t("errors.models.form_section.delete_field")
-  end
-
-  #TODO: Refactor or deprecate when we change UIUX
-  def order_fields(new_field_names)
-    fields = self.fields
-    new_field_names.each_with_index do |field_name, i|
-      field = fields.find{|f| f.name == field_name}
-      field.order = i
-    end
-    ActiveRecord::Base.transaction do
-      fields.each(&:save)
-    end
-  end
-
-  def is_violation?
-    FormSection.violation_forms.map(&:unique_id).include? self.unique_id
-  end
-
-  def is_violations_group?
-    #TODO MRM - pass english locale to form_group_name and/or have a better way to identify Violations
-    self.form_group_name == 'Violations'
-  end
-
-  def is_violation_wrapper?
-    self.fields.present? &&
-    self.fields.select{|f| f.type == Field::SUBFORM}.any? do |f|
-      Incident.violation_id_fields.keys.include?(f.subform.unique_id)
-    end
-  end
-
-  #TODO: Rewrite after we migrated Lookup
-  #if a new form_group_id was added during edit/create, then add that form group to the form_group lookup
+  # If a new form_group_id was added during edit/create, then add that form group to the form_group lookup
   def sync_form_group
-    return unless self.changed.include?('form_group_id')
-    return if self.form_group_id.blank?
+    return unless changed_attribute_names_to_save.include?('form_group_id')
+    return if form_group_id.blank?
+    return if Lookup.form_group_name(form_group_id, parent_form, module_name)
 
-    #If form_group already exists, nothing to do
-    form_group = Lookup.form_group_name(self.form_group_id, self.parent_form, self.module_name)
-    return if form_group.present?
-
-    #If added manually by the user, form_group_id at this point is just what the user typed in
-    #Use that value for the form group description.  Parameterize it to use as the id
-    new_id = self.form_group_id.parameterize(separator: '_')
-    Lookup.add_form_group(new_id, self.form_group_id, self.parent_form, self.module_name)
+    # If added manually by the user, form_group_id at this point is just what the user typed in
+    # Use that value for the form group description.  Parameterize it to use as the id
+    new_id = form_group_id.parameterize(separator: '_')
+    Lookup.add_form_group(new_id, form_group_id, parent_form, module_name)
     self.form_group_id = new_id
   end
 
+  # TODO: Refactor with Yaml I18n importer.
   def update_translations(form_hash={}, locale)
     if locale.present? && Primero::Application::locales.include?(locale)
       form_hash.each do |key, value|
@@ -384,10 +180,15 @@ class FormSection < ApplicationRecord
   end
 
   def update_field_properties(form_params)
-    form_params['fields_attributes'] ||= form_params['fields'] unless form_params['fields']&.first.is_a?(Field)
-    return unless form_params['fields_attributes']
+    return unless form_params['fields'] || form_params['fields_attributes']
 
-    self.fields = fields_from_params(form_params['fields_attributes'])
+    fields = if form_params['fields']&.first.is_a?(Field)
+               form_params['fields']
+             else
+               form_params['fields_attributes'] ||= form_params['fields']
+               fields_from_params(form_params['fields_attributes'])
+             end
+    self.fields = fields
   end
 
   def fields_from_params(fields_params)
@@ -400,112 +201,63 @@ class FormSection < ApplicationRecord
   end
 
   def permitted_destroy!
-    if !self.editable? || self.core_form?
-      raise Errors::ForbiddenOperation
-    end
-  end
+    return unless !editable? || core_form?
 
-  # Location::LIMIT_FOR_API is a hard limit
-  # The SystemSettings limit is a soft limit that lets us adjust down below the hard limit if necessary
-  # #TODO: Refactor with Location
-  def self.include_locations_for_mobile?
-    location_count = Location.count
-    return false if location_count > Location::LIMIT_FOR_API
-
-    ss_limit = SystemSettings.current.try(:location_limit_for_api)
-    ss_limit.present? ? location_count < ss_limit : true
+    raise Errors::ForbiddenOperation
   end
 
   protected
 
-  def recalculate_collapsed_fields
-    # Awful code but gets the job done. If we have collapsed_field_names specified on the form
-    # then set those pointers on the fields. If we dont have collapsed field_names specified,
-    # but we do have pointers, let them be. Otherwise, the first field in a subform is the collapsed field.
-    if self.is_nested
-      fields_to_link = []
-      fields_to_unlink = []
+  def calculate_subform_collapsed_fields
+    return unless is_nested
 
-      if self.collapsed_field_names.present?
-        self.fields.each do |field|
-          if self.collapsed_field_names.include?(field.name)
-            if field.collapsed_field_for_subform_section_id != self.id
-              fields_to_link << field.id
-            end
-          elsif field.collapsed_field_for_subform_section_id
-            fields_to_unlink << field.id
-          end
-        end
-      else
-        collapsed_fields = self.collapsed_fields.to_a
-        unless collapsed_fields.size == 1 && collapsed_fields.first.try(:name) == self.fields.first.try(:name)
-          fields.each_with_index do |field, index|
-            if index == 0
-              fields_to_link << field.id
-            else
-              fields_to_unlink << field.id
-            end
-          end
-        end
-      end
+    fields_to_link = collapsed_fields_to_link
+    fields_to_unlink = collapsed_fields_to_unlink
 
-      if fields_to_link.present?
-        Field.where(id: fields_to_link).update_all(collapsed_field_for_subform_section_id: self.id)
-      end
-      if fields_to_unlink.present?
-        Field.where(id: fields_to_unlink).update_all(collapsed_field_for_subform_section_id: nil)
-      end
-    end
+    fields_to_link.present? &&
+      Field.where(id: fields_to_link).update_all(collapsed_field_for_subform_section_id: id)
+    fields_to_unlink.present? &&
+      Field.where(id: fields_to_unlink).update_all(collapsed_field_for_subform_section_id: nil)
   end
 
-  def validate_name_in_english
-    unless name(Primero::Application::BASE_LANGUAGE).present?
-      errors.add(:name, 'errors.models.form_section.presence_of_name')
-      return false
-    end
+  def collapsed_fields_to_link
+    return [fields&.first&.id].compact unless collapsed_field_names.present?
+
+    fields.where(name: collapsed_field_names).pluck(:id)
   end
 
-  def validate_name_format
-    special_characters = /[*!@#%$\^]/
-    white_spaces = /^(\s+)$/
-    if (name =~ special_characters) || (name =~ white_spaces)
-      return errors.add(:name, 'errors.models.form_section.format_of_name')
-    else
-      return true
-    end
-  end
+  def collapsed_fields_to_unlink
+    return (fields[1..-1]&.pluck(:id) || []) unless collapsed_field_names.present?
 
-  def validate_fields_unique_name
-    return true if self.fields.blank?
-    field_names = self.fields.map(&:name)
-    if field_names.length > field_names.dup.uniq.length
-      return errors.add(:fields, 'errors.models.form_section.unique_field_names')
-    end
-    true
+    fields.where.not(name: collapsed_field_names).pluck(:id)
   end
 
   def calculate_fields_order
     return if fields.blank?
 
     fields.each_with_index do |field, index|
-      field.order = index if field.order.nil?
+      field.order ||= index
     end
   end
 
-  def recalculate_editable
-    if self.editable?
-      self.editable = self.fields.select do |field|
-        if field.type == Field::SUBFORM && field.subform_section.present?
-          !field.editable? || !field.subform_section.editable?
-        else
-          !field.editable?
-        end
-      end.size.zero?
-    end
+  def validate_name_format
+    special_characters = /[*!@#%$\^]/
+    white_spaces = /^(\s+)$/
+    return unless name =~ special_characters || name =~ white_spaces
+
+    errors.add(:name, 'errors.models.form_section.format_of_name')
+  end
+
+  def validate_fields_unique_name
+    field_names = fields.map(&:name)
+    return unless field_names.length > field_names.dup.uniq.length
+
+    errors.add(:fields, 'errors.models.form_section.unique_field_names')
   end
 
   private
 
+  # TODO: Refactor with Yaml I18n importer.
   def update_field_translations(fields_hash = {}, locale)
     fields_hash.each do |key, value|
       field = Field.find_by(name: key, form_section_id: id)

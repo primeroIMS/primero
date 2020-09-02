@@ -156,7 +156,7 @@ survivor_assessment_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "survivor_assessment_form",
   parent_form: "case",
   mobile_form: true,

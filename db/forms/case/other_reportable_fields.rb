@@ -41,7 +41,7 @@ fields = [
         })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "other_reportable_fields_case",
   parent_form: "case",
   visible: false,
