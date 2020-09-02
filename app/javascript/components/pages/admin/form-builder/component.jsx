@@ -117,16 +117,18 @@ const Component = ({ mode }) => {
     if (errors?.size) {
       const messages = dataToJS(getSubformErrorMessages(errors, i18n));
 
-      dispatch({
-        type: ENQUEUE_SNACKBAR,
-        payload: {
-          message: messages,
-          options: {
-            variant: "error",
-            key: generate.messageKey(messages)
+      if (messages.length) {
+        dispatch({
+          type: ENQUEUE_SNACKBAR,
+          payload: {
+            message: messages,
+            options: {
+              variant: "error",
+              key: generate.messageKey(messages)
+            }
           }
-        }
-      });
+        });
+      }
     }
     if (saving && (errors?.size || updatedFormIds?.size)) {
       const successful = !errors?.size && updatedFormIds?.size;

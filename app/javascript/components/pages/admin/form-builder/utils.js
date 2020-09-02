@@ -69,10 +69,10 @@ export const getSubformFields = (state, subform) =>
       )
   );
 
-export const getSubformErrorMessages = (errors, i18n) => {
-  return errors
+export const getSubformErrorMessages = (errors, i18n) =>
+  errors
     .map(errorParent =>
-      errorParent.get("errors").map(error => {
+      errorParent.get("errors")?.map(error => {
         const message = error.get("message");
         const messageWithKeys = List.isList(message);
 
@@ -85,5 +85,5 @@ export const getSubformErrorMessages = (errors, i18n) => {
         });
       })
     )
+    .filter(error => Boolean(error))
     .flatten();
-};
