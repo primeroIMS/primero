@@ -18,7 +18,7 @@ import {
   PASSWORD_FIELD
 } from "./constants";
 
-export default (i18n, userPermissions, isShowPage, modules, fields, recordType) => {
+export default (i18n, userPermissions, isShowPage, modules, fields, exportFormsOptions, recordType) => {
   return [
     FieldRecord({
       display_name: i18n.t("encrypt.export_type"),
@@ -73,15 +73,7 @@ export default (i18n, userPermissions, isShowPage, modules, fields, recordType) 
       name: FORM_TO_EXPORT_FIELD,
       type: SELECT_FIELD,
       multi_select: true,
-      option_strings_text: uniqBy(
-        fields
-          .filter(field => field?.type !== SUBFORM_SECTION)
-          .map(field => ({
-            id: field.formSectionId,
-            display_text: field.formSectionName
-          })),
-        "id"
-      ),
+      option_strings_text: uniqBy(exportFormsOptions, "id"),
       watchedInputs: [EXPORT_TYPE_FIELD, CUSTOM_FORMAT_TYPE_FIELD, INDIVIDUAL_FIELDS_FIELD],
       showIf: ({
         [EXPORT_TYPE_FIELD]: exportType,

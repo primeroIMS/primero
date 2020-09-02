@@ -22,7 +22,15 @@ import { submitHandler } from "../../form/utils/form-submission";
 import { getRecordForms } from "../../record-form/selectors";
 import { useApp } from "../../application";
 
-import { isCustomExport, isPdfExport, buildFields, exporterFilters, formatFileName, formatFields } from "./utils";
+import {
+  isCustomExport,
+  isPdfExport,
+  buildFields,
+  exporterFilters,
+  formatFileName,
+  formatFields,
+  exportFormsOptions
+} from "./utils";
 import PdfExporter from "./components/pdf-exporter";
 import {
   ALL_EXPORT_TYPES,
@@ -237,7 +245,15 @@ const Component = ({
     })
   );
 
-  const formSections = form(i18n, userPermissions, isShowPage, modules, fields, recordType);
+  const formSections = form(
+    i18n,
+    userPermissions,
+    isShowPage,
+    modules,
+    fields,
+    exportFormsOptions(exportType, fields, recordTypesForms, i18n.locale),
+    recordType
+  );
 
   const enabledSuccessButton =
     !isCustomExport(exportType) || (formatType !== "" && (!isEmpty(formsToExport) || !isEmpty(fieldsToExport)));
