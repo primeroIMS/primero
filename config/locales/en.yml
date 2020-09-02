@@ -1208,6 +1208,9 @@ en:
     edit: "Edit User Group"
     name: "Name"
     description: "Description"
+    disabled:
+      label: "Disabled"
+      explanation: "If you disable this User Group, you will no longer be able to assign it to User accounts."
     successfully_updated: "User Group details are successfully updated."
     error_in_updating: "Error in updating the User Group details."
     messages:
