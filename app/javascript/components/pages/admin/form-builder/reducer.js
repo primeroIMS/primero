@@ -151,7 +151,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         const fieldIndex = state.getIn(fieldsPath, fromJS([])).findIndex(field => field.get("name") === fieldName);
 
         if (fieldIndex < 0) {
-          const lastOrder = state.getIn(fieldsPath)?.last()?.order + 1;
+          const lastOrder = state.getIn(fieldsPath)?.last()?.get("order") + 1;
 
           return state.updateIn(fieldsPath, data =>
             data.push(
