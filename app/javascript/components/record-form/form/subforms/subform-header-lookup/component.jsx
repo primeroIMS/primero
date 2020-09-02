@@ -9,14 +9,14 @@ import { SUBFORM_LOOKUP_HEADER_NAME } from "../constants";
 
 const Component = ({ value, optionsStringSource, optionsStringText }) => {
   const i18n = useI18n();
-  const optionsStrings = useSelector(state => getOption(state, optionsStringSource, i18n));
+  const optionsStrings = useSelector(state => getOption(state, optionsStringSource, i18n.locale));
 
   if (isEmpty(value)) return <>{value}</>;
 
   if (!isEmpty(optionsStringSource)) {
     const { display_text: displayText } = optionsStrings.find(o => o.id === value);
 
-    return <span>{displayText[i18n.locale]}</span>;
+    return <span>{displayText}</span>;
   }
 
   const { display_text: displayText } = optionsStringText[i18n.locale].find(

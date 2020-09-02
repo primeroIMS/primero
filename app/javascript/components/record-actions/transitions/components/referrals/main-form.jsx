@@ -50,7 +50,7 @@ const MainForm = ({ formProps, rest }) => {
 
   const serviceToRefer = useSelector(state => getServiceToRefer(state));
 
-  const serviceTypes = useSelector(state => getOption(state, LOOKUPS.service_type, i18n));
+  const serviceTypes = useSelector(state => getOption(state, LOOKUPS.service_type, i18n.locale));
 
   const adminLevel = useSelector(state => getReportingLocationConfig(state).get("admin_level"));
 

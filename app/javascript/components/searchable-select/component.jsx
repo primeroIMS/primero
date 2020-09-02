@@ -41,6 +41,8 @@ const SearchableSelect = ({
 
   const optionEquality = (option, selected) => option?.value === selected || option?.value === selected?.value;
 
+  const optionDisabled = option => option?.isDisabled;
+
   const initialValues = () => {
     if (Array.isArray(defaultValues)) {
       const values = defaultValues.map(selected => selected.value || null);
@@ -100,6 +102,7 @@ const SearchableSelect = ({
       options={options}
       disabled={isDisabled}
       getOptionLabel={optionLabel}
+      getOptionDisabled={optionDisabled}
       getOptionSelected={optionEquality}
       loading={isLoading}
       disableClearable={!isClearable}

@@ -33,15 +33,19 @@ const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }
   return formSections.filter(fs => fs.visible);
 };
 
-const transformOptionSource = (options, locale) => {
+const transformOptionSource = (options, locale, stickyOption) => {
   if (!options || !Array.isArray(options)) {
     return [];
   }
 
-  const enabledOptions = options.filter(fs => !fs.disabled) || [];
+  const enabledOptions =
+    options.filter(
+      fs => !fs.disabled || (Array.isArray(stickyOption) ? stickyOption.includes(fs.id) : fs.id === stickyOption)
+    ) || [];
 
   return enabledOptions.map(opt => ({
     id: opt.id,
+    isDisabled: Boolean(opt.disabled),
     display_text: opt.display_text[locale] || ""
   }));
 };
@@ -103,17 +107,19 @@ export const getRecordFormsByUniqueId = (state, query) => {
   }).filter(f => f.unique_id === formName);
 };
 
-export const getOption = (state, option, locale) => {
+export const getOption = (state, option, locale, stickyOption = "") => {
+  let options = option;
+
   if (typeof option === "string") {
     const selectedOptions = state
       .getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]))
       .filter(o => o.get("unique_id") === option.replace(/lookup /, ""))
       .first();
 
-    return selectedOptions?.size ? selectedOptions.get("values").toJS() : [];
+    options = selectedOptions?.size ? selectedOptions.get("values").toJS() : [];
   }
 
-  return transformOptionSource(option, locale);
+  return transformOptionSource(options, locale, stickyOption);
 };
 
 export const getOptions = state => state.getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]));
