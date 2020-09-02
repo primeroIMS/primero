@@ -149,7 +149,7 @@ const Component = ({ formRef, mode, lookup }) => {
           key={item}
           firstLocaleOption={defaultLocale}
           index={index}
-          isDragDisabled={!formMode.get("isShow")}
+          isDragDisabled={!formMode.get("isEdit")}
           localesKeys={localesKeys}
           selectedOption={selectedOption}
           uniqueId={item}
