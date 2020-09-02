@@ -2,7 +2,6 @@ import isEmpty from "lodash/isEmpty";
 import uniqBy from "lodash/uniqBy";
 
 import { FieldRecord, SELECT_FIELD, RADIO_FIELD, TEXT_FIELD, TOGGLE_FIELD } from "../../form";
-import { SUBFORM_SECTION } from "../../record-form/constants";
 
 import { isCustomExport, isPdfExport, allowedExports } from "./utils";
 import {
