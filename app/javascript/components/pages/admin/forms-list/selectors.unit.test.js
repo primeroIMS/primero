@@ -1,9 +1,10 @@
 import { fromJS } from "immutable";
 
 import { mapEntriesToRecord } from "../../../../libs";
-import { FormSectionRecord } from "../../../record-form/records";
+import { FormSectionRecord, FieldRecord } from "../../../record-form/records";
 
 import {
+  getFields,
   getFormSections,
   getFormSectionsByFormGroup,
   getIsLoading,
@@ -62,11 +63,35 @@ const formSections = [
   }
 ];
 
+const fields = [
+  {
+    id: 1,
+    name: "field_1",
+    display_name: { en: "Field 1" }
+  },
+  {
+    id: 2,
+    name: "field_2",
+    display_name: { en: "Field 2" }
+  },
+  {
+    id: 3,
+    name: "field_3",
+    display_name: { en: "Field 3" }
+  },
+  {
+    id: 4,
+    name: "field_4",
+    display_name: { en: "Field 4" }
+  }
+];
+
 const stateWithHeaders = fromJS({
   records: {
     admin: {
       forms: {
-        formSections: mapEntriesToRecord(formSections, FormSectionRecord, true)
+        formSections: mapEntriesToRecord(formSections, FormSectionRecord, true),
+        fields: mapEntriesToRecord(fields, FieldRecord, true)
       }
     }
   }
@@ -184,6 +209,16 @@ describe("<FormList /> - Selectors", () => {
       const enabled = getReorderEnabled(stateWithReorderHeaders);
 
       expect(enabled).to.deep.equal(false);
+    });
+  });
+
+  describe("getFields", () => {
+    it("should return the fields", () => {
+      const fieldsInState = getFields(stateWithHeaders);
+
+      expect(fieldsInState.map(field => field.get("name"))).to.deep.equal(
+        fromJS(["field_1", "field_2", "field_3", "field_4"])
+      );
     });
   });
 });
