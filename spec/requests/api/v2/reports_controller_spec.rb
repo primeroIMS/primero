@@ -1,119 +1,61 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V2::ReportsController, type: :request do
   before :each do
-    [
-      PrimeroModule, PrimeroProgram, Report, User,
-      Role, Agency, Child, Location, FormSection
-    ].each(&:destroy_all)
+    [PrimeroModule, PrimeroProgram, Report, User, Role, Agency, Child, Location, FormSection].each(&:destroy_all)
 
-    SystemSettings.stub(:current).and_return(SystemSettings.new(
-      primary_age_range: "primero",
-      age_ranges: {
-        "primero" => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
-        "unhcr" => [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX]
-      }
-    ))
+    @system_settings = SystemSettings.new(primary_age_range: 'primero',
+                                          age_ranges: { 'primero' => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
+                                                        'unhcr' => [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX] })
+    SystemSettings.stub(:current).and_return(@system_settings)
 
-    Field.create!(
-      name: 'owned_by_location',
-      type: Field::SELECT_BOX,
-      display_name_i18n: {en: 'Owned by location'},
-      option_strings_source: 'Location'
-    )
+    Field.create!(name: 'owned_by_location', type: Field::SELECT_BOX, display_name_i18n: { en: 'Owned by location' },
+                  option_strings_source: 'Location')
 
-    Field.create!(
-      name: 'protection_concerns',
-      type: Field::SELECT_BOX,
-      display_name_i18n: {en: 'Protection Concerns'},
-      option_strings_source: 'lookup lookup-protection-concerns',
-    )
+    Field.create!(name: 'protection_concerns', type: Field::SELECT_BOX,
+                  display_name_i18n: { en: 'Protection Concerns' },
+                  option_strings_source: 'lookup lookup-protection-concerns')
 
-    @location_0 = Location.create!(
-      placename_en: "Country 1",
-      location_code:"CN",
-      admin_level: 0,
-      type: "country",
-      hierarchy: "CN"
-    )
-
-    @program = PrimeroProgram.create!(
-      unique_id: "primeroprogram-primero",
-      name: "Primero",
-      description: "Default Primero Program"
-    )
-
-    @cp = PrimeroModule.create!(
-    unique_id: 'primeromodule-cp',
-    name: "CP",
-    description: "Child Protection",
-    associated_record_types: ["case", "tracing_request", "incident"],
-    primero_program: @program,
-    form_sections: [FormSection.create!(name: 'form_1')]
-    )
-
-    @report_1 = Report.create({
-      name_en: 'Protection Concerns By Location',
-      description_en: '',
-      module_id: PrimeroModule::CP,
-      record_type: 'case',
-      aggregate_by: ['owned_by_location'],
-      disaggregate_by: ['protection_concerns'],
-      filters: [
-        {'attribute' => 'status', 'value' => [Record::STATUS_OPEN]},
-        {'attribute' => 'record_state', 'value' => ['true']}
-      ],
-      editable: false
-    })
-
-    @role = Role.create!(
-      name: 'Test Role 1',
-      unique_id: "test-role-1",
-      permissions: [
-        Permission.new(
-          :resource => Permission::CASE,
-          :actions => [Permission::MANAGE]
-        )
-      ],
-      modules: [@cp]
-    )
-    @agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
-
-    @test_user_1 = User.create!(
-      full_name: "Test User 1",
-      user_name: 'test_user_1',
-      password: 'a12345678',
-      password_confirmation: 'a12345678',
-      email: "test_user_1@localhost.com",
-      agency_id: @agency_1.id,
-      role: @role,
-      location: @location_0.location_code
-    )
+    @location0 = Location.create!(placename_en: 'Country 1', location_code: 'CN', admin_level: 0, type: 'country',
+                                  hierarchy: 'CN')
+    @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
+                                      description: 'Default Primero Program')
+    @cp = PrimeroModule.create!(unique_id: 'primeromodule-cp', name: 'CP', description: 'Child Protection',
+                                associated_record_types: %w[case tracing_request incident],
+                                primero_program: @program, form_sections: [FormSection.create!(name: 'form_1')])
+    @report1 = Report.create(name_en: 'Protection Concerns By Location', description_en: '',
+                             module_id: PrimeroModule::CP, record_type: 'case', aggregate_by: ['owned_by_location'],
+                             disaggregate_by: ['protection_concerns'],
+                             filters: [{ 'attribute' => 'status', 'value' => [Record::STATUS_OPEN] },
+                                       { 'attribute' => 'record_state', 'value' => ['true'] }],
+                             editable: false)
+    @role = Role.create!(name: 'Test Role 1', unique_id: 'test-role-1',
+                         permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
+                         modules: [@cp])
+    @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+    @test_user1 = User.create!(full_name: 'Test User 1', user_name: 'test_user_1', password: 'a12345678',
+                               password_confirmation: 'a12345678', email: 'test_user_1@localhost.com',
+                               agency_id: @agency1.id, role: @role, location: @location0.location_code)
 
     Sunspot.setup(Child) do
       string 'protection_concerns', multiple: true
     end
 
-    @child_concerns_1 = Child.new_with_user(
-      @test_user_1, {
-        protection_concerns: ["trafficked_smuggled", "sexually_exploited", "migrant"]
-      })
-
-    @child_concerns_1.save!
+    @child_concerns1 = Child.new_with_user(@test_user1,
+                                           protection_concerns: %w[trafficked_smuggled sexually_exploited migrant])
+    @child_concerns1.save!
 
     Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }
 
-  describe "GET /api/v2/reports" do
-    it "list the reports" do
-      login_for_test({
-        permissions: [
-          Permission.new(resource: Permission::REPORT, actions: [Permission::READ])
-        ],
-        modules: [@cp]
-      })
+  describe 'GET /api/v2/reports' do
+    it 'list the reports' do
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::READ])],
+                     modules: [@cp])
 
       get '/api/v2/reports'
 
@@ -122,10 +64,7 @@ describe Api::V2::ReportsController, type: :request do
     end
 
     it 'refuses unauthorized access' do
-      login_for_test({
-        permissions: [],
-        modules: [@cp]
-      })
+      login_for_test(permissions: [], modules: [@cp])
 
       get '/api/v2/reports'
 
@@ -135,47 +74,39 @@ describe Api::V2::ReportsController, type: :request do
     end
   end
 
-  describe "GET /api/v2/reports/:id", search: true do
-    it "fetches the correct report with code 200" do
-      login_for_test({
-        permissions: [
-          Permission.new(resource: Permission::REPORT, actions: [Permission::READ])
-        ],
-        modules: [@cp]
-      })
+  describe 'GET /api/v2/reports/:id', search: true do
+    it 'fetches the correct report with code 200' do
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::READ])],
+                     modules: [@cp])
 
-      get "/api/v2/reports/#{@report_1.id}"
+      get "/api/v2/reports/#{@report1.id}"
 
       report_data = {
-        "cn"=> {
-          "migrant" => {"_total"=>1},
-          "sexually_exploited" => {"_total"=>1},
-          "trafficked_smuggled" => {"_total"=>1},
-          "_total"=>1
+        'cn' => {
+          'migrant' => { '_total' => 1 },
+          'sexually_exploited' => { '_total' => 1 },
+          'trafficked_smuggled' => { '_total' => 1 },
+          '_total' => 1
         }
       }
 
       expect(response).to have_http_status(200)
-      expect(json['data']["report_data"]).to eq(report_data)
+      expect(json['data']['report_data']).to eq(report_data)
     end
 
     it 'refuses unauthorized access' do
       login_for_test
 
-      get "/api/v2/reports/#{@report_1.id}"
+      get "/api/v2/reports/#{@report1.id}"
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/reports/#{@report_1.id}")
+      expect(json['errors'][0]['resource']).to eq("/api/v2/reports/#{@report1.id}")
     end
 
     it 'returns a 404 when trying to fetch a report with a non-existant id' do
-      login_for_test({
-        permissions: [
-          Permission.new(resource: Permission::REPORT, actions: [Permission::READ])
-        ],
-        modules: [@cp]
-      })
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::READ])],
+                     modules: [@cp])
       get '/api/v2/reports/thisdoesntexist'
 
       expect(response).to have_http_status(404)
@@ -262,7 +193,8 @@ describe Api::V2::ReportsController, type: :request do
         'record_type' => 'case',
         'fields' => [
           {
-            'name' => 'protection_concerns', 'display_name' => { 'en' => 'Protection Concerns', 'es' => '', 'fr' => '' },
+            'name' => 'protection_concerns',
+            'display_name' => { 'en' => 'Protection Concerns', 'es' => '', 'fr' => '' },
             'position' => { 'type' => 'horizontal', 'order' => 0 }
           },
           {
@@ -273,17 +205,17 @@ describe Api::V2::ReportsController, type: :request do
         ],
         'filters' => [
           {
-            "attribute" => "status",
-            "constraint" => "",
-            "value" => ["open"]
+            'attribute' => 'status',
+            'constraint' => '',
+            'value' => ['open']
           },
           {
-            "attribute" => "status",
-            "value" => ["open"]
+            'attribute' => 'status',
+            'value' => ['open']
           },
           {
-            "attribute" => "record_state",
-            "value" => ["true"]
+            'attribute' => 'record_state',
+            'value' => ['true']
           }
         ]
       }
@@ -347,12 +279,8 @@ describe Api::V2::ReportsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['report_data'].present?).to be_falsey
 
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
-        ],
-        modules: [@cp]
-      )
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])],
+                     modules: [@cp])
 
       get "/api/v2/reports/#{Report.last.id}"
       json = JSON.parse(response.body)
@@ -363,17 +291,11 @@ describe Api::V2::ReportsController, type: :request do
 
     it 'Errors 422 save without aggregate_by, name, module_id and record_type' do
       I18n.stub(:available_locales).and_return(%i[en es fr])
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
-        ],
-        modules: [@cp]
-      )
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])],
+                     modules: [@cp])
       params = {
         data: {
-          name: {
-            fr: 'Test report in French'
-          },
+          name: { fr: 'Test report in French' },
           description: {
             en: 'Description',
             fr: 'Description in French'
@@ -407,12 +329,8 @@ describe Api::V2::ReportsController, type: :request do
 
     it 'Errors 422 module_syntax error for module_id' do
       I18n.stub(:available_locales).and_return(%i[en es fr])
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
-        ],
-        modules: [@cp]
-      )
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])],
+                     modules: [@cp])
       params = {
         data: {
           name: {
@@ -460,12 +378,8 @@ describe Api::V2::ReportsController, type: :request do
 
   describe 'PATCH /api/v2/reports/:id' do
     it 'updates an non-existing report' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
-        ],
-        modules: [@cp]
-      )
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])],
+                     modules: [@cp])
       params = {}
 
       patch '/api/v2/reports/thisdoesntexist', params: params
@@ -479,21 +393,17 @@ describe Api::V2::ReportsController, type: :request do
       login_for_test
       params = {}
 
-      patch "/api/v2/reports/#{@report_1.id}", params: params
+      patch "/api/v2/reports/#{@report1.id}", params: params
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/reports/#{@report_1.id}")
+      expect(json['errors'][0]['resource']).to eq("/api/v2/reports/#{@report1.id}")
     end
 
     it 'updates an existing report with 200', search: true do
       I18n.stub(:available_locales).and_return(%i[en es fr])
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
-        ],
-        modules: [@cp]
-      )
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])],
+                     modules: [@cp])
       params = {
         data: {
           name: {
@@ -531,11 +441,11 @@ describe Api::V2::ReportsController, type: :request do
       }
       Report.first.update(editable: true)
 
-      patch "/api/v2/reports/#{@report_1.id}", params: params
+      patch "/api/v2/reports/#{@report1.id}", params: params
       json = JSON.parse(response.body)
 
       report_data = {
-        'id' => @report_1.id,
+        'id' => @report1.id,
         'name' => {
           'en' => 'Protection Concerns By Location', 'es' => 'Preocupaciones de protección por ubicación', 'fr' => ''
         },
@@ -560,11 +470,11 @@ describe Api::V2::ReportsController, type: :request do
             'admin_level' => 0
           }
         ],
-        "filters" => [
+        'filters' => [
           {
-            "attribute" => "status",
-            "constraint" => "",
-            "value" => ["open"]
+            'attribute' => 'status',
+            'constraint' => '',
+            'value' => ['open']
           }
         ]
       }
@@ -573,14 +483,10 @@ describe Api::V2::ReportsController, type: :request do
       expect(json['data']).to eq(report_data)
       expect(json['data']['report_data'].present?).to be_falsey
 
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
-        ],
-        modules: [@cp]
-      )
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])],
+                     modules: [@cp])
 
-      get "/api/v2/reports/#{@report_1.id}"
+      get "/api/v2/reports/#{@report1.id}"
       json = JSON.parse(response.body)
 
       expect(response).to have_http_status(200)
@@ -590,12 +496,8 @@ describe Api::V2::ReportsController, type: :request do
 
   describe 'DELETE /api/v2/reports/:id' do
     it 'delete an non-existing report' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
-        ],
-        modules: [@cp]
-      )
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])],
+                     modules: [@cp])
 
       delete '/api/v2/reports/thisdoesntexist'
 
@@ -607,32 +509,25 @@ describe Api::V2::ReportsController, type: :request do
     it 'refuses unauthorized access' do
       login_for_test
 
-      delete "/api/v2/reports/#{@report_1.id}"
+      delete "/api/v2/reports/#{@report1.id}"
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/reports/#{@report_1.id}")
+      expect(json['errors'][0]['resource']).to eq("/api/v2/reports/#{@report1.id}")
     end
 
     it 'successfully delete an report with a code of 200' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
-        ],
-        modules: [@cp]
-      )
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])],
+                     modules: [@cp])
 
-      delete "/api/v2/reports/#{@report_1.id}"
+      delete "/api/v2/reports/#{@report1.id}"
 
       expect(response).to have_http_status(200)
-      expect(json['data']['id']).to eq(@report_1.id)
+      expect(json['data']['id']).to eq(@report1.id)
     end
   end
 
   after :each do
-    [
-      PrimeroModule, PrimeroProgram, Report, User,
-      Role, Agency, Child, Location, FormSection
-    ].each(&:destroy_all)
+    [PrimeroModule, PrimeroProgram, Report, User, Role, Agency, Child, Location, FormSection].each(&:destroy_all)
   end
 end
