@@ -149,17 +149,35 @@ export const setSubformData = (field, subform) => {
   return field;
 };
 
-export const generateUniqueId = (data, locale) =>
-  (typeof data === "string" ? data : data[locale]).replace(/[^\w]/g, "_").toLowerCase();
+export const toIdentifier = data => data.replace(/[^\w]/g, "_").toLowerCase();
 
-export const buildDataToSave = (selectedField, data, locale, lastFieldOrder, randomSubformId) => {
+export const generateUniqueId = (data, existingIds = []) => {
+  const generatedId = toIdentifier(data);
+
+  if (!existingIds.includes(generatedId)) {
+    return generatedId;
+  }
+
+  const filterExp = new RegExp(`${generatedId}_[0-9]+$`);
+  const lastIncrement =
+    fromJS(existingIds)
+      .filter(id => id.match(filterExp)?.length)
+      .filter(id => id.match(/[0-9]+/)?.length)
+      .map(id => parseInt(id.match(/[0-9]+/)[0], 10))
+      .sort()
+      .last() || 0;
+
+  return `${generatedId}_${lastIncrement + 1}`;
+};
+
+export const buildDataToSave = (selectedField, data, locale, lastFieldOrder, randomSubformId, fieldNames) => {
   const fieldName = selectedField?.get("name");
   const newData = { ...data, disabled: selectedField?.get("type") === SEPARATOR ? true : data?.disabled };
 
   if (fieldName !== NEW_FIELD) {
     return { [fieldName]: newData };
   }
-  const newFieldName = generateUniqueId(newData.display_name, locale);
+  const newFieldName = generateUniqueId(newData.display_name.en, fieldNames);
 
   const dataToSave = appendSettingsAttributes(newData, selectedField, newFieldName, lastFieldOrder);
 
