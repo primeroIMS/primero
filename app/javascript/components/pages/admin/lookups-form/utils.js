@@ -2,7 +2,7 @@ import { object, string } from "yup";
 import isEmpty from "lodash/isEmpty";
 import reject from "lodash/reject";
 
-import { generateUniqueId } from "../form-builder/components/field-dialog/utils";
+import { toIdentifier } from "../form-builder/components/field-dialog/utils";
 
 import { TEMP_OPTION_ID } from "./components/form/constants";
 
@@ -60,7 +60,7 @@ export const buildValues = (values, defaultLocale, removedValues) => {
     }
 
     return {
-      id: isNewOption(key) ? generateUniqueId(values.en[key]) : key,
+      id: isNewOption(key) ? toIdentifier(values.en[key]) : key,
       display_text: locales.reduce((acc, locale) => ({ ...acc, [locale]: values[locale][key] }), {})
     };
   });

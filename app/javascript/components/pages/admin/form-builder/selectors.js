@@ -1,6 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import { fromJS } from "immutable";
 
+import { getFields, getFormSections } from "../forms-list/selectors";
+
 export const getSelectedForm = state => state.getIn(["records", "admin", "forms", "selectedForm"], fromJS({}));
 
 export const getSelectedSubform = state => state.getIn(["records", "admin", "forms", "selectedSubform"], fromJS({}));
@@ -14,6 +16,28 @@ export const getSelectedFields = (state, subform) => {
 
   return fields.sortBy(field => field.get("order"));
 };
+
+export const getFormUniqueIds = state =>
+  getFormSections(state)
+    .toList()
+    .concat(getSelectedSubforms(state))
+    .map(form => form.get("unique_id"))
+    .toSet()
+    .toList();
+
+export const getFieldNames = state =>
+  getFields(state)
+    .toList()
+    .concat(getSelectedFields(state))
+    .concat(getSelectedFields(state, true))
+    .concat(
+      getSelectedSubforms(state)
+        .map(subform => subform.get("fields"))
+        .flatten(true)
+    )
+    .map(field => field.get("name"))
+    .toSet()
+    .toList();
 
 export const getSelectedSubformField = state =>
   state.getIn(["records", "admin", "forms", "selectedSubformField"], fromJS({}));
