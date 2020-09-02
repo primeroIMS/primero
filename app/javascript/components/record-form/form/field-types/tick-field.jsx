@@ -3,11 +3,16 @@ import PropTypes from "prop-types";
 import { FastField, connect, getIn } from "formik";
 import { Checkbox } from "formik-material-ui";
 import pickBy from "lodash/pickBy";
-import { FormControlLabel } from "@material-ui/core";
+import { FormControlLabel, InputLabel } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { TICK_FIELD_NAME } from "../constants";
+import { useI18n } from "../../../i18n";
+import styles from "../styles.css";
 
-const TickField = ({ name, label, formik, ...rest }) => {
+const TickField = ({ name, label, tickBoxlabel, formik, ...rest }) => {
+  const i18n = useI18n();
+  const css = makeStyles(styles)();
   const fieldProps = {
     name,
     ...pickBy(rest, (v, k) => ["disabled"].includes(k))
@@ -20,25 +25,30 @@ const TickField = ({ name, label, formik, ...rest }) => {
   }, []);
 
   return (
-    <FormControlLabel
-      label={label}
-      control={
-        <FastField
-          name={name}
-          render={renderProps => {
-            return (
-              <Checkbox
-                {...fieldProps}
-                form={renderProps.form}
-                field={{
-                  ...renderProps.field
-                }}
-              />
-            );
-          }}
-        />
-      }
-    />
+    <>
+      <InputLabel shrink htmlFor={name} className={css.inputLabel}>
+        {label}
+      </InputLabel>
+      <FormControlLabel
+        label={tickBoxlabel || i18n.t("yes_label")}
+        control={
+          <FastField
+            name={name}
+            render={renderProps => {
+              return (
+                <Checkbox
+                  {...fieldProps}
+                  form={renderProps.form}
+                  field={{
+                    ...renderProps.field
+                  }}
+                />
+              );
+            }}
+          />
+        }
+      />
+    </>
   );
 };
 
@@ -47,7 +57,8 @@ TickField.displayName = TICK_FIELD_NAME;
 TickField.propTypes = {
   formik: PropTypes.object,
   label: PropTypes.string,
-  name: PropTypes.string
+  name: PropTypes.string,
+  tickBoxlabel: PropTypes.object
 };
 
 export default connect(TickField);

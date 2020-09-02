@@ -370,7 +370,8 @@ describe("<RecordForm /> - Selectors", () => {
             subform_sort_by: "",
             type: "text_field",
             visible: true,
-            subform_section_configuration: null
+            subform_section_configuration: null,
+            tick_box_label: {}
           }
         ],
         is_nested: null
@@ -447,7 +448,8 @@ describe("<RecordForm /> - Selectors", () => {
             subform_sort_by: "",
             type: "text_field",
             visible: true,
-            subform_section_configuration: null
+            subform_section_configuration: null,
+            tick_box_label: {}
           }
         ],
         is_nested: null
