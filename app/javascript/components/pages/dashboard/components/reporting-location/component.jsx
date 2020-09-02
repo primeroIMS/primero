@@ -10,7 +10,7 @@ import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { getLocations } from "../../../../record-form";
-import { getReportingLocationConfig } from "../../../../application/selectors";
+import { getReportingLocationConfig } from "../../../../user/selectors";
 
 import { NAME } from "./constants";
 
@@ -27,7 +27,7 @@ const Component = ({ loadingIndicator }) => {
         <OptionsBox title={i18n.t("cases.label")} hasData={Boolean(reportingLocation.size)} {...loadingIndicator}>
           <DashboardTable
             title={i18n.t("cases.label")}
-            {...toReportingLocationTable(reportingLocation, reportingLocationConfig?.get("label_key"), i18n, locations)}
+            {...toReportingLocationTable(reportingLocation, reportingLocationConfig, i18n, locations)}
           />
         </OptionsBox>
       </Grid>
