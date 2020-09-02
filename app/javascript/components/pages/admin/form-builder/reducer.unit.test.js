@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { FieldRecord, RADIO_FIELD } from "../../../form";
+import { RADIO_FIELD } from "../../../form";
 
 import actions from "./actions";
 import reducer from "./reducer";
