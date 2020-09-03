@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 
 import { FILTER_TYPES } from "../../../index-filters";
 
-import { DISABLED, AGENCY } from "./constants";
+import { DISABLED, AGENCY, USER_GROUP } from "./constants";
 import * as helper from "./utils";
 
 describe("<AuditLogs /> - Helpers", () => {
@@ -64,6 +64,13 @@ describe("<AuditLogs /> - Helpers", () => {
           ],
           type: FILTER_TYPES.MULTI_SELECT,
           multiple: false
+        },
+        {
+          field_name: USER_GROUP,
+          multiple: false,
+          name: "cases.filter_by.user_group",
+          options: [],
+          type: FILTER_TYPES.MULTI_SELECT
         }
       ];
 
