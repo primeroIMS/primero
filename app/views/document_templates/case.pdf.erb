@@ -1,0 +1,61 @@
+<% # encoding: utf-8 %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wickedpdf</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      td { word-wrap: break-word }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
+  </head>
+
+  <body>
+    <% cases.each do |cs| %>
+      <% cs.each do |form| %>
+        <h2> <%= form[:form_name] %></h2>
+        <table>
+          <% form[:form_section][:fields].each do |field| %>
+            <tr>
+              <td width="50%"> <%=field.first%></td>
+              <td width="50%"> <%=field.last%></td>
+            </tr>
+          <% end %>
+          <% if form[:form_section][:subform].present?%>
+            <tr>
+              <td colspan="2">
+                <% form[:form_section][:subform].each do |subform| %>
+                  <h3> <%= subform[:name] %></h3>
+                  <table>
+                    <% subform[:fields].each do |field| %>
+                      <tr>
+                        <td width="50%"> <%=field.first%></td>
+                        <td width="50%"> <%=field.last%></td>
+                      </tr>
+                    <% end %>
+                  </table>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      <%end%>
+    <% end %>
+  </body>
+</html>
