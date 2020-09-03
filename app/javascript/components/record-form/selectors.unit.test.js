@@ -100,8 +100,8 @@ const serviceTypeLookup = {
   id: 1,
   unique_id: "lookup-location-type",
   values: [
-    { id: "country", display_text: "Country" },
-    { id: "region", display_text: "Region" }
+    { id: "country", display_text: { en: "Country" } },
+    { id: "region", display_text: { en: "Region" } }
   ]
 };
 const location = {
@@ -226,11 +226,11 @@ describe("<RecordForm /> - Selectors", () => {
   describe("getOption", () => {
     it("should return the options or lookups", () => {
       const expected = [
-        { id: "country", display_text: "Country" },
-        { id: "region", display_text: "Region" }
+        { id: "country", display_text: "Country", isDisabled: false },
+        { id: "region", display_text: "Region", isDisabled: false }
       ];
 
-      const record = selectors.getOption(stateWithRecords, "lookup lookup-location-type");
+      const record = selectors.getOption(stateWithRecords, "lookup lookup-location-type", "en");
 
       expect(Object.keys(record)).to.deep.equal(Object.keys(expected));
       expect(Object.values(record)).to.deep.equal(Object.values(expected));
@@ -250,10 +250,27 @@ describe("<RecordForm /> - Selectors", () => {
         { id: "no", display_text: { en: "No", fr: "", ar: "" } }
       ];
       const expected = [
-        { id: "submitted", display_text: "Submitted" },
-        { id: "no", display_text: "No" }
+        { id: "submitted", display_text: "Submitted", isDisabled: false },
+        { id: "no", display_text: "No", isDisabled: false }
       ];
       const result = selectors.getOption(stateWithRecords, optionStringsText, "en");
+
+      expect(result).to.deep.equal(expected);
+    });
+
+    it("should return the options including the disabled and selected for optionStringsText", () => {
+      const optionStringsText = [
+        { id: "submitted", display_text: { en: "Submitted", fr: "", ar: "" } },
+        { id: "pending", disabled: true, display_text: { en: "Pending", fr: "", ar: "" } },
+        { id: "no", display_text: { en: "No", fr: "", ar: "" } },
+        { id: "other", disabled: true, display_text: { en: "Other", fr: "", ar: "" } }
+      ];
+      const expected = [
+        { id: "submitted", display_text: "Submitted", isDisabled: false },
+        { id: "pending", display_text: "Pending", isDisabled: true },
+        { id: "no", display_text: "No", isDisabled: false }
+      ];
+      const result = selectors.getOption(stateWithRecords, optionStringsText, "en", "pending");
 
       expect(result).to.deep.equal(expected);
     });

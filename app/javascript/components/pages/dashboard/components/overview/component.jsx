@@ -29,7 +29,7 @@ const Component = ({ loadingIndicator, userPermissions }) => {
   const caseOverview = useSelector(state => getCaseOverview(state));
   const sharedWithMe = useSelector(state => getSharedWithMe(state));
   const sharedWithOthers = useSelector(state => getSharedWithOthers(state));
-  const labelsRiskLevel = useSelector(state => getOption(state, LOOKUPS.risk_level, i18n));
+  const labelsRiskLevel = useSelector(state => getOption(state, LOOKUPS.risk_level, i18n.locale));
   const caseIncidentOverview = useSelector(state => getCaseIncidentOverview(state));
 
   const overviewDashHasData = Boolean(
