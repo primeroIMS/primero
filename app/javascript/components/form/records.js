@@ -1,4 +1,4 @@
-import { Record, Map, List } from "immutable";
+import { Record, fromJS } from "immutable";
 
 export const FieldRecord = Record({
   name: "",
@@ -6,10 +6,10 @@ export const FieldRecord = Record({
   editable: true,
   disabled: null,
   visible: null,
-  display_name: Map({}),
+  display_name: fromJS({}),
   subform_section_id: null,
   subform_section_temp_id: null,
-  help_text: Map({}),
+  help_text: fromJS({}),
   multi_select: null,
   option_strings_source: null,
   option_strings_text: null,
@@ -30,11 +30,11 @@ export const FieldRecord = Record({
   watchedInputs: null,
   handleWatchedInputs: null,
   showIf: null,
-  check_errors: List([]),
+  check_errors: fromJS([]),
   hint: "",
   groupBy: null,
   tooltip: "",
-  tick_box_label: Map({}),
+  tick_box_label: fromJS({}),
   numeric: false,
   onChange: null,
   mobile_visible: false,
@@ -48,25 +48,25 @@ export const FieldRecord = Record({
 export const FormSectionRecord = Record({
   id: "",
   temp_id: null,
-  description: Map({}),
+  description: fromJS({}),
   unique_id: "",
-  name: Map({}),
+  name: fromJS({}),
   visible: null,
   is_first_tab: null,
   order: null,
   order_form_group: null,
   parent_form: "",
   editable: null,
-  module_ids: List([]),
+  module_ids: fromJS([]),
   form_group_id: "",
   form_group_name: "",
-  fields: List([]),
+  fields: fromJS([]),
   is_nested: null,
   subform_append_only: false,
   subform_prevent_item_removal: false,
   initial_subforms: 0,
-  collapsed_field_names: List([]),
-  check_errors: List([]),
+  collapsed_field_names: fromJS([]),
+  check_errors: fromJS([]),
   expandable: false,
   expanded: false,
   tooltip: "",
@@ -75,5 +75,5 @@ export const FormSectionRecord = Record({
 
 export const Option = Record({
   type: "",
-  options: List([])
+  options: fromJS([])
 });
