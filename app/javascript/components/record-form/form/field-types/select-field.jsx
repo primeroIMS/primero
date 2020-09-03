@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Field, connect, getIn } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,8 +47,9 @@ const SelectField = ({
   const { filterState, setFilterState } = other?.filters || {};
 
   const NAMESPACE = ["transitions", REFERRAL_TYPE];
+  const [stickyOption] = useState(value);
 
-  const options = useSelector(state => getOption(state, option, i18n.locale));
+  const options = useSelector(state => getOption(state, option, i18n.locale, stickyOption));
   const loading = useSelector(state => getLoading(state, NAMESPACE));
   const agenciesLoading = useSelector(state => getOptionsAreLoading(state));
 

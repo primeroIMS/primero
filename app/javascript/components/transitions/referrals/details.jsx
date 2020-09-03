@@ -15,10 +15,12 @@ const Details = ({ transition, classes }) => {
   const i18n = useI18n();
 
   const service = useSelector(state => {
-    const value = getOption(state, LOOKUPS.service_type, i18n).filter(option => option.id === transition.service);
+    const value = getOption(state, LOOKUPS.service_type, i18n.locale).filter(
+      option => option.id === transition.service
+    );
 
     // eslint-disable-next-line camelcase
-    return value[0]?.display_text?.[i18n.locale];
+    return value[0]?.display_text;
   });
 
   const renderRejected =
