@@ -8,6 +8,7 @@ import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import { fetchLookups } from "../../../record-form/action-creators";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
@@ -131,6 +132,7 @@ const Component = ({ mode }) => {
   }, [updatedFormIds, errors]);
 
   useEffect(() => {
+    dispatch(fetchLookups());
     dispatch(fetchForms());
     dispatch(clearSelectedForm());
   }, []);
