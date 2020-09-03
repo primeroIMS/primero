@@ -40,31 +40,31 @@ namespace :primero do
   end
 
   # Exports Forms for translation & Exports Lookups for translation
-  # USAGE: bundle exec rake db:data:export_form_translation[form_name,type,module_id,show_hidden_forms,show_hidden_fields,locale]
+  # USAGE: bundle exec rails primero:export_form_translation
   # Args:
-  #   form_name          - if this is passed in, will only export that 1 form  (ex. 'basic_identity')
-  #   type               - record type (ex. 'case', 'incident', 'tracing_request', etc)     DEFAULT: 'case'
+  #   unique_id          - if this is passed in, will only export that 1 form  (ex. 'basic_identity')
+  #   record_type        - record type (ex. 'case', 'incident', 'tracing_request', etc)     DEFAULT: 'case'
   #   module_id          - (ex. 'primeromodule-cp', 'primeromodule-gbv')                    DEFAULT: 'primeromodule-cp'
-  #   show_hidden_forms  - Whether or not to include hidden forms                           DEFAULT: false
-  #   show_hidden_fields - whether or not to include hidden fields                          DEFAULT: false
+  #   show_hidden        - Whether or not to include hidden fields                          DEFAULT: false
   #   locale             - (ex. 'en', 'es', 'fr', 'ar')                                     DEFAULT: 'en'
   # NOTE:
   #   No spaces between arguments in argument list
   # Examples:
   #   Defaults to exporting all forms for 'case' & 'primeromodule-cp'
-  #      bundle exec rake db:data:export_form_translation
+  #      bundle exec rails primero:export_form_translation
   #
   #   Exports only 'basic_identity' form
-  #      bundle exec rake db:data:export_form_translation[basic_identity]
+  #      bundle exec rails primero:export_form_translation[basic_identity]
   #
   #   Exports only tracing_request forms for CP, including hidden forms & fields
-  #      bundle exec rake db:data:export_form_translation['',tracing_request,primeromodule-cp,true,true,en]
+  #      bundle exec rails primero:export_form_translation['',tracing_request,primeromodule-cp,true,en]
   desc 'Export the forms to a yaml file to be translated'
   task :export_form_translation, %i[unique_id record_type module_id show_hidden locale] => :environment do |_, args|
     puts 'Exporting forms to YAML for translation ...'
-    args.with_defaults(module_id: 'primeromodule-cp', record_type: 'case', locasle: 'en')
-    args[:visible] = args[:show_hidden].present? && args[:show_hidden_forms].start_with?(/[yYTt]/) ? nil : true
-    exporter = Exporters::YmlConfigExporter.new(args)
+    args.with_defaults(module_id: 'primeromodule-cp', record_type: 'case', locale: 'en')
+    opts = args.to_h
+    opts[:visible] = args[:show_hidden].present? && args[:show_hidden].start_with?(/[yYTt]/) ? nil : true
+    exporter = Exporters::YmlConfigExporter.new(opts)
     exporter.export
     puts 'Done!'
   end

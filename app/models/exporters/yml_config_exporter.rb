@@ -2,12 +2,12 @@
 
 # Export all forms and lookups as YAML for translation
 class Exporters::YmlConfigExporter < ValueObject
-  attr_accessor :export_directory, :form_params, :locale
+  attr_accessor :export_directory, :form_params, :locale, :visible
 
   def initialize(opts = {})
-    opts[:export_directory] ||= "configuration_translation_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}"
+    opts[:export_directory] ||= "tmp/exports/configuration_translation_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}"
     opts[:locale] = opts[:locale] ? opts[:locale].to_s : Primero::Application::LOCALE_ENGLISH
-    opts[:form_params] = opts.slice(:record_type, :module_id, :visible, :unique_id).compact
+    opts[:form_params] = opts.slice(:record_type, :module_id, :visible, :unique_id)&.compact
     super(opts)
     FileUtils.mkdir_p(export_directory)
   end
@@ -34,7 +34,7 @@ class Exporters::YmlConfigExporter < ValueObject
 
   def localized_form_hash(form_hash, locale)
     fields_hash = form_hash['fields_attributes']
-                  .select { |field_hash| visble.nil? || (visible && field_hash['visible']) }
+                  .select { |field_hash| visible.nil? || (visible && field_hash['visible']) }
                   .map { |field_hash| localized_field_hash(field_hash, locale) }
                   .inject(&:merge)
     {
