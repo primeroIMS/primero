@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { setupMountedComponent } from "../../../../test";
 import { whichFormMode } from "../../../form";
@@ -132,9 +133,11 @@ describe("<SelectField />", () => {
     it("render the select field with options included the disabled selected", () => {
       const selectField = component.find(SelectField);
       const searchableSelect = selectField.find(SearchableSelect);
+      const autocomplete = selectField.find(Autocomplete);
 
       expect(searchableSelect).to.have.lengthOf(1);
       expect(searchableSelect.props().options).to.have.lengthOf(3);
+      expect(autocomplete.props().options[1].isDisabled).to.be.true;
     });
   });
 });

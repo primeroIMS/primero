@@ -33,17 +33,32 @@ const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }
   return formSections.filter(fs => fs.visible);
 };
 
+const isAStickyOption = (opt, stickyOption) =>
+  Array.isArray(stickyOption) ? stickyOption.includes(opt.id) : opt.id === stickyOption;
+
+const addingDeletedOption = (enabledOptions, locale, stickyOption) => {
+  if (!stickyOption || Boolean(enabledOptions.filter(opt => isAStickyOption(opt, stickyOption)).length)) {
+    return enabledOptions;
+  }
+
+  enabledOptions.push({
+    id: stickyOption,
+    disabled: true,
+    display_text: { [locale]: stickyOption }
+  });
+
+  return enabledOptions;
+};
+
 const transformOptionSource = (options, locale, stickyOption) => {
   if (!options || !Array.isArray(options)) {
     return [];
   }
+  const enabledOptions = options.filter(fs => !fs.disabled || isAStickyOption(fs, stickyOption)) || [];
 
-  const enabledOptions =
-    options.filter(
-      fs => !fs.disabled || (Array.isArray(stickyOption) ? stickyOption.includes(fs.id) : fs.id === stickyOption)
-    ) || [];
+  const optionsToRender = addingDeletedOption(enabledOptions, locale, stickyOption);
 
-  return enabledOptions.map(opt => ({
+  return optionsToRender.map(opt => ({
     id: opt.id,
     isDisabled: Boolean(opt.disabled),
     display_text: opt.display_text[locale] || ""
