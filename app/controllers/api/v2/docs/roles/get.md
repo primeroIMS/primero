@@ -34,6 +34,7 @@ Shows a paginated list of all roles that are accessible to this user.
       "group_permission": "all",
       "referral": false,
       "transfer": false,
+      "disabled": false,
       "is_manager": true,
       "module_unique_ids": [
         "primeromodule-cp",
@@ -68,6 +69,7 @@ Shows a paginated list of all roles that are accessible to this user.
       "group_permission": "self",
       "referral": false,
       "transfer": false,
+      "disabled": false,
       "is_manager": false,
       "module_unique_ids": [
         "primeromodule-cp",
