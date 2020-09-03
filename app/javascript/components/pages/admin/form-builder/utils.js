@@ -3,6 +3,7 @@ import range from "lodash/range";
 import merge from "lodash/merge";
 
 import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
+import { invalidCharRegexp } from "../../../../libs";
 
 export const convertToFieldsObject = fields =>
   fields.map(field => ({ [field.name]: field })).reduce((acc, value) => ({ ...acc, ...value }), {});
@@ -87,3 +88,6 @@ export const getSubformErrorMessages = (errors, i18n) =>
     )
     .filter(error => Boolean(error))
     .flatten();
+
+export const validateEnglishName = async value =>
+  !(value.match(invalidCharRegexp)?.length || value.match(/^(\s+)$/)?.length);
