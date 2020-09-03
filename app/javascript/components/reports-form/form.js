@@ -16,6 +16,7 @@ import {
   GROUP_AGES_FIELD,
   GROUP_DATES_BY_FIELD,
   IS_GRAPH_FIELD,
+  DISABLED_FIELD,
   REPORTABLE_TYPES
 } from "./constants";
 import { formattedFields } from "./utils";
@@ -46,7 +47,8 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
           [DISAGGREGATE_BY_FIELD]: [],
           [GROUP_AGES_FIELD]: false,
           [GROUP_DATES_BY_FIELD]: [],
-          [IS_GRAPH_FIELD]: false
+          [IS_GRAPH_FIELD]: false,
+          [DISABLED_FIELD]: false
         });
       }
     }
@@ -143,6 +145,12 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
           type: TICK_FIELD,
           watchedInputs: [MODULES_FIELD],
           handleWatchedInputs: checkModuleField
+        }),
+        FieldRecord({
+          display_name: i18n.t("report.disabled.label"),
+          name: DISABLED_FIELD,
+          type: TICK_FIELD,
+          tooltip: i18n.t("report.disabled.explanation")
         })
       ]
     })

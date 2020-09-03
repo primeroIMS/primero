@@ -8,6 +8,7 @@ import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import { fetchLookups } from "../../../record-form/action-creators";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
@@ -115,20 +116,23 @@ const Component = ({ mode }) => {
     if (errors?.size) {
       const messages = dataToJS(getSubformErrorMessages(errors, i18n));
 
-      dispatch({
-        type: ENQUEUE_SNACKBAR,
-        payload: {
-          message: messages,
-          options: {
-            variant: "error",
-            key: generate.messageKey(messages)
+      if (messages.length) {
+        dispatch({
+          type: ENQUEUE_SNACKBAR,
+          payload: {
+            message: messages,
+            options: {
+              variant: "error",
+              key: generate.messageKey(messages)
+            }
           }
-        }
-      });
+        });
+      }
     }
   }, [updatedFormIds, errors]);
 
   useEffect(() => {
+    dispatch(fetchLookups());
     dispatch(fetchForms());
     dispatch(clearSelectedForm());
   }, []);

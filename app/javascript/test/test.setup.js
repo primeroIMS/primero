@@ -12,6 +12,8 @@ import IDBDatabase from "fake-indexeddb/lib/FDBDatabase";
 import IDBObjectStore from "fake-indexeddb/lib/FDBObjectStore";
 import IDBIndex from "fake-indexeddb/lib/FDBIndex";
 import IDBCursor from "fake-indexeddb/lib/FDBCursor";
+import get from "lodash/get";
+import { parseISO, format as formatDate } from "date-fns";
 
 chai.use(chaiImmutable);
 chai.use(sinonChai);
@@ -19,6 +21,15 @@ chai.use(sinonChai);
 global.expect = chai.expect;
 
 const storage = {};
+
+const DATE_FORMATS = Object.freeze({
+  date: Object.freeze({
+    formats: Object.freeze({
+      default: "dd-MMM-yyyy",
+      with_time: "dd-MMM-yyyy HH:mm"
+    })
+  })
+});
 
 global.window.indexedDB = indexedDB;
 global.indexedDB = global.window.indexedDB;
@@ -49,7 +60,7 @@ global.window.I18n = {
   defaultLocale: "en",
   locale: "en",
   t: path => path,
-  l: path => path
+  l: (path, value) => formatDate(parseISO(value), get(DATE_FORMATS, path))
 };
 global.document.documentElement.lang = "en";
 

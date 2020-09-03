@@ -30,6 +30,7 @@ Shows a paginated list of all user_groups that are accessible to this user.
       "id": 4,
       "unique_id": "test_unique_id21",
       "name": "test_nam12",
+      "disabled": false,
       "description": "test_descriptio1n2",
       "core_resource": true
     },
@@ -37,6 +38,7 @@ Shows a paginated list of all user_groups that are accessible to this user.
       "id": 6,
       "unique_id": "test_unique_id23",
       "name": "test_nam12",
+      "disabled": false,
       "description": "test_descriptio1n2",
       "core_resource": true
     }
