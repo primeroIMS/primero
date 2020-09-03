@@ -22,6 +22,7 @@ const storage = {};
 
 global.window.indexedDB = indexedDB;
 global.indexedDB = global.window.indexedDB;
+global.html2pdf = {};
 
 global.window.IDBKeyRange = IDBKeyRange;
 global.IDBKeyRange = global.window.IDBKeyRange;

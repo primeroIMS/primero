@@ -49,14 +49,14 @@ class Location < ApplicationRecord
     def get_by_location_code(location_code)
       if @locations_by_code.present?
         @locations_by_code[location_code]
-      else
-        Location.find_by(location_code: location_code) if location_code.present?
+      elsif location_code.present?
+        Location.find_by(location_code: location_code)
       end
     end
 
     def fetch_by_location_codes(location_codes)
       if @locations_by_code.present?
-        location_codes.map{|l| @locations_by_code[l]}
+        location_codes.map { |l| @locations_by_code[l] }
       else
         Location.where(location_code: location_codes).order(:admin_level)
       end.compact
@@ -72,9 +72,9 @@ class Location < ApplicationRecord
     #       but that functionality is probably deprecated. Review and delete.
     # This method returns a list of id / display_text value pairs
     # It is used to create the select options list for location fields
-    def all_names(opts={})
+    def all_names(opts = {})
       locale = opts[:locale].presence || I18n.locale
-      enabled.map{|r| { id: r.location_code, display_text: r.name(locale) }.with_indifferent_access}
+      enabled.map { |r| { id: r.location_code, display_text: r.name(locale) }.with_indifferent_access }
     end
 
     def value_for_index(value, admin_level)
@@ -103,14 +103,19 @@ class Location < ApplicationRecord
       Location.enabled.where(admin_level: admin_level)
     end
 
-    def find_names_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL, hierarchy_filter = nil, opts={})
+    def find_names_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL, hierarchy_filter = nil,
+                                          opts = {})
       locale = opts[:locale].presence || I18n.locale
       # We need the fully qualified :: separated location name here so the reg_ex filter below will work
-      location_names = Location.find_by_admin_level_enabled(admin_level).map{|r| {id: r.location_code, hierarchy_path: r.hierarchy_path, display_text: r.name(locale)}.with_indifferent_access}.sort_by!{|l| l['display_text']}
+      location_names = Location.find_by_admin_level_enabled(admin_level)
+                               .map { |r| { id: r.location_code, hierarchy_path: r.hierarchy_path, display_text: r.name(locale) }.with_indifferent_access }
+                               .sort_by! { |l| l['display_text'] }
       hierarchy_set = hierarchy_filter.to_set if hierarchy_filter.present?
-      location_names = location_names.select{|l| l['hierarchy_path'].present? && (l['hierarchy_path'].to_set ^ hierarchy_set).length == 0} if hierarchy_filter.present?
+      if hierarchy_filter.present?
+        location_names = location_names.select { |l| l['hierarchy_path'].present? && (l['hierarchy_path'].to_set ^ hierarchy_set).empty? }
+      end
       # Now reduce the display text down to just the placename for display
-      location_names.each {|l| l['display_text'] = l['display_text'].split('::').last}
+      location_names.each { |l| l['display_text'] = l['display_text'].split('::').last }
       location_names
     end
 
@@ -125,26 +130,10 @@ class Location < ApplicationRecord
       end
     end
 
-    def display_text(location_code, opts={})
+    def display_text(location_code, opts = {})
       locale = opts[:locale].presence || I18n.locale
       lct = (location_code.present? ? Location.find_by(location_code: location_code) : '')
       lct.present? ? lct.name(locale) : ''
-    end
-
-    def get_reporting_location(location)
-      level = SystemSettings.current&.reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
-      if location.admin_level == level
-        location
-      else
-        location.ancestor_by_admin_level(level)
-      end
-    end
-
-    def all_names_reporting_locations(opts={})
-      admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
-      reporting_location_hierarchy_filter = SystemSettings.current.reporting_location_config.try(:hierarchy_filter) || nil
-      locale = opts[:locale] || I18n.locale
-      find_names_by_admin_level_enabled(admin_level, reporting_location_hierarchy_filter, locale: locale)
     end
 
     # This allows us to use the property 'type' on Location, normally reserved by ActiveRecord
@@ -185,7 +174,8 @@ class Location < ApplicationRecord
     end
 
     def reporting_locations_for_hierarchies(hierarchies)
-      admin_level = SystemSettings.current&.reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      admin_level = SystemSettings.current&.reporting_location_config&.admin_level ||
+                    ReportingLocation::DEFAULT_ADMIN_LEVEL
       Location.where('hierarchy_path @> ARRAY[:ltrees]::ltree[]', ltrees: hierarchies.compact.uniq)
               .where(admin_level: admin_level)
     end
@@ -193,16 +183,16 @@ class Location < ApplicationRecord
 
   def generate_hierarchy_placenames(locales)
     hierarchical_name = {}.with_indifferent_access
-    locales.each {|locale| hierarchical_name[locale] = []}
+    locales.each { |locale| hierarchical_name[locale] = [] }
     if hierarchy_path.present?
       locations = Location.fetch_by_location_codes(hierarchy_path.split('.')[0..-2])
       if locations.present?
         locations.each do |lct|
-          locales.each {|locale| hierarchical_name[locale] << lct.send("placename_#{locale}")}
+          locales.each { |locale| hierarchical_name[locale] << lct.send("placename_#{locale}") }
         end
       end
     end
-    locales.each {|locale| hierarchical_name[locale] << self.send("placename_#{locale}")}
+    locales.each { |locale| hierarchical_name[locale] << self.send("placename_#{locale}") }
     hierarchical_name
   end
 
@@ -239,11 +229,11 @@ class Location < ApplicationRecord
   end
 
   def ancestors
-    Location.where(location_code: self.hierarchy_path.split('.'))
+    Location.where(location_code: hierarchy_path.split('.'))
   end
 
   def ancestor_by_admin_level(admin_level)
-    Location.find_by(admin_level: admin_level, location_code: self.hierarchy_path.split('.'))
+    Location.find_by(admin_level: admin_level, location_code: hierarchy_path.split('.'))
   end
 
   def ancestor_by_type(type)
@@ -260,7 +250,7 @@ class Location < ApplicationRecord
   def set_hierarchy_from_parent(parent)
     self.hierarchy_path = parent&.hierarchy_path.present? ? "#{parent.hierarchy_path}." : ''
     # TODO: Use  self.location_code.underscore
-    self.hierarchy_path << location_code.to_s
+    hierarchy_path << location_code.to_s
   end
 
   def parent=(parent)
@@ -268,9 +258,9 @@ class Location < ApplicationRecord
   end
 
   def parent
-    if self.hierarchy_path.present?
+    if hierarchy_path.present?
       # TODO: use self.hierarchy_path.split('.')[-2].upcase.dasherize
-      @parent ||= Location.get_by_location_code(self.hierarchy_path.split('.')[-2])
+      @parent ||= Location.get_by_location_code(hierarchy_path.split('.')[-2])
     end
     @parent
   end

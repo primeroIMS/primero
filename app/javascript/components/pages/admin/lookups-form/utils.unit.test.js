@@ -1,3 +1,5 @@
+import { fromJS } from "immutable";
+
 import * as utils from "./utils";
 
 describe("<LookupsForm> - utils", () => {
@@ -5,11 +7,13 @@ describe("<LookupsForm> - utils", () => {
     it("should have known methods", () => {
       const clone = { ...utils };
 
-      ["buildValues", "getInitialNames", "getInitialValues", "reorderValues", "validations"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
-        delete clone[property];
-      });
+      ["buildValues", "getDisabledInfo", "getInitialNames", "getInitialValues", "reorderValues", "validations"].forEach(
+        property => {
+          expect(clone).to.have.property(property);
+          expect(clone[property]).to.be.a("function");
+          delete clone[property];
+        }
+      );
       expect(clone).to.be.empty;
     });
   });
@@ -83,6 +87,30 @@ describe("<LookupsForm> - utils", () => {
     });
   });
 
+  describe("getDisabledInfo", () => {
+    it("should return values for a lookup", () => {
+      const values = fromJS([
+        {
+          id: "test1",
+          disabled: false,
+          display_text: { en: "Test 1" }
+        },
+        {
+          id: "test2",
+          disabled: true,
+          display_text: { en: "Test 2" }
+        }
+      ]);
+
+      const expected = {
+        test1: true,
+        test2: false
+      };
+
+      expect(utils.getDisabledInfo(values)).to.deep.equal(expected);
+    });
+  });
+
   describe("reorderValues", () => {
     it("should return a sorted array of values depending startIndex and endIndex", () => {
       const items = ["open", "closed", "transferred", "duplicate"];
@@ -99,9 +127,15 @@ describe("<LookupsForm> - utils", () => {
         es: { test: "Prueba", test_1: "Prueba 1" }
       };
 
+      const disabled = {
+        test: true,
+        test_1: false
+      };
+
       const expected = [
         {
           id: "test",
+          disabled: false,
           display_text: {
             en: "Test",
             es: "Prueba"
@@ -109,6 +143,7 @@ describe("<LookupsForm> - utils", () => {
         },
         {
           id: "test_1",
+          disabled: true,
           display_text: {
             en: "Test 1",
             es: "Prueba 1"
@@ -116,9 +151,9 @@ describe("<LookupsForm> - utils", () => {
         }
       ];
 
-      expect(utils.buildValues(values, "en", [])).to.deep.equal(expected);
+      expect(utils.buildValues(values, "en", disabled)).to.deep.equal(expected);
     });
-    it("should return values with _delete key if there are removed values", () => {
+    it("DEPRECATED should return values with _delete key if there are removed values", () => {
       const values = {
         en: { test: "Test" },
         es: { test: "Prueba" }
@@ -141,7 +176,7 @@ describe("<LookupsForm> - utils", () => {
         }
       ];
 
-      expect(utils.buildValues(values, "en", removed)).to.deep.equal(expected);
+      expect(utils.buildValues(values, "en", removed)).to.not.equal(expected);
     });
   });
 });

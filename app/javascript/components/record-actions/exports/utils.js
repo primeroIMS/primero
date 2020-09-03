@@ -5,7 +5,7 @@ import uniq from "lodash/uniq";
 import { ACTIONS } from "../../../libs/permissions";
 import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR, SUBFORM_SECTION } from "../../record-form/constants";
 
-import { ALL_EXPORT_TYPES } from "./constants";
+import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";
 
 export const allowedExports = (userPermissions, i18n, isShowPage, recordType) => {
   const exportsTypes = [...ALL_EXPORT_TYPES];
@@ -38,7 +38,7 @@ export const allowedExports = (userPermissions, i18n, isShowPage, recordType) =>
     return allExports.filter(item => !item.showOnlyOnList);
   }
 
-  return allExports;
+  return allExports.filter(item => !item.hideOnShowPage);
 };
 
 export const formatFileName = (filename, extension) => {
@@ -120,7 +120,8 @@ export const buildFields = (data, locale) => {
                   display_text: subformField.display_name[locale],
                   formSectionId: subFormSection.unique_id,
                   formSectionName: subFormSection.name[locale],
-                  type: SUBFORM_SECTION
+                  type: SUBFORM_SECTION,
+                  visible: subFormSection.visible
                 };
               });
 
@@ -131,7 +132,8 @@ export const buildFields = (data, locale) => {
             id: `${unique_id}:${field.name}`,
             display_text: field.display_name[locale],
             formSectionId: unique_id,
-            formSectionName: name[locale]
+            formSectionName: name[locale],
+            visible: field.visible
           };
         });
 
@@ -140,4 +142,27 @@ export const buildFields = (data, locale) => {
     .flat();
 };
 
+export const isCustomExport = type => type === EXPORT_FORMAT.CUSTOM;
+
+export const isPdfExport = type => type === EXPORT_FORMAT.PDF;
+
 export const formatFields = fields => uniq(fields.map(field => field.split(":")[1]));
+
+export const exportFormsOptions = (type, fields, forms, locale) => {
+  if (isCustomExport(type)) {
+    return fields
+      .filter(field => field?.type !== SUBFORM_SECTION && field.visible)
+      .map(field => ({
+        id: field.formSectionId,
+        display_text: field.formSectionName
+      }));
+  }
+
+  return forms
+    .filter(form => !(form.visible && form.is_nested))
+    .map(form => ({
+      id: form.unique_id,
+      display_text: form.name[locale]
+    }))
+    .toJS();
+};

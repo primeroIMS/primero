@@ -35,6 +35,7 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
     type,
     help_text: helpText,
     display_name: displayName,
+    tick_box_label: tickBoxlabel,
     disabled,
     required,
     selected_value: selectedValue,
@@ -67,6 +68,7 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
       }
     },
     label: displayName[i18n.locale],
+    tickBoxlabel: tickBoxlabel?.[i18n.locale],
     helperText: helpText ? helpText[i18n.locale] : "",
     disabled: mode.isShow || disabled,
     checked: ["t", "true"].includes(selectedValue),

@@ -24,7 +24,8 @@ describe("<AdminNav />", () => {
           systems: ["manage"],
           tracing_requests: ["manage"],
           user_groups: ["manage"],
-          users: ["manage"]
+          users: ["manage"],
+          primero_configurations: ["manage"]
         }
       }
     });
@@ -71,7 +72,7 @@ describe("<AdminNav />", () => {
       const menus = component.find(AdminNavItem);
       const formsMenu = menus.at(0);
 
-      expect(menus).to.have.lengthOf(5);
+      expect(menus).to.have.lengthOf(4);
       expect(formsMenu.props().open).to.be.true;
     });
   });

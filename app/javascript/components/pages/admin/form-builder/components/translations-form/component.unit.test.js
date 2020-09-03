@@ -28,7 +28,7 @@ describe("<TranslationsForm />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(TranslationsForm, {}, {}, initialState));
+    ({ component } = setupMockFormComponent(TranslationsForm, {}, {}, initialState, {}, true));
   });
 
   it("should render <TranslationsForm />", () => {

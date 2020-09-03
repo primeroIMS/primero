@@ -1,54 +1,37 @@
 /* eslint-disable react/display-name,  react/no-multi-comp */
-import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
+import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { makeStyles, Tab, Tabs } from "@material-ui/core";
 import { FormContext, useForm } from "react-hook-form";
 import { push } from "connected-react-router";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import get from "lodash/get";
 
-import { selectDialog } from "../../../record-actions/selectors";
-import { setDialog } from "../../../record-actions/action-creators";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
-import FormSection from "../../../form/components/form-section";
-import { getLookupByUniqueId } from "../../../form/selectors";
-import { SUBFORM_SECTION, submitHandler, whichFormMode } from "../../../form";
+import { submitHandler, whichFormMode } from "../../../form";
 import { ROUTES, SAVE_METHODS, MODES } from "../../../../config";
-import { compare, dataToJS, getObjectPath } from "../../../../libs";
+import { compare, dataToJS } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
 
-import {
-  CustomFieldDialog,
-  FieldDialog,
-  FieldsList,
-  FieldTranslationsDialog,
-  FormBuilderActionButtons,
-  FormTranslationsDialog,
-  TabPanel,
-  TranslationsForm
-} from "./components";
-import { NAME as FieldTranslationsDialogName } from "./components/field-translations-dialog";
+import { FormBuilderActionButtons, TranslationsTab, SettingsTab, FieldsTab } from "./components";
 import { localesToRender } from "./components/utils";
-import { NAME as FormTranslationsDialogName } from "./components/form-translations-dialog/constants";
 import {
   clearSelectedForm,
   clearSubforms,
   fetchForm,
   saveForm,
   saveSubforms,
-  updateFieldTranslations,
-  updateSelectedSubform
+  updateFieldTranslations
 } from "./action-creators";
-import { settingsForm, validationSchema } from "./forms";
+import { validationSchema } from "./forms";
 import { NAME, NEW_FIELD } from "./constants";
 import {
-  getSavingRecord,
   getSelectedField,
   getSelectedForm,
   getSelectedSubforms,
@@ -56,7 +39,6 @@ import {
   getUpdatedFormIds
 } from "./selectors";
 import {
-  buildFormGroupUniqueId,
   convertToFieldsArray,
   convertToFieldsObject,
   getFieldsTranslations,
@@ -64,7 +46,6 @@ import {
   mergeTranslations
 } from "./utils";
 import styles from "./styles.css";
-import { transformValues } from "./components/field-dialog/utils";
 
 const Component = ({ mode }) => {
   const css = makeStyles(styles)();
@@ -75,28 +56,24 @@ const Component = ({ mode }) => {
   const i18n = useI18n();
   const selectedLocaleId = localesToRender(i18n)?.first()?.get("id");
   const [tab, setTab] = useState(0);
-  const saving = useSelector(state => getSavingRecord(state), compare);
+  const [moduleId, setModuleId] = useState("");
+  const [parentForm, setParentForm] = useState("");
   const errors = useSelector(state => getServerErrors(state), compare);
   const updatedFormIds = useSelector(state => getUpdatedFormIds(state), compare);
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
   const selectedField = useSelector(state => getSelectedField(state), compare);
   const selectedSubforms = useSelector(state => getSelectedSubforms(state), compare);
-  const openFieldTranslationsDialog = useSelector(state => selectDialog(state, FieldTranslationsDialogName));
   const isLoading = useSelector(state => getIsLoading(state));
   const methods = useForm({
     validationSchema: validationSchema(i18n),
     defaultValues: {}
   });
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const parentForm = methods.watch("parent_form");
-  const moduleIds = methods.watch("module_ids", []);
-  const formGroupLookup = useSelector(
-    state => getLookupByUniqueId(state, buildFormGroupUniqueId(moduleIds[0], parentForm)),
-    compare
-  );
 
   const handleChange = (event, selectedTab) => {
-    setTab(selectedTab);
+    if (selectedTab !== tab) {
+      setTab(selectedTab);
+    }
   };
 
   const handleCancel = () => {
@@ -126,65 +103,13 @@ const Component = ({ mode }) => {
     }
   };
 
-  const onManageTranslation = () => {
-    dispatch(setDialog({ dialog: FormTranslationsDialogName, open: true }));
-  };
+  const pageTitle = formMode.get("isNew")
+    ? i18n.t("forms.add")
+    : selectedForm.getIn(["name", i18n.locale], i18n.t("forms.label"));
 
-  const onUpdateTranslation = data => {
-    getObjectPath("", data).forEach(path => {
-      if (!methods.control.fields[path]) {
-        methods.register({ name: path });
-      }
+  const hasData = formMode.get("isNew") || Boolean(formMode.get("isEdit") && selectedForm?.toSeq()?.size);
 
-      const value = get(data, path);
-
-      methods.setValue(`translations.${path}`, value);
-      methods.setValue(path, value);
-    });
-  };
-
-  const onUpdateFieldTranslations = data => {
-    if (selectedField.get("type") !== SUBFORM_SECTION) {
-      getObjectPath("", data).forEach(path => {
-        const name = `fields.${path}`;
-
-        if (!methods.control.fields[path]) {
-          methods.register({ name });
-        }
-
-        methods.setValue(name, get(data, path));
-      });
-    } else {
-      const fieldData = { [selectedField.get("name")]: { display_name: data.subform_section.name } };
-
-      getObjectPath("", fieldData).forEach(path => {
-        methods.setValue(`fields.${path}`, get(fieldData, path));
-      });
-
-      dispatch(updateSelectedSubform(data.subform_section));
-    }
-  };
-
-  const onEnglishTextChange = event => {
-    const { name, value } = event.target;
-
-    methods.setValue(`translations.${name}`, value);
-  };
-
-  const renderTranlationsDialog = () => {
-    const openDialog = tab === 2 && selectedField?.toSeq()?.size && openFieldTranslationsDialog;
-    const { fields } = methods.getValues({ nest: true });
-
-    return openDialog ? (
-      <FieldTranslationsDialog
-        mode={mode}
-        open={openDialog}
-        field={selectedField}
-        currentValues={fields}
-        onSuccess={onUpdateFieldTranslations}
-      />
-    ) : null;
-  };
+  const loading = isLoading || !selectedForm?.toSeq()?.size;
 
   useEffect(() => {
     if (errors?.size) {
@@ -200,25 +125,6 @@ const Component = ({ mode }) => {
           }
         }
       });
-    }
-    if (saving && (errors?.size || updatedFormIds?.size)) {
-      const successful = !errors?.size && updatedFormIds?.size;
-      const message = successful ? i18n.t("forms.messages.save_success") : i18n.t("forms.messages.save_with_errors");
-
-      dispatch({
-        type: ENQUEUE_SNACKBAR,
-        payload: {
-          message,
-          options: {
-            variant: successful ? "success" : "error",
-            key: generate.messageKey(message)
-          }
-        }
-      });
-
-      if (formMode.get("isNew")) {
-        dispatch(push(`${ROUTES.forms}/${updatedFormIds.first()}/edit`));
-      }
     }
   }, [updatedFormIds, errors]);
 
@@ -257,13 +163,30 @@ const Component = ({ mode }) => {
             fields: getFieldsTranslations(fieldTree)
           }
         });
+
+        setModuleId(selectedForm.get("module_ids", fromJS([])).first());
+        setParentForm(selectedForm.get("parent_form"));
       }
     }
   }, [selectedForm]);
 
   useEffect(() => {
+    const currentValues = methods.getValues({ nest: true });
+
     if (tab === 1) {
-      dispatch(updateFieldTranslations(methods.getValues({ nest: true }).fields));
+      dispatch(updateFieldTranslations(currentValues.fields || {}));
+    }
+
+    if (tab === 2) {
+      const moduleIds = currentValues.module_ids;
+
+      if (moduleIds && moduleIds[0] !== moduleId) {
+        setModuleId(moduleIds[0]);
+      }
+
+      if (parentForm !== currentValues.parentForm) {
+        setParentForm(currentValues.parent_form);
+      }
     }
   }, [tab]);
 
@@ -279,43 +202,14 @@ const Component = ({ mode }) => {
     })
   );
 
-  const onSuccess = data => {
-    Object.entries(data).forEach(([fieldName, fieldData]) => {
-      const transformedFieldValues = transformValues(fieldData, true);
-
-      getObjectPath("", transformedFieldValues).forEach(path => {
-        const isDisabledProp = path.endsWith("disabled");
-        const value = get(transformedFieldValues, path);
-        const fieldFullPath = `fields.${fieldName}.${path}`;
-
-        if (!methods.control.fields[fieldFullPath] && path !== "display_name.en") {
-          methods.register({ name: fieldFullPath });
-        }
-
-        methods.setValue(fieldFullPath, isDisabledProp ? !value : value);
-      });
-    });
-  };
-
-  const translationsNote = () => (
-    <p className={css.translationsNote}>
-      <strong>{i18n.t("forms.translations.note")}</strong> {i18n.t("forms.translations.note_form_group")}{" "}
-      <Link to={`/admin/lookups/${formGroupLookup?.get("id")}/edit`}>
-        {i18n.t("forms.translations.edit_form_group")}
-      </Link>
-    </p>
-  );
-
-  const hasData = formMode.get("isNew") || Boolean(formMode.get("isEdit") && selectedForm?.toSeq()?.size);
-  const loading = isLoading || !selectedForm?.toSeq()?.size;
+  const memoizedSetValue = useCallback((path, value) => methods.setValue(path, value), []);
+  const memoizedRegister = useCallback(prop => methods.register(prop), []);
+  const memoizedGetValues = useCallback(prop => methods.getValues(prop), []);
+  const formContextFields = methods.control.fields;
 
   return (
     <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
-      <PageHeading
-        title={
-          formMode.get("isNew") ? i18n.t("forms.add") : selectedForm.getIn(["name", i18n.locale], i18n.t("forms.label"))
-        }
-      >
+      <PageHeading title={pageTitle}>
         <FormBuilderActionButtons formMode={formMode} formRef={formRef} handleCancel={handleCancel} />
       </PageHeading>
       <PageContent>
@@ -330,35 +224,36 @@ const Component = ({ mode }) => {
                 disabled={formMode.get("isNew")}
               />
             </Tabs>
-            <TabPanel tab={tab} index={0}>
-              <div className={css.tabContent}>
-                {settingsForm({ formMode, onManageTranslation, onEnglishTextChange, i18n }).map(formSection => (
-                  <FormSection formSection={formSection} key={formSection.unique_id} />
-                ))}
-              </div>
-              <FormTranslationsDialog
-                mode={mode}
-                formSection={selectedForm}
-                currentValues={methods.getValues({ nest: true })}
-                onSuccess={onUpdateTranslation}
-              />
-            </TabPanel>
-            <TabPanel tab={tab} index={1}>
-              <div className={css.tabFields}>
-                <h1 className={css.heading}>{i18n.t("forms.fields")}</h1>
-                <CustomFieldDialog />
-              </div>
-              <FieldsList />
-              <FieldDialog mode={modeForFieldDialog} onSuccess={onSuccess} />
-            </TabPanel>
-            <TabPanel tab={tab} index={2}>
-              <div className={css.tabTranslations}>
-                <h1 className={css.heading}>{i18n.t("forms.translations.title")}</h1>
-                {translationsNote()}
-                <TranslationsForm mode={mode} />
-                {renderTranlationsDialog()}
-              </div>
-            </TabPanel>
+            <SettingsTab
+              tab={tab}
+              index={0}
+              formContextFields={formContextFields}
+              getValues={memoizedGetValues}
+              mode={mode}
+              register={memoizedRegister}
+              setValue={memoizedSetValue}
+            />
+            <FieldsTab
+              tab={tab}
+              index={1}
+              fieldDialogMode={modeForFieldDialog}
+              formContextFields={formContextFields}
+              register={memoizedRegister}
+              getValues={memoizedGetValues}
+              setValue={memoizedSetValue}
+            />
+            <TranslationsTab
+              formContextFields={formContextFields}
+              getValues={memoizedGetValues}
+              mode={mode}
+              moduleId={moduleId}
+              parentForm={parentForm}
+              register={memoizedRegister}
+              selectedField={selectedField}
+              setValue={memoizedSetValue}
+              index={2}
+              tab={tab}
+            />
           </form>
         </FormContext>
       </PageContent>
@@ -367,6 +262,8 @@ const Component = ({ mode }) => {
 };
 
 Component.displayName = NAME;
+
+Component.whyDidYouRender = true;
 
 Component.propTypes = {
   mode: PropTypes.string.isRequired

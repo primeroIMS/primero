@@ -250,6 +250,7 @@ en:
     add_another_option: "Add another option"
     clear_default: "Clear default"
     select: "Select"
+    apply: "Apply"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -259,7 +260,7 @@ en:
   cases:
     label: "Cases"
     register_new_case: "New Case"
-    show_case: "Case ID %{short_id}"
+    show_case: "Case ID: %{short_id}"
     export: "Export"
     filter_by:
       open: "Open"
@@ -1181,6 +1182,26 @@ en:
       delete: "Delete"
     messages:
       confirmation: "Are you sure you want to delete this user group? Deletion can not be undone. Click OK to delete the user group."
+
+  configurations:
+    label: "Configurations"
+    label_new: "New Configuration"
+    label_edit: "Edit Configuration"
+    name: "Name"
+    explanation: "Clicking Save will create a record of all current configuration settings (example: Roles, Agencies, Forms) at this point in time. After you save, you can push these changes to another instance of Primero. If, in the future, you make configuration changes which you wish to undo, you can apply this Configuration record to restore all of the configuration changes you had at this point in time."
+    delete_label: "Are you sure you want to do this? This represents all of the settings from when this Configuration was created. You will not be able to go back and recover these settings once you delete this Configuration."
+    messages:
+      created: "Configuration was successfully created."
+      updated: "Configuration was successfully updated."
+      deleted: "Configuration was successfully deleted."
+    attributes:
+      name: "Name"
+      version: "Version"
+      description: "Description"
+      created_by: "Created By"
+      date_created: "Date Created"
+      last_applied_by: "Last Applied By"
+      last_applied_on: "Last Applied On"
 
   user_group:
     create: "Create User Group"
@@ -2555,6 +2576,8 @@ en:
     english_label: "English Text"
     translation_label: "Translation Text"
     language_label: "Language"
+    enabled_label: "Enabled?"
+    no_options: "This Lookup currently has no options."
     messages:
       cannot_create: "Lookup could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
@@ -3263,9 +3286,12 @@ en:
   exports:
     no_records: "No Records Available!"
     queueing: "Generating the export file%{file_name}"
+    exported: "Successfully generated the export file"
+    exported_error: "Error generating export file"
     go_to_exports: "Go to Exports page to download"
+    printed: "Printed: %{date}"
     pdf:
-      all: PDF
+      all: PDF (non-encrypted)
       one: PDF
       selected: Selected to PDF
     photowall:

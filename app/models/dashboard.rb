@@ -9,7 +9,6 @@ class Dashboard < ValueObject
   end
 
   DYNAMIC = %w[
-    dash_reporting_location
     dash_protection_concerns
     cases_by_task_overdue_assessment
     cases_by_task_overdue_case_plan
@@ -229,11 +228,11 @@ class Dashboard < ValueObject
     ].freeze
   )
 
-  def self.dash_reporting_location
+  def self.dash_reporting_location(role = nil)
     Dashboard.new(
       name: 'reporting_location',
       type: 'indicator',
-      indicators: Indicators::Case.reporting_location_indicators
+      indicators: Indicators::Case.reporting_location_indicators(role)
     )
   end
 end

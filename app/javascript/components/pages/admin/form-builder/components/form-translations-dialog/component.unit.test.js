@@ -15,13 +15,14 @@ describe("<FormTranslationsDialog />", () => {
           name: { en: "Form Section 1 " },
           description: { en: "Description 1 " }
         }),
-        currentValues: { name: {}, description: {} },
         mode: fromJS({ isEdit: true }),
         onClose: () => {},
         onSuccess: () => {}
       },
       {},
-      fromJS({})
+      fromJS({}),
+      {},
+      true
     ));
   });
 

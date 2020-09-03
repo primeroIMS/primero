@@ -63,8 +63,8 @@ describe Role do
             expect(@role.reporting_location_config.admin_level).to eq(1)
           end
 
-          it 'returns the reporting location label_key of the role' do
-            expect(@role.reporting_location_config.label_key).to eq(['region'])
+          it 'returns the reporting location label_keys of the role' do
+            expect(@role.reporting_location_config.label_keys).to eq(['region'])
           end
         end
       end
@@ -95,8 +95,8 @@ describe Role do
             expect(@role.reporting_location_config.admin_level).to eq(2)
           end
 
-          it 'returns the default reporting location label_key from SystemSettings' do
-            expect(@role.reporting_location_config.label_key).to eq(['district'])
+          it 'returns the default reporting location label_keys from SystemSettings' do
+            expect(@role.reporting_location_config.label_keys).to eq(['district'])
           end
         end
       end
@@ -500,7 +500,7 @@ describe Role do
         new_role = Role.create_or_update!(configuration_hash)
         expect(new_role.configuration_hash['unique_id']).to eq(configuration_hash['unique_id'])
         expect(new_role.configuration_hash['permissions']['case']).to eq(['read'])
-        expect(new_role.configuration_hash['form_section_unique_ids']).to eq(%w[A B])
+        expect(new_role.configuration_hash['form_section_unique_ids']).to contain_exactly('A', 'B')
         expect(new_role.configuration_hash['module_unique_ids']).to eq([module1.unique_id])
         expect(new_role.id).not_to eq(role.id)
       end

@@ -13,7 +13,16 @@ describe("<RecordActions /> - exports/utils", () => {
     it("should have known methods", () => {
       const clone = { ...utils };
 
-      ["allowedExports", "buildFields", "exporterFilters", "formatFields", "formatFileName"].forEach(property => {
+      [
+        "allowedExports",
+        "buildFields",
+        "exporterFilters",
+        "formatFields",
+        "formatFileName",
+        "isCustomExport",
+        "isPdfExport",
+        "exportFormsOptions"
+      ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
         delete clone[property];
@@ -30,14 +39,14 @@ describe("<RecordActions /> - exports/utils", () => {
     it("should return all export types if userPermission contains manage permission and recordType is cases", () => {
       const userPermission = fromJS(["manage"]);
 
-      const expected = ALL_EXPORT_TYPES.filter(exportType => exportType.recordTypes.includes(RECORD_PATH.cases)).map(
-        a => {
-          return {
-            ...a,
-            display_name: "test.label"
-          };
-        }
-      );
+      const expected = ALL_EXPORT_TYPES.filter(
+        exportType => exportType.recordTypes.includes(RECORD_PATH.cases) && !exportType.hideOnShowPage
+      ).map(a => {
+        return {
+          ...a,
+          display_name: "test.label"
+        };
+      });
 
       expect(utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)).to.deep.equal(expected);
     });
@@ -234,6 +243,24 @@ describe("<RecordActions /> - exports/utils", () => {
       const fields = ["form1:field1", "form2:field1", "form3:field10"];
 
       expect(utils.formatFields(fields)).to.be.deep.equals(["field1", "field10"]);
+    });
+  });
+
+  describe("isCustomExport", () => {
+    it("returns false if not custom export", () => {
+      expect(utils.isCustomExport("pdf")).to.be.false;
+    });
+    it("returns true if custom export", () => {
+      expect(utils.isCustomExport("custom")).to.be.true;
+    });
+  });
+
+  describe("isPdfExport", () => {
+    it("returns false if not pdf export", () => {
+      expect(utils.isPdfExport("custom")).to.be.false;
+    });
+    it("returns true if pdf export", () => {
+      expect(utils.isPdfExport("pdf")).to.be.true;
     });
   });
 });

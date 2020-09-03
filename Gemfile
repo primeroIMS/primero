@@ -4,9 +4,6 @@ source 'https://rubygems.org'
 ruby '2.6.6'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
-gem 'arabic-letter-connector',         # Arabic letter connector for PDF exports
-    git: 'https://github.com/Quoin/arabic-letter-connector',
-    branch: 'support-lam-alef-ligatures'
 gem 'azure-storage',       '0.15.0.preview',
     require: false                     # Deprecated MS interface for Azure Block Storage, compatible with Rails 5.2
 gem 'backburner',          '~> 1.5'    # Ruby client for the Beanstalkd queue

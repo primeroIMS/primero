@@ -16,6 +16,7 @@ export {
   selectModule,
   selectModules,
   selectUserIdle,
-  selectUserModules
+  selectUserModules,
+  getAgency
 } from "./selectors";
 export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";

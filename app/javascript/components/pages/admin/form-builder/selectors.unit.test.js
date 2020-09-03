@@ -7,6 +7,8 @@ describe("<FormsBuilder /> - Selectors", () => {
     const clonedSelectors = { ...selectors };
 
     [
+      "getFieldNames",
+      "getFormUniqueIds",
       "getSavingRecord",
       "getSelectedField",
       "getSelectedFields",
@@ -147,6 +149,46 @@ describe("<FormsBuilder /> - Selectors", () => {
 
     it("should return the correct value", () => {
       expect(selectors.getUpdatedFormIds(initialState)).to.deep.equal(updatedFormIds);
+    });
+  });
+
+  describe("getSelectedFormUniqueIds", () => {
+    const formUniqueIds = fromJS(["form_section_2", "form_section_3"]);
+
+    const initialState = fromJS({
+      records: {
+        admin: {
+          forms: {
+            formSections: { "1": { id: 1, unique_id: "form_section_2" } },
+            subforms: [{ unique_id: "form_section_3" }]
+          }
+        }
+      }
+    });
+
+    it("should return the correct value", () => {
+      expect(selectors.getFormUniqueIds(initialState)).to.deep.equal(formUniqueIds);
+    });
+  });
+
+  describe("getFieldNames", () => {
+    const fieldNames = fromJS(["field_1", "field_2", "field_3"]);
+
+    const initialState = fromJS({
+      records: {
+        admin: {
+          forms: {
+            formSections: { "1": { id: 1, unique_id: "form_section_2" } },
+            fields: { "1": { id: 1, name: "field_1" } },
+            selectedSubform: { unique_id: "form_section_3", fields: [{ name: "field_2" }] },
+            subforms: [{ unique_id: "form_section_3", fields: [{ name: "field_3" }] }]
+          }
+        }
+      }
+    });
+
+    it("should return all the field names", () => {
+      expect(selectors.getFieldNames(initialState)).to.deep.equal(fieldNames);
     });
   });
 });

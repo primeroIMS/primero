@@ -21,7 +21,8 @@ export const FieldRecord = Record({
   subform_sort_by: "",
   show_on_minify_form: false,
   order: null,
-  subform_section_configuration: null
+  subform_section_configuration: null,
+  tick_box_label: {}
 });
 
 export const FormSectionRecord = Record({

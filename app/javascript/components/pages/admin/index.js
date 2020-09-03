@@ -13,3 +13,5 @@ export { default as ContactInformation } from "./contact-information";
 export { default as FormsList } from "./forms-list";
 export { default as FormBuilder } from "./form-builder";
 export { default as AuditLogs } from "./audit-logs";
+export { default as ConfigurationsList } from "./configurations-list";
+export { default as ConfigurationsForm } from "./configurations-form";
