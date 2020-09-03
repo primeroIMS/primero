@@ -10,6 +10,7 @@ export const DISAGGREGATE_BY_FIELD = "disaggregate_by";
 export const GROUP_AGES_FIELD = "group_ages";
 export const GROUP_DATES_BY_FIELD = "group_dates_by";
 export const IS_GRAPH_FIELD = "graph";
+export const DISABLED_FIELD = "disabled";
 export const FILTERS_FIELD = "filters";
 export const REPORTABLE_TYPES = Object.freeze({
   case: "case",

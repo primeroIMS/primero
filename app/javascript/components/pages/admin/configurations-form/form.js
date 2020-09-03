@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { object, string } from "yup";
 
-import { FieldRecord, FormSectionRecord, TEXT_AREA, TEXT_FIELD } from "../../../form";
+import { FieldRecord, FormSectionRecord, DATE_FIELD, TEXT_AREA, TEXT_FIELD } from "../../../form";
 
 export const validations = () =>
   object().shape({
@@ -34,9 +34,10 @@ export const form = (i18n, isShow) => {
         }),
         FieldRecord({
           display_name: i18n.t("configurations.attributes.date_created"),
-          name: "date_created",
-          type: TEXT_FIELD,
-          visible: isShow
+          name: "created_on",
+          type: DATE_FIELD,
+          visible: isShow,
+          date_include_time: true
         }),
         FieldRecord({
           display_name: i18n.t("configurations.attributes.created_by"),

@@ -45,12 +45,12 @@ describe("<ConfigurationsForm />", () => {
       expect(component.find(Form)).to.have.lengthOf(1);
     });
 
-    it("should render 3 FormAction components", () => {
-      expect(component.find(FormAction)).to.have.lengthOf(3);
+    it("should render 2 FormAction components", () => {
+      expect(component.find(FormAction)).to.have.lengthOf(2);
     });
 
-    it("should render 7 TextInput components", () => {
-      expect(component.find(TextInput)).to.have.lengthOf(7);
+    it("should render 6 TextInput components", () => {
+      expect(component.find(TextInput)).to.have.lengthOf(6);
     });
 
     it("should render ActionDialog component", () => {
@@ -68,8 +68,8 @@ describe("<ConfigurationsForm />", () => {
       expect(component.find(Form)).to.have.lengthOf(1);
     });
 
-    it("should render 2 FormAction components", () => {
-      expect(component.find(FormAction)).to.have.lengthOf(2);
+    it("should render 1 FormAction components", () => {
+      expect(component.find(FormAction)).to.have.lengthOf(1);
     });
 
     it("should render 2 TextInput components", () => {

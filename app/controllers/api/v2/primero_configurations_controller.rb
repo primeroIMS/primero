@@ -7,7 +7,7 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   before_action { authorize! :manage, PrimeroConfiguration }
 
   def index
-    @configurations = PrimeroConfiguration.all.paginate(pagination)
+    @configurations = PrimeroConfiguration.all.order(sort_order).paginate(pagination)
     @total = @configurations.total_entries
   end
 
@@ -33,6 +33,10 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
 
   def model_class
     PrimeroConfiguration
+  end
+
+  def default_sort_field
+    'created_on'
   end
 
   protected

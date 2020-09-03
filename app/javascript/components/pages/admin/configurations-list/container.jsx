@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
-import IndexTable from "../../../index-table";
+import IndexTable, { DateCell } from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 import { MANAGE, RESOURCES } from "../../../../libs/permissions";
@@ -25,11 +25,32 @@ const Container = () => {
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultFilters = metadata;
 
+  const columns = () => {
+    return getColumns(i18n).map(column => {
+      const options = {
+        ...(column.name === "created_on"
+          ? {
+              // eslint-disable-next-line react/no-multi-comp, react/display-name
+              customBodyRender: value => {
+                return <DateCell value={value} withTime />;
+              }
+            }
+          : {})
+      };
+
+      return {
+        name: column.name,
+        label: column.label,
+        options
+      };
+    });
+  };
+
   useMetadata(recordType, metadata, fetchConfigurations, "data");
 
   const tableOptions = {
     recordType,
-    columns: getColumns(i18n),
+    columns,
     options: {
       selectableRows: "none"
     },

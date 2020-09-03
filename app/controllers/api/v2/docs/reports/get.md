@@ -41,6 +41,7 @@ therefore the report data is not available in the response.
             },
             "graph": true,
             "graph_type": "bar",
+            "disabled": false,
             "editable": false,
             "record_type": "case",
             "module_id": ["primeromodule-cp"],
