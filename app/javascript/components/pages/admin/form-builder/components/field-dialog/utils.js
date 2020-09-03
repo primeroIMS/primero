@@ -1,3 +1,5 @@
+import { fromJS } from "immutable";
+
 import { DATE_FIELD, RADIO_FIELD, SELECT_FIELD, SEPARATOR, SUBFORM_SECTION, TICK_FIELD } from "../../../../../form";
 import { NEW_FIELD } from "../../constants";
 import { convertToFieldsObject } from "../../utils";
@@ -147,33 +149,63 @@ export const setSubformData = (field, subform) => {
   return field;
 };
 
-export const buildDataToSave = (selectedField, data, locale, lastFieldOrder) => {
+export const toIdentifier = data => data.replace(/[^\w]/g, "_").toLowerCase();
+
+export const generateUniqueId = (data, existingIds = []) => {
+  const generatedId = toIdentifier(data);
+
+  if (!existingIds.includes(generatedId)) {
+    return generatedId;
+  }
+
+  const filterExp = new RegExp(`${generatedId}_[0-9]+$`);
+  const lastIncrement =
+    fromJS(existingIds)
+      .filter(id => id.match(filterExp)?.length)
+      .filter(id => id.match(/[0-9]+/)?.length)
+      .map(id => parseInt(id.match(/[0-9]+/)[0], 10))
+      .sort()
+      .last() || 0;
+
+  return `${generatedId}_${lastIncrement + 1}`;
+};
+
+export const buildDataToSave = (selectedField, data, locale, lastFieldOrder, randomSubformId, fieldNames) => {
   const fieldName = selectedField?.get("name");
   const newData = { ...data, disabled: selectedField?.get("type") === SEPARATOR ? true : data?.disabled };
 
   if (fieldName !== NEW_FIELD) {
     return { [fieldName]: newData };
   }
-  const newFieldName = newData.display_name[locale].replace(/[^\w]/g, "_").toLowerCase();
+  const newFieldName = generateUniqueId(newData.display_name.en, fieldNames);
 
   const dataToSave = appendSettingsAttributes(newData, selectedField, newFieldName, lastFieldOrder);
 
   return {
-    [newFieldName]: dataToSave
+    [newFieldName]:
+      isSubformField(selectedField) && fieldName === NEW_FIELD
+        ? {
+            ...dataToSave,
+            subform_section_temp_id: randomSubformId,
+            subform_section_unique_id: newFieldName
+          }
+        : dataToSave
   };
 };
 
-export const subformContainsFieldName = (subform, fieldName) => {
+export const subformContainsFieldName = (subform, fieldName, selectedSubformField = fromJS({})) => {
+  if (selectedSubformField.size > 0) {
+    return true;
+  }
+
   if (!subform?.toSeq()?.size) {
     return false;
   }
 
-  return (
-    Boolean(
-      subform
-        ?.get("fields")
-        .find(field => field.get("name") === fieldName)
-        ?.toSeq()?.size
-    ) || fieldName === NEW_FIELD
+  return Boolean(
+    subform
+      ?.get("fields")
+      ?.find(field => field.get("name") === fieldName)
+      ?.toSeq()?.size
   );
 };

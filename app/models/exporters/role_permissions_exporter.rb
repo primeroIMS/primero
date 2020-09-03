@@ -10,7 +10,7 @@ module Exporters
       change_log
     ].freeze
     CASE_EXPORTS = %w[
-      export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv export_case_pdf consent_override
+      export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv export_pdf consent_override
       export_duplicate_id_csv export_json export_custom import sync_mobile
     ].freeze
     CASE_APPROVALS = %w[
@@ -175,7 +175,7 @@ module Exporters
 
     def write_out_permitted_form(form)
       forms_permitted_array = @roles.map do |r|
-        permitted = (r.has_permitted_form_id? form.unique_id) || r.form_sections.size.zero?
+        permitted = (r.permitted_form_id? form.unique_id) || r.form_sections.size.zero?
         get_check permitted
       end
       form_row = ['', form.send("name_#{@locale}")] + forms_permitted_array

@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name, react/no-multi-comp */
+
 import React, { useEffect, useImperativeHandle, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
@@ -7,8 +9,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import { fromJS } from "immutable";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
+import AddIcon from "@material-ui/icons/Add";
 
-import { buildValues, getInitialValues, getInitialNames, reorderValues, validations } from "../../utils";
+import {
+  buildValues,
+  getInitialValues,
+  getInitialNames,
+  reorderValues,
+  validations,
+  getDisabledInfo
+} from "../../utils";
 import { FieldRecord, TEXT_FIELD, SELECT_FIELD, whichFormMode } from "../../../../../form";
 import FormSectionField from "../../../../../form/components/form-section-field";
 import { useI18n } from "../../../../../i18n";
@@ -19,8 +29,10 @@ import DraggableRow from "../draggable-row";
 import styles from "../styles.css";
 import { saveLookup } from "../../action-creators";
 import { SAVE_METHODS } from "../../../../../../config";
+import ActionButton from "../../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
-import { NAME } from "./constants";
+import { NAME, TEMP_OPTION_ID } from "./constants";
 
 const Component = ({ formRef, mode, lookup }) => {
   const { id } = useParams();
@@ -33,31 +45,32 @@ const Component = ({ formRef, mode, lookup }) => {
   const firstLocaleOption = locales?.[0];
   const defaultLocale = firstLocaleOption?.id;
   const validationsSchema = validations(i18n);
+  const currentLookupValues = lookup.get(LOOKUP_VALUES, fromJS([]));
 
   const formMethods = useForm({
     ...(validationsSchema && { validationSchema: validationsSchema })
   });
   const watchedOption = formMethods.watch("options");
   const selectedOption = watchedOption?.id || watchedOption;
-  const keys = [...lookup.get(LOOKUP_VALUES, fromJS([])).map(t => t.get("id"))];
+  const keys = [...currentLookupValues.map(t => t.get("id"))];
   const [items, setItems] = useState(keys);
-  const [removed, setRemoved] = useState([]);
 
-  const values = getInitialValues(localesKeys, dataToJS(lookup.get(LOOKUP_VALUES, fromJS([]))));
+  const values = getInitialValues(localesKeys, dataToJS(currentLookupValues));
 
   const defaultValues = {
     name: getInitialNames(localesKeys, dataToJS(lookup.get(LOOKUP_NAME))),
     options: firstLocaleOption,
+    disabled: getDisabledInfo(currentLookupValues),
     values
   };
 
   const onSubmit = data => {
-    const { name, values: lookupValues } = data;
+    const { name, values: lookupValues, disabled } = data;
 
     const body = {
       data: {
         name,
-        values: buildValues(lookupValues, i18n.locale, removed)
+        values: buildValues(lookupValues, i18n.locale, disabled)
       }
     };
 
@@ -90,11 +103,6 @@ const Component = ({ formRef, mode, lookup }) => {
     background: isDraggingOver ? "transparent" : "ligthblue"
   });
 
-  const onRemoveValue = item => {
-    setRemoved([...removed, item]);
-    setItems([...items.filter(key => key !== item)]);
-  };
-
   const onDragEnd = result => {
     const { source, destination } = result;
 
@@ -111,6 +119,8 @@ const Component = ({ formRef, mode, lookup }) => {
 
     formMethods.reset({ ...newValues, ...{ values } });
   };
+
+  const handleAdd = () => setItems([...items, `${TEMP_OPTION_ID}_${items.length}`]);
 
   const renderLookupLocalizedName = () =>
     locales.length &&
@@ -133,22 +143,62 @@ const Component = ({ formRef, mode, lookup }) => {
     });
 
   const renderLookupsValues = () => {
-    return items
-      .filter(item => !removed.includes(item))
-      .map((item, index) => {
-        return (
-          <DraggableRow
-            key={item}
-            firstLocaleOption={defaultLocale}
-            index={index}
-            isDragDisabled={!formMode.get("isEdit")}
-            localesKeys={localesKeys}
-            onRemoveClick={onRemoveValue}
-            selectedOption={selectedOption}
-            uniqueId={item}
-          />
-        );
-      });
+    return items.map((item, index) => {
+      return (
+        <DraggableRow
+          key={item}
+          firstLocaleOption={defaultLocale}
+          index={index}
+          isDragDisabled={!formMode.get("isEdit")}
+          localesKeys={localesKeys}
+          selectedOption={selectedOption}
+          uniqueId={item}
+        />
+      );
+    });
+  };
+
+  const renderOptions = () => {
+    const renderOptionText = (
+      <span className={css.optionsLabel}>
+        {formMode.get("isNew") && items.length <= 0 ? i18n.t("lookup.no_options") : i18n.t("lookup.values")}
+      </span>
+    );
+    const renderAddButton = !formMode.get("isShow") && (
+      <ActionButton
+        icon={<AddIcon />}
+        text={i18n.t("fields.add")}
+        type={ACTION_BUTTON_TYPES.default}
+        rest={{
+          onClick: handleAdd
+        }}
+      />
+    );
+    const renderValues = items.length > 0 && (
+      <Grid item xs={12} className={formMode.get("isShow") ? css.showColor : ""}>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppableLookup" type="lookupGroup">
+            {(provided, snapshot) => (
+              <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
+                <HeaderValues hideTranslationColumn={defaultLocale === selectedOption} />
+                {renderLookupsValues()}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </Grid>
+    );
+
+    return (
+      <Grid container spacing={1}>
+        <div className={css.optionsContainer}>
+          {renderOptionText}
+          {renderAddButton}
+        </div>
+        {renderValues}
+      </Grid>
+    );
   };
 
   return (
@@ -165,26 +215,7 @@ const Component = ({ formRef, mode, lookup }) => {
           })}
         />
         {renderLookupLocalizedName()}
-        <Grid container spacing={1}>
-          <span className={css.optionsLabel}>{i18n.t("lookup.values")}</span>
-          <Grid item xs={12} className={formMode.get("isShow") ? css.showColor : ""}>
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="droppableLookup" type="lookupGroup">
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={getListStyle(snapshot.isDraggingOver)}
-                  >
-                    <HeaderValues hideTranslationColumn={defaultLocale === selectedOption} />
-                    {renderLookupsValues()}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          </Grid>
-        </Grid>
+        {renderOptions()}
       </form>
     </FormContext>
   );

@@ -5,7 +5,7 @@ import { NEW_FIELD } from "../../constants";
 
 import * as utils from "./utils";
 
-describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - index", () => {
+describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - utils", () => {
   const formMode = fromJS({
     isNew: false,
     isEdit: true
@@ -200,6 +200,10 @@ describe("subformContainsFieldName", () => {
     fields: [{ id: 1, name: "field_1" }]
   });
 
+  const subformField = fromJS({
+    name: "subform_field_2"
+  });
+
   it("return false if the subform does not have the field name", () => {
     expect(utils.subformContainsFieldName(subform, "field_2")).to.be.false;
   });
@@ -209,6 +213,29 @@ describe("subformContainsFieldName", () => {
   });
 
   it("return true if the subform field is new", () => {
-    expect(utils.subformContainsFieldName(subform, NEW_FIELD)).to.be.true;
+    expect(utils.subformContainsFieldName(subform, NEW_FIELD, subformField)).to.be.true;
+  });
+});
+
+describe("generateUniqueId", () => {
+  it("returns an id without numbers if the id is not duplicated ", () => {
+    const existingIds = ["new_field", "other_field"];
+    const data = "a new field";
+
+    expect(utils.generateUniqueId(data, existingIds)).to.equal("a_new_field");
+  });
+
+  it("returns the first id with number if the id is duplicated ", () => {
+    const existingIds = ["new_field", "other_field"];
+    const data = "new field";
+
+    expect(utils.generateUniqueId(data, existingIds)).to.equal("new_field_1");
+  });
+
+  it("returns the next id with number if the id was duplicated several times", () => {
+    const existingIds = fromJS(["new_field", "new_field_1", "new_field_2"]);
+    const data = "new field";
+
+    expect(utils.generateUniqueId(data, existingIds)).to.equal("new_field_3");
   });
 });

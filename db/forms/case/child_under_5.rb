@@ -68,7 +68,7 @@ child_under_5_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "child_under_5",
   parent_form: "case",
   visible: true,

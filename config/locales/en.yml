@@ -101,7 +101,7 @@ en:
     cannot_edit: "You cannot edit this"
     field_name_on_form_name: "'%{field_name}' field on '%{form_name}' form."
     subform_section:
-      status: 
+      status:
         error: "Error"
 
   data_base:
@@ -171,11 +171,12 @@ en:
       matching: "Matching"
       users: "Users"
       user_groups: "User Groups"
-      forms: "Form"
+      forms: "Forms"
       lookups: "Lookups"
       locations: "Locations"
       audit_logs: "Audit Logs"
       contact_information: "Contact Information"
+      configurations: "Configurations"
 
   buttons:
     download: "Download"
@@ -249,6 +250,7 @@ en:
     add_another_option: "Add another option"
     clear_default: "Clear default"
     select: "Select"
+    apply: "Apply"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -258,7 +260,7 @@ en:
   cases:
     label: "Cases"
     register_new_case: "New Case"
-    show_case: "Case ID %{short_id}"
+    show_case: "Case ID: %{short_id}"
     export: "Export"
     filter_by:
       open: "Open"
@@ -1055,6 +1057,7 @@ en:
     transfer_label: "Can this role be used for Transfers?"
     referral_label: "Can this role be used for Referrals?"
     group_permission_label: "What records does this role affect?"
+    reporting_location_level_label: "What location type should be used for reporting for this role?"
     role_ids_label: "Others roles managed by this role"
     agency_ids_label: "Agencies managed by this role"
     manager: "Manager"
@@ -1180,6 +1183,26 @@ en:
       delete: "Delete"
     messages:
       confirmation: "Are you sure you want to delete this user group? Deletion can not be undone. Click OK to delete the user group."
+
+  configurations:
+    label: "Configurations"
+    label_new: "New Configuration"
+    label_edit: "Edit Configuration"
+    name: "Name"
+    explanation: "Clicking Save will create a record of all current configuration settings (example: Roles, Agencies, Forms) at this point in time. After you save, you can push these changes to another instance of Primero. If, in the future, you make configuration changes which you wish to undo, you can apply this Configuration record to restore all of the configuration changes you had at this point in time."
+    delete_label: "Are you sure you want to do this? This represents all of the settings from when this Configuration was created. You will not be able to go back and recover these settings once you delete this Configuration."
+    messages:
+      created: "Configuration was successfully created."
+      updated: "Configuration was successfully updated."
+      deleted: "Configuration was successfully deleted."
+    attributes:
+      name: "Name"
+      version: "Version"
+      description: "Description"
+      created_by: "Created By"
+      date_created: "Date Created"
+      last_applied_by: "Last Applied By"
+      last_applied_on: "Last Applied On"
 
   user_group:
     create: "Create User Group"
@@ -2095,6 +2118,11 @@ en:
               information contained in the fields on that form. If the current user has limited form access and has the
               ability to manage the form configuration, limiting their form access also limits which forms they can configure.
               NOTE: If no forms are specified, it means the role has access to all the forms for cases."
+      reporting_location_level:
+        label: "What location type should be used for reporting for this role?"
+        explanation: "This will control what level of locations appear for this Role in the dashboards, filters,
+              referral modals, and transfer modals. If you leave this field blank, this Role will see the system’s
+              default Reporting Location level.  Enter the number assocaited with the desired level as follows:"
 
     permission:
       read: "Read"
@@ -2233,11 +2261,16 @@ en:
     module: "Module"
     settings: "Settings"
     fields: "Fields"
+    manage: "Manage"
     translations:
       title: "Translations"
       manage: "Manage translations"
       edit: "Edit translations"
       select_language: "Select language"
+      note: "Note:"
+      note_form_group:  "To add translations for the Form Group, you need to edit the Form Group lookup translations."
+      edit_form_group: "Edit Form Group lookup."
+      no_changes_message: "You made no translation changes"
     visibility: "Visibility"
     web_app: "Web App"
     mobile_app: "Mobile App"
@@ -2278,6 +2311,7 @@ en:
     subform_need_to_be_added: "They need to be added."
     form_title: "Form title"
     form_description: "Description"
+    no_subform_filters_added: "This Subform currently has no fields."
 
   form_section:
     name: "Name"
@@ -2505,6 +2539,7 @@ en:
       subform_append_only: "Selective Syncing on Mobile"
       subform_prevent_item_removal: "Prevent subform entry removal?"
       starts_with_one_entry: "Start with one subform entry?"
+    detail: "Detail"
 
   replication:
     label: Replication
@@ -2542,6 +2577,8 @@ en:
     english_label: "English Text"
     translation_label: "Translation Text"
     language_label: "Language"
+    enabled_label: "Enabled?"
+    no_options: "This Lookup currently has no options."
     messages:
       cannot_create: "Lookup could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
@@ -3072,11 +3109,7 @@ en:
         unique_name_this: "Field already exists on this form"
         change_type_existing_field: "Can't change type of existing field '%{field_name}' on form '%{form_name}'"
         option_strings_text:
-          not_array: "Option Strings Text is not an array"
-          not_hash: "Option Strings Text option is not a hash"
-          id_blank: "Option Strings Text option id is blank"
-          display_text_blank: "Option Strings Text option display text is blank"
-          id_not_unique: "Option Strings Text option id is not unique"
+          not_hash: "Option Strings Text option is not a in a valid format"
 
       form_section:
         presence_of_name: "Name must not be blank"
@@ -3095,6 +3128,7 @@ en:
         name_present: "Name must not be blank"
         permission_presence: "Please select at least one permission"
         unique_name: "A role with that name already exists, please enter a different name"
+        reporting_location_level: "Location Level must be one of ReportingLocation Level values"
 
         permission:
           resource_presence: "Please select a resource"
@@ -3116,6 +3150,7 @@ en:
         value_presence: "Please select at least one lookup value"
         unique_name: "A lookup with that name already exists, please enter a different name"
         being_used: "This lookup is being used and cannot be deleted"
+        values_ids_blank: "A lookup_value id is blank"
 
       system_users:
         username_unique: "User name has already been taken! Please select a new User name"
@@ -3252,9 +3287,12 @@ en:
   exports:
     no_records: "No Records Available!"
     queueing: "Generating the export file%{file_name}"
+    exported: "Successfully generated the export file"
+    exported_error: "Error generating export file"
     go_to_exports: "Go to Exports page to download"
+    printed: "Printed: %{date}"
     pdf:
-      all: PDF
+      all: PDF (non-encrypted)
       one: PDF
       selected: Selected to PDF
     photowall:

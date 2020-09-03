@@ -22,7 +22,7 @@ describe("<FieldsList />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(FieldsList, {}, {}, initialState));
+    ({ component } = setupMockFormComponent(FieldsList, { formContextFields: {} }, {}, initialState, {}, true));
   });
 
   it("should render the list items", () => {

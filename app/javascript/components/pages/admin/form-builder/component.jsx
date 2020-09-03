@@ -1,4 +1,6 @@
-import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
+/* eslint-disable react/display-name,  react/no-multi-comp */
+import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { makeStyles, Tab, Tabs } from "@material-ui/core";
 import { FormContext, useForm } from "react-hook-form";
@@ -6,42 +8,44 @@ import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { setDialog } from "../../../record-actions/action-creators";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
-import FormSection from "../../../form/components/form-section";
 import { submitHandler, whichFormMode } from "../../../form";
 import { ROUTES, SAVE_METHODS, MODES } from "../../../../config";
-import { compare } from "../../../../libs";
+import { compare, dataToJS } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
 
+import { FormBuilderActionButtons, TranslationsTab, SettingsTab, FieldsTab } from "./components";
+import { localesToRender } from "./components/utils";
 import {
-  CustomFieldDialog,
-  FieldDialog,
-  FieldsList,
-  FormBuilderActionButtons,
-  FormTranslationsDialog,
-  TabPanel
-} from "./components";
-import { NAME as FormTranslationsDialogName } from "./components/form-translations-dialog/constants";
-import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
-import { settingsForm, validationSchema } from "./forms";
+  clearSelectedForm,
+  clearSubforms,
+  fetchForm,
+  saveForm,
+  saveSubforms,
+  updateFieldTranslations
+} from "./action-creators";
+import { validationSchema } from "./forms";
 import { NAME, NEW_FIELD } from "./constants";
 import {
-  getSavingRecord,
   getSelectedField,
   getSelectedForm,
   getSelectedSubforms,
   getServerErrors,
   getUpdatedFormIds
 } from "./selectors";
-import { convertToFieldsArray, convertToFieldsObject } from "./utils";
+import {
+  convertToFieldsArray,
+  convertToFieldsObject,
+  getFieldsTranslations,
+  getSubformErrorMessages,
+  mergeTranslations
+} from "./utils";
 import styles from "./styles.css";
-import { transformValues } from "./components/field-dialog/utils";
 
 const Component = ({ mode }) => {
   const css = makeStyles(styles)();
@@ -50,8 +54,10 @@ const Component = ({ mode }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const i18n = useI18n();
+  const selectedLocaleId = localesToRender(i18n)?.first()?.get("id");
   const [tab, setTab] = useState(0);
-  const saving = useSelector(state => getSavingRecord(state), compare);
+  const [moduleId, setModuleId] = useState("");
+  const [parentForm, setParentForm] = useState("");
   const errors = useSelector(state => getServerErrors(state), compare);
   const updatedFormIds = useSelector(state => getUpdatedFormIds(state), compare);
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
@@ -65,7 +71,9 @@ const Component = ({ mode }) => {
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
   const handleChange = (event, selectedTab) => {
-    setTab(selectedTab);
+    if (selectedTab !== tab) {
+      setTab(selectedTab);
+    }
   };
 
   const handleCancel = () => {
@@ -75,57 +83,50 @@ const Component = ({ mode }) => {
   const modeForFieldDialog = selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
 
   const onSubmit = data => {
-    dispatch(
-      saveForm({
-        id,
-        saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
-        body: {
-          data: { ...data, fields: convertToFieldsArray(data.fields || {}) }
-        },
-        message: i18n.t(`forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`),
-        subforms: selectedSubforms.toJS()
-      })
-    );
+    const mergedData = mergeTranslations(data);
+    const subforms = selectedSubforms?.toJS();
+    const updatedNewFields = convertToFieldsArray(mergedData.fields || {});
+    const body = {
+      data: { ...mergedData, fields: updatedNewFields }
+    };
+    const parentFormParams = {
+      id,
+      saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
+      body,
+      message: i18n.t(`forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
+    };
+
+    if (subforms.length > 0) {
+      dispatch(saveSubforms(subforms, parentFormParams));
+    } else {
+      dispatch(saveForm(parentFormParams));
+    }
   };
 
-  const onManageTranslation = () => {
-    dispatch(setDialog({ dialog: FormTranslationsDialogName, open: true }));
-  };
+  const pageTitle = formMode.get("isNew")
+    ? i18n.t("forms.add")
+    : selectedForm.getIn(["name", i18n.locale], i18n.t("forms.label"));
 
-  const onUpdateTranslation = data => {
-    Object.entries(data).forEach(([fieldName, locales]) => {
-      Object.entries(locales).forEach(([localeId, value]) => {
-        const fieldPath = `${fieldName}.${localeId}`;
+  const hasData = formMode.get("isNew") || Boolean(formMode.get("isEdit") && selectedForm?.toSeq()?.size);
 
-        if (!methods.control.fields[fieldPath]) {
-          methods.register({ name: fieldPath });
-        }
-        methods.setValue(`${fieldPath}`, value);
-      });
-    });
-  };
+  const loading = isLoading || !selectedForm?.toSeq()?.size;
 
   useEffect(() => {
-    if (saving && (errors?.size || updatedFormIds?.size)) {
-      const successful = !errors?.size && updatedFormIds?.size;
-      const message = successful ? i18n.t("forms.messages.save_success") : i18n.t("forms.messages.save_with_errors");
+    if (errors?.size) {
+      const messages = dataToJS(getSubformErrorMessages(errors, i18n));
 
       dispatch({
         type: ENQUEUE_SNACKBAR,
         payload: {
-          message,
+          message: messages,
           options: {
-            variant: successful ? "success" : "error",
-            key: generate.messageKey(message)
+            variant: "error",
+            key: generate.messageKey(messages)
           }
         }
       });
-
-      if (formMode.get("isNew")) {
-        dispatch(push(`${ROUTES.forms}/${updatedFormIds.first()}/edit`));
-      }
     }
-  }, [updatedFormIds]);
+  }, [updatedFormIds, errors]);
 
   useEffect(() => {
     dispatch(fetchForms());
@@ -140,6 +141,7 @@ const Component = ({ mode }) => {
     return () => {
       if (isEditOrShow) {
         dispatch(clearSelectedForm());
+        dispatch(clearSubforms());
       }
     };
   }, [id]);
@@ -150,11 +152,43 @@ const Component = ({ mode }) => {
         dispatch(push(ROUTES.forms));
       } else {
         const fieldTree = convertToFieldsObject(selectedForm.get("fields").toJS());
+        const formData = selectedForm.set("fields", fieldTree).toJS();
 
-        methods.reset(selectedForm.set("fields", fieldTree).toJS());
+        methods.reset({
+          ...formData,
+          selected_locale_id: selectedLocaleId,
+          translations: {
+            name: formData.name,
+            description: formData.description,
+            fields: getFieldsTranslations(fieldTree)
+          }
+        });
+
+        setModuleId(selectedForm.get("module_ids", fromJS([])).first());
+        setParentForm(selectedForm.get("parent_form"));
       }
     }
   }, [selectedForm]);
+
+  useEffect(() => {
+    const currentValues = methods.getValues({ nest: true });
+
+    if (tab === 1) {
+      dispatch(updateFieldTranslations(currentValues.fields || {}));
+    }
+
+    if (tab === 2) {
+      const moduleIds = currentValues.module_ids;
+
+      if (moduleIds && moduleIds[0] !== moduleId) {
+        setModuleId(moduleIds[0]);
+      }
+
+      if (parentForm !== currentValues.parentForm) {
+        setParentForm(currentValues.parent_form);
+      }
+    }
+  }, [tab]);
 
   useImperativeHandle(
     formRef,
@@ -168,32 +202,14 @@ const Component = ({ mode }) => {
     })
   );
 
-  const onSuccess = data => {
-    Object.entries(data).forEach(([fieldName, fieldData]) => {
-      const transformedFieldValues = transformValues(fieldData, true);
-
-      Object.entries(transformedFieldValues).forEach(([key, value]) => {
-        const isDisabledProp = key === "disabled";
-
-        if (!methods.control.fields[`fields.${fieldName}.${key}`]) {
-          methods.register({ name: `fields.${fieldName}.${key}` });
-        }
-        methods.setValue(`fields.${fieldName}.${key}`, isDisabledProp ? !value : value);
-      });
-    });
-  };
+  const memoizedSetValue = useCallback((path, value) => methods.setValue(path, value), []);
+  const memoizedRegister = useCallback(prop => methods.register(prop), []);
+  const memoizedGetValues = useCallback(prop => methods.getValues(prop), []);
+  const formContextFields = methods.control.fields;
 
   return (
-    <LoadingIndicator
-      hasData={formMode.get("isNew") || Boolean(formMode.get("isEdit") && selectedForm?.toSeq()?.size)}
-      loading={isLoading || !selectedForm?.toSeq()?.size}
-      type={NAMESPACE}
-    >
-      <PageHeading
-        title={
-          formMode.get("isNew") ? i18n.t("forms.add") : selectedForm.getIn(["name", i18n.locale], i18n.t("forms.label"))
-        }
-      >
+    <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
+      <PageHeading title={pageTitle}>
         <FormBuilderActionButtons formMode={formMode} formRef={formRef} handleCancel={handleCancel} />
       </PageHeading>
       <PageContent>
@@ -208,30 +224,36 @@ const Component = ({ mode }) => {
                 disabled={formMode.get("isNew")}
               />
             </Tabs>
-            <TabPanel tab={tab} index={0}>
-              <div className={css.tabContent}>
-                {settingsForm({ formMode, onManageTranslation, i18n }).map(formSection => (
-                  <FormSection formSection={formSection} key={formSection.unique_id} />
-                ))}
-              </div>
-              <FormTranslationsDialog
-                mode={mode}
-                formSection={selectedForm}
-                currentValues={methods.getValues({ nest: true })}
-                onSuccess={onUpdateTranslation}
-              />
-            </TabPanel>
-            <TabPanel tab={tab} index={1}>
-              <div className={css.tabFields}>
-                <h1 className={css.heading}>{i18n.t("forms.fields")}</h1>
-                <CustomFieldDialog />
-              </div>
-              <FieldsList />
-              <FieldDialog mode={modeForFieldDialog} onSuccess={onSuccess} />
-            </TabPanel>
-            <TabPanel tab={tab} index={2}>
-              Item Three
-            </TabPanel>
+            <SettingsTab
+              tab={tab}
+              index={0}
+              formContextFields={formContextFields}
+              getValues={memoizedGetValues}
+              mode={mode}
+              register={memoizedRegister}
+              setValue={memoizedSetValue}
+            />
+            <FieldsTab
+              tab={tab}
+              index={1}
+              fieldDialogMode={modeForFieldDialog}
+              formContextFields={formContextFields}
+              register={memoizedRegister}
+              getValues={memoizedGetValues}
+              setValue={memoizedSetValue}
+            />
+            <TranslationsTab
+              formContextFields={formContextFields}
+              getValues={memoizedGetValues}
+              mode={mode}
+              moduleId={moduleId}
+              parentForm={parentForm}
+              register={memoizedRegister}
+              selectedField={selectedField}
+              setValue={memoizedSetValue}
+              index={2}
+              tab={tab}
+            />
           </form>
         </FormContext>
       </PageContent>
@@ -240,6 +262,8 @@ const Component = ({ mode }) => {
 };
 
 Component.displayName = NAME;
+
+Component.whyDidYouRender = true;
 
 Component.propTypes = {
   mode: PropTypes.string.isRequired

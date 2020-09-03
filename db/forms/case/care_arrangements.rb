@@ -110,7 +110,7 @@ care_arrangements_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "care_arrangements",
   parent_form: "case",
   visible: true,

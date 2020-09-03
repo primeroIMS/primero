@@ -242,6 +242,21 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(record).to.be.empty;
     });
+
+    it("should return the options for optionStringsText", () => {
+      const optionStringsText = [
+        { id: "submitted", display_text: { en: "Submitted", fr: "", ar: "" } },
+        { id: "pending", disabled: true, display_text: { en: "Pending", fr: "", ar: "" } },
+        { id: "no", display_text: { en: "No", fr: "", ar: "" } }
+      ];
+      const expected = [
+        { id: "submitted", display_text: "Submitted" },
+        { id: "no", display_text: "No" }
+      ];
+      const result = selectors.getOption(stateWithRecords, optionStringsText, "en");
+
+      expect(result).to.deep.equal(expected);
+    });
   });
 
   describe("getRecordForms", () => {
@@ -355,7 +370,8 @@ describe("<RecordForm /> - Selectors", () => {
             subform_sort_by: "",
             type: "text_field",
             visible: true,
-            subform_section_configuration: null
+            subform_section_configuration: null,
+            tick_box_label: {}
           }
         ],
         is_nested: null
@@ -432,7 +448,8 @@ describe("<RecordForm /> - Selectors", () => {
             subform_sort_by: "",
             type: "text_field",
             visible: true,
-            subform_section_configuration: null
+            subform_section_configuration: null,
+            tick_box_label: {}
           }
         ],
         is_nested: null

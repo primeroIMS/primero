@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { FieldRecord, RADIO_FIELD } from "../../../form";
+import { RADIO_FIELD } from "../../../form";
 
 import actions from "./actions";
 import reducer from "./reducer";
@@ -29,10 +29,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
   it("should handle SAVE_FORM_STARTED", () => {
     const expected = fromJS({
-      saving: true,
-      errors: false,
-      serverErrors: [],
-      updatedFormIds: []
+      saving: true
     });
 
     const action = {
@@ -59,8 +56,6 @@ describe("<FormsBuilder /> - Reducers", () => {
   });
 
   it("should handle SAVE_FORM_SUCCESS", () => {
-    const expected = fromJS({ updatedFormIds: [1, 2, 3] });
-
     const action = {
       type: actions.SAVE_FORM_SUCCESS,
       payload: [
@@ -72,7 +67,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).to.be.empty;
   });
 
   it("should handle SET_SELECTED_FIELD", () => {
@@ -526,13 +521,13 @@ describe("<FormsBuilder /> - Reducers", () => {
       const expected = fromJS({
         selectedSubform: {
           fields: [
-            FieldRecord({
+            fromJS({
               id: "1",
               name: "field_1",
               display_name: fromJS({ en: "Field 1" }),
               order: 0
             }),
-            FieldRecord({
+            fromJS({
               name: "field_2",
               display_name: fromJS({ en: "New Field 2" }),
               order: 1
@@ -544,7 +539,7 @@ describe("<FormsBuilder /> - Reducers", () => {
       const currentState = fromJS({
         selectedSubform: {
           fields: [
-            FieldRecord({
+            fromJS({
               id: "1",
               name: "field_1",
               display_name: fromJS({ en: "Field 1" }),
@@ -672,6 +667,85 @@ describe("<FormsBuilder /> - Reducers", () => {
                 on_collapsed_subform: true
               }
             }
+          }
+        }
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+  });
+
+  describe("MERGE_SUBFORM_DATA", () => {
+    it("should merge selectedSubform and selectedField values", () => {
+      const expected = fromJS({
+        selectedSubform: {
+          isSubformNew: true,
+          temp_id: 85484,
+          hide_on_view_page: false,
+          name: { en: "Test Subform" },
+          description: { en: "" },
+          visible: true,
+          mobile_visible: true,
+          fields: [],
+          type: "subform",
+          collapsed_field_names: [],
+          disabled: false,
+          subform_prevent_item_removal: true,
+          subform_append_only: false,
+          starts_with_one_entry: false,
+          initial_subforms: 0
+        },
+        selectedField: {
+          name: "new_field",
+          type: "subform",
+          visible: true,
+          mobile_visible: false,
+          hide_on_view_page: false,
+          disabled: false,
+          display_name: { en: "Test Subform" }
+        }
+      });
+      const currentState = fromJS({
+        selectedSubform: {
+          isSubformNew: true,
+          temp_id: 85484,
+          hide_on_view_page: false,
+          name: "new_field",
+          visible: true,
+          mobile_visible: true,
+          fields: [],
+          type: "subform",
+          collapsed_field_names: [],
+          disabled: false
+        },
+        selectedField: {
+          name: "new_field",
+          type: "subform",
+          visible: true,
+          mobile_visible: true,
+          hide_on_view_page: false,
+          disabled: false
+        }
+      });
+      const action = {
+        type: actions.MERGE_SUBFORM_DATA,
+        payload: {
+          subform: {
+            name: { en: "Test Subform" },
+            description: { en: "" },
+            subform_append_only: false,
+            subform_prevent_item_removal: true,
+            starts_with_one_entry: false,
+            initial_subforms: 0
+          },
+          subformField: {
+            disabled: true,
+            visible: true,
+            mobile_visible: false,
+            hide_on_view_page: false,
+            display_name: { en: "Test Subform" }
           }
         }
       };

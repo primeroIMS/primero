@@ -89,6 +89,14 @@ const optionsFromState = (state, optionStringsSource, i18n) => {
   }
 };
 
+const transformOptions = (options, i18n) =>
+  options.map(option => {
+    return fromJS({
+      id: option.id,
+      display_text: option.display_text[i18n.locale] || option.display_text
+    });
+  });
+
 // eslint-disable-next-line import/prefer-default-export
 export const getOptions = (state, optionStringsSource, i18n, options) => {
   if (optionStringsSource) {
@@ -96,8 +104,13 @@ export const getOptions = (state, optionStringsSource, i18n, options) => {
   }
 
   if (options) {
-    return fromJS(Array.isArray(options) ? options : options?.[i18n.locale]);
+    return fromJS(Array.isArray(options) ? transformOptions(options, i18n) : options?.[i18n.locale]);
   }
 
   return fromJS([]);
 };
+
+export const getLookupByUniqueId = (state, lookupUniqueId) =>
+  state
+    .getIn(["forms", "options", "lookups", "data"], fromJS([]))
+    .find(lookup => lookup.get("unique_id") === lookupUniqueId);

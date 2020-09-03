@@ -236,7 +236,7 @@ basic_identity_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "basic_identity",
   parent_form: "case",
   visible: true,

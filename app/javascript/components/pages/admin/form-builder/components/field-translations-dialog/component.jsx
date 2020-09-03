@@ -4,30 +4,31 @@ import PropTypes from "prop-types";
 import { FormContext, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { LOCALE_KEYS } from "../../../../../../config";
+import { localesToRender } from "../utils";
 import FormSection from "../../../../../form/components/form-section";
 import bindFormSubmit from "../../../../../../libs/submit-form";
 import ActionDialog from "../../../../../action-dialog";
 import { useI18n } from "../../../../../i18n";
+import { compare } from "../../../../../../libs";
 import { submitHandler, whichFormMode } from "../../../../../form";
 import { setDialog } from "../../../../../record-actions/action-creators";
-import { selectDialog } from "../../../../../record-actions/selectors";
+import { getSelectedSubform } from "../../selectors";
 import styles from "../styles.css";
 
 import { TranslatableOptions } from "./components";
-import { buildDefaultOptionStringsText } from "./utils";
 import { translationsFieldForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
 
-const Component = ({ currentValues, field, mode, onClose, onSuccess, subform }) => {
+const Component = ({ currentValues, field, isNested, mode, onClose, open, onSuccess }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
-  const locales = i18n.applicationLocales.filter(locale => locale.get("id") !== LOCALE_KEYS.en);
+  const locales = localesToRender(i18n);
+  const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
   const {
     name: fieldName,
     display_name: displayName,
@@ -37,14 +38,7 @@ const Component = ({ currentValues, field, mode, onClose, onSuccess, subform }) 
     option_strings_text: optionStringsText
   } = field.toJS();
 
-  const { name, description } = subform?.toJS() || {};
-
-  const initialOptionStringsText = buildDefaultOptionStringsText(optionStringsText, locales);
-
-  const defaultOptions = {
-    en: optionStringsText?.en || [],
-    ...initialOptionStringsText
-  };
+  const { name, description } = selectedSubform?.toJS() || {};
 
   const formMethods = useForm({
     defaultValues: {
@@ -54,13 +48,12 @@ const Component = ({ currentValues, field, mode, onClose, onSuccess, subform }) 
         help_text: helpText,
         guiding_questions: guidingQuestions,
         tick_box_label: tickBoxLabel,
-        option_strings_text: defaultOptions
+        option_strings_text: optionStringsText
       }
     },
     validationSchema: validationSchema(i18n)
   });
-  const selectedLocaleId = formMethods.watch("locale_id", locales.first()?.get("id"));
-  const openTranslationDialog = useSelector(state => selectDialog(state, NAME));
+  const selectedLocaleId = formMethods.watch("locale_id");
 
   const handleClose = () => {
     if (onClose) {
@@ -83,7 +76,7 @@ const Component = ({ currentValues, field, mode, onClose, onSuccess, subform }) 
       icon: <CheckIcon />
     },
     dialogTitle: i18n.t("forms.translations.edit"),
-    open: openTranslationDialog,
+    open,
     successHandler: () => bindFormSubmit(formRef),
     cancelHandler: () => handleClose(),
     omitCloseAfterSuccess: true
@@ -97,7 +90,9 @@ const Component = ({ currentValues, field, mode, onClose, onSuccess, subform }) 
       cssTranslationField: css.translationField,
       locales,
       field,
-      subform
+      subform: selectedSubform,
+      currentValues,
+      isNested
     }).map(form => <FormSection formSection={form} key={form.unique_id} />);
 
   useImperativeHandle(
@@ -108,36 +103,46 @@ const Component = ({ currentValues, field, mode, onClose, onSuccess, subform }) 
       formMode,
       i18n,
       initialValues: {},
+      message: i18n.t("forms.translations.no_changes_message"),
       onSubmit
     })
   );
 
   useEffect(() => {
-    const {
-      display_name: fieldDisplayName,
-      help_text: fieldHelpText,
-      guiding_questions: fieldGuidingQuestions,
-      tick_box_label: fieldTickBoxLabel,
-      option_strings_text: fieldOptionStringsText
-    } = currentValues[fieldName] || {};
+    if (open) {
+      const {
+        display_name: fieldDisplayName,
+        help_text: fieldHelpText,
+        guiding_questions: fieldGuidingQuestions,
+        tick_box_label: fieldTickBoxLabel,
+        option_strings_text: fieldOptionStringsText
+      } = currentValues[fieldName] || {};
 
-    formMethods.reset({
-      subform_section: {
-        name: { ...name, ...currentValues.subform_section?.name },
-        description: {
-          ...description,
-          ...currentValues.subform_section?.description
+      const subformSection =
+        currentValues.subform_section ||
+        (currentValues[selectedSubform.get("unique_id")]
+          ? { name: currentValues[selectedSubform.get("unique_id")].display_name }
+          : {});
+
+      formMethods.reset({
+        locale_id: locales?.first()?.get("id"),
+        subform_section: {
+          name: { ...name, ...subformSection?.name },
+          description: {
+            ...description,
+            ...subformSection?.description
+          }
+        },
+        [fieldName]: {
+          display_name: { ...displayName, ...fieldDisplayName },
+          help_text: { ...helpText, ...fieldHelpText },
+          guiding_questions: { ...guidingQuestions, ...fieldGuidingQuestions },
+          tick_box_label: { ...tickBoxLabel, ...fieldTickBoxLabel },
+          option_strings_text: { ...optionStringsText, ...fieldOptionStringsText }
         }
-      },
-      [fieldName]: {
-        display_name: { ...displayName, ...fieldDisplayName },
-        help_text: { ...helpText, ...fieldHelpText },
-        guiding_questions: { ...guidingQuestions, ...fieldGuidingQuestions },
-        tick_box_label: { ...tickBoxLabel, ...fieldTickBoxLabel },
-        option_strings_text: { ...defaultOptions, ...fieldOptionStringsText }
-      }
-    });
-  }, [currentValues]);
+      });
+    }
+  }, [open]);
 
   return (
     <ActionDialog {...modalProps}>
@@ -153,12 +158,19 @@ const Component = ({ currentValues, field, mode, onClose, onSuccess, subform }) 
 
 Component.displayName = NAME;
 
+Component.defaultProps = {
+  isNested: false,
+  open: false
+};
+
 Component.propTypes = {
   currentValues: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
+  isNested: PropTypes.bool,
   mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func,
+  open: PropTypes.bool,
   subform: PropTypes.object
 };
 

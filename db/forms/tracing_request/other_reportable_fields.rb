@@ -8,7 +8,7 @@ fields = [
         }),
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   :unique_id=>"other_reportable_fields_tracing_request",
   :parent_form=>"tracing_request",
   "visible" => false,

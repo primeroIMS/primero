@@ -40,6 +40,12 @@ export const getReportingLocationConfig = state => state.getIn([NAMESPACE, "repo
 
 export const getAgencyLogos = state => state.getIn(["records", "support", "data", "agencies"], fromJS([]));
 
+export const getAgency = (state, id) =>
+  state
+    .getIn(["application", "agencies"], fromJS([]))
+    .filter(agency => agency.get("id") === id)
+    .first();
+
 export const getSystemPermissions = state => state.getIn([NAMESPACE, PERMISSIONS], fromJS({}));
 
 export const getResourceActions = (state, resource) =>

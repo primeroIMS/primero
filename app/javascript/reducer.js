@@ -44,6 +44,8 @@ import { reducer as AdminLookupsFormReducers } from "./components/pages/admin/lo
 import { reducer as adminFormListReducer } from "./components/pages/admin/forms-list";
 import { reducer as adminFormBuilderReducer } from "./components/pages/admin/form-builder";
 import { reducer as AuditLogsReducers } from "./components/pages/admin/audit-logs";
+import { reducer as configurationsListReducer } from "./components/pages/admin/configurations-list";
+import { reducer as configurationsFormReducer } from "./components/pages/admin/configurations-form";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -85,7 +87,8 @@ const rootReducer = {
         forms: reduceReducers(adminFormListReducer, adminFormBuilderReducer),
         audit_logs: reduceReducers(AuditLogsReducers),
         roles: reduceReducers(rolesListReducer, rolesFormReducer),
-        lookups: reduceReducers(lookupsListReducer, AdminLookupsFormReducers)
+        lookups: reduceReducers(lookupsListReducer, AdminLookupsFormReducers),
+        configurations: reduceReducers(configurationsListReducer, configurationsFormReducer)
       })
     }),
     transferApprovalReducer,

@@ -27,7 +27,8 @@ module Exporters
       primero_module = PrimeroModule.find_by(unique_id: module_id)
       forms = primero_module.associated_forms_grouped_by_record_type(false)
       forms = forms[type]
-      form_hash = FormSection.group_forms(forms)
+      form_hash = forms.sort_by { |f| [f.order_form_group, f.order] }
+                       .group_by(&:form_group_name)
       form_hash.each do |group, form_sections|
         form_sections.sort_by{|f| [f.order, (f.is_nested? ? 1 : -1)]}.each do |form|
           write_out_form(form, header, show_hidden)

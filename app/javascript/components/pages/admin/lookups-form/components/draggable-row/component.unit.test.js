@@ -2,6 +2,7 @@ import { Draggable } from "react-beautiful-dnd";
 
 import FormSectionField from "../../../../../form/components/form-section-field";
 import { setupMountedComponent } from "../../../../../../test";
+import SwitchInput from "../../../../../form/fields/switch-input";
 
 import DraggableRow from "./component";
 
@@ -28,5 +29,9 @@ describe("<DraggableRow /> - components/draggable-row/component", () => {
 
   it.skip("renders FormSectionField component", () => {
     expect(component.find(FormSectionField)).to.have.lengthOf(1);
+  });
+
+  it.skip("renders FormSectionField component", () => {
+    expect(component.find(SwitchInput)).to.have.lengthOf(1);
   });
 });

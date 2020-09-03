@@ -169,7 +169,7 @@ survivor_information_fields = [
             })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "gbv_survivor_information",
   parent_form: "case",
   visible: true,

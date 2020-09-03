@@ -81,7 +81,7 @@ cp_incident_fields = [
   })
 ]
 
-FormSection.create_or_update_form_section({
+FormSection.create_or_update!({
   unique_id: "cp_incident_form",
   parent_form: "incident",
   visible: true,

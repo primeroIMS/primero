@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { differenceInYears } from "date-fns";
+import { differenceInYears, parseISO } from "date-fns";
 import { DatePicker, DateTimePicker } from "@material-ui/pickers";
 import { InputAdornment } from "@material-ui/core";
 import { FastField, connect, getIn } from "formik";
@@ -44,7 +44,11 @@ const DateField = ({ name, helperText, mode, formik, InputProps, ...rest }) => {
     }
     form.setFieldValue(name, dateValue, true);
 
-    return dateIncludeTime || isEmpty(value) ? dateValue : dateValue.concat("T00:00:00");
+    if (dateIncludeTime || isEmpty(value)) {
+      return dateValue;
+    }
+
+    return parseISO(dateValue.slice(0, 10));
   };
 
   const fieldError = getIn(formik.errors, name);

@@ -127,7 +127,7 @@ describe MatchingConfiguration do
       end
 
       it 'should get no matchable fields' do
-        @subform_section.delete_field('field_name_2')
+        @subform_section.fields.where(name: 'field_name_2').first.destroy
         forms = MatchingConfiguration.matchable_fields_by_form('case', true)
         expect(forms).to be_empty
       end
@@ -148,7 +148,7 @@ describe MatchingConfiguration do
       end
 
       it 'should get no matchable fields' do
-        @form_section.delete_field('field_name_3')
+        @form_section.fields.where(name: 'field_name_3').first.destroy
         forms = MatchingConfiguration.matchable_fields_by_form('case', false)
         expect(forms).to be_empty
       end

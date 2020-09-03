@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 export const getLocale = state => {
   const defaultLocale = window.I18n.locale;
 
-  return state.length
+  return state.size
     ? state.getIn(["ui", "I18n", "locale"], defaultLocale) ||
         state.getIn(["application", "defaultLocale"], defaultLocale)
     : defaultLocale;

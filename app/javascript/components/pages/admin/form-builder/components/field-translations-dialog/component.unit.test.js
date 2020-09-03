@@ -22,7 +22,9 @@ describe("<FieldTranslationsDialog />", () => {
           type: TEXT_FIELD,
           display_name: { en: "Field 1" }
         }),
-        currentValues: {},
+        currentValues: {
+          field_1: { display_name: { en: "Field 1" } }
+        },
         mode: "edit"
       },
       {},
@@ -42,6 +44,7 @@ describe("<FieldTranslationsDialog />", () => {
           display_name: { en: "Field 1" }
         }),
         currentValues: {},
+        open: true,
         mode: "edit"
       },
       {},
@@ -76,14 +79,22 @@ describe("<FieldTranslationsDialog />", () => {
           type: SUBFORM_SECTION,
           display_name: { en: "Field 1" }
         }),
-        subform: fromJS({
-          name: { en: "Subform 1" }
-        }),
         currentValues: {},
-        mode: "edit"
+        mode: "edit",
+        open: true
       },
       {},
-      initialState
+      initialState.merge({
+        records: {
+          admin: {
+            forms: {
+              selectedSubform: fromJS({
+                name: { en: "Subform 1" }
+              })
+            }
+          }
+        }
+      })
     );
 
     const expectedFieldNames = [
@@ -91,11 +102,7 @@ describe("<FieldTranslationsDialog />", () => {
       "subform_section.name.fr",
       "subform_section.name.ar",
       "subform_section.description.fr",
-      "subform_section.description.ar",
-      "field_1.help_text.fr",
-      "field_1.help_text.ar",
-      "field_1.guiding_questions.fr",
-      "field_1.guiding_questions.ar"
+      "subform_section.description.ar"
     ];
 
     const fieldNames = component
@@ -103,7 +110,7 @@ describe("<FieldTranslationsDialog />", () => {
       .find(FormSectionField)
       .map(field => field.props().field.name);
 
-    expect(component.find(FieldTranslationsDialog).find(FormSectionField)).to.have.lengthOf(9);
+    expect(component.find(FieldTranslationsDialog).find(FormSectionField)).to.have.lengthOf(5);
     expect(fieldNames).to.deep.equal(expectedFieldNames);
   });
 
@@ -116,7 +123,8 @@ describe("<FieldTranslationsDialog />", () => {
           type: TICK_FIELD
         }),
         currentValues: {},
-        mode: "edit"
+        mode: "edit",
+        open: true
       },
       {},
       initialState
@@ -150,13 +158,11 @@ describe("<FieldTranslationsDialog />", () => {
         field: fromJS({
           name: "field_1",
           type: SELECT_FIELD,
-          option_strings_text: {
-            en: [{ id: "option_1", display_text: "Option 1" }],
-            es: [{ id: "option_1", display_text: "Opción 1" }]
-          }
+          option_strings_text: [{ id: "option_1", display_text: { en: "Option 1", es: "Opción 1" } }]
         }),
         currentValues: {},
-        mode: "edit"
+        mode: "edit",
+        open: true
       },
       {},
       initialState
@@ -170,12 +176,12 @@ describe("<FieldTranslationsDialog />", () => {
       "field_1.help_text.ar",
       "field_1.guiding_questions.fr",
       "field_1.guiding_questions.ar",
-      "field_1.option_strings_text.en[0].id",
-      "field_1.option_strings_text.en[0].display_text",
-      "field_1.option_strings_text.fr[0].id",
-      "field_1.option_strings_text.fr[0].display_text",
-      "field_1.option_strings_text.ar[0].id",
-      "field_1.option_strings_text.ar[0].display_text"
+      "field_1.option_strings_text[0].id",
+      "field_1.option_strings_text[0].display_text.en",
+      "field_1.option_strings_text[0].id",
+      "field_1.option_strings_text[0].display_text.fr",
+      "field_1.option_strings_text[0].id",
+      "field_1.option_strings_text[0].display_text.ar"
     ];
 
     const fieldNames = component
