@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../test";
+import { setupMountedComponent, lookups } from "../../../../test";
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
 
@@ -38,6 +38,11 @@ describe("<ConfigurationsList />", () => {
         permissions: {
           primero_configurations: [ACTIONS.MANAGE]
         }
+      },
+      forms: {
+        options: {
+          lookups: lookups()
+        }
       }
     });
 
@@ -46,5 +51,13 @@ describe("<ConfigurationsList />", () => {
 
   it("should render record list table", () => {
     expect(component.find(IndexTable)).to.have.length(1);
+  });
+
+  it("should use correct date format", () => {
+    const table = component.find(IndexTable);
+    const dateColumnFormat = table.find("tr").at(1).find("td").at(3).find("div").at(1).text();
+
+    expect(table).to.have.length(1);
+    expect(dateColumnFormat).to.be.equal("26-Aug-2020 09:35");
   });
 });
