@@ -1,6 +1,8 @@
 import { fromJS } from "immutable";
+import { parseISO, format } from "date-fns";
 
-import { setupMountedComponent, lookups, useFakeTimers } from "../../../../test";
+import { DATE_TIME_FORMAT } from "../../../../config";
+import { setupMountedComponent, lookups } from "../../../../test";
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
 
@@ -9,16 +11,7 @@ import ConfigurationsList from "./container";
 
 describe("<ConfigurationsList />", () => {
   let component;
-  let clock;
   const createdOn = "2020-08-26T15:35:13.720Z";
-
-  before(() => {
-    clock = useFakeTimers(new Date(createdOn));
-  });
-
-  after(() => {
-    clock.restore();
-  });
 
   const data = [
     {
@@ -69,6 +62,6 @@ describe("<ConfigurationsList />", () => {
     const dateColumnFormat = table.find("tr").at(1).find("td").at(3).find("div").at(1).text();
 
     expect(table).to.have.length(1);
-    expect(dateColumnFormat).to.be.equal("26-Aug-2020 09:35");
+    expect(dateColumnFormat).to.be.equal(format(parseISO(createdOn), DATE_TIME_FORMAT));
   });
 });
