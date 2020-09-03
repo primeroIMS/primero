@@ -8,7 +8,7 @@ describe("configurations-list/utils.js", () => {
       { name: "name", label: "configurations.attributes.name" },
       { name: "version", label: "configurations.attributes.version" },
       { name: "description", label: "configurations.attributes.description" },
-      { name: "date_created", label: "configurations.attributes.date_created" },
+      { name: "created_on", label: "configurations.attributes.date_created" },
       { name: "last_applied_on", label: "configurations.attributes.last_applied_on" }
     ];
 

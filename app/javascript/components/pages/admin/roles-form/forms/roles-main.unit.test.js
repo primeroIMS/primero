@@ -9,6 +9,6 @@ describe("pages/admin/<RolesForm>/forms - RolesMainForm", () => {
     const rolesMainForm = RolesMainForm(fromJS([]), i18n, fromJS({}));
 
     expect(rolesMainForm.unique_id).to.be.equal("roles");
-    expect(rolesMainForm.fields).to.have.lengthOf(8);
+    expect(rolesMainForm.fields).to.have.lengthOf(9);
   });
 });

@@ -414,7 +414,7 @@ class Filter < ValueObject
     if %w[approval_status_assessment approval_status_case_plan approval_status_closure
           approval_status_action_plan approval_status_gbv_closure].include? field_name
       approval_status_options
-    elsif %w[owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date].include? field_name
+    elsif %w[owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date incidents_by_date].include? field_name
       opts = { user: user, record_type: record_type }
       send("#{field_name}_options", opts)
     end

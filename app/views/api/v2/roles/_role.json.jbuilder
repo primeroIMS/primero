@@ -7,6 +7,7 @@ json.description role.description
 json.group_permission role.group_permission
 json.referral role.referral
 json.transfer role.transfer
+json.disabled role.disabled
 json.is_manager role.is_manager
 json.reporting_location_level role.reporting_location_level
 json.module_unique_ids role.module_unique_ids

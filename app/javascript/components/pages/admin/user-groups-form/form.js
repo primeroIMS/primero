@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { object, string } from "yup";
 
-import { FieldRecord, FormSectionRecord, TEXT_FIELD } from "../../../form";
+import { FieldRecord, FormSectionRecord, TEXT_FIELD, TICK_FIELD } from "../../../form";
 
 export const validations = () =>
   object().shape({
@@ -20,6 +20,12 @@ export const form = i18n => {
           type: TEXT_FIELD,
           required: true,
           autoFocus: true
+        }),
+        FieldRecord({
+          display_name: i18n.t("user_group.disabled.label"),
+          name: "disabled",
+          type: TICK_FIELD,
+          tooltip: i18n.t("user_group.disabled.explanation")
         }),
         FieldRecord({
           display_name: i18n.t("user_group.description"),

@@ -8,7 +8,8 @@ export const FIELD_NAMES = {
   moduleIds: "module_unique_ids",
   groupPermission: "group_permission",
   isManager: "is_manager",
-  reportingLocationLevel: "reporting_location_level"
+  reportingLocationLevel: "reporting_location_level",
+  disabled: "disabled"
 };
 export const ACTION_BUTTONS_NAME = "ActionButtons";
 

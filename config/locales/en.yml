@@ -288,6 +288,7 @@ en:
       3month_inactivity: "For 3+ months"
       referred_cases: "Cases referred to me"
       agency: "Agency"
+      user_group: "User Group"
       status: "Status"
       age_range: "Age Range"
       sex: "Sex"
@@ -1190,6 +1191,7 @@ en:
     name: "Name"
     explanation: "Clicking Save will create a record of all current configuration settings (example: Roles, Agencies, Forms) at this point in time. After you save, you can push these changes to another instance of Primero. If, in the future, you make configuration changes which you wish to undo, you can apply this Configuration record to restore all of the configuration changes you had at this point in time."
     delete_label: "Are you sure you want to do this? This represents all of the settings from when this Configuration was created. You will not be able to go back and recover these settings once you delete this Configuration."
+    not_allowed: "Not-allowed"
     messages:
       created: "Configuration was successfully created."
       updated: "Configuration was successfully updated."
@@ -1208,6 +1210,9 @@ en:
     edit: "Edit User Group"
     name: "Name"
     description: "Description"
+    disabled:
+      label: "Disabled"
+      explanation: "If you disable this User Group, you will no longer be able to assign it to User accounts."
     successfully_updated: "User Group details are successfully updated."
     error_in_updating: "Error in updating the User Group details."
     messages:
@@ -1355,6 +1360,9 @@ en:
             explanation: "This means that users with this role will only be able to see things related to administration
                 of the system, such as reports, form and lookup configuration, users, roles, and user groups. They will
                 not see any individual cases, tracing requests, or incidents."
+      disabled:
+        label: "Disabled"
+        explanation: "If you disable this Role, you will no longer be able to assign it to User accounts."
       is_manager:
         label: "Is Manager?"
         explanation: "Applies to any user role which generally supervises other users. This allows a user to see dashboards
@@ -2692,6 +2700,9 @@ en:
       before: "Before"
       after: "After"
     is_graph: "Generate a graph?"
+    disabled:
+      label: "Disabled"
+      explanation: "If you disable this Report, it will not appear in the available reports."
     no_data: "No data exists for this report"
     export:
       graph: "Graph"

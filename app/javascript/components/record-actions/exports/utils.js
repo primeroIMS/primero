@@ -7,6 +7,8 @@ import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR, SUBFORM_SECTION } 
 
 import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";
 
+const isSubform = field => field.type === SUBFORM_SECTION;
+
 export const allowedExports = (userPermissions, i18n, isShowPage, recordType) => {
   const exportsTypes = [...ALL_EXPORT_TYPES];
   let allowedExportsOptions = [];
@@ -107,9 +109,10 @@ export const buildFields = (data, locale) => {
       const { unique_id, name, fields } = form;
 
       const filteredFields = fields
+        .filter(field => !(isSubform(field) && "subform_section_id" in field && !field.subform_section_id))
         .filter(field => !excludeFieldTypes.includes(field.type) && field.visible)
         .map(field => {
-          if (field.type === SUBFORM_SECTION) {
+          if (isSubform(field)) {
             const subFormSectionFields = field.subform_section_id.fields
               .filter(subformField => subformField.visible)
               .map(subformField => {
