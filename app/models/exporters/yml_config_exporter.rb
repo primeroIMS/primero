@@ -5,7 +5,7 @@ class Exporters::YmlConfigExporter < ValueObject
   attr_accessor :export_directory, :form_params, :locale, :visible
 
   def initialize(opts = {})
-    opts[:export_directory] ||= "tmp/exports/configuration_translation_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}"
+    opts[:export_directory] ||= "configuration_translation_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}"
     opts[:locale] = opts[:locale] ? opts[:locale].to_s : Primero::Application::LOCALE_ENGLISH
     opts[:form_params] = opts.slice(:record_type, :module_id, :visible, :unique_id)&.compact
     super(opts)
