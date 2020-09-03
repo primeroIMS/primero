@@ -1,5 +1,3 @@
-require 'prawn/document'
-require 'arabic-letter-connector'
 
 module Exporters
   class NewPDFExporter < BaseExporter
@@ -58,7 +56,7 @@ module Exporters
         @pdf_cases << render_case(cs, @form_sections[cs.module.name], @props[cs.module.id])
       end
 
-      printed_date = "#{I18n.t("exports.printed_date")} #{render_i18n_text(I18n.l(DateTime.now, format: :default))}"
+      printed_date = "#{I18n.t("exports.printed_date")} #{I18n.l(DateTime.now, format: :default)}"
       ac = ApplicationController.new
       @pdf = WickedPdf.new.pdf_from_string(
         ac.render_to_string('document_templates/case', encoding: "UTF-8", locals: { cases: @pdf_cases } ),
@@ -88,41 +86,6 @@ module Exporters
 
     private
 
-    def include_rtl?(txt)
-      TwitterCldr::Shared::Bidi
-          .from_string(txt)
-          .types
-          .include?(:R)
-    end
-
-    def reorder(txt)
-      TwitterCldr::Shared::Bidi
-        .from_string(txt.reverse, direction: :RTL)
-        .reorder_visually!
-        .to_s
-    end
-
-    def connect(txt)
-      ArabicLetterConnector.transform(txt)
-    end
-
-    def render_i18n_text(txt)
-      return txt.reverse if !include_rtl?(txt) && self.class.reverse_page_direction
-      return txt if !include_rtl?(txt) && !self.class.reverse_page_direction
-
-      if txt.match(/^\d{2}:\d{2} \d{4}-.*-\d{2}$/) || txt.match(/^\d{4}-.*-\d{2}$/)
-        txt = txt.reverse!.gsub(/\p{Arabic}+/){ |ar| ar.reverse! }
-      end
-
-      if include_rtl?(txt) && txt.match(/\(|\)+/)
-        txt = txt.gsub(/\(|\)+/) do |par|
-          par.codepoints == 40 ? ")" : "("
-        end
-      end
-
-      reorder(connect(txt))
-    end
-
     def render_case(_case, base_subforms, prop)
       #Only print the case if the case's module matches the selected module
       if prop.present?
@@ -133,7 +96,7 @@ module Exporters
 
         grouped_subforms.each do |(parent_group, fss)|
           fss.each do |fs|
-             case_forms << { form_name: render_i18n_text(fs.name), form_section: render_form_section(_case, fs, prop) }
+             case_forms << { form_name: fs.name, form_section: render_form_section(_case, fs, prop) }
           end
         end
         return case_forms
@@ -151,7 +114,7 @@ module Exporters
       render_subform = subforms.each do |subf|
         form_data = _case.__send__(subf.name) || _case[subf.name]
         filtered_subforms = subf.subform_section.fields.reject {|f| f.type == 'separator' || f.visible? == false}
-        name_subform = render_i18n_text(subf.display_name)
+        name_subform = subf.display_name
         fields_subform = []
         if (form_data.try(:length) || 0) > 0
           form_data.each do |el|
@@ -168,9 +131,9 @@ module Exporters
       table_data = fields.map do |f|
         if obj.present?
           value = censor_value(f.name, obj)
-          row = [render_i18n_text(f.display_name), format_field(f, value)]
+          row = [f.display_name, format_field(f, value)]
         else
-          row = [render_i18n_text(f.display_name), nil]
+          row = [f.display_name, nil]
         end
 
         row.reverse! if self.class.reverse_page_direction
@@ -193,24 +156,24 @@ module Exporters
       case value
       when TrueClass, FalseClass
         if value
-          render_i18n_text(field.display_text(value))
+          field.display_text(value)
         else
           ""
         end
       when String
-        render_i18n_text(field.display_text(value))
+        field.display_text(value)
       when DateTime
-        render_i18n_text(I18n.l(value.in_time_zone, format: time_format))
+        I18n.l(value.in_time_zone, format: time_format)
       when Date
-        render_i18n_text(I18n.l(value, format: date_format))
+        I18n.l(value, format: date_format)
       when Time
-        render_i18n_text(I18n.l(value, format: time_format))
+        I18n.l(value, format: time_format)
       when Array
         value.map {|el| format_field(field, el) }.join(', ')
       #when Hash
         #value.inject {|acc, (k,v)| acc.merge({ k => format_field(field, v) }) }
       else
-        render_i18n_text(value.to_s)
+        value.to_s
       end
     end
 
