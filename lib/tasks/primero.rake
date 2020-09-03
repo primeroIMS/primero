@@ -60,21 +60,12 @@ namespace :primero do
   #   Exports only tracing_request forms for CP, including hidden forms & fields
   #      bundle exec rake db:data:export_form_translation['',tracing_request,primeromodule-cp,true,true,en]
   desc 'Export the forms to a yaml file to be translated'
-  task :export_form_translation,
-       %i[form_id type module_id show_hidden_forms show_hidden_fields locale] => :environment do |_, args|
-    form_id = args[:form_id].present? ? args[:form_id] : ''
-    module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
-    type = args[:type].present? ? args[:type] : 'case'
-    show_hidden_forms = args[:show_hidden_forms].present? && %w[Y y T t].include?(args[:show_hidden_forms][0])
-    show_hidden_fields = args[:show_hidden_fields].present? && %w[Y y T t].include?(args[:show_hidden_fields][0])
-    locale = args[:locale].present? ? args[:locale] : ''
-    puts 'Exporting forms... Check rails log for details...'
-    forms_exporter = Exporters::YmlFormExporter.new
-    forms_exporter.export(
-      nil, nil,
-      form_id: form_id, record_type: type, module_id: module_id, show_hidden_forms: show_hidden_forms,
-      show_hidden_fields: show_hidden_fields, locale: locale
-    )
+  task :export_form_translation, %i[unique_id record_type module_id show_hidden locale] => :environment do |_, args|
+    puts 'Exporting forms to YAML for translation ...'
+    args.with_defaults(module_id: 'primeromodule-cp', record_type: 'case', locasle: 'en')
+    args[:visible] = args[:show_hidden].present? && args[:show_hidden_forms].start_with?(/[yYTt]/) ? nil : true
+    exporter = Exporters::YmlConfigExporter.new(args)
+    exporter.export
     puts 'Done!'
   end
 
