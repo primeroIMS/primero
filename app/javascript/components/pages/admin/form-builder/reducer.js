@@ -96,7 +96,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .set("serverErrors", fromJS([]))
         .set("updatedFormIds", fromJS([]));
     case actions.SAVE_SUBFORMS_SUCCESS: {
-      const formIds = payload.filter(data => data.ok).map(data => data.json.data.id);
+      const subformsSaved = payload.filter(data => data.ok).map(data => data.json.data);
+      const formsIds = subformsSaved.map(formSaved => formSaved.id);
 
       const errors = payload.filter(data => data.ok === false).map(data => data.json || data.error);
 
@@ -104,7 +105,39 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         return state.set("errors", true).set("serverErrors", fromJS(errors));
       }
 
-      return state.set("updatedFormIds", fromJS(formIds));
+      const updatedSubformsAndSelectedFields = subformsSaved.map(subformSaved => {
+        if (Object.keys(subformSaved).length === 1) {
+          const associatedSubform = state
+            .get("subforms")
+            .toJS()
+            .find(subform => subformSaved.id === subform.id);
+
+          const associatedSelectedField = state
+            .get("selectedFields")
+            .toJS()
+            .find(selectedField => selectedField.subform_section_id === subformSaved.id);
+
+          return { subform: associatedSubform, selectedField: associatedSelectedField };
+        }
+
+        const associatedSelectedField = state
+          .get("selectedFields")
+          .toJS()
+          .find(selectedField => subformSaved.unique_id === selectedField.subform_section_unique_id);
+
+        return {
+          subform: subformSaved,
+          selectedField: { ...associatedSelectedField, subform_section_id: subformSaved.id }
+        };
+      });
+
+      const subforms = updatedSubformsAndSelectedFields.map(value => value.subform);
+      const selectedFields = updatedSubformsAndSelectedFields.map(value => value.selectedField);
+
+      return state
+        .set("updatedFormIds", fromJS(formsIds))
+        .set("subforms", fromJS(subforms))
+        .set("selectedFields", fromJS(selectedFields));
     }
     case actions.SAVE_SUBFORMS_FINISHED:
       return state.set("saving", false);
