@@ -3,12 +3,14 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { List, fromJS } from "immutable";
 import { isEmpty } from "lodash";
+import { format, parseISO } from "date-fns";
 
 import { getOptions } from "../../../../../../form/selectors";
 import { optionText } from "../../../../../../form/utils";
 import { useI18n } from "../../../../../../i18n";
+import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../../../../config";
 
-const Component = ({ displayName, value, optionsStringSource, options }) => {
+const Component = ({ date, dateWithTime, displayName, value, optionsStringSource, options }) => {
   const i18n = useI18n();
   const hasOptions = optionsStringSource || !isEmpty(options);
 
@@ -34,6 +36,10 @@ const Component = ({ displayName, value, optionsStringSource, options }) => {
         .map(lookup => optionText(fromJS(lookup).toJS()));
     }
 
+    if (date && fieldValue) {
+      return format(parseISO(fieldValue), dateWithTime ? DATE_TIME_FORMAT : DATE_FORMAT);
+    }
+
     return fieldValue;
   };
 
@@ -53,6 +59,8 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
+  date: PropTypes.bool,
+  dateWithTime: PropTypes.bool,
   displayName: PropTypes.string.isRequired,
   options: PropTypes.object,
   optionsStringSource: PropTypes.string,
