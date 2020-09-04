@@ -199,7 +199,7 @@ module Exporters
       if input_locales.empty? or correct_locales.empty?
         @locales = all_locales
       else
-        @locales = ['en'] | correct_locales
+        @locales = [:en] | correct_locales
       end
       return @locales
     end

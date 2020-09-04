@@ -66,17 +66,6 @@ class Field < ApplicationRecord
     ]
   end
 
-  # TODO: DELETE THIS, once we refactor YML exporter
-  def localized_property_hash(locale = Primero::Application::LOCALE_ENGLISH)
-    lh = localized_hash(locale)
-    if option_strings_text.present?
-      fh = {}
-      option_strings_text(locale).each { |os| fh[os['id']] = os['display_text'] }
-      lh['option_strings_text'] = fh
-    end
-    lh
-  end
-
   # TODO: Move the logic for all_*_field_names methods to the Searchable concern
   class << self
     # This allows us to use the property 'type' on Field, normally reserved by ActiveRecord

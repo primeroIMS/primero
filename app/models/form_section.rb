@@ -42,15 +42,6 @@ class FormSection < ApplicationRecord
     Lookup.form_group_name_all(form_group_id, parent_form, module_name, lookups)
   end
 
-  # TODO: DELETE THIS, once we refactor YML exporter
-  def localized_property_hash(locale = Primero::Application::ENGLISH, show_hidden_fields = false)
-    lh = localized_hash(locale)
-    fldz = {}
-    fields.each { |f| fldz[f.name] = f.localized_property_hash locale if show_hidden_fields || f.visible? }
-    lh['fields'] = fldz
-    lh
-  end
-
   def inspect
     "FormSection(#{name}, form_group_id => '#{form_group_id}')"
   end
@@ -98,7 +89,7 @@ class FormSection < ApplicationRecord
 
     # TODO: Refactor with YML i18n import
     def import_translations(form_hash={}, locale)
-      if locale.present? && I18n.available_locales.include?(locale.try(:to_sym))
+      if locale.present? && I18n.available_locales.include?(locale)
         unique_id = form_hash.keys.first
         if unique_id.present?
           form = FormSection.find_by(unique_id: unique_id)

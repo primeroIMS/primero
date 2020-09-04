@@ -9,12 +9,12 @@ I18n.fallbacks.clear
 
 Primero::Application::LOCALES.each do |locale|
   chain = []
-  region = locale.split('-')
+  region = locale.to_s.split('-')
   if region.size > 1
     chain << region[0].to_sym
   end
-  unless locale == 'en'
+  unless locale == :en
     chain << :en
-    I18n.fallbacks.map(locale.to_sym => chain)
+    I18n.fallbacks.map(locale => chain)
   end
 end

@@ -771,7 +771,7 @@ describe User do
   describe 'reporting location' do
     before do
       clean_data(User, Role, Location, SystemSettings)
-      allow(I18n).to receive(:available_locales) { %w[en fr] }
+      allow(I18n).to receive(:available_locales) { %i[en fr] }
 
       @country = create(:location, admin_level: 0, placename_all: 'MyCountry', type: 'country', location_code: 'MC01')
       @province1 = create(:location, hierarchy: [@country.location_code], placename_all: 'Province 1', type: 'province',

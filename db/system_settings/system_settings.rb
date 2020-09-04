@@ -13,8 +13,6 @@ def create_or_update_system_setting(setting_hash)
 end
 
 create_or_update_system_setting(
-  default_locale: Primero::Application::LOCALE_ENGLISH,
-  locales: %w[en fr ar],
   auto_populate_list: [
     {
       field_key: "name",

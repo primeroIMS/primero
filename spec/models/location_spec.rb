@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Location do
   before do
     Location.delete_all
-    allow(I18n).to receive(:available_locales) { %w[en fr] }
+    allow(I18n).to receive(:available_locales) { %i[en fr] }
 
     @country = create(
       :location, admin_level: 0, placename_all: 'MyCountry', type: 'country',

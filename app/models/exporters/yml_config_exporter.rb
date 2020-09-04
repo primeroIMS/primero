@@ -6,7 +6,7 @@ class Exporters::YmlConfigExporter < ValueObject
 
   def initialize(opts = {})
     opts[:export_directory] ||= "configuration_translation_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}"
-    opts[:locale] = opts[:locale] ? opts[:locale].to_s : Primero::Application::LOCALE_ENGLISH
+    opts[:locale] = opts[:locale] ? opts[:locale] : Primero::Application::LOCALE_ENGLISH
     opts[:form_params] = opts.slice(:record_type, :module_id, :visible, :unique_id)&.compact
     super(opts)
     FileUtils.mkdir_p(export_directory)

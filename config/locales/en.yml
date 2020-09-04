@@ -3161,6 +3161,7 @@ en:
         unique_name: "A lookup with that name already exists, please enter a different name"
         being_used: "This lookup is being used and cannot be deleted"
         values_ids_blank: "A lookup_value id is blank"
+        default_options_blank: "A lookup_value display_text is blank for the default locale"
 
       system_users:
         username_unique: "User name has already been taken! Please select a new User name"

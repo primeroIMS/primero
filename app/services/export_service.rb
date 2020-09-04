@@ -6,9 +6,9 @@ class ExportService
     def exporter(record_type, format)
       [
         Exporters::IncidentRecorderExporter, Exporters::CSVListViewExporter, Exporters::CSVExporter,
-        Exporters::ExcelExporter, Exporters::JSONExporter, Exporters::PhotoWallExporter, Exporters::UnhcrCSVExporter, Exporters::DuplicateIdCSVExporter,
-        Exporters::SelectedFieldsExcelExporter, Exporters::IncidentRecorderExporter, Exporters::RolePermissionsExporter,
-        Exporters::YmlFormExporter
+        Exporters::ExcelExporter, Exporters::JSONExporter, Exporters::PhotoWallExporter, Exporters::UnhcrCSVExporter,
+        Exporters::DuplicateIdCSVExporter, Exporters::SelectedFieldsExcelExporter, Exporters::IncidentRecorderExporter,
+        Exporters::RolePermissionsExporter, Exporters::YmlConfigExporter
         # , Expoxrters::MRMViolationExporter
       ].find do |exporter|
         exporter.id == format.to_s && exporter.supported_models.include?(record_type)
