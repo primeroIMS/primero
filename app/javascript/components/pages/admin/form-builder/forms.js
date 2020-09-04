@@ -4,6 +4,8 @@ import { array, boolean, object, string } from "yup";
 import { RECORD_TYPES } from "../../../../config/constants";
 import { FieldRecord, FormSectionRecord, TEXT_FIELD, SELECT_FIELD, TICK_FIELD, LABEL_FIELD } from "../../../form";
 
+import { validateEnglishName } from "./utils";
+
 export const validationSchema = i18n =>
   object().shape({
     description: object().shape({
@@ -20,7 +22,13 @@ export const validationSchema = i18n =>
       )
       .nullable(),
     name: object().shape({
-      en: string().required(i18n.t("forms.required_field", { field: i18n.t("forms.title") }))
+      en: string()
+        .test(
+          "name.en",
+          i18n.t("forms.invalid_characters_field", { field: i18n.t("forms.title") }),
+          validateEnglishName
+        )
+        .required(i18n.t("forms.required_field", { field: i18n.t("forms.title") }))
     }),
     parent_form: string()
       .nullable()

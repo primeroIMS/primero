@@ -52,3 +52,5 @@ export const getObjectPath = (path, values) => {
     .map(([key, value]) => getInnerPath(value, key, typeof values === "object" && !Array.isArray(values)))
     .flat(Infinity);
 };
+
+export const invalidCharRegexp = new RegExp("[*!@#%$\\^]");
