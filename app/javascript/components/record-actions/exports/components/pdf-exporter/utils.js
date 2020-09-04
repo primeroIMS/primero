@@ -57,7 +57,7 @@ export const addPageHeaderFooter = (pdf, record, i18n, logo) => {
     pdf.setPage(page);
 
     if (logo?.img) {
-      pdf.addImage(logo?.img, "png", PAGE_MARGIN, 0.4, logo?.width, logo?.height);
+      pdf.addImage(logo?.img, "png", PAGE_MARGIN, PAGE_MARGIN, logo?.width, logo?.height);
     }
 
     // Add case id and date

@@ -2312,6 +2312,7 @@ en:
       referrals: "Referrals"
       approvals: "Approvals"
     required_field: "%{field} is a required field"
+    invalid_characters_field: "%{field} contains invalid characters."
     type_label: "Type"
     select_label: "Select"
     subform_not_found: "No %{subform_name} found."

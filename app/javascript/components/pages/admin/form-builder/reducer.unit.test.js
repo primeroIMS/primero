@@ -755,4 +755,214 @@ describe("<FormsBuilder /> - Reducers", () => {
       expect(newState).to.deep.equal(expected);
     });
   });
+
+  describe("SAVE_SUBFORMS_SUCCESS", () => {
+    const okPayload = [
+      {
+        ok: true,
+        json: {
+          data: {
+            id: 1,
+            unique_id: "subform_test_1",
+            name: { en: "Subform Test" },
+            visible: true
+          }
+        }
+      }
+    ];
+
+    it("should set errors if subforms were not save correctly", () => {
+      const payload = [
+        {
+          ok: false,
+          error: {
+            message: ["Test error"]
+          }
+        }
+      ];
+
+      const currentState = fromJS({
+        errors: false,
+        serverErrors: []
+      });
+
+      const expected = fromJS({
+        errors: true,
+        serverErrors: [{ message: ["Test error"] }]
+      });
+
+      const action = {
+        type: actions.SAVE_SUBFORMS_SUCCESS,
+        payload
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("should update subforms and selectedFields with the recently created subforms", () => {
+      const currentState = fromJS({
+        subforms: [
+          {
+            unique_id: "subform_test_1",
+            name: { en: "Subform Test" },
+            temp_id: 1234
+          }
+        ],
+        selectedFields: [
+          {
+            name: "subform_test_1",
+            display_name: { en: "Subform Test" },
+            type: "subform",
+            subform_section_temp_id: 1234,
+            subform_section_unique_id: "subform_test_1"
+          }
+        ]
+      });
+
+      const expected = fromJS({
+        subforms: [
+          {
+            id: 1,
+            unique_id: "subform_test_1",
+            name: { en: "Subform Test" },
+            visible: true
+          }
+        ],
+        selectedFields: [
+          {
+            name: "subform_test_1",
+            display_name: { en: "Subform Test" },
+            type: "subform",
+            subform_section_temp_id: 1234,
+            subform_section_id: 1,
+            subform_section_unique_id: "subform_test_1"
+          }
+        ],
+        updatedFormIds: [1]
+      });
+
+      const action = {
+        type: actions.SAVE_SUBFORMS_SUCCESS,
+        payload: okPayload
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("should update selectedFields for subforms without overriding existing selectedFields", () => {
+      const currentState = fromJS({
+        subforms: [
+          {
+            unique_id: "subform_test_1",
+            name: { en: "Subform Test" },
+            temp_id: 1234
+          }
+        ],
+        selectedFields: [
+          {
+            name: "subform_test_1",
+            display_name: { en: "Subform Test" },
+            type: "subform",
+            subform_section_temp_id: 1234,
+            subform_section_unique_id: "subform_test_1"
+          },
+          {
+            id: 2,
+            name: "test_txt_field",
+            type: "text_field"
+          }
+        ]
+      });
+
+      const expected = fromJS({
+        subforms: [
+          {
+            id: 1,
+            unique_id: "subform_test_1",
+            name: { en: "Subform Test" },
+            visible: true
+          }
+        ],
+        selectedFields: [
+          {
+            name: "subform_test_1",
+            display_name: { en: "Subform Test" },
+            type: "subform",
+            subform_section_temp_id: 1234,
+            subform_section_id: 1,
+            subform_section_unique_id: "subform_test_1"
+          },
+          {
+            id: 2,
+            name: "test_txt_field",
+            type: "text_field"
+          }
+        ],
+        updatedFormIds: [1]
+      });
+
+      const action = {
+        type: actions.SAVE_SUBFORMS_SUCCESS,
+        payload: okPayload
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("should return same selectedField when payload doesn not return a new subform, but an existing one", () => {
+      const updatePayload = [
+        {
+          ok: true,
+          json: {
+            data: {
+              id: 1
+            }
+          }
+        }
+      ];
+
+      const currentState = fromJS({
+        subforms: [
+          {
+            id: 1,
+            unique_id: "subform_test_1",
+            name: { en: "Subform Test" },
+            visible: true
+          }
+        ],
+        selectedFields: [
+          {
+            name: "subform_test_1",
+            type: "subform",
+            subform_section_id: 1,
+            display_name: { en: "Subform Test" },
+            subform_section_temp_id: 1234,
+            subform_section_unique_id: "subform_test_1"
+          },
+          {
+            id: 2,
+            name: "test_txt_field",
+            type: "text_field"
+          }
+        ]
+      });
+
+      const action = {
+        type: actions.SAVE_SUBFORMS_SUCCESS,
+        payload: updatePayload
+      };
+
+      const expected = currentState.set("updatedFormIds", fromJS([1]));
+
+      const newState = reducer(currentState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+  });
 });

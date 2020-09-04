@@ -21,6 +21,7 @@ describe("libs/index", () => {
       "compare",
       "dataToJS",
       "getObjectPath",
+      "invalidCharRegexp",
       "keyIn",
       "listAttachmentFields",
       "listEntriesToRecord",

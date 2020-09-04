@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useI18n } from "../../../../i18n";
 import { FORM_TO_EXPORT_FIELD } from "../../constants";
 import { enqueueSnackbar } from "../../../../notifier";
-import { getAgency } from "../../../../application";
+import { getAgencyLogos } from "../../../../application/selectors";
 
 import { HTML_2_PDF_OPTIONS } from "./constants";
 import styles from "./styles.css";
@@ -27,15 +27,14 @@ const Component = ({ forms, record }, ref) => {
     ? forms.filter(form => userSelectedForms.includes(form.unique_id))
     : forms;
 
-  const recordAgency = useSelector(state => getAgency(state, record.get("owned_by_agency_id")));
+  const agencyLogos = useSelector(state => getAgencyLogos(state));
 
   useImperativeHandle(ref, () => ({
     async savePdf({ setPending, close, values }) {
       setPending(true);
 
-      const image = recordAgency.get("logo_full=", null);
-
-      const logo = image ? await buildHeaderImage(image) : null;
+      // eslint-disable-next-line camelcase
+      const logo = agencyLogos ? await buildHeaderImage(agencyLogos[0]?.logo_full) : null;
 
       html2pdf()
         .from(html.current)

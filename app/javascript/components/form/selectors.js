@@ -1,5 +1,7 @@
 import { fromJS, Map } from "immutable";
 
+import { getReportingLocationConfig } from "../application/selectors";
+
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 
 const formGroups = (state, i18n) =>
@@ -21,15 +23,29 @@ const formGroups = (state, i18n) =>
 
 const agencies = state =>
   state.getIn(["application", "agencies"], fromJS([])).map(agency => ({
-    id: agency.get("id"),
+    id: agency.get("unique_id"),
     display_text: agency.get("name")
   }));
 
-const locations = (state, i18n) =>
+const locations = (state, i18n, includeAdminLevel = false) =>
   state.getIn(["forms", "options", "locations"], fromJS([])).map(location => ({
     id: location.get("code"),
-    display_text: location.getIn(["name", i18n.locale], "")
+    display_text: location.getIn(["name", i18n.locale], ""),
+    ...(includeAdminLevel && { admin_level: location.get("admin_level") })
   }));
+
+const reportingLocations = (state, i18n) =>
+  locations(state, i18n, true)
+    .filter(location => location.admin_level === getReportingLocationConfig(state).get("admin_level"))
+    .map(location => {
+      // eslint-disable-next-line camelcase
+      const { id, display_text } = location;
+
+      return {
+        id,
+        display_text
+      };
+    });
 
 const modules = state =>
   state.getIn(["application", "modules"], fromJS([])).map(module => ({
@@ -78,6 +94,8 @@ const optionsFromState = (state, optionStringsSource, i18n) => {
       return agencies(state);
     case OPTION_TYPES.LOCATION:
       return locations(state, i18n);
+    case OPTION_TYPES.REPORTING_LOCATIONS:
+      return reportingLocations(state, i18n);
     case OPTION_TYPES.MODULE:
       return modules(state);
     case OPTION_TYPES.FORM_GROUP:

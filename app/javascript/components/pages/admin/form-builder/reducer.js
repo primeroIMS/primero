@@ -96,7 +96,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .set("serverErrors", fromJS([]))
         .set("updatedFormIds", fromJS([]));
     case actions.SAVE_SUBFORMS_SUCCESS: {
-      const formIds = payload.filter(data => data.ok).map(data => data.json.data.id);
+      const subformsSaved = payload.filter(data => data.ok).map(data => data.json.data);
+      const formsIds = subformsSaved.map(formSaved => formSaved.id);
 
       const errors = payload.filter(data => data.ok === false).map(data => data.json || data.error);
 
@@ -104,7 +105,39 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         return state.set("errors", true).set("serverErrors", fromJS(errors));
       }
 
-      return state.set("updatedFormIds", fromJS(formIds));
+      const newSubforms = subformsSaved.map(subformSaved => {
+        if (Object.keys(subformSaved).length === 1) {
+          const associatedSubform = state
+            .get("subforms")
+            .toJS()
+            .find(subform => subformSaved.id === subform.id);
+
+          return associatedSubform;
+        }
+
+        return subformSaved;
+      });
+
+      const newSelectedFields = state.get("selectedFields").map(selectedField => {
+        if (selectedField.get("type") !== SUBFORM_SECTION) {
+          return selectedField;
+        }
+
+        const foundSubform = subformsSaved.find(
+          subformSaved => subformSaved.unique_id === selectedField.get("subform_section_unique_id")
+        );
+
+        if (!foundSubform) {
+          return selectedField;
+        }
+
+        return selectedField.set("subform_section_id", foundSubform.id);
+      });
+
+      return state
+        .set("updatedFormIds", fromJS(formsIds))
+        .set("subforms", fromJS(newSubforms))
+        .set("selectedFields", newSelectedFields);
     }
     case actions.SAVE_SUBFORMS_FINISHED:
       return state.set("saving", false);

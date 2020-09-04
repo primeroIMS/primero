@@ -4,6 +4,7 @@ import { DialogTitle } from "@material-ui/core";
 import { setupMockFormComponent } from "../../../../../../test";
 import { SUBFORM_SECTION, SELECT_FIELD } from "../../../../../form";
 import OrderableOptionsField from "../../../../../form/fields/orderable-options-field";
+import SwitchInput from "../../../../../form/fields/switch-input";
 import DraggableOption from "../../../../../form/components/draggable-option";
 import FieldsList from "../fields-list";
 
@@ -120,6 +121,7 @@ describe("<FieldDialog />", () => {
       expect(component.find(OrderableOptionsField)).to.have.lengthOf(1);
       expect(component.find(DraggableOption)).to.have.lengthOf(3);
       expect(component.find(FieldDialog).find(DialogTitle).text()).to.equal(`fields.edit_label`);
+      expect(component.find(DraggableOption).find(SwitchInput)).to.have.lengthOf(3);
     });
   });
 });

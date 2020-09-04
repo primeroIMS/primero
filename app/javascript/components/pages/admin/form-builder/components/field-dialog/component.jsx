@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Add from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
+import set from "lodash/set";
 
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { setDialog } from "../../../../../record-actions/action-creators";
@@ -146,12 +147,12 @@ const Component = ({ mode, onClose, onSuccess }) => {
     const currentFieldName = selectedFieldName === NEW_FIELD ? Object.keys(fieldData)[0] : selectedFieldName;
 
     if (typeof fieldData[currentFieldName].disabled !== "undefined" || selectedFieldName === NEW_FIELD) {
-      newFieldData = {
-        [currentFieldName]: {
-          ...fieldData[currentFieldName],
-          disabled: !fieldData[currentFieldName].disabled
-        }
-      };
+      newFieldData = { [currentFieldName]: { ...fieldData[currentFieldName] } };
+      getObjectPath("", newFieldData)
+        .filter(path => path.endsWith("disabled"))
+        .forEach(path => {
+          set(newFieldData, path, !get(newFieldData, path));
+        });
     }
 
     if (selectedFieldName === NEW_FIELD) {
