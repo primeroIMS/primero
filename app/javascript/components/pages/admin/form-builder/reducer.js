@@ -127,6 +127,10 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           subformSaved => subformSaved.unique_id === selectedField.get("subform_section_unique_id")
         );
 
+        if (!foundSubform) {
+          return selectedField;
+        }
+
         return selectedField.set("subform_section_id", foundSubform.id);
       });
 
