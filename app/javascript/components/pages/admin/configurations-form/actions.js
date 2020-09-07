@@ -2,6 +2,11 @@ import { namespaceActions } from "../../../../libs";
 import NAMESPACE from "../configurations-list/namespace";
 
 export default namespaceActions(NAMESPACE, [
+  "APPLY_CONFIGURATION",
+  "APPLY_CONFIGURATION_STARTED",
+  "APPLY_CONFIGURATION_SUCCESS",
+  "APPLY_CONFIGURATION_FINISHED",
+  "APPLY_CONFIGURATION_FAILURE",
   "CLEAR_SELECTED_CONFIGURATION",
   "DELETE_CONFIGURATION",
   "FETCH_CONFIGURATION",

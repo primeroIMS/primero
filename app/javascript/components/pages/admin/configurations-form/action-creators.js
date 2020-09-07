@@ -3,6 +3,19 @@ import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../../../notifier
 
 import actions from "./actions";
 
+const getSuccessCallback = (message, idFromResponse, redirect) => ({
+  action: ENQUEUE_SNACKBAR,
+  payload: {
+    message,
+    options: {
+      variant: "success",
+      key: generate.messageKey(message)
+    }
+  },
+  redirectWithIdFromResponse: idFromResponse,
+  redirect
+});
+
 export const fetchConfiguration = id => {
   return {
     type: actions.FETCH_CONFIGURATION,
@@ -21,18 +34,7 @@ export const saveConfiguration = ({ id, body, saveMethod, message }) => {
       path,
       method: saveMethod === SAVE_METHODS.update ? METHODS.PATCH : METHODS.POST,
       body,
-      successCallback: {
-        action: ENQUEUE_SNACKBAR,
-        payload: {
-          message,
-          options: {
-            variant: "success",
-            key: generate.messageKey(message)
-          }
-        },
-        redirectWithIdFromResponse: true,
-        redirect: `/admin/${path}`
-      }
+      successCallback: getSuccessCallback(message, true, `/admin/${path}`)
     }
   };
 };
@@ -42,18 +44,21 @@ export const deleteConfiguration = ({ id, message }) => ({
   api: {
     path: `${RECORD_PATH.configurations}/${id}`,
     method: METHODS.DELETE,
-    successCallback: {
-      action: ENQUEUE_SNACKBAR,
-      payload: {
-        message,
-        options: {
-          variant: SNACKBAR_VARIANTS.success,
-          key: generate.messageKey(message)
-        }
-      },
-      redirectWithIdFromResponse: false,
-      redirect: `/admin/${RECORD_PATH.configurations}`
-    }
+    successCallback: getSuccessCallback(message, false, `/admin/${RECORD_PATH.configurations}`)
+  }
+});
+
+export const applyConfiguration = ({ id, message }) => ({
+  type: actions.APPLY_CONFIGURATION,
+  api: {
+    path: `${RECORD_PATH.configurations}/${id}`,
+    method: METHODS.PATCH,
+    body: {
+      data: {
+        apply_now: true
+      }
+    },
+    successCallback: getSuccessCallback(message, false, false)
   }
 });
 

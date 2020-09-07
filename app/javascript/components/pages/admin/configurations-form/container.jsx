@@ -1,32 +1,36 @@
 import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CheckIcon from "@material-ui/icons/Check";
-import { Typography, Tooltip } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../../i18n";
 import Form, { FormAction, whichFormMode } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../user-groups-list/namespace";
-import { ROUTES, SAVE_METHODS } from "../../../../config";
+import { SAVE_METHODS } from "../../../../config";
 import bindFormSubmit from "../../../../libs/submit-form";
 import ActionDialog from "../../../action-dialog";
 import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
 import { setDialog, setPending } from "../../../record-actions/action-creators";
+import { enqueueSnackbar } from "../../../notifier";
 
 import { form, validations } from "./form";
 import {
-  fetchConfiguration,
+  applyConfiguration,
   clearSelectedConfiguration,
-  saveConfiguration,
-  deleteConfiguration
+  deleteConfiguration,
+  fetchConfiguration,
+  saveConfiguration
 } from "./action-creators";
-import { getConfiguration, getServerErrors, getSavingRecord } from "./selectors";
-import { NAME, DELETE_CONFIGURATION_MODAL } from "./constants";
+import { getConfiguration, getErrors, getLoading, getServerErrors, getSavingRecord } from "./selectors";
+import { NAME, APPLY_CONFIGURATION_MODAL, DELETE_CONFIGURATION_MODAL } from "./constants";
+import { buildErrorMessages } from "./utils";
+import styles from "./styles.css";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -34,12 +38,19 @@ const Container = ({ mode }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const { id } = useParams();
+  const css = makeStyles(styles)();
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const configuration = useSelector(state => getConfiguration(state));
   const saving = useSelector(state => getSavingRecord(state));
+  const loading = useSelector(state => getLoading(state));
+  const errors = useSelector(state => getErrors(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const validationSchema = validations(formMode, i18n);
 
+  const applyModal = useSelector(state => selectDialog(state, APPLY_CONFIGURATION_MODAL));
+  const setApplyModal = open => {
+    dispatch(setDialog({ dialog: APPLY_CONFIGURATION_MODAL, open }));
+  };
   const deleteModal = useSelector(state => selectDialog(state, DELETE_CONFIGURATION_MODAL));
   const setDeleteModal = open => {
     dispatch(setDialog({ dialog: DELETE_CONFIGURATION_MODAL, open }));
@@ -60,9 +71,9 @@ const Container = ({ mode }) => {
     );
   };
 
-  const handleCancel = () => dispatch(push(ROUTES.configurations));
-
-  const handleApply = () => handleCancel();
+  const handleApplyModal = () => dispatch(applyConfiguration(id, i18n.t("configurations.messages.applied")));
+  const handleCancelApplyModal = () => setApplyModal(false);
+  const handleApply = () => setApplyModal(true);
 
   const handleSuccessDelete = () => {
     setDialogPending(true);
@@ -76,7 +87,6 @@ const Container = ({ mode }) => {
   };
 
   const handleCancelDelete = () => setDeleteModal(false);
-
   const handleDelete = () => setDeleteModal(true);
 
   useEffect(() => {
@@ -91,16 +101,23 @@ const Container = ({ mode }) => {
     };
   }, [id]);
 
+  useEffect(() => {
+    if (errors) {
+      console.log("TRIGGER ERRORS", formErrors);
+      const messages = buildErrorMessages(formErrors);
+
+      if (messages !== "") {
+        dispatch(enqueueSnackbar(messages, { type: "error" }));
+      }
+    }
+  }, [errors]);
+
   const pageHeading = configuration?.size ? configuration.get("name") : i18n.t("configurations.label_new");
 
   const editButton = formMode.get("isShow") ? (
     <>
       <FormAction actionHandler={handleDelete} text={i18n.t("buttons.delete")} startIcon={<DeleteIcon />} />
-      <Tooltip title={i18n.t("configurations.not_allowed")}>
-        <span>
-          <FormAction actionHandler={handleApply} text={i18n.t("buttons.apply")} startIcon={<CheckIcon />} disabled />
-        </span>
-      </Tooltip>
+      <FormAction actionHandler={handleApply} text={i18n.t("buttons.apply")} startIcon={<CheckIcon />} />
     </>
   ) : null;
 
@@ -151,6 +168,20 @@ const Container = ({ mode }) => {
           pending={dialogPending}
           omitCloseAfterSuccess
         />
+        <ActionDialog
+          open={applyModal}
+          successHandler={handleApplyModal}
+          cancelHandler={handleCancelApplyModal}
+          dialogTitle={`${i18n.t("buttons.apply")} ${configuration.get("name")}`}
+          confirmButtonLabel={i18n.t("buttons.apply")}
+          pending={loading}
+          omitCloseAfterSuccess
+        >
+          <div className={css.applyConfigText}>
+            {i18n.t("configurations.apply_label")}
+            <b>{i18n.t("configurations.apply_label_bold")}</b>
+          </div>
+        </ActionDialog>
       </PageContent>
     </LoadingIndicator>
   );
