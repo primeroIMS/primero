@@ -6,7 +6,7 @@ import { makeStyles, Tab, Tabs } from "@material-ui/core";
 import { FormContext, useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 
 import { fetchLookups } from "../../../record-form/action-creators";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
@@ -33,6 +33,7 @@ import {
 import { validationSchema } from "./forms";
 import { NAME, NEW_FIELD } from "./constants";
 import {
+  getSavingRecord,
   getSelectedField,
   getSelectedForm,
   getSelectedSubforms,
@@ -60,6 +61,7 @@ const Component = ({ mode }) => {
   const [moduleId, setModuleId] = useState("");
   const [parentForm, setParentForm] = useState("");
   const errors = useSelector(state => getServerErrors(state), compare);
+  const saving = useSelector(state => getSavingRecord(state));
   const updatedFormIds = useSelector(state => getUpdatedFormIds(state), compare);
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
   const selectedField = useSelector(state => getSelectedField(state), compare);
@@ -113,6 +115,15 @@ const Component = ({ mode }) => {
   const loading = isLoading || !selectedForm?.toSeq()?.size;
 
   useEffect(() => {
+    if (!saving && id && !loading && formMode.get("isEdit")) {
+      batch(() => {
+        dispatch(fetchForms());
+        dispatch(fetchForm(id));
+      });
+    }
+  }, [saving]);
+
+  useEffect(() => {
     if (errors?.size) {
       const messages = dataToJS(getSubformErrorMessages(errors, i18n));
 
@@ -132,9 +143,11 @@ const Component = ({ mode }) => {
   }, [updatedFormIds, errors]);
 
   useEffect(() => {
-    dispatch(fetchLookups());
-    dispatch(fetchForms());
-    dispatch(clearSelectedForm());
+    batch(() => {
+      dispatch(fetchLookups());
+      dispatch(fetchForms());
+      dispatch(clearSelectedForm());
+    });
   }, []);
 
   useEffect(() => {
@@ -144,8 +157,10 @@ const Component = ({ mode }) => {
 
     return () => {
       if (isEditOrShow) {
-        dispatch(clearSelectedForm());
-        dispatch(clearSubforms());
+        batch(() => {
+          dispatch(clearSelectedForm());
+          dispatch(clearSubforms());
+        });
       }
     };
   }, [id]);
@@ -208,6 +223,7 @@ const Component = ({ mode }) => {
 
   const memoizedSetValue = useCallback((path, value) => methods.setValue(path, value), []);
   const memoizedRegister = useCallback(prop => methods.register(prop), []);
+  const memoizedUnregister = useCallback(prop => methods.unregister(prop), []);
   const memoizedGetValues = useCallback(prop => methods.getValues(prop), []);
   const formContextFields = methods.control.fields;
 
@@ -245,6 +261,7 @@ const Component = ({ mode }) => {
               register={memoizedRegister}
               getValues={memoizedGetValues}
               setValue={memoizedSetValue}
+              unregister={memoizedUnregister}
             />
             <TranslationsTab
               formContextFields={formContextFields}

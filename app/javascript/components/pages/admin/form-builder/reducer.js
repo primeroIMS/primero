@@ -326,6 +326,36 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
       return state.set("selectedSubform", mergedSubform).set("selectedField", mergedSelectedField);
     }
+    case actions.SELECT_EXISTING_FIELDS: {
+      const { addedFields, removedFields } = payload;
+
+      const fields = state.get("fields", fromJS({})).valueSeq().toList();
+
+      const newFields = fields.filter(field =>
+        addedFields.some(addedField => field.get("id") === addedField.id && field.get("name") === addedField.name)
+      );
+
+      const fieldsToRemove = fields.filter(field =>
+        removedFields.some(
+          removedField => field.get("id") === removedField.id && field.get("name") === removedField.name
+        )
+      );
+
+      const selectedFields = state
+        .get("selectedFields")
+        .filter(
+          field =>
+            !fieldsToRemove.some(
+              removed => removed.get("id") === field.get("id") && field.get("name") === removed.get("name")
+            )
+        )
+        .concat(newFields);
+
+      return state
+        .set("selectedFields", selectedFields)
+        .set("copiedFields", newFields)
+        .set("removedFields", fieldsToRemove);
+    }
     default:
       return state;
   }

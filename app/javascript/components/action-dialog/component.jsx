@@ -155,7 +155,7 @@ ActionDialog.propTypes = {
   dialogSubHeader: PropTypes.string,
   dialogSubtitle: PropTypes.string,
   dialogText: PropTypes.string,
-  dialogTitle: PropTypes.string,
+  dialogTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   disableActions: PropTypes.bool,
   disableBackdropClick: PropTypes.bool,
   enabledSuccessButton: PropTypes.bool,
