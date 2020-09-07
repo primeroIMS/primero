@@ -71,7 +71,8 @@ const Container = ({ mode }) => {
     );
   };
 
-  const handleApplyModal = () => dispatch(applyConfiguration(id, i18n.t("configurations.messages.applied")));
+  const handleApplyModal = () =>
+    dispatch(applyConfiguration({ id, message: i18n.t("configurations.messages.applied") }));
   const handleCancelApplyModal = () => setApplyModal(false);
   const handleApply = () => setApplyModal(true);
 
@@ -103,7 +104,6 @@ const Container = ({ mode }) => {
 
   useEffect(() => {
     if (errors) {
-      console.log("TRIGGER ERRORS", formErrors);
       const messages = buildErrorMessages(formErrors);
 
       if (messages !== "") {

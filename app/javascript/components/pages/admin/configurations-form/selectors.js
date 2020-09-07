@@ -18,3 +18,5 @@ export const getServerErrors = state => {
 export const getSavingRecord = state => state.getIn(["records", "admin", NAMESPACE, SAVING], false);
 
 export const getLoading = state => state.getIn(["records", "admin", NAMESPACE, "loading"], false);
+
+export const getApplied = state => state.getIn(["records", "admin", NAMESPACE, "applied"], false);

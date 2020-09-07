@@ -1,5 +1,5 @@
 import { RECORD_PATH, SAVE_METHODS, METHODS } from "../../../../config";
-import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../../../notifier";
+import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 
 import actions from "./actions";
 
