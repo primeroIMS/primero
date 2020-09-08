@@ -227,9 +227,9 @@ module ApplicationHelper
 
 
   def pdf_validation(exporter_id, param_id)
-    if exporter_id == 'case_pdf' && param_id.present? && can?(Permission::EXPORT_NEW_CASE_PDF.to_sym, Child)
+    if exporter_id == 'case_pdf' && param_id.present? && can?(Permission::EXPORT_CHILD_PDF.to_sym, Child)
       false
-    elsif exporter_id == 'new_case_pdf' && param_id.blank?
+    elsif exporter_id == 'child_pdf' && param_id.blank?
       false
     else
       true

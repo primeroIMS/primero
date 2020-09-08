@@ -540,9 +540,9 @@ DEPENDENCIES
   uglifier (~> 4.0.2)
   uuidtools (~> 2.1.1)
   validatable (= 1.6.7)
-  wicked_pdf
+  wicked_pdf (= 2.1.0)
   will_paginate (~> 3.1.0)
-  wkhtmltopdf-binary
+  wkhtmltopdf-binary (= 0.12.6.3)
   writeexcel (~> 1.0.5)
   yui-compressor
 

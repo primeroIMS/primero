@@ -12,7 +12,7 @@ module Exporters
     DuplicateIdCSVExporter,
     #MRMViolationExporter,
     SelectedFieldsExcelExporter,
-    NewPDFExporter
+    ChildPDFExporter
   ]
 
   def self.active_exporters_for_model(model)

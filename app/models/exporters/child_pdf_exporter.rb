@@ -1,11 +1,11 @@
 
 module Exporters
-  class NewPDFExporter < BaseExporter
+  class ChildPDFExporter < BaseExporter
     extend BaseSelectFields
 
     class << self
       def id
-        'new_case_pdf'
+        'child_pdf'
       end
 
       def mime_type
@@ -28,7 +28,7 @@ module Exporters
       end
 
       def reverse_page_direction
-        I18n.locale.to_s.start_with?('ar')
+        Primero::Application::RTL_LOCALES.include?(I18n.locale.to_s)
       end
     end
 

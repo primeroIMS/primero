@@ -67,8 +67,8 @@ gem 'rack', '~> 2.0.8'
 #Security assertions:
 gem "nokogiri", ">= 1.10.4"
 
-gem 'wkhtmltopdf-binary'
-gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary', '0.12.6.3'
+gem 'wicked_pdf', '2.1.0'
 
 group :production do
   #TODO - Do not upgrade passenger
