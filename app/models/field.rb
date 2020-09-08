@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Model for Field
 class Field < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -217,17 +218,17 @@ class Field < ApplicationRecord
 
   # TODO: Review this method due the values structure changed.
   # TODO: Refactor with i18n import service
-  def update_translations(field_hash={}, locale)
+  def update_translations(locale, field_hash = {})
     if locale.present? && I18n.available_locales.include?(locale)
       field_hash.each do |key, value|
         if key == 'option_strings_text'
-          if self.option_strings_text.present?
+          if option_strings_text.present?
             update_option_strings_translations(value, locale)
           else
-            Rails.logger.warn "Field #{self.name} no longer has embedded option strings. Skipping."
+            Rails.logger.warn "Field #{name} no longer has embedded option strings. Skipping."
           end
         else
-          self.send("#{key}_#{locale}=", value)
+          send("#{key}_#{locale}=", value)
         end
       end
     else
@@ -237,17 +238,17 @@ class Field < ApplicationRecord
 
   # TODO: Refactor with i18n import service
   def update_option_strings_translations(options_hash, locale)
-    options = (self.send("option_strings_text_#{locale}").present? ? self.send("option_strings_text_#{locale}") : [])
+    options = (send("option_strings_text_#{locale}").present? ? send("option_strings_text_#{locale}") : [])
     options_hash.each do |key, value|
-      os = options.try(:find){|o| o['id'] == key}
+      os = options.try(:find) { |o| o['id'] == key }
       if os.present?
         os['display_text'] = value
       else
-        options << {'id' => key, 'display_text' => value}
+        options << { 'id' => key, 'display_text' => value }
       end
     end
-    self.send("option_strings_text_#{locale}=", options)
-    self.save!
+    send("option_strings_text_#{locale}=", options)
+    save!
   end
 
   private

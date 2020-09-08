@@ -68,7 +68,7 @@ class Lookup < ApplicationRecord
 
       return nil unless lookup.present?
 
-      FieldI18nService.fill_names(lookup.lookup_values_i18n.select{|v| v['id']===form_group_id})
+      FieldI18nService.fill_names(lookup.lookup_values_i18n.select { |v| v['id'] == form_group_id })
     end
 
     def add_form_group(form_group_id, form_group_description, parent_form, module_name)
@@ -98,28 +98,24 @@ class Lookup < ApplicationRecord
       Lookup.values(lookup_id, lookups, opts).find { |l| l['id'] == option_id }&.[]('display_text')
     end
 
-    def get_location_types
-      find_by(unique_id: 'lookup-location-type')
-    end
-
     def import_translations(locale, lookups_hash = {})
-      if locale.present? && I18n.available_locales.include?(locale)
-        lookups_hash.each do |key, value|
-          if key.present?
-            lookup = Lookup.find_by(unique_id: key)
-            if lookup.present?
-              lookup.update_translations(locale, value)
-              Rails.logger.info "Updating Lookup translation: Lookup [#{lookup.id}] locale [#{locale}]"
-              lookup.save!
-            else
-              Rails.logger.error "Error importing translations: Lookup for ID [#{key}] not found"
-            end
-          else
-            Rails.logger.error 'Error importing translations: Lookup ID not present'
-          end
+      return Rails.logger.error('Lookup translation not updated: No Locale passed in') if locale.blank?
+
+      return Rails.logger.error("Lookup translation not updated: Invalid locale [#{locale}]") if I18n.available_locales.exclude?(locale)
+
+      lookups_hash.each do |key, value|
+        if key.blank?
+          Rails.logger.error 'Error importing translations: Lookup ID not present'
+          next
         end
-      else
-        Rails.logger.error 'Error importing translations: locale not present'
+        lookup = Lookup.find_by(unique_id: key)
+        if lookup.blank?
+          Rails.logger.error "Error importing translations: Lookup for ID [#{key}] not found"
+          next
+        end
+        lookup.update_translations(locale, value)
+        Rails.logger.info "Updating Lookup translation: Lookup [#{lookup.id}] locale [#{locale}]"
+        lookup.save!
       end
     end
 
@@ -146,14 +142,14 @@ class Lookup < ApplicationRecord
   # TODO: Review this method due the values structure changed.
   def validate_values_keys_match
     default_ids = lookup_values_en&.map { |lv| lv['id'] }
-    if default_ids.present?
-      I18n.available_locales.each do |locale|
-        next if locale == Primero::Application::LOCALE_ENGLISH || send("lookup_values_#{locale}").blank?
+    return true if default_ids.blank?
 
-        locale_ids = send("lookup_values_#{locale}")&.map { |lv| lv['id'] }
-        if (default_ids - locale_ids).present? || (locale_ids - default_ids).present?
-          return errors.add(:lookup_values, I18n.t('errors.models.field.translated_options_do_not_match'))
-        end
+    I18n.available_locales.each do |locale|
+      next if locale == Primero::Application::LOCALE_ENGLISH || send("lookup_values_#{locale}").blank?
+
+      locale_ids = send("lookup_values_#{locale}")&.map { |lv| lv['id'] }
+      if (default_ids - locale_ids).present? || (locale_ids - default_ids).present?
+        return errors.add(:lookup_values, I18n.t('errors.models.field.translated_options_do_not_match'))
       end
     end
     true
@@ -161,11 +157,13 @@ class Lookup < ApplicationRecord
 
   def validate_options_have_default_locale
     return if lookup_values_i18n.blank? || lookup_values_en.all? { |h| h['display_text'].present? }
+
     errors.add(:lookup_values, I18n.t('errors.models.lookup.default_options_blank'))
   end
 
   def validate_values_id
-    return if lookup_values_i18n.blank? || lookup_values_i18n.all? { |h| h['id'].present?}
+    return if lookup_values_i18n.blank? || lookup_values_i18n.all? { |h| h['id'].present? }
+
     errors.add(:lookup_values, I18n.t('errors.models.lookup.values_ids_blank'))
   end
 
@@ -181,9 +179,9 @@ class Lookup < ApplicationRecord
   end
 
   def update_translations(locale, lookup_hash = {})
-    return Rails.logger.error "Lookup translation not updated: No Locale passed in" if locale.blank?
+    return Rails.logger.error('Lookup translation not updated: No Locale passed in') if locale.blank?
 
-    return Rails.logger.error "Lookup translation not updated: Invalid locale [#{locale}]" if I18n.available_locales.exclude?(locale)
+    return Rails.logger.error("Lookup translation not updated: Invalid locale [#{locale}]") if I18n.available_locales.exclude?(locale)
 
     lookup_hash.each do |key, value|
       if key == 'lookup_values'
@@ -192,7 +190,6 @@ class Lookup < ApplicationRecord
         send("#{key}_#{locale}=", value)
       end
     end
-
   end
 
   def update_properties(lookup_properties)

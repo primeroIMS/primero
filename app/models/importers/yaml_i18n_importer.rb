@@ -19,7 +19,7 @@ module Importers
           @locale.present? &&
           @translated_model.respond_to?(:import_translations))
         @values.values.each do |translation|
-          @translated_model.import_translations(strip_hash_values!(translation), @locale)
+          @translated_model.import_translations(@locale, strip_hash_values!(translation))
         end
       end
     end

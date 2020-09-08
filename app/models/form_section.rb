@@ -87,25 +87,20 @@ class FormSection < ApplicationRecord
       Lookup.where("unique_id like 'lookup-form-group-%'")
     end
 
-    # TODO: Refactor with YML i18n import
-    def import_translations(form_hash={}, locale)
-      if locale.present? && I18n.available_locales.include?(locale)
-        unique_id = form_hash.keys.first
-        if unique_id.present?
-          form = FormSection.find_by(unique_id: unique_id)
-          if form.present?
-            form.update_translations(form_hash.values.first, locale)
-            Rails.logger.info "Updating Form translation: Form [#{form.unique_id}] locale [#{locale}]"
-            form.save!
-          else
-            Rails.logger.error "Error importing translations: Form for ID [#{unique_id}] not found"
-          end
-        else
-          Rails.logger.error "Error importing translations: Form ID not present"
-        end
-      else
-        Rails.logger.error "Error importing translations: locale not present"
-      end
+    def import_translations(locale, form_hash = {})
+      return Rails.logger.error('Form translation not updated: No Locale passed in') if locale.blank?
+
+      return Rails.logger.error("Form translation not updated: Invalid locale [#{locale}]") if I18n.available_locales.exclude?(locale)
+
+      unique_id = form_hash.keys.first
+      return Rails.logger.error('Error importing translations: Form ID not present') if unique_id.blank?
+
+      form = FormSection.find_by(unique_id: unique_id)
+      return Rails.logger.error("Error importing translations: Form for ID [#{unique_id}] not found") if form.blank?
+
+      form.update_translations(locale, form_hash.values.first)
+      Rails.logger.info("Updating Form translation: Form [#{form.unique_id}] locale [#{locale}]")
+      form.save!
     end
 
     def list(params = {})
@@ -137,20 +132,20 @@ class FormSection < ApplicationRecord
   end
 
   # TODO: Refactor with Yaml I18n importer.
-  def update_translations(form_hash={}, locale)
-    if locale.present? && I18n.avialble_locales.include?(locale)
-      form_hash.each do |key, value|
-        # Form Group Name is now a calculated field based on form_group_id
-        # Form Group Translations are handled through Lookup
-        # Using elsif to exclude form_group_name in legacy translation files that may still include form_group_name
-        if key == 'fields'
-          update_field_translations(value, locale)
-        elsif key != 'form_group_name'
-          self.send("#{key}_#{locale}=", value)
-        end
+  def update_translations(locale, form_hash = {})
+    return Rails.logger.error('Form translation not updated: No Locale passed in') if locale.blank?
+
+    return Rails.logger.error("Form translation not updated: Invalid locale [#{locale}]") if I18n.available_locales.exclude?(locale)
+
+    form_hash.each do |key, value|
+      # Form Group Name is now a calculated field based on form_group_id
+      # Form Group Translations are handled through Lookup
+      # Using elsif to exclude form_group_name in legacy translation files that may still include form_group_name
+      if key == 'fields'
+        update_field_translations(locale, value)
+      elsif key != 'form_group_name'
+        send("#{key}_#{locale}=", value)
       end
-    else
-      Rails.logger.error "Form translation not updated: Invalid locale [#{locale}]"
     end
   end
 
@@ -249,12 +244,10 @@ class FormSection < ApplicationRecord
   private
 
   # TODO: Refactor with Yaml I18n importer.
-  def update_field_translations(fields_hash = {}, locale)
+  def update_field_translations(locale, fields_hash = {})
     fields_hash.each do |key, value|
       field = Field.find_by(name: key, form_section_id: id)
-      if field.present?
-        field.update_translations(value, locale)
-      end
+      field.update_translations(locale, value) if field.present?
     end
   end
 end

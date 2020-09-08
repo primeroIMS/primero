@@ -434,7 +434,7 @@ describe FormSection do
                                                                                'option_strings_text' => { 'option_1' => 'Spanish Option One Translated',
                                                                                                          'option_2' => 'Spanish Option Two Translated',
                                                                                                          'option_3' => 'Spanish Option Three Translated' } } } } }
-            FormSection.import_translations(@translated_hash, @locale)
+            FormSection.import_translations(@locale, @translated_hash)
             @form_t_1 = FormSection.find_by(unique_id: 'form_t_1')
           end
 
@@ -460,7 +460,7 @@ describe FormSection do
           end
 
           xit 'does not allow the translations to be saved' do
-            expect{FormSection.import_translations(@translated_hash, @locale)}.to raise_error(ActiveRecord::RecordInvalid, /Option strings text Field translated options must have same ids/)
+            expect{FormSection.import_translations(@locale, @translated_hash)}.to raise_error(ActiveRecord::RecordInvalid, /Option strings text Field translated options must have same ids/)
           end
         end
 
@@ -478,7 +478,7 @@ describe FormSection do
                                                                                                          'option_2' => 'Spanish Option Two Translated',
                                                                                                          'option_3' => 'Spanish Option Three Translated',
                                                                                                          'option_4' => 'Spanish Option Four Translated' } } } } }
-            FormSection.import_translations(@translated_hash, @locale)
+            FormSection.import_translations(@locale, @translated_hash)
             @form_t_3 = FormSection.find_by(unique_id: 'form_t_3')
           end
 
@@ -507,7 +507,7 @@ describe FormSection do
                                                                                                          'option_5' => 'Spanish Option Five Translated',
                                                                                                          'option_6' => 'Spanish Option Six Translated',
                                                                                                          'option_7' => 'Spanish Option Seven Translated' } } } } }
-            FormSection.import_translations(@translated_hash, @locale)
+            FormSection.import_translations(@locale, @translated_hash)
             @form_t_4 = FormSection.find_by(unique_id: 'form_t_4')
           end
 
@@ -529,7 +529,7 @@ describe FormSection do
                                                                                'option_strings_text' => { 'option_2' => 'Spanish Option Two Translated',
                                                                                                          'option_1' => 'Spanish Option One Translated',
                                                                                                          'option_3' => 'Spanish Option Three Translated' } } } } }
-            FormSection.import_translations(@translated_hash, @locale)
+            FormSection.import_translations(@locale, @translated_hash)
             @form_t_5 = FormSection.find_by(unique_id: 'form_t_5')
           end
 
@@ -575,7 +575,7 @@ describe FormSection do
                                                                                'option_strings_text' => { 'option_1' => 'Spanish Option One Translated',
                                                                                                          'option_2' => 'Spanish Option Two Translated',
                                                                                                          'option_3' => 'Spanish Option Three Translated' } } } } }
-            FormSection.import_translations(@translated_hash, @locale)
+            FormSection.import_translations(@locale, @translated_hash)
             @form_t_10 = FormSection.find_by(unique_id: 'form_t_10')
           end
 
@@ -598,7 +598,7 @@ describe FormSection do
                                                             'field_name_2' => { 'display_name' => 'Spanish Field Name 2 Translated',
                                                                                'option_strings_text' => { 'option_1' => 'Spanish Option One Translated',
                                                                                                          'option_2' => 'Spanish Option Two Translated' } } } } }
-            FormSection.import_translations(@translated_hash, @locale)
+            FormSection.import_translations(@locale, @translated_hash)
             @form_t_11 = FormSection.find_by(unique_id: 'form_t_11')
           end
 
@@ -623,7 +623,7 @@ describe FormSection do
                                                                                                          'option_2' => 'Spanish Option Two Translated',
                                                                                                          'option_3' => 'Spanish Option Three Translated',
                                                                                                          'option_4' => 'Spanish Option Four Translated' } } } } }
-            FormSection.import_translations(@translated_hash, @locale)
+            FormSection.import_translations(@locale, @translated_hash)
             @form_t_12 = FormSection.find_by(unique_id: 'form_t_12')
           end
 
@@ -652,7 +652,7 @@ describe FormSection do
                                                                                                          'option_5' => 'Spanish Option Five Translated',
                                                                                                          'option_6' => 'Spanish Option Six Translated',
                                                                                                          'option_7' => 'Spanish Option Seven Translated' } } } } }
-            FormSection.import_translations(@translated_hash, @locale)
+            FormSection.import_translations(@locale, @translated_hash)
             @form_t_13 = FormSection.find_by(unique_id: 'form_t_13')
           end
 
@@ -676,7 +676,7 @@ describe FormSection do
                                                                                 'option_strings_text' => { 'option_2' => 'Spanish Option Two Translated',
                                                                                                           'option_1' => 'Spanish Option One Translated',
                                                                                                           'option_3' => 'Spanish Option Three Translated' } } } } }
-            FormSection.import_translations(@translated_hash, @locale)
+            FormSection.import_translations(@locale, @translated_hash)
             @form_t_14 = FormSection.find_by(unique_id: 'form_t_14')
           end
 
