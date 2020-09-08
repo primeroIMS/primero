@@ -169,15 +169,13 @@ class Report < ApplicationRecord
     primary_range = sys.primary_age_range
     age_ranges = sys.age_ranges[primary_range]
 
-    if permission_filter.present?
-      filters << permission_filter
-    end
+    filters << permission_filter if permission_filter.present?
     if pivots.present?
       self.values = report_values(record_type, pivots, filters)
       if aggregate_counts_from.present?
         if dimensionality < ((aggregate_by + disaggregate_by).size + 1)
-          #The numbers are off because a dimension is missing. Zero everything out!
-          self.values = self.values.map{|pivots, _| [pivots, 0]}
+          # The numbers are off because a dimension is missing. Zero everything out!
+          self.values = self.values.map { |pivots, _| [pivots, 0] }
         end
         aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)&.first
         if aggregate_counts_from_field.present?
@@ -185,7 +183,7 @@ class Report < ApplicationRecord
             self.values = self.values.map do |pivots, value|
               if pivots.last.present? && pivots.last.match(/\w+:\d+/)
                 tally = pivots.last.split(':')
-                value = value * tally[1].to_i
+                value *= tally[1].to_i
               end
               [pivots, value]
             end.to_h
@@ -196,8 +194,8 @@ class Report < ApplicationRecord
           elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
             self.values = self.values.map do |pivots, value|
               if pivots.last.is_a?(Numeric)
-                value = value * pivots.last
-              elsif pivots.last == ""
+                value *= pivots.last
+              elsif pivots.last == ''
                 value = 0
               end
               [pivots, value]
@@ -205,11 +203,11 @@ class Report < ApplicationRecord
             self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
               (pivot_name.is_a? Numeric) ? "" : pivot_name
             end
-            self.values = self.values.map do |pivots, value|
-              pivots = pivots[0..-2] if pivots.last == ""
+            values = values.map do |pivots, value|
+              pivots = pivots[0..-2] if pivots.last == ''
               [pivots, value]
             end.to_h
-            self.values = Reports::Utils.correct_aggregate_counts(self.values)
+            values = Reports::Utils.correct_aggregate_counts(values)
           end
         end
       end
@@ -218,18 +216,18 @@ class Report < ApplicationRecord
         if /(^age$|^age_.*|.*_age$|.*_age_.*)/.match(pivot) && field_map[pivot].present? && field_map[pivot]['type'] == 'numeric_field'
           age_field_index = pivot_index(pivot)
           if group_ages && age_field_index && age_field_index < dimensionality
-            self.values = Reports::Utils.group_values(self.values, age_field_index) do |pivot_name|
-              age_ranges.find{|range| range.cover? pivot_name}
+            values = Reports::Utils.group_values(values, age_field_index) do |pivot_name|
+              age_ranges.find { |range| range.cover? pivot_name }
             end
           end
         end
       end
 
       if group_dates_by.present?
-        date_fields = pivot_fields.select{|_, f| f.type == Field::DATE_FIELD}
+        date_fields = pivot_fields.select { |_, f| f.type == Field::DATE_FIELD }
         date_fields.each do |field_name, _|
           if pivot_index(field_name) < dimensionality
-            self.values = Reports::Utils.group_values(self.values, pivot_index(field_name)) do |pivot_name|
+            values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
               Reports::Utils.date_range(pivot_name, group_dates_by)
             end
           end
@@ -240,20 +238,19 @@ class Report < ApplicationRecord
       aggregate_limit = dimensionality if aggregate_limit > dimensionality
 
       aggregate_value_range = self.values.keys.map do |pivot|
-        pivot[0..(aggregate_limit-1)]
+        pivot[0..(aggregate_limit - 1)]
       end.uniq.compact.sort(&method(:pivot_comparator))
 
       disaggregate_value_range = self.values.keys.map do |pivot|
-        pivot[(aggregate_limit)..-1]
+        pivot[aggregate_limit..-1]
       end.uniq.compact.sort(&method(:pivot_comparator))
 
       self.data = {
-        #total: response['response']['numFound'], #TODO: Do we need the total?
         aggregate_value_range: aggregate_value_range,
         disaggregate_value_range: disaggregate_value_range,
         values: @values
       }
-      ""
+      ''
     end
   end
 
