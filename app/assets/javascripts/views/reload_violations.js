@@ -11,8 +11,9 @@ _primero.Views.ViolationListReload = _primero.Views.Base.extend({
       this.reload();
     }
     $('body').on('violation-removed', $.proxy(reload_this, this));
-
-    this.show_hide_violations();
+    if ($('a[data-violation="true"]').is(":visible")){
+      this.show_hide_violations();
+    }
     _primero.show_add_violation_message();
   },
 
