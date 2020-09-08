@@ -110,31 +110,31 @@ module Exporters
 
       book = Spreadsheet.open(StringIO.new(data))
       sheet = book.worksheets[0]
-      sheet.row(0).to_a.should == ["_id", "model_type", "first_name", "last_name"]
-      sheet.row(1).to_a.should == [nil, "Case", "John", "Doe"]
+      sheet.row(1).to_a.should == ["_id", "model_type", "first_name", "last_name"]
+      sheet.row(2).to_a.should == [nil, "Case", "John", "Doe"]
 
       #Subform "cases_test_form_1" create this sheet because the subform.
       sheet = book.worksheets[1]
-      sheet.row(0).to_a.should == ["_id", "model_type", "field_1", "field_2"]
-      sheet.row(1).to_a.should == [nil, "Case", "field_1 value", "field_2 value"]
+      sheet.row(1).to_a.should == ["_id", "model_type", "field_1", "field_2"]
+      sheet.row(2).to_a.should == [nil, "Case", "field_1 value", "field_2 value"]
 
       #Subform "cases_test_form_1" create this sheet because the subform.
       sheet = book.worksheets[2]
-      sheet.row(0).to_a.should == ["_id", "model_type", "field_5", "field_6"]
-      sheet.row(1).to_a.should == [nil, "Case", "field_5 value", "field_6 value"]
+      sheet.row(1).to_a.should == ["_id", "model_type", "field_5", "field_6"]
+      sheet.row(2).to_a.should == [nil, "Case", "field_5 value", "field_6 value"]
 
       sheet = book.worksheets[3]
-      sheet.row(0).to_a.should == ["_id", "model_type", "relationship", "array_field"]
-      sheet.row(1).to_a.should == [nil, "Case", "Mother", "Option1 ||| Option2"]
+      sheet.row(1).to_a.should == ["_id", "model_type", "relationship", "array_field"]
+      sheet.row(2).to_a.should == [nil, "Case", "Mother", "Option1 ||| Option2"]
 
       #Subform "cases_test_form_3" create this sheet because the subform.
       sheet = book.worksheets[4]
-      sheet.row(0).to_a.should == ["_id", "model_type", "field_3", "field_4"]
-      sheet.row(1).to_a.should == [nil, "Case", "field_3 value", "field_4 value"]
+      sheet.row(1).to_a.should == ["_id", "model_type", "field_3", "field_4"]
+      sheet.row(2).to_a.should == [nil, "Case", "field_3 value", "field_4 value"]
 
       #Arabic form.
       sheet = book.worksheets[5]
-      sheet.row(0).to_a.should == ["_id", "model_type", "arabic_text", "arabic_array"]
+      sheet.row(1).to_a.should == ["_id", "model_type", "arabic_text", "arabic_array"]
     end
 
     it "converts data to Excel format - subforms selected fields" do
@@ -157,27 +157,27 @@ module Exporters
 
       book = Spreadsheet.open(StringIO.new(data))
       sheet = book.worksheets[0]
-      sheet.row(0).to_a.should == ["_id", "model_type", "first_name", "last_name"]
-      sheet.row(1).to_a.should == [nil, "Case", "John", "Doe"]
+      sheet.row(1).to_a.should == ["_id", "model_type", "first_name", "last_name"]
+      sheet.row(2).to_a.should == [nil, "Case", "John", "Doe"]
 
       #Subform "cases_test_form_1" create this sheet because the subform.
       sheet = book.worksheets[1]
-      sheet.row(0).to_a.should == ["_id", "model_type", "field_2"]
-      sheet.row(1).to_a.should == [nil, "Case", "field_2 value"]
+      sheet.row(1).to_a.should == ["_id", "model_type", "field_2"]
+      sheet.row(2).to_a.should == [nil, "Case", "field_2 value"]
 
       #Subform "cases_test_form_1" create this sheet because the subform.
       sheet = book.worksheets[2]
-      sheet.row(0).to_a.should == ["_id", "model_type", "field_6"]
-      sheet.row(1).to_a.should == [nil, "Case", "field_6 value"]
+      sheet.row(1).to_a.should == ["_id", "model_type", "field_6"]
+      sheet.row(2).to_a.should == [nil, "Case", "field_6 value"]
 
       sheet = book.worksheets[3]
-      sheet.row(0).to_a.should == ["_id", "model_type", "relationship", "array_field"]
-      sheet.row(1).to_a.should == [nil, "Case", "Mother", "Option1 ||| Option2"]
+      sheet.row(1).to_a.should == ["_id", "model_type", "relationship", "array_field"]
+      sheet.row(2).to_a.should == [nil, "Case", "Mother", "Option1 ||| Option2"]
 
       #Subform "cases_test_form_3" create this sheet because the subform.
       sheet = book.worksheets[4]
-      sheet.row(0).to_a.should == ["_id", "model_type", "field_4"]
-      sheet.row(1).to_a.should == [nil, "Case", "field_4 value"]
+      sheet.row(1).to_a.should == ["_id", "model_type", "field_4"]
+      sheet.row(2).to_a.should == [nil, "Case", "field_4 value"]
     end
 
   end
