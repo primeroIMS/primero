@@ -94,6 +94,17 @@ module Ownable
       self.previously_owned_by_agency = self.changes['owned_by_agency'].try(:fetch, 0) || owned_by_agency
       self.previously_owned_by_location = self.changes['owned_by_location'].try(:fetch, 0) || owned_by_location
       self.previously_owned_by_agency_office = self.changes['owned_by_agency_office'].try(:fetch, 0) || owned_by_agency_office
+
+      if self.class == Child && self.incident_links.present?
+        self.incident_links.each do |incident|
+          incident_db = Incident.get(incident["incident_id"])
+          incident_db.previously_owned_by = incident_db.owned_by
+          incident_db.owned_by = self.owned_by
+          incident_db.owned_by_full_name = self.owned_by_full_name
+          incident_db.save
+        end
+      end
+
     end
 
     if (self.changes['assigned_user_names'].present? || self.new?)
