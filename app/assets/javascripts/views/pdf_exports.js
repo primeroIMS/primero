@@ -16,7 +16,7 @@ _primero.Views.PdfExports = _primero.Views.Base.extend({
     this.record_id = $this_el.data('record-id');
     this.model_class = $this_el.data('model-class');
     // TODO - tighten this up
-    this.filter_type = 'case_pdf';
+    this.filter_type = $this_el.data('pdf-version');
 
     this.init_chosen_fields();
 

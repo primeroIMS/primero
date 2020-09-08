@@ -9,7 +9,9 @@ include_recipe 'primero::common'
    libxslt1-dev
    imagemagick
    openjdk-8-jre-headless
-   inotify-tools).each do |pkg|
+   inotify-tools
+   fonts-khmeros-core
+   ).each do |pkg|
   package pkg
 end
 

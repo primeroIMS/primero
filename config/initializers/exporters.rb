@@ -11,7 +11,8 @@ module Exporters
     UnhcrCSVExporter,
     DuplicateIdCSVExporter,
     #MRMViolationExporter,
-    SelectedFieldsExcelExporter
+    SelectedFieldsExcelExporter,
+    ChildPDFExporter
   ]
 
   def self.active_exporters_for_model(model)
