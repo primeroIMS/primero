@@ -170,8 +170,6 @@ module Exporters
         I18n.l(value, format: time_format)
       when Array
         value.map {|el| format_field(field, el) }.join(', ')
-      #when Hash
-        #value.inject {|acc, (k,v)| acc.merge({ k => format_field(field, v) }) }
       else
         value.to_s
       end
