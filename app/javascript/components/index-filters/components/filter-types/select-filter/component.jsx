@@ -22,6 +22,7 @@ import {
   buildFilterLookups
 } from "../utils";
 import handleFilterChange from "../value-handlers";
+import { displayNameHelper } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
@@ -134,6 +135,18 @@ const Component = ({
     }
   };
 
+  const getOptionName = option => {
+    let name = "";
+
+    ["display_name", "display_text", "name"].forEach(prop => {
+      if (prop in option) {
+        name = typeof option[prop] === "object" ? displayNameHelper(option[prop], i18n.locale) : option[prop];
+      }
+    });
+
+    return name;
+  };
+
   const optionLabel = option => {
     let foundOption = option;
 
@@ -141,17 +154,7 @@ const Component = ({
       [foundOption] = lookups.filter(lookupValue => [lookupValue?.code, lookupValue?.id].includes(option));
     }
 
-    return (
-      // eslint-disable-next-line camelcase
-      foundOption?.display_name ||
-      // eslint-disable-next-line camelcase
-      foundOption?.display_text ||
-      // eslint-disable-next-line camelcase
-      foundOption?.display_name?.[i18n.locale] ||
-      // eslint-disable-next-line camelcase
-      foundOption?.display_text?.[i18n.locale] ||
-      foundOption?.name?.[i18n.locale]
-    );
+    return getOptionName(foundOption);
   };
 
   return (

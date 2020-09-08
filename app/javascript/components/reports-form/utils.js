@@ -3,7 +3,7 @@ import isString from "lodash/isString";
 import { format } from "date-fns";
 
 import { TICK_FIELD } from "../form";
-import { dataToJS } from "../../libs";
+import { dataToJS, displayNameHelper } from "../../libs";
 import { AGE_MAX, DATE_FORMAT } from "../../config";
 
 import { ALLOWED_FIELD_TYPES, DESCRIPTION_FIELD, NAME_FIELD, REPORTABLE_TYPES } from "./constants";
@@ -34,11 +34,11 @@ export const buildFields = (data, locale, isReportable) => {
     if (isEmpty(data)) {
       return [];
     }
-    const formSection = data.name?.[locale];
+    const formSection = displayNameHelper(data.name, locale);
 
     return data.fields.map(field => ({
       id: field.name,
-      display_text: field.display_name[locale],
+      display_text: displayNameHelper(field.display_name, locale),
       formSection,
       type: field.type,
       option_strings_source: field.option_strings_source?.replace(/lookup /, ""),
@@ -56,8 +56,8 @@ export const buildFields = (data, locale, isReportable) => {
         .filter(field => ALLOWED_FIELD_TYPES.includes(field.type) && field.visible)
         .map(field => ({
           id: field.name,
-          display_text: field.display_name[locale],
-          formSection: name[locale],
+          display_text: displayNameHelper(field.display_name, locale),
+          formSection: displayNameHelper(name, locale),
           type: field.type,
           option_strings_source: field.option_strings_source?.replace(/lookup /, ""),
           option_strings_text: field.option_strings_text,

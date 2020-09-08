@@ -1,5 +1,7 @@
 import { Map, fromJS } from "immutable";
 
+import { displayNameHelper } from "../../libs";
+
 import { PERMISSIONS, RESOURCE_ACTIONS } from "./constants";
 import NAMESPACE from "./namespace";
 
@@ -60,7 +62,7 @@ export const getApprovalsLabels = (state, locale) => {
     (acc, entry) => {
       const [key, value] = entry;
 
-      return { ...acc, [key]: value[locale] };
+      return { ...acc, [key]: displayNameHelper(value, locale) };
     },
     {}
   );

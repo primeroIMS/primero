@@ -1,6 +1,7 @@
 import { fromJS, Map } from "immutable";
 
 import { getReportingLocationConfig } from "../application/selectors";
+import { displayNameHelper } from "../../libs";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 
@@ -30,7 +31,7 @@ const agencies = state =>
 const locations = (state, i18n, includeAdminLevel = false) =>
   state.getIn(["forms", "options", "locations"], fromJS([])).map(location => ({
     id: location.get("code"),
-    display_text: location.getIn(["name", i18n.locale], ""),
+    display_text: displayNameHelper(location.get("name")?.toJS(), i18n.locale),
     ...(includeAdminLevel && { admin_level: location.get("admin_level") })
   }));
 
@@ -111,7 +112,7 @@ const transformOptions = (options, i18n) =>
   options.map(option => {
     return fromJS({
       id: option.id,
-      display_text: option.display_text[i18n.locale] || option.display_text
+      display_text: displayNameHelper(option.display_text, i18n.locale) || option.display_text
     });
   });
 
