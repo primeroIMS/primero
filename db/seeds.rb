@@ -58,6 +58,7 @@ if should_seed? ContactInformation
   ContactInformation.create(name: 'administrator') if table_empty?(ContactInformation)
 end
 
+# TODO: remove RSE
 #TODO: This is being temporarily removed: v1.5 and v1.6 GBV field keys are mismatched. Need to reconcile before re-enabling
 # puts "Loading Form Translations"
 # Dir[File.dirname(__FILE__) + '/translations/gbv/*/*.yml'].each do |file|

@@ -28,17 +28,6 @@ namespace :primero do
     end
   end
 
-  desc 'Import the form translations yaml'
-  task :import_form_translation, [:yaml_file] => :environment do |_, args|
-    file_name = args[:yaml_file]
-    if file_name.present?
-      puts "Importing form translation from #{file_name}"
-      Importers::YamlI18nImporter.import(file_name, FormSection)
-    else
-      puts 'ERROR: No input file provided'
-    end
-  end
-
   # Exports Forms for translation & Exports Lookups for translation
   # USAGE: bundle exec rails primero:export_form_translation
   # Args:
@@ -51,10 +40,10 @@ namespace :primero do
   #   No spaces between arguments in argument list
   # Examples:
   #   Defaults to exporting all forms for 'case' & 'primeromodule-cp'
-  #      bundle exec rails primero:export_form_translation
+  #      rails primero:export_form_translation
   #
   #   Exports only 'basic_identity' form
-  #      bundle exec rails primero:export_form_translation[basic_identity]
+  #      rails primero:export_form_translation[basic_identity]
   #
   #   Exports only tracing_request forms for CP, including hidden forms & fields
   #      bundle exec rails primero:export_form_translation['',tracing_request,primeromodule-cp,true,en]
@@ -67,6 +56,27 @@ namespace :primero do
     exporter = Exporters::YmlConfigExporter.new(opts)
     exporter.export
     puts 'Done!'
+  end
+
+  # USAGE: rails primero:import_form_translation[yaml_file]
+  # Args:
+  #   yaml_file             - The translated file to be imported
+  # NOTE:
+  #   No spaces between arguments in argument list
+  # Examples:
+  #   rails primero:import_form_translation[action_plan_form.yml]
+  desc 'Import the form translations yaml'
+  task :import_form_translation, [:file_name] => :environment do |_, args|
+    file_name = args[:file_name]
+    if file_name.present?
+      puts "Importing form translation from #{file_name}"
+      args.with_defaults(class_to_import: 'form_section')
+      opts = args.to_h
+      importer = Importers::YmlConfigImporter.new(opts)
+      importer.import
+    else
+      puts 'ERROR: No input file provided'
+    end
   end
 
   # USAGE: bundle exec rake db:data:import_lookup_translation[yaml_file]

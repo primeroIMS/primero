@@ -216,30 +216,32 @@ class Field < ApplicationRecord
     option_strings_source == 'Agency'
   end
 
-  # TODO: Review this method due the values structure changed.
-  # TODO: Refactor with i18n import service
   def update_translations(locale, field_hash = {})
-    if locale.present? && I18n.available_locales.include?(locale)
-      field_hash.each do |key, value|
-        if key == 'option_strings_text'
-          if option_strings_text.present?
-            update_option_strings_translations(value, locale)
-          else
-            Rails.logger.warn "Field #{name} no longer has embedded option strings. Skipping."
-          end
+    return Rails.logger.error('Field translation not updated: No Locale passed in') if locale.blank?
+
+    return Rails.logger.error("Field translation not updated: Invalid locale [#{locale}]") if I18n.available_locales.exclude?(locale)
+
+    field_hash.each do |key, value|
+      if key == 'option_strings_text'
+        if option_strings_text.present?
+          update_option_strings_translations(value, locale)
         else
-          send("#{key}_#{locale}=", value)
+          Rails.logger.warn "Field #{name} no longer has embedded option strings. Skipping."
         end
+      else
+        send("#{key}_#{locale}=", value)
       end
-    else
-      Rails.logger.error "Field translation not updated: Invalid locale [#{locale}]"
     end
+
   end
 
-  # TODO: Refactor with i18n import service
   def update_option_strings_translations(options_hash, locale)
     options = (send("option_strings_text_#{locale}").present? ? send("option_strings_text_#{locale}") : [])
+    option_keys_en = option_strings_text_en.map {|o| o['id']}
+
     options_hash.each do |key, value|
+      next if option_keys_en.exclude?(key) # Do not add any translations that do not have an English translation
+
       os = options.try(:find) { |o| o['id'] == key }
       if os.present?
         os['display_text'] = value
@@ -248,7 +250,6 @@ class Field < ApplicationRecord
       end
     end
     send("option_strings_text_#{locale}=", options)
-    save!
   end
 
   private

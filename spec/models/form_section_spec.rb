@@ -396,36 +396,34 @@ describe FormSection do
     end
   end
 
-  xdescribe 'import_translations' do
+  describe 'update_translations' do
     before do
       [Field, FormSection].each(&:destroy_all)
     end
 
     describe 'handles bad input data' do
       before do
-        @locale = 'es'
+        @locale = :es
       end
       context 'when locale translations do not exist' do
         before do
           @fields = [
-              Field.new( 'name' => 'field_name_1',
-                         'type' => Field::TEXT_FIELD,
-                         'display_name_all' => 'Field Name 1'
-                        ),
-              Field.new( 'name' => 'field_name_2',
-                         'type' => Field::SELECT_BOX,
-                         'display_name_all' => 'Test Select Field',
-                         'option_strings_text_en' => [{ id: 'option_1', display_text: 'Test Option 1' },
-                                                      { id: 'option_2', display_text: 'Test Option 2' },
-                                                      { id: 'option_3', display_text: 'Test Option 3' }].map(&:with_indifferent_access)
-                        )
+            Field.new('name' => 'field_name_1',
+                      'type' => Field::TEXT_FIELD,
+                      'display_name_all' => 'Field Name 1'),
+            Field.new('name' => 'field_name_2',
+                      'type' => Field::SELECT_BOX,
+                      'display_name_all' => 'Test Select Field',
+                      'option_strings_text_en' => [{ id: 'option_1', display_text: 'Test Option 1' },
+                                                   { id: 'option_2', display_text: 'Test Option 2' },
+                                                   { id: 'option_3', display_text: 'Test Option 3' }].map(&:with_indifferent_access))
           ]
         end
         context 'and input has all of the options' do
           before do
-            FormSection.create_or_update!( unique_id: 'form_t_1', name: 'Form One',
-                                                       description: 'Test Form One Description',
-                                                       help_text: 'Form One Help Text', parent_form: 'case',
+            FormSection.create_or_update!( unique_id: 'form_t_1', name_en: 'Form One',
+                                                       description_en: 'Test Form One Description',
+                                                       help_text_en: 'Form One Help Text', parent_form: 'case',
                                                        fields: @fields )
             @translated_hash = { 'form_t_1' => { 'name' => 'Spanish Form 1 Translated',
                                                'description' => 'Spanish Form 1 Description Translated',
@@ -434,8 +432,8 @@ describe FormSection do
                                                                                'option_strings_text' => { 'option_1' => 'Spanish Option One Translated',
                                                                                                          'option_2' => 'Spanish Option Two Translated',
                                                                                                          'option_3' => 'Spanish Option Three Translated' } } } } }
-            FormSection.import_translations(@locale, @translated_hash)
             @form_t_1 = FormSection.find_by(unique_id: 'form_t_1')
+            @form_t_1.update_translations(@locale, @translated_hash.values.first)
           end
 
           it 'adds translated options for the specified locale' do
@@ -447,28 +445,32 @@ describe FormSection do
 
         context 'and input has only some of the options' do
           before do
-            FormSection.create_or_update!( unique_id: 'form_t_2', name: 'Form Two',
-                                                       description: 'Test Form Two Description',
-                                                       help_text: 'Form Two Help Text', parent_form: 'case',
-                                                       fields: @fields )
+            FormSection.create_or_update!(unique_id: 'form_t_2', name_en: 'Form Two',
+                                          description_en: 'Test Form Two Description',
+                                          help_text_en: 'Form Two Help Text',
+                                          parent_form: 'case', fields: @fields)
             @translated_hash = { 'form_t_2' => { 'name' => 'Spanish Form 2 Translated',
                                                'description' => 'Spanish Form 2 Description Translated',
                                                'fields' => { 'field_name_1' => { 'display_name' => 'Spanish Field Name 1 Translated' },
-                                                            'field_name_2' => { 'display_name' => 'Spanish Field Name 2 Translated',
-                                                                               'option_strings_text' => { 'option_1' => 'Spanish Option One Translated',
-                                                                                                         'option_2' => 'Spanish Option Two Translated' } } } } }
+                                                             'field_name_2' => { 'display_name' => 'Spanish Field Name 2 Translated',
+                                                                                 'option_strings_text' => { 'option_1' => 'Spanish Option One Translated',
+                                                                                                            'option_2' => 'Spanish Option Two Translated' } } } } }
+            @form_t_2 = FormSection.find_by(unique_id: 'form_t_2')
+            @form_t_2.update_translations(@locale, @translated_hash.values.first)
           end
 
-          xit 'does not allow the translations to be saved' do
-            expect{FormSection.import_translations(@locale, @translated_hash)}.to raise_error(ActiveRecord::RecordInvalid, /Option strings text Field translated options must have same ids/)
+          it 'only updates the translations passed in' do
+            expect(@form_t_2.fields.last.option_strings_text_es).to match_array([{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+                                                                        { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
+                                                                        { 'id' => 'option_3', 'display_text' => nil }])
           end
         end
 
         context 'and input has too many options' do
           before do
-            FormSection.create_or_update!( unique_id: 'form_t_3', name: 'Form Three',
-                                                       description: 'Test Form Three Description',
-                                                       help_text: 'Form Three Help Text', parent_form: 'case',
+            FormSection.create_or_update!( unique_id: 'form_t_3', name_en: 'Form Three',
+                                                       description_en: 'Test Form Three Description',
+                                                       help_text_en: 'Form Three Help Text', parent_form: 'case',
                                                        fields: @fields )
             @translated_hash = { 'form_t_3' => { 'name' => 'Spanish Form 3 Translated',
                                                'description' => 'Spanish Form 3 Description Translated',
@@ -478,27 +480,26 @@ describe FormSection do
                                                                                                          'option_2' => 'Spanish Option Two Translated',
                                                                                                          'option_3' => 'Spanish Option Three Translated',
                                                                                                          'option_4' => 'Spanish Option Four Translated' } } } } }
-            FormSection.import_translations(@locale, @translated_hash)
             @form_t_3 = FormSection.find_by(unique_id: 'form_t_3')
+            @form_t_3.update_translations(@locale, @translated_hash.values.first)
           end
 
-          xit 'adds only the translated options that also exist in the default locale' do
-            expect(@form_t_3.fields.last.option_strings_text_es).to eq([{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+          it 'adds only the translated options that also exist in the default locale' do
+            expect(@form_t_3.fields.last.option_strings_text_es).to match_array([{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
                                                                         { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
                                                                         { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }])
           end
 
-          xit 'does not add an option that does not exist in the default locale' do
+          it 'does not add an option that does not exist in the default locale' do
             expect(@form_t_3.fields.last.option_strings_text_es.map{|os| os['id']}).not_to include('option_4')
           end
         end
 
         context 'and input has completely different options' do
           before do
-            FormSection.create_or_update!( unique_id: 'form_t_4', name: 'Form Four',
-                                                       description: 'Test Form Four Description',
-                                                       help_text: 'Form Four Help Text', parent_form: 'case',
-                                                       fields: @fields )
+            FormSection.create_or_update!(unique_id: 'form_t_4', name_en: 'Form Four',
+                                          description_en: 'Test Form Four Description',
+                                          help_text_en: 'Form Four Help Text', parent_form: 'case', fields: @fields )
             @translated_hash = { 'form_t_4' => { 'name' => 'Spanish Form 4 Translated',
                                                'description' => 'Spanish Form 4 Description Translated',
                                                'fields' => { 'field_name_1' => { 'display_name' => 'Spanish Field Name 1 Translated' },
@@ -507,21 +508,24 @@ describe FormSection do
                                                                                                          'option_5' => 'Spanish Option Five Translated',
                                                                                                          'option_6' => 'Spanish Option Six Translated',
                                                                                                          'option_7' => 'Spanish Option Seven Translated' } } } } }
-            FormSection.import_translations(@locale, @translated_hash)
             @form_t_4 = FormSection.find_by(unique_id: 'form_t_4')
+            @form_t_4.update_translations(@locale, @translated_hash.values.first)
           end
 
-          xit 'does not add any option that does not exist in the default locale' do
-            expect(@form_t_4.fields.last.option_strings_text_es).to be_empty
+          it 'does not add any option that does not exist in the default locale' do
+            es_keys = @form_t_4.fields.last.option_strings_text_es.map { |o| o['id'] }
+            expect(es_keys).not_to include('option_4')
+            expect(es_keys).not_to include('option_5')
+            expect(es_keys).not_to include('option_6')
+            expect(es_keys).not_to include('option_7')
           end
         end
 
         context 'and input has same options in different order' do
           before :each do
-            FormSection.create_or_update!( unique_id: 'form_t_5', name: 'Form Five',
-                                                       description: 'Test Form Five Description',
-                                                       help_text: 'Form Five Help Text', parent_form: 'case',
-                                                       fields: @fields )
+            FormSection.create_or_update!(unique_id: 'form_t_5', name_en: 'Form Five',
+                                          description_en: 'Test Form Five Description',
+                                          help_text_en: 'Form Five Help Text', parent_form: 'case', fields: @fields )
             @translated_hash = { 'form_t_5' => { 'name' => 'Spanish Form 5 Translated',
                                                'description' => 'Spanish Form 5 Description Translated',
                                                'fields' => { 'field_name_1' => { 'display_name' => 'Spanish Field Name 1 Translated' },
@@ -529,12 +533,12 @@ describe FormSection do
                                                                                'option_strings_text' => { 'option_2' => 'Spanish Option Two Translated',
                                                                                                          'option_1' => 'Spanish Option One Translated',
                                                                                                          'option_3' => 'Spanish Option Three Translated' } } } } }
-            FormSection.import_translations(@locale, @translated_hash)
             @form_t_5 = FormSection.find_by(unique_id: 'form_t_5')
+            @form_t_5.update_translations(@locale, @translated_hash.values.first)
           end
 
-          xit 'adds translated options for the specified locale' do
-            expect(@form_t_5.fields.last.option_strings_text_es).to eq([{ 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
+          it 'adds translated options for the specified locale' do
+            expect(@form_t_5.fields.last.option_strings_text_es).to match_array([{ 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
                                                                         { 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
                                                                         { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }])
           end
@@ -564,10 +568,9 @@ describe FormSection do
         end
         context 'and input has all of the options' do
           before do
-            FormSection.create_or_update!( unique_id: 'form_t_10', name: 'Form Ten',
-                                                       description: 'Test Form Ten Description',
-                                                       help_text: 'Form Ten Help Text', parent_form: 'case',
-                                                       fields: @fields )
+            FormSection.create_or_update!(unique_id: 'form_t_10', name_en: 'Form Ten',
+                                          description_en: 'Test Form Ten Description',
+                                          help_text_en: 'Form Ten Help Text', parent_form: 'case', fields: @fields )
             @translated_hash = { 'form_t_10' => { 'name' => 'Spanish Form 10 Translated',
                                                'description' => 'Spanish Form 10 Description Translated',
                                                'fields' => { 'field_name_1' => { 'display_name' => 'Spanish Field Name 1 Translated' },
@@ -575,12 +578,12 @@ describe FormSection do
                                                                                'option_strings_text' => { 'option_1' => 'Spanish Option One Translated',
                                                                                                          'option_2' => 'Spanish Option Two Translated',
                                                                                                          'option_3' => 'Spanish Option Three Translated' } } } } }
-            FormSection.import_translations(@locale, @translated_hash)
             @form_t_10 = FormSection.find_by(unique_id: 'form_t_10')
+            @form_t_10.update_translations(@locale, @translated_hash.values.first)
           end
 
           it 'adds translated options for the specified locale' do
-            expect(@form_t_10.fields.last.option_strings_text_es).to eq([{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+            expect(@form_t_10.fields.last.option_strings_text_es).to match_array([{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
                                                                         { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
                                                                         { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }])
           end
@@ -588,22 +591,21 @@ describe FormSection do
 
         context 'and input has only some of the options' do
           before do
-            FormSection.create_or_update!( unique_id: 'form_t_11', name: 'Form Eleven',
-                                                       description: 'Test Form Eleven Description',
-                                                       help_text: 'Form Eleven Help Text', parent_form: 'case',
-                                                       fields: @fields )
+            FormSection.create_or_update!(unique_id: 'form_t_11', name_en: 'Form Eleven',
+                                          description_en: 'Test Form Eleven Description',
+                                          help_text_en: 'Form Eleven Help Text', parent_form: 'case', fields: @fields )
             @translated_hash = { 'form_t_11' => { 'name' => 'Spanish Form 11 Translated',
                                                'description' => 'Spanish Form 11 Description Translated',
                                                'fields' => { 'field_name_1' => { 'display_name' => 'Spanish Field Name 1 Translated' },
                                                             'field_name_2' => { 'display_name' => 'Spanish Field Name 2 Translated',
                                                                                'option_strings_text' => { 'option_1' => 'Spanish Option One Translated',
                                                                                                          'option_2' => 'Spanish Option Two Translated' } } } } }
-            FormSection.import_translations(@locale, @translated_hash)
             @form_t_11 = FormSection.find_by(unique_id: 'form_t_11')
+            @form_t_11.update_translations(@locale, @translated_hash.values.first)
           end
 
           it 'updates only the translated options provided for the specified locale' do
-            expect(@form_t_11.fields.last.option_strings_text_es).to eq([{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+            expect(@form_t_11.fields.last.option_strings_text_es).to match_array([{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
                                                   { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
                                                   { 'id' => 'option_3', 'display_text' => 'Test Spanish Option 3' }])
           end
@@ -611,10 +613,9 @@ describe FormSection do
 
         context 'and input has too many options' do
           before do
-            FormSection.create_or_update!( unique_id: 'form_t_12', name: 'Form Twelve',
-                                                       description: 'Test Form Twelve Description',
-                                                       help_text: 'Form Twelve Help Text', parent_form: 'case',
-                                                       fields: @fields )
+            FormSection.create_or_update!(unique_id: 'form_t_12', name_en: 'Form Twelve',
+                                          description_en: 'Test Form Twelve Description',
+                                          help_text_en: 'Form Twelve Help Text', parent_form: 'case', fields: @fields )
             @translated_hash = { 'form_t_12' => { 'name' => 'Spanish Form 12 Translated',
                                                'description' => 'Spanish Form 12 Description Translated',
                                                'fields' => { 'field_name_1' => { 'display_name' => 'Spanish Field Name 1 Translated' },
@@ -623,27 +624,26 @@ describe FormSection do
                                                                                                          'option_2' => 'Spanish Option Two Translated',
                                                                                                          'option_3' => 'Spanish Option Three Translated',
                                                                                                          'option_4' => 'Spanish Option Four Translated' } } } } }
-            FormSection.import_translations(@locale, @translated_hash)
             @form_t_12 = FormSection.find_by(unique_id: 'form_t_12')
+            @form_t_12.update_translations(@locale, @translated_hash.values.first)
           end
 
-          xit 'adds only the translated options that also exist in the default locale' do
-            expect(@form_t_12.fields.last.option_strings_text_es).to eq([{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+          it 'adds only the translated options that also exist in the default locale' do
+            expect(@form_t_12.fields.last.option_strings_text_es).to match_array([{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
                                                                         { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
                                                                         { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }])
           end
 
-          xit 'does not add an option that does not exist in the default locale' do
+          it 'does not add an option that does not exist in the default locale' do
             expect(@form_t_12.fields.last.option_strings_text_es.map{|os| os['id']}).not_to include('option_4')
           end
         end
 
         context 'and input has completely different options' do
           before do
-            FormSection.create_or_update!( unique_id: 'form_t_13', name: 'Form Thirteen',
-                                                       description: 'Test Form Thirteen Description',
-                                                       help_text: 'Form Thirteen Help Text', parent_form: 'case',
-                                                       fields: @fields )
+            FormSection.create_or_update!(unique_id: 'form_t_13', name_en: 'Form Thirteen',
+                                          description_en: 'Test Form Thirteen Description',
+                                          help_text_en: 'Form Thirteen Help Text', parent_form: 'case', fields: @fields)
             @translated_hash = { 'form_t_13' => { 'name' => 'Spanish Form 13 Translated',
                                                'description' => 'Spanish Form 13 Description Translated',
                                                'fields' => { 'field_name_1' => { 'display_name' => 'Spanish Field Name 1 Translated' },
@@ -652,36 +652,35 @@ describe FormSection do
                                                                                                          'option_5' => 'Spanish Option Five Translated',
                                                                                                          'option_6' => 'Spanish Option Six Translated',
                                                                                                          'option_7' => 'Spanish Option Seven Translated' } } } } }
-            FormSection.import_translations(@locale, @translated_hash)
             @form_t_13 = FormSection.find_by(unique_id: 'form_t_13')
+            @form_t_13.update_translations(@locale, @translated_hash.values.first)
           end
 
-          xit 'does not add any option that does not exist in the default locale' do
-            expect(@form_t_13.fields.last.option_strings_text_es).to eq([{ 'id' => 'option_1', 'display_text' => 'Test Spanish Option 1' },
+          it 'does not add any option that does not exist in the default locale' do
+            expect(@form_t_13.fields.last.option_strings_text_es).to match_array([{ 'id' => 'option_1', 'display_text' => 'Test Spanish Option 1' },
                                                                         { 'id' => 'option_2', 'display_text' => 'Test Spanish Option 2' },
                                                                         { 'id' => 'option_3', 'display_text' => 'Test Spanish Option 3' }])
           end
         end
 
         context 'and input has same options in different order' do
-          before :each do
-            FormSection.create_or_update!( unique_id: 'form_t_14', name: 'Form Fourteen',
-                                                       description: 'Test Form Fourteen Description',
-                                                       help_text: 'Form Fourteen Help Text', parent_form: 'case',
-                                                       fields: @fields )
+          before do
+            FormSection.create_or_update!(unique_id: 'form_t_14', name_en: 'Form Fourteen',
+                                          description_en: 'Test Form Fourteen Description',
+                                          help_text_en: 'Form Fourteen Help Text', parent_form: 'case', fields: @fields)
             @translated_hash = { 'form_t_14' => { 'name' => 'Spanish Form 14 Translated',
-                                                'description' => 'Spanish Form 14 Description Translated',
-                                                'fields' => { 'field_name_1' => { 'display_name' => 'Spanish Field Name 1 Translated' },
-                                                             'field_name_2' => { 'display_name' => 'Spanish Field Name 2 Translated',
-                                                                                'option_strings_text' => { 'option_2' => 'Spanish Option Two Translated',
-                                                                                                          'option_1' => 'Spanish Option One Translated',
-                                                                                                          'option_3' => 'Spanish Option Three Translated' } } } } }
-            FormSection.import_translations(@locale, @translated_hash)
+                                                  'description' => 'Spanish Form 14 Description Translated',
+                                                  'fields' => { 'field_name_1' => { 'display_name' => 'Spanish Field Name 1 Translated' },
+                                                                'field_name_2' => { 'display_name' => 'Spanish Field Name 2 Translated',
+                                                                                    'option_strings_text' => { 'option_2' => 'Spanish Option Two Translated',
+                                                                                                               'option_1' => 'Spanish Option One Translated',
+                                                                                                               'option_3' => 'Spanish Option Three Translated' } } } } }
             @form_t_14 = FormSection.find_by(unique_id: 'form_t_14')
+            @form_t_14.update_translations(@locale, @translated_hash.values.first)
           end
 
           it 'adds translated options for the specified locale' do
-            expect(@form_t_14.fields.last.option_strings_text_es).to eq([{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+            expect(@form_t_14.fields.last.option_strings_text_es).to match_array([{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
                                                                          { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
                                                                          { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }])
           end

@@ -61,14 +61,6 @@ class FormSection < ApplicationRecord
       FormSection.new.tap { |form| form.update_properties(form_params) }
     end
 
-    # TODO: Refactor/delete with Yaml exporter
-    # Given a list of forms, return their subforms
-    def get_subforms(forms)
-      form_ids = forms.map(&:id)
-      subform_fields = Field.includes(:subform).where(form_section_id: form_ids, type: Field::SUBFORM)
-      subform_fields.map(&:subform).compact
-    end
-
     # TODO: Used by the RolePermissionsExporter
     def all_forms_grouped_by_parent(include_subforms = false)
       forms = FormSection.where(is_nested: false)
@@ -85,22 +77,6 @@ class FormSection < ApplicationRecord
 
     def form_group_lookups
       Lookup.where("unique_id like 'lookup-form-group-%'")
-    end
-
-    def import_translations(locale, form_hash = {})
-      return Rails.logger.error('Form translation not updated: No Locale passed in') if locale.blank?
-
-      return Rails.logger.error("Form translation not updated: Invalid locale [#{locale}]") if I18n.available_locales.exclude?(locale)
-
-      unique_id = form_hash.keys.first
-      return Rails.logger.error('Error importing translations: Form ID not present') if unique_id.blank?
-
-      form = FormSection.find_by(unique_id: unique_id)
-      return Rails.logger.error("Error importing translations: Form for ID [#{unique_id}] not found") if form.blank?
-
-      form.update_translations(locale, form_hash.values.first)
-      Rails.logger.info("Updating Form translation: Form [#{form.unique_id}] locale [#{locale}]")
-      form.save!
     end
 
     def list(params = {})
@@ -131,7 +107,6 @@ class FormSection < ApplicationRecord
     self.form_group_id = new_id
   end
 
-  # TODO: Refactor with Yaml I18n importer.
   def update_translations(locale, form_hash = {})
     return Rails.logger.error('Form translation not updated: No Locale passed in') if locale.blank?
 
@@ -141,11 +116,9 @@ class FormSection < ApplicationRecord
       # Form Group Name is now a calculated field based on form_group_id
       # Form Group Translations are handled through Lookup
       # Using elsif to exclude form_group_name in legacy translation files that may still include form_group_name
-      if key == 'fields'
-        update_field_translations(locale, value)
-      elsif key != 'form_group_name'
-        send("#{key}_#{locale}=", value)
-      end
+      next if key == 'form_group_name'
+
+      key == 'fields' ? update_field_translations(locale, value) : send("#{key}_#{locale}=", value)
     end
   end
 
@@ -243,11 +216,13 @@ class FormSection < ApplicationRecord
 
   private
 
-  # TODO: Refactor with Yaml I18n importer.
   def update_field_translations(locale, fields_hash = {})
     fields_hash.each do |key, value|
       field = Field.find_by(name: key, form_section_id: id)
-      field.update_translations(locale, value) if field.present?
+      next if field.blank?
+
+      field.update_translations(locale, value)
+      field.save!
     end
   end
 end
