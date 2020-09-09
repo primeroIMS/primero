@@ -237,7 +237,7 @@ class Field < ApplicationRecord
 
   def update_option_strings_translations(options_hash, locale)
     options = (send("option_strings_text_#{locale}").present? ? send("option_strings_text_#{locale}") : [])
-    option_keys_en = option_strings_text_en.map {|o| o['id']}
+    option_keys_en = option_strings_text_en.map { |o| o['id'] }
 
     options_hash.each do |key, value|
       next if option_keys_en.exclude?(key) # Do not add any translations that do not have an English translation
