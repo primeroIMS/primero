@@ -31,6 +31,7 @@ import { getFormSectionsByFormGroup, getIsLoading, getReorderEnabled } from "./s
 import { getListStyle } from "./utils";
 import { NAME, FORM_GROUP_PREFIX, ORDER_TYPE } from "./constants";
 import styles from "./styles.css";
+import { displayNameHelper } from "../../../../libs";
 
 const Component = () => {
   const i18n = useI18n();
@@ -86,7 +87,7 @@ const Component = () => {
 
       return (
         <FormGroup
-          name={i18n.getI18nStringFromObject(formGroupName)}
+          name={displayNameHelper(formGroupName, i18n.locale)}
           index={index}
           key={formGroupID}
           id={formGroupID}
