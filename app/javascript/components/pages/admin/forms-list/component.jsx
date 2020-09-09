@@ -15,6 +15,7 @@ import { MODULES, RECORD_TYPES } from "../../../../config/constants";
 import { usePermissions } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { FormAction } from "../../../form";
+import { displayNameHelper } from "../../../../libs";
 
 import NAMESPACE from "./namespace";
 import { FormGroup, FormSection, FormFilters, ReorderActions } from "./components";
@@ -31,7 +32,6 @@ import { getFormSectionsByFormGroup, getIsLoading, getReorderEnabled } from "./s
 import { getListStyle } from "./utils";
 import { NAME, FORM_GROUP_PREFIX, ORDER_TYPE } from "./constants";
 import styles from "./styles.css";
-import { displayNameHelper } from "../../../../libs";
 
 const Component = () => {
   const i18n = useI18n();
