@@ -98,27 +98,6 @@ class Lookup < ApplicationRecord
       Lookup.values(lookup_id, lookups, opts).find { |l| l['id'] == option_id }&.[]('display_text')
     end
 
-    def import_translations(locale, lookups_hash = {})
-      return Rails.logger.error('Lookup translation not updated: No Locale passed in') if locale.blank?
-
-      return Rails.logger.error("Lookup translation not updated: Invalid locale [#{locale}]") if I18n.available_locales.exclude?(locale)
-
-      lookups_hash.each do |key, value|
-        if key.blank?
-          Rails.logger.error 'Error importing translations: Lookup ID not present'
-          next
-        end
-        lookup = Lookup.find_by(unique_id: key)
-        if lookup.blank?
-          Rails.logger.error "Error importing translations: Lookup for ID [#{key}] not found"
-          next
-        end
-        lookup.update_translations(locale, value)
-        Rails.logger.info "Updating Lookup translation: Lookup [#{lookup.id}] locale [#{locale}]"
-        lookup.save!
-      end
-    end
-
     private
 
     def form_group_lookup_mapping(parent_form)

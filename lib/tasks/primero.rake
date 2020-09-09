@@ -58,43 +58,28 @@ namespace :primero do
     puts 'Done!'
   end
 
-  # USAGE: rails primero:import_form_translation[yaml_file]
+  # USAGE: rails primero:import_lookup_translation[file_name,class_to_import]
   # Args:
-  #   yaml_file             - The translated file to be imported
+  #   file_name             - The translated file to be imported
+  #   class_to_import       - 'form_section' or 'lookup'
   # NOTE:
   #   No spaces between arguments in argument list
   # Examples:
-  #   rails primero:import_form_translation[action_plan_form.yml]
-  desc 'Import the form translations yaml'
-  task :import_form_translation, [:file_name] => :environment do |_, args|
+  #   rails primero:import_translation_config[action_plan_form.yml,form_section]
+  #   rails primero:import_translation_config[lookups.yml,lookup]
+  desc 'Import the form_section or lookup translations yaml'
+  task :import_translation_config, %i[file_name class_to_import] => :environment do |_, args|
     file_name = args[:file_name]
-    if file_name.present?
-      puts "Importing form translation from #{file_name}"
-      args.with_defaults(class_to_import: 'form_section')
-      opts = args.to_h
-      importer = Importers::YmlConfigImporter.new(opts)
-      importer.import
-    else
+    if file_name.blank?
       puts 'ERROR: No input file provided'
+      return
     end
-  end
 
-  # USAGE: bundle exec rake db:data:import_lookup_translation[yaml_file]
-  # Args:
-  #   yaml_file             - The translated file to be imported
-  # NOTE:
-  #   No spaces between arguments in argument list
-  # Examples:
-  #   bundle exec rake db:data:import_lookup_translation[for_use_primero_lookupsyml_fr.yml]
-  desc 'Import the lookup translations yaml'
-  task :import_lookup_translation, [:yaml_file] => :environment do |_, args|
-    file_name = args[:yaml_file]
-    if file_name.present?
-      puts "Importing lookup translation from #{file_name}"
-      Importers::YamlI18nImporter.import(file_name, Lookup)
-    else
-      puts 'ERROR: No input file provided'
-    end
+    puts "Importing translations from #{file_name}"
+    args.with_defaults(class_to_import: 'form_section')
+    opts = args.to_h
+    importer = Importers::YmlConfigImporter.new(opts)
+    importer.import
   end
 
   desc 'Set a default password for all generic users.'

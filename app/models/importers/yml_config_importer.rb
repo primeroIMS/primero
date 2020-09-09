@@ -26,6 +26,9 @@ module Importers
       return Rails.logger.error('Import Not Processed: invalid yml format') unless config_data.is_a?(Hash)
 
       locale = config_data&.keys&.first&.to_sym
+      return Rails.logger.error("Import Not Processed: locale not passed in") if locale.blank?
+
+      return Rails.logger.error("Import Not Processed: locale #{locale} not in available locales") if I18n.available_locales.exclude?(locale)
 
       config_data.values.each do |config|
         config = strip_hash_values!(config)
@@ -34,6 +37,8 @@ module Importers
     end
 
     def import_form_section(locale, config)
+      # TODO: Should we add loop to handle multiple forms in a yml file?
+      # TODO: Currently, it is assumed that there is only 1 form per translation file
       unique_id = config.keys.first
       return Rails.logger.error('Error importing translations: Form ID not present') if unique_id.blank?
 
@@ -41,15 +46,22 @@ module Importers
       return Rails.logger.error("Error importing translations: Form for ID [#{unique_id}] not found") if form.blank?
 
       form.update_translations(locale, config.values.first)
-      binding.pry
-      x=1
-      Rails.logger.info("Updating Form translation: Form [#{form.unique_id}] locale [#{locale}]")
+      Rails.logger.info("Updating Form translation: Form [#{unique_id}] locale [#{locale}]")
       form.save!
     end
 
     def import_lookup(locale, config)
-      binding.pry
-      x=0
+      config.each do |key, value|
+        lookup = Lookup.find_by(unique_id: key)
+        if lookup.blank?
+          Rails.logger.info("Lookup for ID [#{key}] not found. Skipping translation")
+          next
+        end
+
+        lookup.update_translations(locale, value)
+        Rails.logger.info "Updating Lookup translation: Lookup [#{key}] locale [#{locale}]"
+        lookup.save!
+      end
     end
 
     def strip_hash_values!(hash)
