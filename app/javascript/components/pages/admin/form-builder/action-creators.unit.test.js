@@ -20,6 +20,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       "reorderFields",
       "saveForm",
       "saveSubforms",
+      "selectExistingFields",
       "setNewField",
       "setNewSubform",
       "setSelectedField",
@@ -243,5 +244,19 @@ describe("<FormsBuilder /> - Action Creators", () => {
     };
 
     expect(actionCreators.mergeOnSelectedSubform(payload)).to.deep.equal(expected);
+  });
+
+  it("should check the 'selectExistingFields' action creator to return the correct object", () => {
+    const payload = {
+      addedFields: [],
+      removedFields: []
+    };
+
+    const expected = {
+      type: actions.SELECT_EXISTING_FIELDS,
+      payload
+    };
+
+    expect(actionCreators.selectExistingFields(payload)).to.deep.equal(expected);
   });
 });

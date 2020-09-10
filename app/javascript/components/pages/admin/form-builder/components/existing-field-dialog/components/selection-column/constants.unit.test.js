@@ -1,10 +1,10 @@
 import * as constants from "./constants";
 
-describe("<ExistingFieldDialog />/components/<FieldsTable/> - Constants", () => {
+describe("<ExistingFieldDialog />/components/<SelectionColumn> - Constants", () => {
   it("should have known properties", () => {
     const clonedActions = { ...constants };
 
-    ["COLUMN_HEADERS", "NAME"].forEach(property => {
+    ["NAME"].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];
     });
