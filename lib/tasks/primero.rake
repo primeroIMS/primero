@@ -58,7 +58,8 @@ namespace :primero do
     puts 'Done!'
   end
 
-  # USAGE: rails primero:import_lookup_translation[file_name,class_to_import]
+  # Imports Form And Lookup translation config files
+  # USAGE: rails primero:import_transition_config[file_name,class_to_import]
   # Args:
   #   file_name             - The translated file to be imported
   #   class_to_import       - 'form_section' or 'lookup'

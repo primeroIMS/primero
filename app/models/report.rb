@@ -170,88 +170,90 @@ class Report < ApplicationRecord
     age_ranges = sys.age_ranges[primary_range]
 
     filters << permission_filter if permission_filter.present?
-    if pivots.present?
-      self.values = report_values(record_type, pivots, filters)
-      if aggregate_counts_from.present?
-        if dimensionality < ((aggregate_by + disaggregate_by).size + 1)
-          # The numbers are off because a dimension is missing. Zero everything out!
-          self.values = self.values.map { |pivots, _| [pivots, 0] }
-        end
-        aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)&.first
-        if aggregate_counts_from_field.present?
-          if aggregate_counts_from_field.type == Field::TALLY_FIELD
-            self.values = self.values.map do |pivots, value|
-              if pivots.last.present? && pivots.last.match(/\w+:\d+/)
-                tally = pivots.last.split(':')
-                value *= tally[1].to_i
-              end
-              [pivots, value]
-            end.to_h
-            self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
-              pivot_name.split(':')[0]
+    return if pivots.blank?
+
+    self.values = report_values(record_type, pivots, filters)
+    if aggregate_counts_from.present?
+      if dimensionality < ((aggregate_by + disaggregate_by).size + 1)
+        # The numbers are off because a dimension is missing. Zero everything out!
+        self.values = self.values.map { |pivots, _| [pivots, 0] }
+      end
+      aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)&.first
+      if aggregate_counts_from_field.present?
+        if aggregate_counts_from_field.type == Field::TALLY_FIELD
+          self.values = self.values.map do |pivots, value|
+            if pivots.last.present? && pivots.last.match(/\w+:\d+/)
+              tally = pivots.last.split(':')
+              value *= tally[1].to_i
             end
-            self.values = Reports::Utils.correct_aggregate_counts(self.values)
-          elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
-            self.values = self.values.map do |pivots, value|
-              if pivots.last.is_a?(Numeric)
-                value *= pivots.last
-              elsif pivots.last == ''
-                value = 0
-              end
-              [pivots, value]
-            end.to_h
-            self.values = Reports::Utils.group_values(self.values, dimensionality-1) do |pivot_name|
-              (pivot_name.is_a? Numeric) ? "" : pivot_name
-            end
-            values = values.map do |pivots, value|
-              pivots = pivots[0..-2] if pivots.last == ''
-              [pivots, value]
-            end.to_h
-            values = Reports::Utils.correct_aggregate_counts(values)
+            [pivots, value]
+          end.to_h
+          self.values = Reports::Utils.group_values(self.values, dimensionality - 1) do |pivot_name|
+            pivot_name.split(':')[0]
           end
+          self.values = Reports::Utils.correct_aggregate_counts(self.values)
+        elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
+          self.values = self.values.map do |pivots, value|
+            if pivots.last.is_a?(Numeric)
+              value *= pivots.last
+            elsif pivots.last == ''
+              value = 0
+            end
+            [pivots, value]
+          end.to_h
+          self.values = Reports::Utils.group_values(self.values, dimensionality - 1) do |pivot_name|
+            pivot_name.is_a?(Numeric) ? '' : pivot_name
+          end
+          values = values.map do |pivots, value|
+            pivots = pivots[0..-2] if pivots.last == ''
+            [pivots, value]
+          end.to_h
+          values = Reports::Utils.correct_aggregate_counts(values)
         end
       end
-
-      pivots.each do |pivot|
-        if /(^age$|^age_.*|.*_age$|.*_age_.*)/.match(pivot) && field_map[pivot].present? && field_map[pivot]['type'] == 'numeric_field'
-          age_field_index = pivot_index(pivot)
-          if group_ages && age_field_index && age_field_index < dimensionality
-            values = Reports::Utils.group_values(values, age_field_index) do |pivot_name|
-              age_ranges.find { |range| range.cover? pivot_name }
-            end
-          end
-        end
-      end
-
-      if group_dates_by.present?
-        date_fields = pivot_fields.select { |_, f| f.type == Field::DATE_FIELD }
-        date_fields.each do |field_name, _|
-          if pivot_index(field_name) < dimensionality
-            values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
-              Reports::Utils.date_range(pivot_name, group_dates_by)
-            end
-          end
-        end
-      end
-
-      aggregate_limit = aggregate_by.size
-      aggregate_limit = dimensionality if aggregate_limit > dimensionality
-
-      aggregate_value_range = self.values.keys.map do |pivot|
-        pivot[0..(aggregate_limit - 1)]
-      end.uniq.compact.sort(&method(:pivot_comparator))
-
-      disaggregate_value_range = self.values.keys.map do |pivot|
-        pivot[aggregate_limit..-1]
-      end.uniq.compact.sort(&method(:pivot_comparator))
-
-      self.data = {
-        aggregate_value_range: aggregate_value_range,
-        disaggregate_value_range: disaggregate_value_range,
-        values: @values
-      }
-      ''
     end
+
+    pivots.each do |pivot|
+      next unless /(^age$|^age_.*|.*_age$|.*_age_.*)/.match(pivot) &&
+                  field_map[pivot].present? &&
+                  field_map[pivot]['type'] == 'numeric_field'
+
+      age_field_index = pivot_index(pivot)
+      next unless group_ages && age_field_index && age_field_index < dimensionality
+
+      values = Reports::Utils.group_values(values, age_field_index) do |pivot_name|
+        age_ranges.find { |range| range.cover? pivot_name }
+      end
+    end
+
+    if group_dates_by.present?
+      date_fields = pivot_fields.select { |_, f| f.type == Field::DATE_FIELD }
+      date_fields.each do |field_name, _|
+        next unless pivot_index(field_name) < dimensionality
+
+        values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
+          Reports::Utils.date_range(pivot_name, group_dates_by)
+        end
+      end
+    end
+
+    aggregate_limit = aggregate_by.size
+    aggregate_limit = dimensionality if aggregate_limit > dimensionality
+
+    aggregate_value_range = self.values.keys.map do |pivot|
+      pivot[0..(aggregate_limit - 1)]
+    end.uniq.compact.sort(&method(:pivot_comparator))
+
+    disaggregate_value_range = self.values.keys.map do |pivot|
+      pivot[aggregate_limit..-1]
+    end.uniq.compact.sort(&method(:pivot_comparator))
+
+    self.data = {
+      aggregate_value_range: aggregate_value_range,
+      disaggregate_value_range: disaggregate_value_range,
+      values: @values
+    }
+    ''
   end
 
   def modules_present
@@ -331,11 +333,11 @@ class Report < ApplicationRecord
   end
 
   def apply_default_filters
-    if self.add_default_filters
-      self.filters ||= []
-      default_filters = Record.model_from_name(self.record_type).report_filters
-      self.filters = (self.filters + default_filters).uniq
-    end
+    return unless self.add_default_filters
+
+    self.filters ||= []
+    default_filters = Record.model_from_name(self.record_type).report_filters
+    self.filters = (self.filters + default_filters).uniq
   end
 
   def pivots
@@ -412,7 +414,6 @@ class Report < ApplicationRecord
   end
 
   def build_solr_filter_query(record_type, filters)
-
     filters_query = "type:#{solr_record_type(record_type)}"
     if filters.present?
       filters_query = filters_query + ' ' + filters.map do |filter|

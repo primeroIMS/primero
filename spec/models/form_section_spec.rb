@@ -47,7 +47,7 @@ describe FormSection do
 
   def random_string(length = 10)
     chars = 'abcdefghjkmnpqrstuvwxyz23456789'
-    password = ''.dup
+    password = +''
     length.times { password << chars[rand(chars.size)] }
     password
   end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Importers
+  # Import form and lookup YAML translations
   class YmlConfigImporter
     attr_accessor :file_name, :class_to_import, :locale
 
@@ -26,13 +27,13 @@ module Importers
       return Rails.logger.error('Import Not Processed: invalid yml format') unless config_data.is_a?(Hash)
 
       locale = config_data&.keys&.first&.to_sym
-      return Rails.logger.error("Import Not Processed: locale not passed in") if locale.blank?
+      return Rails.logger.error('Import Not Processed: locale not passed in') if locale.blank?
 
       return Rails.logger.error("Import Not Processed: locale #{locale} not in available locales") if I18n.available_locales.exclude?(locale)
 
       config_data.values.each do |config|
         config = strip_hash_values!(config)
-        send("import_#{class_to_import}", locale, config) if ['form_section', 'lookup'].include?(class_to_import)
+        send("import_#{class_to_import}", locale, config) if %w[form_section lookup].include?(class_to_import)
       end
     end
 
@@ -71,7 +72,7 @@ module Importers
           value.strip!
         when Hash
           strip_hash_values!(value)
-         end
+        end
       end
     end
   end

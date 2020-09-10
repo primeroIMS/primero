@@ -223,26 +223,25 @@ class Field < ApplicationRecord
 
     field_hash.each do |key, value|
       if key == 'option_strings_text'
-        if option_strings_text.present?
-          update_option_strings_translations(value, locale)
-        else
-          Rails.logger.warn "Field #{name} no longer has embedded option strings. Skipping."
-        end
+        update_option_strings_translations(value, locale)
       else
         send("#{key}_#{locale}=", value)
       end
     end
-
   end
 
+  private
+
   def update_option_strings_translations(options_hash, locale)
+    return Rails.logger.warn("Field #{name} does not have option strings. Skipping.") if option_strings_text.blank?
+
     options = (send("option_strings_text_#{locale}").present? ? send("option_strings_text_#{locale}") : [])
     option_keys_en = option_strings_text_en.map { |o| o['id'] }
 
     options_hash.each do |key, value|
       next if option_keys_en.exclude?(key) # Do not add any translations that do not have an English translation
 
-      os = options.try(:find) { |o| o['id'] == key }
+      os = options&.find { |o| o['id'] == key }
       if os.present?
         os['display_text'] = value
       else
@@ -251,8 +250,6 @@ class Field < ApplicationRecord
     end
     send("option_strings_text_#{locale}=", options)
   end
-
-  private
 
   # Names should only have lower case alpha, numbers and underscores
   def sanitize_name
