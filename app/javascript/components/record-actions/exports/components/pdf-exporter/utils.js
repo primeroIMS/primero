@@ -15,11 +15,26 @@ const getImageDimensions = async base64 => {
   });
 };
 
-export const buildHeaderImage = async img => {
-  const reader = new FileReader();
+const getLogo = async img => {
+  const store = await caches.open("images");
+  const response = await store.match(img);
 
-  const response = await fetch(img);
-  const blob = await response.blob();
+  if (!response) {
+    return false;
+  }
+
+  return response;
+};
+
+export const buildHeaderImage = async img => {
+  const logo = await getLogo(img);
+
+  if (!logo) {
+    return false;
+  }
+
+  const reader = new FileReader();
+  const blob = await logo.blob();
 
   await new Promise((resolve, reject) => {
     reader.onload = resolve;
@@ -27,17 +42,20 @@ export const buildHeaderImage = async img => {
     reader.readAsDataURL(blob);
   });
 
-  const { height, width } = await getImageDimensions(reader.result);
-  const maxWidth = 130;
-  const maxHeight = 50;
+  try {
+    const { height, width } = await getImageDimensions(reader.result);
+    const maxWidth = 130;
+    const maxHeight = 50;
+    const ratio = Math.min(maxWidth / width, maxHeight / height);
 
-  const ratio = Math.min(maxWidth / width, maxHeight / height);
-
-  return {
-    img: reader.result,
-    width: (width * ratio) / 72,
-    height: (height * ratio) / 72
-  };
+    return {
+      img: reader.result,
+      width: (width * ratio) / 72,
+      height: (height * ratio) / 72
+    };
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export const addPageHeaderFooter = (pdf, record, i18n, logo) => {
