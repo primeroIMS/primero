@@ -6,6 +6,11 @@ import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
 import EventManager from "../libs/messenger";
 import { QUEUE_FAILED, QUEUE_SKIP } from "../libs/queue";
+import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../components/notifier";
+import {
+  getApplyingConfigMessage,
+  checkConfiguration
+} from "../components/pages/admin/configurations-form/action-creators";
 
 import {
   handleRestCallback,
@@ -31,6 +36,16 @@ const defaultFetchOptions = {
 const queryParams = {
   toString: obj => qs.stringify(obj),
   parse: str => qs.parse(str)
+};
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
+const disableNavigation = () => {
+  const root = document.getElementById("root");
+  const applyModal = document.getElementsByClassName("MuiDialog-root");
+
+  root.style.pointerEvents = "none";
+  applyModal[0].style.pointerEvents = "none";
 };
 
 function fetchStatus({ store, type }, action, loading) {
@@ -124,6 +139,7 @@ const fetchSinglePayload = (action, store, options) => {
       normalizeFunc,
       successCallback,
       failureCallback,
+      configurationCallback,
       db,
       external,
       queueAttachments
@@ -163,46 +179,81 @@ const fetchSinglePayload = (action, store, options) => {
 
     try {
       const response = await window.fetch(fetchPath, fetchOptions);
-      const json = await response.json();
+      const { status } = response;
 
-      if (!response.ok) {
-        fetchStatus({ store, type }, "FAILURE", json);
+      if (status === 503) {
+        disableNavigation();
+        handleRestCallback(store, getApplyingConfigMessage(), response, {});
+        await delay(10000);
 
-        if (response.status === 404) {
-          deleteFromQueue(fromQueue);
-          messageQueueSkip();
-        } else if (failureCallback) {
-          messageQueueFailed(fromQueue);
-          handleRestCallback(store, failureCallback, response, json);
-        } else {
-          messageQueueFailed(fromQueue);
-          defaultErrorCallback(store, response, json);
-        }
+        // Use path = configuredd to test
+        fetchSinglePayload(checkConfiguration(), store, options);
+      } else if (status === 204 /* && (URL === configuration_healt.URL) */) {
+        fetchStatus({ store, type }, "SUCCESS", true);
+        fetchStatus({ store, type }, "FINISHED", false);
 
-        if (response.status === 401) {
-          startSignout(store, attemptSignout, signOut);
-        }
+        const successMessage = {
+          action: ENQUEUE_SNACKBAR,
+          payload: {
+            messageKey: "Configuration applied.",
+            options: {
+              variant: SNACKBAR_VARIANTS.success,
+              key: generate.messageKey(4321)
+            }
+          }
+        };
+
+        handleRestCallback(store, successMessage, response, {});
+        await delay(2000);
+        window.location.reload(true);
       } else {
-        await handleSuccess(store, {
-          type,
-          json,
-          normalizeFunc,
-          path,
-          db,
-          fromQueue
-        });
+        const json = await response.json();
 
-        if (attachments) {
-          processAttachments({
-            attachments,
-            id: id || json?.data?.id,
-            recordType
+        if (!response.ok) {
+          fetchStatus({ store, type }, "FAILURE", json);
+
+          if (status === 404) {
+            deleteFromQueue(fromQueue);
+            messageQueueSkip();
+          } else if (failureCallback) {
+            messageQueueFailed(fromQueue);
+            handleRestCallback(store, failureCallback, response, json);
+          } else {
+            messageQueueFailed(fromQueue);
+            defaultErrorCallback(store, response, json);
+          }
+
+          if (status === 401) {
+            startSignout(store, attemptSignout, signOut);
+          }
+        } else {
+          await handleSuccess(store, {
+            type,
+            json,
+            normalizeFunc,
+            path,
+            db,
+            fromQueue
           });
-        }
 
-        handleRestCallback(store, successCallback, response, json, fromQueue);
+          if (attachments) {
+            processAttachments({
+              attachments,
+              id: id || json?.data?.id,
+              recordType
+            });
+          }
+
+          handleRestCallback(store, successCallback, response, json, fromQueue);
+        }
+        fetchStatus({ store, type }, "FINISHED", false);
+
+        if (configurationCallback && response.ok) {
+          disableNavigation();
+          handleRestCallback(store, getApplyingConfigMessage(), response, {});
+          fetchSinglePayload(configurationCallback, store, options);
+        }
       }
-      fetchStatus({ store, type }, "FINISHED", false);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn(e);

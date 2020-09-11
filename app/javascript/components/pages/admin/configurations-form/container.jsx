@@ -27,7 +27,7 @@ import {
   fetchConfiguration,
   saveConfiguration
 } from "./action-creators";
-import { getConfiguration, getErrors, getLoading, getServerErrors, getSavingRecord } from "./selectors";
+import { getConfiguration, getErrors, getLoading, getServerErrors, getApplying } from "./selectors";
 import { NAME, APPLY_CONFIGURATION_MODAL, DELETE_CONFIGURATION_MODAL } from "./constants";
 import { buildErrorMessages } from "./utils";
 import styles from "./styles.css";
@@ -41,9 +41,9 @@ const Container = ({ mode }) => {
   const css = makeStyles(styles)();
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const configuration = useSelector(state => getConfiguration(state));
-  const saving = useSelector(state => getSavingRecord(state));
   const loading = useSelector(state => getLoading(state));
   const errors = useSelector(state => getErrors(state));
+  const applying = useSelector(state => getApplying(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const validationSchema = validations(formMode, i18n);
 
@@ -127,7 +127,7 @@ const Container = ({ mode }) => {
         <FormAction
           actionHandler={() => bindFormSubmit(formRef)}
           text={i18n.t("buttons.save")}
-          savingRecord={saving}
+          savingRecord={applying}
           startIcon={<CheckIcon />}
         />
       </>

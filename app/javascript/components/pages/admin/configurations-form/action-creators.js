@@ -1,5 +1,5 @@
-import { RECORD_PATH, SAVE_METHODS, METHODS } from "../../../../config";
-import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
+import { RECORD_PATH, SAVE_METHODS, METHODS, ROUTES } from "../../../../config";
+import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../../../notifier";
 
 import actions from "./actions";
 
@@ -48,7 +48,27 @@ export const deleteConfiguration = ({ id, message }) => ({
   }
 });
 
-export const applyConfiguration = ({ id, message }) => ({
+export const checkConfiguration = () => ({
+  type: actions.CHECK_CONFIGURATION,
+  api: {
+    external: true,
+    path: ROUTES.check_health
+  }
+});
+
+export const getApplyingConfigMessage = () => ({
+  action: ENQUEUE_SNACKBAR,
+  payload: {
+    message: "Server is temporarily unavailable. Applying new configuration.",
+    noDismiss: true,
+    options: {
+      variant: SNACKBAR_VARIANTS.info,
+      key: generate.messageKey(99999)
+    }
+  }
+});
+
+export const applyConfiguration = ({ id }) => ({
   type: actions.APPLY_CONFIGURATION,
   api: {
     path: `${RECORD_PATH.configurations}/${id}`,
@@ -58,7 +78,7 @@ export const applyConfiguration = ({ id, message }) => ({
         apply_now: true
       }
     },
-    successCallback: getSuccessCallback(message, false, false)
+    configurationCallback: checkConfiguration()
   }
 });
 

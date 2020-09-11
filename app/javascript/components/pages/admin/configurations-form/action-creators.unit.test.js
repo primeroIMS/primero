@@ -19,9 +19,11 @@ describe("configurations-form/action-creators.js", () => {
 
     [
       "applyConfiguration",
+      "checkConfiguration",
       "clearSelectedConfiguration",
       "deleteConfiguration",
       "fetchConfiguration",
+      "getApplyingConfigMessage",
       "saveConfiguration"
     ].forEach(actionCreator => {
       it(`exports '${actionCreator}'`, () => {

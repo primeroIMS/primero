@@ -19,4 +19,4 @@ export const getSavingRecord = state => state.getIn(["records", "admin", NAMESPA
 
 export const getLoading = state => state.getIn(["records", "admin", NAMESPACE, "loading"], false);
 
-export const getApplied = state => state.getIn(["records", "admin", NAMESPACE, "applied"], false);
+export const getApplying = state => state.getIn(["records", "admin", NAMESPACE, "applying"], false);

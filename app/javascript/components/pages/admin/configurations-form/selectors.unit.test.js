@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 
 import NAMESPACE from "../configurations-list/namespace";
 
-import { getApplied, getConfiguration, getErrors, getLoading, getServerErrors, getSavingRecord } from "./selectors";
+import { getApplying, getConfiguration, getErrors, getLoading, getServerErrors, getSavingRecord } from "./selectors";
 
 const state = fromJS({
   records: {
@@ -89,9 +89,9 @@ describe("configurations-form/selectors.js", () => {
     });
   });
 
-  describe("getApplied", () => {
-    it("should return server errors", () => {
-      expect(getApplied(state)).to.be.false;
+  describe("getApplying", () => {
+    it("should return false", () => {
+      expect(getApplying(state)).to.be.false;
     });
   });
 });
