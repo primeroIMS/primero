@@ -29,7 +29,7 @@ namespace :primero do
   end
 
   # Exports Forms for translation & Exports Lookups for translation
-  # USAGE: bundle exec rails primero:export_form_translation
+  # USAGE: rails primero:export_form_translation
   # Args:
   #   unique_id          - if this is passed in, will only export that 1 form  (ex. 'basic_identity')
   #   record_type        - record type (ex. 'case', 'incident', 'tracing_request', etc)     DEFAULT: 'case'
