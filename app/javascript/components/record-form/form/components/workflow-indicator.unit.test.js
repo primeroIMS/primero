@@ -1,7 +1,7 @@
 import { fromJS, Map } from "immutable";
-import { StepLabel } from "@material-ui/core";
+import { Badge, StepLabel } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../../../test";
+import { setupMountedComponent, stub } from "../../../../test";
 import { PrimeroModuleRecord } from "../../../application/records";
 
 import WorkflowIndicator from "./workflow-indicator";
@@ -85,5 +85,52 @@ describe("<WorkflowIndicator />", () => {
     const steps = component.find(StepLabel);
 
     expect(steps.at(0).text()).to.include("Reopened");
+  });
+
+  describe("when the mobile is displayed", () => {
+    let stubWindow = null;
+
+    beforeEach(() => {
+      stubWindow = stub(window, "matchMedia").returns({ matches: true, addListener: () => {} });
+    });
+
+    it("renders the smaller workflow indicator", () => {
+      const { component } = setupMountedComponent(
+        WorkflowIndicator,
+        {
+          ...defaultProps,
+          record: Map({ case_status_reopened: false, workflow: "services" })
+        },
+        state
+      );
+
+      expect(component.find(Badge).text()).to.equal("2");
+      expect(component.find(StepLabel)).to.have.lengthOf(0);
+    });
+
+    it("should not render the workflow indicator if the module does not support workflows", () => {
+      const { component } = setupMountedComponent(
+        WorkflowIndicator,
+        {
+          ...defaultProps,
+          record: Map({ case_status_reopened: false })
+        },
+        state.setIn(
+          ["application", "modules"],
+          fromJS([
+            PrimeroModuleRecord({
+              unique_id: "primeromodule-cp"
+            })
+          ])
+        )
+      );
+
+      expect(component.find(Badge)).to.have.lengthOf(0);
+      expect(component.find(StepLabel)).to.have.lengthOf(0);
+    });
+
+    afterEach(() => {
+      stubWindow?.restore();
+    });
   });
 });

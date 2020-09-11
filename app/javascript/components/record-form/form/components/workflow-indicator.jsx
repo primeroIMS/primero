@@ -27,7 +27,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
 
   const activeStep = workflowSteps?.findIndex(s => s.id === record.get("workflow"));
 
-  if (mobileDisplay) {
+  if (mobileDisplay && workflowSteps) {
     return (
       <>
         <div className={css.mobileStepper}>
