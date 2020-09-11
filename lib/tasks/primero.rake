@@ -46,7 +46,10 @@ namespace :primero do
   #      rails primero:export_form_translation[basic_identity]
   #
   #   Exports only tracing_request forms for CP, including hidden forms & fields
-  #      bundle exec rails primero:export_form_translation['',tracing_request,primeromodule-cp,true,en]
+  #      rails primero:export_form_translation['',tracing_request,primeromodule-cp,true,en]
+  #
+  #   Exports only the GBV forms
+  #      rails primero:export_form_translation['','',primeromodule-gbv]
   desc 'Export the forms to a yaml file to be translated'
   task :export_form_translation, %i[unique_id record_type module_id show_hidden locale] => :environment do |_, args|
     puts 'Exporting forms to YAML for translation ...'

@@ -81,6 +81,7 @@ class FormSection < ApplicationRecord
 
     def list(params = {})
       form_sections = all.includes(:fields, :collapsed_fields, :primero_modules)
+      form_sections = form_sections.where(unique_id: params[:unique_id]) if params[:unique_id]
       form_sections = form_sections.where(parent_form: params[:record_type]) if params[:record_type]
       form_sections = form_sections.where(primero_modules: { unique_id: params[:module_id] }) if params[:module_id]
       form_sections
