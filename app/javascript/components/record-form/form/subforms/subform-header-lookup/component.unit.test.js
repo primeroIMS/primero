@@ -51,23 +51,29 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
     const props = {
       value: "test_2",
       optionsStringSource: "",
-      optionsStringText: {
-        en: [
-          {
-            id: "test_1",
-            display_text: "Test 1"
-          },
-          {
-            id: "test_2",
-            display_text: "Test 2"
-          },
-          {
-            id: "test_3",
-            display_text: "Test 3"
+      optionsStringText: [
+        {
+          id: "test_1",
+          display_text: {
+            en: "Test 1",
+            fr: ""
           }
-        ],
-        fr: []
-      }
+        },
+        {
+          id: "test_2",
+          display_text: {
+            en: "Test 2",
+            fr: ""
+          }
+        },
+        {
+          id: "test_3",
+          display_text: {
+            en: "Test 3",
+            fr: ""
+          }
+        }
+      ]
     };
     const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 

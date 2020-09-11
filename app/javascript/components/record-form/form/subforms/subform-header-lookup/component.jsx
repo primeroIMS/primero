@@ -33,18 +33,16 @@ const Component = ({ value, optionsStringSource, optionsStringText }) => {
     return <span>{texts}</span>;
   }
 
-  const { display_text: displayText } = optionsStringText[i18n.locale].find(
-    optionStringText => optionStringText.id === value
-  );
+  const { display_text: displayText } = optionsStringText.find(optionStringText => optionStringText.id === value);
 
-  return <span>{displayText}</span>;
+  return <span>{displayText[i18n.locale]}</span>;
 };
 
 Component.displayName = SUBFORM_LOOKUP_HEADER_NAME;
 
 Component.propTypes = {
   optionsStringSource: PropTypes.string,
-  optionsStringText: PropTypes.object,
+  optionsStringText: PropTypes.array,
   value: PropTypes.string
 };
 
