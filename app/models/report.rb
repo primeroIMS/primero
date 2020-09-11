@@ -221,7 +221,7 @@ class Report < ApplicationRecord
       age_field_index = pivot_index(pivot)
       next unless group_ages && age_field_index && age_field_index < dimensionality
 
-      values = Reports::Utils.group_values(values, age_field_index) do |pivot_name|
+      self.values = Reports::Utils.group_values(self.values, age_field_index) do |pivot_name|
         age_ranges.find { |range| range.cover? pivot_name }
       end
     end
@@ -231,7 +231,7 @@ class Report < ApplicationRecord
       date_fields.each do |field_name, _|
         next unless pivot_index(field_name) < dimensionality
 
-        values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
+        self.values = Reports::Utils.group_values(self.values, pivot_index(field_name)) do |pivot_name|
           Reports::Utils.date_range(pivot_name, group_dates_by)
         end
       end
