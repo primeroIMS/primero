@@ -15,46 +15,20 @@ const getImageDimensions = async base64 => {
   });
 };
 
-const getLogo = async img => {
-  const store = await caches.open("images");
-  const response = await store.match(img);
-
-  if (!response) {
-    return false;
-  }
-
-  return response;
-};
-
 export const buildHeaderImage = async img => {
-  const logo = await getLogo(img);
-
-  if (!logo) {
-    return false;
-  }
-
-  const reader = new FileReader();
-  const blob = await logo.blob();
-
-  await new Promise((resolve, reject) => {
-    reader.onload = resolve;
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-
   try {
-    const { height, width } = await getImageDimensions(reader.result);
+    const { height, width } = await getImageDimensions(img);
     const maxWidth = 130;
     const maxHeight = 50;
     const ratio = Math.min(maxWidth / width, maxHeight / height);
 
     return {
-      img: reader.result,
+      img,
       width: (width * ratio) / 72,
       height: (height * ratio) / 72
     };
-  } catch (error) {
-    throw new Error(error);
+  } catch {
+    return {};
   }
 };
 
