@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
 import html2pdf from "html2pdf.js";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../../i18n";
 import { FORM_TO_EXPORT_FIELD } from "../../constants";
