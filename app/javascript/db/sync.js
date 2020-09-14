@@ -28,6 +28,9 @@ const syncIndexedDB = async (db = { recordType: "", collection: "" }, json, meth
       case DB_COLLECTIONS_NAMES.DASHBOARDS: {
         return collections.Dashboards;
       }
+      case DB_COLLECTIONS_NAMES.LOGOS: {
+        return collections.Logos;
+      }
       default: {
         return false;
       }
