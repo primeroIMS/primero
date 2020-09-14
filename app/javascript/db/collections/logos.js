@@ -1,16 +1,23 @@
 import DB from "../db";
 
 const fetchImage = async logo => {
-  const response = await fetch(logo);
-  const blob = await response.blob();
-  const reader = new FileReader();
+  return new Promise((resolve, reject) => {
+    const image = new Image();
 
-  reader.readAsDataURL(blob);
+    image.crossOrigin = "Anonymous";
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
 
-  return new Promise(resolve => {
-    reader.onloadend = () => {
-      resolve(reader.result);
+      canvas.height = image.naturalHeight;
+      canvas.width = image.naturalWidth;
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(image, 0, 0);
+
+      return resolve(canvas.toDataURL());
     };
+    image.onerror = reject;
+    image.src = logo;
   });
 };
 
