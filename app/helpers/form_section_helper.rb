@@ -113,7 +113,8 @@ module FormSectionHelper
   #Returns a hash of tuples {subform_group_label => [subform_object, index]}.
   def grouped_subforms(formObject, subform_field, violation_group_id=nil, violation_subform_id=nil)
     if violation_group_id.present? && violation_subform_id.present?
-      objects = formObject.try(:[], violation_group_id).try(:[], violation_subform_id)
+      objects = formObject.try(:[], violation_group_id).try(:[], violation_subform_id).presence ||
+                formObject.try(subform_field.name)
     else
       objects = formObject.try(subform_field.name)
     end
