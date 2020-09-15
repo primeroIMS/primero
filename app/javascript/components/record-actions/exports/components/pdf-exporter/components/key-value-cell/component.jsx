@@ -4,14 +4,19 @@ import { useSelector } from "react-redux";
 import { List, fromJS } from "immutable";
 import { isEmpty } from "lodash";
 import { format, parseISO } from "date-fns";
+import { makeStyles } from "@material-ui/core";
 
 import { getOptions } from "../../../../../../form/selectors";
 import { optionText } from "../../../../../../form/utils";
 import { useI18n } from "../../../../../../i18n";
 import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../../../../config";
 
+import styles from "./styles.css";
+
 const Component = ({ date, dateWithTime, displayName, value, optionsStringSource, options }) => {
   const i18n = useI18n();
+  const css = makeStyles(styles)();
+
   const hasOptions = optionsStringSource || !isEmpty(options);
   const isAgency = optionsStringSource === "Agency";
   const lookups = useSelector(
@@ -44,10 +49,10 @@ const Component = ({ date, dateWithTime, displayName, value, optionsStringSource
   };
 
   return (
-    <tr>
-      <td>{displayName}</td>
-      <td>{renderValue(value)}</td>
-    </tr>
+    <div className={css.cell}>
+      <div>{displayName}</div>
+      <div>{renderValue(value)}</div>
+    </div>
   );
 };
 
