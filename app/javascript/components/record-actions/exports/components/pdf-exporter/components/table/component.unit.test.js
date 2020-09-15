@@ -12,7 +12,8 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
         FieldRecord({
           display_name: "Test Field",
           name: "test_field",
-          type: "text_field"
+          type: "text_field",
+          visible: true
         }),
         FieldRecord({
           display_name: "Test SubField",
@@ -22,7 +23,8 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
               FieldRecord({
                 display_name: "Test Sub Field",
                 name: "test_sub_field",
-                type: "text_field"
+                type: "text_field",
+                visible: true
               })
             ]
           }),
