@@ -42,11 +42,10 @@ const Logos = {
   },
 
   save: async ({ json }) => {
-    const { data } = json;
-
-    const images = await Promise.all(data.agencies.map(agency => logoItem(agency)));
-
-    await DB.bulkAdd("logos", images);
+    // TODO: Will add back when we create api endpoint to fetch base64 images
+    // const { data } = json;
+    // const images = await Promise.all(data.agencies.map(agency => logoItem(agency)));
+    // await DB.bulkAdd("logos", images);
 
     return json;
   }
