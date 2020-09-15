@@ -8,11 +8,10 @@ import { useDispatch } from "react-redux";
 import { useI18n } from "../../../../i18n";
 import { FORM_TO_EXPORT_FIELD } from "../../constants";
 import { enqueueSnackbar } from "../../../../notifier";
-import Logos from "../../../../../db/collections/logos";
 
 import { HTML_2_PDF_OPTIONS } from "./constants";
 import styles from "./styles.css";
-import { addPageHeaderFooter, buildHeaderImage } from "./utils";
+import { addPageHeaderFooter } from "./utils";
 import Table from "./components/table";
 
 const Component = ({ forms, record }, ref) => {
@@ -28,12 +27,13 @@ const Component = ({ forms, record }, ref) => {
     : forms;
 
   useImperativeHandle(ref, () => ({
-    async savePdf({ setPending, close, values }) {
+    savePdf({ setPending, close, values }) {
       setPending(true);
 
-      const logos = await Logos.find();
+      // TODO: Will add back when we create api endpoint to fetch base64 images
+      // const logos = await Logos.find();
       // eslint-disable-next-line camelcase
-      const logo = await buildHeaderImage(logos?.[0]?.images?.logo_full);
+      // const logo = await buildHeaderImage(logos?.[0]?.images?.logo_full);
 
       html2pdf()
         .from(html.current)
@@ -41,7 +41,7 @@ const Component = ({ forms, record }, ref) => {
         .toPdf()
         .get("pdf")
         .then(pdf => {
-          addPageHeaderFooter(pdf, record, i18n, logo);
+          addPageHeaderFooter(pdf, record, i18n);
         })
         .save()
         .then(() => {

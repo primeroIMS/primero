@@ -14,6 +14,7 @@ const Component = ({ fields, record }) => {
         {fields.map(field => {
           const {
             name,
+            visible,
             subform_section_id: subformSectionId,
             display_name: displayName,
             option_strings_source: optionStringsSource,
@@ -32,6 +33,10 @@ const Component = ({ fields, record }) => {
                 </td>
               </tr>
             ));
+          }
+
+          if (!visible) {
+            return null;
           }
 
           return (

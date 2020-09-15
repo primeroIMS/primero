@@ -32,12 +32,12 @@ export const buildHeaderImage = async img => {
   }
 };
 
-export const addPageHeaderFooter = (pdf, record, i18n, logo) => {
+export const addPageHeaderFooter = (pdf, record, i18n) => {
   const totalPages = pdf.internal.getNumberOfPages();
   const pageContentWidth = pdf.internal.pageSize.getWidth() - PAGE_MARGIN;
   const pageContentHeight = pdf.internal.pageSize.getHeight() - PAGE_MARGIN;
 
-  const addPageMeta = (fontSize = 9, x = pageContentWidth, yCaseID = 0.6, yDate = 0.77, align = "right") => {
+  const addPageMeta = (fontSize = 9, x = pageContentWidth, yCaseID = 0.5, yDate = 0.7, align = "right") => {
     pdf.setFontType("bold");
     pdf.setFontSize(fontSize);
     pdf.text(i18n.t("cases.show_case", { short_id: record.get("short_id") }), x, yCaseID, { align });
@@ -48,13 +48,14 @@ export const addPageHeaderFooter = (pdf, record, i18n, logo) => {
   for (let page = 1; page <= totalPages; page += 1) {
     pdf.setPage(page);
 
-    if (logo?.img) {
-      pdf.addImage(logo?.img, "png", PAGE_MARGIN, PAGE_MARGIN, logo?.width, logo?.height);
-    }
+    // TODO: Will add back when we create api endpoint to fetch base64 images
+    // if (logo?.img) {
+    //   pdf.addImage(logo?.img, "png", PAGE_MARGIN, PAGE_MARGIN, logo?.width, logo?.height);
+    // }
 
     // Add case id and date
     if (page === 1) {
-      addPageMeta(11.5, PAGE_MARGIN, 1.2, 1.45, "left");
+      addPageMeta(11.5, PAGE_MARGIN, 0.5, 0.7, "left");
     } else {
       addPageMeta();
     }
