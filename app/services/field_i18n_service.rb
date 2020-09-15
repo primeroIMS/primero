@@ -261,7 +261,10 @@ class FieldI18nService
   #     "ar"=>"SER-AR",
   #   }
   # }
+  # TODO: Delete once we have converted system settings approvals to the new format
   def self.to_localized_values(field)
+    return unless field
+
     values_localized = field.each_with_object({}) do |(locale, values), acc|
       values.map do |key, value|
         acc[key] ||= I18n.available_locales.collect { |l| [l.to_s, ''] }.to_h
