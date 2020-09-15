@@ -21,9 +21,9 @@ const formGroups = (state, i18n) =>
     )
     .sortBy(item => item.get("display_text"));
 
-const agencies = state =>
+const agencies = (state, useUniqueId) =>
   state.getIn(["application", "agencies"], fromJS([])).map(agency => ({
-    id: agency.get("unique_id"),
+    id: agency.get(useUniqueId ? "unique_id" : "id"),
     display_text: agency.get("name")
   }));
 
@@ -88,10 +88,10 @@ const lookups = (state, i18n) =>
     )
     .sortBy(lookup => lookup.get("display_text"));
 
-const optionsFromState = (state, optionStringsSource, i18n) => {
+const optionsFromState = (state, optionStringsSource, i18n, useUniqueId) => {
   switch (optionStringsSource) {
     case OPTION_TYPES.AGENCY:
-      return agencies(state);
+      return agencies(state, useUniqueId);
     case OPTION_TYPES.LOCATION:
       return locations(state, i18n);
     case OPTION_TYPES.REPORTING_LOCATIONS:
@@ -116,9 +116,9 @@ const transformOptions = (options, i18n) =>
   });
 
 // eslint-disable-next-line import/prefer-default-export
-export const getOptions = (state, optionStringsSource, i18n, options) => {
+export const getOptions = (state, optionStringsSource, i18n, options, useUniqueId = false) => {
   if (optionStringsSource) {
-    return optionsFromState(state, optionStringsSource, i18n);
+    return optionsFromState(state, optionStringsSource, i18n, useUniqueId);
   }
 
   if (options) {

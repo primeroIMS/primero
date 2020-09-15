@@ -13,9 +13,9 @@ import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../../../../config";
 const Component = ({ date, dateWithTime, displayName, value, optionsStringSource, options }) => {
   const i18n = useI18n();
   const hasOptions = optionsStringSource || !isEmpty(options);
-
+  const isAgency = optionsStringSource === "Agency";
   const lookups = useSelector(
-    state => getOptions(state, optionsStringSource, i18n, options),
+    state => getOptions(state, optionsStringSource, i18n, options, isAgency),
     () => hasOptions && !isEmpty(value)
   );
 
