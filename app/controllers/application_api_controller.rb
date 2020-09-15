@@ -7,9 +7,13 @@ class ApplicationApiController < ActionController::API
 
   # check_authorization #TODO: Uncomment after upgrading to CanCanCan v3
   before_action :authenticate_user!
+  before_action :check_config_update_lock!
 
   rescue_from Exception do |exception|
     status, @errors = ErrorService.handle(exception, request)
+    @errors.map(&:headers).compact.inject({}, &:merge).each do |name, value|
+      response.set_header(name, value)
+    end
     render 'api/v2/errors/errors', status: status
   end
 
@@ -39,5 +43,9 @@ class ApplicationApiController < ActionController::API
   # Devise Magic method, explicitly declared.
   def authenticate_user!
     super
+  end
+
+  def check_config_update_lock!
+    raise Errors::LockedForConfigurationUpdate if SystemSettings.locked_for_configuration_update?
   end
 end

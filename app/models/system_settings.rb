@@ -126,5 +126,17 @@ class SystemSettings < ApplicationRecord
     def reset
       @current = nil
     end
+
+    def locked_for_configuration_update?
+      SystemSettings.pluck(:config_update_lock).first
+    end
+
+    def lock_for_configuration_update
+      SystemSettings.first.update_attributes(config_update_lock: true)
+    end
+
+    def unlock_after_configuration_update
+      SystemSettings.first.update_attributes(config_update_lock: false)
+    end
   end
 end
