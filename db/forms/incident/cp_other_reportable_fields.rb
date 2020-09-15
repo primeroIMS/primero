@@ -19,7 +19,6 @@ fields = [
     "name" => "owned_by_location",
     "type" => "select_box",
     "display_name_en" => "Case Manager's Location",
-    "searchable_select" => true,
     "editable" => false,
     "disabled" => true,
     "option_strings_source" => "Location"
