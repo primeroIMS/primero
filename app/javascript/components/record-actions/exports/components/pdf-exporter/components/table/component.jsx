@@ -39,7 +39,7 @@ const Component = ({ fields, record }) => {
         } = field;
 
         if (subformSectionId) {
-          return <div>{renderSubform(subformSectionId, displayName)}</div>;
+          return <div key={`keyval-${name}`}>{renderSubform(subformSectionId, displayName)}</div>;
         }
 
         if (!visible) {
@@ -75,5 +75,3 @@ export default React.memo(Component, (prev, next) => {
     next.fields.map(field => field.name)
   );
 });
-
-// export default Component;
