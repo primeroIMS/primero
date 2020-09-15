@@ -42,4 +42,18 @@ describe HealthCheckService do
       Rails.configuration.active_job[:queue_adapter] = @original_queue
     end
   end
+
+  describe '.api_accessible?' do
+    before do
+      clean_data(SystemSettings)
+      SystemSettings.create!
+      SystemSettings.lock_for_configuration_update
+    end
+
+    it 'returns false if the configuration is updating' do
+      expect(HealthCheckService.api_accessible?).to be_falsey
+    end
+
+    after { clean_data(SystemSettings) }
+  end
 end
