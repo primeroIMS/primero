@@ -103,7 +103,7 @@ describe("configurations-form/reducers.js", () => {
   });
 
   it("should handle APPLY_CONFIGURATION_STARTED", () => {
-    const expected = fromJS({ applied: false, loading: true, errors: false, serverErrors: [] });
+    const expected = fromJS({ applying: false, loading: true, errors: false, serverErrors: [] });
     const action = {
       type: actions.APPLY_CONFIGURATION_STARTED,
       payload: true
@@ -112,9 +112,10 @@ describe("configurations-form/reducers.js", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
   it("should handle APPLY_CONFIGURATION_SUCCESS", () => {
     const expected = fromJS({
-      applied: true
+      applying: true
     });
 
     const action = {
@@ -127,7 +128,7 @@ describe("configurations-form/reducers.js", () => {
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle APPLY_CONFIGURATION_FINISHED", () => {
+  it("deprecated APPLY_CONFIGURATION_FINISHED", () => {
     const expected = fromJS({ loading: false });
     const action = {
       type: actions.APPLY_CONFIGURATION_FINISHED,
@@ -135,7 +136,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).to.not.deep.equal(expected);
   });
 
   it("should handle APPLY_CONFIGURATION_FAILURE", () => {
@@ -143,6 +144,16 @@ describe("configurations-form/reducers.js", () => {
     const action = {
       type: actions.APPLY_CONFIGURATION_FAILURE,
       payload: { errors: ["some error"] }
+    };
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle CHECK_CONFIGURATION_FINISHED", () => {
+    const expected = fromJS({ applying: false, loading: false });
+    const action = {
+      type: actions.CHECK_CONFIGURATION_FINISHED
     };
     const newState = reducer(fromJS({}), action);
 

@@ -1,6 +1,6 @@
 import { stub } from "../../../../test";
-import { RECORD_PATH, METHODS, SAVE_METHODS } from "../../../../config";
-import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
+import { RECORD_PATH, METHODS, SAVE_METHODS, ROUTES } from "../../../../config";
+import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../../../notifier";
 
 import * as actionsCreators from "./action-creators";
 import actions from "./actions";
@@ -41,28 +41,100 @@ describe("configurations-form/action-creators.js", () => {
         api: {
           path: `${RECORD_PATH.configurations}/${args.id}`,
           method: METHODS.PATCH,
-          successCallback: {
-            action: ENQUEUE_SNACKBAR,
-            payload: {
-              message: args.message,
-              options: {
-                key: "test-success-message",
-                variant: "success"
-              }
-            },
-            redirect: false,
-            redirectWithIdFromResponse: false
-          },
-
           body: {
             data: {
               apply_now: true
+            }
+          },
+          configurationCallback: {
+            type: actions.CHECK_CONFIGURATION,
+            api: {
+              external: true,
+              path: ROUTES.check_health
             }
           }
         }
       };
 
       expect(actionsCreators.applyConfiguration(args)).to.deep.equal(expected);
+    });
+
+    it("should check that 'checkConfiguration' action creator returns the correct object", () => {
+      const expected = {
+        type: actions.CHECK_CONFIGURATION,
+        api: {
+          external: true,
+          path: ROUTES.check_health
+        }
+      };
+
+      expect(actionsCreators.checkConfiguration(1234)).to.deep.equal(expected);
+    });
+
+    it("should check that 'clearSelectedConfiguration' action creator returns the correct object", () => {
+      const expected = {
+        type: actions.CLEAR_SELECTED_CONFIGURATION
+      };
+
+      expect(actionsCreators.clearSelectedConfiguration()).to.deep.equal(expected);
+    });
+
+    it("should check that 'deleteConfiguration' action creator returns the correct object", () => {
+      stub(generate, "messageKey").returns(4);
+
+      const args = {
+        id: 1,
+        message: "Deleted successfully"
+      };
+
+      const expected = {
+        type: actions.DELETE_CONFIGURATION,
+        api: {
+          path: `${RECORD_PATH.configurations}/${args.id}`,
+          method: METHODS.DELETE,
+          successCallback: {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              message: args.message,
+              options: {
+                key: 4,
+                variant: "success"
+              }
+            },
+            redirectWithIdFromResponse: false,
+            redirect: `/admin/${RECORD_PATH.configurations}`
+          }
+        }
+      };
+
+      expect(actionsCreators.deleteConfiguration(args)).to.deep.equal(expected);
+    });
+
+    it("should check that 'fetchConfiguration' action creator returns the correct object", () => {
+      const expected = {
+        type: actions.FETCH_CONFIGURATION,
+        api: {
+          path: `${RECORD_PATH.configurations}/1234`
+        }
+      };
+
+      expect(actionsCreators.fetchConfiguration(1234)).to.deep.equal(expected);
+    });
+
+    it("should check that 'getApplyingConfigMessage' action creator returns the correct object", () => {
+      const expected = {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          message: "Server is temporarily unavailable. Applying new configuration.",
+          noDismiss: true,
+          options: {
+            variant: SNACKBAR_VARIANTS.info,
+            key: generate.messageKey(99999)
+          }
+        }
+      };
+
+      expect(actionsCreators.getApplyingConfigMessage()).to.deep.equal(expected);
     });
 
     it("should check that 'saveConfiguration' action creator returns the correct object", () => {
@@ -102,83 +174,6 @@ describe("configurations-form/action-creators.js", () => {
       };
 
       expect(actionsCreators.saveConfiguration(args)).to.deep.equal(expected);
-    });
-
-    it("should check that 'deleteConfiguration' action creator returns the correct object", () => {
-      stub(generate, "messageKey").returns(4);
-
-      const args = {
-        id: 1,
-        message: "Deleted successfully"
-      };
-
-      const expected = {
-        type: actions.DELETE_CONFIGURATION,
-        api: {
-          path: `${RECORD_PATH.configurations}/${args.id}`,
-          method: METHODS.DELETE,
-          successCallback: {
-            action: ENQUEUE_SNACKBAR,
-            payload: {
-              message: args.message,
-              options: {
-                key: 4,
-                variant: "success"
-              }
-            },
-            redirectWithIdFromResponse: false,
-            redirect: `/admin/${RECORD_PATH.configurations}`
-          }
-        }
-      };
-
-      expect(actionsCreators.deleteConfiguration(args)).to.deep.equal(expected);
-    });
-
-    it("should check that 'applyConfiguration' action creator returns the correct object", () => {
-      stub(generate, "messageKey").returns(4);
-
-      const args = {
-        id: 1,
-        message: "Configuration applied successfully"
-      };
-
-      const expected = {
-        type: actions.APPLY_CONFIGURATION,
-        api: {
-          path: `${RECORD_PATH.configurations}/${args.id}`,
-          method: METHODS.PATCH,
-          body: {
-            data: {
-              apply_now: true
-            }
-          },
-          successCallback: {
-            action: ENQUEUE_SNACKBAR,
-            payload: {
-              message: args.message,
-              options: {
-                key: 4,
-                variant: "success"
-              }
-            },
-            redirectWithIdFromResponse: false,
-            redirect: false
-          }
-        }
-      };
-
-      expect(actionsCreators.applyConfiguration(args)).to.deep.equal(expected);
-    });
-
-    it("should check that 'clearSelectedConfiguration' action creator returns the correct object", () => {
-      stub(generate, "messageKey").returns(4);
-
-      const expected = {
-        type: actions.CLEAR_SELECTED_CONFIGURATION
-      };
-
-      expect(actionsCreators.clearSelectedConfiguration()).to.deep.equal(expected);
     });
   });
 
