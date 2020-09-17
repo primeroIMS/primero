@@ -203,7 +203,9 @@ class Incident < CouchRest::Model::Base
         #What matters here is the date for the person creating the incident
         #After its creation the date will not have a timezone
         incident.date_of_first_report = DateTime.current.to_date
-        incident.set_creation_fields_for user if user.present?
+        incident.set_creation_fields_for (User.find_by_user_name(child.owned_by)) if child.owned_by.present?
+        incident.owned_by = child.owned_by
+        incident.owned_by_full_name = child.owned_by_full_name
       end
     end
   end
