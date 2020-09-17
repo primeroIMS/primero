@@ -1,7 +1,4 @@
-import { fromJS, List } from "immutable";
-
 import * as utils from "./utils";
-import { REPORT_FIELD_TYPES } from "./constants";
 
 describe("index-filters/components/filter-types/select-filter/utils.js", () => {
   describe("with exposed properties", () => {
