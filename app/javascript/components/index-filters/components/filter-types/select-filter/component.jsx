@@ -22,9 +22,9 @@ import {
   buildFilterLookups
 } from "../utils";
 import handleFilterChange from "../value-handlers";
-import { displayNameHelper } from "../../../../../libs";
 
 import { NAME } from "./constants";
+import { getOptionName } from "./utils";
 
 const Component = ({
   addFilterToList,
@@ -135,18 +135,6 @@ const Component = ({
     }
   };
 
-  const getOptionName = option => {
-    let name = "";
-
-    ["display_name", "display_text", "name"].forEach(prop => {
-      if (prop in option) {
-        name = typeof option[prop] === "object" ? displayNameHelper(option[prop], i18n.locale) : option[prop];
-      }
-    });
-
-    return name;
-  };
-
   const optionLabel = option => {
     let foundOption = option;
 
@@ -154,7 +142,7 @@ const Component = ({
       [foundOption] = lookups.filter(lookupValue => [lookupValue?.code, lookupValue?.id].includes(option));
     }
 
-    return getOptionName(foundOption);
+    return getOptionName(foundOption, i18n);
   };
 
   return (
