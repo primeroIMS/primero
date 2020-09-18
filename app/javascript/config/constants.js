@@ -68,6 +68,7 @@ export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
 });
 
 export const RECORD_PATH = {
+  account: "account",
   agencies: "agencies",
   alerts: "alerts",
   audit_logs: "audit_logs",
@@ -231,7 +232,7 @@ export const ADMIN_NAV = [
   }
 ];
 
-export const APPLICATION_NAV = permissions => {
+export const APPLICATION_NAV = (permissions, userId) => {
   const adminResources = getAdminResources(permissions);
   const adminForm = adminResources[0] || ADMIN_RESOURCES.contact_information;
   const adminSettingsOption = `/admin/${adminForm === RESOURCES.metadata ? RESOURCES.forms : adminForm}`;
@@ -308,7 +309,12 @@ export const APPLICATION_NAV = permissions => {
       icon: "support",
       divider: true
     },
-    { name: "username", to: ROUTES.account, icon: "account", disabled: true },
+    // {
+    //   name: "navigation.my_account",
+    //   to: myAccountTo,
+    //   icon: "account"
+    // },
+    { name: "username", to: `${ROUTES.account}/${userId}`, icon: "account" },
     {
       name: "navigation.settings",
       to: adminSettingsOption,
