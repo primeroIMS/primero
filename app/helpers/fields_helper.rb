@@ -47,6 +47,10 @@ module FieldsHelper
     end
   end
 
+  def field_uuid
+    SecureRandom.uuid
+  end
+
   def field_value_for_display(field_value, field=nil, lookups=nil)
     value = if field_value.is_a?(Array)
       values = field_value
