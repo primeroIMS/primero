@@ -4,11 +4,11 @@ bn:
       export_incident_recorder_xls: "রপ্তানী ঘটনার রেকর্ডার এক্সেলস "
   exports:
     incident_recorder_xls:
-      all: ঘটনার রেকর্ডার
-      one: ঘটনার রেকর্ডার
-      selected: 'ঘটনার রেকর্ডার নির্বাচন করুন '
-      'yes': "হ্যাঁ"
-      'no': "না "
+      all:  ঘটনার রেকর্ডার
+      one:  ঘটনার রেকর্ডার
+      selected:  "ঘটনার রেকর্ডার নির্বাচন করুন "
+      "yes": "হ্যাঁ"
+      "no": "না "
       gender:
         male: "এম"
         female: "এফ"
