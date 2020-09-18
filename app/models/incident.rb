@@ -318,6 +318,8 @@ class Incident < CouchRest::Model::Base
 
   #TODO - need rspec test for this
   def violation_label(violation_type, violation, include_unique_id=false, opts={})
+    return '' if violation.blank?
+
     violation_text = Lookup.display_value('lookup-violation-type', violation_type, opts[:lookups])
     label_text = []
     @violation_config ||= Violation.config

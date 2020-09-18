@@ -21,7 +21,8 @@
   <% elsif action == 'edit' %>
     <%= hidden_field_tag(unique_tag_name, field_value(formObject, nil, fk_unique_id)) %>
   <% else %>
-    <%= hidden_field_tag(unique_tag_name, '') %>
+    <% subform_id = subform_section.shared_subform.blank? ? field_uuid : '' %>
+    <%= hidden_field_tag(unique_tag_name, subform_id) %>
   <% end %>
   <%# TODO: Render the individual fields %>
   <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
