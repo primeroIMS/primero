@@ -25,14 +25,10 @@ const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeFiel
       filter: false,
       customBodyRender: (value, tableMeta) => {
         const currentField = { id: tableMeta.rowData[4], name: value };
+        const selected = selectedFields.some(field => isEqual(field, currentField));
 
         return (
-          <SelectionColumn
-            addField={addField}
-            removeField={removeField}
-            field={currentField}
-            selected={selectedFields.some(field => isEqual(field, currentField))}
-          />
+          <SelectionColumn addField={addField} removeField={removeField} field={currentField} selected={selected} />
         );
       }
     }

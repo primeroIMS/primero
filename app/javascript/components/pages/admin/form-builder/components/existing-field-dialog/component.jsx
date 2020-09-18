@@ -22,6 +22,13 @@ import { selectExistingFields } from "../../action-creators";
 import baseStyles from "../styles.css";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
 
+import {
+  buildExistingFields,
+  buildSelectedFieldList,
+  getExistingFieldNames,
+  isFieldInList,
+  removeFieldFromList
+} from "./utils";
 import { FieldsTable } from "./components";
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -34,38 +41,36 @@ const Component = ({ parentForm, primeroModule }) => {
   const formMethods = useForm();
   const formMode = whichFormMode(FORM_MODE_EDIT);
   const watchedFieldQuery = formMethods.watch("field_query", "");
+
   const selectedFields = useSelector(state => getSelectedFields(state, false), compare);
+  const open = useSelector(state => selectDialog(state, NAME));
+
   const [addedFields, setAddedFields] = useState([]);
   const [removedFields, setRemovedFields] = useState([]);
-  const fieldIsRemoved = field => removedFields.some(removed => isEqual(field, removed));
-  const fieldIsAdded = field => addedFields.some(added => isEqual(field, added));
-  const existingSelectedFields = selectedFields
-    .map(field => ({ id: field.get("id"), name: field.get("name") }))
-    .toJS()
-    .concat(addedFields)
-    .filter(field => !fieldIsRemoved(field));
-  const existingFieldNames = existingSelectedFields.map(existingField => existingField.name);
-  const open = useSelector(state => selectDialog(state, NAME));
+
+  const selectedFieldList = buildSelectedFieldList(selectedFields);
+  const existingSelectedFields = buildExistingFields(selectedFieldList, addedFields, removedFields);
+  const existingFieldNames = getExistingFieldNames(existingSelectedFields);
 
   const handleClose = () => {
     dispatch(setDialog({ dialog: NAME, open: false }));
   };
 
   const addField = field => {
-    if (fieldIsRemoved(field)) {
-      setRemovedFields(removedFields.filter(removed => isEqual(field, removed)));
+    if (isFieldInList(field, removedFields)) {
+      setRemovedFields(removeFieldFromList(field, removedFields));
     }
 
     if (existingFieldNames.includes(field.name)) {
       dispatch(enqueueSnackbar(i18n.t("forms.messages.fields_with_same_name")));
-    } else {
+    } else if (!isFieldInList(field, selectedFieldList)) {
       setAddedFields(addedFields.concat(field));
     }
   };
 
   const removeField = field => {
-    if (fieldIsAdded(field)) {
-      setAddedFields(addedFields.filter(added => !isEqual(field, added)));
+    if (isFieldInList(field, addedFields)) {
+      setAddedFields(removeFieldFromList(field, addedFields));
     } else {
       setRemovedFields(removedFields.concat(field));
     }
