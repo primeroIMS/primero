@@ -57,6 +57,7 @@ class Primero::Application < Rails::Application
   LOCALE_FRENCH = 'fr'
   LOCALE_ARABIC = 'ar'
   LOCALE_SPANISH = 'es'
+  LOCALE_PORTUGUESE = 'pt'
   LOCALE_LEBANON = 'ar-LB'
   LOCALE_SOMALI = 'so'
   LOCALE_BANGLA = 'bn'
@@ -66,7 +67,7 @@ class Primero::Application < Rails::Application
   LOCALE_KURDISH = 'ku'
   LOCALES = [
     LOCALE_ENGLISH, LOCALE_FRENCH, LOCALE_ARABIC, LOCALE_LEBANON, LOCALE_SOMALI,
-    LOCALE_SPANISH, LOCALE_BANGLA, LOCALE_INDONESIAN, LOCALE_BURMESE, LOCALE_THAI, LOCALE_KURDISH
+    LOCALE_SPANISH, LOCALE_PORTUGUESE, LOCALE_BANGLA, LOCALE_INDONESIAN, LOCALE_BURMESE, LOCALE_THAI, LOCALE_KURDISH
   ].freeze
   LOCALES_WITH_DESCRIPTION = [
     ['-', nil],
@@ -80,7 +81,8 @@ class Primero::Application < Rails::Application
     ['Bahasa', LOCALE_INDONESIAN],
     ['ဗမာစာ', LOCALE_BURMESE],
     ['ไทย', LOCALE_THAI],
-    ['کوردی', LOCALE_KURDISH]
+    ['کوردی', LOCALE_KURDISH],
+    ['Portuguese', LOCALE_PORTUGUESE]
   ].freeze
   RTL_LOCALES = [
     LOCALE_ARABIC,

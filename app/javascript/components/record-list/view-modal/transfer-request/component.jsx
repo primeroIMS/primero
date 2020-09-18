@@ -1,29 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import { object, string } from "yup";
 
 import ActionDialog from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
+import { getErrors, getLoading } from "../../selectors";
 
 import { NAME, NOTES_FIELD } from "./constants";
 import RequestForm from "./request-form";
 import { saveTransferRequest } from "./action-creators";
+import NAMESPACE from "./namespace";
 
 const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formikRef = React.createRef();
+  const loading = useSelector(state => getLoading(state, ["transitions", NAMESPACE]));
+  const errors = useSelector(state => getErrors(state, ["transitions", NAMESPACE]));
 
   const close = () => setOpen(false);
-
-  const confirmButtonProps = {
-    color: "primary",
-    variant: "contained",
-    autoFocus: true,
-    type: "submit"
-  };
 
   const handleFormSubmit = () => {
     if (formikRef.current) {
@@ -37,7 +34,7 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
 
   const formikProps = {
     initialValues: { [NOTES_FIELD]: "" },
-    onSubmit: (values, { setSubmitting, errors }) => {
+    onSubmit: (values, { setSubmitting }) => {
       dispatch(
         saveTransferRequest(
           currentRecord.get("id"),
@@ -48,9 +45,6 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
         )
       );
       setSubmitting(false);
-      if (!errors) {
-        close();
-      }
     },
     ref: formikRef,
     // eslint-disable-next-line react/no-multi-comp, react/display-name
@@ -59,6 +53,14 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
     validateOnChange: false,
     validationSchema
   };
+
+  useEffect(() => {
+    const { submitCount } = formikRef.current?.getFormikBag() || {};
+
+    if (!loading && !errors && submitCount > 0) {
+      close();
+    }
+  }, [loading, errors]);
 
   return (
     <>
@@ -69,8 +71,8 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
         onClose={close}
         dialogTitle={caseId}
         confirmButtonLabel={i18n.t("request_transfer.submit_label")}
-        confirmButtonProps={confirmButtonProps}
         omitCloseAfterSuccess
+        pending={loading}
       >
         <Formik {...formikProps} />
       </ActionDialog>
