@@ -1744,43 +1744,43 @@ en:
           approvals_action_plan:
             explanation: Shows the number of the current user's cases with Action
               Plan approval requests which are Pending, Approved, or Rejected.
-            label: Case worker Action Plan approvals
+            label: Case worker %{approval_label} approvals
           approvals_action_plan_pending:
             explanation: Shows the number of cases in a manager's team with pending
               Action Plan approval requests.
-            label: Manager Action Plan approvals
+            label: Manager %{approval_label} approvals
           approvals_assessment:
             explanation: Shows the number of the current user's cases with Assessment
               approval requests which are Pending, Approved, or Rejected.
-            label: Case worker Assessment approvals
+            label: Case worker %{approval_label} approvals
           approvals_assessment_pending:
             explanation: Shows the number of cases in a manager's team with pending
               Assessment approval requests.
-            label: Manager Assessment approvals
+            label: Manager %{approval_label} approvals
           approvals_case_plan:
             explanation: Shows the number of the current user's cases with Case Plan
               approval requests which are Pending, Approved, or Rejected.
-            label: Case worker Case Plan approvals
+            label: Case worker %{approval_label} approvals
           approvals_case_plan_pending:
             explanation: Shows the number of cases in a manager's team with pending
               Case Plan approval requests.
-            label: Manager Case Plan approvals
+            label: Manager %{approval_label} approvals
           approvals_closure:
             explanation: Shows the number of the current user's cases with Closure
               approval requests which are Pending, Approved, or Rejected.
-            label: Case worker Closure approvals
+            label: Case worker %{approval_label} approvals
           approvals_closure_pending:
             explanation: Shows the number of cases in a manager's team with pending
               Closure approval requests.
-            label: Manager Closure approvals
+            label: Manager %{approval_label} approvals
           approvals_gbv_closure:
             explanation: Shows the number of the current user's cases with GBV Closure
               approval requests which are Pending, Approved, or Rejected.
-            label: Case worker GBV Closure approvals
+            label: Case worker %{approval_label} approvals
           approvals_gbv_closure_pending:
             explanation: Shows the number of cases in a manager's team with pending
               GBV Closure approval requests.
-            label: Manager GBV Closure approvals
+            label: Manager %{approval_label} approvals
           case_overview:
             explanation: Overview dashboard card at the top of the home page, which
               includes figures like Total and New cases
