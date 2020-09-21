@@ -27,7 +27,8 @@ describe("<IndexFilters /> - Utils", () => {
   describe("buildNameFilter", () => {
     const i18n = { t: item => item };
     const approvalsLabels = {
-      assessment: "Assessment"
+      assessment: "Assessment",
+      gbv_closure: "GBV Closure"
     };
 
     it("return the item if it is not an approval", () => {
@@ -40,6 +41,12 @@ describe("<IndexFilters /> - Utils", () => {
       const item = `${APPROVALS}.${APPROVALS_TYPES.assessment}`;
 
       expect(buildNameFilter(item, i18n, approvalsLabels)).to.deep.equal(approvalsLabels.assessment);
+    });
+
+    it("return approval label filter if it's an GBV approval", () => {
+      const item = `${APPROVALS}.${APPROVALS_TYPES.gbv_closure}`;
+
+      expect(buildNameFilter(item, i18n, approvalsLabels)).to.deep.equal(approvalsLabels.gbv_closure);
     });
   });
 });
