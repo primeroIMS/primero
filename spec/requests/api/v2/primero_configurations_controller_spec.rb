@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 describe Api::V2::PrimeroConfigurationsController, type: :request do
+  include ActiveJob::TestHelper
+
   before(:each) do
     clean_data(
       PrimeroConfiguration, FormSection, Lookup, Agency, Role, UserGroup, Report, ContactInformation, PrimeroModule
@@ -87,26 +89,24 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
   end
 
   describe 'PATCH /api/v2/configurations/:id' do
-    it 'applies the configuration if the parameter apply_now is set' do
+    it 'launches the apply configuration job if the parameter apply_now is set' do
       params = { data: { apply_now: true } }
       login_for_test(permissions: correct_permissions)
       patch "/api/v2/configurations/#{@configuration.id}", params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data']['version']).to eq(@configuration.version)
-      expect(json['data']['applied_by']).to eq(fake_user_name)
-      expect(json['data']['applied_on']).to be
+      expect(ApplyConfigurationJob).to have_been_enqueued
+        .with(json['data']['id'], fake_user.id)
     end
 
-    it 'does not apply the configuration if the parameter apply_now is not set' do
+    it 'does not launch the apply configuration job if the parameter apply_now is not set' do
       params = { data: { name: 'Test' } }
       login_for_test(permissions: correct_permissions)
       patch "/api/v2/configurations/#{@configuration.id}", params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data']['version']).to eq(@configuration.version)
-      expect(json['data']['applied_by']).to be_nil
-      expect(json['data']['applied_on']).to be_nil
+      expect(ApplyConfigurationJob).not_to have_been_enqueued
+        .with(json['data']['id'], fake_user.id)
     end
 
     it 'returns 403 if user is not authorized to update' do

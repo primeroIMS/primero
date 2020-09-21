@@ -11,8 +11,8 @@ describe Api::V2::LookupsController, type: :request do
       unique_id: 'lookup-yes-no',
       name_i18n: { en: 'Yes / No' },
       lookup_values_i18n: [
-        { id: 'true', display_text: {en: 'Yes'} },
-        { id: 'false', display_text: {en: 'No'} },
+        { id: 'true', display_text: { en: 'Yes' } },
+        { id: 'false', display_text: { en: 'No' } }
       ]
     )
 
@@ -21,7 +21,7 @@ describe Api::V2::LookupsController, type: :request do
       name_i18n: { en: 'Sex' },
       lookup_values_i18n: [
         { id: 'male', display_text: { en: 'Male' } },
-        { id: 'female', display_text: { en: 'Female' }}
+        { id: 'female', display_text: { en: 'Female' } }
       ]
     )
 
@@ -29,8 +29,8 @@ describe Api::V2::LookupsController, type: :request do
       unique_id: 'lookup-country',
       name_i18n: { en: 'Country' },
       lookup_values_i18n: [
-        { id: 'country1', display_text: {en: 'Country 1'} },
-        { id: 'country2', display_text: {en: 'Country 2'} },
+        { id: 'country1', display_text: { en: 'Country 1' } },
+        { id: 'country2', display_text: { en: 'Country 2' } }
       ]
     )
   end
