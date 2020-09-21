@@ -2,6 +2,7 @@ import isEmpty from "lodash/isEmpty";
 import { fromJS, OrderedMap } from "immutable";
 
 import { denormalizeFormData } from "../../schemas";
+import { displayNameHelper } from "../../libs";
 
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
@@ -34,7 +35,7 @@ const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }
 };
 
 const isAStickyOption = (opt, stickyOption) =>
-  Array.isArray(stickyOption) ? stickyOption.includes(opt.id) : opt.id === stickyOption;
+  Array.isArray(stickyOption) ? stickyOption.includes(opt.id) : opt.id === stickyOption.toString();
 
 const addingDeletedOption = (enabledOptions, locale, stickyOption) => {
   if (!stickyOption || Boolean(enabledOptions.filter(opt => isAStickyOption(opt, stickyOption)).length)) {
@@ -61,7 +62,7 @@ const transformOptionSource = (options, locale, stickyOption) => {
   return optionsToRender.map(opt => ({
     id: opt.id,
     isDisabled: Boolean(opt.disabled),
-    display_text: opt.display_text[locale] || ""
+    display_text: displayNameHelper(opt.display_text, locale) || ""
   }));
 };
 
@@ -90,9 +91,9 @@ export const getFormNav = (state, query) => {
     .map(fs =>
       NavRecord({
         group: fs.form_group_id,
-        groupName: fs.form_group_name[window.I18n.locale],
+        groupName: displayNameHelper(fs.form_group_name, window.I18n.locale),
         groupOrder: fs.order_form_group,
-        name: fs.name[window.I18n.locale],
+        name: displayNameHelper(fs.name, window.I18n.locale),
         order: fs.order,
         formId: fs.unique_id,
         is_first_tab: fs.is_first_tab

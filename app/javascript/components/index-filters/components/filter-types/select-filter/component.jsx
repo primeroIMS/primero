@@ -24,6 +24,7 @@ import {
 import handleFilterChange from "../value-handlers";
 
 import { NAME } from "./constants";
+import { getOptionName } from "./utils";
 
 const Component = ({
   addFilterToList,
@@ -141,17 +142,7 @@ const Component = ({
       [foundOption] = lookups.filter(lookupValue => [lookupValue?.code, lookupValue?.id].includes(option));
     }
 
-    return (
-      // eslint-disable-next-line camelcase
-      foundOption?.display_name ||
-      // eslint-disable-next-line camelcase
-      foundOption?.display_text ||
-      // eslint-disable-next-line camelcase
-      foundOption?.display_name?.[i18n.locale] ||
-      // eslint-disable-next-line camelcase
-      foundOption?.display_text?.[i18n.locale] ||
-      foundOption?.name?.[i18n.locale]
-    );
+    return getOptionName(foundOption, i18n);
   };
 
   return (

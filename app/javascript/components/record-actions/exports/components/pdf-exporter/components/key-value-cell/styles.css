@@ -1,0 +1,15 @@
+.cell {
+  display: flex;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+
+  & > div {
+    flex: 1;
+    padding: 10px;
+  }
+
+  & > div:first-of-type {
+    border-right: 1px solid #ddd;
+  }
+}

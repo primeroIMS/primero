@@ -1,0 +1,2159 @@
+# encoding: utf-8
+#
+# This is the English localization file for Primero.  It is based on the sample
+# English localization file found in the repository linked below[1].
+#
+# Anyone editing this file is strongly encouraged to use yamllint[2] to ensure
+# that this document remains valid YAML.
+#
+# [1] https://github.com/svenfuchs/rails-i18n/
+# [2] https://yamllint.readthedocs.io/en/stable/
+
+
+---
+km:
+  'true': 'បាទ/ចាស'
+  'false': 'ទេ'
+  cancel: បោះបង់
+  connection_lost: ""
+  connected: ""
+  clear: សម្អាត
+  description: ការពណ៌នា
+  offline: ""
+  yes_label: 'បាទ/ចាស'
+
+  actions:
+    approvals: ""
+    button: សកម្មភាព
+    change_log: ""
+    close: ""
+    description:
+      invalid: កំណត់ត្រា​មិន​ត្រឹមត្រូវ
+      valid: កំណត់ត្រា​ត្រឹមត្រូវ
+    disable: បិទ
+    enable: បើក
+    incident_details_from_case: បញ្ចូល​ហេតុការណ៍
+    next: ""
+    notes: ""
+    previous: ""
+    reopen: បើក​ឡើងវិញ
+    request_approval: ""
+    revoke: ""
+    save: ""
+    services_from_case_creation_success: ""
+    services_section_from_case: បញ្ចូល​ការ​ផ្ដល់​សេវាកម្ម
+  agencies:
+    label: ស្ថាប័ន
+  agency:
+    agency_logos: ""
+    code: លេខកូដ​ស្ថាប័ន
+    description: ""
+    disabled: ""
+    logo_enabled: ""
+    logo_enabled_help: ""
+    logo_icon: ""
+    logo_icon_help: ""
+    logo_large: ""
+    logo_large_help: ""
+    messages:
+      created: ""
+      updated: ""
+    name: ឈ្មោះ​ស្ថាប័ន
+    services: សេវាកម្ម​ស្ថាប័ន
+  approvals:
+    approved_by: ""
+    case_plan_type_label: ""
+    manager_comments_label: ""
+    rejected_by: ""
+    requested_by: ""
+    requested_for_label: ""
+    requested_for_title: ""
+    response_for_label: ""
+    response_for_title: ""
+    action_plan: ""
+    gbv_closure: ""
+    status:
+      approved: បាន​អនុម័ត
+      pending: កំពុង​រង់ចាំ
+      rejected: បានបដិសេធ
+      requested: ""
+  audit_log:
+    action: សកម្មភាព
+    description: ការពណ៌នា
+    record_owner: ម្ចាស់​កំណត់​ត្រា
+    timestamp: ""
+    user_name: ""
+  bulk_export:
+    file_name: ឯកសារ
+    record_type: ប្រភេទ
+    retry: ការ​នាំចេញ​នេះ​មិន​ត្រឹមត្រូវ​ទេ។ សូម​សាកល្បង​បង្កើត​ការ​នាំចេញ​របស់​អ្នក​ឡើងវិញ។
+    started_on: បាន​ចាប់ផ្ដើម
+    status: ស្ថានភាព
+  buttons:
+    accept: ឯកភាព
+    add: ""
+    add_another_option: ""
+    add_note: បញ្ចូល​កំណត់សម្គាល់
+    apply: ""
+    approvals: ការអនុម័ត
+    approve_action_plan: ""
+    approve_bia: អនុម័ត BIA
+    approve_case_plan: អនុម័ត​ផែនការ​ករណី
+    approve_closure: អនុម័ត​ការបិទករណី
+    approve_gbv_closure: ""
+    back: ថយក្រោយ
+    bundle_export: កញ្ចប់​កំណត់​រចនាសម្ព័ន្ធ
+    bundle_import: កញ្ចប់​កំណត់​រចនាសម្ព័ន្ធ
+    cancel: បោះបង់
+    change_password: ផ្លាស់ប្តូរពាក្យសម្ងាត់
+    clear_default: ""
+    clear_selection: ""
+    close: ""
+    continue: ""
+    create_case: បង្កើតករណី
+    create_incident: បង្កើតហេតុការណ៍
+    create_new_record: "បង្កើតថ្មី %{model}"
+    delete: លុប
+    disable: បិទដំណើរការ
+    disable_photo_wall: បិទ​ផ្ទាំង​រូបថត
+    done: រួចរាល់
+    download: ""
+    edit: កែសម្រួល
+    edit_subform: កែសម្រួល​ទម្រង់រង
+    enable: បើកដំណើរការ
+    enable_photo_wall: បើក​ផ្ទាំង​រូបថត
+    export: នាំចេញ
+    filter: អនុវត្ត​ចម្រាញ់ទិន្នន័យ
+    filter_clear: លុបចម្រាញ់ទិន្នន័យ
+    filter_label: 'ចម្រាញ់ទិន្នន័យ៖'
+    filter_restore: ស្ដារ​ទៅ​ការ​កំណត់​ប្រព័ន្ធ​ឡើងវិញ
+    find_tracing_match: ស្វែងរកការផ្គូផ្គង​
+    flag_model: "សម្គាល់ %{model}"
+    flag_records: សម្គាល់
+    flags: ""
+    guidance: ""
+    guiding_questions: ""
+    import: នាំចូល
+    login: ចូល
+    logout: ""
+    mark_for_mobile: ប្រើ​សម្រាប់​ទូរស័ព្ទ
+    new: ""
+    ok: យល់ព្រម
+    reassign: ""
+    referral: ""
+    referral_again: ""
+    reject: បដិសេដ
+    remove_referrals: ដក​ការ​បញ្ជូន​ចេញ
+    reorder: ""
+    request_approval: ស្នើសុំការ​អនុម័ត​
+    request_transfer: ស្នើ​សុំ​ការ​ផ្ទេរ
+    reunite: បង្រួបបង្រួម
+    save: រក្សាទុក
+    save_and_add_service_provision: រក្សាទុក និង​បញ្ចូល​ការ​ផ្ដល់សេវា
+    save_changes: ""
+    select: ""
+    sort_by_case: ករណី
+    sort_by_tr: សំណើ​ស្វែងរក
+    submit: បញ្ជូន
+    transfer: ""
+    unflag_model: "ដកសម្គាល់ %{model}"
+    unflag_model_history: "ប្រវត្តិ​សម្គាល់ %{model}"
+    unmark_for_mobile: មិន​ប្រើ​សម្រាប់​ទូរស័ព្ទ
+    update: ""
+    view: មើល
+    view_flags_history: មើល​ប្រវត្តិ
+
+  case:
+    create_new_case: បង្កើតករណីថ្មី
+    enter_id_number: បញ្ចូលលេខកូដ ដើម្បីស្វែងរកកំណត់ត្រាដែលមានស្រាប់
+    id_search_no_results: ""
+    messages:
+      case_disabled: ""
+      update_success: 'បាន​ធ្វើ​បច្ចុប្បន្ន​ភាព​ករណី %{record_id} ដោយជោគជ័យ។'
+      update_success_queue: ''
+      creation_success: 'បាន​បង្កើត​កំណត់​ត្រា​ដោយ​ជោគជ័យ។'
+      creation_success_queue: ''
+    workflow:
+      assessment: ការ​ប៉ាន់ប្រមាណ
+      case_plan: ផែនការករណី
+      closed: បានបិទ
+      created_on: បានបង្កើត​នៅ
+      in_progress: កំពុងដំណើរការ
+      new: ថ្មី
+      on_label: 'នៅ'
+      reopened: បានបើកឡើងវិញ
+      service_implemented: បាន​អនុវត្ត​សេវាកម្ម
+      services_implemented: បាន​អនុវត្ត​សេវាកម្ម
+  cases:
+    action_plan: ""
+    age: ""
+    age_estimated: ""
+    agency: ""
+    apply_filter: អនុវត្ត
+    approval_comments: ""
+    approval_radio: ""
+    approval_radio_accept: ""
+    approval_radio_reject: ""
+    approval_select: ""
+    approved_success_action_plan: ''
+    approved_success_assessment: ''
+    approved_success_bia: ''
+    approved_success_case_plan: ''
+    approved_success_closure: ''
+    approved_success_gbv_closure: ''
+    assessment: ""
+    case_opening_date: ""
+    case_plan: ""
+    case_worker_code: ""
+    clear_filter: សម្អាត
+    close_dialog: ""
+    close_dialog_title: ""
+    close_success: ""
+    closure: ""
+    date_of_birth: ""
+    disable_dialog: ""
+    disable_dialog_title: ""
+    disable_success: ""
+    enable_dialog: ""
+    enable_dialog_title: ""
+    enable_success: ""
+    export: នាំចេញ
+    filter_by:
+      3month_inactivity: សម្រាប់លើស​ពី 3 ខែ
+      action_plan: ""
+      age_0_5: ""
+      age_12_17: ""
+      age_18_more: ""
+      age_6_11: ""
+      age_range: ""
+      agency: ""
+      approval_status: ""
+      approvals:
+        approved: បាន​អនុម័ត
+        pending: ""
+        rejected: បានបដិសេធ
+      bia: ""
+      by_date: ""
+      case_open_date: ""
+      case_plan: ""
+      closed: ""
+      closure: ""
+      current_location: ""
+      date: កាលបរិច្ឆេទ
+      displacement_status: ""
+      district: ""
+      duplicate: ""
+      enabled_disabled: ""
+      female: ស្រី
+      flag: ""
+      flag_label: "បាន​សម្គាល់​ឬ?"
+      gbv_closure: ""
+      high: ""
+      low: ""
+      male: ប្រុស
+      medium: ""
+      mobile: ""
+      mobile_label: "ប្រើ​សម្រាប់​ទូរស័ព្ទ​ឬ?"
+      my_cases: ករណីរបស់ខ្ញុំ
+      no_action: ""
+      no_activity: គ្មានសកម្មភាព
+      open: ""
+      other: ""
+      photo: ""
+      photo_label: "មានរូបថតដែរឬទេ?"
+      protection_concerns: ""
+      protection_status: ""
+      record_state: ""
+      referred_cases: ករណី​បញ្ជូន​មក​ខ្ញុំ
+      registration_date: ""
+      risk_level: ""
+      sex: ""
+      social_worker: ""
+      status: ""
+      transferred: ""
+      type_of_risk: ""
+      urgent_protection_concern: ""
+      user_group: ""
+      workflow: ករណី​តាមលំហូរ​ការងារ
+    flag_summary: ព័ត៌មាន​សង្ខេប​នៃ​ការ​សម្គាល់
+    full_name: ""
+    gbv_closure: ""
+    hide_name: លាក់ឈ្មោះ
+    hide_name_error: មានបញ្ហា​​នៅ​ពេល​រក្សាទុក​ការ​ផ្លាស់ប្ដូរ​របស់​អ្នក។ សូម​ព្យាយាម​ម្ដង​ទៀត។
+    id: ""
+    label: ករណី
+    my_filters: ចម្រាញ់ទិន្នន័យ
+    name: ""
+    notes_dialog_title: ""
+    notes_form_notes: ""
+    notes_form_subject: ""
+    ok: យល់ព្រម
+    order_by:
+      label: តម្រៀបតាម
+      most_recently: ថ្មីៗបំផុត
+      name: ឈ្មោះ
+    owned_by: ""
+    owned_by_agency: ""
+    photos: ""
+    quick_view:
+      tracing_message: 'កំណត់​សម្គាល់៖ ប្រព័ន្ធបានផ្គូផ្គងរកឃើញព័ត៌មានអ្នកស្វែងរកកុមារនេះ។ សូម​ទាក់ទង​បុគ្គលិក​សង្គម​​ដែលកាន់ករណីនេះ​សម្រាប់​សកម្មភាព​បន្ថែម​ប្រសិនបើ​កុមារ​យល់ព្រម។'
+    referral_done: ""
+    referral_done_success: ""
+    register_new_case: ករណីថ្មី
+    registration_date: ""
+    rejected_success_action_plan: ''
+    rejected_success_assessment: ''
+    rejected_success_bia: ''
+    rejected_success_case_plan: ''
+    rejected_success_closure: ''
+    rejected_success_gbv_closure: ''
+    reopen_dialog: ""
+    reopen_dialog_title: ""
+    reopen_success: ""
+    request_approval_failure: ""
+    request_approval_select: ""
+    request_approval_success_action_plan: ""
+    request_approval_success_assessment: ""
+    request_approval_success_case_plan: ""
+    request_approval_success_closure: ""
+    request_approval_success_gbv_closure: ""
+    request_approval_type_of_case_plan: ""
+    request_approve_action_plan: ""
+    request_approve_bia: ""
+    request_approve_case_plan: ""
+    request_approve_closure: ""
+    request_approve_gbv_closure: ""
+    revoke_failure: ""
+    revoke_message: ""
+    revoke_success_message: ""
+    save_filter: រក្សាទុក
+    selected_all_records: ""
+    selected_records: ''
+    sex: ""
+    show_case: ''
+    social_worker: ""
+    status: ""
+    survivor_code: ""
+    transfer_accepted: ""
+    transfer_accepted_rejected: ""
+    transfer_accepted_success: ""
+    transfer_reject_reason_label: ""
+    transfer_rejected: ""
+    view_name: មើល​ឈ្មោះ
+  children:
+    selectable_date_options:
+      assessment_requested_on: កាលបរិច្ឆេទ​ប៉ាន់ប្រមាណ
+      closure_approved_date: 'កាលបរិច្ឆេទ​នៃការបិទករណី'
+      created_at: កាលបរិច្ឆេទ​បើកករណី
+      date_case_plan_initiated: កាលបរិច្ឆេទ​នៃ​ផែនការ​ករណី
+      date_of_creation: ""
+      registration_date: កាលបរិច្ឆេទ​ចុះឈ្មោះ
+  configurations:
+    attributes:
+      created_by: ""
+      date_created: ""
+      description: ""
+      last_applied_by: ""
+      last_applied_on: ""
+      name: ""
+      version: ""
+    delete_label: ""
+    explanation: ''
+    label: ""
+    label_new: ""
+    messages:
+      created: ""
+      deleted: ""
+      updated: ""
+    not_allowed: ""
+  contact:
+    field:
+      email: អ៊ីមែល
+      location: ទីតាំង
+      name: ឈ្មោះ
+      organization: ស្ថាប័ន
+      other_information: ព័ត៌មាន​ផ្សេងៗ
+      phone: ទូរស័ព្ទ
+      position: មុខតំណែង
+      primero_version: ""
+      support_forum: វេទិកា​ជំនួយ
+      system_version: ""
+    info_label: ​ព័ត៌មាន​ទំនាក់ទំនង
+    updated: បាន​ធ្វើបច្ចុប្បន្នភាព​ព័ត៌មាន​ទំនាក់ទំនង​ដោយ​ជោគជ័យ។
+  dashboard:
+    activity: សកម្មភាព
+    admin_only: "ចុច​លើ %{links} ដើម្បី​ធ្វើការ​ផ្លាស់ប្ដូរ​ចំពោះ​កម្មវិធី។"
+    all_cases: គ្រប់ករណី​ទាំង​អស់
+    all_services_implemented: បានអនុវត្តសេវា
+    and: 'និង'
+    approval_action_plan_approved: ""
+    approval_action_plan_pending: ""
+    approval_action_plan_pending_group: ""
+    approval_action_plan_rejected: ""
+    approval_assessment_approved: ""
+    approval_assessment_pending: ""
+    approval_assessment_pending_group: ""
+    approval_assessment_rejected: ""
+    approval_case_plan_approved: ""
+    approval_case_plan_pending: ""
+    approval_case_plan_pending_group: ""
+    approval_case_plan_rejected: ""
+    approval_closure_approved: ""
+    approval_closure_pending: ""
+    approval_closure_pending_group: ""
+    approval_closure_rejected: ""
+    approval_gbv_closure_approved: ""
+    approval_gbv_closure_pending: ""
+    approval_gbv_closure_pending_group: ""
+    approval_gbv_closure_rejected: ""
+    approvals: ការ​អនុម័ត
+    approvals_action_plan: ""
+    approvals_assessment: ""
+    approvals_case_plan: ""
+    approvals_closure: ""
+    approvals_gbv_closure: ""
+    approved: បាន​អនុម័ត
+    assessment: ការ​ប៉ាន់ប្រមាណ
+    awaiting_acceptance: ""
+    case_id: 'លេខកូដករណី'
+    case_management_service: ""
+    case_overview: ""
+    case_plan: ផែនការករណី
+    case_risk: ""
+    case_stat_by_approval_type: ការអនុម័ត
+    case_stat_by_assessment_level: ករណី​តាម​​កម្រិត​ប៉ាន់ប្រមាណហានិភ័យ
+    case_stat_referrals: ការ​បញ្ជូន
+    case_stats: ករណី
+    case_worker: អ្នកកាន់ករណី
+    cases_by_social_worker: ករណី​តាម​អ្នកកាន់​ករណី
+    cases_by_task_overdue: កិច្ចការ​ដែល​ផុត​កំណត់
+    cases_by_workflow: ករណី​តាម​លំហូរ​ការងារ
+    cases_this_week: ករណី​ក្នុង​សប្ដាហ៍​នេះ
+    cases_to_assign: ករណី​ត្រូវ​ចាត់ចែង
+    closed: បានបិទ
+    closed_last_week: ""
+    closed_this_week: ""
+    comprehensive_need_intervention: ការឆ្លើយតប​ពេញលេញ
+    count_new_bia_approvals:
+      other: '%{stat} <span>ការ​អនុម័តថ្មី %{stat_type}</span>'
+
+    count_new_case_plan_approvals:
+      other: '%{stat} <span>ការ​អនុម័តថ្មី %{stat_type}</span>'
+
+    count_new_closure_approvals:
+      other: '%{stat} <span>កា​រអនុម័តថ្មី %{stat_type}</span> '
+
+    count_pending_approval_total:
+      other: 'អ្នក​មាន​ការ​អនុម័ត %{stat} <span>កំពុង​រង់ចាំ %{stat_type}</span>'
+
+    count_pending_transfers:
+      other: 'អ្នកមាន​ការ​ផ្ទេរ %{stat} <span>កំពុង​រង់ចាំ</span>'
+
+    count_records_new:
+      other: និងករណី %{stat} <span>ថ្មី</span>
+
+    count_records_total:
+      other: 'អ្នក​មាន​ករណីសរុប %{stat} <span></span>'
+
+    count_referrals_new:
+      other: និងការ​បញ្ជូន %{stat} <span>ថ្មី</span>
+
+    count_referrals_total:
+      other: 'អ្នក​មាន​ការ​បញ្ជូន %{stat} <span>សរុប</span>'
+
+    count_rejected_approval_total:
+      other: 'និងបាន​បដិសេធ %{stat} <span>កា​រអនុម័ត %{stat_type}</span>'
+
+    count_rejected_transfers:
+      other: 'និងបាន​បដិសេធ​ការ​ផ្ទេរ %{stat} <span></span>'
+
+    count_risk_level_new:
+      other: និង %{stat} ករណី​ហានីភ័យ<span>ថ្មី</span> <span>%{stat_type} </span>
+
+    count_risk_level_total:
+      other: 'អ្នមាន​ %{stat} ករនី​ហានីភ័យ <span>%{stat_type} </span>'
+
+    count_waiting_for_acceptance_transfers: "អ្នក​មាន​ការ​ផ្ទេរ %{stat} <span>កំពុង​រង់ចាំ</span> សម្រាប់​កា​រទទួល​យក​របស់​អ្នក"
+    current_owner: ម្ចាស់​បច្ចុប្បន្ន
+    dash_case_incident_overview: ""
+    dash_group_overview: ""
+    dash_shared_from_my_team: ""
+    dash_shared_with_me: ""
+    dash_shared_with_my_team: ""
+    dash_shared_with_others: ""
+    date: កាលបរិច្ឆេទ
+    date_of_incident: កាលបរិច្ឆេទហេតុការណ៍
+    date_of_interview: កាលបរិច្ឆេទ​សម្ភាសន៍
+    due: ហួស​ពេលកំណត់
+    flagged: ""
+    flagged_by: '​សម្គាល់​ដោយ'
+    flagged_by_me: ​សម្គាល់​ដោយ​ខ្ញុំ
+    flagged_by_other: សម្គាល់​ដោយ​អ្នក​ផ្សេង
+    follow_up: ការ​តាមដាន
+    forms: ផ្ទាំង​ទម្រង់
+    geographic_area: តំបន់​ភូមិសាស្ត្រ
+    group_overview_closed: ""
+    group_overview_open: ""
+    high_level: ""
+    high_risk: អាទិភាព​ខ្ពស់
+    immediate_response: ការ​ឆ្លើយតប​ភ្លាមៗ
+    in_progress: ""
+    incident_id: 'លេខ​កូដហេតុការណ៍'
+    incident_location: ទីតាំង​ហេតុការណ៍
+    incident_status_open: បានបើក
+    last_updated: បាន​ធ្វើបច្ចុប្បន្នភាព​ចុងក្រោយ
+    link_see_all: មើល​ទាំងអស់
+    low_level: ""
+    low_risk: អាទិភាព​ទាប
+    manager_count_closed_total:
+      other: 'និង​ករណី %{stat} <span>បាន​បិទ</span>'
+
+    manager_count_open_total:
+      other: 'អ្នកមាន​ករណី %{stat} <span>បានបើក</span>'
+
+    manager_transfers_totals:
+      other: 'អ្នកមាន​ការ​ផ្ទេរ %{stat} <span>%{stat_type}</span>'
+
+    match_result: លទ្ធផល​ផ្គូផ្គង
+    medium_level: ""
+    medium_risk: អាទិភាព​មធ្យម
+    missed_cases: ករណី​ដែល​បាន​ខកខាន
+    name: ឈ្មោះ
+    name_or_survivor_code: ឈ្មោះ ឬ​លេខកូដ​អ្នកនៅ​មាន​ជីវិត
+    near_deadline: ជិត​ដល់​ពេលកំណត់
+    new: ថ្មី និង​បាន​ធ្វើបច្ចុប្បន្នភាព
+    new_child_assigned_to_you: ករណី​ថ្មីៗ​បាន​ចាត់ចែង​ឲ្យ​អ្នក
+    new_incident: ហេតុការណ៍​ថ្មីៗ
+    new_incident_assigned_to_you: ហេតុការណ៍ដែល​បាន​ចាត់ចែង​ថ្មីៗ
+    new_last_week: ""
+    new_or_updated: ""
+    new_referred: ការ​បញ្ជូន​ថ្មី
+    new_service_provision: ការ​ផ្ដល់​សេវាកម្ម​ថ្មីៗ
+    new_this_week: ""
+    no_action_risk: គ្មាន​សកម្មភាព
+    no_case_stats: គ្មាន​ស្ថិតិ​ករណីទេ
+    no_caseworker_data: គ្មាន​ទិន្នន័យ​អ្នកកាន់​ករណី​​ទេ
+    no_flagged_child: គ្មាន​ករណី​ដែល​បាន​សម្គាល់​ទេ
+    no_flagged_incident: គ្មាន​ហេតុការណ៍​​ដែល​បាន​សម្គាល់​ទេ
+    no_open_incidents: គ្មានហេតុការណ៍​​ដែល​បានបើក​ទេ
+    no_overdue_activities: គ្មាន​សកម្មភាព​ដែល​ហួស​ពេល​កំណត់​ទេ
+    no_recent_activities: គ្មាន​សកម្មភាព​ថ្មីៗ​ទេ
+    no_scheduled_activities: គ្មាន​សកម្មភាព​ដែល​បានកំណត់​កាលវិភាគ​ទេ
+    none_risk: គ្មាន​អាទិភាព
+    number_of_victims: ចំនួន​ជនរងគ្រោះ
+    number_of_violations: ចំនួន​ការរំលោភបំពាន
+    number_of_violations_verified: បាន​ផ្ទៀងផ្ទាត់​ការ​រំលោភបំពាន
+    open: បានបើក
+    open_cases: បើក​ករណី
+    open_incidents: បើក​ហេតុការណ៍
+    outstanding_transfers: ""
+    overdue_activities: ករណី​ហួស​ពេល​កំណត់
+    overdue_cases_to_assign: ករណី​ហួស​ពេលកំណត់​ត្រូវ​ចាត់ចែង
+    overview: ""
+    pending: កំពុង​រង់ចាំ
+    pending_approvals: ""
+    pending_transfers: ការ​ផ្ទេរ​ដែល​កំពុង​រង់ចាំ
+    protection_concern: កង្វល់​អំពី​ការការពារ​
+    protection_concerns: កង្វល់​អំពី​ការការពារ​
+    range12+: 12+
+    range4: 0-4
+    range4_8: 4-8
+    range8_12: 8-12
+    recent_activities: សកម្មភាព​ថ្មីៗ
+    recently_flagged_child: ករណី​ដែល​បាន​សម្គាល់​ថ្មីៗ
+    recently_flagged_incident: ហេតុការណ៍​ដែល​បាន​សម្គាល់​ថ្មីៗ
+    referrals_by_social_worker: ការ​បញ្ជូន​ដោយ​បុគ្គលិកសង្គម
+    registration: ""
+    rejected: បានបដិសេធ
+    rejected_transfers: ការ​ផ្ទេរ​ដែល​បាន​បដិសេធ
+    response: ការ​ឆ្លើយតប <span>(កំពុង​ដំណើរការ)</span>
+    scheduled_activities: ករណី​ដែល​បាន​កំណត់កាលវិភាគ
+    score_range: ចន្លោះពិន្ទុ
+    screening_service: ""
+    services: សេវាកម្ម
+    services_implemented: បាន​អនុវត្ត​សេវាកម្ម
+    shared_from_my_team_pending_transfers: ""
+    shared_from_my_team_referrals: ""
+    shared_from_my_team_rejected_transfers: ""
+    shared_with_me_new_referrals: ""
+    shared_with_me_total_referrals: ""
+    shared_with_me_transfers_awaiting_acceptance: ""
+    shared_with_my_team_pending_transfers: ""
+    shared_with_my_team_referrals: ""
+    shared_with_others_pending_transfers: ""
+    shared_with_others_referrals: ""
+    shared_with_others_rejected_transfers: ""
+    status_of_cases: ស្ថានភាព​ករណី
+    system_user: ប្រព័ន្ធ
+    total: សរុប
+    total_cases: ករណី​សរុប
+    total_referred: ការ​បញ្ជូន​សរុប
+    tr_stats: សំណើ​ស្វែងរក
+    transers_awaiting_acceptance: ការផ្ទេរកំពុងរងចាំការទទួល
+    transfers_by_social_worker: ការ​ផ្ទេរ​ដោយ​បុគ្គលិកសង្គម
+    users: រូបតំណាង​ការ​កំណត់
+    violence_type: ប្រភេទនៃការរំលោភបំពាន
+    with_incidents: ""
+    without_incidents: ""
+    worker_count_referrals_total:
+      other: '<span>%{case_worker}</span> មាន​ការ​បញ្ជូន %{stat} <span>សរុប</span>'
+
+    worker_count_total:
+      other: '<span>%{case_worker}</span> មាន​ករណី %{stat} <span>សរុប</span>'
+
+    workflow: ""
+    workflow_team: ""
+    you_have: 'អ្នក​មាន'
+  disabled:
+    status:
+      disabled: បាន​បិទ
+      enabled: បាន​បើក
+  email_notification:
+    assign: ''
+    assign_subject: ''
+    approval_request: 'អ្នកប្រើប្រាស់ %{user} កំពុង​ស្នើសុំ​ការ​អនុម័ត​សម្រាប់ %{approval_type} អំពី​ករណី %{case_id} ។'
+    approval_request_subject: 'ករណី៖ %{id} - សំណើ​អនុម័ត'
+    approval_response: '%{user} មានការ​ស្នើសុំ​ %{status} សម្រាប់​កា​រអនុម័ត​សម្រាប់ %{approval_type} សម្រាប់​ករណី %{case_id} ។'
+    approval_response_subject: 'ករណី៖ %{id} - ការ​ឆ្លើយតប​ការ​អនុម័ត'
+    referral: '%{user} ពី %{agency} បាន​បញ្ជូន​%{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖%{record_id} សម្រាប់ %{service_type} ។'
+    transfer: '%{user} បាន​ផ្ទេរ %{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ %{record_id} ។'
+    transfer_request_subject: សំណើ​ផ្ទេរ​សម្រាប់​ករណី​មួយ​ក្នុង​ចំណោម​ករណី​របស់​អ្នក
+    transfer_subject: '%{record_type}: %{id} - ការ​ផ្ទេរ'
+    referral_subject: '%{record_type}: %{id} - ការ​បញ្ជូន'
+    transfer_request: 'អ្នក​ប្រើប្រាស់ Primero %{user} ពី %{agency} កំពុង​ស្នើសុំ​ឲ្យ​អ្នក​ផ្ទេរ​​ភាព​ជា​ម្ចាស់​របស់កំណត់ត្រា %{record_type} %{record_id} ដូច្នេះ​ពួកគេ​អាច​ផ្ដល់​សេវាកម្ម​គ្រប់គ្រង %{record_type} សម្រាប់​កំណត់ត្រា​នីមួយៗ​នៅ​ក្នុង​តំបន់​របស់​ពួកគេ។ ប្រសិនបើ​ការ​ផ្ទេរ​នេះ​អ្នក​អាច​ទទួលយក​​បាន សូម​ចុច​លើ​តំណ​លេខ​សម្គាល់ %{record_type} នៅ​ក្នុង​អ៊ីមែល ដើម្បី​បើក %{record_type} នៅ​ក្នុង Primero និង​ចាប់ផ្ដើម​ការ​ផ្ទេរ។'
+    approval_request_html: 'អ្នក​ប្រើប្រាស់ <strong>%{user}</strong> កំពុង​ស្នើសុំ​ការ​អនុម័ត​សម្រាប់ <strong> %{approval_type}</strong> នៅ​លើ​ករណី <strong>%{case_id}</strong> ។'
+    approval_response_html: '<strong>%{user}</strong> មានសំណើ <strong>%{status}</strong> សម្រាប់​ការ​អនុម័ត​សម្រាប់ <strong>%{approval_type}</strong> សម្រាប់ករណី <strong>%{case_id}</strong> ។'
+    referral_html: '<strong>%{user}</strong> ពី %{agency} បាន​បញ្ជូន%{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ <strong>%{record_id}</strong> សម្រាប់ %{service_type} ។'
+    transfer_html: '<strong>%{user}</strong> បាន​ផ្ទេរ​ %{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ <strong>%{record_id}</strong> ។'
+    assign_html: ''
+    transfer_request_html: 'អ្នក​ប្រើប្រាស់ Primero %{user} ពី %{agency} កំពុង​ស្នើសុំ​ឲ្យ​អ្នក​ផ្ទេរ​​ភាព​ជា​ម្ចាស់​របស់កំណត់ត្រា %{record_type} នេះ %{record_id} ដូច្នេះ​ពួកគេ​អាច​ផ្ដល់​សេវាកម្ម​គ្រប់គ្រង %{record_type} សម្រាប់​កំណត់ត្រា​នីមួយៗ​នៅ​ក្នុង​តំបន់​របស់​ពួកគេ។ ប្រសិនបើ​ការ​ផ្ទេរ​នេះ​អ្នក​អាច​ទទួលួក​បាន សូម​ចុច​លើ​តំណ​លេខ​សម្គាល់ %{record_type} នៅ​ក្នុង​អ៊ីមែល ដើម្បី​បើក %{record_type} នៅ​ក្នុង Primero និង​ចាប់ផ្ដើម​ការ​ផ្ទេរ។'
+    transfer_request_notes_html: 'កំណត់សម្គាល់​ពី​​អ្នកធ្វើការ​ស្នើសុំ៖ %{request_transfer_notes}'
+  encrypt:
+    export_type: ""
+    file_name: បង្កើត​ឈ្មោះ​ឯកសារ​ផ្ទាល់​របស់​អ្នក (ជា​ជម្រើស)
+    password_extra_info: ""
+    password_label: សូម​បញ្ចូល​ពាក្យសម្ងាត់​ដែល​នឹង​អ៊ីនគ្រិប​ឯកសារ​របស់​អ្នក។
+  error_message:
+    address_fields: ""
+    address_form_fields: ""
+    address_subform_fields: ''
+  error_page:
+    not_authorized:
+      code: 403
+      server_error: ""
+      title: ""
+    not_found:
+      code: 404
+      contact_admin: ប្រសិន​បើ​អ្នក​នៅ​ទីនេះ​ដោយ​សារ​មាន​កំហុស សូម​ទាក់ទង​អ្នក​គ្រប់គ្រង​របស់​អ្នក។
+      something_went_wrong: សូម​ទោស មាន​អ្វី​មួយ​មិន​ប្រក្រតី!
+  errors:
+    error_loading: ""
+    models:
+      child:
+        age: អាយុ​ត្រូវ​តែ​ចន្លោះ​ពី 0 និង 130
+        date_of_birth: សូម​បញ្ចូល​ថ្ងៃខែ​ឆ្នាំ​កំណើត​ដែល​ត្រឹមត្រូវ​សម្រាប់​កំណត់​ត្រា​ករណី​នេះ
+      export_configuration:
+        opt_out_field_does_not_exist: មិនមាន​កន្លែង​បញ្ចូល opt_out ដែល​បាន​បញ្ជាក់​នៅ​លើ​កំណត់​ត្រា។
+        record_type: ប្រភេទ​កំណត់​ត្រា​មិន​ត្រឹមត្រូវ។ ត្រូវ​តែ​ជា​កុមារ សំណើ​ស្វែងរក ឬ​ហេតុការណ៍។
+      field:
+        translated_options_do_not_match: ជម្រើស​ដែល​បានបកប្រែ​របស់កន្លែង​បញ្ចូល​ត្រូវ​តែ​មាន​លេខ​សម្គាល់​ដូច​គ្នា
+      location:
+        admin_level_present: មិន​អាច​ទទេ​
+        code_present: មិន​អាច​ទទេ​
+        name_present: មិន​អាច​ទទេ​
+        unique_location_code: មាន​ទីតាំង​ដែល​មាន​លេខ​កូដ​ទីតាំង​នោះ​រួច​ហើយ សូម​បញ្ចូល​លេខ​កូដ​ទីតាំង​ផ្សេង
+      lookup:
+        being_used: ការ​រកមើល​នេះ​កំពុង​ត្រូ​វបាន​ប្រើប្រាស់ ហើយ​មិន​អាច​លុប​បាន​ទេ
+        name_present: ឈ្មោះ​មិន​ត្រូវ​ទទេ
+        values_ids_blank: ""
+      primero_module:
+        associated_record_types: យ៉ាង​ហោចណាស់​​​ត្រូវ​​ភ្ជាប់​ប្រភេទ​កំណត់​ត្រា​មួយ​ជា​មួយ​ម៉ូឌុល​នេះ
+        form_section_ids: ""
+        name_present: ឈ្មោះ​មិន​ត្រូវ​ទទេ
+        unique_name: មានម៉ូឌុល​ដែលមាន​ឈ្មោះ​នោះ​រួច​ហើយ សូម​បញ្ចូល​ឈ្មោះ​​​ផ្សេង
+      report:
+        module_presence: ម៉ូឌុល​មិន​អាច​ទទេ
+        module_syntax: ត្រូវ​តែ​មាន​ម៉ូឌុល​របាយការណ៍​ទាំងអស់
+        name_presence: ឈ្មោះ​មិន​ត្រូវ​ទទេ
+      role:
+        permission_presence: សូម​ជ្រើសរើស​កា​រអនុញ្ញាត​យ៉ាង​ហោចណាស់​មួយ
+      user:
+        password_mismatch: កន្លែង​បញ្ចូល​ពាក្យសម្ងាត់​មិនមាន​​ពាក្យ​សម្ងាត់​ដូច​គ្នា
+    not_found: ""
+    try_again: ""
+  exports:
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: បាន​ជ្រើសរើស​ទៅ​ជា PDF
+    csv:
+      all: CSV
+      one: CSV
+      selected: បាន​ជ្រើសរើស​ទៅ​ជា CSV
+    custom:
+      all: ""
+    custom_exports:
+      all: ""
+      choose_fields: "តើ​អ្នកច​ង់​ជ្រើសរើស​កន្លែង​បញ្ចូលនីមួយៗ​សម្រាប់​ទម្រង់​ដែរ​ឬទេ?"
+      empty_fields_forms: សូម​ជ្រើសរើស​ទម្រង់ ឬ​កន្លែង​បញ្ចូល​​ខ្លះ​ដើម្បី​នាំចេញ។
+      empty_format: សូម​ជ្រើសរើស​ទម្រង់​ដើម្បី​នាំចេញ។
+      empty_module: សូម​ជ្រើសរើស​ម៉ុឌុល​ដើម្បីនាំចេញ។
+      empty_password: សូម​បញ្ចូល​ពាក្យសម្ងាត់​ដែល​នឹង​អ៊ីនគ្រិប​ឯកសារ​របស់​អ្នក។
+      field_label: កន្លែង​បញ្ចូល
+      fields: ជ្រើសរើស​កន្លែង​បញ្ចូល ដើម្បីនាំចេញ
+      form_label: ទម្រង់
+      format_label: ជ្រើសរើស​ទម្រង់
+      forms: ជ្រើសរើស​ទម្រង់​ដើម្បីនាំចេញ
+      label: ការ​នាំចេញ​ផ្ទាល់ខ្លួន
+      module_placeholder: សូម​ជ្រើសរើស​ម៉ូឌុល​មួយ។
+      select_module: ជ្រើសរើស​ម៉ូឌុល
+      submit: យល់ព្រម
+    duplicate_id_csv:
+      all: លេខកូដ​ស្ទួន
+      female_abbreviation: ស
+      headers:
+        age: អាយុ
+        case_id: លេខកូដករណី
+        child_name_last_first: ឈ្មោះ​កុមារ
+        family_size: ទំហំ​គ្រួសារ
+        moha_id: បាន​បដិសេធ​លេខ​សម្គាល់ MOHA
+        national_id_no: លេខ​អត្តសញ្ញាណប័ណ្ណ
+        progress_id: លេខ​កូដ​វឌ្ឍនភាព
+        sex_mapping_m_f_u: ភេទ
+      male_abbreviation: ប
+      unknown_abbreviation: U
+    exported: ""
+    exported_error: ""
+    forms:
+      button: ទម្រង់​នាំចេញ
+      label: នាំចេញ
+    go_to_exports: ""
+    incident_recorder_xls:
+      all: ""
+      one: ""
+      selected: ""
+    json:
+      all: JSON
+      one: JSON
+      selected: បាន​ជ្រើសរើស​ទៅ JSON
+    list_view_csv:
+      all: ទិដ្ឋភាព​បញ្ជីនាំចេញ
+      selected: បាន​ជ្រើសរើស​ទៅ​ជា CSV
+    mrm_violation_xls:
+      all: ការ​រំលោភបំពាន MRM
+      one: ការ​រំលោភបំពាន MRM
+      selected: បាន​ជ្រើសរើស​ទៅ​ការ​រំលោភបំបាន MRM
+    no_records: មិនមាន​កំណត់ត្រាទេ!
+    pdf:
+      all: ""
+      one: PDF
+      selected: បាន​ជ្រើសរើស​ទៅ​ជា PDF
+    pdf_exports:
+      label: PDF
+    photowall:
+      all: ផ្ទាំង​រូបថត
+      flag_suspect_record: ""
+      no_photos_available: ""
+      one: ផ្ទាំង​រូបថត
+      reunited: ""
+      selected: បាន​ជ្រើសរើស​ទៅ​ផ្ទាំង​រូបថត
+      success_message: ""
+    printed: ''
+    queueing: ""
+    selected_xls:
+      all: Excel
+      one: Excel
+      selected: បាន​ជ្រើសរើស​ទៅ Excel
+      selected_fields: ""
+    unhcr_csv:
+      all: UNHCR
+      female_abbreviation: F
+      headers:
+        age: អាយុ
+        case_status: ស្ថានភាព​ករណី
+        causes_of_separation: មូលហេតុនៃ​ការ​បំបែក
+        country_of_origin: ប្រទេស​កំណើត
+        cpims_code: លេខកូដ CPIMS
+        current_care_arrangement: ការ​រៀបចំ​ថែទាំ​បច្ចុប្បន្ន
+        date_of_birth: ថ្ងៃខែឆ្នាំកំណតើ
+        date_of_identification: កាលបរិច្ឆេទ​បញ្ជី​អត្តសញ្ញាណ
+        family_count_no: លេខ​ចំនួន​គ្រួសារ
+        governorate_country: តំបន់ - ប្រទេស
+        id: លេខ​កូដ
+        individual_progress_id: លេខសម្គាល់​វឌ្ឍនភាព​នីមួយៗ
+        locations_by_level: "អាសយដ្ឋាន (ជំរុំ, ប្លុក និង​កម្រិត​អាសយដ្ឋាន​ដែល​មាន​ផ្សេងៗ​ទៀត ដូច​ជា​និយាមការ​ជីភីអេស​ទី​ជម្រក)"
+        long_id: លេខកូដ​វែង
+        moha_id: លេខសម្គាល់ MOHA
+        name_of_caregiver: ឈ្មោះ​ពេញ​របស់​អ្នក​ថែទាំ
+        name_of_child_last_first: ឈ្មោះ​ពេញ​របស់​កុមារ
+        primary_protection_concerns: កង្វល់​អំពី​ការការពារ​​ចម្ប​ង
+        progres_id: លេខ​កូដ​វឌ្ឍនភាព
+        reunification_status: ស្ថានភាពបង្រួបបង្រួម
+        secondary_protection_concerns: កង្វល់​អំពី​ការការពារ​​រង
+        sex: ភេទ
+        sex_mapping_m_f_u: ភេទ
+        short_id: លេខកូដ​ខ្លី
+        vulnerability_code: លេខកូដ​ងាយរងគ្រោះ
+        vulnerability_details_code: លេខកូដ​ព័ត៌មានលម្អិត​ងាយរងក្រោះ
+      male_abbreviation: M
+      one: UNHCR
+      selected: បាន​ជ្រើសរើស​ទៅ UNHCR
+      unknown_abbreviation: U
+    xls:
+      all: Excel
+      one: Excel
+      selected: បាន​ជ្រើសរើស​ទៅ Excel
+  fields:
+    action: សកម្មភាព
+    actions: សកម្មភាព
+    add: បញ្ចូល
+    add_custom_field: ""
+    add_existing_field: ""
+    add_field: ""
+    add_field_type: ""
+    audio:
+      current: សំឡេង​បច្ចុប្បន្ន
+    bia_document: ""
+    bid_document: ""
+    check_box: ប្រអប់​គូស​ធីក
+    clear_group_by: ""
+    clear_sort_by: ""
+    create_field: ""
+    create_unique_values: ""
+    date_field: កន្លែង​បញ្ចូលកាលបរិច្ឆេទ
+    date_help: dd-mmm-yyyy
+    date_help_with_time: "dd-mmm-yyyy hh:mm"
+    date_not_valid: កាលបរិច្ឆេទ​នេះ​មិន​ត្រឹមត្រូវ​ទេ។
+    date_range:
+      date: កាលបរិច្ឆេទ
+      date_range: ចន្លោះ​កាលបរិច្ឆេទ
+      from: ពី
+      to: ដល់
+    date_range_field: ចន្លោះ​កាលបរិច្ឆេទ
+    date_time: ""
+    db_name: ""
+    default: ""
+    default_date_validation: ការ​ផ្ទៀងផ្ទាត់​កាលបរិច្ឆេទ​លំនាំដើម
+    default_to_current_date: ""
+    default_to_current_datetime: ""
+    default_value: ""
+    deleted: "បាន​លុប​កន្លែង​បញ្ចូល %{display_name} ។"
+    detail: ""
+    disabled: ""
+    display_name: ឈ្មោះ​បង្ហាញ
+    document:
+      comments: មតិយោបល់
+      current: "តើ​នេះ​ជា​ឯកសារ​បច្ចុប្បន្ន​ឬ?"
+      date: កាលបរិច្ឆេទ​ឯកសារ
+      name: ឈ្មោះ​ឯកសារ
+    edit_label: ""
+    enabled: ""
+    enabled_label: ""
+    english_text: ""
+    field_name: ឈ្មោះ​កន្លែង​បញ្ចូល
+    field_type: ""
+    file_upload_box:
+      add_document_label: ""
+      add_new_document_button_text: បញ្ចូល​ឯកសារ​ផ្សេង​ទៀត
+      add_new_photo_button_text: បញ្ចូល​រូបថត​ផ្សេង​ទៀត
+      add_photo_label: បញ្ចូល​រូបថត
+      document_description: ការពណ៌នា​អំពី​ឯកសារ
+      document_file_restrictions_message: ឯកសារ​មិន​គួរ​ធំជាង 2 MB មិន​អាច​បង្ហោះ​ឯកសារ (executable (.exe) បាន​ទេ)។
+      no_file_selected: គ្មាន​ឯកសារ​បាន​ជ្រើសរើស​ទេ។
+      photo_file_restrictions_message: រូបថត​មិនគួរ​ធំ​ជាង 10mb ទេ ។ ឯកសារ​សំឡេង​មិន​គួរ​ធំជាង 10mb ទេ។ កាន់តែ​តូច​កាន់តែ​ល្អ។
+      recorded_audio_label: សំឡេង​ដែល​បាន​ថត
+      select_file_button_text: ជ្រើសរើសឯកសារ
+    find_lookup: ""
+    form_name: ឈ្មោះ​ទម្រង់
+    future_date_not_valid: ""
+    guidance: ""
+    guiding_questions: ""
+    help_text: អត្ថបទ​ជំនួយ
+    hide_on_view_page: ""
+    label: កន្លែង​បញ្ចូល
+    mobile_visible: ""
+    move_to: ផ្លាស់ទី​ទៅ
+    multi_select: ""
+    multi_select_box: ""
+    must_be_english: ""
+    name: ""
+    not_future_date: មិនមែន​ជា​កាលបរិច្ឆេទ​នៅ​ពេល​អនាគត
+    number_not_valid: សូម​បញ្ចូល​ទិន្នន័យ​ជា​លេខ
+    numeric_field: កន្លែង​បញ្ចូល​ជា​លេខ
+    on_collapsed_subform: ""
+    option_strings_add_option: បញ្ចូល​ជម្រើស
+    option_strings_source: រក​មើល
+    option_strings_text: ជម្រើស
+    option_strings_text_display: អត្ថបទ​ជម្រើស
+    option_strings_text_key: លេខ​កូដ​ជម្រើស
+    options_indications_lookup_values: ""
+    options_indications_restrictions: ""
+    options_or_lookup_warning: សូម​បញ្ចូល​ជម្រើស ឬ​ជ្រើសរើស​ការ​រកមើល។ កុំ​បញ្ចូល​ទាំង​ពីរ។
+    other_documents: ""
+    predifined_lookups: ""
+    radio_button: ប៊ូតុង​មូល
+    remove: ដក​ចេញ
+    required: ""
+    required_field: ''
+    select_box: ជ្រើសរើស​បញ្ជី​ទម្លាក់ចុះ
+    select_date_validation: ជ្រើសរើស​វិធី​សាស្ត្រ​ផ្ទៀងផ្ទាត់​កាលបរិច្ឆេទ
+    select_multiple: ""
+    select_single: ""
+    separator: សញ្ញា​បំបែក
+    show: ""
+    show_on: ""
+    show_on_minify_form: ""
+    subform: ទម្រង់​រង
+    subform_group_by: ""
+    subform_remove_message: "តើ​អ្នក​ប្រាកដជា​ចង់​ដក​ទម្រង់​រង​នេះ​ចេញ​មែនទេ?"
+    subform_section:
+      description: ""
+      name: ""
+      starts_with_one_entry: ""
+      subform_append_only: ""
+      subform_prevent_item_removal: ""
+    subform_sort_by: ""
+    successfully_added: បាន​បញ្ចូលកន្លែង​បញ្ចូល​ដោយ​ជោគជ័យ
+    tally_field: កន្លែង​បញ្ចូលចំនួន​សរុប
+    text_area: តំបន់​អត្ថបទ
+    text_field: កន្លែង​បញ្ចូល​អត្ថបទ
+    textarea: តំបន់​អត្ថបទ
+    tick_box: ប្រអប់​គូស​ធីក
+    tick_box_label: ស្លាក​ប្រអប់​គូស​ធីក
+    translation_text: ""
+    type: ""
+    updated: បាន​ធ្វើបច្ចុប្បន្នភាព​កន្លែង​បញ្ចូល
+    visibility: ""
+    web_app: ""
+  filters:
+    apply_filters: ""
+    clear_filters: ""
+    less: ""
+    more: ""
+    save_filters: ""
+  flags:
+    add_flag_tab: ""
+    date: ''
+    flag_added: ""
+    flag_date: ""
+    flag_reason: ""
+    flag_resolved: ""
+    flags_tab: ""
+    no_flags: ""
+    resolve_button: ""
+    resolve_flag: ""
+    resolve_reason: ""
+    resolved: ""
+    resolved_date: ''
+    resolved_reason: ''
+    title: ""
+  followup_reminders:
+    system_generated_followup_flag: ការ​ចុះពិនិត្យតាមដាន​ដែល​ចាំបាច់
+  form_section:
+    form_name: ""
+    module: ""
+    name: ឈ្មោះ
+    record_type: ""
+    required_field: '%{field} ត្រូវ​បាន​ទាមទារ'
+  forms:
+    add: ""
+    description: ""
+    fields: ""
+    form_description: ""
+    form_group: ""
+    form_title: ""
+    help_text:
+      must_be_english: ""
+      related_groups: ""
+      summariaze_purpose: ""
+    invalid_characters_field: ''
+    label: ទម្រង់
+    manage: ""
+    messages:
+      created: ""
+      save_success: ""
+      save_with_errors: ""
+      updated: ""
+      use_existing: យើង​លើក​ទឹកចិត្ត​ឲ្យ​អ្នក​ប្រើប្រាស់​ទម្រង់​ដែល​មាន​ស្រាប់​ដូច​នេះ​​ដើម្បីចែករំលែក​ទិន្នន័យ និង​បញ្ចូល​ទិន្នន័យ​ចូល​គ្នា​រវាង​ស្ថាប័ន​បាន​កាន់តែ​ងាយស្រួល។
+    mobile_app: ""
+    module: ""
+    no_subform_filters_added: ""
+    record_type: ""
+    record_types:
+      approvals: ""
+      case: ករណី
+      child: ករណី
+      incident: ហេតុការណ៍
+      individual_victim: ""
+      potential_match: ការ​ផ្គូផ្គង​ខ្លាំង
+      record_information: ""
+      referrals: ""
+      reportable_follow_up: ការតាមដាន
+      reportable_protection_concern: កង្វល់​អំពី​ការការពារ​
+      reportable_service: សេវាកម្ម
+      tracing_request: សំណើ​ស្វែងរក
+      transfers_assignments: ""
+      violation: ការរំលោភបំពាន
+    required_field: ''
+    select_label: ""
+    settings: ""
+    show_on: ""
+    subform_need_to_be_added: ""
+    subform_not_found: ""
+    title: ""
+    translations:
+      edit: ""
+      edit_form_group: ""
+      manage: ""
+      no_changes_message: ""
+      note: ''
+      note_form_group: ""
+      select_language: ""
+      title: ""
+    type_label: ""
+    visibility: ""
+    web_app: ""
+  home:
+    ar: العربية
+    ar-JO: العربية (الأردنية)
+    ar-LB: العربية (اللبنانية)
+    bn: বাংলা
+    current_time_zone: ម៉ោងក្នុងតំបន់
+    dashboard: ផ្ទាំងព័ត៌មាន
+    en: អង់គ្លេស
+    es: Español
+    fr: បារាំង
+    id: Bahasa
+    km: ""
+    ku: کوردی
+    label: ទំព័រដើម
+    language: ភាសា
+    manage_system_users: គ្រប់គ្រងអ្នកប្រើប្រាស់ដែលធ្វើសមកាលកម្ម​ម៉ាស៊ីន​មេ
+    my: ဗမာစာ
+    pt: Português
+    records_need_attention: កំណត់ត្រា​ដែលត្រូវការការយកចិត្តទុកដាក់
+    ru: Русский
+    so: Af-Soomaali
+    th: ไทย
+    users: គ្រប់គ្រងអ្នកប្រើប្រាស់
+    view_records: មើល​កំណត់ត្រា
+    welcome: សូម​ស្វាគមន៍​មក​កាន់ Primero
+    zh: 中文
+  incident:
+    messages:
+      creation_success: ""
+      creation_success_queue: ""
+      update_success: 'បាន​ធ្វើ​បច្ចុប្បន្នភាពហេតុការណ៍ %{record_id} ដោយ​ជោគជ័យ។'
+      update_success_queue: ''
+    violation:
+      pending: ""
+  incidents:
+    id: ""
+    date_of_interview: ""
+    date_of_incident: ""
+    export: ""
+    label: ហេតុការណ៍
+    filter_by:
+      boys: កុមារា
+      by_date: ""
+      girls: កុមារី
+      incident_location: ""
+      unaccompanied_separated_status: ""
+      unknown: មិនស្គាល់
+      violence_type: ""
+    register_new_incident: ហេតុការណ៍​​ថ្មី
+    selectable_date_options:
+      date_of_first_report: កាលបរិច្ឆេទ​សម្ភាសន៍
+      incident_date_derived: កាលបរិច្ឆេទកើត​ហេតុការណ៍
+    selected_records: ''
+    selected_all_records: ''
+    show_incident: ''
+    social_worker: ""
+    violence_type: ""
+  location:
+    base_types:
+      camp: ជំរុំ
+      chiefdom: Chiefdom
+      city: ទីក្រុង
+      country: ប្រទេស
+      county: ស្រុក
+      district: ស្រុក
+      governorate: តំបន់
+      locality: មូលដ្ឋាន
+      other: ផ្សេងៗ
+      province: ខេត្ត
+      region: តំបន់
+      site: តំបន់
+      state: រដ្ឋ
+      sub-district: ឃុំ
+      village: ភូមិ
+      zone: តំបន់
+  logger:
+    approve_form:
+      action_plan: ""
+      bia: ទម្រង់ BIA
+      case_plan: ទម្រង់​ផែនការករណី
+      closure: ទម្រង់​បិទ
+      'false': បដិសេដ
+      gbv_closure: ""
+      'true': អនុម័ត
+    by_user: ដោយ​អ្នកប្រើប្រាស់
+    consent_count: ចំនួន​ការ​យល់ព្រម
+    copy: ចម្លង
+    create: បង្កើត
+    create_subform: បង្កើត​ទម្រង់​រង
+    destroy: លុប
+    edit: កែសម្រួល
+    export: នាំចេញ​ទិន្នន័យ​សម្រាប់
+    flag: សម្គាល់
+    flag_records: សម្គាល់
+    graph_data: មើល​ទិន្នន័យ​ក្រាហ្វ
+    hide_name:
+      protect: លាក់ឈ្មោះ
+      view: បង្ហាញឈ្មោះ
+    index: រាយ​កំណត់ត្រា
+    login: ចូលប្រើប្រាស់
+    logout: ចេញ
+    lookups_for_field: រកមើល​កន្លែង​បញ្ចូល
+    mark_for_mobile:
+      'false': មិនប្រើ​សម្រាប់​ទូរស័ព្ទ
+      'true': ប្រើ​សម្រាប់​ទូរស័ព្ទ
+    match_record: ផ្គូផ្គង​កំណត់​ត្រា
+    permitted_field_list: បញ្ជី​កន្លែង​បញ្ចូល​ដែល​បាន​អនុញ្ញាត
+    quick_view: មើល​ទិដ្ឋភាព​រហ័ស
+    reassign: ចាត់ចែង
+    record_state:
+      'false': បិទ
+      'true': បើក
+    referral: បញ្ជូន​
+    relinquish_referral: បោះបង់ការ​បញ្ជូន
+    reopen_case: បើកឡើងវិញ
+    request_approval:
+      action_plan: ""
+      bia: ស្នើសុំ​ការ​អនុម័ត​សម្រាប់​ទម្រង់ BIA
+      case_plan: ស្នើសុំ​កា​រអនុម័ត​សម្រាប់​ទម្រង់​ផែនការ​ករណី
+      closure: ស្នើសុំ​ការ​អនុម័ត​សម្រាប់​ទម្រង់​បិទ​
+      gbv_closure: ""
+    request_transfer: ផ្ញើ​សំណើ​ផ្ទេរ
+    request_transfer_view: មើល​ការ​ផ្ទេរ​សំណើ
+    save_subform: រក្សាទុក​ទម្រង់​រង
+    search: ការ​ស្វែងរក API
+    show: មើល
+    to: ដល់
+    to_user: ចំពោះ​អ្នកប្រើប្រាស់
+    transfer: ផ្ទេរ
+    transfer_status:
+      Accepted: បាន​ទទួល​យក​ការ​ផ្ទេរ
+      Rejected: បានបដិសេធ​ការ​ផ្ទេរ
+    unflag: ដក​សម្គាល់
+    update: ធ្វើបច្ចុប្បន្នភាព
+  login:
+    label: ចូល
+    password:
+      label: ពាក្យសម្ងាត់
+    provider_title: ""
+    title: ""
+    username: អ្នកប្រើប្រាស់
+  lookup:
+    create: កា​ររក​មើល​ថ្មី
+    enabled_label: ""
+    english_label: ""
+    label: ការ​រក​មើល
+    language_label: ""
+    messages:
+      cannot_create: មិន​អាច​បង្កើត​ការ​រក​មើល​បាន​ទេ
+      correct_errors: 'សូម​កែ​បញ្ហា​ដូច​ខាង​ក្រោម ហើយ​ដាក់​បញ្ជូន​ម្ដ​ងទៀត៖'
+      created: ""
+      updated: ""
+    name: ឈ្មោះ
+    no_options: ""
+    translation_label: ""
+    values: ជម្រើស
+  messages:
+    alert_items: ""
+    alerts_for:
+      approval: ""
+      field_change: ""
+      transfer_request: ""
+    cannot_edit: ""
+    confirmation_message: ការ​ចុច​យល់ព្រម នឹង​បោះបង់​ការ​ផ្លាស់ប្ដូរ​ដែល​មិនបាន​រក្សាទុក និងត្រឡប់​ទៅ​ទិដ្ឋភាព​បញ្ជី។ ចុច​បោះបង់ ដើម្បី​ត្រឡប់​ទៅ​កំណត់​ត្រា​វិញ។
+    dashboard_offline: ""
+    field_name_on_form_name: ''
+    logout_confirmation: ""
+    logout_warning: ""
+    no_changes: ""
+  navigation:
+    bulk_exports: ""
+    cases: ""
+    home: ""
+    incidents: ""
+    logout: ""
+    reports: ""
+    search: ស្វែងរក
+    settings: ""
+    support: ""
+    tasks: ""
+    tracing_request: ""
+  notes:
+    note_success: ""
+  permissions:
+    label: ការ​អនុញ្ញាត
+    permission:
+      All: ទាំងអស់
+      add_note: បញ្ចូល​កំណត់សម្គាល់
+      admin_only: គ្មាន​កំណត់ត្រា - សម្រាប់​តែ​មុខងារ​អ្នក​គ្រប់គ្រង​ប៉ុណ្ណោះ
+      administrator_read: ​អ្នក​គ្រប់គ្រងអាន
+      agency: ស្ថាប័ន
+      agency_read: ស្ថាប័ន​អាន
+      all: ចូលប្រើប្រាស់​កំណត់ត្រា ឬ​អ្នក​ប្រើប្រាស់​ទាំងអស់
+      approvals_assessment: ''
+      approvals_assessment_pending: ''
+      approvals_case_plan: ''
+      approvals_case_plan_pending: ''
+      approvals_closure: ''
+      approvals_closure_pending: ''
+      approve_action_plan: ""
+      approve_assessment: ""
+      approve_case_plan: ""
+      approve_closure: ""
+      approve_gbv_closure: ""
+      assign: ចាត់ចែង
+      assign_within_agency: ចាត់ចែង​នៅ​ក្នុង​ស្ថាប័ន
+      assign_within_user_group: ចាត់ចែង​នៅ​ក្នុង​ក្រុម​របស់​អ្នក​ប្រើប្រាស់
+      audit_log: កំណត់​ហេតុ​ត្រួតពិនិត្យ
+      case: ករណី
+      case_approvals: ""
+      case_assignments_referrals_transfers: ""
+      case_exports: ""
+      case_overview: ""
+      case_risk: ""
+      cases_by_task_overdue_assessment: ""
+      cases_by_task_overdue_case_plan: ""
+      cases_by_task_overdue_followups: ""
+      cases_by_task_overdue_services: ""
+      cases_managed_other_users: ""
+      close: ""
+      consent_override: បដិសេធ​ការ​យល់ព្រម
+      copy: ចម្លង
+      create: បង្កើត
+      dash_case_incident_overview: ""
+      dash_cases_by_social_worker: មើល​ករណី​តាម​អ្នកកាន់​ករណី
+      dash_cases_by_task_overdue: មើលករណី​តាម​ការ​ហួស​ពេលកំណត់​នៃ​កិច្ចការ
+      dash_cases_by_workflow: មើល​ករណី​តាម​លំហូរ​ការងារ
+      dash_cases_to_assign: មើល​ករណី​ដើម្បី​ចាត់ចែង
+      dash_group_overview: ""
+      dash_manager_transfers: មើល​អ្នកគ្រប់គ្រង​ការ​ផ្ទេរ
+      dash_matching_results: មើល​លទ្ធផល​ផ្គូផ្គង
+      dash_protection_concerns: មើល​កង្វល់​អំពី​ការការពារ​
+      dash_protection_concerns_by_location: មើល​កង្វល់​អំពី​ការការពារ​តាម​ទីតាំង
+      dash_referrals_by_socal_worker: មើល​ការ​បញ្ជូន​ដោយ​បុគ្គលិកសង្គម
+      dash_reporting_location: មើល​ទីតាំង​រាយការណ៍
+      dash_service_provisions: មើល​ការ​ផ្ដល់​សេវាកម្ម
+      dash_shared_from_my_team: ""
+      dash_shared_with_me: ""
+      dash_shared_with_my_team: ""
+      dash_shared_with_others: ""
+      dash_show_none_values: ""
+      dash_tasks: មើលកិច្ចការ
+      dash_transfers_by_socal_worker: មើល​កា​រផ្ទេរ​ដោយ​បុគ្គលិកសង្គម
+      dashboard: ផ្ទាំងគ្រប់គ្រង
+      delete: ""
+      display_view_page: បង្ហាញ​ទំព័រ​ទិដ្ឋភាព
+      duplicate: ស្ទួន​ការ​ស្វែងរក
+      enable_disable_record: បិទ
+      export_case_pdf: នាំចេញ​ករណីជា pdf
+      export_csv: នាំចេញជា csv
+      export_custom: នាំចេញ​ផ្ទាល់ខ្លួន
+      export_duplicate_id_csv: នាំចេញ​ភាព​ស្ទួន
+      export_json: នាំចេញ​ជា json
+      export_list_view_csv: នាំចេញ​ទិដ្ឋភាព​បញ្ជី cvs
+      export_mrm_violation_xls: នាំចេញ​ការ​បំពាន mrm ជា xls
+      export_pdf: នាំចេញជា pdf
+      export_photowall: នាំចេញ​ផ្ទាំង​រូបថត
+      export_unhcr_csv: នាំចេញជា unhcr csv
+      export_xls: នាំចេញជា xls
+      find_tracing_match: រក​ការ​ផ្គូផ្គង​ស្វែងរក​ពី​ករណី
+      flag: សម្គាល់
+      form: ទម្រង់
+      group: ចូលប្រើប្រាស់កំណត់​ត្រា ឬ​អ្នក​ប្រើប្រាស់​​ទាំងអស់នៅ​ក្នុង​ក្រុម​របស់​ខ្ញុំ
+      group_read: ក្រុម​អាន
+      import: នាំចូល
+      incident: ហេតុការណ៍
+      incident_details_from_case: បញ្ចូល​ព័ត៌មាន​លម្អិត​អំពី​ហេតុការណ៍​ទៅ​ក្នុង​ករណី​របស់​អ្នក​ប្រើប្រាស់​ផ្សេង
+      incident_from_case: បង្កើត​ហេតុការណ៍​​ពី​ករណី
+      lookup: រក​មើល
+      manage: គ្រប់គ្រង
+      matching_configuration: ផ្គូផ្គង​ការ​កំណត់​រចនាសម្ព័ន្ធ
+      metadata: "ទម្រង់, ការ​រក​មើល"
+      potential_match: ការ​ផ្គូផ្គង​ខ្លាំង
+      read: អាន
+      reassign: ចាត់ចែង​ឡើងវិញ
+      receive_referral: ទទួល​ការ​បញ្ជូន
+      receive_transfer: ទទួល​ការ​ផ្ទេរ
+      referral: ""
+      referral_from_service: បញ្ជូន​ករណី​ពី​ទម្រង់​សេវា
+      remove_assigned_users: ដក​​អ្នកប្រើប្រាស់​ដែល​បាន​ចាត់តាំង​​ចេញ (ការ​បញ្ជូន)
+      reopen: ""
+      report: របាយការណ៍
+      request_approval: ស្នើសុំ​ការ​អនុម័ត
+      request_approval_action_plan: ""
+      request_approval_assessment: ""
+      request_approval_case_plan: ""
+      request_approval_closure: ""
+      request_approval_gbv_closure: ""
+      request_transfer: ស្នើសុំការផ្ទេរ
+      role: តួនាទី
+      save_search: រក្សាទុក​ការ​ស្វែងរក
+      saved_search: ការ​ស្វែងរក​ដែល​បាន​រក្សាទុក
+      search_owned_by_others: ស្វែងរក​កំណត់ត្រា​ករណីដែល​បាន​គ្រប់គ្រង​ដោយ​អ្នកប្រើប្រាស់​ផ្សេង
+      self: ចូលប្រើប្រាស់​តែ​កំណត់ត្រា ឬ​អ្នក​ប្រើប្រាស់​របស់ខ្ញុំ​ប៉ុណ្ណោះ
+      service_provision_incident_details: មើល​ការ​បញ្ចូល​ប៊ូតុង​ផ្ដល់សេវាកម្ម​នៅ​លើ​បែបបទ​ព័ត៌មាន​លម្អិត​អំពី​ហេតុការណ៍
+      services_section_from_case: បញ្ចូល​ការ​ផ្ដល់​សេវាកម្ម​ទៅ​ក្នុង​ករណី​របស់​អ្នក​អ្នក​ប្រើប្រាស់​ផ្សេង
+      specific_roles: ចូលប្រើប្រាស់​បញ្ជី​មុខងារ​ដែល​បានបញ្ជាក់
+      sync_mobile: ធ្វើសមកាលកម្ម​ជា​មួយ​ឧបបករណ៍​ចល័ត
+      system: ប្រព័ន្ធ
+      tracing_request: សំណើ​ស្វែងរក
+      transfer: ""
+      user: អ្នកប្រើប្រាស់
+      user_group: ក្រុម​អ្នកប្រើប្រាស់
+      view_approvals: មើល​ការ​អនុម័ត
+      view_assessment: មើល​ការ​ប៉ាន់ប្រមាណ
+      view_photo: មើល​រូបថត
+      view_protection_concerns_filter: មើលចម្រាញ់ទិន្នន័យ​ស្ដី​ពី​​បញ្ហាដែលជាកង្វល់
+      view_response: មើលការ​ឆ្លើយតប
+      workflow: ""
+      workflow_team: ""
+      write: សរសេរ
+    resource:
+      agency:
+        actions:
+          assign:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ''
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      audit_log:
+        actions:
+          read:
+            explanation: ""
+            label: ""
+        label: ""
+      case:
+        actions:
+          add_note:
+            explanation: ""
+            label: ""
+          approve_action_plan:
+            explanation: ""
+            label: ""
+          approve_assessment:
+            explanation: ""
+            label: ""
+          approve_bia:
+            explanation: ""
+            label: ""
+          approve_case_plan:
+            explanation: ""
+            label: ""
+          approve_closure:
+            explanation: ""
+            label: ""
+          approve_gbv_closure:
+            explanation: ""
+            label: ""
+          assign:
+            explanation: ""
+            label: ""
+          assign_within_agency:
+            explanation: ""
+            label: ""
+          assign_within_user_group:
+            explanation: ""
+            label: ""
+          change_log:
+            explanation: ""
+            label: ""
+          close:
+            explanation: ""
+            label: ""
+          consent_override:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          display_view_page:
+            explanation: ""
+            label: ""
+          enable_disable_record:
+            explanation: ""
+            label: ""
+          export_case_pdf:
+            explanation: ""
+            label: ""
+          export_csv:
+            explanation: ''
+            label: ""
+          export_custom:
+            explanation: ""
+            label: ""
+          export_duplicate_id_csv:
+            explanation: ""
+            label: ""
+          export_json:
+            explanation: ""
+            label: ""
+          export_list_view_csv:
+            explanation: ""
+            label: ""
+          export_photowall:
+            explanation: ""
+            label: ""
+          export_unhcr_csv:
+            label: ""
+          export_xls:
+            explanation: ''
+            label: ""
+          find_tracing_match:
+            explanation: ""
+            label: ""
+          flag:
+            explanation: ""
+            label: ""
+          import:
+            explanation: ""
+            label: ""
+          incident_details_from_case:
+            explanation: ""
+            label: ""
+          incident_from_case:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ""
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          receive_referral:
+            explanation: ""
+            label: ""
+          receive_transfer:
+            explanation: ""
+            label: ""
+          referral:
+            explanation: ""
+            label: ""
+          referral_from_service:
+            explanation: ""
+            label: ""
+          remove_assigned_users:
+            explanation: ""
+            label: ""
+          reopen:
+            explanation: ""
+            label: ""
+          request_approval_action_plan:
+            explanation: ""
+            label: ""
+          request_approval_assessment:
+            explanation: ""
+            label: ""
+          request_approval_bia:
+            explanation: ""
+            label: ""
+          request_approval_case_plan:
+            explanation: ""
+            label: ""
+          request_approval_closure:
+            explanation: ""
+            label: ""
+          request_approval_gbv_closure:
+            explanation: ""
+            label: ""
+          request_transfer:
+            explanation: ""
+            label: ""
+          search_owned_by_others:
+            explanation: ""
+            label: ""
+          service_provision_incident_details:
+            explanation: ""
+            label: ""
+          services_section_from_case:
+            explanation: ""
+            label: ""
+          sync_mobile:
+            explanation: ""
+            label: ""
+          transfer:
+            explanation: ""
+            label: ""
+          view_photo:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      dashboard:
+        actions:
+          approvals_action_plan:
+            explanation: ""
+            label: ""
+          approvals_action_plan_pending:
+            explanation: ""
+            label: ""
+          approvals_assessment:
+            explanation: ""
+            label: ""
+          approvals_assessment_pending:
+            explanation: ""
+            label: ""
+          approvals_case_plan:
+            explanation: ""
+            label: ""
+          approvals_case_plan_pending:
+            explanation: ""
+            label: ""
+          approvals_closure:
+            explanation: ""
+            label: ""
+          approvals_closure_pending:
+            explanation: ""
+            label: ""
+          approvals_gbv_closure:
+            explanation: ""
+            label: ""
+          approvals_gbv_closure_pending:
+            explanation: ""
+            label: ""
+          case_overview:
+            explanation: ""
+            label: ""
+          case_risk:
+            explanation: ""
+            label: ""
+          cases_by_task_overdue_assessment:
+            explanation: ""
+            label: ""
+          cases_by_task_overdue_case_plan:
+            explanation: ""
+            label: ""
+          cases_by_task_overdue_followups:
+            explanation: ""
+            label: ""
+          cases_by_task_overdue_services:
+            explanation: ""
+            label: ""
+          dash_case_incident_overview:
+            explanation: ""
+            label: ""
+          dash_cases_by_social_worker:
+            explanation: ""
+            label: ""
+          dash_cases_to_assign:
+            explanation: ''
+            label: ""
+          dash_group_overview:
+            explanation: ""
+            label: ""
+          dash_matching_results:
+            explanation: ""
+            label: ""
+          dash_protection_concerns:
+            explanation: ""
+            label: ""
+          dash_protection_concerns_by_location:
+            explanation: ""
+            label: ""
+          dash_reporting_location:
+            explanation: ""
+            label: ""
+          dash_service_provisions:
+            explanation: ""
+            label: ""
+          dash_shared_from_my_team:
+            explanation: ""
+            label: ""
+          dash_shared_with_me:
+            explanation: ""
+            label: ""
+          dash_shared_with_my_team:
+            explanation: ""
+            label: ""
+          dash_shared_with_others:
+            explanation: ""
+            label: ""
+          dash_show_none_values:
+            explanation: ""
+            label: ""
+          dash_tasks:
+            explanation: ""
+            label: ""
+          view_protection_concerns_filter:
+            explanation: ""
+            label: ""
+          view_response:
+            explanation: ""
+            label: ""
+          workflow:
+            explanation: ""
+            label: ""
+          workflow_team:
+            explanation: ""
+            label: ""
+        label: ""
+      disabled:
+        explanation: ""
+        label: ""
+      duplicate:
+        actions:
+          read:
+            explanation: ""
+            label: ""
+        label: ""
+      forms:
+        case:
+          explanation: ''
+          label: ""
+        incident:
+          explanation: ''
+          label: ""
+        tracing_request:
+          explanation: ''
+          label: ""
+      group:
+        actions:
+          admin_only:
+            explanation: ""
+            label: ""
+          agency:
+            explanation: ""
+            label: ""
+          all:
+            explanation: ""
+            label: ""
+          group:
+            explanation: ""
+            label: ""
+          self:
+            explanation: ""
+            label: ""
+        explanation: ""
+        label: ""
+      incident:
+        actions:
+          change_log:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          export_case_pdf:
+            explanation: ""
+            label: ""
+          export_csv:
+            explanation: ""
+            label: ""
+          export_custom:
+            label: ""
+          export_incident_recorder_xls:
+            explanation: ""
+            label: ""
+          export_json:
+            explanation: ""
+            label: ""
+          export_list_view_csv:
+            explanation: ""
+            label: ""
+          export_xls:
+            explanation: ""
+            label: ""
+          flag:
+            explanation: ""
+            label: ""
+          import:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ""
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          sync_mobile:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      is_manager:
+        explanation: ""
+        label: ""
+      matching_configuration:
+        actions:
+          manage:
+            explanation: ""
+            label: ""
+        label: ""
+      metadata:
+        actions:
+          manage:
+            explanation: ""
+            label: ""
+        label: ""
+      module:
+        actions:
+          cp:
+            label: ""
+          gbv:
+            label: ""
+          mrm:
+            label: ""
+        explanation: ""
+        label: ""
+      potential_match:
+        actions:
+          read:
+            explanation: ""
+            label: ""
+        label: ""
+      referral:
+        actions:
+          refer:
+            explanation: ""
+            label: ""
+        label: ""
+      report:
+        actions:
+          create:
+            explanation: ""
+            label: ""
+          group_read:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ""
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      reporting_location_level:
+        explanation: ''
+        label: ""
+      role:
+        actions:
+          assign:
+            explanation: ""
+            label: ""
+          copy:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          delete:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ''
+            label: ""
+          permitted_roles:
+            explanation: ""
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      system:
+        actions:
+          manage:
+            explanation: ""
+            label: ""
+        label: ""
+      tracing_request:
+        actions:
+          change_log:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          export_case_pdf:
+            explanation: ""
+            label: ""
+          export_csv:
+            explanation: ""
+            label: ""
+          export_custom:
+            explanation: ""
+            label: ""
+          export_json:
+            explanation: ""
+            label: ""
+          export_list_view_csv:
+            explanation: ""
+            label: ""
+          flag:
+            explanation: ""
+            label: ""
+          import:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ""
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      transfer:
+        actions:
+          transfer:
+            explanation: ""
+            label: ""
+        label: ""
+      user:
+        actions:
+          agency_read:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ''
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      user_group:
+        actions:
+          assign:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          delete:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ''
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+  potential_match:
+    child_age: អាយុ
+    child_gender: ភេទ
+    child_id: លេខ​កូដកុមារ
+    inquirer_id: លេខកូដអ្នកស្វែងរក
+    inquirer_tr_name: សំណើ​ស្វែងរក
+    inquiry_date: កាលបរិច្ឆេទ​ស្វែងរក
+    name: ឈ្មោះ
+    score: ពិន្ទុ
+    social_worker: បុគ្គលិកសង្គម
+    social_worker_agency: ស្ថាប័ន៖
+  potential_matches:
+    display: "បង្ហាញ​កា​រផ្គូផ្គង​ខ្លាំង​សម្រាប់ %{type} %{id}"
+  reassign:
+    multiple_error: ""
+    multiple_successfully: ''
+    notes_label: កំណត់សម្គាល់
+    successfully: ""
+    user_mandatory_label: ""
+    users_label: ""
+  record_information:
+    assigned_user_names: ""
+    created_by: ""
+    created_by_agency: ""
+    current_owner_separator: ""
+    module_id: ""
+    owned_by: ""
+    owned_by_agency_id: ""
+    owned_by_text: ""
+    previous_agency: ""
+    previously_owned_by: ""
+    reassigned_tranferred_on: ""
+    record_history_separator: ""
+  record_panel:
+    record_information: ព័ត៌មាន​កំណត់​ត្រា
+  referral:
+    agency_label: ស្ថាប័ន៖
+    is_remote_label: "បញ្ជូនទៅរកសេវាពីអង្គភាពដែលមិនប្រើប្រាស់ Primero និង​OSCaR?​"
+    location_label: ទីតាំង
+    notes_label: កំណត់សម្គាល់
+    provided_consent_label: ""
+    recipient_label: ""
+    refer_anyway_label: ""
+    service_label: សេវាកម្ម
+    success: 'បាន​បញ្ជូន​ %{record_type} %{id} ដោយ​ជោគជ័យ'
+    user_mandatory_label: ""
+  report:
+    aggregate_by: ដាក់ជា​ក្រុម​តាម​ជួរ​ដេក
+    attribute: ""
+    constraint: ""
+    date_ranges:
+      date: ថ្ងៃ
+      month: ខែ
+      quarter: ""
+      quarter_abbr: ""
+      week: សប្ដាហ៍
+      year: ឆ្នាំ
+    description: ការពណ៌នា
+    disabled:
+      explanation: ""
+      label: ""
+    disaggregate_by: ដាក់ជា​ក្រុម​តាម​ជួរឈរ
+    filters:
+      is: ""
+      label: ចម្រាញ់ទិន្នន័យ​សម្រាប់របាយការណ៍
+      label_new: ""
+      not_null: ""
+    group_ages: ប្រើប្រាស់​ចន្លោះ​អាយុ
+    group_dates_by: ប្រើប្រាស់​ចន្លោះ​កាលបរិច្ឆេទ
+    is_graph: "បង្កើត​ក្រាហ្វមែនទេ?"
+    messages:
+      delete_success: បានលុប​របាយការណ៍​ដោយជោគជ័យ។
+      success: ""
+      updated: ""
+    modules: ម៉ូឌុល
+    name: ឈ្មោះ
+    name_mandatory: ""
+    no_data: មិនមាន​ទិន្នន័យ​សម្រាប់​របាយការណ៍​នេះ​ទេ
+    no_filters_added: ""
+    not_selected: ""
+    record_type: ប្រភេទ​កំណត់ត្រា
+    total: សរុប
+    value: ""
+  reports:
+    delete_report: ""
+    delete_report_message: ""
+    label: របាយការណ៍
+    register_new_report: បង្កើត​របាយការណ៍
+  request_transfer:
+    notes_label: កំណត់សម្គាល់
+    submit_label: ផ្ញើ​សំណើ
+    success: បាន​ផ្ញើ​សំណើ​ផ្ទេរ
+  role:
+    agency_ids_label: ""
+    copy_failure: មាន​បញ្ហា​ក្នុងការ​ចម្លង​តួនាទី៖ សូម​ប្រាកដថា ឈ្មោះ​មិន​ស្ទួន​គ្នា​ជា​មួយ​តួនាទី​ផ្សេង​ទៀត។
+    copy_success: បាន​ចម្លង​តួនាទី​ដោយ​ជោគជ័យ។
+    create: បង្កើត​តួនាទី
+    delete_header: ""
+    description: ការពណ៌នា
+    edit: កែសម្រួល​តួនាទី
+    error_in_updating: មាន​បញ្ហា​ក្នុងការ​ធ្វើ​បច្ចុប្បន្នភាព​ព័ត៌មាន​លម្អិត​​អំពី​តួនាទី។
+    group_permission_label: "តើ​តួនាទី​នេះ​ប៉ះពាល់​ដល់​កំណត់ត្រា​អ្វីដែរ?​"
+    label: ""
+    manager: ""
+    messages:
+      confirmation: ""
+      created: ""
+      deleted: ""
+      updated: ""
+    name: ឈ្មោះ
+    referral_label: "តើ​អ្នក​ប្រើប្រាស់​នេះ​អាច​បញ្ជូនករណី​បាន​ដែរ​ឬទេ?"
+    reporting_location_level_label: "តើ​​ប្រភេទ​ទីតាំង​អ្វី​ដែល​គួរ​ត្រូវ​បានប្រើប្រាស់​សម្រាប់​រាយការណ៍​អំពី​តួនាទី​នេះ?"
+    role_ids_label: តួនាទី​ផ្សេង​បានគ្រប់គ្រង​ដោយ​តួនាទី​នេះ
+    successfully_updated: បាន​ធ្វើបច្ចុប្បន្នភាព​ព័ត៌មានលម្អិត​អំពី​តួនាទី​ដោយ​ជោគជ័យ។
+    transfer_label: "តើ​អាច​ប្រើប្រាស់​តួនាទី​នេះ​សម្រាប់ការ​ផ្ទេរ​បាន​ដែ​ររទេ?"
+  roles:
+    label: តួនាទី
+  saved_search:
+    deleted: បាន​លុបការស្វែងរកដោយជោគជ័យ។
+    filters_tab: ចម្រាញ់ទិន្នន័យ
+    no_filters: ""
+    save_success: បាន​រក្សាទុក​ការ​ស្វែងរក​ដោយ​ជោគជ័យ។
+    saved_searches_tab: ការ​ស្វែងរក​ដែល​បាន​រក្សាទុក
+    title_description: ""
+    title_modal: ""
+  saved_searches:
+    no_save_searches: អ្នក​​មិនមានការ​ស្វែងរក​ដែល​បាន​រក្សាទុក​ទេ។
+    save_search: រក្សាទុក​ការ​ស្វែងរក
+  settings:
+    navigation:
+      agencies: ""
+      audit_logs: ""
+      configurations: ""
+      contact_information: ""
+      forms: ""
+      locations: ""
+      lookups: ""
+      user_groups: ""
+      users: ""
+      roles: ""
+    title: ""
+  system_settings:
+    label: ការកំណត់ប្រព័ន្ធ
+  task:
+    due_date: កាលបរិច្ឆេទកំណត់
+    id: លេខកូដ
+    name: ""
+    priorities:
+      high_level: ""
+      low_level: ""
+      medium_level: ""
+      no_action_level: ""
+    priority: កម្រិតហានិភ័យ
+    status: ""
+    statuses:
+      overdue: ""
+      upcoming_soon: ""
+    type: ប្រភេទសកម្មភាព
+    types:
+      assessment: ការ​ប៉ាន់ប្រមាណ
+      case_plan: ផែនការករណី
+      follow_up: "ការតាមដាន - %{subtype}"
+      service: "សេវាកម្ម - %{subtype}"
+  tracing_request:
+    messages:
+      update_success: 'បាន​ធ្វើបច្ចុប្បន្នភាព​សំណើ​ស្វែងរក %{record_id} ដោយ​ជោគជ័យ។'
+      creation_success: ""
+      update_success_queue: ''
+      creation_success_queue: ""
+  tracing_requests:
+    date_of_inquiry: ""
+    id: ""
+    filter_by:
+      by_date: ""
+      location_separation: ""
+      separation_cause: ""
+      status: ""
+    label: ""
+    name_of_inquirer: ""
+    register_new_tracing_request: សំណើ​ស្វែងរក​ថ្មី
+    selectable_date_options:
+      inquiry_date: កាលបរិច្ឆេទ​ស្វែងរក
+    selected_records: ''
+    selected_all_records: ''
+    show_tracing_request: ''
+    tracing_requests: ""
+    export: ""
+  transfer:
+    agency_label: ស្ថាប័ន៖
+    consent_from_individual_label: ""
+    consent_label: កំណត់ត្រា​មិន​បានផ្ដល់​ការ​យល់ព្រម​ទេ។
+    consent_override_label: "តើ​អ្នក​ចង់​សរសេរ​ជាន់លើ​ការ​កំណត់​នេះ​ដែ​រឬទេ?"
+    is_remote_label: "បញ្ជូនទៅរកសេវាពីអង្គភាពដែលមិនប្រើប្រាស់ Primero និង​OSCaR?​"
+    location_label: ទីតាំង
+    notes_label: កំណត់សម្គាល់
+    provided_consent_label: ""
+    recipient_label: ""
+    select_label: ""
+    success: ""
+    transfer_label: ""
+    user_mandatory: ""
+  transfer_assignment:
+    title: ""
+  transition:
+    assigned_by: ""
+    consent_individual_transfer_value:
+      true_label: ''
+      false_label: ''
+    consent_overridden_value:
+      false_label: ''
+      true_label: ''
+    errors:
+      consent: ""
+      to_user_can_receive: ""
+    individual_consent: ""
+    no_consent_share: ""
+    notes: ""
+    recipient: ""
+    rejected: ""
+    service_label: ""
+    status:
+      accepted: ""
+      done: ""
+      in_progress: ""
+      inprogress: ""
+      pending: ""
+      rejected: ""
+    type:
+      assign: ""
+      reassign: ""
+      referral: ""
+      transfer: ""
+      transferRequest: ""
+  user:
+    agency_office: ""
+    code: លេខ​កូដ​អ្នក​ប្រើប្រាស់
+    disabled: បាន​បិទ
+    email: ""
+    full_name: ឈ្មោះ​ពេញ
+    identity_provider: ""
+    invalid_provider_username: ''
+    locale: ""
+    location: ទីតាំង
+    messages:
+      confirmation: "តើ​អ្នក​ប្រាកដ​ជា​ចង់លុប​​អ្នក​ប្រើប្រាស់​ម្នាក់​នេះ​ឬ? ការ​លុប​មិន​ត្រឡប់​វិញ​បាន​ទេ។ ចុច​យល់ព្រម ដើម្បី​លុប​អ្នក​ប្រើប្រាស់។"
+      created: បាន​បង្កើតអ្នក​ប្រើប្រាស់​​ដោយ​ជោគជ័យ។
+      failure: ""
+      new_confirm_html: ""
+      new_confirm_non_identity_html: ""
+      not_found: រក​មិន​ឃើញ​អ្នក​ប្រើប្រាស់​ដែល​មាន​លេខសម្គាល់​ដែល​បាន​ផ្ដល់​ឲ្យ​ទេ
+      password_changed_successfully: បាន​ផ្លាស់ប្ដូរ​ពាក្យ​សម្ងាត់​ដោយ​ជោគជ័យ
+      passwords_do_not_match: មិន​ដូច​នឹង​ពាក្យសម្ងាត់​បច្ចុប្ប​ន្ន​ទេ
+      time_zone_updated: បាន​ធ្វើ​បច្ចុប្បន្នភាព​ការ​ផ្លាស់ប្ដូរ​ដោយ​ជោគជ័យ។
+      updated: បាន​ធ្វើបច្ចុប្បន្នភាព​អ្នក​ប្រើប្រាស់​ដោយ​ជោគជ័យ។
+    organization: ស្ថាប័ន
+    password: ""
+    password_confirmation: ""
+    phone: ""
+    position: មុខតំណែង
+    provider_username_help: ''
+    role_id: ""
+    send_mail: "តើ​ទទួល​បាន​ការ​ជូន​ដំណឹង​តាម​អ៊ីមែល​ដែ​រឬទេ?"
+    user_group_unique_ids: ""
+    user_name: ""
+  user_group:
+    description: ការពណ៌នា
+    disabled:
+      explanation: ""
+      label: ""
+    messages:
+      created: ""
+      updated: ""
+    name: ឈ្មោះ
+  user_groups:
+    label: ក្រុម​អ្នកប្រើប្រាស់
+  users:
+    label: អ្នកប្រើប្រាស់
+    headers:
+      full_name: ""
+      user_name: ""
+      position: ""
+      agency: ""
