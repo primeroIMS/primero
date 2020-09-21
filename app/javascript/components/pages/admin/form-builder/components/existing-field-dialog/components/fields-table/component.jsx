@@ -21,6 +21,7 @@ const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeFiel
 
   const optionsColumn = {
     name: "name",
+    label: "  ",
     options: {
       filter: false,
       customBodyRender: (value, tableMeta) => {
