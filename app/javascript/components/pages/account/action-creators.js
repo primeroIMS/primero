@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../../notifier";
 import { RECORD_PATH, METHODS } from "../../../config";
 

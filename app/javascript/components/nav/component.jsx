@@ -60,10 +60,6 @@ const Nav = () => {
         />
       );
 
-      if (route === "/account") {
-        console.log("route", route, menuEntry.to);
-      }
-
       return PERMITTED_URL.includes(route) ? (
         renderedMenuEntries
       ) : (

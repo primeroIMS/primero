@@ -45,7 +45,7 @@ const Container = ({ mode }) => {
       })
     : [];
 
-  const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
+  const validationSchema = validations(formMode, i18n, useIdentityProviders, providers, true);
   const handleSubmit = data => dispatch(updateUserAccount({ id, data, message: i18n.t("user.messages.updated") }));
 
   const handleEdit = () => {

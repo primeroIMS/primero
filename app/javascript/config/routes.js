@@ -163,11 +163,9 @@ export default [
         component: Support
       },
       {
-        // TODO: Change 'resources' && 'actions'
         path: `${ROUTES.account}/:id`,
         component: Account,
-        resources: RESOURCES.reports,
-        actions: READ_REPORTS,
+        resources: RESOURCES.any,
         extraProps: {
           mode: MODES.show
         }
@@ -175,8 +173,7 @@ export default [
       {
         path: `${ROUTES.account}/:id/edit`,
         component: Account,
-        resources: RESOURCES.reports,
-        actions: READ_REPORTS,
+        resources: RESOURCES.any,
         extraProps: {
           mode: MODES.edit
         }
