@@ -32,6 +32,12 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
     [Permission.new(resource: Permission::CONFIGURATION, actions: [Permission::MANAGE])]
   end
 
+  after(:all) do
+    clean_data(
+      PrimeroConfiguration, FormSection, Lookup, Agency, Role, UserGroup, Report, ContactInformation, PrimeroModule, SystemSettings
+    )
+  end
+
   describe 'GET /api/v2/configurations' do
     it 'provides a paginated list of configurations' do
       login_for_test(permissions: correct_permissions)
@@ -89,6 +95,10 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
   end
 
   describe 'PATCH /api/v2/configurations/:id' do
+    before do
+      allow_any_instance_of(ApplyConfigurationJob).to receive(:perform)
+    end
+
     it 'launches the apply configuration job if the parameter apply_now is set' do
       params = { data: { apply_now: true } }
       login_for_test(permissions: correct_permissions)

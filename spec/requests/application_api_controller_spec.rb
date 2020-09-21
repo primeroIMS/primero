@@ -8,6 +8,10 @@ describe ApplicationApiController, type: :request do
     SystemSettings.create!
   end
 
+  after(:all) do
+    clean_data(SystemSettings)
+  end
+
   describe 'Configuration update lock' do
     before(:each) { SystemSettings.lock_for_configuration_update }
     let(:json) { JSON.parse(response.body) }
