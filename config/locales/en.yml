@@ -19,6 +19,8 @@ en:
   connected: Connected
   clear: Clear
   description: Description
+  form: Form
+  name: Name
   offline: Offline
   yes_label: 'Yes'
 
@@ -2639,6 +2641,15 @@ en:
     send_mail: Receive email notifications?
     user_group_unique_ids: User Groups
     user_name: Username
+    welcome_email:
+      subject: 'Welcome to %{system}!'
+      greeting: 'Welcome to %{system}!'
+      body_native: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) to receive your user name and password in order to log on to %{host}.'
+      body_sso: 'You have been added as a %{role_name}. You may now log on to %{host} with your %{agency_name} account %{user_name}. Please contact %{admin_full_name} (%{admin_email}) for further details.'
+      body_with_password: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) to receive your user name. Use the password %{otp} to log on to %{host}, and reset when prompted.'
+      url_label: Primero
+      enabled_label: Send Welcome Email?
+      text_label: Welcome Email Text
   user_group:
     description: Description
     disabled:
