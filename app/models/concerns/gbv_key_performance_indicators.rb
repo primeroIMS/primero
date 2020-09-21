@@ -3,7 +3,7 @@ module GBVKeyPerformanceIndicators
 
   included do
     store_accessor :data, :survivor_assessment_form, :safety_plan,
-    :action_plan, :client_feedback
+                   :action_plan, :client_feedback
 
     searchable do
       boolean :completed_survivor_assessment
@@ -25,13 +25,14 @@ module GBVKeyPerformanceIndicators
     end
   end
 
-  # #find_in_form(path : [String], form : Object | {}) : []
-  # 
+  #  #find_in_form(path : [String], form : Object | {}) : []
+  #
   # This method will find all of the non nil values in a array of objects
   # which may have attributes which themselves are arrays of objects. All of the
   # non nil values are returned as a flat array.
   def find_in_form(path, form = self)
     return [] if path.empty?
+
     name_or_id, *rest = *path
 
     field_or_forms = form[name_or_id] || begin
@@ -40,6 +41,7 @@ module GBVKeyPerformanceIndicators
 
     return [] unless field_or_forms
     return field_or_forms if rest.empty?
+
     Array(field_or_forms).flat_map { |result| find_in_form(rest, result) }
   end
 
@@ -66,8 +68,8 @@ module GBVKeyPerformanceIndicators
   end
 
   def completed_survivor_assessment
-    find_in_form(['survivor_assessment_form']).
-      all? do |form|
+    find_in_form(['survivor_assessment_form'])
+      .all? do |form|
         form_is_complete(form, self.class.survivor_assessment_mandatory_fields)
       end
   end
@@ -92,8 +94,8 @@ module GBVKeyPerformanceIndicators
   alias :safety_plan_required :requires_safety_plan?
 
   def completed_safety_plan
-    find_in_form(['safety_plan']).
-      any? do |plan|
+    find_in_form(['safety_plan'])
+      .any? do |plan|
         form_is_complete(plan, self.class.safety_plan_mandatory_fields)
       end
   end
@@ -107,8 +109,8 @@ module GBVKeyPerformanceIndicators
   end
 
   def completed_action_plan
-    find_in_form(['action_plan']).
-      any? do |plan|
+    find_in_form(['action_plan'])
+      .any? do |plan|
         form_is_complete(plan, self.class.action_plan_mandatory_fields)
       end
   end
@@ -128,8 +130,8 @@ module GBVKeyPerformanceIndicators
   end
 
   def number_of_meetings
-    find_in_form(['action_plan', 'gbv_follow_up_subform_section', 'followup_date']).
-      count
+    find_in_form(['action_plan', 'gbv_follow_up_subform_section', 'followup_date'])
+      .count
   end
 
   def percentage_goals_met(goals)
@@ -146,43 +148,43 @@ module GBVKeyPerformanceIndicators
 
   def safety_goals_progress
     percentage_goals_met(find_in_form([
-      'action_plan',
-      'gbv_follow_up_subform_section',
-      'gbv_assessment_progress_safety'
-    ]))
+                                        'action_plan',
+                                        'gbv_follow_up_subform_section',
+                                        'gbv_assessment_progress_safety'
+                                      ]))
   end
 
   def health_goals_progress
     percentage_goals_met(find_in_form([
-      'action_plan',
-      'gbv_follow_up_subform_section',
-      'gbv_assessment_progress_health'
-    ]))
+                                        'action_plan',
+                                        'gbv_follow_up_subform_section',
+                                        'gbv_assessment_progress_health'
+                                      ]))
   end
 
   def psychosocial_goals_progress
     percentage_goals_met(find_in_form([
-      'action_plan',
-      'gbv_follow_up_subform_section',
-      'gbv_assessment_progress_psychosocial'
-    ]))
+                                        'action_plan',
+                                        'gbv_follow_up_subform_section',
+                                        'gbv_assessment_progress_psychosocial'
+                                      ]))
   end
-  
+
   def justice_goals_progress
     percentage_goals_met(find_in_form([
-      'action_plan',
-      'gbv_follow_up_subform_section',
-      'gbv_assessment_progress_justice'
-    ]))
+                                        'action_plan',
+                                        'gbv_follow_up_subform_section',
+                                        'gbv_assessment_progress_justice'
+                                      ]))
   end
 
   def other_goals_progress
     percentage_goals_met(find_in_form([
-      'action_plan',
-      'gbv_follow_up_subform_section',
-      # This naming is not the same as the other goals which is jarring.
-      'gbv_assessment_other_goals'
-    ]))
+                                        'action_plan',
+                                        'gbv_follow_up_subform_section',
+                                        #  This naming is not the same as the other goals which is jarring.
+                                        'gbv_assessment_other_goals'
+                                      ]))
   end
 
   def self.client_satisfaction_fields
@@ -215,28 +217,27 @@ module GBVKeyPerformanceIndicators
 
     # calculate satisifaction per form as otherwise we'd be weighting
     # forms with more ansers more heavily that those with fewer answers.
-    is_satisfied = feedback_forms.
-      map do |f|
-        default = { 'yes' => 0, 'no' => 0, 'n_a' => 0 }
+    is_satisfied = feedback_forms
+                   .map do |f|
+      default = { 'yes' => 0, 'no' => 0, 'n_a' => 0 }
 
-        tally = fields_in_form(f, self.class.client_satisfaction_fields).
-          compact.
-          group_by(&:itself).
-          transform_values(&:count)
+      tally = fields_in_form(f, self.class.client_satisfaction_fields)
+              .compact
+              .group_by(&:itself)
+              .transform_values(&:count)
 
-        next nil if tally.empty?
+      next nil if tally.empty?
 
-        answers = default.merge(tally)
+      answers = default.merge(tally)
 
-        next nil unless answers['yes'] > 0 || answers['no'] > 0
+      next nil unless answers['yes'] > 0 || answers['no'] > 0
 
-        answers['yes'] >= answers['no']
-      end.
-      compact
+      answers['yes'] >= answers['no']
+    end.compact
 
     return nil if is_satisfied.empty?
 
-    satisfied = is_satisfied.select(&:itself).count 
+    satisfied = is_satisfied.select(&:itself).count
     unsatisfied = is_satisfied.reject(&:itself).count
 
     if satisfied >= unsatisfied
