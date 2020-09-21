@@ -15,7 +15,8 @@ import { ROUTES } from "../../../config";
 import bindFormSubmit from "../../../libs/submit-form";
 import { form } from "../admin/users-form/form";
 import LoadingIndicator from "../../loading-indicator";
-// import validations from "../admin/users-form/validations";
+import { getIdentityProviders } from "../admin/users-form/selectors";
+import validations from "../admin/users-form/validations";
 
 import { NAME } from "./constants";
 import NAMESPACE from "./namespace";
@@ -33,11 +34,18 @@ const Container = ({ mode }) => {
   const currentUser = useSelector(state => getCurrentUser(state));
   const saving = useSelector(state => getSavingRecord(state));
   const formErrors = fromJS({});
-  const useIdentityProviders = null;
-  const providers = null;
-  const identityOptions = null;
-  // const validationSchema = validations(formMode, i18n, useIdentityProviders, providers, true);
+  const idp = useSelector(state => getIdentityProviders(state));
 
+  const useIdentityProviders = idp?.get("use_identity_provider");
+  const providers = idp?.get("identity_providers");
+
+  const identityOptions = providers
+    ? providers.toJS().map(provider => {
+        return { id: provider.id, display_text: provider.name };
+      })
+    : [];
+
+  const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
   const handleSubmit = data => dispatch(updateUserAccount({ id, data, message: i18n.t("user.messages.updated") }));
 
   const handleEdit = () => {
@@ -67,7 +75,6 @@ const Container = ({ mode }) => {
   const pageHeading = currentUser?.size ? currentUser.get("full_name") : i18n.t("navigation.my_account");
 
   useEffect(() => {
-    console.log("FETCH USER");
     dispatch(fetchCurrentUser(id));
 
     return () => {
@@ -76,7 +83,7 @@ const Container = ({ mode }) => {
   }, [id]);
 
   return (
-    <LoadingIndicator hasData type={NAMESPACE}>
+    <LoadingIndicator hasData={currentUser.size > 0} loading={!currentUser.size} type={NAMESPACE}>
       <PageContainer>
         <PageHeading title={pageHeading}>
           {editButton}
@@ -84,12 +91,11 @@ const Container = ({ mode }) => {
         </PageHeading>
         <PageContent>
           <Form
-            useCancelPrompt
             mode={mode}
             formSections={form(i18n, formMode, useIdentityProviders, providers, identityOptions, true)}
             onSubmit={handleSubmit}
             ref={formRef}
-            // validations={validationSchema} // TODO: Edit to take into account if account page
+            validations={validationSchema}
             initialValues={currentUser.toJS()}
             formErrors={formErrors}
           />

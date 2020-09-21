@@ -34,8 +34,8 @@ export const updateUserAccount = ({ id, data, message }) => ({
           key: generate.messageKey(message)
         }
       },
-      redirectWithIdFromResponse: true,
-      redirect: `${RECORD_PATH.account}/${id}`
+      redirectWithIdFromResponse: false,
+      redirect: `/${RECORD_PATH.account}/${id}`
     }
   }
 });

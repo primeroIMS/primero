@@ -15,13 +15,13 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.FETCH_CURRENT_USER_FINISHED:
       return state.set("loading", fromJS(payload));
     case actions.FETCH_CURRENT_USER_FAILURE:
-    case actions.SAVE_USER_FAILURE:
-      return state.set("errors", true).set("serverErrors", fromJS(payload.errors));
+    case actions.UPDATE_CURRENT_USER_FAILURE:
+      return state.set("errors", true).set(SAVING, false).set("serverErrors", fromJS(payload.errors));
     case actions.CLEAR_CURRENT_USER:
       return state.set("user", fromJS({})).set("errors", false).set("serverErrors", fromJS([]));
-    case actions.SAVE_USER_STARTED:
+    case actions.UPDATE_CURRENT_USER_STARTED:
       return state.set(SAVING, true);
-    case actions.SAVE_USER_SUCCESS:
+    case actions.UPDATE_CURRENT_USER_SUCCESS:
       return state.set(SAVING, false);
     default:
       return state;
