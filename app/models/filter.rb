@@ -258,7 +258,7 @@ class Filter < ValueObject
       if user.module?(PrimeroModule::GBV) && visible?('gbv_displacement_status', filter_fields)
         filters << GBV_DISPLACEMENT_STATUS
       end
-      filters << PROTECTION_STATUS if visible?('protection_status', filter_fields)
+      filters << PROTECTION_STATUS if visible?('protection_status', filter_fields) && user.module?(PrimeroModule::CP)
       if user.module?(PrimeroModule::CP) && visible?('urgent_protection_concern', filter_fields)
         filters << URGENT_PROTECTION_CONCERN
       end
@@ -267,8 +267,10 @@ class Filter < ValueObject
       filters << CURRENT_LOCATION if user.module?(PrimeroModule::CP)
       filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
       filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
-      filters << REPORTING_LOCATION.call(labels: reporting_location_labels, field: reporting_location_field,
-                                         admin_level: reporting_location_admin_level)
+      if user.module?(PrimeroModule::CP)
+        filters << REPORTING_LOCATION.call(labels: reporting_location_labels, field: reporting_location_field,
+                                           admin_level: reporting_location_admin_level)
+      end
       filters << NO_ACTIVITY
       filters << DATE_CASE if user.module?(PrimeroModule::CP)
       filters << ENABLED

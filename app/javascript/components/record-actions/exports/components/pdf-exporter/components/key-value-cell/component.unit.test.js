@@ -34,8 +34,8 @@ describe("components/record-actions/exports/components/pdf-exporter/components/k
 
     const { component } = setupMountedComponent(KeyValueCell, props, state);
 
-    expect(component.find("td").at(0).text()).to.equal("Form 1");
-    expect(component.find("td").at(1).text()).to.equal("Option 1");
+    expect(component.find("div div").at(0).text()).to.equal("Form 1");
+    expect(component.find("div div").at(1).text()).to.equal("Option 1");
   });
 
   it("renders key/value with array value", () => {
@@ -47,7 +47,7 @@ describe("components/record-actions/exports/components/pdf-exporter/components/k
 
     const { component } = setupMountedComponent(KeyValueCell, props, state);
 
-    expect(component.find("td").at(0).text()).to.equal("Form 1");
-    expect(component.find("td").at(1).text()).to.equal("Option 1, Option 3");
+    expect(component.find("div div").at(0).text()).to.equal("Form 1");
+    expect(component.find("div div").at(1).text()).to.equal("Option 1, Option 3");
   });
 });

@@ -7,13 +7,13 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { makeStyles } from "@material-ui/core";
 import isEqual from "lodash/isEqual";
 
-import { compare } from "../../../../../../libs";
+import { compare, getObjectPath } from "../../../../../../libs";
 import { useI18n } from "../../../../../i18n";
 import { getListStyle } from "../../../forms-list/utils";
 import FieldListItem from "../field-list-item";
 import { reorderFields } from "../../action-creators";
-import { getSelectedFields } from "../../selectors";
-import { getFieldsAttribute } from "../utils";
+import { getCopiedFields, getRemovedFields, getSelectedFields } from "../../selectors";
+import { getFieldsAttribute, setFieldDataInFormContext } from "../utils";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -25,11 +25,14 @@ const Component = ({
   setValue,
   subformField,
   subformSortBy,
-  subformGroupBy
+  subformGroupBy,
+  unregister
 }) => {
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
   const fields = useSelector(state => getSelectedFields(state, isNested), compare);
+  const copiedFields = useSelector(state => getCopiedFields(state), compare);
+  const removedFields = useSelector(state => getRemovedFields(state), compare);
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const fieldsAttribute = getFieldsAttribute(isNested);
@@ -51,7 +54,35 @@ const Component = ({
         setValue(`${fieldsAttribute}.${name}.display_name.${localeId}`, localizedDisplayName);
       });
     });
+
+    if (!fields?.toSeq()?.size) {
+      register({ name: fieldsAttribute });
+      setValue(fieldsAttribute, []);
+    }
   }, [fields]);
+
+  useEffect(() => {
+    copiedFields.forEach(field => {
+      setFieldDataInFormContext({
+        name: field.get("name"),
+        data: field.toJS(),
+        fieldsPath: fieldsAttribute,
+        contextFields: formContextFields,
+        register,
+        setValue
+      });
+    });
+  }, [copiedFields]);
+
+  useEffect(() => {
+    removedFields.forEach(field => {
+      const fieldName = field.get("name");
+
+      getObjectPath("", field.toJS()).forEach(path => {
+        unregister(`${fieldsAttribute}.${fieldName}.${path}`);
+      });
+    });
+  }, [removedFields]);
 
   const handleDragEnd = result => {
     dispatch(reorderFields(result.draggableId, result.destination.index, isNested));
@@ -115,7 +146,8 @@ Component.propTypes = {
   setValue: PropTypes.func.isRequired,
   subformField: PropTypes.object,
   subformGroupBy: PropTypes.string,
-  subformSortBy: PropTypes.string
+  subformSortBy: PropTypes.string,
+  unregister: PropTypes.func.isRequired
 };
 
 export default React.memo(Component, (prev, next) => {
@@ -125,7 +157,8 @@ export default React.memo(Component, (prev, next) => {
     prev.register === next.register &&
     prev.setValue === next.setValue &&
     prev.subformSortBy === next.subformSortBy &&
-    prev.subformGroupBy === next.subformGroupBy;
+    prev.subformGroupBy === next.subformGroupBy &&
+    prev.unregister === next.unregister;
 
   if (prev.subformField) {
     return equalProps && prev.subformField.equals(next.subformField);

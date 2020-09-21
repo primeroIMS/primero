@@ -274,6 +274,17 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(result).to.deep.equal(expected);
     });
+
+    it("should return the options even if stored value it's a boolean", () => {
+      const optionStringsText = [
+        { id: "true", display_text: { en: "Yes" }, isDisabled: false },
+        { id: "false", display_text: { en: "No" }, isDisabled: false }
+      ];
+      const expected = optionStringsText.map(option => ({ ...option, display_text: option.display_text.en }));
+      const result = selectors.getOption(stateWithRecords, optionStringsText, "en", true);
+
+      expect(result).to.deep.equal(expected);
+    });
   });
 
   describe("getRecordForms", () => {

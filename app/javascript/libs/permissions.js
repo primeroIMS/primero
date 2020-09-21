@@ -68,6 +68,7 @@ export const ACTIONS = {
   REQUEST_APPROVAL_CLOSURE: "request_approval_closure",
   REQUEST_APPROVAL_ACTION_PLAN: "request_approval_action_plan",
   REQUEST_APPROVAL_GBV_CLOSURE: "request_approval_gbv_closure",
+  REQUEST_TRANSFER: "request_transfer",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",

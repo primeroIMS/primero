@@ -844,6 +844,7 @@ en:
     add_existing_field: Add Existing Field
     add_field: Add Field
     add_field_type: Add %{file_type}
+    add_new_field: Create new Field
     audio:
       current: Current Audio
     bia_document: BIA Document
@@ -851,6 +852,7 @@ en:
     check_box: Check Boxes
     clear_group_by: Clear Group By
     clear_sort_by: Clear Sort By
+    copy_from_another_form: This field was copied from another form
     create_field: Create Field
     create_unique_values: Create unique values
     date_field: Date Field
@@ -932,6 +934,7 @@ en:
     remove: Remove
     required: Required
     required_field: '%{field} is required'
+    search_existing: Search existing fields
     select_box: Select Drop Down
     select_date_validation: Select date validation method
     select_multiple: Select all that apply
@@ -1008,6 +1011,7 @@ en:
     manage: Manage
     messages:
       created: Form section successfully created
+      fields_with_same_name: Forms can't have fields with the same name
       save_success: Form sections successfully updated
       save_with_errors: There was a problem and some form sections were not updated.
       updated: Form section successfully updated

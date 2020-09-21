@@ -15,6 +15,7 @@ import { MODULES, RECORD_TYPES } from "../../../../config/constants";
 import { usePermissions } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { FormAction } from "../../../form";
+import { displayNameHelper } from "../../../../libs";
 
 import NAMESPACE from "./namespace";
 import { FormGroup, FormSection, FormFilters, ReorderActions } from "./components";
@@ -86,7 +87,7 @@ const Component = () => {
 
       return (
         <FormGroup
-          name={i18n.getI18nStringFromObject(formGroupName)}
+          name={displayNameHelper(formGroupName, i18n.locale)}
           index={index}
           key={formGroupID}
           id={formGroupID}

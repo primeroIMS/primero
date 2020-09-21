@@ -14,7 +14,7 @@ import {
   DOCUMENT_FIELD
 } from "../constants";
 import Tooltip from "../../tooltip";
-import { ConditionalWrapper } from "../../../libs";
+import { ConditionalWrapper, displayNameHelper } from "../../../libs";
 
 import { GuidingQuestions } from "./components";
 import { FORM_SECTION_FIELD_NAME } from "./constants";
@@ -67,7 +67,7 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
         root: css.inputLabel
       }
     },
-    label: displayName[i18n.locale],
+    label: displayNameHelper(displayName, i18n.locale),
     tickBoxlabel: tickBoxlabel?.[i18n.locale],
     helperText: helpText ? helpText[i18n.locale] : "",
     disabled: mode.isShow || disabled,
