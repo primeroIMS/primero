@@ -5,7 +5,7 @@ class Importers::YmlConfigImporter < ValueObject
   attr_accessor :file_name, :class_to_import, :locale
 
   def initialize(opts = {})
-    opts[:class_to_import] = opts[:file_name].downcase.include?('lookup') ? 'lookup' : 'form_section'
+    opts[:class_to_import] = opts[:file_name].downcase.include?('lookup') ? 'Lookup' : 'FormSection'
     super(opts)
   end
 
@@ -32,7 +32,7 @@ class Importers::YmlConfigImporter < ValueObject
 
     config_data.values.each do |config|
       config = strip_hash_values!(config)
-      send("import_#{class_to_import}", locale, config) if %w[form_section lookup].include?(class_to_import)
+      send("import_#{class_to_import.underscore}", locale, config) if %w[FormSection Lookup].include?(class_to_import)
     end
   end
 

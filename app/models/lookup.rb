@@ -11,10 +11,8 @@ class Lookup < ApplicationRecord
 
   validate :validate_name_in_english
   validate :validate_options_have_default_locale
-  validate :validate_values_keys_match
   validate :validate_values_id
 
-  before_validation :sync_lookup_values
   before_create :generate_unique_id
   before_destroy :check_is_being_used
 
@@ -118,22 +116,6 @@ class Lookup < ApplicationRecord
     lookup_values_i18n.any? { |value| value.dig('id') == option_id }
   end
 
-  # TODO: Review this method due the values structure changed.
-  def validate_values_keys_match
-    default_ids = lookup_values_en&.map { |lv| lv['id'] }
-    return true if default_ids.blank?
-
-    I18n.available_locales.each do |locale|
-      next if locale == Primero::Application::LOCALE_ENGLISH || send("lookup_values_#{locale}").blank?
-
-      locale_ids = send("lookup_values_#{locale}")&.map { |lv| lv['id'] }
-      if (default_ids - locale_ids).present? || (locale_ids - default_ids).present?
-        return errors.add(:lookup_values, I18n.t('errors.models.field.translated_options_do_not_match'))
-      end
-    end
-    true
-  end
-
   def validate_options_have_default_locale
     return if lookup_values_i18n.blank? || lookup_values_en.all? { |h| h['display_text'].present? }
 
@@ -192,20 +174,6 @@ class Lookup < ApplicationRecord
 
     errors.add(:name, I18n.t('errors.models.lookup.name_present'))
     false
-  end
-
-  # TODO: Pavel review. Review if this is a validation
-  def sync_lookup_values
-    # Do not create any new lookup values that do not have a matching lookup value in the default language
-    default_ids = lookup_values_en&.map { |lv| lv['id'] }
-
-    return unless default_ids.present?
-
-    I18n.available_locales.each do |locale|
-      next if locale == Primero::Application::LOCALE_ENGLISH
-
-      send("lookup_values_#{locale}")&.reject! { |lv| default_ids.exclude?(lv['id']) }
-    end
   end
 
   def update_lookup_values_translations(lookup_values_hash, locale)
