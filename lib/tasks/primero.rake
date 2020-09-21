@@ -62,17 +62,16 @@ namespace :primero do
   end
 
   # Imports Form And Lookup translation config files
-  # USAGE: rails primero:import_transition_config[file_name,class_to_import]
+  # USAGE: rails primero:import_transition_config[file_name]
+  #        If the file_name contains 'lookup', it will import lookups, else it will import form sections
   # Args:
   #   file_name             - The translated file to be imported
-  #   class_to_import       - 'form_section' or 'lookup'
-  # NOTE:
-  #   No spaces between arguments in argument list
+  #
   # Examples:
-  #   rails primero:import_translation_config[action_plan_form.yml,form_section]
-  #   rails primero:import_translation_config[lookups.yml,lookup]
+  #   rails primero:import_translation_config[action_plan_form.yml]
+  #   rails primero:import_translation_config[lookups.yml]
   desc 'Import the form_section or lookup translations yaml'
-  task :import_translation_config, %i[file_name class_to_import] => :environment do |_, args|
+  task :import_translation_config, %i[file_name] => :environment do |_, args|
     file_name = args[:file_name]
     if file_name.blank?
       puts 'ERROR: No input file provided'
@@ -80,7 +79,6 @@ namespace :primero do
     end
 
     puts "Importing translations from #{file_name}"
-    args.with_defaults(class_to_import: 'form_section')
     opts = args.to_h
     importer = Importers::YmlConfigImporter.new(opts)
     importer.import
