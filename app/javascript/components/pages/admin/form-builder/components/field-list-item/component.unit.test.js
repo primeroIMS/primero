@@ -69,6 +69,7 @@ describe("<FieldListItem />", () => {
                   field={fromJS({
                     name: "field_1",
                     editable: false,
+                    display_name: { en: "Field 1" },
                     multi_select: true,
                     type: SELECT_FIELD
                   })}

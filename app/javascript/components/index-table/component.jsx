@@ -10,7 +10,7 @@ import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
 import { ThemeProvider } from "@material-ui/core/styles";
 
-import { compare, dataToJS, ConditionalWrapper } from "../../libs";
+import { compare, dataToJS, ConditionalWrapper, displayNameHelper } from "../../libs";
 import LoadingIndicator from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
@@ -123,14 +123,14 @@ const Component = ({
   if (localizedFields && records) {
     translatedRecords = records.map(current => {
       const translatedFields = localizedFields.reduce((acc, field) => {
-        const translatedValue = current.getIn([field, i18n.locale], fromJS({}));
+        const translatedValue = displayNameHelper(dataToJS(current.get(field)), i18n.locale);
 
         return acc.merge({
           [field]:
             field === "values"
               ? current
                   .get(field)
-                  .map(value => value.getIn(["display_text", i18n.locale], ""))
+                  .map(value => displayNameHelper(dataToJS(value.get("display_text")), i18n.locale) || "")
                   .join(", ")
               : translatedValue
         });

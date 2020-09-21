@@ -16,7 +16,7 @@ import { submitHandler, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
-import { compare, getObjectPath } from "../../../../../../libs";
+import { compare, getObjectPath, displayNameHelper } from "../../../../../../libs";
 import {
   getSelectedField,
   getSelectedFields,
@@ -116,7 +116,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   };
 
   const editDialogTitle = isSubformField(selectedField)
-    ? selectedSubform.getIn(["name", i18n.locale])
+    ? (selectedSubform.get("name") && displayNameHelper(selectedSubform.get("name"), i18n.locale)) || ""
     : i18n.t("fields.edit_label");
 
   const dialogTitle = formMode.get("isEdit")

@@ -15,7 +15,7 @@ import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
 import { submitHandler, whichFormMode } from "../../../form";
 import { ROUTES, SAVE_METHODS, MODES } from "../../../../config";
-import { compare, dataToJS } from "../../../../libs";
+import { compare, dataToJS, displayNameHelper } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
@@ -106,7 +106,8 @@ const Component = ({ mode }) => {
 
   const pageTitle = formMode.get("isNew")
     ? i18n.t("forms.add")
-    : selectedForm.getIn(["name", i18n.locale], i18n.t("forms.label"));
+    : (selectedForm.get("name") && displayNameHelper(dataToJS(selectedForm.get("name")), i18n.locale)) ||
+      i18n.t("forms.label");
 
   const hasData = formMode.get("isNew") || Boolean(formMode.get("isEdit") && selectedForm?.toSeq()?.size);
 
