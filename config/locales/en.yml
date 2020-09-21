@@ -19,6 +19,8 @@ en:
   connected: Connected
   clear: Clear
   description: Description
+  form: Form
+  name: Name
   offline: Offline
   yes_label: 'Yes'
 
