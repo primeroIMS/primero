@@ -174,8 +174,7 @@ class Filter < ValueObject
     field_name: 'perpetrator_sub_categories',
     option_strings_source: 'lookup-armed-force-group-type'
   )
-  # TODO: This constant is throwing a warning.
-  STATUS = Filter.new(
+  TRACING_REQUEST_STATUS = Filter.new(
     name: 'tracing_requests.filter_by.status',
     field_name: 'status',
     option_strings_source: 'lookup-inquiry-status'
@@ -304,7 +303,7 @@ class Filter < ValueObject
       filters << FLAGGED_CASE
       filters << SOCIAL_WORKER if user.manager?
       filters << INQUIRY_DATE
-      filters << STATUS
+      filters << TRACING_REQUEST_STATUS
       filters << SEPARATION_LOCATION
       filters << SEPARATION_CAUSE
       filters << ENABLED

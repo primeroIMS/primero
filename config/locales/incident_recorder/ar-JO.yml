@@ -1,31 +1,31 @@
-ar-LB:
+ar-JO:
   permissions:
     permission:
-      export_incident_recorder_xls: "تصدير مسجّل الواقعة وتحويله إلى صيغة xls"
+      export_incident_recorder_xls: ""
   exports:
     incident_recorder_xls:
-      all:  مسجّل الحادث والواقعة
-      one:  مسجّل الحادث والواقعة
-      selected:  خيار لمسجّل الحادث والواقعة
+      all:  ""
+      one:  ""
+      selected:  ""
       "yes": "نعم"
       "no": "لا"
       gender:
-        male: "ذكر"
-        female: "أنثى"
-        both: "ذكر وأنثى"
+        male: ""
+        female: ""
+        both: ""
       age_group:
         age: "العمر"
-        61_older: "61 سنة وما فوق"
+        61_older: ""
         unknown: "غير معروف"
-        header: "الفئة العمريّة التي ينتمي إليها المرتكب المزعوم"
+        header: ""
       age_type:
         adult: "بالغ"
-        minor: "قاصر"
-        both: "بالغ وقاصر"
+        minor: ""
+        both: ""
         unknown: "غير معروف"
-        header: "نوع الفئة العمريّة التي ينتمي إليها المرتكب المزعوم"
+        header: ""
       service_referral:
-        undecided: "غير مفصول فيه وقت وضع التقرير"
+        undecided: "لم يتم اتخاذ قرار وقت الإبلاغ"
       headers:
         incident_id: ""
         survivor_code: ""
@@ -60,8 +60,8 @@ ar-LB:
           former: ""
           relationship: ""
           occupation: ""
-          age_group: "الفئة العمريّة التي ينتمي إليها المرتكب المزعوم"
-          age_type: "نوع الفئة العمريّة التي ينتمي إليها المرتكب المزعوم"
+          age_group: ""
+          age_type: ""
         service:
           referred_from: ""
           safehouse_referral: ""
