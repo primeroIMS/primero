@@ -2295,6 +2295,7 @@ en:
       created: "Form section successfully created"
       save_with_errors: "There was a problem and some form sections were not updated."
       save_success: "Form sections successfully updated"
+      fields_with_same_name: "Forms can't have fields with the same name"
     initial_language: "Initial Language"
     cannot_be_edited: "Fields on this form cannot be edited."
     record_types:
@@ -2528,6 +2529,7 @@ en:
     default_value: "Default Value"
     add_field: "Add Field"
     create_field: "Create Field"
+    add_new_field: "Create new Field"
     add_custom_field: "Create Custom Field"
     add_existing_field: "Add Existing Field"
     add_field_type: "Add %{file_type}"
@@ -2548,6 +2550,8 @@ en:
       subform_prevent_item_removal: "Prevent subform entry removal?"
       starts_with_one_entry: "Start with one subform entry?"
     detail: "Detail"
+    search_existing: "Search existing fields"
+    copy_from_another_form: "This field was copied from another form"
 
   replication:
     label: Replication

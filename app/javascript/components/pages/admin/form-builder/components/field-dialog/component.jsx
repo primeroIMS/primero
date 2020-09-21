@@ -58,7 +58,7 @@ import {
 } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 
-const Component = ({ mode, onClose, onSuccess }) => {
+const Component = ({ formId, mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(mode);
   const fieldNames = useSelector(state => getFieldNames(state), compare);
@@ -244,6 +244,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const memoizedSetValue = useCallback((path, value) => formMethods.setValue(path, value), []);
   const memoizedRegister = useCallback(prop => formMethods.register(prop), []);
   const memoizedGetValues = useCallback(prop => formMethods.getValues(prop), []);
+  const memoizedUnregister = useCallback(prop => formMethods.unregister(prop), []);
 
   const renderClearButtons = () =>
     isSubformField(selectedField) && (
@@ -278,6 +279,15 @@ const Component = ({ mode, onClose, onSuccess }) => {
         onSuccess={onUpdateTranslation}
       />
     ) : null;
+
+  const renderAnotherFormLabel = () => {
+    const currentFormId = isNested ? selectedSubform.get("id") : parseInt(formId, 10);
+    const fieldFormId = selectedField.get("form_section_id");
+
+    return fieldFormId && fieldFormId !== currentFormId ? (
+      <p className={css.anotherFormLabel}>{i18n.t("fields.copy_from_another_form")}</p>
+    ) : null;
+  };
 
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
@@ -348,6 +358,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
       <ActionDialog {...modalProps}>
         <FormContext {...formMethods} formMode={formMode}>
           <form className={css.fieldDialog}>
+            {renderAnotherFormLabel()}
             {renderForms()}
             {isSubformField(selectedField) && (
               <SubformFieldsList
@@ -355,6 +366,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
                 getValues={memoizedGetValues}
                 register={memoizedRegister}
                 setValue={memoizedSetValue}
+                unregister={memoizedUnregister}
                 subformField={selectedField}
                 subformSortBy={subformSortBy}
                 subformGroupBy={subformGroupBy}
@@ -374,6 +386,7 @@ Component.displayName = NAME;
 Component.whyDidYouRender = true;
 
 Component.propTypes = {
+  formId: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func
