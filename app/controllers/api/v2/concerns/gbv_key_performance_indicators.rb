@@ -18,24 +18,13 @@ module Api::V2::Concerns
     # Searches houses the public interface for running the queries for
     # calulcating the KPIs
     module Searches
-      Search = Struct.new(:from, :to) do
-        class <<self
-          def search_model(model = nil)
-            @search_model ||= model
-          end
-        end
-
-        def search_model
-          self.class.search_model
-        end
-      end
 
       # PivotedRangeSearch
       #
       # Extract the logic for a common form of search involving a range,
       # usually of dates and a pivoted field for counting occurances within
       # those dates.
-      class PivotedRangeSearch < Search
+      class PivotedRangeSearch < KPI::Search
         class <<self
           def range_field(field = nil)
             @range_field ||= field
@@ -121,7 +110,7 @@ module Api::V2::Concerns
       #
       # Extracts the logic for a common form of search in which data is
       # aggregated into buckets over a range of data.
-      class BucketedSearch < Search
+      class BucketedSearch < KPI::Search
         class <<self
           def restricted_field(field = nil)
             @restricted_field ||= field
@@ -239,7 +228,7 @@ module Api::V2::Concerns
       # For cases created within a given range of months, looks at how many
       # cases have their action plan completed. Completion is defined in
       # app/models/concerns/gbv_key_performance_indicators.rb.
-      class CompletedSupervisorApprovedCaseActionPlans < Search
+      class CompletedSupervisorApprovedCaseActionPlans < KPI::Search
         def completed_action_plan
           @completed_action_plan ||= SolrUtils.indexed_field_name(Child, :completed_action_plan)
         end
@@ -270,7 +259,7 @@ module Api::V2::Concerns
       # survivor. How a need / goal is defined and how to calculate it's
       # complection is defined in:
       # app/models/concerns/gbv_key_performance_indicators.rb
-      class GoalProgressPerNeed < Search
+      class GoalProgressPerNeed < KPI::Search
         def search
           @search ||= Child.search do
             with :status, Record::STATUS_OPEN
@@ -356,7 +345,7 @@ module Api::V2::Concerns
       #
       # For cases created in a given range of months, looks at how many cases
       # each 'owner' (a User) has. This is aggregated into 4 bins for analysis.
-      class CaseLoad < Search
+      class CaseLoad < KPI::Search
         def search
           @search ||= Child.search do
             with :created_at, from..to
