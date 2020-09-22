@@ -29,5 +29,9 @@ module KPI
         }
       end
     end
+
+    def to_json
+      { data: data }
+    end
   end
 end

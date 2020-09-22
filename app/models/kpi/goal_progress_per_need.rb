@@ -30,6 +30,10 @@ module KPI
       ]
     end
 
+    def to_json
+      { data: data }
+    end
+
     private
 
     def create_goal_progress(label, stat_key)

@@ -12,5 +12,16 @@ module KPI
         facet :satisfaction_status, only: 'satisfied'
       end
     end
+
+    def to_json
+      {
+        data: {
+          satisfaction_rate: nan_safe_divide(
+            search.facet(:satisfaction_status).rows.first&.count || 0,
+            search.total
+          )
+        }
+      }
+    end
   end
 end

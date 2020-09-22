@@ -10,11 +10,22 @@ module KPI
     ].freeze
 
     def ratio
-      supervisors = User.joins(:role)
-        .where(roles: { unique_id: SUPERVISOR_ROLES }).count
-      case_workers = User.joins(:role)
-        .where(roles: { unique_id: CASE_WORKER_ROLES }).count
-      (supervisors / case_workers).rationalize
+      @ratio ||= begin
+         supervisors = User.joins(:role)
+           .where(roles: { unique_id: SUPERVISOR_ROLES }).count
+         case_workers = User.joins(:role)
+           .where(roles: { unique_id: CASE_WORKER_ROLES }).count
+         (supervisors / case_workers).rationalize
+       end
+    end
+
+    def to_json
+      {
+        data: {
+          supervisors: ratio.numerator,
+          case_workers: ratio.denominator
+        }
+      }
     end
   end
 end

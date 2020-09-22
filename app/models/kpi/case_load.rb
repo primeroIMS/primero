@@ -21,6 +21,10 @@ module KPI
       ]
     end
 
+    def to_json
+      { data: data }
+    end
+
     private
 
     def owners

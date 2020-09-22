@@ -7,5 +7,9 @@ module KPI
     search_model Incident
     range_field :created_at
     pivot_field :owned_by_location
+
+    def to_json
+      { dates: columns, data: data }
+    end
   end
 end

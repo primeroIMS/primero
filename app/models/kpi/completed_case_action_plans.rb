@@ -8,5 +8,16 @@ module KPI
         facet :completed_action_plan, only: true
       end
     end
+
+    def to_json
+      {
+        data: {
+          completed: nan_safe_divide(
+            search.facet(:completed_action_plan).rows.first&.count || 0,
+            search.total
+          )
+        }
+      }
+    end
   end
 end

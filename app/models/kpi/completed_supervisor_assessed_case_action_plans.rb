@@ -26,5 +26,16 @@ module KPI
         end
       end
     end
+
+    def to_json
+      {
+        data: {
+          completed_and_approved: nan_safe_divide(
+              search.facet_response['facet_queries']['completed_and_approved'],
+              search.total
+            )
+        }
+      }
+    end
   end
 end

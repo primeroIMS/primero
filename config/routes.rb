@@ -94,28 +94,7 @@ Rails.application.routes.draw do
       resources :primero_modules, only: %i[index show update]
       resources :audit_logs, only: [:index]
       resources :primero_configurations, as: :configurations, path: :configurations
-      resources :key_performance_indicators do
-        collection do
-          get :number_of_cases
-          get :number_of_incidents
-          get :reporting_delay
-          get :service_access_delay
-          get :assessment_status
-          get :completed_case_safety_plans
-          get :completed_case_action_plans
-          get :completed_supervisor_approved_case_action_plans
-          get :services_provided
-          get :average_referrals
-          get :referrals_per_service
-          get :average_followup_meetings_per_case
-          get :goal_progress_per_need
-          get :time_from_case_open_to_close
-          get :case_closure_rate
-          get :client_satisfaction_rate
-          get :supervisor_to_caseworker_ratio
-          get :case_load
-        end
-      end
+      resources :key_performance_indicators, path: :kpis, only: [:show]
     end
   end
 end
