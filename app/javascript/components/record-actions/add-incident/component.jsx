@@ -16,7 +16,7 @@ import { fetchRecordsAlerts } from "../../records/action-creators";
 import { fetchAlerts } from "../../nav/action-creators";
 import { INCIDENT_DIALOG } from "../constants";
 
-import { NAME, INCIDENT_SUBFORM } from "./constants";
+import { NAME, INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./constants";
 import Fields from "./fields";
 
 const Component = ({ openIncidentDialog, close, pending, recordType, selectedRowsIndex, setPending }) => {
@@ -47,7 +47,9 @@ const Component = ({ openIncidentDialog, close, pending, recordType, selectedRow
     return [];
   }
 
-  const { subform_section_id: subformSectionID, name: subformName } = form.first().fields[0];
+  const { subform_section_id: subformSectionID, name: subformName } = form
+    .first()
+    .fields.find(field => field.name === INCIDENTS_SUBFORM_NAME);
   const initialFormValues = constructInitialValues([subformSectionID]);
 
   const modalProps = {

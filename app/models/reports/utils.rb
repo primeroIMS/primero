@@ -6,7 +6,7 @@
       result = values
       if group_pivot_index.present?
         result = {}
-        group_buckets = values.group_by do |pivot, _|
+        group_buckets = values&.group_by do |pivot, _|
           group_value = yield(pivot[group_pivot_index])
           group_value ||= ''
           if group_pivot_index > 0

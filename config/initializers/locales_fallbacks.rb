@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # For defined Primero locales, regional locales such as :"ar-LB" fall back to the
 # simplified language locale (:ar). All locales fall back to :en.
 #
@@ -9,12 +11,10 @@ I18n.fallbacks.clear
 
 Primero::Application::LOCALES.each do |locale|
   chain = []
-  region = locale.split('-')
-  if region.size > 1
-    chain << region[0].to_sym
-  end
-  unless locale == 'en'
+  region = locale.to_s.split('-')
+  chain << region[0].to_sym if region.size > 1
+  unless locale == :en
     chain << :en
-    I18n.fallbacks.map(locale.to_sym => chain)
+    I18n.fallbacks.map(locale => chain)
   end
 end

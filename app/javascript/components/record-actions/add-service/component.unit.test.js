@@ -69,7 +69,7 @@ describe("<AddService />", () => {
       }),
       fields: OrderedMap({
         1: FieldRecord({
-          name: "incident_details",
+          name: "services_section",
           type: "subform",
           editable: true,
           disabled: false,
