@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { endOfDay, parseISO, startOfDay } from "date-fns";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { Select, MenuItem } from "@material-ui/core";
@@ -8,6 +9,7 @@ import { useLocation } from "react-router-dom";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
 
+import { formatDateAsServer } from "../../../../../libs";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
 import Panel from "../../panel";
@@ -42,7 +44,15 @@ const Component = ({
   const queryParamsKeys = Object.keys(queryParams);
 
   const handleDatePicker = (field, date) => {
-    const value = { ...inputValue, [field]: date };
+    let formattedDate = date;
+
+    if (date) {
+      const dateValue = field === "to" ? endOfDay(date) : startOfDay(date);
+
+      formattedDate = formatDateAsServer(dateValue, { includeTime: true, normalize: false });
+    }
+
+    const value = { ...inputValue, [field]: formattedDate };
 
     setInputValue(value);
     setValue(selectedField, value);
@@ -97,6 +107,14 @@ const Component = ({
   const setSecondaryValues = (name, values) => {
     setValue(name, values);
     setInputValue(values);
+  };
+
+  const getDateValue = value => {
+    if (isEmpty(value)) {
+      return value;
+    }
+
+    return dateIncludeTime ? parseISO(value) : parseISO(value.slice(0, 10));
   };
 
   useEffect(() => {
@@ -155,7 +173,7 @@ const Component = ({
       margin: "normal",
       format: pickerFormat,
       label: i18n.t(`fields.date_range.${picker}`),
-      value: inputValue?.[picker],
+      value: getDateValue(inputValue?.[picker]),
       onChange: date => handleDatePicker(picker, date),
       disabled: !selectedField
     };

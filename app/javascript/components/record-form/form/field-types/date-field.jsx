@@ -1,13 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { addHours, format, differenceInYears, parseISO } from "date-fns";
+import { differenceInYears, parseISO } from "date-fns";
 import { InputAdornment } from "@material-ui/core";
 import { FastField, connect, getIn } from "formik";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
 
-import { API_DATE_FORMAT, API_DATE_TIME_FORMAT, DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../config";
+import { formatDateAsServer } from "../../../../libs";
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../config";
 import { DATE_FIELD_NAME } from "../constants";
 import { NOT_FUTURE_DATE } from "../../constants";
 
@@ -75,11 +76,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ..
           onChange: date => {
             updateAgeField(form, date);
 
-            const offset = new Date().getTimezoneOffset() / 60;
-
-            const apiDateFormat = dateIncludeTime ? API_DATE_TIME_FORMAT : API_DATE_FORMAT;
-
-            const formattedDate = date ? format(addHours(date, offset), apiDateFormat) : "";
+            const formattedDate = date ? formatDateAsServer(date, { includeTime: dateIncludeTime }) : "";
 
             return form.setFieldValue(name, formattedDate, true);
           },

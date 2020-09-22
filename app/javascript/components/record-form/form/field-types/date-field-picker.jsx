@@ -24,12 +24,17 @@ const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched
 
 DateFieldPicker.displayName = "DateFieldPicker";
 
+DateFieldPicker.defaultProps = {
+  dateIncludeTime: false,
+  fieldTouched: false
+};
+
 DateFieldPicker.propTypes = {
   dateIncludeTime: PropTypes.bool,
   dateProps: PropTypes.object,
   displayName: PropTypes.object,
   fieldError: PropTypes.string,
-  fieldTouched: PropTypes.object,
+  fieldTouched: PropTypes.bool,
   helperText: PropTypes.string
 };
 
