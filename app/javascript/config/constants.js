@@ -147,6 +147,10 @@ export const PERMITTED_URL = [
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
 
+export const API_DATE_FORMAT = "yyyy-MM-dd";
+
+export const API_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+
 export const TRANSITIONS_DATE_FORMAT = "MMM dd,yyyy";
 
 export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
