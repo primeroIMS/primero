@@ -10,10 +10,9 @@ class Lookup < ApplicationRecord
   self.unique_id_from_attribute = 'name_en'
 
   validate :validate_name_in_english
-  validate :validate_values_keys_match
+  validate :validate_options_have_default_locale
   validate :validate_values_id
 
-  before_validation :sync_lookup_values
   before_create :generate_unique_id
   before_destroy :check_is_being_used
 
@@ -67,7 +66,7 @@ class Lookup < ApplicationRecord
 
       return nil unless lookup.present?
 
-      FieldI18nService.fill_names(lookup.lookup_values_i18n.select{|v| v['id']===form_group_id})
+      FieldI18nService.fill_names(lookup.lookup_values_i18n.select { |v| v['id'] == form_group_id })
     end
 
     def add_form_group(form_group_id, form_group_description, parent_form, module_name)
@@ -97,32 +96,6 @@ class Lookup < ApplicationRecord
       Lookup.values(lookup_id, lookups, opts).find { |l| l['id'] == option_id }&.[]('display_text')
     end
 
-    def get_location_types
-      find_by(unique_id: 'lookup-location-type')
-    end
-
-    # TODO: Review this method due the values structure changed.
-    def import_translations(locale, lookups_hash = {})
-      if locale.present? && Primero::Application.locales.include?(locale)
-        lookups_hash.each do |key, value|
-          if key.present?
-            lookup = Lookup.find_by(unique_id: key)
-            if lookup.present?
-              lookup.update_translations(locale, value)
-              Rails.logger.info "Updating Lookup translation: Lookup [#{lookup.id}] locale [#{locale}]"
-              lookup.save!
-            else
-              Rails.logger.error "Error importing translations: Lookup for ID [#{key}] not found"
-            end
-          else
-            Rails.logger.error 'Error importing translations: Lookup ID not present'
-          end
-        end
-      else
-        Rails.logger.error 'Error importing translations: locale not present'
-      end
-    end
-
     private
 
     def form_group_lookup_mapping(parent_form)
@@ -143,34 +116,15 @@ class Lookup < ApplicationRecord
     lookup_values_i18n.any? { |value| value.dig('id') == option_id }
   end
 
-  # TODO: DELETE THIS, once we refactor YML exporter
-  def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE)
-    lh = localized_hash(locale)
-    lvh = {}
+  def validate_options_have_default_locale
+    return if lookup_values_i18n.blank? || lookup_values_en.all? { |h| h['display_text'].present? }
 
-    lookup_values(locale)&.each { |lv| lvh[lv['id']] = lv['display_text'] }
-    lh['lookup_values'] = lvh
-    lh
-  end
-
-  # TODO: Review this method due the values structure changed.
-  def validate_values_keys_match
-    default_ids = lookup_values_en&.map { |lv| lv['id'] }
-    if default_ids.present?
-      Primero::Application.locales.each do |locale|
-        next if locale == Primero::Application::BASE_LANGUAGE || send("lookup_values_#{locale}").blank?
-
-        locale_ids = send("lookup_values_#{locale}")&.map { |lv| lv['id'] }
-        if (default_ids - locale_ids).present? || (locale_ids - default_ids).present?
-          return errors.add(:lookup_values, I18n.t('errors.models.field.translated_options_do_not_match'))
-        end
-      end
-    end
-    true
+    errors.add(:lookup_values, I18n.t('errors.models.lookup.default_options_blank'))
   end
 
   def validate_values_id
-    return if lookup_values_i18n.blank? || lookup_values_i18n.all? { |h| h['id'].present?}
+    return if lookup_values_i18n.blank? || lookup_values_i18n.all? { |h| h['id'].present? }
+
     errors.add(:lookup_values, I18n.t('errors.models.lookup.values_ids_blank'))
   end
 
@@ -185,18 +139,17 @@ class Lookup < ApplicationRecord
     throw(:abort)
   end
 
-  # TODO: Review this method due the values structure changed.
   def update_translations(locale, lookup_hash = {})
-    if locale.present? && Primero::Application.locales.include?(locale)
-      lookup_hash.each do |key, value|
-        if key == 'lookup_values'
-          update_lookup_values_translations(value, locale)
-        else
-          send("#{key}_#{locale}=", value)
-        end
+    return Rails.logger.error('Lookup translation not updated: No Locale passed in') if locale.blank?
+
+    return Rails.logger.error("Lookup translation not updated: Invalid locale [#{locale}]") if I18n.available_locales.exclude?(locale)
+
+    lookup_hash.each do |key, value|
+      if key == 'lookup_values'
+        update_lookup_values_translations(value, locale)
+      else
+        send("#{key}_#{locale}=", value)
       end
-    else
-      Rails.logger.error "Lookup translation not updated: Invalid locale [#{locale}]"
     end
   end
 
@@ -223,24 +176,13 @@ class Lookup < ApplicationRecord
     false
   end
 
-  # TODO: Pavel review. Review if this is a validation
-  def sync_lookup_values
-    # Do not create any new lookup values that do not have a matching lookup value in the default language
-    default_ids = lookup_values_en&.map { |lv| lv['id'] }
-
-    return unless default_ids.present?
-
-    Primero::Application.locales.each do |locale|
-      next if locale == Primero::Application::BASE_LANGUAGE
-
-      send("lookup_values_#{locale}")&.reject! { |lv| default_ids.exclude?(lv['id']) }
-    end
-  end
-
-  # TODO: Pavel review. Review if this is a validation
   def update_lookup_values_translations(lookup_values_hash, locale)
+    default_ids = lookup_values_en&.map { |lv| lv['id'] }
     options = (send("lookup_values_#{locale}").present? ? send("lookup_values_#{locale}") : [])
     lookup_values_hash.each do |key, value|
+      # Do not add a translation for an option that does not exist in the default locale
+      next if default_ids.exclude?(key)
+
       lookup_value = options&.find { |lv| lv['id'] == key }
       if lookup_value.present?
         lookup_value['display_text'] = value
