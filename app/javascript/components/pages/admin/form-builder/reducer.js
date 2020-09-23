@@ -331,9 +331,18 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
       const fields = state.get("fields", fromJS({})).valueSeq().toList();
 
-      const newFields = fields.filter(field =>
-        addedFields.some(addedField => field.get("id") === addedField.id && field.get("name") === addedField.name)
-      );
+      const order =
+        (state
+          .get("selectedFields")
+          .map(field => field.get("order"))
+          .sort()
+          .last() || 0) + 1;
+
+      const newFields = fields
+        .filter(field =>
+          addedFields.some(addedField => field.get("id") === addedField.id && field.get("name") === addedField.name)
+        )
+        .map((field, index) => field.set("order", order + index));
 
       const fieldsToRemove = fields.filter(field =>
         removedFields.some(
