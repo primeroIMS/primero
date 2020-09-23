@@ -125,7 +125,7 @@ describe("configurations-form/action-creators.js", () => {
       const expected = {
         action: ENQUEUE_SNACKBAR,
         payload: {
-          message: "Server is temporarily unavailable. Applying new configuration.",
+          message: "configurations.unavailable_server",
           noDismiss: true,
           options: {
             variant: SNACKBAR_VARIANTS.info,
