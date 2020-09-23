@@ -66,7 +66,14 @@ const FormSectionField = ({ checkErrors, field }) => {
     numeric,
     onChange,
     disableClearable,
-    onBlur
+    onBlur,
+    asyncOptions,
+    asyncAction,
+    asyncParams,
+    asyncParamsFromWatched,
+    asyncOptionsLoadingPath,
+    clearDependentValues,
+    option_strings_source_id_key: optionStringsSourceIdKey
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -76,7 +83,8 @@ const FormSectionField = ({ checkErrors, field }) => {
   const errorsToCheck = checkErrors ? checkErrors.concat(fieldCheckErrors) : fieldCheckErrors;
 
   const optionSource = useSelector(
-    state => getOptions(state, optionStringsSource, i18n, options || optionsStringsText),
+    state =>
+      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, { optionStringsSourceIdKey }),
     (prev, next) => prev.equals(next)
   );
 
@@ -132,7 +140,14 @@ const FormSectionField = ({ checkErrors, field }) => {
     numeric,
     onChange,
     disableClearable,
-    onBlur
+    onBlur,
+    asyncOptions,
+    asyncAction,
+    asyncParams,
+    asyncParamsFromWatched,
+    asyncOptionsLoadingPath,
+    watchedInputsValues,
+    clearDependentValues
   };
 
   const Field = (fieldType => {

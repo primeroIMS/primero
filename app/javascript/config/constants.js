@@ -162,7 +162,8 @@ export const LOOKUPS = {
   workflow: "lookup-workflow",
   service_type: "lookup-service-type",
   protection_concerns: "lookup-protection-concerns",
-  followup_type: "lookup-followup-type"
+  followup_type: "lookup-followup-type",
+  reporting_locations: "ReportingLocation"
 };
 
 export const ADMIN_NAV = [

@@ -42,7 +42,14 @@ export const FieldRecord = Record({
   order: null,
   disableClearable: false,
   onBlur: null,
-  subform_section_unique_id: null
+  subform_section_unique_id: null,
+  asyncOptions: false,
+  asyncParams: {},
+  asyncParamsFromWatched: {},
+  asyncOptionsLoadingPath: null,
+  asyncAction: () => {},
+  option_strings_source_id_key: null,
+  clearDependentValues: null
 });
 
 export const FormSectionRecord = Record({

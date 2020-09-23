@@ -4,6 +4,16 @@ import { getReportingLocationConfig } from "../application/selectors";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 
+const referToUsers = state =>
+  state.getIn(["records", "transitions", "referral", "users"], fromJS([])).map(user => {
+    const userName = user.get("user_name");
+
+    return {
+      id: userName.toLowerCase(),
+      display_text: userName
+    };
+  });
+
 const formGroups = (state, i18n) =>
   state
     .getIn(["records", "admin", "forms", "formSections"], fromJS([]))
@@ -21,9 +31,9 @@ const formGroups = (state, i18n) =>
     )
     .sortBy(item => item.get("display_text"));
 
-const agencies = (state, useUniqueId) =>
+const agencies = (state, useUniqueId, { optionStringsSourceIdKey }) =>
   state.getIn(["application", "agencies"], fromJS([])).map(agency => ({
-    id: agency.get(useUniqueId ? "unique_id" : "id"),
+    id: agency.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
     display_text: agency.get("name")
   }));
 
@@ -88,10 +98,10 @@ const lookups = (state, i18n) =>
     )
     .sortBy(lookup => lookup.get("display_text"));
 
-const optionsFromState = (state, optionStringsSource, i18n, useUniqueId) => {
+const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) => {
   switch (optionStringsSource) {
     case OPTION_TYPES.AGENCY:
-      return agencies(state, useUniqueId);
+      return agencies(state, useUniqueId, rest);
     case OPTION_TYPES.LOCATION:
       return locations(state, i18n);
     case OPTION_TYPES.REPORTING_LOCATIONS:
@@ -102,6 +112,8 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId) => {
       return formGroups(state, i18n);
     case OPTION_TYPES.LOOKUPS:
       return lookups(state, i18n);
+    case "referToUsers":
+      return referToUsers(state);
     default:
       return lookupValues(state, optionStringsSource, i18n);
   }
@@ -116,9 +128,9 @@ const transformOptions = (options, i18n) =>
   });
 
 // eslint-disable-next-line import/prefer-default-export
-export const getOptions = (state, optionStringsSource, i18n, options, useUniqueId = false) => {
+export const getOptions = (state, optionStringsSource, i18n, options, useUniqueId = false, rest) => {
   if (optionStringsSource) {
-    return optionsFromState(state, optionStringsSource, i18n, useUniqueId);
+    return optionsFromState(state, optionStringsSource, i18n, useUniqueId, rest);
   }
 
   if (options) {
@@ -132,3 +144,5 @@ export const getLookupByUniqueId = (state, lookupUniqueId) =>
   state
     .getIn(["forms", "options", "lookups", "data"], fromJS([]))
     .find(lookup => lookup.get("unique_id") === lookupUniqueId);
+
+export const getLoadingState = (state, path) => (path ? state.getIn(path, false) : false);

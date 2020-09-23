@@ -4,16 +4,52 @@ import PropTypes from "prop-types";
 import { TextField, Chip } from "@material-ui/core";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import { Controller, useFormContext } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import pickBy from "lodash/pickBy";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import InputLabel from "../components/input-label";
+import { getLoadingState } from "../selectors";
 
 const filter = createFilterOptions();
 
 const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
-  const { multiSelect, freeSolo, groupBy, tooltip, onChange, disableClearable } = metaInputProps;
+  const {
+    multiSelect,
+    freeSolo,
+    groupBy,
+    tooltip,
+    onChange,
+    disableClearable,
+    asyncParamsFromWatched,
+    asyncParams,
+    asyncAction,
+    asyncOptions,
+    asyncOptionsLoadingPath,
+    watchedInputsValues,
+    clearDependentValues
+  } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
   const methods = useFormContext();
+  const dispatch = useDispatch();
+  const loading = useSelector(state => getLoadingState(state, asyncOptionsLoadingPath));
+
+  const fetchAsyncOptions = () => {
+    if (asyncOptions) {
+      const params = pickBy(watchedInputsValues, (value, key) => asyncParamsFromWatched.includes(key) && value);
+
+      dispatch(asyncAction({ ...params, ...asyncParams }));
+    }
+  };
+
+  const handleOpen = () => {
+    fetchAsyncOptions();
+  };
+
+  const loadingProps = {
+    ...(asyncOptions && { loading })
+  };
 
   const optionLabel = option => {
     if (typeof option === "string" && option === "") {
@@ -35,6 +71,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const handleChange = data => {
     if (onChange) {
       onChange(methods, data);
+    }
+
+    if (clearDependentValues) {
+      clearDependentValues.forEach(field => methods.setValue(field, null));
     }
 
     return multiSelect
@@ -76,6 +116,15 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       inputProps: {
         ...params.inputProps,
         value: freeSolo ? optionLabel(params.inputProps.value) : params.inputProps.value
+      },
+      InputProps: {
+        ...params.InputProps,
+        endAdornment: (
+          <>
+            {loading && asyncOptions ? <CircularProgress color="primary" size={20} /> : null}
+            {params.InputProps.endAdornment}
+          </>
+        )
       }
     };
 
@@ -97,6 +146,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       onChange={handleChange}
       as={
         <Autocomplete
+          onOpen={handleOpen}
           groupBy={option => option[groupBy]}
           options={options}
           multiple={multiSelect}
@@ -107,6 +157,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
           disableClearable={disableClearable}
           freeSolo={freeSolo}
           {...filterOptions}
+          {...loadingProps}
           renderInput={params => renderTextField(params, commonProps)}
           renderTags={(value, getTagProps) => renderTags(value, getTagProps)}
         />

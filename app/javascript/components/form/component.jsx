@@ -23,16 +23,21 @@ const Component = ({
   formRef,
   useCancelPrompt,
   formErrors,
-  submitAllFields
+  submitAllFields,
+  onValid,
+  useFormMode,
+  renderBottom
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formMethods = useForm({
+    mode: useFormMode || "onSubmit",
     ...(initialValues && { defaultValues: initialValues }),
     ...(validations && { validationSchema: validations })
   });
 
   const formMode = whichFormMode(mode);
+  const formValues = renderBottom ? formMethods.watch() : false;
 
   useImperativeHandle(
     formRef,
@@ -46,6 +51,14 @@ const Component = ({
       submitAllFields
     })
   );
+
+  useEffect(() => {
+    const { isValid } = formMethods.formState;
+
+    if (onValid) {
+      onValid(isValid);
+    }
+  }, [formMethods.formState.isValid]);
 
   useEffect(() => {
     // eslint-disable-next-line no-unused-expressions
@@ -65,6 +78,7 @@ const Component = ({
     <FormContext {...formMethods} formMode={formMode}>
       <CancelPrompt useCancelPrompt={useCancelPrompt} />
       <form noValidate>{renderFormSections(formSections)}</form>
+      {renderBottom && renderBottom(formValues)}
     </FormContext>
   );
 };
@@ -73,6 +87,7 @@ Component.displayName = "Form";
 
 Component.defaultProps = {
   formErrors: fromJS([]),
+  onValid: null,
   submitAllFields: false
 };
 
@@ -83,8 +98,11 @@ Component.propTypes = {
   initialValues: PropTypes.object,
   mode: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  onValid: PropTypes.func,
+  renderBottom: PropTypes.func,
   submitAllFields: PropTypes.bool,
   useCancelPrompt: PropTypes.bool,
+  useFormMode: PropTypes.oneOf(["onSubmit", "onBlur"]),
   validations: PropTypes.object
 };
 

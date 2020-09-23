@@ -4,8 +4,8 @@ import { makeStyles } from "@material-ui/core";
 import isEqual from "lodash/isEqual";
 
 import KeyValueCell from "../key-value-cell";
-import { useI18n } from "../../../../../../i18n";
-import { DATE_FIELD } from "../../../../../../form";
+import { useI18n } from "../../../i18n";
+import { DATE_FIELD } from "../../../form";
 
 import styles from "./styles.css";
 

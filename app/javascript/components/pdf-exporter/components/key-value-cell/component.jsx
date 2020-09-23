@@ -6,10 +6,10 @@ import { isEmpty } from "lodash";
 import { format, parseISO } from "date-fns";
 import { makeStyles } from "@material-ui/core";
 
-import { getOptions } from "../../../../../../form/selectors";
-import { optionText } from "../../../../../../form/utils";
-import { useI18n } from "../../../../../../i18n";
-import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../../../../config";
+import { getOptions } from "../../../form/selectors";
+import { optionText } from "../../../form/utils";
+import { useI18n } from "../../../i18n";
+import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../config";
 
 import styles from "./styles.css";
 
