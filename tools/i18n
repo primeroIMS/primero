@@ -24,7 +24,6 @@ def main():
 
     validate_yaml_structure()
     validate_yaml_keys()
-
     if QUIET:
         sys.exit(0)
 
@@ -188,6 +187,12 @@ def scan_project():
         "--include=*.js",
         "--include=*.jsx",
         "--include=*.rb",
+        "--exclude-dir=node_modules",
+        "--exclude-dir=public",
+        "--exclude-dir=venv",
+        "--exclude-dir=tmp",
+        "--exclude-dir=coverage",
+        "--exclude-dir=config/locales",
         "-E",
         "-e",
         pattern,

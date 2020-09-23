@@ -170,7 +170,7 @@ describe Exporters::SelectedFieldsExcelExporter do
     end
 
     it 'contains the correct created_organization es name' do
-      I18n.locale = 'es'
+      I18n.locale = :es
       data = Exporters::SelectedFieldsExcelExporter.export(@records, @user, {})
       Spreadsheet.open(StringIO.new(data))
       sheet = workbook.worksheets.last

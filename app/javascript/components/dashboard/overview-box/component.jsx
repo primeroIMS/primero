@@ -53,6 +53,10 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
         return approvalsLabels.case_plan;
       case "approval_closure_pending_group":
         return approvalsLabels.closure;
+      case "approval_action_plan_pending_group":
+        return approvalsLabels.action_plan;
+      case "approval_gbv_closure_pending_group":
+        return approvalsLabels.gbv_closure;
       default:
         return i18n.t(`dashboard.${item}`);
     }

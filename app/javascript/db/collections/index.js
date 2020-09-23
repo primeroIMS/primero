@@ -5,6 +5,7 @@ import SystemSettings from "./system-settings";
 import User from "./user";
 import Idp from "./idp";
 import Dashboards from "./dashboards";
+import Logos from "./logos";
 
 export default {
   Options,
@@ -13,5 +14,6 @@ export default {
   SystemSettings,
   User,
   Idp,
-  Dashboards
+  Dashboards,
+  Logos
 };

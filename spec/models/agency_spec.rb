@@ -127,7 +127,7 @@ describe Agency do
 
     context 'and locale is French' do
       before :each do
-        I18n.locale = 'fr'
+        I18n.locale = :fr
       end
       it 'is valid' do
         expect(@agency3).to be_valid
@@ -144,7 +144,7 @@ describe Agency do
 
     context 'and locale is Spanish' do
       before :each do
-        I18n.locale = 'es'
+        I18n.locale = :es
       end
       it 'is valid' do
         expect(@agency3).to be_valid
@@ -161,7 +161,7 @@ describe Agency do
 
     context 'and locale is Arabic' do
       before :each do
-        I18n.locale = 'ar'
+        I18n.locale = :ar
       end
       it 'is valid' do
         expect(@agency3).to be_valid

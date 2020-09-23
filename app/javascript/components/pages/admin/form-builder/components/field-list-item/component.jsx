@@ -27,6 +27,7 @@ import { getFieldsAttribute, getFiedListItemTheme, getLabelTypeField } from "../
 import styles from "../fields-list/styles.css";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { setInitialForms, toggleHideOnViewPage } from "../field-dialog/utils";
+import { dataToJS, displayNameHelper } from "../../../../../../libs";
 
 import { NAME, SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "./constants";
 
@@ -99,7 +100,7 @@ const Component = ({ field, getValues, index, subformField, subformSortBy, subfo
       <>
         {icon}
         <Button className={clsx({ [css.editable]: !isNotEditable })} onClick={() => handleClick()}>
-          {field.getIn(["display_name", i18n.locale])}
+          {displayNameHelper(dataToJS(field.get("display_name")), i18n.locale)}
         </Button>
       </>
     );

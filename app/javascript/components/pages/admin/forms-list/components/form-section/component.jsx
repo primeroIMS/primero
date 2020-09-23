@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { useI18n } from "../../../../../i18n";
 import styles from "../../styles.css";
 import TableRow from "../table-row";
+import { displayNameHelper } from "../../../../../../libs";
 
 const Component = ({ group, collection, isDragDisabled }) => {
   const i18n = useI18n();
@@ -37,7 +38,7 @@ const Component = ({ group, collection, isDragDisabled }) => {
 
               return (
                 <TableRow
-                  name={i18n.getI18nStringFromObject(name)}
+                  name={displayNameHelper(name, i18n.locale)}
                   modules={modules}
                   parentForm={parentForm}
                   index={index}

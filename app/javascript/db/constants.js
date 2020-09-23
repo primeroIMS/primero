@@ -10,7 +10,8 @@ export const DB_STORES = Object.freeze({
   LOCATIONS: "locations",
   IDP: "idp",
   OFFLINE_REQUESTS: "offline_requests",
-  DASHBOARDS: "dashboards"
+  DASHBOARDS: "dashboards",
+  LOGOS: "logos"
 });
 
 export const DB_COLLECTIONS_V1 = [
@@ -28,7 +29,9 @@ export const DB_COLLECTIONS_V1 = [
 
 export const DB_COLLECTIONS_V2 = ["dashboards"];
 
-export const DB_COLLECTIONS = [...DB_COLLECTIONS_V1, ...DB_COLLECTIONS_V2];
+export const DB_COLLECTIONS_V3 = ["logos"];
+
+export const DB_COLLECTIONS = [...DB_COLLECTIONS_V1, ...DB_COLLECTIONS_V2, ...DB_COLLECTIONS_V3];
 
 export const DB_COLLECTIONS_NAMES = DB_COLLECTIONS.reduce((prev, current) => {
   const obj = prev;

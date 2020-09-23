@@ -20,6 +20,7 @@ describe("libs/index", () => {
       "arrayToObject",
       "compare",
       "dataToJS",
+      "displayNameHelper",
       "getObjectPath",
       "invalidCharRegexp",
       "keyIn",
