@@ -186,16 +186,15 @@ const fetchSinglePayload = (action, store, options) => {
         handleRestCallback(store, getApplyingConfigMessage(), response, {});
         await delay(10000);
 
-        // Use path = configuredd to test
         fetchSinglePayload(checkConfiguration(), store, options);
-      } else if (status === 204 /* && (URL === configuration_healt.URL) */) {
+      } else if (status === 204) {
         fetchStatus({ store, type }, "SUCCESS", true);
         fetchStatus({ store, type }, "FINISHED", false);
 
         const successMessage = {
           action: ENQUEUE_SNACKBAR,
           payload: {
-            messageKey: "Configuration applied.",
+            messageKey: "configurations.messages.applied",
             options: {
               variant: SNACKBAR_VARIANTS.success,
               key: generate.messageKey(4321)
@@ -204,7 +203,7 @@ const fetchSinglePayload = (action, store, options) => {
         };
 
         handleRestCallback(store, successMessage, response, {});
-        await delay(2000);
+        await delay(1000);
         window.location.reload(true);
       } else {
         const json = await response.json();

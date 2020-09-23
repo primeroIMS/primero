@@ -130,7 +130,7 @@ export const ROUTES = {
   support: "/support",
   tasks: "/tasks",
   tracing_requests: "/tracing_requests",
-  check_health: "/health/configured"
+  check_health: "/health/api"
 };
 
 export const PERMITTED_URL = [

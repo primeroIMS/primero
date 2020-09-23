@@ -59,7 +59,7 @@ export const checkConfiguration = () => ({
 export const getApplyingConfigMessage = () => ({
   action: ENQUEUE_SNACKBAR,
   payload: {
-    message: "Server is temporarily unavailable. Applying new configuration.",
+    messageKey: "configurations.unavailable_server",
     noDismiss: true,
     options: {
       variant: SNACKBAR_VARIANTS.info,

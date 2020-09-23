@@ -71,8 +71,7 @@ const Container = ({ mode }) => {
     );
   };
 
-  const handleApplyModal = () =>
-    dispatch(applyConfiguration({ id, message: i18n.t("configurations.messages.applied") }));
+  const handleApplyModal = () => dispatch(applyConfiguration({ id, i18n }));
   const handleCancelApplyModal = () => setApplyModal(false);
   const handleApply = () => setApplyModal(true);
 
