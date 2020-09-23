@@ -8,7 +8,7 @@ describe("toProtectionConcernTable - pages/dashboard/utils/", () => {
     const lookups = [
       {
         id: "sexually_exploited",
-        display_text: { en: "Sexually Exploited", fr: "" }
+        display_text: "Sexually Exploited"
       }
     ];
 
