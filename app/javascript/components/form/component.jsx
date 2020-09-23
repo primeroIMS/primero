@@ -37,7 +37,7 @@ const Component = ({
   });
 
   const formMode = whichFormMode(mode);
-  const formValues = renderBottom ? formMethods.watch() : false;
+  const formValues = renderBottom ? formMethods.watch() : {};
 
   useImperativeHandle(
     formRef,
@@ -87,6 +87,7 @@ Component.displayName = "Form";
 
 Component.defaultProps = {
   formErrors: fromJS([]),
+  mode: "new",
   onValid: null,
   submitAllFields: false
 };
@@ -96,7 +97,7 @@ Component.propTypes = {
   formRef: PropTypes.object.isRequired,
   formSections: PropTypes.object.isRequired,
   initialValues: PropTypes.object,
-  mode: PropTypes.string.isRequired,
+  mode: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   onValid: PropTypes.func,
   renderBottom: PropTypes.func,

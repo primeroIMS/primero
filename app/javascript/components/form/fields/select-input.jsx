@@ -69,6 +69,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const defaultValue = multiSelect ? [] : optionsUseIntegerIds ? null : null;
 
   const handleChange = data => {
+    debugger;
     if (onChange) {
       onChange(methods, data);
     }
