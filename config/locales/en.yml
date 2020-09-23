@@ -51,6 +51,7 @@ en:
     code: Agency Code
     description: Description
     disabled: Disabled
+    label: Agency
     logo_enabled: Logo Enabled?
     logo_enabled_help: Display these logos on the Login page and Navigation menu.
     logo_icon: Icon Logo
@@ -1133,6 +1134,7 @@ en:
       sub-district: Sub-district
       village: Village
       zone: Zone
+    label: Location
   logger:
     approve_form:
       action_plan: Action Plan form
@@ -2613,6 +2615,7 @@ en:
     full_name: Full Name
     identity_provider: Identity Provider
     invalid_provider_username: 'Invalid username format. Example: my.username@%{domain}'
+    label: User
     locale: Locale
     location: Location
     messages:

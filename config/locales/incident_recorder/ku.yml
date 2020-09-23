@@ -4,11 +4,11 @@ ku:
       export_incident_recorder_xls: "ناردنى تۆمارکەری رووداو xls"
   exports:
     incident_recorder_xls:
-      all:  تۆمارکەری رووداو
-      one:  تۆمارکەری رووداو
-      selected:  هەلبژێردرا بۆ تۆمارکەری رووداو
-      "yes": "به لێ"
-      "no": "نه خێر"
+      all: تۆمارکەری رووداو
+      one: تۆمارکەری رووداو
+      selected: هەلبژێردرا بۆ تۆمارکەری رووداو
+      'yes': "به لێ"
+      'no': "نه خێر"
       gender:
         male: "نێر"
         female: "مێ"

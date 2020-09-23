@@ -1,4 +1,4 @@
-pt:
+pt-BR:
   'true': 'Sim'
   'false': 'Não'
   cancel: Cancelar
@@ -8,8 +8,8 @@ pt:
   actions:
     button: 'Ações '
     description:
-      invalid: 'Registo inválido '
-      valid: 'Registo válido '
+      invalid: 'Registro inválido '
+      valid: 'Registro válido '
     disable: Desativar
     enable: Habilitar
     incident_details_from_case: 'Adicionar Incidente '
@@ -29,7 +29,7 @@ pt:
   audit_log:
     action: 'Ação '
     description: 'Descrição '
-    record_owner: Dono do registo
+    record_owner: Dono do registro
   bulk_export:
     file_name: 'Arquivo '
     record_type: Tipo
@@ -88,10 +88,10 @@ pt:
     view_flags_history: Ver histórico
   case:
     create_new_case: Criar novo caso
-    enter_id_number: Digite o número de ID para pesquisar por um registo existente
+    enter_id_number: Digite o número de ID para pesquisar por um registro existente
     messages:
       update_success: 'Caso %{record_id} foi atualizado com sucesso.'
-      creation_success: 'Registo de caso criado com sucesso'
+      creation_success: 'Registro de caso criado com sucesso'
     workflow:
       assessment: Avaliação
       case_plan: Plano de caso
@@ -133,7 +133,7 @@ pt:
       most_recently: Mais recentes
       name: Nome
     quick_view:
-      tracing_message: 'Nota: Existe uma correspondência no sistema com um Inquiridor procurando por esta criança. Contate a assistente social deste registo para mais ações, se a criança desejar.'
+      tracing_message: 'Nota: Existe uma correspondência no sistema com um Inquiridor procurando por esta criança. Contate a assistente social deste registro para mais ações, se a criança desejar.'
     register_new_case: Novo caso
     save_filter: Salvar
     view_name: Visualizar nome
@@ -143,7 +143,7 @@ pt:
       closure_approved_date: 'Data de Encerramento do Caso'
       created_at: Data de Abertura do Caso
       date_case_plan_initiated: Data do Plano de Caso
-      registration_date: Data de Registo
+      registration_date: Data de Registro
   contact:
     field:
       email: 'Email '
@@ -276,12 +276,12 @@ pt:
     transfer_request_subject: 'Solicitação de transferência para um de seus casos '
     transfer_subject: '%{record_type}: %{id} - Transferência'
     referral_subject: '%{record_type}: %{id}- Encaminhamento '
-    transfer_request: 'Usuário Primero %{user} da %{agency} está solicitando que você transfira a propriedade deste %{record_type} registo %{record_id} para que eles possam fornecer serviços de gerenciamento de %{record_type} para o indivíduo em sua área. Se esta transferência for aceitável para você, por favor clique no link da ID do %{record_type} neste email para abrir o %{record_type} no Primero e iniciar a transferência. '
+    transfer_request: 'Usuário Primero %{user} da %{agency} está solicitando que você transfira a propriedade deste %{record_type} registro %{record_id} para que eles possam fornecer serviços de gerenciamento de %{record_type} para o indivíduo em sua área. Se esta transferência for aceitável para você, por favor clique no link da ID do %{record_type} neste email para abrir o %{record_type} no Primero e iniciar a transferência. '
     approval_request_html: 'O usuário <strong>%{user}</strong> está solicitando aprovação para <strong>%{approval_type}</strong> no caso <strong>%{case_id}</strong>.'
     approval_response_html: '<strong>%{user}</strong> tem <strong>%{status}</strong> a solicitação de aprovação para <strong>%{approval_type}</strong> para o caso <strong>%{case_id}</strong>.'
     referral_html: '<strong>%{user}</strong> da %{agency} encaminhou o seguinte %{record_type} para você: <strong>%{record_id}</strong> para %{service_type}.'
     transfer_html: '<strong>%{user}</strong> transferiu o seguinte %{record_type} para você: <strong>%{record_id}</strong>.'
-    transfer_request_html: 'Usuário Primero <strong>%{user}</strong> da %{agency} está solicitando que você transfira a propriedade deste %{record_type} registo <strong>%{record_id}</strong> para que eles possam fornecer serviços de gerenciamento de %{record_type} para o indivíduo em sua área. Se esta transferência for aceitável para você, por favor clique no link da ID do %{record_type} neste email para abrir o %{record_type} no Primero e iniciar a transferência.'
+    transfer_request_html: 'Usuário Primero <strong>%{user}</strong> da %{agency} está solicitando que você transfira a propriedade deste %{record_type} registro <strong>%{record_id}</strong> para que eles possam fornecer serviços de gerenciamento de %{record_type} para o indivíduo em sua área. Se esta transferência for aceitável para você, por favor clique no link da ID do %{record_type} neste email para abrir o %{record_type} no Primero e iniciar a transferência.'
     transfer_request_notes_html: 'Notas do indivíduo fazendo a solicitação: %{request_transfer_notes}'
   encrypt:
     file_name: Crie seu próprio nome de arquivo (Opcional)
@@ -294,10 +294,10 @@ pt:
     models:
       child:
         age: A idade deve ser entre 0 e 130
-        date_of_birth: Por favor, insira uma data de nascimento válida para este registo de caso
+        date_of_birth: Por favor, insira uma data de nascimento válida para este registro de caso
       export_configuration:
-        opt_out_field_does_not_exist: Campo opt_out especificado não existe no registo.
-        record_type: Tipo de registo inválido. Deve ser Criança, Solicitação de Rastreamento, ou Incidente.
+        opt_out_field_does_not_exist: Campo opt_out especificado não existe no registro.
+        record_type: Tipo de registro inválido. Deve ser Criança, Solicitação de Rastreamento, ou Incidente.
       field:
         translated_options_do_not_match: 'Opções de campo traduzido devem ter as mesmas ids '
       location:
@@ -309,7 +309,7 @@ pt:
         being_used: Essa pesquisa está sendo usada e não pode ser deletada
         name_present: 'Nome não deve ficar em branco '
       primero_module:
-        associated_record_types: 'Pelo menos um tipo de registo deve ser associado a este módulo '
+        associated_record_types: 'Pelo menos um tipo de registro deve ser associado a este módulo '
         name_present: 'Nome não deve ficar em branco '
         unique_name: 'Já existe um módulo com esse nome, por favor insira um nome diferente '
       report:
@@ -372,7 +372,7 @@ pt:
       all: 'Violações MRM '
       one: 'Violações MRM '
       selected: 'Selecionado para MRM Violações '
-    no_records: Sem registos disponíveis!
+    no_records: Sem registros disponíveis!
     pdf:
       one: PDF
       selected: Selecionado para PDF
@@ -518,10 +518,10 @@ pt:
     language: Idioma
     manage_system_users: Gerenciar Usuários de Sincronização de Servidor
     pt: Português
-    records_need_attention: Registos precisam de atenção
+    records_need_attention: Registros precisam de atenção
     ru: Russo
     users: Gerenciar Usuários
-    view_records: Ver Registos
+    view_records: Ver Registros
     welcome: Bem vindo ao Primero
     zh: Chinês
   incident:
@@ -576,14 +576,14 @@ pt:
     hide_name:
       protect: Esconder Nome
       view: Visualizar nome
-    index: 'Listando Registos '
+    index: 'Listando Registros '
     login: Login
     logout: Sair
     lookups_for_field: 'Pesquisas por campo '
     mark_for_mobile:
       'false': 'Desmarcar para móvel '
       'true': Marque para telemóvel
-    match_record: 'Registo Correspondente '
+    match_record: 'Registro Correspondente '
     permitted_field_list: 'Lista de campo permitido '
     quick_view: 'Visualização Rápida '
     reassign: 'Atribuindo '
@@ -623,7 +623,7 @@ pt:
     name: Nome
     values: 'Opções '
   messages:
-    confirmation_message: Ao clicar em OK você descartará quaisquer alterações não salvas e retornará para a lista. Clique em cancelar para retornar ao registo.
+    confirmation_message: Ao clicar em OK você descartará quaisquer alterações não salvas e retornará para a lista. Clique em cancelar para retornar ao registro.
   navigation:
     search: Buscar
   permissions:
@@ -631,11 +631,11 @@ pt:
     permission:
       All: Tudo
       add_note: Adicionar Notas
-      admin_only: 'Sem registos - Apenas funcionalidade administrativa '
+      admin_only: 'Sem registros - Apenas funcionalidade administrativa '
       administrator_read: Administrador Ler
       agency: 'Agência '
       agency_read: Agência Ler
-      all: 'Acessar todos os registos ou usuários '
+      all: 'Acessar todos os registros ou usuários '
       assign: 'Atribuir '
       assign_within_agency: 'Atribuir dentro da agência '
       assign_within_user_group: 'Atribuir dentro do grupo de usuário '
@@ -674,7 +674,7 @@ pt:
       find_tracing_match: Encontrar correspondência de rastreamento de caso
       flag: Marcar
       form: 'Formulários '
-      group: Acessar todos os registos ou usuários em meu grupo
+      group: Acessar todos os registros ou usuários em meu grupo
       group_read: Grupo Ler
       import: Importar
       incident: Incidente
@@ -695,8 +695,8 @@ pt:
       role: 'Funções '
       save_search: 'Pesquisas Salvas '
       saved_search: Pesquisa Salva
-      search_owned_by_others: 'Pesquisar por registos de caso de propriedade de outros usuários '
-      self: 'Acessar apenas meus registos ou usuário '
+      search_owned_by_others: 'Pesquisar por registros de caso de propriedade de outros usuários '
+      self: 'Acessar apenas meus registros ou usuário '
       service_provision_incident_details: 'Ver Botão de Adicionar Prestação de Serviço nos Detalhes do Incidente Modal '
       services_section_from_case: 'Adicionar prestação de Serviço para o caso de outro usuário '
       specific_roles: Acessar lista de funções especificadas
@@ -727,7 +727,7 @@ pt:
   reassign:
     notes_label: 'Notas '
   record_panel:
-    record_information: 'Informação de Registo '
+    record_information: 'Informação de Registro '
   referral:
     agency_label: 'Agência '
     is_remote_label: Você está encaminhando para um sistema remoto?
@@ -754,7 +754,7 @@ pt:
     modules: 'Módulos '
     name: Nome
     no_data: 'Não existe dados para este relatório '
-    record_type: 'Tipo de registo '
+    record_type: 'Tipo de registro '
     total: 'Total '
   reports:
     label: 'Relatórios '
@@ -770,7 +770,7 @@ pt:
     description: 'Descrição '
     edit: 'Editar Função '
     error_in_updating: Erro na atualização dos detalhes da Função.
-    group_permission_label: Quais registos essa função afeta?
+    group_permission_label: Quais registros essa função afeta?
     name: Nome
     referral_label: Essa função pode ser usada para Encaminhamentos?
     role_ids_label: 'Outras funções gerenciadas por essa função '
@@ -807,7 +807,7 @@ pt:
       inquiry_date: 'Data de Inquérito '
   transfer:
     agency_label: 'Agência '
-    consent_label: 'registos não forneceram consentimento. '
+    consent_label: 'registros não forneceram consentimento. '
     consent_override_label: Você deseja substituir esta configuração?
     is_remote_label: Você está transferindo para um sistema remoto?
     location_label: Localização
