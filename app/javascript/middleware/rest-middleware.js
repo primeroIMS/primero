@@ -45,7 +45,10 @@ const disableNavigation = () => {
   const applyModal = document.getElementsByClassName("MuiDialog-root");
 
   root.style.pointerEvents = "none";
-  applyModal[0].style.pointerEvents = "none";
+
+  if (applyModal.length > 0) {
+    applyModal[0].style.pointerEvents = "none";
+  }
 };
 
 function fetchStatus({ store, type }, action, loading) {
