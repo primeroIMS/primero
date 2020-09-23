@@ -967,10 +967,10 @@ describe("<FormsBuilder /> - Reducers", () => {
   });
 
   describe("SELECT_EXISTING_FIELDS", () => {
-    const field1 = { id: 1, name: "field_1" };
-    const field2 = { id: 2, name: "field_2" };
-    const field3 = { id: 3, name: "field_3" };
-    const field4 = { id: 3, name: "field_4" };
+    const field1 = { id: 1, name: "field_1", order: 1 };
+    const field2 = { id: 2, name: "field_2", order: 2 };
+    const field3 = { id: 3, name: "field_3", order: 3 };
+    const field4 = { id: 3, name: "field_4", order: 4 };
 
     const currentState = fromJS({
       fields: {
@@ -982,10 +982,10 @@ describe("<FormsBuilder /> - Reducers", () => {
       selectedFields: [field2, field3]
     });
 
-    it("should add the fields that were selected", () => {
-      const addedFields = [field1];
+    it("should add the fields that were selected with the correct order", () => {
+      const addedFields = [{ ...field1, order: 4 }];
       const expected = currentState
-        .set("selectedFields", fromJS([field2, field3, field1]))
+        .set("selectedFields", fromJS([field2, field3].concat(addedFields)))
         .set("copiedFields", fromJS(addedFields))
         .set("removedFields", fromJS([]));
 

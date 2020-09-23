@@ -842,7 +842,7 @@ en:
     action: Action
     actions: Actions
     add: Add
-    add_custom_field: Create Custom Field
+    add_new_field: Create New Field
     add_existing_field: Add Existing Field
     add_field: Add Field
     add_field_type: Add %{file_type}
