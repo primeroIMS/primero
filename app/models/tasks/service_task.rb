@@ -38,5 +38,9 @@ module Tasks
       I18n.t("task.types.#{self.type}",
             subtype:  Lookup.display_value('lookup-service-type', service['service_type'], lookups))
     end
+
+    def completion_field
+      'service_implemented_day_time'
+    end
   end
 end

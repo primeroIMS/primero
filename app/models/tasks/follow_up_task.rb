@@ -16,7 +16,7 @@ module Tasks
 
     def self.has_task?(followup)
       followup['followup_needed_by_date'].present? &&
-      !followup['followup_date'].present?
+      followup['followup_date'].blank?
     end
 
     def self.field_name
@@ -36,6 +36,10 @@ module Tasks
     def type_display(lookups=nil)
       I18n.t("task.types.#{self.type}",
             subtype:  Lookup.display_value('lookup-followup-type', followup['followup_type'], lookups))
+    end
+
+    def completion_field
+      'followup_date'
     end
   end
 end

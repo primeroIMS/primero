@@ -10,7 +10,7 @@ module Tasks
 
     def self.has_task?(record)
       record.assessment_due_date.present? &&
-      !record.assessment_requested_on.present?
+      record.assessment_requested_on.blank?
     end
 
     def self.field_name
@@ -19,6 +19,10 @@ module Tasks
 
     def due_date
       self.parent_case.assessment_due_date
+    end
+
+    def completion_field
+      'assessment_requested_on'
     end
   end
 end
