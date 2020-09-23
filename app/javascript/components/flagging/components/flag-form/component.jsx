@@ -9,17 +9,19 @@ import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import { object, string } from "yup";
+import { parseISO } from "date-fns";
 
 import { useI18n } from "../../../i18n";
 import { addFlag } from "../../action-creators";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { DATE_FORMAT } from "../../../../config";
+import { toServerDateFormat } from "../../../../libs";
 
 import { NAME } from "./constants";
 
 const initialFormikValues = {
-  date: null,
+  date: toServerDateFormat(Date.now()),
   message: ""
 };
 
@@ -95,8 +97,11 @@ const Component = ({ recordType, record, handleActiveTab }) => {
                     <DatePicker
                       {...field}
                       label={i18n.t("flags.flag_date")}
+                      value={field.value ? parseISO(field.value) : field.value}
                       onChange={date => {
-                        return date && form.setFieldValue(field.name, date, true);
+                        const formattedDate = date ? toServerDateFormat(date) : date;
+
+                        return form.setFieldValue(field.name, formattedDate, true);
                       }}
                       {...dateInputProps}
                       {...other}
