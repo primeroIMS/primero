@@ -1,0 +1,13 @@
+.group {
+  & > div:last-of-type {
+    border-bottom: 1px solid #ddd;
+  }
+
+  & > div:nth-child(even) {
+    background: #f7f7f7;
+  }
+
+  & .subform {
+    padding: 10px 20px;
+  }
+}

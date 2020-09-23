@@ -18,21 +18,11 @@ class SystemSettings < ApplicationRecord
 
   localize_properties %i[welcome_email_text approvals_labels]
 
-  validate :validate_locales
   validate :validate_reporting_location,
            if: ->(system_setting) { system_setting.reporting_location_config.present? }
 
   after_initialize :set_version
   before_save :set_version
-  before_save :add_english_locale
-
-  # For now allow empty locales for backwards compatibility with older configurations
-  # The wrapper method will handle blank locales
-  def validate_locales
-    return true if locales.blank? || (locales.include? Primero::Application::LOCALE_ENGLISH)
-
-    errors.add(:locales, 'errors.models.system_settings.locales')
-  end
 
   def name
     I18n.t('system_settings.label')
@@ -44,20 +34,12 @@ class SystemSettings < ApplicationRecord
     system_name || Rails.application.routes.default_url_options[:host]
   end
 
-  def update_default_locale
-    logger.info "Setting the Primero locale to #{default_locale}"
-    I18n.default_locale = default_locale
-    I18n.locale = I18n.default_locale
-  end
-
   def set_version
     self.primero_version = Primero::Application::VERSION
   end
 
-  def add_english_locale
-    locales.present? &&
-      (locales.exclude? Primero::Application::LOCALE_ENGLISH) &&
-      locales.unshift(Primero::Application::LOCALE_ENGLISH)
+  def rtl_locales
+    Primero::Application::RTL_LOCALES & I18n.available_locales
   end
 
   def auto_populate_info(field_key = '')

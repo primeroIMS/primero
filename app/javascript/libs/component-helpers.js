@@ -1,5 +1,7 @@
 import { List, Map } from "immutable";
 
+import displayNameHelper from "./display-name-helper";
+
 export const dataToJS = data => {
   if (data instanceof Map || data instanceof List) {
     return data.toJS();
@@ -22,7 +24,7 @@ export const valuesToSearchableSelect = (data, searchValue, searchLabel, locale)
         }
 
         if (key === searchLabel) {
-          obj.label = typeof val === "object" ? val[locale] : val;
+          obj.label = typeof val === "object" ? displayNameHelper(val, locale) : val;
         }
 
         if (key === "isDisabled") {

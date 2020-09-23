@@ -174,7 +174,12 @@ const Container = ({ match, location }) => {
         </Box>
       </PageContainer>
       <Permission resources={recordType} actions={DISPLAY_VIEW_PAGE}>
-        <ViewModal close={handleViewModalClose} openViewModal={openViewModal} currentRecord={currentRecord} />
+        <ViewModal
+          close={handleViewModalClose}
+          openViewModal={openViewModal}
+          currentRecord={currentRecord}
+          recordType={recordType}
+        />
       </Permission>
     </>
   );

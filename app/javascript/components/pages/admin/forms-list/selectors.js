@@ -10,6 +10,11 @@ export const getFormSections = (state, filter) => {
 
 export const getFields = state => state.getIn(["records", "admin", "forms", "fields"], OrderedMap({}));
 
+export const getFieldsByIds = (state, ids) =>
+  ids
+    .map(id => state.getIn(["records", "admin", "forms", "fields", id.toString()]))
+    .filter(field => Boolean(field?.toSeq()?.size));
+
 export const getFormSectionsByFormGroup = (state, filter) => groupByFormGroup(getFormSections(state, filter)).toList();
 
 export const getIsLoading = state => state.getIn(["records", "admin", "forms", "loading"], false);

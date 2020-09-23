@@ -80,3 +80,4 @@ public/javascripts/*
 public/manifests/*
 public/worker.js
 public/precache-manifest*
+configuration_translation_export*

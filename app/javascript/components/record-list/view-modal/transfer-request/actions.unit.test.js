@@ -9,6 +9,7 @@ describe("<TransferRequest /> - Actions", () => {
       "TRANSFER_REQUEST_SUCCESS",
       "TRANSFER_REQUEST_STARTED",
       "TRANSFER_REQUEST_FAILURE",
+      "TRANSFER_REQUEST_FINISHED",
       "TRANSFER_REQUEST_URL"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);

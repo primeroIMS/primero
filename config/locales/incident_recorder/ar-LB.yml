@@ -1,14 +1,14 @@
-ar_LB:
+ar-LB:
   permissions:
     permission:
       export_incident_recorder_xls: "تصدير مسجّل الواقعة وتحويله إلى صيغة xls"
   exports:
     incident_recorder_xls:
-      all: مسجّل الحادث والواقعة
-      one: مسجّل الحادث والواقعة
-      selected: خيار لمسجّل الحادث والواقعة
-      'yes': "نعم"
-      'no': "لا"
+      all:  مسجّل الحادث والواقعة
+      one:  مسجّل الحادث والواقعة
+      selected:  خيار لمسجّل الحادث والواقعة
+      "yes": "نعم"
+      "no": "لا"
       gender:
         male: "ذكر"
         female: "أنثى"
@@ -27,6 +27,50 @@ ar_LB:
       service_referral:
         undecided: "غير مفصول فيه وقت وضع التقرير"
       headers:
+        incident_id: ""
+        survivor_code: ""
+        case_manager_code: ""
+        case_worker_code: ""
+        date_of_interview: ""
+        date_of_incident: ""
+        date_of_birth: ""
+        sex: ""
+        ethnicity: ""
+        country_of_origin: ""
+        marital_status: ""
+        displacement_status: ""
+        disability_type: ""
+        unaccompanied_separated_status: ""
+        stage_of_displacement: ""
+        time_of_day: ""
+        location: ""
+        county: ""
+        district: ""
+        camp_town: ""
+        camp: ""
+        gbv_type: ""
+        harmful_traditional_practice: ""
+        goods_money_exchanged: ""
+        abduction_type: ""
+        previously_reported: ""
+        gbv_previous_incidents: ""
+        number_primary_perpetrators: ""
         perpetrator:
+          sex: ""
+          former: ""
+          relationship: ""
+          occupation: ""
           age_group: "الفئة العمريّة التي ينتمي إليها المرتكب المزعوم"
           age_type: "نوع الفئة العمريّة التي ينتمي إليها المرتكب المزعوم"
+        service:
+          referred_from: ""
+          safehouse_referral: ""
+          medical_referral: ""
+          psycho_referral: ""
+          wants_legal_action: ""
+          legal_referral: ""
+          police_referral: ""
+          livelihoods_referral: ""
+          protection_referral: ""
+        consent: ""
+        agency_code: ""

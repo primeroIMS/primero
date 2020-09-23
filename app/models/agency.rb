@@ -121,10 +121,19 @@ class Agency < ApplicationRecord
   def configuration_hash_for_logo(logo)
     return {} unless logo.attached?
 
+    logo_data = logo_raw(logo)
+    return {} unless logo_data.present?
+
     {}.tap do |hash|
       hash["#{logo.name}_base64"] = Base64.encode64(logo.download)
       hash["#{logo.name}_file_name"] = logo.blob.filename.to_s
     end
+  end
+
+  def logo_raw(logo)
+    logo.download
+  rescue SystemCallError
+    nil
   end
 
   def validate_name_in_english

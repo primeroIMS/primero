@@ -37,11 +37,29 @@ describe("<Transitions /> - Reducers", () => {
     expect(newState).to.deep.equal(expected);
   });
 
+  it("should handle TRANSFER_REQUEST_FINISHED", () => {
+    const expected = fromJS({
+      data: [],
+      transferRequest: {
+        loading: false
+      }
+    });
+    const action = {
+      type: actions.TRANSFER_REQUEST_FINISHED,
+      payload: false
+    };
+
+    const newState = reducer(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
   it("should handle TRANSFER_REQUEST_STARTED", () => {
     const expected = fromJS({
       data: [],
       transferRequest: {
-        errors: false
+        errors: false,
+        loading: true
       }
     });
     const action = {

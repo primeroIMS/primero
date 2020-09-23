@@ -39,7 +39,7 @@ describe FieldValueService do
     end
     context 'and locale is French' do
       before :each do
-        I18n.locale = 'fr'
+        I18n.locale = :fr
       end
       it 'returns the translated display text' do
         expect(FieldValueService.value(select_field, 'option_two')).to eq('French Two')
@@ -47,7 +47,7 @@ describe FieldValueService do
     end
     context 'and locale is Spanish' do
       before :each do
-        I18n.locale = 'es'
+        I18n.locale = :es
       end
       it 'returns the translated display text' do
         expect(FieldValueService.value(select_field, 'option_two')).to eq('Spanish Two')
@@ -55,7 +55,7 @@ describe FieldValueService do
     end
     context 'and locale is Arabic' do
       before :each do
-        I18n.locale = 'ar'
+        I18n.locale = :ar
       end
       it 'returns the translated display text' do
         expect(FieldValueService.value(select_field, 'option_two')).to eq('Arabic Two')
@@ -66,7 +66,7 @@ describe FieldValueService do
   context 'when field is a lookup select field' do
     before(:all) do
       clean_data(Lookup)
-      I18n.locale = 'en'
+      I18n.locale = :en
       @lookup = Lookup.create!(
         unique_id: 'lookup-ethnicity',
         name: 'Ethnicity',
@@ -117,7 +117,7 @@ describe FieldValueService do
     end
     context 'and locale is French' do
       before :each do
-        I18n.locale = 'fr'
+        I18n.locale = :fr
       end
       it 'returns the translated display text' do
         expect(FieldValueService.value(lookup_field, 'ethnicity_four')).to eq('French Ethnicity Four')
@@ -125,7 +125,7 @@ describe FieldValueService do
     end
     context 'and locale is Spanish' do
       before :each do
-        I18n.locale = 'es'
+        I18n.locale = :es
       end
       it 'returns the translated display text' do
         expect(FieldValueService.value(lookup_field, 'ethnicity_four')).to eq('Spanish Ethnicity Four')
@@ -133,7 +133,7 @@ describe FieldValueService do
     end
     context 'and locale is Arabic' do
       before :each do
-        I18n.locale = 'ar'
+        I18n.locale = :ar
       end
       it 'returns the translated display text' do
         expect(FieldValueService.value(lookup_field, 'ethnicity_four')).to eq('Arabic Ethnicity Four')
@@ -144,7 +144,7 @@ describe FieldValueService do
   context 'when field is a yes/no field' do
     before :all do
       clean_data(Lookup)
-      I18n.locale = 'en'
+      I18n.locale = :en
       @lookup = Lookup.create!(
         unique_id: 'lookup-yes-no',
         name: 'Yes or No',
@@ -186,7 +186,7 @@ describe FieldValueService do
       end
       context 'and locale is French' do
         before :each do
-          I18n.locale = 'fr'
+          I18n.locale = :fr
         end
         it 'returns the translated display text' do
           expect(FieldValueService.value(lookup_field, field_value)).to eq('French Yes')
@@ -194,7 +194,7 @@ describe FieldValueService do
       end
       context 'and locale is Spanish' do
         before :each do
-          I18n.locale = 'es'
+          I18n.locale = :es
         end
         it 'returns the translated display text' do
           expect(FieldValueService.value(lookup_field, field_value)).to eq('Spanish Yes')
@@ -202,7 +202,7 @@ describe FieldValueService do
       end
       context 'and locale is Arabic' do
         before :each do
-          I18n.locale = 'ar'
+          I18n.locale = :ar
         end
         it 'returns the translated display text' do
           expect(FieldValueService.value(lookup_field, field_value)).to eq('Arabic Yes')
@@ -220,7 +220,7 @@ describe FieldValueService do
       end
       context 'and locale is French' do
         before :each do
-          I18n.locale = 'fr'
+          I18n.locale = :fr
         end
         it 'returns the translated display text' do
           expect(FieldValueService.value(lookup_field, field_value)).to eq('French No')
@@ -228,7 +228,7 @@ describe FieldValueService do
       end
       context 'and locale is Spanish' do
         before :each do
-          I18n.locale = 'es'
+          I18n.locale = :es
         end
         it 'returns the translated display text' do
           expect(FieldValueService.value(lookup_field, field_value)).to eq('Spanish No')
@@ -236,7 +236,7 @@ describe FieldValueService do
       end
       context 'and locale is Arabic' do
         before :each do
-          I18n.locale = 'ar'
+          I18n.locale = :ar
         end
         it 'returns the translated display text' do
           expect(FieldValueService.value(lookup_field, field_value)).to eq('Arabic No')
@@ -257,7 +257,7 @@ describe FieldValueService do
 
   context 'when field is a tickbox field' do
     before :all do
-      I18n.locale = 'en'
+      I18n.locale = :en
     end
 
     let(:lookup_field) do

@@ -965,4 +965,55 @@ describe("<FormsBuilder /> - Reducers", () => {
       expect(newState).to.deep.equal(expected);
     });
   });
+
+  describe("SELECT_EXISTING_FIELDS", () => {
+    const field1 = { id: 1, name: "field_1" };
+    const field2 = { id: 2, name: "field_2" };
+    const field3 = { id: 3, name: "field_3" };
+    const field4 = { id: 3, name: "field_4" };
+
+    const currentState = fromJS({
+      fields: {
+        1: field1,
+        2: field2,
+        3: field3,
+        4: field4
+      },
+      selectedFields: [field2, field3]
+    });
+
+    it("should add the fields that were selected", () => {
+      const addedFields = [field1];
+      const expected = currentState
+        .set("selectedFields", fromJS([field2, field3, field1]))
+        .set("copiedFields", fromJS(addedFields))
+        .set("removedFields", fromJS([]));
+
+      const action = {
+        type: actions.SELECT_EXISTING_FIELDS,
+        payload: { addedFields, removedFields: [] }
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("should remove the fields that were unselected", () => {
+      const removedFields = [field2, field3];
+      const expected = currentState
+        .set("selectedFields", fromJS([]))
+        .set("copiedFields", fromJS([]))
+        .set("removedFields", fromJS(removedFields));
+
+      const action = {
+        type: actions.SELECT_EXISTING_FIELDS,
+        payload: { addedFields: [], removedFields }
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+  });
 });
