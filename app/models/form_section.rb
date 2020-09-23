@@ -99,7 +99,7 @@ class FormSection < ApplicationRecord
   def sync_form_group
     return unless changed_attribute_names_to_save.include?('form_group_id')
     return if form_group_id.blank?
-    return if Lookup.form_group_name(form_group_id, parent_form, module_name).present?
+    return if Lookup.form_group_name(form_group_id, parent_form, module_name)
 
     # If added manually by the user, form_group_id at this point is just what the user typed in
     # Use that value for the form group description.  Parameterize it to use as the id

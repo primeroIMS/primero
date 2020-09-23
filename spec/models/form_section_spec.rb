@@ -12,7 +12,8 @@ describe FormSection do
       lookup_values_en: [
         { id: 'm', display_text: 'M' }.with_indifferent_access,
         { id: 'x', display_text: 'X' }.with_indifferent_access,
-        { id: 'y', display_text: 'Y' }.with_indifferent_access
+        { id: 'y', display_text: 'Y' }.with_indifferent_access,
+        { id: 'group_1', display_text: 'Group 1' }.with_indifferent_access
       ]
     )
 
@@ -69,6 +70,31 @@ describe FormSection do
       expect { FormSection.new(unique_id: 'test').save! }.to raise_error(ActiveRecord::RecordInvalid)
 
       expect { FormSection.find_by(unique_id: 'test').save! }.to_not raise_error
+    end
+  end
+
+  describe "sync_form_group" do
+    it 'generates the form group if the form group does not exist' do
+      created_form_section = FormSection.create!(
+        unique_id: 'new_form_group',
+        name: 'New Form Group',
+        parent_form: 'case',
+        form_group_id: 'New Form Group'
+      )
+
+      lookup_form_group = Lookup.find_by(unique_id: 'lookup-form-group-cp-case')
+
+      form_group_value = lookup_form_group.lookup_values.find { |value| value['id'] == created_form_section.form_group_id }
+
+      expect(form_group_value).not_to be_nil
+    end
+
+    it 'does not generate the form group if the form group exists' do
+      FormSection.create!(unique_id: 'new_form_group', name: 'New Form Group', parent_form: 'case', form_group_id: 'Group 1')
+
+      lookup_form_group = Lookup.find_by(unique_id: 'lookup-form-group-cp-case')
+
+      expect(lookup_form_group.lookup_values.length).to eq(@lookup.lookup_values.length)
     end
   end
 
