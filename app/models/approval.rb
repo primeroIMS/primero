@@ -107,6 +107,7 @@ class Approval < ValueObject
     record.approval_subforms ||= []
     record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_REJECTED, approval_id, user_name,
                                                          comments)
+    delete_approval_alerts
   end
 
   protected

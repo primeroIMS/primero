@@ -239,7 +239,7 @@ describe Api::V2::LookupsController, type: :request do
             {
               'id' => 'country1',
               'display_text' => {
-                'en' => '',
+                'en' => 'Country 1',
                 'fr' => '',
                 'es' => 'País 1'
               }
@@ -247,7 +247,7 @@ describe Api::V2::LookupsController, type: :request do
             {
               'id' => 'country2',
               'display_text' => {
-                'en' => '',
+                'en' => 'Country 2',
                 'fr' => '',
                 'es' => 'País 2'
               }

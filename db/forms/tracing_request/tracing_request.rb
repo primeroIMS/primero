@@ -100,7 +100,6 @@ tracing_request_subform_fields = [
   Field.new({"name" => "location_separation",
              "type" => "select_box",
              "display_name_en" => "Separation Location",
-             "searchable_select" => true,
              "option_strings_source" => "Location",
              "matchable" => true
             }),
@@ -115,7 +114,6 @@ tracing_request_subform_fields = [
   Field.new({"name" => "location_last",
              "type" =>"select_box" ,
              "display_name_en" => "Last Location",
-             "searchable_select" => true,
              "option_strings_source" => "Location",
              "matchable" => true
             }),

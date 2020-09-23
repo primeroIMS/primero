@@ -13,8 +13,8 @@ describe("<FieldsList />", () => {
       admin: {
         forms: {
           selectedFields: [
-            { name: "field_1", editable: false },
-            { name: "field_2", editable: true }
+            { name: "field_1", display_name: { en: "Field 1" }, editable: false },
+            { name: "field_2", display_name: { en: "Field 2" }, editable: true }
           ]
         }
       }

@@ -143,3 +143,8 @@ export const mergeOnSelectedSubform = payload => ({
   type: actions.MERGE_SUBFORM_DATA,
   payload
 });
+
+export const selectExistingFields = payload => ({
+  type: actions.SELECT_EXISTING_FIELDS,
+  payload
+});

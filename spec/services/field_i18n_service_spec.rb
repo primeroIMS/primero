@@ -64,7 +64,7 @@ describe FieldI18nService do
 
   describe 'fill_keys' do
     it 'fill the key with all the available locales' do
-      I18n.stub(:available_locales).and_return([:en, :es, :fr])
+      I18n.stub(:available_locales).and_return(%i[en es fr])
       filled = FieldI18nService.fill_keys([:name], { name: { en: "Lastname", es: "Apellido" } })
       expect(filled).to eq({ name: { en: "Lastname", es: "Apellido", fr: ''} })
     end
@@ -72,7 +72,7 @@ describe FieldI18nService do
 
   describe 'fill_with_locales' do
     it 'return options with all the availables locales' do
-      I18n.stub available_locales: %w[en es fr]
+      I18n.stub available_locales: %i[en es fr]
       source = { 'en' => 'Lastname', 'es' => 'Apellido' }
       expected = { 'en' => 'Lastname', 'es' => 'Apellido', 'fr' => '' }
       expect(FieldI18nService.fill_with_locales(source)).to eq(expected)
@@ -81,7 +81,7 @@ describe FieldI18nService do
 
   describe 'fill_options' do
     it 'fill the options with all the available locales' do
-      I18n.stub(:available_locales).and_return([:en, :es, :fr])
+      I18n.stub(:available_locales).and_return(%i[en es fr])
       filled = FieldI18nService.fill_options([{"id"=>"true", "display_text"=>{"en"=>"True", "es": "Verdadero"}}])
       expect(filled).to eq(
         'en' => [{ 'id' => 'true', 'display_text' => 'True' }],
@@ -97,7 +97,7 @@ describe FieldI18nService do
         { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => 'Pais' } },
         { 'id' => '2', 'display_text' => { 'en' => 'City', 'es' => 'Ciudad' } }
       ]
-      I18n.stub(:available_locales).and_return([:en, :es, :fr])
+      I18n.stub(:available_locales).and_return(%i[en es fr])
       lookups_options = FieldI18nService.fill_lookups_options(options)
       expected_lookups_options = [
         { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => 'Pais', 'fr' => '' } },
@@ -126,7 +126,7 @@ describe FieldI18nService do
 
   describe 'fill_names' do
     it 'return the options hash with all the available locales' do
-      I18n.stub available_locales: %w[en es]
+      I18n.stub available_locales: %i[en es]
       options = [{ 'id' => 'true', 'display_text' => { 'en' => 'True', 'es': 'Verdadero' } }]
       expected = { 'en' => 'True', 'es' => 'Verdadero' }
       expect(FieldI18nService.fill_names(options)).to eq(expected)
@@ -135,7 +135,7 @@ describe FieldI18nService do
 
   describe 'to_localized_values' do
     it 'return the field with all the availables locales and the requiered order' do
-      I18n.stub(:available_locales).and_return([:en, :ar, :fr])
+      I18n.stub(:available_locales).and_return(%i[en ar fr])
       field = {
         'ar' => {
           'closure' => 'Closure-AR',

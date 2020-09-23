@@ -104,7 +104,7 @@ describe Filter do
       end
 
       it 'has status filter' do
-        expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'tracing_requests.filter_by.status',
+        expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'cases.filter_by.status',
                                                                    field_name: 'status', type: 'checkbox'))
       end
 

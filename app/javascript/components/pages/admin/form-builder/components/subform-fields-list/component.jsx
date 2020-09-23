@@ -17,7 +17,8 @@ const Component = ({
   setValue,
   subformField,
   subformSortBy,
-  subformGroupBy
+  subformGroupBy,
+  unregister
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -32,6 +33,7 @@ const Component = ({
         formContextFields={formContextFields}
         getValues={getValues}
         register={register}
+        unregister={unregister}
         setValue={setValue}
         subformField={subformField}
         subformSortBy={subformSortBy}
@@ -50,7 +52,8 @@ Component.propTypes = {
   setValue: PropTypes.func.isRequired,
   subformField: PropTypes.object.isRequired,
   subformGroupBy: PropTypes.string,
-  subformSortBy: PropTypes.string
+  subformSortBy: PropTypes.string,
+  unregister: PropTypes.func.isRequired
 };
 
 Component.whyDidYouRender = true;
@@ -64,5 +67,6 @@ export default React.memo(
     prev.setValue === next.setValue &&
     prev.subformSortBy === next.subformSortBy &&
     prev.subformGroupBy === next.subformGroupBy &&
+    prev.unregister === next.unregister &&
     prev.subformField.equals(next.subformField)
 );

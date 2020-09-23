@@ -16,6 +16,7 @@ import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/co
 import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
+import { NAME as EXISTING_FIELD_DIALOG_NAME } from "../existing-field-dialog/constants";
 import { compare } from "../../../../../../libs";
 import { getSelectedField, getSelectedSubform } from "../../selectors";
 import { isSubformField, setInitialForms, setSubformData, toggleHideOnViewPage } from "../field-dialog/utils";
@@ -49,6 +50,13 @@ const Component = ({ getValues }) => {
       }
     }
     dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true }));
+  };
+
+  const handleExistingFieldDialog = () => {
+    batch(() => {
+      dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: false }));
+      dispatch(setDialog({ dialog: EXISTING_FIELD_DIALOG_NAME, open: true }));
+    });
   };
 
   const handleCustomFieldSelectorDialog = () => {
@@ -99,8 +107,8 @@ const Component = ({ getValues }) => {
             text={i18n.t("fields.add_existing_field")}
             type={ACTION_BUTTON_TYPES.default}
             rest={{
-              onClick: handleClose,
-              disabled: true,
+              disabled: isSelectedSubform,
+              onClick: handleExistingFieldDialog,
               fullWidth: true,
               className: css.existingFieldButton
             }}
