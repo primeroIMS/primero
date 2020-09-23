@@ -17,7 +17,6 @@ reunification_subform = [
     Field.new({"name" => "location_reunified_adult",
                "type" => "select_box",
                "display_name_en" => "Location of adult with whom the child was reunified",
-               "searchable_select" => true,
                "option_strings_source" => "Location"
               }),
     Field.new({"name" => "address_reunification",
@@ -27,7 +26,6 @@ reunification_subform = [
     Field.new({"name" => "location_reunification",
                "type" => "select_box",
                "display_name_en" => "Location where the reunifcation is taking place",
-               "searchable_select" => true,
                "option_strings_source" => "Location"
               }),
     Field.new({"name" => "reunification_type",
