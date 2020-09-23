@@ -23,7 +23,7 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
 
   def update
     @configuration = PrimeroConfiguration.find(params[:id])
-    @configuration.apply!(current_user) if configuration_params[:apply_now].present?
+    @configuration.apply_later!(current_user) if configuration_params[:apply_now].present?
   end
 
   def destroy
