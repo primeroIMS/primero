@@ -25,7 +25,6 @@ tracing_action_subform = [
     Field.new({"name" => "location_tracing",
                "type" => "select_box",
                "display_name_en" => "Location of Tracing",
-               "searchable_select" => true,
                "option_strings_source" => "Location"
               }),
     Field.new({"name" => "tracing_action_description",
@@ -126,7 +125,6 @@ tracing_fields = [
   Field.new({"name" => "location_separation",
              "type" => "select_box",
              "display_name_en" => "Separation Location",
-             "searchable_select" => true,
              "option_strings_source" => "Location",
              "matchable" => true
             }),

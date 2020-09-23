@@ -120,8 +120,7 @@ gbv_incident_fields = [
               "mobile_visible" => true,
               "type" => "select_box",
               "display_name_en" => "Incident Location",
-              "option_strings_source" => "Location",
-              "searchable_select" => true
+              "option_strings_source" => "Location"
             }),
   Field.new({"name" => "incident_camp_town",
              "type" => "text_field",

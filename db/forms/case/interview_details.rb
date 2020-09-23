@@ -32,7 +32,6 @@ interview_details_fields = [
   Field.new({"name" => "location_interview",
              "type" =>"select_box",
              "display_name_en" => "Interview Location",
-             "searchable_select" => true,
              "option_strings_source" => "Location"
             }),
   Field.new({"name" => "source_interview",
