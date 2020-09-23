@@ -31,8 +31,10 @@ describe("libs/index", () => {
       "mapObjectPropertiesToRecords",
       "mergeRecord",
       "namespaceActions",
+      "normalizeTimezone",
       "rejectKeys",
       "toBase64",
+      "toServerDateFormat",
       "useThemeHelper",
       "valuesToSearchableSelect",
       "ConditionalWrapper"

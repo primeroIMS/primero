@@ -7,7 +7,7 @@ import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
 
-import { formatDateAsServer } from "../../../../libs";
+import { toServerDateFormat } from "../../../../libs";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../config";
 import { DATE_FIELD_NAME } from "../constants";
 import { NOT_FUTURE_DATE } from "../../constants";
@@ -76,7 +76,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ..
           onChange: date => {
             updateAgeField(form, date);
 
-            const formattedDate = date ? formatDateAsServer(date, { includeTime: dateIncludeTime }) : "";
+            const formattedDate = date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : "";
 
             return form.setFieldValue(name, formattedDate, true);
           },

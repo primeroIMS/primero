@@ -63,7 +63,9 @@ describe("Verifying config constant", () => {
       "ROWS_PER_PAGE_OPTIONS",
       "MAX_IMAGE_SIZE",
       "DEFAULT_METADATA",
-      "LOCALE_KEYS"
+      "LOCALE_KEYS",
+      "API_DATE_FORMAT",
+      "API_DATE_TIME_FORMAT"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);

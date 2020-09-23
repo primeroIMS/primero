@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
 
-import { formatDateAsServer } from "../../../../../libs";
+import { toServerDateFormat } from "../../../../../libs";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
 import Panel from "../../panel";
@@ -49,7 +49,7 @@ const Component = ({
     if (date) {
       const dateValue = field === "to" ? endOfDay(date) : startOfDay(date);
 
-      formattedDate = formatDateAsServer(dateValue, { includeTime: true, normalize: false });
+      formattedDate = toServerDateFormat(dateValue, { includeTime: true, normalize: false });
     }
 
     const value = { ...inputValue, [field]: formattedDate };

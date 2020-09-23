@@ -1,6 +1,16 @@
 import { fromJS } from "immutable";
+import { parseISO } from "date-fns";
 
-import { compare, dataToJS, valuesToSearchableSelect, getObjectPath } from "./component-helpers";
+import { useFakeTimers } from "../test";
+
+import {
+  compare,
+  dataToJS,
+  normalizeTimezone,
+  toServerDateFormat,
+  valuesToSearchableSelect,
+  getObjectPath
+} from "./component-helpers";
 
 describe("component-helpers", () => {
   describe("dataToJS", () => {
@@ -94,6 +104,53 @@ describe("component-helpers", () => {
         "test[2].isAwesome",
         "test[2].answer"
       ]);
+    });
+  });
+
+  describe("normalizeTimezone", () => {
+    let clock = null;
+
+    beforeEach(() => {
+      const today = parseISO("2010-01-05T18:30:00Z-06");
+
+      clock = useFakeTimers(today);
+    });
+
+    it("should remove the timezone from the date", () => {
+      const date = parseISO("2010-01-05T14:30:00Z");
+      const expectedDate = parseISO("2010-01-05T20:30:00Z");
+
+      expect(normalizeTimezone(date).toString()).to.equal(expectedDate.toString());
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+  });
+
+  describe("toServerDateFormat", () => {
+    let clock = null;
+
+    beforeEach(() => {
+      const today = parseISO("2010-01-05T18:30:00Z");
+
+      clock = useFakeTimers(today);
+    });
+
+    it("should return the API_DATE_FORMAT if the date does not include time", () => {
+      const date = parseISO("2010-01-05T14:30:00Z");
+
+      expect(toServerDateFormat(date)).to.equal("2010-01-05");
+    });
+
+    it("should return the API_DATE_TIME_FORMAT if the date does include time", () => {
+      const date = parseISO("2010-01-05T14:30:00Z");
+
+      expect(toServerDateFormat(date, { includeTime: true })).to.equal("2010-01-05T14:30:00Z");
+    });
+
+    afterEach(() => {
+      clock.restore();
     });
   });
 });

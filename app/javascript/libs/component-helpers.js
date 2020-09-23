@@ -1,7 +1,7 @@
 import { List, Map } from "immutable";
 import { addHours, format } from "date-fns";
 
-import { API_DATE_FORMAT, API_DATE_TIME_FORMAT } from "../config";
+import { API_DATE_FORMAT, API_DATE_TIME_FORMAT } from "../config/constants";
 
 import displayNameHelper from "./display-name-helper";
 
@@ -66,9 +66,9 @@ export const normalizeTimezone = date => {
   return addHours(date, offset);
 };
 
-export const formatDateAsServer = (date, options) => {
-  const includeTime = options.includeTime || false;
-  const normalize = options.normalize !== false;
+export const toServerDateFormat = (date, options) => {
+  const includeTime = options?.includeTime || false;
+  const normalize = options?.normalize !== false;
 
   const normalizedDate = includeTime && normalize ? normalizeTimezone(date) : date;
 
