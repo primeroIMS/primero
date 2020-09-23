@@ -3,10 +3,10 @@ import { FILTER_TYPES } from "../../../index-filters";
 
 import { AGENCY, DISABLED, USER_GROUP } from "./constants";
 
-const searchableAgencies = data => {
+const searchableAgencies = (data, i18n) => {
   const agencies = dataToJS(data);
 
-  return agencies.reduce((acc, agency) => [...acc, { id: agency.id, display_name: agency.name }], []);
+  return agencies.reduce((acc, agency) => [...acc, { id: agency.id, display_name: agency.name[i18n.locale] }], []);
 };
 
 const userGroupOptions = data => {
@@ -45,7 +45,7 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups) => [
   {
     name: "cases.filter_by.agency",
     field_name: AGENCY,
-    options: searchableAgencies(filterAgencies),
+    options: searchableAgencies(filterAgencies, i18n),
     type: FILTER_TYPES.MULTI_SELECT,
     multiple: false
   },

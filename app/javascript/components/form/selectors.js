@@ -22,10 +22,10 @@ const formGroups = (state, i18n) =>
     )
     .sortBy(item => item.get("display_text"));
 
-const agencies = (state, useUniqueId) =>
+const agencies = (state, useUniqueId, i18n) =>
   state.getIn(["application", "agencies"], fromJS([])).map(agency => ({
     id: agency.get(useUniqueId ? "unique_id" : "id"),
-    display_text: agency.get("name")
+    display_text: agency.getIn(["name", i18n.locale], "")
   }));
 
 const locations = (state, i18n, includeAdminLevel = false) =>
@@ -92,7 +92,7 @@ const lookups = (state, i18n) =>
 const optionsFromState = (state, optionStringsSource, i18n, useUniqueId) => {
   switch (optionStringsSource) {
     case OPTION_TYPES.AGENCY:
-      return agencies(state, useUniqueId);
+      return agencies(state, useUniqueId, i18n);
     case OPTION_TYPES.LOCATION:
       return locations(state, i18n);
     case OPTION_TYPES.REPORTING_LOCATIONS:
