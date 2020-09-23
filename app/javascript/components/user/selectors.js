@@ -1,5 +1,7 @@
 import { List, fromJS } from "immutable";
 
+import { SAVING } from "../../config";
+
 import NAMESPACE from "./namespace";
 import { PERMISSIONS, LIST_HEADERS, PERMITTED_FORMS } from "./constants";
 
@@ -24,3 +26,9 @@ export const getListHeaders = (state, resource) => state.getIn([NAMESPACE, LIST_
 export const getPermittedFormsIds = state => state.getIn([NAMESPACE, PERMITTED_FORMS], List([]));
 
 export const getReportingLocationConfig = state => state.getIn([NAMESPACE, "reportingLocationConfig"], fromJS({}));
+
+export const getUser = state => {
+  return state.get(NAMESPACE, fromJS({}));
+};
+
+export const getUserSavingRecord = state => state.getIn([NAMESPACE, SAVING], false);
