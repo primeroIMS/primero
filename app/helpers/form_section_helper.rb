@@ -105,7 +105,8 @@ module FormSectionHelper
   end
 
   def subform_placeholder(field, subform, editing=false)
-    return if field.base_doc.is_violations_group? || field.base_doc.is_violation?
+    return if editing && (field.base_doc.is_violations_group? || field.base_doc.is_violation?)
+
     form_string, translation_node = editing ? [subform.form.name, 'editing_subforms'] : [subform.display_name, 'subforms']
     t("placeholders.#{translation_node}", form: form_string)
   end
