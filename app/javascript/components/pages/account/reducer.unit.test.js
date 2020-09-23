@@ -28,14 +28,15 @@ describe("pages/account/reducer.js", () => {
 
   it("should handle FETCH_CURRENT_USER_SUCCESS", () => {
     const expected = fromJS({
-      user: { id: 3 },
+      id: 3,
       errors: false,
-      serverErrors: []
+      serverErrors: [],
+      role_id: 1
     });
 
     const action = {
       type: actions.FETCH_CURRENT_USER_SUCCESS,
-      payload: { data: { id: 3 } }
+      payload: { data: { id: 3, role_id: 1 } }
     };
 
     const newState = reducer(fromJS({}), action);

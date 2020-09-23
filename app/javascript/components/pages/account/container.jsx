@@ -17,11 +17,11 @@ import { form } from "../admin/users-form/form";
 import LoadingIndicator from "../../loading-indicator";
 import { getIdentityProviders } from "../admin/users-form/selectors";
 import validations from "../admin/users-form/validations";
+import { getUser, getUserSavingRecord } from "../../user/selectors";
 
 import { NAME } from "./constants";
 import NAMESPACE from "./namespace";
 import { fetchCurrentUser, clearCurrentUser, updateUserAccount } from "./action-creators";
-import { getCurrentUser, getSavingRecord } from "./selectors";
 
 const Container = ({ mode }) => {
   const i18n = useI18n();
@@ -31,8 +31,8 @@ const Container = ({ mode }) => {
   const { pathname } = useLocation();
   const { id } = useParams();
 
-  const currentUser = useSelector(state => getCurrentUser(state));
-  const saving = useSelector(state => getSavingRecord(state));
+  const currentUser = useSelector(state => getUser(state));
+  const saving = useSelector(state => getUserSavingRecord(state));
   const formErrors = fromJS({});
   const idp = useSelector(state => getIdentityProviders(state));
 

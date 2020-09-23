@@ -11,7 +11,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.FETCH_CURRENT_USER_STARTED:
       return state.set("loading", fromJS(payload)).set("errors", false).set("serverErrors", fromJS([]));
     case actions.FETCH_CURRENT_USER_SUCCESS:
-      return state.set("user", fromJS(payload.data)).set("errors", false).set("serverErrors", fromJS([]));
+      return state.merge(payload.data).set("errors", false).set("serverErrors", fromJS([]));
     case actions.FETCH_CURRENT_USER_FINISHED:
       return state.set("loading", fromJS(payload));
     case actions.FETCH_CURRENT_USER_FAILURE:

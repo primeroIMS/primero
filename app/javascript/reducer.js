@@ -90,19 +90,18 @@ const rootReducer = {
         roles: reduceReducers(rolesListReducer, rolesFormReducer),
         lookups: reduceReducers(lookupsListReducer, AdminLookupsFormReducers),
         configurations: reduceReducers(configurationsListReducer, configurationsFormReducer)
-      }),
-      account: reduceReducers(accountReducer)
+      })
     }),
     transferApprovalReducer,
     revokeModalReducer
   ),
+  user: reduceReducers(userReducer, accountReducer),
   ui: combineReducers({
     ...navReducer,
     ...i18nReducer,
     ...loginFormReducer,
     ...recordActionsReducer
   }),
-  ...userReducer,
   ...recordFormReducer,
   ...notifierReducer,
   ...applicationReducer,

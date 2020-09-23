@@ -9,21 +9,17 @@ describe("<Account />", () => {
 
   beforeEach(() => {
     const initialState = fromJS({
-      records: {
-        account: {
-          loading: false,
-          errors: false,
-          serverErrors: [],
-          user: {
-            locale: "en",
-            id: 1,
-            full_name: "Test user",
-            disabled: false,
-            email: "primero@primero.com",
-            time_zone: "UTC",
-            user_name: "primero"
-          }
-        }
+      user: {
+        loading: false,
+        errors: false,
+        serverErrors: [],
+        locale: "en",
+        id: 1,
+        full_name: "Test user",
+        disabled: false,
+        email: "primero@primero.com",
+        time_zone: "UTC",
+        user_name: "primero"
       },
       application: {
         agencies: [{ id: 1, unique_id: "agency-unicef", name: "UNICEF" }]
