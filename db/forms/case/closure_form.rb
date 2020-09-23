@@ -68,7 +68,6 @@ closure_fields = [
   Field.new({"name" => "location_caregiver_closing",
              "type" => "select_box",
              "display_name_en" => "Caregiver Location",
-             "searchable_select" => true,
              "option_strings_source" => "Location"
             })
 ]

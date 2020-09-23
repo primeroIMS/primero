@@ -28,7 +28,6 @@ child_preferences_fields_subform = [
   Field.new({"name" => "wishes_location",
              "type" => "select_box",
              "display_name_en" => "Last Known Location",
-             "searchable_select" => true,
              "option_strings_source" => "Location"
             }),
   Field.new({"name" => "wishes_telephone",
@@ -122,7 +121,6 @@ child_wishes_fields = [
   Field.new({"name" => "wishes_location_plan_live",
              "type" => "select_box",
              "display_name_en" => "Where does the child wish/plan to live?",
-             "searchable_select" => true,
              "option_strings_source" => "Location"
            }),
   Field.new({"name" => "wishes_address_plan_live",
