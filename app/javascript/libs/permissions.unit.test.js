@@ -76,6 +76,7 @@ describe("Verifying config constant", () => {
       "REQUEST_APPROVAL_CLOSURE",
       "REQUEST_APPROVAL_ACTION_PLAN",
       "REQUEST_APPROVAL_GBV_CLOSURE",
+      "REQUEST_TRANSFER",
       "SEARCH_OWNED_BY_OTHERS",
       "SERVICES_SECTION_FROM_CASE",
       "TRANSFER",

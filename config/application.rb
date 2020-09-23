@@ -53,42 +53,6 @@ class Primero::Application < Rails::Application
     agency_office reset_password_token
   ]
 
-  LOCALE_ENGLISH = 'en'
-  LOCALE_FRENCH = 'fr'
-  LOCALE_ARABIC = 'ar'
-  LOCALE_SPANISH = 'es'
-  LOCALE_LEBANON = 'ar-LB'
-  LOCALE_SOMALI = 'so'
-  LOCALE_BANGLA = 'bn'
-  LOCALE_INDONESIAN = 'id'
-  LOCALE_BURMESE = 'my'
-  LOCALE_THAI = 'th'
-  LOCALE_KURDISH = 'ku'
-  LOCALES = [
-    LOCALE_ENGLISH, LOCALE_FRENCH, LOCALE_ARABIC, LOCALE_LEBANON, LOCALE_SOMALI,
-    LOCALE_SPANISH, LOCALE_BANGLA, LOCALE_INDONESIAN, LOCALE_BURMESE, LOCALE_THAI, LOCALE_KURDISH
-  ].freeze
-  LOCALES_WITH_DESCRIPTION = [
-    ['-', nil],
-    ['English', LOCALE_ENGLISH],
-    ['Français', LOCALE_FRENCH],
-    ['العربية', LOCALE_ARABIC],
-    ['العربية (اللبنانية)', LOCALE_LEBANON],
-    ['Af-Soomaali', LOCALE_SOMALI],
-    ['Español', LOCALE_SPANISH],
-    ['বাংলা', LOCALE_BANGLA],
-    ['Bahasa', LOCALE_INDONESIAN],
-    ['ဗမာစာ', LOCALE_BURMESE],
-    ['ไทย', LOCALE_THAI],
-    ['کوردی', LOCALE_KURDISH]
-  ].freeze
-  RTL_LOCALES = [
-    LOCALE_ARABIC,
-    LOCALE_LEBANON,
-    LOCALE_KURDISH
-  ].freeze
-  BASE_LANGUAGE = LOCALE_ENGLISH
-
   ENV['RAILS_LOG_PATH'].present? &&
     config.paths['log'] = "#{ENV['RAILS_LOG_PATH']}/#{ENV['RAILS_ENV']}.log"
 
@@ -97,22 +61,10 @@ class Primero::Application < Rails::Application
   config.log_level = :debug
 
   config.logger = Logger.new(config.paths['log'].first, 1, 50.megabytes)
-  
+
   config.action_view.logger = nil
 
   config.exceptions_app = routes
-
-  def locales
-    @locales ||= I18n.available_locales.map(&:to_s)
-  end
-
-  def locales_with_description
-    @locales_with_description ||= LOCALES_WITH_DESCRIPTION.select { |l| (locales.include? l.last) || l.last.nil? }
-  end
-
-  def default_locale
-    @default_locale ||= I18n.default_locale.to_s
-  end
 end
 
 require File.expand_path('version', __dir__)

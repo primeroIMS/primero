@@ -3,16 +3,15 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
 import html2pdf from "html2pdf.js";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../../i18n";
 import { FORM_TO_EXPORT_FIELD } from "../../constants";
 import { enqueueSnackbar } from "../../../../notifier";
-import { getAgencyLogos } from "../../../../application/selectors";
 
 import { HTML_2_PDF_OPTIONS } from "./constants";
 import styles from "./styles.css";
-import { addPageHeaderFooter, buildHeaderImage } from "./utils";
+import { addPageHeaderFooter } from "./utils";
 import Table from "./components/table";
 
 const Component = ({ forms, record }, ref) => {
@@ -27,14 +26,14 @@ const Component = ({ forms, record }, ref) => {
     ? forms.filter(form => userSelectedForms.includes(form.unique_id))
     : forms;
 
-  const agencyLogos = useSelector(state => getAgencyLogos(state));
-
   useImperativeHandle(ref, () => ({
-    async savePdf({ setPending, close, values }) {
+    savePdf({ setPending, close, values }) {
       setPending(true);
 
+      // TODO: Will add back when we create api endpoint to fetch base64 images
+      // const logos = await Logos.find();
       // eslint-disable-next-line camelcase
-      const logo = agencyLogos ? await buildHeaderImage(agencyLogos[0]?.logo_full) : null;
+      // const logo = await buildHeaderImage(logos?.[0]?.images?.logo_full);
 
       html2pdf()
         .from(html.current)
@@ -42,7 +41,7 @@ const Component = ({ forms, record }, ref) => {
         .toPdf()
         .get("pdf")
         .then(pdf => {
-          addPageHeaderFooter(pdf, record, i18n, logo);
+          addPageHeaderFooter(pdf, record, i18n);
         })
         .save()
         .then(() => {

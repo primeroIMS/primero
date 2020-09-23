@@ -17,7 +17,7 @@ import { fetchRecordsAlerts } from "../../records/action-creators";
 import { fetchAlerts } from "../../nav/action-creators";
 import { SERVICE_DIALOG } from "../constants";
 
-import { NAME, SERVICES_SUBFORM } from "./constants";
+import { NAME, SERVICES_SUBFORM, SERVICES_SUBFORM_NAME } from "./constants";
 
 const Component = ({ openServiceDialog, close, pending, recordType, selectedRowsIndex, setPending }) => {
   const formikRef = useRef();
@@ -44,7 +44,9 @@ const Component = ({ openServiceDialog, close, pending, recordType, selectedRows
 
   if (!form?.toJS()?.length) return [];
 
-  const { subform_section_id: subformSectionID, name: subformName } = form.first().fields[0];
+  const { subform_section_id: subformSectionID, name: subformName } = form
+    .first()
+    .fields.find(field => field.name === SERVICES_SUBFORM_NAME);
   const initialFormValues = constructInitialValues([subformSectionID]);
 
   const modalProps = {

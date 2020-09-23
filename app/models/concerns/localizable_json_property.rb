@@ -100,7 +100,7 @@ module LocalizableJsonProperty
     end
   end
 
-  def localized_hash(locale = Primero::Application::BASE_LANGUAGE)
+  def localized_hash(locale = Primero::Application::LOCALE_ENGLISH)
     # Do not include option_strings_text... there is special handling of that in the Field model
     localized_properties = self.class.localized_properties
                                .reject { |p| p == :option_strings_text }
@@ -118,7 +118,7 @@ module LocalizableJsonProperty
       if locale_store.any? { |op| op['display_text'].present? }
         locale_store
       else
-        read_store_attribute(store, Primero::Application::BASE_LANGUAGE)
+        read_store_attribute(store, Primero::Application::LOCALE_ENGLISH)
       end
     else
       locale_store

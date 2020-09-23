@@ -5,6 +5,9 @@ require 'rails_helper'
 describe Api::V2::SystemSettingsController, type: :request do
   before :each do
     clean_data(Field, FormSection, Agency, PrimeroProgram, PrimeroModule, SystemSettings)
+    I18n.locale = :en
+    I18n.default_locale = :en
+    I18n.available_locales = %i[en ar fr es]
     fields = [
       Field.new(
         name: 'field_name_2',
@@ -43,7 +46,6 @@ describe Api::V2::SystemSettingsController, type: :request do
       }
     )
     @system_settings = SystemSettings.create(
-      default_locale: 'en',
       case_code_separator: '-',
       primero_version: '2.0.0',
       age_ranges: {
@@ -68,7 +70,11 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings'
       expect(response).to have_http_status(200)
-      expect(json['data']['default_locale']).to eq(@system_settings.default_locale)
+      expect(json['data'].size).to eq(15)
+      expect(json['data']['default_locale']).to eq('en')
+      expect(json['data']['locale']).to eq('en')
+      expect(json['data']['locales']).to contain_exactly('en', 'ar', 'fr', 'es')
+      expect(json['data']['rtl_locales']).to contain_exactly('ar')
       expect(json['data']['primero_version']).to eq(@system_settings.primero_version)
     end
 
@@ -76,6 +82,7 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings?extended=true'
       expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(17)
       expect(json['data']['agencies'][0]['name']['en']).to eq('Agency test')
       expect(json['data']['modules'].size).to eq(1)
       expect(json['data']['modules'][0]['name']).to eq('CP')

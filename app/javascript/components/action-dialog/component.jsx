@@ -31,6 +31,7 @@ const ActionDialog = ({
   onClose,
   open,
   pending,
+  showSuccessButton,
   successHandler
 }) => {
   const i18n = useI18n();
@@ -116,7 +117,7 @@ const ActionDialog = ({
         <DialogContent>{dialogText ? <DialogContentText>{dialogText}</DialogContentText> : children}</DialogContent>
         {!disableActions && (
           <DialogActions>
-            {submitButton}
+            {showSuccessButton && submitButton}
             {cancelHandler && (
               <ActionButton
                 icon={<CloseIcon />}
@@ -142,7 +143,8 @@ ActionDialog.displayName = "ActionDialog";
 ActionDialog.defaultProps = {
   cancelButtonProps: {},
   disableBackdropClick: false,
-  enabledSuccessButton: true
+  enabledSuccessButton: true,
+  showSuccessButton: true
 };
 
 ActionDialog.propTypes = {
@@ -155,7 +157,7 @@ ActionDialog.propTypes = {
   dialogSubHeader: PropTypes.string,
   dialogSubtitle: PropTypes.string,
   dialogText: PropTypes.string,
-  dialogTitle: PropTypes.string,
+  dialogTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   disableActions: PropTypes.bool,
   disableBackdropClick: PropTypes.bool,
   enabledSuccessButton: PropTypes.bool,
@@ -164,6 +166,7 @@ ActionDialog.propTypes = {
   onClose: PropTypes.func,
   open: PropTypes.bool,
   pending: PropTypes.bool,
+  showSuccessButton: PropTypes.bool,
   successHandler: PropTypes.func
 };
 

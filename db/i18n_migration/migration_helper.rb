@@ -34,14 +34,14 @@ module MigrationHelper
 
   #Only the current configured locales to be used when creating new fields
   def create_locales
-    Primero::Application::locales.each do |locale|
+    I18n.available_locales.each do |locale|
       yield(locale)
     end
   end
 
   #List of possible locales that are not part of the list of locales configured for the current system
   def locales_to_discard
-    Primero::Application::LOCALES - Primero::Application::locales
+    Primero::Application::LOCALES - I18n.available_locales
   end
 
   #Throw away locale specific property data that isn't among one of the configured locales

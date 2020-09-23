@@ -1,6 +1,7 @@
 import { Record, fromJS } from "immutable";
 
 export const FieldRecord = Record({
+  id: null,
   name: "",
   type: "",
   editable: true,
@@ -42,7 +43,8 @@ export const FieldRecord = Record({
   order: null,
   disableClearable: false,
   onBlur: null,
-  subform_section_unique_id: null
+  subform_section_unique_id: null,
+  form_section_id: null
 });
 
 export const FormSectionRecord = Record({

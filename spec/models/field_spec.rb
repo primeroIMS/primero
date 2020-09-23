@@ -266,8 +266,10 @@ describe Field do
   end
 
   describe 'I18n' do
+    before do
+      I18n.locale = :fr
+    end
     it 'should set the value of system language for the given field' do
-      I18n.locale = 'fr'
       field = Field.new(
         name: 'first_name', display_name: 'first name in french',
         help_text: 'help text in french',
@@ -283,7 +285,6 @@ describe Field do
     end
 
     it 'should get the value of system language for the given field' do
-      I18n.locale = 'fr'
       field = Field.new(
         name: 'first_name', display_name_fr: 'first name in french',
         help_text_en: 'help text in english', help_text_fr: 'help text in french',
@@ -296,7 +297,6 @@ describe Field do
     end
 
     it "should fetch the default locale's value if translation is not available for given locale" do
-      I18n.locale = 'fr'
       field = Field.new(
         name: 'first_name', display_name_en: 'first name in english',
         help_text_en: 'help text in english', help_text_fr: 'help text in french',

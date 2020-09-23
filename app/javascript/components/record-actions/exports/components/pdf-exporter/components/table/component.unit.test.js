@@ -12,7 +12,8 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
         FieldRecord({
           display_name: "Test Field",
           name: "test_field",
-          type: "text_field"
+          type: "text_field",
+          visible: true
         }),
         FieldRecord({
           display_name: "Test SubField",
@@ -22,7 +23,8 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
               FieldRecord({
                 display_name: "Test Sub Field",
                 name: "test_sub_field",
-                type: "text_field"
+                type: "text_field",
+                visible: true
               })
             ]
           }),
@@ -40,7 +42,7 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
 
     expect(component.html()).to.equal(
       // eslint-disable-next-line max-len
-      `<table><tbody><tr><td>Test Field</td><td>josh</td></tr><tr><td colspan="2"><h4>Test SubField</h4><table><tbody><tr><td>Test Sub Field</td><td>anthony</td></tr></tbody></table></td></tr></tbody></table>`
+      `<div><div><div>Test Field</div><div>josh</div></div><div><div><div><h4>Test SubField</h4><div><div><div>Test Sub Field</div><div>anthony</div></div></div></div></div></div></div>`
     );
   });
 });
