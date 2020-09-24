@@ -3,49 +3,47 @@ id:
     today: 'Today'
     clear: 'Clear'
     abbr_day_names_short:
-    - Su
-    - Mo
-    - Tu
-    - We
-    - Th
-    - Fr
-    - Sa
+      - Su
+      - Mo
+      - Tu
+      - We
+      - Th
+      - Fr
+      - Sa
     abbr_month_names:
-    -
-    - Jan
-    - Feb
-    - Mar
-    - Apr
-    - May
-    - Jun
-    - Jul
-    - Aug
-    - Sep
-    - Oct
-    - Nov
-    - Dec
+      - Jan
+      - Feb
+      - Mar
+      - Apr
+      - May
+      - Jun
+      - Jul
+      - Aug
+      - Sep
+      - Oct
+      - Nov
+      - Dec
     day_names:
-    - Sunday
-    - Monday
-    - Tuesday
-    - Wednesday
-    - Thursday
-    - Friday
-    - Saturday
+      - Sunday
+      - Monday
+      - Tuesday
+      - Wednesday
+      - Thursday
+      - Friday
+      - Saturday
     month_names:
-    -
-    - January
-    - February
-    - March
-    - April
-    - May
-    - June
-    - July
-    - August
-    - September
-    - October
-    - November
-    - December
+      - January
+      - February
+      - March
+      - April
+      - May
+      - June
+      - July
+      - August
+      - September
+      - October
+      - November
+      - December
     formats:
       default: "%d-%b-%Y"
       with_time: "%d-%b-%Y %H:%M"
@@ -53,5 +51,5 @@ id:
     formats:
       default: "%d-%b-%Y"
       with_time: "%d-%b-%Y %H:%M"
-  "true": "Yes"
-  "false": "No"
+  'true': "Yes"
+  'false': "No"
