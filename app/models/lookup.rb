@@ -46,7 +46,7 @@ class Lookup < ApplicationRecord
     # TODO: Pavel review, I want to get rid of this.
     def form_group_name(form_group_id, parent_form, module_name, opts = {})
       form_group_names = form_group_name_all(form_group_id, parent_form, module_name)
-      return '' if form_group_names.blank?
+      return nil if form_group_names.blank?
 
       locale = opts[:locale].presence || I18n.locale
       form_group_names[locale.to_s]
