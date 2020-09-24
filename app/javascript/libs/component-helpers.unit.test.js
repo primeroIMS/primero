@@ -109,21 +109,29 @@ describe("component-helpers", () => {
 
   describe("normalizeTimezone", () => {
     let clock = null;
+    const { getTimezoneOffset } = Date.prototype;
 
     beforeEach(() => {
-      const today = parseISO("2010-01-05T18:30:00Z-06");
+      const today = parseISO("2010-01-05T18:30:00Z");
+
+      // Use a -04:00 timezone
+      // eslint-disable-next-line no-extend-native
+      Date.prototype.getTimezoneOffset = () => 240;
 
       clock = useFakeTimers(today);
     });
 
     it("should remove the timezone from the date", () => {
       const date = parseISO("2010-01-05T14:30:00Z");
-      const expectedDate = parseISO("2010-01-05T20:30:00Z");
+      const expectedDate = parseISO("2010-01-05T18:30:00Z");
 
       expect(normalizeTimezone(date).toString()).to.equal(expectedDate.toString());
     });
 
     afterEach(() => {
+      // Restore original method
+      // eslint-disable-next-line no-extend-native
+      Date.prototype.getTimezoneOffset = getTimezoneOffset;
       clock.restore();
     });
   });
