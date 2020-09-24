@@ -11,6 +11,14 @@ en:
     - Th
     - Fr
     - Sa
+    abbr_day_names:
+    - Sun
+    - Mon
+    - Tue
+    - Wed
+    - Thu
+    - Fri
+    - Sat
     abbr_month_names:
     -
     - Jan
