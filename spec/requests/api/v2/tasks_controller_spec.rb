@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Api::V2::TasksController, type: :request do
   before :each do
     clean_data(Child, SystemSettings)
-    travel_to Time.zone.local(2020, 06, 24, 01, 04, 44)
+    travel_to Time.zone.local(2019, 10, 24, 11, 30, 44)
     @system_settings = SystemSettings.create(due_date_from_appointment_date: true)
     SystemSettings.stub(:current).and_return(SystemSettings.first)
     @case1 = Child.create!(
@@ -15,7 +15,7 @@ describe Api::V2::TasksController, type: :request do
         owned_by: 'faketest',
         assessment_due_date: Date.yesterday,
         case_plan_due_date: Date.tomorrow,
-        followup_subform_section: [{followup_needed_by_date: 3.days.from_now}],
+        followup_subform_section: [{ followup_needed_by_date: 3.days.from_now }],
         services_section: [{
           unique_id: '712d2759-7ec5-4fab-b89b-cfe69dda32ca',
           service_type: 'safehouse_service',
@@ -48,7 +48,7 @@ describe Api::V2::TasksController, type: :request do
 
       describe 'Assessment task' do
         before do
-          @task = json['data'].select{|x| x['type'] == 'assessment'}.first
+          @task = json['data'].select { |x| x['type'] == 'assessment' }.first
         end
 
         it 'is listed' do
@@ -66,7 +66,7 @@ describe Api::V2::TasksController, type: :request do
 
       describe 'Case Plan task' do
         before do
-          @task = json['data'].select{|x| x['type'] == 'case_plan'}.first
+          @task = json['data'].select { |x| x['type'] == 'case_plan' }.first
         end
 
         it 'is listed' do
@@ -84,7 +84,7 @@ describe Api::V2::TasksController, type: :request do
 
       describe 'Follow Up task' do
         before do
-          @task = json['data'].select{|x| x['type'] == 'follow_up'}.first
+          @task = json['data'].select { |x| x['type'] == 'follow_up' }.first
         end
 
         it 'is listed' do
@@ -102,7 +102,7 @@ describe Api::V2::TasksController, type: :request do
 
       describe 'Service task' do
         before do
-          @task = json['data'].select{|x| x['type'] == 'service'}.first
+          @task = json['data'].select { |x| x['type'] == 'service' }.first
         end
 
         it 'is listed' do
