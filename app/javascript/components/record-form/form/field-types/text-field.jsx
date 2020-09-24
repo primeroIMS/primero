@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { ButtonBase } from "@material-ui/core";
 import { FastField, connect } from "formik";
 
+import { toServerDateFormat } from "../../../../libs";
 import { useI18n } from "../../../i18n";
 import { saveRecord, selectRecordAttribute } from "../../../records";
 import { TEXT_FIELD_NAME } from "../constants";
@@ -52,7 +53,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
       const currentYear = new Date().getFullYear();
       const diff = subYears(new Date(currentYear, 0, 1), value);
 
-      form.setFieldValue(`${matches[1]}date_of_birth`, diff, true);
+      form.setFieldValue(`${matches[1]}date_of_birth`, toServerDateFormat(diff), true);
     }
   };
 

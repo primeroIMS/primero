@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import { endOfDay, parseISO, startOfDay } from "date-fns";
 import PropTypes from "prop-types";
+import DateFnsUtils from "@date-io/date-fns";
 import { useFormContext } from "react-hook-form";
 import { Select, MenuItem } from "@material-ui/core";
-import { DatePicker, DateTimePicker } from "@material-ui/pickers";
+import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
 
 import { toServerDateFormat } from "../../../../../libs";
+import localize from "../../../../../libs/date-picker-localization";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
 import Panel from "../../panel";
@@ -180,7 +182,9 @@ const Component = ({
 
     return (
       <div key={picker} className={css.dateInput}>
-        {dateIncludeTime ? <DateTimePicker {...props} /> : <DatePicker {...props} />}
+        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
+          {dateIncludeTime ? <DateTimePicker {...props} /> : <DatePicker {...props} />}
+        </MuiPickersUtilsProvider>
       </div>
     );
   });
