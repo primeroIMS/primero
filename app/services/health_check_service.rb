@@ -2,7 +2,7 @@
 
 # Validate basic Primero health: in this case being able to access core dependencies
 class HealthCheckService
-  BACKENDS = %w[database solr beanstalkd server].freeze
+  BACKENDS = %w[database solr beanstalkd server api].freeze
   class << self
     def healthy?(backend = nil)
       return send("#{backend}_accessible?") if BACKENDS.include?(backend)
@@ -39,6 +39,10 @@ class HealthCheckService
 
     def should_test_beanstalkd?
       Rails.configuration.active_job[:queue_adapter] == :backburner
+    end
+
+    def api_accessible?
+      !SystemSettings.locked_for_configuration_update?
     end
   end
 end

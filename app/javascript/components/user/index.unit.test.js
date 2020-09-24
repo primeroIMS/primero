@@ -21,7 +21,9 @@ describe("User - index", () => {
       "getIsAuthenticated",
       "getListHeaders",
       "getPermittedFormsIds",
-      "getReportingLocationConfig"
+      "getReportingLocationConfig",
+      "getUser",
+      "getUserSavingRecord"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

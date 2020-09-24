@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_30_000001) do
+ActiveRecord::Schema.define(version: 2020_09_03_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -396,6 +396,7 @@ ActiveRecord::Schema.define(version: 2020_08_30_000001) do
     t.string "primero_version"
     t.jsonb "system_options"
     t.jsonb "approvals_labels_i18n"
+    t.boolean "config_update_lock", default: false, null: false
   end
 
   create_table "traces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -462,7 +463,6 @@ ActiveRecord::Schema.define(version: 2020_08_30_000001) do
     t.string "location"
     t.string "reporting_location_code"
     t.integer "role_id"
-    t.integer "identity_providers_id"
     t.string "time_zone", default: "UTC"
     t.string "locale"
     t.boolean "send_mail", default: true
@@ -478,7 +478,6 @@ ActiveRecord::Schema.define(version: 2020_08_30_000001) do
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["identity_provider_id"], name: "index_users_on_identity_provider_id"
-    t.index ["identity_providers_id"], name: "index_users_on_identity_providers_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["user_name"], name: "index_users_on_user_name", unique: true

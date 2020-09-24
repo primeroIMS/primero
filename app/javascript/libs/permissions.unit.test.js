@@ -108,6 +108,7 @@ describe("Verifying config constant", () => {
 
     [
       "agencies",
+      "any",
       "audit_logs",
       "cases",
       "configurations",

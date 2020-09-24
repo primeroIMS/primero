@@ -37,8 +37,8 @@ describe("<AuditLogs /> - Helpers", () => {
 
   describe("getFilters", () => {
     it("should return the correct object to build users filters", () => {
-      const i18n = { t: value => value };
-      const options = fromJS([{ id: 1, name: "Agency 1" }]);
+      const i18n = { t: value => value, locale: "en" };
+      const options = fromJS([{ id: 1, name: { en: "Agency 1" } }]);
 
       const expected = [
         {

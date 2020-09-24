@@ -1,6 +1,6 @@
 import { object, number, string, lazy, ref, array, addMethod } from "yup";
 
-export default (formMode, i18n, useIdentityProviders, providers) => {
+export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage = false) => {
   const useProviders = useIdentityProviders && providers;
 
   // eslint-disable-next-line func-names
@@ -27,8 +27,13 @@ export default (formMode, i18n, useIdentityProviders, providers) => {
 
   addMethod(string, "isIdpProvider", isIdpProvider);
 
-  return object().shape({
+  const excludedFieldsOnAccountPage = {
     agency_id: number().required().label(i18n.t("user.organization")),
+    role_unique_id: string().required().label(i18n.t("user.role_id")),
+    user_group_unique_ids: array().required().label(i18n.t("user.user_group_unique_ids"))
+  };
+
+  const defaultFieldsValidation = {
     email: string().required().label(i18n.t("user.email")),
     full_name: string().required().label(i18n.t("user.full_name")),
     identity_provider_id: useProviders && number().required(),
@@ -58,10 +63,14 @@ export default (formMode, i18n, useIdentityProviders, providers) => {
 
         return defaultValidation;
       }),
-    role_unique_id: string().required().label(i18n.t("user.role_id")),
-    user_group_unique_ids: array().required().label(i18n.t("user.user_group_unique_ids")),
     user_name: useProviders
       ? string().required().label(i18n.t("user.user_name")).isIdpProvider(ref("identity_provider_id"))
       : string().required().label(i18n.t("user.user_name"))
-  });
+  };
+
+  if (isMyAccountPage) {
+    return object().shape(defaultFieldsValidation);
+  }
+
+  return object().shape({ ...defaultFieldsValidation, ...excludedFieldsOnAccountPage });
 };
