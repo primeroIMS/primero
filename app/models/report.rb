@@ -538,6 +538,8 @@ class Report < CouchRest::Model::Base
               }.join(" OR ") + ')'
             end
           end
+        elsif attribute.present? && constraint.present? && constraint == 'limit_by_week'
+          "#{attribute}:[#{((DateTime.now - 12.weeks).beginning_of_week).strftime("%FT%H:%M:%SZ")} TO *]"
         elsif attribute.present? && constraint.present? && constraint == 'not_null'
           "#{attribute}:[* TO *]"
         end

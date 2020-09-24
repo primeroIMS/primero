@@ -1,6 +1,8 @@
 <%
   hidden = false
   null_constraint = [t('report.filters.not_null'), 'not_null']
+  limit_by_week_constraint = [t('report.filters.limit_by_week'), 'limit_by_week_constraint']
+
   if report_filter.nil?
     index = 'template'
     hidden = true
@@ -63,7 +65,7 @@
         <select class="<%= hidden ? 'report_filter_input_template' : 'report_filter_input' %>"
                 id="<%= "report_filters_#{index}_constraint"%>"
                 name="<%= "report[filters][#{index}][constraint]" %>">
-          <%= options_for_select(['', null_constraint, '=', '<', '>'], constraint) %>
+          <%= options_for_select(['', limit_by_week_constraint, null_constraint, '=', '<', '>'], constraint) %>
         </select>
       </div>
       <div class="medium-6 columns end form_date_field">
