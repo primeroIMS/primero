@@ -1,20 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { differenceInYears, parseISO } from "date-fns";
-import { DatePicker, DateTimePicker } from "@material-ui/pickers";
 import { InputAdornment } from "@material-ui/core";
 import { FastField, connect, getIn } from "formik";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
 
+import { toServerDateFormat } from "../../../../libs";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../config";
-import { useI18n } from "../../../i18n";
 import { DATE_FIELD_NAME } from "../constants";
 import { NOT_FUTURE_DATE } from "../../constants";
 
-const DateField = ({ name, helperText, mode, formik, InputProps, ...rest }) => {
-  const i18n = useI18n();
+import DateFieldPicker from "./date-field-picker";
+
+const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ...rest }) => {
   const allowedDefaultValues = ["TODAY", "NOW"];
 
   const { date_include_time: dateIncludeTime, selected_value: selectedValue } = rest.field;
@@ -62,7 +62,6 @@ const DateField = ({ name, helperText, mode, formik, InputProps, ...rest }) => {
           ...{ ...field, value: getDateValue(form, field) },
           ...omitBy(rest, (v, k) => ["recordType", "recordID"].includes(k)),
           format: dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT,
-          helperText: (fieldTouched && fieldError) || helperText || i18n.t("fields.date_help"),
           clearable: true,
           InputProps: {
             ...InputProps,
@@ -77,13 +76,24 @@ const DateField = ({ name, helperText, mode, formik, InputProps, ...rest }) => {
           onChange: date => {
             updateAgeField(form, date);
 
-            return form.setFieldValue(name, date, true);
+            const formattedDate = date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : "";
+
+            return form.setFieldValue(name, formattedDate, true);
           },
           disableFuture: rest.field && rest.field.get("date_validation") === NOT_FUTURE_DATE,
           error: !!(fieldError && fieldTouched)
         };
 
-        return dateIncludeTime ? <DateTimePicker {...dateProps} /> : <DatePicker {...dateProps} />;
+        return (
+          <DateFieldPicker
+            dateIncludeTime={dateIncludeTime}
+            dateProps={dateProps}
+            helperText={helperText}
+            fieldTouched={fieldTouched}
+            fieldError={fieldError}
+            displayName={displayName}
+          />
+        );
       }}
     />
   );
@@ -92,6 +102,7 @@ const DateField = ({ name, helperText, mode, formik, InputProps, ...rest }) => {
 DateField.displayName = DATE_FIELD_NAME;
 
 DateField.propTypes = {
+  displayName: PropTypes.object,
   formik: PropTypes.object.isRequired,
   helperText: PropTypes.string,
   InputProps: PropTypes.object,

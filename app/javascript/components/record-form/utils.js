@@ -2,7 +2,7 @@
 import { isEmpty, transform, isObject, isEqual, find, pickBy, identity } from "lodash";
 import { isDate, format } from "date-fns";
 
-import { DATE_FORMAT } from "../../config";
+import { API_DATE_FORMAT } from "../../config";
 
 import {
   SUBFORM_SECTION,
@@ -58,7 +58,7 @@ function difference(object, base, nested) {
         val =
           !isEmpty(initialValue) && initialValue.length === currentValue.length
             ? value.toISOString()
-            : format(value, DATE_FORMAT);
+            : format(value, API_DATE_FORMAT);
       }
 
       if (Array.isArray(val)) {

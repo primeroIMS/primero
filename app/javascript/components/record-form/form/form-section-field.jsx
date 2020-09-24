@@ -73,7 +73,8 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
     disabled: mode.isShow || disabled,
     checked: ["t", "true"].includes(selectedValue),
     ...(mode.isShow && { placeholder: "--" }),
-    index
+    index,
+    displayName
   };
 
   const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (
