@@ -2,14 +2,15 @@ ar-LB:
   date:
     today: 'Today'
     clear: 'Clear'
+    first_day: 0
     abbr_day_names_short:
-      - Su
-      - Mo
-      - Tu
-      - We
-      - Th
-      - Fr
-      - Sa
+    - الأحد
+    - الإثنين
+    - الثّلاثاء
+    - الأربعاء
+    - الخميس
+    - الجمعة
+    - السّبت
     abbr_month_names:
       - ينا
       - فبر

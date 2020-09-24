@@ -2,14 +2,15 @@ ku:
   date:
     today: 'Today'
     clear: 'Clear'
+    first_day: 0
     abbr_day_names_short:
-      - Su
-      - Mo
-      - Tu
-      - We
-      - Th
-      - Fr
-      - Sa
+      - الأحد
+      - الإثنين
+      - الثّلاثاء
+      - الأربعاء
+      - الخميس
+      - الجمعة
+      - السّبت
     abbr_month_names:
       - كانون الثاني
       - شباط
@@ -47,7 +48,11 @@ ku:
     formats:
       default: "%d-%b-%Y"
       with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
   time:
     formats:
       default: "%d-%b-%Y"
       with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
