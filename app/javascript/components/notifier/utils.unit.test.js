@@ -21,7 +21,7 @@ describe("components/notifier/utils.js", () => {
     it("should return generated key if no message", () => {
       const expected = "d06bb454b66f";
 
-      stub(uuid, "v4").returns("dd3b8e93-0cce-415b-ad2b-d06bb454b66f");
+      stub(uuid, "v4").returns("b8e93-0cce-415b-ad2b-d06bb454b66f");
       expect(utils.generate.messageKey(null, false)).to.equal(expected);
 
       uuid.v4.restore();
