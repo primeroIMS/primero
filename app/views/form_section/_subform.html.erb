@@ -55,7 +55,7 @@
     <% end %>
     <% if subform_group.count == 0 %>
       <% initial_subforms = subform_section[:initial_subforms] || 0 %>
-      <% if initial_subforms > 0 && (formObject.new_record? || form_group_id == 'violations') && !formObject.errors.any? %>
+      <% if initial_subforms > 0 && (formObject.new_record? || (form_group_id == 'violations' && !subform.subform_section.is_summary_section)) && !formObject.errors.any? %>
         <% subform_action =  formObject.new_record? ? 'new' : 'edit' %>
         <% subform_section[:initial_subforms].times do |default_number|%>
           <%= render partial: 'form_section/subform_instance',
