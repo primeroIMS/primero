@@ -5,23 +5,31 @@ import isEqual from "lodash/isEqual";
 
 import KeyValueCell from "../key-value-cell";
 import { useI18n } from "../../../../../../i18n";
-import { DATE_FIELD } from "../../../../../../form";
+import { DATE_FIELD, TICK_FIELD } from "../../../../../../form";
+import { valuesWithDisplayConditions } from "../../../../../../record-form/form/subforms/subform-field-array/utils";
 
+import { EXCLUDED_FIELD_TYPES } from "./constants";
 import styles from "./styles.css";
 
 const Component = ({ fields, record }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
-  const renderSubform = (subformSectionId, displayName) =>
-    record.get(subformSectionId.unique_id, []).map((subform, index) => (
-      <div key={record.getIn([subformSectionId.unique_id, index, "unique_id"])}>
+  const renderSubform = (field, subformSection, displayName) => {
+    const { subform_section_configuration: subformSectionConfiguration } = field;
+    const { display_conditions: displayConditions } = subformSectionConfiguration || {};
+    const values = record.get(subformSection.unique_id, []);
+    const filteredValues = displayConditions ? valuesWithDisplayConditions(values, displayConditions) : values;
+
+    return filteredValues.map((subform, index) => (
+      <div key={record.getIn([subformSection.unique_id, index, "unique_id"])}>
         <div className={css.subform}>
           <h4>{i18n.getI18nStringFromObject(displayName)}</h4>
-          <Component fields={subformSectionId.fields} record={subform} />
+          <Component fields={subformSection.fields} record={subform} />
         </div>
       </div>
     ));
+  };
 
   return (
     <div className={css.group}>
@@ -29,7 +37,7 @@ const Component = ({ fields, record }) => {
         const {
           name,
           visible,
-          subform_section_id: subformSectionId,
+          subform_section_id: subformSection,
           display_name: displayName,
           option_strings_source: optionStringsSource,
           option_strings_text: optionsStringsText,
@@ -38,11 +46,11 @@ const Component = ({ fields, record }) => {
           date_include_time: dateIncludeTime
         } = field;
 
-        if (subformSectionId) {
-          return <div key={`keyval-${name}`}>{renderSubform(subformSectionId, displayName)}</div>;
+        if (subformSection) {
+          return <div key={`keyval-${name}`}>{renderSubform(field, subformSection, displayName)}</div>;
         }
 
-        if (!visible) {
+        if (!visible || EXCLUDED_FIELD_TYPES.includes(type)) {
           return null;
         }
 
@@ -53,8 +61,9 @@ const Component = ({ fields, record }) => {
             optionsStringSource={optionStringsSource}
             options={optionsStringsText || options}
             key={`keyval-${name}`}
-            date={type === DATE_FIELD}
-            dateWithTime={dateIncludeTime}
+            isDateField={type === DATE_FIELD}
+            isDateWithTime={dateIncludeTime}
+            isBooleanField={type === TICK_FIELD}
           />
         );
       })}

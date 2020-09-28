@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
+import isEmpty from "lodash/isEmpty";
 
 import { setLocale } from "./action-creators";
 import Context from "./context";
@@ -24,7 +25,9 @@ const I18nProvider = ({ children }) => {
 
   const getI18nStringFromObject = i18nObject => {
     if (i18nObject instanceof Object) {
-      return i18nObject?.[locale];
+      const localizedValue = i18nObject?.[locale];
+
+      return isEmpty(localizedValue) ? i18nObject?.[window.I18n.defaultLocale] : localizedValue;
     }
 
     return i18nObject;
