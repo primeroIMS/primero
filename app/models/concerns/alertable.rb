@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Concern of Alertable
 module Alertable
   extend ActiveSupport::Concern
 
@@ -59,12 +60,24 @@ module Alertable
       alerts.count
     end
 
-    def has_alerts?
+    def alerts?
       alerts.exists?
     end
 
     def remove_alert_on_save
-      remove_alert(last_updated_by)
+      return unless last_updated_by == owned_by && alerts?
+
+      @system_settings ||= SystemSettings.current
+      changes_field_to_form = @system_settings&.changes_field_to_form
+
+      return unless changes_field_to_form.present?
+      changed_field_names = changes_to_save_for_record.keys
+      changes_field_to_form.each do |field_name, form_name|
+
+        next unless changed_field_names.include?(field_name)
+
+        remove_alert(form_name)
+      end
     end
 
     def add_alert_on_field_change
@@ -76,9 +89,9 @@ module Alertable
 
       changed_field_names = changes_to_save_for_record.keys
       changes_field_to_form.each do |field_name, form_name|
-        if changed_field_names.include?(field_name)
-          add_alert(FIELD_CHANGE, Date.today, form_name, form_name)
-        end
+        next unless changed_field_names.include?(field_name)
+
+        add_alert(alert_for: FIELD_CHANGE, date: Date.today, type: form_name, form_sidebar_id: form_name)
       end
     end
 
@@ -86,40 +99,35 @@ module Alertable
       alerts.map(&:type).uniq
     end
 
-    def add_alert(alert_for, date = nil, type = nil, form_sidebar_id = nil, user_id = nil, agency_id = nil)
-      date_alert = date.presence || Date.today
-      alert = Alert.new(
-        type: type,
-        date: date_alert,
-        form_sidebar_id: form_sidebar_id,
-        alert_for: alert_for,
-        user_id: user_id,
-        agency_id: agency_id
-      )
-      self.alerts << alert
-      alert
+    def add_alert(args = {})
+      date_alert = args[:date].presence || Date.today
+
+      alert = Alert.new(type: args[:type], date: date_alert, form_sidebar_id: args[:form_sidebar_id],
+                        alert_for: args[:alert_for], user_id: args[:user_id], agency_id: args[:agency_id])
+
+      alerts << alert && alert
     end
 
-    def remove_alert(current_user_name, type = nil, form_sidebar_id = nil)
-      if current_user_name == self.owned_by && self.has_alerts?
-        self.alerts.each do |a|
-          self.alerts.delete(a.id) if (type.present? && a.type == type) || [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(a.alert_for)
-        end
+    def remove_alert(type = nil)
+
+      alerts.each do |alert|
+        next unless (type.present? && alert.type == type) &&
+                    [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(alert.alert_for)
+
+        alert.destroy
       end
     end
 
-    #TODO: Is this necessary? This methods is called in add_approval_alert then in Approvable concern
     def get_alert(approval_type, system_settings)
       system_settings ||= SystemSettings.current
       system_settings.approval_forms_to_alert.key(approval_type)
     end
 
-    #TODO: Is this necessary? This methods is called in Approvable concern
     def add_approval_alert(approval_type, system_settings)
-      unless self.alerts.any?{|a| a.type == approval_type}
-        alert = Alert.new(type: approval_type, date: DateTime.now.to_date, form_sidebar_id: get_alert(approval_type, system_settings), alert_for: APPROVAL)
-        self.alerts << alert
-      end
+      return if alerts.any? { |a| a.type == approval_type }
+
+      add_alert(type: approval_type, date: DateTime.now.to_date,
+                form_sidebar_id: get_alert(approval_type, system_settings), alert_for: APPROVAL)
     end
   end
 end
