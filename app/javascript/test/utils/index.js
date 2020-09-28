@@ -290,3 +290,5 @@ export const translateOptions = (value, options, translations) => {
 
   return currValue.replace(/[^\w\s\'.]/gi, "");
 };
+
+export const abbrMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

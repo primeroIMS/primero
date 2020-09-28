@@ -2,8 +2,9 @@
 import isEqual from "lodash/isEqual";
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
+import { parse } from "date-fns";
 
-import { dataToJS } from "../../libs";
+import { dataToJS, localizedFormat } from "../../libs";
 import { REPORT_FIELD_TYPES } from "../reports-form/constants";
 
 const getColors = () => {
@@ -12,6 +13,23 @@ const getColors = () => {
 
 const getColorsByIndex = index => {
   return getColors()[index];
+};
+
+const getDateFormat = value => {
+  if (value.match(/^\w{3}-\d{4}$/)) {
+    return "MMM-yyyy";
+  }
+  if (value.match(/^(\w{2}-)?\w{3}-\d{4}$/)) {
+    return "dd-MMM-yyyy";
+  }
+
+  return null;
+};
+
+const translateDate = (value, i18n, dateFormat) => {
+  const date = parse(value, dateFormat, new Date());
+
+  return date ? localizedFormat(date, i18n, dateFormat) : value;
 };
 
 const getColumnData = (column, data, i18n) => {
@@ -32,16 +50,16 @@ const getColumns = (data, i18n, prevData) => {
   const values = Object.values(data);
   const keys = Object.keys(data);
   const totalLabel = i18n.t("report.total");
+  const firstValue = values[0];
 
-  // Most likely the data has a single level of nesting.
-  if (Object.keys(values[0]).length === 1 && !prevData) {
+  if (!firstValue || (Object.keys(firstValue).length === 1 && !prevData)) {
     return [];
   }
   if (values.length === 1 && keys.includes(totalLabel)) {
     return prevData ? Object.keys(prevData).filter(key => key !== totalLabel) : [];
   }
 
-  return getColumns(values[0], i18n, data);
+  return getColumns(firstValue, i18n, data);
 };
 
 const containsColumns = (columns, data, i18n) => {
@@ -167,7 +185,11 @@ const translateData = (data, fields, i18n) => {
         currentTranslations[translatedKey] = data[key];
         delete currentTranslations[key];
       } else {
-        const translation = translations.find(t => t.id === key);
+        const dateFormat = getDateFormat(key);
+        const translation = dateFormat
+          ? { display_text: translateDate(key, i18n, dateFormat) }
+          : translations.find(t => t.id === key);
+
         const translatedKey = translation ? translation.display_text : key;
 
         if (translation) {

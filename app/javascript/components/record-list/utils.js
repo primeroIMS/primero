@@ -1,12 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 
 import React from "react";
-import { format, parseISO } from "date-fns";
 import TableCell from "@material-ui/core/TableCell";
 
 import Lightbox from "../lightbox";
 import { ToggleIconCell } from "../index-table";
 import { RECORD_PATH, DATE_TIME_FORMAT, DATE_FORMAT } from "../../config";
+import { localizedFormat } from "../../libs";
 
 import { ALERTS_COLUMNS, ALERTS } from "./constants";
 
@@ -48,12 +48,12 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
             : {}),
           ...(column.get("name") === "registration_date"
             ? {
-                customBodyRender: value => format(parseISO(value), DATE_FORMAT)
+                customBodyRender: value => localizedFormat(value, i18n, DATE_FORMAT)
               }
             : {}),
           ...(column.get("name") === "case_opening_date"
             ? {
-                customBodyRender: value => value && format(parseISO(value), DATE_TIME_FORMAT)
+                customBodyRender: value => value && localizedFormat(value, i18n, DATE_TIME_FORMAT)
               }
             : {})
         }

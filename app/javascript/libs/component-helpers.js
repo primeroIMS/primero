@@ -1,8 +1,9 @@
 import { List, Map } from "immutable";
-import { addHours, format } from "date-fns";
+import { addHours, format, isDate, parseISO } from "date-fns";
 
 import { API_DATE_FORMAT, API_DATE_TIME_FORMAT } from "../config/constants";
 
+import localize from "./date-picker-localization";
 import displayNameHelper from "./display-name-helper";
 
 export const dataToJS = data => {
@@ -74,3 +75,11 @@ export const toServerDateFormat = (date, options) => {
 
   return format(normalizedDate, includeTime ? API_DATE_TIME_FORMAT : API_DATE_FORMAT);
 };
+
+export const localizedFormat = (value, i18n, dateFormat) => {
+  const date = isDate(value) ? value : parseISO(value);
+
+  return format(date, dateFormat, { locale: localize(i18n) });
+};
+
+export const endOfDay = date => parseISO(date.toISOString().replace(/T.+/, "").concat("T23:59:59Z"));

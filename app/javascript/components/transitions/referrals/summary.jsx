@@ -1,5 +1,4 @@
 import React from "react";
-import { format } from "date-fns";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 
@@ -8,6 +7,7 @@ import TransitionStatus from "../TransitionStatus";
 import { useI18n } from "../../i18n";
 import { REFERRAL_SUMMARY_NAME } from "../constants";
 import { DATE_FORMAT } from "../../../config";
+import { localizedFormat } from "../../../libs";
 
 const Summary = ({ transition, classes, showMode, recordType }) => {
   const i18n = useI18n();
@@ -23,7 +23,7 @@ const Summary = ({ transition, classes, showMode, recordType }) => {
       <Grid item md={9} xs={4}>
         <div className={classes.wrapper}>
           {/* TODO: The date should be localized */}
-          <div className={classes.date}>{format(new Date(transition.created_at), DATE_FORMAT)}</div>
+          <div className={classes.date}>{localizedFormat(transition.created_at, i18n, DATE_FORMAT)}</div>
           <div className={classes.titleHeader}>{i18n.t("transition.type.referral")}</div>
         </div>
       </Grid>
