@@ -1,10 +1,18 @@
 import { fromJS } from "immutable";
 
-import { FormSectionRecord, FieldRecord, TICK_FIELD, TEXT_FIELD, SELECT_FIELD, CHECK_BOX_FIELD } from "../../../form";
+import {
+  FormSectionRecord,
+  FieldRecord,
+  BUTTONS_LINK,
+  TICK_FIELD,
+  TEXT_FIELD,
+  SELECT_FIELD,
+  CHECK_BOX_FIELD
+} from "../../../form";
 
 import { ROLE_OPTIONS, IDENTITY_PROVIDER_ID, USER_GROUP_UNIQUE_IDS, USERGROUP_PRIMERO_GBV } from "./constants";
 
-const sharedUserFields = (i18n, formMode, hideOnAccountPage) => [
+const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePassword) => [
   {
     display_name: i18n.t("user.full_name"),
     name: "full_name",
@@ -39,6 +47,12 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage) => [
     password: true,
     hideOnShow: true,
     required: formMode.get("isNew")
+  },
+  {
+    display_name: "Change password",
+    type: BUTTONS_LINK,
+    hideOnShow: true,
+    onClick: onClickChangePassword
   },
   {
     display_name: i18n.t("user.locale"),
@@ -134,9 +148,17 @@ const identityUserFields = (i18n, identityOptions) => [
 const EXCLUDED_IDENITITY_FIELDS = ["password", "password_confirmation"];
 
 // eslint-disable-next-line import/prefer-default-export
-export const form = (i18n, formMode, useIdentityProviders, providers, identityOptions, hideOnAccountPage = false) => {
+export const form = (
+  i18n,
+  formMode,
+  useIdentityProviders,
+  providers,
+  identityOptions,
+  onClickChangePassword,
+  hideOnAccountPage = false
+) => {
   const useIdentity = useIdentityProviders && providers;
-  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage);
+  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword);
   const identityFields = identityUserFields(i18n, identityOptions);
 
   const providersDisable = (value, name, { error }) => {

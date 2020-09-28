@@ -15,6 +15,7 @@ import ToggleField from "../fields/toggle-input";
 import DateField from "../fields/date-input";
 import Seperator from "../fields/seperator";
 import OrderableOptionsField from "../fields/orderable-options-field";
+import ButtonsLink from "../fields/button-link";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../config";
 import {
   CHECK_BOX_FIELD,
@@ -27,7 +28,8 @@ import {
   RADIO_FIELD,
   TOGGLE_FIELD,
   DATE_FIELD,
-  SEPARATOR
+  SEPARATOR,
+  BUTTONS_LINK
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
@@ -66,7 +68,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     numeric,
     onChange,
     disableClearable,
-    onBlur
+    onBlur,
+    onClick
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -132,7 +135,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     numeric,
     onChange,
     disableClearable,
-    onBlur
+    onBlur,
+    onClick
   };
 
   const Field = (fieldType => {
@@ -159,6 +163,8 @@ const FormSectionField = ({ checkErrors, field }) => {
         return OrderableOptionsField;
       case SEPARATOR:
         return Seperator;
+      case BUTTONS_LINK:
+        return ButtonsLink;
       default:
         return TextInput;
     }

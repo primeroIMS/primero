@@ -23,9 +23,10 @@ import bindFormSubmit from "../../../../libs/submit-form";
 import { form } from "./form";
 import validations from "./validations";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
-import { USER_CONFIRMATION_DIALOG } from "./constants";
+import { USER_CONFIRMATION_DIALOG, PASSWORD_MODAL } from "./constants";
 import { getUser, getServerErrors, getIdentityProviders, getSavingRecord } from "./selectors";
 import UserConfirmation from "./user-confirmation";
+import ChangePassword from "./change-password";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -38,6 +39,17 @@ const Container = ({ mode }) => {
   const user = useSelector(state => getUser(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const idp = useSelector(state => getIdentityProviders(state));
+  const passwordModal = useSelector(state => selectDialog(state, PASSWORD_MODAL));
+  const setPasswordModal = open => {
+    dispatch(setDialog({ dialog: PASSWORD_MODAL, open }));
+  };
+  const dialogPending = useSelector(state => selectDialogPending(state));
+  const setDialogPending = pending => {
+    dispatch(setPending({ pending }));
+  };
+
+  const onClickChangePassword = () => setPasswordModal(true);
+  const cancelChangePassword = () => setPasswordModal(false);
 
   const useIdentityProviders = idp?.get("use_identity_provider");
   const providers = idp?.get("identity_providers");
@@ -52,10 +64,6 @@ const Container = ({ mode }) => {
   const userConfirmationOpen = useSelector(state => selectDialog(state, USER_CONFIRMATION_DIALOG));
   const setUserConfirmationOpen = open => {
     dispatch(setDialog({ dialog: USER_CONFIRMATION_DIALOG, open }));
-  };
-  const dialogPending = useSelector(state => selectDialogPending(state));
-  const setDialogPending = pending => {
-    dispatch(setPending({ pending }));
   };
 
   const handleClose = () => {
@@ -157,6 +165,14 @@ const Container = ({ mode }) => {
           userData={userData}
           userName={formMode.get("isEdit") ? user.get("user_name") : userData.user_name}
           identityOptions={identityOptions}
+        />
+        <ChangePassword
+          formMode={formMode}
+          i18n={i18n}
+          open={passwordModal}
+          parentFormRef={formRef}
+          pending={dialogPending}
+          setOpen={setPasswordModal}
         />
       </PageContent>
     </LoadingIndicator>

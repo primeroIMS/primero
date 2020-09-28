@@ -44,3 +44,4 @@ export const ROLE_OPTIONS = [
   { id: "role-ftr-manager", display_text: "FTR Manager" },
   { id: "role-superuser", display_text: "Superuser" }
 ];
+export const PASSWORD_MODAL = "passwordModal";
