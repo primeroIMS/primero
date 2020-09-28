@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 module Api::V2
   class UsersTransitionsController < ApplicationApiController
-
-    before_action :record_model, only: [:assign_to, :transfer_to, :refer_to]
+    before_action :record_model, only: %i[assign_to transfer_to refer_to]
 
     def assign_to
       authorize!(:assign, @record_model)
@@ -29,8 +30,7 @@ module Api::V2
     end
 
     def user_filters
-      @user_filters ||= params.permit(:agency, :location, :services)
+      @user_filters ||= params.permit(:agency, :location, :service)
     end
-
   end
 end
