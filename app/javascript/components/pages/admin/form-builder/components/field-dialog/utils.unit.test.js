@@ -1,7 +1,9 @@
 import { fromJS } from "immutable";
+import uuid from "uuid";
 
 import { SEPARATOR, TEXT_FIELD, TICK_FIELD, SELECT_FIELD, DATE_FIELD } from "../../../../../form";
 import { NEW_FIELD } from "../../constants";
+import { stub } from "../../../../../../test";
 
 import * as utils from "./utils";
 
@@ -225,17 +227,13 @@ describe("generateUniqueId", () => {
     expect(utils.generateUniqueId(data, existingIds)).to.equal("a_new_field");
   });
 
-  it("returns the first id with number if the id is duplicated ", () => {
+  it("returns the name of the duplicated data with a generated key", () => {
+    stub(uuid, "v4").returns("b8e93-0cce-415b-ad2b-d06bb454b66f");
+
     const existingIds = ["new_field", "other_field"];
     const data = "new field";
 
-    expect(utils.generateUniqueId(data, existingIds)).to.equal("new_field_1");
-  });
-
-  it("returns the next id with number if the id was duplicated several times", () => {
-    const existingIds = fromJS(["new_field", "new_field_1", "new_field_2"]);
-    const data = "new field";
-
-    expect(utils.generateUniqueId(data, existingIds)).to.equal("new_field_3");
+    expect(utils.generateUniqueId(data, existingIds)).to.equal("new_field_454b66f");
+    uuid.v4.restore();
   });
 });

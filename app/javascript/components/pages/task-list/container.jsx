@@ -86,11 +86,11 @@ const TaskList = () => {
                       ? lookupServiceType.find(
                           serviceType => serviceType.id === lookupAction
                           // eslint-disable-next-line camelcase
-                        )?.display_text[i18n.locale]
+                        )?.display_text
                       : lookupFollowupType.find(
                           followup => followup.id === lookupAction
                           // eslint-disable-next-line camelcase
-                        )?.display_text[i18n.locale];
+                        )?.display_text;
 
                   const renderValue = [TASK_TYPES.SERVICE, TASK_TYPES.FOLLOW_UP].includes(value)
                     ? i18n.t(`task.types.${value}`, {

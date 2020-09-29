@@ -41,7 +41,7 @@ class IncidentCreationService
       incident.data[map['target']] = case_record.data[map['source']]
     end
     incident.module_id = map_to_module_id(module_id)
-    incident.owned_by = case_record.owned_by
+    incident.owned_by = case_record&.owned_by
   end
 
   def field_mapping(module_id)
