@@ -56,8 +56,7 @@ const Container = ({ mode }) => {
   const initialValues = user.toJS();
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
   const formMethods = useForm({
-    ...(initialValues && { defaultValues: initialValues }),
-    ...(validationSchema && { validationSchema })
+    ...(initialValues && { defaultValues: initialValues })
   });
 
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
@@ -80,17 +79,16 @@ const Container = ({ mode }) => {
   };
 
   const handleEditSubmit = data => {
-    console.log("MAIN", data);
-    // dispatch(
-    //   saveUser({
-    //     id,
-    //     dialogName: USER_CONFIRMATION_DIALOG,
-    //     saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
-    //     body: { data },
-    //     message: i18n.t("user.messages.updated"),
-    //     failureMessage: i18n.t("user.messages.failure")
-    //   })
-    // );
+    dispatch(
+      saveUser({
+        id,
+        dialogName: USER_CONFIRMATION_DIALOG,
+        saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
+        body: { data },
+        message: i18n.t("user.messages.updated"),
+        failureMessage: i18n.t("user.messages.failure")
+      })
+    );
   };
 
   const handleEdit = () => {

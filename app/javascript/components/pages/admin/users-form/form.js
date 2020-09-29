@@ -38,7 +38,8 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     type: TEXT_FIELD,
     password: true,
     hideOnShow: true,
-    required: formMode.get("isNew")
+    required: formMode.get("isNew"),
+    editable: false
   },
   {
     display_name: i18n.t("user.password_confirmation"),
@@ -46,7 +47,8 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     type: TEXT_FIELD,
     password: true,
     hideOnShow: true,
-    required: formMode.get("isNew")
+    required: formMode.get("isNew"),
+    editable: false
   },
   {
     display_name: "Change password",

@@ -5,7 +5,6 @@ import { FormContext, useForm, useFormContext } from "react-hook-form";
 import ActionDialog from "../../../../action-dialog";
 import FormSection from "../../../../form/components/form-section";
 import bindFormSubmit from "../../../../../libs/submit-form";
-import CancelPrompt from "../../../../form/components/cancel-prompt";
 
 import { NAME } from "./constants";
 import changePasswordForm from "./form";
@@ -13,25 +12,35 @@ import validations from "./validations";
 
 function Component({ formMode, i18n, open, pending, setOpen }) {
   const formRef = useRef();
-  const [deleteModal, setDeleteModal] = useState(false);
+  const [closeConfirmationModal, setCloseConfirmationModal] = useState(false);
   const validationSchema = validations(i18n);
   const formMethods = useForm({ ...(validationSchema && { validationSchema }) });
   const { setValue } = useFormContext();
 
-  const cancelHandler = () => {
-    if (!formMethods.formState.dirty) {
-      setOpen(false);
-    }
-
-    setDeleteModal(true);
-  };
+  const closeChangePassword = () => setOpen(false);
 
   const onSubmit = data => {
     Object.entries(data).forEach(([key, value]) => {
-      setValue(key, value);
+      setValue(key.replace("_change", ""), value, false);
     });
-    cancelHandler();
+
+    closeChangePassword();
   };
+
+  const cancelHandler = () => {
+    if (formMethods.formState.dirty) {
+      setCloseConfirmationModal(true);
+    } else {
+      closeChangePassword();
+    }
+  };
+
+  const succesConfirmationModal = () => {
+    setCloseConfirmationModal(false);
+    closeChangePassword();
+  };
+
+  const cancelConfirmationModal = () => setCloseConfirmationModal(false);
 
   useImperativeHandle(formRef, () => ({
     submitForm(e) {
@@ -61,13 +70,11 @@ function Component({ formMode, i18n, open, pending, setOpen }) {
         </FormContext>
       </ActionDialog>
       <ActionDialog
-        open={deleteModal}
-        successHandler={() => {
-          setDeleteModal(false);
-        }}
-        cancelHandler={() => setDeleteModal(false)}
-        dialogTitle={i18n.t("fields.remove")}
-        dialogText={i18n.t("fields.subform_remove_message")}
+        open={closeConfirmationModal}
+        successHandler={succesConfirmationModal}
+        cancelHandler={cancelConfirmationModal}
+        dialogTitle={i18n.t("buttons.change_password")}
+        dialogText={i18n.t("messages.confirmation_message")}
         confirmButtonLabel={i18n.t("buttons.ok")}
       />
     </>

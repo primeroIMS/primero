@@ -16,7 +16,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("loading", fromJS(payload));
     case actions.FETCH_USER_FAILURE:
     case actions.SAVE_USER_FAILURE:
-      return state.set("errors", true).set("serverErrors", fromJS(payload.errors));
+      return state.set("errors", true).set("serverErrors", fromJS(payload.errors)).set("loading", false);
     case actions.CLEAR_SELECTED_USER:
       return state.set("selectedUser", fromJS({})).set("errors", false).set("serverErrors", fromJS([]));
     case actions.SAVE_USER_STARTED:
