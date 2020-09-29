@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Assign do
-
   before do
     clean_data(User, Role, PrimeroModule, UserGroup, Agency, Transition, Child, Incident)
 
@@ -27,8 +28,8 @@ describe Assign do
 
   context 'and the user has permission' do
     before do
-      @case = Child.create(data: {'name' => 'Test', 'owned_by' => 'user1',
-                                  module_id: @primero_module.unique_id})
+      @case = Child.create(data: { 'name' => 'Test', 'owned_by' => 'user1',
+                                   module_id: @primero_module.unique_id })
       Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
     end
 
@@ -54,8 +55,8 @@ describe Assign do
 
     context 'and the case has incidents' do
       before do
-        case_with_incidents = Child.new(data: {'name' => 'Test Incidents', 'owned_by' => 'user1',
-                                               module_id: @primero_module.unique_id})
+        case_with_incidents = Child.new(data: { 'name' => 'Test Incidents', 'owned_by' => 'user1',
+                                                module_id: @primero_module.unique_id })
         incident1 = IncidentCreationService.incident_from_case(case_with_incidents, {}, nil)
         incident2 = IncidentCreationService.incident_from_case(case_with_incidents, {}, nil)
         case_with_incidents.incidents << incident1
@@ -106,7 +107,7 @@ describe Assign do
       )
       @role.permissions = [permission_case]
       @role.save(validate: false)
-      @case = Child.create(data: {'name' => 'Test', 'owned_by' => 'user1', module_id: @primero_module.unique_id})
+      @case = Child.create(data: { 'name' => 'Test', 'owned_by' => 'user1', module_id: @primero_module.unique_id })
     end
 
     it "doesn't assign this record to a user outside of the user group if the role forbids it" do

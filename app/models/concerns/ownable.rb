@@ -79,7 +79,7 @@ module Ownable
   def not_edited_by_owner
     (data['last_updated_by'] != data['owned_by']) && data['last_updated_by'].present?
   end
-  alias :not_edited_by_owner? :not_edited_by_owner
+  alias not_edited_by_owner? not_edited_by_owner
 
   def update_ownership
     @users_by_association = nil
@@ -88,20 +88,8 @@ module Ownable
     self.owned_by = nil if owner.blank?
 
     if owned_by.present? && (new_record? || changes_to_save_for_record['owned_by'].present?)
-      self.owned_by_full_name = owner&.full_name
-      self.owned_by_agency_id = owner&.organization&.id
-      self.owned_by_groups = owner&.user_group_ids # TODO: This is wrong. This need to the stable unique_id
-      self.owned_by_location = owner&.location
-      self.owned_by_user_code = owner&.code
-      self.owned_by_agency_office = owner&.agency_office
-      unless new_record? || !will_save_change_to_attribute?('data')
-        self.previously_owned_by = attributes_in_database['data']['owned_by'] || owned_by
-        self.previously_owned_by_full_name = attributes_in_database['data']['owned_by_full_name'] || owned_by_full_name
-        self.previously_owned_by_agency = attributes_in_database['data']['owned_by_agency_id'] || owned_by_agency_id
-        self.previously_owned_by_location = attributes_in_database['data']['owned_by_location'] || owned_by_location
-        self.previously_owned_by_agency_office = attributes_in_database['data']['owned_by_agency_office'] ||
-                                                 owned_by_agency_office
-      end
+      update_owned_by
+      update_previously_owned_by unless new_record? || !will_save_change_to_attribute?('data')
     end
 
     if changes_to_save_for_record['assigned_user_names'].present? ||
@@ -110,6 +98,24 @@ module Ownable
       update_associated_user_groups
       update_associated_user_agencies
     end
+  end
+
+  def update_owned_by
+    self.owned_by_full_name = owner&.full_name
+    self.owned_by_agency_id = owner&.organization&.id
+    self.owned_by_groups = owner&.user_group_ids # TODO: This is wrong. This need to the stable unique_id
+    self.owned_by_location = owner&.location
+    self.owned_by_user_code = owner&.code
+    self.owned_by_agency_office = owner&.agency_office
+  end
+
+  def update_previously_owned_by
+    self.previously_owned_by = attributes_in_database['data']['owned_by'] || owned_by
+    self.previously_owned_by_full_name = attributes_in_database['data']['owned_by_full_name'] || owned_by_full_name
+    self.previously_owned_by_agency = attributes_in_database['data']['owned_by_agency_id'] || owned_by_agency_id
+    self.previously_owned_by_location = attributes_in_database['data']['owned_by_location'] || owned_by_location
+    self.previously_owned_by_agency_office = attributes_in_database['data']['owned_by_agency_office'] ||
+                                             owned_by_agency_office
   end
 
   def update_associated_user_groups
