@@ -1,14 +1,6 @@
 import { fromJS } from "immutable";
 
-import {
-  FormSectionRecord,
-  FieldRecord,
-  OPTION_TYPES,
-  TICK_FIELD,
-  TEXT_FIELD,
-  SELECT_FIELD,
-  CHECK_BOX_FIELD
-} from "../../../form";
+import { FormSectionRecord, FieldRecord, OPTION_TYPES, TICK_FIELD, TEXT_FIELD, SELECT_FIELD } from "../../../form";
 
 import { IDENTITY_PROVIDER_ID, USER_GROUP_UNIQUE_IDS, USERGROUP_PRIMERO_GBV } from "./constants";
 
@@ -65,7 +57,8 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage) => [
   {
     display_name: i18n.t("user.user_group_unique_ids"),
     name: "user_group_unique_ids",
-    type: CHECK_BOX_FIELD,
+    type: SELECT_FIELD,
+    multi_select: true,
     required: true,
     option_strings_source: OPTION_TYPES.USER_GROUP,
     visible: !hideOnAccountPage

@@ -31,6 +31,8 @@ describe("<Form /> - index", () => {
       "TEXT_FIELD",
       "TICK_FIELD",
       "TOGGLE_FIELD",
+      "DOCUMENT_FIELD",
+      "AUDIO_FIELD",
       "whichFormMode"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
