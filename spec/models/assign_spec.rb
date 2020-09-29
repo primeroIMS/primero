@@ -99,11 +99,121 @@ describe Assign do
     end
   end
 
-  context 'and the user does not have permission' do
+  context 'and the user has permission within the user group' do
     before do
       permission_case = Permission.new(
         resource: Permission::CASE,
         actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::ASSIGN_WITHIN_USER_GROUP]
+      )
+      @role.permissions = [permission_case]
+      @role.save(validate: false)
+    end
+
+    context 'and the to user is in the same user group' do
+      before do
+        @user2.user_groups = [@group1]
+        @user2.save(validate: false)
+        @case = Child.create(data: { 'name' => 'Test', 'owned_by' => 'user1', module_id: @primero_module.unique_id })
+        Assign.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      end
+
+      it 'changes owned_by' do
+        expect(@case.owned_by).to eq('user2')
+        expect(@case.previously_owned_by).to eq('user1')
+      end
+
+      it 'changes owned_by_full_name' do
+        expect(@case.owned_by_full_name).to eq('Test User Two')
+        expect(@case.previously_owned_by_full_name).to eq('Test User One')
+      end
+
+      it 'changes owned_by_location' do
+        expect(@case.owned_by_location).to eq('loc8675309')
+        expect(@case.previously_owned_by_location).to eq('loc012345')
+      end
+
+      it 'changes owned_by_agency' do
+        expect(@case.owned_by_agency).to eq(@agency2.agency_code)
+        expect(@case.previously_owned_by_agency).to eq(@agency1.id)
+      end
+    end
+
+    context 'and the to user is in a different user group' do
+      before do
+        @user2.user_groups = [@group2]
+        @user2.save(validate: false)
+        @case = Child.create(data: { 'name' => 'Test', 'owned_by' => 'user1', module_id: @primero_module.unique_id })
+      end
+
+      it 'does not assign this record' do
+        assign = Assign.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+
+        expect(assign.valid?).to be_falsey
+        expect(@case.owned_by).to eq('user1')
+      end
+    end
+  end
+
+  context 'and the user has permission within the agency' do
+    before do
+      permission_case = Permission.new(
+        resource: Permission::CASE,
+        actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::ASSIGN_WITHIN_AGENCY]
+      )
+      @role.permissions = [permission_case]
+      @role.save(validate: false)
+    end
+
+    context 'and the to user is in the same agency' do
+      before do
+        @user2.agency_id = @agency1.id
+        @user2.save(validate: false)
+        @case = Child.create(data: { 'name' => 'Test', 'owned_by' => 'user1', module_id: @primero_module.unique_id })
+        Assign.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      end
+
+      it 'changes owned_by' do
+        expect(@case.owned_by).to eq('user2')
+        expect(@case.previously_owned_by).to eq('user1')
+      end
+
+      it 'changes owned_by_full_name' do
+        expect(@case.owned_by_full_name).to eq('Test User Two')
+        expect(@case.previously_owned_by_full_name).to eq('Test User One')
+      end
+
+      it 'changes owned_by_location' do
+        expect(@case.owned_by_location).to eq('loc8675309')
+        expect(@case.previously_owned_by_location).to eq('loc012345')
+      end
+
+      it 'does not change owned_by_agency' do
+        expect(@case.owned_by_agency).to eq(@agency1.agency_code)
+        expect(@case.previously_owned_by_agency).to eq(@agency1.id)
+      end
+    end
+
+    context 'and the to user is in a different agency' do
+      before do
+        @user2.agency_id = @agency2.id
+        @user2.save(validate: false)
+        @case = Child.create(data: { 'name' => 'Test', 'owned_by' => 'user1', module_id: @primero_module.unique_id })
+      end
+
+      it 'does not assign this record' do
+        assign = Assign.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+
+        expect(assign.valid?).to be_falsey
+        expect(@case.owned_by).to eq('user1')
+      end
+    end
+  end
+
+  context 'and the user does not have permission' do
+    before do
+      permission_case = Permission.new(
+        resource: Permission::CASE,
+        actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
       )
       @role.permissions = [permission_case]
       @role.save(validate: false)
