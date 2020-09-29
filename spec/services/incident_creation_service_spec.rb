@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe IncidentCreationService do
-  before(:each) { clean_data(Child, PrimeroModule, User, Role) }
+  before(:each) { clean_data(Child, Incident, PrimeroModule, User, Role) }
   let(:module_cp) do
     module_cp = PrimeroModule.new(
       unique_id: 'primeromodule-cp',
@@ -60,6 +60,7 @@ describe IncidentCreationService do
       context 'and the module has a form mapping' do
         before do
           @incident = IncidentCreationService.incident_from_case(case_cp, {}, module_cp.unique_id)
+          @incident.save!
         end
 
         it 'copies fields specified in the mapping from the case to the new incident' do
@@ -84,6 +85,7 @@ describe IncidentCreationService do
       context 'and the module does not have a form mapping' do
         before do
           @incident = IncidentCreationService.incident_from_case(case_gbv, {}, module_gbv.unique_id)
+          @incident.save!
         end
 
         it 'copies fields specified in the default mapping from the case to the new incident' do
@@ -112,6 +114,7 @@ describe IncidentCreationService do
         before do
           primero_module = module_cp # To trigger the let() above
           @incident = IncidentCreationService.incident_from_case(case_cp, {})
+          @incident.save!
         end
 
         it 'copies fields specified in the mapping from the case to the new incident' do
@@ -137,6 +140,7 @@ describe IncidentCreationService do
         before do
           primero_module = module_gbv # To trigger the let() above
           @incident = IncidentCreationService.incident_from_case(case_gbv, {})
+          @incident.save!
         end
 
         it 'copies fields specified in the default mapping from the case to the new incident' do
@@ -160,4 +164,6 @@ describe IncidentCreationService do
       end
     end
   end
+
+  after { clean_data(Child, Incident, PrimeroModule, User, Role) }
 end
