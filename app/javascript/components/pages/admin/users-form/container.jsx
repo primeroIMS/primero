@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
@@ -6,9 +6,10 @@ import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
+import { FormContext, useForm } from "react-hook-form";
 
 import { useI18n } from "../../../i18n";
-import Form, { FormAction, whichFormMode } from "../../../form";
+import { FormAction, whichFormMode, FormSection } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
@@ -19,6 +20,8 @@ import { setDialog, setPending } from "../../../record-actions/action-creators";
 import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
 import { fetchSystemSettings } from "../../../application";
 import bindFormSubmit from "../../../../libs/submit-form";
+import { submitHandler } from "../../../form/utils/form-submission";
+import CancelPrompt from "../../../form/components/cancel-prompt";
 
 import { form } from "./form";
 import validations from "./validations";
@@ -47,16 +50,17 @@ const Container = ({ mode }) => {
   const setDialogPending = pending => {
     dispatch(setPending({ pending }));
   };
-
-  const onClickChangePassword = () => setPasswordModal(true);
-  const cancelChangePassword = () => setPasswordModal(false);
-
   const useIdentityProviders = idp?.get("use_identity_provider");
   const providers = idp?.get("identity_providers");
-  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
+  const initialValues = user.toJS();
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
+  const formMethods = useForm({
+    ...(initialValues && { defaultValues: initialValues }),
+    ...(validationSchema && { validationSchema })
+  });
 
+  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
   const [userData, setUserData] = React.useState({});
   const saving = useSelector(state => getSavingRecord(state));
@@ -76,16 +80,17 @@ const Container = ({ mode }) => {
   };
 
   const handleEditSubmit = data => {
-    dispatch(
-      saveUser({
-        id,
-        dialogName: USER_CONFIRMATION_DIALOG,
-        saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
-        body: { data },
-        message: i18n.t("user.messages.updated"),
-        failureMessage: i18n.t("user.messages.failure")
-      })
-    );
+    console.log("MAIN", data);
+    // dispatch(
+    //   saveUser({
+    //     id,
+    //     dialogName: USER_CONFIRMATION_DIALOG,
+    //     saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
+    //     body: { data },
+    //     message: i18n.t("user.messages.updated"),
+    //     failureMessage: i18n.t("user.messages.failure")
+    //   })
+    // );
   };
 
   const handleEdit = () => {
@@ -96,21 +101,7 @@ const Container = ({ mode }) => {
     dispatch(push(ROUTES.admin_users));
   };
 
-  useEffect(() => {
-    dispatch(fetchSystemSettings());
-  }, []);
-
-  useEffect(() => {
-    if (isEditOrShow) {
-      dispatch(fetchUser(id));
-    }
-
-    return () => {
-      if (isEditOrShow) {
-        dispatch(clearSelectedUser());
-      }
-    };
-  }, [id]);
+  const onClickChangePassword = () => setPasswordModal(true);
 
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
@@ -136,6 +127,50 @@ const Container = ({ mode }) => {
       })
     : [];
 
+  const renderFormSections = () =>
+    form(i18n, formMode, useIdentityProviders, providers, identityOptions, onClickChangePassword).map(formSection => (
+      <FormSection formSection={formSection} key={formSection.unique_id} />
+    ));
+
+  useEffect(() => {
+    dispatch(fetchSystemSettings());
+  }, []);
+
+  useEffect(() => {
+    if (isEditOrShow) {
+      dispatch(fetchUser(id));
+    }
+
+    return () => {
+      if (isEditOrShow) {
+        dispatch(clearSelectedUser());
+      }
+    };
+  }, [id]);
+
+  useEffect(() => {
+    formMethods.reset(initialValues);
+  }, [user]);
+
+  useEffect(() => {
+    // eslint-disable-next-line no-unused-expressions
+    formErrors?.forEach(error => {
+      formMethods.setError(error.get("detail"), "", i18n.t(error.getIn(["message", 0])));
+    });
+  }, [formErrors]);
+
+  useImperativeHandle(
+    formRef,
+    submitHandler({
+      dispatch,
+      formMethods,
+      formMode,
+      i18n,
+      initialValues,
+      onSubmit: formMode.get("isEdit") ? handleEditSubmit : handleSubmit
+    })
+  );
+
   return (
     <LoadingIndicator hasData={formMode.get("isNew") || user?.size > 0} loading={!user?.size} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
@@ -143,37 +178,31 @@ const Container = ({ mode }) => {
         {saveButton}
       </PageHeading>
       <PageContent>
-        <Form
-          useCancelPrompt
-          mode={mode}
-          formSections={form(i18n, formMode, useIdentityProviders, providers, identityOptions)}
-          onSubmit={formMode.get("isEdit") ? handleEditSubmit : handleSubmit}
-          ref={formRef}
-          validations={validationSchema}
-          initialValues={user.toJS()}
-          formErrors={formErrors}
-        />
-        <UserConfirmation
-          userConfirmationOpen={userConfirmationOpen}
-          close={handleClose}
-          saveMethod={formMode.get("isEdit") ? "update" : "new"}
-          pending={dialogPending}
-          setPending={setDialogPending}
-          id={id}
-          isIdp={useIdentityProviders}
-          dialogName={USER_CONFIRMATION_DIALOG}
-          userData={userData}
-          userName={formMode.get("isEdit") ? user.get("user_name") : userData.user_name}
-          identityOptions={identityOptions}
-        />
-        <ChangePassword
-          formMode={formMode}
-          i18n={i18n}
-          open={passwordModal}
-          parentFormRef={formRef}
-          pending={dialogPending}
-          setOpen={setPasswordModal}
-        />
+        <FormContext {...formMethods} formMode={formMode}>
+          <CancelPrompt useCancelPrompt />
+          <form noValidate>{renderFormSections()}</form>
+          <UserConfirmation
+            userConfirmationOpen={userConfirmationOpen}
+            close={handleClose}
+            saveMethod={formMode.get("isEdit") ? "update" : "new"}
+            pending={dialogPending}
+            setPending={setDialogPending}
+            id={id}
+            isIdp={useIdentityProviders}
+            dialogName={USER_CONFIRMATION_DIALOG}
+            userData={userData}
+            userName={formMode.get("isEdit") ? user.get("user_name") : userData.user_name}
+            identityOptions={identityOptions}
+          />
+          <ChangePassword
+            formMode={formMode}
+            i18n={i18n}
+            open={passwordModal}
+            parentFormMethods={formMethods}
+            pending={dialogPending}
+            setOpen={setPasswordModal}
+          />
+        </FormContext>
       </PageContent>
     </LoadingIndicator>
   );
