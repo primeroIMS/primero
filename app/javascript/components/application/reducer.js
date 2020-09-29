@@ -54,6 +54,22 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("loading", true).set("errors", false);
     case actions.FETCH_SYSTEM_PERMISSIONS_SUCCESS:
       return state.set("permissions", fromJS(payload.data));
+    case actions.FETCH_USER_GROUPS_FAILURE:
+      return state.set("errors", true);
+    case actions.FETCH_USER_GROUPS_FINISHED:
+      return state.set("loading", false);
+    case actions.FETCH_USER_GROUPS_STARTED:
+      return state.set("loading", true).set("errors", false);
+    case actions.FETCH_USER_GROUPS_SUCCESS:
+      return state.set("userGroups", fromJS(payload.data));
+    case actions.FETCH_ROLES_FAILURE:
+      return state.set("errors", true);
+    case actions.FETCH_ROLES_FINISHED:
+      return state.set("loading", false);
+    case actions.FETCH_ROLES_STARTED:
+      return state.set("loading", true).set("errors", false);
+    case actions.FETCH_ROLES_SUCCESS:
+      return state.set("roles", fromJS(payload.data));
     default:
       return state;
   }
