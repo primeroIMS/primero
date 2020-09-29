@@ -66,14 +66,10 @@ module Alertable
 
     def remove_alert_on_save
       return unless last_updated_by == owned_by && alerts?
+      return unless alerts_on_change.present?
 
-      @system_settings ||= SystemSettings.current
-      changes_field_to_form = @system_settings&.changes_field_to_form
-
-      return unless changes_field_to_form.present?
       changed_field_names = changes_to_save_for_record.keys
-      changes_field_to_form.each do |field_name, form_name|
-
+      alerts_on_change.each do |field_name, form_name|
         next unless changed_field_names.include?(field_name)
 
         remove_alert(form_name)
@@ -82,13 +78,10 @@ module Alertable
 
     def add_alert_on_field_change
       return unless owned_by != last_updated_by
-
-      @system_settings ||= SystemSettings.current
-      changes_field_to_form = @system_settings&.changes_field_to_form
-      return unless changes_field_to_form.present?
+      return unless alerts_on_change.present?
 
       changed_field_names = changes_to_save_for_record.keys
-      changes_field_to_form.each do |field_name, form_name|
+      alerts_on_change.each do |field_name, form_name|
         next unless changed_field_names.include?(field_name)
 
         add_alert(alert_for: FIELD_CHANGE, date: Date.today, type: form_name, form_sidebar_id: form_name)
@@ -109,7 +102,6 @@ module Alertable
     end
 
     def remove_alert(type = nil)
-
       alerts.each do |alert|
         next unless (type.present? && alert.type == type) &&
                     [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(alert.alert_for)
@@ -128,6 +120,11 @@ module Alertable
 
       add_alert(type: approval_type, date: DateTime.now.to_date,
                 form_sidebar_id: get_alert(approval_type, system_settings), alert_for: APPROVAL)
+    end
+
+    def alerts_on_change
+      @system_settings ||= SystemSettings.current
+      @system_settings&.changes_field_to_form
     end
   end
 end
