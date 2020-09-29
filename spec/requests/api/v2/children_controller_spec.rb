@@ -157,7 +157,7 @@ describe Api::V2::ChildrenController, type: :request do
     end
 
     it 'returns alert_count for the short form ' do
-      @case1.add_alert('transfer_request', Date.today, 'transfer_request')
+      @case1.add_alert(alert_for: 'transfer_request', date: Date.today, form_sidebar_id: 'transfer_request')
 
       login_for_test(permissions: permission_flag_record)
       get '/api/v2/cases?fields=short'
@@ -240,7 +240,8 @@ describe Api::V2::ChildrenController, type: :request do
 
     it 'fetches the correct record with code 200 and verify flag count' do
       login_for_test
-      @case1.add_alert('transfer_request', Date.today, 'transfer_request')
+
+      @case1.add_alert(alert_for: 'transfer_request', date: Date.today, form_sidebar_id: 'transfer_request')
       get "/api/v2/cases/#{@case1.id}"
 
       expect(response).to have_http_status(200)
