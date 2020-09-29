@@ -74,4 +74,13 @@ class Transition < ApplicationRecord
   def index_record
     Sunspot.index!(record) if record
   end
+
+  def update_incident_ownership
+    return unless record.respond_to?(:incidents)
+
+    record&.incidents.each do |incident|
+      incident.owned_by = transitioned_to
+      incident.save!
+    end
+  end
 end

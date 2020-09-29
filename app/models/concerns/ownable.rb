@@ -87,17 +87,16 @@ module Ownable
     @record_agency = nil
     self.owned_by = nil if owner.blank?
 
-    previous_data_changes = changes['data'].try(:fetch, 0)
-    self.previously_owned_by = previous_data_changes.try(:[], 'owned_by') || owned_by
-    self.previously_owned_by_full_name = previous_data_changes.try(:[], 'owned_by_full_name') || owned_by_full_name
-
     if owned_by.present? && (new_record? || changes_to_save_for_record['owned_by'].present?)
+      self.owned_by_full_name = owner&.full_name
       self.owned_by_agency_id = owner&.organization&.id
       self.owned_by_groups = owner&.user_group_ids # TODO: This is wrong. This need to the stable unique_id
       self.owned_by_location = owner&.location
       self.owned_by_user_code = owner&.code
       self.owned_by_agency_office = owner&.agency_office
       unless new_record? || !will_save_change_to_attribute?('data')
+        self.previously_owned_by = attributes_in_database['data']['owned_by'] || owned_by
+        self.previously_owned_by_full_name = attributes_in_database['data']['owned_by_full_name'] || owned_by_full_name
         self.previously_owned_by_agency = attributes_in_database['data']['owned_by_agency_id'] || owned_by_agency_id
         self.previously_owned_by_location = attributes_in_database['data']['owned_by_location'] || owned_by_location
         self.previously_owned_by_agency_office = attributes_in_database['data']['owned_by_agency_office'] ||

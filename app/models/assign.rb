@@ -7,11 +7,10 @@ class Assign < Transition
     return if transitioned_to_user.nil?
 
     self.status = Transition::STATUS_DONE
-    record.previously_owned_by = record.owned_by
     record.owned_by = transitioned_to
-    record.owned_by_full_name = transitioned_to_user.full_name
     record.reassigned_transferred_on = DateTime.now
     record.save!
+    update_incident_ownership if record.respond_to?(:incidents)
   end
 
   def consent_given?
