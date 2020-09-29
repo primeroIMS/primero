@@ -1,0 +1,45 @@
+---
+- import_playbook: 'rds.yml'
+
+- hosts: 'redmine'
+  tasks:
+
+  - name: 'create directories'
+    file:
+      path: '{{ item }}'
+      state: 'directory'
+    with_items:
+    - '/ebs/srv'
+    - '/ebs/var/lib/docker'
+    become: yes
+
+  - name: 'link /srv to /ebs/srv'
+    file:
+      state: 'link'
+      src: '/ebs/srv'
+      path: '/srv'
+      force: yes
+    become: yes
+
+  - name: 'link /var/lib/docker to /ebs/var/lib/docker'
+    file:
+      state: 'link'
+      src: '/ebs/var/lib/docker'
+      path: '/var/lib/docker'
+    become: yes
+
+- hosts: 'redmine'
+  roles:
+  - 'qi-aws-tag'
+  - 'qi-docker-daemon.json'
+  - 'qi-install-python3-virtualenv'
+  - 'qi-install-python3-docker'
+  - 'qi-install-python3-docker-compose'
+  - 'qi-install-docker'
+  - 'qi-aws-ecr'
+  - 'application-redmine'
+  - 'redmine-backup'
+  - 'qi-cloudwatch'
+    #  - 'marketing'
+  - 'redmine-certbot'
+  - 'prune'

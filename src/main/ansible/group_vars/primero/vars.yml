@@ -1,0 +1,4 @@
+---
+primero_nginx_server_name: 'task.quoininc.com'
+certbot_domain:
+- '{{ primero_nginx_server_name }}'

@@ -1,0 +1,7 @@
+---
+all:
+
+  hosts:
+    primero.davidson.quoininc.com:
+
+  children:
