@@ -1,11 +1,11 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../../i18n";
 import ActionDialog from "../../../../action-dialog";
 import { saveUser } from "../action-creators";
-import { ROLE_OPTIONS } from "../constants";
+import { getRoles } from "../selectors";
 
 import { NAME } from "./constants";
 
@@ -24,6 +24,7 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const roles = useSelector(state => getRoles(state));
 
   const handleOk = () => {
     setPending(true);
@@ -50,8 +51,9 @@ const Component = ({
     ? identityOptions.find(currentIdentity => currentIdentity.id === userData.identity_provider_id) || {}
     : "";
 
-  const { display_text: roleDisplayText } =
-    ROLE_OPTIONS.find(currentRole => currentRole.id === userData.role_unique_id) || {};
+  const roleDisplayText = roles
+    .find(currentRole => currentRole.get("unique_id") === userData.role_unique_id)
+    ?.get("name");
 
   const dialogContent = (
     <p

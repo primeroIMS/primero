@@ -30,7 +30,9 @@ export const OPTION_TYPES = {
   FORM_GROUP: "FormGroup",
   LOOKUPS: "Lookups",
   USER: "User",
-  REPORTING_LOCATIONS: "ReportingLocation"
+  REPORTING_LOCATIONS: "ReportingLocation",
+  USER_GROUP: "UserGroup",
+  ROLE: "Role"
 };
 
 export const CUSTOM_LOOKUPS = [OPTION_TYPES.USER, OPTION_TYPES.AGENCY, OPTION_TYPES.LOCATION];

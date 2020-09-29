@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
@@ -19,6 +19,8 @@ import { setDialog, setPending } from "../../../record-actions/action-creators";
 import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
 import { fetchSystemSettings } from "../../../application";
 import bindFormSubmit from "../../../../libs/submit-form";
+import { fetchUserGroups } from "../user-groups-list/action-creators";
+import { fetchRoles } from "../roles-list/action-creators";
 
 import { form } from "./form";
 import validations from "./validations";
@@ -89,7 +91,11 @@ const Container = ({ mode }) => {
   };
 
   useEffect(() => {
-    dispatch(fetchSystemSettings());
+    batch(() => {
+      dispatch(fetchSystemSettings());
+      dispatch(fetchUserGroups({ data: { per: 999 } }));
+      dispatch(fetchRoles({ data: { per: 999 } }));
+    });
   }, []);
 
   useEffect(() => {

@@ -2,7 +2,12 @@ import { fromJS } from "immutable";
 
 import NAMESPACE from "../namespace";
 
-import { getUser, getErrors, getServerErrors, getSavingRecord } from "./selectors";
+import { getUser, getErrors, getRoles, getServerErrors, getSavingRecord } from "./selectors";
+
+const roles = [
+  { id: 1, unique_id: "role_1" },
+  { id: 2, unique_id: "role_2" }
+];
 
 const stateWithHeaders = fromJS({
   records: {
@@ -11,7 +16,8 @@ const stateWithHeaders = fromJS({
       errors: true,
       serverErrors: [{ message: "error-1" }],
       saving: true
-    }
+    },
+    roles: { data: roles }
   }
 });
 
@@ -77,6 +83,14 @@ describe("<UsersForm /> - Selectors", () => {
       const user = getSavingRecord(stateWithoutHeaders);
 
       expect(user).to.be.false;
+    });
+  });
+
+  describe("getRoles", () => {
+    it("should return the roles", () => {
+      const currentRoles = getRoles(stateWithHeaders);
+
+      expect(currentRoles).to.deep.equal(fromJS(roles));
     });
   });
 });

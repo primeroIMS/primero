@@ -20,3 +20,5 @@ export const getIdentityProviders = state => {
 };
 
 export const getSavingRecord = state => state.getIn(["records", NAMESPACE, SAVING], false);
+
+export const getRoles = state => state.getIn(["records", "roles", "data"], fromJS([]));
