@@ -5,18 +5,12 @@ class Referral < Transition
   def perform
     self.status = Transition::STATUS_INPROGRESS
     mark_service_object_referred
-    if remote
-      perform_remote_referral
-    else
-      perform_system_referral
-    end
+    perform_system_referral unless remote
+    record.save! if record.has_changes_to_save?
   end
 
   def reject!
     self.status = Transition::STATUS_DONE
-    # TODO: Why is this check being performed? Is it relevant with remote referrals?
-    return if record.referrals.where(transitioned_to: transitioned_to).nil?
-
     record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
     record.save! && save!
   end
@@ -53,11 +47,5 @@ class Referral < Transition
     else
       record.assigned_user_names = [transitioned_to]
     end
-    record.save!
-  end
-
-  def perform_remote_referral
-    # TODO: Make sure that only this referral object will be visible in the export
-    # TODO: Export record with the constraints of the external user role
   end
 end
