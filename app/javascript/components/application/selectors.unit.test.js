@@ -35,6 +35,16 @@ const agency3 = {
   services: ["service_test_1"]
 };
 
+const userGroups = [
+  { id: 1, unique_id: "user-group-1" },
+  { id: 2, unique_id: "user-group-2" }
+];
+
+const roles = [
+  { id: 1, unique_id: "role-1", name: "Role 1" },
+  { id: 2, unique_id: "role-2", name: "Role 2" }
+];
+
 const stateWithNoRecords = fromJS({});
 const stateWithRecords = fromJS({
   application: {
@@ -102,7 +112,9 @@ const stateWithRecords = fromJS({
         fr: "",
         ar: "GBV Closure-AR"
       }
-    }
+    },
+    userGroups,
+    roles
   }
 });
 
@@ -258,6 +270,24 @@ describe("Application - Selectors", () => {
       const approvalsLabels = selectors.getApprovalsLabels(stateWithRecords, "en");
 
       expect(approvalsLabels).to.deep.equal(expectedApprovalsLabels);
+    });
+  });
+
+  describe("getUserGroups", () => {
+    it("should return user groups", () => {
+      expect(selectors.getUserGroups(stateWithRecords)).to.deep.equal(fromJS(userGroups));
+    });
+  });
+
+  describe("getRoles", () => {
+    it("should return roles", () => {
+      expect(selectors.getRoles(stateWithRecords)).to.deep.equal(fromJS(roles));
+    });
+  });
+
+  describe("getRoleName", () => {
+    it("should return the role name", () => {
+      expect(selectors.getRoleName(stateWithRecords, "role-2")).to.deep.equal("Role 2");
     });
   });
 });

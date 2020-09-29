@@ -64,6 +64,18 @@ describe("User - Action Creators", () => {
           manifest: undefined
         }
       }
+    },
+    {
+      type: "application/FETCH_ROLES",
+      api: {
+        path: "roles"
+      }
+    },
+    {
+      type: "application/FETCH_USER_GROUPS",
+      api: {
+        path: "user_groups"
+      }
     }
   ];
 
@@ -97,7 +109,7 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.setAuthenticatedUser(user)).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(7);
+      expect(actions).to.have.lengthOf(9);
       expect(actions).to.be.deep.equal(expectedAsyncActions);
     });
   });
@@ -181,7 +193,7 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.checkUserAuthentication()).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(7);
+      expect(actions).to.have.lengthOf(9);
       expect(actions).to.be.deep.equal(expectedAsyncActions);
     });
   });
