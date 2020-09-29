@@ -1,7 +1,7 @@
-import { format, subMonths } from "date-fns";
+import { subMonths } from "date-fns";
 import omit from "lodash/omit";
 
-import { DATE_FORMAT } from "../../../../config";
+import { endOfDay, toServerDateFormat } from "../../../../libs";
 
 import { ageParser } from "./utils";
 
@@ -18,7 +18,10 @@ const customCheckBoxFilters = {
   [CUSTOM_FILTERS.LAST_UPDATED_AT]: ({ fieldName, i18n }) => ({
     options: [
       {
-        id: `01-Jan-0000.${format(subMonths(new Date(), 3), DATE_FORMAT)}`,
+        id: `0000-01-01T00:00:00Z..${toServerDateFormat(endOfDay(subMonths(new Date(), 3)), {
+          includeTime: true,
+          normalize: true
+        })}`,
         display_name: i18n.t("cases.filter_by.3month_inactivity")
       }
     ],
