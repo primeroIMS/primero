@@ -53,7 +53,7 @@ const Component = ({
     }
 
     if (isDateField && fieldValue) {
-      return format(parseISO(fieldValue), isDateWithTime ? DATE_TIME_FORMAT : DATE_FORMAT);
+      return i18n.localizeDate(fieldValue, isDateWithTime ? DATE_TIME_FORMAT : DATE_FORMAT);
     }
 
     if (isBooleanField) {
