@@ -10,7 +10,7 @@ class Assign < Transition
     record.owned_by = transitioned_to
     record.reassigned_transferred_on = DateTime.now
     record.save!
-    update_incident_ownership if record.respond_to?(:incidents)
+    update_incident_ownership
   end
 
   def consent_given?
