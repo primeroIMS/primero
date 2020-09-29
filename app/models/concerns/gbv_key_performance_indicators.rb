@@ -9,21 +9,10 @@ module GBVKeyPerformanceIndicators
                    :action_plan, :client_feedback
 
     searchable do
-      boolean :completed_survivor_assessment
-      boolean :safety_plan_required
-      boolean :completed_safety_plan
-      boolean :completed_action_plan
-      boolean :case_plan_approved
-      string :services_provided, multiple: true
-      string :action_plan_referral_statuses, multiple: true
-      string :referred_services, multiple: true
+      %i[completed_survivor_assessment safety_plan_required completed_safety_plan completed_action_plan case_plan_approved duplicate].each { |f| boolean(f) }
+      %i[services_provided, action_plan_referral_statuses referred_services].each { |f| string(f, multiple: true) } 
+      %i[safety_goals_progress health_goals_progress psychosocial_goals_progress justice_goals_progress other_goals_progress].each { |f| float(f) }
       integer :number_of_meetings
-      float :safety_goals_progress
-      float :health_goals_progress
-      float :psychosocial_goals_progress
-      float :justice_goals_progress
-      float :other_goals_progress
-      boolean :duplicate
       string :satisfaction_status
     end
   end
