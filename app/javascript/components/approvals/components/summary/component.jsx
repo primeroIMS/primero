@@ -4,9 +4,7 @@ import { Grid } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
 import clsx from "clsx";
 
-import { localizedFormat } from "../../../../libs";
 import { useI18n } from "../../../i18n";
-import { DATE_FORMAT } from "../../../../config";
 import { NAME_SUMMARY } from "../../constants";
 import { useApp } from "../../../application";
 
@@ -38,7 +36,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
       return false;
     }
 
-    return localizedFormat(approvalDate, i18n, DATE_FORMAT);
+    return i18n.localizeDate(approvalDate);
   };
 
   return (

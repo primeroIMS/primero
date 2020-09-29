@@ -4,7 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 import { parse } from "date-fns";
 
-import { dataToJS, localizedFormat } from "../../libs";
+import { dataToJS } from "../../libs";
 import { REPORT_FIELD_TYPES } from "../reports-form/constants";
 
 const getColors = () => {
@@ -29,7 +29,7 @@ const getDateFormat = value => {
 const translateDate = (value, i18n, dateFormat) => {
   const date = parse(value, dateFormat, new Date());
 
-  return date ? localizedFormat(date, i18n, dateFormat) : value;
+  return date ? i18n.localizeDate(date, dateFormat) : value;
 };
 
 const getColumnData = (column, data, i18n) => {

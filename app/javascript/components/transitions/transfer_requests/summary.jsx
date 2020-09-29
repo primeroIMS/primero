@@ -5,8 +5,6 @@ import { Grid } from "@material-ui/core";
 import TransitionStatus from "../TransitionStatus";
 import { useI18n } from "../../i18n";
 import { TRANSFER_REQUEST_SUMMARY_NAME } from "../constants";
-import { DATE_FORMAT } from "../../../config";
-import { localizedFormat } from "../../../libs";
 
 const Summary = ({ transition, classes }) => {
   const i18n = useI18n();
@@ -23,7 +21,7 @@ const Summary = ({ transition, classes }) => {
           <div className={classes.titleHeader}>{i18n.t("transition.type.transferRequest")}</div>
 
           {/* TODO: The date should be localized */}
-          <div className={classes.date}>{localizedFormat(transition.created_at, i18n, DATE_FORMAT)}</div>
+          <div className={classes.date}>{i18n.localizeDate(transition.created_at)}</div>
         </div>
       </Grid>
       {transitionStatus}

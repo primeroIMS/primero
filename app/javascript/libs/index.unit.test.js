@@ -27,7 +27,6 @@ describe("libs/index", () => {
       "keyIn",
       "listAttachmentFields",
       "listEntriesToRecord",
-      "localizedFormat",
       "mapEntriesToRecord",
       "mapListToObject",
       "mapObjectPropertiesToRecords",

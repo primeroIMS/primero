@@ -2,6 +2,10 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
+import { format, isDate, parseISO } from "date-fns";
+
+import localize from "../../libs/date-picker-localization";
+import { DATE_FORMAT } from "../../config";
 
 import { setLocale } from "./action-creators";
 import Context from "./context";
@@ -37,6 +41,12 @@ const I18nProvider = ({ children }) => {
       return result;
     }, fromJS([]));
 
+  const localizeDate = (value, dateFormat = DATE_FORMAT) => {
+    const date = isDate(value) ? value : parseISO(value);
+
+    return format(date, dateFormat, { locale: localize(window.I18n) });
+  };
+
   return (
     <Context.Provider
       value={{
@@ -44,7 +54,8 @@ const I18nProvider = ({ children }) => {
         applicationLocales: translateLocales(),
         ...window.I18n,
         changeLocale,
-        getI18nStringFromObject
+        getI18nStringFromObject,
+        localizeDate
       }}
     >
       {children}

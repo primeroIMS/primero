@@ -5,7 +5,6 @@ import isEmpty from "lodash/isEmpty";
 import { useI18n } from "../../../../i18n";
 import { SUBFORM_HEADER_DATE } from "../constants";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../../config";
-import { localizedFormat } from "../../../../../libs";
 
 const Component = ({ value, includeTime }) => {
   const i18n = useI18n();
@@ -13,7 +12,7 @@ const Component = ({ value, includeTime }) => {
   if (isEmpty(value)) return value || "";
 
   const dateFormat = includeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
-  const dateValue = localizedFormat(value, i18n, dateFormat);
+  const dateValue = i18n.localizeDate(value, dateFormat);
 
   return <span>{dateValue}</span>;
 };
