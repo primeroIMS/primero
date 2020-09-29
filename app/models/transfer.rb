@@ -17,11 +17,9 @@ class Transfer < Transition
 
     self.status = record.transfer_status = Transition::STATUS_ACCEPTED
     remove_assigned_user
-
-    record.previously_owned_by = record.owned_by
     record.owned_by = transitioned_to
-    record.owned_by_full_name = transitioned_to_user.full_name
     record.save! && save!
+    update_incident_ownership
   end
 
   def reject!
