@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Model describing a referral of a record from one user to another.
 class Referral < Transition
   def perform
     self.status = Transition::STATUS_INPROGRESS
@@ -13,6 +14,7 @@ class Referral < Transition
 
   def reject!
     self.status = Transition::STATUS_DONE
+    # TODO: Why is this check being performed? Is it relevant with remote referrals?
     return if record.referrals.where(transitioned_to: transitioned_to).nil?
 
     record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
