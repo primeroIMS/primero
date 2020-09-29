@@ -30,6 +30,6 @@ class Api::V2::UsersTransitionsController < ApplicationApiController
   end
 
   def user_filters
-    @user_filters ||= params.permit(:agency, :location, :services)
+    @user_filters ||= params.permit(:agency, :location, :service)
   end
 end
