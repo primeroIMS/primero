@@ -11,6 +11,7 @@ import ActionDialog from "../../action-dialog";
 import { constructInitialValues } from "../utils";
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
+import { displayNameHelper } from "../../../libs";
 
 import { ValidationErrors } from "./components";
 import RecordFormTitle from "./record-form-title";
@@ -58,7 +59,7 @@ const RecordForm = ({
             <RecordFormTitle
               mobileDisplay={mobileDisplay}
               handleToggleNav={handleToggleNav}
-              displayText={form.name[i18n.locale]}
+              displayText={displayNameHelper(form.name, i18n.locale)}
             />
 
             <RecordFormAlerts recordType={recordType} form={form} />

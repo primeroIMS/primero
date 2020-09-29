@@ -16,7 +16,7 @@ import { getPermissions } from "../user";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 import { fetchAlerts } from "./action-creators";
-import { selectUsername, selectAlerts } from "./selectors";
+import { getUserId, selectUsername, selectAlerts } from "./selectors";
 import MenuEntry from "./components/menu-entry";
 
 const Nav = () => {
@@ -33,6 +33,7 @@ const Nav = () => {
   const module = userModules.first();
 
   const username = useSelector(state => selectUsername(state));
+  const userId = useSelector(state => getUserId(state));
   const dataAlerts = useSelector(state => selectAlerts(state));
   const permissions = useSelector(state => getPermissions(state));
 
@@ -47,6 +48,7 @@ const Nav = () => {
   const permittedMenuEntries = menuEntries => {
     return menuEntries.map(menuEntry => {
       const jewel = dataAlerts.get(menuEntry?.jewelCount, null);
+      const route = `/${menuEntry.to.split("/").filter(Boolean)[0]}`;
       const renderedMenuEntries = (
         <MenuEntry
           key={menuEntry.to}
@@ -58,7 +60,7 @@ const Nav = () => {
         />
       );
 
-      return PERMITTED_URL.includes(menuEntry.to) ? (
+      return PERMITTED_URL.includes(route) ? (
         renderedMenuEntries
       ) : (
         <Permission key={menuEntry.to} resources={menuEntry.resources} actions={menuEntry.actions}>
@@ -83,7 +85,7 @@ const Nav = () => {
           <Divider />
         </Hidden>
       </div>
-      <List className={css.navList}>{permittedMenuEntries(APPLICATION_NAV(permissions))}</List>
+      <List className={css.navList}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId))}</List>
       <div className={css.navAgencies}>
         <AgencyLogo />
       </div>

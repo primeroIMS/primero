@@ -1,6 +1,7 @@
 import { Record, fromJS } from "immutable";
 
 export const FieldRecord = Record({
+  id: null,
   name: "",
   type: "",
   editable: true,
@@ -49,7 +50,9 @@ export const FieldRecord = Record({
   asyncOptionsLoadingPath: null,
   asyncAction: () => {},
   option_strings_source_id_key: null,
-  clearDependentValues: null
+  clearDependentValues: null,
+  form_section_id: null,
+  subform_section_configuration: null
 });
 
 export const FormSectionRecord = Record({

@@ -7,6 +7,7 @@ const colors = {
   darkBrown: "#5a5549",
   lightGrey: "#f0f0f0",
   white: "#ffffff",
+  chromeWhite: "#e6efd4",
   black: "#231f20",
   solidBlack: "#000000",
   darkGrey: "#595952",

@@ -41,7 +41,7 @@ export default (data, i18n, lookups) => {
       )
       .sort(byProtectionConcernsNames);
     const lookupsByCode = lookups.reduce((acc, lookup) => {
-      acc[lookup.id] = lookup.display_text[i18n.locale];
+      acc[lookup.id] = lookup.display_text;
 
       return acc;
     }, {});

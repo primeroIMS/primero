@@ -1,15 +1,859 @@
 th:
+  'true': 'ใช่'
+  'false': 'ไม่ใช่'
+  cancel: ยกเลิก
+  clear: ชัดเจน
+  description: รายละเอียด
+  yes_label: 'ใช่'
+  actions:
+    button: ปฏิบัติการ
+    description:
+      invalid: บันทึกไม่ถูกต้อง
+      valid: บันทึกถูกต้อง
+    disable: ปิดการใช้งาน
+    enable: เปิดการใช้งาน
+    incident_details_from_case: เพิ่มเหตุการณ์
+    reopen: เปิดใช้งานอีกครั้ง
+    services_section_from_case: เพิ่มการจัดบริการ
+  agencies:
+    label: หน่วยงาน
+  agency:
+    code: รหัสหน่วยงาน
+    name: ชื่อหน่วยงาน
+    services: บริการของหน่วยงาน
+  approvals:
+    status:
+      approved: อนุมัติ
+      pending: อยู่ระหว่างดำเนินการ
+      rejected: ไม่อนุมัติ
+  audit_log:
+    action: การปฏิบัติการ
+    description: รายละเอียด
+    record_owner: เจ้าของบันทึก
+  bulk_export:
+    file_name: แฟ้ม
+    record_type: ประเภท
+    retry: การส่งออกไม่ถูกต้อง กรุณาสร้างการส่งออกอีกครั้ง
+    started_on: เริ่มต้น
+    status: สถานะ
+  buttons:
+    accept: ยอมรับ
+    add_note: เติมรายละเอียด
+    approvals: อนุมัติ
+    approve_bia: อนุมัติ BIA
+    approve_case_plan: อนุมัติแผนรายกรณี
+    approve_closure: อนุมัติการยุติบริการ
+    back: ย้อนกลับ
+    bundle_export: ชุดการกำหนดค่า
+    bundle_import: ชุดการกำหนดค่า
+    cancel: ยกเลิก
+    change_password: เปลี่ยนรหัสผ่าน
+    create_case: สร้างแฟ้มรายกรณี
+    create_incident: สร้างเหตุการณ์
+    create_new_record: สร้าง %{model}ใหม่
+    delete: ลบทิ้ง
+    disable: ปิดการใช้งาน
+    disable_photo_wall: ปิดการใช้งานผนังภาพ
+    done: ดำเนินการเสร็จสิ้น
+    edit: แก้ไข
+    edit_subform: แก้ไขแบบฟอร์มย่อย
+    enable: เปิดการใช้งาน
+    enable_photo_wall: เปิดการใช้งานผนังภาพ
+    export: ส่งออก
+    filter: ใช้ตัวกรอง
+    filter_clear: เลิกใช้ตัวกรอง
+    filter_label: 'ตัวกรอง'
+    filter_restore: กู้คืนการตั้งค่าระบบ
+    find_tracing_match: ค้นหาการจับคู่การติดตาม
+    flag_model: แจ้งเตือน %{model}
+    flag_records: แจ้งเตือน
+    import: นำเข้า
+    login: เข้าใช้งาน
+    mark_for_mobile: เลือกสำหรับการใช้งานบนมือถือ
+    ok: ตกลง
+    reject: ปฏิเสธ
+    remove_referrals: ยกเลิกการส่งต่อ
+    request_approval: ขออนุมัติ
+    request_transfer: คำร้องขอส่งต่อ
+    reunite: คืนสู่ครอบครัว
+    save: บันทึก
+    save_and_add_service_provision: บันทึกและเพิ่มการจัดบริการ
+    sort_by_case: กรณี
+    sort_by_tr: ติดตามคำร้อง
+    submit: ส่งข้อมูล
+    unflag_model: ยกเลิกการแจ้งเตือน%{model}
+    unflag_model_history: ประวัติการแจ้งเตือน%{model}
+    unmark_for_mobile: ยกเลิกการเลือกสำหรับการใช้งานบนมือถือ
+    view: ดูรายละเอียด
+    view_flags_history: ดูประวัติ
+  case:
+    create_new_case: สร้างรายกรณีใหม่
+    enter_id_number: ใส่เลขประจำตัวเพื่อค้นหาบันทึกที่มีอยู่แล้ว
+    messages:
+      update_success: 'อัปเดตรายกรณี%{record_id}สำเร็จแล้ว'
+      creation_success: 'สร้างบันทึกรายกรณีสำเร็จแล้ว'
+    workflow:
+      assessment: การประเมิน
+      case_plan: แผนงานรายกรณี
+      closed: ปิด
+      created_on: สร้างเมื่อ
+      in_progress: กำลังดำเนินการ
+      new: ใหม่
+      on_label: 'เมื่อ'
+      reopened: เปิดอีกครั้ง
+      service_implemented: การบริการที่ดำเนินการ
+      services_implemented: การบริการที่ดำเนินการ
+  cases:
+    apply_filter: ใช้
+    clear_filter: ชัดเจน
+    export: ส่งออก
+    filter_by:
+      3month_inactivity: สำหรับ 3 เดือนขึ้นไป
+      approvals:
+        approved: อนุมัติ
+        rejected: ไม่อนุมัติ
+      date: วันที่
+      female: หญิง
+      flag_label: มีการแจ้งเตือน?
+      male: ชาย
+      mobile_label: เลือกสำหรับการใช้งานบนมือถือ?
+      my_cases: รายกรณีของฉัน
+      no_activity: ไม่มีกิจกรรม
+      photo_label: มีรูปภาพหรือไม่?
+      referred_cases: รายกรณีที่ถูกส่งต่อให้ฉัน
+      workflow: รายกรณีตามขั้นตอนการทำงาน
+    flag_summary: สรุปการแจ้งเตือน
+    hide_name: ซ่อนชื่อ
+    hide_name_error: มีความผิดพลาดในการบันทึกสิ่งที่ปรับเปลี่ยน กรุณาลองใหม่อีกครั้ง
+    label: กรณี
+    my_filters: ตัวกรองของฉัน
+    ok: ตกลง
+    order_by:
+      label: จัดลำดับตาม
+      most_recently: ล่าสุด
+      name: ชื่อ
+    quick_view:
+      tracing_message: 'หมายเหตุ: มีบันทึกในระบบว่ามีคนตามหาเด็กคนนี้ ติดต่อนักสังคมสงเคราะห์ที่ดูแลบันทึกนี้เพื่อดำเนินการต่อหากเป็นความประสงค์ของเด็ก'
+    register_new_case: กรณีใหม่
+    save_filter: บันทึก
+    view_name: แสดงชื่อ
+  children:
+    selectable_date_options:
+      assessment_requested_on: วันที่ทำการประเมิน
+      closure_approved_date: 'วันที่ยุติบริการ'
+      created_at: วันที่เปิดรายกรณี
+      date_case_plan_initiated: วันที่วางแผนรายกรณี
+      registration_date: วันที่ขึ้นทะเบียน
+  contact:
+    field:
+      email: อีเมล
+      location: ตำแหน่งที่ตั้ง
+      name: ชื่อ
+      organization: องค์กร
+      other_information: ข้อมูลอื่นๆ
+      phone: โทรศัพท์
+      position: ตำแหน่ง
+    info_label: ข้อมูลการติดต่อ
+    updated: อัปเดตข้อมูลการติดต่อสำเร็จแล้ว
+  dashboard:
+    activity: กิจกรรม
+    admin_only: คลิกที่ %{links} เพื่อทำการเปลี่ยนแปลงแอปพลิเคชัน
+    all_cases: รายกรณีทั้งหมด
+    all_services_implemented: การบริการทั้งหมดที่ดำเนินการ
+    and: 'และ'
+    approvals: อนุมัติ
+    approved: อนุมัติ
+    assessment: การประเมิน
+    case_id: 'หมายเลขประจำตัวรายกรณี'
+    case_plan: แผนรายกรณี
+    case_stat_by_approval_type: การอนุมัติ
+    case_stat_by_assessment_level: รายกรณีโดยระดับการประเมิน
+    case_stat_referrals: การส่งต่อ
+    case_stats: กรณี
+    case_worker: ผู้ดูแลรายกรณี
+    cases_by_social_worker: รายกรณีโดยนักสังคมสงเคราะห์
+    cases_by_task_overdue: ภารกิจที่เกินกำหนด
+    cases_by_workflow: รายกรณีโดยขั้นตอนการทำงาน
+    cases_this_week: รายกรณีสัปดาห์นี้
+    cases_to_assign: รายกรณีที่ต้องมอบหมาย
+    closed: ปิด ยุติ
+    comprehensive_need_intervention: การตอบสนองที่ครอบคลุม
+    count_new_bia_approvals:
+      other: '%{stat} <span>%{stat_type}</span>การอนุมัติใหม่'
+    count_new_case_plan_approvals:
+      other: '%{stat} <span>%{stat_type}</span>การอนุมัติใหม่ '
+    count_new_closure_approvals:
+      other: '%{stat} <span>%{stat_type}</span>การอนุมัติใหม่'
+    count_pending_approval_total:
+      other: คุณมี%{stat} <span>อยู่ระหว่างรอ %{stat_type}</span>การอนุมัติ
+    count_pending_transfers:
+      other: คุณมี%{stat} <span>อยู่ระหว่างรอ</span>การโอนย้าย
+    count_records_new:
+      other: และ %{stat} <span>ใหม่</span>รายกรณี
+    count_records_total:
+      other: คุณมี %{stat} <span>รวมทั้งหมด</span>รายกรณี
+    count_referrals_new:
+      other: และ %{stat} <span>การส่งต่อใหม่ </span>
+    count_referrals_total:
+      other: คุณมี%{stat} <span>รวมทั้งหมด</span>การส่งต่อ
+    count_rejected_approval_total:
+      other: และ %{stat} <span>ปฏิเสธ%{stat_type}</span>การอนุมัติ
+    count_rejected_transfers:
+      other: และ%{stat} <span>ปฏิเสธ</span>การโอนย้าย
+    count_risk_level_new:
+      other: และ %{stat} <span>ใหม่</span> <span>%{stat_type} ความเสี่ยง </span> รายกรณี
+    count_risk_level_total:
+      other: คุณมี %{stat} <span>%{stat_type} ความเสี่ยง </span> รายกรณี
+    count_waiting_for_acceptance_transfers: คุณมี%{stat}การโอนย้าย <span>รอ</span>การตอบรับของคุณ
+    current_owner: เจ้าของปัจจุบัน
+    date: วันที่
+    date_of_incident: วันที่เกิดเหตุการณ์
+    date_of_interview: วันที่สัมภาษณ์
+    due: เกินกำหนด
+    flagged_by: 'แจ้งเตือนโดย'
+    flagged_by_me: แจ้งเตือนโดยฉัน
+    flagged_by_other: แจ้งเตือนโดยบุคคลอื่น
+    follow_up: การติดตาม
+    forms: แท็บ "แบบฟอร์ม"
+    geographic_area: พื้นที่ทางภูมิศาสตร์
+    high_risk: ลำดับความสำคัญสูง
+    immediate_response: การตอบสนองทันที
+    incident_id: 'หมายเลขประจำตัวเหตุการณ์'
+    incident_location: สถานที่เกิดเหตุการณ์
+    incident_status_open: เปิด
+    last_updated: อัปเดตล่าสุด
+    link_see_all: ดูทั้งหมด
+    low_risk: ลำดับความสำคัญต่ำ
+    manager_count_closed_total:
+      other: และ%{stat} <span>ปิด</span>รายกรณี
+    manager_count_open_total:
+      other: คุณมี%{stat} <span>เปิด</span>รายกรณี
+    manager_transfers_totals:
+      other: คุณมี%{stat} <span>%{stat_type}</span>การโอนย้าย
+    match_result: ผลลัพธ์การจับคู่
+    medium_risk: ลำดับความสำคัญปานกลาง
+    missed_cases: รายกรณีที่ขาดหายไป
+    name: ชื่อ
+    name_or_survivor_code: รหัสผู้รอดชีวิตหรือชื่อ
+    near_deadline: ใกล้กำหนดเวลา
+    new: ใหม่และอัปเดตแล้ว
+    new_child_assigned_to_you: รายกรณีใหม่ที่มอบหมายให้คุณ
+    new_incident: เหตุการณ์ใหม่
+    new_incident_assigned_to_you: เหตุการณ์ที่ได้รับมอบหมายใหม่
+    new_referred: การส่งต่อใหม่
+    new_service_provision: การจัดบริการใหม่
+    no_action_risk: ไม่มีการปฏิบัติการ
+    no_case_stats: ไม่มีสถานะรายกรณี status พิมพ์ผิดป่าว
+    no_caseworker_data: ไม่มีข้อมูลผู้ดูแลรายกรณี
+    no_flagged_child: ไม่มีกรณีที่แจ้งเตือน
+    no_flagged_incident: ไม่มีเหตุการณ์ที่แจ้งเตือน
+    no_open_incidents: ไม่มีเหตุการณ์ที่เปิดค้างไว้
+    no_overdue_activities: ไม่มีกิจกรรมที่เกินกำหนด
+    no_recent_activities: ไม่มีกิจกรรมล่าสุด
+    no_scheduled_activities: ไม่มีกิจกรรมที่กำหนดไว้
+    none_risk: ไม่มีลำดับความสำคัญ
+    number_of_victims: จำนวนผู้ตกเป็นเหยื่อ
+    number_of_violations: จำนวนการละเมิด
+    number_of_violations_verified: การละเมิดที่ตรวจสอบแล้ว
+    open: เปิด
+    open_cases: รายกรณีที่เปิดค้างอยู่
+    open_incidents: เหตุการณ์ที่เปิดอยู่
+    overdue_activities: กิจกรรมที่เกินกำหนด
+    overdue_cases_to_assign: รายกรณีเกินกำหนดที่ต้องมอบหมาย
+    pending: อยู่ระหว่างดำเนินการ
+    pending_transfers: รอการโอนย้าย
+    protection_concern: ประเด็นการคุ้มครอง
+    protection_concerns: ประเด็นการคุ้มครอง
+    range12+: 12+
+    range4: 0-4
+    range4_8: 4-8
+    range8_12: 8-12
+    recent_activities: กิจกรรมเมื่อเร็วๆ นี้
+    recently_flagged_child: กรณีที่แจ้งเตือนในช่วงเวลาที่ผ่านมา
+    recently_flagged_incident: เหตุการณ์ที่แจ้งเตือนในช่วงเวลาที่ผ่านมา
+    referrals_by_social_worker: การส่งต่อโดยนักสังคมสงเคราะห์
+    rejected: ไม่อนุมัติ
+    rejected_transfers: ปฏิเสธการโอนย้าย
+    response: การตอบสนอง <span>(อยู่ระหว่างดำเนินการ)</span>
+    scheduled_activities: กิจกรรมที่กำหนดไว้
+    score_range: ช่วงคะแนน
+    services: บริการ
+    services_implemented: การบริการที่ดำเนินการ
+    status_of_cases: สถานะรายกรณี
+    system_user: ระบบ
+    total: รวม
+    total_cases: รายกรณีรวมทั้งหมด
+    total_referred: การส่งต่อทั้งหมด
+    tr_stats: ติดตามคำร้อง
+    transers_awaiting_acceptance: การโอนย้ายกำลังรอการตอบรับ
+    transfers_by_social_worker: การโอนย้ายโดยนักสังคมสงเคราะห์
+    users: ไอคอน "การตั้งค่า"
+    violence_type: ประเภทของความรุนแรง
+    worker_count_referrals_total:
+      other: <span>%{case_worker}</span>มี%{stat} <span>การส่งต่อรวมทั้งหมด</span>
+    worker_count_total:
+      other: <span>%{case_worker}</span>มี%{stat} <span>รวม</span>รายกรณี
+    you_have: 'คุณมี'
+  disabled:
+    status:
+      disabled: ปิดการใช้งาน
+      enabled: เปิดการใช้งาน
+  email_notification:
+    approval_request: 'ผู้ใช้งาน %{user} กำลังขอนุมัติ %{approval_type} แก่รายกรณี %{case_id}'
+    approval_request_subject: 'รายกรณี: %{id} - ขอการอนุมัติ'
+    approval_response: '%{user}มี%{status}การขออนุมัติ%{approval_type}สำหรับรายกรณี%{case_id}'
+    approval_response_subject: 'รายกรณี: %{id}- ตอบกลับการอนุมัติ'
+    referral: '%{user}จาก%{agency}ได้ส่งต่อ%{record_type}มาให้คุณ: %{record_id}สำหรับ%{service_type}'
+    transfer: '%{user}ได้โอน%{record_type}มาให้คุณ: %{record_id}'
+    transfer_request_subject: การขอโอนย้ายรายกรณีของคุณ
+    transfer_subject: '%{record_type}:%{id} - การโอนย้าย'
+    referral_subject: '%{record_type}:%{id} - การส่งต่อ'
+    transfer_request: '%{user} ผู้ใช้ Primero จาก %{agency} ขอให้คุณโอนความเป็นเจ้าของของบันทึก %{record_type} %{record_id} นี้ เพื่อให้พวกเขาสามารถให้บริการการจัดการ %{record_type}สำหรับบุคคลในพื้นที่ของพวกเขา หากคุณยอมรับการโอนนี้ กรุณาคลิก ลิงค์หมายเลขประจำตัว %{record_type} ในอีเมลนี้เพื่อเปิด %{record_type} ใน Primero และเริ่มการโอน'
+    approval_request_html: 'ผู้ใช้งาน <strong>%{user}</strong> กำลังขออนุมัติ <strong>%{approval_type}</strong> แก่รายกรณี <strong>%{case_id}</strong>'
+    approval_response_html: '<strong>%{user}</strong>มี<strong>%{status}</strong>การขออนุมัติ<strong>%{approval_type}</strong> สำหรับรายกรณี<strong>%{case_id}</strong>'
+    referral_html: '<strong>%{user}</strong>จาก%{agency}ได้ส่งต่อ%{record_type}มาให้คุณ: <strong>%{record_id}</strong>เพื่อ%{service_type}'
+    transfer_html: '<strong>%{user}</strong>ได้โอน%{record_type}มาให้คุณ: <strong>%{record_id}</strong>'
+    transfer_request_html: '<strong>%{user}</strong> ผู้ใช้ Primero จาก %{agency} ขอให้คุณโอนความเป็นเจ้าของของบันทึก %{record_type}<strong>%{record_id}</strong>นี้ เพื่อให้พวกเขาสามารถให้บริการการจัดการ %{record_type}สำหรับบุคคลในพื้นที่ของพวกเขา หากคุณยอมรับการโอนนี้ กรุณาคลิก ลิงค์หมายเลขประจำตัว %{record_type}ในอีเมลนี้เพื่อเปิด %{record_type}ใน Premero และเริ่มการโอน'
+    transfer_request_notes_html: 'หมายเหตุจากบุคคลที่ทำการร้องขอ: %{request_transfer_notes}'
+  encrypt:
+    file_name: สร้างชื่อไฟล์ของคุณเอง (ไม่จำเป็น)
+    password_label: กรุณาใส่รหัสผ่านที่จะเข้ารหัสไฟล์ของคุณ
+  error_page:
+    not_found:
+      contact_admin: หาคุณเข้ามาด้วยความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ
+      something_went_wrong: ขออภัย มีบางอย่างผิดพลาด!
+  errors:
+    models:
+      child:
+        age: อายุต้องอยู่ระหว่าง 0 ถึง 130
+        date_of_birth: กรุณากรอกวันเกิดที่ถูกต้องสำหรับบันทึกรายกรณีนี้
+      export_configuration:
+        opt_out_field_does_not_exist: ช่อง "เลือกออก" ที่ระบุไม่มีอยู่ในบันทึก
+        record_type: ประเภทบันทึกไม่ถูกต้อง ต้องเป็น "เด็ก" "การติดตามคำร้อง" หรือ "เหตุการณ์"
+      location:
+        admin_level_present: ต้องไม่เว้นว่าง
+        code_present: ต้องไม่เว้นว่าง
+        name_present: ต้องไม่เว้นว่าง
+        unique_location_code: มีตำแหน่งที่ใช้รหัสตำแหน่งนั้นแล้ว กรุณาใส่รหัสตำแหน่งอื่น
+      lookup:
+        being_used: กำลังมีการใช้งานการค้นหานี้ และไม่สามารถลบได้
+        name_present: ชื่อต้องไม่เว้นว่าง
+      primero_module:
+        associated_record_types: ต้องมีชนิดของแบบฟอร์มอย่างน้อยหนึ่งชนิดเชื่อมโยงกับโมดูลนี้
+        name_present: ชื่อต้องไม่เว้นว่าง
+        unique_name: มีโมดูลที่ใช้ชื่อนั้นแล้ว โปรดใส่ชื่ออื่น
+      report:
+        module_presence: โมดูลต้องไม่เว้นว่าง
+        module_syntax: โมดูลรายงานทั้งหมดต้องมีอยู่แล้ว
+        name_presence: ชื่อต้องไม่เว้นว่าง
+      role:
+        permission_presence: โปรดเลือกการอนุญาตอย่างน้อยหนึ่งรายการ
+      user:
+        password_mismatch: ช่องรหัสผ่านไม่มีรหัสผ่านเดียวกัน
+  exports:
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: เลือกเป็น PDF
+    csv:
+      all: CSV
+      one: CSV
+      selected: เลือกไปยัง CSV
+    custom_exports:
+      choose_fields: คุณต้องการเลือกแต่ละช่องสำหรับแบบฟอร์มหรือไม่
+      empty_fields_forms: กรุณาเลือกแบบฟอร์มหรือช่องที่จะส่งออก
+      empty_format: กรุณาเลือกรูปแบบที่จะส่งออก
+      empty_module: กรุณาเลือกโมดูลที่จะส่งออก
+      empty_password: กรุณาใส่รหัสผ่านที่จะเข้ารหัสไฟล์ของคุณ
+      field_label: ช่อง
+      fields: เลือกช่องที่จะส่งออก
+      form_label: แบบฟอร์ม
+      format_label: เลือกรูปแบบ
+      forms: เลือกรูปแบบที่จะส่งออก
+      label: กำหนดการส่งออกเอง
+      module_placeholder: กรุณาเลือกโมดูล
+      select_module: เลือกโมดูล
+      submit: ตกลง
+    duplicate_id_csv:
+      all: เลขประจำตัวซ้ำ
+      female_abbreviation: ญ
+      headers:
+        age: อายุ
+        case_id: เลขประจำตัวรายกรณี
+        child_name_last_first: ชื่อเด็ก
+        family_size: ขนาดครอบครัว
+        national_id_no: หมายเลขประจำตัวประชาชน
+        sex_mapping_m_f_u: เพศ
+      male_abbreviation: ช
+      unknown_abbreviation: ไม่ทราบ
+    forms:
+      button: ส่งออกแบบฟอร์ม
+      label: ส่งออก
+    json:
+      all: JSON
+      one: JSON
+      selected: เลือกไปยัง JSON
+    list_view_csv:
+      all: ส่งออกมุมมองรายการ
+      selected: เลือกไปยัง CSV
+    mrm_violation_xls:
+      all: การละเมิด MRM
+      one: การละเมิด MRM
+      selected: เลือกไปยังการละเมิด MRM
+    no_records: ไม่มีบันทึกที่ต้องการ
+    pdf:
+      one: PDF
+      selected: เลือกเป็น PDF
+    pdf_exports:
+      label: PDF
+    photowall:
+      all: ผนังภาพ
+      one: ผนังภาพ
+      selected: เลือกไปยังผนังภาพ
+    selected_xls:
+      all: Excel
+      one: Excel
+      selected: เลือกไปยัง Excel
+    unhcr_csv:
+      all: UNHCR
+      female_abbreviation: ญ
+      headers:
+        age: อายุ
+        case_status: สถานะรายการณี
+        causes_of_separation: สาเหตุของการแยกจากครอบครัว
+        country_of_origin: ประเทศต้นทาง
+        cpims_code: รหัส CPIMS
+        current_care_arrangement: การจัดการการดูแลในปัจจุบัน
+        date_of_birth: วันเกิด
+        family_count_no: หมายเลขครอบครัว
+        governorate_country: เขตการปกครอง - ประเทศ
+        id: เลขประจำตัว
+        name_of_caregiver: ชื่อเต็มของผู้ให้ความดูแล
+        name_of_child_last_first: ชื่อเต็มของเด็ก
+        primary_protection_concerns: ประเด็นการคุ้มครองหลัก
+        reunification_status: สถานะการคืนสู่ครอบครัว
+        secondary_protection_concerns: ประเด็นการคุ้มครองรอง
+        sex: เพศ
+        sex_mapping_m_f_u: เพศ
+        vulnerability_code: รหัสความเปราะบาง รหัสภาวะเสี่ยง
+        vulnerability_details_code: รหัสรายละเอียดภาวะเสี่ยง
+      male_abbreviation: ช
+      one: UNHCR
+      selected: เลือกไปยัง UNHCR
+      unknown_abbreviation: ไม่ทราบ
+    xls:
+      all: Excel
+      one: Excel
+      selected: เลือกไปยัง Excel
+  fields:
+    action: การปฏิบัติการ
+    actions: ปฏิบัติการ
+    add: เพิ่ม
+    audio:
+      current: เสียงปัจจุบัน
+    check_box: ช่องทำเครื่องหมาย
+    date_field: ช่องวันที่
+    date_help: วว-ดดด-ปปปป
+    date_help_with_time: วว-ดดด-ปปปป ช.ม.:นาที
+    date_not_valid: วันที่ไม่ถูกต้อง
+    date_range:
+      date: วันที่
+      date_range: ช่วงวันที่
+      from: จาก
+      to: ไปถึง
+    date_range_field: ช่วงวันที่
+    default_date_validation: การตรวจสอบวันที่ที่เป็นค่าเริ่มต้น
+    deleted: ลบช่อง %{display_name}แล้ว
+    display_name: แสดงชื่อ
+    document:
+      comments: ความคิดเห็น
+      current: นี่คือเอกสารปัจจุบันใช่หรือไม่?
+      date: วันที่เอกสาร
+      name: ชื่อเอกสาร
+    field_name: ชื่อช่อง
+    file_upload_box:
+      add_new_document_button_text: เพิ่มเอกสารอื่น
+      add_new_photo_button_text: เพิ่มรูปภาพอื่น
+      add_photo_label: เพิ่มรูปภาพ
+      document_description: รายละเอียดเอกสาร
+      document_file_restrictions_message: ขนาดไฟล์ไม่ควรใหญ่กว่า 2 MB (ไฟล์ปฏิบัติการ (.exe) ไม่สามารถอัปโหลดได้)
+      no_file_selected: ไม่ได้เลือกไฟล์
+      photo_file_restrictions_message: ไฟล์รูปภาพไม่ควรใหญ่กว่า 10 MB ไฟล์เสียงไม่ควรใหญ่กว่า 10 MB ยิ่งเล็กยิ่งดี
+      recorded_audio_label: บันทึกเสียง
+      select_file_button_text: เลือกไฟล์
+    form_name: ชื่อแบบฟอร์ม
+    help_text: ข้อความช่วยเหลือ
+    label: ช่อง
+    move_to: ย้ายไป
+    not_future_date: ไม่ใช่วันที่ในอนาคต
+    number_not_valid: กรุณากรอกข้อมูลตัวเลข
+    numeric_field: ช่องตัวเลข
+    option_strings_add_option: เพิ่มตัวเลือก
+    option_strings_source: การค้นหา
+    option_strings_text: ตัวเลือก
+    option_strings_text_display: ข้อความตัวเลือก
+    option_strings_text_key: ปุ่มตัวเลือก
+    options_or_lookup_warning: กรุณาเพิ่มตัวเลือกหรือเลือกการค้นหา ห้ามกรอกทั้งสองอย่าง
+    radio_button: ปุ่มวิทยุ
+    remove: ถอดออก เอาออก
+    select_box: เลือกเลื่อนลง ?
+    select_date_validation: เลือกวิธีการตรวจสอบวันที่
+    separator: ผู้แบ่งแยก เครื่องแบ่งแยก
+    subform: แบบฟอร์มย่อย
+    subform_remove_message: คุณแน่ใจหรือไม่ว่าต้องการเอาแบบฟอร์มย่อยนี้ออก?
+    successfully_added: เพิ่มช่องสำเร็จแล้ว
+    tally_field: ช่องนับจำนวน/คะแนน
+    text_area: พื้นที่ข้อความ
+    text_field: ช่องข้อความ
+    textarea: พื้นที่ข้อความ
+    tick_box: ช่องทำเครื่องหมาย
+    tick_box_label: ป้ายชื่อช่องทำเครื่องหมาย
+    updated: อัปเดตช่องแล้ว
+  followup_reminders:
+    system_generated_followup_flag: การเข้าเยี่ยมเพื่อการติดตามที่บังคับ
+  form_section:
+    name: ชื่อ
+    required_field: 'ต้องระบุข้อมูลใน %{field}นี้'
+  forms:
+    label: แบบฟอร์ม
+    messages:
+      use_existing: เราสนับสนุนให้คุณใช้แบบฟอร์มที่มีอยู่เพราะจะทำให้การแบ่งปันข้อมูลและการรวมข้อมูลระหว่างสถาบันง่ายขึ้น
+    record_types:
+      case: รายกรณี
+      child: รายกรณี
+      incident: เหตุการณ์
+      potential_match: การจับคู่ที่มีศักยภาพ
+      reportable_follow_up: การติดตาม
+      reportable_protection_concern: ประเด็นการคุ้มครอง
+      reportable_service: บริการ
+      tracing_request: การติดตามคำร้อง
+      violation: การละเมิด
   home:
-    fr: "Français"
-    en: "English"
-    ar: "العربية"
-    ar-LB: "العربية (اللبنانية)"
-    zh: "中文"
-    es: "Español"
-    ru: "Русский"
-    so: "Af-Soomaali"
-    bn: "বাংলা"
-    id: "Bahasa"
-    my: "ဗမာစာ"
-    th: "ไทย"
-    ku: "کوردی"
+    ar: العربية
+    ar-LB: العربية (اللبنانية)
+    bn: বাংলা
+    current_time_zone: โซนเวลาปัจจุบัน
+    dashboard: กระดานภาพรวม
+    en: ภาษาอังกฤษ
+    es: ภาษาสเปน
+    fr: ภาษาฝรั่งเศส
+    id: Bahasa
+    ku: کوردی
+    label: หน้าหลัก
+    language: ภาษา
+    manage_system_users: จัดการผู้ใช้งานในการประสานข้อมูลเครื่องเสิร์ฟเวอร์
+    my: ဗမာစာ
+    records_need_attention: ข้อมูลที่ต้องให้ความสนใจ
+    ru: Русский
+    so: Af-Soomaali
+    th: ภาษาไทย
+    users: จัดการผู้ใช้งาน
+    view_records: ดูข้อมูลที่มีอยู่
+    welcome: ยินดีต้อนรับสู่ Primero
+    zh: ภาษาจีน
+  incident:
+    messages:
+      update_success: 'อัปเดตเหตุการณ์ %{record_id} สำเร็จแล้ว'
+  incidents:
+    label: เหตุการณ์
+    filter_by:
+      boys: เด็กชาย
+      girls: เด็กหญิง
+      unknown: ไม่ทราบ
+    register_new_incident: เหตุการณ์ใหม่
+    selectable_date_options:
+      date_of_first_report: วันที่สัมภาษณ์
+      incident_date_derived: วันที่เกิดเหตุ
+  location:
+    base_types:
+      camp: ค่าย
+      chiefdom: ความเป็นผู้นำ
+      city: เมือง
+      country: ประเทศ
+      county: เขต
+      district: อำเภอ
+      governorate: เขตการปกครอง
+      locality: ท้องถิ่น
+      other: อื่นๆ
+      province: จังหวัด
+      region: ภูมิภาค
+      site: สถานที่ตั้ง
+      state: รัฐ
+      sub-district: ตำบล
+      village: หมู่บ้าน
+      zone: เขต
+  logger:
+    approve_form:
+      bia: แบบฟอร์ม BIA
+      case_plan: แบบฟอร์มแผนรายกรณี
+      closure: แบบฟอร์มการยุติบริการ
+      'false': ปฏิเสธ
+      'true': อนุมัติ
+    by_user: โดยผู้ใช้งาน
+    consent_count: การนับความยินยอม
+    copy: คัดลอก
+    create: สร้าง
+    create_subform: สร้างแบบฟอร์มย่อย
+    destroy: ลบ
+    edit: แก้ไข
+    export: กำลังส่งข้อมูลออกเพื่อ
+    flag: การแจ้งเตือน
+    flag_records: การแจ้งเตือน
+    graph_data: แสดงข้อมูลเป็นกราฟ
+    hide_name:
+      protect: ซ่อนชื่อ
+      view: แสดงชื่อ
+    index: รายชื่อบันทึก
+    login: เข้าใช้งาน
+    logout: เลิกใช้งาน
+    lookups_for_field: ค้นหาช่อง
+    mark_for_mobile:
+      'false': ยกเลิกการใช้งานบนมือถือ
+      'true': ทำเครื่องหมายการใช้งานบนมือถือ
+    match_record: จับคู่บันทึก
+    permitted_field_list: รายการช่องที่อนุญาต
+    quick_view: การดูมุมมองด่วน
+    reassign: มอบหมาย
+    record_state:
+      'false': ปิดการใช้งาน
+      'true': เปิดการใช้งาน
+    referral: ส่งต่อ
+    relinquish_referral: ยกเลิกการส่งต่อเสร็จสิ้น
+    reopen_case: เปิดอีกครั้ง
+    request_approval:
+      bia: 'ขออนุมัติแบบฟอร์ม BIA '
+      case_plan: ขออนุมัติแบบฟอร์มแผนรายกรณี
+      closure: ขออนุมัติแบบฟอร์มการยุติบริการ
+    request_transfer: ส่งคำขอโอนย้าย
+    request_transfer_view: ดูการขอโอนย้าย
+    save_subform: บันทึกแบบฟอร์มย่อย
+    show: ดู
+    to: ไปยัง
+    to_user: ไปยังผู้ใช้งาน
+    transfer: การโอนย้าย
+    transfer_status:
+      Accepted: ยอมรับการโอนย้าย
+      Rejected: ปฏิเสธการโอนย้าย
+    unflag: ยกเลิกการแจ้งเตือน
+    update: อัปเดต
+  login:
+    label: เข้าใช้งาน
+    password:
+      label: รหัสผ่าน
+    username: ชื่อผู้ใช้งาน
+  lookup:
+    create: การค้นหาใหม่
+    label: การค้นหา
+    messages:
+      cannot_create: สร้างการค้นหาไม่ได้
+      correct_errors: 'กรุณาแก้ไขข้อผิดพลาดต่อไปนี้และส่งอีกครั้ง'
+    name: ชื่อ
+    values: ตัวเลือก
+  messages:
+    confirmation_message: หากเลือก "ตกลง" จะยกเลิกการเปลี่ยนแปลงที่ยังไม่ได้บันทึกทั้งหมด และกลับไปที่แถบตัวเลือก หากเลือก "ยกเลิก" จะกลับไปที่บันทึกที่ดำเนินการอยู่
+  navigation:
+    search: ค้นหา
+  permissions:
+    label: การอนุญาต
+    permission:
+      All: ทั้งหมด
+      add_note: เติมรายละเอียด
+      admin_only: ไม่มีบันทึก - ฟังก์ชั่นผู้ดูแลระบบเท่านั้น
+      administrator_read: ผู้ดูแลระบบอ่าน
+      agency: หน่วยงาน
+      agency_read: หน่วยงานอ่าน
+      all: เข้าถึงบันทึกหรือผู้ใช้งานทั้งหมด
+      assign: มอบหมาย กำหนด
+      assign_within_agency: มอบหมายภายในหน่วยงาน
+      assign_within_user_group: มอบหมายภายในกลุ่มผู้ใช้งาน
+      audit_log: บันทึกการตรวจสอบ
+      case: รายกรณี
+      copy: คัดลอก
+      create: สร้าง
+      dash_cases_by_social_worker: ดูรายกรณีโดยนักสังคมสงเคราะห์
+      dash_cases_by_task_overdue: ดูรายกรณีโดยภารกิจที่เกินกำหนด
+      dash_cases_by_workflow: ดูรายกรณีโดยขั้นตอนการทำงาน
+      dash_cases_to_assign: ดูรายกรณีเพื่อมอบหมาย
+      dash_manager_transfers: ดูการโยกย้ายผู้จัดการ
+      dash_matching_results: ดูผลลัพธ์การจับคู่
+      dash_protection_concerns: ดูประเด็นการคุ้มครอง
+      dash_referrals_by_socal_worker: ดูการส่งต่อโดยนักสังคมสงเคราะห์
+      dash_reporting_location: ดูตำแหน่งที่รายงาน
+      dash_service_provisions: ดูการจัดบริการ
+      dash_tasks: ดูภารกิจ
+      dash_transfers_by_socal_worker: ดูการโยกย้ายโดยนักสังคมสงเคราะห์
+      dashboard: แผงหน้าปัด
+      display_view_page: แสดงหน้ามุมมอง
+      duplicate: ค้นหาซ้ำ
+      enable_disable_record: ปิดการใช้งาน
+      export_case_pdf: ส่งออกไฟล์รายกรณีเป็น pdf
+      export_custom: กำหนดการส่งออกเอง
+      export_duplicate_id_csv: การส่งออกซ้ำ
+      export_json: ส่งออกไฟล์ json
+      export_pdf: ส่งออกเป็นไฟล์ pdf
+      export_photowall: ส่งออกผนังภาพ
+      export_xls: ส่งออกเป็นไฟล์ xls
+      find_tracing_match: ค้นหาการติดตามการจับคู่จากรายกรณี
+      flag: แจ้งเตือน
+      form: แบบฟอร์ม
+      group: เข้าถึงบันทึกหรือผู้ใช้ทั้งหมดในกลุ่มของฉัน
+      group_read: กลุ่มอ่าน
+      import: นำเข้า
+      incident: เหตุการณ์
+      incident_details_from_case: เพิ่มรายละเอียดเหตุการณ์ในรายกรณีของผู้ใช้งานรายอื่น
+      incident_from_case: สร้างเหตุการณ์จากรายกรณี
+      lookup: การค้นหา
+      manage: จัดการ
+      matching_configuration: จับคู่การกำหนดค่า
+      metadata: แบบฟอร์ม, การค้นหา
+      potential_match: การจับคู่ที่มีศักยภาพ
+      read: อ่าน
+      reassign: มอบหมายอีกครั้ง
+      referral_from_service: ส่งต่อรายกรณีจากแบบฟอร์มการบริการ
+      remove_assigned_users: เอาผู้ใช้งานที่ได้รับมอบหมายอื่นๆ ออก (การส่งต่อ)
+      report: รายงาน
+      request_approval: คำร้องขออนุมัติ
+      request_transfer: คำร้องขอส่งต่อ
+      role: บทบาท
+      save_search: บันทึกการค้นหา
+      saved_search: บันทึกการค้นหา
+      search_owned_by_others: เรียกดูบันทึกรายกรณีที่ผู้ใช้งานรายอื่นเป็นเจ้าของ
+      self: เข้าถึงเฉพาะบันทึกหรือผู้ใช้งานของฉัน
+      services_section_from_case: เพิ่มการให้บริการแก่รายกรณีของผู้ใช้งานรายอื่น
+      specific_roles: เข้าถึงรายการบทบาทที่ระบุ
+      sync_mobile: ซิงค์กับอุปกรณ์มือถือ
+      system: ระบบ
+      tracing_request: การติดตามคำร้อง
+      user: ผู้ใช้งาน
+      user_group: กลุ่มผู้ใช้งาน
+      view_approvals: ดูการอนุมัติ
+      view_assessment: ดูการประเมิน
+      view_photo: ดูรูป
+      view_protection_concerns_filter: ดูตัวกรองประเด็นการคุ้มครอง
+      view_response: ดูการตอบสนอง
+      write: เขียน
+  potential_match:
+    child_age: อายุ
+    child_gender: เพศ
+    child_id: เลขประจำตัวเด็ก#
+    inquirer_id: หมายเลขประจำตัวผู้ร้องขอ#
+    inquirer_tr_name: คำร้องการติดตามตัว
+    inquiry_date: วันที่ร้องขอ
+    name: ชื่อ
+    score: คะแนน
+    social_worker: นักสังคมสงเคราะห์
+    social_worker_agency: หน่วยงาน
+  potential_matches:
+    display: แสดงการจับคู่ที่มีศักยกภาพสำหรับ %{type}%{id}
+  reassign:
+    notes_label: หมายเหตุ
+  record_panel:
+    record_information: ข้อมูลบันทึก
+  referral:
+    agency_label: หน่วยงาน
+    is_remote_label: คุณต้องการส่งต่อไปยังระบบระยะไกลหรือไม่
+    location_label: ตำแหน่งที่ตั้ง
+    notes_label: หมายเหตุ
+    service_label: บริการ
+    success: '%{record_type}%{id}'
+  report:
+    aggregate_by: จัดกลุ่มตามแถว
+    date_ranges:
+      date: วัน
+      month: เดือน
+      week: สัปดาห์
+      year: ปี
+    description: รายละเอียด
+    disaggregate_by: จัดกลุ่มตามคอลัมน์
+    filters:
+      label: ตัวกรองรายงาน
+    group_ages: ใช้ช่วงอายุ
+    group_dates_by: ใช้ช่วงวันที่
+    is_graph: สร้างกราฟหรือไม่?
+    messages:
+      delete_success: ลบรายงานแล้ว
+    modules: โมดูล
+    name: ชื่อ
+    no_data: ไม่มีข้อมูลสำหรับรายงานนี้
+    record_type: ประเภทบันทึก
+    total: รวมทั้งหมด
+  reports:
+    label: รายงาน
+    register_new_report: สร้างรายงาน
+  request_transfer:
+    notes_label: หมายเหตุ
+    submit_label: ส่งคำร้องขอ
+    success: ส่งคำร้องขอโอนแล้ว
+  role:
+    copy_failure: เกิดข้อผิดพลาดในการคัดลอกบทบาท ตรวจสอบให้แน่ใจว่าชื่อไม่ขัดแย้งกับบทบาทอื่น
+    copy_success: คัดลอกบทบาทสำเร็จแล้ว
+    create: สร้างบทบาท
+    description: รายละเอียด
+    edit: แก้ไขบทบาท
+    error_in_updating: เกิดข้อผิดพลาดในการอัปเดตรายละเอียดบทบาท
+    group_permission_label: บทบาทนี้มีผลกระทบต่อบันทึกใดบ้าง?
+    name: ชื่อ
+    referral_label: บทบาทนี้สามารถใช้เพื่อการส่งต่อหรือไม่?
+    role_ids_label: บทบาทอื่นที่ถูกจัดการโดยบทบาทนี้
+    successfully_updated: อัปเดตรายละเอียดบทบาทสำเร็จแล้ว
+    transfer_label: บทบาทนี้สามารถใช้เพื่อการโอนต่อหรือไม่?
+  roles:
+    label: บทบาท
+  saved_search:
+    deleted: ลบการค้นหาสำเร็จแล้ว
+    filters_tab: ตัวกรอง
+    save_success: บันทึกการค้นหาสำเร็จแล้ว
+    saved_searches_tab: การค้นหาที่บันทึกไว้
+  saved_searches:
+    no_save_searches: ไม่มีคำค้นหาที่บันทึกไว้
+    save_search: บันทึกการค้นหา
+  system_settings:
+    label: การตั้งค่าระบบ
+  task:
+    due_date: วันที่ครบกำหนด
+    id: เลขประจำตัว#
+    priority: ระดับความสำคัญ
+    type: ประเภทของปฏิบัติการ
+    types:
+      assessment: การประเมิน
+      case_plan: แผนรายกรณี
+      follow_up: การติดตาม - %{subtype}
+      service: บริการ - %{subtype}
+  tracing_request:
+    messages:
+      update_success: 'อัปเดตการติดตามคำร้อง %{record_id} สำเร็จแล้ว'
+  tracing_requests:
+    register_new_tracing_request: คำร้องขอใหม่ให้มีการติดตามตัว
+    selectable_date_options:
+      inquiry_date: วันที่ร้องขอ
+  transfer:
+    agency_label: หน่วยงาน
+    consent_label: บันทึกไม่ได้ให้ความยินยอม
+    consent_override_label: คุณต้องการลบล้างการตั้งค่านี้หรือไม่?
+    is_remote_label: คุณจะโอนไปยังระบบระยะไกลหรือไม่
+    location_label: ตำแหน่งที่ตั้ง
+    notes_label: หมายเหตุ
+  user:
+    agency_office: สำนักงานของหน่วยงาน
+    code: รหัสผู้ใช้งาน
+    disabled: ปิดการใช้งาน
+    full_name: ชื่อเต็ม
+    location: ตำแหน่งที่ตั้ง
+    messages:
+      confirmation: คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้งานรายนี้? การลบทิ้งไม่สามารถยกเลิกได้ คลิก ตกลง เพื่อลบผู้ใช้งาน
+      created: สร้างผู้ใช้งานสำเร็จแล้ว
+      not_found: ไม่พบผู้ใช้งานตามหมายเลขประจำตัวนี้
+      password_changed_successfully: เปลี่ยนรหัสผ่านสำเร็จแล้ว
+      passwords_do_not_match: ไม่ตรงกับรหัสผ่านปัจจุบัน
+      time_zone_updated: อัปเดตการเปลี่ยนแปลงสำเร็จแล้ว
+      updated: อัปเดตผู้ใช้งานสำเร็จแล้ว
+    organization: องค์กร
+    position: ตำแหน่ง
+    send_mail: รับการแจ้งเตือนทางอีเมลหรือไม่?
+  user_group:
+    description: รายละเอียด
+    name: ชื่อ
+  user_groups:
+    label: กลุ่มผู้ใช้งาน
+  users:
+    label: ผู้ใช้

@@ -771,8 +771,8 @@ describe User do
   describe 'reporting location' do
     before do
       clean_data(User, Role, Location, SystemSettings)
-      Primero::Application.stub(locales: [Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_FRENCH])
-      Primero::Application.stub(default_locale: Primero::Application::LOCALE_ENGLISH)
+      allow(I18n).to receive(:available_locales) { %i[en fr] }
+
       @country = create(:location, admin_level: 0, placename_all: 'MyCountry', type: 'country', location_code: 'MC01')
       @province1 = create(:location, hierarchy: [@country.location_code], placename_all: 'Province 1', type: 'province',
                                      location_code: 'PR01')

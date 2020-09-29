@@ -3,23 +3,27 @@ import { useDispatch } from "react-redux";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
 import PropTypes from "prop-types";
+import DateFnsUtils from "@date-io/date-fns";
 import { Box, InputAdornment } from "@material-ui/core";
-import { DatePicker } from "@material-ui/pickers";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import { object, string } from "yup";
+import { parseISO } from "date-fns";
 
 import { useI18n } from "../../../i18n";
 import { addFlag } from "../../action-creators";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { DATE_FORMAT } from "../../../../config";
+import { toServerDateFormat } from "../../../../libs";
+import localize from "../../../../libs/date-picker-localization";
 
 import { NAME } from "./constants";
 
 const initialFormikValues = {
-  date: null,
+  date: toServerDateFormat(Date.now()),
   message: ""
 };
 
@@ -92,15 +96,20 @@ const Component = ({ recordType, record, handleActiveTab }) => {
                 name="date"
                 render={({ field, form, ...other }) => {
                   return (
-                    <DatePicker
-                      {...field}
-                      label={i18n.t("flags.flag_date")}
-                      onChange={date => {
-                        return date && form.setFieldValue(field.name, date, true);
-                      }}
-                      {...dateInputProps}
-                      {...other}
-                    />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
+                      <DatePicker
+                        {...field}
+                        label={i18n.t("flags.flag_date")}
+                        value={field.value ? parseISO(field.value) : field.value}
+                        onChange={date => {
+                          const formattedDate = date ? toServerDateFormat(date) : date;
+
+                          return form.setFieldValue(field.name, formattedDate, true);
+                        }}
+                        {...dateInputProps}
+                        {...other}
+                      />
+                    </MuiPickersUtilsProvider>
                   );
                 }}
               />

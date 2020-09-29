@@ -28,72 +28,60 @@ namespace :primero do
     end
   end
 
-  desc 'Import the form translations yaml'
-  task :import_form_translation, [:yaml_file] => :environment do |_, args|
-    file_name = args[:yaml_file]
-    if file_name.present?
-      puts "Importing form translation from #{file_name}"
-      Importers::YamlI18nImporter.import(file_name, FormSection)
-    else
-      puts 'ERROR: No input file provided'
-    end
-  end
-
   # Exports Forms for translation & Exports Lookups for translation
-  # USAGE: bundle exec rake db:data:export_form_translation[form_name,type,module_id,show_hidden_forms,show_hidden_fields,locale]
+  # USAGE: rails primero:export_form_translation
   # Args:
-  #   form_name          - if this is passed in, will only export that 1 form  (ex. 'basic_identity')
-  #   type               - record type (ex. 'case', 'incident', 'tracing_request', etc)     DEFAULT: 'case'
+  #   unique_id          - if this is passed in, will only export that 1 form  (ex. 'basic_identity')
+  #   record_type        - record type (ex. 'case', 'incident', 'tracing_request', etc)     DEFAULT: 'case'
   #   module_id          - (ex. 'primeromodule-cp', 'primeromodule-gbv')                    DEFAULT: 'primeromodule-cp'
-  #   show_hidden_forms  - Whether or not to include hidden forms                           DEFAULT: false
-  #   show_hidden_fields - whether or not to include hidden fields                          DEFAULT: false
+  #   show_hidden        - Whether or not to include hidden fields                          DEFAULT: false
   #   locale             - (ex. 'en', 'es', 'fr', 'ar')                                     DEFAULT: 'en'
   # NOTE:
   #   No spaces between arguments in argument list
   # Examples:
   #   Defaults to exporting all forms for 'case' & 'primeromodule-cp'
-  #      bundle exec rake db:data:export_form_translation
+  #      rails primero:export_form_translation
   #
   #   Exports only 'basic_identity' form
-  #      bundle exec rake db:data:export_form_translation[basic_identity]
+  #      rails primero:export_form_translation[basic_identity]
   #
   #   Exports only tracing_request forms for CP, including hidden forms & fields
-  #      bundle exec rake db:data:export_form_translation['',tracing_request,primeromodule-cp,true,true,en]
+  #      rails primero:export_form_translation['',tracing_request,primeromodule-cp,true,en]
+  #
+  #   Exports only the GBV forms
+  #      rails primero:export_form_translation['','',primeromodule-gbv]
   desc 'Export the forms to a yaml file to be translated'
-  task :export_form_translation,
-       %i[form_id type module_id show_hidden_forms show_hidden_fields locale] => :environment do |_, args|
-    form_id = args[:form_id].present? ? args[:form_id] : ''
-    module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
-    type = args[:type].present? ? args[:type] : 'case'
-    show_hidden_forms = args[:show_hidden_forms].present? && %w[Y y T t].include?(args[:show_hidden_forms][0])
-    show_hidden_fields = args[:show_hidden_fields].present? && %w[Y y T t].include?(args[:show_hidden_fields][0])
-    locale = args[:locale].present? ? args[:locale] : ''
-    puts 'Exporting forms... Check rails log for details...'
-    forms_exporter = Exporters::YmlFormExporter.new
-    forms_exporter.export(
-      nil, nil,
-      form_id: form_id, record_type: type, module_id: module_id, show_hidden_forms: show_hidden_forms,
-      show_hidden_fields: show_hidden_fields, locale: locale
-    )
+  task :export_form_translation, %i[unique_id record_type module_id show_hidden locale] => :environment do |_, args|
+    puts 'Exporting forms to YAML for translation ...'
+    args.with_defaults(module_id: 'primeromodule-cp', record_type: 'case', locale: 'en')
+    opts = args.to_h
+    opts[:visible] = args[:show_hidden].present? && args[:show_hidden].start_with?(/[yYTt]/) ? nil : true
+    exporter = Exporters::YmlConfigExporter.new(opts)
+    exporter.export
     puts 'Done!'
   end
 
-  # USAGE: bundle exec rake db:data:import_lookup_translation[yaml_file]
+  # Imports Form And Lookup translation config files
+  # USAGE: rails primero:import_transition_config[file_name]
+  #        If the file_name contains 'lookup', it will import lookups, else it will import form sections
   # Args:
-  #   yaml_file             - The translated file to be imported
-  # NOTE:
-  #   No spaces between arguments in argument list
+  #   file_name             - The translated file to be imported
+  #
   # Examples:
-  #   bundle exec rake db:data:import_lookup_translation[for_use_primero_lookupsyml_fr.yml]
-  desc 'Import the lookup translations yaml'
-  task :import_lookup_translation, [:yaml_file] => :environment do |_, args|
-    file_name = args[:yaml_file]
-    if file_name.present?
-      puts "Importing lookup translation from #{file_name}"
-      Importers::YamlI18nImporter.import(file_name, Lookup)
-    else
+  #   rails primero:import_translation_config[action_plan_form.yml]
+  #   rails primero:import_translation_config[lookups.yml]
+  desc 'Import the form_section or lookup translations yaml'
+  task :import_translation_config, %i[file_name] => :environment do |_, args|
+    file_name = args[:file_name]
+    if file_name.blank?
       puts 'ERROR: No input file provided'
+      return
     end
+
+    puts "Importing translations from #{file_name}"
+    opts = args.to_h
+    importer = Importers::YmlConfigImporter.new(opts)
+    importer.import
   end
 
   desc 'Set a default password for all generic users.'

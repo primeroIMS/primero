@@ -1,8 +1,12 @@
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 
 import NAMESPACE from "./namespace";
 
-export const selectUsername = state => state.getIn(["user", "username"], "");
+const getUser = state => state.get("user", fromJS({}));
+
+export const selectUsername = state => getUser(state).get("username", "");
+
+export const getUserId = state => getUser(state).get("id", "");
 
 export const selectUserAgency = state =>
   state

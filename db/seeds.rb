@@ -49,19 +49,7 @@ puts "Seeding Default Reports"
 #require File.dirname(__FILE__) + "/reports/reports.rb"
 Dir[File.dirname(__FILE__) + '/reports/*.rb'].each {|file| require file } if should_seed?(Report)
 
-
-#TODO We will to revisit the I18n Setup when we address translations.
-#Primero::I18nSetup.reset_definitions
-
 if should_seed? ContactInformation
   #A little hacky, but no need to write a create_or_update method
   ContactInformation.create(name: 'administrator') if table_empty?(ContactInformation)
 end
-
-#TODO: This is being temporarily removed: v1.5 and v1.6 GBV field keys are mismatched. Need to reconcile before re-enabling
-# puts "Loading Form Translations"
-# Dir[File.dirname(__FILE__) + '/translations/gbv/*/*.yml'].each do |file|
-#   puts file
-#   clazz = file.end_with?('lookups.yml') ? Lookup : FormSection
-#   Importers::YamlI18nImporter.import(file, clazz)
-# end

@@ -14,7 +14,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .setIn([NAMESPACE, "errors"], true)
         .setIn([NAMESPACE, "message"], fromJS(payload.errors.map(e => e.message).flat()));
     case actions.TRANSFER_REQUEST_STARTED:
-      return state.setIn([NAMESPACE, "errors"], false);
+      return state.setIn([NAMESPACE, "errors"], false).setIn([NAMESPACE, "loading"], payload);
     case actions.TRANSFER_REQUEST_SUCCESS:
       return state
         .setIn([NAMESPACE, "errors"], false)
@@ -22,6 +22,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .update("data", data => {
           return data.push(TransitionRecord(payload.data));
         });
+    case actions.TRANSFER_REQUEST_FINISHED:
+      return state.setIn([NAMESPACE, "loading"], payload);
     default:
       return state;
   }

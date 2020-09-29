@@ -1,6 +1,7 @@
 import { fromJS, Map } from "immutable";
 
 import { getReportingLocationConfig } from "../application/selectors";
+import { displayNameHelper } from "../../libs";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 
@@ -31,16 +32,16 @@ const formGroups = (state, i18n) =>
     )
     .sortBy(item => item.get("display_text"));
 
-const agencies = (state, useUniqueId, { optionStringsSourceIdKey = "id" }) =>
+const agencies = (state, useUniqueId, { optionStringsSourceIdKey = "id", i18n }) =>
   state.getIn(["application", "agencies"], fromJS([])).map(agency => ({
     id: agency.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey),
-    display_text: agency.get("name")
+    display_text: agency.getIn(["name", i18n.locale], "")
   }));
 
 const locations = (state, i18n, includeAdminLevel = false) =>
   state.getIn(["forms", "options", "locations"], fromJS([])).map(location => ({
     id: location.get("code"),
-    display_text: location.getIn(["name", i18n.locale], ""),
+    display_text: displayNameHelper(location.get("name")?.toJS(), i18n.locale),
     ...(includeAdminLevel && { admin_level: location.get("admin_level") })
   }));
 
@@ -101,7 +102,7 @@ const lookups = (state, i18n) =>
 const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) => {
   switch (optionStringsSource) {
     case OPTION_TYPES.AGENCY:
-      return agencies(state, useUniqueId, rest);
+      return agencies(state, { ...rest, useUniqueId, i18n });
     case OPTION_TYPES.LOCATION:
       return locations(state, i18n);
     case OPTION_TYPES.REPORTING_LOCATIONS:
@@ -123,7 +124,7 @@ const transformOptions = (options, i18n) =>
   options.map(option => {
     return fromJS({
       id: option.id,
-      display_text: option.display_text[i18n.locale] || option.display_text
+      display_text: displayNameHelper(option.display_text, i18n.locale) || option.display_text
     });
   });
 

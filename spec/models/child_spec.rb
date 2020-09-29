@@ -643,8 +643,11 @@ describe Child do
     end
 
     it 'implemented in service_implemented field' do
+      primero_module = PrimeroModule.new(name: 'CP')
+      primero_module.save(validate: false)
       data = {
         data: {
+          module_id: primero_module.unique_id,
           services_section: [{ service_type: 'Test type', service_implemented_day_time: '2020-02-06 22:16:00 UTC' }]
         }
       }
@@ -659,6 +662,7 @@ describe Child do
     Child.destroy_all
     Field.destroy_all
     FormSection.destroy_all
+    PrimeroModule.destroy_all
   end
 
   private

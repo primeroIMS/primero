@@ -45,7 +45,7 @@ const MainForm = ({ formProps, rest }) => {
   const { providedConsent, canConsentOverride, disabled, setDisabled, recordType, isReferralFromService } = rest;
 
   const { handleSubmit, setValues, values } = formProps;
-  const { services, agency, location } = values;
+  const { service, agency, location } = values;
   const disableControl = !providedConsent && !disabled;
 
   const serviceToRefer = useSelector(state => getServiceToRefer(state));
@@ -63,12 +63,12 @@ const MainForm = ({ formProps, rest }) => {
 
   const loading = useSelector(state => getLoading(state, NAMESPACE));
 
-  const agencies = useSelector(state => getEnabledAgencies(state, services));
+  const agencies = useSelector(state => getEnabledAgencies(state, service));
 
   const users = useSelector(state => getUsersByTransitionType(state, transitionType));
 
   const loadReferralUsers = () => {
-    const filters = getUserFilters({ services, agency, location });
+    const filters = getUserFilters({ service, agency, location });
 
     dispatch(
       fetchReferralUsers({
@@ -83,7 +83,7 @@ const MainForm = ({ formProps, rest }) => {
       dispatch(
         fetchReferralUsers({
           record_type: RECORD_TYPES[recordType],
-          ...getUserFilters({ services, agency, location })
+          ...getUserFilters({ service, agency, location })
         })
       );
     });

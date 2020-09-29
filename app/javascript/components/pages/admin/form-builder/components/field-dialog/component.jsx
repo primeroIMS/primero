@@ -12,11 +12,11 @@ import set from "lodash/set";
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { setDialog } from "../../../../../record-actions/action-creators";
 import bindFormSubmit from "../../../../../../libs/submit-form";
-import { submitHandler, whichFormMode } from "../../../../../form";
+import { submitHandler, whichFormMode, SUBFORM_SECTION } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
-import { compare, getObjectPath } from "../../../../../../libs";
+import { compare, getObjectPath, displayNameHelper } from "../../../../../../libs";
 import {
   getSelectedField,
   getSelectedFields,
@@ -58,7 +58,7 @@ import {
 } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 
-const Component = ({ mode, onClose, onSuccess }) => {
+const Component = ({ formId, mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(mode);
   const fieldNames = useSelector(state => getFieldNames(state), compare);
@@ -116,7 +116,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   };
 
   const editDialogTitle = isSubformField(selectedField)
-    ? selectedSubform.getIn(["name", i18n.locale])
+    ? (selectedSubform.get("name") && displayNameHelper(selectedSubform.get("name"), i18n.locale)) || ""
     : i18n.t("fields.edit_label");
 
   const dialogTitle = formMode.get("isEdit")
@@ -168,7 +168,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
                   [currentFieldName]: {
                     ...newFieldData[currentFieldName],
                     subform_section_temp_id: subformTempId,
-                    subform_section_unique_id: currentFieldName
+                    subform_section_unique_id: generateUniqueId(selectedFieldName, formUniqueIds)
                   }
                 }
               : newFieldData
@@ -200,7 +200,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
       i18n.locale,
       lastField?.get("order"),
       randomSubformId,
-      fieldNames
+      selectedField?.get("type") === SUBFORM_SECTION ? formUniqueIds : fieldNames
     );
 
     batch(() => {
@@ -244,6 +244,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const memoizedSetValue = useCallback((path, value) => formMethods.setValue(path, value), []);
   const memoizedRegister = useCallback(prop => formMethods.register(prop), []);
   const memoizedGetValues = useCallback(prop => formMethods.getValues(prop), []);
+  const memoizedUnregister = useCallback(prop => formMethods.unregister(prop), []);
 
   const renderClearButtons = () =>
     isSubformField(selectedField) && (
@@ -278,6 +279,15 @@ const Component = ({ mode, onClose, onSuccess }) => {
         onSuccess={onUpdateTranslation}
       />
     ) : null;
+
+  const renderAnotherFormLabel = () => {
+    const currentFormId = isNested ? selectedSubform.get("id") : parseInt(formId, 10);
+    const fieldFormId = selectedField.get("form_section_id");
+
+    return fieldFormId && fieldFormId !== currentFormId ? (
+      <p className={css.anotherFormLabel}>{i18n.t("fields.copy_from_another_form")}</p>
+    ) : null;
+  };
 
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
@@ -348,6 +358,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
       <ActionDialog {...modalProps}>
         <FormContext {...formMethods} formMode={formMode}>
           <form className={css.fieldDialog}>
+            {renderAnotherFormLabel()}
             {renderForms()}
             {isSubformField(selectedField) && (
               <SubformFieldsList
@@ -355,6 +366,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
                 getValues={memoizedGetValues}
                 register={memoizedRegister}
                 setValue={memoizedSetValue}
+                unregister={memoizedUnregister}
                 subformField={selectedField}
                 subformSortBy={subformSortBy}
                 subformGroupBy={subformGroupBy}
@@ -374,6 +386,7 @@ Component.displayName = NAME;
 Component.whyDidYouRender = true;
 
 Component.propTypes = {
+  formId: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func
