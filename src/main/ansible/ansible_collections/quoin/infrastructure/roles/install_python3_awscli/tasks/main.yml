@@ -1,0 +1,8 @@
+---
+- name: 'create and upgrade the awscli virtualenv'
+  pip:
+    virtualenv: '/opt/awscli'
+    virtualenv_site_packages: yes
+    name: '{{ qi_install_python3_awscli_pip_names }}'
+    state: 'latest'
+  become: yes

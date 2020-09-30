@@ -5,3 +5,7 @@ all:
     primero.davidson.quoininc.com:
 
   children:
+
+    primero:
+      hosts:
+        primero.davidson.quoininc.com:

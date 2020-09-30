@@ -1,0 +1,36 @@
+---
+- name: 'Debian :: install apt-transport-https and ca-certificates'
+  package:
+    name: '{{ item }}'
+    state: 'present'
+  with_items:
+  - 'apt-transport-https'
+  - 'ca-certificates'
+  become: yes
+
+- name: 'Debian :: install Docker APT key'
+  apt_key:
+    url: 'https://download.docker.com/linux/debian/gpg'
+  become: yes
+
+- name: 'Debian :: install Docker APT repository'
+  apt_repository:
+    repo: |
+      deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+  become: yes
+  when: |
+    ansible_machine != 'armv6l' and ansible_machine != 'armv7l'
+
+- name: 'Raspbian :: install Docker APT repository'
+  apt_repository:
+    repo: |
+      deb [arch=armhf] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+  become: yes
+  when: |
+    ansible_machine == 'armv6l' or ansible_machine == 'armv7l'
+
+- name: 'Debian :: install Docker'
+  package:
+    name: 'docker-ce'
+    state: 'present'
+  become: yes

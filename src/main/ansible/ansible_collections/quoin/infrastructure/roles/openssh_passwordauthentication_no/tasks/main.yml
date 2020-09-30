@@ -1,0 +1,9 @@
+---
+- name: 'disable PasswordAuthentication'
+  lineinfile:
+    path: '/etc/ssh/sshd_config'
+    regexp: '^(#\s*)?PasswordAuthentication\s+(yes|no)\s*$'
+    line: 'PasswordAuthentication no'
+    validate: |
+      sshd -T -f %s
+  become: yes

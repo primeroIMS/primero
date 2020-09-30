@@ -1,0 +1,22 @@
+---
+
+- set_fact:
+    region: '{{ placement.availability_zone[:-1] }}'
+
+- delegate_to: 'localhost'
+  ec2_tag:
+    region: '{{ region }}'
+    resource: '{{ item.ebs.volume_id }}'
+    state: 'present'
+    tags:
+      Name: '{{ tags.Name }}-{{ item.device_name[5:] }}'
+  loop: '{{ block_device_mappings|to_json|from_json }}'
+
+- delegate_to: 'localhost'
+  ec2_tag:
+    region: '{{ region }}'
+    resource: '{{ item.network_interface_id }}'
+    state: 'present'
+    tags:
+      Name: '{{ tags.Name }}-eth{{ item.attachment.device_index }}'
+  loop: '{{ network_interfaces|to_json|from_json }}'

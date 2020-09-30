@@ -1,0 +1,2 @@
+---
+qi_openiked_certificates_folder: '{{ playbook_dir }}/../certificates'

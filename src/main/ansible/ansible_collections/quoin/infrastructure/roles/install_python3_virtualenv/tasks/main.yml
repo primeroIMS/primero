@@ -1,0 +1,8 @@
+---
+- include_tasks: 'family-debian.yml'
+  when: |
+    ansible_os_family == 'Debian'
+
+- include_tasks: 'distribution-fedora.yml'
+  when: |
+    ansible_distribution == 'Fedora'

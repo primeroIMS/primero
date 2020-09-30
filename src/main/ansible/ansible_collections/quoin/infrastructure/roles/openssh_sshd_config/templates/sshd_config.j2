@@ -1,0 +1,22 @@
+{# vim:set ai et fenc=utf-8 ff=unix sw=2 syntax=jinja ts=2: #}
+{# https://infosec.mozilla.org/guidelines/openssh #}
+{# https://stribika.github.io/2015/01/04/secure-secure-shell.html #}
+Port {{ qi_openssh_sshd_config_port|default("22") }}
+ListenAddress [::]:{{ qi_openssh_sshd_config_port|default("22") }}
+ListenAddress 0.0.0.0:{{ qi_openssh_sshd_config_port|default("22") }}
+PermitRootLogin no
+HostBasedAuthentication no
+PubkeyAuthentication yes
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+ChallengeResponseAuthentication no
+PermitEmptyPasswords no
+Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key
+AuthenticationMethods publickey
+{% if qi_openssh_sshd_config_sftp is defined %}
+Subsystem sftp {{ qi_openssh_sshd_config_sftp }} -l INFO
+{% endif %}

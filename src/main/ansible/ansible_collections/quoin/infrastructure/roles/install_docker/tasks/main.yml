@@ -1,0 +1,22 @@
+---
+- include_tasks: 'distribution-debian.yml'
+  when: |
+    ansible_distribution == 'Debian'
+
+- include_tasks: 'distribution-fedora.yml'
+  when: |
+    ansible_distribution == 'Fedora'
+
+- include_tasks: 'distribution-ubuntu.yml'
+  when: |
+    ansible_distribution == 'Ubuntu'
+
+- name: 'add `{{ ansible_user }}` to the `docker` group'
+  user:
+    name: '{{ ansible_user }}'
+    append: yes
+    groups:
+    - 'docker'
+  become: yes
+
+- meta: 'reset_connection'

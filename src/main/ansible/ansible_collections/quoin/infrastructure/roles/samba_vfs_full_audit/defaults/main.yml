@@ -1,0 +1,34 @@
+---
+qi_samba_vfs_full_audit_file_paths:
+    - '/etc/rsyslog.d/00-samba-audit.conf'
+    - '/var/log/samba/log.audit'
+
+
+qi_samba_vfs_full_audit_smb:
+    - option: 'full_audit:prefix'
+      value: '%u|%I|%m|%S'
+    - option: 'full_audit:failure'
+      value: 'unlink open pwrite'
+    - option: 'full_audit:success'
+      value: 'unlink open pwrite'
+    - option: 'full_audit:facility'
+      value: 'local5'
+    - option: 'full_audit:priority'
+      value: 'notice'
+
+
+qi_samba_vfs_full_audit_smb_conf_path: '/etc/samba/smb.conf'
+
+qi_samba_vfs_full_samba_audit_audit_conf_path: '/etc/rsyslog.d/00-samba-audit.conf'
+
+qi_samba_vfs_full_audit_samba_audit_conf_content: |
+ local5.notice /var/log/samba/log.audit
+ & ~
+
+qi_samba_vfs_full_audit_rsyslog_conf_path: '/etc/rsyslog.conf'
+
+qi_samba_vfs_full_audit_rsyslog_regex: '^\*.\*;'
+
+qi_samba_vfs_full_audit_rsyslog_line: '*.*;local5,auth,authpriv.none   -/var/log/syslog'
+
+qi_samba_vfs_full_audit_rsyslog_insert_after: 'local5.notice  /var/log/samba/log.audit'

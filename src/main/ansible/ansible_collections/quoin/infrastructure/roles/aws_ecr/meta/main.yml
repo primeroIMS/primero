@@ -1,0 +1,8 @@
+---
+galaxy_info:
+  min_ansible_version: '2.6'
+
+dependencies:
+- role: 'quoin.infrastructure.install_docker'
+- role: 'quoin.infrastructure.install_awscli2'
+ 

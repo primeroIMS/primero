@@ -1,0 +1,4 @@
+---
+qi_opensmtpd_relay_secrets_label: 'ses'
+qi_opensmtpd_region: '{{ aws_region }}'
+qi_opensmtpd_relay_host: 'email-smtp.{{ qi_opensmtpd_region }}.amazonaws.com:587'

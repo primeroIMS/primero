@@ -1,0 +1,9 @@
+---
+- name: 'Debian :: install Python 3 virtualenv'
+  package:
+    name:
+    - 'python3-setuptools'
+    - 'python3-virtualenv'
+    - 'virtualenv'
+    state: 'present'
+  become: yes

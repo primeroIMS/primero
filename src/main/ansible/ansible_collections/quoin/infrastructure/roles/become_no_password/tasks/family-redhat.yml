@@ -1,0 +1,17 @@
+---
+- name: 'RedHat :: add {{ ansible_user }} to the wheel group'
+  user:
+    name: '{{ ansible_user }}'
+    groups:
+    - 'wheel'
+    append: yes
+  become: yes
+
+- name: 'RedHat :: disable the password requirement for sudo'
+  lineinfile:
+    dest: '/etc/sudoers'
+    regexp: '^%wheel\s+ALL='
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+    validate: |
+      visudo -cf %s
+  become: yes

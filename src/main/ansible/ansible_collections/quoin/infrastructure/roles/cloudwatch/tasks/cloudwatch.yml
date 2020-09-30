@@ -1,0 +1,112 @@
+---
+- name: Search ec2
+  ec2_instance_facts:
+    filters: "{ 'tag:{{ qi_cloudwatch_project_tag }}': 'true', 'tag:Environment': '{{ qi_cloudwatch_environment_tag}}' }"
+    region: "us-east-1"
+  register: ec2_info
+
+- template: src=role-policy.json.j2 dest="{{role_path}}/templates/role-policy.json" mode=0644
+
+- name: Create IAM role for cloudwatch
+  iam_role:
+    name: "{{ qi_cloudwatch_project_tag|lower }}-{{ inventory_hostname }}"
+    assume_role_policy_document: "{{ lookup('file','templates/role-policy.json') }}"
+    state: present
+
+- template: src=policy.json.j2 dest="{{role_path}}/templates/policy.json" mode=0644
+
+- name: Create and associate IAM policy with role
+  iam_policy:
+    iam_type: 'role'
+    iam_name: "{{qi_cloudwatch_project_tag|lower}}-{{ inventory_hostname }}"
+    policy_name: 'cloudwatch{{qi_cloudwatch_project_tag|lower}}{{ inventory_hostname }}'
+    state: 'present'
+    policy_document: "{{role_path}}/templates/policy.json"
+
+- name: Get information on current instance associaations
+  command: aws ec2 describe-iam-instance-profile-associations --filters Name="instance-id",Values="{{ec2_info.instances[0].instance_id}}"
+  register: output
+
+- set_fact:
+    associations_output: "{{ output.stdout|from_json }}"
+
+- name: Dissaciate current assocations from ec2 instance
+  command: "aws ec2 disassociate-iam-instance-profile --association-id {{associations_output.IamInstanceProfileAssociations[0].AssociationId}}"
+  when: associations_output.IamInstanceProfileAssociations
+
+- name: Associate new IAM role with ec2 instance
+  command: "aws ec2 associate-iam-instance-profile --instance-id {{ec2_info.instances[0].instance_id}} --iam-instance-profile Name={{ qi_cloudwatch_project_tag|lower }}-{{ inventory_hostname }}"
+
+- name: Create SNS topic for project
+  sns_topic:
+    name: "quoin-infrastructure"
+    state: present
+    region: us-east-1
+    display_name: "Quoin infrastructure SNS"
+    subscriptions:
+      - endpoint: "infrastructure.support@quoininc.com"
+        protocol: "email"
+  register: internal_sns
+
+- name: Create alarm for SystemCheckFailed
+  ec2_metric_alarm:
+    state: present
+    region: us-east-1
+    name: "{{ec2_info.instances[0].tags['Name']}}-StatusCheckFailed"
+    metric: "StatusCheckFailed"
+    namespace: "AWS/EC2"
+    statistic: Maximum
+    comparison: ">="
+    threshold: 1
+    period: 60
+    evaluation_periods: 2
+    unit: "Count"
+    description: "This alarm sounds when a the servers fails to deliver metrics to cloudwatch"
+    dimensions:
+      InstanceId: '{{ec2_info.instances[0].instance_id}}'
+    alarm_actions: "{{internal_sns.sns_arn}}"
+    ok_actions: "{{internal_sns.sns_arn}}"
+
+- name: Create alarm for DiskSpaceUtilization
+  ec2_metric_alarm:
+    state: present
+    region: us-east-1
+    name: "{{ec2_info.instances[0].tags['Name']}}-DiskSpaceUtilization-{{ item }}"
+    metric: "DiskSpaceUtilization"
+    namespace: "{{ qi_cloudwatch_namespace }}"
+    statistic: Average
+    comparison: ">="
+    threshold: 75
+    period: 900
+    evaluation_periods: 1
+    unit: "Percent"
+    description: "This alarm sounds when the server's disk DiskSpaceUtilization exceeds 75 percent"
+    dimensions:
+      InstanceId: '{{ec2_info.instances[0].instance_id}}'
+      MountPath: '{{item}}'
+      Filesystem: 'ext4'
+      InstanceType: '{{ qi_cloudwatch_instance_type }}'
+    alarm_actions: "{{internal_sns.sns_arn}}"
+    ok_actions: "{{internal_sns.sns_arn}}"
+  with_items:
+  - "{{ qi_cloudwatch_mount_paths }}"
+
+- name: Create alarm for ContainersExited
+  ec2_metric_alarm:
+    state: present
+    region: us-east-1
+    name: "{{ec2_info.instances[0].tags['Name']}}-ApplicationDown"
+    metric: "ContainersExited"
+    namespace: "{{ qi_cloudwatch_namespace }}"
+    statistic: Maximum
+    comparison: ">="
+    threshold: 1
+    period: 900
+    evaluation_periods: 1
+    unit: "Count"
+    description: "This alarm sounds when an application container terminates unexpectedly and the application is no longer running"
+    dimensions:
+      InstanceId: '{{ec2_info.instances[0].instance_id}}'
+      InstanceType: '{{ qi_cloudwatch_instance_type }}'
+    alarm_actions: "{{internal_sns.sns_arn}}"
+    ok_actions: "{{internal_sns.sns_arn}}"

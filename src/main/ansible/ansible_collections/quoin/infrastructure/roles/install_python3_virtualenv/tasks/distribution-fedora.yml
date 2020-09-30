@@ -1,0 +1,6 @@
+---
+- name: 'Fedora :: install Python 3 virtualenv'
+  package:
+    name: 'python3-virtualenv'
+    state: 'present'
+  become: yes

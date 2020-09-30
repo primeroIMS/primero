@@ -1,7 +1,5 @@
 ---
-- import_playbook: 'rds.yml'
-
-- hosts: 'redmine'
+- hosts: 'primero'
   tasks:
 
   - name: 'create directories'
@@ -28,18 +26,12 @@
       path: '/var/lib/docker'
     become: yes
 
-- hosts: 'redmine'
+- hosts: 'primero'
   roles:
-  - 'qi-aws-tag'
-  - 'qi-docker-daemon.json'
-  - 'qi-install-python3-virtualenv'
-  - 'qi-install-python3-docker'
-  - 'qi-install-python3-docker-compose'
-  - 'qi-install-docker'
-  - 'qi-aws-ecr'
-  - 'application-redmine'
-  - 'redmine-backup'
-  - 'qi-cloudwatch'
-    #  - 'marketing'
-  - 'redmine-certbot'
-  - 'prune'
+  - 'quoin.infrastructure.docker_daemon_json'
+  - 'quoin.infrastructure.install_python3_virtualenv'
+  - 'quoin.infrastructure.install_python3_docker'
+  - 'quoin.infrastructure.install_python3_docker_compose'
+  - 'quoin.infrastructure.install_docker'
+    #- 'synchronize'
+    #  - 'primero-certbot'

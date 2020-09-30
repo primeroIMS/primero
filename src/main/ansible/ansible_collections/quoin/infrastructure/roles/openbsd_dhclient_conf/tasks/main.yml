@@ -1,0 +1,6 @@
+---
+- name: 'configure /etc/dhclient.conf'
+  template:
+    src: 'dhclient.conf.j2'
+    dest: '/etc/dhclient.conf'
+  become: yes

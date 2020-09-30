@@ -1,0 +1,5 @@
+---
+- listen: 'reload_pf'
+  command: |
+    pfctl -f /etc/pf.conf
+  become: yes

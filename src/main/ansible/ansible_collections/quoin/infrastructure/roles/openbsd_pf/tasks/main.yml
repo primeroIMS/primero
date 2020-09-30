@@ -1,0 +1,32 @@
+---
+- name: 'configure /etc/pf.blacklist'
+  file:
+    path: '/etc/pf.blacklist'
+    state: 'touch'
+  become: yes
+
+- name: 'configure /etc/pf.conf'
+  template:
+    src: 'pf.conf.j2'
+    dest: '/etc/pf.conf'
+    owner: 'root'
+    group: 'wheel'
+    mode: 'u=rw,go='
+    validate: 'pfctl -n -f %s'
+  become: yes
+  notify: 'reload_pf'
+
+- name: 'configure /etc/sysctl.conf'
+  lineinfile:
+    path: '/etc/sysctl.conf'
+    create: yes
+    regexp: '^(\s*#\s*)?net.inet.ip.forwarding'
+    line: 'net.inet.ip.forwarding=1'
+  become: yes
+  register: 'register_openbsd_pf_sysctl_net_inet_ip_forwarding'
+
+- name: 'configure the net.inet.ip.forwarding sysctl'
+  command: |
+    sysctl net.inet.ip.forwarding=1
+  become: yes
+  when: 'register_openbsd_pf_sysctl_net_inet_ip_forwarding.changed'

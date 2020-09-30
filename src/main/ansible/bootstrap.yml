@@ -6,7 +6,7 @@
   vars:
     ansible_become_method: '{{ bootstrap_become_method|default("sudo") }}'
   roles:
-  - 'qi-install-python3'
+  - 'quoin.infrastructure.install_python3'
 
 - hosts: 'all:!first_run'
   environment:
@@ -14,7 +14,7 @@
   vars:
     ansible_become_method: '{{ bootstrap_become_method|default("sudo") }}'
   roles:
-  - 'qi-install-sudo'
-  - 'qi-become-no-password'
-  - 'qi-openssh-authorized_keys'
-  - 'qi-openssh-passwordauthentication-no'
+  - 'quoin.infrastructure.install_sudo'
+  - 'quoin.infrastructure.become_no_password'
+  - 'quoin.infrastructure.openssh_authorized_keys'
+  - 'quoin.infrastructure.openssh_passwordauthentication_no'

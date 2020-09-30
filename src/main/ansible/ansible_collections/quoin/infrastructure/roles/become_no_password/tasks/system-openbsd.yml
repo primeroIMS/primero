@@ -1,0 +1,17 @@
+---
+- name: 'OpenBSD :: add {{ ansible_user }} to the wheel group'
+  user:
+    name: '{{ ansible_user }}'
+    groups:
+    - 'wheel'
+    append: yes
+  become: yes
+
+- name: 'OpenBSD :: disable the password requirement for doas'
+  copy:
+    dest: '/etc/doas.conf'
+    content: |
+      permit nopass keepenv :wheel
+    validate: |
+      doas -C %s
+  become: yes
