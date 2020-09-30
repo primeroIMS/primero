@@ -1220,7 +1220,7 @@ en:
     alert_items: You have %{items} items of note.
     alerts_for:
       approval: Approval is pending for %{form_section_name}
-      field_change: A new %{form_section_name} was added to the case on %{alert_time}
+      field_change: '%{form_section_name} was updated on %{alert_time}'
       transfer_request: A new Transfer Request was made on %{date} by %{user} at %{agency}
     cannot_edit: You cannot edit this
     confirmation_message: Clicking OK will discard any unsaved changes and return

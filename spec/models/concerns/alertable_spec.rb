@@ -170,16 +170,22 @@ describe Alertable do
       before do
         Child.any_instance.stub(:last_updated_by).and_return('the_owner')
         Child.any_instance.stub(:owned_by).and_return('the_owner')
+        SystemSettings.create!(
+          changes_field_to_form: { transfer_request: 'transfer_request' }
+        )
+        SystemSettings.stub(:current).and_return(SystemSettings.first)
+
       end
 
       context 'and the record is edited' do
         before do
           @test_class.name = 'asdfadfadfa'
+          @test_class.data = {transfer_request: [{id: 'test'}]}
           @test_class.save
         end
 
         it 'removes the alert' do
-          expect(@test_class.alerts).not_to be_present
+          expect(@test_class.alerts?).to be false
         end
 
         it 'count alerts by record' do

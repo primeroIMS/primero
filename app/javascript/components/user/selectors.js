@@ -32,3 +32,7 @@ export const getUser = state => {
 };
 
 export const getUserSavingRecord = state => state.getIn([NAMESPACE, SAVING], false);
+
+export const getServerErrors = state => {
+  return state.getIn([NAMESPACE, "serverErrors"], fromJS([]));
+};
