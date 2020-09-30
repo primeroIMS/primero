@@ -31,7 +31,8 @@ describe Transfer do
   describe 'consent' do
     context 'when consent properties are not set' do
       before do
-        @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id, disclosure_other_orgs: nil })
+        @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
+                                     disclosure_other_orgs: nil })
       end
 
       it 'denies consent for transferring records' do
@@ -44,7 +45,8 @@ describe Transfer do
     context 'when GBV' do
       context 'and referral_for_other_services is set to true' do
         before do
-          @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_gbv.unique_id, disclosure_other_orgs: true, consent_for_services: true })
+          @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_gbv.unique_id,
+                                       disclosure_other_orgs: true, consent_for_services: true })
         end
 
         it 'consents for transferring' do
@@ -58,7 +60,8 @@ describe Transfer do
     context 'when CP' do
       context 'and referral_for_other_services and disclosure_other_orgs are set to true' do
         before do
-          @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id, disclosure_other_orgs: true, consent_for_services: true })
+          @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
+                                       disclosure_other_orgs: true, consent_for_services: true })
         end
 
         it 'consents for referring' do
@@ -73,7 +76,8 @@ describe Transfer do
   describe 'perform' do
     context 'when receiving user has permission to receive transfers' do
       before do
-        @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id, disclosure_other_orgs: true })
+        @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
+                                     disclosure_other_orgs: true })
         @transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       end
 
@@ -92,10 +96,12 @@ describe Transfer do
 
     context 'when receiving user does not have permission to receive transfers' do
       before do
-        permission_case = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+        permission_case = Permission.new(resource: Permission::CASE,
+                                         actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
         @role.permissions = [permission_case]
         @role.save(validate: false)
-        @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id, disclosure_other_orgs: true })
+        @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
+                                     disclosure_other_orgs: true })
       end
 
       it 'does not perform the transfer' do
@@ -109,7 +115,8 @@ describe Transfer do
 
   describe 'accept' do
     before do
-      @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id, disclosure_other_orgs: true })
+      @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
+                                   disclosure_other_orgs: true })
       @transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       @transfer.accept!
     end
@@ -143,7 +150,8 @@ describe Transfer do
 
       context 'when the case has incidents' do
         before do
-          case_with_incidents = Child.new(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id, disclosure_other_orgs: true })
+          case_with_incidents = Child.new(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
+                                                  disclosure_other_orgs: true })
           incident1 = IncidentCreationService.incident_from_case(case_with_incidents, {}, nil)
           incident2 = IncidentCreationService.incident_from_case(case_with_incidents, {}, nil)
           case_with_incidents.incidents << incident1
@@ -190,7 +198,8 @@ describe Transfer do
 
   describe 'reject' do
     before do
-      @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id, disclosure_other_orgs: true })
+      @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
+                                   disclosure_other_orgs: true })
       @transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       @transfer.reject!
     end

@@ -2,7 +2,6 @@
 
 # The business logic for performing the record transfer workflow.
 class Transfer < Transition
-
   def perform
     self.status = Transition::STATUS_INPROGRESS
     if remote
@@ -68,8 +67,6 @@ class Transfer < Transition
   end
 
   def remove_assigned_user
-    if record.assigned_user_names.present?
-      record.assigned_user_names.delete(transitioned_to)
-    end
+    record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
   end
 end
