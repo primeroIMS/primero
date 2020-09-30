@@ -86,5 +86,30 @@ describe PrimeroConfiguration do
       expect(form2.fields.count).to eq(0)
       expect(Field.count).to eq(0)
     end
+
+    it 'preserves links between forms and subforms' do
+      subform = FormSection.create!(
+        unique_id: 'Y', name: 'Y - Subform', parent_form: 'case', form_group_id: 'm', is_nested: true
+      )
+      # field_on_subform
+      Field.create!(
+        name: 'test2', type: Field::TEXT_FIELD, form_section_id: subform.id, display_name: 'test',
+        collapsed_field_for_subform_section_id: subform.id
+      )
+      # subform_field
+      Field.create!(
+        name: 'test3', type: Field::SUBFORM, form_section_id: @form1.id,
+        subform_section_id: subform.id, display_name: 'test'
+      )
+      current_configuration = PrimeroConfiguration.current
+      current_configuration.save!
+      Field.destroy_all
+      FormSection.destroy_all
+      current_configuration.apply!
+
+      expect(FormSection.count).to eq(2)
+      subform_field = FormSection.find_by(unique_id: @form1.unique_id).fields.find { |f| f.name == 'test3' }
+      expect(subform_field.subform.unique_id).to eq(subform.unique_id)
+    end
   end
 end

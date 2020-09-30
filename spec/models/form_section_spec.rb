@@ -73,7 +73,7 @@ describe FormSection do
     end
   end
 
-  describe "sync_form_group" do
+  describe 'sync_form_group' do
     it 'generates the form group if the form group does not exist' do
       created_form_section = FormSection.create!(
         unique_id: 'new_form_group',
@@ -84,13 +84,17 @@ describe FormSection do
 
       lookup_form_group = Lookup.find_by(unique_id: 'lookup-form-group-cp-case')
 
-      form_group_value = lookup_form_group.lookup_values.find { |value| value['id'] == created_form_section.form_group_id }
+      form_group_value = lookup_form_group.lookup_values.find do |value|
+        value['id'] == created_form_section.form_group_id
+      end
 
       expect(form_group_value).not_to be_nil
     end
 
     it 'does not generate the form group if the form group exists' do
-      FormSection.create!(unique_id: 'new_form_group', name: 'New Form Group', parent_form: 'case', form_group_id: 'Group 1')
+      FormSection.create!(
+        unique_id: 'new_form_group', name: 'New Form Group', parent_form: 'case', form_group_id: 'Group 1'
+      )
 
       lookup_form_group = Lookup.find_by(unique_id: 'lookup-form-group-cp-case')
 
