@@ -20,6 +20,7 @@ import { selectDialog, selectDialogPending } from "../../../record-actions/selec
 import { fetchSystemSettings } from "../../../application";
 import bindFormSubmit from "../../../../libs/submit-form";
 import { currentUser } from "../../../user/selectors";
+import { compare } from "../../../../libs";
 
 import { form } from "./form";
 import validations from "./validations";
@@ -36,9 +37,9 @@ const Container = ({ mode }) => {
   const { pathname } = useLocation();
   const { id } = useParams();
 
-  const user = useSelector(state => getUser(state));
-  const formErrors = useSelector(state => getServerErrors(state));
-  const idp = useSelector(state => getIdentityProviders(state));
+  const user = useSelector(state => getUser(state), compare);
+  const formErrors = useSelector(state => getServerErrors(state), compare);
+  const idp = useSelector(state => getIdentityProviders(state), compare);
   const currentUserName = useSelector(state => currentUser(state));
 
   const useIdentityProviders = idp?.get("use_identity_provider");
@@ -77,8 +78,7 @@ const Container = ({ mode }) => {
         dialogName: USER_CONFIRMATION_DIALOG,
         saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
         body: { data },
-        message: i18n.t("user.messages.updated"),
-        failureMessage: i18n.t("user.messages.failure")
+        message: i18n.t("user.messages.updated")
       })
     );
   };
@@ -106,6 +106,12 @@ const Container = ({ mode }) => {
       }
     };
   }, [id]);
+
+  useEffect(() => {
+    if (!saving) {
+      dispatch(setPending(false));
+    }
+  }, [saving]);
 
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>

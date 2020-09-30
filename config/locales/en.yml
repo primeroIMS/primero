@@ -713,6 +713,7 @@ en:
         permission_presence: Please select at least one permission
       user:
         password_mismatch: The password fields do not have the same password
+        email_uniqueness: A User with this email address already exists. Please enter a different one
     not_found: No Record(s) Found
     try_again: Try again
   exports:

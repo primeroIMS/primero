@@ -16,7 +16,7 @@ describe("<UsersForm /> - Reducers", () => {
   });
 
   it("should handle FETCH_USER_FAILURE", () => {
-    const expected = fromJS({ errors: true, serverErrors: ["some error"] });
+    const expected = fromJS({ errors: true, serverErrors: ["some error"], saving: false });
     const action = {
       type: actions.FETCH_USER_FAILURE,
       payload: { errors: ["some error"] }
