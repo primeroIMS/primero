@@ -27,8 +27,8 @@ class Child < ApplicationRecord
   include UNHCRMapping
   include Ownable
   include AutoPopulatable
-  include Workflow
   include Serviceable
+  include Workflow
   include Flaggable
   include Transitionable
   include Reopenable

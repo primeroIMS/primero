@@ -79,6 +79,7 @@ export const MANAGE = [ACTIONS.MANAGE];
 
 export const RESOURCES = {
   agencies: "agencies",
+  any: "any",
   audit_logs: "audit_logs",
   cases: "cases",
   configurations: "primero_configurations",

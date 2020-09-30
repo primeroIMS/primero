@@ -51,6 +51,7 @@ en:
     code: Agency Code
     description: Description
     disabled: Disabled
+    label: Agency
     logo_enabled: Logo Enabled?
     logo_enabled_help: Display these logos on the Login page and Navigation menu.
     logo_icon: Icon Logo
@@ -848,7 +849,7 @@ en:
     action: Action
     actions: Actions
     add: Add
-    add_custom_field: Create Custom Field
+    add_new_field: Create New Field
     add_existing_field: Add Existing Field
     add_field: Add Field
     add_field_type: Add %{file_type}
@@ -1118,6 +1119,7 @@ en:
       incident_date_derived: Incident Date
     selected_records: '%{select_records} incident(s) selected'
     selected_all_records: 'Select all %{total_records} incidents that match this query.'
+    survivor_code: Survivor Code
     show_incident: 'Incident ID %{short_id}'
     social_worker: Social Worker
     violence_type: Violence Type
@@ -1139,6 +1141,7 @@ en:
       sub-district: Sub-district
       village: Village
       zone: Zone
+    label: Location
   logger:
     approve_form:
       action_plan: Action Plan form
@@ -1224,7 +1227,7 @@ en:
     alert_items: You have %{items} items of note.
     alerts_for:
       approval: Approval is pending for %{form_section_name}
-      field_change: A new %{form_section_name} was added to the case on %{alert_time}
+      field_change: '%{form_section_name} was updated on %{alert_time}'
       transfer_request: A new Transfer Request was made on %{date} by %{user} at %{agency}
     cannot_edit: You cannot edit this
     confirmation_message: Clicking OK will discard any unsaved changes and return
@@ -2619,6 +2622,7 @@ en:
     full_name: Full Name
     identity_provider: Identity Provider
     invalid_provider_username: 'Invalid username format. Example: my.username@%{domain}'
+    label: User
     locale: Locale
     location: Location
     messages:

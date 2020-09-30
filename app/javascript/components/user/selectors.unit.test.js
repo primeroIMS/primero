@@ -15,7 +15,9 @@ const stateWithUser = fromJS({
       incidents: [ACTIONS.MANAGE],
       tracing_requests: [ACTIONS.MANAGE],
       cases: [ACTIONS.MANAGE]
-    }
+    },
+    saving: false,
+    serverErrors: ["Test error"]
   }
 });
 
@@ -102,6 +104,52 @@ describe("User - Selectors", () => {
       const selector = selectors.getPermittedFormsIds(stateWithUser);
 
       expect(selector).to.deep.equal(expectedFormsIds);
+    });
+  });
+
+  describe("getUser", () => {
+    it("should return selected user", () => {
+      const expected = stateWithUser.get("user");
+
+      const user = selectors.getUser(stateWithUser);
+
+      expect(user).to.deep.equal(expected);
+    });
+
+    it("should return empty object when selected user empty", () => {
+      const user = selectors.getUser(stateWithoutUser);
+
+      expect(user).to.deep.equal(fromJS({}));
+    });
+  });
+
+  describe("getUserSavingRecord", () => {
+    it("should return saving key", () => {
+      const result = selectors.getUserSavingRecord(stateWithUser);
+
+      expect(result).to.be.false;
+    });
+
+    it("should return empty object when no server errors", () => {
+      const user = selectors.getUserSavingRecord(stateWithoutUser);
+
+      expect(user).to.be.false;
+    });
+  });
+
+  describe("getServerErrors", () => {
+    it("should return server errors", () => {
+      const expected = stateWithUser.getIn(["user", "serverErrors"]);
+
+      const serverErrors = selectors.getServerErrors(stateWithUser);
+
+      expect(serverErrors).to.deep.equal(expected);
+    });
+
+    it("should return empty object when no server errors", () => {
+      const user = selectors.getServerErrors(stateWithoutUser);
+
+      expect(user).to.deep.equal(fromJS([]));
     });
   });
 });

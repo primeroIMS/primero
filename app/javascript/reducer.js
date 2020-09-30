@@ -46,6 +46,7 @@ import { reducer as adminFormBuilderReducer } from "./components/pages/admin/for
 import { reducer as AuditLogsReducers } from "./components/pages/admin/audit-logs";
 import { reducer as configurationsListReducer } from "./components/pages/admin/configurations-list";
 import { reducer as configurationsFormReducer } from "./components/pages/admin/configurations-form";
+import { reducer as accountReducer } from "./components/pages/account";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -94,13 +95,13 @@ const rootReducer = {
     transferApprovalReducer,
     revokeModalReducer
   ),
+  user: reduceReducers(userReducer, accountReducer),
   ui: combineReducers({
     ...navReducer,
     ...i18nReducer,
     ...loginFormReducer,
     ...recordActionsReducer
   }),
-  ...userReducer,
   ...recordFormReducer,
   ...notifierReducer,
   ...applicationReducer,

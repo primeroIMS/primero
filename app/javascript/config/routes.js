@@ -29,6 +29,7 @@ import Reports from "../components/reports-list";
 import ReportsForm from "../components/reports-form";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
+import Account from "../components/pages/account";
 import { AppLayout, LoginLayout } from "../components/layouts";
 import {
   CREATE_RECORDS,
@@ -160,6 +161,22 @@ export default [
       {
         path: ROUTES.support,
         component: Support
+      },
+      {
+        path: `${ROUTES.account}/:id`,
+        component: Account,
+        resources: RESOURCES.any,
+        extraProps: {
+          mode: MODES.show
+        }
+      },
+      {
+        path: `${ROUTES.account}/:id/edit`,
+        component: Account,
+        resources: RESOURCES.any,
+        extraProps: {
+          mode: MODES.edit
+        }
       },
       {
         path: ROUTES.admin,

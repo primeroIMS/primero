@@ -19,6 +19,7 @@ import { setDialog, setPending } from "../../../record-actions/action-creators";
 import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
 import { fetchSystemSettings } from "../../../application";
 import bindFormSubmit from "../../../../libs/submit-form";
+import { currentUser } from "../../../user/selectors";
 
 import { form } from "./form";
 import validations from "./validations";
@@ -38,10 +39,12 @@ const Container = ({ mode }) => {
   const user = useSelector(state => getUser(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const idp = useSelector(state => getIdentityProviders(state));
+  const currentUserName = useSelector(state => currentUser(state));
 
   const useIdentityProviders = idp?.get("use_identity_provider");
   const providers = idp?.get("identity_providers");
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+  const selectedUserIsLoggedIn = currentUserName === user.get("user_name");
 
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
 
@@ -138,7 +141,7 @@ const Container = ({ mode }) => {
         <Form
           useCancelPrompt
           mode={mode}
-          formSections={form(i18n, formMode, useIdentityProviders, providers, identityOptions)}
+          formSections={form(i18n, formMode, useIdentityProviders, providers, identityOptions, selectedUserIsLoggedIn)}
           onSubmit={formMode.get("isEdit") ? handleEditSubmit : handleSubmit}
           ref={formRef}
           validations={validationSchema}

@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import uuid from "uuid";
 
 import { DATE_FIELD, RADIO_FIELD, SELECT_FIELD, SEPARATOR, SUBFORM_SECTION, TICK_FIELD } from "../../../../../form";
 import { NEW_FIELD } from "../../constants";
@@ -158,16 +159,7 @@ export const generateUniqueId = (data, existingIds = []) => {
     return generatedId;
   }
 
-  const filterExp = new RegExp(`${generatedId}_[0-9]+$`);
-  const lastIncrement =
-    fromJS(existingIds)
-      .filter(id => id.match(filterExp)?.length)
-      .filter(id => id.match(/[0-9]+/)?.length)
-      .map(id => parseInt(id.match(/[0-9]+/)[0], 10))
-      .sort()
-      .last() || 0;
-
-  return `${generatedId}_${lastIncrement + 1}`;
+  return `${generatedId}_${uuid.v4().substr(-7)}`;
 };
 
 export const buildDataToSave = (selectedField, data, locale, lastFieldOrder, randomSubformId, fieldNames) => {

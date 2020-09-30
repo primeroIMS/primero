@@ -93,7 +93,7 @@ const Component = ({ getValues }) => {
         <div>
           <ActionButton
             icon={<FormatListBulletedIcon />}
-            text={i18n.t("fields.add_custom_field")}
+            text={i18n.t("fields.add_new_field")}
             type={ACTION_BUTTON_TYPES.default}
             rest={{
               onClick: handleCustomFieldSelectorDialog,

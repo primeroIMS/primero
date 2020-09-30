@@ -1,4 +1,7 @@
 import { List, Map } from "immutable";
+import { addHours, format, parseISO } from "date-fns";
+
+import { API_DATE_FORMAT, API_DATE_TIME_FORMAT } from "../config/constants";
 
 import displayNameHelper from "./display-name-helper";
 
@@ -56,3 +59,20 @@ export const getObjectPath = (path, values) => {
 };
 
 export const invalidCharRegexp = new RegExp("[*!@#%$\\^]");
+
+export const normalizeTimezone = date => {
+  const offset = new Date().getTimezoneOffset() / 60;
+
+  return addHours(date, offset);
+};
+
+export const toServerDateFormat = (date, options) => {
+  const includeTime = options?.includeTime || false;
+  const normalize = options?.normalize !== false;
+
+  const normalizedDate = includeTime && normalize ? normalizeTimezone(date) : date;
+
+  return format(normalizedDate, includeTime ? API_DATE_TIME_FORMAT : API_DATE_FORMAT);
+};
+
+export const endOfDay = date => parseISO(date.toISOString().replace(/T.+/, "").concat("T23:59:59Z"));

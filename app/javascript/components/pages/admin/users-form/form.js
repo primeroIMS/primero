@@ -1,10 +1,10 @@
 import { fromJS } from "immutable";
 
-import { FormSectionRecord, FieldRecord, TICK_FIELD, TEXT_FIELD, SELECT_FIELD, CHECK_BOX_FIELD } from "../../../form";
+import { FormSectionRecord, FieldRecord, OPTION_TYPES, TICK_FIELD, TEXT_FIELD, SELECT_FIELD } from "../../../form";
 
-import { ROLE_OPTIONS, IDENTITY_PROVIDER_ID, USER_GROUP_UNIQUE_IDS, USERGROUP_PRIMERO_GBV } from "./constants";
+import { IDENTITY_PROVIDER_ID, USER_GROUP_UNIQUE_IDS, USERGROUP_PRIMERO_GBV } from "./constants";
 
-const sharedUserFields = (i18n, formMode) => [
+const sharedUserFields = (i18n, formMode, hideOnAccountPage) => [
   {
     display_name: i18n.t("user.full_name"),
     name: "full_name",
@@ -51,18 +51,17 @@ const sharedUserFields = (i18n, formMode) => [
     name: "role_unique_id",
     type: SELECT_FIELD,
     required: true,
-    option_strings_text: ROLE_OPTIONS
+    option_strings_source: OPTION_TYPES.ROLE,
+    visible: !hideOnAccountPage
   },
   {
     display_name: i18n.t("user.user_group_unique_ids"),
     name: "user_group_unique_ids",
-    type: CHECK_BOX_FIELD,
+    type: SELECT_FIELD,
+    multi_select: true,
     required: true,
-    option_strings_text: [
-      { id: "usergroup-primero-cp", display_text: "Primero CP" },
-      { id: "usergroup-primero-ftf", display_text: "Primero FTR" },
-      { id: "usergroup-primero-gbv", display_text: "Primero GBV" }
-    ]
+    option_strings_source: OPTION_TYPES.USER_GROUP,
+    visible: !hideOnAccountPage
   },
   {
     display_name: i18n.t("user.phone"),
@@ -80,7 +79,8 @@ const sharedUserFields = (i18n, formMode) => [
     name: "agency_id",
     type: SELECT_FIELD,
     required: true,
-    option_strings_source: "Agency"
+    option_strings_source: OPTION_TYPES.AGENCY,
+    visible: !hideOnAccountPage
   },
   {
     display_name: i18n.t("user.agency_office"),
@@ -89,7 +89,7 @@ const sharedUserFields = (i18n, formMode) => [
     option_strings_source: "lookup-agency-office",
     watchedInputs: USER_GROUP_UNIQUE_IDS,
     handleWatchedInputs: value => ({
-      visible: value.includes(USERGROUP_PRIMERO_GBV)
+      visible: !hideOnAccountPage && value.includes(USERGROUP_PRIMERO_GBV)
     })
   },
   {
@@ -101,13 +101,14 @@ const sharedUserFields = (i18n, formMode) => [
     display_name: i18n.t("user.location"),
     name: "location",
     type: SELECT_FIELD,
-    option_strings_source: "Location",
+    option_strings_source: OPTION_TYPES.LOCATION,
     required: true
   },
   {
     display_name: i18n.t("user.disabled"),
     name: "disabled",
-    type: TICK_FIELD
+    type: TICK_FIELD,
+    visible: !hideOnAccountPage
   },
   {
     display_name: i18n.t("user.send_mail"),
@@ -130,9 +131,9 @@ const identityUserFields = (i18n, identityOptions) => [
 const EXCLUDED_IDENITITY_FIELDS = ["password", "password_confirmation"];
 
 // eslint-disable-next-line import/prefer-default-export
-export const form = (i18n, formMode, useIdentityProviders, providers, identityOptions) => {
+export const form = (i18n, formMode, useIdentityProviders, providers, identityOptions, hideOnAccountPage = false) => {
   const useIdentity = useIdentityProviders && providers;
-  const sharedFields = sharedUserFields(i18n, formMode);
+  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage);
   const identityFields = identityUserFields(i18n, identityOptions);
 
   const providersDisable = (value, name, { error }) => {

@@ -12,7 +12,7 @@ import set from "lodash/set";
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { setDialog } from "../../../../../record-actions/action-creators";
 import bindFormSubmit from "../../../../../../libs/submit-form";
-import { submitHandler, whichFormMode } from "../../../../../form";
+import { submitHandler, whichFormMode, SUBFORM_SECTION } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
@@ -168,7 +168,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
                   [currentFieldName]: {
                     ...newFieldData[currentFieldName],
                     subform_section_temp_id: subformTempId,
-                    subform_section_unique_id: currentFieldName
+                    subform_section_unique_id: generateUniqueId(selectedFieldName, formUniqueIds)
                   }
                 }
               : newFieldData
@@ -200,7 +200,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
       i18n.locale,
       lastField?.get("order"),
       randomSubformId,
-      fieldNames
+      selectedField?.get("type") === SUBFORM_SECTION ? formUniqueIds : fieldNames
     );
 
     batch(() => {
@@ -220,7 +220,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
               ...subformData,
               temp_id: selectedSubform?.get("temp_id"),
               is_nested: true,
-              unique_id: generateUniqueId(subformData.name.en, formUniqueIds)
+              unique_id: Object.keys(dataToSave)[0]
             })
           );
           dispatch(clearSelectedField());

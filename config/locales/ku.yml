@@ -1,88 +1,35 @@
-# encoding: utf-8
-#
-# This is the English localization file for Primero.  It is based on the sample
-# English localization file found in the repository linked below[1].
-#
-# Anyone editing this file is strongly encouraged to use yamllint[2] to ensure
-# that this document remains valid YAML.
-#
-# [1] https://github.com/svenfuchs/rails-i18n/
-# [2] https://yamllint.readthedocs.io/en/stable/
-
-
----
 ku:
   'true': 'به لێ'
   'false': 'نه خێر '
   cancel: رەدکردن
-  connection_lost: ""
-  connected: ""
   clear: روونە
   description: وەسفکردن
-  offline: ""
   yes_label: 'به لێ'
-
   actions:
-    approvals: ""
     button: کردارەکان
-    change_log: ""
-    close: ""
     description:
       invalid: تومارێن کارپێنەکرى
       valid: تومارێن کارپێکرى
     disable: لەکاربێخە
     enable: بەکارخستن
     incident_details_from_case: رووداو زیادبکە
-    next: ""
-    notes: ""
-    previous: ""
     reopen: دوبارەکردنەوە
-    request_approval: ""
-    revoke: ""
-    save: ""
-    services_from_case_creation_success: ""
     services_section_from_case: خزمەتگوزاریە پێدراوەکان زیادبکە
   agencies:
     label: دامەزراوە
   agency:
-    agency_logos: ""
     code: کودى دامەزراوە
-    description: ""
-    disabled: ""
-    logo_enabled: ""
-    logo_enabled_help: ""
-    logo_icon: ""
-    logo_icon_help: ""
-    logo_large: ""
-    logo_large_help: ""
-    messages:
-      created: ""
-      updated: ""
     name: ناوى دامەزراوە
     services: خزمەتگوزارى دامەزراوه كانى
   approvals:
-    approved_by: ""
-    case_plan_type_label: ""
-    manager_comments_label: ""
-    rejected_by: ""
-    requested_by: ""
-    requested_for_label: ""
-    requested_for_title: ""
-    response_for_label: ""
-    response_for_title: ""
-    action_plan: ""
-    gbv_closure: ""
     status:
       approved: پەسەندکرا
       pending: چاوەروانى کردن
       rejected: رەتیکرد
-      requested: ""
   audit_log:
     action: کردار
     description: وەسفکردن
     record_owner: خاوەنى تومارەکە
-    timestamp: ""
-    user_name: ""
   bulk_export:
     file_name: فایل
     record_type: جور
@@ -91,33 +38,23 @@ ku:
     status: دوخ
   buttons:
     accept: رازیبون
-    add: ""
-    add_another_option: ""
     add_note: تێبینى زیادبکە
-    apply: ""
     approvals: پەسەندەکان
-    approve_action_plan: ""
     approve_bia: پەسەندکرن BIA
     approve_case_plan: پەسەندکرنى پلانى کەیسەکە
     approve_closure: پەسەندکردنى گرتنەوە
-    approve_gbv_closure: ""
     back: گەرانەوە
     bundle_export: پێکهاتەى خشتە
     bundle_import: پێکهاتەى خشتە
     cancel: رەتکردن
     change_password: گوهرینى ژمارەى نهێنى
-    clear_default: ""
-    clear_selection: ""
-    close: ""
-    continue: ""
     create_case: تومارکردنى كه يسه كان
     create_incident: تومارکردنى رووداو
-    create_new_record: "دروستکرنى%{model} نوێ"
+    create_new_record: دروستکرنى%{model} نوێ
     delete: بسرەوە
     disable: لەکارخستن
     disable_photo_wall: وێنەى دواوە لەکاربێخە
     done: ئەنجامدا
-    download: ""
     edit: دەستکاریکرن
     edit_subform: دەستکاریکردنى فورمى ناسەرەکى
     enable: بەکارخستن
@@ -128,51 +65,33 @@ ku:
     filter_label: 'فیلتەر:'
     filter_restore: گەرانەوەی رێکخستنی سیستەم
     find_tracing_match: دوزينةوةى بةيوةندى بةدواداجون
-    flag_model: "نیشان%{model}"
-    flag_records: "نیشان "
-    flags: ""
-    guidance: ""
-    guiding_questions: ""
+    flag_model: نیشان%{model}
+    flag_records: 'نیشان '
     import: هێنانەوە
     login: چونەژوورەوە
-    logout: ""
     mark_for_mobile: بو موبایل دەستنیشانبکە
-    new: ""
     ok: باشە
-    reassign: ""
-    referral: ""
-    referral_again: ""
     reject: رەدکردن
     remove_referrals: پێشنیارەکان لایبە
-    reorder: ""
     request_approval: داخوازى پەسەنکردن
     request_transfer: داخوازى گواستنەوە
     reunite: یەکگرتنەوە
     save: خەزنکرن
     save_and_add_service_provision: خەزنبکە و خزمەتگوزاریە پێدراوەکان زیادبکە
-    save_changes: ""
-    select: ""
     sort_by_case: کەیسەکان
     sort_by_tr: داخوازیەکانى بەدواداچون
     submit: پێشکێشکردن
-    transfer: ""
-    unflag_model: "نیشان نەکە%{model}"
-    unflag_model_history: "مێژوویێ نیشانبکە%{model}"
+    unflag_model: نیشان نەکە%{model}
+    unflag_model_history: مێژوویێ نیشانبکە%{model}
     unmark_for_mobile: بو موبایل دەستنیشان مەکە
-    update: ""
     view: پێداچوون
     view_flags_history: دياركردنى مێژوو
-
   case:
     create_new_case: کەیسى نوێ توماربکە
     enter_id_number: ژمارەى ناسنامەکە داخلبکە بو لێگەریانى تومارى هەیى
-    id_search_no_results: ""
     messages:
-      case_disabled: ""
       update_success: 'کەیسى %{record_id} بەسەركەوتووى نوێکرا'
-      update_success_queue: ''
       creation_success: 'تومارى کەیسەکە  بەسەركەوتووى  دروستکرا'
-      creation_success_queue: ''
     workflow:
       assessment: لێکولینەوە
       case_plan: پلانی كەیسەكە
@@ -185,160 +104,38 @@ ku:
       service_implemented: خزمەتگوزاریەکە جێبەجێکرا
       services_implemented: خزمەتگوزاریەکە جێبەجێکرا
   cases:
-    action_plan: ""
-    age: ""
-    age_estimated: ""
-    agency: ""
     apply_filter: پەسەندکردن
-    approval_comments: ""
-    approval_radio: ""
-    approval_radio_accept: ""
-    approval_radio_reject: ""
-    approval_select: ""
-    approved_success_action_plan: ''
-    approved_success_assessment: ''
-    approved_success_bia: ''
-    approved_success_case_plan: ''
-    approved_success_closure: ''
-    approved_success_gbv_closure: ''
-    assessment: ""
-    case_opening_date: ""
-    case_plan: ""
-    case_worker_code: ""
     clear_filter: روونە
-    close_dialog: ""
-    close_dialog_title: ""
-    close_success: ""
-    closure: ""
-    date_of_birth: ""
-    disable_dialog: ""
-    disable_dialog_title: ""
-    disable_success: ""
-    enable_dialog: ""
-    enable_dialog_title: ""
-    enable_success: ""
     export: ناردن
     filter_by:
-      3month_inactivity: " بۆ 3+ مانگ"
-      action_plan: ""
-      age_0_5: ""
-      age_12_17: ""
-      age_18_more: ""
-      age_6_11: ""
-      age_range: ""
-      agency: ""
-      approval_status: ""
+      3month_inactivity: ' بۆ 3+ مانگ'
       approvals:
         approved: پەسەندکرا
-        pending: ""
         rejected: رەدکرا
-      bia: ""
-      by_date: ""
-      case_open_date: ""
-      case_plan: ""
-      closed: ""
-      closure: ""
-      current_location: ""
       date: رێککەوت
-      displacement_status: ""
-      district: ""
-      duplicate: ""
-      enabled_disabled: ""
       female: مێ
-      flag: ""
       flag_label: دەستنیشانکرا؟
-      gbv_closure: ""
-      high: ""
-      low: ""
       male: نێر
-      medium: ""
-      mobile: ""
       mobile_label: بو موبایل دەسنیشانکرا؟
       my_cases: کەیسەکانم
-      no_action: ""
       no_activity: چالاکى نیە
-      open: ""
-      other: ""
-      photo: ""
-      photo_label: "وێنە هەیەتى؟ "
-      protection_concerns: ""
-      protection_status: ""
-      record_state: ""
+      photo_label: 'وێنە هەیەتى؟ '
       referred_cases: کەیسەکانى بو لاى من هەناردەکراو
-      registration_date: ""
-      risk_level: ""
-      sex: ""
-      social_worker: ""
-      status: ""
-      transferred: ""
-      type_of_risk: ""
-      urgent_protection_concern: ""
-      user_group: ""
       workflow: کەیسەکان لەلایەن ستافى کار
     flag_summary: پوختەکە دەستنیشانبکە
-    full_name: ""
-    gbv_closure: ""
     hide_name: ناوەکە بشارەوە
     hide_name_error: هەلەیەک لەکاتى خەزنکردنى گوهرینەکان روویدا. تکایە هەولبدەوە
-    id: ""
     label: کەیسەکان
     my_filters: فیلتەرەکانم
-    name: ""
-    notes_dialog_title: ""
-    notes_form_notes: ""
-    notes_form_subject: ""
     ok: باشە
     order_by:
       label: راسپارد لەلایەن
       most_recently: لەو دواییانەدا
       name: ناو
-    owned_by: ""
-    owned_by_agency: ""
-    photos: ""
     quick_view:
       tracing_message: 'تێبینى: هاوبەشێک هەیە لە سیستەمەکەدا لەگەل ڤەکولەر کە لەم منالە دەگەرێ. پەیوەندى بە ڤەکولەرى کومەلایەتى ئەم تومارە بکە بو کردارى تر ئەگەر منال رەزامەندى هەبێت. '
-    referral_done: ""
-    referral_done_success: ""
     register_new_case: کەیسى نوێ
-    registration_date: ""
-    rejected_success_action_plan: ''
-    rejected_success_assessment: ''
-    rejected_success_bia: ''
-    rejected_success_case_plan: ''
-    rejected_success_closure: ''
-    rejected_success_gbv_closure: ''
-    reopen_dialog: ""
-    reopen_dialog_title: ""
-    reopen_success: ""
-    request_approval_failure: ""
-    request_approval_select: ""
-    request_approval_success_action_plan: ""
-    request_approval_success_assessment: ""
-    request_approval_success_case_plan: ""
-    request_approval_success_closure: ""
-    request_approval_success_gbv_closure: ""
-    request_approval_type_of_case_plan: ""
-    request_approve_action_plan: ""
-    request_approve_bia: ""
-    request_approve_case_plan: ""
-    request_approve_closure: ""
-    request_approve_gbv_closure: ""
-    revoke_failure: ""
-    revoke_message: ""
-    revoke_success_message: ""
     save_filter: خەزنکرن
-    selected_all_records: ""
-    selected_records: ''
-    sex: ""
-    show_case: ''
-    social_worker: ""
-    status: ""
-    survivor_code: ""
-    transfer_accepted: ""
-    transfer_accepted_rejected: ""
-    transfer_accepted_success: ""
-    transfer_reject_reason_label: ""
-    transfer_rejected: ""
     view_name: ناوەکە دیاربکە
   children:
     selectable_date_options:
@@ -346,26 +143,7 @@ ku:
       closure_approved_date: 'رێککەوتى داخستنى کەیسەکە'
       created_at: رێککەوتى کردنەوەى کەیس
       date_case_plan_initiated: رێککەوتى پلانى کەیسەکە
-      date_of_creation: ""
       registration_date: رێککەوتى تومارکردن
-  configurations:
-    attributes:
-      created_by: ""
-      date_created: ""
-      description: ""
-      last_applied_by: ""
-      last_applied_on: ""
-      name: ""
-      version: ""
-    delete_label: ""
-    explanation: ''
-    label: ""
-    label_new: ""
-    messages:
-      created: ""
-      deleted: ""
-      updated: ""
-    not_allowed: ""
   contact:
     field:
       email: ئیمێل
@@ -375,54 +153,23 @@ ku:
       other_information: زانیاریەکانى تر
       phone: موبایل
       position: پۆست
-      primero_version: ""
       support_forum: کوربەندى پالپشتى
-      system_version: ""
     info_label: زانیاریەکانى پەیوەندى کردن
     updated: زانیاریەکانى پەیوەندى  بەسەركەوتووى نوێکرا
   dashboard:
     activity: چالاکى
-    admin_only: "کلیک لەسەر %{links} بکە بو گورینەکان لە ئەپلیکەیشنەکە"
+    admin_only: کلیک لەسەر %{links} بکە بو گورینەکان لە ئەپلیکەیشنەکە
     all_cases: هەموو کەیسەکان
     all_services_implemented: هەموو خزمەتگوزاریەکان جێبەجێکران
     and: 'وە'
-    approval_action_plan_approved: ""
-    approval_action_plan_pending: ""
-    approval_action_plan_pending_group: ""
-    approval_action_plan_rejected: ""
-    approval_assessment_approved: ""
-    approval_assessment_pending: ""
-    approval_assessment_pending_group: ""
-    approval_assessment_rejected: ""
-    approval_case_plan_approved: ""
-    approval_case_plan_pending: ""
-    approval_case_plan_pending_group: ""
-    approval_case_plan_rejected: ""
-    approval_closure_approved: ""
-    approval_closure_pending: ""
-    approval_closure_pending_group: ""
-    approval_closure_rejected: ""
-    approval_gbv_closure_approved: ""
-    approval_gbv_closure_pending: ""
-    approval_gbv_closure_pending_group: ""
-    approval_gbv_closure_rejected: ""
     approvals: پەسەندان
-    approvals_action_plan: ""
-    approvals_assessment: ""
-    approvals_case_plan: ""
-    approvals_closure: ""
-    approvals_gbv_closure: ""
     approved: پەسەندکرا
     assessment: لێکولینەوە
-    awaiting_acceptance: ""
     case_id: 'کەیس# ناسنامە'
-    case_management_service: ""
-    case_overview: ""
     case_plan: پلانی كەیسەكە
-    case_risk: ""
     case_stat_by_approval_type: پەسەندەکان
     case_stat_by_assessment_level: کەیسەکان بە ئاستى لێکولینەوە
-    case_stat_referrals: "پێشنیارەکان "
+    case_stat_referrals: 'پێشنیارەکان '
     case_stats: کەیسەکان
     case_worker: لێکولەرى کەیس
     cases_by_social_worker: کەیسەکانى له لايةن لێکولەرى کومەلایەتى
@@ -431,107 +178,76 @@ ku:
     cases_this_week: کەیسەکانى لەم حەفتیەدا
     cases_to_assign: کەیسەکانى دەبى وەربگیرێن
     closed: داخراو
-    closed_last_week: ""
-    closed_this_week: ""
     comprehensive_need_intervention: وەڵامى گشتگير
     count_new_bia_approvals:
-      one: '١%{دوخ} ١ نوێ ٢%{جورى دوخ}١ پەسەندەکان'
+      one: ١%{دوخ} ١ نوێ ٢%{جورى دوخ}١ پەسەندەکان
       other: '%{stat}١ نوێ %{stat_type}١ پەسەندەکان'
-
     count_new_case_plan_approvals:
-      one: '١%{دوخ} ١ نوێ ٢%{جورى دوخ}١ پەسەندەکان'
+      one: ١%{دوخ} ١ نوێ ٢%{جورى دوخ}١ پەسەندەکان
       other: '%{stat} ١ نوێ %{stat_type}١ پەسەندەکان'
-
     count_new_closure_approvals:
-      one: '١%{دوخ} ١ نوێ ٢%{جورى دوخ}١ پەسەندەکان'
+      one: ١%{دوخ} ١ نوێ ٢%{جورى دوخ}١ پەسەندەکان
       other: '%{stat} ١ نوێ %{stat_type}١ پەسەندەکان'
-
     count_pending_approval_total:
-      one: 'تو ١%{دوخ} ١ راگرتن  ٢%{جورى دوخ} ١ پەسەندەکان'
-      other: 'تو %{stat}ى هەیت ١ چاوەروانى کردن%{stat_type} ١ پەسەندەکان'
-
+      one: تو ١%{دوخ} ١ راگرتن  ٢%{جورى دوخ} ١ پەسەندەکان
+      other: تو %{stat}ى هەیت ١ چاوەروانى کردن%{stat_type} ١ پەسەندەکان
     count_pending_transfers:
-      one: 'تو ١%{دوخ}ى هەیەتى ١ چاوەروانى کردن ٢%{جورى دوخ} گواستنەوە'
-      other: 'تو %{stat}ى هەیت١ چاوەروانى کردن گواستنەوە'
-
+      one: تو ١%{دوخ}ى هەیەتى ١ چاوەروانى کردن ٢%{جورى دوخ} گواستنەوە
+      other: تو %{stat}ى هەیت١ چاوەروانى کردن گواستنەوە
     count_records_new:
       one: وە ١%{دوخ} ١نوێ١ کەیسەکان
       other: 'وە %{stat} 1نوێ1کەیسەکان '
-
     count_records_total:
-      one: 'تو ١%{دوخ}هەتە ١سەرجەم١ کەیسەکان'
-      other: 'تو ١%{دوخ}هەتە ١سەرجەم١ کەیسەکان'
-
+      one: تو ١%{دوخ}هەتە ١سەرجەم١ کەیسەکان
+      other: تو ١%{دوخ}هەتە ١سەرجەم١ کەیسەکان
     count_referrals_new:
       one: 'و ١%{سەرەتا} ١ نوێ ١ پێشنیارەکان '
       other: 'و %{stat} ١ نوێ ١ پێشنیارەکان '
-
     count_referrals_total:
-      one: 'تو ١%{سەرەتا} ١سەرجەم ١ پیشنیارەکانت هەیە'
-      other: 'تو %{stat} هەتە 1سەرجەم1 پێشنیارەکان '
-
+      one: تو ١%{سەرەتا} ١سەرجەم ١ پیشنیارەکانت هەیە
+      other: تو %{stat} هەتە 1سەرجەم1 پێشنیارەکان 
     count_rejected_approval_total:
-      one: 'وە ١%{دوخ} ١ رەدکراو ٢%{جورى دوخ} ١ پەسەندەکان'
-      other: 'وە %{stat} ١ رەدکراو %{stat_type}١ پەسەندەکان'
-
+      one: وە ١%{دوخ} ١ رەدکراو ٢%{جورى دوخ} ١ پەسەندەکان
+      other: وە %{stat} ١ رەدکراو %{stat_type}١ پەسەندەکان
     count_rejected_transfers:
-      one: 'وە ١%{دوخ} ١رەدکرا١ گواستەوە'
-      other: 'وە %{stat} ١رەدکرا١ گواستنەوە'
-
+      one: وە ١%{دوخ} ١رەدکرا١ گواستەوە
+      other: وە %{stat} ١رەدکرا١ گواستنەوە
     count_risk_level_new:
       one: وە ١%{دوخ} ١نوێ١ ٢ ٢%{جورى دوخ}
       other: وە %{stat}١نوێ١  2%{stat_type} risk2 cases مەترسى کەیسەکان
-
     count_risk_level_total:
-      one: 'تو ١%{دوخ}هەتە ١ ٢%{جورى دوخ}'
-      other: 'تو %{stat} 1%{stat_type} هەتە  مەترسى  کەیسەکان'
-
-    count_waiting_for_acceptance_transfers: "تو %{stat}هەیتە گواستنەوە ١چاوەرێ دەکات١ بو رەزامەندیت"
+      one: تو ١%{دوخ}هەتە ١ ٢%{جورى دوخ}
+      other: تو %{stat} 1%{stat_type} هەتە  مەترسى  کەیسەکان
+    count_waiting_for_acceptance_transfers: تو %{stat}هەیتە گواستنەوە ١چاوەرێ دەکات١ بو رەزامەندیت
     current_owner: خاوەنى ئێستا
-    dash_case_incident_overview: ""
-    dash_group_overview: ""
-    dash_shared_from_my_team: ""
-    dash_shared_with_me: ""
-    dash_shared_with_my_team: ""
-    dash_shared_with_others: ""
     date: رێککەوت
     date_of_incident: رێککەوتى روداوەکە
     date_of_interview: رێککەوتى چاوپێکەوتنەکە
     due: دواكەوتوو
-    flagged: ""
     flagged_by: 'دەستنیانکرا لەلایەن:'
     flagged_by_me: لەلایەن منەوە دەستنیانکرا
     flagged_by_other: لەلایەن کەسێکى ترەوە دەستنیانکرا
     follow_up: بەدواکەوتن
     forms: خشتەى فورمەکان
     geographic_area: ناوچەى جوگرافى
-    group_overview_closed: ""
-    group_overview_open: ""
-    high_level: ""
-    high_risk: " ئاستى گرنگى بەرز"
-    immediate_response: " وەڵامى دەسبەجێ"
-    in_progress: ""
+    high_risk: ' ئاستى گرنگى بەرز'
+    immediate_response: ' وەڵامى دەسبەجێ'
     incident_id: 'رووداو#ناسنامە'
     incident_location: شوێنى رووداوەکە
     incident_status_open: کردنەوە
     last_updated: دوواین نوێکردنەوە
     link_see_all: هەموویان ببینە
-    low_level: ""
     low_risk: ئاستى گرنگى نزم
     manager_count_closed_total:
-      one: 'وە ١%{دوخ} ١داخراو١ کەیسەکان'
-      other: 'وە%{stat}١داخراو١ کەیسەکان'
-
+      one: وە ١%{دوخ} ١داخراو١ کەیسەکان
+      other: وە%{stat}١داخراو١ کەیسەکان
     manager_count_open_total:
-      one: 'تو ١%{دوخ} ١بکرەوە١ کەیسەکان'
-      other: 'تو ١%{دوخ} هەتە ١بکرەوە١ کەیسەکان'
-
+      one: تو ١%{دوخ} ١بکرەوە١ کەیسەکان
+      other: تو ١%{دوخ} هەتە ١بکرەوە١ کەیسەکان
     manager_transfers_totals:
-      one: 'تو ١%{دوخ} ٢ %{جورى مەترسى}١گواستنەوە'
-      other: 'تو %{stat} ٢ %{stat_type}١گواستنەوە'
-
+      one: تو ١%{دوخ} ٢ %{جورى مەترسى}١گواستنەوە
+      other: تو %{stat} ٢ %{stat_type}١گواستنەوە
     match_result: ئەنجامە هاوبەشەکان
-    medium_level: ""
     medium_risk: ئاستى گرنگى ناوەند
     missed_cases: کەیسەکانى بەجێهێلاو
     name: ناو
@@ -541,11 +257,8 @@ ku:
     new_child_assigned_to_you: کەیسەکانى نوێ بو تو وەرگیران
     new_incident: كه يسه نوێكان
     new_incident_assigned_to_you: رووداوەکانى نوێى وەرگیراو
-    new_last_week: ""
-    new_or_updated: ""
     new_referred: پێشنیارەکانى نوێ
     new_service_provision: خزمەتگوزاریە پێدراوەکانى نوێ
-    new_this_week: ""
     no_action_risk: كردار نيه
     no_case_stats: هیچ دوخێکى کەیسەکە نیە
     no_caseworker_data: هیچ زانیاریەکى لێکولەرى کەیس نیە
@@ -562,12 +275,9 @@ ku:
     open: کردنەوە
     open_cases: كه يسه كراوه كان
     open_incidents: رووداوەکان بکەرەوە
-    outstanding_transfers: ""
     overdue_activities: چالاکیەکانى دواکەوتوو
     overdue_cases_to_assign: کەیسەکانى دواکەوتوو بو وەرگرتن
-    overview: ""
     pending: چاوەروانى کردن
-    pending_approvals: ""
     pending_transfers: نێردراوەکان لە چاوەروانی دایە
     protection_concern: نیگەرانى پاراستن
     protection_concerns: نیگەرانیەکانى پاراستن
@@ -579,26 +289,13 @@ ku:
     recently_flagged_child: کەیسەکانى لەم دواییانە دەستنیشانکراو
     recently_flagged_incident: رووداوەکانى لەم دواییانە دەستنیانکراو
     referrals_by_social_worker: پێشنیارەکانى لێکولەرى کومەلایەتى
-    registration: ""
     rejected: رەتیکرد
     rejected_transfers: ناردن رەتیکرد
     response: وەلام 1(In Progress)1
     scheduled_activities: چالاکیەکانى پلان دارێژراو
     score_range: مەوداى خال
-    screening_service: ""
     services: خزمەتگوزاریەکان
     services_implemented: خزمەتگوزاریەکان جێبەجێکران
-    shared_from_my_team_pending_transfers: ""
-    shared_from_my_team_referrals: ""
-    shared_from_my_team_rejected_transfers: ""
-    shared_with_me_new_referrals: ""
-    shared_with_me_total_referrals: ""
-    shared_with_me_transfers_awaiting_acceptance: ""
-    shared_with_my_team_pending_transfers: ""
-    shared_with_my_team_referrals: ""
-    shared_with_others_pending_transfers: ""
-    shared_with_others_referrals: ""
-    shared_with_others_rejected_transfers: ""
     status_of_cases: دوخى کەیسەکان
     system_user: سیستەم
     total: سەرجەم
@@ -609,26 +306,18 @@ ku:
     transfers_by_social_worker: نێرداروەکانى ڤەکولەرى کومەلایەتى
     users: ئایکونى رێکخستنەکان
     violence_type: جورى توندوتیژى
-    with_incidents: ""
-    without_incidents: ""
     worker_count_referrals_total:
       one: '١ ١%{لێکولەرى کەیس} ١هەیە ٢%{سەرەتا} ٢ سەرجەم ٢ پێشنیارەکان '
       other: '%{case_worker} ١هەیە ٢%{stat} ٢ سەرجەم ٢ پێشنیارەکان '
-
     worker_count_total:
-      one: '١ ١%{ڤەکولەرى کەیس} ١ هەتە ٢%{دوخ} ٢سەرجەم٢ کەیسەکان'
-      other: '١ %{case_worker}١ هەتە ٢%{stat} ٢سەرجەم٢ کەیسەکان'
-
-    workflow: ""
-    workflow_team: ""
+      one: ١ ١%{ڤەکولەرى کەیس} ١ هەتە ٢%{دوخ} ٢سەرجەم٢ کەیسەکان
+      other: ١ %{case_worker}١ هەتە ٢%{stat} ٢سەرجەم٢ کەیسەکان
     you_have: 'تو هەیتە'
   disabled:
     status:
       disabled: لەکارخست
       enabled: تواناپێدرا
   email_notification:
-    assign: ''
-    assign_subject: ''
     approval_request: 'بەکارهێنەر %{user} داخوازى پەسەنکردن دەکات بو %{approval_type} دەربارەى  کەیسى %{case_id}.'
     approval_request_subject: 'کەیس  %{id} -داخوازى پەسەنکراو'
     approval_response: '%{user} %{status} داخوازى پەسەندکردنى هەیە بو %{approval_type} بو کەیسى %{case_id}'
@@ -643,35 +332,22 @@ ku:
     approval_response_html: '%{user} دوخى   2%{status}2 هەیەتى و داخوازى پەسەند بو 3%{approval_type} بو کەیسى %{case_id}4'
     referral_html: '%{user}1  لە %{agency}  ئەم  %{record_type} بو تو پێشنیارکرا: %{record_id}2 بو %{service_type}.'
     transfer_html: '%{user}1 ئەم %{record_type} بو تو نارد : 2%{record_id}2.'
-    assign_html: ''
     transfer_request_html: 'بەکارهێنەرى %{user}1} لە %{agency} داخوازدەکات خاوەندارێتى %{record_type} بوى بنێرى بو تومارى 2%{record_id}2 تا بتوانن خزمەتگوزایەکانى بەرێوەبردن %{record_type} بو تاکەکانى ئەو ناوچەیە دابینبکەن. ئەگەر رازیت لەسەر ئەم ناردنە، تکایە کلیک لەسەر %{record_type} ناسنامەى لینکى ئەم ئیمێلە بکە بو کردنەوەى %{record_type} لە پریمێرو وە ناردنەکە دەستپێبکرێت'
     transfer_request_notes_html: 'تێبینیەکان لەلایەن تاکەکانەوە داخوایەکان دروست دەکەن: %{request_transfer_notes}'
   encrypt:
-    export_type: ""
     file_name: ناوى فایلى خوت دروستبکە (ئارەزومەندانە)
-    password_extra_info: ""
     password_label: تکایە ژمارەیەکى نهێنى بنوسە کە بتوانى فایلەکەت ب پارێزێت
-  error_message:
-    address_fields: ""
-    address_form_fields: ""
-    address_subform_fields: ''
   error_page:
-    not_authorized:
-      code: 403
-      server_error: ""
-      title: ""
     not_found:
-      code: 404
       contact_admin: ئەگەر لەو باوەرەدابیت کە بە هەلە لە لێرەیت، تکایە پەیوەندى بە بەرێوەبەرت بکە
       something_went_wrong: ببورە، شتێك بەهەڵەى رۆيشت!
   errors:
-    error_loading: ""
     models:
       child:
         age: تەمەن دەبێت لە نێوان ٠ و ١٣٠ بێت
-        date_of_birth: " تکایە رێککەوتێکى لەدایکبونى راست بو تومارى ئەم کەیسە بنوسە"
+        date_of_birth: ' تکایە رێککەوتێکى لەدایکبونى راست بو تومارى ئەم کەیسە بنوسە'
       export_configuration:
-        opt_out_field_does_not_exist: " فیلدى opt_out ى دەستنیشانکراو لە تومارەکەدا بونى نیە"
+        opt_out_field_does_not_exist: ' فیلدى opt_out ى دەستنیشانکراو لە تومارەکەدا بونى نیە'
         record_type: جورى تومارى کارپێنەکراو. لەوانەیە زاروک بێت، داخوازى بەدواداچون یان رووداوەکە
       field:
         translated_options_do_not_match: شوێنى بژاردەکانى وەرگێران دەبێت هەمان ناسنامە هەبێت
@@ -683,10 +359,8 @@ ku:
       lookup:
         being_used: ئەم بەدواگەرانەوەیە بەکارهاتووە و ناتوانرێت بسرێتەوە
         name_present: شوێنى ناو دەبێت بەتال نەمێنیت
-        values_ids_blank: ""
       primero_module:
         associated_record_types: بە لایەنى کەمەوە پێویستە جورى تومارێک هەبیت پەیوەست بەو نموونەیەوە بێت
-        form_section_ids: ""
         name_present: شوێنى ناو دەبێت بەتال نەمێنیت
         unique_name: نموونەیەک بەو ناوە بونى هەیە، تکایە ناوێکى جێواز بنووسە
       report:
@@ -697,8 +371,6 @@ ku:
         permission_presence: تکایە بە لایەنى کەمەوە یەک مولەت هەلبژێرە
       user:
         password_mismatch: شوێنى ژمارەى نهێنى هەمان ژمارەى نهێنى نیە
-    not_found: ""
-    try_again: ""
   exports:
     case_pdf:
       all: PDF
@@ -708,10 +380,7 @@ ku:
       all: CSV
       one: CSV
       selected: بو CSV دەستنیشانکرا
-    custom:
-      all: ""
     custom_exports:
-      all: ""
       choose_fields: دەتەوێت شوێنەکانى تاکەکەس هەلبژێرى بو فورمێک؟
       empty_fields_forms: تکایە هەندێک فورمەکان یان فیلدەکان دەستنیشانبکە بو ناردن
       empty_format: تکایە فورمەتەک هەلبژێرە بو ناردن
@@ -740,16 +409,9 @@ ku:
         sex_mapping_m_f_u: رەگەز
       male_abbreviation: نێر
       unknown_abbreviation: U
-    exported: ""
-    exported_error: ""
     forms:
       button: ناردنىى فورمەکان
       label: هنارتن
-    go_to_exports: ""
-    incident_recorder_xls:
-      all: ""
-      one: ""
-      selected: ""
     json:
       all: JSON
       one: JSON
@@ -763,26 +425,18 @@ ku:
       selected: بو توندوتیژیەکانى MRM دەستنیشانکرا
     no_records: هیچ تومارێک لەبەردەست نیە
     pdf:
-      all: ""
       one: PDF
       selected: بو PDF دەستنیشانکرا
     pdf_exports:
       label: PDF
     photowall:
       all: وێنەى پشتەوە
-      flag_suspect_record: ""
-      no_photos_available: ""
       one: وێنەى پشتەوە
-      reunited: ""
       selected: بو وێنەى پشتەوە دەستنیشانکرا
-      success_message: ""
-    printed: ''
-    queueing: ""
     selected_xls:
       all: ئێکسل
       one: ئێکسل
       selected: بو ئێکسل دەستنیشانکرا
-      selected_fields: ""
     unhcr_csv:
       all: UNHCR
       female_abbreviation: مێ
@@ -825,22 +479,12 @@ ku:
     action: کردار
     actions: کردارەکان
     add: زیادکردن
-    add_custom_field: ""
-    add_existing_field: ""
-    add_field: ""
-    add_field_type: ""
     audio:
       current: دەنگى بەکارهاتوو
-    bia_document: ""
-    bid_document: ""
     check_box: سندوقەکانى پشکنین
-    clear_group_by: ""
-    clear_sort_by: ""
-    create_field: ""
-    create_unique_values: ""
     date_field: رێککەوتى فیلد
     date_help: رر - م م - س س
-    date_help_with_time: "ر-م-س  د:خ"
+    date_help_with_time: ر-م-س  د:خ
     date_not_valid: ئەم رێککەوتە راست نيە
     date_range:
       date: رێککەوت
@@ -848,30 +492,16 @@ ku:
       from: فوورم
       to: بۆ
     date_range_field: زنجیرەى ریککەوت
-    date_time: ""
-    db_name: ""
-    default: ""
     default_date_validation: خودوزینەوەى رێککەوتى گونجاو
-    default_to_current_date: ""
-    default_to_current_datetime: ""
-    default_value: ""
-    deleted: "فیلدى%{display_name}سرییەوە"
-    detail: ""
-    disabled: ""
+    deleted: فیلدى%{display_name}سرییەوە
     display_name: ناوەکە پیشانبدە
     document:
       comments: تێبینیەکان
       current: ئەمە بەلگەنامەى بەکارهاتووە؟
       date: رێککەوتى بەلگەنامەکە
       name: ناوى بەلگەنامەکە
-    edit_label: ""
-    enabled: ""
-    enabled_label: ""
-    english_text: ""
     field_name: ناوى فیلدەکە
-    field_type: ""
     file_upload_box:
-      add_document_label: ""
       add_new_document_button_text: بەلگەیەکى تر زیادبکە
       add_new_photo_button_text: وێنەیەکى تر زیادبکە
       add_photo_label: وێنە زیادبکە
@@ -881,56 +511,26 @@ ku:
       photo_file_restrictions_message: وێنەکان نابێت لە 10MB زیاتربن. فایلەکانى دەنگ نابێت لە 10MBزیاتربن. چەند بچووكتربێت باشترە
       recorded_audio_label: دەنگى تومارکراو
       select_file_button_text: فایلەکە هەلبژێرە
-    find_lookup: ""
     form_name: ناوى فورمەکە
-    future_date_not_valid: ""
-    guidance: ""
-    guiding_questions: ""
     help_text: دەقى هاوکارى
-    hide_on_view_page: ""
     label: فیلدەکان
-    mobile_visible: ""
     move_to: بجولێنە بو
-    multi_select: ""
-    multi_select_box: ""
-    must_be_english: ""
-    name: ""
     not_future_date: بەروارێكى داهاتوو نيە
     number_not_valid: تكايە برو ناو زانیاریەکانى ژمارەى
     numeric_field: فیلدى ژمارەى
-    on_collapsed_subform: ""
     option_strings_add_option: زیادکردنى هەلبژاردە
     option_strings_source: گەراندنەوەکان
     option_strings_text: بژاردەکان
     option_strings_text_display: دەقى بژاردە
     option_strings_text_key: کلیلى بژاردە
-    options_indications_lookup_values: ""
-    options_indications_restrictions: ""
     options_or_lookup_warning: تکایە بژاردەکان زیادبکە یان گەراندنەوە هەلبژێرە. داخلى هەردووکیان مەبە
-    other_documents: ""
-    predifined_lookups: ""
     radio_button: دوگمەى رادیو
     remove: لایبە
-    required: ""
-    required_field: ''
     select_box: نیشانەى بەرەوخوارەوە هەلبژێرە
     select_date_validation: شێوازى راستکردنى رێککەوت هەلبژێرە
-    select_multiple: ""
-    select_single: ""
     separator: جياكەرەوە
-    show: ""
-    show_on: ""
-    show_on_minify_form: ""
     subform: فورمى ناسەرەکى
-    subform_group_by: ""
     subform_remove_message: دلنیایى دەتەویێت ئەم فورمى ناسەرەکى لاببەیت؟
-    subform_section:
-      description: ""
-      name: ""
-      starts_with_one_entry: ""
-      subform_append_only: ""
-      subform_prevent_item_removal: ""
-    subform_sort_by: ""
     successfully_added: فیلدەکە بەسەركەوتووى  زیادکرا
     tally_field: فیلدى چونیەک
     text_area: شوێنى دەق
@@ -938,102 +538,28 @@ ku:
     textarea: شوێنى دەق
     tick_box: چوارگوشەى نیشانە
     tick_box_label: بژاردەکانى چوارگوتى نیشانە
-    translation_text: ""
-    type: ""
     updated: فیلدەکە نوێکرا
-    visibility: ""
-    web_app: ""
-  filters:
-    apply_filters: ""
-    clear_filters: ""
-    less: ""
-    more: ""
-    save_filters: ""
-  flags:
-    add_flag_tab: ""
-    date: ''
-    flag_added: ""
-    flag_date: ""
-    flag_reason: ""
-    flag_resolved: ""
-    flags_tab: ""
-    no_flags: ""
-    resolve_button: ""
-    resolve_flag: ""
-    resolve_reason: ""
-    resolved: ""
-    resolved_date: ''
-    resolved_reason: ''
-    title: ""
   followup_reminders:
     system_generated_followup_flag: سەردانى بەدوا داچوونى زۆرەملێ
   form_section:
-    form_name: ""
-    module: ""
     name: ناو
-    record_type: ""
     required_field: '%{field} پێویستە'
   forms:
-    add: ""
-    description: ""
-    fields: ""
-    form_description: ""
-    form_group: ""
-    form_title: ""
-    help_text:
-      must_be_english: ""
-      related_groups: ""
-      summariaze_purpose: ""
-    invalid_characters_field: ''
     label: فورمەکان
-    manage: ""
     messages:
-      created: ""
-      save_success: ""
-      save_with_errors: ""
-      updated: ""
       use_existing: ئێمە هانتددەین کە فورمەکانى بەردەست بەکاربێنى کە ئەمە بلاوکردن و رێکخستنى زانیاریەکان لە نێوان دامەزاروەکان ئاسان دەکات.
-    mobile_app: ""
-    module: ""
-    no_subform_filters_added: ""
-    record_type: ""
     record_types:
-      approvals: ""
-      case: " کەیس"
-      child: " کەیس"
+      case: ' کەیس'
+      child: ' کەیس'
       incident: رووداو
-      individual_victim: ""
       potential_match: هاوبەشە شاراوەکان
-      record_information: ""
-      referrals: ""
       reportable_follow_up: بەدواکەوتن
       reportable_protection_concern: نیگەرانیەکانى پاراستن
       reportable_service: خزمەتگوزارى
       tracing_request: داخوازى بەدواداچون
-      transfers_assignments: ""
       violation: توندوتیژى
-    required_field: ''
-    select_label: ""
-    settings: ""
-    show_on: ""
-    subform_need_to_be_added: ""
-    subform_not_found: ""
-    title: ""
-    translations:
-      edit: ""
-      edit_form_group: ""
-      manage: ""
-      no_changes_message: ""
-      note: ''
-      note_form_group: ""
-      select_language: ""
-      title: ""
-    type_label: ""
-    visibility: ""
-    web_app: ""
   home:
     ar: عره بی
-    ar-JO: ""
     ar-LB: عرەبى(لوبنانى)
     bn: بەنگلادشى
     current_time_zone: کاتى شوێنى دیارکراو
@@ -1042,13 +568,11 @@ ku:
     es: ئیسپانی
     fr: فره نسی
     id: ئیندونیسی
-    km: ""
     ku: کوردى
     label: لاپه ره ى سه ره كى
     language: زمان
     manage_system_users: بەكاربەرى هاوكات كردنى سێرڤەر بەرێوە ببە
     my: میانمار
-    pt: ""
     records_need_attention: تومارا پێويستى ب هشیارى يه
     ru: روسى
     so: سومالى
@@ -1059,35 +583,17 @@ ku:
     zh: چینى
   incident:
     messages:
-      creation_success: ""
-      creation_success_queue: ""
       update_success: 'رووداو %{record_id}  بەسەركەوتووى نوێکرا.'
-      update_success_queue: ''
-    violation:
-      pending: ""
   incidents:
-    id: ""
-    date_of_interview: ""
-    date_of_incident: ""
-    export: ""
     label: رووداو
     filter_by:
       boys: کورەکان
-      by_date: ""
       girls: کچەکان
-      incident_location: ""
-      unaccompanied_separated_status: ""
       unknown: نه نیاس
-      violence_type: ""
     register_new_incident: رووداوى نوێ
     selectable_date_options:
       date_of_first_report: رێککەوتى چاوپێکەوتنەکە
       incident_date_derived: رێککەوتى روداوەکە
-    selected_records: ''
-    selected_all_records: ''
-    show_incident: ''
-    social_worker: ""
-    violence_type: ""
   location:
     base_types:
       camp: کەمپ
@@ -1108,12 +614,10 @@ ku:
       zone: ناوچە
   logger:
     approve_form:
-      action_plan: ""
       bia: فورمى BIA
       case_plan: فورمى پلانى کەیسەکە
       closure: داخستنى فورم
       'false': رەتیدەکرێت
-      gbv_closure: ""
       'true': پەسەنکردن
     by_user: لەلایەن بەکارهێنەر
     consent_count: هەژمارەى رەزامەندى
@@ -1147,15 +651,12 @@ ku:
     relinquish_referral: وازهێنانى ئاماژە ئەنجامدرا
     reopen_case: دوبارەدەکرێتەوە
     request_approval:
-      action_plan: ""
       bia: داخوازى پەسەنکراو بو فورمى BIA 
       case_plan: داخوازى پەسەندکراو بو پلانى فورمى کەیس
-      closure: " داخوازى پەسەندکراو بو داخستنى فورم"
-      gbv_closure: ""
+      closure: ' داخوازى پەسەندکراو بو داخستنى فورم'
     request_transfer: ناردنى داخوازى گواستنەوە
     request_transfer_view: پیشاندانى داخوازى ناردن
     save_subform: خەزنکردنى فورمى بنچینە
-    search: ""
     show: پیشاندان
     to: بو
     to_user: بو بەکارهێنەر
@@ -1169,51 +670,19 @@ ku:
     label: چونەژوور
     password:
       label: ژمارەى نهێنى
-    provider_title: ""
-    title: ""
     username: ناوى بەکارهێنەر
   lookup:
     create: گەراندنەوەى نوێ
-    enabled_label: ""
-    english_label: ""
     label: گەراندنەوە
-    language_label: ""
     messages:
       cannot_create: ناتوانیت گەراندنەوە دروستبکەیت
       correct_errors: 'تکایە هەلەکان راستبکە و دووبارە پێشکێشبکە'
-      created: ""
-      updated: ""
     name: ناو
-    no_options: ""
-    translation_label: ""
     values: هەلبژاردەکان
   messages:
-    alert_items: ""
-    alerts_for:
-      approval: ""
-      field_change: ""
-      transfer_request: ""
-    cannot_edit: ""
     confirmation_message: بە کلیککردن لەسەر باشە دەسبەردار دەبیت لەسەر هەموو گورانکاریە خەزننەکراوەکان و لێگەریانى لاپەرى داخوازکراو. کلیک لسەرە رەدکردن بکە بو گەرانەوە بو لیستى ديار
-    dashboard_offline: ""
-    field_name_on_form_name: ''
-    logout_confirmation: ""
-    logout_warning: ""
-    no_changes: ""
   navigation:
-    bulk_exports: ""
-    cases: ""
-    home: ""
-    incidents: ""
-    logout: ""
-    reports: ""
     search: لێگەریان
-    settings: ""
-    support: ""
-    tasks: ""
-    tracing_request: ""
-  notes:
-    note_success: ""
   permissions:
     label: رێگەپێدانەکان
     permission:
@@ -1224,58 +693,27 @@ ku:
       agency: دامەزراوە
       agency_read: خواندنى دامەزراو
       all: بە ناوهەموو تومارەکان یان بەکارهێنەرەکان تێپەربە
-      approvals_assessment: ''
-      approvals_assessment_pending: ''
-      approvals_case_plan: ''
-      approvals_case_plan_pending: ''
-      approvals_closure: ''
-      approvals_closure_pending: ''
-      approve_action_plan: ""
-      approve_assessment: ""
-      approve_case_plan: ""
-      approve_closure: ""
-      approve_gbv_closure: ""
       assign: دابين كردن
       assign_within_agency: نيشانكرا لةناو وةكالةى
       assign_within_user_group: نيشانكرا لة ناو بكارهينةرى كروب
       audit_log: پشکنین
-      case: " کەیس"
-      case_approvals: ""
-      case_assignments_referrals_transfers: ""
-      case_exports: ""
-      case_overview: ""
-      case_risk: ""
-      cases_by_task_overdue_assessment: ""
-      cases_by_task_overdue_case_plan: ""
-      cases_by_task_overdue_followups: ""
-      cases_by_task_overdue_services: ""
-      cases_managed_other_users: ""
-      close: ""
+      case: ' کەیس'
       consent_override: هەلوەشاندنەوەى پەسەند
       copy: کوپىبکە
       create: دروستبکە
-      dash_case_incident_overview: ""
       dash_cases_by_social_worker: کەیسەکانى لێکولەرى کومەلایەتى پیشانبدە
       dash_cases_by_task_overdue: کەیسەکانى دواکەوتوو پیشانبدە
       dash_cases_by_workflow: کەیسەکان لەلایەن ستافى کارەوە پیشانبدە
       dash_cases_to_assign: کەیسەکان پیشانبدە بو دابين كردن
-      dash_group_overview: ""
       dash_manager_transfers: نێردراوەکانى بەرێوەبەر پیشانبدە
       dash_matching_results: ئەنجامەکانى هاوبەش پیشانبدە
       dash_protection_concerns: بایەخەکان پاراستن پیشانبدە
-      dash_protection_concerns_by_location: ""
       dash_referrals_by_socal_worker: پێشنیارەکانى ڤەکولەرى کومەلایەتى پیشانبدە
       dash_reporting_location: شوێنى ریپورتکردن پیشانبدە
       dash_service_provisions: خزمەتگوزاریە پێدراوەکان پیشانبدە
-      dash_shared_from_my_team: ""
-      dash_shared_with_me: ""
-      dash_shared_with_my_team: ""
-      dash_shared_with_others: ""
-      dash_show_none_values: ""
       dash_tasks: پێداچونا ئەرکان
       dash_transfers_by_socal_worker: نێردراوەکانى ڤەکولەرى کومەلایەتى پیشانبدە
       dashboard: داشبورد
-      delete: ""
       display_view_page: پیشاندانى لاپەرى بینراو
       duplicate: لێگەریانی دووبارە
       enable_disable_record: لەکاربێخە
@@ -1306,19 +744,10 @@ ku:
       potential_match: هاوبەشە شاراوەکان
       read: بخوێنە
       reassign: دووبارە دابين كردن
-      receive_referral: ""
-      receive_transfer: ""
-      referral: ""
       referral_from_service: ئاماژەکردنى کەیس لە خزمەتگوزارى فورم
       remove_assigned_users: بەکارهێنەرەکانى دابين كراو لایبەت (پێشنیارەکان)
-      reopen: ""
       report: ریپورت
       request_approval: داخوازى بو پەسەندکردن
-      request_approval_action_plan: ""
-      request_approval_assessment: ""
-      request_approval_case_plan: ""
-      request_approval_closure: ""
-      request_approval_gbv_closure: ""
       request_transfer: داخوازى ناردن
       role: رولەکان
       save_search: لێگەریانە بە خەزکراوەکان
@@ -1331,7 +760,6 @@ ku:
       sync_mobile: هاوكات بكە بە ئامرازى مۆبايل
       system: سیستەم
       tracing_request: داخوازى بەدواداچون
-      transfer: ""
       user: بەکارهێنەرەکان
       user_group: گروپەکانى بەکارهێنەر
       view_approvals: پەسەندەکان پیشانبدە
@@ -1339,560 +767,7 @@ ku:
       view_photo: پیشاندانى وێنە
       view_protection_concerns_filter: فیلتەرى نیگەرانیەکانى پاراستن پیشانبدە
       view_response: نیشاندانی وەلامەکان
-      workflow: ""
-      workflow_team: ""
       write: بنووسە
-    resource:
-      agency:
-        actions:
-          assign:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      audit_log:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-        label: ""
-      case:
-        actions:
-          add_note:
-            explanation: ""
-            label: ""
-          approve_action_plan:
-            explanation: ""
-            label: ""
-          approve_assessment:
-            explanation: ""
-            label: ""
-          approve_bia:
-            explanation: ""
-            label: ""
-          approve_case_plan:
-            explanation: ""
-            label: ""
-          approve_closure:
-            explanation: ""
-            label: ""
-          approve_gbv_closure:
-            explanation: ""
-            label: ""
-          assign:
-            explanation: ""
-            label: ""
-          assign_within_agency:
-            explanation: ""
-            label: ""
-          assign_within_user_group:
-            explanation: ""
-            label: ""
-          change_log:
-            explanation: ""
-            label: ""
-          close:
-            explanation: ""
-            label: ""
-          consent_override:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          display_view_page:
-            explanation: ""
-            label: ""
-          enable_disable_record:
-            explanation: ""
-            label: ""
-          export_case_pdf:
-            explanation: ""
-            label: ""
-          export_csv:
-            explanation: ''
-            label: ""
-          export_custom:
-            explanation: ""
-            label: ""
-          export_duplicate_id_csv:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
-          export_photowall:
-            explanation: ""
-            label: ""
-          export_unhcr_csv:
-            label: ""
-          export_xls:
-            explanation: ''
-            label: ""
-          find_tracing_match:
-            explanation: ""
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
-          incident_details_from_case:
-            explanation: ""
-            label: ""
-          incident_from_case:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          receive_referral:
-            explanation: ""
-            label: ""
-          receive_transfer:
-            explanation: ""
-            label: ""
-          referral:
-            explanation: ""
-            label: ""
-          referral_from_service:
-            explanation: ""
-            label: ""
-          remove_assigned_users:
-            explanation: ""
-            label: ""
-          reopen:
-            explanation: ""
-            label: ""
-          request_approval_action_plan:
-            explanation: ""
-            label: ""
-          request_approval_assessment:
-            explanation: ""
-            label: ""
-          request_approval_bia:
-            explanation: ""
-            label: ""
-          request_approval_case_plan:
-            explanation: ""
-            label: ""
-          request_approval_closure:
-            explanation: ""
-            label: ""
-          request_approval_gbv_closure:
-            explanation: ""
-            label: ""
-          request_transfer:
-            explanation: ""
-            label: ""
-          search_owned_by_others:
-            explanation: ""
-            label: ""
-          service_provision_incident_details:
-            explanation: ""
-            label: ""
-          services_section_from_case:
-            explanation: ""
-            label: ""
-          sync_mobile:
-            explanation: ""
-            label: ""
-          transfer:
-            explanation: ""
-            label: ""
-          view_photo:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      dashboard:
-        actions:
-          approvals_action_plan:
-            explanation: ""
-            label: ""
-          approvals_action_plan_pending:
-            explanation: ""
-            label: ""
-          approvals_assessment:
-            explanation: ""
-            label: ""
-          approvals_assessment_pending:
-            explanation: ""
-            label: ""
-          approvals_case_plan:
-            explanation: ""
-            label: ""
-          approvals_case_plan_pending:
-            explanation: ""
-            label: ""
-          approvals_closure:
-            explanation: ""
-            label: ""
-          approvals_closure_pending:
-            explanation: ""
-            label: ""
-          approvals_gbv_closure:
-            explanation: ""
-            label: ""
-          approvals_gbv_closure_pending:
-            explanation: ""
-            label: ""
-          case_overview:
-            explanation: ""
-            label: ""
-          case_risk:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_assessment:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_case_plan:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_followups:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_services:
-            explanation: ""
-            label: ""
-          dash_case_incident_overview:
-            explanation: ""
-            label: ""
-          dash_cases_by_social_worker:
-            explanation: ""
-            label: ""
-          dash_cases_to_assign:
-            explanation: ''
-            label: ""
-          dash_group_overview:
-            explanation: ""
-            label: ""
-          dash_matching_results:
-            explanation: ""
-            label: ""
-          dash_protection_concerns:
-            explanation: ""
-            label: ""
-          dash_protection_concerns_by_location:
-            explanation: ""
-            label: ""
-          dash_reporting_location:
-            explanation: ""
-            label: ""
-          dash_service_provisions:
-            explanation: ""
-            label: ""
-          dash_shared_from_my_team:
-            explanation: ""
-            label: ""
-          dash_shared_with_me:
-            explanation: ""
-            label: ""
-          dash_shared_with_my_team:
-            explanation: ""
-            label: ""
-          dash_shared_with_others:
-            explanation: ""
-            label: ""
-          dash_show_none_values:
-            explanation: ""
-            label: ""
-          dash_tasks:
-            explanation: ""
-            label: ""
-          view_protection_concerns_filter:
-            explanation: ""
-            label: ""
-          view_response:
-            explanation: ""
-            label: ""
-          workflow:
-            explanation: ""
-            label: ""
-          workflow_team:
-            explanation: ""
-            label: ""
-        label: ""
-      disabled:
-        explanation: ""
-        label: ""
-      duplicate:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-        label: ""
-      forms:
-        case:
-          explanation: ''
-          label: ""
-        incident:
-          explanation: ''
-          label: ""
-        tracing_request:
-          explanation: ''
-          label: ""
-      group:
-        actions:
-          admin_only:
-            explanation: ""
-            label: ""
-          agency:
-            explanation: ""
-            label: ""
-          all:
-            explanation: ""
-            label: ""
-          group:
-            explanation: ""
-            label: ""
-          self:
-            explanation: ""
-            label: ""
-        explanation: ""
-        label: ""
-      incident:
-        actions:
-          change_log:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          export_case_pdf:
-            explanation: ""
-            label: ""
-          export_csv:
-            explanation: ""
-            label: ""
-          export_custom:
-            label: ""
-          export_incident_recorder_xls:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
-          export_xls:
-            explanation: ""
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          sync_mobile:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      is_manager:
-        explanation: ""
-        label: ""
-      matching_configuration:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      metadata:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      module:
-        actions:
-          cp:
-            label: ""
-          gbv:
-            label: ""
-          mrm:
-            label: ""
-        explanation: ""
-        label: ""
-      potential_match:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-        label: ""
-      referral:
-        actions:
-          refer:
-            explanation: ""
-            label: ""
-        label: ""
-      report:
-        actions:
-          create:
-            explanation: ""
-            label: ""
-          group_read:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      reporting_location_level:
-        explanation: ''
-        label: ""
-      role:
-        actions:
-          assign:
-            explanation: ""
-            label: ""
-          copy:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          delete:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          permitted_roles:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      system:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      tracing_request:
-        actions:
-          change_log:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          export_case_pdf:
-            explanation: ""
-            label: ""
-          export_csv:
-            explanation: ""
-            label: ""
-          export_custom:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      transfer:
-        actions:
-          transfer:
-            explanation: ""
-            label: ""
-        label: ""
-      user:
-        actions:
-          agency_read:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      user_group:
-        actions:
-          assign:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          delete:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
   potential_match:
     child_age: تەمەن
     child_gender: رەگەز
@@ -1905,27 +780,9 @@ ku:
     social_worker: ڤەکولەرى کومەلایەتى
     social_worker_agency: دامەزراوە
   potential_matches:
-    display: "هاوبەشە شاراوەکان پیشانبدە بو  %{type} %{id}"
+    display: هاوبەشە شاراوەکان پیشانبدە بو  %{type} %{id}
   reassign:
-    multiple_error: ""
-    multiple_successfully: ''
     notes_label: تێبینیەکان
-    successfully: ""
-    user_mandatory_label: ""
-    users_label: ""
-  record_information:
-    assigned_user_names: ""
-    created_by: ""
-    created_by_agency: ""
-    current_owner_separator: ""
-    module_id: ""
-    owned_by: ""
-    owned_by_agency_id: ""
-    owned_by_text: ""
-    previous_agency: ""
-    previously_owned_by: ""
-    reassigned_tranferred_on: ""
-    record_history_separator: ""
   record_panel:
     record_information: زانیاریەکانى تومار
   referral:
@@ -1933,52 +790,30 @@ ku:
     is_remote_label: ئایا ئاماژە بو سیستەمى بنەرەت دەکەیت؟
     location_label: شوێن
     notes_label: تێبینیەکان
-    provided_consent_label: ""
-    recipient_label: ""
-    refer_anyway_label: ""
     service_label: خزمەتگوزارى
     success: '%{record_type} %{id} بە سەرکەوتووى پێشنیارکرا'
-    user_mandatory_label: ""
   report:
     aggregate_by: گروپ لە دوایى یەک
-    attribute: ""
-    constraint: ""
     date_ranges:
       date: روژ
       month: مانگ
-      quarter: ""
-      quarter_abbr: ""
       week: حەفتى
       year: سال
     description: وەسفکردن
-    disabled:
-      explanation: ""
-      label: ""
     disaggregate_by: گروپ بە شێوازى ستونى
     filters:
-      is: ""
       label: فیلتەرەکانى ریپورت
-      label_new: ""
-      not_null: ""
     group_ages: مەوداى تەمەن بەکاربێنە
     group_dates_by: مەوداى بەکارهێنانى رێککەوت
     is_graph: هێلکاریەک دروستبکە؟
     messages:
       delete_success: ریپیورت  بەسەركەوتووى سرییەوە
-      success: ""
-      updated: ""
     modules: نموونەکان
     name: ناو
-    name_mandatory: ""
     no_data: هیچ زانیاریەک بو ئەم ریپورتە بەردەست نیە
-    no_filters_added: ""
-    not_selected: ""
     record_type: جورى تومارەکە
     total: سەرجەم
-    value: ""
   reports:
-    delete_report: ""
-    delete_report_message: ""
     label: ریپورتەکان
     register_new_report: ریپورت دروست بکە
   request_transfer:
@@ -1986,25 +821,15 @@ ku:
     submit_label: داخوازى بنێرە
     success: داخوازى گواستنەوە نارد
   role:
-    agency_ids_label: ""
     copy_failure: هەلە لە کوپیکردنى رولدا. دلنیابە ناوەکە دژ بە هیچ رولەکى تر نیە
     copy_success: رولەکە  بەسەركەوتووى کوپیکرا.
     create: رول دروستبکە
-    delete_header: ""
     description: وەسفکردن
     edit: دەستکاریکردنى رولەکە
     error_in_updating: هەلەیەک ل نوێکردنەوەى زانیاریەکانى رولەکەدا رویدا.
     group_permission_label: ئەم رولە کارتێکرن لە کام تومارەکان دەکات؟
-    label: ""
-    manager: ""
-    messages:
-      confirmation: ""
-      created: ""
-      deleted: ""
-      updated: ""
     name: ناو
     referral_label: دەتوانرێت ئەم رولە بو پێشنیارکردن بەکاربێت؟
-    reporting_location_level_label: ""
     role_ids_label: رۆلەکان تر لەلایەن ئەم رولە بەرێوەبردن
     successfully_updated: زانیاریەکانى رولەکە  بەسەركەوتووى نوێکرا.
     transfer_label: دەتوانرێت ئەم رولە بو گواستنەوە بەکاربێت؟
@@ -2013,165 +838,58 @@ ku:
   saved_search:
     deleted: بەدواگەران بەسەركەوتووى سرييەوە
     filters_tab: فیلتەرەکان
-    no_filters: ""
     save_success: بەدواگەران بەسەركەوتووى خەزنکرا
     saved_searches_tab: لێگەریانى حەزنکراو
-    title_description: ""
-    title_modal: ""
   saved_searches:
     no_save_searches: هیچ لێگەریانێکى خەزنکراوت نیە
     save_search: لێگەریانى خەزنکراو
-  settings:
-    navigation:
-      agencies: ""
-      audit_logs: ""
-      configurations: ""
-      contact_information: ""
-      forms: ""
-      locations: ""
-      lookups: ""
-      user_groups: ""
-      users: ""
-      roles: ""
-    title: ""
   system_settings:
     label: رێکخستنێن سیستەمى
   task:
     due_date: رێککەوتى گونجاو
     id: ناسنامە#
-    name: ""
-    priorities:
-      high_level: ""
-      low_level: ""
-      medium_level: ""
-      no_action_level: ""
     priority: ئاستى پێشى
-    status: ""
-    statuses:
-      overdue: ""
-      upcoming_soon: ""
     type: جورى کردار
     types:
       assessment: هەلسەنگاندن
       case_plan: پلانی كەیسەكە
-      follow_up: "دوزینەوەى١ %{subtype}"
-      service: "خزمەتگوزارى١%{subtype}"
+      follow_up: دوزینەوەى١ %{subtype}
+      service: خزمەتگوزارى١%{subtype}
   tracing_request:
     messages:
       update_success: 'داخوازیى بەدواداچون %{record_id} بە سەرکەوتووى نوێکرا'
-      creation_success: ""
-      update_success_queue: ''
-      creation_success_queue: ""
   tracing_requests:
-    date_of_inquiry: ""
-    id: ""
-    filter_by:
-      by_date: ""
-      location_separation: ""
-      separation_cause: ""
-      status: ""
-    label: ""
-    name_of_inquirer: ""
     register_new_tracing_request: داخوازی  نوێى بەدواداچون
     selectable_date_options:
       inquiry_date: رێککەوتى لێکولینەوە
-    selected_records: ''
-    selected_all_records: ''
-    show_tracing_request: ''
-    tracing_requests: ""
-    export: ""
   transfer:
     agency_label: دامەزراوە
-    consent_from_individual_label: ""
     consent_label: تۆمار رەزامەندييان دەستەبەر نەكردووە.
     consent_override_label: دەتەوێت ئەم رێکخستنە لەکاربێخیت؟
     is_remote_label: ئایا بو سیستەمێکى بنەرەت دەنێریت؟
     location_label: شوێن
     notes_label: تێبینیەکان
-    provided_consent_label: ""
-    recipient_label: ""
-    select_label: ""
-    success: ""
-    transfer_label: ""
-    user_mandatory: ""
-  transfer_assignment:
-    title: ""
-  transition:
-    assigned_by: ""
-    consent_individual_transfer_value:
-      true_label: ''
-      false_label: ''
-    consent_overridden_value:
-      false_label: ''
-      true_label: ''
-    errors:
-      consent: ""
-      to_user_can_receive: ""
-    individual_consent: ""
-    no_consent_share: ""
-    notes: ""
-    recipient: ""
-    rejected: ""
-    service_label: ""
-    status:
-      accepted: ""
-      done: ""
-      in_progress: ""
-      inprogress: ""
-      pending: ""
-      rejected: ""
-    type:
-      assign: ""
-      reassign: ""
-      referral: ""
-      transfer: ""
-      transferRequest: ""
   user:
     agency_office: ئۆفیسی دامەزراوە
     code: کۆدى بەکارهێنەر
     disabled: لەکارخست
-    email: ""
     full_name: ناوى سێقولى
-    identity_provider: ""
-    invalid_provider_username: ''
-    locale: ""
     location: شوێن
     messages:
       confirmation: دلنیایى دەتەوێ ئەم بەکارهێنەرە بسریتەوە؟ سرینەوە هەلناوەشێنرێت. کلیک لەسەر باشە بکە بو سرینەوەى بەکارهێنەر
       created: بەکارهێنەر بەسەركەوتووى دروستکرا
-      failure: ""
-      new_confirm_html: ""
-      new_confirm_non_identity_html: ""
       not_found: بەکارهێنەر بەم ناسناوە نەدوزرا
       password_changed_successfully: ژمارەى نهێنى بەسەركەوتووى گورا
       passwords_do_not_match: لەگەر ژمارەى نهێنى کارپێکراو ناگونجێت
       time_zone_updated: گورانکارى بەسەركەوتووى نوێکرا
       updated: بەکارهێنەر بەسەركەوتووى  نوێکرا
     organization: رێکخراو
-    password: ""
-    password_confirmation: ""
-    phone: ""
     position: پۆست
-    provider_username_help: ''
-    role_id: ""
     send_mail: وەرگرتنى وریاکردنەوەى ئیمێل؟
-    user_group_unique_ids: ""
-    user_name: ""
   user_group:
     description: وەسفکردن
-    disabled:
-      explanation: ""
-      label: ""
-    messages:
-      created: ""
-      updated: ""
     name: ناو
   user_groups:
     label: گروپەکانى بەکارهێنەر
   users:
     label: بەکارهێنەرەکان
-    headers:
-      full_name: ""
-      user_name: ""
-      position: ""
-      agency: ""

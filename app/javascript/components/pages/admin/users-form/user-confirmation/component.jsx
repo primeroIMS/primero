@@ -1,11 +1,11 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../../i18n";
+import { getRoleName } from "../../../../application/selectors";
 import ActionDialog from "../../../../action-dialog";
 import { saveUser } from "../action-creators";
-import { ROLE_OPTIONS } from "../constants";
 
 import { NAME } from "./constants";
 
@@ -24,6 +24,7 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const roleName = useSelector(state => getRoleName(state, userData.role_unique_id));
 
   const handleOk = () => {
     setPending(true);
@@ -50,9 +51,6 @@ const Component = ({
     ? identityOptions.find(currentIdentity => currentIdentity.id === userData.identity_provider_id) || {}
     : "";
 
-  const { display_text: roleDisplayText } =
-    ROLE_OPTIONS.find(currentRole => currentRole.id === userData.role_unique_id) || {};
-
   const dialogContent = (
     <p
       // eslint-disable-next-line react/no-danger
@@ -60,7 +58,7 @@ const Component = ({
         __html: i18n.t(`user.messages.new_confirm_${isIdp ? "" : "non_identity_"}html`, {
           username: userName,
           identity: identityDisplayText,
-          role: roleDisplayText,
+          role: roleName,
           email: userData.email
         })
       }}

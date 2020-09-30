@@ -16,8 +16,8 @@ export const SEPARATOR = "separator";
 export const RADIO_FIELD = "radio_button";
 export const TOGGLE_FIELD = "toggle_field";
 export const PHOTO_FIELD = "photo_upload_box";
-// export const DOCUMENT_FIELD = "document_upload_box";
-// export const AUDIO_FIELD = "audio_upload_box";
+export const DOCUMENT_FIELD = "document_upload_box";
+export const AUDIO_FIELD = "audio_upload_box";
 // export const NAME_FIELD = "name";
 export const ERROR_FIELD = "error_field";
 export const PARENT_FORM = "parent_form";
@@ -30,7 +30,9 @@ export const OPTION_TYPES = {
   FORM_GROUP: "FormGroup",
   LOOKUPS: "Lookups",
   USER: "User",
-  REPORTING_LOCATIONS: "ReportingLocation"
+  REPORTING_LOCATIONS: "ReportingLocation",
+  USER_GROUP: "UserGroup",
+  ROLE: "Role"
 };
 
 export const CUSTOM_LOOKUPS = [OPTION_TYPES.USER, OPTION_TYPES.AGENCY, OPTION_TYPES.LOCATION];

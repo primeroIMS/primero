@@ -1,88 +1,35 @@
-# encoding: utf-8
-#
-# This is the English localization file for Primero.  It is based on the sample
-# English localization file found in the repository linked below[1].
-#
-# Anyone editing this file is strongly encouraged to use yamllint[2] to ensure
-# that this document remains valid YAML.
-#
-# [1] https://github.com/svenfuchs/rails-i18n/
-# [2] https://yamllint.readthedocs.io/en/stable/
-
-
----
 th:
   'true': 'ใช่'
   'false': 'ไม่ใช่'
   cancel: ยกเลิก
-  connection_lost: ""
-  connected: ""
   clear: ชัดเจน
   description: รายละเอียด
-  offline: ""
   yes_label: 'ใช่'
-
   actions:
-    approvals: ""
     button: ปฏิบัติการ
-    change_log: ""
-    close: ""
     description:
       invalid: บันทึกไม่ถูกต้อง
       valid: บันทึกถูกต้อง
     disable: ปิดการใช้งาน
     enable: เปิดการใช้งาน
     incident_details_from_case: เพิ่มเหตุการณ์
-    next: ""
-    notes: ""
-    previous: ""
     reopen: เปิดใช้งานอีกครั้ง
-    request_approval: ""
-    revoke: ""
-    save: ""
-    services_from_case_creation_success: ""
     services_section_from_case: เพิ่มการจัดบริการ
   agencies:
     label: หน่วยงาน
   agency:
-    agency_logos: ""
     code: รหัสหน่วยงาน
-    description: ""
-    disabled: ""
-    logo_enabled: ""
-    logo_enabled_help: ""
-    logo_icon: ""
-    logo_icon_help: ""
-    logo_large: ""
-    logo_large_help: ""
-    messages:
-      created: ""
-      updated: ""
     name: ชื่อหน่วยงาน
     services: บริการของหน่วยงาน
   approvals:
-    approved_by: ""
-    case_plan_type_label: ""
-    manager_comments_label: ""
-    rejected_by: ""
-    requested_by: ""
-    requested_for_label: ""
-    requested_for_title: ""
-    response_for_label: ""
-    response_for_title: ""
-    action_plan: ""
-    gbv_closure: ""
     status:
       approved: อนุมัติ
       pending: อยู่ระหว่างดำเนินการ
       rejected: ไม่อนุมัติ
-      requested: ""
   audit_log:
     action: การปฏิบัติการ
     description: รายละเอียด
     record_owner: เจ้าของบันทึก
-    timestamp: ""
-    user_name: ""
   bulk_export:
     file_name: แฟ้ม
     record_type: ประเภท
@@ -91,33 +38,23 @@ th:
     status: สถานะ
   buttons:
     accept: ยอมรับ
-    add: ""
-    add_another_option: ""
     add_note: เติมรายละเอียด
-    apply: ""
     approvals: อนุมัติ
-    approve_action_plan: ""
     approve_bia: อนุมัติ BIA
     approve_case_plan: อนุมัติแผนรายกรณี
     approve_closure: อนุมัติการยุติบริการ
-    approve_gbv_closure: ""
     back: ย้อนกลับ
     bundle_export: ชุดการกำหนดค่า
     bundle_import: ชุดการกำหนดค่า
     cancel: ยกเลิก
     change_password: เปลี่ยนรหัสผ่าน
-    clear_default: ""
-    clear_selection: ""
-    close: ""
-    continue: ""
     create_case: สร้างแฟ้มรายกรณี
     create_incident: สร้างเหตุการณ์
-    create_new_record: "สร้าง %{model}ใหม่"
+    create_new_record: สร้าง %{model}ใหม่
     delete: ลบทิ้ง
     disable: ปิดการใช้งาน
     disable_photo_wall: ปิดการใช้งานผนังภาพ
     done: ดำเนินการเสร็จสิ้น
-    download: ""
     edit: แก้ไข
     edit_subform: แก้ไขแบบฟอร์มย่อย
     enable: เปิดการใช้งาน
@@ -128,51 +65,33 @@ th:
     filter_label: 'ตัวกรอง'
     filter_restore: กู้คืนการตั้งค่าระบบ
     find_tracing_match: ค้นหาการจับคู่การติดตาม
-    flag_model: "แจ้งเตือน %{model}"
+    flag_model: แจ้งเตือน %{model}
     flag_records: แจ้งเตือน
-    flags: ""
-    guidance: ""
-    guiding_questions: ""
     import: นำเข้า
     login: เข้าใช้งาน
-    logout: ""
     mark_for_mobile: เลือกสำหรับการใช้งานบนมือถือ
-    new: ""
     ok: ตกลง
-    reassign: ""
-    referral: ""
-    referral_again: ""
     reject: ปฏิเสธ
     remove_referrals: ยกเลิกการส่งต่อ
-    reorder: ""
     request_approval: ขออนุมัติ
     request_transfer: คำร้องขอส่งต่อ
     reunite: คืนสู่ครอบครัว
     save: บันทึก
     save_and_add_service_provision: บันทึกและเพิ่มการจัดบริการ
-    save_changes: ""
-    select: ""
     sort_by_case: กรณี
     sort_by_tr: ติดตามคำร้อง
     submit: ส่งข้อมูล
-    transfer: ""
-    unflag_model: "ยกเลิกการแจ้งเตือน%{model}"
-    unflag_model_history: "ประวัติการแจ้งเตือน%{model}"
+    unflag_model: ยกเลิกการแจ้งเตือน%{model}
+    unflag_model_history: ประวัติการแจ้งเตือน%{model}
     unmark_for_mobile: ยกเลิกการเลือกสำหรับการใช้งานบนมือถือ
-    update: ""
     view: ดูรายละเอียด
     view_flags_history: ดูประวัติ
-
   case:
     create_new_case: สร้างรายกรณีใหม่
     enter_id_number: ใส่เลขประจำตัวเพื่อค้นหาบันทึกที่มีอยู่แล้ว
-    id_search_no_results: ""
     messages:
-      case_disabled: ""
       update_success: 'อัปเดตรายกรณี%{record_id}สำเร็จแล้ว'
-      update_success_queue: ''
       creation_success: 'สร้างบันทึกรายกรณีสำเร็จแล้ว'
-      creation_success_queue: ''
     workflow:
       assessment: การประเมิน
       case_plan: แผนงานรายกรณี
@@ -185,160 +104,38 @@ th:
       service_implemented: การบริการที่ดำเนินการ
       services_implemented: การบริการที่ดำเนินการ
   cases:
-    action_plan: ""
-    age: ""
-    age_estimated: ""
-    agency: ""
     apply_filter: ใช้
-    approval_comments: ""
-    approval_radio: ""
-    approval_radio_accept: ""
-    approval_radio_reject: ""
-    approval_select: ""
-    approved_success_action_plan: ''
-    approved_success_assessment: ''
-    approved_success_bia: ''
-    approved_success_case_plan: ''
-    approved_success_closure: ''
-    approved_success_gbv_closure: ''
-    assessment: ""
-    case_opening_date: ""
-    case_plan: ""
-    case_worker_code: ""
     clear_filter: ชัดเจน
-    close_dialog: ""
-    close_dialog_title: ""
-    close_success: ""
-    closure: ""
-    date_of_birth: ""
-    disable_dialog: ""
-    disable_dialog_title: ""
-    disable_success: ""
-    enable_dialog: ""
-    enable_dialog_title: ""
-    enable_success: ""
     export: ส่งออก
     filter_by:
       3month_inactivity: สำหรับ 3 เดือนขึ้นไป
-      action_plan: ""
-      age_0_5: ""
-      age_12_17: ""
-      age_18_more: ""
-      age_6_11: ""
-      age_range: ""
-      agency: ""
-      approval_status: ""
       approvals:
         approved: อนุมัติ
-        pending: ""
         rejected: ไม่อนุมัติ
-      bia: ""
-      by_date: ""
-      case_open_date: ""
-      case_plan: ""
-      closed: ""
-      closure: ""
-      current_location: ""
       date: วันที่
-      displacement_status: ""
-      district: ""
-      duplicate: ""
-      enabled_disabled: ""
       female: หญิง
-      flag: ""
-      flag_label: "มีการแจ้งเตือน?"
-      gbv_closure: ""
-      high: ""
-      low: ""
+      flag_label: มีการแจ้งเตือน?
       male: ชาย
-      medium: ""
-      mobile: ""
-      mobile_label: "เลือกสำหรับการใช้งานบนมือถือ?"
+      mobile_label: เลือกสำหรับการใช้งานบนมือถือ?
       my_cases: รายกรณีของฉัน
-      no_action: ""
       no_activity: ไม่มีกิจกรรม
-      open: ""
-      other: ""
-      photo: ""
-      photo_label: "มีรูปภาพหรือไม่?"
-      protection_concerns: ""
-      protection_status: ""
-      record_state: ""
+      photo_label: มีรูปภาพหรือไม่?
       referred_cases: รายกรณีที่ถูกส่งต่อให้ฉัน
-      registration_date: ""
-      risk_level: ""
-      sex: ""
-      social_worker: ""
-      status: ""
-      transferred: ""
-      type_of_risk: ""
-      urgent_protection_concern: ""
-      user_group: ""
       workflow: รายกรณีตามขั้นตอนการทำงาน
     flag_summary: สรุปการแจ้งเตือน
-    full_name: ""
-    gbv_closure: ""
     hide_name: ซ่อนชื่อ
     hide_name_error: มีความผิดพลาดในการบันทึกสิ่งที่ปรับเปลี่ยน กรุณาลองใหม่อีกครั้ง
-    id: ""
     label: กรณี
     my_filters: ตัวกรองของฉัน
-    name: ""
-    notes_dialog_title: ""
-    notes_form_notes: ""
-    notes_form_subject: ""
     ok: ตกลง
     order_by:
       label: จัดลำดับตาม
       most_recently: ล่าสุด
       name: ชื่อ
-    owned_by: ""
-    owned_by_agency: ""
-    photos: ""
     quick_view:
       tracing_message: 'หมายเหตุ: มีบันทึกในระบบว่ามีคนตามหาเด็กคนนี้ ติดต่อนักสังคมสงเคราะห์ที่ดูแลบันทึกนี้เพื่อดำเนินการต่อหากเป็นความประสงค์ของเด็ก'
-    referral_done: ""
-    referral_done_success: ""
     register_new_case: กรณีใหม่
-    registration_date: ""
-    rejected_success_action_plan: ''
-    rejected_success_assessment: ''
-    rejected_success_bia: ''
-    rejected_success_case_plan: ''
-    rejected_success_closure: ''
-    rejected_success_gbv_closure: ''
-    reopen_dialog: ""
-    reopen_dialog_title: ""
-    reopen_success: ""
-    request_approval_failure: ""
-    request_approval_select: ""
-    request_approval_success_action_plan: ""
-    request_approval_success_assessment: ""
-    request_approval_success_case_plan: ""
-    request_approval_success_closure: ""
-    request_approval_success_gbv_closure: ""
-    request_approval_type_of_case_plan: ""
-    request_approve_action_plan: ""
-    request_approve_bia: ""
-    request_approve_case_plan: ""
-    request_approve_closure: ""
-    request_approve_gbv_closure: ""
-    revoke_failure: ""
-    revoke_message: ""
-    revoke_success_message: ""
     save_filter: บันทึก
-    selected_all_records: ""
-    selected_records: ''
-    sex: ""
-    show_case: ''
-    social_worker: ""
-    status: ""
-    survivor_code: ""
-    transfer_accepted: ""
-    transfer_accepted_rejected: ""
-    transfer_accepted_success: ""
-    transfer_reject_reason_label: ""
-    transfer_rejected: ""
     view_name: แสดงชื่อ
   children:
     selectable_date_options:
@@ -346,26 +143,7 @@ th:
       closure_approved_date: 'วันที่ยุติบริการ'
       created_at: วันที่เปิดรายกรณี
       date_case_plan_initiated: วันที่วางแผนรายกรณี
-      date_of_creation: ""
       registration_date: วันที่ขึ้นทะเบียน
-  configurations:
-    attributes:
-      created_by: ""
-      date_created: ""
-      description: ""
-      last_applied_by: ""
-      last_applied_on: ""
-      name: ""
-      version: ""
-    delete_label: ""
-    explanation: ''
-    label: ""
-    label_new: ""
-    messages:
-      created: ""
-      deleted: ""
-      updated: ""
-    not_allowed: ""
   contact:
     field:
       email: อีเมล
@@ -375,51 +153,19 @@ th:
       other_information: ข้อมูลอื่นๆ
       phone: โทรศัพท์
       position: ตำแหน่ง
-      primero_version: ""
-      support_forum: ""
-      system_version: ""
     info_label: ข้อมูลการติดต่อ
     updated: อัปเดตข้อมูลการติดต่อสำเร็จแล้ว
   dashboard:
     activity: กิจกรรม
-    admin_only: "คลิกที่ %{links} เพื่อทำการเปลี่ยนแปลงแอปพลิเคชัน"
+    admin_only: คลิกที่ %{links} เพื่อทำการเปลี่ยนแปลงแอปพลิเคชัน
     all_cases: รายกรณีทั้งหมด
     all_services_implemented: การบริการทั้งหมดที่ดำเนินการ
     and: 'และ'
-    approval_action_plan_approved: ""
-    approval_action_plan_pending: ""
-    approval_action_plan_pending_group: ""
-    approval_action_plan_rejected: ""
-    approval_assessment_approved: ""
-    approval_assessment_pending: ""
-    approval_assessment_pending_group: ""
-    approval_assessment_rejected: ""
-    approval_case_plan_approved: ""
-    approval_case_plan_pending: ""
-    approval_case_plan_pending_group: ""
-    approval_case_plan_rejected: ""
-    approval_closure_approved: ""
-    approval_closure_pending: ""
-    approval_closure_pending_group: ""
-    approval_closure_rejected: ""
-    approval_gbv_closure_approved: ""
-    approval_gbv_closure_pending: ""
-    approval_gbv_closure_pending_group: ""
-    approval_gbv_closure_rejected: ""
     approvals: อนุมัติ
-    approvals_action_plan: ""
-    approvals_assessment: ""
-    approvals_case_plan: ""
-    approvals_closure: ""
-    approvals_gbv_closure: ""
     approved: อนุมัติ
     assessment: การประเมิน
-    awaiting_acceptance: ""
     case_id: 'หมายเลขประจำตัวรายกรณี'
-    case_management_service: ""
-    case_overview: ""
     case_plan: แผนรายกรณี
-    case_risk: ""
     case_stat_by_approval_type: การอนุมัติ
     case_stat_by_assessment_level: รายกรณีโดยระดับการประเมิน
     case_stat_referrals: การส่งต่อ
@@ -431,91 +177,60 @@ th:
     cases_this_week: รายกรณีสัปดาห์นี้
     cases_to_assign: รายกรณีที่ต้องมอบหมาย
     closed: ปิด ยุติ
-    closed_last_week: ""
-    closed_this_week: ""
     comprehensive_need_intervention: การตอบสนองที่ครอบคลุม
     count_new_bia_approvals:
       other: '%{stat} <span>%{stat_type}</span>การอนุมัติใหม่'
-
     count_new_case_plan_approvals:
       other: '%{stat} <span>%{stat_type}</span>การอนุมัติใหม่ '
-
     count_new_closure_approvals:
       other: '%{stat} <span>%{stat_type}</span>การอนุมัติใหม่'
-
     count_pending_approval_total:
-      other: 'คุณมี%{stat} <span>อยู่ระหว่างรอ %{stat_type}</span>การอนุมัติ'
-
+      other: คุณมี%{stat} <span>อยู่ระหว่างรอ %{stat_type}</span>การอนุมัติ
     count_pending_transfers:
-      other: 'คุณมี%{stat} <span>อยู่ระหว่างรอ</span>การโอนย้าย'
-
+      other: คุณมี%{stat} <span>อยู่ระหว่างรอ</span>การโอนย้าย
     count_records_new:
       other: และ %{stat} <span>ใหม่</span>รายกรณี
-
     count_records_total:
-      other: 'คุณมี %{stat} <span>รวมทั้งหมด</span>รายกรณี'
-
+      other: คุณมี %{stat} <span>รวมทั้งหมด</span>รายกรณี
     count_referrals_new:
       other: และ %{stat} <span>การส่งต่อใหม่ </span>
-
     count_referrals_total:
-      other: 'คุณมี%{stat} <span>รวมทั้งหมด</span>การส่งต่อ'
-
+      other: คุณมี%{stat} <span>รวมทั้งหมด</span>การส่งต่อ
     count_rejected_approval_total:
-      other: 'และ %{stat} <span>ปฏิเสธ%{stat_type}</span>การอนุมัติ'
-
+      other: และ %{stat} <span>ปฏิเสธ%{stat_type}</span>การอนุมัติ
     count_rejected_transfers:
-      other: 'และ%{stat} <span>ปฏิเสธ</span>การโอนย้าย'
-
+      other: และ%{stat} <span>ปฏิเสธ</span>การโอนย้าย
     count_risk_level_new:
       other: และ %{stat} <span>ใหม่</span> <span>%{stat_type} ความเสี่ยง </span> รายกรณี
-
     count_risk_level_total:
-      other: 'คุณมี %{stat} <span>%{stat_type} ความเสี่ยง </span> รายกรณี'
-
-    count_waiting_for_acceptance_transfers: "คุณมี%{stat}การโอนย้าย <span>รอ</span>การตอบรับของคุณ"
+      other: คุณมี %{stat} <span>%{stat_type} ความเสี่ยง </span> รายกรณี
+    count_waiting_for_acceptance_transfers: คุณมี%{stat}การโอนย้าย <span>รอ</span>การตอบรับของคุณ
     current_owner: เจ้าของปัจจุบัน
-    dash_case_incident_overview: ""
-    dash_group_overview: ""
-    dash_shared_from_my_team: ""
-    dash_shared_with_me: ""
-    dash_shared_with_my_team: ""
-    dash_shared_with_others: ""
     date: วันที่
     date_of_incident: วันที่เกิดเหตุการณ์
     date_of_interview: วันที่สัมภาษณ์
     due: เกินกำหนด
-    flagged: ""
     flagged_by: 'แจ้งเตือนโดย'
     flagged_by_me: แจ้งเตือนโดยฉัน
     flagged_by_other: แจ้งเตือนโดยบุคคลอื่น
     follow_up: การติดตาม
     forms: แท็บ "แบบฟอร์ม"
     geographic_area: พื้นที่ทางภูมิศาสตร์
-    group_overview_closed: ""
-    group_overview_open: ""
-    high_level: ""
     high_risk: ลำดับความสำคัญสูง
     immediate_response: การตอบสนองทันที
-    in_progress: ""
     incident_id: 'หมายเลขประจำตัวเหตุการณ์'
     incident_location: สถานที่เกิดเหตุการณ์
     incident_status_open: เปิด
     last_updated: อัปเดตล่าสุด
     link_see_all: ดูทั้งหมด
-    low_level: ""
     low_risk: ลำดับความสำคัญต่ำ
     manager_count_closed_total:
-      other: 'และ%{stat} <span>ปิด</span>รายกรณี'
-
+      other: และ%{stat} <span>ปิด</span>รายกรณี
     manager_count_open_total:
-      other: 'คุณมี%{stat} <span>เปิด</span>รายกรณี'
-
+      other: คุณมี%{stat} <span>เปิด</span>รายกรณี
     manager_transfers_totals:
-      other: 'คุณมี%{stat} <span>%{stat_type}</span>การโอนย้าย'
-
+      other: คุณมี%{stat} <span>%{stat_type}</span>การโอนย้าย
     match_result: ผลลัพธ์การจับคู่
-    medium_level: ""
     medium_risk: ลำดับความสำคัญปานกลาง
     missed_cases: รายกรณีที่ขาดหายไป
     name: ชื่อ
@@ -525,11 +240,8 @@ th:
     new_child_assigned_to_you: รายกรณีใหม่ที่มอบหมายให้คุณ
     new_incident: เหตุการณ์ใหม่
     new_incident_assigned_to_you: เหตุการณ์ที่ได้รับมอบหมายใหม่
-    new_last_week: ""
-    new_or_updated: ""
     new_referred: การส่งต่อใหม่
     new_service_provision: การจัดบริการใหม่
-    new_this_week: ""
     no_action_risk: ไม่มีการปฏิบัติการ
     no_case_stats: ไม่มีสถานะรายกรณี status พิมพ์ผิดป่าว
     no_caseworker_data: ไม่มีข้อมูลผู้ดูแลรายกรณี
@@ -546,12 +258,9 @@ th:
     open: เปิด
     open_cases: รายกรณีที่เปิดค้างอยู่
     open_incidents: เหตุการณ์ที่เปิดอยู่
-    outstanding_transfers: ""
     overdue_activities: กิจกรรมที่เกินกำหนด
     overdue_cases_to_assign: รายกรณีเกินกำหนดที่ต้องมอบหมาย
-    overview: ""
     pending: อยู่ระหว่างดำเนินการ
-    pending_approvals: ""
     pending_transfers: รอการโอนย้าย
     protection_concern: ประเด็นการคุ้มครอง
     protection_concerns: ประเด็นการคุ้มครอง
@@ -563,26 +272,13 @@ th:
     recently_flagged_child: กรณีที่แจ้งเตือนในช่วงเวลาที่ผ่านมา
     recently_flagged_incident: เหตุการณ์ที่แจ้งเตือนในช่วงเวลาที่ผ่านมา
     referrals_by_social_worker: การส่งต่อโดยนักสังคมสงเคราะห์
-    registration: ""
     rejected: ไม่อนุมัติ
     rejected_transfers: ปฏิเสธการโอนย้าย
     response: การตอบสนอง <span>(อยู่ระหว่างดำเนินการ)</span>
     scheduled_activities: กิจกรรมที่กำหนดไว้
     score_range: ช่วงคะแนน
-    screening_service: ""
     services: บริการ
     services_implemented: การบริการที่ดำเนินการ
-    shared_from_my_team_pending_transfers: ""
-    shared_from_my_team_referrals: ""
-    shared_from_my_team_rejected_transfers: ""
-    shared_with_me_new_referrals: ""
-    shared_with_me_total_referrals: ""
-    shared_with_me_transfers_awaiting_acceptance: ""
-    shared_with_my_team_pending_transfers: ""
-    shared_with_my_team_referrals: ""
-    shared_with_others_pending_transfers: ""
-    shared_with_others_referrals: ""
-    shared_with_others_rejected_transfers: ""
     status_of_cases: สถานะรายกรณี
     system_user: ระบบ
     total: รวม
@@ -593,24 +289,16 @@ th:
     transfers_by_social_worker: การโอนย้ายโดยนักสังคมสงเคราะห์
     users: ไอคอน "การตั้งค่า"
     violence_type: ประเภทของความรุนแรง
-    with_incidents: ""
-    without_incidents: ""
     worker_count_referrals_total:
-      other: '<span>%{case_worker}</span>มี%{stat} <span>การส่งต่อรวมทั้งหมด</span>'
-
+      other: <span>%{case_worker}</span>มี%{stat} <span>การส่งต่อรวมทั้งหมด</span>
     worker_count_total:
-      other: '<span>%{case_worker}</span>มี%{stat} <span>รวม</span>รายกรณี'
-
-    workflow: ""
-    workflow_team: ""
+      other: <span>%{case_worker}</span>มี%{stat} <span>รวม</span>รายกรณี
     you_have: 'คุณมี'
   disabled:
     status:
       disabled: ปิดการใช้งาน
       enabled: เปิดการใช้งาน
   email_notification:
-    assign: ''
-    assign_subject: ''
     approval_request: 'ผู้ใช้งาน %{user} กำลังขอนุมัติ %{approval_type} แก่รายกรณี %{case_id}'
     approval_request_subject: 'รายกรณี: %{id} - ขอการอนุมัติ'
     approval_response: '%{user}มี%{status}การขออนุมัติ%{approval_type}สำหรับรายกรณี%{case_id}'
@@ -625,29 +313,16 @@ th:
     approval_response_html: '<strong>%{user}</strong>มี<strong>%{status}</strong>การขออนุมัติ<strong>%{approval_type}</strong> สำหรับรายกรณี<strong>%{case_id}</strong>'
     referral_html: '<strong>%{user}</strong>จาก%{agency}ได้ส่งต่อ%{record_type}มาให้คุณ: <strong>%{record_id}</strong>เพื่อ%{service_type}'
     transfer_html: '<strong>%{user}</strong>ได้โอน%{record_type}มาให้คุณ: <strong>%{record_id}</strong>'
-    assign_html: ''
     transfer_request_html: '<strong>%{user}</strong> ผู้ใช้ Primero จาก %{agency} ขอให้คุณโอนความเป็นเจ้าของของบันทึก %{record_type}<strong>%{record_id}</strong>นี้ เพื่อให้พวกเขาสามารถให้บริการการจัดการ %{record_type}สำหรับบุคคลในพื้นที่ของพวกเขา หากคุณยอมรับการโอนนี้ กรุณาคลิก ลิงค์หมายเลขประจำตัว %{record_type}ในอีเมลนี้เพื่อเปิด %{record_type}ใน Premero และเริ่มการโอน'
     transfer_request_notes_html: 'หมายเหตุจากบุคคลที่ทำการร้องขอ: %{request_transfer_notes}'
   encrypt:
-    export_type: ""
     file_name: สร้างชื่อไฟล์ของคุณเอง (ไม่จำเป็น)
-    password_extra_info: ""
     password_label: กรุณาใส่รหัสผ่านที่จะเข้ารหัสไฟล์ของคุณ
-  error_message:
-    address_fields: ""
-    address_form_fields: ""
-    address_subform_fields: ''
   error_page:
-    not_authorized:
-      code: 403
-      server_error: ""
-      title: ""
     not_found:
-      code: 404
       contact_admin: หาคุณเข้ามาด้วยความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ
       something_went_wrong: ขออภัย มีบางอย่างผิดพลาด!
   errors:
-    error_loading: ""
     models:
       child:
         age: อายุต้องอยู่ระหว่าง 0 ถึง 130
@@ -655,8 +330,6 @@ th:
       export_configuration:
         opt_out_field_does_not_exist: ช่อง "เลือกออก" ที่ระบุไม่มีอยู่ในบันทึก
         record_type: ประเภทบันทึกไม่ถูกต้อง ต้องเป็น "เด็ก" "การติดตามคำร้อง" หรือ "เหตุการณ์"
-      field:
-        translated_options_do_not_match: ""
       location:
         admin_level_present: ต้องไม่เว้นว่าง
         code_present: ต้องไม่เว้นว่าง
@@ -665,10 +338,8 @@ th:
       lookup:
         being_used: กำลังมีการใช้งานการค้นหานี้ และไม่สามารถลบได้
         name_present: ชื่อต้องไม่เว้นว่าง
-        values_ids_blank: ""
       primero_module:
         associated_record_types: ต้องมีชนิดของแบบฟอร์มอย่างน้อยหนึ่งชนิดเชื่อมโยงกับโมดูลนี้
-        form_section_ids: ""
         name_present: ชื่อต้องไม่เว้นว่าง
         unique_name: มีโมดูลที่ใช้ชื่อนั้นแล้ว โปรดใส่ชื่ออื่น
       report:
@@ -679,8 +350,6 @@ th:
         permission_presence: โปรดเลือกการอนุญาตอย่างน้อยหนึ่งรายการ
       user:
         password_mismatch: ช่องรหัสผ่านไม่มีรหัสผ่านเดียวกัน
-    not_found: ""
-    try_again: ""
   exports:
     case_pdf:
       all: PDF
@@ -690,10 +359,7 @@ th:
       all: CSV
       one: CSV
       selected: เลือกไปยัง CSV
-    custom:
-      all: ""
     custom_exports:
-      all: ""
       choose_fields: คุณต้องการเลือกแต่ละช่องสำหรับแบบฟอร์มหรือไม่
       empty_fields_forms: กรุณาเลือกแบบฟอร์มหรือช่องที่จะส่งออก
       empty_format: กรุณาเลือกรูปแบบที่จะส่งออก
@@ -716,22 +382,13 @@ th:
         case_id: เลขประจำตัวรายกรณี
         child_name_last_first: ชื่อเด็ก
         family_size: ขนาดครอบครัว
-        moha_id: ""
         national_id_no: หมายเลขประจำตัวประชาชน
-        progress_id: ""
         sex_mapping_m_f_u: เพศ
       male_abbreviation: ช
       unknown_abbreviation: ไม่ทราบ
-    exported: ""
-    exported_error: ""
     forms:
       button: ส่งออกแบบฟอร์ม
       label: ส่งออก
-    go_to_exports: ""
-    incident_recorder_xls:
-      all: ""
-      one: ""
-      selected: ""
     json:
       all: JSON
       one: JSON
@@ -745,26 +402,18 @@ th:
       selected: เลือกไปยังการละเมิด MRM
     no_records: ไม่มีบันทึกที่ต้องการ
     pdf:
-      all: ""
       one: PDF
       selected: เลือกเป็น PDF
     pdf_exports:
       label: PDF
     photowall:
       all: ผนังภาพ
-      flag_suspect_record: ""
-      no_photos_available: ""
       one: ผนังภาพ
-      reunited: ""
       selected: เลือกไปยังผนังภาพ
-      success_message: ""
-    printed: ''
-    queueing: ""
     selected_xls:
       all: Excel
       one: Excel
       selected: เลือกไปยัง Excel
-      selected_fields: ""
     unhcr_csv:
       all: UNHCR
       female_abbreviation: ญ
@@ -776,23 +425,16 @@ th:
         cpims_code: รหัส CPIMS
         current_care_arrangement: การจัดการการดูแลในปัจจุบัน
         date_of_birth: วันเกิด
-        date_of_identification: ""
         family_count_no: หมายเลขครอบครัว
         governorate_country: เขตการปกครอง - ประเทศ
         id: เลขประจำตัว
-        individual_progress_id: ""
-        locations_by_level: ""
-        long_id: ""
-        moha_id: ""
         name_of_caregiver: ชื่อเต็มของผู้ให้ความดูแล
         name_of_child_last_first: ชื่อเต็มของเด็ก
         primary_protection_concerns: ประเด็นการคุ้มครองหลัก
-        progres_id: ""
         reunification_status: สถานะการคืนสู่ครอบครัว
         secondary_protection_concerns: ประเด็นการคุ้มครองรอง
         sex: เพศ
         sex_mapping_m_f_u: เพศ
-        short_id: ""
         vulnerability_code: รหัสความเปราะบาง รหัสภาวะเสี่ยง
         vulnerability_details_code: รหัสรายละเอียดภาวะเสี่ยง
       male_abbreviation: ช
@@ -807,22 +449,12 @@ th:
     action: การปฏิบัติการ
     actions: ปฏิบัติการ
     add: เพิ่ม
-    add_custom_field: ""
-    add_existing_field: ""
-    add_field: ""
-    add_field_type: ""
     audio:
       current: เสียงปัจจุบัน
-    bia_document: ""
-    bid_document: ""
     check_box: ช่องทำเครื่องหมาย
-    clear_group_by: ""
-    clear_sort_by: ""
-    create_field: ""
-    create_unique_values: ""
     date_field: ช่องวันที่
     date_help: วว-ดดด-ปปปป
-    date_help_with_time: "วว-ดดด-ปปปป ช.ม.:นาที"
+    date_help_with_time: วว-ดดด-ปปปป ช.ม.:นาที
     date_not_valid: วันที่ไม่ถูกต้อง
     date_range:
       date: วันที่
@@ -830,30 +462,16 @@ th:
       from: จาก
       to: ไปถึง
     date_range_field: ช่วงวันที่
-    date_time: ""
-    db_name: ""
-    default: ""
     default_date_validation: การตรวจสอบวันที่ที่เป็นค่าเริ่มต้น
-    default_to_current_date: ""
-    default_to_current_datetime: ""
-    default_value: ""
-    deleted: "ลบช่อง %{display_name}แล้ว"
-    detail: ""
-    disabled: ""
+    deleted: ลบช่อง %{display_name}แล้ว
     display_name: แสดงชื่อ
     document:
       comments: ความคิดเห็น
-      current: "นี่คือเอกสารปัจจุบันใช่หรือไม่?"
+      current: นี่คือเอกสารปัจจุบันใช่หรือไม่?
       date: วันที่เอกสาร
       name: ชื่อเอกสาร
-    edit_label: ""
-    enabled: ""
-    enabled_label: ""
-    english_text: ""
     field_name: ชื่อช่อง
-    field_type: ""
     file_upload_box:
-      add_document_label: ""
       add_new_document_button_text: เพิ่มเอกสารอื่น
       add_new_photo_button_text: เพิ่มรูปภาพอื่น
       add_photo_label: เพิ่มรูปภาพ
@@ -863,56 +481,26 @@ th:
       photo_file_restrictions_message: ไฟล์รูปภาพไม่ควรใหญ่กว่า 10 MB ไฟล์เสียงไม่ควรใหญ่กว่า 10 MB ยิ่งเล็กยิ่งดี
       recorded_audio_label: บันทึกเสียง
       select_file_button_text: เลือกไฟล์
-    find_lookup: ""
     form_name: ชื่อแบบฟอร์ม
-    future_date_not_valid: ""
-    guidance: ""
-    guiding_questions: ""
     help_text: ข้อความช่วยเหลือ
-    hide_on_view_page: ""
     label: ช่อง
-    mobile_visible: ""
     move_to: ย้ายไป
-    multi_select: ""
-    multi_select_box: ""
-    must_be_english: ""
-    name: ""
     not_future_date: ไม่ใช่วันที่ในอนาคต
     number_not_valid: กรุณากรอกข้อมูลตัวเลข
     numeric_field: ช่องตัวเลข
-    on_collapsed_subform: ""
     option_strings_add_option: เพิ่มตัวเลือก
     option_strings_source: การค้นหา
     option_strings_text: ตัวเลือก
     option_strings_text_display: ข้อความตัวเลือก
     option_strings_text_key: ปุ่มตัวเลือก
-    options_indications_lookup_values: ""
-    options_indications_restrictions: ""
     options_or_lookup_warning: กรุณาเพิ่มตัวเลือกหรือเลือกการค้นหา ห้ามกรอกทั้งสองอย่าง
-    other_documents: ""
-    predifined_lookups: ""
     radio_button: ปุ่มวิทยุ
     remove: ถอดออก เอาออก
-    required: ""
-    required_field: ''
-    select_box: "เลือกเลื่อนลง ?"
+    select_box: เลือกเลื่อนลง ?
     select_date_validation: เลือกวิธีการตรวจสอบวันที่
-    select_multiple: ""
-    select_single: ""
     separator: ผู้แบ่งแยก เครื่องแบ่งแยก
-    show: ""
-    show_on: ""
-    show_on_minify_form: ""
     subform: แบบฟอร์มย่อย
-    subform_group_by: ""
-    subform_remove_message: "คุณแน่ใจหรือไม่ว่าต้องการเอาแบบฟอร์มย่อยนี้ออก?"
-    subform_section:
-      description: ""
-      name: ""
-      starts_with_one_entry: ""
-      subform_append_only: ""
-      subform_prevent_item_removal: ""
-    subform_sort_by: ""
+    subform_remove_message: คุณแน่ใจหรือไม่ว่าต้องการเอาแบบฟอร์มย่อยนี้ออก?
     successfully_added: เพิ่มช่องสำเร็จแล้ว
     tally_field: ช่องนับจำนวน/คะแนน
     text_area: พื้นที่ข้อความ
@@ -920,102 +508,28 @@ th:
     textarea: พื้นที่ข้อความ
     tick_box: ช่องทำเครื่องหมาย
     tick_box_label: ป้ายชื่อช่องทำเครื่องหมาย
-    translation_text: ""
-    type: ""
     updated: อัปเดตช่องแล้ว
-    visibility: ""
-    web_app: ""
-  filters:
-    apply_filters: ""
-    clear_filters: ""
-    less: ""
-    more: ""
-    save_filters: ""
-  flags:
-    add_flag_tab: ""
-    date: ''
-    flag_added: ""
-    flag_date: ""
-    flag_reason: ""
-    flag_resolved: ""
-    flags_tab: ""
-    no_flags: ""
-    resolve_button: ""
-    resolve_flag: ""
-    resolve_reason: ""
-    resolved: ""
-    resolved_date: ''
-    resolved_reason: ''
-    title: ""
   followup_reminders:
     system_generated_followup_flag: การเข้าเยี่ยมเพื่อการติดตามที่บังคับ
   form_section:
-    form_name: ""
-    module: ""
     name: ชื่อ
-    record_type: ""
     required_field: 'ต้องระบุข้อมูลใน %{field}นี้'
   forms:
-    add: ""
-    description: ""
-    fields: ""
-    form_description: ""
-    form_group: ""
-    form_title: ""
-    help_text:
-      must_be_english: ""
-      related_groups: ""
-      summariaze_purpose: ""
-    invalid_characters_field: ''
     label: แบบฟอร์ม
-    manage: ""
     messages:
-      created: ""
-      save_success: ""
-      save_with_errors: ""
-      updated: ""
       use_existing: เราสนับสนุนให้คุณใช้แบบฟอร์มที่มีอยู่เพราะจะทำให้การแบ่งปันข้อมูลและการรวมข้อมูลระหว่างสถาบันง่ายขึ้น
-    mobile_app: ""
-    module: ""
-    no_subform_filters_added: ""
-    record_type: ""
     record_types:
-      approvals: ""
       case: รายกรณี
       child: รายกรณี
       incident: เหตุการณ์
-      individual_victim: ""
       potential_match: การจับคู่ที่มีศักยภาพ
-      record_information: ""
-      referrals: ""
       reportable_follow_up: การติดตาม
       reportable_protection_concern: ประเด็นการคุ้มครอง
       reportable_service: บริการ
       tracing_request: การติดตามคำร้อง
-      transfers_assignments: ""
       violation: การละเมิด
-    required_field: ''
-    select_label: ""
-    settings: ""
-    show_on: ""
-    subform_need_to_be_added: ""
-    subform_not_found: ""
-    title: ""
-    translations:
-      edit: ""
-      edit_form_group: ""
-      manage: ""
-      no_changes_message: ""
-      note: ''
-      note_form_group: ""
-      select_language: ""
-      title: ""
-    type_label: ""
-    visibility: ""
-    web_app: ""
   home:
     ar: العربية
-    ar-JO: ""
     ar-LB: العربية (اللبنانية)
     bn: বাংলা
     current_time_zone: โซนเวลาปัจจุบัน
@@ -1024,13 +538,11 @@ th:
     es: ภาษาสเปน
     fr: ภาษาฝรั่งเศส
     id: Bahasa
-    km: ""
     ku: کوردی
     label: หน้าหลัก
     language: ภาษา
     manage_system_users: จัดการผู้ใช้งานในการประสานข้อมูลเครื่องเสิร์ฟเวอร์
     my: ဗမာစာ
-    pt: ""
     records_need_attention: ข้อมูลที่ต้องให้ความสนใจ
     ru: Русский
     so: Af-Soomaali
@@ -1041,35 +553,17 @@ th:
     zh: ภาษาจีน
   incident:
     messages:
-      creation_success: ""
-      creation_success_queue: ""
       update_success: 'อัปเดตเหตุการณ์ %{record_id} สำเร็จแล้ว'
-      update_success_queue: ''
-    violation:
-      pending: ""
   incidents:
-    id: ""
-    date_of_interview: ""
-    date_of_incident: ""
-    export: ""
     label: เหตุการณ์
     filter_by:
       boys: เด็กชาย
-      by_date: ""
       girls: เด็กหญิง
-      incident_location: ""
-      unaccompanied_separated_status: ""
       unknown: ไม่ทราบ
-      violence_type: ""
     register_new_incident: เหตุการณ์ใหม่
     selectable_date_options:
       date_of_first_report: วันที่สัมภาษณ์
       incident_date_derived: วันที่เกิดเหตุ
-    selected_records: ''
-    selected_all_records: ''
-    show_incident: ''
-    social_worker: ""
-    violence_type: ""
   location:
     base_types:
       camp: ค่าย
@@ -1090,12 +584,10 @@ th:
       zone: เขต
   logger:
     approve_form:
-      action_plan: ""
       bia: แบบฟอร์ม BIA
       case_plan: แบบฟอร์มแผนรายกรณี
       closure: แบบฟอร์มการยุติบริการ
       'false': ปฏิเสธ
-      gbv_closure: ""
       'true': อนุมัติ
     by_user: โดยผู้ใช้งาน
     consent_count: การนับความยินยอม
@@ -1129,15 +621,12 @@ th:
     relinquish_referral: ยกเลิกการส่งต่อเสร็จสิ้น
     reopen_case: เปิดอีกครั้ง
     request_approval:
-      action_plan: ""
-      bia: "ขออนุมัติแบบฟอร์ม BIA "
+      bia: 'ขออนุมัติแบบฟอร์ม BIA '
       case_plan: ขออนุมัติแบบฟอร์มแผนรายกรณี
       closure: ขออนุมัติแบบฟอร์มการยุติบริการ
-      gbv_closure: ""
     request_transfer: ส่งคำขอโอนย้าย
     request_transfer_view: ดูการขอโอนย้าย
     save_subform: บันทึกแบบฟอร์มย่อย
-    search: ""
     show: ดู
     to: ไปยัง
     to_user: ไปยังผู้ใช้งาน
@@ -1151,51 +640,19 @@ th:
     label: เข้าใช้งาน
     password:
       label: รหัสผ่าน
-    provider_title: ""
-    title: ""
     username: ชื่อผู้ใช้งาน
   lookup:
     create: การค้นหาใหม่
-    enabled_label: ""
-    english_label: ""
     label: การค้นหา
-    language_label: ""
     messages:
       cannot_create: สร้างการค้นหาไม่ได้
       correct_errors: 'กรุณาแก้ไขข้อผิดพลาดต่อไปนี้และส่งอีกครั้ง'
-      created: ""
-      updated: ""
     name: ชื่อ
-    no_options: ""
-    translation_label: ""
     values: ตัวเลือก
   messages:
-    alert_items: ""
-    alerts_for:
-      approval: ""
-      field_change: ""
-      transfer_request: ""
-    cannot_edit: ""
     confirmation_message: หากเลือก "ตกลง" จะยกเลิกการเปลี่ยนแปลงที่ยังไม่ได้บันทึกทั้งหมด และกลับไปที่แถบตัวเลือก หากเลือก "ยกเลิก" จะกลับไปที่บันทึกที่ดำเนินการอยู่
-    dashboard_offline: ""
-    field_name_on_form_name: ''
-    logout_confirmation: ""
-    logout_warning: ""
-    no_changes: ""
   navigation:
-    bulk_exports: ""
-    cases: ""
-    home: ""
-    incidents: ""
-    logout: ""
-    reports: ""
     search: ค้นหา
-    settings: ""
-    support: ""
-    tasks: ""
-    tracing_request: ""
-  notes:
-    note_success: ""
   permissions:
     label: การอนุญาต
     permission:
@@ -1206,71 +663,35 @@ th:
       agency: หน่วยงาน
       agency_read: หน่วยงานอ่าน
       all: เข้าถึงบันทึกหรือผู้ใช้งานทั้งหมด
-      approvals_assessment: ''
-      approvals_assessment_pending: ''
-      approvals_case_plan: ''
-      approvals_case_plan_pending: ''
-      approvals_closure: ''
-      approvals_closure_pending: ''
-      approve_action_plan: ""
-      approve_assessment: ""
-      approve_case_plan: ""
-      approve_closure: ""
-      approve_gbv_closure: ""
       assign: มอบหมาย กำหนด
       assign_within_agency: มอบหมายภายในหน่วยงาน
       assign_within_user_group: มอบหมายภายในกลุ่มผู้ใช้งาน
       audit_log: บันทึกการตรวจสอบ
       case: รายกรณี
-      case_approvals: ""
-      case_assignments_referrals_transfers: ""
-      case_exports: ""
-      case_overview: ""
-      case_risk: ""
-      cases_by_task_overdue_assessment: ""
-      cases_by_task_overdue_case_plan: ""
-      cases_by_task_overdue_followups: ""
-      cases_by_task_overdue_services: ""
-      cases_managed_other_users: ""
-      close: ""
-      consent_override: ""
       copy: คัดลอก
       create: สร้าง
-      dash_case_incident_overview: ""
       dash_cases_by_social_worker: ดูรายกรณีโดยนักสังคมสงเคราะห์
       dash_cases_by_task_overdue: ดูรายกรณีโดยภารกิจที่เกินกำหนด
       dash_cases_by_workflow: ดูรายกรณีโดยขั้นตอนการทำงาน
       dash_cases_to_assign: ดูรายกรณีเพื่อมอบหมาย
-      dash_group_overview: ""
       dash_manager_transfers: ดูการโยกย้ายผู้จัดการ
       dash_matching_results: ดูผลลัพธ์การจับคู่
       dash_protection_concerns: ดูประเด็นการคุ้มครอง
-      dash_protection_concerns_by_location: ""
       dash_referrals_by_socal_worker: ดูการส่งต่อโดยนักสังคมสงเคราะห์
       dash_reporting_location: ดูตำแหน่งที่รายงาน
       dash_service_provisions: ดูการจัดบริการ
-      dash_shared_from_my_team: ""
-      dash_shared_with_me: ""
-      dash_shared_with_my_team: ""
-      dash_shared_with_others: ""
-      dash_show_none_values: ""
       dash_tasks: ดูภารกิจ
       dash_transfers_by_socal_worker: ดูการโยกย้ายโดยนักสังคมสงเคราะห์
       dashboard: แผงหน้าปัด
-      delete: ""
       display_view_page: แสดงหน้ามุมมอง
       duplicate: ค้นหาซ้ำ
       enable_disable_record: ปิดการใช้งาน
       export_case_pdf: ส่งออกไฟล์รายกรณีเป็น pdf
-      export_csv: ""
       export_custom: กำหนดการส่งออกเอง
       export_duplicate_id_csv: การส่งออกซ้ำ
       export_json: ส่งออกไฟล์ json
-      export_list_view_csv: ""
-      export_mrm_violation_xls: ""
       export_pdf: ส่งออกเป็นไฟล์ pdf
       export_photowall: ส่งออกผนังภาพ
-      export_unhcr_csv: ""
       export_xls: ส่งออกเป็นไฟล์ xls
       find_tracing_match: ค้นหาการติดตามการจับคู่จากรายกรณี
       flag: แจ้งเตือน
@@ -1284,36 +705,25 @@ th:
       lookup: การค้นหา
       manage: จัดการ
       matching_configuration: จับคู่การกำหนดค่า
-      metadata: "แบบฟอร์ม, การค้นหา"
+      metadata: แบบฟอร์ม, การค้นหา
       potential_match: การจับคู่ที่มีศักยภาพ
       read: อ่าน
       reassign: มอบหมายอีกครั้ง
-      receive_referral: ""
-      receive_transfer: ""
-      referral: ""
       referral_from_service: ส่งต่อรายกรณีจากแบบฟอร์มการบริการ
       remove_assigned_users: เอาผู้ใช้งานที่ได้รับมอบหมายอื่นๆ ออก (การส่งต่อ)
-      reopen: ""
       report: รายงาน
       request_approval: คำร้องขออนุมัติ
-      request_approval_action_plan: ""
-      request_approval_assessment: ""
-      request_approval_case_plan: ""
-      request_approval_closure: ""
-      request_approval_gbv_closure: ""
       request_transfer: คำร้องขอส่งต่อ
       role: บทบาท
       save_search: บันทึกการค้นหา
       saved_search: บันทึกการค้นหา
       search_owned_by_others: เรียกดูบันทึกรายกรณีที่ผู้ใช้งานรายอื่นเป็นเจ้าของ
       self: เข้าถึงเฉพาะบันทึกหรือผู้ใช้งานของฉัน
-      service_provision_incident_details: ""
       services_section_from_case: เพิ่มการให้บริการแก่รายกรณีของผู้ใช้งานรายอื่น
       specific_roles: เข้าถึงรายการบทบาทที่ระบุ
       sync_mobile: ซิงค์กับอุปกรณ์มือถือ
       system: ระบบ
       tracing_request: การติดตามคำร้อง
-      transfer: ""
       user: ผู้ใช้งาน
       user_group: กลุ่มผู้ใช้งาน
       view_approvals: ดูการอนุมัติ
@@ -1321,560 +731,7 @@ th:
       view_photo: ดูรูป
       view_protection_concerns_filter: ดูตัวกรองประเด็นการคุ้มครอง
       view_response: ดูการตอบสนอง
-      workflow: ""
-      workflow_team: ""
       write: เขียน
-    resource:
-      agency:
-        actions:
-          assign:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      audit_log:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-        label: ""
-      case:
-        actions:
-          add_note:
-            explanation: ""
-            label: ""
-          approve_action_plan:
-            explanation: ""
-            label: ""
-          approve_assessment:
-            explanation: ""
-            label: ""
-          approve_bia:
-            explanation: ""
-            label: ""
-          approve_case_plan:
-            explanation: ""
-            label: ""
-          approve_closure:
-            explanation: ""
-            label: ""
-          approve_gbv_closure:
-            explanation: ""
-            label: ""
-          assign:
-            explanation: ""
-            label: ""
-          assign_within_agency:
-            explanation: ""
-            label: ""
-          assign_within_user_group:
-            explanation: ""
-            label: ""
-          change_log:
-            explanation: ""
-            label: ""
-          close:
-            explanation: ""
-            label: ""
-          consent_override:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          display_view_page:
-            explanation: ""
-            label: ""
-          enable_disable_record:
-            explanation: ""
-            label: ""
-          export_case_pdf:
-            explanation: ""
-            label: ""
-          export_csv:
-            explanation: ''
-            label: ""
-          export_custom:
-            explanation: ""
-            label: ""
-          export_duplicate_id_csv:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
-          export_photowall:
-            explanation: ""
-            label: ""
-          export_unhcr_csv:
-            label: ""
-          export_xls:
-            explanation: ''
-            label: ""
-          find_tracing_match:
-            explanation: ""
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
-          incident_details_from_case:
-            explanation: ""
-            label: ""
-          incident_from_case:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          receive_referral:
-            explanation: ""
-            label: ""
-          receive_transfer:
-            explanation: ""
-            label: ""
-          referral:
-            explanation: ""
-            label: ""
-          referral_from_service:
-            explanation: ""
-            label: ""
-          remove_assigned_users:
-            explanation: ""
-            label: ""
-          reopen:
-            explanation: ""
-            label: ""
-          request_approval_action_plan:
-            explanation: ""
-            label: ""
-          request_approval_assessment:
-            explanation: ""
-            label: ""
-          request_approval_bia:
-            explanation: ""
-            label: ""
-          request_approval_case_plan:
-            explanation: ""
-            label: ""
-          request_approval_closure:
-            explanation: ""
-            label: ""
-          request_approval_gbv_closure:
-            explanation: ""
-            label: ""
-          request_transfer:
-            explanation: ""
-            label: ""
-          search_owned_by_others:
-            explanation: ""
-            label: ""
-          service_provision_incident_details:
-            explanation: ""
-            label: ""
-          services_section_from_case:
-            explanation: ""
-            label: ""
-          sync_mobile:
-            explanation: ""
-            label: ""
-          transfer:
-            explanation: ""
-            label: ""
-          view_photo:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      dashboard:
-        actions:
-          approvals_action_plan:
-            explanation: ""
-            label: ""
-          approvals_action_plan_pending:
-            explanation: ""
-            label: ""
-          approvals_assessment:
-            explanation: ""
-            label: ""
-          approvals_assessment_pending:
-            explanation: ""
-            label: ""
-          approvals_case_plan:
-            explanation: ""
-            label: ""
-          approvals_case_plan_pending:
-            explanation: ""
-            label: ""
-          approvals_closure:
-            explanation: ""
-            label: ""
-          approvals_closure_pending:
-            explanation: ""
-            label: ""
-          approvals_gbv_closure:
-            explanation: ""
-            label: ""
-          approvals_gbv_closure_pending:
-            explanation: ""
-            label: ""
-          case_overview:
-            explanation: ""
-            label: ""
-          case_risk:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_assessment:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_case_plan:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_followups:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_services:
-            explanation: ""
-            label: ""
-          dash_case_incident_overview:
-            explanation: ""
-            label: ""
-          dash_cases_by_social_worker:
-            explanation: ""
-            label: ""
-          dash_cases_to_assign:
-            explanation: ''
-            label: ""
-          dash_group_overview:
-            explanation: ""
-            label: ""
-          dash_matching_results:
-            explanation: ""
-            label: ""
-          dash_protection_concerns:
-            explanation: ""
-            label: ""
-          dash_protection_concerns_by_location:
-            explanation: ""
-            label: ""
-          dash_reporting_location:
-            explanation: ""
-            label: ""
-          dash_service_provisions:
-            explanation: ""
-            label: ""
-          dash_shared_from_my_team:
-            explanation: ""
-            label: ""
-          dash_shared_with_me:
-            explanation: ""
-            label: ""
-          dash_shared_with_my_team:
-            explanation: ""
-            label: ""
-          dash_shared_with_others:
-            explanation: ""
-            label: ""
-          dash_show_none_values:
-            explanation: ""
-            label: ""
-          dash_tasks:
-            explanation: ""
-            label: ""
-          view_protection_concerns_filter:
-            explanation: ""
-            label: ""
-          view_response:
-            explanation: ""
-            label: ""
-          workflow:
-            explanation: ""
-            label: ""
-          workflow_team:
-            explanation: ""
-            label: ""
-        label: ""
-      disabled:
-        explanation: ""
-        label: ""
-      duplicate:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-        label: ""
-      forms:
-        case:
-          explanation: ''
-          label: ""
-        incident:
-          explanation: ''
-          label: ""
-        tracing_request:
-          explanation: ''
-          label: ""
-      group:
-        actions:
-          admin_only:
-            explanation: ""
-            label: ""
-          agency:
-            explanation: ""
-            label: ""
-          all:
-            explanation: ""
-            label: ""
-          group:
-            explanation: ""
-            label: ""
-          self:
-            explanation: ""
-            label: ""
-        explanation: ""
-        label: ""
-      incident:
-        actions:
-          change_log:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          export_case_pdf:
-            explanation: ""
-            label: ""
-          export_csv:
-            explanation: ""
-            label: ""
-          export_custom:
-            label: ""
-          export_incident_recorder_xls:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
-          export_xls:
-            explanation: ""
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          sync_mobile:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      is_manager:
-        explanation: ""
-        label: ""
-      matching_configuration:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      metadata:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      module:
-        actions:
-          cp:
-            label: ""
-          gbv:
-            label: ""
-          mrm:
-            label: ""
-        explanation: ""
-        label: ""
-      potential_match:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-        label: ""
-      referral:
-        actions:
-          refer:
-            explanation: ""
-            label: ""
-        label: ""
-      report:
-        actions:
-          create:
-            explanation: ""
-            label: ""
-          group_read:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      reporting_location_level:
-        explanation: ''
-        label: ""
-      role:
-        actions:
-          assign:
-            explanation: ""
-            label: ""
-          copy:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          delete:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          permitted_roles:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      system:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      tracing_request:
-        actions:
-          change_log:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          export_case_pdf:
-            explanation: ""
-            label: ""
-          export_csv:
-            explanation: ""
-            label: ""
-          export_custom:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      transfer:
-        actions:
-          transfer:
-            explanation: ""
-            label: ""
-        label: ""
-      user:
-        actions:
-          agency_read:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      user_group:
-        actions:
-          assign:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          delete:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
   potential_match:
     child_age: อายุ
     child_gender: เพศ
@@ -1887,27 +744,9 @@ th:
     social_worker: นักสังคมสงเคราะห์
     social_worker_agency: หน่วยงาน
   potential_matches:
-    display: "แสดงการจับคู่ที่มีศักยกภาพสำหรับ %{type}%{id}"
+    display: แสดงการจับคู่ที่มีศักยกภาพสำหรับ %{type}%{id}
   reassign:
-    multiple_error: ""
-    multiple_successfully: ''
     notes_label: หมายเหตุ
-    successfully: ""
-    user_mandatory_label: ""
-    users_label: ""
-  record_information:
-    assigned_user_names: ""
-    created_by: ""
-    created_by_agency: ""
-    current_owner_separator: ""
-    module_id: ""
-    owned_by: ""
-    owned_by_agency_id: ""
-    owned_by_text: ""
-    previous_agency: ""
-    previously_owned_by: ""
-    reassigned_tranferred_on: ""
-    record_history_separator: ""
   record_panel:
     record_information: ข้อมูลบันทึก
   referral:
@@ -1915,52 +754,30 @@ th:
     is_remote_label: คุณต้องการส่งต่อไปยังระบบระยะไกลหรือไม่
     location_label: ตำแหน่งที่ตั้ง
     notes_label: หมายเหตุ
-    provided_consent_label: ""
-    recipient_label: ""
-    refer_anyway_label: ""
     service_label: บริการ
     success: '%{record_type}%{id}'
-    user_mandatory_label: ""
   report:
     aggregate_by: จัดกลุ่มตามแถว
-    attribute: ""
-    constraint: ""
     date_ranges:
       date: วัน
       month: เดือน
-      quarter: ""
-      quarter_abbr: ""
       week: สัปดาห์
       year: ปี
     description: รายละเอียด
-    disabled:
-      explanation: ""
-      label: ""
     disaggregate_by: จัดกลุ่มตามคอลัมน์
     filters:
-      is: ""
       label: ตัวกรองรายงาน
-      label_new: ""
-      not_null: ""
     group_ages: ใช้ช่วงอายุ
     group_dates_by: ใช้ช่วงวันที่
-    is_graph: "สร้างกราฟหรือไม่?"
+    is_graph: สร้างกราฟหรือไม่?
     messages:
       delete_success: ลบรายงานแล้ว
-      success: ""
-      updated: ""
     modules: โมดูล
     name: ชื่อ
-    name_mandatory: ""
     no_data: ไม่มีข้อมูลสำหรับรายงานนี้
-    no_filters_added: ""
-    not_selected: ""
     record_type: ประเภทบันทึก
     total: รวมทั้งหมด
-    value: ""
   reports:
-    delete_report: ""
-    delete_report_message: ""
     label: รายงาน
     register_new_report: สร้างรายงาน
   request_transfer:
@@ -1968,192 +785,75 @@ th:
     submit_label: ส่งคำร้องขอ
     success: ส่งคำร้องขอโอนแล้ว
   role:
-    agency_ids_label: ""
     copy_failure: เกิดข้อผิดพลาดในการคัดลอกบทบาท ตรวจสอบให้แน่ใจว่าชื่อไม่ขัดแย้งกับบทบาทอื่น
     copy_success: คัดลอกบทบาทสำเร็จแล้ว
     create: สร้างบทบาท
-    delete_header: ""
     description: รายละเอียด
     edit: แก้ไขบทบาท
     error_in_updating: เกิดข้อผิดพลาดในการอัปเดตรายละเอียดบทบาท
-    group_permission_label: "บทบาทนี้มีผลกระทบต่อบันทึกใดบ้าง?"
-    label: ""
-    manager: ""
-    messages:
-      confirmation: ""
-      created: ""
-      deleted: ""
-      updated: ""
+    group_permission_label: บทบาทนี้มีผลกระทบต่อบันทึกใดบ้าง?
     name: ชื่อ
-    referral_label: "บทบาทนี้สามารถใช้เพื่อการส่งต่อหรือไม่?"
-    reporting_location_level_label: ""
+    referral_label: บทบาทนี้สามารถใช้เพื่อการส่งต่อหรือไม่?
     role_ids_label: บทบาทอื่นที่ถูกจัดการโดยบทบาทนี้
     successfully_updated: อัปเดตรายละเอียดบทบาทสำเร็จแล้ว
-    transfer_label: "บทบาทนี้สามารถใช้เพื่อการโอนต่อหรือไม่?"
+    transfer_label: บทบาทนี้สามารถใช้เพื่อการโอนต่อหรือไม่?
   roles:
     label: บทบาท
   saved_search:
     deleted: ลบการค้นหาสำเร็จแล้ว
     filters_tab: ตัวกรอง
-    no_filters: ""
     save_success: บันทึกการค้นหาสำเร็จแล้ว
     saved_searches_tab: การค้นหาที่บันทึกไว้
-    title_description: ""
-    title_modal: ""
   saved_searches:
     no_save_searches: ไม่มีคำค้นหาที่บันทึกไว้
     save_search: บันทึกการค้นหา
-  settings:
-    navigation:
-      agencies: ""
-      audit_logs: ""
-      configurations: ""
-      contact_information: ""
-      forms: ""
-      locations: ""
-      lookups: ""
-      user_groups: ""
-      users: ""
-      roles: ""
-    title: ""
   system_settings:
     label: การตั้งค่าระบบ
   task:
     due_date: วันที่ครบกำหนด
     id: เลขประจำตัว#
-    name: ""
-    priorities:
-      high_level: ""
-      low_level: ""
-      medium_level: ""
-      no_action_level: ""
     priority: ระดับความสำคัญ
-    status: ""
-    statuses:
-      overdue: ""
-      upcoming_soon: ""
     type: ประเภทของปฏิบัติการ
     types:
       assessment: การประเมิน
       case_plan: แผนรายกรณี
-      follow_up: "การติดตาม - %{subtype}"
-      service: "บริการ - %{subtype}"
+      follow_up: การติดตาม - %{subtype}
+      service: บริการ - %{subtype}
   tracing_request:
     messages:
       update_success: 'อัปเดตการติดตามคำร้อง %{record_id} สำเร็จแล้ว'
-      creation_success: ""
-      update_success_queue: ''
-      creation_success_queue: ""
   tracing_requests:
-    date_of_inquiry: ""
-    id: ""
-    filter_by:
-      by_date: ""
-      location_separation: ""
-      separation_cause: ""
-      status: ""
-    label: ""
-    name_of_inquirer: ""
     register_new_tracing_request: คำร้องขอใหม่ให้มีการติดตามตัว
     selectable_date_options:
       inquiry_date: วันที่ร้องขอ
-    selected_records: ''
-    selected_all_records: ''
-    show_tracing_request: ''
-    tracing_requests: ""
-    export: ""
   transfer:
     agency_label: หน่วยงาน
-    consent_from_individual_label: ""
     consent_label: บันทึกไม่ได้ให้ความยินยอม
-    consent_override_label: "คุณต้องการลบล้างการตั้งค่านี้หรือไม่?"
+    consent_override_label: คุณต้องการลบล้างการตั้งค่านี้หรือไม่?
     is_remote_label: คุณจะโอนไปยังระบบระยะไกลหรือไม่
     location_label: ตำแหน่งที่ตั้ง
     notes_label: หมายเหตุ
-    provided_consent_label: ""
-    recipient_label: ""
-    select_label: ""
-    success: ""
-    transfer_label: ""
-    user_mandatory: ""
-  transfer_assignment:
-    title: ""
-  transition:
-    assigned_by: ""
-    consent_individual_transfer_value:
-      true_label: ''
-      false_label: ''
-    consent_overridden_value:
-      false_label: ''
-      true_label: ''
-    errors:
-      consent: ""
-      to_user_can_receive: ""
-    individual_consent: ""
-    no_consent_share: ""
-    notes: ""
-    recipient: ""
-    rejected: ""
-    service_label: ""
-    status:
-      accepted: ""
-      done: ""
-      in_progress: ""
-      inprogress: ""
-      pending: ""
-      rejected: ""
-    type:
-      assign: ""
-      reassign: ""
-      referral: ""
-      transfer: ""
-      transferRequest: ""
   user:
     agency_office: สำนักงานของหน่วยงาน
     code: รหัสผู้ใช้งาน
     disabled: ปิดการใช้งาน
-    email: ""
     full_name: ชื่อเต็ม
-    identity_provider: ""
-    invalid_provider_username: ''
-    locale: ""
     location: ตำแหน่งที่ตั้ง
     messages:
-      confirmation: "คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้งานรายนี้? การลบทิ้งไม่สามารถยกเลิกได้ คลิก ตกลง เพื่อลบผู้ใช้งาน"
+      confirmation: คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้งานรายนี้? การลบทิ้งไม่สามารถยกเลิกได้ คลิก ตกลง เพื่อลบผู้ใช้งาน
       created: สร้างผู้ใช้งานสำเร็จแล้ว
-      failure: ""
-      new_confirm_html: ""
-      new_confirm_non_identity_html: ""
       not_found: ไม่พบผู้ใช้งานตามหมายเลขประจำตัวนี้
       password_changed_successfully: เปลี่ยนรหัสผ่านสำเร็จแล้ว
       passwords_do_not_match: ไม่ตรงกับรหัสผ่านปัจจุบัน
       time_zone_updated: อัปเดตการเปลี่ยนแปลงสำเร็จแล้ว
       updated: อัปเดตผู้ใช้งานสำเร็จแล้ว
     organization: องค์กร
-    password: ""
-    password_confirmation: ""
-    phone: ""
     position: ตำแหน่ง
-    provider_username_help: ''
-    role_id: ""
-    send_mail: "รับการแจ้งเตือนทางอีเมลหรือไม่?"
-    user_group_unique_ids: ""
-    user_name: ""
+    send_mail: รับการแจ้งเตือนทางอีเมลหรือไม่?
   user_group:
     description: รายละเอียด
-    disabled:
-      explanation: ""
-      label: ""
-    messages:
-      created: ""
-      updated: ""
     name: ชื่อ
   user_groups:
     label: กลุ่มผู้ใช้งาน
   users:
     label: ผู้ใช้
-    headers:
-      full_name: ""
-      user_name: ""
-      position: ""
-      agency: ""

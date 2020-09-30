@@ -11,6 +11,7 @@ export {
   FORM_MODE_DIALOG,
   NUMERIC_FIELD,
   LABEL_FIELD,
+  OPTION_TYPES,
   ORDERABLE_OPTIONS_FIELD,
   PARENT_FORM,
   PHOTO_FIELD,
@@ -21,6 +22,8 @@ export {
   TEXT_AREA,
   TEXT_FIELD,
   TICK_FIELD,
-  TOGGLE_FIELD
+  TOGGLE_FIELD,
+  DOCUMENT_FIELD,
+  AUDIO_FIELD
 } from "./constants";
 export { whichFormMode, submitHandler } from "./utils";
