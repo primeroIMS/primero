@@ -85,7 +85,11 @@ module Ownable
     @users_by_association = nil
     @associated_users = nil
     @record_agency = nil
-    self.owned_by = nil if owner.blank?
+    if owner.blank?
+      # Revert owned by changes and bail if new user doesn't exist
+      self.owned_by = changes_to_save_for_record['owned_by'][0] if changes_to_save_for_record['owned_by'].present?
+      return
+    end
 
     if owned_by.present? && (new_record? || changes_to_save_for_record['owned_by'].present?)
       update_owned_by
