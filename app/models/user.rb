@@ -169,7 +169,7 @@ class User < ApplicationRecord
       users = users_with_permission(model, permission).where(disabled: false).where.not(id: user.id)
       return users if filters.blank?
 
-      services_filter = filters.delete('services')
+      services_filter = filters.delete('service')
       agencies_filter = filters.delete('agency')
       users = users.where(filters) if filters.present?
       users = users.where(':service = ANY (users.services)', service: services_filter) if services_filter.present?

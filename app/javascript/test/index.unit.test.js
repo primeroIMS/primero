@@ -8,6 +8,7 @@ describe("app/javascript/test/index", () => {
   });
 
   [
+    "abbrMonthNames",
     "setupMockFieldComponent",
     "setupMockFormComponent",
     "setupMountedComponent",

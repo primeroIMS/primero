@@ -48,6 +48,14 @@ class Role < ApplicationRecord
       role.permissions = Permission::PermissionSerializer.load(role_params[:permissions].to_h)
       role
     end
+
+    def list(user, external = false)
+      if external
+        Role.where(disabled: false).where(referral: true).or(Role.where(transfer: true))
+      else
+        user.permitted_roles_to_manage
+      end
+    end
   end
 
   def permitted_forms(record_type = nil, visible_only = false)
@@ -62,7 +70,7 @@ class Role < ApplicationRecord
 
   def permitted_role_unique_ids
     role_permission = permissions.find { |permission| permission.resource == Permission::ROLE }
-    return [] if role_permission&.role_unique_ids&.blank?
+    return [] unless role_permission&.role_unique_ids&.present?
 
     role_permission.role_unique_ids
   end

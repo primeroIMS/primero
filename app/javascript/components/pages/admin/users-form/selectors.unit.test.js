@@ -4,6 +4,11 @@ import NAMESPACE from "../namespace";
 
 import { getUser, getErrors, getServerErrors, getSavingRecord } from "./selectors";
 
+const roles = [
+  { id: 1, unique_id: "role_1" },
+  { id: 2, unique_id: "role_2" }
+];
+
 const stateWithHeaders = fromJS({
   records: {
     users: {
@@ -11,7 +16,8 @@ const stateWithHeaders = fromJS({
       errors: true,
       serverErrors: [{ message: "error-1" }],
       saving: true
-    }
+    },
+    roles: { data: roles }
   }
 });
 

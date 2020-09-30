@@ -329,7 +329,6 @@ GEM
       unicode-display_width (~> 1.1, >= 1.1.1)
     thor (0.19.4)
     thread_safe (0.3.6)
-    timecop (0.9.1)
     ttfunk (1.5.1)
     twitter_cldr (4.4.4)
       camertron-eprun
@@ -411,7 +410,6 @@ DEPENDENCIES
   sunspot_rails (= 2.3.0)
   sunspot_solr (= 2.3.0)
   sunspot_test (~> 0.4)
-  timecop (~> 0.9.1)
   twitter_cldr (~> 4.4)
   tzinfo (~> 1.2)
   tzinfo-data (~> 1.2019)

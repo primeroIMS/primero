@@ -74,5 +74,4 @@ group :development, :test do
   gem 'simplecov',                  '~> 0.18'
   gem 'sunspot_test',               '~> 0.4', require: false
   # TODO: Latest version (1.2.5) of this conflicts with sunspot gem. Upgrade when we upgrade sunspot
-  gem 'timecop',                    '~>0.9.1'
 end

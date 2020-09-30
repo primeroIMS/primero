@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { List, fromJS } from "immutable";
 import { isEmpty } from "lodash";
-import { format, parseISO } from "date-fns";
 import { makeStyles } from "@material-ui/core";
 import CheckBox from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlank from "@material-ui/icons/CheckBoxOutlineBlank";
@@ -53,7 +52,7 @@ const Component = ({
     }
 
     if (isDateField && fieldValue) {
-      return format(parseISO(fieldValue), isDateWithTime ? DATE_TIME_FORMAT : DATE_FORMAT);
+      return i18n.localizeDate(fieldValue, isDateWithTime ? DATE_TIME_FORMAT : DATE_FORMAT);
     }
 
     if (isBooleanField) {

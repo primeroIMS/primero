@@ -6,7 +6,6 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fromJS } from "immutable";
 
 import { useI18n } from "../../i18n";
 import Form, { FormAction, whichFormMode } from "../../form";
@@ -17,7 +16,7 @@ import { form } from "../admin/users-form/form";
 import LoadingIndicator from "../../loading-indicator";
 import { getIdentityProviders } from "../admin/users-form/selectors";
 import validations from "../admin/users-form/validations";
-import { getUser, getUserSavingRecord } from "../../user/selectors";
+import { getUser, getUserSavingRecord, getServerErrors } from "../../user/selectors";
 
 import { NAME } from "./constants";
 import NAMESPACE from "./namespace";
@@ -33,7 +32,7 @@ const Container = ({ mode }) => {
 
   const currentUser = useSelector(state => getUser(state));
   const saving = useSelector(state => getUserSavingRecord(state));
-  const formErrors = fromJS({});
+  const formErrors = useSelector(state => getServerErrors(state));
   const idp = useSelector(state => getIdentityProviders(state));
 
   const useIdentityProviders = idp?.get("use_identity_provider");

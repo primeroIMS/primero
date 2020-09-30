@@ -38,6 +38,19 @@ describe("<TaskList />", () => {
                 due_date: "2019-07-02",
                 detail: "b",
                 field_name: "case_plan_due_date"
+              },
+              {
+                id: "f1288fad-1c15-4f9f-b976-1f77d6356955",
+                overdue: true,
+                priority: "medium",
+                record_type: "case",
+                record_id_display: "726b7db",
+                detail: "c",
+                due_date: "23-Sep-2020",
+                type: "follow_up",
+                type_display: "Follow Up - Follow up for Assessment",
+                upcoming_soon: false,
+                field_name: "test_follow_up"
               }
             ],
             metadata: {
@@ -100,6 +113,14 @@ describe("<TaskList />", () => {
               name: { en: "Assessment" },
               fields: [2],
               is_nested: false
+            }),
+            3: FormSectionRecord({
+              id: 3,
+              unique_id: "followup",
+              parent_form: "case",
+              name: { en: "followup" },
+              fields: [3],
+              is_nested: false
             })
           }),
           fields: OrderedMap({
@@ -117,6 +138,16 @@ describe("<TaskList />", () => {
               id: 2,
               name: "case_plan_due_date",
               display_name: { en: "Case Plan Due Date" },
+              type: "text_field",
+              multi_select: false,
+              form_section_id: 2,
+              visible: true,
+              mobile_visible: true
+            }),
+            3: FieldRecord({
+              id: 3,
+              name: "test_follow_up",
+              display_name: { en: "Followup" },
               type: "text_field",
               multi_select: false,
               form_section_id: 2,
@@ -144,11 +175,20 @@ describe("<TaskList />", () => {
   });
 
   it("should render tasks table", () => {
-    expect(component.find(MUIDataTable).find(TableBodyRow)).to.have.length(2);
+    expect(component.find(MUIDataTable).find(TableBodyRow)).to.have.length(3);
   });
 
   it("should render tasks table with priority as DashboardChip", () => {
-    expect(component.find(MUIDataTable).find(DashboardChip)).to.have.length(2);
+    expect(component.find(MUIDataTable).find(DashboardChip)).to.have.length(3);
+  });
+
+  it("should render the task type", () => {
+    const tableRows = component.find(MUIDataTable).find(TableBodyRow);
+    const typesTask = ["task.types.service", "task.types.case_plan", "task.types.follow_up"];
+
+    tableRows.forEach((element, item) => {
+      expect(element.find("tr").at(0).find("td").at(2).find("div").at(1).text()).to.be.equal(typesTask[item]);
+    });
   });
 
   it("should an action that sets the form unique_id when clicking on a task", () => {

@@ -6,6 +6,7 @@ import { useFakeTimers } from "../test";
 import {
   compare,
   dataToJS,
+  endOfDay,
   normalizeTimezone,
   toServerDateFormat,
   valuesToSearchableSelect,
@@ -159,6 +160,12 @@ describe("component-helpers", () => {
 
     afterEach(() => {
       clock.restore();
+    });
+  });
+
+  describe("endOfDay", () => {
+    it("should return the end of day for an input date", () => {
+      expect(endOfDay(parseISO("2010-05-01")).toISOString()).to.equal("2010-05-01T23:59:59.000Z");
     });
   });
 });

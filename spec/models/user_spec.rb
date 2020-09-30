@@ -112,7 +112,7 @@ describe User do
       end
 
       it 'filters users based on service' do
-        users = User.users_for_referral(@user1, Child, 'services' => 'safehouse_service')
+        users = User.users_for_referral(@user1, Child, 'service' => 'safehouse_service')
         expect(users.map(&:user_name)).to match_array(%w[user2])
       end
     end

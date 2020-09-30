@@ -21,6 +21,7 @@ describe("libs/index", () => {
       "compare",
       "dataToJS",
       "displayNameHelper",
+      "endOfDay",
       "getObjectPath",
       "invalidCharRegexp",
       "keyIn",

@@ -217,4 +217,126 @@ describe("Application - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle FETCH_USER_GROUPS_FAILURE", () => {
+    const expected = Map({ errors: true });
+
+    const action = {
+      type: actions.FETCH_USER_GROUPS_FAILURE,
+      payload: true
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
+
+  it("should handle FETCH_USER_GROUPS_FINISHED", () => {
+    const expected = Map({ loading: false });
+
+    const action = {
+      type: actions.FETCH_USER_GROUPS_FINISHED,
+      payload: false
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
+
+  it("should handle FETCH_USER_GROUPS_STARTED", () => {
+    const expected = Map({
+      loading: true,
+      errors: false
+    });
+
+    const action = {
+      type: actions.FETCH_USER_GROUPS_STARTED,
+      payload: true
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
+
+  it("should handle FETCH_USER_GROUPS_SUCCESS", () => {
+    const userGroups = [
+      { id: 1, unique_id: "user-group-1" },
+      { id: 2, unique_id: "user-group-2" }
+    ];
+    const expected = fromJS({
+      userGroups
+    });
+
+    const action = {
+      type: actions.FETCH_USER_GROUPS_SUCCESS,
+      payload: { data: userGroups }
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
+
+  it("should handle FETCH_ROLES_FAILURE", () => {
+    const expected = Map({ errors: true });
+
+    const action = {
+      type: actions.FETCH_ROLES_FAILURE,
+      payload: true
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
+
+  it("should handle FETCH_ROLES_FINISHED", () => {
+    const expected = Map({ loading: false });
+
+    const action = {
+      type: actions.FETCH_ROLES_FINISHED,
+      payload: false
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
+
+  it("should handle FETCH_ROLES_SUCCESS", () => {
+    const roles = [
+      { id: 1, unique_id: "role-1" },
+      { id: 2, unique_id: "role-2" }
+    ];
+    const expected = fromJS({
+      roles
+    });
+
+    const action = {
+      type: actions.FETCH_ROLES_SUCCESS,
+      payload: { data: roles }
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
+
+  it("should handle FETCH_ROLES_STARTED", () => {
+    const expected = Map({
+      loading: true,
+      errors: false
+    });
+
+    const action = {
+      type: actions.FETCH_ROLES_STARTED,
+      payload: true
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
 });

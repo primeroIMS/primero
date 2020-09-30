@@ -69,3 +69,12 @@ export const getApprovalsLabels = (state, locale) => {
 
   return approvalsLabels;
 };
+
+export const getUserGroups = state => state.getIn([NAMESPACE, "userGroups"], fromJS([]));
+
+export const getRoles = state => state.getIn([NAMESPACE, "roles"], fromJS([]));
+
+export const getRoleName = (state, uniqueId) =>
+  getRoles(state)
+    .find(role => role.get("unique_id") === uniqueId)
+    ?.get("name");
