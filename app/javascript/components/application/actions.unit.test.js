@@ -5,6 +5,11 @@ describe("Application - Actions", () => {
     const cloneActions = { ...actions };
 
     [
+      "FETCH_ROLES",
+      "FETCH_ROLES_FAILURE",
+      "FETCH_ROLES_FINISHED",
+      "FETCH_ROLES_STARTED",
+      "FETCH_ROLES_SUCCESS",
       "FETCH_SYSTEM_PERMISSIONS",
       "FETCH_SYSTEM_PERMISSIONS_FAILURE",
       "FETCH_SYSTEM_PERMISSIONS_FINISHED",
@@ -12,6 +17,11 @@ describe("Application - Actions", () => {
       "FETCH_SYSTEM_PERMISSIONS_SUCCESS",
       "FETCH_SYSTEM_SETTINGS",
       "FETCH_SYSTEM_SETTINGS_SUCCESS",
+      "FETCH_USER_GROUPS",
+      "FETCH_USER_GROUPS_FAILURE",
+      "FETCH_USER_GROUPS_FINISHED",
+      "FETCH_USER_GROUPS_STARTED",
+      "FETCH_USER_GROUPS_SUCCESS",
       "NETWORK_STATUS",
       "SET_USER_IDLE"
     ].forEach(property => {

@@ -1,6 +1,6 @@
 import { fromJS, Map } from "immutable";
 
-import { getReportingLocationConfig } from "../application/selectors";
+import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
 import { displayNameHelper } from "../../libs";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
@@ -89,6 +89,14 @@ const lookups = (state, i18n) =>
     )
     .sortBy(lookup => lookup.get("display_text"));
 
+const userGroups = state =>
+  getUserGroups(state).map(userGroup =>
+    fromJS({ id: userGroup.get("unique_id"), display_text: userGroup.get("name") })
+  );
+
+const roles = state =>
+  getRoles(state).map(role => fromJS({ id: role.get("unique_id"), display_text: role.get("name") }));
+
 const optionsFromState = (state, optionStringsSource, i18n, useUniqueId) => {
   switch (optionStringsSource) {
     case OPTION_TYPES.AGENCY:
@@ -103,6 +111,10 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId) => {
       return formGroups(state, i18n);
     case OPTION_TYPES.LOOKUPS:
       return lookups(state, i18n);
+    case OPTION_TYPES.USER_GROUP:
+      return userGroups(state);
+    case OPTION_TYPES.ROLE:
+      return roles(state);
     default:
       return lookupValues(state, optionStringsSource, i18n);
   }
