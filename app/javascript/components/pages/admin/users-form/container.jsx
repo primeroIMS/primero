@@ -66,7 +66,7 @@ const Container = ({ mode }) => {
   };
 
   const handleSubmit = data => {
-    setUserData(data);
+    setUserData({ ...userData, ...data });
     setUserConfirmationOpen(true);
   };
 
