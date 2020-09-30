@@ -22,6 +22,7 @@ import { fetchSystemSettings } from "../../../application";
 import bindFormSubmit from "../../../../libs/submit-form";
 import { submitHandler } from "../../../form/utils/form-submission";
 import CancelPrompt from "../../../form/components/cancel-prompt";
+import { currentUser } from "../../../user/selectors";
 
 import { form } from "./form";
 import validations from "./validations";
@@ -52,6 +53,8 @@ const Container = ({ mode }) => {
   };
   const useIdentityProviders = idp?.get("use_identity_provider");
   const providers = idp?.get("identity_providers");
+  const currentUserName = useSelector(state => currentUser(state));
+  const selectedUserIsLoggedIn = currentUserName === user.get("user_name");
 
   const initialValues = user.toJS();
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
@@ -126,9 +129,15 @@ const Container = ({ mode }) => {
     : [];
 
   const renderFormSections = () =>
-    form(i18n, formMode, useIdentityProviders, providers, identityOptions, onClickChangePassword).map(formSection => (
-      <FormSection formSection={formSection} key={formSection.unique_id} />
-    ));
+    form(
+      i18n,
+      formMode,
+      useIdentityProviders,
+      providers,
+      identityOptions,
+      onClickChangePassword,
+      selectedUserIsLoggedIn
+    ).map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);
 
   useEffect(() => {
     dispatch(fetchSystemSettings());

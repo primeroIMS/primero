@@ -220,7 +220,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
               ...subformData,
               temp_id: selectedSubform?.get("temp_id"),
               is_nested: true,
-              unique_id: generateUniqueId(subformData.name.en, formUniqueIds)
+              unique_id: Object.keys(dataToSave)[0]
             })
           );
           dispatch(clearSelectedField());

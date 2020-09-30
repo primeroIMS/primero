@@ -31,7 +31,8 @@ describe("<TaskList /> - Reducer", () => {
           type: "service",
           id: "f54f326e-70bb-46db-a333-90c6b4b21aeb",
           type_display: "Service - Health/Medical Service",
-          upcoming_soon: true
+          upcoming_soon: true,
+          completion_field: "service_implemented_day_time"
         }
       ],
       metadata: {
@@ -56,7 +57,8 @@ describe("<TaskList /> - Reducer", () => {
             due_date: "10-Feb-2020",
             type_display: "Service - Health/Medical Service",
             overdue: false,
-            upcoming_soon: true
+            upcoming_soon: true,
+            completion_field: "service_implemented_day_time"
           }
         ],
         metadata: {

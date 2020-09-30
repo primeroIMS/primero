@@ -9,8 +9,10 @@ describe("Application - Action Creators", () => {
     const creators = { ...actionCreators };
 
     [
+      "fetchRoles",
       "fetchSystemPermissions",
       "fetchSystemSettings",
+      "fetchUserGroups",
       "loadApplicationResources",
       "setNetworkStatus",
       "setUserIdle"
@@ -67,5 +69,27 @@ describe("Application - Action Creators", () => {
     };
 
     expect(actionCreators.fetchSystemPermissions()).to.deep.equal(expected);
+  });
+
+  it("should check the 'fetchRoles' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.FETCH_ROLES,
+      api: {
+        path: "roles"
+      }
+    };
+
+    expect(actionCreators.fetchRoles()).to.deep.equal(expected);
+  });
+
+  it("should check the 'fetchUserGroups' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.FETCH_USER_GROUPS,
+      api: {
+        path: "user_groups"
+      }
+    };
+
+    expect(actionCreators.fetchUserGroups()).to.deep.equal(expected);
   });
 });

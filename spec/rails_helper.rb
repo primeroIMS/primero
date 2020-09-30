@@ -40,6 +40,7 @@ RSpec.configure do |config|
   config.include FakeLogin, type: :controller
   config.include VerifyAndResetHelpers
   config.include FilesTestHelper
+  config.include ActiveSupport::Testing::TimeHelpers
 
   config.formatter = :progress
 

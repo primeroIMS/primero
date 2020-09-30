@@ -18,6 +18,7 @@ describe("<Form /> - index", () => {
       "FormSectionRecord",
       "LABEL_FIELD",
       "NUMERIC_FIELD",
+      "OPTION_TYPES",
       "ORDERABLE_OPTIONS_FIELD",
       "PARENT_FORM",
       "PHOTO_FIELD",
@@ -30,6 +31,8 @@ describe("<Form /> - index", () => {
       "TEXT_FIELD",
       "TICK_FIELD",
       "TOGGLE_FIELD",
+      "DOCUMENT_FIELD",
+      "AUDIO_FIELD",
       "whichFormMode"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
