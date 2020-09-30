@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 
 import { FormSectionRecord, FieldRecord, TEXT_FIELD } from "../../../../form";
 
-const form = i18n =>
+export default i18n =>
   fromJS([
     FormSectionRecord({
       unique_id: "users",
@@ -24,5 +24,3 @@ const form = i18n =>
       ]
     })
   ]);
-
-export default form;

@@ -16,7 +16,7 @@ describe("<UsersForm /> - Reducers", () => {
   });
 
   it("should handle FETCH_USER_FAILURE", () => {
-    const expected = fromJS({ errors: true, serverErrors: ["some error"] });
+    const expected = fromJS({ errors: true, saving: false, serverErrors: ["some error"] });
     const action = {
       type: actions.FETCH_USER_FAILURE,
       payload: { errors: ["some error"] }
@@ -85,6 +85,17 @@ describe("<UsersForm /> - Reducers", () => {
     const action = {
       type: actions.SAVE_USER_SUCCESS,
       payload: false
+    };
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SAVE_USER_FAILURE", () => {
+    const expected = fromJS({ errors: true, saving: false, serverErrors: ["some error"] });
+    const action = {
+      type: actions.SAVE_USER_FAILURE,
+      payload: { errors: ["some error"] }
     };
     const newState = reducer(fromJS({}), action);
 

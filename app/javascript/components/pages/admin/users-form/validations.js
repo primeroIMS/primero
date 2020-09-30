@@ -1,4 +1,4 @@
-import { object, number, string, lazy, ref, array, addMethod } from "yup";
+import { object, number, string, ref, array, addMethod } from "yup";
 
 export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage = false) => {
   const useProviders = useIdentityProviders && providers;

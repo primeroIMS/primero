@@ -59,7 +59,8 @@ const Container = ({ mode }) => {
   const initialValues = user.toJS();
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
   const formMethods = useForm({
-    ...(initialValues && { defaultValues: initialValues })
+    ...(initialValues && { defaultValues: initialValues }),
+    ...(validationSchema && { validationSchema })
   });
 
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
