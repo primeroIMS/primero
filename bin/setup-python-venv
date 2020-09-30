@@ -72,15 +72,8 @@ def create_venv(paths, system_site_packages=True):
     if os.path.exists(paths.requirements_file) and os.path.getsize(paths.requirements_file) > 0:
         check_call([paths.pip_file, 'install', '-r', paths.requirements_file])
 
-    if not os.path.exists(paths.ansible_dir_collection):
-        with tempfile.TemporaryDirectory() as temp_collection:
-            check_call(['git', 'clone', 'ssh://git@bitbucket.org/quoin/ansible-infrastructure.git'], cwd = temp_collection)
-            temp_path = os.path.join(temp_collection, paths.ansible_collection)
-            check_call([paths.ansible_galaxy_file, 'collection', 'build'], cwd = temp_path)
-            check_call([paths.ansible_galaxy_file, 'collection', 'install', 'quoin-infrastructure-1.0.0.tar.gz'], cwd = temp_path)
- 
     if os.path.exists(paths.ansible_galaxy_requirements_file) and os.path.getsize(paths.ansible_galaxy_requirements_file) > 0:
-        check_call([paths.ansible_galaxy_file, 'install', '--force', '-p', paths.ansible_roles_dir, '-r', paths.ansible_galaxy_requirements_file])
+        check_call([paths.ansible_galaxy_file, 'install', '-r', paths.ansible_galaxy_requirements_file], cwd = paths.ansible_dir)
 
 
 def activate_venv(paths):
@@ -139,11 +132,8 @@ class Paths(object):
         paths.pip_file = abspath_join(paths.venv_dir, 'bin', 'pip')
         paths.requirements_file = abspath_join(paths.top_dir, 'requirements.txt')
         paths.ansible_dir = abspath_join(paths.top_dir, 'src', 'main', 'ansible')
-        paths.ansible_roles_dir = abspath_join(paths.ansible_dir, 'roles')
         paths.ansible_galaxy_file = abspath_join(paths.venv_bin_dir, 'ansible-galaxy')
         paths.ansible_galaxy_requirements_file = abspath_join(paths.ansible_dir, 'requirements.yml')
-        paths.ansible_collection = 'ansible-infrastructure/quoin/infrastructure'
-        paths.ansible_dir_collection = abspath_join(paths.ansible_dir, paths.ansible_collection)
         return paths
 
     def __init__(self, script):
