@@ -86,6 +86,10 @@ class FormSection < ApplicationRecord
       form_sections = form_sections.where(primero_modules: { unique_id: params[:module_id] }) if params[:module_id]
       form_sections
     end
+
+    def sort_configuration_hash(configuration_hash)
+      configuration_hash&.sort_by { |hash| hash['is_nested'] ? 0 : 1 }
+    end
   end
 
   def configuration_hash
