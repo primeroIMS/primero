@@ -133,4 +133,26 @@ describe("<WorkflowIndicator />", () => {
       stubWindow?.restore();
     });
   });
+
+  describe("when case is closed", () => {
+    it("renders closed step as active", () => {
+      const { component } = setupMountedComponent(
+        WorkflowIndicator,
+        {
+          ...defaultProps,
+          record: Map({ status: "closed", workflow: "reopened" })
+        },
+        state
+      );
+
+      const steps = component.find(StepLabel);
+
+      expect(steps.at(0).text()).to.include("New");
+      expect(steps.at(0).props().active).to.be.false;
+      expect(steps.at(1).text()).to.include("Services");
+      expect(steps.at(1).props().active).to.be.false;
+      expect(steps.at(2).text()).to.include("Closed");
+      expect(steps.at(2).props().active).to.be.true;
+    });
+  });
 });
