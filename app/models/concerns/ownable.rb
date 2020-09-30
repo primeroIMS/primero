@@ -50,12 +50,7 @@ module Ownable
   # Note this returns all associated users, including the owner
   def associated_users
     user_ids = associated_user_names
-    @associated_users ||=
-      if user_ids.present?
-        User.where(user_name: user_ids)
-      else
-        []
-      end
+    @associated_users ||= user_ids.present? ? User.where(user_name: user_ids) : []
   end
 
   # TODO: Refactor as association or AREL query after we migrated PrimeroModule
@@ -68,11 +63,11 @@ module Ownable
   end
 
   def users_by_association
-    @users_by_association ||= associated_users.reduce(assigned_users: []) do |hash, user|
+    @users_by_association ||= associated_users.each_with_object({}) do |user, hash|
       hash[:owner] = user if user.user_name == owned_by
+      hash[:assigned_users] = []
       # TODO: Put this in only if we need to get user info about the other assigned users (probably transfers)
       # hash[:assigned_users] << user if assigned_user_names && assigned_user_names.include? user.user_name
-      hash
     end
   end
 

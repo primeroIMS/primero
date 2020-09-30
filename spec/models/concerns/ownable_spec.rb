@@ -23,7 +23,6 @@ describe Ownable do
     @user2.save(validate: false)
   end
 
-
   describe 'save' do
     context 'when record is new' do
       before do
@@ -151,7 +150,7 @@ describe Ownable do
       context 'and owned_by does not change' do
         before do
           @case = Child.create(data: { 'name' => 'Test', 'owned_by' => 'user1', module_id: @primero_module.unique_id })
-          @case.name = "Another Name"
+          @case.name = 'Another Name'
           @case.save!
         end
 
