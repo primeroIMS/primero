@@ -1,9 +1,0 @@
----
-- name: 'install the docker-compose package'
-  pip:
-    virtualenv: '/opt/docker'
-    virtualenv_site_packages: yes
-    name:
-    - 'docker-compose'
-    state: 'latest'
-  become: yes
