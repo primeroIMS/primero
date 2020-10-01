@@ -60,7 +60,7 @@ describe("<UsersForm />", () => {
   });
 
   it("renders 16 fields", () => {
-    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(16);
+    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(17);
   });
 
   it("renders submit button with valid props", () => {
@@ -98,7 +98,7 @@ describe("<UsersForm />", () => {
         "/admin/users/1"
       ]);
 
-      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(12);
+      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(13);
     });
   });
 });

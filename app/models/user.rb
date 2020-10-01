@@ -82,9 +82,13 @@ class User < ApplicationRecord
       %w[user_group_unique_ids role_unique_id identity_provider_unique_id]
     end
 
+    def permitted_attribute_names
+      User.attribute_names.reject { |name| name == 'services' } + [{ services: [] }]
+    end
+
     def permitted_api_params
       (
-        User.attribute_names + User.password_parameters +
+        User.permitted_attribute_names + User.password_parameters +
         [
           { user_group_ids: [] }, { user_group_unique_ids: [] },
           { module_unique_ids: [] }, :role_unique_id, :identity_provider_unique_id
