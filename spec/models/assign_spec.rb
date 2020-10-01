@@ -66,7 +66,7 @@ describe Assign do
 
       describe 'owned_by' do
         before do
-          @update_action = @record_histories.select { |h| h.action == 'update'}.first
+          @update_action = @record_histories.select { |h| h.action == 'update' }.first
         end
 
         it 'is updated' do
@@ -133,7 +133,7 @@ describe Assign do
 
           describe 'owned_by' do
             before do
-              @update_action = @record_histories.select { |h| h.action == 'update'}.first
+              @update_action = @record_histories.select { |h| h.action == 'update' }.first
             end
 
             it 'is updated' do
