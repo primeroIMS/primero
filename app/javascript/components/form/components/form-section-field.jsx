@@ -4,6 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
 import get from "lodash/get";
 
+import { ConditionalWrapper } from "../../../libs";
 import { notVisible } from "../utils";
 import { useI18n } from "../../i18n";
 import TextInput from "../fields/text-input";
@@ -73,13 +74,14 @@ const FormSectionField = ({ checkErrors, field }) => {
     asyncParamsFromWatched,
     asyncOptionsLoadingPath,
     clearDependentValues,
-    option_strings_source_id_key: optionStringsSourceIdKey
+    option_strings_source_id_key: optionStringsSourceIdKey,
+    setOtherFieldValues,
+    wrapWithComponent: WrapWithComponent
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
   const { formMode, errors, watch } = methods;
   const error = errors ? get(errors, name) : undefined;
-
   const errorsToCheck = checkErrors ? checkErrors.concat(fieldCheckErrors) : fieldCheckErrors;
 
   const optionSource = useSelector(
@@ -147,7 +149,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     asyncParamsFromWatched,
     asyncOptionsLoadingPath,
     watchedInputsValues,
-    clearDependentValues
+    clearDependentValues,
+    setOtherFieldValues
   };
 
   const Field = (fieldType => {
@@ -186,13 +189,15 @@ const FormSectionField = ({ checkErrors, field }) => {
   return (
     <div>
       {handleVisibility() || (
-        <Field
-          field={field}
-          commonInputProps={commonInputProps}
-          metaInputProps={metaInputProps}
-          options={watchedInputProps?.options || optionSource?.toJS()}
-          errorsToCheck={errorsToCheck}
-        />
+        <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
+          <Field
+            field={field}
+            commonInputProps={commonInputProps}
+            metaInputProps={metaInputProps}
+            options={watchedInputProps?.options || optionSource?.toJS()}
+            errorsToCheck={errorsToCheck}
+          />
+        </ConditionalWrapper>
       )}
     </div>
   );

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
 import html2pdf from "html2pdf.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fromJS, isImmutable } from "immutable";
 
 import { useI18n } from "../i18n";
@@ -14,17 +14,29 @@ import styles from "./styles.css";
 import { addPageHeaderFooter } from "./utils";
 import Table from "./components/table";
 
-const Component = ({ forms, record, formsSelectedField, customFilenameField }, ref) => {
+const Component = (
+  { forms, record, formsSelectedField, formsSelectedSelector, formsSelectedFieldDefault, customFilenameField },
+  ref
+) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { watch } = useFormContext();
   const html = useRef();
   const dispatch = useDispatch();
   const data = isImmutable(record) ? record : fromJS(record);
+  const userSelectedForms = formsSelectedField ? watch(formsSelectedField, formsSelectedFieldDefault || []) : false;
+  const formSelectorResults = useSelector(state => {
+    if (formsSelectedSelector) {
+      return formsSelectedSelector(state, userSelectedForms);
+    }
 
-  const userSelectedForms = formsSelectedField ? watch(formsSelectedField, []) : false;
-  const selectedForms = userSelectedForms?.length
-    ? forms.filter(form => userSelectedForms.includes(form.unique_id))
+    return fromJS([]);
+  });
+
+  const filteredByFields = formsSelectedSelector ? formSelectorResults?.toJS() : userSelectedForms;
+
+  const selectedForms = filteredByFields?.length
+    ? forms.filter(form => filteredByFields.includes(form.unique_id))
     : forms;
 
   useImperativeHandle(ref, () => ({
@@ -77,7 +89,9 @@ Component.propTypes = {
   customFilenameField: PropTypes.string.isRequired,
   forms: PropTypes.object.isRequired,
   formsSelectedField: PropTypes.string,
-  record: PropTypes.object.isRequired
+  formsSelectedFieldDefault: PropTypes.any,
+  formsSelectedSelector: PropTypes.func,
+  record: PropTypes.object.isRequired,
 };
 
 export default forwardRef(Component);

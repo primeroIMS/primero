@@ -1,4 +1,4 @@
-/* eslint-disable react/no-multi-comp  */
+/* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
 
 import React, { useImperativeHandle, forwardRef, useEffect } from "react";
@@ -37,7 +37,6 @@ const Component = ({
   });
 
   const formMode = whichFormMode(mode);
-  const formValues = renderBottom ? formMethods.watch() : {};
 
   useImperativeHandle(
     formRef,
@@ -78,7 +77,7 @@ const Component = ({
     <FormContext {...formMethods} formMode={formMode}>
       <CancelPrompt useCancelPrompt={useCancelPrompt} />
       <form noValidate>{renderFormSections(formSections)}</form>
-      {renderBottom && renderBottom(formValues)}
+      {renderBottom && renderBottom()}
     </FormContext>
   );
 };

@@ -32,7 +32,10 @@ export const OPTION_TYPES = {
   USER: "User",
   REPORTING_LOCATIONS: "ReportingLocation",
   USER_GROUP: "UserGroup",
-  ROLE: "Role"
+  ROLE: "Role",
+  ROLE_EXTERNAL_REFERRAL: "RoleExternalReferral",
+  REFER_TO_USERS: "ReferToUsers",
+  SERVICE_TYPE: "lookup-service-type"
 };
 
 export const CUSTOM_LOOKUPS = [OPTION_TYPES.USER, OPTION_TYPES.AGENCY, OPTION_TYPES.LOCATION];

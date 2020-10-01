@@ -74,7 +74,10 @@ export const getUserGroups = state => state.getIn([NAMESPACE, "userGroups"], fro
 
 export const getRoles = state => state.getIn([NAMESPACE, "roles"], fromJS([]));
 
-export const getRoleName = (state, uniqueId) =>
-  getRoles(state)
-    .find(role => role.get("unique_id") === uniqueId)
-    ?.get("name");
+export const getRole = (state, uniqueID) =>
+  getRoles(state).find(role => role.get("unique_id") === uniqueID, null, fromJS({}));
+
+export const getRoleName = (state, uniqueID) => getRole(state, uniqueID).get("name", "");
+
+export const getRoleFormSections = (state, uniqueID) =>
+  getRole(state, uniqueID).get("form_section_unique_ids", fromJS([]));

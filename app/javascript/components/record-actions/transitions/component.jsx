@@ -9,7 +9,7 @@ import { getRecords } from "../../index-table";
 
 import { NAME } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
-import { TransitionDialog, ReferralForm, ReassignForm, TransferForm } from "./components";
+import { TransitionDialog, ReassignForm, TransferForm } from "./components";
 import Referrals from "./referrals/component";
 
 const Transitions = ({
@@ -82,16 +82,9 @@ const Transitions = ({
           referralRef={referralFormikRef}
           disabled={disabledReferButton}
           setDisabled={setDisabledReferButton}
+          handleClose={handleReferClose}
         />
       );
-      // return (
-      //   <ReferralForm
-      //     {...commonTransitionProps}
-      //     referralRef={referralFormikRef}
-      //     disabled={disabledReferButton}
-      //     setDisabled={setDisabledReferButton}
-      //   />
-      // );
     }
     if (t.assignDialog) {
       return <ReassignForm {...commonTransitionProps} assignRef={assignFormikRef} />;

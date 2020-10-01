@@ -1,6 +1,7 @@
 import { Record, fromJS } from "immutable";
 
 export const FieldRecord = Record({
+  internalFormFieldID: null,
   id: null,
   name: "",
   type: "",
@@ -52,7 +53,9 @@ export const FieldRecord = Record({
   option_strings_source_id_key: null,
   clearDependentValues: null,
   form_section_id: null,
-  subform_section_configuration: null
+  subform_section_configuration: null,
+  setOtherFieldValues: null,
+  wrapWithComponent: null
 });
 
 export const FormSectionRecord = Record({

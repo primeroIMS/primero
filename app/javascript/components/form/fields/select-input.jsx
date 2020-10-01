@@ -9,7 +9,7 @@ import pickBy from "lodash/pickBy";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import InputLabel from "../components/input-label";
-import { getLoadingState } from "../selectors";
+import { getLoadingState, getValueFromOtherField } from "../selectors";
 
 const filter = createFilterOptions();
 
@@ -27,14 +27,21 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     asyncOptions,
     asyncOptionsLoadingPath,
     watchedInputsValues,
-    clearDependentValues
+    clearDependentValues,
+    setOtherFieldValues
   } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
   const methods = useFormContext();
   const dispatch = useDispatch();
   const loading = useSelector(state => getLoadingState(state, asyncOptionsLoadingPath));
+  const otherFieldValue = useSelector(state => {
+    if (!setOtherFieldValues) {
+      return null;
+    }
 
+    return getValueFromOtherField(state, setOtherFieldValues, watchedInputsValues);
+  });
   const fetchAsyncOptions = () => {
     if (asyncOptions) {
       const params = pickBy(watchedInputsValues, (value, key) => asyncParamsFromWatched.includes(key) && value);
@@ -69,13 +76,17 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const defaultValue = multiSelect ? [] : optionsUseIntegerIds ? null : null;
 
   const handleChange = data => {
-    debugger;
     if (onChange) {
       onChange(methods, data);
     }
 
     if (clearDependentValues) {
       clearDependentValues.forEach(field => methods.setValue(field, null));
+    }
+
+    if (otherFieldValue && setOtherFieldValues) {
+      console.log(otherFieldValue)
+      // methods.setValue(name, otherFieldValue);
     }
 
     return multiSelect

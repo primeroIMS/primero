@@ -59,7 +59,7 @@ const Component = ({
       return fieldValue ? <CheckBox /> : <CheckBoxOutlineBlank />;
     }
 
-    return String(fieldValue);
+    return fieldValue;
   };
 
   return (

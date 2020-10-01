@@ -54,9 +54,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.REFERRAL_USERS_FETCH_FAILURE:
       return state.setIn(["referral", "loading"], false).setIn(["referral", "errors"], true);
     case Actions.REFER_USER_FAILURE:
-      return state
-        .setIn(["referral", "errors"], true)
-        .setIn(["referral", "message"], fromJS(payload.errors.map(e => e.message).flat()));
+      return state.setIn(["referral", "errors"], true).setIn(["referral", "message"], fromJS(payload.errors));
     case Actions.REFER_USER_STARTED:
       return state.setIn(["referral", "errors"], false);
     case Actions.REFER_USER_SUCCESS:

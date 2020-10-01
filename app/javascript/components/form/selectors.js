@@ -32,9 +32,9 @@ const formGroups = (state, i18n) =>
     )
     .sortBy(item => item.get("display_text"));
 
-const agencies = (state, useUniqueId, { optionStringsSourceIdKey = "id", i18n }) =>
+const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false }) =>
   state.getIn(["application", "agencies"], fromJS([])).map(agency => ({
-    id: agency.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey),
+    id: agency.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
     display_text: agency.getIn(["name", i18n.locale], "")
   }));
 
@@ -107,6 +107,12 @@ const userGroups = state =>
 const roles = state =>
   getRoles(state).map(role => fromJS({ id: role.get("unique_id"), display_text: role.get("name") }));
 
+const managedRoles = (state, transfer) =>
+  state
+    .getIn(["application", "managedRoles"], fromJS([]))
+    .filter(role => role.get(transfer, false))
+    .map(role => fromJS({ id: role.get("unique_id"), display_text: role.get("name") }));
+
 const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) => {
   switch (optionStringsSource) {
     case OPTION_TYPES.AGENCY:
@@ -127,6 +133,8 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) =
       return userGroups(state);
     case OPTION_TYPES.ROLE:
       return roles(state);
+    case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:
+      return managedRoles(state, "referral");
     default:
       return lookupValues(state, optionStringsSource, i18n);
   }
@@ -159,3 +167,15 @@ export const getLookupByUniqueId = (state, lookupUniqueId) =>
     .find(lookup => lookup.get("unique_id") === lookupUniqueId);
 
 export const getLoadingState = (state, path) => (path ? state.getIn(path, false) : false);
+
+export const getValueFromOtherField = (state, fields, values) => {
+  return fields.reduce((prev, current) => {
+    console.log(current, values);
+    prev.push([
+      current.field,
+      state.getIn(current.path, []).find(entity => entity[current.key] === values[current.key])
+    ]);
+
+    return prev;
+  }, []);
+};
