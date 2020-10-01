@@ -7,8 +7,10 @@ describe("<Application /> - index", () => {
     expect(indexValues).to.be.an("object");
     [
       "ApplicationProvider",
+      "fetchRoles",
       "fetchSystemPermissions",
       "fetchSystemSettings",
+      "fetchUserGroups",
       "getEnabledAgencies",
       "getResourceActions",
       "getSystemPermissions",
@@ -19,6 +21,7 @@ describe("<Application /> - index", () => {
       "RESOURCE_ACTIONS",
       "selectAgencies",
       "getAgency",
+      "getUserGroups",
       "selectLocales",
       "selectModule",
       "selectModules",
