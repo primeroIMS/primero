@@ -85,7 +85,6 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     }
 
     if (otherFieldValue && setOtherFieldValues) {
-      console.log(otherFieldValue)
       // methods.setValue(name, otherFieldValue);
     }
 

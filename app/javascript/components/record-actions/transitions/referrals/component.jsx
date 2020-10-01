@@ -13,11 +13,10 @@ import { getErrorsByTransitionType } from "../selectors";
 import { setServiceToRefer } from "../../../record-form/action-creators";
 import { getServiceToRefer } from "../../../record-form";
 import PdfExporter from "../../../pdf-exporter";
-import { getRoleFormSections } from "../../../application/selectors";
+import { getManagedRoleFormSections } from "../../../form/selectors";
 
 import { mapServiceFields } from "./utils";
 import {
-  REFERRAL_FIELD,
   TRANSITION_TYPE,
   SERVICE_EXTERNAL_REFERRAL,
   FIELDS,
@@ -72,7 +71,7 @@ const Referrals = ({
         {
           data: {
             ...omit(values, OMITTED_SUBMISSION_FIELDS),
-            consent_overridden: canConsentOverride || values[REFERRAL_FIELD]
+            consent_overridden: providedConsent || canConsentOverride || values[FIELDS.CONSENT_INDIVIDUAL_TRANSFER]
           }
         },
         i18n.t("referral.success", { record_type: recordType, id: recordID })
@@ -103,7 +102,6 @@ const Referrals = ({
           [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: providedConsent,
           ...referralFromService
         }}
-        // renderBottom={renderPdfExporter({ record, recordTypesForms, pdfExporterRef })}
         renderBottom={() => (
           <PdfExporter
             record={record}
@@ -111,7 +109,7 @@ const Referrals = ({
             ref={pdfExporterRef}
             formsSelectedFieldDefault=""
             formsSelectedField={FIELDS.ROLE}
-            formsSelectedSelector={getRoleFormSections}
+            formsSelectedSelector={getManagedRoleFormSections}
             customFilenameField={CUSTOM_EXPORT_FILE_NAME_FIELD}
           />
         )}
@@ -124,6 +122,7 @@ Referrals.displayName = "Referrals";
 
 Referrals.propTypes = {
   canConsentOverride: PropTypes.bool,
+  handleClose: PropTypes.func.isRequired,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,

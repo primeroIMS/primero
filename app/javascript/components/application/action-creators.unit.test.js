@@ -15,7 +15,8 @@ describe("Application - Action Creators", () => {
       "fetchUserGroups",
       "loadApplicationResources",
       "setNetworkStatus",
-      "setUserIdle"
+      "setUserIdle",
+      "fetchManagedRoles"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];

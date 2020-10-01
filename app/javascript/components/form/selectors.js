@@ -108,10 +108,10 @@ const roles = state =>
   getRoles(state).map(role => fromJS({ id: role.get("unique_id"), display_text: role.get("name") }));
 
 const managedRoles = (state, transfer) =>
-  state
-    .getIn(["application", "managedRoles"], fromJS([]))
-    .filter(role => role.get(transfer, false))
-    .map(role => fromJS({ id: role.get("unique_id"), display_text: role.get("name") }));
+  state.getIn(["application", "managedRoles"], fromJS([])).filter(role => role.get(transfer, false));
+
+const buildManagedRoles = (state, transfer) =>
+  managedRoles(state, transfer).map(role => fromJS({ id: role.get("unique_id"), display_text: role.get("name") }));
 
 const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) => {
   switch (optionStringsSource) {
@@ -134,7 +134,7 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) =
     case OPTION_TYPES.ROLE:
       return roles(state);
     case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:
-      return managedRoles(state, "referral");
+      return buildManagedRoles(state, "referral");
     default:
       return lookupValues(state, optionStringsSource, i18n);
   }
@@ -170,7 +170,6 @@ export const getLoadingState = (state, path) => (path ? state.getIn(path, false)
 
 export const getValueFromOtherField = (state, fields, values) => {
   return fields.reduce((prev, current) => {
-    console.log(current, values);
     prev.push([
       current.field,
       state.getIn(current.path, []).find(entity => entity[current.key] === values[current.key])
@@ -179,3 +178,8 @@ export const getValueFromOtherField = (state, fields, values) => {
     return prev;
   }, []);
 };
+
+export const getManagedRoleFormSections = (state, uniqueID) =>
+  managedRoles(state, "referral")
+    .find(role => role.get("unique_id") === uniqueID, null, fromJS({}))
+    .get("form_section_unique_ids", fromJS([]));

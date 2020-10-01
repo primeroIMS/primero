@@ -73,7 +73,7 @@ const Component = (
 
   return (
     <div ref={html} className={css.container}>
-      {selectedForms.map(form => (
+      {selectedForms?.map(form => (
         <div key={`selected-${form.unique_id}`}>
           <h2>{i18n.getI18nStringFromObject(form.name)}</h2>
           <Table fields={form.fields} record={data} />
@@ -91,7 +91,7 @@ Component.propTypes = {
   formsSelectedField: PropTypes.string,
   formsSelectedFieldDefault: PropTypes.any,
   formsSelectedSelector: PropTypes.func,
-  record: PropTypes.object.isRequired,
+  record: PropTypes.object.isRequired
 };
 
 export default forwardRef(Component);

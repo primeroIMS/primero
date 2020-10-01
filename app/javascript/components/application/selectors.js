@@ -78,6 +78,3 @@ export const getRole = (state, uniqueID) =>
   getRoles(state).find(role => role.get("unique_id") === uniqueID, null, fromJS({}));
 
 export const getRoleName = (state, uniqueID) => getRole(state, uniqueID).get("name", "");
-
-export const getRoleFormSections = (state, uniqueID) =>
-  getRole(state, uniqueID).get("form_section_unique_ids", fromJS([]));

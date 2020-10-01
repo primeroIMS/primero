@@ -285,7 +285,14 @@ describe("<Transitions /> - Reducers", () => {
       data: [],
       referral: {
         errors: true,
-        message: ["referral.errors.consent"]
+        message: [
+          {
+            status: 422,
+            resource: "/api/v2/cases/123abc/transfers",
+            detail: "consent",
+            message: ["referral.errors.consent"]
+          }
+        ]
       }
     });
     const action = {
