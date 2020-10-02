@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
@@ -17,7 +17,7 @@ import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import { setDialog, setPending } from "../../../record-actions/action-creators";
 import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
-import { fetchSystemSettings } from "../../../application";
+import { fetchSystemSettings, fetchRoles, fetchUserGroups } from "../../../application";
 import bindFormSubmit from "../../../../libs/submit-form";
 import { currentUser } from "../../../user/selectors";
 import { compare } from "../../../../libs";
@@ -106,6 +106,15 @@ const Container = ({ mode }) => {
       }
     };
   }, [id]);
+
+  useEffect(() => {
+    batch(() => {
+      if (user?.toSeq()?.size && !selectedUserIsLoggedIn) {
+        dispatch(fetchRoles());
+        dispatch(fetchUserGroups());
+      }
+    });
+  }, [user]);
 
   useEffect(() => {
     if (!saving) {

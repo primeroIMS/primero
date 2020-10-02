@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
+import applicationActions from "../../../application/actions";
 import { ACTIONS } from "../../../../libs/permissions";
 import { FormAction } from "../../../form";
 import { MODES } from "../../../../config";
@@ -75,6 +76,16 @@ describe("<UsersForm />", () => {
     expect(saveButtonProps).to.be.empty;
   });
 
+  it("should fetch user groups and roles", () => {
+    const actionTypes = component
+      .props()
+      .store.getActions()
+      .map(action => action.type);
+
+    expect(actionTypes.includes(applicationActions.FETCH_USER_GROUPS)).to.be.true;
+    expect(actionTypes.includes(applicationActions.FETCH_ROLES)).to.be.true;
+  });
+
   describe("when currently logged-in user it equals to the selected one", () => {
     const state = fromJS({
       records: {
@@ -99,6 +110,20 @@ describe("<UsersForm />", () => {
       ]);
 
       expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(13);
+    });
+
+    it("should not fetch user groups and roles", () => {
+      const { component: newComponent } = setupMountedComponent(UsersForm, { mode: MODES.edit }, state, [
+        "/admin/users/1"
+      ]);
+
+      const actionTypes = newComponent
+        .props()
+        .store.getActions()
+        .map(action => action.type);
+
+      expect(actionTypes.includes(applicationActions.FETCH_USER_GROUPS)).to.be.false;
+      expect(actionTypes.includes(applicationActions.FETCH_ROLES)).to.be.false;
     });
   });
 });

@@ -44,8 +44,6 @@ export const loadApplicationResources = () => async dispatch => {
     dispatch(fetchSystemPermissions());
     dispatch(fetchForms());
     dispatch(fetchOptions());
-    dispatch(fetchRoles());
-    dispatch(fetchUserGroups());
   });
 };
 
