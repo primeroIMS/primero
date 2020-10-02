@@ -6,6 +6,7 @@ describe("<Form /> - Constants", () => {
 
     expect(clonedConstants).to.be.an("object");
     [
+      "DIALOG_TRIGGER",
       "CHECK_BOX_FIELD",
       "CUSTOM_LOOKUPS",
       "DATE_FIELD",
