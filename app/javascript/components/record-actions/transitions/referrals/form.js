@@ -15,7 +15,7 @@ import { fetchManagedRoles } from "../../../application/action-creators";
 import { RECORD_TYPES } from "../../../../config";
 
 import ConsentProvided from "./components/consent-provided";
-import { FIELDS } from "./constants";
+import { FIELDS, TRANSITIONED_TO_ASYNC_FILTER_FIELDS } from "./constants";
 
 const commonHandleWatched = {
   handleWatchedInputs: ({ [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: consent }) => ({ disabled: !consent })
@@ -48,11 +48,11 @@ const localReferralFields = ({ i18n, recordType, isReferralFromService }) =>
       type: SELECT_FIELD,
       required: true,
       showIf: values => !values[FIELDS.REMOTE],
-      watchedInputs: [FIELDS.AGENCY, FIELDS.LOCATION, FIELDS.REMOTE],
+      watchedInputs: [FIELDS.SERVICE, FIELDS.AGENCY, FIELDS.LOCATION, FIELDS.REMOTE],
       asyncOptions: true,
       asyncAction: fetchReferralUsers,
       asyncParams: { record_type: RECORD_TYPES[recordType] },
-      asyncParamsFromWatched: [FIELDS.AGENCY, FIELDS.LOCATION],
+      asyncParamsFromWatched: TRANSITIONED_TO_ASYNC_FILTER_FIELDS,
       asyncOptionsLoadingPath: ["records", "transitions", "referral", "loading"],
       option_strings_source: OPTION_TYPES.REFER_TO_USERS,
       setOtherFieldValues: [
@@ -145,7 +145,8 @@ const commonReferralFields = ({ isReferralFromService, isExternalReferralFromSer
       name: FIELDS.SERVICE,
       type: SELECT_FIELD,
       option_strings_source: OPTION_TYPES.SERVICE_TYPE,
-      disabled: isReferralFromService
+      disabled: isReferralFromService,
+      clearDependentValues: [FIELDS.TRANSITIONED_TO]
     }
   ].map(field => {
     return {
@@ -171,18 +172,19 @@ const referralFields = args =>
     ...remoteReferralFields(args)
   ].map(field => FieldRecord(field));
 
-const validWhenRemote = isRemote =>
+const validWhenRemote = (isRemote, i18n, i18nKey = "") =>
   string().when(FIELDS.REMOTE, {
     is: value => value === isRemote,
-    then: string().required()
+    then: string().required(i18n.t(`referral.${i18nKey}`))
   });
 
-export const validations = object().shape({
-  [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: bool().oneOf([true]),
-  [FIELDS.ROLE]: validWhenRemote(true).nullable(),
-  [FIELDS.TRANSITIONED_TO]: validWhenRemote(false),
-  [FIELDS.TRANSITIONED_TO_REMOTE]: validWhenRemote(true)
-});
+export const validations = i18n =>
+  object().shape({
+    [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: bool().oneOf([true]),
+    [FIELDS.ROLE]: validWhenRemote(true, i18n, "type_of_referral_required").nullable(),
+    [FIELDS.TRANSITIONED_TO]: validWhenRemote(false, i18n, "user_mandatory_label").nullable(),
+    [FIELDS.TRANSITIONED_TO_REMOTE]: validWhenRemote(true, i18n, "user_mandatory_label")
+  });
 
 export const form = args => {
   return fromJS([

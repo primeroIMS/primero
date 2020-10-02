@@ -63,8 +63,8 @@ export const NAME_FIELD = "name";
 export const CODE_FIELD = "code";
 
 export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
-  [MODULES.CP]: "consent_for_services",
-  [MODULES.GBV]: "disclosure_other_orgs"
+  [MODULES.CP]: ["consent_for_services", "disclosure_other_orgs"],
+  [MODULES.GBV]: ["consent_for_services"]
 });
 
 export const RECORD_PATH = {

@@ -39,3 +39,9 @@ export const SERVICE_SECTION_FIELDS_EXTERNAL = Object.freeze({
 });
 
 export const OMITTED_SUBMISSION_FIELDS = [FIELDS.LOCATION, FIELDS.ROLE];
+
+export const TRANSITIONED_TO_ASYNC_FILTER_FIELDS = [
+  FIELDS.SERVICE,
+  [FIELDS.AGENCY, "agency"],
+  [FIELDS.LOCATION, "location"]
+];

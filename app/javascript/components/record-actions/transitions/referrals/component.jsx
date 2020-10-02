@@ -78,7 +78,7 @@ const Referrals = ({
         {
           data: {
             ...omit(values, OMITTED_SUBMISSION_FIELDS),
-            consent_overridden: providedConsent || canConsentOverride || values[FIELDS.CONSENT_INDIVIDUAL_TRANSFER]
+            ...(!providedConsent && { consent_overridden: values[FIELDS.CONSENT_INDIVIDUAL_TRANSFER] })
           }
         },
         i18n.t("referral.success", { record_type: recordType, id: recordID })
@@ -105,7 +105,7 @@ const Referrals = ({
         formSections={forms}
         onSubmit={handleSubmit}
         ref={referralRef}
-        validations={validations}
+        validations={validations(i18n)}
         formErrors={formErrors}
         initialValues={{
           [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: providedConsent,

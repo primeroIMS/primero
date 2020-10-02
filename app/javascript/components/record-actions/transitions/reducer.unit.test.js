@@ -309,7 +309,8 @@ describe("<Transitions /> - Reducers", () => {
     const expected = fromJS({
       data: [],
       referral: {
-        errors: false
+        errors: false,
+        success: false
       }
     });
     const action = {
@@ -343,7 +344,8 @@ describe("<Transitions /> - Reducers", () => {
       data: [TransitionRecord(payload.data)],
       referral: {
         errors: false,
-        message: []
+        message: [],
+        success: true
       }
     });
     const action = {

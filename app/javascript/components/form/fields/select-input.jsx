@@ -44,7 +44,22 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   });
   const fetchAsyncOptions = () => {
     if (asyncOptions) {
-      const params = pickBy(watchedInputsValues, (value, key) => asyncParamsFromWatched.includes(key) && value);
+      const params = asyncParamsFromWatched.reduce((prev, next) => {
+        const obj = prev;
+
+        if (Array.isArray(next)) {
+          const [field, alias] = next;
+          const value = watchedInputsValues[field];
+
+          if (value) obj[alias] = watchedInputsValues[field];
+        } else {
+          const value = watchedInputsValues[next];
+
+          if (value) obj[next] = value;
+        }
+
+        return obj;
+      }, {});
 
       dispatch(asyncAction({ ...params, ...asyncParams }));
     }
