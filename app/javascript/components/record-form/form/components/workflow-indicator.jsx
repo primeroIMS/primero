@@ -26,7 +26,8 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   );
 
   const activeStep = workflowSteps?.findIndex(
-    s => s.id === (record.get("status") === CLOSED ? record.get("status") : record.get("workflow"))
+    workflowStep =>
+      workflowStep.id === (record.get("status") === CLOSED ? record.get("status") : record.get("workflow"))
   );
 
   if (mobileDisplay && workflowSteps) {
