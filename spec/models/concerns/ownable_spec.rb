@@ -144,6 +144,30 @@ describe Ownable do
           it 'changes previously_owned_by_agency' do
             expect(@case.previously_owned_by_agency).to eq(@agency1.id)
           end
+
+          describe 'record history' do
+            before do
+              @record_histories = @case.record_histories
+            end
+
+            it 'is updated' do
+              expect(@record_histories.size).to eq(2)
+              expect(@record_histories.map(&:action)).to match_array(%w[update create])
+              expect(@record_histories.map(&:record_type)).to match_array(%w[Child Child])
+            end
+
+            describe 'owned_by' do
+              before do
+                @update_action = @record_histories.select { |h| h.action == 'update' }.first
+              end
+
+              it 'is updated' do
+                expect(@update_action.record_changes['owned_by']).to be
+                expect(@update_action.record_changes['owned_by']['to']).to eq('user2')
+                expect(@update_action.record_changes['owned_by']['from']).to eq('user1')
+              end
+            end
+          end
         end
       end
 
