@@ -7,7 +7,7 @@ require 'spreadsheet'
 module Exporters
   describe IncidentRecorderExporter do
     before :each do
-      clean_data(Agency, Role, UserGroup, User, PrimeroProgram, Field, FormSection, PrimeroModule, Incident, Location)
+      clean_data(Agency, Role, UserGroup, User, PrimeroProgram, Field, FormSection, PrimeroModule, Incident, Location, Lookup)
       subform = FormSection.new(
         name: 'cases_test_subform_2', parent_form: 'case', 'visible' => false, 'is_nested' => true,
         order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_subform_2',
@@ -58,6 +58,22 @@ module Exporters
       )
       @role = create(:role, modules: [@primero_module], form_sections: [form1, form2, form3])
       @user = create(:user, user_name: 'fakeadmin', role: @role, code: 'test01')
+
+      Field.create!(name: 'ethnicity', display_name: 'ethnicity', type: Field::SELECT_BOX,
+                    option_strings_source: 'lookup lookup-ethnicity')
+      Field.create!(name: 'displacement_incident', type: Field::SELECT_BOX,
+                    display_name: 'Stage of displacement at time of incident',
+                    option_strings_text_i18n: [
+                      { 'id': 'during_flight', 'display_text': { 'en': 'During Flight' } },
+                      { 'id': 'during_refuge', 'display_text': {'en': 'During Refuge' } }
+                    ])
+      Lookup.create!(unique_id: 'lookup-ethnicity', name_i18n: { 'en': 'Ethnicity' },
+                     lookup_values_i18n: [
+                       { 'id': 'ethnicity1', 'display_text': { 'en': 'Ethnicity1' } },
+                       { 'id': 'ethnicity2', 'display_text': { 'en': 'Ethnicity2' } },
+                       { 'id': 'ethnicity3', 'display_text': { 'en': 'Ethnicity3' } },
+                       { 'id': 'ethnicity4', 'display_text': { 'en': 'Ethnicity4' } }
+                     ])
 
       incident_a = Incident.create!(
         data: {
@@ -330,8 +346,8 @@ module Exporters
         expect(workbook.worksheets[0].row(1).to_a).to eq(
           [
             model.incident_id, '111-222', 'test01', I18n.l(model.date_of_first_report), I18n.l(model.incident_date),
-            I18n.l(model.data['date_of_birth']), 'F', 'ethnicity3', 'andorra', 'divorced_separated', 'refugee',
-            'mental_disability', 'separated_child', 'during_flight', 'afternoon', 'garden', 'Guinea', 'Kindia', 'town',
+            I18n.l(model.data['date_of_birth']), 'F', 'Ethnicity3', 'andorra', 'divorced_separated', 'refugee',
+            'mental_disability', 'separated_child', 'During Flight', 'afternoon', 'garden', 'Guinea', 'Kindia', 'town',
             'sexual_assault', 'type_of_practice_1', 'false', 'forced_conscription', 'non-gbvims-org', 'true', '2',
             'M and F', 'Yes', 'Age 18 - 25', 'supervisor_employer', 'occupation_2', 'police_other_service',
             'services_already_received_from_another_agency', 'service_provided_by_your_agency',
@@ -340,6 +356,14 @@ module Exporters
             'true', 'UNICEF'
           ]
         )
+      end
+
+      it 'translate the correct data' do
+        data = IncidentRecorderExporter.export(@record_with_all_fields, @user, {})
+        workbook = Spreadsheet.open(StringIO.new(data))
+        expect(workbook.worksheets.size).to eq(2)
+        expect(workbook.worksheets[0].row(1)[7]).to eq('Ethnicity3')
+        expect(workbook.worksheets[0].row(1)[13]).to eq('During Flight')
       end
 
       it 'Get age_type form perpetrators' do
