@@ -23,12 +23,6 @@ ENV PRIMERO_SECRET_KEY_BASE=PRIMERO_SECRET_KEY_BASE
 ENV DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
 ENV DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
 
-#RUN set -euox \
-#		; addgroup -g 1000 primero \
-#       ; adduser -D -u 1000 -G primero primero \
-#        ; mkdir -p "$APP_ROOT" \
-#        ; chown primero:primero "$APP_ROOT"
-
 # Test if variables have been defined by build script
 # otherwise return 1 and stop docker build
 RUN set -ex ; \
@@ -95,16 +89,16 @@ RUN set -euox pipefail \
         /usr/local/bundle/bundler/gems/*/.git \
         /usr/local/bundle/cache/
 
+# Creating User primero to run the contianer instead of root.  Also chaniging permissions and
+# ownership of the APP_ROOT and the storage volume.
 RUN set -euox pipefail \
         ; addgroup -g $GROUP_ID primero \
         ; adduser --disabled-password --gecos '' -u $USER_ID -G primero primero \
-		; mkdir -p /srv/primero/application/storage \
+        ; mkdir -p /srv/primero/application/storage \
         ; chmod -R 700 /srv/primero/application/storage \
-#		; mkdir -p /share/public \
-#        ; chmod -R 755 /share/public \
-		; chown -R primero:primero "$APP_ROOT"
-#        ; chown -R primero:primero /share/public
+        ; chown -R primero:primero "$APP_ROOT"
 
+# Switching to User primero to run the container
 USER primero
 
 # -------------------------------------------------------------------- FINAL
@@ -135,16 +129,19 @@ COPY --from=build-env $APP_ROOT $APP_ROOT
 
 WORKDIR $APP_ROOT
 
+# Creating User primero to run the contianer instead of root.  Also chaniging permissions and
+# ownership of the APP_ROOT, and the storage and pubic volumes.
 RUN set -euox pipefail \
         ; addgroup -g $GROUP_ID primero \
         ; adduser --disabled-password --gecos '' -u $USER_ID -G primero primero \
-		; mkdir -p /srv/primero/application/storage \
+        ; mkdir -p /srv/primero/application/storage \
         ; chmod -R 700 /srv/primero/application/storage \
-		; chown -R primero:primero "$APP_ROOT" \        
-		; mkdir -p /share/public \
+        ; chown -R primero:primero "$APP_ROOT" \
+        ; mkdir -p /share/public \
         ; chmod -R 755 /share/public \
         ; chown -R primero:primero /share/public
 
+# Switching to User primero to run the container
 USER primero
 
 ENTRYPOINT [ "/entrypoint.sh" ]
