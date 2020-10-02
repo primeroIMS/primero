@@ -60,7 +60,8 @@ describe("<Transition /> - utils", () => {
       const record = Map({
         id: "123",
         module_id: "primeromodule-cp",
-        consent_for_services: true
+        consent_for_services: true,
+        disclosure_other_orgs: true
       });
 
       it("should return true", () => {
@@ -74,7 +75,7 @@ describe("<Transition /> - utils", () => {
       });
 
       it("should return false", () => {
-        expect(utils.hasProvidedConsent(record)).to.be.undefined;
+        expect(utils.hasProvidedConsent(record)).to.be.false;
       });
     });
   });

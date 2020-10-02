@@ -32,7 +32,8 @@ describe("<Transitions />", () => {
     name_last: "D",
     name: "W D",
     module_id: MODULES.CP,
-    consent_for_services: true
+    consent_for_services: true,
+    disclosure_other_orgs: true
   });
 
   describe("when Transitions is rendered", () => {
