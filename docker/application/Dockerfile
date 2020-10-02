@@ -1,9 +1,6 @@
 # -------------------------------------------------------------------- BUILD STAGE
 FROM ruby:2.6.6-alpine3.11 AS build-env
 
-ARG USER_ID=1000
-ARG GROUP_ID=1000
-
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python
 ENV BUILD_DEP_PACKAGES postgresql-dev
 ENV RUNTIME_PACKAGES libc6-compat nodejs gettext libintl npm imagemagick libsodium-dev
@@ -89,18 +86,6 @@ RUN set -euox pipefail \
         /usr/local/bundle/bundler/gems/*/.git \
         /usr/local/bundle/cache/
 
-# Creating User primero to run the contianer instead of root.  Also chaniging permissions and
-# ownership of the APP_ROOT and the storage volume.
-RUN set -euox pipefail \
-        ; addgroup -g $GROUP_ID primero \
-        ; adduser --disabled-password --gecos '' -u $USER_ID -G primero primero \
-        ; mkdir -p /srv/primero/application/storage \
-        ; chmod -R 700 /srv/primero/application/storage \
-        ; chown -R primero:primero "$APP_ROOT"
-
-# Switching to User primero to run the container
-USER primero
-
 # -------------------------------------------------------------------- FINAL
 
 FROM ruby:2.6.6-alpine3.11
@@ -141,7 +126,7 @@ RUN set -euox pipefail \
         ; chmod -R 755 /share/public \
         ; chown -R primero:primero /share/public
 
-# Switching to User primero to run the container
+# Switching to User primero to run the container.
 USER primero
 
 ENTRYPOINT [ "/entrypoint.sh" ]
