@@ -2637,6 +2637,8 @@ en:
       time_zone_updated: The change was successfully updated.
       updated: User was successfully updated.
     organization: Organization
+    agency: Agency
+    services_help_text: If you do not specify services, this User will be given the same services its Agency has.
     password: Password
     password_confirmation: Password Confirmation
     phone: Phone
