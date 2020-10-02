@@ -1,6 +1,9 @@
 # -------------------------------------------------------------------- BUILD STAGE
 FROM ruby:2.6.6-alpine3.11 AS build-env
 
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python
 ENV BUILD_DEP_PACKAGES postgresql-dev
 ENV RUNTIME_PACKAGES libc6-compat nodejs gettext libintl npm imagemagick libsodium-dev
@@ -20,6 +23,12 @@ ENV PRIMERO_SECRET_KEY_BASE=PRIMERO_SECRET_KEY_BASE
 ENV DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
 ENV DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
 
+#RUN set -euox \
+#		; addgroup -g 1000 primero \
+#       ; adduser -D -u 1000 -G primero primero \
+#        ; mkdir -p "$APP_ROOT" \
+#        ; chown primero:primero "$APP_ROOT"
+
 # Test if variables have been defined by build script
 # otherwise return 1 and stop docker build
 RUN set -ex ; \
@@ -27,7 +36,6 @@ RUN set -ex ; \
             return 1); \
         test -n "$RAILS_LOG_PATH" || (printf "RAILS_LOG_PATH not defined\n" ; \
             return 1);
-
 
 # Install our packages
 RUN set -euox pipefail \
@@ -40,6 +48,7 @@ RUN set -euox pipefail \
 
 # Install Gems first for docker cache
 WORKDIR ${APP_ROOT}
+
 COPY [ "Gemfile", "Gemfile.lock", "$APP_ROOT/" ]
 
 # Run bundle install
@@ -53,6 +62,7 @@ RUN set -euox pipefail \
 
 # Run npm install
 COPY [ "package.json", "package-lock.json", "$APP_ROOT/" ]
+
 RUN set -euox pipefail \
         ; npm install
 
@@ -60,6 +70,7 @@ RUN set -euox pipefail \
 # items that need to be copied from that directory
 #
 # Now copy over primero and do setup
+
 COPY [ ".", "$APP_ROOT" ]
 
 RUN set -euox pipefail \
@@ -84,12 +95,27 @@ RUN set -euox pipefail \
         /usr/local/bundle/bundler/gems/*/.git \
         /usr/local/bundle/cache/
 
+RUN set -euox pipefail \
+        ; addgroup -g $GROUP_ID primero \
+        ; adduser --disabled-password --gecos '' -u $USER_ID -G primero primero \
+		; mkdir -p /srv/primero/application/storage \
+        ; chmod -R 700 /srv/primero/application/storage \
+#		; mkdir -p /share/public \
+#        ; chmod -R 755 /share/public \
+		; chown -R primero:primero "$APP_ROOT"
+#        ; chown -R primero:primero /share/public
+
+USER primero
+
 # -------------------------------------------------------------------- FINAL
 
 FROM ruby:2.6.6-alpine3.11
 
 ENV BUILD_PACKAGES bash
 ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl
+
+ARG USER_ID=1000
+ARG GROUP_ID=1000
 
 ARG APP_ROOT
 ENV APP_ROOT=${APP_ROOT}
@@ -108,6 +134,18 @@ COPY --from=build-env /usr/local/bundle/ /usr/local/bundle/
 COPY --from=build-env $APP_ROOT $APP_ROOT
 
 WORKDIR $APP_ROOT
+
+RUN set -euox pipefail \
+        ; addgroup -g $GROUP_ID primero \
+        ; adduser --disabled-password --gecos '' -u $USER_ID -G primero primero \
+		; mkdir -p /srv/primero/application/storage \
+        ; chmod -R 700 /srv/primero/application/storage \
+		; chown -R primero:primero "$APP_ROOT" \        
+		; mkdir -p /share/public \
+        ; chmod -R 755 /share/public \
+        ; chown -R primero:primero /share/public
+
+USER primero
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 
