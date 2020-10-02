@@ -2591,7 +2591,7 @@ en:
       to_user_can_receive: This user cannot receive this record
     individual_consent: Did the case worker have the individual's consent to make
       this transfer?
-    no_consent_share: No Consent to Share Setting Overridden
+    no_consent_share: Consent to share setting overwritten?
     notes: Notes
     recipient: Recipient
     rejected: Reason Rejected

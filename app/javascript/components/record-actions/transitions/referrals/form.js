@@ -114,7 +114,7 @@ const remoteReferralFields = ({ i18n, isExternalReferralFromService }) =>
     },
     {
       display_name: i18n.t("transfer.recipient_label"),
-      name: FIELDS.TRANSITIONED_TO,
+      name: FIELDS.TRANSITIONED_TO_REMOTE,
       required: true
     }
   ].map(field => {
@@ -171,13 +171,17 @@ const referralFields = args =>
     ...remoteReferralFields(args)
   ].map(field => FieldRecord(field));
 
+const validWhenRemote = isRemote =>
+  string().when(FIELDS.REMOTE, {
+    is: value => value === isRemote,
+    then: string().required()
+  });
+
 export const validations = object().shape({
   [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: bool().oneOf([true]),
-  [FIELDS.ROLE]: string().when("remote", {
-    is: value => value,
-    then: string().required()
-  }),
-  [FIELDS.TRANSITIONED_TO]: string().required()
+  [FIELDS.ROLE]: validWhenRemote(true).nullable(),
+  [FIELDS.TRANSITIONED_TO]: validWhenRemote(false),
+  [FIELDS.TRANSITIONED_TO_REMOTE]: validWhenRemote(true)
 });
 
 export const form = args => {

@@ -56,14 +56,17 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.REFER_USER_FAILURE:
       return state.setIn(["referral", "errors"], true).setIn(["referral", "message"], fromJS(payload.errors));
     case Actions.REFER_USER_STARTED:
-      return state.setIn(["referral", "errors"], false);
+      return state.setIn(["referral", "errors"], false).setIn(["referral", "success"], false);
     case Actions.REFER_USER_SUCCESS:
       return state
         .setIn(["referral", "errors"], false)
         .setIn(["referral", "message"], fromJS([]))
+        .setIn(["referral", "success"], true)
         .update("data", data => {
           return data.push(TransitionRecord(payload.data));
         });
+    case Actions.REFER_USER_FINISHED:
+      return state.setIn(["referral", "success"], false);
     default:
       return state;
   }

@@ -14,6 +14,7 @@ export const FIELDS = Object.freeze({
   AGENCY: "transitioned_to_agency",
   LOCATION: "location",
   TRANSITIONED_TO: "transitioned_to",
+  TRANSITIONED_TO_REMOTE: "transitioned_to_remote",
   NOTES: "notes",
   FILENAME: CUSTOM_EXPORT_FILE_NAME_FIELD,
   SERVICE_RECORD_ID: "service_record_id"
@@ -31,6 +32,7 @@ export const SERVICE_SECTION_FIELDS_EXTERNAL = Object.freeze({
   [FIELDS.LOCATION]: "service_location",
   [FIELDS.AGENCY]: "service_implementing_agency_external",
   [FIELDS.TRANSITIONED_TO]: "service_provider",
+  [FIELDS.TRANSITIONED_TO_REMOTE]: "service_provider",
   [FIELDS.SERVICE]: "service_type",
   [FIELDS.SERVICE_RECORD_ID]: "unique_id",
   [FIELDS.REMOTE]: SERVICE_EXTERNAL_REFERRAL

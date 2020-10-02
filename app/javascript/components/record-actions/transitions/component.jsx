@@ -106,7 +106,8 @@ const Transitions = ({
         open: referDialog,
         successHandler: () => submitForm(referralFormikRef),
         transitionType: TRANSITIONS_TYPES.referral,
-        enabledSuccessButton: disabledReferButton || providedConsent
+        enabledSuccessButton: disabledReferButton || providedConsent,
+        omitCloseAfterSuccess: true
       };
     }
 

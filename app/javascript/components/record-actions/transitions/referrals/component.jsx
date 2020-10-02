@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
@@ -15,6 +15,7 @@ import { getServiceToRefer } from "../../../record-form";
 import PdfExporter from "../../../pdf-exporter";
 import { getManagedRoleFormSections } from "../../../form/selectors";
 
+import { getReferralSuccess } from "./selectors";
 import { mapServiceFields } from "./utils";
 import {
   TRANSITION_TYPE,
@@ -39,6 +40,9 @@ const Referrals = ({
   const pdfExporterRef = useRef();
   const dispatch = useDispatch();
 
+  const [formValues, setFormValues] = useState({});
+
+  const submittedSuccessfully = useSelector(state => getReferralSuccess(state));
   const serviceToRefer = useSelector(state => getServiceToRefer(state));
   const formErrors = useSelector(state => getErrorsByTransitionType(state, TRANSITION_TYPE));
   const recordTypesForms = useSelector(state =>
@@ -64,6 +68,9 @@ const Referrals = ({
   const handleSubmit = values => {
     const recordID = record.get("id");
 
+    setPending(true);
+    setFormValues(values);
+
     dispatch(
       saveReferral(
         recordID,
@@ -77,10 +84,6 @@ const Referrals = ({
         i18n.t("referral.success", { record_type: recordType, id: recordID })
       )
     );
-
-    if (values.remote) {
-      pdfExporterRef.current.savePdf({ setPending, close: handleClose, values });
-    }
   };
 
   useEffect(() => {
@@ -88,6 +91,12 @@ const Referrals = ({
 
     return () => dispatch(setServiceToRefer(fromJS({})));
   }, []);
+
+  useEffect(() => {
+    if (submittedSuccessfully && formValues.remote) {
+      pdfExporterRef.current.savePdf({ setPending, close: handleClose, values: formValues });
+    }
+  }, [submittedSuccessfully]);
 
   return (
     <>
