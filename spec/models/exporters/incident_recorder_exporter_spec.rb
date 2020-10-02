@@ -64,6 +64,7 @@ module Exporters
           incident_date: Date.new(2019, 3, 1), description: 'Test 1', owned_by: @user.user_name, incidentid_ir: 'test',
           alleged_perpetrator: [
             {
+              primary_perpetrator: 'primary',
               age_type: 'adult',
               unique_id: '3341413f-15e4-411c-8158-5535e4cf2fae',
               perpetrator_sex: 'male',
@@ -354,6 +355,28 @@ module Exporters
         expect(workbook.worksheets[0].rows.count).to eq(3)
         expect(workbook.worksheets[0].row(0)[28]).to eq('ALLEGED PERPETRATOR AGE TYPE')
         expect(workbook.worksheets[0].row(1)[28]).to eq('Adult')
+      end
+
+      it 'Get select field value from primary perpetrators' do
+        form_perpetrator = FormSection.new(
+          name: 'alleged_perpetrator', parent_form: 'case', 'visible' => true, order_form_group: 0,
+          order: 0, order_subform: 0, form_group_id: 'cases_test_subform_2', unique_id: 'alleged_perpetrator'
+        )
+        fields = [
+          Field.new(name: 'perpetrator_occupation', type: Field::SELECT_BOX, display_name: 'perpetrator_occupation',
+                    multi_select: true, option_strings_text: [
+                      { id: 'occupation_1', display_text: 'Occupation 1' },
+                      { id: 'occupation_2', display_text: 'Occupation ' }
+                    ].map(&:with_indifferent_access))
+        ]
+        form_perpetrator.fields = fields
+        form_perpetrator.save!
+
+        data = IncidentRecorderExporter.export(@records, @user, {})
+        workbook = Spreadsheet.open(StringIO.new(data))
+        expect(workbook.worksheets[0].rows.count).to eq(3)
+        expect(workbook.worksheets[0].row(0)[30]).to eq('ALLEGED PERPETRATOR OCCUPATION')
+        expect(workbook.worksheets[0].row(1)[30]).to eq('Occupation 1')
       end
     end
 

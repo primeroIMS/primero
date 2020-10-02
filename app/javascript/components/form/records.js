@@ -55,7 +55,8 @@ export const FieldRecord = Record({
   form_section_id: null,
   subform_section_configuration: null,
   setOtherFieldValues: null,
-  wrapWithComponent: null
+  wrapWithComponent: null,
+  onClick: null
 });
 
 export const FormSectionRecord = Record({

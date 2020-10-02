@@ -16,6 +16,7 @@ import ToggleField from "../fields/toggle-input";
 import DateField from "../fields/date-input";
 import Seperator from "../fields/seperator";
 import OrderableOptionsField from "../fields/orderable-options-field";
+import DialogTrigger from "../fields/dialog-trigger";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../config";
 import {
   CHECK_BOX_FIELD,
@@ -28,7 +29,8 @@ import {
   RADIO_FIELD,
   TOGGLE_FIELD,
   DATE_FIELD,
-  SEPARATOR
+  SEPARATOR,
+  DIALOG_TRIGGER
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
@@ -76,7 +78,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     clearDependentValues,
     option_strings_source_id_key: optionStringsSourceIdKey,
     setOtherFieldValues,
-    wrapWithComponent: WrapWithComponent
+    wrapWithComponent: WrapWithComponent,
+    onClick
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -150,7 +153,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     asyncOptionsLoadingPath,
     watchedInputsValues,
     clearDependentValues,
-    setOtherFieldValues
+    setOtherFieldValues,
+    onClick
   };
 
   const Field = (fieldType => {
@@ -177,6 +181,8 @@ const FormSectionField = ({ checkErrors, field }) => {
         return OrderableOptionsField;
       case SEPARATOR:
         return Seperator;
+      case DIALOG_TRIGGER:
+        return DialogTrigger;
       default:
         return TextInput;
     }

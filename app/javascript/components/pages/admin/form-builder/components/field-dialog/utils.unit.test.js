@@ -82,6 +82,14 @@ describe("addWithIndex", () => {
 });
 
 describe("buildDataToSave", () => {
+  before(() => {
+    stub(uuid, "v4").returns("b8e93-0cce-415b-ad2b-d06bb454b66f");
+  });
+
+  after(() => {
+    uuid.v4.restore();
+  });
+
   it("should set the data for update", () => {
     const selectedField = fromJS({
       name: "referral_person_phone",
@@ -121,11 +129,11 @@ describe("buildDataToSave", () => {
     it("should set the data for create", () => {
       const selectedField = fromJS({ name: NEW_FIELD, type: TEXT_FIELD });
 
-      expect(utils.buildDataToSave(selectedField, objectData, "en", 1)).to.deep.equals({
-        test_field: {
+      expect(utils.buildDataToSave(selectedField, objectData, 1)).to.deep.equal({
+        test_field_454b66f: {
           ...objectData,
           type: TEXT_FIELD,
-          name: "test_field",
+          name: "test_field_454b66f",
           order: 2
         }
       });
@@ -142,11 +150,11 @@ describe("buildDataToSave", () => {
         multi_select: true
       };
 
-      expect(utils.buildDataToSave(selectedField, objectDataSelectField, "en", 1)).to.deep.equals({
-        test_field: {
+      expect(utils.buildDataToSave(selectedField, objectDataSelectField, 1)).to.deep.equals({
+        test_field_454b66f: {
           ...objectDataSelectField,
           type: SELECT_FIELD,
-          name: "test_field",
+          name: "test_field_454b66f",
           order: 2
         }
       });
@@ -164,11 +172,11 @@ describe("buildDataToSave", () => {
         date_include_time: true
       };
 
-      expect(utils.buildDataToSave(selectedField, objectDataDateTimeField, "en", 1)).to.deep.equals({
-        test_field: {
+      expect(utils.buildDataToSave(selectedField, objectDataDateTimeField, 1)).to.deep.equals({
+        test_field_454b66f: {
           ...objectDataDateTimeField,
           type: DATE_FIELD,
-          name: "test_field",
+          name: "test_field_454b66f",
           order: 2
         }
       });
@@ -188,7 +196,7 @@ describe("buildDataToSave", () => {
         show_on_minify_form: false,
         visible: true
       };
-      const expected = "test_field_name_1";
+      const expected = "test_field_name_1_454b66f";
 
       expect(Object.keys(utils.buildDataToSave(selectedField, data, "en", 1))[0]).to.deep.equals(expected);
     });
@@ -220,20 +228,14 @@ describe("subformContainsFieldName", () => {
 });
 
 describe("generateUniqueId", () => {
-  it("returns an id without numbers if the id is not duplicated ", () => {
-    const existingIds = ["new_field", "other_field"];
-    const data = "a new field";
-
-    expect(utils.generateUniqueId(data, existingIds)).to.equal("a_new_field");
-  });
-
-  it("returns the name of the duplicated data with a generated key", () => {
+  it("returns the name of the duplicated data with a generated key of 7 characters", () => {
     stub(uuid, "v4").returns("b8e93-0cce-415b-ad2b-d06bb454b66f");
 
-    const existingIds = ["new_field", "other_field"];
     const data = "new field";
+    const generatedName = utils.generateUniqueId(data);
 
-    expect(utils.generateUniqueId(data, existingIds)).to.equal("new_field_454b66f");
+    expect(generatedName).to.equal("new_field_454b66f");
+    expect(generatedName.split("_")[2]).to.have.lengthOf(7);
     uuid.v4.restore();
   });
 });

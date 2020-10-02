@@ -132,3 +132,11 @@
 .removeIcon {
   color: $(theme.primero.colors.red);
 }
+
+.dialogTrigger {
+  color: $(theme.primero.colors.blue);
+  font-size: $(theme.typography.pxToRem(9));
+  font-weight: bold;
+  padding: 0 0 10px 0;
+  text-transform: none;
+}

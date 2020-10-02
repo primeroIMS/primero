@@ -16,11 +16,9 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { Filters as AdminFilters } from "../components";
 import { fetchAgencies } from "../agencies-list/action-creators";
-import { getEnabledAgencies } from "../../../application/selectors";
-import { getUserGroups } from "../user-groups-list/selectors";
+import { fetchUserGroups, getEnabledAgencies, getUserGroups } from "../../../application";
 import { getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
-import { fetchUserGroups } from "../user-groups-list/action-creators";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP } from "./constants";

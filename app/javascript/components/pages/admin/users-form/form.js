@@ -1,10 +1,18 @@
 import { fromJS } from "immutable";
 
-import { FormSectionRecord, FieldRecord, OPTION_TYPES, TICK_FIELD, TEXT_FIELD, SELECT_FIELD } from "../../../form";
+import {
+  FormSectionRecord,
+  FieldRecord,
+  DIALOG_TRIGGER,
+  TICK_FIELD,
+  TEXT_FIELD,
+  SELECT_FIELD,
+  OPTION_TYPES
+} from "../../../form";
 
 import { IDENTITY_PROVIDER_ID, USER_GROUP_UNIQUE_IDS, USERGROUP_PRIMERO_GBV } from "./constants";
 
-const sharedUserFields = (i18n, formMode, hideOnAccountPage) => [
+const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePassword) => [
   {
     display_name: i18n.t("user.full_name"),
     name: "full_name",
@@ -30,7 +38,8 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage) => [
     type: TEXT_FIELD,
     password: true,
     hideOnShow: true,
-    required: formMode.get("isNew")
+    required: formMode.get("isNew"),
+    editable: false
   },
   {
     display_name: i18n.t("user.password_confirmation"),
@@ -38,7 +47,14 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage) => [
     type: TEXT_FIELD,
     password: true,
     hideOnShow: true,
-    required: formMode.get("isNew")
+    required: formMode.get("isNew"),
+    editable: false
+  },
+  {
+    display_name: "Change password",
+    type: DIALOG_TRIGGER,
+    hideOnShow: true,
+    onClick: onClickChangePassword
   },
   {
     display_name: i18n.t("user.locale"),
@@ -62,6 +78,13 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage) => [
     required: true,
     option_strings_source: OPTION_TYPES.USER_GROUP,
     visible: !hideOnAccountPage
+  },
+  {
+    display_name: i18n.t("user.services"),
+    name: "services",
+    type: SELECT_FIELD,
+    multi_select: true,
+    option_strings_source: "lookup-service-type"
   },
   {
     display_name: i18n.t("user.phone"),
@@ -131,9 +154,17 @@ const identityUserFields = (i18n, identityOptions) => [
 const EXCLUDED_IDENITITY_FIELDS = ["password", "password_confirmation"];
 
 // eslint-disable-next-line import/prefer-default-export
-export const form = (i18n, formMode, useIdentityProviders, providers, identityOptions, hideOnAccountPage = false) => {
+export const form = (
+  i18n,
+  formMode,
+  useIdentityProviders,
+  providers,
+  identityOptions,
+  onClickChangePassword,
+  hideOnAccountPage = false
+) => {
   const useIdentity = useIdentityProviders && providers;
-  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage);
+  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword);
   const identityFields = identityUserFields(i18n, identityOptions);
 
   const providersDisable = (value, name, { error }) => {
