@@ -2646,6 +2646,7 @@ en:
     send_mail: Receive email notifications?
     user_group_unique_ids: User Groups
     user_name: Username
+    services: Services
     welcome_email:
       subject: 'Welcome to %{system}!'
       greeting: 'Welcome to %{system}!'

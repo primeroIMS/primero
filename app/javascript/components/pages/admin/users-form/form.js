@@ -64,6 +64,13 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage) => [
     visible: !hideOnAccountPage
   },
   {
+    display_name: i18n.t("user.services"),
+    name: "services",
+    type: SELECT_FIELD,
+    multi_select: true,
+    option_strings_source: "lookup-service-type"
+  },
+  {
     display_name: i18n.t("user.phone"),
     name: "phone",
     type: TEXT_FIELD
