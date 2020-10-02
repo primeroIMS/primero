@@ -13,6 +13,7 @@ RUN set -euxo pipefail \
         ; chmod -R 700 /var/lib/beanstalkd \
         ; chown -R beanstalk /var/lib/beanstalkd
 
+
 EXPOSE ${BEANSTALKD_PORT}
 
 USER beanstalk
