@@ -52,7 +52,10 @@ class User < ApplicationRecord
   validates :user_name, format: { with: URI::MailTo::EMAIL_REGEXP, message: 'errors.models.user.user_name' },
                         if: :using_idp?
   validates :email, presence: true, if: :using_idp?
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP, message: 'errors.models.user.email' }, allow_nil: true
+  validates :email,
+            format: { with: URI::MailTo::EMAIL_REGEXP, message: 'errors.models.user.email' },
+            allow_nil: true,
+            uniqueness: { message: 'errors.models.user.email_uniqueness' }
   validates :password,
             presence: true,
             length: { minimum: 8, message: 'errors.models.user.password_mismatch' },

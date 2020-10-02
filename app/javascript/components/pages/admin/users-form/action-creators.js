@@ -13,7 +13,7 @@ export const fetchUser = id => {
   };
 };
 
-export const saveUser = ({ id, body, dialogName, saveMethod, message, failureMessage }) => {
+export const saveUser = ({ id, body, dialogName, saveMethod, message }) => {
   const path = saveMethod === SAVE_METHODS.update ? `${RECORD_PATH.users}/${id}` : RECORD_PATH.users;
 
   return {
@@ -40,24 +40,6 @@ export const saveUser = ({ id, body, dialogName, saveMethod, message, failureMes
           payload: {
             dialog: dialogName,
             open: false
-          }
-        },
-        {
-          action: SET_DIALOG_PENDING,
-          payload: {
-            pending: false
-          }
-        }
-      ],
-      failureCallback: [
-        {
-          action: ENQUEUE_SNACKBAR,
-          payload: {
-            message: failureMessage,
-            options: {
-              variant: "error",
-              key: generate.messageKey(failureMessage)
-            }
           }
         },
         {
