@@ -56,7 +56,7 @@ export const checkConfiguration = () => ({
   }
 });
 
-export const getApplyingConfigMessage = () => ({
+export const applyingConfigMessage = () => ({
   action: ENQUEUE_SNACKBAR,
   payload: {
     messageKey: "configurations.unavailable_server",
@@ -64,6 +64,17 @@ export const getApplyingConfigMessage = () => ({
     options: {
       variant: SNACKBAR_VARIANTS.info,
       key: generate.messageKey(99999)
+    }
+  }
+});
+
+export const appliedConfigMessage = () => ({
+  action: ENQUEUE_SNACKBAR,
+  payload: {
+    messageKey: "configurations.messages.applied",
+    options: {
+      variant: SNACKBAR_VARIANTS.success,
+      key: generate.messageKey(4321)
     }
   }
 });

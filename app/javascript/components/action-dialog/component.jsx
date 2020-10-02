@@ -8,6 +8,7 @@ import { useI18n } from "../i18n";
 import { useThemeHelper } from "../../libs";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
+import { useApp } from "../application";
 
 import TitleWithClose from "./text-with-close";
 import styles from "./styles.css";
@@ -36,6 +37,7 @@ const ActionDialog = ({
 }) => {
   const i18n = useI18n();
   const { css } = useThemeHelper(styles);
+  const { disabledApplication } = useApp();
 
   const handleClose = event => {
     event.stopPropagation();
@@ -84,6 +86,8 @@ const ActionDialog = ({
 
   const iconConfirmButtom = confirmButtonProps && confirmButtonProps.icon ? confirmButtonProps.icon : <CheckIcon />;
 
+  const onCloseModal = disabledApplication ? null : handleClose;
+
   const submitButton = (
     <div className={css.submitButtonWrapper}>
       <ActionButton
@@ -105,7 +109,7 @@ const ActionDialog = ({
     <div onClick={stopPropagation}>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={onCloseModal}
         fullWidth
         maxWidth={maxSize || "sm"}
         aria-labelledby="action-dialog-title"

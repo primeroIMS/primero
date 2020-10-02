@@ -78,3 +78,5 @@ export const getRoleName = (state, uniqueId) =>
   getRoles(state)
     .find(role => role.get("unique_id") === uniqueId)
     ?.get("name");
+
+export const getDisabledApplication = state => state.getIn([NAMESPACE, "disabledApplication"], false);

@@ -70,6 +70,9 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("loading", true).set("errors", false);
     case actions.FETCH_ROLES_SUCCESS:
       return state.set("roles", fromJS(payload.data));
+    case actions.DISABLE_NAVIGATION: {
+      return state.set("disabledApplication", payload);
+    }
     default:
       return state;
   }

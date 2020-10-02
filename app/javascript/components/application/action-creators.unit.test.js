@@ -9,6 +9,7 @@ describe("Application - Action Creators", () => {
     const creators = { ...actionCreators };
 
     [
+      "disableNavigation",
       "fetchRoles",
       "fetchSystemPermissions",
       "fetchSystemSettings",
@@ -91,5 +92,14 @@ describe("Application - Action Creators", () => {
     };
 
     expect(actionCreators.fetchUserGroups()).to.deep.equal(expected);
+  });
+
+  it("should check the 'disableNavigation' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.DISABLE_NAVIGATION,
+      payload: true
+    };
+
+    expect(actionCreators.disableNavigation(true)).to.deep.equal(expected);
   });
 });

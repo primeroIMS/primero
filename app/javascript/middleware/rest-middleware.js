@@ -6,11 +6,8 @@ import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
 import EventManager from "../libs/messenger";
 import { QUEUE_FAILED, QUEUE_SKIP } from "../libs/queue";
-import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../components/notifier";
-import {
-  getApplyingConfigMessage,
-  checkConfiguration
-} from "../components/pages/admin/configurations-form/action-creators";
+import { applyingConfigMessage } from "../components/pages/admin/configurations-form/action-creators";
+import { disableNavigation } from "../components/application/action-creators";
 
 import {
   handleRestCallback,
@@ -19,7 +16,8 @@ import {
   processAttachments,
   defaultErrorCallback,
   startSignout,
-  processSubforms
+  processSubforms,
+  handleConfiguration
 } from "./utils";
 
 const defaultFetchOptions = {
@@ -36,19 +34,6 @@ const defaultFetchOptions = {
 const queryParams = {
   toString: obj => qs.stringify(obj),
   parse: str => qs.parse(str)
-};
-
-const delay = ms => new Promise(res => setTimeout(res, ms));
-
-const disableNavigation = () => {
-  const root = document.getElementById("root");
-  const applyModal = document.getElementsByClassName("MuiDialog-root");
-
-  root.style.pointerEvents = "none";
-
-  if (applyModal.length > 0) {
-    applyModal[0].style.pointerEvents = "none";
-  }
 };
 
 function fetchStatus({ store, type }, action, loading) {
@@ -184,30 +169,8 @@ const fetchSinglePayload = (action, store, options) => {
       const response = await window.fetch(fetchPath, fetchOptions);
       const { status } = response;
 
-      if (status === 503) {
-        disableNavigation();
-        handleRestCallback(store, getApplyingConfigMessage(), response, {});
-        await delay(10000);
-
-        fetchSinglePayload(checkConfiguration(), store, options);
-      } else if (status === 204) {
-        fetchStatus({ store, type }, "SUCCESS", true);
-        fetchStatus({ store, type }, "FINISHED", false);
-
-        const successMessage = {
-          action: ENQUEUE_SNACKBAR,
-          payload: {
-            messageKey: "configurations.messages.applied",
-            options: {
-              variant: SNACKBAR_VARIANTS.success,
-              key: generate.messageKey(4321)
-            }
-          }
-        };
-
-        handleRestCallback(store, successMessage, response, {});
-        await delay(1000);
-        window.location.reload(true);
+      if (status === 503 || status === 204) {
+        handleConfiguration(status, store, options, response, { fetchStatus, fetchSinglePayload, type });
       } else {
         const json = await response.json();
 
@@ -251,8 +214,8 @@ const fetchSinglePayload = (action, store, options) => {
         fetchStatus({ store, type }, "FINISHED", false);
 
         if (configurationCallback && response.ok) {
-          disableNavigation();
-          handleRestCallback(store, getApplyingConfigMessage(), response, {});
+          store.dispatch(disableNavigation());
+          handleRestCallback(store, applyingConfigMessage(), response, {});
           fetchSinglePayload(configurationCallback, store, options);
         }
       }

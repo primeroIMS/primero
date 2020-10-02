@@ -18,12 +18,13 @@ describe("configurations-form/action-creators.js", () => {
     });
 
     [
+      "appliedConfigMessage",
       "applyConfiguration",
+      "applyingConfigMessage",
       "checkConfiguration",
       "clearSelectedConfiguration",
       "deleteConfiguration",
       "fetchConfiguration",
-      "getApplyingConfigMessage",
       "saveConfiguration"
     ].forEach(actionCreator => {
       it(`exports '${actionCreator}'`, () => {
@@ -121,7 +122,7 @@ describe("configurations-form/action-creators.js", () => {
       expect(actionsCreators.fetchConfiguration(1234)).to.deep.equal(expected);
     });
 
-    it("should check that 'getApplyingConfigMessage' action creator returns the correct object", () => {
+    it("should check that 'applyingConfigMessage' action creator returns the correct object", () => {
       const expected = {
         action: ENQUEUE_SNACKBAR,
         payload: {
@@ -134,7 +135,7 @@ describe("configurations-form/action-creators.js", () => {
         }
       };
 
-      expect(actionsCreators.getApplyingConfigMessage()).to.deep.equal(expected);
+      expect(actionsCreators.applyingConfigMessage()).to.deep.equal(expected);
     });
 
     it("should check that 'saveConfiguration' action creator returns the correct object", () => {

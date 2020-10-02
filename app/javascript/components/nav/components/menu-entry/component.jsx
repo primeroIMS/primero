@@ -12,8 +12,10 @@ import styles from "../../styles.css";
 import DisableOffline from "../../../disable-offline";
 import { getPermissions } from "../../../user/selectors";
 import { ConditionalWrapper } from "../../../../libs";
+import { useApp } from "../../../application";
 
 const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) => {
+  const { disabledApplication } = useApp();
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -24,12 +26,14 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   const renderDivider = divider && <div className={css.navSeparator} />;
 
   const navlinkProps = {
-    ...(!disabled && {
-      component: NavLink,
-      to,
-      activeClassName: css.navActive,
-      onClick: closeDrawer
-    })
+    ...(!disabledApplication &&
+      !disabled && {
+        component: NavLink,
+        to,
+        activeClassName: css.navActive,
+        onClick: closeDrawer,
+        disabled: disabledApplication
+      })
   };
   const userPermissions = useSelector(state => getPermissions(state));
   const userRecordTypes = [...userPermissions.keys()];

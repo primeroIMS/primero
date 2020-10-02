@@ -58,3 +58,8 @@ export const setNetworkStatus = payload => ({
   type: actions.NETWORK_STATUS,
   payload
 });
+
+export const disableNavigation = payload => ({
+  type: actions.DISABLE_NAVIGATION,
+  payload
+});
