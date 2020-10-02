@@ -6,7 +6,7 @@ import { ACTIONS } from "../../../libs/permissions";
 import { displayNameHelper } from "../../../libs";
 import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR, SUBFORM_SECTION } from "../../record-form/constants";
 
-import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";
+import { ALL_EXPORT_TYPES, EXPORT_FORMAT, FILTERS_TO_SKIP } from "./constants";
 
 const isSubform = field => field.type === SUBFORM_SECTION;
 
@@ -73,7 +73,7 @@ export const exporterFilters = (
     const applied = appliedFilters.entrySeq().reduce((acc, curr) => {
       const [key, value] = curr;
 
-      if (!["fields", "id_search"].includes(key)) {
+      if (!FILTERS_TO_SKIP.includes(key)) {
         return { ...acc, [key]: value };
       }
 

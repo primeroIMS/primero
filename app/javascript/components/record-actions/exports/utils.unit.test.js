@@ -123,6 +123,18 @@ describe("<RecordActions /> - exports/utils", () => {
       );
     });
 
+    it("should return filters without page, per and total params", () => {
+      const expected = { filters: { short_id: shortIds } };
+      const filters = fromJS({
+        sex: ["female"],
+        page: 1,
+        total: 40,
+        per: 5
+      });
+
+      expect(utils.exporterFilters(true, false, shortIds, filters, {}, record, false)).to.be.deep.equals(expected);
+    });
+
     it(
       "should return filters with short_id, " +
         "if isShowPage is false and allRowsSelected is false and there are not appliedFilters",
