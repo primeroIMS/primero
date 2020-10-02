@@ -23,7 +23,6 @@ import bindFormSubmit from "../../../../libs/submit-form";
 import { submitHandler } from "../../../form/utils/form-submission";
 import CancelPrompt from "../../../form/components/cancel-prompt";
 import { currentUser } from "../../../user/selectors";
-import { compare } from "../../../../libs";
 
 import { form } from "./form";
 import validations from "./validations";

@@ -23,7 +23,7 @@ export {
   TEXT_FIELD,
   TICK_FIELD,
   TOGGLE_FIELD,
-  BUTTONS_LINK,
+  DIALOG_TRIGGER,
   DOCUMENT_FIELD,
   AUDIO_FIELD
 } from "./constants";

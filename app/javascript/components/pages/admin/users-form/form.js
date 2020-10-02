@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import {
   FormSectionRecord,
   FieldRecord,
-  BUTTONS_LINK,
+  DIALOG_TRIGGER,
   TICK_FIELD,
   TEXT_FIELD,
   SELECT_FIELD,
@@ -52,7 +52,7 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
   },
   {
     display_name: "Change password",
-    type: BUTTONS_LINK,
+    type: DIALOG_TRIGGER,
     hideOnShow: true,
     onClick: onClickChangePassword
   },

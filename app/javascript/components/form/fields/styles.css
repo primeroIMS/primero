@@ -133,7 +133,7 @@
   color: $(theme.primero.colors.red);
 }
 
-.buttonsLink {
+.dialogTrigger {
   color: $(theme.primero.colors.blue);
   font-size: $(theme.typography.pxToRem(9));
   font-weight: bold;

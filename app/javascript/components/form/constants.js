@@ -22,7 +22,7 @@ export const AUDIO_FIELD = "audio_upload_box";
 export const ERROR_FIELD = "error_field";
 export const PARENT_FORM = "parent_form";
 export const ORDERABLE_OPTIONS_FIELD = "orderable_options_field";
-export const BUTTONS_LINK = "buttons_link";
+export const DIALOG_TRIGGER = "dialog_trigger";
 
 export const OPTION_TYPES = {
   AGENCY: "Agency",

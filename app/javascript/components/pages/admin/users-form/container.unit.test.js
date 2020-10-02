@@ -59,8 +59,8 @@ describe("<UsersForm />", () => {
     expect(component.find("header button").at(1).contains("buttons.save")).to.be.true;
   });
 
-  it("renders 17 fields", () => {
-    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(17);
+  it("renders 18 fields", () => {
+    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(18);
   });
 
   it("renders submit button with valid props", () => {
@@ -93,12 +93,12 @@ describe("<UsersForm />", () => {
       }
     });
 
-    it("should render 13 fields", () => {
+    it("should render 14 fields", () => {
       const { component: newComponent } = setupMountedComponent(UsersForm, { mode: MODES.edit }, state, [
         "/admin/users/1"
       ]);
 
-      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(13);
+      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(14);
     });
   });
 });

@@ -5,25 +5,25 @@ import { makeStyles } from "@material-ui/styles";
 
 import styles from "./styles.css";
 
-const ButtonsLink = ({ commonInputProps, metaInputProps }) => {
+const DialogTrigger = ({ commonInputProps, metaInputProps }) => {
   const css = makeStyles(styles)();
   const { label } = commonInputProps;
   const { onClick } = metaInputProps;
 
   return (
-    <Button component={Link} color="primary" className={css.buttonsLink} onClick={onClick}>
+    <Button component={Link} color="primary" className={css.dialogTrigger} onClick={onClick}>
       {label}
     </Button>
   );
 };
 
-ButtonsLink.displayName = "ButtonsLink";
+DialogTrigger.displayName = "DialogTrigger";
 
-ButtonsLink.propTypes = {
+DialogTrigger.propTypes = {
   commonInputProps: PropTypes.shape({
     label: PropTypes.string.isRequired
   }),
   metaInputProps: PropTypes.object
 };
 
-export default ButtonsLink;
+export default DialogTrigger;

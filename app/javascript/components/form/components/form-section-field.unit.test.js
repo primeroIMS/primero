@@ -5,7 +5,7 @@ import { fromJS } from "immutable";
 
 import { setupMockFormComponent } from "../../../test";
 import { FieldRecord } from "../records";
-import { RADIO_FIELD, TOGGLE_FIELD, BUTTONS_LINK } from "../constants";
+import { RADIO_FIELD, TOGGLE_FIELD, DIALOG_TRIGGER } from "../constants";
 
 import FormSectionField from "./form-section-field";
 
@@ -76,7 +76,7 @@ describe("<Form /> - components/<FormSectionField />", () => {
   });
 
   it("renders a buttons link", () => {
-    const field = FieldRecord({ name: "test_field", type: BUTTONS_LINK, display_name: { en: "Test Field" } });
+    const field = FieldRecord({ name: "test_field", type: DIALOG_TRIGGER, display_name: { en: "Test Field" } });
     const { component } = setupMockFormComponent(FormSectionField, { field });
     const buttonLink = component.find("a");
 

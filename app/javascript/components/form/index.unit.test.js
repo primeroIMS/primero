@@ -34,7 +34,7 @@ describe("<Form /> - index", () => {
       "DOCUMENT_FIELD",
       "AUDIO_FIELD",
       "whichFormMode",
-      "BUTTONS_LINK"
+      "DIALOG_TRIGGER"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
