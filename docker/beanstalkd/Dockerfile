@@ -17,11 +17,11 @@ RUN set -euxo pipefail \
         ; rm -rf /var/cache/apk/* \
         ; mkdir -p /var/lib/beanstalkd \
         ; chmod -R 700 /var/lib/beanstalkd \
-        ; chown -R primero /var/lib/beanstalkd
+        ; chown -R beanstalk /var/lib/beanstalkd
 
 EXPOSE ${BEANSTALKD_PORT}
 
-USER primero
+USER beanstalk
 
 ENTRYPOINT ["/sbin/tini", "--", "/entrypoint.sh"]
 
