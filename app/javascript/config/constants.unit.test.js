@@ -115,8 +115,8 @@ describe("Verifying config constant", () => {
           GBV: "primeromodule-gbv"
         });
         expect(constants.CONSENT_GIVEN_FIELD_BY_MODULE).to.deep.equal({
-          "primeromodule-cp": "consent_for_services",
-          "primeromodule-gbv": "disclosure_other_orgs"
+          "primeromodule-cp": ["consent_for_services", "disclosure_other_orgs"],
+          "primeromodule-gbv": ["consent_for_services"]
         });
         expect(constants.MODULE_TYPE_FIELD).to.equal("module_id");
         expect(constants.TRANSITION_TYPE).to.deep.equal(["transfers_assignments", "referral"]);
