@@ -7,6 +7,10 @@ import * as actionsCreators from "./action-creators";
 import actions from "./actions";
 
 describe("<UsersForm /> - Action Creators", () => {
+  beforeEach(() => {
+    stub(generate, "messageKey").returns(4);
+  });
+
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
@@ -30,8 +34,6 @@ describe("<UsersForm /> - Action Creators", () => {
   });
 
   it("should check that 'saveUser' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
-
     const args = {
       id: 10,
       body: {
@@ -75,30 +77,14 @@ describe("<UsersForm /> - Action Creators", () => {
               pending: false
             }
           }
-        ],
-        failureCallback: [
-          {
-            action: ENQUEUE_SNACKBAR,
-            payload: {
-              message: args.failureMessage,
-              options: {
-                variant: "error",
-                key: 4
-              }
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
-          }
         ]
       }
     };
 
     expect(actionsCreators.saveUser(args)).to.deep.equal(expectedAction);
+  });
 
+  afterEach(() => {
     generate.messageKey.restore();
   });
 });

@@ -35,6 +35,11 @@ module ConfigurationRecord
     def unique_id_from_attribute=(attribute = 'name')
       @unique_id_from_attribute = attribute.to_s
     end
+
+    # Override this in the implementing class if data needs to be applied in a special order
+    def sort_configuration_hash(configuration_hash)
+      configuration_hash
+    end
   end
 
   def configuration_hash

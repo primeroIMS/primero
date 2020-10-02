@@ -39,7 +39,10 @@ class PrimeroConfiguration < ApplicationRecord
   def apply!(applied_by = nil)
     data.each do |model, model_data|
       model_class = Kernel.const_get(model)
-      model_data.each { |configuration| model_class.create_or_update!(configuration) }
+
+      model_class.sort_configuration_hash(model_data).each do |configuration|
+        model_class.create_or_update!(configuration)
+      end
     end
     clear_remainder!
     self.applied_on = DateTime.now

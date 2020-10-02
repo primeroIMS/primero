@@ -713,6 +713,7 @@ en:
         permission_presence: Please select at least one permission
       user:
         password_mismatch: The password fields do not have the same password
+        email_uniqueness: A User with this email address already exists. Please enter a different one
     not_found: No Record(s) Found
     try_again: Try again
   exports:
@@ -1113,6 +1114,7 @@ en:
       incident_date_derived: Incident Date
     selected_records: '%{select_records} incident(s) selected'
     selected_all_records: 'Select all %{total_records} incidents that match this query.'
+    survivor_code: Survivor Code
     show_incident: 'Incident ID %{short_id}'
     social_worker: Social Worker
     violence_type: Violence Type
@@ -2644,6 +2646,7 @@ en:
     send_mail: Receive email notifications?
     user_group_unique_ids: User Groups
     user_name: Username
+    services: Services
     welcome_email:
       subject: 'Welcome to %{system}!'
       greeting: 'Welcome to %{system}!'

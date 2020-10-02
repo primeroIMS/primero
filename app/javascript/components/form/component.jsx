@@ -7,6 +7,7 @@ import { useForm, FormContext } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 
+import { HTTP_STATUS } from "../../config";
 import { useI18n } from "../i18n";
 
 import CancelPrompt from "./components/cancel-prompt";
@@ -49,14 +50,16 @@ const Component = ({
 
   useEffect(() => {
     // eslint-disable-next-line no-unused-expressions
-    formErrors?.forEach(error => {
-      formMethods.setError(error.get("detail"), "", i18n.t(error.getIn(["message", 0])));
-    });
+    formErrors
+      ?.filter(error => error.get("status") === HTTP_STATUS.invalidRecord)
+      .forEach(error => {
+        formMethods.setError(error.get("detail"), "", i18n.t(error.getIn(["message", 0])));
+      });
   }, [formErrors]);
 
   useEffect(() => {
     formMethods.reset(initialValues);
-  }, [initialValues]);
+  }, [JSON.stringify(initialValues)]);
 
   const renderFormSections = () =>
     formSections.map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);

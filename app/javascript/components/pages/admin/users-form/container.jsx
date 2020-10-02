@@ -23,6 +23,7 @@ import bindFormSubmit from "../../../../libs/submit-form";
 import { submitHandler } from "../../../form/utils/form-submission";
 import CancelPrompt from "../../../form/components/cancel-prompt";
 import { currentUser } from "../../../user/selectors";
+import { compare } from "../../../../libs";
 
 import { form } from "./form";
 import validations from "./validations";
@@ -78,7 +79,7 @@ const Container = ({ mode }) => {
   };
 
   const handleSubmit = data => {
-    setUserData(data);
+    setUserData({ ...userData, ...data });
     setUserConfirmationOpen(true);
   };
 
@@ -89,8 +90,7 @@ const Container = ({ mode }) => {
         dialogName: USER_CONFIRMATION_DIALOG,
         saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
         body: { data },
-        message: i18n.t("user.messages.updated"),
-        failureMessage: i18n.t("user.messages.failure")
+        message: i18n.t("user.messages.updated")
       })
     );
   };
@@ -104,6 +104,12 @@ const Container = ({ mode }) => {
   };
 
   const onClickChangePassword = () => setPasswordModal(true);
+
+  useEffect(() => {
+    if (!saving) {
+      dispatch(setPending(false));
+    }
+  }, [saving]);
 
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
