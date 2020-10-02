@@ -5,7 +5,6 @@ import { TextField, Chip } from "@material-ui/core";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import { Controller, useFormContext } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import pickBy from "lodash/pickBy";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import InputLabel from "../components/input-label";

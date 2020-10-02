@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
+import ChangePassword from "../admin/users-form/change-password";
 
 import Account from "./container";
 
@@ -37,5 +38,9 @@ describe("<Account />", () => {
     expect(component.find("div h1").contains("Test user")).to.be.true;
     expect(component.find("div button").at(0).contains("buttons.cancel")).to.be.true;
     expect(component.find("div button").at(1).contains("buttons.save")).to.be.true;
+  });
+
+  it("renders ChangePassword component", () => {
+    expect(component.find(ChangePassword)).to.have.length(1);
   });
 });
