@@ -3,7 +3,7 @@
 # Superclass for controllers that modify a dependent resource on a record
 # The REST url is something like /api/v2/:records/:record-id/:resources
 class Api::V2::RecordResourceController < ApplicationApiController
-  before_action :find_record, only: %i[index create update destroy]
+  before_action :find_record, only: %i[index create update destroy new]
   before_action :find_records, only: [:create_bulk]
   before_action :initialize_errors, only: [:create_bulk]
 

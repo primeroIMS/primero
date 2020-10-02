@@ -48,7 +48,7 @@ class DestringifyService
         value.map { |k, v| [k, destringify(v, lists_and_ranges)] }.to_h
       end
     else
-      if lists_and_ranges
+      if lists_and_ranges && value.is_a?(String)
         if value.match?(/,/)
           value.split(',').map { |v| destringify(v, lists_and_ranges) }
         elsif value.match?(/\.\./)

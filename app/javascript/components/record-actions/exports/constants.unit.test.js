@@ -13,6 +13,7 @@ describe("<RecordActions /> - exports/constants", () => {
       "EXPORT_TYPE_FIELD",
       "FIELDS_TO_EXPORT_FIELD",
       "FIELD_ID",
+      "FILTERS_TO_SKIP",
       "FORMS_ID",
       "FORM_TO_EXPORT_FIELD",
       "INDIVIDUAL_FIELDS_FIELD",

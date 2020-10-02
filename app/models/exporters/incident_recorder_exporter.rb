@@ -67,7 +67,7 @@ module Exporters
         @workbook.close
       end
 
-      def initialize(buffer)
+      def initialize(buffer, locale = nil)
         #TODO: I am dubious that these values are correctly accumulated.
         #      Shouldn't we be trying to fetch all possible values,
         #      rather than all values for incidents getting exported?
@@ -94,6 +94,8 @@ module Exporters
 
         #Sheet data start at row 1 (based 0 index).
         @row_data = 1
+        self.locale = locale || I18n.locale
+        self.field_value_service = FieldValueService.new
       end
 
       def incident_data_header
