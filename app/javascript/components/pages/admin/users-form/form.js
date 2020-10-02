@@ -84,7 +84,8 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     name: "services",
     type: SELECT_FIELD,
     multi_select: true,
-    option_strings_source: "lookup-service-type"
+    option_strings_source: "lookup-service-type",
+    help_text: i18n.t("user.services_help_text")
   },
   {
     display_name: i18n.t("user.phone"),
@@ -98,7 +99,7 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     type: TEXT_FIELD
   },
   {
-    display_name: i18n.t("user.organization"),
+    display_name: i18n.t("user.agency"),
     name: "agency_id",
     type: SELECT_FIELD,
     required: true,
