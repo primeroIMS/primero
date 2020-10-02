@@ -21,6 +21,7 @@ import FormSectionField from "../../form/components/form-section-field";
 import { submitHandler } from "../../form/utils/form-submission";
 import { getRecordForms } from "../../record-form/selectors";
 import { useApp } from "../../application";
+import PdfExporter from "../../pdf-exporter";
 
 import {
   isCustomExport,
@@ -31,7 +32,6 @@ import {
   formatFields,
   exportFormsOptions
 } from "./utils";
-import PdfExporter from "./components/pdf-exporter";
 import {
   ALL_EXPORT_TYPES,
   CUSTOM_EXPORT_FILE_NAME_FIELD,
@@ -276,7 +276,15 @@ const Component = ({
             return <FormSectionField field={field} key={field.unique_id} />;
           })}
         </form>
-        {isPdfExport(exportType) && <PdfExporter record={record} forms={recordTypesForms} ref={pdfExporterRef} />}
+        {isPdfExport(exportType) && (
+          <PdfExporter
+            record={record}
+            forms={recordTypesForms}
+            ref={pdfExporterRef}
+            formsSelectedField={FORM_TO_EXPORT_FIELD}
+            customFilenameField={CUSTOM_EXPORT_FILE_NAME_FIELD}
+          />
+        )}
       </FormContext>
     </ActionDialog>
   );

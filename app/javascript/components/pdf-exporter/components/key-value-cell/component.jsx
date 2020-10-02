@@ -7,10 +7,10 @@ import { makeStyles } from "@material-ui/core";
 import CheckBox from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlank from "@material-ui/icons/CheckBoxOutlineBlank";
 
-import { getOptions } from "../../../../../../form/selectors";
-import { optionText } from "../../../../../../form/utils";
-import { useI18n } from "../../../../../../i18n";
-import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../../../../config";
+import { getOptions } from "../../../form/selectors";
+import { optionText } from "../../../form/utils";
+import { useI18n } from "../../../i18n";
+import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../config";
 
 import styles from "./styles.css";
 
@@ -59,7 +59,7 @@ const Component = ({
       return fieldValue ? <CheckBox /> : <CheckBoxOutlineBlank />;
     }
 
-    return String(fieldValue);
+    return fieldValue;
   };
 
   return (

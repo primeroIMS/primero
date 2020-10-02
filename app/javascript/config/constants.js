@@ -63,8 +63,8 @@ export const NAME_FIELD = "name";
 export const CODE_FIELD = "code";
 
 export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
-  [MODULES.CP]: "consent_for_services",
-  [MODULES.GBV]: "disclosure_other_orgs"
+  [MODULES.CP]: ["consent_for_services", "disclosure_other_orgs"],
+  [MODULES.GBV]: ["consent_for_services"]
 });
 
 export const RECORD_PATH = {
@@ -167,7 +167,8 @@ export const LOOKUPS = {
   workflow: "lookup-workflow",
   service_type: "lookup-service-type",
   protection_concerns: "lookup-protection-concerns",
-  followup_type: "lookup-followup-type"
+  followup_type: "lookup-followup-type",
+  reporting_locations: "ReportingLocation"
 };
 
 export const ADMIN_NAV = [

@@ -139,7 +139,8 @@ describe("Verifying config constant", () => {
           "workflow",
           "service_type",
           "protection_concerns",
-          "followup_type"
+          "followup_type",
+          "reporting_locations"
         );
         expect(constants.RECORD_INFORMATION).to.be.an("array");
         expect(constants.APPROVALS).to.be.an("string");
