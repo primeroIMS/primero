@@ -211,6 +211,10 @@
   }
 }
 
+.separator {
+  margin-bottom: 5px;
+}
+
 @media $(theme.breakpoints.down("sm")) {
   .actionButtonsContainer {
     width: 95px;
