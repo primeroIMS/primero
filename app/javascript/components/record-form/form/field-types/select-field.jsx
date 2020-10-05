@@ -76,7 +76,7 @@ const SelectField = ({
   );
 
   const reloadReferralUsers = () => {
-    const filters = getUserFilters({ services: service, agency, location });
+    const filters = getUserFilters({ service, agency, location });
 
     dispatch(
       fetchReferralUsers({
