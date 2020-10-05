@@ -46,7 +46,7 @@ const Component = ({ index, recordType, values }) => {
   };
 
   useEffect(() => {
-    dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[recordType] }));
+    if (referralUsers.isEmpty()) dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[recordType] }));
   }, []);
 
   const {
