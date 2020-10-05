@@ -1,6 +1,6 @@
 import React from "react";
 
-import { setupMountedComponent, translateOptions, stub } from "../../test";
+import { setupMountedComponent, translateOptions } from "../../test";
 
 import { useI18n } from "./provider";
 
