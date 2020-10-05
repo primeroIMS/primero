@@ -14,6 +14,8 @@ export const TransitionRecord = Record({
   consent_overridden: null,
   consent_individual_transfer: null,
   transitioned_by: null,
+  transitioned_to_remote: null,
   transitioned_to: null,
-  service: null
+  service: null,
+  remote: true
 });

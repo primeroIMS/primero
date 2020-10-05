@@ -22,7 +22,9 @@ const Summary = ({ transition, classes, showMode, recordType }) => {
         <div className={classes.wrapper}>
           {/* TODO: The date should be localized */}
           <div className={classes.date}>{i18n.localizeDate(transition.created_at)}</div>
-          <div className={classes.titleHeader}>{i18n.t("transition.type.referral")}</div>
+          <div className={classes.titleHeader}>
+            {i18n.t(`transition.type.${transition.remote ? "external_referral" : "referral"}`)}
+          </div>
         </div>
       </Grid>
       {transitionStatus}
