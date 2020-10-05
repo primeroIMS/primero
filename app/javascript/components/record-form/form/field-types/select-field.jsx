@@ -236,10 +236,6 @@ const SelectField = ({
     if (mode.isNew && selectedValue && (value === null || value?.length === 0)) {
       formik.setFieldValue(name, selectedValue, false);
     }
-
-    if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
-      reloadReferralUsers();
-    }
   }, []);
 
   if (isEmpty(formik.values)) {
