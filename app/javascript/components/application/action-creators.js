@@ -31,6 +31,14 @@ export const fetchRoles = () => ({
   }
 });
 
+export const fetchManagedRoles = () => ({
+  type: actions.FETCH_MANAGED_ROLES,
+  api: {
+    path: RECORD_PATH.roles,
+    params: { external: true }
+  }
+});
+
 export const fetchUserGroups = () => ({
   type: actions.FETCH_USER_GROUPS,
   api: {
@@ -44,8 +52,6 @@ export const loadApplicationResources = () => async dispatch => {
     dispatch(fetchSystemPermissions());
     dispatch(fetchForms());
     dispatch(fetchOptions());
-    dispatch(fetchRoles());
-    dispatch(fetchUserGroups());
   });
 };
 

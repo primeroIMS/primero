@@ -148,6 +148,30 @@ describe Transfer do
         expect(@case.previously_owned_by_agency).to eq(@agency1.id)
       end
 
+      describe 'record history' do
+        before do
+          @record_histories = @case.record_histories
+        end
+
+        it 'is updated' do
+          expect(@record_histories.size).to eq(3)
+          expect(@record_histories.map(&:action)).to match_array(%w[update update create])
+          expect(@record_histories.map(&:record_type)).to match_array(%w[Child Child Child])
+        end
+
+        describe 'owned_by' do
+          before do
+            @update_action = @record_histories.select { |h| h.action == 'update' && h.record_changes['owned_by'] }.first
+          end
+
+          it 'is updated' do
+            expect(@update_action.record_changes['owned_by']).to be
+            expect(@update_action.record_changes['owned_by']['to']).to eq('user2')
+            expect(@update_action.record_changes['owned_by']['from']).to eq('user1')
+          end
+        end
+      end
+
       context 'when the case has incidents' do
         before do
           case_with_incidents = Child.new(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
@@ -190,6 +214,30 @@ describe Transfer do
             expect(@incident1.previously_owned_by_agency).to eq(@agency1.id)
             expect(@incident2.owned_by_agency).to eq(@agency2.agency_code)
             expect(@incident2.previously_owned_by_agency).to eq(@agency1.id)
+          end
+
+          describe 'record history' do
+            before do
+              @record_histories = @incident1.record_histories
+            end
+
+            it 'is updated' do
+              expect(@record_histories.size).to eq(2)
+              expect(@record_histories.map(&:action)).to match_array(%w[update create])
+              expect(@record_histories.map(&:record_type)).to match_array(%w[Incident Incident])
+            end
+
+            describe 'owned_by' do
+              before do
+                @update_action = @record_histories.select { |h| h.action == 'update' }.first
+              end
+
+              it 'is updated' do
+                expect(@update_action.record_changes['owned_by']).to be
+                expect(@update_action.record_changes['owned_by']['to']).to eq('user2')
+                expect(@update_action.record_changes['owned_by']['from']).to eq('user1')
+              end
+            end
           end
         end
       end

@@ -719,6 +719,7 @@ en:
         permission_presence: Please select at least one permission
       user:
         password_mismatch: The password fields do not have the same password
+        email_uniqueness: A User with this email address already exists. Please enter a different one
     not_found: No Record(s) Found
     try_again: Try again
   exports:
@@ -2410,6 +2411,8 @@ en:
   record_panel:
     record_information: Record Information
   referral:
+    type_of_referral: Type of Referral
+    type_of_referral_required: Type of Referral is required
     agency_label: Agency
     is_remote_label: Are you referring to a remote system?
     location_label: Location
@@ -2596,7 +2599,7 @@ en:
       to_user_can_receive: This user cannot receive this record
     individual_consent: Did the case worker have the individual's consent to make
       this transfer?
-    no_consent_share: No Consent to Share Setting Overridden
+    no_consent_share: Consent to share setting overwritten?
     notes: Notes
     recipient: Recipient
     rejected: Reason Rejected
@@ -2642,6 +2645,8 @@ en:
       time_zone_updated: The change was successfully updated.
       updated: User was successfully updated.
     organization: Organization
+    agency: Agency
+    services_help_text: If you do not specify services, this User will be given the same services its Agency has.
     password: Password
     password_confirmation: Password Confirmation
     phone: Phone
@@ -2651,6 +2656,7 @@ en:
     send_mail: Receive email notifications?
     user_group_unique_ids: User Groups
     user_name: Username
+    services: Services
     welcome_email:
       subject: 'Welcome to %{system}!'
       greeting: 'Welcome to %{system}!'

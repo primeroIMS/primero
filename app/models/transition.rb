@@ -9,12 +9,14 @@ class Transition < ApplicationRecord
   STATUS_DONE = 'done'
 
   belongs_to :record, polymorphic: true
-  belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to', primary_key: 'user_name'
+  belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to', 
+                                    primary_key: 'user_name', optional: true
   belongs_to :transitioned_by_user, class_name: 'User', foreign_key: 'transitioned_by', primary_key: 'user_name'
 
-  validates :transitioned_to, :transitioned_by, presence: true
+  validates :transitioned_to, presence: true, unless: :remote
+  validates :transitioned_by, presence: true
   validate :consent_given_or_overridden
-  validate :user_can_receive
+  validate :user_can_receive, unless: :remote
 
   after_initialize :defaults, unless: :persisted?
   before_create :perform

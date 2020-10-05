@@ -9,7 +9,8 @@ import { getRecords } from "../../index-table";
 
 import { NAME } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
-import { TransitionDialog, ReferralForm, ReassignForm, TransferForm } from "./components";
+import { TransitionDialog, ReassignForm, TransferForm } from "./components";
+import Referrals from "./referrals/component";
 
 const Transitions = ({
   record,
@@ -76,11 +77,12 @@ const Transitions = ({
     }
     if (t.referDialog) {
       return (
-        <ReferralForm
+        <Referrals
           {...commonTransitionProps}
           referralRef={referralFormikRef}
           disabled={disabledReferButton}
           setDisabled={setDisabledReferButton}
+          handleClose={handleReferClose}
         />
       );
     }
@@ -104,7 +106,8 @@ const Transitions = ({
         open: referDialog,
         successHandler: () => submitForm(referralFormikRef),
         transitionType: TRANSITIONS_TYPES.referral,
-        enabledSuccessButton: disabledReferButton || providedConsent
+        enabledSuccessButton: disabledReferButton || providedConsent,
+        omitCloseAfterSuccess: true
       };
     }
 

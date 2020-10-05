@@ -4,9 +4,9 @@ import { makeStyles } from "@material-ui/core";
 import isEqual from "lodash/isEqual";
 
 import KeyValueCell from "../key-value-cell";
-import { useI18n } from "../../../../../../i18n";
-import { DATE_FIELD, TICK_FIELD } from "../../../../../../form";
-import { valuesWithDisplayConditions } from "../../../../../../record-form/form/subforms/subform-field-array/utils";
+import { useI18n } from "../../../i18n";
+import { DATE_FIELD, TICK_FIELD } from "../../../form";
+import { valuesWithDisplayConditions } from "../../../record-form/form/subforms/subform-field-array/utils";
 
 import { EXCLUDED_FIELD_TYPES } from "./constants";
 import styles from "./styles.css";

@@ -23,6 +23,14 @@ const FormSection = ({ formSection }) => {
   const { fields, check_errors: checkErrors, expandable, tooltip } = formSection;
   const [expanded, setExpanded] = useState(formSection.expanded);
 
+  const fieldKey = (name, id) => {
+    if (id) {
+      return `${name}-${id}`;
+    }
+
+    return name;
+  };
+
   const renderFields = fieldsToRender => {
     return fieldsToRender.map(field => {
       if (field?.row) {
@@ -43,7 +51,13 @@ const FormSection = ({ formSection }) => {
         return <FormSectionTabs tabs={field.tabs} />;
       }
 
-      return <FormSectionField field={field} key={field.name} checkErrors={checkErrors} />;
+      return (
+        <FormSectionField
+          field={field}
+          key={fieldKey(field.name, field.internalFormFieldID)}
+          checkErrors={checkErrors}
+        />
+      );
     });
   };
 

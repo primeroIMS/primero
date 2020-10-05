@@ -6,6 +6,7 @@ describe("<Form /> - Constants", () => {
 
     expect(clonedConstants).to.be.an("object");
     [
+      "DIALOG_TRIGGER",
       "CHECK_BOX_FIELD",
       "CUSTOM_LOOKUPS",
       "DATE_FIELD",
@@ -52,7 +53,10 @@ describe("<Form /> - Constants", () => {
       "USER",
       "REPORTING_LOCATIONS",
       "ROLE",
-      "USER_GROUP"
+      "USER_GROUP",
+      "ROLE_EXTERNAL_REFERRAL",
+      "REFER_TO_USERS",
+      "SERVICE_TYPE"
     ].forEach(property => {
       expect(clonedOptionTypes).to.have.property(property);
       delete clonedOptionTypes[property];

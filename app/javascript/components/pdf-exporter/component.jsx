@@ -3,27 +3,40 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
 import html2pdf from "html2pdf.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fromJS, isImmutable } from "immutable";
 
-import { useI18n } from "../../../../i18n";
-import { FORM_TO_EXPORT_FIELD } from "../../constants";
-import { enqueueSnackbar } from "../../../../notifier";
+import { useI18n } from "../i18n";
+import { enqueueSnackbar } from "../notifier";
 
 import { HTML_2_PDF_OPTIONS } from "./constants";
 import styles from "./styles.css";
 import { addPageHeaderFooter } from "./utils";
 import Table from "./components/table";
 
-const Component = ({ forms, record }, ref) => {
+const Component = (
+  { forms, record, formsSelectedField, formsSelectedSelector, formsSelectedFieldDefault, customFilenameField },
+  ref
+) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { watch } = useFormContext();
   const html = useRef();
   const dispatch = useDispatch();
+  const data = isImmutable(record) ? record : fromJS(record);
+  const userSelectedForms = formsSelectedField ? watch(formsSelectedField, formsSelectedFieldDefault || []) : false;
+  const formSelectorResults = useSelector(state => {
+    if (formsSelectedSelector) {
+      return formsSelectedSelector(state, userSelectedForms);
+    }
 
-  const userSelectedForms = watch(FORM_TO_EXPORT_FIELD, []);
-  const selectedForms = userSelectedForms?.length
-    ? forms.filter(form => userSelectedForms.includes(form.unique_id))
+    return fromJS([]);
+  });
+
+  const filteredByFields = formsSelectedSelector ? formSelectorResults?.toJS() : userSelectedForms;
+
+  const selectedForms = filteredByFields?.length
+    ? forms.filter(form => filteredByFields.includes(form.unique_id))
     : forms;
 
   useImperativeHandle(ref, () => ({
@@ -37,11 +50,11 @@ const Component = ({ forms, record }, ref) => {
 
       html2pdf()
         .from(html.current)
-        .set(HTML_2_PDF_OPTIONS(values, record))
+        .set(HTML_2_PDF_OPTIONS(values, data, customFilenameField))
         .toPdf()
         .get("pdf")
         .then(pdf => {
-          addPageHeaderFooter(pdf, record, i18n);
+          addPageHeaderFooter(pdf, data, i18n);
         })
         .save()
         .then(() => {
@@ -60,10 +73,10 @@ const Component = ({ forms, record }, ref) => {
 
   return (
     <div ref={html} className={css.container}>
-      {selectedForms.map(form => (
+      {selectedForms?.map(form => (
         <div key={`selected-${form.unique_id}`}>
           <h2>{i18n.getI18nStringFromObject(form.name)}</h2>
-          <Table fields={form.fields} record={record} />
+          <Table fields={form.fields} record={data} />
         </div>
       ))}
     </div>
@@ -73,7 +86,11 @@ const Component = ({ forms, record }, ref) => {
 Component.displayName = "PdfExporter";
 
 Component.propTypes = {
+  customFilenameField: PropTypes.string.isRequired,
   forms: PropTypes.object.isRequired,
+  formsSelectedField: PropTypes.string,
+  formsSelectedFieldDefault: PropTypes.any,
+  formsSelectedSelector: PropTypes.func,
   record: PropTypes.object.isRequired
 };
 
