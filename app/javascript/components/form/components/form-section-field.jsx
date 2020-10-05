@@ -17,6 +17,7 @@ import DateField from "../fields/date-input";
 import Seperator from "../fields/seperator";
 import OrderableOptionsField from "../fields/orderable-options-field";
 import DialogTrigger from "../fields/dialog-trigger";
+import HiddenInput from "../fields/hidden-input";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../config";
 import {
   CHECK_BOX_FIELD,
@@ -30,7 +31,8 @@ import {
   TOGGLE_FIELD,
   DATE_FIELD,
   SEPARATOR,
-  DIALOG_TRIGGER
+  DIALOG_TRIGGER,
+  HIDDEN_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
@@ -183,6 +185,8 @@ const FormSectionField = ({ checkErrors, field }) => {
         return Seperator;
       case DIALOG_TRIGGER:
         return DialogTrigger;
+      case HIDDEN_FIELD:
+        return HiddenInput;
       default:
         return TextInput;
     }

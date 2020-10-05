@@ -36,7 +36,11 @@ const Details = ({ transition, classes }) => {
   return (
     <Grid container spacing={2}>
       <Grid item md={6} xs={12}>
-        <TransitionUser label="transition.recipient" transitionUser={transition.transitioned_to} classes={classes} />
+        <TransitionUser
+          label="transition.recipient"
+          transitionUser={transition.transitioned_to || transition.transitioned_to_remote}
+          classes={classes}
+        />
       </Grid>
       <Grid item md={6} xs={12}>
         <TransitionUser label="transition.assigned_by" transitionUser={transition.transitioned_by} classes={classes} />

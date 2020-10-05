@@ -6,6 +6,10 @@ export const TRANSITION_TYPE = REFERRAL_FIELD;
 
 export const SERVICE_EXTERNAL_REFERRAL = "service_external_referral";
 
+export const STATE_REFERRAL_LOADING_PATH = ["records", "transitions", "referral", "loading"];
+
+export const STATE_REFERRAL_USERS_PATH = ["records", "transitions", "referral", "users"];
+
 export const FIELDS = Object.freeze({
   ROLE: "role",
   CONSENT_INDIVIDUAL_TRANSFER: "consent_overridden",
