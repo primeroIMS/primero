@@ -94,7 +94,9 @@ describe("<FormBuilder /> - utils", () => {
   describe("getSubformErrorMessages", () => {
     it("should return an array of translated error messages", () => {
       const translations = {
-        "errors.models.form_section.unique_id": "The unique id '%{unique_id}' is already taken."
+        en: {
+          "errors.models.form_section.unique_id": "The unique id '%{unique_id}' is already taken."
+        }
       };
       const i18n = { t: (value, options) => translateOptions(value, options, translations) };
       const subformServerErrors = fromJS([
