@@ -1,6 +1,6 @@
 import React from "react";
 
-import { setupMountedComponent, translateOptions } from "../../test";
+import { setupMountedComponent, translateOptions, stub } from "../../test";
 
 import { useI18n } from "./provider";
 
@@ -55,10 +55,6 @@ describe("I18nProvider - changeLocale", () => {
 });
 
 describe("I18nProvider - t", () => {
-  after(() => {
-    global.window.I18n.t = path => path;
-  });
-
   const TestComponent = () => {
     const i18n = useI18n();
 
@@ -75,7 +71,7 @@ describe("I18nProvider - t", () => {
   };
 
   it("should translate to locale", () => {
-    global.window.I18n.t = (value, options) => translateOptions(value, options, translations);
+    window.I18n.t = (value, options) => translateOptions(value, options, translations);
 
     const { locale } = window.I18n;
     const { component } = setupMountedComponent(TestComponent);
@@ -85,13 +81,18 @@ describe("I18nProvider - t", () => {
   });
 
   it("should translate using defaultLocale if selected locale contains an empty string as translation", () => {
-    global.window.I18n.locale = "es";
-    global.window.I18n.t = (value, options) => translateOptions(value, options, translations);
+    window.I18n.locale = "es";
+    window.I18n.t = (value, options) => translateOptions(value, options, translations);
 
     const { locale } = window.I18n;
     const { component } = setupMountedComponent(TestComponent);
 
     expect(locale).to.be.equal("es");
     expect(component.text()).to.be.equal("Test.");
+  });
+
+  afterEach(() => {
+    window.I18n.locale = "en";
+    window.I18n.t = path => path;
   });
 });
