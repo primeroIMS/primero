@@ -2405,7 +2405,7 @@ en:
   record_panel:
     record_information: Record Information
   referral:
-    type_of_referral: Type of Referral
+    type_of_recipient: Type of Recipient
     type_of_referral_required: Type of Referral is required
     agency_label: Agency
     is_remote_label: Are you referring to a remote system?

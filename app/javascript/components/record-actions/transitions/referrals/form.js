@@ -93,7 +93,7 @@ const localReferralFields = ({ i18n, recordType, isReferralFromService }) =>
 const remoteReferralFields = ({ i18n, isExternalReferralFromService }) =>
   [
     {
-      display_name: i18n.t("referral.type_of_referral"),
+      display_name: i18n.t("referral.type_of_recipient"),
       name: FIELDS.ROLE,
       type: SELECT_FIELD,
       option_strings_source: OPTION_TYPES.ROLE_EXTERNAL_REFERRAL,
