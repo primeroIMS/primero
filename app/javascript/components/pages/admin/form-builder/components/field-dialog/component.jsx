@@ -12,19 +12,12 @@ import set from "lodash/set";
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { setDialog } from "../../../../../record-actions/action-creators";
 import bindFormSubmit from "../../../../../../libs/submit-form";
-import { submitHandler, whichFormMode, SUBFORM_SECTION } from "../../../../../form";
+import { submitHandler, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
 import { compare, getObjectPath, displayNameHelper } from "../../../../../../libs";
-import {
-  getSelectedField,
-  getSelectedFields,
-  getFieldNames,
-  getSelectedSubform,
-  getSelectedSubformField,
-  getFormUniqueIds
-} from "../../selectors";
+import { getSelectedField, getSelectedFields, getSelectedSubform, getSelectedSubformField } from "../../selectors";
 import {
   createSelectedField,
   clearSelectedSubformField,
@@ -61,8 +54,6 @@ import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 const Component = ({ formId, mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(mode);
-  const fieldNames = useSelector(state => getFieldNames(state), compare);
-  const formUniqueIds = useSelector(state => getFormUniqueIds(state), compare);
   const openFieldDialog = useSelector(state => selectDialog(state, ADMIN_FIELDS_DIALOG));
   const openTranslationDialog = useSelector(state => selectDialog(state, FieldTranslationsDialogName));
   const i18n = useI18n();
@@ -168,7 +159,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
                   [currentFieldName]: {
                     ...newFieldData[currentFieldName],
                     subform_section_temp_id: subformTempId,
-                    subform_section_unique_id: generateUniqueId(selectedFieldName, formUniqueIds)
+                    subform_section_unique_id: generateUniqueId(selectedFieldName)
                   }
                 }
               : newFieldData
@@ -194,14 +185,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     const subformData = setInitialForms(data.subform_section);
     const fieldData = setSubformData(toggleHideOnViewPage(data[selectedFieldName]), subformData);
 
-    const dataToSave = buildDataToSave(
-      selectedField,
-      fieldData,
-      i18n.locale,
-      lastField?.get("order"),
-      randomSubformId,
-      selectedField?.get("type") === SUBFORM_SECTION ? formUniqueIds : fieldNames
-    );
+    const dataToSave = buildDataToSave(selectedField, fieldData, lastField?.get("order"), randomSubformId);
 
     batch(() => {
       if (!isNested) {

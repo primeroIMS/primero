@@ -1,9 +1,8 @@
 import { fromJS } from "immutable";
-import { Menu, MenuItem } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 import { ACTIONS } from "../../../../../libs/permissions";
 import { setupMountedComponent } from "../../../../../test";
-import ActionButton from "../../../../action-button";
 
 import SubformMenu from "./component";
 
@@ -21,7 +20,7 @@ describe("<SubformMenu />", () => {
     index: 0
   };
 
-  it("renders the subform menu", () => {
+  it("renders nothing if not referrable", () => {
     const state = {
       user: {
         permissions: {
@@ -31,7 +30,7 @@ describe("<SubformMenu />", () => {
     };
     const { component } = setupMountedComponent(SubformMenu, props, state);
 
-    expect(component.find(Menu)).lengthOf(1);
+    expect(component.find(Button)).lengthOf(0);
   });
 
   it("render the ReferAction if service is referrable", () => {
@@ -90,8 +89,6 @@ describe("<SubformMenu />", () => {
 
     const { component } = setupMountedComponent(SubformMenu, props, initialState);
 
-    component.find(ActionButton).find("button").simulate("click");
-
-    expect(component.find(MenuItem)).lengthOf(1);
+    expect(component.find(Button)).lengthOf(1);
   });
 });

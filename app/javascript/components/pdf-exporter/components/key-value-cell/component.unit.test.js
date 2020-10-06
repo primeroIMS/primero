@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../../../../test";
+import { setupMountedComponent } from "../../../../test";
 
 import KeyValueCell from "./component";
 

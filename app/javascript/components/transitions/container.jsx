@@ -2,6 +2,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import React from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import { compareDesc } from "date-fns";
 
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
@@ -17,14 +18,17 @@ const Transitions = ({ isReferral, recordType, record, showMode, mobileDisplay, 
 
   const dataTransitions = useSelector(state => selectTransitions(state, recordType, record, isReferral));
   const renderDataTransitions =
-    dataTransitions && dataTransitions.map(transition => renderTransition(transition, css, recordType, showMode));
+    dataTransitions &&
+    dataTransitions
+      .sort((transitionA, transitionB) => compareDesc(transitionA.created_at, transitionB.created_at))
+      .map(transition => renderTransition(transition, css, recordType, showMode));
 
   const transitionTitle = isReferral ? i18n.t("forms.record_types.referrals") : i18n.t("transfer_assignment.title");
 
   return (
     <div>
       <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={transitionTitle} />
-      {renderDataTransitions}
+      <div>{renderDataTransitions}</div>
     </div>
   );
 };

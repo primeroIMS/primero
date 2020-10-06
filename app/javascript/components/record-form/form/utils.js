@@ -116,15 +116,25 @@ export const serviceHasReferFields = service => {
     return false;
   }
 
-  return service.service_response_type && service.service_type && service.service_implementing_agency_individual;
+  const {
+    service_implementing_agency_individual: serviceImplementingAgencyIndividual,
+    service_external_referral: serviceExternalReferral
+  } = service;
+
+  return serviceImplementingAgencyIndividual || serviceExternalReferral;
 };
 
 export const serviceIsReferrable = (service, services, agencies, users = []) => {
   const {
+    service_external_referral: serviceExternalReferral,
     service_type: serviceType,
     service_implementing_agency: agencyUniqueId,
     service_implementing_agency_individual: userName
   } = service;
+
+  if (serviceExternalReferral) {
+    return true;
+  }
 
   if (services.find(type => type.id === serviceType)) {
     const serviceUser = users.find(

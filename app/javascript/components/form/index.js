@@ -23,7 +23,9 @@ export {
   TEXT_FIELD,
   TICK_FIELD,
   TOGGLE_FIELD,
+  DIALOG_TRIGGER,
   DOCUMENT_FIELD,
-  AUDIO_FIELD
+  AUDIO_FIELD,
+  HIDDEN_FIELD
 } from "./constants";
 export { whichFormMode, submitHandler } from "./utils";

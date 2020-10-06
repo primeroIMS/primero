@@ -5,6 +5,16 @@ import { displayNameHelper } from "../../libs";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 
+const referToUsers = state =>
+  state.getIn(["records", "transitions", "referral", "users"], fromJS([])).map(user => {
+    const userName = user.get("user_name");
+
+    return {
+      id: userName.toLowerCase(),
+      display_text: userName
+    };
+  });
+
 const formGroups = (state, i18n) =>
   state
     .getIn(["records", "admin", "forms", "formSections"], fromJS([]))
@@ -22,9 +32,9 @@ const formGroups = (state, i18n) =>
     )
     .sortBy(item => item.get("display_text"));
 
-const agencies = (state, useUniqueId, i18n) =>
+const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false }) =>
   state.getIn(["application", "agencies"], fromJS([])).map(agency => ({
-    id: agency.get(useUniqueId ? "unique_id" : "id"),
+    id: agency.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
     display_text: agency.getIn(["name", i18n.locale], "")
   }));
 
@@ -97,10 +107,16 @@ const userGroups = state =>
 const roles = state =>
   getRoles(state).map(role => fromJS({ id: role.get("unique_id"), display_text: role.get("name") }));
 
-const optionsFromState = (state, optionStringsSource, i18n, useUniqueId) => {
+const managedRoles = (state, transfer) =>
+  state.getIn(["application", "managedRoles"], fromJS([])).filter(role => role.get(transfer, false));
+
+const buildManagedRoles = (state, transfer) =>
+  managedRoles(state, transfer).map(role => fromJS({ id: role.get("unique_id"), display_text: role.get("name") }));
+
+const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) => {
   switch (optionStringsSource) {
     case OPTION_TYPES.AGENCY:
-      return agencies(state, useUniqueId, i18n);
+      return agencies(state, { ...rest, useUniqueId, i18n });
     case OPTION_TYPES.LOCATION:
       return locations(state, i18n);
     case OPTION_TYPES.REPORTING_LOCATIONS:
@@ -111,10 +127,14 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId) => {
       return formGroups(state, i18n);
     case OPTION_TYPES.LOOKUPS:
       return lookups(state, i18n);
+    case OPTION_TYPES.REFER_TO_USERS:
+      return referToUsers(state);
     case OPTION_TYPES.USER_GROUP:
       return userGroups(state);
     case OPTION_TYPES.ROLE:
       return roles(state);
+    case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:
+      return buildManagedRoles(state, "referral");
     default:
       return lookupValues(state, optionStringsSource, i18n);
   }
@@ -129,9 +149,9 @@ const transformOptions = (options, i18n) =>
   });
 
 // eslint-disable-next-line import/prefer-default-export
-export const getOptions = (state, optionStringsSource, i18n, options, useUniqueId = false) => {
+export const getOptions = (state, optionStringsSource, i18n, options, useUniqueId = false, rest = {}) => {
   if (optionStringsSource) {
-    return optionsFromState(state, optionStringsSource, i18n, useUniqueId);
+    return optionsFromState(state, optionStringsSource, i18n, useUniqueId, rest);
   }
 
   if (options) {
@@ -145,3 +165,24 @@ export const getLookupByUniqueId = (state, lookupUniqueId) =>
   state
     .getIn(["forms", "options", "lookups", "data"], fromJS([]))
     .find(lookup => lookup.get("unique_id") === lookupUniqueId);
+
+export const getLoadingState = (state, path) => (path ? state.getIn(path, false) : false);
+
+export const getValueFromOtherField = (state, fields, values) => {
+  return fields.reduce((prev, current) => {
+    prev.push([
+      current.field,
+      state
+        .getIn(current.path, fromJS([]))
+        .find(entity => entity[current.key] === values[current.key], null, fromJS({}))
+        .get(current.key, "")
+    ]);
+
+    return prev;
+  }, []);
+};
+
+export const getManagedRoleFormSections = (state, uniqueID) =>
+  managedRoles(state, "referral")
+    .find(role => role.get("unique_id") === uniqueID, null, fromJS({}))
+    .get("form_section_unique_ids", fromJS([]));

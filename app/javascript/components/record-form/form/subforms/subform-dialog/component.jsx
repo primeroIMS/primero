@@ -29,7 +29,8 @@ const Component = ({
   oldValue,
   open,
   setOpen,
-  title
+  title,
+  recordType
 }) => {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const childFormikRef = useRef();
@@ -101,7 +102,7 @@ const Component = ({
     field.subform_section_id.unique_id === "services_section" &&
     mode.isShow &&
     serviceHasReferFields(formik.values.services_section[index]) ? (
-      <SubformMenu index={index} values={formik.values.services_section} />
+      <SubformMenu index={index} values={formik.values.services_section} recordType={recordType} />
     ) : null;
 
   const renderSubform = (subformField, subformIndex) => {

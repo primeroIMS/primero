@@ -1,4 +1,5 @@
 import isEmpty from "lodash/isEmpty";
+import every from "lodash/every";
 
 import { CONSENT_GIVEN_FIELD_BY_MODULE, MODULE_TYPE_FIELD } from "../../../../config";
 
@@ -21,9 +22,8 @@ export const internalFieldsDirty = (values, fields) => {
   return Object.keys(data).length > 0;
 };
 
-export const hasProvidedConsent = record => {
-  return record.get(CONSENT_GIVEN_FIELD_BY_MODULE[record.get(MODULE_TYPE_FIELD)]);
-};
+export const hasProvidedConsent = record =>
+  every(CONSENT_GIVEN_FIELD_BY_MODULE[record.get(MODULE_TYPE_FIELD)], field => record.get(field));
 
 export const generatePath = (constant, recordId, recordsIds) => {
   const [recordType, transitionType] = constant.split("/");
