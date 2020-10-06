@@ -2435,10 +2435,19 @@ en:
       label: Disabled
     disaggregate_by: Group by column
     filters:
-      is: is
       label: Report filters
       label_new: New report filter
+      attribute: Filter
+      value: With
       not_null: Is not blank?
+      less_than: Less than
+      greater_than: Greater than
+      equal_to: Equal to
+      not_blank: Not blank
+      is: is
+      before: Before
+      after: After
+      delete_filter_message: Are you sure you want to delete this filter?
     group_ages: Use age ranges
     group_dates_by: Use date ranges
     is_graph: Generate a graph?
