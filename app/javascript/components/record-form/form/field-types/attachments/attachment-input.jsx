@@ -25,7 +25,7 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
     setFile({
       loading,
       data: `${data?.content}${data?.result}`,
-      fileName: data?.name
+      fileName: data?.fileName
     });
   };
 
@@ -35,7 +35,7 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
     loadingFile(true);
 
     if (selectedFile) {
-      const data = await toBase64(selectedFile);
+      const data = await toBase64(selectedFile, attachment);
 
       if (data) {
         form.setFieldValue(fields.attachment, data?.result, true);

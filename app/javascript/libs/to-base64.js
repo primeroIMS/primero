@@ -1,6 +1,7 @@
 import reduce from "image-blob-reduce";
 
 import { MAX_IMAGE_SIZE } from "../config";
+import { ATTACHMENT_TYPES } from "../components/record-form/form/field-types/attachments/constants";
 
 const readFileAsync = file =>
   new Promise((resolve, reject) => {
@@ -15,9 +16,9 @@ const readFileAsync = file =>
     reader.readAsDataURL(file);
   });
 
-export default async (file, max = MAX_IMAGE_SIZE) => {
+export default async (file, attachment, max = MAX_IMAGE_SIZE) => {
   try {
-    const image = await reduce().toBlob(file, { max });
+    const image = attachment === ATTACHMENT_TYPES.audio ? file : await reduce().toBlob(file, { max });
 
     const results = await readFileAsync(image);
 
