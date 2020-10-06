@@ -1,37 +1,19 @@
-module Api::V2
-  class FlagsController < RecordResourceController
+# frozen_string_literal: true
 
-    before_action { authorize! :flag, model_class }
+# API to fetch the list of flags given a user
+class Api::V2::FlagsController < ApplicationApiController
+  include Api::V2::Concerns::Pagination
 
-    def create
-      authorize! :flag_record, @record
-      @flag = @record.add_flag(params['data']['message'], params['data']['date'], current_user.user_name)
-      status = params[:data][:id].present? ? 204 : 200
-       updates_for_record(@record)
-      render :create, status: status
-    end
-
-    def update
-      authorize! :flag_record, @record
-      @flag = @record.remove_flag(params['id'], current_user.user_name, params['data']['unflag_message'])
-      updates_for_record(@record)
-    end
-
-    def create_bulk
-      authorize_all!(:flag, @records)
-      model_class.batch_flag(@records, params['data']['message'], params['data']['date'].to_date, current_user.user_name)
-    end
-
-    def create_action_message
-      'flag'
-    end
-
-    def update_action_message
-      'unflag'
-    end
-
-    def create_bulk_record_resource
-      'bulk_flag'
-    end
+  def index
+    flags = Flag.by_owner(current_user.user_name)
+    # TODO: finish
+    # binding.pry
+    # x=0
+    # authorize! :index, Flag
+    # results = current_user.tasks(pagination)
+    # @flags = results[:tasks]
+    # @total = results[:total]
   end
+
+  # TODO: refactor other methods from old flags controller
 end

@@ -3,11 +3,27 @@ require 'rails_helper'
 describe Api::V2::FlagsController, type: :request do
   include ActiveJob::TestHelper
 
-  before :each do
-    clean_data(Flag, Child, TracingRequest, Incident)
+  before do
+    clean_data(Flag, User, Child, TracingRequest, Incident, PrimeroModule, UserGroup, Agency)
 
-    @case1 = Child.create!(data: { name: "Test1", age: 5, sex: 'male' })
-    @case2 = Child.create!(data: { name: "Test2", age: 7, sex: 'female' })
+    @primero_module = PrimeroModule.new(name: 'CP')
+    @primero_module.save(validate: false)
+    permission_case = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
+    @role = Role.new(permissions: [permission_case], modules: [@primero_module])
+    @role.save(validate: false)
+    @group1 = UserGroup.create!(name: 'Group1')
+    @agency1 = Agency.create!(name: 'Agency One', agency_code: 'agency1')
+    @user1 = User.new(user_name: 'user1', full_name: 'Test User One', location: 'loc012345', role: @role,
+                      user_groups: [@group1], agency_id: @agency1.id)
+    @user1.save(validate: false)
+    @group2 = UserGroup.create!(name: 'Group2')
+    @agency2 = Agency.create!(name: 'Agency Two', agency_code: 'agency2')
+    @user2 = User.new(user_name: 'user2', full_name: 'Test User Two', location: 'loc8675309', role: @role,
+                      user_groups: [@group2], agency_id: @agency2.id)
+    @user2.save(validate: false)
+
+    @case1 = Child.create!(data: { name: "Test1", age: 5, sex: 'male', owned_by: 'user1' })
+    @case2 = Child.create!(data: { name: "Test2", age: 7, sex: 'female', owned_by: 'user1' })
     @tracing_request1 = TracingRequest.create!(data: { inquiry_date: Date.new(2019, 3, 1), relation_name: 'Test 1' })
     @tracing_request2 = TracingRequest.create!(data: { inquiry_date: Date.new(2018, 3, 1), relation_name: 'Test 2' })
     @incident1 = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
@@ -16,11 +32,25 @@ describe Api::V2::FlagsController, type: :request do
     @case1.add_flag('This is a flag', Date.today, 'faketest')
     @tracing_request1.add_flag('This is a flag TR', Date.today, 'faketest')
     @incident1.add_flag('This is a flag IN', Date.today, 'faketest')
-
   end
 
   let(:json) { JSON.parse(response.body) }
   let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
+
+  describe 'GET /api/v2/flags' do
+    before do
+      login_for_test(user_name: 'user1', permissions: permission_flag_record)
+    end
+
+    it 'lists flags' do
+      get "/api/v2/flags"
+
+      # TODO: finish
+
+      expect(response).to have_http_status(200)
+
+    end
+  end
 
   describe 'GET /api/v2/:recordType/:recordId/flags' do
     before :each do

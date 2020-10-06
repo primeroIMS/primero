@@ -8,6 +8,14 @@ class Flag < ApplicationRecord
 
   belongs_to :record, polymorphic: true
 
+  # The CAST is necessary because ActiveRecord assumes the id is an int.  It isn't.
+  scope :by_record_owner, -> (params) { Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
+                                          .where("(data -> 'owned_by' ? [:username])", username: params[:owner]) }
+
+  scope :by_record_associated_user, -> (params) { Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
+                                                    .where("(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner]) }
+  
+
   validates :message, presence: { message: 'errors.models.flags.message' }
   validates :date, presence: { message: 'errors.models.flags.date' }
 
@@ -75,6 +83,17 @@ class Flag < ApplicationRecord
     end
     string :flag_associated_agencies, stored: true, multiple: true do
       record.associated_user_agencies
+    end
+  end
+
+  class << self
+    def by_owner(owner)
+      flags = []
+      ['cases', 'incidents', 'tracing_requests'].each do |record_type|
+        params = { type: record_type, owner: owner }
+        flags << self.by_record_owner(params)
+      end
+      flags.flatten
     end
   end
 
