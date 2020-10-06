@@ -13,6 +13,7 @@ import {
   ENABLE_DISABLE_RECORD,
   ADD_NOTE,
   ADD_INCIDENT,
+  CREATE_INCIDENT,
   ADD_SERVICE,
   REQUEST_APPROVAL,
   APPROVAL,
@@ -26,6 +27,7 @@ import { getMetadata } from "../record-list/selectors";
 import { useApp } from "../application";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
+import { fetchIncidentFromCase } from "../records";
 
 import { setDialog, setPending } from "./action-creators";
 import {
@@ -181,6 +183,8 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
 
   const canAddIncident = checkPermissions(userPermissions, ADD_INCIDENT);
 
+  const canCreateIncident = checkPermissions(userPermissions, CREATE_INCIDENT);
+
   const canAddService = checkPermissions(userPermissions, ADD_SERVICE);
 
   const canShowExports = checkPermissions(userPermissions, SHOW_EXPORTS);
@@ -262,6 +266,10 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
     setIncidentDialog(true);
   };
 
+  const handleCreateIncident = () => {
+    dispatch(fetchIncidentFromCase(record.get("id"), record.get("module_id")));
+  };
+
   const handleServiceDialog = () => {
     setServiceDialog(true);
   };
@@ -308,6 +316,16 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
       condition: showListActions ? canAddIncident : canAddIncident && isSearchFromList,
       disableOffline: true,
       enabledOnSearch: true
+    },
+    {
+      name: i18n.t("actions.incident_from_case"),
+      action: handleCreateIncident,
+      recordType: RECORD_PATH.cases,
+      recordListAction: false,
+      enabledFor: ENABLED_FOR_ONE,
+      condition: canCreateIncident,
+      disableOffline: true,
+      enabledOnSearch: false
     },
     {
       name: i18n.t("actions.services_section_from_case"),
