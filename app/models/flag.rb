@@ -10,7 +10,7 @@ class Flag < ApplicationRecord
 
   # The CAST is necessary because ActiveRecord assumes the id is an int.  It isn't.
   scope :by_record_owner, -> (params) { Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
-                                          .where("(data -> 'owned_by' ? [:username])", username: params[:owner]) }
+                                          .where("(data -> 'owned_by' ? :username)", username: params[:owner]) }
 
   scope :by_record_associated_user, -> (params) { Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
                                                     .where("(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner]) }
@@ -91,7 +91,7 @@ class Flag < ApplicationRecord
       flags = []
       ['cases', 'incidents', 'tracing_requests'].each do |record_type|
         params = { type: record_type, owner: owner }
-        flags << self.by_record_owner(params)
+        flags << self.by_record_associated_user(params)
       end
       flags.flatten
     end
