@@ -1,5 +1,6 @@
 export const ACTIONS = {
   ADD_NOTE: "add_note",
+  AGENCY_READ: "agency_read",
   APPROVE_ASSESSMENT: "approve_assessment",
   APPROVE_CASE_PLAN: "approve_case_plan",
   APPROVE_CLOSURE: "approve_closure",
