@@ -9,7 +9,7 @@ import styles from "../../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-import { ATTACHMENT_TYPES } from "./constants";
+import { ATTACHMENT_TYPES, ATTACHMENT_ACCEPTED_TYPES } from "./constants";
 import renderPreview from "./render-preview";
 
 const AttachmentInput = ({ attachment, fields, name, value }) => {
@@ -52,6 +52,8 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
     }
   };
 
+  const acceptedType = ATTACHMENT_ACCEPTED_TYPES[attachment] || "*";
+
   const fieldDisabled = () => file.loading || (value && !file?.data);
 
   return (
@@ -82,6 +84,7 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
                 onChange={event => handleChange(form, event)}
                 disabled={fieldDisabled()}
                 type="file"
+                accept={acceptedType}
               />
             );
           }}
