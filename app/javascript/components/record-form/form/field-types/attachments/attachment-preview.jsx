@@ -10,9 +10,11 @@ const AttachmentPreview = ({ name, attachment, attachmentUrl }) => {
   const css = makeStyles(styles)();
 
   useEffect(() => {
-    // eslint-disable-next-line no-unused-expressions
-    document.getElementById(name)?.load();
-  });
+    if (name) {
+      // eslint-disable-next-line no-unused-expressions
+      document.getElementById(name)?.load();
+    }
+  }, [name]);
 
   if (attachment === ATTACHMENT_TYPES.audio) {
     return (
