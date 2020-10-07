@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../../../../test";
-import { FieldRecord, FormSectionRecord } from "../../../../../../form";
+import { setupMountedComponent } from "../../../../test";
+import { FieldRecord, FormSectionRecord } from "../../../form";
 
 import Table from "./component";
 

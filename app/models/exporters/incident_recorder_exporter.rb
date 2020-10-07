@@ -67,7 +67,7 @@ module Exporters
         @workbook.close
       end
 
-      def initialize(buffer)
+      def initialize(buffer, locale = nil)
         #TODO: I am dubious that these values are correctly accumulated.
         #      Shouldn't we be trying to fetch all possible values,
         #      rather than all values for incidents getting exported?
@@ -85,7 +85,7 @@ module Exporters
                    country_of_origin maritial_status displacement_status disability_type unaccompanied_separated_status
                    displacement_incident incident_location_type incident_camp_town gbv_sexual_violence_type
                    harmful_traditional_practice goods_money_exchanged abduction_status_time_of_incident
-                   gbv_reported_elsewhere gbv_previous_incidents]
+                   gbv_reported_elsewhere gbv_previous_incidents incident_timeofday consent_reporting]
         ).inject({}) { |acc, field| acc.merge(field.name => field) }
 
         @workbook = WriteExcel.new(buffer)
@@ -94,6 +94,8 @@ module Exporters
 
         #Sheet data start at row 1 (based 0 index).
         @row_data = 1
+        self.locale = locale || I18n.locale
+        self.field_value_service = FieldValueService.new
       end
 
       def incident_data_header
@@ -401,7 +403,7 @@ module Exporters
         else
           # All of the Procs above should already be translated.
           # Only worry about translating the string properties (i.e. the ones using the field name)
-          export_value(value, @fields[prop].try(:first))
+          export_value(value, @fields[prop])
         end
       end
 

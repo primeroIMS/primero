@@ -16,7 +16,8 @@ const stateWithUser = fromJS({
       tracing_requests: [ACTIONS.MANAGE],
       cases: [ACTIONS.MANAGE]
     },
-    saving: false
+    saving: false,
+    serverErrors: ["Test error"]
   }
 });
 
@@ -133,6 +134,22 @@ describe("User - Selectors", () => {
       const user = selectors.getUserSavingRecord(stateWithoutUser);
 
       expect(user).to.be.false;
+    });
+  });
+
+  describe("getServerErrors", () => {
+    it("should return server errors", () => {
+      const expected = stateWithUser.getIn(["user", "serverErrors"]);
+
+      const serverErrors = selectors.getServerErrors(stateWithUser);
+
+      expect(serverErrors).to.deep.equal(expected);
+    });
+
+    it("should return empty object when no server errors", () => {
+      const user = selectors.getServerErrors(stateWithoutUser);
+
+      expect(user).to.deep.equal(fromJS([]));
     });
   });
 });

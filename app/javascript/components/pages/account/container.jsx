@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 import CreateIcon from "@material-ui/icons/Create";
 import CheckIcon from "@material-ui/icons/Check";
@@ -6,10 +6,10 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fromJS } from "immutable";
+import { FormContext, useForm } from "react-hook-form";
 
 import { useI18n } from "../../i18n";
-import Form, { FormAction, whichFormMode } from "../../form";
+import { FormAction, whichFormMode, FormSection } from "../../form";
 import PageContainer, { PageHeading, PageContent } from "../../page";
 import { ROUTES } from "../../../config";
 import bindFormSubmit from "../../../libs/submit-form";
@@ -17,7 +17,13 @@ import { form } from "../admin/users-form/form";
 import LoadingIndicator from "../../loading-indicator";
 import { getIdentityProviders } from "../admin/users-form/selectors";
 import validations from "../admin/users-form/validations";
-import { getUser, getUserSavingRecord } from "../../user/selectors";
+import { getUser, getUserSavingRecord, getServerErrors } from "../../user/selectors";
+import { selectDialog, selectDialogPending } from "../../record-actions/selectors";
+import { setDialog } from "../../record-actions/action-creators";
+import ChangePassword from "../admin/users-form/change-password";
+import CancelPrompt from "../../form/components/cancel-prompt";
+import { PASSWORD_MODAL } from "../admin/users-form/constants";
+import { submitHandler } from "../../form/utils/form-submission";
 
 import { NAME } from "./constants";
 import NAMESPACE from "./namespace";
@@ -33,9 +39,13 @@ const Container = ({ mode }) => {
 
   const currentUser = useSelector(state => getUser(state));
   const saving = useSelector(state => getUserSavingRecord(state));
-  const formErrors = fromJS({});
+  const formErrors = useSelector(state => getServerErrors(state));
   const idp = useSelector(state => getIdentityProviders(state));
-
+  const passwordModal = useSelector(state => selectDialog(state, PASSWORD_MODAL));
+  const setPasswordModal = open => {
+    dispatch(setDialog({ dialog: PASSWORD_MODAL, open }));
+  };
+  const dialogPending = useSelector(state => selectDialogPending(state));
   const useIdentityProviders = idp?.get("use_identity_provider");
   const providers = idp?.get("identity_providers");
 
@@ -46,6 +56,11 @@ const Container = ({ mode }) => {
     : [];
 
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers, true);
+  const initialValues = currentUser.toJS();
+  const formMethods = useForm({
+    ...(initialValues && { defaultValues: initialValues }),
+    ...(validationSchema && { validationSchema })
+  });
   const handleSubmit = data => dispatch(updateUserAccount({ id, data, message: i18n.t("user.messages.updated") }));
 
   const handleEdit = () => {
@@ -82,6 +97,42 @@ const Container = ({ mode }) => {
     };
   }, [id]);
 
+  useEffect(() => {
+    formMethods.reset(initialValues);
+  }, [currentUser]);
+
+  useEffect(() => {
+    // eslint-disable-next-line no-unused-expressions
+    formErrors?.forEach(error => {
+      formMethods.setError(error.get("detail"), "", i18n.t(error.getIn(["message", 0])));
+    });
+  }, [formErrors]);
+
+  useImperativeHandle(
+    formRef,
+    submitHandler({
+      dispatch,
+      formMethods,
+      formMode,
+      i18n,
+      initialValues,
+      onSubmit: handleSubmit
+    })
+  );
+
+  const onClickChangePassword = () => setPasswordModal(true);
+
+  const renderFormSections = () =>
+    form(
+      i18n,
+      formMode,
+      useIdentityProviders,
+      providers,
+      identityOptions,
+      onClickChangePassword,
+      true
+    ).map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);
+
   return (
     <LoadingIndicator hasData={currentUser.size > 0} loading={!currentUser.size} type={NAMESPACE}>
       <PageContainer>
@@ -90,15 +141,18 @@ const Container = ({ mode }) => {
           {saveButton}
         </PageHeading>
         <PageContent>
-          <Form
-            mode={mode}
-            formSections={form(i18n, formMode, useIdentityProviders, providers, identityOptions, true)}
-            onSubmit={handleSubmit}
-            ref={formRef}
-            validations={validationSchema}
-            initialValues={currentUser.toJS()}
-            formErrors={formErrors}
-          />
+          <FormContext {...formMethods} formMode={formMode}>
+            <CancelPrompt useCancelPrompt />
+            <form noValidate>{renderFormSections()}</form>
+            <ChangePassword
+              formMode={formMode}
+              i18n={i18n}
+              open={passwordModal}
+              parentFormMethods={formMethods}
+              pending={dialogPending}
+              setOpen={setPasswordModal}
+            />
+          </FormContext>
         </PageContent>
       </PageContainer>
     </LoadingIndicator>

@@ -6,17 +6,18 @@ import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
 import { generatePath } from "./components/utils";
 import actions from "./actions";
 
-const successCallbackActions = (modalName, message) => [
-  {
-    action: ENQUEUE_SNACKBAR,
-    payload: {
-      message,
-      options: {
-        variant: "success",
-        key: generate.messageKey(message)
-      }
+const successMessage = message => ({
+  action: ENQUEUE_SNACKBAR,
+  payload: {
+    message,
+    options: {
+      variant: "success",
+      key: generate.messageKey(message)
     }
-  },
+  }
+});
+
+const closeDialog = modalName => [
   {
     action: SET_DIALOG,
     payload: {
@@ -30,6 +31,11 @@ const successCallbackActions = (modalName, message) => [
       pending: false
     }
   }
+];
+
+const successCallbackActions = (modalName, message, isRemote = false) => [
+  successMessage(message),
+  ...(!isRemote ? closeDialog(modalName) : [])
 ];
 
 export const fetchAssignUsers = recordType => ({
@@ -86,7 +92,7 @@ export const saveTransferUser = (recordId, body, message) => ({
 });
 
 export const saveReferral = (recordId, recordType, body, message) => {
-  const successActions = successCallbackActions(REFER_DIALOG, message);
+  const successActions = successCallbackActions(REFER_DIALOG, message, body?.data?.remote);
 
   const successCallback =
     body.data && body.data.service_record_id

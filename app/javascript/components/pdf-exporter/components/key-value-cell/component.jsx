@@ -3,17 +3,26 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { List, fromJS } from "immutable";
 import { isEmpty } from "lodash";
-import { format, parseISO } from "date-fns";
 import { makeStyles } from "@material-ui/core";
+import CheckBox from "@material-ui/icons/CheckBox";
+import CheckBoxOutlineBlank from "@material-ui/icons/CheckBoxOutlineBlank";
 
-import { getOptions } from "../../../../../../form/selectors";
-import { optionText } from "../../../../../../form/utils";
-import { useI18n } from "../../../../../../i18n";
-import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../../../../config";
+import { getOptions } from "../../../form/selectors";
+import { optionText } from "../../../form/utils";
+import { useI18n } from "../../../i18n";
+import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../config";
 
 import styles from "./styles.css";
 
-const Component = ({ date, dateWithTime, displayName, value, optionsStringSource, options }) => {
+const Component = ({
+  isDateWithTime,
+  displayName,
+  value,
+  optionsStringSource,
+  options,
+  isBooleanField,
+  isDateField
+}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
@@ -31,6 +40,7 @@ const Component = ({ date, dateWithTime, displayName, value, optionsStringSource
         ?.flatten()
         .join(", ");
     }
+
     if (hasOptions && !lookups?.isEmpty() && !isEmpty(fieldValue)) {
       return lookups
         .filter(lookup => {
@@ -41,8 +51,12 @@ const Component = ({ date, dateWithTime, displayName, value, optionsStringSource
         .map(lookup => optionText(fromJS(lookup).toJS()));
     }
 
-    if (date && fieldValue) {
-      return format(parseISO(fieldValue), dateWithTime ? DATE_TIME_FORMAT : DATE_FORMAT);
+    if (isDateField && fieldValue) {
+      return i18n.localizeDate(fieldValue, isDateWithTime ? DATE_TIME_FORMAT : DATE_FORMAT);
+    }
+
+    if (isBooleanField) {
+      return fieldValue ? <CheckBox /> : <CheckBoxOutlineBlank />;
     }
 
     return fieldValue;
@@ -59,14 +73,18 @@ const Component = ({ date, dateWithTime, displayName, value, optionsStringSource
 Component.displayName = "KeyValueCell";
 
 Component.defaultProps = {
+  isBooleanField: false,
+  isDateField: false,
+  isDateWithTime: false,
   optionsStringSource: null,
   value: ""
 };
 
 Component.propTypes = {
-  date: PropTypes.bool,
-  dateWithTime: PropTypes.bool,
   displayName: PropTypes.string.isRequired,
+  isBooleanField: PropTypes.bool,
+  isDateField: PropTypes.bool,
+  isDateWithTime: PropTypes.bool,
   options: PropTypes.object,
   optionsStringSource: PropTypes.string,
   value: PropTypes.any

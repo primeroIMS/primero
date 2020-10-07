@@ -20,6 +20,13 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
                   display_text: { en: "Province", es: "Provincia" }
                 }
               ]
+            },
+            {
+              unique_id: "lookup-service-type",
+              values: [
+                { id: "service_1", display_text: { en: "Service 1", es: "Servicio 1" } },
+                { id: "service_2", display_text: { en: "Service 2", es: "Servicio 2" }, disabled: true }
+              ]
             }
           ]
         }
@@ -78,5 +85,15 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
     const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
     expect(component.text()).to.be.equal("Test 2");
+  });
+
+  it("should render the lookup even if it's disabled", () => {
+    const props = {
+      value: "service_2",
+      optionsStringSource: "lookup lookup-service-type"
+    };
+    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
+
+    expect(component.text()).to.equal("Service 2");
   });
 });

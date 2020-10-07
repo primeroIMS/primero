@@ -1,5 +1,5 @@
 import { List, Map } from "immutable";
-import { addHours, format } from "date-fns";
+import { addHours, format, parseISO } from "date-fns";
 
 import { API_DATE_FORMAT, API_DATE_TIME_FORMAT } from "../config/constants";
 
@@ -74,3 +74,5 @@ export const toServerDateFormat = (date, options) => {
 
   return format(normalizedDate, includeTime ? API_DATE_TIME_FORMAT : API_DATE_FORMAT);
 };
+
+export const endOfDay = date => parseISO(date.toISOString().replace(/T.+/, "").concat("T23:59:59Z"));

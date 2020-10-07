@@ -1,4 +1,4 @@
-import { object, number, string, lazy, ref, array, addMethod } from "yup";
+import { object, number, string, ref, array, addMethod } from "yup";
 
 export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage = false) => {
   const useProviders = useIdentityProviders && providers;
@@ -38,31 +38,6 @@ export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage
     full_name: string().required().label(i18n.t("user.full_name")),
     identity_provider_id: useProviders && number().required(),
     location: string().required().label(i18n.t("user.location")),
-    password:
-      !useProviders &&
-      lazy(value => {
-        const defaultValidation = value ? string().min(8) : string();
-
-        if (formMode.get("isNew")) {
-          return defaultValidation.required().label(i18n.t("user.password"));
-        }
-
-        return defaultValidation;
-      }),
-    password_confirmation:
-      !useProviders &&
-      lazy(() => {
-        const defaultValidation = string().oneOf(
-          [ref("password"), null],
-          i18n.t("errors.models.user.password_mismatch")
-        );
-
-        if (formMode.get("isNew")) {
-          return defaultValidation.required().label(i18n.t("user.password_confirmation"));
-        }
-
-        return defaultValidation;
-      }),
     user_name: useProviders
       ? string().required().label(i18n.t("user.user_name")).isIdpProvider(ref("identity_provider_id"))
       : string().required().label(i18n.t("user.user_name"))

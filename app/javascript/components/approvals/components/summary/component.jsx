@@ -1,12 +1,10 @@
 import React from "react";
-import { format } from "date-fns";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
 import clsx from "clsx";
 
 import { useI18n } from "../../../i18n";
-import { DATE_FORMAT } from "../../../../config";
 import { NAME_SUMMARY } from "../../constants";
 import { useApp } from "../../../application";
 
@@ -38,7 +36,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
       return false;
     }
 
-    return format(new Date(approvalDate), DATE_FORMAT);
+    return i18n.localizeDate(approvalDate);
   };
 
   return (

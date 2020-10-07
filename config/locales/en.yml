@@ -713,6 +713,7 @@ en:
         permission_presence: Please select at least one permission
       user:
         password_mismatch: The password fields do not have the same password
+        email_uniqueness: A User with this email address already exists. Please enter a different one
     not_found: No Record(s) Found
     try_again: Try again
   exports:
@@ -1113,6 +1114,7 @@ en:
       incident_date_derived: Incident Date
     selected_records: '%{select_records} incident(s) selected'
     selected_all_records: 'Select all %{total_records} incidents that match this query.'
+    survivor_code: Survivor Code
     show_incident: 'Incident ID %{short_id}'
     social_worker: Social Worker
     violence_type: Violence Type
@@ -1220,7 +1222,7 @@ en:
     alert_items: You have %{items} items of note.
     alerts_for:
       approval: Approval is pending for %{form_section_name}
-      field_change: A new %{form_section_name} was added to the case on %{alert_time}
+      field_change: '%{form_section_name} was updated on %{alert_time}'
       transfer_request: A new Transfer Request was made on %{date} by %{user} at %{agency}
     cannot_edit: You cannot edit this
     confirmation_message: Clicking OK will discard any unsaved changes and return
@@ -2403,6 +2405,8 @@ en:
   record_panel:
     record_information: Record Information
   referral:
+    type_of_recipient: Type of Recipient
+    type_of_referral_required: Type of Referral is required
     agency_label: Agency
     is_remote_label: Are you referring to a remote system?
     location_label: Location
@@ -2431,10 +2435,19 @@ en:
       label: Disabled
     disaggregate_by: Group by column
     filters:
-      is: is
       label: Report filters
       label_new: New report filter
+      attribute: Filter
+      value: With
       not_null: Is not blank?
+      less_than: Less than
+      greater_than: Greater than
+      equal_to: Equal to
+      not_blank: Not blank
+      is: is
+      before: Before
+      after: After
+      delete_filter_message: Are you sure you want to delete this filter?
     group_ages: Use age ranges
     group_dates_by: Use date ranges
     is_graph: Generate a graph?
@@ -2589,7 +2602,7 @@ en:
       to_user_can_receive: This user cannot receive this record
     individual_consent: Did the case worker have the individual's consent to make
       this transfer?
-    no_consent_share: No Consent to Share Setting Overridden
+    no_consent_share: Consent to share setting overwritten?
     notes: Notes
     recipient: Recipient
     rejected: Reason Rejected
@@ -2605,6 +2618,7 @@ en:
       assign: Assign
       reassign: Assign
       referral: Referral
+      external_referral: External Referral
       transfer: Transfer
       transferRequest: Transfer Request
   user:
@@ -2635,6 +2649,8 @@ en:
       time_zone_updated: The change was successfully updated.
       updated: User was successfully updated.
     organization: Organization
+    agency: Agency
+    services_help_text: If you do not specify services, this User will be given the same services its Agency has.
     password: Password
     password_confirmation: Password Confirmation
     phone: Phone
@@ -2644,6 +2660,7 @@ en:
     send_mail: Receive email notifications?
     user_group_unique_ids: User Groups
     user_name: Username
+    services: Services
     welcome_email:
       subject: 'Welcome to %{system}!'
       greeting: 'Welcome to %{system}!'

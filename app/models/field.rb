@@ -132,7 +132,7 @@ class Field < ApplicationRecord
 
   def update_properties(field_params)
     field_params['subform_unique_id'] &&
-      self.subform = FormSection.find_by(unique_id: field_params['subform_section_id'])
+      self.subform = FormSection.find_by(unique_id: field_params['subform_unique_id'])
     if field_params['collapsed_field_for_subform_unique_id']
       self.collapsed_field_for_subform = FormSection.find_by(
         unique_id: field_params['collapsed_field_for_subform_unique_id']
