@@ -86,6 +86,38 @@ describe("<UsersForm />", () => {
     expect(actionTypes.includes(applicationActions.FETCH_ROLES)).to.be.true;
   });
 
+  describe("when a new user is created", () => {
+    const state = fromJS({
+      records: {
+        users: {
+          data: [Object.values(users)],
+          metadata: { total: 2, per: 20, page: 1 }
+        }
+      },
+      application: {
+        agencies
+      },
+      user: {
+        username: users.jose.user_name,
+        permissions
+      }
+    });
+
+    it("should fetch user groups and roles", () => {
+      const { component: newComponent } = setupMountedComponent(UsersForm, { mode: MODES.new }, state, [
+        "/admin/users/new"
+      ]);
+
+      const actionTypes = newComponent
+        .props()
+        .store.getActions()
+        .map(action => action.type);
+
+      expect(actionTypes.includes(applicationActions.FETCH_USER_GROUPS)).to.be.true;
+      expect(actionTypes.includes(applicationActions.FETCH_ROLES)).to.be.true;
+    });
+  });
+
   describe("when currently logged-in user it equals to the selected one", () => {
     const state = fromJS({
       records: {
