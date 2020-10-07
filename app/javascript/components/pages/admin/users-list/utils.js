@@ -29,7 +29,7 @@ export const buildUsersQuery = data => {
   }, {});
 };
 
-export const getFilters = (i18n, filterAgencies, filterUserGroups) => [
+export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermission) => [
   {
     name: "cases.filter_by.enabled_disabled",
     field_name: DISABLED,
@@ -47,7 +47,8 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups) => [
     field_name: AGENCY,
     options: searchableAgencies(filterAgencies, i18n),
     type: FILTER_TYPES.MULTI_SELECT,
-    multiple: false
+    multiple: false,
+    permitted_filter: filterPermission?.agency
   },
   {
     name: "cases.filter_by.user_group",

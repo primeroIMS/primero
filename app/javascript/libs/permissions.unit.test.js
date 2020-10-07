@@ -8,6 +8,7 @@ describe("Verifying config constant", () => {
 
     [
       "ADD_NOTE",
+      "AGENCY_READ",
       "APPROVE_ASSESSMENT",
       "APPROVE_CASE_PLAN",
       "APPROVE_CLOSURE",
