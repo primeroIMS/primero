@@ -1,5 +1,5 @@
 ---
-primero_nginx_server_name: 'primero.davidson.quoininc.com'
+primero_nginx_server_name: 'primero-integration-v2-ansible-nginxfixes.cloud.quoininc.com'
 certbot_domain:
 - '{{ primero_nginx_server_name }}'
 certbot_email: 'slapharase@wemel.site'

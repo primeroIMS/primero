@@ -1,12 +1,12 @@
 ---
-- name: 'copy certbot python script to /srv/primero/bin/certbot'
-  copy:
-    src: '{{ playbook_dir }}/../../../bin/certbot'
-    dest: '/srv/primero/bin/certbot'
-    mode: 'u=rwx,go=rx'
-  become: yes
-  tags:
-  - 'certbot'
+#- name: 'copy certbot python script to /srv/primero/bin/certbot'
+#  copy:
+#    src: '{{ playbook_dir }}/../../../bin/certbot'
+#    dest: '/srv/primero/bin/certbot'
+#    mode: 'u=rwx,go=rx'
+#  become: yes
+#  tags:
+#  - 'certbot'
 
 - name: 'create the /srv/primero/bin/certbot.sh script'
   copy:

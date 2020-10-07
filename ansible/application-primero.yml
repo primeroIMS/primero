@@ -1,32 +1,5 @@
 ---
 - hosts: 'primero'
-  tasks:
-
-  - name: 'create directories'
-    file:
-      path: '{{ item }}'
-      state: 'directory'
-    with_items:
-    - '/ebs/srv'
-    - '/ebs/var/lib/docker'
-    become: yes
-
-  - name: 'link /srv to /ebs/srv'
-    file:
-      state: 'link'
-      src: '/ebs/srv'
-      path: '/srv'
-      force: yes
-    become: yes
-
-  - name: 'link /var/lib/docker to /ebs/var/lib/docker'
-    file:
-      state: 'link'
-      src: '/ebs/var/lib/docker'
-      path: '/var/lib/docker'
-    become: yes
-
-- hosts: 'primero'
   roles:
   - 'quoin.infrastructure.docker_daemon_json'
   - 'quoin.infrastructure.install_python3_virtualenv'
@@ -35,4 +8,4 @@
   - 'quoin.infrastructure.install_docker'
   - 'synchronize'
   - 'application-primero'
-  - 'primero-certbot'
+    #  - 'primero-certbot'

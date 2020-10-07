@@ -3,16 +3,16 @@
   command: |
     ./build.sh all
   args:
-    chdir: '/srv/primero/docker'
+    chdir: '~/primero/docker'
 
 - name: 'configure the Docker containers'
   command: |
     ./compose.configure.sh
   args:
-    chdir: '/srv/primero/docker'
+    chdir: '~/primero/docker'
 
 - name: 'start the Docker containers'
   command: |
     ./compose.prod.sh up -d
   args:
-    chdir: '/srv/primero/docker'
+    chdir: '~/primero/docker'
