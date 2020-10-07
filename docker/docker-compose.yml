@@ -57,12 +57,9 @@ services:
 volumes:
   beanstalkd:
   database:
-  certbot_certs:
-  selfsigned_certs:
-  certbot_var:
-  certbot_etc:
+  log:
   public:
   solr_cores:
   storage:
-  # TODO: Delete the log mount when we finally clean up nginx
-  log:
+  certbot_certificates:
+  certbot_challenges:
