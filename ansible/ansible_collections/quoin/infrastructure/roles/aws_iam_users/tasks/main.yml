@@ -1,0 +1,5 @@
+---
+- name: 'create users for AWS account'
+  qi_aws_iam_users:
+    users: "{{ qi_aws_iam_users }}"
+  check_mode: no

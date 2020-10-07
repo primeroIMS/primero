@@ -1,0 +1,5 @@
+---
+qi_install_python3_docker_pip_names:
+- 'pip'
+- 'distribute'
+- 'docker'

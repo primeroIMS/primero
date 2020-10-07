@@ -1,0 +1,39 @@
+---
+- name: 'install the python3-psutil package'
+  package:
+    name: 'python3-psutil'
+    state: 'present'
+  become: yes
+
+- name: 'create and upgrade the CloudWatch virtualenv'
+  pip:
+    virtualenv: '/opt/cloudwatch'
+    virtualenv_site_packages: yes
+    name: '{{ qi_cloudwatch_pip_names }}'
+    state: 'latest'
+  become: yes
+
+- name: 'copy the CloudWatch script'
+  copy:
+    src: 'cloudwatch'
+    dest: '/opt/cloudwatch/bin/cloudwatch'
+    mode: 'u=rwx,go=rx'
+  become: yes
+
+- name: 'create the CloudWatch run script'
+  copy:
+    dest: '/opt/cloudwatch/bin/cloudwatch.sh'
+    mode: 'u=rwx,go=rx'
+    content: |
+      #! /bin/sh
+      set -ex
+      exec /opt/cloudwatch/bin/python /opt/cloudwatch/bin/cloudwatch {% for mount_path in qi_cloudwatch_mount_path -%} --mount-path "{{ mount_path }}" {% endfor -%} --project-name "{{ qi_cloudwatch_project_name }}" {% for service in qi_cloudwatch_services -%} --service "{{ service }}" {% endfor  -%}
+  become: yes
+
+- name: 'schedule CloudWatch updates'
+  cron:
+    name: 'cloudwatch'
+    minute: '*/15'
+    job: '/opt/cloudwatch/bin/cloudwatch.sh'
+    state: 'present'
+  become: yes

@@ -1,0 +1,6 @@
+---
+- listen: 'restart_docker'
+  service:
+    name: 'docker'
+    state: 'restarted'
+  become: yes

@@ -1,0 +1,30 @@
+---
+- name: 'create /srv/primero directory'
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+  - '/srv/primero'
+  become: yes
+
+- name: 'synchronize project'
+  synchronize:
+    src: '{{ playbook_dir }}/../'
+    dest: '/srv/primero'
+    use_ssh_args: yes
+    checksum: yes
+    archive: yes
+    partial: yes
+    delete: yes
+    owner: yes
+    group: yes
+    perms: yes
+  become: yes
+  #- name: 'chmod the /srv/primero/project directory'
+  #  file:
+  #    dest: '/srv/primero/project'
+  #    owner: 'root'
+  #    group: 'root'
+  #    mode: 'u=rwX,g=rX,o=rX'
+  #    recurse: yes
+  #  become: yes

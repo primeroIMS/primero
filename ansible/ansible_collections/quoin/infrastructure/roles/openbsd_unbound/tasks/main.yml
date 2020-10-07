@@ -1,0 +1,14 @@
+---
+- name: 'configure /var/unbound/etc/unbound.conf'
+  template:
+    src: 'unbound.conf.j2'
+    dest: '/var/unbound/etc/unbound.conf'
+  become: yes
+
+- name: 'enable unbound'
+  lineinfile:
+    path: '/etc/rc.conf.local'
+    create: yes
+    regexp: '^(\s*#\s*)?unbound_flags='
+    line: 'unbound_flags="-c /var/unbound/etc/unbound.conf"'
+  become: yes

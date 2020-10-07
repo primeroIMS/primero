@@ -1,0 +1,50 @@
+---
+- name: 'check for valid qi_openssh_authorized_keys_format'
+  assert:
+    msg: 'qi_openssh_authorized_keys_format: must be one of "dsa", "ecdsa", "ed25519", or "rsa"'
+    that:
+    - 'qi_openssh_authorized_keys_format is defined'
+    - 'qi_openssh_authorized_keys_format in ("dsa", "ecdsa", "ed25519", "rsa")'
+
+- name: 'check that at least one SSH key is configured'
+  assert:
+    msg: 'qi_openssh_authorized_keys_users: at least one SSH key user is required'
+    that:
+    - 'qi_openssh_authorized_keys_users is defined'
+    - 'qi_openssh_authorized_keys_users|length >= 1'
+
+- command: |
+    ssh -V
+  register: qi_openssh_authorized_keys_ssh_version_raw
+- set_fact:
+    qi_openssh_authorized_keys_ssh_version: '{{ qi_openssh_authorized_keys_ssh_version_raw.stderr|regex_replace("^\D*([\d\.]*).*$", "\1") }}'
+
+- name: 'check for DSA support'
+  fail:
+    msg: 'server does not support DSA key type'
+  when:
+  - 'qi_openssh_authorized_keys_format == "dsa"'
+  - 'qi_openssh_authorized_keys_ssh_version is version("2.2", "<")'
+
+- name: 'check for ECDSA support'
+  fail:
+    msg: 'server does not support ECDSA key type'
+  when:
+  - 'qi_openssh_authorized_keys_format == "ecdsa"'
+  - 'qi_openssh_authorized_keys_ssh_version is version("5.7", "<")'
+
+- name: 'check for Ed25519 support'
+  fail:
+    msg: 'server does not support Ed25519 key type'
+  when:
+  - 'qi_openssh_authorized_keys_format == "ed25519"'
+  - 'qi_openssh_authorized_keys_ssh_version is version("6.5", "<")'
+
+- name: 'install authorized_keys'
+  authorized_key:
+    user: '{{ qi_openssh_authorized_keys_user }}'
+    exclusive: yes
+    key: |
+      {% for user in qi_openssh_authorized_keys_users -%}
+        {{ lookup('file', qi_openssh_authorized_keys_folder + '/' + user + '/id_' + qi_openssh_authorized_keys_format + '.pub') }}
+      {% endfor %}

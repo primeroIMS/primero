@@ -1,0 +1,11 @@
+---
+all:
+
+  hosts:
+    primero-integration-v2-ansible-nginxfixes.cloud.quoininc.com:
+
+  children:
+
+    primero:
+      hosts:
+        primero-integration-v2-ansible-nginxfixes.cloud.quoininc.com:

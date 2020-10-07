@@ -1,0 +1,6 @@
+---
+- listen: 'restart_smtpd'
+  service:
+    name: 'smtpd'
+    state: 'restarted'
+  become: yes

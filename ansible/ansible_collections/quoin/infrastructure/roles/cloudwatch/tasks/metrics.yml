@@ -1,0 +1,25 @@
+---
+- name: 'create and upgrade the contents of the virtualenv'
+  pip:
+    virtualenv: '{{ qi_docker_virtualenv }}'
+    virtualenv_site_packages: '{{ qi_docker_virtualenv_site_packages }}'
+    name: '{{ item }}'
+    state: latest
+  with_items:
+  - awscli
+  - boto
+  - boto3
+  become: yes
+
+- name: Install Cloudwatch Script
+  copy:
+    src: 'metrics'
+    dest: '/usr/local/bin/metrics'
+    mode: 'ug=rwx,o=rx'
+
+- name: CRON Quarter hourly Cloudwatch update
+  cron:
+    name: Quarter hourly Cloudwatch update
+    minute: '*/15'
+    job: "{{ qi_docker_virtualenv }}/bin/python /usr/local/bin/metrics{% for mount_path in qi_cloudwatch_mount_paths %} {{ project_name }} {{ qi_cloudwatch_namespace }} --mount-path {{ mount_path }}{% endfor %}{% for container in qi_cloudwatch_containers %} --container {{ container }}{% endfor %}"
+    state: present

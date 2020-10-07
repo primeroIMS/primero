@@ -1,0 +1,17 @@
+---
+- name: 'Debian :: add {{ ansible_user }} to the sudo group'
+  user:
+    name: '{{ ansible_user }}'
+    groups:
+    - 'sudo'
+    append: yes
+  become: yes
+
+- name: 'Debian :: disable the password requirement for sudo'
+  lineinfile:
+    dest: '/etc/sudoers'
+    regexp: '^%sudo\s+ALL='
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: |
+      visudo -cf %s
+  become: yes

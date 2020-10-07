@@ -1,0 +1,51 @@
+---
+- fail:
+    msg: "You must define the project_name of docker project."
+  when: project_name is not defined
+
+- fail:
+    msg: "You must define the qi_certbot_nginx_webroot as the webroot where certbot acme-challenges occur as defined in your conf file."
+  when: qi_certbot_nginx_webroot is not defined
+
+- fail:
+    msg: "You must define the qi_certbot_nginx_hostname as the hostname of the application you are deploying."
+  when: qi_certbot_nginx_hostname is not defined
+
+- fail:
+    msg: "You must define the qi_certbot_nginx_email as an email for certbot to use."
+  when: qi_certbot_nginx_email is not defined
+
+- name: Create Docker volumes
+  command: 'docker volume create --name={{ item }}'
+  with_items:
+  - 'qi-certbot-challenges'
+  - 'qi-certbot-certs'
+  become: yes
+
+- copy: src=certbot.py dest="/bin/certbot.py" mode=0755
+  become: yes
+
+- name: Create certbot log file
+  file:
+    path: /var/log/certbot.log
+    state: touch
+    mode: "u=rw,g=r,o=r"
+  become: yes
+
+- name: CRON Renew letsencrypt cert using certbot morning
+  cron:
+    name: Renew letsencrypt cert using certbot morning
+    hour: 11
+    minute: 14
+    job: "date >> /var/log/certbot.log && /opt/docker/virtualenv/bin/python /bin/certbot.py --webroot='{{ qi_certbot_nginx_webroot }}' --email='{{ qi_certbot_nginx_email }}' --hostname='{{ qi_certbot_nginx_hostname }}' --project_name='{{ project_name }}' >> /var/log/certbot.log"
+    state: present
+  become: yes
+ 
+- name: CRON Renew letsencrypt cert using certbot evening
+  cron:
+    name: Renew letsencrypt cert using certbot evening
+    hour: 23
+    minute: 42
+    job: "date >> /var/log/certbot.log && /opt/docker/virtualenv/bin/python /bin/certbot.py --webroot='{{ qi_certbot_nginx_webroot }}' --email='{{ qi_certbot_nginx_email }}' --hostname='{{ qi_certbot_nginx_hostname }}' --project_name='{{ project_name }}' >> /var/log/certbot.log"
+    state: present
+  become: yes

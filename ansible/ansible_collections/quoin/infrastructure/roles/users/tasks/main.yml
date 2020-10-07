@@ -1,0 +1,53 @@
+---
+
+- name: 'Create the listed groups'
+  become: yes
+  group:
+    name: '{{item}}'
+    state: 'present'
+  loop: '{{qi_users_groups}}'
+
+
+- name: 'Add users to the listed groups'
+  become: yes
+  user:
+    name: '{{item.name}}'
+    groups: '{{item.groups}}'
+  loop: '{{qi_users_users}}'
+
+
+- name: 'Grant the groups read, write and execute access to the listed directories'
+  acl:
+    default: yes
+    path: '{{item.1}}'
+    entity: '{{item.0.name}}'
+    etype: 'group'
+    permissions: 'rwX'
+    recalculate_mask: 'mask'
+    recursive: yes
+    state: 'present'
+  loop: '{{qi_users_groups_paths|subelements('paths')}}'
+
+
+- name: 'Grant the groups read and write and execute access to the listed directories'
+  acl:
+    default: no
+    path: '{{item.1}}'
+    entity: '{{item.0.name}}'
+    etype: 'group'
+    permissions: 'rwX'
+    recalculate_mask: 'mask'
+    recursive: yes
+    state: 'present'
+  loop: '{{qi_users_groups_paths|subelements('paths')}}'
+
+
+- name: 'Remove the ACL for the listed groups on the listed directories'
+  acl:
+    path: '{{item.1}}'
+    entity: '{{item.0.name}}'
+    etype: 'group'
+    recalculate_mask: 'mask'
+    recursive: yes
+    state: 'absent'
+  loop: '{{qi_users_remove_groups_paths|subelements('paths')}}'

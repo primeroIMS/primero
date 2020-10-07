@@ -1,0 +1,21 @@
+---
+- lineinfile:
+    path: '/etc/mail/secrets'
+    create: yes
+    owner: 'root'
+    group: '_smtpd'
+    mode: 'u=rw,g=r,o='
+    regexp: '^{{ qi_opensmtpd_relay_secrets_label }}\s'
+    line: '{{ qi_opensmtpd_relay_secrets_label }} {{ qi_opensmtpd_relay_username }}:{{ qi_opensmtpd_relay_password }}'
+  become: yes
+  notify: 'restart_smtpd'
+
+- template:
+    src: 'smtpd.conf.j2'
+    dest: '/etc/mail/smtpd.conf'
+    owner: 'root'
+    group: 'wheel'
+    mode: 'u=rw,go=r'
+    validate: 'smtpd -n -f %s'
+  become: yes
+  notify: 'restart_smtpd'

@@ -1,0 +1,2 @@
+send host-name "{{ ansible_hostname }}";
+supersede domain-name-servers {{ qi_openbsd_dhclient_conf_domain_name_servers|join(", ") }};

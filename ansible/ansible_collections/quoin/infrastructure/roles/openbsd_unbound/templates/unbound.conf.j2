@@ -1,0 +1,16 @@
+server:
+  interface: 127.0.0.1
+  interface: {{ qi_openbsd_unbound_interface }}
+  do-ip6: no
+  access-control: 0.0.0.0/0 refuse
+  access-control: 127.0.0.0/8 allow
+  access-control: {{ qi_openbsd_unbound_network }} allow
+  access-control: ::0/0 refuse
+  access-control: ::1 allow
+  hide-identity: yes
+  hide-version: yes
+  auto-trust-anchor-file: "/var/unbound/db/root.key"
+remote-control:
+  control-enable: yes
+  control-use-cert: no
+  control-interface: /var/run/unbound.sock

@@ -1,0 +1,3 @@
+---
+qi_openssh_authorized_keys_user: '{{ ansible_user_id }}'
+qi_openssh_authorized_keys_folder: '{{ playbook_dir }}/../ssh'

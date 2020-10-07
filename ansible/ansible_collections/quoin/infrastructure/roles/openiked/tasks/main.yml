@@ -1,0 +1,77 @@
+---
+- name: 'enable network interface enc0'
+  copy:
+    dest: '/etc/hostname.enc0'
+    mode: 'u=rw,go=r'
+    content: |
+      up
+  become: yes
+
+- name: 'configure /etc/iked.conf'
+  template:
+    src: 'iked.conf.j2'
+    dest: '/etc/iked.conf'
+    owner: root
+    group: wheel
+    mode: 0640
+  become: yes
+  notify: 'reload_iked'
+
+- name: 'enable iked at boot'
+  lineinfile:
+    path: '/etc/rc.conf.local'
+    create: yes
+    regexp: '^(\s*#\s*)?iked_flags='
+    line: 'iked_flags=""'
+  become: yes
+
+- name: 'create /etc/iked/local.pub'
+  copy:
+    dest: '/etc/iked/local.pub'
+    mode: 'u=rw,go=r'
+    content: |
+      {{ qi_openiked_local_pub }}
+  become: yes
+  notify: 'reload_iked'
+
+- name: 'create /etc/iked/private/local.key'
+  copy:
+    dest: '/etc/iked/private/local.key'
+    mode: 'u=rw,go='
+    content: |
+      {{ qi_openiked_local_key }}
+  become: yes
+  notify: 'reload_iked'
+
+- name: 'create /etc/iked/certs/{{ qi_openiked_srcid }}.crt'
+  copy:
+    dest: '/etc/iked/certs/{{ qi_openiked_srcid }}.crt'
+    mode: 'u=rw,go=r'
+    content: |
+      {{ qi_openiked_local_pem }}
+  become: yes
+  notify: 'reload_iked'
+
+- name: 'install Certificate Authority certificates into /etc/iked/ca/'
+  copy:
+    src: '{{ qi_openiked_certificates_folder }}/{{ item }}'
+    dest: '/etc/iked/ca/{{ item }}'
+    mode: 'u=rw,go=r'
+  become: yes
+  with_items: '{{ qi_openiked_ca_certificates }}'
+  notify: 'reload_iked'
+
+- name: 'install certificates into /etc/iked/certs/'
+  copy:
+    src: '{{ qi_openiked_certificates_folder }}/{{ item }}'
+    dest: '/etc/iked/certs/{{ item }}'
+    mode: 'u=rw,go=r'
+  become: yes
+  with_items: '{{ qi_openiked_certificates }}'
+  notify: 'reload_iked'
+
+- name: 'start iked'
+  service:
+    name: 'iked'
+    state: 'started'
+  become: yes

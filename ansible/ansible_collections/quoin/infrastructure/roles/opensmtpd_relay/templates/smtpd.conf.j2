@@ -1,0 +1,7 @@
+table aliases file:/etc/mail/aliases
+table secrets file:/etc/mail/secrets
+listen on lo0
+action "mbox" mbox alias <aliases>
+action "relay" relay host smtp+tls://{{ qi_opensmtpd_relay_secrets_label }}@{{ qi_opensmtpd_relay_host }} auth <secrets>
+match for local action "mbox"
+match from local for any action "relay"

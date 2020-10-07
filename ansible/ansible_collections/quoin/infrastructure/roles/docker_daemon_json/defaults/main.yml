@@ -1,0 +1,3 @@
+---
+qi_docker_daemon_json_content: |
+  { "log-driver": "journald" }

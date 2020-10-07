@@ -1,0 +1,8 @@
+---
+- name: 'install sudo'
+  package:
+    name: 'sudo'
+    state: 'present'
+  become: yes
+  when: |
+    ansible_system != 'OpenBSD'

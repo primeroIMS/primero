@@ -1,0 +1,29 @@
+---
+- name: 'create /opt/awscli if does not exist'
+  become: yes
+  file:
+     path: '/opt/awscli'
+     state: 'directory'
+
+
+- name: 'download awscli2'
+  become: yes
+  get_url:
+     url: '{{qi_install_awscli2_url}}'
+     dest: '/opt/awscli/{{qi_install_awscli2_file}}'
+  register: 'register_qi_install_awscli2_get_url'
+
+- name: 'install unzip package'
+  become: yes
+  apt:
+    name: 'unzip'
+    update_cache: yes
+
+- name: 'install awscli2'
+  args:
+    chdir: '/opt/awscli'
+  become: yes
+  shell: |
+    unzip {{qi_install_awscli2_file}}
+    ./aws/install
+  when: register_qi_install_awscli2_get_url.changed

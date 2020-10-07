@@ -131,7 +131,7 @@ class Paths(object):
         paths.venv_bin_dir = abspath_join(paths.venv_dir, 'bin')
         paths.pip_file = abspath_join(paths.venv_dir, 'bin', 'pip')
         paths.requirements_file = abspath_join(paths.top_dir, 'requirements.txt')
-        paths.ansible_dir = abspath_join(paths.top_dir, 'src', 'main', 'ansible')
+        paths.ansible_dir = abspath_join(paths.top_dir, 'ansible')
         paths.ansible_galaxy_file = abspath_join(paths.venv_bin_dir, 'ansible-galaxy')
         paths.ansible_galaxy_requirements_file = abspath_join(paths.ansible_dir, 'requirements.yml')
         return paths

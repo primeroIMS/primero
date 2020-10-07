@@ -1,0 +1,154 @@
+#! /usr/bin/env python
+# vim:ai:et:ff=unix:fileencoding=utf-8:sw=4:syntax=python:ts=4:
+
+from __future__ import (print_function,)
+
+import argparse
+import boto3
+import functools
+import psutil
+import requests
+import sys
+import time
+import docker
+
+
+def _get_metadata(item):
+    url = 'http://169.254.169.254/latest/meta-data/' + item
+    response = requests.get(url)
+    result = response.text
+    return result
+
+
+_get_instance_id = functools.partial(_get_metadata, 'instance-id')
+_get_instance_type = functools.partial(_get_metadata, 'instance-type')
+
+
+def _main(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--mount-path',
+        action='append',
+        default=[],
+        help='collect disk metrics for MOUNT-PATH',
+        metavar='MOUNT-PATH',
+        dest='mount_paths',
+    )
+    parser.add_argument(
+        '--container',
+        action='append',
+        default=[],
+        help='collect container status for CONTAINERS',
+        metavar='CONTAINERS',
+        dest='containers',
+    )
+    parser.add_argument(
+        'project_name',
+        type=str,
+        help='name of project',
+        dest='project_name'
+    )
+    parser.add_argument(
+        'cloudwatch_namespace',
+        type=str,
+        help='namespace for cloudwatch',
+        dest='cloudwatch_namespace'
+    )
+    arguments = parser.parse_args(argv[1:])
+
+    instance_id = _get_instance_id()
+    instance_type = _get_instance_type()
+
+    metric_data = []
+
+    def add_metric(metric_name, value, unit, mount_path=None, filesystem=None):
+        dimensions = []
+
+        def add_dimension(name, value):
+            dimension = {
+                'Name': name,
+                'Value': value,
+            }
+            dimensions.append(dimension)
+        add_dimension('InstanceId', instance_id)
+        add_dimension('InstanceType', instance_type)
+        if None is not mount_path:
+            add_dimension('MountPath', mount_path)
+        if None is not filesystem:
+            add_dimension('Filesystem', filesystem)
+        metric = {
+            'MetricName': metric_name,
+            'Dimensions': dimensions,
+            'Value': value,
+            'Unit': unit,
+        }
+        metric_data.append(metric)
+
+    virtual_memory = psutil.virtual_memory()
+    if virtual_memory.total > 0:
+        add_metric('MemoryAvailable', virtual_memory.available, 'Bytes')
+        memory_used = virtual_memory.total - virtual_memory.available
+        add_metric('MemoryUsed', memory_used, 'Bytes')
+        memory_utilization = 100.0 * memory_used / virtual_memory.total
+        add_metric('MemoryUtilization', memory_utilization, 'Percent')
+
+    swap_memory = psutil.swap_memory()
+    if swap_memory.total > 0:
+        add_metric('SwapUsed', swap_memory.used, 'Bytes')
+        swap_utilization = 100.0 * swap_memory.used / swap_memory.total
+        add_metric('SwapUtilization', swap_utilization, 'Percent')
+
+    disk_partitions = psutil.disk_partitions()
+    for disk_partition in disk_partitions:
+        if disk_partition.mountpoint in arguments.mount_paths:
+            disk_usage = psutil.disk_usage(disk_partition.mountpoint)
+            add_metric(
+                'DiskSpaceUtilization',
+                disk_usage.percent,
+                'Percent',
+                disk_partition.mountpoint,
+                disk_partition.fstype
+            )
+            add_metric(
+                'DiskSpaceUsed',
+                disk_usage.used,
+                'Bytes',
+                disk_partition.mountpoint,
+                disk_partition.fstype
+            )
+            add_metric(
+                'DiskSpaceAvailable',
+                disk_usage.free,
+                'Bytes',
+                disk_partition.mountpoint,
+                disk_partition.fstype
+            )
+
+    client = docker.from_env()
+    num_exited_containers = 0
+    for container in arguments.containers:
+        container_status = client.containers.list(
+            filters={
+                'name': f'{project_name}_{container}_',
+                'status': 'running'
+            }
+        )
+        if len(container_status) == 0:
+            num_exited_containers += 1
+    add_metric('ContainersExited', num_exited_containers, 'Count')
+
+    session = boto3.Session(region_name='us-east-1')
+    cloudwatch = session.client('cloudwatch')
+    cloudwatch.put_metric_data(
+        Namespace=cloudwatch_namespace,
+        MetricData=metric_data
+    )
+
+    return 0
+
+
+if '__main__' == __name__:
+    code = _main(sys.argv)
+    if None is code:
+        code = 0
+    sys.exit(code)

@@ -1,0 +1,10 @@
+---
+- listen: 'reload_sshd'
+  service: 
+    name: 'sshd'
+    state: 'reloaded'
+  become: yes
+
+- listen: 'reload_sshd'
+  set_fact:
+    ansible_port: '{{ qi_openssh_sshd_config_port }}'

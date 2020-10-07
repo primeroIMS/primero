@@ -1,0 +1,6 @@
+---
+- name: 'log in to ECR'
+  shell: |
+    docker login --username AWS --password $(/usr/local/bin/aws ecr get-login-password --region {{aws_ecr_region}}) {{aws_account_id}}.dkr.ecr.{{aws_ecr_region}}.amazonaws.com
+  tags:
+  - 'configure'

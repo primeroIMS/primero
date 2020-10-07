@@ -1,0 +1,6 @@
+---
+- name: 'install Python version 3'
+  script: '{{ role_path }}/files/install-python3.sh'
+  environment:
+    PKG_PATH: '{{ qi_install_python3_pkg_path }}'
+  become: yes

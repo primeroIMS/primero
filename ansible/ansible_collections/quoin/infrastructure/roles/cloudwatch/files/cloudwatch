@@ -1,0 +1,182 @@
+#! /usr/bin/env python
+# vim:ai:et:ff=unix:fileencoding=utf-8:sw=4:syntax=python:ts=4:
+
+import argparse
+import boto3
+import functools
+import psutil
+import requests
+import sys
+import docker
+import re
+
+
+def _get_metadata(item):
+    url = 'http://169.254.169.254/latest/meta-data/' + item
+    response = requests.get(url)
+    result = response.text
+    return result
+
+
+def _get_metadata_response(item):
+    url = 'http://169.254.169.254/latest/' + item
+    response = requests.get(url)
+    return response
+
+
+def _get_metadata_text(item):
+    response = _get_metadata_response(item)
+    result = response.text
+    return result
+
+
+def _get_metadata_json(item):
+    response = _get_metadata_response(item)
+    result = response.json()
+    return result
+
+
+_get_instance_id = functools.partial(
+    _get_metadata_text,
+    'meta-data/instance-id'
+)
+_get_instance_type = functools.partial(
+    _get_metadata_text,
+    'meta-data/instance-type'
+)
+
+
+def _get_region():
+    response = _get_metadata_json('dynamic/instance-identity/document')
+    region = response.get('region')
+    return region
+
+
+def _main(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--mount-path',
+        action='append',
+        default=[],
+        help='collect disk metrics for MOUNT-PATH',
+        metavar='MOUNT-PATH',
+        dest='mount_paths',
+    )
+    parser.add_argument(
+        '--service',
+        action='append',
+        default=[],
+        help='collect service status for docker services',
+        metavar='SERVICE',
+        dest='services',
+    )
+    parser.add_argument(
+        '--project-name',
+        action='append',
+        default=[],
+        help='set project name',
+        metavar='PROJECT',
+        dest='project_name',
+    )
+    arguments = parser.parse_args(argv[1:])
+
+    instance_id = _get_instance_id()
+    instance_type = _get_instance_type()
+
+    metric_data = []
+
+    def add_metric(metric_name, value, unit, mount_path=None, filesystem=None):
+        dimensions = []
+
+        def add_dimension(name, value):
+            dimension = {
+                'Name': name,
+                'Value': value,
+            }
+            dimensions.append(dimension)
+        add_dimension('InstanceId', instance_id)
+        add_dimension('InstanceType', instance_type)
+        if None is not mount_path:
+            add_dimension('MountPath', mount_path)
+        if None is not filesystem:
+            add_dimension('Filesystem', filesystem)
+        metric = {
+            'MetricName': metric_name,
+            'Dimensions': dimensions,
+            'Value': value,
+            'Unit': unit,
+        }
+        metric_data.append(metric)
+
+    virtual_memory = psutil.virtual_memory()
+    if virtual_memory.total > 0:
+        add_metric('MemoryAvailable', virtual_memory.available, 'Bytes')
+        memory_used = virtual_memory.total - virtual_memory.available
+        add_metric('MemoryUsed', memory_used, 'Bytes')
+        memory_utilization = 100.0 * memory_used / virtual_memory.total
+        add_metric('MemoryUtilization', memory_utilization, 'Percent')
+
+    swap_memory = psutil.swap_memory()
+    if swap_memory.total > 0:
+        add_metric('SwapUsed', swap_memory.used, 'Bytes')
+        swap_utilization = 100.0 * swap_memory.used / swap_memory.total
+        add_metric('SwapUtilization', swap_utilization, 'Percent')
+
+    disk_partitions = psutil.disk_partitions()
+    for disk_partition in disk_partitions:
+        if disk_partition.mountpoint in arguments.mount_paths:
+            disk_usage = psutil.disk_usage(disk_partition.mountpoint)
+            add_metric(
+                'DiskSpaceUtilization',
+                disk_usage.percent,
+                'Percent',
+                disk_partition.mountpoint,
+                disk_partition.fstype
+            )
+            add_metric(
+                'DiskSpaceUsed',
+                disk_usage.used,
+                'Bytes',
+                disk_partition.mountpoint,
+                disk_partition.fstype
+            )
+            add_metric(
+                'DiskSpaceAvailable',
+                disk_usage.free,
+                'Bytes',
+                disk_partition.mountpoint,
+                disk_partition.fstype
+            )
+
+    client = docker.from_env()
+
+    project_name = re.escape(str(arguments.project_name))
+    if len(arguments.services) == 0:
+        pattern = re.compile(f'^{project_name}_.*')
+    else:
+        services_regex_list = '|'.join(
+            re.escape(s)
+            for s in arguments.services
+        )
+        pattern = re.compile(f'^{project_name}_({services_regex_list})_.*')
+    container_list = client.containers.list()
+    not_running_container_count = 0
+    for container in container_list:
+        if pattern.match(container.name) and container.status != 'running':
+            not_running_container_count += 1
+    add_metric('ServicesNotRunning', not_running_container_count, 'Count')
+
+    session = boto3.Session(region_name=_get_region())
+    cloudwatch = session.client('cloudwatch')
+    cloudwatch.put_metric_data(
+        Namespace='QI/System',
+        MetricData=metric_data
+    )
+    return 0
+
+
+if '__main__' == __name__:
+    code = _main(sys.argv)
+    if None is code:
+        code = 0
+    sys.exit(code)

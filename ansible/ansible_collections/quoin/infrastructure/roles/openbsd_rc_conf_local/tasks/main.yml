@@ -1,0 +1,8 @@
+---
+- name: 'configure /etc/rc.conf.local'
+  lineinfile:
+    path: '/etc/rc.conf.local'
+    create: yes
+    regexp: '^(\s*#\s*)?pkg_scripts='
+    line: 'pkg_scripts={{ qi_openbsd_rc_conf_local_pkg_scripts|join(" ") }}'
+  become: yes

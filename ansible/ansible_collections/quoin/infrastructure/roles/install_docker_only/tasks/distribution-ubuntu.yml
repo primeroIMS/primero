@@ -1,0 +1,26 @@
+---
+- name: 'Ubuntu :: install apt-transport-https and ca-certificates'
+  package:
+    name: '{{ item }}'
+    state: 'present'
+  with_items:
+  - 'apt-transport-https'
+  - 'ca-certificates'
+  become: yes
+
+- name: 'Ubuntu :: install Docker APT key'
+  apt_key:
+    url: 'https://download.docker.com/linux/ubuntu/gpg'
+  become: yes
+
+- name: 'Ubuntu :: install Docker APT repository'
+  apt_repository:
+    repo: |
+      deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+  become: yes
+
+- name: 'Ubuntu :: install Docker'
+  package:
+    name: 'docker-ce'
+    state: 'present'
+  become: yes

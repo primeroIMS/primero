@@ -1,0 +1,7 @@
+---
+- name: 'create the /etc/docker/daemon.json file'
+  copy:
+    dest: '/etc/docker/daemon.json'
+    content: '{{ qi_docker_daemon_json_content }}'
+  become: yes
+  notify: 'restart_docker'

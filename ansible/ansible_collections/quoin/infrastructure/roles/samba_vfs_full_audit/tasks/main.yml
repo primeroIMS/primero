@@ -1,0 +1,56 @@
+---
+
+- name: 'create the files'
+  become: yes
+  file:
+    path: '{{item}}'
+    state: 'touch'
+  loop: '{{qi_samba_vfs_full_audit_file_paths}}'
+
+
+- name: 'add vfs_full_audit configurations to the global section in smb.conf'
+  become: yes
+  ini_file:
+     path: '{{qi_samba_vfs_full_audit_smb_conf_path}}'
+     section: 'global'
+     option: '{{item.option}}'
+     value: '{{item.value}}'
+  loop: '{{qi_samba_vfs_full_audit_smb | flatten(levels=1)}}'
+
+
+- name: 'add vfs objects = full_audit to the share sections'
+  become: yes
+  ini_file:
+     path: '{{qi_samba_vfs_full_audit_smb_conf_path}}'
+     section: '{{item}}'
+     option: 'vfs objects'
+     value: 'full_audit'
+  loop: '{{qi_samba_vfs_full_audit_smb_shares}}'
+
+
+- name: 'configure rsyslog'
+  become: yes
+  lineinfile:
+      path: '{{qi_samba_vfs_full_audit_rsyslog_conf_path}}'
+      regexp: '{{qi_samba_vfs_full_audit_rsyslog_regex}}'
+      line: '{{qi_samba_vfs_full_audit_rsyslog_line}}'
+      state: 'present'
+
+
+- name: 'insert a line in rsyslog'
+  become: yes
+  lineinfile:
+      path: '{{qi_samba_vfs_full_audit_rsyslog_conf_path}}'
+      insertafter: '{{qi_samba_vfs_full_audit_rsyslog_regex}}' 
+      line: '{{qi_samba_vfs_full_audit_rsyslog_insert_after}}' 
+      state: 'present' 
+
+
+- name: 'configure 00-samba-audit.conf'
+  become: yes
+  copy:
+      dest: '{{qi_samba_vfs_full_samba_audit_audit_conf_path}}'
+      content: | 
+        {{qi_samba_vfs_full_audit_samba_audit_conf_content}}
+
+

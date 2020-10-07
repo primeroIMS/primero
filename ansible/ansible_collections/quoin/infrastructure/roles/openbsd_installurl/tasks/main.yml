@@ -1,0 +1,7 @@
+---
+- name: 'create /etc/installurl'
+  copy:
+    dest: '/etc/installurl'
+    content: |
+      {{ qi_openbsd_installurl_installurl }}
+  become: yes

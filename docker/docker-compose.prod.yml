@@ -4,8 +4,8 @@ services:
   nginx:
     image: 'primeroims/nginx:${PRIMERO_TAG:-latest}'
     ports:
-      - "80:80"
-      - "443:443"
+      - "80:80/tcp"
+      - "443:443/tcp"
     volumes:
       - 'certbot_certificates:/etc/letsencrypt'
       - 'certbot_challenges:/usr/share/nginx/html/.well-known/acme-challenge'

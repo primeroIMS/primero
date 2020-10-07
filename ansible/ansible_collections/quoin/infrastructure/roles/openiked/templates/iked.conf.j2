@@ -1,0 +1,14 @@
+ikev2 passive esp \
+    from 0.0.0.0/0 to 0.0.0.0/0 \
+    srcid {{ qi_openiked_srcid }} \
+    config address {{ qi_openiked_config_address }} \
+    config name-server {{ qi_openiked_config_name_server }} \
+    tag "{{ qi_openiked_tag }}"
+
+# Temporarily disabled until we can reconcile these with the .mobileconfig
+# settings
+#
+#   ikesa enc aes-256 auth hmac-sha2-512 prf hmac-sha2-512 group modp4096 \
+#   ikesa enc aes-256 auth hmac-sha2-384 prf hmac-sha2-384 group modp2048 \
+#   childsa enc aes-256-gcm prf hmac-sha2-512 group modp4096 \
+#   childsa enc aes-256-gcm prf hmac-sha2-384 group modp2048 \
