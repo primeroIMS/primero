@@ -45,6 +45,7 @@ class PermittedFieldService
     if model_class == Incident && user.can?(Permission::INCIDENT_FROM_CASE.to_sym, Child)
       @permitted_field_names << 'incident_case_id'
     end
+    @permitted_field_names << 'incident_details' if user.can?(:view_incident_from_case, model_class)
     @permitted_field_names += permitted_approval_field_names
     @permitted_field_names += permitted_overdue_task_field_names
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)

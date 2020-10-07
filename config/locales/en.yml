@@ -1119,6 +1119,7 @@ en:
     show_incident: 'Incident ID %{short_id}'
     social_worker: Social Worker
     violence_type: Violence Type
+    type_violence: Type of Violence
   location:
     base_types:
       camp: Camp
@@ -1745,6 +1746,10 @@ en:
               the case list table, or the photo icons which appear there. This permission
               also allows the user to see photos of the child in the "View Modal".
             label: View Photo from case list view
+          view_incident_from_case:
+            explanation: “When viewing a Case, User can see a list of Incidents linked
+              to the Case, along with some summary information about each.
+            label: View Incidents from Case
           write:
             explanation: Ability to click the "Edit" button, update information in
               the case, and click "Save"
