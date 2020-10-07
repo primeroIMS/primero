@@ -3,7 +3,7 @@ import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../../../notifier
 
 import actions from "./actions";
 
-const getSuccessCallback = (message, idFromResponse, redirect) => ({
+const successCallback = (message, idFromResponse, redirect) => ({
   action: ENQUEUE_SNACKBAR,
   payload: {
     message,
@@ -34,7 +34,7 @@ export const saveConfiguration = ({ id, body, saveMethod, message }) => {
       path,
       method: saveMethod === SAVE_METHODS.update ? METHODS.PATCH : METHODS.POST,
       body,
-      successCallback: getSuccessCallback(message, true, `/admin/${path}`)
+      successCallback: successCallback(message, true, `/admin/${path}`)
     }
   };
 };
@@ -44,7 +44,7 @@ export const deleteConfiguration = ({ id, message }) => ({
   api: {
     path: `${RECORD_PATH.configurations}/${id}`,
     method: METHODS.DELETE,
-    successCallback: getSuccessCallback(message, false, `/admin/${RECORD_PATH.configurations}`)
+    successCallback: successCallback(message, false, `/admin/${RECORD_PATH.configurations}`)
   }
 });
 
