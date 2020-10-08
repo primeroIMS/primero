@@ -55,24 +55,28 @@ const Component = ({ css, incidentDateInterview, incidentDate, incidentUniqueID,
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item md={6} xs={12}>
-          <Box className={css.spaceGrid}>
-            <DisplayData label={incidentInterviewLabel} value={incidentDateInterview} />
-          </Box>
+        <Grid item md={9} xs={12}>
+          <Grid item md={12} xs={12}>
+            <Box className={css.spaceGrid}>
+              <DisplayData label={incidentInterviewLabel} value={incidentDateInterview} />
+            </Box>
+          </Grid>
+          <Grid item md={12} xs={12}>
+            <Box className={css.spaceGrid}>
+              <DisplayData label={incidentDateLabel} value={incidentDate} />
+            </Box>
+          </Grid>
+          <Grid item md={12} xs={12}>
+            <Box className={css.spaceGrid}>
+              <DisplayData label={incidentTypeLabel} value={incidentType} />
+            </Box>
+          </Grid>
         </Grid>
-        <Grid item md={6} xs={12}>
-          {viewIncidentBtn}
-          {editIncidentBtn}
-        </Grid>
-        <Grid item md={12} xs={12}>
-          <Box className={css.spaceGrid}>
-            <DisplayData label={incidentDateLabel} value={incidentDate} />
-          </Box>
-        </Grid>
-        <Grid item md={12} xs={12}>
-          <Box className={css.spaceGrid}>
-            <DisplayData label={incidentTypeLabel} value={incidentType} />
-          </Box>
+        <Grid item md={3} xs={12}>
+          <div className={css.buttonsActions}>
+            {viewIncidentBtn}
+            {editIncidentBtn}
+          </div>
         </Grid>
       </Grid>
     </>

@@ -50,11 +50,6 @@
   color: $(theme.primero.colors.solidBlack);
 }
 
-.separator {
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-}
-
 .expandIcon {
   box-shadow: none;
   color: $(theme.primero.colors.black);
@@ -63,11 +58,18 @@
   height: 36px;
 }
 
-.pageContent {
-  padding-top: 0%;
-  &:first-child {
-    padding-top: 0%;
-  }
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonsActions {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+.buttonsActions > button {
+  margin-bottom: 0.5em;
 }
 
 @media $(theme.breakpoints.down("sm")) {

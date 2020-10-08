@@ -219,6 +219,7 @@ const Container = ({ match, mode }) => {
   } else if (isIncidentFromCase) {
     renderForm = (
       <IncidentFromCase
+        mode={containerMode}
         record={record}
         incidents={incidentsSubforms}
         mobileDisplay={mobileDisplay}
