@@ -1,7 +1,7 @@
 import qs from "qs";
 
 import { attemptSignout } from "../components/user";
-import { FETCH_TIMEOUT } from "../config";
+import { FETCH_TIMEOUT, ROUTES } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
 import EventManager from "../libs/messenger";
@@ -168,8 +168,10 @@ const fetchSinglePayload = (action, store, options) => {
     try {
       const response = await window.fetch(fetchPath, fetchOptions);
       const { status } = response;
+      const url = response.url.split("/");
+      const checkHealthUrl = url.slice(url.length - 2, url.length).join("/");
 
-      if (status === 503 || status === 204) {
+      if (status === 503 || (status === 204 && `/${checkHealthUrl}` === ROUTES.check_health)) {
         handleConfiguration(status, store, options, response, { fetchStatus, fetchSinglePayload, type });
       } else {
         const json = await response.json();
