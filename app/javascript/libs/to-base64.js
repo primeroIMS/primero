@@ -18,7 +18,9 @@ const readFileAsync = file =>
 
 export default async (file, attachment, max = MAX_IMAGE_SIZE) => {
   try {
-    const image = attachment === ATTACHMENT_TYPES.audio ? file : await reduce().toBlob(file, { max });
+    const image = [ATTACHMENT_TYPES.audio, ATTACHMENT_TYPES.document].includes(attachment)
+      ? file
+      : await reduce().toBlob(file, { max });
 
     const results = await readFileAsync(image);
 
