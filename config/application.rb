@@ -60,8 +60,6 @@ class Primero::Application < Rails::Application
 
   config.log_level = :debug
 
-  config.logger = Logger.new(config.paths['log'].first, 1, 50.megabytes)
-
   config.action_view.logger = nil
 
   config.exceptions_app = routes
