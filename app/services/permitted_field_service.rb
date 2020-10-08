@@ -42,7 +42,7 @@ class PermittedFieldService
     @permitted_field_names << 'record_state' if user.can?(:enable_disable_record, model_class)
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
-    if model_class == Incident && user.can?(Permission::INCIDENT_FROM_CASE, Child)
+    if model_class == Incident && user.can?(Permission::INCIDENT_FROM_CASE.to_sym, Child)
       @permitted_field_names << 'incident_case_id'
     end
     @permitted_field_names += permitted_approval_field_names

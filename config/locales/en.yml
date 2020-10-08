@@ -35,6 +35,7 @@ en:
     disable: Disable
     enable: Enable
     incident_details_from_case: Add Incident
+    incident_from_case: Create Incident
     next: Next
     notes: Add Notes
     previous: Previous
@@ -2411,7 +2412,7 @@ en:
   record_panel:
     record_information: Record Information
   referral:
-    type_of_referral: Type of Referral
+    type_of_recipient: Type of Recipient
     type_of_referral_required: Type of Referral is required
     agency_label: Agency
     is_remote_label: Are you referring to a remote system?
@@ -2441,10 +2442,19 @@ en:
       label: Disabled
     disaggregate_by: Group by column
     filters:
-      is: is
       label: Report filters
       label_new: New report filter
+      attribute: Filter
+      value: With
       not_null: Is not blank?
+      less_than: Less than
+      greater_than: Greater than
+      equal_to: Equal to
+      not_blank: Not blank
+      is: is
+      before: Before
+      after: After
+      delete_filter_message: Are you sure you want to delete this filter?
     group_ages: Use age ranges
     group_dates_by: Use date ranges
     is_graph: Generate a graph?
@@ -2615,6 +2625,7 @@ en:
       assign: Assign
       reassign: Assign
       referral: Referral
+      external_referral: External Referral
       transfer: Transfer
       transferRequest: Transfer Request
   user:

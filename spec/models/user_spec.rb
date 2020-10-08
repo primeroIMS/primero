@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe User do
   before :all do
-    clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, Field, FormSection)
+    clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, Field, FormSection, UserGroup, User)
   end
 
   def build_user(options = {})
@@ -823,6 +823,53 @@ describe User do
           expect(@user.reporting_location).to eq(@province1)
         end
       end
+    end
+  end
+
+  describe '#find_permitted_users' do
+    before :each do
+      clean_data(Agency, Role, UserGroup, User)
+      @agency1 = Agency.create!(name: 'Agency1', agency_code: 'A1')
+      @agency2 = Agency.create!(name: 'Agency2', agency_code: 'A2')
+      permission_agency_read = Permission.new(
+        resource: Permission::USER, actions: [Permission::AGENCY_READ]
+      )
+      role_agency_read = Role.new(permissions: [permission_agency_read])
+      role_agency_read.save(validate: false)
+
+      permission_cannot = Permission.new(
+        resource: Permission::CASE, actions: [Permission::READ]
+      )
+      role_cannot = Role.new(permissions: [permission_cannot])
+      role_cannot.save(validate: false)
+
+      @group_a = UserGroup.create!(name: 'group A', unique_id: 'group-a')
+      @group_b = UserGroup.create!(name: 'group B', unique_id: 'group-b')
+
+      @user1 = User.new(user_name: 'user1', role: role_agency_read, agency: @agency1, user_groups: [@group_a])
+      @user1.save(validate: false)
+      @user2 = User.new(user_name: 'user2', role: role_cannot, agency: @agency1, user_groups: [@group_a])
+      @user2.save(validate: false)
+      @user3 = User.new(user_name: 'user3', role: role_agency_read, disabled: true,
+                        agency: @agency1, user_groups: [@group_b])
+      @user3.save(validate: false)
+      @user4 = User.new(user_name: 'user4', role: role_cannot, agency: @agency2, user_groups: [@group_b])
+
+      @user4.save(validate: false)
+      @user = User.new(user_name: 'user5', role: role_agency_read, agency: @agency1, user_groups: [@group_a])
+      @user.save(validate: false)
+    end
+
+    it 'shows all users with the same agency' do
+      users = User.find_permitted_users(nil, nil, nil, @user)
+
+      expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user3 user5])
+    end
+
+    it 'shows all users with the same user_groups' do
+      users = User.find_permitted_users({ 'user_group_ids' => 'group-a' }, nil, nil, @user)
+
+      expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user5])
     end
   end
 end

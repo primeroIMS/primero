@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import { FastField, connect, getIn } from "formik";
 import { Checkbox } from "formik-material-ui";
 import pickBy from "lodash/pickBy";
-import { FormControlLabel, InputLabel } from "@material-ui/core";
+import { FormControlLabel, FormHelperText, InputLabel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { TICK_FIELD_NAME } from "../constants";
 import { useI18n } from "../../../i18n";
 import styles from "../styles.css";
 
-const TickField = ({ name, label, tickBoxlabel, formik, ...rest }) => {
+const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const fieldProps = {
@@ -48,6 +48,7 @@ const TickField = ({ name, label, tickBoxlabel, formik, ...rest }) => {
           />
         }
       />
+      <FormHelperText>{helperText}</FormHelperText>
     </>
   );
 };
@@ -56,6 +57,7 @@ TickField.displayName = TICK_FIELD_NAME;
 
 TickField.propTypes = {
   formik: PropTypes.object,
+  helperText: PropTypes.string,
   label: PropTypes.string,
   name: PropTypes.string,
   tickBoxlabel: PropTypes.object

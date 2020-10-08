@@ -9,7 +9,7 @@ import styles from "../../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-import { ATTACHMENT_TYPES } from "./constants";
+import { ATTACHMENT_TYPES, ATTACHMENT_ACCEPTED_TYPES } from "./constants";
 import renderPreview from "./render-preview";
 
 const AttachmentInput = ({ attachment, fields, name, value }) => {
@@ -25,7 +25,7 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
     setFile({
       loading,
       data: `${data?.content}${data?.result}`,
-      fileName: data?.name
+      fileName: data?.fileName
     });
   };
 
@@ -35,7 +35,7 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
     loadingFile(true);
 
     if (selectedFile) {
-      const data = await toBase64(selectedFile);
+      const data = await toBase64(selectedFile, attachment);
 
       if (data) {
         form.setFieldValue(fields.attachment, data?.result, true);
@@ -51,6 +51,8 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
       }
     }
   };
+
+  const acceptedType = ATTACHMENT_ACCEPTED_TYPES[attachment] || "*";
 
   const fieldDisabled = () => file.loading || (value && !file?.data);
 
@@ -82,6 +84,7 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
                 onChange={event => handleChange(form, event)}
                 disabled={fieldDisabled()}
                 type="file"
+                accept={acceptedType}
               />
             );
           }}

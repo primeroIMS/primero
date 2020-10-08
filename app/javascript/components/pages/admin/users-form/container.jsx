@@ -28,7 +28,7 @@ import { form } from "./form";
 import validations from "./validations";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
 import { USER_CONFIRMATION_DIALOG, PASSWORD_MODAL } from "./constants";
-import { getUser, getServerErrors, getIdentityProviders, getSavingRecord } from "./selectors";
+import { getUser, getServerErrors, getIdentityProviders, getLoading, getSavingRecord } from "./selectors";
 import UserConfirmation from "./user-confirmation";
 import ChangePassword from "./change-password";
 
@@ -40,6 +40,7 @@ const Container = ({ mode }) => {
   const { pathname } = useLocation();
   const { id } = useParams();
 
+  const loading = useSelector(state => getLoading(state));
   const user = useSelector(state => getUser(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const idp = useSelector(state => getIdentityProviders(state));
@@ -54,7 +55,8 @@ const Container = ({ mode }) => {
   const useIdentityProviders = idp?.get("use_identity_provider");
   const providers = idp?.get("identity_providers");
   const currentUserName = useSelector(state => currentUser(state));
-  const selectedUserIsLoggedIn = currentUserName === user.get("user_name");
+  const selectedUserName = user.get("user_name");
+  const selectedUserIsLoggedIn = currentUserName === selectedUserName;
 
   const initialValues = user.toJS();
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
@@ -106,12 +108,12 @@ const Container = ({ mode }) => {
 
   useEffect(() => {
     batch(() => {
-      if (user?.toSeq()?.size && !selectedUserIsLoggedIn) {
+      if (formMode.get("isNew") || (!selectedUserIsLoggedIn && !loading)) {
         dispatch(fetchRoles());
         dispatch(fetchUserGroups());
       }
     });
-  }, [user]);
+  }, [selectedUserName]);
 
   useEffect(() => {
     if (!saving) {

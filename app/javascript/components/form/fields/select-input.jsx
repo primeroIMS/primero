@@ -34,7 +34,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const methods = useFormContext();
   const dispatch = useDispatch();
   const loading = useSelector(state => getLoadingState(state, asyncOptionsLoadingPath));
-  const otherFieldValue = useSelector(state => {
+  const otherFieldValues = useSelector(state => {
     if (!setOtherFieldValues) {
       return null;
     }
@@ -98,8 +98,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       clearDependentValues.forEach(field => methods.setValue(field, null));
     }
 
-    if (otherFieldValue && setOtherFieldValues) {
-      // methods.setValue(name, otherFieldValue);
+    if (setOtherFieldValues) {
+      otherFieldValues.forEach(([field, value]) => {
+        methods.setValue(field, value);
+      });
     }
 
     return multiSelect

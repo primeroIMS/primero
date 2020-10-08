@@ -295,7 +295,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(11);
+        expect(component.find(MenuItem)).to.have.length(12);
       });
 
       it("renders MenuItem with Refer Cases option", () => {
@@ -331,6 +331,15 @@ describe("<RecordActions />", () => {
             .find("li")
             .map(l => l.text())
             .includes("cases.export")
+        ).to.be.true;
+      });
+
+      it("renders MenuItem with Create Incident option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("actions.incident_from_case")
         ).to.be.true;
       });
     });

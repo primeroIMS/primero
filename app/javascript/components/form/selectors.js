@@ -172,7 +172,10 @@ export const getValueFromOtherField = (state, fields, values) => {
   return fields.reduce((prev, current) => {
     prev.push([
       current.field,
-      state.getIn(current.path, []).find(entity => entity[current.key] === values[current.key])
+      state
+        .getIn(current.path, fromJS([]))
+        .find(entity => entity[current.key] === values[current.key], null, fromJS({}))
+        .get(current.key, "")
     ]);
 
     return prev;

@@ -1,11 +1,21 @@
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 import { SET_DIALOG, SET_DIALOG_PENDING } from "../record-actions/actions";
+import { RECORD_PATH } from "../../config";
 
-import { CLEAR_METADATA, RECORD, SAVE_RECORD, FETCH_RECORD_ALERTS } from "./actions";
+import {
+  CLEAR_METADATA,
+  RECORD,
+  SAVE_RECORD,
+  FETCH_RECORD_ALERTS,
+  FETCH_INCIDENT_FROM_CASE,
+  SET_CASE_ID_FOR_INCIDENT,
+  CLEAR_CASE_FROM_INCIDENT
+} from "./actions";
 
 const getSuccessCallback = ({ dialogName, message, messageForQueue, recordType, redirect, saveMethod }) => {
   const defaultSuccessCallback = [
+    { action: `cases/${CLEAR_CASE_FROM_INCIDENT}` },
     {
       action: ENQUEUE_SNACKBAR,
       payload: {
@@ -102,5 +112,21 @@ export const fetchRecordsAlerts = (recordType, recordId) => ({
   type: `${recordType}/${FETCH_RECORD_ALERTS}`,
   api: {
     path: `${recordType}/${recordId}/alerts`
+  }
+});
+
+export const clearCaseFromIncident = () => ({
+  type: `cases/${CLEAR_CASE_FROM_INCIDENT}`
+});
+
+export const fetchIncidentFromCase = (caseId, moduleId) => ({
+  type: `cases/${FETCH_INCIDENT_FROM_CASE}`,
+  api: {
+    path: `${RECORD_PATH.cases}/${caseId}/${RECORD_PATH.incidents}/new`,
+    successCallback: {
+      action: `cases/${SET_CASE_ID_FOR_INCIDENT}`,
+      payload: { caseId },
+      redirect: `/${RECORD_PATH.incidents}/${moduleId}/new`
+    }
   }
 });

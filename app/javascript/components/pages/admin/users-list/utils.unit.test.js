@@ -63,7 +63,8 @@ describe("<AuditLogs /> - Helpers", () => {
             }
           ],
           type: FILTER_TYPES.MULTI_SELECT,
-          multiple: false
+          multiple: false,
+          permitted_filter: false
         },
         {
           field_name: USER_GROUP,
@@ -74,7 +75,11 @@ describe("<AuditLogs /> - Helpers", () => {
         }
       ];
 
-      expect(helper.getFilters(i18n, options)).to.deep.equal(expected);
+      const filterPermission = {
+        agency: false
+      };
+
+      expect(helper.getFilters(i18n, options, null, filterPermission)).to.deep.equal(expected);
     });
   });
 });

@@ -99,6 +99,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mod
         title={title}
         initialSubformValue={initialSubformValue}
         formSection={formSection}
+        recordType={recordType}
       />
     </>
   );

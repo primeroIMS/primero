@@ -6,6 +6,7 @@ import { whichFormMode } from "../../../form";
 import SearchableSelect from "../../../searchable-select";
 import { CUSTOM_STRINGS_SOURCE } from "../constants";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
+import actions from "../../../record-actions/transitions/actions";
 
 import SelectField from "./select-field";
 
@@ -138,6 +139,49 @@ describe("<SelectField />", () => {
       expect(searchableSelect).to.have.lengthOf(1);
       expect(searchableSelect.props().options).to.have.lengthOf(3);
       expect(autocomplete.props().options[1].isDisabled).to.be.true;
+    });
+  });
+
+  context("when is service_implementing_agency_individual", () => {
+    const paramsService = "health_medical_service";
+    const propsSelectUser = {
+      name: SERVICE_SECTION_FIELDS.implementingAgencyIndividual,
+      field: {
+        option_strings_source: "User"
+      },
+      label: "Type of Service",
+      mode: whichFormMode("edit"),
+      open: true,
+      filters: { values: { service: paramsService } },
+      formik: {
+        values: {
+          [SERVICE_SECTION_FIELDS.implementingAgencyIndividual]: "user1",
+          [SERVICE_SECTION_FIELDS.type]: paramsService
+        }
+      }
+    };
+    const expectedAction = {
+      type: actions.REFERRAL_USERS_FETCH,
+      api: {
+        path: actions.USERS_REFER_TO,
+        params: { record_type: "case", service: paramsService }
+      }
+    };
+
+    it("should fetch referral users", () => {
+      const { component: componentSelectUser } = setupMountedComponent(SelectField, propsSelectUser, {}, [], {
+        initialValues: {
+          [SERVICE_SECTION_FIELDS.implementingAgencyIndividual]: "user1",
+          [SERVICE_SECTION_FIELDS.type]: paramsService
+        }
+      });
+
+      const selectUser = componentSelectUser.find(SearchableSelect);
+
+      selectUser.props().onOpen();
+      const componentActions = componentSelectUser.props().store.getActions();
+
+      expect(componentActions[componentActions.length - 1]).to.deep.equal(expectedAction);
     });
   });
 });

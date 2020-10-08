@@ -127,17 +127,17 @@ class User < ApplicationRecord
     end
 
     def find_permitted_users(filters = nil, pagination = nil, sort = nil, user = nil)
-      users = User.all
+      users = User.all.includes(:user_groups, role: :primero_modules)
       if filters.present?
         filters = filters.compact
         filters['disabled'] = filters['disabled'].values if filters['disabled'].present?
         users = users.where(filters.except('user_group_ids'))
         users = filter_with_groups(users, filters)
-        if user.present? && user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
-          users = users.where(organization: user.organization)
-        end
-        users
       end
+      if user.present? && user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
+        users = users.where(organization: user.organization)
+      end
+
       results = { total: users.size }
       pagination = { per_page: 20, page: 1 } if pagination.blank?
       pagination[:offset] = pagination[:per_page] * (pagination[:page] - 1)
