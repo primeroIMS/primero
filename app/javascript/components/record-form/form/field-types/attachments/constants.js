@@ -38,5 +38,6 @@ export const FIELD_ATTACHMENT_TYPES = Object.freeze({
 
 export const ATTACHMENT_ACCEPTED_TYPES = Object.freeze({
   audio: "audio/*",
-  image: "image/*"
+  image: "image/*",
+  document: "application/pdf, text/plain"
 });

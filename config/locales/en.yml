@@ -852,6 +852,7 @@ en:
     add_new_field: Create new Field
     audio:
       current: Current Audio
+    audio_upload_box: Audio Upload
     bia_document: BIA Document
     bid_document: BID Document
     check_box: Check Boxes
@@ -886,6 +887,7 @@ en:
       current: Is this the current document?
       date: Document Date
       name: Document Name
+    document_upload_box: Document Upload
     edit_label: Edit Field
     enabled: Enabled?
     enabled_label: Enabled
@@ -934,6 +936,7 @@ en:
     options_or_lookup_warning: Please add Options or select a Lookup. Do not enter
       both.
     other_documents: Other Document
+    photo_upload_box: Photo Upload
     predifined_lookups: Use pre-defined lookup
     radio_button: Radio Button
     remove: Remove
