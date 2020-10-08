@@ -6,7 +6,6 @@ import DownloadIcon from "@material-ui/icons/GetApp";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { fromJS } from "immutable";
 import startCase from "lodash/startCase";
-import { format, parseISO } from "date-fns";
 
 import PageContainer, { PageHeading, PageContent } from "../../page";
 import IndexTable from "../../index-table";
@@ -69,7 +68,7 @@ const ExportList = () => {
             : {}),
           ...(c.name === EXPORT_COLUMNS.startedOn
             ? {
-                customBodyRender: value => format(parseISO(value), DATE_TIME_FORMAT)
+                customBodyRender: value => i18n.localizeDate(value, DATE_TIME_FORMAT)
               }
             : {})
         }
