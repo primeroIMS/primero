@@ -1,6 +1,4 @@
-import isEmpty from "lodash/isEmpty";
-
-import { setupMountedComponent, spy } from "../../../../../test";
+import { setupMountedComponent, spy, translateOptions } from "../../../../../test";
 import ActionButton from "../../../../action-button";
 
 import SubformEmptyData from "./component";
@@ -9,29 +7,15 @@ describe("<SubformEmptyData />", () => {
   let component;
 
   const translations = {
-    "forms.subform_not_found": "No %{subform_name} found.",
-    "forms.subform_need_to_be_added": "They need to be added"
-  };
-
-  const translateOptions = (value, options) => {
-    if (isEmpty(options)) {
-      return translations[value];
+    en: {
+      "forms.subform_not_found": "No %{subform_name} found.",
+      "forms.subform_need_to_be_added": "They need to be added"
     }
-
-    let currValue = translations[value];
-
-    Object.entries(options).forEach(option => {
-      const [optionKey, optionValue] = option;
-
-      currValue = currValue.replace(optionKey, optionValue);
-    });
-
-    return currValue.replace(/[^\w\s.]/gi, "");
   };
 
   const props = {
     handleClick: spy(),
-    i18n: { t: (value, options) => translateOptions(value, options) },
+    i18n: { t: (value, options) => translateOptions(value, options, translations) },
     mode: { isEdit: true },
     subformName: "Test form"
   };

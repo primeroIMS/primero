@@ -276,11 +276,13 @@ export const lookups = () => ({
 });
 
 export const translateOptions = (value, options, translations) => {
+  const defaultLocale = window.I18n.locale;
+
   if (isEmpty(options)) {
-    return translations[value];
+    return translations[defaultLocale][value];
   }
 
-  let currValue = translations[value];
+  let currValue = translations[options?.locale || defaultLocale][value];
 
   Object.entries(options).forEach(option => {
     const [optionKey, optionValue] = option;
@@ -288,7 +290,7 @@ export const translateOptions = (value, options, translations) => {
     currValue = currValue.replace(optionKey, optionValue);
   });
 
-  return currValue.replace(/[^\w\s\'.]/gi, "");
+  return currValue?.replace(/[^\w\s\'.]/gi, "");
 };
 
 export const abbrMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

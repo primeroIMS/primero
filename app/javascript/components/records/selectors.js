@@ -1,4 +1,4 @@
-import { Map, List } from "immutable";
+import { Map, List, fromJS } from "immutable";
 
 import { RECORD_TYPES } from "../../config";
 
@@ -38,7 +38,7 @@ export const getRecordFormAlerts = (state, recordType, formUniqueId) =>
 
 export const getIncidentFromCase = (state, mode, recordType) => {
   if (mode.isNew && recordType === RECORD_TYPES.incidents) {
-    return state.getIn(["records", "cases", "incidentFromCase"]);
+    return state.getIn(["records", "cases", "incidentFromCase"], fromJS({}));
   }
 
   return null;

@@ -84,11 +84,11 @@ const Component = ({ name, field, label, disabled, formik, mode }) => {
 
   const audioAttachments = () =>
     values.map(value => {
-      const { attachment_url: attachmentUrl } = value;
+      const { attachment_url: attachmentUrl, file_name: fileName } = value;
 
       return (
         <Box my={2}>
-          <audio controls>
+          <audio id={fileName} controls>
             <source src={attachmentUrl} />
           </audio>
         </Box>

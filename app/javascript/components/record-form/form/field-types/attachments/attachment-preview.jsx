@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -6,13 +6,20 @@ import styles from "../../styles.css";
 
 import { ATTACHMENT_TYPES } from "./constants";
 
-const AttachmentPreview = ({ attachment, attachmentUrl }) => {
+const AttachmentPreview = ({ name, attachment, attachmentUrl }) => {
   const css = makeStyles(styles)();
+
+  useEffect(() => {
+    if (name) {
+      // eslint-disable-next-line no-unused-expressions
+      document.getElementById(name)?.load();
+    }
+  }, [name]);
 
   if (attachment === ATTACHMENT_TYPES.audio) {
     return (
       // eslint-disable-next-line jsx-a11y/media-has-caption
-      <audio controls>
+      <audio id={name} controls>
         <source src={attachmentUrl} />
       </audio>
     );
@@ -25,7 +32,8 @@ AttachmentPreview.displayName = "AttachmentPreview";
 
 AttachmentPreview.propTypes = {
   attachment: PropTypes.string,
-  attachmentUrl: PropTypes.string
+  attachmentUrl: PropTypes.string,
+  name: PropTypes.string
 };
 
 export default AttachmentPreview;
