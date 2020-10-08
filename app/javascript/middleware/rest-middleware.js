@@ -1,11 +1,13 @@
 import qs from "qs";
 
 import { attemptSignout } from "../components/user";
-import { FETCH_TIMEOUT } from "../config";
+import { FETCH_TIMEOUT, ROUTES } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
 import EventManager from "../libs/messenger";
 import { QUEUE_FAILED, QUEUE_SKIP } from "../libs/queue";
+import { applyingConfigMessage } from "../components/pages/admin/configurations-form/action-creators";
+import { disableNavigation } from "../components/application/action-creators";
 
 import {
   handleRestCallback,
@@ -14,7 +16,8 @@ import {
   processAttachments,
   defaultErrorCallback,
   startSignout,
-  processSubforms
+  processSubforms,
+  handleConfiguration
 } from "./utils";
 
 const defaultFetchOptions = {
@@ -124,6 +127,7 @@ const fetchSinglePayload = (action, store, options) => {
       normalizeFunc,
       successCallback,
       failureCallback,
+      configurationCallback,
       db,
       external,
       queueAttachments
@@ -163,46 +167,60 @@ const fetchSinglePayload = (action, store, options) => {
 
     try {
       const response = await window.fetch(fetchPath, fetchOptions);
-      const json = await response.json();
+      const { status } = response;
+      const url = response.url.split("/");
+      const checkHealthUrl = url.slice(url.length - 2, url.length).join("/");
 
-      if (!response.ok) {
-        fetchStatus({ store, type }, "FAILURE", json);
-
-        if (response.status === 404) {
-          deleteFromQueue(fromQueue);
-          messageQueueSkip();
-        } else if (failureCallback) {
-          messageQueueFailed(fromQueue);
-          handleRestCallback(store, failureCallback, response, json);
-        } else {
-          messageQueueFailed(fromQueue);
-          defaultErrorCallback(store, response, json);
-        }
-
-        if (response.status === 401) {
-          startSignout(store, attemptSignout, signOut);
-        }
+      if (status === 503 || (status === 204 && `/${checkHealthUrl}` === ROUTES.check_health)) {
+        handleConfiguration(status, store, options, response, { fetchStatus, fetchSinglePayload, type });
       } else {
-        await handleSuccess(store, {
-          type,
-          json,
-          normalizeFunc,
-          path,
-          db,
-          fromQueue
-        });
+        const json = await response.json();
 
-        if (attachments) {
-          processAttachments({
-            attachments,
-            id: id || json?.data?.id,
-            recordType
+        if (!response.ok) {
+          fetchStatus({ store, type }, "FAILURE", json);
+
+          if (status === 404) {
+            deleteFromQueue(fromQueue);
+            messageQueueSkip();
+          } else if (failureCallback) {
+            messageQueueFailed(fromQueue);
+            handleRestCallback(store, failureCallback, response, json);
+          } else {
+            messageQueueFailed(fromQueue);
+            defaultErrorCallback(store, response, json);
+          }
+
+          if (status === 401) {
+            startSignout(store, attemptSignout, signOut);
+          }
+        } else {
+          await handleSuccess(store, {
+            type,
+            json,
+            normalizeFunc,
+            path,
+            db,
+            fromQueue
           });
-        }
 
-        handleRestCallback(store, successCallback, response, json, fromQueue);
+          if (attachments) {
+            processAttachments({
+              attachments,
+              id: id || json?.data?.id,
+              recordType
+            });
+          }
+
+          handleRestCallback(store, successCallback, response, json, fromQueue);
+        }
+        fetchStatus({ store, type }, "FINISHED", false);
+
+        if (configurationCallback && response.ok) {
+          store.dispatch(disableNavigation());
+          handleRestCallback(store, applyingConfigMessage(), response, {});
+          fetchSinglePayload(configurationCallback, store, options);
+        }
       }
-      fetchStatus({ store, type }, "FINISHED", false);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn(e);

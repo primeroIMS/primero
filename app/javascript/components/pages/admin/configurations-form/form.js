@@ -47,13 +47,14 @@ export const form = (i18n, isShow) => {
         }),
         FieldRecord({
           display_name: i18n.t("configurations.attributes.last_applied_on"),
-          name: "last_applied_on",
-          type: TEXT_FIELD,
-          visible: isShow
+          name: "applied_on",
+          type: DATE_FIELD,
+          visible: isShow,
+          date_include_time: true
         }),
         FieldRecord({
           display_name: i18n.t("configurations.attributes.last_applied_by"),
-          name: "last_applied_by",
+          name: "applied_by",
           type: TEXT_FIELD,
           visible: isShow
         })

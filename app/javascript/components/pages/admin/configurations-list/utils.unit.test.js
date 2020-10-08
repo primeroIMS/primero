@@ -9,7 +9,7 @@ describe("configurations-list/utils.js", () => {
       { name: "version", label: "configurations.attributes.version" },
       { name: "description", label: "configurations.attributes.description" },
       { name: "created_on", label: "configurations.attributes.date_created" },
-      { name: "last_applied_on", label: "configurations.attributes.last_applied_on" }
+      { name: "applied_on", label: "configurations.attributes.last_applied_on" }
     ];
 
     const result = getColumns(i18n);

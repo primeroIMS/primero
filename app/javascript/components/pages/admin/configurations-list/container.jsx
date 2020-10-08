@@ -28,11 +28,11 @@ const Container = () => {
   const columns = () => {
     return getColumns(i18n).map(column => {
       const options = {
-        ...(column.name === "created_on"
+        ...(["created_on", "applied_on"].includes(column.name)
           ? {
               // eslint-disable-next-line react/no-multi-comp, react/display-name
               customBodyRender: value => {
-                return <DateCell value={value} withTime />;
+                return value ? <DateCell value={value} withTime /> : null;
               }
             }
           : {})

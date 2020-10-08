@@ -16,8 +16,6 @@ const TransferSummary = ({ transition, classes, showMode, recordType }) => {
     </Grid>
   ) : null;
 
-  // format(new Date(), DATE_FORMAT);
-
   return (
     <Grid container spacing={2} alignItems="center">
       <Grid item md={9} xs={9}>

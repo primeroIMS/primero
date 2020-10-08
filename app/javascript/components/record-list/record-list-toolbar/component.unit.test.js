@@ -1,5 +1,5 @@
 import React from "react";
-import { fromJS } from "immutable";
+import { fromJS, OrderedMap } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
 import { RECORD_TYPES, RECORD_PATH, MODULES } from "../../../config";
@@ -8,11 +8,52 @@ import { PrimeroModuleRecord } from "../../application/records";
 import { ApplicationProvider } from "../../application/provider";
 import RecordActions from "../../record-actions";
 import AddRecordMenu from "../add-record-menu";
+import { FieldRecord, FormSectionRecord } from "../../record-form/records";
 
 import RecordListToolbar from "./component";
 
 describe("<RecordListToolbar />", () => {
   let component;
+  const forms = {
+    formSections: OrderedMap({
+      1: FormSectionRecord({
+        id: 1,
+        unique_id: "incident_details_container",
+        name: { en: "Incident Details" },
+        visible: true,
+        parent_form: "case",
+        editable: true,
+        module_ids: ["primeromodule-cp"],
+        fields: [1]
+      }),
+      2: FormSectionRecord({
+        id: 2,
+        unique_id: "services",
+        fields: [2],
+        visible: true,
+        parent_form: "case",
+        module_ids: ["primeromodule-cp"]
+      })
+    }),
+    fields: OrderedMap({
+      1: FieldRecord({
+        name: "incident_details",
+        type: "subform",
+        subform_section_id: null,
+        editable: true,
+        disabled: false,
+        visible: true
+      }),
+      2: FieldRecord({
+        name: "services_section",
+        type: "subform",
+        subform_section_id: null,
+        visible: true,
+        editable: true,
+        disabled: false
+      })
+    })
+  };
   const props = {
     title: "This is a record list toolbar",
     recordType: RECORD_PATH.cases,
@@ -85,7 +126,8 @@ describe("<RecordListToolbar />", () => {
           status: ["true"]
         }
       }
-    }
+    },
+    forms
   });
   // eslint-disable-next-line react/display-name
   const RecordListToolbarForm = () => {
@@ -140,7 +182,8 @@ describe("<RecordListToolbar />", () => {
             permissions: {
               cases: [ACTIONS.READ]
             }
-          }
+          },
+          forms
         })
       ));
     });

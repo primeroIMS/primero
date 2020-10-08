@@ -6,9 +6,8 @@ import { useDispatch } from "react-redux";
 
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
-import { PageHeading, PageContent } from "../page";
 import ActionButton from "../action-button";
-import { CREATE_RECORDS, RESOURCES } from "../../libs/permissions";
+import { CREATE_INCIDENT, RESOURCES } from "../../libs/permissions";
 import { usePermissions } from "../user";
 import { fetchIncidentFromCase } from "../records";
 
@@ -20,7 +19,7 @@ const Container = ({ record, incidents, mobileDisplay, handleToggleNav }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const canAddIncidents = usePermissions(RESOURCES.incidents, CREATE_RECORDS);
+  const canAddIncidents = usePermissions(RESOURCES.cases, CREATE_INCIDENT);
 
   const renderIncidents =
     incidents &&
@@ -31,7 +30,6 @@ const Container = ({ record, incidents, mobileDisplay, handleToggleNav }) => {
   const handleCreateIncident = () => {
     dispatch(fetchIncidentFromCase(record.get("id"), record.get("module_id")));
   };
-
   const newIncidentBtn = canAddIncidents && (
     <ActionButton
       icon={<AddIcon />}
@@ -45,19 +43,15 @@ const Container = ({ record, incidents, mobileDisplay, handleToggleNav }) => {
 
   return (
     <div>
-      <div key="incindents-from-case-div">
-        <PageHeading title={i18n.t("incidents.label")}>{newIncidentBtn}</PageHeading>
-        <div className={css.pageContent}>
-          <PageContent>{renderIncidents}</PageContent>
-        </div>
-        {/* <RecordFormTitle
+      <div className={css.container}>
+        <RecordFormTitle
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
           displayText={i18n.t("incidents.label")}
         />
-        <div>{newUserBtn}</div> */}
-        {/* {renderIncidents} */}
+        <div>{newIncidentBtn}</div>
       </div>
+      {renderIncidents}
     </div>
   );
 };

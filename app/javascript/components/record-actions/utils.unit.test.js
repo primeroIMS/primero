@@ -1,4 +1,4 @@
-import { isDisabledAction } from "./utils";
+import { isDisabledAction, subformExists } from "./utils";
 import { ENABLED_FOR_ONE, ENABLED_FOR_ONE_MANY_ALL } from "./constants";
 
 describe("<RecordActions /> - utils", () => {
@@ -6,31 +6,63 @@ describe("<RecordActions /> - utils", () => {
   const enabledOnSearch = false;
   const isSearchFromList = false;
 
-  it("should return true when the actions is not enabled", () => {
-    const selectedRecords = { 0: [1, 5, 9] };
+  describe("isDisabledAction", () => {
+    it("should return true when the actions is not enabled", () => {
+      const selectedRecords = { 0: [1, 5, 9] };
 
-    expect(isDisabledAction(ENABLED_FOR_ONE, enabledOnSearch, isSearchFromList, selectedRecords, totaRecords)).to.be
-      .true;
+      expect(isDisabledAction(ENABLED_FOR_ONE, enabledOnSearch, isSearchFromList, selectedRecords, totaRecords)).to.be
+        .true;
+    });
+
+    it("should return false when the actions is enabled", () => {
+      const selectedRecords = { 0: [4] };
+
+      expect(isDisabledAction(ENABLED_FOR_ONE, enabledOnSearch, isSearchFromList, selectedRecords, totaRecords)).to.be
+        .false;
+    });
+
+    it("should return false when the isSearchFromList and enabledOnSearch are true", () => {
+      const selectedRecords = { 0: [4] };
+
+      expect(isDisabledAction(ENABLED_FOR_ONE, !enabledOnSearch, !isSearchFromList, selectedRecords, totaRecords)).to.be
+        .false;
+    });
+
+    it("should return true when the selectedRecords is empty and there are not records", () => {
+      const selectedRecords = {};
+
+      expect(isDisabledAction(ENABLED_FOR_ONE_MANY_ALL, enabledOnSearch, isSearchFromList, selectedRecords, 0)).to.be
+        .true;
+    });
   });
 
-  it("should return false when the actions is enabled", () => {
-    const selectedRecords = { 0: [4] };
+  describe("subformExists", () => {
+    it("should return null if parent form is not defined", () => {
+      expect(subformExists(null, "test_name")).to.be.null;
+    });
 
-    expect(isDisabledAction(ENABLED_FOR_ONE, enabledOnSearch, isSearchFromList, selectedRecords, totaRecords)).to.be
-      .false;
-  });
+    it("should return undefined if parent form does not have fields", () => {
+      const parentForm = {
+        id: 1,
+        unique_id: "test_parent_form",
+        fields: []
+      };
 
-  it("should return false when the isSearchFromList and enabledOnSearch are true", () => {
-    const selectedRecords = { 0: [4] };
+      expect(subformExists(parentForm, "test_name")).to.be.undefined;
+    });
 
-    expect(isDisabledAction(ENABLED_FOR_ONE, !enabledOnSearch, !isSearchFromList, selectedRecords, totaRecords)).to.be
-      .false;
-  });
+    it("should return subform_section_id from the parent", () => {
+      const expected = {
+        id: 1,
+        name: "test_name"
+      };
+      const parentForm = {
+        id: 1,
+        unique_id: "test_parent_form",
+        fields: [expected]
+      };
 
-  it("should return true when the selectedRecords is empty and there are not records", () => {
-    const selectedRecords = {};
-
-    expect(isDisabledAction(ENABLED_FOR_ONE_MANY_ALL, enabledOnSearch, isSearchFromList, selectedRecords, 0)).to.be
-      .true;
+      expect(subformExists(parentForm, "test_name")).to.be.deep.equals();
+    });
   });
 });

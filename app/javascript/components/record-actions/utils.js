@@ -13,3 +13,7 @@ export const isDisabledAction = (enabledFor, enabledOnSearch, isSearchFromList, 
 
   return !(selectedRecordsLength > 0 && (enableForOne || enableForMany || enableForAll));
 };
+
+export const subformExists = (parentForm, subformName) =>
+  // eslint-disable-next-line camelcase
+  parentForm && parentForm.fields.find(field => field.name === subformName)?.subform_section_id;

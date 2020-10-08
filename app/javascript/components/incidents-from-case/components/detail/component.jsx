@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import CreateIcon from "@material-ui/icons/Create";
 import { batch, useDispatch } from "react-redux";
@@ -59,24 +59,28 @@ const Component = ({ css, incidentCaseId, incidentDateInterview, incidentDate, i
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item md={6} xs={12}>
-          <Box className={css.spaceGrid}>
-            <DisplayData label={incidentInterviewLabel} value={incidentDateInterview} />
-          </Box>
+        <Grid item md={9} xs={12}>
+          <Grid item md={12} xs={12}>
+            <div className={css.spaceGrid}>
+              <DisplayData label={incidentInterviewLabel} value={incidentDateInterview} />
+            </div>
+          </Grid>
+          <Grid item md={12} xs={12}>
+            <div className={css.spaceGrid}>
+              <DisplayData label={incidentDateLabel} value={incidentDate} />
+            </div>
+          </Grid>
+          <Grid item md={12} xs={12}>
+            <div className={css.spaceGrid}>
+              <DisplayData label={incidentTypeLabel} value={incidentType} />
+            </div>
+          </Grid>
         </Grid>
-        <Grid item md={6} xs={12}>
-          {viewIncidentBtn}
-          {editIncidentBtn}
-        </Grid>
-        <Grid item md={12} xs={12}>
-          <Box className={css.spaceGrid}>
-            <DisplayData label={incidentDateLabel} value={incidentDate} />
-          </Box>
-        </Grid>
-        <Grid item md={12} xs={12}>
-          <Box className={css.spaceGrid}>
-            <DisplayData label={incidentTypeLabel} value={incidentType} />
-          </Box>
+        <Grid item md={3} xs={12}>
+          <div className={css.buttonsActions}>
+            {viewIncidentBtn}
+            {editIncidentBtn}
+          </div>
         </Grid>
       </Grid>
     </>
