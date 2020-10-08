@@ -144,4 +144,60 @@ describe("<RecordList /> - Reducers", () => {
 
     expect(newState).to.deep.equals(expected);
   });
+
+  describe("when record type is cases", () => {
+    const casesReducer = reducer("cases");
+
+    it("should handle FETCH_INCIDENT_FROM_CASE_SUCCESS", () => {
+      const data = {
+        status: "open",
+        enabled: true,
+        owned_by: "user_1"
+      };
+
+      const action = {
+        type: "cases/FETCH_INCIDENT_FROM_CASE_SUCCESS",
+        payload: { data }
+      };
+
+      const newState = casesReducer(fromJS({}), action);
+
+      expect(newState).to.deep.equals(fromJS({ incidentFromCase: data }));
+    });
+
+    it("should handle SET_CASE_ID_FOR_INCIDENT", () => {
+      const incidentFromCase = {
+        status: "open",
+        enabled: true,
+        owned_by: "user_1"
+      };
+
+      const action = {
+        type: "cases/SET_CASE_ID_FOR_INCIDENT",
+        payload: { caseId: "case-id-1" }
+      };
+
+      const newState = casesReducer(fromJS({ incidentFromCase }), action);
+
+      expect(newState).to.deep.equals(
+        fromJS({ incidentFromCase: { ...incidentFromCase, incident_case_id: "case-id-1" } })
+      );
+    });
+
+    it("should handle CLEAR_CASE_FROM_INCIDENT", () => {
+      const stateWithIncidentFromCase = fromJS({
+        incidentFromCase: {
+          status: "open",
+          enabled: true,
+          owned_by: "user_1"
+        }
+      });
+
+      const action = { type: "cases/CLEAR_CASE_FROM_INCIDENT" };
+
+      const newState = casesReducer(stateWithIncidentFromCase, action);
+
+      expect(newState).to.deep.equals(fromJS({}));
+    });
+  });
 });

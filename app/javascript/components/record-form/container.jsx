@@ -12,7 +12,7 @@ import PageContainer from "../page";
 import Transitions, { fetchTransitions } from "../transitions";
 import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";
-import { fetchRecord, saveRecord, selectRecord } from "../records";
+import { fetchRecord, getIncidentFromCase, saveRecord, selectRecord } from "../records";
 import { APPROVALS, RECORD_TYPES, REFERRAL, RECORD_OWNER, TRANSITION_TYPE, RECORD_PATH } from "../../config";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
@@ -45,6 +45,8 @@ const Container = ({ match, mode }) => {
   const i18n = useI18n();
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
+
+  const incidentFromCase = useSelector(state => getIncidentFromCase(state, containerMode, recordType));
 
   const record = useSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
 
@@ -115,6 +117,7 @@ const Container = ({ match, mode }) => {
     forms,
     mode: containerMode,
     record,
+    incidentFromCase,
     recordType: params.recordType,
     primeroModule: selectedModule.primeroModule
   };

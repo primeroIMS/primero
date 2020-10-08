@@ -35,6 +35,7 @@ en:
     disable: Disable
     enable: Enable
     incident_details_from_case: Add Incident
+    incident_from_case: Create Incident
     next: Next
     notes: Add Notes
     previous: Previous

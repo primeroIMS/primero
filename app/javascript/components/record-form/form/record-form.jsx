@@ -5,13 +5,16 @@ import { Formik, Form } from "formik";
 import isEmpty from "lodash/isEmpty";
 import { Box } from "@material-ui/core";
 import NavigationPrompt from "react-router-navigation-prompt";
+import { useDispatch } from "react-redux";
 
+import { clearCaseFromIncident } from "../../records/action-creators";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { constructInitialValues } from "../utils";
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
 import { displayNameHelper } from "../../../libs";
+import { RECORD_TYPES } from "../../../config";
 
 import { ValidationErrors } from "./components";
 import RecordFormTitle from "./record-form-title";
@@ -29,9 +32,17 @@ const RecordForm = ({
   onSubmit,
   record,
   recordType,
-  selectedForm
+  selectedForm,
+  incidentFromCase
 }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
+
+  let bindedSetValues = null;
+
+  const bindSetValues = setValues => {
+    bindedSetValues = setValues;
+  };
 
   let initialFormValues = constructInitialValues(forms.values());
 
@@ -50,6 +61,19 @@ const RecordForm = ({
   useEffect(() => {
     document.getElementsByClassName("record-form-container")[0].scrollTop = 0;
   }, [selectedForm]);
+
+  useEffect(() => {
+    if (bindedSetValues) {
+      if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
+        bindedSetValues({ ...initialFormValues, ...incidentFromCase.toJS() });
+      }
+    }
+  }, [bindedSetValues, incidentFromCase]);
+
+  const handleConfirm = onConfirm => {
+    onConfirm();
+    dispatch(clearCaseFromIncident());
+  };
 
   const renderFormSections = fs =>
     fs.map(form => {
@@ -108,8 +132,9 @@ const RecordForm = ({
           onSubmit(initialFormValues, values);
         }}
       >
-        {({ handleSubmit, submitForm, errors, dirty, isSubmitting }) => {
+        {({ handleSubmit, submitForm, errors, dirty, isSubmitting, setValues }) => {
           bindSubmitForm(submitForm);
+          bindSetValues(setValues);
 
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -117,7 +142,7 @@ const RecordForm = ({
                 {({ onConfirm, onCancel }) => (
                   <ActionDialog
                     open
-                    successHandler={onConfirm}
+                    successHandler={() => handleConfirm(onConfirm)}
                     cancelHandler={onCancel}
                     dialogTitle={i18n.t("record_panel.record_information")}
                     dialogText={i18n.t("messages.confirmation_message")}
@@ -143,6 +168,7 @@ RecordForm.propTypes = {
   bindSubmitForm: PropTypes.func,
   forms: PropTypes.object.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
+  incidentFromCase: PropTypes.object,
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object,
   onSubmit: PropTypes.func.isRequired,
