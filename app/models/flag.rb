@@ -14,7 +14,11 @@ class Flag < ApplicationRecord
 
   scope :by_record_associated_user, -> (params) { Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
                                                     .where("(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner]) }
-  
+
+  # TODO: this is working as long as params[:group] only has 1 user_group
+  scope :by_record_associated_groups, -> (params) { Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
+                                                    .where("(data -> 'associated_user_groups' ?& array[:group])", group: params[:group]) }
+
 
   validates :message, presence: { message: 'errors.models.flags.message' }
   validates :date, presence: { message: 'errors.models.flags.date' }
@@ -87,11 +91,21 @@ class Flag < ApplicationRecord
   end
 
   class << self
-    def by_owner(owner)
+    def by_owner(query_scope, record_types)
+      record_types ||= %w[cases incidents tracing_requests]
+      params = {}
+      scope_to_use = nil
+      if query_scope[:user]['user'].present?
+        params[:owner] = query_scope[:user]['user']
+        scope_to_use = 'by_record_associated_user'
+      elsif query_scope[:user]['group'].present?
+        params[:group] = query_scope[:user]['group']
+        scope_to_use = 'by_record_associated_groups'
+      end
       flags = []
-      ['cases', 'incidents', 'tracing_requests'].each do |record_type|
-        params = { type: record_type, owner: owner }
-        flags << self.by_record_associated_user(params)
+      record_types.each do |record_type|
+        params[:type] = record_type
+        flags << self.send(scope_to_use, params)
       end
       flags.flatten
     end
