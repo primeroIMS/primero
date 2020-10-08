@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { fromJS } from "immutable";
-import { format, parseISO } from "date-fns";
 
 import { useI18n } from "../../../i18n";
 import { DATE_TIME_FORMAT } from "../../../../config";
@@ -52,7 +51,7 @@ const Container = () => {
         label: i18n.t("audit_log.timestamp"),
         name: "timestamp",
         options: {
-          customBodyRender: value => format(parseISO(value), DATE_TIME_FORMAT)
+          customBodyRender: value => i18n.localizeDate(value, DATE_TIME_FORMAT)
         }
       },
       {

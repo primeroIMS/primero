@@ -53,7 +53,11 @@ const I18nProvider = ({ children }) => {
   const localizeDate = (value, dateFormat = DATE_FORMAT) => {
     const date = isDate(value) ? value : parseISO(value);
 
-    return format(date, dateFormat, { locale: localize(window.I18n) });
+    try {
+      return format(date, dateFormat, { locale: localize(window.I18n) });
+    } catch {
+      return null;
+    }
   };
 
   return (

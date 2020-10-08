@@ -54,6 +54,19 @@ describe("I18nProvider - changeLocale", () => {
   });
 });
 
+describe("localizeDate", () => {
+  it("should not render invalid dates", () => {
+    const TestComponent = () => {
+      const { localizeDate } = useI18n();
+
+      return localizeDate("invalidDate");
+    };
+    const { component } = setupMountedComponent(TestComponent);
+
+    expect(component.text()).to.equal("");
+  });
+});
+
 describe("I18nProvider - t", () => {
   const TestComponent = () => {
     const i18n = useI18n();
