@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import CreateIcon from "@material-ui/icons/Create";
 import { useDispatch } from "react-redux";
@@ -57,19 +57,19 @@ const Component = ({ css, incidentDateInterview, incidentDate, incidentUniqueID,
       <Grid container spacing={2}>
         <Grid item md={9} xs={12}>
           <Grid item md={12} xs={12}>
-            <Box className={css.spaceGrid}>
+            <div className={css.spaceGrid}>
               <DisplayData label={incidentInterviewLabel} value={incidentDateInterview} />
-            </Box>
+            </div>
           </Grid>
           <Grid item md={12} xs={12}>
-            <Box className={css.spaceGrid}>
+            <div className={css.spaceGrid}>
               <DisplayData label={incidentDateLabel} value={incidentDate} />
-            </Box>
+            </div>
           </Grid>
           <Grid item md={12} xs={12}>
-            <Box className={css.spaceGrid}>
+            <div className={css.spaceGrid}>
               <DisplayData label={incidentTypeLabel} value={incidentType} />
-            </Box>
+            </div>
           </Grid>
         </Grid>
         <Grid item md={3} xs={12}>

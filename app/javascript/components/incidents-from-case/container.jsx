@@ -40,7 +40,7 @@ const Container = ({ record, incidents, mobileDisplay, handleToggleNav }) => {
   );
 
   return (
-    <div key="incindents-from-case-div">
+    <div>
       <div className={css.container}>
         <RecordFormTitle
           mobileDisplay={mobileDisplay}
