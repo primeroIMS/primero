@@ -9,15 +9,18 @@ class Flag < ApplicationRecord
   belongs_to :record, polymorphic: true
 
   # The CAST is necessary because ActiveRecord assumes the id is an int.  It isn't.
-  scope :by_record_owner, -> (params) { Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
-                                          .where("(data -> 'owned_by' ? :username)", username: params[:owner]) }
-
-  scope :by_record_associated_user, -> (params) { Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
-                                                    .where("(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner]) }
+  scope :by_record_associated_user, -> (params) {
+    Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
+        .where("(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner])
+        .select("flags.id, flags.record_type, flags.record_id, flags.date, flags.message, flags.flagged_by, #{params[:type]}.data -> 'short_id' as r_short_id, #{params[:type]}.data -> 'name' as r_name, #{params[:type]}.data -> 'owned_by' as r_owned_by")
+  }
 
   # TODO: this is working as long as params[:group] only has 1 user_group
-  scope :by_record_associated_groups, -> (params) { Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
-                                                    .where("(data -> 'associated_user_groups' ?& array[:group])", group: params[:group]) }
+  scope :by_record_associated_groups, -> (params) {
+    Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
+        .where("(data -> 'associated_user_groups' ?& array[:group])", group: params[:group])
+        .select("flags.id, flags.record_type, flags.record_id, flags.date, flags.message, flags.flagged_by, #{params[:type]}.data -> 'short_id' as r_short_id, #{params[:type]}.data -> 'name' as r_name, #{params[:type]}.data -> 'owned_by' as r_owned_by")
+  }
 
 
   validates :message, presence: { message: 'errors.models.flags.message' }
