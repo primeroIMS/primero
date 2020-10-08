@@ -64,3 +64,5 @@ volumes:
   public:
   solr_cores:
   storage:
+  # TODO: Delete the log mount when we finally clean up nginx
+  log:
