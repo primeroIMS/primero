@@ -11,7 +11,7 @@ import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import NAMESPACE from "../namespace";
-import { CREATE_RECORDS } from "../../../../libs/permissions";
+import { CREATE_RECORDS, READ_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { Filters as AdminFilters } from "../components";
@@ -28,6 +28,7 @@ const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
+  const canListAgencies = usePermissions(RESOURCES.agencies, READ_RECORDS);
   const recordType = "users";
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
@@ -47,7 +48,9 @@ const Container = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchAgencies({ options: { per: 999 } }));
+    if (canListAgencies) {
+      dispatch(fetchAgencies({ options: { per: 999 } }));
+    }
     dispatch(fetchUserGroups());
   }, []);
 
@@ -76,9 +79,13 @@ const Container = () => {
     />
   );
 
+  const filterPermission = {
+    agency: canListAgencies
+  };
+
   const filterProps = {
     clearFields: [AGENCY, DISABLED, USER_GROUP],
-    filters: getFilters(i18n, filterAgencies, filterUserGroups),
+    filters: getFilters(i18n, filterAgencies, filterUserGroups, filterPermission),
     defaultFilters,
     onSubmit: data => {
       const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);

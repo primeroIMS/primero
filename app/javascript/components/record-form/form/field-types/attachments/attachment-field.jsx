@@ -14,7 +14,7 @@ import AttachmentPreview from "./attachment-preview";
 
 const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers, value }) => {
   const css = makeStyles(styles)();
-  const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
+  const { attachment_url: attachmentUrl, id, _destroy: destroyed, file_name: fileName } = value;
 
   const fields = buildAttachmentFieldsObject(name, index);
 
@@ -38,7 +38,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
           {!mode.isShow && (
             <>
               {attachmentUrl ? (
-                <AttachmentPreview attachment={attachment} attachmentUrl={attachmentUrl} />
+                <AttachmentPreview name={fileName} attachment={attachment} attachmentUrl={attachmentUrl} />
               ) : (
                 <AttachmentInput fields={fields} attachment={attachment} name={name} />
               )}

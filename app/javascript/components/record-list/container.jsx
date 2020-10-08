@@ -16,6 +16,7 @@ import { ACTIONS, DISPLAY_VIEW_PAGE, checkPermissions } from "../../libs/permiss
 import Permission from "../application/permission";
 import { useThemeHelper } from "../../libs";
 import { applyFilters } from "../index-filters/action-creators";
+import { clearCaseFromIncident } from "../records/action-creators";
 import { getNumberErrorsBulkAssign, getNumberBulkAssign } from "../record-actions/bulk-transtions/selectors";
 import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
 import { enqueueSnackbar } from "../notifier";
@@ -96,6 +97,10 @@ const Container = ({ match, location }) => {
       dispatch(removeBulkAssignMessages(recordType));
     };
   }, [numberErrorsBulkAssign, numberRecordsBulkAssign]);
+
+  useEffect(() => {
+    dispatch(clearCaseFromIncident());
+  }, []);
 
   const canSearchOthers = permissions.includes(ACTIONS.MANAGE) || permissions.includes(ACTIONS.SEARCH_OWNED_BY_OTHERS);
 

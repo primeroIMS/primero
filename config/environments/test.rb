@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -15,7 +17,7 @@ Rails.application.configure do
   config.action_dispatch.show_exceptions = false
 
   # Disable request forgery protection in test environment
-  config.action_controller.allow_forgery_protection    = false
+  config.action_controller.allow_forgery_protection = false
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
@@ -27,7 +29,7 @@ Rails.application.configure do
   # config.static_cache_control = "public, max-age=3600"
 
   config.eager_load = false
-
+  config.logger = Logger.new(config.paths['log'].first, 1, 50.megabytes)
   config.log_level = :debug
 
   # Store uploaded files on the local file system (see config/storage.yml for options)

@@ -69,4 +69,66 @@ describe("<ReportFilters /> - Component", () => {
   it("should render <FiltersDialog>", () => {
     expect(component.find(FiltersDialog)).to.have.lengthOf(1);
   });
+
+  describe("when there are not filter", () => {
+    let componentWithtoutFilter = null;
+    const state = {
+      records: {
+        reports: {
+          loading: false,
+          errors: false,
+          selectedReport: {
+            editable: true,
+            record_type: "case",
+            name: {
+              en: "Test 12"
+            },
+            graph_type: "bar",
+            graph: false,
+            module_id: ["primeromodule-cp"],
+            group_dates_by: null,
+            group_ages: false,
+            report_data: {
+              "1": {
+                _total: 0
+              },
+              "2": {
+                _total: 15
+              }
+            },
+            fields: [
+              {
+                name: "age",
+                display_name: {
+                  en: "Age"
+                },
+                position: {
+                  type: "horizontal",
+                  order: 0
+                }
+              }
+            ],
+            id: 1,
+            filters: [],
+            disabled: false,
+            description: {}
+          }
+        }
+      }
+    };
+
+    beforeEach(() => {
+      ({ component: componentWithtoutFilter } = setupMountedComponent(ReportFilters, { ...props, indexes: [] }, state, [
+        "/reports/1/edit"
+      ]));
+    });
+
+    it("should render new button", () => {
+      expect(componentWithtoutFilter.find("button").text()).to.equal("buttons.new");
+    });
+
+    it("should render 'No filters added' message", () => {
+      expect(componentWithtoutFilter.find("p").at(1).text()).to.equal("report.no_filters_added");
+    });
+  });
 });

@@ -115,6 +115,74 @@ describe("<RecordForm />", () => {
     });
   });
 
+  describe("when an incidentFromCase exists", () => {
+    const initialValues = {
+      field_1: "",
+      field_2: "",
+      field_age: ""
+    };
+
+    it("should set the values from the case if it is a new record", () => {
+      const incidentFromCase = { status: "open", enabled: true, owned_by: "incident_owner" };
+
+      const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
+        bindSubmitForm: () => {},
+        forms,
+        handleToggleNav: () => {},
+        mobileDisplay: false,
+        mode: { isNew: true, isEdit: false, isShow: false },
+        onSubmit: () => {},
+        record: fromJS({}),
+        recordType: "incidents",
+        selectedForm: "form_section_1",
+        incidentFromCase: fromJS(incidentFromCase)
+      });
+
+      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
+        ...initialValues,
+        ...incidentFromCase
+      });
+    });
+
+    it("should not set the values from the case if it is not a new record", () => {
+      const incidentFromCase = { status: "open", enabled: true, owned_by: "incident_owner" };
+
+      const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
+        bindSubmitForm: () => {},
+        forms,
+        handleToggleNav: () => {},
+        mobileDisplay: false,
+        mode,
+        onSubmit: () => {},
+        record: fromJS({}),
+        recordType: "incidents",
+        selectedForm: "form_section_1",
+        incidentFromCase: fromJS(incidentFromCase)
+      });
+
+      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(initialValues);
+    });
+
+    it("should not set the values from the case if the recordType is not incidents", () => {
+      const incidentFromCase = { status: "open", enabled: true, owned_by: "incident_owner" };
+
+      const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
+        bindSubmitForm: () => {},
+        forms,
+        handleToggleNav: () => {},
+        mobileDisplay: false,
+        mode: { isNew: true, isEdit: false, isShow: false },
+        onSubmit: () => {},
+        record: fromJS({}),
+        recordType: "cases",
+        selectedForm: "form_section_1",
+        incidentFromCase: fromJS(incidentFromCase)
+      });
+
+      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(initialValues);
+    });
+  });
+
   afterEach(() => {
     window.document.getElementsByClassName?.restore();
   });

@@ -102,12 +102,12 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
     setSelectedIndex(null);
   };
 
-  if (isEmpty(indexes)) {
-    return <>{i18n.t("report.no_filters_added")}</>;
-  }
+  const renderReportFilterList = () => {
+    if (isEmpty(indexes)) {
+      return <p>{i18n.t("report.no_filters_added")}</p>;
+    }
 
-  const renderReportFilterList = () =>
-    Object.entries(indexes).map(filter => {
+    return Object.entries(indexes).map(filter => {
       const [index, { data }] = filter;
       const { attribute, value } = data;
       const field = fields.find(f => f.id === attribute);
@@ -143,6 +143,7 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
         </Box>
       );
     });
+  };
 
   return (
     <>
@@ -161,7 +162,7 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
         successHandler={handleDelete}
         cancelHandler={cancelHandler}
         dialogTitle={i18n.t("fields.remove")}
-        dialogText={i18n.t("fields.subform_remove_message")}
+        dialogText={i18n.t("report.filters.delete_filter_message")}
         confirmButtonLabel={i18n.t("buttons.ok")}
       />
 
