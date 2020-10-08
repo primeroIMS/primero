@@ -1,7 +1,8 @@
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 import { SET_DIALOG, SET_DIALOG_PENDING } from "../record-actions/actions";
-import { RECORD_PATH } from "../../config";
+import { INCIDENT_FROM_CASE, RECORD_PATH, RECORD_TYPES } from "../../config";
+import { setSelectedForm } from "../record-form/action-creators";
 
 import {
   CLEAR_METADATA,
@@ -13,9 +14,24 @@ import {
   CLEAR_CASE_FROM_INCIDENT
 } from "./actions";
 
-const getSuccessCallback = ({ dialogName, message, messageForQueue, recordType, redirect, saveMethod }) => {
+const getSuccessCallback = ({
+  dialogName,
+  message,
+  messageForQueue,
+  recordType,
+  redirect,
+  saveMethod,
+  incidentFromCase
+}) => {
+  const selectedFormCallback = setSelectedForm(INCIDENT_FROM_CASE);
+  const incidentFromCaseCallbacks =
+    RECORD_TYPES[recordType] === RECORD_TYPES.incidents && incidentFromCase
+      ? [
+          { action: `cases/${CLEAR_CASE_FROM_INCIDENT}` },
+          { action: selectedFormCallback.type, payload: selectedFormCallback.payload }
+        ]
+      : [];
   const defaultSuccessCallback = [
-    { action: `cases/${CLEAR_CASE_FROM_INCIDENT}` },
     {
       action: ENQUEUE_SNACKBAR,
       payload: {
@@ -26,9 +42,10 @@ const getSuccessCallback = ({ dialogName, message, messageForQueue, recordType, 
           key: generate.messageKey(message)
         }
       },
-      redirectWithIdFromResponse: saveMethod !== "update",
+      redirectWithIdFromResponse: !incidentFromCase && saveMethod !== "update",
       redirect: redirect === false ? false : redirect || `/${recordType}`
-    }
+    },
+    ...incidentFromCaseCallbacks
   ];
 
   if (dialogName !== "") {
@@ -80,7 +97,8 @@ export const saveRecord = (
   messageForQueue,
   redirect,
   queueAttachments = true,
-  dialogName = ""
+  dialogName = "",
+  incidentFromCase = false
 ) => async dispatch => {
   await dispatch({
     type: `${recordType}/${SAVE_RECORD}`,
@@ -97,7 +115,8 @@ export const saveRecord = (
         messageForQueue,
         recordType,
         redirect,
-        saveMethod
+        saveMethod,
+        incidentFromCase
       }),
       db: {
         collection: DB_COLLECTIONS_NAMES.RECORDS,
@@ -119,14 +138,24 @@ export const clearCaseFromIncident = () => ({
   type: `cases/${CLEAR_CASE_FROM_INCIDENT}`
 });
 
-export const fetchIncidentFromCase = (caseId, moduleId) => ({
-  type: `cases/${FETCH_INCIDENT_FROM_CASE}`,
-  api: {
-    path: `${RECORD_PATH.cases}/${caseId}/${RECORD_PATH.incidents}/new`,
-    successCallback: {
-      action: `cases/${SET_CASE_ID_FOR_INCIDENT}`,
-      payload: { caseId },
-      redirect: `/${RECORD_PATH.incidents}/${moduleId}/new`
-    }
-  }
+export const setCaseIdForIncident = caseId => ({
+  type: `cases/${SET_CASE_ID_FOR_INCIDENT}`,
+  payload: { caseId }
 });
+
+export const fetchIncidentFromCase = (caseId, moduleId) => {
+  const { type: action, payload } = setCaseIdForIncident(caseId);
+  const successCallback = {
+    action,
+    payload,
+    redirect: `/${RECORD_PATH.incidents}/${moduleId}/new`
+  };
+
+  return {
+    type: `cases/${FETCH_INCIDENT_FROM_CASE}`,
+    api: {
+      path: `${RECORD_PATH.cases}/${caseId}/${RECORD_PATH.incidents}/new`,
+      successCallback
+    }
+  };
+};

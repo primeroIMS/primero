@@ -36,7 +36,7 @@ import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
 import { getFirstTab, getFormNav, getRecordForms, getLoadingState, getErrors, getSelectedForm } from "./selectors";
-import { compactValues } from "./utils";
+import { compactValues, getRedirectPath } from "./utils";
 
 const Container = ({ match, mode }) => {
   let submitForm = null;
@@ -55,7 +55,7 @@ const Container = ({ match, mode }) => {
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
 
-  const incidentFromCase = useSelector(state => getIncidentFromCase(state, containerMode, recordType));
+  const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
 
   const record = useSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
 
@@ -106,10 +106,21 @@ const Container = ({ match, mode }) => {
           : i18n.t(`${recordType}.messages.creation_success${appendQueue}`, recordType);
       };
 
-      const redirect = containerMode.isNew ? `/${params.recordType}` : `/${params.recordType}/${params.id}`;
-
       batch(async () => {
-        await dispatch(saveRecord(params.recordType, saveMethod, body, params.id, message(), message(true), redirect));
+        await dispatch(
+          saveRecord(
+            params.recordType,
+            saveMethod,
+            body,
+            params.id,
+            message(),
+            message(true),
+            getRedirectPath(incidentFromCase, containerMode, params),
+            true,
+            "",
+            Boolean(incidentFromCase?.size)
+          )
+        );
         if (containerMode.isEdit) {
           dispatch(fetchRecordsAlerts(params.recordType, params.id));
         }

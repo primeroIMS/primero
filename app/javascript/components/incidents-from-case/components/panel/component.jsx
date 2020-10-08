@@ -10,7 +10,7 @@ import { MODULES } from "../../../../config";
 import IncidentSummary from "../summary";
 import IncidentDetail from "../detail";
 
-const Component = ({ incident, css }) => {
+const Component = ({ incident, incidentCaseId, css }) => {
   const i18n = useI18n();
   const [expanded, setExpanded] = useState(false);
 
@@ -30,6 +30,7 @@ const Component = ({ incident, css }) => {
   const sharedProps = {
     incident,
     css,
+    incidentCaseId,
     incidentDate,
     incidentDateInterview,
     incidentType,
@@ -62,6 +63,7 @@ Component.displayName = NAME_PANEL;
 Component.propTypes = {
   css: PropTypes.object.isRequired,
   incident: PropTypes.object.isRequired,
+  incidentCaseId: PropTypes.string.isRequired,
   recordModule: PropTypes.string
 };
 export default Component;

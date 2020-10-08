@@ -2,7 +2,7 @@
 import { isEmpty, transform, isObject, isEqual, find, pickBy, identity } from "lodash";
 import { isDate, format } from "date-fns";
 
-import { API_DATE_FORMAT } from "../../config";
+import { API_DATE_FORMAT, INCIDENT_CASE_ID_FIELD, RECORD_PATH } from "../../config";
 
 import {
   SUBFORM_SECTION,
@@ -111,4 +111,12 @@ export const constructInitialValues = formMap => {
         )
       )
     : {};
+};
+
+export const getRedirectPath = (incidentFromCase, mode, params) => {
+  if (incidentFromCase?.size) {
+    return `/${RECORD_PATH.cases}/${incidentFromCase.get(INCIDENT_CASE_ID_FIELD)}`;
+  }
+
+  return mode.isNew ? `/${params.recordType}` : `/${params.recordType}/${params.id}`;
 };

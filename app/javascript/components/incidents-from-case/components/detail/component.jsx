@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Box, Grid } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import CreateIcon from "@material-ui/icons/Create";
-import { useDispatch } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
 import { READ_RECORDS, RESOURCES, WRITE_RECORDS } from "../../../../libs/permissions";
@@ -13,8 +13,9 @@ import { NAME_DETAIL } from "../../constants";
 import DisplayData from "../../../display-data";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { setCaseIdForIncident } from "../../../records/action-creators";
 
-const Component = ({ css, incidentDateInterview, incidentDate, incidentUniqueID, incidentType }) => {
+const Component = ({ css, incidentCaseId, incidentDateInterview, incidentDate, incidentUniqueID, incidentType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const canViewIncidents = usePermissions(RESOURCES.incidents, READ_RECORDS);
@@ -26,7 +27,10 @@ const Component = ({ css, incidentDateInterview, incidentDate, incidentUniqueID,
     dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}`));
   };
   const handleEdit = () => {
-    dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}/edit`));
+    batch(() => {
+      dispatch(setCaseIdForIncident(incidentCaseId));
+      dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}/edit`));
+    });
   };
 
   const viewIncidentBtn = canViewIncidents && (
@@ -83,6 +87,7 @@ Component.displayName = NAME_DETAIL;
 
 Component.propTypes = {
   css: PropTypes.object.isRequired,
+  incidentCaseId: PropTypes.string,
   incidentDate: PropTypes.string,
   incidentDateInterview: PropTypes.string,
   incidentType: PropTypes.node,

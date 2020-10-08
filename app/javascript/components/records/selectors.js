@@ -36,8 +36,8 @@ export const getRecordFormAlerts = (state, recordType, formUniqueId) =>
     .getIn(["records", recordType, "recordAlerts"], List([]))
     .filter(alert => alert.get("form_unique_id") === formUniqueId);
 
-export const getIncidentFromCase = (state, mode, recordType) => {
-  if (mode.isNew && recordType === RECORD_TYPES.incidents) {
+export const getIncidentFromCase = (state, recordType) => {
+  if (recordType === RECORD_TYPES.incidents) {
     return state.getIn(["records", "cases", "incidentFromCase"]);
   }
 
