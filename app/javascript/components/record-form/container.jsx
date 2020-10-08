@@ -115,7 +115,7 @@ const Container = ({ match, mode }) => {
             params.id,
             message(),
             message(true),
-            getRedirectPath(incidentFromCase, containerMode, params),
+            getRedirectPath(containerMode, params, incidentFromCase),
             true,
             "",
             Boolean(incidentFromCase?.size)

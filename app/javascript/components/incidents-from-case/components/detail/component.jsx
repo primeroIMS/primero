@@ -13,6 +13,7 @@ import { NAME_DETAIL } from "../../constants";
 import DisplayData from "../../../display-data";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { setSelectedForm } from "../../../record-form/action-creators";
 import { setCaseIdForIncident } from "../../../records/action-creators";
 
 const Component = ({ css, incidentCaseId, incidentDateInterview, incidentDate, incidentUniqueID, incidentType }) => {
@@ -24,10 +25,15 @@ const Component = ({ css, incidentCaseId, incidentDateInterview, incidentDate, i
   const incidentDateLabel = i18n.t("incidents.date_of_incident");
   const incidentTypeLabel = i18n.t("incidents.type_violence");
   const handleView = () => {
-    dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}`));
+    batch(() => {
+      dispatch(setSelectedForm(null));
+      dispatch(setCaseIdForIncident(incidentCaseId));
+      dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}`));
+    });
   };
   const handleEdit = () => {
     batch(() => {
+      dispatch(setSelectedForm(null));
       dispatch(setCaseIdForIncident(incidentCaseId));
       dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}/edit`));
     });

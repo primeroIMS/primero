@@ -22,6 +22,7 @@ describe("records - Action Creators", () => {
     expect(creators).to.have.property("clearMetadata");
     expect(creators).to.have.property("clearCaseFromIncident");
     expect(creators).to.have.property("fetchIncidentFromCase");
+    expect(creators).to.have.property("setCaseIdForIncident");
     delete creators.setFilters;
     delete creators.fetchCases;
     delete creators.fetchIncidents;
@@ -32,6 +33,7 @@ describe("records - Action Creators", () => {
     delete creators.saveRecord;
     delete creators.clearCaseFromIncident;
     delete creators.fetchIncidentFromCase;
+    delete creators.setCaseIdForIncident;
 
     expect(creators).to.be.empty;
   });
@@ -157,5 +159,14 @@ describe("records - Action Creators", () => {
     };
 
     expect(actionCreators.fetchIncidentFromCase("case-id-1", "module-id-1")).be.deep.equals(expected);
+  });
+
+  it("should check the 'setCaseIdForIncident' action creator to return the correct object", () => {
+    const expected = {
+      type: "cases/SET_CASE_ID_FOR_INCIDENT",
+      payload: { caseId: "case-id-1" }
+    };
+
+    expect(actionCreators.setCaseIdForIncident("case-id-1")).to.deep.equal(expected);
   });
 });

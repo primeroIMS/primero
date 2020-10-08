@@ -1,0 +1,61 @@
+/* eslint-disable import/prefer-default-export */
+import { fromJS } from "immutable";
+
+import { NavRecord } from "../../../records";
+import { SHOW_APPROVALS, VIEW_INCIDENTS_FROM_CASE } from "../../../../../libs/permissions";
+import { RECORD_OWNER, TRANSFERS_ASSIGNMENTS, REFERRAL, APPROVALS, INCIDENT_FROM_CASE } from "../../../../../config";
+
+import { RECORD_INFORMATION_GROUP } from "./constants";
+
+export const getRecordInformationForms = i18n =>
+  fromJS([
+    NavRecord({
+      group: RECORD_INFORMATION_GROUP,
+      groupName: i18n.t("forms.record_types.record_information"),
+      groupOrder: 0,
+      name: i18n.t("forms.record_types.record_information"),
+      order: 0,
+      formId: RECORD_OWNER,
+      is_first_tab: true
+    }),
+    NavRecord({
+      group: RECORD_INFORMATION_GROUP,
+      groupName: i18n.t("forms.record_types.approvals"),
+      groupOrder: 0,
+      name: i18n.t("forms.record_types.approvals"),
+      order: 1,
+      formId: APPROVALS,
+      is_first_tab: true,
+      permission_actions: SHOW_APPROVALS
+    }),
+    NavRecord({
+      group: RECORD_INFORMATION_GROUP,
+      groupName: i18n.t("incidents.label"),
+      groupOrder: 0,
+      name: i18n.t("incidents.label"),
+      order: 2,
+      formId: INCIDENT_FROM_CASE,
+      is_first_tab: false,
+      permission_actions: VIEW_INCIDENTS_FROM_CASE
+    }),
+    NavRecord({
+      group: RECORD_INFORMATION_GROUP,
+      groupName: i18n.t("forms.record_types.referrals"),
+      groupOrder: 0,
+      name: i18n.t("forms.record_types.referrals"),
+      order: 3,
+      formId: REFERRAL,
+      is_first_tab: true
+    }),
+    NavRecord({
+      group: RECORD_INFORMATION_GROUP,
+      groupName: i18n.t("forms.record_types.record_information"),
+      groupOrder: 0,
+      name: i18n.t("forms.record_types.transfers_assignments"),
+      order: 4,
+      formId: TRANSFERS_ASSIGNMENTS,
+      is_first_tab: false
+    })
+  ]);
+
+export const getRecordInformationFormIds = i18n => getRecordInformationForms(i18n).map(form => form.get("formId"));

@@ -259,17 +259,11 @@ describe("Records - Selectors", () => {
     });
 
     it("should return the incident when is a new incident", () => {
-      expect(getIncidentFromCase(stateWithIncidentFromCase, { isNew: true }, RECORD_TYPES.incidents)).to.deep.equal(
-        incidentFromCase
-      );
-    });
-
-    it("should return null when is not a new incident", () => {
-      expect(getIncidentFromCase(stateWithIncidentFromCase, { isEdit: true }, RECORD_TYPES.incidents)).to.not.exist;
+      expect(getIncidentFromCase(stateWithIncidentFromCase, RECORD_TYPES.incidents)).to.deep.equal(incidentFromCase);
     });
 
     it("should return null when is not an incident", () => {
-      expect(getIncidentFromCase(stateWithIncidentFromCase, { isNew: true }, RECORD_TYPES.cases)).to.not.exist;
+      expect(getIncidentFromCase(stateWithIncidentFromCase, RECORD_TYPES.cases)).to.not.exist;
     });
   });
 });

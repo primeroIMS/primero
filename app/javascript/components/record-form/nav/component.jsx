@@ -8,6 +8,7 @@ import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { useI18n } from "../../i18n";
 import { RECORD_TYPES } from "../../../config";
 import { getRecordFormsByUniqueId, getSelectedRecord, getValidationErrors } from "../selectors";
 import { getRecordAlerts } from "../../records/selectors";
@@ -16,6 +17,7 @@ import { compare, ConditionalWrapper } from "../../../libs";
 
 import { NAME } from "./constants";
 import { NavGroup, RecordInformation } from "./components";
+import { getRecordInformationFormIds, RECORD_INFORMATION_GROUP } from "./components/record-information";
 import styles from "./styles.css";
 
 const Component = ({
@@ -30,6 +32,7 @@ const Component = ({
   primeroModule,
   selectedForm
 }) => {
+  const i18n = useI18n();
   const [open, setOpen] = useState("");
   const [previousGroup, setPreviousGroup] = useState("");
   const dispatch = useDispatch();
@@ -48,6 +51,8 @@ const Component = ({
   const currentSelectedRecord = useSelector(state => getSelectedRecord(state));
 
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType), compare);
+
+  const recordInformationFormIds = getRecordInformationFormIds(i18n);
 
   const handleClick = args => {
     const { group, formId, parentItem } = args;
@@ -87,6 +92,8 @@ const Component = ({
       }
     } else if (!selectedRecordForm?.isEmpty()) {
       setOpen(selectedRecordForm.first().form_group_id);
+    } else if (recordInformationFormIds.includes(selectedForm)) {
+      setOpen(RECORD_INFORMATION_GROUP);
     } else {
       setOpen(firstTab.form_group_id);
     }

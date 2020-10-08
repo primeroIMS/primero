@@ -113,7 +113,7 @@ export const constructInitialValues = formMap => {
     : {};
 };
 
-export const getRedirectPath = (incidentFromCase, mode, params) => {
+export const getRedirectPath = (mode, params, incidentFromCase) => {
   if (incidentFromCase?.size) {
     return `/${RECORD_PATH.cases}/${incidentFromCase.get(INCIDENT_CASE_ID_FIELD)}`;
   }
