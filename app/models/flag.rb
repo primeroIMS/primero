@@ -12,34 +12,12 @@ class Flag < ApplicationRecord
   scope :by_record_associated_user, -> (params) {
     Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
         .where("(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner])
-        .select(
-          "flags.id, \
-           flags.record_type, \
-           flags.record_id, \
-           flags.date, \
-           flags.message, \
-           flags.flagged_by, \
-           #{params[:type]}.data -> 'short_id' as r_short_id, \
-           #{params[:type]}.data -> 'name' as r_name, \
-           #{params[:type]}.data -> 'hidden_name' as r_hidden_name, \
-           #{params[:type]}.data -> 'owned_by' as r_owned_by")
   }
 
   # TODO: this is working as long as params[:group] only has 1 user_group
   scope :by_record_associated_groups, -> (params) {
     Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
         .where("(data -> 'associated_user_groups' ?& array[:group])", group: params[:group])
-        .select(
-          "flags.id, \
-           flags.record_type, \
-           flags.record_id, \
-           flags.date, \
-           flags.message, \
-           flags.flagged_by, \
-           #{params[:type]}.data -> 'short_id' as r_short_id, \
-           #{params[:type]}.data -> 'name' as r_name, \
-           #{params[:type]}.data -> 'hidden_name' as r_hidden_name, \
-           #{params[:type]}.data -> 'owned_by' as r_owned_by")
   }
 
 
@@ -128,7 +106,17 @@ class Flag < ApplicationRecord
       flags = []
       record_types.each do |record_type|
         params[:type] = record_type
-        flags << self.send(scope_to_use, params)
+        flags << self.send(scope_to_use, params).select(
+          "flags.id, \
+           flags.record_type, \
+           flags.record_id, \
+           flags.date, \
+           flags.message, \
+           flags.flagged_by, \
+          #{record_type}.data -> 'short_id' as r_short_id, \
+          #{record_type}.data -> 'name' as r_name, \
+          #{record_type}.data -> 'hidden_name' as r_hidden_name, \
+          #{record_type}.data -> 'owned_by' as r_owned_by")
       end
       flags.flatten
     end
