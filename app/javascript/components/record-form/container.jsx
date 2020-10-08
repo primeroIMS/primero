@@ -13,9 +13,18 @@ import Transitions, { fetchTransitions } from "../transitions";
 import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";
 import { fetchRecord, getIncidentFromCase, saveRecord, selectRecord } from "../records";
-import { APPROVALS, RECORD_TYPES, REFERRAL, RECORD_OWNER, TRANSITION_TYPE, RECORD_PATH } from "../../config";
+import {
+  APPROVALS,
+  RECORD_TYPES,
+  REFERRAL,
+  RECORD_OWNER,
+  TRANSITION_TYPE,
+  RECORD_PATH,
+  INCIDENT_FROM_CASE
+} from "../../config";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
+import IncidentFromCase from "../incidents-from-case";
 import { getLoadingRecordState } from "../records/selectors";
 import { usePermissions } from "../user";
 import { fetchRecordsAlerts } from "../records/action-creators";
@@ -179,6 +188,7 @@ const Container = ({ match, mode }) => {
   const isRecordOwnerForm = RECORD_OWNER === selectedForm;
   const isApprovalsForm = APPROVALS === selectedForm;
   const isTransitions = TRANSITION_TYPE.includes(selectedForm);
+  const isIncidentFromCase = INCIDENT_FROM_CASE === selectedForm;
   const transitionProps = {
     isReferral: REFERRAL === selectedForm,
     recordType: params.recordType,
@@ -189,6 +199,7 @@ const Container = ({ match, mode }) => {
   };
 
   const approvalSubforms = record?.get("approval_subforms");
+  const incidentsSubforms = record?.get("incident_details");
 
   let renderForm;
 
@@ -204,6 +215,15 @@ const Container = ({ match, mode }) => {
   } else if (isApprovalsForm) {
     renderForm = (
       <Approvals approvals={approvalSubforms} mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} />
+    );
+  } else if (isIncidentFromCase) {
+    renderForm = (
+      <IncidentFromCase
+        record={record}
+        incidents={incidentsSubforms}
+        mobileDisplay={mobileDisplay}
+        handleToggleNav={handleToggleNav}
+      />
     );
   } else if (isTransitions) {
     renderForm = <Transitions {...transitionProps} />;

@@ -39,6 +39,7 @@ describe("Verifying config constant", () => {
       "IDLE_LOGOUT_TIMEOUT",
       "IDLE_TIMEOUT",
       "ID_FIELD",
+      "INCIDENT_FROM_CASE",
       "LOCALE_KEYS",
       "LOOKUPS",
       "MAX_IMAGE_SIZE",
@@ -143,6 +144,8 @@ describe("Verifying config constant", () => {
           "reporting_locations"
         );
         expect(constants.RECORD_INFORMATION).to.be.an("array");
+        expect(constants.INCIDENT_FROM_CASE).to.be.an("string");
+        expect(constants.INCIDENT_FROM_CASE).to.equal("incident_from_case");
         expect(constants.APPROVALS).to.be.an("string");
         expect(constants.APPROVALS_TYPES).to.be.an("object");
         expect(constants.APPROVALS_TYPES).to.have.all.keys(
