@@ -29,7 +29,7 @@ describe Flag do
                          user_groups: [@group1], agency_id: @agency2.id)
     @manager1.save(validate: false)
 
-    @case1 = Child.create!(data: { short_id: "abc123", name: "Test1", age: 5, sex: 'male', owned_by: 'user1' })
+    @case1 = Child.create!(data: { short_id: "abc123", name: "Test1", hidden_name: true, age: 5, sex: 'male', owned_by: 'user1' })
     @case2 = Child.create!(data: { name: "Test2", age: 7, sex: 'female', owned_by: 'user1' })
     @case3 = Child.create!(data: { name: "Test3", age: 9, sex: 'female', owned_by: 'user2' })
     @case4 = Child.create!(data: { name: "Test4", age: 9, sex: 'female', owned_by: 'user2' })
@@ -68,6 +68,7 @@ describe Flag do
             expect(f1['message']).to eq( 'This is a flag')
             expect(f1['r_short_id']).to eq( 'abc123')
             expect(f1['r_name']).to eq( 'Test1')
+            expect(f1['r_hidden_name']).to be
             expect(f1['r_owned_by']).to eq( 'user1')
 
             # expect(flags.first['removed']).to be_falsey
@@ -91,6 +92,7 @@ describe Flag do
           expect(case_flag['message']).to eq( 'This is a flag')
           expect(case_flag['r_short_id']).to eq( 'abc123')
           expect(case_flag['r_name']).to eq( 'Test1')
+          expect(case_flag['r_hidden_name']).to be
           expect(case_flag['r_owned_by']).to eq( 'user1')
         end
 
@@ -101,6 +103,7 @@ describe Flag do
           expect(incident_flag['message']).to eq( 'This is a flag IN')
           expect(incident_flag['r_short_id']).to eq(@incident1.short_id)
           expect(incident_flag['r_name']).to be_nil
+          expect(incident_flag['r_hidden_name']).to be_nil
           expect(incident_flag['r_owned_by']).to eq('user1')
         end
 
@@ -111,6 +114,7 @@ describe Flag do
           expect(tr_flag['message']).to eq( 'This is a flag TR')
           expect(tr_flag['r_short_id']).to eq(@tracing_request1.short_id)
           expect(tr_flag['r_name']).to be_nil
+          expect(tr_flag['r_hidden_name']).to be_nil
           expect(tr_flag['r_owned_by']).to eq('user1')
         end
       end
@@ -136,6 +140,7 @@ describe Flag do
             expect(f1['message']).to eq( 'This is a flag')
             expect(f1['r_short_id']).to eq( 'abc123')
             expect(f1['r_name']).to eq( 'Test1')
+            expect(f1['r_hidden_name']).to be
             expect(f1['r_owned_by']).to eq( 'user1')
 
             # expect(flags.first['removed']).to be_falsey
@@ -156,6 +161,7 @@ describe Flag do
             expect(f1['message']).to eq( 'This is a flag IN')
             expect(f1['r_short_id']).to eq(@incident1.short_id)
             expect(f1['r_name']).to be_nil
+            expect(f1['r_hidden_name']).to be_nil
             expect(f1['r_owned_by']).to eq('user1')
 
             # expect(flags.first['removed']).to be_falsey
@@ -176,6 +182,7 @@ describe Flag do
             expect(f1['message']).to eq( 'This is a flag TR')
             expect(f1['r_short_id']).to eq(@tracing_request1.short_id)
             expect(f1['r_name']).to be_nil
+            expect(f1['r_hidden_name']).to be_nil
             expect(f1['r_owned_by']).to eq('user1')
 
             # expect(flags.first['removed']).to be_falsey

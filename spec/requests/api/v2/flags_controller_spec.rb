@@ -29,7 +29,7 @@ describe Api::V2::FlagsController, type: :request do
                       user_groups: [@group1], agency_id: @agency2.id)
     @manager1.save(validate: false)
 
-    @case1 = Child.create!(data: { name: "Test1", age: 5, sex: 'male', owned_by: 'user1' })
+    @case1 = Child.create!(data: { name: "Test1", hidden_name: true, age: 5, sex: 'male', owned_by: 'user1' })
     @case2 = Child.create!(data: { name: "Test2", age: 7, sex: 'female', owned_by: 'user1' })
     @case3 = Child.create!(data: { name: "Test3", age: 9, sex: 'female', owned_by: 'user2' })
     @case4 = Child.create!(data: { name: "Test4", age: 9, sex: 'female', owned_by: 'user2' })
