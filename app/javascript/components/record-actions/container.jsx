@@ -8,24 +8,13 @@ import { RECORD_TYPES, RECORD_PATH, APPROVALS_TYPES } from "../../config";
 import { useI18n } from "../i18n";
 import { getPermissionsByRecord } from "../user/selectors";
 import { getFiltersValuesByRecordType } from "../index-filters/selectors";
-import {
-  ACTIONS,
-  ENABLE_DISABLE_RECORD,
-  ADD_NOTE,
-  ADD_INCIDENT,
-  ADD_SERVICE,
-  REQUEST_APPROVAL,
-  APPROVAL,
-  SHOW_EXPORTS,
-  checkPermissions
-} from "../../libs/permissions";
-import Permission from "../application/permission";
 import DisableOffline from "../disable-offline";
 import { ConditionalWrapper } from "../../libs";
 import { getMetadata } from "../record-list/selectors";
 import { useApp } from "../application";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
+import usePermissions from "../permissions";
 
 import { setDialog, setPending } from "./action-creators";
 import {
@@ -41,7 +30,8 @@ import {
   ENABLED_FOR_ONE_MANY,
   ENABLED_FOR_ONE_MANY_ALL,
   SERVICE_DIALOG,
-  INCIDENT_DIALOG
+  INCIDENT_DIALOG,
+  ABILITIES
 } from "./constants";
 import { NAME } from "./config";
 import Notes from "./notes";
@@ -53,7 +43,7 @@ import AddService from "./add-service";
 import RequestApproval from "./request-approval";
 import Exports from "./exports";
 import { selectDialog, selectDialogPending } from "./selectors";
-import { isDisabledAction } from "./utils";
+import { isDisabledAction, buildApprovalList } from "./utils";
 
 const Container = ({ recordType, iconColor, record, mode, showListActions, currentPage, selectedRecords }) => {
   const i18n = useI18n();
@@ -109,81 +99,36 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
 
   const openState = record && record.get("status") === "open" ? "close" : "reopen";
 
-  const assignPermissions = [
-    ACTIONS.MANAGE,
-    ACTIONS.ASSIGN,
-    ACTIONS.ASSIGN_WITHIN_USER_GROUP,
-    ACTIONS.ASSIGN_WITHIN_AGENCY_PERMISSIONS
-  ];
-
   const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
 
   const idSearch = useSelector(state => getFiltersValuesByRecordType(state, recordType).get("id_search"));
 
   const isSearchFromList = Boolean(idSearch);
 
-  const canAddNotes = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.ADD_NOTE]);
-  const canReopen = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REOPEN]);
-
-  const canRefer = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REFERRAL]);
-
-  const canClose = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.CLOSE]);
-
-  const canEnable = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.ENABLE_DISABLE_RECORD]);
-
-  const canAssign = checkPermissions(userPermissions, assignPermissions);
-
-  const canTransfer = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.TRANSFER]);
-
-  const canRequest = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.REQUEST_APPROVAL_ASSESSMENT,
-    ACTIONS.REQUEST_APPROVAL_CASE_PLAN,
-    ACTIONS.REQUEST_APPROVAL_CLOSURE,
-    ACTIONS.REQUEST_APPROVAL_ACTION_PLAN,
-    ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
-  ]);
-
-  const canRequestBia = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REQUEST_APPROVAL_ASSESSMENT]);
-
-  const canRequestCasePlan = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REQUEST_APPROVAL_CASE_PLAN]);
-
-  const canRequestClosure = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REQUEST_APPROVAL_CLOSURE]);
-
-  const canRequestActionPlan = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.REQUEST_APPROVAL_ACTION_PLAN
-  ]);
-
-  const canRequestGbvClosure = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
-  ]);
-
-  const canApprove = checkPermissions(userPermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.APPROVE_ASSESSMENT,
-    ACTIONS.APPROVE_CASE_PLAN,
-    ACTIONS.APPROVE_CLOSURE,
-    ACTIONS.APPROVE_ACTION_PLAN,
-    ACTIONS.APPROVE_GBV_CLOSURE
-  ]);
-
-  const canApproveBia = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.APPROVE_ASSESSMENT]);
-
-  const canApproveCasePlan = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.APPROVE_CASE_PLAN]);
-
-  const canApproveClosure = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.APPROVE_CLOSURE]);
-
-  const canApproveActionPlan = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.APPROVE_ACTION_PLAN]);
-
-  const canApproveGbvClosure = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.APPROVE_GBV_CLOSURE]);
-
-  const canAddIncident = checkPermissions(userPermissions, ADD_INCIDENT);
-
-  const canAddService = checkPermissions(userPermissions, ADD_SERVICE);
-
-  const canShowExports = checkPermissions(userPermissions, SHOW_EXPORTS);
+  const {
+    canAddNotes,
+    canReopen,
+    canRefer,
+    canClose,
+    canEnable,
+    canAssign,
+    canTransfer,
+    canRequest,
+    canRequestBia,
+    canRequestCasePlan,
+    canRequestClosure,
+    canRequestActionPlan,
+    canRequestGbvClosure,
+    canApprove,
+    canApproveBia,
+    canApproveCasePlan,
+    canApproveClosure,
+    canApproveActionPlan,
+    canApproveGbvClosure,
+    canAddIncident,
+    canAddService,
+    canShowExports
+  } = usePermissions(recordType, ABILITIES);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -414,71 +359,19 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
     );
   });
 
-  const requestsApproval = [
-    {
-      name: approvalsLabels.assessment,
-      condition: canRequestBia,
-      recordType: RECORD_TYPES.all,
-      value: APPROVALS_TYPES.assessment
-    },
-    {
-      name: approvalsLabels.case_plan,
-      condition: canRequestCasePlan,
-      recordType: RECORD_TYPES.all,
-      value: APPROVALS_TYPES.case_plan
-    },
-    {
-      name: approvalsLabels.closure,
-      condition: canRequestClosure,
-      recordType: RECORD_TYPES.all,
-      value: APPROVALS_TYPES.closure
-    },
-    {
-      name: approvalsLabels.action_plan,
-      condition: canRequestActionPlan,
-      recordType: RECORD_TYPES.all,
-      value: APPROVALS_TYPES.action_plan
-    },
-    {
-      name: approvalsLabels.gbv_closure,
-      condition: canRequestGbvClosure,
-      recordType: RECORD_TYPES.all,
-      value: APPROVALS_TYPES.gbv_closure
-    }
-  ];
-
-  const approvals = [
-    {
-      name: approvalsLabels.assessment,
-      condition: canApproveBia,
-      recordType: RECORD_TYPES.all,
-      value: APPROVALS_TYPES.assessment
-    },
-    {
-      name: approvalsLabels.case_plan,
-      condition: canApproveCasePlan,
-      recordType: RECORD_TYPES.all,
-      value: APPROVALS_TYPES.case_plan
-    },
-    {
-      name: approvalsLabels.closure,
-      condition: canApproveClosure,
-      recordType: RECORD_TYPES.all,
-      value: APPROVALS_TYPES.closure
-    },
-    {
-      name: approvalsLabels.action_plan,
-      condition: canApproveActionPlan,
-      recordType: RECORD_TYPES.all,
-      value: APPROVALS_TYPES.action_plan
-    },
-    {
-      name: approvalsLabels.gbv_closure,
-      condition: canApproveGbvClosure,
-      recordType: RECORD_TYPES.all,
-      value: APPROVALS_TYPES.gbv_closure
-    }
-  ];
+  const { approvals, requestsApproval } = buildApprovalList({
+    approvalsLabels,
+    canApproveActionPlan,
+    canApproveBia,
+    canApproveCasePlan,
+    canApproveClosure,
+    canApproveGbvClosure,
+    canRequestBia,
+    canRequestCasePlan,
+    canRequestClosure,
+    canRequestActionPlan,
+    canRequestGbvClosure
+  });
 
   const allowedRequestsApproval = filterItems(requestsApproval);
   const allowedApprovals = filterItems(approvals);
@@ -506,13 +399,11 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
 
       {canOpenOrClose ? toggleOpenDialog : null}
 
-      <Permission resources={recordType} actions={ENABLE_DISABLE_RECORD}>
-        {toggleEnableDialog}
-      </Permission>
+      {canEnable && toggleEnableDialog}
 
       <Transitions {...transitionsProps} />
 
-      <Permission resources={recordType} actions={ADD_INCIDENT}>
+      {canAddIncident && (
         <AddIncident
           openIncidentDialog={incidentDialog}
           close={() => setIncidentDialog(false)}
@@ -522,9 +413,9 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
           pending={dialogPending}
           setPending={setDialogPending}
         />
-      </Permission>
+      )}
 
-      <Permission resources={recordType} actions={ADD_SERVICE}>
+      {canAddService && (
         <AddService
           openServiceDialog={serviceDialog}
           close={() => setServiceDialog(false)}
@@ -533,13 +424,13 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
           pending={dialogPending}
           setPending={setDialogPending}
         />
-      </Permission>
+      )}
 
-      <Permission resources={recordType} actions={ADD_NOTE}>
+      {canAddNotes && (
         <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} record={record} recordType={recordType} />
-      </Permission>
+      )}
 
-      <Permission resources={recordType} actions={REQUEST_APPROVAL}>
+      {canRequest && (
         <RequestApproval
           openRequestDialog={requestDialog}
           close={() => handleRequestClose()}
@@ -552,9 +443,9 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
           confirmButtonLabel={i18n.t("buttons.ok")}
           dialogName={REQUEST_APPROVAL_DIALOG}
         />
-      </Permission>
+      )}
 
-      <Permission resources={recordType} actions={APPROVAL}>
+      {canApprove && (
         <RequestApproval
           openRequestDialog={approveDialog}
           close={() => handleApprovalClose()}
@@ -567,9 +458,9 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
           confirmButtonLabel={i18n.t("buttons.submit")}
           dialogName={APPROVAL_DIALOG}
         />
-      </Permission>
+      )}
 
-      <Permission resources={recordType} actions={SHOW_EXPORTS}>
+      {canShowExports && (
         <Exports
           openExportsDialog={openExportsDialog}
           close={() => setOpenExportsDialog(false)}
@@ -581,7 +472,7 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
           pending={dialogPending}
           setPending={setDialogPending}
         />
-      </Permission>
+      )}
     </>
   );
 };
