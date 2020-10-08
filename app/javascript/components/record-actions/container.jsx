@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import { RECORD_TYPES, RECORD_PATH, APPROVALS_TYPES } from "../../config";
+import { RECORD_TYPES, RECORD_PATH, APPROVALS_TYPES, MODULES } from "../../config";
 import { useI18n } from "../i18n";
 import { getPermissionsByRecord } from "../user/selectors";
 import { getFiltersValuesByRecordType } from "../index-filters/selectors";
@@ -27,8 +27,11 @@ import { getMetadata } from "../record-list/selectors";
 import { useApp } from "../application";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
+import { getRecordFormsByUniqueId } from "../record-form";
 import { fetchIncidentFromCase } from "../records";
 
+import { INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./add-incident/constants";
+import { SERVICES_SUBFORM, SERVICES_SUBFORM_NAME } from "./add-service/constants";
 import { setDialog, setPending } from "./action-creators";
 import {
   REQUEST_APPROVAL_DIALOG,
@@ -55,7 +58,7 @@ import AddService from "./add-service";
 import RequestApproval from "./request-approval";
 import Exports from "./exports";
 import { selectDialog, selectDialogPending } from "./selectors";
-import { isDisabledAction } from "./utils";
+import { isDisabledAction, subformExists } from "./utils";
 
 const Container = ({ recordType, iconColor, record, mode, showListActions, currentPage, selectedRecords }) => {
   const i18n = useI18n();
@@ -121,6 +124,27 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
   const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
 
   const idSearch = useSelector(state => getFiltersValuesByRecordType(state, recordType).get("id_search"));
+
+  const incidentForm = useSelector(state =>
+    getRecordFormsByUniqueId(state, {
+      recordType: RECORD_TYPES[recordType],
+      primeroModule: MODULES.CP,
+      formName: INCIDENT_SUBFORM,
+      checkVisible: false
+    })
+  ).first();
+
+  const serviceForm = useSelector(state =>
+    getRecordFormsByUniqueId(state, {
+      recordType: RECORD_TYPES[recordType],
+      primeroModule: MODULES.CP,
+      formName: SERVICES_SUBFORM,
+      checkVisible: false
+    })
+  ).first();
+
+  const hasIncidentSubform = subformExists(incidentForm, INCIDENTS_SUBFORM_NAME);
+  const hasServiceSubform = subformExists(serviceForm, SERVICES_SUBFORM_NAME);
 
   const isSearchFromList = Boolean(idSearch);
 
@@ -313,7 +337,7 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
       recordType: RECORD_PATH.cases,
       recordListAction: true,
       enabledFor: ENABLED_FOR_ONE,
-      condition: showListActions ? canAddIncident : canAddIncident && isSearchFromList,
+      condition: hasIncidentSubform && (showListActions ? canAddIncident : canAddIncident && isSearchFromList),
       disableOffline: true,
       enabledOnSearch: true
     },
@@ -333,7 +357,7 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
       recordType: RECORD_PATH.cases,
       recordListAction: true,
       enabledFor: ENABLED_FOR_ONE,
-      condition: showListActions ? canAddService : canAddService && isSearchFromList,
+      condition: hasServiceSubform && (showListActions ? canAddService : canAddService && isSearchFromList),
       disableOffline: true,
       enabledOnSearch: true
     },
@@ -503,6 +527,33 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
   const selectedRecordsOnCurrentPage =
     (selectedRecords && Boolean(Object.keys(selectedRecords).length) && selectedRecords[currentPage]) || [];
 
+  const renderAddIncident = hasIncidentSubform && (
+    <Permission resources={recordType} actions={ADD_INCIDENT}>
+      <AddIncident
+        openIncidentDialog={incidentDialog}
+        close={() => setIncidentDialog(false)}
+        recordType={recordType}
+        records={[]}
+        selectedRowsIndex={selectedRecordsOnCurrentPage}
+        pending={dialogPending}
+        setPending={setDialogPending}
+      />
+    </Permission>
+  );
+
+  const renderAddService = false && (
+    <Permission resources={recordType} actions={ADD_SERVICE}>
+      <AddService
+        openServiceDialog={serviceDialog}
+        close={() => setServiceDialog(false)}
+        recordType={recordType}
+        selectedRowsIndex={selectedRecordsOnCurrentPage}
+        pending={dialogPending}
+        setPending={setDialogPending}
+      />
+    </Permission>
+  );
+
   return (
     <>
       {mode && mode.isShow && actionItems.length ? (
@@ -530,28 +581,9 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
 
       <Transitions {...transitionsProps} />
 
-      <Permission resources={recordType} actions={ADD_INCIDENT}>
-        <AddIncident
-          openIncidentDialog={incidentDialog}
-          close={() => setIncidentDialog(false)}
-          recordType={recordType}
-          records={[]}
-          selectedRowsIndex={selectedRecordsOnCurrentPage}
-          pending={dialogPending}
-          setPending={setDialogPending}
-        />
-      </Permission>
+      {renderAddIncident}
 
-      <Permission resources={recordType} actions={ADD_SERVICE}>
-        <AddService
-          openServiceDialog={serviceDialog}
-          close={() => setServiceDialog(false)}
-          recordType={recordType}
-          selectedRowsIndex={selectedRecordsOnCurrentPage}
-          pending={dialogPending}
-          setPending={setDialogPending}
-        />
-      </Permission>
+      {renderAddService}
 
       <Permission resources={recordType} actions={ADD_NOTE}>
         <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} record={record} recordType={recordType} />

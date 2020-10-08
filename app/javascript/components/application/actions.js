@@ -3,6 +3,7 @@ import { namespaceActions } from "../../libs";
 import NAMESPACE from "./namespace";
 
 export default namespaceActions(NAMESPACE, [
+  "DISABLE_NAVIGATION",
   "FETCH_ROLES",
   "FETCH_ROLES_FAILURE",
   "FETCH_ROLES_FINISHED",

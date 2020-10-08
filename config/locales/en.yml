@@ -370,6 +370,10 @@ en:
       date_of_creation: Date of Creation
       registration_date: Date of Registration
   configurations:
+    apply_label: Are you sure? If you apply, the settings in this configuration will be applied to the system.
+      You will lose all your current settings and will not be able to get them back unless you have already saved
+      them in another Configuration.
+    apply_label_bold: Primero will be unavailable to users for a few minutes while changes are loading.
     attributes:
       created_by: Created By
       date_created: Date Created
@@ -390,10 +394,12 @@ en:
     label: Configurations
     label_new: New Configuration
     messages:
+      applied: Configuration was successfully applied.
       created: Configuration was successfully created.
       deleted: Configuration was successfully deleted.
       updated: Configuration was successfully updated.
     not_allowed: Not-allowed
+    unavailable_server: Server is temporarily unavailable.
   contact:
     field:
       email: Email

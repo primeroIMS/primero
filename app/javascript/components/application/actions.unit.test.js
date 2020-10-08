@@ -5,6 +5,7 @@ describe("Application - Actions", () => {
     const cloneActions = { ...actions };
 
     [
+      "DISABLE_NAVIGATION",
       "FETCH_ROLES",
       "FETCH_ROLES_FAILURE",
       "FETCH_ROLES_FINISHED",

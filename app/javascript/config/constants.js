@@ -130,7 +130,8 @@ export const ROUTES = {
   reports_new: "/reports/new",
   support: "/support",
   tasks: "/tasks",
-  tracing_requests: "/tracing_requests"
+  tracing_requests: "/tracing_requests",
+  check_health: "/health/api"
 };
 
 export const PERMITTED_URL = [

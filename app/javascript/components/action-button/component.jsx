@@ -1,10 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import { useApp } from "../application";
+
 import { buttonType } from "./utils";
 import { NAME, ACTION_BUTTON_TYPES } from "./constants";
 
 const Component = ({ icon, isCancel, isTransparent, pending, text, type, outlined, keepTextOnMobile, rest }) => {
+  const { disabledApplication } = useApp();
   const ButtonType = buttonType(type);
 
   return (
@@ -14,7 +17,7 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, type, outline
         isCancel={isCancel}
         isTransparent={isTransparent}
         pending={pending}
-        rest={rest}
+        rest={{ ...rest, disabled: disabledApplication }}
         outlined={outlined}
         text={text}
         keepTextOnMobile={keepTextOnMobile}
