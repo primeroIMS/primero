@@ -1,6 +1,0 @@
----
-- listen: 'reload_iked'
-  service:
-    name: 'iked'
-    state: 'reloaded'
-  become: yes

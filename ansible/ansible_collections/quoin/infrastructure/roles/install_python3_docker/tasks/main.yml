@@ -1,8 +1,0 @@
----
-- name: 'create and upgrade the Docker virtualenv'
-  pip:
-    virtualenv: '/opt/docker'
-    virtualenv_site_packages: yes
-    name: '{{ qi_install_python3_docker_pip_names }}'
-    state: 'latest'
-  become: yes

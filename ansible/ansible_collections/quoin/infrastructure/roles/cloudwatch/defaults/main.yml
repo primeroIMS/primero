@@ -1,6 +1,0 @@
----
-qi_cloudwatch_pip_names:
-- 'pip'
-- 'boto3'
-- 'docker'
-- 'requests'
