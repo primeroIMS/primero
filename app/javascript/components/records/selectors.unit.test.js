@@ -1,7 +1,7 @@
 import { Map, OrderedMap, fromJS } from "immutable";
 
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
-import { RECORD_PATH, RECORD_TYPES } from "../../config";
+import { RECORD_PATH } from "../../config";
 
 import {
   selectRecord,
@@ -259,17 +259,7 @@ describe("Records - Selectors", () => {
     });
 
     it("should return the incident when is a new incident", () => {
-      expect(getIncidentFromCase(stateWithIncidentFromCase, { isNew: true }, RECORD_TYPES.incidents)).to.deep.equal(
-        incidentFromCase
-      );
-    });
-
-    it("should return null when is not a new incident", () => {
-      expect(getIncidentFromCase(stateWithIncidentFromCase, { isEdit: true }, RECORD_TYPES.incidents)).to.not.exist;
-    });
-
-    it("should return null when is not an incident", () => {
-      expect(getIncidentFromCase(stateWithIncidentFromCase, { isNew: true }, RECORD_TYPES.cases)).to.not.exist;
+      expect(getIncidentFromCase(stateWithIncidentFromCase)).to.deep.equal(incidentFromCase);
     });
   });
 });
