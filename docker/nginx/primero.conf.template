@@ -18,14 +18,14 @@ upstream app {
     server unix://${NGINX_CURRENT_PATH}/tmp/primero.sock fail_timeout=0;
 }
 
+limit_req_zone $binary_remote_addr zone=login_app_limit:10m rate=1r/s;
+
 server {
     listen ${NGINX_HTTP_PORT};
     server_name ${NGINX_SERVER_NAME};
     # @begin-ssl
     return 301 https://$host:${NGINX_HTTPS_PORT}$1;
 }
-
-limit_req_zone $binary_remote_addr zone=login_app_limit:10m rate=1r/s;
 
 server {
 

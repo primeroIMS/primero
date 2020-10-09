@@ -2,7 +2,7 @@ user www-data;
 
 worker_processes ${NGINX_WORKER_PROCESSES};
 
-pid /run/nginx.pid;
+pid i/var/run/nginx.pid;
 
 worker_priority ${NGINX_WORKER_PRIORITY};
 

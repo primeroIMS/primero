@@ -1,3 +1,4 @@
 #nginxtoken
 nginx hard nofile 10000
 nginx soft nofile 30000
+

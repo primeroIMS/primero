@@ -47,8 +47,29 @@ config_subst () {
 
 SED_ARGS=""
 
+require 'NGINX_CURRENT_PATH'
+require 'NGINX_HTTP_PORT'
 require 'NGINX_SERVER_NAME'
+require 'NGINX_HTTPS_PORT'
+require 'NGINX_DH_PARAM'
+require 'NGINX_CLIENT_MAX_BODY_SIZE'
+require 'NGINX_CLIENT_BODY_BUFFER_SIZE'
+require 'NGINX_PROXY_PASS_URL'
+require 'PROXY_CONNECT_TIMEOUT'
+require 'PROXY_SEND_TIMEOUT'
+require 'PROXY_READ_TIMEOUT'
+config_subst 'NGINX_CURRENT_PATH'
+config_subst 'NGINX_HTTP_PORT'
 config_subst 'NGINX_SERVER_NAME'
+config_subst 'NGINX_HTTPS_PORT'
+config_subst 'NGINX_DH_PARAM'
+config_subst 'NGINX_CLIENT_MAX_BODY_SIZE'
+config_subst 'NGINX_CLIENT_BODY_BUFFER_SIZE'
+config_subst 'NGINX_PROXY_PASS_URL'
+config_subst 'PROXY_CONNECT_TIMEOUT'
+config_subst 'PROXY_SEND_TIMEOUT'
+config_subst 'PROXY_READ_TIMEOUT'
+
 
 if [ -z "${NGINX_CERTIFICATE_NAME}" ] || [ ! -d "/etc/letsencrypt/live/${NGINX_CERTIFICATE_NAME}" ]; then
     config_write '@begin-no-ssl' '@end-no-ssl'
@@ -60,5 +81,5 @@ else
 fi
 
 eval sed ${SED_ARGS} \
-    < /etc/nginx/conf.d/primero.conf.template \
+    < /etc/nginx/templates/primero.conf.template \
     > /etc/nginx/conf.d/primero.conf
