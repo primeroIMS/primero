@@ -52,7 +52,7 @@ const RecordFormToolbar = ({
   const renderSaveButton = (
     <ActionButton
       icon={incidentFromCase?.size ? <SaveReturnIcon /> : <CheckIcon />}
-      text={i18n.t("buttons.save")}
+      text={i18n.t(incidentFromCase?.size ? "buttons.save_and_return" : "buttons.save")}
       type={ACTION_BUTTON_TYPES.default}
       pending={savingRecord}
       rest={{
