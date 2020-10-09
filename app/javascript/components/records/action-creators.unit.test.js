@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 import { RECORD_PATH } from "../../config/constants";
 import { ENQUEUE_SNACKBAR } from "../notifier";
 import { SET_DIALOG, SET_DIALOG_PENDING } from "../record-actions/actions";
+import RecordFormActions from "../record-form/actions";
 
 import * as actionCreators from "./action-creators";
 import { CLEAR_CASE_FROM_INCIDENT } from "./actions";
@@ -91,7 +92,7 @@ describe("records - Action Creators", () => {
 
     it("should return 3 success callback actions if there is a dialogName", () => {
       const store = configureStore([thunk])({});
-      const expected = [`cases/${CLEAR_CASE_FROM_INCIDENT}`, ENQUEUE_SNACKBAR, SET_DIALOG, SET_DIALOG_PENDING];
+      const expected = [ENQUEUE_SNACKBAR, SET_DIALOG, SET_DIALOG_PENDING];
 
       return store
         .dispatch(
@@ -111,7 +112,35 @@ describe("records - Action Creators", () => {
           const successCallbacks = store.getActions()[0].api.successCallback;
 
           expect(successCallbacks).to.be.an("array");
-          expect(successCallbacks).to.have.lengthOf(4);
+          expect(successCallbacks).to.have.lengthOf(3);
+          expect(successCallbacks.map(({ action }) => action)).to.deep.equals(expected);
+        });
+    });
+
+    it("should return 3 success callback actions when is an incidentFromCase", () => {
+      const store = configureStore([thunk])({});
+      const expected = [ENQUEUE_SNACKBAR, `cases/${CLEAR_CASE_FROM_INCIDENT}`, RecordFormActions.SET_SELECTED_FORM];
+
+      return store
+        .dispatch(
+          actionCreators.saveRecord(
+            RECORD_PATH.incidents,
+            "update",
+            body,
+            "123",
+            "Saved Successfully",
+            false,
+            false,
+            false,
+            "",
+            true
+          )
+        )
+        .then(() => {
+          const successCallbacks = store.getActions()[0].api.successCallback;
+
+          expect(successCallbacks).to.be.an("array");
+          expect(successCallbacks).to.have.lengthOf(3);
           expect(successCallbacks.map(({ action }) => action)).to.deep.equals(expected);
         });
     });

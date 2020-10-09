@@ -17,7 +17,8 @@ describe("<IncidentDetail /> - Component", () => {
       titleHeader: {}
     },
     incidentUniqueID: "e25c5cb1-1257-472e-b2ec-05f568a3b51e",
-    incidentType: <></>
+    incidentType: <></>,
+    incidentCaseId: "case-id-1"
   };
 
   const initialState = fromJS({
@@ -48,13 +49,35 @@ describe("<IncidentDetail /> - Component", () => {
     expect(component.find(ActionButton)).to.have.lengthOf(2);
   });
 
+  it("should set the selected form and the incident case id when view is clicked", () => {
+    component.find(ActionButton).first().props().rest.onClick();
+    const actions = component.props().store.getActions();
+
+    expect(actions.find(action => action.type === "forms/SET_SELECTED_FORM").payload).to.not.exist;
+    expect(actions.find(action => action.type === "cases/SET_CASE_ID_FOR_INCIDENT").payload).to.deep.equal({
+      caseId: "case-id-1"
+    });
+  });
+
+  it("should set the selected form and the incident case id when view is clicked", () => {
+    component.find(ActionButton).first().props().rest.onClick();
+    const actions = component.props().store.getActions();
+
+    expect(actions.find(action => action.type === "forms/SET_SELECTED_FORM").payload).to.not.exist;
+    expect(actions.find(action => action.type === "cases/SET_CASE_ID_FOR_INCIDENT").payload).to.deep.equal({
+      caseId: "case-id-1"
+    });
+  });
+
   it("renders component with valid props", () => {
     const incidentDetailProps = { ...component.find(IncidentDetail).props() };
 
-    ["css", "incidentDateInterview", "incidentDate", "incidentUniqueID", "incidentType"].forEach(property => {
-      expect(incidentDetailProps).to.have.property(property);
-      delete incidentDetailProps[property];
-    });
+    ["css", "incidentDateInterview", "incidentCaseId", "incidentDate", "incidentUniqueID", "incidentType"].forEach(
+      property => {
+        expect(incidentDetailProps).to.have.property(property);
+        delete incidentDetailProps[property];
+      }
+    );
     expect(incidentDetailProps).to.be.empty;
   });
 });

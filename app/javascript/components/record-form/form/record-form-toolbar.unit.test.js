@@ -1,6 +1,7 @@
 import { fromJS, OrderedMap } from "immutable";
 import { CircularProgress, Badge } from "@material-ui/core";
 
+import { SaveReturnIcon } from "../../../images/primero-icons";
 import { setupMountedComponent } from "../../../test";
 import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
 import { ACTIONS } from "../../../libs/permissions";
@@ -234,6 +235,40 @@ describe("<RecordFormToolbar />", () => {
     });
     it("renders a Badge indicator for Flag", () => {
       expect(component.find(Badge)).to.have.lengthOf(1);
+    });
+  });
+
+  describe("when is an incident from case", () => {
+    const initialStateEditMode = {
+      ...initialState,
+      records: {
+        cases: {
+          incidentFromCase: {
+            incident_case_id: "case-id-1"
+          }
+        }
+      }
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordFormToolbar,
+        {
+          ...props,
+          mode: {
+            isNew: false,
+            isEdit: true,
+            isShow: false
+          }
+        },
+        fromJS(initialStateEditMode)
+      ));
+    });
+    it("renders a SaveAndReturn button", () => {
+      const saveAndReturnButton = component.find(ActionButton).last();
+
+      expect(saveAndReturnButton.text()).to.equal("buttons.save_and_return");
+      expect(saveAndReturnButton.find(SaveReturnIcon)).to.have.lengthOf(1);
     });
   });
 });

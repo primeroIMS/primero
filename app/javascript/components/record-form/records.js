@@ -1,7 +1,5 @@
 import { Record, fromJS } from "immutable";
 
-import { RECORD_TYPES } from "../../config";
-
 export const FieldRecord = Record({
   name: "",
   type: "",
