@@ -59,8 +59,8 @@ describe("<IncidentDetail /> - Component", () => {
     });
   });
 
-  it("should set the selected form and the incident case id when view is clicked", () => {
-    component.find(ActionButton).first().props().rest.onClick();
+  it("should set the selected form and the incident case id when edit is clicked", () => {
+    component.find(ActionButton).last().props().rest.onClick();
     const actions = component.props().store.getActions();
 
     expect(actions.find(action => action.type === "forms/SET_SELECTED_FORM").payload).to.not.exist;
