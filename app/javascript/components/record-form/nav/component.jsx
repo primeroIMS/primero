@@ -99,7 +99,7 @@ const Component = ({
     } else {
       setOpen(firstTab.form_group_id);
     }
-  }, []);
+  }, [selectedRecordForm?.first()?.form_group_id]);
 
   useEffect(() => {
     dispatch(setSelectedRecord(selectedRecord));
