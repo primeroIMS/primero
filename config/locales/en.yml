@@ -946,6 +946,7 @@ en:
     predifined_lookups: Use pre-defined lookup
     radio_button: Radio Button
     remove: Remove
+    remove_attachment_confirmation: Are you sure you want to remove this attachment?
     required: Required
     required_field: '%{field} is required'
     search_existing: Search existing fields

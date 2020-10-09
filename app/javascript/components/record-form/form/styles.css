@@ -168,10 +168,6 @@
   display: flex;
   align-items: center;
   flex: 1;
-
-  & label {
-    margin-right: 2em;
-  }
 }
 
 .buttonWrapper {
@@ -209,6 +205,13 @@
     top: 2px;
     right: 8px;
   }
+}
+
+.attachmentRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .separator {
