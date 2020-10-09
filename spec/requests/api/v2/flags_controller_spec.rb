@@ -127,6 +127,33 @@ describe Api::V2::FlagsController, type: :request do
             expect(json['data'][0]['removed']).to be_falsey
           end
         end
+
+        context 'and record_id is passed in' do
+          context 'and the record is a case' do
+            # TODO: finish
+            xit 'lists all flags for this case' do
+              get "/api/v2/flags?record_id=#{@case3.id}"
+
+              expect(response).to have_http_status(200)
+              expect(json['data'].size).to eq(1)
+              expect(json['data'][0]['record_id']).to eq( @case1.id.to_s)
+              expect(json['data'][0]['record_type']).to eq('cases')
+              expect(json['data'][0]['message']).to eq( 'This is a flag')
+              expect(json['data'][0]['r_name']).to eq('*******')
+              expect(json['data'][0]['r_hidden_name']).to be
+              expect(json['data'][0]['r_owned_by']).to eq('user1')
+              expect(json['data'][0]['removed']).to be_falsey
+            end
+          end
+
+          context 'and the record is an incident' do
+            # TODO
+          end
+
+          context 'and the record is a tracing_request' do
+            # TODO
+          end
+        end
       end
 
       context 'and user is a manager' do
