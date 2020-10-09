@@ -3,11 +3,18 @@ import { fromJS } from "immutable";
 
 import { NavRecord } from "../../../records";
 import { SHOW_APPROVALS, VIEW_INCIDENTS_FROM_CASE } from "../../../../../libs/permissions";
-import { RECORD_OWNER, TRANSFERS_ASSIGNMENTS, REFERRAL, APPROVALS, INCIDENT_FROM_CASE } from "../../../../../config";
+import {
+  APPROVALS,
+  INCIDENT_FROM_CASE,
+  RECORD_OWNER,
+  RECORD_TYPES,
+  REFERRAL,
+  TRANSFERS_ASSIGNMENTS
+} from "../../../../../config";
 
 import { RECORD_INFORMATION_GROUP } from "./constants";
 
-export const getRecordInformationForms = i18n =>
+export const getRecordInformationForms = (i18n, recordType) =>
   fromJS([
     NavRecord({
       group: RECORD_INFORMATION_GROUP,
@@ -36,7 +43,8 @@ export const getRecordInformationForms = i18n =>
       order: 2,
       formId: INCIDENT_FROM_CASE,
       is_first_tab: false,
-      permission_actions: VIEW_INCIDENTS_FROM_CASE
+      permission_actions: VIEW_INCIDENTS_FROM_CASE,
+      recordTypes: [RECORD_TYPES.cases]
     }),
     NavRecord({
       group: RECORD_INFORMATION_GROUP,
@@ -56,6 +64,7 @@ export const getRecordInformationForms = i18n =>
       formId: TRANSFERS_ASSIGNMENTS,
       is_first_tab: false
     })
-  ]);
+  ]).filter(form => !recordType || !form.get("recordTypes").length || form.get("recordTypes").includes(recordType));
 
-export const getRecordInformationFormIds = i18n => getRecordInformationForms(i18n).map(form => form.get("formId"));
+export const getRecordInformationFormIds = (i18n, recordType) =>
+  getRecordInformationForms(i18n, recordType).map(form => form.get("formId"));

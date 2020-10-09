@@ -7,11 +7,12 @@ import { useSelector, useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
-import { RECORD_TYPES } from "../../../config";
+import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
 import { getRecordFormsByUniqueId, getSelectedRecord, getValidationErrors } from "../selectors";
-import { getRecordAlerts } from "../../records/selectors";
+import { getIncidentFromCase, getRecordAlerts } from "../../records/selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
 import { compare, ConditionalWrapper } from "../../../libs";
 
@@ -33,16 +34,19 @@ const Component = ({
   selectedForm
 }) => {
   const i18n = useI18n();
+  const history = useHistory();
   const [open, setOpen] = useState("");
   const [previousGroup, setPreviousGroup] = useState("");
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
+  const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
+  const recordInformationFormIds = getRecordInformationFormIds(i18n, RECORD_TYPES[recordType]);
   const selectedRecordForm = useSelector(
     state =>
       getRecordFormsByUniqueId(state, {
         recordType: RECORD_TYPES[recordType],
         primeroModule,
-        formName: selectedForm || firstTab.unique_id,
+        formName: !selectedForm || !recordInformationFormIds.includes(selectedForm) ? firstTab.unique_id : selectedForm,
         checkVisible: true
       }),
     compare
@@ -51,8 +55,6 @@ const Component = ({
   const currentSelectedRecord = useSelector(state => getSelectedRecord(state));
 
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType), compare);
-
-  const recordInformationFormIds = getRecordInformationFormIds(i18n);
 
   const handleClick = args => {
     const { group, formId, parentItem } = args;
@@ -84,8 +86,8 @@ const Component = ({
       dispatch(setSelectedForm(firstTab.unique_id));
       setOpen(firstTab.form_group_id);
     } else if (!selectedForm) {
+      dispatch(setSelectedForm(firstTab.unique_id));
       if (currentSelectedRecord !== selectedRecord) {
-        dispatch(setSelectedForm(firstTab.unique_id));
         setOpen(firstTab.form_group_id);
       } else if (!selectedRecordForm?.isEmpty() && open !== selectedRecordForm.first().form_group_id) {
         setOpen(selectedRecordForm.first().form_group_id);
@@ -102,6 +104,21 @@ const Component = ({
   useEffect(() => {
     dispatch(setSelectedRecord(selectedRecord));
   }, [firstTab]);
+
+  useEffect(() => {
+    // If we are going back
+    if (history.action === "POP") {
+      if (selectedForm && recordInformationFormIds.includes(selectedForm)) {
+        setOpen(RECORD_INFORMATION_GROUP);
+      } else if (incidentFromCase?.size) {
+        dispatch(setSelectedForm(INCIDENT_FROM_CASE));
+        setOpen(RECORD_INFORMATION_GROUP);
+      } else if (selectedRecordForm?.first()?.form_group_id) {
+        dispatch(setSelectedForm(firstTab.unique_id));
+        setOpen(selectedRecordForm.first().form_group_id);
+      }
+    }
+  }, [history.action, selectedRecordForm?.first()?.form_group_id]);
 
   const renderCloseButtonNavBar = mobileDisplay && (
     <div className={css.closeButtonRecordNav}>

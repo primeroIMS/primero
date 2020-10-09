@@ -8,6 +8,7 @@ import { withRouter } from "react-router-dom";
 import { checkPermissions } from "../../../../../libs/permissions";
 import NavGroup from "../nav-group";
 import { useI18n } from "../../../../i18n";
+import { RECORD_TYPES } from "../../../../../config";
 import { getPermissionsByRecord } from "../../../../user/selectors";
 
 import { NAME } from "./constants";
@@ -17,7 +18,7 @@ const Component = ({ open, handleClick, selectedForm, match }) => {
   const { params } = match;
   const { recordType } = params;
   const i18n = useI18n();
-  const recordInformationForms = getRecordInformationForms(i18n);
+  const recordInformationForms = getRecordInformationForms(i18n, RECORD_TYPES[recordType]);
 
   const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
   const forms = recordInformationForms.reduce((acum, form) => {
