@@ -81,3 +81,5 @@ public/manifests/*
 public/worker.js
 public/precache-manifest*
 configuration_translation_export*
+/ansible/roles/qi-*
+/ansible/ansible_collections
