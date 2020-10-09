@@ -1,0 +1,6 @@
+---
+- name: 'make certbot executable'
+  file:
+    path: '/home/ubuntu/primero/bin/certbot'
+    mode: '+x'
+  become: yes

@@ -1,0 +1,24 @@
+---
+- name: 'Ensure group {{ application_container_username }} exists'
+  group:
+    name: '{{ application_container_username }}'
+  become: yes
+
+- name: 'create application contatiner user'
+  user:
+    name: '{{ application_container_username }}'
+    shell: '/sbin/nologin'
+    group: '{{ application_container_username }}'
+  become: yes
+
+- name: 'Ensure group {{ nginx_container_username }} exists'
+  group:
+    name: '{{ nginx_container_username }}'
+  become: yes
+
+- name: 'create nginx contatiner user'
+  user:
+    name: '{{ nginx_container_username }}'
+    shell: '/sbin/nologin'
+    group: '{{ nginx_container_username }}'
+  become: yes

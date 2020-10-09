@@ -28,3 +28,4 @@
   #    mode: 'u=rwX,g=rX,o=rX'
   #    recurse: yes
   #  become: yes
+- include: exec.yml
