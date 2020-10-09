@@ -27,6 +27,7 @@ const Transitions = ({
   currentPage,
   selectedRecords
 }) => {
+  console.warn('RENDERING', 'TRANSITIONS')
   const i18n = useI18n();
   const providedConsent = (record && hasProvidedConsent(record)) || false;
   const referralFormikRef = useRef();

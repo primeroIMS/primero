@@ -61,6 +61,8 @@ const Component = ({
   setPending,
   userPermissions
 }) => {
+  console.warn('RENDERING', 'EXPORTS')
+
   const i18n = useI18n();
   const formRef = useRef();
   const pdfExporterRef = useRef();

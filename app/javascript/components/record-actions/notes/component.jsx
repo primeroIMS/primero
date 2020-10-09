@@ -20,6 +20,8 @@ const validationSchema = object().shape({
 });
 
 const Component = ({ close, openNotesDialog, record, recordType }) => {
+  console.warn('RENDERING', 'NOTES')
+
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();

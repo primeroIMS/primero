@@ -1,5 +1,6 @@
+import { ENABLED_FOR_ONE, ENABLED_FOR_ONE_MANY_ALL } from "../constants";
+
 import { isDisabledAction } from "./utils";
-import { ENABLED_FOR_ONE, ENABLED_FOR_ONE_MANY_ALL } from "./constants";
 
 describe("<RecordActions /> - utils", () => {
   const totaRecords = 10;
