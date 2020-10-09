@@ -14,6 +14,8 @@ import Transitions from "../transitions";
 import { MODES } from "../../config";
 import Approvals from "../approvals";
 import ApprovalPanel from "../approvals/components/panel";
+import IncidentFromCase from "../incidents-from-case";
+import IncidentFromCasePanel from "../incidents-from-case/components/panel";
 
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
@@ -338,6 +340,74 @@ describe("<RecordForms /> - Component", () => {
       expect(component.find(Approvals)).to.have.lengthOf(1);
       expect(component.find(ApprovalPanel)).to.have.lengthOf(1);
       expect(component.find(Transitions)).to.have.lengthOf(0);
+      expect(component.find(RecordForm)).to.have.lengthOf(0);
+    });
+  });
+
+  describe("when incident_from_case is the selectedForm", () => {
+    const recordWithIncidentDetails = {
+      ...record,
+      incident_details: [
+        {
+          created_by: "primero_gbv",
+          module_id: "primeromodule-gbv",
+          incident_date: "2020-09-16",
+          owned_by: "primero_gbv",
+          date_of_first_report: "2020-10-04",
+          gbv_sexual_violence_type: "test1",
+          unique_id: "e25c5cb1-1257-472e-b2ec-05f568a3b51e"
+        }
+      ]
+    };
+
+    const initialState = fromJS({
+      records: {
+        cases: {
+          data: [recordWithIncidentDetails],
+          metadata: { per: 20, page: 1, total: 1 },
+          filters: { status: "open" }
+        }
+      },
+      forms: {
+        selectedForm: "incident_from_case",
+        selectedRecord: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+        formSections,
+        fields,
+        loading: false,
+        errors: false
+      },
+      user: {
+        modules: ["primeromodule-cp"],
+        permittedForms: ["basic_identity"]
+      },
+      application
+    });
+
+    beforeEach(() => {
+      const routedComponent = initialProps => {
+        return (
+          <Route
+            path="/:recordType(cases|incidents|tracing_requests)/:id"
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
+          />
+        );
+      };
+
+      ({ component } = setupMountedComponent(
+        routedComponent,
+        {
+          mode: MODES.show
+        },
+        initialState,
+        ["/cases/a9e1a7a2-1920-4b41-80d1-df45c26db4ab"]
+      ));
+    });
+
+    it("should render IncidentFromCase with IncidentFromCasePanel", () => {
+      expect(component.find(IncidentFromCase)).to.have.lengthOf(1);
+      expect(component.find(IncidentFromCasePanel)).to.have.lengthOf(1);
+      expect(component.find(Transitions)).to.have.lengthOf(0);
+      expect(component.find(Approvals)).to.have.lengthOf(0);
       expect(component.find(RecordForm)).to.have.lengthOf(0);
     });
   });

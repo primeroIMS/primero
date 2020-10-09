@@ -339,4 +339,19 @@ describe("Application - Reducers", () => {
 
     expect(newState).to.eql(expected);
   });
+
+  it("should handle DISABLE_NAVIGATION", () => {
+    const expected = Map({
+      disabledApplication: true
+    });
+
+    const action = {
+      type: actions.DISABLE_NAVIGATION,
+      payload: true
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
 });

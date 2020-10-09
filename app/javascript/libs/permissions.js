@@ -74,6 +74,7 @@ export const ACTIONS = {
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",
+  VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
   WRITE: "write"
 };
 
@@ -219,6 +220,8 @@ export const DASH_APPROVALS = [
   ACTIONS.DASH_APPROVALS_ACTION_PLAN,
   ACTIONS.DASH_APPROVALS_GBV_CLOSURE
 ];
+
+export const VIEW_INCIDENTS_FROM_CASE = [...MANAGE, ACTIONS.VIEW_INCIDENT_FROM_CASE];
 
 export const GROUP_PERMISSIONS = {
   AGENCY: "agency",

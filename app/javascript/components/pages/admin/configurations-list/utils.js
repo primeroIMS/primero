@@ -5,5 +5,5 @@ export const getColumns = i18n => [
   { name: "version", label: i18n.t("configurations.attributes.version") },
   { name: "description", label: i18n.t("configurations.attributes.description") },
   { name: "created_on", label: i18n.t("configurations.attributes.date_created") },
-  { name: "last_applied_on", label: i18n.t("configurations.attributes.last_applied_on") }
+  { name: "applied_on", label: i18n.t("configurations.attributes.last_applied_on") }
 ];

@@ -46,7 +46,8 @@ const Notifier = () => {
         message,
         messageKey,
         actionLabel,
-        actionUrl
+        actionUrl,
+        noDismiss
       } = snack;
 
       if (dismissed) {
@@ -70,7 +71,7 @@ const Notifier = () => {
       }
 
       enqueueSnackbar(snackMessage, {
-        ...snackbarOptions,
+        ...{ ...snackbarOptions, autoHideDuration: noDismiss ? null : snackbarOptions.autoHideDuration },
         ...otherOptions,
         key,
         onExited: (event, snackKey) => {
@@ -89,6 +90,7 @@ const Notifier = () => {
             actionUrl={actionUrl}
             closeSnackbar={closeSnackbar}
             key={snackKey}
+            hideCloseIcon={noDismiss}
           />
         )
       });

@@ -13,6 +13,8 @@ import ToggleOpen from "./toggle-open";
 import RequestApproval from "./request-approval";
 import Transitions from "./transitions";
 import Exports from "./exports";
+import AddIncident from "./add-incident";
+import AddService from "./add-service";
 
 describe("<RecordActions />", () => {
   const forms = {
@@ -52,6 +54,20 @@ describe("<RecordActions />", () => {
         is_nested: false,
         subform_prevent_item_removal: false,
         collapsed_field_names: []
+      }),
+      3: FormSectionRecord({
+        id: 3,
+        unique_id: "services",
+        fields: [3],
+        visible: true,
+        parent_form: "case",
+        module_ids: ["primeromodule-cp"]
+      }),
+      4: FormSectionRecord({
+        id: 3,
+        unique_id: "services_section_subform",
+        fields: [4],
+        visible: true
       })
     }),
     fields: OrderedMap({
@@ -95,6 +111,19 @@ describe("<RecordActions />", () => {
         selected_value: "",
         subform_sort_by: "",
         show_on_minify_form: false
+      }),
+      3: FieldRecord({
+        name: "services_section",
+        type: "subform",
+        subform_section_id: 4,
+        visible: true,
+        editable: true,
+        disabled: false
+      }),
+      4: FieldRecord({
+        name: "text_field_2",
+        type: "text_field",
+        visible: true
       })
     })
   };
@@ -154,7 +183,8 @@ describe("<RecordActions />", () => {
             permissions: {
               cases: ["gbv_referral_form", "record_owner"]
             }
-          }
+          },
+          forms
         })
       ));
       expect(component.find(ActionButton)).to.be.empty;
@@ -324,7 +354,8 @@ describe("<RecordActions />", () => {
               permissions: {
                 cases: [ACTIONS.READ]
               }
-            }
+            },
+            forms
           })
         ));
       });
@@ -864,6 +895,84 @@ describe("<RecordActions />", () => {
 
       expect(incidentItem.text()).to.be.equal("cases.export");
       expect(incidentItemProps.disabled).to.be.false;
+    });
+  });
+
+  describe("when incident subform is not presented", () => {
+    const newForms = {
+      formSections: OrderedMap({
+        1: FormSectionRecord({
+          id: 1,
+          unique_id: "incident_details_container",
+          name: { en: "Incident Details" },
+          visible: true,
+          parent_form: "case",
+          editable: true,
+          module_ids: ["primeromodule-cp"],
+          fields: [1]
+        }),
+        2: FormSectionRecord({
+          id: 2,
+          unique_id: "services",
+          fields: [2],
+          visible: true,
+          parent_form: "case",
+          module_ids: ["primeromodule-cp"]
+        })
+      }),
+      fields: OrderedMap({
+        1: FieldRecord({
+          name: "incident_details",
+          type: "subform",
+          subform_section_id: null,
+          editable: true,
+          disabled: false,
+          visible: true
+        }),
+        2: FieldRecord({
+          name: "services_section",
+          type: "subform",
+          subform_section_id: null,
+          visible: true,
+          editable: true,
+          disabled: false
+        })
+      })
+    };
+    const state = fromJS({
+      records: {
+        cases: {
+          data: [
+            {
+              sex: "female",
+              owned_by_agency_id: 1,
+              record_in_scope: true,
+              created_at: "2020-01-29T21:57:00.274Z",
+              name: "User 1",
+              case_id_display: "b575f47",
+              id: "b342c488-578e-4f5c-85bc-35ece34cccdf"
+            }
+          ],
+          filters: {
+            status: ["true"]
+          }
+        }
+      },
+      user: {
+        permissions: {
+          cases: [ACTIONS.MANAGE]
+        }
+      },
+      forms: newForms
+    });
+    const { component: emptyComponent } = setupMountedComponent(RecordActions, props, state);
+
+    it("should not render AddIncident component", () => {
+      expect(emptyComponent.find(AddIncident)).to.be.empty;
+    });
+
+    it("should not render AddService component", () => {
+      expect(emptyComponent.find(AddService)).to.be.empty;
     });
   });
 });

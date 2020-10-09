@@ -1,4 +1,4 @@
-import { fromJS } from "immutable";
+import { fromJS, OrderedMap } from "immutable";
 import { CircularProgress, Badge } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../test";
@@ -6,6 +6,7 @@ import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
 import { ACTIONS } from "../../../libs/permissions";
 import { PrimeroModuleRecord } from "../../application/records";
 import ActionButton from "../../action-button";
+import { FieldRecord, FormSectionRecord } from "../records";
 
 import { WorkflowIndicator } from "./components";
 import RecordFormToolbar from "./record-form-toolbar";
@@ -102,6 +103,46 @@ describe("<RecordFormToolbar />", () => {
       permissions: {
         cases: [ACTIONS.CREATE, ACTIONS.FLAG]
       }
+    },
+    forms: {
+      formSections: OrderedMap({
+        1: FormSectionRecord({
+          id: 1,
+          unique_id: "incident_details_container",
+          name: { en: "Incident Details" },
+          visible: true,
+          parent_form: "case",
+          editable: true,
+          module_ids: ["primeromodule-cp"],
+          fields: [1]
+        }),
+        2: FormSectionRecord({
+          id: 2,
+          unique_id: "services",
+          fields: [2],
+          visible: true,
+          parent_form: "case",
+          module_ids: ["primeromodule-cp"]
+        })
+      }),
+      fields: OrderedMap({
+        1: FieldRecord({
+          name: "incident_details",
+          type: "subform",
+          subform_section_id: null,
+          editable: true,
+          disabled: false,
+          visible: true
+        }),
+        2: FieldRecord({
+          name: "services_section",
+          type: "subform",
+          subform_section_id: null,
+          visible: true,
+          editable: true,
+          disabled: false
+        })
+      })
     }
   };
 

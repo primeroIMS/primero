@@ -16,6 +16,7 @@ describe("middleware/utils/index.js", () => {
       "checkFieldSubformErrors",
       "defaultErrorCallback",
       "generateRecordProperties",
+      "handleConfiguration",
       "handleRestCallback",
       "isOnline",
       "partitionObject",

@@ -95,6 +95,8 @@ export const REFERRAL = "referral";
 
 export const APPROVALS = "approvals";
 
+export const INCIDENT_FROM_CASE = "incident_from_case";
+
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
 export const RECORD_INFORMATION = [APPROVALS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS];
@@ -130,7 +132,8 @@ export const ROUTES = {
   reports_new: "/reports/new",
   support: "/support",
   tasks: "/tasks",
-  tracing_requests: "/tracing_requests"
+  tracing_requests: "/tracing_requests",
+  check_health: "/health/api"
 };
 
 export const PERMITTED_URL = [

@@ -5,8 +5,8 @@ import isEmpty from "lodash/isEmpty";
 import { useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import { RECORD_OWNER, TRANSFERS_ASSIGNMENTS, REFERRAL, APPROVALS } from "../../../../../config";
-import { SHOW_APPROVALS, checkPermissions } from "../../../../../libs/permissions";
+import { RECORD_OWNER, TRANSFERS_ASSIGNMENTS, REFERRAL, APPROVALS, INCIDENT_FROM_CASE } from "../../../../../config";
+import { SHOW_APPROVALS, VIEW_INCIDENTS_FROM_CASE, checkPermissions } from "../../../../../libs/permissions";
 import NavGroup from "../nav-group";
 import { NavRecord } from "../../../records";
 import { useI18n } from "../../../../i18n";
@@ -40,10 +40,20 @@ const Component = ({ open, handleClick, selectedForm, match }) => {
     }),
     NavRecord({
       group: "record_information",
+      groupName: i18n.t("incidents.label"),
+      groupOrder: 0,
+      name: i18n.t("incidents.label"),
+      order: 2,
+      formId: INCIDENT_FROM_CASE,
+      is_first_tab: false,
+      permission_actions: VIEW_INCIDENTS_FROM_CASE
+    }),
+    NavRecord({
+      group: "record_information",
       groupName: i18n.t("forms.record_types.referrals"),
       groupOrder: 0,
       name: i18n.t("forms.record_types.referrals"),
-      order: 2,
+      order: 3,
       formId: REFERRAL,
       is_first_tab: true
     }),
@@ -52,7 +62,7 @@ const Component = ({ open, handleClick, selectedForm, match }) => {
       groupName: i18n.t("forms.record_types.record_information"),
       groupOrder: 0,
       name: i18n.t("forms.record_types.transfers_assignments"),
-      order: 3,
+      order: 4,
       formId: TRANSFERS_ASSIGNMENTS,
       is_first_tab: false
     })

@@ -10,6 +10,7 @@ import isEmpty from "lodash/isEmpty";
 
 import Jewel from "../../../../jewel";
 import styles from "../../styles.css";
+import { useApp } from "../../../../application";
 
 import { NAME } from "./constants";
 
@@ -27,6 +28,7 @@ const Component = ({
   hasError
 }) => {
   const css = makeStyles(styles)();
+  const { disabledApplication } = useApp();
 
   const { formId, group } = form;
 
@@ -68,6 +70,7 @@ const Component = ({
         selected: css.navSelected,
         root: css.root
       }}
+      disabled={disabledApplication}
     >
       <ListItemText className={groupItem ? css.nestedItem : css.item}>{formText()}</ListItemText>
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}
