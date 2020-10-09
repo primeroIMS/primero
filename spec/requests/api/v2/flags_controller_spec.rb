@@ -79,6 +79,10 @@ describe Api::V2::FlagsController, type: :request do
           expect(json['data'][0]['record_id']).to eq( @case1.id.to_s)
           expect(json['data'][0]['record_type']).to eq('cases')
           expect(json['data'][0]['message']).to eq( 'This is a flag')
+          expect(json['data'][0]['r_short_id']).to eq(@case1.short_id)
+          expect(json['data'][0]['r_name']).to eq('*******')
+          expect(json['data'][0]['r_hidden_name']).to be
+          expect(json['data'][0]['r_owned_by']).to eq( 'user1')
           expect(json['data'][0]['removed']).to be_falsey
         end
 
@@ -91,6 +95,9 @@ describe Api::V2::FlagsController, type: :request do
             expect(json['data'][0]['record_id']).to eq( @case1.id.to_s)
             expect(json['data'][0]['record_type']).to eq('cases')
             expect(json['data'][0]['message']).to eq( 'This is a flag')
+            expect(json['data'][0]['r_name']).to eq('*******')
+            expect(json['data'][0]['r_hidden_name']).to be
+            expect(json['data'][0]['r_owned_by']).to eq('user1')
             expect(json['data'][0]['removed']).to be_falsey
           end
         end
@@ -136,6 +143,9 @@ describe Api::V2::FlagsController, type: :request do
           expect(json['data'][0]['record_id']).to eq( @case1.id.to_s)
           expect(json['data'][0]['record_type']).to eq('cases')
           expect(json['data'][0]['message']).to eq( 'This is a flag')
+          expect(json['data'][0]['r_name']).to eq('*******')
+          expect(json['data'][0]['r_hidden_name']).to be
+          expect(json['data'][0]['r_owned_by']).to eq( 'user1')
           expect(json['data'][0]['removed']).to be_falsey
         end
       end

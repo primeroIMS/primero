@@ -92,6 +92,7 @@ class Flag < ApplicationRecord
   end
 
   class << self
+    # TODO: Clean this up
     def by_owner(query_scope, record_types)
       record_types ||= %w[cases incidents tracing_requests]
       params = {}
@@ -107,16 +108,16 @@ class Flag < ApplicationRecord
       record_types.each do |record_type|
         params[:type] = record_type
         flags << self.send(scope_to_use, params).select(
-          "flags.id, \
-           flags.record_type, \
-           flags.record_id, \
-           flags.date, \
-           flags.message, \
-           flags.flagged_by, \
-          #{record_type}.data -> 'short_id' as r_short_id, \
-          #{record_type}.data -> 'name' as r_name, \
-          #{record_type}.data -> 'hidden_name' as r_hidden_name, \
-          #{record_type}.data -> 'owned_by' as r_owned_by")
+          ["flags.id",
+           "flags.record_type",
+           "flags.record_id",
+           "flags.date",
+           "flags.message",
+           "flags.flagged_by",
+           "#{record_type}.data -> 'short_id' as r_short_id",
+           "#{record_type}.data -> 'name' as r_name",
+           "#{record_type}.data -> 'hidden_name' as r_hidden_name",
+           "#{record_type}.data -> 'owned_by' as r_owned_by"].join(', '))
       end
       flags.flatten
     end

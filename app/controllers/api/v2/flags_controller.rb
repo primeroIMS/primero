@@ -7,6 +7,7 @@ class Api::V2::FlagsController < ApplicationApiController
   def index
     authorize! :index, Flag
     @flags = Flag.by_owner(query_scope, record_types)
+    @flags.map {|flag| flag['r_name'] = '*******' if flag['r_name'].present? && flag['r_hidden_name'].present? }
     # results = current_user.tasks(pagination)
     # @flags = results[:tasks]
     # @total = results[:total]
