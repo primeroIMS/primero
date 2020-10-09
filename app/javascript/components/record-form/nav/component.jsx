@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
 import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
@@ -31,10 +31,10 @@ const Component = ({
   selectedRecord,
   toggleNav,
   primeroModule,
-  selectedForm
+  selectedForm,
+  history
 }) => {
   const i18n = useI18n();
-  const history = useHistory();
   const [open, setOpen] = useState("");
   const [previousGroup, setPreviousGroup] = useState("");
   const dispatch = useDispatch();
@@ -177,6 +177,7 @@ Component.propTypes = {
   firstTab: PropTypes.object,
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
+  history: PropTypes.object,
   isNew: PropTypes.bool,
   mobileDisplay: PropTypes.bool.isRequired,
   primeroModule: PropTypes.string,
@@ -186,4 +187,4 @@ Component.propTypes = {
   toggleNav: PropTypes.bool
 };
 
-export default Component;
+export default withRouter(Component);
