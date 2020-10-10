@@ -1,5 +1,6 @@
 survivor_assessment_fields = [
   Field.new({"name" => "assessment_emotional_state_start",
+             "mandatory_for_completion" => true,
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
@@ -57,6 +58,7 @@ survivor_assessment_fields = [
              "guiding_questions" => "Does she live with her parents? (If her parents or guardians are not the perpetrators, do they know about what happened to her)? Who are the other family members present in the client’s life on a daily basis? Does the survivor have other relatives that are present in her life?"
             }),
   Field.new({"name" => "assessment_presenting_problem",
+             "mandatory_for_completion" => true,
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
@@ -68,6 +70,7 @@ survivor_assessment_fields = [
                  ].join("\n")
             }),
   Field.new({"name" => "assessment_emotional_state_end",
+             "mandatory_for_completion" => true,
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
@@ -75,6 +78,7 @@ survivor_assessment_fields = [
              "guiding_questions" => "What happened to the survivor? What is the nature of the violence? When did it occur? What prompted her to seek services? What are her main concerns? What does she want help with?"
             }),
   Field.new({"name" => "assessment_main_concerns",
+             "mandatory_for_completion" => true,
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
@@ -82,6 +86,7 @@ survivor_assessment_fields = [
              "guiding_questions" => "Summarize key assessment points with respect to the nature, timing, frequency and severity of the violence reported, who the perpetrator/s is/are in relation to the survivor and whether he/they have easy access to the survivor, in order to determine risk. Gauge emotional well-being, ability to keep up with day-today tasks, overall sense of safety in the world, and ability to trust others. Identify the survivor's needs (safety, health, psychosocial, legal/justice, practical/material, other) as well as her strengths and coping strategies to determine need for psychosocial support and/or appropriate and timely referrals."
              }),
   Field.new({"name" => "assessment_current_situation",
+             "mandatory_for_completion" => true,
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",

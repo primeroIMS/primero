@@ -10,12 +10,50 @@ module GBVKeyPerformanceIndicators
 
     searchable do
       %i[completed_survivor_assessment safety_plan_required completed_safety_plan completed_action_plan case_plan_approved duplicate].each { |f| boolean(f) }
-      %i[services_provided, action_plan_referral_statuses referred_services].each { |f| string(f, multiple: true) } 
+      %i[services_provided action_plan_referral_statuses referred_services].each { |f| string(f, multiple: true) } 
       %i[safety_goals_progress health_goals_progress psychosocial_goals_progress justice_goals_progress other_goals_progress].each { |f| float(f) }
       integer :number_of_meetings
       string :satisfaction_status
     end
   end
+
+  FormSectionResponse = Struct.new(:response, :form_section) do
+    def mandatory_fields
+      @mandatory_fields ||= form_section.fields.select { |f| f.mandatory? }
+    end
+
+    def complete?
+      mandatory_fields.all? { |f| response[f.name].present? }
+    end
+  end
+
+  FormSectionResponseRepo = Struct.new(:responses) do
+    include Enumerable
+
+    def form_section_responses
+      @form_section_responses ||= responses
+        .map { |result| FormSectionResponse.new(result, form_section) }
+    end
+    alias each form_section_responses
+
+    def field(name)
+      map { |response| response[name] }
+    end
+
+  end
+
+  # Return a list of responses for a given form_section unique_id
+  def form_responses(form_section_id)
+    form_section = FormSection.find_by(unique_id: form_section_id)
+    form_section_results = self[form_section_id]
+
+    if form_section_results.nil? or form_section_results.empty?
+      FormSectionResponseRepo.new([])
+    else
+      FormSectionResponseRepo.new(form_section_results)
+    end
+  end
+
 
   # #find_in_form(path : [String], form : Object | {}) : []
   #
@@ -48,43 +86,19 @@ module GBVKeyPerformanceIndicators
     mandatory_fields.all? { |field| form[field].present? }
   end
 
-  SURVIVOR_ASSESSMENT_MANDATORY_FIELDS = %w[
-    assessment_emotional_state_start
-    assessment_emotional_state_end
-    assessment_presenting_problem
-    assessment_main_concerns
-    assessment_current_situation
-  ].freeze
-
   def completed_survivor_assessment
-    find_in_form(['survivor_assessment_form'])
-      .all? do |form|
-        form_is_complete(form, SURVIVOR_ASSESSMENT_MANDATORY_FIELDS)
-      end
+    form_responses(:survivor_assessment_form).all?(:complete?)
   end
 
-  SAFETY_PLAN_MANDATORY_FIELDS = %w[
-    safety_plan_needed
-    safety_plan_developed_with_survivor
-    safety_plan_completion_date
-    safety_plan_main_concern
-    safety_plan_preparedness_signal
-    safety_plan_preparedness_gathered_things
-  ].freeze
-
   def requires_safety_plan?
-    find_in_form(['safety_plan']).
-      # This is a lot of concrete domain knowledge to need about a
-      # dynamic form. Should this by dynamic? Should the form be hard coded?
-      any? { |plan| plan['safety_plan_needed'] == 'yes' }
+    form_responses(:safety_plan)
+      .field(:safety_plan_needed)
+      .any? { |result| result == 'yes' }
   end
   alias safety_plan_required requires_safety_plan?
 
   def completed_safety_plan
-    find_in_form(['safety_plan'])
-      .any? do |plan|
-        form_is_complete(plan, SAFETY_PLAN_MANDATORY_FIELDS)
-      end
+    form_responses(:safety_plan).all?(:complete)
   end
 
   ACTION_PLAN_MANDATORY_FIELDS = %w[

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_03_000000) do
+ActiveRecord::Schema.define(version: 2020_09_29_171149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(version: 2020_09_03_000000) do
     t.boolean "date_include_time", default: false, null: false
     t.boolean "matchable", default: false, null: false
     t.jsonb "subform_section_configuration"
+    t.boolean "mandatory_for_completion", default: false
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"
