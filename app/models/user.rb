@@ -20,7 +20,7 @@ class User < ApplicationRecord
 
   delegate :can?, :cannot?, to: :ability
 
-  devise :database_authenticatable, :timeoutable, :recoverable,
+  devise :database_authenticatable, :timeoutable, :recoverable, :lockable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
   belongs_to :role
