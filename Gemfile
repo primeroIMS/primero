@@ -10,8 +10,8 @@ gem 'backburner',          '~> 1.5'    # Ruby client for the Beanstalkd queue
 gem 'cancancan',           '3.0.1'     # Endpoint user authorization
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
     require: 'deep_merge/rails_compat'
-gem 'devise',              '4.7.1'     # Authentication framework
-gem 'devise-jwt',          '0.5.9'     # JWT authentication for native Primero users
+gem 'devise',              '~> 4.7'    # Authentication framework
+gem 'devise-jwt',          '0.8.0'     # JWT authentication for native Primero users
 gem 'faraday',             '~> 0.17'   # Ruby HTTP client
 gem 'file_validators',     '~> 2.3'    # ActiveRecord extension for validating attachment file sizes
 gem 'i18n-js',             '~> 3.4'    # Shares Rails i18n strings with the front end
