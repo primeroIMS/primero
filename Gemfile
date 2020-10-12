@@ -8,6 +8,7 @@ gem 'azure-storage',       '0.15.0.preview',
     require: false                     # Deprecated MS interface for Azure Block Storage, compatible with Rails 5.2
 gem 'backburner',          '~> 1.5'    # Ruby client for the Beanstalkd queue
 gem 'cancancan',           '3.0.1'     # Endpoint user authorization
+gem 'csv-safe',            '>= 1.2.0'  # Safely export data to CSV to avoid formula injection
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
     require: 'deep_merge/rails_compat'
 gem 'devise',              '~> 4.7'    # Authentication framework
