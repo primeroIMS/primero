@@ -10,7 +10,7 @@ import { MODULES } from "../../../../config";
 import IncidentSummary from "../summary";
 import IncidentDetail from "../detail";
 
-const Component = ({ incident, incidentCaseId, css }) => {
+const Component = ({ incident, incidentCaseId, incidentCaseShortId, css }) => {
   const i18n = useI18n();
   const [expanded, setExpanded] = useState(false);
 
@@ -34,6 +34,7 @@ const Component = ({ incident, incidentCaseId, css }) => {
     incident,
     css,
     incidentCaseId,
+    incidentCaseShortId,
     incidentDate,
     incidentDateInterview,
     incidentType,
@@ -67,6 +68,7 @@ Component.propTypes = {
   css: PropTypes.object.isRequired,
   incident: PropTypes.object.isRequired,
   incidentCaseId: PropTypes.string.isRequired,
+  incidentCaseShortId: PropTypes.string.isRequired,
   recordModule: PropTypes.string
 };
 export default Component;

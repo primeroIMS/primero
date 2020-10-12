@@ -291,7 +291,7 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
   };
 
   const handleCreateIncident = () => {
-    dispatch(fetchIncidentFromCase(record.get("id"), record.get("module_id")));
+    dispatch(fetchIncidentFromCase(record.get("id"), record.get("short_id"), record.get("module_id")));
   };
 
   const handleServiceDialog = () => {

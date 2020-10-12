@@ -169,6 +169,7 @@ en:
     update: Update
     view: View
     view_flags_history: View History
+    return_to_case: Return to Case
 
   case:
     create_new_case: Create New Case
@@ -1098,6 +1099,7 @@ en:
     welcome: Welcome to Primero
     zh: 中文
   incident:
+    associated_case: "Associated Case:"
     messages:
       creation_success: Incident record successfully created.
       creation_success_queue: Incident record successfully created in background

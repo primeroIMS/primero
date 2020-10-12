@@ -24,11 +24,17 @@ const Container = ({ record, incidents, mobileDisplay, handleToggleNav }) => {
   const renderIncidents =
     incidents &&
     incidents.map(incident => (
-      <IncidentPanel key={incident.get("unique_id")} incidentCaseId={record.get("id")} incident={incident} css={css} />
+      <IncidentPanel
+        key={incident.get("unique_id")}
+        incidentCaseId={record.get("id")}
+        incidentCaseShortId={record.get("short_id")}
+        incident={incident}
+        css={css}
+      />
     ));
 
   const handleCreateIncident = () => {
-    dispatch(fetchIncidentFromCase(record.get("id"), record.get("module_id")));
+    dispatch(fetchIncidentFromCase(record.get("id"), record.get("short_id"), record.get("module_id")));
   };
   const newIncidentBtn = canAddIncidents && (
     <ActionButton

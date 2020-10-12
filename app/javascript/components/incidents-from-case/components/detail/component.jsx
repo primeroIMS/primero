@@ -16,7 +16,15 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { setSelectedForm } from "../../../record-form/action-creators";
 import { setCaseIdForIncident } from "../../../records/action-creators";
 
-const Component = ({ css, incidentCaseId, incidentDateInterview, incidentDate, incidentUniqueID, incidentType }) => {
+const Component = ({
+  css,
+  incidentCaseId,
+  incidentCaseShortId,
+  incidentDateInterview,
+  incidentDate,
+  incidentUniqueID,
+  incidentType
+}) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const canViewIncidents = usePermissions(RESOURCES.incidents, READ_RECORDS);
@@ -25,16 +33,17 @@ const Component = ({ css, incidentCaseId, incidentDateInterview, incidentDate, i
   const incidentDateLabel = i18n.t("incidents.date_of_incident");
   const incidentTypeLabel = i18n.t("incidents.type_violence");
   const handleView = () => {
+    console.log(incidentCaseId, incidentCaseShortId);
     batch(() => {
       dispatch(setSelectedForm(null));
-      dispatch(setCaseIdForIncident(incidentCaseId));
+      dispatch(setCaseIdForIncident(incidentCaseId, incidentCaseShortId));
       dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}`));
     });
   };
   const handleEdit = () => {
     batch(() => {
       dispatch(setSelectedForm(null));
-      dispatch(setCaseIdForIncident(incidentCaseId));
+      dispatch(setCaseIdForIncident(incidentCaseId, incidentCaseShortId));
       dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}/edit`));
     });
   };
@@ -98,6 +107,7 @@ Component.displayName = NAME_DETAIL;
 Component.propTypes = {
   css: PropTypes.object.isRequired,
   incidentCaseId: PropTypes.string,
+  incidentCaseShortId: PropTypes.string,
   incidentDate: PropTypes.string,
   incidentDateInterview: PropTypes.string,
   incidentType: PropTypes.node,
