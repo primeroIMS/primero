@@ -28,6 +28,7 @@ module Api::V2
       cookies[:primero_token] = {
         value: current_token,
         domain: primero_host,
+        same_site: :strict,
         httponly: true,
         secure: (Rails.env == 'production')
       }
