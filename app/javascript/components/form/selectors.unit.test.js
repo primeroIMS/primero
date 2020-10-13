@@ -56,11 +56,24 @@ describe("Forms - Selectors", () => {
         ])
       );
     });
+
     it("should return the options for optionStringsText", () => {
       const optionStringsText = [
         { id: "submitted", display_text: "Submitted" },
         { id: "pending", display_text: "Pending" },
         { id: "no", display_text: "No" }
+      ];
+      const expected = fromJS(optionStringsText);
+      const result = selectors.getOptions(stateWithLookups, null, i18n, optionStringsText);
+
+      expect(result).to.deep.equal(expected);
+    });
+
+    it("should return the options, even if we includes other keys that are not id or display_text", () => {
+      const optionStringsText = [
+        { id: "submitted", display_text: "Submitted", tooltip: "Submitted tooltip" },
+        { id: "pending", display_text: "Pending", tooltip: "Pending tooltip" },
+        { id: "no", display_text: "No", tooltip: "No tooltip" }
       ];
       const expected = fromJS(optionStringsText);
       const result = selectors.getOptions(stateWithLookups, null, i18n, optionStringsText);
