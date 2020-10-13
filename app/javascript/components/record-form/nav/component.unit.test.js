@@ -213,17 +213,15 @@ describe("<Nav />", () => {
       isNew: true
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(Nav, notSelectedProps, initialState));
-    });
-
     it("sets the firstTab as selectedForm", () => {
+      const { component: newComp } = setupMountedComponent(Nav, notSelectedProps, initialState);
+
       const expectedAction = {
         type: Actions.SET_SELECTED_FORM,
         payload: firstTab.unique_id
       };
 
-      const setAction = component
+      const setAction = newComp
         .props()
         .store.getActions()
         .find(action => action.type === Actions.SET_SELECTED_FORM);
@@ -232,9 +230,29 @@ describe("<Nav />", () => {
     });
 
     it("opens the form_group_id of the firstTab", () => {
-      const navGroup = component.find(NavGroup).first();
+      const { component: newComp } = setupMountedComponent(Nav, notSelectedProps, initialState);
+      const navGroup = newComp.find(NavGroup).first();
 
       expect(navGroup.props().open).to.equal(firstTab.form_group_id);
+    });
+
+    it("opens the selectedForm and group", () => {
+      const { component: newComp } = setupMountedComponent(
+        Nav,
+        { ...notSelectedProps, selectedForm: APPROVALS },
+        initialState
+      );
+
+      const setAction = newComp
+        .props()
+        .store.getActions()
+        .find(action => action.type === Actions.SET_SELECTED_FORM);
+
+      expect(setAction).to.not.exist;
+
+      const navGroup = newComp.find(NavGroup).first();
+
+      expect(navGroup.props().open).to.equal(RECORD_INFORMATION_GROUP);
     });
   });
 
@@ -284,6 +302,15 @@ describe("<Nav />", () => {
 
     beforeEach(() => {
       ({ component } = setupMountedComponent(Nav, notSelectedProps, initialState));
+    });
+
+    it("should not select a different form", () => {
+      const setAction = component
+        .props()
+        .store.getActions()
+        .find(action => action.type === Actions.SET_SELECTED_FORM);
+
+      expect(setAction).to.not.exist;
     });
 
     it("opens the record_information group if it belongs to that group", () => {
