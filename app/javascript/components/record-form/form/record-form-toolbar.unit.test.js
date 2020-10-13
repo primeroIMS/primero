@@ -239,7 +239,7 @@ describe("<RecordFormToolbar />", () => {
   });
 
   describe("when is an incident from case", () => {
-    const initialStateEditMode = {
+    const initialStateIncidentFromCase = {
       ...initialState,
       records: {
         cases: {
@@ -250,25 +250,53 @@ describe("<RecordFormToolbar />", () => {
       }
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordFormToolbar,
-        {
-          ...props,
-          mode: {
-            isNew: false,
-            isEdit: true,
-            isShow: false
-          }
-        },
-        fromJS(initialStateEditMode)
-      ));
-    });
-    it("renders a SaveAndReturn button", () => {
-      const saveAndReturnButton = component.find(ActionButton).last();
+    describe("when in show mode", () => {
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          RecordFormToolbar,
+          {
+            ...props,
+            recordType: RECORD_TYPES.incidents,
+            mode: {
+              isNew: false,
+              isEdit: false,
+              isShow: true
+            }
+          },
+          fromJS(initialStateIncidentFromCase)
+        ));
+      });
 
-      expect(saveAndReturnButton.text()).to.equal("buttons.save_and_return");
-      expect(saveAndReturnButton.find(SaveReturnIcon)).to.have.lengthOf(1);
+      it("renders a ReturnToCase button", () => {
+        const returnToCaseButton = component.find(ActionButton).first();
+
+        expect(returnToCaseButton.text()).to.equal("buttons.return_to_case");
+      });
+    });
+
+    describe("when in edit mode", () => {
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          RecordFormToolbar,
+          {
+            ...props,
+            recordType: RECORD_TYPES.incidents,
+            mode: {
+              isNew: false,
+              isEdit: true,
+              isShow: false
+            }
+          },
+          fromJS(initialStateIncidentFromCase)
+        ));
+      });
+
+      it("renders a SaveAndReturn button", () => {
+        const saveAndReturnButton = component.find(ActionButton).last();
+
+        expect(saveAndReturnButton.text()).to.equal("buttons.save_and_return");
+        expect(saveAndReturnButton.find(SaveReturnIcon)).to.have.lengthOf(1);
+      });
     });
   });
 });

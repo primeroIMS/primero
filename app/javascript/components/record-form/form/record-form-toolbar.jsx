@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { Box, Badge } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
-import { useSelector } from "react-redux";
+import { push } from "connected-react-router";
+import { batch, useDispatch, useSelector } from "react-redux";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
@@ -16,12 +17,19 @@ import RecordActions from "../../record-actions";
 import Permission from "../../application/permission";
 import { FLAG_RECORDS, WRITE_RECORDS } from "../../../libs/permissions";
 import { getSavingRecord } from "../../records/selectors";
-import { RECORD_TYPES, RECORD_PATH, INCIDENT_CASE_SHORT_ID_FIELD, INCIDENT_CASE_ID_FIELD } from "../../../config";
+import {
+  RECORD_TYPES,
+  RECORD_PATH,
+  INCIDENT_CASE_SHORT_ID_FIELD,
+  INCIDENT_CASE_ID_FIELD,
+  INCIDENT_FROM_CASE
+} from "../../../config";
 import DisableOffline from "../../disable-offline";
 import { useThemeHelper } from "../../../libs";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { getActiveFlags } from "../../flagging/selectors";
+import { setSelectedForm } from "../action-creators";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -40,6 +48,7 @@ const RecordFormToolbar = ({
   shortId
 }) => {
   const { css } = useThemeHelper(styles);
+  const dispatch = useDispatch();
   const i18n = useI18n();
   const savingRecord = useSelector(state => getSavingRecord(state, params.recordType));
   const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
@@ -66,6 +75,13 @@ const RecordFormToolbar = ({
     }
 
     return null;
+  };
+
+  const handleSaveAndReturn = () => {
+    batch(() => {
+      dispatch(setSelectedForm(INCIDENT_FROM_CASE));
+      dispatch(push(`/${RECORD_PATH.cases}/${incidentFromCase.get(INCIDENT_CASE_ID_FIELD)}`));
+    });
   };
 
   const renderSaveButton = (
@@ -119,10 +135,7 @@ const RecordFormToolbar = ({
             text={i18n.t("buttons.return_to_case")}
             type={ACTION_BUTTON_TYPES.default}
             isCancel
-            rest={{
-              to: `/${RECORD_PATH.cases}/${incidentFromCase.get(INCIDENT_CASE_ID_FIELD)}`,
-              component: Link
-            }}
+            rest={{ onClick: handleSaveAndReturn }}
           />
         ) : null}
         {mode.isShow && params && (

@@ -105,7 +105,7 @@ describe("<IncidentFromCase /> - Component", () => {
   it("renders component with valid props", () => {
     const incidentsProps = { ...component.find(IncidentPanel).props() };
 
-    ["incident", "incidentCaseId", "css"].forEach(property => {
+    ["incident", "incidentCaseId", "incidentCaseShortId", "css"].forEach(property => {
       expect(incidentsProps).to.have.property(property);
       delete incidentsProps[property];
     });

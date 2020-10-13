@@ -33,7 +33,6 @@ const Component = ({
   const incidentDateLabel = i18n.t("incidents.date_of_incident");
   const incidentTypeLabel = i18n.t("incidents.type_violence");
   const handleView = () => {
-    console.log(incidentCaseId, incidentCaseShortId);
     batch(() => {
       dispatch(setSelectedForm(null));
       dispatch(setCaseIdForIncident(incidentCaseId, incidentCaseShortId));

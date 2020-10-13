@@ -18,7 +18,8 @@ describe("<IncidentDetail /> - Component", () => {
     },
     incidentUniqueID: "e25c5cb1-1257-472e-b2ec-05f568a3b51e",
     incidentType: <></>,
-    incidentCaseId: "case-id-1"
+    incidentCaseId: "case-unique-id-1",
+    incidentCaseShortId: "case-short-id-1"
   };
 
   const initialState = fromJS({
@@ -55,7 +56,8 @@ describe("<IncidentDetail /> - Component", () => {
 
     expect(actions.find(action => action.type === "forms/SET_SELECTED_FORM").payload).to.not.exist;
     expect(actions.find(action => action.type === "cases/SET_CASE_ID_FOR_INCIDENT").payload).to.deep.equal({
-      caseId: "case-id-1"
+      caseId: "case-unique-id-1",
+      caseShortId: "case-short-id-1"
     });
   });
 
@@ -65,19 +67,26 @@ describe("<IncidentDetail /> - Component", () => {
 
     expect(actions.find(action => action.type === "forms/SET_SELECTED_FORM").payload).to.not.exist;
     expect(actions.find(action => action.type === "cases/SET_CASE_ID_FOR_INCIDENT").payload).to.deep.equal({
-      caseId: "case-id-1"
+      caseId: "case-unique-id-1",
+      caseShortId: "case-short-id-1"
     });
   });
 
   it("renders component with valid props", () => {
     const incidentDetailProps = { ...component.find(IncidentDetail).props() };
 
-    ["css", "incidentDateInterview", "incidentCaseId", "incidentDate", "incidentUniqueID", "incidentType"].forEach(
-      property => {
-        expect(incidentDetailProps).to.have.property(property);
-        delete incidentDetailProps[property];
-      }
-    );
+    [
+      "css",
+      "incidentCaseId",
+      "incidentCaseShortId",
+      "incidentDate",
+      "incidentDateInterview",
+      "incidentType",
+      "incidentUniqueID"
+    ].forEach(property => {
+      expect(incidentDetailProps).to.have.property(property);
+      delete incidentDetailProps[property];
+    });
     expect(incidentDetailProps).to.be.empty;
   });
 });

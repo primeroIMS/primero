@@ -472,6 +472,35 @@ describe("<Nav />", () => {
       expect(setAction).to.deep.equal(expectedAction);
     });
 
+    it("opens the firstTab group and form when incident_from_case form is not found", () => {
+      const stateWithIncidentFromCase = initialState.setIn(
+        ["records", "cases", "incidentFromCase"],
+        fromJS({ incident_case_id: "case-id-1" })
+      );
+
+      const { component: navComp } = setupMountedComponent(
+        Nav,
+        { ...notSelectedProps, recordType: "incidents", selectedForm: "basic_identity" },
+        stateWithIncidentFromCase
+      );
+
+      const expectedAction = {
+        type: Actions.SET_SELECTED_FORM,
+        payload: firstTab.unique_id
+      };
+
+      const setAction = navComp
+        .props()
+        .store.getActions()
+        .filter(action => action.type === Actions.SET_SELECTED_FORM)
+        .pop();
+
+      const navGroup = navComp.find(NavGroup).first();
+
+      expect(setAction).to.deep.equal(expectedAction);
+      expect(navGroup.props().open).to.equal(firstTab.form_group_id);
+    });
+
     it("opens the form_group_id and sets the selectedForm from the firstTab if the selected form is not found", () => {
       const { component: navComp } = setupMountedComponent(
         Nav,

@@ -46,6 +46,7 @@ const Component = ({
 Component.displayName = RECORD_FORM_TOOLBAR_PAGE_HEADING_NAME;
 
 Component.propTypes = {
+  associatedLinkClass: PropTypes.string,
   caseIdDisplay: PropTypes.string,
   i18n: PropTypes.shape({
     t: PropTypes.func
