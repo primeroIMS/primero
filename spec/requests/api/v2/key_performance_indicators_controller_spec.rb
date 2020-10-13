@@ -4,8 +4,25 @@ require 'rails_helper'
 
 # Most of the tests after the HTTP status should be moved into unit tests.
 describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
+  def form(id, fields)
+    FormSection.create_or_update!(
+      unique_id: id,
+      parent_form: 'case',
+      name_en: id.to_s.split('_').map(&:capitalize).join(' '),
+      description_en: id.to_s.split('_').map(&:capitalize).join(' '),
+      fields: fields
+    )
+  end
+
+  def field(id, config = {})
+    Field.new(config.merge(
+                name: id,
+                display_name_en: id.to_s.split('_').map(&:capitalize).join(' ')
+              ))
+  end
+
   before(:each) do
-    clean_data(Lookup, Location, Agency, Role, UserGroup, User, Child)
+    clean_data(Lookup, Location, Agency, Role, UserGroup, User, Child, FormSection)
 
     @uk = Location.create!(
       location_code: 'GBR',
@@ -125,6 +142,11 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
   describe 'GET /api/v2/kpis/assessment_status', search: true do
     with '1 case with a filled out survivor assessment form' do
       it 'shows an asssessment status of 100%' do
+        form(:survivor_assessment_form, [
+               field(:assessment_emotional_state_start,
+                     mandatory_for_completion: true)
+             ])
+
         Child.new_with_user(@primero_kpi,
                             'survivor_assessment_form' => [{
                               'assessment_emotional_state_start' => 'Overwhelmed',
@@ -151,6 +173,11 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
   describe 'GET /api/v2/kpis/completed_case_safety_plans', search: true do
     with '1 case with a filled out case safety plan' do
       it 'shows safety plan completed status of 100%' do
+        form(:safety_plan, [
+               field(:safety_plan_needed, mandatory_for_completion: true),
+               field(:safety_plan_completion_date, mandatory_for_completion: true)
+             ])
+
         Child.new_with_user(@primero_kpi,
                             'safety_plan' => [{
                               'safety_plan_needed' => 'yes',
@@ -178,11 +205,20 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
   describe 'GET /api/v2/kpis/completed_case_action_plans', search: true do
     with '1 case with a filled out case action plan' do
       it 'shows action plan completed status of 100%' do
+        form(:action_plan_form, [
+               field(:action_plan_section,
+                     subform_section: form(:action_plan_subform_section, [
+                                             field(:service_type, mandatory_for_completion: true)
+                                           ]))
+             ])
+
         Child.new_with_user(@primero_kpi,
-                            'action_plan' => [{
-                              'service_type' => 'fiscal',
-                              'service_referral' => 'advice',
-                              'service_referral_written_consent' => 'yes'
+                            'action_plan_form' => [{
+                              'action_plan_section' => [{
+                                'service_type' => 'fiscal',
+                                'service_referral' => 'advice',
+                                'service_referral_written_consent' => 'yes'
+                              }]
                             }]).save!
         Sunspot.commit
 
@@ -213,8 +249,15 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
             { id: 'safehouse_service', display_text: 'Safehouse Service' }.with_indifferent_access
           ]
         )
+        form(:action_plan_form, [
+               field(:gbv_follow_up_subform_section,
+                     subform_section: form(:gbv_follow_up_subform_section, [
+                                             field(:service_type_provided)
+                                           ]))
+             ])
+
         Child.new_with_user(@primero_kpi,
-                            'action_plan' => [{
+                            'action_plan_form' => [{
                               'gbv_follow_up_subform_section' => [{
                                 'service_type_provided' => 'safehouse_service'
                               }]
@@ -237,8 +280,15 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
   describe 'GET /api/v2/kpis/average_referrals', search: true do
     with 'a single case that has been referred once' do
       it 'should return an average referral rate of 1.0' do
+        form(:action_plan_form, [
+               field(:action_plan_subform_section,
+                     subform_section: form(:action_plan_subform_section, [
+                                             field(:service_referral)
+                                           ]))
+             ])
+
         Child.new_with_user(@primero_kpi,
-                            'action_plan' => [{
+                            'action_plan_form' => [{
                               'action_plan_subform_section' => [{
                                 'service_referral' => 'Referred'
                               }]
@@ -261,8 +311,15 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
   describe 'GET /api/v2/kpis/average_followup_meetings_per_case', search: true do
     with 'a single case that has been followedup 4 times' do
       it 'should return an average referral rate of 4.0' do
+        form(:action_plan_form, [
+               field(:gbv_follow_up_subform_section,
+                     subform_section: form(:gbv_follow_up_subform_section, [
+                                             field(:followup_date)
+                                           ]))
+             ])
+
         Child.new_with_user(@primero_kpi,
-                            'action_plan' => [{
+                            'action_plan_form' => [{
                               'gbv_follow_up_subform_section' => [{
                                 'followup_date' => Date.today
                               }, {
@@ -291,8 +348,19 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
   describe 'GET /api/v2/kpis/goal_progress_per_need', search: true do
     with 'a single case with all needs filled out, some mets, some not' do
       it 'should return an average of 0 for all unmet needs and 1.0 for met needs' do
+        form(:action_plan_form, [
+               field(:gbv_follow_up_subform_section,
+                     subform_section: form(:gbv_follow_up_subform_section, [
+                                             field(:gbv_assessment_progress_safety),
+                                             field(:gbv_assessment_progress_health),
+                                             field(:gbv_assessment_progress_psychosocial),
+                                             field(:gbv_assessment_progress_justice),
+                                             field(:gbv_assessment_other_goals)
+                                           ]))
+             ])
+
         Child.new_with_user(@primero_kpi,
-                            'action_plan' => [{
+                            'action_plan_form' => [{
                               'gbv_follow_up_subform_section' => [{
                                 'gbv_assessment_progress_safety' => 'n_a',
                                 'gbv_assessment_progress_health' => 'in_progress',
