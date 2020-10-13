@@ -19,14 +19,23 @@ const handleRestCallback = (store, successCallback, response, json, fromQueue = 
       store.dispatch(successPayload);
 
       if (isCallbackObject && successCallback.redirect && !fromQueue) {
+        console.log("######## ", successCallback.redirect, successCallback.incidentPath);
         let { redirect } = successCallback;
+        // let state = {};
 
         if (successCallback.redirectWithIdFromResponse) {
           redirect = `${successCallback.redirect}/${json?.data?.id}`;
         }
-        if (successCallback.redirectToEdit) {
-          redirect = `${successCallback.redirect}/${json?.data?.id}/edit`;
+        if (successCallback.incidentPath) {
+          const caseID = json?.data?.id;
+
+          redirect =
+            successCallback.incidentPath === "new"
+              ? `/incidents/${successCallback.moduleID}/new`
+              : successCallback.incidentPath;
+          // state = { caseID: json?.data?.id, redirectToIncident: true };
         }
+
         store.dispatch(push(redirect));
       }
     }

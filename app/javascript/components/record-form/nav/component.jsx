@@ -82,7 +82,7 @@ const Component = ({
   };
 
   useEffect(() => {
-    if (isNew) {
+    if (isNew && !selectedForm) {
       dispatch(setSelectedForm(firstTab.unique_id));
       setOpen(firstTab.form_group_id);
     } else if (!selectedForm) {

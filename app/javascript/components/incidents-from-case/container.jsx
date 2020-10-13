@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import AddIcon from "@material-ui/icons/Add";
@@ -14,21 +14,34 @@ import { fetchIncidentFromCase } from "../records";
 import styles from "./styles.css";
 import { NAME } from "./constants";
 import IncidentPanel from "./components/panel";
+import RedirectDialog from "./components/redirect-dialog";
 
-const Container = ({ record, incidents, mobileDisplay, handleToggleNav }) => {
+const Container = ({ record, incidents, mobileDisplay, handleToggleNav, mode, setFieldValue, handleSubmit }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
   const canAddIncidents = usePermissions(RESOURCES.cases, CREATE_INCIDENT);
 
   const renderIncidents =
     incidents &&
     incidents.map(incident => (
-      <IncidentPanel key={incident.get("unique_id")} incidentCaseId={record.get("id")} incident={incident} css={css} />
+      <IncidentPanel
+        key={incident.get("unique_id")}
+        incidentCaseId={record.get("id")}
+        incident={incident}
+        css={css}
+        mode={mode}
+        setFieldValue={setFieldValue}
+        handleSubmit={handleSubmit}
+      />
     ));
-
-  const handleCreateIncident = () => {
-    dispatch(fetchIncidentFromCase(record.get("id"), record.get("module_id")));
+  const handleCreateIncidentBtn = () => {
+    if (!mode.isShow) {
+      setOpen(true);
+    } else {
+      dispatch(fetchIncidentFromCase(record.get("id"), record.get("module_id")));
+    }
   };
   const newIncidentBtn = canAddIncidents && (
     <ActionButton
@@ -36,10 +49,15 @@ const Container = ({ record, incidents, mobileDisplay, handleToggleNav }) => {
       text={i18n.t("buttons.new")}
       type="default_button"
       rest={{
-        onClick: handleCreateIncident
+        onClick: handleCreateIncidentBtn
       }}
     />
   );
+  const renderDialog = open && !mode.isShow && (
+    <RedirectDialog open setOpen={setOpen} setFieldValue={setFieldValue} handleSubmit={handleSubmit} mode={mode} />
+  );
+
+  console.log(renderDialog);
 
   return (
     <div>
@@ -52,6 +70,7 @@ const Container = ({ record, incidents, mobileDisplay, handleToggleNav }) => {
         <div>{newIncidentBtn}</div>
       </div>
       {renderIncidents}
+      {renderDialog}
     </div>
   );
 };
@@ -59,9 +78,12 @@ const Container = ({ record, incidents, mobileDisplay, handleToggleNav }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
+  handleSubmit: PropTypes.func,
   handleToggleNav: PropTypes.func.isRequired,
   incidents: PropTypes.object,
   mobileDisplay: PropTypes.bool.isRequired,
-  record: PropTypes.object
+  mode: PropTypes.object,
+  record: PropTypes.object,
+  setFieldValue: PropTypes.func
 };
 export default Container;

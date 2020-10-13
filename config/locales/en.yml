@@ -157,6 +157,7 @@ en:
     save: Save
     save_and_add_service_provision: Save and Add Service Provision
     save_and_return: Save and Return
+    save_continue: Save and Continue
     save_changes: Save changes
     select: Select
     sort_by_case: Cases
@@ -181,6 +182,8 @@ en:
       update_success_queue: 'Case %{record_id} was successfully updated in background'
       creation_success: 'Case record successfully created.'
       creation_success_queue: 'Case record successfully created in background.'
+    save: Save Case
+    save_text: Before continuing, please save your changes to the Case.
     workflow:
       assessment: Assessment
       case_plan: Case Plan

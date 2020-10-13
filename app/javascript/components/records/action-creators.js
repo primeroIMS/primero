@@ -11,7 +11,8 @@ import {
   FETCH_RECORD_ALERTS,
   FETCH_INCIDENT_FROM_CASE,
   SET_CASE_ID_FOR_INCIDENT,
-  CLEAR_CASE_FROM_INCIDENT
+  CLEAR_CASE_FROM_INCIDENT,
+  SET_REDIRECT_TO_INCIDENT
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -21,7 +22,9 @@ const getSuccessCallback = ({
   recordType,
   redirect,
   saveMethod,
-  incidentFromCase
+  incidentFromCase,
+  incidentPath,
+  moduleID
 }) => {
   const selectedFormCallback = setSelectedForm(INCIDENT_FROM_CASE);
   const incidentFromCaseCallbacks =
@@ -42,6 +45,8 @@ const getSuccessCallback = ({
           key: generate.messageKey(message)
         }
       },
+      moduleID,
+      incidentPath,
       redirectWithIdFromResponse: !incidentFromCase && saveMethod !== "update",
       redirect: redirect === false ? false : redirect || `/${recordType}`
     },
@@ -65,6 +70,10 @@ const getSuccessCallback = ({
         }
       }
     ];
+  }
+  if (incidentPath) {
+    // console.log("---------->", redirectToIncident);
+    return [...defaultSuccessCallback, "cases/SET_CASE_ID_REDIRECT"];
   }
 
   return defaultSuccessCallback;
@@ -98,8 +107,11 @@ export const saveRecord = (
   redirect,
   queueAttachments = true,
   dialogName = "",
-  incidentFromCase = false
+  incidentFromCase = false,
+  moduleID,
+  incidentPath = ""
 ) => async dispatch => {
+  console.log("@@@@@@ ", saveMethod, redirect);
   await dispatch({
     type: `${recordType}/${SAVE_RECORD}`,
     api: {
@@ -116,7 +128,9 @@ export const saveRecord = (
         recordType,
         redirect,
         saveMethod,
-        incidentFromCase
+        incidentFromCase,
+        incidentPath,
+        moduleID
       }),
       db: {
         collection: DB_COLLECTIONS_NAMES.RECORDS,

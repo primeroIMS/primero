@@ -22,7 +22,8 @@ import {
   FETCH_INCIDENT_FROM_CASE_SUCCESS,
   CLEAR_METADATA,
   CLEAR_CASE_FROM_INCIDENT,
-  SET_CASE_ID_FOR_INCIDENT
+  SET_CASE_ID_FOR_INCIDENT,
+  SET_REDIRECT_TO_INCIDENT
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -130,6 +131,17 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
         : state;
     case `${namespace}/${CLEAR_CASE_FROM_INCIDENT}`:
       return state.delete("incidentFromCase");
+    case `${namespace}/${SET_REDIRECT_TO_INCIDENT}`:
+      return RECORD_TYPES[namespace] === RECORD_TYPES.cases
+        ? state.setIn(["redirectToIncident"], payload.redirect)
+        : state;
+    case `${namespace}/SET_CASE_ID_REDIRECT`: {
+      console.log("*************************************ejecutando SET_CASE_ID_REDIRECT", RECORD_TYPES[namespace] === RECORD_TYPES.cases);
+
+      return RECORD_TYPES[namespace] === RECORD_TYPES.cases
+        ? state.setIn(["incidentFromCase", INCIDENT_CASE_ID_FIELD], payload.json?.data?.id)
+        : state;
+    }
     default:
       return state;
   }

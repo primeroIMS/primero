@@ -10,7 +10,7 @@ import { MODULES } from "../../../../config";
 import IncidentSummary from "../summary";
 import IncidentDetail from "../detail";
 
-const Component = ({ incident, incidentCaseId, css }) => {
+const Component = ({ incident, incidentCaseId, css, mode, setFieldValue, handleSubmit }) => {
   const i18n = useI18n();
   const [expanded, setExpanded] = useState(false);
 
@@ -37,7 +37,10 @@ const Component = ({ incident, incidentCaseId, css }) => {
     incidentDate,
     incidentDateInterview,
     incidentType,
-    incidentUniqueID
+    incidentUniqueID,
+    mode,
+    setFieldValue,
+    handleSubmit
   };
 
   return (
@@ -65,8 +68,11 @@ Component.displayName = NAME_PANEL;
 
 Component.propTypes = {
   css: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func,
   incident: PropTypes.object.isRequired,
   incidentCaseId: PropTypes.string.isRequired,
-  recordModule: PropTypes.string
+  mode: PropTypes.object,
+  recordModule: PropTypes.string,
+  setFieldValue: PropTypes.func
 };
 export default Component;
