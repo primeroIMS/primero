@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { withRouter, useLocation } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import clsx from "clsx";
 
 import { useThemeHelper } from "../../libs";
@@ -12,7 +12,14 @@ import PageContainer from "../page";
 import Transitions, { fetchTransitions } from "../transitions";
 import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";
-import { fetchRecord, getIncidentFromCase, saveRecord, selectRecord } from "../records";
+import {
+  fetchRecord,
+  getIncidentFromCase,
+  saveRecord,
+  selectRecord,
+  getCaseIdForIncident,
+  fetchIncidentwitCaseId
+} from "../records";
 import {
   APPROVALS,
   RECORD_TYPES,
@@ -39,13 +46,9 @@ import { getFirstTab, getFormNav, getRecordForms, getLoadingState, getErrors, ge
 import { compactValues, getRedirectPath } from "./utils";
 
 const Container = ({ match, mode }) => {
-  // let submitForm = null;
+  let submitForm = null;
   const { theme } = useThemeHelper(styles);
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
-  const [submitForm, setSubmitForm] = useState({});
-  const location = useLocation();
-
-  console.log(location);
 
   const containerMode = {
     isNew: mode === "new",
@@ -60,7 +63,8 @@ const Container = ({ match, mode }) => {
   const recordType = RECORD_TYPES[params.recordType];
 
   const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
-  console.log(">>>>>incidentFromCase:", incidentFromCase);
+  const fetchFromCaseId = useSelector(state => getCaseIdForIncident(state, recordType));
+
   const record = useSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
 
   const userPermittedFormsIds = useSelector(state => getPermittedFormsIds(state));
@@ -81,7 +85,7 @@ const Container = ({ match, mode }) => {
 
   const handleFormSubmit = e => {
     if (submitForm) {
-      submitForm.func(e);
+      submitForm(e);
     }
   };
 
@@ -95,7 +99,6 @@ const Container = ({ match, mode }) => {
     onSubmit: (initialValues, values) => {
       const saveMethod = containerMode.isEdit ? "update" : "save";
       const { incidentPath } = values;
-      console.log("===============incidentPath", incidentPath);
 
       if (incidentPath) {
         // eslint-disable-next-line no-param-reassign
@@ -126,7 +129,7 @@ const Container = ({ match, mode }) => {
             params.id,
             message(),
             message(true),
-            getRedirectPath(containerMode, params, incidentFromCase),
+            getRedirectPath(containerMode, params, fetchFromCaseId),
             true,
             "",
             Boolean(incidentFromCase?.size),
@@ -142,9 +145,7 @@ const Container = ({ match, mode }) => {
       // setSubmitting(false);
     },
     bindSubmitForm: boundSubmitForm => {
-      if (!submitForm?.func) {
-        setSubmitForm({ func: boundSubmitForm });
-      }
+      submitForm = boundSubmitForm;
     },
     handleToggleNav,
     mobileDisplay,
@@ -153,6 +154,7 @@ const Container = ({ match, mode }) => {
     mode: containerMode,
     record,
     incidentFromCase,
+    fetchFromCaseId,
     recordType: params.recordType,
     primeroModule: selectedModule.primeroModule
   };
@@ -210,6 +212,12 @@ const Container = ({ match, mode }) => {
     return () => dispatch(clearValidationErrors());
   }, []);
 
+  useEffect(() => {
+    if (fetchFromCaseId && RECORD_TYPES[params.recordType] === RECORD_TYPES.incidents) {
+      dispatch(fetchIncidentwitCaseId(fetchFromCaseId, selectedModule.primeroModule));
+    }
+  }, [fetchFromCaseId]);
+
   const transitionProps = {
     isReferral: REFERRAL === selectedForm,
     recordType: params.recordType,
@@ -244,6 +252,7 @@ const Container = ({ match, mode }) => {
           mode={containerMode}
           setFieldValue={setFieldValue}
           handleSubmit={handleSubmit}
+          recordType={params.recordType}
         />
       ),
       [TRANSITION_TYPE]: <Transitions {...transitionProps} />

@@ -26,11 +26,12 @@ const Component = ({
   incidentUniqueID,
   incidentType,
   mode,
-  setFieldValue
+  setFieldValue,
+  recordType
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
+  const [redirectOpts, setRedirectOpts] = useState({});
   const canViewIncidents = usePermissions(RESOURCES.incidents, READ_RECORDS);
   const canEditIncidents = usePermissions(RESOURCES.incidents, WRITE_RECORDS);
   const incidentInterviewLabel = i18n.t("incidents.date_of_interview");
@@ -46,28 +47,17 @@ const Component = ({
     });
   };
 
-  // const handleView = () => {
-
   const handleEvent = modeEvent => {
     incidentPath =
       modeEvent === "view"
         ? `/${RESOURCES.incidents}/${incidentUniqueID}`
         : `/${RESOURCES.incidents}/${incidentUniqueID}/edit`;
     if (!mode.isShow) {
-      setOpen(true);
+      setRedirectOpts({ open: true, incidentPath });
     } else {
       redirectIncident(incidentPath);
     }
   };
-
-  // const handleEdit = () => {
-  //   incidentPath = `/${RESOURCES.incidents}/${incidentUniqueID}/edit`;
-  //   if (!mode.isShow) {
-  //     setOpen(true);
-  //   } else {
-  //     redirectIncident(incidentPath);
-  //   }
-  // };
 
   const viewIncidentBtn = canViewIncidents && (
     <ActionButton
@@ -91,14 +81,14 @@ const Component = ({
       }}
     />
   );
-  const renderDialog = open && !mode.isShow && (
+  const renderDialog = redirectOpts.open && !mode.isShow && (
     <RedirectDialog
-      open
-      setOpen={setOpen}
       setFieldValue={setFieldValue}
       handleSubmit={handleSubmit}
       mode={mode}
-      incidentPath={incidentPath}
+      recordType={recordType}
+      setRedirectOpts={setRedirectOpts}
+      {...redirectOpts}
     />
   );
 
@@ -145,6 +135,7 @@ Component.propTypes = {
   incidentType: PropTypes.node,
   incidentUniqueID: PropTypes.string,
   mode: PropTypes.object,
+  recordType: PropTypes.string,
   setFieldValue: PropTypes.func
 };
 export default Component;

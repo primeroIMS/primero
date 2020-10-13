@@ -72,7 +72,6 @@ const getSuccessCallback = ({
     ];
   }
   if (incidentPath) {
-    // console.log("---------->", redirectToIncident);
     return [...defaultSuccessCallback, "cases/SET_CASE_ID_REDIRECT"];
   }
 
@@ -111,7 +110,6 @@ export const saveRecord = (
   moduleID,
   incidentPath = ""
 ) => async dispatch => {
-  console.log("@@@@@@ ", saveMethod, redirect);
   await dispatch({
     type: `${recordType}/${SAVE_RECORD}`,
     api: {
@@ -170,6 +168,15 @@ export const fetchIncidentFromCase = (caseId, moduleId) => {
     api: {
       path: `${RECORD_PATH.cases}/${caseId}/${RECORD_PATH.incidents}/new`,
       successCallback
+    }
+  };
+};
+
+export const fetchIncidentwitCaseId = caseId => {
+  return {
+    type: `cases/${FETCH_INCIDENT_FROM_CASE}`,
+    api: {
+      path: `${RECORD_PATH.cases}/${caseId}/${RECORD_PATH.incidents}/new`
     }
   };
 };

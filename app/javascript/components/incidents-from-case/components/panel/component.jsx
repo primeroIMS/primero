@@ -10,7 +10,7 @@ import { MODULES } from "../../../../config";
 import IncidentSummary from "../summary";
 import IncidentDetail from "../detail";
 
-const Component = ({ incident, incidentCaseId, css, mode, setFieldValue, handleSubmit }) => {
+const Component = ({ incident, incidentCaseId, css, mode, setFieldValue, handleSubmit, recordType }) => {
   const i18n = useI18n();
   const [expanded, setExpanded] = useState(false);
 
@@ -40,7 +40,8 @@ const Component = ({ incident, incidentCaseId, css, mode, setFieldValue, handleS
     incidentUniqueID,
     mode,
     setFieldValue,
-    handleSubmit
+    handleSubmit,
+    recordType
   };
 
   return (
@@ -73,6 +74,7 @@ Component.propTypes = {
   incidentCaseId: PropTypes.string.isRequired,
   mode: PropTypes.object,
   recordModule: PropTypes.string,
+  recordType: PropTypes.string,
   setFieldValue: PropTypes.func
 };
 export default Component;

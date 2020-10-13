@@ -16,11 +16,20 @@ import { NAME } from "./constants";
 import IncidentPanel from "./components/panel";
 import RedirectDialog from "./components/redirect-dialog";
 
-const Container = ({ record, incidents, mobileDisplay, handleToggleNav, mode, setFieldValue, handleSubmit }) => {
+const Container = ({
+  record,
+  incidents,
+  mobileDisplay,
+  handleToggleNav,
+  mode,
+  setFieldValue,
+  handleSubmit,
+  recordType
+}) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
+  const [redirectOpts, setRedirectOpts] = useState({});
   const canAddIncidents = usePermissions(RESOURCES.cases, CREATE_INCIDENT);
 
   const renderIncidents =
@@ -34,11 +43,12 @@ const Container = ({ record, incidents, mobileDisplay, handleToggleNav, mode, se
         mode={mode}
         setFieldValue={setFieldValue}
         handleSubmit={handleSubmit}
+        recordType={recordType}
       />
     ));
   const handleCreateIncidentBtn = () => {
     if (!mode.isShow) {
-      setOpen(true);
+      setRedirectOpts({ open: true });
     } else {
       dispatch(fetchIncidentFromCase(record.get("id"), record.get("module_id")));
     }
@@ -53,11 +63,16 @@ const Container = ({ record, incidents, mobileDisplay, handleToggleNav, mode, se
       }}
     />
   );
-  const renderDialog = open && !mode.isShow && (
-    <RedirectDialog open setOpen={setOpen} setFieldValue={setFieldValue} handleSubmit={handleSubmit} mode={mode} />
+  const renderDialog = redirectOpts.open && !mode.isShow && (
+    <RedirectDialog
+      setRedirectOpts={setRedirectOpts}
+      setFieldValue={setFieldValue}
+      handleSubmit={handleSubmit}
+      mode={mode}
+      recordType={recordType}
+      {...redirectOpts}
+    />
   );
-
-  console.log(renderDialog);
 
   return (
     <div>
@@ -84,6 +99,7 @@ Container.propTypes = {
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object,
   record: PropTypes.object,
+  recordType: PropTypes.string,
   setFieldValue: PropTypes.func
 };
 export default Container;

@@ -35,7 +35,8 @@ const RecordForm = ({
   recordType,
   selectedForm,
   incidentFromCase,
-  externalForms
+  externalForms,
+  fetchFromCaseId
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -68,7 +69,9 @@ const RecordForm = ({
   useEffect(() => {
     if (bindedSetValues) {
       if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
-        bindedSetValues({ ...initialFormValues, ...incidentFromCase.toJS() });
+        const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
+
+        bindedSetValues({ ...initialFormValues, ...incidentFromCase.toJS(), ...incidentCaseId });
       }
     }
   }, [bindedSetValues, incidentFromCase]);
@@ -181,6 +184,7 @@ RecordForm.displayName = RECORD_FORM_NAME;
 RecordForm.propTypes = {
   bindSubmitForm: PropTypes.func,
   externalForms: PropTypes.func,
+  fetchFromCaseId: PropTypes.string,
   forms: PropTypes.object.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
   incidentFromCase: PropTypes.object,

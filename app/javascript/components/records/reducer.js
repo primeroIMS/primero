@@ -1,7 +1,7 @@
 import { fromJS, Map, List } from "immutable";
 
 import { mergeRecord } from "../../libs";
-import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, RECORD_TYPES } from "../../config";
+import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, RECORD_TYPES, FETCH_FROM_CASE_ID } from "../../config";
 
 import {
   RECORDS_STARTED,
@@ -123,7 +123,7 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("metadata", fromJS(DEFAULT_METADATA));
     case `${namespace}/${FETCH_INCIDENT_FROM_CASE_SUCCESS}`:
       return RECORD_TYPES[namespace] === RECORD_TYPES.cases
-        ? state.setIn(["incidentFromCase"], fromJS(payload.data))
+        ? state.setIn(["incidentFromCase", "data"], fromJS(payload.data))
         : state;
     case `${namespace}/${SET_CASE_ID_FOR_INCIDENT}`:
       return RECORD_TYPES[namespace] === RECORD_TYPES.cases
@@ -136,8 +136,6 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
         ? state.setIn(["redirectToIncident"], payload.redirect)
         : state;
     case `${namespace}/SET_CASE_ID_REDIRECT`: {
-      console.log("*************************************ejecutando SET_CASE_ID_REDIRECT", RECORD_TYPES[namespace] === RECORD_TYPES.cases);
-
       return RECORD_TYPES[namespace] === RECORD_TYPES.cases
         ? state.setIn(["incidentFromCase", INCIDENT_CASE_ID_FIELD], payload.json?.data?.id)
         : state;

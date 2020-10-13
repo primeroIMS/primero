@@ -1,19 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import ActionDialog from "../../../action-dialog";
 import { REDIRECT_DIALOG } from "../../constants";
+import { getSavingRecord } from "../../../records";
 
-const Component = ({ handleSubmit, mode, open, setFieldValue, setOpen, incidentPath }) => {
+const Component = ({ handleSubmit, mode, open, setFieldValue, setRedirectOpts, incidentPath, recordType }) => {
   const i18n = useI18n();
+  const savingRecord = useSelector(state => getSavingRecord(state, recordType));
 
   if (!open || mode.isShow) {
     return null;
   }
 
   const handleCloseAction = () => {
-    setOpen(false);
+    setRedirectOpts({});
   };
 
   const handleSuccessAction = () => {
@@ -29,6 +32,7 @@ const Component = ({ handleSubmit, mode, open, setFieldValue, setOpen, incidentP
       dialogTitle={i18n.t("case.save")}
       dialogText={i18n.t("case.save_text")}
       confirmButtonLabel={i18n.t("buttons.save_continue")}
+      pending={savingRecord}
     />
   );
 };
@@ -44,7 +48,8 @@ Component.propTypes = {
   incidentPath: PropTypes.string,
   mode: PropTypes.object,
   open: PropTypes.bool,
+  recordType: PropTypes.string,
   setFieldValue: PropTypes.func,
-  setOpen: PropTypes.func
+  setRedirectOpts: PropTypes.func
 };
 export default Component;
