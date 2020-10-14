@@ -9,7 +9,7 @@ class PermittedFieldService
   PERMITTED_FILTER_FIELD_NAMES = %w[
     associated_user_names not_edited_by_owner referred_users referred_users_present
     transferred_to_users has_photo survivor_code survivor_code_no case_id_display
-    created_at has_incidents
+    created_at has_incidents short_id
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
