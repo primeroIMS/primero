@@ -22,3 +22,49 @@
     shell: '/sbin/nologin'
     group: '{{ nginx_container_username }}'
   become: yes
+
+- name: 'Remove {{ application_container_username }} form /etc/subuid'
+  lineinfile:
+    path: '/etc/subuid'
+    state: 'absent'
+    regexp: 'primero'
+  become: yes
+
+- name: 'Remove {{ application_container_username }} form /etc/subgid'
+  lineinfile:
+    path: '/etc/subgid'
+    state: 'absent'
+    regexp: '{{ application_container_username }}'
+  become: yes
+
+- name: 'edit /etc/subuid for {{ application_container_username }} user mapping for docker containers'
+  lineinfile:
+    path: '/etc/subuid'
+    state: 'present'
+    insertafter: EOF
+    line: '{{ application_container_username }}:0:1000'
+  become: yes
+
+- name: 'edit /etc/subuid for {{ application_container_username }} user mapping for docker containers'
+  lineinfile:
+    path: '/etc/subuid'
+    state: 'present'
+    insertafter: EOF
+    line: '{{ application_container_username }}:1001:65536'
+  become: yes
+
+- name: 'edit /etc/subgid for {{ application_container_username }} user mapping for docker containers'
+  lineinfile:
+    path: '/etc/subgid'
+    state: 'present'
+    insertafter: EOF
+    line: '{{ application_container_username }}:0:1000'
+  become: yes
+
+- name: 'edit /etc/subgid for {{ application_container_username }} user mapping for docker containers'
+  lineinfile:
+    path: '/etc/subgid'
+    state: 'present'
+    insertafter: EOF
+    line: '{{ application_container_username }}:1001:65536'
+  become: yes

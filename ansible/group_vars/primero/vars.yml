@@ -3,7 +3,7 @@ primero_nginx_server_name: 'primero-integration-v2-ansible-nginxfixes.cloud.quoi
 certbot_domain:
 - '{{ primero_nginx_server_name }}'
 certbot_email: 'slapharase@wemel.site'
-cert_name: 'primero-{{ primero_nginx_server_name }}'
+cert_name: '{{ primero_nginx_server_name }}'
 nginx_container_username: 'nginx'
 application_container_username: 'primero'
 qi_docker_daemon_json_content: |

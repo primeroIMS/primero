@@ -8,5 +8,6 @@
   - 'quoin.infrastructure.install_python3_docker_compose'
   - 'quoin.infrastructure.install_docker'
   - 'synchronize'
-    #  - 'application-primero'
-    #  - 'primero-certbot'
+  - 'application-primero'
+  - 'primero-certbot'
+  - 'prune'
