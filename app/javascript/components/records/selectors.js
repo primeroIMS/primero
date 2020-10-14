@@ -1,7 +1,5 @@
 import { Map, List, fromJS } from "immutable";
 
-import { RECORD_TYPES } from "../../config";
-
 export const selectRecord = (state, mode, recordType, id) => {
   if (mode.isEdit || mode.isShow) {
     const index = state.getIn(["records", recordType, "data"]).findIndex(r => r.get("id") === id);
@@ -36,10 +34,6 @@ export const getRecordFormAlerts = (state, recordType, formUniqueId) =>
     .getIn(["records", recordType, "recordAlerts"], List([]))
     .filter(alert => alert.get("form_unique_id") === formUniqueId);
 
-export const getIncidentFromCase = (state, mode, recordType) => {
-  if (mode.isNew && recordType === RECORD_TYPES.incidents) {
-    return state.getIn(["records", "cases", "incidentFromCase"], fromJS({}));
-  }
-
-  return null;
+export const getIncidentFromCase = state => {
+  return state.getIn(["records", "cases", "incidentFromCase"], fromJS({}));
 };

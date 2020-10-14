@@ -60,5 +60,6 @@ export const NavRecord = Record({
   order: null,
   formId: null,
   is_first_tab: false,
-  permission_actions: []
+  permission_actions: [],
+  recordTypes: []
 });

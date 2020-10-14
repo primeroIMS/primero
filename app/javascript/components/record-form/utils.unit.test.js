@@ -1,3 +1,5 @@
+import { fromJS } from "immutable";
+
 import * as utils from "./utils";
 
 describe("<RecordForms /> - utils", () => {
@@ -114,6 +116,27 @@ describe("<RecordForms /> - utils", () => {
       };
 
       expect(utils.emptyValues(testObject)).to.be.false;
+    });
+  });
+
+  describe("getRedirectPath", () => {
+    it("should return the path to the case id if there is a incidentFromCase", () => {
+      expect(utils.getRedirectPath({ isNew: true }, {}, fromJS({ incident_case_id: "case-id-1" }))).to.equal(
+        "/cases/case-id-1"
+      );
+    });
+
+    it("should return the path to the incident id if is not new", () => {
+      expect(
+        utils.getRedirectPath({ isEdit: true }, { recordType: "incidents", id: "incident-id-1" }),
+        fromJS({})
+      ).to.equal("/incidents/incident-id-1");
+    });
+
+    it("should return the path to incidents if is new", () => {
+      expect(
+        utils.getRedirectPath({ isNew: true }, { recordType: "incidents", id: "incident-id-1" }, fromJS({}))
+      ).to.equal("/incidents");
     });
   });
 });

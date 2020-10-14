@@ -1,6 +1,6 @@
 import { Map, List, fromJS, OrderedMap } from "immutable";
 
-import { DEFAULT_METADATA } from "../../config";
+import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD } from "../../config";
 
 import reducer from "./reducer";
 
@@ -180,7 +180,7 @@ describe("<RecordList /> - Reducers", () => {
       const newState = casesReducer(fromJS({ incidentFromCase }), action);
 
       expect(newState).to.deep.equals(
-        fromJS({ incidentFromCase: { ...incidentFromCase, incident_case_id: "case-id-1" } })
+        fromJS({ incidentFromCase: { ...incidentFromCase, [INCIDENT_CASE_ID_FIELD]: "case-id-1" } })
       );
     });
 

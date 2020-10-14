@@ -5,8 +5,9 @@ import { Formik, Form } from "formik";
 import isEmpty from "lodash/isEmpty";
 import { Box } from "@material-ui/core";
 import NavigationPrompt from "react-router-navigation-prompt";
-import { useDispatch } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 
+import { setSelectedForm } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
@@ -14,7 +15,7 @@ import { constructInitialValues } from "../utils";
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
 import { displayNameHelper } from "../../../libs";
-import { RECORD_TYPES } from "../../../config";
+import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
 
 import { ValidationErrors } from "./components";
 import RecordFormTitle from "./record-form-title";
@@ -72,7 +73,12 @@ const RecordForm = ({
 
   const handleConfirm = onConfirm => {
     onConfirm();
-    dispatch(clearCaseFromIncident());
+    if (incidentFromCase?.size) {
+      batch(() => {
+        dispatch(setSelectedForm(INCIDENT_FROM_CASE));
+        dispatch(clearCaseFromIncident());
+      });
+    }
   };
 
   const renderFormSections = fs =>
