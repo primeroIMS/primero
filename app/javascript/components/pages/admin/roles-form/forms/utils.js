@@ -1,4 +1,6 @@
-/* eslint-disable import/prefer-default-export */
+import startCase from "lodash/startCase";
+
+import { dataToJS } from "../../../../../libs";
 
 const buildLabel = (element, i18n, resource, approvalsLabel, type) => {
   const approvalLabel = Object.keys(approvalsLabel).filter(approval => element.includes(approval));
@@ -35,4 +37,14 @@ export const buildReportingLocationTooltip = (i18n, adminLevelMap) => {
   });
 
   return `${i18n.t("permissions.resource.reporting_location_level.explanation")} ${currentLabels.join(", ")}`;
+};
+
+export const buildAdminLevelSelect = adminLevelMap => {
+  const data = dataToJS(adminLevelMap);
+
+  return Object.entries(data).reduce((acc, obj) => {
+    const [id, text] = obj;
+
+    return [...acc, { id: parseInt(id, 10), display_text: text.map(value => startCase(value)).join(", ") }];
+  }, []);
 };
