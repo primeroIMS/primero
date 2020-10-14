@@ -10,6 +10,7 @@
     shell: '/sbin/nologin'
     group: '{{ application_container_username }}'
   become: yes
+  register: 'application_user'
 
 - name: 'Ensure group {{ nginx_container_username }} exists'
   group:
@@ -22,6 +23,7 @@
     shell: '/sbin/nologin'
     group: '{{ nginx_container_username }}'
   become: yes
+  register: 'nginx_user'
 
 - name: 'Remove {{ application_container_username }} form /etc/subuid'
   lineinfile:
@@ -50,7 +52,7 @@
     path: '/etc/subuid'
     state: 'present'
     insertafter: EOF
-    line: '{{ application_container_username }}:1001:65536'
+    line: '{{ application_container_username }}:{{ application_user.uid }}:65536'
   become: yes
 
 - name: 'edit /etc/subgid for {{ application_container_username }} user mapping for docker containers'
@@ -66,5 +68,15 @@
     path: '/etc/subgid'
     state: 'present'
     insertafter: EOF
-    line: '{{ application_container_username }}:1001:65536'
+    line: '{{ application_container_username }}:{{ application_user.uid }}:65536'
   become: yes
+
+- name: 'create the docker-compose users.env file'
+  copy:
+    dest: '~/primero/docker/users.env'
+    mode: 'u=rw,go=r'
+    content: |
+      APP_UID={{ application_user_uid }}
+      APP_GID={{ application_user_gid }}
+      NGINX_UID={{ ((nginx_user.uid - application_user.uid)|abs) + 1000 }}
+      NGINX_GID={{ ((nginx_user.group - application_user.group)|abs) + 1000 }}
