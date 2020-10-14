@@ -4,15 +4,14 @@
 class Api::V2::FlagsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
 
-  # before_action :find_record, only: %i[index create update destroy new]
+  before_action :find_flags, only: %i[index]
   before_action :find_record, only: %i[create update]
 
   def index
-    # TODO: handle by record_id
+    # TODO: handle pagination
     # TODO: fix front end for old index by record id
     authorize! :index, Flag
-    @flags = Flag.by_owner(query_scope, record_types)
-    @flags.map {|flag| flag['r_name'] = '*******' if flag['r_name'].present? && flag['r_hidden_name'].present? }
+
     # results = current_user.tasks(pagination)
     # @flags = results[:tasks]
     # @total = results[:total]
@@ -55,6 +54,16 @@ class Api::V2::FlagsController < ApplicationApiController
   end
 
   protected
+
+  def find_flags
+    if params[:record_id].present?
+      @flags = Flag.find_by_record_id(params[:record_id], params[:record_type])
+    else
+      @flags = Flag.by_owner(query_scope, record_types)
+    end
+
+    @flags.map {|flag| flag['r_name'] = '*******' if flag['r_name'].present? && flag['r_hidden_name'].present? }
+  end
 
   def find_record
     @record = record_model.find(params[:record_id])

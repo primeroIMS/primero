@@ -41,9 +41,12 @@ describe Flag do
     @incident2 = Incident.create!(data: { incident_date: Date.new(2018, 3, 1), description: 'Test 2', owned_by: 'user2' })
 
     @case1.add_flag('This is a flag', Date.today, 'faketest')
+    @case1.add_flag('This is a second flag', Date.today, 'faketest')
     @case3.add_flag('This is a flag', Date.today, 'faketest')
     @tracing_request1.add_flag('This is a flag TR', Date.today, 'faketest')
     @incident1.add_flag('This is a flag IN', Date.today, 'faketest')
+    @incident1.add_flag('This is a second flag IN', Date.today, 'faketest')
+    @incident1.add_flag('This is a third flag IN', Date.today, 'faketest')
     @incident2.add_flag('This is a flag IN', Date.today, 'faketest')
   end
 
@@ -62,7 +65,7 @@ describe Flag do
           it 'returns case flags owned by or asssociated with the current user' do
             flags = Flag.by_owner(@query_scope, @record_types)
             f1 = flags.first
-            expect(flags.size).to eq(1)
+            expect(flags.size).to eq(2)
             expect(f1['record_id']).to eq( @case1.id.to_s)
             expect(f1['record_type']).to eq('Child')
             expect(f1['message']).to eq( 'This is a flag')
@@ -82,7 +85,7 @@ describe Flag do
         end
 
         it 'returns all flags owned by or associated with the current user' do
-          expect(@flags.size).to eq(3)
+          expect(@flags.size).to eq(6)
         end
 
         it 'returns case flags owned by or asssociated with the current user' do
@@ -134,7 +137,7 @@ describe Flag do
           it 'returns case flags owned by or associated with users in current users groups' do
             flags = Flag.by_owner(@query_scope, @record_types)
             f1 = flags.first
-            expect(flags.size).to eq(2)
+            expect(flags.size).to eq(3)
             expect(f1['record_id']).to eq( @case1.id.to_s)
             expect(f1['record_type']).to eq('Child')
             expect(f1['message']).to eq( 'This is a flag')
@@ -155,7 +158,7 @@ describe Flag do
           it 'returns incident flags owned by or associated with users in current users groups' do
             flags = Flag.by_owner(@query_scope, @record_types)
             f1 = flags.first
-            expect(flags.size).to eq(2)
+            expect(flags.size).to eq(4)
             expect(f1['record_id']).to eq( @incident1.id.to_s)
             expect(f1['record_type']).to eq('Incident')
             expect(f1['message']).to eq( 'This is a flag IN')
@@ -196,8 +199,40 @@ describe Flag do
         end
 
         it 'returns flags owned by or associated with users in current users groups' do
-          expect(@flags.size).to eq(5)
+          expect(@flags.size).to eq(8)
         end
+      end
+    end
+  end
+
+  describe 'find_by_record_id' do
+    context 'when the record is a Case' do
+      before do
+        @flags = Flag.find_by_record_id(@case1.id, 'cases')
+      end
+
+      it 'returns all flags for that case' do
+        expect(@flags.size).to eq(2)
+      end
+    end
+
+    context 'when the record is an Incident' do
+      before do
+        @flags = Flag.find_by_record_id(@incident1.id, 'incidents')
+      end
+
+      it 'returns all flags for that incident' do
+        expect(@flags.size).to eq(3)
+      end
+    end
+
+    context 'when the record is an TracingRequest' do
+      before do
+        @flags = Flag.find_by_record_id(@tracing_request1.id, 'tracing_requests')
+      end
+
+      it 'returns all flags for that tracing request' do
+        expect(@flags.size).to eq(1)
       end
     end
   end
