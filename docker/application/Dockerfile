@@ -117,17 +117,17 @@ WORKDIR $APP_ROOT
 # Creating User primero to run the contianer instead of root.  Also chaniging permissions and
 # ownership of the APP_ROOT, and the storage and pubic volumes.
 RUN set -euox pipefail \
-        ; addgroup -g $GROUP_ID primero \
-        ; adduser --disabled-password --gecos '' -u $USER_ID -G primero primero \
+        ; addgroup -g $GROUP_ID docker-primero \
+        ; adduser --disabled-password --gecos '' -u $USER_ID -G docker-primero docker-primero \
         ; mkdir -p /srv/primero/application/storage \
         ; chmod -R 700 /srv/primero/application/storage \
-        ; chown -R primero:primero "$APP_ROOT" \
+        ; chown -R docker-primero:docker-primero "$APP_ROOT" \
         ; mkdir -p /share/public \
         ; chmod -R 755 /share/public \
-        ; chown -R primero:primero /share/public
+        ; chown -R docker-primero:docker-primero /share/public
 
 # Switching to User primero to run the container.
-USER primero
+USER docker-primero
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 
