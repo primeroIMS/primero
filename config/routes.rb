@@ -94,7 +94,7 @@ Rails.application.routes.draw do
       resources :primero_modules, only: %i[index show update]
       resources :audit_logs, only: [:index]
       resources :primero_configurations, as: :configurations, path: :configurations
-      resources :flags, only: [:index]
+      resources :flags, only: %i[index create update]
     end
   end
 end

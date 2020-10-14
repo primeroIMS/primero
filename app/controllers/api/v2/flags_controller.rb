@@ -24,16 +24,16 @@ class Api::V2::FlagsController < ApplicationApiController
 
   def create
     authorize! :flag_record, @record
-    @flag = @record.add_flag(params['data']['message'], params['data']['date'], current_user.user_name)
+    @flag = @record.add_flag(flag_params['message'], flag_params['date'], current_user.user_name)
     status = params[:data][:id].present? ? 204 : 200
-    # updates_for_record(@record)
+    updates_for_record(@record)
     render :create, status: status
   end
 
   def update
     authorize! :flag_record, @record
     @flag = @record.remove_flag(params['id'], current_user.user_name, params['data']['unflag_message'])
-    # updates_for_record(@record)
+    updates_for_record(@record)
   end
 
   def create_bulk
@@ -66,13 +66,13 @@ class Api::V2::FlagsController < ApplicationApiController
   end
 
   def find_record
-    @record = record_model.find(params[:record_id])
+    @record = record_model.find(flag_params[:record_id])
   end
 
   private
 
   def record_model
-    @record_model = Record.model_from_name(params[:record_type])
+    @record_model = Record.model_from_name(flag_params[:record_type])
   end
 
   def query_scope
@@ -81,5 +81,14 @@ class Api::V2::FlagsController < ApplicationApiController
 
   def record_types
     @record_types = params[:record_type]&.split(',')
+  end
+
+  def flag_params
+    @flag_params ||= params.require(:data).permit(:id, :record_type, :record_id, :date, :message )
+  end
+
+  # TODO: Check into this... Stolen from record_resource_controller.rb
+  def updates_for_record(record)
+    @updated_field_names = record.saved_changes_to_record.keys
   end
 end
