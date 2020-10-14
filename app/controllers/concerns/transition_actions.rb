@@ -250,7 +250,7 @@ module TransitionActions
     when Transitionable::EXPORT_TYPE_NON_PRIMERO
       Exporters::CSVExporter
     when Transitionable::EXPORT_TYPE_PDF
-      Exporters::PDFExporter
+      Exporters::ChildPDFExporter
     else
       nil
     end

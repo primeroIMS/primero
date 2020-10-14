@@ -164,7 +164,7 @@ describe ChildrenController do
 
       #There is other test testing this.
       if params["type_of_export"] == Transitionable::EXPORT_TYPE_PDF
-        Exporters::PDFExporter.stub :export
+        Exporters::ChildPDFExporter.stub :export
         controller.stub :filename
         controller.stub :encrypt_data_to_zip
       end
@@ -190,7 +190,7 @@ describe ChildrenController do
         assigns["password"].should eq("password")
         assigns["type_of_export_exporter"].should eq(Exporters::JSONExporter) if params["type_of_export"] == Transitionable::EXPORT_TYPE_PRIMERO
         assigns["type_of_export_exporter"].should eq(Exporters::CSVExporter) if params["type_of_export"] == Transitionable::EXPORT_TYPE_NON_PRIMERO
-        assigns["type_of_export_exporter"].should eq(Exporters::PDFExporter) if params["type_of_export"] == Transitionable::EXPORT_TYPE_PDF
+        assigns["type_of_export_exporter"].should eq(Exporters::ChildPDFExporter) if params["type_of_export"] == Transitionable::EXPORT_TYPE_PDF
       else
         referral.to_user_local_status.should eq(Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
         referral.to_user_local.should eq(existing_user)
