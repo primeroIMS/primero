@@ -24,7 +24,9 @@ server {
     listen ${NGINX_HTTP_PORT};
     server_name ${NGINX_SERVER_NAME};
     # @begin-ssl
-    return 301 https://$host:${NGINX_HTTPS_PORT}$1;
+    location / {
+        return 301 https://$host:${NGINX_HTTPS_PORT}$1;
+    }
 }
 
 server {
