@@ -29,7 +29,7 @@ const Component = ({
   }
 
   const associatedCase =
-    params.recordType === RECORD_PATH.incidents ? (
+    params.recordType === RECORD_PATH.incidents && incidentCaseId && incidentCaseShortId ? (
       <p className={associatedLinkClass}>
         {i18n.t("incident.associated_case")} <Link to={`/cases/${incidentCaseId}`}>{incidentCaseShortId}</Link>
       </p>

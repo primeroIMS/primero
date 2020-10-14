@@ -63,7 +63,7 @@ const RecordFormToolbar = ({
     if (recordType === RECORD_TYPES.incidents) {
       return incidentFromCase?.size
         ? incidentFromCase.get(INCIDENT_CASE_SHORT_ID_FIELD)
-        : record.get(INCIDENT_CASE_SHORT_ID_FIELD);
+        : record?.get(INCIDENT_CASE_SHORT_ID_FIELD);
     }
 
     return null;
@@ -71,7 +71,9 @@ const RecordFormToolbar = ({
 
   const getIncidentFromCaseId = () => {
     if (recordType === RECORD_TYPES.incidents) {
-      return incidentFromCase?.size ? incidentFromCase.get(INCIDENT_CASE_ID_FIELD) : record.get(INCIDENT_CASE_ID_FIELD);
+      return incidentFromCase?.size
+        ? incidentFromCase.get(INCIDENT_CASE_ID_FIELD)
+        : record?.get(INCIDENT_CASE_ID_FIELD);
     }
 
     return null;
@@ -86,8 +88,10 @@ const RecordFormToolbar = ({
 
   const renderSaveButton = (
     <ActionButton
-      icon={incidentFromCase?.size ? <SaveReturnIcon /> : <CheckIcon />}
-      text={i18n.t(incidentFromCase?.size ? "buttons.save_and_return" : "buttons.save")}
+      icon={incidentFromCase?.size && recordType === RECORD_TYPES.incidents ? <SaveReturnIcon /> : <CheckIcon />}
+      text={i18n.t(
+        incidentFromCase?.size && recordType === RECORD_TYPES.incidents ? "buttons.save_and_return" : "buttons.save"
+      )}
       type={ACTION_BUTTON_TYPES.default}
       pending={savingRecord}
       rest={{
