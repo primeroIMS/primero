@@ -1,7 +1,7 @@
 import { FieldRecord, FormSectionRecord, TICK_FIELD, TEXT_FIELD, SELECT_FIELD } from "../../../../form";
 import { FIELD_NAMES } from "../constants";
 
-import { buildAdminLevelSelect, buildPermissionOptions, buildReportingLocationTooltip } from "./utils";
+import { buildAdminLevelSelect, buildPermissionOptions } from "./utils";
 
 export default (groupPermissions, i18n, adminLevelMap) => {
   return FormSectionRecord({
@@ -60,7 +60,7 @@ export default (groupPermissions, i18n, adminLevelMap) => {
       }),
       FieldRecord({
         display_name: i18n.t("permissions.resource.reporting_location_level.label"),
-        tooltip: buildReportingLocationTooltip(i18n, adminLevelMap),
+        tooltip: i18n.t("permissions.resource.reporting_location_level.explanation"),
         name: FIELD_NAMES.reportingLocationLevel,
         type: SELECT_FIELD,
         option_strings_text: buildAdminLevelSelect(adminLevelMap)
