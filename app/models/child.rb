@@ -54,7 +54,8 @@ class Child < ApplicationRecord
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
     :location_current, :tracing_status, :name_caregiver,
-    :urgent_protection_concern, :child_preferences_section, :family_details_section
+    :urgent_protection_concern, :child_preferences_section, :family_details_section,
+    :duplicate
   )
 
   has_many :incidents, foreign_key: :incident_case_id
