@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Represents actions to flag a record
 class Flag < ApplicationRecord
   include Indexable
 
@@ -9,22 +10,21 @@ class Flag < ApplicationRecord
   belongs_to :record, polymorphic: true
 
   # The CAST is necessary because ActiveRecord assumes the id is an int.  It isn't.
-  scope :by_record_associated_user, -> (params) {
+  scope :by_record_associated_user, lambda { |params|
     Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
         .where("(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner])
   }
 
   # TODO: this is working as long as params[:group] only has 1 user_group
-  scope :by_record_associated_groups, -> (params) {
+  scope :by_record_associated_groups, lambda { |params|
     Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
         .where("(data -> 'associated_user_groups' ?& array[:group])", group: params[:group])
   }
 
-  scope :by_record_id, -> (params) {
+  scope :by_record_id, lambda { |params|
     Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
         .where(record_id: params[:record_id])
   }
-
 
   validates :message, presence: { message: 'errors.models.flags.message' }
   validates :date, presence: { message: 'errors.models.flags.date' }
@@ -112,17 +112,18 @@ class Flag < ApplicationRecord
       flags = []
       record_types.each do |record_type|
         params[:type] = record_type
-        flags << self.send(scope_to_use, params).select(
-          ["flags.id",
-           "flags.record_type",
-           "flags.record_id",
-           "flags.date",
-           "flags.message",
-           "flags.flagged_by",
+        flags << send(scope_to_use, params).select(
+          ['flags.id',
+           'flags.record_type',
+           'flags.record_id',
+           'flags.date',
+           'flags.message',
+           'flags.flagged_by',
            "#{record_type}.data -> 'short_id' as r_short_id",
            "#{record_type}.data -> 'name' as r_name",
            "#{record_type}.data -> 'hidden_name' as r_hidden_name",
-           "#{record_type}.data -> 'owned_by' as r_owned_by"].join(', '))
+           "#{record_type}.data -> 'owned_by' as r_owned_by"].join(', ')
+        )
       end
       flags.flatten
     end
@@ -132,16 +133,17 @@ class Flag < ApplicationRecord
 
       params = { record_id: record_id, type: record_type }
       by_record_id(params).select(
-        ["flags.id",
-         "flags.record_type",
-         "flags.record_id",
-         "flags.date",
-         "flags.message",
-         "flags.flagged_by",
+        ['flags.id',
+         'flags.record_type',
+         'flags.record_id',
+         'flags.date',
+         'flags.message',
+         'flags.flagged_by',
          "#{record_type}.data -> 'short_id' as r_short_id",
          "#{record_type}.data -> 'name' as r_name",
          "#{record_type}.data -> 'hidden_name' as r_hidden_name",
-         "#{record_type}.data -> 'owned_by' as r_owned_by"].join(', '))
+         "#{record_type}.data -> 'owned_by' as r_owned_by"].join(', ')
+      )
     end
   end
 
