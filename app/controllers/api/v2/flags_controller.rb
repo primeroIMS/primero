@@ -44,13 +44,9 @@ class Api::V2::FlagsController < ApplicationApiController
   protected
 
   def find_flags
-    if params[:record_id].present?
-      @flags = Flag.find_by_record_id(params[:record_id], params[:record_type])
-    else
-      @flags = Flag.by_owner(query_scope, record_types)
-    end
-
-    @flags.map {|flag| flag['r_name'] = '*******' if flag['r_name'].present? && flag['r_hidden_name'].present? }
+    @flags = Flag.find_by_record_id(params[:record_id], params[:record_type]) if params[:record_id].present?
+    @flags = Flag.by_owner(query_scope, record_types) if params[:record_id].blank?
+    @flags.map { |flag| flag['r_name'] = '*******' if flag['r_name'].present? && flag['r_hidden_name'].present? }
   end
 
   def find_record
@@ -72,7 +68,7 @@ class Api::V2::FlagsController < ApplicationApiController
   end
 
   def flag_params
-    @flag_params ||= params.require(:data).permit(:id, :record_type, :record_id, :date, :message )
+    @flag_params ||= params.require(:data).permit(:id, :record_type, :record_id, :date, :message)
   end
 
   # TODO: Check into this... Stolen from record_resource_controller.rb
