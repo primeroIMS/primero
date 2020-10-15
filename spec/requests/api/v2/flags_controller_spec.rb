@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V2::FlagsController, type: :request do
@@ -26,19 +28,23 @@ describe Api::V2::FlagsController, type: :request do
                       user_groups: [@group2], agency_id: @agency2.id)
     @user3.save(validate: false)
     @manager1 = User.new(user_name: 'manager1', full_name: 'Test Manager One', location: 'loc8675309', role: @role,
-                      user_groups: [@group1], agency_id: @agency2.id)
+                         user_groups: [@group1], agency_id: @agency2.id)
     @manager1.save(validate: false)
 
-    @case1 = Child.create!(data: { name: "Test1", hidden_name: true, age: 5, sex: 'male', owned_by: 'user1' })
-    @case2 = Child.create!(data: { name: "Test2", age: 7, sex: 'female', owned_by: 'user1' })
-    @case3 = Child.create!(data: { name: "Test3", age: 9, sex: 'female', owned_by: 'user2' })
-    @case4 = Child.create!(data: { name: "Test4", age: 9, sex: 'female', owned_by: 'user2' })
+    @case1 = Child.create!(data: { name: 'Test1', hidden_name: true, age: 5, sex: 'male', owned_by: 'user1' })
+    @case2 = Child.create!(data: { name: 'Test2', age: 7, sex: 'female', owned_by: 'user1' })
+    @case3 = Child.create!(data: { name: 'Test3', age: 9, sex: 'female', owned_by: 'user2' })
+    @case4 = Child.create!(data: { name: 'Test4', age: 9, sex: 'female', owned_by: 'user2' })
 
-    @tracing_request1 = TracingRequest.create!(data: { inquiry_date: Date.new(2019, 3, 1), relation_name: 'Test 1', owned_by: 'user1' })
-    @tracing_request2 = TracingRequest.create!(data: { inquiry_date: Date.new(2018, 3, 1), relation_name: 'Test 2', owned_by: 'user2' })
+    @tracing_request1 = TracingRequest.create!(data: { inquiry_date: Date.new(2019, 3, 1), relation_name: 'Test 1',
+                                                       owned_by: 'user1' })
+    @tracing_request2 = TracingRequest.create!(data: { inquiry_date: Date.new(2018, 3, 1), relation_name: 'Test 2',
+                                                       owned_by: 'user2' })
 
-    @incident1 = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1', owned_by: 'user1' })
-    @incident2 = Incident.create!(data: { incident_date: Date.new(2018, 3, 1), description: 'Test 2', owned_by: 'user2' })
+    @incident1 = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1',
+                                          owned_by: 'user1' })
+    @incident2 = Incident.create!(data: { incident_date: Date.new(2018, 3, 1), description: 'Test 2',
+                                          owned_by: 'user2' })
 
     @case1.add_flag('This is a flag', Date.today, 'faketest')
     @case3.add_flag('This is a flag', Date.today, 'faketest')
@@ -60,7 +66,7 @@ describe Api::V2::FlagsController, type: :request do
       end
 
       it 'returns unauthorized' do
-        get "/api/v2/flags"
+        get '/api/v2/flags'
 
         expect(response).to have_http_status(403)
       end
@@ -74,29 +80,29 @@ describe Api::V2::FlagsController, type: :request do
         end
 
         it 'lists flags owned by or asssociated with the current user' do
-          get "/api/v2/flags"
+          get '/api/v2/flags'
 
           expect(response).to have_http_status(200)
           expect(json['data'].size).to eq(3)
-          expect(json['data'][0]['record_id']).to eq( @case1.id.to_s)
+          expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
           expect(json['data'][0]['record_type']).to eq('cases')
-          expect(json['data'][0]['message']).to eq( 'This is a flag')
+          expect(json['data'][0]['message']).to eq('This is a flag')
           expect(json['data'][0]['r_short_id']).to eq(@case1.short_id)
           expect(json['data'][0]['r_name']).to eq('*******')
           expect(json['data'][0]['r_hidden_name']).to be
-          expect(json['data'][0]['r_owned_by']).to eq( 'user1')
+          expect(json['data'][0]['r_owned_by']).to eq('user1')
           expect(json['data'][0]['removed']).to be_falsey
         end
 
         context 'and record_type cases is passed in' do
           it 'lists case flags owned by or asssociated with the current user' do
-            get "/api/v2/flags?record_type=cases"
+            get '/api/v2/flags?record_type=cases'
 
             expect(response).to have_http_status(200)
             expect(json['data'].size).to eq(1)
-            expect(json['data'][0]['record_id']).to eq( @case1.id.to_s)
+            expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
             expect(json['data'][0]['record_type']).to eq('cases')
-            expect(json['data'][0]['message']).to eq( 'This is a flag')
+            expect(json['data'][0]['message']).to eq('This is a flag')
             expect(json['data'][0]['r_name']).to eq('*******')
             expect(json['data'][0]['r_hidden_name']).to be
             expect(json['data'][0]['r_owned_by']).to eq('user1')
@@ -106,26 +112,26 @@ describe Api::V2::FlagsController, type: :request do
 
         context 'and record_type incidents is passed in' do
           it 'lists incident flags owned by or asssociated with the current user' do
-            get "/api/v2/flags?record_type=incidents"
+            get '/api/v2/flags?record_type=incidents'
 
             expect(response).to have_http_status(200)
             expect(json['data'].size).to eq(1)
-            expect(json['data'][0]['record_id']).to eq( @incident1.id.to_s)
+            expect(json['data'][0]['record_id']).to eq(@incident1.id.to_s)
             expect(json['data'][0]['record_type']).to eq('incidents')
-            expect(json['data'][0]['message']).to eq( 'This is a flag IN')
+            expect(json['data'][0]['message']).to eq('This is a flag IN')
             expect(json['data'][0]['removed']).to be_falsey
           end
         end
 
         context 'and record_type tracing_requests is passed in' do
           it 'lists tracing_request flags owned by or asssociated with the current user' do
-            get "/api/v2/flags?record_type=tracing_requests"
+            get '/api/v2/flags?record_type=tracing_requests'
 
             expect(response).to have_http_status(200)
             expect(json['data'].size).to eq(1)
-            expect(json['data'][0]['record_id']).to eq( @tracing_request1.id.to_s)
+            expect(json['data'][0]['record_id']).to eq(@tracing_request1.id.to_s)
             expect(json['data'][0]['record_type']).to eq('tracing_requests')
-            expect(json['data'][0]['message']).to eq( 'This is a flag TR')
+            expect(json['data'][0]['message']).to eq('This is a flag TR')
             expect(json['data'][0]['removed']).to be_falsey
           end
         end
@@ -138,9 +144,9 @@ describe Api::V2::FlagsController, type: :request do
 
                 expect(response).to have_http_status(200)
                 expect(json['data'].size).to eq(1)
-                expect(json['data'][0]['record_id']).to eq( @case3.id.to_s)
+                expect(json['data'][0]['record_id']).to eq(@case3.id.to_s)
                 expect(json['data'][0]['record_type']).to eq('cases')
-                expect(json['data'][0]['message']).to eq( 'This is a flag')
+                expect(json['data'][0]['message']).to eq('This is a flag')
                 expect(json['data'][0]['r_name']).to eq('Test3')
                 expect(json['data'][0]['r_hidden_name']).not_to be
                 expect(json['data'][0]['r_owned_by']).to eq('user2')
@@ -164,9 +170,9 @@ describe Api::V2::FlagsController, type: :request do
 
               expect(response).to have_http_status(200)
               expect(json['data'].size).to eq(3)
-              expect(json['data'][0]['record_id']).to eq( @incident2.id.to_s)
+              expect(json['data'][0]['record_id']).to eq(@incident2.id.to_s)
               expect(json['data'][0]['record_type']).to eq('incidents')
-              expect(json['data'][0]['message']).to eq( 'This is a flag IN')
+              expect(json['data'][0]['message']).to eq('This is a flag IN')
               expect(json['data'][0]['r_name']).not_to be
               expect(json['data'][0]['r_hidden_name']).not_to be
               expect(json['data'][0]['r_owned_by']).to eq('user2')
@@ -180,9 +186,9 @@ describe Api::V2::FlagsController, type: :request do
 
               expect(response).to have_http_status(200)
               expect(json['data'].size).to eq(1)
-              expect(json['data'][0]['record_id']).to eq( @tracing_request1.id.to_s)
+              expect(json['data'][0]['record_id']).to eq(@tracing_request1.id.to_s)
               expect(json['data'][0]['record_type']).to eq('tracing_requests')
-              expect(json['data'][0]['message']).to eq( 'This is a flag TR')
+              expect(json['data'][0]['message']).to eq('This is a flag TR')
               expect(json['data'][0]['r_name']).not_to be
               expect(json['data'][0]['r_hidden_name']).not_to be
               expect(json['data'][0]['r_owned_by']).to eq('user1')
@@ -199,16 +205,16 @@ describe Api::V2::FlagsController, type: :request do
         end
 
         it 'lists flags owned by or associated with users in current users groups' do
-          get "/api/v2/flags"
+          get '/api/v2/flags'
 
           expect(response).to have_http_status(200)
           expect(json['data'].size).to eq(7)
-          expect(json['data'][0]['record_id']).to eq( @case1.id.to_s)
+          expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
           expect(json['data'][0]['record_type']).to eq('cases')
-          expect(json['data'][0]['message']).to eq( 'This is a flag')
+          expect(json['data'][0]['message']).to eq('This is a flag')
           expect(json['data'][0]['r_name']).to eq('*******')
           expect(json['data'][0]['r_hidden_name']).to be
-          expect(json['data'][0]['r_owned_by']).to eq( 'user1')
+          expect(json['data'][0]['r_owned_by']).to eq('user1')
           expect(json['data'][0]['removed']).to be_falsey
         end
       end
@@ -231,7 +237,6 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['data'][0]['removed']).to be_truthy
       expect(json['data'][1]['removed']).to be_falsey
     end
-
   end
 
   describe 'POST /api/v2/flags' do
@@ -252,11 +257,11 @@ describe Api::V2::FlagsController, type: :request do
           post '/api/v2/flags', params: @params
 
           expect(response).to have_http_status(200)
-          expect(json['data']['record_id']).to eq( @case1.id.to_s)
+          expect(json['data']['record_id']).to eq(@case1.id.to_s)
           expect(json['data']['record_type']).to eq('cases')
-          expect(json['data']['message']).to eq( 'This is a create case flag test')
+          expect(json['data']['message']).to eq('This is a create case flag test')
           expect(json['data']['removed']).to be_falsey
-          expect(json['data']['record_id']).to eq( json['data']['record']['id'])
+          expect(json['data']['record_id']).to eq(json['data']['record']['id'])
 
           expect(audit_params['action']).to eq('flag')
         end
@@ -270,9 +275,9 @@ describe Api::V2::FlagsController, type: :request do
                                    .with(record_type: 'Child',
                                          record_id: @case1.id,
                                          action: 'flag',
-                                         user_id: fake_user_id, #This is technically wrong, but an artifact of the way we do tests
+                                         user_id: fake_user_id, # This is technically wrong, but an artifact of the way we do tests
                                          resource_url: request.url,
-                                         metadata: {user_name: fake_user_name})
+                                         metadata: { user_name: fake_user_name })
         end
       end
 
@@ -288,11 +293,11 @@ describe Api::V2::FlagsController, type: :request do
           post '/api/v2/flags', params: @params
 
           expect(response).to have_http_status(200)
-          expect(json['data']['record_id']).to eq( @tracing_request1.id.to_s)
+          expect(json['data']['record_id']).to eq(@tracing_request1.id.to_s)
           expect(json['data']['record_type']).to eq('tracing_requests')
-          expect(json['data']['message']).to eq( 'This is a create tracing request flag test')
+          expect(json['data']['message']).to eq('This is a create tracing request flag test')
           expect(json['data']['removed']).to be_falsey
-          expect(json['data']['record_id']).to eq( json['data']['record']['id'])
+          expect(json['data']['record_id']).to eq(json['data']['record']['id'])
 
           expect(audit_params['action']).to eq('flag')
         end
@@ -310,11 +315,11 @@ describe Api::V2::FlagsController, type: :request do
           post '/api/v2/flags', params: @params
 
           expect(response).to have_http_status(200)
-          expect(json['data']['record_id']).to eq( @incident1.id.to_s)
+          expect(json['data']['record_id']).to eq(@incident1.id.to_s)
           expect(json['data']['record_type']).to eq('incidents')
-          expect(json['data']['message']).to eq( 'This is a create incident flag test')
+          expect(json['data']['message']).to eq('This is a create incident flag test')
           expect(json['data']['removed']).to be_falsey
-          expect(json['data']['record_id']).to eq( json['data']['record']['id'])
+          expect(json['data']['record_id']).to eq(json['data']['record']['id'])
 
           expect(audit_params['action']).to eq('flag')
         end
@@ -330,12 +335,12 @@ describe Api::V2::FlagsController, type: :request do
         }
       end
 
-      it "returns a forbidden message" do
+      it 'returns a forbidden message' do
         post '/api/v2/flags', params: @params
 
         expect(response).to have_http_status(403)
         expect(json['errors'][0]['status']).to eq(403)
-        expect(json['errors'][0]['resource']).to eq("/api/v2/flags")
+        expect(json['errors'][0]['resource']).to eq('/api/v2/flags')
         expect(json['errors'][0]['message']).to eq('Forbidden')
       end
     end
@@ -362,7 +367,7 @@ describe Api::V2::FlagsController, type: :request do
           expect(json['data']['unflag_message']).to eq('This is an unflag case test')
           expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
           expect(json['data']['unflagged_by']).to eq('faketest')
-          expect(json['data']['record_id']).to eq( json['data']['record']['id'])
+          expect(json['data']['record_id']).to eq(json['data']['record']['id'])
 
           expect(audit_params['action']).to eq('unflag')
         end
@@ -384,7 +389,7 @@ describe Api::V2::FlagsController, type: :request do
           expect(json['data']['unflag_message']).to eq('This is an unflag tracing request test')
           expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
           expect(json['data']['unflagged_by']).to eq('faketest')
-          expect(json['data']['record_id']).to eq( json['data']['record']['id'])
+          expect(json['data']['record_id']).to eq(json['data']['record']['id'])
 
           expect(audit_params['action']).to eq('unflag')
         end
@@ -406,7 +411,7 @@ describe Api::V2::FlagsController, type: :request do
           expect(json['data']['unflag_message']).to eq('This is an unflag incident test')
           expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
           expect(json['data']['unflagged_by']).to eq('faketest')
-          expect(json['data']['record_id']).to eq( json['data']['record']['id'])
+          expect(json['data']['record_id']).to eq(json['data']['record']['id'])
 
           expect(audit_params['action']).to eq('unflag')
         end
@@ -432,15 +437,15 @@ describe Api::V2::FlagsController, type: :request do
     end
   end
 
-  # TODO  what is this?
+  # TODO:  what is this?
   describe 'verification the ids' do
     xit 'verifying the id of the cases' do
       login_for_test(permissions: permission_flag_record)
       get "/api/v2/cases/#{@case1.id}/flags"
 
-      expect(request.path.split('/')[4]).to eq( @case1.id.to_s)
+      expect(request.path.split('/')[4]).to eq(@case1.id.to_s)
       expect(json['data'].size).to eq(1)
-      expect(json['data'][0]['record_id']).to eq( @case1.id.to_s)
+      expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
     end
 
     xit 'verifying the id of the flags' do
@@ -463,5 +468,4 @@ describe Api::V2::FlagsController, type: :request do
     clear_enqueued_jobs
     clean_data(Flag, User, Child, TracingRequest, Incident, PrimeroModule, UserGroup, Agency)
   end
-
 end
