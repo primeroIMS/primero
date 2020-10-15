@@ -432,78 +432,7 @@ describe Api::V2::FlagsController, type: :request do
     end
   end
 
-  # TODO: fix
-  describe 'POST /api/v2/:recordType/flags' do
-    xit 'flagging cases in bulk' do
-      login_for_test(permissions: permission_flag_record)
-      expect(@case1.flag_count).to eq(1)
-      expect(@case2.flag_count).to eq(0)
-
-      params = { data: { ids: [@case1.id, @case2.id], record_type: 'case', date: Date.today.to_s, message: 'This is another flag' } }
-      post "/api/v2/cases/flags", params: params
-
-      expect(response).to have_http_status(204)
-      @case1.reload
-      @case2.reload
-      expect(@case1.flag_count).to eq(2)
-      expect(@case2.flag_count).to eq(1)
-
-      expect(audit_params['action']).to eq('bulk_flag')
-    end
-
-    xit 'flagging tracing_request in bulk' do
-      login_for_test(permissions: permission_flag_record)
-      expect(@tracing_request1.flag_count).to eq(1)
-      expect(@tracing_request2.flag_count).to eq(0)
-
-      params = { data: { ids: [@tracing_request1.id, @tracing_request2.id], record_type: 'tracing_request', date: Date.today.to_s, message: 'This is another flag TR' } }
-      post "/api/v2/tracing_requests/flags", params: params
-
-      expect(response).to have_http_status(204)
-      @tracing_request1.reload
-      @tracing_request2.reload
-      expect(@tracing_request1.flag_count).to eq(2)
-      expect(@tracing_request2.flag_count).to eq(1)
-    end
-
-    xit 'flagging incindet in bulk' do
-      login_for_test(permissions: permission_flag_record)
-      expect(@incident1.flag_count).to eq(1)
-      expect(@incident2.flag_count).to eq(0)
-
-      params = { data: { ids: [@incident1.id, @incident2.id], record_type: 'incident', date: Date.today.to_s, message: 'This is another flag TR' } }
-      post "/api/v2/incidents/flags", params: params
-
-      expect(response).to have_http_status(204)
-      @incident1.reload
-      @incident2.reload
-      expect(@incident1.flag_count).to eq(2)
-      expect(@incident2.flag_count).to eq(1)
-    end
-
-    xit "get a forbidden message if the user doesn't have flag permission" do
-      login_for_test
-      params = { data: { ids: [@case1.id, @case2.id], record_type: 'case', date: Date.today.to_s, message: 'This is another flag' } }
-      post "/api/v2/cases/flags", params: params
-
-      expect(response).to have_http_status(403)
-      expect(json['errors'][0]['status']).to eq(403)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/flags")
-      expect(json['errors'][0]['message']).to eq('Forbidden')
-    end
-
-    xit "get a 404 error if one of the ids on the requests isn't exists" do
-      login_for_test(permissions: permission_flag_record)
-
-      params = { data: { ids: [@incident1.id, '12345'], record_type: 'incident', date: Date.today.to_s, message: 'This is another flag TR' } }
-      post "/api/v2/incidents/flags", params: params
-
-      expect(response).to have_http_status(404)
-      expect(json['errors'][0]['message']).to eq('Not Found')
-    end
-  end
-
-  # TODO
+  # TODO  what is this?
   describe 'verification the ids' do
     xit 'verifying the id of the cases' do
       login_for_test(permissions: permission_flag_record)

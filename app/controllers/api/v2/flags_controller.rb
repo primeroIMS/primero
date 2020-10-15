@@ -17,9 +17,6 @@ class Api::V2::FlagsController < ApplicationApiController
     # @total = results[:total]
   end
 
-  # TODO: finish refactoring methods from old flags controller
-  # TODO: fix routes
-  # TODO: fix controller tests
   # TODO: fix front end that uses these actions
 
   def create
@@ -36,21 +33,12 @@ class Api::V2::FlagsController < ApplicationApiController
     updates_for_record(@record)
   end
 
-  def create_bulk
-    authorize_all!(:flag, @records)
-    record_model.batch_flag(@records, params['data']['message'], params['data']['date'].to_date, current_user.user_name)
-  end
-
   def create_action_message
     'flag'
   end
 
   def update_action_message
     'unflag'
-  end
-
-  def create_bulk_record_resource
-    'bulk_flag'
   end
 
   protected
@@ -72,7 +60,7 @@ class Api::V2::FlagsController < ApplicationApiController
   private
 
   def record_model
-    @record_model = Record.model_from_name(flag_params[:record_type])
+    @record_model ||= Record.model_from_name(flag_params[:record_type])
   end
 
   def query_scope

@@ -27,7 +27,6 @@ Rails.application.routes.draw do
                    only: %i[index create show update destroy] do
       resources :children, as: :cases, path: :cases do
         resources :children_incidents, as: :incidents, path: :incidents, only: %i[index new]
-        # resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
         resources :assigns, only: %i[index create]
         resources :referrals, only: %i[index create destroy]
@@ -39,7 +38,6 @@ Rails.application.routes.draw do
         resources :potential_matches, only: [:index]
         get :record_history, to: 'record_histories#index'
         collection do
-          # post :flags, to: 'flags#create_bulk'
           post :assigns, to: 'assigns#create_bulk'
           post :referrals, to: 'referrals#create_bulk'
           post :transfers, to: 'transfers#create_bulk'
@@ -47,20 +45,16 @@ Rails.application.routes.draw do
       end
 
       resources :incidents do
-        # resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy]
-        # post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
       end
 
       resources :tracing_requests do
-        # resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy]
-        # post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
       end
 
