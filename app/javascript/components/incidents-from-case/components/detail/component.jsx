@@ -48,10 +48,7 @@ const Component = ({
   };
 
   const handleEvent = modeEvent => {
-    incidentPath =
-      modeEvent === "view"
-        ? `/${RESOURCES.incidents}/${incidentUniqueID}`
-        : `/${RESOURCES.incidents}/${incidentUniqueID}/edit`;
+    incidentPath = `/${RESOURCES.incidents}/${incidentUniqueID}${modeEvent === "view" ? "" : "/edit"}`;
     if (!mode.isShow) {
       setRedirectOpts({ open: true, incidentPath });
     } else {

@@ -344,7 +344,7 @@ describe("<RecordForms /> - Component", () => {
 
       expect(componentRecordForm.find(Approvals)).to.have.lengthOf(1);
       expect(componentRecordForm.find(ApprovalPanel)).to.have.lengthOf(1);
-      expect(componentRecordForm.find(Transitions)).to.have.lengthOf(0);
+      expect(componentRecordForm.find(Transitions)).to.be.empty;
       expect(componentRecordForm.find(Approvals).find(RecordFormTitle).text()).to.be.equal(
         "forms.record_types.approvals"
       );
@@ -416,8 +416,8 @@ describe("<RecordForms /> - Component", () => {
       expect(componentRecordForm).to.have.lengthOf(1);
       expect(componentRecordForm.find(IncidentFromCase)).to.have.lengthOf(1);
       expect(componentRecordForm.find(IncidentFromCasePanel)).to.have.lengthOf(1);
-      expect(componentRecordForm.find(Transitions)).to.have.lengthOf(0);
-      expect(componentRecordForm.find(Approvals)).to.have.lengthOf(0);
+      expect(componentRecordForm.find(Transitions)).to.be.empty;
+      expect(componentRecordForm.find(Approvals)).to.be.empty;
     });
   });
 
@@ -470,8 +470,8 @@ describe("<RecordForms /> - Component", () => {
 
       expect(componentRecordForm).to.have.lengthOf(1);
       expect(componentRecordForm.find(Approvals)).to.have.lengthOf(1);
-      expect(componentRecordForm.find(ApprovalPanel)).to.have.lengthOf(0);
-      expect(componentRecordForm.find(Transitions)).to.have.lengthOf(0);
+      expect(componentRecordForm.find(ApprovalPanel)).to.be.empty;
+      expect(componentRecordForm.find(Transitions)).to.be.empty;
     });
   });
 

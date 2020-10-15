@@ -23,7 +23,7 @@ describe("<RedirectDialog /> - Component", () => {
   });
 
   it("render RedirectDialog component", () => {
-    expect(component.find(RedirectDialog)).to.have.length(1);
+    expect(component.find(RedirectDialog)).to.have.lengthOf(1);
   });
 
   it("render a ActionDialog", () => {
