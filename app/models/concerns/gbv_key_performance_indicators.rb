@@ -19,82 +19,10 @@ module GBVKeyPerformanceIndicators
     end
   end
 
-  def completed_survivor_assessment
-    form_responses(:survivor_assessment_form).any?(&:complete?)
-  end
-
-  def requires_safety_plan?
-    form_responses(:safety_plan)
-      .field(:safety_plan_needed)
-      .any? { |result| result == 'yes' }
-  end
-  alias safety_plan_required requires_safety_plan?
-
-  def completed_safety_plan
-    safety_plans = form_responses(:safety_plan)
-                   .select { |response| response.field(:safety_plan_needed) == 'yes' }
-
-    !safety_plans.empty? && safety_plans.all?(&:complete?)
-  end
-
-  def completed_action_plan
-    form_responses(:action_plan_form)
-      .subform(:action_plan_section)
-      .any?(&:complete?)
-  end
-
-  def services_provided
-    form_responses(:action_plan_form)
-      .subform(:gbv_follow_up_subform_section)
-      .field(:service_type_provided)
-      .uniq
-  end
-
-  def action_plan_referral_statuses
-    form_responses(:action_plan_form)
-      .subform(:action_plan_subform_section)
-      .field(:service_referral)
-      .compact
-  end
-
-  def number_of_meetings
-    form_responses(:action_plan_form)
-      .subform(:gbv_follow_up_subform_section)
-      .field(:followup_date)
-      .compact.count
-  end
-
-  def safety_goals_progress
-    goal_progress(:gbv_assessment_progress_safety)
-  end
-
-  def health_goals_progress
-    goal_progress(:gbv_assessment_progress_health)
-  end
-
-  def psychosocial_goals_progress
-    goal_progress(:gbv_assessment_progress_psychosocial)
-  end
-
-  def justice_goals_progress
-    goal_progress(:gbv_assessment_progress_justice)
-  end
-
-  def other_goals_progress
-    goal_progress(:gbv_assessment_other_goals)
-  end
-
-  def satisfaction_status
-    return nil unless client_feedback
-
-    feedback_responses = KPI::ClientFeedbackResponseList.new(responses: client_feedback)
-
-    if feedback_responses.satisfied >= feedback_responses.unsatisfied
-      'satisfied'
-    else
-      'unsatisfied'
-    end
-  end
+  delegate :completed_survivor_assessment, :safety_plan_required, :completed_safety_plan,
+    :completed_action_plan, :services_provided, :action_plan_referral_statuses, :number_of_meetings,
+    :safety_goals_progress, :health_goals_progress, :psychosocial_goals_progress, :justice_goals_progress,
+    :other_goals_progress, :satisfaction_status, to: :kpis
 
   private
 
@@ -131,5 +59,9 @@ module GBVKeyPerformanceIndicators
         .subform(:gbv_follow_up_subform_section)
         .field(goal_field)
     )
+  end
+
+  def kpis
+    @kpis ||= GbvKpiCalculationService.new(self)
   end
 end
