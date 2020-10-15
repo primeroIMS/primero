@@ -4,8 +4,12 @@ require 'rails_helper'
 
 describe Api::V2::IncidentsController, type: :request do
   before :each do
+    @case1 = Child.create!(data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false })
     @incident1 = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
     @incident2 = Incident.create!(data: { incident_date: Date.new(2018, 3, 1), description: 'Test 2' })
+    @incident3 = Incident.create!(
+      data: { incident_date: Date.new(2018, 3, 1), description: 'Test 3', incident_case_id: @case1.id }
+    )
     Sunspot.commit
   end
 
@@ -17,9 +21,11 @@ describe Api::V2::IncidentsController, type: :request do
       get '/api/v2/incidents'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(2)
-      expect(json['data'].map { |c| c['description'] }).to include(@incident1.description, @incident2.description)
-      expect(json['metadata']['total']).to eq(2)
+      expect(json['data'].size).to eq(3)
+      expect(json['data'].map { |c| c['description'] }).to include(
+        @incident1.description, @incident2.description, @incident3.description
+      )
+      expect(json['metadata']['total']).to eq(3)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
     end
@@ -43,6 +49,21 @@ describe Api::V2::IncidentsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@incident1.id)
+    end
+
+    it 'fetches the case data from the incident if the user is permitted to see it' do
+      login_for_test(
+        permissions:
+          [
+            Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ]),
+            Permission.new(resource: Permission::CASE, actions: [Permission::INCIDENT_FROM_CASE])
+          ]
+      )
+      get "/api/v2/incidents/#{@incident3.id}"
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['incident_case_id']).to eq(@incident3.incident_case_id)
+      expect(json['data']['case_id_display']).to eq(@incident3.case_id_display)
     end
   end
 

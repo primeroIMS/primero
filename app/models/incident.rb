@@ -98,20 +98,9 @@ class Incident < ApplicationRecord
     incident_date || date_of_incident_from || date_of_incident
   end
 
-  def associations_as_data
-    return @associations_as_data if @associations_as_data
+  def case_id_display
+    return unless incident_case_id.present?
 
-    @associations_as_data = if incident_case_id.present?
-                              {
-                                'incident_case_id' => incident_case_id,
-                                'incident_case_short_id' => self.case.short_id
-                              }
-                            else
-                              {}
-                            end
-  end
-
-  def associations_as_data_keys
-    %w[incident_case_id]
+    self.case.case_id_display
   end
 end
