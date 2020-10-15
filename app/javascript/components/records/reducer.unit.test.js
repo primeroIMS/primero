@@ -1,6 +1,6 @@
 import { Map, List, fromJS, OrderedMap } from "immutable";
 
-import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, INCIDENT_CASE_SHORT_ID_FIELD } from "../../config";
+import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD } from "../../config";
 
 import reducer from "./reducer";
 
@@ -176,7 +176,7 @@ describe("<RecordList /> - Reducers", () => {
         type: "cases/SET_CASE_ID_FOR_INCIDENT",
         payload: {
           caseId: "case-unique-id-1",
-          caseShortId: "case-short-id-1"
+          caseIdDisplay: "case-display-id-1"
         }
       };
 
@@ -187,7 +187,7 @@ describe("<RecordList /> - Reducers", () => {
           incidentFromCase: {
             ...incidentFromCase,
             [INCIDENT_CASE_ID_FIELD]: "case-unique-id-1",
-            [INCIDENT_CASE_SHORT_ID_FIELD]: "case-short-id-1"
+            [INCIDENT_CASE_ID_DISPLAY_FIELD]: "case-display-id-1"
           }
         })
       );

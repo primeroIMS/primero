@@ -20,7 +20,7 @@ import { getSavingRecord } from "../../records/selectors";
 import {
   RECORD_TYPES,
   RECORD_PATH,
-  INCIDENT_CASE_SHORT_ID_FIELD,
+  INCIDENT_CASE_ID_DISPLAY_FIELD,
   INCIDENT_CASE_ID_FIELD,
   INCIDENT_FROM_CASE
 } from "../../../config";
@@ -59,11 +59,11 @@ const RecordFormToolbar = ({
 
   const flags = useSelector(state => getActiveFlags(state, params.id, params.recordType));
 
-  const getIncidentFromCaseShortId = () => {
+  const getIncidentFromCaseIdDisplay = () => {
     if (recordType === RECORD_TYPES.incidents) {
       return incidentFromCase?.size
-        ? incidentFromCase.get(INCIDENT_CASE_SHORT_ID_FIELD)
-        : record?.get(INCIDENT_CASE_SHORT_ID_FIELD);
+        ? incidentFromCase.get(INCIDENT_CASE_ID_DISPLAY_FIELD)
+        : record?.get(INCIDENT_CASE_ID_DISPLAY_FIELD);
     }
 
     return null;
@@ -126,7 +126,7 @@ const RecordFormToolbar = ({
           recordType={recordType}
           shortId={shortId}
           incidentCaseId={getIncidentFromCaseId()}
-          incidentCaseShortId={getIncidentFromCaseShortId()}
+          incidentCaseIdDisplay={getIncidentFromCaseIdDisplay()}
           toolbarHeading={css.toolbarHeading}
           associatedLinkClass={css.associatedCaseLink}
         />

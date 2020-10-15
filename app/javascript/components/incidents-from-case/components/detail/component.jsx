@@ -19,7 +19,7 @@ import { setCaseIdForIncident } from "../../../records/action-creators";
 const Component = ({
   css,
   incidentCaseId,
-  incidentCaseShortId,
+  incidentCaseIdDisplay,
   incidentDateInterview,
   incidentDate,
   incidentUniqueID,
@@ -35,14 +35,14 @@ const Component = ({
   const handleView = () => {
     batch(() => {
       dispatch(setSelectedForm(null));
-      dispatch(setCaseIdForIncident(incidentCaseId, incidentCaseShortId));
+      dispatch(setCaseIdForIncident(incidentCaseId, incidentCaseIdDisplay));
       dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}`));
     });
   };
   const handleEdit = () => {
     batch(() => {
       dispatch(setSelectedForm(null));
-      dispatch(setCaseIdForIncident(incidentCaseId, incidentCaseShortId));
+      dispatch(setCaseIdForIncident(incidentCaseId, incidentCaseIdDisplay));
       dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}/edit`));
     });
   };
@@ -106,7 +106,7 @@ Component.displayName = NAME_DETAIL;
 Component.propTypes = {
   css: PropTypes.object.isRequired,
   incidentCaseId: PropTypes.string,
-  incidentCaseShortId: PropTypes.string,
+  incidentCaseIdDisplay: PropTypes.string,
   incidentDate: PropTypes.string,
   incidentDateInterview: PropTypes.string,
   incidentType: PropTypes.node,

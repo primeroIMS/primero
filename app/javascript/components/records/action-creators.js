@@ -138,13 +138,13 @@ export const clearCaseFromIncident = () => ({
   type: `cases/${CLEAR_CASE_FROM_INCIDENT}`
 });
 
-export const setCaseIdForIncident = (caseId, caseShortId) => ({
+export const setCaseIdForIncident = (caseId, caseIdDisplay) => ({
   type: `cases/${SET_CASE_ID_FOR_INCIDENT}`,
-  payload: { caseId, caseShortId }
+  payload: { caseId, caseIdDisplay }
 });
 
-export const fetchIncidentFromCase = (caseId, caseShortId, moduleId) => {
-  const { type: action, payload } = setCaseIdForIncident(caseId, caseShortId);
+export const fetchIncidentFromCase = (caseId, caseIdDisplay, moduleId) => {
+  const { type: action, payload } = setCaseIdForIncident(caseId, caseIdDisplay);
   const successCallback = {
     action,
     payload,

@@ -2,7 +2,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 
+import Permission from "../../application/permission";
 import { RECORD_PATH } from "../../../config";
+import { READ_RECORDS } from "../../../libs/permissions";
 
 import { RECORD_FORM_TOOLBAR_PAGE_HEADING_NAME } from "./constants";
 
@@ -16,7 +18,7 @@ const Component = ({
   toolbarHeading,
   associatedLinkClass,
   incidentCaseId,
-  incidentCaseShortId
+  incidentCaseIdDisplay
 }) => {
   let heading = "";
 
@@ -29,10 +31,12 @@ const Component = ({
   }
 
   const associatedCase =
-    params.recordType === RECORD_PATH.incidents && incidentCaseId && incidentCaseShortId ? (
-      <p className={associatedLinkClass}>
-        {i18n.t("incident.associated_case")} <Link to={`/cases/${incidentCaseId}`}>{incidentCaseShortId}</Link>
-      </p>
+    params.recordType === RECORD_PATH.incidents && incidentCaseId && incidentCaseIdDisplay ? (
+      <Permission resources={RECORD_PATH.cases} actions={READ_RECORDS}>
+        <p className={associatedLinkClass}>
+          {i18n.t("incident.associated_case")} <Link to={`/cases/${incidentCaseId}`}>{incidentCaseIdDisplay}</Link>
+        </p>
+      </Permission>
     ) : null;
 
   return (
@@ -52,7 +56,7 @@ Component.propTypes = {
     t: PropTypes.func
   }),
   incidentCaseId: PropTypes.string,
-  incidentCaseShortId: PropTypes.string,
+  incidentCaseIdDisplay: PropTypes.string,
   mode: PropTypes.object,
   params: PropTypes.object.isRequired,
   recordType: PropTypes.string.isRequired,

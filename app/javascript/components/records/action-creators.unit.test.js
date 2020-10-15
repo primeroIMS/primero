@@ -181,13 +181,13 @@ describe("records - Action Creators", () => {
         path: `cases/case-unique-id-1/incidents/new`,
         successCallback: {
           action: `cases/SET_CASE_ID_FOR_INCIDENT`,
-          payload: { caseId: "case-unique-id-1", caseShortId: "case-short-id-1" },
+          payload: { caseId: "case-unique-id-1", caseIdDisplay: "case-display-id-1" },
           redirect: "/incidents/module-id-1/new"
         }
       }
     };
 
-    expect(actionCreators.fetchIncidentFromCase("case-unique-id-1", "case-short-id-1", "module-id-1")).be.deep.equals(
+    expect(actionCreators.fetchIncidentFromCase("case-unique-id-1", "case-display-id-1", "module-id-1")).be.deep.equals(
       expected
     );
   });
@@ -195,9 +195,9 @@ describe("records - Action Creators", () => {
   it("should check the 'setCaseIdForIncident' action creator to return the correct object", () => {
     const expected = {
       type: "cases/SET_CASE_ID_FOR_INCIDENT",
-      payload: { caseId: "case-unique-id-1", caseShortId: "case-short-id-1" }
+      payload: { caseId: "case-unique-id-1", caseIdDisplay: "case-display-id-1" }
     };
 
-    expect(actionCreators.setCaseIdForIncident("case-unique-id-1", "case-short-id-1")).to.deep.equal(expected);
+    expect(actionCreators.setCaseIdForIncident("case-unique-id-1", "case-display-id-1")).to.deep.equal(expected);
   });
 });

@@ -40,7 +40,7 @@ describe("Verifying config constant", () => {
       "IDLE_TIMEOUT",
       "ID_FIELD",
       "INCIDENT_CASE_ID_FIELD",
-      "INCIDENT_CASE_SHORT_ID_FIELD",
+      "INCIDENT_CASE_ID_DISPLAY_FIELD",
       "INCIDENT_FROM_CASE",
       "LOCALE_KEYS",
       "LOOKUPS",
