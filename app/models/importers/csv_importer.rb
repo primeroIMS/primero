@@ -2,7 +2,7 @@
 
 # Import record data into Primero from CSV.
 # TODO: This is deprecated and should be eventually removed for security reasons
-class Importers::CSVImporter < BaseImporter
+class Importers::CSVImporter < Importers::BaseImporter
   def self.id
     'csv'
   end
