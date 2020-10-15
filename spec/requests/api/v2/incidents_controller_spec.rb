@@ -8,7 +8,8 @@ describe Api::V2::IncidentsController, type: :request do
     @incident1 = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
     @incident2 = Incident.create!(data: { incident_date: Date.new(2018, 3, 1), description: 'Test 2' })
     @incident3 = Incident.create!(
-      data: { incident_date: Date.new(2018, 3, 1), description: 'Test 3', incident_case_id: @case1.id }
+      data: { incident_date: Date.new(2018, 3, 1), description: 'Test 3' },
+      incident_case_id: @case1.id
     )
     Sunspot.commit
   end
@@ -64,6 +65,21 @@ describe Api::V2::IncidentsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['incident_case_id']).to eq(@incident3.incident_case_id)
       expect(json['data']['case_id_display']).to eq(@incident3.case_id_display)
+    end
+
+    it 'should not return case data if the incident is not linked to a case' do
+      login_for_test(
+        permissions:
+          [
+            Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ]),
+            Permission.new(resource: Permission::CASE, actions: [Permission::INCIDENT_FROM_CASE])
+          ]
+      )
+      get "/api/v2/incidents/#{@incident1.id}"
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].key?('incident_case_id')).to eq(false)
+      expect(json['data'].key?('case_id_display')).to eq(false)
     end
   end
 

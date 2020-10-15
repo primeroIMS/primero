@@ -80,7 +80,7 @@ class RecordDataService
     end
 
     def embed_case_data(data, record, selected_field_names)
-      return data unless record.class == Incident
+      return data unless record.class == Incident && record.incident_case_id.present?
 
       data['incident_case_id'] = record.incident_case_id if selected_field_names.include?('incident_case_id')
       data['case_id_display'] = record.case_id_display if selected_field_names.include?('case_id_display')
