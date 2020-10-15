@@ -25,6 +25,13 @@ def _check_call(args, *popenargs, **kwargs):
     print('+', ' '.join(pipes.quote(a) for a in args))
     subprocess.check_call(args, *popenargs, **kwargs)
 
+def _deploy_hook(container_renewed_file, certname, certbot_certificates_volume_name):
+    touch_command = ' '.join(['touch', container_renewed_file])
+    live_cert = '/'.join(['/etc/letsencrypt/live/', certname, 'cert.pem'])
+    archive_cert = '/'.join(['/etc/letsencrypt/archive/', certname, 'cert.pem'])
+    live_cert_chmod_command = ' '.join(['chmod', 'a+r', '-R', '/etc/letsencrypt/live'])
+    archive_cert_chmod_command = ' '.join(['chmod', 'a+r', '-R', '/etc/letsencrypt/archive'])
+    return ' && '.join([touch_command, live_cert_chmod_command, archive_cert_chmod_command])
 
 def _main(argv):
     parser = argparse.ArgumentParser(
@@ -80,7 +87,7 @@ def _main(argv):
         certbot_challenges_volume_name = ''.join([arguments.project_name, '_certbot_challenges'])
         container_dir = '/tmp/deploy-hook-dir'
         container_renewed_file = os.path.join(container_dir, 'renewed')
-        deploy_hook_command = ' '.join(['touch', container_renewed_file])
+        deploy_hook_command = _deploy_hook(container_renewed_file, arguments.certname, certbot_certificates_volume_name)
         def generator():
             yield 'docker'
             yield 'run'
