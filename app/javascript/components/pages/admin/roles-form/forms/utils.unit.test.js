@@ -1,4 +1,6 @@
-import { buildPermissionOptions } from "./utils";
+import { Map } from "immutable";
+
+import { buildAdminLevelSelect, buildPermissionOptions } from "./utils";
 
 describe("pages/admin/<RolesForm>/forms - utils", () => {
   const i18n = { t: label => label };
@@ -34,6 +36,28 @@ describe("pages/admin/<RolesForm>/forms - utils", () => {
       ];
 
       expect(buildPermissionOptions(actions, i18n, "case", approvalsLabels)).to.deep.equal(expected);
+    });
+  });
+
+  describe("buildAdminLevelSelect", () => {
+    const adminLevelMap = Map({
+      "1": ["province"],
+      "2": ["district", "test"]
+    });
+
+    it("should return an array of objects to be used as option_strings_text", () => {
+      const expected = [
+        {
+          id: 1,
+          display_text: "Province"
+        },
+        {
+          id: 2,
+          display_text: "District, Test"
+        }
+      ];
+
+      expect(buildAdminLevelSelect(adminLevelMap)).to.deep.equal(expected);
     });
   });
 });
