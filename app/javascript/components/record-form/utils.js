@@ -17,9 +17,11 @@ import {
 function compareArray(value, base) {
   return value.reduce((acc, v) => {
     if (isObject(v)) {
-      const baseSubform = find(base, b => {
-        return b.unique_id === v.unique_id;
-      });
+      const baseSubform =
+        ("unique_id" in v || "id" in v) &&
+        find(base, b => {
+          return b.unique_id === v.unique_id || b.id === v.id;
+        });
 
       if (baseSubform) {
         const diff = difference(v, baseSubform, true);
