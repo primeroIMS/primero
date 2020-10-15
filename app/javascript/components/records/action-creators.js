@@ -12,7 +12,7 @@ import {
   FETCH_INCIDENT_FROM_CASE,
   SET_CASE_ID_FOR_INCIDENT,
   CLEAR_CASE_FROM_INCIDENT,
-  SET_REDIRECT_TO_INCIDENT
+  SET_CASE_ID_REDIRECT
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -72,7 +72,7 @@ const getSuccessCallback = ({
     ];
   }
   if (incidentPath) {
-    return [...defaultSuccessCallback, "cases/SET_CASE_ID_REDIRECT"];
+    return [...defaultSuccessCallback, `cases/${SET_CASE_ID_REDIRECT}`];
   }
 
   return defaultSuccessCallback;

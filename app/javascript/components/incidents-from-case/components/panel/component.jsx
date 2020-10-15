@@ -68,7 +68,7 @@ const Component = ({ incident, incidentCaseId, css, mode, setFieldValue, handleS
 Component.displayName = NAME_PANEL;
 
 Component.propTypes = {
-  css: PropTypes.object.isRequired,
+  css: PropTypes.object,
   handleSubmit: PropTypes.func,
   incident: PropTypes.object.isRequired,
   incidentCaseId: PropTypes.string.isRequired,

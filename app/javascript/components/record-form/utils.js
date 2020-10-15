@@ -2,7 +2,7 @@
 import { isEmpty, transform, isObject, isEqual, find, pickBy, identity } from "lodash";
 import { isDate, format } from "date-fns";
 
-import { API_DATE_FORMAT, INCIDENT_CASE_ID_FIELD, RECORD_PATH } from "../../config";
+import { API_DATE_FORMAT, RECORD_PATH } from "../../config";
 
 import {
   SUBFORM_SECTION,

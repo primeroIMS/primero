@@ -19,6 +19,7 @@ import IncidentFromCasePanel from "../incidents-from-case/components/panel";
 
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
+import RecordFormTitle from "./form/record-form-title";
 import RecordForms from "./container";
 import { FormSectionRecord, FieldRecord } from "./records";
 
@@ -272,10 +273,12 @@ describe("<RecordForms /> - Component", () => {
     });
 
     it("should render Approvals without ApprovalPanel", () => {
-      expect(component.find(Approvals)).to.have.lengthOf(1);
+      expect(component.find(RecordForm).find(Approvals)).to.have.lengthOf(1);
       expect(component.find(ApprovalPanel)).to.have.lengthOf(0);
       expect(component.find(Transitions)).to.have.lengthOf(0);
-      expect(component.find(RecordForm)).to.have.lengthOf(0);
+      expect(component.find(RecordForm).find(Approvals).find(RecordFormTitle).text()).to.be.equal(
+        "forms.record_types.approvals"
+      );
     });
   });
 
@@ -337,10 +340,14 @@ describe("<RecordForms /> - Component", () => {
     });
 
     it("should render Approvals with ApprovalPanel", () => {
-      expect(component.find(Approvals)).to.have.lengthOf(1);
-      expect(component.find(ApprovalPanel)).to.have.lengthOf(1);
-      expect(component.find(Transitions)).to.have.lengthOf(0);
-      expect(component.find(RecordForm)).to.have.lengthOf(0);
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm.find(Approvals)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(ApprovalPanel)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Transitions)).to.have.lengthOf(0);
+      expect(componentRecordForm.find(Approvals).find(RecordFormTitle).text()).to.be.equal(
+        "forms.record_types.approvals"
+      );
     });
   });
 
@@ -404,11 +411,13 @@ describe("<RecordForms /> - Component", () => {
     });
 
     it("should render IncidentFromCase with IncidentFromCasePanel", () => {
-      expect(component.find(IncidentFromCase)).to.have.lengthOf(1);
-      expect(component.find(IncidentFromCasePanel)).to.have.lengthOf(1);
-      expect(component.find(Transitions)).to.have.lengthOf(0);
-      expect(component.find(Approvals)).to.have.lengthOf(0);
-      expect(component.find(RecordForm)).to.have.lengthOf(0);
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm).to.have.lengthOf(1);
+      expect(componentRecordForm.find(IncidentFromCase)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(IncidentFromCasePanel)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Transitions)).to.have.lengthOf(0);
+      expect(componentRecordForm.find(Approvals)).to.have.lengthOf(0);
     });
   });
 
@@ -457,10 +466,12 @@ describe("<RecordForms /> - Component", () => {
     });
 
     it("should render Approvals without ApprovalPanel", () => {
-      expect(component.find(Approvals)).to.have.lengthOf(1);
-      expect(component.find(ApprovalPanel)).to.have.lengthOf(0);
-      expect(component.find(Transitions)).to.have.lengthOf(0);
-      expect(component.find(RecordForm)).to.have.lengthOf(0);
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Approvals)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(ApprovalPanel)).to.have.lengthOf(0);
+      expect(componentRecordForm.find(Transitions)).to.have.lengthOf(0);
     });
   });
 

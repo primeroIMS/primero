@@ -859,7 +859,6 @@ en:
     add_existing_field: Add Existing Field
     add_field: Add Field
     add_field_type: Add %{file_type}
-    add_new_field: Create new Field
     audio:
       current: Current Audio
     audio_upload_box: Audio Upload
