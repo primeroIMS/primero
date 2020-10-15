@@ -220,38 +220,7 @@ describe Api::V2::FlagsController, type: :request do
     before :each do
       login_for_test(permissions: permission_flag_record)
     end
-    xit 'list flags of a case' do
-      get "/api/v2/cases/#{@case1.id}/flags"
 
-      expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(1)
-      expect(json['data'][0]['record_id']).to eq( @case1.id.to_s)
-      expect(json['data'][0]['record_type']).to eq('cases')
-      expect(json['data'][0]['message']).to eq( 'This is a flag')
-      expect(json['data'][0]['removed']).to be_falsey
-    end
-
-    xit 'list flags of a tracing request' do
-      get "/api/v2/tracing_requests/#{@tracing_request1.id}/flags"
-
-      expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(1)
-      expect(json['data'][0]['record_id']).to eq( @tracing_request1.id.to_s)
-      expect(json['data'][0]['record_type']).to eq('tracing_requests')
-      expect(json['data'][0]['message']).to eq( 'This is a flag TR')
-      expect(json['data'][0]['removed']).to be_falsey
-    end
-
-    xit 'list flags of an incident' do
-      get "/api/v2/incidents/#{@incident1.id}/flags"
-
-      expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(1)
-      expect(json['data'][0]['record_id']).to eq( @incident1.id.to_s)
-      expect(json['data'][0]['record_type']).to eq('incidents')
-      expect(json['data'][0]['message']).to eq( 'This is a flag IN')
-      expect(json['data'][0]['removed']).to be_falsey
-    end
     xit 'list include removed flag' do
       @case1.add_flag('This is a second flag', Date.today, 'faketest')
       @case1.remove_flag(@case1.flags.first.id, 'faketest', 'Resolved Flag')
@@ -263,15 +232,6 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['data'][1]['removed']).to be_falsey
     end
 
-    xit "get a forbidden message if the user doesn't have flag permission" do
-      login_for_test
-      get "/api/v2/cases/#{@case1.id}/flags"
-
-      expect(response).to have_http_status(403)
-      expect(json['errors'][0]['status']).to eq(403)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}/flags")
-      expect(json['errors'][0]['message']).to eq('Forbidden')
-    end
   end
 
   describe 'POST /api/v2/flags' do
@@ -370,7 +330,7 @@ describe Api::V2::FlagsController, type: :request do
         }
       end
 
-      it "get a forbidden message" do
+      it "returns a forbidden message" do
         post '/api/v2/flags', params: @params
 
         expect(response).to have_http_status(403)
@@ -381,58 +341,94 @@ describe Api::V2::FlagsController, type: :request do
     end
   end
 
-  # TODO
-  describe 'PATCH /api/v2/:recordType/:recordId/flags/:id' do
-    xit 'unflags a case' do
-      login_for_test(permissions: permission_flag_record)
-      params = { data: { unflag_message: 'This is unflag message' } }
-      patch "/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params: params
+  describe 'PATCH /api/v2/flags/:id' do
+    context 'when user has permission to flag' do
+      before do
+        login_for_test(permissions: permission_flag_record)
+      end
 
-      expect(response).to have_http_status(200)
-      expect(json['data']['removed']).to be_truthy
-      expect(json['data']['unflag_message']).to eq('This is unflag message')
-      expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
-      expect(json['data']['unflagged_by']).to eq('faketest')
-      expect(json['data']['record_id']).to eq( json['data']['record']['id'])
+      context 'and record is a case' do
+        before do
+          @params = {
+            data: { record_type: 'case', record_id: @case1.id, unflag_message: 'This is an unflag case test' }
+          }
+        end
 
-      expect(audit_params['action']).to eq('unflag')
+        it 'unflags a case' do
+          patch "/api/v2/flags/#{@case1.flags.first.id}", params: @params
+
+          expect(response).to have_http_status(200)
+          expect(json['data']['removed']).to be_truthy
+          expect(json['data']['unflag_message']).to eq('This is an unflag case test')
+          expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
+          expect(json['data']['unflagged_by']).to eq('faketest')
+          expect(json['data']['record_id']).to eq( json['data']['record']['id'])
+
+          expect(audit_params['action']).to eq('unflag')
+        end
+      end
+
+      context 'and record is a tracing request' do
+        before do
+          @params = {
+            data: { record_type: 'tracing_request', record_id: @tracing_request1.id,
+                    unflag_message: 'This is an unflag tracing request test' }
+          }
+        end
+
+        it 'unflags a tracing_request' do
+          patch "/api/v2/flags/#{@tracing_request1.flags.first.id}", params: @params
+
+          expect(response).to have_http_status(200)
+          expect(json['data']['removed']).to be_truthy
+          expect(json['data']['unflag_message']).to eq('This is an unflag tracing request test')
+          expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
+          expect(json['data']['unflagged_by']).to eq('faketest')
+          expect(json['data']['record_id']).to eq( json['data']['record']['id'])
+
+          expect(audit_params['action']).to eq('unflag')
+        end
+      end
+
+      context 'and record is an incident' do
+        before do
+          @params = {
+            data: { record_type: 'incident', record_id: @incident1.id,
+                    unflag_message: 'This is an unflag incident test' }
+          }
+        end
+
+        it 'unflags an incident' do
+          patch "/api/v2/flags/#{@incident1.flags.first.id}", params: @params
+
+          expect(response).to have_http_status(200)
+          expect(json['data']['removed']).to be_truthy
+          expect(json['data']['unflag_message']).to eq('This is an unflag incident test')
+          expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
+          expect(json['data']['unflagged_by']).to eq('faketest')
+          expect(json['data']['record_id']).to eq( json['data']['record']['id'])
+
+          expect(audit_params['action']).to eq('unflag')
+        end
+      end
     end
 
-    xit 'unflags a tracing_request' do
-      login_for_test(permissions: permission_flag_record)
-      params = { data: { unflag_message: 'This is unflag message TR' } }
-      patch "/api/v2/tracing_requests/#{@tracing_request1.id}/flags/#{@tracing_request1.flags.first.id}", params: params
+    context 'when user does not have permission to flag' do
+      before do
+        login_for_test
+        @params = {
+          data: { record_type: 'case', record_id: @case3.id, unflag_message: 'This is an unauthorized unflag test' }
+        }
+      end
 
-      expect(response).to have_http_status(200)
-      expect(json['data']['removed']).to be_truthy
-      expect(json['data']['unflag_message']).to eq('This is unflag message TR')
-      expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
-      expect(json['data']['unflagged_by']).to eq('faketest')
-      expect(json['data']['record_id']).to eq( json['data']['record']['id'])
-    end
+      it 'returns a forbidden message' do
+        patch "/api/v2/flags/#{@case3.flags.first.id}", params: @params
 
-    xit 'unflags an incident' do
-      login_for_test(permissions: permission_flag_record)
-      params = { data: { unflag_message: 'This is unflag message IN' } }
-      patch "/api/v2/incidents/#{@incident1.id}/flags/#{@incident1.flags.first.id}", params: params
-
-      expect(response).to have_http_status(200)
-      expect(json['data']['removed']).to be_truthy
-      expect(json['data']['unflag_message']).to eq('This is unflag message IN')
-      expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
-      expect(json['data']['unflagged_by']).to eq('faketest')
-      expect(json['data']['record_id']).to eq( json['data']['record']['id'])
-    end
-
-    xit "get a forbidden message if the user doesn't have flag permission" do
-      login_for_test
-      params = { data: { unflag_message: 'This is unflag message' } }
-      patch "/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params: params
-
-      expect(response).to have_http_status(403)
-      expect(json['errors'][0]['status']).to eq(403)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}")
-      expect(json['errors'][0]['message']).to eq('Forbidden')
+        expect(response).to have_http_status(403)
+        expect(json['errors'][0]['status']).to eq(403)
+        expect(json['errors'][0]['resource']).to eq("/api/v2/flags/#{@case3.flags.first.id}")
+        expect(json['errors'][0]['message']).to eq('Forbidden')
+      end
     end
   end
 
