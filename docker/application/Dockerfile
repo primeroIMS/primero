@@ -93,8 +93,8 @@ FROM ruby:2.6.6-alpine3.11
 ENV BUILD_PACKAGES bash
 ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl
 
-ARG USER_ID
-ARG GROUP_ID
+ARG APP_UID
+ARG APP_GID
 ENV USER_ID=${APP_UID}
 ENV GROUP_ID=${APP_GID}
 
