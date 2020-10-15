@@ -23,13 +23,13 @@ module KPI
     end
 
     def days(number)
-      number * 24 * 60 * 60 * 1000
+      number.days.in_milliseconds
     end
 
     # For the purposes of this search 1 month is 30.4167 days or
     # 30.4167 * 24 * 60 * 60 * 1000 milliseconds
     def months(number)
-      number * 30.4167 * 24 * 60 * 60 * 1000
+      number * days(30.4167)
     end
 
     def buckets
