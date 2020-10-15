@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'devise/jwt/test_helpers'
 
@@ -13,7 +15,6 @@ describe Api::V2::TokensController, type: :request do
   end
 
   describe 'POST /api/v2/tokens' do
-
     let(:authorization_token) { response.headers['Authorization'].split(' ')[1] }
     let(:json) { JSON.parse(response.body) }
     let(:jwt_header) { decode_jwt(authorization_token) }
@@ -47,18 +48,35 @@ describe Api::V2::TokensController, type: :request do
     it 'enqueues an audit log job that records the login attempt' do
       post '/api/v2/tokens', params: @params
       expect(AuditLogJob).to have_been_enqueued
-        .with(record_type: 'User',
-              record_id: @user.id,
-              action: 'login',
-              user_id: @user.id,
-              resource_url: request.url,
-              metadata: {user_name: @user.user_name})
+        .with(
+          record_type: 'User',
+          record_id: @user.id,
+          action: 'login',
+          user_id: @user.id,
+          resource_url: request.url,
+          metadata: { user_name: @user.user_name }
+        )
     end
 
+    context 'incorrect failed attempts' do
+      before(:each) do
+        @user_name2 = 'tokenstestuser2'
+        @password2 = 'tokenstestuser0'
+        @user2 = User.new(user_name: @user_name2, password: @password2, password_confirmation: @password2)
+        @user2.save(validate: false)
+      end
+
+      it 'locks a user after 6 failed attempts' do
+        params = { user: { user_name: @user_name2, password: 'wrong!' } }
+        6.times { post '/api/v2/tokens', params: params }
+
+        expect(response).to have_http_status(401)
+        expect(json['error']).to eq('Your account is locked.')
+      end
+    end
   end
 
   describe 'DELETE /api/v2/tokens' do
-
     it 'revokes the current token' do
       headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
       auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, @user)
@@ -68,7 +86,6 @@ describe Api::V2::TokensController, type: :request do
       # delete url
       expect(response).to have_http_status(200)
     end
-
   end
 
   after :each do
@@ -77,13 +94,10 @@ describe Api::V2::TokensController, type: :request do
   end
 
   after :all do
-    @user.destroy
+    clean_data(User)
   end
 
   def decode_jwt(token)
     Warden::JWTAuth::TokenDecoder.new.call(token)
   end
-
-
-
 end

@@ -2705,3 +2705,9 @@ en:
       user_name: Username
       position: Position
       agency: Agency
+  devise:
+    failure:
+      already_authenticated: "You are already signed in."
+      invalid: "Invalid %{authentication_keys} or password."
+      locked: "Your account is locked."
+      last_attempt: "You have one more attempt before your account is locked."
