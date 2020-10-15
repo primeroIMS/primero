@@ -1,16 +1,16 @@
 ---
-#- name: 'create /srv/primero directory'
-#  file:
-#    path: '{{ item }}'
-#    state: 'directory'
-#  with_items:
-#  - '/srv/primero'
-#  become: yes
+- name: 'create /srv/primero directory'
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+  - '/srv/primero'
+  become: yes
 
 - name: 'synchronize project'
   synchronize:
     src: '{{ playbook_dir }}/../'
-    dest: '~/primero'
+    dest: '/srv/primero'
     use_ssh_args: yes
     checksum: yes
     archive: yes
@@ -19,13 +19,15 @@
     owner: no
     group: no
     perms: yes
-  become: no
-  #- name: 'chmod the /srv/primero/project directory'
-  #  file:
-  #    dest: '/srv/primero/project'
-  #    owner: 'root'
-  #    group: 'root'
-  #    mode: 'u=rwX,g=rX,o=rX'
-  #    recurse: yes
-  #  become: yes
+    rsync_opts:
+    - '--exclude=ansible'
+  become: yes
+- name: 'chmod the /srv/primero directory'
+  file:
+    dest: '/srv/primero'
+    owner: 'root'
+    group: 'root'
+    mode: 'u=rwX,g=rX,o=rX'
+    recurse: yes
+  become: yes
 - include: exec.yml

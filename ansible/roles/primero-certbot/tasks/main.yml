@@ -1,28 +1,19 @@
 ---
-#- name: 'copy certbot python script to /srv/primero/bin/certbot'
-#  copy:
-#    src: '{{ playbook_dir }}/../../../bin/certbot'
-#    dest: '/srv/primero/bin/certbot'
-#    mode: 'u=rwx,go=rx'
-#  become: yes
-#  tags:
-#  - 'certbot'
-
-- name: 'create the /home/ubuntu/primero/bin/certbot.sh script'
+- name: 'create the /srv/primero/bin/certbot.sh script'
   copy:
-    dest: '/home/ubuntu/primero/bin/certbot.sh'
+    dest: '/srv/primero/bin/certbot.sh'
     mode: 'u=rwx,go=rx'
     content: |
       #! /bin/sh
       set -ex
-      exec /home/ubuntu/primero/bin/certbot {% for item in certbot_domain -%} -d "{{ item }}" {% endfor -%} --cert-name "{{ cert_name }}" -m "{{ certbot_email }}" -p "primero" "${@}"
+      exec /srv/primero/bin/certbot {% for item in certbot_domain -%} -d "{{ item }}" {% endfor -%} --cert-name "{{ cert_name }}" -m "{{ certbot_email }}" -p "primero" "${@}"
   become: yes
   tags:
   - 'certbot'
 
 - name: 'run certbot'
   command: |
-    /home/ubuntu/primero/bin/certbot.sh
+    /srv/primero/bin/certbot.sh
   tags:
   - 'certbot'
 
@@ -32,7 +23,7 @@
     hour: '23'
     minute: '42'
     job: |
-      date >> /var/log/certbot.log && /home/ubuntu/primero/bin/certbot.sh >> /var/log/certbot.log
+      date >> /var/log/certbot.log && /srv/primero/bin/certbot.sh >> /var/log/certbot.log
   become: yes
   tags:
   - 'certbot'

@@ -1,18 +1,29 @@
 ---
+- name: 'create the docker-compose users.env file'
+  copy:
+    dest: '/srv/primero/docker/users.env'
+    mode: 'u=rw,go=r'
+    content: |
+      APP_UID={{ application_user_uid }}
+      APP_GID={{ application_user_gid }}
+      NGINX_UID={{ ((nginx_user.uid - application_user.uid)|abs) + 1000 }}
+      NGINX_GID={{ ((nginx_user.group - application_user.group)|abs) + 1000 }}
+  become: yes
+
 - name: 'build the Docker containers'
   command: |
     ./build.sh all
   args:
-    chdir: '~/primero/docker'
+    chdir: '/srv/primero/docker'
 
 - name: 'configure the Docker containers'
   command: |
     ./compose.configure.sh
   args:
-    chdir: '~/primero/docker'
+    chdir: '/srv/primero/docker'
 
 - name: 'start the Docker containers'
   command: |
     ./compose.prod.sh up -d
   args:
-    chdir: '~/primero/docker'
+    chdir: '/srv/primero/docker'

@@ -16,5 +16,5 @@
   roles:
   - 'quoin.infrastructure.install_sudo'
   - 'quoin.infrastructure.become_no_password'
-  - 'quoin.infrastructure.openssh_authorized_keys'
+    #  - 'quoin.infrastructure.openssh_authorized_keys'
   - 'quoin.infrastructure.openssh_passwordauthentication_no'
