@@ -30,6 +30,9 @@ describe Api::V2::FlagsOwnersController, type: :request do
     @manager1 = User.new(user_name: 'manager1', full_name: 'Test Manager One', location: 'loc8675309', role: @role,
                          user_groups: [@group1], agency_id: @agency2.id)
     @manager1.save(validate: false)
+    @manager2 = User.new(user_name: 'manager2', full_name: 'Test Manager Two', location: 'loc8675309', role: @role,
+                         user_groups: [@group1], agency_id: @agency2.id)
+    @manager2.save(validate: false)
 
     @case1 = Child.create!(data: { name: 'Test1', hidden_name: true, age: 5, sex: 'male', owned_by: 'user1' })
     @case2 = Child.create!(data: { name: 'Test2', age: 7, sex: 'female', owned_by: 'user1' })
@@ -87,10 +90,10 @@ describe Api::V2::FlagsOwnersController, type: :request do
           expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
           expect(json['data'][0]['record_type']).to eq('cases')
           expect(json['data'][0]['message']).to eq('This is a flag')
-          expect(json['data'][0]['r_short_id']).to eq(@case1.short_id)
-          expect(json['data'][0]['r_name']).to eq('*******')
-          expect(json['data'][0]['r_hidden_name']).to be
-          expect(json['data'][0]['r_owned_by']).to eq('user1')
+          expect(json['data'][0]['short_id']).to eq(@case1.short_id)
+          expect(json['data'][0]['name']).to eq('*******')
+          expect(json['data'][0]['hidden_name']).to be
+          expect(json['data'][0]['owned_by']).to eq('user1')
           expect(json['data'][0]['removed']).to be_falsey
         end
 
@@ -103,9 +106,9 @@ describe Api::V2::FlagsOwnersController, type: :request do
             expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
             expect(json['data'][0]['record_type']).to eq('cases')
             expect(json['data'][0]['message']).to eq('This is a flag')
-            expect(json['data'][0]['r_name']).to eq('*******')
-            expect(json['data'][0]['r_hidden_name']).to be
-            expect(json['data'][0]['r_owned_by']).to eq('user1')
+            expect(json['data'][0]['name']).to eq('*******')
+            expect(json['data'][0]['hidden_name']).to be
+            expect(json['data'][0]['owned_by']).to eq('user1')
             expect(json['data'][0]['removed']).to be_falsey
           end
         end
@@ -135,68 +138,6 @@ describe Api::V2::FlagsOwnersController, type: :request do
             expect(json['data'][0]['removed']).to be_falsey
           end
         end
-
-        # TODO: remove
-        context 'and record_id is passed in' do
-          context 'and the record is a case' do
-            context 'and the record has flags' do
-              xit 'lists all flags for this case' do
-                get "/api/v2/flags?record_type=cases&record_id=#{@case3.id}"
-
-                expect(response).to have_http_status(200)
-                expect(json['data'].size).to eq(1)
-                expect(json['data'][0]['record_id']).to eq(@case3.id.to_s)
-                expect(json['data'][0]['record_type']).to eq('cases')
-                expect(json['data'][0]['message']).to eq('This is a flag')
-                expect(json['data'][0]['r_name']).to eq('Test3')
-                expect(json['data'][0]['r_hidden_name']).not_to be
-                expect(json['data'][0]['r_owned_by']).to eq('user2')
-                expect(json['data'][0]['removed']).to be_falsey
-              end
-            end
-
-            context 'and the record has no flags' do
-              xit 'returns an empty list' do
-                get "/api/v2/flags?record_type=cases&record_id=#{@case4.id}"
-
-                expect(response).to have_http_status(200)
-                expect(json['data']).to be_empty
-              end
-            end
-          end
-
-          context 'and the record is an incident' do
-            xit 'lists all flags for this incident' do
-              get "/api/v2/flags?record_type=incidents&record_id=#{@incident2.id}"
-
-              expect(response).to have_http_status(200)
-              expect(json['data'].size).to eq(3)
-              expect(json['data'][0]['record_id']).to eq(@incident2.id.to_s)
-              expect(json['data'][0]['record_type']).to eq('incidents')
-              expect(json['data'][0]['message']).to eq('This is a flag IN')
-              expect(json['data'][0]['r_name']).not_to be
-              expect(json['data'][0]['r_hidden_name']).not_to be
-              expect(json['data'][0]['r_owned_by']).to eq('user2')
-              expect(json['data'][0]['removed']).to be_falsey
-            end
-          end
-
-          context 'and the record is a tracing_request' do
-            xit 'lists all flags for this incident' do
-              get "/api/v2/flags?record_type=tracing_requests&record_id=#{@tracing_request1.id}"
-
-              expect(response).to have_http_status(200)
-              expect(json['data'].size).to eq(1)
-              expect(json['data'][0]['record_id']).to eq(@tracing_request1.id.to_s)
-              expect(json['data'][0]['record_type']).to eq('tracing_requests')
-              expect(json['data'][0]['message']).to eq('This is a flag TR')
-              expect(json['data'][0]['r_name']).not_to be
-              expect(json['data'][0]['r_hidden_name']).not_to be
-              expect(json['data'][0]['r_owned_by']).to eq('user1')
-              expect(json['data'][0]['removed']).to be_falsey
-            end
-          end
-        end
       end
 
       context 'and user is a manager' do
@@ -213,9 +154,30 @@ describe Api::V2::FlagsOwnersController, type: :request do
           expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
           expect(json['data'][0]['record_type']).to eq('cases')
           expect(json['data'][0]['message']).to eq('This is a flag')
-          expect(json['data'][0]['r_name']).to eq('*******')
-          expect(json['data'][0]['r_hidden_name']).to be
-          expect(json['data'][0]['r_owned_by']).to eq('user1')
+          expect(json['data'][0]['name']).to eq('*******')
+          expect(json['data'][0]['hidden_name']).to be
+          expect(json['data'][0]['owned_by']).to eq('user1')
+          expect(json['data'][0]['removed']).to be_falsey
+        end
+      end
+
+      context 'and user has Agency permissions' do
+        before do
+          login_for_test(user_name: 'manager2', permissions: @role.permissions, group_permission: Permission::AGENCY,
+                         modules: [@primero_module], agency_id: @manager2.agency_id)
+        end
+
+        it 'lists flags owned by or associated with users in current users agency' do
+          get '/api/v2/flags'
+
+          expect(response).to have_http_status(200)
+          expect(json['data'].size).to eq(4)
+          expect(json['data'][0]['record_id']).to eq(@case3.id.to_s)
+          expect(json['data'][0]['record_type']).to eq('cases')
+          expect(json['data'][0]['message']).to eq('This is a flag')
+          expect(json['data'][0]['name']).to eq('Test3')
+          expect(json['data'][0]['hidden_name']).not_to be
+          expect(json['data'][0]['owned_by']).to eq('user2')
           expect(json['data'][0]['removed']).to be_falsey
         end
       end

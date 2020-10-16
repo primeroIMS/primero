@@ -21,6 +21,11 @@ class Flag < ApplicationRecord
         .where("(data -> 'associated_user_groups' ?& array[:group])", group: params[:group])
   }
 
+  scope :by_record_agency, lambda { |params|
+    Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
+        .where("((data ->> 'owned_by_agency_id')::int = :agency_id)", agency_id: params[:agency_id])
+  }
+
   validates :message, presence: { message: 'errors.models.flags.message' }
   validates :date, presence: { message: 'errors.models.flags.date' }
 
@@ -103,24 +108,32 @@ class Flag < ApplicationRecord
       elsif query_scope[:user]['group'].present?
         params[:group] = query_scope[:user]['group']
         scope_to_use = 'by_record_associated_groups'
+      elsif query_scope[:user]['agency_id'].present?
+        params[:agency_id] = query_scope[:user]['agency_id']
+        scope_to_use = 'by_record_agency'
       end
       flags = []
       record_types.each do |record_type|
         params[:type] = record_type
-        flags << send(scope_to_use, params).select(
-          ['flags.id',
-           'flags.record_type',
-           'flags.record_id',
-           'flags.date',
-           'flags.message',
-           'flags.flagged_by',
-           "#{record_type}.data -> 'short_id' as r_short_id",
-           "#{record_type}.data -> 'name' as r_name",
-           "#{record_type}.data -> 'hidden_name' as r_hidden_name",
-           "#{record_type}.data -> 'owned_by' as r_owned_by"].join(', ')
-        )
+        flags << send(scope_to_use, params).select(select_fields(record_type))
       end
       flags.flatten
+    end
+
+    private
+
+    def select_fields(record_type)
+      ['flags.id',
+       'flags.record_type',
+       'flags.record_id',
+       'flags.date',
+       'flags.message',
+       'flags.flagged_by',
+       "#{record_type}.data -> 'short_id' as short_id",
+       "#{record_type}.data -> 'name' as name",
+       "#{record_type}.data -> 'hidden_name' as hidden_name",
+       "#{record_type}.data -> 'owned_by' as owned_by",
+       "#{record_type}.data -> 'owned_by_agency_id' as owned_by_agency_id"].join(', ')
     end
   end
 

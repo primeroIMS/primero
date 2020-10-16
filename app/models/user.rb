@@ -335,7 +335,7 @@ class User < ApplicationRecord
     user_scope = if can_search_for_all?(record_model, id_search)
                    {}
                  elsif group_permission?(Permission::AGENCY)
-                   { 'agency' => agency.unique_id }
+                   { 'agency' => agency.unique_id, 'agency_id' => agency_id }
                  elsif group_permission?(Permission::GROUP) && user_group_ids.present?
                    { 'group' => user_groups.map(&:unique_id).compact }
                  else

@@ -22,7 +22,7 @@ class Api::V2::FlagsOwnersController < ApplicationApiController
     @flags = Flag.by_owner(query_scope, record_types)
 
     # TODO: this shouldn't be in a controller
-    @flags.map { |flag| flag['r_name'] = '*******' if flag['r_name'].present? && flag['r_hidden_name'].present? }
+    @flags.map { |flag| flag['name'] = '*******' if flag['name'].present? && flag['hidden_name'].present? }
   end
 
   private
