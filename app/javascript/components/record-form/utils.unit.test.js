@@ -148,10 +148,6 @@ describe("<RecordForms /> - utils", () => {
     beforeEach(() => {
       const today = parseISO("2010-01-05T18:30:00Z");
 
-      // Use a -04:00 timezone
-      // eslint-disable-next-line no-extend-native
-      Date.prototype.getTimezoneOffset = () => 240;
-
       clock = useFakeTimers(today);
     });
 
