@@ -177,7 +177,9 @@ _primero.Views.PdfExports = _primero.Views.Base.extend({
     
     $this_el.find('select').val('').trigger("chosen:updated");
     $this_el.find('.message').empty().hide();
-    this.password_control.val("");
+    if (this.password_control) {
+      this.password_control.val("");
+    }
   },
 
   //Hack: In order to prevent the browser allow the user save password we are using the MaskedPassword
