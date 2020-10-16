@@ -173,7 +173,7 @@ It only needs to be run once against any piece of inventory (although it is safe
             (venv) $ vim inventory/inventory.yml
 
     
-   The inventory file should include the primero server you want to deploy to, for example:
+    The inventory file should include the primero server you want to deploy to, for example:
 
             ---
             all:
@@ -187,7 +187,7 @@ It only needs to be run once against any piece of inventory (although it is safe
                   hosts:
                     primero-example.cloud.quoininc.com:
             
-   Next edit the variable `primero_nginx_server_name` in the `group_vars/primero/vars.yml` file, for example:
+    Next edit the variable `primero_nginx_server_name` in the `group_vars/primero/vars.yml` file, for example:
 
             (venv) $ vim group_vars/primero/vars.yml
 
@@ -201,7 +201,7 @@ and `PRIMERO_HOST` variables.
             (venv) $ cd ../docker
             (venv) $ vim local.env
 
-   The variables should look as follows:
+    The variables should look as follows:
 
             LETS_ENCRYPT_DOMAIN=primero-example.cloud.quoininc.com
             NGINX_CERTIFICATE_NAME=primero-example.cloud.quoininc.com
