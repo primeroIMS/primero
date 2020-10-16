@@ -210,38 +210,6 @@ describe Flag do
     end
   end
 
-  describe 'find_by_record_id' do
-    context 'when the record is a Case' do
-      before do
-        @flags = Flag.find_by_record_id(@case1.id, 'cases')
-      end
-
-      it 'returns all flags for that case' do
-        expect(@flags.size).to eq(2)
-      end
-    end
-
-    context 'when the record is an Incident' do
-      before do
-        @flags = Flag.find_by_record_id(@incident1.id, 'incidents')
-      end
-
-      it 'returns all flags for that incident' do
-        expect(@flags.size).to eq(3)
-      end
-    end
-
-    context 'when the record is an TracingRequest' do
-      before do
-        @flags = Flag.find_by_record_id(@tracing_request1.id, 'tracing_requests')
-      end
-
-      it 'returns all flags for that tracing request' do
-        expect(@flags.size).to eq(1)
-      end
-    end
-  end
-
   after do
     clean_data(Flag, User, Child, TracingRequest, Incident, PrimeroModule, UserGroup, Agency)
   end

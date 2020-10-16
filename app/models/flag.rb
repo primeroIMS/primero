@@ -21,11 +21,6 @@ class Flag < ApplicationRecord
         .where("(data -> 'associated_user_groups' ?& array[:group])", group: params[:group])
   }
 
-  scope :by_record_id, lambda { |params|
-    Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
-        .where(record_id: params[:record_id])
-  }
-
   validates :message, presence: { message: 'errors.models.flags.message' }
   validates :date, presence: { message: 'errors.models.flags.date' }
 
@@ -126,24 +121,6 @@ class Flag < ApplicationRecord
         )
       end
       flags.flatten
-    end
-
-    def find_by_record_id(record_id, record_type)
-      return [] if record_id.blank? || record_type.blank?
-
-      params = { record_id: record_id, type: record_type }
-      by_record_id(params).select(
-        ['flags.id',
-         'flags.record_type',
-         'flags.record_id',
-         'flags.date',
-         'flags.message',
-         'flags.flagged_by',
-         "#{record_type}.data -> 'short_id' as r_short_id",
-         "#{record_type}.data -> 'name' as r_name",
-         "#{record_type}.data -> 'hidden_name' as r_hidden_name",
-         "#{record_type}.data -> 'owned_by' as r_owned_by"].join(', ')
-      )
     end
   end
 
