@@ -244,7 +244,9 @@ describe("<RecordFormToolbar />", () => {
       records: {
         cases: {
           incidentFromCase: {
-            incident_case_id: "case-id-1"
+            data: {
+              incident_case_id: "case-id-1"
+            }
           }
         }
       }
