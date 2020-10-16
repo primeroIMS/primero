@@ -2179,7 +2179,7 @@ en:
         explanation: 'This will control what level of locations appear for this Role
           in the dashboards, filters, referral modals, and transfer modals. If you
           leave this field blank, this Role will see the system’s default Reporting
-          Location level.  Enter the number assocaited with the desired level as follows:'
+          Location level.'
         label: What location type should be used for reporting for this role?
       role:
         actions:
