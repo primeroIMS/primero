@@ -4,6 +4,7 @@ import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from "@m
 import { setupMountedComponent } from "../../../../test";
 import IncidentSummary from "../summary";
 import IncidentDetail from "../detail";
+import { RECORD_TYPES } from "../../../../config";
 
 import IncidentPanel from "./component";
 
@@ -19,7 +20,12 @@ describe("<IncidentPanel /> - Component", () => {
       gbv_sexual_violence_type: "test1",
       unique_id: "e25c5cb1-1257-472e-b2ec-05f568a3b51e"
     }),
-    css: {}
+    incidentCaseId: "case-id-1",
+    css: {},
+    mode: { isShow: false, isEdit: true },
+    setFieldValue: () => {},
+    handleSubmit: () => {},
+    recordType: RECORD_TYPES.cases
   };
 
   const initialState = fromJS({
@@ -77,7 +83,7 @@ describe("<IncidentPanel /> - Component", () => {
   it("renders component with valid props", () => {
     const incidentsProps = { ...component.find(IncidentPanel).props() };
 
-    ["incident", "css"].forEach(property => {
+    ["incident", "incidentCaseId", "css", "mode", "setFieldValue", "handleSubmit", "recordType"].forEach(property => {
       expect(incidentsProps).to.have.property(property);
       delete incidentsProps[property];
     });

@@ -69,6 +69,13 @@ module Exporters
       expect(parsed[2][1..4]).to eq(%w[Mo 14 Male 01-Jan-2020])
     end
 
+    it 'sanitizes formula injections' do
+      unsafe_record = Child.new(data: { name: '=10+10', age: 12, sex: 'male' })
+      data = CSVListViewExporter.export([unsafe_record], @user)
+      parsed = CSV.parse(data)
+      expect(parsed[1][1..3]).to eq(%w['=10+10 12 Male])
+    end
+
     after :each do
       clean_data(User, Role, Field, PrimeroModule)
     end
