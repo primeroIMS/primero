@@ -9,13 +9,13 @@ class PermittedFieldService
   PERMITTED_FILTER_FIELD_NAMES = %w[
     associated_user_names not_edited_by_owner referred_users referred_users_present
     transferred_to_users has_photo survivor_code survivor_code_no case_id_display
-    created_at has_incidents
+    created_at has_incidents short_id
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
     assigned_user_names created_by created_by_agency module_id owned_by owned_by_agency_id
     owned_by_text owned_by_agency_office previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
-    last_updated_at
+    last_updated_at owned_by_groups
   ].freeze
 
   PERMITTED_FIELDS_FOR_ACTION = {

@@ -14,6 +14,7 @@ class Api::V2::ContactInformationController < ApplicationApiController
   def update
     authorize! :update, ContactInformation
     @contact_information.assign_attributes(contact_information_params)
+    @contact_information.save!
   end
 
   def contact_information_params

@@ -118,6 +118,16 @@ module Exporters
         end
       end
 
+      context 'unsafe data' do
+        it 'sanitizes unsafe data' do
+          unsafe_record = Child.new(data: { name: '=10+10', age: 12, sex: 'male' })
+
+          data = DuplicateIdCSVExporter.export([unsafe_record])
+          parsed = CSV.parse(data)
+          expect(parsed[1][5]).to eq("'=10+10")
+        end
+      end
+
       context 'when export configuration is different than properties defined in the exporter' do
         context 'and the configuration is in a different order' do
           before do

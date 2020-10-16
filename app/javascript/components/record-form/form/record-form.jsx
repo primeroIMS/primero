@@ -34,7 +34,9 @@ const RecordForm = ({
   record,
   recordType,
   selectedForm,
-  incidentFromCase
+  incidentFromCase,
+  externalForms,
+  fetchFromCaseId
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -46,9 +48,10 @@ const RecordForm = ({
   };
 
   let initialFormValues = constructInitialValues(forms.values());
+  const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
 
   if (record) {
-    initialFormValues = { ...initialFormValues, ...record.toJS() };
+    initialFormValues = { ...initialFormValues, ...record.toJS(), ...redirectToIncident };
   }
 
   const buildValidationSchema = formSections => {
@@ -66,7 +69,9 @@ const RecordForm = ({
   useEffect(() => {
     if (bindedSetValues) {
       if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
-        bindedSetValues({ ...initialFormValues, ...incidentFromCase.toJS() });
+        const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
+
+        bindedSetValues({ ...initialFormValues, ...incidentFromCase.toJS(), ...incidentCaseId });
       }
     }
   }, [bindedSetValues, incidentFromCase]);
@@ -80,9 +85,14 @@ const RecordForm = ({
       });
     }
   };
+  const renderFormSections = (fs, setFieldValue, handleSubmit) => {
+    const externalRecordForms = externalForms ? externalForms(selectedForm, setFieldValue, handleSubmit) : null;
 
-  const renderFormSections = fs =>
-    fs.map(form => {
+    if (externalRecordForms) {
+      return externalRecordForms;
+    }
+
+    return fs.map(form => {
       if (selectedForm === form.unique_id) {
         return (
           <div key={form.unique_id}>
@@ -123,6 +133,7 @@ const RecordForm = ({
 
       return null;
     });
+  };
 
   if (!isEmpty(initialFormValues) && !isEmpty(forms)) {
     const validationSchema = buildValidationSchema(forms);
@@ -138,7 +149,7 @@ const RecordForm = ({
           onSubmit(initialFormValues, values);
         }}
       >
-        {({ handleSubmit, submitForm, errors, dirty, isSubmitting, setValues }) => {
+        {({ handleSubmit, submitForm, errors, dirty, isSubmitting, setValues, setFieldValue }) => {
           bindSubmitForm(submitForm);
           bindSetValues(setValues);
 
@@ -157,7 +168,7 @@ const RecordForm = ({
                 )}
               </NavigationPrompt>
               <ValidationErrors formErrors={errors} forms={forms} />
-              {renderFormSections(forms)}
+              {renderFormSections(forms, setFieldValue, handleSubmit)}
             </Form>
           );
         }}
@@ -172,6 +183,8 @@ RecordForm.displayName = RECORD_FORM_NAME;
 
 RecordForm.propTypes = {
   bindSubmitForm: PropTypes.func,
+  externalForms: PropTypes.func,
+  fetchFromCaseId: PropTypes.string,
   forms: PropTypes.object.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
   incidentFromCase: PropTypes.object,

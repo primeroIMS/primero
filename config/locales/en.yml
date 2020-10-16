@@ -157,6 +157,7 @@ en:
     save: Save
     save_and_add_service_provision: Save and Add Service Provision
     save_and_return: Save and Return
+    save_continue: Save and Continue
     save_changes: Save changes
     select: Select
     sort_by_case: Cases
@@ -182,6 +183,8 @@ en:
       update_success_queue: 'Case %{record_id} was successfully updated in background'
       creation_success: 'Case record successfully created.'
       creation_success_queue: 'Case record successfully created in background.'
+    save: Save Case
+    save_text: Before continuing, please save your changes to the Case.
     workflow:
       assessment: Assessment
       case_plan: Case Plan
@@ -857,7 +860,6 @@ en:
     add_existing_field: Add Existing Field
     add_field: Add Field
     add_field_type: Add %{file_type}
-    add_new_field: Create new Field
     audio:
       current: Current Audio
     audio_upload_box: Audio Upload
@@ -2181,7 +2183,7 @@ en:
         explanation: 'This will control what level of locations appear for this Role
           in the dashboards, filters, referral modals, and transfer modals. If you
           leave this field blank, this Role will see the system’s default Reporting
-          Location level.  Enter the number assocaited with the desired level as follows:'
+          Location level.'
         label: What location type should be used for reporting for this role?
       role:
         actions:
@@ -2707,3 +2709,9 @@ en:
       user_name: Username
       position: Position
       agency: Agency
+  devise:
+    failure:
+      already_authenticated: "You are already signed in."
+      invalid: "Invalid %{authentication_keys} or password."
+      locked: "Your account is locked."
+      last_attempt: "You have one more attempt before your account is locked."

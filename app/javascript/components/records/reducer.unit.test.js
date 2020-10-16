@@ -162,7 +162,7 @@ describe("<RecordList /> - Reducers", () => {
 
       const newState = casesReducer(fromJS({}), action);
 
-      expect(newState).to.deep.equals(fromJS({ incidentFromCase: data }));
+      expect(newState).to.deep.equals(fromJS({ incidentFromCase: { data } }));
     });
 
     it("should handle SET_CASE_ID_FOR_INCIDENT", () => {
@@ -207,6 +207,14 @@ describe("<RecordList /> - Reducers", () => {
       const newState = casesReducer(stateWithIncidentFromCase, action);
 
       expect(newState).to.deep.equals(fromJS({}));
+    });
+
+    it("should handle SET_CASE_ID_REDIRECT", () => {
+      const incidentFromCase = fromJS({});
+      const action = { type: "cases/SET_CASE_ID_REDIRECT", payload: { json: { data: { id: "case-id-1" } } } };
+      const newState = casesReducer(incidentFromCase, action);
+
+      expect(newState).to.deep.equals(fromJS({ incidentFromCase: { incident_case_id: "case-id-1" } }));
     });
   });
 });
