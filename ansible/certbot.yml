@@ -1,0 +1,5 @@
+---
+- hosts: 'primero'
+  roles:
+  - 'primero-certbot'
+  - 'prune'

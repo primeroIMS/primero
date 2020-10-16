@@ -70,14 +70,3 @@
     insertafter: EOF
     line: '{{ application_container_username }}:{{ application_user.uid }}:65536'
   become: yes
-
-- name: 'create the docker-compose users.env file'
-  copy:
-    dest: '/srv/primero/docker/users.env'
-    mode: 'u=rw,go=r'
-    content: |
-      APP_UID={{ application_user_uid }}
-      APP_GID={{ application_user_gid }}
-      NGINX_UID={{ ((nginx_user.uid - application_user.uid)|abs) + 1000 }}
-      NGINX_GID={{ ((nginx_user.group - application_user.group)|abs) + 1000 }}
-  become: yes
