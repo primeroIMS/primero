@@ -1,8 +1,5 @@
 ---
 ansible_user: 'ubuntu'
-qi_openssh_authorized_keys_format: 'rsa'
-qi_openssh_authorized_keys_users:
-- 'bteeman'
 ansible_python_interpreter: '/usr/bin/python3'
 qi_install_python3_docker_pip_names:
 - 'pip'

@@ -1,4 +1,0 @@
----
-- hosts: 'all:!first_run'
-  roles:
-  - 'quoin.infrastructure.qi-openssh-authorized_keys'
