@@ -4,20 +4,28 @@ import { AppBar, Toolbar, IconButton, makeStyles, Hidden } from "@material-ui/co
 import PropTypes from "prop-types";
 
 import ModuleLogo from "../module-logo";
+import { useApp } from "../application";
+import { useI18n } from "../i18n";
 
 import styles from "./styles.css";
 
 const MobileToolbar = ({ openDrawer }) => {
   const css = makeStyles(styles)();
+  const { demo } = useApp();
+  const i18n = useI18n();
+
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
+  const demoText = () => <p className={css.demoText}>{i18n.t("demo")}</p>;
 
   return (
     <Hidden mdUp implementation="css">
       <AppBar position="fixed">
-        <Toolbar className={css.toolbar}>
+        <Toolbar className={css[`toolbar${demo ? "-demo" : ""}`]}>
           <IconButton edge="start" color="default" aria-label="Menu" onClick={openDrawer}>
             <MenuIcon />
           </IconButton>
           <ModuleLogo className={css.logo} />
+          {demoText()}
         </Toolbar>
       </AppBar>
     </Hidden>

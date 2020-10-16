@@ -18,6 +18,10 @@
   background-color: $(theme.primero.colors.blue);
 }
 
+.cp-demo {
+  background: repeating-linear-gradient(45deg, $(theme.primero.colors.darkBlue), $(theme.primero.colors.darkBlue) 10px, $(theme.primero.colors.blue) 10px, $(theme.primero.colors.blue) 20px);
+}
+
 .primeroBackground {
   height: 100vh;
   overflow: auto;

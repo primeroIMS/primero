@@ -69,3 +69,8 @@ export const disableNavigation = payload => ({
   type: actions.DISABLE_NAVIGATION,
   payload
 });
+
+export const setDemo = payload => ({
+  type: actions.SET_DEMO,
+  payload
+});

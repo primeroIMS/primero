@@ -13,7 +13,8 @@ import {
   selectNetworkStatus,
   selectUserModules,
   getApprovalsLabels,
-  getDisabledApplication
+  getDisabledApplication,
+  getDemo
 } from "./selectors";
 import { setNetworkStatus } from "./action-creators";
 
@@ -32,6 +33,7 @@ const ApplicationProvider = ({ children }) => {
   const authenticated = useSelector(state => getIsAuthenticated(state));
   const approvalsLabels = useSelector(state => getApprovalsLabels(state, i18n.locale));
   const disabledApplication = useSelector(state => getDisabledApplication(state));
+  const demo = useSelector(state => getDemo(state));
 
   const handleNetworkChange = isOnline => {
     const snackbarType = isOnline ? "success" : "warning";
@@ -81,7 +83,7 @@ const ApplicationProvider = ({ children }) => {
   }, [online, authenticated]);
 
   return (
-    <Context.Provider value={{ modules, userModules, online, approvalsLabels, disabledApplication }}>
+    <Context.Provider value={{ modules, userModules, online, approvalsLabels, disabledApplication, demo }}>
       {children}
     </Context.Provider>
   );

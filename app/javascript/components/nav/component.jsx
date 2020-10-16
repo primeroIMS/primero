@@ -29,7 +29,7 @@ const Nav = () => {
     dispatch(fetchAlerts());
   }, []);
 
-  const { userModules } = useApp();
+  const { userModules, demo } = useApp();
   const module = userModules.first();
 
   const username = useSelector(state => selectUsername(state));
@@ -100,7 +100,7 @@ const Nav = () => {
     open: drawerOpen,
     classes: {
       root: css.drawerRoot,
-      paper: css.drawerPaper
+      paper: css[`drawerPaper${demo ? "-demo" : ""}`]
     },
     onClose: handleToggleDrawer(false)
   };

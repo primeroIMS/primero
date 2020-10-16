@@ -11,7 +11,7 @@
   );
 }
 
-.toolbar {
+.toolbar, .toolbar-demo {
   background: linear-gradient(to top, $(theme.primero.colors.white), $(theme.primero.colors.lightGrey)),
     linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14));
   height: 2.5rem;
@@ -19,7 +19,6 @@
   & div {
     margin: 0;
     display: flex;
-    flex-grow: 1;
   }
 
   & img {
@@ -27,6 +26,10 @@
     margin: 0 1.125em;
     height: 2.5em;
   }
+}
+
+.toolbar-demo {
+  background: repeating-linear-gradient(45deg, $(theme.primero.colors.lightGrey), $(theme.primero.colors.lightGrey) 10px, $(theme.primero.colors.white) 10px, $(theme.primero.colors.white) 20px);
 }
 
 .appBarShift {
@@ -41,4 +44,10 @@
       }
     )
   );
+}
+
+.demoText {
+  color: $(theme.primero.colors.darkGrey);
+  font-weight: bold;
+  text-transform: uppercase;
 }

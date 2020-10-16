@@ -80,3 +80,5 @@ export const getRole = (state, uniqueID) =>
 export const getRoleName = (state, uniqueID) => getRole(state, uniqueID).get("name", "");
 
 export const getDisabledApplication = state => state.getIn([NAMESPACE, "disabledApplication"], false);
+
+export const getDemo = state => state.getIn(["records", "support", "data", "demo"], false);
