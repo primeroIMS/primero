@@ -386,3 +386,8 @@ export const LOCALE_KEYS = {
 export const HTTP_STATUS = {
   invalidRecord: 422
 };
+
+export const DEFAULT_DATE_VALUES = {
+  TODAY: "TODAY",
+  NOW: "NOW"
+};

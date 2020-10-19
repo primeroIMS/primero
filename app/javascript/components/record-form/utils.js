@@ -2,7 +2,7 @@
 import { isEmpty, transform, isObject, isEqual, find, pickBy, identity } from "lodash";
 import { isDate, format } from "date-fns";
 
-import { API_DATE_FORMAT, RECORD_PATH } from "../../config";
+import { API_DATE_FORMAT, DEFAULT_DATE_VALUES, RECORD_PATH } from "../../config";
 
 import {
   SUBFORM_SECTION,
@@ -105,7 +105,9 @@ export const constructInitialValues = formMap => {
                   console.warn(`Can't parse the defaultValue ${f.selected_value} for ${f.name}`);
                 }
               } else if ([DATE_FIELD].includes(f.type)) {
-                defaultValue = ["today", "now"].some(defaultDate => f.selected_value === defaultDate)
+                defaultValue = Object.values(DEFAULT_DATE_VALUES).some(
+                  defaultDate => f.selected_value?.toUpperCase() === defaultDate
+                )
                   ? new Date()
                   : null;
               } else if (f.type === TICK_FIELD) {
