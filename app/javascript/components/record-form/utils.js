@@ -3,6 +3,7 @@ import { isEmpty, transform, isObject, isEqual, find, pickBy, identity } from "l
 import { isDate, format } from "date-fns";
 
 import { API_DATE_FORMAT, DEFAULT_DATE_VALUES, RECORD_PATH } from "../../config";
+import { toServerDateFormat } from "../../libs";
 
 import {
   SUBFORM_SECTION,
@@ -108,7 +109,7 @@ export const constructInitialValues = formMap => {
                 defaultValue = Object.values(DEFAULT_DATE_VALUES).some(
                   defaultDate => f.selected_value?.toUpperCase() === defaultDate
                 )
-                  ? new Date()
+                  ? toServerDateFormat(new Date(), { includeTime: f.date_include_time })
                   : null;
               } else if (f.type === TICK_FIELD) {
                 defaultValue = f.selected_value || false;
