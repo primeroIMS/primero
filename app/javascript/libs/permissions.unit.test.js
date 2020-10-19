@@ -8,6 +8,7 @@ describe("Verifying config constant", () => {
 
     [
       "ADD_NOTE",
+      "AGENCY_READ",
       "APPROVE_ASSESSMENT",
       "APPROVE_CASE_PLAN",
       "APPROVE_CLOSURE",
@@ -63,6 +64,7 @@ describe("Verifying config constant", () => {
       "FLAG",
       "GROUP_READ",
       "INCIDENT_DETAILS_FROM_CASE",
+      "INCIDENT_FROM_CASE",
       "MANAGE",
       "READ",
       "RECEIVE_REFERRAL",
@@ -80,6 +82,7 @@ describe("Verifying config constant", () => {
       "SEARCH_OWNED_BY_OTHERS",
       "SERVICES_SECTION_FROM_CASE",
       "TRANSFER",
+      "VIEW_INCIDENT_FROM_CASE",
       "WRITE"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
@@ -383,6 +386,17 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_ACTION_PLAN,
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
     ].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have VIEW_INCIDENTS_FROM_CASE", () => {
+    const permissions = [...PERMISSIONS.VIEW_INCIDENTS_FROM_CASE];
+
+    expect(permissions).to.be.a("array");
+    [PERMISSIONS.ACTIONS.MANAGE, PERMISSIONS.ACTIONS.VIEW_INCIDENT_FROM_CASE].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
     });

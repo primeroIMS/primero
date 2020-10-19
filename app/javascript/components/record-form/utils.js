@@ -2,7 +2,7 @@
 import { isEmpty, transform, isObject, isEqual, find, pickBy, identity } from "lodash";
 import { isDate, format } from "date-fns";
 
-import { API_DATE_FORMAT } from "../../config";
+import { API_DATE_FORMAT, RECORD_PATH } from "../../config";
 
 import {
   SUBFORM_SECTION,
@@ -17,9 +17,11 @@ import {
 function compareArray(value, base) {
   return value.reduce((acc, v) => {
     if (isObject(v)) {
-      const baseSubform = find(base, b => {
-        return b.unique_id === v.unique_id;
-      });
+      const baseSubform =
+        ("unique_id" in v || "id" in v) &&
+        find(base, b => {
+          return b.unique_id === v.unique_id || b.id === v.id;
+        });
 
       if (baseSubform) {
         const diff = difference(v, baseSubform, true);
@@ -111,4 +113,12 @@ export const constructInitialValues = formMap => {
         )
       )
     : {};
+};
+
+export const getRedirectPath = (mode, params, fetchFromCaseId) => {
+  if (fetchFromCaseId) {
+    return `/${RECORD_PATH.cases}/${fetchFromCaseId}`;
+  }
+
+  return mode.isNew ? `/${params.recordType}` : `/${params.recordType}/${params.id}`;
 };

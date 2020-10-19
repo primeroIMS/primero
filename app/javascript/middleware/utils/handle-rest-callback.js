@@ -27,6 +27,13 @@ const handleRestCallback = (store, successCallback, response, json, fromQueue = 
         if (successCallback.redirectToEdit) {
           redirect = `${successCallback.redirect}/${json?.data?.id}/edit`;
         }
+        if (successCallback.incidentPath) {
+          redirect =
+            successCallback.incidentPath === "new"
+              ? `/incidents/${successCallback.moduleID}/new`
+              : successCallback.incidentPath;
+        }
+
         store.dispatch(push(redirect));
       }
     }

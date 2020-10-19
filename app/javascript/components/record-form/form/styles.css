@@ -38,7 +38,6 @@
 }
 
 .actionButtonsContainer {
-  width: 260px;
   text-align: right;
 }
 
@@ -209,6 +208,10 @@
     top: 2px;
     right: 8px;
   }
+}
+
+.separator {
+  margin-bottom: 5px;
 }
 
 @media $(theme.breakpoints.down("sm")) {

@@ -9,6 +9,7 @@ import retrieveData from "./retrieve-data";
 import queueData from "./queue-data";
 import checkFieldSubformErrors from "./check-fields-subform-errors";
 import processSubforms from "./process-subforms";
+import handleConfiguration from "./handle-configuration";
 
 export {
   defaultErrorCallback,
@@ -21,5 +22,6 @@ export {
   queueData,
   retrieveData,
   checkFieldSubformErrors,
-  processSubforms
+  processSubforms,
+  handleConfiguration
 };

@@ -1,4 +1,4 @@
-import { Map, List } from "immutable";
+import { Map, List, fromJS } from "immutable";
 
 export const selectRecord = (state, mode, recordType, id) => {
   if (mode.isEdit || mode.isShow) {
@@ -33,3 +33,11 @@ export const getRecordFormAlerts = (state, recordType, formUniqueId) =>
   state
     .getIn(["records", recordType, "recordAlerts"], List([]))
     .filter(alert => alert.get("form_unique_id") === formUniqueId);
+
+export const getIncidentFromCase = state => {
+  return state.getIn(["records", "cases", "incidentFromCase", "data"], fromJS({}));
+};
+
+export const getCaseIdForIncident = state => {
+  return state.getIn(["records", "cases", "incidentFromCase", "incident_case_id"], false);
+};

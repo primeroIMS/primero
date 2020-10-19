@@ -61,6 +61,7 @@ export const UNIQUE_ID_FIELD = "unique_id";
 export const DISPLAY_TEXT_FIELD = "display_text";
 export const NAME_FIELD = "name";
 export const CODE_FIELD = "code";
+export const INCIDENT_CASE_ID_FIELD = "incident_case_id";
 
 export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.CP]: ["consent_for_services", "disclosure_other_orgs"],
@@ -94,6 +95,8 @@ export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
 export const REFERRAL = "referral";
 
 export const APPROVALS = "approvals";
+
+export const INCIDENT_FROM_CASE = "incident_from_case";
 
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
@@ -130,7 +133,8 @@ export const ROUTES = {
   reports_new: "/reports/new",
   support: "/support",
   tasks: "/tasks",
-  tracing_requests: "/tracing_requests"
+  tracing_requests: "/tracing_requests",
+  check_health: "/health/api"
 };
 
 export const PERMITTED_URL = [

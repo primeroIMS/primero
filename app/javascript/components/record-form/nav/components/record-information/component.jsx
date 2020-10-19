@@ -5,58 +5,20 @@ import isEmpty from "lodash/isEmpty";
 import { useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import { RECORD_OWNER, TRANSFERS_ASSIGNMENTS, REFERRAL, APPROVALS } from "../../../../../config";
-import { SHOW_APPROVALS, checkPermissions } from "../../../../../libs/permissions";
+import { checkPermissions } from "../../../../../libs/permissions";
 import NavGroup from "../nav-group";
-import { NavRecord } from "../../../records";
 import { useI18n } from "../../../../i18n";
+import { RECORD_TYPES } from "../../../../../config";
 import { getPermissionsByRecord } from "../../../../user/selectors";
 
 import { NAME } from "./constants";
+import { getRecordInformationForms } from "./utils";
 
 const Component = ({ open, handleClick, selectedForm, match }) => {
   const { params } = match;
   const { recordType } = params;
   const i18n = useI18n();
-  const recordInformationForms = fromJS([
-    NavRecord({
-      group: "record_information",
-      groupName: i18n.t("forms.record_types.record_information"),
-      groupOrder: 0,
-      name: i18n.t("forms.record_types.record_information"),
-      order: 0,
-      formId: RECORD_OWNER,
-      is_first_tab: true
-    }),
-    NavRecord({
-      group: "record_information",
-      groupName: i18n.t("forms.record_types.approvals"),
-      groupOrder: 0,
-      name: i18n.t("forms.record_types.approvals"),
-      order: 1,
-      formId: APPROVALS,
-      is_first_tab: true,
-      permission_actions: SHOW_APPROVALS
-    }),
-    NavRecord({
-      group: "record_information",
-      groupName: i18n.t("forms.record_types.referrals"),
-      groupOrder: 0,
-      name: i18n.t("forms.record_types.referrals"),
-      order: 2,
-      formId: REFERRAL,
-      is_first_tab: true
-    }),
-    NavRecord({
-      group: "record_information",
-      groupName: i18n.t("forms.record_types.record_information"),
-      groupOrder: 0,
-      name: i18n.t("forms.record_types.transfers_assignments"),
-      order: 3,
-      formId: TRANSFERS_ASSIGNMENTS,
-      is_first_tab: false
-    })
-  ]);
+  const recordInformationForms = getRecordInformationForms(i18n, RECORD_TYPES[recordType]);
 
   const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
   const forms = recordInformationForms.reduce((acum, form) => {

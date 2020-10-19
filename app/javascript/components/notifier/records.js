@@ -8,5 +8,6 @@ export const MessageRecord = Record({
   dismissed: false,
   options: {},
   actionUrl: "",
-  actionLabel: ""
+  actionLabel: "",
+  noDismiss: false
 });

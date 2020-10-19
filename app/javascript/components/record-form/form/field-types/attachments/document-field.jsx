@@ -124,6 +124,7 @@ const DocumentField = ({
               field={field}
               name={fields.date}
               label={i18n.t("fields.document.date")}
+              mode={mode}
             />
           </Box>
           <Box my={2}>

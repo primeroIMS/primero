@@ -6,8 +6,9 @@
 # token identifiers. If external identity providers are used (over OpenID Connect), the
 # model is not responsible for storing authentication information, and must mirror a user
 # in external IDP (such as Azure Active Directory).
+# rubocop:disable Metrics/ClassLength
 class User < ApplicationRecord
-  include Devise::JWT::RevocationStrategies::Whitelist
+  include Devise::JWT::RevocationStrategies::Allowlist
 
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
   PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/.freeze
@@ -19,7 +20,7 @@ class User < ApplicationRecord
 
   delegate :can?, :cannot?, to: :ability
 
-  devise :database_authenticatable, :timeoutable, :recoverable,
+  devise :database_authenticatable, :timeoutable, :recoverable, :lockable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
   belongs_to :role
@@ -126,18 +127,21 @@ class User < ApplicationRecord
       enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
     end
 
+    # TODO: Move the logic for find_permitted_users, users_for_assign,
+    #       users_for_referral, users_for_transfer, users_for_transition into services
+
     def find_permitted_users(filters = nil, pagination = nil, sort = nil, user = nil)
-      users = User.all
+      users = User.all.includes(:user_groups, role: :primero_modules)
       if filters.present?
         filters = filters.compact
         filters['disabled'] = filters['disabled'].values if filters['disabled'].present?
         users = users.where(filters.except('user_group_ids'))
         users = filter_with_groups(users, filters)
-        if user.present? && user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
-          users = users.where(organization: user.organization)
-        end
-        users
       end
+      if user.present? && user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
+        users = users.where(organization: user.organization)
+      end
+
       results = { total: users.size }
       pagination = { per_page: 20, page: 1 } if pagination.blank?
       pagination[:offset] = pagination[:per_page] * (pagination[:page] - 1)
@@ -537,3 +541,4 @@ class User < ApplicationRecord
     @refresh_associated_user_agencies = false
   end
 end
+# rubocop:enable Metrics/ClassLength

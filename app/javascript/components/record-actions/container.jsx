@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import isEmpty from "lodash/isEmpty";
 
-import { RECORD_TYPES, RECORD_PATH, APPROVALS_TYPES } from "../../config";
+import { RECORD_TYPES, RECORD_PATH, APPROVALS_TYPES, MODULES } from "../../config";
 import { useI18n } from "../i18n";
 import { getPermissionsByRecord } from "../user/selectors";
 import { getFiltersValueByRecordType } from "../index-filters/selectors";
@@ -16,7 +16,11 @@ import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import usePermissions from "../permissions";
 import Menu from "../menu";
+import { getRecordFormsByUniqueId } from "../record-form";
+import { fetchIncidentFromCase } from "../records";
 
+import { INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./add-incident/constants";
+import { SERVICES_SUBFORM, SERVICES_SUBFORM_NAME } from "./add-service/constants";
 import { setDialog, setPending } from "./action-creators";
 import {
   REQUEST_APPROVAL_DIALOG,
@@ -45,7 +49,7 @@ import AddService from "./add-service";
 import RequestApproval from "./request-approval";
 import Exports from "./exports";
 import { selectDialog, selectDialogPending } from "./selectors";
-import { isDisabledAction, buildApprovalList, buildActionList } from "./utils";
+import { isDisabledAction, buildApprovalList, buildActionList, subformExists } from "./utils";
 
 const Container = ({ recordType, record, mode, showListActions, currentPage, selectedRecords }) => {
   const i18n = useI18n();
@@ -64,6 +68,27 @@ const Container = ({ recordType, record, mode, showListActions, currentPage, sel
     console.log(dialog, open);
     dispatch(setDialog({ dialog, open }));
   };
+
+  const incidentForm = useSelector(state =>
+    getRecordFormsByUniqueId(state, {
+      recordType: RECORD_TYPES[recordType],
+      primeroModule: MODULES.CP,
+      formName: INCIDENT_SUBFORM,
+      checkVisible: false
+    })
+  ).first();
+
+  const serviceForm = useSelector(state =>
+    getRecordFormsByUniqueId(state, {
+      recordType: RECORD_TYPES[recordType],
+      primeroModule: MODULES.CP,
+      formName: SERVICES_SUBFORM,
+      checkVisible: false
+    })
+  ).first();
+
+  const hasIncidentSubform = subformExists(incidentForm, INCIDENTS_SUBFORM_NAME);
+  const hasServiceSubform = subformExists(serviceForm, SERVICES_SUBFORM_NAME);
 
   const totalRecords = metadata?.get("total", 0);
   const enableState = record && record.get("record_state") ? "disable" : "enable";
@@ -91,7 +116,8 @@ const Container = ({ recordType, record, mode, showListActions, currentPage, sel
     canApproveGbvClosure,
     canAddIncident,
     canAddService,
-    canShowExports
+    canShowExports,
+    canCreateIncident
   } = usePermissions(recordType, RECORD_ACTION_ABILITIES);
 
   // const handleItemAction = itemAction => {
@@ -168,6 +194,8 @@ const Container = ({ recordType, record, mode, showListActions, currentPage, sel
   }[currentDialog || "export"];
 
   const actions = buildActionList({
+    dispatch,
+    record,
     i18n,
     handleDialogClick,
     openState,
@@ -186,7 +214,10 @@ const Container = ({ recordType, record, mode, showListActions, currentPage, sel
     canRequest,
     canApprove,
     canAddNotes,
-    canShowExports
+    canShowExports,
+    canCreateIncident,
+    hasIncidentSubform,
+    hasServiceSubform
   });
 
   const showMenu = mode.isShow && !isEmpty(actions);

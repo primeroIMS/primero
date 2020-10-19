@@ -9,13 +9,13 @@ class PermittedFieldService
   PERMITTED_FILTER_FIELD_NAMES = %w[
     associated_user_names not_edited_by_owner referred_users referred_users_present
     transferred_to_users has_photo survivor_code survivor_code_no case_id_display
-    created_at has_incidents
+    created_at has_incidents short_id
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
     assigned_user_names created_by created_by_agency module_id owned_by owned_by_agency_id
     owned_by_text owned_by_agency_office previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
-    last_updated_at
+    last_updated_at owned_by_groups
   ].freeze
 
   PERMITTED_FIELDS_FOR_ACTION = {
@@ -42,9 +42,10 @@ class PermittedFieldService
     @permitted_field_names << 'record_state' if user.can?(:enable_disable_record, model_class)
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
-    if model_class == Incident && user.can?(Permission::INCIDENT_FROM_CASE, Child)
+    if model_class == Incident && user.can?(Permission::INCIDENT_FROM_CASE.to_sym, Child)
       @permitted_field_names << 'incident_case_id'
     end
+    @permitted_field_names << 'incident_details' if user.can?(:view_incident_from_case, model_class)
     @permitted_field_names += permitted_approval_field_names
     @permitted_field_names += permitted_overdue_task_field_names
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)

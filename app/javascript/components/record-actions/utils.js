@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { RECORD_TYPES, APPROVALS_TYPES, RECORD_PATH } from "../../config";
+import { fetchIncidentFromCase } from "../records";
 
 import {
   ALL,
@@ -89,6 +90,8 @@ export const isDisabledAction = (enabledFor, enabledOnSearch, isSearchFromList, 
 
 export const buildActionList = ({
   i18n,
+  dispatch,
+  record,
   openState,
   enableState,
   handleDialogClick,
@@ -106,7 +109,10 @@ export const buildActionList = ({
   canRequest,
   canApprove,
   canAddNotes,
-  canShowExports
+  canShowExports,
+  canCreateIncident,
+  hasIncidentSubform,
+  hasServiceSubform
 }) => {
   const formRecordType = i18n.t(`forms.record_types.${RECORD_TYPES[recordType]}`);
 
@@ -146,9 +152,21 @@ export const buildActionList = ({
       recordType: RECORD_PATH.cases,
       recordListAction: true,
       enabledFor: ENABLED_FOR_ONE,
-      condition: showListActions ? canAddIncident : canAddIncident && isIdSearch,
+      condition: hasIncidentSubform && (showListActions ? canAddIncident : canAddIncident && isIdSearch),
       disableOffline: true,
       enabledOnSearch: true
+    },
+    {
+      name: i18n.t("actions.incident_from_case"),
+      action: () => {
+        dispatch(fetchIncidentFromCase(record.get("id"), record.get("module_id")));
+      },
+      recordType: RECORD_PATH.cases,
+      recordListAction: false,
+      enabledFor: ENABLED_FOR_ONE,
+      condition: canCreateIncident,
+      disableOffline: true,
+      enabledOnSearch: false
     },
     {
       name: i18n.t("actions.services_section_from_case"),
@@ -157,7 +175,7 @@ export const buildActionList = ({
       recordType: RECORD_PATH.cases,
       recordListAction: true,
       enabledFor: ENABLED_FOR_ONE,
-      condition: showListActions ? canAddService : canAddService && isIdSearch,
+      condition: hasServiceSubform && (showListActions ? canAddService : canAddService && isIdSearch),
       disableOffline: true,
       enabledOnSearch: true
     },
@@ -202,7 +220,7 @@ export const buildActionList = ({
       id: EXPORT_DIALOG,
       name: i18n.t(`${recordType}.export`),
       action: id => {
-        handleDialogClick(id, true)
+        handleDialogClick(id, true);
       },
       recordType: RECORD_TYPES.all,
       recordListAction: true,
@@ -212,3 +230,7 @@ export const buildActionList = ({
     }
   ].filter(filterActions({ recordType, showListActions }));
 };
+
+export const subformExists = (parentForm, subformName) =>
+  // eslint-disable-next-line camelcase
+  parentForm && parentForm.fields.find(field => field.name === subformName)?.subform_section_id;

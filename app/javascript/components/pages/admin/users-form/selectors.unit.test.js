@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 
 import NAMESPACE from "../namespace";
 
-import { getUser, getErrors, getServerErrors, getSavingRecord } from "./selectors";
+import { getUser, getErrors, getLoading, getServerErrors, getSavingRecord } from "./selectors";
 
 const roles = [
   { id: 1, unique_id: "role_1" },
@@ -15,7 +15,8 @@ const stateWithHeaders = fromJS({
       selectedUser: { id: 1 },
       errors: true,
       serverErrors: [{ message: "error-1" }],
-      saving: true
+      saving: true,
+      loading: true
     },
     roles: { data: roles }
   }
@@ -83,6 +84,20 @@ describe("<UsersForm /> - Selectors", () => {
       const user = getSavingRecord(stateWithoutHeaders);
 
       expect(user).to.be.false;
+    });
+  });
+
+  describe("getLoading", () => {
+    it("should return true if it's loading", () => {
+      const loading = getLoading(stateWithHeaders);
+
+      expect(loading).to.be.true;
+    });
+
+    it("should return false if it is not loading", () => {
+      const loading = getLoading(stateWithHeaders.merge(fromJS({ records: { users: { loading: false } } })));
+
+      expect(loading).to.be.false;
     });
   });
 });

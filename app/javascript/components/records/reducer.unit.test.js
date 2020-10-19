@@ -1,6 +1,6 @@
 import { Map, List, fromJS, OrderedMap } from "immutable";
 
-import { DEFAULT_METADATA } from "../../config";
+import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD } from "../../config";
 
 import reducer from "./reducer";
 
@@ -143,5 +143,69 @@ describe("<RecordList /> - Reducers", () => {
     const newState = nsReducer(fromJS({}), action);
 
     expect(newState).to.deep.equals(expected);
+  });
+
+  describe("when record type is cases", () => {
+    const casesReducer = reducer("cases");
+
+    it("should handle FETCH_INCIDENT_FROM_CASE_SUCCESS", () => {
+      const data = {
+        status: "open",
+        enabled: true,
+        owned_by: "user_1"
+      };
+
+      const action = {
+        type: "cases/FETCH_INCIDENT_FROM_CASE_SUCCESS",
+        payload: { data }
+      };
+
+      const newState = casesReducer(fromJS({}), action);
+
+      expect(newState).to.deep.equals(fromJS({ incidentFromCase: { data } }));
+    });
+
+    it("should handle SET_CASE_ID_FOR_INCIDENT", () => {
+      const incidentFromCase = {
+        status: "open",
+        enabled: true,
+        owned_by: "user_1"
+      };
+
+      const action = {
+        type: "cases/SET_CASE_ID_FOR_INCIDENT",
+        payload: { caseId: "case-id-1" }
+      };
+
+      const newState = casesReducer(fromJS({ incidentFromCase }), action);
+
+      expect(newState).to.deep.equals(
+        fromJS({ incidentFromCase: { ...incidentFromCase, [INCIDENT_CASE_ID_FIELD]: "case-id-1" } })
+      );
+    });
+
+    it("should handle CLEAR_CASE_FROM_INCIDENT", () => {
+      const stateWithIncidentFromCase = fromJS({
+        incidentFromCase: {
+          status: "open",
+          enabled: true,
+          owned_by: "user_1"
+        }
+      });
+
+      const action = { type: "cases/CLEAR_CASE_FROM_INCIDENT" };
+
+      const newState = casesReducer(stateWithIncidentFromCase, action);
+
+      expect(newState).to.deep.equals(fromJS({}));
+    });
+
+    it("should handle SET_CASE_ID_REDIRECT", () => {
+      const incidentFromCase = fromJS({});
+      const action = { type: "cases/SET_CASE_ID_REDIRECT", payload: { json: { data: { id: "case-id-1" } } } };
+      const newState = casesReducer(incidentFromCase, action);
+
+      expect(newState).to.deep.equals(fromJS({ incidentFromCase: { incident_case_id: "case-id-1" } }));
+    });
   });
 });

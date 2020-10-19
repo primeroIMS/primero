@@ -35,6 +35,7 @@ en:
     disable: Disable
     enable: Enable
     incident_details_from_case: Add Incident
+    incident_from_case: Create Incident
     next: Next
     notes: Add Notes
     previous: Previous
@@ -155,6 +156,8 @@ en:
     reunite: Reunite
     save: Save
     save_and_add_service_provision: Save and Add Service Provision
+    save_and_return: Save and Return
+    save_continue: Save and Continue
     save_changes: Save changes
     select: Select
     sort_by_case: Cases
@@ -179,6 +182,8 @@ en:
       update_success_queue: 'Case %{record_id} was successfully updated in background'
       creation_success: 'Case record successfully created.'
       creation_success_queue: 'Case record successfully created in background.'
+    save: Save Case
+    save_text: Before continuing, please save your changes to the Case.
     workflow:
       assessment: Assessment
       case_plan: Case Plan
@@ -369,6 +374,10 @@ en:
       date_of_creation: Date of Creation
       registration_date: Date of Registration
   configurations:
+    apply_label: Are you sure? If you apply, the settings in this configuration will be applied to the system.
+      You will lose all your current settings and will not be able to get them back unless you have already saved
+      them in another Configuration.
+    apply_label_bold: Primero will be unavailable to users for a few minutes while changes are loading.
     attributes:
       created_by: Created By
       date_created: Date Created
@@ -389,10 +398,12 @@ en:
     label: Configurations
     label_new: New Configuration
     messages:
+      applied: Configuration was successfully applied.
       created: Configuration was successfully created.
       deleted: Configuration was successfully deleted.
       updated: Configuration was successfully updated.
     not_allowed: Not-allowed
+    unavailable_server: Server is temporarily unavailable.
   contact:
     field:
       email: Email
@@ -848,9 +859,9 @@ en:
     add_existing_field: Add Existing Field
     add_field: Add Field
     add_field_type: Add %{file_type}
-    add_new_field: Create new Field
     audio:
       current: Current Audio
+    audio_upload_box: Audio Upload
     bia_document: BIA Document
     bid_document: BID Document
     check_box: Check Boxes
@@ -885,6 +896,7 @@ en:
       current: Is this the current document?
       date: Document Date
       name: Document Name
+    document_upload_box: Document Upload
     edit_label: Edit Field
     enabled: Enabled?
     enabled_label: Enabled
@@ -933,6 +945,7 @@ en:
     options_or_lookup_warning: Please add Options or select a Lookup. Do not enter
       both.
     other_documents: Other Document
+    photo_upload_box: Photo Upload
     predifined_lookups: Use pre-defined lookup
     radio_button: Radio Button
     remove: Remove
@@ -1118,6 +1131,7 @@ en:
     show_incident: 'Incident ID %{short_id}'
     social_worker: Social Worker
     violence_type: Violence Type
+    type_violence: Type of Violence
   location:
     base_types:
       camp: Camp
@@ -1744,6 +1758,10 @@ en:
               the case list table, or the photo icons which appear there. This permission
               also allows the user to see photos of the child in the "View Modal".
             label: View Photo from case list view
+          view_incident_from_case:
+            explanation: “When viewing a Case, User can see a list of Incidents linked
+              to the Case, along with some summary information about each.
+            label: View Incidents from Case
           write:
             explanation: Ability to click the "Edit" button, update information in
               the case, and click "Save"
@@ -2163,7 +2181,7 @@ en:
         explanation: 'This will control what level of locations appear for this Role
           in the dashboards, filters, referral modals, and transfer modals. If you
           leave this field blank, this Role will see the system’s default Reporting
-          Location level.  Enter the number assocaited with the desired level as follows:'
+          Location level.'
         label: What location type should be used for reporting for this role?
       role:
         actions:
@@ -2435,10 +2453,19 @@ en:
       label: Disabled
     disaggregate_by: Group by column
     filters:
-      is: is
       label: Report filters
       label_new: New report filter
+      attribute: Filter
+      value: With
       not_null: Is not blank?
+      less_than: Less than
+      greater_than: Greater than
+      equal_to: Equal to
+      not_blank: Not blank
+      is: is
+      before: Before
+      after: After
+      delete_filter_message: Are you sure you want to delete this filter?
     group_ages: Use age ranges
     group_dates_by: Use date ranges
     is_graph: Generate a graph?
@@ -2680,3 +2707,9 @@ en:
       user_name: Username
       position: Position
       agency: Agency
+  devise:
+    failure:
+      already_authenticated: "You are already signed in."
+      invalid: "Invalid %{authentication_keys} or password."
+      locked: "Your account is locked."
+      last_attempt: "You have one more attempt before your account is locked."

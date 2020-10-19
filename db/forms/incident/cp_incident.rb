@@ -9,7 +9,7 @@ cp_incident_fields = [
     "visible" => false
   }),
   Field.new({
-    "name" => "cp_short_id",
+    "name" => "short_id",
     "type" => "text_field",
     "editable" => false,
     "disabled" => true,

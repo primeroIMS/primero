@@ -5,15 +5,17 @@ import { NavLink } from "react-router-dom";
 import { ExpandMore, ExpandLess } from "@material-ui/icons";
 
 import { useI18n } from "../../i18n";
+import { useApp } from "../../application";
 
 const AdminNavItem = ({ item, isParent, open, handleClick, nestedClass }) => {
   const i18n = useI18n();
+  const { disabledApplication } = useApp();
 
   const sharedProps = {
     key: item.to,
     button: true,
     activeClassName: "Mui-selected",
-    disabled: item.disabled
+    disabled: item.disabled || disabledApplication
   };
 
   let customProps = {};

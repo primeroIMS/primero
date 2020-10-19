@@ -88,6 +88,7 @@ describe("<RecordForms /> - utils", () => {
           },
           {
             unique_id: "125",
+            uncle_name: "Jimmy",
             phone: "555-333-5534"
           }
         ]
@@ -114,6 +115,24 @@ describe("<RecordForms /> - utils", () => {
       };
 
       expect(utils.emptyValues(testObject)).to.be.false;
+    });
+  });
+
+  describe("getRedirectPath", () => {
+    it("should return the path to the case id if there is a incidentFromCase", () => {
+      expect(utils.getRedirectPath({ isNew: true }, {}, "case-id-1")).to.equal("/cases/case-id-1");
+    });
+
+    it("should return the path to the incident id if is not new", () => {
+      expect(utils.getRedirectPath({ isEdit: true }, { recordType: "incidents", id: "incident-id-1" }), "").to.equal(
+        "/incidents/incident-id-1"
+      );
+    });
+
+    it("should return the path to incidents if is new", () => {
+      expect(utils.getRedirectPath({ isNew: true }, { recordType: "incidents", id: "incident-id-1" }, "")).to.equal(
+        "/incidents"
+      );
     });
   });
 });

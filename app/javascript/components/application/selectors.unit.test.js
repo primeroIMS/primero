@@ -114,7 +114,8 @@ const stateWithRecords = fromJS({
       }
     },
     userGroups,
-    roles
+    roles,
+    disabledApplication: true
   }
 });
 
@@ -288,6 +289,12 @@ describe("Application - Selectors", () => {
   describe("getRoleName", () => {
     it("should return the role name", () => {
       expect(selectors.getRoleName(stateWithRecords, "role-2")).to.deep.equal("Role 2");
+    });
+  });
+
+  describe("getDisabledApplication", () => {
+    it("should return boolean value that identifies if the application is disabled or not", () => {
+      expect(selectors.getDisabledApplication(stateWithRecords)).to.be.true;
     });
   });
 });

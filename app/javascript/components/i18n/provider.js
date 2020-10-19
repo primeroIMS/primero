@@ -27,6 +27,12 @@ const I18nProvider = ({ children }) => {
     dispatch(setLocale({ locale: value, dir: getLocaleDir(value) }));
   };
 
+  const t = (value, options) => {
+    const translation = window.I18n.t(value, options);
+
+    return isEmpty(translation) ? window.I18n.t(value, { locale: window.I18n.defaultLocale, ...options }) : translation;
+  };
+
   const getI18nStringFromObject = i18nObject => {
     if (i18nObject instanceof Object) {
       const localizedValue = i18nObject?.[locale];
@@ -47,7 +53,11 @@ const I18nProvider = ({ children }) => {
   const localizeDate = (value, dateFormat = DATE_FORMAT) => {
     const date = isDate(value) ? value : parseISO(value);
 
-    return format(date, dateFormat, { locale: localize(window.I18n) });
+    try {
+      return format(date, dateFormat, { locale: localize(window.I18n) });
+    } catch {
+      return null;
+    }
   };
 
   return (
@@ -58,7 +68,8 @@ const I18nProvider = ({ children }) => {
         ...window.I18n,
         changeLocale,
         getI18nStringFromObject,
-        localizeDate
+        localizeDate,
+        t
       }}
     >
       {children}
