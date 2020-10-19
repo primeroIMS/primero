@@ -97,7 +97,6 @@ class Flag < ApplicationRecord
   end
 
   class << self
-    # TODO: Clean this up
     def by_owner(query_scope, record_types)
       record_types ||= %w[cases incidents tracing_requests]
       params = {}
@@ -117,10 +116,17 @@ class Flag < ApplicationRecord
         params[:type] = record_type
         flags << send(scope_to_use, params).select(select_fields(record_type))
       end
-      flags.flatten
+      mask_flag_names(flags.flatten)
     end
 
     private
+
+    def mask_flag_names(flags)
+      flags.each_with_object([]) do |flag, flag_list|
+        flag.name = RecordDataService.visible_name(flag)
+        flag_list << flag
+      end
+    end
 
     def select_fields(record_type)
       ['flags.id',

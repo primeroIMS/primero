@@ -7,22 +7,13 @@ class Api::V2::FlagsOwnersController < ApplicationApiController
   before_action :load_flags, only: %i[index]
 
   def index
-    # TODO: handle pagination
-    # TODO: fix front end for old index by record id
     authorize! :index, Flag
-
-    # results = current_user.tasks(pagination)
-    # @flags = results[:tasks]
-    # @total = results[:total]
   end
 
   protected
 
   def load_flags
     @flags = Flag.by_owner(query_scope, record_types)
-
-    # TODO: this shouldn't be in a controller
-    @flags.map { |flag| flag['name'] = '*******' if flag['name'].present? && flag['hidden_name'].present? }
   end
 
   private

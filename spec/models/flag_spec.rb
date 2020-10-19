@@ -80,11 +80,9 @@ describe Flag do
             expect(f1['record_type']).to eq('Child')
             expect(f1['message']).to eq('This is test flag 1')
             expect(f1['short_id']).to eq('abc123')
-            expect(f1['name']).to eq('Test1')
+            expect(f1['name']).to eq('*******')
             expect(f1['hidden_name']).to be
             expect(f1['owned_by']).to eq('user1')
-
-            # expect(flags.first['removed']).to be_falsey
           end
         end
       end
@@ -104,7 +102,7 @@ describe Flag do
           expect(case_flag['record_id']).to eq(@case1.id.to_s)
           expect(case_flag['message']).to eq('This is test flag 1')
           expect(case_flag['short_id']).to eq('abc123')
-          expect(case_flag['name']).to eq('Test1')
+          expect(case_flag['name']).to eq('*******')
           expect(case_flag['hidden_name']).to be
           expect(case_flag['owned_by']).to eq('user1')
         end
@@ -152,7 +150,7 @@ describe Flag do
             expect(f1['record_type']).to eq('Child')
             expect(f1['message']).to eq('This is test flag 1')
             expect(f1['short_id']).to eq('abc123')
-            expect(f1['name']).to eq('Test1')
+            expect(f1['name']).to eq('*******')
             expect(f1['hidden_name']).to be
             expect(f1['owned_by']).to eq('user1')
 
