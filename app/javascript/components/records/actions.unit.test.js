@@ -36,6 +36,7 @@ describe("records - Actions", () => {
       "SAVE_RECORD_SUCCESS",
       "SERVICE_REFERRED_SAVE",
       "SET_CASE_ID_FOR_INCIDENT",
+      "SET_CASE_ID_REDIRECT",
       "CLEAR_CASE_FROM_INCIDENT",
       "TRACING_REQUESTS_RECORDS"
     ].forEach(property => {

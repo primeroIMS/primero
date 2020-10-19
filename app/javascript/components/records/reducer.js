@@ -22,7 +22,8 @@ import {
   FETCH_INCIDENT_FROM_CASE_SUCCESS,
   CLEAR_METADATA,
   CLEAR_CASE_FROM_INCIDENT,
-  SET_CASE_ID_FOR_INCIDENT
+  SET_CASE_ID_FOR_INCIDENT,
+  SET_CASE_ID_REDIRECT
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -122,7 +123,7 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("metadata", fromJS(DEFAULT_METADATA));
     case `${namespace}/${FETCH_INCIDENT_FROM_CASE_SUCCESS}`:
       return RECORD_TYPES[namespace] === RECORD_TYPES.cases
-        ? state.setIn(["incidentFromCase"], fromJS(payload.data))
+        ? state.setIn(["incidentFromCase", "data"], fromJS(payload.data))
         : state;
     case `${namespace}/${SET_CASE_ID_FOR_INCIDENT}`:
       return RECORD_TYPES[namespace] === RECORD_TYPES.cases
@@ -130,6 +131,11 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
         : state;
     case `${namespace}/${CLEAR_CASE_FROM_INCIDENT}`:
       return state.delete("incidentFromCase");
+    case `${namespace}/${SET_CASE_ID_REDIRECT}`: {
+      return RECORD_TYPES[namespace] === RECORD_TYPES.cases
+        ? state.setIn(["incidentFromCase", INCIDENT_CASE_ID_FIELD], payload.json?.data?.id)
+        : state;
+    }
     default:
       return state;
   }

@@ -6,8 +6,9 @@
 # token identifiers. If external identity providers are used (over OpenID Connect), the
 # model is not responsible for storing authentication information, and must mirror a user
 # in external IDP (such as Azure Active Directory).
+# rubocop:disable Metrics/ClassLength
 class User < ApplicationRecord
-  include Devise::JWT::RevocationStrategies::Whitelist
+  include Devise::JWT::RevocationStrategies::Allowlist
 
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
   PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/.freeze
@@ -19,7 +20,7 @@ class User < ApplicationRecord
 
   delegate :can?, :cannot?, to: :ability
 
-  devise :database_authenticatable, :timeoutable, :recoverable,
+  devise :database_authenticatable, :timeoutable, :recoverable, :lockable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
   belongs_to :role
@@ -125,6 +126,9 @@ class User < ApplicationRecord
     def all_names
       enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
     end
+
+    # TODO: Move the logic for find_permitted_users, users_for_assign,
+    #       users_for_referral, users_for_transfer, users_for_transition into services
 
     def find_permitted_users(filters = nil, pagination = nil, sort = nil, user = nil)
       users = User.all.includes(:user_groups, role: :primero_modules)
@@ -537,3 +541,4 @@ class User < ApplicationRecord
     @refresh_associated_user_agencies = false
   end
 end
+# rubocop:enable Metrics/ClassLength

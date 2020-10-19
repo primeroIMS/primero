@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
@@ -15,28 +15,45 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { setSelectedForm } from "../../../record-form/action-creators";
 import { setCaseIdForIncident } from "../../../records/action-creators";
+import RedirectDialog from "../redirect-dialog";
 
-const Component = ({ css, incidentCaseId, incidentDateInterview, incidentDate, incidentUniqueID, incidentType }) => {
+const Component = ({
+  css,
+  handleSubmit,
+  incidentCaseId,
+  incidentDateInterview,
+  incidentDate,
+  incidentUniqueID,
+  incidentType,
+  mode,
+  setFieldValue,
+  recordType
+}) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const [redirectOpts, setRedirectOpts] = useState({});
   const canViewIncidents = usePermissions(RESOURCES.incidents, READ_RECORDS);
   const canEditIncidents = usePermissions(RESOURCES.incidents, WRITE_RECORDS);
   const incidentInterviewLabel = i18n.t("incidents.date_of_interview");
   const incidentDateLabel = i18n.t("incidents.date_of_incident");
   const incidentTypeLabel = i18n.t("incidents.type_violence");
-  const handleView = () => {
+  let incidentPath = null;
+
+  const redirectIncident = path => {
     batch(() => {
       dispatch(setSelectedForm(null));
       dispatch(setCaseIdForIncident(incidentCaseId));
-      dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}`));
+      dispatch(push(path));
     });
   };
-  const handleEdit = () => {
-    batch(() => {
-      dispatch(setSelectedForm(null));
-      dispatch(setCaseIdForIncident(incidentCaseId));
-      dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}/edit`));
-    });
+
+  const handleEvent = modeEvent => {
+    incidentPath = `/${RESOURCES.incidents}/${incidentUniqueID}${modeEvent === "view" ? "" : "/edit"}`;
+    if (!mode.isShow) {
+      setRedirectOpts({ open: true, incidentPath });
+    } else {
+      redirectIncident(incidentPath);
+    }
   };
 
   const viewIncidentBtn = canViewIncidents && (
@@ -46,7 +63,7 @@ const Component = ({ css, incidentCaseId, incidentDateInterview, incidentDate, i
       type={ACTION_BUTTON_TYPES.default}
       outlined
       rest={{
-        onClick: handleView
+        onClick: () => handleEvent("view")
       }}
     />
   );
@@ -57,8 +74,18 @@ const Component = ({ css, incidentCaseId, incidentDateInterview, incidentDate, i
       type={ACTION_BUTTON_TYPES.default}
       outlined
       rest={{
-        onClick: handleEdit
+        onClick: () => handleEvent("edit")
       }}
+    />
+  );
+  const renderDialog = redirectOpts.open && !mode.isShow && (
+    <RedirectDialog
+      setFieldValue={setFieldValue}
+      handleSubmit={handleSubmit}
+      mode={mode}
+      recordType={recordType}
+      setRedirectOpts={setRedirectOpts}
+      {...redirectOpts}
     />
   );
 
@@ -86,6 +113,7 @@ const Component = ({ css, incidentCaseId, incidentDateInterview, incidentDate, i
           <div className={css.buttonsActions}>
             {viewIncidentBtn}
             {editIncidentBtn}
+            {renderDialog}
           </div>
         </Grid>
       </Grid>
@@ -97,10 +125,14 @@ Component.displayName = NAME_DETAIL;
 
 Component.propTypes = {
   css: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func,
   incidentCaseId: PropTypes.string,
   incidentDate: PropTypes.string,
   incidentDateInterview: PropTypes.string,
   incidentType: PropTypes.node,
-  incidentUniqueID: PropTypes.string
+  incidentUniqueID: PropTypes.string,
+  mode: PropTypes.object,
+  recordType: PropTypes.string,
+  setFieldValue: PropTypes.func
 };
 export default Component;

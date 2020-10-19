@@ -10,7 +10,8 @@ import {
   getIncidentFromCase,
   getSavingRecord,
   getLoadingRecordState,
-  getRecordAlerts
+  getRecordAlerts,
+  getCaseIdForIncident
 } from "./selectors";
 
 const record = {
@@ -255,11 +256,21 @@ describe("Records - Selectors", () => {
     });
 
     const stateWithIncidentFromCase = fromJS({
-      records: { cases: { incidentFromCase } }
+      records: { cases: { incidentFromCase: { data: incidentFromCase } } }
     });
 
     it("should return the incident when is a new incident", () => {
       expect(getIncidentFromCase(stateWithIncidentFromCase)).to.deep.equal(incidentFromCase);
+    });
+  });
+
+  describe("getCaseIdForIncident", () => {
+    const stateWithIncidentFromCase = fromJS({
+      records: { cases: { incidentFromCase: { incident_case_id: "123456789" } } }
+    });
+
+    it("should return the incident_case_id when is a new incident", () => {
+      expect(getCaseIdForIncident(stateWithIncidentFromCase)).to.deep.equal("123456789");
     });
   });
 });
