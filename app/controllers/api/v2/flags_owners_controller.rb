@@ -4,16 +4,11 @@
 class Api::V2::FlagsOwnersController < ApplicationApiController
   include Api::V2::Concerns::Pagination
 
-  before_action :load_flags, only: %i[index]
-
   def index
     authorize! :index, Flag
-  end
-
-  protected
-
-  def load_flags
-    @flags = Flag.by_owner(query_scope, record_types, flagged_by)
+    flags = Flag.by_owner(query_scope, record_types, flagged_by)
+    @total = flags.size
+    @flags = flags.paginate(pagination)
   end
 
   private
