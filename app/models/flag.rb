@@ -99,18 +99,23 @@ class Flag < ApplicationRecord
   class << self
     def by_owner(query_scope, record_types)
       record_types ||= %w[cases incidents tracing_requests]
-      params = {}
-      scope_to_use = nil
-      if query_scope[:user]['user'].present?
-        params[:owner] = query_scope[:user]['user']
-        scope_to_use = 'by_record_associated_user'
-      elsif query_scope[:user]['group'].present?
-        params[:group] = query_scope[:user]['group']
-        scope_to_use = 'by_record_associated_groups'
-      elsif query_scope[:user]['agency_id'].present?
-        params[:agency_id] = query_scope[:user]['agency_id']
-        scope_to_use = 'by_record_agency'
-      end
+      owner = query_scope[:user]['user']
+      group = query_scope[:user]['group']
+      agency_id = query_scope[:user]['agency_id']
+
+      return by_owner_associations('by_record_associated_user', record_types, owner: owner) if owner.present?
+
+      return by_owner_associations('by_record_associated_groups', record_types, group: group) if group.present?
+
+      return by_owner_associations('by_record_agency', record_types, agency_id: agency_id) if agency_id.present?
+
+      []
+    end
+
+    private
+
+    def by_owner_associations(scope_to_use, record_types, params = {})
+      record_types = %w[cases incidents tracing_requests] if record_types.blank?
       flags = []
       record_types.each do |record_type|
         params[:type] = record_type
@@ -118,8 +123,6 @@ class Flag < ApplicationRecord
       end
       mask_flag_names(flags.flatten)
     end
-
-    private
 
     def mask_flag_names(flags)
       flags.each_with_object([]) do |flag, flag_list|
