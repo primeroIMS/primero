@@ -445,7 +445,7 @@ describe("<Nav />", () => {
 
     it("opens the record_information group and sets incidents froms if there is a incidentFromCase", () => {
       const stateWithIncidentFromCase = initialState.setIn(
-        ["records", "cases", "incidentFromCase"],
+        ["records", "cases", "incidentFromCase", "data"],
         fromJS({ incident_case_id: "case-id-1" })
       );
       const { component: navComp } = setupMountedComponent(
