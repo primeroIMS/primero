@@ -56,7 +56,8 @@ export const FieldRecord = Record({
   subform_section_configuration: null,
   setOtherFieldValues: null,
   wrapWithComponent: null,
-  onClick: null
+  onClick: null,
+  placeholder: ""
 });
 
 export const FormSectionRecord = Record({
