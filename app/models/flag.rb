@@ -100,13 +100,12 @@ class Flag < ApplicationRecord
     def by_owner(query_scope, record_types)
       record_types ||= %w[cases incidents tracing_requests]
       owner = query_scope[:user]['user']
-      group = query_scope[:user]['group']
-      agency_id = query_scope[:user]['agency_id']
-
       return by_owner_associations('by_record_associated_user', record_types, owner: owner) if owner.present?
 
+      group = query_scope[:user]['group']
       return by_owner_associations('by_record_associated_groups', record_types, group: group) if group.present?
 
+      agency_id = query_scope[:user]['agency_id']
       return by_owner_associations('by_record_agency', record_types, agency_id: agency_id) if agency_id.present?
 
       []
@@ -132,16 +131,9 @@ class Flag < ApplicationRecord
     end
 
     def select_fields(record_type)
-      ['flags.id',
-       'flags.record_type',
-       'flags.record_id',
-       'flags.date',
-       'flags.message',
-       'flags.flagged_by',
-       "#{record_type}.data -> 'short_id' as short_id",
-       "#{record_type}.data -> 'name' as name",
-       "#{record_type}.data -> 'hidden_name' as hidden_name",
-       "#{record_type}.data -> 'owned_by' as owned_by",
+      ['flags.id', 'flags.record_type', 'flags.record_id', 'flags.date', 'flags.message', 'flags.flagged_by',
+       "#{record_type}.data -> 'short_id' as short_id", "#{record_type}.data -> 'name' as name",
+       "#{record_type}.data -> 'hidden_name' as hidden_name", "#{record_type}.data -> 'owned_by' as owned_by",
        "#{record_type}.data -> 'owned_by_agency_id' as owned_by_agency_id"].join(', ')
     end
   end
