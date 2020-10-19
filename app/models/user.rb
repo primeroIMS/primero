@@ -336,16 +336,44 @@ class User < ApplicationRecord
   # Returns the Agency if can only query from the agency this user has access to
   # Returns empty list if can query for all records in the system
   def record_query_scope(record_model, id_search = false)
-    user_scope = if can_search_for_all?(record_model, id_search)
-                   {}
-                 elsif group_permission?(Permission::AGENCY)
+    user_scope = case user_query_scope(record_model, id_search)
+                 when Permission::AGENCY
                    { 'agency' => agency.unique_id }
-                 elsif group_permission?(Permission::GROUP) && user_group_ids.present?
+                 when Permission::GROUP
                    { 'group' => user_groups.pluck(:unique_id).compact }
-                 else
+                 when Permission::USER
                    { 'user' => user_name }
+                 when Permission::ALL
+                   {}
                  end
     { user: user_scope, module: module_unique_ids }
+  end
+
+  def user_query_scope(record_model, id_search = false)
+    if can_search_for_all?(record_model, id_search)
+      Permission::ALL
+    elsif group_permission?(Permission::AGENCY)
+      Permission::AGENCY
+    elsif group_permission?(Permission::GROUP) && user_group_ids.present?
+      Permission::GROUP
+    else
+      Permission::USER
+    end
+  end
+
+  def can_see_record?(record_model, id_search = false)
+    case user_query_scope(record_model, id_search)
+    when Permission::AGENCY
+      record_model&.owned_by_agency_id == agency_id
+    when Permission::GROUP
+      # TODO: change the ids to unique_ids when the fix for records is done
+      record_model&.owned_by_groups&.any? { |ugroup| user_groups.ids.include?(ugroup) }
+    when Permission::USER
+      record_model&.owned_by == user_name
+    when Permission::ALL
+      true
+    end
+
   end
 
   def can_search_for_all?(record_model, id_search = false)
