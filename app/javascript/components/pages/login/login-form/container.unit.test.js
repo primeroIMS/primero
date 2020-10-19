@@ -1,16 +1,19 @@
 import { fromJS } from "immutable";
 
+import { PageHeading } from "../../../page";
+import ActionButton from "../../../action-button";
 import { setupMountedComponent } from "../../../../test";
 
 import LoginForm from "./container";
 
 describe("<LoginForm />", () => {
+  const props = { isAuthenticated: false };
   let component;
 
   before(() => {
     component = setupMountedComponent(
       LoginForm,
-      { isAuthenticated: false },
+      props,
       fromJS({
         idp: {
           use_identity_provider: false
@@ -49,5 +52,26 @@ describe("<LoginForm />", () => {
 
   it("renders login button", () => {
     expect(component.find("button").first().prop("type")).to.equal("submit");
+  });
+
+  describe("when is demo site", () => {
+    const stateWithDemo = fromJS({
+      records: {
+        support: {
+          data: {
+            demo: true
+          }
+        }
+      }
+    });
+    const { component: componentWithDemo } = setupMountedComponent(LoginForm, props, stateWithDemo);
+
+    it("should render PageHeading with 'demo' text", () => {
+      expect(componentWithDemo.find(PageHeading).text()).to.be.equal("demo login.label");
+    });
+
+    it("should render ActionButton with 'demo' text", () => {
+      expect(componentWithDemo.find(ActionButton).text()).to.equal("buttons.login logger.to demo");
+    });
   });
 });

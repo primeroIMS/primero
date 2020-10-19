@@ -16,7 +16,7 @@ import {
   getDisabledApplication,
   getDemo
 } from "./selectors";
-import { setNetworkStatus } from "./action-creators";
+import { setNetworkStatus, setDemo } from "./action-creators";
 
 const Context = createContext();
 
@@ -81,6 +81,12 @@ const ApplicationProvider = ({ children }) => {
       Queue.dispatch = dispatch;
     }
   }, [online, authenticated]);
+
+  useEffect(() => {
+    if (demo) {
+      dispatch(setDemo(demo));
+    }
+  }, [demo]);
 
   return (
     <Context.Provider value={{ modules, userModules, online, approvalsLabels, disabledApplication, demo }}>

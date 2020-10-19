@@ -4,6 +4,7 @@ import { CircularProgress } from "@material-ui/core";
 import { routes } from "../../config";
 import { setupMountedComponent } from "../../test";
 import Nav from "../nav";
+import DemoIndicator from "../demo-indicator";
 
 import AppLayout from "./AppLayout";
 
@@ -38,6 +39,13 @@ describe("<AppLayout />", () => {
               associated_record_types: ["case"]
             }
           ]
+        },
+        records: {
+          support: {
+            data: {
+              demo: true
+            }
+          }
         }
       });
 
@@ -52,6 +60,10 @@ describe("<AppLayout />", () => {
     it("navigates to incidents list", () => {
       component.find('a[href="/incidents"]').at(1).simulate("click", { button: 0 });
       expect(component.find('a[href="/incidents"]').at(1).hasClass("active")).to.equal(true);
+    });
+
+    it("renders DemoIndicator component", () => {
+      expect(component.find(DemoIndicator)).to.have.lengthOf(1);
     });
   });
 
@@ -77,8 +89,12 @@ describe("<AppLayout />", () => {
       component = setupMountedComponent(AppLayout, { route: routes[0] }, state, ["/cases"]).component;
     });
 
-    it("renders CircularProgress", () => {
+    it("should render CircularProgress", () => {
       expect(component.find(CircularProgress)).to.have.lengthOf(1);
+    });
+
+    it("should not render DemoIndicator component", () => {
+      expect(component.find(DemoIndicator)).to.be.empty;
     });
   });
 });

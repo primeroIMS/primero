@@ -47,6 +47,13 @@ const roles = [
 
 const stateWithNoRecords = fromJS({});
 const stateWithRecords = fromJS({
+  records: {
+    support: {
+      data: {
+        demo: true
+      }
+    }
+  },
   application: {
     userIdle: true,
     agencies: [agencyWithLogo, agency1, agency2, agency3],
@@ -295,6 +302,12 @@ describe("Application - Selectors", () => {
   describe("getDisabledApplication", () => {
     it("should return boolean value that identifies if the application is disabled or not", () => {
       expect(selectors.getDisabledApplication(stateWithRecords)).to.be.true;
+    });
+  });
+
+  describe("getDemo", () => {
+    it("should return the role name", () => {
+      expect(selectors.getDemo(stateWithRecords)).to.be.true;
     });
   });
 });

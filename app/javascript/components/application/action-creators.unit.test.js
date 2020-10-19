@@ -17,7 +17,8 @@ describe("Application - Action Creators", () => {
       "loadApplicationResources",
       "setNetworkStatus",
       "setUserIdle",
-      "fetchManagedRoles"
+      "fetchManagedRoles",
+      "setDemo"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
@@ -102,5 +103,14 @@ describe("Application - Action Creators", () => {
     };
 
     expect(actionCreators.disableNavigation(true)).to.deep.equal(expected);
+  });
+
+  it("should check the 'setDemo' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.SET_DEMO,
+      payload: true
+    };
+
+    expect(actionCreators.setDemo(true)).to.deep.equal(expected);
   });
 });
