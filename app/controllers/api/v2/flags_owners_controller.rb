@@ -13,7 +13,7 @@ class Api::V2::FlagsOwnersController < ApplicationApiController
   protected
 
   def load_flags
-    @flags = Flag.by_owner(query_scope, record_types)
+    @flags = Flag.by_owner(query_scope, record_types, flagged_by)
   end
 
   private
@@ -24,5 +24,9 @@ class Api::V2::FlagsOwnersController < ApplicationApiController
 
   def record_types
     @record_types = params[:record_type]&.split(',')
+  end
+
+  def flagged_by
+    @flagged_by = params[:flagged_by_me] == true ? current_user.user_name : nil
   end
 end

@@ -97,28 +97,28 @@ class Flag < ApplicationRecord
   end
 
   class << self
-    def by_owner(query_scope, record_types)
+    def by_owner(query_scope, record_types, flagged_by)
       record_types ||= %w[cases incidents tracing_requests]
       owner = query_scope[:user]['user']
-      return by_owner_associations('by_record_associated_user', record_types, owner: owner) if owner.present?
+      return by_owner_associations('by_record_associated_user', record_types, flagged_by, owner: owner) if owner.present?
 
       group = query_scope[:user]['group']
-      return by_owner_associations('by_record_associated_groups', record_types, group: group) if group.present?
+      return by_owner_associations('by_record_associated_groups', record_types, flagged_by, group: group) if group.present?
 
       agency_id = query_scope[:user]['agency_id']
-      return by_owner_associations('by_record_agency', record_types, agency_id: agency_id) if agency_id.present?
+      return by_owner_associations('by_record_agency', record_types, flagged_by, agency_id: agency_id) if agency_id.present?
 
       []
     end
 
     private
 
-    def by_owner_associations(scope_to_use, record_types, params = {})
+    def by_owner_associations(scope_to_use, record_types, flagged_by, params = {})
       record_types = %w[cases incidents tracing_requests] if record_types.blank?
       flags = []
       record_types.each do |record_type|
         params[:type] = record_type
-        flags << send(scope_to_use, params).select(select_fields(record_type))
+        flags << send(scope_to_use, params).where(where_params(flagged_by)).select(select_fields(record_type))
       end
       mask_flag_names(flags.flatten)
     end
@@ -128,6 +128,14 @@ class Flag < ApplicationRecord
         flag.name = RecordDataService.visible_name(flag)
         flag_list << flag
       end
+    end
+
+    def where_params(flagged_by)
+      return {} if flagged_by.blank?
+
+      {
+        flagged_by: flagged_by
+      }
     end
 
     def select_fields(record_type)

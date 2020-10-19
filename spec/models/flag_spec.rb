@@ -49,7 +49,7 @@ describe Flag do
                                           owned_by: 'user2' })
 
     @case1.add_flag('This is test flag 1', Date.today, 'faketest')
-    @case1.add_flag('This is test flag 2', Date.today, 'faketest')
+    @case1.add_flag('This is test flag 2', Date.today, 'user1')
     @case3.add_flag('This is test flag 3', Date.today, 'faketest')
     @case5.add_flag('This is test flag 4', Date.today, 'faketest')
     @tracing_request1.add_flag('This is a flag TR', Date.today, 'faketest')
@@ -73,7 +73,7 @@ describe Flag do
           end
 
           it 'returns case flags owned by or asssociated with the current user' do
-            flags = Flag.by_owner(@query_scope, @record_types)
+            flags = Flag.by_owner(@query_scope, @record_types, nil)
             f1 = flags.first
             expect(flags.size).to eq(2)
             expect(f1['record_id']).to eq(@case1.id.to_s)
@@ -89,7 +89,7 @@ describe Flag do
 
       context 'when record_types is not passed in' do
         before do
-          @flags = Flag.by_owner(@query_scope, nil)
+          @flags = Flag.by_owner(@query_scope, nil, nil)
         end
 
         it 'returns all flags owned by or associated with the current user' do
@@ -129,6 +129,16 @@ describe Flag do
           expect(tr_flag['owned_by']).to eq('user1')
         end
       end
+
+      context 'when flagged_by is passed in' do
+        before do
+          @flags = Flag.by_owner(@query_scope, nil, 'user1')
+        end
+
+        it 'returns flags owned by the current user and flagged by the current user' do
+          expect(@flags.size).to eq(1)
+        end
+      end
     end
 
     context 'when the user has query group permissions' do
@@ -143,7 +153,7 @@ describe Flag do
           end
 
           it 'returns case flags owned by or associated with users in current users groups' do
-            flags = Flag.by_owner(@query_scope, @record_types)
+            flags = Flag.by_owner(@query_scope, @record_types, nil)
             f1 = flags.first
             expect(flags.size).to eq(3)
             expect(f1['record_id']).to eq(@case1.id.to_s)
@@ -164,7 +174,7 @@ describe Flag do
           end
 
           it 'returns incident flags owned by or associated with users in current users groups' do
-            flags = Flag.by_owner(@query_scope, @record_types)
+            flags = Flag.by_owner(@query_scope, @record_types, nil)
             f1 = flags.first
             expect(flags.size).to eq(4)
             expect(f1['record_id']).to eq(@incident1.id.to_s)
@@ -185,7 +195,7 @@ describe Flag do
           end
 
           it 'returns tracing_request flags owned by or associated with users in current users groups' do
-            flags = Flag.by_owner(@query_scope, @record_types)
+            flags = Flag.by_owner(@query_scope, @record_types, nil)
             f1 = flags.first
             expect(flags.size).to eq(2)
             expect(f1['record_id']).to eq(@tracing_request1.id.to_s)
@@ -203,7 +213,7 @@ describe Flag do
 
       context 'when record_types is not passed in' do
         before do
-          @flags = Flag.by_owner(@query_scope, nil)
+          @flags = Flag.by_owner(@query_scope, nil, nil)
         end
 
         it 'returns flags owned by or associated with users in current users groups' do
@@ -224,7 +234,7 @@ describe Flag do
           end
 
           it 'returns case flags owned by or associated with users in current users agency' do
-            flags = Flag.by_owner(@query_scope, @record_types)
+            flags = Flag.by_owner(@query_scope, @record_types, nil)
             expect(flags.size).to eq(2)
             expect(flags.map(&:record_id)).to match_array([@case3.id, @case5.id])
             expect(flags.map(&:record_type)).to match_array(%w[Child Child])
@@ -242,7 +252,7 @@ describe Flag do
           end
 
           it 'returns incident flags owned by or associated with users in current users agency' do
-            flags = Flag.by_owner(@query_scope, @record_types)
+            flags = Flag.by_owner(@query_scope, @record_types, nil)
             f1 = flags.first
             expect(flags.size).to eq(1)
             expect(f1['record_id']).to eq(@incident2.id.to_s)
@@ -261,7 +271,7 @@ describe Flag do
           end
 
           it 'returns tracing_request flags owned by or associated with users in current users agency' do
-            flags = Flag.by_owner(@query_scope, @record_types)
+            flags = Flag.by_owner(@query_scope, @record_types, nil)
             f1 = flags.first
             expect(flags.size).to eq(1)
             expect(f1['record_id']).to eq(@tracing_request3.id.to_s)
@@ -277,7 +287,7 @@ describe Flag do
 
       context 'when record_types is not passed in' do
         before do
-          @flags = Flag.by_owner(@query_scope, nil)
+          @flags = Flag.by_owner(@query_scope, nil, nil)
         end
 
         it 'returns flags owned by or associated with users in current users groups' do
