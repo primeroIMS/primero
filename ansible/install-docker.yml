@@ -1,7 +1,6 @@
 ---
-- hosts: 'primero'
+- hosts: 'all'
   roles:
-  - 'synchronize'
   - 'manage-users'
   - 'quoin.infrastructure.docker_daemon_json'
   - 'quoin.infrastructure.install_python3_virtualenv'
