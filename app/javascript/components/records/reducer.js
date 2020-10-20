@@ -1,7 +1,7 @@
 import { fromJS, Map, List } from "immutable";
 
 import { mergeRecord } from "../../libs";
-import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, RECORD_TYPES } from "../../config";
+import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, RECORD_TYPES } from "../../config";
 
 import {
   RECORDS_STARTED,
@@ -127,7 +127,9 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
         : state;
     case `${namespace}/${SET_CASE_ID_FOR_INCIDENT}`:
       return RECORD_TYPES[namespace] === RECORD_TYPES.cases
-        ? state.setIn(["incidentFromCase", INCIDENT_CASE_ID_FIELD], payload.caseId)
+        ? state
+            .setIn(["incidentFromCase", INCIDENT_CASE_ID_FIELD], payload.caseId)
+            .setIn(["incidentFromCase", INCIDENT_CASE_ID_DISPLAY_FIELD], payload.caseIdDisplay)
         : state;
     case `${namespace}/${CLEAR_CASE_FROM_INCIDENT}`:
       return state.delete("incidentFromCase");
