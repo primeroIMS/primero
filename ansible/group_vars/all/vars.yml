@@ -1,5 +1,4 @@
 ---
-ansible_user: 'ubuntu'
 ansible_python_interpreter: '/usr/bin/python3'
 qi_install_python3_docker_pip_names:
 - 'pip'
