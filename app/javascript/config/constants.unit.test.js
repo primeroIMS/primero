@@ -34,6 +34,7 @@ describe("Verifying config constant", () => {
       "DATE_TIME_FORMAT",
       "DEFAULT_METADATA",
       "DISPLAY_TEXT_FIELD",
+      "DEFAULT_DATE_VALUES",
       "FETCH_TIMEOUT",
       "HTTP_STATUS",
       "IDLE_LOGOUT_TIMEOUT",
@@ -171,6 +172,8 @@ describe("Verifying config constant", () => {
         expect(constants.DEFAULT_METADATA).to.have.all.keys("page", "per");
 
         expect(constants.HTTP_STATUS).to.have.all.keys("invalidRecord");
+
+        expect(constants.DEFAULT_DATE_VALUES).to.have.all.keys("TODAY", "NOW");
       });
     });
   });
