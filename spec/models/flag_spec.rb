@@ -142,82 +142,100 @@ describe Flag do
     end
 
     context 'when the user has query group permissions' do
-      before do
-        @query_scope = { user: { 'group' => [@group1.unique_id] }, module: ['primeromodule-cp'] }
-      end
-
-      context 'when record_types is passed in' do
-        context 'and the record_type is cases' do
-          before do
-            @record_types = ['cases']
-          end
-
-          it 'returns case flags owned by or associated with users in current users groups' do
-            flags = Flag.by_owner(@query_scope, @record_types, nil)
-            f1 = flags.first
-            expect(flags.size).to eq(3)
-            expect(f1['record_id']).to eq(@case1.id.to_s)
-            expect(f1['record_type']).to eq('Child')
-            expect(f1['message']).to eq('This is test flag 1')
-            expect(f1['short_id']).to eq('abc123')
-            expect(f1['name']).to eq('*******')
-            expect(f1['hidden_name']).to be
-            expect(f1['owned_by']).to eq('user1')
-
-            # expect(flags.first['removed']).to be_falsey
-          end
-        end
-
-        context 'and the record_type is incidents' do
-          before do
-            @record_types = ['incidents']
-          end
-
-          it 'returns incident flags owned by or associated with users in current users groups' do
-            flags = Flag.by_owner(@query_scope, @record_types, nil)
-            f1 = flags.first
-            expect(flags.size).to eq(4)
-            expect(f1['record_id']).to eq(@incident1.id.to_s)
-            expect(f1['record_type']).to eq('Incident')
-            expect(f1['message']).to eq('This is a flag IN')
-            expect(f1['short_id']).to eq(@incident1.short_id)
-            expect(f1['name']).to be_nil
-            expect(f1['hidden_name']).to be_nil
-            expect(f1['owned_by']).to eq('user1')
-
-            # expect(flags.first['removed']).to be_falsey
-          end
-        end
-
-        context 'and the record_type is tracing_requests' do
-          before do
-            @record_types = ['tracing_requests']
-          end
-
-          it 'returns tracing_request flags owned by or associated with users in current users groups' do
-            flags = Flag.by_owner(@query_scope, @record_types, nil)
-            f1 = flags.first
-            expect(flags.size).to eq(2)
-            expect(f1['record_id']).to eq(@tracing_request1.id.to_s)
-            expect(f1['record_type']).to eq('TracingRequest')
-            expect(f1['message']).to eq('This is a flag TR')
-            expect(f1['short_id']).to eq(@tracing_request1.short_id)
-            expect(f1['name']).to be_nil
-            expect(f1['hidden_name']).to be_nil
-            expect(f1['owned_by']).to eq('user1')
-
-            # expect(flags.first['removed']).to be_falsey
-          end
-        end
-      end
-
-      context 'when record_types is not passed in' do
+      context 'and the user has 1 user_group' do
         before do
-          @flags = Flag.by_owner(@query_scope, nil, nil)
+          @query_scope = { user: { 'group' => [@group1.unique_id] }, module: ['primeromodule-cp'] }
         end
 
-        it 'returns flags owned by or associated with users in current users groups' do
-          expect(@flags.size).to eq(9)
+        context 'and record_types is passed in' do
+          context 'and the record_type is cases' do
+            before do
+              @record_types = ['cases']
+            end
+
+            it 'returns case flags owned by or associated with users in current users groups' do
+              flags = Flag.by_owner(@query_scope, @record_types, nil)
+              f1 = flags.first
+              expect(flags.size).to eq(3)
+              expect(f1['record_id']).to eq(@case1.id.to_s)
+              expect(f1['record_type']).to eq('Child')
+              expect(f1['message']).to eq('This is test flag 1')
+              expect(f1['short_id']).to eq('abc123')
+              expect(f1['name']).to eq('*******')
+              expect(f1['hidden_name']).to be
+              expect(f1['owned_by']).to eq('user1')
+
+              # expect(flags.first['removed']).to be_falsey
+            end
+          end
+
+          context 'and the record_type is incidents' do
+            before do
+              @record_types = ['incidents']
+            end
+
+            it 'returns incident flags owned by or associated with users in current users groups' do
+              flags = Flag.by_owner(@query_scope, @record_types, nil)
+              f1 = flags.first
+              expect(flags.size).to eq(4)
+              expect(f1['record_id']).to eq(@incident1.id.to_s)
+              expect(f1['record_type']).to eq('Incident')
+              expect(f1['message']).to eq('This is a flag IN')
+              expect(f1['short_id']).to eq(@incident1.short_id)
+              expect(f1['name']).to be_nil
+              expect(f1['hidden_name']).to be_nil
+              expect(f1['owned_by']).to eq('user1')
+
+              # expect(flags.first['removed']).to be_falsey
+            end
+          end
+
+          context 'and the record_type is tracing_requests' do
+            before do
+              @record_types = ['tracing_requests']
+            end
+
+            it 'returns tracing_request flags owned by or associated with users in current users groups' do
+              flags = Flag.by_owner(@query_scope, @record_types, nil)
+              f1 = flags.first
+              expect(flags.size).to eq(2)
+              expect(f1['record_id']).to eq(@tracing_request1.id.to_s)
+              expect(f1['record_type']).to eq('TracingRequest')
+              expect(f1['message']).to eq('This is a flag TR')
+              expect(f1['short_id']).to eq(@tracing_request1.short_id)
+              expect(f1['name']).to be_nil
+              expect(f1['hidden_name']).to be_nil
+              expect(f1['owned_by']).to eq('user1')
+
+              # expect(flags.first['removed']).to be_falsey
+            end
+          end
+        end
+
+        context 'and record_types is not passed in' do
+          before do
+            @flags = Flag.by_owner(@query_scope, nil, nil)
+          end
+
+          it 'returns flags owned by or associated with users in current users groups' do
+            expect(@flags.size).to eq(9)
+          end
+        end
+      end
+
+      context 'and the user has multiple user_groups' do
+        before do
+          @query_scope = { user: { 'group' => [@group1.unique_id, @group2.unique_id] }, module: ['primeromodule-cp'] }
+        end
+
+        context 'and record_types is not passed in' do
+          before do
+            @flags = Flag.by_owner(@query_scope, nil, nil)
+          end
+
+          it 'returns flags owned by or associated with users in current users groups' do
+            expect(@flags.size).to eq(10)
+          end
         end
       end
     end

@@ -15,10 +15,9 @@ class Flag < ApplicationRecord
         .where("(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner])
   }
 
-  # TODO: this is working as long as params[:group] only has 1 user_group
   scope :by_record_associated_groups, lambda { |params|
     Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
-        .where("(data -> 'associated_user_groups' ?& array[:group])", group: params[:group])
+        .where("(data -> 'associated_user_groups' ?| array[:group])", group: params[:group])
   }
 
   scope :by_record_agency, lambda { |params|
