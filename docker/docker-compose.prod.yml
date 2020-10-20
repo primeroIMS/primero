@@ -13,14 +13,12 @@ services:
     env_file:
       - docker/defaults.env
       - docker/local.env
-      - docker/users.env
     depends_on:
       - application
   application:
     env_file:
       - docker/defaults.env
       - docker/local.env
-      - docker/users.env
   solr:
     env_file:
       - docker/defaults.env
@@ -33,7 +31,6 @@ services:
     env_file:
       - docker/defaults.env
       - docker/local.env
-      - docker/users.env
   postgres:
     env_file:
       - docker/defaults.env
@@ -42,4 +39,3 @@ services:
     env_file:
       - docker/defaults.env
       - docker/local.env
-      - docker/users.env
