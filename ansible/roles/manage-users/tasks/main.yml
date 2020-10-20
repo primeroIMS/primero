@@ -2,6 +2,7 @@
 - name: 'Ensure group {{ application_container_username }} exists'
   group:
     name: '{{ application_container_username }}'
+    gid: 1100
   become: yes
 
 - name: 'create application container user'
@@ -9,12 +10,13 @@
     name: '{{ application_container_username }}'
     shell: '/sbin/nologin'
     group: '{{ application_container_username }}'
+    uid: 1100
   become: yes
-  register: 'application_user'
 
 - name: 'Ensure group {{ nginx_container_username }} exists'
   group:
     name: '{{ nginx_container_username }}'
+    gid: 1101
   become: yes
 
 - name: 'create nginx container user'
@@ -22,8 +24,8 @@
     name: '{{ nginx_container_username }}'
     shell: '/sbin/nologin'
     group: '{{ nginx_container_username }}'
+    uid: 1101
   become: yes
-  register: 'nginx_user'
 
 - name: 'Remove {{ application_container_username }} from /etc/subuid'
   lineinfile:
@@ -52,7 +54,7 @@
     path: '/etc/subuid'
     state: 'present'
     insertafter: EOF
-    line: '{{ application_container_username }}:{{ application_user.uid }}:65536'
+    line: '{{ application_container_username }}:1100:65536'
   become: yes
 
 - name: 'edit /etc/subgid for {{ application_container_username }} user mapping for docker containers'
@@ -68,5 +70,5 @@
     path: '/etc/subgid'
     state: 'present'
     insertafter: EOF
-    line: '{{ application_container_username }}:{{ application_user.uid }}:65536'
+    line: '{{ application_container_username }}:1100:65536'
   become: yes

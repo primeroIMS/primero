@@ -1,13 +1,11 @@
 ---
-primero_nginx_server_name: 'primero-integration-v2-ansible-nginx-3.cloud.quoininc.com'
+primero_nginx_server_name: 'primero-integration-v2-ansible-nginx-7.cloud.quoininc.com'
 certbot_domain:
 - '{{ primero_nginx_server_name }}'
 certbot_email: 'slapharase@wemel.site'
 cert_name: '{{ primero_nginx_server_name }}'
 nginx_container_username: 'nginx'
 application_container_username: 'primero'
-application_user_uid: 1000
-application_user_gid: 1000
 qi_docker_daemon_json_content: |
   {
     "log-driver": "journald",
