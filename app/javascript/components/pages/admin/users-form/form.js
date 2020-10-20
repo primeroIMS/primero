@@ -12,6 +12,8 @@ import {
 
 import { IDENTITY_PROVIDER_ID, USER_GROUP_UNIQUE_IDS, USERGROUP_PRIMERO_GBV } from "./constants";
 
+const passwordPlaceholder = formMode => (formMode.get("isEdit") ? "•••••" : "");
+
 const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePassword) => [
   {
     display_name: i18n.t("user.full_name"),
@@ -40,7 +42,7 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     hideOnShow: true,
     required: formMode.get("isNew"),
     editable: false,
-    placeholder: formMode.get("isEdit") ? "•••••" : ""
+    placeholder: passwordPlaceholder(formMode)
   },
   {
     display_name: i18n.t("user.password_confirmation"),
@@ -50,7 +52,7 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     hideOnShow: true,
     required: formMode.get("isNew"),
     editable: false,
-    placeholder: formMode.get("isEdit") ? "•••••" : ""
+    placeholder: passwordPlaceholder(formMode)
   },
   {
     display_name: "Change password",
