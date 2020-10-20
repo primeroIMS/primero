@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { fromJS } from "immutable";
 import { withRouter } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { batch, useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import qs from "qs";
 
@@ -19,6 +19,7 @@ import { applyFilters } from "../index-filters/action-creators";
 import { clearCaseFromIncident } from "../records/action-creators";
 import { getNumberErrorsBulkAssign, getNumberBulkAssign } from "../record-actions/bulk-transtions/selectors";
 import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
+import { setSelectedForm } from "../record-form/action-creators";
 import { enqueueSnackbar } from "../notifier";
 import { useMetadata } from "../records";
 import { DEFAULT_METADATA } from "../../config";
@@ -99,7 +100,10 @@ const Container = ({ match, location }) => {
   }, [numberErrorsBulkAssign, numberRecordsBulkAssign]);
 
   useEffect(() => {
-    dispatch(clearCaseFromIncident());
+    batch(() => {
+      dispatch(setSelectedForm(null));
+      dispatch(clearCaseFromIncident());
+    });
   }, []);
 
   const canSearchOthers = permissions.includes(ACTIONS.MANAGE) || permissions.includes(ACTIONS.SEARCH_OWNED_BY_OTHERS);

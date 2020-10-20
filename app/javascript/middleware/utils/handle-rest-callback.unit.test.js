@@ -145,5 +145,39 @@ describe("middleware/utils/handle-success-callback.js", () => {
 
       expect(dispatch.getCall(1)).to.have.been.calledWith(pushAction("/record-type/1234/edit"));
     });
+
+    context("when is incidentPath", () => {
+      it("is new", () => {
+        handleRestCallback(
+          store,
+          {
+            action: "test-action",
+            incidentPath: "new",
+            redirect: "/record-type",
+            moduleID: "primeromodule"
+          },
+          {},
+          json,
+          false
+        );
+        expect(dispatch.getCall(1)).to.have.been.calledWith(pushAction("/incidents/primeromodule/new"));
+      });
+
+      it("is redirect to view", () => {
+        handleRestCallback(
+          store,
+          {
+            action: "test-action",
+            incidentPath: "incidents/123456789",
+            redirect: "/record-type",
+            moduleID: "primeromodule"
+          },
+          {},
+          json,
+          false
+        );
+        expect(dispatch.getCall(1)).to.have.been.calledWith(pushAction("incidents/123456789"));
+      });
+    });
   });
 });

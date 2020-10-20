@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 import { RECORD_PATH } from "../../config/constants";
 import { ENQUEUE_SNACKBAR } from "../notifier";
 import { SET_DIALOG, SET_DIALOG_PENDING } from "../record-actions/actions";
+import RecordFormActions from "../record-form/actions";
 
 import * as actionCreators from "./action-creators";
 import { CLEAR_CASE_FROM_INCIDENT } from "./actions";
@@ -22,6 +23,8 @@ describe("records - Action Creators", () => {
     expect(creators).to.have.property("clearMetadata");
     expect(creators).to.have.property("clearCaseFromIncident");
     expect(creators).to.have.property("fetchIncidentFromCase");
+    expect(creators).to.have.property("fetchIncidentwitCaseId");
+    expect(creators).to.have.property("setCaseIdForIncident");
     delete creators.setFilters;
     delete creators.fetchCases;
     delete creators.fetchIncidents;
@@ -32,6 +35,8 @@ describe("records - Action Creators", () => {
     delete creators.saveRecord;
     delete creators.clearCaseFromIncident;
     delete creators.fetchIncidentFromCase;
+    delete creators.fetchIncidentwitCaseId;
+    delete creators.setCaseIdForIncident;
 
     expect(creators).to.be.empty;
   });
@@ -89,7 +94,7 @@ describe("records - Action Creators", () => {
 
     it("should return 3 success callback actions if there is a dialogName", () => {
       const store = configureStore([thunk])({});
-      const expected = [`cases/${CLEAR_CASE_FROM_INCIDENT}`, ENQUEUE_SNACKBAR, SET_DIALOG, SET_DIALOG_PENDING];
+      const expected = [ENQUEUE_SNACKBAR, SET_DIALOG, SET_DIALOG_PENDING];
 
       return store
         .dispatch(
@@ -109,7 +114,35 @@ describe("records - Action Creators", () => {
           const successCallbacks = store.getActions()[0].api.successCallback;
 
           expect(successCallbacks).to.be.an("array");
-          expect(successCallbacks).to.have.lengthOf(4);
+          expect(successCallbacks).to.have.lengthOf(3);
+          expect(successCallbacks.map(({ action }) => action)).to.deep.equals(expected);
+        });
+    });
+
+    it("should return 3 success callback actions when is an incidentFromCase", () => {
+      const store = configureStore([thunk])({});
+      const expected = [ENQUEUE_SNACKBAR, `cases/${CLEAR_CASE_FROM_INCIDENT}`, RecordFormActions.SET_SELECTED_FORM];
+
+      return store
+        .dispatch(
+          actionCreators.saveRecord(
+            RECORD_PATH.incidents,
+            "update",
+            body,
+            "123",
+            "Saved Successfully",
+            false,
+            false,
+            false,
+            "",
+            true
+          )
+        )
+        .then(() => {
+          const successCallbacks = store.getActions()[0].api.successCallback;
+
+          expect(successCallbacks).to.be.an("array");
+          expect(successCallbacks).to.have.lengthOf(3);
           expect(successCallbacks.map(({ action }) => action)).to.deep.equals(expected);
         });
     });
@@ -147,15 +180,37 @@ describe("records - Action Creators", () => {
     const expected = {
       type: "cases/FETCH_INCIDENT_FROM_CASE",
       api: {
-        path: `cases/case-id-1/incidents/new`,
+        path: `cases/case-unique-id-1/incidents/new`,
         successCallback: {
           action: `cases/SET_CASE_ID_FOR_INCIDENT`,
-          payload: { caseId: "case-id-1" },
+          payload: { caseId: "case-unique-id-1", caseIdDisplay: "case-display-id-1" },
           redirect: "/incidents/module-id-1/new"
         }
       }
     };
 
-    expect(actionCreators.fetchIncidentFromCase("case-id-1", "module-id-1")).be.deep.equals(expected);
+    expect(actionCreators.fetchIncidentFromCase("case-unique-id-1", "case-display-id-1", "module-id-1")).be.deep.equals(
+      expected
+    );
+  });
+
+  it("should check the 'setCaseIdForIncident' action creator to return the correct object", () => {
+    const expected = {
+      type: "cases/SET_CASE_ID_FOR_INCIDENT",
+      payload: { caseId: "case-unique-id-1", caseIdDisplay: "case-display-id-1" }
+    };
+
+    expect(actionCreators.setCaseIdForIncident("case-unique-id-1", "case-display-id-1")).to.deep.equal(expected);
+  });
+
+  it("should check the 'fetchIncidentwitCaseId' action creator to return the correct object", () => {
+    const expected = {
+      type: "cases/FETCH_INCIDENT_FROM_CASE",
+      api: {
+        path: "cases/case-id-1/incidents/new"
+      }
+    };
+
+    expect(actionCreators.fetchIncidentwitCaseId("case-id-1")).to.deep.equal(expected);
   });
 });

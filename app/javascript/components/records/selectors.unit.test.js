@@ -1,7 +1,7 @@
 import { Map, OrderedMap, fromJS } from "immutable";
 
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
-import { RECORD_PATH, RECORD_TYPES } from "../../config";
+import { RECORD_PATH } from "../../config";
 
 import {
   selectRecord,
@@ -10,7 +10,8 @@ import {
   getIncidentFromCase,
   getSavingRecord,
   getLoadingRecordState,
-  getRecordAlerts
+  getRecordAlerts,
+  getCaseIdForIncident
 } from "./selectors";
 
 const record = {
@@ -255,21 +256,21 @@ describe("Records - Selectors", () => {
     });
 
     const stateWithIncidentFromCase = fromJS({
-      records: { cases: { incidentFromCase } }
+      records: { cases: { incidentFromCase: { data: incidentFromCase } } }
     });
 
     it("should return the incident when is a new incident", () => {
-      expect(getIncidentFromCase(stateWithIncidentFromCase, { isNew: true }, RECORD_TYPES.incidents)).to.deep.equal(
-        incidentFromCase
-      );
+      expect(getIncidentFromCase(stateWithIncidentFromCase)).to.deep.equal(incidentFromCase);
+    });
+  });
+
+  describe("getCaseIdForIncident", () => {
+    const stateWithIncidentFromCase = fromJS({
+      records: { cases: { incidentFromCase: { incident_case_id: "123456789" } } }
     });
 
-    it("should return null when is not a new incident", () => {
-      expect(getIncidentFromCase(stateWithIncidentFromCase, { isEdit: true }, RECORD_TYPES.incidents)).to.not.exist;
-    });
-
-    it("should return null when is not an incident", () => {
-      expect(getIncidentFromCase(stateWithIncidentFromCase, { isNew: true }, RECORD_TYPES.cases)).to.not.exist;
+    it("should return the incident_case_id when is a new incident", () => {
+      expect(getCaseIdForIncident(stateWithIncidentFromCase)).to.deep.equal("123456789");
     });
   });
 });

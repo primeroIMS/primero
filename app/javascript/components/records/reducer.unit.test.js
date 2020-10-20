@@ -1,6 +1,6 @@
 import { Map, List, fromJS, OrderedMap } from "immutable";
 
-import { DEFAULT_METADATA } from "../../config";
+import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD } from "../../config";
 
 import reducer from "./reducer";
 
@@ -162,7 +162,7 @@ describe("<RecordList /> - Reducers", () => {
 
       const newState = casesReducer(fromJS({}), action);
 
-      expect(newState).to.deep.equals(fromJS({ incidentFromCase: data }));
+      expect(newState).to.deep.equals(fromJS({ incidentFromCase: { data } }));
     });
 
     it("should handle SET_CASE_ID_FOR_INCIDENT", () => {
@@ -174,13 +174,22 @@ describe("<RecordList /> - Reducers", () => {
 
       const action = {
         type: "cases/SET_CASE_ID_FOR_INCIDENT",
-        payload: { caseId: "case-id-1" }
+        payload: {
+          caseId: "case-unique-id-1",
+          caseIdDisplay: "case-display-id-1"
+        }
       };
 
       const newState = casesReducer(fromJS({ incidentFromCase }), action);
 
       expect(newState).to.deep.equals(
-        fromJS({ incidentFromCase: { ...incidentFromCase, incident_case_id: "case-id-1" } })
+        fromJS({
+          incidentFromCase: {
+            ...incidentFromCase,
+            [INCIDENT_CASE_ID_FIELD]: "case-unique-id-1",
+            [INCIDENT_CASE_ID_DISPLAY_FIELD]: "case-display-id-1"
+          }
+        })
       );
     });
 
@@ -198,6 +207,14 @@ describe("<RecordList /> - Reducers", () => {
       const newState = casesReducer(stateWithIncidentFromCase, action);
 
       expect(newState).to.deep.equals(fromJS({}));
+    });
+
+    it("should handle SET_CASE_ID_REDIRECT", () => {
+      const incidentFromCase = fromJS({});
+      const action = { type: "cases/SET_CASE_ID_REDIRECT", payload: { json: { data: { id: "case-id-1" } } } };
+      const newState = casesReducer(incidentFromCase, action);
+
+      expect(newState).to.deep.equals(fromJS({ incidentFromCase: { incident_case_id: "case-id-1" } }));
     });
   });
 });

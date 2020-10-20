@@ -91,7 +91,8 @@ describe("<RecordForm />", () => {
         field_2: "Value 2"
       }),
       recordType: RECORD_TYPES.cases,
-      selectedForm: "form_section_1"
+      selectedForm: "form_section_1",
+      externalForms: () => {}
     }));
   });
 
@@ -181,6 +182,27 @@ describe("<RecordForm />", () => {
 
       expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(initialValues);
     });
+  });
+
+  it("renders component with valid props", () => {
+    const incidentsProps = { ...component.find(RecordForm).props() };
+
+    [
+      "bindSubmitForm",
+      "forms",
+      "handleToggleNav",
+      "mobileDisplay",
+      "mode",
+      "onSubmit",
+      "record",
+      "recordType",
+      "externalForms",
+      "selectedForm"
+    ].forEach(property => {
+      expect(incidentsProps).to.have.property(property);
+      delete incidentsProps[property];
+    });
+    expect(incidentsProps).to.be.empty;
   });
 
   afterEach(() => {

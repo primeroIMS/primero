@@ -4,10 +4,10 @@ import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from "@m
 import { setupMountedComponent } from "../../test";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import ActionButton from "../action-button";
+import { RECORD_TYPES } from "../../config";
 
 import IncidentSummary from "./components/summary";
 import IncidentDetail from "./components/detail";
-import IncidentPanel from "./components/panel";
 import IncidentFromCase from "./container";
 
 describe("<IncidentFromCase /> - Component", () => {
@@ -28,9 +28,12 @@ describe("<IncidentFromCase /> - Component", () => {
         unique_id: "e25c5cb1-1257-472e-b2ec-05f568a3b51e"
       }
     ]),
-    css: {},
     mobileDisplay: false,
-    handleToggleNav: () => {}
+    handleToggleNav: () => {},
+    mode: { isShow: false, isEdit: true },
+    setFieldValue: () => {},
+    handleSubmit: () => {},
+    recordType: RECORD_TYPES.cases
   };
 
   const initialState = fromJS({
@@ -103,9 +106,18 @@ describe("<IncidentFromCase /> - Component", () => {
   });
 
   it("renders component with valid props", () => {
-    const incidentsProps = { ...component.find(IncidentPanel).props() };
+    const incidentsProps = { ...component.find(IncidentFromCase).props() };
 
-    ["incident", "css"].forEach(property => {
+    [
+      "record",
+      "incidents",
+      "mobileDisplay",
+      "handleToggleNav",
+      "mode",
+      "setFieldValue",
+      "handleSubmit",
+      "recordType"
+    ].forEach(property => {
       expect(incidentsProps).to.have.property(property);
       delete incidentsProps[property];
     });

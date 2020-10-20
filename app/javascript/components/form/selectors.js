@@ -143,6 +143,7 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) =
 const transformOptions = (options, i18n) =>
   options.map(option => {
     return fromJS({
+      ...option,
       id: option.id,
       display_text: displayNameHelper(option.display_text, i18n.locale) || option.display_text
     });

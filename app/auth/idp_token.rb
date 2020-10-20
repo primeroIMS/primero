@@ -10,21 +10,26 @@ class IdpToken
   class << self
     def build(token_string)
       idp_token = new
-      identity_providers = IdentityProvider.identity_providers
-      jwks = IdentityProvider.jwks
-      begin
-        content = decode(token_string, identity_providers, jwks)
-      rescue JWT::DecodeError
-        jwks = IdentityProvider.jwks(true)
-        content = decode(token_string, identity_providers, jwks)
-      end
+      content = decode(token_string)
       return idp_token unless content.present?
 
       idp_token.payload, idp_token.header = content
       idp_token
     end
 
-    def decode(token_string, identity_providers, jwks)
+    def decode(token_string)
+      identity_providers = IdentityProvider.identity_providers
+      jwks = IdentityProvider.jwks
+      begin
+        content = decode_with_jwks(token_string, identity_providers, jwks)
+      rescue JWT::DecodeError
+        jwks = IdentityProvider.jwks(true)
+        content = decode_with_jwks(token_string, identity_providers, jwks)
+      end
+      content
+    end
+
+    def decode_with_jwks(token_string, identity_providers, jwks)
       aud = identity_providers.map(&:client_id)
       iss = identity_providers.map(&:issuer)
       JWT.decode(
