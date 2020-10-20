@@ -4,7 +4,7 @@
     name: '{{ application_container_username }}'
   become: yes
 
-- name: 'create application contatiner user'
+- name: 'create application container user'
   user:
     name: '{{ application_container_username }}'
     shell: '/sbin/nologin'
@@ -17,7 +17,7 @@
     name: '{{ nginx_container_username }}'
   become: yes
 
-- name: 'create nginx contatiner user'
+- name: 'create nginx container user'
   user:
     name: '{{ nginx_container_username }}'
     shell: '/sbin/nologin'
@@ -25,14 +25,14 @@
   become: yes
   register: 'nginx_user'
 
-- name: 'Remove {{ application_container_username }} form /etc/subuid'
+- name: 'Remove {{ application_container_username }} from /etc/subuid'
   lineinfile:
     path: '/etc/subuid'
     state: 'absent'
     regexp: 'primero'
   become: yes
 
-- name: 'Remove {{ application_container_username }} form /etc/subgid'
+- name: 'Remove {{ application_container_username }} from /etc/subgid'
   lineinfile:
     path: '/etc/subgid'
     state: 'absent'
