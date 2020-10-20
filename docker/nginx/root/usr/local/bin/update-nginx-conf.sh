@@ -81,5 +81,5 @@ else
 fi
 
 eval sed ${SED_ARGS} \
-    < /etc/nginx/templates/primero.conf.template \
+    < /etc/nginx/conf.d/primero.conf.template \
     > /etc/nginx/conf.d/primero.conf

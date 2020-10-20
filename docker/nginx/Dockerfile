@@ -6,11 +6,7 @@ ARG NGINX_GID
 ENV USER_ID=${NGINX_UID}
 ENV GROUP_ID=${NGINX_GID}
 
-COPY [ "nginx/primero.conf.template", "/etc/nginx/templates/" ]
-COPY [ "nginx/entrypoint.sh", "/usr/local/bin/" ]
-COPY [ "nginx/update-nginx-conf.sh", "/usr/local/bin/" ]
-COPY [ "nginx/nginx.conf.template", "/etc/nginx/" ]
-COPY [ "nginx/nginx_limits.conf.template", "/etc/nginx/" ]
+COPY [ "nginx/root/", "/" ]
 
 RUN set -ex \
     ; addgroup -g $GROUP_ID docker-nginx \
