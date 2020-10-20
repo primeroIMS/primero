@@ -8,7 +8,7 @@ class Api::V2::FlagsOwnersController < ApplicationApiController
     authorize! :index, Flag
     flags = Flag.by_owner(query_scope, record_types, flagged_by)
     @total = flags.size
-    @flags = flags.paginate(pagination)
+    @flags = flags.paginate(pagination) if pagination?
   end
 
   private
