@@ -10,7 +10,7 @@
 - name: 'copy the certbot binary to /srv/primero/bin/certbot'
   copy:
     src: 'certbot'
-    dest: '/srv/marketing/bin/certbot'
+    dest: '/srv/primero/bin/certbot'
     mode: 'u=rwx,go=rx'
   become: yes
   tags:

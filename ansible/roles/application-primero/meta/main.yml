@@ -4,3 +4,5 @@ dependencies:
 - name: 'quoin.infrastructure.install_docker'
 
 - name: 'quoin.infrastructure.install_python3_docker_compose'
+
+- role: 'primero-repo'
