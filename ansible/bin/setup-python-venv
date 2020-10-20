@@ -126,12 +126,12 @@ class Paths(object):
     def create(cls, script):
         paths = Paths(script)
         paths.bin_dir = os.path.dirname(paths.script)
-        paths.top_dir = abspath_join(paths.bin_dir, '..')
+        paths.top_dir = abspath_join(paths.bin_dir, '..', '..')
         paths.venv_dir = abspath_join(paths.top_dir, 'venv')
         paths.venv_bin_dir = abspath_join(paths.venv_dir, 'bin')
         paths.pip_file = abspath_join(paths.venv_dir, 'bin', 'pip')
-        paths.requirements_file = abspath_join(paths.top_dir, 'requirements.txt')
         paths.ansible_dir = abspath_join(paths.top_dir, 'ansible')
+        paths.requirements_file = abspath_join(paths.ansible_dir, 'requirements.txt')
         paths.ansible_galaxy_file = abspath_join(paths.venv_bin_dir, 'ansible-galaxy')
         paths.ansible_galaxy_requirements_file = abspath_join(paths.ansible_dir, 'requirements.yml')
         return paths
