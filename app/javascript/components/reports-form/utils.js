@@ -137,3 +137,14 @@ export const checkValue = filter => {
 
   return value;
 };
+
+export const buildUserModules = userModules => {
+  const modules = dataToJS(userModules);
+
+  if (isEmpty(modules)) {
+    return [];
+  }
+
+  // eslint-disable-next-line camelcase
+  return modules.map(({ unique_id, name }) => ({ id: unique_id, display_text: name }));
+};
