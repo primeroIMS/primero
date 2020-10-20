@@ -99,20 +99,20 @@ class Flag < ApplicationRecord
     def by_owner(query_scope, record_types, flagged_by)
       record_types ||= %w[cases incidents tracing_requests]
       owner = query_scope[:user]['user']
-      return by_owner_associations('by_record_associated_user', record_types, flagged_by, owner: owner) if owner.present?
+      return find_by_owner('by_record_associated_user', record_types, flagged_by, owner: owner) if owner.present?
 
       group = query_scope[:user]['group']
-      return by_owner_associations('by_record_associated_groups', record_types, flagged_by, group: group) if group.present?
+      return  find_by_owner('by_record_associated_groups', record_types, flagged_by, group: group) if group.present?
 
       agency_id = query_scope[:user]['agency_id']
-      return by_owner_associations('by_record_agency', record_types, flagged_by, agency_id: agency_id) if agency_id.present?
+      return find_by_owner('by_record_agency', record_types, flagged_by, agency_id: agency_id) if agency_id.present?
 
       []
     end
 
     private
 
-    def by_owner_associations(scope_to_use, record_types, flagged_by, params = {})
+    def find_by_owner(scope_to_use, record_types, flagged_by, params = {})
       record_types = %w[cases incidents tracing_requests] if record_types.blank?
       flags = []
       record_types.each do |record_type|
@@ -138,10 +138,12 @@ class Flag < ApplicationRecord
     end
 
     def select_fields(record_type)
-      ['flags.id', 'flags.record_type', 'flags.record_id', 'flags.date', 'flags.message', 'flags.flagged_by',
-       "#{record_type}.data -> 'short_id' as short_id", "#{record_type}.data -> 'name' as name",
-       "#{record_type}.data -> 'hidden_name' as hidden_name", "#{record_type}.data -> 'owned_by' as owned_by",
-       "#{record_type}.data -> 'owned_by_agency_id' as owned_by_agency_id"].join(', ')
+      (Flag.column_names.map { |column| "flags.#{column}" } +
+         record_fields_for_select.map { |field| "#{record_type}.data -> '#{field}' as #{field}" }).join(', ')
+    end
+
+    def record_fields_for_select
+      %w[short_id name hidden_name owned_by owned_by_agency_id]
     end
   end
 
