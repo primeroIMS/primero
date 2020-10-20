@@ -83,3 +83,4 @@ public/precache-manifest*
 configuration_translation_export*
 /ansible/roles/qi-*
 /ansible/ansible_collections
+/ansible/inventory
