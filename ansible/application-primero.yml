@@ -1,5 +1,8 @@
 ---
 - hosts: 'all'
+  environment:
+    PATH: '{{ ansible_env.PATH }}:/opt/docker/bin/'
+  
   roles:
   - 'application-primero'
   - 'prune'
