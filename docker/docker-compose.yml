@@ -57,9 +57,9 @@ services:
 volumes:
   beanstalkd:
   database:
-  log:
   public:
   solr_cores:
   storage:
   certbot_certificates:
   certbot_challenges:
+  selfsigned_certs:

@@ -8,7 +8,6 @@ services:
     volumes:
       - certbot_certs:/certs
       - selfsigned_certs:/etc/certs
-      - log:/var/log/
       - public:/srv/primero/application/public
     env_file:
       - docker/defaults.env
