@@ -481,6 +481,10 @@ gbv_worker_permissions = [
       Permission::DASH_APPROVALS_GBV_CLOSURE_PENDING,
       Permission::DASH_CASE_OVERVIEW
     ]
+  ),
+  Permission.new(
+    resource: Permission::KPI,
+    actions: []
   )
 ]
 
@@ -561,6 +565,10 @@ gbv_manager_permissions = [
   Permission.new(
     resource: Permission::AGENCY,
     actions: [Permission::READ]
+  ),
+  Permission.new(
+    resource: Permission::KPI,
+    actions: []
   )
 ]
 
@@ -649,6 +657,10 @@ gbv_user_manager_permissions = [
       Permission::DASH_APPROVALS_GBV_CLOSURE_PENDING,
       Permission::DASH_GROUP_OVERVIEW
     ]
+  ),
+  Permisson.new(
+    resource: Permission::KPI,
+    actions: []
   )
 ]
 
@@ -703,6 +715,10 @@ gbv_caseworker_permissions = [
       Permission::DASH_APPROVALS_GBV_CLOSURE,
       Permission::DASH_CASE_INCIDENT_OVERVIEW
     ]
+  ),
+  Permisson.new(
+    reource: Permisson::KPI,
+    actions: []
   )
 ]
 
@@ -822,6 +838,10 @@ gbv_cm_supervisor_permissions = [
       Permission::DASH_SHARED_FROM_MY_TEAM,
       Permission::DASH_SHARED_WITH_MY_TEAM
     ]
+  ),
+  Permisson.new(
+    resource: Permission::KPI,
+    actions: [Permission::Read]
   )
 ]
 
@@ -860,6 +880,10 @@ gbv_program_manager_permissions = [
   Permission.new(
     resource: Permission::REPORT,
     actions: [Permission::GROUP_READ, Permission::WRITE]
+  ),
+  Permisson.new(
+    resource: Permission::KPI,
+    actions: [Permission::Read]
   )
 ]
 
@@ -943,6 +967,10 @@ gbv_organization_focal_point_permissions = [
       Permission::DASH_SHARED_FROM_MY_TEAM,
       Permission::DASH_SHARED_WITH_MY_TEAM
     ]
+  ),
+  Permisson.new(
+    resource: Permission::KPI,
+    actions: [Permission::Read]
   )
 ]
 
@@ -978,6 +1006,10 @@ agency_user_admin_permissions = [
       Permission::WRITE,
       Permission::ASSIGN
     ]
+  ),
+  Permisson.new(
+    resource: Permission::KPI,
+    actions: [Permission::Read]
   )
 ]
 
@@ -1142,6 +1174,10 @@ gbv_system_admin_permissions = [
       Permission::DASH_PROTECTION_CONCERNS_BY_LOCATION,
       Permission::DASH_PROTECTION_CONCERNS
     ]
+  ),
+  Permisson.new(
+    resource: Permission::KPI,
+    actions: [Permission::Read]
   )
 ]
 
@@ -1347,6 +1383,10 @@ superuser_permissions = [
       Permission::DASH_REPORTING_LOCATION,
       Permission::DASH_PROTECTION_CONCERNS
     ]
+  ),
+  Permisson.new(
+    resource: Permission::KPI,
+    actions: [Permission::Read]
   )
 ]
 
