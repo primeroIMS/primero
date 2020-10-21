@@ -8,7 +8,7 @@ import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import ActionButton from "../action-button";
 import { CREATE_INCIDENT, RESOURCES } from "../../libs/permissions";
-import { ID_FIELD, MODULE_TYPE_FIELD, UNIQUE_ID_FIELD } from "../../config";
+import { ID_FIELD, MODULE_TYPE_FIELD, UNIQUE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD } from "../../config";
 import { usePermissions } from "../user";
 import { fetchIncidentFromCase } from "../records";
 
@@ -39,6 +39,7 @@ const Container = ({
       <IncidentPanel
         key={incident.get(UNIQUE_ID_FIELD)}
         incidentCaseId={record.get(ID_FIELD)}
+        incidentCaseIdDisplay={record.get(INCIDENT_CASE_ID_DISPLAY_FIELD)}
         incident={incident}
         css={css}
         mode={mode}
@@ -51,7 +52,13 @@ const Container = ({
     if (!mode.isShow) {
       setRedirectOpts({ open: true });
     } else {
-      dispatch(fetchIncidentFromCase(record.get(ID_FIELD), record.get(MODULE_TYPE_FIELD)));
+      dispatch(
+        fetchIncidentFromCase(
+          record.get(ID_FIELD),
+          record.get(INCIDENT_CASE_ID_DISPLAY_FIELD),
+          record.get(MODULE_TYPE_FIELD)
+        )
+      );
     }
   };
   const newIncidentBtn = canAddIncidents && (

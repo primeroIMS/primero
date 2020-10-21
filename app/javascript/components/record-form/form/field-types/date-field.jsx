@@ -8,14 +8,14 @@ import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
 
 import { toServerDateFormat } from "../../../../libs";
-import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../config";
+import { DATE_FORMAT, DATE_TIME_FORMAT, DEFAULT_DATE_VALUES } from "../../../../config";
 import { DATE_FIELD_NAME } from "../constants";
 import { NOT_FUTURE_DATE } from "../../constants";
 
 import DateFieldPicker from "./date-field-picker";
 
 const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ...rest }) => {
-  const allowedDefaultValues = ["TODAY", "NOW"];
+  const allowedDefaultValues = Object.values(DEFAULT_DATE_VALUES);
 
   const { date_include_time: dateIncludeTime, selected_value: selectedValue } = rest.field;
 

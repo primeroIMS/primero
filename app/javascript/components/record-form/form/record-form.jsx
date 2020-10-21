@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { object } from "yup";
 import { Formik, Form } from "formik";
@@ -40,19 +40,13 @@ const RecordForm = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const [initialValues, setInitialValues] = useState(constructInitialValues(forms.values()));
 
   let bindedSetValues = null;
 
   const bindSetValues = setValues => {
     bindedSetValues = setValues;
   };
-
-  let initialFormValues = constructInitialValues(forms.values());
-  const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
-
-  if (record) {
-    initialFormValues = { ...initialFormValues, ...record.toJS(), ...redirectToIncident };
-  }
 
   const buildValidationSchema = formSections => {
     const schema = formSections.reduce((obj, item) => {
@@ -71,10 +65,18 @@ const RecordForm = ({
       if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
         const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
 
-        bindedSetValues({ ...initialFormValues, ...incidentFromCase.toJS(), ...incidentCaseId });
+        bindedSetValues({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
       }
     }
   }, [bindedSetValues, incidentFromCase]);
+
+  useEffect(() => {
+    const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
+
+    if (record) {
+      setInitialValues({ ...initialValues, ...record.toJS(), ...redirectToIncident });
+    }
+  }, [record]);
 
   const handleConfirm = onConfirm => {
     onConfirm();
@@ -135,18 +137,18 @@ const RecordForm = ({
     });
   };
 
-  if (!isEmpty(initialFormValues) && !isEmpty(forms)) {
+  if (!isEmpty(initialValues) && !isEmpty(forms)) {
     const validationSchema = buildValidationSchema(forms);
 
     return (
       <Formik
-        initialValues={initialFormValues}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         validateOnBlur={false}
         validateOnChange={false}
         enableReinitialize
         onSubmit={values => {
-          onSubmit(initialFormValues, values);
+          onSubmit(initialValues, values);
         }}
       >
         {({ handleSubmit, submitForm, errors, dirty, isSubmitting, setValues, setFieldValue }) => {
