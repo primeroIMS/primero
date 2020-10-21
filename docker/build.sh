@@ -7,7 +7,6 @@ set -euxo pipefail
 # and the defined again as an
 source ./defaults.env
 test -e ./local.env && source ./local.env
-test -e ./users.env && source ./users.env
 
 USAGE="Usage ./build application|beanstalkd|nginx|postgres|solr|all [-t <tag>] [-r <repository>] [-l]"
 
