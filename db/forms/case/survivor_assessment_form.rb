@@ -1,6 +1,5 @@
 survivor_assessment_fields = [
   Field.new({"name" => "assessment_emotional_state_start",
-             "mandatory_for_completion" => true,
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
@@ -70,7 +69,6 @@ survivor_assessment_fields = [
                  ].join("\n")
             }),
   Field.new({"name" => "assessment_emotional_state_end",
-             "mandatory_for_completion" => true,
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",

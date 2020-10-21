@@ -125,6 +125,25 @@ class Permission < ValueObject
   CLOSE = 'close'
   DELETE = 'delete'
   CHANGE_LOG = 'change_log'
+  KPI = 'kpi'
+  KPI_ASSESSMENT_STATUS = 'kpi_assessment_status'
+  KPI_ASSESSMENT_STATUS = 'kpi_assessment_status'
+  KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE = 'kpi_average_followup_meetings_per_case'
+  KPI_AVERAGE_REFERRALS = 'kpi_average_referrals'
+  KPI_CASE_CLOSURE_RATE = 'kpi_case_closure_rate'
+  KPI_CASE_LOAD = 'kpi_case_load'
+  KPI_CLIENT_SATISFACTION_RATE = 'kpi_client_satisfaction_rate'
+  KPI_COMPLETED_CASE_ACTION_PLANS = 'kpi_completed_case_action_plans'
+  KPI_COMPLETED_CASE_SAFETY_PLANS = 'kpi_completed_case_safety_plans'
+  KPI_COMPLETED_SUPERVISOR_ASSESSED_CASE_ACTION_PLANS = 'kpi_completed_supervisor_assessed_case_action_plans'
+  KPI_GOAL_PROGRESS_PER_NEED = 'kpi_goal_progress_per_need'
+  KPI_NUMBER_OF_CASES = 'kpi_number_of_cases'
+  KPI_NUMBER_OF_INCIDENTS = 'kpi_number_of_incidents'
+  KPI_REPORTING_DELAY = 'kpi_reporting_delay'
+  KPI_SERVICES_PROVIDED = 'kpi_services_provided'
+  KPI_SUPERVISOR_TO_CASEWORKER_RATIO = 'kpi_supervisor_to_caseworker_ratio'
+  KPI_TIME_FROM_CASE_OPEN_TO_CLOSE = 'kpi_time_from_case_open_to_close'
+
   RESOURCE_ACTIONS = {
     CASE => [
       READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, INCIDENT_FROM_CASE, INCIDENT_DETAILS_FROM_CASE, VIEW_INCIDENT_FROM_CASE,
@@ -169,7 +188,15 @@ class Permission < ValueObject
       DASH_SHARED_WITH_MY_TEAM, DASH_SHARED_FROM_MY_TEAM, DASH_CASE_INCIDENT_OVERVIEW
     ],
     AUDIT_LOG => [READ],
-    MATCHING_CONFIGURATION => [MANAGE]
+    MATCHING_CONFIGURATION => [MANAGE],
+    KPI => [
+      READ, KPI_ASSESSMENT_STATUS, KPI_ASSESSMENT_STATUS, KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE,
+      KPI_AVERAGE_REFERRALS, KPI_CASE_CLOSURE_RATE, KPI_CASE_LOAD, KPI_CLIENT_SATISFACTION_RATE,
+      KPI_COMPLETED_CASE_ACTION_PLANS, KPI_COMPLETED_CASE_SAFETY_PLANS, KPI_COMPLETED_SUPERVISOR_ASSESSED_CASE_ACTION_PLANS,
+      KPI_GOAL_PROGRESS_PER_NEED, KPI_NUMBER_OF_CASES, KPI_NUMBER_OF_INCIDENTS,
+      KPI_REPORTING_DELAY, KPI_SERVICES_PROVIDED, KPI_SUPERVISOR_TO_CASEWORKER_RATIO,
+      KPI_TIME_FROM_CASE_OPEN_TO_CLOSE
+    ]
   }.freeze
 
   def initialize(args = {})
