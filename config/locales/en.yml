@@ -1451,7 +1451,7 @@ en:
             label: Supervisor to Caseworker Ratio
           kpi_time_from_case_open_to_close:
             explanation: Ability to see, for all cases that the user has access to, how long
-            case are kept open.
+              case are kept open.
             label: Time from Case Open to Close
         label: KPI
       agency:

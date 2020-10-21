@@ -51,7 +51,10 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
 
     @unicef = Agency.create!(agency_code: 'UNICEF', name: 'UNICEF')
     @gbv_manager = Role.create!(name: 'GBV Manager', permissions: [
-                                  Permission.new
+                                  Permission.new(
+                                    resource: Permission::KPI,
+                                    actions: Permission::RESOURCE_ACTIONS[Permission::KPI]
+                                  )
                                 ])
     @primero_gbv_group = UserGroup.create!(name: 'Primero GBV')
 
