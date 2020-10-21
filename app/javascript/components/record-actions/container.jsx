@@ -212,7 +212,7 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
 
   const canAddService = checkPermissions(userPermissions, ADD_SERVICE);
 
-  const canShowExports = checkPermissions(userPermissions, [ACTIONS.MANAGE, ...SHOW_EXPORTS]);
+  const canShowExports = checkPermissions(userPermissions, SHOW_EXPORTS);
   const exportTypes = allowedExportTypes(userPermissions);
   const onlyPdfExport = exportTypes.size === 1 && exportTypes.first() === ACTIONS.EXPORT_PDF;
 

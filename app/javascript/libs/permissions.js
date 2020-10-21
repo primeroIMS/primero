@@ -174,7 +174,7 @@ export const APPROVAL = [
   ACTIONS.APPROVE_GBV_CLOSURE
 ];
 
-export const SHOW_EXPORTS = [
+export const EXPORTS_PERMISSIONS = [
   ACTIONS.EXPORT_CASE_PDF,
   ACTIONS.EXPORT_CSV,
   ACTIONS.EXPORT_CUSTOM,
@@ -188,6 +188,8 @@ export const SHOW_EXPORTS = [
   ACTIONS.EXPORT_PHOTO_WALL,
   ACTIONS.EXPORT_UNHCR
 ];
+
+export const SHOW_EXPORTS = [...MANAGE, ...EXPORTS_PERMISSIONS];
 
 export const SHOW_APPROVALS = [
   ...MANAGE,
@@ -232,5 +234,5 @@ export const GROUP_PERMISSIONS = {
 export const allowedExportTypes = userPermissions =>
   userPermissions &&
   userPermissions.filter(permission => {
-    return SHOW_EXPORTS.includes(permission);
+    return EXPORTS_PERMISSIONS.includes(permission);
   });

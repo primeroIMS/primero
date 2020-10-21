@@ -263,6 +263,7 @@ describe("Verifying config constant", () => {
 
     expect(permissions).to.be.a("array");
     [
+      PERMISSIONS.ACTIONS.MANAGE,
       PERMISSIONS.ACTIONS.EXPORT_CASE_PDF,
       PERMISSIONS.ACTIONS.EXPORT_CSV,
       PERMISSIONS.ACTIONS.EXPORT_CUSTOM,
