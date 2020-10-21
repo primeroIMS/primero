@@ -1,4 +1,4 @@
 ---
 collections:
-- name: 'git@bitbucket.org:quoin/ansible-infrastructure.git#quoin/infrastructure'
+- name: 'git@github.com:Quoin/ansible-infrastructure.git#quoin/infrastructure'
   version: 'master'
