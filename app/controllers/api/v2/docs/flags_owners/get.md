@@ -42,7 +42,13 @@ Else, it returns flags for records owned by this user
             "created_at": "2019-08-16T22:11:16.737Z",
             "system_generated_followup": false,
             "unflagged_by": null,
-            "unflagged_date": null
+            "unflagged_date": null,
+            "short_id": "27ccb64",
+            "name": "*******",
+            "hidden_name": true,
+            "owned_by": "user1",
+            "owned_by_agency_id": 1,
+            "record_access_denied": false
         },
         {
             "id": 3,
@@ -56,7 +62,13 @@ Else, it returns flags for records owned by this user
             "created_at": "2019-08-16T22:03:34.511Z",
             "system_generated_followup": false,
             "unflagged_by": null,
-            "unflagged_date": null
+            "unflagged_date": null,
+            "short_id": "27ccb64",
+            "name": "Jane Doe",
+            "hidden_name": false,
+            "owned_by": "user1",
+            "owned_by_agency_id": 1,
+            "record_access_denied": false
         },
         {
           "id": 5,
@@ -71,6 +83,11 @@ Else, it returns flags for records owned by this user
           "system_generated_followup": false,
           "unflagged_by": "primero",
           "unflagged_date": "2020-06-24",
+          "short_id": "27ccb64",
+          "name": "*******",
+          "hidden_name": true,
+          "owned_by": "user1",
+          "owned_by_agency_id": 1,
           "record_access_denied": false
         }
     ]

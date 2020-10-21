@@ -89,12 +89,19 @@ describe Api::V2::FlagsOwnersController, type: :request do
           expect(json['data'].size).to eq(3)
           expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
           expect(json['data'][0]['record_type']).to eq('cases')
+          expect(json['data'][0]['date']).to eq(Date.today.strftime('%Y-%m-%d'))
           expect(json['data'][0]['message']).to eq('This is a flag')
+          expect(json['data'][0]['flagged_by']).to eq('faketest')
+          expect(json['data'][0]['removed']).to be_falsey
+          expect(json['data'][0]['unflag_message']).to be_nil
+          expect(json['data'][0]['system_generated_followup']).to be_falsey
+          expect(json['data'][0]['unflagged_by']).to be_nil
+          expect(json['data'][0]['unflagged_date']).to be_nil
           expect(json['data'][0]['short_id']).to eq(@case1.short_id)
           expect(json['data'][0]['name']).to eq('*******')
           expect(json['data'][0]['hidden_name']).to be
           expect(json['data'][0]['owned_by']).to eq('user1')
-          expect(json['data'][0]['removed']).to be_falsey
+          expect(json['data'][0]['owned_by_agency_id']).to eq(@agency1.id)
         end
 
         context 'and record_type cases is passed in' do
