@@ -60,7 +60,6 @@ require 'PROXY_SEND_TIMEOUT'
 require 'PROXY_READ_TIMEOUT'
 require 'NGINX_SSL_CERT_PATH'
 require 'NGINX_SSL_KEY_PATH'
-require 'NGINX_SSL_TRUSTED_CERT_PATH'
 config_subst 'NGINX_CURRENT_PATH'
 config_subst 'NGINX_HTTP_PORT'
 config_subst 'NGINX_SERVER_NAME'
@@ -74,16 +73,29 @@ config_subst 'PROXY_SEND_TIMEOUT'
 config_subst 'PROXY_READ_TIMEOUT'
 config_subst 'NGINX_SSL_CERT_PATH'
 config_subst 'NGINX_SSL_KEY_PATH'
-config_subst 'NGINX_SSL_TRUSTED_CERT_PATH'
 
+#if [ -z "${NGINX_CERTIFICATE_NAME}" ] || [ ! -d "/etc/letsencrypt/live/${NGINX_CERTIFICATE_NAME}" ]; then
+#    config_write '@begin-no-ssl' '@end-no-ssl'
+#    config_prune '@begin-ssl' '@end-ssl'
+#elif [ -a "${NGINX_SSL_CERT_PATH}" ] && [ -a "${NGINX_SSL_KEY_PATH}" ]; then
+#	config_prune '@begin-no-ssl' '@end-no-ssl'
+#    config_write '@begin-ssl' '@end-ssl'
+#else
+#    config_prune '@begin-no-ssl' '@end-no-ssl'
+#    config_write '@begin-ssl' '@end-ssl'
+#    config_subst 'NGINX_CERTIFICATE_NAME'
+#fi
 
-if [ -z "${NGINX_CERTIFICATE_NAME}" ] || [ ! -d "/etc/letsencrypt/live/${NGINX_CERTIFICATE_NAME}" ]; then
-    config_write '@begin-no-ssl' '@end-no-ssl'
-    config_prune '@begin-ssl' '@end-ssl'
-else
+if [ ! -z "${NGINX_CERTIFICATE_NAME}" ] && [ -d "/etc/letsencrypt/live/${NGINX_CERTIFICATE_NAME}" ]; then
+	config_prune '@begin-no-ssl' '@end-no-ssl'
+    config_write '@begin-ssl' '@end-ssl'
+	config_subst 'NGINX_SSL_TRUSTED_CERT_PATH'
+elif [ -a "${NGINX_SSL_CERT_PATH}" ] && [ -a "${NGINX_SSL_KEY_PATH}" ]; then
     config_prune '@begin-no-ssl' '@end-no-ssl'
     config_write '@begin-ssl' '@end-ssl'
-#    config_subst 'NGINX_CERTIFICATE_NAME'
+else
+	config_write '@begin-no-ssl' '@end-no-ssl'
+    config_prune '@begin-ssl' '@end-ssl'
 fi
 
 eval sed ${SED_ARGS} \

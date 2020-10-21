@@ -11,7 +11,7 @@ add_header X-Frame-Options DENY;
 add_header X-Content-Type-Options nosniff;
 ssl_certificate_key       ${NGINX_SSL_KEY_PATH};
 ssl_certificate           ${NGINX_SSL_CERT_PATH};
-ssl_trusted_certificate   ${NGINX_SSL_TRUSTED_CERT_PATH};
+${NGINX_SSL_TRUSTED_CERT_PATH}
 # @end-ssl
 
 upstream app {
