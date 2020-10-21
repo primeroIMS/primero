@@ -6,7 +6,6 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - certbot_certs:/certs
       - selfsigned_certs:/etc/certs
       - public:/srv/primero/application/public
     env_file:

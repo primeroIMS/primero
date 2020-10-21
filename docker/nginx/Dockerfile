@@ -16,6 +16,8 @@ RUN set -ex \
     ; chmod +x /usr/local/bin/update-nginx-conf.sh \
     ; mkdir -p /certs \
     ; chown -R docker-nginx:docker-nginx /certs \
+    ; mkdir -p /etc/certs \
+    ; chown -R docker-nginx:docker-nginx /etc/certs \
     ; apk update \
     ; apk add openssl \
     ; mkdir -p /etc/letsencrypt \

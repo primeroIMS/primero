@@ -14,8 +14,40 @@ prim_generate_dh() {
   return 0
 }
 
+# generate a self signed certificate for development mode
+prim_generate_self_signed_certs() {
+  # Return to current dir after cert generation
+  if [ -f /certs/key.pem ];
+  then
+    printf "Self-signed certs are already generated. Doing nothing.\\n"
+  else
+  CURRENT_DIR=$(pwd)
+    export NGINX_SERVER_HOST=${localhost:-NGINX_SERVER_HOST}
+    printf "Generating SSL Cert\\nHostname: %s\\n" "$NGINX_SERVER_HOST"
+    cd "/certs"
+    # Create certificates
+    openssl req -subj "/CN=${NGINX_SERVER_HOST}" -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 365
+    cd "${CURRENT_DIR}"
+  fi
+  return 0
+}
+
 if [ "$1" = "nginx" ]; then
+	
 	prim_generate_dh
+
+	printf "Use LetsEncrypt status %s\\nh" "$USE_LETS_ENCRYPT"
+
+	if [ "$USE_LETS_ENCRYPT" == "false" ];
+	then
+      	prim_generate_self_signed_certs
+	else
+		NGINX_SERVER_HOST="$LETS_ENCRYPT_DOMAIN"
+  		NGINX_SSL_CERT_PATH="/etc/letsencrypt/live/$NGINX_CERTIFICATE_NAME/fullchain.pem"
+  		NGINX_SSL_KEY_PATH="/etc/letsencrypt/live/$NGINX_CERTIFICATE_NAME/privkey.pem"
+		NGINX_SSL_TRUSTED_CERT_PATH="/etc/letsencrypt/live/$NGINX_CERTIFICATE_NAME/chain.pem"
+	fi
+
     update-nginx-conf.sh
 fi
 
