@@ -263,7 +263,6 @@ describe("Verifying config constant", () => {
 
     expect(permissions).to.be.a("array");
     [
-      PERMISSIONS.ACTIONS.MANAGE,
       PERMISSIONS.ACTIONS.EXPORT_CASE_PDF,
       PERMISSIONS.ACTIONS.EXPORT_CSV,
       PERMISSIONS.ACTIONS.EXPORT_CUSTOM,
@@ -275,7 +274,8 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.EXPORT_MRM_VIOLATION_XLS,
       PERMISSIONS.ACTIONS.EXPORT_PDF,
       PERMISSIONS.ACTIONS.EXPORT_PHOTO_WALL,
-      PERMISSIONS.ACTIONS.EXPORT_UNHCR
+      PERMISSIONS.ACTIONS.EXPORT_UNHCR,
+      PERMISSIONS.ACTIONS.MANAGE
     ].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
