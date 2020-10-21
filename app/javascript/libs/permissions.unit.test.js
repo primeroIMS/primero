@@ -274,8 +274,7 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.EXPORT_MRM_VIOLATION_XLS,
       PERMISSIONS.ACTIONS.EXPORT_PDF,
       PERMISSIONS.ACTIONS.EXPORT_PHOTO_WALL,
-      PERMISSIONS.ACTIONS.EXPORT_UNHCR,
-      PERMISSIONS.ACTIONS.MANAGE
+      PERMISSIONS.ACTIONS.EXPORT_UNHCR
     ].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
@@ -401,5 +400,24 @@ describe("Verifying config constant", () => {
       permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
+  });
+
+  describe("allowedExportTypes", () => {
+    it("should return an array with the allowed export types", () => {
+      const expected = List([PERMISSIONS.ACTIONS.EXPORT_PDF, PERMISSIONS.ACTIONS.EXPORT_JSON]);
+      const userPermission = List([
+        PERMISSIONS.ACTIONS.EXPORT_PDF,
+        PERMISSIONS.ACTIONS.EXPORT_JSON,
+        PERMISSIONS.ACTIONS.MANAGE
+      ]);
+
+      expect(PERMISSIONS.allowedExportTypes(userPermission)).to.deep.equals(expected);
+    });
+
+    it("should return an empty array if there are not allowed export types", () => {
+      const userPermission = List([PERMISSIONS.ACTIONS.MANAGE]);
+
+      expect(PERMISSIONS.allowedExportTypes(userPermission)).to.be.empty;
+    });
   });
 });

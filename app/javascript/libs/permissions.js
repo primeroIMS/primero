@@ -175,7 +175,6 @@ export const APPROVAL = [
 ];
 
 export const SHOW_EXPORTS = [
-  ...MANAGE,
   ACTIONS.EXPORT_CASE_PDF,
   ACTIONS.EXPORT_CSV,
   ACTIONS.EXPORT_CUSTOM,
@@ -229,3 +228,9 @@ export const GROUP_PERMISSIONS = {
   GROUP: "group",
   SELF: "self"
 };
+
+export const allowedExportTypes = userPermissions =>
+  userPermissions &&
+  userPermissions.filter(permission => {
+    return SHOW_EXPORTS.includes(permission);
+  });

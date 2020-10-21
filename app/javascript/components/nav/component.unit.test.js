@@ -21,7 +21,7 @@ describe("<Nav />", () => {
     </ApplicationProvider>
   );
   const permissions = {
-    cases: [ACTIONS.MANAGE],
+    cases: [ACTIONS.MANAGE, ACTIONS.EXPORT_JSON],
     incidents: [ACTIONS.READ],
     dashboards: [ACTIONS.MANAGE, ACTIONS.DASH_TASKS],
     potential_matches: [ACTIONS.MANAGE],
