@@ -1389,6 +1389,71 @@ en:
       workflow_team: Workflow - Teams cases
       write: Write
     resource:
+      kpi:
+        actions:
+          kpi_assessment_status:
+            explanation: Ability to see, for the active cases that the user has access to,
+              what proportion of them have a completed assessment form.
+            label: Assessment Status
+          kpi_average_followup_meetings_per_case:
+            explanation: Ability to see, for the active cases that the user has access to,
+              the average number of follow-up meetings conducted over a set period of time.
+            label: Average Followup Meetings per Case
+          kpi_average_referrals:
+            explanation: Ability to see, over all active cases that the user has access to,
+              the average number of referrals made to each type of services.
+            label: Average Referrals
+          kpi_case_closure_rate:
+            explanation: Ability to see how many cases were closed at each site per month.
+            label: Case Closure Rate
+          kpi_case_load:
+            explanation: Ability to see the average number of open cases each caseworker has.
+            label: Case Load
+          kpi_client_satisfaction_rate:
+            explanation: Ability to see, for each case that the user has access to, what ratio of
+              survivors who completed the Feedback Survey were satisfied.
+            label: Client Satisfaction Rate
+          kpi_completed_case_action_plans:
+            explanation: Ability to see, for the active cases that the user has access to,
+              what proportion have a completed Case Action Plan.
+            label: Completed Case Action Plans
+          kpi_completed_case_safety_plans:
+            explanation: Ability to see, for active cases that the user has access to,
+              what proportion required and completed a Saftey Plan.
+            label: Completed Case Safety Plans
+          kpi_completed_supervisor_assessed_case_action_plans:
+            explanation: Ability to see, for active cases that the user has access to,
+              what proportion completed a Case Action Plan that was approved by a supervisor.
+            label: Completed Action Plan Approved by Supervisor
+          kpi_goal_progress_per_need:
+            explanation: Ability to see, for cases the user has access to, what percentage
+              of goals in each category of need have been met.
+            label: Progress Made Towards Goals
+          kpi_number_of_cases:
+            explanation: Ability to see how many newly reported cases are opened each month
+              per site.
+            label: Number of Cases
+          kpi_number_of_incidents:
+            explanation: Ability to see how many newly reported incidents are opened each month
+              per site.
+            label: Number of Incidents
+          kpi_reporting_delay:
+            explanation: Ability to see, for all incidents that the user has access to, the number
+              of days lapsed between when the survivor experienced GBV and when the survivor reported
+              it to a service provider.
+            label: Reporting Delay
+          kpi_services_provided:
+            explanation: Ability to see, over all cases the user has access to, what type of services
+              have been provided by the organization in-house.
+            label: Services Provided
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: Ability to see the ratio of caseworkers to supervisors.
+            label: Supervisor to Caseworker Ratio
+          kpi_time_from_case_open_to_close:
+            explanation: Ability to see, for all cases that the user has access to, how long
+            case are kept open.
+            label: Time from Case Open to Close
+        label: KPI
       agency:
         actions:
           assign:
