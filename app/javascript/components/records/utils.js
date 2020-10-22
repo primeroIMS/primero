@@ -117,3 +117,5 @@ export const useMetadata = (
     };
   }, []);
 };
+
+export const getShortIdFromUniqueId = uniqueId => uniqueId?.slice(-7);

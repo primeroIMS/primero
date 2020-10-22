@@ -110,14 +110,12 @@ const Container = ({ match, mode }) => {
           ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {})
         }
       };
-      const message = queue => {
-        const appendQueue = queue ? "_queue" : "";
-
+      const message = () => {
         return containerMode.isEdit
-          ? i18n.t(`${recordType}.messages.update_success${appendQueue}`, {
+          ? i18n.t(`${recordType}.messages.update_success`, {
               record_id: record.get("short_id")
             })
-          : i18n.t(`${recordType}.messages.creation_success${appendQueue}`, recordType);
+          : i18n.t(`${recordType}.messages.creation_success`, recordType);
       };
 
       batch(async () => {
@@ -128,13 +126,14 @@ const Container = ({ match, mode }) => {
             body,
             params.id,
             message(),
-            message(true),
+            i18n.t("offline_submitted_changes"),
             getRedirectPath(containerMode, params, fetchFromCaseId),
             true,
             "",
             Boolean(incidentFromCase?.size),
             selectedModule.primeroModule,
-            incidentPath
+            incidentPath,
+            i18n.t("offline_submitted_changes")
           )
         );
         if (containerMode.isEdit) {

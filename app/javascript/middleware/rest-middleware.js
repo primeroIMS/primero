@@ -5,7 +5,7 @@ import { FETCH_TIMEOUT, ROUTES } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
 import EventManager from "../libs/messenger";
-import { QUEUE_FAILED, QUEUE_SKIP } from "../libs/queue";
+import { QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS } from "../libs/queue";
 import { applyingConfigMessage } from "../components/pages/admin/configurations-form/action-creators";
 import { disableNavigation } from "../components/application/action-creators";
 
@@ -80,6 +80,12 @@ const messageQueueFailed = fromQueue => {
 const messageQueueSkip = fromQueue => {
   if (fromQueue) {
     EventManager.publish(QUEUE_SKIP);
+  }
+};
+
+const messageQueueSuccess = fromQueue => {
+  if (fromQueue) {
+    EventManager.publish(QUEUE_SUCCESS);
   }
 };
 
@@ -182,9 +188,12 @@ const fetchSinglePayload = (action, store, options) => {
           if (status === 404) {
             deleteFromQueue(fromQueue);
             messageQueueSkip();
+          } else if (fromQueue) {
+            messageQueueFailed(fromQueue);
+            defaultErrorCallback(store, response, json, recordType, fromQueue, id);
           } else if (failureCallback) {
             messageQueueFailed(fromQueue);
-            handleRestCallback(store, failureCallback, response, json);
+            handleRestCallback(store, failureCallback, response, json, fromQueue);
           } else {
             messageQueueFailed(fromQueue);
             defaultErrorCallback(store, response, json);
@@ -212,6 +221,8 @@ const fetchSinglePayload = (action, store, options) => {
           }
 
           handleRestCallback(store, successCallback, response, json, fromQueue);
+
+          messageQueueSuccess(fromQueue);
         }
         fetchStatus({ store, type }, "FINISHED", false);
 
@@ -229,7 +240,9 @@ const fetchSinglePayload = (action, store, options) => {
 
       fetchStatus({ store, type }, "FAILURE", false);
 
-      if (failureCallback) {
+      if (fromQueue) {
+        defaultErrorCallback(store, {}, {}, recordType, fromQueue, id);
+      } else if (failureCallback) {
         handleRestCallback(store, failureCallback, {}, {});
       } else {
         defaultErrorCallback(store, {}, {});
