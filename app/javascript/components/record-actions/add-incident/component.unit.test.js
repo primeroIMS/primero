@@ -144,7 +144,7 @@ describe("<AddIncident />", () => {
   it("renders component with valid props", () => {
     const addIncidentProps = { ...component.find(AddIncident).props() };
 
-    ["close", "pending", "recordType", "selectedRowsIndex", "setPending", "open", "pending"].forEach(property => {
+    ["close", "pending", "recordType", "selectedRowsIndex", "setPending", "open"].forEach(property => {
       expect(addIncidentProps).to.have.property(property);
       delete addIncidentProps[property];
     });

@@ -54,7 +54,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
     dialogTitle: i18n.t("actions.services_section_from_case"),
     cancelHandler: close,
     onClose: close,
-    open: open,
+    open,
     pending,
     omitCloseAfterSuccess: true,
     successHandler: () => submitForm(formikRef)

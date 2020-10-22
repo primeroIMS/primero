@@ -3,7 +3,7 @@ import thunk from "redux-thunk";
 
 import { RECORD_PATH } from "../../config/constants";
 import { ENQUEUE_SNACKBAR } from "../notifier";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../action-dialog";
+import { CLEAR_DIALOG } from "../action-dialog";
 import RecordFormActions from "../record-form/actions";
 
 import * as actionCreators from "./action-creators";
@@ -94,7 +94,7 @@ describe("records - Action Creators", () => {
 
     it("should return 3 success callback actions if there is a dialogName", () => {
       const store = configureStore([thunk])({});
-      const expected = [ENQUEUE_SNACKBAR, SET_DIALOG, SET_DIALOG_PENDING];
+      const expected = [ENQUEUE_SNACKBAR, CLEAR_DIALOG];
 
       return store
         .dispatch(
