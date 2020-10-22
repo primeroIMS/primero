@@ -1,0 +1,14 @@
+---
+all:
+
+  hosts:
+    primero.example.com:
+      ansible_user: 'ubuntu'
+      primero_nginx_server_name: 'primero.example.com'
+      certbot_domain:
+      - '{{ primero_nginx_server_name }}'
+      certbot_email: 'primero-example@example.com'
+      cert_name: 'primero'
+      primero_repo_branch: 'master'
+      docker_tag: ''
+      docker_container_registry: ''
