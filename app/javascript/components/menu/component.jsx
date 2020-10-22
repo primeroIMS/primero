@@ -32,7 +32,22 @@ const Component = ({ actions, disabledCondtion, showMenu }) => {
           }}
         />
       )}
-      <Menu id="long-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+      <Menu
+        id="long-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left"
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left"
+        }}
+      >
         <MenuItems actions={actions} disabledCondtion={disabledCondtion} />
       </Menu>
     </>

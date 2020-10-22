@@ -107,6 +107,7 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
     canRequestGbvClosure,
     canShowExports,
     canTransfer,
+    canOnlyExportPdf,
     permittedAbilities
   } = usePermissions(recordType, RECORD_ACTION_ABILITIES);
 
@@ -143,6 +144,7 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
     canRequest,
     canShowExports,
     canTransfer,
+    canOnlyExportPdf,
     dispatch,
     enableState,
     handleDialogClick,

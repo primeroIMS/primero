@@ -11,7 +11,7 @@ const Component = ({ actions, disabledCondtion }) =>
 
     return (
       <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button key={name}>
-        <MenuItem selected={name === "Pyxis"} disabled={disabledCondtion(action)} onClick={() => handleAction(id)}>
+        <MenuItem disabled={disabledCondtion(action)} onClick={() => handleAction(id)}>
           {action.name}
         </MenuItem>
       </ConditionalWrapper>

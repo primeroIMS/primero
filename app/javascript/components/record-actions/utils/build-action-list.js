@@ -28,32 +28,33 @@ import Exports from "../exports";
 import filterActions from "./filter-actions";
 
 export default ({
-  i18n,
+  approvals,
+  canAddIncident,
+  canAddNotes,
+  canAddService,
+  canApprove,
+  canAssign,
+  canCreateIncident,
+  canEnable,
+  canOnlyExportPdf,
+  canOpenOrClose,
+  canRefer,
+  canRequest,
+  canShowExports,
+  canTransfer,
   dispatch,
-  record,
-  openState,
   enableState,
   handleDialogClick,
-  isShow,
-  isIdSearch,
-  showListActions,
-  recordType,
-  canRefer,
-  canAssign,
-  canTransfer,
-  canAddIncident,
-  canAddService,
-  canOpenOrClose,
-  canEnable,
-  canRequest,
-  canApprove,
-  canAddNotes,
-  canShowExports,
-  canCreateIncident,
   hasIncidentSubform,
   hasServiceSubform,
+  i18n,
+  isIdSearch,
+  isShow,
+  openState,
+  record,
+  recordType,
   requestsApproval,
-  approvals
+  showListActions
 }) => {
   const formRecordType = i18n.t(`forms.record_types.${RECORD_TYPES[recordType]}`);
 
@@ -152,7 +153,7 @@ export default ({
         action: id => {
           handleDialogClick(id, true);
         },
-        condition: canShowExports,
+        condition: showListActions ? canShowExports && !canOnlyExportPdf : canShowExports,
         disableOffline: true,
         enabledFor: ENABLED_FOR_ONE_MANY_ALL,
         id: EXPORT_DIALOG,
