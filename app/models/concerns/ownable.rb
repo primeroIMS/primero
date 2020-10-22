@@ -14,7 +14,7 @@ module Ownable
       string :associated_user_names, multiple: true
       string :associated_user_groups, multiple: true
       string :associated_user_agencies, multiple: true
-      integer :owned_by_groups, multiple: true
+      string :owned_by_groups, multiple: true
       string :assigned_user_names, multiple: true
       boolean :not_edited_by_owner
       %w[
@@ -59,7 +59,7 @@ module Ownable
   end
 
   def owned_by_agency
-    @record_agency ||= Agency.find_by(id: owned_by_agency_id).agency_code if owned_by_agency_id
+    @record_agency ||= Agency.find_by(unique_id: owned_by_agency_id)&.agency_code if owned_by_agency_id
   end
 
   def users_by_association
@@ -101,8 +101,8 @@ module Ownable
 
   def update_owned_by
     self.owned_by_full_name = owner&.full_name
-    self.owned_by_agency_id = owner&.organization&.id
-    self.owned_by_groups = owner&.user_group_ids # TODO: This is wrong. This need to the stable unique_id
+    self.owned_by_agency_id = owner&.organization&.unique_id
+    self.owned_by_groups = owner&.user_group_unique_ids
     self.owned_by_location = owner&.location
     self.owned_by_user_code = owner&.code
     self.owned_by_agency_office = owner&.agency_office

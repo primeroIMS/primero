@@ -41,7 +41,7 @@ const Report = ({ mode }) => {
   const errors = useSelector(state => getErrors(state, namespace));
   const loading = useSelector(state => getLoading(state, namespace));
   const report = useSelector(state => getReport(state));
-  const agencies = useSelector(state => getOptions(state, STRING_SOURCES_TYPES.AGENCY, i18n));
+  const agencies = useSelector(state => getOptions(state, STRING_SOURCES_TYPES.AGENCY, i18n, null, true));
 
   const deleteModal = useSelector(state => selectDialog(state, DELETE_MODAL));
   const setDeleteModal = open => {
