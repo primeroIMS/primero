@@ -29,10 +29,10 @@ const Component = (
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { watch } = useFormContext();
-  const { title, condition, fields: customFormFields } = customFormProps;
   const html = useRef();
   const dispatch = useDispatch();
   const data = isImmutable(record) ? record : fromJS(record);
+  const { title = "", condition = false, fields: customFormFields = [] } = customFormProps || {};
   const isRemote = typeof condition === "boolean" ? condition : watch(condition);
   const customTitle = useSelector(state => {
     if (typeof title === "object") {

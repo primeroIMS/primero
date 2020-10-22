@@ -24,6 +24,24 @@ describe("Forms - Selectors", () => {
           ]
         }
       }
+    },
+    application: {
+      managedRoles: [
+        {
+          id: 1,
+          unique_id: "role-1",
+          name: "Role 1",
+          referral: true,
+          form_section_unique_ids: ["test-1"]
+        },
+        {
+          id: 2,
+          unique_id: "role-2",
+          name: "Role 2",
+          referral: false,
+          form_section_unique_ids: ["test-1", "test-2"]
+        }
+      ]
     }
   });
 
@@ -87,6 +105,24 @@ describe("Forms - Selectors", () => {
       const lookup = selectors.getLookupByUniqueId(stateWithLookups, "lookup-2");
 
       expect(lookup).to.deep.equal(fromJS(lookup2));
+    });
+  });
+
+  describe("getManagedRoleByUniqueId", () => {
+    it("should return referral roles", () => {
+      const expected = fromJS({
+        id: 1,
+        unique_id: "role-1",
+        name: "Role 1",
+        referral: true,
+        form_section_unique_ids: ["test-1"]
+      });
+
+      expect(selectors.getManagedRoleByUniqueId(stateWithLookups, "role-1")).to.deep.equal(expected);
+    });
+
+    it("should return an empty object if we pass an invalid unique-id", () => {
+      expect(selectors.getManagedRoleByUniqueId(stateWithLookups, "role-abc")).to.be.empty;
     });
   });
 });
