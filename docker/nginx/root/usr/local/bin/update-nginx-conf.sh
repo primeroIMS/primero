@@ -89,7 +89,6 @@ config_subst 'NGINX_SSL_KEY_PATH'
 if [ ! -z "${NGINX_CERTIFICATE_NAME}" ] && [ -d "/etc/letsencrypt/live/${NGINX_CERTIFICATE_NAME}" ]; then
 	config_prune '@begin-no-ssl' '@end-no-ssl'
     config_write '@begin-ssl' '@end-ssl'
-	config_subst 'NGINX_SSL_TRUSTED_CERT_PATH'
 elif [ -a "${NGINX_SSL_CERT_PATH}" ] && [ -a "${NGINX_SSL_KEY_PATH}" ]; then
     config_prune '@begin-no-ssl' '@end-no-ssl'
     config_write '@begin-ssl' '@end-ssl'

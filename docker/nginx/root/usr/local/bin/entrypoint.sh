@@ -41,11 +41,6 @@ if [ "$1" = "nginx" ]; then
 	if [ "$USE_LETS_ENCRYPT" == "false" ];
 	then
       	prim_generate_self_signed_certs
-	else
-		NGINX_SERVER_HOST="$LETS_ENCRYPT_DOMAIN"
-  		NGINX_SSL_CERT_PATH="/etc/letsencrypt/live/$NGINX_CERTIFICATE_NAME/fullchain.pem"
-  		NGINX_SSL_KEY_PATH="/etc/letsencrypt/live/$NGINX_CERTIFICATE_NAME/privkey.pem"
-		NGINX_SSL_TRUSTED_CERT_PATH="ssl_trusted_certificate   /etc/letsencrypt/live/$NGINX_CERTIFICATE_NAME/chain.pem"
 	fi
 
     update-nginx-conf.sh
