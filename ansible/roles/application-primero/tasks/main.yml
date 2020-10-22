@@ -1,4 +1,11 @@
 ---
+- name: 'copy the local.env file to /srv/primero/docker'
+  copy:
+    src: 'local.env'
+    dest: '/srv/primero/docker/local.env'
+    mode: 'u=rw,go=r'
+  become: yes
+
 - name: 'build the Docker containers'
   command: |
     ./build.sh all -t '{{ docker_tag }}' -r '{{ docker_container_registry }}'
