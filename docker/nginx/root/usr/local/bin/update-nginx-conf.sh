@@ -74,24 +74,13 @@ config_subst 'PROXY_READ_TIMEOUT'
 config_subst 'NGINX_SSL_CERT_PATH'
 config_subst 'NGINX_SSL_KEY_PATH'
 
-if [ -z "${NGINX_CERTIFICATE_NAME}" ] || [ (! -s "${NGINX_SSL_CERT_PATH}") || (! -s "${NGINX_SSL_KEY_PATH}") ]; then
+if [ -z "${NGINX_CERTIFICATE_NAME}" ] || [ ! -s "${NGINX_SSL_CERT_PATH}" ] || [ ! -s "${NGINX_SSL_KEY_PATH}" ]; then
     config_write '@begin-no-ssl' '@end-no-ssl'
     config_prune '@begin-ssl' '@end-ssl'
 else
     config_prune '@begin-no-ssl' '@end-no-ssl'
     config_write '@begin-ssl' '@end-ssl'
 fi
-
-#if [ ! -z "${NGINX_CERTIFICATE_NAME}" ] && [ -d "/etc/letsencrypt/live/${NGINX_CERTIFICATE_NAME}" ]; then
-#	config_prune '@begin-no-ssl' '@end-no-ssl'
-#    config_write '@begin-ssl' '@end-ssl'
-#elif [ -f "${NGINX_SSL_CERT_PATH}" ] && [ -f "${NGINX_SSL_KEY_PATH}" ]; then
-#    config_prune '@begin-no-ssl' '@end-no-ssl'
-#    config_write '@begin-ssl' '@end-ssl'
-#else
-#	config_write '@begin-no-ssl' '@end-no-ssl'
-#    config_prune '@begin-ssl' '@end-ssl'
-#fi
 
 eval sed ${SED_ARGS} \
     < /etc/nginx/conf.d/primero.conf.template \
