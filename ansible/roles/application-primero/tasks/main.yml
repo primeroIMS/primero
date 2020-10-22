@@ -11,15 +11,24 @@
     ./build.sh all -t '{{ docker_tag }}' -r '{{ docker_container_registry }}'
   args:
     chdir: '/srv/primero/docker'
+  tags:
+  - 'never'
+  - 'build'
 
 - name: 'configure the Docker containers'
   command: |
     ./compose.configure.sh
   args:
     chdir: '/srv/primero/docker'
+  tags:
+  - 'never'
+  - 'configure'
 
 - name: 'start the Docker containers'
   command: |
     ./compose.prod.sh up -d
   args:
     chdir: '/srv/primero/docker'
+  tags:
+  - 'never'
+  - 'start'
