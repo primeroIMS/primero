@@ -116,7 +116,7 @@ const Component = ({
     if (history.action === "POP") {
       if (selectedForm && recordInformationFormIds.includes(selectedForm)) {
         setOpen(RECORD_INFORMATION_GROUP);
-      } else if (incidentFromCase?.size) {
+      } else if (incidentFromCase?.size && recordInformationFormIds.includes(INCIDENT_FROM_CASE)) {
         dispatch(setSelectedForm(INCIDENT_FROM_CASE));
         setOpen(RECORD_INFORMATION_GROUP);
       } else if (firstSelectedForm?.form_group_id && selectedForm && selectedForm !== firstSelectedForm.unique_id) {

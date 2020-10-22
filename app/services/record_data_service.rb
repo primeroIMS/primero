@@ -6,6 +6,7 @@ class RecordDataService
     def data(record, user, selected_field_names)
       data = record.data
       data = select_fields(data, selected_field_names)
+      data = embed_case_data(data, record, selected_field_names)
       data = embed_user_scope(data, record, selected_field_names, user)
       data = embed_hidden_name(data, record, selected_field_names)
       data = embed_flag_metadata(data, record, selected_field_names)
@@ -76,6 +77,14 @@ class RecordDataService
 
     def visible_name(record)
       record.try(:hidden_name) ? '*******' : record.try(:name)
+    end
+
+    def embed_case_data(data, record, selected_field_names)
+      return data unless record.class == Incident && record.incident_case_id.present?
+
+      data['incident_case_id'] = record.incident_case_id if selected_field_names.include?('incident_case_id')
+      data['case_id_display'] = record.case_id_display if selected_field_names.include?('case_id_display')
+      data
     end
   end
 end

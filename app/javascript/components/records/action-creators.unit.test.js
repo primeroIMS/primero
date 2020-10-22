@@ -180,25 +180,27 @@ describe("records - Action Creators", () => {
     const expected = {
       type: "cases/FETCH_INCIDENT_FROM_CASE",
       api: {
-        path: `cases/case-id-1/incidents/new`,
+        path: `cases/case-unique-id-1/incidents/new`,
         successCallback: {
           action: `cases/SET_CASE_ID_FOR_INCIDENT`,
-          payload: { caseId: "case-id-1" },
+          payload: { caseId: "case-unique-id-1", caseIdDisplay: "case-display-id-1" },
           redirect: "/incidents/module-id-1/new"
         }
       }
     };
 
-    expect(actionCreators.fetchIncidentFromCase("case-id-1", "module-id-1")).be.deep.equals(expected);
+    expect(actionCreators.fetchIncidentFromCase("case-unique-id-1", "case-display-id-1", "module-id-1")).be.deep.equals(
+      expected
+    );
   });
 
   it("should check the 'setCaseIdForIncident' action creator to return the correct object", () => {
     const expected = {
       type: "cases/SET_CASE_ID_FOR_INCIDENT",
-      payload: { caseId: "case-id-1" }
+      payload: { caseId: "case-unique-id-1", caseIdDisplay: "case-display-id-1" }
     };
 
-    expect(actionCreators.setCaseIdForIncident("case-id-1")).to.deep.equal(expected);
+    expect(actionCreators.setCaseIdForIncident("case-unique-id-1", "case-display-id-1")).to.deep.equal(expected);
   });
 
   it("should check the 'fetchIncidentwitCaseId' action creator to return the correct object", () => {

@@ -2,7 +2,8 @@
 import { isEmpty, transform, isObject, isEqual, find, pickBy, identity } from "lodash";
 import { isDate, format } from "date-fns";
 
-import { API_DATE_FORMAT, RECORD_PATH } from "../../config";
+import { API_DATE_FORMAT, DEFAULT_DATE_VALUES, RECORD_PATH } from "../../config";
+import { toServerDateFormat } from "../../libs";
 
 import {
   SUBFORM_SECTION,
@@ -94,17 +95,26 @@ export const constructInitialValues = formMap => {
             ...v.fields.map(f => {
               let defaultValue;
 
-              if (
-                [SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD].includes(f.type) ||
-                (f.type === SELECT_FIELD && f.multi_select)
-              ) {
+              if ([SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD].includes(f.type)) {
                 defaultValue = [];
+              } else if (f.type === SELECT_FIELD && f.multi_select) {
+                try {
+                  defaultValue = f.selected_value ? JSON.parse(f.selected_value) : [];
+                } catch (e) {
+                  defaultValue = [];
+                  // eslint-disable-next-line no-console
+                  console.warn(`Can't parse the defaultValue ${f.selected_value} for ${f.name}`);
+                }
               } else if ([DATE_FIELD].includes(f.type)) {
-                defaultValue = null;
+                defaultValue = Object.values(DEFAULT_DATE_VALUES).some(
+                  defaultDate => f.selected_value?.toUpperCase() === defaultDate
+                )
+                  ? toServerDateFormat(new Date(), { includeTime: f.date_include_time })
+                  : null;
               } else if (f.type === TICK_FIELD) {
-                defaultValue = false;
+                defaultValue = f.selected_value || false;
               } else {
-                defaultValue = "";
+                defaultValue = f.selected_value || "";
               }
 
               return { [f.name]: defaultValue };

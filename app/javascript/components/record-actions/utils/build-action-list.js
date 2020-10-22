@@ -96,7 +96,7 @@ export default ({
       },
       {
         action: () => {
-          dispatch(fetchIncidentFromCase(record.get("id"), record.get("module_id")));
+          dispatch(fetchIncidentFromCase(record.get("id"), record.get("case_id_display"), record.get("module_id")));
         },
         condition: canCreateIncident,
         disableOffline: true,
