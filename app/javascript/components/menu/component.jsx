@@ -34,6 +34,7 @@ const Component = ({ actions, disabledCondtion, showMenu }) => {
       )}
       <Menu
         id="long-menu"
+        variant="menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
@@ -48,7 +49,7 @@ const Component = ({ actions, disabledCondtion, showMenu }) => {
           horizontal: "left"
         }}
       >
-        <MenuItems actions={actions} disabledCondtion={disabledCondtion} />
+        <MenuItems actions={actions} disabledCondtion={disabledCondtion} handleClose={handleClose} />
       </Menu>
     </>
   );
