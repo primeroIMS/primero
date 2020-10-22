@@ -84,3 +84,4 @@ configuration_translation_export*
 /ansible/roles/qi-*
 /ansible/ansible_collections
 /ansible/inventory
+/ansible/roles/application-primero/files/local.env
