@@ -85,7 +85,7 @@ Component.propTypes = {
   isBooleanField: PropTypes.bool,
   isDateField: PropTypes.bool,
   isDateWithTime: PropTypes.bool,
-  options: PropTypes.object,
+  options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   optionsStringSource: PropTypes.string,
   value: PropTypes.any
 };

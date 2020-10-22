@@ -2437,6 +2437,7 @@ en:
     service_label: Service
     success: '%{record_type} %{id} successfully referred'
     user_mandatory_label: Recipient is required
+    date: Date
   report:
     aggregate_by: Group by row
     attribute: Attribute
