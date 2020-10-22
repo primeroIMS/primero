@@ -1,4 +1,0 @@
----
-dependencies:
-
-- name: 'quoin.infrastructure.install_rsync'
