@@ -18,7 +18,8 @@ import {
   REQUEST_APPROVAL,
   APPROVAL,
   SHOW_EXPORTS,
-  checkPermissions
+  checkPermissions,
+  allowedExportTypes
 } from "../../libs/permissions";
 import Permission from "../application/permission";
 import DisableOffline from "../disable-offline";
@@ -212,6 +213,8 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
   const canAddService = checkPermissions(userPermissions, ADD_SERVICE);
 
   const canShowExports = checkPermissions(userPermissions, SHOW_EXPORTS);
+  const exportTypes = allowedExportTypes(userPermissions);
+  const onlyPdfExport = exportTypes.size === 1 && exportTypes.first() === ACTIONS.EXPORT_PDF;
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -399,7 +402,7 @@ const Container = ({ recordType, iconColor, record, mode, showListActions, curre
       recordType: RECORD_TYPES.all,
       recordListAction: true,
       enabledFor: ENABLED_FOR_ONE_MANY_ALL,
-      condition: canShowExports,
+      condition: showListActions ? canShowExports && !onlyPdfExport : canShowExports,
       disableOffline: true
     }
   ];
