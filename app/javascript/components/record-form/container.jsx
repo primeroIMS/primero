@@ -230,8 +230,12 @@ const Container = ({ match, mode }) => {
   const approvalSubforms = record?.get("approval_subforms");
   const incidentsSubforms = record?.get("incident_details");
 
-  const externalForms = (form, setFieldValue, handleSubmit) =>
-    ({
+  const externalForms = (form, setFieldValue, handleSubmit) => {
+    const isTransitions = TRANSITION_TYPE.includes(form);
+
+    const externalFormSelected = isTransitions ? TRANSITION_TYPE : form;
+
+    return {
       [RECORD_OWNER]: (
         <RecordOwner
           record={record}
@@ -256,7 +260,8 @@ const Container = ({ match, mode }) => {
         />
       ),
       [TRANSITION_TYPE]: <Transitions {...transitionProps} />
-    }[form]);
+    }[externalFormSelected];
+  };
 
   const hasData = Boolean(forms && formNav && firstTab && (containerMode.isNew || record));
   const loading = Boolean(loadingForm || loadingRecord);

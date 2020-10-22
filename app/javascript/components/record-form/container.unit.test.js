@@ -421,6 +421,160 @@ describe("<RecordForms /> - Component", () => {
     });
   });
 
+  describe("when transfers_assignments is the selectedForm", () => {
+    const initialState = fromJS({
+      records: {
+        cases: {
+          data: [record],
+          metadata: { per: 20, page: 1, total: 1 },
+          filters: { status: "open" }
+        },
+        transitions: {
+          data: [
+            {
+              id: "3dbe3c63-7c6d-44ad-8eb9-fa8de534440f",
+              record_id: "543cff05-4ba1-46a1-b636-a4b2644305bf",
+              record_type: "case",
+              created_at: "2020-10-22T18:44:09.112Z",
+              notes: "",
+              rejected_reason: "",
+              status: "in_progress",
+              type: "Transfer",
+              consent_overridden: true,
+              consent_individual_transfer: false,
+              transitioned_by: "primero",
+              transitioned_to_remote: null,
+              transitioned_to: "primero_cp",
+              service: null,
+              remote: false
+            }
+          ]
+        }
+      },
+      forms: {
+        selectedForm: "transfers_assignments",
+        selectedRecord: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+        formSections,
+        fields,
+        loading: false,
+        errors: false
+      },
+      user: {
+        modules: ["primeromodule-cp"],
+        permittedForms: ["basic_identity"]
+      },
+      application
+    });
+
+    beforeEach(() => {
+      const routedComponent = initialProps => {
+        return (
+          <Route
+            path="/:recordType(cases|incidents|tracing_requests)/:id"
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
+          />
+        );
+      };
+
+      ({ component } = setupMountedComponent(
+        routedComponent,
+        {
+          mode: MODES.show
+        },
+        initialState,
+        ["/cases/a9e1a7a2-1920-4b41-80d1-df45c26db4ab"]
+      ));
+    });
+
+    it("should render Transitions", () => {
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Transitions)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Transitions).find(RecordFormTitle).text()).to.equal("transfer_assignment.title");
+      expect(componentRecordForm.find(IncidentFromCasePanel)).to.be.empty;
+      expect(componentRecordForm.find(Approvals)).to.be.empty;
+    });
+  });
+
+  describe("when referral is the selectedForm", () => {
+    const initialState = fromJS({
+      records: {
+        cases: {
+          data: [record],
+          metadata: { per: 20, page: 1, total: 1 },
+          filters: { status: "open" }
+        },
+        transitions: {
+          data: [
+            {
+              id: "a4266cf4-b2f5-4cad-9a18-3802f66698ac",
+              record_id: "543cff05-4ba1-46a1-b636-a4b2644305bf",
+              record_type: "case",
+              created_at: "2020-10-15T16:03:23.143Z",
+              notes: "",
+              rejected_reason: "",
+              status: "in_progress",
+              type: "Referral",
+              consent_overridden: true,
+              consent_individual_transfer: false,
+              transitioned_by: "primero",
+              transitioned_to_remote: null,
+              transitioned_to: "primero_cp",
+              service: "safehouse_service",
+              remote: false
+            }
+          ]
+        }
+      },
+      forms: {
+        selectedForm: "referral",
+        selectedRecord: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+        formSections,
+        fields,
+        loading: false,
+        errors: false
+      },
+      user: {
+        modules: ["primeromodule-cp"],
+        permittedForms: ["basic_identity"]
+      },
+      application
+    });
+
+    beforeEach(() => {
+      const routedComponent = initialProps => {
+        return (
+          <Route
+            path="/:recordType(cases|incidents|tracing_requests)/:id"
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
+          />
+        );
+      };
+
+      ({ component } = setupMountedComponent(
+        routedComponent,
+        {
+          mode: MODES.show
+        },
+        initialState,
+        ["/cases/a9e1a7a2-1920-4b41-80d1-df45c26db4ab"]
+      ));
+    });
+
+    it("should render Transitions component for REFERRAL", () => {
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Transitions)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Transitions).find(RecordFormTitle).text()).to.equal(
+        "forms.record_types.referrals"
+      );
+      expect(componentRecordForm.find(IncidentFromCasePanel)).to.be.empty;
+      expect(componentRecordForm.find(Approvals)).to.be.empty;
+    });
+  });
+
   describe("when record is new", () => {
     const initialState = fromJS({
       records: {
