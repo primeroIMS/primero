@@ -4,12 +4,35 @@
 
 ## TLDR
 
+In order to deploy primero using anibsle you will first need to create an ansible `inventory.yml` file located at `ansible/inventory/inventory.yml`.
+Below is example of what the file should look like, and there is also a templat file provided in the repo, `ansible/inventory/inventory.yml.template`.
+
+                ---
+                all:
+
+                  hosts:
+                    primero.example.com:
+                      ansible_user: 'ubuntu'
+                      primero_nginx_server_name: 'primero.example.com'
+                      certbot_domain:
+                      - '{{ primero_nginx_server_name }}'
+                      certbot_email: 'primero-example@example.com'
+                      cert_name: 'primero'
+                      primero_repo_branch: 'master'
+                      docker_tag: ''
+                      docker_container_registry: ''
+
+All these variables are required with the exception of `certbot_domain` and `certbot_email`.  These certbot variables are required only when using certbot.
+The `docker_tag` and `docker_container_registry` can be left as `''`, which default to latest.  If you require a specific `docker_tag` and/or `docker_container_registry`,
+then enter those values for these variables.
+ 
 Deploy the primero app and run certbot by following the [Deploy](#markdown-header-deploy) section of this README.
 
 ### Bash `activate` Script
 
 As a convenience for Bash users, there is an `activate` script which will setup the virtualenv, activate it in a subshell, add the `bin` directory to the `PATH`, and set the `ANSIBLE_CONFIG` environment variable.
 
+                $ cd ansible
                 $ bin/activate
 
 You can deactivate this subshell virtualenv by exiting the shell.
@@ -32,21 +55,23 @@ For example:
 If you add a new requirement or update an existing requirement, deactivate the virtualenv (if it is activated) and run the `setup` script (or the `activate` script) again.
 For example:
 
+                (venv) cd ansible
                 (venv) $ vi requirements.txt
                 (venv) $ deactivate
                 $ bin/setup
-                $ . virtualenv/bin/activate
+                $ . venv/bin/activate
 
 #### Remove a Python Requirement
 
 If you remove an existing requirement, deactivate the virtualenv (if it is actviated), remove the entire virtualenv directory, and run the `setup` script (or the `activate` script) again.
 For example:
 
+                (venv) cd ansible
                 (venv) $ vi requirements.txt
                 (venv) $ deactivate
                 $ rm -fr virtualenv
                 $ bin/setup
-                $ . virtualenv/bin/activate
+                $ . venv/bin/activate
 
 ### ansible-galaxy `requirements.yml`
 
@@ -69,18 +94,20 @@ For example:
 If you add a new role/collection or update an existing role/collection, deactivate the virtualenv (if it is activated) and run the `setup` script (or the `activate` script) again.
 For example:
 
-                (virtualenv) $ vi src/main/ansible/requirements.yml
-                (virtualenv) $ deactivate
+                (venv) cd ansible
+                (venv) $ vi requirements.yml
+                (venv) $ deactivate
                 $ bin/setup
-                $ . virtualenv/bin/activate
+                $ . venv/bin/activate
 
 #### Remove an Ansible Role
 
 If you remove an existing role, you can simple remove the role's directory from the `src/main/ansible/roles` directory.
 For example
 
-                (virtualenv) $ vi src/main/ansible/requirements.yml
-                (virtualenv) $ rm -fr src/main/ansible/roles/<rolename>
+                (venv) cd ansible
+                (venv) $ vi requirements.yml
+                (venv) $ rm -fr roles/<rolename>
 
 ## Servers
 
@@ -88,7 +115,7 @@ The server infrastructure is managed by Ansible.
 The general form of an Ansible command is as follows:
 
             (virtualenv) $ cd ansible
-            (virtualenv) $ awsu -p <primero-profile> -- ansible-playbook -i <inventory> <playbook>
+            (virtualenv) $ ansible-playbook -i <inventory> <playbook>
 
 Each `ansible-playbook` command will require an inventory and a playbook.
 The inventory is the set of hosts managed by Ansible.
@@ -107,35 +134,38 @@ install-docker.yml
 : This playbook will install new users to map to docker containers, install docker, create a users.env file, and
   synchronize the primero app files to the host machine
 
+clone-primero-repo.yml
+: This playbook will clone the primero github repo to the remote server.
+
 application-primero.yml
-: Deploy the Primero software and run certbot.
+: Deploy the Primero software.
 
 certbot.yml
 : Run certbot on the Primero site.
 
 ### Inventory
 
-There are two types of inventory: static and dynamic.
-A static inventory is a simple file that enumerates the host names (or IP addresses) of servers.
-A dynamic inventory is a script that produces a JSON inventory.
-An example of dynamic inventory is the Ansible [ec2.py](https://github.com/ansible/ansible/blob/devel/contrib/inventory/ec2.py) dynamic inventory script for AWS.
+In order to deploy primero using anibsle you will first need to create an ansible `inventory.yml` file located at `ansible/inventory/inventory.yml`.
+Below is example of what the file should look like, and there is also a templat file provided in the repo, `ansible/inventory/inventory.yml.template`.
 
-The Ansible commands in this document require an inventory argument (`-i`.)
-The inventory argument can either refer to:
+                ---
+                all:
 
-  * a static inventory file
-  * a dynamic inventory script
-  * a directory containing an arbitrary mixture of static inventory files and dynamic inventory scripts
+                  hosts:
+                    primero.example.com:
+                      ansible_user: 'ubuntu'
+                      primero_nginx_server_name: 'primero.example.com'
+                      certbot_domain:
+                      - '{{ primero_nginx_server_name }}'
+                      certbot_email: 'primero-example@example.com'
+                      cert_name: 'primero'
+                      primero_repo_branch: 'master'
+                      docker_tag: ''
+                      docker_container_registry: ''
 
-This project contains two inventory directories, one for the production servers, and a second one for the test servers.
-Pass either `inventory/prod/` or `inventory/test/` to Ansible using the `-i` flag.
-Take care to not pass `inventory/` as this will deploy the software to both environments (which is probably not what you want.)
-
-inventory/prod/
-: The production inventory.
-
-inventory/test/
-: The test inventory.
+All these variables are required with the exception of `certbot_domain` and `certbot_email`.  These certbot variables are required only when using certbot.
+The `docker_tag` and `docker_container_registry` can be left as `''`, which default to latest.  If you require a specific `docker_tag` and/or `docker_container_registry`,
+then enter those values for these variables.
 
 ### Bootstrap
 
@@ -164,12 +194,11 @@ It only needs to be run once against any piece of inventory (although it is safe
 
 1.  Activate the python venv in order to run ansible.
 
-            $ cd ../
+            $ cd ansible
             $ bin/activate
 
 2.  Edit the Ansible inventory file and primero variables.
 
-            (venv) $ cd ansible
             (venv) $ vim inventory/inventory.yml
 
     
@@ -179,44 +208,67 @@ It only needs to be run once against any piece of inventory (although it is safe
             all:
 
               hosts:
-                primero-example.cloud.quoininc.com:
+                primero.example.com:
+                  ansible_user: 'ubuntu'
+                  primero_nginx_server_name: 'primero.example.com'
+                  certbot_domain:
+                  - '{{ primero_nginx_server_name }}'
+                  certbot_email: 'primero-example@example.com'
+                  cert_name: 'primero'
+                  primero_repo_branch: 'master'
+                  docker_tag: ''
+                  docker_container_registry: ''
 
-              children:
+3.  Edit the `local.env`, located in the `ansible/roles/application-primero/files` directory, to configure your primero app as required. If using certbot you must include the primero server you are deploying to.
+Follow docker README.md for specific meaning of these environment variables, but specifically for this README edit the `LETS_ENCRYPT_DOMAIN`, `NGINX_CERTIFICATE_NAME`, `PRIMERO_HOST`, `USE_LETS_ENCRYPT`,
+`NGINX_SSL_CERT_PATH`, and `NGINX_SSL_KEY_PATH` variables.
 
-                primero:
-                  hosts:
-                    primero-example.cloud.quoininc.com:
-            
-    Next edit the variable `primero_nginx_server_name` in the `group_vars/primero/vars.yml` file, for example:
-
-            (venv) $ vim group_vars/primero/vars.yml
-
-            ---
-            primero_nginx_server_name: 'primero-example.cloud.quoininc.com'
-
-3.  Edit the local.env to include the primero server you are deploying to.  Follow docker README.md for specific meaning
-of these environment variables, but specifically for this README edit the `LETS_ENCRYPT_DOMAIN`, `NGINX_CERTIFICATE_NAME`,
-and `PRIMERO_HOST` variables.
-
-            (venv) $ cd ../docker
-            (venv) $ vim local.env
+            (venv) $ vim roles/application-primero/files/local.env
 
     The variables should look as follows:
 
             LETS_ENCRYPT_DOMAIN=primero-example.cloud.quoininc.com
             NGINX_CERTIFICATE_NAME=primero-example.cloud.quoininc.com
             PRIMERO_HOST=primero-example.cloud.quoininc.com
+            USE_LETS_ENCRYPT=true
+            NGINX_SSL_CERT_PATH="/etc/letsencrypt/live/primero/fullchain.pem"
+            NGINX_SSL_KEY_PATH="/etc/letsencrypt/live/primero/privkey.pem"
+
+    The `NGINX_SSL_CERT_PATH` and `NGINX_SSL_KEY_PATH` must be as shown because this is where the letsencrypt certs will be placed.
 
 4.  Run the bootstrap playbook in order to install the basic system requirements.
 
-           (venv) $ cd ../ansible
            (venv) $ ansible-playbook bootstrap.yml
 
-5.  Deploy the primero application.
+5.  Install Docker using the `install-docker.yml` playbook
 
-           (venv) $ ansible-playbook application-primero.yml
+           (venv) $ ansible-playbook install-docker.yml
 
-6.  Sometimes certbot won't work right away when the application is first deploy.  If certbot does fail, wait a couple
-minutes and then just run certbot by running the certbot.yml playbook.
+6.  Clone the github primero repo to the remote server by running the `clone-primero-repo.yml` playbook.
+
+           (venv) $ ansible-playbook clone-primero-repo.yml
+
+7.  Deploy the primero application.  There are many options here.  You can build, configure, and start the containers.  You can also choose to just
+run one of these or a combo of the three.  This is done using ansible tags.  If you run this playbook with no `--tags` then none these options real
+run by default.  In order to run these options you must specify the tag associated with the option.
+
+    For building use tag `build`.
+          
+          (venv) $ ansible-playbook application-primero.yml --tags "build"
+
+    For configuring use tag `configure`.
+
+          (venv) $ ansible-playbook application-primero.yml --tags "configure"
+        
+    For starting use tag `start`.
+
+          (venv) $ ansible-playbook application-primero.yml --tags "start"
+
+    You can also to a combo of the three or run all three for example:
+
+          (venv) $ ansible-playbook application-primero.yml --tags all
+
+7.  If using certbot run the `certbot.yml` playbook.  Sometimes certbot won't work right away when the application is first deploy.  If certbot does fail, wait a couple
+minutes and then just run the `certbot.yml` playbook again.
 
            (venv) $ ansible-playbook certbot.yml
