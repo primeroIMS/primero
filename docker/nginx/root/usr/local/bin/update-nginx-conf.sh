@@ -3,6 +3,13 @@
 #
 # NOTE: `local` is not (yet) in POSIX but is well supported, particularly by
 # dash.
+#
+# NOTE: For certbot we need to alter the nginx configuration based on whether there are the required SSL certificate files
+# or not.  So this is why # @begin-ssl and # @end-ssl are used.  If the SSL certificate files don't exist then it deletes
+# every line between a pair of @begin-ssl and @end-ssl, using sed.  If the SSL certificate files do exist then the SSL
+# setting from the nginx conf will be used.  This script will also use sed to replace all environment variables using
+# the config_subst function.  The other two functions will either write out the section between the # @begin-ssl and # @end-ssl
+# marker, config_write, or remove the section and the markers, config_prune.
 
 set -ex
 
