@@ -12,7 +12,7 @@ import FieldDialog from "./component";
 
 describe("<FieldDialog />", () => {
   const initialState = fromJS({
-    ui: { dialogs: { admin_fields_dialog: true } },
+    ui: { dialogs: { dialog: "admin_fields_dialog", open: true } },
     records: {
       admin: {
         forms: {
@@ -51,7 +51,7 @@ describe("<FieldDialog />", () => {
 
   describe("when is new mode", () => {
     const initialStateNewMode = fromJS({
-      ui: { dialogs: { admin_fields_dialog: true } },
+      ui: { dialogs: { dialog: "admin_fields_dialog", open: true } },
       records: {
         admin: {
           forms: {
@@ -74,7 +74,7 @@ describe("<FieldDialog />", () => {
 
   describe("when is a SELECT_FIELD with option_strings_text", () => {
     const initialStateSelectField = fromJS({
-      ui: { dialogs: { admin_fields_dialog: true } },
+      ui: { dialogs: { dialog: "admin_fields_dialog", open: true } },
       records: {
         admin: {
           forms: {
@@ -128,7 +128,7 @@ describe("<FieldDialog />", () => {
 
   describe("when is edit mode", () => {
     const initialStateEditMode = fromJS({
-      ui: { dialogs: { admin_fields_dialog: true } },
+      ui: { dialogs: { dialog: "admin_fields_dialog", open: true } },
       records: {
         admin: {
           forms: {

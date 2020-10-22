@@ -13,13 +13,16 @@ const usePermissions = (entity, abilities) => {
     return getPermissions(permittedAbilities, abilities);
   }
 
-  return Object.keys(abilities).reduce((prev, current) => {
-    const obj = prev;
+  return {
+    ...Object.keys(abilities).reduce((prev, current) => {
+      const obj = prev;
 
-    obj[current] = getPermissions(permittedAbilities, abilities[current]);
+      obj[current] = getPermissions(permittedAbilities, abilities[current]);
 
-    return obj;
-  }, {});
+      return obj;
+    }, {}),
+    permittedAbilities
+  };
 };
 
 export default usePermissions;

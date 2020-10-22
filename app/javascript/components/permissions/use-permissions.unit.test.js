@@ -1,4 +1,3 @@
-import React from "react";
 import { fromJS } from "immutable";
 
 import { HookWrapper, setupMountedComponent } from "../../test/utils";
@@ -30,7 +29,8 @@ describe("Verifying config constant", () => {
     const expected = {
       canApprove: true,
       canDelete: true,
-      canManageCase: false
+      canManageCase: false,
+      permittedAbilities: fromJS(["approve_assessment", "delete"])
     };
 
     const { component } = setupMountedComponent(

@@ -18,8 +18,7 @@ import LoadingIndicator from "../../loading-indicator";
 import { getIdentityProviders } from "../admin/users-form/selectors";
 import validations from "../admin/users-form/validations";
 import { getUser, getUserSavingRecord, getServerErrors } from "../../user/selectors";
-import { selectDialog, selectDialogPending } from "../../record-actions/selectors";
-import { setDialog } from "../../record-actions/action-creators";
+import { useDialog } from "../../action-dialog";
 import ChangePassword from "../admin/users-form/change-password";
 import CancelPrompt from "../../form/components/cancel-prompt";
 import { PASSWORD_MODAL } from "../admin/users-form/constants";
@@ -36,16 +35,17 @@ const Container = ({ mode }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
+  const { setDialog, dialogPending, dialogOpen } = useDialog(PASSWORD_MODAL);
 
   const currentUser = useSelector(state => getUser(state));
   const saving = useSelector(state => getUserSavingRecord(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const idp = useSelector(state => getIdentityProviders(state));
-  const passwordModal = useSelector(state => selectDialog(state, PASSWORD_MODAL));
+
   const setPasswordModal = open => {
-    dispatch(setDialog({ dialog: PASSWORD_MODAL, open }));
+    setDialog({ dialog: PASSWORD_MODAL, open });
   };
-  const dialogPending = useSelector(state => selectDialogPending(state));
+
   const useIdentityProviders = idp?.get("use_identity_provider");
   const providers = idp?.get("identity_providers");
 
@@ -147,7 +147,7 @@ const Container = ({ mode }) => {
             <ChangePassword
               formMode={formMode}
               i18n={i18n}
-              open={passwordModal}
+              open={dialogOpen}
               parentFormMethods={formMethods}
               pending={dialogPending}
               setOpen={setPasswordModal}

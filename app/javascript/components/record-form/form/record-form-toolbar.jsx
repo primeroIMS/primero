@@ -20,7 +20,6 @@ import DisableOffline from "../../disable-offline";
 import { useThemeHelper } from "../../../libs";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
-import { getActiveFlags } from "../../flagging/selectors";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -46,8 +45,6 @@ const RecordFormToolbar = ({
   const goBack = () => {
     history.goBack();
   };
-
-  const flags = useSelector(state => getActiveFlags(state, params.id, params.recordType));
 
   const renderSaveButton = (
     <ActionButton
@@ -94,7 +91,7 @@ const RecordFormToolbar = ({
         {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <DisableOffline button>
-              <Badge color="error" badgeContent={flags.size} className={css.badgeIndicator}>
+              <Badge color="error" badgeContent={record.get("flag_count")} className={css.badgeIndicator}>
                 <Flagging record={params.id} recordType={params.recordType} />
               </Badge>
             </DisableOffline>

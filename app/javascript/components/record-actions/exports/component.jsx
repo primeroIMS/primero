@@ -15,7 +15,6 @@ import submitForm from "../../../libs/submit-form";
 import { RECORD_TYPES } from "../../../config";
 import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
 import { getRecords } from "../../index-table";
-import { EXPORT_DIALOG } from "../constants";
 import { getMetadata } from "../../record-list/selectors";
 import FormSectionField from "../../form/components/form-section-field";
 import { submitHandler } from "../../form/utils/form-submission";
@@ -53,7 +52,7 @@ const Component = ({
   close,
   currentPage,
   match,
-  openExportsDialog,
+  open,
   pending,
   record,
   recordType,
@@ -61,8 +60,6 @@ const Component = ({
   setPending,
   userPermissions
 }) => {
-  console.warn('RENDERING', 'EXPORTS')
-
   const i18n = useI18n();
   const formRef = useRef();
   const pdfExporterRef = useRef();
@@ -207,8 +204,7 @@ const Component = ({
         i18n.t(message || "exports.queueing", {
           file_name: fileName ? `: ${fileName}.` : "."
         }),
-        i18n.t("exports.go_to_exports"),
-        EXPORT_DIALOG
+        i18n.t("exports.go_to_exports")
       )
     );
   };
@@ -268,7 +264,7 @@ const Component = ({
       enabledSuccessButton={enabledSuccessButton}
       omitCloseAfterSuccess
       onClose={close}
-      open={openExportsDialog}
+      open={open}
       pending={pending}
       successHandler={() => submitForm(formRef)}
     >
@@ -295,14 +291,14 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.defaultProps = {
-  openExportsDialog: false
+  open: false
 };
 
 Component.propTypes = {
   close: PropTypes.func,
   currentPage: PropTypes.number,
   match: PropTypes.object,
-  openExportsDialog: PropTypes.bool,
+  open: PropTypes.bool,
   pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,

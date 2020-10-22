@@ -12,6 +12,9 @@ export const REQUEST_TYPE = "request";
 export const TRANSFER_DIALOG = "transfer";
 export const SERVICE_DIALOG = "serviceDialog";
 export const INCIDENT_DIALOG = "incidentDialog";
+export const NOTES_DIALOG = "notes";
+export const ENABLE_DISABLE_DIALOG = "enableDisable";
+export const OPEN_CLOSE_DIALOG = "openClose";
 
 export const ONE = "one";
 export const MANY = "many";

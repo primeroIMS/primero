@@ -19,7 +19,7 @@ import { SERVICE_DIALOG } from "../constants";
 
 import { NAME, SERVICES_SUBFORM, SERVICES_SUBFORM_NAME } from "./constants";
 
-const Component = ({ openServiceDialog, close, pending, recordType, selectedRowsIndex, setPending }) => {
+const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPending }) => {
   const formikRef = useRef();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -37,10 +37,10 @@ const Component = ({ openServiceDialog, close, pending, recordType, selectedRows
   );
 
   useEffect(() => {
-    if (openServiceDialog) {
+    if (open) {
       resetForm(formikRef);
     }
-  }, [openServiceDialog]);
+  }, [open]);
 
   if (!form?.toJS()?.length) return [];
 
@@ -54,7 +54,7 @@ const Component = ({ openServiceDialog, close, pending, recordType, selectedRows
     dialogTitle: i18n.t("actions.services_section_from_case"),
     cancelHandler: close,
     onClose: close,
-    open: openServiceDialog,
+    open: open,
     pending,
     omitCloseAfterSuccess: true,
     successHandler: () => submitForm(formikRef)
@@ -119,7 +119,7 @@ const Component = ({ openServiceDialog, close, pending, recordType, selectedRows
 
 Component.propTypes = {
   close: PropTypes.func,
-  openServiceDialog: PropTypes.bool,
+  open: PropTypes.bool,
   pending: PropTypes.bool,
   records: PropTypes.array,
   recordType: PropTypes.string,

@@ -9,13 +9,11 @@ import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
 import set from "lodash/set";
 
-import { selectDialog } from "../../../../../record-actions/selectors";
-import { setDialog } from "../../../../../record-actions/action-creators";
+import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import bindFormSubmit from "../../../../../../libs/submit-form";
 import { submitHandler, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
-import ActionDialog from "../../../../../action-dialog";
 import { compare, getObjectPath, displayNameHelper } from "../../../../../../libs";
 import { getSelectedField, getSelectedFields, getSelectedSubform, getSelectedSubformField } from "../../selectors";
 import {
@@ -54,11 +52,11 @@ import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 const Component = ({ formId, mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(mode);
-  const openFieldDialog = useSelector(state => selectDialog(state, ADMIN_FIELDS_DIALOG));
-  const openTranslationDialog = useSelector(state => selectDialog(state, FieldTranslationsDialogName));
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
+
+  const { dialogOpen, dialogClose, setDialog } = useDialog([ADMIN_FIELDS_DIALOG, FieldTranslationsDialogName]);
   const selectedField = useSelector(state => getSelectedField(state), compare);
   const selectedSubformField = useSelector(state => getSelectedSubformField(state), compare);
   const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
@@ -74,7 +72,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     lookups,
     isNested,
     onManageTranslations: () => {
-      dispatch(setDialog({ dialog: FieldTranslationsDialogName, open: true }));
+      setDialog({ dialog: FieldTranslationsDialogName, open: true });
     }
   });
   const formMethods = useForm({ validationSchema });
@@ -82,6 +80,9 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
   const parentFieldName = selectedField?.get("name", "");
   const subformSortBy = formMethods.watch(`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_SORT_BY}`);
   const subformGroupBy = formMethods.watch(`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_GROUP_BY}`);
+
+  const openFieldDialog = dialogOpen[ADMIN_FIELDS_DIALOG];
+  const openTranslationDialog = dialogOpen[FieldTranslationsDialogName];
 
   const handleClose = () => {
     if (onClose) {
@@ -94,15 +95,15 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
 
     if (selectedSubform.toSeq().size && isNested) {
       if (selectedFieldName === NEW_FIELD) {
-        dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+        dialogClose();
       }
       dispatch(clearSelectedSubformField());
     } else {
-      dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+      dialogClose();
     }
 
     if (selectedFieldName === NEW_FIELD) {
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
+      setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true });
     }
   };
 
@@ -190,7 +191,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     batch(() => {
       if (!isNested) {
         onSuccess(dataToSave);
-        dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+        dialogClose();
       }
 
       if (fieldData) {
@@ -209,7 +210,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
           );
           dispatch(clearSelectedField());
           dispatch(clearSelectedSubform());
-          dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+          dialogClose();
         } else {
           dispatch(updateSelectedSubform(subformData));
         }
@@ -333,7 +334,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+      dialogClose();
     };
   }, []);
 

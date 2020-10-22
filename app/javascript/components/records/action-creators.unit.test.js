@@ -3,7 +3,7 @@ import thunk from "redux-thunk";
 
 import { RECORD_PATH } from "../../config/constants";
 import { ENQUEUE_SNACKBAR } from "../notifier";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../record-actions/actions";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "../action-dialog";
 import RecordFormActions from "../record-form/actions";
 
 import * as actionCreators from "./action-creators";
@@ -114,7 +114,7 @@ describe("records - Action Creators", () => {
           const successCallbacks = store.getActions()[0].api.successCallback;
 
           expect(successCallbacks).to.be.an("array");
-          expect(successCallbacks).to.have.lengthOf(3);
+          expect(successCallbacks).to.have.lengthOf(2);
           expect(successCallbacks.map(({ action }) => action)).to.deep.equals(expected);
         });
     });

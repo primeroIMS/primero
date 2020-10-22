@@ -8,7 +8,7 @@ import get from "lodash/get";
 import { useI18n } from "../../../../../i18n";
 import { SUBFORM_SECTION } from "../../../../../form";
 import { getObjectPath } from "../../../../../../libs";
-import { selectDialog } from "../../../../../record-actions/selectors";
+import { selectDialog } from "../../../../../action-dialog";
 import { updateSelectedSubform } from "../../action-creators";
 import TabPanel from "../tab-panel";
 import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "../field-translations-dialog";

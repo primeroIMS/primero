@@ -7,7 +7,7 @@ import get from "lodash/get";
 import FormSection from "../../../../../form/components/form-section";
 import { getObjectPath } from "../../../../../../libs";
 import { useI18n } from "../../../../../i18n";
-import { setDialog } from "../../../../../record-actions/action-creators";
+import { setDialog } from "../../../../../action-dialog";
 import FormTranslationsDialog from "../form-translations-dialog";
 import TabPanel from "../tab-panel";
 import { NAME as FormTranslationsDialogName } from "../form-translations-dialog/constants";

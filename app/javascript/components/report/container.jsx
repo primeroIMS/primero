@@ -15,9 +15,7 @@ import PageContainer, { PageContent, PageHeading } from "../page";
 import { FormAction, whichFormMode } from "../form";
 import { usePermissions } from "../user";
 import { WRITE_RECORDS, MANAGE } from "../../libs/permissions";
-import ActionDialog from "../action-dialog";
-import { selectDialog, selectDialogPending } from "../record-actions/selectors";
-import { setPending, setDialog } from "../record-actions/action-creators";
+import ActionDialog, { useDialog } from "../action-dialog";
 import { getOptions } from "../form/selectors";
 import { STRING_SOURCES_TYPES } from "../../config";
 
@@ -27,12 +25,15 @@ import { deleteReport, fetchReport } from "./action-creators";
 import namespace from "./namespace";
 import { NAME, DELETE_MODAL } from "./constants";
 
+// const { dialogOpen, setDialog } = useDialog(DELETE_MODAL);
+
 const Report = ({ mode }) => {
   const { id } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
   const { pathname } = useLocation();
+  const { setDialog, dialogOpen, dialogClose, pending, setDialogPending } = useDialog(DELETE_MODAL);
 
   useEffect(() => {
     dispatch(fetchReport(id));
@@ -43,14 +44,8 @@ const Report = ({ mode }) => {
   const report = useSelector(state => getReport(state));
   const agencies = useSelector(state => getOptions(state, STRING_SOURCES_TYPES.AGENCY, i18n));
 
-  const deleteModal = useSelector(state => selectDialog(state, DELETE_MODAL));
   const setDeleteModal = open => {
-    dispatch(setDialog({ dialog: DELETE_MODAL, open }));
-  };
-
-  const dialogPending = useSelector(state => selectDialogPending(state));
-  const setDialogPending = pending => {
-    dispatch(setPending({ pending }));
+    setDialog({ dialog: DELETE_MODAL, open });
   };
 
   const loadingIndicatorProps = {
@@ -72,6 +67,7 @@ const Report = ({ mode }) => {
 
   const handleDelete = () => {
     setDialogPending(true);
+
     dispatch(
       deleteReport({
         id,
@@ -109,13 +105,13 @@ const Report = ({ mode }) => {
           <TableValues {...buildDataForTable(report, i18n, { agencies })} />
         </LoadingIndicator>
         <ActionDialog
-          open={deleteModal}
+          open={dialogOpen}
           dialogTitle={i18n.t("reports.delete_report")}
           successHandler={() => handleDelete()}
-          cancelHandler={() => setDeleteModal(false)}
+          cancelHandler={() => dialogClose()}
           omitCloseAfterSuccess
           maxSize="xs"
-          pending={dialogPending}
+          pending={pending}
           confirmButtonLabel={i18n.t("buttons.ok")}
         >
           <Typography color="textSecondary">{i18n.t("reports.delete_report_message")}</Typography>

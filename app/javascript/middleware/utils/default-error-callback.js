@@ -1,5 +1,5 @@
 import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS } from "../../components/notifier";
-import { SET_DIALOG_PENDING } from "../../components/record-actions/actions";
+import { SET_DIALOG_PENDING } from "../../components/action-dialog";
 
 import handleRestCallback from "./handle-rest-callback";
 

@@ -19,9 +19,7 @@ const validationSchema = object().shape({
   note_text: string().required()
 });
 
-const Component = ({ close, openNotesDialog, record, recordType }) => {
-  console.warn('RENDERING', 'NOTES')
-
+const Component = ({ close, open, record, recordType }) => {
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
@@ -76,7 +74,7 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
 
   return (
     <ActionDialog
-      open={openNotesDialog}
+      open={open}
       successHandler={bindFormSubmit}
       dialogTitle={i18n.t("cases.notes_dialog_title")}
       confirmButtonLabel={i18n.t("buttons.save")}
@@ -97,7 +95,7 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   close: PropTypes.func,
-  openNotesDialog: PropTypes.bool,
+  open: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired
 };
