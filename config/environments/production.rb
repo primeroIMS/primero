@@ -32,6 +32,7 @@ Rails.application.configure do
   end
 
   config.force_ssl = true
+  config.ssl_options = { redirect: false }
 
   storage_type = %w[local microsoft amazon].find do |t|
     t == ENV['PRIMERO_STORAGE_TYPE']
