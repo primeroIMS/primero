@@ -71,7 +71,7 @@ const containsColumns = (columns, data, i18n) => {
 
 const getTranslatedKey = (key, field, { agencies }) => {
   if (field?.option_strings_source === "Agency" && agencies) {
-    return dataToJS(agencies).find(agency => agency.id === parseInt(key, 10))?.display_text;
+    return dataToJS(agencies).find(agency => agency.id.toLowerCase() === key.toLowerCase())?.display_text;
   }
 
   return key;

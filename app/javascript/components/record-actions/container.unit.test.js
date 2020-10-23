@@ -157,7 +157,7 @@ describe("<RecordActions />", () => {
     },
     user: {
       permissions: {
-        cases: [ACTIONS.MANAGE]
+        cases: [ACTIONS.MANAGE, ACTIONS.EXPORT_JSON]
       }
     },
     forms
@@ -425,6 +425,23 @@ describe("<RecordActions />", () => {
         delete exportProps[property];
       });
       expect(exportProps).to.be.empty;
+    });
+
+    describe("when user can only export pdf", () => {
+      const state = fromJS({
+        user: {
+          permissions: {
+            cases: [ACTIONS.READ, ACTIONS.EXPORT_PDF]
+          }
+        },
+        forms
+      });
+
+      it("should not render <Exports /> component", () => {
+        const { component: componentWithOnlyPdf } = setupMountedComponent(RecordActions, props, state);
+
+        expect(componentWithOnlyPdf.find(Exports)).to.be.empty;
+      });
     });
   });
 

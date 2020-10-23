@@ -65,6 +65,18 @@ const overrides = {
       position: "relative"
     }
   },
+  MuiInputBase: {
+    root: {
+      "&$disabled": {
+        cursor: "not-allowed !important"
+      }
+    },
+    input: {
+      "&$disabled": {
+        cursor: "not-allowed !important"
+      }
+    }
+  },
   MuiInput: {
     root: {
       "&:read-only": {

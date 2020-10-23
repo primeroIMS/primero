@@ -12,7 +12,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { ATTACHMENT_TYPES, ATTACHMENT_ACCEPTED_TYPES } from "./constants";
 import renderPreview from "./render-preview";
 
-const AttachmentInput = ({ attachment, fields, name, value }) => {
+const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [file, setFile] = useState({
@@ -90,7 +90,7 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
           }}
         />
       </div>
-      {renderPreview(attachment, file, css)}
+      {renderPreview(attachment, file, css, deleteButton)}
     </div>
   );
 };
@@ -99,9 +99,10 @@ AttachmentInput.displayName = "AttachmentInput";
 
 AttachmentInput.propTypes = {
   attachment: PropTypes.string.isRequired,
+  deleteButton: PropTypes.node,
   fields: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.string
 };
 
 export default AttachmentInput;
