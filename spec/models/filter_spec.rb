@@ -16,7 +16,10 @@ describe Filter do
       description: 'Gender Based Violence',
       associated_record_types: %w[case tracing_request incident],
       primero_program: @program,
-      form_sections: [FormSection.create!(name: 'form_2')]
+      form_sections: [FormSection.create!(name: 'form_2')],
+      module_options: {
+        user_group_filter: true
+      },
     )
     @cp = PrimeroModule.create!(
       unique_id: 'primeromodule-cp',
@@ -173,8 +176,8 @@ describe Filter do
     end
 
     describe 'case filters' do
-      it 'has 18 filters' do
-        expect(@filters_cp_gbv[0]['cases'].count).to eq(18)
+      it 'has 19 filters' do
+        expect(@filters_cp_gbv[0]['cases'].count).to eq(19)
       end
 
       it 'has filters' do
@@ -198,6 +201,12 @@ describe Filter do
                                                                        type: 'dates'))
       end
 
+      it 'has user_group filter' do
+        expect(@filters_cp_gbv[0]['cases']).to include(have_attributes(name: 'permissions.permission.user_group',
+                                                                       field_name: 'owned_by_groups',
+                                                                       type: 'checkbox'))
+      end
+
       it 'has date options' do
         filter_by_date_cp = [
           { id: 'registration_date', display_name: 'Date of Registration' },
@@ -206,8 +215,10 @@ describe Filter do
           { id: 'date_closure', display_name: 'Date of Case Closure ' },
           { id: 'created_at', display_name: 'Case Open Date' }
         ]
-        # TODO: Hard coding the index '16' is brittle.  Find a better way to test this
-        expect(@filters_cp_gbv[0]['cases'][16].options[:en]).to eq(filter_by_date_cp)
+        expect(
+          @filters_cp_gbv.dig(0, 'cases')
+                        .find { |filter| filter.name == 'cases.filter_by.by_date' }
+                        .options[:en]).to eq(filter_by_date_cp)
       end
     end
   end

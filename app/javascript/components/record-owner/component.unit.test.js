@@ -26,12 +26,14 @@ describe("<RecordOwner />", () => {
     sex: "male",
     short_id: "3c9d076",
     status: "open",
-    owned_by_agency_id: 1
+    owned_by_agency_id: "agency-unicef"
   });
 
   const rootProps = {
     record,
-    recordType: RESOURCES.cases
+    recordType: RESOURCES.cases,
+    handleToggleNav: () => {},
+    mobileDisplay: false
   };
 
   const rootInitialState = fromJS({
@@ -65,6 +67,7 @@ describe("<RecordOwner />", () => {
     expect(component.find(RecordOwner)).to.have.lengthOf(1);
     expect(component.find(FormSectionField)).to.have.lengthOf(12);
     expect(component.find(SearchableSelect)).to.have.lengthOf(1);
+    expect(component.find(SearchableSelect).props().defaultValues[0].value).to.equal("agency-unicef");
   });
 
   it("renders Form", () => {
@@ -86,7 +89,9 @@ describe("<RecordOwner />", () => {
 
     const props = {
       record: null,
-      recordType: RESOURCES.cases
+      recordType: RESOURCES.cases,
+      handleToggleNav: () => {},
+      mobileDisplay: false
     };
 
     beforeEach(() => {
@@ -130,7 +135,9 @@ describe("<RecordOwner />", () => {
 
     const props = {
       record: recordWithRecordOwner,
-      recordType: RESOURCES.cases
+      recordType: RESOURCES.cases,
+      handleToggleNav: () => {},
+      mobileDisplay: false
     };
 
     beforeEach(() => {

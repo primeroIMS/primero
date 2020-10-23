@@ -55,6 +55,6 @@ class Api::V2::ReportsController < ApplicationApiController
   private
 
   def report_permission_filter(user)
-    { 'attribute' => 'owned_by_groups', 'value' => user.user_group_ids } unless can?(:read, @report)
+    { 'attribute' => 'owned_by_groups', 'value' => user.user_group_unique_ids } unless can?(:read, @report)
   end
 end

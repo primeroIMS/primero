@@ -142,7 +142,7 @@ describe Ownable do
           end
 
           it 'changes previously_owned_by_agency' do
-            expect(@case.previously_owned_by_agency).to eq(@agency1.id)
+            expect(@case.previously_owned_by_agency).to eq(@agency1.unique_id)
           end
 
           describe 'record history' do
