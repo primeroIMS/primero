@@ -137,7 +137,7 @@ const remoteReferralFields = ({ i18n, isExternalReferralFromService }) =>
 const commonReferralFields = ({ isReferralFromService, isExternalReferralFromService, i18n }) =>
   [
     {
-      display_name: i18n.t("transfer.is_remote_label"),
+      display_name: i18n.t("referral.is_remote_label"),
       name: FIELDS.REMOTE,
       type: TICK_FIELD,
       disabled: isReferralFromService,
