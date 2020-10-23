@@ -107,6 +107,10 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     }
   };
 
+  const backToFieldDialog = () => {
+    setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: true });
+  };
+
   const editDialogTitle = isSubformField(selectedField)
     ? (selectedSubform.get("name") && displayNameHelper(selectedSubform.get("name"), i18n.locale)) || ""
     : i18n.t("fields.edit_label");
@@ -126,7 +130,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
       icon: confirmButtonIcon
     },
     dialogTitle,
-    open: openFieldDialog,
+    open: openFieldDialog || openTranslationDialog,
     successHandler: () => bindFormSubmit(formRef),
     cancelHandler: () => handleClose(),
     omitCloseAfterSuccess: true
@@ -256,6 +260,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
   const renderTranslationsDialog = () =>
     openTranslationDialog ? (
       <FieldTranslationsDialog
+        onClose={backToFieldDialog}
         open={openTranslationDialog}
         mode={mode}
         isNested={isNested}

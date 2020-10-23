@@ -12,7 +12,9 @@ import {
   INCIDENT_DIALOG,
   NOTES_DIALOG,
   OPEN_CLOSE_DIALOG,
-  ENABLE_DISABLE_DIALOG
+  ENABLE_DISABLE_DIALOG,
+  APPROVAL_TYPE,
+  REQUEST_TYPE
 } from "../constants";
 import { fetchIncidentFromCase } from "../../records";
 import { RECORD_TYPES, RECORD_PATH } from "../../../config";
@@ -200,7 +202,8 @@ export default ({
         ability: canRequest,
         props: {
           subMenuItems: requestsApproval.filter(filterActions({ recordType, showListActions })),
-          confirmButtonLabel: i18n.t("buttons.ok")
+          confirmButtonLabel: i18n.t("buttons.ok"),
+          approvalType: REQUEST_TYPE
         }
       },
       [APPROVAL_DIALOG]: {
@@ -208,7 +211,8 @@ export default ({
         ability: canApprove,
         props: {
           subMenuItems: approvals.filter(filterActions({ recordType, showListActions })),
-          confirmButtonLabel: i18n.t("buttons.submit")
+          confirmButtonLabel: i18n.t("buttons.submit"),
+          approvalType: APPROVAL_TYPE
         }
       },
       [EXPORT_DIALOG]: {

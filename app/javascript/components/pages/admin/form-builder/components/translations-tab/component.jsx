@@ -1,14 +1,14 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 import React from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import get from "lodash/get";
 
 import { useI18n } from "../../../../../i18n";
 import { SUBFORM_SECTION } from "../../../../../form";
 import { getObjectPath } from "../../../../../../libs";
-import { selectDialog } from "../../../../../action-dialog";
+import { useDialog } from "../../../../../action-dialog";
 import { updateSelectedSubform } from "../../action-creators";
 import TabPanel from "../tab-panel";
 import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "../field-translations-dialog";
@@ -33,8 +33,7 @@ const Component = ({
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const openFieldTranslationsDialog = useSelector(state => selectDialog(state, FieldTranslationsDialogName));
-
+  const { dialogOpen } = useDialog(FieldTranslationsDialogName);
   const onUpdateFieldTranslations = data => {
     if (selectedField.get("type") !== SUBFORM_SECTION) {
       getObjectPath("", data).forEach(path => {
@@ -58,14 +57,14 @@ const Component = ({
   };
 
   const renderTranslationsDialog = () => {
-    const openDialog = tab === 2 && selectedField?.toSeq()?.size && openFieldTranslationsDialog;
+    const openDialog = tab === 2 && selectedField?.toSeq()?.size && dialogOpen;
 
     const fieldValues = getValues({ nest: true }).fields;
 
     return openDialog ? (
       <FieldTranslationsDialog
         mode={mode}
-        open={openDialog}
+        open={dialogOpen}
         field={selectedField}
         currentValues={fieldValues}
         onSuccess={onUpdateFieldTranslations}

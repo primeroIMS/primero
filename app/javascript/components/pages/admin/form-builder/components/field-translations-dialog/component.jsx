@@ -27,7 +27,7 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
   const locales = localesToRender(i18n);
-  const { setDialog } = useDialog(NAME);
+  const { dialogClose } = useDialog(NAME);
 
   const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
   const {
@@ -59,9 +59,9 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
   const handleClose = () => {
     if (onClose) {
       onClose();
+    } else {
+      dialogClose();
     }
-
-    setDialog({ dialog: NAME, open: false });
   };
 
   const onSubmit = data => {
