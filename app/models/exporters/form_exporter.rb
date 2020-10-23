@@ -1,3 +1,5 @@
+# TODO: this exporter is outdated and is unusable in its current form.  Ex: still references form_group_name
+# TODO: Can this exporter be deleted?
 module Exporters
   class FormExporter
 
@@ -6,7 +8,7 @@ module Exporters
     def initialize(export_file=nil)
       @export_file_name = export_file || CleansingTmpDir.temp_file_name
       @io = File.new(@export_file_name, "w")
-      @workbook = WriteExcel.new(@io)
+      @workbook = WriteXLSX.new(@io)
     end
 
     def complete

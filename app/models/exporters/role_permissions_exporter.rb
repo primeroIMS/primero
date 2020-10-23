@@ -1,6 +1,6 @@
 # TODO: Adding the frozen_string_literal breaks rspec tests
 
-require 'writeexcel'
+require 'write_xlsx'
 
 module Exporters
   # Exports Role Permissions to an Excel file
@@ -33,7 +33,7 @@ module Exporters
       end
 
       def mime_type
-        'xls'
+        'xlsx'
       end
 
       def supported_models
@@ -49,7 +49,7 @@ module Exporters
       @export_file_name = export_file || CleansingTmpDir.temp_file_name
       @locale = locale
       @io = File.new(@export_file_name, 'w')
-      @workbook = WriteExcel.new(@io)
+      @workbook = WriteXLSX.new(@io)
       @worksheet = @workbook.add_worksheet('Role Permissions')
       @row = 0
     end

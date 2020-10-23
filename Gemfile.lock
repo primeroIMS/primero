@@ -353,7 +353,11 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     will_paginate (3.1.7)
-    writeexcel (1.0.5)
+    write_xlsx (0.85.9)
+      rubyzip (>= 1.0.0)
+      zip-zip
+    zip-zip (0.3)
+      rubyzip (>= 1.0.0)
 
 PLATFORMS
   ruby
@@ -418,7 +422,7 @@ DEPENDENCIES
   tzinfo (~> 1.2)
   tzinfo-data (~> 1.2019)
   will_paginate (~> 3.1)
-  writeexcel (~> 1.0)
+  write_xlsx (~> 0.85)
 
 RUBY VERSION
    ruby 2.6.6p146

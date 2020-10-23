@@ -42,10 +42,7 @@ gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is
 gem 'tzinfo',              '~> 1.2'    # Security assertion on implicit dependency.
 gem 'tzinfo-data',         '~> 1.2019' # Security assertion on implicit dependency.
 gem 'will_paginate',       '~> 3.1'    # Paginates ActiveRecord models  TODO: This can be refactored away.
-# TODO: We should replace xls exporting with https://github.com/randym/axlsx or
-# https://github.com/Paxa/fast_excel both supports streaming. The last options
-# has less dependencies. Will require some rework of exporter
-gem 'writeexcel',          '~> 1.0' # Exports XLS (not XLSX) documents. Stale!
+gem 'write_xlsx',          '~> 0.85'   # Exports XLSX
 
 group :development, :test do
   gem 'binding_of_caller',          '~> 0.8'

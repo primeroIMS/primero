@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'writeexcel'
+require 'write_xlsx'
 
 module Exporters
   # Exports selected forms and fields to a multi-tabbed Excel file.
@@ -24,7 +24,7 @@ module Exporters
       end
 
       def mime_type
-        'xls'
+        'xlsx'
       end
     end
 
