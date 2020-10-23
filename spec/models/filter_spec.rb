@@ -204,7 +204,7 @@ describe Filter do
       it 'has user_group filter' do
         expect(@filters_cp_gbv[0]['cases']).to include(have_attributes(name: 'permissions.permission.user_group',
                                                                        field_name: 'owned_by_groups',
-                                                                       type: 'checkbox'))
+                                                                       type: 'toggle'))
       end
 
       it 'has date options' do
