@@ -1,4 +1,13 @@
-import { ACTIONS, ADD_INCIDENT, ADD_SERVICE, SHOW_EXPORTS, ASSIGN, REQUEST_APPROVAL, APPROVAL } from "../permissions";
+import {
+  ACTIONS,
+  ADD_INCIDENT,
+  CREATE_INCIDENT,
+  ADD_SERVICE,
+  SHOW_EXPORTS,
+  ASSIGN,
+  REQUEST_APPROVAL,
+  APPROVAL
+} from "../permissions";
 
 export const ID_SEARCH = "id_search";
 
@@ -35,6 +44,7 @@ export const RECORD_ACTION_ABILITIES = {
   canApproveClosure: [ACTIONS.MANAGE, ACTIONS.APPROVE_CLOSURE],
   canApproveGbvClosure: [ACTIONS.MANAGE, ACTIONS.APPROVE_GBV_CLOSURE],
   canAssign: ASSIGN,
+  canCreateIncident: CREATE_INCIDENT,
   canClose: [ACTIONS.MANAGE, ACTIONS.CLOSE],
   canEnable: [ACTIONS.MANAGE, ACTIONS.ENABLE_DISABLE_RECORD],
   canOnlyExportPdf: [ACTIONS.EXPORT_PDF],
