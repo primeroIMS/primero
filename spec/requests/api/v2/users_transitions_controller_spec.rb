@@ -58,6 +58,17 @@ describe Api::V2::UsersTransitionsController, type: :request do
       expect(json['data'].size).to eq(1)
       expect(json['data'].map { |u| u['user_name'] }).to match_array(%w[user4])
     end
+    it 'lists the users that can be referred to if the user has the referral_from_service permission' do
+      login_for_test(permissions:
+        [
+          Permission.new(resource: Permission::CASE, actions: [Permission::REFERRAL_FROM_SERVICE])
+        ])
+      get '/api/v2/users/refer-to', params: { record_type: 'case' }
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(4)
+      expect(json['data'].map { |u| u['user_name'] }).to match_array(%w[user1 user2 user3 user4])
+    end
   end
 
   describe 'GET /api/v2/users/transfer-to' do
