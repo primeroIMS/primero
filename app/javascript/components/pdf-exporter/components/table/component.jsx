@@ -43,7 +43,8 @@ const Component = ({ fields, record }) => {
           option_strings_text: optionsStringsText,
           options,
           type,
-          date_include_time: dateIncludeTime
+          date_include_time: dateIncludeTime,
+          defaultValue
         } = field;
 
         if (subformSection) {
@@ -57,7 +58,7 @@ const Component = ({ fields, record }) => {
         return (
           <KeyValueCell
             displayName={i18n.getI18nStringFromObject(displayName)}
-            value={record.get(name)}
+            value={record.get(name) || defaultValue}
             optionsStringSource={optionStringsSource}
             options={optionsStringsText || options}
             key={`keyval-${name}`}
@@ -79,8 +80,10 @@ Component.propTypes = {
 };
 
 export default React.memo(Component, (prev, next) => {
-  return isEqual(
-    prev.fields.map(field => field.name),
-    next.fields.map(field => field.name)
+  return (
+    isEqual(
+      prev.fields.map(field => field.name),
+      next.fields.map(field => field.name)
+    ) && isEqual(Object.values(prev.record), Object.values(next.record))
   );
 });

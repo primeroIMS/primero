@@ -14,9 +14,7 @@ import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../user-groups-list/namespace";
 import { SAVE_METHODS } from "../../../../config";
 import bindFormSubmit from "../../../../libs/submit-form";
-import ActionDialog from "../../../action-dialog";
-import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
-import { setDialog, setPending } from "../../../record-actions/action-creators";
+import ActionDialog, { useDialog } from "../../../action-dialog";
 import { enqueueSnackbar } from "../../../notifier";
 
 import { form, validations } from "./form";
@@ -27,7 +25,7 @@ import {
   fetchConfiguration,
   saveConfiguration
 } from "./action-creators";
-import { getConfiguration, getErrors, getLoading, getServerErrors, getApplying } from "./selectors";
+import { getConfiguration, getErrors, getServerErrors, getApplying } from "./selectors";
 import { NAME, APPLY_CONFIGURATION_MODAL, DELETE_CONFIGURATION_MODAL } from "./constants";
 import { buildErrorMessages } from "./utils";
 import styles from "./styles.css";
@@ -41,23 +39,22 @@ const Container = ({ mode }) => {
   const css = makeStyles(styles)();
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const configuration = useSelector(state => getConfiguration(state));
-  const loading = useSelector(state => getLoading(state));
   const errors = useSelector(state => getErrors(state));
   const applying = useSelector(state => getApplying(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const validationSchema = validations(formMode, i18n);
 
-  const applyModal = useSelector(state => selectDialog(state, APPLY_CONFIGURATION_MODAL));
-  const setApplyModal = open => {
-    dispatch(setDialog({ dialog: APPLY_CONFIGURATION_MODAL, open }));
+  const { dialogOpen, dialogClose, pending, setDialogPending, setDialog } = useDialog([
+    APPLY_CONFIGURATION_MODAL,
+    DELETE_CONFIGURATION_MODAL
+  ]);
+
+  const setApplyModal = () => {
+    setDialog({ dialog: APPLY_CONFIGURATION_MODAL, open: true });
   };
-  const deleteModal = useSelector(state => selectDialog(state, DELETE_CONFIGURATION_MODAL));
-  const setDeleteModal = open => {
-    dispatch(setDialog({ dialog: DELETE_CONFIGURATION_MODAL, open }));
-  };
-  const dialogPending = useSelector(state => selectDialogPending(state));
-  const setDialogPending = pending => {
-    dispatch(setPending({ pending }));
+
+  const setDeleteModal = () => {
+    setDialog({ dialog: DELETE_CONFIGURATION_MODAL, open: true });
   };
 
   const handleSubmit = data => {
@@ -72,7 +69,6 @@ const Container = ({ mode }) => {
   };
 
   const handleApplyModal = () => dispatch(applyConfiguration({ id, i18n }));
-  const handleCancelApplyModal = () => setApplyModal(false);
   const handleApply = () => setApplyModal(true);
 
   const handleSuccessDelete = () => {
@@ -86,8 +82,7 @@ const Container = ({ mode }) => {
     );
   };
 
-  const handleCancelDelete = () => setDeleteModal(false);
-  const handleDelete = () => setDeleteModal(true);
+  const handleDelete = () => setDeleteModal();
 
   useEffect(() => {
     if (isEditOrShow) {
@@ -158,22 +153,22 @@ const Container = ({ mode }) => {
           formErrors={formErrors}
         />
         <ActionDialog
-          open={deleteModal}
+          open={dialogOpen[DELETE_CONFIGURATION_MODAL]}
           successHandler={handleSuccessDelete}
-          cancelHandler={handleCancelDelete}
+          cancelHandler={dialogClose}
           dialogTitle={i18n.t("fields.remove")}
           dialogText={i18n.t("configurations.delete_label")}
           confirmButtonLabel={i18n.t("buttons.delete")}
-          pending={dialogPending}
+          pending={pending}
           omitCloseAfterSuccess
         />
         <ActionDialog
-          open={applyModal}
+          open={dialogOpen[APPLY_CONFIGURATION_MODAL]}
           successHandler={handleApplyModal}
-          cancelHandler={handleCancelApplyModal}
+          cancelHandler={dialogClose}
           dialogTitle={`${i18n.t("buttons.apply")} ${configuration.get("name")}`}
           confirmButtonLabel={i18n.t("buttons.apply")}
-          pending={loading}
+          pending={pending}
           omitCloseAfterSuccess
         >
           <div className={css.applyConfigText}>

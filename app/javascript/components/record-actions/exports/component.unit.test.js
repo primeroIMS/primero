@@ -78,7 +78,7 @@ describe("<RecordActions /> - <Exports />", () => {
     }
   });
   const props = {
-    openExportsDialog: true,
+    open: true,
     close: () => {},
     recordType: RECORD_PATH.cases,
     userPermissions: fromJS(["manage"])
@@ -114,7 +114,7 @@ describe("<RecordActions /> - <Exports />", () => {
     [
       "close",
       "currentPage",
-      "openExportsDialog",
+      "open",
       "pending",
       "record",
       "recordType",

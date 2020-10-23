@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import FlagIcon from "@material-ui/icons/Flag";
 
+import { useDialog } from "../action-dialog";
 import { useI18n } from "../i18n";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
-import { setDialog } from "../record-actions/action-creators";
-import { selectDialog } from "../record-actions/selectors";
 
 import { FlagForm, ListFlags, FlagDialog, Unflag } from "./components";
 import { fetchFlags } from "./action-creators";
@@ -16,20 +15,15 @@ import { getSelectedFlag } from "./selectors";
 
 const Component = ({ control, record, recordType }) => {
   const [tab, setTab] = useState(0);
-  const dispatch = useDispatch();
   const i18n = useI18n();
-
-  useEffect(() => {
-    dispatch(fetchFlags(recordType, record));
-  }, [dispatch, recordType, record]);
+  const { dialogOpen, setDialog } = useDialog(FLAG_DIALOG);
 
   const isBulkFlags = Array.isArray(record);
 
-  const openDialog = useSelector(state => selectDialog(state, FLAG_DIALOG));
   const selectedFlag = useSelector(state => getSelectedFlag(state));
 
   const handleOpen = () => {
-    dispatch(setDialog({ dialog: FLAG_DIALOG, open: true }));
+    setDialog({ dialog: FLAG_DIALOG, open: true });
   };
 
   const handleActiveTab = value => {
@@ -44,9 +38,11 @@ const Component = ({ control, record, recordType }) => {
 
   const flagDialogProps = {
     isBulkFlags,
-    openDialog,
+    dialogOpen,
     tab,
-    setTab
+    setTab,
+    fetchAction: fetchFlags,
+    fetchArgs: [recordType, record]
   };
 
   const listFlagsProps = {

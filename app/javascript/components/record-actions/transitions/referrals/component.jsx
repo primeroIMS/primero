@@ -13,10 +13,10 @@ import { getErrorsByTransitionType } from "../selectors";
 import { setServiceToRefer } from "../../../record-form/action-creators";
 import { getServiceToRefer } from "../../../record-form";
 import PdfExporter from "../../../pdf-exporter";
-import { getManagedRoleFormSections } from "../../../form/selectors";
+import { getManagedRoleFormSections, getManagedRoleByUniqueId } from "../../../form/selectors";
 
 import { getReferralSuccess } from "./selectors";
-import { mapServiceFields } from "./utils";
+import { mapServiceFields, customReferralFormProps } from "./utils";
 import {
   TRANSITION_TYPE,
   SERVICE_EXTERNAL_REFERRAL,
@@ -120,6 +120,7 @@ const Referrals = ({
             formsSelectedField={FIELDS.ROLE}
             formsSelectedSelector={getManagedRoleFormSections}
             customFilenameField={CUSTOM_EXPORT_FILE_NAME_FIELD}
+            customFormProps={customReferralFormProps(i18n, getManagedRoleByUniqueId)}
           />
         )}
       />

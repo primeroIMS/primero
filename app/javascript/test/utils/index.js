@@ -161,18 +161,13 @@ export const setupMockFormComponent = (
     const formMethods = useForm({ defaultValues });
     const formMode = whichFormMode(mode);
 
-    const commonInputProps = setupFormInputProps(
-      field,
-      inputProps,
-      mode,
-      formMethods?.errors
-    );
+    const commonInputProps = setupFormInputProps(field, inputProps, mode, formMethods?.errors);
 
     return (
       <FormContext {...formMethods} formMode={formMode}>
         <Component
           {...props}
-          { ...(includeFormMethods ? formMethods : {}) }
+          {...(includeFormMethods ? formMethods : {})}
           commonInputProps={commonInputProps}
           {...inputProps}
         />
@@ -214,7 +209,6 @@ export const createMiddleware = (middleware, initialState) => {
 };
 
 export const listHeaders = recordType => {
-
   const commonHeaders = [
     ListHeaderRecord({
       name: "description",
@@ -247,7 +241,7 @@ export const listHeaders = recordType => {
     default:
       return [];
   }
-}
+};
 
 export const lookups = () => ({
   data: [
@@ -294,3 +288,9 @@ export const translateOptions = (value, options, translations) => {
 };
 
 export const abbrMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+export const HookWrapper = ({ hook }) => {
+  const hookProps = hook ? hook() : undefined;
+
+  return <div hook={hookProps} />;
+};

@@ -17,7 +17,7 @@ const Component = ({
   pending,
   saveMethod,
   setPending,
-  userConfirmationOpen,
+  open,
   userData,
   userName,
   identityOptions
@@ -67,7 +67,7 @@ const Component = ({
 
   return (
     <ActionDialog
-      open={userConfirmationOpen}
+      open={open}
       successHandler={handleOk}
       cancelHandler={close}
       dialogTitle=""
@@ -85,7 +85,7 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.defaultProps = {
-  userConfirmationOpen: false
+  open: false
 };
 
 Component.propTypes = {
@@ -94,10 +94,10 @@ Component.propTypes = {
   id: PropTypes.string,
   identityOptions: PropTypes.array,
   isIdp: PropTypes.bool,
+  open: PropTypes.bool,
   pending: PropTypes.bool,
   saveMethod: PropTypes.string,
   setPending: PropTypes.func,
-  userConfirmationOpen: PropTypes.bool,
   userData: PropTypes.object,
   userName: PropTypes.string
 };

@@ -9,7 +9,7 @@ import { getLoadingTransitionType, getUsersByTransitionType } from "../../../../
 import { REFERRAL_TYPE } from "../../../../record-actions/transitions";
 import { setServiceToRefer } from "../../../action-creators";
 import { getOption } from "../../../selectors";
-import { setDialog } from "../../../../record-actions/action-creators";
+import { setDialog } from "../../../../action-dialog";
 import { useI18n } from "../../../../i18n";
 import { serviceIsReferrable } from "../../utils";
 import { fetchReferralUsers } from "../../../../record-actions/transitions/action-creators";

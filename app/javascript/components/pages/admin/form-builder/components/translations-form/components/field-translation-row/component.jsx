@@ -7,7 +7,7 @@ import clsx from "clsx";
 
 import { NAME as FieldTranslationsDialogName } from "../../../field-translations-dialog";
 import { setSelectedField, setSelectedSubform } from "../../../../action-creators";
-import { setDialog } from "../../../../../../../record-actions/action-creators";
+import { setDialog } from "../../../../../../../action-dialog";
 import { localesToRender } from "../../../utils";
 import ActionButton from "../../../../../../../action-button";
 import { FormSectionField, FieldRecord, SUBFORM_SECTION, TEXT_FIELD } from "../../../../../../../form";

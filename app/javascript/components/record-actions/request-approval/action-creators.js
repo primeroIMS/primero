@@ -1,20 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../actions";
+import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../action-dialog";
 
 import { APPROVE_RECORD } from "./actions";
 
-export const approvalRecord = ({
-  recordType,
-  recordId,
-  approvalId,
-  body,
-  message,
-  failureMessage,
-  dialogName,
-  currentUser
-}) => {
+export const approvalRecord = ({ recordType, recordId, approvalId, body, message, failureMessage, currentUser }) => {
   return {
     type: `${recordType}/${APPROVE_RECORD}`,
     api: {
@@ -45,17 +36,7 @@ export const approvalRecord = ({
           }
         },
         {
-          action: SET_DIALOG,
-          payload: {
-            dialog: dialogName,
-            open: false
-          }
-        },
-        {
-          action: SET_DIALOG_PENDING,
-          payload: {
-            pending: false
-          }
+          action: CLEAR_DIALOG
         }
       ],
       failureCallback: [
