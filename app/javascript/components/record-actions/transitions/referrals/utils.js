@@ -17,14 +17,9 @@ export const mapServiceFields = (serviceToRefer, isExternalReferralFromService) 
   }, {});
 };
 
-export const customReferralFormProps = (i18n, selector) => {
+export const customReferralFormProps = i18n => {
   return {
     condition: FIELDS.REMOTE,
-    title: {
-      watchedId: FIELDS.ROLE,
-      selector,
-      selectorNameProp: "name"
-    },
     fields: [
       {
         name: "date",
