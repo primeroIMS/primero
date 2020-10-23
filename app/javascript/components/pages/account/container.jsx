@@ -35,15 +35,15 @@ const Container = ({ mode }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
-  const { setDialog, dialogPending, dialogOpen } = useDialog(PASSWORD_MODAL);
+  const { setDialog, pending, dialogOpen, dialogClose } = useDialog(PASSWORD_MODAL);
 
   const currentUser = useSelector(state => getUser(state));
   const saving = useSelector(state => getUserSavingRecord(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const idp = useSelector(state => getIdentityProviders(state));
 
-  const setPasswordModal = open => {
-    setDialog({ dialog: PASSWORD_MODAL, open });
+  const setPasswordModal = () => {
+    setDialog({ dialog: PASSWORD_MODAL, open: true });
   };
 
   const useIdentityProviders = idp?.get("use_identity_provider");
@@ -149,8 +149,8 @@ const Container = ({ mode }) => {
               i18n={i18n}
               open={dialogOpen}
               parentFormMethods={formMethods}
-              pending={dialogPending}
-              setOpen={setPasswordModal}
+              pending={pending}
+              close={dialogClose}
             />
           </FormContext>
         </PageContent>
