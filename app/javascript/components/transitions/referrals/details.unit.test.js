@@ -52,7 +52,7 @@ describe("<ReferralDetail />", () => {
   });
 
   it("renders 5 <Box />", () => {
-    expect(component.find(Box)).to.have.lengthOf(5);
+    expect(component.find(Box)).to.have.lengthOf(6);
   });
 
   it("renders a <Divider />", () => {
@@ -72,12 +72,12 @@ describe("<ReferralDetail />", () => {
         ));
       });
       it("should render rejected reason", () => {
-        expect(component.find(ReferralDetail).find(Box)).to.have.lengthOf(6);
+        expect(component.find(ReferralDetail).find(Box)).to.have.lengthOf(7);
       });
     });
     describe("when is pending, done, in_progress, accepted", () => {
       it("should render rejected reason", () => {
-        expect(component.find(ReferralDetail).find(Box)).to.have.lengthOf(5);
+        expect(component.find(ReferralDetail).find(Box)).to.have.lengthOf(6);
       });
     });
   });

@@ -8,6 +8,8 @@ import TransitionUser from "../TransitionUser";
 import { useI18n } from "../../i18n";
 import { REFERRAL_DETAILS_NAME, TRANSITION_STATUS } from "../constants";
 import { LOOKUPS } from "../../../config";
+import { OPTION_TYPES } from "../../form";
+import { getOptions } from "../../form/selectors";
 
 import renderIconValue from "./render-icon-value";
 
@@ -21,6 +23,17 @@ const Details = ({ transition, classes }) => {
 
     // eslint-disable-next-line camelcase
     return value[0]?.display_text;
+  });
+
+  const agencyValue = useSelector(state => {
+    const agencies = getOptions(state, OPTION_TYPES.AGENCY, i18n, [], true);
+
+    if (!transition.remote && transition.transitioned_to_agency) {
+      return agencies.find(agency => agency.id === transition.transitioned_to_agency).display_text;
+    }
+
+    // eslint-disable-next-line camelcase
+    return transition?.transitioned_to_agency;
   });
 
   const renderRejected =
@@ -65,6 +78,12 @@ const Details = ({ transition, classes }) => {
         <Box>
           <div className={classes.transtionLabel}>{i18n.t("transition.service_label")}</div>
           <div className={classes.transtionIconValue}>{service}</div>
+        </Box>
+      </Grid>
+      <Grid item md={6} xs={12}>
+        <Box>
+          <div className={classes.transtionLabel}>{i18n.t("transition.agency_label")}</div>
+          <div className={classes.transtionIconValue}>{agencyValue}</div>
         </Box>
       </Grid>
       {renderRejected}
