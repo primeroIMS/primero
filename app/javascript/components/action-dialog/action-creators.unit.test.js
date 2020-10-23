@@ -1,6 +1,5 @@
 import { SET_DIALOG, SET_DIALOG_PENDING } from "./actions";
 import * as actionCreators from "./action-creators";
-import { REQUEST_APPROVAL_DIALOG } from "./constants";
 
 describe("<RecordActions /> - Action Creators", () => {
   it("should have known action creators", () => {
@@ -8,21 +7,23 @@ describe("<RecordActions /> - Action Creators", () => {
 
     expect(creators).to.have.property("setDialog");
     expect(creators).to.have.property("setPending");
+    expect(creators).to.have.property("clearDialog");
     delete creators.setDialog;
     delete creators.setPending;
+    delete creators.clearDialog;
 
     expect(creators).to.be.empty;
   });
 
   it("should check that 'setDialog' action creator returns the correct object", () => {
     const args = {
-      dialog: REQUEST_APPROVAL_DIALOG,
+      dialog: "REQUEST_APPROVAL_DIALOG",
       open: true
     };
 
     const expectedAction = {
       type: SET_DIALOG,
-      payload: { dialog: REQUEST_APPROVAL_DIALOG, open: true }
+      payload: { dialog: "REQUEST_APPROVAL_DIALOG", open: true }
     };
 
     expect(actionCreators.setDialog(args)).to.deep.equal(expectedAction);

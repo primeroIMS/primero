@@ -8,7 +8,7 @@ import { saveRecord } from "../../records";
 
 import { NAME } from "./constants";
 
-const Component = ({ close, openEnableDialog, record, recordType }) => {
+const Component = ({ close, open, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const enableState = record && !record.get("record_state") ? "enable" : "disable";
@@ -35,7 +35,7 @@ const Component = ({ close, openEnableDialog, record, recordType }) => {
 
   return (
     <ActionDialog
-      open={openEnableDialog}
+      open={open}
       successHandler={handleOk}
       cancelHandler={close}
       dialogTitle={i18n.t(`cases.${enableState}_dialog_title`)}
@@ -49,7 +49,7 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   close: PropTypes.func,
-  openEnableDialog: PropTypes.bool,
+  open: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string
 };

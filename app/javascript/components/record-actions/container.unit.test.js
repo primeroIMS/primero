@@ -15,6 +15,14 @@ import Transitions from "./transitions";
 import Exports from "./exports";
 import AddIncident from "./add-incident";
 import AddService from "./add-service";
+import {
+  REQUEST_APPROVAL_DIALOG,
+  ENABLE_DISABLE_DIALOG,
+  NOTES_DIALOG,
+  OPEN_CLOSE_DIALOG,
+  TRANSFER_DIALOG,
+  EXPORT_DIALOG
+} from "./constants";
 
 describe("<RecordActions />", () => {
   const forms = {
@@ -128,6 +136,7 @@ describe("<RecordActions />", () => {
     })
   };
   let component;
+
   const defaultState = fromJS({
     records: {
       cases: {
@@ -162,6 +171,19 @@ describe("<RecordActions />", () => {
     },
     forms
   });
+
+  const defaultStateWithDialog = dialog =>
+    defaultState.merge(
+      fromJS({
+        ui: {
+          dialogs: {
+            dialog,
+            open: true
+          }
+        }
+      })
+    );
+
   const props = {
     recordType: "cases",
     mode: { isShow: true },
@@ -193,7 +215,7 @@ describe("<RecordActions />", () => {
 
   describe("Component ToggleOpen", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props, defaultState));
+      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(OPEN_CLOSE_DIALOG)));
     });
 
     it("renders ToggleOpen", () => {
@@ -203,7 +225,7 @@ describe("<RecordActions />", () => {
 
   describe("Component ToggleEnable", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props, defaultState));
+      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(ENABLE_DISABLE_DIALOG)));
     });
 
     it("renders ToggleEnable", () => {
@@ -213,17 +235,17 @@ describe("<RecordActions />", () => {
 
   describe("Component RequestApproval", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props, defaultState));
+      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(REQUEST_APPROVAL_DIALOG)));
     });
 
     it("renders RequestApproval", () => {
-      expect(component.find(RequestApproval)).to.have.length(2);
+      expect(component.find(RequestApproval)).to.have.length(1);
     });
   });
 
   describe("Component Transitions", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props, defaultState));
+      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(TRANSFER_DIALOG)));
     });
     it("renders Transitions", () => {
       expect(component.find(Transitions)).to.have.length(1);
@@ -234,21 +256,17 @@ describe("<RecordActions />", () => {
 
       expect(component.find(Transitions)).to.have.lengthOf(1);
       [
+        "open",
         "record",
-        "transitionType",
-        "setTransitionType",
         "recordType",
         "userPermissions",
-        "referDialog",
-        "transferDialog",
-        "assignDialog",
-        "handleReferClose",
-        "handleTransferClose",
-        "handleAssignClose",
         "pending",
         "setPending",
         "currentPage",
-        "selectedRecords"
+        "selectedRecords",
+        "close",
+        "currentDialog",
+        "selectedRowsIndex"
       ].forEach(property => {
         expect(transitionsProps).to.have.property(property);
         delete transitionsProps[property];
@@ -259,7 +277,7 @@ describe("<RecordActions />", () => {
 
   describe("Component Notes", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props, defaultState));
+      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(NOTES_DIALOG)));
     });
 
     it("renders Notes", () => {
@@ -399,7 +417,7 @@ describe("<RecordActions />", () => {
 
   describe("Component Exports", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props, defaultState));
+      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(EXPORT_DIALOG)));
     });
 
     it("renders Exports", () => {
@@ -413,13 +431,15 @@ describe("<RecordActions />", () => {
       [
         "close",
         "currentPage",
-        "openExportsDialog",
+        "open",
         "pending",
         "record",
         "recordType",
         "selectedRecords",
         "setPending",
-        "userPermissions"
+        "userPermissions",
+        "currentDialog",
+        "selectedRowsIndex"
       ].forEach(property => {
         expect(exportProps).to.have.property(property);
         delete exportProps[property];

@@ -19,7 +19,7 @@ import {
   updateSelectedField,
   updateSelectedSubform
 } from "../../action-creators";
-import { setDialog } from "../../../../../record-actions/action-creators";
+import { setDialog } from "../../../../../action-dialog";
 import { useI18n } from "../../../../../i18n";
 import SwitchInput from "../../../../../form/fields/switch-input";
 import DragIndicator from "../../../forms-list/components/drag-indicator";

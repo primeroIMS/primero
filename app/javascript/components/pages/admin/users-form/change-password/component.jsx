@@ -10,14 +10,14 @@ import { NAME } from "./constants";
 import changePasswordForm from "./form";
 import validations from "./validations";
 
-function Component({ formMode, i18n, open, pending, setOpen }) {
+function Component({ formMode, i18n, open, pending, close }) {
   const formRef = useRef();
   const [closeConfirmationModal, setCloseConfirmationModal] = useState(false);
   const validationSchema = validations(i18n);
   const formMethods = useForm({ ...(validationSchema && { validationSchema }) });
   const { setValue } = useFormContext();
 
-  const closeChangePassword = () => setOpen(false);
+  const closeChangePassword = () => close();
 
   const onSubmit = data => {
     Object.entries(data).forEach(([key, value]) => {
@@ -84,11 +84,11 @@ function Component({ formMode, i18n, open, pending, setOpen }) {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  close: PropTypes.func,
   formMode: PropTypes.object,
   i18n: PropTypes.object,
   open: PropTypes.bool,
-  pending: PropTypes.bool,
-  setOpen: PropTypes.func
+  pending: PropTypes.bool
 };
 
 export default Component;
