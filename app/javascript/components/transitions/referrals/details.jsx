@@ -12,6 +12,7 @@ import { OPTION_TYPES } from "../../form";
 import { getOptions } from "../../form/selectors";
 
 import renderIconValue from "./render-icon-value";
+import { referralAgencyName } from "./utils";
 
 const Details = ({ transition, classes }) => {
   const i18n = useI18n();
@@ -25,16 +26,9 @@ const Details = ({ transition, classes }) => {
     return value[0]?.display_text;
   });
 
-  const agencyValue = useSelector(state => {
-    const agencies = getOptions(state, OPTION_TYPES.AGENCY, i18n, [], true);
+  const agencies = useSelector(state => getOptions(state, OPTION_TYPES.AGENCY, i18n, [], true));
 
-    if (!transition.remote && transition.transitioned_to_agency) {
-      return agencies.find(agency => agency.id === transition.transitioned_to_agency).display_text;
-    }
-
-    // eslint-disable-next-line camelcase
-    return transition?.transitioned_to_agency;
-  });
+  const agencyName = referralAgencyName(transition, agencies);
 
   const renderRejected =
     transition.status === TRANSITION_STATUS.rejected ? (
@@ -81,10 +75,10 @@ const Details = ({ transition, classes }) => {
         </Box>
       </Grid>
       <Grid item md={6} xs={12}>
-        <Box>
+        <div>
           <div className={classes.transtionLabel}>{i18n.t("transition.agency_label")}</div>
-          <div className={classes.transtionIconValue}>{agencyValue}</div>
-        </Box>
+          <div className={classes.transtionIconValue}>{agencyName}</div>
+        </div>
       </Grid>
       {renderRejected}
       <Grid item md={12} xs={12}>
