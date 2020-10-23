@@ -9,6 +9,7 @@ import { fromJS, isImmutable } from "immutable";
 import { useI18n } from "../i18n";
 import { enqueueSnackbar } from "../notifier";
 
+import { getCustomFormTitle } from "./selectors";
 import { HTML_2_PDF_OPTIONS } from "./constants";
 import styles from "./styles.css";
 import { addPageHeaderFooter } from "./utils";
@@ -34,15 +35,7 @@ const Component = (
   const data = isImmutable(record) ? record : fromJS(record);
   const { title = "", condition = false, fields: customFormFields = [] } = customFormProps || {};
   const isRemote = typeof condition === "boolean" ? condition : watch(condition);
-  const customTitle = useSelector(state => {
-    if (typeof title === "object") {
-      const { selector, selectorNameProp, watchedId } = title;
-
-      return selector(state, watch(watchedId)).get(selectorNameProp);
-    }
-
-    return title;
-  });
+  const customTitle = useSelector(state => getCustomFormTitle(state, title, watch));
 
   const watchedValues = watch(customFormFields.map(referralField => referralField.name));
 
