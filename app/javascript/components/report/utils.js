@@ -46,20 +46,16 @@ const getColumnData = (column, data, i18n) => {
     .flat();
 };
 
-const getColumns = (data, i18n, prevData) => {
-  const values = Object.values(data);
-  const keys = Object.keys(data);
+const getColumns = (data, i18n) => {
   const totalLabel = i18n.t("report.total");
-  const firstValue = values[0];
 
-  if (!firstValue || (Object.keys(firstValue).length === 1 && !prevData)) {
-    return [];
-  }
-  if (values.length === 1 && keys.includes(totalLabel)) {
-    return prevData ? Object.keys(prevData).filter(key => key !== totalLabel) : [];
-  }
+  console.log(data);
 
-  return getColumns(firstValue, i18n, data);
+  return uniq(
+    Object.values(data)
+      .map(currValue => Object.keys(currValue))
+      .flat()
+  ).filter(key => key !== totalLabel);
 };
 
 const containsColumns = (columns, data, i18n) => {
@@ -251,6 +247,7 @@ export const buildDataForTable = (report, i18n, { agencies }) => {
   const { fields } = report.toJS();
   const field = fields.filter(reportField => reportField.position.type === REPORT_FIELD_TYPES.vertical)[0];
   const dataColumns = getColumns(translatedReport.report_data, i18n);
+
   const columns = ["", dataColumns, totalLabel].flat().map(column => {
     if (column === "" || column === totalLabel) {
       return column;
