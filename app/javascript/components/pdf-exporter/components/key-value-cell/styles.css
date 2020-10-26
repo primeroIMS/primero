@@ -4,7 +4,8 @@
   border-right: 1px solid #ddd;
   border-left: 1px solid #ddd;
 
-  & > div {
+  & > div { 
+    display: flex;
     flex: 1;
     padding: 10px;
   }
@@ -12,4 +13,14 @@
   & > div:first-of-type {
     border-right: 1px solid #ddd;
   }
+}
+
+.radioButtons {
+  display: flex;
+  align-items: center;
+  margin: 0 1em 0 0;
+
+   & svg {
+     margin: 0 .2em 0 0;
+   }
 }
