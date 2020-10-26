@@ -2612,6 +2612,7 @@ en:
   transfer_assignment:
     title: TRANSFERS AND ASSIGNMENTS
   transition:
+    agency_label: Agency
     assigned_by: Assigned By
     consent_individual_transfer_value:
       true_label: 'Yes'
