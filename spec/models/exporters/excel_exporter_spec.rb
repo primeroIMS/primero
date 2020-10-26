@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-require 'spreadsheet'
+require 'roo'
 
 module Exporters
   describe ExcelExporter do
@@ -72,7 +72,7 @@ module Exporters
                                                 name: "CP")
       @role = create(:role, form_sections: [form_a, form_b, form_c, form_d], modules: [@primero_module])
       @user = create(:user, user_name: 'fakeadmin', role: @role)
-      @records = [create(:child, "id" => "1234", "first_name" => "John", "last_name" => "Doe", "relationship"=>"Mother",
+      @records = [create(:child, "id" => "1234", "short_id" => "abc123", "first_name" => "John", "last_name" => "Doe", "relationship"=>"Mother",
                                  "array_field"=> ["option_1", "option_2"],
                                  "arabic_text" => "لدّفاع", "arabic_array" => ["النفط", "المشتّتون"],
                                  "subform_field_1" => [{"unique_id" =>"1", "field_1" => "field_1 value", "field_2" => "field_2 value"}],
@@ -83,31 +83,31 @@ module Exporters
 
     it "converts data to Excel format" do
       data = ExcelExporter.export(@records, @user)
-      book = Spreadsheet.open(StringIO.new(data))
-      sheet = book.worksheets[0]
+      book = Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+      sheet = book.sheet(book.sheets.first)
 
-      sheet.row(0).to_a.should == ["ID", "field_3", "field_4"]
-      sheet.row(1).to_a.should == [@record_id, "field_3 value", "field_4 value"]
+      expect(sheet.row(1)).to eq(%w[ID field_3 field_4])
+      expect(sheet.row(2)).to eq([@record_id, 'field_3 value', 'field_4 value'])
 
-      sheet = book.worksheets[1]
-      sheet.row(0).to_a.should == ["ID", "relationship", "array_field"]
-      sheet.row(1).to_a.should == [@record_id, "Mother", "Option 1 ||| Option 2"]
+      sheet = book.sheet(1)
+      expect(sheet.row(1)).to eq(%w[ID relationship array_field])
+      expect(sheet.row(2)).to eq([@record_id, 'Mother', 'Option 1 ||| Option 2'])
 
-      sheet = book.worksheets[2]
-      sheet.row(0).to_a.should == ["ID", "first_name", "last_name"]
-      sheet.row(1).to_a.should == [@record_id, "John", "Doe"]
+      sheet = book.sheet(2)
+      expect(sheet.row(1)).to eq(%w[ID first_name last_name])
+      expect(sheet.row(2)).to eq([@record_id, 'John', 'Doe'])
 
-      sheet = book.worksheets[3]
-      sheet.row(0).to_a.should == ["ID", "field_1", "field_2"]
-      sheet.row(1).to_a.should == [@record_id, "field_1 value", "field_2 value"]
+      sheet = book.sheet(3)
+      expect(sheet.row(1)).to eq(%w[ID field_1 field_2])
+      expect(sheet.row(2)).to eq([@record_id, 'field_1 value', 'field_2 value'])
 
-      sheet = book.worksheets[4]
-      sheet.row(0).to_a.should == ["ID", "field_5", "field_6"]
-      sheet.row(1).to_a.should == [@record_id, "field_5 value", "field_6 value"]
+      sheet = book.sheet(4)
+      expect(sheet.row(1)).to eq(%w[ID field_5 field_6])
+      expect(sheet.row(2)).to eq([@record_id, 'field_5 value', 'field_6 value'])
 
       #Arabic form.
-      sheet = book.worksheets[5]
-      sheet.row(0).to_a.should == ["ID", "arabic text", "arabic array"]
+      sheet = book.sheet(5)
+      expect(sheet.row(1)).to eq(['ID', 'arabic text', 'arabic array'])
     end
 
   end
