@@ -9,13 +9,22 @@ import { fromJS, isImmutable } from "immutable";
 import { useI18n } from "../i18n";
 import { enqueueSnackbar } from "../notifier";
 
+import { getCustomFormTitle } from "./selectors";
 import { HTML_2_PDF_OPTIONS } from "./constants";
 import styles from "./styles.css";
 import { addPageHeaderFooter } from "./utils";
 import Table from "./components/table";
 
 const Component = (
-  { forms, record, formsSelectedField, formsSelectedSelector, formsSelectedFieldDefault, customFilenameField },
+  {
+    forms,
+    record,
+    formsSelectedField,
+    formsSelectedSelector,
+    formsSelectedFieldDefault,
+    customFilenameField,
+    customFormProps
+  },
   ref
 ) => {
   const i18n = useI18n();
@@ -24,6 +33,12 @@ const Component = (
   const html = useRef();
   const dispatch = useDispatch();
   const data = isImmutable(record) ? record : fromJS(record);
+  const { title = "", condition = false, fields: customFormFields = [] } = customFormProps || {};
+  const isRemote = typeof condition === "boolean" ? condition : watch(condition);
+  const customTitle = useSelector(state => getCustomFormTitle(state, title, watch));
+
+  const watchedValues = watch(customFormFields.map(referralField => referralField.name));
+
   const userSelectedForms = formsSelectedField ? watch(formsSelectedField, formsSelectedFieldDefault || []) : false;
   const formSelectorResults = useSelector(state => {
     if (formsSelectedSelector) {
@@ -73,6 +88,12 @@ const Component = (
 
   return (
     <div ref={html} className={css.container}>
+      {customFormProps && isRemote && (
+        <>
+          <h2>{customTitle}</h2>
+          <Table fields={customFormFields} record={fromJS(watchedValues)} />
+        </>
+      )}
       {selectedForms?.map(form => (
         <div key={`selected-${form.unique_id}`}>
           <h2>{i18n.getI18nStringFromObject(form.name)}</h2>
@@ -87,6 +108,18 @@ Component.displayName = "PdfExporter";
 
 Component.propTypes = {
   customFilenameField: PropTypes.string.isRequired,
+  customFormProps: PropTypes.shape({
+    condition: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    fields: PropTypes.array.isRequired,
+    title: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        selector: PropTypes.func.isRequired,
+        selectorNameProp: PropTypes.string.isRequired,
+        watchedId: PropTypes.string.isRequired
+      })
+    ])
+  }),
   forms: PropTypes.object.isRequired,
   formsSelectedField: PropTypes.string,
   formsSelectedFieldDefault: PropTypes.any,

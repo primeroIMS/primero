@@ -64,9 +64,9 @@ class Queue {
   }
 
   add(actions) {
-    this.queue.push(...actions);
+    this.queue = actions;
 
-    if (!this.working.process) {
+    if (!this.working) {
       this.process();
     }
   }

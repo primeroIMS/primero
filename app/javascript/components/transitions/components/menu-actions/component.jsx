@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
@@ -14,8 +14,7 @@ import TransferApproval from "../../transfers/transfer-approval";
 import ReferralAction from "../../referrals/referral-action";
 import { DONE, REFERRAL_DONE_DIALOG } from "../../referrals/constants";
 import { TRANSFER_APPROVAL_DIALOG } from "../../transfers/constants";
-import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
-import { setDialog, setPending } from "../../../record-actions/action-creators";
+import { useDialog } from "../../../action-dialog";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
@@ -23,30 +22,34 @@ import { NAME, REVOKE_MODAL } from "./constants";
 
 const Component = ({ transition, showMode, recordType, classes }) => {
   const i18n = useI18n();
-  const dispatch = useDispatch();
   const [optionMenu, setOptionMenu] = useState(null);
-  const dialogPending = useSelector(state => selectDialogPending(state));
-  const setDialogPending = pending => {
-    dispatch(setPending({ pending }));
-  };
+
   const revokeModalName = `${REVOKE_MODAL}-${transition.id}`;
-  const openRevokeDialog = useSelector(state => selectDialog(state, revokeModalName));
-  const setRevokeDialog = open => {
-    dispatch(setDialog({ dialog: revokeModalName, open }));
-  };
+
+  const { dialogClose, dialogOpen, pending, setDialog, setDialogPending } = useDialog([
+    TRANSFER_APPROVAL_DIALOG,
+    REFERRAL_DONE_DIALOG,
+    revokeModalName
+  ]);
+
   const [approvalType, setApprovalType] = useState(ACCEPTED);
-  const approvalOpen = useSelector(state => selectDialog(state, TRANSFER_APPROVAL_DIALOG));
-  const setApprovalOpen = open => {
-    dispatch(setDialog({ dialog: TRANSFER_APPROVAL_DIALOG, open }));
+  const [referralType, setReferralType] = useState(DONE);
+
+  const setRevokeDialog = open => {
+    setDialog({ dialog: revokeModalName, open });
   };
 
-  const [referralType, setReferralType] = useState(DONE);
-  const referralOpen = useSelector(state => selectDialog(state, REFERRAL_DONE_DIALOG));
-  const setReferralOpen = open => {
-    dispatch(setDialog({ dialog: REFERRAL_DONE_DIALOG, open }));
+  const setApprovalOpen = open => {
+    setDialog({ dialog: TRANSFER_APPROVAL_DIALOG, open });
   };
+
+  const setReferralOpen = open => {
+    setDialog({ dialog: REFERRAL_DONE_DIALOG, open });
+  };
+
   const username = useSelector(state => currentUser(state));
   const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
+
   const isInProgress = transition.status === TRANSITION_STATUS.inProgress;
   const canRevokeTransition = checkPermissions(userPermissions, [ACTIONS.REMOVE_ASSIGNED_USERS, ACTIONS.MANAGE]);
   const isCurrentUserRecipient = transition.transitioned_to === username;
@@ -67,8 +70,6 @@ const Component = ({ transition, showMode, recordType, classes }) => {
     showMode &&
     transition.type.toLowerCase() === TRANSITIONS_TYPES.referral;
 
-  const handleCloseApproval = () => setApprovalOpen(false);
-
   const handleRejectOpen = () => {
     setApprovalType(REJECTED);
     setApprovalOpen(true);
@@ -82,10 +83,6 @@ const Component = ({ transition, showMode, recordType, classes }) => {
   const handleDoneOpen = () => {
     setReferralType(DONE);
     setReferralOpen(true);
-  };
-
-  const handleDoneClose = () => {
-    setReferralOpen(false);
   };
 
   const options = [
@@ -160,29 +157,29 @@ const Component = ({ transition, showMode, recordType, classes }) => {
 
       <RevokeModal
         name={revokeModalName}
-        open={openRevokeDialog}
+        open={dialogOpen[revokeModalName]}
         transition={transition}
-        close={() => setRevokeDialog(false)}
+        close={dialogClose}
         recordType={recordType}
-        pending={dialogPending}
+        pending={pending}
         setPending={setDialogPending}
       />
       <TransferApproval
-        openTransferDialog={approvalOpen}
-        close={handleCloseApproval}
+        openTransferDialog={dialogOpen[TRANSFER_APPROVAL_DIALOG]}
+        close={dialogClose}
         approvalType={approvalType}
         recordId={transition.record_id}
-        pending={dialogPending}
+        pending={pending}
         setPending={setDialogPending}
         transferId={transition.id}
         recordType={recordType}
         dialogName={TRANSFER_APPROVAL_DIALOG}
       />
       <ReferralAction
-        openReferralDialog={referralOpen}
-        close={handleDoneClose}
+        openReferralDialog={dialogOpen[REFERRAL_DONE_DIALOG]}
+        close={dialogClose}
         recordId={transition.record_id}
-        pending={dialogPending}
+        pending={pending}
         setPending={setDialogPending}
         transistionId={transition.id}
         recordType={recordType}

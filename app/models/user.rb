@@ -492,8 +492,8 @@ class User < ApplicationRecord
 
   def update_child_owned_by_fields(child)
     child.owned_by_location = location if location_changed?
-    child.owned_by_groups = user_group_ids if @refresh_associated_user_groups
-    child.owned_by_agency_id = agency_id if agency_id_changed?
+    child.owned_by_groups = user_group_unique_ids if @refresh_associated_user_groups
+    child.owned_by_agency_id = agency&.unique_id if agency_id_changed?
     child.owned_by_agency_office = agency_office if agency_office_changed?
     child.save!
   end

@@ -180,7 +180,7 @@ const fetchSinglePayload = (action, store, options) => {
       if (status === 503 || (status === 204 && `/${checkHealthUrl}` === ROUTES.check_health)) {
         handleConfiguration(status, store, options, response, { fetchStatus, fetchSinglePayload, type });
       } else {
-        const json = await response.json();
+        const json = status === 204 ? {} : await response.json();
 
         if (!response.ok) {
           fetchStatus({ store, type }, "FAILURE", json);

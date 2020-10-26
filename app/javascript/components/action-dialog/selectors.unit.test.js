@@ -5,7 +5,7 @@ import { selectDialog, selectDialogPending } from "./selectors";
 const stateWithDialogs = fromJS({
   ui: {
     dialogs: {
-      requestApproval: true,
+      dialog: "requestApproval",
       pending: true
     }
   }
@@ -16,7 +16,12 @@ describe("<RecordActions /> - Selectors", () => {
     it("should return dialog open status", () => {
       const openDialog = selectDialog(stateWithDialogs, "requestApproval");
 
-      expect(openDialog).to.equal(true);
+      expect(openDialog).to.equal(
+        fromJS({
+          dialog: "requestApproval",
+          pending: true
+        })
+      );
     });
   });
 

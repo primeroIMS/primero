@@ -9,7 +9,7 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   end
 
   def create
-    authorize! :referral, @record
+    authorize_create!(@record)
     @transition = refer(@record)
     updates_for_record(@record)
     render 'api/v2/transitions/create'
@@ -58,5 +58,13 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
     referral.transitioned_by = current_user.user_name
     referral.record = record
     referral.save! && referral
+  end
+
+  def authorize_create!(record)
+    authorize! :referral, record
+  rescue CanCan::AccessDenied => e
+    raise e unless params[:data][:service_record_id]
+
+    authorize! :referral_from_service, record
   end
 end

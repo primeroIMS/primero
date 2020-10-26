@@ -4,8 +4,7 @@ import sinon from "sinon";
 
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { stub } from "../../../test";
-import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
+import { CLEAR_DIALOG } from "../../action-dialog";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
@@ -98,17 +97,7 @@ describe("<Transitions /> - Action Creators", () => {
             }
           },
           {
-            action: SET_DIALOG,
-            payload: {
-              dialog: ASSIGN_DIALOG,
-              open: false
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
+            action: CLEAR_DIALOG
           }
         ]
       }
@@ -144,17 +133,7 @@ describe("<Transitions /> - Action Creators", () => {
             }
           },
           {
-            action: SET_DIALOG,
-            payload: {
-              dialog: TRANSFER_DIALOG,
-              open: false
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
+            action: CLEAR_DIALOG
           }
         ]
       }
@@ -200,17 +179,7 @@ describe("<Transitions /> - Action Creators", () => {
             }
           },
           {
-            action: SET_DIALOG,
-            payload: {
-              dialog: REFER_DIALOG,
-              open: false
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
+            action: CLEAR_DIALOG
           }
         ]
       }
