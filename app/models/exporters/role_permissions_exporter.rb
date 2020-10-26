@@ -46,7 +46,7 @@ module Exporters
     end
 
     def initialize(export_file, locale = :en)
-      @export_file_name = export_file || CleansingTmpDir.temp_file_name
+      @export_file_name = export_file || CleansingTmpDir.temp_file_name + '.xlsx'
       @locale = locale
       @io = File.new(@export_file_name, 'w')
       @workbook = WriteXLSX.new(@io)

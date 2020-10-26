@@ -72,4 +72,9 @@ group :development, :test do
   gem 'simplecov',                  '~> 0.18'
   gem 'sunspot_test',               '~> 0.4', require: false
   # TODO: Latest version (1.2.5) of this conflicts with sunspot gem. Upgrade when we upgrade sunspot
+
+  # TODO: This is needed to read .xlsx files for validation in the exporter tests.
+  # TODO: The app currently uses Spreadsheet to read excel files, but it only supports reading .xls
+  # TODO: Changing the application to support reading .xlsx will be handled by a later ticket
+  gem 'roo',                        '~> 2.8'
 end
