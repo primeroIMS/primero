@@ -23,12 +23,13 @@ import {
 import {
   APPROVALS,
   RECORD_TYPES,
-  REFERRAL,
   RECORD_OWNER,
   TRANSITION_TYPE,
   RECORD_PATH,
+  REFERRAL,
   INCIDENT_FROM_CASE
 } from "../../config";
+import { REFER_FROM_SERVICE } from "../../libs/permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import IncidentFromCase from "../incidents-from-case";
@@ -190,7 +191,7 @@ const Container = ({ match, mode }) => {
     }
   }, [containerMode.isEdit, containerMode.isShow, dispatch, params.id, params.recordType]);
 
-  const canRefer = usePermissions(params.recordType, REFERRAL);
+  const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
 
   useEffect(() => {
     if (!containerMode.isNew && params.recordType === RECORD_PATH.cases) {
