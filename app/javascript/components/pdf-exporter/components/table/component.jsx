@@ -62,9 +62,8 @@ const Component = ({ fields, record }) => {
             optionsStringSource={optionStringsSource}
             options={optionsStringsText || options}
             key={`keyval-${name}`}
-            isDateField={type === DATE_FIELD}
+            type={type}
             isDateWithTime={dateIncludeTime}
-            isBooleanField={type === TICK_FIELD}
           />
         );
       })}
