@@ -5,7 +5,6 @@ import isEqual from "lodash/isEqual";
 
 import KeyValueCell from "../key-value-cell";
 import { useI18n } from "../../../i18n";
-import { DATE_FIELD, TICK_FIELD } from "../../../form";
 import { valuesWithDisplayConditions } from "../../../record-form/form/subforms/subform-field-array/utils";
 
 import { EXCLUDED_FIELD_TYPES } from "./constants";
@@ -62,9 +61,8 @@ const Component = ({ fields, record }) => {
             optionsStringSource={optionStringsSource}
             options={optionsStringsText || options}
             key={`keyval-${name}`}
-            isDateField={type === DATE_FIELD}
+            type={type}
             isDateWithTime={dateIncludeTime}
-            isBooleanField={type === TICK_FIELD}
           />
         );
       })}
