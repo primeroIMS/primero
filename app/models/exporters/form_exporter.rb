@@ -1,5 +1,5 @@
 # TODO: this exporter is outdated and is unusable in its current form.  Ex: still references form_group_name
-# TODO: Can this exporter be deleted?
+# TODO: Clean up rubocop warnings when other issues are fixed
 module Exporters
   class FormExporter
 
