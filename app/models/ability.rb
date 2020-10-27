@@ -171,6 +171,7 @@ class Ability
         permitted_to_access_record?(user, instance)
       end
       can(:index, Task) if (resource == Child) && user.permission?(Permission::DASH_TASKS)
+      can(:index, Flag) if user.permission?(Permission::DASH_FLAGS)
     else
       can actions, resource
     end

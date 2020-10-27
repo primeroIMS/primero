@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Represents actions to flag a record
 class Flag < ApplicationRecord
   include Indexable
 
@@ -7,6 +8,22 @@ class Flag < ApplicationRecord
   EVENT_UNFLAG = 'unflag'
 
   belongs_to :record, polymorphic: true
+
+  # The CAST is necessary because ActiveRecord assumes the id is an int.  It isn't.
+  scope :by_record_associated_user, lambda { |params|
+    Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
+        .where("(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner])
+  }
+
+  scope :by_record_associated_groups, lambda { |params|
+    Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
+        .where("(data -> 'associated_user_groups' ?| array[:group])", group: params[:group])
+  }
+
+  scope :by_record_agency, lambda { |params|
+    Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
+        .where("((data ->> 'owned_by_agency_id')::int = :agency_id)", agency_id: params[:agency_id])
+  }
 
   validates :message, presence: { message: 'errors.models.flags.message' }
   validates :date, presence: { message: 'errors.models.flags.date' }
@@ -75,6 +92,58 @@ class Flag < ApplicationRecord
     end
     string :flag_associated_agencies, stored: true, multiple: true do
       record.associated_user_agencies
+    end
+  end
+
+  class << self
+    def by_owner(query_scope, record_types, flagged_by)
+      record_types ||= %w[cases incidents tracing_requests]
+      owner = query_scope[:user]['user']
+      return find_by_owner('by_record_associated_user', record_types, flagged_by, owner: owner) if owner.present?
+
+      group = query_scope[:user]['group']
+      return  find_by_owner('by_record_associated_groups', record_types, flagged_by, group: group) if group.present?
+
+      agency_id = query_scope[:user]['agency_id']
+      return find_by_owner('by_record_agency', record_types, flagged_by, agency_id: agency_id) if agency_id.present?
+
+      []
+    end
+
+    private
+
+    def find_by_owner(scope_to_use, record_types, flagged_by, params = {})
+      record_types = %w[cases incidents tracing_requests] if record_types.blank?
+      flags = []
+      record_types.each do |record_type|
+        params[:type] = record_type
+        flags << send(scope_to_use, params).where(where_params(flagged_by)).select(select_fields(record_type))
+      end
+      mask_flag_names(flags.flatten)
+    end
+
+    def mask_flag_names(flags)
+      flags.each_with_object([]) do |flag, flag_list|
+        flag.name = RecordDataService.visible_name(flag)
+        flag_list << flag
+      end
+    end
+
+    def where_params(flagged_by)
+      return {} if flagged_by.blank?
+
+      {
+        flagged_by: flagged_by
+      }
+    end
+
+    def select_fields(record_type)
+      (Flag.column_names.map { |column| "flags.#{column}" } +
+         record_fields_for_select.map { |field| "#{record_type}.data -> '#{field}' as #{field}" }).join(', ')
+    end
+
+    def record_fields_for_select
+      %w[short_id name hidden_name owned_by owned_by_agency_id]
     end
   end
 
