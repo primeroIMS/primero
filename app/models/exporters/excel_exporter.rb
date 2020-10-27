@@ -2,12 +2,9 @@
 
 require 'write_xlsx'
 
-# TODO: update this comment
 # Export records to Excel. Every form ius represented by a new tab.
 # Subforms get a dedicated tab.
-# This uses the writeexcel gem which only support XLS (Excel 2008 format)
-# and is a 1000 years old. However it does support buffered output,
-# which is why we are sticking with it for now.
+# Uses the write_xlsx gem
 class Exporters::ExcelExporter < Exporters::BaseExporter
   attr_accessor :workbook, :worksheets
 
