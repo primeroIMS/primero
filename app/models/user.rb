@@ -330,7 +330,7 @@ class User < ApplicationRecord
     @managers
   end
 
-  # This method indicates what records this user can search for.
+  # This method indicates what records or flags this user can search for.
   # Returns self, if can only search records associated with this user
   # Returns list of UserGroups if can only query from those user groups that this user has access to
   # Returns the Agency if can only query from the agency this user has access to
@@ -339,9 +339,9 @@ class User < ApplicationRecord
     user_scope = if can_search_for_all?(record_model, id_search)
                    {}
                  elsif group_permission?(Permission::AGENCY)
-                   { 'agency' => agency.unique_id }
+                   { 'agency' => agency.unique_id, 'agency_id' => agency_id }
                  elsif group_permission?(Permission::GROUP) && user_group_ids.present?
-                   { 'group' => user_groups.pluck(:unique_id).compact }
+                   { 'group' => user_groups.map(&:unique_id).compact }
                  else
                    { 'user' => user_name }
                  end
