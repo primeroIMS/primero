@@ -7,7 +7,8 @@ require 'roo'
 module Exporters
   describe IncidentRecorderExporter do
     before :each do
-      clean_data(Agency, Role, UserGroup, User, PrimeroProgram, Field, FormSection, PrimeroModule, Incident, Location, Lookup)
+      clean_data(Agency, Role, UserGroup, User, PrimeroProgram, Field, FormSection, PrimeroModule, Incident, Location,
+                 Lookup)
       subform = FormSection.new(
         name: 'cases_test_subform_2', parent_form: 'case', 'visible' => false, 'is_nested' => true,
         order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_subform_2',
@@ -65,7 +66,7 @@ module Exporters
                     display_name: 'Stage of displacement at time of incident',
                     option_strings_text_i18n: [
                       { 'id': 'during_flight', 'display_text': { 'en': 'During Flight' } },
-                      { 'id': 'during_refuge', 'display_text': {'en': 'During Refuge' } }
+                      { 'id': 'during_refuge', 'display_text': { 'en': 'During Refuge' } }
                     ])
       Lookup.create!(unique_id: 'lookup-ethnicity', name_i18n: { 'en': 'Ethnicity' },
                      lookup_values_i18n: [
@@ -97,7 +98,8 @@ module Exporters
       @records = [incident_a, incident_b]
 
       Location.create!(placename: 'Guinea', type: 'country', location_code: 'GUI', admin_level: 0)
-      Location.create!(placename: 'Kindia', type: 'province', location_code: 'GUI123', hierarchy: ['GUI'], admin_level: 1)
+      Location.create!(placename: 'Kindia', type: 'province', location_code: 'GUI123', hierarchy: ['GUI'],
+                       admin_level: 1)
 
       incident_c = Incident.create!(
         data: {
