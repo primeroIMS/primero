@@ -88,7 +88,7 @@ module Exporters
                    gbv_reported_elsewhere gbv_previous_incidents incident_timeofday consent_reporting]
         ).inject({}) { |acc, field| acc.merge(field.name => field) }
 
-        @workbook = WriteExcel.new(buffer)
+        @workbook = WriteXLSX.new(buffer)
         @data_worksheet = @workbook.add_worksheet('Incident Data')
         @menu_worksheet = @workbook.add_worksheet('Menu Data')
 

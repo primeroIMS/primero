@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'spreadsheet'
+require 'roo'
 
 describe Exporters::SelectedFieldsExcelExporter do
   before :each do
@@ -103,6 +103,7 @@ describe Exporters::SelectedFieldsExcelExporter do
         :child,
         'first_name' => 'John', 'last_name' => 'Doe',
         'id' => '00000000001',
+        'short_id' => 'abc123',
         'relationship' => 'Mother', 'array_field' => %w[option1 option2],
         'subform_field_1' => [
           { 'unique_id' => '1', 'field_1' => 'field_1 value', 'field_2' => 'field_2 value' },
@@ -147,12 +148,12 @@ describe Exporters::SelectedFieldsExcelExporter do
   describe 'Export format' do
     let(:workbook) do
       data = Exporters::SelectedFieldsExcelExporter.export(@records, @user, {})
-      Spreadsheet.open(StringIO.new(data))
+      Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end
 
     it 'contains a metadata worksheet' do
-      sheet = workbook.worksheets.last
-      headers = sheet.row(0).to_a
+      sheet = workbook.sheet(workbook.sheets.last)
+      headers = sheet.row(1)
 
       metadata_headers = %w[
         ID created_organization created_by_full_name last_updated_at last_updated_by last_updated_by_full_name
@@ -160,77 +161,77 @@ describe Exporters::SelectedFieldsExcelExporter do
         duplicate duplicate_of
       ]
       expect(headers).to eq(metadata_headers)
-      expect(sheet.rows.size).to eq(1 + 6)
+      expect(sheet.last_row).to eq(1 + 6)
     end
 
     it 'contains the correct created_organization en name' do
-      sheet = workbook.worksheets.last
-      created_organization_values = sheet.rows.map { |row| row[1] }.compact
+      sheet = workbook.sheet(workbook.sheets.last)
+      created_organization_values = sheet.column(2).compact
       expect(created_organization_values).to eq(['created_organization', 'My English Agency', 'My English Agency'])
     end
 
     it 'contains the correct created_organization es name' do
       I18n.locale = :es
       data = Exporters::SelectedFieldsExcelExporter.export(@records, @user, {})
-      Spreadsheet.open(StringIO.new(data))
-      sheet = workbook.worksheets.last
-      created_organization_values = sheet.rows.map { |row| row[1] }.compact
+      Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+      sheet = workbook.sheet(workbook.sheets.last)
+      created_organization_values = sheet.column(2).compact
       expect(created_organization_values).to eq(['created_organization', 'My Spanish Agency', 'My Spanish Agency'])
     end
 
     it 'contains a worksheet for every form and nested subform unless the forms and fields visible: false' do
-      expect(workbook.worksheets.size).to eq(4 + 1)
-      expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID field_3 field_4])
-      expect(workbook.worksheets[1].row(0).to_a).to eq(%w[ID relationship array_field])
-      expect(workbook.worksheets[2].row(0).to_a).to eq(%w[ID first_name last_name])
-      expect(workbook.worksheets[3].row(0).to_a).to eq(%w[ID field_1 field_2])
+      expect(workbook.sheets.size).to eq(4 + 1)
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3 field_4])
+      expect(workbook.sheet(1).row(1)).to eq(%w[ID relationship array_field])
+      expect(workbook.sheet(2).row(1)).to eq(%w[ID first_name last_name])
+      expect(workbook.sheet(3).row(1)).to eq(%w[ID field_1 field_2])
     end
 
     it 'correctly exports record values for a form' do
-      expect(workbook.worksheets[0].row(1)).to eq([@records[0].short_id, 'field_3 value', 'field_4 value'])
+      expect(workbook.sheet(0).row(2)).to eq([@records[0].short_id, 'field_3 value', 'field_4 value'])
     end
 
     it 'correctly exports record values for a subform' do
-      expect(workbook.worksheets[1].row(1)).to eq([@records[0].short_id, 'Mother', 'Option1 ||| Option2'])
+      expect(workbook.sheet(1).row(2)).to eq([@records[0].short_id, 'Mother', 'Option1 ||| Option2'])
     end
   end
 
   context 'Selected forms' do
     let(:workbook) do
       data = Exporters::SelectedFieldsExcelExporter.export(@records, @user, form_unique_ids: %w[cases_test_form_1])
-      Spreadsheet.open(StringIO.new(data))
+      Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end
 
     it 'contains a sheet for the selected form unless the fields visible: false' do
-      expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID first_name last_name])
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID first_name last_name])
     end
 
     it 'contains the sheet for the subform found in the selected form' do
-      expect(workbook.worksheets[1].row(0).to_a).to eq(%w[ID field_1 field_2])
+      expect(workbook.sheet(1).row(1)).to eq(%w[ID field_1 field_2])
     end
 
     it 'contains no other form but the metadata form' do
       partial_metadata_header = %w[ID created_organization created_by_full_name last_updated_at]
-      expect(workbook.worksheets.size).to eq(3)
-      expect(workbook.worksheets[2].row(0).to_a[0..3]).to eq(partial_metadata_header)
+      expect(workbook.sheets.size).to eq(3)
+      expect(workbook.sheet(2).row(1)[0..3]).to eq(partial_metadata_header)
     end
   end
 
   context 'Selected fields' do
     let(:workbook) do
       data = Exporters::SelectedFieldsExcelExporter.export(@records, @user, field_names: %w[first_name array_field])
-      Spreadsheet.open(StringIO.new(data))
+      Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end
 
     it 'contains only the Selected Fields form' do
-      expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID first_name array_field])
-      expect(workbook.worksheets[0].row(1).to_a).to eq([@records[0].short_id, 'John', 'Option1 ||| Option2'])
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID first_name array_field])
+      expect(workbook.sheet(0).row(2)).to eq([@records[0].short_id, 'John', 'Option1 ||| Option2'])
     end
 
     it 'contains no other form but the metadata form' do
       partial_metadata_header = %w[ID created_organization created_by_full_name last_updated_at]
-      expect(workbook.worksheets.size).to eq(2)
-      expect(workbook.worksheets[1].row(0).to_a[0..3]).to eq(partial_metadata_header)
+      expect(workbook.sheets.size).to eq(2)
+      expect(workbook.sheet(1).row(1)[0..3]).to eq(partial_metadata_header)
     end
   end
 
@@ -241,20 +242,20 @@ describe Exporters::SelectedFieldsExcelExporter do
         form_unique_ids: %w[cases_test_form_1 cases_test_form_gbv],
         field_names: %w[first_name field_gbv]
       )
-      Spreadsheet.open(StringIO.new(data))
+      Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end
 
     it 'contains a sheet for the selected form with only the selected fields and discard from another primero_module' do
       expect(Field.count).to eq(13)
-      expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID first_name])
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID first_name])
       expect(Field.count).to eq(13)
     end
 
     it 'contains no other form but the metadata form and discard from another primero_module' do
       expect(Field.count).to eq(13)
       partial_metadata_header = %w[ID created_organization created_by_full_name last_updated_at]
-      expect(workbook.worksheets.size).to eq(2)
-      expect(workbook.worksheets[1].row(0).to_a[0..3]).to eq(partial_metadata_header)
+      expect(workbook.sheets.size).to eq(2)
+      expect(workbook.sheet(1).row(1)[0..3]).to eq(partial_metadata_header)
       expect(Field.count).to eq(13)
     end
   end

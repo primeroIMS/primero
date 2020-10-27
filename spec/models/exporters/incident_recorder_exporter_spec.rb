@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-require 'spreadsheet'
+require 'roo'
 
 module Exporters
   describe IncidentRecorderExporter do
@@ -268,24 +268,24 @@ module Exporters
     describe 'Export format' do
       let(:workbook) do
         data = IncidentRecorderExporter.export(@records, @user, {})
-        Spreadsheet.open(StringIO.new(data))
+        Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       end
 
       it 'contains a metadata worksheet' do
-        sheet = workbook.worksheets.last
-        headers = sheet.row(0).to_a
+        sheet = workbook.sheet(workbook.sheets.last)
+        headers = sheet.row(1)
 
         metadata_headers = [
           'CASEWORKER CODE', 'ETHNICITY', 'INCIDENT LOCATION', 'INCIDENT COUNTY', 'INCIDENT DISTRICT', 'INCIDENT CAMP'
         ]
 
         expect(headers).to eq(metadata_headers)
-        expect(sheet.rows.size).to eq(1)
+        expect(sheet.last_row).to eq(1)
       end
 
       it 'contains a worksheet for every form and nested subform' do
-        expect(workbook.worksheets.size).to eq(2)
-        expect(workbook.worksheets[0].row(0).to_a).to eq(
+        expect(workbook.sheets.size).to eq(2)
+        expect(workbook.sheet(0).row(1)).to eq(
           [
             'INCIDENT ID', 'SURVIVOR CODE', 'CASE MANAGER CODE', 'DATE OF INTERVIEW', 'DATE OF INCIDENT',
             'DATE OF BIRTH', 'SEX', 'ETHNICITY', 'COUNTRY OF ORIGIN', 'CIVIL / MARITAL STATUS',
@@ -301,7 +301,7 @@ module Exporters
             'CHILD PROTECTION SERVICES / EDUCATION SERVICES', 'CONSENT GIVEN', 'REPORTING AGENCY CODE'
           ]
         )
-        expect(workbook.worksheets[1].row(0).to_a).to eq(
+        expect(workbook.sheet(1).row(1)).to eq(
           ['CASEWORKER CODE', 'ETHNICITY', 'INCIDENT LOCATION', 'INCIDENT COUNTY', 'INCIDENT DISTRICT', 'INCIDENT CAMP']
         )
       end
@@ -310,13 +310,13 @@ module Exporters
     context 'Selected fields' do
       let(:workbook) do
         data = IncidentRecorderExporter.export(@records, @user, field_names: %w[first_name array_field])
-        Spreadsheet.open(StringIO.new(data))
+        Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       end
 
       it 'contains no other form but the metadata form' do
         partial_metadata_header = ['CASEWORKER CODE', 'ETHNICITY', 'INCIDENT LOCATION', 'INCIDENT COUNTY']
-        expect(workbook.worksheets.size).to eq(2)
-        expect(workbook.worksheets[1].row(0).to_a[0..3]).to eq(partial_metadata_header)
+        expect(workbook.sheets.size).to eq(2)
+        expect(workbook.sheet(1).row(1)[0..3]).to eq(partial_metadata_header)
       end
     end
 
@@ -327,28 +327,28 @@ module Exporters
           form_unique_ids: %w[cases_test_form_1],
           field_names: %w[first_name]
         )
-        Spreadsheet.open(StringIO.new(data))
+        Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       end
 
       it 'contains no other form but the metadata form' do
         partial_metadata_header = ['CASEWORKER CODE', 'ETHNICITY', 'INCIDENT LOCATION', 'INCIDENT COUNTY']
-        expect(workbook.worksheets.size).to eq(2)
-        expect(workbook.worksheets[1].row(0).to_a[0..3]).to eq(partial_metadata_header)
+        expect(workbook.sheets.size).to eq(2)
+        expect(workbook.sheet(1).row(1)[0..3]).to eq(partial_metadata_header)
       end
     end
 
     context 'Test the data form the record' do
       it 'contains the correct data' do
         data = IncidentRecorderExporter.export(@record_with_all_fields, @user, {})
-        workbook = Spreadsheet.open(StringIO.new(data))
-        expect(workbook.worksheets.size).to eq(2)
+        workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+        expect(workbook.sheets.size).to eq(2)
         model = @record_with_all_fields.first
-        expect(workbook.worksheets[0].row(1).to_a).to eq(
+        expect(workbook.sheet(0).row(2)).to eq(
           [
             model.incident_id, '111-222', 'test01', I18n.l(model.date_of_first_report), I18n.l(model.incident_date),
             I18n.l(model.data['date_of_birth']), 'F', 'Ethnicity3', 'andorra', 'divorced_separated', 'refugee',
             'mental_disability', 'separated_child', 'During Flight', 'afternoon', 'garden', 'Guinea', 'Kindia', 'town',
-            'sexual_assault', 'type_of_practice_1', 'false', 'forced_conscription', 'non-gbvims-org', 'true', '2',
+            'sexual_assault', 'type_of_practice_1', 'false', 'forced_conscription', 'non-gbvims-org', 'true', 2,
             'M and F', 'Yes', 'Age 18 - 25', 'supervisor_employer', 'occupation_2', 'police_other_service',
             'services_already_received_from_another_agency', 'service_provided_by_your_agency',
             'service_not_applicable', 'Undecided at time of report', 'service_not_applicable',
@@ -360,10 +360,10 @@ module Exporters
 
       it 'translate the correct data' do
         data = IncidentRecorderExporter.export(@record_with_all_fields, @user, {})
-        workbook = Spreadsheet.open(StringIO.new(data))
-        expect(workbook.worksheets.size).to eq(2)
-        expect(workbook.worksheets[0].row(1)[7]).to eq('Ethnicity3')
-        expect(workbook.worksheets[0].row(1)[13]).to eq('During Flight')
+        workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+        expect(workbook.sheets.size).to eq(2)
+        expect(workbook.sheet(0).row(2)[7]).to eq('Ethnicity3')
+        expect(workbook.sheet(0).row(2)[13]).to eq('During Flight')
       end
 
       it 'Get age_type form perpetrators' do
@@ -375,10 +375,10 @@ module Exporters
         form_perpetrator.save!
 
         data = IncidentRecorderExporter.export(@records, @user, {})
-        workbook = Spreadsheet.open(StringIO.new(data))
-        expect(workbook.worksheets[0].rows.count).to eq(3)
-        expect(workbook.worksheets[0].row(0)[28]).to eq('ALLEGED PERPETRATOR AGE TYPE')
-        expect(workbook.worksheets[0].row(1)[28]).to eq('Adult')
+        workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+        expect(workbook.sheet(0).last_row).to eq(3)
+        expect(workbook.sheet(0).row(1)[28]).to eq('ALLEGED PERPETRATOR AGE TYPE')
+        expect(workbook.sheet(0).row(2)[28]).to eq('Adult')
       end
 
       it 'Get select field value from primary perpetrators' do
@@ -397,10 +397,10 @@ module Exporters
         form_perpetrator.save!
 
         data = IncidentRecorderExporter.export(@records, @user, {})
-        workbook = Spreadsheet.open(StringIO.new(data))
-        expect(workbook.worksheets[0].rows.count).to eq(3)
-        expect(workbook.worksheets[0].row(0)[30]).to eq('ALLEGED PERPETRATOR OCCUPATION')
-        expect(workbook.worksheets[0].row(1)[30]).to eq('Occupation 1')
+        workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+        expect(workbook.sheet(0).last_row).to eq(3)
+        expect(workbook.sheet(0).row(1)[30]).to eq('ALLEGED PERPETRATOR OCCUPATION')
+        expect(workbook.sheet(0).row(2)[30]).to eq('Occupation 1')
       end
     end
 
