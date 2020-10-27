@@ -49,8 +49,6 @@ const getColumnData = (column, data, i18n) => {
 const getColumns = (data, i18n) => {
   const totalLabel = i18n.t("report.total");
 
-  console.log(data);
-
   return uniq(
     Object.values(data)
       .map(currValue => Object.keys(currValue))
@@ -247,7 +245,6 @@ export const buildDataForTable = (report, i18n, { agencies }) => {
   const { fields } = report.toJS();
   const field = fields.filter(reportField => reportField.position.type === REPORT_FIELD_TYPES.vertical)[0];
   const dataColumns = getColumns(translatedReport.report_data, i18n);
-
   const columns = ["", dataColumns, totalLabel].flat().map(column => {
     if (column === "" || column === totalLabel) {
       return column;
