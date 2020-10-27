@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Export forms to and Excel file (.xlsx)
+# Export forms to an Excel file (.xlsx)
 # Uses write_xlsx gem
 class Exporters::XlsFormExporter
   def initialize(record_type = 'case', module_id = 'primeromodule-cp', opts = {})
