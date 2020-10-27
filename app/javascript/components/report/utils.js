@@ -69,9 +69,15 @@ const containsColumns = (columns, data, i18n) => {
   return isEqual(columns, keys);
 };
 
-const getTranslatedKey = (key, field, { agencies }) => {
+const getTranslatedKey = (key, field, { agencies, i18n }) => {
+  const isBooleanKey = ["true", "false"].includes(key);
+
   if (field?.option_strings_source === "Agency" && agencies) {
     return dataToJS(agencies).find(agency => agency.id.toLowerCase() === key.toLowerCase())?.display_text;
+  }
+
+  if (i18n && isBooleanKey) {
+    return i18n.t(key);
   }
 
   return key;
@@ -114,7 +120,7 @@ const getRows = (columns, data, i18n, fields, { agencies }) => {
   keys
     .filter(key => key !== totalLabel)
     .forEach(key => {
-      const newRow = [getTranslatedKey(key, field, { agencies })];
+      const newRow = [getTranslatedKey(key, field, { agencies, i18n })];
 
       if (!(values.length === 1 && keys.includes(totalLabel))) {
         if (!containsColumns(columns, data[key], i18n)) {
@@ -256,7 +262,7 @@ export const buildDataForTable = (report, i18n, { agencies }) => {
       return column;
     }
 
-    return getTranslatedKey(column, field, { agencies });
+    return getTranslatedKey(column, field, { agencies, i18n });
   });
 
   const values = getRows(dataColumns, translatedReport.report_data, i18n, fields, { agencies });

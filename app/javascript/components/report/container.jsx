@@ -6,6 +6,7 @@ import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { BarChart as BarChartGraphic, TableValues } from "../charts";
 import { getLoading, getErrors } from "../index-table/selectors";
@@ -24,6 +25,7 @@ import { getReport } from "./selectors";
 import { deleteReport, fetchReport } from "./action-creators";
 import namespace from "./namespace";
 import { NAME, DELETE_MODAL } from "./constants";
+import styles from "./styles.css";
 
 // const { dialogOpen, setDialog } = useDialog(DELETE_MODAL);
 
@@ -34,6 +36,7 @@ const Report = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const { pathname } = useLocation();
   const { setDialog, dialogOpen, dialogClose, pending, setDialogPending } = useDialog(DELETE_MODAL);
+  const css = makeStyles(styles)();
 
   useEffect(() => {
     dispatch(fetchReport(id));
@@ -88,15 +91,19 @@ const Report = ({ mode }) => {
       startIcon={<DeleteIcon />}
     />
   );
+  const reportDescription = report.getIn(["description", i18n.locale], "") ? (
+    <h4 className={css.description}>{report.getIn(["description", i18n.locale], "")}</h4>
+  ) : null;
 
   return (
     <PageContainer>
-      <PageHeading title={report.get("name") ? report.get("name").get(i18n.locale) : ""}>
+      <PageHeading title={report.getIn(["name", i18n.locale], "")}>
         {cancelButton}
         {editButton}
       </PageHeading>
       <PageContent>
         <LoadingIndicator {...loadingIndicatorProps}>
+          {reportDescription}
           {report.get("graph") && (
             <Paper>
               <BarChartGraphic {...buildDataForGraph(report, i18n, { agencies })} showDetails />
