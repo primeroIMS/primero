@@ -13,8 +13,8 @@ export default (store, response, json, recordType = null, fromQueue = false, id 
       action: ENQUEUE_SNACKBAR,
       payload: {
         messageKey: messages || "errors.api.internal_server",
-        messageParams: fromQueue ? { short_id: getShortIdFromUniqueId(id) } : {},
-        recordType,
+        ...(fromQueue && id ? { messageParams: { short_id: getShortIdFromUniqueId(id) } } : {}),
+        ...(recordType ? { recordType } : {}),
         options: {
           variant: SNACKBAR_VARIANTS.error,
           key: fromQueue ? `record_sync_error_${id || "create"}` : "internal_server"
