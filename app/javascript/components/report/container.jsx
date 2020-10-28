@@ -24,6 +24,8 @@ import { getReport } from "./selectors";
 import { deleteReport, fetchReport } from "./action-creators";
 import namespace from "./namespace";
 import { NAME, DELETE_MODAL } from "./constants";
+import GraphExporter from "./components/graph-exporter";
+import TableExporter from "./components/table-exporter";
 
 // const { dialogOpen, setDialog } = useDialog(DELETE_MODAL);
 
@@ -89,9 +91,17 @@ const Report = ({ mode }) => {
     />
   );
 
+  const exportIcons = (
+    <>
+      {report.get("graph") ? <GraphExporter /> : null}
+      <TableExporter />
+    </>
+  );
+
   return (
     <PageContainer>
       <PageHeading title={report.get("name") ? report.get("name").get(i18n.locale) : ""}>
+        {exportIcons}
         {cancelButton}
         {editButton}
       </PageHeading>
