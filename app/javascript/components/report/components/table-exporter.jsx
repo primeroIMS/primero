@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 

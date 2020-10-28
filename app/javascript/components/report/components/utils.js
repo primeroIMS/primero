@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export, no-restricted-syntax */
+/* eslint-disable no-restricted-syntax */
 
 export const tableToCsv = tableSelector => {
   const tableData = [];
