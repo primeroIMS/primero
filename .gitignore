@@ -52,7 +52,6 @@ jmeter/*.csv
 jmeter/*.log
 jmeter/*.svg
 jmeter/logs/
-log/*
 primero-configuration
 public/assets/
 rerun.txt
@@ -68,7 +67,6 @@ npm-error.log*
 .nyc_output
 /reports
 spec/reports/
-storage/
 tags
 tags.lock
 tmp/*
