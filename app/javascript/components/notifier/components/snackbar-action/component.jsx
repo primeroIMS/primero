@@ -4,13 +4,13 @@ import { IconButton, Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 
-const SnackbarAction = ({ action, actionLabel, actionUrl, closeSnackbar, key, hideCloseIcon }) => {
+const Component = ({ action, actionLabel, actionUrl, closeSnackbar, snackKey, hideCloseIcon }) => {
   const handleSnackClose = () => {
-    closeSnackbar(key);
+    closeSnackbar(snackKey);
   };
 
   if (action) {
-    return <>{action(key, handleSnackClose)}</>;
+    return <>{action(snackKey, handleSnackClose)}</>;
   }
 
   const showCloseIcon = !hideCloseIcon && (
@@ -31,15 +31,15 @@ const SnackbarAction = ({ action, actionLabel, actionUrl, closeSnackbar, key, hi
   );
 };
 
-SnackbarAction.displayName = "SnackbarAction";
+Component.displayName = "SnackbarAction";
 
-SnackbarAction.propTypes = {
+Component.propTypes = {
   action: PropTypes.func,
   actionLabel: PropTypes.string,
   actionUrl: PropTypes.string,
   closeSnackbar: PropTypes.func.isRequired,
   hideCloseIcon: PropTypes.bool,
-  key: PropTypes.number
+  snackKey: PropTypes.number
 };
 
-export default SnackbarAction;
+export default Component;

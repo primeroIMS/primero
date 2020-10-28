@@ -1,3 +1,3 @@
 export default store => {
-  return store.getState().getIn(["application", "online"], false);
+  return store.getState().getIn(["connectivity", "online"], false);
 };

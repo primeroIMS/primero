@@ -27,7 +27,6 @@ describe("<Application /> - index", () => {
       "selectModules",
       "selectUserIdle",
       "selectUserModules",
-      "setNetworkStatus",
       "setUserIdle",
       "useApp"
     ].forEach(property => {

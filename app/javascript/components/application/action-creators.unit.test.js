@@ -53,15 +53,6 @@ describe("Application - Action Creators", () => {
     expect(actionCreators.setUserIdle(true)).to.eql(expectedAction);
   });
 
-  it("should create an action to set the network status", () => {
-    const expectedAction = {
-      type: "application/NETWORK_STATUS",
-      payload: true
-    };
-
-    expect(actionCreators.setNetworkStatus(true)).to.eql(expectedAction);
-  });
-
   it("should check the 'fetchSystemPermissions' action creator to return the correct object", () => {
     const expected = {
       type: actions.FETCH_SYSTEM_PERMISSIONS,

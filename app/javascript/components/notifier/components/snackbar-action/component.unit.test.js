@@ -1,8 +1,8 @@
 import { IconButton, Button } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../test";
+import { setupMountedComponent } from "../../../../test";
 
-import SnackbarAction from "./snackbar-action";
+import SnackbarAction from "./component";
 
 describe("<SnackbarAction />", () => {
   let component;

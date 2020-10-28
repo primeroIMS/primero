@@ -6,7 +6,7 @@ import { useI18n } from "../i18n";
 
 import { getMessages } from "./selectors";
 import { removeSnackbar } from "./action-creators";
-import SnackbarAction from "./snackbar-action";
+import SnackbarAction from "./components/snackbar-action";
 
 let displayed = [];
 
@@ -89,7 +89,7 @@ const Notifier = () => {
             actionLabel={actionLabel}
             actionUrl={actionUrl}
             closeSnackbar={closeSnackbar}
-            key={snackKey}
+            snackKey={snackKey}
             hideCloseIcon={noDismiss}
           />
         )
