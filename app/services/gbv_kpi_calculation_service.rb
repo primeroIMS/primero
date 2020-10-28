@@ -41,13 +41,6 @@ class GbvKpiCalculationService
       .compact
   end
 
-  def number_of_meetings
-    form_responses(:action_plan_form)
-      .subform(:gbv_follow_up_subform_section)
-      .field(:followup_date)
-      .compact.count
-  end
-
   def safety_goals_progress
     goal_progress(:gbv_assessment_progress_safety)
   end

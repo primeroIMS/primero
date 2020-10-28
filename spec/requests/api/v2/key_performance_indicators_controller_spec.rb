@@ -142,37 +142,6 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
     end
   end
 
-  describe 'GET /api/v2/kpis/assessment_status', search: true do
-    with '1 case with a filled out survivor assessment form' do
-      it 'shows an asssessment status of 100%' do
-        form(:survivor_assessment_form, [
-               field(:assessment_emotional_state_start,
-                     mandatory_for_completion: true)
-             ])
-
-        Child.new_with_user(@primero_kpi,
-                            'survivor_assessment_form' => [{
-                              'assessment_emotional_state_start' => 'Overwhelmed',
-                              'assessment_emotional_state_end' => 'Resilient',
-                              'assessment_presenting_problem' => 'Anxiety',
-                              'assessment_main_concerns' => 'Poor sales',
-                              'assessment_current_situation' => 'Poor'
-                            }]).save!
-        Sunspot.commit
-
-        sign_in(@primero_kpi)
-
-        get '/api/v2/kpis/assessment_status', params: {
-          from: Date.today - 31,
-          to: Date.today + 1
-        }
-
-        expect(response).to have_http_status(200)
-        expect(json[:data][:completed]).to eql(1.0)
-      end
-    end
-  end
-
   describe 'GET /api/v2/kpis/completed_case_safety_plans', search: true do
     with '1 case with a filled out case safety plan' do
       it 'shows safety plan completed status of 100%' do

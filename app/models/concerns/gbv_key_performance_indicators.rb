@@ -14,15 +14,14 @@ module GBVKeyPerformanceIndicators
       %i[services_provided action_plan_referral_statuses].each { |f| string(f, multiple: true) }
       %i[safety_goals_progress health_goals_progress psychosocial_goals_progress justice_goals_progress
          other_goals_progress].each { |f| float(f) }
-      integer :number_of_meetings
       string :satisfaction_status
     end
   end
 
   delegate :completed_survivor_assessment, :safety_plan_required, :completed_safety_plan,
-    :completed_action_plan, :services_provided, :action_plan_referral_statuses, :number_of_meetings,
-    :safety_goals_progress, :health_goals_progress, :psychosocial_goals_progress, :justice_goals_progress,
-    :other_goals_progress, :satisfaction_status, to: :kpis
+    :completed_action_plan, :services_provided, :action_plan_referral_statuses, :safety_goals_progress,
+    :health_goals_progress, :psychosocial_goals_progress, :justice_goals_progress, :other_goals_progress,
+    :satisfaction_status, to: :kpis
 
   private
 
