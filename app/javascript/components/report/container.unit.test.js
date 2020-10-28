@@ -5,6 +5,8 @@ import { setupMountedComponent } from "../../test";
 import { TableValues } from "../charts";
 import LoadingIndicator from "../loading-indicator";
 
+import GraphExporter from "./components/graph-exporter";
+import TableExporter from "./components/table-exporter";
 import Report from "./container";
 
 describe("<Report />", () => {
@@ -25,6 +27,7 @@ describe("<Report />", () => {
             en: "Case registrations over time",
             es: "Case registrations over time"
           },
+          graph: true,
           fields: [
             {
               name: "registration_date",
@@ -64,6 +67,14 @@ describe("<Report />", () => {
 
   it("renders TableValues", () => {
     expect(component.find(TableValues)).to.have.lengthOf(1);
+  });
+
+  it("renders TableExporter", () => {
+    expect(component.find(TableExporter)).to.have.lengthOf(1);
+  });
+
+  it("renders GraphExporter", () => {
+    expect(component.find(GraphExporter)).to.have.lengthOf(1);
   });
 
   describe("When data still loading", () => {
