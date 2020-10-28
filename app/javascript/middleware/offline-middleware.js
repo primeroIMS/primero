@@ -8,12 +8,12 @@ const offlineMiddleware = store => next => action => {
   }
 
   const {
-    api: { method, queueOffline },
+    api: { method, queueOffline, skipDB },
     fromQueue
   } = action;
   const apiMethod = method || METHODS.GET;
 
-  if (apiMethod === METHODS.GET) {
+  if (apiMethod === METHODS.GET && !skipDB) {
     retrieveData(store, action);
 
     return next(action);

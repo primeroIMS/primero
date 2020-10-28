@@ -138,9 +138,6 @@ const Container = ({ match, mode }) => {
             incidentPath
           )
         );
-        if (containerMode.isEdit) {
-          dispatch(fetchRecordsAlerts(params.recordType, params.id));
-        }
       });
       // TODO: Set this if there are any errors on validations
       // setSubmitting(false);
