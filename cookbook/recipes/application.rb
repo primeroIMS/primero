@@ -108,6 +108,19 @@ cookbook_file ::File.join(node[:primero][:bin_dir], 'reset_config_to') do
   mode '0744'
 end
 
+directory node[:primero][:passenger] do
+  action :create
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
+cookbook_file ::File.join(node[:primero][:passenger], 'nginx.conf.erb') do
+  source 'nginx.conf.erb'
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+  mode '0744'
+end
+
 railsexpress_patch_setup 'prod' do
   user node[:primero][:app_user]
   group node[:primero][:app_group]
