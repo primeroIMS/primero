@@ -5,8 +5,7 @@ import { setupMountedComponent } from "../../test";
 import { TableValues } from "../charts";
 import LoadingIndicator from "../loading-indicator";
 
-import GraphExporter from "./components/graph-exporter";
-import TableExporter from "./components/table-exporter";
+import Exporter from "./components/exporter";
 import Report from "./container";
 
 describe("<Report />", () => {
@@ -69,12 +68,8 @@ describe("<Report />", () => {
     expect(component.find(TableValues)).to.have.lengthOf(1);
   });
 
-  it("renders TableExporter", () => {
-    expect(component.find(TableExporter)).to.have.lengthOf(1);
-  });
-
-  it("renders GraphExporter", () => {
-    expect(component.find(GraphExporter)).to.have.lengthOf(1);
+  it("renders Exporter", () => {
+    expect(component.find(Exporter)).to.have.lengthOf(1);
   });
 
   describe("When data still loading", () => {
