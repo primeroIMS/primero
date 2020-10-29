@@ -8,7 +8,7 @@
 
 - name: 'build the Docker containers'
   command: |
-    ./build.sh all -t '{{ docker_tag }}' -r '{{ docker_container_registry }}'
+    ./build.sh all -t '{{ docker_tag }}' -r '{{ docker_container_registry }}' -l
   args:
     chdir: '/srv/primero/docker'
   tags:
