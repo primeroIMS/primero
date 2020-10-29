@@ -114,8 +114,8 @@ directory node[:primero][:passenger] do
   group node[:primero][:app_group]
 end
 
-cookbook_file ::File.join(node[:primero][:passenger], 'nginx.conf.erb') do
-  source 'nginx.conf.erb'
+cookbook_file ::File.join(node[:primero][:passenger], 'passenger.conf.erb') do
+  source 'passenger.conf.erb'
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
   mode '0744'
