@@ -330,7 +330,7 @@ class User < ApplicationRecord
     @managers
   end
 
-  # This method indicates what records this user can search for.
+  # This method indicates what records or flags this user can search for.
   # Returns self, if can only search records associated with this user
   # Returns list of UserGroups if can only query from those user groups that this user has access to
   # Returns the Agency if can only query from the agency this user has access to
@@ -338,7 +338,7 @@ class User < ApplicationRecord
   def record_query_scope(record_model, id_search = false)
     user_scope = case user_query_scope(record_model, id_search)
                  when Permission::AGENCY
-                   { 'agency' => agency.unique_id }
+                   { 'agency' => agency.unique_id, 'agency_id' => agency_id }
                  when Permission::GROUP
                    { 'group' => user_groups.pluck(:unique_id).compact }
                  when Permission::USER
@@ -520,8 +520,8 @@ class User < ApplicationRecord
 
   def update_child_owned_by_fields(child)
     child.owned_by_location = location if location_changed?
-    child.owned_by_groups = user_group_ids if @refresh_associated_user_groups
-    child.owned_by_agency_id = agency_id if agency_id_changed?
+    child.owned_by_groups = user_group_unique_ids if @refresh_associated_user_groups
+    child.owned_by_agency_id = agency&.unique_id if agency_id_changed?
     child.owned_by_agency_office = agency_office if agency_office_changed?
     child.save!
   end

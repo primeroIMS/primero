@@ -1,6 +1,6 @@
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../record-actions/actions";
+import { CLEAR_DIALOG } from "../action-dialog";
 import { INCIDENT_FROM_CASE, RECORD_PATH, RECORD_TYPES } from "../../config";
 import { setSelectedForm } from "../record-form/action-creators";
 
@@ -57,17 +57,7 @@ const getSuccessCallback = ({
     return [
       ...defaultSuccessCallback,
       {
-        action: SET_DIALOG,
-        payload: {
-          dialog: dialogName,
-          open: false
-        }
-      },
-      {
-        action: SET_DIALOG_PENDING,
-        payload: {
-          pending: false
-        }
+        action: CLEAR_DIALOG
       }
     ];
   }
@@ -150,13 +140,13 @@ export const clearCaseFromIncident = () => ({
   type: `cases/${CLEAR_CASE_FROM_INCIDENT}`
 });
 
-export const setCaseIdForIncident = caseId => ({
+export const setCaseIdForIncident = (caseId, caseIdDisplay) => ({
   type: `cases/${SET_CASE_ID_FOR_INCIDENT}`,
-  payload: { caseId }
+  payload: { caseId, caseIdDisplay }
 });
 
-export const fetchIncidentFromCase = (caseId, moduleId) => {
-  const { type: action, payload } = setCaseIdForIncident(caseId);
+export const fetchIncidentFromCase = (caseId, caseIdDisplay, moduleId) => {
+  const { type: action, payload } = setCaseIdForIncident(caseId, caseIdDisplay);
   const successCallback = {
     action,
     payload,

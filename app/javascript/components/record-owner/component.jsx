@@ -20,7 +20,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
 
     if (field.option_strings_source === "Agency") {
       fieldValue = agencies
-        .filter(agency => agency.get("id") === fieldValue)
+        .filter(agency => agency.get("unique_id") === fieldValue)
         ?.first()
         ?.get("unique_id");
     }

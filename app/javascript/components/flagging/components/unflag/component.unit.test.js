@@ -23,7 +23,7 @@ describe("<Unflag />", () => {
   };
 
   const initialState = fromJS({
-    ui: { dialogs: { [UNFLAG_DIALOG]: true } }
+    ui: { dialogs: { dialog: UNFLAG_DIALOG, open: true } }
   });
 
   beforeEach(() => {

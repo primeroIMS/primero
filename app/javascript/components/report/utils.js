@@ -46,20 +46,14 @@ const getColumnData = (column, data, i18n) => {
     .flat();
 };
 
-const getColumns = (data, i18n, prevData) => {
-  const values = Object.values(data);
-  const keys = Object.keys(data);
+const getColumns = (data, i18n) => {
   const totalLabel = i18n.t("report.total");
-  const firstValue = values[0];
 
-  if (!firstValue || (Object.keys(firstValue).length === 1 && !prevData)) {
-    return [];
-  }
-  if (values.length === 1 && keys.includes(totalLabel)) {
-    return prevData ? Object.keys(prevData).filter(key => key !== totalLabel) : [];
-  }
-
-  return getColumns(firstValue, i18n, data);
+  return uniq(
+    Object.values(data)
+      .map(currValue => Object.keys(currValue))
+      .flat()
+  ).filter(key => key !== totalLabel);
 };
 
 const containsColumns = (columns, data, i18n) => {
@@ -71,7 +65,7 @@ const containsColumns = (columns, data, i18n) => {
 
 const getTranslatedKey = (key, field, { agencies }) => {
   if (field?.option_strings_source === "Agency" && agencies) {
-    return dataToJS(agencies).find(agency => agency.id === parseInt(key, 10))?.display_text;
+    return dataToJS(agencies).find(agency => agency.id.toLowerCase() === key.toLowerCase())?.display_text;
   }
 
   return key;

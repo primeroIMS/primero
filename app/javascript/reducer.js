@@ -10,7 +10,7 @@ import { reducer as dashboardReducer } from "./components/pages/dashboard";
 import { reducer as exportListReducer } from "./components/pages/export-list";
 import { reducer as loginFormReducer } from "./components/pages/login/login-form";
 import { reducer as loginReducer } from "./components/pages/login";
-import { reducer as recordActionsReducer } from "./components/record-actions";
+import { reducer as dialogReducer } from "./components/action-dialog";
 import { reducer as requestApprovalReducer } from "./components/record-actions/request-approval";
 import { reducer as bulkTranstionsReducer } from "./components/record-actions/bulk-transtions";
 import { reducer as potentialMatchesReducer } from "./components/pages/potential-matches";
@@ -100,7 +100,7 @@ const rootReducer = {
     ...navReducer,
     ...i18nReducer,
     ...loginFormReducer,
-    ...recordActionsReducer
+    ...dialogReducer
   }),
   ...recordFormReducer,
   ...notifierReducer,

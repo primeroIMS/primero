@@ -10,6 +10,7 @@ describe("<IndexFilters /> - Utils", () => {
 
       [
         "buildFields",
+        "buildUserModules",
         "buildReportFields",
         "checkValue",
         "dependantFields",
@@ -177,6 +178,19 @@ describe("<IndexFilters /> - Utils", () => {
       };
 
       expect(utils.checkValue(filter)).to.be.equals("test");
+    });
+  });
+
+  describe("buildUserModules()", () => {
+    it("should return a list of formatted objects", () => {
+      const modules = List([{ name: "test", unique_id: "test-1" }]);
+      const expected = [{ id: "test-1", display_text: "test" }];
+
+      expect(utils.buildUserModules(modules)).to.deep.equal(expected);
+    });
+
+    it("should return an empty array", () => {
+      expect(utils.buildUserModules(fromJS([]))).to.be.empty;
     });
   });
 });

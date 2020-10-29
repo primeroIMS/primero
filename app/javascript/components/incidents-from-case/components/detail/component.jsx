@@ -21,6 +21,7 @@ const Component = ({
   css,
   handleSubmit,
   incidentCaseId,
+  incidentCaseIdDisplay,
   incidentDateInterview,
   incidentDate,
   incidentUniqueID,
@@ -42,7 +43,7 @@ const Component = ({
   const redirectIncident = path => {
     batch(() => {
       dispatch(setSelectedForm(null));
-      dispatch(setCaseIdForIncident(incidentCaseId));
+      dispatch(setCaseIdForIncident(incidentCaseId, incidentCaseIdDisplay));
       dispatch(push(path));
     });
   };
@@ -127,6 +128,7 @@ Component.propTypes = {
   css: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func,
   incidentCaseId: PropTypes.string,
+  incidentCaseIdDisplay: PropTypes.string,
   incidentDate: PropTypes.string,
   incidentDateInterview: PropTypes.string,
   incidentType: PropTypes.node,

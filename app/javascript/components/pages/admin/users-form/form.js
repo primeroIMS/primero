@@ -12,6 +12,8 @@ import {
 
 import { IDENTITY_PROVIDER_ID, USER_GROUP_UNIQUE_IDS, USERGROUP_PRIMERO_GBV } from "./constants";
 
+const passwordPlaceholder = formMode => (formMode.get("isEdit") ? "•••••" : "");
+
 const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePassword) => [
   {
     display_name: i18n.t("user.full_name"),
@@ -39,7 +41,8 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     password: true,
     hideOnShow: true,
     required: formMode.get("isNew"),
-    editable: false
+    editable: false,
+    placeholder: passwordPlaceholder(formMode)
   },
   {
     display_name: i18n.t("user.password_confirmation"),
@@ -48,12 +51,14 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     password: true,
     hideOnShow: true,
     required: formMode.get("isNew"),
-    editable: false
+    editable: false,
+    placeholder: passwordPlaceholder(formMode)
   },
   {
     display_name: "Change password",
     type: DIALOG_TRIGGER,
     hideOnShow: true,
+    showIf: () => formMode.get("isEdit"),
     onClick: onClickChangePassword
   },
   {
@@ -85,7 +90,7 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     type: SELECT_FIELD,
     multi_select: true,
     option_strings_source: "lookup-service-type",
-    help_text: i18n.t("user.services_help_text")
+    help_text: formMode.get("isNew") ? i18n.t("user.services_help_text") : ""
   },
   {
     display_name: i18n.t("user.phone"),

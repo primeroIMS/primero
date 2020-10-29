@@ -170,6 +170,7 @@ en:
     update: Update
     view: View
     view_flags_history: View History
+    return_to_case: Return to Case
 
   case:
     create_new_case: Create New Case
@@ -949,6 +950,7 @@ en:
     predifined_lookups: Use pre-defined lookup
     radio_button: Radio Button
     remove: Remove
+    remove_attachment_confirmation: Are you sure you want to remove this attachment?
     required: Required
     required_field: '%{field} is required'
     search_existing: Search existing fields
@@ -1100,6 +1102,7 @@ en:
     welcome: Welcome to Primero
     zh: 中文
   incident:
+    associated_case: "Associated Case:"
     messages:
       creation_success: Incident record successfully created.
       creation_success_queue: Incident record successfully created in background
@@ -2435,6 +2438,7 @@ en:
     service_label: Service
     success: '%{record_type} %{id} successfully referred'
     user_mandatory_label: Recipient is required
+    date: Date
   report:
     aggregate_by: Group by row
     attribute: Attribute
@@ -2608,6 +2612,7 @@ en:
   transfer_assignment:
     title: TRANSFERS AND ASSIGNMENTS
   transition:
+    agency_label: Agency
     assigned_by: Assigned By
     consent_individual_transfer_value:
       true_label: 'Yes'

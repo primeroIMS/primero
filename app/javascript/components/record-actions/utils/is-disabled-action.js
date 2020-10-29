@@ -1,9 +1,10 @@
-// eslint-disable-next-line import/prefer-default-export
-export const isDisabledAction = (enabledFor, enabledOnSearch, isSearchFromList, selectedRecords, totaRecords) => {
+import { ALL, MANY, ONE } from "../constants";
+
+export default (enabledFor, enabledOnSearch, isSearchFromList, selectedRecords, totaRecords) => {
   const selectedRecordsLength = Object.values(selectedRecords || {}).flat().length;
-  const forOne = enabledFor?.includes("one");
-  const forMany = enabledFor?.includes("many");
-  const forAll = enabledFor?.includes("all");
+  const forOne = enabledFor?.includes(ONE);
+  const forMany = enabledFor?.includes(MANY);
+  const forAll = enabledFor?.includes(ALL);
 
   const enableForOne = enabledOnSearch
     ? selectedRecordsLength === 1 && forOne && enabledOnSearch && isSearchFromList
@@ -13,7 +14,3 @@ export const isDisabledAction = (enabledFor, enabledOnSearch, isSearchFromList, 
 
   return !(selectedRecordsLength > 0 && (enableForOne || enableForMany || enableForAll));
 };
-
-export const subformExists = (parentForm, subformName) =>
-  // eslint-disable-next-line camelcase
-  parentForm && parentForm.fields.find(field => field.name === subformName)?.subform_section_id;

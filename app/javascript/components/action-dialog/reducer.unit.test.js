@@ -6,7 +6,7 @@ import { SET_DIALOG, SET_DIALOG_PENDING } from "./actions";
 describe("<RecordActions /> - Reducers", () => {
   it("should handle SET_DIALOG", () => {
     const defaultState = fromJS({
-      requestApproval: false,
+      dialog: "requestApproval",
       pending: false
     });
 
@@ -15,8 +15,9 @@ describe("<RecordActions /> - Reducers", () => {
       open: true
     };
     const expected = fromJS({
-      requestApproval: true,
-      pending: false
+      dialog: "requestApproval",
+      pending: false,
+      open: true
     });
 
     const action = {
@@ -31,16 +32,14 @@ describe("<RecordActions /> - Reducers", () => {
 
   it("should handle SET_DIALOG_PENDING", () => {
     const defaultState = fromJS({
-      requestApproval: false,
+      dialog: "requestApproval",
       pending: false
     });
 
-    const payload = {
-      pending: true
-    };
+    const payload = true;
 
     const expected = fromJS({
-      requestApproval: false,
+      dialog: "requestApproval",
       pending: true
     });
 

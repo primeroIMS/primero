@@ -81,7 +81,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     option_strings_source_id_key: optionStringsSourceIdKey,
     setOtherFieldValues,
     wrapWithComponent: WrapWithComponent,
-    onClick
+    onClick,
+    placeholder
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -131,6 +132,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     },
     className: inputClassname,
     format,
+    placeholder,
     ...watchedInputProps
   };
 

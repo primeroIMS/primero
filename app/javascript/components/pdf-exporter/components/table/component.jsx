@@ -5,7 +5,6 @@ import isEqual from "lodash/isEqual";
 
 import KeyValueCell from "../key-value-cell";
 import { useI18n } from "../../../i18n";
-import { DATE_FIELD, TICK_FIELD } from "../../../form";
 import { valuesWithDisplayConditions } from "../../../record-form/form/subforms/subform-field-array/utils";
 
 import { EXCLUDED_FIELD_TYPES } from "./constants";
@@ -43,7 +42,8 @@ const Component = ({ fields, record }) => {
           option_strings_text: optionsStringsText,
           options,
           type,
-          date_include_time: dateIncludeTime
+          date_include_time: dateIncludeTime,
+          defaultValue
         } = field;
 
         if (subformSection) {
@@ -57,13 +57,12 @@ const Component = ({ fields, record }) => {
         return (
           <KeyValueCell
             displayName={i18n.getI18nStringFromObject(displayName)}
-            value={record.get(name)}
+            value={record.get(name) || defaultValue}
             optionsStringSource={optionStringsSource}
             options={optionsStringsText || options}
             key={`keyval-${name}`}
-            isDateField={type === DATE_FIELD}
+            type={type}
             isDateWithTime={dateIncludeTime}
-            isBooleanField={type === TICK_FIELD}
           />
         );
       })}
@@ -79,8 +78,10 @@ Component.propTypes = {
 };
 
 export default React.memo(Component, (prev, next) => {
-  return isEqual(
-    prev.fields.map(field => field.name),
-    next.fields.map(field => field.name)
+  return (
+    isEqual(
+      prev.fields.map(field => field.name),
+      next.fields.map(field => field.name)
+    ) && isEqual(Object.values(prev.record), Object.values(next.record))
   );
 });

@@ -1,3 +1,9 @@
+import { parseISO } from "date-fns";
+
+import { useFakeTimers } from "../../test";
+
+import { FormSectionRecord, FieldRecord } from "./records";
+import { DATE_FIELD, SELECT_FIELD, TICK_FIELD } from "./constants";
 import * as utils from "./utils";
 
 describe("<RecordForms /> - utils", () => {
@@ -133,6 +139,89 @@ describe("<RecordForms /> - utils", () => {
       expect(utils.getRedirectPath({ isNew: true }, { recordType: "incidents", id: "incident-id-1" }, "")).to.equal(
         "/incidents"
       );
+    });
+  });
+
+  describe("constructInitialValues", () => {
+    let clock = null;
+
+    beforeEach(() => {
+      const today = parseISO("2010-01-05T18:30:00Z");
+
+      clock = useFakeTimers(today);
+    });
+
+    it("should generate default values if they are defined", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1", selected_value: "default_value_1" }),
+            FieldRecord({
+              name: "field_2",
+              type: SELECT_FIELD,
+              multi_select: true,
+              selected_value: `["value_1", "value_2"]`
+            }),
+            FieldRecord({
+              name: "field_3",
+              type: TICK_FIELD,
+              selected_value: true
+            }),
+            FieldRecord({
+              name: "field_4",
+              type: DATE_FIELD,
+              selected_value: "today"
+            })
+          ]
+        })
+      ];
+
+      const expectedInitialValues = {
+        field_1: "default_value_1",
+        field_2: ["value_1", "value_2"],
+        field_3: true,
+        field_4: "2010-01-05"
+      };
+
+      expect(utils.constructInitialValues(forms)).to.deep.equal(expectedInitialValues);
+    });
+
+    it("should not generate default values if they are not defined", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1" }),
+            FieldRecord({
+              name: "field_2",
+              type: SELECT_FIELD,
+              multi_select: true
+            }),
+            FieldRecord({
+              name: "field_3",
+              type: TICK_FIELD
+            }),
+            FieldRecord({
+              name: "field_4",
+              type: DATE_FIELD
+            })
+          ]
+        })
+      ];
+
+      const expectedInitialValues = {
+        field_1: "",
+        field_2: [],
+        field_3: false,
+        field_4: null
+      };
+
+      expect(utils.constructInitialValues(forms)).to.deep.equal(expectedInitialValues);
+    });
+
+    afterEach(() => {
+      clock.restore();
     });
   });
 });

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp, react/display-name */
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
@@ -7,6 +8,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { fromJS } from "immutable";
 import startCase from "lodash/startCase";
 
+import DisableOffline from "../../disable-offline";
 import PageContainer, { PageHeading, PageContent } from "../../page";
 import IndexTable from "../../index-table";
 import { useI18n } from "../../i18n";
@@ -35,7 +37,6 @@ const ExportList = () => {
           ...(c.name === EXPORT_COLUMNS.fileName
             ? {
                 id: true,
-                // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customBodyRender: (value, tableMeta) => {
                   const exportRecord = data.getIn(["data", tableMeta.rowIndex]);
                   const { status } = exportRecord;
@@ -47,28 +48,38 @@ const ExportList = () => {
                   );
 
                   return (
-                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-                    <div
-                      className={css.link}
-                      onClick={() => onRowClick(exportRecord)}
-                      role="button"
-                      tabIndex={tableMeta.rowIndex}
-                    >
-                      {exportIcon}
-                      <span>{value}</span>
-                    </div>
+                    <DisableOffline>
+                      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+                      <div
+                        className={css.link}
+                        onClick={() => onRowClick(exportRecord)}
+                        role="button"
+                        tabIndex={tableMeta.rowIndex}
+                      >
+                        {exportIcon}
+                        <span>{value}</span>
+                      </div>
+                    </DisableOffline>
                   );
                 }
               }
             : {}),
           ...(c.name === EXPORT_COLUMNS.recordType
             ? {
-                customBodyRender: value => startCase(value)
+                customBodyRender: value => (
+                  <DisableOffline>
+                    <span>{startCase(value)}</span>
+                  </DisableOffline>
+                )
               }
             : {}),
           ...(c.name === EXPORT_COLUMNS.startedOn
             ? {
-                customBodyRender: value => i18n.localizeDate(value, DATE_TIME_FORMAT)
+                customBodyRender: value => (
+                  <DisableOffline>
+                    <span>{i18n.localizeDate(value, DATE_TIME_FORMAT)}</span>
+                  </DisableOffline>
+                )
               }
             : {})
         }

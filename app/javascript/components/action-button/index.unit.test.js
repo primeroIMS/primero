@@ -16,7 +16,7 @@ describe("<ActionButton />  - components/index", () => {
       expect(clone).to.be.empty;
     });
 
-    ["default"].forEach(property => {
+    ["default", "ACTION_BUTTON_TYPES"].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(index).to.have.property(property);
         delete clone[property];

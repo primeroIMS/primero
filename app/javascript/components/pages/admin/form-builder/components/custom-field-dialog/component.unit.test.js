@@ -10,7 +10,8 @@ describe("<CustomFieldDialog />", () => {
   const initialState = {
     ui: {
       dialogs: {
-        custom_field_dialog: true
+        dialog: "custom_field_dialog",
+        open: true
       }
     }
   };

@@ -14,6 +14,9 @@ import { useI18n } from "../../../../i18n";
 import { DOCUMENT_FIELD_NAME } from "../../constants";
 import DateField from "../date-field";
 import styles from "../../styles.css";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
+import ActionDialog from "../../../../action-dialog";
 
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
@@ -33,6 +36,7 @@ const DocumentField = ({
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [dialog, setDialog] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const { attachment_url: attachmentUrl } = value;
 
   const fields = buildAttachmentFieldsObject(name, index);
@@ -51,8 +55,28 @@ const DocumentField = ({
 
   const handleRemove = () => {
     removeFunc(index);
-    handleClose();
+
+    if (dialog) {
+      handleClose();
+    }
   };
+
+  const openDeleteConfirmation = () => setDeleteConfirmation(true);
+
+  const closeDeleteConfirmation = () => setDeleteConfirmation(false);
+
+  const deleteButton = (
+    <>
+      <ActionButton
+        icon={<DeleteIcon />}
+        type={ACTION_BUTTON_TYPES.icon}
+        isCancel
+        rest={{
+          onClick: openDeleteConfirmation
+        }}
+      />
+    </>
+  );
 
   const supportingInputsProps = {
     disabled: mode.isShow,
@@ -81,6 +105,7 @@ const DocumentField = ({
           {value.description}
         </div>
         <div>
+          {deleteButton}
           <IconButton onClick={handleOpen}>
             <KeyboardArrowRightIcon />
           </IconButton>
@@ -99,15 +124,20 @@ const DocumentField = ({
         <DialogContent>
           <div className={css.attachmentUploadField}>
             {attachmentUrl ? (
-              <Button href={attachmentUrl}>{i18n.t("buttons.download")}</Button>
+              <ActionButton
+                text={i18n.t("buttons.download")}
+                type={ACTION_BUTTON_TYPES.default}
+                isTransparent
+                rest={{
+                  variant: "outlined",
+                  component: "a",
+                  href: attachmentUrl
+                }}
+              />
             ) : (
               <AttachmentInput fields={fields} attachment={attachment} value={value.attachment} name={name} />
             )}
-            {mode.isShow || (
-              <IconButton onClick={handleRemove}>
-                <DeleteIcon />
-              </IconButton>
-            )}
+            {mode.isShow || deleteButton}
           </div>
 
           <Box my={2}>
@@ -145,6 +175,15 @@ const DocumentField = ({
           </Button>
         </DialogActions>
       </Dialog>
+
+      <ActionDialog
+        open={deleteConfirmation}
+        successHandler={handleRemove}
+        cancelHandler={closeDeleteConfirmation}
+        dialogTitle={`${i18n.t("fields.remove")} ${i18n.t("fields.document_upload_box")}`}
+        dialogText={i18n.t("fields.remove_attachment_confirmation")}
+        confirmButtonLabel={i18n.t("buttons.ok")}
+      />
     </>
   );
 };
