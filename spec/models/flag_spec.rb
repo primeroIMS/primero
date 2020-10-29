@@ -242,7 +242,7 @@ describe Flag do
 
     context 'when the user has query agency permissions' do
       before do
-        @query_scope = { user: { 'agency_id' => @agency2.id }, module: ['primeromodule-cp'] }
+        @query_scope = { user: { 'agency' => @agency2.unique_id }, module: ['primeromodule-cp'] }
       end
 
       context 'when record_types is passed in' do
