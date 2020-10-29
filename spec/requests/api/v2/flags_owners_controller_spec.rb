@@ -101,7 +101,7 @@ describe Api::V2::FlagsOwnersController, type: :request do
           expect(json['data'][0]['name']).to eq('*******')
           expect(json['data'][0]['hidden_name']).to be
           expect(json['data'][0]['owned_by']).to eq('user1')
-          expect(json['data'][0]['owned_by_agency_id']).to eq(@agency1.id)
+          expect(json['data'][0]['owned_by_agency_id']).to eq(@agency1.unique_id)
         end
 
         context 'and record_type cases is passed in' do
