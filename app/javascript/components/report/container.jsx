@@ -45,6 +45,8 @@ const Report = ({ mode }) => {
   const errors = useSelector(state => getErrors(state, namespace));
   const loading = useSelector(state => getLoading(state, namespace));
   const report = useSelector(state => getReport(state));
+  const name = report.getIn(["name", i18n.locale], "");
+  const description = report.getIn(["description", i18n.locale], "");
   const agencies = useSelector(state => getOptions(state, STRING_SOURCES_TYPES.AGENCY, i18n, null, true));
 
   const setDeleteModal = open => {
@@ -91,13 +93,12 @@ const Report = ({ mode }) => {
       startIcon={<DeleteIcon />}
     />
   );
-  const reportDescription = report.getIn(["description", i18n.locale], "") ? (
-    <h4 className={css.description}>{report.getIn(["description", i18n.locale], "")}</h4>
-  ) : null;
+
+  const reportDescription = description ? <h4 className={css.description}>{description}</h4> : null;
 
   return (
     <PageContainer>
-      <PageHeading title={report.getIn(["name", i18n.locale], "")}>
+      <PageHeading title={name}>
         {cancelButton}
         {editButton}
       </PageHeading>
