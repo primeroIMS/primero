@@ -4,7 +4,7 @@ import { Record } from "immutable";
 
 export const MessageRecord = Record({
   message: "",
-  messageForQueue: "",
+  messageFromQueue: "",
   messageKey: "",
   messageParams: {},
   recordType: "",

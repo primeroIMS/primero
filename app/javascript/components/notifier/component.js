@@ -48,7 +48,7 @@ const Notifier = () => {
         dismissed,
         message,
         messageParams,
-        messageForQueue,
+        messageFromQueue,
         messageKey,
         actionLabel,
         actionUrl,
@@ -64,7 +64,7 @@ const Notifier = () => {
 
       if (displayed.includes(key)) return;
 
-      let snackMessage = online ? message : messageForQueue;
+      let snackMessage = online ? message : messageFromQueue;
 
       if (messageKey) {
         const translatedRecordType = recordType ? i18n.t(`${RECORD_TYPES[recordType]}.label`) : "";
