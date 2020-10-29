@@ -1,2 +1,2 @@
-export { default as AppLayout } from "./AppLayout";
+export { default as AppLayout } from "./component";
 export { default as LoginLayout } from "./LoginLayout";

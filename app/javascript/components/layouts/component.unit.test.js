@@ -5,7 +5,7 @@ import { routes } from "../../config";
 import { setupMountedComponent } from "../../test";
 import Nav from "../nav";
 
-import AppLayout from "./AppLayout";
+import AppLayout from "./component";
 
 describe("<AppLayout />", () => {
   let component;

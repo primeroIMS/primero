@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp, react/display-name */
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
