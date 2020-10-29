@@ -18,7 +18,7 @@ create_or_update_module(
   description: "Child Protection",
   associated_record_types: ["case", "tracing_request", "incident"],
   form_sections: FormSection.where(unique_id: [
-    "activities", "assessment", "basic_identity", "best_interest", "caafag_profile",
+    "activities", "assessment", "basic_identity", "best_interest",
     "care_arrangements", "care_assessment", "child_under_5", "bia_documents",
     "child_wishes", "closure_form", "consent", "family_details", "followup",
     "interview_details", "other_documents", "other_identity_details", "partner_details",
@@ -228,25 +228,4 @@ create_or_update_module(
     reporting_location_filter: true
   },
   primero_program: PrimeroProgram.find_by(unique_id: "primeroprogram-primero"),
-)
-
-
-#TODO: This list needs to be updated once we harden the GBV forms
-create_or_update_module(
-  unique_id: 'primeromodule-gbv',
-  name: "GBV",
-  description: "Gender Based Violence",
-  associated_record_types: ["case", "incident"],
-  form_sections: FormSection.where(unique_id: [
-    "record_owner", "consent_for_services", "gbv_survivor_information",
-    "other_documents", "consent_for_referrals","safety_plan",
-    "incident_record_owner", "incident_service_referrals", "gbv_individual_details", "gbv_incident_form",
-    "gbv_sexual_violence", "action_plan_form", "survivor_assessment_form", "gbv_case_closure_form", "alleged_perpetrators_wrapper",
-    "other_reportable_fields_case", "other_reportable_fields_incident", "referral_transfer", "client_feedback", "approvals",
-    "cp_case_plan", "closure_form"
-  ]),
-  module_options: {
-     user_group_filter: true
-  },
-  primero_program: PrimeroProgram.find_by(unique_id: "primeroprogram-primero")
 )

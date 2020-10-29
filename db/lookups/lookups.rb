@@ -358,17 +358,6 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :unique_id => "lookup-unaccompanied-separated-status",
-  :name_en => "Unaccompanied Separated Status",
-  :lookup_values_en => [
-    {id: "no", display_text: "No"}.with_indifferent_access,
-    {id: "unaccompanied_minor", display_text: "Unaccompanied Minor"}.with_indifferent_access,
-    {id: "separated_child", display_text: "Separated Child"}.with_indifferent_access,
-    {id: "other_vulnerable_child", display_text: "Orphan or Vulnerable Child"}.with_indifferent_access
-  ]
-)
-
-create_or_update_lookup(
   :unique_id => "lookup-protection-status",
   :name_en => "Protection Status",
   :lookup_values_en => [
@@ -396,20 +385,6 @@ create_or_update_lookup(
     {id: "high", display_text: "High"}.with_indifferent_access,
     {id: "medium", display_text: "Medium"}.with_indifferent_access,
     {id: "low", display_text: "Low"}.with_indifferent_access
-  ]
-)
-
-create_or_update_lookup(
-  :unique_id => "lookup-gbv-sexual-violence-type",
-  :name_en => "Gbv Sexual Violence Type",
-  :lookup_values_en => [
-    {id: "rape", display_text: "Rape"}.with_indifferent_access,
-    {id: "sexual_assault", display_text: "Sexual Assault"}.with_indifferent_access,
-    {id: "physical_assault", display_text: "Physical Assault"}.with_indifferent_access,
-    {id: "forced_marriage", display_text: "Forced Marriage"}.with_indifferent_access,
-    {id: "denial_of_resources_opportunities_or_services", display_text: "Denial of Resources, Opportunities or Services"}.with_indifferent_access,
-    {id: "psychological_emotional_abuse", display_text: "Psychological / Emotional Abuse"}.with_indifferent_access,
-    {id: "non-gbv", display_text: "Non-GBV"}.with_indifferent_access
   ]
 )
 
@@ -608,26 +583,6 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-    :unique_id => "lookup-yes-no-not-applicable",
-    :name_en => "Yes, No, or Not Applicable",
-    :lookup_values_en => [
-        {id: "true", display_text: "Yes"},
-        {id: "false", display_text: "No"},
-        {id: "not_applicable", display_text: "Not Applicable"}
-    ].map(&:with_indifferent_access)
-)
-
-create_or_update_lookup(
-    :unique_id => "lookup-gbv-reported-elsewhere",
-    :name_en => "Yes, No, or Unknown",
-    :lookup_values_en => [
-        {id: "no", display_text: "No"}.with_indifferent_access,
-        {id: "gbvims-org", display_text: "Yes-GBVIMS Org / Agency"}.with_indifferent_access,
-        {id: "non-gbvims-org", display_text: "Yes-Non GBVIMS Org / Agency"}.with_indifferent_access
-    ]
-)
-
-create_or_update_lookup(
     :unique_id => "lookup-approval-type",
     :name_en => "Approval Type",
     :locked => true,
@@ -749,17 +704,6 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :unique_id => "lookup-marital-status-unknown",
-  :name_en => "Marital Status",
-  :lookup_values_en => [
-    {id: "single", display_text: "Single"},
-    {id: "married_cohabitating", display_text: "Married/Cohabitating"},
-    {id: "divorced_separated", display_text: "Divorced/Separated"},
-    {id: "unknown_not_applicable", display_text: "Unknown/Not Applicable"}
-  ]
-)
-
-create_or_update_lookup(
     :unique_id => "lookup-perpetrator-relationship",
     :name_en => "Perpetrator Relationship",
     :lookup_values_en => [
@@ -825,17 +769,6 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :unique_id => "lookup-disability-type-with-no",
-  :name_en => "Disability Type",
-  :lookup_values_en => [
-    {id: "no", display_text: "No"},
-    {id: "mental_disability", display_text: "Mental Disability"},
-    {id: "physical_disability", display_text: "Physical Disability"},
-    {id: "both", display_text: "Both"}
-  ]
-)
-
-create_or_update_lookup(
     :unique_id => "lookup-transition-type",
     :name_en => "Transition Type",
     :lookup_values_en => [
@@ -847,28 +780,6 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-    :unique_id => "lookup-assessment-duration",
-    :name_en => "Assessment Duration",
-    :lookup_values_en => [
-        { id: 'less_than_15_minutes', display_text: "Less than 15 minutes" },
-        { id: '16_30_minutes', display_text: "16-30 minutes" },
-        { id: '31_minutes_1_hour', display_text: "31 minutes - 1 hour" },
-        { id: '1_2_hours', display_text: "1-2 hours" },
-        { id: 'more_than_2_hours', display_text: "More than 2 hours" }
-    ].map(&:with_indifferent_access)
-)
-
-create_or_update_lookup(
-    :unique_id => "lookup-child-minor-age-group",
-    :name_en => "Child / Minor Age Group",
-    :lookup_values_en => [
-        {id: "0_5_year_old", display_text: "0-5 year-old"},
-        {id: "6_12_year_old", display_text: "6-12 year-old"},
-        {id: "13_17_year_old", display_text: "13-17 year-old"}
-    ].map(&:with_indifferent_access)
-)
-
-create_or_update_lookup(
   :unique_id => "lookup-age-group-type",
   :name_en => "Age Group Type",
   :lookup_values_en => [
@@ -876,19 +787,6 @@ create_or_update_lookup(
     {id: "minor", display_text: "Minor"},
     {id: "unknown", display_text: "Unknown"}
   ].map(&:with_indifferent_access)
-)
-
-create_or_update_lookup(
-    :unique_id => "lookup-discovery-method",
-    :name_en => "Discovery Method",
-    :lookup_values_en => [
-        {id: "family_or_friend", display_text: "Family or friend"},
-        {id: "referral", display_text: "Referral from another organization"},
-        {id: "neighbor", display_text: "Neighbor or community member"},
-        {id: "community_discussion", display_text: "Community discussion"},
-        {id: "pamphlet", display_text: "Flyer or pamphlet you saw or received"},
-        {id: "other", display_text: "Other"}
-    ].map(&:with_indifferent_access)
 )
 
 create_or_update_lookup(

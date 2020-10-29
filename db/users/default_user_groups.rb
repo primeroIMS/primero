@@ -23,9 +23,3 @@ create_or_update_user_group(
   name: 'Primero FTR',
   description: 'Default Primero User Group for FTR'
 )
-
-create_or_update_user_group(
-  unique_id: 'usergroup-primero-gbv',
-  name: 'Primero GBV',
-  description: 'Default Primero User Group for GBV'
-)

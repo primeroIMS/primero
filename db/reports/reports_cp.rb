@@ -21,34 +21,12 @@ Report.create({
   editable: false
 })
 
-Report.create({
-  name_all: 'Registration GBV',
-  description_all: 'Case registrations over time',
-  module_id: PrimeroModule::GBV,
-  record_type: 'case',
-  aggregate_by: ['registration_date'],
-  group_dates_by: 'month',
-  filters: default_case_filters,
-  is_graph: true,
-  editable: false
-})
 
 #TODO: This doesn't account for referrals
 Report.create({
   name_all: 'Caseload Summary CP',
   description_all: 'Number of cases for each case worker',
   module_id: PrimeroModule::CP,
-  record_type: 'case',
-  aggregate_by: ['owned_by'],
-  filters: default_case_filters,
-  is_graph: true,
-  editable: false
-})
-
-Report.create({
-  name_all: 'Caseload Summary GBV',
-  description_all: 'Number of cases for each case worker',
-  module_id: PrimeroModule::GBV,
   record_type: 'case',
   aggregate_by: ['owned_by'],
   filters: default_case_filters,
@@ -69,32 +47,9 @@ Report.create({
 })
 
 Report.create({
-  name_all: 'Case status by case worker GBV',
-  description_all: 'Status of cases held by case workers',
-  module_id: PrimeroModule::GBV,
-  record_type: 'case',
-  aggregate_by: ['owned_by'],
-  disaggregate_by: ['status'],
-  filters: [{'attribute' => 'record_state', 'value' => ['true']}],
-  is_graph: true,
-  editable: false
-})
-
-Report.create({
   name_all: 'Cases by Agency CP',
   description_all: 'Number of cases broken down by agency',
   module_id: PrimeroModule::CP,
-  record_type: 'case',
-  aggregate_by: ['owned_by_agency_id'],
-  filters: default_case_filters,
-  is_graph: true,
-  editable: false
-})
-
-Report.create({
-  name_all: 'Cases by Agency GBV',
-  description_all: 'Number of cases broken down by agency',
-  module_id: PrimeroModule::GBV,
   record_type: 'case',
   aggregate_by: ['owned_by_agency_id'],
   filters: default_case_filters,
