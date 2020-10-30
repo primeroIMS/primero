@@ -12,7 +12,7 @@ describe("<Records /> - utils", () => {
       expect(clone).to.be.empty;
     });
 
-    ["cleanUpFilters", "useMetadata"].forEach(property => {
+    ["cleanUpFilters", "useMetadata", "getShortIdFromUniqueId"].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(utils).to.have.property(property);
         delete clone[property];
