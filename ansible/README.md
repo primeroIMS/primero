@@ -245,19 +245,27 @@ It only needs to be run once against any piece of inventory (although it is safe
     The inventory file should include the primero server you want to deploy to, for example:
 
             ---
-            all:
+                all:
 
-              hosts:
-                primero.example.com:
-                  ansible_user: 'ubuntu'
-                  primero_nginx_server_name: 'primero.example.com'
-                  certbot_domain:
-                  - '{{ primero_nginx_server_name }}'
-                  certbot_email: 'primero-example@example.com'
-                  cert_name: 'primero'
-                  primero_repo_branch: 'master'
-                  docker_tag: ''
-                  docker_container_registry: ''
+                  hosts:
+                    primero.example.com:
+                      ansible_user: 'ubuntu'
+                      primero_nginx_server_name: 'primero.example.com'
+                      certbot_domain:
+                      - '{{ primero_nginx_server_name }}'
+                      certbot_email: 'primero-example@example.com'
+                      cert_name: 'primero'
+                      primero_github_branch: 'master'
+                      build_docker_tag: ''
+                      build_docker_container_registry: ''
+                      primero_tag: 'latest'
+                      lets_encrypt_domain: '{{ primero_nginx_server_name }}'
+                      lets_encrypt_email: '{{ certbot_email }}'
+                      use_lets_encrypt: 'false'
+                      nginx_certificate_name: '{{ cert_name }}'
+                      nginx_ssl_cert_path: '/certs/cert.pem'
+                      nginx_ssl_key_path: '/certs/key.pem'
+                      primero_host: '{{ primero_nginx_server_name }}'
 
 3.  Create the `secrets.yml`.  Refer to the [TLDR](#markdown-header-tldr) section for more info.
            
