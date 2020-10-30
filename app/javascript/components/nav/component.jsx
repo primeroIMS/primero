@@ -10,6 +10,7 @@ import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
 import Permission from "../application/permission";
 import TranslationsToggle from "../translations-toggle";
+import NetworkIndicator from "../network-indicator";
 import { PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import { getPermissions } from "../user";
 
@@ -85,6 +86,7 @@ const Nav = () => {
           <Divider />
         </Hidden>
       </div>
+      <NetworkIndicator />
       <List className={css.navList}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId))}</List>
       <div className={css.navAgencies}>
         <AgencyLogo />

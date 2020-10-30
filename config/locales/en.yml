@@ -22,7 +22,14 @@ en:
   form: Form
   name: Name
   offline: Offline
+  online: Online
   yes_label: 'Yes'
+  offline_submitted_changes: You are currently offline. Your changes will be submitted when you are back online.
+  sync:
+    success: "%{records} records successfully synced."
+    error:
+      create: Failed to create %{record_type}. Please contact support.
+      update: Update to %{record_type} %{short_id} failed. Please contact support.
 
   actions:
     approvals: Approvals
@@ -173,6 +180,7 @@ en:
     return_to_case: Return to Case
 
   case:
+    label: Case
     create_new_case: Create New Case
     enter_id_number: Enter the ID number to search for an existing record
     id_search_no_results: There is no match in the system for “%{search_query}”. Please
@@ -2571,6 +2579,7 @@ en:
       follow_up: Follow Up - %{subtype}
       service: Service - %{subtype}
   tracing_request:
+    label: Tracing Request
     messages:
       update_success: 'Tracing Request %{record_id} was successfully updated.'
       creation_success: Tracing Request record successfully created.

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'writeexcel'
+require 'write_xlsx'
 
 namespace :primero do
   desc 'Remove records'
@@ -150,22 +150,23 @@ namespace :primero do
     end
   end
 
+  # TODO: FormExporter is outdated and does not work.  Needs to be fixed
   desc 'Exports forms to an Excel spreadsheet'
   task :forms_to_spreadsheet, %i[type module show_hidden] => :environment do |_, args|
     module_id = args[:module].present? ? args[:module] : 'primeromodule-cp'
     type = args[:type].present? ? args[:type] : 'case'
     show_hidden = args[:show_hidden].present?
-    file_name = 'forms.xls'
+    file_name = 'forms.xlsx'
     puts "Writing #{type} #{module_id} forms to #{file_name}"
     forms_exporter = Exporters::FormExporter.new(file_name)
     forms_exporter.export_forms_to_spreadsheet(type, module_id, show_hidden)
     puts 'Done!'
   end
 
-  # Example usage: bundle exec rails primero:role_permissions_to_spreadsheet['tmp/test.xls','en']
+  # Example usage: rails primero:role_permissions_to_spreadsheet['tmp/test.xlsx','en']
   desc 'Exports roles permissions to an Excel spreadsheet'
   task :role_permissions_to_spreadsheet, %i[file_name locale] => :environment do |_, args|
-    file_name = args[:file_name] || 'role_permissions.xls'
+    file_name = args[:file_name] || 'role_permissions.xlsx'
     locale = args[:locale] || :en
     puts "Writing role permissions to #{file_name}"
     roles_exporter = Exporters::RolePermissionsExporter.new(file_name, locale)
@@ -204,7 +205,7 @@ namespace :primero do
   end
 
   desc 'Export All form Fields and Options'
-  # USAGE: $bundle exec rake db:data:xls_export['case','primeromodule-cp',"fr es"]
+  # Example usage: rails primero:xls_export['case','primeromodule-cp',"fr es"]
   # NOTE: Must pass locales as string separated by spaces e.g. "en fr"
   task :xls_export, %i[record_type module_id locales show_hidden_forms show_hidden_fields] => :environment do |_, args|
     module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
