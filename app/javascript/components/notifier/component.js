@@ -8,7 +8,7 @@ import { RECORD_TYPES } from "../../config";
 
 import { getMessages } from "./selectors";
 import { removeSnackbar } from "./action-creators";
-import SnackbarAction from "./snackbar-action";
+import SnackbarAction from "./components/snackbar-action";
 
 let displayed = [];
 
@@ -96,7 +96,7 @@ const Notifier = () => {
             actionLabel={actionLabel}
             actionUrl={actionUrl}
             closeSnackbar={closeSnackbar}
-            key={snackKey}
+            snackKey={snackKey}
             hideCloseIcon={noDismiss}
           />
         )

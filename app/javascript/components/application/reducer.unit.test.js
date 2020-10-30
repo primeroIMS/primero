@@ -180,21 +180,6 @@ describe("Application - Reducers", () => {
     expect(newState.toJS()).to.eql(expected.toJS());
   });
 
-  it("should handle NETWORK_STATUS", () => {
-    const expected = Map({
-      online: true
-    });
-
-    const action = {
-      type: actions.NETWORK_STATUS,
-      payload: true
-    };
-
-    const newState = reducer.application(defaultState, action);
-
-    expect(newState).to.eql(expected);
-  });
-
   it("should handle FETCH_SYSTEM_PERMISSIONS_SUCCESS", () => {
     const expected = fromJS({
       permissions: {

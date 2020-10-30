@@ -15,7 +15,7 @@ describe("<Notifier/> - constants", () => {
   it("should have known SNACKBAR_VARIANTS properties", () => {
     const clonedConstants = { ...constants.SNACKBAR_VARIANTS };
 
-    ["error", "info", "success"].forEach(property => {
+    ["error", "info", "success", "warning"].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];
     });

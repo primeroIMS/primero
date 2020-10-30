@@ -135,7 +135,8 @@ export const ROUTES = {
   support: "/support",
   tasks: "/tasks",
   tracing_requests: "/tracing_requests",
-  check_health: "/health/api"
+  check_health: "/health/api",
+  check_server_health: "/health/server"
 };
 
 export const PERMITTED_URL = [

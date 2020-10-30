@@ -1,5 +1,6 @@
 import partitionObject from "./partition-object";
 import isOnline from "./is-online";
+import isServerOnline from "./is-server-online";
 import processAttachments from "./process-attachments";
 import startSignout from "./start-signout";
 import generateRecordProperties from "./generate-record-properties";
@@ -12,16 +13,17 @@ import processSubforms from "./process-subforms";
 import handleConfiguration from "./handle-configuration";
 
 export {
+  checkFieldSubformErrors,
   defaultErrorCallback,
   generateRecordProperties,
+  handleConfiguration,
   handleRestCallback,
   isOnline,
+  isServerOnline,
   partitionObject,
   processAttachments,
-  startSignout,
+  processSubforms,
   queueData,
   retrieveData,
-  checkFieldSubformErrors,
-  processSubforms,
-  handleConfiguration
+  startSignout
 };
