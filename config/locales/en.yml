@@ -22,6 +22,7 @@ en:
   form: Form
   name: Name
   offline: Offline
+  online: Online
   yes_label: 'Yes'
 
   actions:
