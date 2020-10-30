@@ -1,13 +1,13 @@
 import { fromJS } from "immutable";
 import { CircularProgress } from "@material-ui/core";
 
-import { routes } from "../../config";
-import { setupMountedComponent } from "../../test";
-import Nav from "../nav";
+import { routes } from "../../../../config";
+import { setupMountedComponent } from "../../../../test";
+import Nav from "../../../nav";
 
 import AppLayout from "./component";
 
-describe("<AppLayout />", () => {
+describe("layouts/components/<AppLayout />", () => {
   let component;
 
   describe("if hasUserPermissions is true", () => {

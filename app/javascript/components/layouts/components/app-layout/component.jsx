@@ -5,14 +5,15 @@ import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-import Nav from "../nav";
-import Notifier from "../notifier";
-import SessionTimeoutDialog from "../session-timeout-dialog";
-import { hasUserPermissions } from "../user/selectors";
+import Nav from "../../../nav";
+import Notifier from "../../../notifier";
+import SessionTimeoutDialog from "../../../session-timeout-dialog";
+import { hasUserPermissions } from "../../../user/selectors";
 
+import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const AppLayout = ({ children }) => {
+const Component = ({ children }) => {
   const css = makeStyles(styles)();
   const hasPermissions = useSelector(state => hasUserPermissions(state));
 
@@ -34,10 +35,10 @@ const AppLayout = ({ children }) => {
   );
 };
 
-AppLayout.displayName = "AppLayout";
+Component.displayName = NAME;
 
-AppLayout.propTypes = {
+Component.propTypes = {
   children: PropTypes.node
 };
 
-export default AppLayout;
+export default Component;

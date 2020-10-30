@@ -3,14 +3,15 @@ import { Grid, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 
-import ModuleLogo from "../module-logo";
-import AgencyLogo from "../agency-logo";
-import TranslationsToggle from "../translations-toggle";
-import Notifier from "../notifier";
+import ModuleLogo from "../../../module-logo";
+import AgencyLogo from "../../../agency-logo";
+import TranslationsToggle from "../../../translations-toggle";
+import Notifier from "../../../notifier";
 
-import styles from "./login-styles.css";
+import { NAME } from "./constants";
+import styles from "./styles.css";
 
-const LoginLayout = ({ children }) => {
+const Component = ({ children }) => {
   const css = makeStyles(styles)();
 
   // TODO: Module hardcoded till we figure out when to switch modules
@@ -46,10 +47,10 @@ const LoginLayout = ({ children }) => {
   );
 };
 
-LoginLayout.displayName = "LoginLayout";
+Component.displayName = NAME;
 
-LoginLayout.propTypes = {
+Component.propTypes = {
   children: PropTypes.node
 };
 
-export default LoginLayout;
+export default Component;
