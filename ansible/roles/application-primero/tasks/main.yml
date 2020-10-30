@@ -3,7 +3,7 @@
   copy:
     dest: '/srv/primero/docker/local.env'
     mode: 'u=rw,go=r'
-    content:
+    content: |
       LETS_ENCRYPT_DOMAIN={{ lets_encrypt_domain }}
       LETS_ENCRYPT_EMAIL={{ lets_encrypt_email }}
       USE_LETS_ENCRYPT={{ use_lets_encrypt }}
@@ -17,10 +17,12 @@
       DEVISE_SECRET_KEY={{ devise_secret_key }}
       DEVISE_JWT_SECRET_KEY={{ devise_jwt_secret_key }}
   become: yes
+  tags:
+  - 'local-env'
 
 - name: 'build the Docker containers'
   command: |
-    ./build.sh all -t '{{ docker_tag }}' -r '{{ docker_container_registry }}' -l
+    ./build.sh all -t '{{ build_docker_tag }}' -r '{{ build_docker_container_registry }}' -l
   args:
     chdir: '/srv/primero/docker'
   tags:
