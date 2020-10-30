@@ -903,44 +903,4 @@ describe User do
     end
   end
 
-  describe '.can_see_record?' do
-    before :each do
-      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
-      @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
-                                        description: 'Default Primero Program')
-      @form_section = FormSection.create!(unique_id: 'test_form', name: 'Test Form',
-                                          fields: [Field.new(name: 'national_id_no', type: 'text_field',
-                                                             display_name: 'National ID No')])
-      @cp = PrimeroModule.create!(unique_id: PrimeroModule::CP, name: 'CP', description: 'Child Protection',
-                                  associated_record_types: %w[case tracing_request incident], primero_program: @program,
-                                  form_sections: [@form_section])
-      @role1 = Role.create!(name: 'role1', unique_id: 'role1', group_permission: Permission::ALL,
-                            form_sections: [@form_section], modules: [@cp],
-                            permissions: [Permission.new(resource: Permission::CASE,
-                                                         actions: [Permission::MANAGE])])
-      @role2 = Role.create!(name: 'role2', unique_id: 'role2',
-                            form_sections: [@form_section], modules: [@cp],
-                            permissions: [Permission.new(resource: Permission::CASE,
-                                                         actions: [Permission::MANAGE])])
-      @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
-      @group1 = UserGroup.create!(name: 'group 1')
-      @user1 = User.create!(full_name: 'Admin User', user_name: 'user1', password: 'a12345678',
-                            password_confirmation: 'a12345678', email: 'user1n@localhost.com',
-                            agency_id: @agency1.id, role: @role1, user_groups: [@group1])
-      @user2 = User.create!(full_name: 'Admin User', user_name: 'user2', password: 'a12345678',
-                            password_confirmation: 'a12345678', email: 'user2@localhost.com',
-                            agency_id: @agency1.id, role: @role2, user_groups: [@group1])
-      @child1 = Child.new_with_user(@current_user, name: 'Child 3')
-      @child1.save!
-      Sunspot.commit
-    end
-
-    it 'return true if a user can see the record' do
-      expect(@user1.can_see_record?(@child1)).to be_truthy
-    end
-
-    it 'return false if a user can not see the record' do
-      expect(@user2.can_see_record?(@child1)).to be_falsey
-    end
-  end
 end
