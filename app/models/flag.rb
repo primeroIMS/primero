@@ -22,7 +22,7 @@ class Flag < ApplicationRecord
 
   scope :by_record_agency, lambda { |params|
     Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
-        .where("((data ->> 'owned_by_agency_id')::int = :agency_id)", agency_id: params[:agency_id])
+        .where("(data -> 'owned_by_agency_id' ? :agency)", agency: params[:agency])
   }
 
   validates :message, presence: { message: 'errors.models.flags.message' }
@@ -104,8 +104,8 @@ class Flag < ApplicationRecord
       group = query_scope[:user]['group']
       return  find_by_owner('by_record_associated_groups', record_types, flagged_by, group: group) if group.present?
 
-      agency_id = query_scope[:user]['agency_id']
-      return find_by_owner('by_record_agency', record_types, flagged_by, agency_id: agency_id) if agency_id.present?
+      agency = query_scope[:user]['agency']
+      return find_by_owner('by_record_agency', record_types, flagged_by, agency: agency) if agency.present?
 
       []
     end

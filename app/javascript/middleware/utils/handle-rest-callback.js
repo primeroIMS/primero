@@ -1,39 +1,36 @@
 import { push } from "connected-react-router";
 
-const handleRestCallback = (store, successCallback, response, json, fromQueue = false) => {
-  if (successCallback) {
-    if (Array.isArray(successCallback)) {
-      successCallback.forEach(callback => handleRestCallback(store, callback, response, json, fromQueue));
+const handleRestCallback = (store, callback, response, json, fromQueue = false) => {
+  if (callback && !fromQueue) {
+    if (Array.isArray(callback)) {
+      callback.forEach(cb => handleRestCallback(store, cb, response, json, fromQueue));
     } else {
-      const isCallbackObject = typeof successCallback === "object";
-      const isCallbackApi = isCallbackObject && "api" in successCallback;
+      const isObjectCallback = typeof callback === "object";
+      const isApiCallback = isObjectCallback && "api" in callback;
 
-      const successPayload = isCallbackObject
+      const successPayload = isObjectCallback
         ? {
-            type: successCallback.action,
-            payload: successCallback.payload
+            type: callback.action,
+            payload: callback.payload
           }
         : {
-            type: successCallback,
+            type: callback,
             payload: { response, json }
           };
 
-      store.dispatch(isCallbackApi ? { type: successCallback.action, api: successCallback.api } : successPayload);
+      store.dispatch(isApiCallback ? { type: callback.action, api: callback.api } : successPayload);
 
-      if (isCallbackObject && successCallback.redirect && !fromQueue) {
-        let { redirect } = successCallback;
+      if (isObjectCallback && callback.redirect && !fromQueue) {
+        let { redirect } = callback;
 
-        if (successCallback.redirectWithIdFromResponse) {
-          redirect = `${successCallback.redirect}/${json?.data?.id}`;
+        if (callback.redirectWithIdFromResponse) {
+          redirect = `${callback.redirect}/${json?.data?.id}`;
         }
-        if (successCallback.redirectToEdit) {
-          redirect = `${successCallback.redirect}/${json?.data?.id}/edit`;
+        if (callback.redirectToEdit) {
+          redirect = `${callback.redirect}/${json?.data?.id}/edit`;
         }
-        if (successCallback.incidentPath) {
-          redirect =
-            successCallback.incidentPath === "new"
-              ? `/incidents/${successCallback.moduleID}/new`
-              : successCallback.incidentPath;
+        if (callback.incidentPath) {
+          redirect = callback.incidentPath === "new" ? `/incidents/${callback.moduleID}/new` : callback.incidentPath;
         }
 
         store.dispatch(push(redirect));

@@ -66,6 +66,10 @@ describe("<Report />", () => {
     expect(component.find(TableValues)).to.have.lengthOf(1);
   });
 
+  it("renders h4 with report's description", () => {
+    expect(component.find("h4").text()).to.be.equals("Case registrations over time");
+  });
+
   describe("When data still loading", () => {
     let loadingComponent;
     const loadingInitialState = fromJS({

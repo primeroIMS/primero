@@ -18,7 +18,7 @@ import {
 const getSuccessCallback = ({
   dialogName,
   message,
-  messageForQueue,
+  messageFromQueue,
   recordType,
   redirect,
   saveMethod,
@@ -39,7 +39,7 @@ const getSuccessCallback = ({
       action: ENQUEUE_SNACKBAR,
       payload: {
         message,
-        messageForQueue,
+        messageFromQueue,
         options: {
           variant: "success",
           key: generate.messageKey(message)
@@ -102,7 +102,7 @@ export const saveRecord = (
   body,
   id,
   message,
-  messageForQueue,
+  messageFromQueue,
   redirect,
   queueAttachments = true,
   dialogName = "",
@@ -126,7 +126,7 @@ export const saveRecord = (
         ...getSuccessCallback({
           dialogName,
           message,
-          messageForQueue,
+          messageFromQueue,
           recordType,
           redirect,
           saveMethod,

@@ -1,5 +1,6 @@
 import configureStore from "redux-mock-store";
 
+import { RECORD_TYPES } from "../../config";
 import { spy } from "../../test";
 
 import defaultErrorCallback from "./default-error-callback";
@@ -40,6 +41,61 @@ describe("middleware/utils/default-error-callback.js", () => {
     ];
 
     defaultErrorCallback(store, response, {});
+    expect(handleRestCallbackSpy).to.have.been.calledOnceWith(store, errorPayload, response, {});
+  });
+
+  it("returns a sync update error for a record if fromQueue", () => {
+    const response = { status: 500 };
+
+    const errorPayload = [
+      {
+        action: "notifications/ENQUEUE_SNACKBAR",
+        payload: {
+          messageKey: "sync.error.update",
+          messageParams: { short_id: "3456789" },
+          recordType: RECORD_TYPES.cases,
+          options: {
+            variant: "error",
+            key: "record_sync_error_123456789"
+          }
+        }
+      },
+      {
+        action: "SET_DIALOG_PENDING",
+        payload: {
+          pending: false
+        }
+      }
+    ];
+
+    defaultErrorCallback(store, response, {}, RECORD_TYPES.cases, true, "123456789");
+    expect(handleRestCallbackSpy).to.have.been.calledOnceWith(store, errorPayload, response, {});
+  });
+
+  it("returns a sync create error if fromQueue", () => {
+    const response = { status: 500 };
+
+    const errorPayload = [
+      {
+        action: "notifications/ENQUEUE_SNACKBAR",
+        payload: {
+          messageKey: "sync.error.create",
+          recordType: RECORD_TYPES.cases,
+          options: {
+            variant: "error",
+            key: "record_sync_error_create"
+          }
+        }
+      },
+      {
+        action: "SET_DIALOG_PENDING",
+        payload: {
+          pending: false
+        }
+      }
+    ];
+
+    defaultErrorCallback(store, response, {}, RECORD_TYPES.cases, true);
     expect(handleRestCallbackSpy).to.have.been.calledOnceWith(store, errorPayload, response, {});
   });
 
