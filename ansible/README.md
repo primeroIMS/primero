@@ -298,7 +298,9 @@ It only needs to be run once against any piece of inventory (although it is safe
 run one of these or a combo of the three.  This is done using ansible tags.  If you run this playbook with no `--tags` then none these options real
 run by default.  In order to run these options you must specify the tag associated with the option.  There is also an option, which should be used the
 first time you create primeo, to crete the `local.env` file.  You must use the tag `local-env` to create this file, if this tag is not supplied then 
-the `local.env` file will not be created.
+the `local.env` file will not be created.  If you are creating the `local.env` you must have created the `secrets.yml` file.  In order to get the playbook
+to detect the variables in the `secrets.yml` file you must supply it via the command line when running the ansible-playbook with `-e` or `--extra-vars` flag, and
+the file name.  So, add `-e @secrets.yml` or `--extra-vars @secrets.yml` to the ansible-playbook command.
 
     For building use tag `build`.
           
@@ -316,7 +318,9 @@ the `local.env` file will not be created.
 
           (venv) $ ansible-playbook application-primero.yml --tags all
 
-7.  If using certbot run the `certbot.yml` playbook.  Sometimes certbot won't work right away when the application is first deploy.  If certbot does fail, wait a couple
+8.  If a `secrets.yml` file was created, after you are done deploying primero then delete this file.
+
+9.  If using certbot run the `certbot.yml` playbook.  Sometimes certbot won't work right away when the application is first deploy.  If certbot does fail, wait a couple
 minutes and then just run the `certbot.yml` playbook again.
 
            (venv) $ ansible-playbook certbot.yml
