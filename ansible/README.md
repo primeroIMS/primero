@@ -18,13 +18,45 @@ Below is example of what the file should look like, and there is also a templat 
                       - '{{ primero_nginx_server_name }}'
                       certbot_email: 'primero-example@example.com'
                       cert_name: 'primero'
-                      primero_repo_branch: 'master'
-                      docker_tag: ''
-                      docker_container_registry: ''
+                      primero_github_branch: 'master'
+                      build_docker_tag: ''
+                      build_docker_container_registry: ''
+                      primero_tag: 'latest'
+                      lets_encrypt_domain: '{{ primero_nginx_server_name }}'
+                      lets_encrypt_email: '{{ certbot_email }}'
+                      use_lets_encrypt: 'false'
+                      nginx_certificate_name: '{{ cert_name }}'
+                      nginx_ssl_cert_path: '/certs/cert.pem'
+                      nginx_ssl_key_path: '/certs/key.pem'
+                      primero_host: '{{ primero_nginx_server_name }}'
 
 All these variables are required with the exception of `certbot_domain` and `certbot_email`.  These certbot variables are required only when using certbot.
-The `docker_tag` and `docker_container_registry` can be left as `''`, which default to latest.  If you require a specific `docker_tag` and/or `docker_container_registry`,
+Along with these variables the `nginx_ssl_cert_path` and `nginx_ssl_key_path` variables must be set to:
+
+                nginx_ssl_cert_path: '/etc/letsencrypt/live/primero/fullchain.pem'
+                nginx_ssl_key_path: '/etc/letsencrypt/live/primero/privkey.pem'
+
+Theses varibales sre defaulted to be set to the self-signed certs path.
+
+The `build_docker_tag` and `build_docker_container_registry` can be left as `''`, which default to latest.  If you require a specific `build_docker_tag` and/or `build_docker_container_registry`,
 then enter those values for these variables.
+
+The developer must also make a file called `secrets.yml` in the `ansible` directory.
+
+                $ cd ansible
+                $ vim secrets.yml
+
+The `secrets.yml` file will contain secrets for primero.  The following variables are required in the is file.  The secrets in this file require a
+secure random number. To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
+
+                ---
+                primero_secret_key_base: 'generated_secret'
+                primero_message_secret: 'generated_secret'
+                postgres_password: 'generated_secret'
+                devise_secret_key: 'generated_secret'
+                devise_jwt_secret_key: 'generated_secret'
+
+The variables in the `inventory.yml` along with the `secrets.yml` will also be used to make the `local.env` file for the dokcer-compose files.  
  
 Deploy the primero app and run certbot by following the [Deploy](#markdown-header-deploy) section of this README.
 
@@ -148,7 +180,7 @@ certbot.yml
 In order to deploy primero using anibsle you will first need to create an ansible `inventory.yml` file located at `ansible/inventory/inventory.yml`.
 Below is example of what the file should look like, and there is also a templat file provided in the repo, `ansible/inventory/inventory.yml.template`.
 
-                ---
+            ---
                 all:
 
                   hosts:
@@ -159,9 +191,17 @@ Below is example of what the file should look like, and there is also a templat 
                       - '{{ primero_nginx_server_name }}'
                       certbot_email: 'primero-example@example.com'
                       cert_name: 'primero'
-                      primero_repo_branch: 'master'
-                      docker_tag: ''
-                      docker_container_registry: ''
+                      primero_github_branch: 'master'
+                      build_docker_tag: ''
+                      build_docker_container_registry: ''
+                      primero_tag: 'latest'
+                      lets_encrypt_domain: '{{ primero_nginx_server_name }}'
+                      lets_encrypt_email: '{{ certbot_email }}'
+                      use_lets_encrypt: 'false'
+                      nginx_certificate_name: '{{ cert_name }}'
+                      nginx_ssl_cert_path: '/certs/cert.pem'
+                      nginx_ssl_key_path: '/certs/key.pem'
+                      primero_host: '{{ primero_nginx_server_name }}'
 
 All these variables are required with the exception of `certbot_domain` and `certbot_email`.  These certbot variables are required only when using certbot.
 The `docker_tag` and `docker_container_registry` can be left as `''`, which default to latest.  If you require a specific `docker_tag` and/or `docker_container_registry`,
@@ -197,7 +237,7 @@ It only needs to be run once against any piece of inventory (although it is safe
             $ cd ansible
             $ bin/activate
 
-2.  Edit the Ansible inventory file and primero variables.
+2.  Edit the Ansible inventory file and primero variables.  Refer to the [TLDR](#markdown-header-tldr) section for more info.
 
             (venv) $ vim inventory/inventory.yml
 
@@ -219,22 +259,20 @@ It only needs to be run once against any piece of inventory (although it is safe
                   docker_tag: ''
                   docker_container_registry: ''
 
-3.  Edit the `local.env`, located in the `ansible/roles/application-primero/files` directory, to configure your primero app as required. If using certbot you must include the primero server you are deploying to.
-Follow docker README.md for specific meaning of these environment variables, but specifically for this README edit the `LETS_ENCRYPT_DOMAIN`, `NGINX_CERTIFICATE_NAME`, `PRIMERO_HOST`, `USE_LETS_ENCRYPT`,
-`NGINX_SSL_CERT_PATH`, and `NGINX_SSL_KEY_PATH` variables.
+3.  Create the `secrets.yml`.  Refer to the [TLDR](#markdown-header-tldr) section for more info.
+           
+            $ cd ansible
+            $ vim secrets.yml
 
-            (venv) $ vim roles/application-primero/files/local.env
+    The `secrets.yml` file will contain secrets for primero.  The following variables are required in the is file.  The secrets in this file require a
+    secure random number. To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
 
-    The variables should look as follows:
-
-            LETS_ENCRYPT_DOMAIN=primero-example.cloud.quoininc.com
-            NGINX_CERTIFICATE_NAME=primero-example.cloud.quoininc.com
-            PRIMERO_HOST=primero-example.cloud.quoininc.com
-            USE_LETS_ENCRYPT=true
-            NGINX_SSL_CERT_PATH="/etc/letsencrypt/live/primero/fullchain.pem"
-            NGINX_SSL_KEY_PATH="/etc/letsencrypt/live/primero/privkey.pem"
-
-    The `NGINX_SSL_CERT_PATH` and `NGINX_SSL_KEY_PATH` must be as shown because this is where the letsencrypt certs will be placed.
+            ---
+            primero_secret_key_base: 'generated_secret'
+            primero_message_secret: 'generated_secret'
+            postgres_password: 'generated_secret'
+            devise_secret_key: 'generated_secret'
+            devise_jwt_secret_key: 'generated_secret'  
 
 4.  Run the bootstrap playbook in order to install the basic system requirements.
 
@@ -250,7 +288,9 @@ Follow docker README.md for specific meaning of these environment variables, but
 
 7.  Deploy the primero application.  There are many options here.  You can build, configure, and start the containers.  You can also choose to just
 run one of these or a combo of the three.  This is done using ansible tags.  If you run this playbook with no `--tags` then none these options real
-run by default.  In order to run these options you must specify the tag associated with the option.
+run by default.  In order to run these options you must specify the tag associated with the option.  There is also an option, which should be used the
+first time you create primeo, to crete the `local.env` file.  You must use the tag `local-env` to create this file, if this tag is not supplied then 
+the `local.env` file will not be created.
 
     For building use tag `build`.
           
