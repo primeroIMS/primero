@@ -13,22 +13,23 @@ Below is example of what the file should look like, and there is also a templat 
                   hosts:
                     primero.example.com:
                       ansible_user: 'ubuntu'
+                      primero_host: 'primero.example.com'
                       primero_nginx_server_name: 'primero.example.com'
                       certbot_domain:
-                      - '{{ primero_nginx_server_name }}'
+                      - '{{ primero_host }}'
                       certbot_email: 'primero-example@example.com'
                       cert_name: 'primero'
-                      primero_github_branch: 'master'
+                      primero_repo_branch: 'master'
                       build_docker_tag: ''
                       build_docker_container_registry: ''
                       primero_tag: 'latest'
-                      lets_encrypt_domain: '{{ primero_nginx_server_name }}'
+                      lets_encrypt_domain: '{{ primero_host }}'
                       lets_encrypt_email: '{{ certbot_email }}'
                       use_lets_encrypt: 'false'
                       nginx_certificate_name: '{{ cert_name }}'
-                      nginx_ssl_cert_path: '/certs/cert.pem'
-                      nginx_ssl_key_path: '/certs/key.pem'
-                      primero_host: '{{ primero_nginx_server_name }}'
+                      nginx_ssl_cert_path: '/etc/letsencrypt/live/primero/fullchain.pem'
+                      nginx_ssl_key_path: '/etc/letsencrypt/live/primero/privkey.pem'
+                      primero_nginx_server_name: '{{ primero_host }}'
 
 All these variables are required with the exception of `certbot_domain` and `certbot_email`.  These certbot variables are required only when using certbot.
 Along with these variables the `nginx_ssl_cert_path` and `nginx_ssl_key_path` variables must be set to:
@@ -36,7 +37,10 @@ Along with these variables the `nginx_ssl_cert_path` and `nginx_ssl_key_path` va
                 nginx_ssl_cert_path: '/etc/letsencrypt/live/primero/fullchain.pem'
                 nginx_ssl_key_path: '/etc/letsencrypt/live/primero/privkey.pem'
 
-Theses varibales sre defaulted to be set to the self-signed certs path.
+Theses varibales sre defaulted to be set to the letsencrypt certs path.  If you to set them to the self-signed certs path they must be set to:
+
+                nginx_ssl_cert_path: '/certs/cert.pem'
+                nginx_ssl_key_path: '/certs/key.pem'
 
 The `build_docker_tag` and `build_docker_container_registry` can be left as `''`, which default to latest.  If you require a specific `build_docker_tag` and/or `build_docker_container_registry`,
 then enter those values for these variables.
@@ -186,25 +190,26 @@ Below is example of what the file should look like, and there is also a templat 
                   hosts:
                     primero.example.com:
                       ansible_user: 'ubuntu'
+                      primero_host: 'primero.example.com'
                       primero_nginx_server_name: 'primero.example.com'
                       certbot_domain:
-                      - '{{ primero_nginx_server_name }}'
+                      - '{{ primero_host }}'
                       certbot_email: 'primero-example@example.com'
                       cert_name: 'primero'
-                      primero_github_branch: 'master'
+                      primero_repo_branch: 'master'
                       build_docker_tag: ''
                       build_docker_container_registry: ''
                       primero_tag: 'latest'
-                      lets_encrypt_domain: '{{ primero_nginx_server_name }}'
+                      lets_encrypt_domain: '{{ primero_host }}'
                       lets_encrypt_email: '{{ certbot_email }}'
                       use_lets_encrypt: 'false'
                       nginx_certificate_name: '{{ cert_name }}'
-                      nginx_ssl_cert_path: '/certs/cert.pem'
-                      nginx_ssl_key_path: '/certs/key.pem'
-                      primero_host: '{{ primero_nginx_server_name }}'
+                      nginx_ssl_cert_path: '/etc/letsencrypt/live/primero/fullchain.pem'
+                      nginx_ssl_key_path: '/etc/letsencrypt/live/primero/privkey.pem'
+                      primero_nginx_server_name: '{{ primero_host }}'
 
 All these variables are required with the exception of `certbot_domain` and `certbot_email`.  These certbot variables are required only when using certbot.
-The `docker_tag` and `docker_container_registry` can be left as `''`, which default to latest.  If you require a specific `docker_tag` and/or `docker_container_registry`,
+The `build_docker_tag` and `build_docker_container_registry` can be left as `''`, which default to latest.  If you require a specific `build_docker_tag` and/or `build_docker_container_registry`,
 then enter those values for these variables.
 
 ### Bootstrap
@@ -250,22 +255,23 @@ It only needs to be run once against any piece of inventory (although it is safe
                   hosts:
                     primero.example.com:
                       ansible_user: 'ubuntu'
+                      primero_host: 'primero.example.com'
                       primero_nginx_server_name: 'primero.example.com'
                       certbot_domain:
-                      - '{{ primero_nginx_server_name }}'
+                      - '{{ primero_host }}'
                       certbot_email: 'primero-example@example.com'
                       cert_name: 'primero'
-                      primero_github_branch: 'master'
+                      primero_repo_branch: 'master'
                       build_docker_tag: ''
                       build_docker_container_registry: ''
                       primero_tag: 'latest'
-                      lets_encrypt_domain: '{{ primero_nginx_server_name }}'
+                      lets_encrypt_domain: '{{ primero_host }}'
                       lets_encrypt_email: '{{ certbot_email }}'
                       use_lets_encrypt: 'false'
                       nginx_certificate_name: '{{ cert_name }}'
-                      nginx_ssl_cert_path: '/certs/cert.pem'
-                      nginx_ssl_key_path: '/certs/key.pem'
-                      primero_host: '{{ primero_nginx_server_name }}'
+                      nginx_ssl_cert_path: '/etc/letsencrypt/live/primero/fullchain.pem'
+                      nginx_ssl_key_path: '/etc/letsencrypt/live/primero/privkey.pem'
+                      primero_nginx_server_name: '{{ primero_host }}'
 
 3.  Create the `secrets.yml`.  Refer to the [TLDR](#markdown-header-tldr) section for more info.
            
@@ -308,11 +314,11 @@ the file name.  So, add `-e @secrets.yml` or `--extra-vars @secrets.yml` to the 
 
     For configuring use tag `configure`.
 
-          (venv) $ ansible-playbook application-primero.yml --tags "configure"
+          (venv) $ ansible-playbook application-primero.yml --tags "local-env,configure" -e @secrets.yml
         
     For starting use tag `start`.
 
-          (venv) $ ansible-playbook application-primero.yml --tags "start"
+          (venv) $ ansible-playbook application-primero.yml --tags "local-env,start" -e @secrets.yml
 
     You can also to a combo of the three or run all three for example:
 
