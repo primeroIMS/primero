@@ -12,7 +12,6 @@ import { compactValues } from "../../record-form/utils";
 import submitForm from "../../../libs/submit-form";
 import resetForm from "../../../libs/reset-form";
 import { ACTIONS } from "../../../libs/permissions";
-import { fetchRecordsAlerts } from "../../records/action-creators";
 import { fetchAlerts } from "../../nav/action-creators";
 import { INCIDENT_DIALOG } from "../constants";
 
@@ -101,7 +100,6 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
               INCIDENT_DIALOG
             )
           );
-          dispatch(fetchRecordsAlerts(recordType, id));
         });
       });
       dispatch(fetchAlerts());

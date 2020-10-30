@@ -137,9 +137,6 @@ const Container = ({ match, mode }) => {
             i18n.t("offline_submitted_changes")
           )
         );
-        if (containerMode.isEdit) {
-          dispatch(fetchRecordsAlerts(params.recordType, params.id));
-        }
       });
       // TODO: Set this if there are any errors on validations
       // setSubmitting(false);
