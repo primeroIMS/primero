@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { ROUTES } from "../../config";
-import { SNACKBAR_VARIANTS, enqueueSnackbar, closeSnackbar, ENQUEUE_SNACKBAR } from "../notifier";
+import { SNACKBAR_VARIANTS, closeSnackbar, ENQUEUE_SNACKBAR } from "../notifier";
 
 import actions from "./actions";
 import { CONNECTION_LOST, CONNECTED } from "./constants";

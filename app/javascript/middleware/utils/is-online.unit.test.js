@@ -7,7 +7,7 @@ describe("middleware/utils/is-online.js", () => {
   it("returns online value from redux state", () => {
     const store = configureStore()(
       fromJS({
-        application: {
+        connectivity: {
           online: true
         }
       })

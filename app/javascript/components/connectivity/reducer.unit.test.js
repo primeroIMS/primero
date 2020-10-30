@@ -16,7 +16,7 @@ describe("components/connectivity/reducer.js", () => {
       payload: true
     };
 
-    const newState = reducer.application(defaultState, action);
+    const newState = reducer.connectivity(defaultState, action);
 
     expect(newState).to.eql(expected);
   });
@@ -31,7 +31,7 @@ describe("components/connectivity/reducer.js", () => {
       payload: true
     };
 
-    const newState = reducer.application(defaultState, action);
+    const newState = reducer.connectivity(defaultState, action);
 
     expect(newState).to.eql(expected);
   });

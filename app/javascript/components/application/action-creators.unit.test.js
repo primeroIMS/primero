@@ -15,7 +15,6 @@ describe("Application - Action Creators", () => {
       "fetchSystemSettings",
       "fetchUserGroups",
       "loadApplicationResources",
-      "setNetworkStatus",
       "setUserIdle",
       "fetchManagedRoles"
     ].forEach(property => {

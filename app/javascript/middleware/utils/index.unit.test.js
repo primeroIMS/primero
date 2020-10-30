@@ -24,7 +24,8 @@ describe("middleware/utils/index.js", () => {
       "startSignout",
       "retrieveData",
       "queueData",
-      "processSubforms"
+      "processSubforms",
+      "isServerOnline"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(modules).to.have.property(property);

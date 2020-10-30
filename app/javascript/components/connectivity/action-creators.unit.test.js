@@ -5,7 +5,7 @@ describe("components/connectivity/action-creator.js", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    ["setNetworkStatus"].forEach(property => {
+    ["setNetworkStatus", "getServerStatus", "checkServerStatus"].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
