@@ -6,8 +6,10 @@ class Api::V2::LocationsController < ApplicationApiController
 
   def index
     authorize! :index, Location
-    @total = Location.count
-    @locations = Location.paginate(pagination)
+    filters = locations_filters(params.permit(disabled: {}))
+    filtered_locations = Location.list(filters)
+    @total = filtered_locations.size
+    @locations = filtered_locations.paginate(pagination)
     @with_hierarchy = params[:hierarchy] == 'true'
   end
 
@@ -36,6 +38,14 @@ class Api::V2::LocationsController < ApplicationApiController
     authorize! :enable_disable_record, Location
     @location = Location.find(params[:id])
     @location.destroy!
+  end
+
+  protected
+
+  def locations_filters(params)
+    return if params.blank?
+
+    { disabled: params[:disabled].values }
   end
 
   def location_params

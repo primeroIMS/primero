@@ -174,6 +174,12 @@ class Location < ApplicationRecord
       Location.where('hierarchy_path @> ARRAY[:ltrees]::ltree[]', ltrees: hierarchies.compact.uniq)
               .where(admin_level: admin_level)
     end
+
+    def list(params = {})
+      return all if params.blank?
+
+      where(params)
+    end
   end
 
   def generate_hierarchy_placenames(locales)
