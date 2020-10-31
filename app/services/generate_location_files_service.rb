@@ -34,7 +34,7 @@ class GenerateLocationFilesService
 
     def fingerprint
       file = File.open(output_dir[:locations_file])
-      Digest::MD5.hexdigest file.read
+      Digest::SHA256.hexdigest(file.read)
     end
 
     def create_directory
