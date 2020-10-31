@@ -29,7 +29,7 @@ class GenerateLocationFilesService
 
     def output_dir
       dir_path = "#{public_dir}/options"
-      { root: dir_path, locations_file: "#{dir_path}/locations.json"}
+      { root: dir_path, locations_file: "#{dir_path}/locations.json" }
     end
 
     def fingerprint

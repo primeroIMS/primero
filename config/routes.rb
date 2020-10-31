@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     namespace :v2, defaults: { format: :json },
                    constraints: { format: :json },
                    only: %i[index create show update destroy] do
+      resources :primero, only: %i[index]
+
       resources :children, as: :cases, path: :cases do
         resources :children_incidents, as: :incidents, path: :incidents, only: %i[index new]
         resources :flags, only: %i[index create update]
