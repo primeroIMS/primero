@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if (Rails.env.test? || Rails.env.development?) && ENV['FAIL_I18N'] == 'yes'
   module ActionView::Helpers::TranslationHelper
     def t_with_raise(*args)
