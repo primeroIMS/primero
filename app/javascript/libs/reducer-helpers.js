@@ -1,4 +1,4 @@
-import { List, Map, OrderedMap, fromJS } from "immutable";
+import { List, OrderedMap, fromJS } from "immutable";
 import extend from "lodash/extend";
 import mapValues from "lodash/mapValues";
 import pickBy from "lodash/pickBy";
