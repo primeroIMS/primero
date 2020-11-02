@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 json.data do
-  json.sandbox_ui true # Rails.configuration.sandbox_ui
+  json.sandbox_ui Rails.configuration.sandbox_ui
   json.agencies do
     json.array!(@agencies_with_logos) do |agency|
       json.unique_id agency.unique_id

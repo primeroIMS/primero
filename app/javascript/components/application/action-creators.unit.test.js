@@ -1,9 +1,10 @@
 import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
+import { ROUTES } from "../../config";
+
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
-import { ROUTES } from "../../config";
 
 describe("Application - Action Creators", () => {
   it("should have known action creators", () => {

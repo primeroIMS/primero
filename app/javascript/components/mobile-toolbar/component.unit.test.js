@@ -42,12 +42,8 @@ describe("<MobileToolbar />", () => {
 
   describe("when is demo site", () => {
     const stateWithDemo = fromJS({
-      records: {
-        support: {
-          data: {
-            demo: true
-          }
-        }
+      application: {
+        demo: true
       }
     });
     const { component: componentWithDemo } = setupMountedComponent(MobileToolbar, props, stateWithDemo);

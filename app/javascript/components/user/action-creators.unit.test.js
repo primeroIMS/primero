@@ -13,23 +13,43 @@ describe("User - Action Creators", () => {
   const expectedAsyncActions = [
     {
       type: "user/SET_AUTHENTICATED_USER",
-      payload: { id: 1, username: "primero" }
+      payload: {
+        id: 1,
+        username: "primero"
+      }
     },
     {
       type: "user/FETCH_USER_DATA",
       api: {
         path: "users/1",
-        params: { extended: true },
-        db: { collection: "user" },
-        successCallback: SET_USER_LOCALE
+        params: {
+          extended: true
+        },
+        db: {
+          collection: "user"
+        },
+        successCallback: "I18n/SET_USER_LOCALE"
+      }
+    },
+    {
+      type: "support/FETCH_DATA",
+      api: {
+        path: "contact_information",
+        db: {
+          collection: "logos"
+        }
       }
     },
     {
       type: "application/FETCH_SYSTEM_SETTINGS",
       api: {
         path: "system_settings",
-        params: { extended: true },
-        db: { collection: "system_settings" }
+        params: {
+          extended: true
+        },
+        db: {
+          collection: "system_settings"
+        }
       }
     },
     {
@@ -43,14 +63,19 @@ describe("User - Action Creators", () => {
       api: {
         path: "forms",
         normalizeFunc: "normalizeFormData",
-        db: { collection: "forms" }
+        db: {
+          collection: "forms"
+        }
       }
     },
     {
       type: "forms/SET_OPTIONS",
       api: {
         path: "lookups",
-        params: { page: 1, per: 999 }
+        params: {
+          per: 999,
+          page: 1
+        }
       }
     },
     {
@@ -59,8 +84,8 @@ describe("User - Action Creators", () => {
         path: "nullundefined",
         external: true,
         db: {
-          alwaysCache: false,
           collection: "locations",
+          alwaysCache: false,
           manifest: undefined
         }
       }
@@ -97,7 +122,7 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.setAuthenticatedUser(user)).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(7);
+      expect(actions).to.have.lengthOf(8);
       expect(actions).to.be.deep.equal(expectedAsyncActions);
     });
   });
@@ -181,7 +206,7 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.checkUserAuthentication()).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(7);
+      expect(actions).to.have.lengthOf(8);
       expect(actions).to.be.deep.equal(expectedAsyncActions);
     });
   });
