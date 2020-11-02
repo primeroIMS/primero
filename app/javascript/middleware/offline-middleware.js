@@ -1,19 +1,27 @@
+import { getServerStatus } from "../components/connectivity/action-creators";
 import { METHODS } from "../config";
 
-import { isOnline, retrieveData, queueData } from "./utils";
+import { isOnline, isServerOnline, retrieveData, queueData } from "./utils";
 
 const offlineMiddleware = store => next => action => {
-  if (!action?.api?.path || isOnline(store)) {
+  const online = isOnline(store);
+  const serverOnline = isServerOnline(store);
+
+  if (!action?.api?.path || (online && serverOnline)) {
     return next(action);
   }
 
+  if (!serverOnline && online) {
+    store.dispatch(getServerStatus());
+  }
+
   const {
-    api: { method, queueOffline },
+    api: { method, queueOffline, skipDB },
     fromQueue
   } = action;
   const apiMethod = method || METHODS.GET;
 
-  if (apiMethod === METHODS.GET) {
+  if (apiMethod === METHODS.GET && !skipDB) {
     retrieveData(store, action);
 
     return next(action);

@@ -23,7 +23,14 @@ en:
   form: Form
   name: Name
   offline: Offline
+  online: Online
   yes_label: 'Yes'
+  offline_submitted_changes: You are currently offline. Your changes will be submitted when you are back online.
+  sync:
+    success: "%{records} records successfully synced."
+    error:
+      create: Failed to create %{record_type}. Please contact support.
+      update: Update to %{record_type} %{short_id} failed. Please contact support.
 
   actions:
     approvals: Approvals
@@ -171,8 +178,10 @@ en:
     update: Update
     view: View
     view_flags_history: View History
+    return_to_case: Return to Case
 
   case:
+    label: Case
     create_new_case: Create New Case
     enter_id_number: Enter the ID number to search for an existing record
     id_search_no_results: There is no match in the system for “%{search_query}”. Please
@@ -950,6 +959,7 @@ en:
     predifined_lookups: Use pre-defined lookup
     radio_button: Radio Button
     remove: Remove
+    remove_attachment_confirmation: Are you sure you want to remove this attachment?
     required: Required
     required_field: '%{field} is required'
     search_existing: Search existing fields
@@ -1101,6 +1111,7 @@ en:
     welcome: Welcome to Primero
     zh: 中文
   incident:
+    associated_case: "Associated Case:"
     messages:
       creation_success: Incident record successfully created.
       creation_success_queue: Incident record successfully created in background
@@ -2436,6 +2447,7 @@ en:
     service_label: Service
     success: '%{record_type} %{id} successfully referred'
     user_mandatory_label: Recipient is required
+    date: Date
   report:
     aggregate_by: Group by row
     attribute: Attribute
@@ -2568,6 +2580,7 @@ en:
       follow_up: Follow Up - %{subtype}
       service: Service - %{subtype}
   tracing_request:
+    label: Tracing Request
     messages:
       update_success: 'Tracing Request %{record_id} was successfully updated.'
       creation_success: Tracing Request record successfully created.
@@ -2609,6 +2622,7 @@ en:
   transfer_assignment:
     title: TRANSFERS AND ASSIGNMENTS
   transition:
+    agency_label: Agency
     assigned_by: Assigned By
     consent_individual_transfer_value:
       true_label: 'Yes'

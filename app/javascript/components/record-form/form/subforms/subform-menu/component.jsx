@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { CircularProgress } from "@material-ui/core";
@@ -9,12 +9,10 @@ import { getLoadingTransitionType, getUsersByTransitionType } from "../../../../
 import { REFERRAL_TYPE } from "../../../../record-actions/transitions";
 import { setServiceToRefer } from "../../../action-creators";
 import { getOption } from "../../../selectors";
-import { setDialog } from "../../../../record-actions/action-creators";
+import { setDialog } from "../../../../action-dialog";
 import { useI18n } from "../../../../i18n";
 import { serviceIsReferrable } from "../../utils";
-import { fetchReferralUsers } from "../../../../record-actions/transitions/action-creators";
 import styles from "../styles.css";
-import { RECORD_TYPES } from "../../../../../config";
 import Permission from "../../../../application/permission";
 import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
 import { currentUser } from "../../../../user";
@@ -23,7 +21,7 @@ import DisableOffline from "../../../../disable-offline";
 import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
 
-const Component = ({ index, recordType, values }) => {
+const Component = ({ index, values }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
@@ -44,10 +42,6 @@ const Component = ({ index, recordType, values }) => {
       dispatch(setDialog({ dialog: REFERRAL_TYPE, open: true }));
     });
   };
-
-  useEffect(() => {
-    if (referralUsers.isEmpty()) dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[recordType] }));
-  }, []);
 
   const {
     service_implementing_agency_individual: serviceImplementingAgencyIndividual,
@@ -75,7 +69,6 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   index: PropTypes.number.isRequired,
-  recordType: PropTypes.string,
   values: PropTypes.array.isRequired
 };
 

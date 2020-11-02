@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import { Box, Badge } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
-import { useSelector } from "react-redux";
+import { push } from "connected-react-router";
+import { batch, useDispatch, useSelector } from "react-redux";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
+import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 
 import { getIncidentFromCase } from "../../records";
 import { SaveReturnIcon } from "../../../images/primero-icons";
@@ -15,12 +17,18 @@ import RecordActions from "../../record-actions";
 import Permission from "../../application/permission";
 import { FLAG_RECORDS, WRITE_RECORDS } from "../../../libs/permissions";
 import { getSavingRecord } from "../../records/selectors";
-import { RECORD_PATH } from "../../../config";
+import {
+  RECORD_TYPES,
+  RECORD_PATH,
+  INCIDENT_CASE_ID_DISPLAY_FIELD,
+  INCIDENT_CASE_ID_FIELD,
+  INCIDENT_FROM_CASE
+} from "../../../config";
 import DisableOffline from "../../disable-offline";
 import { useThemeHelper } from "../../../libs";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
-import { getActiveFlags } from "../../flagging/selectors";
+import { setSelectedForm } from "../action-creators";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -39,6 +47,7 @@ const RecordFormToolbar = ({
   shortId
 }) => {
   const { css } = useThemeHelper(styles);
+  const dispatch = useDispatch();
   const i18n = useI18n();
   const savingRecord = useSelector(state => getSavingRecord(state, params.recordType));
   const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
@@ -47,12 +56,39 @@ const RecordFormToolbar = ({
     history.goBack();
   };
 
-  const flags = useSelector(state => getActiveFlags(state, params.id, params.recordType));
+  const getIncidentFromCaseIdDisplay = () => {
+    if (recordType === RECORD_TYPES.incidents) {
+      return incidentFromCase?.size
+        ? incidentFromCase.get(INCIDENT_CASE_ID_DISPLAY_FIELD)
+        : record?.get(INCIDENT_CASE_ID_DISPLAY_FIELD);
+    }
+
+    return null;
+  };
+
+  const getIncidentFromCaseId = () => {
+    if (recordType === RECORD_TYPES.incidents) {
+      return incidentFromCase?.size
+        ? incidentFromCase.get(INCIDENT_CASE_ID_FIELD)
+        : record?.get(INCIDENT_CASE_ID_FIELD);
+    }
+
+    return null;
+  };
+
+  const handleSaveAndReturn = () => {
+    batch(() => {
+      dispatch(setSelectedForm(INCIDENT_FROM_CASE));
+      dispatch(push(`/${RECORD_PATH.cases}/${incidentFromCase.get(INCIDENT_CASE_ID_FIELD)}`));
+    });
+  };
 
   const renderSaveButton = (
     <ActionButton
-      icon={incidentFromCase?.size ? <SaveReturnIcon /> : <CheckIcon />}
-      text={i18n.t(incidentFromCase?.size ? "buttons.save_and_return" : "buttons.save")}
+      icon={incidentFromCase?.size && recordType === RECORD_TYPES.incidents ? <SaveReturnIcon /> : <CheckIcon />}
+      text={i18n.t(
+        incidentFromCase?.size && recordType === RECORD_TYPES.incidents ? "buttons.save_and_return" : "buttons.save"
+      )}
       type={ACTION_BUTTON_TYPES.default}
       pending={savingRecord}
       rest={{
@@ -86,15 +122,27 @@ const RecordFormToolbar = ({
           params={params}
           recordType={recordType}
           shortId={shortId}
+          incidentCaseId={getIncidentFromCaseId()}
+          incidentCaseIdDisplay={getIncidentFromCaseIdDisplay()}
           toolbarHeading={css.toolbarHeading}
+          associatedLinkClass={css.associatedCaseLink}
         />
         {renderRecordStatusIndicator}
       </Box>
       <div className={css.actionsContainer}>
+        {mode.isShow && params && recordType === RECORD_TYPES.incidents && incidentFromCase?.size ? (
+          <ActionButton
+            icon={<KeyboardBackspaceIcon />}
+            text={i18n.t("buttons.return_to_case")}
+            type={ACTION_BUTTON_TYPES.default}
+            isCancel
+            rest={{ onClick: handleSaveAndReturn }}
+          />
+        ) : null}
         {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <DisableOffline button>
-              <Badge color="error" badgeContent={flags.size} className={css.badgeIndicator}>
+              <Badge color="error" badgeContent={record.get("flag_count")} className={css.badgeIndicator}>
                 <Flagging record={params.id} recordType={params.recordType} />
               </Badge>
             </DisableOffline>

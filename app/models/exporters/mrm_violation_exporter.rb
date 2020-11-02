@@ -1,14 +1,14 @@
-require 'writeexcel'
+require 'write_xlsx'
 
 module Exporters
   class MRMViolationExporter < BaseExporter
     class << self
       def id
-        'mrm_violation_xls'
+        'mrm_violation_xlsx'
       end
 
       def mime_type
-        'xls'
+        'xlsx'
       end
 
       def supported_models
@@ -20,7 +20,7 @@ module Exporters
     def initialize(output_file_path=nil)
       super(output_file_path)
       @worksheets = {}
-      @workbook = WriteExcel.new(self.buffer)
+      @workbook = WriteXLSX.new(self.buffer)
     end
 
     def complete

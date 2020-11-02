@@ -3,7 +3,7 @@
 REVISION=${1}
 VERSION=${2:-master}
 
-echo ${REVISION} | awk -v version=${VERSION} '{
+echo "${REVISION}" | awk -v version="${VERSION}" '{
   if ($0 ~ /^refs\/tags/)
     print substr($0, 11);
   else {

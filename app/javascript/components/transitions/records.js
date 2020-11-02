@@ -17,5 +17,6 @@ export const TransitionRecord = Record({
   transitioned_to_remote: null,
   transitioned_to: null,
   service: null,
-  remote: true
+  remote: true,
+  transitioned_to_agency: null
 });

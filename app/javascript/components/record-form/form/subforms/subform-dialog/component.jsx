@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { Formik, Form, getIn } from "formik";
 import { object } from "yup";
@@ -10,7 +10,7 @@ import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
 import { serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
-import { compactValues } from "../../../utils";
+import { compactValues, constructInitialValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
 import SubformDialogFields from "../subform-dialog-fields";
 import { valuesWithDisplayConditions } from "../subform-field-array/utils";
@@ -23,15 +23,14 @@ const Component = ({
   formSection,
   i18n,
   index,
-  initialSubformValue,
   isFormShow,
   mode,
   oldValue,
   open,
   setOpen,
-  title,
-  recordType
+  title
 }) => {
+  const [initialValues, setInitialValues] = useState({});
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
@@ -53,7 +52,7 @@ const Component = ({
   };
 
   const initialSubformValues = {
-    ...initialSubformValue,
+    ...initialValues,
     ...subformValues()
   };
 
@@ -102,7 +101,7 @@ const Component = ({
     field.subform_section_id.unique_id === "services_section" &&
     mode.isShow &&
     serviceHasReferFields(formik.values.services_section[index]) ? (
-      <SubformMenu index={index} values={formik.values.services_section} recordType={recordType} />
+      <SubformMenu index={index} values={formik.values.services_section} />
     ) : null;
 
   const renderSubform = (subformField, subformIndex) => {
@@ -127,6 +126,12 @@ const Component = ({
       setOpenConfirmationModal(true);
     }
   };
+
+  useEffect(() => {
+    if (open) {
+      setInitialValues(constructInitialValues([field.subform_section_id]));
+    }
+  }, [open]);
 
   return (
     <>
@@ -182,12 +187,10 @@ Component.propTypes = {
   formSection: PropTypes.object,
   i18n: PropTypes.object.isRequired,
   index: PropTypes.number,
-  initialSubformValue: PropTypes.object.isRequired,
   isFormShow: PropTypes.bool,
   mode: PropTypes.object.isRequired,
   oldValue: PropTypes.object,
   open: PropTypes.bool.isRequired,
-  recordType: PropTypes.string,
   setOpen: PropTypes.func.isRequired,
   subformSectionConfiguration: PropTypes.object,
   title: PropTypes.string.isRequired

@@ -3,6 +3,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { AppBar, Toolbar, IconButton, makeStyles, Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
 
+import NetworkIndicator from "../network-indicator";
 import ModuleLogo from "../module-logo";
 import { useApp } from "../application";
 import { useI18n } from "../i18n";
@@ -26,6 +27,7 @@ const MobileToolbar = ({ openDrawer }) => {
           </IconButton>
           <ModuleLogo className={css.logo} />
           {demoText}
+          <NetworkIndicator mobile />
         </Toolbar>
       </AppBar>
     </Hidden>

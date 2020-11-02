@@ -62,6 +62,7 @@ export const DISPLAY_TEXT_FIELD = "display_text";
 export const NAME_FIELD = "name";
 export const CODE_FIELD = "code";
 export const INCIDENT_CASE_ID_FIELD = "incident_case_id";
+export const INCIDENT_CASE_ID_DISPLAY_FIELD = "case_id_display";
 
 export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.CP]: ["consent_for_services", "disclosure_other_orgs"],
@@ -134,7 +135,8 @@ export const ROUTES = {
   support: "/support",
   tasks: "/tasks",
   tracing_requests: "/tracing_requests",
-  check_health: "/health/api"
+  check_health: "/health/api",
+  check_server_health: "/health/server"
 };
 
 export const PERMITTED_URL = [
@@ -385,4 +387,9 @@ export const LOCALE_KEYS = {
 
 export const HTTP_STATUS = {
   invalidRecord: 422
+};
+
+export const DEFAULT_DATE_VALUES = {
+  TODAY: "TODAY",
+  NOW: "NOW"
 };

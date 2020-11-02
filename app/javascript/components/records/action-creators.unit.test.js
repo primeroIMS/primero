@@ -3,11 +3,11 @@ import thunk from "redux-thunk";
 
 import { RECORD_PATH } from "../../config/constants";
 import { ENQUEUE_SNACKBAR } from "../notifier";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../record-actions/actions";
+import { CLEAR_DIALOG } from "../action-dialog";
 import RecordFormActions from "../record-form/actions";
 
 import * as actionCreators from "./action-creators";
-import { CLEAR_CASE_FROM_INCIDENT } from "./actions";
+import { CLEAR_CASE_FROM_INCIDENT, FETCH_RECORD_ALERTS } from "./actions";
 
 describe("records - Action Creators", () => {
   it("should have known action creators", () => {
@@ -94,7 +94,7 @@ describe("records - Action Creators", () => {
 
     it("should return 3 success callback actions if there is a dialogName", () => {
       const store = configureStore([thunk])({});
-      const expected = [ENQUEUE_SNACKBAR, SET_DIALOG, SET_DIALOG_PENDING];
+      const expected = [ENQUEUE_SNACKBAR, CLEAR_DIALOG, `${RECORD_PATH.cases}/${FETCH_RECORD_ALERTS}`];
 
       return store
         .dispatch(
@@ -121,7 +121,12 @@ describe("records - Action Creators", () => {
 
     it("should return 3 success callback actions when is an incidentFromCase", () => {
       const store = configureStore([thunk])({});
-      const expected = [ENQUEUE_SNACKBAR, `cases/${CLEAR_CASE_FROM_INCIDENT}`, RecordFormActions.SET_SELECTED_FORM];
+      const expected = [
+        ENQUEUE_SNACKBAR,
+        `cases/${CLEAR_CASE_FROM_INCIDENT}`,
+        RecordFormActions.SET_SELECTED_FORM,
+        `${RECORD_PATH.incidents}/${FETCH_RECORD_ALERTS}`
+      ];
 
       return store
         .dispatch(
@@ -142,7 +147,7 @@ describe("records - Action Creators", () => {
           const successCallbacks = store.getActions()[0].api.successCallback;
 
           expect(successCallbacks).to.be.an("array");
-          expect(successCallbacks).to.have.lengthOf(3);
+          expect(successCallbacks).to.have.lengthOf(4);
           expect(successCallbacks.map(({ action }) => action)).to.deep.equals(expected);
         });
     });
@@ -152,7 +157,8 @@ describe("records - Action Creators", () => {
     const recordId = "123abc";
     const expected = {
       api: {
-        path: `${RECORD_PATH.cases}/${recordId}/alerts`
+        path: `${RECORD_PATH.cases}/${recordId}/alerts`,
+        skipDB: true
       },
       type: `${RECORD_PATH.cases}/FETCH_RECORD_ALERTS`
     };
@@ -180,25 +186,27 @@ describe("records - Action Creators", () => {
     const expected = {
       type: "cases/FETCH_INCIDENT_FROM_CASE",
       api: {
-        path: `cases/case-id-1/incidents/new`,
+        path: `cases/case-unique-id-1/incidents/new`,
         successCallback: {
           action: `cases/SET_CASE_ID_FOR_INCIDENT`,
-          payload: { caseId: "case-id-1" },
+          payload: { caseId: "case-unique-id-1", caseIdDisplay: "case-display-id-1" },
           redirect: "/incidents/module-id-1/new"
         }
       }
     };
 
-    expect(actionCreators.fetchIncidentFromCase("case-id-1", "module-id-1")).be.deep.equals(expected);
+    expect(actionCreators.fetchIncidentFromCase("case-unique-id-1", "case-display-id-1", "module-id-1")).be.deep.equals(
+      expected
+    );
   });
 
   it("should check the 'setCaseIdForIncident' action creator to return the correct object", () => {
     const expected = {
       type: "cases/SET_CASE_ID_FOR_INCIDENT",
-      payload: { caseId: "case-id-1" }
+      payload: { caseId: "case-unique-id-1", caseIdDisplay: "case-display-id-1" }
     };
 
-    expect(actionCreators.setCaseIdForIncident("case-id-1")).to.deep.equal(expected);
+    expect(actionCreators.setCaseIdForIncident("case-unique-id-1", "case-display-id-1")).to.deep.equal(expected);
   });
 
   it("should check the 'fetchIncidentwitCaseId' action creator to return the correct object", () => {

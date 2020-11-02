@@ -27,7 +27,8 @@ describe("<TaskList />", () => {
                 type: "service",
                 due_date: "2019-07-01",
                 detail: "a",
-                field_name: "test"
+                field_name: "test",
+                completion_field: "test_service"
               },
               {
                 id: "0df32f52-4290-4ce1-b859-74ac14c081bf",
@@ -37,7 +38,8 @@ describe("<TaskList />", () => {
                 type: "case_plan",
                 due_date: "2019-07-02",
                 detail: "b",
-                field_name: "case_plan_due_date"
+                field_name: "case_plan_due_date",
+                completion_field: "case_plan_due_date"
               },
               {
                 id: "f1288fad-1c15-4f9f-b976-1f77d6356955",
@@ -50,7 +52,8 @@ describe("<TaskList />", () => {
                 type: "follow_up",
                 type_display: "Follow Up - Follow up for Assessment",
                 upcoming_soon: false,
-                field_name: "test_follow_up"
+                field_name: "test_follow_up",
+                completion_field: "test_follow_up"
               }
             ],
             metadata: {

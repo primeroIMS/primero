@@ -34,6 +34,7 @@ class PrimeroModule < ApplicationRecord
     result = form_sections
     result.each { |f| f.module_name = name }
     result.reject(&:is_nested) unless include_subforms
+    result
   end
 
   def associated_forms_grouped_by_record_type(include_subforms = false)

@@ -9,8 +9,8 @@ import ActionDialog from "../../action-dialog";
 import Form, { FieldRecord, FormSectionRecord, FORM_MODE_DIALOG } from "../../form";
 import { getRecordAlerts, saveRecord } from "../../records";
 import { ACTIONS } from "../../../libs/permissions";
-import { fetchRecordsAlerts } from "../../records/action-creators";
 import { fetchAlerts } from "../../nav/action-creators";
+import { NOTES_DIALOG } from "../constants";
 
 import { NAME } from "./constants";
 
@@ -19,13 +19,15 @@ const validationSchema = object().shape({
   note_text: string().required()
 });
 
-const Component = ({ close, openNotesDialog, record, recordType }) => {
+const Component = ({ close, open, pending, record, recordType, setPending }) => {
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
 
   const handleSubmit = data => {
+    setPending(true);
+
     batch(async () => {
       await dispatch(
         saveRecord(
@@ -36,15 +38,15 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
           i18n.t(`notes.note_success`),
           false,
           false,
-          false
+          false,
+          NOTES_DIALOG
         )
       );
-      dispatch(fetchRecordsAlerts(recordType, record.get("id")));
     });
+
     if (recordAlerts.size <= 0) {
       dispatch(fetchAlerts());
     }
-    close();
   };
 
   const bindFormSubmit = () => {
@@ -74,11 +76,13 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
 
   return (
     <ActionDialog
-      open={openNotesDialog}
+      open={open}
       successHandler={bindFormSubmit}
       dialogTitle={i18n.t("cases.notes_dialog_title")}
       confirmButtonLabel={i18n.t("buttons.save")}
+      omitCloseAfterSuccess
       onClose={close}
+      pending={pending}
     >
       <Form
         mode={FORM_MODE_DIALOG}
@@ -95,9 +99,11 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   close: PropTypes.func,
-  openNotesDialog: PropTypes.bool,
+  open: PropTypes.bool,
+  pending: PropTypes.bool.isRequired,
   record: PropTypes.object,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  setPending: PropTypes.func.isRequired
 };
 
 export default Component;

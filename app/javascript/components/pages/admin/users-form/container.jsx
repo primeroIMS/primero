@@ -16,8 +16,7 @@ import NAMESPACE from "../namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
-import { setDialog, setPending } from "../../../record-actions/action-creators";
-import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
+import { useDialog } from "../../../action-dialog";
 import { fetchSystemSettings, fetchRoles, fetchUserGroups } from "../../../application";
 import bindFormSubmit from "../../../../libs/submit-form";
 import { submitHandler } from "../../../form/utils/form-submission";
@@ -34,27 +33,34 @@ import ChangePassword from "./change-password";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
+
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
+  const { dialogOpen, dialogClose, pending, setDialogPending, setDialog } = useDialog([
+    PASSWORD_MODAL,
+    USER_CONFIRMATION_DIALOG
+  ]);
 
   const loading = useSelector(state => getLoading(state));
   const user = useSelector(state => getUser(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const idp = useSelector(state => getIdentityProviders(state));
-  const passwordModal = useSelector(state => selectDialog(state, PASSWORD_MODAL));
-  const setPasswordModal = open => {
-    dispatch(setDialog({ dialog: PASSWORD_MODAL, open }));
+  const currentUserName = useSelector(state => currentUser(state));
+  const saving = useSelector(state => getSavingRecord(state));
+
+  const setPasswordModal = () => {
+    setDialog({ dialog: PASSWORD_MODAL, open: true });
   };
-  const dialogPending = useSelector(state => selectDialogPending(state));
-  const setDialogPending = pending => {
-    dispatch(setPending({ pending }));
+
+  const setUserConfirmationOpen = () => {
+    setDialog({ dialog: USER_CONFIRMATION_DIALOG, open: true });
   };
+
   const useIdentityProviders = idp?.get("use_identity_provider");
   const providers = idp?.get("identity_providers");
-  const currentUserName = useSelector(state => currentUser(state));
   const selectedUserName = user.get("user_name");
   const selectedUserIsLoggedIn = currentUserName === selectedUserName;
 
@@ -68,16 +74,6 @@ const Container = ({ mode }) => {
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
   const [userData, setUserData] = React.useState({});
-  const saving = useSelector(state => getSavingRecord(state));
-
-  const userConfirmationOpen = useSelector(state => selectDialog(state, USER_CONFIRMATION_DIALOG));
-  const setUserConfirmationOpen = open => {
-    dispatch(setDialog({ dialog: USER_CONFIRMATION_DIALOG, open }));
-  };
-
-  const handleClose = () => {
-    setUserConfirmationOpen(false);
-  };
 
   const handleSubmit = data => {
     setUserData({ ...userData, ...data });
@@ -117,7 +113,7 @@ const Container = ({ mode }) => {
 
   useEffect(() => {
     if (!saving) {
-      dispatch(setPending(false));
+      setDialogPending(false);
     }
   }, [saving]);
 
@@ -206,10 +202,10 @@ const Container = ({ mode }) => {
           <CancelPrompt useCancelPrompt />
           <form noValidate>{renderFormSections()}</form>
           <UserConfirmation
-            userConfirmationOpen={userConfirmationOpen}
-            close={handleClose}
+            open={dialogOpen[USER_CONFIRMATION_DIALOG]}
+            close={dialogClose}
             saveMethod={formMode.get("isEdit") ? "update" : "new"}
-            pending={dialogPending}
+            pending={pending}
             setPending={setDialogPending}
             id={id}
             isIdp={useIdentityProviders}
@@ -221,10 +217,10 @@ const Container = ({ mode }) => {
           <ChangePassword
             formMode={formMode}
             i18n={i18n}
-            open={passwordModal}
+            open={dialogOpen[PASSWORD_MODAL]}
             parentFormMethods={formMethods}
-            pending={dialogPending}
-            setOpen={setPasswordModal}
+            pending={pending}
+            close={dialogClose}
           />
         </FormContext>
       </PageContent>

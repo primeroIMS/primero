@@ -23,12 +23,13 @@ import {
 import {
   APPROVALS,
   RECORD_TYPES,
-  REFERRAL,
   RECORD_OWNER,
   TRANSITION_TYPE,
   RECORD_PATH,
+  REFERRAL,
   INCIDENT_FROM_CASE
 } from "../../config";
+import { REFER_FROM_SERVICE } from "../../libs/permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import IncidentFromCase from "../incidents-from-case";
@@ -110,14 +111,12 @@ const Container = ({ match, mode }) => {
           ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {})
         }
       };
-      const message = queue => {
-        const appendQueue = queue ? "_queue" : "";
-
+      const message = () => {
         return containerMode.isEdit
-          ? i18n.t(`${recordType}.messages.update_success${appendQueue}`, {
+          ? i18n.t(`${recordType}.messages.update_success`, {
               record_id: record.get("short_id")
             })
-          : i18n.t(`${recordType}.messages.creation_success${appendQueue}`, recordType);
+          : i18n.t(`${recordType}.messages.creation_success`, recordType);
       };
 
       batch(async () => {
@@ -128,18 +127,16 @@ const Container = ({ match, mode }) => {
             body,
             params.id,
             message(),
-            message(true),
+            i18n.t("offline_submitted_changes"),
             getRedirectPath(containerMode, params, fetchFromCaseId),
             true,
             "",
             Boolean(incidentFromCase?.size),
             selectedModule.primeroModule,
-            incidentPath
+            incidentPath,
+            i18n.t("offline_submitted_changes")
           )
         );
-        if (containerMode.isEdit) {
-          dispatch(fetchRecordsAlerts(params.recordType, params.id));
-        }
       });
       // TODO: Set this if there are any errors on validations
       // setSubmitting(false);
@@ -190,7 +187,7 @@ const Container = ({ match, mode }) => {
     }
   }, [containerMode.isEdit, containerMode.isShow, dispatch, params.id, params.recordType]);
 
-  const canRefer = usePermissions(params.recordType, REFERRAL);
+  const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
 
   useEffect(() => {
     if (!containerMode.isNew && params.recordType === RECORD_PATH.cases) {
@@ -230,8 +227,12 @@ const Container = ({ match, mode }) => {
   const approvalSubforms = record?.get("approval_subforms");
   const incidentsSubforms = record?.get("incident_details");
 
-  const externalForms = (form, setFieldValue, handleSubmit) =>
-    ({
+  const externalForms = (form, setFieldValue, handleSubmit) => {
+    const isTransitions = TRANSITION_TYPE.includes(form);
+
+    const externalFormSelected = isTransitions ? TRANSITION_TYPE : form;
+
+    return {
       [RECORD_OWNER]: (
         <RecordOwner
           record={record}
@@ -256,7 +257,8 @@ const Container = ({ match, mode }) => {
         />
       ),
       [TRANSITION_TYPE]: <Transitions {...transitionProps} />
-    }[form]);
+    }[externalFormSelected];
+  };
 
   const hasData = Boolean(forms && formNav && firstTab && (containerMode.isNew || record));
   const loading = Boolean(loadingForm || loadingRecord);

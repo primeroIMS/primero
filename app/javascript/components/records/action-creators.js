@@ -1,7 +1,7 @@
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../record-actions/actions";
-import { INCIDENT_FROM_CASE, RECORD_PATH, RECORD_TYPES } from "../../config";
+import { CLEAR_DIALOG } from "../action-dialog";
+import { INCIDENT_FROM_CASE, METHODS, RECORD_PATH, RECORD_TYPES, SAVE_METHODS } from "../../config";
 import { setSelectedForm } from "../record-form/action-creators";
 
 import {
@@ -18,7 +18,7 @@ import {
 const getSuccessCallback = ({
   dialogName,
   message,
-  messageForQueue,
+  messageFromQueue,
   recordType,
   redirect,
   saveMethod,
@@ -39,7 +39,7 @@ const getSuccessCallback = ({
       action: ENQUEUE_SNACKBAR,
       payload: {
         message,
-        messageForQueue,
+        messageFromQueue,
         options: {
           variant: "success",
           key: generate.messageKey(message)
@@ -57,17 +57,7 @@ const getSuccessCallback = ({
     return [
       ...defaultSuccessCallback,
       {
-        action: SET_DIALOG,
-        payload: {
-          dialog: dialogName,
-          open: false
-        }
-      },
-      {
-        action: SET_DIALOG_PENDING,
-        payload: {
-          pending: false
-        }
+        action: CLEAR_DIALOG
       }
     ];
   }
@@ -96,13 +86,23 @@ export const fetchRecord = (recordType, id) => async dispatch => {
   });
 };
 
+export const fetchRecordsAlerts = (recordType, recordId, asCallback = false) => ({
+  ...(asCallback
+    ? { action: `${recordType}/${FETCH_RECORD_ALERTS}` }
+    : { type: `${recordType}/${FETCH_RECORD_ALERTS}` }),
+  api: {
+    path: `${recordType}/${recordId}/alerts`,
+    skipDB: true
+  }
+});
+
 export const saveRecord = (
   recordType,
   saveMethod,
   body,
   id,
   message,
-  messageForQueue,
+  messageFromQueue,
   redirect,
   queueAttachments = true,
   dialogName = "",
@@ -110,26 +110,33 @@ export const saveRecord = (
   moduleID,
   incidentPath = ""
 ) => async dispatch => {
+  const fetchRecordsAlertsCallback =
+    id && saveMethod === SAVE_METHODS.update ? [fetchRecordsAlerts(recordType, id, true)] : [];
+
   await dispatch({
     type: `${recordType}/${SAVE_RECORD}`,
     api: {
       id,
       recordType,
-      path: saveMethod === "update" ? `${recordType}/${id}` : `${recordType}`,
-      method: saveMethod === "update" ? "PATCH" : "POST",
+      path: saveMethod === SAVE_METHODS.update ? `${recordType}/${id}` : recordType,
+      method: saveMethod === SAVE_METHODS.update ? METHODS.PATCH : METHODS.POST,
       queueOffline: true,
       body,
-      successCallback: getSuccessCallback({
-        dialogName,
-        message,
-        messageForQueue,
-        recordType,
-        redirect,
-        saveMethod,
-        incidentFromCase,
-        incidentPath,
-        moduleID
-      }),
+      successCallback: [
+        ...getSuccessCallback({
+          dialogName,
+          message,
+          messageFromQueue,
+          recordType,
+          redirect,
+          saveMethod,
+          incidentFromCase,
+          incidentPath,
+          moduleID,
+          id
+        }),
+        ...fetchRecordsAlertsCallback
+      ],
       db: {
         collection: DB_COLLECTIONS_NAMES.RECORDS,
         recordType
@@ -139,24 +146,17 @@ export const saveRecord = (
   });
 };
 
-export const fetchRecordsAlerts = (recordType, recordId) => ({
-  type: `${recordType}/${FETCH_RECORD_ALERTS}`,
-  api: {
-    path: `${recordType}/${recordId}/alerts`
-  }
-});
-
 export const clearCaseFromIncident = () => ({
   type: `cases/${CLEAR_CASE_FROM_INCIDENT}`
 });
 
-export const setCaseIdForIncident = caseId => ({
+export const setCaseIdForIncident = (caseId, caseIdDisplay) => ({
   type: `cases/${SET_CASE_ID_FOR_INCIDENT}`,
-  payload: { caseId }
+  payload: { caseId, caseIdDisplay }
 });
 
-export const fetchIncidentFromCase = (caseId, moduleId) => {
-  const { type: action, payload } = setCaseIdForIncident(caseId);
+export const fetchIncidentFromCase = (caseId, caseIdDisplay, moduleId) => {
+  const { type: action, payload } = setCaseIdForIncident(caseId, caseIdDisplay);
   const successCallback = {
     action,
     payload,

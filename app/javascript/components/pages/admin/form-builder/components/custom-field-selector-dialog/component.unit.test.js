@@ -21,7 +21,7 @@ import { DATE_TIME_FIELD, MULTI_SELECT_FIELD } from "./constants";
 describe("<CustomFieldSelectorDialog />", () => {
   let component;
   const initialState = fromJS({
-    ui: { dialogs: { custom_field_selector_dialog: true } }
+    ui: { dialogs: { dialog: "custom_field_selector_dialog", open: true } }
   });
 
   beforeEach(() => {

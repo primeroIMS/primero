@@ -44,6 +44,7 @@ class PermittedFieldService
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
     if model_class == Incident && user.can?(Permission::INCIDENT_FROM_CASE.to_sym, Child)
       @permitted_field_names << 'incident_case_id'
+      @permitted_field_names << 'case_id_display'
     end
     @permitted_field_names << 'incident_details' if user.can?(:view_incident_from_case, model_class)
     @permitted_field_names += permitted_approval_field_names

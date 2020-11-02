@@ -82,7 +82,8 @@ describe("<ActionDialog />", () => {
       "open",
       "pending",
       "successHandler",
-      "showSuccessButton"
+      "showSuccessButton",
+      "fetchArgs"
     ].forEach(property => {
       expect(actionDialogProps).to.have.property(property);
       delete actionDialogProps[property];

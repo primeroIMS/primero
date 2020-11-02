@@ -2,5 +2,6 @@
 export const SNACKBAR_VARIANTS = {
   error: "error",
   info: "info",
-  success: "success"
+  success: "success",
+  warning: "warning"
 };

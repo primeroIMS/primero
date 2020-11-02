@@ -402,4 +402,23 @@ describe("Verifying config constant", () => {
     });
     expect(permissions).to.be.empty;
   });
+
+  describe("allowedExportTypes", () => {
+    it("should return an array with the allowed export types", () => {
+      const expected = List([PERMISSIONS.ACTIONS.EXPORT_PDF, PERMISSIONS.ACTIONS.EXPORT_JSON]);
+      const userPermission = List([
+        PERMISSIONS.ACTIONS.EXPORT_PDF,
+        PERMISSIONS.ACTIONS.EXPORT_JSON,
+        PERMISSIONS.ACTIONS.MANAGE
+      ]);
+
+      expect(PERMISSIONS.allowedExportTypes(userPermission)).to.deep.equals(expected);
+    });
+
+    it("should return an empty array if there are not allowed export types", () => {
+      const userPermission = List([PERMISSIONS.ACTIONS.MANAGE]);
+
+      expect(PERMISSIONS.allowedExportTypes(userPermission)).to.be.empty;
+    });
+  });
 });

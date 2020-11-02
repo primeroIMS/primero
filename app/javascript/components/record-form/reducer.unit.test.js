@@ -61,7 +61,7 @@ describe("<RecordForm /> - Reducers", () => {
         bn: ""
       }
     };
-    const payload = [location];
+    const payload = { data: [location] };
     const expected = fromJS({
       selectedForm: null,
       formSections: OrderedMap({}),

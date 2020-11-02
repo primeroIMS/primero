@@ -10,7 +10,6 @@ import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { fetchAlerts } from "../../nav/action-creators";
 import { getRecordAlerts, saveRecord } from "../../records";
-import { fetchRecordsAlerts } from "../../records/action-creators";
 import { currentUser } from "../../user";
 import { getOptions } from "../../form/selectors";
 import { useApp } from "../../application";
@@ -22,15 +21,14 @@ import styles from "./styles.css";
 
 const Component = ({
   close,
-  openRequestDialog,
+  open,
   subMenuItems,
   record,
   recordType,
   pending,
   setPending,
   approvalType,
-  confirmButtonLabel,
-  dialogName
+  confirmButtonLabel
 }) => {
   const i18n = useI18n();
   const { approvalsLabels, userModules } = useApp();
@@ -105,7 +103,6 @@ const Component = ({
             approval_label: approvalsLabels[requestType]
           }),
           failureMessage: i18n.t(`${recordType}.request_approval_failure`),
-          dialogName,
           username
         })
       );
@@ -124,8 +121,6 @@ const Component = ({
           )
         );
       }
-
-      dispatch(fetchRecordsAlerts(recordType, record.get("id")));
 
       if (recordAlerts?.size <= 0) {
         dispatch(fetchAlerts());
@@ -195,7 +190,7 @@ const Component = ({
 
   return (
     <ActionDialog
-      open={openRequestDialog}
+      open={open}
       dialogTitle=""
       successHandler={handleSubmit}
       cancelHandler={handleCancel}
@@ -215,8 +210,7 @@ Component.propTypes = {
   approvalType: PropTypes.string,
   close: PropTypes.func,
   confirmButtonLabel: PropTypes.string,
-  dialogName: PropTypes.string,
-  openRequestDialog: PropTypes.bool,
+  open: PropTypes.bool,
   pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string,

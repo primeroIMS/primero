@@ -15,7 +15,8 @@ describe("<IncidentDetail /> - Component", () => {
       titleHeader: {}
     },
     handleSubmit: () => {},
-    incidentCaseId: "case-id-1",
+    incidentCaseId: "case-unique-id-1",
+    incidentCaseIdDisplay: "case-short-id-1",
     incidentDateInterview: "2020-Oct-02",
     incidentDate: "2020-Oct-01",
     incidentUniqueID: "e25c5cb1-1257-472e-b2ec-05f568a3b51e",
@@ -59,7 +60,8 @@ describe("<IncidentDetail /> - Component", () => {
 
     expect(actions.find(action => action.type === "forms/SET_SELECTED_FORM").payload).to.not.exist;
     expect(actions.find(action => action.type === "cases/SET_CASE_ID_FOR_INCIDENT").payload).to.deep.equal({
-      caseId: "case-id-1"
+      caseId: "case-unique-id-1",
+      caseIdDisplay: "case-short-id-1"
     });
   });
 
@@ -69,7 +71,8 @@ describe("<IncidentDetail /> - Component", () => {
 
     expect(actions.find(action => action.type === "forms/SET_SELECTED_FORM").payload).to.not.exist;
     expect(actions.find(action => action.type === "cases/SET_CASE_ID_FOR_INCIDENT").payload).to.deep.equal({
-      caseId: "case-id-1"
+      caseId: "case-unique-id-1",
+      caseIdDisplay: "case-short-id-1"
     });
   });
 
@@ -80,6 +83,7 @@ describe("<IncidentDetail /> - Component", () => {
       "css",
       "handleSubmit",
       "incidentCaseId",
+      "incidentCaseIdDisplay",
       "incidentDateInterview",
       "incidentDate",
       "incidentUniqueID",

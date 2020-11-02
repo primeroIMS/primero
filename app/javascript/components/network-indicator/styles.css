@@ -1,0 +1,44 @@
+.networkIndicator {
+  padding: 8px 16px;
+  font-size: $(theme.typography.pxToRem(12));
+  display: flex;
+  font-weight: bold;
+
+  &.online {
+    color: $(theme.primero.colors.solidGreen);
+  }
+
+  &.offline {
+    color: $(theme.primero.colors.solidOrange);
+  }
+
+  & .status {
+    display: inline-block;
+    padding: 5px 0;
+    margin-left: 10px;
+  }
+}
+
+@media $(theme.breakpoints.down('md')) {
+  .networkIndicator {
+    & .status {
+      display: none;
+    }
+  }
+}
+
+@media $(theme.breakpoints.down('sm')) {
+  .networkIndicator {
+    display: none;
+
+    &.mobile {
+      padding: 5px;
+      display: flex;
+      justify-content: flex-end;
+
+      & .status {
+        display: inline-block;
+      }
+    }
+  }
+}

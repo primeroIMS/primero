@@ -183,7 +183,8 @@ export const getValueFromOtherField = (state, fields, values) => {
   }, []);
 };
 
+export const getManagedRoleByUniqueId = (state, uniqueID) =>
+  managedRoles(state, "referral").find(role => role.get("unique_id") === uniqueID, null, fromJS({}));
+
 export const getManagedRoleFormSections = (state, uniqueID) =>
-  managedRoles(state, "referral")
-    .find(role => role.get("unique_id") === uniqueID, null, fromJS({}))
-    .get("form_section_unique_ids", fromJS([]));
+  getManagedRoleByUniqueId(state, uniqueID).get("form_section_unique_ids", fromJS([]));

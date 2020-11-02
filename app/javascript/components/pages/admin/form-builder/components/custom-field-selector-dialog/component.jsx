@@ -10,10 +10,10 @@ import {
   Divider,
   makeStyles
 } from "@material-ui/core";
-import { useDispatch, useSelector, batch } from "react-redux";
+import { useDispatch, batch } from "react-redux";
 import clsx from "clsx";
 
-import ActionDialog from "../../../../../action-dialog";
+import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import {
   TEXT_FIELD,
   TEXT_AREA,
@@ -25,12 +25,10 @@ import {
   SELECT_FIELD,
   SUBFORM_SECTION
 } from "../../../../../form";
-import { setDialog } from "../../../../../record-actions/action-creators";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { useI18n } from "../../../../../i18n";
 import { NEW_FIELD } from "../../constants";
 import { setNewField, setTemporarySubform } from "../../action-creators";
-import { selectDialog } from "../../../../../record-actions/selectors";
 import { CUSTOM_FIELD_DIALOG } from "../custom-field-dialog/constants";
 import {
   DateInput,
@@ -69,11 +67,12 @@ const Component = ({ isSubform }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const css = makeStyles(styles)();
-  const openFieldSelectorDialog = useSelector(state => selectDialog(state, CUSTOM_FIELD_SELECTOR_DIALOG));
+
+  const { dialogOpen, dialogClose, setDialog } = useDialog(CUSTOM_FIELD_SELECTOR_DIALOG);
 
   useEffect(() => {
     setSelectedItem("");
-  }, [openFieldSelectorDialog]);
+  }, [dialogOpen]);
 
   const handleListItem = item => {
     setSelectedItem(item);
@@ -100,18 +99,10 @@ const Component = ({ isSubform }) => {
     };
 
     batch(() => {
-      dispatch(
-        setDialog({
-          dialog: CUSTOM_FIELD_SELECTOR_DIALOG,
-          open: false
-        })
-      );
-      dispatch(
-        setDialog({
-          dialog: ADMIN_FIELDS_DIALOG,
-          open: true
-        })
-      );
+      setDialog({
+        dialog: ADMIN_FIELDS_DIALOG,
+        open: true
+      });
       dispatch(
         setNewField(
           {
@@ -141,9 +132,10 @@ const Component = ({ isSubform }) => {
 
   const handleClose = () => {
     batch(() => {
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: false }));
+      dialogClose();
+
       if (selectedItem === "") {
-        dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true }));
+        setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true });
       }
     });
   };
@@ -152,7 +144,7 @@ const Component = ({ isSubform }) => {
     <>
       <ActionDialog
         dialogTitle={i18n.t("fields.create_field")}
-        open={openFieldSelectorDialog}
+        open={dialogOpen}
         enabledSuccessButton={selectedItem !== ""}
         confirmButtonLabel={i18n.t("buttons.select")}
         successHandler={handleSelected}

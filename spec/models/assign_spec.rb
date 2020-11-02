@@ -49,8 +49,8 @@ describe Assign do
     end
 
     it 'changes owned_by_agency' do
-      expect(@case.owned_by_agency).to eq(@agency2.agency_code)
-      expect(@case.previously_owned_by_agency).to eq(@agency1.id)
+      expect(@case.owned_by_agency).to eq(@agency2.unique_id)
+      expect(@case.previously_owned_by_agency).to eq(@agency1.unique_id)
     end
 
     describe 'record history' do
@@ -114,10 +114,10 @@ describe Assign do
         end
 
         it 'changes owned_by_agency' do
-          expect(@incident1.owned_by_agency).to eq(@agency2.agency_code)
-          expect(@incident1.previously_owned_by_agency).to eq(@agency1.id)
-          expect(@incident2.owned_by_agency).to eq(@agency2.agency_code)
-          expect(@incident2.previously_owned_by_agency).to eq(@agency1.id)
+          expect(@incident1.owned_by_agency).to eq(@agency2.unique_id)
+          expect(@incident1.previously_owned_by_agency).to eq(@agency1.unique_id)
+          expect(@incident2.owned_by_agency).to eq(@agency2.unique_id)
+          expect(@incident2.previously_owned_by_agency).to eq(@agency1.unique_id)
         end
 
         describe 'record history' do
@@ -181,8 +181,8 @@ describe Assign do
       end
 
       it 'changes owned_by_agency' do
-        expect(@case.owned_by_agency).to eq(@agency2.agency_code)
-        expect(@case.previously_owned_by_agency).to eq(@agency1.id)
+        expect(@case.owned_by_agency).to eq(@agency2.unique_id)
+        expect(@case.previously_owned_by_agency).to eq(@agency1.unique_id)
       end
     end
 
@@ -236,8 +236,8 @@ describe Assign do
       end
 
       it 'does not change owned_by_agency' do
-        expect(@case.owned_by_agency).to eq(@agency1.agency_code)
-        expect(@case.previously_owned_by_agency).to eq(@agency1.id)
+        expect(@case.owned_by_agency).to eq(@agency1.unique_id)
+        expect(@case.previously_owned_by_agency).to eq(@agency1.unique_id)
       end
     end
 

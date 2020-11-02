@@ -29,6 +29,9 @@ const dataMeetConditions = (objectToEval, displayConditions) => {
 };
 
 export const valuesWithDisplayConditions = (values, displayConditions) => {
+  if (isEmpty(values)) {
+    return [];
+  }
   if (isEmpty(displayConditions)) {
     return values;
   }

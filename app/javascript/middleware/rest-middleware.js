@@ -5,7 +5,7 @@ import { FETCH_TIMEOUT, ROUTES } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
 import EventManager from "../libs/messenger";
-import { QUEUE_FAILED, QUEUE_SKIP } from "../libs/queue";
+import { QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS } from "../libs/queue";
 import { applyingConfigMessage } from "../components/pages/admin/configurations-form/action-creators";
 import { disableNavigation } from "../components/application/action-creators";
 
@@ -17,7 +17,8 @@ import {
   defaultErrorCallback,
   startSignout,
   processSubforms,
-  handleConfiguration
+  handleConfiguration,
+  isServerOnline
 } from "./utils";
 
 const defaultFetchOptions = {
@@ -80,6 +81,12 @@ const messageQueueFailed = fromQueue => {
 const messageQueueSkip = fromQueue => {
   if (fromQueue) {
     EventManager.publish(QUEUE_SKIP);
+  }
+};
+
+const messageQueueSuccess = fromQueue => {
+  if (fromQueue) {
+    EventManager.publish(QUEUE_SUCCESS);
   }
 };
 
@@ -174,7 +181,7 @@ const fetchSinglePayload = (action, store, options) => {
       if (status === 503 || (status === 204 && `/${checkHealthUrl}` === ROUTES.check_health)) {
         handleConfiguration(status, store, options, response, { fetchStatus, fetchSinglePayload, type });
       } else {
-        const json = await response.json();
+        const json = status === 204 ? {} : await response.json();
 
         if (!response.ok) {
           fetchStatus({ store, type }, "FAILURE", json);
@@ -182,9 +189,12 @@ const fetchSinglePayload = (action, store, options) => {
           if (status === 404) {
             deleteFromQueue(fromQueue);
             messageQueueSkip();
+          } else if (fromQueue) {
+            messageQueueFailed(fromQueue);
+            defaultErrorCallback(store, response, json, recordType, fromQueue, id);
           } else if (failureCallback) {
             messageQueueFailed(fromQueue);
-            handleRestCallback(store, failureCallback, response, json);
+            handleRestCallback(store, failureCallback, response, json, fromQueue);
           } else {
             messageQueueFailed(fromQueue);
             defaultErrorCallback(store, response, json);
@@ -212,6 +222,8 @@ const fetchSinglePayload = (action, store, options) => {
           }
 
           handleRestCallback(store, successCallback, response, json, fromQueue);
+
+          messageQueueSuccess(fromQueue);
         }
         fetchStatus({ store, type }, "FINISHED", false);
 
@@ -229,7 +241,9 @@ const fetchSinglePayload = (action, store, options) => {
 
       fetchStatus({ store, type }, "FAILURE", false);
 
-      if (failureCallback) {
+      if (fromQueue) {
+        defaultErrorCallback(store, {}, {}, recordType, fromQueue, id);
+      } else if (failureCallback) {
         handleRestCallback(store, failureCallback, {}, {});
       } else {
         defaultErrorCallback(store, {}, {});
@@ -366,8 +380,13 @@ const fetchFromCache = (action, store, options, next) => {
 };
 
 const restMiddleware = options => store => next => action => {
-  if (!(action.api && (Array.isArray(action.api) || "path" in action.api)) || !isOnline(store)) {
-    return next(action);
+  if (
+    !(action.api && (Array.isArray(action.api) || "path" in action.api)) ||
+    (!isOnline(store) && !isServerOnline(store))
+  ) {
+    if (action?.api?.path !== ROUTES.check_server_health) {
+      return next(action);
+    }
   }
 
   if (action?.api?.db?.alwaysCache) {

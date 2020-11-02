@@ -7,8 +7,7 @@ import NAMESPACE from "./namespace";
 import { PrimeroModuleRecord } from "./records";
 
 const DEFAULT_STATE = fromJS({
-  userIdle: false,
-  online: window.navigator.onLine
+  userIdle: false
 });
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
@@ -42,8 +41,6 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     }
     case actions.SET_USER_IDLE:
       return state.set("userIdle", payload);
-    case actions.NETWORK_STATUS:
-      return state.set("online", payload);
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
     case actions.FETCH_SYSTEM_PERMISSIONS_FAILURE:

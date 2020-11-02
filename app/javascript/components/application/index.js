@@ -4,7 +4,6 @@ export {
   fetchSystemPermissions,
   fetchUserGroups,
   loadApplicationResources,
-  setNetworkStatus,
   setUserIdle
 } from "./action-creators";
 export { ApplicationProvider, useApp } from "./provider";

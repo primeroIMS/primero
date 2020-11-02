@@ -14,9 +14,7 @@ import { whichFormMode } from "../../../../../form";
 import { FORM_MODE_EDIT } from "../../../../../form/constants";
 import { useI18n } from "../../../../../i18n";
 import { compare } from "../../../../../../libs";
-import ActionDialog from "../../../../../action-dialog";
-import { selectDialog } from "../../../../../record-actions/selectors";
-import { setDialog } from "../../../../../record-actions/action-creators";
+import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { getSelectedFields } from "../../selectors";
 import { selectExistingFields } from "../../action-creators";
 import baseStyles from "../styles.css";
@@ -39,11 +37,12 @@ const Component = ({ parentForm, primeroModule }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const formMethods = useForm();
+  const { setDialog, dialogOpen, dialogClose } = useDialog(NAME);
+
   const formMode = whichFormMode(FORM_MODE_EDIT);
   const watchedFieldQuery = formMethods.watch("field_query", "");
 
   const selectedFields = useSelector(state => getSelectedFields(state, false), compare);
-  const open = useSelector(state => selectDialog(state, NAME));
 
   const [addedFields, setAddedFields] = useState([]);
   const [removedFields, setRemovedFields] = useState([]);
@@ -53,7 +52,7 @@ const Component = ({ parentForm, primeroModule }) => {
   const existingFieldNames = getExistingFieldNames(existingSelectedFields);
 
   const handleClose = () => {
-    dispatch(setDialog({ dialog: NAME, open: false }));
+    dialogClose();
   };
 
   const addField = field => {
@@ -78,15 +77,14 @@ const Component = ({ parentForm, primeroModule }) => {
 
   const handleSuccess = () => {
     batch(() => {
-      dispatch(setDialog({ dialog: NAME, open: false }));
+      dialogClose();
       dispatch(selectExistingFields({ addedFields, removedFields }));
     });
   };
 
   const onCreateNewField = () => {
     batch(() => {
-      dispatch(setDialog({ dialog: NAME, open: false }));
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
+      setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true });
     });
   };
 
@@ -103,18 +101,18 @@ const Component = ({ parentForm, primeroModule }) => {
       icon: <CheckIcon />
     },
     dialogTitle,
-    open,
+    open: dialogOpen,
     successHandler: () => handleSuccess(),
     cancelHandler: () => handleClose(),
     omitCloseAfterSuccess: true
   };
 
   useEffect(() => {
-    if (open) {
+    if (dialogOpen) {
       setAddedFields([]);
       setRemovedFields([]);
     }
-  }, [open]);
+  }, [dialogOpen]);
 
   return (
     <ActionDialog {...modalProps}>

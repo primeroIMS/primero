@@ -15,7 +15,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 import { valuesWithDisplayConditions } from "./utils";
 
-const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mode, recordType, formSection }) => {
+const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection }) => {
   const {
     display_name: displayName,
     name,
@@ -57,7 +57,6 @@ const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mod
         mode={mode}
         setOpen={setOpenDialog}
         setDialogIsNew={setDialogIsNew}
-        recordType={recordType}
         form={formSection}
       />
     );
@@ -97,9 +96,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mod
         open={open}
         setOpen={setOpenDialog}
         title={title}
-        initialSubformValue={initialSubformValue}
         formSection={formSection}
-        recordType={recordType}
       />
     </>
   );
@@ -113,9 +110,7 @@ Component.propTypes = {
   formik: PropTypes.object.isRequired,
   formSection: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
-  initialSubformValue: PropTypes.object.isRequired,
-  mode: PropTypes.object.isRequired,
-  recordType: PropTypes.string
+  mode: PropTypes.object.isRequired
 };
 
 export default Component;

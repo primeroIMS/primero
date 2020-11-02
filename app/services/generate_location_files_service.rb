@@ -58,14 +58,14 @@ class GenerateLocationFilesService
       Location.order(:location_code, :hierarchy_path).find_in_batches(batch_size: 500).each do |locations|
         location_options = locations.map { |location| format_for_output(location) }
         File.open(output_dir[:locations_file], 'a') do |f|
-          f.write(location_options.to_json)
+          f.write({ data: location_options }.to_json)
         end
       end
     end
 
     def write_empty_file
       File.open(output_dir[:locations_file], 'a') do |f|
-        f.write([].to_json)
+        f.write({ data: [] }.to_json)
       end
     end
 

@@ -16,8 +16,9 @@ describe("components/disable-offline - DisableOffline", () => {
       ),
       { text: "offline" },
       fromJS({
-        application: {
-          online
+        connectivity: {
+          online,
+          serverOnline: true
         }
       })
     ).component;

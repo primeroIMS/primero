@@ -111,7 +111,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
         true
       );
 
-      expect(dispatch).to.have.been.calledOnce;
+      expect(dispatch).to.not.have.been.called;
     });
 
     it("from response id", () => {
