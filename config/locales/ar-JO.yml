@@ -139,6 +139,7 @@ ar-JO:
     disable_photo_wall: "تعطيل photo wall"
     create_incident: "إنشاء حادثة جديدة"
     create_case: "إنشاء حالة"
+    guiding_questions: "نصوص توجيهية"
     filter_label: "عامل التصفية:"
     filter: "تطبيق عامل التصفية"
     filter_clear: "مسح عوامل التصفية"
@@ -1688,6 +1689,10 @@ ar-JO:
       all: PDF
       one: PDF
       selected: تحديد إلى PDF
+    child_pdf:
+      all: PDF
+      one: PDF
+      selected: تحديد إلى PDF
     list_view_csv:
       all: تصدير ملف عرض القائمة
       selected: تحديد إلى CSV
@@ -1762,6 +1767,7 @@ ar-JO:
     service_label: "خدمة"
     consent_label: "لم توفر السجلات الموافقة."
     consent_override_label: "هل ترغب في تجاوز تعبئة نموذج الموافقة؟"
+    notes_referral_label: "ملاحظات مقدم الخدمة"
     is_remote_label: "هل ترغب في احالة الحالة لمؤسسة من خارج النظام؟"
     type_of_export: "ما نوع تصدير الملف الذي تريده"
     notes_label: "ملاحظات"
