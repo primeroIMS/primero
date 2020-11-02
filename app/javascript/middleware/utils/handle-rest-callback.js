@@ -5,8 +5,10 @@ const handleRestCallback = (store, callback, response, json, fromQueue = false) 
     if (Array.isArray(callback)) {
       callback.forEach(cb => handleRestCallback(store, cb, response, json, fromQueue));
     } else {
-      const isCallbackObject = typeof callback === "object";
-      const successPayload = isCallbackObject
+      const isObjectCallback = typeof callback === "object";
+      const isApiCallback = isObjectCallback && "api" in callback;
+
+      const successPayload = isObjectCallback
         ? {
             type: callback.action,
             payload: callback.payload
@@ -16,9 +18,9 @@ const handleRestCallback = (store, callback, response, json, fromQueue = false) 
             payload: { response, json }
           };
 
-      store.dispatch(successPayload);
+      store.dispatch(isApiCallback ? { type: callback.action, api: callback.api } : successPayload);
 
-      if (isCallbackObject && callback.redirect && !fromQueue) {
+      if (isObjectCallback && callback.redirect && !fromQueue) {
         let { redirect } = callback;
 
         if (callback.redirectWithIdFromResponse) {

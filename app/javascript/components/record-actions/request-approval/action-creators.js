@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-
+import { fetchRecordsAlerts } from "../../records";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../action-dialog";
 
@@ -37,7 +37,8 @@ export const approvalRecord = ({ recordType, recordId, approvalId, body, message
         },
         {
           action: CLEAR_DIALOG
-        }
+        },
+        fetchRecordsAlerts(recordType, recordId, true)
       ],
       failureCallback: [
         {

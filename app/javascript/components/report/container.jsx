@@ -25,6 +25,7 @@ import { getReport } from "./selectors";
 import { deleteReport, fetchReport } from "./action-creators";
 import namespace from "./namespace";
 import { NAME, DELETE_MODAL } from "./constants";
+import Exporter from "./components/exporter";
 import styles from "./styles.css";
 
 // const { dialogOpen, setDialog } = useDialog(DELETE_MODAL);
@@ -99,6 +100,7 @@ const Report = ({ mode }) => {
   return (
     <PageContainer>
       <PageHeading title={name}>
+        <Exporter includesGraph={report.get("graph")} />
         {cancelButton}
         {editButton}
       </PageHeading>

@@ -48,6 +48,7 @@ import { reducer as configurationsListReducer } from "./components/pages/admin/c
 import { reducer as configurationsFormReducer } from "./components/pages/admin/configurations-form";
 import { reducer as locationsListReducer } from "./components/pages/admin/locations-list";
 import { reducer as accountReducer } from "./components/pages/account";
+import { reducer as connectivityReducer } from "./components/connectivity";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -107,7 +108,8 @@ const rootReducer = {
   ...recordFormReducer,
   ...notifierReducer,
   ...applicationReducer,
-  ...loginReducer
+  ...loginReducer,
+  ...connectivityReducer
 };
 
 export default rootReducer;

@@ -14,7 +14,7 @@ import { getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
 
 import { fetchLocations } from "./action-creators";
-import { NAME, DISABLED } from "./constants";
+import { DISABLED, NAME } from "./constants";
 import { getFilters } from "./utils";
 
 const Container = () => {
@@ -25,6 +25,7 @@ const Container = () => {
 
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultMetadata = metadata?.toJS();
+
   const defaultFilterFields = {
     [DISABLED]: ["false"]
   };

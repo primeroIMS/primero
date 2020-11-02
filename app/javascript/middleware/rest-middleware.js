@@ -17,7 +17,8 @@ import {
   defaultErrorCallback,
   startSignout,
   processSubforms,
-  handleConfiguration
+  handleConfiguration,
+  isServerOnline
 } from "./utils";
 
 const defaultFetchOptions = {
@@ -379,8 +380,13 @@ const fetchFromCache = (action, store, options, next) => {
 };
 
 const restMiddleware = options => store => next => action => {
-  if (!(action.api && (Array.isArray(action.api) || "path" in action.api)) || !isOnline(store)) {
-    return next(action);
+  if (
+    !(action.api && (Array.isArray(action.api) || "path" in action.api)) ||
+    (!isOnline(store) && !isServerOnline(store))
+  ) {
+    if (action?.api?.path !== ROUTES.check_server_health) {
+      return next(action);
+    }
   }
 
   if (action?.api?.db?.alwaysCache) {
