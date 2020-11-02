@@ -40,6 +40,10 @@ class Api::V2::LocationsController < ApplicationApiController
     @location.destroy!
   end
 
+  def per
+    @per ||= (params[:per]&.to_i || 100)
+  end
+
   protected
 
   def locations_filters(params)

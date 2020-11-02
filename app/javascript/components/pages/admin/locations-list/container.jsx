@@ -46,7 +46,8 @@ const Container = () => {
     onTableChange: fetchLocations,
     localizedFields: ["name"],
     bypassInitialFetch: true,
-    arrayColumnsToString: ["hierarchy"]
+    arrayColumnsToString: ["hierarchy"],
+    targetRecordType: "locations"
   };
 
   const filterProps = {
