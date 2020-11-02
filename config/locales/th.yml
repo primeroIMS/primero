@@ -145,6 +145,7 @@ th:
     disable_photo_wall: "ปิดการใช้งานผนังภาพ"
     create_incident: "สร้างเหตุการณ์"
     create_case: "สร้างแฟ้มรายกรณี"
+    guiding_questions: "คำแนะนำ"
     filter_label: "ตัวกรอง"
     filter: "ใช้ตัวกรอง"
     filter_clear: "เลิกใช้ตัวกรอง"
@@ -420,6 +421,7 @@ th:
     photo: "รูปภาพ"
     owned_by: 'เจ้าของบันทึก'
     owned_by_agency: 'หน่วยงานเจ้าของบันทึก'
+    refer_again: 'ทำซ้ำอีกครั้ง'
     messages:
       update_success: "อัปเดตรายกรณี%{record_id}สำเร็จแล้ว"
       investigation_error_message: "กรุณายืนยันว่าบันทึกที่ถูกแจ้งเตือนได้รับการสืบสวนแล้ว พร้อมทั้งกรอกรายละเอียดที่มีอยู่"
