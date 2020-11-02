@@ -139,7 +139,6 @@ ar-JO:
     disable_photo_wall: "تعطيل photo wall"
     create_incident: "إنشاء حادثة جديدة"
     create_case: "إنشاء حالة"
-    guiding_questions: "نصوص توجيهية"
     filter_label: "عامل التصفية:"
     filter: "تطبيق عامل التصفية"
     filter_clear: "مسح عوامل التصفية"
@@ -433,6 +432,7 @@ ar-JO:
   incidents:
     label: "حوادث"
     register_new_incident: "حادثة جديدة"
+    violations_tab: "الانتهاكات"
     filter_by:
       flag: "مُميز بعلامة:"
       flag_label: "هل كان مُميز بعلامة؟"
@@ -451,7 +451,6 @@ ar-JO:
       incident_location: "موقع الحادثة:"
       incident_date: "تاريخ الحادثة:"
       unaccompanied_separated_status: "حالة الحماية:"
-      armed_force_group_name: "القوات المسلحة أو المجموعة:"
       armed_force_group_type: "القوات المسلحة أو نوع المجموعة:"
       record_state: "حالة التسجيل:"
       interview_date: "تاريخ المقابلة:"
@@ -505,18 +504,13 @@ ar-JO:
     change_log: "سجل التغيير "
     actions:
       change_log: "سجل التغيير "
+      delete_document: "هل تريد حذف المستند؟"
     history_of: "تاريخ %{short_id}"
     violation:
       violation: "انتهاك"
-      pending: 'تحقق من الصحة معلق'
       killing: "القتل"
       maiming: "التشويه"
-      recruitment: "تعيين"
-      sexual_violence: "اعتداء جنسي"
       abduction: "الخطف"
-      attack_on_schools: "الهجوم على المدارس"
-      attack_on_hospitals: "الهجوم على المستشفيات"
-      denial_humanitarian_access: "الحرمان من الوصول إلى الخدمات الإنسانية"
       other_violation: "انتهاك آخر"
   tracing_request:
     label: "مُعرف المُستعلِم"
@@ -683,7 +677,7 @@ ar-JO:
     transfer_label: "هل يمكن استخدام هذا الدور لعمليات النقل؟"
     referral_label: "هل يمكن استخدام هذا الدور للإحالات؟"
     group_permission_label: "ما السجلات التي يؤثر فيها هذا الدور؟"
-    role_ids_label: "الأدوار الأخرى التي يديرها هذا الدور"
+    role_ids_label: "الأدوار المحددة التي يديرها هذا الدور"
   agencies:
     logo: 'الشعار'
     logo_enabled: 'هل الشعار مُمكن؟'
@@ -912,6 +906,8 @@ ar-JO:
       dashboard: "لوحة التحكم"
       view_approvals: "عرض المصادقات "
       view_assessment: "عرض التقييم"
+      form: "نماذج"
+      lookup: "عمليات البحث"
       dash_reporting_location: "عرض مواقع الإبلاغ"
       dash_protection_concerns: "عرض الأمور الخاصة بالحماية"
       dash_matching_results: "عرض النتائج المتشابهة"
@@ -1099,12 +1095,18 @@ ar-JO:
       no_file_selected: "لم يتم ارفاق أي ملف."
       document_file_restrictions_message: " يجب أن لا يتعدى حجم الملف 2mb أوأن لا يكون صيغة الملف exe."
       photo_file_restrictions_message: "لا ينبغي أن تكون الصور أكبر من 10 ميجابايت. لا ينبغي أن تكون ملفات الصوت أكبر من 10 ميجابايت. كلما كانت الملفات أصغر كان ذلك أفضل."
-      add_document_label: "إضافة ملف"
       add_photo_label: "إضافة صورة"
       recorded_audio_label: "اضافة التسجيل صوتي"
       add_new_document_button_text: "إضافة ملف آخر"
       add_new_photo_button_text: "إضافة صورة أخرى"
       document_description: "وصف الملف"
+      document:
+        add_document_label: "إضافة ملف"
+        current_document_label: "هل هذه الوثيقة محدثة؟"
+        document_name_label: "اسم الملف"
+        document_date_label: "تاريخ الملف"
+        comment_label: "ملاحظات"
+        add_button_text: "إضافة ملف آخر"
     upload_bia_document: "وثيقة BIA"
     upload_bid_document: "وثيقة BID"
     upload_other_document: "وثائق أخرى"
@@ -1115,6 +1117,7 @@ ar-JO:
       current: "هل هذه الوثيقة محدثة؟"
     audio:
       current: "التسجيل الحالي"
+    upload_supporting_material: "ملف"
   replication:
     label: نسخ متماثلة
     index: إدارة النسخ المتماثلة
@@ -1236,6 +1239,15 @@ ar-JO:
     messages:
       delete_success: "تم حذف التقرير بنجاح"
     edit: "تعديل"
+    report_filters:
+      filters: "مرشحات"
+      filter: "عامل التصفية"
+      clear: "مسح"
+      from: "من"
+      to: "إلى"
+      registration_date: "تاريخ التسجيل"
+      date_of_incident: "تاريخ الحادثة"
+      incident_location: "الموقع"
   encrypt:
     password_title: "إنشاء كلمة مرور"
     password_label: "الرجاء إدخال كلمة المرور التي سوف تشفّر ملفك."
@@ -1386,6 +1398,7 @@ ar-JO:
     current_owner: "المالك الحالي"
     last_updated: "آخر تحديث"
     case_stats: "الحالات"
+    national_admin_stats: "الحالات"
     tr_stats: "تتبع الطلبات"
     cases_by_social_worker: "الحالات حسب العامل الاجتماعي"
     approvals: "المصادقات"
