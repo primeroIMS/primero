@@ -4,6 +4,7 @@ import Alert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../i18n";
+import { DEMO } from "../application/constants";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -19,7 +20,7 @@ const Component = ({ isDemo }) => {
 
   return (
     <Alert icon={false} severity="info" classes={classes}>
-      {i18n.t("demo")}
+      {i18n.t(DEMO)}
     </Alert>
   );
 };

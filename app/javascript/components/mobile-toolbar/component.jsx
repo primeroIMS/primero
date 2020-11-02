@@ -7,6 +7,7 @@ import NetworkIndicator from "../network-indicator";
 import ModuleLogo from "../module-logo";
 import { useApp } from "../application";
 import { useI18n } from "../i18n";
+import { DEMO } from "../application/constants";
 
 import styles from "./styles.css";
 
@@ -16,7 +17,7 @@ const MobileToolbar = ({ openDrawer }) => {
   const i18n = useI18n();
 
   // eslint-disable-next-line react/no-multi-comp, react/display-name
-  const demoText = demo ? <p className={css.demoText}>{i18n.t("demo")}</p> : null;
+  const demoText = demo ? <p className={css.demoText}>{i18n.t(DEMO)}</p> : null;
 
   return (
     <Hidden mdUp implementation="css">

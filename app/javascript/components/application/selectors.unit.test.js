@@ -47,14 +47,8 @@ const roles = [
 
 const stateWithNoRecords = fromJS({});
 const stateWithRecords = fromJS({
-  records: {
-    support: {
-      data: {
-        demo: true
-      }
-    }
-  },
   application: {
+    demo: true,
     userIdle: true,
     agencies: [agencyWithLogo, agency1, agency2, agency3],
     modules: [

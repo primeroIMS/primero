@@ -2,11 +2,10 @@ import React, { useContext, createContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
-import { fetchContactInformation } from "../pages/support/action-creators";
 import { useI18n } from "../i18n";
 import { useConnectivityStatus } from "../connectivity";
 
-import { setDemo } from "./action-creators";
+import { fetchSandboxUI } from "./action-creators";
 import { selectModules, selectUserModules, getApprovalsLabels, getDisabledApplication, getDemo } from "./selectors";
 
 const Context = createContext();
@@ -23,14 +22,8 @@ const ApplicationProvider = ({ children }) => {
   const demo = useSelector(state => getDemo(state));
 
   useEffect(() => {
-    dispatch(fetchContactInformation());
+    dispatch(fetchSandboxUI());
   }, []);
-
-  useEffect(() => {
-    if (demo) {
-      dispatch(setDemo(demo));
-    }
-  }, [demo]);
 
   return (
     <Context.Provider value={{ modules, userModules, online, approvalsLabels, disabledApplication, demo }}>

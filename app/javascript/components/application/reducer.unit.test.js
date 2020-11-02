@@ -339,4 +339,23 @@ describe("Application - Reducers", () => {
 
     expect(newState).to.eql(expected);
   });
+
+  it("should handle FETCH_SANDBOX_UI_SUCCESS", () => {
+    const expected = Map({
+      demo: true
+    });
+
+    const action = {
+      type: actions.FETCH_SANDBOX_UI_SUCCESS,
+      payload: {
+        data: {
+          sandbox_ui: true
+        }
+      }
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
 });

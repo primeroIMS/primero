@@ -3,6 +3,7 @@ import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
+import { ROUTES } from "../../config";
 
 describe("Application - Action Creators", () => {
   it("should have known action creators", () => {
@@ -17,7 +18,7 @@ describe("Application - Action Creators", () => {
       "loadApplicationResources",
       "setUserIdle",
       "fetchManagedRoles",
-      "setDemo"
+      "fetchSandboxUI"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
@@ -95,12 +96,14 @@ describe("Application - Action Creators", () => {
     expect(actionCreators.disableNavigation(true)).to.deep.equal(expected);
   });
 
-  it("should check the 'setDemo' action creator to return the correct object", () => {
+  it("should check the 'fetchSandboxUI' action creator to return the correct object", () => {
     const expected = {
-      type: actions.SET_DEMO,
-      payload: true
+      type: actions.FETCH_SANDBOX_UI,
+      api: {
+        path: ROUTES.sandbox_ui
+      }
     };
 
-    expect(actionCreators.setDemo(true)).to.deep.equal(expected);
+    expect(actionCreators.fetchSandboxUI()).to.deep.equal(expected);
   });
 });

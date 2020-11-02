@@ -1,6 +1,7 @@
 import Alert from "@material-ui/lab/Alert";
 
 import { setupMountedComponent } from "../../test";
+import { DEMO } from "../application/constants";
 
 import DemoIndicator from "./component";
 
@@ -22,7 +23,7 @@ describe("<DemoIndicator />", () => {
 
     it("should return an Alert with 'Demo' text", () => {
       expect(component.find(Alert)).to.have.lengthOf(1);
-      expect(component.find(Alert).text()).to.be.equals("demo");
+      expect(component.find(Alert).text()).to.be.equals(DEMO);
     });
   });
 });

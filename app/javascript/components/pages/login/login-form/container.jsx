@@ -12,6 +12,7 @@ import { PageHeading } from "../../../page";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useApp } from "../../../application";
+import { DEMO } from "../../../application/constants";
 
 import { NAME } from "./config";
 import styles from "./styles.css";
@@ -67,8 +68,8 @@ const Container = () => {
   let loginButtonText = i18n.t("buttons.login");
 
   if (demo) {
-    title = `${i18n.t("demo")} ${title}`;
-    loginButtonText = `${loginButtonText} ${i18n.t("logger.to")} ${i18n.t("demo")}`;
+    title = `${i18n.t(DEMO)} ${title}`;
+    loginButtonText = `${loginButtonText} ${i18n.t("logger.to")} ${i18n.t(DEMO)}`;
   }
 
   // TODO: Need to pass agency and logo path from api
