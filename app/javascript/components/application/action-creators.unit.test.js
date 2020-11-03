@@ -1,6 +1,8 @@
 import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
+import { ROUTES } from "../../config";
+
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
 
@@ -15,9 +17,9 @@ describe("Application - Action Creators", () => {
       "fetchSystemSettings",
       "fetchUserGroups",
       "loadApplicationResources",
-      "setNetworkStatus",
       "setUserIdle",
-      "fetchManagedRoles"
+      "fetchManagedRoles",
+      "fetchSandboxUI"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
@@ -51,15 +53,6 @@ describe("Application - Action Creators", () => {
     };
 
     expect(actionCreators.setUserIdle(true)).to.eql(expectedAction);
-  });
-
-  it("should create an action to set the network status", () => {
-    const expectedAction = {
-      type: "application/NETWORK_STATUS",
-      payload: true
-    };
-
-    expect(actionCreators.setNetworkStatus(true)).to.eql(expectedAction);
   });
 
   it("should check the 'fetchSystemPermissions' action creator to return the correct object", () => {
@@ -102,5 +95,16 @@ describe("Application - Action Creators", () => {
     };
 
     expect(actionCreators.disableNavigation(true)).to.deep.equal(expected);
+  });
+
+  it("should check the 'fetchSandboxUI' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.FETCH_SANDBOX_UI,
+      api: {
+        path: ROUTES.sandbox_ui
+      }
+    };
+
+    expect(actionCreators.fetchSandboxUI()).to.deep.equal(expected);
   });
 });

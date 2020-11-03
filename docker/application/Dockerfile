@@ -93,8 +93,10 @@ FROM ruby:2.6.6-alpine3.11
 ENV BUILD_PACKAGES bash
 ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl
 
-ARG USER_ID=1000
-ARG GROUP_ID=1000
+ARG APP_UID
+ARG APP_GID
+ENV USER_ID=${APP_UID}
+ENV GROUP_ID=${APP_GID}
 
 ARG APP_ROOT
 ENV APP_ROOT=${APP_ROOT}
@@ -117,17 +119,17 @@ WORKDIR $APP_ROOT
 # Creating User primero to run the contianer instead of root.  Also chaniging permissions and
 # ownership of the APP_ROOT, and the storage and pubic volumes.
 RUN set -euox pipefail \
-        ; addgroup -g $GROUP_ID primero \
-        ; adduser --disabled-password --gecos '' -u $USER_ID -G primero primero \
+        ; addgroup -g $GROUP_ID docker-primero \
+        ; adduser --disabled-password --gecos '' -u $USER_ID -G docker-primero docker-primero \
         ; mkdir -p /srv/primero/application/storage \
         ; chmod -R 700 /srv/primero/application/storage \
-        ; chown -R primero:primero "$APP_ROOT" \
+        ; chown -R docker-primero:docker-primero "$APP_ROOT" \
         ; mkdir -p /share/public \
         ; chmod -R 755 /share/public \
-        ; chown -R primero:primero /share/public
+        ; chown -R docker-primero:docker-primero /share/public
 
 # Switching to User primero to run the container.
-USER primero
+USER docker-primero
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 

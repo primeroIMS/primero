@@ -11,6 +11,8 @@ import { enqueueSnackbar } from "../../../notifier";
 import { PageHeading } from "../../../page";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { useApp } from "../../../application";
+import { DEMO } from "../../../application/constants";
 
 import { NAME } from "./config";
 import styles from "./styles.css";
@@ -26,6 +28,7 @@ const Container = () => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const { demo } = useApp();
 
   const onSubmit = (values, { setSubmitting }) => {
     dispatch(attemptLogin(values));
@@ -61,11 +64,18 @@ const Container = () => {
     validateOnBlur: false,
     validateOnChange: false
   };
+  let title = i18n.t("login.label");
+  let loginButtonText = i18n.t("buttons.login");
+
+  if (demo) {
+    title = `${i18n.t(DEMO)} ${title}`;
+    loginButtonText = `${loginButtonText} ${i18n.t("logger.to")} ${i18n.t(DEMO)}`;
+  }
 
   // TODO: Need to pass agency and logo path from api
   return (
     <>
-      <PageHeading title={i18n.t("login.label")} whiteHeading />
+      <PageHeading title={title} whiteHeading />
       <Formik
         {...formProps}
         render={() => (
@@ -79,7 +89,7 @@ const Container = () => {
               {...inputProps}
             />
             <ActionButton
-              text={i18n.t("buttons.login")}
+              text={loginButtonText}
               type={ACTION_BUTTON_TYPES.default}
               rest={{
                 type: "submit"

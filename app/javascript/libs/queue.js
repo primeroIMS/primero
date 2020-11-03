@@ -1,6 +1,7 @@
 import head from "lodash/head";
 
 import DB from "../db/db";
+import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS } from "../components/notifier";
 
 import EventManager from "./messenger";
 
@@ -8,10 +9,12 @@ const QUEUE_ADD = "queue-add";
 const QUEUE_FINISHED = "queue-finished";
 const QUEUE_FAILED = "queue-failed";
 const QUEUE_SKIP = "queue-skip";
+const QUEUE_SUCCESS = "queue-success";
 
 class Queue {
   constructor() {
     this.queue = [];
+    this.success = 0;
     this.tries = 0;
     this.working = false;
 
@@ -24,6 +27,10 @@ class Queue {
       this.queue.shift();
 
       if (!this.working) this.process();
+    });
+
+    EventManager.subscribe(QUEUE_SUCCESS, () => {
+      this.success += 1;
     });
 
     EventManager.subscribe(QUEUE_FAILED, () => {
@@ -68,6 +75,11 @@ class Queue {
     this.queue.shift();
 
     if (!this.working) this.process();
+
+    if (!this.queue.length) {
+      this.notifySuccess();
+      this.success = 0;
+    }
   }
 
   process() {
@@ -85,10 +97,26 @@ class Queue {
       this.working = false;
     }
   }
+
+  notifySuccess() {
+    if (this.success) {
+      this.dispatch({
+        type: ENQUEUE_SNACKBAR,
+        payload: {
+          messageKey: "sync.success",
+          messageParams: { records: this.success },
+          options: {
+            variant: SNACKBAR_VARIANTS.success,
+            key: "sync_success"
+          }
+        }
+      });
+    }
+  }
 }
 
 const instance = new Queue();
 
 export default instance;
 
-export { QUEUE_ADD, QUEUE_FINISHED, QUEUE_FAILED, QUEUE_SKIP };
+export { QUEUE_ADD, QUEUE_FINISHED, QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS };

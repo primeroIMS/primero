@@ -1,10 +1,6 @@
 import * as moduleToTest from "./index";
 
 describe("libs/index", () => {
-  it("exports an object", () => {
-    expect(moduleToTest).to.be.an("object");
-  });
-
   describe("properties", () => {
     let clone;
 

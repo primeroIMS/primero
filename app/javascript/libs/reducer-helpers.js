@@ -1,4 +1,4 @@
-import { List, Map, OrderedMap, fromJS } from "immutable";
+import { List, OrderedMap, fromJS } from "immutable";
 import extend from "lodash/extend";
 import mapValues from "lodash/mapValues";
 import pickBy from "lodash/pickBy";
@@ -52,18 +52,7 @@ export const listAttachmentFields = (fields = [], types = []) =>
     .map(item => item.name);
 
 export const mergeRecord = (record, payload) => {
-  const reduceSubformToMap = (result, item) => {
-    return result.set(item.get("unique_id") || item.get("id"), item);
-  };
-
   return record.mergeWith((prev, next) => {
-    // Merge subforms
-    if (List.isList(next) && next.some(s => s instanceof Map)) {
-      const nextSubforms = next.reduce(reduceSubformToMap, Map());
-
-      return [...nextSubforms.values()];
-    }
-
     // Everything else
     return next;
   }, payload);

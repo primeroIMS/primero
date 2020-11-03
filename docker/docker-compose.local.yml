@@ -6,9 +6,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - certbot_certs:/certs
-      - selfsigned_certs:/etc/certs
-      - log:/var/log/
+      - selfsigned_certs:/certs
       - public:/srv/primero/application/public
     env_file:
       - docker/defaults.env

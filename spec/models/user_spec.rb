@@ -872,4 +872,35 @@ describe User do
       expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user5])
     end
   end
+
+  describe '.user_query_scope' do
+    before :each do
+      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
+                                        description: 'Default Primero Program')
+      @form_section = FormSection.create!(unique_id: 'test_form', name: 'Test Form',
+                                          fields: [Field.new(name: 'national_id_no', type: 'text_field',
+                                                             display_name: 'National ID No')])
+      @cp = PrimeroModule.create!(unique_id: PrimeroModule::CP, name: 'CP', description: 'Child Protection',
+                                  associated_record_types: %w[case tracing_request incident], primero_program: @program,
+                                  form_sections: [@form_section])
+      @role1 = Role.create!(name: 'Admin role', unique_id: 'role_admin',
+                                 form_sections: [@form_section], modules: [@cp],
+                                 permissions: [Permission.new(resource: Permission::CASE,
+                                                              actions: [Permission::MANAGE])])
+      @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+      @group1 = UserGroup.create!(name: 'group 1')
+      @current_user = User.create!(full_name: 'Admin User', user_name: 'user_admin', password: 'a12345678',
+                                   password_confirmation: 'a12345678', email: 'user_admin@localhost.com',
+                                   agency_id: @agency1.id, role: @role1, user_groups: [@group1])
+      @child1 = Child.new_with_user(@current_user, name: 'Child 3')
+      [@child1].each(&:save!)
+      Sunspot.commit
+    end
+
+    it 'return the scope of the user' do
+      expect(@current_user.user_query_scope(@child1)).to eql(Permission::USER)
+    end
+  end
+
 end

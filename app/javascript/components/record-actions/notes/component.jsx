@@ -9,7 +9,6 @@ import ActionDialog from "../../action-dialog";
 import Form, { FieldRecord, FormSectionRecord, FORM_MODE_DIALOG } from "../../form";
 import { getRecordAlerts, saveRecord } from "../../records";
 import { ACTIONS } from "../../../libs/permissions";
-import { fetchRecordsAlerts } from "../../records/action-creators";
 import { fetchAlerts } from "../../nav/action-creators";
 import { NOTES_DIALOG } from "../constants";
 
@@ -43,7 +42,6 @@ const Component = ({ close, open, pending, record, recordType, setPending }) => 
           NOTES_DIALOG
         )
       );
-      dispatch(fetchRecordsAlerts(recordType, record.get("id")));
     });
 
     if (recordAlerts.size <= 0) {

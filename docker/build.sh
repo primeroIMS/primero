@@ -41,11 +41,11 @@ tag=${t:-latest}
 repository=${r:-"uniprimeroxacrdev.azurecr.io"}
 with_latest=${l:-false}
 
-BUILD_NGINX="docker build -f nginx/Dockerfile . -t primero/nginx:${tag}"
-BUILD_BEANSTALKD="docker build -f beanstalkd/Dockerfile . -t primero/beanstalkd:${tag} --build-arg BEANSTALKD_PORT=${BEANSTALKD_PORT}"
-BUILD_SOLR="docker build -f solr/Dockerfile ../ -t primero/solr:${tag}"
-BUILD_APP="docker build -f application/Dockerfile ../ -t primero/application:${tag} --build-arg APP_ROOT=${APP_ROOT} --build-arg RAILS_LOG_PATH=${RAILS_LOG_PATH}"
-BUILD_POSTGRES="docker build -f postgres/Dockerfile . -t primero/postgres:${tag}"
+BUILD_NGINX="docker build -f nginx/Dockerfile . -t primero/nginx:${tag} -t ${repository}/primero/nginx:${tag} --build-arg NGINX_UID=${NGINX_UID} --build-arg NGINX_GID=${NGINX_GID}"
+BUILD_BEANSTALKD="docker build -f beanstalkd/Dockerfile . -t primero/beanstalkd:${tag} -t ${repository}/primero/beanstalkd:${tag} --build-arg BEANSTALKD_PORT=${BEANSTALKD_PORT}"
+BUILD_SOLR="docker build -f solr/Dockerfile ../ -t primero/solr:${tag} -t ${repository}/primero/solr:${tag}"
+BUILD_APP="docker build -f application/Dockerfile ../ -t primero/application:${tag} -t ${repository}/primero/application:${tag} --build-arg APP_ROOT=${APP_ROOT} --build-arg RAILS_LOG_PATH=${RAILS_LOG_PATH} --build-arg APP_UID=${APP_UID} --build-arg APP_GID=${APP_GID}"
+BUILD_POSTGRES="docker build -f postgres/Dockerfile . -t primero/postgres:${tag} -t ${repository}/primero/postgres:${tag}"
 
 apply_tags () {
   local image=${1}

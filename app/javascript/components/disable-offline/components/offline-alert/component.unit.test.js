@@ -11,8 +11,9 @@ describe("components/disable-offline/components/offline-alert - OfflineAlert", (
       OfflineAlert,
       { text: "offline" },
       fromJS({
-        application: {
-          online
+        connectivity: {
+          online,
+          serverOnline: true
         }
       })
     ).component;

@@ -12,5 +12,6 @@ export const ContactInformationRecord = Record({
   location: "",
   position: "",
   system_version: "",
-  agencies: fromJS([])
+  agencies: fromJS([]),
+  demo: false
 });

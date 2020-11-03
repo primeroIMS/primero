@@ -73,8 +73,9 @@ export const setupMountedComponent = (
   formProps = {}
 ) => {
   const defaultState = fromJS({
-    application: {
-      online: true
+    connectivity: {
+      online: true,
+      serverOnline: true
     }
   });
 

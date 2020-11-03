@@ -1,6 +1,7 @@
 import { stub, useFakeTimers } from "../../../test";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../action-dialog";
+import { FETCH_RECORD_ALERTS } from "../../records/actions";
 
 import * as actionCreators from "./action-creators";
 import { APPROVE_RECORD } from "./actions";
@@ -57,6 +58,13 @@ describe("<RequestApproval /> - Action Creators", () => {
           },
           {
             action: CLEAR_DIALOG
+          },
+          {
+            api: {
+              path: "cases/10/alerts",
+              skipDB: true
+            },
+            action: `cases/${FETCH_RECORD_ALERTS}`
           }
         ],
         db: {

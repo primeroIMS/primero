@@ -34,7 +34,8 @@ if @extended
       { audit_logs: Header.audit_log_headers },
       { agencies: Header.agency_headers },
       { users: Header.user_headers },
-      { user_groups: Header.user_group_headers }
+      { user_groups: Header.user_group_headers },
+      { locations: Header.locations_headers }
     ]).inject(&:merge),
     is_manager: user.manager?
   )

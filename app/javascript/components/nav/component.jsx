@@ -10,6 +10,7 @@ import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
 import Permission from "../application/permission";
 import TranslationsToggle from "../translations-toggle";
+import NetworkIndicator from "../network-indicator";
 import { PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import { getPermissions } from "../user";
 
@@ -29,7 +30,7 @@ const Nav = () => {
     dispatch(fetchAlerts());
   }, []);
 
-  const { userModules } = useApp();
+  const { userModules, demo } = useApp();
   const module = userModules.first();
 
   const username = useSelector(state => selectUsername(state));
@@ -85,6 +86,7 @@ const Nav = () => {
           <Divider />
         </Hidden>
       </div>
+      <NetworkIndicator />
       <List className={css.navList}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId))}</List>
       <div className={css.navAgencies}>
         <AgencyLogo />
@@ -100,7 +102,7 @@ const Nav = () => {
     open: drawerOpen,
     classes: {
       root: css.drawerRoot,
-      paper: css.drawerPaper
+      paper: css[demo ? "drawerPaper-demo" : "drawerPaper"]
     },
     onClose: handleToggleDrawer(false)
   };

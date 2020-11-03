@@ -4,3 +4,4 @@ export const RESOURCES = {
   role: "role",
   agency: "agency"
 };
+export const DEMO = "demo";

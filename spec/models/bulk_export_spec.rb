@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 require 'sunspot'
-require 'spreadsheet'
+require 'roo'
 
 describe BulkExport, search: true do
   before :each do
@@ -39,12 +39,12 @@ describe BulkExport, search: true do
     let(:export_spreadsheet) do
       bulk_export.export('XXX')
       data = bulk_export.exporter.buffer.string
-      book = Spreadsheet.open(StringIO.new(data))
-      book.worksheets[0]
+      book = Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+      book.sheet(book.sheets.first)
     end
 
     it 'exports only the selected fields for cases' do
-      expect(export_spreadsheet.row(0).to_a).to eq %w[ID Age]
+      expect(export_spreadsheet.row(1)).to eq %w[ID Age]
     end
   end
 

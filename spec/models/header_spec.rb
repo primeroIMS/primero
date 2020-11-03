@@ -180,4 +180,12 @@ describe Header do
       ]
     )
   end
+
+  it 'comparing headers of locations_headers' do
+    expect(Header.locations_headers).to eq(
+      [
+        Header::NAME, Header::LOCATION_CODE, Header::LOCATION_ADMIN_LEVEL, Header::LOCATION_TYPE, Header::LOCATION_HIERARCHY
+      ]
+    )
+  end
 end

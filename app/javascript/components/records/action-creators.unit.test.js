@@ -7,7 +7,7 @@ import { CLEAR_DIALOG } from "../action-dialog";
 import RecordFormActions from "../record-form/actions";
 
 import * as actionCreators from "./action-creators";
-import { CLEAR_CASE_FROM_INCIDENT } from "./actions";
+import { CLEAR_CASE_FROM_INCIDENT, FETCH_RECORD_ALERTS } from "./actions";
 
 describe("records - Action Creators", () => {
   it("should have known action creators", () => {
@@ -94,7 +94,7 @@ describe("records - Action Creators", () => {
 
     it("should return 3 success callback actions if there is a dialogName", () => {
       const store = configureStore([thunk])({});
-      const expected = [ENQUEUE_SNACKBAR, CLEAR_DIALOG];
+      const expected = [ENQUEUE_SNACKBAR, CLEAR_DIALOG, `${RECORD_PATH.cases}/${FETCH_RECORD_ALERTS}`];
 
       return store
         .dispatch(
@@ -114,14 +114,19 @@ describe("records - Action Creators", () => {
           const successCallbacks = store.getActions()[0].api.successCallback;
 
           expect(successCallbacks).to.be.an("array");
-          expect(successCallbacks).to.have.lengthOf(2);
+          expect(successCallbacks).to.have.lengthOf(3);
           expect(successCallbacks.map(({ action }) => action)).to.deep.equals(expected);
         });
     });
 
     it("should return 3 success callback actions when is an incidentFromCase", () => {
       const store = configureStore([thunk])({});
-      const expected = [ENQUEUE_SNACKBAR, `cases/${CLEAR_CASE_FROM_INCIDENT}`, RecordFormActions.SET_SELECTED_FORM];
+      const expected = [
+        ENQUEUE_SNACKBAR,
+        `cases/${CLEAR_CASE_FROM_INCIDENT}`,
+        RecordFormActions.SET_SELECTED_FORM,
+        `${RECORD_PATH.incidents}/${FETCH_RECORD_ALERTS}`
+      ];
 
       return store
         .dispatch(
@@ -142,7 +147,7 @@ describe("records - Action Creators", () => {
           const successCallbacks = store.getActions()[0].api.successCallback;
 
           expect(successCallbacks).to.be.an("array");
-          expect(successCallbacks).to.have.lengthOf(3);
+          expect(successCallbacks).to.have.lengthOf(4);
           expect(successCallbacks.map(({ action }) => action)).to.deep.equals(expected);
         });
     });
@@ -152,7 +157,8 @@ describe("records - Action Creators", () => {
     const recordId = "123abc";
     const expected = {
       api: {
-        path: `${RECORD_PATH.cases}/${recordId}/alerts`
+        path: `${RECORD_PATH.cases}/${recordId}/alerts`,
+        skipDB: true
       },
       type: `${RECORD_PATH.cases}/FETCH_RECORD_ALERTS`
     };
