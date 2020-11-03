@@ -6,9 +6,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../i18n";
 import { toBase64 } from "../../../libs";
-import { PHOTO_FIELD } from "../constants";
+import { PHOTO_FIELD, DOCUMENT_FIELD } from "../constants";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
+import { ATTACHMENT_TYPES } from "../../record-form/form/field-types/attachments/constants";
 
 import styles from "./styles.css";
 
@@ -24,6 +25,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
 
   const { type } = metaInputProps;
   const { name, label, disabled, helperText, error } = commonInputProps;
+  const attachment = type === DOCUMENT_FIELD ? ATTACHMENT_TYPES.document : type;
 
   const fileBase64 = watch(`${name}_base64`);
   const fileUrl = watch(`${name}_url`);
@@ -32,7 +34,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
     setFile({
       loading,
       data: `${data?.content}${data?.result}`,
-      fileName: data?.name
+      fileName: data?.fileName
     });
   };
 
@@ -43,7 +45,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
     loadingFile(true);
 
     if (selectedFile) {
-      const data = await toBase64(selectedFile);
+      const data = await toBase64(selectedFile, attachment);
 
       if (data) {
         setValue(`${name}_base64`, data.result);
@@ -59,10 +61,12 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
   const renderPreview = () => {
     const { data, fileName } = file;
 
-    return (data || fileUrl) && type === PHOTO_FIELD ? (
-      <img src={data || fileUrl} alt="" className={css.preview} />
+    return data && type === PHOTO_FIELD ? (
+      <div>
+        <img src={data || fileUrl} alt="" className={css.preview} />
+      </div>
     ) : (
-      <div>{fileName}</div>
+      <span>{fileName}</span>
     );
   };
 
@@ -104,7 +108,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
         <input type="hidden" name={`${name}_file_name`} ref={register} />
         <input type="hidden" name={`${name}_url`} ref={register} />
       </div>
-      <div>{renderPreview()}</div>
+      {renderPreview()}
     </div>
   );
 };
