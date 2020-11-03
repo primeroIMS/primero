@@ -19,10 +19,17 @@ module Security
     end
 
     it "should get token from session cookie" do
-      mock_session = Session.new
+      mock_session = Session.create!
       @controller.session[:rftr_session_id] = "test_session_id"
       Session.should_receive(:get).with('test_session_id').and_return(mock_session)
-      @controller.send(:current_session).should == mock_session
+      expect(@controller.send(:current_session)).to eq(mock_session)
+    end
+
+    it "should not get token from session cookie if session is expired" do
+      mock_session = Session.new(timestamp: DateTime.now - 1.days)
+      @controller.session[:rftr_session_id] = "test_session_id"
+      Session.should_receive(:get).with('test_session_id').and_return(mock_session)
+      expect(@controller.send(:current_session)).to eq(nil)
     end
 
     it "should raise AuthenticationFailure if no session ID" do

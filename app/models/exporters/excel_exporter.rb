@@ -41,7 +41,10 @@ module Exporters
         build_sheets_definition(properties_by_module, models.first.try(:module).try(:name))
       end
 
-      self.class.load_fields(models.first) if models.present?
+      @fields = self.class.load_fields(models.first) if models.present?
+      @fields_map = @fields.map{|f| { f.name => f.display_name }}.inject(&:merge)
+
+      @form_sections_map = FormSection.all.map{ |f| {f.name => f.fields.map{|f| { f.name => f.display_name }}.inject(&:merge)} }.inject(&:merge)
 
       models.each do |model|
         sheets_def = get_sheets_by_module(model.module_id)
@@ -162,14 +165,18 @@ module Exporters
         #sheet name should be unique.
         modules = @sheets[fs_name]["modules"] + modules
       end
-      @sheets[fs_name] = {"work_sheet" => nil, "column_widths" => nil, "row" => 1, "properties" => props, "modules" => modules}
+      @sheets[fs_name] = {"work_sheet" => nil, "column_widths" => nil, "row" => 2, "properties" => props, "modules" => modules}
     end
 
     def build_sheet(sheet_def, form_name, workbook, counter)
       return sheet_def["work_sheet"] if sheet_def["work_sheet"].present?
       work_sheet = generate_work_sheet(workbook, form_name, counter)
-      header = ["_id", "model_type"] + build_header(sheet_def["properties"])
-      work_sheet.write(0, 0, header)
+      header_ids = build_header(sheet_def["properties"])
+      header_names = build_pre_header(form_name, header_ids)
+      pre_header = ["_id", "model_type"] + header_names
+      work_sheet.write(0, 0, pre_header)
+      header = ["_id", "model_type"] + header_ids
+      work_sheet.write(1, 0, header)
       sheet_def["column_widths"] = initial_column_widths(header)
       sheet_def["work_sheet"] = work_sheet
     end
@@ -229,6 +236,16 @@ module Exporters
           property.name
         end
       end.flatten
+    end
+
+    def build_pre_header( form_name, header_ids)
+      header_ids.map do |prop|
+         if @form_sections_map[form_name].present?
+          @form_sections_map[form_name][prop] || Field.find_by_name(prop).try(:display_name) || prop
+        else
+         @fields_map[prop] || Field.find_by_name(prop).try(:display_name) || prop
+        end
+      end
     end
 
   end

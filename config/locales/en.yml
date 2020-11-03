@@ -1532,6 +1532,7 @@ en:
       attribute: "Filter"
       value: "With"
       not_null: "Form value is not blank"
+      limit_by_week: "Last 12 weeks"
     is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
