@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
-import html2pdf from "html2pdf.js";
+import html2pdf from "html2pdf-dom-to-image-more";
 import { useDispatch, useSelector } from "react-redux";
 import { fromJS, isImmutable } from "immutable";
 
@@ -13,7 +13,7 @@ import { getCustomFormTitle } from "./selectors";
 import { HTML_2_PDF_OPTIONS } from "./constants";
 import styles from "./styles.css";
 import { addPageHeaderFooter } from "./utils";
-import Table from "./components/table";
+import RenderTable from "./components/render-table";
 
 const Component = (
   {
@@ -57,20 +57,30 @@ const Component = (
   useImperativeHandle(ref, () => ({
     savePdf({ setPending, close, values }) {
       setPending(true);
-
       // TODO: Will add back when we create api endpoint to fetch base64 images
       // const logos = await Logos.find();
       // eslint-disable-next-line camelcase
       // const logo = await buildHeaderImage(logos?.[0]?.images?.logo_full);
+      let worker = html2pdf().set(HTML_2_PDF_OPTIONS(values, data, customFilenameField));
+      const pages = Array.from(html.current.childNodes);
 
-      html2pdf()
-        .from(html.current)
-        .set(HTML_2_PDF_OPTIONS(values, data, customFilenameField))
-        .toPdf()
-        .get("pdf")
-        .then(pdf => {
-          addPageHeaderFooter(pdf, data, i18n);
-        })
+      pages.forEach((page, index) => {
+        worker = worker
+          .from(page)
+          .toContainer(index + 1)
+          .toCanvas()
+          .toPdf()
+          .get("pdf")
+          .then(pdf => {
+            addPageHeaderFooter(pdf, data, i18n);
+
+            if (index < pages.length - 1) {
+              pdf.addPage();
+            }
+          });
+      });
+
+      worker
         .save()
         .then(() => {
           dispatch(enqueueSnackbar(i18n.t("exports.exported"), { type: "success" }));
@@ -89,16 +99,15 @@ const Component = (
   return (
     <div ref={html} className={css.container}>
       {customFormProps && isRemote && (
-        <>
-          <h2>{customTitle}</h2>
-          <Table fields={customFormFields} record={fromJS(watchedValues)} />
-        </>
+        <RenderTable title={customTitle} fields={customFormFields} data={fromJS(watchedValues)} />
       )}
       {selectedForms?.map(form => (
-        <div key={`selected-${form.unique_id}`}>
-          <h2>{i18n.getI18nStringFromObject(form.name)}</h2>
-          <Table fields={form.fields} record={data} />
-        </div>
+        <RenderTable
+          key={`selected-${form.unique_id}`}
+          title={i18n.getI18nStringFromObject(form.name)}
+          fields={form.fields}
+          data={data}
+        />
       ))}
     </div>
   );
