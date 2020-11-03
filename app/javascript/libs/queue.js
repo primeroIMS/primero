@@ -113,6 +113,10 @@ class Queue {
       });
     }
   }
+
+  hasWork() {
+    return Boolean(this.queue.length);
+  }
 }
 
 const instance = new Queue();
