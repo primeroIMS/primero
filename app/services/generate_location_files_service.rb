@@ -29,12 +29,12 @@ class GenerateLocationFilesService
 
     def output_dir
       dir_path = "#{public_dir}/options"
-      { root: dir_path, locations_file: "#{dir_path}/locations.json"}
+      { root: dir_path, locations_file: "#{dir_path}/locations.json" }
     end
 
     def fingerprint
       file = File.open(output_dir[:locations_file])
-      Digest::MD5.hexdigest file.read
+      Digest::SHA256.hexdigest(file.read)
     end
 
     def create_directory

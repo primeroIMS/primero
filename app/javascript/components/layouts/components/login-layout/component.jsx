@@ -2,25 +2,32 @@ import React from "react";
 import { Grid, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 
 import ModuleLogo from "../../../module-logo";
 import AgencyLogo from "../../../agency-logo";
 import TranslationsToggle from "../../../translations-toggle";
 import Notifier from "../../../notifier";
+import DemoIndicator from "../../../demo-indicator";
+import { useApp } from "../../../application";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
 const Component = ({ children }) => {
   const css = makeStyles(styles)();
+  const { demo } = useApp();
 
   // TODO: Module hardcoded till we figure out when to switch modules
   const primeroModule = "cp";
+  const moduleClass = `${primeroModule}${demo ? "-demo" : ""}`;
+  const classes = clsx([css.primeroBackground, css[moduleClass]]);
 
   return (
     <>
+      <DemoIndicator isDemo={demo} />
       <Notifier />
-      <Box className={[css.primeroBackground, css[primeroModule]].join(" ")}>
+      <Box className={classes}>
         <div className={css.content}>
           <div className={css.loginHeader}>
             <ModuleLogo moduleLogo={primeroModule} white />

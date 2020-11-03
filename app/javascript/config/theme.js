@@ -12,6 +12,7 @@ const colors = {
   solidBlack: "#000000",
   darkGrey: "#595952",
   blue: "#0093ba",
+  darkBlue: "#048BB0",
   yellow: "#f2c317",
   moonYellow: "#f2b417",
   goldYellow: "#f4ac22",

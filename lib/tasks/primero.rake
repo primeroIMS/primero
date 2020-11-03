@@ -246,8 +246,8 @@ namespace :primero do
 
     manifest_file = Rails.root.join('config', 'i18n-manifest.txt')
     translations_file = Rails.root.join('public', 'translations.js')
-    md5 = Digest::MD5.file(translations_file)
-    translations_file_fingerprinted = "translations-#{md5}.js"
+    sha1 = Digest::SHA256.file(translations_file)
+    translations_file_fingerprinted = "translations-#{sha1}.js"
 
     File.rename(translations_file, Rails.root.join('public', translations_file_fingerprinted))
     File.write(manifest_file, translations_file_fingerprinted)

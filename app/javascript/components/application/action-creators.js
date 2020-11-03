@@ -2,7 +2,8 @@ import { batch } from "react-redux";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { fetchForms, fetchOptions } from "../record-form/action-creators";
-import { RECORD_PATH } from "../../config";
+import { RECORD_PATH, ROUTES } from "../../config";
+import { fetchContactInformation } from "../pages/support/action-creators";
 
 import actions from "./actions";
 
@@ -48,6 +49,7 @@ export const fetchUserGroups = () => ({
 
 export const loadApplicationResources = () => async dispatch => {
   batch(() => {
+    dispatch(fetchContactInformation());
     dispatch(fetchSystemSettings());
     dispatch(fetchSystemPermissions());
     dispatch(fetchForms());
@@ -63,4 +65,11 @@ export const setUserIdle = payload => ({
 export const disableNavigation = payload => ({
   type: actions.DISABLE_NAVIGATION,
   payload
+});
+
+export const fetchSandboxUI = () => ({
+  type: actions.FETCH_SANDBOX_UI,
+  api: {
+    path: ROUTES.sandbox_ui
+  }
 });
