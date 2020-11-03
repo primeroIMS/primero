@@ -5,12 +5,12 @@ OBJECTID *,Shape *,admin3Name_en,admin3Name_ar,admin3Pcode,admin3RefName,admin3A
 3,Polygon,Abu Ghraib,ابي غريب,IQG08Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kadhmiyah,الكاظمية,IQG08Q02,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.380804,0.064395
 4,Polygon,Agjalare,ئاغجة لةر,IQG06Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Chamchamal,جمجمال,IQG06Q02,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.352084,0.06802
 5,Polygon,Akaika,عكيكة,IQG17Q05N04,<Null>,<Null>,<Null>,<Null>,<Null>,Suq Al-Shoyokh,سوق الشيوخ,IQG17Q05,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.78549,0.025196
-6,Polygon,Al-Abbasi,العباسية,IQG13Q01N04,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hawiga,الحويجة,IQG13Q01,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.96667,0.044229
+6,Polygon,Al-Abbasi,العباسية,IQG13Q01N04,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hawiga,الحويجة,,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.96667,0.044229
 7,Polygon,Al-Adel,العدل,IQG14Q05N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mejar Al-Kabir,المجر الكبير,IQG14Q05,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.50482,0.097286
 8,Polygon,Al-Ahrar,الاحرار,IQG18Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Namaniya,النعمانية,IQG18Q03,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.822417,0.135284
 9,Polygon,Al-Alam,العلم,IQG16Q06N02,<Null>,<Null>,<Null>,<Null>,<Null>,Tikrit,تكريت,IQG16Q06,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.890127,0.152701
 10,Polygon,Al-Amirya,العامرية,IQG01Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Falluja,الفلوجة,IQG01Q01,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.677075,0.252123
-11,Polygon,Al-Atheem,العظيم,IQG10Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Khalis,الخالص,IQG10Q01,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.957326,0.124593
+11,Polygon,Al-Atheem,العظيم,IQG10Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Khalis,الخالص,IQG10Q01,Diyala,ديالى,,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.957326,0.124593
 12,Polygon,Al-Ayadiya,العياضية,IQG15Q08N02,<Null>,<Null>,<Null>,<Null>,<Null>,Telafar,تلعفر,IQG15Q08,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.364895,0.058199
 13,Polygon,Al-Aziz,العزير,IQG14Q05N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mejar Al-Kabir,المجر الكبير,IQG14Q05,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.765288,0.099333
 14,Polygon,Al-Aziziya,العزيزية,IQG18Q04N05,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Suwaira,الصويرة,IQG18Q04,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.325674,0.223884
