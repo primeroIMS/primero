@@ -35,8 +35,8 @@ describe("<MobileToolbar />", () => {
   });
 
   describe("when is not demo site", () => {
-    it("should not render a <p> tag with 'Demo' text", () => {
-      expect(component.find("p")).to.be.empty;
+    it("should not render a <div> tag with 'Demo' text", () => {
+      expect(component.find("div")).to.be.empty;
     });
   });
 
@@ -48,8 +48,8 @@ describe("<MobileToolbar />", () => {
     });
     const { component: componentWithDemo } = setupMountedComponent(MobileToolbar, props, stateWithDemo);
 
-    it("should render a <p> tag with 'Demo' text", () => {
-      expect(componentWithDemo.find("p")).to.have.lengthOf(1);
+    it("should render a <div> tag with 'Demo' text", () => {
+      expect(componentWithDemo.find("div").at(0)).to.have.lengthOf(1);
     });
   });
 });
