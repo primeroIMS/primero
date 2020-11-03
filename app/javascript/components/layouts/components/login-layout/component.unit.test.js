@@ -1,14 +1,14 @@
 import { Map } from "immutable";
 
-import { setupMountedComponent } from "../../test";
-import TranslationsToggle from "../translations-toggle";
-import AgencyLogo from "../agency-logo";
-import ModuleLogo from "../module-logo";
-import PrimeroWhiteLogo from "../../images/primero-logo-white.png";
+import { setupMountedComponent } from "../../../../test";
+import TranslationsToggle from "../../../translations-toggle";
+import AgencyLogo from "../../../agency-logo";
+import ModuleLogo from "../../../module-logo";
+import PrimeroWhiteLogo from "../../../../images/primero-logo-white.png";
 
-import LoginLayout from "./LoginLayout";
+import LoginLayout from "./component";
 
-describe("<LoginLayout />", () => {
+describe("layouts/components/<LoginLayout />", () => {
   let component;
 
   before(() => {
