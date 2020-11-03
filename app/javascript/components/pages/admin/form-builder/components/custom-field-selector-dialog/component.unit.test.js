@@ -56,4 +56,28 @@ describe("<CustomFieldSelectorDialog />", () => {
     expect(component.find(ListItemText)).to.have.lengthOf(12);
     expect(component.find(ListItemText).map(item => item.text())).to.deep.equal(fields);
   });
+
+  it("should accept valid props", () => {
+    const actionDialogProps = { ...component.find(ActionDialog).props() };
+
+    expect(component.find(ActionDialog)).to.have.lengthOf(1);
+    [
+      "cancelButtonProps",
+      "cancelHandler",
+      "children",
+      "confirmButtonLabel",
+      "dialogTitle",
+      "disableBackdropClick",
+      "enabledSuccessButton",
+      "fetchArgs",
+      "omitCloseAfterSuccess",
+      "open",
+      "showSuccessButton",
+      "successHandler"
+    ].forEach(property => {
+      expect(actionDialogProps).to.have.property(property);
+      delete actionDialogProps[property];
+    });
+    expect(actionDialogProps).to.be.empty;
+  });
 });
