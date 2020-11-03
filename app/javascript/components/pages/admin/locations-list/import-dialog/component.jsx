@@ -10,7 +10,6 @@ import { NAME } from "./constants";
 
 const Component = ({ close, i18n, open, pending }) => {
   const formRef = useRef();
-  // const formMethods = useForm();
 
   const onSubmit = data => {
     console.log("SUBMIT: ", data);

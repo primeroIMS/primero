@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { InputLabel, FormHelperText } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
 
 import { useI18n } from "../../i18n";
 import { toBase64 } from "../../../libs";
@@ -26,6 +27,8 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
   const { type } = metaInputProps;
   const { name, label, disabled, helperText, error } = commonInputProps;
   const attachment = type === DOCUMENT_FIELD ? ATTACHMENT_TYPES.document : type;
+  const isDocument = attachment === ATTACHMENT_TYPES.document;
+  const acceptedTypes = isDocument ? ".csv" : "*";
 
   const fileBase64 = watch(`${name}_base64`);
   const fileUrl = watch(`${name}_url`);
@@ -89,7 +92,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
   };
 
   return (
-    <div className={css.attachment}>
+    <div className={clsx(css.attachment, { [css.document]: isDocument })}>
       <label htmlFor={name}>
         <InputLabel>{label}</InputLabel>
         <FormHelperText error={error}>{helperText}</FormHelperText>
@@ -103,6 +106,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
           onChange={handleChange}
           ref={register}
           disabled={disabled || fieldDisabled()}
+          accept={acceptedTypes}
         />
         <input type="hidden" name={`${name}_base64`} ref={register} />
         <input type="hidden" name={`${name}_file_name`} ref={register} />

@@ -7,6 +7,7 @@ import { Filters as AdminFilters } from "../components";
 
 import NAMESPACE from "./namespace";
 import actions from "./actions";
+import ImportDialog from "./import-dialog";
 import LocationsList from "./container";
 
 describe("<LocationsList />", () => {
@@ -53,6 +54,10 @@ describe("<LocationsList />", () => {
 
   it("renders <AdminFilters /> component", () => {
     expect(component.find(AdminFilters)).to.have.lengthOf(1);
+  });
+
+  it("renders <ImportDialog /> component", () => {
+    expect(component.find(ImportDialog)).to.have.lengthOf(1);
   });
 
   it("should trigger a valid action with next page when clicking next page", () => {

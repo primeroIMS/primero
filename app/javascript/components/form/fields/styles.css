@@ -12,6 +12,10 @@
   padding: 10px 0;
 }
 
+.document {
+  display: flex;
+}
+
 .inputField,
 .attachmentInputField {
   display: none;
