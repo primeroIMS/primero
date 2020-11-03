@@ -17,12 +17,12 @@ const MobileToolbar = ({ openDrawer }) => {
   const i18n = useI18n();
 
   // eslint-disable-next-line react/no-multi-comp, react/display-name
-  const demoText = demo ? <p className={css.demoText}>{i18n.t(DEMO)}</p> : null;
+  const demoText = demo ? <div className={css.demoText}>{i18n.t(DEMO)}</div> : null;
 
   return (
     <Hidden mdUp implementation="css">
       <AppBar position="fixed">
-        <Toolbar className={css[`toolbar${demo ? "-demo" : ""}`]}>
+        <Toolbar className={css[demo ? "toolbar-demo" : "toolbar"]}>
           <IconButton edge="start" color="default" aria-label="Menu" onClick={openDrawer}>
             <MenuIcon />
           </IconButton>

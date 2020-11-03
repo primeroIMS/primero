@@ -102,7 +102,7 @@ const Nav = () => {
     open: drawerOpen,
     classes: {
       root: css.drawerRoot,
-      paper: css[`drawerPaper${demo ? "-demo" : ""}`]
+      paper: css[demo ? "drawerPaper-demo" : "drawerPaper"]
     },
     onClose: handleToggleDrawer(false)
   };
