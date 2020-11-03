@@ -6,7 +6,8 @@
     data-empty-password="<%= t('exports.custom_exports.empty_password') %>"
     data-empty-fields-forms="<%= t('exports.custom_exports.empty_fields_forms') %>"
     data-empty-format="<%= t('exports.custom_exports.empty_format') %>"
-    data-empty-module="<%= t('exports.custom_exports.empty_module') %>">
+    data-empty-module="<%= t('exports.custom_exports.empty_module') %>"
+    data-pdf-version="<%= (pdf_version.present? ? pdf_version : 'case_pdf') %>">
   <%= render 'shared/modal_close' %>
   <h5><%= t("exports.#{export_type}_exports.label") %></h5>
   <div data-alert class="callout alert message"></div>

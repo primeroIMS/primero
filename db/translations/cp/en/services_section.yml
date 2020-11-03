@@ -43,3 +43,5 @@ en:
         display_name: Service implemented
       service_implemented_day_time:
         display_name: Service Implemented On
+      note_on_referral_from_provider:
+        display_name: Notes on referral from provider

@@ -7,7 +7,9 @@ include_recipe 'primero::git_stage'
    libxslt1-dev
    imagemagick
    openjdk-8-jre-headless
-   inotify-tools).each do |pkg|
+   inotify-tools
+   fonts-khmeros-core
+   ).each do |pkg|
   package pkg
 end
 
@@ -48,6 +50,19 @@ end
 cookbook_file ::File.join(node[:primero][:bin_dir], 'reset_config_to') do
   source 'reset_config_to'
   user node[:primero][:app_user]
+  group node[:primero][:app_group]
+  mode '0744'
+end
+
+directory node[:primero][:passenger] do
+  action :create
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
+cookbook_file ::File.join(node[:primero][:passenger], 'passenger.conf.erb') do
+  source 'passenger.conf.erb'
+  owner node[:primero][:app_user]
   group node[:primero][:app_group]
   mode '0744'
 end
