@@ -34,7 +34,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
 
       begin
         process_row(row)
-      rescue => e
+      rescue StandardError => e
         log_errors("Row #{i} Not Processed: #{e.message}")
       end
     end
@@ -64,7 +64,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
   end
 
   def process_row_admin_level(row, admin_level = 0, hierarchy = [])
-    admin_level_tag = admin_level == 0 ? 'country' : "adm#{admin_level}"
+    admin_level_tag = admin_level.zero? ? 'country' : "adm#{admin_level}"
     location_hash = { admin_level: admin_level }
     column_map.each do |key, value|
       key_array = key.split('+')
@@ -128,17 +128,15 @@ class Importers::CsvHxlLocationImporter < ValueObject
   end
 
   # TODO: Look at streamlining this or putting in a background job
-  # TODO: Processing a file with 414 locations takes about 8 seconds
+  # TODO: Processing a file with 414 locations takes about 4 seconds
   def create_locations
     return log_errors('Import not processed: No locations to create') if locations.blank?
 
     location_array = []
     locations.each { |_key, value| location_array << Location.new(value) }
-    Location.locations_by_code = location_array.map{|l|[l.location_code,l]}.to_h
-    location_array.each do |loc|
-      loc.set_name_from_hierarchy_placenames
-    end
+    Location.locations_by_code = location_array.map { |l| [l.location_code, l] }.to_h
     location_array.each(&:save!)
+    Location.locations_by_code = nil
   end
 
   def log_errors(message)
