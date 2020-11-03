@@ -89,6 +89,7 @@ export const RESOURCES = {
   contact_information: "contact_information",
   dashboards: "dashboards",
   incidents: "incidents",
+  locations: "locations",
   lookups: "lookups",
   metadata: "metadata",
   potential_matches: "potential_matches",

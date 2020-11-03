@@ -49,6 +49,10 @@ class Header < ValueObject
   STATUS = Header.new(name: 'status', field_name: 'status')
   ALERT_COUNT = Header.new(name: 'alert_count', field_name: 'alert_count')
   FLAG_COUNT = Header.new(name: 'flag_count', field_name: 'flag_count')
+  LOCATION_CODE = Header.new(name: 'location.code', field_name: 'code')
+  LOCATION_ADMIN_LEVEL = Header.new(name: 'location.admin_level', field_name: 'admin_level')
+  LOCATION_TYPE = Header.new(name: 'location.type', field_name: 'type')
+  LOCATION_HIERARCHY = Header.new(name: 'location.hierarchy', field_name: 'hierarchy')
 
   class << self
     def get_headers(user, record_type)
@@ -125,6 +129,10 @@ class Header < ValueObject
 
     def user_group_headers
       [USER_GROUP_NAME, DESCRIPTION]
+    end
+
+    def locations_headers
+      [NAME, LOCATION_CODE, LOCATION_ADMIN_LEVEL, LOCATION_TYPE, LOCATION_HIERARCHY]
     end
   end
 

@@ -80,6 +80,7 @@ export const RECORD_PATH = {
   dashboards: "dashboards",
   forms: "forms",
   incidents: "incidents",
+  locations: "locations",
   lookups: "lookups",
   reports: "reports",
   roles: "roles",
@@ -222,7 +223,7 @@ export const ADMIN_NAV = [
     permission: MANAGE,
     recordType: RESOURCES.metadata
   },
-  { to: "/locations", label: "settings.navigation.locations", disabled: true },
+  { to: "/locations", label: "settings.navigation.locations" },
   {
     to: "/contact_information",
     label: "settings.navigation.contact_information",

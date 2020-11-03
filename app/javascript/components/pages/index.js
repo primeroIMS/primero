@@ -22,5 +22,6 @@ export {
   UsersForm,
   UsersList,
   ConfigurationsList,
-  ConfigurationsForm
+  ConfigurationsForm,
+  LocationsList
 } from "./admin";
