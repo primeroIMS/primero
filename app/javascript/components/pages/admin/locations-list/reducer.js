@@ -1,5 +1,6 @@
 import { fromJS } from "immutable";
 
+import { DEFAULT_LOCATION_METADATA } from "./constants";
 import actions from "./actions";
 
 const DEFAULT_STATE = fromJS({});
@@ -15,13 +16,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.LOCATIONS_FINISHED:
       return state.set("errors", false).set("loading", false);
     case actions.CLEAR_METADATA:
-      return state.set(
-        "metadata",
-        fromJS({
-          page: 1,
-          per: 100
-        })
-      );
+      return state.set("metadata", fromJS(DEFAULT_LOCATION_METADATA));
     default:
       return state;
   }

@@ -1,0 +1,74 @@
+---
+- name: 'Ensure group {{ application_container_username }} exists'
+  group:
+    name: '{{ application_container_username }}'
+    gid: 1100
+  become: yes
+
+- name: 'create application container user'
+  user:
+    name: '{{ application_container_username }}'
+    shell: '/sbin/nologin'
+    group: '{{ application_container_username }}'
+    uid: 1100
+  become: yes
+
+- name: 'Ensure group {{ nginx_container_username }} exists'
+  group:
+    name: '{{ nginx_container_username }}'
+    gid: 1101
+  become: yes
+
+- name: 'create nginx container user'
+  user:
+    name: '{{ nginx_container_username }}'
+    shell: '/sbin/nologin'
+    group: '{{ nginx_container_username }}'
+    uid: 1101
+  become: yes
+
+- name: 'Remove {{ application_container_username }} from /etc/subuid'
+  lineinfile:
+    path: '/etc/subuid'
+    state: 'absent'
+    regexp: 'primero'
+  become: yes
+
+- name: 'Remove {{ application_container_username }} from /etc/subgid'
+  lineinfile:
+    path: '/etc/subgid'
+    state: 'absent'
+    regexp: '{{ application_container_username }}'
+  become: yes
+
+- name: 'edit /etc/subuid for {{ application_container_username }} user mapping for docker containers'
+  lineinfile:
+    path: '/etc/subuid'
+    state: 'present'
+    insertafter: EOF
+    line: '{{ application_container_username }}:0:1000'
+  become: yes
+
+- name: 'edit /etc/subuid for {{ application_container_username }} user mapping for docker containers'
+  lineinfile:
+    path: '/etc/subuid'
+    state: 'present'
+    insertafter: EOF
+    line: '{{ application_container_username }}:1100:65536'
+  become: yes
+
+- name: 'edit /etc/subgid for {{ application_container_username }} user mapping for docker containers'
+  lineinfile:
+    path: '/etc/subgid'
+    state: 'present'
+    insertafter: EOF
+    line: '{{ application_container_username }}:0:1000'
+  become: yes
+
+- name: 'edit /etc/subgid for {{ application_container_username }} user mapping for docker containers'
+  lineinfile:
+    path: '/etc/subgid'
+    state: 'present'
+    insertafter: EOF
+    line: '{{ application_container_username }}:1100:65536'
+  become: yes

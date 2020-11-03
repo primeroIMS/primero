@@ -118,6 +118,7 @@ describe("Verifying config constant", () => {
       "contact_information",
       "dashboards",
       "incidents",
+      "locations",
       "lookups",
       "metadata",
       "potential_matches",

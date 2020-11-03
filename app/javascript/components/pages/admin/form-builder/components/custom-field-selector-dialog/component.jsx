@@ -149,6 +149,7 @@ const Component = ({ isSubform }) => {
         confirmButtonLabel={i18n.t("buttons.select")}
         successHandler={handleSelected}
         cancelHandler={handleClose}
+        omitCloseAfterSuccess
       >
         <List>
           <ListSubheader>

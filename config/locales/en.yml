@@ -1163,6 +1163,11 @@ en:
       village: Village
       zone: Zone
     label: Location
+    name: Name
+    code: Code
+    admin_level: Admin Level
+    type: Type
+    hierarchy: Hierarchy
   logger:
     approve_form:
       action_plan: Action Plan form

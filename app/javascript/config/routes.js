@@ -8,6 +8,7 @@ import Login, {
   ExportList,
   FormBuilder,
   FormsList,
+  LocationsList,
   LookupsForm,
   LookupsList,
   NotAuthorized,
@@ -399,6 +400,11 @@ export default [
               path: ROUTES.configurations,
               component: ConfigurationsList,
               resources: RESOURCES.configurations
+            },
+            {
+              path: ROUTES.locations,
+              component: LocationsList,
+              resources: RESOURCES.locations
             }
           ]
         }

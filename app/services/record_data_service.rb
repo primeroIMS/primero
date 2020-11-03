@@ -13,7 +13,7 @@ class RecordDataService
       data = embed_alert_metadata(data, record, selected_field_names)
       data = embed_photo_metadata(data, record, selected_field_names)
       data = embed_attachments(data, record, selected_field_names)
-      embed_associations_as_data(data, record, selected_field_names)
+      embed_associations_as_data(data, record, selected_field_names, user)
     end
 
     def select_fields(data, selected_field_names)
@@ -69,10 +69,10 @@ class RecordDataService
       data
     end
 
-    def embed_associations_as_data(data, record, selected_field_names)
+    def embed_associations_as_data(data, record, selected_field_names, current_user)
       return data unless (record.associations_as_data_keys & selected_field_names).present?
 
-      data.merge(record.associations_as_data)
+      data.merge(record.associations_as_data(current_user))
     end
 
     def visible_name(record)

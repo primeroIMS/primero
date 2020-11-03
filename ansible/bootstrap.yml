@@ -1,0 +1,19 @@
+---
+- hosts: '!vpc:!first_run'
+  gather_facts: no
+  environment:
+    PATH: '/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin'
+  vars:
+    ansible_become_method: '{{ bootstrap_become_method|default("sudo") }}'
+  roles:
+  - 'quoin.infrastructure.install_python3'
+
+- hosts: 'all:!first_run'
+  environment:
+    PATH: '/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin'
+  vars:
+    ansible_become_method: '{{ bootstrap_become_method|default("sudo") }}'
+  roles:
+  - 'quoin.infrastructure.install_sudo'
+  - 'quoin.infrastructure.become_no_password'
+  - 'quoin.infrastructure.openssh_passwordauthentication_no'

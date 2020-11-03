@@ -25,6 +25,7 @@ import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
 import CustomToolbarSelect from "./custom-toolbar-select";
 
 const Component = ({
+  arrayColumnsToString,
   title,
   columns,
   recordType,
@@ -137,6 +138,18 @@ const Component = ({
       }, fromJS({}));
 
       return current.merge(translatedFields);
+    });
+  }
+
+  if (arrayColumnsToString && records) {
+    translatedRecords = translatedRecords.map(currentRecord => {
+      return currentRecord.map((value, key) => {
+        if (arrayColumnsToString.includes(key)) {
+          return value.join(", ");
+        }
+
+        return value;
+      });
     });
   }
 
@@ -324,6 +337,7 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
+  arrayColumnsToString: PropTypes.arrayOf(PropTypes.string),
   bypassInitialFetch: PropTypes.bool,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.array]),
   defaultFilters: PropTypes.object,
