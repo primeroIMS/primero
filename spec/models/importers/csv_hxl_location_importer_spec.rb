@@ -18,6 +18,10 @@ module Importers
           importer = Importers::CsvHxlLocationImporter.new()
           importer.import(@data_io)
           expect(importer.errors).to be_empty
+          expect(importer.failures).to be_empty
+          expect(importer.total).to eq(294)
+          expect(importer.success_total).to eq(294)
+          expect(importer.failure_total).to eq(0)
           expect(Location.count).to eq(414)
         end
       end
@@ -64,7 +68,7 @@ module Importers
           importer = Importers::CsvHxlLocationImporter.new()
           importer.import(@data_io)
           expect(importer.errors.size).to eq(1)
-          expect(importer.errors.first).to eq('Import not processed: No locations to create')
+          expect(importer.errors.first).to eq('Import Not Processed: Error parsing CSV data')
         end
       end
     end

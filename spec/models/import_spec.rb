@@ -17,7 +17,10 @@ describe Import do
 
       it 'imports locations' do
         @import.run
-        # expect(@import.errors).to be_empty
+        expect(@import.failures).to be_empty
+        expect(@import.total).to eq(294)
+        expect(@import.success_total).to eq(294)
+        expect(@import.failure_total).to eq(0)
         expect(Location.count).to eq(414)
       end
     end

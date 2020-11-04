@@ -22,7 +22,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
     return log_errors('Import Not Processed: No data passed in') if data_io.blank?
 
     process_import(data_io)
-    create_locations
+    create_locations if locations.present?
   end
 
   private
@@ -68,7 +68,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
     for i in 0..max_admin_level do
       process_row_admin_level(row, i, hierarchy)
     end
-    success_total += 1
+    self.success_total += 1
   end
 
   def process_row_admin_level(row, admin_level = 0, hierarchy = [])
@@ -138,8 +138,6 @@ class Importers::CsvHxlLocationImporter < ValueObject
   # TODO: Look at streamlining this or putting in a background job
   # TODO: In rspec, processing a file with 414 locations takes about 7 or 8 seconds
   def create_locations
-    return log_errors('Import not processed: No locations to create') if locations.blank?
-
     location_array = []
     locations.each { |_key, value| location_array << Location.new(value) }
     Location.locations_by_code = location_array.map { |l| [l.location_code, l] }.to_h
