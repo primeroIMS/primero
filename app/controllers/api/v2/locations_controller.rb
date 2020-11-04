@@ -3,6 +3,7 @@
 # Locations CRUD API
 class Api::V2::LocationsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
+  include Api::V2::Concerns::Import
 
   def index
     authorize! :index, Location
@@ -54,5 +55,9 @@ class Api::V2::LocationsController < ApplicationApiController
 
   def location_params
     params.require(:data).permit(:id, :code, :admin_level, :type, :parent_code, placename: {})
+  end
+
+  def importer
+    # TODO: This should return the class of the CSV HXL locations importer
   end
 end
