@@ -101,7 +101,10 @@ describe("Application - Action Creators", () => {
     const expected = {
       type: actions.FETCH_SANDBOX_UI,
       api: {
-        path: ROUTES.sandbox_ui
+        path: ROUTES.sandbox_ui,
+        db: {
+          collection: "logos"
+        }
       }
     };
 

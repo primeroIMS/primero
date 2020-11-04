@@ -57,17 +57,19 @@ describe("<LoginForm />", () => {
   describe("when is demo site", () => {
     const stateWithDemo = fromJS({
       application: {
-        demo: true
+        primero: {
+          sandbox_ui: true
+        }
       }
     });
     const { component: componentWithDemo } = setupMountedComponent(LoginForm, props, stateWithDemo);
 
     it("should render PageHeading with 'demo' text", () => {
-      expect(componentWithDemo.find(PageHeading).text()).to.be.equal("demo login.label");
+      expect(componentWithDemo.find(PageHeading).text()).to.be.equal("sandbox_ui login.label");
     });
 
     it("should render ActionButton with 'demo' text", () => {
-      expect(componentWithDemo.find(ActionButton).text()).to.equal("buttons.login logger.to demo");
+      expect(componentWithDemo.find(ActionButton).text()).to.equal("buttons.login logger.to sandbox_ui");
     });
   });
 });

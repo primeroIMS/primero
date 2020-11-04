@@ -341,8 +341,10 @@ describe("Application - Reducers", () => {
   });
 
   it("should handle FETCH_SANDBOX_UI_SUCCESS", () => {
-    const expected = Map({
-      demo: true
+    const expected = fromJS({
+      primero: {
+        sandbox_ui: true
+      }
     });
 
     const action = {

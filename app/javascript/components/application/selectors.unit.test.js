@@ -48,7 +48,9 @@ const roles = [
 const stateWithNoRecords = fromJS({});
 const stateWithRecords = fromJS({
   application: {
-    demo: true,
+    primero: {
+      sandbox_ui: true
+    },
     userIdle: true,
     agencies: [agencyWithLogo, agency1, agency2, agency3],
     modules: [
