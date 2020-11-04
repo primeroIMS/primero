@@ -3,29 +3,36 @@
 # Import HXL Location data into Primero from CSV.
 # https://hxlstandard.org/standard/1-1final/dictionary/
 class Importers::CsvHxlLocationImporter < ValueObject
-  attr_accessor :file_name, :column_map, :max_admin_level, :type_map, :locations, :errors
+  attr_accessor :column_map, :max_admin_level, :type_map, :locations, :errors,
+                :failures, :total, :success_total, :failure_total
 
   def initialize(opts = {})
     opts[:column_map] = {}
     opts[:type_map] = default_type_map
     opts[:locations] = {}
-    opts[:errors] = []
+    opts[:error_messages] = []
+    opts[:failures] = []
+    opts[:total] = 0
+    opts[:success_total] = 0
+    opts[:failure_total] = 0
     super(opts)
   end
 
-  def import
-    return log_errors('Import Not Processed: No file_name passed in') if file_name.blank?
+  def import(data_io)
+    return log_errors('Import Not Processed: No data passed in') if data_io.blank?
 
-    return log_errors("Import Not Processed: #{file_name} does not exist") unless File.exist?(file_name)
-
-    process_import_file(file_name)
+    process_import(data_io)
     create_locations
   end
 
   private
 
-  def process_import_file(file_name)
-    CSVSafe.foreach(file_name, headers: true).with_index do |row, i|
+  def process_import(data_io)
+    rows = CSVSafe.parse(data_io, headers: true)
+    return log_errors('Import Not Processed: Error parsing CSV data') if rows.blank?
+
+    self.total = rows.count - 1
+    rows.each_with_index do |row, i|
       if column_map.blank?
         map_columns(row)
         self.max_admin_level = column_map.keys.map { |key| key.split('+').first }.uniq.map { |a| a.last.to_i }&.max if column_map.present?
@@ -35,7 +42,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
       begin
         process_row(row)
       rescue StandardError => e
-        log_errors("Row #{i} Not Processed: #{e.message}")
+        log_errors("Row #{i} Not Processed: #{e.message}", row: i)
       end
     end
   end
@@ -61,6 +68,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
     for i in 0..max_admin_level do
       process_row_admin_level(row, i, hierarchy)
     end
+    success_total += 1
   end
 
   def process_row_admin_level(row, admin_level = 0, hierarchy = [])
@@ -128,7 +136,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
   end
 
   # TODO: Look at streamlining this or putting in a background job
-  # TODO: Processing a file with 414 locations takes about 4 seconds
+  # TODO: In rspec, processing a file with 414 locations takes about 7 or 8 seconds
   def create_locations
     return log_errors('Import not processed: No locations to create') if locations.blank?
 
@@ -139,8 +147,9 @@ class Importers::CsvHxlLocationImporter < ValueObject
     Location.locations_by_code = nil
   end
 
-  def log_errors(message)
-    errors << message
+  def log_errors(message, opts = {})
+    error_messages << message
+    failures << opts[:row] if opts[:row].present?
     Rails.logger.error(message)
   end
 end

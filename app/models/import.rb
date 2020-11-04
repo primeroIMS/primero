@@ -13,28 +13,28 @@ class Import < ValueObject
   def run
     return unless importer && data_base64
 
-    # TODO: This might or might not be the right interface,
-    #       but let's pick something then standardize on it for all importers.
-    success_total, failures = importer.new.import(data_io)
-    assign_status(success_total, failures)
+    importer_instance = importer.new
+    importer_instance.import(data_io)
+    assign_status(importer_instance)
   end
 
   def data_io
     return unless data_base64
     return @data_io if @data_io
 
-    decoded_data = Base64.decode64(data_base64)
+    decoded_data = Base64.decode64(data_base64).force_encoding('UTF-8')
     @data_io = StringIO.new(decoded_data)
   end
 
-  def assign_status(success_total, failures)
-    self.success_total = success_total
-    self.failure_total = failures.size
-    self.total = success_total + failure_total
-    self.failures = failures
-    self.status = if failure_total.zero? then SUCCESS
-                  elsif success_total.zero? then FAILURE
-                  else SOME_FAILURE
+  def assign_status(importer_instance)
+    self.success_total = importer_instance.success_total
+    self.failure_total = importer_instance.failures.size
+    self.total = importer_instance.total
+    self.failures = importer_instance.failures
+
+    self.status = if success_total.zero? then FAILURE
+                  elsif success_total < total then SOME_FAILURE
+                  else SUCCESS
                   end
   end
 end
