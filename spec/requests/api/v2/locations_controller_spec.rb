@@ -433,6 +433,30 @@ describe Api::V2::LocationsController, type: :request do
 
   end
 
+  describe 'POST /api/v2/locations/import' do
+    context 'when input contains valid rows' do
+      before do
+        @file_name = 'hxl_location_sample.csv'
+        @data_base64 = attachment_base64(@file_name)
+      end
+
+      it 'imports locatons' do
+        login_for_test(permissions: [Permission.new(:resource => Permission::METADATA)])
+        params = {
+          data: {
+            file_name: @file_name,
+            data_base64: @data_base64
+          }
+        }
+
+        post '/api/v2/locations/import', params: params
+
+        expect(response).to have_http_status(200)
+        expect(Location.count).to eq(417)
+      end
+    end
+  end
+
   after :each do
     Location.destroy_all
   end

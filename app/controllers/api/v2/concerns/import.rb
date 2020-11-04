@@ -5,7 +5,8 @@ module Api::V2::Concerns::Import
   extend ActiveSupport::Concern
 
   def import
-    @import = Import.new(
+    # The '::' is necessary so Import model does not conflict with current concern
+    @import = ::Import.new(
       importer: importer, data_base64: import_params[:data_base64],
       content_type: import_params[:content_type], file_name: import_params[:file_name]
     )

@@ -10,7 +10,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
     opts[:column_map] = {}
     opts[:type_map] = default_type_map
     opts[:locations] = {}
-    opts[:error_messages] = []
+    opts[:errors] = []
     opts[:failures] = []
     opts[:total] = 0
     opts[:success_total] = 0
@@ -148,7 +148,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
   end
 
   def log_errors(message, opts = {})
-    error_messages << message
+    errors << message
     failures << opts[:row] if opts[:row].present?
     Rails.logger.error(message)
   end

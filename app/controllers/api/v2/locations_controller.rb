@@ -58,6 +58,6 @@ class Api::V2::LocationsController < ApplicationApiController
   end
 
   def importer
-    # TODO: This should return the class of the CSV HXL locations importer
+    Importers::CsvHxlLocationImporter
   end
 end
