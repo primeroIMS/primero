@@ -12,17 +12,18 @@ import { headersToColumns } from "../utils";
 import { Filters as AdminFilters } from "../components";
 import { getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
+import { getOptions } from "../../../form/selectors";
 
 import { fetchLocations } from "./action-creators";
-import { DISABLED, NAME } from "./constants";
-import { getFilters } from "./utils";
+import { DISABLED, NAME, COLUMNS, LOCATION_TYPE_LOOKUP } from "./constants";
+import { getColumns, getFilters } from "./utils";
 
 const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const recordType = ["admin", RESOURCES.locations];
   const headers = useSelector(state => getListHeaders(state, RESOURCES.locations));
-
+  const locationTypes = useSelector(state => getOptions(state, LOCATION_TYPE_LOOKUP, i18n));
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultMetadata = metadata?.toJS();
 
@@ -39,16 +40,17 @@ const Container = () => {
 
   const tableOptions = {
     recordType,
-    columns,
+    columns: getColumns(columns, locationTypes),
     options: {
       selectableRows: "none"
     },
     defaultFilters,
     onTableChange: fetchLocations,
-    localizedFields: ["name"],
+    localizedFields: [COLUMNS.NAME],
     bypassInitialFetch: true,
-    arrayColumnsToString: ["hierarchy"],
-    targetRecordType: "locations"
+    arrayColumnsToString: [COLUMNS.HIERARCHY],
+    targetRecordType: RESOURCES.locations,
+    onRowClick: () => {}
   };
 
   const filterProps = {
