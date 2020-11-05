@@ -35,7 +35,9 @@ class Importers::CsvHxlLocationImporter < ValueObject
     rows.each_with_index do |row, i|
       if column_map.blank?
         map_columns(row)
-        self.max_admin_level = column_map.keys.map { |key| key.split('+').first }.uniq.map { |a| a.last.to_i }&.max if column_map.present?
+        next if column_map.blank?
+
+        self.max_admin_level = column_map.keys.map { |key| key.split('+').first }.uniq.map { |a| a.last.to_i }&.max
         next
       end
 
@@ -65,13 +67,20 @@ class Importers::CsvHxlLocationImporter < ValueObject
 
   def process_row(row)
     hierarchy = []
-    for i in 0..max_admin_level do
-      process_row_admin_level(row, i, hierarchy)
-    end
+    (0..max_admin_level).each { |i| process_row_admin_level(row, i, hierarchy) }
     self.success_total += 1
   end
 
   def process_row_admin_level(row, admin_level = 0, hierarchy = [])
+    location_hash = map_admin_level_data(admin_level, row)
+    location_hash[:type] ||= type_map[admin_level.to_s]&.first
+    hierarchy << location_hash[:location_code]
+    location_hash[:hierarchy_path] = hierarchy.join('.')
+
+    locations[location_hash[:location_code]] ||= location_hash
+  end
+
+  def map_admin_level_data(admin_level, row)
     admin_level_tag = admin_level.zero? ? 'country' : "adm#{admin_level}"
     location_hash = { admin_level: admin_level }
     column_map.each do |key, value|
@@ -82,12 +91,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
 
       location_hash[location_attribute(key_array[1..-1]).to_sym] = row[value]
     end
-
-    location_hash[:type] ||= type_map[admin_level.to_s]&.first
-    hierarchy << location_hash[:location_code]
-    location_hash[:hierarchy_path] = hierarchy.join('.')
-
-    locations[location_hash[:location_code]] ||= location_hash
+    location_hash
   end
 
   def location_attribute(key_array)

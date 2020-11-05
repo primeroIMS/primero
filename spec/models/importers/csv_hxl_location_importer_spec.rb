@@ -15,7 +15,7 @@ module Importers
         end
 
         it 'imports locations' do
-          importer = Importers::CsvHxlLocationImporter.new()
+          importer = Importers::CsvHxlLocationImporter.new
           importer.import(@data_io)
           expect(importer.errors).to be_empty
           expect(importer.failures).to be_empty
@@ -32,8 +32,8 @@ module Importers
         end
 
         it 'logs errors for the invalid rows' do
-          expected = ["Row 6 Not Processed: adm2+code blank", "Row 11 Not Processed: adm1+code blank"]
-          importer = Importers::CsvHxlLocationImporter.new()
+          expected = ['Row 6 Not Processed: adm2+code blank', 'Row 11 Not Processed: adm1+code blank']
+          importer = Importers::CsvHxlLocationImporter.new
           importer.import(@data_io)
           expect(importer.errors.size).to eq(2)
           expect(importer.errors).to match_array(expected)
@@ -51,7 +51,7 @@ module Importers
                       'Skipping #adm2+name+ar-XX: Locale invalid',
                       'Skipping #adm1+name+ar-XX: Locale invalid',
                       'Skipping #country+name+ar-XX: Locale invalid']
-          importer = Importers::CsvHxlLocationImporter.new()
+          importer = Importers::CsvHxlLocationImporter.new
           importer.import(@data_io)
           expect(importer.errors.size).to eq(4)
           expect(importer.errors).to match_array(expected)
@@ -65,7 +65,7 @@ module Importers
         end
 
         it 'returns an error' do
-          importer = Importers::CsvHxlLocationImporter.new()
+          importer = Importers::CsvHxlLocationImporter.new
           importer.import(@data_io)
           expect(importer.errors.size).to eq(1)
           expect(importer.errors.first).to eq('Import Not Processed: Error parsing CSV data')
@@ -73,22 +73,9 @@ module Importers
       end
     end
 
-    xcontext 'when input file does not exist' do
-      before do
-        @data_io = attachment_as_io('file_does_not_exist.csv')
-      end
-
-      it 'returns an error' do
-        importer = Importers::CsvHxlLocationImporter.new()
-        importer.import(@data_io)
-        expect(importer.errors.size).to eq(1)
-        expect(importer.errors.first).to eq("Import Not Processed: #{@import_file} does not exist")
-      end
-    end
-
     context 'when input data is not passed in' do
       it 'returns an error' do
-        importer = Importers::CsvHxlLocationImporter.new()
+        importer = Importers::CsvHxlLocationImporter.new
         importer.import(nil)
         expect(importer.errors.size).to eq(1)
         expect(importer.errors.first).to eq('Import Not Processed: No data passed in')
