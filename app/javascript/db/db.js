@@ -122,7 +122,9 @@ class DB {
         if (prev) {
           await collection.put(isDataArray ? merge(prev, r) : merge(prev, records[r]));
         }
-      } catch (e) {
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn(error);
         await collection.put(isDataArray ? r : records[r]);
       }
     });
