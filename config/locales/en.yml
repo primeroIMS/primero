@@ -18,7 +18,7 @@ en:
   connection_lost: Currently in offline mode
   connected: Connected
   clear: Clear
-  demo: Demo
+  sandbox_ui: Demo
   description: Description
   form: Form
   name: Name

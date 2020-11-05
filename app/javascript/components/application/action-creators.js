@@ -70,6 +70,9 @@ export const disableNavigation = payload => ({
 export const fetchSandboxUI = () => ({
   type: actions.FETCH_SANDBOX_UI,
   api: {
-    path: ROUTES.sandbox_ui
+    path: ROUTES.sandbox_ui,
+    db: {
+      collection: DB_COLLECTIONS_NAMES.LOGOS
+    }
   }
 });

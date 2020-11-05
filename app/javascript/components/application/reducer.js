@@ -5,7 +5,6 @@ import { mapEntriesToRecord } from "../../libs";
 import actions from "./actions";
 import NAMESPACE from "./namespace";
 import { PrimeroModuleRecord } from "./records";
-import { DEMO } from "./constants";
 
 const DEFAULT_STATE = fromJS({
   userIdle: false
@@ -43,7 +42,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case actions.SET_USER_IDLE:
       return state.set("userIdle", payload);
     case "user/LOGOUT_SUCCESS":
-      return state.get(DEMO) ? DEFAULT_STATE.merge({ demo: true }).toJS() : DEFAULT_STATE;
+      return DEFAULT_STATE.set("primero", state.get("primero"));
     case actions.FETCH_SYSTEM_PERMISSIONS_FAILURE:
       return state.set("errors", true);
     case actions.FETCH_SYSTEM_PERMISSIONS_FINISHED:
@@ -76,7 +75,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case actions.FETCH_MANAGED_ROLES_SUCCESS:
       return state.set("managedRoles", fromJS(payload.data));
     case actions.FETCH_SANDBOX_UI_SUCCESS:
-      return state.set(DEMO, fromJS(payload.data.sandbox_ui));
+      return state.set("primero", fromJS(payload.data));
     default:
       return state;
   }

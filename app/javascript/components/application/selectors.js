@@ -38,7 +38,7 @@ export const selectUserIdle = state => state.getIn([NAMESPACE, "userIdle"], fals
 
 export const getReportingLocationConfig = state => state.getIn([NAMESPACE, "reportingLocationConfig"], fromJS({}));
 
-export const getAgencyLogos = state => state.getIn(["records", "support", "data", "agencies"], fromJS([]));
+export const getAgencyLogos = state => state.getIn(["application", "primero", "agencies"], fromJS([]));
 
 export const getAgency = (state, id) =>
   state
@@ -79,4 +79,4 @@ export const getRoleName = (state, uniqueID) => getRole(state, uniqueID).get("na
 
 export const getDisabledApplication = state => state.getIn([NAMESPACE, "disabledApplication"], false);
 
-export const getDemo = state => state.getIn([NAMESPACE, DEMO], false);
+export const getDemo = state => state.getIn([NAMESPACE, "primero", DEMO], false);
