@@ -7,19 +7,12 @@ class Importers::CsvHxlLocationImporter < ValueObject
                 :failures, :total, :success_total, :failure_total
 
   def initialize(opts = {})
-    opts[:column_map] = {}
-    opts[:type_map] = default_type_map
-    opts[:locations] = {}
-    opts[:errors] = []
-    opts[:failures] = []
-    opts[:total] = 0
-    opts[:success_total] = 0
-    opts[:failure_total] = 0
-    super(opts)
+    super(column_map: {}, type_map: default_type_map, locations: {},  errors: [], failures: [],
+          total: 0, success_total: 0, failure_total: 0)
   end
 
   def import(data_io)
-    return log_errors('Import Not Processed: No data passed in') if data_io.blank?
+    return log_errors(I18n.t('imports.csv_hxl_location.messages.no_data')) if data_io.blank?
 
     process_import(data_io)
     create_locations if locations.present?
@@ -29,9 +22,8 @@ class Importers::CsvHxlLocationImporter < ValueObject
 
   def process_import(data_io)
     rows = CSVSafe.parse(data_io, headers: true)
-    return log_errors('Import Not Processed: Error parsing CSV data') if rows.blank?
+    return log_errors(I18n.t('imports.csv_hxl_location.messages.csv_parse_error')) if rows.blank?
 
-    self.total = rows.count - 1
     rows.each_with_index do |row, i|
       if column_map.blank?
         map_columns(row)
@@ -44,7 +36,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
       begin
         process_row(row)
       rescue StandardError => e
-        log_errors("Row #{i} Not Processed: #{e.message}", row: i)
+        log_errors(I18n.t('imports.csv_hxl_location.messages.error', row_number: i, message: e.message), row: i)
       end
     end
   end
@@ -57,7 +49,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
       next unless value.starts_with?('#')
 
       if value.include?('name') && !locale_valid?(value)
-        log_errors("Skipping #{value}: Locale invalid")
+        log_errors(I18n.t('imports.csv_hxl_location.messages.locale_invalid', column_name: value))
         next
       end
 
@@ -67,10 +59,14 @@ class Importers::CsvHxlLocationImporter < ValueObject
 
   def process_row(row)
     hierarchy = []
+    self.total += 1
     (0..max_admin_level).each { |i| process_row_admin_level(row, i, hierarchy) }
     self.success_total += 1
   end
 
+  # Each row in the csv contains location info for multiple locations
+  # Example: it contains the Admin Level 3 location and each of it's parent locations
+  # So... loop through each admin_level and pull out location info for that admin_level
   def process_row_admin_level(row, admin_level = 0, hierarchy = [])
     location_hash = map_admin_level_data(admin_level, row)
     location_hash[:type] ||= type_map[admin_level.to_s]&.first
@@ -114,10 +110,8 @@ class Importers::CsvHxlLocationImporter < ValueObject
     default_type_map['0'] ||= ['country']
     default_type_map['1'] ||= ['province']
     default_type_map['2'] ||= ['district']
-
-    # TODO: verify the values of 3 & 4
     default_type_map['3'] ||= ['sub_district']
-    default_type_map['4'] ||= ['camp']
+    default_type_map['4'] ||= ['township']
     default_type_map
   end
 
@@ -152,6 +146,5 @@ class Importers::CsvHxlLocationImporter < ValueObject
   def log_errors(message, opts = {})
     errors << message
     failures << opts[:row] if opts[:row].present?
-    Rails.logger.error(message)
   end
 end
