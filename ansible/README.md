@@ -46,7 +46,9 @@
             $ vim secrets.yml
 
     The `secrets.yml` file will contain secrets for primero.  The following variables are required in the is file.  The secrets in this file require a
-    secure random number. To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
+    secure random number. To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`.  You also have the option
+    of creating a variable for a private ssh key in order to clone configuration files from a private repo.  If you will not be including the private ssh
+    key just leave the variable `ssh_private_key` out of the secrets.yml file.
 
             ---
             primero_secret_key_base: 'generated_secret'
@@ -54,6 +56,11 @@
             postgres_password: 'generated_secret'
             devise_secret_key: 'generated_secret'
             devise_jwt_secret_key: 'generated_secret'
+            ssh_private_key: |
+            -----BEGIN RSA PRIVATE KEY-----
+            klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
+            afdnfdsnfjkndsfdsjkfjkdsjkfjdskljflajdfjdsl
+            -----END RSA PRIVATE KEY-----            
 
 4.  Run the bootstrap playbook in order to install the basic system requirements.
 
@@ -250,13 +257,19 @@ The developer must also make a file called `secrets.yml` in the `ansible` direct
 
 The `secrets.yml` file will contain secrets for primero.  The following variables are required in the is file.  The secrets in this file require a
 secure random number. To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
-
+You also have the option of creating a variable for a private ssh key in order to clone configuration files from a private repo.  If you will not be including the private ssh
+key just leave the variable `ssh_private_key` out of the secrets.yml file.
                 ---
                 primero_secret_key_base: 'generated_secret'
                 primero_message_secret: 'generated_secret'
                 postgres_password: 'generated_secret'
                 devise_secret_key: 'generated_secret'
                 devise_jwt_secret_key: 'generated_secret'
+                ssh_private_key: |
+                -----BEGIN RSA PRIVATE KEY-----
+                klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
+                afdnfdsnfjkndsfdsjkfjkdsjkfjdskljflajdfjdsl
+                -----END RSA PRIVATE KEY-----
 
 The variables in the `inventory.yml` along with the `secrets.yml` will also be used to make the `local.env` file for the dokcer-compose files.
 
