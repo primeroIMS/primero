@@ -158,7 +158,8 @@ describe("records - Action Creators", () => {
     const expected = {
       api: {
         path: `${RECORD_PATH.cases}/${recordId}/alerts`,
-        skipDB: true
+        skipDB: true,
+        performFromQueue: true
       },
       type: `${RECORD_PATH.cases}/FETCH_RECORD_ALERTS`
     };

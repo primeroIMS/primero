@@ -15,7 +15,8 @@ export const applyFilters = ({ recordType, data }) => dispatch => {
       params: data,
       ...(IDB_SAVEABLE_RECORD_TYPES.includes(recordType) && {
         db: { collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
-      })
+      }),
+      queueOffline: true
     }
   });
 };
