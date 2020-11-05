@@ -332,17 +332,35 @@ describe Api::V2::LocationsController, type: :request do
 
       it 'imports locatons' do
         login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
-        params = {
-          data: {
-            file_name: @file_name,
-            data_base64: @data_base64
-          }
-        }
-
+        params = { data: { file_name: @file_name, data_base64: @data_base64 } }
         post '/api/v2/locations/import', params: params
 
         expect(response).to have_http_status(200)
         expect(Location.count).to eq(417)
+      end
+    end
+
+    context 'and file contains invalid rows' do
+      before do
+        @file_name = 'hxl_location_missing_pcodes.csv'
+        @data_base64 = attachment_base64(@file_name)
+      end
+
+      it 'logs errors for the invalid rows' do
+        login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+        params = { data: { file_name: @file_name, data_base64: @data_base64 } }
+        post '/api/v2/locations/import', params: params
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['status']).to eq('some_failure')
+        expect(json['data']['total']).to eq(294)
+        expect(json['data']['file_name']).to eq(@file_name)
+        expect(json['data']['success_total']).to eq(292)
+        expect(json['data']['failure_total']).to eq(2)
+        expect(json['data']['failures']).to eq([6, 11])
+        expect(json['data']['error_messages'])
+          .to eq(['Row 6 Not Processed: adm2+code blank', 'Row 11 Not Processed: adm1+code blank'])
+        expect(Location.count).to eq(415)
       end
     end
   end

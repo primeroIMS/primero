@@ -6,7 +6,7 @@ class Import < ValueObject
   FAILURE = 'failure'
   SOME_FAILURE = 'some_failure'
 
-  attr_accessor :data_base64, :importer, :status, :failures,
+  attr_accessor :data_base64, :importer, :status, :failures, :error_messages,
                 :total, :success_total, :failure_total,
                 :content_type, :file_name
 
@@ -31,6 +31,7 @@ class Import < ValueObject
     self.failure_total = importer_instance.failures.size
     self.total = importer_instance.total
     self.failures = importer_instance.failures
+    self.error_messages = importer_instance.errors
 
     self.status = if success_total.zero? then FAILURE
                   elsif success_total < total then SOME_FAILURE

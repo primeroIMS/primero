@@ -9,4 +9,7 @@ json.data do
   json.failures do
     json.array! @import.failures
   end
+  json.error_messages do
+    json.array! @import.error_messages
+  end
 end
