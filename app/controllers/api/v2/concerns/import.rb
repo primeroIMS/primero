@@ -5,6 +5,8 @@ module Api::V2::Concerns::Import
   extend ActiveSupport::Concern
 
   def import
+    authorize! :import, model_class
+
     # The '::' is necessary so Import model does not conflict with current concern
     @import = ::Import.new(
       importer: importer, data_base64: import_params[:data_base64],
