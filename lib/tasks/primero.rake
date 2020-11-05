@@ -84,6 +84,30 @@ namespace :primero do
     importer.import
   end
 
+  # Imports HXL Location data from a csv file
+  # USAGE: rails primero:import_hxl_locations[file_name]
+  # Args:
+  #   file_name             - The CSV file to be imported
+  #
+  # Example:
+  #   rails primero:import_hxl_locations[<path>/hxl_locations.csv]
+  desc 'Import an HXL Location csv file'
+  task :import_hxl_locations, %i[file_name] => :environment do |_, args|
+    file_name = args[:file_name]
+    if file_name.blank?
+      puts 'ERROR: No input file provided'
+      return
+    end
+
+    puts "Importing locations from #{file_name}"
+    # TODO: this just emulates the process in csv_hxl_location_importer_spec... look to clean up
+    data_base64 = Base64.encode64(File.open(path, 'rb').read)
+    decoded_data = Base64.decode64(data_base64).force_encoding('UTF-8')
+    data_io = StringIO.new(decoded_data)
+    importer = Importers::CsvHxlLocationImporter.new
+    importer.import(data_io)
+  end
+
   desc 'Set a default password for all generic users.'
   task default_password: :environment do
     require 'io/console'
