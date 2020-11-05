@@ -1,6 +1,6 @@
 import * as constants from "./constants";
 
-describe("<LocationsList /> - Constants", () => {
+describe("<ImportDialog /> - Constants", () => {
   describe("constants", () => {
     let clone;
 
@@ -12,7 +12,7 @@ describe("<LocationsList /> - Constants", () => {
       expect(clone).to.be.empty;
     });
 
-    ["NAME", "DISABLED", "DEFAULT_LOCATION_METADATA", "LOCATIONS_DIALOG"].forEach(property => {
+    ["NAME"].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(constants).to.have.property(property);
         delete clone[property];

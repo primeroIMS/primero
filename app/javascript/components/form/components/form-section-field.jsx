@@ -32,7 +32,8 @@ import {
   DATE_FIELD,
   SEPARATOR,
   DIALOG_TRIGGER,
-  HIDDEN_FIELD
+  HIDDEN_FIELD,
+  DOCUMENT_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
@@ -170,6 +171,7 @@ const FormSectionField = ({ checkErrors, field }) => {
       case SELECT_FIELD:
         return SelectInput;
       case PHOTO_FIELD:
+      case DOCUMENT_FIELD:
         return AttachmentInput;
       case LABEL_FIELD:
         return Label;

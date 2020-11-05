@@ -4,3 +4,4 @@ export const DEFAULT_LOCATION_METADATA = Object.freeze({
   page: 1,
   per: 100
 });
+export const LOCATIONS_DIALOG = "LocationDialog";

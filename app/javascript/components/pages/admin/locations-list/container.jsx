@@ -11,11 +11,14 @@ import { RESOURCES } from "../../../../libs/permissions";
 import { headersToColumns } from "../utils";
 import { Filters as AdminFilters } from "../components";
 import { getMetadata } from "../../../record-list";
+import Menu from "../../../menu";
 import { useMetadata } from "../../../records";
+import { useDialog } from "../../../action-dialog";
 
 import { fetchLocations } from "./action-creators";
-import { DISABLED, NAME } from "./constants";
+import { DISABLED, NAME, LOCATIONS_DIALOG } from "./constants";
 import { getFilters } from "./utils";
+import ImportDialog from "./import-dialog";
 
 const Container = () => {
   const i18n = useI18n();
@@ -33,7 +36,12 @@ const Container = () => {
     ...defaultFilterFields,
     ...defaultMetadata
   });
+  const { setDialog, pending, dialogOpen, dialogClose } = useDialog(LOCATIONS_DIALOG);
   const columns = headersToColumns(headers, i18n);
+
+  const handleDialogClick = dialog => {
+    setDialog({ dialog, open: true });
+  };
 
   useMetadata(recordType, metadata, fetchLocations, "data", { defaultFilterFields });
 
@@ -58,12 +66,24 @@ const Container = () => {
     defaultFilters
   };
 
+  const actions = [
+    {
+      id: 1,
+      disableOffline: false,
+      name: i18n.t("buttons.import"),
+      action: () => handleDialogClick(LOCATIONS_DIALOG)
+    }
+  ];
+
   return (
     <>
-      <PageHeading title={i18n.t("location.label")} />
+      <PageHeading title={i18n.t("settings.navigation.locations")}>
+        <Menu showMenu actions={actions} disabledCondtion={() => {}} />
+      </PageHeading>
       <PageContent>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={9}>
+            <ImportDialog i18n={i18n} open={dialogOpen} pending={pending} close={dialogClose} />
             <IndexTable title={i18n.t("location.label")} {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>

@@ -1175,6 +1175,8 @@ en:
     admin_level: Admin Level
     type: Type
     hierarchy: Hierarchy
+    import_title: Import Location
+    message: Please select a CSV file to upload. This file should use UTF-8 encoding and include HXL hashtags in the second header row of each column.
   logger:
     approve_form:
       action_plan: Action Plan form
