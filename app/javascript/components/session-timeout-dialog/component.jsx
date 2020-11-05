@@ -90,9 +90,11 @@ const SessionTimeoutDialog = () => {
   useEffect(() => {
     if (online) {
       idleUser(false);
+      reset();
       startTokenRefreshTimer();
       window.addEventListener("storage", localStorageChange);
     } else {
+      pause();
       stopTimeoutDialog();
     }
   }, [online]);
