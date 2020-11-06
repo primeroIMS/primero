@@ -233,4 +233,20 @@ describe Agency do
       end
     end
   end
+
+  describe '.get_field_using_unique_id' do
+    let(:agency) do
+      Agency.create(
+        name: 'test', agency_code: '12345', unique_id: 'test_unique_id'
+      )
+    end
+    before(:each) do
+      clean_data(Agency)
+      agency
+    end
+
+    it 'returns the value specifed' do
+      expect(Agency.get_field_using_unique_id('test_unique_id', :agency_code)).to eq(agency.agency_code)
+    end
+  end
 end

@@ -10,6 +10,7 @@ const QUEUE_FINISHED = "queue-finished";
 const QUEUE_FAILED = "queue-failed";
 const QUEUE_SKIP = "queue-skip";
 const QUEUE_SUCCESS = "queue-success";
+const QUEUE_FETCH = "queue-fetch";
 
 class Queue {
   constructor() {
@@ -17,6 +18,10 @@ class Queue {
     this.success = 0;
     this.tries = 0;
     this.working = false;
+
+    EventManager.subscribe(QUEUE_FETCH, action => {
+      this.add([action]);
+    });
 
     EventManager.subscribe(QUEUE_ADD, action => {
       this.add([action]);
@@ -113,10 +118,14 @@ class Queue {
       });
     }
   }
+
+  hasWork() {
+    return Boolean(this.queue.length);
+  }
 }
 
 const instance = new Queue();
 
 export default instance;
 
-export { QUEUE_ADD, QUEUE_FINISHED, QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS };
+export { QUEUE_ADD, QUEUE_FINISHED, QUEUE_FAILED, QUEUE_FETCH, QUEUE_SKIP, QUEUE_SUCCESS };

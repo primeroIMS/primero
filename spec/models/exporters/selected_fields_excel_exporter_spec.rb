@@ -114,7 +114,7 @@ describe Exporters::SelectedFieldsExcelExporter do
           { 'unique_id' => '2', 'field_3' => 'field_3 value', 'field_4' => 'field_4 value' },
           { 'unique_id' => '21', 'field_3' => 'field_33 value', 'field_4' => 'field_44 value' }
         ],
-        'created_organization' => agency.attributes
+        'created_organization' => agency.unique_id
       ),
       create(
         :child,
@@ -125,7 +125,7 @@ describe Exporters::SelectedFieldsExcelExporter do
           { 'unique_id' => '21', 'field_3' => 'field_31 value', 'field_4' => 'field_41 value' },
           { 'unique_id' => '211', 'field_3' => 'field_331 value', 'field_4' => 'field_441 value' }
         ],
-        'created_organization' => agency.attributes
+        'created_organization' => agency.unique_id
       ),
       create(:child, 'first_name' => 'Jimmy', 'last_name' => 'James', 'id' => '00000000003'),
       create(:child, 'first_name' => 'Timmy', 'last_name' => 'Tom', 'id' => '00000000004'),

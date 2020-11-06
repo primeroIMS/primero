@@ -76,4 +76,27 @@ describe("middleware/utils/offline-dispatch-success.js", () => {
       type: "test-action_SUCCESS"
     });
   });
+
+  it("format payload with record params", () => {
+    const action = {
+      type: "test-action",
+      api: {
+        responseRecordID: 1234,
+        responseRecordArray: true,
+        responseRecordParams: {
+          param_1: 15,
+          param_2: "some data"
+        }
+      }
+    };
+
+    offlineDispatchSuccess(store, action, payload);
+
+    expect(dispatch.getCall(0).returnValue).to.deep.equal({
+      payload: {
+        data: { record: { id: 1234, param_1: 15, param_2: "some data" } }
+      },
+      type: "test-action_SUCCESS"
+    });
+  });
 });

@@ -22,6 +22,7 @@ const onlineSnackbar = (isOnline, forMiddleware = false) => {
           messageKey,
           options: {
             variant: snackbarType,
+            key: messageKey,
             ...options
           }
         }

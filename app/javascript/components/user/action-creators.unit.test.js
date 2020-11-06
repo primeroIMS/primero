@@ -34,10 +34,7 @@ describe("User - Action Creators", () => {
     {
       type: "support/FETCH_DATA",
       api: {
-        path: "contact_information",
-        db: {
-          collection: "logos"
-        }
+        path: "contact_information"
       }
     },
     {

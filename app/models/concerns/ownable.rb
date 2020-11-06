@@ -8,7 +8,8 @@ module Ownable
     store_accessor :data, :owned_by, :owned_by_full_name, :owned_by_agency_id, :owned_by_groups, :owned_by_location,
                    :owned_by_user_code, :owned_by_agency_office, :previously_owned_by, :previously_owned_by_full_name,
                    :previously_owned_by_agency, :previously_owned_by_location, :previously_owned_by_agency_office,
-                   :assigned_user_names, :module_id, :associated_user_groups, :associated_user_agencies
+                   :assigned_user_names, :module_id, :associated_user_groups, :associated_user_agencies,
+                   :associated_user_names
 
     searchable do
       string :associated_user_names, multiple: true
@@ -36,14 +37,11 @@ module Ownable
   def owner_fields_for(user)
     self.owned_by = user&.user_name
     self.owned_by_full_name = user&.full_name
+    self.associated_user_names = ([owned_by] + (assigned_user_names || [])).compact.uniq
   end
 
   def owner
     users_by_association[:owner]
-  end
-
-  def associated_user_names
-    ([owned_by] + (assigned_user_names || [])).compact
   end
 
   # TODO: Refactor as association or AREL query after we migrated User
@@ -80,6 +78,8 @@ module Ownable
     @users_by_association = nil
     @associated_users = nil
     @record_agency = nil
+
+    self.associated_user_names = ([owned_by] + (assigned_user_names || [])).compact.uniq
     if owner.blank?
       # Revert owned by changes and bail if new user doesn't exist
       self.owned_by = changes_to_save_for_record['owned_by'][0] if changes_to_save_for_record['owned_by'].present?

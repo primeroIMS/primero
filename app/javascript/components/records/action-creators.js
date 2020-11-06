@@ -92,7 +92,8 @@ export const fetchRecordsAlerts = (recordType, recordId, asCallback = false) => 
     : { type: `${recordType}/${FETCH_RECORD_ALERTS}` }),
   api: {
     path: `${recordType}/${recordId}/alerts`,
-    skipDB: true
+    skipDB: true,
+    performFromQueue: true
   }
 });
 

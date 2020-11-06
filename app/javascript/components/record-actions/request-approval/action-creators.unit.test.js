@@ -27,7 +27,8 @@ describe("<RequestApproval /> - Action Creators", () => {
       approvalId: "bia",
       body: { data: { approval_status: "requested" } },
       message: "Updated successfully",
-      failureMessage: "updated unsuccessfully"
+      failureMessage: "updated unsuccessfully",
+      messageFromQueue: "Message from queue"
     };
 
     const expectedAction = {
@@ -43,6 +44,9 @@ describe("<RequestApproval /> - Action Creators", () => {
         responseRecordArray: true,
         responseRecordID: 10,
         responseRecordKey: "approval_subforms",
+        responseRecordParams: {
+          approval_status_bia: "pending"
+        },
         method: "PATCH",
         body: args.body,
         successCallback: [
@@ -50,6 +54,7 @@ describe("<RequestApproval /> - Action Creators", () => {
             action: ENQUEUE_SNACKBAR,
             payload: {
               message: args.message,
+              messageFromQueue: args.messageFromQueue,
               options: {
                 variant: "success",
                 key: generate.messageKey(args.message)
@@ -62,7 +67,8 @@ describe("<RequestApproval /> - Action Creators", () => {
           {
             api: {
               path: "cases/10/alerts",
-              skipDB: true
+              skipDB: true,
+              performFromQueue: true
             },
             action: `cases/${FETCH_RECORD_ALERTS}`
           }

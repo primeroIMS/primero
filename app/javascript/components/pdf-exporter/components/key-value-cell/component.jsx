@@ -8,6 +8,7 @@ import CheckBox from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlank from "@material-ui/icons/CheckBoxOutlineBlank";
 import RadioButtonChecked from "@material-ui/icons/RadioButtonChecked";
 import RadioButtonUnchecked from "@material-ui/icons/RadioButtonUnchecked";
+import clsx from "clsx";
 
 import { getOptions } from "../../../form/selectors";
 import { optionText } from "../../../form/utils";
@@ -17,7 +18,7 @@ import { DATE_FIELD, TICK_FIELD, RADIO_FIELD } from "../../../form";
 
 import styles from "./styles.css";
 
-const Component = ({ displayName, isDateWithTime, options, optionsStringSource, type, value }) => {
+const Component = ({ classes, displayName, isDateWithTime, isSubform, options, optionsStringSource, type, value }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
@@ -83,7 +84,11 @@ const Component = ({ displayName, isDateWithTime, options, optionsStringSource, 
   };
 
   return (
-    <div className={css.cell}>
+    <div
+      className={clsx(classes.cell, {
+        [classes.subform]: isSubform
+      })}
+    >
       <div>{displayName}</div>
       <div>{renderValue(value)}</div>
     </div>
@@ -94,13 +99,16 @@ Component.displayName = "KeyValueCell";
 
 Component.defaultProps = {
   isDateWithTime: false,
+  isSubform: false,
   optionsStringSource: null,
   value: ""
 };
 
 Component.propTypes = {
+  classes: PropTypes.object.isRequired,
   displayName: PropTypes.string.isRequired,
   isDateWithTime: PropTypes.bool,
+  isSubform: PropTypes.bool,
   options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   optionsStringSource: PropTypes.string,
   type: PropTypes.string.isRequired,

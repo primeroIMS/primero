@@ -8,6 +8,10 @@ import Table from "./component";
 describe("components/record-actions/exports/components/pdf-exporter/components/table", () => {
   it("renders key/value with string value", () => {
     const props = {
+      classes: {
+        subform: "subform",
+        cell: "cell"
+      },
       fields: [
         FieldRecord({
           display_name: "Test Field",
@@ -42,7 +46,7 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
 
     expect(component.html()).to.equal(
       // eslint-disable-next-line max-len
-      `<div><div><div>Test Field</div><div>josh</div></div><div><div><div><h4>Test SubField</h4><div><div><div>Test Sub Field</div><div>anthony</div></div></div></div></div></div></div>`
+      `<div class=""><div>Test Field</div><div>josh</div></div><h4>Test SubField</h4><div class="undefined"><div>Test Sub Field</div><div>anthony</div></div>`
     );
   });
 });

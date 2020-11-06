@@ -29,7 +29,8 @@ describe("components/record-actions/exports/components/pdf-exporter/components/k
     const props = {
       displayName: "Form 1",
       value: "option-1",
-      optionsStringSource: "lookup lookup-1"
+      optionsStringSource: "lookup lookup-1",
+      classes: {}
     };
 
     const { component } = setupMountedComponent(KeyValueCell, props, state);
@@ -42,7 +43,8 @@ describe("components/record-actions/exports/components/pdf-exporter/components/k
     const props = {
       displayName: "Form 1",
       value: fromJS(["option-1", "option-3"]),
-      optionsStringSource: "lookup lookup-1"
+      optionsStringSource: "lookup lookup-1",
+      classes: {}
     };
 
     const { component } = setupMountedComponent(KeyValueCell, props, state);

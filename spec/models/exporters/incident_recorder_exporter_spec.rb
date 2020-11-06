@@ -156,20 +156,7 @@ module Exporters
             ],
           displacement_status: 'refugee',
           previously_owned_by: 'primero',
-          created_organization:
-            {
-              id: 1,
-              order: 0,
-              disabled: false,
-              services: %w[psychosocial_service child_protection_service],
-              name_i18n: { en: 'UNICEF' },
-              unique_id: 'agency-unicef',
-              agency_code: 'UNICEF',
-              logo_enabled: false,
-              description_i18n: {},
-              logo_full_file_name: '0.png',
-              logo_icon_file_name: 'coat-of-arms copy.png'
-            },
+          created_organization: Agency.last.unique_id,
           date_of_first_report: '2020-03-02',
           incident_description: 'test account',
           displacement_incident: 'during_flight',
@@ -355,7 +342,7 @@ module Exporters
             'services_already_received_from_another_agency', 'service_provided_by_your_agency',
             'service_not_applicable', 'Undecided at time of report', 'service_not_applicable',
             'referral_declined_by_survivor', 'service_not_applicable', 'services_already_received_from_another_agency',
-            'true', 'UNICEF'
+            'true', Agency.last.agency_code
           ]
         )
       end

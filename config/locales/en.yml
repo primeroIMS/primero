@@ -18,7 +18,7 @@ en:
   connection_lost: Currently in offline mode
   connected: Connected
   clear: Clear
-  demo: Demo
+  sandbox_ui: Demo
   description: Description
   form: Form
   name: Name
@@ -857,7 +857,7 @@ en:
       one: UNHCR
       selected: Selected to UNHCR
       unknown_abbreviation: U
-    xls:
+    xlsx:
       all: Excel
       one: Excel
       selected: Selected to Excel

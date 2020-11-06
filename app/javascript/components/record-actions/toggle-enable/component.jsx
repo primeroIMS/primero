@@ -25,7 +25,7 @@ const Component = ({ close, open, record, recordType }) => {
         },
         record.get("id"),
         i18n.t(`cases.${enableState}_success`),
-        false,
+        i18n.t("offline_submitted_changes"),
         false,
         false
       )

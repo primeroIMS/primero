@@ -20,6 +20,9 @@ const useConnectivityStatus = () => {
     if (online && authenticated) {
       Queue.ready = online && authenticated;
       Queue.dispatch = dispatch;
+      if (Queue.hasWork()) {
+        Queue.start();
+      }
     }
   }, [online, authenticated]);
 

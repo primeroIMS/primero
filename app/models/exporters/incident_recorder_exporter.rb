@@ -8,7 +8,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     end
 
     def mime_type
-      'xls'
+      'xlsx'
     end
 
     def supported_models
@@ -391,7 +391,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
         end,
         'consent' => 'consent_reporting',
         'agency_code' => lambda do |model|
-          model.data['created_organization'].try(:[], 'agency_code')
+          Agency.get_field_using_unique_id(model.data['created_organization'], :agency_code)
         end
       }
     end

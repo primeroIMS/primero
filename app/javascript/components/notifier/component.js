@@ -64,9 +64,9 @@ const Notifier = () => {
 
       if (displayed.includes(key)) return;
 
-      let snackMessage = online ? message : messageFromQueue || i18n.t("offline_submitted_changes");
+      let snackMessage = !online && messageFromQueue ? messageFromQueue : message;
 
-      if (messageKey) {
+      if ((online || !messageFromQueue) && messageKey) {
         const translatedRecordType = recordType ? i18n.t(`${RECORD_TYPES[recordType]}.label`) : "";
         const translatedMessage = i18n.t(messageKey, { record_type: translatedRecordType, ...messageParams });
 

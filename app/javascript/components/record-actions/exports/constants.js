@@ -4,7 +4,7 @@ import { RECORD_PATH } from "../../../config/constants";
 export const EXPORT_FORMAT = Object.freeze({
   JSON: "json",
   CSV: "csv",
-  EXCEL: "xls",
+  EXCEL: "xlsx",
   PDF: "pdf",
   CUSTOM: "custom"
 });
@@ -26,7 +26,7 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
   }),
   Object.freeze({
-    id: "xls",
+    id: "xlsx",
     permission: ACTIONS.EXPORT_EXCEL,
     format: EXPORT_FORMAT.EXCEL,
     recordTypes: [RECORD_PATH.cases]

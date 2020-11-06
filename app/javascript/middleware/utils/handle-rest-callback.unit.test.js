@@ -180,4 +180,35 @@ describe("middleware/utils/handle-success-callback.js", () => {
       });
     });
   });
+
+  describe("when fromQueue", () => {
+    it("does not handle the callback if fromQueue", () => {
+      handleRestCallback(store, { action: "callback_from_queue", payload: true }, {}, {}, true);
+      expect(dispatch).to.not.have.been.called;
+    });
+
+    it("handles callback if performFromQueue", () => {
+      const action = { action: "callback_from_queue", api: { performFromQueue: true } };
+      const expected = { type: "callback_from_queue", api: { performFromQueue: true } };
+
+      handleRestCallback(store, action, {}, {}, true);
+
+      expect(dispatch.getCall(0)).to.have.been.calledWith(expected);
+    });
+
+    it("only handles callbacks with performFromQueue in an array of callbacks", () => {
+      const action = { action: "callback_from_queue", api: { performFromQueue: true } };
+      const expected = { type: "callback_from_queue", api: { performFromQueue: true } };
+
+      handleRestCallback(
+        store,
+        [action, { action: "callback_1", payload: true }, { action: "callback_2", payload: true }],
+        {},
+        {},
+        true
+      );
+
+      expect(dispatch).to.have.been.calledOnceWith(expected);
+    });
+  });
 });
