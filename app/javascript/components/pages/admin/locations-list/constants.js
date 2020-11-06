@@ -4,3 +4,10 @@ export const DEFAULT_LOCATION_METADATA = Object.freeze({
   page: 1,
   per: 100
 });
+export const NAME_DELIMITER = "::";
+export const COLUMNS = Object.freeze({
+  NAME: "name",
+  HIERARCHY: "hierarchy",
+  TYPE: "type"
+});
+export const LOCATION_TYPE_LOOKUP = "lookup-location-type";
