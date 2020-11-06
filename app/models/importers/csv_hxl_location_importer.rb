@@ -6,8 +6,8 @@ class Importers::CsvHxlLocationImporter < ValueObject
   attr_accessor :column_map, :max_admin_level, :type_map, :locations, :errors,
                 :failures, :total, :success_total, :failure_total
 
-  def initialize(opts = {})
-    super(column_map: {}, type_map: default_type_map, locations: {},  errors: [], failures: [],
+  def initialize
+    super(column_map: {}, type_map: default_type_map, locations: {}, errors: [], failures: [],
           total: 0, success_total: 0, failure_total: 0)
   end
 
