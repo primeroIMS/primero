@@ -12,7 +12,7 @@ describe("<ImportDialog /> - Index", () => {
       expect(clone).to.be.empty;
     });
 
-    ["default"].forEach(property => {
+    ["default", "importReducer"].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(index).to.have.property(property);
         delete clone[property];

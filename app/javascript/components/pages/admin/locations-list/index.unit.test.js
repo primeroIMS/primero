@@ -12,7 +12,7 @@ describe("<LocationsList /> - Index", () => {
       expect(clone).to.be.empty;
     });
 
-    ["default", "reducer"].forEach(property => {
+    ["default", "reducer", "importReducer"].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(index).to.have.property(property);
         delete clone[property];

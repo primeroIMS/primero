@@ -12,13 +12,19 @@ describe("<LocationsList /> - Constants", () => {
       expect(clone).to.be.empty;
     });
 
-    ["NAME", "DISABLED", "DEFAULT_LOCATION_METADATA", "NAME_DELIMITER", "COLUMNS", "LOCATION_TYPE_LOOKUP"].forEach(
-      property => {
-        it(`exports '${property}'`, () => {
-          expect(constants).to.have.property(property);
-          delete clone[property];
-        });
-      }
-    );
+    [
+      "NAME",
+      "DISABLED",
+      "DEFAULT_LOCATION_METADATA",
+      "NAME_DELIMITER",
+      "COLUMNS",
+      "LOCATION_TYPE_LOOKUP",
+      "LOCATIONS_DIALOG"
+    ].forEach(property => {
+      it(`exports '${property}'`, () => {
+        expect(constants).to.have.property(property);
+        delete clone[property];
+      });
+    });
   });
 });
