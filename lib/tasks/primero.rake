@@ -100,12 +100,14 @@ namespace :primero do
     end
 
     puts "Importing locations from #{file_name}"
-    # TODO: this just emulates the process in csv_hxl_location_importer_spec... look to clean up
-    data_base64 = Base64.encode64(File.open(path, 'rb').read)
-    decoded_data = Base64.decode64(data_base64).force_encoding('UTF-8')
-    data_io = StringIO.new(decoded_data)
+    data = File.open(file_name, 'rb').read.force_encoding('UTF-8')
+    data_io = StringIO.new(data)
     importer = Importers::CsvHxlLocationImporter.new
     importer.import(data_io)
+    puts "Total Rows: #{importer.total}"
+    puts "Total Rows Processed: #{importer.success_total}"
+    puts "Failed rows: #{importer.failures}" if importer.failures.present?
+    puts "Error Messages: #{importer.errors}" if importer.errors.present?
   end
 
   desc 'Set a default password for all generic users.'
