@@ -13,7 +13,8 @@ module Api::V2::Concerns::Import
       content_type: import_params[:content_type], file_name: import_params[:file_name]
     )
     @import.run
-    render 'api/v2/imports/import'
+    status = @import.status == ::Import::SUCCESS ? 200 : 422
+    render 'api/v2/imports/import', status: status
   end
 
   def import_params
