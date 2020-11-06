@@ -71,6 +71,21 @@ const Component = ({ getValues }) => {
     dialogClose();
   };
 
+  const renderAddExistingFieldButton = !isSubform && (
+    <ActionButton
+      icon={<SearchIcon />}
+      text={i18n.t("fields.add_existing_field")}
+      type={ACTION_BUTTON_TYPES.default}
+      rest={{
+        disabled: isSelectedSubform,
+        onClick: handleExistingFieldDialog,
+        fullWidth: true,
+        className: css.existingFieldButton
+      }}
+      keepTextOnMobile
+    />
+  );
+
   return (
     <>
       <ActionButton
@@ -100,18 +115,7 @@ const Component = ({ getValues }) => {
             }}
             keepTextOnMobile
           />
-          <ActionButton
-            icon={<SearchIcon />}
-            text={i18n.t("fields.add_existing_field")}
-            type={ACTION_BUTTON_TYPES.default}
-            rest={{
-              disabled: isSelectedSubform,
-              onClick: handleExistingFieldDialog,
-              fullWidth: true,
-              className: css.existingFieldButton
-            }}
-            keepTextOnMobile
-          />
+          {renderAddExistingFieldButton}
           <ActionButton
             icon={<CloseIcon />}
             text={i18n.t("buttons.cancel")}
