@@ -15,7 +15,10 @@ class Importers::CsvHxlLocationImporter < ValueObject
     return log_errors(I18n.t('imports.csv_hxl_location.messages.no_data')) if data_io.blank?
 
     process_import(data_io)
-    create_locations if locations.present?
+    return if locations.blank?
+
+    create_locations
+    GenerateLocationFilesJob.perform_now
   end
 
   private
@@ -133,13 +136,22 @@ class Importers::CsvHxlLocationImporter < ValueObject
     I18n.available_locales.include?(locale_from_key(key_array).to_sym)
   end
 
-  # TODO: Look at streamlining this or putting in a background job
-  # TODO: In rspec, processing a file with 414 locations takes about 7 or 8 seconds
   def create_locations
-    location_array = []
-    locations.each { |_key, value| location_array << Location.new(value) }
-    Location.locations_by_code = location_array.map { |l| [l.location_code, l] }.to_h
-    location_array.each(&:save!)
+    Location.locations_by_code = locations.map { |key, value| [key, Location.new(value)] }.to_h
+    location_id_map = Location.select(:id, :location_code).map { |l| [l.location_code, l.id] }.to_h
+
+    Location.transaction do
+      locations.each do |key, value|
+        id = location_id_map[key]
+        value[:skip_callbacks] = true
+        begin
+          id.present? ? Location.update(id, value) : Location.create!(value)
+        rescue StandardError => e
+          log_errors(I18n.t('imports.csv_hxl_location.messages.db_error', location_code: key, message: e.message))
+        end
+      end
+    end
+
     Location.locations_by_code = nil
   end
 
