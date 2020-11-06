@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
+import Alert from "@material-ui/lab/Alert";
 
-import { setupMountedComponent } from "../../../../test";
+import { setupMountedComponent, stub } from "../../../../test";
 import TranslationsToggle from "../../../translations-toggle";
 import AgencyLogo from "../../../agency-logo";
 import ModuleLogo from "../../../module-logo";
@@ -54,6 +55,47 @@ describe("layouts/components/<LoginLayout />", () => {
 
     it("should render a DemoIndicator", () => {
       expect(componentWithDemoIndicator.find(DemoIndicator)).to.have.lengthOf(1);
+    });
+  });
+
+  describe("when the mobile is displayed", () => {
+    let stubWindow = null;
+
+    beforeEach(() => {
+      stubWindow = stub(window, "matchMedia").returns({ matches: true, addListener: () => {} });
+    });
+
+    it("should not render the DemoIndicator alert", () => {
+      const initialState = fromJS({
+        application: {
+          baseLanguage: "en",
+          modules: [
+            {
+              unique_id: "primeromodule-cp",
+              name: "CP",
+              associated_record_types: ["case"]
+            }
+          ],
+          primero: {
+            sandbox_ui: true
+          }
+        },
+        records: {
+          support: {
+            data: {
+              demo: true
+            }
+          }
+        }
+      });
+
+      const { component: loginLayout } = setupMountedComponent(LoginLayout, {}, initialState);
+
+      expect(loginLayout.find(DemoIndicator).find(Alert)).to.have.lengthOf(0);
+    });
+
+    afterEach(() => {
+      stubWindow?.restore();
     });
   });
 });

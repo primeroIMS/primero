@@ -1,5 +1,6 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import React from "react";
+import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
@@ -31,7 +32,7 @@ const Component = ({ children }) => {
   return (
     <>
       <DemoIndicator isDemo={demo} />
-      <div className={css.root}>
+      <div className={clsx({ [css.root]: true, [css.demo]: demo })}>
         <Notifier />
         <Nav />
         <SessionTimeoutDialog />
