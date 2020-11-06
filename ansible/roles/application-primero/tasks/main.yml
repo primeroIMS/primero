@@ -20,15 +20,6 @@
   tags:
   - 'local-env'
 
-- name: 'build the Docker containers'
-  command: |
-    ./build.sh all -t '{{ build_docker_tag }}' -r '{{ build_docker_container_registry }}' -l
-  args:
-    chdir: '/srv/primero/docker'
-  tags:
-  - 'never'
-  - 'build'
-
 - name: 'copy primero deployment private ssh key to remote host'
   copy:
     dest: '/root/.ssh/primero_deployment_key'
@@ -39,6 +30,16 @@
   tags:
   - 'never'
   - 'configure'
+  - 'build'
+
+- name: 'build the Docker containers'
+  command: |
+    ./build.sh all -t '{{ build_docker_tag }}' -r '{{ build_docker_container_registry }}' -l
+  args:
+    chdir: '/srv/primero/docker'
+  tags:
+  - 'never'
+  - 'build'
 
 - name: 'git clone primero configuration repo'
   git:
