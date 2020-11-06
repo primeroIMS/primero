@@ -36,7 +36,7 @@ const Container = () => {
   });
   const columns = headersToColumns(headers, i18n);
 
-  useMetadata(recordType, metadata, fetchLocations, "data", { defaultFilterFields });
+  useMetadata(recordType, metadata, fetchLocations, "data", { defaultFilterFields, defaultMetadata });
 
   const tableOptions = {
     recordType,
