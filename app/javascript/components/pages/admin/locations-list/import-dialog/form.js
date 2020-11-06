@@ -15,7 +15,7 @@ export const form = i18n => {
           type: LABEL_FIELD
         }),
         FieldRecord({
-          name: "import_file",
+          name: "data",
           type: DOCUMENT_FIELD
         })
       ]

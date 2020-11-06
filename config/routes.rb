@@ -86,7 +86,11 @@ Rails.application.routes.draw do
       resources :saved_searches, only: %i[index create destroy]
       resources :reports, only: %i[index show create update destroy]
       resources :lookups
-      resources :locations
+      resources :locations do
+        collection do
+          post :import, to: 'locations#import'
+        end
+      end
       resources :bulk_exports, as: :exports, path: :exports, only: %i[index show create destroy]
       get 'alerts', to: 'alerts#bulk_index'
       resources :agencies
