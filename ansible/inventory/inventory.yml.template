@@ -5,11 +5,9 @@ all:
     primero.example.com:
       ansible_user: 'ubuntu'
       primero_host: 'primero.example.com'
-      primero_nginx_server_name: 'primero.example.com'
       certbot_domain:
       - '{{ primero_host }}'
       certbot_email: 'primero-example@example.com'
-      cert_name: 'primero'
       primero_github_branch: 'master'
       build_docker_tag: ''
       build_docker_container_registry: ''
@@ -17,7 +15,8 @@ all:
       lets_encrypt_domain: '{{ primero_host }}'
       lets_encrypt_email: '{{ certbot_email }}'
       use_lets_encrypt: 'false'
-      nginx_certificate_name: '{{ cert_name }}'
       nginx_ssl_cert_path: '/etc/letsencrypt/live/primero/fullchain.pem'
       nginx_ssl_key_path: '/etc/letsencrypt/live/primero/privkey.pem'
-      primero_nginx_server_name: '{{ primero_host }}'
+      primero_configuration_repo: 'git@bitbucket.org:quoin/primero-x-configuration.git'
+      primero_configuration_repo_branch: 'master'
+      configuration_path: ''

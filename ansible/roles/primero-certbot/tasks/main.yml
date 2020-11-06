@@ -23,7 +23,7 @@
     content: |
       #! /bin/sh
       set -ex
-      exec /srv/primero/bin/certbot {% for item in certbot_domain -%} -d "{{ item }}" {% endfor -%} --cert-name "{{ cert_name }}" -m "{{ certbot_email }}" -p "primero" "${@}"
+      exec /srv/primero/bin/certbot {% for item in certbot_domain -%} -d "{{ item }}" {% endfor -%} --cert-name "primero" -m "{{ certbot_email }}" -p "primero" "${@}"
   become: yes
   tags:
   - 'certbot'
