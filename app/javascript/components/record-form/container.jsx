@@ -181,11 +181,11 @@ const Container = ({ match, mode }) => {
   };
 
   useEffect(() => {
-    if (params.id && (containerMode.isShow || containerMode.isEdit)) {
+    if (params.id) {
       dispatch(fetchRecord(params.recordType, params.id));
       dispatch(fetchRecordsAlerts(params.recordType, params.id));
     }
-  }, [containerMode.isEdit, containerMode.isShow, dispatch, params.id, params.recordType]);
+  }, [params.id, params.recordType]);
 
   const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
 
