@@ -92,7 +92,10 @@ describe("<RecordForm /> - Action Creators", () => {
           page: 1,
           per: 999
         },
-        path: "lookups"
+        path: "lookups",
+        db: {
+          collection: "options"
+        }
       },
       type: "forms/SET_OPTIONS"
     });

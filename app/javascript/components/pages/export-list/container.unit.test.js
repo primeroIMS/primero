@@ -82,18 +82,16 @@ describe("<ExportList />", () => {
         FieldRecord
       ),
       options: {
-        lookups: {
-          data: [
-            {
-              id: 1,
-              unique_id: "lookup-location-type",
-              values: [
-                { id: "country", display_text: "Country" },
-                { id: "region", display_text: "Region" }
-              ]
-            }
-          ]
-        }
+        lookups: [
+          {
+            id: 1,
+            unique_id: "lookup-location-type",
+            values: [
+              { id: "country", display_text: "Country" },
+              { id: "region", display_text: "Region" }
+            ]
+          }
+        ]
       }
     }
   });

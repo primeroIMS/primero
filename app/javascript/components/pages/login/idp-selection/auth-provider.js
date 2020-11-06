@@ -26,7 +26,7 @@ export const signIn = async (idp, tokenCallback) => {
   if (loginResponse) {
     const tokenResponse = await getToken(tokenRequest).catch(error => {
       // eslint-disable-next-line no-console
-      console.log(error);
+      console.warn(error);
     });
 
     if (tokenResponse) {

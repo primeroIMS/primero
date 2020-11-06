@@ -8,28 +8,26 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
   const initialState = fromJS({
     forms: {
       options: {
-        lookups: {
-          data: [
-            {
-              unique_id: "lookup-location-type",
-              values: [
-                { id: "country", display_text: { en: "Country", es: "Pais" } },
-                { id: "region", display_text: { en: "Region", es: "Region" } },
-                {
-                  id: "province",
-                  display_text: { en: "Province", es: "Provincia" }
-                }
-              ]
-            },
-            {
-              unique_id: "lookup-service-type",
-              values: [
-                { id: "service_1", display_text: { en: "Service 1", es: "Servicio 1" } },
-                { id: "service_2", display_text: { en: "Service 2", es: "Servicio 2" }, disabled: true }
-              ]
-            }
-          ]
-        }
+        lookups: [
+          {
+            unique_id: "lookup-location-type",
+            values: [
+              { id: "country", display_text: { en: "Country", es: "Pais" } },
+              { id: "region", display_text: { en: "Region", es: "Region" } },
+              {
+                id: "province",
+                display_text: { en: "Province", es: "Provincia" }
+              }
+            ]
+          },
+          {
+            unique_id: "lookup-service-type",
+            values: [
+              { id: "service_1", display_text: { en: "Service 1", es: "Servicio 1" } },
+              { id: "service_2", display_text: { en: "Service 2", es: "Servicio 2" }, disabled: true }
+            ]
+          }
+        ]
       }
     }
   });

@@ -14,15 +14,13 @@ describe("Forms - Selectors", () => {
   const stateWithLookups = fromJS({
     forms: {
       options: {
-        lookups: {
-          data: [
-            {
-              unique_id: "lookup-1",
-              name: { en: "Lookup 1" }
-            },
-            lookup2
-          ]
-        }
+        lookups: [
+          {
+            unique_id: "lookup-1",
+            name: { en: "Lookup 1" }
+          },
+          lookup2
+        ]
       }
     },
     application: {

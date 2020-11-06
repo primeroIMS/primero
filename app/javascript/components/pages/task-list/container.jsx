@@ -39,17 +39,15 @@ const TaskList = () => {
       return isEqual(prev, actual);
     }
   );
-
   const lookupFollowupType = useSelector(
     state => getOption(state, LOOKUPS.followup_type, i18n.locale),
     (prev, actual) => {
       return isEqual(prev, actual);
     }
   );
-
   const fields = useSelector(state => getFields(state), compare);
   const forms = useSelector(state => getAllForms(state), compare);
-  const fieldNames = useSelector(state => getMetadata(state).get("field_names"), compare);
+  const fieldNames = useSelector(state => getMetadata(state, "field_names"), compare);
 
   useEffect(() => {
     dispatch(fetchTasks({ options: defaultFilters }));

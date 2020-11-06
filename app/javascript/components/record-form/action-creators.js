@@ -23,7 +23,10 @@ export const fetchLookups = () => {
     type: Actions.SET_OPTIONS,
     api: {
       path: URL_LOOKUPS,
-      params: { per: 999, page: 1 }
+      params: { per: 999, page: 1 },
+      db: {
+        collection: DB_COLLECTIONS_NAMES.OPTIONS
+      }
     }
   };
 };

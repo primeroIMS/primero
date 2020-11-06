@@ -48,22 +48,20 @@ describe("<SubformMenu />", () => {
       },
       forms: {
         options: {
-          lookups: {
-            data: [
-              {
-                id: 1,
-                unique_id: "lookup-service-type",
-                values: [
-                  {
-                    id: "service_1",
-                    display_text: {
-                      en: "Service No. 1"
-                    }
+          lookups: [
+            {
+              id: 1,
+              unique_id: "lookup-service-type",
+              values: [
+                {
+                  id: "service_1",
+                  display_text: {
+                    en: "Service No. 1"
                   }
-                ]
-              }
-            ]
-          }
+                }
+              ]
+            }
+          ]
         }
       },
       records: {

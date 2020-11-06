@@ -159,18 +159,16 @@ describe("<TaskList />", () => {
             })
           }),
           options: {
-            lookups: {
-              data: [
-                {
-                  id: 1,
-                  unique_id: "lookup-service-type",
-                  values: [
-                    { id: "a", display_text: { en: "Service a" } },
-                    { id: "b", display_text: { en: "Service b" } }
-                  ]
-                }
-              ]
-            }
+            lookups: [
+              {
+                id: 1,
+                unique_id: "lookup-service-type",
+                values: [
+                  { id: "a", display_text: { en: "Service a" } },
+                  { id: "b", display_text: { en: "Service b" } }
+                ]
+              }
+            ]
           }
         }
       })
