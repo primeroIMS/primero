@@ -23,7 +23,16 @@ const ToggleOpen = ({ close, open, record, recordType }) => {
 
   const handleOk = () => {
     dispatch(
-      saveRecord(recordType, "update", body, record.get("id"), i18n.t(`cases.${setValue}_success`), false, false, false)
+      saveRecord(
+        recordType,
+        "update",
+        body,
+        record.get("id"),
+        i18n.t(`cases.${setValue}_success`),
+        i18n.t("offline_submitted_changes"),
+        false,
+        false
+      )
     );
     close();
   };

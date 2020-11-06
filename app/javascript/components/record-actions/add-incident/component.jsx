@@ -94,7 +94,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
               body,
               id,
               i18n.t(`incident.messages.creation_success`),
-              false,
+              i18n.t("offline_submitted_changes"),
               false,
               false,
               INCIDENT_DIALOG
