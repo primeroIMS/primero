@@ -17,7 +17,6 @@ all:
       use_lets_encrypt: 'false'
       nginx_ssl_cert_path: '/etc/letsencrypt/live/primero/fullchain.pem'
       nginx_ssl_key_path: '/etc/letsencrypt/live/primero/privkey.pem'
-      primero_nginx_server_name: '{{ primero_host }}'
       primero_configuration_repo: 'git@bitbucket.org:quoin/primero-x-configuration.git'
       primero_configuration_repo_branch: 'master'
       configuration_path: ''
