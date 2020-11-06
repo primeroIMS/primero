@@ -5,7 +5,16 @@ import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../action-dialog";
 
 import { APPROVE_RECORD } from "./actions";
 
-export const approvalRecord = ({ recordType, recordId, approvalId, body, message, failureMessage, currentUser }) => {
+export const approvalRecord = ({
+  recordType,
+  recordId,
+  approvalId,
+  body,
+  message,
+  failureMessage,
+  currentUser,
+  messageFromQueue
+}) => {
   return {
     type: `${recordType}/${APPROVE_RECORD}`,
     api: {
@@ -29,6 +38,7 @@ export const approvalRecord = ({ recordType, recordId, approvalId, body, message
           action: ENQUEUE_SNACKBAR,
           payload: {
             message,
+            messageFromQueue,
             options: {
               variant: "success",
               key: generate.messageKey(message)

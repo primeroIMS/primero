@@ -36,7 +36,7 @@ const Component = ({ close, open, pending, record, recordType, setPending }) => 
           { data: { notes_section: [data] }, record_action: ACTIONS.ADD_NOTE },
           record.get("id"),
           i18n.t(`notes.note_success`),
-          false,
+          i18n.t("offline_submitted_changes"),
           false,
           false,
           NOTES_DIALOG

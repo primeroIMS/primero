@@ -102,6 +102,7 @@ const Component = ({
           message: i18n.t(message, {
             approval_label: approvalsLabels[requestType]
           }),
+          messageFromQueue: i18n.t("offline_submitted_changes"),
           failureMessage: i18n.t(`${recordType}.request_approval_failure`),
           username
         })
@@ -115,7 +116,7 @@ const Component = ({
             { data: { case_plan_approval_type: typeOfCasePlan } },
             record.get("id"),
             "",
-            false,
+            i18n.t("offline_submitted_changes"),
             false,
             false
           )

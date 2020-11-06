@@ -91,7 +91,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
               body,
               id,
               i18n.t(`actions.services_from_case_creation_success`),
-              false,
+              i18n.t("offline_submitted_changes"),
               false,
               false,
               SERVICE_DIALOG

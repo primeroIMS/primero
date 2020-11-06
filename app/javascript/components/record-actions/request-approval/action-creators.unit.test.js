@@ -27,7 +27,8 @@ describe("<RequestApproval /> - Action Creators", () => {
       approvalId: "bia",
       body: { data: { approval_status: "requested" } },
       message: "Updated successfully",
-      failureMessage: "updated unsuccessfully"
+      failureMessage: "updated unsuccessfully",
+      messageFromQueue: "Message from queue"
     };
 
     const expectedAction = {
@@ -50,6 +51,7 @@ describe("<RequestApproval /> - Action Creators", () => {
             action: ENQUEUE_SNACKBAR,
             payload: {
               message: args.message,
+              messageFromQueue: args.messageFromQueue,
               options: {
                 variant: "success",
                 key: generate.messageKey(args.message)

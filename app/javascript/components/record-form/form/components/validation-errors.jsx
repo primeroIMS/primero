@@ -50,7 +50,7 @@ const ValidationErrors = ({ formErrors, forms }) => {
             fields: Object.keys(errorsWithoutEmptySubforms).length,
             forms: formsWithErrors?.count() || 0
           }),
-          "error"
+          { type: "error" }
         )
       );
 
