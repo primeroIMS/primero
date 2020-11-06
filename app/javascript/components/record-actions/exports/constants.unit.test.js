@@ -27,4 +27,9 @@ describe("<RecordActions /> - exports/constants", () => {
 
     expect(clone).to.be.empty;
   });
+  context("when is ALL_EXPORT_TYPES", () => {
+    it("should be an object", () => {
+      expect(constants.ALL_EXPORT_TYPES).to.be.an("array");
+    });
+  });
 });

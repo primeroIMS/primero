@@ -8,7 +8,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     end
 
     def mime_type
-      'xls'
+      'xlsx'
     end
 
     def supported_models

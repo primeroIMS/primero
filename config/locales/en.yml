@@ -857,7 +857,7 @@ en:
       one: UNHCR
       selected: Selected to UNHCR
       unknown_abbreviation: U
-    xls:
+    xlsx:
       all: Excel
       one: Excel
       selected: Selected to Excel
