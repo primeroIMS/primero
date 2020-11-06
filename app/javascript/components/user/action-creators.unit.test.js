@@ -34,7 +34,10 @@ describe("User - Action Creators", () => {
     {
       type: "support/FETCH_DATA",
       api: {
-        path: "contact_information"
+        path: "contact_information",
+        db: {
+          collection: "contact_information"
+        }
       }
     },
     {
@@ -52,7 +55,10 @@ describe("User - Action Creators", () => {
     {
       type: "application/FETCH_SYSTEM_PERMISSIONS",
       api: {
-        path: "permissions"
+        path: "permissions",
+        db: {
+          collection: "permissions"
+        }
       }
     },
     {
@@ -72,6 +78,9 @@ describe("User - Action Creators", () => {
         params: {
           per: 999,
           page: 1
+        },
+        db: {
+          collection: "options"
         }
       }
     },

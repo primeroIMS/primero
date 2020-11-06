@@ -68,26 +68,24 @@ describe("<SelectField />", () => {
     const initialState = fromJS({
       forms: {
         options: {
-          lookups: {
-            data: [
-              {
-                id: 20,
-                unique_id: "lookup-service-type",
-                name: {
-                  en: "Service Type"
-                },
-                values: [
-                  {
-                    id: "health_medical_service",
-                    disabled: false,
-                    display_text: {
-                      en: "Health/Medical Service"
-                    }
+          lookups: [
+            {
+              id: 20,
+              unique_id: "lookup-service-type",
+              name: {
+                en: "Service Type"
+              },
+              values: [
+                {
+                  id: "health_medical_service",
+                  disabled: false,
+                  display_text: {
+                    en: "Health/Medical Service"
                   }
-                ]
-              }
-            ]
-          }
+                }
+              ]
+            }
+          ]
         }
       }
     });

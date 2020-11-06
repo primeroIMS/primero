@@ -15,6 +15,8 @@ const referToUsers = state =>
     };
   });
 
+const lookupsList = state => state.getIn(["forms", "options", "lookups"], fromJS([]));
+
 const formGroups = (state, i18n) =>
   state
     .getIn(["records", "admin", "forms", "formSections"], fromJS([]))
@@ -65,8 +67,7 @@ const modules = state =>
   }));
 
 const lookupValues = (state, optionStringsSource, i18n) =>
-  state
-    .getIn(["forms", "options", "lookups", "data"], fromJS([]))
+  lookupsList(state)
     .find(option => option.get("unique_id") === optionStringsSource.replace(/lookup /, ""), null, fromJS({}))
     .get("values", fromJS([]))
     .reduce(
@@ -81,8 +82,7 @@ const lookupValues = (state, optionStringsSource, i18n) =>
     );
 
 const lookups = (state, i18n) =>
-  state
-    .getIn(["forms", "options", "lookups", "data"], fromJS([]))
+  lookupsList(state)
     .map(lookup =>
       fromJS({
         id: `lookup ${lookup.get("unique_id")}`,
@@ -163,9 +163,7 @@ export const getOptions = (state, optionStringsSource, i18n, options, useUniqueI
 };
 
 export const getLookupByUniqueId = (state, lookupUniqueId) =>
-  state
-    .getIn(["forms", "options", "lookups", "data"], fromJS([]))
-    .find(lookup => lookup.get("unique_id") === lookupUniqueId);
+  lookupsList(state).find(lookup => lookup.get("unique_id") === lookupUniqueId);
 
 export const getLoadingState = (state, path) => (path ? state.getIn(path, false) : false);
 

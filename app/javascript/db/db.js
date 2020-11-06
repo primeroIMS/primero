@@ -4,14 +4,20 @@ import { openDB } from "idb";
 
 import { DATABASE_NAME } from "../config/constants";
 
-import { DB_COLLECTIONS_NAMES, DB_COLLECTIONS_V1, DB_COLLECTIONS_V2, DB_COLLECTIONS_V3 } from "./constants";
+import {
+  DB_COLLECTIONS_NAMES,
+  DB_COLLECTIONS_V1,
+  DB_COLLECTIONS_V2,
+  DB_COLLECTIONS_V3,
+  DB_COLLECTIONS_V4
+} from "./constants";
 
 class DB {
   constructor() {
     if (!DB.instance) {
       const self = this;
 
-      this._db = openDB(DATABASE_NAME, 3, {
+      this._db = openDB(DATABASE_NAME, 4, {
         upgrade(db, oldVersion) {
           if (oldVersion < 1) {
             DB_COLLECTIONS_V1.forEach(collection => self.createCollections(collection, db));
@@ -22,6 +28,10 @@ class DB {
 
           if (oldVersion < 3) {
             DB_COLLECTIONS_V3.forEach(collection => self.createCollections(collection, db));
+          }
+
+          if (oldVersion < 4) {
+            DB_COLLECTIONS_V4.forEach(collection => self.createCollections(collection, db));
           }
         }
       });

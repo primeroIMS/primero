@@ -59,7 +59,10 @@ describe("Application - Action Creators", () => {
     const expected = {
       type: actions.FETCH_SYSTEM_PERMISSIONS,
       api: {
-        path: "permissions"
+        path: "permissions",
+        db: {
+          collection: "permissions"
+        }
       }
     };
 
@@ -103,7 +106,7 @@ describe("Application - Action Creators", () => {
       api: {
         path: ROUTES.sandbox_ui,
         db: {
-          collection: "logos"
+          collection: "primero"
         }
       }
     };

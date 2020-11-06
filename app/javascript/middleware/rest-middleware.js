@@ -382,7 +382,8 @@ const fetchFromCache = (action, store, options, next) => {
 const restMiddleware = options => store => next => action => {
   if (
     !(action.api && (Array.isArray(action.api) || "path" in action.api)) ||
-    (!isOnline(store) && !isServerOnline(store))
+    !isOnline(store) ||
+    !isServerOnline(store)
   ) {
     if (action?.api?.path !== ROUTES.check_server_health) {
       return next(action);

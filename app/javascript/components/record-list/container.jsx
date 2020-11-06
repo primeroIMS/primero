@@ -23,6 +23,7 @@ import { setSelectedForm } from "../record-form/action-creators";
 import { enqueueSnackbar } from "../notifier";
 import { useMetadata } from "../records";
 import { DEFAULT_METADATA } from "../../config";
+import { useApp } from "../application";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
 import FilterContainer from "./filter-container";
@@ -37,7 +38,7 @@ const Container = ({ match, location }) => {
   const { css, mobileDisplay } = useThemeHelper(styles);
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [drawer, setDrawer] = useState(false);
-
+  const { online } = useApp();
   const { url } = match;
   const { search } = location;
   const recordType = url.replace("/", "");
@@ -122,7 +123,7 @@ const Container = ({ match, location }) => {
       const allowedToOpenRecord =
         record && typeof record.get("record_in_scope") !== "undefined" ? record.get("record_in_scope") : false;
 
-      if (allowedToOpenRecord) {
+      if ((!online && record.get("complete", false) && allowedToOpenRecord) || (online && allowedToOpenRecord)) {
         dispatch(push(`${recordType}/${record.get("id")}`));
       } else if (canViewModal) {
         setCurrentRecord(record);

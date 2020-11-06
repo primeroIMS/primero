@@ -23,7 +23,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         reporting_location_config: reportingLocationConfig,
         age_ranges: ageRanges,
         approvals_labels: approvalsLabels
-      } = payload;
+      } = payload.data;
 
       return state.merge(
         fromJS({

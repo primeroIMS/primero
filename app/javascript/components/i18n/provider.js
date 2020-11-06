@@ -43,7 +43,7 @@ const I18nProvider = ({ children }) => {
   };
 
   const translateLocales = () =>
-    locales.reduce((prev, value) => {
+    locales?.reduce((prev, value) => {
       const result = prev.push(fromJS({ id: value, display_text: window.I18n.t(`home.${value}`) }));
 
       return result;

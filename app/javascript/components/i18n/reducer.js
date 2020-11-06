@@ -14,7 +14,8 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case SET_LOCALE:
       return state.set("locale", payload.locale).set("dir", payload.dir);
     case SET_USER_LOCALE: {
-      const userLocale = payload?.json?.data?.locale;
+      const json = payload?.json;
+      const userLocale = json?.data?.locale || json?.locale;
 
       window.I18n.locale = userLocale;
       document.documentElement.lang = userLocale;

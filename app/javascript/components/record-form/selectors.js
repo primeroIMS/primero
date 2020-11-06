@@ -128,7 +128,7 @@ export const getOption = (state, option, locale, stickyOption = "") => {
 
   if (typeof option === "string") {
     const selectedOptions = state
-      .getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]))
+      .getIn([NAMESPACE, "options", "lookups"], fromJS([]))
       .filter(o => o.get("unique_id") === option.replace(/lookup /, ""))
       .first();
 
@@ -138,7 +138,7 @@ export const getOption = (state, option, locale, stickyOption = "") => {
   return transformOptionSource(options, locale, stickyOption);
 };
 
-export const getOptions = state => state.getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]));
+export const getOptions = state => state.getIn([NAMESPACE, "options", "lookups"], fromJS([]));
 
 export const getLookups = (state, page = 1, per = 20) => {
   const data = state.getIn([NAMESPACE, "options", "lookups"], fromJS({}));

@@ -21,7 +21,10 @@ export const fetchSystemSettings = () => ({
 export const fetchSystemPermissions = () => ({
   type: actions.FETCH_SYSTEM_PERMISSIONS,
   api: {
-    path: "permissions"
+    path: "permissions",
+    db: {
+      collection: DB_COLLECTIONS_NAMES.PERMISSIONS
+    }
   }
 });
 
@@ -72,7 +75,7 @@ export const fetchSandboxUI = () => ({
   api: {
     path: ROUTES.sandbox_ui,
     db: {
-      collection: DB_COLLECTIONS_NAMES.LOGOS
+      collection: DB_COLLECTIONS_NAMES.PRIMERO
     }
   }
 });

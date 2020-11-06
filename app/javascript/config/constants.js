@@ -262,7 +262,8 @@ export const APPLICATION_NAV = (permissions, userId) => {
       to: ROUTES.tasks,
       icon: "tasks",
       resources: RESOURCES.dashboards,
-      actions: SHOW_TASKS
+      actions: SHOW_TASKS,
+      disableOffline: true
     },
     {
       name: "navigation.cases",
