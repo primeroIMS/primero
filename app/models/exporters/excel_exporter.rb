@@ -101,7 +101,8 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
   def export_value(value, field)
     value = super(value, field)
-    return value['name_i18n'][locale.to_s] if field.name == 'created_organization' && value.present?
+    # TODO: This will cause N+1 issue
+    return Agency.get_field_using_unique_id(value, :name_i18n).dig(locale.to_s) if field.name == 'created_organization' && value.present?
 
     return value unless value.is_a? Array
 
