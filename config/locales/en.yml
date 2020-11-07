@@ -864,6 +864,7 @@ en:
   imports:
     csv_hxl_location:
       messages:
+        success: Locations were successfully imported
         no_data: 'Import Not Processed: No data passed in'
         csv_parse_error: 'Import Not Processed: Error parsing CSV data'
         error: 'Row %{row_number} Not Processed: %{message}'
@@ -1176,6 +1177,8 @@ en:
     admin_level: Admin Level
     type: Type
     hierarchy: Hierarchy
+    import_title: Import Location
+    message: Please select a CSV file to upload. This file should use UTF-8 encoding and include HXL hashtags in the second header row of each column.
   logger:
     approve_form:
       action_plan: Action Plan form

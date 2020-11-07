@@ -1,6 +1,6 @@
 import * as index from "./index";
 
-describe("<LocationsList /> - Index", () => {
+describe("<ImportDialog /> - Index", () => {
   describe("index", () => {
     let clone;
 
@@ -12,7 +12,7 @@ describe("<LocationsList /> - Index", () => {
       expect(clone).to.be.empty;
     });
 
-    ["default", "reducer", "importReducer"].forEach(property => {
+    ["default", "importReducer"].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(index).to.have.property(property);
         delete clone[property];
