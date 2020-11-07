@@ -1,8 +1,9 @@
 import { fromJS } from "immutable";
 import { CircularProgress } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 
 import { routes } from "../../../../config";
-import { setupMountedComponent } from "../../../../test";
+import { setupMountedComponent, stub } from "../../../../test";
 import Nav from "../../../nav";
 import DemoIndicator from "../../../demo-indicator";
 
@@ -95,6 +96,63 @@ describe("layouts/components/<AppLayout />", () => {
 
     it("should not render DemoIndicator component", () => {
       expect(component.find(DemoIndicator)).to.be.empty;
+    });
+  });
+
+  describe("when the mobile is displayed", () => {
+    let stubWindow = null;
+
+    beforeEach(() => {
+      stubWindow = stub(window, "matchMedia").returns({ matches: true, addListener: () => {} });
+    });
+
+    it("should not render the DemoIndicator alert", () => {
+      const initialState = fromJS({
+        ui: {
+          Nav: {
+            drawerOpen: false
+          }
+        },
+        user: {
+          modules: "primero",
+          agency: "unicef",
+          isAuthenticated: true,
+          messages: null,
+          permissions: {
+            incidents: ["manage"],
+            tracing_requests: ["manage"],
+            cases: ["manage"]
+          }
+        },
+        application: {
+          baseLanguage: "en",
+          modules: [
+            {
+              unique_id: "primeromodule-cp",
+              name: "CP",
+              associated_record_types: ["case"]
+            }
+          ],
+          primero: {
+            sandbox_ui: true
+          }
+        },
+        records: {
+          support: {
+            data: {
+              demo: true
+            }
+          }
+        }
+      });
+
+      const { component: appLayout } = setupMountedComponent(AppLayout, { route: routes[0] }, initialState, ["/cases"]);
+
+      expect(appLayout.find(DemoIndicator).find(Alert)).to.have.lengthOf(0);
+    });
+
+    afterEach(() => {
+      stubWindow?.restore();
     });
   });
 });

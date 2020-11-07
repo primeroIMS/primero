@@ -21,7 +21,7 @@ const Component = ({ children }) => {
   // TODO: Module hardcoded till we figure out when to switch modules
   const primeroModule = "cp";
   const moduleClass = `${primeroModule}${demo ? "-demo" : ""}`;
-  const classes = clsx([css.primeroBackground, css[moduleClass]]);
+  const classes = clsx({ [css.primeroBackground]: true, [css[moduleClass]]: true, [css.demo]: demo });
 
   return (
     <>
