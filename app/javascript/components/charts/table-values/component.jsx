@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
+import TableHeader from "./components/table-header";
 import styles from "./styles.css";
 
 const TableValues = ({ columns, values }) => {
@@ -25,17 +26,44 @@ const TableValues = ({ columns, values }) => {
     return singleRowRender(rowValues);
   };
 
+  // console.log("COLUMNS", columns);
+  // console.log("ROWS", values);
+
   return (
     <Paper className={css.root}>
       <Table className={css.table}>
-        <TableHead>
-          <TableRow>
-            {columns.map(column => {
-              return <TableCell key={`${column}-column`}>{column}</TableCell>;
-            })}
-          </TableRow>
+        <TableHead className={css.tableHeader}>
+          <TableHeader columns={columns} />
         </TableHead>
-        <TableBody>{rowRender(values)}</TableBody>
+        {/* <TableBody>{rowRender(values)}</TableBody> */}
+        <TableBody>
+          {/* <TableRow>
+            <TableCell colSpan={9}>High</TableCell>
+            <TableCell>11</TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell colSpan={9}>Child Maintenance</TableCell>
+            <TableCell>11</TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell colSpan={9}>Open</TableCell>
+            <TableCell>11</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>01-Jan-2008</TableCell>
+            <TableCell>1</TableCell>
+            <TableCell>0</TableCell>
+            <TableCell>10</TableCell>
+            <TableCell>11</TableCell>
+            <TableCell>0</TableCell>
+            <TableCell>0</TableCell>
+            <TableCell>0</TableCell>
+            <TableCell>0</TableCell>
+            <TableCell>11</TableCell>
+          </TableRow> */}
+        </TableBody>
       </Table>
     </Paper>
   );

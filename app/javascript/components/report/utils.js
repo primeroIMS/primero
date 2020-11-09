@@ -1,7 +1,12 @@
+/* eslint-disable import/exports-last */
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import isEqual from "lodash/isEqual";
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
+import omit from "lodash/omit";
+import reject from "lodash/reject";
+import max from "lodash/max";
 import { parse } from "date-fns";
 
 import { dataToJS } from "../../libs";
@@ -239,9 +244,117 @@ export const buildDataForGraph = (report, i18n, { agencies }) => {
   return graphData;
 };
 
+// COLUMNS DATA
+
+export const translateColumn = (column, value, locale = "en") => {
+  if ("option_labels" in column) {
+    return column.option_labels[locale].find(option => option.id === value)?.display_text;
+  }
+
+  return value;
+};
+
+const getColumnsObjects = (object, countRows) => {
+  let level = 0;
+
+  // eslint-disable-next-line consistent-return
+  const getColumnsObj = obj => {
+    if (level >= countRows) {
+      return obj;
+    }
+
+    const keys = Object.keys(obj);
+
+    for (let i = 0; i < keys.length; i += 1) {
+      level += 1;
+
+      return getColumnsObj(obj[keys[i]]);
+    }
+  };
+
+  // Removing "_total" from columns object
+  return omit(getColumnsObj(object), "_total");
+};
+
+const getAllKeysObject = object => {
+  const allKeys = (obj, prefix = "") => {
+    return Object.keys(obj).reduce((acc, el) => {
+      if (typeof obj[el] === "object") {
+        return [...acc, ...allKeys(obj[el], `${prefix + el}.`)];
+      }
+
+      return [...acc, prefix + el];
+    }, []);
+  };
+
+  return allKeys(object);
+};
+
+const cleanedKeys = (object, columns) => {
+  const allKeys = getAllKeysObject(object);
+
+  return reject(
+    allKeys.map(r => {
+      const splitted = r.split(".");
+
+      const newSplitted = splitted.filter(s => splitted.length >= columns.length + 1 && s !== "_total");
+
+      return newSplitted.join(".");
+    }),
+    isEmpty
+  );
+};
+
+const formatColumns = (formattedKeys, columns) => {
+  const items = columns.map((column, index) => {
+    const columnsHeading = i =>
+      formattedKeys.map(c => {
+        const splitted = c.split(".");
+
+        return translateColumn(column, splitted[i]);
+      });
+
+    const uniqueItems = uniq(columnsHeading(index).concat("Total"));
+
+    return {
+      items: uniqueItems
+    };
+  });
+
+  const maxColspanItems = max(items.map(i => i.items.length));
+
+  return items.map((f, index) => {
+    if (columns.length === 1) {
+      return f.items;
+    }
+
+    return {
+      ...f,
+      colspan: index === columns.length - 1 ? 0 : maxColspanItems
+    };
+  });
+};
+
+export const getColumnsTableData = data => {
+  if (isEmpty(data)) {
+    return [];
+  }
+
+  const columns = data.fields.filter(field => field.position.type === "vertical");
+  const qtyRows = data.fields.filter(field => field.position.type === "horizontal").length;
+  const columnsObjects = getColumnsObjects(data.report_data, qtyRows);
+  const cleaned = cleanedKeys(columnsObjects, columns);
+  const renderColumns = formatColumns(cleaned, columns).flat();
+
+  return renderColumns;
+};
+
 export const buildDataForTable = (report, i18n, { agencies }) => {
   const totalLabel = i18n.t("report.total");
   const reportData = report.toJS();
+
+  const newColumns = getColumnsTableData(report.toJS());
+
   const translatedReport = translateReportData(reportData, i18n);
 
   if (!translatedReport.report_data) {
@@ -251,13 +364,7 @@ export const buildDataForTable = (report, i18n, { agencies }) => {
   const { fields } = report.toJS();
   const field = fields.filter(reportField => reportField.position.type === REPORT_FIELD_TYPES.vertical)[0];
   const dataColumns = getColumns(translatedReport.report_data, i18n);
-  const columns = ["", dataColumns, totalLabel].flat().map(column => {
-    if (column === "" || column === totalLabel) {
-      return column;
-    }
-
-    return getTranslatedKey(column, field, { agencies, i18n });
-  });
+  const columns = newColumns;
 
   const values = getRows(dataColumns, translatedReport.report_data, i18n, fields, { agencies });
 
