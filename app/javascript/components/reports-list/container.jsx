@@ -38,7 +38,7 @@ const Reports = () => {
   //   {
   //     id: "add-new",
   //     label: "Add New",
-  //     onClick: () => console.log("Do Something")
+  //     onClick: () => console.log("Add New")
   //   },
   //   {
   //     id: "arrange-items",
