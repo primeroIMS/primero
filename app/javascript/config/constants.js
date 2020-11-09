@@ -328,7 +328,7 @@ export const APPLICATION_NAV = (permissions, userId) => {
     //   to: myAccountTo,
     //   icon: "account"
     // },
-    { name: "username", to: `${ROUTES.account}/${userId}`, icon: "account" },
+    { name: "username", to: `${ROUTES.account}/${userId}`, icon: "account", disableOffline: true },
     {
       name: "navigation.settings",
       to: adminSettingsOption,
