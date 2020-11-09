@@ -296,4 +296,45 @@ describe FieldValueService do
       end
     end
   end
+
+  context 'when field is a agency field' do
+    before :all do
+      clean_data(Agency)
+      I18n.locale = :en
+      Agency.create!(name: 'Agency One', agency_code: 'agency1')
+    end
+
+    let(:agency_field) do
+      Field.new(
+        'name' => 'my_agency_field',
+        'type' => Field::SELECT_BOX,
+        'display_name_all' => 'My Agency Field',
+        'option_strings_source' => 'Agency'
+      )
+    end
+    it 'returns the translated agency name' do
+      expect(FieldValueService.value(agency_field, 'agency1')).to eq('Agency One')
+    end
+  end
+
+  context 'when field is a location field' do
+    before :all do
+      clean_data(Location)
+      I18n.locale = :en
+      Location.create!(location_code: 'CT01', type: 'country', admin_level: '0',
+        placename_i18n: { en: 'Country01_en', es: 'Country01_es' })
+    end
+
+    let(:location_field) do
+      Field.new(
+        'name' => 'my_location_field',
+        'type' => Field::SELECT_BOX,
+        'display_name_all' => 'My Location Field',
+        'option_strings_source' => 'Location',
+      )
+    end
+    it 'returns the translated location name' do
+      expect(FieldValueService.value(location_field, 'CT01')).to eq('Country01_en')
+    end
+  end
 end
