@@ -178,14 +178,15 @@ namespace :primero do
 
   # TODO: FormExporter is outdated and does not work.  Needs to be fixed
   desc 'Exports forms to an Excel spreadsheet'
-  task :forms_to_spreadsheet, %i[type module show_hidden] => :environment do |_, args|
-    module_id = args[:module].present? ? args[:module] : 'primeromodule-cp'
-    type = args[:type].present? ? args[:type] : 'case'
-    show_hidden = args[:show_hidden].present?
-    file_name = 'forms.xlsx'
-    puts "Writing #{type} #{module_id} forms to #{file_name}"
-    forms_exporter = Exporters::FormExporter.new(file_name)
-    forms_exporter.export_forms_to_spreadsheet(type, module_id, show_hidden)
+  # TODO: Should we keep name forms_to_spreadsheet or rename?
+  task :forms_to_spreadsheet, %i[record_type module_id show_hidden] => :environment do |_, args|
+    puts 'Exporting forms to XLSX Spreadsheet ...'
+    args.with_defaults(module_id: 'primeromodule-cp', record_type: 'case')
+    opts = args.to_h
+    opts[:visible] = args[:show_hidden].present? && args[:show_hidden].start_with?(/[yYTt]/) ? nil : true
+    opts[:file_name] = 'forms.xlsx'
+    exporter = Exporters::FormExporter.new(opts)
+    exporter.export
     puts 'Done!'
   end
 
@@ -228,23 +229,6 @@ namespace :primero do
     puts 'Recalculating ages based on date of birth...'
     # Passing in no params causes recalculate! to recalculate ALL cases
     RecalculateAge.recalculate!
-  end
-
-  desc 'Export All form Fields and Options'
-  # Example usage: rails primero:xls_export['case','primeromodule-cp',"fr es"]
-  # NOTE: Must pass locales as string separated by spaces e.g. "en fr"
-  task :xls_export, %i[record_type module_id locales show_hidden_forms show_hidden_fields] => :environment do |_, args|
-    module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
-    record_type = args[:record_type].present? ? args[:record_type] : 'case'
-    locales = args[:locales].present? ? args[:locales].split(' ') : []
-    show_hidden_forms = args[:show_hidden_forms].present? && %w[Y y T t].include?(args[:show_hidden_forms][0])
-    show_hidden_fields = args[:show_hidden_fields].present? && %w[Y y T t].include?(args[:show_hidden_fields][0])
-    Rails.logger = Logger.new(STDOUT)
-    exporter = Exporters::XlsFormExporter.new(
-      record_type, module_id,
-      locales: locales, show_hidden_forms: show_hidden_forms, show_hidden_fields: show_hidden_fields
-    )
-    exporter.export_forms_to_spreadsheet
   end
 
   desc 'Import Forms from spreadsheets directory'

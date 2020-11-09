@@ -783,6 +783,21 @@ en:
     forms:
       button: Export Forms
       label: Export
+      header:
+        form_group: Form Group
+        form_name: Form Name
+        field_id: Field ID
+        field_type: Field Type
+        field_name: Field Name
+        required: Required
+        on_mobile: On Mobile
+        on_short_form: On Short Form
+        options: Options
+        help_text: Help Text
+        guiding_questions: Guiding Questions
+        visible: Visible
+      options:
+        locations: Locations
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:
       all: Incident Recorder
