@@ -151,6 +151,44 @@ describe("records - Action Creators", () => {
           expect(successCallbacks.map(({ action }) => action)).to.deep.equals(expected);
         });
     });
+
+    it("should return 6 success callback actions when incidentPath is included", () => {
+      const store = configureStore([thunk])({});
+      const expected = [
+        ENQUEUE_SNACKBAR,
+        `cases/${CLEAR_CASE_FROM_INCIDENT}`,
+        RecordFormActions.SET_SELECTED_FORM,
+        undefined,
+        "forms/SET_SELECTED_FORM",
+        `${RECORD_PATH.incidents}/${FETCH_RECORD_ALERTS}`
+      ];
+
+      return store
+        .dispatch(
+          actionCreators.saveRecord(
+            RECORD_PATH.incidents,
+            "update",
+            body,
+            "123",
+            "Saved Successfully",
+            false,
+            false,
+            false,
+            "",
+            true,
+            "primeromodule-cp",
+            "incident/new"
+          )
+        )
+        .then(() => {
+          const successCallbacks = store.getActions()[0].api.successCallback;
+
+          expect(successCallbacks).to.be.an("array");
+          expect(successCallbacks).to.have.lengthOf(6);
+          expect(successCallbacks.map(({ action }) => action)).to.deep.equals(expected);
+          expect(successCallbacks[3]).to.eql("cases/SET_CASE_ID_REDIRECT");
+        });
+    });
   });
 
   it("should check the 'fetchRecordsAlerts' action creator to return the correct object", () => {
