@@ -226,6 +226,7 @@ describe Agency do
       it 'updates an existing agency from a configuration hash' do
         configuration_hash2 = configuration_hash.clone
         configuration_hash2['name_i18n']['en'] = 'IRC2*'
+        configuration_hash2['unique_id'] = agency.unique_id
 
         agency2 = Agency.create_or_update!(configuration_hash2)
         expect(agency2.id).to eq(agency.id)
