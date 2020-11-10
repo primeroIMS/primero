@@ -8,30 +8,34 @@ class Exporters::FormExporter < ValueObject
     opts[:export_file_name] ||= "form_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}.xlsx"
     opts[:locale] ||= Primero::Application::LOCALE_ENGLISH
     opts[:form_params] = opts.slice(:record_type, :module_id, :visible)&.compact
-    opts[:header] = initialize_header
+    opts[:header] = initialize_header(opts)
     super(opts)
   end
 
-  def initialize_header
+  def initialize_header(opts = {})
     self.visible_column_index = 5
     keys = %w[form_group form_name field_id field_type field_name required on_mobile on_short_form options
               help_text guiding_questions]
-    keys = keys.insert(visible_column_index, 'visible') unless visible
+    keys = keys.insert(visible_column_index, 'visible') unless opts[:form_params][:visible]
     keys.map { |key| I18n.t("exports.forms.header.#{key}", locale: locale) }
   end
 
   def export
     self.workbook = WriteXLSX.new(export_file_name)
-    FormSection.list(form_params).each do |form|
-      export_to_worksheet(form)
-    end
+    sorted_forms.each { |form| export_to_worksheet(form) }
     self.workbook.close
   end
 
   private
 
+  def sorted_forms
+    FormSection.list(form_params).sort_by { |f| [f.order_form_group, f.order] }
+  end
+
   def export_to_worksheet(form)
-    return if visible && !form.visible? && !form.is_nested?
+    # return if visible && !form.visible? && !form.is_nested?
+    # binding.pry
+    # x=0
 
     worksheet = workbook.add_worksheet(worksheet_name(form))
     worksheet.write(0, 0, form.unique_id)
@@ -86,6 +90,8 @@ class Exporters::FormExporter < ValueObject
 
   def field_options_select(field)
     return I18n.t("exports.forms.options.locations", locale: locale) if field.option_strings_source&.start_with?('Location')
+
+    return I18n.t("exports.forms.options.agencies", locale: locale) if field.option_strings_source&.start_with?('Agency')
 
     field.options_list.map { |o| o.is_a?(String) ? o : o['display_text'] }.join(', ')
   end
