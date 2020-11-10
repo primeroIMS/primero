@@ -33,9 +33,8 @@ class Exporters::FormExporter < ValueObject
   end
 
   def export_to_worksheet(form)
-    # return if visible && !form.visible? && !form.is_nested?
-    # binding.pry
-    # x=0
+    # If we only want visible forms, skip forms that aren't visible... unless it is a subform
+    return if visible && !form.visible? && !form.is_nested?
 
     worksheet = workbook.add_worksheet(worksheet_name(form))
     worksheet.write(0, 0, form.unique_id)
@@ -46,6 +45,8 @@ class Exporters::FormExporter < ValueObject
       next if visible && !field.visible?
 
       worksheet.write(row_number, 0, field_row(form, field))
+      export_to_worksheet(field.subform_section) if field.type == 'subform'
+
       row_number += 1
     end
   end
@@ -76,7 +77,7 @@ class Exporters::FormExporter < ValueObject
 
     field_row = [form.form_group_id, form.name, field.name, field_type(field), field.display_name, required,
                  mobile_visible, minify_visible, field_options(field), field.help_text, field.guiding_questions]
-    field_row = insert_visible_column(field_row, field) if visible
+    field_row = insert_visible_column(field_row, field) unless visible
     field_row
   end
 
@@ -89,9 +90,9 @@ class Exporters::FormExporter < ValueObject
   end
 
   def field_options_select(field)
-    return I18n.t("exports.forms.options.locations", locale: locale) if field.option_strings_source&.start_with?('Location')
-
-    return I18n.t("exports.forms.options.agencies", locale: locale) if field.option_strings_source&.start_with?('Agency')
+    %w[Location Agency User ReportingLocation].each do |option|
+      return I18n.t("exports.forms.options.#{option.downcase}", locale: locale) if field.option_strings_source&.start_with?(option)
+    end
 
     field.options_list.map { |o| o.is_a?(String) ? o : o['display_text'] }.join(', ')
   end

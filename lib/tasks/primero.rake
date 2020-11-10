@@ -176,9 +176,26 @@ namespace :primero do
     end
   end
 
-  # TODO: FormExporter is outdated and does not work.  Needs to be fixed
+  # Exports Forms to a .xlsx spreadsheet
+  # It creates 1 spreadsheet containing a tab for each form
+  #
+  # USAGE: rails primero:forms_to_spreadsheet
+  # Args:
+  #   record_type        - record type (ex. 'case', 'incident', 'tracing_request', etc)     DEFAULT: 'case'
+  #   module_id          - (ex. 'primeromodule-cp', 'primeromodule-gbv')                    DEFAULT: 'primeromodule-cp'
+  #   show_hidden        - Whether or not to include hidden fields                          DEFAULT: false
+  # NOTE:
+  #   No spaces between arguments in argument list
+  # Examples:
+  #   Defaults to exporting all forms for 'case' & 'primeromodule-cp'
+  #      rails primero:forms_to_spreadsheet
+  #
+  #   Exports only tracing_request forms for CP, including hidden forms & fields
+  #      rails primero:forms_to_spreadsheet[tracing_request,primeromodule-cp,true]
+  #
+  #   Exports only the GBV forms
+  #      rails primero:forms_to_spreadsheet['',primeromodule-gbv]
   desc 'Exports forms to an Excel spreadsheet'
-  # TODO: Should we keep name forms_to_spreadsheet or rename?
   task :forms_to_spreadsheet, %i[record_type module_id show_hidden] => :environment do |_, args|
     puts 'Exporting forms to XLSX Spreadsheet ...'
     args.with_defaults(module_id: 'primeromodule-cp', record_type: 'case')

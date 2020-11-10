@@ -797,7 +797,10 @@ en:
         guiding_questions: Guiding Questions
         visible: Visible
       options:
-        locations: Locations
+        location: Locations
+        agency: Agencies
+        user: Users
+        reportinglocation: Reporting Locations
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:
       all: Incident Recorder
