@@ -390,13 +390,30 @@ const getRowsTableData = data => {
   return accum;
 };
 
-const formatRows = rows => {
+const formatRows = (rows, translation) => {
   const maxItems = max(rows.map(row => row.length));
 
-  return rows.map(row => ({
-    colspan: maxItems === row.length ? 0 : maxItems - 1,
-    row
-  }));
+  return rows.map(row => {
+    const [key, ...rest] = row;
+
+    const translatedKey =
+      translation
+        .reduce((acc, prev) => {
+          if ("option_labels" in prev) {
+            return [...acc, ...prev.option_labels.en];
+          }
+
+          return acc;
+        }, [])
+        .find(option => option.id === key)?.display_text || key;
+
+    const result = {
+      colspan: maxItems === row.length ? 0 : maxItems - 1,
+      row: [translatedKey, ...rest]
+    };
+
+    return result;
+  });
 };
 
 export const buildDataForTable = (report, i18n, { agencies }) => {
@@ -417,7 +434,8 @@ export const buildDataForTable = (report, i18n, { agencies }) => {
   const dataColumns = getColumns(translatedReport.report_data, i18n);
   const columns = newColumns;
 
-  const values = formatRows(newRows);
+  const rows = report.toJS().fields.filter(field => field.position.type === "horizontal");
+  const values = formatRows(newRows, rows);
 
   return { columns, values };
 };
