@@ -29,6 +29,7 @@ class FieldValueService < ValueObject
   end
 
   def selected_value(field, value, opts = {})
+    return if value.nil?
     return value_for(field.option_strings_text_i18n, value, opts) if field.option_strings_text.present?
     return value unless field.option_strings_source
 
@@ -36,7 +37,7 @@ class FieldValueService < ValueObject
     case source_options.first
     when 'lookup' then lookup_value(source_options.last, value, opts)
     when 'Location', 'ReportingLocation', 'Agency'
-      record_name_value(source_options.first, source_options.last, opts)
+      record_name_value(source_options.first, value, opts)
     else
       value
     end
@@ -54,7 +55,7 @@ class FieldValueService < ValueObject
     record_class = Object.const_get(class_name)
     return value unless record_class
 
-    record = record_class.find(record_class.unique_id_attribute => value)
+    record = record_class.find_by(record_class.unique_id_attribute => value)
     record.name(locale(opts))
   end
 
