@@ -85,9 +85,9 @@ const messageQueueSkip = fromQueue => {
   }
 };
 
-const messageQueueSuccess = fromQueue => {
-  if (fromQueue) {
-    EventManager.publish(QUEUE_SUCCESS);
+const messageQueueSuccess = action => {
+  if (action?.fromQueue) {
+    EventManager.publish(QUEUE_SUCCESS, action);
   }
 };
 
@@ -224,7 +224,7 @@ const fetchSinglePayload = (action, store, options) => {
 
           handleRestCallback(store, successCallback, response, json, fromQueue);
 
-          messageQueueSuccess(fromQueue);
+          messageQueueSuccess(action);
         }
         fetchStatus({ store, type }, "FINISHED", false);
 

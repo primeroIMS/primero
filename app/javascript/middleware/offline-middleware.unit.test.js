@@ -4,6 +4,7 @@ import Queue from "../libs/queue";
 
 import offlineMiddleware from "./offline-middleware";
 import * as queueData from "./utils/queue-data";
+import * as queueFetch from "./utils/queue-fetch";
 import * as retrieveData from "./utils/retrieve-data";
 
 describe("middleware/offline-middleware.js", () => {
@@ -32,13 +33,16 @@ describe("middleware/offline-middleware.js", () => {
 
   describe("offline GET", () => {
     let retrieveDataSpy;
+    let queueFetchSpy;
 
     beforeEach(() => {
+      queueFetchSpy = spy(queueFetch, "default");
       retrieveDataSpy = spy(retrieveData, "default");
     });
 
     afterEach(() => {
       retrieveDataSpy.restore();
+      queueFetchSpy.restore();
     });
 
     it("invokes retrieveData with args", () => {
@@ -70,11 +74,12 @@ describe("middleware/offline-middleware.js", () => {
 
       const action = {
         type: "queue_get_action",
-        api: { path: "/", skipDB: true, queueOffline: true }
+        api: { path: "/", queueOffline: true }
       };
 
       invoke(action);
 
+      expect(queueFetchSpy).to.have.been.calledWith(action);
       expect(Queue.queue.find(qAction => qAction.type === "queue_get_action")).to.exist;
     });
   });
