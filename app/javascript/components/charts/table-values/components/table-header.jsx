@@ -22,8 +22,6 @@ const TableHeader = ({ columns }) => {
     );
   }
 
-  console.log(newColumns);
-
   return (
     <>
       {newColumns.map((column, index) => {
@@ -33,8 +31,6 @@ const TableHeader = ({ columns }) => {
         const repeat = isFirstHeading ? 0 : newColumns[0].items.filter(i => i !== "Total").length;
         const cells = isFirstHeading ? items : Array.from({ length: repeat }, () => items).flat();
         const allCells = isFirstHeading ? emptyCells.concat(cells) : emptyCells.concat(cells).concat("");
-
-        console.log(repeat, column, allCells);
 
         return (
           <>
@@ -55,29 +51,6 @@ const TableHeader = ({ columns }) => {
       })}
     </>
   );
-
-  // return (
-  //   <>
-  //     <TableRow>
-  //       <TableCell />
-  //       <TableCell colSpan={4}>Female</TableCell>
-  //       <TableCell colSpan={4}>Male</TableCell>
-  //       <TableCell>TOTAL</TableCell>
-  //     </TableRow>
-  //     <TableRow>
-  //       <TableCell />
-  //       <TableCell>0 - 5</TableCell>
-  //       <TableCell>6 - 11</TableCell>
-  //       <TableCell>12 - 17</TableCell>
-  //       <TableCell>Total</TableCell>
-  //       <TableCell>0 - 5</TableCell>
-  //       <TableCell>6 - 11</TableCell>
-  //       <TableCell>12 - 17</TableCell>
-  //       <TableCell>Total</TableCell>
-  //       <TableCell />
-  //     </TableRow>
-  //   </>
-  // );
 };
 
 TableHeader.displayName = "TableHeader";

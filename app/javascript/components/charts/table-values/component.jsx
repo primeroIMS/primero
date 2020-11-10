@@ -9,25 +9,23 @@ import styles from "./styles.css";
 const TableValues = ({ columns, values }) => {
   const css = makeStyles(styles)();
 
-  // eslint-disable-next-line react/no-multi-comp, react/display-name
-  const singleRowRender = rowValues => (
-    <TableRow key={`${rowValues[0]}-${Math.floor(Math.random() * 100 + 1)}-data`}>
-      {rowValues.map(row => (
-        <TableCell key={`${row}-${Math.floor(Math.random() * 100 + 1)}-value`}>{row}</TableCell>
-      ))}
-    </TableRow>
-  );
+  const renderRows = allValues => {
+    return allValues.map(v => {
+      const { colspan, row } = v;
 
-  const rowRender = rowValues => {
-    if (Array.isArray(rowValues[0])) {
-      return rowValues.map(row => rowRender(row));
-    }
-
-    return singleRowRender(rowValues);
+      return (
+        <TableRow key={`${Math.floor(Math.random() * 10000 + 1)}-data`}>
+          {row.map(r => {
+            return (
+              <TableCell colspan={colspan} key={`${Math.floor(Math.random() * 10000 + 1)}-value`}>
+                {r}
+              </TableCell>
+            );
+          })}
+        </TableRow>
+      );
+    });
   };
-
-  // console.log("COLUMNS", columns);
-  // console.log("ROWS", values);
 
   return (
     <Paper className={css.root}>
@@ -35,35 +33,7 @@ const TableValues = ({ columns, values }) => {
         <TableHead className={css.tableHeader}>
           <TableHeader columns={columns} />
         </TableHead>
-        {/* <TableBody>{rowRender(values)}</TableBody> */}
-        <TableBody>
-          {/* <TableRow>
-            <TableCell colSpan={9}>High</TableCell>
-            <TableCell>11</TableCell>
-          </TableRow>
-
-          <TableRow>
-            <TableCell colSpan={9}>Child Maintenance</TableCell>
-            <TableCell>11</TableCell>
-          </TableRow>
-
-          <TableRow>
-            <TableCell colSpan={9}>Open</TableCell>
-            <TableCell>11</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>01-Jan-2008</TableCell>
-            <TableCell>1</TableCell>
-            <TableCell>0</TableCell>
-            <TableCell>10</TableCell>
-            <TableCell>11</TableCell>
-            <TableCell>0</TableCell>
-            <TableCell>0</TableCell>
-            <TableCell>0</TableCell>
-            <TableCell>0</TableCell>
-            <TableCell>11</TableCell>
-          </TableRow> */}
-        </TableBody>
+        <TableBody>{renderRows(values)}</TableBody>
       </Table>
     </Paper>
   );

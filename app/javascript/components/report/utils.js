@@ -7,6 +7,7 @@ import uniq from "lodash/uniq";
 import omit from "lodash/omit";
 import reject from "lodash/reject";
 import max from "lodash/max";
+import get from "lodash/get";
 import { parse } from "date-fns";
 
 import { dataToJS } from "../../libs";
@@ -248,7 +249,7 @@ export const buildDataForGraph = (report, i18n, { agencies }) => {
 
 export const translateColumn = (column, value, locale = "en") => {
   if ("option_labels" in column) {
-    return column.option_labels[locale].find(option => option.id === value)?.display_text;
+    return column.option_labels[locale].find(option => option.id === value)?.display_text || value;
   }
 
   return value;
@@ -321,7 +322,7 @@ const formatColumns = (formattedKeys, columns) => {
     };
   });
 
-  const maxColspanItems = max(items.map(i => i.items.length));
+  const colspan = max(items.map((item, index) => (index === 1 ? item.items.length : 0)));
 
   return items.map((f, index) => {
     if (columns.length === 1) {
@@ -330,7 +331,7 @@ const formatColumns = (formattedKeys, columns) => {
 
     return {
       ...f,
-      colspan: index === columns.length - 1 ? 0 : maxColspanItems
+      colspan: index === columns.length - 1 ? 0 : colspan
     };
   });
 };
@@ -349,11 +350,61 @@ export const getColumnsTableData = data => {
   return renderColumns;
 };
 
+const getRowsTableData = data => {
+  if (isEmpty(data.report_data)) {
+    return [];
+  }
+  const rows = data.fields.filter(field => field.position.type === "horizontal");
+  const accum = [];
+
+  const rowEntries = Object.entries(data.report_data);
+
+  rowEntries.forEach(entry => {
+    const [key, value] = entry;
+    const qtyOfParentKeys = rows.length;
+
+    if (qtyOfParentKeys >= 2) {
+      accum.push([key, value._total]);
+      const result = Object.keys(value)
+        .filter(val => val !== "_total")
+        .map(rowDisplayName => {
+          const childObject = getAllKeysObject(value[rowDisplayName]);
+
+          const values = childObject.map(child => {
+            return get(value[rowDisplayName], child);
+          });
+
+          return [rowDisplayName, ...values];
+        });
+
+      // Set rest of keys
+      accum.push(...result);
+    } else {
+      const valuesAccesor = getAllKeysObject(value);
+      const values = valuesAccesor.filter(val => val !== "_total").map(val => get(value, val));
+
+      accum.push([key, ...values, value._total]);
+    }
+  });
+
+  return accum;
+};
+
+const formatRows = rows => {
+  const maxItems = max(rows.map(row => row.length));
+
+  return rows.map(row => ({
+    colspan: maxItems === row.length ? 0 : maxItems - 1,
+    row
+  }));
+};
+
 export const buildDataForTable = (report, i18n, { agencies }) => {
   const totalLabel = i18n.t("report.total");
   const reportData = report.toJS();
 
   const newColumns = getColumnsTableData(report.toJS());
+  const newRows = getRowsTableData(report.toJS());
 
   const translatedReport = translateReportData(reportData, i18n);
 
@@ -366,7 +417,7 @@ export const buildDataForTable = (report, i18n, { agencies }) => {
   const dataColumns = getColumns(translatedReport.report_data, i18n);
   const columns = newColumns;
 
-  const values = getRows(dataColumns, translatedReport.report_data, i18n, fields, { agencies });
+  const values = formatRows(newRows);
 
   return { columns, values };
 };
