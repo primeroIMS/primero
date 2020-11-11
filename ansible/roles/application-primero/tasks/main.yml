@@ -4,6 +4,7 @@
     repo: '{{ primero_repo|default("https://github.com/primeroIMS/primero.git") }}'
     dest: '/srv/primero/'
     version: '{{ primero_repo_branch }}'
+    key_file: '/root/.ssh/primero_deployment_key'
   become: yes
   tags:
     - 'always'
@@ -56,7 +57,7 @@
     dest: '/srv/primero-configuration/'
     version: '{{ primero_configuration_repo_branch|default("master") }}'
     key_file: '/root/.ssh/primero_deployment_key'
-    when: primero_configuration_repo is defined
+  when: primero_configuration_repo is defined
   become: yes
   tags:
   - 'never'
