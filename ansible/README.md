@@ -26,8 +26,8 @@
                   certbot_domain:
                   - '{{ primero_host }}'
                   certbot_email: 'primero-example@example.com'
-                  primero_repo_branch: 'master'
-                  build_docker_tag: ''
+                  primero_repo_branch: 'development_v2'
+                  build_docker_tag: 'latest'
                   build_docker_container_registry: ''
                   primero_tag: 'latest'
                   lets_encrypt_domain: '{{ primero_host }}'
@@ -38,7 +38,7 @@
                   # If you want to seed from a private configuration repo
                   primero_configuration_repo: 'git@bitbucket.org:quoin/primero-x-configuration.git'
                   primero_configuration_repo_branch: 'master'
-                  configuration_path: ''
+                  primero_configuration_path: 'directory/of/config/loader/script'
 
 3.  Create the `secrets.yml`.  Refer to the [Deploy](#markdown-header-deploy) section for more info.
 
@@ -156,19 +156,20 @@ Below is example of what the file should look like. There is also a sample templ
                   certbot_domain:
                   - '{{ primero_host }}'
                   certbot_email: 'primero-example@example.com'
-                  primero_repo_branch: 'master'
+                  primero_repo_branch: 'development_v2'
                   build_docker_tag: ''
                   build_docker_container_registry: ''
                   primero_tag: 'latest'
                   lets_encrypt_domain: '{{ primero_host }}'
                   lets_encrypt_email: '{{ certbot_email }}'
-                  use_lets_encrypt: 'false'
+                  use_lets_encrypt: 'true'
                   nginx_ssl_cert_path: '/etc/letsencrypt/live/primero/fullchain.pem'
                   nginx_ssl_key_path: '/etc/letsencrypt/live/primero/privkey.pem'
                   # If you want to seed from a private configuration repo
                   primero_configuration_repo: 'git@bitbucket.org:quoin/primero-x-configuration.git'
                   primero_configuration_repo_branch: 'master'
-                  configuration_path: ''
+                  primero_configuration_path: 'directory/of/config/loader/script'
+
 
 All these variables are required with the exception of `certbot_domain` and `certbot_email`.  These certbot variables are required only when using certbot.
 The `build_docker_tag` and `build_docker_container_registry` can be left as `''`, which default to latest.  If you require a specific `build_docker_tag` and/or `build_docker_container_registry`,

@@ -8,8 +8,8 @@ all:
       certbot_domain:
       - '{{ primero_host }}'
       certbot_email: 'primero-example@example.com'
-      primero_repo_branch: 'master'
-      build_docker_tag: ''
+      primero_repo_branch: 'development_v2'
+      build_docker_tag: 'latest'
       build_docker_container_registry: ''
       primero_tag: 'latest'
       lets_encrypt_domain: '{{ primero_host }}'

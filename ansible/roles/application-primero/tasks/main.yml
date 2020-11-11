@@ -64,12 +64,12 @@
 
 - name: 'configure Primero with a custom configuration'
   command: |
-    ./compose.configure.sh '/srv/primero-configuration/{{ configuration_path }}'
+    ./compose.configure.sh '/srv/primero-configuration/{{ primero_configuration_path }}'
   args:
     chdir: '/srv/primero/docker'
   environment:
     PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
-  when: configuration_path is defined
+  when: primero_configuration_path is defined
   tags:
   - 'never'
   - 'configure'
@@ -81,7 +81,7 @@
     chdir: '/srv/primero/docker'
   environment:
     PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
-  when: configuration_path is not defined
+  when: primero_configuration_path is not defined
   tags:
   - 'never'
   - 'configure'
