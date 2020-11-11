@@ -255,7 +255,6 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.EXPORT_JSON,
       PERMISSIONS.ACTIONS.EXPORT_LIST_VIEW,
       PERMISSIONS.ACTIONS.EXPORT_MRM_VIOLATION_XLS,
-      PERMISSIONS.ACTIONS.EXPORT_PDF,
       PERMISSIONS.ACTIONS.EXPORT_PHOTO_WALL,
       PERMISSIONS.ACTIONS.EXPORT_UNHCR,
       PERMISSIONS.ACTIONS.MANAGE
@@ -368,6 +367,29 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_CLOSURE,
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_ACTION_PLAN,
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
+    ].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have EXPORTS_PERMISSIONS", () => {
+    const permissions = [...PERMISSIONS.EXPORTS_PERMISSIONS];
+
+    expect(permissions).to.be.a("array");
+    [
+      PERMISSIONS.ACTIONS.EXPORT_CASE_PDF,
+      PERMISSIONS.ACTIONS.EXPORT_CSV,
+      PERMISSIONS.ACTIONS.EXPORT_CUSTOM,
+      PERMISSIONS.ACTIONS.EXPORT_DUPLICATE_ID,
+      PERMISSIONS.ACTIONS.EXPORT_EXCEL,
+      PERMISSIONS.ACTIONS.EXPORT_INCIDENT_RECORDER,
+      PERMISSIONS.ACTIONS.EXPORT_JSON,
+      PERMISSIONS.ACTIONS.EXPORT_LIST_VIEW,
+      PERMISSIONS.ACTIONS.EXPORT_MRM_VIOLATION_XLS,
+      PERMISSIONS.ACTIONS.EXPORT_PHOTO_WALL,
+      PERMISSIONS.ACTIONS.EXPORT_UNHCR
     ].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
