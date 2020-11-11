@@ -337,7 +337,7 @@ const formatColumns = (formattedKeys, columns) => {
 };
 
 export const getColumnsTableData = data => {
-  if (isEmpty(data)) {
+  if (isEmpty(data.report_data)) {
     return [];
   }
 
@@ -417,7 +417,6 @@ const formatRows = (rows, translation) => {
 };
 
 export const buildDataForTable = (report, i18n, { agencies }) => {
-  const totalLabel = i18n.t("report.total");
   const reportData = report.toJS();
 
   const newColumns = getColumnsTableData(report.toJS());
@@ -429,11 +428,7 @@ export const buildDataForTable = (report, i18n, { agencies }) => {
     return { columns: [], values: [] };
   }
 
-  const { fields } = report.toJS();
-  const field = fields.filter(reportField => reportField.position.type === REPORT_FIELD_TYPES.vertical)[0];
-  const dataColumns = getColumns(translatedReport.report_data, i18n);
   const columns = newColumns;
-
   const rows = report.toJS().fields.filter(field => field.position.type === "horizontal");
   const values = formatRows(newRows, rows);
 

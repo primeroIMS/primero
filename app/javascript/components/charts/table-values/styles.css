@@ -4,3 +4,33 @@
 .table {
   width: 100%;
 }
+
+.tableRow {
+  background-color: $(theme.primero.colors.lightGrey);
+
+  & td {
+    font-weight: bold;
+    border-right: 1px solid #e0e0e0;
+  }
+
+  & td:last-of-type {
+    border-right: none;
+  }
+}
+
+.tableRowHeader {
+
+  & th:not(:first-child) {
+    background-color: $(theme.primero.colors.lightGrey);
+    font-weight: bold;
+    border-left: 1px solid #e0e0e0;
+  }
+
+  & th:last-of-type {
+    border-right: none;
+  }
+}
+
+.borderHeadingRight, .tableRowValues {
+  border-right: 1px solid #e0e0e0;
+}

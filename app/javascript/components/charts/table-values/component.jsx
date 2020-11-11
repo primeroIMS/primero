@@ -1,28 +1,42 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import clsx from "clsx";
+import isEmpty from "lodash/isEmpty";
 
+import tableValuesTheme from "./theme";
 import TableHeader from "./components/table-header";
 import styles from "./styles.css";
 
 const TableValues = ({ columns, values }) => {
   const css = makeStyles(styles)();
 
+  console.log(columns);
+  const columnsOfObjects = columns.every(column => typeof column === "object");
+  const itemsNo = !isEmpty(columns) && columnsOfObjects && columns?.length >= 2 ? columns[1].items.length : 0;
+  const selector = `& td:nth-child(${itemsNo}n + ${itemsNo + 1})`;
+
   const renderRows = allValues => {
-    return allValues.map(v => {
-      const { colspan, row } = v;
+    return allValues.map(value => {
+      const { colspan, row } = value;
 
       return (
-        <TableRow key={`${Math.floor(Math.random() * 10000 + 1)}-data`}>
-          {row.map(r => {
-            return (
-              <TableCell colSpan={colspan} key={`${Math.floor(Math.random() * 10000 + 1)}-value`}>
-                {r}
-              </TableCell>
-            );
-          })}
-        </TableRow>
+        <MuiThemeProvider theme={tableValuesTheme(selector)}>
+          <TableRow
+            className={clsx({ [css.tableRow]: colspan !== 0, [css.tableRowValues]: true })}
+            key={`${Math.floor(Math.random() * 10000 + 1)}-data`}
+          >
+            {row.map(r => {
+              return (
+                <TableCell colSpan={colspan} key={`${Math.floor(Math.random() * 10000 + 1)}-value`}>
+                  <span>{r}</span>
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        </MuiThemeProvider>
       );
     });
   };
