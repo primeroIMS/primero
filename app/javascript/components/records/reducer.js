@@ -23,7 +23,9 @@ import {
   CLEAR_METADATA,
   CLEAR_CASE_FROM_INCIDENT,
   SET_CASE_ID_FOR_INCIDENT,
-  SET_CASE_ID_REDIRECT
+  SET_CASE_ID_REDIRECT,
+  SET_SELECTED_RECORD,
+  CLEAR_SELECTED_RECORD
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -37,6 +39,12 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("errors", true);
     case `${namespace}/${RECORDS_SUCCESS}`: {
       const { data, metadata } = payload;
+      const selectedRecordId = state.get("selectedRecord");
+      const selectedRecordWillUpdate = selectedRecordId ? data.some(d => d.id === selectedRecordId) : false;
+      const selectedRecord =
+        selectedRecordId && !selectedRecordWillUpdate
+          ? state.get("data").find(r => r.get("id") === selectedRecordId)
+          : null;
 
       return state
         .update("data", u => {
@@ -50,7 +58,7 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
 
               return d;
             })
-          );
+          ).concat(selectedRecord?.toSeq()?.size ? fromJS([selectedRecord]) : fromJS([]));
         })
         .set("metadata", fromJS(metadata));
     }
@@ -137,6 +145,12 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return RECORD_TYPES[namespace] === RECORD_TYPES.cases
         ? state.setIn(["incidentFromCase", INCIDENT_CASE_ID_FIELD], payload.json?.data?.id)
         : state;
+    }
+    case `${namespace}/${SET_SELECTED_RECORD}`: {
+      return state.setIn(["selectedRecord"], payload.id);
+    }
+    case `${namespace}/${CLEAR_SELECTED_RECORD}`: {
+      return state.delete("selectedRecord");
     }
     default:
       return state;

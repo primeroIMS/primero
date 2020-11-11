@@ -12,7 +12,9 @@ import {
   FETCH_INCIDENT_FROM_CASE,
   SET_CASE_ID_FOR_INCIDENT,
   CLEAR_CASE_FROM_INCIDENT,
-  SET_CASE_ID_REDIRECT
+  SET_CASE_ID_REDIRECT,
+  SET_SELECTED_RECORD,
+  CLEAR_SELECTED_RECORD
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -181,3 +183,12 @@ export const fetchIncidentwitCaseId = caseId => {
     }
   };
 };
+
+export const setSelectedRecord = (recordType, recordId) => ({
+  type: `${recordType}/${SET_SELECTED_RECORD}`,
+  payload: { id: recordId }
+});
+
+export const clearSelectedRecord = recordType => ({
+  type: `${recordType}/${CLEAR_SELECTED_RECORD}`
+});

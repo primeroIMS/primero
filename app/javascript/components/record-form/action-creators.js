@@ -36,11 +36,6 @@ export const setSelectedForm = payload => ({
   payload
 });
 
-export const setSelectedRecord = payload => ({
-  type: Actions.SET_SELECTED_RECORD,
-  payload
-});
-
 export const setServiceToRefer = payload => ({
   type: Actions.SET_SERVICE_TO_REFER,
   payload
