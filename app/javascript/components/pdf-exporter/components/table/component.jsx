@@ -5,7 +5,10 @@ import { makeStyles } from "@material-ui/styles";
 
 import KeyValueCell from "../key-value-cell";
 import { useI18n } from "../../../i18n";
-import { valuesWithDisplayConditions } from "../../../record-form/form/subforms/subform-field-array/utils";
+import {
+  valuesWithDisplayConditions,
+  fieldsToRender
+} from "../../../record-form/form/subforms/subform-field-array/utils";
 
 import { EXCLUDED_FIELD_TYPES } from "./constants";
 import styles from "./styles.css";
@@ -21,14 +24,16 @@ const Component = ({ fields, isSubform, record }) => {
 
   const renderSubform = (field, subformSection, displayName) => {
     const { subform_section_configuration: subformSectionConfiguration } = field;
-    const { display_conditions: displayConditions } = subformSectionConfiguration || {};
+    const { display_conditions: displayConditions, fields: fieldList } = subformSectionConfiguration || {};
     const values = record.get(subformSection.unique_id, []);
     const filteredValues = displayConditions ? valuesWithDisplayConditions(values, displayConditions) : values;
+    const displayFields = fieldsToRender(fieldList, subformSection.fields);
 
     return filteredValues.map((subform, index) => (
       <React.Fragment key={record.getIn([subformSection.unique_id, index, "unique_id"])}>
         <h4>{i18n.getI18nStringFromObject(displayName)}</h4>
-        <Component fields={subformSection.fields} record={subform} isSubform classes={classes} />
+        <Component fields={displayFields} record={subform} isSubform classes={classes} />
+        <div className={css.seperator} />
       </React.Fragment>
     ));
   };
@@ -59,8 +64,9 @@ const Component = ({ fields, isSubform, record }) => {
 
         return (
           <KeyValueCell
+            defaultValue={defaultValue}
             displayName={i18n.getI18nStringFromObject(displayName)}
-            value={record.get(name) || defaultValue}
+            value={record.get(name)}
             optionsStringSource={optionStringsSource}
             options={optionsStringsText || options}
             key={`keyval-${name}`}
