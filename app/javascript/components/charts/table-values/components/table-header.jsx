@@ -14,9 +14,9 @@ const TableHeader = ({ columns }) => {
 
   if (!arrayOfObjects) {
     return (
-      <TableRow>
+      <TableRow key={`${Math.floor(Math.random() * 10000 + 1)}-column-row`}>
         {newColumns.map(column => {
-          return <TableCell key={`${column}-column`}>{column}</TableCell>;
+          return <TableCell key={`${Math.floor(Math.random() * 10000 + 1)}-cell`}>{column}</TableCell>;
         })}
       </TableRow>
     );
@@ -33,20 +33,22 @@ const TableHeader = ({ columns }) => {
         const allCells = isFirstHeading ? emptyCells.concat(cells) : emptyCells.concat(cells).concat("");
 
         return (
-          <>
-            <TableRow>
-              {allCells.map(cell => {
-                if (isEmpty(cell)) {
-                  return <TableCell />;
-                }
-                if (cell === "Total") {
-                  return <TableCell>{cell}</TableCell>;
-                }
+          <TableRow key={`${Math.floor(Math.random() * 10000 + 1)}-column-row`}>
+            {allCells.map(cell => {
+              if (isEmpty(cell)) {
+                return <TableCell key={`${Math.floor(Math.random() * 10000 + 1)}`} />;
+              }
+              if (cell === "Total") {
+                return <TableCell key={`${Math.floor(Math.random() * 10000 + 1)}`}>{cell}</TableCell>;
+              }
 
-                return <TableCell colSpan={colspan}>{cell}</TableCell>;
-              })}
-            </TableRow>
-          </>
+              return (
+                <TableCell key={`${Math.floor(Math.random() * 10000 + 1)}`} colSpan={colspan}>
+                  {cell}
+                </TableCell>
+              );
+            })}
+          </TableRow>
         );
       })}
     </>

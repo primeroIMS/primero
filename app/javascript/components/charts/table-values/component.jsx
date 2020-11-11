@@ -17,7 +17,7 @@ const TableValues = ({ columns, values }) => {
         <TableRow key={`${Math.floor(Math.random() * 10000 + 1)}-data`}>
           {row.map(r => {
             return (
-              <TableCell colspan={colspan} key={`${Math.floor(Math.random() * 10000 + 1)}-value`}>
+              <TableCell colSpan={colspan} key={`${Math.floor(Math.random() * 10000 + 1)}-value`}>
                 {r}
               </TableCell>
             );
