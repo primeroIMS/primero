@@ -27,6 +27,7 @@ const getSuccessCallback = ({
   moduleID
 }) => {
   const selectedFormCallback = setSelectedForm(INCIDENT_FROM_CASE);
+  const cleanSelectedFormCallback = setSelectedForm(null);
   const incidentFromCaseCallbacks =
     RECORD_TYPES[recordType] === RECORD_TYPES.incidents && incidentFromCase
       ? [
@@ -62,7 +63,11 @@ const getSuccessCallback = ({
     ];
   }
   if (incidentPath) {
-    return [...defaultSuccessCallback, `cases/${SET_CASE_ID_REDIRECT}`];
+    return [
+      ...defaultSuccessCallback,
+      `cases/${SET_CASE_ID_REDIRECT}`,
+      { action: cleanSelectedFormCallback.type, payload: cleanSelectedFormCallback.payload }
+    ];
   }
 
   return defaultSuccessCallback;
