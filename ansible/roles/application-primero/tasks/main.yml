@@ -74,7 +74,7 @@
   - 'never'
   - 'configure'
 
-  - name: 'configure Primero with the default seeds'
+- name: 'configure Primero with the default seeds'
   command: |
     ./compose.configure.sh
   args:
