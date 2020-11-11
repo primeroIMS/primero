@@ -1,4 +1,13 @@
 ---
+- name: 'Pull Primero from Git'
+  git:
+    repo: '{{ primero_repo|default("https://github.com/primeroIMS/primero.git") }}'
+    dest: '/srv/primero/'
+    version: '{{ primero_repo_branch }}'
+  become: yes
+  tags:
+    - 'always'
+
 - name: 'create the local.env file'
   copy:
     dest: '/srv/primero/docker/local.env'
@@ -41,29 +50,43 @@
   - 'never'
   - 'build'
 
-- name: 'git clone primero configuration repo'
+- name: 'Pull Primero configuration from Git'
   git:
     repo: '{{ primero_configuration_repo }}'
     dest: '/srv/primero-configuration/'
-    version: '{{ primero_configuration_repo_branch }}'
+    version: '{{ primero_configuration_repo_branch|default("master") }}'
     key_file: '/root/.ssh/primero_deployment_key'
+    when: primero_configuration_repo is defined
   become: yes
   tags:
   - 'never'
   - 'configure'
 
-- name: 'configure the Docker containers'
+- name: 'configure Primero with a custom configuration'
   command: |
     ./compose.configure.sh '/srv/primero-configuration/{{ configuration_path }}'
   args:
     chdir: '/srv/primero/docker'
   environment:
     PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
+  when: configuration_path is defined
   tags:
   - 'never'
   - 'configure'
 
-- name: 'start the Docker containers'
+  - name: 'configure Primero with the default seeds'
+  command: |
+    ./compose.configure.sh
+  args:
+    chdir: '/srv/primero/docker'
+  environment:
+    PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
+  when: configuration_path is not defined
+  tags:
+  - 'never'
+  - 'configure'
+
+- name: '(re)start the Docker containers'
   command: |
     ./compose.prod.sh up -d
   args:
