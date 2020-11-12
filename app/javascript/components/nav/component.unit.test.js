@@ -172,4 +172,44 @@ describe("<Nav />", () => {
       expect(storeActions[0]).to.deep.equal(expectedAction);
     });
   });
+
+  describe("when offline", () => {
+    const userId = 1;
+    const offlineInitialState = fromJS({
+      ui: { Nav: { drawerOpen: true } },
+      connectivity: {
+        online: false,
+        serverOnline: false
+      },
+      application: {
+        modules: {},
+        agencies: [
+          {
+            unique_id: "agency_1",
+            logo: { small: "/some/random.png" }
+          }
+        ]
+      },
+      user: {
+        id: userId,
+        modules: [],
+        agency: "agency_1",
+        permissions: {
+          cases: [ACTIONS.READ]
+        }
+      }
+    });
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(ProvidedNav, { username: "username" }, offlineInitialState));
+    });
+
+    it("renders a disabled my account link", () => {
+      expect(
+        component
+          .find(NavLink)
+          .findWhere(link => link.prop("to") === `${ROUTES.account}/${userId}` && link.prop("disabled"))
+      ).to.have.lengthOf(2);
+    });
+  });
 });

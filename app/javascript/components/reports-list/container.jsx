@@ -38,12 +38,12 @@ const Reports = () => {
   //   {
   //     id: "add-new",
   //     label: "Add New",
-  //     onClick: () => console.log("Do Something")
+  //     onClick: () => console.log("Add New")
   //   },
   //   {
   //     id: "arrange-items",
   //     label: "Arrange Items",
-  //     onClick: () => console.log("Do Something")
+  //     onClick: () => console.log("Arrange Items")
   //   },
   //   {
   //     id: "refresh-data",
