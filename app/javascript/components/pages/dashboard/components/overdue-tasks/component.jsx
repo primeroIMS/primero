@@ -14,6 +14,7 @@ import { toTasksOverdueTable, taskOverdueHasData } from "../../utils";
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
+import { ROUTES } from "../../../../../config";
 
 import { NAME } from "./constants";
 
@@ -56,7 +57,11 @@ const Component = ({ loadingIndicator }) => {
     >
       <Grid item xl={9} md={8} xs={12}>
         <OptionsBox title={i18n.t("dashboard.cases_by_task_overdue")} hasData={hasData} {...loadingIndicator}>
-          <DashboardTable title={i18n.t("dashboard.cases_by_task_overdue")} {...tasksOverdueProps} />
+          <DashboardTable
+            pathname={ROUTES.cases}
+            title={i18n.t("dashboard.cases_by_task_overdue")}
+            {...tasksOverdueProps}
+          />
         </OptionsBox>
       </Grid>
     </Permission>
