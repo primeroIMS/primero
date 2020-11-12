@@ -70,7 +70,11 @@ Rails.application.routes.draw do
         resources :potential_matches, only: %i[index]
       end
 
-      resources :form_sections, as: :forms, path: :forms
+      resources :form_sections, as: :forms, path: :forms do
+        collection do
+          get :export, to: 'form_sections#export'
+        end
+      end
       resources :users do
         collection do
           get :'assign-to', to: 'users_transitions#assign_to'

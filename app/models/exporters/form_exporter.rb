@@ -2,10 +2,10 @@
 
 # Export forms to an Excel file (.xlsx)
 class Exporters::FormExporter < ValueObject
-  attr_accessor :export_file_name, :form_params, :locale, :visible, :workbook, :header, :visible_column_index
+  attr_accessor :file_name, :form_params, :locale, :visible, :workbook, :header, :visible_column_index, :errors
 
   def initialize(opts = {})
-    opts[:export_file_name] ||= "form_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}.xlsx"
+    opts[:file_name] ||= "form_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}.xlsx"
     opts[:locale] ||= Primero::Application::LOCALE_ENGLISH
     opts[:record_type] ||= 'case'
     opts[:module_id] ||= 'primeromodule-cp'
@@ -24,7 +24,7 @@ class Exporters::FormExporter < ValueObject
   end
 
   def export
-    self.workbook = WriteXLSX.new(export_file_name)
+    self.workbook = WriteXLSX.new(file_name)
     sorted_forms.each { |form| export_form(form) }
     export_lookups(Lookup.all)
     workbook.close

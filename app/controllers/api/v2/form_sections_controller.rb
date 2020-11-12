@@ -2,6 +2,8 @@
 
 # Forms CRUD API.
 class Api::V2::FormSectionsController < ApplicationApiController
+  include Api::V2::Concerns::Export
+
   before_action :form_section_params, only: %i[create update]
 
   def index
@@ -46,5 +48,9 @@ class Api::V2::FormSectionsController < ApplicationApiController
 
   def model_class
     FormSection
+  end
+
+  def exporter
+    Exporters::FormExporter
   end
 end

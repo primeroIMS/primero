@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'roo'
 
 describe Api::V2::FormSectionsController, type: :request do
   before :each do
@@ -18,6 +19,7 @@ describe Api::V2::FormSectionsController, type: :request do
     @form1 = FormSection.create!(
       unique_id: 'form_section_1',
       name_i18n: { en: 'Form Section 1' },
+      parent_form: 'case',
       editable: false,
       fields: [
         Field.new(
@@ -34,6 +36,7 @@ describe Api::V2::FormSectionsController, type: :request do
         en: 'Form Section 2',
         es: 'Sección de formulario 2'
       },
+      parent_form: 'case',
       fields: [
         Field.new(
           name: 'fs2_field_1',
@@ -645,6 +648,54 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/forms/thisdoesntexist')
+    end
+  end
+
+  describe 'GET /api/v2/forms/export' do
+    before do
+      clean_data(PrimeroModule, PrimeroProgram, Lookup)
+
+      @lookup_yes_no = Lookup.create!(
+        unique_id: 'lookup-yes-no',
+        name_i18n: { en: 'Yes / No' },
+        lookup_values_i18n: [
+          { id: 'true', display_text: { en: 'Yes' } },
+          { id: 'false', display_text: { en: 'No' } }
+        ]
+      )
+
+      @lookup_sex = Lookup.create!(
+        unique_id: 'lookup-sex',
+        name_i18n: { en: 'Sex' },
+        lookup_values_i18n: [
+          { id: 'male', display_text: { en: 'Male' } },
+          { id: 'female', display_text: { en: 'Female' } }
+        ]
+      )
+      cp_forms = FormSection.all
+      @primero_module_cp = create(:primero_module, unique_id: 'primeromodule-cp', name: 'CP', form_sections: cp_forms)
+    end
+
+    context 'when no params are passed' do
+      it 'exports all visible CP forms' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
+          ]
+        )
+
+        get '/api/v2/forms/export'
+
+        expect(response).to have_http_status(200)
+
+        @book = Roo::Spreadsheet.open(json['data']['file_name'])
+        expected = ["Form Section 1", "Form Section 2", "lookups"]
+        expect(@book.sheets).to match_array(expected)
+      end
+    end
+
+    after do
+      clean_data(PrimeroModule, PrimeroProgram, Lookup)
     end
   end
 end

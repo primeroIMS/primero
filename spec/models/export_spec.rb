@@ -3,8 +3,8 @@
 require 'rails_helper'
 require 'roo'
 
-module Exporters
-  describe FormExporter do
+describe Export do
+  describe 'export forms' do
     before do
       clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Lookup)
 
@@ -111,7 +111,7 @@ module Exporters
 
       gbv_forms = FormSection.where(unique_id: %w[cases_test_form_gbv])
       @primero_module_gbv = create(:primero_module, unique_id: 'primeromodule-gbv', name: 'GBV',
-                                                    form_sections: gbv_forms)
+                                   form_sections: gbv_forms)
 
       @lookup_yes_no = Lookup.create!(
         unique_id: 'lookup-yes-no',
@@ -134,62 +134,23 @@ module Exporters
 
     context 'when no params are passed' do
       before do
-        exporter = Exporters::FormExporter.new
-        exporter.export
-        @book = Roo::Spreadsheet.open(exporter.file_name)
+        exporter = Exporters::FormExporter
+        @export = Export.new(exporter: exporter)
+        @export.run
+        @book = Roo::Spreadsheet.open(@export.file_name)
       end
 
       it 'exports all visible CP forms' do
         expected_sheets = %w[cases_test_form_3 cases_test_subform_1 cases_test_subform_3 cases_test_form_2
                              cases_test_form_1 cases_test_subform_0 lookups]
+        expect(@export.status).to eq(Export::SUCCESS)
         expect(@book.sheets).to match_array(expected_sheets)
-      end
 
-      describe 'worksheets' do
-        describe 'header' do
-          it 'has no visible column' do
-            sheet = @book.sheet(@book.sheets.first)
-
-            expect(sheet.row(2)).not_to include('Visible')
-          end
-        end
-      end
-    end
-
-    context 'when visible false is passed in' do
-      before do
-        exporter = Exporters::FormExporter.new(visible: false)
-        exporter.export
-        @book = Roo::Spreadsheet.open(exporter.file_name)
-      end
-
-      it 'exports all CP forms' do
-        expected_sheets = %w[cases_test_form_3 cases_test_subform_1 cases_test_subform_3 cases_test_form_2
-                             cases_test_form_1 cases_test_subform_0 cases_test_form_hidden lookups]
-        expect(@book.sheets).to match_array(expected_sheets)
-      end
-
-      describe 'worksheets' do
-        describe 'header' do
-          it 'has a visible column' do
-            sheet = @book.sheet(@book.sheets.first)
-
-            expect(sheet.row(2)).to include('Visible')
-          end
-        end
-      end
-    end
-
-    context 'when GBV module is passed in' do
-      before do
-        exporter = Exporters::FormExporter.new(module_id: 'primeromodule-gbv')
-        exporter.export
-        @book = Roo::Spreadsheet.open(exporter.file_name)
-      end
-
-      it 'exports all GBV forms' do
-        expected_sheets = %w[cases_test_form_gbv cases_test_subform_5 cases_test_subform_4 lookups]
-        expect(@book.sheets).to match_array(expected_sheets)
+        # expect(@import.failures).to be_empty
+        # expect(@import.total).to eq(294)
+        # expect(@import.success_total).to eq(294)
+        # expect(@import.failure_total).to eq(0)
+        # expect(Location.count).to eq(414)
       end
     end
 
