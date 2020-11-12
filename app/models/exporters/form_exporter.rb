@@ -7,6 +7,9 @@ class Exporters::FormExporter < ValueObject
   def initialize(opts = {})
     opts[:export_file_name] ||= "form_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}.xlsx"
     opts[:locale] ||= Primero::Application::LOCALE_ENGLISH
+    opts[:record_type] ||= 'case'
+    opts[:module_id] ||= 'primeromodule-cp'
+    opts[:visible] = true if opts[:visible].nil?
     opts[:form_params] = opts.slice(:record_type, :module_id, :visible)&.compact
     opts[:header] = initialize_header(opts)
     super(opts)
@@ -45,30 +48,35 @@ class Exporters::FormExporter < ValueObject
       next if visible && !field.visible?
 
       worksheet.write(row_number, 0, field_row(form, field))
-      export_to_worksheet(field.subform_section) if field.type == 'subform'
-
       row_number += 1
     end
   end
 
   def worksheet_name(form)
-    worksheet_name = form.name.gsub(/[^0-9a-z ]/i, '')[0..30].to_s
-    make_worksheet_name_unique(worksheet_name)
+    name = form.name(locale.to_s)
+    name.sub(%r{[\[\]:*?\/\\]}, ' ')
+      .encode('iso-8859-1', undef: :replace, replace: '')
+      .strip.truncate(31)
   end
 
-  def make_worksheet_name_unique(worksheet_name, idx = 0)
-    return worksheet_name if workbook.worksheets.find { |w| w.name.gsub(/\u0000/, '') == worksheet_name }.nil?
-
-    idx += 1
-    modify_worksheet_name(worksheet_name, idx)
-  end
-
-  def modify_worksheet_name(worksheet_name, idx = 0)
-    letters_to_replace = Math.log10(idx).to_i + 1
-    worksheet_name.slice!((31 - letters_to_replace)..30)
-    worksheet_name += idx.to_s
-    make_worksheet_name_unique(worksheet_name, idx)
-  end
+  # def worksheet_name(form)
+  #   worksheet_name = form.name.gsub(/[^0-9a-z ]/i, '')[0..30].to_s
+  #   make_worksheet_name_unique(worksheet_name)
+  # end
+  #
+  # def make_worksheet_name_unique(worksheet_name, idx = 0)
+  #   return worksheet_name if workbook.worksheets.find { |w| w.name.gsub(/\u0000/, '') == worksheet_name }.nil?
+  #
+  #   idx += 1
+  #   modify_worksheet_name(worksheet_name, idx)
+  # end
+  #
+  # def modify_worksheet_name(worksheet_name, idx = 0)
+  #   letters_to_replace = Math.log10(idx).to_i + 1
+  #   worksheet_name.slice!((31 - letters_to_replace)..30)
+  #   worksheet_name += idx.to_s
+  #   make_worksheet_name_unique(worksheet_name, idx)
+  # end
 
   def field_row(form, field)
     required = field.required ? '✔' : ''
@@ -98,11 +106,11 @@ class Exporters::FormExporter < ValueObject
   end
 
   def field_options_subform(field)
-    # TODO: cleanup
+    # TODO: i18n
     subform = field.subform_section
+    export_to_worksheet(subform)
     options = "Subform: #{subform.name}"
     options += "\nCollapsed Fields: #{subform.collapsed_fields.map(&:name).join(', ')}" if subform.collapsed_fields.present?
-    # write_out_form(subform, header, show_hidden) rescue nil
     options
   end
 

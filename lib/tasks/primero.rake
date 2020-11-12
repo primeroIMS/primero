@@ -197,14 +197,14 @@ namespace :primero do
   #      rails primero:forms_to_spreadsheet['',primeromodule-gbv]
   desc 'Exports forms to an Excel spreadsheet'
   task :forms_to_spreadsheet, %i[record_type module_id show_hidden] => :environment do |_, args|
-    puts 'Exporting forms to XLSX Spreadsheet ...'
     args.with_defaults(module_id: 'primeromodule-cp', record_type: 'case')
     opts = args.to_h
     opts[:visible] = args[:show_hidden].present? && args[:show_hidden].start_with?(/[yYTt]/) ? nil : true
     opts[:file_name] = 'forms.xlsx'
     exporter = Exporters::FormExporter.new(opts)
     exporter.export
-    puts 'Done!'
+    puts "Exported forms to XLSX Spreadsheet #{exporter.export_file_name}"
+    exporter.export_file_name
   end
 
   # Example usage: rails primero:role_permissions_to_spreadsheet['tmp/test.xlsx','en']
