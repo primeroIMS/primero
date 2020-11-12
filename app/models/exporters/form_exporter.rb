@@ -17,7 +17,7 @@ class Exporters::FormExporter < ValueObject
 
   def initialize_header(opts = {})
     self.visible_column_index = 5
-    keys = %w[form_group form_name field_id field_type field_name required on_mobile on_short_form options
+    keys = %w[form_group form_name field_id field_type field_name required on_mobile on_short_form option_ids options
               help_text guiding_questions]
     keys = keys.insert(visible_column_index, 'visible') unless opts[:form_params][:visible]
     keys.map { |key| I18n.t("exports.forms.header.#{key}", locale: locale) }
@@ -57,9 +57,7 @@ class Exporters::FormExporter < ValueObject
 
   def worksheet_name(form)
     name = form.name(locale.to_s)
-    name.sub(%r{[\[\]:*?\/\\]}, ' ')
-      .encode('iso-8859-1', undef: :replace, replace: '')
-      .strip.truncate(31)
+    name = name.sub(%r{[\[\]:*?\/\\]}, ' ').encode('iso-8859-1', undef: :replace, replace: '').strip.truncate(31)
     make_worksheet_name_unique(name)
   end
 
@@ -83,13 +81,24 @@ class Exporters::FormExporter < ValueObject
     minify_visible = field.show_on_minify_form ? '✔' : ''
 
     field_row = [form.form_group_id, form.name, field.name, field_type(field), field.display_name, required,
-                 mobile_visible, minify_visible, field_options(field), field.help_text, field.guiding_questions]
+                 mobile_visible, minify_visible, field_option_ids(field), field_options(field), field.help_text,
+                 field.guiding_questions]
     field_row = insert_visible_column(field_row, field) unless visible
     field_row
   end
 
+  def field_select_types
+    %w[radio_button select_box]
+  end
+
+  def field_option_ids(field)
+    return unless field_select_types.include?(field.type) && field.option_strings_text.present?
+
+    field.option_strings_text.map { |o| o['id'] }.join(', ')
+  end
+
   def field_options(field)
-    return field_options_select(field) if %w[radio_button select_box].include?(field.type)
+    return field_options_select(field) if field_select_types.include?(field.type)
 
     return field_options_subform(field) if field.type == 'subform'
 
