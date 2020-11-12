@@ -15,9 +15,10 @@
     dest: '/srv/primero/'
     version: '{{ primero_repo_branch }}'
     key_file: '/root/.ssh/primero_deployment_key'
+    accept_hostkey: 'yes'
   become: yes
   tags:
-    - 'always'
+  - 'always'
 
 - name: 'create the local.env file'
   copy:
@@ -38,6 +39,7 @@
       DEVISE_JWT_SECRET_KEY={{ devise_jwt_secret_key }}
   become: yes
   tags:
+  - 'never'
   - 'local-env'
 
 - name: 'build the Docker containers'
@@ -55,6 +57,7 @@
     dest: '/srv/primero-configuration/'
     version: '{{ primero_configuration_repo_branch|default("master") }}'
     key_file: '/root/.ssh/primero_deployment_key'
+    accept_hostkey: 'yes'
   when: primero_configuration_repo is defined
   become: yes
   tags:
