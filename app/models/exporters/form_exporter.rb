@@ -27,7 +27,7 @@ class Exporters::FormExporter < ValueObject
     self.workbook = WriteXLSX.new(export_file_name)
     sorted_forms.each { |form| export_form(form) }
     export_lookups(Lookup.all)
-    self.workbook.close
+    workbook.close
   end
 
   private
@@ -45,14 +45,7 @@ class Exporters::FormExporter < ValueObject
     worksheet = workbook.add_worksheet(worksheet_name(form))
     worksheet.write(0, 0, form.unique_id)
     worksheet.write(1, 0, header)
-
-    row_number = 2
-    form.fields.each do |field|
-      next if visible && !field.visible?
-
-      worksheet.write(row_number, 0, field_row(form, field))
-      row_number += 1
-    end
+    export_form_fields(form, worksheet)
   end
 
   def worksheet_name(form)
@@ -62,7 +55,7 @@ class Exporters::FormExporter < ValueObject
   end
 
   def make_worksheet_name_unique(worksheet_name, idx = 0)
-    return worksheet_name if workbook.worksheets.find { |w| w.name.gsub(/\u0000/, '') == worksheet_name }.nil?
+    return worksheet_name if workbook.worksheets.find { |w| w.name.delete('\u0000') == worksheet_name }.nil?
 
     idx += 1
     modify_worksheet_name(worksheet_name, idx)
@@ -75,14 +68,32 @@ class Exporters::FormExporter < ValueObject
     make_worksheet_name_unique(worksheet_name, idx)
   end
 
-  def field_row(form, field)
-    required = field.required ? '✔' : ''
-    mobile_visible = ((form.visible || form.is_nested) && form.mobile_form && field.mobile_visible) ? '✔' : ''
-    minify_visible = field.show_on_minify_form ? '✔' : ''
+  def export_form_fields(form, worksheet)
+    row_number = 2
+    form.fields.each do |field|
+      next if visible && !field.visible?
 
-    field_row = [form.form_group_id, form.name, field.name, field_type(field), field.display_name, required,
-                 mobile_visible, minify_visible, field_option_ids(field), field_options(field), field.help_text,
-                 field.guiding_questions]
+      worksheet.write(row_number, 0, field_row(form, field))
+      row_number += 1
+    end
+  end
+
+  def required(field)
+    field.required ? '✔' : ''
+  end
+
+  def mobile_visible(form, field)
+    (form.visible || form.is_nested) && form.mobile_form && field.mobile_visible ? '✔' : ''
+  end
+
+  def minify_visible(field)
+    field.show_on_minify_form ? '✔' : ''
+  end
+
+  def field_row(form, field)
+    field_row = [form.form_group_id, form.name, field.name, field_type(field), field.display_name, required(field),
+                 mobile_visible(form, field), minify_visible(field), field_option_ids(field), field_options(field),
+                 field.help_text, field.guiding_questions]
     field_row = insert_visible_column(field_row, field) unless visible
     field_row
   end
@@ -107,18 +118,23 @@ class Exporters::FormExporter < ValueObject
 
   def field_options_select(field)
     %w[Location Agency User ReportingLocation].each do |option|
-      return I18n.t("exports.forms.options.#{option.downcase}", locale: locale) if field.option_strings_source&.start_with?(option)
+      next unless field.option_strings_source&.start_with?(option)
+
+      return I18n.t("exports.forms.options.#{option.downcase}", locale: locale)
     end
 
     field.options_list.map { |o| o.is_a?(String) ? o : o['display_text'] }.join(', ')
   end
 
   def field_options_subform(field)
-    # TODO: i18n
     subform = field.subform_section
     export_form(subform)
-    options = "Subform: #{subform.name}"
-    options += "\nCollapsed Fields: #{subform.collapsed_fields.map(&:name).join(', ')}" if subform.collapsed_fields.present?
+    options = I18n.t('exports.forms.options.subforms', subform_name: subform.name, locale: locale)
+    return options if subform.collapsed_fields.blank?
+
+    options += '\n' + I18n.t('exports.forms.options.collapsed_fields',
+                             fields: subform.collapsed_fields.map(&:name).join(', '),
+                             locale: locale)
     options
   end
 

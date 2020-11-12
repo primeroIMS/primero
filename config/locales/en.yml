@@ -806,6 +806,9 @@ en:
         agency: Agencies
         user: Users
         reportinglocation: Reporting Locations
+        subforms: 'Subform: %{subform_name}'
+        collapsed_fields: 'Collapsed Fields: %{fields}'
+
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:
       all: Incident Recorder
