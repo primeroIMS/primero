@@ -1,7 +1,0 @@
----
-- name: 'git clone primero github repo'
-  git:
-    repo: 'https://github.com/primeroIMS/primero.git'
-    dest: '/srv/primero/'
-    version: '{{ primero_github_branch }}'
-  become: yes

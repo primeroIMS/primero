@@ -46,6 +46,10 @@ describe("middleware/utils/process-subforms.js", () => {
     }
   };
 
+  after(() => {
+    generate.messageKey.restore();
+  });
+
   describe("when responses are ok", () => {
     const responses = [
       {
@@ -158,6 +162,4 @@ describe("middleware/utils/process-subforms.js", () => {
       expect(parentFormCallback.api.body.data.fields).to.deep.equals(expectedFields);
     });
   });
-
-  generate.messageKey.restore();
 });

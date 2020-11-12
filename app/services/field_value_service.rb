@@ -56,7 +56,7 @@ class FieldValueService < ValueObject
     return value unless record_class
 
     record = record_class.find_by(record_class.unique_id_attribute => value)
-    record.name(locale(opts))
+    record&.name(locale(opts))
   end
 
   def value_for(options_list, value, opts = {})
