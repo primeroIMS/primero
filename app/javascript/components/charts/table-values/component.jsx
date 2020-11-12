@@ -13,7 +13,6 @@ import styles from "./styles.css";
 const TableValues = ({ columns, values }) => {
   const css = makeStyles(styles)();
 
-  console.log(columns);
   const columnsOfObjects = columns.every(column => typeof column === "object");
   const itemsNo = !isEmpty(columns) && columnsOfObjects && columns?.length >= 2 ? columns[1].items.length : 0;
   const selector = `& td:nth-child(${itemsNo}n + ${itemsNo + 1})`;
@@ -23,7 +22,7 @@ const TableValues = ({ columns, values }) => {
       const { colspan, row } = value;
 
       return (
-        <MuiThemeProvider theme={tableValuesTheme(selector)}>
+        <MuiThemeProvider key={`${Math.floor(Math.random() * 10000 + 1)}`} theme={tableValuesTheme(selector)}>
           <TableRow
             className={clsx({ [css.tableRow]: colspan !== 0, [css.tableRowValues]: true })}
             key={`${Math.floor(Math.random() * 10000 + 1)}-data`}
