@@ -25,7 +25,8 @@ class Exporters::FormExporter < ValueObject
 
   def export
     self.workbook = WriteXLSX.new(export_file_name)
-    sorted_forms.each { |form| export_to_worksheet(form) }
+    sorted_forms.each { |form| export_form(form) }
+    export_lookups(Lookup.all)
     self.workbook.close
   end
 
@@ -35,7 +36,9 @@ class Exporters::FormExporter < ValueObject
     FormSection.list(form_params).sort_by { |f| [f.order_form_group, f.order] }
   end
 
-  def export_to_worksheet(form)
+  def export_form(form)
+    return if form.blank?
+
     # If we only want visible forms, skip forms that aren't visible... unless it is a subform
     return if visible && !form.visible? && !form.is_nested?
 
@@ -57,26 +60,22 @@ class Exporters::FormExporter < ValueObject
     name.sub(%r{[\[\]:*?\/\\]}, ' ')
       .encode('iso-8859-1', undef: :replace, replace: '')
       .strip.truncate(31)
+    make_worksheet_name_unique(name)
   end
 
-  # def worksheet_name(form)
-  #   worksheet_name = form.name.gsub(/[^0-9a-z ]/i, '')[0..30].to_s
-  #   make_worksheet_name_unique(worksheet_name)
-  # end
-  #
-  # def make_worksheet_name_unique(worksheet_name, idx = 0)
-  #   return worksheet_name if workbook.worksheets.find { |w| w.name.gsub(/\u0000/, '') == worksheet_name }.nil?
-  #
-  #   idx += 1
-  #   modify_worksheet_name(worksheet_name, idx)
-  # end
-  #
-  # def modify_worksheet_name(worksheet_name, idx = 0)
-  #   letters_to_replace = Math.log10(idx).to_i + 1
-  #   worksheet_name.slice!((31 - letters_to_replace)..30)
-  #   worksheet_name += idx.to_s
-  #   make_worksheet_name_unique(worksheet_name, idx)
-  # end
+  def make_worksheet_name_unique(worksheet_name, idx = 0)
+    return worksheet_name if workbook.worksheets.find { |w| w.name.gsub(/\u0000/, '') == worksheet_name }.nil?
+
+    idx += 1
+    modify_worksheet_name(worksheet_name, idx)
+  end
+
+  def modify_worksheet_name(worksheet_name, idx = 0)
+    letters_to_replace = Math.log10(idx).to_i + 1
+    worksheet_name.slice!((31 - letters_to_replace)..30)
+    worksheet_name += idx.to_s
+    make_worksheet_name_unique(worksheet_name, idx)
+  end
 
   def field_row(form, field)
     required = field.required ? '✔' : ''
@@ -108,7 +107,7 @@ class Exporters::FormExporter < ValueObject
   def field_options_subform(field)
     # TODO: i18n
     subform = field.subform_section
-    export_to_worksheet(subform)
+    export_form(subform)
     options = "Subform: #{subform.name}"
     options += "\nCollapsed Fields: #{subform.collapsed_fields.map(&:name).join(', ')}" if subform.collapsed_fields.present?
     options
@@ -123,5 +122,29 @@ class Exporters::FormExporter < ValueObject
   def insert_visible_column(field_row, field)
     visible_field = field.visible? ? '✔' : ''
     field_row.insert(visible_column_index, visible_field)
+  end
+
+  def export_lookups(lookups)
+    return if lookups.blank?
+
+    worksheet = workbook.add_worksheet('lookups')
+    worksheet.write(0, 0, lookup_header)
+
+    row_number = 1
+    lookups.each do |lookup|
+      lookup.lookup_values.each do |lookup_value|
+        worksheet.write(row_number, 0, lookup_row(lookup, lookup_value))
+        row_number += 1
+      end
+    end
+  end
+
+  def lookup_header
+    keys = %w[lookup_id lookup_name option_id option_name]
+    keys.map { |key| I18n.t("exports.forms.header.#{key}", locale: locale) }
+  end
+
+  def lookup_row(lookup, lookup_value)
+    [lookup.unique_id, lookup.name, lookup_value['id'], lookup_value['display_text']]
   end
 end

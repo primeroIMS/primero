@@ -123,7 +123,7 @@ module Exporters
 
       it 'exports all visible CP forms' do
         expected_sheets = %w[cases_test_form_3 cases_test_subform_1 cases_test_subform_3 cases_test_form_2
-                             cases_test_form_1 cases_test_subform_0]
+                             cases_test_form_1 cases_test_subform_0 lookups]
         expect(@book.sheets).to match_array(expected_sheets)
       end
 
@@ -147,7 +147,7 @@ module Exporters
 
       it 'exports all CP forms' do
         expected_sheets = %w[cases_test_form_3 cases_test_subform_1 cases_test_subform_3 cases_test_form_2
-                             cases_test_form_1 cases_test_subform_0 cases_test_form_hidden]
+                             cases_test_form_1 cases_test_subform_0 cases_test_form_hidden lookups]
         expect(@book.sheets).to match_array(expected_sheets)
       end
 
@@ -170,7 +170,7 @@ module Exporters
       end
 
       it 'exports all GBV forms' do
-        expected_sheets = %w[cases_test_form_gbv cases_test_subform_5 cases_test_subform_4]
+        expected_sheets = %w[cases_test_form_gbv cases_test_subform_5 cases_test_subform_4 lookups]
         expect(@book.sheets).to match_array(expected_sheets)
       end
     end

@@ -796,6 +796,10 @@ en:
         help_text: Help Text
         guiding_questions: Guiding Questions
         visible: Visible
+        lookup_id: Lookup ID
+        lookup_name: Lookup Name
+        option_id: Option ID
+        option_name: Option Name
       options:
         location: Locations
         agency: Agencies
