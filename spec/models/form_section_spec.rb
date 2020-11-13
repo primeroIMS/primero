@@ -922,4 +922,69 @@ describe FormSection do
       end
     end
   end
+
+  describe 'list' do
+    let(:form1) { FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm') }
+    let(:field1) do
+      Field.create!(name: 'test', display_name: 'test', type: Field::TEXT_FIELD, form_section_id: form1.id)
+    end
+    let(:form2) { FormSection.create!(unique_id: 'B', name: 'B', parent_form: 'case', form_group_id: 'm') }
+    let(:field2) do
+      Field.create!(name: 'test', display_name: 'test', type: Field::TEXT_FIELD, form_section_id: form2.id)
+    end
+    let(:subform) do
+      FormSection.create!(unique_id: 'SUB_A', name: 'SUB A', parent_form: 'case', form_group_id: 'm', is_nested: true)
+    end
+    let(:field_on_subform) do
+      Field.create!(
+        name: 'test2', type: Field::TEXT_FIELD, form_section_id: subform.id, display_name: 'test',
+        collapsed_field_for_subform_section_id: subform.id
+      )
+    end
+    let(:subform_field) do
+      Field.create!(
+        name: 'test3', type: Field::SUBFORM, form_section_id: form1.id,
+        subform_section_id: subform.id, display_name: 'test'
+      )
+    end
+    let(:module1) do
+      PrimeroModule.create!(
+        unique_id: 'primeromodule-cp-a',
+        name: 'CPA',
+        description: 'Child Protection A',
+        associated_record_types: %w[case tracing_request incident],
+        form_sections: [form1, form2]
+      )
+    end
+    before do
+      clean_data(Field, FormSection, PrimeroModule)
+      form1 && field1 && form2 && field2 && subform && field_on_subform && subform_field && module1 && form1.reload && form2.reload
+    end
+
+    context 'when include_subforms is false' do
+      before do
+        @form_params = { module_id: 'primeromodule-cp-a', record_type: 'case', visible: true, include_subforms: false }
+      end
+      it 'returns forms without subforms' do
+        expected = [form1, form2]
+        expect(FormSection.list(@form_params)).to match_array(expected)
+      end
+    end
+
+    context 'when include_subforms is true' do
+      before do
+        @form_params = { module_id: 'primeromodule-cp-a', record_type: 'case', visible: true, include_subforms: true }
+      end
+      it 'returns forms with subforms' do
+        expected = [form1, form2, subform]
+        expect(FormSection.list(@form_params)).to match_array(expected)
+      end
+    end
+  end
+
+
+
+  after do
+    clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role, Lookup)
+  end
 end

@@ -84,7 +84,10 @@ class FormSection < ApplicationRecord
       form_sections = form_sections.where(unique_id: params[:unique_id]) if params[:unique_id]
       form_sections = form_sections.where(parent_form: params[:record_type]) if params[:record_type]
       form_sections = form_sections.where(primero_modules: { unique_id: params[:module_id] }) if params[:module_id]
-      form_sections
+      return form_sections unless params[:include_subforms]
+
+      subforms = form_sections.map { |f| f.fields.select { |fd| fd.type == 'subform' }.map(&:subform) }.flatten.uniq
+      form_sections + subforms
     end
 
     def sort_configuration_hash(configuration_hash)
