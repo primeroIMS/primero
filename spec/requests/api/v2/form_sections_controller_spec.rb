@@ -689,7 +689,7 @@ describe Api::V2::FormSectionsController, type: :request do
         expect(response).to have_http_status(200)
 
         @book = Roo::Spreadsheet.open(json['data']['file_name'])
-        expected = ["Form Section 1", "Form Section 2", "lookups"]
+        expected = ['Form Section 1', 'Form Section 2', 'lookups']
         expect(@book.sheets).to match_array(expected)
       end
     end

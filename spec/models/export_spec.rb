@@ -111,7 +111,7 @@ describe Export do
 
       gbv_forms = FormSection.where(unique_id: %w[cases_test_form_gbv])
       @primero_module_gbv = create(:primero_module, unique_id: 'primeromodule-gbv', name: 'GBV',
-                                   form_sections: gbv_forms)
+                                                    form_sections: gbv_forms)
 
       @lookup_yes_no = Lookup.create!(
         unique_id: 'lookup-yes-no',
