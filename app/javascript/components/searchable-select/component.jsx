@@ -45,7 +45,8 @@ const SearchableSelect = ({
 
   const initialValues = () => {
     if (Array.isArray(defaultValues)) {
-      const values = defaultValues.map(selected => selected.value || null);
+      const defaultValuesClear = defaultValues.filter(selected => selected.label);
+      const values = defaultValuesClear.map(selected => selected?.value || null);
 
       return multiple ? values : values[0];
     }
