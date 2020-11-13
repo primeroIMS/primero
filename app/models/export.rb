@@ -8,13 +8,14 @@ class Export < ValueObject
 
   attr_accessor :exporter, :status, :failures, :error_messages,
                 :total, :success_total, :failure_total,
-                :file_name
+                :record_type, :module_id, :file_name, :visible
 
   def run
     return unless exporter
 
     # TODO: pass params to exporter.new
-    exporter_instance = exporter.new
+    exporter_instance = exporter.new(record_type: record_type, module_id: module_id, file_name: file_name,
+                                     visible: visible)
     exporter_instance.export
     assign_status(exporter_instance)
   end
