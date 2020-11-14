@@ -214,6 +214,8 @@ const fetchSinglePayload = (action, store, options) => {
             fromQueue
           });
 
+          messageQueueSuccess(action);
+
           if (attachments) {
             processAttachments({
               attachments,
@@ -223,8 +225,6 @@ const fetchSinglePayload = (action, store, options) => {
           }
 
           handleRestCallback(store, successCallback, response, json, fromQueue);
-
-          messageQueueSuccess(action);
         }
         fetchStatus({ store, type }, "FINISHED", false);
 
