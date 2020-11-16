@@ -1,6 +1,8 @@
 import { setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
 import SubformDialog from "../subform-dialog";
+import SubformFields from "../subform-fields";
+import SubformHeader from "../subform-header";
 
 import SubformFieldArray from "./component";
 
@@ -30,7 +32,7 @@ describe("<SubformFieldArray />", () => {
     },
     field: FieldRecord({
       name: "family_details_section",
-      displayName: { en: "Family Details" },
+      display_name: { en: "Family Details" },
       subform_section_id: FormSectionRecord({
         unique_id: "family_section",
         fields: [
@@ -45,7 +47,10 @@ describe("<SubformFieldArray />", () => {
             type: "text_field"
           })
         ]
-      })
+      }),
+      subform_section_configuration: {
+        subform_sort_by: "relation_name"
+      }
     }),
     formik: {
       values: {
@@ -54,6 +59,7 @@ describe("<SubformFieldArray />", () => {
           { relation_name: "aut", relation_child_is_in_contac: "test B" }
         ]
       },
+      resetForm: () => {},
       errors: { services_subform_section: [{ relation_name: "required" }] }
     },
     i18n: { t: value => value, locale: "en" },
@@ -86,5 +92,13 @@ describe("<SubformFieldArray />", () => {
 
   it("renders the SubformDialog", () => {
     expect(component.find(SubformDialog)).lengthOf(1);
+  });
+
+  it("renders the SubformFields", () => {
+    expect(component.find(SubformFields)).lengthOf(1);
+  });
+
+  it("renders the SubformHeader", () => {
+    expect(component.find(SubformHeader)).lengthOf(2);
   });
 });
