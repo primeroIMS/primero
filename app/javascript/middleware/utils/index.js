@@ -8,6 +8,7 @@ import handleRestCallback from "./handle-rest-callback";
 import defaultErrorCallback from "./default-error-callback";
 import retrieveData from "./retrieve-data";
 import queueData from "./queue-data";
+import queueFetch from "./queue-fetch";
 import checkFieldSubformErrors from "./check-fields-subform-errors";
 import processSubforms from "./process-subforms";
 import handleConfiguration from "./handle-configuration";
@@ -24,6 +25,7 @@ export {
   processAttachments,
   processSubforms,
   queueData,
+  queueFetch,
   retrieveData,
   startSignout
 };

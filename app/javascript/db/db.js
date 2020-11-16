@@ -4,6 +4,7 @@ import { openDB } from "idb";
 
 import { DATABASE_NAME } from "../config/constants";
 
+import { subformAwareMerge } from "./utils";
 import {
   DB_COLLECTIONS_NAMES,
   DB_COLLECTIONS_V1,
@@ -100,7 +101,7 @@ class DB {
       const prev = await (await this._db).get(store, key || i.id);
 
       if (prev) {
-        return (await this._db).put(store, merge(prev, { ...i, ...key }));
+        return (await this._db).put(store, merge(prev, { ...i, ...key }, { arrayMerge: subformAwareMerge }));
       }
       throw new Error("Record is new");
     } catch (e) {
