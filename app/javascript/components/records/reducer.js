@@ -40,23 +40,25 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
     case `${namespace}/${RECORDS_SUCCESS}`: {
       const { data, metadata } = payload;
       const selectedRecordId = state.get("selectedRecord");
-      const selectedRecordWillUpdate = selectedRecordId ? data.some(d => d.id === selectedRecordId) : false;
+      const selectedRecordWillUpdate = selectedRecordId
+        ? data.some(recordUpdate => recordUpdate.id === selectedRecordId)
+        : false;
       const selectedRecord =
         selectedRecordId && !selectedRecordWillUpdate
-          ? state.get("data").find(r => r.get("id") === selectedRecordId)
+          ? state.get("data").find(record => record.get("id") === selectedRecordId)
           : null;
 
       return state
-        .update("data", u => {
+        .update("data", records => {
           return fromJS(
-            data.map(d => {
-              const index = u.findIndex(r => r.get("id") === d.id);
+            data.map(recordUpdate => {
+              const index = records.findIndex(record => record.get("id") === recordUpdate.id);
 
               if (index !== -1) {
-                return mergeRecord(u.get(index), fromJS(d));
+                return mergeRecord(records.get(index), fromJS(recordUpdate));
               }
 
-              return d;
+              return recordUpdate;
             })
           ).concat(selectedRecord?.toSeq()?.size ? fromJS([selectedRecord]) : fromJS([]));
         })
