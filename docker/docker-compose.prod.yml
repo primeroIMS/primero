@@ -2,7 +2,7 @@
 version: '3.8'
 services:
   nginx:
-    image: 'primeroims/nginx:${PRIMERO_TAG:-latest}'
+    image: "primeroims/nginx:${PRIMERO_TAG:-latest}"
     ports:
       - "80:80"
       - "443:443"

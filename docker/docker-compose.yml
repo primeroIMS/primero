@@ -2,25 +2,25 @@
 version: '3.8'
 services:
   postgres:
-    image: 'primeroims/postgres:${PRIMERO_TAG:-latest}'
+    image: "primeroims/postgres:${PRIMERO_TAG:-latest}"
     volumes:
       - database:/var/lib/postgresql/data
     env_file:
       - docker/defaults.env
   solr:
-    image: 'primeroims/solr:${PRIMERO_TAG:-latest}'
+    image: "primeroims/solr:${PRIMERO_TAG:-latest}"
     env_file:
       - docker/defaults.env
     volumes:
       - solr_cores:/opt/solr/server/solr/mycores
   beanstalkd:
-    image: 'primeroims/beanstalkd:${PRIMERO_TAG:-latest}'
+    image: "primeroims/beanstalkd:${PRIMERO_TAG:-latest}"
     env_file:
       - docker/defaults.env
     volumes:
       - beanstalkd:/var/lib/beanstalkd
   application:
-    image: 'primeroims/application:${PRIMERO_TAG:-latest}'
+    image: "primeroims/application:${PRIMERO_TAG:-latest}"
     depends_on:
       - solr
       - beanstalkd
@@ -33,7 +33,7 @@ services:
     stdin_open: true
     tty: true
   backburner:
-    image: 'primeroims/application:${PRIMERO_TAG:-latest}'
+    image: "primeroims/application:${PRIMERO_TAG:-latest}"
     depends_on:
       - solr
       - beanstalkd
@@ -44,7 +44,7 @@ services:
       - docker/defaults.env
     command: ["bundle", "exec", "rails", "backburner:wait_then_work"]
   scheduler:
-    image: 'primeroims/application:${PRIMERO_TAG:-latest}'
+    image: "primeroims/application:${PRIMERO_TAG:-latest}"
     depends_on:
       - solr
       - beanstalkd
