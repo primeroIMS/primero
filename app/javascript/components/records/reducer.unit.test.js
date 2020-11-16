@@ -45,6 +45,70 @@ describe("<RecordList /> - Reducers", () => {
     expect(newState).to.deep.equal(expected);
   });
 
+  it("should append the selectedRecord when RECORDS_SUCCESS", () => {
+    const data = fromJS([
+      { id: "abc1", status: "open" },
+      { id: "abc2", status: "open" }
+    ]);
+
+    const expected = fromJS({ data, metadata: { per: 2 }, selectedRecord: "abc2" });
+
+    const action = {
+      type: "TestRecordType/RECORDS_SUCCESS",
+      payload: {
+        data: [{ id: "abc1", status: "open" }],
+        metadata: { per: 2 }
+      }
+    };
+
+    const newState = nsReducer(Map({ data, selectedRecord: "abc2" }), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should merge the selectedRecord when RECORDS_SUCCESS", () => {
+    const record1 = { id: "abc1", status: "open" };
+    const record2 = { id: "abc2", status: "open" };
+    const data = fromJS([record1, record2]);
+
+    const expected = fromJS({
+      data: [{ ...record1, status: "closed" }, record2],
+      metadata: { per: 2 },
+      selectedRecord: "abc1"
+    });
+
+    const action = {
+      type: "TestRecordType/RECORDS_SUCCESS",
+      payload: {
+        data: [{ id: "abc1", status: "closed" }, record2],
+        metadata: { per: 2 }
+      }
+    };
+
+    const newState = nsReducer(Map({ data, selectedRecord: "abc1" }), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should replace data if there is no selectedRecord when RECORDS_SUCCESS", () => {
+    const record1 = { id: "abc1", status: "open" };
+    const data = fromJS([record1, { id: "abc2", status: "open" }]);
+
+    const expected = fromJS({ data: [record1], metadata: { per: 2 } });
+
+    const action = {
+      type: "TestRecordType/RECORDS_SUCCESS",
+      payload: {
+        data: [record1],
+        metadata: { per: 2 }
+      }
+    };
+
+    const newState = nsReducer(Map({ data }), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
   it("should handle RECORDS_FINISHED", () => {
     const expected = Map({ loading: false });
     const action = {
@@ -141,6 +205,33 @@ describe("<RecordList /> - Reducers", () => {
     };
 
     const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_SELECTED_RECORD", () => {
+    const expected = fromJS({
+      selectedRecord: "123"
+    });
+
+    const action = {
+      type: "TestRecordType/SET_SELECTED_RECORD",
+      payload: { id: "123" }
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle CLEAR_SELECTED_RECORD", () => {
+    const expected = fromJS({});
+
+    const action = {
+      type: "TestRecordType/CLEAR_SELECTED_RECORD"
+    };
+
+    const newState = nsReducer(fromJS({ selectedRecord: "123" }), action);
 
     expect(newState).to.deep.equals(expected);
   });

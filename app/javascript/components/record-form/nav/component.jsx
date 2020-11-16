@@ -11,9 +11,9 @@ import { withRouter } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
 import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
-import { getRecordFormsByUniqueId, getSelectedRecord, getValidationErrors } from "../selectors";
-import { getIncidentFromCase, getRecordAlerts } from "../../records/selectors";
-import { setSelectedForm, setSelectedRecord } from "../action-creators";
+import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
+import { getIncidentFromCase, getRecordAlerts, getSelectedRecord } from "../../records";
+import { setSelectedForm } from "../action-creators";
 import { compare, ConditionalWrapper } from "../../../libs";
 
 import { NAME } from "./constants";
@@ -53,7 +53,7 @@ const Component = ({
   );
   const firstSelectedForm = selectedRecordForm?.first();
   const validationErrors = useSelector(state => getValidationErrors(state), compare);
-  const currentSelectedRecord = useSelector(state => getSelectedRecord(state));
+  const currentSelectedRecord = useSelector(state => getSelectedRecord(state, recordType));
 
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType), compare);
 
@@ -106,10 +106,6 @@ const Component = ({
       setOpen(firstTab.form_group_id);
     }
   }, [firstSelectedForm?.form_group_id]);
-
-  useEffect(() => {
-    dispatch(setSelectedRecord(selectedRecord));
-  }, [firstTab]);
 
   useEffect(() => {
     // If we are going back
