@@ -1,4 +1,25 @@
 ---
+- name: 'Copy Primero deployment private SSH key to remote host'
+  copy:
+    dest: '/root/.ssh/primero_deployment_key'
+    mode: 'u=rw,go='
+    content: '{{ ssh_private_key }}'
+  become: yes
+  when: ssh_private_key is defined
+  tags:
+  - 'always'
+
+- name: 'Pull Primero from Git'
+  git:
+    repo: '{{ primero_repo|default("https://github.com/primeroIMS/primero.git") }}'
+    dest: '/srv/primero/'
+    version: '{{ primero_repo_branch }}'
+    key_file: '/root/.ssh/primero_deployment_key'
+    accept_hostkey: 'yes'
+  become: yes
+  tags:
+  - 'always'
+
 - name: 'create the local.env file'
   copy:
     dest: '/srv/primero/docker/local.env'
@@ -18,19 +39,8 @@
       DEVISE_JWT_SECRET_KEY={{ devise_jwt_secret_key }}
   become: yes
   tags:
-  - 'local-env'
-
-- name: 'copy primero deployment private ssh key to remote host'
-  copy:
-    dest: '/root/.ssh/primero_deployment_key'
-    mode: 'u=rw,go='
-    content: '{{ ssh_private_key }}'
-  become: yes
-  when: ssh_private_key is defined
-  tags:
   - 'never'
-  - 'configure'
-  - 'build'
+  - 'local-env'
 
 - name: 'build the Docker containers'
   command: |
@@ -41,29 +51,44 @@
   - 'never'
   - 'build'
 
-- name: 'git clone primero configuration repo'
+- name: 'Pull Primero configuration from Git'
   git:
     repo: '{{ primero_configuration_repo }}'
     dest: '/srv/primero-configuration/'
-    version: '{{ primero_configuration_repo_branch }}'
+    version: '{{ primero_configuration_repo_branch|default("master") }}'
     key_file: '/root/.ssh/primero_deployment_key'
+    accept_hostkey: 'yes'
+  when: primero_configuration_repo is defined
   become: yes
   tags:
   - 'never'
   - 'configure'
 
-- name: 'configure the Docker containers'
+- name: 'configure Primero with a custom configuration'
   command: |
-    ./compose.configure.sh '/srv/primero-configuration/{{ configuration_path }}'
+    ./compose.configure.sh '/srv/primero-configuration/{{ primero_configuration_path }}'
   args:
     chdir: '/srv/primero/docker'
   environment:
     PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
+  when: primero_configuration_path is defined
   tags:
   - 'never'
   - 'configure'
 
-- name: 'start the Docker containers'
+- name: 'configure Primero with the default seeds'
+  command: |
+    ./compose.configure.sh
+  args:
+    chdir: '/srv/primero/docker'
+  environment:
+    PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
+  when: primero_configuration_path is not defined
+  tags:
+  - 'never'
+  - 'configure'
+
+- name: '(re)start the Docker containers'
   command: |
     ./compose.prod.sh up -d
   args:
