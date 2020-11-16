@@ -12,7 +12,8 @@ import { getPermissions } from "../../user/selectors";
 import dashboardTableTheme from "./theme";
 
 const DashboardTable = ({ columns, data, query, title, pathname }) => {
-  const clickableCell = [...useSelector(state => getPermissions(state).keys())].includes(pathname.split("/")[1]);
+  const userPermissions = useSelector(state => getPermissions(state));
+  const clickableCell = [...userPermissions.keys()].includes(pathname.split("/")[1]);
 
   const dispatch = useDispatch();
   const options = {
