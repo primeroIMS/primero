@@ -8,6 +8,12 @@ import actions from "./actions";
 import { URL_LOOKUPS } from "./constants";
 
 describe("<RecordForm /> - Action Creators", () => {
+  let dispatch;
+
+  afterEach(() => {
+    dispatch?.restore();
+  });
+
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
 
@@ -18,7 +24,6 @@ describe("<RecordForm /> - Action Creators", () => {
       "fetchLookups",
       "fetchOptions",
       "setSelectedForm",
-      "setSelectedRecord",
       "setServiceToRefer",
       "setValidationErrors"
     ].forEach(property => {
@@ -32,24 +37,13 @@ describe("<RecordForm /> - Action Creators", () => {
 
   it("should check the 'setSelectedForm' action creator to return the correct object", () => {
     const options = "referral_transfer";
-    const dispatch = sinon.spy(actionCreators, "setSelectedForm");
+
+    dispatch = sinon.spy(actionCreators, "setSelectedForm");
 
     actionCreators.setSelectedForm("referral_transfer");
 
     expect(dispatch.getCall(0).returnValue).to.eql({
       type: "forms/SET_SELECTED_FORM",
-      payload: options
-    });
-  });
-
-  it("should check the 'setSelectedRecord' action creator to return the correct object", () => {
-    const options = "123";
-    const dispatch = sinon.spy(actionCreators, "setSelectedRecord");
-
-    actionCreators.setSelectedRecord("123");
-
-    expect(dispatch.getCall(0).returnValue).to.eql({
-      type: "forms/SET_SELECTED_RECORD",
       payload: options
     });
   });
@@ -82,7 +76,7 @@ describe("<RecordForm /> - Action Creators", () => {
   });
 
   it("should check the 'fetchLookups' action creator to return the correct object", () => {
-    const dispatch = sinon.spy(actionCreators, "fetchLookups");
+    dispatch = sinon.spy(actionCreators, "fetchLookups");
 
     actionCreators.fetchLookups();
 

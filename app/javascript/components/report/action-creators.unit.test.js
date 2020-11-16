@@ -70,5 +70,7 @@ describe("<Reports /> - Action Creators", () => {
     };
 
     expect(actionCreators.deleteReport(args)).to.deep.equal(expectedAction);
+
+    generate.messageKey.restore();
   });
 });
