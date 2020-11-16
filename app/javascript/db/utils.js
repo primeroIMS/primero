@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable camelcase, import/prefer-default-export  */
 import merge from "deepmerge";
 
 export const subformAwareMerge = (target, source, options) =>
