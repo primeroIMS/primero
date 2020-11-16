@@ -165,8 +165,6 @@ export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
 
 export const getSelectedForm = state => state.getIn([NAMESPACE, "selectedForm"]);
 
-export const getSelectedRecord = state => state.getIn([NAMESPACE, "selectedRecord"]);
-
 export const getServiceToRefer = state => state.getIn([NAMESPACE, "serviceToRefer"], fromJS({}));
 
 export const getOptionsAreLoading = state => state.getIn([NAMESPACE, "options", "loading"], false);

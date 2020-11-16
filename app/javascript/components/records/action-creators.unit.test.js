@@ -22,9 +22,11 @@ describe("records - Action Creators", () => {
     expect(creators).to.have.property("fetchRecordsAlerts");
     expect(creators).to.have.property("clearMetadata");
     expect(creators).to.have.property("clearCaseFromIncident");
+    expect(creators).to.have.property("clearSelectedRecord");
     expect(creators).to.have.property("fetchIncidentFromCase");
     expect(creators).to.have.property("fetchIncidentwitCaseId");
     expect(creators).to.have.property("setCaseIdForIncident");
+    expect(creators).to.have.property("setSelectedRecord");
     delete creators.setFilters;
     delete creators.fetchCases;
     delete creators.fetchIncidents;
@@ -32,11 +34,13 @@ describe("records - Action Creators", () => {
     delete creators.fetchRecord;
     delete creators.fetchRecordsAlerts;
     delete creators.clearMetadata;
+    delete creators.clearSelectedRecord;
     delete creators.saveRecord;
     delete creators.clearCaseFromIncident;
     delete creators.fetchIncidentFromCase;
     delete creators.fetchIncidentwitCaseId;
     delete creators.setCaseIdForIncident;
+    delete creators.setSelectedRecord;
 
     expect(creators).to.be.empty;
   });
@@ -257,5 +261,22 @@ describe("records - Action Creators", () => {
     };
 
     expect(actionCreators.fetchIncidentwitCaseId("case-id-1")).to.deep.equal(expected);
+  });
+
+  it("should check the 'setSelectedRecord' action creator to return the correct object", () => {
+    const recordId = "123abc";
+
+    const expected = {
+      type: `${RECORD_PATH.cases}/SET_SELECTED_RECORD`,
+      payload: { id: recordId }
+    };
+
+    expect(actionCreators.setSelectedRecord(RECORD_PATH.cases, recordId)).be.deep.equals(expected);
+  });
+
+  it("should check the 'clearSelectedRecord' action creator to return the correct object", () => {
+    const expected = { type: `${RECORD_PATH.cases}/CLEAR_SELECTED_RECORD` };
+
+    expect(actionCreators.clearSelectedRecord(RECORD_PATH.cases)).be.deep.equals(expected);
   });
 });

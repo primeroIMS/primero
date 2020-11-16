@@ -13,10 +13,12 @@ import Transitions, { fetchTransitions } from "../transitions";
 import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";
 import {
+  clearSelectedRecord,
   fetchRecord,
   getIncidentFromCase,
   saveRecord,
   selectRecord,
+  setSelectedRecord,
   getCaseIdForIncident,
   fetchIncidentwitCaseId
 } from "../records";
@@ -182,8 +184,11 @@ const Container = ({ match, mode }) => {
 
   useEffect(() => {
     if (params.id) {
-      dispatch(fetchRecord(params.recordType, params.id));
-      dispatch(fetchRecordsAlerts(params.recordType, params.id));
+      batch(() => {
+        dispatch(setSelectedRecord(params.recordType, params.id));
+        dispatch(fetchRecord(params.recordType, params.id));
+        dispatch(fetchRecordsAlerts(params.recordType, params.id));
+      });
     }
   }, [params.id, params.recordType]);
 
@@ -206,7 +211,12 @@ const Container = ({ match, mode }) => {
   }, [params.recordType, params.id]);
 
   useEffect(() => {
-    return () => dispatch(clearValidationErrors());
+    return () => {
+      batch(() => {
+        dispatch(clearSelectedRecord(params.recordType));
+        dispatch(clearValidationErrors());
+      });
+    };
   }, []);
 
   useEffect(() => {

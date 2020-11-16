@@ -155,7 +155,7 @@ export default ({
         action: id => {
           handleDialogClick(id, true);
         },
-        condition: showListActions ? canShowExports && !canOnlyExportPdf : canShowExports,
+        condition: showListActions ? canShowExports : canShowExports || canOnlyExportPdf,
         disableOffline: true,
         enabledFor: ENABLED_FOR_ONE_MANY_ALL,
         id: EXPORT_DIALOG,
@@ -217,7 +217,7 @@ export default ({
       },
       [EXPORT_DIALOG]: {
         component: Exports,
-        ability: canShowExports
+        ability: canShowExports || canOnlyExportPdf
       }
     }
   };
