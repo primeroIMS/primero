@@ -16,7 +16,6 @@ describe("I8n - utils", () => {
   });
 
   describe("getLocaleDir", () => {
-
     it("should return rtl when recieve any locale RTL orientation locale", () => {
       expect(utils.getLocaleDir("ar")).to.be.equal(ORIENTATION.rtl);
       expect(utils.getLocaleDir("ar-LB")).to.be.equal(ORIENTATION.rtl);
