@@ -10,7 +10,7 @@
 
   & td {
     font-weight: bold;
-    border-right: 1px solid #e0e0e0;
+    border-right: 1px solid $(theme.primero.colors.lightGrey2);
   }
 
   & td:last-of-type {
@@ -23,7 +23,7 @@
   & th:not(:first-child) {
     background-color: $(theme.primero.colors.lightGrey);
     font-weight: bold;
-    border-left: 1px solid #e0e0e0;
+    border-left: 1px solid $(theme.primero.colors.lightGrey2);
   }
 
   & th:last-of-type {
@@ -32,5 +32,5 @@
 }
 
 .borderHeadingRight, .tableRowValues {
-  border-right: 1px solid #e0e0e0;
+  border-right: 1px solid $(theme.primero.colors.lightGrey2);
 }

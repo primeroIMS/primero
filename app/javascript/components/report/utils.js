@@ -1,6 +1,5 @@
-/* eslint-disable import/exports-last */
-/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
+
 import isEqual from "lodash/isEqual";
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
@@ -110,38 +109,6 @@ const dataSet = (columns, data, i18n, fields, { agencies }) => {
   return dataResults;
 };
 
-const getRows = (columns, data, i18n, fields, { agencies }) => {
-  const totalLabel = i18n.t("report.total");
-  const currentRows = [];
-  const field = fields.shift();
-  const keys = Object.keys(data);
-  const values = Object.values(data);
-
-  keys
-    .filter(key => key !== totalLabel)
-    .forEach(key => {
-      const newRow = [getTranslatedKey(key, field, { agencies, i18n })];
-
-      if (!(values.length === 1 && keys.includes(totalLabel))) {
-        if (!containsColumns(columns, data[key], i18n)) {
-          columns.forEach(() => newRow.push(""));
-          newRow.push(data[key][totalLabel]);
-          currentRows.push(newRow);
-        } else {
-          columns.forEach(c => newRow.push(data[key][c][totalLabel]));
-          newRow.push(data[key][totalLabel]);
-          currentRows.push(newRow);
-
-          return;
-        }
-      }
-
-      currentRows.push(getRows(columns, data[key], i18n, fields, { agencies }));
-    });
-
-  return currentRows;
-};
-
 const getLabels = (columns, data, i18n, fields, { agencies }) => {
   const totalLabel = i18n.t("report.total");
   const currentLabels = [];
@@ -212,7 +179,7 @@ const translateData = (data, fields, i18n) => {
   return currentTranslations;
 };
 
-export const translateReportData = (report, i18n) => {
+const translateReportData = (report, i18n) => {
   const translatedReport = { ...report };
 
   if (translatedReport.report_data) {
@@ -222,32 +189,7 @@ export const translateReportData = (report, i18n) => {
   return translatedReport;
 };
 
-export const buildDataForGraph = (report, i18n, { agencies }) => {
-  const reportData = report.toJS();
-
-  if (!reportData.report_data) {
-    return {};
-  }
-  const { fields } = report.toJS();
-  const translatedReport = translateReportData(reportData, i18n);
-  const columns = getColumns(translatedReport.report_data, i18n);
-
-  const graphData = {
-    description: translatedReport.description ? translatedReport.description[i18n.locale] : "",
-    data: {
-      labels: getLabels(columns, translatedReport.report_data, i18n, report.toJS().fields, { agencies }),
-      datasets: dataSet(columns, translatedReport.report_data, i18n, fields, {
-        agencies
-      })
-    }
-  };
-
-  return graphData;
-};
-
-// COLUMNS DATA
-
-export const translateColumn = (column, value, locale = "en") => {
+const translateColumn = (column, value, locale = "en") => {
   if ("option_labels" in column) {
     return column.option_labels[locale].find(option => option.id === value)?.display_text || value;
   }
@@ -336,7 +278,7 @@ const formatColumns = (formattedKeys, columns) => {
   });
 };
 
-export const getColumnsTableData = data => {
+const getColumnsTableData = data => {
   if (isEmpty(data.report_data)) {
     return [];
   }
@@ -416,7 +358,7 @@ const formatRows = (rows, translation) => {
   });
 };
 
-export const buildDataForTable = (report, i18n, { agencies }) => {
+export const buildDataForTable = (report, i18n) => {
   const reportData = report.toJS();
 
   const newColumns = getColumnsTableData(report.toJS());
@@ -433,4 +375,27 @@ export const buildDataForTable = (report, i18n, { agencies }) => {
   const values = formatRows(newRows, rows);
 
   return { columns, values };
+};
+
+export const buildDataForGraph = (report, i18n, { agencies }) => {
+  const reportData = report.toJS();
+
+  if (!reportData.report_data) {
+    return {};
+  }
+  const { fields } = report.toJS();
+  const translatedReport = translateReportData(reportData, i18n);
+  const columns = getColumns(translatedReport.report_data, i18n);
+
+  const graphData = {
+    description: translatedReport.description ? translatedReport.description[i18n.locale] : "",
+    data: {
+      labels: getLabels(columns, translatedReport.report_data, i18n, report.toJS().fields, { agencies }),
+      datasets: dataSet(columns, translatedReport.report_data, i18n, fields, {
+        agencies
+      })
+    }
+  };
+
+  return graphData;
 };

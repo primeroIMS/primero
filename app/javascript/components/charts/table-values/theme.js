@@ -9,10 +9,10 @@ export default selector =>
         MuiTableRow: {
           root: {
             "& td:first-child": {
-              borderRight: "1px solid #e0e0e0"
+              borderRight: `1px solid ${theme.primero.colors.lightGrey2}`
             },
             [selector]: {
-              borderRight: "1px solid #e0e0e0"
+              borderRight: `1px solid ${theme.primero.colors.lightGrey2}`
             }
           }
         }

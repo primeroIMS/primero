@@ -1,13 +1,13 @@
-import { emptyColum } from "./utils";
+import { emptyColumn } from "./utils";
 
 describe("<TableValues/> - components/utils", () => {
-  describe("emptyColum", () => {
+  describe("emptyColumn", () => {
     const i18n = {
       t: value => value
     };
 
     describe("when withoutTotal is false", () => {
-      const result = emptyColum(i18n);
+      const result = emptyColumn(i18n);
 
       it("returns an array of two elements", () => {
         expect(result).to.have.lengthOf(2);
@@ -19,7 +19,7 @@ describe("<TableValues/> - components/utils", () => {
 
     describe("when withoutTotal is true", () => {
       it("returns an array with a single and empty element", () => {
-        const result = emptyColum(i18n, true);
+        const result = emptyColumn(i18n, true);
 
         expect(result[0]).to.be.empty;
         expect(result).to.have.lengthOf(1);

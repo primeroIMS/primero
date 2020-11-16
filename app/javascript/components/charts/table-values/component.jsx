@@ -9,6 +9,7 @@ import isEmpty from "lodash/isEmpty";
 import tableValuesTheme from "./theme";
 import TableHeader from "./components/table-header";
 import styles from "./styles.css";
+import generateKey from "./utils";
 
 const TableValues = ({ columns, values }) => {
   const css = makeStyles(styles)();
@@ -22,14 +23,14 @@ const TableValues = ({ columns, values }) => {
       const { colspan, row } = value;
 
       return (
-        <MuiThemeProvider key={`${Math.floor(Math.random() * 10000 + 1)}`} theme={tableValuesTheme(selector)}>
+        <MuiThemeProvider key={generateKey()} theme={tableValuesTheme(selector)}>
           <TableRow
             className={clsx({ [css.tableRow]: colspan !== 0, [css.tableRowValues]: true })}
             key={`${Math.floor(Math.random() * 10000 + 1)}-data`}
           >
             {row.map(r => {
               return (
-                <TableCell colSpan={colspan} key={`${Math.floor(Math.random() * 10000 + 1)}-value`}>
+                <TableCell colSpan={colspan} key={generateKey(value)}>
                   <span>{r}</span>
                 </TableCell>
               );

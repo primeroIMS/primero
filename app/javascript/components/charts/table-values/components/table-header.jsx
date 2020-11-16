@@ -7,8 +7,9 @@ import clsx from "clsx";
 
 import { useI18n } from "../../../i18n";
 import styles from "../styles.css";
+import generateKey from "../utils";
 
-import { emptyColum } from "./utils";
+import { emptyColumn } from "./utils";
 
 const TableHeader = ({ columns }) => {
   const i18n = useI18n();
@@ -16,19 +17,21 @@ const TableHeader = ({ columns }) => {
   let newColumns = columns;
 
   if (isEmpty(newColumns)) {
-    newColumns = emptyColum(i18n, true);
+    newColumns = emptyColumn(i18n, true);
   }
 
   const arrayOfObjects = newColumns.every(column => typeof column === "object");
 
   if (!arrayOfObjects) {
     const singleColumns =
-      newColumns.length === 1 && isEmpty(newColumns[0]) ? emptyColum(i18n) : emptyColum(i18n, true).concat(newColumns);
+      newColumns.length === 1 && isEmpty(newColumns[0])
+        ? emptyColumn(i18n)
+        : emptyColumn(i18n, true).concat(newColumns);
 
     return (
-      <TableRow key={`${Math.floor(Math.random() * 10000 + 1)}-column-row`}>
+      <TableRow key={generateKey("column-row")}>
         {singleColumns.map(column => (
-          <TableCell key={`${Math.floor(Math.random() * 10000 + 1)}-cell`}>{column}</TableCell>
+          <TableCell key={generateKey("cell")}>{column}</TableCell>
         ))}
       </TableRow>
     );
@@ -39,32 +42,27 @@ const TableHeader = ({ columns }) => {
       {newColumns.map((column, index) => {
         const { items, colspan } = column;
         const isFirstHeading = index === 0;
-        const emptyCells = emptyColum(i18n, true);
+        const emptyCells = emptyColumn(i18n, true);
         const repeat = isFirstHeading ? 0 : newColumns[0].items.filter(i => i !== "Total").length;
         const cells = isFirstHeading ? items : Array.from({ length: repeat }, () => items).flat();
         const allCells = isFirstHeading ? emptyCells.concat(cells) : emptyCells.concat(cells).concat("");
 
         return (
-          <TableRow
-            className={clsx({ [css.tableRowHeader]: index === 0 })}
-            key={`${Math.floor(Math.random() * 10000 + 1)}-column-row`}
-          >
+          <TableRow className={clsx({ [css.tableRowHeader]: index === 0 })} key={generateKey("column-row")}>
             {allCells.map(cell => {
               if (isEmpty(cell)) {
-                return (
-                  <TableCell className={css.borderHeadingRight} key={`${Math.floor(Math.random() * 10000 + 1)}`} />
-                );
+                return <TableCell className={css.borderHeadingRight} key={generateKey()} />;
               }
               if (cell === "Total") {
                 return (
-                  <TableCell className={css.borderHeadingRight} key={`${Math.floor(Math.random() * 10000 + 1)}`}>
+                  <TableCell className={css.borderHeadingRight} key={generateKey()}>
                     {cell}
                   </TableCell>
                 );
               }
 
               return (
-                <TableCell key={`${Math.floor(Math.random() * 10000 + 1)}`} colSpan={colspan}>
+                <TableCell key={generateKey()} colSpan={colspan}>
                   {cell}
                 </TableCell>
               );
