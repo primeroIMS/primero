@@ -1,4 +1,5 @@
 import MUIDataTable from "mui-datatables";
+import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
 
@@ -10,11 +11,20 @@ describe("<DashboardTable />", () => {
     columns: [],
     data: [],
     query: [],
-    title: "testTitle"
+    title: "testTitle",
+    pathname: "/cases"
   };
 
+  const state = fromJS({
+    user: {
+      permissions: {
+        cases: ["manage"]
+      }
+    }
+  });
+
   beforeEach(() => {
-    ({ component } = setupMountedComponent(DashboardTable, props, {}));
+    ({ component } = setupMountedComponent(DashboardTable, props, state));
   });
 
   it("renders a MUIDataTable />", () => {

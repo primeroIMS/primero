@@ -109,6 +109,7 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew, userModules) => {
           multi_select: true,
           required: true,
           watchedInputs: [MODULES_FIELD, RECORD_TYPE_FIELD],
+          maxSelectedOptions: 2,
           handleWatchedInputs: checkModuleAndRecordType
         }),
         FieldRecord({
@@ -118,6 +119,7 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew, userModules) => {
           multi_select: true,
           required: true,
           watchedInputs: [MODULES_FIELD, RECORD_TYPE_FIELD],
+          maxSelectedOptions: 2,
           handleWatchedInputs: checkModuleAndRecordType
         }),
         FieldRecord({
