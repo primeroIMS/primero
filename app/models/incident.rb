@@ -204,6 +204,8 @@ class Incident < CouchRest::Model::Base
         #After its creation the date will not have a timezone
         incident.date_of_first_report = DateTime.current.to_date
         incident.set_creation_fields_for user if user.present?
+        incident.owned_by = child.owned_by
+        incident.owned_by_full_name = child.owned_by_full_name
       end
     end
   end
@@ -318,6 +320,8 @@ class Incident < CouchRest::Model::Base
 
   #TODO - need rspec test for this
   def violation_label(violation_type, violation, include_unique_id=false, opts={})
+    return '' if violation.blank?
+
     violation_text = Lookup.display_value('lookup-violation-type', violation_type, opts[:lookups])
     label_text = []
     @violation_config ||= Violation.config

@@ -29,9 +29,9 @@ _primero.Views.PopulateAgencySelectBoxes = _primero.Views.PopulateUserSelectBoxe
 
     self.collection = new _primero.Collections.AgencyCollection();
 
-    self.collection.fetch().done(function(){
+    self.collection.fetch().always(function(){
       self.initialOptions();
-    })
+    });
 
     self.setupSelectBox();
 
@@ -41,10 +41,12 @@ _primero.Views.PopulateAgencySelectBoxes = _primero.Views.PopulateUserSelectBoxe
   },
 
   getOptionsFromValue: function(value) {
-    var seletectedAgency = this.collection.get(value);
+    var selectedAgency = this.collection.get(value);
     var values = [];
-    if(seletectedAgency) {
-      values.push(seletectedAgency.attributes)
+    if(selectedAgency) {
+      values.push(selectedAgency.attributes);
+    } else {
+      values.push({ id: value, name: value });
     }
     return this.convertToOptions(values);
   },

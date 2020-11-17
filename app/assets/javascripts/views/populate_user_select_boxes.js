@@ -118,7 +118,7 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
 
         if (!$select_box.attr('multiple')) {
           $select_box.empty();
-          $select_box.html('<option>' + I18n.t("messages.loading") + '</option>');
+          $select_box.html('<option value="">' + I18n.t("messages.loading") + '</option>');
           $select_box.trigger("chosen:updated");
         }
 
@@ -126,6 +126,13 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
             .done(function() {
               self.parseOptions($select_box);
               self.updateCollectionCache();
+              if (self.collection.length < 1) {
+                if (_.isEqual(self.filters, data_filters)){
+                  self.initialOptions();
+                } else {
+                  $select_box.empty();
+                }
+              }
               if(onComplete) {
                 onComplete();
               }

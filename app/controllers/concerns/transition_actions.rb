@@ -250,7 +250,11 @@ module TransitionActions
     when Transitionable::EXPORT_TYPE_NON_PRIMERO
       Exporters::CSVExporter
     when Transitionable::EXPORT_TYPE_PDF
-      Exporters::PDFExporter
+      if can?(Permission::EXPORT_CHILD_PDF.to_sym, Child)
+        Exporters::ChildPDFExporter
+      else
+        Exporters::PDFExporter
+      end
     else
       nil
     end

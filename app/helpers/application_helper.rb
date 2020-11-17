@@ -225,6 +225,17 @@ module ApplicationHelper
     end
   end
 
+
+  def pdf_validation(exporter_id, param_id)
+    if exporter_id == 'case_pdf' && param_id.present? && can?(Permission::EXPORT_CHILD_PDF.to_sym, Child)
+      false
+    elsif exporter_id == 'child_pdf' && param_id.blank?
+      false
+    else
+      true
+    end
+  end
+
   def display_sex(value, lookups=[])
     gender_lookup = lookups.select{|l| l.id == 'lookup-gender'}.first
     genders = gender_lookup.lookup_values.map{|v| [v['id'], v['display_text']]}.to_h

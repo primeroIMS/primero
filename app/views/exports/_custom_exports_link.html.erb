@@ -1,4 +1,4 @@
 <li>
   <%= content_tag :a, t("exports.#{export_type}_exports.label"), data: {"open" => "#{export_type}-exports"} %>
-  <%= render '/exports/custom_exports', export_type: export_type %> 
+  <%= render '/exports/custom_exports', export_type: export_type, pdf_version: (defined?(pdf_version).present? ? pdf_version: '') %> 
 </li>

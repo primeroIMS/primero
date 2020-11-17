@@ -19,7 +19,7 @@ pt:
     users: "Gerenciar Usuários"
     manage_system_users: "Gerenciar Usuários de Sincronização de Servidor"
     records_need_attention: "Registros precisam de atenção"
-    label: "Casa"
+    label: "Página Inicial"
   clear: "Limpar"
   messages:
     delete_item: |
@@ -55,7 +55,7 @@ pt:
         Clique em Cancelar para voltar. Clique em OK para Excluir o campo.
     enter_each_in_one_line: "Digite cada opção em uma nova linha"
     record_count: "Mostrando %{start} a %{end} de %{total} registros"
-    form_sections_help_text_for_edit: "Clique no botão EDITAR para adicionar %{form_section_name}detalhes"
+    form_sections_help_text_for_edit: "Clique no botão EDITAR para adicionar %{form_section_name}"
     form_sections_case_update_alert: "Um novo %{form_section_name} foi adicionado ao caso %{alert_time}"
     service_provision: "prestação de serviço"
     enable_disable_record: "Ao clicar OK você alterará o estado deste registro para '%{action}'"
@@ -76,7 +76,7 @@ pt:
     delete_all_documents: "Excluídos todos os documentos da criança"
     operation_not_allowed: "Operação não permitida no ambiente %{rails_env} "
   login:
-    details: "Detalhes do login"
+    details: "Credenciais de Acesso"
     username: "Nome de Usuário"
     notification:
       enter_user_name: 'Insira seu nome de usuário'
@@ -174,8 +174,8 @@ pt:
     request_transfer: "Solicitar Transferência"
     add_note: "Adicionar Notas"
   placeholders:
-    subforms: "Clique no botão Editar para adicionar detalhes do %{form} "
-    editing_subforms: "Clique no botão ADICIONAR para acrescentar detalhes sobre o %{form}"
+    subforms: "Clique no botão Editar para adicionar %{form} "
+    editing_subforms: "Clique no botão ADICIONAR para acrescentar detalhes"
   cases:
     label: "Casos"
     register_new_case: "Novo caso"
@@ -407,7 +407,7 @@ pt:
     sex: "Sexo"
     registration_date: "Data de registro"
     status: "Status"
-    social_worker: "Assistente Social"
+    social_worker: "Responsavel Atual"
     survivor_code: "Código do sobrevivente"
     case_opening_date: "Data de abertura do caso"
     photo: "Foto"
@@ -1577,7 +1577,7 @@ pt:
     protection_concerns: "Preocupações de Proteção:"
     geographic_area: "Área Geográfica "
     all_cases: "Todos os Casos "
-    open: "Abrir "
+    open: "Aberto"
     range4: "0-4"
     range4_8: "4-8"
     range8_12: "8-12"

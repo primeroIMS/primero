@@ -105,14 +105,20 @@ module FormSectionHelper
   end
 
   def subform_placeholder(field, subform, editing=false)
-    return if field.base_doc.is_violations_group? || field.base_doc.is_violation?
+    return if editing && (field.base_doc.is_violations_group? || field.base_doc.is_violation?)
+
     form_string, translation_node = editing ? [subform.form.name, 'editing_subforms'] : [subform.display_name, 'subforms']
     t("placeholders.#{translation_node}", form: form_string)
   end
 
   #Returns a hash of tuples {subform_group_label => [subform_object, index]}.
   def grouped_subforms(formObject, subform_field, violation_group_id=nil, violation_subform_id=nil)
-    objects = formObject.try(subform_field.name).presence || formObject.try(:[], violation_group_id).try(:[], violation_subform_id)
+    if violation_group_id.present? && violation_subform_id.present?
+      objects = formObject.try(:[], violation_group_id).try(:[], violation_subform_id).presence ||
+                formObject.try(subform_field.name)
+    else
+      objects = formObject.try(subform_field.name)
+    end
     if objects.present?
       objects = objects.map.with_index{|o,i| [o,i]}
       subform_group_by_field = subform_field.subform_group_by_field

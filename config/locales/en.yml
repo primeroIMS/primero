@@ -454,6 +454,7 @@ en:
     photo: "Photo"
     owned_by: 'Record Owner'
     owned_by_agency: 'Record Owner Agency'
+    refer_again: 'again'
 
     messages:
       update_success: "Case %{record_id} was successfully updated."
@@ -1118,6 +1119,7 @@ en:
       export_unhcr_csv: "Export unhcr csv"
       export_mrm_violation_xls: "Export mrm violation xls"
       export_case_pdf: "Export case pdf"
+      export_child_pdf: "Export new case pdf"
       export_json: "Export json"
       export_custom: "Export custom"
       export_duplicate_id_csv: "Export duplicates"
@@ -1530,6 +1532,7 @@ en:
       attribute: "Filter"
       value: "With"
       not_null: "Form value is not blank"
+      limit_by_week: "Last 12 weeks"
     is_graph: "Generate a graph?"
     no_data: "No data exists for this report"
     export:
@@ -2078,6 +2081,10 @@ en:
       all:  PDF
       one:  PDF
       selected:  Selected to PDF
+    child_pdf:
+      all:  PDF
+      one:  PDF
+      selected:  Selected to PDF
     list_view_csv:
       all:  Export List View
       selected:  Selected to CSV
@@ -2169,6 +2176,7 @@ en:
     forms:
       label: Export
       button: Export Forms
+    printed_date: "Printed:"
 
   imports:
     password_label: "Password (if required)"
@@ -2190,6 +2198,7 @@ en:
     service_label: "Service"
     consent_label: "records have not provided consent."
     consent_override_label: "Do you wish to override this setting?"
+    notes_referral_label: "Notes on referral from provider"
     is_remote_label: "Are you referring to a remote system?"
     type_of_export: "What type of export do you want"
     notes_label: "Notes"

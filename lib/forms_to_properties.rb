@@ -59,7 +59,8 @@ module FormToPropertiesConverter
      # The system can still edit to its heart's content.
      # :read_only => !field.editable,
      :allow_blank => false,
-     :hidden_text_field => field.hidden_text_field
+     :hidden_text_field => field.hidden_text_field,
+     :display_name => field.display_name
     }
 
     date_options = {

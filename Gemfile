@@ -70,6 +70,9 @@ gem 'rack', '~> 2.0.8'
 #Security assertions:
 gem "nokogiri", ">= 1.10.4"
 
+gem 'wkhtmltopdf-binary', '0.12.6.3'
+gem 'wicked_pdf', '2.1.0'
+
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 4.0.2'

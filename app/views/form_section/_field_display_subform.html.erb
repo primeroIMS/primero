@@ -28,8 +28,12 @@
    number_of_subforms = subforms_count(formObject, subform, form_group_id)
 
    if number_of_subforms > 0
-     subform_object = get_subform_object(formObject, subform_section, form_group_id, subform.name).presence ||
-                      get_subform_object(formObject, shared_subform_section, shared_subform_section_group_id, subform.name)
+     if violation_form_id.present? && violation_group_id.present?
+       subform_object = get_subform_object(formObject, shared_subform_section, shared_subform_section_group_id, subform.name).presence ||
+                        get_subform_object(formObject, subform_section, form_group_id, subform.name)
+     else
+       subform_object = get_subform_object(formObject, subform_section, form_group_id, subform.name)
+     end
 
      #TODO: This code is being temporarily removed until JOR-141
      #      (users should only see their own referrals) is again revisited,
@@ -62,7 +66,8 @@
             <p class="notice large-12"><%= t('messages.form_sections_case_update_alert', form_section_name: form_section_name, alert_time: I18n.l(Date.parse(incident_alert.first.try(:[], 'date')))) %></p>
           </div>
         <% end %>
-        <% grouped_subforms(formObject, subform, violation_group_id, violation_form_id).each do |grouped_subforms_header, grouped_subform_objects| %>
+        <% subform_group = grouped_subforms(formObject, subform, violation_group_id, violation_form_id) %>
+        <% subform_group.each do |grouped_subforms_header, grouped_subform_objects| %>
           <% if grouped_subforms_header.present? && grouped_subform_objects.present? %>
             <div class="subform_grouping_header row">
               <span class="subform_header medium-7 columns">
@@ -93,7 +98,8 @@
 
               <% (subform_section.fields.select {|field| field.showable? }).each do |field| %>
                 <% unless (field.name == "to_user_local_status" && formObject_i.is_remote == true) || (field.name == "to_user_local_status" && formObject_i.type == Transition::TYPE_REASSIGN) %>
-                  <%= render :partial => field_template_path(field, true),  :locals=>{:field => field, :formObject=>formObject_i, :lookups => lookups} %>
+                  <%= render partial: field_template_path(field, true),
+                             locals: { field: field, formObject: formObject_i, lookups: lookups} %>
                 <% end %>
               <% end %>
               </fieldset>

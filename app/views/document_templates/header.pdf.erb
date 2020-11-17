@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="<%= I18n.default_locale %>" dir="<%= @page_direction %>" >
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  </head>
+  <body>
+    <style>
+    .left {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      width: 60%;
+      flex: 1;
+      margin-left:20px;
+    }
+    .right {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      flex: 1;
+    }
+    .wrapper{
+      display: -webkit-box; /* wkhtmltopdf uses this one */
+      display: flex;
+       -webkit-box-pack: space-between;
+      justify-content: space-between;
+    }
+    .case-id{
+      margin-left:5px;
+      font-weight: bold;
+    }
+    .printed-date{
+      margin-left:5px;
+    }
+    .case-id-header{
+      font-weight: bold;
+    }
+    </style>
+    <div class="headerContentFirst" style="display:none">
+      <div class>
+        <%=image_tag(wicked_pdf_asset_base64('logo.png'), height: '80') %>
+        <div class="case-id"><%=case_id%></div>
+        <div class="printed-date"><%=printed_date%></div>
+      </div>
+    </div>
+    <div class="headerContent wrapper">
+      <div class="left">
+        <%= image_tag(wicked_pdf_asset_base64('logo.png'), height: '65') %>
+      </div>
+      <div class="right">
+        <div class="case-id-header"><%=case_id%></div>
+        <div> <%=printed_date%></div>
+      </div>
+    </div>
+    <script type="text/javascript">
+        var headerCheck = function() {
+          var x=document.location.search.substring(1).split('&');
+          for (var i in x) {
+            if(x[i] == "page=1"){
+              document.getElementsByClassName("headerContentFirst")[0].style.display = "block";
+              document.getElementsByClassName("headerContent")[0].style.display = "none";
+            }
+          }
+        }();
+    </script>
+  </body>
+</html>

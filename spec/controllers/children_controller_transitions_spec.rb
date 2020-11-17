@@ -74,9 +74,9 @@ describe ChildrenController do
       controller.should_receive(:log_to_history).with(records).and_call_original
       controller.should_receive(:remote_transition).with(records).and_call_original
       controller.should_receive(:set_status_transferred).with(records).and_call_original if transition_type == "transfer"
-      controller.should_receive(:authorized_export_properties).with(Exporters::PDFExporter, transition_user, transition_user_modules, model_class).and_call_original
-      Exporters::PDFExporter.should_receive(:export).with(records, pdf_permited_properties, @user, {}).and_return("data")
-      controller.should_receive(:filename).with(records, Exporters::PDFExporter, transition_type).and_return("test_filename");
+      controller.should_receive(:authorized_export_properties).with(Exporters::ChildPDFExporter, transition_user, transition_user_modules, model_class).and_call_original
+      Exporters::ChildPDFExporter.should_receive(:export).with(records, pdf_permited_properties, @user, {}).and_return("data")
+      controller.should_receive(:filename).with(records, Exporters::ChildPDFExporter, transition_type).and_return("test_filename");
       controller.should_receive(:encrypt_data_to_zip).with("data", "test_filename", "password")
       controller.should_receive(:message_success_transition).with(records.size)
 
