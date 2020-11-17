@@ -11,7 +11,6 @@ class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::Allowlist
 
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
-  PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
 
   attr_accessor :exists_reporting_location
@@ -60,7 +59,6 @@ class User < ApplicationRecord
   validates :password,
             presence: true,
             length: { minimum: 8, message: 'errors.models.user.password_mismatch' },
-            format: { with: PASSWORD_REGEX, message: 'errors.models.user.password_mismatch' },
             confirmation: { message: 'errors.models.user.password_mismatch' },
             if: :password_required?
   validates :password_confirmation,
