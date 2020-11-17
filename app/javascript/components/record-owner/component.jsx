@@ -25,6 +25,14 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
         ?.get("unique_id");
     }
 
+    if (fieldValue && field.name === "associated_user_names") {
+      fieldValue = fieldValue.join(", ");
+    }
+
+    if (fieldValue && field.name === "created_organization") {
+      fieldValue = fieldValue.get("agency_code");
+    }
+
     return { ...acum, [field.name]: fieldValue };
   }, {});
 
