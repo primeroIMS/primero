@@ -612,7 +612,7 @@ describe Ability do
     end
 
     it "does not allow viewing and editing of Roles if the 'user' permission is set along with 'read' and 'write'" do
-      role = create :role, permissions: [@permission_user_read_write], group_permission: Permission::ALL
+      role = create :role, permissions: [@permission_user_read_write]
       @user1.role = role
       @user1.save
 
