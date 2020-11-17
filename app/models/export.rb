@@ -13,7 +13,6 @@ class Export < ValueObject
   def run
     return unless exporter
 
-    # TODO: pass params to exporter.new
     exporter_instance = exporter.new(record_type: record_type, module_id: module_id, file_name: file_name,
                                      visible: visible)
     exporter_instance.export
@@ -21,18 +20,13 @@ class Export < ValueObject
   end
 
   def assign_status(exporter_instance)
-    # self.success_total = importer_instance.success_total
-    # self.failure_total = importer_instance.failures.size
-    # self.total = importer_instance.total
-    # self.failures = importer_instance.failures
-    # self.error_messages = importer_instance.errors
-    #
-    # self.status = if success_total.zero? then FAILURE
-    #               elsif success_total < total then SOME_FAILURE
-    #               else SUCCESS
-    #
-    self.error_messages = exporter_instance.errors
     self.file_name = exporter_instance.file_name
-    self.status = SUCCESS
+    self.error_messages = exporter_instance.errors
+    self.success_total = exporter_instance.success_total
+    self.total = exporter_instance.total
+    self.status = if success_total.zero? then FAILURE
+                  elsif success_total < total then SOME_FAILURE
+                  else SUCCESS
+                  end
   end
 end

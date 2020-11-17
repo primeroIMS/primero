@@ -2,7 +2,8 @@
 
 # Export forms to an Excel file (.xlsx)
 class Exporters::FormExporter < ValueObject
-  attr_accessor :file_name, :form_params, :locale, :visible, :workbook, :header, :visible_column_index, :errors
+  attr_accessor :file_name, :form_params, :locale, :visible, :workbook, :header, :visible_column_index, :errors,
+                :total, :success_total
 
   def initialize(opts = {})
     opts[:file_name] ||= "form_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}.xlsx"
@@ -12,6 +13,8 @@ class Exporters::FormExporter < ValueObject
     opts[:visible] = true if opts[:visible].nil?
     opts[:form_params] = opts.slice(:record_type, :module_id, :visible)&.compact
     opts[:header] = initialize_header(opts)
+    opts[:total] = 0
+    opts[:success_total] = 0
     super(opts)
   end
 
@@ -42,10 +45,12 @@ class Exporters::FormExporter < ValueObject
     # If we only want visible forms, skip forms that aren't visible... unless it is a subform
     return if visible && !form.visible? && !form.is_nested?
 
+    self.total += 1
     worksheet = workbook.add_worksheet(worksheet_name(form))
     worksheet.write(0, 0, form.unique_id)
     worksheet.write(1, 0, header)
     export_form_fields(form, worksheet)
+    self.success_total += 1
   end
 
   def worksheet_name(form)

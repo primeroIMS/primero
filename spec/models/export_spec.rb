@@ -145,12 +145,6 @@ describe Export do
                              cases_test_form_1 cases_test_subform_0 lookups]
         expect(@export.status).to eq(Export::SUCCESS)
         expect(@book.sheets).to match_array(expected_sheets)
-
-        # expect(@import.failures).to be_empty
-        # expect(@import.total).to eq(294)
-        # expect(@import.success_total).to eq(294)
-        # expect(@import.failure_total).to eq(0)
-        # expect(Location.count).to eq(414)
       end
     end
 
