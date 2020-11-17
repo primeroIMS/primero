@@ -1,4 +1,6 @@
+---
 version: '3.8'
+
 services:
   nginx:
     image: "primeroims/nginx:${PRIMERO_TAG:-latest}"
@@ -10,11 +12,14 @@ services:
       - public:/srv/primero/application/public
     environment:
       - USE_LETS_ENCRYPT=false
-    depends_on:
-      - application
   application:
     ports:
       - "3000:3000"
+    volumes:
+      - ..:/srv/primero/application
+      - /srv/primero/application/config
+      - /srv/primero/application/public
+      - storage:/srv/primero/application/storage
   solr:
     ports:
       - "8983:8983"
