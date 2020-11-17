@@ -6,7 +6,7 @@ ARG NGINX_GID
 ENV USER_ID=${NGINX_UID}
 ENV GROUP_ID=${NGINX_GID}
 
-COPY [ "nginx/root/", "/" ]
+COPY [ "root/", "/" ]
 
 RUN set -ex \
     ; addgroup -g $GROUP_ID docker-nginx \

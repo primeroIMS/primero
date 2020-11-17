@@ -3,7 +3,7 @@ FROM alpine:3.11
 ARG BEANSTALKD_PORT
 ENV BEANSTALKD_PORT=${BEANSTALKD_PORT}
 
-COPY [ "beanstalkd/root/", "/" ]
+COPY [ "root/", "/" ]
 
 RUN set -euxo pipefail \
         ; chmod +x /entrypoint.sh \
