@@ -14,7 +14,7 @@ Exports forms and lookups to an xlsx spreadsheet.  Each form is on a different t
 
 * `file_name` Optional. If not passed, the exporter will generate a file name.
 * `record_type` Optional. case, incident, or tracing_request.  If not passed, it defaults to case.
-* `module_id` Optional. Filter forms by module. If not passed, it defaults to CP
+* `module_id` Optional. Filter forms by module. If not passed, it defaults to primeromodule-cp
 * `visible` Optional. true: show only visible forms and fields.  false: show all forms and fields.  If not passed, it defaults to true
 
 ## Success Response
