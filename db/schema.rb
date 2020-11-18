@@ -120,11 +120,6 @@ ActiveRecord::Schema.define(version: 2020_10_11_000000) do
     t.index ["data"], name: "index_cases_on_data", using: :gin
   end
 
-  create_table "configuration_bundles", id: :serial, force: :cascade do |t|
-    t.string "applied_by"
-    t.datetime "applied_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-  end
-
   create_table "contact_informations", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "organization"

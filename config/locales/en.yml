@@ -23,6 +23,7 @@ en:
   form: Form
   name: Name
   offline: Offline
+  unavailable_offline: Unavailable offline
   online: Online
   yes_label: 'Yes'
   offline_submitted_changes: You are currently offline. Your changes will be submitted when you are back online.

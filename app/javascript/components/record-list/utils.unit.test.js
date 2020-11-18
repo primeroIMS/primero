@@ -22,7 +22,7 @@ describe("<RecordList /> - buildTableColumns", () => {
       }
     ];
 
-    const records = fromJS([
+    const listHeaders = fromJS([
       {
         id_search: false,
         name: "james",
@@ -33,7 +33,8 @@ describe("<RecordList /> - buildTableColumns", () => {
         field_name: "alert_count"
       }
     ]);
-    const columns = buildTableColumns(records, i18n, "testRecordType");
+
+    const columns = buildTableColumns(listHeaders, i18n, "testRecordType", true)(fromJS([]));
 
     columns.forEach((v, k) => {
       expect(v.id).to.equal(expected[k].id);
