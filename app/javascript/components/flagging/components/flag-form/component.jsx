@@ -114,7 +114,7 @@ const Component = ({ recordType, record, handleActiveTab }) => {
                 }}
               />
             </Box>
-            <Box display="flex" my={3} justifyContent="flex-start">
+            <div>
               <ActionButton
                 icon={<CheckIcon />}
                 text={i18n.t("buttons.save")}
@@ -134,7 +134,7 @@ const Component = ({ recordType, record, handleActiveTab }) => {
                   onClick: handleReset
                 }}
               />
-            </Box>
+            </div>
           </Form>
         )}
       </Formik>
