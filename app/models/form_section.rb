@@ -86,7 +86,7 @@ class FormSection < ApplicationRecord
       form_sections = form_sections.where(primero_modules: { unique_id: params[:module_id] }) if params[:module_id]
       return form_sections unless params[:include_subforms]
 
-      subforms = form_sections.map { |f| f.fields.select { |fd| fd.type == 'subform' }.map(&:subform) }.flatten.uniq
+      subforms = FormSection.where(id: Field.where(form_section_id: form_sections.map(&:id)).where(type: 'subform').select(:subform_section_id))
       form_sections + subforms
     end
 
