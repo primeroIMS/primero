@@ -289,9 +289,14 @@ describe User do
       expect(user).to be_valid
     end
 
-    it 'should reject passwords that do not have at least one alpha and at least 1 numeric character' do
-      user = build_user(password: 'invalid')
-      expect(user).not_to be_valid
+    it 'should allow passwords with all alpha characters' do
+      user = build_user(password: 'allAlpha')
+      expect(user).to be_valid
+    end
+
+    it 'should allow passwords with all numeric characters' do
+      user = build_user(password: '18675309')
+      expect(user).to be_valid
     end
 
     it 'should reject passwords that are less than 8 characters' do
