@@ -36,9 +36,24 @@ describe("<ActionButton />", () => {
         ...props,
         type: ACTION_BUTTON_TYPES.icon
       },
-      state
+      fromJS({
+        application: {
+          disableApplication: true
+        }
+      })
     );
 
     expect(component.find(IconButton)).to.have.lengthOf(1);
+  });
+
+  it("renders component with valid props", () => {
+    const { component } = setupMountedComponent(ActionButton, props, state);
+    const componentsProps = { ...component.find(ActionButton).props() };
+
+    ["icon", "isCancel", "isTransparent", "pending", "text", "type", "outlined", "rest"].forEach(property => {
+      expect(componentsProps).to.have.property(property);
+      delete componentsProps[property];
+    });
+    expect(componentsProps).to.be.empty;
   });
 });

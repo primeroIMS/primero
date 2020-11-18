@@ -16,7 +16,7 @@ import Flagging from "../../flagging";
 import RecordActions from "../../record-actions";
 import Permission from "../../application/permission";
 import { FLAG_RECORDS, WRITE_RECORDS } from "../../../libs/permissions";
-import { getSavingRecord } from "../../records/selectors";
+import { getSavingRecord, getLoadingRecordState } from "../../records/selectors";
 import {
   RECORD_TYPES,
   RECORD_PATH,
@@ -50,6 +50,7 @@ const RecordFormToolbar = ({
   const dispatch = useDispatch();
   const i18n = useI18n();
   const savingRecord = useSelector(state => getSavingRecord(state, params.recordType));
+  const loadingRecord = useSelector(state => getLoadingRecordState(state, params.recordType));
   const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
 
   const goBack = () => {
@@ -170,7 +171,8 @@ const RecordFormToolbar = ({
               type={ACTION_BUTTON_TYPES.default}
               rest={{
                 to: `/${params.recordType}/${params.id}/edit`,
-                component: Link
+                component: Link,
+                disabled: loadingRecord
               }}
             />
           </Permission>
