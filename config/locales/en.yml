@@ -870,6 +870,7 @@ en:
         error: 'Row %{row_number} Not Processed: %{message}'
         db_error: 'Error creating %{location_code}: %{message}'
         locale_invalid: 'Skipping %{column_name}: Locale invalid'
+        insert_all_error: 'Import Not Processed. Database error: %{message}'
   fields:
     action: Action
     actions: Actions
