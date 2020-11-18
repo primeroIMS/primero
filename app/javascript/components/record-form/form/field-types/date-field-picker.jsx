@@ -8,7 +8,10 @@ import localize from "../../../../libs/date-picker-localization";
 
 const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched, fieldError, helperText }) => {
   const i18n = useI18n();
-  const helpText = (fieldTouched && fieldError) || helperText || i18n.t("fields.date_help");
+  const helpText =
+    (fieldTouched && fieldError) ||
+    helperText ||
+    i18n.t(`fields.${dateIncludeTime ? "date_help_with_time" : "date_help"}`);
   const label = displayName ? displayName[i18n.locale] : "";
 
   return (
