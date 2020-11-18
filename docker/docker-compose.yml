@@ -4,6 +4,9 @@ services:
   nginx:
     image: "primeroims/nginx:${PRIMERO_TAG:-latest}"
     build:
+      args:
+        NGINX_UID: ${NGINX_UID}
+        NGINX_GID: ${NGINX_GID}
       context: ./nginx
     ports:
       - "80:80"
@@ -38,6 +41,8 @@ services:
   beanstalkd:
     image: "primeroims/beanstalkd:${PRIMERO_TAG:-latest}"
     build:
+      args:
+        BEANSTALKD_PORT: ${BEANSTALKD_PORT}
       context: ./beanstalkd
     env_file:
       - ./defaults.env
@@ -47,6 +52,12 @@ services:
   application:
     image: "primeroims/application:${PRIMERO_TAG:-latest}"
     build:
+      args:
+        APP_ROOT: ${APP_ROOT}
+        APP_UID: ${APP_UID}
+        APP_GID: ${APP_GID}
+        RAILS_ENV: ${RAILS_ENV}
+        RAILS_LOG_PATH: ${RAILS_LOG_PATH}
       context: ..
       dockerfile: ./docker/application/Dockerfile
     depends_on:
