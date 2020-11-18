@@ -5,7 +5,6 @@ ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python
 ENV BUILD_DEP_PACKAGES postgresql-dev
 ENV RUNTIME_PACKAGES libc6-compat nodejs gettext libintl npm imagemagick libsodium-dev
 ENV DEV_PACKAGES busybox-extras tree cairo pixman pixman-dev
-ENV RAILS_ENV production
 ENV PYTHON /usr/bin/python
 
 # Grab our path from --build-arg and store it in an env
@@ -13,6 +12,8 @@ ARG APP_ROOT
 ENV APP_ROOT=${APP_ROOT}
 ARG RAILS_LOG_PATH
 ENV RAILS_LOG_PATH=${RAILS_LOG_PATH}
+ARG RAILS_ENV
+ENV RAILS_ENV=${RAILS_ENV}
 
 # Temporary build-time secrets needed to run rails processes.
 # These are never persisted in the container images
@@ -100,7 +101,8 @@ ENV GROUP_ID=${APP_GID}
 
 ARG APP_ROOT
 ENV APP_ROOT=${APP_ROOT}
-ENV RAILS_ENV production
+ARG RAILS_ENV
+ENV RAILS_ENV=${RAILS_ENV}
 ENV RAILS_PUBLIC_FILE_SERVER=${RAILS_PUBLIC_FILE_SERVER}
 
 # Install our packages
