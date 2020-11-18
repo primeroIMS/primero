@@ -28,7 +28,7 @@ export const FIELDS = [
   },
   {
     // TODO: When the endpoint for user is ready, change the type to select_box and add option_strings_source: "User"
-    name: "assigned_user_names",
+    name: "associated_user_names",
     type: "text_field",
     visible: true
   },
@@ -42,7 +42,7 @@ export const FIELDS = [
     visible: true
   },
   {
-    name: "created_by_agency",
+    name: "created_organization",
     type: "text_field",
     visible: true
   },
@@ -52,7 +52,7 @@ export const FIELDS = [
     visible: true
   },
   {
-    name: "previous_agency",
+    name: "previously_owned_by_agency",
     type: "text_field",
     visible: true
   },

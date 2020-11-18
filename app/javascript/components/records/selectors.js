@@ -41,3 +41,5 @@ export const getIncidentFromCase = state => {
 export const getCaseIdForIncident = state => {
   return state.getIn(["records", "cases", "incidentFromCase", "incident_case_id"], false);
 };
+
+export const getSelectedRecord = (state, recordType) => state.getIn(["records", recordType, "selectedRecord"]);

@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import { TableRow } from "@material-ui/core";
 
 import { buildDataForTable } from "../../report/utils";
-import { abbrMonthNames, setupMountedThemeComponent, stub } from "../../../test";
+import { abbrMonthNames, setupMountedComponent, stub } from "../../../test";
 
 import TableValues from "./component";
 
@@ -72,7 +72,7 @@ describe("<TableValues />", () => {
       }
     ];
 
-    const component = setupMountedThemeComponent(TableValues, {
+    const { component } = setupMountedComponent(TableValues, {
       ...buildDataForTable(data, window.I18n, { agencies })
     });
 

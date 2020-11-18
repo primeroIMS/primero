@@ -12,7 +12,9 @@ import {
   FETCH_INCIDENT_FROM_CASE,
   SET_CASE_ID_FOR_INCIDENT,
   CLEAR_CASE_FROM_INCIDENT,
-  SET_CASE_ID_REDIRECT
+  SET_CASE_ID_REDIRECT,
+  SET_SELECTED_RECORD,
+  CLEAR_SELECTED_RECORD
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -27,13 +29,17 @@ const getSuccessCallback = ({
   moduleID
 }) => {
   const selectedFormCallback = setSelectedForm(INCIDENT_FROM_CASE);
-  const cleanSelectedFormCallback = setSelectedForm(null);
+  const cleanSelectedFormActions = setSelectedForm(null);
   const incidentFromCaseCallbacks =
     RECORD_TYPES[recordType] === RECORD_TYPES.incidents && incidentFromCase
       ? [
           { action: `cases/${CLEAR_CASE_FROM_INCIDENT}` },
           { action: selectedFormCallback.type, payload: selectedFormCallback.payload }
         ]
+      : [];
+  const cleanSelectedFormCallback =
+    saveMethod !== "update"
+      ? [{ action: cleanSelectedFormActions.type, payload: cleanSelectedFormActions.payload }]
       : [];
   const defaultSuccessCallback = [
     {
@@ -63,11 +69,7 @@ const getSuccessCallback = ({
     ];
   }
   if (incidentPath) {
-    return [
-      ...defaultSuccessCallback,
-      `cases/${SET_CASE_ID_REDIRECT}`,
-      { action: cleanSelectedFormCallback.type, payload: cleanSelectedFormCallback.payload }
-    ];
+    return [...defaultSuccessCallback, `cases/${SET_CASE_ID_REDIRECT}`, ...cleanSelectedFormCallback];
   }
 
   return defaultSuccessCallback;
@@ -186,3 +188,12 @@ export const fetchIncidentwitCaseId = caseId => {
     }
   };
 };
+
+export const setSelectedRecord = (recordType, recordId) => ({
+  type: `${recordType}/${SET_SELECTED_RECORD}`,
+  payload: { id: recordId }
+});
+
+export const clearSelectedRecord = recordType => ({
+  type: `${recordType}/${CLEAR_SELECTED_RECORD}`
+});

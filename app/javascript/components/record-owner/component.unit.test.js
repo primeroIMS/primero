@@ -1,5 +1,6 @@
 import { fromJS, Map } from "immutable";
 import { Form } from "formik";
+import { TextField as MuiTextField } from "formik-material-ui";
 
 import { setupMountedComponent } from "../../test";
 import { RESOURCES } from "../../libs/permissions";
@@ -26,7 +27,10 @@ describe("<RecordOwner />", () => {
     sex: "male",
     short_id: "3c9d076",
     status: "open",
-    owned_by_agency_id: "agency-unicef"
+    owned_by_agency_id: "agency-unicef",
+    associated_user_names: ["primero_admin_cp, test_user"],
+    previously_owned_by_agency: "TEST/AGENCY",
+    created_organization: { id: 1, agency_code: "TEST" }
   });
 
   const rootProps = {
@@ -72,6 +76,27 @@ describe("<RecordOwner />", () => {
 
   it("renders Form", () => {
     expect(component.find(Form)).to.have.lengthOf(1);
+  });
+
+  it("renders value for associated_user_names", () => {
+    const associatedUserNames = component.find(MuiTextField).at(2).props();
+
+    expect(associatedUserNames.name).to.be.equal("associated_user_names");
+    expect(associatedUserNames.field.value).to.be.equal("primero_admin_cp, test_user");
+  });
+
+  it("renders value for previously_owned_by_agency", () => {
+    const associatedUserNames = component.find(MuiTextField).at(6).props();
+
+    expect(associatedUserNames.name).to.be.equal("previously_owned_by_agency");
+    expect(associatedUserNames.field.value).to.be.equal("TEST/AGENCY");
+  });
+
+  it("renders value for created_organization", () => {
+    const associatedUserNames = component.find(MuiTextField).at(4).props();
+
+    expect(associatedUserNames.name).to.be.equal("created_organization");
+    expect(associatedUserNames.field.value).to.be.equal("TEST");
   });
 
   describe("when record is new", () => {

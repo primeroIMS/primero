@@ -24,6 +24,7 @@ describe("middleware/utils/index.js", () => {
       "startSignout",
       "retrieveData",
       "queueData",
+      "queueFetch",
       "processSubforms",
       "isServerOnline"
     ].forEach(property => {

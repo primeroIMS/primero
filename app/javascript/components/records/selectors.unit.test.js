@@ -11,7 +11,8 @@ import {
   getSavingRecord,
   getLoadingRecordState,
   getRecordAlerts,
-  getCaseIdForIncident
+  getCaseIdForIncident,
+  getSelectedRecord
 } from "./selectors";
 
 const record = {
@@ -271,6 +272,16 @@ describe("Records - Selectors", () => {
 
     it("should return the incident_case_id when is a new incident", () => {
       expect(getCaseIdForIncident(stateWithIncidentFromCase)).to.deep.equal("123456789");
+    });
+  });
+
+  describe("getSelectedRecord", () => {
+    const stateWithSelectedRecord = fromJS({
+      records: { cases: { selectedRecord: "123456789" } }
+    });
+
+    it("should return the selectedRecord", () => {
+      expect(getSelectedRecord(stateWithSelectedRecord, RECORD_PATH.cases)).to.equal("123456789");
     });
   });
 });

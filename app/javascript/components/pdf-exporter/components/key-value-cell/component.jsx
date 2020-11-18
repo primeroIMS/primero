@@ -18,7 +18,17 @@ import { DATE_FIELD, TICK_FIELD, RADIO_FIELD } from "../../../form";
 
 import styles from "./styles.css";
 
-const Component = ({ classes, displayName, isDateWithTime, isSubform, options, optionsStringSource, type, value }) => {
+const Component = ({
+  classes,
+  defaultValue,
+  displayName,
+  isDateWithTime,
+  isSubform,
+  options,
+  optionsStringSource,
+  type,
+  value
+}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
@@ -28,10 +38,11 @@ const Component = ({ classes, displayName, isDateWithTime, isSubform, options, o
 
   const hasOptions = optionsStringSource || !isEmpty(options);
   const isAgency = optionsStringSource === "Agency";
+  const cellValue = value || defaultValue;
 
   const lookups = useSelector(
     state => getOptions(state, optionsStringSource, i18n, options, isAgency),
-    () => hasOptions && !isEmpty(value)
+    () => hasOptions && !isEmpty(cellValue)
   );
 
   const renderValue = fieldValue => {
@@ -58,7 +69,7 @@ const Component = ({ classes, displayName, isDateWithTime, isSubform, options, o
 
     if (isRadioField) {
       return lookups.map(lookup => {
-        const radioButton = lookup.get("id") === String(fieldValue) ? <RadioButtonChecked /> : <RadioButtonUnchecked />;
+        const radioButton = lookup.get("id") === String(value) ? <RadioButtonChecked /> : <RadioButtonUnchecked />;
 
         return (
           <div className={css.radioButtons}>
@@ -90,7 +101,7 @@ const Component = ({ classes, displayName, isDateWithTime, isSubform, options, o
       })}
     >
       <div>{displayName}</div>
-      <div>{renderValue(value)}</div>
+      <div>{renderValue(cellValue)}</div>
     </div>
   );
 };
@@ -106,6 +117,7 @@ Component.defaultProps = {
 
 Component.propTypes = {
   classes: PropTypes.object.isRequired,
+  defaultValue: PropTypes.any,
   displayName: PropTypes.string.isRequired,
   isDateWithTime: PropTypes.bool,
   isSubform: PropTypes.bool,

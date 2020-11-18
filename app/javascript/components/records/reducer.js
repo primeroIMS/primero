@@ -23,7 +23,9 @@ import {
   CLEAR_METADATA,
   CLEAR_CASE_FROM_INCIDENT,
   SET_CASE_ID_FOR_INCIDENT,
-  SET_CASE_ID_REDIRECT
+  SET_CASE_ID_REDIRECT,
+  SET_SELECTED_RECORD,
+  CLEAR_SELECTED_RECORD
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -37,20 +39,28 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("errors", true);
     case `${namespace}/${RECORDS_SUCCESS}`: {
       const { data, metadata } = payload;
+      const selectedRecordId = state.get("selectedRecord");
+      const selectedRecordWillUpdate = selectedRecordId
+        ? data.some(recordUpdate => recordUpdate.id === selectedRecordId)
+        : false;
+      const selectedRecord =
+        selectedRecordId && !selectedRecordWillUpdate
+          ? state.get("data").find(record => record.get("id") === selectedRecordId)
+          : null;
 
       return state
-        .update("data", u => {
+        .update("data", records => {
           return fromJS(
-            data.map(d => {
-              const index = u.findIndex(r => r.get("id") === d.id);
+            data.map(recordUpdate => {
+              const index = records.findIndex(record => record.get("id") === recordUpdate.id);
 
               if (index !== -1) {
-                return mergeRecord(u.get(index), fromJS(d));
+                return mergeRecord(records.get(index), fromJS(recordUpdate));
               }
 
-              return d;
+              return recordUpdate;
             })
-          );
+          ).concat(selectedRecord?.toSeq()?.size ? fromJS([selectedRecord]) : fromJS([]));
         })
         .set("metadata", fromJS(metadata));
     }
@@ -137,6 +147,12 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return RECORD_TYPES[namespace] === RECORD_TYPES.cases
         ? state.setIn(["incidentFromCase", INCIDENT_CASE_ID_FIELD], payload.json?.data?.id)
         : state;
+    }
+    case `${namespace}/${SET_SELECTED_RECORD}`: {
+      return state.setIn(["selectedRecord"], payload.id);
+    }
+    case `${namespace}/${CLEAR_SELECTED_RECORD}`: {
+      return state.delete("selectedRecord");
     }
     default:
       return state;

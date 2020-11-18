@@ -9,7 +9,7 @@ import { toListTable } from "../../utils";
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
-import { MODULES, RECORD_TYPES } from "../../../../../config";
+import { MODULES, RECORD_TYPES, ROUTES } from "../../../../../config";
 import { selectModule } from "../../../../application";
 
 import { NAME } from "./constants";
@@ -32,6 +32,7 @@ const Component = ({ loadingIndicator }) => {
           {...loadingIndicator}
         >
           <DashboardTable
+            pathname={ROUTES.cases}
             title={i18n.t("dashboard.workflow_team")}
             {...toListTable(casesWorkflowTeam, workflowLabels)}
           />

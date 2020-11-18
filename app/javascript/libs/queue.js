@@ -1,5 +1,6 @@
 import head from "lodash/head";
 
+import { METHODS } from "../config";
 import DB from "../db/db";
 import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS } from "../components/notifier";
 
@@ -10,18 +11,13 @@ const QUEUE_FINISHED = "queue-finished";
 const QUEUE_FAILED = "queue-failed";
 const QUEUE_SKIP = "queue-skip";
 const QUEUE_SUCCESS = "queue-success";
-const QUEUE_FETCH = "queue-fetch";
 
 class Queue {
   constructor() {
     this.queue = [];
-    this.success = 0;
+    this.success = {};
     this.tries = 0;
     this.working = false;
-
-    EventManager.subscribe(QUEUE_FETCH, action => {
-      this.add([action]);
-    });
 
     EventManager.subscribe(QUEUE_ADD, action => {
       this.add([action]);
@@ -34,8 +30,13 @@ class Queue {
       if (!this.working) this.process();
     });
 
-    EventManager.subscribe(QUEUE_SUCCESS, () => {
-      this.success += 1;
+    EventManager.subscribe(QUEUE_SUCCESS, action => {
+      if (action?.api?.method && action?.api?.method !== METHODS.GET) {
+        this.success = { ...this.success, [action.api?.data?.id]: true };
+        this.queue.shift();
+
+        if (!this.working) this.process();
+      }
     });
 
     EventManager.subscribe(QUEUE_FAILED, () => {
@@ -69,7 +70,7 @@ class Queue {
   }
 
   add(actions) {
-    this.queue = actions;
+    this.queue = this.queue.concat(actions);
 
     if (!this.working) {
       this.process();
@@ -83,7 +84,7 @@ class Queue {
 
     if (!this.queue.length) {
       this.notifySuccess();
-      this.success = 0;
+      this.success = {};
     }
   }
 
@@ -109,7 +110,7 @@ class Queue {
         type: ENQUEUE_SNACKBAR,
         payload: {
           messageKey: "sync.success",
-          messageParams: { records: this.success },
+          messageParams: { records: Object.keys(this.success).length },
           options: {
             variant: SNACKBAR_VARIANTS.success,
             key: "sync_success"
@@ -128,4 +129,4 @@ const instance = new Queue();
 
 export default instance;
 
-export { QUEUE_ADD, QUEUE_FINISHED, QUEUE_FAILED, QUEUE_FETCH, QUEUE_SKIP, QUEUE_SUCCESS };
+export { QUEUE_ADD, QUEUE_FINISHED, QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS };
