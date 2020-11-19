@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Encapsulate an export of Primero objects
+# Non bulk export of Primero objects
 class Export < ValueObject
   SUCCESS = 'success'
   FAILURE = 'failure'
@@ -11,12 +11,17 @@ class Export < ValueObject
                 :record_type, :module_id, :file_name, :visible
 
   def run
-    return unless exporter
+    return no_exporter_error unless exporter
 
     exporter_instance = exporter.new(record_type: record_type, module_id: module_id, file_name: file_name,
                                      visible: visible)
     exporter_instance.export
     assign_status(exporter_instance)
+  end
+
+  def no_exporter_error
+    self.error_messages = [I18n.t('exports.messages.no_exporter')]
+    self.status = FAILURE
   end
 
   def assign_status(exporter_instance)

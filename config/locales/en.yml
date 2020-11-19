@@ -821,6 +821,8 @@ en:
     list_view_csv:
       all: Export List View
       selected: Selected to CSV
+    messages:
+      no_exporter: No Exporter Specified
     mrm_violation_xls:
       all: MRM Violations
       one: MRM Violations

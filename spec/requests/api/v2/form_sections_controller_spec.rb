@@ -731,8 +731,19 @@ describe Api::V2::FormSectionsController, type: :request do
       end
 
       context 'and no params are passed' do
-        it 'exports all visible CP forms' do
+        it 'returns an error' do
           get '/api/v2/forms/export'
+
+          expect(response).to have_http_status(422)
+          expect(json['errors'].size).to eq(1)
+          expect(json['errors'][0]['message']).to eq('No Exporter Specified')
+        end
+      end
+
+      context 'and export type is passed' do
+        it 'exports all visible CP forms' do
+          params = { export_type: 'xlsx' }
+          get '/api/v2/forms/export', params: params
 
           expect(response).to have_http_status(200)
 
@@ -744,7 +755,7 @@ describe Api::V2::FormSectionsController, type: :request do
 
       context 'and visible false passed' do
         it 'exports all CP forms' do
-          params = { visible: false }
+          params = { export_type: 'xlsx', visible: false }
           get '/api/v2/forms/export', params: params
 
           expect(response).to have_http_status(200)
@@ -757,7 +768,7 @@ describe Api::V2::FormSectionsController, type: :request do
 
       context 'and GBV module_id is passed' do
         it 'exports all visible GBV forms' do
-          params = { module_id: 'primeromodule-gbv' }
+          params = { export_type: 'xlsx', module_id: 'primeromodule-gbv' }
           get '/api/v2/forms/export', params: params
 
           expect(response).to have_http_status(200)

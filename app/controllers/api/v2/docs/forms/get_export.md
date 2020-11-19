@@ -12,6 +12,7 @@ Exports forms and lookups to an xlsx spreadsheet.  Each form is on a different t
 
 **Parameters** : 
 
+* `export_type` Required. For now, only 'xlsx' is supported.  Others (such as 'yaml') may come later.
 * `file_name` Optional. If not passed, the exporter will generate a file name.
 * `record_type` Optional. case, incident, or tracing_request.  If not passed, it defaults to case.
 * `module_id` Optional. Filter forms by module. If not passed, it defaults to primeromodule-cp
@@ -40,6 +41,23 @@ Exports forms and lookups to an xlsx spreadsheet.  Each form is on a different t
 }
 ```
 ## Error Response
+
+**Condition** : Export type is not passed in.
+
+**Code** : `422`
+
+**Content** :
+
+```json
+{
+  "errors": [
+    {
+      "message": "No Exporter Specified"
+    }
+  ]
+}
+```
+
 
 **Condition** : User isn't authorized to query for forms. 
 
