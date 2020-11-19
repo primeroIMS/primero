@@ -130,6 +130,9 @@ describe Export do
           { id: 'female', display_text: { en: 'Female' } }
         ]
       )
+
+      # This is to be used to clean up test .xlsx files created during these tests
+      @test_xlsx_files = []
     end
 
     context 'when no params are passed' do
@@ -138,6 +141,9 @@ describe Export do
         @export = Export.new(exporter: exporter)
         @export.run
         @book = Roo::Spreadsheet.open(@export.file_name)
+
+        # This is to be used to clean up test .xlsx files created during these tests
+        @test_xlsx_files << @export.file_name
       end
 
       it 'exports all visible CP forms' do
@@ -150,6 +156,9 @@ describe Export do
 
     after do
       clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Lookup)
+
+      # Remove test xlsx files
+      @test_xlsx_files.each { |test_file| File.delete(test_file) }
     end
   end
 end

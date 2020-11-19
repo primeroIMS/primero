@@ -130,6 +130,9 @@ module Exporters
           { id: 'female', display_text: { en: 'Female' } }
         ]
       )
+
+      # This is to be used to clean up test .xlsx files created during these tests
+      @test_xlsx_files = []
     end
 
     context 'when no params are passed' do
@@ -137,6 +140,9 @@ module Exporters
         exporter = Exporters::FormExporter.new
         exporter.export
         @book = Roo::Spreadsheet.open(exporter.file_name)
+
+        # This is to be used to clean up test .xlsx files created during these tests
+        @test_xlsx_files << exporter.file_name
       end
 
       it 'exports all visible CP forms' do
@@ -161,6 +167,9 @@ module Exporters
         exporter = Exporters::FormExporter.new(visible: false)
         exporter.export
         @book = Roo::Spreadsheet.open(exporter.file_name)
+
+        # This is to be used to clean up test .xlsx files created during these tests
+        @test_xlsx_files << exporter.file_name
       end
 
       it 'exports all CP forms' do
@@ -185,6 +194,9 @@ module Exporters
         exporter = Exporters::FormExporter.new(module_id: 'primeromodule-gbv')
         exporter.export
         @book = Roo::Spreadsheet.open(exporter.file_name)
+
+        # This is to be used to clean up test .xlsx files created during these tests
+        @test_xlsx_files << exporter.file_name
       end
 
       it 'exports all GBV forms' do
@@ -195,6 +207,9 @@ module Exporters
 
     after do
       clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Lookup)
+
+      # Remove test xlsx files
+      @test_xlsx_files.each { |test_file| File.delete(test_file) }
     end
   end
 end
