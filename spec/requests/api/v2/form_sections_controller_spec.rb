@@ -719,6 +719,9 @@ describe Api::V2::FormSectionsController, type: :request do
       gbv_forms = FormSection.where(unique_id: %w[cases_test_form_gbv])
       @primero_module_gbv = create(:primero_module, unique_id: 'primeromodule-gbv', name: 'GBV',
                                    form_sections: gbv_forms)
+
+      # This is to be used to clean up test .xlsx files created during these tests
+      @test_xlsx_files = []
     end
 
     context 'when user has export permission' do
@@ -750,6 +753,9 @@ describe Api::V2::FormSectionsController, type: :request do
           book = Roo::Spreadsheet.open(json['data']['file_name'])
           expected = ['Form Section 1', 'Form Section 2', 'lookups']
           expect(book.sheets).to match_array(expected)
+
+          # This is to be used to clean up test .xlsx files created during these tests
+          @test_xlsx_files << json['data']['file_name']
         end
       end
 
@@ -763,6 +769,9 @@ describe Api::V2::FormSectionsController, type: :request do
           book = Roo::Spreadsheet.open(json['data']['file_name'])
           expected = ['Form Section 1', 'Form Section 2', 'cases_test_form_hidden', 'lookups']
           expect(book.sheets).to match_array(expected)
+
+          # This is to be used to clean up test .xlsx files created during these tests
+          @test_xlsx_files << json['data']['file_name']
         end
       end
 
@@ -776,6 +785,9 @@ describe Api::V2::FormSectionsController, type: :request do
           book = Roo::Spreadsheet.open(json['data']['file_name'])
           expected_sheets = %w[cases_test_form_gbv cases_test_subform_5 cases_test_subform_4 lookups]
           expect(book.sheets).to match_array(expected_sheets)
+
+          # This is to be used to clean up test .xlsx files created during these tests
+          @test_xlsx_files << json['data']['file_name']
         end
       end
     end
@@ -794,6 +806,9 @@ describe Api::V2::FormSectionsController, type: :request do
 
     after do
       clean_data(PrimeroModule, PrimeroProgram, Lookup)
+
+      # Remove test xlsx files
+      @test_xlsx_files.each { |test_file| File.delete(test_file) }
     end
   end
 end
