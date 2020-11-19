@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { FastField, connect, getIn } from "formik";
 import { Checkbox } from "formik-material-ui";
 import pickBy from "lodash/pickBy";
-import { FormControlLabel, FormHelperText, FormLabel, InputLabel } from "@material-ui/core";
+import { FormControlLabel, FormHelperText, InputLabel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
@@ -16,8 +16,10 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) =
   const css = makeStyles(styles)();
   const fieldProps = {
     name,
+    inputProps: { required: true },
     ...pickBy(rest, (v, k) => ["disabled"].includes(k))
   };
+  const { InputLabelProps: inputLabelProps } = rest;
   const fieldError = getIn(formik.errors, name);
   const displayHelperText = fieldError ? (
     <FormHelperText error>{fieldError}</FormHelperText>
@@ -31,16 +33,14 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) =
     }
   }, []);
 
-  console.log(name, rest, fieldProps);
-
   return (
     <>
       <InputLabel
-        shrink
         htmlFor={name}
-        className={clsx(css.inputLabel, {
+        className={clsx({
           [css.error]: Boolean(fieldError)
         })}
+        {...inputLabelProps}
       >
         {label}
       </InputLabel>

@@ -61,13 +61,14 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
       disableUnderline: mode.isShow
     },
     InputLabelProps: {
+      htmlFor: name,
       shrink: true,
       required,
       classes: {
         root: css.inputLabel
       }
     },
-    label: `${displayNameHelper(displayName, i18n.locale)} ${required ? "*" : ""}`,
+    label: displayNameHelper(displayName, i18n.locale),
     tickBoxlabel: tickBoxlabel?.[i18n.locale],
     helperText: helpText ? helpText[i18n.locale] : "",
     disabled: mode.isShow || disabled,
