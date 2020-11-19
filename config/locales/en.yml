@@ -104,6 +104,11 @@ en:
     retry: This export is invalid. Please try recreating your export.
     started_on: Started
     status: Status
+  form_export:
+    label: Export Form Configuration
+    include_hidden: Include hidden forms and fields?
+    file_name: Create your own file name (Optional)
+    success_message: Successfully generated the export file
   buttons:
     accept: Accept
     add: Add
