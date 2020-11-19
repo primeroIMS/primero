@@ -38,7 +38,8 @@ const Component = ({
   selectedRecords,
   setSelectedRecords,
   localizedFields,
-  showCustomToolbar
+  showCustomToolbar,
+  isRowSelectable
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -269,10 +270,17 @@ const Component = ({
     page: currentPage,
     enableNestedDataAccess: ".",
     sortOrder: sortDir,
-    onCellClick: (colData, cellMeta) => {
-      const { dataIndex } = cellMeta;
+    isRowSelectable: dataIndex => {
+      if (isRowSelectable) {
+        return isRowSelectable(records.get(dataIndex));
+      }
 
-      if (!(colData instanceof Object)) {
+      return true;
+    },
+    onCellClick: (colData, cellMeta) => {
+      const { colIndex, dataIndex } = cellMeta;
+
+      if (!componentColumns.getIn([colIndex, "options", "disableOnClick"], false)) {
         if (onRowClick) {
           onRowClick(records.get(dataIndex));
         } else {
@@ -341,6 +349,7 @@ Component.propTypes = {
   bypassInitialFetch: PropTypes.bool,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.array]),
   defaultFilters: PropTypes.object,
+  isRowSelectable: PropTypes.func,
   localizedFields: PropTypes.arrayOf(PropTypes.string),
   onRowClick: PropTypes.func,
   onTableChange: PropTypes.func.isRequired,
