@@ -137,22 +137,22 @@ class Importers::CsvHxlLocationImporter < ValueObject
   end
 
   def create_locations
+    # TODO: This is not good: Location.locations_by_code is global and not thread safe.
     Location.locations_by_code = locations.map { |key, value| [key, Location.new(value)] }.to_h
-    location_id_map = Location.select(:id, :location_code).map { |l| [l.location_code, l.id] }.to_h
-
-    Location.transaction do
-      locations.each do |key, value|
-        id = location_id_map[key]
-        value[:skip_callbacks] = true
-        begin
-          id.present? ? Location.update(id, value) : Location.create!(value)
-        rescue StandardError => e
-          log_errors(I18n.t('imports.csv_hxl_location.messages.db_error', location_code: key, message: e.message))
-        end
-      end
+    location_hashes = location_hashes(Location.locations_by_code.values)
+    begin
+      InsertAllService.insert_all(Location, location_hashes, 'location_code')
+    rescue StandardError => e
+      log_errors(I18n.t('imports.csv_hxl_location.messages.insert_all_error', message: "#{e.message[0..200]}..."))
     end
-
     Location.locations_by_code = nil
+  end
+
+  def location_hashes(locations)
+    locations.map do |location|
+      location.set_name_from_hierarchy_placenames
+      location.attributes.except('id')
+    end
   end
 
   def log_errors(message, opts = {})

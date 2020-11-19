@@ -54,7 +54,7 @@ group :development, :test do
   gem 'json_spec',                  '~> 1.1'
   gem 'letter_opener',              '~> 1.7'
   gem 'listen',                     '~> 3.1'
-  gem 'memory-profiler',            '~> 1.0'
+  gem 'memory_profiler'
   gem 'pry'
   gem 'pry-byebug'
   gem 'rack-mini-profiler',         '>= 1.0.0', require: false
