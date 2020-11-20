@@ -7,7 +7,7 @@ describe("pages/admin/forms-list/components/form-exporter/constants", () => {
     expect(clone).to.be.empty;
   });
 
-  ["NAME", "FORM_EXPORTER_DIALOG", "EXPORT_TYPES"].forEach(property => {
+  ["NAME", "FORM_EXPORTER_DIALOG", "EXPORT_TYPES", "EXPORT_FORMS_PATH"].forEach(property => {
     it(`exports property '${property}'`, () => {
       expect(clone).to.have.property(property);
       delete clone[property];

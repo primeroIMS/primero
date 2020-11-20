@@ -58,7 +58,7 @@ const Component = () => {
     setFilterValues(defaultFilterValues);
   };
 
-  const { setDialog, pending, dialogOpen, dialogClose } = useDialog(FORM_EXPORTER_DIALOG);
+  const { setDialog, pending, dialogOpen, setDialogPending, dialogClose } = useDialog(FORM_EXPORTER_DIALOG);
 
   const canAddForms = usePermissions(RESOURCES.metadata, CREATE_RECORDS);
 
@@ -144,7 +144,14 @@ const Component = () => {
         {newFormBtn}
       </PageHeading>
       <PageContent>
-        <FormExporter i18n={i18n} open={dialogOpen} pending={pending} close={dialogClose} filters={filterValues} />
+        <FormExporter
+          i18n={i18n}
+          open={dialogOpen}
+          pending={pending}
+          close={dialogClose}
+          filters={filterValues}
+          setPending={setDialogPending}
+        />
         <div className={css.indexContainer}>
           <div className={css.forms}>
             <LoadingIndicator hasData={hasFormSectionsByGroup} loading={isLoading} type={NAMESPACE}>

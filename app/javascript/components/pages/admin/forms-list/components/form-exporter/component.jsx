@@ -1,29 +1,34 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import omitBy from "lodash/omitBy";
+import isEmpty from "lodash/isEmpty";
 
 import ActionDialog from "../../../../../action-dialog";
 import bindFormSubmit from "../../../../../../libs/submit-form";
 import Form from "../../../../../form";
+import { exportForms } from "../../action-creators";
 
+import validations from "./validations";
 import { NAME, EXPORT_TYPES } from "./constants";
 import { form } from "./form";
 
-const Component = ({ close, filters, i18n, open, pending }) => {
+const Component = ({ close, filters, i18n, open, pending, setPending }) => {
   const formRef = useRef();
+  const dispatch = useDispatch();
   const { recordType, primeroModule } = filters;
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
 
   const onSubmit = data => {
-    const body = {
-      data: {
-        ...data,
-        export_type: EXPORT_TYPES.EXCEL,
-        record_type: recordType,
-        module_id: primeroModule
-      }
+    const params = {
+      ...data,
+      export_type: EXPORT_TYPES.EXCEL,
+      record_type: recordType,
+      module_id: primeroModule
     };
 
-    console.log("SUBMIT", body);
+    setPending(true);
+    dispatch(exportForms({ params: omitBy(params, isEmpty), message: i18n.t("form_export.success_message") }));
   };
 
   return (
@@ -36,7 +41,14 @@ const Component = ({ close, filters, i18n, open, pending }) => {
       pending={dialogPending}
       omitCloseAfterSuccess
     >
-      <Form useCancelPrompt mode="new" formSections={form(i18n)} onSubmit={onSubmit} ref={formRef} />
+      <Form
+        useCancelPrompt
+        mode="new"
+        formSections={form(i18n)}
+        onSubmit={onSubmit}
+        ref={formRef}
+        validations={validations(i18n)}
+      />
     </ActionDialog>
   );
 };
@@ -48,7 +60,8 @@ Component.propTypes = {
   filters: PropTypes.object,
   i18n: PropTypes.object,
   open: PropTypes.bool,
-  pending: PropTypes.bool
+  pending: PropTypes.bool,
+  setPending: PropTypes.func
 };
 
 export default Component;
