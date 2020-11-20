@@ -4,7 +4,7 @@ import { PageHeading } from "../../../page";
 import ActionButton from "../../../action-button";
 import { setupMountedComponent } from "../../../../test";
 
-import LoginForm from "./container";
+import LoginForm from "./component";
 
 describe("<LoginForm />", () => {
   const props = { isAuthenticated: false };

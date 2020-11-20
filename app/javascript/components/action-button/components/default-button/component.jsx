@@ -37,7 +37,7 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, kee
 Component.displayName = NAME;
 
 Component.propTypes = {
-  icon: PropTypes.object,
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   isCancel: PropTypes.bool,
   isTransparent: PropTypes.bool,
   keepTextOnMobile: PropTypes.bool,

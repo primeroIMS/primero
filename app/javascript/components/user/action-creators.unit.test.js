@@ -2,7 +2,7 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
 import { spy, stub } from "../../test";
-import * as idpSelection from "../pages/login/idp-selection";
+import * as idpSelection from "../login/idp-selection";
 import { SET_USER_LOCALE } from "../i18n";
 
 import Actions from "./actions";

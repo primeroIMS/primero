@@ -1,11 +1,13 @@
 import { push } from "connected-react-router";
 import get from "lodash/get";
 
-import { LOGIN_SUCCESS_CALLBACK } from "../components/pages/login/login-form";
-import { signOut } from "../components/pages/login/idp-selection";
+import { actions } from "../components/login/components/login-form";
+import { signOut } from "../components/login/components/idp-selection";
 import { Actions, attemptSignout, setAuthenticatedUser } from "../components/user";
 import DB from "../db";
 import { ROUTES } from "../config";
+import { clearDialog } from "../components/action-dialog";
+import { setPendingUserLogin } from "../components/connectivity/action-creators";
 
 import { startSignout } from "./utils";
 
@@ -20,7 +22,7 @@ function logoutSuccessHandler(store) {
 
 async function loginSuccessHandler(store, user) {
   const { user_name: username, id } = user;
-
+  const pendingUserLogin = store.getState().getIn(["connectivity", "pendingUserLogin"], false);
   const userFromDB = await DB.getRecord("user", username);
 
   if (!userFromDB) {
@@ -29,12 +31,18 @@ async function loginSuccessHandler(store, user) {
 
   localStorage.setItem("user", JSON.stringify({ username, id }));
   store.dispatch(setAuthenticatedUser({ username, id }));
-  redirectTo(store, ROUTES.dashboard);
+
+  if (!pendingUserLogin) {
+    redirectTo(store, ROUTES.dashboard);
+  }
+
+  store.dispatch(clearDialog());
+  store.dispatch(setAuthenticatedUser({ username, id }));
+  store.dispatch(setPendingUserLogin(false));
 }
 
 const authMiddleware = store => next => action => {
   const routeChanged = action.type === "@@router/LOCATION_CHANGE";
-
   const location = routeChanged && get(action, "payload.location.pathname", false);
 
   const isAuthenticated = store.getState().getIn(["user", "isAuthenticated"], false);
@@ -47,7 +55,7 @@ const authMiddleware = store => next => action => {
     redirectTo(store, ROUTES.dashboard);
   }
 
-  if (action.type === LOGIN_SUCCESS_CALLBACK) {
+  if (action.type === actions.LOGIN_SUCCESS_CALLBACK) {
     loginSuccessHandler(store, action.payload.json);
   }
 
