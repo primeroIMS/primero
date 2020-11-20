@@ -30,6 +30,7 @@ class FormSection < ApplicationRecord
   after_initialize :defaults, unless: :persisted?
   before_validation :calculate_fields_order, :generate_unique_id
   before_save :sync_form_group
+  before_save :sync_modules
   after_save :calculate_subform_collapsed_fields
 
   def defaults
@@ -84,15 +85,8 @@ class FormSection < ApplicationRecord
       form_sections = form_sections.where(unique_id: params[:unique_id]) if params[:unique_id]
       form_sections = form_sections.where(parent_form: params[:record_type]) if params[:record_type]
       form_sections = form_sections.where(primero_modules: { unique_id: params[:module_id] }) if params[:module_id]
-      return form_sections unless params[:include_subforms]
-
-      # subforms = FormSection.where(id: Field.where(form_section_id: form_sections.map(&:id)).where(type: 'subform').select(:subform_section_id))
-      subforms = FormSection
-                   .includes(:fields, :collapsed_fields)
-                   .where(id: Field.where(form_section_id: form_sections.map(&:id)).where(type: 'subform').select(:subform_section_id))
-
-      # form_sections.or(subforms)
-      form_sections + subforms
+      form_sections = form_sections.where(is_nested: false)
+      form_sections = form_sections.unscope(:where) if params[:include_subforms]
     end
 
     def sort_configuration_hash(configuration_hash)
@@ -118,6 +112,20 @@ class FormSection < ApplicationRecord
     new_id = form_group_id.parameterize(separator: '_')
     Lookup.add_form_group(new_id, form_group_id, parent_form, module_name)
     self.form_group_id = new_id
+  end
+
+  # If a form's modules changed, update the modules of the subforms
+  def sync_modules
+    subforms.each do |subform|
+      next if subform.primero_modules == primero_modules
+
+      subform.primero_modules = primero_modules
+      subform.save!
+    end
+  end
+
+  def subforms
+    FormSection.where(id: fields.where(type: 'subform').select(:subform_section_id))
   end
 
   def update_translations(locale, form_hash = {})

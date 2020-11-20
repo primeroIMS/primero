@@ -102,6 +102,77 @@ describe FormSection do
     end
   end
 
+  describe 'sync_modules' do
+    context 'when a forms modules changes' do
+      before do
+        @primero_module2 = PrimeroModule.create!(
+          primero_program: @primero_program, name: 'Test Module 2', associated_record_types: ['case']
+        )
+
+        subform_fields = [
+          Field.new(
+            'name' => 'field_name_1',
+            'type' => Field::TEXT_FIELD,
+            'display_name_all' => 'Field name 1'
+          )
+        ]
+        @subform_module_test = FormSection.new(
+          'visible' => false,
+          'is_nested' => true,
+          :order_form_group => 1,
+          :order => 1,
+          :order_subform => 1,
+          :unique_id => 'subform_module_test',
+          :parent_form => 'case',
+          'editable' => true,
+          :fields => subform_fields,
+          :initial_subforms => 1,
+          'name_all' => 'Nested Subform Section Module Test',
+          'description_all' => 'Details Nested Subform Section module_test'
+        )
+        @subform_module_test.save!
+
+        fields = [
+          Field.new(
+            'name' => 'field_name_2',
+            'type' => Field::TEXT_FIELD,
+            'display_name_all' => 'Field Name 2'
+          ),
+          Field.new(
+            'name' => 'field_name_3',
+            'type' => 'subform',
+            'editable' => true,
+            'subform_section_id' => @subform_module_test.id,
+            'display_name_all' => 'Subform Section Module Test'
+          )
+        ]
+        @form_module_test = FormSection.new(
+          :unique_id => 'form_module_test',
+          :parent_form => 'case',
+          'visible' => true,
+          :order_form_group => 1,
+          :order => 1,
+          :order_subform => 0,
+          :form_group_id => 'm',
+          'editable' => true,
+          'name_all' => 'Form Module Test',
+          'description_all' => 'Form Module Test',
+          :fields => fields
+        )
+        @form_module_test.save!
+      end
+
+      it 'updates the modules of the subform' do
+        expect(@form_module_test.primero_modules).to be_empty
+        expect(@form_module_test.subforms.map(&:primero_modules).flatten).to be_empty
+        @form_module_test.primero_modules = [@primero_module2]
+        @form_module_test.save!
+        expect(@form_module_test.primero_modules).to include(@primero_module2)
+        expect(@form_module_test.subforms.map(&:primero_modules).flatten).to include(@primero_module2)
+      end
+    end
+  end
+
   describe 'Adding fields' do
     it 'adds the textarea to the formsection' do
       field = build(:field, type: Field::TEXT_AREA)
