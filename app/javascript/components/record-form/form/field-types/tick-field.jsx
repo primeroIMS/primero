@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { FastField, connect, getIn } from "formik";
 import { Checkbox } from "formik-material-ui";
 import pickBy from "lodash/pickBy";
-import { FormControlLabel, FormHelperText, InputLabel } from "@material-ui/core";
+import { FormControlLabel, FormHelperText, InputLabel, FormControl } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
@@ -34,7 +34,7 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) =
   }, []);
 
   return (
-    <>
+    <FormControl fullWidth error={fieldError}>
       <InputLabel
         htmlFor={name}
         className={clsx({
@@ -64,7 +64,7 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) =
         }
       />
       {displayHelperText}
-    </>
+    </FormControl>
   );
 };
 
