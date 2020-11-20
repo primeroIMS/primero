@@ -21,7 +21,7 @@ describe GenerateLocationFilesService do
 
   context 'no locations' do
     it 'contains an empty array' do
-      expect(json).to eq({"data" => []})
+      expect(json).to eq('data' => [])
     end
   end
 
@@ -34,8 +34,8 @@ describe GenerateLocationFilesService do
     end
 
     it 'contains location JSON text' do
-      expect(json["data"].size).to eq(1)
-      expect(json["data"][0]['code']).to eq('GH')
+      expect(json['data'].size).to eq(1)
+      expect(json['data'][0]['code']).to eq('GH')
     end
   end
 

@@ -23,6 +23,7 @@ en:
   form: Form
   name: Name
   offline: Offline
+  unavailable_offline: Unavailable offline
   online: Online
   yes_label: 'Yes'
   offline_submitted_changes: You are currently offline. Your changes will be submitted when you are back online.
@@ -870,6 +871,7 @@ en:
         error: 'Row %{row_number} Not Processed: %{message}'
         db_error: 'Error creating %{location_code}: %{message}'
         locale_invalid: 'Skipping %{column_name}: Locale invalid'
+        insert_all_error: 'Import Not Processed. Database error: %{message}'
   fields:
     action: Action
     actions: Actions
@@ -2436,16 +2438,16 @@ en:
     user_mandatory_label: Recipient is required
     users_label: Recipient
   record_information:
-    assigned_user_names: Other Assigned Users
+    associated_user_names: Other Assigned Users
     created_by: Record created by
-    created_by_agency: Created by agency
+    created_organization: Created by agency
     current_owner_separator: Current Owner
     module_id: Module
     owned_by: Caseworker Code
     owned_by_agency_id: Agency
     owned_by_text: Field/Case/Social Worker
-    previous_agency: Previous Agency
     previously_owned_by: Previous Owner
+    previously_owned_by_agency: Previous Agency
     reassigned_tranferred_on: Reassigned / Transferred On
     record_history_separator: Record History
   record_panel:

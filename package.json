@@ -12,7 +12,7 @@
     "dev": "webpack-dev-server --config webpack/index.js",
     "test": "npm run test:run './app/javascript/**/*.unit.test.js'",
     "test:all": "npm test",
-    "test:inspect": "npm run test:run -- --inspect-brk=0.0.0.0:9229",
+    "test:inspect": "NODE_ENV=test mocha -- --inspect-brk=0.0.0.0:9229",
     "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
     "test:run": "NODE_ENV=test mocha --timeout 8000  --check-leaks --parallel --reporter=dot",
     "jscpd": "npm run jscpd:run 'app/javascript/**'",

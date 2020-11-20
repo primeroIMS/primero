@@ -9,6 +9,7 @@ import { teamSharingTable } from "../../utils";
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
+import { ROUTES } from "../../../../../config";
 
 import { NAME } from "./constants";
 
@@ -27,7 +28,11 @@ const Component = ({ loadingIndicator }) => {
           {...loadingIndicator}
           hasData={Boolean(sharedFromMyTeam.size)}
         >
-          <DashboardTable title={i18n.t("dashboard.dash_shared_from_my_team")} {...sharedFromMyTeamProps} />
+          <DashboardTable
+            pathname={ROUTES.cases}
+            title={i18n.t("dashboard.dash_shared_from_my_team")}
+            {...sharedFromMyTeamProps}
+          />
         </OptionsBox>
       </Grid>
     </Permission>

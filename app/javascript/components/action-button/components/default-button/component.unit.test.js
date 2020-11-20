@@ -31,6 +31,7 @@ describe("<DefaultButton /> components/action-button/components", () => {
 
     expect(component.find(Button)).to.have.lengthOf(1);
     expect(component.find(CircularProgress)).to.have.lengthOf(1);
+    expect(component.find(Button).props().disabled).to.be.true;
   });
 
   // TODO: Fix once we figure out why styles are not loaded correctly on tests

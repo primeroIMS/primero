@@ -27,7 +27,8 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     asyncOptionsLoadingPath,
     watchedInputsValues,
     clearDependentValues,
-    setOtherFieldValues
+    setOtherFieldValues,
+    maxSelectedOptions
   } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
@@ -166,6 +167,14 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const renderTags = (value, getTagProps) =>
     value.map((option, index) => <Chip label={optionLabel(option)} {...getTagProps({ index })} disabled={disabled} />);
 
+  const getOptionDisabled = () => {
+    if (Object.is(maxSelectedOptions, null) || Object.is(methods.getValues()[name], null)) {
+      return false;
+    }
+
+    return methods.getValues()[name].length === maxSelectedOptions;
+  };
+
   return (
     <Controller
       name={name}
@@ -179,6 +188,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
           multiple={multiSelect}
           getOptionLabel={optionLabel}
           getOptionSelected={optionEquality}
+          getOptionDisabled={getOptionDisabled}
           disabled={disabled}
           filterSelectedOptions
           disableClearable={disableClearable}
