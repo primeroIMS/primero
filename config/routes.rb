@@ -18,6 +18,10 @@ Rails.application.routes.draw do
     defaults: { format: :json }, constraints: { format: :json }
   )
 
+  devise_scope :user do
+    get '/v2/password_reset', to: 'home#v2', as: :edit_user_password
+  end
+
   resources :health, only: %i[index show]
   resources :login, only: [:show]
 
@@ -76,6 +80,8 @@ Rails.application.routes.draw do
           get :'assign-to', to: 'users_transitions#assign_to'
           get :'transfer-to', to: 'users_transitions#transfer_to'
           get :'refer-to', to: 'users_transitions#refer_to'
+          post :'password-reset-request', to: 'password_reset#password_reset_request'
+          post :'password-reset', to: 'password_reset#password_reset'
         end
       end
       resources :identity_providers, only: [:index]
