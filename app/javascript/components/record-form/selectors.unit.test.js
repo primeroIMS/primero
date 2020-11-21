@@ -439,14 +439,6 @@ describe("<RecordForm /> - Selectors", () => {
         editable: true,
         module_ids: ["primeromodule-cp"],
         form_group_id: "invisible",
-        form_group_name: {
-          en: "Invisible",
-          fr: "",
-          ar: "",
-          "ar-LB": "",
-          so: "",
-          es: ""
-        },
         fields: [
           {
             date_include_time: false,
@@ -498,7 +490,6 @@ describe("<RecordForm /> - Selectors", () => {
       identification_registration: OrderedMap({
         "62": R.NavRecord({
           group: "identification_registration",
-          groupName: "Identification / Registration",
           groupOrder: 30,
           name: "Basic Identity",
           order: 10,
@@ -515,6 +506,15 @@ describe("<RecordForm /> - Selectors", () => {
       });
 
       expect(record).to.deep.equal(expected);
+    });
+
+    it("should not return form groupName", () => {
+      const record = selectors.getFormNav(stateWithRecords, {
+        primeroModule: "primeromodule-cp",
+        recordType: "case"
+      });
+
+      expect(record?.groupName).to.not.exist;
     });
 
     it("should return an empty ordered map when there are not any options", () => {

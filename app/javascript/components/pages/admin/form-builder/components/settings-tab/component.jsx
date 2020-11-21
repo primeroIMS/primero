@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import get from "lodash/get";
 
 import FormSection from "../../../../../form/components/form-section";
@@ -14,6 +14,7 @@ import { NAME as FormTranslationsDialogName } from "../form-translations-dialog/
 import styles from "../../styles.css";
 import { settingsForm } from "../../forms";
 import { whichFormMode } from "../../../../../form";
+import { getFormGroupLookups } from "../../../../../form/selectors";
 
 import { NAME } from "./constants";
 
@@ -22,6 +23,7 @@ const Component = ({ formContextFields, getValues, index, mode, register, setVal
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
+  const allFormGroupsLookups = useSelector(state => getFormGroupLookups(state));
 
   const onManageTranslation = () => {
     dispatch(setDialog({ dialog: FormTranslationsDialogName, open: true }));
@@ -46,9 +48,13 @@ const Component = ({ formContextFields, getValues, index, mode, register, setVal
     setValue(`translations.${name}`, value);
   };
 
-  const renderForms = settingsForm({ formMode, onManageTranslation, onEnglishTextChange, i18n }).map(formSection => (
-    <FormSection formSection={formSection} key={formSection.unique_id} />
-  ));
+  const renderForms = settingsForm({
+    formMode,
+    onManageTranslation,
+    onEnglishTextChange,
+    i18n,
+    allFormGroupsLookups
+  }).map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);
 
   return (
     <TabPanel tab={tab} index={index}>

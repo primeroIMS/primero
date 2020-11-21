@@ -15,6 +15,8 @@ import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
 import { getIncidentFromCase, getRecordAlerts, getSelectedRecord } from "../../records";
 import { setSelectedForm } from "../action-creators";
 import { compare, ConditionalWrapper } from "../../../libs";
+import { getOptions } from "../../form/selectors";
+import { buildFormGroupUniqueId } from "../../pages/admin/form-builder/utils";
 
 import { NAME } from "./constants";
 import { NavGroup, RecordInformation } from "./components";
@@ -49,6 +51,10 @@ const Component = ({
         formName: selectedForm || firstTab.unique_id,
         checkVisible: true
       }),
+    compare
+  );
+  const formGroupLookup = useSelector(
+    state => getOptions(state, buildFormGroupUniqueId(primeroModule, RECORD_TYPES[recordType].replace("_", "-")), i18n),
     compare
   );
   const firstSelectedForm = selectedRecordForm?.first();
@@ -152,6 +158,7 @@ const Component = ({
           recordAlerts={recordAlerts}
           selectedForm={selectedForm}
           validationErrors={validationErrors}
+          formGroupLookup={formGroupLookup}
         />
       );
     });
@@ -161,7 +168,12 @@ const Component = ({
         <ConditionalWrapper condition={mobileDisplay} wrapper={Drawer} {...drawerProps}>
           {renderCloseButtonNavBar}
           <List className={css.listRecordNav}>
-            <RecordInformation handleClick={handleClick} open={open} selectedForm={selectedForm} />
+            <RecordInformation
+              handleClick={handleClick}
+              open={open}
+              selectedForm={selectedForm}
+              formGroupLookup={formGroupLookup}
+            />
             <Divider />
             {renderFormGroups}
           </List>
