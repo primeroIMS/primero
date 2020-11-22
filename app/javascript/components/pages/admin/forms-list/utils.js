@@ -85,7 +85,7 @@ export const setInitialGroupOrder = (formSections, filter) =>
 
 export const getFormGroups = (allFormGroupsLookups, moduleId, parentForm, i18n) =>
   getLookupFormGroup(allFormGroupsLookups, moduleId, parentForm)
-    .get("values", fromJS([]))
-    .reduce((result, item) => {
+    ?.get("values", fromJS([]))
+    ?.reduce((result, item) => {
       return { ...result, [item.get("id")]: item.getIn(["display_text", i18n.locale], "") };
     }, {});
