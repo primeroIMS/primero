@@ -26,7 +26,8 @@ describe("User - Action Creators", () => {
           extended: true
         },
         db: {
-          collection: "user"
+          collection: "user",
+          user: "primero"
         },
         successCallback: ["I18n/SET_USER_LOCALE"]
       }
@@ -151,11 +152,11 @@ describe("User - Action Creators", () => {
     const expected = {
       path: "users/1",
       params: { extended: true },
-      db: { collection: "user" },
+      db: { collection: "user", user: "primero" },
       successCallback: ["I18n/SET_USER_LOCALE"]
     };
 
-    dispatch(actionCreators.fetchAuthenticatedUserData(1));
+    dispatch(actionCreators.fetchAuthenticatedUserData({ username: "primero", id: 1 }));
     const firstCallReturnValue = dispatch.getCall(0).returnValue;
 
     expect(firstCallReturnValue.type).to.deep.equal(Actions.FETCH_USER_DATA);
