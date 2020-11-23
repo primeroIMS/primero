@@ -9,12 +9,12 @@ import { useI18n } from "../i18n";
 
 import styles from "./styles.css";
 
-const Component = ({ children, button, offlineTextKey }) => {
+const Component = ({ overrideCondition, children, button, offlineTextKey }) => {
   const css = makeStyles(styles)();
   const { online } = useApp();
   const i18n = useI18n();
 
-  if (!online) {
+  if (overrideCondition || !online) {
     return (
       <Tooltip title={i18n.t(offlineTextKey || "offline")}>
         <div
@@ -34,13 +34,15 @@ const Component = ({ children, button, offlineTextKey }) => {
 
 Component.defaultProps = {
   button: false,
-  offlineTextKey: null
+  offlineTextKey: null,
+  overrideCondition: false
 };
 
 Component.propTypes = {
   button: PropTypes.bool,
   children: PropTypes.node,
-  offlineTextKey: PropTypes.string
+  offlineTextKey: PropTypes.string,
+  overrideCondition: PropTypes.bool
 };
 
 Component.displayName = "DisableOffline";
