@@ -21,7 +21,8 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
 
   const tableColumns = data => {
     // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label, react/prop-types
-    const disableColumnOffline = ({ component: Component, props = {}, value, rowIndex }) => {
+    const disableColumnOffline = args => {
+      const { component: Component, props = {}, value, rowIndex } = args || {};
       const rowAvailable = recordAvailable(data.getIn(["data", rowIndex], fromJS({})));
 
       return (
@@ -31,7 +32,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
           offlineTextKey="unavailable_offline"
           overrideCondition={!rowAvailable}
         >
-          <>{value || <Component {...props} />}</>
+          <>{Component !== undefined ? <Component {...props} /> : value || ""}</>
         </ConditionalWrapper>
       );
     };
@@ -119,7 +120,6 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
                   {flagIcon}
                 </div>
               ),
-
               rowIndex
             });
           }
