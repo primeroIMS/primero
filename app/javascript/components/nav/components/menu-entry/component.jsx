@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
@@ -13,11 +13,15 @@ import DisableOffline from "../../../disable-offline";
 import { getPermissions } from "../../../user/selectors";
 import { ConditionalWrapper } from "../../../../libs";
 import { useApp } from "../../../application";
+import { setDialog } from "../../../action-dialog";
+import { LOGOUT_DIALOG } from "../../constants";
+import { ROUTES } from "../../../../config";
 
 const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) => {
-  const { disabledApplication } = useApp();
+  const { disabledApplication, online } = useApp();
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const dispatch = useDispatch();
 
   const { to, divider, icon, name, disableOffline, disabled, validateWithUserPermissions } = menuEntry;
 
@@ -33,8 +37,15 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
         activeClassName: css.navActive,
         onClick: closeDrawer,
         disabled: disabledApplication
+      }),
+    ...(!disabledApplication &&
+      !online &&
+      to === ROUTES.logout && {
+        to: false,
+        onClick: () => dispatch(setDialog({ dialog: LOGOUT_DIALOG, open: true, pending: false }))
       })
   };
+
   const userPermissions = useSelector(state => getPermissions(state));
   const userRecordTypes = [...userPermissions.keys()];
   const navItemName = name === "username" ? username : i18n.t(name);
