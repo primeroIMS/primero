@@ -25,7 +25,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
         ?.get("unique_id");
     }
 
-    if (fieldValue && field.name === "associated_user_names") {
+    if (fieldValue && field.name === "assigned_user_names") {
       fieldValue = fieldValue.join(", ");
     }
 
