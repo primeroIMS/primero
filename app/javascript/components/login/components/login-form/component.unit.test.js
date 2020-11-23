@@ -51,7 +51,7 @@ describe("<LoginForm />", () => {
   // });
 
   it("renders login button", () => {
-    expect(component.find("button").first().prop("type")).to.equal("submit");
+    expect(component.find("button").first().prop("type")).to.equal("button");
   });
 
   describe("when is demo site", () => {
