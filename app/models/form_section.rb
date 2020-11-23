@@ -36,12 +36,6 @@ class FormSection < ApplicationRecord
     %w[order order_form_group order_subform initial_subforms].each { |p| self[p] ||= 0 }
   end
 
-  def form_group_name_i18n(lookups = nil)
-    return name_i18n if form_group_id.blank?
-
-    Lookup.form_group_name_all(form_group_id, parent_form, module_name, lookups)
-  end
-
   def inspect
     "FormSection(#{name}, form_group_id => '#{form_group_id}')"
   end

@@ -123,4 +123,32 @@ describe("Forms - Selectors", () => {
       expect(selectors.getManagedRoleByUniqueId(stateWithLookups, "role-abc")).to.be.empty;
     });
   });
+
+  describe("getFormGroupLookups", () => {
+    const lookups = [
+      {
+        unique_id: "lookup-form-group-cp-case",
+        name: { en: "Lookup 1" }
+      },
+      {
+        unique_id: "lookup-form-group-cp-incident",
+        name: { en: "Lookup 2" }
+      },
+      {
+        unique_id: "lookup-form-group-gbv-incident",
+        name: { en: "Lookup 3" }
+      }
+    ];
+    const stateWithLookupsFormGroup = fromJS({
+      forms: {
+        options: {
+          lookups
+        }
+      }
+    });
+
+    it("should return formGroups lookups", () => {
+      expect(selectors.getFormGroupLookups(stateWithLookupsFormGroup)).to.deep.equal(fromJS(lookups));
+    });
+  });
 });
