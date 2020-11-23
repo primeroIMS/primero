@@ -30,7 +30,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
     }
 
     if (fieldValue && field.name === "created_organization") {
-      fieldValue = fieldValue.get("agency_code");
+      fieldValue = typeof fieldValue === "string" ? fieldValue : fieldValue?.get("agency_code");
     }
 
     return { ...acum, [field.name]: fieldValue };

@@ -226,6 +226,10 @@
   }
 }
 
+.error {
+  color: $(theme.primero.colors.redLabelError) !important;
+}
+
 @media $(theme.breakpoints.down("sm")) {
   .actionButtonsContainer {
     width: 95px;

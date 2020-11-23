@@ -61,6 +61,7 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
       disableUnderline: mode.isShow
     },
     InputLabelProps: {
+      htmlFor: name,
       shrink: true,
       required,
       classes: {

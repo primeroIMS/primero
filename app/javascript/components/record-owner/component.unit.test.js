@@ -86,17 +86,35 @@ describe("<RecordOwner />", () => {
   });
 
   it("renders value for previously_owned_by_agency", () => {
-    const associatedUserNames = component.find(MuiTextField).at(6).props();
+    const previouslyOwnedBy = component.find(MuiTextField).at(6).props();
 
-    expect(associatedUserNames.name).to.be.equal("previously_owned_by_agency");
-    expect(associatedUserNames.field.value).to.be.equal("TEST/AGENCY");
+    expect(previouslyOwnedBy.name).to.be.equal("previously_owned_by_agency");
+    expect(previouslyOwnedBy.field.value).to.be.equal("TEST/AGENCY");
   });
 
-  it("renders value for created_organization", () => {
-    const associatedUserNames = component.find(MuiTextField).at(4).props();
+  describe("with created_organization", () => {
+    describe("when is an object", () => {
+      it("renders value for created_organization", () => {
+        const createOrganization = component.find(MuiTextField).at(4).props();
 
-    expect(associatedUserNames.name).to.be.equal("created_organization");
-    expect(associatedUserNames.field.value).to.be.equal("TEST");
+        expect(createOrganization.name).to.be.equal("created_organization");
+        expect(createOrganization.field.value).to.be.equal("TEST");
+      });
+    });
+
+    describe("when is a string", () => {
+      it("renders value for created_organization", () => {
+        const { component: componentWithStringOrganization } = setupMountedComponent(
+          RecordOwner,
+          { ...rootProps, record: record.set("created_organization", "AGENCY 1") },
+          rootInitialState
+        );
+        const createOrganization = componentWithStringOrganization.find(MuiTextField).at(4).props();
+
+        expect(createOrganization.name).to.be.equal("created_organization");
+        expect(createOrganization.field.value).to.be.equal("AGENCY 1");
+      });
+    });
   });
 
   describe("when record is new", () => {
