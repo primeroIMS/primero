@@ -76,6 +76,7 @@ Rails.application.routes.draw do
 
       resources :form_sections, as: :forms, path: :forms
       resources :users do
+        post :'password-reset-request', to: 'password_reset#user_password_reset_request'
         collection do
           get :'assign-to', to: 'users_transitions#assign_to'
           get :'transfer-to', to: 'users_transitions#transfer_to'

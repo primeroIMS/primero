@@ -3,14 +3,26 @@
 # Custom Devise controller that handles requests for email-based password resets,
 # and adapts it to the Primero API scheme
 class Api::V2::PasswordResetController < Devise::PasswordsController
+  respond_to :json
   # TODO: Audit access attempts?
   # include AuditLogActions
   include Api::V2::Concerns::JwtTokens
-  respond_to :json
+  include ErrorHandling
 
   # Submit a request to reset a password over email.
   def password_reset_request
-    self.resource = resource_class.send_reset_password_instructions(resource_params)
+    perform_request(resource_params)
+  end
+
+  def user_password_reset_request
+    authenticate_user!(force: true)
+    user = User.find(params[:user_id])
+    authorize! :edit_user, user
+    perform_request(email: user.email)
+  end
+
+  def perform_request(request_params)
+    self.resource = resource_class.send_reset_password_instructions(request_params)
     render json: { data: { message: 'user.password_reset.request_submitted' } }
   end
 
@@ -24,7 +36,7 @@ class Api::V2::PasswordResetController < Devise::PasswordsController
   # that Devise unfortunately still uses. We are overriding it to return a JSON object
   # for the Devise password reset.
   def respond_with(user, _opts = {})
-    return errors unless user.errors.empty?
+    return errors(user) unless user.errors.empty?
 
     token_to_cookie if warden.user(resource_name) == resource
     render json: { data: { message: 'user.password_reset.success' } }
