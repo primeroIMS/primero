@@ -20,13 +20,12 @@ const Component = ({
   recordType,
   pending,
   setPending,
-  transferId,
-  recordDisplayId
+  transferId
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [comment, setComment] = React.useState("");
-  const record = useSelector(state => selectRecord(state, { isShow: true }, recordType, recordDisplayId));
+  const record = useSelector(state => selectRecord(state, { isShow: true }, recordType, recordId));
 
   const handleChangeComment = event => {
     setComment(event.target.value);
@@ -139,7 +138,6 @@ Component.propTypes = {
   dialogName: PropTypes.string,
   openTransferDialog: PropTypes.bool,
   pending: PropTypes.bool,
-  recordDisplayId: PropTypes.string,
   recordId: PropTypes.string,
   recordType: PropTypes.string,
   setPending: PropTypes.func,
