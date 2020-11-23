@@ -340,7 +340,7 @@ module Exporters
             'sexual_assault', 'type_of_practice_1', 'false', 'forced_conscription', 'non-gbvims-org', 'true', 2,
             'M and F', 'Yes', 'Age 18 - 25', 'supervisor_employer', 'occupation_2', 'police_other_service',
             'services_already_received_from_another_agency', 'service_provided_by_your_agency',
-            'service_not_applicable', 'Undecided at time of report', 'service_not_applicable',
+            'service_not_applicable', 'No', 'service_not_applicable',
             'referral_declined_by_survivor', 'service_not_applicable', 'services_already_received_from_another_agency',
             'true', Agency.last.agency_code
           ]
