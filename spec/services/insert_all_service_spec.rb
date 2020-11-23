@@ -44,7 +44,8 @@ describe InsertAllService do
       )
 
       InsertAllService.insert_all(Location, locations, 'location_code')
-      expect(location.name('en')).to eq('Country 1::Province 1::District ZZZ')
+      expect(Location.count).to eq(4)
+      expect(location.name('en')).to eq('Country 1::Province 1::District 2')
     end
   end
 end
