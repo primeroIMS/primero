@@ -96,7 +96,6 @@ describe Api::V2::FormSectionsController, type: :request do
         expect(json['data'].map { |c| c['unique_id'] }).to match_array(expected)
       end
     end
-
   end
 
   describe 'GET /api/v2/forms/:id' do

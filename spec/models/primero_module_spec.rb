@@ -66,7 +66,6 @@ describe PrimeroModule do
 
     context 'when a modules forms changes' do
       it 'updates the subforms' do
-
         @primero_module.form_sections = [@form_section_a, @form_section_b, @form_module_test]
         @primero_module.save!
 
