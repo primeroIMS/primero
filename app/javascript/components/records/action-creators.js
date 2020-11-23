@@ -6,6 +6,7 @@ import { setSelectedForm } from "../record-form/action-creators";
 
 import {
   CLEAR_METADATA,
+  CLEAR_RECORD_ATTACHMENTS,
   RECORD,
   SAVE_RECORD,
   FETCH_RECORD_ALERTS,
@@ -14,7 +15,8 @@ import {
   CLEAR_CASE_FROM_INCIDENT,
   SET_CASE_ID_REDIRECT,
   SET_SELECTED_RECORD,
-  CLEAR_SELECTED_RECORD
+  CLEAR_SELECTED_RECORD,
+  UPDATE_ATTACHMENTS
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -196,4 +198,14 @@ export const setSelectedRecord = (recordType, recordId) => ({
 
 export const clearSelectedRecord = recordType => ({
   type: `${recordType}/${CLEAR_SELECTED_RECORD}`
+});
+
+export const updateRecordAttachments = (recordId, recordType) => ({
+  type: `${recordType}/${UPDATE_ATTACHMENTS}`,
+  payload: { id: recordId, recordType }
+});
+
+export const clearRecordAttachments = (recordId, recordType) => ({
+  type: `${recordType}/${CLEAR_RECORD_ATTACHMENTS}`,
+  payload: { id: recordId, recordType }
 });

@@ -3,7 +3,8 @@ tracing_request_photo_audio_fields = [
                "type" => "photo_upload_box",
                "editable" => false,
                "disabled" => true,
-               "display_name_en" => "Current Photo Key",
+               "display_name_en" => "Photos",
+               "help_text_en" => "Only PNG, JPEG, and GIF files permitted",
                "show_on_minify_form" => true
               }),
     Field.new({"name" => "recorded_audio",
@@ -11,6 +12,7 @@ tracing_request_photo_audio_fields = [
                "editable" => false,
                "disabled" => true,
                "display_name_en" => "Recorded Audio",
+               "help_text_en" => "Only AMR and MPEG files permitted",
                "show_on_minify_form" => true
               })
 ]

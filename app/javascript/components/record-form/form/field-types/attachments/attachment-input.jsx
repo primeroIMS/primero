@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { FastField } from "formik";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { MAX_ATTACHMENT_SIZE } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
 import { toBase64 } from "../../../../../libs";
 import styles from "../../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
+import { enqueueSnackbar, SNACKBAR_VARIANTS } from "../../../../notifier";
 
 import { ATTACHMENT_TYPES, ATTACHMENT_ACCEPTED_TYPES } from "./constants";
 import renderPreview from "./render-preview";
 
 const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const [file, setFile] = useState({
     loading: false,
@@ -31,6 +35,13 @@ const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
 
   const handleChange = async (form, event) => {
     const selectedFile = event?.target?.files?.[0];
+    const restrictedTypes = ["application/pdf", "text/plain"];
+
+    if (selectedFile.size > MAX_ATTACHMENT_SIZE && restrictedTypes.includes(selectedFile.type)) {
+      dispatch(enqueueSnackbar("", { messageKey: "fields.attachment_too_large", type: SNACKBAR_VARIANTS.error }));
+
+      return;
+    }
 
     loadingFile(true);
 

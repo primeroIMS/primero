@@ -924,6 +924,7 @@ en:
     english_text: English Text
     field_name: Field Name
     field_type: Field type
+    attachment_too_large: File should not be larger than 4 MB
     file_upload_box:
       add_document_label: Add Document
       add_new_document_button_text: Add another document

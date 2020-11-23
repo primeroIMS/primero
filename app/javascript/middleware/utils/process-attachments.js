@@ -24,7 +24,8 @@ export default ({ attachments, id, recordType }) => {
               body: { data: { ...attachment, field_name: current } }
             })
           },
-          fromQueue: uuid()
+          fromQueue: uuid(),
+          fromAttachment: { id: attachment?._destroy, field_name: current, record_type: recordType, record: { id } }
         });
       }
     });
@@ -33,6 +34,6 @@ export default ({ attachments, id, recordType }) => {
   }, []);
 
   if (actions) {
-    actions.forEach(action => queueIndexedDB.add(action));
+    queueIndexedDB.add(actions);
   }
 };
