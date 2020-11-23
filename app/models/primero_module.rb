@@ -25,6 +25,7 @@ class PrimeroModule < ApplicationRecord
                         message: I18n.t('errors.models.primero_module.associated_record_types')
 
   before_create :set_unique_id
+  before_save :sync_forms
 
   def program_name
     primero_program.try(:name)
@@ -76,5 +77,18 @@ class PrimeroModule < ApplicationRecord
     return if unique_id.present?
 
     self.unique_id = "#{self.class.name}-#{name}".parameterize.dasherize
+  end
+
+  def sync_forms
+    return if form_sections.blank?
+
+    subforms = []
+    form_sections.each do |form_section|
+      next if form_section.is_nested
+
+      subforms += form_section.subforms
+    end
+
+    self.form_sections = form_sections | subforms
   end
 end
