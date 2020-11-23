@@ -18,7 +18,7 @@ class Api::V2::PasswordResetController < Devise::PasswordsController
     authenticate_user!(force: true)
     user = User.find(params[:user_id])
     authorize! :edit_user, user
-    perform_request(email: user.email)
+    perform_request(email: user.email) if params[:user][:password_reset]
   end
 
   def perform_request(request_params)
@@ -38,8 +38,12 @@ class Api::V2::PasswordResetController < Devise::PasswordsController
   def respond_with(user, _opts = {})
     return errors(user) unless user.errors.empty?
 
-    token_to_cookie if warden.user(resource_name) == resource
-    render json: { data: { message: 'user.password_reset.success' } }
+    json = { message: 'user.password_reset.success' }
+    if warden.user(resource_name) == resource
+      token_to_cookie
+      json.merge(id: user.id, user_name: user.user_name, token: current_token)
+    end
+    render json: json
   end
 
   def errors(user)
