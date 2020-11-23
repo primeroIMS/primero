@@ -1,8 +1,8 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../test";
+import { setupMountedComponent } from "../../test";
 
-import Login from "./container";
+import Login from "./component";
 
 describe("<Login />", () => {
   describe("for login form", () => {

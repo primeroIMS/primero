@@ -124,7 +124,7 @@ const Container = ({ match, location }) => {
     recordType,
     defaultFilters,
     bypassInitialFetch: true,
-    columns: buildTableColumns(listHeaders, i18n, recordType, css, online),
+    columns: buildTableColumns(listHeaders, i18n, recordType, css, recordAvaialble),
     onTableChange: applyFilters,
     onRowClick: record => {
       if (recordAvaialble(record)) {

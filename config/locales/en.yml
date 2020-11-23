@@ -1275,7 +1275,9 @@ en:
       you are back online
     field_name_on_form_name: '''%{field_name}'' field on ''%{form_name}'' form.'
     logout_confirmation: Do you want to continue your session?
+    logout_offline_warning: Are sure you want to log out? If you do, you will not be able to log back in until you are online again. Any changes you made while offline will be lost.
     logout_warning: You will be logged off in 5 minutes
+    logout_dialog_header: Offline Log Out
     no_changes: You made no field changes
   navigation:
     bulk_exports: Exports

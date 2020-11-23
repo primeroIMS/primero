@@ -28,8 +28,8 @@ export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage
   addMethod(string, "isIdpProvider", isIdpProvider);
 
   const excludedFieldsOnAccountPage = {
-    agency_id: number().required().label(i18n.t("user.organization")),
-    role_unique_id: string().required().label(i18n.t("user.role_id")),
+    agency_id: number().nullable().required().label(i18n.t("user.agency")),
+    role_unique_id: string().nullable().required().label(i18n.t("user.role_id")),
     user_group_unique_ids: array().required().label(i18n.t("user.user_group_unique_ids"))
   };
 
@@ -37,7 +37,7 @@ export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage
     email: string().required().label(i18n.t("user.email")),
     full_name: string().required().label(i18n.t("user.full_name")),
     identity_provider_id: useProviders && number().required(),
-    location: string().required().label(i18n.t("user.location")),
+    location: string().nullable().required().label(i18n.t("user.location")),
     user_name: useProviders
       ? string().required().label(i18n.t("user.user_name")).isIdpProvider(ref("identity_provider_id"))
       : string().required().label(i18n.t("user.user_name"))

@@ -59,7 +59,36 @@ describe("<FormsList />", () => {
           formSections: mapEntriesToRecord(formSections, FormSectionRecord, true)
         }
       }
-    }
+    },
+    forms: fromJS({
+      options: {
+        lookups: [
+          {
+            id: 51,
+            unique_id: "lookup-form-group-cp-case",
+            name: {
+              en: "Form Groups - CP Case"
+            },
+            values: [
+              {
+                id: "group_1",
+                disabled: false,
+                display_text: {
+                  en: "Group 1"
+                }
+              },
+              {
+                id: "group_2",
+                disabled: false,
+                display_text: {
+                  en: "Group 2"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    })
   });
 
   beforeEach(() => {

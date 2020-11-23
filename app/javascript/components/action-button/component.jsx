@@ -37,7 +37,7 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
-  icon: PropTypes.object,
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   isCancel: PropTypes.bool,
   isTransparent: PropTypes.bool,
   keepTextOnMobile: PropTypes.bool,

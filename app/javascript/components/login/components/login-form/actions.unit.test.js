@@ -1,4 +1,4 @@
-import * as actions from "./actions";
+import actions from "./actions";
 
 describe("<LoginForm /> - Actions", () => {
   it("should have known actions", () => {

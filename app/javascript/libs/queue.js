@@ -12,6 +12,10 @@ const QUEUE_FAILED = "queue-failed";
 const QUEUE_SKIP = "queue-skip";
 const QUEUE_SUCCESS = "queue-success";
 
+const QUEUE_PENDING = "pending";
+const QUEUE_READY = "ready";
+const QUEUE_HALTED = "halted";
+
 class Queue {
   constructor() {
     this.queue = [];
@@ -129,4 +133,4 @@ const instance = new Queue();
 
 export default instance;
 
-export { QUEUE_ADD, QUEUE_FINISHED, QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS };
+export { QUEUE_PENDING, QUEUE_READY, QUEUE_HALTED, QUEUE_ADD, QUEUE_FINISHED, QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS };

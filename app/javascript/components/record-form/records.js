@@ -38,7 +38,6 @@ export const FormSectionRecord = Record({
   editable: null,
   module_ids: [],
   form_group_id: "",
-  form_group_name: "",
   fields: [],
   is_nested: null,
   subform_prevent_item_removal: false,

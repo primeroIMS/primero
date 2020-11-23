@@ -4,7 +4,7 @@ import { PageHeading } from "../../../page";
 import ActionButton from "../../../action-button";
 import { setupMountedComponent } from "../../../../test";
 
-import LoginForm from "./container";
+import LoginForm from "./component";
 
 describe("<LoginForm />", () => {
   const props = { isAuthenticated: false };
@@ -51,7 +51,7 @@ describe("<LoginForm />", () => {
   // });
 
   it("renders login button", () => {
-    expect(component.find("button").first().prop("type")).to.equal("submit");
+    expect(component.find("button").first().prop("type")).to.equal("button");
   });
 
   describe("when is demo site", () => {
