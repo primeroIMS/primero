@@ -2,6 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 
 import React from "react";
+import { fromJS } from "immutable";
 
 import { ToggleIconCell } from "../index-table";
 import { RECORD_PATH, DATE_TIME_FORMAT } from "../../config";
@@ -12,25 +13,28 @@ import { ALERTS_COLUMNS, ALERTS } from "./constants";
 import PhotoColumnBody from "./components/photo-column-body";
 import PhotoColumnHeader from "./components/photo-column-header";
 
-export const buildTableColumns = (allowedColumns, i18n, recordType, css, online) => {
+export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordAvailable) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
 
   // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label
   const emptyHeader = name => <th key={name} className={css.overdueHeading} />;
 
-  // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label
-  const disableColumnOffline = args => {
-    const { component: Component, props = {}, value, rowAvaialble } = args;
-
-    return (
-      <ConditionalWrapper condition={!rowAvaialble} wrapper={DisableOffline} offlineTextKey="unavailable_offline">
-        <>{value || <Component {...props} />}</>
-      </ConditionalWrapper>
-    );
-  };
-
   const tableColumns = data => {
-    const rowAvaialble = (!online && data.get("complete")) || online;
+    // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label, react/prop-types
+    const disableColumnOffline = ({ component: Component, props = {}, value, rowIndex }) => {
+      const rowAvailable = recordAvailable(data.getIn(["data", rowIndex], fromJS({})));
+
+      return (
+        <ConditionalWrapper
+          condition={!rowAvailable}
+          wrapper={DisableOffline}
+          offlineTextKey="unavailable_offline"
+          overrideCondition={!rowAvailable}
+        >
+          <>{value || <Component {...props} />}</>
+        </ConditionalWrapper>
+      );
+    };
 
     let columns = allowedColumns
       .filter(column => ![ALERTS_COLUMNS.flag_count, ALERTS_COLUMNS.alert_count].includes(column.get("name")))
@@ -45,21 +49,22 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, online)
                   <PhotoColumnHeader css={css} columnMeta={columnMeta} handleToggleColumn={handleToggleColumn} />
                 ),
                 // eslint-disable-next-line react/no-multi-comp, react/display-name
-                customBodyRender: value =>
-                  disableColumnOffline({ component: PhotoColumnBody, props: { value, css }, rowAvaialble })
+                customBodyRender: (value, { rowIndex }) =>
+                  disableColumnOffline({ component: PhotoColumnBody, props: { value, css }, rowIndex })
               };
             case "registration_date":
               return {
-                customBodyRender: value => disableColumnOffline({ value: i18n.localizeDate(value), rowAvaialble })
+                customBodyRender: (value, { rowIndex }) =>
+                  disableColumnOffline({ value: i18n.localizeDate(value), rowIndex })
               };
             case "case_opening_date":
               return {
-                customBodyRender: value =>
-                  disableColumnOffline({ value: value && i18n.localizeDate(value, DATE_TIME_FORMAT), rowAvaialble })
+                customBodyRender: (value, { rowIndex }) =>
+                  disableColumnOffline({ value: value && i18n.localizeDate(value, DATE_TIME_FORMAT), rowIndex })
               };
             default:
               return {
-                customBodyRender: value => disableColumnOffline({ value, rowAvaialble })
+                customBodyRender: (value, { rowIndex }) => disableColumnOffline({ value, rowIndex })
               };
           }
         })(column.get("name"));
@@ -90,7 +95,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, online)
           disableOnClick: true,
           customHeadRender: columnMeta => emptyHeader(columnMeta),
           // eslint-disable-next-line react/no-multi-comp, react/display-name
-          customBodyRender: value => {
+          customBodyRender: (value, { rowIndex }) => {
             const alertIcon =
               // eslint-disable-next-line camelcase
               canShowAlertIcon && value?.alert_count > 0 ? (
@@ -114,7 +119,8 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, online)
                   {flagIcon}
                 </div>
               ),
-              rowAvaialble
+
+              rowIndex
             });
           }
         }
