@@ -2440,7 +2440,7 @@ en:
     user_mandatory_label: Recipient is required
     users_label: Recipient
   record_information:
-    associated_user_names: Other Assigned Users
+    assigned_user_names: Other Assigned Users
     created_by: Record created by
     created_organization: Created by agency
     current_owner_separator: Current Owner

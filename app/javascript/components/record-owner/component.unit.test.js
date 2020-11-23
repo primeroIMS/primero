@@ -28,7 +28,7 @@ describe("<RecordOwner />", () => {
     short_id: "3c9d076",
     status: "open",
     owned_by_agency_id: "agency-unicef",
-    associated_user_names: ["primero_admin_cp, test_user"],
+    assigned_user_names: ["primero_admin_cp, test_user"],
     previously_owned_by_agency: "TEST/AGENCY",
     created_organization: { id: 1, agency_code: "TEST" }
   });
@@ -78,10 +78,10 @@ describe("<RecordOwner />", () => {
     expect(component.find(Form)).to.have.lengthOf(1);
   });
 
-  it("renders value for associated_user_names", () => {
+  it("renders value for assigned_user_names", () => {
     const associatedUserNames = component.find(MuiTextField).at(2).props();
 
-    expect(associatedUserNames.name).to.be.equal("associated_user_names");
+    expect(associatedUserNames.name).to.be.equal("assigned_user_names");
     expect(associatedUserNames.field.value).to.be.equal("primero_admin_cp, test_user");
   });
 
