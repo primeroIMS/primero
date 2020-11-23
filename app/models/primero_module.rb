@@ -25,7 +25,7 @@ class PrimeroModule < ApplicationRecord
                         message: I18n.t('errors.models.primero_module.associated_record_types')
 
   before_create :set_unique_id
-  before_save :sync_forms
+  after_save :sync_forms
 
   def program_name
     primero_program.try(:name)

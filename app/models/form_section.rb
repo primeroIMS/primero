@@ -30,7 +30,7 @@ class FormSection < ApplicationRecord
   after_initialize :defaults, unless: :persisted?
   before_validation :calculate_fields_order, :generate_unique_id
   before_save :sync_form_group
-  before_save :sync_modules
+  after_save :sync_modules
   after_save :calculate_subform_collapsed_fields
 
   def defaults
@@ -79,7 +79,7 @@ class FormSection < ApplicationRecord
       form_sections = form_sections.where(unique_id: params[:unique_id]) if params[:unique_id]
       form_sections = form_sections.where(parent_form: params[:record_type]) if params[:record_type]
       form_sections = form_sections.where(primero_modules: { unique_id: params[:module_id] }) if params[:module_id]
-      form_sections = form_sections.where(is_nested: false) unless params[:include_subforms]
+      form_sections = form_sections.where(is_nested: false) if params[:exclude_subforms]
       form_sections
     end
 

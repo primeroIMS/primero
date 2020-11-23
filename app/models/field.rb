@@ -53,6 +53,7 @@ class Field < ApplicationRecord
 
   before_save :sanitize_option_strings_text
   before_create :sanitize_name, :set_default_date_validation, :set_tally_field_defaults
+  after_save :sync_modules
 
   def self.permitted_api_params
     [
@@ -278,6 +279,12 @@ class Field < ApplicationRecord
 
     self.autosum_group ||= "#{name}_number_of"
     self.autosum_total ||= true
+  end
+
+  def sync_modules
+    return unless type == SUBFORM
+
+    self.subform_section&.primero_modules = self.form_section.primero_modules if self.form_section.present?
   end
 
   def validate_unique_name_in_form

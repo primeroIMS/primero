@@ -70,12 +70,11 @@ describe Api::V2::FormSectionsController, type: :request do
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/forms' do
-    context 'when including subforms' do
+    context 'when not excluding subforms' do
       it 'list all forms' do
         login_for_test
 
-        params = { include_subforms: true }
-        get '/api/v2/forms', params: params
+        get '/api/v2/forms'
 
         expect(response).to have_http_status(200)
         expect(json['data'].size).to eq(4)
@@ -88,7 +87,8 @@ describe Api::V2::FormSectionsController, type: :request do
       it 'list only main level forms' do
         login_for_test
 
-        get '/api/v2/forms'
+        params = { exclude_subforms: true }
+        get '/api/v2/forms', params: params
 
         expect(response).to have_http_status(200)
         expect(json['data'].size).to eq(3)

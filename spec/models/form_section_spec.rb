@@ -891,9 +891,9 @@ describe FormSection do
       form1 && field1 && form2 && field2 && subform && field_on_subform && subform_field && module1 && form1.reload && form2.reload
     end
 
-    context 'when include_subforms is false' do
+    context 'when exclude_subforms is true' do
       before do
-        @form_params = { module_id: 'primeromodule-cp-a', record_type: 'case', visible: true, include_subforms: false }
+        @form_params = { module_id: 'primeromodule-cp-a', record_type: 'case', visible: true, exclude_subforms: true }
       end
       it 'returns forms without subforms' do
         expected = [form1, form2]
@@ -901,9 +901,9 @@ describe FormSection do
       end
     end
 
-    context 'when include_subforms is true' do
+    context 'when exclude_subforms is false' do
       before do
-        @form_params = { module_id: 'primeromodule-cp-a', record_type: 'case', visible: true, include_subforms: true }
+        @form_params = { module_id: 'primeromodule-cp-a', record_type: 'case', visible: true, exclude_subforms: false }
       end
       it 'returns forms with subforms' do
         expected = [form1, form2, subform]
