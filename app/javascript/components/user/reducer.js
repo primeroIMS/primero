@@ -1,4 +1,5 @@
 import { Map, fromJS } from "immutable";
+import isEmpty from "lodash/isEmpty";
 
 import { mapObjectPropertiesToRecords, mapListToObject } from "../../libs";
 
@@ -26,11 +27,12 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         locale,
         reporting_location_config: reportingLocationConfig
       } = payload;
+      const cleanedPermissions = permissions.list.filter(f => !isEmpty(f.actions));
 
       return state.merge(
         fromJS({
           modules,
-          permissions: mapListToObject(permissions.list, "resource", "actions"),
+          permissions: mapListToObject(cleanedPermissions, "resource", "actions"),
           roleId,
           listHeaders: mapObjectPropertiesToRecords(listHeaders, ListHeaderRecord),
           permittedForms,

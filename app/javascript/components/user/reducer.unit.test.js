@@ -119,6 +119,10 @@ describe("User - Reducers", () => {
           {
             resource: "cases",
             actions: ["manage", "referral", "receive_referral"]
+          },
+          {
+            resource: "incidents",
+            actions: []
           }
         ]
       },
