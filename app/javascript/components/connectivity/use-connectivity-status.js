@@ -1,30 +1,45 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import Queue from "../../libs/queue";
+import Queue, { QUEUE_HALTED, QUEUE_READY } from "../../libs/queue";
 import { getIsAuthenticated } from "../user/selectors";
+import { clearDialog } from "../action-dialog";
+import { refreshToken } from "../user";
 
-import { selectNetworkStatus } from "./selectors";
-import { checkServerStatus } from "./action-creators";
+import { selectNetworkStatus, selectQueueStatus } from "./selectors";
+import { checkServerStatus, setQueueStatus } from "./action-creators";
 
 const useConnectivityStatus = () => {
   const dispatch = useDispatch();
   const online = useSelector(state => selectNetworkStatus(state));
   const authenticated = useSelector(state => getIsAuthenticated(state));
+  const queueStatus = useSelector(state => selectQueueStatus(state));
 
   const handleNetworkChange = isOnline => {
     dispatch(checkServerStatus(isOnline));
+
+    if (!isOnline) {
+      dispatch(setQueueStatus(QUEUE_HALTED));
+      dispatch(clearDialog());
+    }
   };
 
   useEffect(() => {
-    if (online && authenticated) {
-      Queue.ready = online && authenticated;
-      Queue.dispatch = dispatch;
-      if (Queue.hasWork()) {
-        Queue.start();
-      }
+    if (online && queueStatus === QUEUE_HALTED) {
+      dispatch(refreshToken(true));
     }
-  }, [online, authenticated]);
+  }, [online, queueStatus]);
+
+  useEffect(() => {
+    const ready = online && authenticated && queueStatus === QUEUE_READY;
+
+    Queue.ready = ready;
+    Queue.dispatch = dispatch;
+
+    if (ready && Queue.hasWork()) {
+      Queue.start();
+    }
+  }, [online, authenticated, queueStatus]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.addEventListener) {

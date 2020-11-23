@@ -3,7 +3,7 @@ import qs from "qs";
 import { attemptSignout } from "../components/user";
 import { FETCH_TIMEOUT, ROUTES } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
-import { signOut } from "../components/pages/login/idp-selection";
+import { signOut } from "../components/login/components/idp-selection";
 import EventManager from "../libs/messenger";
 import { QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS } from "../libs/queue";
 import { applyingConfigMessage } from "../components/pages/admin/configurations-form/action-creators";

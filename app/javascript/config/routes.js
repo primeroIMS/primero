@@ -1,4 +1,4 @@
-import Login, {
+import {
   Admin,
   AgenciesForm,
   AgenciesList,
@@ -45,6 +45,7 @@ import {
   ADMIN_RESOURCES,
   ADMIN_ACTIONS
 } from "../libs/permissions";
+import Login from "../components/login";
 
 import { ROUTES, MODES } from "./constants";
 

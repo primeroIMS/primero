@@ -12,6 +12,7 @@ import SessionTimeoutDialog from "../../../session-timeout-dialog";
 import { hasUserPermissions } from "../../../user/selectors";
 import DemoIndicator from "../../../demo-indicator";
 import { useApp } from "../../../application";
+import LoginDialog from "../../../login-dialog";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -37,6 +38,7 @@ const Component = ({ children }) => {
         <Nav />
         <SessionTimeoutDialog />
         <main className={css.content}>{children}</main>
+        <LoginDialog />
       </div>
     </>
   );

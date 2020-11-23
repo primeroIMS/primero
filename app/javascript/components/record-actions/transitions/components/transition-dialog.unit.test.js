@@ -170,7 +170,9 @@ describe("<TransitionDialog />", () => {
         "cancelButtonProps",
         "disableBackdropClick",
         "showSuccessButton",
-        "fetchArgs"
+        "fetchArgs",
+        "disableClose",
+        "hideIcon"
       ].forEach(property => {
         expect(actionDialogProps).to.have.property(property);
         delete actionDialogProps[property];
