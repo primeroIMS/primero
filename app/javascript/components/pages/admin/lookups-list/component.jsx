@@ -43,11 +43,9 @@ const Component = () => {
 
   useMetadata(recordType, metadata, fetchAdminLookups, "data");
 
-  const onRowClick = data => dispatch(push(`${RECORD_PATH.lookups}/${data?.rowData[0]}`));
-
   const tableOptions = {
     recordType,
-    columns: columns(i18n, css, onRowClick),
+    columns: columns(i18n, css),
     options: {
       selectableRows: "none"
     },
