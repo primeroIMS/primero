@@ -37,14 +37,15 @@ describe InsertAllService do
       expect(location.name('en')).to eq('Country 1::Province 1::District 2')
     end
 
-    it 'does not insert duplicate records' do
+    it 'overwrites the records currently in the database' do
       Location.create!(
         'location_code' => 'XX0102', 'type' => 'district', 'admin_level' => 2,
         'placename_i18n' => { 'en' => 'Country 1::Province 1::District ZZZ' }
       )
 
       InsertAllService.insert_all(Location, locations, 'location_code')
-      expect(location.name('en')).to eq('Country 1::Province 1::District ZZZ')
+      expect(Location.count).to eq(4)
+      expect(location.name('en')).to eq('Country 1::Province 1::District 2')
     end
   end
 end

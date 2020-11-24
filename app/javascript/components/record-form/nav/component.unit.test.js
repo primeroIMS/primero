@@ -133,7 +133,41 @@ describe("<Nav />", () => {
       formSections,
       fields,
       loading: false,
-      errors: false
+      errors: false,
+      options: {
+        lookups: [
+          {
+            id: 51,
+            unique_id: "lookup-form-group-cp-case",
+            name: {
+              en: "Form Groups - CP Case"
+            },
+            values: [
+              {
+                id: "identification_registration",
+                disabled: false,
+                display_text: {
+                  en: "Identification / Registration"
+                }
+              },
+              {
+                id: "family_partner_details",
+                disabled: false,
+                display_text: {
+                  en: "Family / Partner Details"
+                }
+              },
+              {
+                id: "record_information",
+                disabled: false,
+                display_text: {
+                  en: "Record Information"
+                }
+              }
+            ]
+          }
+        ]
+      }
     })
   });
 
@@ -360,7 +394,6 @@ describe("<Nav />", () => {
         1: {
           formId: "basic_identity",
           group: "identification_registration",
-          groupName: "Identification / Registration",
           groupOrder: 30,
           is_first_tab: true,
           name: "Basic Identity",
@@ -370,7 +403,6 @@ describe("<Nav />", () => {
         2: {
           formId: "incident_details_container",
           group: "identification_registration",
-          groupName: "Identification / Registration",
           groupOrder: 30,
           is_first_tab: false,
           name: "Incident Details",
@@ -382,7 +414,6 @@ describe("<Nav />", () => {
         3: {
           formId: "family_details",
           group: "family_partner_details",
-          groupName: "Family / Partner Details",
           groupOrder: 50,
           is_first_tab: false,
           name: "Family Details",
@@ -392,7 +423,6 @@ describe("<Nav />", () => {
         4: {
           formId: "partner_details",
           group: "family_partner_details",
-          groupName: "Family / Partner Details",
           groupOrder: 50,
           is_first_tab: false,
           name: "Partner/Spouse Details",

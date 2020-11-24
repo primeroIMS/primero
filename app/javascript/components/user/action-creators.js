@@ -20,15 +20,16 @@ export const setUser = payload => {
   };
 };
 
-export const fetchAuthenticatedUserData = id => ({
+export const fetchAuthenticatedUserData = user => ({
   type: actions.FETCH_USER_DATA,
   api: {
-    path: `users/${id}`,
+    path: `users/${user.id}`,
     params: {
       extended: true
     },
     db: {
-      collection: DB_COLLECTIONS_NAMES.USER
+      collection: DB_COLLECTIONS_NAMES.USER,
+      user: user.username
     },
     successCallback: [SET_USER_LOCALE]
   }
@@ -36,7 +37,7 @@ export const fetchAuthenticatedUserData = id => ({
 
 export const setAuthenticatedUser = user => async dispatch => {
   dispatch(setUser(user));
-  dispatch(fetchAuthenticatedUserData(user.id));
+  dispatch(fetchAuthenticatedUserData(user));
   dispatch(loadApplicationResources());
 };
 

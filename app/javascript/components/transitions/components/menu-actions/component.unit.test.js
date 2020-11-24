@@ -15,6 +15,16 @@ describe("<MenuActions /> - Component", () => {
   describe("Component Menu", () => {
     describe("with referral transition type", () => {
       const state = {
+        records: {
+          cases: {
+            data: [
+              {
+                id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+                case_id_display: "804d74bc"
+              }
+            ]
+          }
+        },
         ui: {
           dialogs: {
             pending: false,
@@ -88,6 +98,16 @@ describe("<MenuActions /> - Component", () => {
 
     describe("with transfer transition type", () => {
       const state = {
+        records: {
+          cases: {
+            data: [
+              {
+                id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+                case_id_display: "804d74bc"
+              }
+            ]
+          }
+        },
         ui: {
           dialogs: {
             pending: false,
@@ -162,6 +182,16 @@ describe("<MenuActions /> - Component", () => {
 
   describe("Component RevokeModal", () => {
     const state = {
+      records: {
+        cases: {
+          data: [
+            {
+              id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+              case_id_display: "804d74bc"
+            }
+          ]
+        }
+      },
       ui: {
         dialogs: {
           pending: false,
@@ -219,6 +249,16 @@ describe("<MenuActions /> - Component", () => {
 
   describe("Component TransferApproval", () => {
     const state = {
+      records: {
+        cases: {
+          data: [
+            {
+              id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+              case_id_display: "804d74bc"
+            }
+          ]
+        }
+      },
       ui: {
         dialogs: {
           pending: false,
@@ -286,6 +326,16 @@ describe("<MenuActions /> - Component", () => {
 
   describe("Component ReferralAction", () => {
     const state = {
+      records: {
+        cases: {
+          data: [
+            {
+              id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+              case_id_display: "804d74bc"
+            }
+          ]
+        }
+      },
       ui: {
         dialogs: {
           pending: false,

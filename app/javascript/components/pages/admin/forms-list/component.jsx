@@ -15,7 +15,8 @@ import { MODULES, RECORD_TYPES } from "../../../../config/constants";
 import { usePermissions } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { FormAction } from "../../../form";
-import { displayNameHelper } from "../../../../libs";
+import { compare } from "../../../../libs";
+import { getFormGroupLookups } from "../../../form/selectors";
 
 import NAMESPACE from "./namespace";
 import { FormGroup, FormSection, FormFilters, ReorderActions } from "./components";
@@ -29,7 +30,7 @@ import {
   saveFormsReorder
 } from "./action-creators";
 import { getFormSectionsByFormGroup, getIsLoading, getReorderEnabled } from "./selectors";
-import { getListStyle } from "./utils";
+import { getFormGroups, getListStyle } from "./utils";
 import { NAME, FORM_GROUP_PREFIX, ORDER_TYPE } from "./constants";
 import styles from "./styles.css";
 
@@ -46,11 +47,15 @@ const Component = () => {
   const isLoading = useSelector(state => getIsLoading(state));
   const isReorderEnabled = useSelector(state => getReorderEnabled(state));
   const formSectionsByGroup = useSelector(state => getFormSectionsByFormGroup(state, filterValues));
+  const allFormGroupsLookups = useSelector(state => getFormGroupLookups(state), compare);
   const { modules } = useApp();
 
   const handleSetFilterValue = (name, value) => {
     setFilterValues({ ...filterValues, ...{ [name]: value } });
   };
+
+  const { primeroModule, recordType } = filterValues;
+  const currentFormGroupsLookups = getFormGroups(allFormGroupsLookups, primeroModule, recordType, i18n);
 
   const handleClearValue = () => {
     setFilterValues(defaultFilterValues);
@@ -83,11 +88,12 @@ const Component = () => {
 
   const renderFormSections = () =>
     formSectionsByGroup.map((group, index) => {
-      const { form_group_name: formGroupName, form_group_id: formGroupID } = group.first() || {};
+      const { form_group_id: formGroupID } = group.first() || {};
+      const formGroupName = currentFormGroupsLookups[formGroupID];
 
       return (
         <FormGroup
-          name={displayNameHelper(formGroupName, i18n.locale)}
+          name={formGroupName}
           index={index}
           key={formGroupID}
           id={formGroupID}

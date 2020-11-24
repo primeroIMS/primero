@@ -1,8 +1,8 @@
 import DB from "../db";
 
 const User = {
-  find: async ({ collection }) => {
-    return DB.getRecord(collection, "primero");
+  find: async ({ collection, db }) => {
+    return DB.getRecord(collection, db.user);
   },
 
   save: async ({ collection, json }) => {
