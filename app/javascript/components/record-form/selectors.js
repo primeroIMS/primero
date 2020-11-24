@@ -188,6 +188,23 @@ export const getSubformsDisplayName = (state, locale) =>
     .map(fs => fromJS({ [fs.unique_id]: fs.getIn(["name", locale]) }))
     .reduce((acc, next) => acc.merge(next), fromJS({}));
 
+export const getAttachmentForms = (state, locale) => {
+  const attachmentFieldIds = state
+    .getIn([NAMESPACE, "fields"])
+    .entrySeq()
+    .map(
+      ([id, field]) =>
+        ["audio_upload_box", "document_upload_box", "photo_upload_box"].includes(field.get("type")) && parseInt(id, 10)
+    )
+    .filter(id => Boolean(id));
+
+  return state
+    .getIn([NAMESPACE, "formSections"], fromJS([]))
+    .filter(fs => fs.fields.some(fieldId => attachmentFieldIds.includes(fieldId)))
+    .map(fs => fromJS({ [fs.unique_id]: fs.getIn(["name", locale]) }))
+    .reduce((acc, next) => acc.merge(next), fromJS({}));
+};
+
 export const getFields = state => state.getIn([NAMESPACE, "fields"]);
 
 export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);
