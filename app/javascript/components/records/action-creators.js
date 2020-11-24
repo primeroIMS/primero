@@ -81,19 +81,17 @@ export const clearMetadata = recordType => ({
   type: `${recordType}/${CLEAR_METADATA}`
 });
 
-export const fetchRecord = (recordType, id) => async dispatch => {
-  dispatch({
-    type: `${recordType}/${RECORD}`,
-    api: {
-      path: `${recordType}/${id}`,
-      db: {
-        collection: DB_COLLECTIONS_NAMES.RECORDS,
-        recordType,
-        id
-      }
+export const fetchRecord = (recordType, id) => ({
+  type: `${recordType}/${RECORD}`,
+  api: {
+    path: `${recordType}/${id}`,
+    db: {
+      collection: DB_COLLECTIONS_NAMES.RECORDS,
+      recordType,
+      id
     }
-  });
-};
+  }
+});
 
 export const fetchRecordsAlerts = (recordType, recordId, asCallback = false) => ({
   ...(asCallback
@@ -119,11 +117,11 @@ export const saveRecord = (
   incidentFromCase = false,
   moduleID,
   incidentPath = ""
-) => async dispatch => {
+) => {
   const fetchRecordsAlertsCallback =
     id && saveMethod === SAVE_METHODS.update ? [fetchRecordsAlerts(recordType, id, true)] : [];
 
-  await dispatch({
+  return {
     type: `${recordType}/${SAVE_RECORD}`,
     api: {
       id,
@@ -153,7 +151,7 @@ export const saveRecord = (
       },
       queueAttachments
     }
-  });
+  };
 };
 
 export const clearCaseFromIncident = () => ({

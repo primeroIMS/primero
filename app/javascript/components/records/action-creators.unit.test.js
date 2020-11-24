@@ -1,6 +1,6 @@
-import configureStore from "redux-mock-store";
-import thunk from "redux-thunk";
+import isObject from "lodash/isObject";
 
+import { DB_COLLECTIONS_NAMES } from "../../db";
 import { RECORD_PATH } from "../../config/constants";
 import { ENQUEUE_SNACKBAR } from "../notifier";
 import { CLEAR_DIALOG } from "../action-dialog";
@@ -46,14 +46,19 @@ describe("records - Action Creators", () => {
   });
 
   it("should check the 'fetchRecord' action creator to return the correct object", () => {
-    const store = configureStore([thunk])({});
+    const expected = {
+      type: `${RECORD_PATH.cases}/RECORD`,
+      api: {
+        path: `${RECORD_PATH.cases}/123`,
+        db: {
+          collection: DB_COLLECTIONS_NAMES.RECORDS,
+          recordType: RECORD_PATH.cases,
+          id: "123"
+        }
+      }
+    };
 
-    return store.dispatch(actionCreators.fetchRecord("cases", "123")).then(() => {
-      const actions = store.getActions();
-
-      expect(actions[0].type).to.eql("cases/RECORD");
-      expect(actions[0].api.path).to.eql("cases/123");
-    });
+    expect(actionCreators.fetchRecord("cases", "123")).to.deep.equal(expected);
   });
 
   describe("should check the 'saveRecord' action creator", () => {
@@ -71,60 +76,112 @@ describe("records - Action Creators", () => {
     };
 
     it("when path it's 'update' should return the correct object", () => {
-      const store = configureStore([thunk])({});
+      const messageFn = () => {};
+      const expected = {
+        type: "cases/SAVE_RECORD",
+        api: {
+          id: "123",
+          recordType: RECORD_PATH.cases,
+          path: "cases/123",
+          method: "PATCH",
+          body,
+          successCallback: [
+            {
+              action: "notifications/ENQUEUE_SNACKBAR",
+              incidentPath: "",
+              moduleID: undefined,
+              payload: {
+                message: messageFn,
+                messageFromQueue: undefined,
+                options: {
+                  key: "",
+                  variant: "success"
+                }
+              },
+              redirect: "/cases",
+              redirectWithIdFromResponse: false
+            },
+            {
+              action: "cases/FETCH_RECORD_ALERTS",
+              api: {
+                path: "cases/123/alerts",
+                performFromQueue: true,
+                skipDB: true
+              }
+            }
+          ],
+          db: {
+            collection: DB_COLLECTIONS_NAMES.RECORDS,
+            recordType: RECORD_PATH.cases
+          },
+          queueAttachments: true,
+          queueOffline: true
+        }
+      };
 
-      return store.dispatch(actionCreators.saveRecord("cases", "update", body, "123", () => {})).then(() => {
-        const actions = store.getActions();
-
-        expect(actions[0].type).to.eql("cases/SAVE_RECORD");
-        expect(actions[0].api.path).to.eql("cases/123");
-        expect(actions[0].api.method).to.eql("PATCH");
-        expect(actions[0].api.body).to.eql(body);
-      });
+      expect(actionCreators.saveRecord("cases", "update", body, "123", messageFn)).to.deep.equal(expected);
     });
 
     it("when path it's not 'update', the path and method should be different", () => {
-      const store = configureStore([thunk])({});
+      const messageFn = () => {};
+      const expected = {
+        type: "cases/SAVE_RECORD",
+        api: {
+          id: "123",
+          recordType: RECORD_PATH.cases,
+          path: "cases/123",
+          method: "PATCH",
+          body,
+          successCallback: [
+            {
+              action: "notifications/ENQUEUE_SNACKBAR",
+              incidentPath: "",
+              moduleID: undefined,
+              payload: {
+                message: messageFn,
+                messageFromQueue: undefined,
+                options: {
+                  key: "",
+                  variant: "success"
+                }
+              },
+              redirect: "/cases",
+              redirectWithIdFromResponse: false
+            },
+            {
+              action: "cases/FETCH_RECORD_ALERTS",
+              api: {
+                path: "cases/123/alerts",
+                performFromQueue: true,
+                skipDB: true
+              }
+            }
+          ],
+          db: {
+            collection: DB_COLLECTIONS_NAMES.RECORDS,
+            recordType: RECORD_PATH.cases
+          },
+          queueAttachments: true,
+          queueOffline: true
+        }
+      };
 
-      return store.dispatch(actionCreators.saveRecord("cases", "update", body, "123", () => {})).then(() => {
-        const actions = store.getActions();
-
-        expect(actions[0].type).to.eql("cases/SAVE_RECORD");
-        expect(actions[0].api.path).to.eql("cases/123");
-        expect(actions[0].api.method).to.eql("PATCH");
-        expect(actions[0].api.body).to.eql(body);
-      });
+      expect(actionCreators.saveRecord("cases", "update", body, "123", messageFn)).to.deep.equal(expected);
     });
 
     it("should return 3 success callback actions if there is a dialogName", () => {
-      const store = configureStore([thunk])({});
       const expected = [ENQUEUE_SNACKBAR, CLEAR_DIALOG, `${RECORD_PATH.cases}/${FETCH_RECORD_ALERTS}`];
 
-      return store
-        .dispatch(
-          actionCreators.saveRecord(
-            RECORD_PATH.cases,
-            "update",
-            body,
-            "123",
-            "Saved Successfully",
-            false,
-            false,
-            false,
-            "testDialog"
-          )
-        )
-        .then(() => {
-          const successCallbacks = store.getActions()[0].api.successCallback;
+      const successCallbacks = actionCreators
+        .saveRecord(RECORD_PATH.cases, "update", body, "123", "Saved Successfully", false, false, false, "testDialog")
+        .api.successCallback.map(callback => callback.action);
 
-          expect(successCallbacks).to.be.an("array");
-          expect(successCallbacks).to.have.lengthOf(3);
-          expect(successCallbacks.map(({ action }) => action)).to.deep.equals(expected);
-        });
+      expect(successCallbacks).to.be.an("array");
+      expect(successCallbacks).to.have.lengthOf(3);
+      expect(successCallbacks).to.deep.equal(expected);
     });
 
-    it("should return 3 success callback actions when is an incidentFromCase", () => {
-      const store = configureStore([thunk])({});
+    it("should return 4 success callback actions when is an incidentFromCase", () => {
       const expected = [
         ENQUEUE_SNACKBAR,
         `cases/${CLEAR_CASE_FROM_INCIDENT}`,
@@ -132,65 +189,45 @@ describe("records - Action Creators", () => {
         `${RECORD_PATH.incidents}/${FETCH_RECORD_ALERTS}`
       ];
 
-      return store
-        .dispatch(
-          actionCreators.saveRecord(
-            RECORD_PATH.incidents,
-            "update",
-            body,
-            "123",
-            "Saved Successfully",
-            false,
-            false,
-            false,
-            "",
-            true
-          )
-        )
-        .then(() => {
-          const successCallbacks = store.getActions()[0].api.successCallback;
+      const successCallbacks = actionCreators
+        .saveRecord(RECORD_PATH.incidents, "update", body, "123", "Saved Successfully", false, false, false, "", true)
+        .api.successCallback.map(callback => callback.action);
 
-          expect(successCallbacks).to.be.an("array");
-          expect(successCallbacks).to.have.lengthOf(4);
-          expect(successCallbacks.map(({ action }) => action)).to.deep.equals(expected);
-        });
+      expect(successCallbacks).to.be.an("array");
+      expect(successCallbacks).to.have.lengthOf(4);
+      expect(successCallbacks).to.deep.equal(expected);
     });
 
     it("should return 5 success callback actions when incidentPath is included", () => {
-      const store = configureStore([thunk])({});
       const expected = [
         ENQUEUE_SNACKBAR,
         `cases/${CLEAR_CASE_FROM_INCIDENT}`,
         RecordFormActions.SET_SELECTED_FORM,
-        undefined,
+        "cases/SET_CASE_ID_REDIRECT",
         `${RECORD_PATH.incidents}/${FETCH_RECORD_ALERTS}`
       ];
 
-      return store
-        .dispatch(
-          actionCreators.saveRecord(
-            RECORD_PATH.incidents,
-            "update",
-            body,
-            "123",
-            "Saved Successfully",
-            false,
-            false,
-            false,
-            "",
-            true,
-            "primeromodule-cp",
-            "incident/new"
-          )
+      const successCallbacks = actionCreators
+        .saveRecord(
+          RECORD_PATH.incidents,
+          "update",
+          body,
+          "123",
+          "Saved Successfully",
+          false,
+          false,
+          false,
+          "",
+          true,
+          "primeromodule-cp",
+          "incident/new"
         )
-        .then(() => {
-          const successCallbacks = store.getActions()[0].api.successCallback;
+        .api.successCallback.map(callback => (isObject(callback) ? callback.action : callback));
 
-          expect(successCallbacks).to.be.an("array");
-          expect(successCallbacks).to.have.lengthOf(5);
-          expect(successCallbacks.map(({ action }) => action)).to.deep.equals(expected);
-          expect(successCallbacks[3]).to.eql("cases/SET_CASE_ID_REDIRECT");
-        });
+      expect(successCallbacks).to.be.an("array");
+      expect(successCallbacks).to.have.lengthOf(5);
+      expect(successCallbacks).to.deep.equal(expected);
+      expect(successCallbacks[3]).to.eql("cases/SET_CASE_ID_REDIRECT");
     });
   });
 

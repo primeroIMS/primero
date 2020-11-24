@@ -59,10 +59,8 @@ describe("layouts/components/<LoginLayout />", () => {
   });
 
   describe("when the mobile is displayed", () => {
-    let stubWindow = null;
-
     beforeEach(() => {
-      stubWindow = stub(window, "matchMedia").returns({ matches: true, addListener: () => {} });
+      stub(window, "matchMedia").returns({ matches: true, addListener: () => {} });
     });
 
     it("should not render the DemoIndicator alert", () => {
@@ -95,7 +93,7 @@ describe("layouts/components/<LoginLayout />", () => {
     });
 
     afterEach(() => {
-      stubWindow?.restore();
+      window.matchMedia.restore();
     });
   });
 });
