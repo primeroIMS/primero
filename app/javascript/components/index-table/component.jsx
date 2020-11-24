@@ -208,6 +208,10 @@ const Component = ({
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
     const { rowsPerPage } = tableState;
 
+    if (action === "changeRowsPerPage") {
+      tableState.page = page - 1;
+    }
+
     options.per = rowsPerPage;
 
     if (validActions.includes(action)) {
