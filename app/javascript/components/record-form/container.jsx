@@ -123,8 +123,8 @@ const Container = ({ match, mode }) => {
           : i18n.t(`${recordType}.messages.creation_success`, recordType);
       };
 
-      batch(async () => {
-        await dispatch(
+      batch(() => {
+        dispatch(
           saveRecord(
             params.recordType,
             saveMethod,
