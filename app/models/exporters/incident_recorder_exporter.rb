@@ -358,12 +358,12 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
         'service.wants_legal_action' => lambda do |model|
           legal_counseling = model.try(:legal_assistance_services_subform_section)
           if legal_counseling.present?
-            legal_actions = legal_counseling.map { |l| l.try(:pursue_legal_action) }
+            legal_actions = legal_counseling.map { |l| l.try(:[], 'pursue_legal_action') }
             if legal_actions.include? true
               I18n.t('exports.incident_recorder_xls.yes')
             elsif legal_actions.include? false
               I18n.t('exports.incident_recorder_xls.no')
-            elsif legal_actions.include? nil
+            elsif legal_actions.include?('undecided')
               I18n.t('exports.incident_recorder_xls.service_referral.undecided')
             end
           end
