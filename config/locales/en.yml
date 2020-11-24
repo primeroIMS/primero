@@ -784,6 +784,32 @@ en:
     forms:
       button: Export Forms
       label: Export
+      header:
+        form_group: Form Group
+        form_name: Form Name
+        field_id: Field ID
+        field_type: Field Type
+        field_name: Field Name
+        required: Required
+        on_mobile: On Mobile
+        on_short_form: On Short Form
+        option_ids: Option IDs
+        options: Options
+        help_text: Help Text
+        guiding_questions: Guiding Questions
+        visible: Visible
+        lookup_id: Lookup ID
+        lookup_name: Lookup Name
+        option_id: Option ID
+        option_name: Option Name
+      options:
+        location: Locations
+        agency: Agencies
+        user: Users
+        reportinglocation: Reporting Locations
+        subforms: 'Subform: %{subform_name}'
+        collapsed_fields: 'Collapsed Fields: %{fields}'
+
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:
       all: Incident Recorder
@@ -796,6 +822,8 @@ en:
     list_view_csv:
       all: Export List View
       selected: Selected to CSV
+    messages:
+      no_exporter: No Exporter Specified
     mrm_violation_xls:
       all: MRM Violations
       one: MRM Violations

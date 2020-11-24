@@ -8,6 +8,7 @@
 *.swo
 *.swp
 *.xls
+*.xlsx
 *swp
 *~
 .DS_Store
