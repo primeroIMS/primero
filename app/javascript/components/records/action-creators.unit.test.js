@@ -13,34 +13,34 @@ describe("records - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    expect(creators, "DEPRECATED setFilters").to.not.have.property("setFilters");
-    expect(creators, "DEPRECATED fetchCases").to.not.have.property("fetchCases");
-    expect(creators, "DEPRECATED fetchIncidents").to.not.have.property("fetchIncidents");
-    expect(creators, "DEPRECATED fetchTracingRequests").to.not.have.property("fetchTracingRequests");
-    expect(creators).to.have.property("fetchRecord");
-    expect(creators).to.have.property("saveRecord");
-    expect(creators).to.have.property("fetchRecordsAlerts");
-    expect(creators).to.have.property("clearMetadata");
-    expect(creators).to.have.property("clearCaseFromIncident");
-    expect(creators).to.have.property("clearSelectedRecord");
-    expect(creators).to.have.property("fetchIncidentFromCase");
-    expect(creators).to.have.property("fetchIncidentwitCaseId");
-    expect(creators).to.have.property("setCaseIdForIncident");
-    expect(creators).to.have.property("setSelectedRecord");
-    delete creators.setFilters;
-    delete creators.fetchCases;
-    delete creators.fetchIncidents;
-    delete creators.fetchTracingRequests;
-    delete creators.fetchRecord;
-    delete creators.fetchRecordsAlerts;
-    delete creators.clearMetadata;
-    delete creators.clearSelectedRecord;
-    delete creators.saveRecord;
-    delete creators.clearCaseFromIncident;
-    delete creators.fetchIncidentFromCase;
-    delete creators.fetchIncidentwitCaseId;
-    delete creators.setCaseIdForIncident;
-    delete creators.setSelectedRecord;
+    [
+      "DEPRECATED setFilters",
+      "DEPRECATED fetchCases",
+      "DEPRECATED fetchIncidents",
+      "DEPRECATED fetchTracingRequests"
+    ].forEach(property => {
+      expect(creators).to.not.have.property(property);
+      delete creators[property];
+    });
+
+    [
+      "clearCaseFromIncident",
+      "clearMetadata",
+      "clearRecordAttachments",
+      "clearSelectedRecord",
+      "fetchIncidentFromCase",
+      "fetchIncidentwitCaseId",
+      "fetchRecord",
+      "fetchRecordsAlerts",
+      "saveRecord",
+      "setCaseIdForIncident",
+      "setSelectedRecord",
+      "updateRecordAttachments"
+    ].forEach(property => {
+      expect(creators).to.have.property(property);
+      expect(creators[property]).to.be.a("function");
+      delete creators[property];
+    });
 
     expect(creators).to.be.empty;
   });
@@ -277,5 +277,23 @@ describe("records - Action Creators", () => {
     const expected = { type: `${RECORD_PATH.cases}/CLEAR_SELECTED_RECORD` };
 
     expect(actionCreators.clearSelectedRecord(RECORD_PATH.cases)).be.deep.equals(expected);
+  });
+
+  it("should check the 'updateRecordAttachments' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.cases}/UPDATE_ATTACHMENTS`,
+      payload: { id: 10, recordType: RECORD_PATH.cases }
+    };
+
+    expect(actionCreators.updateRecordAttachments(10, RECORD_PATH.cases)).be.deep.equals(expected);
+  });
+
+  it("should check the 'clearRecordAttachments' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.cases}/CLEAR_RECORD_ATTACHMENTS`,
+      payload: { id: 10, recordType: RECORD_PATH.cases }
+    };
+
+    expect(actionCreators.clearRecordAttachments(10, RECORD_PATH.cases)).be.deep.equals(expected);
   });
 });

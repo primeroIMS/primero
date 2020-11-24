@@ -2,7 +2,7 @@
 import { number, date, array, object, string, bool } from "yup";
 import { addDays } from "date-fns";
 
-import { NUMERIC_FIELD, DATE_FIELD, SUBFORM_SECTION, NOT_FUTURE_DATE, TICK_FIELD } from "../constants";
+import { NUMERIC_FIELD, DATE_FIELD, DOCUMENT_FIELD, SUBFORM_SECTION, NOT_FUTURE_DATE, TICK_FIELD } from "../constants";
 
 export const fieldValidations = (field, i18n) => {
   const { name, type, required } = field;
@@ -30,6 +30,19 @@ export const fieldValidations = (field, i18n) => {
     });
 
     validations[name] = array().of(object().shape(Object.assign({}, ...subformSchema)));
+  }
+
+  if (DOCUMENT_FIELD === type) {
+    validations[name] = array().of(
+      object().shape({
+        attachment: string()
+          .nullable()
+          .when(["_destroy", "attachment_url"], {
+            is: (destroy, attachmentUrl) => destroy !== 0 && !destroy && !attachmentUrl,
+            then: string().nullable().required(i18n.t("fields.file_upload_box.no_file_selected"))
+          })
+      })
+    );
   }
 
   if (required) {

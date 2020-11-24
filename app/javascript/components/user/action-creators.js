@@ -1,7 +1,7 @@
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { loadApplicationResources } from "../application";
 import { SET_USER_LOCALE } from "../i18n";
-import { SET_DIALOG } from "../action-dialog";
+import { SET_DIALOG } from "../action-dialog/actions";
 import { LOGIN_DIALOG } from "../login-dialog";
 import { QUEUE_READY } from "../../libs/queue";
 import connectivityActions from "../connectivity/actions";

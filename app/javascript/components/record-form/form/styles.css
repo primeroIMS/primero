@@ -75,7 +75,7 @@
 .attachmentHeading {
   display: flex;
 
-  & h4 {
+  & .attachmentLabel {
     flex: 1;
   }
 }

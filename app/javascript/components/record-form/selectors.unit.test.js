@@ -35,6 +35,36 @@ const formSections = {
     },
     fields: [1],
     is_nested: null
+  },
+  63: {
+    id: 63,
+    unique_id: "documents_form",
+    name: {
+      en: "Documents Form",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    visible: true,
+    is_first_tab: true,
+    order: 10,
+    order_form_group: 30,
+    parent_form: "case",
+    editable: true,
+    module_ids: ["primeromodule-cp"],
+    form_group_id: "documents_group",
+    form_group_name: {
+      en: "Documents Group",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    fields: [2],
+    is_nested: null
   }
 };
 
@@ -80,6 +110,29 @@ const fields = {
     visible: true,
     display_name: {
       en: "First Name",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    subform_section_id: null,
+    help_text: {},
+    multi_select: null,
+    option_strings_source: null,
+    option_strings_text: null,
+    guiding_questions: "",
+    required: true,
+    date_validation: "default_date_validation"
+  },
+  2: {
+    name: "document_field",
+    type: "document_upload_box",
+    editable: true,
+    disabled: null,
+    visible: true,
+    display_name: {
+      en: "Document",
       fr: "",
       ar: "",
       "ar-LB": "",
@@ -284,6 +337,15 @@ describe("<RecordForm /> - Selectors", () => {
       const result = selectors.getOption(stateWithRecords, optionStringsText, "en", true);
 
       expect(result).to.deep.equal(expected);
+    });
+  });
+
+  describe("getAttachmentForms", () => {
+    it("should return the forms with attachments", () => {
+      const attachmentForms = selectors.getAttachmentForms(stateWithRecords, "en");
+      const expected = fromJS({ documents_form: "Documents Form" });
+
+      expect(attachmentForms).to.deep.equal(expected);
     });
   });
 
@@ -500,12 +562,26 @@ describe("<RecordForm /> - Selectors", () => {
     });
 
     it("should return the forms nav", () => {
+      const expectedNav = expected.set(
+        "documents_group",
+        OrderedMap({
+          "63": R.NavRecord({
+            group: "documents_group",
+            groupOrder: 30,
+            name: "Documents Form",
+            order: 10,
+            formId: "documents_form",
+            is_first_tab: true
+          })
+        })
+      );
+
       const record = selectors.getFormNav(stateWithRecords, {
         primeroModule: "primeromodule-cp",
         recordType: "case"
       });
 
-      expect(record).to.deep.equal(expected);
+      expect(record).to.deep.equal(expectedNav);
     });
 
     it("should not return form groupName", () => {

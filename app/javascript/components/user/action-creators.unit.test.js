@@ -3,7 +3,6 @@ import thunk from "redux-thunk";
 
 import { spy, stub } from "../../test";
 import * as idpSelection from "../login/components/idp-selection";
-import { SET_USER_LOCALE } from "../i18n";
 
 import Actions from "./actions";
 import * as actionCreators from "./action-creators";

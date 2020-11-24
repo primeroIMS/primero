@@ -15,8 +15,11 @@ import { getAdminResources } from "../components/pages/admin/utils";
 // Max allowed image size for attachments
 export const MAX_IMAGE_SIZE = 600;
 
+// Max allowed size for attachments
+export const MAX_ATTACHMENT_SIZE = 10485760;
+
 // Time (ms) when fetch request will timeout
-export const FETCH_TIMEOUT = 50000;
+export const FETCH_TIMEOUT = 90000;
 
 // IndexedDB database name
 export const DATABASE_NAME = "primero";
