@@ -27,6 +27,9 @@ describe("records - Action Creators", () => {
     expect(creators).to.have.property("fetchIncidentwitCaseId");
     expect(creators).to.have.property("setCaseIdForIncident");
     expect(creators).to.have.property("setSelectedRecord");
+    expect(creators).to.have.property("updateRecordAttachments");
+    expect(creators).to.have.property("clearRecordAttachments");
+
     delete creators.setFilters;
     delete creators.fetchCases;
     delete creators.fetchIncidents;
@@ -41,6 +44,8 @@ describe("records - Action Creators", () => {
     delete creators.fetchIncidentwitCaseId;
     delete creators.setCaseIdForIncident;
     delete creators.setSelectedRecord;
+    delete creators.updateRecordAttachments;
+    delete creators.clearRecordAttachments;
 
     expect(creators).to.be.empty;
   });

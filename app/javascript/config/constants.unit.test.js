@@ -46,6 +46,7 @@ describe("Verifying config constant", () => {
       "INCIDENT_FROM_CASE",
       "LOCALE_KEYS",
       "LOOKUPS",
+      "MAX_ATTACHMENT_SIZE",
       "MAX_IMAGE_SIZE",
       "METHODS",
       "MODES",
@@ -102,7 +103,7 @@ describe("Verifying config constant", () => {
       it("should have correct constant value", () => {
         const constants = { ...configConstants };
 
-        expect(constants.FETCH_TIMEOUT).equal(50000);
+        expect(constants.FETCH_TIMEOUT).equal(90000);
         expect(constants.DATABASE_NAME).equal("primero");
         expect(constants.IDLE_TIMEOUT).equal(15 * 1000 * 60);
         expect(constants.IDLE_LOGOUT_TIMEOUT).equal(5 * 1000 * 60);

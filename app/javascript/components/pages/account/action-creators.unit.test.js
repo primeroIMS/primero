@@ -6,6 +6,14 @@ import * as actionsCreators from "./action-creators";
 import actions from "./actions";
 
 describe("pages/account/action-creators.js", () => {
+  beforeEach(() => {
+    stub(generate, "messageKey").returns(4);
+  });
+
+  afterEach(() => {
+    generate.messageKey?.restore();
+  });
+
   describe("properties", () => {
     let clone;
 
@@ -45,8 +53,6 @@ describe("pages/account/action-creators.js", () => {
   });
 
   it("should check that 'updateUserAccount' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
-
     const args = {
       id: 10,
       data: { prop1: "prop-1" },
@@ -75,7 +81,5 @@ describe("pages/account/action-creators.js", () => {
     };
 
     expect(actionsCreators.updateUserAccount(args)).to.deep.equal(expectedAction);
-
-    generate.messageKey.restore();
   });
 });
