@@ -36,6 +36,10 @@ const Container = ({ dialogRef, formRef, modal }) => {
     dispatch(attemptLogin(values));
   };
 
+  const submitForm = () => {
+    internalFormRef.current.submitForm();
+  };
+
   const bindActionButton = () => internalFormRef.current.submitForm();
 
   useEffect(() => {
@@ -63,7 +67,7 @@ const Container = ({ dialogRef, formRef, modal }) => {
     <div className={css.loginContainer}>
       {modal || <PageHeading title={demo ? demoTitle : title} whiteHeading />}
       <Form
-        formSections={form(i18n)}
+        formSections={form(i18n, submitForm)}
         validations={validationSchema(i18n)}
         onSubmit={handleSubmit}
         ref={internalFormRef}
