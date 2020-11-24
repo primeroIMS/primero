@@ -35,9 +35,8 @@ const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
 
   const handleChange = async (form, event) => {
     const selectedFile = event?.target?.files?.[0];
-    const restrictedTypes = ["application/pdf", "text/plain"];
 
-    if (selectedFile.size > MAX_ATTACHMENT_SIZE && restrictedTypes.includes(selectedFile.type)) {
+    if (selectedFile.size > MAX_ATTACHMENT_SIZE) {
       dispatch(enqueueSnackbar("", { messageKey: "fields.attachment_too_large", type: SNACKBAR_VARIANTS.error }));
 
       return;
