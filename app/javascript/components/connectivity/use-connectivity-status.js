@@ -17,12 +17,14 @@ const useConnectivityStatus = () => {
 
   const handleNetworkChange = isOnline => {
     dispatch(checkServerStatus(isOnline));
+  };
 
-    if (!isOnline) {
+  useEffect(() => {
+    if (!online) {
       dispatch(setQueueStatus(QUEUE_HALTED));
       dispatch(clearDialog());
     }
-  };
+  }, [online]);
 
   useEffect(() => {
     if (online && queueStatus === QUEUE_HALTED) {
