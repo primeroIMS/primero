@@ -11,7 +11,7 @@ class Exporters::FormExporter < ValueObject
     opts[:record_type] ||= 'case'
     opts[:module_id] ||= 'primeromodule-cp'
     opts[:visible] = true if opts[:visible].nil?
-    opts[:form_params] = opts.slice(:record_type, :module_id, :visible)&.compact
+    opts[:form_params] = { exclude_subforms: true }.merge(opts.slice(:record_type, :module_id, :visible)&.compact)
     opts[:header] = initialize_header(opts)
     opts[:total] = 0
     opts[:success_total] = 0
