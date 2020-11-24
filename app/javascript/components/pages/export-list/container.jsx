@@ -5,14 +5,15 @@ import { useSelector } from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import DownloadIcon from "@material-ui/icons/GetApp";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { fromJS } from "immutable";
 import startCase from "lodash/startCase";
 
 import DisableOffline from "../../disable-offline";
 import PageContainer, { PageHeading, PageContent } from "../../page";
 import IndexTable from "../../index-table";
 import { useI18n } from "../../i18n";
-import { DATE_TIME_FORMAT } from "../../../config";
+import { DATE_TIME_FORMAT, FETCH_PARAM } from "../../../config";
+import { getMetadata } from "../../record-list";
+import { useMetadata } from "../../records";
 
 import { fetchExports } from "./action-creators";
 import styles from "./styles.css";
@@ -25,7 +26,8 @@ const ExportList = () => {
   const recordType = "bulk_exports";
 
   const listHeaders = useSelector(state => selectListHeaders(state, recordType));
-
+  const metadata = useSelector(state => getMetadata(state, recordType));
+  const defaultFilters = metadata;
   const isRecordProcessing = status => status === EXPORT_STATUS.processing;
 
   const onRowClick = record => (!isRecordProcessing(record.status) ? window.open(record.export_file, "_self") : null);
@@ -96,17 +98,17 @@ const ExportList = () => {
     selectableRows: "none"
   };
 
+  useMetadata(recordType, metadata, fetchExports, FETCH_PARAM.DATA);
+
   const tableOptions = {
     recordType,
     columns,
     options,
-    defaultFilters: fromJS({
-      per: 20,
-      page: 1
-    }),
+    defaultFilters,
     onTableChange: fetchExports,
     rowHover: false,
-    onRowClick: record => onRowClick(record)
+    onRowClick: record => onRowClick(record),
+    bypassInitialFetch: true
   };
 
   return (

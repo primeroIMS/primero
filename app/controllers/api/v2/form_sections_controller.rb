@@ -2,12 +2,13 @@
 
 # Forms CRUD API.
 class Api::V2::FormSectionsController < ApplicationApiController
+  include Api::V2::Concerns::Export
+
   before_action :form_section_params, only: %i[create update]
 
   def index
     authorize! :index, FormSection
     @form_sections = FormSection.list(params)
-    @form_group_lookups = FormSection.form_group_lookups
   end
 
   def show
@@ -46,5 +47,9 @@ class Api::V2::FormSectionsController < ApplicationApiController
 
   def model_class
     FormSection
+  end
+
+  def exporter
+    return Exporters::FormExporter if params[:export_type] == 'xlsx'
   end
 end

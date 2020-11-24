@@ -19,7 +19,7 @@ const fetchDataIfNotBackButton = (
   searchingKey,
   { dispatch, defaultFilterFields, restActionParams, defaultMetadata }
 ) => {
-  const { per: currentPer, page: currentPage, total: currentTotal } = metadata;
+  const { per: currentPer, page: currentPage, total: currentTotal } = metadata || {};
   const sameLocation = location.pathname === history.location.pathname;
   const meta = isEmpty(defaultMetadata) ? DEFAULT_METADATA : defaultMetadata;
   const differentPageOrPer = currentPer !== meta.per || currentPage !== meta.page;

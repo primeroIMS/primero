@@ -1,4 +1,4 @@
-import { setMsalApp, setMsalConfig, getLoginRequest, getTokenRequest } from "./auth-utils";
+import { setMsalApp, setMsalConfig, getLoginRequest, getTokenRequest } from "./utils";
 
 let msalApp;
 

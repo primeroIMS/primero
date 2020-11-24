@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
 import omit from "lodash/omit";
+import startCase from "lodash/startCase";
 
 import Form from "../../../form";
 import { useI18n } from "../../../i18n";
@@ -81,7 +82,10 @@ const Referrals = ({
             ...(!providedConsent && { consent_overridden: values[FIELDS.CONSENT_INDIVIDUAL_TRANSFER] })
           }
         },
-        i18n.t("referral.success", { record_type: recordType, id: recordID })
+        i18n.t("referral.success", {
+          record_type: startCase(RECORD_TYPES[recordType]),
+          id: record.get("case_id_display")
+        })
       )
     );
   };

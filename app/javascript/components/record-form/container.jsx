@@ -35,9 +35,9 @@ import { REFER_FROM_SERVICE } from "../../libs/permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import IncidentFromCase from "../incidents-from-case";
-import { getLoadingRecordState } from "../records/selectors";
+import { getIsProcessingSomeAttachment, getLoadingRecordState, getRecordAttachments } from "../records/selectors";
 import { usePermissions } from "../user";
-import { fetchRecordsAlerts } from "../records/action-creators";
+import { clearRecordAttachments, fetchRecordsAlerts, updateRecordAttachments } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
 
 import { clearValidationErrors } from "./action-creators";
@@ -85,6 +85,8 @@ const Container = ({ match, mode }) => {
   const loadingRecord = useSelector(state => getLoadingRecordState(state, params.recordType));
   const errors = useSelector(state => getErrors(state));
   const selectedForm = useSelector(state => getSelectedForm(state));
+  const isProcessingSomeAttachment = useSelector(state => getIsProcessingSomeAttachment(state, params.recordType));
+  const recordAttachments = useSelector(state => getRecordAttachments(state, params.recordType));
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -183,6 +185,15 @@ const Container = ({ match, mode }) => {
   };
 
   useEffect(() => {
+    if (params.id && !loadingRecord && recordAttachments.size && !isProcessingSomeAttachment) {
+      batch(() => {
+        dispatch(updateRecordAttachments(params.id, params.recordType));
+        dispatch(clearRecordAttachments(params.id, params.recordType));
+      });
+    }
+  }, [loadingRecord, isProcessingSomeAttachment, recordAttachments.size]);
+
+  useEffect(() => {
     if (params.id) {
       batch(() => {
         dispatch(setSelectedRecord(params.recordType, params.id));
@@ -215,6 +226,9 @@ const Container = ({ match, mode }) => {
       batch(() => {
         dispatch(clearSelectedRecord(params.recordType));
         dispatch(clearValidationErrors());
+        if (params.id) {
+          dispatch(clearRecordAttachments(params.id, params.recordType));
+        }
       });
     };
   }, []);

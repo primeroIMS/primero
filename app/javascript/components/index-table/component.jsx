@@ -279,8 +279,9 @@ const Component = ({
     },
     onCellClick: (colData, cellMeta) => {
       const { colIndex, dataIndex } = cellMeta;
+      const cells = fromJS(componentColumns);
 
-      if (!componentColumns.getIn([colIndex, "options", "disableOnClick"], false)) {
+      if (!cells.getIn([colIndex, "options", "disableOnClick"], false)) {
         if (onRowClick) {
           onRowClick(records.get(dataIndex));
         } else {

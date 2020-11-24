@@ -4,14 +4,16 @@ photo_audio_fields = [
               "editable" => false,
               "disabled" => true,
               "show_on_minify_form" => true,
-              "display_name_en" => "Current Photo Key"
+              "display_name_en" => "Photos",
+              "help_text_en" => "Only PNG, JPEG, and GIF files permitted"
               }),
     Field.new({"name" => "recorded_audio",
               "type" => "audio_upload_box",
               "show_on_minify_form" => true,
               "editable" => false,
               "disabled" => true,
-              "display_name_en" => "Recorded Audio"
+              "display_name_en" => "Recorded Audio",
+              "help_text_en" => "Only AMR and MPEG files permitted"
               })
 ]
 

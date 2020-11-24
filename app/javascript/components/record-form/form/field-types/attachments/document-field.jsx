@@ -30,20 +30,33 @@ const DocumentField = ({
   open,
   resetOpenLastDialog,
   value,
-  removeFunc,
+  arrayHelpers,
   field
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [dialog, setDialog] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const { attachment_url: attachmentUrl } = value;
+  const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
 
   const fields = buildAttachmentFieldsObject(name, index);
 
+  if (destroyed) return null;
+
+  const removeFunc = () => {
+    if (attachmentUrl) {
+      arrayHelpers.replace(index, {
+        _destroy: id,
+        attachment_type: attachment
+      });
+    } else {
+      arrayHelpers.remove(index);
+    }
+  };
+
   const handleClose = () => {
     if (!some(value)) {
-      removeFunc(index);
+      removeFunc();
     }
     resetOpenLastDialog();
     setDialog(false);
@@ -54,7 +67,7 @@ const DocumentField = ({
   };
 
   const handleRemove = () => {
-    removeFunc(index);
+    removeFunc();
 
     if (dialog) {
       handleClose();
@@ -65,21 +78,19 @@ const DocumentField = ({
 
   const closeDeleteConfirmation = () => setDeleteConfirmation(false);
 
-  const deleteButton = (
-    <>
-      <ActionButton
-        icon={<DeleteIcon />}
-        type={ACTION_BUTTON_TYPES.icon}
-        isCancel
-        rest={{
-          onClick: openDeleteConfirmation
-        }}
-      />
-    </>
+  const deleteButton = mode.isEdit && (
+    <ActionButton
+      icon={<DeleteIcon />}
+      type={ACTION_BUTTON_TYPES.icon}
+      isCancel
+      rest={{
+        onClick: openDeleteConfirmation
+      }}
+    />
   );
 
   const supportingInputsProps = {
-    disabled: mode.isShow,
+    disabled: Boolean(attachmentUrl),
     fullWidth: true,
     autoComplete: "off",
     InputProps: {
@@ -95,7 +106,7 @@ const DocumentField = ({
     }
   };
 
-  const dialogActionText = `buttons.${mode.isShow ? "close" : "save"}`;
+  const dialogActionText = `buttons.${attachmentUrl ? "close" : "save"}`;
 
   return (
     <>
@@ -191,13 +202,13 @@ const DocumentField = ({
 DocumentField.displayName = DOCUMENT_FIELD_NAME;
 
 DocumentField.propTypes = {
+  arrayHelpers: PropTypes.object.isRequired,
   attachment: PropTypes.string.isRequired,
   field: PropTypes.object,
   index: PropTypes.number.isRequired,
   mode: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   open: PropTypes.bool,
-  removeFunc: PropTypes.func.isRequired,
   resetOpenLastDialog: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   value: PropTypes.object.isRequired

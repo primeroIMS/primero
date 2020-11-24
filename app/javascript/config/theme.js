@@ -17,6 +17,7 @@ const colors = {
   moonYellow: "#f2b417",
   goldYellow: "#f4ac22",
   red: "#d0021b",
+  redLabelError: "#f44336",
   green: "#839e3c",
   solidGreen: "#7ba024",
   orange: "#e7712d",

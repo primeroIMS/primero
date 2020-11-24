@@ -122,4 +122,125 @@ describe("<FormBuilder /> - utils", () => {
       expect(utils.getSubformErrorMessages(subformServerErrors, i18n)).to.deep.equal(expected);
     });
   });
+
+  describe("getLookupFormGroup", () => {
+    it("should return the correct LookupFormGroup", () => {
+      const formGroupCpCase = {
+        id: 1,
+        unique_id: "lookup-form-group-cp-case",
+        name: {
+          en: "Form Groups - CP Case"
+        },
+        values: [
+          {
+            id: "group_1",
+            disabled: false,
+            display_text: {
+              en: "Group 1"
+            }
+          },
+          {
+            id: "group_2",
+            disabled: false,
+            display_text: {
+              en: "Group 2"
+            }
+          }
+        ]
+      };
+      const allFormGroupsLookups = fromJS([
+        formGroupCpCase,
+        {
+          id: 2,
+          unique_id: "lookup-nationality",
+          name: {
+            en: "Form Groups - CP Case"
+          },
+          values: [
+            {
+              id: "nationality_1",
+              disabled: false,
+              display_text: {
+                en: "Nationality 1"
+              }
+            },
+            {
+              id: "nationality_2",
+              disabled: false,
+              display_text: {
+                en: "Nationality 2"
+              }
+            }
+          ]
+        }
+      ]);
+
+      expect(utils.getLookupFormGroup(allFormGroupsLookups, "primeromodule-cp", "case")).to.be.equal(
+        fromJS(formGroupCpCase)
+      );
+    });
+  });
+
+  describe("formGroupsOptions", () => {
+    it("should return the correct formGroupsOptions", () => {
+      const formGroupCpCase = {
+        id: 1,
+        unique_id: "lookup-form-group-cp-case",
+        name: {
+          en: "Form Groups - CP Case"
+        },
+        values: [
+          {
+            id: "group_1",
+            disabled: false,
+            display_text: {
+              en: "Group 1"
+            }
+          },
+          {
+            id: "group_2",
+            disabled: false,
+            display_text: {
+              en: "Group 2"
+            }
+          }
+        ]
+      };
+      const allFormGroupsLookups = fromJS([
+        formGroupCpCase,
+        {
+          id: 2,
+          unique_id: "lookup-nationality",
+          name: {
+            en: "Form Groups - CP Case"
+          },
+          values: [
+            {
+              id: "nationality_1",
+              disabled: false,
+              display_text: {
+                en: "Nationality 1"
+              }
+            },
+            {
+              id: "nationality_2",
+              disabled: false,
+              display_text: {
+                en: "Nationality 2"
+              }
+            }
+          ]
+        }
+      ]);
+
+      const result = [
+        { id: "group_1", display_text: "Group 1" },
+        { id: "group_2", display_text: "Group 2" }
+      ];
+
+      expect(utils.formGroupsOptions(allFormGroupsLookups, "primeromodule-cp", "case", { locale: "en" })).to.deep.equal(
+        result
+      );
+    });
+  });
 });

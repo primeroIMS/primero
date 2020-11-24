@@ -3,7 +3,7 @@ import qs from "qs";
 import { attemptSignout } from "../components/user";
 import { FETCH_TIMEOUT, ROUTES } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
-import { signOut } from "../components/pages/login/idp-selection";
+import { signOut } from "../components/login/components/idp-selection";
 import EventManager from "../libs/messenger";
 import { QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS } from "../libs/queue";
 import { applyingConfigMessage } from "../components/pages/admin/configurations-form/action-creators";
@@ -116,6 +116,18 @@ const fetchParamsBuilder = (api, options, controller) => {
   return { fetchOptions, fetchPath };
 };
 
+const buildAttachmentData = action =>
+  action.type.includes("ATTACHMENT")
+    ? {
+        data: {
+          id: action?.fromAttachment?.id,
+          record: action?.fromAttachment?.record,
+          // eslint-disable-next-line camelcase
+          field_name: action?.fromAttachment?.field_name
+        }
+      }
+    : {};
+
 const fetchSinglePayload = (action, store, options) => {
   const controller = new AbortController();
 
@@ -182,7 +194,8 @@ const fetchSinglePayload = (action, store, options) => {
       if (status === 503 || (status === 204 && `/${checkHealthUrl}` === ROUTES.check_health)) {
         handleConfiguration(status, store, options, response, { fetchStatus, fetchSinglePayload, type });
       } else {
-        const json = status === 204 ? { data: { id: body?.data?.id } } : await response.json();
+        const json =
+          status === 204 ? { data: { id: body?.data?.id }, ...buildAttachmentData(action) } : await response.json();
 
         if (!response.ok) {
           fetchStatus({ store, type }, "FAILURE", json);
@@ -216,6 +229,8 @@ const fetchSinglePayload = (action, store, options) => {
 
           messageQueueSuccess(action);
 
+          handleRestCallback(store, successCallback, response, json, fromQueue);
+
           if (attachments) {
             processAttachments({
               attachments,
@@ -223,8 +238,6 @@ const fetchSinglePayload = (action, store, options) => {
               recordType
             });
           }
-
-          handleRestCallback(store, successCallback, response, json, fromQueue);
         }
         fetchStatus({ store, type }, "FINISHED", false);
 

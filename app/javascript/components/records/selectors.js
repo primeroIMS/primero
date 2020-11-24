@@ -43,3 +43,17 @@ export const getCaseIdForIncident = state => {
 };
 
 export const getSelectedRecord = (state, recordType) => state.getIn(["records", recordType, "selectedRecord"]);
+
+export const getRecordAttachments = (state, recordType) =>
+  state.getIn(["records", recordType, "recordAttachments"], fromJS({}));
+
+export const getIsProcessingSomeAttachment = (state, recordType) =>
+  getRecordAttachments(state, recordType)
+    .valueSeq()
+    .some(attachment => attachment.get("processing") === true);
+
+export const getIsProcessingAttachments = (state, recordType, fieldName) =>
+  getRecordAttachments(state, recordType).getIn([fieldName, "processing"], false);
+
+export const getIsPendingAttachments = (state, recordType, fieldName) =>
+  getRecordAttachments(state, recordType).getIn([fieldName, "pending"], false);

@@ -48,6 +48,20 @@ class Api::V2::TokensController < Devise::SessionsController
     'login'
   end
 
+  # HACK: Removing primero_token cookie when failing to authenticate with current token. 
+  def create
+    creation = catch(:warden) do 
+      super
+    end
+    # warden throws user scope Hash on authentication failure.
+    if creation.is_a?(Hash)
+      cookies.delete(:primero_token, domain: primero_host)
+      throw(:warden, creation)
+    else
+      creation
+    end
+  end
+
   def destroy_action_message
     'logout'
   end

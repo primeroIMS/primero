@@ -789,6 +789,32 @@ en:
     forms:
       button: Export Forms
       label: Export
+      header:
+        form_group: Form Group
+        form_name: Form Name
+        field_id: Field ID
+        field_type: Field Type
+        field_name: Field Name
+        required: Required
+        on_mobile: On Mobile
+        on_short_form: On Short Form
+        option_ids: Option IDs
+        options: Options
+        help_text: Help Text
+        guiding_questions: Guiding Questions
+        visible: Visible
+        lookup_id: Lookup ID
+        lookup_name: Lookup Name
+        option_id: Option ID
+        option_name: Option Name
+      options:
+        location: Locations
+        agency: Agencies
+        user: Users
+        reportinglocation: Reporting Locations
+        subforms: 'Subform: %{subform_name}'
+        collapsed_fields: 'Collapsed Fields: %{fields}'
+
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:
       all: Incident Recorder
@@ -801,6 +827,8 @@ en:
     list_view_csv:
       all: Export List View
       selected: Selected to CSV
+    messages:
+      no_exporter: No Exporter Specified
     mrm_violation_xls:
       all: MRM Violations
       one: MRM Violations
@@ -876,6 +904,7 @@ en:
         error: 'Row %{row_number} Not Processed: %{message}'
         db_error: 'Error creating %{location_code}: %{message}'
         locale_invalid: 'Skipping %{column_name}: Locale invalid'
+        insert_all_error: 'Import Not Processed. Database error: %{message}'
   fields:
     action: Action
     actions: Actions
@@ -928,6 +957,7 @@ en:
     english_text: English Text
     field_name: Field Name
     field_type: Field type
+    attachment_too_large: File should not be larger than 10mb
     file_upload_box:
       add_document_label: Add Document
       add_new_document_button_text: Add another document
@@ -1279,7 +1309,9 @@ en:
       you are back online
     field_name_on_form_name: '''%{field_name}'' field on ''%{form_name}'' form.'
     logout_confirmation: Do you want to continue your session?
+    logout_offline_warning: Are sure you want to log out? If you do, you will not be able to log back in until you are online again. Any changes you made while offline will be lost.
     logout_warning: You will be logged off in 5 minutes
+    logout_dialog_header: Offline Log Out
     no_changes: You made no field changes
   navigation:
     bulk_exports: Exports
@@ -2442,7 +2474,7 @@ en:
     user_mandatory_label: Recipient is required
     users_label: Recipient
   record_information:
-    associated_user_names: Other Assigned Users
+    assigned_user_names: Other Assigned Users
     created_by: Record created by
     created_organization: Created by agency
     current_owner_separator: Current Owner

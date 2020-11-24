@@ -60,7 +60,7 @@ const DashboardTable = ({ columns, data, query, title, pathname }) => {
   };
 
   return (
-    <MuiThemeProvider theme={dashboardTableTheme}>
+    <MuiThemeProvider theme={dashboardTableTheme(clickableCell)}>
       <MUIDataTable {...tableOptions} />
     </MuiThemeProvider>
   );
