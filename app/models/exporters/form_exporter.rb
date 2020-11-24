@@ -6,7 +6,7 @@ class Exporters::FormExporter < ValueObject
                 :total, :success_total
 
   def initialize(opts = {})
-    opts[:file_name] ||= "form_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}.xlsx"
+    opts[:file_name] ||= export_file_dir
     opts[:locale] ||= Primero::Application::LOCALE_ENGLISH
     opts[:record_type] ||= 'case'
     opts[:module_id] ||= 'primeromodule-cp'
@@ -35,6 +35,10 @@ class Exporters::FormExporter < ValueObject
 
   private
 
+  def export_file_dir
+    File.join(Rails.root, 'tmp', "form_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}.xlsx")
+  end
+
   def sorted_forms
     FormSection.list(form_params).sort_by { |f| [f.order_form_group, f.order] }
   end
@@ -55,22 +59,19 @@ class Exporters::FormExporter < ValueObject
 
   def worksheet_name(form)
     name = form.name(locale.to_s)
-    name = name.sub(%r{[\[\]:*?\/\\]}, ' ').encode('iso-8859-1', undef: :replace, replace: '').strip.truncate(31)
+    name = name.sub(%r{[\[\]:*?\/\\]}, ' ').encode('iso-8859-1', undef: :replace, replace: '').strip.truncate(31, omission: '')
     make_worksheet_name_unique(name)
   end
 
   def make_worksheet_name_unique(worksheet_name, idx = 0)
-    return worksheet_name if workbook.worksheets.find { |w| w.name.delete('\u0000') == worksheet_name }.nil?
+    return worksheet_name if workbook.worksheets.map(&:name).exclude?(worksheet_name)
 
     idx += 1
     modify_worksheet_name(worksheet_name, idx)
   end
 
   def modify_worksheet_name(worksheet_name, idx = 0)
-    letters_to_replace = Math.log10(idx).to_i + 1
-    worksheet_name.slice!((31 - letters_to_replace)..30)
-    worksheet_name += idx.to_s
-    make_worksheet_name_unique(worksheet_name, idx)
+    make_worksheet_name_unique((worksheet_name[0..28] + idx.to_s), idx)
   end
 
   def export_form_fields(form, worksheet)

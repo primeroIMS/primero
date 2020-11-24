@@ -203,8 +203,7 @@ namespace :primero do
     opts[:file_name] = 'forms.xlsx'
     exporter = Exporters::FormExporter.new(opts)
     exporter.export
-    puts "Exported forms to XLSX Spreadsheet #{exporter.export_file_name}"
-    exporter.export_file_name
+    puts "Exported forms to XLSX Spreadsheet #{exporter.file_name}"
   end
 
   # Example usage: rails primero:role_permissions_to_spreadsheet['tmp/test.xlsx','en']
