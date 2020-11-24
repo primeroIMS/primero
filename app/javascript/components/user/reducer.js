@@ -27,7 +27,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         locale,
         reporting_location_config: reportingLocationConfig
       } = payload;
-      const cleanedPermissions = permissions.list.filter(f => !isEmpty(f.actions));
+      const cleanedPermissions = permissions.list.filter(listItem => !isEmpty(listItem.actions));
 
       return state.merge(
         fromJS({
