@@ -73,14 +73,31 @@ describe Api::V2::FormSectionsController, type: :request do
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/forms' do
-    it 'list the permitted forms' do
-      login_for_test
+    context 'when not excluding subforms' do
+      it 'list all forms' do
+        login_for_test
 
-      get '/api/v2/forms'
+        get '/api/v2/forms'
 
-      expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(4)
-      expect(json['data'].map { |c| c['unique_id'] }).to include(@form1.unique_id, @form2.unique_id, @form3.unique_id)
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(4)
+        expected = [@form1.unique_id, @form2.unique_id, @form3.unique_id, @form4.unique_id]
+        expect(json['data'].map { |c| c['unique_id'] }).to match_array(expected)
+      end
+    end
+
+    context 'when not including subforms' do
+      it 'list only main level forms' do
+        login_for_test
+
+        params = { exclude_subforms: true }
+        get '/api/v2/forms', params: params
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(3)
+        expected = [@form1.unique_id, @form2.unique_id, @form3.unique_id]
+        expect(json['data'].map { |c| c['unique_id'] }).to match_array(expected)
+      end
     end
   end
 
