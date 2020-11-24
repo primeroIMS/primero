@@ -69,7 +69,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
               open={valuesSize === index + 1 && openLastDialog}
               resetOpenLastDialog={resetOpenLastDialog}
               value={value}
-              removeFunc={arrayHelpers.remove}
+              arrayHelpers={arrayHelpers}
               field={field}
               attachment={attachment}
             />
@@ -116,6 +116,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
   return (
     <FieldArray
       name={name}
+      validateOnChange={false}
       render={arrayHelpers => (
         <div>
           <AttachmentLabel
