@@ -99,7 +99,7 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(json['data']['id']).to eq(@form1.id)
     end
 
-    it 'fetches the correct form_group_name with code 200' do
+    it 'NO fetches form_group_name with code 200' do
       login_for_test(
         permissions: [
           Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
@@ -111,7 +111,7 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(response).to have_http_status(200)
 
       expect(json['data']['id']).to eq(@form1.id)
-      expect(json['data']['form_group_name']['en']).to eq('Form Section 1')
+      expect(json['data'].keys).not_to include('form_group_name')
     end
 
     it 'fetches a form which is nested' do

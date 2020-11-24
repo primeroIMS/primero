@@ -186,3 +186,6 @@ export const getManagedRoleByUniqueId = (state, uniqueID) =>
 
 export const getManagedRoleFormSections = (state, uniqueID) =>
   getManagedRoleByUniqueId(state, uniqueID).get("form_section_unique_ids", fromJS([]));
+
+export const getFormGroupLookups = state =>
+  lookupsList(state).filter(lookup => lookup.get("unique_id").startsWith("lookup-form-group-"));

@@ -9,14 +9,14 @@ import { useI18n } from "../i18n";
 
 import styles from "./styles.css";
 
-const Component = ({ children, button }) => {
+const Component = ({ overrideCondition, children, button, offlineTextKey }) => {
   const css = makeStyles(styles)();
   const { online } = useApp();
   const i18n = useI18n();
 
-  if (!online) {
+  if (overrideCondition || !online) {
     return (
-      <Tooltip title={i18n.t("offline")}>
+      <Tooltip title={i18n.t(offlineTextKey || "offline")}>
         <div
           className={clsx(css.disabledLink, {
             [css.disabled]: !button
@@ -33,12 +33,16 @@ const Component = ({ children, button }) => {
 };
 
 Component.defaultProps = {
-  button: false
+  button: false,
+  offlineTextKey: null,
+  overrideCondition: false
 };
 
 Component.propTypes = {
   button: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
+  offlineTextKey: PropTypes.string,
+  overrideCondition: PropTypes.bool
 };
 
 Component.displayName = "DisableOffline";

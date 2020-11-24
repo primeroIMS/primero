@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { fromJS } from "immutable";
 import { useDispatch, useSelector, batch } from "react-redux";
@@ -13,9 +13,10 @@ import IndexTable from "../../index-table";
 import PageContainer, { PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
 import { getOption, getFields, getAllForms } from "../../record-form";
-import { LOOKUPS, RECORD_TYPES } from "../../../config";
+import { LOOKUPS, RECORD_TYPES, FETCH_PARAM } from "../../../config";
 import { compare } from "../../../libs";
 import { setSelectedForm } from "../../record-form/action-creators";
+import { useMetadata } from "../../records";
 
 import { getMetadata, selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
@@ -27,12 +28,9 @@ const TaskList = () => {
   const css = makeStyles(styles)();
   const recordType = "tasks";
   const dispatch = useDispatch();
-  const defaultFilters = {
-    per: 20,
-    page: 1
-  };
   const listHeaders = useSelector(state => selectListHeaders(state, recordType));
-
+  const metadata = useSelector(state => getMetadata(state));
+  const defaultFilters = metadata;
   const lookupServiceType = useSelector(
     state => getOption(state, LOOKUPS.service_type, i18n.locale),
     (prev, actual) => {
@@ -49,9 +47,7 @@ const TaskList = () => {
   const forms = useSelector(state => getAllForms(state), compare);
   const fieldNames = useSelector(state => getMetadata(state, "field_names"), compare);
 
-  useEffect(() => {
-    dispatch(fetchTasks({ options: defaultFilters }));
-  }, []);
+  useMetadata(recordType, metadata, fetchTasks, FETCH_PARAM.DATA);
 
   const columns = data => {
     return listHeaders.map(c => {

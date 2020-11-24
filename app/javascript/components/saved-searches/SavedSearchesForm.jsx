@@ -11,7 +11,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { enqueueSnackbar } from "../notifier";
-import { selectModules } from "../pages/login/login-form/selectors";
+import { selectModules } from "../login/components/login-form/selectors";
 import { useI18n } from "../i18n";
 import { ROUTES } from "../../config";
 import ActionButton from "../action-button";

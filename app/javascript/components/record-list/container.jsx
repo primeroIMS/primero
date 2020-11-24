@@ -113,17 +113,21 @@ const Container = ({ match, location }) => {
     // eslint-disable-next-line camelcase
     filters.id_search && canSearchOthers ? headers.filter(header => header.id_search) : headers;
 
+  const recordAvaialble = record => {
+    const allowedToOpenRecord =
+      record && typeof record.get("record_in_scope") !== "undefined" ? record.get("record_in_scope") : false;
+
+    return (!online && record.get("complete", false) && allowedToOpenRecord) || (online && allowedToOpenRecord);
+  };
+
   const indexTableProps = {
     recordType,
     defaultFilters,
     bypassInitialFetch: true,
-    columns: buildTableColumns(listHeaders, i18n, recordType, css),
+    columns: buildTableColumns(listHeaders, i18n, recordType, css, recordAvaialble),
     onTableChange: applyFilters,
     onRowClick: record => {
-      const allowedToOpenRecord =
-        record && typeof record.get("record_in_scope") !== "undefined" ? record.get("record_in_scope") : false;
-
-      if ((!online && record.get("complete", false) && allowedToOpenRecord) || (online && allowedToOpenRecord)) {
+      if (recordAvaialble(record)) {
         dispatch(push(`${recordType}/${record.get("id")}`));
       } else if (canViewModal) {
         setCurrentRecord(record);
@@ -131,6 +135,7 @@ const Container = ({ match, location }) => {
       }
     },
     selectedRecords,
+    isRowSelectable: record => recordAvaialble(record),
     setSelectedRecords,
     showCustomToolbar: true
   };

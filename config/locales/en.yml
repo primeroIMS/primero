@@ -23,6 +23,7 @@ en:
   form: Form
   name: Name
   offline: Offline
+  unavailable_offline: Unavailable offline
   online: Online
   yes_label: 'Yes'
   offline_submitted_changes: You are currently offline. Your changes will be submitted when you are back online.
@@ -898,6 +899,7 @@ en:
         error: 'Row %{row_number} Not Processed: %{message}'
         db_error: 'Error creating %{location_code}: %{message}'
         locale_invalid: 'Skipping %{column_name}: Locale invalid'
+        insert_all_error: 'Import Not Processed. Database error: %{message}'
   fields:
     action: Action
     actions: Actions
@@ -1301,7 +1303,9 @@ en:
       you are back online
     field_name_on_form_name: '''%{field_name}'' field on ''%{form_name}'' form.'
     logout_confirmation: Do you want to continue your session?
+    logout_offline_warning: Are sure you want to log out? If you do, you will not be able to log back in until you are online again. Any changes you made while offline will be lost.
     logout_warning: You will be logged off in 5 minutes
+    logout_dialog_header: Offline Log Out
     no_changes: You made no field changes
   navigation:
     bulk_exports: Exports
@@ -2464,7 +2468,7 @@ en:
     user_mandatory_label: Recipient is required
     users_label: Recipient
   record_information:
-    associated_user_names: Other Assigned Users
+    assigned_user_names: Other Assigned Users
     created_by: Record created by
     created_organization: Created by agency
     current_owner_separator: Current Owner

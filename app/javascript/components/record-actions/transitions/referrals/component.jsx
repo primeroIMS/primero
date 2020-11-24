@@ -81,7 +81,7 @@ const Referrals = ({
             ...(!providedConsent && { consent_overridden: values[FIELDS.CONSENT_INDIVIDUAL_TRANSFER] })
           }
         },
-        i18n.t("referral.success", { record_type: recordType, id: recordID })
+        i18n.t("referral.success", { record_type: recordType, id: record.get("case_id_display") })
       )
     );
   };

@@ -73,7 +73,9 @@ describe("<CustomFieldSelectorDialog />", () => {
       "omitCloseAfterSuccess",
       "open",
       "showSuccessButton",
-      "successHandler"
+      "successHandler",
+      "disableClose",
+      "hideIcon"
     ].forEach(property => {
       expect(actionDialogProps).to.have.property(property);
       delete actionDialogProps[property];

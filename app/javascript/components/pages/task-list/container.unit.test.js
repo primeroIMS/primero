@@ -192,7 +192,7 @@ describe("<TaskList />", () => {
     });
   });
 
-  it("should an action that sets the form unique_id when clicking on a task", () => {
+  it("should trigger an action that sets the form unique_id when clicking on a task", () => {
     const table = component.find(MUIDataTable);
     const firstRow = table.find("tr").at(1);
     const secondRow = table.find("tr").at(2);
@@ -202,7 +202,7 @@ describe("<TaskList />", () => {
 
     // Simulating click on the first row (type=service) should dispatch an action
     firstRow.find("td").at(0).simulate("click");
-    expect(component.props().store.getActions()).to.have.lengthOf(3);
+    expect(component.props().store.getActions()).to.have.lengthOf(4);
     expect(component.props().store.getActions()[2]).to.deep.equals({
       ...expectedType,
       payload: "cp_incident_record_owner"
@@ -210,8 +210,8 @@ describe("<TaskList />", () => {
 
     // Simulating click on the second row (type=case_plan) should dispatch an action
     secondRow.find("td").at(0).simulate("click");
-    expect(component.props().store.getActions()).to.have.lengthOf(4);
-    expect(component.props().store.getActions()[3]).to.deep.equals({
+    expect(component.props().store.getActions()).to.have.lengthOf(6);
+    expect(component.props().store.getActions()[4]).to.deep.equals({
       ...expectedType,
       payload: "assessment"
     });

@@ -2,7 +2,7 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
 import { spy, stub } from "../../test";
-import * as idpSelection from "../pages/login/idp-selection";
+import * as idpSelection from "../login/components/idp-selection";
 import { SET_USER_LOCALE } from "../i18n";
 
 import Actions from "./actions";
@@ -26,9 +26,10 @@ describe("User - Action Creators", () => {
           extended: true
         },
         db: {
-          collection: "user"
+          collection: "user",
+          user: "primero"
         },
-        successCallback: "I18n/SET_USER_LOCALE"
+        successCallback: ["I18n/SET_USER_LOCALE"]
       }
     },
     {
@@ -151,11 +152,11 @@ describe("User - Action Creators", () => {
     const expected = {
       path: "users/1",
       params: { extended: true },
-      db: { collection: "user" },
-      successCallback: SET_USER_LOCALE
+      db: { collection: "user", user: "primero" },
+      successCallback: ["I18n/SET_USER_LOCALE"]
     };
 
-    actionCreators.fetchAuthenticatedUserData(1)(dispatch);
+    dispatch(actionCreators.fetchAuthenticatedUserData({ username: "primero", id: 1 }));
     const firstCallReturnValue = dispatch.getCall(0).returnValue;
 
     expect(firstCallReturnValue.type).to.deep.equal(Actions.FETCH_USER_DATA);
@@ -225,7 +226,7 @@ describe("User - Action Creators", () => {
       method: "POST"
     };
 
-    actionCreators.refreshToken()(dispatch);
+    dispatch(actionCreators.refreshToken());
     const firstCallReturnValue = dispatch.getCall(0).returnValue;
 
     expect(firstCallReturnValue.type).to.deep.equal(Actions.REFRESH_USER_TOKEN);

@@ -1,5 +1,5 @@
 import { fromJS, OrderedMap } from "immutable";
-import { CircularProgress, Badge } from "@material-ui/core";
+import { CircularProgress, Badge, Button } from "@material-ui/core";
 
 import { SaveReturnIcon } from "../../../images/primero-icons";
 import { setupMountedComponent } from "../../../test";
@@ -194,8 +194,12 @@ describe("<RecordFormToolbar />", () => {
     });
 
     it("renders a RecordFormToolbar/>", () => {
+      const saveButton = savingComponent.find(Button).at(1);
+
       expect(savingComponent.find(RecordFormToolbar)).to.have.lengthOf(1);
       expect(savingComponent.find(CircularProgress)).to.have.lengthOf(1);
+      expect(saveButton.text()).to.equal("buttons.save");
+      expect(saveButton.props().disabled).to.be.true;
     });
   });
 

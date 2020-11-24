@@ -5,7 +5,14 @@ const handleRestCallback = (store, callback, response, json, fromQueue = false) 
 
   if (callback && (!fromQueue || callback?.api?.performFromQueue || isArrayCallback)) {
     if (isArrayCallback) {
-      callback.forEach(cb => handleRestCallback(store, cb, response, json, fromQueue));
+      callback.forEach(cb => {
+        const { dispatchIfStatus } = cb;
+
+        if (dispatchIfStatus && response?.status !== dispatchIfStatus) {
+          return;
+        }
+        handleRestCallback(store, cb, response, json, fromQueue);
+      });
     } else {
       const isObjectCallback = typeof callback === "object";
       const isApiCallback = isObjectCallback && "api" in callback;

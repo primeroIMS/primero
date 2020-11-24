@@ -1,11 +1,10 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
-import { push } from "connected-react-router";
 
 import { useI18n } from "../../../i18n";
-import { ROUTES, RECORD_PATH } from "../../../../config";
+import { ROUTES } from "../../../../config";
 import { PageHeading, PageContent } from "../../../page";
 import IndexTable from "../../../index-table";
 import { MANAGE, RESOURCES } from "../../../../libs/permissions";
@@ -23,7 +22,6 @@ import { columns } from "./utils";
 
 const Component = () => {
   const i18n = useI18n();
-  const dispatch = useDispatch();
   const { css } = useThemeHelper(styles);
   const recordType = ["admin", "lookups"];
   const metadata = useSelector(state => getMetadata(state, recordType));
@@ -43,11 +41,9 @@ const Component = () => {
 
   useMetadata(recordType, metadata, fetchAdminLookups, "data");
 
-  const onRowClick = data => dispatch(push(`${RECORD_PATH.lookups}/${data?.rowData[0]}`));
-
   const tableOptions = {
     recordType,
-    columns: columns(i18n, css, onRowClick),
+    columns: columns(i18n, css),
     options: {
       selectableRows: "none"
     },

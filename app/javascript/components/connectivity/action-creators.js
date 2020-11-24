@@ -39,6 +39,16 @@ export const setNetworkStatus = payload => ({
   payload
 });
 
+export const setQueueStatus = payload => ({
+  type: actions.QUEUE_STATUS,
+  payload
+});
+
+export const setPendingUserLogin = payload => ({
+  type: actions.PENDING_USER_LOGIN,
+  payload
+});
+
 export const getServerStatus = () => ({
   type: actions.SERVER_STATUS,
   api: {

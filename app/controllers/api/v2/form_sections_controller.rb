@@ -9,7 +9,6 @@ class Api::V2::FormSectionsController < ApplicationApiController
   def index
     authorize! :index, FormSection
     @form_sections = FormSection.list(params)
-    @form_group_lookups = FormSection.form_group_lookups
   end
 
   def show

@@ -396,3 +396,8 @@ export const DEFAULT_DATE_VALUES = {
   TODAY: "TODAY",
   NOW: "NOW"
 };
+
+export const FETCH_PARAM = Object.freeze({
+  DATA: "data",
+  OPTIONS: "options"
+});

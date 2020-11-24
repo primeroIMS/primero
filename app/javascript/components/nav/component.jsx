@@ -2,7 +2,9 @@ import { Drawer, List, useMediaQuery, Hidden, Divider, IconButton } from "@mater
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
+import { push } from "connected-react-router";
 
+import { ROUTES, PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
 import { useThemeHelper } from "../../libs";
@@ -11,10 +13,11 @@ import { useApp } from "../application";
 import Permission from "../application/permission";
 import TranslationsToggle from "../translations-toggle";
 import NetworkIndicator from "../network-indicator";
-import { PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import { getPermissions } from "../user";
+import ActionDialog, { useDialog } from "../action-dialog";
+import { useI18n } from "../i18n";
 
-import { NAME } from "./constants";
+import { NAME, LOGOUT_DIALOG } from "./constants";
 import styles from "./styles.css";
 import { fetchAlerts } from "./action-creators";
 import { getUserId, selectUsername, selectAlerts } from "./selectors";
@@ -24,7 +27,10 @@ const Nav = () => {
   const { css, theme } = useThemeHelper(styles);
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
+  const i18n = useI18n();
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const { dialogOpen, dialogClose } = useDialog(LOGOUT_DIALOG);
 
   useEffect(() => {
     dispatch(fetchAlerts());
@@ -44,6 +50,12 @@ const Nav = () => {
     }
 
     setDrawerOpen(open);
+  };
+
+  const handleLogoutCancel = () => dialogClose();
+
+  const handleLogout = () => {
+    dispatch(push(ROUTES.logout));
   };
 
   const permittedMenuEntries = menuEntries => {
@@ -126,6 +138,17 @@ const Nav = () => {
           {drawerContent}
         </Drawer>
       </Hidden>
+      <ActionDialog
+        dialogTitle={i18n.t("messages.logout_dialog_header")}
+        cancelHandler={handleLogoutCancel}
+        successHandler={handleLogout}
+        confirmButtonLabel={i18n.t("buttons.logout")}
+        onClose={dialogClose}
+        omitCloseAfterSuccess
+        open={dialogOpen}
+      >
+        {i18n.t("messages.logout_offline_warning")}
+      </ActionDialog>
     </nav>
   );
 };
