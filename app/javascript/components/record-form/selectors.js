@@ -190,7 +190,7 @@ export const getSubformsDisplayName = (state, locale) =>
 
 export const getAttachmentForms = (state, locale) => {
   const attachmentFieldIds = state
-    .getIn([NAMESPACE, "fields"])
+    .getIn([NAMESPACE, "fields"], fromJS({}))
     .entrySeq()
     .map(
       ([id, field]) =>

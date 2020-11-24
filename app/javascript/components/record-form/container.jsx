@@ -226,6 +226,9 @@ const Container = ({ match, mode }) => {
       batch(() => {
         dispatch(clearSelectedRecord(params.recordType));
         dispatch(clearValidationErrors());
+        if (params.id) {
+          dispatch(clearRecordAttachments(params.id, params.recordType));
+        }
       });
     };
   }, []);
