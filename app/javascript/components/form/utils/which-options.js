@@ -15,7 +15,7 @@ export const whichOptions = ({ optionStringsSource, options, i18n, lookups, agen
         return agencies
           .map(agency => ({
             id: agency.get("id"),
-            display_text: agency.get("name")
+            display_text: agency.getIn(["name", i18n.locale], "")
           }))
           .toJS();
       case "Location":

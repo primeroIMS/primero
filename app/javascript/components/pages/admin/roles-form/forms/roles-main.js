@@ -1,9 +1,9 @@
 import { FieldRecord, FormSectionRecord, TICK_FIELD, TEXT_FIELD, SELECT_FIELD } from "../../../../form";
 import { FIELD_NAMES } from "../constants";
 
-import { buildPermissionOptions } from "./utils";
+import { buildAdminLevelSelect, buildPermissionOptions } from "./utils";
 
-export default (groupPermissions, i18n) => {
+export default (groupPermissions, i18n, adminLevelMap) => {
   return FormSectionRecord({
     unique_id: "roles",
     fields: [
@@ -18,6 +18,12 @@ export default (groupPermissions, i18n) => {
         display_name: i18n.t("role.description"),
         name: FIELD_NAMES.description,
         type: TEXT_FIELD
+      }),
+      FieldRecord({
+        display_name: i18n.t("permissions.resource.disabled.label"),
+        name: FIELD_NAMES.disabled,
+        type: TICK_FIELD,
+        tooltip: i18n.t("permissions.resource.disabled.explanation")
       }),
       FieldRecord({
         display_name: i18n.t("permissions.resource.is_manager.label"),
@@ -51,6 +57,13 @@ export default (groupPermissions, i18n) => {
         name: FIELD_NAMES.groupPermission,
         type: SELECT_FIELD,
         option_strings_text: buildPermissionOptions(groupPermissions, i18n, "group").toJS()
+      }),
+      FieldRecord({
+        display_name: i18n.t("permissions.resource.reporting_location_level.label"),
+        tooltip: i18n.t("permissions.resource.reporting_location_level.explanation"),
+        name: FIELD_NAMES.reportingLocationLevel,
+        type: SELECT_FIELD,
+        option_strings_text: buildAdminLevelSelect(adminLevelMap)
       })
     ]
   });

@@ -27,14 +27,16 @@ describe("<FieldListItem />", () => {
                     display_name: { en: "Field 1" },
                     type: TEXT_FIELD
                   })}
+                  getValues={() => ({ field_1: true })}
                   index={0}
                 />
               )}
             </Droppable>
           </DragDropContext>
         ),
+        fromJS({}),
         {},
-        fromJS({})
+        {}
       ));
     });
 
@@ -67,9 +69,11 @@ describe("<FieldListItem />", () => {
                   field={fromJS({
                     name: "field_1",
                     editable: false,
+                    display_name: { en: "Field 1" },
                     multi_select: true,
                     type: SELECT_FIELD
                   })}
+                  getValues={() => ({ field_1: true })}
                   index={0}
                 />
               )}

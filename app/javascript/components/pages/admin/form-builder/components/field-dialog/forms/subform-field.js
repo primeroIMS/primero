@@ -1,10 +1,12 @@
 import { fromJS } from "immutable";
 import { object, string } from "yup";
 
+import { validateEnglishName } from "../../../utils";
+
 import { generalForm, generalFields, subform, visibilityFields, visibilityForm } from "./base";
 
 /* eslint-disable import/prefer-default-export */
-export const subformField = ({ field, i18n, formMode }) => {
+export const subformField = ({ field, i18n, formMode, onManageTranslations }) => {
   const fieldName = field.get("name");
   const { showOn, visible, mobileVisible, hideOnViewPage } = visibilityFields({
     fieldName,
@@ -15,7 +17,13 @@ export const subformField = ({ field, i18n, formMode }) => {
   return {
     forms: fromJS([
       subform({ i18n }),
-      generalForm({ fields: [disabled], fieldName, formMode, i18n }),
+      generalForm({
+        fields: [disabled],
+        fieldName,
+        formMode,
+        i18n,
+        onManageTranslations
+      }),
       visibilityForm({
         fieldName,
         i18n,
@@ -25,11 +33,17 @@ export const subformField = ({ field, i18n, formMode }) => {
     validationSchema: object().shape({
       subform_section: object().shape({
         name: object({
-          en: string().required(
-            i18n.t("forms.required_field", {
-              field: i18n.t("fields.subform_section.name")
-            })
-          )
+          en: string()
+            .test(
+              "subform_section.name.en",
+              i18n.t("forms.invalid_characters_field", { field: i18n.t("forms.title") }),
+              validateEnglishName
+            )
+            .required(
+              i18n.t("forms.required_field", {
+                field: i18n.t("fields.subform_section.name")
+              })
+            )
         })
       })
     })

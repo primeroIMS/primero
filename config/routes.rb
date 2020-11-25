@@ -25,8 +25,10 @@ Rails.application.routes.draw do
     namespace :v2, defaults: { format: :json },
                    constraints: { format: :json },
                    only: %i[index create show update destroy] do
+      resources :primero, only: %i[index]
+
       resources :children, as: :cases, path: :cases do
-        resources :children_incidents, as: :incidents, path: :incidents, only: %i[index]
+        resources :children_incidents, as: :incidents, path: :incidents, only: %i[index new]
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
         resources :assigns, only: %i[index create]
@@ -68,7 +70,11 @@ Rails.application.routes.draw do
         resources :potential_matches, only: %i[index]
       end
 
-      resources :form_sections, as: :forms, path: :forms
+      resources :form_sections, as: :forms, path: :forms do
+        collection do
+          get :export, to: 'form_sections#export'
+        end
+      end
       resources :users do
         collection do
           get :'assign-to', to: 'users_transitions#assign_to'
@@ -84,7 +90,11 @@ Rails.application.routes.draw do
       resources :saved_searches, only: %i[index create destroy]
       resources :reports, only: %i[index show create update destroy]
       resources :lookups
-      resources :locations
+      resources :locations do
+        collection do
+          post :import, to: 'locations#import'
+        end
+      end
       resources :bulk_exports, as: :exports, path: :exports, only: %i[index show create destroy]
       get 'alerts', to: 'alerts#bulk_index'
       resources :agencies
@@ -93,6 +103,8 @@ Rails.application.routes.draw do
       resources :user_groups
       resources :primero_modules, only: %i[index show update]
       resources :audit_logs, only: [:index]
+      resources :primero_configurations, as: :configurations, path: :configurations
+      resources :flags_owners, as: :flags, path: :flags, only: %i[index]
     end
   end
 end

@@ -1,5 +1,6 @@
 export const ACTIONS = {
   ADD_NOTE: "add_note",
+  AGENCY_READ: "agency_read",
   APPROVE_ASSESSMENT: "approve_assessment",
   APPROVE_CASE_PLAN: "approve_case_plan",
   APPROVE_CLOSURE: "approve_closure",
@@ -56,6 +57,7 @@ export const ACTIONS = {
   FLAG: "flag",
   GROUP_READ: "group_read",
   INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",
+  INCIDENT_FROM_CASE: "incident_from_case",
   MANAGE: "manage",
   READ: "read",
   RECEIVE_REFERRAL: "receive_referral",
@@ -69,9 +71,11 @@ export const ACTIONS = {
   REQUEST_APPROVAL_CLOSURE: "request_approval_closure",
   REQUEST_APPROVAL_ACTION_PLAN: "request_approval_action_plan",
   REQUEST_APPROVAL_GBV_CLOSURE: "request_approval_gbv_closure",
+  REQUEST_TRANSFER: "request_transfer",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",
+  VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
   WRITE: "write"
 };
 
@@ -79,11 +83,14 @@ export const MANAGE = [ACTIONS.MANAGE];
 
 export const RESOURCES = {
   agencies: "agencies",
+  any: "any",
   audit_logs: "audit_logs",
   cases: "cases",
+  configurations: "primero_configurations",
   contact_information: "contact_information",
   dashboards: "dashboards",
   incidents: "incidents",
+  locations: "locations",
   lookups: "lookups",
   metadata: "metadata",
   potential_matches: "potential_matches",
@@ -110,15 +117,13 @@ export const RECORD_RESOURCES = [RESOURCES.cases, RESOURCES.incidents, RESOURCES
 export const ADMIN_ACTIONS = [...MANAGE, ACTIONS.READ, ACTIONS.WRITE, ACTIONS.CREATE];
 
 export const ADMIN_RESOURCES = [
-  RESOURCES.agencies,
-  RESOURCES.audit_logs,
-  RESOURCES.contact_information,
-  RESOURCES.lookups,
+  RESOURCES.users,
   RESOURCES.roles,
-  RESOURCES.forms,
-  RESOURCES.systems,
   RESOURCES.user_groups,
-  RESOURCES.users
+  RESOURCES.agencies,
+  RESOURCES.forms,
+  RESOURCES.metadata,
+  RESOURCES.audit_logs
 ];
 
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
@@ -145,11 +150,13 @@ export const SHOW_TASKS = [...MANAGE, ACTIONS.DASH_TASKS];
 
 export const ADD_INCIDENT = [...MANAGE, ACTIONS.INCIDENT_DETAILS_FROM_CASE];
 
+export const CREATE_INCIDENT = [...MANAGE, ACTIONS.INCIDENT_FROM_CASE];
+
 export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
 
 export const SHOW_AUDIT_LOGS = [...MANAGE, ACTIONS.READ];
 
-export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL_FROM_SERVICE];
+export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL, ACTIONS.REFERRAL_FROM_SERVICE];
 
 export const REQUEST_APPROVAL = [
   ...MANAGE,
@@ -169,8 +176,7 @@ export const APPROVAL = [
   ACTIONS.APPROVE_GBV_CLOSURE
 ];
 
-export const SHOW_EXPORTS = [
-  ...MANAGE,
+export const EXPORTS_PERMISSIONS = [
   ACTIONS.EXPORT_CASE_PDF,
   ACTIONS.EXPORT_CSV,
   ACTIONS.EXPORT_CUSTOM,
@@ -184,6 +190,8 @@ export const SHOW_EXPORTS = [
   ACTIONS.EXPORT_PHOTO_WALL,
   ACTIONS.EXPORT_UNHCR
 ];
+
+export const SHOW_EXPORTS = [...MANAGE, ...EXPORTS_PERMISSIONS];
 
 export const SHOW_APPROVALS = [
   ...MANAGE,
@@ -216,11 +224,19 @@ export const DASH_APPROVALS = [
   ACTIONS.DASH_APPROVALS_GBV_CLOSURE
 ];
 
+export const VIEW_INCIDENTS_FROM_CASE = [...MANAGE, ACTIONS.VIEW_INCIDENT_FROM_CASE];
+
 export const GROUP_PERMISSIONS = {
   AGENCY: "agency",
   ALL: "all",
   GROUP: "group",
   SELF: "self"
 };
+
+export const allowedExportTypes = userPermissions =>
+  userPermissions &&
+  userPermissions.filter(permission => {
+    return EXPORTS_PERMISSIONS.includes(permission);
+  });
 
 export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.CHANGE_LOG];

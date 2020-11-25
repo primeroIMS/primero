@@ -9,7 +9,7 @@ import { RECORD_TYPES } from "../../../../config";
 import { useThemeHelper } from "../../../../libs";
 
 import styles from "./styles.css";
-import { WORKFLOW_INDICATOR_NAME } from "./constants";
+import { WORKFLOW_INDICATOR_NAME, CLOSED } from "./constants";
 
 const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   const { css, theme } = useThemeHelper(styles);
@@ -25,9 +25,12 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
       )
   );
 
-  const activeStep = workflowSteps?.findIndex(s => s.id === record.get("workflow"));
+  const activeStep = workflowSteps?.findIndex(
+    workflowStep =>
+      workflowStep.id === (record.get("status") === CLOSED ? record.get("status") : record.get("workflow"))
+  );
 
-  if (mobileDisplay) {
+  if (mobileDisplay && workflowSteps) {
     return (
       <>
         <div className={css.mobileStepper}>

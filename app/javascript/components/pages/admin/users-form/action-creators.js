@@ -1,6 +1,6 @@
 import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../../../record-actions/actions";
+import { CLEAR_DIALOG } from "../../../action-dialog";
 
 import actions from "./actions";
 
@@ -13,7 +13,7 @@ export const fetchUser = id => {
   };
 };
 
-export const saveUser = ({ id, body, dialogName, saveMethod, message, failureMessage }) => {
+export const saveUser = ({ id, body, saveMethod, message }) => {
   const path = saveMethod === SAVE_METHODS.update ? `${RECORD_PATH.users}/${id}` : RECORD_PATH.users;
 
   return {
@@ -36,35 +36,7 @@ export const saveUser = ({ id, body, dialogName, saveMethod, message, failureMes
           redirect: `/admin/${path}`
         },
         {
-          action: SET_DIALOG,
-          payload: {
-            dialog: dialogName,
-            open: false
-          }
-        },
-        {
-          action: SET_DIALOG_PENDING,
-          payload: {
-            pending: false
-          }
-        }
-      ],
-      failureCallback: [
-        {
-          action: ENQUEUE_SNACKBAR,
-          payload: {
-            message: failureMessage,
-            options: {
-              variant: "error",
-              key: generate.messageKey(failureMessage)
-            }
-          }
-        },
-        {
-          action: SET_DIALOG_PENDING,
-          payload: {
-            pending: false
-          }
+          action: CLEAR_DIALOG
         }
       ]
     }

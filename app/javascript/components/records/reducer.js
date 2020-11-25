@@ -1,6 +1,7 @@
 import { fromJS, Map, List } from "immutable";
 
 import { mergeRecord } from "../../libs";
+import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, RECORD_TYPES } from "../../config";
 
 import {
   RECORDS_STARTED,
@@ -17,7 +18,19 @@ import {
   RECORD_FAILURE,
   RECORD_FINISHED,
   SERVICE_REFERRED_SAVE,
-  FETCH_RECORD_ALERTS_SUCCESS
+  FETCH_RECORD_ALERTS_SUCCESS,
+  FETCH_INCIDENT_FROM_CASE_SUCCESS,
+  CLEAR_METADATA,
+  CLEAR_CASE_FROM_INCIDENT,
+  SET_CASE_ID_FOR_INCIDENT,
+  SET_CASE_ID_REDIRECT,
+  SET_SELECTED_RECORD,
+  CLEAR_SELECTED_RECORD,
+  SAVE_ATTACHMENT_SUCCESS,
+  DELETE_ATTACHMENT_SUCCESS,
+  SET_ATTACHMENT_STATUS,
+  UPDATE_ATTACHMENTS,
+  CLEAR_RECORD_ATTACHMENTS
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -31,20 +44,28 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("errors", true);
     case `${namespace}/${RECORDS_SUCCESS}`: {
       const { data, metadata } = payload;
+      const selectedRecordId = state.get("selectedRecord");
+      const selectedRecordWillUpdate = selectedRecordId
+        ? data.some(recordUpdate => recordUpdate.id === selectedRecordId)
+        : false;
+      const selectedRecord =
+        selectedRecordId && !selectedRecordWillUpdate
+          ? state.get("data").find(record => record.get("id") === selectedRecordId)
+          : null;
 
       return state
-        .update("data", u => {
+        .update("data", records => {
           return fromJS(
-            data.map(d => {
-              const index = u.findIndex(r => r.get("id") === d.id);
+            data.map(recordUpdate => {
+              const index = records.findIndex(record => record.get("id") === recordUpdate.id);
 
               if (index !== -1) {
-                return mergeRecord(u.get(index), fromJS(d));
+                return mergeRecord(records.get(index), fromJS(recordUpdate));
               }
 
-              return d;
+              return recordUpdate;
             })
-          );
+          ).concat(selectedRecord?.toSeq()?.size ? fromJS([selectedRecord]) : fromJS([]));
         })
         .set("metadata", fromJS(metadata));
     }
@@ -112,6 +133,83 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       }
 
       return state;
+    }
+    case `${namespace}/${CLEAR_METADATA}`:
+      return state.set("metadata", fromJS(DEFAULT_METADATA));
+    case `${namespace}/${FETCH_INCIDENT_FROM_CASE_SUCCESS}`:
+      return RECORD_TYPES[namespace] === RECORD_TYPES.cases
+        ? state.setIn(["incidentFromCase", "data"], fromJS(payload.data))
+        : state;
+    case `${namespace}/${SET_CASE_ID_FOR_INCIDENT}`:
+      return RECORD_TYPES[namespace] === RECORD_TYPES.cases
+        ? state
+            .setIn(["incidentFromCase", INCIDENT_CASE_ID_FIELD], payload.caseId)
+            .setIn(["incidentFromCase", INCIDENT_CASE_ID_DISPLAY_FIELD], payload.caseIdDisplay)
+        : state;
+    case `${namespace}/${CLEAR_CASE_FROM_INCIDENT}`:
+      return state.delete("incidentFromCase");
+    case `${namespace}/${SET_CASE_ID_REDIRECT}`: {
+      return RECORD_TYPES[namespace] === RECORD_TYPES.cases
+        ? state.setIn(["incidentFromCase", INCIDENT_CASE_ID_FIELD], payload.json?.data?.id)
+        : state;
+    }
+    case `${namespace}/${SET_SELECTED_RECORD}`: {
+      return state.setIn(["selectedRecord"], payload.id);
+    }
+    case `${namespace}/${CLEAR_SELECTED_RECORD}`: {
+      return state.delete("selectedRecord");
+    }
+    case `${namespace}/${DELETE_ATTACHMENT_SUCCESS}`: {
+      const selectedRecord = state.get("selectedRecord");
+
+      if (!selectedRecord || selectedRecord !== payload?.data?.record?.id) {
+        return state;
+      }
+
+      return state.updateIn(["recordAttachments", payload.data.field_name, "data"], data =>
+        (data?.size ? data : fromJS([])).push(fromJS({ ...payload.data, _destroyed: true }))
+      );
+    }
+    case `${namespace}/${SAVE_ATTACHMENT_SUCCESS}`: {
+      const selectedRecord = state.get("selectedRecord");
+
+      if (!selectedRecord || selectedRecord !== payload?.data?.record?.id) {
+        return state;
+      }
+
+      return state.updateIn(["recordAttachments", payload.data.field_name, "data"], data =>
+        (data || fromJS([])).push(fromJS(payload.data))
+      );
+    }
+    case `${namespace}/${SET_ATTACHMENT_STATUS}`: {
+      return state.updateIn(["recordAttachments", payload.fieldName], data =>
+        (data?.size ? data : fromJS({})).merge(fromJS(payload))
+      );
+    }
+    case `${namespace}/${UPDATE_ATTACHMENTS}`: {
+      const attachments = state.get("recordAttachments", fromJS({}));
+      const index = state.get("data").findIndex(record => record.get("id") === payload.id);
+
+      return attachments
+        .entrySeq()
+        .filter(([, value]) => !value.get("processing") && !value.get("error"))
+        .reduce(
+          (acc, [key, value]) =>
+            acc.updateIn(["data", index, key], data => {
+              const updatedData = value.get("data", fromJS([]));
+              const destroyedIds = updatedData
+                .filter(updated => updated.get("_destroyed"))
+                .map(updated => updated.get("id"));
+
+              return data
+                .filter(current => current.get("id") && !destroyedIds.includes(current.get("id")))
+                .concat(updatedData.filter(updated => !updated.get("_destroyed")));
+            }),
+          state
+        );
+    }
+    case `${namespace}/${CLEAR_RECORD_ATTACHMENTS}`: {
+      return state.set("recordAttachments", fromJS({}));
     }
     default:
       return state;

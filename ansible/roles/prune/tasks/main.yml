@@ -1,0 +1,8 @@
+---
+- name: 'prune dangling Docker images'
+  command: |
+    docker image prune -f
+
+- name: 'prune dangling Docker volumes'
+  command: |
+    docker volume prune -f

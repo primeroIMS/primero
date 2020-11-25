@@ -12,14 +12,14 @@ import { getChangeLogs } from "./selectors";
 import styles from "./styles.css";
 import ChangeLogItems from "./components/change-log-items";
 
-const Component = ({ close, openChangeLog, record, recordType }) => {
+const Component = ({ close, open, record, recordType }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const recordChangeLogs = useSelector(state => getChangeLogs(state, record?.get("id"), recordType));
 
   return (
     <ActionDialog
-      open={openChangeLog}
+      open={open}
       onClose={close}
       cancelHandler={close}
       disableActions
@@ -38,7 +38,7 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   close: PropTypes.func,
-  openChangeLog: PropTypes.bool,
+  open: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired
 };

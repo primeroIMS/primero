@@ -9,7 +9,8 @@ import { useLocation } from "react-router-dom";
 import qs from "qs";
 
 import Panel from "../../panel";
-import { getOption, getLocations } from "../../../../record-form";
+import { getOption, getLocations, getReportingLocations } from "../../../../record-form";
+import { getReportingLocationConfig } from "../../../../user/selectors";
 import { useI18n } from "../../../../i18n";
 import styles from "../styles.css";
 import {
@@ -17,11 +18,13 @@ import {
   whichOptions,
   handleMoreFiltersChange,
   resetSecondaryFilter,
-  setMoreFilterOnPrimarySection
+  setMoreFilterOnPrimarySection,
+  buildFilterLookups
 } from "../utils";
 import handleFilterChange from "../value-handlers";
 
 import { NAME } from "./constants";
+import { getOptionName } from "./utils";
 
 const Component = ({
   addFilterToList,
@@ -46,7 +49,13 @@ const Component = ({
 
   const locations = useSelector(state => getLocations(state, optionStringsSource === "Location"));
 
-  const lookups = ["Location"].includes(optionStringsSource) ? locations?.toJS() : lookup;
+  const adminLevel = useSelector(state => getReportingLocationConfig(state).get("admin_level"));
+  const reportingLocations = useSelector(
+    state => getReportingLocations(state, adminLevel),
+    (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
+  );
+
+  const lookups = buildFilterLookups(optionStringsSource, locations, reportingLocations, lookup);
 
   const setSecondaryValues = (name, values) => {
     setValue(name, values);
@@ -133,17 +142,7 @@ const Component = ({
       [foundOption] = lookups.filter(lookupValue => [lookupValue?.code, lookupValue?.id].includes(option));
     }
 
-    return (
-      // eslint-disable-next-line camelcase
-      foundOption?.display_name ||
-      // eslint-disable-next-line camelcase
-      foundOption?.display_text ||
-      // eslint-disable-next-line camelcase
-      foundOption?.display_name?.[i18n.locale] ||
-      // eslint-disable-next-line camelcase
-      foundOption?.display_text?.[i18n.locale] ||
-      foundOption?.name?.[i18n.locale]
-    );
+    return getOptionName(foundOption, i18n);
   };
 
   return (

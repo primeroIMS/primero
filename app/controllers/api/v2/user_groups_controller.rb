@@ -8,7 +8,8 @@ class Api::V2::UserGroupsController < ApplicationApiController
   def index
     authorize! :index, UserGroup
     @total = UserGroup.all.size
-    @user_groups = UserGroup.paginate(pagination)
+    @user_groups = UserGroup.all
+    @user_groups = @user_groups.paginate(pagination) if pagination?
   end
 
   def show
@@ -35,7 +36,7 @@ class Api::V2::UserGroupsController < ApplicationApiController
   end
 
   def user_group_params
-    params.require(:data).permit(:id, :unique_id, :name, :description)
+    params.require(:data).permit(:id, :unique_id, :name, :description, :disabled)
   end
 
   protected

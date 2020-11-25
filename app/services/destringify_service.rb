@@ -33,12 +33,6 @@ class DestringifyService
       rescue ArgumentError
         value
       end
-    when ::PrimeroDate::DATE_REGEX # TODO: This is a hack, but we'll fix dates later
-      begin
-        PrimeroDate.parse_with_format(value)
-      rescue ArgumentError
-        value
-      end
     when /^(true|false)$/
       ::ActiveRecord::Type::Boolean.new.cast(value)
     when /^\d+$/
@@ -54,7 +48,7 @@ class DestringifyService
         value.map { |k, v| [k, destringify(v, lists_and_ranges)] }.to_h
       end
     else
-      if lists_and_ranges
+      if lists_and_ranges && value.is_a?(String)
         if value.match?(/,/)
           value.split(',').map { |v| destringify(v, lists_and_ranges) }
         elsif value.match?(/\.\./)

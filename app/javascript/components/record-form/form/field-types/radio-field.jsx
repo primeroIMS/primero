@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+/* eslint-disable react/display-name,  react/no-multi-comp */
+
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { FormControlLabel, FormHelperText, Radio, FormControl, InputLabel, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,6 +22,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
   const option = field.option_strings_source || field.option_strings_text;
 
   const value = getIn(formik.values, name);
+  const [stickyOption] = useState(value);
 
   const radioProps = {
     control: <Radio disabled={disabled} />,
@@ -28,7 +31,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
     }
   };
 
-  const options = useSelector(state => getOption(state, option, i18n));
+  const options = useSelector(state => getOption(state, option, i18n.locale, stickyOption));
 
   const fieldProps = {
     name,
@@ -46,6 +49,22 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
     }
   }, []);
 
+  const renderFormControl = opt => {
+    const optLabel = typeof opt.display_text === "object" ? opt.display_text[i18n.locale] : opt.display_text;
+
+    return (
+      <FormControlLabel
+        disabled={opt.isDisabled || mode.isShow}
+        key={`${name}-${opt.id}`}
+        value={opt.id.toString()}
+        label={optLabel}
+        {...radioProps}
+      />
+    );
+  };
+
+  const renderOption = options.length > 0 && options.map(opt => renderFormControl(opt));
+
   return (
     <FormControl fullWidth error={!!(fieldError && fieldTouched)}>
       <InputLabel shrink htmlFor={fieldProps.name} className={css.inputLabel}>
@@ -60,17 +79,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
               value={String(value)}
               onChange={(e, val) => form.setFieldValue(fieldProps.name, val, true)}
             >
-              <Box display="flex">
-                {options.length > 0 &&
-                  options.map(o => (
-                    <FormControlLabel
-                      key={o.id}
-                      value={o.id.toString()}
-                      label={o.display_text[i18n.locale]}
-                      {...radioProps}
-                    />
-                  ))}
-              </Box>
+              <Box display="flex">{renderOption}</Box>
             </RadioGroup>
           );
         }}

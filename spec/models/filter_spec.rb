@@ -16,7 +16,10 @@ describe Filter do
       description: 'Gender Based Violence',
       associated_record_types: %w[case tracing_request incident],
       primero_program: @program,
-      form_sections: [FormSection.create!(name: 'form_2')]
+      form_sections: [FormSection.create!(name: 'form_2')],
+      module_options: {
+        user_group_filter: true
+      },
     )
     @cp = PrimeroModule.create!(
       unique_id: 'primeromodule-cp',
@@ -29,23 +32,13 @@ describe Filter do
     @role_a = Role.create!(
       name: 'Test Role 1',
       unique_id: 'test-role-1',
-      permissions: [
-        Permission.new(
-          resource: Permission::CASE,
-          actions: [Permission::MANAGE]
-        )
-      ],
+      permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
       modules: [@cp]
     )
     @role_b = Role.create!(
       name: 'Test Role 2',
       unique_id: 'test-role-2',
-      permissions: [
-        Permission.new(
-          resource: Permission::CASE,
-          actions: [Permission::MANAGE]
-        )
-      ],
+      permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
       modules: [@cp, @gbv]
     )
     @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
@@ -70,7 +63,9 @@ describe Filter do
     SystemSettings.create!(
       primary_age_range: 'primary',
       age_ranges: { 'primary' => [1..2, 3..4] },
-      default_locale: 'en'
+      default_locale: 'en',
+      reporting_location_config: { field_key: 'owned_by_location', admin_level: 2,
+                                   admin_level_map: { '1' => ['region'], '2' => ['district'] } }
     )
     @system_settings = SystemSettings.current
     SystemSettings.current(true)
@@ -112,7 +107,7 @@ describe Filter do
       end
 
       it 'has status filter' do
-        expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'tracing_requests.filter_by.status',
+        expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'cases.filter_by.status',
                                                                    field_name: 'status', type: 'checkbox'))
       end
 
@@ -143,10 +138,10 @@ describe Filter do
                                                                    type: 'multi_select'))
       end
 
-      # TODO: This test isn't working.  Not sure if it is because of the '2' in field_name
-      # + Filter(name: location.base_types.district, field_name: 2, type: multi_select),
-      xit 'has reporting location filter' do
-        expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'location.base_types.distric', field_name: 2,
+      # TODO: test with different reporting location levels
+      it 'has reporting location filter' do
+        expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'location.base_types.district',
+                                                                   field_name: 'owned_by_location2',
                                                                    type: 'multi_select'))
       end
 
@@ -181,8 +176,8 @@ describe Filter do
     end
 
     describe 'case filters' do
-      it 'has 18 filters' do
-        expect(@filters_cp_gbv[0]['cases'].count).to eq(18)
+      it 'has 19 filters' do
+        expect(@filters_cp_gbv[0]['cases'].count).to eq(19)
       end
 
       it 'has filters' do
@@ -206,6 +201,12 @@ describe Filter do
                                                                        type: 'dates'))
       end
 
+      it 'has user_group filter' do
+        expect(@filters_cp_gbv[0]['cases']).to include(have_attributes(name: 'permissions.permission.user_group',
+                                                                       field_name: 'owned_by_groups',
+                                                                       type: 'toggle'))
+      end
+
       it 'has date options' do
         filter_by_date_cp = [
           { id: 'registration_date', display_name: 'Date of Registration' },
@@ -214,8 +215,10 @@ describe Filter do
           { id: 'date_closure', display_name: 'Date of Case Closure ' },
           { id: 'created_at', display_name: 'Case Open Date' }
         ]
-        # TODO: Hard coding the index '16' is brittle.  Find a better way to test this
-        expect(@filters_cp_gbv[0]['cases'][16].options[:en]).to eq(filter_by_date_cp)
+        expect(
+          @filters_cp_gbv.dig(0, 'cases')
+                        .find { |filter| filter.name == 'cases.filter_by.by_date' }
+                        .options[:en]).to eq(filter_by_date_cp)
       end
     end
   end

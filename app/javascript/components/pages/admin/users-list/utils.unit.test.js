@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 
 import { FILTER_TYPES } from "../../../index-filters";
 
-import { DISABLED, AGENCY } from "./constants";
+import { DISABLED, AGENCY, USER_GROUP } from "./constants";
 import * as helper from "./utils";
 
 describe("<AuditLogs /> - Helpers", () => {
@@ -37,8 +37,8 @@ describe("<AuditLogs /> - Helpers", () => {
 
   describe("getFilters", () => {
     it("should return the correct object to build users filters", () => {
-      const i18n = { t: value => value };
-      const options = fromJS([{ id: 1, name: "Agency 1" }]);
+      const i18n = { t: value => value, locale: "en" };
+      const options = fromJS([{ id: 1, name: { en: "Agency 1" } }]);
 
       const expected = [
         {
@@ -63,11 +63,23 @@ describe("<AuditLogs /> - Helpers", () => {
             }
           ],
           type: FILTER_TYPES.MULTI_SELECT,
-          multiple: false
+          multiple: false,
+          permitted_filter: false
+        },
+        {
+          field_name: USER_GROUP,
+          multiple: false,
+          name: "cases.filter_by.user_group",
+          options: [],
+          type: FILTER_TYPES.MULTI_SELECT
         }
       ];
 
-      expect(helper.getFilters(i18n, options)).to.deep.equal(expected);
+      const filterPermission = {
+        agency: false
+      };
+
+      expect(helper.getFilters(i18n, options, null, filterPermission)).to.deep.equal(expected);
     });
   });
 });

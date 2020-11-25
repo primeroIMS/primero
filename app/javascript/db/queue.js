@@ -10,7 +10,7 @@ const queueIndexedDB = {
   },
 
   add: action => {
-    DB.add(DB_STORES.OFFLINE_REQUESTS, action);
+    [].concat(action).forEach(current => DB.add(DB_STORES.OFFLINE_REQUESTS, current));
     EventManager.publish(QUEUE_ADD, action);
   },
 

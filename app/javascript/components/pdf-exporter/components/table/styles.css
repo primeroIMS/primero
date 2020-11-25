@@ -1,0 +1,25 @@
+.cell {
+  display: flex;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+
+  & > div { 
+    display: flex;
+    flex: 1;
+    padding: 10px;
+  }
+
+  & > div:first-of-type {
+    border-right: 1px solid #ddd;
+  }
+}
+
+.seperator {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.subform {
+  background: #fff;
+}

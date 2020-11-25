@@ -9,7 +9,7 @@ import { ACTIONS } from "../../../libs/permissions";
 
 import { NAME } from "./constants";
 
-const ToggleOpen = ({ close, openReopenDialog, record, recordType }) => {
+const ToggleOpen = ({ close, open, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const setValue = record && record.get("status") === "open" ? "close" : "reopen";
@@ -23,14 +23,23 @@ const ToggleOpen = ({ close, openReopenDialog, record, recordType }) => {
 
   const handleOk = () => {
     dispatch(
-      saveRecord(recordType, "update", body, record.get("id"), i18n.t(`cases.${setValue}_success`), false, false, false)
+      saveRecord(
+        recordType,
+        "update",
+        body,
+        record.get("id"),
+        i18n.t(`cases.${setValue}_success`),
+        i18n.t("offline_submitted_changes"),
+        false,
+        false
+      )
     );
     close();
   };
 
   return (
     <ActionDialog
-      open={openReopenDialog}
+      open={open}
       successHandler={handleOk}
       cancelHandler={close}
       dialogTitle={i18n.t(`cases.${setValue}_dialog_title`)}
@@ -44,7 +53,7 @@ ToggleOpen.displayName = NAME;
 
 ToggleOpen.propTypes = {
   close: PropTypes.func,
-  openReopenDialog: PropTypes.bool,
+  open: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string
 };

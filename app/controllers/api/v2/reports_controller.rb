@@ -39,7 +39,8 @@ class Api::V2::ReportsController < ApplicationApiController
 
   def report_params
     params.require(:data).permit(
-      :record_type, :module_id, :graph, :aggregate_counts_from, :group_ages, :group_dates_by, :add_default_filters,
+      :record_type, :module_id, :graph, :aggregate_counts_from, :group_ages,
+      :group_dates_by, :add_default_filters, :disabled,
       name: {}, description: {}, fields: [:name, position: {}],
       filters: [[:attribute, :constraint, value: []], %i[attribute constraint value]]
     )
@@ -54,6 +55,6 @@ class Api::V2::ReportsController < ApplicationApiController
   private
 
   def report_permission_filter(user)
-    { 'attribute' => 'owned_by_groups', 'value' => user.user_group_ids } unless can?(:read, @report)
+    { 'attribute' => 'owned_by_groups', 'value' => user.user_group_unique_ids } unless can?(:read, @report)
   end
 end

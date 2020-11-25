@@ -24,7 +24,25 @@
   min-height: 30px;
 }
 
-.subformHeader { display:inline-block; padding:0; text-align:center }
+.subformHeader {
+  display: inline-block;
+  padding: 0;
+  text-align: center;
+
+  & button {
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.27;
+    letter-spacing: normal;
+    color: $(theme.primero.colors.blue);
+    text-transform: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
 
 .subformHeader span { display:inline }
 

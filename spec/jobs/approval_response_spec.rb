@@ -5,7 +5,7 @@ describe ApprovalResponseJob, type: :job do
 
   before do
     [PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role].each(&:destroy_all)
-    @lookup = create :lookup, id: 'lookup-approval-type', name: 'approval type'
+    @lookup = Lookup.create(id: 'lookup-approval-type', name: 'approval type')
     role = create :role, is_manager: true
     @manager1 = create :user, role: role, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
     @manager2 = create :user, role: role, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'
@@ -19,6 +19,10 @@ describe ApprovalResponseJob, type: :job do
       ApprovalResponseJob.perform_later(@manager2.id, @child.id, 'value1', true)
       expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(1)
     end
+  end
+
+  after :each do
+    clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role)
   end
 
   private

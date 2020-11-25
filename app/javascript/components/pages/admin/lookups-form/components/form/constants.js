@@ -3,3 +3,4 @@
 import { NAME as LookupsFormName } from "../../constants";
 
 export const NAME = `${LookupsFormName}Form`;
+export const TEMP_OPTION_ID = "new_option";

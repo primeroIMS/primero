@@ -45,12 +45,9 @@ module Reopenable
 
   def update_reopened_logs
     return unless case_status_reopened
+    return unless changes_to_save_for_record['status'] == [Record::STATUS_CLOSED, Record::STATUS_OPEN]
 
-    changes = changes_to_save_for_record
-    if changes['status'] == [Record::STATUS_CLOSED, Record::STATUS_OPEN] &&
-       changes['case_status_reopened'][1] == true
-      add_reopened_log(last_updated_by)
-    end
+    add_reopened_log(last_updated_by)
   end
 
   def close_record

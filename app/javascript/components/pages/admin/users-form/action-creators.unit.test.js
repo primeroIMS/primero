@@ -1,12 +1,16 @@
 import { stub } from "../../../../test";
 import { RECORD_PATH } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../../../record-actions/actions";
+import { CLEAR_DIALOG } from "../../../action-dialog";
 
 import * as actionsCreators from "./action-creators";
 import actions from "./actions";
 
 describe("<UsersForm /> - Action Creators", () => {
+  beforeEach(() => {
+    stub(generate, "messageKey").returns(4);
+  });
+
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
@@ -30,8 +34,6 @@ describe("<UsersForm /> - Action Creators", () => {
   });
 
   it("should check that 'saveUser' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
-
     const args = {
       id: 10,
       body: {
@@ -63,42 +65,16 @@ describe("<UsersForm /> - Action Creators", () => {
             redirect: `/admin/${RECORD_PATH.users}/10`
           },
           {
-            action: SET_DIALOG,
-            payload: {
-              dialog: args.dialogName,
-              open: false
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
-          }
-        ],
-        failureCallback: [
-          {
-            action: ENQUEUE_SNACKBAR,
-            payload: {
-              message: args.failureMessage,
-              options: {
-                variant: "error",
-                key: 4
-              }
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
+            action: CLEAR_DIALOG
           }
         ]
       }
     };
 
     expect(actionsCreators.saveUser(args)).to.deep.equal(expectedAction);
+  });
 
+  afterEach(() => {
     generate.messageKey.restore();
   });
 });

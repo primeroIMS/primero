@@ -1,11 +1,13 @@
 import qs from "qs";
 
 import { attemptSignout } from "../components/user";
-import { FETCH_TIMEOUT } from "../config";
+import { FETCH_TIMEOUT, ROUTES } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
-import { signOut } from "../components/pages/login/idp-selection";
+import { signOut } from "../components/login/components/idp-selection";
 import EventManager from "../libs/messenger";
-import { QUEUE_FAILED, QUEUE_SKIP } from "../libs/queue";
+import { QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS } from "../libs/queue";
+import { applyingConfigMessage } from "../components/pages/admin/configurations-form/action-creators";
+import { disableNavigation } from "../components/application/action-creators";
 
 import {
   handleRestCallback,
@@ -13,7 +15,10 @@ import {
   partitionObject,
   processAttachments,
   defaultErrorCallback,
-  startSignout
+  startSignout,
+  processSubforms,
+  handleConfiguration,
+  isServerOnline
 } from "./utils";
 
 const defaultFetchOptions = {
@@ -53,6 +58,7 @@ const deleteFromQueue = fromQueue => {
 
 async function handleSuccess(store, payload) {
   const { type, json, db, fromQueue } = payload;
+
   const payloadFromDB = await syncIndexedDB(db, json);
 
   deleteFromQueue(fromQueue);
@@ -76,6 +82,12 @@ const messageQueueFailed = fromQueue => {
 const messageQueueSkip = fromQueue => {
   if (fromQueue) {
     EventManager.publish(QUEUE_SKIP);
+  }
+};
+
+const messageQueueSuccess = action => {
+  if (action?.fromQueue) {
+    EventManager.publish(QUEUE_SUCCESS, action);
   }
 };
 
@@ -104,69 +116,17 @@ const fetchParamsBuilder = (api, options, controller) => {
   return { fetchOptions, fetchPath };
 };
 
-const fetchMultiPayload = (action, store, options) => {
-  const controller = new AbortController();
-
-  setTimeout(() => {
-    controller.abort();
-  }, FETCH_TIMEOUT);
-
-  const { type, finishedCallback } = action;
-
-  const fetchParams = action.api.map(apiParams => fetchParamsBuilder(apiParams, options, controller));
-
-  const fetch = async () => {
-    fetchStatus({ store, type }, "STARTED", true);
-    const responses = await Promise.allSettled(
-      fetchParams.map(fetchParam =>
-        window
-          .fetch(fetchParam.fetchPath, fetchParam.fetchOptions)
-          .then(response =>
-            response
-              .json()
-              .then(json => ({
-                path: fetchParam.fetchPath,
-                status: response.status,
-                ok: response.ok,
-                json
-              }))
-              .catch(error => ({
-                path: fetchParam.fetchPath,
-                status: response.status,
-                ok: response.ok,
-                error
-              }))
-          )
-          .catch(error => ({
-            path: fetchParam.fetchPath,
-            ok: false,
-            error: error?.message
-          }))
-      )
-    );
-
-    const results = responses.map(result => result.value);
-
-    if (results.find(result => result && result.status === 401)) {
-      fetchStatus({ store, type }, "FAILURE", results);
-
-      startSignout(store, attemptSignout, signOut);
-    } else {
-      store.dispatch({
-        type: `${type}_SUCCESS`,
-        payload: responses.map(result => result.value)
-      });
-
-      fetchStatus({ store, type }, "FINISHED", false);
-
-      if (finishedCallback) {
-        store.dispatch(finishedCallback);
+const buildAttachmentData = action =>
+  action.type.includes("ATTACHMENT")
+    ? {
+        data: {
+          id: action?.fromAttachment?.id,
+          record: action?.fromAttachment?.record,
+          // eslint-disable-next-line camelcase
+          field_name: action?.fromAttachment?.field_name
+        }
       }
-    }
-  };
-
-  return fetch();
-};
+    : {};
 
 const fetchSinglePayload = (action, store, options) => {
   const controller = new AbortController();
@@ -187,6 +147,7 @@ const fetchSinglePayload = (action, store, options) => {
       normalizeFunc,
       successCallback,
       failureCallback,
+      configurationCallback,
       db,
       external,
       queueAttachments
@@ -226,46 +187,66 @@ const fetchSinglePayload = (action, store, options) => {
 
     try {
       const response = await window.fetch(fetchPath, fetchOptions);
-      const json = await response.json();
+      const { status } = response;
+      const url = response.url.split("/");
+      const checkHealthUrl = url.slice(url.length - 2, url.length).join("/");
 
-      if (!response.ok) {
-        fetchStatus({ store, type }, "FAILURE", json);
-
-        if (response.status === 404) {
-          deleteFromQueue(fromQueue);
-          messageQueueSkip();
-        } else if (failureCallback) {
-          messageQueueFailed(fromQueue);
-          handleRestCallback(store, failureCallback, response, json);
-        } else {
-          messageQueueFailed(fromQueue);
-          defaultErrorCallback(store, response, json);
-        }
-
-        if (response.status === 401) {
-          startSignout(store, attemptSignout, signOut);
-        }
+      if (status === 503 || (status === 204 && `/${checkHealthUrl}` === ROUTES.check_health)) {
+        handleConfiguration(status, store, options, response, { fetchStatus, fetchSinglePayload, type });
       } else {
-        await handleSuccess(store, {
-          type,
-          json,
-          normalizeFunc,
-          path,
-          db,
-          fromQueue
-        });
+        const json =
+          status === 204 ? { data: { id: body?.data?.id }, ...buildAttachmentData(action) } : await response.json();
 
-        if (attachments) {
-          processAttachments({
-            attachments,
-            id: id || json?.data?.id,
-            recordType
+        if (!response.ok) {
+          fetchStatus({ store, type }, "FAILURE", json);
+
+          if (status === 404) {
+            deleteFromQueue(fromQueue);
+            messageQueueSkip();
+          } else if (fromQueue) {
+            messageQueueFailed(fromQueue);
+            defaultErrorCallback(store, response, json, recordType, fromQueue, id);
+          } else if (failureCallback) {
+            messageQueueFailed(fromQueue);
+            handleRestCallback(store, failureCallback, response, json, fromQueue);
+          } else {
+            messageQueueFailed(fromQueue);
+            defaultErrorCallback(store, response, json);
+          }
+
+          if (status === 401) {
+            startSignout(store, attemptSignout, signOut);
+          }
+        } else {
+          await handleSuccess(store, {
+            type,
+            json,
+            normalizeFunc,
+            path,
+            db,
+            fromQueue
           });
-        }
 
-        handleRestCallback(store, successCallback, response, json, fromQueue);
+          messageQueueSuccess(action);
+
+          handleRestCallback(store, successCallback, response, json, fromQueue);
+
+          if (attachments) {
+            processAttachments({
+              attachments,
+              id: id || json?.data?.id,
+              recordType
+            });
+          }
+        }
+        fetchStatus({ store, type }, "FINISHED", false);
+
+        if (configurationCallback && response.ok) {
+          store.dispatch(disableNavigation());
+          handleRestCallback(store, applyingConfigMessage(), response, {});
+          fetchSinglePayload(configurationCallback, store, options);
+        }
       }
-      fetchStatus({ store, type }, "FINISHED", false);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn(e);
@@ -274,10 +255,97 @@ const fetchSinglePayload = (action, store, options) => {
 
       fetchStatus({ store, type }, "FAILURE", false);
 
-      if (failureCallback) {
+      if (fromQueue) {
+        defaultErrorCallback(store, {}, {}, recordType, fromQueue, id);
+      } else if (failureCallback) {
         handleRestCallback(store, failureCallback, {}, {});
       } else {
         defaultErrorCallback(store, {}, {});
+      }
+    }
+  };
+
+  return fetch();
+};
+
+const fetchMultiPayload = (action, store, options) => {
+  const controller = new AbortController();
+
+  setTimeout(() => {
+    controller.abort();
+  }, FETCH_TIMEOUT);
+
+  const { type, finishedCallback, finishedCallbackSubforms } = action;
+
+  const fetchParams = action.api.map(apiParams => fetchParamsBuilder(apiParams, options, controller));
+
+  const fetch = async () => {
+    fetchStatus({ store, type }, "STARTED", true);
+    const responses = await Promise.allSettled(
+      fetchParams.map(fetchParam =>
+        window
+          .fetch(fetchParam.fetchPath, fetchParam.fetchOptions)
+          .then(response =>
+            response
+              .json()
+              .then(json => {
+                let newJson = json;
+
+                if (!response.ok) {
+                  newJson = {
+                    ...newJson,
+                    errors: newJson.errors.map(error =>
+                      error.detail
+                        ? { ...error, value: JSON.parse(fetchParam.fetchOptions.body).data[error.detail] }
+                        : error
+                    )
+                  };
+                }
+
+                return {
+                  path: fetchParam.fetchPath,
+                  status: response.status,
+                  ok: response.ok,
+                  json: newJson
+                };
+              })
+              .catch(error => ({
+                path: fetchParam.fetchPath,
+                status: response.status,
+                ok: response.ok,
+                error
+              }))
+          )
+          .catch(error => ({
+            path: fetchParam.fetchPath,
+            ok: false,
+            error: error?.message
+          }))
+      )
+    );
+
+    const results = responses.map(result => result.value);
+
+    if (results.find(result => result && result.status === 401)) {
+      fetchStatus({ store, type }, "FAILURE", results);
+
+      startSignout(store, attemptSignout, signOut);
+    } else {
+      store.dispatch({
+        type: `${type}_SUCCESS`,
+        payload: responses.map(result => result.value)
+      });
+
+      fetchStatus({ store, type }, "FINISHED", false);
+
+      if (finishedCallback) {
+        store.dispatch(finishedCallback);
+      }
+
+      if (finishedCallbackSubforms) {
+        const subformsCallback = processSubforms(finishedCallbackSubforms, responses);
+
+        fetchSinglePayload(subformsCallback, store, options);
       }
     }
   };
@@ -326,8 +394,14 @@ const fetchFromCache = (action, store, options, next) => {
 };
 
 const restMiddleware = options => store => next => action => {
-  if (!(action.api && (Array.isArray(action.api) || "path" in action.api)) || !isOnline(store)) {
-    return next(action);
+  if (
+    !(action.api && (Array.isArray(action.api) || "path" in action.api)) ||
+    !isOnline(store) ||
+    !isServerOnline(store)
+  ) {
+    if (action?.api?.path !== ROUTES.check_server_health) {
+      return next(action);
+    }
   }
 
   if (action?.api?.db?.alwaysCache) {

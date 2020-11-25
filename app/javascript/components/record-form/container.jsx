@@ -12,13 +12,32 @@ import PageContainer from "../page";
 import Transitions, { fetchTransitions } from "../transitions";
 import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";
-import { fetchRecord, saveRecord, selectRecord } from "../records";
-import { APPROVALS, RECORD_TYPES, REFERRAL, RECORD_OWNER, TRANSITION_TYPE, RECORD_PATH } from "../../config";
+import {
+  clearSelectedRecord,
+  fetchRecord,
+  getIncidentFromCase,
+  saveRecord,
+  selectRecord,
+  setSelectedRecord,
+  getCaseIdForIncident,
+  fetchIncidentwitCaseId
+} from "../records";
+import {
+  APPROVALS,
+  RECORD_TYPES,
+  RECORD_OWNER,
+  TRANSITION_TYPE,
+  RECORD_PATH,
+  REFERRAL,
+  INCIDENT_FROM_CASE
+} from "../../config";
+import { REFER_FROM_SERVICE } from "../../libs/permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
-import { getLoadingRecordState } from "../records/selectors";
+import IncidentFromCase from "../incidents-from-case";
+import { getIsProcessingSomeAttachment, getLoadingRecordState, getRecordAttachments } from "../records/selectors";
 import { usePermissions } from "../user";
-import { fetchRecordsAlerts } from "../records/action-creators";
+import { clearRecordAttachments, fetchRecordsAlerts, updateRecordAttachments } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
 import { fetchChangeLogs } from "../record-actions/change-logs/action-creators";
 
@@ -28,7 +47,7 @@ import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
 import { getFirstTab, getFormNav, getRecordForms, getLoadingState, getErrors, getSelectedForm } from "./selectors";
-import { compactValues } from "./utils";
+import { compactValues, getRedirectPath } from "./utils";
 
 const Container = ({ match, mode }) => {
   let submitForm = null;
@@ -47,6 +66,9 @@ const Container = ({ match, mode }) => {
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
 
+  const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
+  const fetchFromCaseId = useSelector(state => getCaseIdForIncident(state, recordType));
+
   const record = useSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
 
   const userPermittedFormsIds = useSelector(state => getPermittedFormsIds(state));
@@ -64,6 +86,8 @@ const Container = ({ match, mode }) => {
   const loadingRecord = useSelector(state => getLoadingRecordState(state, params.recordType));
   const errors = useSelector(state => getErrors(state));
   const selectedForm = useSelector(state => getSelectedForm(state));
+  const isProcessingSomeAttachment = useSelector(state => getIsProcessingSomeAttachment(state, params.recordType));
+  const recordAttachments = useSelector(state => getRecordAttachments(state, params.recordType));
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -80,29 +104,44 @@ const Container = ({ match, mode }) => {
   const formProps = {
     onSubmit: (initialValues, values) => {
       const saveMethod = containerMode.isEdit ? "update" : "save";
+      const { incidentPath } = values;
+
+      if (incidentPath) {
+        // eslint-disable-next-line no-param-reassign
+        delete values.incidentPath;
+      }
       const body = {
         data: {
           ...compactValues(values, initialValues),
           ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {})
         }
       };
-      const message = queue => {
-        const appendQueue = queue ? "_queue" : "";
-
+      const message = () => {
         return containerMode.isEdit
-          ? i18n.t(`${recordType}.messages.update_success${appendQueue}`, {
+          ? i18n.t(`${recordType}.messages.update_success`, {
               record_id: record.get("short_id")
             })
-          : i18n.t(`${recordType}.messages.creation_success${appendQueue}`, recordType);
+          : i18n.t(`${recordType}.messages.creation_success`, recordType);
       };
 
-      const redirect = containerMode.isNew ? `/${params.recordType}` : `/${params.recordType}/${params.id}`;
-
-      batch(async () => {
-        await dispatch(saveRecord(params.recordType, saveMethod, body, params.id, message(), message(true), redirect));
-        if (containerMode.isEdit) {
-          dispatch(fetchRecordsAlerts(params.recordType, params.id));
-        }
+      batch(() => {
+        dispatch(
+          saveRecord(
+            params.recordType,
+            saveMethod,
+            body,
+            params.id,
+            message(),
+            i18n.t("offline_submitted_changes"),
+            getRedirectPath(containerMode, params, fetchFromCaseId),
+            true,
+            "",
+            Boolean(incidentFromCase?.size),
+            selectedModule.primeroModule,
+            incidentPath,
+            i18n.t("offline_submitted_changes")
+          )
+        );
       });
       // TODO: Set this if there are any errors on validations
       // setSubmitting(false);
@@ -116,6 +155,8 @@ const Container = ({ match, mode }) => {
     forms,
     mode: containerMode,
     record,
+    incidentFromCase,
+    fetchFromCaseId,
     recordType: params.recordType,
     primeroModule: selectedModule.primeroModule
   };
@@ -145,14 +186,26 @@ const Container = ({ match, mode }) => {
   };
 
   useEffect(() => {
-    if (params.id && (containerMode.isShow || containerMode.isEdit)) {
-      dispatch(fetchRecord(params.recordType, params.id));
-      dispatch(fetchRecordsAlerts(params.recordType, params.id));
-      dispatch(fetchChangeLogs(params.recordType, params.id));
+    if (params.id && !loadingRecord && recordAttachments.size && !isProcessingSomeAttachment) {
+      batch(() => {
+        dispatch(updateRecordAttachments(params.id, params.recordType));
+        dispatch(clearRecordAttachments(params.id, params.recordType));
+      });
     }
-  }, [containerMode.isEdit, containerMode.isShow, dispatch, params.id, params.recordType]);
+  }, [loadingRecord, isProcessingSomeAttachment, recordAttachments.size]);
 
-  const canRefer = usePermissions(params.recordType, REFERRAL);
+  useEffect(() => {
+    if (params.id) {
+      batch(() => {
+        dispatch(setSelectedRecord(params.recordType, params.id));
+        dispatch(fetchRecord(params.recordType, params.id));
+        dispatch(fetchRecordsAlerts(params.recordType, params.id));
+        dispatch(fetchChangeLogs(params.recordType, params.id));
+      });
+    }
+  }, [params.id, params.recordType]);
+
+  const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
 
   useEffect(() => {
     if (!containerMode.isNew && params.recordType === RECORD_PATH.cases) {
@@ -171,13 +224,23 @@ const Container = ({ match, mode }) => {
   }, [params.recordType, params.id]);
 
   useEffect(() => {
-    return () => dispatch(clearValidationErrors());
+    return () => {
+      batch(() => {
+        dispatch(clearSelectedRecord(params.recordType));
+        dispatch(clearValidationErrors());
+        if (params.id) {
+          dispatch(clearRecordAttachments(params.id, params.recordType));
+        }
+      });
+    };
   }, []);
 
-  // TODO: When transfer_request be implement change the transition_ype
-  const isRecordOwnerForm = RECORD_OWNER === selectedForm;
-  const isApprovalsForm = APPROVALS === selectedForm;
-  const isTransitions = TRANSITION_TYPE.includes(selectedForm);
+  useEffect(() => {
+    if (fetchFromCaseId && RECORD_TYPES[params.recordType] === RECORD_TYPES.incidents) {
+      dispatch(fetchIncidentwitCaseId(fetchFromCaseId, selectedModule.primeroModule));
+    }
+  }, [fetchFromCaseId]);
+
   const transitionProps = {
     isReferral: REFERRAL === selectedForm,
     recordType: params.recordType,
@@ -188,27 +251,40 @@ const Container = ({ match, mode }) => {
   };
 
   const approvalSubforms = record?.get("approval_subforms");
+  const incidentsSubforms = record?.get("incident_details");
 
-  let renderForm;
+  const externalForms = (form, setFieldValue, handleSubmit) => {
+    const isTransitions = TRANSITION_TYPE.includes(form);
 
-  if (isRecordOwnerForm) {
-    renderForm = (
-      <RecordOwner
-        record={record}
-        recordType={params.recordType}
-        mobileDisplay={mobileDisplay}
-        handleToggleNav={handleToggleNav}
-      />
-    );
-  } else if (isApprovalsForm) {
-    renderForm = (
-      <Approvals approvals={approvalSubforms} mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} />
-    );
-  } else if (isTransitions) {
-    renderForm = <Transitions {...transitionProps} />;
-  } else {
-    renderForm = <RecordForm {...formProps} />;
-  }
+    const externalFormSelected = isTransitions ? TRANSITION_TYPE : form;
+
+    return {
+      [RECORD_OWNER]: (
+        <RecordOwner
+          record={record}
+          recordType={params.recordType}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+        />
+      ),
+      [APPROVALS]: (
+        <Approvals approvals={approvalSubforms} mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} />
+      ),
+      [INCIDENT_FROM_CASE]: (
+        <IncidentFromCase
+          record={record}
+          incidents={incidentsSubforms}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          mode={containerMode}
+          setFieldValue={setFieldValue}
+          handleSubmit={handleSubmit}
+          recordType={params.recordType}
+        />
+      ),
+      [TRANSITION_TYPE]: <Transitions {...transitionProps} />
+    }[externalFormSelected];
+  };
 
   const hasData = Boolean(forms && formNav && firstTab && (containerMode.isNew || record));
   const loading = Boolean(loadingForm || loadingRecord);
@@ -225,7 +301,9 @@ const Container = ({ match, mode }) => {
           <div className={css.recordNav}>
             <Nav {...navProps} />
           </div>
-          <div className={`${css.recordForms} record-form-container`}>{renderForm}</div>
+          <div className={`${css.recordForms} record-form-container`}>
+            <RecordForm {...formProps} externalForms={externalForms} selectedForm={selectedForm} />
+          </div>
         </div>
       </LoadingIndicator>
     </PageContainer>

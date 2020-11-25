@@ -6,10 +6,18 @@ import { ERROR_FIELD, FieldRecord, FormSectionRecord } from "../../../form";
 import { AssociatedFormSectionsForm, ResourcesForm, RolesMainForm } from "./forms";
 import { FORM_CHECK_ERRORS } from "./constants";
 
-export const getFormsToRender = ({ systemPermissions, roles, formSections, i18n, formMode, approvalsLabels }) =>
+export const getFormsToRender = ({
+  systemPermissions,
+  roles,
+  formSections,
+  i18n,
+  formMode,
+  approvalsLabels,
+  adminLevelMap
+}) =>
   fromJS(
     [
-      RolesMainForm(systemPermissions.get("management", fromJS([])), i18n, formMode),
+      RolesMainForm(systemPermissions.get("management", fromJS([])), i18n, adminLevelMap),
       FormSectionRecord({
         unique_id: "permissions_label",
         name: { [i18n.locale]: i18n.t("permissions.label") },

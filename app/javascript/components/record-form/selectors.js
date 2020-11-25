@@ -2,6 +2,7 @@ import isEmpty from "lodash/isEmpty";
 import { fromJS, OrderedMap } from "immutable";
 
 import { denormalizeFormData } from "../../schemas";
+import { displayNameHelper } from "../../libs";
 
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
@@ -33,6 +34,38 @@ const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }
   return formSections.filter(fs => fs.visible);
 };
 
+const isAStickyOption = (opt, stickyOption) =>
+  Array.isArray(stickyOption) ? stickyOption.includes(opt.id) : opt.id === stickyOption.toString();
+
+const addingDeletedOption = (enabledOptions, locale, stickyOption) => {
+  if (!stickyOption || Boolean(enabledOptions.filter(opt => isAStickyOption(opt, stickyOption)).length)) {
+    return enabledOptions;
+  }
+
+  enabledOptions.push({
+    id: stickyOption,
+    disabled: true,
+    display_text: { [locale]: stickyOption }
+  });
+
+  return enabledOptions;
+};
+
+const transformOptionSource = (options, locale, stickyOption) => {
+  if (!options || !Array.isArray(options)) {
+    return [];
+  }
+  const enabledOptions = options.filter(fs => !fs.disabled || isAStickyOption(fs, stickyOption)) || [];
+
+  const optionsToRender = addingDeletedOption(enabledOptions, locale, stickyOption);
+
+  return optionsToRender.map(opt => ({
+    id: opt.id,
+    isDisabled: Boolean(opt.disabled),
+    display_text: displayNameHelper(opt.display_text, locale) || ""
+  }));
+};
+
 export const getFirstTab = (state, query) => {
   const selectedForms = forms(state, query);
 
@@ -58,9 +91,8 @@ export const getFormNav = (state, query) => {
     .map(fs =>
       NavRecord({
         group: fs.form_group_id,
-        groupName: fs.form_group_name[window.I18n.locale],
         groupOrder: fs.order_form_group,
-        name: fs.name[window.I18n.locale],
+        name: displayNameHelper(fs.name, window.I18n.locale),
         order: fs.order,
         formId: fs.unique_id,
         is_first_tab: fs.is_first_tab
@@ -90,20 +122,22 @@ export const getRecordFormsByUniqueId = (state, query) => {
   }).filter(f => f.unique_id === formName);
 };
 
-export const getOption = (state, option, locale) => {
+export const getOption = (state, option, locale, stickyOption = "") => {
+  let options = option;
+
   if (typeof option === "string") {
     const selectedOptions = state
-      .getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]))
+      .getIn([NAMESPACE, "options", "lookups"], fromJS([]))
       .filter(o => o.get("unique_id") === option.replace(/lookup /, ""))
       .first();
 
-    return selectedOptions?.size ? selectedOptions.get("values").toJS() : [];
+    options = selectedOptions?.size ? selectedOptions.get("values").toJS() : [];
   }
 
-  return option && option[locale] ? option[locale] : [];
+  return transformOptionSource(options, locale, stickyOption);
 };
 
-export const getOptions = state => state.getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]));
+export const getOptions = state => state.getIn([NAMESPACE, "options", "lookups"], fromJS([]));
 
 export const getLookups = (state, page = 1, per = 20) => {
   const data = state.getIn([NAMESPACE, "options", "lookups"], fromJS({}));
@@ -130,8 +164,6 @@ export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
 
 export const getSelectedForm = state => state.getIn([NAMESPACE, "selectedForm"]);
 
-export const getSelectedRecord = state => state.getIn([NAMESPACE, "selectedRecord"]);
-
 export const getServiceToRefer = state => state.getIn([NAMESPACE, "serviceToRefer"], fromJS({}));
 
 export const getOptionsAreLoading = state => state.getIn([NAMESPACE, "options", "loading"], false);
@@ -155,6 +187,23 @@ export const getSubformsDisplayName = (state, locale) =>
     .filter(fs => fs.is_nested)
     .map(fs => fromJS({ [fs.unique_id]: fs.getIn(["name", locale]) }))
     .reduce((acc, next) => acc.merge(next), fromJS({}));
+
+export const getAttachmentForms = (state, locale) => {
+  const attachmentFieldIds = state
+    .getIn([NAMESPACE, "fields"], fromJS({}))
+    .entrySeq()
+    .map(
+      ([id, field]) =>
+        ["audio_upload_box", "document_upload_box", "photo_upload_box"].includes(field.get("type")) && parseInt(id, 10)
+    )
+    .filter(id => Boolean(id));
+
+  return state
+    .getIn([NAMESPACE, "formSections"], fromJS([]))
+    .filter(fs => fs.fields.some(fieldId => attachmentFieldIds.includes(fieldId)))
+    .map(fs => fromJS({ [fs.unique_id]: fs.getIn(["name", locale]) }))
+    .reduce((acc, next) => acc.merge(next), fromJS({}));
+};
 
 export const getFields = state => state.getIn([NAMESPACE, "fields"]);
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 module Exporters
@@ -5,10 +7,13 @@ module Exporters
     before :each do
       clean_data(User, Role, Field, FormSection, PrimeroModule)
 
-      field = Field.new(name: 'sex', display_name: 'Sex', type: Field::SELECT_BOX, option_strings_text_en: [
-        { id: 'male', display_text: 'Male' },
-        { id: 'female', display_text: 'Female' }
-      ])
+      field = Field.new(
+        name: 'sex', display_name: 'Sex', type: Field::SELECT_BOX,
+        option_strings_text_en: [
+          { id: 'male', display_text: 'Male' },
+          { id: 'female', display_text: 'Female' }
+        ]
+      )
       field.save(validate: false)
       fields = [
         build(:field, name: 'name', type: Field::TEXT_FIELD),
@@ -62,6 +67,13 @@ module Exporters
       expect(parsed[0][0..4]).to eq ['ID#', 'Name', 'Age', 'Sex', 'Registration Date']
       expect(parsed[1][1..4]).to eq(%w[Joe 12 Male 01-Jan-2020])
       expect(parsed[2][1..4]).to eq(%w[Mo 14 Male 01-Jan-2020])
+    end
+
+    it 'sanitizes formula injections' do
+      unsafe_record = Child.new(data: { name: '=10+10', age: 12, sex: 'male' })
+      data = CSVListViewExporter.export([unsafe_record], @user)
+      parsed = CSV.parse(data)
+      expect(parsed[1][1..3]).to eq(%w['=10+10 12 Male])
     end
 
     after :each do

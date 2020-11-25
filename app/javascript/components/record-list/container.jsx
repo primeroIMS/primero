@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { fromJS } from "immutable";
 import { withRouter } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { batch, useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import qs from "qs";
 
@@ -16,9 +16,14 @@ import { ACTIONS, DISPLAY_VIEW_PAGE, checkPermissions } from "../../libs/permiss
 import Permission from "../application/permission";
 import { useThemeHelper } from "../../libs";
 import { applyFilters } from "../index-filters/action-creators";
+import { clearCaseFromIncident } from "../records/action-creators";
 import { getNumberErrorsBulkAssign, getNumberBulkAssign } from "../record-actions/bulk-transtions/selectors";
 import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
+import { setSelectedForm } from "../record-form/action-creators";
 import { enqueueSnackbar } from "../notifier";
+import { useMetadata } from "../records";
+import { DEFAULT_METADATA } from "../../config";
+import { useApp } from "../application";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
 import FilterContainer from "./filter-container";
@@ -33,7 +38,7 @@ const Container = ({ match, location }) => {
   const { css, mobileDisplay } = useThemeHelper(styles);
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [drawer, setDrawer] = useState(false);
-
+  const { online } = useApp();
   const { url } = match;
   const { search } = location;
   const recordType = url.replace("/", "");
@@ -58,16 +63,17 @@ const Container = ({ match, location }) => {
 
   const permissions = useSelector(state => getPermissionsByRecord(state, recordType));
 
-  const defaultFilters = fromJS({ ...DEFAULT_FILTERS, ...metadata?.toJS() });
+  const defaultMetadata = metadata?.toJS();
+  const defaultFilterFields = DEFAULT_FILTERS;
+  const defaultFilters = fromJS({
+    ...defaultFilterFields,
+    ...defaultMetadata
+  });
 
-  useEffect(() => {
-    dispatch(
-      applyFilters({
-        recordType,
-        data: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS()
-      })
-    );
-  }, []);
+  useMetadata(recordType, metadata, applyFilters, "data", {
+    defaultFilterFields: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS(),
+    restActionParams: { recordType }
+  });
 
   const numberErrorsBulkAssign = useSelector(state => getNumberErrorsBulkAssign(state, recordType));
 
@@ -94,23 +100,34 @@ const Container = ({ match, location }) => {
     };
   }, [numberErrorsBulkAssign, numberRecordsBulkAssign]);
 
+  useEffect(() => {
+    batch(() => {
+      dispatch(setSelectedForm(null));
+      dispatch(clearCaseFromIncident());
+    });
+  }, []);
+
   const canSearchOthers = permissions.includes(ACTIONS.MANAGE) || permissions.includes(ACTIONS.SEARCH_OWNED_BY_OTHERS);
 
   const listHeaders =
     // eslint-disable-next-line camelcase
     filters.id_search && canSearchOthers ? headers.filter(header => header.id_search) : headers;
 
+  const recordAvaialble = record => {
+    const allowedToOpenRecord =
+      record && typeof record.get("record_in_scope") !== "undefined" ? record.get("record_in_scope") : false;
+
+    return (!online && record.get("complete", false) && allowedToOpenRecord) || (online && allowedToOpenRecord);
+  };
+
   const indexTableProps = {
     recordType,
     defaultFilters,
     bypassInitialFetch: true,
-    columns: buildTableColumns(listHeaders, i18n, recordType, css),
+    columns: buildTableColumns(listHeaders, i18n, recordType, css, recordAvaialble),
     onTableChange: applyFilters,
     onRowClick: record => {
-      const allowedToOpenRecord =
-        record && typeof record.get("record_in_scope") !== "undefined" ? record.get("record_in_scope") : false;
-
-      if (allowedToOpenRecord) {
+      if (recordAvaialble(record)) {
         dispatch(push(`${recordType}/${record.get("id")}`));
       } else if (canViewModal) {
         setCurrentRecord(record);
@@ -118,6 +135,7 @@ const Container = ({ match, location }) => {
       }
     },
     selectedRecords,
+    isRowSelectable: record => recordAvaialble(record),
     setSelectedRecords,
     showCustomToolbar: true
   };
@@ -147,7 +165,10 @@ const Container = ({ match, location }) => {
 
   const filterProps = {
     recordType,
-    defaultFilters,
+    defaultFilters: fromJS({
+      ...defaultFilterFields,
+      ...DEFAULT_METADATA
+    }),
     setSelectedRecords,
     fromDashboard: Boolean(searchParams.get("fromDashboard"))
   };
@@ -168,7 +189,12 @@ const Container = ({ match, location }) => {
         </Box>
       </PageContainer>
       <Permission resources={recordType} actions={DISPLAY_VIEW_PAGE}>
-        <ViewModal close={handleViewModalClose} openViewModal={openViewModal} currentRecord={currentRecord} />
+        <ViewModal
+          close={handleViewModalClose}
+          openViewModal={openViewModal}
+          currentRecord={currentRecord}
+          recordType={recordType}
+        />
       </Permission>
     </>
   );

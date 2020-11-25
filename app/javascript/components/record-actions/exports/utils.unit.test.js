@@ -13,7 +13,16 @@ describe("<RecordActions /> - exports/utils", () => {
     it("should have known methods", () => {
       const clone = { ...utils };
 
-      ["allowedExports", "buildFields", "exporterFilters", "formatFields", "formatFileName"].forEach(property => {
+      [
+        "allowedExports",
+        "buildFields",
+        "exporterFilters",
+        "formatFields",
+        "formatFileName",
+        "isCustomExport",
+        "isPdfExport",
+        "exportFormsOptions"
+      ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
         delete clone[property];
@@ -30,14 +39,14 @@ describe("<RecordActions /> - exports/utils", () => {
     it("should return all export types if userPermission contains manage permission and recordType is cases", () => {
       const userPermission = fromJS(["manage"]);
 
-      const expected = ALL_EXPORT_TYPES.filter(exportType => exportType.recordTypes.includes(RECORD_PATH.cases)).map(
-        a => {
-          return {
-            ...a,
-            display_name: "test.label"
-          };
-        }
-      );
+      const expected = ALL_EXPORT_TYPES.filter(
+        exportType => exportType.recordTypes.includes(RECORD_PATH.cases) && !exportType.hideOnShowPage
+      ).map(a => {
+        return {
+          ...a,
+          display_name: "test.label"
+        };
+      });
 
       expect(utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)).to.deep.equal(expected);
     });
@@ -114,6 +123,18 @@ describe("<RecordActions /> - exports/utils", () => {
       );
     });
 
+    it("should return filters without page, per and total params", () => {
+      const expected = { filters: { short_id: shortIds } };
+      const filters = fromJS({
+        sex: ["female"],
+        page: 1,
+        total: 40,
+        per: 5
+      });
+
+      expect(utils.exporterFilters(true, false, shortIds, filters, {}, record, false)).to.be.deep.equals(expected);
+    });
+
     it(
       "should return filters with short_id, " +
         "if isShowPage is false and allRowsSelected is false and there are not appliedFilters",
@@ -173,59 +194,81 @@ describe("<RecordActions /> - exports/utils", () => {
   });
 
   describe("buildFields", () => {
-    const data = [
-      {
-        unique_id: "test_form",
-        name: {
-          en: "Test Form"
-        },
-        fields: [
-          {
-            name: "field_form",
-            display_name: { en: "Field Form" },
-            type: TEXT_FIELD,
-            visible: true
-          }
-        ]
-      },
-      {
-        unique_id: "test_subform",
-        name: {
-          en: "Test Subform"
-        },
-        fields: [
-          {
-            name: "field_subform",
-            display_name: { en: "Field Subform" },
-            type: SUBFORM_SECTION,
-            visible: true,
-            subform_section_id: {
-              unique_id: "field_subform_section",
-              name: {
-                en: "Field Subform Section"
-              },
-              fields: [
-                {
-                  name: "field_subform_section_test",
-                  display_name: { en: "Field from Subform" },
-                  type: TEXT_FIELD,
-                  visible: true
-                },
-                {
-                  name: "field_subform_section_test1",
-                  display_name: { en: "Field from Subform 1" },
-                  type: TEXT_FIELD,
-                  visible: true
-                }
-              ]
-            }
-          }
-        ]
-      }
-    ];
-
     it("should return fields from forms and subforms when individual fields is false", () => {
+      const data = [
+        {
+          unique_id: "test_form",
+          name: {
+            en: "Test Form"
+          },
+          fields: [
+            {
+              name: "field_form",
+              display_name: { en: "Field Form" },
+              type: TEXT_FIELD,
+              visible: true
+            }
+          ]
+        },
+        {
+          unique_id: "test_subform",
+          name: {
+            en: "Test Subform"
+          },
+          fields: [
+            {
+              name: "field_subform",
+              display_name: { en: "Field Subform" },
+              type: SUBFORM_SECTION,
+              visible: true,
+              subform_section_id: {
+                unique_id: "field_subform_section",
+                name: {
+                  en: "Field Subform Section"
+                },
+                fields: [
+                  {
+                    name: "field_subform_section_test",
+                    display_name: { en: "Field from Subform" },
+                    type: TEXT_FIELD,
+                    visible: true
+                  },
+                  {
+                    name: "field_subform_section_test1",
+                    display_name: { en: "Field from Subform 1" },
+                    type: TEXT_FIELD,
+                    visible: true
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ];
+
       expect(utils.buildFields(data, "en")).to.have.lengthOf(3);
+    });
+
+    it("does not fail subforms without a subform section id", () => {
+      const data = [
+        {
+          unique_id: "test_subform",
+          name: {
+            en: "Test Subform"
+          },
+          fields: [
+            {
+              name: "field_subform",
+              display_name: { en: "Field Subform" },
+              type: SUBFORM_SECTION,
+              visible: true,
+              subform_section_id: null
+            }
+          ]
+        }
+      ];
+
+      expect(utils.buildFields(data, "en")).to.be.deep.equals([]);
     });
   });
 
@@ -234,6 +277,24 @@ describe("<RecordActions /> - exports/utils", () => {
       const fields = ["form1:field1", "form2:field1", "form3:field10"];
 
       expect(utils.formatFields(fields)).to.be.deep.equals(["field1", "field10"]);
+    });
+  });
+
+  describe("isCustomExport", () => {
+    it("returns false if not custom export", () => {
+      expect(utils.isCustomExport("pdf")).to.be.false;
+    });
+    it("returns true if custom export", () => {
+      expect(utils.isCustomExport("custom")).to.be.true;
+    });
+  });
+
+  describe("isPdfExport", () => {
+    it("returns false if not pdf export", () => {
+      expect(utils.isPdfExport("custom")).to.be.false;
+    });
+    it("returns true if pdf export", () => {
+      expect(utils.isPdfExport("pdf")).to.be.true;
     });
   });
 });

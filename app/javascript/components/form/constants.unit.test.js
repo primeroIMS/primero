@@ -6,6 +6,7 @@ describe("<Form /> - Constants", () => {
 
     expect(clonedConstants).to.be.an("object");
     [
+      "DIALOG_TRIGGER",
       "CHECK_BOX_FIELD",
       "CUSTOM_LOOKUPS",
       "DATE_FIELD",
@@ -27,7 +28,10 @@ describe("<Form /> - Constants", () => {
       "TEXT_AREA",
       "TEXT_FIELD",
       "TICK_FIELD",
-      "TOGGLE_FIELD"
+      "TOGGLE_FIELD",
+      "DOCUMENT_FIELD",
+      "AUDIO_FIELD",
+      "HIDDEN_FIELD"
     ].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];
@@ -41,7 +45,20 @@ describe("<Form /> - Constants", () => {
 
     expect(clonedOptionTypes).to.be.an("object");
 
-    ["AGENCY", "LOCATION", "MODULE", "FORM_GROUP", "LOOKUPS", "USER"].forEach(property => {
+    [
+      "AGENCY",
+      "LOCATION",
+      "MODULE",
+      "FORM_GROUP",
+      "LOOKUPS",
+      "USER",
+      "REPORTING_LOCATIONS",
+      "ROLE",
+      "USER_GROUP",
+      "ROLE_EXTERNAL_REFERRAL",
+      "REFER_TO_USERS",
+      "SERVICE_TYPE"
+    ].forEach(property => {
       expect(clonedOptionTypes).to.have.property(property);
       delete clonedOptionTypes[property];
     });

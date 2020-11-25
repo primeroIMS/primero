@@ -1,5 +1,5 @@
 import { ENQUEUE_SNACKBAR } from "../../../notifier";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../../../record-actions";
+import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../../action-dialog";
 
 import actions from "./actions";
 import * as actionCreators from "./action-creators";
@@ -63,17 +63,7 @@ describe("<RevokeModal /> - transitions/components/revoke-modal/action-creators"
             }
           },
           {
-            action: SET_DIALOG,
-            payload: {
-              dialog: args.dialogName,
-              open: false
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
+            action: CLEAR_DIALOG
           }
         ]
       },

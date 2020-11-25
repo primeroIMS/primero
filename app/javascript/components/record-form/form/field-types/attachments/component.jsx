@@ -4,10 +4,13 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { FieldArray, connect, getIn } from "formik";
 import { Box } from "@material-ui/core";
+import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../../i18n";
 import { ATTACHMENT_FIELD_NAME } from "../../constants";
 import { PHOTO_FIELD, AUDIO_FIELD } from "../../../constants";
+import LoadingIndicator from "../../../../loading-indicator";
+import { getIsProcessingAttachments, getLoadingRecordState, getRecordAttachments } from "../../../../records";
 
 import { ATTACHMENT_FIELDS_INITIAL_VALUES, ATTACHMENT_TYPES, FIELD_ATTACHMENT_TYPES } from "./constants";
 import AttachmentLabel from "./attachment-label";
@@ -16,8 +19,11 @@ import AttachmentField from "./attachment-field";
 import PhotoArray from "./photo-array";
 
 // TODO: No link to display / download upload
-const Component = ({ name, field, label, disabled, formik, mode }) => {
+const Component = ({ name, field, label, disabled, formik, mode, recordType }) => {
   const i18n = useI18n();
+  const loading = useSelector(state => getLoadingRecordState(state, recordType));
+  const processing = useSelector(state => getIsProcessingAttachments(state, recordType, name));
+  const recordAttachments = useSelector(state => getRecordAttachments(state, recordType));
   const values = getIn(formik.values, name);
   const attachment = FIELD_ATTACHMENT_TYPES[field.type];
 
@@ -63,7 +69,7 @@ const Component = ({ name, field, label, disabled, formik, mode }) => {
               open={valuesSize === index + 1 && openLastDialog}
               resetOpenLastDialog={resetOpenLastDialog}
               value={value}
-              removeFunc={arrayHelpers.remove}
+              arrayHelpers={arrayHelpers}
               field={field}
               attachment={attachment}
             />
@@ -84,11 +90,11 @@ const Component = ({ name, field, label, disabled, formik, mode }) => {
 
   const audioAttachments = () =>
     values.map(value => {
-      const { attachment_url: attachmentUrl } = value;
+      const { attachment_url: attachmentUrl, file_name: fileName } = value;
 
       return (
         <Box my={2}>
-          <audio controls>
+          <audio id={fileName} controls>
             <source src={attachmentUrl} />
           </audio>
         </Box>
@@ -110,17 +116,23 @@ const Component = ({ name, field, label, disabled, formik, mode }) => {
   return (
     <FieldArray
       name={name}
+      validateOnChange={false}
       render={arrayHelpers => (
         <div>
           <AttachmentLabel
             label={label}
             mode={mode}
+            helpText={field.help_text[i18n.locale]}
             handleAttachmentAddition={handleAttachmentAddition}
             arrayHelpers={arrayHelpers}
             disabled={disabled}
           />
-
-          {renderField(arrayHelpers)}
+          <LoadingIndicator
+            loading={recordAttachments.size && (processing || loading)}
+            hasData={!processing && !loading}
+          >
+            {renderField(arrayHelpers)}
+          </LoadingIndicator>
         </div>
       )}
     />
@@ -135,7 +147,8 @@ Component.propTypes = {
   formik: PropTypes.object,
   label: PropTypes.string,
   mode: PropTypes.object,
-  name: PropTypes.string
+  name: PropTypes.string,
+  recordType: PropTypes.string
 };
 
 export default connect(Component);

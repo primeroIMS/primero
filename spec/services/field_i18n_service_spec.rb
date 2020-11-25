@@ -19,7 +19,7 @@ describe FieldI18nService do
     it 'merges the localized properties of the hashes of fields' do
       merged_hash = FieldI18nService.merge_i18n_properties(
                       { name_i18n: { en: "Lastname" } },
-                      { name_i18n: { es: "Apellido"} }
+                      { name_i18n: { es: "Apellido" } }
                     )
       expect(merged_hash).to eq({ name_i18n: { en: "Lastname", es: "Apellido" } })
     end
@@ -30,6 +30,22 @@ describe FieldI18nService do
                       { name: "Apellido" }
                     )
       expect(merged_hash).to eq({})
+    end
+
+    it 'merges the option_strings_text value' do
+      fields1 = {
+        name_i18n: { en: 'Lastname' },
+        option_strings_text_i18n: [{ id: 'id1', display_text: { en: 'option1' } }]
+      }
+      fields2 = { name_i18n: { es: 'Apellido' }, option_strings_text_i18n: [] }
+
+      expected_hash = {
+        name_i18n: { en: 'Lastname', es: 'Apellido' },
+        option_strings_text_i18n: [{ id: 'id1', display_text: { en: 'option1' } }]
+      }
+      merged_hash = FieldI18nService.merge_i18n_properties(fields1, fields2)
+
+      expect(merged_hash).to eq(expected_hash)
     end
   end
 
@@ -48,109 +64,78 @@ describe FieldI18nService do
 
   describe 'fill_keys' do
     it 'fill the key with all the available locales' do
-      I18n.stub(:available_locales).and_return([:en, :es, :fr])
+      I18n.stub(:available_locales).and_return(%i[en es fr])
       filled = FieldI18nService.fill_keys([:name], { name: { en: "Lastname", es: "Apellido" } })
       expect(filled).to eq({ name: { en: "Lastname", es: "Apellido", fr: ''} })
     end
   end
 
-  describe 'fill_options' do
-    it 'fill the options with all the available locales' do
-      I18n.stub(:available_locales).and_return([:en, :es, :fr])
-      filled = FieldI18nService.fill_options({
-                 en: [{ id: "true", display_name: "True" }],
-                 es: [{ id: "true", display_name: "Verdadero" }]
-               })
-      expect(filled).to eq({
-        en: [{ id: "true", display_name: "True" }],
-        es: [{ id: "true", display_name: "Verdadero" }],
-        fr: []
-      })
+  describe 'fill_with_locales' do
+    it 'return options with all the availables locales' do
+      I18n.stub available_locales: %i[en es fr]
+      source = { 'en' => 'Lastname', 'es' => 'Apellido' }
+      expected = { 'en' => 'Lastname', 'es' => 'Apellido', 'fr' => '' }
+      expect(FieldI18nService.fill_with_locales(source)).to eq(expected)
     end
   end
 
-  describe 'merge_i18n_options' do
-    it 'merges the localized options of the hashes' do
-      merged_hash = FieldI18nService.merge_i18n_options(
-        {
-          'en' => [
-            { 'id' => 'true', 'display_name' => 'Valid' },
-            { 'id' => 'false', 'display_name' => 'Valid' }
-          ]
-        },
-        'en' => [{ 'id' => 'false', 'display_name' => 'false' }]
+  describe 'fill_options' do
+    it 'fill the options with all the available locales' do
+      I18n.stub(:available_locales).and_return(%i[en es fr])
+      filled = FieldI18nService.fill_options([{"id"=>"true", "display_text"=>{"en"=>"True", "es": "Verdadero"}}])
+      expect(filled).to eq(
+        'en' => [{ 'id' => 'true', 'display_text' => 'True' }],
+        'es' => [{ 'id' => 'true', 'display_text' => 'Verdadero' }],
+        'fr' => []
       )
-      expected_hash = {
-        'en' => [
-          { 'id' => 'false', 'display_name' => 'false' },
-          { 'id' => 'true', 'display_name' => 'Valid' }
-        ]
-      }
-
-      expect(merged_hash).to eq(expected_hash)
     end
   end
 
   describe 'fill_lookups_options' do
     it 'fill the lookups options with all the available locales' do
-      options = {
-        "en" => [
-          { "id"=>"1", "display_text"=>"Country"},
-          { "id"=>"2", "display_text"=>"City"}
-        ],
-        "es" => [
-          { "id"=>"1", "display_text"=>"Pais"},
-          { "id"=>"2", "display_text"=>"Ciudad"}
-        ]
-      }
-      I18n.stub(:available_locales).and_return([:en, :es, :fr])
+      options = [
+        { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => 'Pais' } },
+        { 'id' => '2', 'display_text' => { 'en' => 'City', 'es' => 'Ciudad' } }
+      ]
+      I18n.stub(:available_locales).and_return(%i[en es fr])
       lookups_options = FieldI18nService.fill_lookups_options(options)
       expected_lookups_options = [
-        { "id" => "1", "display_text" => { "en" => "Country", "es" => "Pais", "fr" => "" } },
-        { "id" => "2", "display_text" => { "en" => "City", "es"=> "Ciudad", "fr" => "" } }
+        { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => 'Pais', 'fr' => '' } },
+        { 'id' => '2', 'display_text' => { 'en' => 'City', 'es' => 'Ciudad', 'fr' => '' } }
       ]
 
       expect(lookups_options).to eq(expected_lookups_options)
     end
   end
 
-  describe 'to_localized_options' do
-    it 'revert fill the lookups options with all the available locales' do
-      options = [
-        { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => '', 'fr' => '' } },
-        { 'id' => '2', 'display_text' => { 'en' => 'City', 'es' => '', 'fr' => 'prueba' } }
-      ]
-      lookups_options = FieldI18nService.to_localized_options(options)
-
-      expected_lookups_options = {
-        'en' => [{ 'id' => '1', 'display_text' => 'Country' }, { 'id' => '2', 'display_text' => 'City' }],
-        'fr' => [{ 'id' => '2', 'display_text' => 'prueba' }]
+  describe 'convert_options' do
+    it 'return options with all the available locales' do
+      options = {
+        'en' => [
+          { 'id' => '1', 'display_text' => 'Country' },
+          { 'id' => '2', 'display_text' => 'City' }
+        ]
       }
-
-      expect(lookups_options).to eq(expected_lookups_options)
+      expected = [
+        { 'id' => '1', 'display_text' => { 'en' => 'Country' } },
+        { 'id' => '2', 'display_text' => { 'en' => 'City' } }
+      ]
+      expect(FieldI18nService.convert_options(options)).to eq(expected)
     end
+  end
 
-    it 'revert fill the lookups options if the value does not have display_text bit it have _delete: true' do
-      I18n.stub(:available_locales).and_return([:en, :es, :fr])
-      options = [
-        { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => '', 'fr' => '' } },
-        { 'id' => '2', '_delete' => true }
-      ]
-      lookups_options = FieldI18nService.to_localized_options(options)
-
-      expected_lookups_options = {
-        'en' => [{ 'id' => '1', 'display_text' => 'Country' }, { 'id' => '2', '_delete' => true }],
-        'fr' => [{ 'id' => '2', '_delete' => true }],
-        'es' => [{ 'id' => '2', '_delete' => true }]
-      }
-
-      expect(lookups_options).to eq(expected_lookups_options)
+  describe 'fill_names' do
+    it 'return the options hash with all the available locales' do
+      I18n.stub available_locales: %i[en es]
+      options = [{ 'id' => 'true', 'display_text' => { 'en' => 'True', 'es': 'Verdadero' } }]
+      expected = { 'en' => 'True', 'es' => 'Verdadero' }
+      expect(FieldI18nService.fill_names(options)).to eq(expected)
     end
   end
 
   describe 'to_localized_values' do
     it 'return the field with all the availables locales and the requiered order' do
-      I18n.stub(:available_locales).and_return([:en, :ar, :fr])
+      I18n.stub(:available_locales).and_return(%i[en ar fr])
       field = {
         'ar' => {
           'closure' => 'Closure-AR',
@@ -179,7 +164,6 @@ describe FieldI18nService do
           "fr"=>"",
           "ar"=>"Closure-AR"
         }
-        
       }
       expect(FieldI18nService.to_localized_values(field)).to eq(expect_field)
     end

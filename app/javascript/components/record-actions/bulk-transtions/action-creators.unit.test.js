@@ -2,8 +2,7 @@ import clone from "lodash/clone";
 import configureStore from "redux-mock-store";
 import sinon from "sinon";
 
-import { ASSIGN_DIALOG } from "../constants";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../actions";
+import { CLEAR_DIALOG } from "../../action-dialog";
 import { METHODS, RECORD_PATH } from "../../../config";
 
 import * as actionCreators from "./action-creators";
@@ -42,17 +41,7 @@ describe("bulk-transitons - Action Creators", () => {
         path: actions.BULK_ASSIGN,
         successCallback: [
           {
-            action: SET_DIALOG,
-            payload: {
-              dialog: ASSIGN_DIALOG,
-              open: false
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
+            action: CLEAR_DIALOG
           }
         ]
       }

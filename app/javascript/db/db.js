@@ -4,20 +4,35 @@ import { openDB } from "idb";
 
 import { DATABASE_NAME } from "../config/constants";
 
-import { DB_COLLECTIONS_NAMES, DB_COLLECTIONS_V1, DB_COLLECTIONS_V2 } from "./constants";
+import { subformAwareMerge } from "./utils";
+import {
+  DB_COLLECTIONS_NAMES,
+  DB_COLLECTIONS_V1,
+  DB_COLLECTIONS_V2,
+  DB_COLLECTIONS_V3,
+  DB_COLLECTIONS_V4
+} from "./constants";
 
 class DB {
   constructor() {
     if (!DB.instance) {
       const self = this;
 
-      this._db = openDB(DATABASE_NAME, 2, {
+      this._db = openDB(DATABASE_NAME, 4, {
         upgrade(db, oldVersion) {
           if (oldVersion < 1) {
             DB_COLLECTIONS_V1.forEach(collection => self.createCollections(collection, db));
           }
           if (oldVersion < 2) {
             DB_COLLECTIONS_V2.forEach(collection => self.createCollections(collection, db));
+          }
+
+          if (oldVersion < 3) {
+            DB_COLLECTIONS_V3.forEach(collection => self.createCollections(collection, db));
+          }
+
+          if (oldVersion < 4) {
+            DB_COLLECTIONS_V4.forEach(collection => self.createCollections(collection, db));
           }
         }
       });
@@ -86,7 +101,7 @@ class DB {
       const prev = await (await this._db).get(store, key || i.id);
 
       if (prev) {
-        return (await this._db).put(store, merge(prev, { ...i, ...key }));
+        return (await this._db).put(store, merge(prev, { ...i, ...key }, { arrayMerge: subformAwareMerge }));
       }
       throw new Error("Record is new");
     } catch (e) {
@@ -118,7 +133,9 @@ class DB {
         if (prev) {
           await collection.put(isDataArray ? merge(prev, r) : merge(prev, records[r]));
         }
-      } catch (e) {
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn(error);
         await collection.put(isDataArray ? r : records[r]);
       }
     });

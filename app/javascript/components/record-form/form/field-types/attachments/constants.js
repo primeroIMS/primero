@@ -35,3 +35,9 @@ export const FIELD_ATTACHMENT_TYPES = Object.freeze({
   audio_upload_box: ATTACHMENT_TYPES.audio,
   document_upload_box: ATTACHMENT_TYPES.document
 });
+
+export const ATTACHMENT_ACCEPTED_TYPES = Object.freeze({
+  audio: ".amr, audio/AMR, audio/mpeg",
+  image: "image/png, image/gif, image/jpeg, image/jpg",
+  document: "application/pdf, text/plain"
+});

@@ -10,12 +10,16 @@ import {
   ADMIN_RESOURCES,
   ADMIN_ACTIONS
 } from "../libs/permissions";
+import { getAdminResources } from "../components/pages/admin/utils";
 
 // Max allowed image size for attachments
 export const MAX_IMAGE_SIZE = 600;
 
+// Max allowed size for attachments
+export const MAX_ATTACHMENT_SIZE = 10485760;
+
 // Time (ms) when fetch request will timeout
-export const FETCH_TIMEOUT = 50000;
+export const FETCH_TIMEOUT = 90000;
 
 // IndexedDB database name
 export const DATABASE_NAME = "primero";
@@ -60,21 +64,26 @@ export const UNIQUE_ID_FIELD = "unique_id";
 export const DISPLAY_TEXT_FIELD = "display_text";
 export const NAME_FIELD = "name";
 export const CODE_FIELD = "code";
+export const INCIDENT_CASE_ID_FIELD = "incident_case_id";
+export const INCIDENT_CASE_ID_DISPLAY_FIELD = "case_id_display";
 
 export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
-  [MODULES.CP]: "consent_for_services",
-  [MODULES.GBV]: "disclosure_other_orgs"
+  [MODULES.CP]: ["consent_for_services", "disclosure_other_orgs"],
+  [MODULES.GBV]: ["consent_for_services"]
 });
 
 export const RECORD_PATH = {
+  account: "account",
   agencies: "agencies",
   alerts: "alerts",
   audit_logs: "audit_logs",
   cases: "cases",
+  configurations: "configurations",
   contact_information: "contact_information",
   dashboards: "dashboards",
   forms: "forms",
   incidents: "incidents",
+  locations: "locations",
   lookups: "lookups",
   reports: "reports",
   roles: "roles",
@@ -91,6 +100,8 @@ export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
 export const REFERRAL = "referral";
 
 export const APPROVALS = "approvals";
+
+export const INCIDENT_FROM_CASE = "incident_from_case";
 
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
@@ -109,6 +120,8 @@ export const ROUTES = {
   admin_users_new: "/admin/users/new",
   audit_logs: "/admin/audit_logs",
   cases: "/cases",
+  configurations: "/admin/configurations",
+  admin_configurations_new: "/admin/configurations/new",
   contact_information: "/admin/contact_information",
   dashboard: "/dashboards",
   exports: "/exports",
@@ -125,7 +138,10 @@ export const ROUTES = {
   reports_new: "/reports/new",
   support: "/support",
   tasks: "/tasks",
-  tracing_requests: "/tracing_requests"
+  tracing_requests: "/tracing_requests",
+  check_health: "/health/api",
+  check_server_health: "/health/server",
+  sandbox_ui: "/primero"
 };
 
 export const PERMITTED_URL = [
@@ -143,6 +159,10 @@ export const PERMITTED_URL = [
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
 
+export const API_DATE_FORMAT = "yyyy-MM-dd";
+
+export const API_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+
 export const TRANSITIONS_DATE_FORMAT = "MMM dd,yyyy";
 
 export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
@@ -158,7 +178,8 @@ export const LOOKUPS = {
   workflow: "lookup-workflow",
   service_type: "lookup-service-type",
   protection_concerns: "lookup-protection-concerns",
-  followup_type: "lookup-followup-type"
+  followup_type: "lookup-followup-type",
+  reporting_locations: "ReportingLocation"
 };
 
 export const ADMIN_NAV = [
@@ -167,12 +188,6 @@ export const ADMIN_NAV = [
     label: "settings.navigation.users",
     permission: ADMIN_ACTIONS,
     recordType: RESOURCES.users
-  },
-  {
-    to: "/agencies",
-    label: "settings.navigation.agencies",
-    permission: ADMIN_ACTIONS,
-    recordType: RESOURCES.agencies
   },
   {
     to: "/roles",
@@ -187,13 +202,11 @@ export const ADMIN_NAV = [
     recordType: RESOURCES.user_groups
   },
   {
-    to: "/contact_information",
-    label: "settings.navigation.contact_information",
-    permission: MANAGE,
-    recordType: RESOURCES.systems
+    to: "/agencies",
+    label: "settings.navigation.agencies",
+    permission: ADMIN_ACTIONS,
+    recordType: RESOURCES.agencies
   },
-  { to: "/modules", label: "settings.navigation.modules", disabled: true },
-
   {
     to: "/forms-parent",
     label: "settings.navigation.forms",
@@ -214,24 +227,31 @@ export const ADMIN_NAV = [
     permission: MANAGE,
     recordType: RESOURCES.metadata
   },
-  { to: "/locations", label: "settings.navigation.locations", disabled: true },
+  { to: "/locations", label: "settings.navigation.locations" },
   {
-    to: "/system_settings",
-    label: "settings.navigation.system_settings",
-    disabled: true
+    to: "/contact_information",
+    label: "settings.navigation.contact_information",
+    permission: MANAGE,
+    recordType: RESOURCES.systems
+  },
+  {
+    to: "/configurations",
+    label: "settings.navigation.configurations",
+    permission: MANAGE,
+    recordType: RESOURCES.configurations
   },
   {
     to: "/audit_logs",
     label: "settings.navigation.audit_logs",
     permission: SHOW_AUDIT_LOGS,
     recordType: RESOURCES.audit_logs
-  },
-  { to: "/matching", label: "settings.navigation.matching", disabled: true }
+  }
 ];
 
-export const APPLICATION_NAV = permissions => {
-  const adminResources = ADMIN_RESOURCES.filter(adminResource => permissions.keySeq().includes(adminResource));
-  const adminSettingsOption = `/admin/${adminResources[0]}`;
+export const APPLICATION_NAV = (permissions, userId) => {
+  const adminResources = getAdminResources(permissions);
+  const adminForm = adminResources[0] || ADMIN_RESOURCES.contact_information;
+  const adminSettingsOption = `/admin/${adminForm === RESOURCES.metadata ? RESOURCES.forms : adminForm}`;
 
   return [
     {
@@ -245,7 +265,8 @@ export const APPLICATION_NAV = permissions => {
       to: ROUTES.tasks,
       icon: "tasks",
       resources: RESOURCES.dashboards,
-      actions: SHOW_TASKS
+      actions: SHOW_TASKS,
+      disableOffline: true
     },
     {
       name: "navigation.cases",
@@ -305,7 +326,12 @@ export const APPLICATION_NAV = permissions => {
       icon: "support",
       divider: true
     },
-    { name: "username", to: ROUTES.account, icon: "account", disabled: true },
+    // {
+    //   name: "navigation.my_account",
+    //   to: myAccountTo,
+    //   icon: "account"
+    // },
+    { name: "username", to: `${ROUTES.account}/${userId}`, icon: "account", disableOffline: true },
     {
       name: "navigation.settings",
       to: adminSettingsOption,
@@ -356,6 +382,25 @@ export const ALERTS_FOR = {
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];
 
+export const DEFAULT_METADATA = Object.freeze({
+  page: 1,
+  per: 20
+});
+
 export const LOCALE_KEYS = {
   en: "en"
 };
+
+export const HTTP_STATUS = {
+  invalidRecord: 422
+};
+
+export const DEFAULT_DATE_VALUES = {
+  TODAY: "TODAY",
+  NOW: "NOW"
+};
+
+export const FETCH_PARAM = Object.freeze({
+  DATA: "data",
+  OPTIONS: "options"
+});

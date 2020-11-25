@@ -14,14 +14,24 @@ describe Api::V2::ReferralsController, type: :request do
         Permission::REFERRAL, Permission::RECEIVE_REFERRAL
       ]
     )
+    @permission_referral_from_service = Permission.new(
+      resource: Permission::CASE, actions: [Permission::REFERRAL_FROM_SERVICE]
+    )
     @role = Role.new(permissions: [@permission_refer_case], modules: [@primero_module])
     @role.save(validate: false)
+    @role_service = Role.new(
+      permissions: [@permission_referral_from_service],
+      modules: [@primero_module]
+    )
+    @role_service.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
     @user1.save(validate: false)
     @group2 = UserGroup.create!(name: 'Group2')
     @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2])
     @user2.save(validate: false)
+    @user3 = User.new(user_name: 'user3', role: @role_service, user_groups: [@group1])
+    @user3.save(validate: false)
     @case_a = Child.create(
       data: {
         name: 'Test', owned_by: 'user1',
@@ -32,6 +42,17 @@ describe Api::V2::ReferralsController, type: :request do
     @case_b = Child.create(
       data: {
         name: 'Test', owned_by: 'user1',
+        disclosure_other_orgs: true, consent_for_services: true,
+        module_id: @primero_module.unique_id, services_section: [
+          {
+            service_type: 'Test type', service_implementing_agency_individual: @user1.user_name, service_provider: true
+          }
+        ]
+      }
+    )
+    @case_c = Child.create(
+      data: {
+        name: 'Test', owned_by: 'user3',
         disclosure_other_orgs: true, consent_for_services: true,
         module_id: @primero_module.unique_id, services_section: [
           {
@@ -118,6 +139,36 @@ describe Api::V2::ReferralsController, type: :request do
       expect(json['data']['notes']).to eq('Test Notes')
 
       expect(audit_params['action']).to eq('refer')
+    end
+
+    it 'refers the record if referred from a service and the user can refer from services' do
+      sign_in(@user3)
+      params = {
+        data: {
+          transitioned_to: 'user2', notes: 'Test Notes',
+          service_record_id: @case_c.data['services_section'][0]['unique_id']
+        }
+      }
+      post "/api/v2/cases/#{@case_c.id}/referrals", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['record_id']).to eq(@case_c.id.to_s)
+      expect(json['data']['transitioned_to']).to eq('user2')
+      expect(json['data']['transitioned_by']).to eq('user3')
+      expect(json['data']['notes']).to eq('Test Notes')
+
+      expect(audit_params['action']).to eq('refer')
+    end
+
+    it 'get a forbidden message if is not referred from a service and the user can only refer from service' do
+      sign_in(@user3)
+      params = { data: { transitioned_to: 'user2', notes: 'Test Notes' } }
+      post "/api/v2/cases/#{@case_c.id}/referrals", params: params
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['status']).to eq(403)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case_c.id}/referrals")
+      expect(json['errors'][0]['message']).to eq('Forbidden')
     end
   end
 

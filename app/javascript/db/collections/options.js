@@ -8,7 +8,7 @@ const Options = {
 
   save: async ({ collection, json, db }) => {
     const isLocations = collection === DB_COLLECTIONS_NAMES.LOCATIONS;
-    const data = isLocations ? json : json.data;
+    const { data } = json;
 
     if (isLocations) {
       await DB.clear(collection);

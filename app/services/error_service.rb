@@ -2,6 +2,10 @@
 
 # Handles all exceptions for the API controllers so that they can be rendered.
 class ErrorService
+  # We have a simple switch statement to instantiate the various errors thrown by Primero
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
   def self.handle(error, request)
     case error
     when CanCan::AccessDenied, Errors::ForbiddenOperation
@@ -32,6 +36,15 @@ class ErrorService
           detail: field_name.to_s
         )
       end
+    when Errors::LockedForConfigurationUpdate
+      code = 503
+      errors = [
+        ApplicationError.new(
+          code: 503, message: 'Service Unavailable', resource: request.path,
+          detail: "Retry-After: #{error&.retry_after}",
+          headers: { 'Retry-After' => error&.retry_after&.to_s }
+        )
+      ]
     else
       code = 500
       errors = [
@@ -45,4 +58,7 @@ class ErrorService
     end
     [code, errors]
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/MethodLength
 end

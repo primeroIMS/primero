@@ -16,7 +16,7 @@ import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
 import { currentUser } from "../user";
 import { useI18n } from "../i18n";
 import { RECORD_PATH } from "../../config";
-import { getReportingLocationConfig } from "../application/selectors";
+import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
 
 import { filterType, compactFilters } from "./utils";
@@ -212,7 +212,6 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
     dispatch(setFilters({ recordType, data: defaultFilters.toJS() }));
 
     dispatch(push({}));
-    dispatch(applyFilters({ recordType, data: defaultFilters.toJS() }));
 
     setMoreSectionFilters({});
     setReset(true);

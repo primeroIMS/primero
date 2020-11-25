@@ -1,7 +1,10 @@
 # Primero API
 
-This document describes the Primero API version 2. A deprecated version 1 of the API, currently used by the mobile application, is still available under /api. This may not be available in the future.
+This document describes the Primero API version 2.
 
+## Bootstrap
+
+* [Public information about the instance](v2/docs/primero/get.md) : `GET /api/v2/primero`
 
 ## Authentication
 
@@ -132,6 +135,17 @@ Endpoints for querying contact information
 
 * [Query for contact information](v2/docs/contact_information/get.md) : `GET /api/v2/contact_information`
 * [Update the current contact information](v2/docs/contact_information/patch.md) : `PATCH /api/v2/contact_information`
+
+
+## Configuration
+
+Endpoints for creating, fetching, and applying the Primero configuration state.
+
+* [Query for all configurations](v2/docs/configurations/get.md) : `GET /api/v2/configurations`
+* [Fetch info about an individual configuration](v2/docs/configurations/id/get.md) : `GET /api/v2/configurations/:id`
+* [Save off the current primero configuration state](v2/docs/configurations/post.md) : `POST /api/v2/configurations`
+* [Apply this configuration to Primero](v2/docs/configurations/id/patch.md) : `PATCH /api/v2/configurations/:id`
+* [Delete an existing configuration](v2/docs/configurations/id/delete.md) : `DELETE /api/v2/configurations/:id`
 
 
 ## System Setting Endpoints

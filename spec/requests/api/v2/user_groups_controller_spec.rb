@@ -103,6 +103,7 @@ describe Api::V2::UserGroupsController, type: :request do
         data: {
           unique_id: 'test_unique_id21',
           name: 'test_nam12',
+          disabled: false,
           description: 'test_description12'
         }
       }
@@ -156,6 +157,7 @@ describe Api::V2::UserGroupsController, type: :request do
           data: {
             unique_id: 'test_unique_id21',
             name: 'test_nam12',
+            disabled: false,
             description: 'test_description12'
           }
         }
@@ -182,6 +184,7 @@ describe Api::V2::UserGroupsController, type: :request do
         data: {
           unique_id: 'user-group-1',
           name: 'test_nam12',
+          disabled: false,
           description: 'test_descriptio1n2'
         }
       }
@@ -220,6 +223,7 @@ describe Api::V2::UserGroupsController, type: :request do
           id: @user_group_b.id,
           unique_id: @user_group_b.unique_id,
           name: 'test_nam12',
+          disabled: false,
           description: 'test_descriptio1n2'
         }
       }

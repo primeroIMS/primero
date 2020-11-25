@@ -41,10 +41,10 @@ describe("<Transitions /> - Selectors", () => {
       expect(values).to.deep.equal(expected);
     });
 
-    it("should return undefined when there are not messages in store", () => {
+    it("should return empty list when there are not messages in store", () => {
       const errors = selectors.getErrorsByTransitionType(stateWithNoRecords);
 
-      expect(errors).to.be.equal(undefined);
+      expect(errors).to.be.equal(fromJS([]));
     });
   });
 

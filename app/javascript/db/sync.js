@@ -16,8 +16,11 @@ const syncIndexedDB = async (db = { recordType: "", collection: "" }, json, meth
       case DB_COLLECTIONS_NAMES.RECORDS: {
         return collections.Records;
       }
-      case DB_COLLECTIONS_NAMES.SYSTEM_SETTINGS: {
-        return collections.SystemSettings;
+      case DB_COLLECTIONS_NAMES.SYSTEM_SETTINGS:
+      case DB_COLLECTIONS_NAMES.PERMISSIONS:
+      case DB_COLLECTIONS_NAMES.PRIMERO:
+      case DB_COLLECTIONS_NAMES.CONTACT_INFORMATION: {
+        return collections.Common;
       }
       case DB_COLLECTIONS_NAMES.USER: {
         return collections.User;
@@ -27,6 +30,9 @@ const syncIndexedDB = async (db = { recordType: "", collection: "" }, json, meth
       }
       case DB_COLLECTIONS_NAMES.DASHBOARDS: {
         return collections.Dashboards;
+      }
+      case DB_COLLECTIONS_NAMES.LOGOS: {
+        return collections.Logos;
       }
       default: {
         return false;

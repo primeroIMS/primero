@@ -8,6 +8,7 @@ describe("Verifying config constant", () => {
 
     [
       "ADD_NOTE",
+      "AGENCY_READ",
       "APPROVE_ASSESSMENT",
       "APPROVE_CASE_PLAN",
       "APPROVE_CLOSURE",
@@ -64,6 +65,7 @@ describe("Verifying config constant", () => {
       "FLAG",
       "GROUP_READ",
       "INCIDENT_DETAILS_FROM_CASE",
+      "INCIDENT_FROM_CASE",
       "MANAGE",
       "READ",
       "RECEIVE_REFERRAL",
@@ -77,9 +79,11 @@ describe("Verifying config constant", () => {
       "REQUEST_APPROVAL_CLOSURE",
       "REQUEST_APPROVAL_ACTION_PLAN",
       "REQUEST_APPROVAL_GBV_CLOSURE",
+      "REQUEST_TRANSFER",
       "SEARCH_OWNED_BY_OTHERS",
       "SERVICES_SECTION_FROM_CASE",
       "TRANSFER",
+      "VIEW_INCIDENT_FROM_CASE",
       "WRITE"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
@@ -108,11 +112,14 @@ describe("Verifying config constant", () => {
 
     [
       "agencies",
+      "any",
       "audit_logs",
       "cases",
+      "configurations",
       "contact_information",
       "dashboards",
       "incidents",
+      "locations",
       "lookups",
       "metadata",
       "potential_matches",
@@ -385,5 +392,35 @@ describe("Verifying config constant", () => {
       permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
+  });
+
+  it("should have VIEW_INCIDENTS_FROM_CASE", () => {
+    const permissions = [...PERMISSIONS.VIEW_INCIDENTS_FROM_CASE];
+
+    expect(permissions).to.be.a("array");
+    [PERMISSIONS.ACTIONS.MANAGE, PERMISSIONS.ACTIONS.VIEW_INCIDENT_FROM_CASE].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  describe("allowedExportTypes", () => {
+    it("should return an array with the allowed export types", () => {
+      const expected = List([PERMISSIONS.ACTIONS.EXPORT_PDF, PERMISSIONS.ACTIONS.EXPORT_JSON]);
+      const userPermission = List([
+        PERMISSIONS.ACTIONS.EXPORT_PDF,
+        PERMISSIONS.ACTIONS.EXPORT_JSON,
+        PERMISSIONS.ACTIONS.MANAGE
+      ]);
+
+      expect(PERMISSIONS.allowedExportTypes(userPermission)).to.deep.equals(expected);
+    });
+
+    it("should return an empty array if there are not allowed export types", () => {
+      const userPermission = List([PERMISSIONS.ACTIONS.MANAGE]);
+
+      expect(PERMISSIONS.allowedExportTypes(userPermission)).to.be.empty;
+    });
   });
 });

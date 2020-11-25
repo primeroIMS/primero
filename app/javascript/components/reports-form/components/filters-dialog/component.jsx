@@ -33,7 +33,7 @@ const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, ind
     watchedConstraint === NOT_NULL || (typeof watchedConstraint === "boolean" && watchedConstraint);
 
   const currentField = fields.find(f => f.id === watchedAttribute);
-  const selectedReportFilter = indexes.find(i => i.index.toString() === selectedIndex)?.data;
+  const selectedReportFilter = indexes[selectedIndex]?.data;
 
   if (
     [SELECT_FIELD, RADIO_FIELD].includes(currentField?.type) &&

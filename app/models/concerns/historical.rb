@@ -54,14 +54,14 @@ module Historical
     self.last_updated_by = user&.user_name
     self.created_by = user&.user_name
     self.created_by_full_name = user&.full_name
-    self.created_organization = user&.organization
+    self.created_organization = user&.organization&.unique_id
     self.created_agency_office = user&.agency_office
     self.last_updated_at ||= self.created_at ||= DateTime.now
     self.posted_at = DateTime.now
   end
 
   def update_organization
-    self.created_organization ||= created_by_user.try(:organization)
+    self.created_organization ||= created_by_user&.organization&.unique_id
   end
 
   def created_by_user

@@ -97,4 +97,10 @@ class Incident < ApplicationRecord
   def incident_date_derived
     incident_date || date_of_incident_from || date_of_incident
   end
+
+  def case_id_display
+    return unless incident_case_id.present?
+
+    self.case.case_id_display
+  end
 end

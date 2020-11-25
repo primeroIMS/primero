@@ -13,8 +13,8 @@ describe("<FieldsList />", () => {
       admin: {
         forms: {
           selectedFields: [
-            { name: "field_1", editable: false },
-            { name: "field_2", editable: true }
+            { name: "field_1", display_name: { en: "Field 1" }, editable: false },
+            { name: "field_2", display_name: { en: "Field 2" }, editable: true }
           ]
         }
       }
@@ -22,7 +22,7 @@ describe("<FieldsList />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(FieldsList, {}, {}, initialState));
+    ({ component } = setupMockFormComponent(FieldsList, { formContextFields: {} }, {}, initialState, {}, true));
   });
 
   it("should render the list items", () => {

@@ -132,7 +132,10 @@ class MatchingConfiguration
   private
 
   def load_form_sections_by_type(type)
-    FormSection.form_sections_by_ids_and_parent_form(form_ids, type).includes(:fields)
+    forms = FormSection.where(parent_form: type, is_nested: false)
+    forms = forms.where(unique_id: form_ids) if form_ids
+    forms = forms.order(order_form_group: :asc, order: :asc, order_subform: :asc)
+    forms.includes(:fields)
   end
 
   def get_matchable_form_and_field_names(form_ids, parent_form)

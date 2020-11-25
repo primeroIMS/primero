@@ -6,12 +6,11 @@
 # token identifiers. If external identity providers are used (over OpenID Connect), the
 # model is not responsible for storing authentication information, and must mirror a user
 # in external IDP (such as Azure Active Directory).
+# rubocop:disable Metrics/ClassLength
 class User < ApplicationRecord
-  include Importable
-  include Devise::JWT::RevocationStrategies::Whitelist
+  include Devise::JWT::RevocationStrategies::Allowlist
 
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
-  PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
 
   attr_accessor :exists_reporting_location
@@ -20,7 +19,7 @@ class User < ApplicationRecord
 
   delegate :can?, :cannot?, to: :ability
 
-  devise :database_authenticatable, :timeoutable, :recoverable,
+  devise :database_authenticatable, :timeoutable, :recoverable, :lockable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
   belongs_to :role
@@ -53,11 +52,13 @@ class User < ApplicationRecord
   validates :user_name, format: { with: URI::MailTo::EMAIL_REGEXP, message: 'errors.models.user.user_name' },
                         if: :using_idp?
   validates :email, presence: true, if: :using_idp?
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP, message: 'errors.models.user.email' }, allow_nil: true
+  validates :email,
+            format: { with: URI::MailTo::EMAIL_REGEXP, message: 'errors.models.user.email' },
+            allow_nil: true,
+            uniqueness: { message: 'errors.models.user.email_uniqueness' }
   validates :password,
             presence: true,
             length: { minimum: 8, message: 'errors.models.user.password_mismatch' },
-            format: { with: PASSWORD_REGEX, message: 'errors.models.user.password_mismatch' },
             confirmation: { message: 'errors.models.user.password_mismatch' },
             if: :password_required?
   validates :password_confirmation,
@@ -83,18 +84,18 @@ class User < ApplicationRecord
       %w[user_group_unique_ids role_unique_id identity_provider_unique_id]
     end
 
+    def permitted_attribute_names
+      User.attribute_names.reject { |name| name == 'services' } + [{ services: [] }]
+    end
+
     def permitted_api_params
       (
-        User.attribute_names + User.password_parameters +
+        User.permitted_attribute_names + User.password_parameters +
         [
           { user_group_ids: [] }, { user_group_unique_ids: [] },
           { module_unique_ids: [] }, :role_unique_id, :identity_provider_unique_id
         ]
       ) - User.hidden_attributes
-    end
-
-    def get_unique_instance(attributes)
-      User.find_by(user_name: attributes['user_name'])
     end
 
     def last_login_timestamp(user_name)
@@ -105,6 +106,12 @@ class User < ApplicationRecord
       Agency.joins(:users).where('users.user_name in (?)', user_names).distinct
     end
 
+    def filter_with_groups(users, filters)
+      return users unless filters['user_group_ids'].present?
+
+      users.joins(:user_groups).where(user_groups: { unique_id: filters['user_group_ids'] })
+    end
+
     def default_sort_field
       'full_name'
     end
@@ -112,21 +119,27 @@ class User < ApplicationRecord
     # TODO: Review after figuring out front end lookups. We might not need this method.
     # This method returns a list of id / display_text value pairs
     # It is used to create the select options list for User fields
+    # TODO: Used by select fields when you want to make a lookup out of all the agencies,
+    #       but that functionality is probably deprecated. Review and delete.
     def all_names
       enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
     end
 
+    # TODO: Move the logic for find_permitted_users, users_for_assign,
+    #       users_for_referral, users_for_transfer, users_for_transition into services
+
     def find_permitted_users(filters = nil, pagination = nil, sort = nil, user = nil)
-      users = User.all
+      users = User.all.includes(:user_groups, role: :primero_modules)
       if filters.present?
         filters = filters.compact
         filters['disabled'] = filters['disabled'].values if filters['disabled'].present?
-        users = users.where(filters)
-        if user.present? && user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
-          users = users.where(organization: user.organization)
-        end
-        users
+        users = users.where(filters.except('user_group_ids'))
+        users = filter_with_groups(users, filters)
       end
+      if user.present? && user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
+        users = users.where(organization: user.organization)
+      end
+
       results = { total: users.size }
       pagination = { per_page: 20, page: 1 } if pagination.blank?
       pagination[:offset] = pagination[:per_page] * (pagination[:page] - 1)
@@ -139,16 +152,16 @@ class User < ApplicationRecord
       return User.none unless model.present?
 
       users = where(disabled: false).where.not(id: user.id)
-      if user.can? :assign, model
-        users
-      elsif user.can? :assign_within_agency, model
-        users.where(agency_id: user.agency_id)
-      elsif user.can? :assign_within_user_group, model
-        users.joins('join user_groups_users on users.id = user_groups_users.user_id')
-             .where('user_groups_users.user_group_id in (?)', user.user_groups.pluck(:id))
-      else
-        []
+      return users if user.can? :assign, model
+
+      return users.where(agency_id: user.agency_id) if user.can? :assign_within_agency, model
+
+      if user.can? :assign_within_user_group, model
+        return users.joins('join user_groups_users on users.id = user_groups_users.user_id')
+                    .where('user_groups_users.user_group_id in (?)', user.user_groups.pluck(:id))
       end
+
+      []
     end
 
     def users_for_referral(user, model, filters)
@@ -160,18 +173,16 @@ class User < ApplicationRecord
     end
 
     def users_for_transition(user, model, filters, permission)
-      return User.none unless model.present?
+      return User.none if model.blank?
 
-      users = users_with_permission(model, permission)
-              .where(disabled: false)
-              .where.not(id: user.id)
-      if filters.present?
-        services_filter = filters.delete('services')
-        agencies_filter = filters.delete('agency')
-        users = users.where(filters) if filters.present?
-        users = users.where(':service = ANY (users.services)', service: services_filter) if services_filter.present?
-        users = users.joins(:agency).where(agencies: { unique_id: agencies_filter }) if agencies_filter.present?
-      end
+      users = users_with_permission(model, permission).where(disabled: false).where.not(id: user.id)
+      return users if filters.blank?
+
+      services_filter = filters.delete('service')
+      agencies_filter = filters.delete('agency')
+      users = users.where(filters) if filters.present?
+      users = users.where(':service = ANY (users.services)', service: services_filter) if services_filter.present?
+      users = users.joins(:agency).where(agencies: { unique_id: agencies_filter }) if agencies_filter.present?
       users
     end
 
@@ -236,9 +247,21 @@ class User < ApplicationRecord
   end
 
   def reporting_location
-    return if user_location.blank? || exists_reporting_location == false
+    location = user_location
+    return nil if location.blank?
 
-    @reporting_location ||= Location.get_reporting_location(user_location)
+    admin_level = reporting_location_admin_level
+    return location if location.admin_level == admin_level
+
+    location.ancestor_by_admin_level(admin_level)
+  end
+
+  def reporting_location_admin_level
+    reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+  end
+
+  def reporting_location_config
+    role&.reporting_location_config
   end
 
   def last_login
@@ -254,16 +277,16 @@ class User < ApplicationRecord
     @module_unique_ids ||= modules.pluck(:unique_id)
   end
 
-  def has_module?(module_unique_id)
+  def module?(module_unique_id)
     module_unique_ids.include?(module_unique_id)
   end
 
-  def has_permission?(permission)
+  def permission?(permission)
     role.permissions && role.permissions
                             .map(&:actions).flatten.include?(permission)
   end
 
-  def has_permission_by_permission_type?(permission_type, permission)
+  def permission_by_permission_type?(permission_type, permission)
     permissions_for_type = role.permissions
                                .select { |perm| perm.resource == permission_type }
     permissions_for_type.present? &&
@@ -274,13 +297,8 @@ class User < ApplicationRecord
     role&.group_permission == permission
   end
 
-  def has_any_permission?(*any_of_permissions)
-    (any_of_permissions.flatten - role.permissions).count <
-      any_of_permissions.flatten.count
-  end
-
   def can_preview?(record_type)
-    has_permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
+    permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
   end
 
   def managed_users
@@ -301,7 +319,7 @@ class User < ApplicationRecord
 
   def user_managers
     @managers = User.all.select do |u|
-      (u.user_group_ids & user_group_ids).any? && u.is_manager?
+      (u.user_group_ids & user_group_ids).any? && u.manager?
     end
   end
 
@@ -310,26 +328,39 @@ class User < ApplicationRecord
     @managers
   end
 
-  # This method indicates what records this user can search for.
+  # This method indicates what records or flags this user can search for.
   # Returns self, if can only search records associated with this user
   # Returns list of UserGroups if can only query from those user groups that this user has access to
   # Returns the Agency if can only query from the agency this user has access to
   # Returns empty list if can query for all records in the system
   def record_query_scope(record_model, id_search = false)
-    user_scope = if can_search_for_all?(record_model, id_search)
+    user_scope = case user_query_scope(record_model, id_search)
+                 when Permission::AGENCY
+                   { 'agency' => agency.unique_id, 'agency_id' => agency_id }
+                 when Permission::GROUP
+                   { 'group' => user_groups.map(&:unique_id).compact }
+                 when Permission::ALL
                    {}
-                 elsif group_permission?(Permission::AGENCY)
-                   { 'agency' => agency.unique_id }
-                 elsif group_permission?(Permission::GROUP) && user_group_ids.present?
-                   { 'group' => user_groups.pluck(:unique_id).compact }
                  else
                    { 'user' => user_name }
                  end
     { user: user_scope, module: module_unique_ids }
   end
 
+  def user_query_scope(record_model=nil, id_search = false)
+    if can_search_for_all?(record_model, id_search)
+      Permission::ALL
+    elsif group_permission?(Permission::AGENCY)
+      Permission::AGENCY
+    elsif group_permission?(Permission::GROUP) && user_group_ids.present?
+      Permission::GROUP
+    else
+      Permission::USER
+    end
+  end
+
   def can_search_for_all?(record_model, id_search = false)
-    group_permission?(Permission::ALL) || (can?(:search_owned_by_others, record_model) && id_search)
+    group_permission?(Permission::ALL) || (can?(:search_owned_by_others, record_model) && id_search && record_model)
   end
 
   def mobile_login_history
@@ -363,16 +394,6 @@ class User < ApplicationRecord
     IdentitySyncJob.perform_later(id, admin_user.id)
   end
 
-  # Used by the User import to populate the password with a random string when the input file has no password
-  # This assumes an admin will have to reset the new user's password after import
-  def populate_missing_attributes
-    return if using_idp?
-    return unless password_digest.blank? && password.blank?
-
-    self.password = SecureRandom.hex(20)
-    self.password_confirmation = password
-  end
-
   def agency_office_name
     return @agency_office_name if @agency_office_name
 
@@ -381,11 +402,11 @@ class User < ApplicationRecord
     end&.dig('display_text')
   end
 
-  def has_reporting_location_filter?
+  def reporting_location_filter?
     modules.any?(&:reporting_location_filter)
   end
 
-  def has_user_group_filter?
+  def user_group_filter?
     modules.any?(&:user_group_filter)
   end
 
@@ -421,12 +442,12 @@ class User < ApplicationRecord
     @ability ||= Ability.new(self)
   end
 
-  def is_manager?
+  def manager?
     role.is_manager
   end
 
   def gbv?
-    has_module?(PrimeroModule::GBV)
+    module?(PrimeroModule::GBV)
   end
 
   def tasks(pagination = { per_page: 100, page: 1 })
@@ -482,8 +503,8 @@ class User < ApplicationRecord
 
   def update_child_owned_by_fields(child)
     child.owned_by_location = location if location_changed?
-    child.owned_by_groups = user_group_ids if @refresh_associated_user_groups
-    child.owned_by_agency_id = agency_id if agency_id_changed?
+    child.owned_by_groups = user_group_unique_ids if @refresh_associated_user_groups
+    child.owned_by_agency_id = agency&.unique_id if agency_id_changed?
     child.owned_by_agency_office = agency_office if agency_office_changed?
     child.save!
   end
@@ -531,3 +552,4 @@ class User < ApplicationRecord
     @refresh_associated_user_agencies = false
   end
 end
+# rubocop:enable Metrics/ClassLength

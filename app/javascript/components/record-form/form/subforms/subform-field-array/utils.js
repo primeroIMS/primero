@@ -1,6 +1,8 @@
+import { isImmutable } from "immutable";
 import { isEmpty } from "lodash";
 
 const dataMeetConditions = (objectToEval, displayConditions) => {
+  const objToEval = isImmutable(objectToEval) ? objectToEval.toJS() : objectToEval;
   // displayConditions =
   // [ {"relation": ["father","mother"],"relation_is_alive": "alive"},{"relation_is_caregiver": true}]
   const isRenderable = displayConditions.reduce((currentBoolean, currentCondition) => {
@@ -14,10 +16,10 @@ const dataMeetConditions = (objectToEval, displayConditions) => {
       const valuesToEval = currentCondition[currentKeyCondition];
 
       if (Array.isArray(valuesToEval)) {
-        return valuesToEval.some(val => objectToEval[currentKeyCondition] === val);
+        return valuesToEval.some(val => objToEval[currentKeyCondition] === val);
       }
 
-      return objectToEval[currentKeyCondition] === valuesToEval;
+      return objToEval[currentKeyCondition] === valuesToEval;
     });
 
     return currentBoolean || resultEvaluationCurrentConditions;
@@ -27,6 +29,9 @@ const dataMeetConditions = (objectToEval, displayConditions) => {
 };
 
 export const valuesWithDisplayConditions = (values, displayConditions) => {
+  if (isEmpty(values)) {
+    return [];
+  }
   if (isEmpty(displayConditions)) {
     return values;
   }

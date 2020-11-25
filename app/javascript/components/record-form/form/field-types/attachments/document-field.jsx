@@ -14,6 +14,9 @@ import { useI18n } from "../../../../i18n";
 import { DOCUMENT_FIELD_NAME } from "../../constants";
 import DateField from "../date-field";
 import styles from "../../styles.css";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
+import ActionDialog from "../../../../action-dialog";
 
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
@@ -27,19 +30,33 @@ const DocumentField = ({
   open,
   resetOpenLastDialog,
   value,
-  removeFunc,
+  arrayHelpers,
   field
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [dialog, setDialog] = useState(false);
-  const { attachment_url: attachmentUrl } = value;
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
 
   const fields = buildAttachmentFieldsObject(name, index);
 
+  if (destroyed) return null;
+
+  const removeFunc = () => {
+    if (attachmentUrl) {
+      arrayHelpers.replace(index, {
+        _destroy: id,
+        attachment_type: attachment
+      });
+    } else {
+      arrayHelpers.remove(index);
+    }
+  };
+
   const handleClose = () => {
     if (!some(value)) {
-      removeFunc(index);
+      removeFunc();
     }
     resetOpenLastDialog();
     setDialog(false);
@@ -50,12 +67,30 @@ const DocumentField = ({
   };
 
   const handleRemove = () => {
-    removeFunc(index);
-    handleClose();
+    removeFunc();
+
+    if (dialog) {
+      handleClose();
+    }
   };
 
+  const openDeleteConfirmation = () => setDeleteConfirmation(true);
+
+  const closeDeleteConfirmation = () => setDeleteConfirmation(false);
+
+  const deleteButton = mode.isEdit && (
+    <ActionButton
+      icon={<DeleteIcon />}
+      type={ACTION_BUTTON_TYPES.icon}
+      isCancel
+      rest={{
+        onClick: openDeleteConfirmation
+      }}
+    />
+  );
+
   const supportingInputsProps = {
-    disabled: mode.isShow,
+    disabled: Boolean(attachmentUrl),
     fullWidth: true,
     autoComplete: "off",
     InputProps: {
@@ -71,7 +106,7 @@ const DocumentField = ({
     }
   };
 
-  const dialogActionText = `buttons.${mode.isShow ? "close" : "save"}`;
+  const dialogActionText = `buttons.${attachmentUrl ? "close" : "save"}`;
 
   return (
     <>
@@ -81,6 +116,7 @@ const DocumentField = ({
           {value.description}
         </div>
         <div>
+          {deleteButton}
           <IconButton onClick={handleOpen}>
             <KeyboardArrowRightIcon />
           </IconButton>
@@ -99,15 +135,20 @@ const DocumentField = ({
         <DialogContent>
           <div className={css.attachmentUploadField}>
             {attachmentUrl ? (
-              <Button href={attachmentUrl}>{i18n.t("buttons.download")}</Button>
+              <ActionButton
+                text={i18n.t("buttons.download")}
+                type={ACTION_BUTTON_TYPES.default}
+                isTransparent
+                rest={{
+                  variant: "outlined",
+                  component: "a",
+                  href: attachmentUrl
+                }}
+              />
             ) : (
               <AttachmentInput fields={fields} attachment={attachment} value={value.attachment} name={name} />
             )}
-            {mode.isShow || (
-              <IconButton onClick={handleRemove}>
-                <DeleteIcon />
-              </IconButton>
-            )}
+            {mode.isShow || deleteButton}
           </div>
 
           <Box my={2}>
@@ -124,6 +165,7 @@ const DocumentField = ({
               field={field}
               name={fields.date}
               label={i18n.t("fields.document.date")}
+              mode={mode}
             />
           </Box>
           <Box my={2}>
@@ -144,6 +186,15 @@ const DocumentField = ({
           </Button>
         </DialogActions>
       </Dialog>
+
+      <ActionDialog
+        open={deleteConfirmation}
+        successHandler={handleRemove}
+        cancelHandler={closeDeleteConfirmation}
+        dialogTitle={`${i18n.t("fields.remove")} ${i18n.t("fields.document_upload_box")}`}
+        dialogText={i18n.t("fields.remove_attachment_confirmation")}
+        confirmButtonLabel={i18n.t("buttons.ok")}
+      />
     </>
   );
 };
@@ -151,13 +202,13 @@ const DocumentField = ({
 DocumentField.displayName = DOCUMENT_FIELD_NAME;
 
 DocumentField.propTypes = {
+  arrayHelpers: PropTypes.object.isRequired,
   attachment: PropTypes.string.isRequired,
   field: PropTypes.object,
   index: PropTypes.number.isRequired,
   mode: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   open: PropTypes.bool,
-  removeFunc: PropTypes.func.isRequired,
   resetOpenLastDialog: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   value: PropTypes.object.isRequired

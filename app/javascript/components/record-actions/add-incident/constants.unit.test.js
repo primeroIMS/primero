@@ -4,7 +4,7 @@ describe("<AddIncident /> - constants", () => {
   it("should have known constant", () => {
     const clone = { ...constants };
 
-    ["NAME", "INCIDENT_SUBFORM"].forEach(property => {
+    ["NAME", "INCIDENT_SUBFORM", "INCIDENTS_SUBFORM_NAME"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });

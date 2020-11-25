@@ -15,7 +15,14 @@ export const validationSchema = i18n =>
       )
   });
 
-export const translationsForm = ({ i18n, selectedLocaleId, cssHideField, cssTranslationField, locales, formSection }) =>
+export const translationsForm = ({
+  i18n,
+  selectedLocaleId,
+  cssHideField,
+  cssTranslationField,
+  locales,
+  currentValues
+}) =>
   fromJS([
     FormSectionRecord({
       unique_id: "edit_translations",
@@ -36,7 +43,7 @@ export const translationsForm = ({ i18n, selectedLocaleId, cssHideField, cssTran
       name: i18n.t("forms.form_title"),
       fields: locales.map(locale =>
         FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${formSection.getIn(["name", "en"])}`,
+          display_name: `${i18n.t("home.en")}: ${currentValues.name?.en}`,
           name: `name.${locale.get("id")}`,
           type: TEXT_FIELD,
           inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
@@ -48,7 +55,7 @@ export const translationsForm = ({ i18n, selectedLocaleId, cssHideField, cssTran
       name: i18n.t("forms.form_description"),
       fields: locales.map(locale =>
         FieldRecord({
-          display_name: `${i18n.t("home.en")}: ${formSection.getIn(["description", "en"])}`,
+          display_name: `${i18n.t("home.en")}: ${currentValues.description?.en}`,
           name: `description.${locale.get("id")}`,
           type: TEXT_FIELD,
           inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField

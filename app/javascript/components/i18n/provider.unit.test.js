@@ -1,6 +1,6 @@
 import React from "react";
 
-import { setupMountedComponent } from "../../test";
+import { setupMountedComponent, translateOptions } from "../../test";
 
 import { useI18n } from "./provider";
 
@@ -51,5 +51,61 @@ describe("I18nProvider - changeLocale", () => {
     expect(button.text()).to.equal("I18n Test Component");
     expect(locale).to.equal(newLocale);
     expect(lang).to.equal(newLocale);
+  });
+});
+
+describe("localizeDate", () => {
+  it("should not render invalid dates", () => {
+    const TestComponent = () => {
+      const { localizeDate } = useI18n();
+
+      return localizeDate("invalidDate");
+    };
+    const { component } = setupMountedComponent(TestComponent);
+
+    expect(component.text()).to.equal("");
+  });
+});
+
+describe("I18nProvider - t", () => {
+  const TestComponent = () => {
+    const i18n = useI18n();
+
+    return <p>{i18n.t("test")}</p>;
+  };
+
+  const translations = {
+    en: {
+      test: "Test."
+    },
+    es: {
+      test: ""
+    }
+  };
+
+  it("should translate to locale", () => {
+    window.I18n.t = (value, options) => translateOptions(value, options, translations);
+
+    const { locale } = window.I18n;
+    const { component } = setupMountedComponent(TestComponent);
+
+    expect(locale).to.be.equal("en");
+    expect(component.text()).to.be.equal("Test.");
+  });
+
+  it("should translate using defaultLocale if selected locale contains an empty string as translation", () => {
+    window.I18n.locale = "es";
+    window.I18n.t = (value, options) => translateOptions(value, options, translations);
+
+    const { locale } = window.I18n;
+    const { component } = setupMountedComponent(TestComponent);
+
+    expect(locale).to.be.equal("es");
+    expect(component.text()).to.be.equal("Test.");
+  });
+
+  afterEach(() => {
+    window.I18n.locale = "en";
+    window.I18n.t = path => path;
   });
 });

@@ -170,6 +170,17 @@ describe Workflow do
         end
       end
 
+      context 'and service response type is set' do
+        before do
+          @case1.services_section = [{'service_response_type' => 'service_provision', 'service_response_day_time' => DateTime.now, 'service_type' => 'shelter_service'}]
+          # binding.pry
+          @case1.save!
+        end
+        it 'workflow status should be service_provision' do
+          expect(@case1.workflow).to eq('service_provision')
+        end
+      end
+
     end
 
     context 'when case is closed' do

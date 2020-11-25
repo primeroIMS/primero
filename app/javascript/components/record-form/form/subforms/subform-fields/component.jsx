@@ -21,7 +21,7 @@ import { compare } from "../../../../../libs";
 import { getValidationErrors } from "../../..";
 import styles from "../styles.css";
 
-const Component = ({ arrayHelpers, field, form, locale, mode, recordType, setDialogIsNew, setOpen, values }) => {
+const Component = ({ arrayHelpers, field, form, locale, mode, setDialogIsNew, setOpen, values }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [deleteModal, setDeleteModal] = useState(false);
@@ -104,7 +104,14 @@ const Component = ({ arrayHelpers, field, form, locale, mode, recordType, setDia
           return (
             <div key={`${name}-${index}`} className={css.subformFields}>
               <div className={css.subformHeaderBox}>
-                <SubformHeader field={field} index={index} displayName={displayName} locale={locale} values={values} />
+                <SubformHeader
+                  field={field}
+                  index={index}
+                  displayName={displayName}
+                  locale={locale}
+                  values={values}
+                  onClick={handleEdit}
+                />
               </div>
               <div className={css.subformHeaderActions}>
                 {hasError(index) && <Jewel isError />}
@@ -118,7 +125,7 @@ const Component = ({ arrayHelpers, field, form, locale, mode, recordType, setDia
                   />
                 ) : null}
                 {mode.isShow && serviceHasReferFields(values[index]) ? (
-                  <SubformMenu index={index} values={values} recordType={recordType} />
+                  <SubformMenu index={index} values={values} />
                 ) : null}
                 <ActionButton
                   icon={<ArrowIcon />}
@@ -155,7 +162,6 @@ Component.propTypes = {
   form: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
-  recordType: PropTypes.string,
   setDialogIsNew: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired

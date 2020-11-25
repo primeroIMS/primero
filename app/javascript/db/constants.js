@@ -10,25 +10,34 @@ export const DB_STORES = Object.freeze({
   LOCATIONS: "locations",
   IDP: "idp",
   OFFLINE_REQUESTS: "offline_requests",
-  DASHBOARDS: "dashboards"
+  DASHBOARDS: "dashboards",
+  LOGOS: "logos",
+  MANIFESTS: "manifests",
+  PERMISSIONS: "permissions",
+  CONTACT_INFORMATION: "contact_information",
+  PRIMERO: "primero"
 });
 
 export const DB_COLLECTIONS_V1 = [
-  ["records", { keyPath: "id" }, ["type", "type", { multiEntry: true }]],
-  ["user", { keyPath: "user_name" }],
-  ["offline_requests", { keyPath: "fromQueue" }],
-  ["manifests", { keyPath: "collection" }],
-  "forms",
-  "fields",
-  "options",
-  "locations",
-  "system_settings",
-  "idp"
+  [DB_STORES.RECORDS, { keyPath: "id" }, ["type", "type", { multiEntry: true }]],
+  [DB_STORES.USER, { keyPath: "user_name" }],
+  [DB_STORES.OFFLINE_REQUESTS, { keyPath: "fromQueue" }],
+  [DB_STORES.MANIFESTS, { keyPath: "collection" }],
+  DB_STORES.FORMS,
+  DB_STORES.FIELDS,
+  DB_STORES.OPTIONS,
+  DB_STORES.LOCATIONS,
+  DB_STORES.SYSTEM_SETTINGS,
+  DB_STORES.IDP
 ];
 
-export const DB_COLLECTIONS_V2 = ["dashboards"];
+export const DB_COLLECTIONS_V2 = [DB_STORES.DASHBOARDS];
 
-export const DB_COLLECTIONS = [...DB_COLLECTIONS_V1, ...DB_COLLECTIONS_V2];
+export const DB_COLLECTIONS_V3 = [DB_STORES.LOGOS];
+
+export const DB_COLLECTIONS_V4 = [DB_STORES.PERMISSIONS, DB_STORES.CONTACT_INFORMATION, DB_STORES.PRIMERO];
+
+export const DB_COLLECTIONS = [...DB_COLLECTIONS_V1, ...DB_COLLECTIONS_V2, ...DB_COLLECTIONS_V3, ...DB_COLLECTIONS_V4];
 
 export const DB_COLLECTIONS_NAMES = DB_COLLECTIONS.reduce((prev, current) => {
   const obj = prev;

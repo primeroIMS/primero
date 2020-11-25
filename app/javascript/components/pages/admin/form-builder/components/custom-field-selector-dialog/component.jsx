@@ -10,10 +10,10 @@ import {
   Divider,
   makeStyles
 } from "@material-ui/core";
-import { useDispatch, useSelector, batch } from "react-redux";
+import { useDispatch, batch } from "react-redux";
 import clsx from "clsx";
 
-import ActionDialog from "../../../../../action-dialog";
+import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import {
   TEXT_FIELD,
   TEXT_AREA,
@@ -22,14 +22,13 @@ import {
   SEPARATOR,
   NUMERIC_FIELD,
   RADIO_FIELD,
-  SELECT_FIELD
+  SELECT_FIELD,
+  SUBFORM_SECTION
 } from "../../../../../form";
-import { setDialog } from "../../../../../record-actions/action-creators";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { useI18n } from "../../../../../i18n";
 import { NEW_FIELD } from "../../constants";
-import { setNewField } from "../../action-creators";
-import { selectDialog } from "../../../../../record-actions/selectors";
+import { setNewField, setTemporarySubform } from "../../action-creators";
 import { CUSTOM_FIELD_DIALOG } from "../custom-field-dialog/constants";
 import {
   DateInput,
@@ -41,7 +40,8 @@ import {
   RadioInput,
   SelectInput,
   MultiSelectInput,
-  DateAndTimeInput
+  DateAndTimeInput,
+  SubformField
 } from "../../../../../../images/primero-icons";
 
 import styles from "./styles.css";
@@ -58,8 +58,8 @@ const fields = [
   [DATE_FIELD, DateInput],
   [DATE_TIME_FIELD, DateAndTimeInput],
   // [DATE_FIELD, DateRangeInput],
-  [SEPARATOR, Seperator]
-  // [SUBFORM_SECTION, SubformField]
+  [SEPARATOR, Seperator],
+  [SUBFORM_SECTION, SubformField]
 ];
 
 const Component = ({ isSubform }) => {
@@ -67,11 +67,12 @@ const Component = ({ isSubform }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const css = makeStyles(styles)();
-  const openFieldSelectorDialog = useSelector(state => selectDialog(state, CUSTOM_FIELD_SELECTOR_DIALOG));
+
+  const { dialogOpen, dialogClose, setDialog } = useDialog(CUSTOM_FIELD_SELECTOR_DIALOG);
 
   useEffect(() => {
     setSelectedItem("");
-  }, [openFieldSelectorDialog]);
+  }, [dialogOpen]);
 
   const handleListItem = item => {
     setSelectedItem(item);
@@ -98,18 +99,10 @@ const Component = ({ isSubform }) => {
     };
 
     batch(() => {
-      dispatch(
-        setDialog({
-          dialog: CUSTOM_FIELD_SELECTOR_DIALOG,
-          open: false
-        })
-      );
-      dispatch(
-        setDialog({
-          dialog: ADMIN_FIELDS_DIALOG,
-          open: true
-        })
-      );
+      setDialog({
+        dialog: ADMIN_FIELDS_DIALOG,
+        open: true
+      });
       dispatch(
         setNewField(
           {
@@ -120,14 +113,29 @@ const Component = ({ isSubform }) => {
           isSubform
         )
       );
+
+      if (selectedItem === SUBFORM_SECTION) {
+        const selectedSubformParams = {
+          temp_id: Math.floor(Math.random() * 100000),
+          isSubformNew: true
+        };
+
+        dispatch(
+          setTemporarySubform({
+            ...newFieldAttributtes,
+            ...selectedSubformParams
+          })
+        );
+      }
     });
   };
 
   const handleClose = () => {
     batch(() => {
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: false }));
+      dialogClose();
+
       if (selectedItem === "") {
-        dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true }));
+        setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true });
       }
     });
   };
@@ -136,11 +144,12 @@ const Component = ({ isSubform }) => {
     <>
       <ActionDialog
         dialogTitle={i18n.t("fields.create_field")}
-        open={openFieldSelectorDialog}
+        open={dialogOpen}
         enabledSuccessButton={selectedItem !== ""}
         confirmButtonLabel={i18n.t("buttons.select")}
         successHandler={handleSelected}
         cancelHandler={handleClose}
+        omitCloseAfterSuccess
       >
         <List>
           <ListSubheader>
@@ -150,6 +159,10 @@ const Component = ({ isSubform }) => {
           <Divider />
           {fields.map(field => {
             const [name, Icon] = field;
+
+            if (name === SUBFORM_SECTION && isSubform) {
+              return null;
+            }
 
             return (
               <React.Fragment key={field}>

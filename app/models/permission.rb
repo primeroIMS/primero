@@ -25,7 +25,7 @@ class Permission < ValueObject
   EXPORT_PHOTO_WALL = 'export_photowall'
   EXPORT_UNHCR = 'export_unhcr_csv'
   EXPORT_DUPLICATE_ID = 'export_duplicate_id_csv'
-  EXPORT_PDF = 'export_case_pdf'
+  EXPORT_PDF = 'export_pdf'
   EXPORT_MRM_VIOLATION_XLS = 'export_mrm_violation_xls'
   EXPORT_INCIDENT_RECORDER = 'export_incident_recorder_xls'
   EXPORT_CUSTOM = 'export_custom'
@@ -40,6 +40,7 @@ class Permission < ValueObject
   ROLE = 'role'
   AGENCY = 'agency'
   METADATA = 'metadata'
+  CONFIGURATION = 'primero_configuration'
   SYSTEM = 'system'
   REPORT = 'report'
   AUDIT_LOG = 'audit_log'
@@ -92,6 +93,7 @@ class Permission < ValueObject
   DASH_CASES_TO_ASSIGN = 'dash_cases_to_assign'
   DASH_SHOW_NONE_VALUES = 'dash_show_none_values'
   DASH_TASKS = 'dash_tasks'
+  DASH_FLAGS = 'dash_flags'
   DASH_PROTECTION_CONCERNS_BY_LOCATION = 'dash_protection_concerns_by_location'
   DASH_SHARED_WITH_ME = 'dash_shared_with_me'
   DASH_GROUP_OVERVIEW = 'dash_group_overview'
@@ -104,6 +106,7 @@ class Permission < ValueObject
   VIEW_PHOTO = 'view_photo'
   INCIDENT_FROM_CASE = 'incident_from_case'
   INCIDENT_DETAILS_FROM_CASE = 'incident_details_from_case'
+  VIEW_INCIDENT_FROM_CASE = 'view_incident_from_case'
   SERVICES_SECTION_FROM_CASE = 'services_section_from_case'
   CREATE = 'create'
   ADMIN_ONLY = 'admin_only'
@@ -125,7 +128,7 @@ class Permission < ValueObject
   CHANGE_LOG = 'change_log'
   RESOURCE_ACTIONS = {
     CASE => [
-      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, INCIDENT_FROM_CASE, INCIDENT_DETAILS_FROM_CASE,
+      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, INCIDENT_FROM_CASE, INCIDENT_DETAILS_FROM_CASE, VIEW_INCIDENT_FROM_CASE,
       SERVICE_PROVISION_INCIDENT_DETAILS, SERVICES_SECTION_FROM_CASE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL,
       EXPORT_PHOTO_WALL, EXPORT_UNHCR, EXPORT_PDF, EXPORT_DUPLICATE_ID, EXPORT_JSON, EXPORT_CUSTOM, IMPORT,
       CONSENT_OVERRIDE, SYNC_MOBILE, REQUEST_APPROVAL_ASSESSMENT, REQUEST_APPROVAL_CASE_PLAN,
@@ -153,6 +156,7 @@ class Permission < ValueObject
     POTENTIAL_MATCH => [READ],
     DUPLICATE => [READ],
     SYSTEM => [MANAGE],
+    CONFIGURATION => [MANAGE],
     DASHBOARD => [
       DASH_CASE_OVERVIEW, DASH_CASE_RISK, DASH_APPROVALS_ASSESSMENT, DASH_APPROVALS_ASSESSMENT_PENDING,
       DASH_APPROVALS_CASE_PLAN, DASH_APPROVALS_CASE_PLAN_PENDING, DASH_APPROVALS_CLOSURE,
@@ -162,7 +166,7 @@ class Permission < ValueObject
       DASH_WORKFLOW_TEAM, DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT, DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
       DASH_CASES_BY_TASK_OVERDUE_SERVICES, DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS, DASH_CASES_BY_SOCIAL_WORKER,
       VIEW_PROTECTION_CONCERNS_FILTER, DASH_PROTECTION_CONCERNS_BY_LOCATION, DASH_SHOW_NONE_VALUES,
-      DASH_TASKS, DASH_SHARED_WITH_ME, DASH_SHARED_WITH_OTHERS, DASH_GROUP_OVERVIEW,
+      DASH_TASKS, DASH_FLAGS, DASH_SHARED_WITH_ME, DASH_SHARED_WITH_OTHERS, DASH_GROUP_OVERVIEW,
       DASH_SHARED_WITH_MY_TEAM, DASH_SHARED_FROM_MY_TEAM, DASH_CASE_INCIDENT_OVERVIEW
     ],
     AUDIT_LOG => [READ],
@@ -219,7 +223,7 @@ class Permission < ValueObject
     def all
       actions + resources + management
     end
-    alias_method :all_permissions, :all
+    alias all_permissions all
 
     def all_grouped
       { 'actions' => actions, 'resource' => resources, 'management' => management }

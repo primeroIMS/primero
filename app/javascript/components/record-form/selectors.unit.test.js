@@ -35,6 +35,36 @@ const formSections = {
     },
     fields: [1],
     is_nested: null
+  },
+  63: {
+    id: 63,
+    unique_id: "documents_form",
+    name: {
+      en: "Documents Form",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    visible: true,
+    is_first_tab: true,
+    order: 10,
+    order_form_group: 30,
+    parent_form: "case",
+    editable: true,
+    module_ids: ["primeromodule-cp"],
+    form_group_id: "documents_group",
+    form_group_name: {
+      en: "Documents Group",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    fields: [2],
+    is_nested: null
   }
 };
 
@@ -94,14 +124,37 @@ const fields = {
     guiding_questions: "",
     required: true,
     date_validation: "default_date_validation"
+  },
+  2: {
+    name: "document_field",
+    type: "document_upload_box",
+    editable: true,
+    disabled: null,
+    visible: true,
+    display_name: {
+      en: "Document",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    subform_section_id: null,
+    help_text: {},
+    multi_select: null,
+    option_strings_source: null,
+    option_strings_text: null,
+    guiding_questions: "",
+    required: true,
+    date_validation: "default_date_validation"
   }
 };
 const serviceTypeLookup = {
   id: 1,
   unique_id: "lookup-location-type",
   values: [
-    { id: "country", display_text: "Country" },
-    { id: "region", display_text: "Region" }
+    { id: "country", display_text: { en: "Country" } },
+    { id: "region", display_text: { en: "Region" } }
   ]
 };
 const location = {
@@ -155,7 +208,7 @@ const stateWithRecords = fromJS({
     loading: true,
     errors: true,
     options: {
-      lookups: { data: [serviceTypeLookup] },
+      lookups: [serviceTypeLookup],
       locations: [location]
     },
     selectedRecord: {
@@ -226,11 +279,11 @@ describe("<RecordForm /> - Selectors", () => {
   describe("getOption", () => {
     it("should return the options or lookups", () => {
       const expected = [
-        { id: "country", display_text: "Country" },
-        { id: "region", display_text: "Region" }
+        { id: "country", display_text: "Country", isDisabled: false },
+        { id: "region", display_text: "Region", isDisabled: false }
       ];
 
-      const record = selectors.getOption(stateWithRecords, "lookup lookup-location-type");
+      const record = selectors.getOption(stateWithRecords, "lookup lookup-location-type", "en");
 
       expect(Object.keys(record)).to.deep.equal(Object.keys(expected));
       expect(Object.values(record)).to.deep.equal(Object.values(expected));
@@ -241,6 +294,58 @@ describe("<RecordForm /> - Selectors", () => {
       const record = selectors.getOption(stateWithNoRecords);
 
       expect(record).to.be.empty;
+    });
+
+    it("should return the options for optionStringsText", () => {
+      const optionStringsText = [
+        { id: "submitted", display_text: { en: "Submitted", fr: "", ar: "" } },
+        { id: "pending", disabled: true, display_text: { en: "Pending", fr: "", ar: "" } },
+        { id: "no", display_text: { en: "No", fr: "", ar: "" } }
+      ];
+      const expected = [
+        { id: "submitted", display_text: "Submitted", isDisabled: false },
+        { id: "no", display_text: "No", isDisabled: false }
+      ];
+      const result = selectors.getOption(stateWithRecords, optionStringsText, "en");
+
+      expect(result).to.deep.equal(expected);
+    });
+
+    it("should return the options including the disabled and selected for optionStringsText", () => {
+      const optionStringsText = [
+        { id: "submitted", display_text: { en: "Submitted", fr: "", ar: "" } },
+        { id: "pending", disabled: true, display_text: { en: "Pending", fr: "", ar: "" } },
+        { id: "no", display_text: { en: "No", fr: "", ar: "" } },
+        { id: "other", disabled: true, display_text: { en: "Other", fr: "", ar: "" } }
+      ];
+      const expected = [
+        { id: "submitted", display_text: "Submitted", isDisabled: false },
+        { id: "pending", display_text: "Pending", isDisabled: true },
+        { id: "no", display_text: "No", isDisabled: false }
+      ];
+      const result = selectors.getOption(stateWithRecords, optionStringsText, "en", "pending");
+
+      expect(result).to.deep.equal(expected);
+    });
+
+    it("should return the options even if stored value it's a boolean", () => {
+      const optionStringsText = [
+        { id: "true", display_text: { en: "Yes" }, isDisabled: false },
+        { id: "false", display_text: { en: "No" }, isDisabled: false }
+      ];
+      const expected = optionStringsText.map(option => ({ ...option, display_text: option.display_text.en }));
+      const result = selectors.getOption(stateWithRecords, optionStringsText, "en", true);
+
+      expect(result).to.deep.equal(expected);
+    });
+  });
+
+  describe("getAttachmentForms", () => {
+    it("should return the forms with attachments", () => {
+      const attachmentForms = selectors.getAttachmentForms(stateWithRecords, "en");
+      const expected = fromJS({ documents_form: "Documents Form" });
+
+      expect(attachmentForms).to.deep.equal(expected);
     });
   });
 
@@ -349,13 +454,14 @@ describe("<RecordForm /> - Selectors", () => {
             option_strings_text: null,
             order: null,
             required: true,
-            selected_value: "",
+            selected_value: null,
             show_on_minify_form: false,
             subform_section_id: null,
             subform_sort_by: "",
             type: "text_field",
             visible: true,
-            subform_section_configuration: null
+            subform_section_configuration: null,
+            tick_box_label: {}
           }
         ],
         is_nested: null
@@ -395,14 +501,6 @@ describe("<RecordForm /> - Selectors", () => {
         editable: true,
         module_ids: ["primeromodule-cp"],
         form_group_id: "invisible",
-        form_group_name: {
-          en: "Invisible",
-          fr: "",
-          ar: "",
-          "ar-LB": "",
-          so: "",
-          es: ""
-        },
         fields: [
           {
             date_include_time: false,
@@ -426,13 +524,14 @@ describe("<RecordForm /> - Selectors", () => {
             option_strings_text: null,
             order: null,
             required: true,
-            selected_value: "",
+            selected_value: null,
             show_on_minify_form: false,
             subform_section_id: null,
             subform_sort_by: "",
             type: "text_field",
             visible: true,
-            subform_section_configuration: null
+            subform_section_configuration: null,
+            tick_box_label: {}
           }
         ],
         is_nested: null
@@ -453,7 +552,6 @@ describe("<RecordForm /> - Selectors", () => {
       identification_registration: OrderedMap({
         "62": R.NavRecord({
           group: "identification_registration",
-          groupName: "Identification / Registration",
           groupOrder: 30,
           name: "Basic Identity",
           order: 10,
@@ -464,12 +562,35 @@ describe("<RecordForm /> - Selectors", () => {
     });
 
     it("should return the forms nav", () => {
+      const expectedNav = expected.set(
+        "documents_group",
+        OrderedMap({
+          "63": R.NavRecord({
+            group: "documents_group",
+            groupOrder: 30,
+            name: "Documents Form",
+            order: 10,
+            formId: "documents_form",
+            is_first_tab: true
+          })
+        })
+      );
+
       const record = selectors.getFormNav(stateWithRecords, {
         primeroModule: "primeromodule-cp",
         recordType: "case"
       });
 
-      expect(record).to.deep.equal(expected);
+      expect(record).to.deep.equal(expectedNav);
+    });
+
+    it("should not return form groupName", () => {
+      const record = selectors.getFormNav(stateWithRecords, {
+        primeroModule: "primeromodule-cp",
+        recordType: "case"
+      });
+
+      expect(record?.groupName).to.not.exist;
     });
 
     it("should return an empty ordered map when there are not any options", () => {

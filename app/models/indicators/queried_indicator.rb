@@ -18,7 +18,8 @@ module Indicators
         with(:owned_by, user.user_name) if this.scope_to_owner
         with(:referred_users, user.user_name) if this.scope_to_referred
         with(:transferred_to_users, user.user_name) if this.scope_to_transferred
-        with(:owned_by_groups, user.user_group_ids) if this.scope_to_owned_by_groups
+        # TODO: Add agency user scope
+        with(:owned_by_groups, user.user_group_unique_ids) if this.scope_to_owned_by_groups
         without(:last_updated_by, user.user_name) if this.scope_to_not_last_update
         this.scope&.each { |f| f.query_scope(self) }
         facet(this.facet_name, zeros: true) do

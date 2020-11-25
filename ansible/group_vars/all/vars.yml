@@ -1,0 +1,12 @@
+---
+ansible_python_interpreter: '/usr/bin/python3'
+qi_install_python3_docker_pip_names:
+- 'pip'
+- 'docker'
+nginx_container_username: 'nginx'
+application_container_username: 'primero'
+qi_docker_daemon_json_content: |
+  {
+    "log-driver": "journald",
+    "userns-remap": "{{ application_container_username }}"
+  }

@@ -29,12 +29,12 @@ class GenerateLocationFilesService
 
     def output_dir
       dir_path = "#{public_dir}/options"
-      { root: dir_path, locations_file: "#{dir_path}/locations.json"}
+      { root: dir_path, locations_file: "#{dir_path}/locations.json" }
     end
 
     def fingerprint
       file = File.open(output_dir[:locations_file])
-      Digest::MD5.hexdigest file.read
+      Digest::SHA256.hexdigest(file.read)
     end
 
     def create_directory
@@ -43,29 +43,19 @@ class GenerateLocationFilesService
       FileUtils.rm_rf Dir.glob("#{app_share_dir}/options/*") if use_app_share_dir?
     end
 
-    def format_for_output(location)
-      {
-        id: location.id,
-        code: location.location_code,
-        type: location.type,
-        admin_level: location.admin_level
-      }.merge(
-        FieldI18nService.fill_keys([:name], FieldI18nService.strip_i18n_suffix(location.slice(:name_i18n)))
-      )
-    end
-
     def write_locations_to_file
-      Location.order(:location_code, :hierarchy_path).find_in_batches(batch_size: 500).each do |locations|
-        location_options = locations.map { |location| format_for_output(location) }
-        File.open(output_dir[:locations_file], 'a') do |f|
-          f.write(location_options.to_json)
-        end
+      locations_data_json = Location.connection.select_all(
+        "SELECT json_build_object('data', json_agg(loc)) " \
+        'FROM (SELECT id, location_code AS code, type, admin_level, name_i18n AS name FROM locations) loc'
+      )
+      File.open(output_dir[:locations_file], 'a') do |f|
+        f.write(locations_data_json[0]['json_build_object'])
       end
     end
 
     def write_empty_file
       File.open(output_dir[:locations_file], 'a') do |f|
-        f.write([].to_json)
+        f.write({ data: [] }.to_json)
       end
     end
 

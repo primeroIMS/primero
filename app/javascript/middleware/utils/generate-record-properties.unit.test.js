@@ -79,7 +79,8 @@ describe("middleware/utils/generate-record-properties.js", () => {
         id: "dd3b8e93-0cce-415b-ad2b-d06bb454b66f",
         owned_by: "jj",
         short_id: "454b66f",
-        type: "testRecordType"
+        type: "testRecordType",
+        enabled: true
       };
       const results = generateRecordProperties(store, { method: "POST", recordType: "testRecordType" }, true);
 

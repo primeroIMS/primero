@@ -16,12 +16,14 @@ export const SEPARATOR = "separator";
 export const RADIO_FIELD = "radio_button";
 export const TOGGLE_FIELD = "toggle_field";
 export const PHOTO_FIELD = "photo_upload_box";
-// export const DOCUMENT_FIELD = "document_upload_box";
-// export const AUDIO_FIELD = "audio_upload_box";
+export const DOCUMENT_FIELD = "document_upload_box";
+export const AUDIO_FIELD = "audio_upload_box";
 // export const NAME_FIELD = "name";
 export const ERROR_FIELD = "error_field";
 export const PARENT_FORM = "parent_form";
 export const ORDERABLE_OPTIONS_FIELD = "orderable_options_field";
+export const DIALOG_TRIGGER = "dialog_trigger";
+export const HIDDEN_FIELD = "hidden";
 
 export const OPTION_TYPES = {
   AGENCY: "Agency",
@@ -29,7 +31,13 @@ export const OPTION_TYPES = {
   MODULE: "Module",
   FORM_GROUP: "FormGroup",
   LOOKUPS: "Lookups",
-  USER: "User"
+  USER: "User",
+  REPORTING_LOCATIONS: "ReportingLocation",
+  USER_GROUP: "UserGroup",
+  ROLE: "Role",
+  ROLE_EXTERNAL_REFERRAL: "RoleExternalReferral",
+  REFER_TO_USERS: "ReferToUsers",
+  SERVICE_TYPE: "lookup-service-type"
 };
 
 export const CUSTOM_LOOKUPS = [OPTION_TYPES.USER, OPTION_TYPES.AGENCY, OPTION_TYPES.LOCATION];

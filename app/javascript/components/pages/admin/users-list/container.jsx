@@ -11,22 +11,24 @@ import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import NAMESPACE from "../namespace";
-import { CREATE_RECORDS } from "../../../../libs/permissions";
+import { CREATE_RECORDS, READ_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { Filters as AdminFilters } from "../components";
 import { fetchAgencies } from "../agencies-list/action-creators";
-import { getEnabledAgencies } from "../../../application/selectors";
+import { fetchUserGroups, getEnabledAgencies, getUserGroups } from "../../../application";
 import { getMetadata } from "../../../record-list";
+import { useMetadata } from "../../../records";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
-import { LIST_HEADERS, AGENCY, DISABLED } from "./constants";
+import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP } from "./constants";
 import { buildUsersQuery, getFilters } from "./utils";
 
 const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
+  const canListAgencies = usePermissions(RESOURCES.agencies, READ_RECORDS);
   const recordType = "users";
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
@@ -34,18 +36,25 @@ const Container = () => {
     ...rest
   }));
   const filterAgencies = useSelector(state => getEnabledAgencies(state));
+  const filterUserGroups = useSelector(state => getUserGroups(state));
   const metadata = useSelector(state => getMetadata(state, recordType));
+  const defaultMetadata = metadata?.toJS();
+  const defaultFilterFields = {
+    [DISABLED]: ["false"]
+  };
   const defaultFilters = fromJS({
-    ...{
-      [DISABLED]: ["false"]
-    },
-    ...metadata?.toJS()
+    ...defaultFilterFields,
+    ...defaultMetadata
   });
 
   useEffect(() => {
-    dispatch(fetchAgencies({ options: { per: 999 } }));
-    dispatch(fetchUsers({ data: defaultFilters.toJS() }));
+    if (canListAgencies) {
+      dispatch(fetchAgencies({ options: { per: 999 } }));
+    }
+    dispatch(fetchUserGroups());
   }, []);
+
+  useMetadata(recordType, metadata, fetchUsers, "data");
 
   const tableOptions = {
     recordType,
@@ -70,9 +79,13 @@ const Container = () => {
     />
   );
 
+  const filterPermission = {
+    agency: canListAgencies
+  };
+
   const filterProps = {
-    clearFields: [AGENCY, DISABLED],
-    filters: getFilters(i18n, filterAgencies),
+    clearFields: [AGENCY, DISABLED, USER_GROUP],
+    filters: getFilters(i18n, filterAgencies, filterUserGroups, filterPermission),
     defaultFilters,
     onSubmit: data => {
       const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);

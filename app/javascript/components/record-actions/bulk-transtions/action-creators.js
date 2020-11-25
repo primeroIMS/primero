@@ -1,7 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
-import { ASSIGN_DIALOG } from "../constants";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../actions";
+import { CLEAR_DIALOG } from "../../action-dialog";
 import { generatePath } from "../transitions/components/utils";
 import { METHODS } from "../../../config";
 
@@ -15,17 +14,7 @@ export const saveBulkAssignedUser = (recordType, recordsIds, body) => ({
     body,
     successCallback: [
       {
-        action: SET_DIALOG,
-        payload: {
-          dialog: ASSIGN_DIALOG,
-          open: false
-        }
-      },
-      {
-        action: SET_DIALOG_PENDING,
-        payload: {
-          pending: false
-        }
+        action: CLEAR_DIALOG
       }
     ]
   }

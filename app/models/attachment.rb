@@ -10,7 +10,7 @@ class Attachment < ApplicationRecord
   IMAGE_CONTENT_TYPES = %w[image/jpg image/jpeg image/png].freeze
   DOCUMENT_CONTENT_TYPES = %w[application/pdf text/plain].freeze
 
-  MAX_SIZE = 4.megabytes.freeze
+  MAX_SIZE = 10.megabytes.freeze
   EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
 
   belongs_to :record, polymorphic: true, optional: true

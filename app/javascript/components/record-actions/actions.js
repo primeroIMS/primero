@@ -1,2 +1,0 @@
-export const SET_DIALOG = "SET_DIALOG";
-export const SET_DIALOG_PENDING = "SET_DIALOG_PENDING";

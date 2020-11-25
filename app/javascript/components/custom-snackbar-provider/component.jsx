@@ -18,6 +18,7 @@ const Component = ({ children }) => {
   return (
     <SnackbarProvider
       maxSnack={3}
+      dense
       iconVariant={{
         success: <CheckIcon />,
         error: <ErrorIcon />,

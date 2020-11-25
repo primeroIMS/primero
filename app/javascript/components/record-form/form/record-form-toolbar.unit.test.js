@@ -1,11 +1,13 @@
-import { fromJS } from "immutable";
-import { CircularProgress, Badge } from "@material-ui/core";
+import { fromJS, OrderedMap } from "immutable";
+import { CircularProgress, Badge, Button } from "@material-ui/core";
 
+import { SaveReturnIcon } from "../../../images/primero-icons";
 import { setupMountedComponent } from "../../../test";
 import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
 import { ACTIONS } from "../../../libs/permissions";
 import { PrimeroModuleRecord } from "../../application/records";
 import ActionButton from "../../action-button";
+import { FieldRecord, FormSectionRecord } from "../records";
 
 import { WorkflowIndicator } from "./components";
 import RecordFormToolbar from "./record-form-toolbar";
@@ -102,6 +104,46 @@ describe("<RecordFormToolbar />", () => {
       permissions: {
         cases: [ACTIONS.CREATE, ACTIONS.FLAG]
       }
+    },
+    forms: {
+      formSections: OrderedMap({
+        1: FormSectionRecord({
+          id: 1,
+          unique_id: "incident_details_container",
+          name: { en: "Incident Details" },
+          visible: true,
+          parent_form: "case",
+          editable: true,
+          module_ids: ["primeromodule-cp"],
+          fields: [1]
+        }),
+        2: FormSectionRecord({
+          id: 2,
+          unique_id: "services",
+          fields: [2],
+          visible: true,
+          parent_form: "case",
+          module_ids: ["primeromodule-cp"]
+        })
+      }),
+      fields: OrderedMap({
+        1: FieldRecord({
+          name: "incident_details",
+          type: "subform",
+          subform_section_id: null,
+          editable: true,
+          disabled: false,
+          visible: true
+        }),
+        2: FieldRecord({
+          name: "services_section",
+          type: "subform",
+          subform_section_id: null,
+          visible: true,
+          editable: true,
+          disabled: false
+        })
+      })
     }
   };
 
@@ -152,8 +194,12 @@ describe("<RecordFormToolbar />", () => {
     });
 
     it("renders a RecordFormToolbar/>", () => {
+      const saveButton = savingComponent.find(Button).at(1);
+
       expect(savingComponent.find(RecordFormToolbar)).to.have.lengthOf(1);
       expect(savingComponent.find(CircularProgress)).to.have.lengthOf(1);
+      expect(saveButton.text()).to.equal("buttons.save");
+      expect(saveButton.props().disabled).to.be.true;
     });
   });
 
@@ -193,6 +239,105 @@ describe("<RecordFormToolbar />", () => {
     });
     it("renders a Badge indicator for Flag", () => {
       expect(component.find(Badge)).to.have.lengthOf(1);
+    });
+  });
+
+  describe("when is an incident from case", () => {
+    const initialStateIncidentFromCase = {
+      ...initialState,
+      records: {
+        cases: {
+          incidentFromCase: {
+            data: {
+              incident_case_id: "case-id-1"
+            }
+          }
+        }
+      }
+    };
+
+    describe("when in show mode", () => {
+      it("renders a ReturnToCase button if recordType is incident", () => {
+        const { component: incidentComp } = setupMountedComponent(
+          RecordFormToolbar,
+          {
+            ...props,
+            recordType: RECORD_TYPES.incidents,
+            mode: {
+              isNew: false,
+              isEdit: false,
+              isShow: true
+            }
+          },
+          fromJS(initialStateIncidentFromCase)
+        );
+        const returnToCaseButton = incidentComp.find(ActionButton).first();
+
+        expect(returnToCaseButton.text()).to.equal("buttons.return_to_case");
+      });
+
+      it("does not render a ReturnToCase button if recordType is case", () => {
+        const { component: caseComp } = setupMountedComponent(
+          RecordFormToolbar,
+          {
+            ...props,
+            recordType: RECORD_TYPES.cases,
+            mode: {
+              isNew: false,
+              isEdit: false,
+              isShow: true
+            }
+          },
+          fromJS(initialStateIncidentFromCase)
+        );
+        const returnToCaseButton = caseComp.find(ActionButton).first();
+
+        expect(returnToCaseButton.text()).to.not.equal("buttons.return_to_case");
+      });
+    });
+
+    describe("when in edit mode", () => {
+      it("renders a SaveAndReturn button", () => {
+        const { component: caseComp } = setupMountedComponent(
+          RecordFormToolbar,
+          {
+            ...props,
+            recordType: RECORD_TYPES.incidents,
+            mode: {
+              isNew: false,
+              isEdit: true,
+              isShow: false
+            }
+          },
+          fromJS(initialStateIncidentFromCase)
+        );
+
+        const saveAndReturnButton = caseComp.find(ActionButton).last();
+
+        expect(saveAndReturnButton.text()).to.equal("buttons.save_and_return");
+        expect(saveAndReturnButton.find(SaveReturnIcon)).to.have.lengthOf(1);
+      });
+
+      it("does not render a SaveAndReturn button", () => {
+        const { component: caseComp } = setupMountedComponent(
+          RecordFormToolbar,
+          {
+            ...props,
+            recordType: RECORD_TYPES.cases,
+            mode: {
+              isNew: false,
+              isEdit: true,
+              isShow: false
+            }
+          },
+          fromJS(initialStateIncidentFromCase)
+        );
+
+        const saveAndReturnButton = caseComp.find(ActionButton).last();
+
+        expect(saveAndReturnButton.text()).to.not.equal("buttons.save_and_return");
+        expect(saveAndReturnButton.find(SaveReturnIcon)).to.have.lengthOf(0);
+      });
     });
   });
 });

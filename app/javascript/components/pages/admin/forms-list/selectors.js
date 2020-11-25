@@ -2,8 +2,18 @@ import { OrderedMap, fromJS } from "immutable";
 
 import { filterFormSections, groupByFormGroup } from "./utils";
 
-export const getFormSections = (state, filter) =>
-  filterFormSections(state.getIn(["records", "admin", "forms", "formSections"], OrderedMap({})), filter);
+export const getFormSections = (state, filter) => {
+  const formSections = state.getIn(["records", "admin", "forms", "formSections"], OrderedMap({}));
+
+  return filter ? filterFormSections(formSections, filter) : formSections;
+};
+
+export const getFields = state => state.getIn(["records", "admin", "forms", "fields"], OrderedMap({}));
+
+export const getFieldsByIds = (state, ids) =>
+  ids
+    .map(id => state.getIn(["records", "admin", "forms", "fields", id.toString()]))
+    .filter(field => Boolean(field?.toSeq()?.size));
 
 export const getFormSectionsByFormGroup = (state, filter) => groupByFormGroup(getFormSections(state, filter)).toList();
 

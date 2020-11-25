@@ -263,7 +263,7 @@ describe Child do
     end
 
     it 'should be set from user' do
-      User.stub(:find_by_user_name).with('mj').and_return(double(organization: 'UNICEF'))
+      User.stub(:find_by_user_name).with('mj').and_return(double(organization: double(unique_id: 'UNICEF')))
       child = Child.create(data: { 'name' => 'Jaco', :created_by => 'mj' })
 
       child.created_organization.should == 'UNICEF'
@@ -290,7 +290,7 @@ describe Child do
           'display_name_all' => 'B Range Field'
         )
       ]
-      FormSection.create_or_update_form_section(
+      FormSection.create_or_update!(
         :unique_id => 'form_section_with_dates_fields',
         'visible' => true,
         :order => 1,
@@ -364,8 +364,8 @@ describe Child do
       @previous_owner = create :user
       @referral = create :user
 
-      @case = build :child, owned_by: @owner.user_name, previously_owned_by: @previous_owner.user_name,
-                            assigned_user_names: [@referral.user_name]
+      @case = Child.new_with_user(@owner, previously_owned_by: @previous_owner.user_name,
+                                          assigned_user_names: [@referral.user_name])
     end
 
     it 'can fetch the record owner' do
@@ -510,6 +510,10 @@ describe Child do
         SystemSettings.update(default_locale: 'en', auto_populate_list: [ap1_custom_date_format])
         SystemSettings.current(true)
         child = Child.create!(data: { case_id: 'zzz', created_by: @user3.user_name })
+        # TODO: This test breaks in the evenings when running on a machine on a local time zone because
+        #       created_at is instantiated with DateTime but deserialized from Postgres jsonb
+        #       using Time defaulted to UTC. Not a problem in production where all timezones are aligned,
+        #       but until we make some guarantees, I'm ok with the test breaking at night as a reminder.
         expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.created_at.strftime('%m/%y')}-#{child.short_id}")
       end
 
@@ -535,7 +539,7 @@ describe Child do
   describe 'syncing of protection concerns' do
     before do
       Child.destroy_all
-      User.stub(:find_by_user_name).and_return(double(organization: 'UNICEF'))
+      User.stub(:find_by_user_name).and_return(double(organization: double(unique_id: 'UNICEF')))
       @protection_concerns = %w[Separated Unaccompanied]
     end
 
@@ -639,8 +643,11 @@ describe Child do
     end
 
     it 'implemented in service_implemented field' do
+      primero_module = PrimeroModule.new(name: 'CP')
+      primero_module.save(validate: false)
       data = {
         data: {
+          module_id: primero_module.unique_id,
           services_section: [{ service_type: 'Test type', service_implemented_day_time: '2020-02-06 22:16:00 UTC' }]
         }
       }
@@ -655,6 +662,7 @@ describe Child do
     Child.destroy_all
     Field.destroy_all
     FormSection.destroy_all
+    PrimeroModule.destroy_all
   end
 
   private

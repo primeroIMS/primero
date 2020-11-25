@@ -4,6 +4,7 @@ import { format } from "date-fns";
 
 import { CONSTRAINTS, DATE_CONSTRAINTS, FILTERS_FIELD, NOT_NULL } from "../../constants";
 import { DATE_FORMAT } from "../../../../config";
+import { displayNameHelper } from "../../../../libs";
 import { TICK_FIELD, SELECT_FIELD, RADIO_FIELD, DATE_FIELD } from "../../../form";
 
 export const registerValues = (index, data, currentValues, methods) => {
@@ -50,7 +51,9 @@ export const formatValue = (value, i18n, { field, lookups }) => {
         .map(currentValue => {
           const text = lookupValues.find(option => option.id === currentValue);
 
-          return text.display_text[i18n.locale] || text.display_text;
+          return typeof text.display_text === "object"
+            ? displayNameHelper(text.display_text, i18n.locale)
+            : text.display_text;
         })
         .join(", ");
     }

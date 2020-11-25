@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe Approval do
   before :each do
+    clean_data(SystemSettings, Role, Agency, User, Child, Alert, PrimeroProgram, PrimeroModule, FormSection)
     SystemSettings.create!(
       approval_forms_to_alert: {
         cp_bia_form: 'assessment',
@@ -156,6 +157,28 @@ describe Approval do
         expect(Alert.last.form_sidebar_id).to eq('gbv_case_closure_form')
       end
     end
+
+    context 'and it is rejected"' do
+      before do
+        @approval = Approval.get!(
+          Approval::ACTION_PLAN,
+          @case,
+          @user1.user_name,
+          approval_status: Approval::APPROVAL_STATUS_REQUESTED
+        )
+        @approval.perform!(Approval::APPROVAL_STATUS_REQUESTED)
+      end
+
+      it 'should return the correct form for case plan type' do
+        expect(Alert.last.form_sidebar_id).to eq('action_plan_form')
+      end
+
+      it 'should delete the alert when the case get rejected' do
+        expect(Alert.count).to eq(1)
+        @approval.perform!(Approval::APPROVAL_STATUS_REJECTED)
+        expect(Alert.count).to eq(0)
+      end
+    end
   end
 
   describe 'get!' do
@@ -218,6 +241,27 @@ describe Approval do
         )
         expect(approval.class).to eq(Approval)
         expect(approval.approval_id).to eq(Approval::GBV_CLOSURE)
+      end
+    end
+  end
+
+  describe 'reject!' do
+    context 'and the alert_for is "closure"' do
+      before do
+        @approval = Approval.get!(
+          Approval::CLOSURE,
+          @case,
+          @user1.user_name,
+          approval_status: Approval::APPROVAL_STATUS_REQUESTED
+        )
+        @approval.perform!(Approval::APPROVAL_STATUS_REQUESTED)
+      end
+
+      it 'should delete the alert when the case get rejected' do
+        expect(Alert.last.form_sidebar_id).to eq('closure_form')
+        expect(Alert.count).to eq(1)
+        @approval.reject!
+        expect(Alert.count).to eq(0)
       end
     end
   end

@@ -2,10 +2,7 @@
 
 # The model for Role
 class Role < ApplicationRecord
-  # include Importable #TODO: This will need to be rewritten
-  # include Memoizable
-  include Cloneable
-  include Configuration
+  include ConfigurationRecord
 
   has_and_belongs_to_many :form_sections, -> { distinct }
   has_and_belongs_to_many :primero_modules, -> { distinct }
@@ -17,6 +14,7 @@ class Role < ApplicationRecord
   validates :permissions, presence: { message: 'errors.models.role.permission_presence' }
   validates :name, presence: { message: 'errors.models.role.name_present' },
                    uniqueness: { message: 'errors.models.role.unique_name' }
+  validate :validate_reporting_location_level
 
   before_create :generate_unique_id
   before_save :reject_form_by_module
@@ -24,64 +22,18 @@ class Role < ApplicationRecord
   scope :by_referral, -> { where(referral: true) }
   scope :by_transfer, -> { where(transfer: true) }
 
-  def has_permitted_form_id?(form_unique_id_id)
+  def permitted_form_id?(form_unique_id_id)
     form_sections.map(&:unique_id).include?(form_unique_id_id)
   end
 
   class << self
-    def memoized_dependencies
-      [FormSection, PrimeroModule, User]
-    end
-
-    # TODO: Used by importer. Refactor?
-    def get_unique_instance(attributes)
-      find_by_name(attributes['name'])
-    end
-
-    def names_and_ids_by_referral
-      by_referral.pluck(:name, :unique_id)
-    end
-    # memoize_in_prod :names_and_ids_by_referral
-
-    def names_and_ids_by_transfer
-      by_transfer.pluck(:name, :unique_id)
-    end
-    # memoize_in_prod :names_and_ids_by_transfer
-
+    # TODO: Redundant after create_or_update!
     def create_or_update(attributes = {})
       record = find_by(unique_id: attributes[:unique_id])
       if record.present?
         record.update_attributes(attributes)
       else
         create!(attributes)
-      end
-    end
-
-    def id_from_name(name)
-      "#{self.name}-#{name}".parameterize.dasherize
-    end
-
-    alias super_clear clear
-    def clear
-      # According documentation this is the best way to delete the values on HABTM relation
-      all.each do |f|
-        f.form_sections.destroy(f.form_sections)
-      end
-      super_clear
-    end
-
-    alias super_import import
-    def import(data)
-      data['form_sections'] = FormSection.where(unique_id: data['form_sections']) if data['form_sections'].present?
-      super_import(data)
-    end
-
-    def export
-      all.map do |record|
-        record.attributes.tap do |r|
-          r.delete('id')
-          r['form_sections'] = record.form_sections.pluck(:unique_id)
-        end
       end
     end
 
@@ -95,6 +47,14 @@ class Role < ApplicationRecord
       end
       role.permissions = Permission::PermissionSerializer.load(role_params[:permissions].to_h)
       role
+    end
+
+    def list(user, external = false)
+      if external
+        Role.where(disabled: false).where(referral: true).or(Role.where(transfer: true))
+      else
+        user.permitted_roles_to_manage
+      end
     end
   end
 
@@ -110,7 +70,7 @@ class Role < ApplicationRecord
 
   def permitted_role_unique_ids
     role_permission = permissions.find { |permission| permission.resource == Permission::ROLE }
-    return [] if role_permission&.role_unique_ids&.blank?
+    return [] unless role_permission&.role_unique_ids&.present?
 
     role_permission.role_unique_ids
   end
@@ -118,6 +78,8 @@ class Role < ApplicationRecord
   def dashboards
     dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
     dashboards = dashboard_permissions&.actions&.map do |action|
+      next Dashboard.dash_reporting_location(self) if action == 'dash_reporting_location'
+
       next Dashboard.send(action) if Dashboard::DYNAMIC.include?(action)
 
       begin
@@ -127,6 +89,31 @@ class Role < ApplicationRecord
       end
     end || []
     dashboards.compact
+  end
+
+  def reporting_location_config
+    @system_settings ||= SystemSettings.current
+    return nil if @system_settings.blank?
+
+    ss_reporting_location = @system_settings&.reporting_location_config
+    return nil if ss_reporting_location.blank?
+
+    reporting_location_config = secondary_reporting_location(ss_reporting_location)
+    reporting_location_config
+  end
+
+  # If the Role has a secondary reporting location (indicated by reporting_location_level),
+  # override the reporting location from SystemSettings
+  def secondary_reporting_location(ss_reporting_location)
+    return ss_reporting_location if reporting_location_level.nil?
+
+    return ss_reporting_location if reporting_location_level == ss_reporting_location.admin_level
+
+    reporting_location = ReportingLocation.new(field_key: ss_reporting_location.field_key,
+                                               admin_level: reporting_location_level,
+                                               hierarchy_filter: ss_reporting_location.hierarchy_filter,
+                                               admin_level_map: ss_reporting_location.admin_level_map)
+    reporting_location
   end
 
   def super_user_role?
@@ -149,10 +136,6 @@ class Role < ApplicationRecord
   def permitted_to_export?
     permissions&.map(&:actions)&.flatten&.compact&.any? { |p| p.start_with?('export') } ||
       permissions&.any? { |p| Permission.records.include?(p.resource) && p.actions.include?(Permission::MANAGE) }
-  end
-
-  def generate_unique_id
-    self.unique_id ||= Role.id_from_name(name) if name.present?
   end
 
   def permissions_with_forms
@@ -191,13 +174,35 @@ class Role < ApplicationRecord
   end
 
   def update_properties(role_properties)
-    assign_attributes(role_properties.except(:permissions, :form_section_unique_ids, :module_unique_ids))
-    update_forms_sections(role_properties[:form_section_unique_ids])
-    update_permissions(role_properties[:permissions])
-    update_modules(role_properties[:module_unique_ids])
+    role_properties = role_properties.with_indifferent_access if role_properties.is_a?(Hash)
+    assign_attributes(role_properties.except('permissions', 'form_section_unique_ids', 'module_unique_ids'))
+    update_forms_sections(role_properties['form_section_unique_ids'])
+    update_permissions(role_properties['permissions'])
+    update_modules(role_properties['module_unique_ids'])
+  end
+
+  def configuration_hash
+    hash = attributes.except('id', 'permissions')
+    hash['permissions'] = Permission::PermissionSerializer.dump(permissions)
+    hash['form_section_unique_ids'] = form_section_unique_ids
+    hash['module_unique_ids'] = module_unique_ids
+    hash.with_indifferent_access
   end
 
   private
+
+  def validate_reporting_location_level
+    @system_settings ||= SystemSettings.current
+    return true if @system_settings.blank?
+
+    reporting_location_levels = @system_settings&.reporting_location_config.try(:levels)
+    return true if reporting_location_level.nil? ||
+                   reporting_location_levels.blank? ||
+                   reporting_location_levels.include?(reporting_location_level)
+
+    errors.add(:reporting_location_level, 'errors.models.role.reporting_location_level')
+    false
+  end
 
   def update_forms_sections(form_section_unique_ids)
     return if form_section_unique_ids.nil?

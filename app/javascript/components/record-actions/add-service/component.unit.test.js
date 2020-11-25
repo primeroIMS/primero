@@ -69,7 +69,7 @@ describe("<AddService />", () => {
       }),
       fields: OrderedMap({
         1: FieldRecord({
-          name: "incident_details",
+          name: "services_section",
           type: "subform",
           editable: true,
           disabled: false,
@@ -115,7 +115,7 @@ describe("<AddService />", () => {
   });
   const props = {
     close: () => {},
-    openServiceDialog: true,
+    open: true,
     pending: false,
     recordType: RECORD_PATH.cases,
     selectedRowsIndex: [0],
@@ -145,7 +145,7 @@ describe("<AddService />", () => {
   it("renders component with valid props", () => {
     const addService = { ...component.find(AddService).props() };
 
-    ["close", "openServiceDialog", "pending", "recordType", "selectedRowsIndex", "setPending"].forEach(property => {
+    ["close", "pending", "recordType", "selectedRowsIndex", "setPending", "open"].forEach(property => {
       expect(addService).to.have.property(property);
       delete addService[property];
     });

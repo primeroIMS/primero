@@ -3,37 +3,35 @@ import PropTypes from "prop-types";
 import { FormContext, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { LOCALE_KEYS } from "../../../../../../config";
+import { localesToRender } from "../utils";
 import FormSection from "../../../../../form/components/form-section";
 import bindFormSubmit from "../../../../../../libs/submit-form";
-import ActionDialog from "../../../../../action-dialog";
+import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { useI18n } from "../../../../../i18n";
 import { submitHandler, whichFormMode } from "../../../../../form";
-import { setDialog } from "../../../../../record-actions/action-creators";
-import { selectDialog } from "../../../../../record-actions/selectors";
 import styles from "../styles.css";
 
 import { translationsForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
 
-const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => {
+const Component = ({ getValues, mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
-  const { name, description } = formSection.toJS();
+  const currentValues = getValues({ nest: true });
   const formMethods = useForm({
     defaultValues: {
-      name,
-      description
+      name: currentValues.name,
+      description: currentValues.description
     },
     validationSchema: validationSchema(i18n)
   });
-  const openTranslationDialog = useSelector(state => selectDialog(state, NAME));
-  const locales = i18n.applicationLocales.filter(locale => locale.get("id") !== LOCALE_KEYS.en);
+  const { dialogOpen, dialogClose } = useDialog(NAME);
+  const locales = localesToRender(i18n);
   const selectedLocaleId = formMethods.watch("locale_id", locales.first()?.get("id"));
 
   const handleClose = () => {
@@ -41,7 +39,7 @@ const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => 
       onClose();
     }
 
-    dispatch(setDialog({ dialog: NAME, open: false }));
+    dialogClose();
   };
 
   const onSubmit = data => {
@@ -57,7 +55,7 @@ const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => 
       icon: <CheckIcon />
     },
     dialogTitle: i18n.t("forms.translations.edit"),
-    open: openTranslationDialog,
+    open: dialogOpen,
     successHandler: () => bindFormSubmit(formRef),
     cancelHandler: () => handleClose(),
     omitCloseAfterSuccess: true
@@ -70,7 +68,7 @@ const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => 
       cssHideField: css.hideField,
       cssTranslationField: css.translationField,
       locales,
-      formSection
+      currentValues: getValues({ nest: true })
     }).map(form => <FormSection formSection={form} key={form.unique_id} />);
 
   useImperativeHandle(
@@ -81,16 +79,22 @@ const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => 
       formMode,
       i18n,
       initialValues: {},
+      message: i18n.t("forms.translations.no_changes_message"),
       onSubmit
     })
   );
 
   useEffect(() => {
-    formMethods.reset({
-      name: { ...name, ...currentValues.name },
-      description: { ...description, ...currentValues.description }
-    });
-  }, [currentValues]);
+    if (dialogOpen) {
+      const currentFormValues = getValues({ nest: true });
+
+      formMethods.reset({
+        locale_id: locales?.first()?.get("id"),
+        name: { ...currentFormValues.name, ...currentFormValues.translations.name },
+        description: { ...currentFormValues.description, ...currentFormValues.translations.description }
+      });
+    }
+  }, [dialogOpen]);
 
   return (
     <ActionDialog {...modalProps}>
@@ -104,8 +108,7 @@ const Component = ({ currentValues, formSection, mode, onClose, onSuccess }) => 
 Component.displayName = NAME;
 
 Component.propTypes = {
-  currentValues: PropTypes.object.isRequired,
-  formSection: PropTypes.object.isRequired,
+  getValues: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func

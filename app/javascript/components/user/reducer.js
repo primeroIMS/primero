@@ -1,16 +1,16 @@
 import { Map, fromJS } from "immutable";
+import isEmpty from "lodash/isEmpty";
 
 import { mapObjectPropertiesToRecords, mapListToObject } from "../../libs";
 
 import Actions from "./actions";
-import NAMESPACE from "./namespace";
 import { ListHeaderRecord, FilterRecord } from "./records";
 
 const DEFAULT_STATE = Map({
   isAuthenticated: false
 });
 
-const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.SET_AUTHENTICATED_USER:
       return state.set("isAuthenticated", true).set("id", payload.id).set("username", payload.username);
@@ -23,17 +23,22 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         role_unique_id: roleId,
         list_headers: listHeaders,
         filters,
-        permitted_form_unique_ids: permittedForms
+        permitted_form_unique_ids: permittedForms,
+        locale,
+        reporting_location_config: reportingLocationConfig
       } = payload;
+      const cleanedPermissions = permissions.list.filter(listItem => !isEmpty(listItem.actions));
 
       return state.merge(
         fromJS({
           modules,
-          permissions: mapListToObject(permissions.list, "resource", "actions"),
+          permissions: mapListToObject(cleanedPermissions, "resource", "actions"),
           roleId,
           listHeaders: mapObjectPropertiesToRecords(listHeaders, ListHeaderRecord),
           permittedForms,
-          filters: mapObjectPropertiesToRecords(filters, FilterRecord)
+          filters: mapObjectPropertiesToRecords(filters, FilterRecord),
+          locale,
+          reportingLocationConfig
         })
       );
     }
@@ -41,5 +46,3 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state;
   }
 };
-
-export default { [NAMESPACE]: reducer };

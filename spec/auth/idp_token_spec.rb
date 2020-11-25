@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe IdpToken do
-
   before do
+    clean_data(User, IdentityProvider)
     @idp = IdentityProvider.create!(
       name: 'primero',
       unique_id: 'primeroims',
@@ -28,18 +30,17 @@ describe IdpToken do
     @invalid_token = JWT.encode @payload, OpenSSL::PKey::RSA.generate(2048), 'RS256', @header
   end
 
-  describe '.decode' do
+  describe '.decode_with_jwks' do
     it 'decodes a valid JWT token' do
-      decoded_token = IdpToken.decode(@valid_token, [@idp], @jwks)
+      decoded_token = IdpToken.decode_with_jwks(@valid_token, [@idp], @jwks)
       expect(decoded_token.size).to eq(2)
       expect(decoded_token[0]['aud']).to eq('123')
     end
 
     it 'fails to decode a tampered JWT token' do
       expect do
-        IdpToken.decode(@invalid_token, [@idp], @jwks)
+        IdpToken.decode_with_jwks(@invalid_token, [@idp], @jwks)
       end.to raise_error(JWT::VerificationError)
-
     end
   end
 
@@ -71,5 +72,4 @@ describe IdpToken do
   after :each do
     clean_data(User, IdentityProvider)
   end
-
 end

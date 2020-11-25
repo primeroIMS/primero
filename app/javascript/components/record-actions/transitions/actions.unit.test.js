@@ -30,6 +30,7 @@ describe("<Transitions /> - Actions", () => {
       "REFER_USER_FAILURE",
       "REFER_USER_STARTED",
       "REFER_USER_SUCCESS",
+      "REFER_USER_FINISHED",
       "TRANSFER_USER",
       "TRANSFER_USERS_FETCH",
       "TRANSFER_USERS_FETCH_SUCCESS",

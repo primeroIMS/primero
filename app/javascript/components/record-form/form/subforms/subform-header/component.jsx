@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { NAME_FIELD, DATE_FIELD, SELECT_FIELD } from "../../../constants";
@@ -9,7 +9,7 @@ import SubformDateHeader from "../subform-header-date";
 import styles from "../styles.css";
 import { SUBFORM_HEADER } from "../constants";
 
-const Component = ({ field, values, locale, displayName, index }) => {
+const Component = ({ field, values, locale, displayName, index, onClick }) => {
   const css = makeStyles(styles)();
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
 
@@ -51,10 +51,14 @@ const Component = ({ field, values, locale, displayName, index }) => {
     .filter(i => i);
 
   if (collapsedFieldNames.length && values.length) {
-    return <Box className={css.subformHeader}>{subformValues}</Box>;
+    return (
+      <div className={css.subformHeader}>
+        <Button onClick={() => onClick(index)}>{subformValues}</Button>
+      </div>
+    );
   }
 
-  return <>{displayName?.[locale]}</>;
+  return <Button onClick={() => onClick(index)}>{displayName?.[locale]}</Button>;
 };
 
 Component.displayName = SUBFORM_HEADER;
@@ -64,6 +68,7 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   locale: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired
 };
 
