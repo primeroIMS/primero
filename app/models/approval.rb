@@ -137,8 +137,6 @@ class Approval < ValueObject
   def delete_approval_alerts
     return if record.alerts.blank?
 
-    record.alerts.each do |alert|
-      alert.destroy if alert.alert_for == Alertable::APPROVAL
-    end
+    record.alerts.where(type: approval_id, alert_for: Alertable::APPROVAL).destroy_all
   end
 end
