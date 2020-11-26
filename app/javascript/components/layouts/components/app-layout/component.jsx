@@ -14,6 +14,7 @@ import DemoIndicator from "../../../demo-indicator";
 import { useApp } from "../../../application";
 import LoginDialog from "../../../login-dialog";
 import theme from "../../../../config/theme";
+import { getAppDirection } from "../../../i18n/selectors";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -22,7 +23,7 @@ const Component = ({ children }) => {
   const css = makeStyles(styles)();
   const { demo } = useApp();
   const hasPermissions = useSelector(state => hasUserPermissions(state));
-  const direction = useSelector(state => state.getIn(["ui", "I18n", "dir"]));
+  const direction = useSelector(state => getAppDirection(state));
   const themeWithDirection = { ...theme, direction };
 
   if (!hasPermissions) {

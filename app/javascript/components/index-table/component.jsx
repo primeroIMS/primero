@@ -18,6 +18,7 @@ import { selectAgencies } from "../application/selectors";
 import { useI18n } from "../i18n";
 import { STRING_SOURCES_TYPES, RECORD_PATH, ROWS_PER_PAGE_OPTIONS } from "../../config";
 import { ALERTS_COLUMNS } from "../record-list/constants";
+import { getAppDirection } from "../i18n/selectors";
 
 import recordListTheme from "./theme";
 import { NAME } from "./config";
@@ -48,7 +49,7 @@ const Component = ({
   const loading = useSelector(state => getLoading(state, recordType));
   const errors = useSelector(state => getErrors(state, recordType));
   const filters = useSelector(state => getFilters(state, recordType), compare);
-  const direction = useSelector(state => state.getIn(["ui", "I18n", "dir"]));
+  const direction = useSelector(state => getAppDirection(state));
   const themeWithDirection = { ...recordListTheme, direction };
 
   const { order, order_by: orderBy } = filters || {};
