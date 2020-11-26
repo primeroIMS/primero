@@ -163,4 +163,40 @@ describe("User - Reducers", () => {
     // TODO: Remove .toJS()
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
+
+  it("it should handle RESET_PASSWORD_STARTED", () => {
+    const expected = fromJS({ resetPassword: { saving: true } });
+
+    const action = {
+      type: Actions.RESET_PASSWORD_STARTED
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("it should handle RESET_PASSWORD_SUCCESS", () => {
+    const expected = fromJS({ resetPassword: { saving: false } });
+
+    const action = {
+      type: Actions.RESET_PASSWORD_SUCCESS
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("it should handle RESET_PASSWORD_FAILURE", () => {
+    const expected = fromJS({ resetPassword: { saving: false } });
+
+    const action = {
+      type: Actions.RESET_PASSWORD_FAILURE
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });
