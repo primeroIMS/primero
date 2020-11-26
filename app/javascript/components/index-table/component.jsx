@@ -48,6 +48,8 @@ const Component = ({
   const loading = useSelector(state => getLoading(state, recordType));
   const errors = useSelector(state => getErrors(state, recordType));
   const filters = useSelector(state => getFilters(state, recordType), compare);
+  const direction = useSelector(state => state.getIn(["ui", "I18n", "dir"]));
+  const themeWithDirection = { ...recordListTheme, direction };
 
   const { order, order_by: orderBy } = filters || {};
   const records = data.get("data");
@@ -335,7 +337,7 @@ const Component = ({
 
   return (
     <LoadingIndicator {...loadingIndicatorProps}>
-      <ConditionalWrapper condition={validRecordTypes} wrapper={ThemeProvider} theme={recordListTheme}>
+      <ConditionalWrapper condition={validRecordTypes} wrapper={ThemeProvider} theme={themeWithDirection}>
         <MUIDataTable {...tableOptions} />
       </ConditionalWrapper>
     </LoadingIndicator>
