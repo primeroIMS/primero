@@ -8,7 +8,6 @@ describe("<RecordActions /> - Constants", () => {
       "APPROVAL_DIALOG",
       "APPROVAL_TYPE",
       "ASSIGN_DIALOG",
-      "CHANGE_LOG_DIALOG",
       "EXPORT_DIALOG",
       "ENABLED_FOR_ONE",
       "ENABLED_FOR_ONE_MANY",

@@ -20,11 +20,11 @@ describe("<Nav>/components/<RecordInformation>- utils", () => {
     });
 
     it("should return the record information forms for incidents", () => {
-      expect(utils.getRecordInformationForms(i18n, RECORD_TYPES.incidents).size).to.equal(4);
+      expect(utils.getRecordInformationForms(i18n, RECORD_TYPES.incidents).size).to.equal(5);
     });
 
     it("should return the record information forms for cases", () => {
-      expect(utils.getRecordInformationForms(i18n, RECORD_TYPES.cases).size).to.equal(5);
+      expect(utils.getRecordInformationForms(i18n, RECORD_TYPES.cases).size).to.equal(6);
     });
   });
 

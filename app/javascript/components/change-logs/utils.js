@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { FIELDS } from "../../record-owner/constants";
+import { FIELDS } from "../record-owner/constants";
 
 import { APPROVALS } from "./constants";
 

@@ -52,7 +52,7 @@ import {
 } from "./components/pages/admin/locations-list";
 import { reducer as accountReducer } from "./components/pages/account";
 import { reducer as connectivityReducer } from "./components/connectivity";
-import { reducer as changeLogsReducers } from "./components/record-actions/change-logs";
+import { reducer as changeLogsReducers } from "./components/change-logs";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {

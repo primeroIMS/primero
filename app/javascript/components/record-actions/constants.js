@@ -6,8 +6,7 @@ import {
   SHOW_EXPORTS,
   ASSIGN,
   REQUEST_APPROVAL,
-  APPROVAL,
-  SHOW_CHANGE_LOG
+  APPROVAL
 } from "../permissions";
 
 export const ID_SEARCH = "id_search";
@@ -25,7 +24,6 @@ export const INCIDENT_DIALOG = "incidentDialog";
 export const NOTES_DIALOG = "notes";
 export const ENABLE_DISABLE_DIALOG = "enableDisable";
 export const OPEN_CLOSE_DIALOG = "openClose";
-export const CHANGE_LOG_DIALOG = "changeLogDialog";
 
 export const ONE = "one";
 export const MANY = "many";
@@ -59,6 +57,5 @@ export const RECORD_ACTION_ABILITIES = {
   canRequestClosure: [ACTIONS.MANAGE, ACTIONS.REQUEST_APPROVAL_CLOSURE],
   canRequestGbvClosure: [ACTIONS.MANAGE, ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE],
   canShowExports: SHOW_EXPORTS,
-  canTransfer: [ACTIONS.MANAGE, ACTIONS.TRANSFER],
-  canShowChangeLog: SHOW_CHANGE_LOG
+  canTransfer: [ACTIONS.MANAGE, ACTIONS.TRANSFER]
 };

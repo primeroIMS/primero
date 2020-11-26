@@ -14,8 +14,7 @@ import {
   OPEN_CLOSE_DIALOG,
   ENABLE_DISABLE_DIALOG,
   APPROVAL_TYPE,
-  REQUEST_TYPE,
-  CHANGE_LOG_DIALOG
+  REQUEST_TYPE
 } from "../constants";
 import { fetchIncidentFromCase } from "../../records";
 import { RECORD_TYPES, RECORD_PATH } from "../../../config";
@@ -27,7 +26,6 @@ import AddIncident from "../add-incident";
 import AddService from "../add-service";
 import RequestApproval from "../request-approval";
 import Exports from "../exports";
-import ChangeLogs from "../change-logs";
 
 import filterActions from "./filter-actions";
 
@@ -58,8 +56,7 @@ export default ({
   record,
   recordType,
   requestsApproval,
-  showListActions,
-  canShowChangeLog
+  showListActions
 }) => {
   const formRecordType = i18n.t(`forms.record_types.${RECORD_TYPES[recordType]}`);
 
@@ -165,13 +162,6 @@ export default ({
         name: i18n.t(`${recordType}.export`),
         recordListAction: true,
         recordType: RECORD_TYPES.all
-      },
-      {
-        action: () => handleDialogClick(CHANGE_LOG_DIALOG),
-        condition: canShowChangeLog,
-        disableOffline: true,
-        name: i18n.t("actions.change_log"),
-        recordType: RECORD_TYPES.all
       }
     ].filter(filterActions({ recordType, showListActions })),
     dialogs: {
@@ -228,10 +218,6 @@ export default ({
       [EXPORT_DIALOG]: {
         component: Exports,
         ability: canShowExports || canOnlyExportPdf
-      },
-      [CHANGE_LOG_DIALOG]: {
-        component: ChangeLogs,
-        ability: canShowChangeLog
       }
     }
   };

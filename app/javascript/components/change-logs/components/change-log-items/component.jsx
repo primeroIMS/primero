@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-import { useI18n } from "../../../../i18n";
-import { getFields } from "../../../../record-form";
-import { getOptions, getLocations } from "../../../../record-form/selectors";
-import { compare } from "../../../../../libs";
+import { useI18n } from "../../../i18n";
+import { getFields } from "../../../record-form";
+import { getOptions, getLocations } from "../../../record-form/selectors";
+import { compare } from "../../../../libs";
 import ChangeLogItem from "../change-log-item";
 import { getFieldsAndValuesTranslations } from "../../utils";
 import { APPROVALS } from "../../constants";

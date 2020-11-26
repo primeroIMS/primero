@@ -29,17 +29,19 @@ import {
   TRANSITION_TYPE,
   RECORD_PATH,
   REFERRAL,
-  INCIDENT_FROM_CASE
+  INCIDENT_FROM_CASE,
+  CHANGE_LOGS
 } from "../../config";
 import { REFER_FROM_SERVICE } from "../../libs/permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import IncidentFromCase from "../incidents-from-case";
+import ChangeLogs from "../change-logs";
 import { getIsProcessingSomeAttachment, getLoadingRecordState, getRecordAttachments } from "../records/selectors";
 import { usePermissions } from "../user";
 import { clearRecordAttachments, fetchRecordsAlerts, updateRecordAttachments } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
-import { fetchChangeLogs } from "../record-actions/change-logs/action-creators";
+import { fetchChangeLogs } from "../change-logs/action-creators";
 
 import { clearValidationErrors } from "./action-creators";
 import { NAME } from "./constants";
@@ -282,7 +284,8 @@ const Container = ({ match, mode }) => {
           recordType={params.recordType}
         />
       ),
-      [TRANSITION_TYPE]: <Transitions {...transitionProps} />
+      [TRANSITION_TYPE]: <Transitions {...transitionProps} />,
+      [CHANGE_LOGS]: <ChangeLogs record={record} recordType={params.recordType} />
     }[externalFormSelected];
   };
 

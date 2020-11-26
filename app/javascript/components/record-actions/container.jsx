@@ -28,8 +28,7 @@ import {
   RECORD_ACTION_ABILITIES,
   ID_SEARCH,
   ENABLE_DISABLE_DIALOG,
-  OPEN_CLOSE_DIALOG,
-  CHANGE_LOG_DIALOG
+  OPEN_CLOSE_DIALOG
 } from "./constants";
 import { NAME } from "./config";
 import { isDisabledAction, buildApprovalList, buildActionList, subformExists } from "./utils";
@@ -49,8 +48,7 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
     REFER_DIALOG,
     REQUEST_APPROVAL_DIALOG,
     SERVICE_DIALOG,
-    TRANSFER_DIALOG,
-    CHANGE_LOG_DIALOG
+    TRANSFER_DIALOG
   ]);
 
   const isIdSearch = useSelector(state => getFiltersValueByRecordType(state, recordType, ID_SEARCH) || false);
@@ -110,7 +108,6 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
     canShowExports,
     canTransfer,
     canOnlyExportPdf,
-    canShowChangeLog,
     permittedAbilities
   } = usePermissions(recordType, RECORD_ACTION_ABILITIES);
 
@@ -160,8 +157,7 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
     record,
     recordType,
     requestsApproval,
-    showListActions,
-    canShowChangeLog
+    showListActions
   });
 
   const showMenu = mode.isShow && !isEmpty(actions);

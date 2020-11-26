@@ -7,7 +7,7 @@ import TimelineContent from "@material-ui/lab/TimelineContent";
 import TimelineDot from "@material-ui/lab/TimelineDot";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
-import { useI18n } from "../../../../i18n";
+import { useI18n } from "../../../i18n";
 import styles from "../../styles.css";
 
 import { NAME } from "./constants";
