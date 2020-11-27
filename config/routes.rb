@@ -19,7 +19,8 @@ Rails.application.routes.draw do
   )
 
   devise_scope :user do
-    get '/v2/password_reset', to: 'home#v2', as: :edit_user_password
+    get '/v2/password_reset', to: 'home#v2', as: :password_reset
+    get '/v2/password_reset_request', to: 'home#v2', as: :password_reset_request
   end
 
   resources :health, only: %i[index show]
