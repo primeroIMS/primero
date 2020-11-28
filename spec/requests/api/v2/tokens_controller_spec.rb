@@ -71,7 +71,8 @@ describe Api::V2::TokensController, type: :request do
         6.times { post '/api/v2/tokens', params: params }
 
         expect(response).to have_http_status(401)
-        expect(json['error']).to eq('Your account is locked.')
+        expect(@user2.reload.access_locked?).to be_truthy
+        expect(json['error']).to be_present
       end
     end
   end

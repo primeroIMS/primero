@@ -39,9 +39,9 @@ class Api::V2::PasswordResetController < Devise::PasswordsController
     return errors(user) unless user.errors.empty?
 
     json = { message: 'user.password_reset.success' }
-    if warden.user(resource_name) == resource
+    if warden.user(resource_name) == user
       token_to_cookie
-      json.merge(id: user.id, user_name: user.user_name, token: current_token)
+      json = json.merge(id: user.id, user_name: user.user_name, token: current_token)
     end
     render json: json
   end
