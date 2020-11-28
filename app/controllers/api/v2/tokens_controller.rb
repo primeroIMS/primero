@@ -23,6 +23,11 @@ class Api::V2::TokensController < Devise::SessionsController
     render json: {}
   end
 
+  # Shut down the default Devise endpoint
+  def new
+    raise(ActionController::RoutingError, 'Not Found')
+  end
+
   def model_class
     User
   end

@@ -46,6 +46,13 @@ describe Api::V2::PasswordResetController, type: :request do
       post '/api/v2/users/password-reset-request', params: { user: { email: "fake#{email}" } }
       expect(response).to have_http_status(200)
     end
+
+    it 'throttles requests after 6 attempts per minute per user email' do
+      params = { user: { email: email } }
+      7.times { post '/api/v2/users/password-reset-request', params: params }
+
+      expect(response).to have_http_status(429)
+    end
   end
 
   describe 'POST /api/v2/users/:id/password-reset-request' do
@@ -120,6 +127,18 @@ describe Api::V2::PasswordResetController, type: :request do
 
         expect(response).to have_http_status(422)
         expect(user.reload.valid_password?(new_password)).to be_falsey
+      end
+
+      it 'throttles requests after 10 attempts per minute' do
+        params = {
+          user: {
+            password: new_password, password_confirmation: new_password,
+            reset_password_token: 'faketoken'
+          }
+        }
+        11.times { post '/api/v2/users/password-reset', params: params }
+
+        expect(response).to have_http_status(429)
       end
     end
 

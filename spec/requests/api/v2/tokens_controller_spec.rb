@@ -75,6 +75,13 @@ describe Api::V2::TokensController, type: :request do
         expect(json['error']).to be_present
       end
     end
+
+    it 'throttles requests after 6 attempts per minute per user name' do
+      params = { user: { user_name: @user.user_name, password: 'wrong!' } }
+      7.times { post '/api/v2/tokens', params: params }
+
+      expect(response).to have_http_status(429)
+    end
   end
 
   describe 'DELETE /api/v2/tokens' do
