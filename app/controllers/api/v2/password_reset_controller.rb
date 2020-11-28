@@ -4,8 +4,8 @@
 # and adapts it to the Primero API scheme
 class Api::V2::PasswordResetController < Devise::PasswordsController
   respond_to :json
-  # TODO: Audit access attempts?
-  # include AuditLogActions
+
+  include AuditLogActions
   include Api::V2::Concerns::JwtTokens
   include ErrorHandling
 
@@ -61,7 +61,11 @@ class Api::V2::PasswordResetController < Devise::PasswordsController
     @devise_mapping ||= Devise.mappings[:user]
   end
 
+  # Record type for Audit log
   def model_class
     User
   end
+
+  # Record id for Audit Log
+  def record_id; end
 end
