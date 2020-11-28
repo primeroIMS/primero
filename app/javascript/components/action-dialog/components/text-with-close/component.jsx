@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ dialogTitle, dialogSubtitle, closeHandler, dialogActions }) => {
+const Component = ({ dialogTitle, dialogSubtitle, closeHandler, dialogActions, disableClose }) => {
   const css = makeStyles(styles)();
   const subtitle = dialogSubtitle ? <span className={css.dialogSubtitle}>{dialogSubtitle}</span> : null;
 
@@ -19,21 +19,28 @@ const Component = ({ dialogTitle, dialogSubtitle, closeHandler, dialogActions })
           {subtitle}
         </div>
         <div>{dialogActions}</div>
-        <div>
-          <IconButton aria-label="close" className={css.closeButton} onClick={closeHandler}>
-            <CloseIcon />
-          </IconButton>
-        </div>
+        {disableClose || (
+          <div>
+            <IconButton aria-label="close" className={css.closeButton} onClick={closeHandler}>
+              <CloseIcon />
+            </IconButton>
+          </div>
+        )}
       </div>
     </DialogTitle>
   );
+};
+
+Component.defaultProps = {
+  disableClose: false
 };
 
 Component.propTypes = {
   closeHandler: PropTypes.func.isRequired,
   dialogActions: PropTypes.object,
   dialogSubtitle: PropTypes.string,
-  dialogTitle: PropTypes.string.isRequired
+  dialogTitle: PropTypes.string.isRequired,
+  disableClose: PropTypes.bool
 };
 
 Component.displayName = NAME;

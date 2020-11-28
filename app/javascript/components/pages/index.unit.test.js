@@ -14,7 +14,6 @@ describe("pages - index", () => {
       "ConfigurationsForm",
       "ContactInformation",
       "Dashboard",
-      "default",
       "ExportList",
       "FormBuilder",
       "FormsList",

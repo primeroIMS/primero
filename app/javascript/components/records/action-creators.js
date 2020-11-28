@@ -6,6 +6,7 @@ import { setSelectedForm } from "../record-form/action-creators";
 
 import {
   CLEAR_METADATA,
+  CLEAR_RECORD_ATTACHMENTS,
   RECORD,
   SAVE_RECORD,
   FETCH_RECORD_ALERTS,
@@ -14,7 +15,8 @@ import {
   CLEAR_CASE_FROM_INCIDENT,
   SET_CASE_ID_REDIRECT,
   SET_SELECTED_RECORD,
-  CLEAR_SELECTED_RECORD
+  CLEAR_SELECTED_RECORD,
+  UPDATE_ATTACHMENTS
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -79,19 +81,17 @@ export const clearMetadata = recordType => ({
   type: `${recordType}/${CLEAR_METADATA}`
 });
 
-export const fetchRecord = (recordType, id) => async dispatch => {
-  dispatch({
-    type: `${recordType}/${RECORD}`,
-    api: {
-      path: `${recordType}/${id}`,
-      db: {
-        collection: DB_COLLECTIONS_NAMES.RECORDS,
-        recordType,
-        id
-      }
+export const fetchRecord = (recordType, id) => ({
+  type: `${recordType}/${RECORD}`,
+  api: {
+    path: `${recordType}/${id}`,
+    db: {
+      collection: DB_COLLECTIONS_NAMES.RECORDS,
+      recordType,
+      id
     }
-  });
-};
+  }
+});
 
 export const fetchRecordsAlerts = (recordType, recordId, asCallback = false) => ({
   ...(asCallback
@@ -117,11 +117,11 @@ export const saveRecord = (
   incidentFromCase = false,
   moduleID,
   incidentPath = ""
-) => async dispatch => {
+) => {
   const fetchRecordsAlertsCallback =
     id && saveMethod === SAVE_METHODS.update ? [fetchRecordsAlerts(recordType, id, true)] : [];
 
-  await dispatch({
+  return {
     type: `${recordType}/${SAVE_RECORD}`,
     api: {
       id,
@@ -151,7 +151,7 @@ export const saveRecord = (
       },
       queueAttachments
     }
-  });
+  };
 };
 
 export const clearCaseFromIncident = () => ({
@@ -196,4 +196,14 @@ export const setSelectedRecord = (recordType, recordId) => ({
 
 export const clearSelectedRecord = recordType => ({
   type: `${recordType}/${CLEAR_SELECTED_RECORD}`
+});
+
+export const updateRecordAttachments = (recordId, recordType) => ({
+  type: `${recordType}/${UPDATE_ATTACHMENTS}`,
+  payload: { id: recordId, recordType }
+});
+
+export const clearRecordAttachments = (recordId, recordType) => ({
+  type: `${recordType}/${CLEAR_RECORD_ATTACHMENTS}`,
+  payload: { id: recordId, recordType }
 });

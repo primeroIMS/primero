@@ -29,7 +29,9 @@ const ActionDialog = ({
   dialogTitle,
   disableActions,
   disableBackdropClick,
+  disableClose,
   enabledSuccessButton,
+  hideIcon,
   maxSize,
   omitCloseAfterSuccess,
   onClose,
@@ -87,6 +89,7 @@ const ActionDialog = ({
 
   const dialogHeader = (
     <TitleWithClose
+      disableClose={disableClose}
       dialogTitle={dialogTitle}
       dialogSubtitle={dialogSubtitle}
       closeHandler={handleClose}
@@ -100,14 +103,14 @@ const ActionDialog = ({
     </Typography>
   );
 
-  const iconConfirmButtom = confirmButtonProps && confirmButtonProps.icon ? confirmButtonProps.icon : <CheckIcon />;
+  const iconConfirmButton = confirmButtonProps && confirmButtonProps.icon ? confirmButtonProps.icon : <CheckIcon />;
 
   const onCloseDialog = disabledApplication ? null : handleClose;
 
   const submitButton = (
     <div className={css.submitButtonWrapper}>
       <ActionButton
-        icon={iconConfirmButtom}
+        icon={!hideIcon && iconConfirmButton}
         text={confirmButtonLabel}
         type={ACTION_BUTTON_TYPES.default}
         pending={isPending}
@@ -168,9 +171,12 @@ ActionDialog.displayName = "ActionDialog";
 
 ActionDialog.defaultProps = {
   cancelButtonProps: {},
+  dialogTitle: "",
   disableBackdropClick: false,
+  disableClose: false,
   enabledSuccessButton: true,
   fetchArgs: [],
+  hideIcon: false,
   showSuccessButton: true
 };
 
@@ -187,10 +193,12 @@ ActionDialog.propTypes = {
   dialogTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   disableActions: PropTypes.bool,
   disableBackdropClick: PropTypes.bool,
+  disableClose: PropTypes.bool,
   enabledSuccessButton: PropTypes.bool,
   fetchAction: PropTypes.func,
   fetchArgs: PropTypes.array,
   fetchLoadingPath: PropTypes.array,
+  hideIcon: PropTypes.bool,
   maxSize: PropTypes.string,
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func,

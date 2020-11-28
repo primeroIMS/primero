@@ -75,7 +75,11 @@ Rails.application.routes.draw do
         resources :potential_matches, only: %i[index]
       end
 
-      resources :form_sections, as: :forms, path: :forms
+      resources :form_sections, as: :forms, path: :forms do
+        collection do
+          get :export, to: 'form_sections#export'
+        end
+      end
       resources :users do
         post :'password-reset-request', to: 'password_reset#user_password_reset_request'
         collection do

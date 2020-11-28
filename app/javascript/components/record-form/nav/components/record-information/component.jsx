@@ -14,7 +14,7 @@ import { getPermissionsByRecord } from "../../../../user/selectors";
 import { NAME } from "./constants";
 import { getRecordInformationForms } from "./utils";
 
-const Component = ({ open, handleClick, selectedForm, match }) => {
+const Component = ({ open, handleClick, selectedForm, formGroupLookup, match }) => {
   const { params } = match;
   const { recordType } = params;
   const i18n = useI18n();
@@ -31,7 +31,13 @@ const Component = ({ open, handleClick, selectedForm, match }) => {
 
   return (
     <>
-      <NavGroup group={forms} handleClick={handleClick} open={open} selectedForm={selectedForm} />
+      <NavGroup
+        group={forms}
+        handleClick={handleClick}
+        open={open}
+        selectedForm={selectedForm}
+        formGroupLookup={formGroupLookup}
+      />
     </>
   );
 };
@@ -39,6 +45,7 @@ const Component = ({ open, handleClick, selectedForm, match }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  formGroupLookup: PropTypes.object,
   handleClick: PropTypes.func,
   match: PropTypes.object.isRequired,
   open: PropTypes.string,

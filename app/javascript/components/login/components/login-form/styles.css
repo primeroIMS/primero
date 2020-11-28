@@ -30,6 +30,12 @@
   }
 }
 
+.loginContainer {
+  & header, & form {
+    margin-bottom: 1em;
+  }
+}
+
 @media $(theme.breakpoints.down('xs')) {
   .loginForm {
     & button {

@@ -3,7 +3,8 @@ other_documents_fields = [
               "type" => "document_upload_box",
               "editable" => false,
               "disabled" => true,
-              "display_name_en" => "Other Document"
+              "display_name_en" => "Other Document",
+              "help_text_en" => "Only PDF and TXT files permitted"
               })
 ]
 

@@ -1,14 +1,14 @@
 /* eslint-disable import/prefer-default-export */
 
-import { LOGIN, LOGIN_SUCCESS_CALLBACK } from "../login-form/actions";
+import actions from "../login-form/actions";
 
 export const attemptLogin = () => {
   return {
-    type: LOGIN,
+    type: actions.LOGIN,
     api: {
       path: "tokens",
       method: "POST",
-      successCallback: LOGIN_SUCCESS_CALLBACK
+      successCallback: actions.LOGIN_SUCCESS_CALLBACK
     }
   };
 };

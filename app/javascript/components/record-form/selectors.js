@@ -91,7 +91,6 @@ export const getFormNav = (state, query) => {
     .map(fs =>
       NavRecord({
         group: fs.form_group_id,
-        groupName: displayNameHelper(fs.form_group_name, window.I18n.locale),
         groupOrder: fs.order_form_group,
         name: displayNameHelper(fs.name, window.I18n.locale),
         order: fs.order,
@@ -188,6 +187,23 @@ export const getSubformsDisplayName = (state, locale) =>
     .filter(fs => fs.is_nested)
     .map(fs => fromJS({ [fs.unique_id]: fs.getIn(["name", locale]) }))
     .reduce((acc, next) => acc.merge(next), fromJS({}));
+
+export const getAttachmentForms = (state, locale) => {
+  const attachmentFieldIds = state
+    .getIn([NAMESPACE, "fields"], fromJS({}))
+    .entrySeq()
+    .map(
+      ([id, field]) =>
+        ["audio_upload_box", "document_upload_box", "photo_upload_box"].includes(field.get("type")) && parseInt(id, 10)
+    )
+    .filter(id => Boolean(id));
+
+  return state
+    .getIn([NAMESPACE, "formSections"], fromJS([]))
+    .filter(fs => fs.fields.some(fieldId => attachmentFieldIds.includes(fieldId)))
+    .map(fs => fromJS({ [fs.unique_id]: fs.getIn(["name", locale]) }))
+    .reduce((acc, next) => acc.merge(next), fromJS({}));
+};
 
 export const getFields = state => state.getIn([NAMESPACE, "fields"]);
 

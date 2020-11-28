@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setMsalConfig, getLoginRequest, getTokenRequest } from "./auth-utils";
+import { setMsalConfig, getLoginRequest, getTokenRequest } from "./utils";
 
 describe("auth-utils", () => {
   let idp;

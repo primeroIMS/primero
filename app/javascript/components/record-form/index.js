@@ -4,6 +4,7 @@ export { default as reducer } from "./reducer";
 export {
   getAllForms,
   getAssignableForms,
+  getAttachmentForms,
   getErrors,
   getFields,
   getFirstTab,

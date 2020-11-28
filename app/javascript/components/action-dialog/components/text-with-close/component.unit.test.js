@@ -30,7 +30,7 @@ describe("<TitleWithClose />", () => {
     const TitleWithCloseProps = { ...component.find(TitleWithClose).props() };
 
     expect(component.find(TitleWithClose)).to.have.lengthOf(1);
-    ["closeHandler", "dialogAction", "dialogSubtitle", "dialogTitle"].forEach(property => {
+    ["closeHandler", "dialogAction", "dialogSubtitle", "dialogTitle", "disableClose"].forEach(property => {
       expect(TitleWithCloseProps).to.have.property(property);
       delete TitleWithCloseProps[property];
     });

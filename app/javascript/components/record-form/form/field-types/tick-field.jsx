@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { FastField, connect, getIn } from "formik";
 import { Checkbox } from "formik-material-ui";
 import pickBy from "lodash/pickBy";
-import { FormControlLabel, FormHelperText, InputLabel } from "@material-ui/core";
+import { FormControlLabel, FormHelperText, InputLabel, FormControl } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
 
 import { TICK_FIELD_NAME } from "../constants";
 import { useI18n } from "../../../i18n";
@@ -15,8 +16,16 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) =
   const css = makeStyles(styles)();
   const fieldProps = {
     name,
+    inputProps: { required: true },
     ...pickBy(rest, (v, k) => ["disabled"].includes(k))
   };
+  const { InputLabelProps: inputLabelProps } = rest;
+  const fieldError = getIn(formik.errors, name);
+  const displayHelperText = fieldError ? (
+    <FormHelperText error>{fieldError}</FormHelperText>
+  ) : (
+    <FormHelperText>{helperText}</FormHelperText>
+  );
 
   useEffect(() => {
     if (rest.checked && !getIn(formik.values, name) && rest.mode.isNew) {
@@ -25,8 +34,14 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) =
   }, []);
 
   return (
-    <>
-      <InputLabel shrink htmlFor={name} className={css.inputLabel}>
+    <FormControl fullWidth error={fieldError}>
+      <InputLabel
+        htmlFor={name}
+        className={clsx({
+          [css.error]: Boolean(fieldError)
+        })}
+        {...inputLabelProps}
+      >
         {label}
       </InputLabel>
       <FormControlLabel
@@ -48,8 +63,8 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) =
           />
         }
       />
-      <FormHelperText>{helperText}</FormHelperText>
-    </>
+      {displayHelperText}
+    </FormControl>
   );
 };
 

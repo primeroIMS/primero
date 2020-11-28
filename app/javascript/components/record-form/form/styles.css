@@ -75,7 +75,7 @@
 .attachmentHeading {
   display: flex;
 
-  & h4 {
+  & .attachmentLabel {
     flex: 1;
   }
 }
@@ -224,6 +224,10 @@
   & a {
     color: $(theme.primero.colors.blue);
   }
+}
+
+.error {
+  color: $(theme.primero.colors.redLabelError) !important;
 }
 
 @media $(theme.breakpoints.down("sm")) {

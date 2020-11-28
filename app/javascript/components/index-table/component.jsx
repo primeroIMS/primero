@@ -208,6 +208,10 @@ const Component = ({
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
     const { rowsPerPage } = tableState;
 
+    if (action === "changeRowsPerPage") {
+      tableState.page = page - 1;
+    }
+
     options.per = rowsPerPage;
 
     if (validActions.includes(action)) {
@@ -279,8 +283,9 @@ const Component = ({
     },
     onCellClick: (colData, cellMeta) => {
       const { colIndex, dataIndex } = cellMeta;
+      const cells = fromJS(componentColumns);
 
-      if (!componentColumns.getIn([colIndex, "options", "disableOnClick"], false)) {
+      if (!cells.getIn([colIndex, "options", "disableOnClick"], false)) {
         if (onRowClick) {
           onRowClick(records.get(dataIndex));
         } else {
