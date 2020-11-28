@@ -50,7 +50,7 @@ class Api::V2::PasswordResetController < Devise::PasswordsController
     @errors = user.errors.details.keys.map do |error|
       ApplicationError.new(
         code: 422,
-        message: "user.password_reset.#{error}",
+        message: "user.password_reset.errors.#{error}",
         resource: request.path
       )
     end
