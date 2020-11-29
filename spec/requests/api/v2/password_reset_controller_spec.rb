@@ -130,6 +130,7 @@ describe Api::V2::PasswordResetController, type: :request do
       end
 
       it 'throttles requests after 10 attempts per minute' do
+        Rack::Attack.reset!
         params = {
           user: {
             password: new_password, password_confirmation: new_password,
@@ -139,6 +140,7 @@ describe Api::V2::PasswordResetController, type: :request do
         11.times { post '/api/v2/users/password-reset', params: params }
 
         expect(response).to have_http_status(429)
+        Rack::Attack.reset!
       end
     end
 
