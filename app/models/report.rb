@@ -41,6 +41,8 @@ class Report < ApplicationRecord
   attr_accessor :permission_filter
   self.unique_id_from_attribute = 'name_en'
 
+  alias_attribute :graph, :is_graph
+
   validates :record_type, presence: true
   validates :aggregate_by, presence: true
   validate :modules_present
@@ -83,10 +85,9 @@ class Report < ApplicationRecord
     end
 
     def new_with_properties(report_params)
-      report = Report.new(report_params.except(:name, :description, :graph, :fields))
+      report = Report.new(report_params.except(:name, :description, :fields))
       report.name_i18n = report_params[:name]
       report.description_i18n = report_params[:description]
-      report.is_graph = report_params[:graph] unless report_params[:graph].nil?
       report.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)
       report.disaggregate_by = ReportFieldService.disaggregate_by_from_params(report_params)
       report
@@ -97,8 +98,7 @@ class Report < ApplicationRecord
     report_params = report_params.with_indifferent_access if report_params.is_a?(Hash)
     converted_params = FieldI18nService.convert_i18n_properties(Report, report_params)
     merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
-    assign_attributes(report_params.except(:name, :description, :graph, :fields).merge(merged_props))
-    self.is_graph = report_params[:graph].present?
+    assign_attributes(report_params.except(:name, :description, :fields).merge(merged_props))
     return unless report_params[:fields]
 
     self.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)

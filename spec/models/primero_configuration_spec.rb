@@ -16,7 +16,7 @@ describe PrimeroConfiguration do
     @user_group1 = UserGroup.create!(name: 'Test Group')
     @report1 = Report.create!(
       record_type: 'case', name_en: 'Test', unique_id: 'report-test',
-      aggregate_by: %w[a b], module_id: @module1.unique_id
+      aggregate_by: %w[a b], module_id: @module1.unique_id, is_graph: true
     )
     @contact_info = ContactInformation.create!(name: 'test')
   end
@@ -61,6 +61,7 @@ describe PrimeroConfiguration do
       expect(Lookup.first.unique_id).to eq('lookup1')
       expect(Report.count).to eq(1)
       expect(Report.first.unique_id).to eq('report-test')
+      expect(Report.first.is_graph).to be_truthy
     end
 
     it 'reverts new subforms when applying configuration state' do
