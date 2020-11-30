@@ -102,12 +102,12 @@ describe("User - Action Creators", () => {
     const creators = { ...actionCreators };
 
     [
-      "setUser",
-      "fetchAuthenticatedUserData",
-      "setAuthenticatedUser",
       "attemptSignout",
       "checkUserAuthentication",
-      "refreshToken"
+      "fetchAuthenticatedUserData",
+      "refreshToken",
+      "setAuthenticatedUser",
+      "setUser"
     ].forEach(method => {
       expect(creators).to.have.property(method);
       expect(creators[method]).to.be.a("function");

@@ -2733,6 +2733,11 @@ en:
     organization: Organization
     agency: Agency
     services_help_text: If you do not specify services, this User will be given the same services its Agency has.
+    password_setting:
+      label: How should Primero set the user’s password?
+      self: I will set the password
+      user: User will set the password using the welcome email
+      help_text: Please remember that if you, the administrator, set the password manually, you will need to share it with the user in a secure manner.
     password: Password
     password_confirmation: Password Confirmation
     phone: Phone

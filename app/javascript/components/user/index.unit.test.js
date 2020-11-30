@@ -10,21 +10,21 @@ describe("User - index", () => {
       "checkUserAuthentication",
       "currentUser",
       "fetchAuthenticatedUserData",
+      "getIsAuthenticated",
+      "getListHeaders",
       "getPermissions",
       "getPermissionsByRecord",
+      "getPermittedFormsIds",
+      "getReportingLocationConfig",
+      "getServerErrors",
+      "getUser",
+      "getUserSavingRecord",
       "hasUserPermissions",
       "reducer",
       "refreshToken",
       "setAuthenticatedUser",
       "setUser",
-      "usePermissions",
-      "getIsAuthenticated",
-      "getListHeaders",
-      "getPermittedFormsIds",
-      "getReportingLocationConfig",
-      "getUser",
-      "getUserSavingRecord",
-      "getServerErrors"
+      "usePermissions"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
