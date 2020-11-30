@@ -31,10 +31,6 @@ require File.dirname(__FILE__) + '/exports/exports.rb'
 puts 'Seeding the system settings'
 require File.dirname(__FILE__) + '/system_settings/system_settings.rb'
 
-# Seed the identity providers table
-puts 'Seeding the identity providers'
-require File.dirname(__FILE__) + '/system_settings/idp.rb'
-
 # Create the forms
 puts '[Re-]Seeding the forms'
 Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].sort.each(&method(:require))

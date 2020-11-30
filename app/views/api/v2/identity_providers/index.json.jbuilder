@@ -12,5 +12,5 @@ json.data do
   end
 end
 json.metadata do
-  json.use_identity_provider @use_identity_provider
+  json.use_identity_provider Rails.configuration.x.idp.use_identity_provider
 end
