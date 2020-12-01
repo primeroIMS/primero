@@ -31,7 +31,7 @@ export const fetchAuthenticatedUserData = user => ({
       collection: DB_COLLECTIONS_NAMES.USER,
       user: user.username
     },
-    successCallback: [SET_USER_LOCALE]
+    successCallback: [queueReady, SET_USER_LOCALE]
   }
 });
 
