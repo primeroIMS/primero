@@ -14,7 +14,7 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { RESOURCES, CREATE_RECORDS } from "../../../../libs/permissions";
 import { useMetadata } from "../../../records";
-import { usePermissions } from "../../../user";
+import usePermissions from "../../../permissions";
 
 import { fetchRoles } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
