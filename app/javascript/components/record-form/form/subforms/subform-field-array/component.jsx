@@ -39,7 +39,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection }) => 
   const [openDialog, setOpenDialog] = useState({ open: false, index: null });
   const [dialogIsNew, setDialogIsNew] = useState(false);
   const [selectedValue, setSelectedValue] = useState({});
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css, mobileDisplay } = useThemeHelper({ css: styles });
 
   const handleAddSubform = () => {
     setDialogIsNew(true);

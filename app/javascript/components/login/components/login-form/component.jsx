@@ -23,7 +23,7 @@ const Container = ({ dialogRef, formRef, modal }) => {
   const dispatch = useDispatch();
   const { demo } = useApp();
   const internalFormRef = useRef();
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css, mobileDisplay } = useThemeHelper({ css: styles });
 
   const authErrors = useSelector(state => selectAuthErrors(state));
 
