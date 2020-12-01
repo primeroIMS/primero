@@ -17,11 +17,12 @@ import {
   OverdueTasks,
   WorkflowTeamCases,
   ReportingLocation,
-  ProtectionConcern
+  ProtectionConcern,
+  Flags
 } from "./components";
 import NAMESPACE from "./namespace";
 import { NAME } from "./constants";
-import { fetchDashboards } from "./action-creators";
+import { fetchDashboards, fetchFlags } from "./action-creators";
 
 const Dashboard = () => {
   const i18n = useI18n();
@@ -29,17 +30,28 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(fetchDashboards());
+    // TODO: Fetch only if user has access to CASES (View, Manage) and DASH_FLAGS
+    dispatch(fetchFlags());
   }, []);
 
   const userPermissions = useSelector(state => getPermissions(state));
   const loading = useSelector(state => getLoading(state, NAMESPACE));
   const errors = useSelector(state => getErrors(state, NAMESPACE));
+  const loadingFlags = useSelector(state => getLoading(state, [NAMESPACE, "flags"]));
+  const flagsErrors = useSelector(state => getErrors(state, [NAMESPACE, "flags"]));
 
   const indicatorProps = {
     overlay: true,
     type: NAMESPACE,
     loading,
     errors
+  };
+
+  const flagsIndicators = {
+    overlay: true,
+    type: NAMESPACE,
+    loading: loadingFlags,
+    errors: flagsErrors
   };
 
   return (
@@ -49,10 +61,11 @@ const Dashboard = () => {
         <OfflineAlert text={i18n.t("messages.dashboard_offline")} />
         <Grid container spacing={3}>
           <Overview loadingIndicator={indicatorProps} userPermissions={userPermissions} />
+          <WorkflowIndividualCases loadingIndicator={indicatorProps} />
           <Approvals loadingIndicator={indicatorProps} />
+          <Flags loadingIndicator={flagsIndicators} />
           <SharedFromMyTeam loadingIndicator={indicatorProps} />
           <SharedWithMyTeam loadingIndicator={indicatorProps} />
-          <WorkflowIndividualCases loadingIndicator={indicatorProps} />
           <OverdueTasks loadingIndicator={indicatorProps} />
           <WorkflowTeamCases loadingIndicator={indicatorProps} />
           <ReportingLocation loadingIndicator={indicatorProps} />

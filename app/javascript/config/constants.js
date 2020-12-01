@@ -81,6 +81,7 @@ export const RECORD_PATH = {
   configurations: "configurations",
   contact_information: "contact_information",
   dashboards: "dashboards",
+  flags: "flags",
   forms: "forms",
   incidents: "incidents",
   locations: "locations",
