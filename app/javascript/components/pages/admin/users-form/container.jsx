@@ -22,6 +22,7 @@ import bindFormSubmit from "../../../../libs/submit-form";
 import { submitHandler } from "../../../form/utils/form-submission";
 import CancelPrompt from "../../../form/components/cancel-prompt";
 import { currentUser } from "../../../user/selectors";
+import UserActions from "../../../user-actions";
 
 import { form } from "./form";
 import validations from "./validations";
@@ -196,6 +197,7 @@ const Container = ({ mode }) => {
       <PageHeading title={pageHeading}>
         {canEditUsers && editButton}
         {saveButton}
+        {formMode.get("isShow") && id && <UserActions id={id} />}
       </PageHeading>
       <PageContent>
         <FormContext {...formMethods} formMode={formMode}>
