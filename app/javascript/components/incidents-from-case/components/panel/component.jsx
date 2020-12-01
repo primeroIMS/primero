@@ -5,8 +5,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import LookupValue from "../../../record-form/form/subforms/subform-header-lookup";
 import { useI18n } from "../../../i18n";
-import { NAME_PANEL, VIOLENCE_TYPE_LOOKUP_NAME, CP_VIOLENCE_TYPE_LOOKUP_NAME } from "../../constants";
-import { MODULES } from "../../../../config";
+import { NAME_PANEL } from "../../constants";
+import { MODULES, LOOKUPS } from "../../../../config";
 import IncidentSummary from "../summary";
 import IncidentDetail from "../detail";
 
@@ -38,7 +38,7 @@ const Component = ({
   const incidentDate = incidentDateData && i18n.localizeDate(incidentDateData);
   const incidentDateInterview = incidentDateInterviewData && i18n.localizeDate(incidentDateInterviewData);
   const lookupViolenceType =
-    incident.get("module_id", false) === MODULES.CP ? CP_VIOLENCE_TYPE_LOOKUP_NAME : VIOLENCE_TYPE_LOOKUP_NAME;
+    incident.get("module_id", false) === MODULES.CP ? LOOKUPS.cp_violence_type : LOOKUPS.gbv_violence_type;
   const incidentType = <LookupValue value={incidentTypeData} optionsStringSource={lookupViolenceType} />;
 
   const sharedProps = {
