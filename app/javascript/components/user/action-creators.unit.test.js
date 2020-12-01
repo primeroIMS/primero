@@ -28,7 +28,13 @@ describe("User - Action Creators", () => {
           collection: "user",
           user: "primero"
         },
-        successCallback: ["I18n/SET_USER_LOCALE"]
+        successCallback: [
+          {
+            action: "connectivity/QUEUE_STATUS",
+            payload: "ready"
+          },
+          "I18n/SET_USER_LOCALE"
+        ]
       }
     },
     {
@@ -152,7 +158,13 @@ describe("User - Action Creators", () => {
       path: "users/1",
       params: { extended: true },
       db: { collection: "user", user: "primero" },
-      successCallback: ["I18n/SET_USER_LOCALE"]
+      successCallback: [
+        {
+          action: "connectivity/QUEUE_STATUS",
+          payload: "ready"
+        },
+        "I18n/SET_USER_LOCALE"
+      ]
     };
 
     dispatch(actionCreators.fetchAuthenticatedUserData({ username: "primero", id: 1 }));
