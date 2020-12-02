@@ -1,7 +1,9 @@
 import { fromJS, Map } from "immutable";
+import orderBy from "lodash/orderBy";
 
 import actions from "./actions";
 import NAMESPACE from "./namespace";
+import { DASHBOARD_FLAGS_SORT_ORDER, DASHBOARD_FLAGS_SORT_FIELD } from "./constants";
 
 const DEFAULT_STATE = Map({});
 
@@ -27,8 +29,13 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("errors", true);
     case actions.DASHBOARD_FLAGS_STARTED:
       return state.setIn(["flags", "loading"], fromJS(payload)).setIn(["flags", "errors"], false);
-    case actions.DASHBOARD_FLAGS_SUCCESS:
-      return state.setIn(["flags", "data"], fromJS(payload.data));
+    case actions.DASHBOARD_FLAGS_SUCCESS: {
+      const orderedArray = orderBy(payload.data, dateObj => new Date(dateObj[DASHBOARD_FLAGS_SORT_FIELD]), [
+        DASHBOARD_FLAGS_SORT_ORDER
+      ]);
+
+      return state.setIn(["flags", "data"], fromJS(orderedArray));
+    }
     case actions.DASHBOARD_FLAGS_FINISHED:
       return state.setIn(["flags", "loading"], fromJS(payload));
     case actions.DASHBOARD_FLAGS_FAILURE:
