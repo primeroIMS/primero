@@ -18,7 +18,8 @@ describe Api::V2::IdentityProvidersController, type: :request do
         client_id: '123',
         authorization_url: 'url',
         identity_scope: ['123'],
-        verification_url: 'verifyurl'
+        verification_url: 'verifyurl',
+        domain_hint: 'primeroims'
       }
     )
 
@@ -31,7 +32,8 @@ describe Api::V2::IdentityProvidersController, type: :request do
         client_id: '123',
         authorization_url: 'url',
         identity_scope: ['123'],
-        verification_url: 'verifyurl'
+        verification_url: 'verifyurl',
+        domain_hint: 'unicef'
       }
     )
   end
@@ -62,6 +64,8 @@ describe Api::V2::IdentityProvidersController, type: :request do
       expect(json['data'].map { |c| c['verification_url'] }).to include(
         @identity_providers_primero.verification_url, @identity_providers_unicef.verification_url
       )
+      expect(json['data'].map { |c| c['domain_hint'] }).to include('unicef', 'primeroims')
+
       expect(json['data'].map { |c| c['name'] }[0]).to include(@identity_providers_primero['name'])
       expect(json['data'].map { |c| c['name'] }[1]).to include(@identity_providers_unicef['name'])
     end

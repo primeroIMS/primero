@@ -13,7 +13,8 @@ describe("auth-utils", () => {
       client_id: "123",
       authorization_url: "authorization",
       identity_scope: ["123"],
-      verification_url: "verification"
+      verification_url: "verification",
+      domain_hint: "unicef"
     });
   });
 

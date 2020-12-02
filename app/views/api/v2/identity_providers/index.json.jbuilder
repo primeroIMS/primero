@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.data do
   json.array! @identity_providers do |identity_provider|
     json.id identity_provider.id
@@ -9,6 +11,7 @@ json.data do
     json.identity_scope identity_provider.identity_scope
     json.verification_url identity_provider.verification_url
     json.user_domain identity_provider.user_domain
+    json.domain_hint identity_provider.domain_hint
   end
 end
 json.metadata do
