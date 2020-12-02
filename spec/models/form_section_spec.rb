@@ -912,6 +912,24 @@ describe FormSection do
     end
   end
 
+  describe 'new_with_properties' do
+    it 'assigns the role of the user to the form' do
+      fields = [
+        Field.new(name: 'field_name_99', type: 'textarea', display_name_all: 'Field Name 99'),
+        Field.new(name: 'field_name_98', type: Field::TEXT_FIELD, display_name_all: 'Field Name 98')
+      ]
+      form_params = { unique_id: 'form_section_test_role', parent_form: 'case', visible: true,
+                      order_form_group: 1, order: 99, order_subform: 0, form_group_id: 'm', editable: true,
+                      name_all: 'Form Section Test Role', description_all: 'Form Section Test Role', fields: fields }
+      form = FormSection.new_with_properties(form_params, @user)
+      expect(form.roles).to match_array([@user.role])
+
+      form.save
+      r2 = Role.where(id: @role.id).first
+      expect(r2.form_sections).to include(form)
+    end
+  end
+
   after do
     clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role, Lookup)
   end

@@ -52,8 +52,11 @@ class FormSection < ApplicationRecord
       ]
     end
 
-    def new_with_properties(form_params)
-      FormSection.new.tap { |form| form.update_properties(form_params) }
+    def new_with_properties(form_params, user)
+      FormSection.new.tap do |form|
+        form.update_properties(form_params)
+        form.roles << user&.role
+      end
     end
 
     # TODO: Used by the RolePermissionsExporter
