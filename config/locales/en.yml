@@ -1276,6 +1276,10 @@ en:
     provider_title: with %{provider}
     title: Log In
     username: User Name
+    password_reset_modal: Reset Password
+    password_reset_modal_text: Primero will send a password reset link to your email address
+    password_reset_email: Email
+    forgot_password: Forgot your password?
   lookup:
     create: New Lookup
     enabled_label: Enabled?

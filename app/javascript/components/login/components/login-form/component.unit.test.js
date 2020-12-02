@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import Button from "@material-ui/core/Button";
 
 import { PageHeading } from "../../../page";
 import ActionButton from "../../../action-button";
@@ -70,6 +71,24 @@ describe("<LoginForm />", () => {
 
     it("should render ActionButton with 'demo' text", () => {
       expect(componentWithDemo.find(ActionButton).text()).to.equal("buttons.login logger.to sandbox_ui");
+    });
+  });
+
+  describe("when does not use external identity", () => {
+    const stateWithoutExternal = fromJS({
+      application: {
+        primero: {
+          sandbox_ui: true
+        }
+      },
+      idp: {
+        use_identity_provider: false
+      }
+    });
+    const { component: componentWithDemo } = setupMountedComponent(LoginForm, props, stateWithoutExternal);
+
+    it("renders the forgot password link", () => {
+      expect(componentWithDemo.find(Button).last().text()).to.be.equal("login.forgot_password");
     });
   });
 });
