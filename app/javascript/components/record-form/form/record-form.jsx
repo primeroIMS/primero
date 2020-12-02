@@ -25,6 +25,7 @@ import SubformField from "./subforms";
 import { fieldValidations } from "./validations";
 
 const RecordForm = ({
+  attachmentForms,
   bindSubmitForm,
   forms,
   handleToggleNav,
@@ -104,7 +105,7 @@ const RecordForm = ({
               displayText={displayNameHelper(form.name, i18n.locale)}
             />
 
-            <RecordFormAlerts recordType={recordType} form={form} />
+            <RecordFormAlerts recordType={recordType} form={form} attachmentForms={attachmentForms} />
 
             {form.fields.map(field => {
               const fieldProps = {
@@ -184,6 +185,7 @@ const RecordForm = ({
 RecordForm.displayName = RECORD_FORM_NAME;
 
 RecordForm.propTypes = {
+  attachmentForms: PropTypes.object,
   bindSubmitForm: PropTypes.func,
   externalForms: PropTypes.func,
   fetchFromCaseId: PropTypes.string,
