@@ -6,7 +6,7 @@
     <% end %>
     <% if has_index_actions(@tracing_request) %>
         <% unless ["edit", "update"].include? controller.action_name %>
-        <ul id="menu" class="dropdown menu" data-dropdown-menu>
+        <ul id="menu" class="dropdown menu" data-dropdown-menu data-close-on-click-inside>
         <li class="init_btn">
             <a class="button"><%= content_tag(:span, t("actions.button")) %></a>
             <ul class="menu">
