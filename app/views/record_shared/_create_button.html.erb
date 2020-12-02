@@ -3,7 +3,7 @@
   <% if !defined?(modules) || !modules.present? %>
     <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(record),  class: 'button right' %>
   <% elsif modules.size > 1 %>
-    <ul id="menu" class="dropdown menu" data-dropdown-menu>
+    <ul id="menu" class="dropdown menu" data-dropdown-menu data-close-on-click-inside>
       <li>
         <a data-toggle="modules-dropdown" data-close-on-click="true" class="button"><%= content_tag(:span, button_label) %></a>
         <ul class="menu">
