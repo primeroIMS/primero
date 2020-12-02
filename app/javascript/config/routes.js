@@ -3,7 +3,6 @@ import {
   AgenciesForm,
   AgenciesList,
   AuditLogs,
-  ContactInformation,
   Dashboard,
   ExportList,
   FormBuilder,
@@ -46,6 +45,7 @@ import {
   ADMIN_ACTIONS
 } from "../libs/permissions";
 import Login from "../components/login";
+import ContactInformation from "../components/contact-information";
 
 import { ROUTES, MODES } from "./constants";
 

@@ -1,4 +1,4 @@
-import NAMESPACE from "./namespace";
+import { NAMESPACE } from "./constants";
 
 export const FETCH_DATA = `${NAMESPACE}/FETCH_DATA`;
 export const FETCH_DATA_SUCCESS = `${NAMESPACE}/FETCH_DATA_SUCCESS`;
