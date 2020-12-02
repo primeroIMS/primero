@@ -25,6 +25,7 @@ describe("pages - index", () => {
       "RolesForm",
       "RolesList",
       "TaskList",
+      "ContactInformation",
       "UserGroupsForm",
       "UserGroupsList",
       "UsersForm",

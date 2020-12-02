@@ -18,6 +18,7 @@ export {
   UserGroupsList,
   UsersForm,
   UsersList,
+  ContactInformation,
   ConfigurationsList,
   ConfigurationsForm,
   LocationsList
