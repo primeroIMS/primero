@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { Grid } from "@material-ui/core";
 
 import { getWorkflowIndividualCases } from "../../selectors";
 import { useI18n } from "../../../../i18n";
@@ -26,11 +25,9 @@ const Component = ({ loadingIndicator }) => {
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_WORKFLOW}>
-      <Grid item xl={3} md={4} xs={12}>
-        <OptionsBox title={i18n.t("dashboard.workflow")} hasData={Boolean(casesWorkflow.size)} {...loadingIndicator}>
-          <PieChart {...casesWorkflowProps} />
-        </OptionsBox>
-      </Grid>
+      <OptionsBox title={i18n.t("dashboard.workflow")} hasData={Boolean(casesWorkflow.size)} {...loadingIndicator}>
+        <PieChart {...casesWorkflowProps} />
+      </OptionsBox>
     </Permission>
   );
 };

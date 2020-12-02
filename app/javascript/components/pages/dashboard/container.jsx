@@ -60,16 +60,20 @@ const Dashboard = () => {
       <PageContent>
         <OfflineAlert text={i18n.t("messages.dashboard_offline")} />
         <Grid container spacing={3}>
-          <Overview loadingIndicator={indicatorProps} userPermissions={userPermissions} />
-          <WorkflowIndividualCases loadingIndicator={indicatorProps} />
-          <Approvals loadingIndicator={indicatorProps} />
-          <Flags loadingIndicator={flagsIndicators} />
-          <SharedFromMyTeam loadingIndicator={indicatorProps} />
-          <SharedWithMyTeam loadingIndicator={indicatorProps} />
-          <OverdueTasks loadingIndicator={indicatorProps} />
-          <WorkflowTeamCases loadingIndicator={indicatorProps} />
-          <ReportingLocation loadingIndicator={indicatorProps} />
-          <ProtectionConcern loadingIndicator={indicatorProps} />
+          <Grid item xl={9} md={8} xs={12}>
+            <Overview loadingIndicator={indicatorProps} userPermissions={userPermissions} />
+            <Approvals loadingIndicator={indicatorProps} />
+            <SharedFromMyTeam loadingIndicator={indicatorProps} />
+            <SharedWithMyTeam loadingIndicator={indicatorProps} />
+            <OverdueTasks loadingIndicator={indicatorProps} />
+            <WorkflowTeamCases loadingIndicator={indicatorProps} />
+            <ReportingLocation loadingIndicator={indicatorProps} />
+            <ProtectionConcern loadingIndicator={indicatorProps} />
+          </Grid>
+          <Grid item xl={3} md={4} xs={12}>
+            <WorkflowIndividualCases loadingIndicator={indicatorProps} />
+            <Flags loadingIndicator={flagsIndicators} />
+          </Grid>
         </Grid>
       </PageContent>
     </PageContainer>

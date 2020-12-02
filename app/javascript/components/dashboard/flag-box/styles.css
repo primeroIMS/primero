@@ -1,3 +1,8 @@
+.flagContainer {
+  max-height: 506px;
+  overflow-y: scroll;
+}
+
 .Flag {
   padding: 20px 15px;
   border-bottom: 1px solid #F0F0F0;
@@ -5,10 +10,6 @@
   font-stretch: normal;
   line-height: normal;
   letter-spacing: normal;
-
-  &:last-child {
-    border-bottom: 0;
-  }
 
   &:hover {
     cursor: pointer;

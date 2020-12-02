@@ -1,33 +1,46 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-import { Grid, List } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { List } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { push } from "connected-react-router";
 
 import { getDashboardFlags } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, FlagBox } from "../../../../dashboard";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
+import { RECORD_PATH } from "../../../../../config";
 
+import styles from "./styles.css";
 import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
   const flags = useSelector(state => getDashboardFlags(state));
+  const css = makeStyles(styles)();
+  const dispatch = useDispatch();
+  const onClickSeeAll = () => dispatch(push(`${RECORD_PATH.cases}?flagged[0]=true`));
 
   return (
     <Permission resources={RESOURCES.cases} actions={[ACTIONS.READ, ACTIONS.MANAGE]}>
       <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_FLAGS}>
-        <Grid item xl={3} md={4} xs={12}>
-          <OptionsBox title={i18n.t("dashboard.flagged_cases")} hasData={Boolean(flags.size)} {...loadingIndicator}>
-            {/* TODO: Move this to FlagBox */}
-            <List>
-              {flags.map(flag => {
-                return <FlagBox flag={flag} />;
-              })}
-            </List>
-          </OptionsBox>
-        </Grid>
+        <OptionsBox title={i18n.t("dashboard.flagged_cases")} hasData={Boolean(flags.size)} {...loadingIndicator}>
+          <FlagBox flags={flags} />
+          <div className={css.seeAll}>
+            <ActionButton
+              text={`${i18n.t("dashboard.link_see_all")} (${flags.size})`}
+              type={ACTION_BUTTON_TYPES.default}
+              isTransparent
+              rest={{
+                className: css.seeAllColor,
+                onClick: onClickSeeAll
+              }}
+            />
+          </div>
+        </OptionsBox>
       </Permission>
     </Permission>
   );
