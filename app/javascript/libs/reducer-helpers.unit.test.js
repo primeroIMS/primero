@@ -1,8 +1,39 @@
 import { fromJS } from "immutable";
 
-import { mergeRecord } from "./reducer-helpers";
+import { mergeRecord, listAttachmentFields } from "./reducer-helpers";
 
-describe("reducer-helpers", () => {
+describe("libs/reducer-helpers.js", () => {
+  describe("listAttachmentFields", () => {
+    it("returns attachment fields and forms object", () => {
+      const expected = {
+        fields: ["document_field"],
+        forms: {
+          document_form: { en: "Document Form" }
+        }
+      };
+
+      const formSections = [
+        {
+          unique_id: "document_form",
+          id: 1,
+          name: { en: "Document Form" }
+        },
+        {
+          unique_id: "text_form",
+          id: 2,
+          name: { en: "Text Form" }
+        }
+      ];
+
+      const fields = [
+        { type: "photo_upload_box", form_section_id: 1, name: "document_field" },
+        { type: "text_field", form_section_id: 2, name: "text_field" }
+      ];
+
+      expect(listAttachmentFields(formSections, fields)).to.deep.equal(expected);
+    });
+  });
+
   describe("mergeRecord", () => {
     it("should merge deep object and update/concat arrays", () => {
       const record = fromJS({
