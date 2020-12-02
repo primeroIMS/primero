@@ -6,7 +6,6 @@ describe("<Dashboard /> - Actions", () => {
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
     [
-      "DASHBOARD_FLAGS",
       "CASES_BY_CASE_WORKER",
       "CASES_BY_STATUS",
       "CASES_REGISTRATION",
@@ -16,6 +15,11 @@ describe("<Dashboard /> - Actions", () => {
       "DASHBOARDS_SUCCESS",
       "DASHBOARDS_FINISHED",
       "DASHBOARDS_FAILURE",
+      "DASHBOARD_FLAGS",
+      "DASHBOARD_FLAGS_STARTED",
+      "DASHBOARD_FLAGS_SUCCESS",
+      "DASHBOARD_FLAGS_FINISHED",
+      "DASHBOARD_FLAGS_FAILURE",
       "OPEN_PAGE_ACTIONS",
       "SERVICES_STATUS"
     ].forEach(property => {
