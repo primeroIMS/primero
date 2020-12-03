@@ -147,7 +147,9 @@ describe("Verifying config constant", () => {
           "service_type",
           "protection_concerns",
           "followup_type",
-          "reporting_locations"
+          "reporting_locations",
+          "gbv_violence_type",
+          "cp_violence_type"
         );
         expect(constants.RECORD_INFORMATION).to.be.an("array");
         expect(constants.INCIDENT_FROM_CASE).to.be.an("string");

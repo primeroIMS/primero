@@ -3,6 +3,7 @@
 # The endpoint used to authenticate a user when native authentication is enabled in Primero
 class Api::V2::TokensController < Devise::SessionsController
   include AuditLogActions
+  include Api::V2::Concerns::JwtTokens
   respond_to :json
 
   skip_before_action :verify_authenticity_token
@@ -22,18 +23,9 @@ class Api::V2::TokensController < Devise::SessionsController
     render json: {}
   end
 
-  def current_token
-    request.env['warden-jwt_auth.token']
-  end
-
-  def token_to_cookie
-    cookies[:primero_token] = {
-      value: current_token,
-      domain: primero_host,
-      same_site: :strict,
-      httponly: true,
-      secure: (Rails.env == 'production')
-    }
+  # Shut down the default Devise endpoint
+  def new
+    raise(ActionController::RoutingError, 'Not Found')
   end
 
   def model_class
@@ -64,11 +56,5 @@ class Api::V2::TokensController < Devise::SessionsController
 
   def destroy_action_message
     'logout'
-  end
-
-  private
-
-  def primero_host
-    Rails.application.routes.default_url_options[:host]
   end
 end

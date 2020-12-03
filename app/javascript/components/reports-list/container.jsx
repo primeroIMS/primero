@@ -26,7 +26,7 @@ import NAMESPACE from "./namespace";
 const Reports = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { css } = useThemeHelper(styles);
+  const { css } = useThemeHelper({ css: styles });
 
   const reports = useSelector(state => selectReports(state));
   const isLoading = useSelector(state => selectLoading(state));

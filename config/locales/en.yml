@@ -1282,9 +1282,15 @@ en:
     label: Login
     password:
       label: Password
+    password_confirmation:
+      label: Password Confirmation
+    password_match:
+      label: Password Must Match
     provider_title: with %{provider}
     title: Log In
     username: User Name
+    email:
+      label: Email
   lookup:
     create: New Lookup
     enabled_label: Enabled?
@@ -2742,6 +2748,9 @@ en:
     organization: Organization
     agency: Agency
     services_help_text: If you do not specify services, this User will be given the same services its Agency has.
+    password_reset_header: Send password reset email
+    password_reset_text: If you click ‘Send,’ this user will receive an email with a link to reset their password.
+    password_reset_request: Send password reset email
     password: Password
     password_confirmation: Password Confirmation
     phone: Phone
@@ -2755,12 +2764,22 @@ en:
     welcome_email:
       subject: 'Welcome to %{system}!'
       greeting: 'Welcome to %{system}!'
-      body_native: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) to receive your user name and password in order to log on to %{host}.'
+      body_native: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) for follow up instructions to get started working with %{host}.'
       body_sso: 'You have been added as a %{role_name}. You may now log on to %{host} with your %{agency_name} account %{user_name}. Please contact %{admin_full_name} (%{admin_email}) for further details.'
       body_with_password: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) to receive your user name. Use the password %{otp} to log on to %{host}, and reset when prompted.'
       url_label: Primero
       enabled_label: Send Welcome Email?
       text_label: Welcome Email Text
+    password_reset:
+      email_greeting: "Dear %{full_name}"
+      email_body1: "Someone made a request to set your password for %{host_href}. Click on the url below to get started:"
+      email_body2: "This link will expire in %{hours} hours and can only be used once. Please ignore this email if you did not make a password reset request or a new Primero user was not registered on your behalf. If the link above is expired, please click %{reset_request_href} to resubmit a password reset request."
+      email_body_link: here
+      request_submitted: "Password reset request submitted"
+      success: "Password successfuly changed"
+      errors:
+        reset_password_token: "Invalid password reset token"
+        password_confirmation: "Passwords must match"
   user_group:
     description: Description
     disabled:

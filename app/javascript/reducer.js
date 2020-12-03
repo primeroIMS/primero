@@ -17,7 +17,7 @@ import { reducer as potentialMatchesReducer } from "./components/pages/potential
 import { reducer as reportReducer } from "./components/report";
 import { reducer as reportsListReducer } from "./components/reports-list";
 import { reducer as reportFormReducer } from "./components/reports-form";
-import { reducer as supportReducer } from "./components/pages/support";
+import { reducer as supportReducer } from "./components/contact-information";
 import { reducer as taskListReducer } from "./components/pages/task-list";
 import { reducer as usersListReducer } from "./components/pages/admin/users-list";
 import { reducer as usersFormReducer } from "./components/pages/admin/users-form";

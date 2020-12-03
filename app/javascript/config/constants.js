@@ -143,7 +143,8 @@ export const ROUTES = {
   tracing_requests: "/tracing_requests",
   check_health: "/health/api",
   check_server_health: "/health/server",
-  sandbox_ui: "/primero"
+  sandbox_ui: "/primero",
+  password_reset: "/password_reset"
 };
 
 export const PERMITTED_URL = [
@@ -153,6 +154,7 @@ export const PERMITTED_URL = [
   ROUTES.login_redirect,
   ROUTES.logout,
   ROUTES.not_authorized,
+  ROUTES.password_reset,
   ROUTES.support,
   ROUTES.cases,
   ROUTES.tracing_requests,
@@ -181,7 +183,9 @@ export const LOOKUPS = {
   service_type: "lookup-service-type",
   protection_concerns: "lookup-protection-concerns",
   followup_type: "lookup-followup-type",
-  reporting_locations: "ReportingLocation"
+  reporting_locations: "ReportingLocation",
+  gbv_violence_type: "lookup-gbv-sexual-violence-type",
+  cp_violence_type: "lookup-cp-violence-type"
 };
 
 export const ADMIN_NAV = [

@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
-import { DB_COLLECTIONS_NAMES } from "../../../db";
+import { DB_COLLECTIONS_NAMES } from "../../db";
 
 import { FETCH_DATA } from "./actions";
 

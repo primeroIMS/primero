@@ -393,7 +393,9 @@ describe Api::V2::UsersController, type: :request do
           code: 'test/code',
           email: 'test_user_5@localhost.com',
           agency_id: @agency_a.id,
-          role_unique_id: @role.unique_id
+          role_unique_id: @role.unique_id,
+          password: 'bad pw',
+          password_confirmation: 'pad pw confirmation'
         }
       }
       post '/api/v2/users', params: params

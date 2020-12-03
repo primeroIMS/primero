@@ -9,7 +9,7 @@ class PermittedFieldService
   PERMITTED_FILTER_FIELD_NAMES = %w[
     associated_user_names not_edited_by_owner referred_users referred_users_present
     transferred_to_users has_photo survivor_code survivor_code_no case_id_display
-    created_at has_incidents short_id
+    created_at has_incidents short_id record_state
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
@@ -39,7 +39,6 @@ class PermittedFieldService
     @permitted_field_names += user.permitted_field_names_from_forms(model_class.parent_form)
     @permitted_field_names += PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
-    @permitted_field_names << 'record_state' if user.can?(:enable_disable_record, model_class)
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
     if model_class == Incident && user.can?(Permission::INCIDENT_FROM_CASE.to_sym, Child)

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import React from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { hasUserPermissions } from "../../../user/selectors";
 import DemoIndicator from "../../../demo-indicator";
 import { useApp } from "../../../application";
 import LoginDialog from "../../../login-dialog";
+import { useThemeHelper } from "../../../../libs";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -21,6 +22,7 @@ const Component = ({ children }) => {
   const css = makeStyles(styles)();
   const { demo } = useApp();
   const hasPermissions = useSelector(state => hasUserPermissions(state));
+  const { theme } = useThemeHelper();
 
   if (!hasPermissions) {
     return (
@@ -31,7 +33,7 @@ const Component = ({ children }) => {
   }
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <DemoIndicator isDemo={demo} />
       <div className={clsx({ [css.root]: true, [css.demo]: demo })}>
         <Notifier />
@@ -40,7 +42,7 @@ const Component = ({ children }) => {
         <main className={css.content}>{children}</main>
         <LoginDialog />
       </div>
-    </>
+    </ThemeProvider>
   );
 };
 
