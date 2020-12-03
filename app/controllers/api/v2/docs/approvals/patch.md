@@ -1,6 +1,8 @@
 # Approvals for a record
 
-Perform approvals on records. Currently there are three approvals: ASSESSMENT, CASE_PLAN and CLOSURE
+Perform approvals on records. Currently there are five approvals: ASSESSMENT, CASE_PLAN, CLOSURE, ACTION_PLAN,
+and GBV_CLOSURE
+ACTION_PLAN and GBV_CLOSURE are related to the GBV module
 
 **URL** : `/api/v2/cases/:id/approvals/:approval_id`
 

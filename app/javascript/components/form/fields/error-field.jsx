@@ -14,9 +14,7 @@ const ErrorField = ({ errorsToCheck }) => {
   }
 
   const errorsToRender =
-    errorsToCheck?.size && errors
-      ? Object.keys(errors).filter(error => errorsToCheck.includes(error))
-      : [];
+    errorsToCheck?.size && errors ? Object.keys(errors).filter(error => errorsToCheck.includes(error)) : [];
 
   return errorsToRender.map(error => (
     <Alert variant="outlined" severity="error" key={error}>

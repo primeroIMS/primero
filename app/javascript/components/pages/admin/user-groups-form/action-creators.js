@@ -13,10 +13,7 @@ export const fetchUserGroup = id => {
 };
 
 export const saveUserGroup = ({ id, body, saveMethod, message }) => {
-  const path =
-    saveMethod === SAVE_METHODS.update
-      ? `${RECORD_PATH.user_groups}/${id}`
-      : RECORD_PATH.user_groups;
+  const path = saveMethod === SAVE_METHODS.update ? `${RECORD_PATH.user_groups}/${id}` : RECORD_PATH.user_groups;
 
   return {
     type: actions.SAVE_USER_GROUP,
@@ -30,7 +27,7 @@ export const saveUserGroup = ({ id, body, saveMethod, message }) => {
           message,
           options: {
             variant: "success",
-            key: generate.messageKey()
+            key: generate.messageKey(message)
           }
         },
         redirectWithIdFromResponse: saveMethod !== SAVE_METHODS.update,

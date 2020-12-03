@@ -5,7 +5,7 @@
 # up a new instance of Primero.
 class PrimeroProgram < ApplicationRecord
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
 
   localize_properties :name, :description
 
@@ -30,5 +30,4 @@ class PrimeroProgram < ApplicationRecord
     errors.add(:name, 'errors.models.primero_program.name_present')
     false
   end
-
 end

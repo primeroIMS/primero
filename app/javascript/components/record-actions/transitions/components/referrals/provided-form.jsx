@@ -15,18 +15,10 @@ const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
-  const fieldReferAnyway = (
-    <Field
-      name="referral"
-      render={props => onChangeReferAnyway(props, setDisabled)}
-    />
-  );
+  const fieldReferAnyway = <Field name="referral" render={props => onChangeReferAnyway(props, setDisabled)} />;
 
   const referAnyway = canConsentOverride ? (
-    <FormControlLabel
-      control={fieldReferAnyway}
-      label={i18n.t("referral.refer_anyway_label")}
-    />
+    <FormControlLabel control={fieldReferAnyway} label={i18n.t("referral.refer_anyway_label")} />
   ) : null;
 
   return (

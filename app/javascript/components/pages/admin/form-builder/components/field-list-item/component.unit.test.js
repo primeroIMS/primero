@@ -27,14 +27,16 @@ describe("<FieldListItem />", () => {
                     display_name: { en: "Field 1" },
                     type: TEXT_FIELD
                   })}
+                  getValues={() => ({ field_1: true })}
                   index={0}
                 />
               )}
             </Droppable>
           </DragDropContext>
         ),
+        fromJS({}),
         {},
-        fromJS({})
+        {}
       ));
     });
 
@@ -43,17 +45,14 @@ describe("<FieldListItem />", () => {
     });
 
     it("should render a enabled show? checkbox ", () => {
-      expect(component.find(SwitchInput).props().commonInputProps.disabled).to
-        .be.false;
+      expect(component.find(SwitchInput).props().commonInputProps.disabled).to.be.false;
     });
     it("should render name", () => {
       expect(component.find(Button).text()).to.equal("Field 1");
     });
 
     it("should render type", () => {
-      expect(component.find("div").at(4).text()).to.equal(
-        `fields.${TEXT_FIELD}`
-      );
+      expect(component.find("div").at(4).text()).to.equal(`fields.${TEXT_FIELD}`);
     });
   });
 
@@ -70,9 +69,11 @@ describe("<FieldListItem />", () => {
                   field={fromJS({
                     name: "field_1",
                     editable: false,
+                    display_name: { en: "Field 1" },
                     multi_select: true,
                     type: SELECT_FIELD
                   })}
+                  getValues={() => ({ field_1: true })}
                   index={0}
                 />
               )}
@@ -89,14 +90,11 @@ describe("<FieldListItem />", () => {
     });
 
     it("should render a disabled show? checkbox", () => {
-      expect(component.find(SwitchInput).props().commonInputProps.disabled).to
-        .be.true;
+      expect(component.find(SwitchInput).props().commonInputProps.disabled).to.be.true;
     });
 
     it("should render type", () => {
-      expect(component.find("div").at(4).text()).to.equal(
-        `fields.multi_select_box`
-      );
+      expect(component.find("div").at(4).text()).to.equal(`fields.multi_select_box`);
     });
   });
 });

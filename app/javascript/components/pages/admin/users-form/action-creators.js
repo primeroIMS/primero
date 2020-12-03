@@ -1,9 +1,6 @@
-import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
-import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
-import {
-  SET_DIALOG,
-  SET_DIALOG_PENDING
-} from "../../../record-actions/actions";
+import { METHODS, RECORD_PATH, SAVE_METHODS } from "../../../../config";
+import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../../../notifier";
+import { CLEAR_DIALOG } from "../../../action-dialog";
 
 import actions from "./actions";
 
@@ -16,18 +13,8 @@ export const fetchUser = id => {
   };
 };
 
-export const saveUser = ({
-  id,
-  body,
-  dialogName,
-  saveMethod,
-  message,
-  failureMessage
-}) => {
-  const path =
-    saveMethod === SAVE_METHODS.update
-      ? `${RECORD_PATH.users}/${id}`
-      : RECORD_PATH.users;
+export const saveUser = ({ id, body, saveMethod, message }) => {
+  const path = saveMethod === SAVE_METHODS.update ? `${RECORD_PATH.users}/${id}` : RECORD_PATH.users;
 
   return {
     type: actions.SAVE_USER,
@@ -42,42 +29,14 @@ export const saveUser = ({
             message,
             options: {
               variant: "success",
-              key: generate.messageKey()
+              key: generate.messageKey(message)
             }
           },
           redirectWithIdFromResponse: saveMethod !== SAVE_METHODS.update,
           redirect: `/admin/${path}`
         },
         {
-          action: SET_DIALOG,
-          payload: {
-            dialog: dialogName,
-            open: false
-          }
-        },
-        {
-          action: SET_DIALOG_PENDING,
-          payload: {
-            pending: false
-          }
-        }
-      ],
-      failureCallback: [
-        {
-          action: ENQUEUE_SNACKBAR,
-          payload: {
-            message: failureMessage,
-            options: {
-              variant: "error",
-              key: generate.messageKey()
-            }
-          }
-        },
-        {
-          action: SET_DIALOG_PENDING,
-          payload: {
-            pending: false
-          }
+          action: CLEAR_DIALOG
         }
       ]
     }
@@ -89,3 +48,22 @@ export const clearSelectedUser = () => {
     type: actions.CLEAR_SELECTED_USER
   };
 };
+
+export const passwordResetRequest = userId => ({
+  type: actions.PASSWORD_RESET_REQUEST,
+  api: {
+    path: `users/${userId}/password-reset-request`,
+    method: METHODS.POST,
+    body: { user: { password_reset: true } },
+    successCallback: {
+      action: ENQUEUE_SNACKBAR,
+      payload: {
+        messageKey: "user.password_reset.request_submitted",
+        options: {
+          variant: SNACKBAR_VARIANTS.success,
+          key: generate.messageKey("user.password_reset.request_submitted")
+        }
+      }
+    }
+  }
+});

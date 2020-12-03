@@ -15,6 +15,16 @@ describe("<MenuActions /> - Component", () => {
   describe("Component Menu", () => {
     describe("with referral transition type", () => {
       const state = {
+        records: {
+          cases: {
+            data: [
+              {
+                id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+                case_id_display: "804d74bc"
+              }
+            ]
+          }
+        },
         ui: {
           dialogs: {
             pending: false,
@@ -52,11 +62,7 @@ describe("<MenuActions /> - Component", () => {
 
       describe("when user has access to all menus", () => {
         beforeEach(() => {
-          ({ component } = setupMountedComponent(
-            TransitionActions,
-            props,
-            state
-          ));
+          ({ component } = setupMountedComponent(TransitionActions, props, state));
         });
 
         it("renders Menu", () => {
@@ -70,8 +76,7 @@ describe("<MenuActions /> - Component", () => {
         });
 
         it("renders MenuItem with revoke option", () => {
-          const menuChildrenAction = component.find(Menu).props().children[0]
-            .props.children;
+          const menuChildrenAction = component.find(Menu).props().children[0].props.children;
 
           expect(menuChildrenAction).to.be.equals("actions.revoke");
         });
@@ -93,6 +98,16 @@ describe("<MenuActions /> - Component", () => {
 
     describe("with transfer transition type", () => {
       const state = {
+        records: {
+          cases: {
+            data: [
+              {
+                id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+                case_id_display: "804d74bc"
+              }
+            ]
+          }
+        },
         ui: {
           dialogs: {
             pending: false,
@@ -130,11 +145,7 @@ describe("<MenuActions /> - Component", () => {
 
       describe("when user has access to all menus", () => {
         beforeEach(() => {
-          ({ component } = setupMountedComponent(
-            TransitionActions,
-            props,
-            state
-          ));
+          ({ component } = setupMountedComponent(TransitionActions, props, state));
         });
 
         it("renders Menu", () => {
@@ -148,8 +159,7 @@ describe("<MenuActions /> - Component", () => {
         });
 
         it("renders MenuItem with revoke option", () => {
-          const menuChildrenAction = component.find(Menu).props().children[0]
-            .props.children;
+          const menuChildrenAction = component.find(Menu).props().children[0].props.children;
 
           expect(menuChildrenAction).to.be.equals("actions.revoke");
         });
@@ -172,6 +182,16 @@ describe("<MenuActions /> - Component", () => {
 
   describe("Component RevokeModal", () => {
     const state = {
+      records: {
+        cases: {
+          data: [
+            {
+              id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+              case_id_display: "804d74bc"
+            }
+          ]
+        }
+      },
       ui: {
         dialogs: {
           pending: false,
@@ -219,15 +239,7 @@ describe("<MenuActions /> - Component", () => {
       const exportProps = { ...component.find(RevokeModal).props() };
 
       expect(component.find(RevokeModal)).to.have.lengthOf(1);
-      [
-        "name",
-        "open",
-        "transition",
-        "close",
-        "recordType",
-        "pending",
-        "setPending"
-      ].forEach(property => {
+      ["name", "open", "transition", "close", "recordType", "pending", "setPending"].forEach(property => {
         expect(exportProps).to.have.property(property);
         delete exportProps[property];
       });
@@ -237,6 +249,16 @@ describe("<MenuActions /> - Component", () => {
 
   describe("Component TransferApproval", () => {
     const state = {
+      records: {
+        cases: {
+          data: [
+            {
+              id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+              case_id_display: "804d74bc"
+            }
+          ]
+        }
+      },
       ui: {
         dialogs: {
           pending: false,
@@ -304,6 +326,16 @@ describe("<MenuActions /> - Component", () => {
 
   describe("Component ReferralAction", () => {
     const state = {
+      records: {
+        cases: {
+          data: [
+            {
+              id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+              case_id_display: "804d74bc"
+            }
+          ]
+        }
+      },
       ui: {
         dialogs: {
           pending: false,

@@ -1,0 +1,76 @@
+km:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "នាំចេញ​ឧបករណ៍​កត់ត្រា​ហេតុការណ៍ xls"
+  exports:
+    incident_recorder_xls:
+      all: អ្នក​កត់ត្រា​ហេតុការណ៍
+      one: អ្នក​កត់ត្រា​ហេតុការណ៍
+      selected: បាន​ជ្រើសរើស​ទៅកាន់​ឧបករណ៍​កត់ត្រា​ហេតុការណ៍
+      'yes': "បាទ/ច៎ាស"
+      'no': "ទេ"
+      gender:
+        male: "ប្រុស"
+        female: "ស្រី"
+        both: "ប្រុស និងស្រី"
+      age_group:
+        age: "អាយុ"
+        61_older: "61 ឆ្នាំ និង​​ចាស់​ជាង"
+        unknown: "មិនស្គាល់"
+        header: "ក្រុម​អាយុ​អ្នក​ប្រព្រឹត្តដែល​សង្ស័យ"
+      age_type:
+        adult: "មនុស្ស​ពេញវ័យ"
+        minor: "អនីតិជន"
+        both: "មនុស្ស​ពេញ​វ័យ និងអនីតិជន"
+        unknown: "មិនស្គាល់"
+        header: "ប្រភេទ​​​អាយុ​អ្នក​ប្រព្រឹត្ត​ដែល​សង្ស័យ"
+      service_referral:
+        undecided: "មិន​ទាន់សម្រេចចិត្ត​នៅ​ពេល​រាយការណ៍"
+      headers:
+        incident_id: "លេខ​កូដហេតុការណ៍"
+        survivor_code: "លេខ​កូដ​អ្នកនៅ​រស់"
+        case_manager_code: "លេខកូដ​អ្នក​គ្រប់គ្រង​ករណី"
+        case_worker_code: "លេខកូដ​អ្នក​កាន់ករណី"
+        date_of_interview: "កាលបរិច្ឆេទ​សម្ភាសន៍"
+        date_of_incident: "កាលបរិច្ឆេទ​នៃហេតុការណ៍"
+        date_of_birth: "ថ្ងៃ​ខែ​ឆ្នាំ​កំណើត"
+        sex: "ភេទ"
+        ethnicity: "ជនជាតិ"
+        country_of_origin: "ប្រទេស​កំណើត"
+        marital_status: "ស្ថានភាព​គ្រួសារ"
+        displacement_status: "ស្ថានភាព​ផ្លាស់ទី​នៅ​ពេល​រាយការណ៍"
+        disability_type: "ជនពិការ?"
+        unaccompanied_separated_status: "កុមារ​ដែលបែកពីគ្រួសារ?"
+        stage_of_displacement: "ដំណាក់កាល​នៃ​ការ​ផ្លាស់ទី​នៅ​ក្នុងហេតុការណ៍"
+        time_of_day: "ពេលវេលា​កើត​ហេតុការណ៍"
+        location: "ទីតាំងកើត​​ហេតុការណ៍"
+        county: "ប្រទេសកើត​​ហេតុការណ៍"
+        district: "ស្រុក​កើ​ត​ហេតុការណ៍"
+        camp_town: "ទីក្រុង​/ជំរុំកើត​ហេតុការណ៍"
+        camp: "ជំរុំកើត​ហេតុការណ៍"
+        gbv_type: "ប្រភេទ GBV"
+        harmful_traditional_practice: "ការ​អនុវត្ត​បន្ថែម​​ប្រកប​ដោយ​គ្រោះថ្នាក់"
+        goods_money_exchanged: "លុយ របស់របរ​ផ្សេង ផលប្រយោជន៍ និង/ឬ​ការ​ប្ដូរ​សេវាកម្ម?"
+        abduction_type: "ប្រភេទ​នៃ​ការ​ចាប់​ជំរិត"
+        previously_reported: "តើ​បាន​រាយការណ៍​អំពីហេតុការណ៍​នេះ​ពី​មុន​ដែរ​ឬទេ?"
+        gbv_previous_incidents: "តើ​ជា​ហេតុការណ៍អំពើហិង្សាផ្នែកយែនឌ័រពី​មុនឬ?"
+        number_primary_perpetrators: "ទេ។ អ្នក​ប្រព្រឹត្ត​ចម្បងៗ​ដែល​សង្ស័យ"
+        perpetrator:
+          sex: "ភេទ​អ្នក​ប្រព្រឹត្ត​​ដែល​សង្ស័យ"
+          former: "ហេតុការណ៍​ពីមុន​ជា​មួយ​អ្នក​ប្រព្រឹត្តិ​នេះ"
+          relationship: "អ្នក​ប្រព្រឹត្ត​ដែល​សង្ស័យ - ទំនាក់ទំនង​របស់​អ្នកនៅ​រស់"
+          occupation: "មុខរបរ​របស់​អ្នក​ប្រព្រឹត្ត​ដែល​សង្ស័យ"
+          age_group: "ក្រុម​អាយុ​អ្នក​ប្រព្រឹត្តដែល​សង្ស័យ"
+          age_type: "ប្រភេទ​​​អាយុ​អ្នក​ប្រព្រឹត្តដែល​សង្ស័យ"
+        service:
+          referred_from: "បញ្ជូន​ករណី​ពី​?"
+          safehouse_referral: "ផ្ទះ/ជម្រក​សុវត្ថិភាព"
+          medical_referral: "សេវា​សុខាភិបាល/វេជ្ជសាស្ត្រ"
+          psycho_referral: "សេវា​ផ្លូវចិត្ត"
+          wants_legal_action: "ចង់មានចំណាត់ការតាម​ផ្លូវច្បាប់?"
+          legal_referral: "សេវាជំនួយ​ផ្លូវច្បាប់"
+          police_referral: "នគរបាល"
+          livelihoods_referral: "កម្មវិធី​មុខរបរ"
+          protection_referral: "សេវាកិច្ច​ការពារកុមារ/សេវា​អប់រំ"
+        consent: "ផ្តល់ការ​យល់ព្រម​"
+        agency_code: "លេខកូដ​អង្គភាពរាយការណ៍"

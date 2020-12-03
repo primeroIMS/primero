@@ -23,9 +23,7 @@ describe("<CheckboxFilter>", () => {
   it("renders checkbox inputs", () => {
     const { component } = setupMockFormComponent(CheckboxFilter, props);
 
-    ["option-1", "option-2"].forEach(
-      option => expect(component.exists(`input[value='${option}']`)).to.be.true
-    );
+    ["option-1", "option-2"].forEach(option => expect(component.exists(`input[value='${option}']`)).to.be.true);
   });
 
   it("renders checkbox with valid pros in the more section", () => {
@@ -42,9 +40,7 @@ describe("<CheckboxFilter>", () => {
     };
     const { component } = setupMockFormComponent(CheckboxFilter, newProps);
 
-    ["option-1", "option-2"].forEach(
-      option => expect(component.exists(`input[value='${option}']`)).to.be.true
-    );
+    ["option-1", "option-2"].forEach(option => expect(component.exists(`input[value='${option}']`)).to.be.true);
 
     const clone = { ...component.find(CheckboxFilter).props() };
 

@@ -28,7 +28,6 @@ RUN set -ex ; \
         test -n "$RAILS_LOG_PATH" || (printf "RAILS_LOG_PATH not defined\n" ; \
             return 1);
 
-
 # Install our packages
 RUN set -euox pipefail \
         ; apk update \
@@ -40,6 +39,7 @@ RUN set -euox pipefail \
 
 # Install Gems first for docker cache
 WORKDIR ${APP_ROOT}
+
 COPY [ "Gemfile", "Gemfile.lock", "$APP_ROOT/" ]
 
 # Run bundle install
@@ -53,6 +53,7 @@ RUN set -euox pipefail \
 
 # Run npm install
 COPY [ "package.json", "package-lock.json", "$APP_ROOT/" ]
+
 RUN set -euox pipefail \
         ; npm install
 
@@ -60,6 +61,7 @@ RUN set -euox pipefail \
 # items that need to be copied from that directory
 #
 # Now copy over primero and do setup
+
 COPY [ ".", "$APP_ROOT" ]
 
 RUN set -euox pipefail \
@@ -91,6 +93,11 @@ FROM ruby:2.6.6-alpine3.11
 ENV BUILD_PACKAGES bash
 ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl
 
+ARG APP_UID
+ARG APP_GID
+ENV USER_ID=${APP_UID}
+ENV GROUP_ID=${APP_GID}
+
 ARG APP_ROOT
 ENV APP_ROOT=${APP_ROOT}
 ENV RAILS_ENV production
@@ -108,6 +115,21 @@ COPY --from=build-env /usr/local/bundle/ /usr/local/bundle/
 COPY --from=build-env $APP_ROOT $APP_ROOT
 
 WORKDIR $APP_ROOT
+
+# Creating User primero to run the contianer instead of root.  Also chaniging permissions and
+# ownership of the APP_ROOT, and the storage and pubic volumes.
+RUN set -euox pipefail \
+        ; addgroup -g $GROUP_ID docker-primero \
+        ; adduser --disabled-password --gecos '' -u $USER_ID -G docker-primero docker-primero \
+        ; mkdir -p /srv/primero/application/storage \
+        ; chmod -R 700 /srv/primero/application/storage \
+        ; chown -R docker-primero:docker-primero "$APP_ROOT" \
+        ; mkdir -p /share/public \
+        ; chmod -R 755 /share/public \
+        ; chown -R docker-primero:docker-primero /share/public
+
+# Switching to User primero to run the container.
+USER docker-primero
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 

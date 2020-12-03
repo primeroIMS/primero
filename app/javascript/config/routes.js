@@ -1,13 +1,13 @@
-import Login, {
+import {
   Admin,
   AgenciesForm,
   AgenciesList,
   AuditLogs,
-  ContactInformation,
   Dashboard,
   ExportList,
   FormBuilder,
   FormsList,
+  LocationsList,
   LookupsForm,
   LookupsList,
   NotAuthorized,
@@ -15,18 +15,22 @@ import Login, {
   PotentialMatches,
   RolesForm,
   RolesList,
-  Support,
+  ContactInformation as AdminContactInformation,
   TaskList,
   UserGroupsForm,
   UserGroupsList,
   UsersForm,
-  UsersList
+  UsersList,
+  ConfigurationsList,
+  ConfigurationsForm
 } from "../components/pages";
 import Report from "../components/report";
 import Reports from "../components/reports-list";
 import ReportsForm from "../components/reports-form";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
+import Account from "../components/pages/account";
+import PasswordReset from "../components/password-reset";
 import { AppLayout, LoginLayout } from "../components/layouts";
 import {
   CREATE_RECORDS,
@@ -41,6 +45,8 @@ import {
   ADMIN_RESOURCES,
   ADMIN_ACTIONS
 } from "../libs/permissions";
+import Login from "../components/login";
+import ContactInformation from "../components/contact-information";
 
 import { ROUTES, MODES } from "./constants";
 
@@ -55,6 +61,10 @@ export default [
       {
         path: ROUTES.logout,
         component: Login
+      },
+      {
+        path: ROUTES.password_reset,
+        component: PasswordReset
       }
     ]
   },
@@ -157,7 +167,23 @@ export default [
       },
       {
         path: ROUTES.support,
-        component: Support
+        component: ContactInformation
+      },
+      {
+        path: `${ROUTES.account}/:id`,
+        component: Account,
+        resources: RESOURCES.any,
+        extraProps: {
+          mode: MODES.show
+        }
+      },
+      {
+        path: `${ROUTES.account}/:id/edit`,
+        component: Account,
+        resources: RESOURCES.any,
+        extraProps: {
+          mode: MODES.edit
+        }
       },
       {
         path: ROUTES.admin,
@@ -223,7 +249,7 @@ export default [
             },
             {
               path: `${ROUTES.contact_information}/edit`,
-              component: ContactInformation,
+              component: AdminContactInformation,
               resources: RESOURCES.contact_information,
               extraProps: {
                 mode: MODES.edit
@@ -231,7 +257,7 @@ export default [
             },
             {
               path: `${ROUTES.contact_information}`,
-              component: ContactInformation,
+              component: AdminContactInformation,
               resources: RESOURCES.contact_information,
               extraProps: {
                 mode: MODES.show
@@ -359,6 +385,32 @@ export default [
               path: ROUTES.forms,
               component: FormsList,
               resources: RESOURCES.forms
+            },
+            {
+              path: `${ROUTES.configurations}/new`,
+              component: ConfigurationsForm,
+              resources: RESOURCES.configurations,
+              extraProps: {
+                mode: MODES.new
+              }
+            },
+            {
+              path: `${ROUTES.configurations}/:id`,
+              component: ConfigurationsForm,
+              resources: RESOURCES.configurations,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
+              path: ROUTES.configurations,
+              component: ConfigurationsList,
+              resources: RESOURCES.configurations
+            },
+            {
+              path: ROUTES.locations,
+              component: LocationsList,
+              resources: RESOURCES.locations
             }
           ]
         }

@@ -17,10 +17,12 @@ export const FieldRecord = Record({
   date_validation: null,
   hide_on_view_page: false,
   date_include_time: false,
-  selected_value: "",
+  selected_value: null,
   subform_sort_by: "",
   show_on_minify_form: false,
-  order: null
+  order: null,
+  subform_section_configuration: null,
+  tick_box_label: {}
 });
 
 export const FormSectionRecord = Record({
@@ -36,7 +38,6 @@ export const FormSectionRecord = Record({
   editable: null,
   module_ids: [],
   form_group_id: "",
-  form_group_name: "",
   fields: [],
   is_nested: null,
   subform_prevent_item_removal: false,
@@ -58,5 +59,6 @@ export const NavRecord = Record({
   order: null,
   formId: null,
   is_first_tab: false,
-  permission_actions: []
+  permission_actions: [],
+  recordTypes: []
 });

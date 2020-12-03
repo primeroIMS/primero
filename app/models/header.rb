@@ -8,6 +8,7 @@ class Header < ValueObject
   CASE_ID_DISPLAY = Header.new(name: 'id', field_name: 'case_id_display', id_search: true)
   CASE_NAME = Header.new(name: 'name', field_name: 'name')
   SURVIVOR_CODE = Header.new(name: 'survivor_code', field_name: 'survivor_code_no')
+  SURVIVOR_CODE_INCIDENT = Header.new(name: 'survivor_code', field_name: 'survivor_code')
   AGE = Header.new(name: 'age', field_name: 'age', id_search: true)
   SEX = Header.new(name: 'sex', field_name: 'sex', id_search: true)
   REGISTRATION_DATE = Header.new(name: 'registration_date', field_name: 'registration_date')
@@ -48,9 +49,12 @@ class Header < ValueObject
   STATUS = Header.new(name: 'status', field_name: 'status')
   ALERT_COUNT = Header.new(name: 'alert_count', field_name: 'alert_count')
   FLAG_COUNT = Header.new(name: 'flag_count', field_name: 'flag_count')
+  LOCATION_CODE = Header.new(name: 'location.code', field_name: 'code')
+  LOCATION_ADMIN_LEVEL = Header.new(name: 'location.admin_level', field_name: 'admin_level')
+  LOCATION_TYPE = Header.new(name: 'location.type', field_name: 'type')
+  LOCATION_HIERARCHY = Header.new(name: 'location.hierarchy', field_name: 'hierarchy')
 
   class << self
-
     def get_headers(user, record_type)
       case record_type
       when 'case' then case_headers(user)
@@ -64,16 +68,16 @@ class Header < ValueObject
       header_list = []
       header_list << CASE_ID_DISPLAY
       # TODO: There's an id_search logic I'm not sure about
-      header_list << CASE_NAME if user.has_module?(PrimeroModule::CP) && !user.is_manager?
-      header_list << SURVIVOR_CODE if user.has_module?(PrimeroModule::GBV) && !user.is_manager?
-      header_list << AGE if user.has_module?(PrimeroModule::CP)
-      header_list << SEX if user.has_module?(PrimeroModule::CP)
-      header_list << REGISTRATION_DATE if user.has_module?(PrimeroModule::CP)
-      header_list << CASE_OPENING_DATE if user.has_module?(PrimeroModule::GBV)
-      header_list << PHOTO if user.has_module?(PrimeroModule::CP) && user.can?(:view_photo, Child)
-      header_list << SOCIAL_WORKER if user.is_manager?
-      header_list << ALERT_COUNT if user.has_module?(PrimeroModule::CP)
-      header_list << FLAG_COUNT if user.has_module?(PrimeroModule::CP)
+      header_list << CASE_NAME if user.module?(PrimeroModule::CP) && !user.manager?
+      header_list << SURVIVOR_CODE if user.module?(PrimeroModule::GBV) && !user.manager?
+      header_list << AGE if user.module?(PrimeroModule::CP)
+      header_list << SEX if user.module?(PrimeroModule::CP)
+      header_list << REGISTRATION_DATE if user.module?(PrimeroModule::CP)
+      header_list << CASE_OPENING_DATE if user.module?(PrimeroModule::GBV)
+      header_list << PHOTO if user.module?(PrimeroModule::CP) && user.can?(:view_photo, Child)
+      header_list << SOCIAL_WORKER if user.manager?
+      header_list << ALERT_COUNT
+      header_list << FLAG_COUNT
 
       header_list
     end
@@ -81,18 +85,22 @@ class Header < ValueObject
     def incident_headers(user)
       header_list = []
       header_list << SHORT_ID
-      header_list << DATE_OF_INTERVIEW if user.has_module?(PrimeroModule::GBV) || user.has_module?(PrimeroModule::CP)
-      header_list << GBV_DATE_OF_INCIDENT if user.has_module?(PrimeroModule::GBV)
-      header_list << GBV_VIOLENCE_TYPE if user.has_module?(PrimeroModule::GBV)
-      header_list << CP_DATE_OF_INCIDENT if user.has_module?(PrimeroModule::CP)
-      header_list << CP_VIOLENCE_TYPE if user.has_module?(PrimeroModule::CP)
-      header_list << INCIDENT_LOCATION if user.has_module?(PrimeroModule::MRM)
-      header_list << VIOLATIONS if user.is_manager?
+      header_list << DATE_OF_INCIDENT if user.module?(PrimeroModule::MRM)
+      header_list << SURVIVOR_CODE_INCIDENT if !user.manager? && user.module?(PrimeroModule::GBV)
+      header_list << DATE_OF_INTERVIEW if user.module?(PrimeroModule::GBV) || user.module?(PrimeroModule::CP)
+      header_list << GBV_DATE_OF_INCIDENT if user.module?(PrimeroModule::GBV)
+      header_list << GBV_VIOLENCE_TYPE if user.module?(PrimeroModule::GBV)
+      header_list << CP_DATE_OF_INCIDENT if user.module?(PrimeroModule::CP)
+      header_list << CP_VIOLENCE_TYPE if user.module?(PrimeroModule::CP)
+      header_list << INCIDENT_LOCATION if user.module?(PrimeroModule::MRM)
+      header_list << VIOLATIONS if user.module?(PrimeroModule::MRM)
+      header_list << SOCIAL_WORKER if user.manager?
+      header_list << FLAG_COUNT
       header_list
     end
 
     def tracing_request_headers
-      [SHORT_ID, NAME_OF_INQUIRER, DATE_OF_INQUIRY, TRACING_REQUESTS]
+      [SHORT_ID, NAME_OF_INQUIRER, DATE_OF_INQUIRY, TRACING_REQUESTS, FLAG_COUNT]
     end
 
     def report_headers
@@ -122,6 +130,10 @@ class Header < ValueObject
     def user_group_headers
       [USER_GROUP_NAME, DESCRIPTION]
     end
+
+    def locations_headers
+      [NAME, LOCATION_CODE, LOCATION_ADMIN_LEVEL, LOCATION_TYPE, LOCATION_HIERARCHY]
+    end
   end
 
   def initialize(args = {})
@@ -131,5 +143,4 @@ class Header < ValueObject
   def inspect
     "Header(name: #{name}, field_name: #{field_name})"
   end
-
 end

@@ -4,22 +4,12 @@ import { Box } from "@material-ui/core";
 import { Form } from "formik";
 import React from "react";
 
-import {
-  USER_NAME_FIELD,
-  UNIQUE_ID_FIELD,
-  CODE_FIELD,
-  NAME_FIELD
-} from "../../../../../config";
+import { USER_NAME_FIELD, UNIQUE_ID_FIELD, CODE_FIELD, NAME_FIELD } from "../../../../../config";
 import { valuesToSearchableSelect } from "../../../../../libs";
 import { internalFieldsDirty } from "../utils";
 
 import BulkTransfer from "./bulk-transfer";
-import {
-  AGENCY_FIELD,
-  LOCATION_FIELD,
-  TRANSITIONED_TO_FIELD,
-  NOTES_FIELD
-} from "./constants";
+import { AGENCY_FIELD, LOCATION_FIELD, TRANSITIONED_TO_FIELD, NOTES_FIELD } from "./constants";
 import ProvidedConsent from "./provided-consent";
 import sharedControls from "./shared-controls";
 import sharedOnChange from "./shared-on-change";
@@ -46,36 +36,19 @@ export default (
     {
       id: AGENCY_FIELD,
       label: i18n.t("transfer.agency_label"),
-      options: valuesToSearchableSelect(
-        agencies,
-        UNIQUE_ID_FIELD,
-        NAME_FIELD,
-        i18n.locale
-      ),
+      options: valuesToSearchableSelect(agencies, UNIQUE_ID_FIELD, NAME_FIELD, i18n.locale),
       onChange: (data, field, form) => {
         form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
-        sharedOnChange(
-          data,
-          field,
-          form,
-          [LOCATION_FIELD],
-          recordType,
-          dispatch
-        );
+        sharedOnChange(data, field, form, [LOCATION_FIELD], recordType, dispatch);
       }
     },
     {
       id: LOCATION_FIELD,
       label: i18n.t("transfer.location_label"),
-      options: valuesToSearchableSelect(
-        locations,
-        CODE_FIELD,
-        NAME_FIELD,
-        i18n.locale
-      ),
+      options: valuesToSearchableSelect(locations, CODE_FIELD, NAME_FIELD, i18n.locale),
       onChange: (data, field, form) => {
         form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
-        sharedOnChange(data, field, form, [AGENCY_FIELD], recordType);
+        sharedOnChange(data, field, form, [AGENCY_FIELD], recordType, dispatch);
       }
     },
     {
@@ -83,14 +56,17 @@ export default (
       label: i18n.t("transfer.recipient_label"),
       required: true,
       options: users
-        ? users.valueSeq().map(user => {
-            const userName = user.get(USER_NAME_FIELD);
+        ? users
+            .valueSeq()
+            .map(user => {
+              const userName = user.get(USER_NAME_FIELD);
 
-            return {
-              value: userName.toLowerCase(),
-              label: userName
-            };
-          })
+              return {
+                value: userName.toLowerCase(),
+                label: userName
+              };
+            })
+            .toJS()
         : [],
       onChange: (data, field, form) => {
         sharedOnChange(data, field, form);
@@ -126,10 +102,7 @@ export default (
       <BulkTransfer isBulkTransfer={isBulkTransfer} />
       <Box>
         {sharedControls(i18n, disableControl)}
-        <TransferInternal
-          fields={internalFields}
-          disableControl={disableControl}
-        />
+        <TransferInternal fields={internalFields} disableControl={disableControl} />
       </Box>
     </Form>
   );

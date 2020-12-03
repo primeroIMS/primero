@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Attachable do
-  let(:user) { instance_double('User', user_name: 'test_user', full_name: 'Test User') }
+  let(:user) { fake_user(user_name: 'test_user') }
   let(:child) do
     child = Child.new_with_user(user, name: 'Test')
     child.save!

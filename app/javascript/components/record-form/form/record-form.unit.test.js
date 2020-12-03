@@ -91,7 +91,8 @@ describe("<RecordForm />", () => {
         field_2: "Value 2"
       }),
       recordType: RECORD_TYPES.cases,
-      selectedForm: "form_section_1"
+      selectedForm: "form_section_1",
+      externalForms: () => {}
     }));
   });
 
@@ -101,11 +102,7 @@ describe("<RecordForm />", () => {
   });
 
   it("returns validation errors when the form is submitted and has an age field", async () => {
-    const field1 = component
-      .find(RecordForm)
-      .find(Formik)
-      .find(MuiTextField)
-      .first();
+    const field1 = component.find(RecordForm).find(Formik).find(MuiTextField).first();
 
     field1.props().form.setFieldValue("field_1", "");
     field1.props().form.setFieldValue("field_age", 140);
@@ -117,6 +114,95 @@ describe("<RecordForm />", () => {
       field_1: "form_section.required_field",
       field_age: "errors.models.child.age"
     });
+  });
+
+  describe("when an incidentFromCase exists", () => {
+    const initialValues = {
+      field_1: "",
+      field_2: "",
+      field_age: ""
+    };
+
+    it("should set the values from the case if it is a new record", () => {
+      const incidentFromCase = { status: "open", enabled: true, owned_by: "incident_owner" };
+
+      const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
+        bindSubmitForm: () => {},
+        forms,
+        handleToggleNav: () => {},
+        mobileDisplay: false,
+        mode: { isNew: true, isEdit: false, isShow: false },
+        onSubmit: () => {},
+        record: fromJS({}),
+        recordType: "incidents",
+        selectedForm: "form_section_1",
+        incidentFromCase: fromJS(incidentFromCase)
+      });
+
+      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
+        ...initialValues,
+        ...incidentFromCase
+      });
+    });
+
+    it("should not set the values from the case if it is not a new record", () => {
+      const incidentFromCase = { status: "open", enabled: true, owned_by: "incident_owner" };
+
+      const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
+        bindSubmitForm: () => {},
+        forms,
+        handleToggleNav: () => {},
+        mobileDisplay: false,
+        mode,
+        onSubmit: () => {},
+        record: fromJS({}),
+        recordType: "incidents",
+        selectedForm: "form_section_1",
+        incidentFromCase: fromJS(incidentFromCase)
+      });
+
+      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(initialValues);
+    });
+
+    it("should not set the values from the case if the recordType is not incidents", () => {
+      const incidentFromCase = { status: "open", enabled: true, owned_by: "incident_owner" };
+
+      const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
+        bindSubmitForm: () => {},
+        forms,
+        handleToggleNav: () => {},
+        mobileDisplay: false,
+        mode: { isNew: true, isEdit: false, isShow: false },
+        onSubmit: () => {},
+        record: fromJS({}),
+        recordType: "cases",
+        selectedForm: "form_section_1",
+        incidentFromCase: fromJS(incidentFromCase)
+      });
+
+      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(initialValues);
+    });
+  });
+
+  it("renders component with valid props", () => {
+    const incidentsProps = { ...component.find(RecordForm).props() };
+
+    [
+      "bindSubmitForm",
+      "forms",
+      "handleToggleNav",
+      "mobileDisplay",
+      "mode",
+      "onSubmit",
+      "record",
+      "recordType",
+      "externalForms",
+      "selectedForm"
+    ].forEach(property => {
+      expect(incidentsProps).to.have.property(property);
+      delete incidentsProps[property];
+    });
+    expect(incidentsProps).to.be.empty;
   });
 
   afterEach(() => {

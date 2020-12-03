@@ -42,11 +42,7 @@ describe("<UserConfirmation /> - Component", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      UserConfirmation,
-      props,
-      initialState
-    ));
+    ({ component } = setupMountedComponent(UserConfirmation, props, initialState));
   });
 
   it("renders UserConfirmation component", () => {

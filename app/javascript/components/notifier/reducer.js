@@ -16,11 +16,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state;
     case CLOSE_SNACKBAR:
       return state.update(m =>
-        m.map(n =>
-          n.options.key === payload.key
-            ? MessageRecord(n).merge({ dismissed: true })
-            : MessageRecord(n)
-        )
+        m.map(n => (n.options.key === payload.key ? MessageRecord(n).merge({ dismissed: true }) : MessageRecord(n)))
       );
     case REMOVE_SNACKBAR:
       return state.filter(message => message.options.key !== payload.key);

@@ -35,12 +35,7 @@ describe("<UserGroupsForm />", () => {
       }
     });
 
-    ({ component } = setupMountedComponent(
-      UserGroupsForm,
-      { mode: "new" },
-      initialState,
-      ["/admin/user_groups"]
-    ));
+    ({ component } = setupMountedComponent(UserGroupsForm, { mode: "new" }, initialState, ["/admin/user_groups"]));
   });
 
   it("renders record form", () => {
@@ -48,19 +43,17 @@ describe("<UserGroupsForm />", () => {
   });
 
   it("renders heading with action buttons", () => {
-    expect(component.find("header h1").contains("user_groups.label")).to.be
-      .true;
-    expect(component.find("header button").at(0).contains("buttons.cancel")).to
-      .be.true;
-    expect(component.find("header button").at(1).contains("buttons.save")).to.be
-      .true;
+    expect(component.find("header h1").contains("user_groups.label")).to.be.true;
+    expect(component.find("header button").at(0).contains("buttons.cancel")).to.be.true;
+    expect(component.find("header button").at(1).contains("buttons.save")).to.be.true;
   });
 
   it("renders submit button with valid props", () => {
-    const saveButtonProps = { ...component.find(FormAction).at(1).props() };
+    const saveButton = component.find(FormAction).at(1);
+    const saveButtonProps = { ...saveButton.props() };
 
-    expect(component.find(saveButtonProps)).to.have.lengthOf(1);
-    ["actionHandler", "text", "savingRecord"].forEach(property => {
+    expect(saveButton).to.have.lengthOf(1);
+    ["actionHandler", "text", "savingRecord", "startIcon"].forEach(property => {
       expect(saveButtonProps).to.have.property(property);
       delete saveButtonProps[property];
     });

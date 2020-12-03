@@ -1,34 +1,21 @@
 import React, { useEffect, useRef, useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 import { FormContext, useForm } from "react-hook-form";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
 
 import ActionDialog from "../../../action-dialog";
 import bindFormSubmit from "../../../../libs/submit-form";
 import { useI18n } from "../../../i18n";
 import FormSection from "../../../form/components/form-section";
-import {
-  whichFormMode,
-  SELECT_FIELD,
-  RADIO_FIELD,
-  TICK_FIELD
-} from "../../../form";
+import { whichFormMode, SELECT_FIELD, RADIO_FIELD, TICK_FIELD } from "../../../form";
 import { NOT_NULL } from "../../constants";
 
 import { ATTRIBUTE, CONSTRAINT, NAME, VALUE } from "./constants";
 import styles from "./styles.css";
 import form from "./form";
 
-const Component = ({
-  fields,
-  open,
-  setOpen,
-  selectedIndex,
-  setSelectedIndex,
-  indexes,
-  onSuccess
-}) => {
+const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, indexes, onSuccess }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const isNew = selectedIndex === null;
@@ -36,24 +23,17 @@ const Component = ({
   const formMethods = useForm();
   const formMode = whichFormMode("edit");
   const formRef = useRef();
-  const fieldName = isNew
-    ? i18n.t("report.filters.label_new")
-    : i18n.t("report.filters.label");
+  const fieldName = isNew ? i18n.t("report.filters.label_new") : i18n.t("report.filters.label");
 
   const watchedAttribute = formMethods.watch(ATTRIBUTE);
   const watchedConstraint = formMethods.watch(CONSTRAINT);
-  const isAttributeTouched = Object.keys(
-    formMethods.control?.formState?.touched
-  ).includes(ATTRIBUTE);
+  const isAttributeTouched = Object.keys(formMethods.control?.formState?.touched).includes(ATTRIBUTE);
 
   const isConstraintNotNullOrTrue =
-    watchedConstraint === NOT_NULL ||
-    (typeof watchedConstraint === "boolean" && watchedConstraint);
+    watchedConstraint === NOT_NULL || (typeof watchedConstraint === "boolean" && watchedConstraint);
 
   const currentField = fields.find(f => f.id === watchedAttribute);
-  const selectedReportFilter = indexes.find(
-    i => i.index.toString() === selectedIndex
-  )?.data;
+  const selectedReportFilter = indexes[selectedIndex]?.data;
 
   if (
     [SELECT_FIELD, RADIO_FIELD].includes(currentField?.type) &&
@@ -77,9 +57,7 @@ const Component = ({
 
   useEffect(() => {
     if (selectedIndex !== null) {
-      const { type } = fields.find(
-        f => f.id === selectedReportFilter.attribute
-      );
+      const { type } = fields.find(f => f.id === selectedReportFilter.attribute);
 
       formMethods.reset({
         ...selectedReportFilter,
@@ -90,8 +68,7 @@ const Component = ({
             ? true
             : selectedReportFilter?.constraint,
         values:
-          Array.isArray(selectedReportFilter?.value) &&
-          selectedReportFilter?.value.includes(NOT_NULL)
+          Array.isArray(selectedReportFilter?.value) && selectedReportFilter?.value.includes(NOT_NULL)
             ? []
             : selectedReportFilter?.value
       });
@@ -110,13 +87,10 @@ const Component = ({
           attribute: formMethods.getValues()[ATTRIBUTE],
           constraint: isNew
             ? false
-            : (Array.isArray(filterValue) && filterValue.includes(NOT_NULL)) ||
-              formMethods.getValues()[CONSTRAINT],
+            : (Array.isArray(filterValue) && filterValue.includes(NOT_NULL)) || formMethods.getValues()[CONSTRAINT],
           value:
             // eslint-disable-next-line no-nested-ternary
-            isNew ||
-            (Array.isArray(filterValue) && filterValue.includes(NOT_NULL)) ||
-            isAttributeTouched
+            isNew || (Array.isArray(filterValue) && filterValue.includes(NOT_NULL)) || isAttributeTouched
               ? []
               : formMethods.getValues()[VALUE]
         });
@@ -138,13 +112,7 @@ const Component = ({
     }
   }));
 
-  const reportFiltersForm = form(
-    i18n,
-    fields,
-    currentField,
-    isConstraintNotNullOrTrue,
-    css
-  );
+  const reportFiltersForm = form(i18n, fields, currentField, isConstraintNotNullOrTrue, css);
 
   return (
     <>
@@ -159,10 +127,7 @@ const Component = ({
         <FormContext {...formMethods} formMode={formMode}>
           <form>
             {reportFiltersForm.map(formSection => (
-              <FormSection
-                formSection={formSection}
-                key={formSection.unique_id}
-              />
+              <FormSection formSection={formSection} key={formSection.unique_id} />
             ))}
           </form>
         </FormContext>

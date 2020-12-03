@@ -7,7 +7,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - su
 
   describe("subform", () => {
     it("should return the subform with default fields", () => {
-      const form = subform(i18n);
+      const form = subform({ i18n });
       const fieldNames = form.fields.map(field => field.name);
 
       expect(form.unique_id).to.equal("subform_field");
@@ -26,7 +26,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - su
         name: "custom_field_1",
         type: TEXT_FIELD
       });
-      const form = subform(i18n, [customField]);
+      const form = subform({ i18n, fields: [customField] });
       const fieldNames = form.fields.map(field => field.name);
 
       expect(form.unique_id).to.equal("subform_field");

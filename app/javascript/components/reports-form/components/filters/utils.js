@@ -2,19 +2,10 @@
 
 import { format } from "date-fns";
 
-import {
-  CONSTRAINTS,
-  DATE_CONSTRAINTS,
-  FILTERS_FIELD,
-  NOT_NULL
-} from "../../constants";
+import { CONSTRAINTS, DATE_CONSTRAINTS, FILTERS_FIELD, NOT_NULL } from "../../constants";
 import { DATE_FORMAT } from "../../../../config";
-import {
-  TICK_FIELD,
-  SELECT_FIELD,
-  RADIO_FIELD,
-  DATE_FIELD
-} from "../../../form";
+import { displayNameHelper } from "../../../../libs";
+import { TICK_FIELD, SELECT_FIELD, RADIO_FIELD, DATE_FIELD } from "../../../form";
 
 export const registerValues = (index, data, currentValues, methods) => {
   Object.entries(data).forEach(entry => {
@@ -45,40 +36,31 @@ export const formatValue = (value, i18n, { field, lookups }) => {
   }
 
   if (field && field.type === TICK_FIELD) {
-    return value.includes("true")
-      ? field?.tick_box_label || i18n.t("true")
-      : i18n.t("report.not_selected");
+    return value.includes("true") ? field?.tick_box_label || i18n.t("true") : i18n.t("report.not_selected");
   }
 
-  if (
-    field &&
-    [SELECT_FIELD, RADIO_FIELD].includes(field.type) &&
-    Array.isArray(value)
-  ) {
+  if (field && [SELECT_FIELD, RADIO_FIELD].includes(field.type) && Array.isArray(value)) {
     if (value.includes(NOT_NULL)) {
       return [];
     }
 
     if (field.option_strings_source) {
-      const lookupValues = lookups.find(
-        lookup => lookup.unique_id === field.option_strings_source
-      )?.values;
+      const lookupValues = lookups.find(lookup => lookup.unique_id === field.option_strings_source)?.values;
 
       return value
         .map(currentValue => {
           const text = lookupValues.find(option => option.id === currentValue);
 
-          return text.display_text[i18n.locale] || text.display_text;
+          return typeof text.display_text === "object"
+            ? displayNameHelper(text.display_text, i18n.locale)
+            : text.display_text;
         })
         .join(", ");
     }
 
     return value
       .map(
-        currentValue =>
-          field.option_strings_text[i18n.locale].find(
-            option => option.id === currentValue
-          ).display_text
+        currentValue => field.option_strings_text[i18n.locale].find(option => option.id === currentValue).display_text
       )
       .join(", ");
   }
@@ -89,10 +71,7 @@ export const formatValue = (value, i18n, { field, lookups }) => {
 export const getConstraintLabel = (data, field, i18n) => {
   const { constraint, value } = data;
 
-  if (
-    (typeof constraint === "boolean" && constraint) ||
-    (Array.isArray(value) && value.includes(NOT_NULL))
-  ) {
+  if ((typeof constraint === "boolean" && constraint) || (Array.isArray(value) && value.includes(NOT_NULL))) {
     return i18n.t(CONSTRAINTS.not_null);
   }
 

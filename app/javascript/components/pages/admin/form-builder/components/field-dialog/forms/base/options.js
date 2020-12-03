@@ -9,7 +9,8 @@ import {
 } from "../../../../../../../form";
 
 export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
-  const options = field?.get("option_strings_text", fromJS({}));
+  const optionStringsText = field?.get("option_strings_text", fromJS({}));
+  const options = Array.isArray(optionStringsText) ? optionStringsText : optionStringsText?.toJS();
 
   return [
     {
@@ -31,15 +32,12 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
           display_name: i18n.t("fields.default_value"),
           name: `${fieldName}.selected_value`,
           type: SELECT_FIELD,
-          option_strings_source:
-            mode.get("isEdit") && field.get("option_strings_source"),
+          option_strings_source: mode.get("isEdit") && field.get("option_strings_source"),
           watchedInputs: [`${fieldName}.option_strings_source`],
           handleWatchedInputs: value => {
             const emptyOptions = [{ id: "", display_text: "" }];
             const lookupSelected = lookups.find(
-              lookup =>
-                lookup.get("unique_id") ===
-                Object.values(value)[0]?.split(" ")?.pop()
+              lookup => lookup.get("unique_id") === Object.values(value)[0]?.split(" ")?.pop()
             );
             const newSelectOptions = lookupSelected
               ? emptyOptions.concat(
@@ -62,8 +60,8 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
     },
     {
       name: i18n.t("fields.create_unique_values"),
-      selected: Boolean(options?.size),
-      disabled: !mode.get("isNew") && !options?.size,
+      selected: Boolean(options?.length),
+      disabled: !mode.get("isNew") && !options?.length,
       fields: fromJS([
         FieldRecord({
           display_name: i18n.t("fields.find_lookup"),
@@ -71,7 +69,7 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
           type: ORDERABLE_OPTIONS_FIELD,
           disabled: mode.get("isEdit"),
           selected_value: field.get("selected_value"),
-          option_strings_text: options?.size ? options.toJS() : {}
+          option_strings_text: options
         })
       ])
     }
@@ -79,7 +77,7 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
 };
 
 /* eslint-disable import/prefer-default-export */
-export const optionsForm = (fieldName, i18n, mode, field, lookups, css) => {
+export const optionsForm = ({ fieldName, i18n, formMode, field, lookups, css }) => {
   const optionsFormFields = [
     FieldRecord({
       display_name: i18n.t("fields.options_indications_lookup_values"),
@@ -88,12 +86,12 @@ export const optionsForm = (fieldName, i18n, mode, field, lookups, css) => {
     }),
     FieldRecord({
       display_name: i18n.t("fields.options_indications_restrictions"),
-      name: "options_indications",
+      name: "options_indications_restrictions",
       inputClassname: css.boldLabel,
       type: LABEL_FIELD
     }),
     {
-      tabs: optionsTabs(fieldName, i18n, mode, field, lookups)
+      tabs: optionsTabs(fieldName, i18n, formMode, field, lookups)
     }
   ];
 

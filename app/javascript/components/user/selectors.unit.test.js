@@ -10,11 +10,15 @@ const stateWithUser = fromJS({
     isAuthenticated: true,
     username: "primero",
     modules: ["primeromodule-test1", "primeromodule-test2"],
+    permittedForms: ["record_owner", "client_feedback"],
     permissions: {
       incidents: [ACTIONS.MANAGE],
       tracing_requests: [ACTIONS.MANAGE],
       cases: [ACTIONS.MANAGE]
-    }
+    },
+    saving: false,
+    serverErrors: ["Test error"],
+    resetPassword: { saving: true }
   }
 });
 
@@ -35,18 +39,13 @@ describe("User - Selectors", () => {
 
   describe("with getPermissionsByRecord", () => {
     it("should return permissions if they're set", () => {
-      const permissionsByRecord = selectors.getPermissionsByRecord(
-        stateWithUser,
-        "cases"
-      );
+      const permissionsByRecord = selectors.getPermissionsByRecord(stateWithUser, "cases");
 
       expect(permissionsByRecord).to.deep.equal(fromJS([ACTIONS.MANAGE]));
     });
 
     it("should not return permissions if not set", () => {
-      const permissionsByRecord = selectors.getPermissionsByRecord(
-        stateWithoutUser
-      );
+      const permissionsByRecord = selectors.getPermissionsByRecord(stateWithoutUser);
 
       expect(permissionsByRecord).to.deep.equal(fromJS([]));
     });
@@ -97,6 +96,69 @@ describe("User - Selectors", () => {
       const meta = selectors.getIsAuthenticated(stateWithoutUser);
 
       expect(meta).to.deep.equal(false);
+    });
+  });
+
+  describe("getPermittedFormsIds", () => {
+    it("should return list of permitted forms", () => {
+      const expectedFormsIds = fromJS(["record_owner", "client_feedback"]);
+      const selector = selectors.getPermittedFormsIds(stateWithUser);
+
+      expect(selector).to.deep.equal(expectedFormsIds);
+    });
+  });
+
+  describe("getUser", () => {
+    it("should return selected user", () => {
+      const expected = stateWithUser.get("user");
+
+      const user = selectors.getUser(stateWithUser);
+
+      expect(user).to.deep.equal(expected);
+    });
+
+    it("should return empty object when selected user empty", () => {
+      const user = selectors.getUser(stateWithoutUser);
+
+      expect(user).to.deep.equal(fromJS({}));
+    });
+  });
+
+  describe("getUserSavingRecord", () => {
+    it("should return saving key", () => {
+      const result = selectors.getUserSavingRecord(stateWithUser);
+
+      expect(result).to.be.false;
+    });
+
+    it("should return empty object when no server errors", () => {
+      const user = selectors.getUserSavingRecord(stateWithoutUser);
+
+      expect(user).to.be.false;
+    });
+  });
+
+  describe("getServerErrors", () => {
+    it("should return server errors", () => {
+      const expected = stateWithUser.getIn(["user", "serverErrors"]);
+
+      const serverErrors = selectors.getServerErrors(stateWithUser);
+
+      expect(serverErrors).to.deep.equal(expected);
+    });
+
+    it("should return empty object when no server errors", () => {
+      const user = selectors.getServerErrors(stateWithoutUser);
+
+      expect(user).to.deep.equal(fromJS([]));
+    });
+  });
+
+  describe("getSavingPassword", () => {
+    it("should return true if the password reset is being saving", () => {
+      const saving = selectors.getSavingPassword(stateWithUser);
+
+      expect(saving).to.be.true;
     });
   });
 });

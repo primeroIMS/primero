@@ -1,49 +1,47 @@
+/* eslint-disable camelcase */
 import isEmpty from "lodash/isEmpty";
+import uniq from "lodash/uniq";
 
 import { ACTIONS } from "../../../libs/permissions";
-import {
-  AUDIO_FIELD,
-  DOCUMENT_FIELD,
-  PHOTO_FIELD,
-  SEPERATOR,
-  SUBFORM_SECTION
-} from "../../record-form/constants";
+import { displayNameHelper } from "../../../libs";
+import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR, SUBFORM_SECTION } from "../../record-form/constants";
 
-import { ALL_EXPORT_TYPES } from "./constants";
+import { ALL_EXPORT_TYPES, EXPORT_FORMAT, FILTERS_TO_SKIP } from "./constants";
 
-export const allowedExports = (userPermissions, i18n, isShowPage) => {
+const isSubform = field => field.type === SUBFORM_SECTION;
+
+export const allowedExports = (userPermissions, i18n, isShowPage, recordType) => {
   const exportsTypes = [...ALL_EXPORT_TYPES];
   let allowedExportsOptions = [];
 
   if (userPermissions.includes(ACTIONS.MANAGE)) {
-    allowedExportsOptions = exportsTypes.map(exportType => {
-      return {
-        ...exportType,
-        display_name: i18n.t(`exports.${exportType.id}.all`)
-      };
-    });
+    allowedExportsOptions = exportsTypes
+      .filter(exportType => exportType.recordTypes.includes(recordType))
+      .map(exportType => {
+        return {
+          ...exportType,
+          display_name: i18n.t(`exports.${exportType.id}.all`)
+        };
+      });
   } else {
-    allowedExportsOptions = exportsTypes.reduce((acc, obj) => {
-      if (userPermissions.includes(obj.permission)) {
-        return [
-          ...acc,
-          { ...obj, display_name: i18n.t(`exports.${obj.id}.all`) }
-        ];
-      }
+    allowedExportsOptions = exportsTypes
+      .filter(exportType => exportType.recordTypes.includes(recordType))
+      .reduce((acc, obj) => {
+        if (userPermissions.includes(obj.permission)) {
+          return [...acc, { ...obj, display_name: i18n.t(`exports.${obj.id}.all`) }];
+        }
 
-      return [...acc, {}];
-    }, []);
+        return [...acc, {}];
+      }, []);
   }
 
-  const allExports = allowedExportsOptions.filter(
-    item => Object.keys(item).length
-  );
+  const allExports = allowedExportsOptions.filter(item => Object.keys(item).length);
 
   if (isShowPage) {
     return allExports.filter(item => !item.showOnlyOnList);
   }
 
-  return allExports;
+  return allExports.filter(item => !item.hideOnShowPage);
 };
 
 export const formatFileName = (filename, extension) => {
@@ -75,7 +73,7 @@ export const exporterFilters = (
     const applied = appliedFilters.entrySeq().reduce((acc, curr) => {
       const [key, value] = curr;
 
-      if (!["fields", "id_search"].includes(key)) {
+      if (!FILTERS_TO_SKIP.includes(key)) {
         return { ...acc, [key]: value };
       }
 
@@ -84,10 +82,7 @@ export const exporterFilters = (
 
     if (!allRecordsSelected && (allCurrentRowsSelected || shortIds.length)) {
       filters = { short_id: shortIds };
-    } else if (
-      Object.keys(queryParams || {}).length ||
-      Object.keys(applied || {}).length
-    ) {
+    } else if (Object.keys(queryParams || {}).length || Object.keys(applied || {}).length) {
       filters = { ...(queryParams || {}), ...(applied || {}) };
     } else {
       filters = defaultFilters;
@@ -96,9 +91,7 @@ export const exporterFilters = (
 
   const { query, ...restFilters } = filters;
 
-  const returnFilters = Object.keys(restFilters).length
-    ? restFilters
-    : { short_id: shortIds };
+  const returnFilters = Object.keys(restFilters).length ? restFilters : { short_id: shortIds };
 
   if (!isEmpty(query)) {
     return { filters: returnFilters, query };
@@ -110,24 +103,17 @@ export const exporterFilters = (
 };
 
 export const buildFields = (data, locale) => {
-  const excludeFieldTypes = [
-    AUDIO_FIELD,
-    DOCUMENT_FIELD,
-    PHOTO_FIELD,
-    SEPERATOR
-  ];
+  const excludeFieldTypes = [AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR];
 
   return data
     .reduce((acc, form) => {
-      // eslint-disable-next-line camelcase
       const { unique_id, name, fields } = form;
 
       const filteredFields = fields
-        .filter(
-          field => !excludeFieldTypes.includes(field.type) && field.visible
-        )
+        .filter(field => !(isSubform(field) && "subform_section_id" in field && !field.subform_section_id))
+        .filter(field => !excludeFieldTypes.includes(field.type) && field.visible)
         .map(field => {
-          if (field.type === SUBFORM_SECTION) {
+          if (isSubform(field)) {
             const subFormSectionFields = field.subform_section_id.fields
               .filter(subformField => subformField.visible)
               .map(subformField => {
@@ -138,7 +124,8 @@ export const buildFields = (data, locale) => {
                   display_text: subformField.display_name[locale],
                   formSectionId: subFormSection.unique_id,
                   formSectionName: subFormSection.name[locale],
-                  type: SUBFORM_SECTION
+                  type: SUBFORM_SECTION,
+                  visible: subFormSection.visible
                 };
               });
 
@@ -146,14 +133,40 @@ export const buildFields = (data, locale) => {
           }
 
           return {
-            id: field.name,
-            display_text: field.display_name[locale],
+            id: `${unique_id}:${field.name}`,
+            display_text: displayNameHelper(field.display_name, locale),
             formSectionId: unique_id,
-            formSectionName: name[locale]
+            formSectionName: displayNameHelper(name, locale),
+            visible: field.visible
           };
         });
 
       return [...acc, filteredFields.flat()];
     }, [])
     .flat();
+};
+
+export const isCustomExport = type => type === EXPORT_FORMAT.CUSTOM;
+
+export const isPdfExport = type => type === EXPORT_FORMAT.PDF;
+
+export const formatFields = fields => uniq(fields.map(field => field.split(":")[1]));
+
+export const exportFormsOptions = (type, fields, forms, locale) => {
+  if (isCustomExport(type)) {
+    return fields
+      .filter(field => field?.type !== SUBFORM_SECTION && field.visible)
+      .map(field => ({
+        id: field.formSectionId,
+        display_text: field.formSectionName
+      }));
+  }
+
+  return forms
+    .filter(form => !(form.visible && form.is_nested))
+    .map(form => ({
+      id: form.unique_id,
+      display_text: displayNameHelper(form.name, locale)
+    }))
+    .toJS();
 };

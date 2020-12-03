@@ -1,6 +1,9 @@
 import { fromJS } from "immutable";
 
+import { DEFAULT_METADATA } from "../../config";
+
 import {
+  CLEAR_METADATA,
   FETCH_REPORTS_SUCCESS,
   FETCH_REPORTS_STARTED,
   FETCH_REPORTS_FINISHED,
@@ -14,14 +17,13 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case FETCH_REPORTS_STARTED:
       return state.set("loading", fromJS(payload)).set("errors", false);
     case FETCH_REPORTS_SUCCESS:
-      return state
-        .set("data", fromJS(payload.data))
-        .set("metadata", fromJS(payload.metadata))
-        .set("errors", false);
+      return state.set("data", fromJS(payload.data)).set("metadata", fromJS(payload.metadata)).set("errors", false);
     case FETCH_REPORTS_FINISHED:
       return state.set("loading", fromJS(payload));
     case FETCH_REPORTS_FAILURE:
       return state.set("errors", true);
+    case CLEAR_METADATA:
+      return state.set("metadata", fromJS(DEFAULT_METADATA));
     default:
       return state;
   }

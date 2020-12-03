@@ -7,10 +7,7 @@ import { TextField } from "formik-material-ui";
 import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../config";
-import {
-  getUsersByTransitionType,
-  getErrorsByTransitionType
-} from "../selectors";
+import { getUsersByTransitionType, getErrorsByTransitionType } from "../selectors";
 import { saveAssignedUser, fetchAssignUsers } from "../action-creators";
 import { saveBulkAssignedUser } from "../../bulk-transtions/action-creators";
 import SearchableSelect from "../../../searchable-select";
@@ -20,16 +17,11 @@ import { applyFilters } from "../../../index-filters/action-creators";
 import { DEFAULT_FILTERS } from "../../../record-list/constants";
 
 import { REASSIGN_FORM_NAME } from "./constants";
+import { searchableValue } from "./utils";
 
 const initialValues = { transitioned_to: "", notes: "" };
 
-const ReassignForm = ({
-  record,
-  recordType,
-  setPending,
-  assignRef,
-  selectedIds
-}) => {
+const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const transitionType = "reassign";
@@ -40,13 +32,9 @@ const ReassignForm = ({
     dispatch(fetchAssignUsers(RECORD_TYPES[recordType]));
   }, []);
 
-  const users = useSelector(state =>
-    getUsersByTransitionType(state, transitionType)
-  );
+  const users = useSelector(state => getUsersByTransitionType(state, transitionType));
 
-  const hasErrors = useSelector(state =>
-    getErrorsByTransitionType(state, transitionType)
-  );
+  const hasErrors = useSelector(state => getErrorsByTransitionType(state, transitionType));
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -60,7 +48,7 @@ const ReassignForm = ({
       .join(", ");
 
     if (messages !== "") {
-      dispatch(enqueueSnackbar(messages, "error"));
+      dispatch(enqueueSnackbar(messages, { type: "error" }));
     }
   }, [hasErrors]);
 
@@ -90,31 +78,26 @@ const ReassignForm = ({
     },
     excludeEmpty: true,
     options: users
-      ? users.valueSeq().map(user => {
-          const userName = user.get(USER_NAME_FIELD);
+      ? users
+          .valueSeq()
+          .map(user => {
+            const userName = user.get(USER_NAME_FIELD);
 
-          return {
-            value: userName.toLowerCase(),
-            label: userName
-          };
-        })
+            return {
+              value: userName.toLowerCase(),
+              label: userName
+            };
+          })
+          .toJS()
       : []
   };
 
   const handleAssign = (values, { setSubmitting }) => {
-    const data = isEmpty(selectedIds)
-      ? values
-      : { ...values, ids: selectedIds };
+    const data = isEmpty(selectedIds) ? values : { ...values, ids: selectedIds };
 
     setPending(true);
     if (record) {
-      dispatch(
-        saveAssignedUser(
-          record.get("id"),
-          { data },
-          i18n.t("reassign.successfully")
-        )
-      );
+      dispatch(saveAssignedUser(record.get("id"), { data }, i18n.t("reassign.successfully")));
     } else {
       dispatch(saveBulkAssignedUser(recordType, selectedIds, { data }));
     }
@@ -125,6 +108,10 @@ const ReassignForm = ({
         data: DEFAULT_FILTERS
       })
     );
+  };
+
+  const handleTransitionedTo = (data, form, field) => {
+    form.setFieldValue(field.name, data?.value || [], false);
   };
 
   const formProps = {
@@ -145,19 +132,14 @@ const ReassignForm = ({
                 return (
                   <>
                     <SearchableSelect
-                      onChange={data => {
-                        const { value } = data;
-
-                        form.setFieldValue(field.name, value, false);
-                      }}
+                      defaultValues={searchableValue(field, searchableSelectProps.options, false)}
+                      onChange={data => handleTransitionedTo(data, form, field)}
                       {...searchableSelectProps}
                       {...other}
                       onBlur={field.onBlur}
                     />
                     {form.touched[field.name] && form.errors[field.name] && (
-                      <div className="MuiFormHelperText-root Mui-error">
-                        {form.errors[field.name]}
-                      </div>
+                      <div className="MuiFormHelperText-root Mui-error">{form.errors[field.name]}</div>
                     )}
                   </>
                 );

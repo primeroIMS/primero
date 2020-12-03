@@ -13,7 +13,8 @@ describe("<Transition /> - utils", () => {
       "getInternalFields",
       "getUserFilters",
       "hasProvidedConsent",
-      "internalFieldsDirty"
+      "internalFieldsDirty",
+      "searchableValue"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("function");
@@ -59,7 +60,8 @@ describe("<Transition /> - utils", () => {
       const record = Map({
         id: "123",
         module_id: "primeromodule-cp",
-        consent_for_services: true
+        consent_for_services: true,
+        disclosure_other_orgs: true
       });
 
       it("should return true", () => {
@@ -73,7 +75,7 @@ describe("<Transition /> - utils", () => {
       });
 
       it("should return false", () => {
-        expect(utils.hasProvidedConsent(record)).to.be.undefined;
+        expect(utils.hasProvidedConsent(record)).to.be.false;
       });
     });
   });
@@ -85,27 +87,21 @@ describe("<Transition /> - utils", () => {
       const expected = "cases/123/assigns";
 
       it("should return correct path 'cases/123/assigns'", () => {
-        expect(
-          utils.generatePath(actions.CASES_ASSIGNS, recordId)
-        ).to.deep.equal(expected);
+        expect(utils.generatePath(actions.CASES_ASSIGNS, recordId)).to.deep.equal(expected);
       });
     });
     describe("when path is transfers", () => {
       const expected = "cases/123/transfers";
 
       it("should return correct path 'cases/123/transfers'", () => {
-        expect(
-          utils.generatePath(actions.CASES_TRANSFERS, recordId)
-        ).to.deep.equal(expected);
+        expect(utils.generatePath(actions.CASES_TRANSFERS, recordId)).to.deep.equal(expected);
       });
     });
     describe("when path is referral", () => {
       const expected = "cases/123/referrals";
 
       it("should return correct path 'cases/123/referrals'", () => {
-        expect(
-          utils.generatePath(actions.CASES_REFERRALS, recordId)
-        ).to.deep.equal(expected);
+        expect(utils.generatePath(actions.CASES_REFERRALS, recordId)).to.deep.equal(expected);
       });
     });
     describe("when path is bulk assigns", () => {
@@ -113,9 +109,7 @@ describe("<Transition /> - utils", () => {
       const recordsIds = [12345, 67890];
 
       it("should return correct path 'cases/assigns'", () => {
-        expect(
-          utils.generatePath(actions.CASES_ASSIGNS, recordId, recordsIds)
-        ).to.deep.equal(expected);
+        expect(utils.generatePath(actions.CASES_ASSIGNS, recordId, recordsIds)).to.deep.equal(expected);
       });
     });
   });
@@ -137,6 +131,40 @@ describe("<Transition /> - utils", () => {
       const expected = { services: "test", location: "1234a" };
 
       expect(utils.getUserFilters(filters)).to.deep.equal(expected);
+    });
+  });
+
+  describe("searchableValue", () => {
+    const field = {
+      value: "test_2"
+    };
+
+    const options = [
+      {
+        value: "test_1",
+        label: "test_1"
+      },
+      {
+        value: "test_2",
+        label: "test_2"
+      }
+    ];
+
+    it("returns selected value from options", () => {
+      const expected = {
+        value: "test_2",
+        label: "test_2"
+      };
+
+      expect(utils.searchableValue(field, options, false)).to.deep.equal(expected);
+    });
+
+    it("returns default value from options if disableControl is true", () => {
+      expect(utils.searchableValue(field, options, true)).to.be.null;
+    });
+
+    it("returns default value from options if any values is selected", () => {
+      expect(utils.searchableValue({ ...field, value: "" }, options, false)).to.be.null;
     });
   });
 });

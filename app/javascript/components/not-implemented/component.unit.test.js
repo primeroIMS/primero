@@ -22,9 +22,7 @@ describe("<NotImplemented />", () => {
     });
 
     it("renders custom text", () => {
-      expect(component.find("p").text()).to.equals(
-        "*** NOT IMPLEMENTED HelloWorld ***"
-      );
+      expect(component.find("p").text()).to.equals("*** NOT IMPLEMENTED HelloWorld ***");
     });
   });
 });

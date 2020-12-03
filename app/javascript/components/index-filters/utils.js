@@ -56,6 +56,10 @@ export const buildNameFilter = (item, i18n, approvalsLabels) => {
       return approvalsLabels.case_plan;
     case `${APPROVALS}.${APPROVALS_TYPES.closure}`:
       return approvalsLabels.closure;
+    case `${APPROVALS}.${APPROVALS_TYPES.action_plan}`:
+      return approvalsLabels.action_plan;
+    case `${APPROVALS}.${APPROVALS_TYPES.gbv_closure}`:
+      return approvalsLabels.gbv_closure;
     default:
       return i18n.t(item);
   }

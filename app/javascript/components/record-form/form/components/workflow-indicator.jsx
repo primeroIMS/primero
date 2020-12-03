@@ -1,12 +1,6 @@
 /* eslint-disable camelcase */
 import React from "react";
-import {
-  Stepper,
-  Step,
-  StepLabel,
-  useMediaQuery,
-  Badge
-} from "@material-ui/core";
+import { Stepper, Step, StepLabel, useMediaQuery, Badge } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
@@ -15,19 +9,15 @@ import { RECORD_TYPES } from "../../../../config";
 import { useThemeHelper } from "../../../../libs";
 
 import styles from "./styles.css";
-import { WORKFLOW_INDICATOR_NAME } from "./constants";
+import { WORKFLOW_INDICATOR_NAME, CLOSED } from "./constants";
 
 const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
-  const { css, theme } = useThemeHelper(styles);
+  const { css, theme } = useThemeHelper({ css: styles });
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const selectedModuleWorkflow = useSelector(state =>
-    selectModule(state, primeroModule)
-  );
+  const selectedModuleWorkflow = useSelector(state => selectModule(state, primeroModule));
 
-  const workflowSteps = selectedModuleWorkflow?.workflows?.[
-    RECORD_TYPES[recordType]
-  ]?.[locale]?.filter(
+  const workflowSteps = selectedModuleWorkflow?.workflows?.[RECORD_TYPES[recordType]]?.[locale]?.filter(
     w =>
       !(
         (record.get("case_status_reopened") && w.id === "new") ||
@@ -36,10 +26,11 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   );
 
   const activeStep = workflowSteps?.findIndex(
-    s => s.id === record.get("workflow")
+    workflowStep =>
+      workflowStep.id === (record.get("status") === CLOSED ? record.get("status") : record.get("workflow"))
   );
 
-  if (mobileDisplay) {
+  if (mobileDisplay && workflowSteps) {
     return (
       <>
         <div className={css.mobileStepper}>
@@ -60,11 +51,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
 
         return (
           <Step key={s.id} {...stepProps}>
-            <StepLabel
-              classes={{ label: css.stepLabel, active: css.styleLabelActive }}
-            >
-              {label}
-            </StepLabel>
+            <StepLabel classes={{ label: css.stepLabel, active: css.styleLabelActive }}>{label}</StepLabel>
           </Step>
         );
       })}

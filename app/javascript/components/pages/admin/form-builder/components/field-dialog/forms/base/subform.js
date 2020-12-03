@@ -1,11 +1,6 @@
-import {
-  FieldRecord,
-  FormSectionRecord,
-  TEXT_FIELD,
-  TICK_FIELD
-} from "../../../../../../../form";
+import { FieldRecord, FormSectionRecord, TEXT_FIELD, TICK_FIELD } from "../../../../../../../form";
 
-export const subformFields = i18n => ({
+export const subformFields = ({ i18n }) => ({
   name: FieldRecord({
     display_name: i18n.t("fields.subform_section.name"),
     name: "subform_section.name.en",
@@ -35,8 +30,8 @@ export const subformFields = i18n => ({
   })
 });
 
-export const subform = (i18n, fields = []) =>
+export const subform = ({ fields = [], i18n }) =>
   FormSectionRecord({
     unique_id: "subform_field",
-    fields: fields.length ? fields : Object.values(subformFields(i18n))
+    fields: fields.length ? fields : Object.values(subformFields({ i18n }))
   });

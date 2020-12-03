@@ -1,10 +1,12 @@
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
-import { Button, CssBaseline, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { CssBaseline, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
 import { ROUTES } from "../../../../config";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import styles from "./styles.css";
 
@@ -21,17 +23,15 @@ const NotAuthorized = () => {
       <Typography variant="h6" gutterBottom>
         {i18n.t("error_page.not_authorized.title")}
       </Typography>
-      <Typography>
-        {i18n.t("error_page.not_authorized.server_error")}
-      </Typography>
-      <Button
-        to={ROUTES.dashboard}
-        variant="contained"
-        color="primary"
-        component={Link}
-      >
-        {i18n.t("navigation.home")}
-      </Button>
+      <Typography>{i18n.t("error_page.not_authorized.server_error")}</Typography>
+      <ActionButton
+        text={i18n.t("navigation.home")}
+        type={ACTION_BUTTON_TYPES.default}
+        rest={{
+          to: ROUTES.dashboard,
+          component: Link
+        }}
+      />
     </div>
   );
 };

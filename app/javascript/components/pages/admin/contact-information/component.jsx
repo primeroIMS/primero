@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
+import CreateIcon from "@material-ui/icons/Create";
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
 
 import { useI18n } from "../../../i18n";
 import { PageHeading, PageContent } from "../../../page";
@@ -15,10 +18,7 @@ import Permission from "../../../application/permission";
 
 import { NAME } from "./constants";
 import { form } from "./form";
-import {
-  selectContactInformation,
-  selectSavingContactInformation
-} from "./selectors";
+import { selectContactInformation, selectSavingContactInformation } from "./selectors";
 import { saveContactInformation } from "./action-creators";
 
 const Component = ({ mode }) => {
@@ -27,12 +27,8 @@ const Component = ({ mode }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const formMode = whichFormMode(mode);
-  const contactInformation = useSelector(state =>
-    selectContactInformation(state)
-  );
-  const savingRecord = useSelector(state =>
-    selectSavingContactInformation(state)
-  );
+  const contactInformation = useSelector(state => selectContactInformation(state));
+  const savingRecord = useSelector(state => selectSavingContactInformation(state));
   const handleCancel = () => {
     dispatch(push(ROUTES.contact_information));
   };
@@ -51,21 +47,18 @@ const Component = ({ mode }) => {
 
   const pageHeading = i18n.t("contact.info_label");
   const editButton = formMode.get("isShow") ? (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} />
+    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
   ) : null;
 
   const saveButton =
     formMode.get("isEdit") || formMode.get("isNew") ? (
       <>
-        <FormAction
-          cancel
-          actionHandler={handleCancel}
-          text={i18n.t("buttons.cancel")}
-        />
+        <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
         <FormAction
           actionHandler={() => bindFormSubmit(formRef)}
           text={i18n.t("buttons.save")}
           savingRecord={savingRecord}
+          startIcon={<CheckIcon />}
         />
       </>
     ) : null;

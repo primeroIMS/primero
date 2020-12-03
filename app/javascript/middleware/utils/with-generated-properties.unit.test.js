@@ -5,12 +5,9 @@ import * as generateRecordProperties from "./generate-record-properties";
 
 describe("middleware/utils/with-generated-properties.js", () => {
   it("build action with generated properties", () => {
-    const action = { api: { path: "/" } };
-    const expected = { api: { path: "/", body: { data: { test: "hello" } } } };
-    const generateRecordPropertiesStub = stub(
-      generateRecordProperties,
-      "default"
-    ).returns({
+    const action = { api: { path: "/", body: { record_action: "some_action" } } };
+    const expected = { api: { path: "/", body: { data: { test: "hello" }, record_action: "some_action" } } };
+    const generateRecordPropertiesStub = stub(generateRecordProperties, "default").returns({
       test: "hello"
     });
 

@@ -1,0 +1,47 @@
+---
+- name: 'create the /srv/primero/bin directory'
+  file:
+    path: '/srv/primero/bin'
+    state: 'directory'
+  become: yes
+  tags:
+  - 'certbot'
+
+- name: 'copy the certbot binary to /srv/primero/bin/certbot'
+  copy:
+    src: 'certbot'
+    dest: '/srv/primero/bin/certbot'
+    mode: 'u=rwx,go=rx'
+  become: yes
+  tags:
+  - 'certbot'
+
+- name: 'create the /srv/primero/bin/run-certbot.sh script'
+  copy:
+    dest: '/srv/primero/bin/run-certbot.sh'
+    mode: 'u=rwx,go=rx'
+    content: |
+      #! /bin/sh
+      set -ex
+      exec /srv/primero/bin/certbot {% for item in certbot_domain -%} -d "{{ item }}" {% endfor -%} --cert-name "primero" -m "{{ certbot_email }}" -p "primero" "${@}"
+  become: yes
+  tags:
+  - 'certbot'
+
+- name: 'run certbot'
+  command: |
+    /srv/primero/bin/run-certbot.sh
+  become: yes
+  tags:
+  - 'certbot'
+
+- name: 'schedule nightly cerbot renewal'
+  cron:
+    name: 'certbot'
+    hour: '23'
+    minute: '42'
+    job: |
+      date >> /var/log/certbot.log && /srv/primero/bin/run-certbot.sh >> /var/log/certbot.log
+  become: yes
+  tags:
+  - 'certbot'

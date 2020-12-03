@@ -1,9 +1,9 @@
-import { spy, createMockStore, stub } from "../../test";
+import { spy, createMockStore } from "../../test";
 
 import handleRestCallback from "./handle-rest-callback";
 
 describe("middleware/utils/handle-success-callback.js", () => {
-  const store = createMockStore();
+  const { store } = createMockStore();
   const json = { data: { id: 1234 } };
   const pushAction = path => ({
     payload: { args: [path], method: "push" },
@@ -11,16 +11,13 @@ describe("middleware/utils/handle-success-callback.js", () => {
   });
 
   let dispatch;
-  let pushState;
 
   beforeEach(() => {
     dispatch = spy(store, "dispatch");
-    pushState = stub(global.history, "pushState");
   });
 
   afterEach(() => {
     dispatch.restore();
-    pushState.restore();
   });
 
   it("pass through no successCallback", () => {
@@ -66,9 +63,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
       type: "test-action-3"
     });
 
-    expect(dispatch.getCall(3)).to.have.been.calledWith(
-      pushAction("/record-type/1234")
-    );
+    expect(dispatch.getCall(3)).to.have.been.calledWith(pushAction("/record-type/1234"));
   });
 
   describe("success payload", () => {
@@ -116,7 +111,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
         true
       );
 
-      expect(dispatch).to.have.been.calledOnce;
+      expect(dispatch).to.not.have.been.called;
     });
 
     it("from response id", () => {
@@ -132,9 +127,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
         false
       );
 
-      expect(dispatch.getCall(1)).to.have.been.calledWith(
-        pushAction("/record-type/1234")
-      );
+      expect(dispatch.getCall(1)).to.have.been.calledWith(pushAction("/record-type/1234"));
     });
 
     it("to edit", () => {
@@ -150,9 +143,72 @@ describe("middleware/utils/handle-success-callback.js", () => {
         false
       );
 
-      expect(dispatch.getCall(1)).to.have.been.calledWith(
-        pushAction("/record-type/1234/edit")
+      expect(dispatch.getCall(1)).to.have.been.calledWith(pushAction("/record-type/1234/edit"));
+    });
+
+    context("when is incidentPath", () => {
+      it("is new", () => {
+        handleRestCallback(
+          store,
+          {
+            action: "test-action",
+            incidentPath: "new",
+            redirect: "/record-type",
+            moduleID: "primeromodule"
+          },
+          {},
+          json,
+          false
+        );
+        expect(dispatch.getCall(1)).to.have.been.calledWith(pushAction("/incidents/primeromodule/new"));
+      });
+
+      it("is redirect to view", () => {
+        handleRestCallback(
+          store,
+          {
+            action: "test-action",
+            incidentPath: "incidents/123456789",
+            redirect: "/record-type",
+            moduleID: "primeromodule"
+          },
+          {},
+          json,
+          false
+        );
+        expect(dispatch.getCall(1)).to.have.been.calledWith(pushAction("incidents/123456789"));
+      });
+    });
+  });
+
+  describe("when fromQueue", () => {
+    it("does not handle the callback if fromQueue", () => {
+      handleRestCallback(store, { action: "callback_from_queue", payload: true }, {}, {}, true);
+      expect(dispatch).to.not.have.been.called;
+    });
+
+    it("handles callback if performFromQueue", () => {
+      const action = { action: "callback_from_queue", api: { performFromQueue: true } };
+      const expected = { type: "callback_from_queue", api: { performFromQueue: true } };
+
+      handleRestCallback(store, action, {}, {}, true);
+
+      expect(dispatch.getCall(0)).to.have.been.calledWith(expected);
+    });
+
+    it("only handles callbacks with performFromQueue in an array of callbacks", () => {
+      const action = { action: "callback_from_queue", api: { performFromQueue: true } };
+      const expected = { type: "callback_from_queue", api: { performFromQueue: true } };
+
+      handleRestCallback(
+        store,
+        [action, { action: "callback_1", payload: true }, { action: "callback_2", payload: true }],
+        {},
+        {},
+        true
       );
+
+      expect(dispatch).to.have.been.calledOnceWith(expected);
     });
   });
 });

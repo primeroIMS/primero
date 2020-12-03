@@ -1,8 +1,9 @@
 export {
+  fetchRoles,
   fetchSystemSettings,
   fetchSystemPermissions,
+  fetchUserGroups,
   loadApplicationResources,
-  setNetworkStatus,
   setUserIdle
 } from "./action-creators";
 export { ApplicationProvider, useApp } from "./provider";
@@ -16,6 +17,8 @@ export {
   selectModule,
   selectModules,
   selectUserIdle,
-  selectUserModules
+  selectUserModules,
+  getAgency,
+  getUserGroups
 } from "./selectors";
 export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";

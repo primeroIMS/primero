@@ -4,7 +4,7 @@ describe("Verifying user constant", () => {
   it("should have known constant", () => {
     const constants = { ...permissionsConstants };
 
-    ["PERMISSIONS", "LIST_HEADERS"].forEach(property => {
+    ["PERMISSIONS", "LIST_HEADERS", "PERMITTED_FORMS"].forEach(property => {
       expect(constants).to.have.property(property);
       delete constants[property];
     });

@@ -8,21 +8,26 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
   const initialState = fromJS({
     forms: {
       options: {
-        lookups: {
-          data: [
-            {
-              unique_id: "lookup-location-type",
-              values: [
-                { id: "country", display_text: { en: "Country", es: "Pais" } },
-                { id: "region", display_text: { en: "Region", es: "Region" } },
-                {
-                  id: "province",
-                  display_text: { en: "Province", es: "Provincia" }
-                }
-              ]
-            }
-          ]
-        }
+        lookups: [
+          {
+            unique_id: "lookup-location-type",
+            values: [
+              { id: "country", display_text: { en: "Country", es: "Pais" } },
+              { id: "region", display_text: { en: "Region", es: "Region" } },
+              {
+                id: "province",
+                display_text: { en: "Province", es: "Provincia" }
+              }
+            ]
+          },
+          {
+            unique_id: "lookup-service-type",
+            values: [
+              { id: "service_1", display_text: { en: "Service 1", es: "Servicio 1" } },
+              { id: "service_2", display_text: { en: "Service 2", es: "Servicio 2" }, disabled: true }
+            ]
+          }
+        ]
       }
     }
   });
@@ -32,11 +37,7 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
       value: "region",
       optionsStringSource: "lookup lookup-location-type"
     };
-    const { component } = setupMountedComponent(
-      SubformLookupHeader,
-      props,
-      initialState
-    );
+    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
     expect(component.text()).to.be.equal("Region");
   });
@@ -46,11 +47,7 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
       value: "",
       optionsStringSource: "lookup lookup-location-type"
     };
-    const { component } = setupMountedComponent(
-      SubformLookupHeader,
-      props,
-      initialState
-    );
+    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
     expect(component.text()).to.be.empty;
   });
@@ -59,30 +56,42 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
     const props = {
       value: "test_2",
       optionsStringSource: "",
-      optionsStringText: {
-        en: [
-          {
-            id: "test_1",
-            display_text: "Test 1"
-          },
-          {
-            id: "test_2",
-            display_text: "Test 2"
-          },
-          {
-            id: "test_3",
-            display_text: "Test 3"
+      optionsStringText: [
+        {
+          id: "test_1",
+          display_text: {
+            en: "Test 1",
+            fr: ""
           }
-        ],
-        fr: []
-      }
+        },
+        {
+          id: "test_2",
+          display_text: {
+            en: "Test 2",
+            fr: ""
+          }
+        },
+        {
+          id: "test_3",
+          display_text: {
+            en: "Test 3",
+            fr: ""
+          }
+        }
+      ]
     };
-    const { component } = setupMountedComponent(
-      SubformLookupHeader,
-      props,
-      initialState
-    );
+    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
     expect(component.text()).to.be.equal("Test 2");
+  });
+
+  it("should render the lookup even if it's disabled", () => {
+    const props = {
+      value: "service_2",
+      optionsStringSource: "lookup lookup-service-type"
+    };
+    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
+
+    expect(component.text()).to.equal("Service 2");
   });
 });

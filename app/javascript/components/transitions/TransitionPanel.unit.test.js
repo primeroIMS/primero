@@ -17,8 +17,6 @@ describe("<TransitionPanel />", () => {
   it("renders a <p> as children of  TransitionPanel", () => {
     const cpTransitionPanel = component.find(TransitionPanel);
 
-    expect(cpTransitionPanel.find("p").props().children).to.equal(
-      "This is a children"
-    );
+    expect(cpTransitionPanel.find("p").props().children).to.equal("This is a children");
   });
 });

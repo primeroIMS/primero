@@ -1,5 +1,5 @@
 json.merge! flag.attributes
-json.record_type request.path.split('/')[3]
+json.record_type Record.map_name(flag.record_type).pluralize
 
 record_access_denied = !current_user.can?(:read, flag.record)
 json.record_access_denied record_access_denied

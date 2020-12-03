@@ -1,0 +1,4 @@
+---
+collections:
+- name: 'git+https://github.com/Quoin/ansible-infrastructure.git#quoin/infrastructure'
+  version: 'master'

@@ -1,10 +1,6 @@
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
-import {
-  FETCH_SAVED_SEARCHES,
-  SAVE_SEARCH,
-  REMOVE_SAVED_SEARCH
-} from "./actions";
+import { FETCH_SAVED_SEARCHES, SAVE_SEARCH, REMOVE_SAVED_SEARCH } from "./actions";
 
 export const fetchSavedSearches = () => async dispatch => {
   dispatch({
@@ -28,7 +24,7 @@ export const saveSearch = (body, message) => async dispatch => {
           message,
           options: {
             variant: "success",
-            key: generate.messageKey()
+            key: generate.messageKey(message)
           }
         }
       }
@@ -48,7 +44,7 @@ export const removeSavedSearch = (id, message) => dispatch => {
           message,
           options: {
             variant: "success",
-            key: generate.messageKey()
+            key: generate.messageKey(message)
           }
         }
       }

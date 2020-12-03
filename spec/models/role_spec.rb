@@ -6,34 +6,101 @@ describe Role do
   before :each do
     clean_data(Role, PrimeroModule)
   end
-  it 'should not be valid if name is empty' do
-    role = Role.new
-    role.should_not be_valid
-    role.errors[:name].should == ['errors.models.role.name_present']
-  end
 
-  it 'should not be valid if permissions is empty' do
-    role = Role.new
-    role.should_not be_valid
-    role.errors[:permissions].should == ['errors.models.role.permission_presence']
-  end
+  describe 'Validations' do
+    it 'should not be valid if name is empty' do
+      role = Role.new
+      role.should_not be_valid
+      role.errors[:name].should == ['errors.models.role.name_present']
+    end
 
-  it 'should sanitize and check for permissions' do
-    role = Role.new(name: 'Name', permissions: [])
-    role.save
-    role.should_not be_valid
-    role.errors[:permissions].should == ['errors.models.role.permission_presence']
-  end
+    it 'should not be valid if permissions is empty' do
+      role = Role.new
+      role.should_not be_valid
+      role.errors[:permissions].should == ['errors.models.role.permission_presence']
+    end
 
-  it 'should not be valid if a role name has been taken already' do
-    Role.create(
-      name: 'Unique', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
-    )
-    role = Role.new(
-      name: 'Unique', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
-    )
-    role.should_not be_valid
-    role.errors[:name].should == ['errors.models.role.unique_name']
+    it 'should sanitize and check for permissions' do
+      role = Role.new(name: 'Name', permissions: [])
+      role.save
+      role.should_not be_valid
+      role.errors[:permissions].should == ['errors.models.role.permission_presence']
+    end
+
+    it 'should not be valid if a role name has been taken already' do
+      Role.create(
+        name: 'Unique', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
+      )
+      role = Role.new(
+        name: 'Unique', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
+      )
+      role.should_not be_valid
+      role.errors[:name].should == ['errors.models.role.unique_name']
+    end
+
+    describe 'reporting_location_level' do
+      before do
+        clean_data(SystemSettings)
+        SystemSettings.create(default_locale: 'en',
+                              reporting_location_config: { field_key: 'owned_by_location', admin_level: 2,
+                                                           admin_level_map: { '1' => ['region'],
+                                                                              '2' => ['district'] } })
+        @role = Role.new(name: 'some_role',
+                         permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
+      end
+
+      context 'with a valid reporting_location_level' do
+        before :each do
+          @role.reporting_location_level = 1
+        end
+
+        it 'is valid' do
+          expect(@role).to be_valid
+        end
+
+        describe '.reporting_location_config' do
+          it 'returns the reporting location of the role' do
+            expect(@role.reporting_location_config.admin_level).to eq(1)
+          end
+
+          it 'returns the reporting location label_keys of the role' do
+            expect(@role.reporting_location_config.label_keys).to eq(['region'])
+          end
+        end
+      end
+
+      context 'with an invalid reporting_location_level' do
+        before :each do
+          @role.reporting_location_level = 6
+        end
+
+        it 'returns an error message' do
+          @role.valid?
+          expect(@role.errors.messages[:reporting_location_level])
+            .to eq(['errors.models.role.reporting_location_level'])
+        end
+      end
+
+      context 'with a no reporting_location_level' do
+        before :each do
+          @role.reporting_location_level = nil
+        end
+
+        it 'is valid' do
+          expect(@role).to be_valid
+        end
+
+        describe '.reporting_location_config' do
+          it 'returns the default reporting location from SystemSettings' do
+            expect(@role.reporting_location_config.admin_level).to eq(2)
+          end
+
+          it 'returns the default reporting location label_keys from SystemSettings' do
+            expect(@role.reporting_location_config.label_keys).to eq(['district'])
+          end
+        end
+      end
+    end
   end
 
   it 'should create a valid role' do
@@ -62,10 +129,10 @@ describe Role do
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
     )
     role.save(validate: false)
-    expect(role.unique_id).to eq('role-test-role-1234')
+    expect(role.unique_id).to match(/^role-test-role-1234-[0-9a-f]{7}$/)
   end
 
-  describe 'is_super_user_role?' do
+  describe '.super_user_role?' do
     before do
       super_user_permissions_to_manage = [
         Permission::CASE, Permission::INCIDENT, Permission::REPORT,
@@ -83,20 +150,20 @@ describe Role do
         @role_not_super_user = Role.new(name: 'not_super_user_role', permissions: [@permission_not_super_user])
       end
       context 'if the role manages all of the permissions of the super user' do
-        it 'should return true for is_super_user_role?' do
-          expect(@role_super_user.is_super_user_role?).to be_truthy
+        it 'should return true for super_user_role?' do
+          expect(@role_super_user.super_user_role?).to be_truthy
         end
       end
 
       context 'if the role does not manage all of the permissions of the super user' do
-        it 'should return false for is_super_user_role?' do
-          expect(@role_not_super_user.is_super_user_role?).to be_falsey
+        it 'should return false for super_user_role?' do
+          expect(@role_not_super_user.super_user_role?).to be_falsey
         end
       end
     end
   end
 
-  describe 'is_user_admin_role?' do
+  describe 'user_admin_role?' do
     before do
       user_admin_permissions_to_manage = [
         Permission::ROLE, Permission::USER, Permission::USER_GROUP,
@@ -113,62 +180,22 @@ describe Role do
         @role_not_user_admin = Role.new(name: 'not_super_user_role', permissions: [@permission_not_user_admin])
       end
       context 'if the role manages all of the permissions of the user admin' do
-        it 'should return true for is_user_admin_role?' do
-          expect(@role_user_admin.is_user_admin_role?).to be_truthy
+        it 'should return true for user_admin_role?' do
+          expect(@role_user_admin.user_admin_role?).to be_truthy
         end
       end
 
       context 'if the role does not manage all of the permissions of the user admin' do
-        it 'should return false for is_user_admin_role?' do
-          expect(@role_not_user_admin.is_user_admin_role?).to be_falsey
+        it 'should return false for user_admin_role?' do
+          expect(@role_not_user_admin.user_admin_role?).to be_falsey
         end
-      end
-    end
-  end
-
-  describe 'class methods' do
-    before do
-      clean_data(Role)
-      role_permissions = [Permission.new(resource: Permission::CASE, actions: [Permission::READ])]
-      @referral_role = Role.create!(name: 'Referral Role', permissions: role_permissions, referral: true)
-      @transfer_role = Role.create!(name: 'Transfer Role', permissions: role_permissions, transfer: true)
-      @referral_transfer_role =
-        Role.create!(name: 'Referral Transfer Role', permissions: role_permissions, referral: true, transfer: true)
-      @neither_role = Role.create!(name: 'Neither Role', permissions: role_permissions)
-    end
-
-    describe 'names_and_ids_by_referral' do
-      it 'returns Names and IDs of all roles with referral permission' do
-        expect(Role.names_and_ids_by_referral).to include(
-          ['Referral Role', 'role-referral-role'], ['Referral Transfer Role', 'role-referral-transfer-role']
-        )
-      end
-
-      it 'does not return Names and IDs of roles that do not have referral permission' do
-        expect(Role.names_and_ids_by_referral).not_to include(
-          ['Transfer Role', 'role-transfer-role'], ['Neither Role', 'role-neither-role']
-        )
-      end
-    end
-
-    describe 'names_and_ids_by_transfer' do
-      it 'returns Names and IDs of all roles with transfer permission' do
-        expect(Role.names_and_ids_by_transfer).to include(
-          ['Transfer Role', 'role-transfer-role'], ['Referral Transfer Role', 'role-referral-transfer-role']
-        )
-      end
-
-      it 'does not return Names and IDs of roles that do not have transfer permission' do
-        expect(Role.names_and_ids_by_transfer).not_to include(
-          ['Referral Role', 'role-referral-role'], ['Neither Role', 'role-neither-role']
-        )
       end
     end
   end
 
   describe 'associate_all_forms' do
     before do
-      clean_data(Role, Field, FormSection)
+      clean_data(Role, Field, FormSection, PrimeroModule, PrimeroProgram)
       @form_section_a = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
       @form_section_b = FormSection.create!(unique_id: 'B', name: 'B', parent_form: 'case', form_group_id: 'x')
       @form_section_child =
@@ -196,6 +223,302 @@ describe Role do
         @role.reload
         @role.form_sections.size.should eql 3
         expect(@role.form_sections).to match_array [@form_section_a, @form_section_b, @form_section_c]
+      end
+      it 'Reject forms from another primero-module with the associate_all_forms method' do
+        primero_module = create(
+          :primero_module, name: 'CP', description: 'Child Protection', associated_record_types: ['case']
+        )
+        @form_section_c = FormSection.create!(
+          unique_id: 'parent', name: 'parent_form', parent_form: 'case', fields: [@field_subform],
+          primero_modules: [primero_module]
+        )
+        @role.associate_all_forms
+        @role.reload
+        @role.form_sections.size.should eql 2
+        expect(@role.form_sections).to match_array [@form_section_a, @form_section_b]
+      end
+    end
+    context 'form from another primero-module' do
+      before do
+        clean_data(PrimeroModule, PrimeroProgram, Role)
+        @primero_module = create(
+          :primero_module, name: 'CP', description: 'Child Protection', associated_record_types: ['case']
+        )
+        @primero_module_gbv = create(
+          :primero_module, name: 'GBV', description: 'gbv', associated_record_types: ['case']
+        )
+        @form_section_c = FormSection.create!(
+          unique_id: 'C', name: 'C', parent_form: 'case', form_group_id: 'x', primero_modules: [@primero_module_gbv]
+        )
+      end
+      it 'When save, reject forms from another primero-module' do
+        role = create(:role, modules: [@primero_module], form_sections: [@form_section_c])
+        expect(role.form_sections).to eq([])
+      end
+      it "When save, eject forms from any primero-module if the role doesn't have primero-module" do
+        role = create(:role, modules: [], form_sections: [@form_section_c])
+        expect(role.form_sections).to eq([])
+      end
+      it 'When update, reject forms from another primero-module' do
+        role = create(:role, modules: [@primero_module])
+        role.update(form_sections: [@form_section_c])
+        expect(role.form_sections).to eq([])
+      end
+      it "When update, reject forms from any primero-module if the role doesn't have primero-module" do
+        role = create(:role, modules: [])
+        role.update(form_sections: [@form_section_c])
+        expect(role.form_sections).to eq([])
+      end
+      after do
+        clean_data(PrimeroModule, PrimeroProgram, Role)
+      end
+    end
+  end
+
+  describe '#update_properties' do
+    before :each do
+      clean_data(Field, FormSection, Role, PrimeroProgram, PrimeroModule)
+      @program = PrimeroProgram.create!(
+        unique_id: 'primeroprogram-primero',
+        name: 'Primero',
+        description: 'Default Primero Program'
+      )
+      @form_section_a = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
+      @module_cp = PrimeroModule.create!(
+        unique_id: 'primeromodule-cp-a',
+        name: 'CPA',
+        description: 'Child Protection A',
+        associated_record_types: %w[case tracing_request incident],
+        primero_program: @program,
+        form_sections: [@form_section_a]
+      )
+      @permissions_test = [
+        Permission.new(
+          resource: Permission::ROLE,
+          actions: [
+            Permission::EXPORT_PDF,
+            Permission::CREATE
+          ],
+          role_unique_ids: %w[
+            role-cp-case-worker
+            role-cp-manager
+          ]
+        ),
+        Permission.new(
+          resource: Permission::USER,
+          actions: [
+            Permission::READ,
+            Permission::WRITE,
+            Permission::CREATE
+          ]
+        )
+      ]
+      Role.create(
+        unique_id: 'role_test_01',
+        name: 'name_test_01',
+        description: 'description_test_01',
+        group_permission: 'all',
+        referral: false,
+        transfer: false,
+        is_manager: true,
+        permissions: @permissions_test,
+        form_sections: [@form_section_a],
+        modules: [@module_cp]
+      )
+    end
+    let(:full_properties) do
+      {
+        name: 'CP Administrator 00',
+        description: 'updating full attributes',
+        group_permission: 'all',
+        referral: false,
+        transfer: false,
+        is_manager: true,
+        form_section_unique_ids: %w[C],
+        module_unique_ids: [@module_cp.unique_id],
+        permissions: {
+          agency: %w[
+            read
+            delete
+          ],
+          role: %w[
+            delete
+            read
+          ],
+          objects: {
+            agency: %w[
+              test_update_agency_00
+              test_update_agency_01
+            ],
+            role: %w[
+              test_update_role_01
+              test_update_role_02
+            ]
+          }
+        }
+      }
+    end
+    let(:properties_without_permission) do
+      {
+        name: 'CP Administrator 01',
+        description: 'no updating permission',
+        group_permission: 'all',
+        referral: false,
+        transfer: false,
+        is_manager: true,
+        form_section_unique_ids: %w[C],
+        module_unique_ids: [@module_cp.unique_id]
+      }
+    end
+    let(:properties_without_module) do
+      {
+        name: 'CP Administrator 02',
+        description: 'no updating module',
+        group_permission: 'all',
+        referral: false,
+        transfer: false,
+        is_manager: true,
+        form_section_unique_ids: %w[C]
+      }
+    end
+    let(:properties_without_forms) do
+      {
+        name: 'CP Administrator 03',
+        description: 'no updating forms',
+        group_permission: 'all',
+        referral: false,
+        transfer: false,
+        is_manager: true
+      }
+    end
+    subject { Role.last }
+
+    context 'when update all attributes' do
+      before do
+        subject.update_properties(full_properties)
+        subject.save
+      end
+
+      it 'should update the role' do
+        expect(subject.name).to eq('CP Administrator 00')
+        expect(subject.description).to eq('updating full attributes')
+      end
+    end
+
+    context 'when update attributes but not permission' do
+      before do
+        subject.update_properties(properties_without_permission)
+        subject.save
+      end
+
+      it 'should update the role' do
+        expect(subject.name).to eq('CP Administrator 01')
+        expect(subject.description).to eq('no updating permission')
+        expect(subject.permissions.size).to eq(2)
+      end
+    end
+
+    context 'when update attributes but not module' do
+      before do
+        subject.update_properties(properties_without_module)
+        subject.save
+      end
+
+      it 'should update the role' do
+        expect(subject.name).to eq('CP Administrator 02')
+        expect(subject.description).to eq('no updating module')
+        expect(subject.modules).to eq([@module_cp])
+      end
+    end
+
+    context 'when update attributes but not forms' do
+      before do
+        subject.update_properties(properties_without_forms)
+        subject.save
+      end
+
+      it 'should update the role' do
+        expect(subject.name).to eq('CP Administrator 03')
+        expect(subject.description).to eq('no updating forms')
+        expect(subject.form_sections).to eq([@form_section_a])
+      end
+    end
+  end
+
+  describe 'ConfigurationRecord' do
+    let(:form1) { FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm') }
+    let(:form2) { FormSection.create!(unique_id: 'B', name: 'B', parent_form: 'case', form_group_id: 'x') }
+    let(:module1) do
+      PrimeroModule.create!(
+        unique_id: 'primeromodule-cp-a',
+        name: 'CPA',
+        description: 'Child Protection A',
+        associated_record_types: %w[case tracing_request incident],
+        primero_program: PrimeroProgram.new(name: 'program'),
+        form_sections: [form1, form2]
+      )
+    end
+    let(:role) do
+      Role.create!(
+        name: 'Role',
+        unique_id: 'role-test',
+        permissions: [
+          Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        ],
+        form_sections: [form1, form2],
+        primero_modules: [module1]
+      )
+    end
+
+    before(:each) do
+      clean_data(Role, Field, FormSection, PrimeroModule, PrimeroProgram)
+      form1
+      form2
+      module1
+      role
+    end
+
+    describe '#configuration_hash' do
+      it 'returns a role with permissions, associated forms, and associated modules in a hash' do
+        configuration_hash = role.configuration_hash
+        expect(configuration_hash['name']).to eq(role.name)
+        expect(configuration_hash['permissions'][Permission::CASE]).to eq([Permission::READ])
+        expect(configuration_hash['form_section_unique_ids']).to match_array([form1.unique_id, form2.unique_id])
+        expect(configuration_hash['module_unique_ids']).to eq([module1.unique_id])
+      end
+    end
+
+    describe '.create_or_update!' do
+      it 'creates a new role from a configuration hash' do
+        configuration_hash = {
+          'unique_id' => 'role-test2',
+          'name' => 'Role2',
+          'permissions' => { 'case' => ['read'], 'objects' => {} },
+          'form_section_unique_ids' => %w[A B],
+          'module_unique_ids' => [module1.unique_id]
+        }
+        new_role = Role.create_or_update!(configuration_hash)
+        expect(new_role.configuration_hash['unique_id']).to eq(configuration_hash['unique_id'])
+        expect(new_role.configuration_hash['permissions']['case']).to eq(['read'])
+        expect(new_role.configuration_hash['form_section_unique_ids']).to contain_exactly('A', 'B')
+        expect(new_role.configuration_hash['module_unique_ids']).to eq([module1.unique_id])
+        expect(new_role.id).not_to eq(role.id)
+      end
+
+      it 'updates an existing form from a configuration hash' do
+        configuration_hash = {
+          'unique_id' => 'role-test',
+          'name' => 'Role',
+          'permissions' => { 'case' => %w[read write], 'objects' => {} },
+          'form_section_unique_ids' => %w[A],
+          'module_unique_ids' => [module1.unique_id]
+        }
+
+        role2 = Role.create_or_update!(configuration_hash)
+        expect(role2.id).to eq(role.id)
+        expect(role2.permissions.size).to eq(1)
+        expect(role2.permissions[0].actions).to eq(%w[read write])
+        expect(role2.form_section_unique_ids).to eq(%w[A])
       end
     end
   end

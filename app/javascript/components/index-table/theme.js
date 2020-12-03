@@ -38,13 +38,34 @@ export default createMuiTheme(
             },
             "& td:last-of-type:not(.datatables-noprint)": {
               position: "absolute",
-              right: "2%",
-              width: "48px",
-              top: 0
+              right: "3%",
+              paddingTop: 2,
+              width: "48px"
             },
             "& .datatables-noprint": {
               width: "100%"
             }
+          }
+        }
+      },
+      MuiToolbar: {
+        root: {
+          [theme.breakpoints.down("sm")]: {
+            justifyContent: "center"
+          }
+        }
+      },
+      MuiTablePagination: {
+        spacer: {
+          [theme.breakpoints.down("sm")]: {
+            flex: "0 1 auto"
+          }
+        }
+      },
+      MuiTableFooter: {
+        root: {
+          "& tr td:last-of-type": {
+            padding: "0px 0px 0px 24px"
           }
         }
       }

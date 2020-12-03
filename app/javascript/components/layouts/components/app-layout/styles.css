@@ -1,0 +1,37 @@
+.root {
+  display: flex;
+  overflow: hidden;
+  background: $(theme.primero.colors.contentGrey);
+  height: 100vh;
+
+  &.demo {
+    padding-top: 35px;
+  }
+}
+
+.content {
+  flex-grow: 1;
+  height: 100vh;
+  overflow: hidden;
+  background: $(theme.primero.colors.contentGrey);
+  transition: $(theme.transitions.create('margin', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }));
+  margin-left: -240px;
+  overflow-x: hidden;
+  padding-top: 0;
+  margin-left: 0;
+  width: 100%;
+}
+
+.loadingIndicator {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  position: fixed;
+  height: 80%;
+  align-items: center;
+  left: 45%;
+  top: 10%;
+}

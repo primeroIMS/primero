@@ -10,34 +10,28 @@ describe Api::V2::LookupsController, type: :request do
     @lookup_yes_no = Lookup.create!(
       unique_id: 'lookup-yes-no',
       name_i18n: { en: 'Yes / No' },
-      lookup_values_i18n: {
-        en: [
-          { id: 'true', display_text: 'Yes' },
-          { id: 'false', display_text: 'No' }
-        ]
-      }
+      lookup_values_i18n: [
+        { id: 'true', display_text: { en: 'Yes' } },
+        { id: 'false', display_text: { en: 'No' } }
+      ]
     )
 
     @lookup_sex = Lookup.create!(
       unique_id: 'lookup-sex',
       name_i18n: { en: 'Sex' },
-      lookup_values_i18n: {
-        en: [
-          { id: 'male', display_text: 'Male' },
-          { id: 'female', display_text: 'Female' }
-        ]
-      }
+      lookup_values_i18n: [
+        { id: 'male', display_text: { en: 'Male' } },
+        { id: 'female', display_text: { en: 'Female' } }
+      ]
     )
 
     @lookup_country = Lookup.create!(
       unique_id: 'lookup-country',
       name_i18n: { en: 'Country' },
-      lookup_values_i18n: {
-        en: [
-          { id: 'country1', display_text: 'Country 1' },
-          { id: 'country2', display_text: 'Country 2' }
-        ]
-      }
+      lookup_values_i18n: [
+        { id: 'country1', display_text: { en: 'Country 1' } },
+        { id: 'country2', display_text: { en: 'Country 2' } }
+      ]
     )
   end
 
@@ -245,7 +239,7 @@ describe Api::V2::LookupsController, type: :request do
             {
               'id' => 'country1',
               'display_text' => {
-                'en' => '',
+                'en' => 'Country 1',
                 'fr' => '',
                 'es' => 'País 1'
               }
@@ -253,7 +247,7 @@ describe Api::V2::LookupsController, type: :request do
             {
               'id' => 'country2',
               'display_text' => {
-                'en' => '',
+                'en' => 'Country 2',
                 'fr' => '',
                 'es' => 'País 2'
               }

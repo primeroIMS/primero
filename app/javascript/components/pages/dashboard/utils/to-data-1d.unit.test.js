@@ -28,11 +28,7 @@ describe("toData1D - pages/dashboard/utils/", () => {
     const expected = {
       labels: ["New", "Service provision", "Care plan"],
       data: [10, 15, 8],
-      query: [
-        ["workflow=new"],
-        ["workflow=service_provision"],
-        ["workflow=care_plan"]
-      ]
+      query: [["workflow=new"], ["workflow=service_provision"], ["workflow=care_plan"]]
     };
 
     const workflowLabels = [

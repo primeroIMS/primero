@@ -1,18 +1,18 @@
 /* eslint-disable react/display-name, react/no-multi-comp, react/prop-types */
 import { routerMiddleware } from "connected-react-router/immutable";
 import { Form, Formik } from "formik";
-import { createBrowserHistory } from "history";
+import { createMemoryHistory } from "history";
 import { isEmpty } from "lodash";
 import { SnackbarProvider } from "notistack";
 import React from "react";
 import { Provider } from "react-redux";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Router } from "react-router-dom";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import DateFnsUtils from "@date-io/date-fns";
 import { createMount } from "@material-ui/core/test-utils";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import ThemeProvider from "@material-ui/styles/ThemeProvider";
+import { ThemeProvider } from "@material-ui/core/styles";
 import { useForm, FormContext } from "react-hook-form";
 import { fromJS } from "immutable";
 import capitalize from "lodash/capitalize";
@@ -20,8 +20,9 @@ import { spy } from "sinon";
 
 import { ApplicationProvider } from "../../components/application/provider";
 import I18nProvider from "../../components/i18n";
-import { theme } from "../../config";
+import { theme, RECORD_PATH } from "../../config";
 import { whichFormMode } from "../../components/form";
+import { ListHeaderRecord } from "../../components/user/records";
 
 const setupFormFieldRecord = (FieldRecord, field = {}) => {
   return FieldRecord({
@@ -57,11 +58,11 @@ const setupFormInputProps = (field = {}, props = {}, mode, errors = []) => {
 };
 
 export const createMockStore = (defaultState = fromJS({}), initialState) => {
-  const history = createBrowserHistory();
+  const history = createMemoryHistory();
   const mockStore = configureStore([routerMiddleware(history), thunk]);
   const store = mockStore(defaultState.merge(fromJS(initialState)));
 
-  return store;
+  return { store, history };
 };
 
 export const setupMountedComponent = (
@@ -72,12 +73,13 @@ export const setupMountedComponent = (
   formProps = {}
 ) => {
   const defaultState = fromJS({
-    application: {
-      online: true
+    connectivity: {
+      online: true,
+      serverOnline: true
     }
   });
 
-  const store = createMockStore(defaultState, initialState);
+  const { store, history } = createMockStore(defaultState, initialState);
 
   const FormikComponent = ({ formikProps, componentProps }) => {
     if (isEmpty(formikProps)) {
@@ -102,9 +104,9 @@ export const setupMountedComponent = (
     if (isEmpty(initialEntries)) {
       return (
         <ThemeProvider theme={theme}>
-          <MemoryRouter>
+          <Router history={history}>
             <FormikComponent {...formikComponentProps} />
-          </MemoryRouter>
+          </Router>
         </ThemeProvider>
       );
     }
@@ -132,9 +134,7 @@ export const setupMountedComponent = (
     </Provider>
   );
 
-  return {
-    component
-  };
+  return { component, store };
 };
 
 export const setupMountedThemeComponent = (TestComponent, props = {}) =>
@@ -154,24 +154,21 @@ export const setupMockFormComponent = (
   props = {},
   parentProps = {},
   state = {},
-  defaultValues = {}
+  defaultValues = {},
+  includeFormMethods = false
 ) => {
   const MockFormComponent = () => {
     const { inputProps, field, mode } = props;
     const formMethods = useForm({ defaultValues });
     const formMode = whichFormMode(mode);
 
-    const commonInputProps = setupFormInputProps(
-      field,
-      inputProps,
-      mode,
-      formMethods?.errors
-    );
+    const commonInputProps = setupFormInputProps(field, inputProps, mode, formMethods?.errors);
 
     return (
       <FormContext {...formMethods} formMode={formMode}>
         <Component
           {...props}
+          {...(includeFormMethods ? formMethods : {})}
           commonInputProps={commonInputProps}
           {...inputProps}
         />
@@ -203,11 +200,98 @@ export const setupMockFieldComponent = (
 export const createSimpleMount = component => createMount()(component);
 
 export const createMiddleware = (middleware, initialState) => {
-  const store = createMockStore(fromJS({}), initialState);
+  const { store } = createMockStore(fromJS({}), initialState);
 
   const next = spy();
 
   const invoke = action => middleware(store)(next)(action);
 
   return { store, next, invoke };
+};
+
+export const listHeaders = recordType => {
+  const commonHeaders = [
+    ListHeaderRecord({
+      name: "description",
+      field_name: "description",
+      id_search: false
+    })
+  ];
+
+  switch (recordType) {
+    case RECORD_PATH.user_groups:
+      return [
+        ListHeaderRecord({
+          name: "user_group.name",
+          field_name: "name",
+          id_search: false
+        }),
+        ...commonHeaders
+      ];
+
+    case RECORD_PATH.agencies:
+      return [
+        ListHeaderRecord({
+          name: "agency.name",
+          field_name: "name",
+          id_search: false
+        }),
+        ...commonHeaders
+      ];
+
+    default:
+      return [];
+  }
+};
+
+export const lookups = () => ({
+  data: [
+    {
+      unique_id: "lookup-1",
+      name: { en: "Lookup 1" },
+      values: [
+        { id: "a", display_text: [{ en: "Lookup 1 a" }] },
+        { id: "b", display_text: [{ en: "Lookup 1 b" }] }
+      ]
+    },
+    {
+      unique_id: "lookup-2",
+      name: { en: "Lookup 2" },
+      values: [
+        { id: "a", display_text: [{ en: "Lookup 2 a" }] },
+        { id: "b", display_text: [{ en: "Lookup 2 b" }] }
+      ]
+    }
+  ],
+  metadata: {
+    total: 2,
+    per: 1,
+    page: 1
+  }
+});
+
+export const translateOptions = (value, options, translations) => {
+  const defaultLocale = window.I18n.locale;
+
+  if (isEmpty(options)) {
+    return translations[defaultLocale][value];
+  }
+
+  let currValue = translations[options?.locale || defaultLocale][value];
+
+  Object.entries(options).forEach(option => {
+    const [optionKey, optionValue] = option;
+
+    currValue = currValue.replace(optionKey, optionValue);
+  });
+
+  return currValue?.replace(/[^\w\s\'.]/gi, "");
+};
+
+export const abbrMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+export const HookWrapper = ({ hook }) => {
+  const hookProps = hook ? hook() : undefined;
+
+  return <div hook={hookProps} />;
 };

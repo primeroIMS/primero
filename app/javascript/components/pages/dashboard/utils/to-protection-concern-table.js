@@ -41,23 +41,13 @@ export default (data, i18n, lookups) => {
       )
       .sort(byProtectionConcernsNames);
     const lookupsByCode = lookups.reduce((acc, lookup) => {
-      acc[lookup.id] = lookup.display_text[i18n.locale];
+      acc[lookup.id] = lookup.display_text;
 
       return acc;
     }, {});
 
-    const countValues = dashboardTableData(
-      lookupsByCode,
-      result.indicators,
-      indicators,
-      "count"
-    );
-    const queryValues = dashboardTableData(
-      lookupsByCode,
-      result.indicators,
-      indicators,
-      "query"
-    );
+    const countValues = dashboardTableData(lookupsByCode, result.indicators, indicators, "count");
+    const queryValues = dashboardTableData(lookupsByCode, result.indicators, indicators, "query");
 
     const aaa = {
       columns,

@@ -1,38 +1,25 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { useI18n } from "../../i18n";
-import { setDialog, setPending } from "../../record-actions/action-creators";
-import {
-  selectDialog,
-  selectDialogPending
-} from "../../record-actions/selectors";
+import { useDialog } from "../../action-dialog";
 
-import {
-  DONE,
-  REFERRAL_DONE_DIALOG,
-  REFERRAL_ACTION_MENU_NAME as NAME
-} from "./constants";
+import { DONE, REFERRAL_DONE_DIALOG, REFERRAL_ACTION_MENU_NAME as NAME } from "./constants";
 import ReferralAction from "./referral-action";
 
 const ReferralActionMenu = ({ transition, recordType }) => {
   const i18n = useI18n();
-  const dispatch = useDispatch();
   const [referralMenu, setReferralMenu] = useState(null);
   const [referralType, setReferralType] = useState(DONE);
-  const referralOpen = useSelector(state =>
-    selectDialog(state, REFERRAL_DONE_DIALOG)
-  );
-  const setReferralOpen = open => {
-    dispatch(setDialog({ dialog: REFERRAL_DONE_DIALOG, open }));
+
+  const { pending, dialogOpen, dialogClose, setDialog, setDialogPending } = useDialog(REFERRAL_DONE_DIALOG);
+
+  const setReferralOpen = () => {
+    setDialog({ dialog: REFERRAL_DONE_DIALOG, open: true });
   };
-  const dialogPending = useSelector(state => selectDialogPending(state));
-  const setDialogPending = pending => {
-    dispatch(setPending({ pending }));
-  };
+
   const handleReferralMenuClose = () => {
     setReferralMenu(null);
   };
@@ -49,18 +36,9 @@ const ReferralActionMenu = ({ transition, recordType }) => {
     setReferralMenu(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setReferralOpen(false);
-  };
-
   return (
     <>
-      <IconButton
-        aria-label="more"
-        aria-controls="long-menu"
-        aria-haspopup="true"
-        onClick={handleReferralMenuClick}
-      >
+      <IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleReferralMenuClick}>
         <MoreVertIcon />
       </IconButton>
       <Menu
@@ -70,21 +48,16 @@ const ReferralActionMenu = ({ transition, recordType }) => {
         open={Boolean(referralMenu)}
         onClose={handleReferralMenuClose}
       >
-        <MenuItem
-          key={DONE}
-          selected={false}
-          onClick={handleDoneOpen}
-          disabled={false}
-        >
+        <MenuItem key={DONE} selected={false} onClick={handleDoneOpen} disabled={false}>
           {i18n.t("buttons.done")}
         </MenuItem>
       </Menu>
 
       <ReferralAction
-        openReferralDialog={referralOpen}
-        close={handleClose}
+        openReferralDialog={dialogOpen}
+        close={dialogClose}
         recordId={transition.record_id}
-        pending={dialogPending}
+        pending={pending}
         setPending={setDialogPending}
         transistionId={transition.id}
         recordType={recordType}

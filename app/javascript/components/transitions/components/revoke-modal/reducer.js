@@ -14,14 +14,10 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       const { data } = payload;
 
       delete data.record;
-      const transitionIndex = transitionData.findIndex(
-        r => r.get("id") === data.id
-      );
+      const transitionIndex = transitionData.findIndex(r => r.get("id") === data.id);
 
       if (transitionIndex !== -1) {
-        newState = state.updateIn(["transitions", "data", transitionIndex], u =>
-          mergeRecord(u, fromJS(data))
-        );
+        newState = state.updateIn(["transitions", "data", transitionIndex], u => mergeRecord(u, fromJS(data)));
       } else {
         newState = state.updateIn(["transitions", "data"], u => {
           return u.push(fromJS(data));

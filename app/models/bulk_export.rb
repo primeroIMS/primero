@@ -113,7 +113,8 @@ class BulkExport < ApplicationRecord
     order = self.order || { created_at: :desc }
     begin
       search = SearchService.search(
-        model_class, search_filters, record_query_scope, query, order, pagination
+        model_class,
+        filters: search_filters, query_scope: record_query_scope, query: query, order: order, pagination: pagination
       )
       results = search.results
       yield(results)

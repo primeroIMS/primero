@@ -1,9 +1,6 @@
 import { stub } from "../../../../test";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
-import {
-  SET_DIALOG,
-  SET_DIALOG_PENDING
-} from "../../../record-actions/actions";
+import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../../action-dialog";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
@@ -52,17 +49,7 @@ describe("<TransferApproval /> - Action Creators", () => {
             redirect: false
           },
           {
-            action: SET_DIALOG,
-            payload: {
-              dialog: args.dialogName,
-              open: false
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
+            action: CLEAR_DIALOG
           }
         ],
         failureCallback: [

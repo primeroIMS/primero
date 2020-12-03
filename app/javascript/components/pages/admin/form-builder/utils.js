@@ -1,17 +1,16 @@
+import { fromJS, List } from "immutable";
 import range from "lodash/range";
+import merge from "lodash/merge";
 
 import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
+import { invalidCharRegexp } from "../../../../libs";
 
 export const convertToFieldsObject = fields =>
-  fields
-    .map(field => ({ [field.name]: field }))
-    .reduce((acc, value) => ({ ...acc, ...value }), {});
+  fields.map(field => ({ [field.name]: field })).reduce((acc, value) => ({ ...acc, ...value }), {});
 
-export const convertToFieldsArray = fields =>
-  Object.keys(fields).map(key => ({ name: key, ...fields[key] }));
+export const convertToFieldsArray = fields => Object.keys(fields).map(key => ({ name: key, ...fields[key] }));
 
-export const getOrderDirection = (currentOrder, newOrder) =>
-  newOrder - currentOrder;
+export const getOrderDirection = (currentOrder, newOrder) => newOrder - currentOrder;
 
 export const affectedOrderRange = (currentOrder, newOrder, step = 1) => {
   const orderDirection = getOrderDirection(currentOrder, newOrder);
@@ -36,6 +35,81 @@ export const buildOrderUpdater = (currentOrder, newOrder) => {
 };
 
 export const getFormRequestPath = (id, saveMethod) =>
-  saveMethod === SAVE_METHODS.update
-    ? `${RECORD_PATH.forms}/${id}`
-    : RECORD_PATH.forms;
+  saveMethod === SAVE_METHODS.update ? `${RECORD_PATH.forms}/${id}` : RECORD_PATH.forms;
+
+export const getFieldsTranslations = fields =>
+  Object.keys(fields)
+    .map(key => ({ [key]: { display_name: { en: fields[key].display_name?.en } } }))
+    .reduce((acc, elem) => ({ ...acc, ...elem }), {});
+
+export const mergeTranslations = data => {
+  const translations = { ...data.translations };
+  const source = { ...data };
+
+  delete source.translations;
+  delete source.selected_locale_id;
+
+  return merge(source, translations);
+};
+
+export const buildFormGroupUniqueId = (moduleId, parentForm) => {
+  if (!moduleId || !parentForm) {
+    return "";
+  }
+
+  return `lookup-form-group-${moduleId?.replace("primeromodule-", "")}-${parentForm}`;
+};
+
+export const getSubformFields = (state, subform) =>
+  fromJS(
+    subform
+      .get("fields")
+      .map(fieldId => state.getIn(["fields", fieldId.toString()]))
+      .map(field =>
+        field.set("on_collapsed_subform", subform.get("collapsed_field_names", fromJS([])).includes(field.get("name")))
+      )
+  );
+
+export const getSubformErrorMessages = (errors, i18n) =>
+  errors
+    .map(errorParent =>
+      errorParent.get("errors")?.map(error => {
+        const message = error.get("message");
+        const messageWithKeys = List.isList(message);
+
+        if (!messageWithKeys) {
+          return message;
+        }
+
+        return i18n.t(message.first(), {
+          [error.get("detail")]: error.get("value")
+        });
+      })
+    )
+    .filter(error => Boolean(error))
+    .flatten();
+
+export const validateEnglishName = async value =>
+  !(value.match(invalidCharRegexp)?.length || value.match(/^(\s+)$/)?.length);
+
+export const getLookupFormGroup = (allFormGroupsLookups, moduleId, parentForm) => {
+  if (!moduleId || !parentForm) {
+    return fromJS([]);
+  }
+
+  return allFormGroupsLookups.find(
+    option => option.get("unique_id") === buildFormGroupUniqueId(moduleId, parentForm.replace("_", "-"))
+  );
+};
+
+export const formGroupsOptions = (allFormGroupsLookups, moduleId, parentForm, i18n) =>
+  getLookupFormGroup(allFormGroupsLookups, moduleId, parentForm)
+    ?.get("values", fromJS([]))
+    ?.reduce((result, item) => {
+      result.push({
+        id: item.get("id"),
+        display_text: item.getIn(["display_text", i18n.locale], "")
+      });
+
+      return result;
+    }, []);

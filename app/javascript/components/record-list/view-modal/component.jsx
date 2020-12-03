@@ -2,17 +2,22 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Divider } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
+import { useSelector } from "react-redux";
 
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import DisplayData from "../../display-data";
+import { getPermissionsByRecord } from "../../user";
+import { ACTIONS, checkPermissions } from "../../../libs/permissions";
 
 import TransferRequest from "./transfer-request";
 import { NAME } from "./constants";
 
-const ViewModal = ({ close, openViewModal, currentRecord }) => {
+const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
   const i18n = useI18n();
   const [sendRequest, setSendRequest] = useState(false);
+  const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
+  const canRequestTransfer = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REQUEST_TRANSFER]);
 
   const handleOk = () => {
     setSendRequest(true);
@@ -43,6 +48,7 @@ const ViewModal = ({ close, openViewModal, currentRecord }) => {
         confirmButtonLabel={i18n.t("buttons.request_transfer")}
         confirmButtonProps={confirmButtonProps}
         onClose={close}
+        showSuccessButton={canRequestTransfer}
       >
         <form>
           <Grid container spacing={2}>
@@ -57,16 +63,10 @@ const ViewModal = ({ close, openViewModal, currentRecord }) => {
             </Grid>
           </Grid>
           <Divider />
-          <DisplayData
-            label={i18n.t("cases.full_name")}
-            value={currentRecord && currentRecord.get("name")}
-          />
+          <DisplayData label={i18n.t("cases.full_name")} value={currentRecord && currentRecord.get("name")} />
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              <DisplayData
-                label={i18n.t("cases.sex")}
-                value={currentRecord && currentRecord.get("sex")}
-              />
+              <DisplayData label={i18n.t("cases.sex")} value={currentRecord && currentRecord.get("sex")} />
             </Grid>
             <Grid item xs={3}>
               <DisplayData
@@ -75,10 +75,7 @@ const ViewModal = ({ close, openViewModal, currentRecord }) => {
               />
             </Grid>
             <Grid item xs={3}>
-              <DisplayData
-                label={i18n.t("cases.age")}
-                value={currentRecord && currentRecord.get("age")}
-              />
+              <DisplayData label={i18n.t("cases.age")} value={currentRecord && currentRecord.get("age")} />
             </Grid>
             <Grid item xs={3}>
               <DisplayData
@@ -99,7 +96,8 @@ ViewModal.displayName = NAME;
 ViewModal.propTypes = {
   close: PropTypes.func,
   currentRecord: PropTypes.object,
-  openViewModal: PropTypes.bool
+  openViewModal: PropTypes.bool,
+  recordType: PropTypes.string.isRequired
 };
 
 export default ViewModal;

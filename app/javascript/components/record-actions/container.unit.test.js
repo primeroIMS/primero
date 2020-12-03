@@ -4,6 +4,7 @@ import { Menu, MenuItem } from "@material-ui/core";
 import { setupMountedComponent } from "../../test";
 import { ACTIONS } from "../../libs/permissions";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
+import ActionButton from "../action-button";
 
 import Notes from "./notes";
 import RecordActions from "./container";
@@ -12,6 +13,16 @@ import ToggleOpen from "./toggle-open";
 import RequestApproval from "./request-approval";
 import Transitions from "./transitions";
 import Exports from "./exports";
+import AddIncident from "./add-incident";
+import AddService from "./add-service";
+import {
+  REQUEST_APPROVAL_DIALOG,
+  ENABLE_DISABLE_DIALOG,
+  NOTES_DIALOG,
+  OPEN_CLOSE_DIALOG,
+  TRANSFER_DIALOG,
+  EXPORT_DIALOG
+} from "./constants";
 
 describe("<RecordActions />", () => {
   const forms = {
@@ -51,6 +62,20 @@ describe("<RecordActions />", () => {
         is_nested: false,
         subform_prevent_item_removal: false,
         collapsed_field_names: []
+      }),
+      3: FormSectionRecord({
+        id: 3,
+        unique_id: "services",
+        fields: [3],
+        visible: true,
+        parent_form: "case",
+        module_ids: ["primeromodule-cp"]
+      }),
+      4: FormSectionRecord({
+        id: 3,
+        unique_id: "services_section_subform",
+        fields: [4],
+        visible: true
       })
     }),
     fields: OrderedMap({
@@ -94,10 +119,24 @@ describe("<RecordActions />", () => {
         selected_value: "",
         subform_sort_by: "",
         show_on_minify_form: false
+      }),
+      3: FieldRecord({
+        name: "services_section",
+        type: "subform",
+        subform_section_id: 4,
+        visible: true,
+        editable: true,
+        disabled: false
+      }),
+      4: FieldRecord({
+        name: "text_field_2",
+        type: "text_field",
+        visible: true
       })
     })
   };
   let component;
+
   const defaultState = fromJS({
     records: {
       cases: {
@@ -127,24 +166,56 @@ describe("<RecordActions />", () => {
     },
     user: {
       permissions: {
-        cases: [ACTIONS.MANAGE]
+        cases: [ACTIONS.MANAGE, ACTIONS.EXPORT_JSON]
       }
     },
     forms
   });
+
+  const defaultStateWithDialog = dialog =>
+    defaultState.merge(
+      fromJS({
+        ui: {
+          dialogs: {
+            dialog,
+            open: true
+          }
+        }
+      })
+    );
+
   const props = {
     recordType: "cases",
     mode: { isShow: true },
     record: fromJS({ status: "open" })
   };
 
-  describe("Component ToggleOpen", () => {
-    beforeEach(() => {
+  describe("Component ActionButton", () => {
+    it("should render and ActionButton component", () => {
+      ({ component } = setupMountedComponent(RecordActions, props, defaultState));
+      expect(component.find(ActionButton)).to.have.lengthOf(1);
+    });
+
+    it("should not render and ActionButton component if there are not actions", () => {
       ({ component } = setupMountedComponent(
         RecordActions,
         props,
-        defaultState
+        fromJS({
+          user: {
+            permissions: {
+              cases: ["gbv_referral_form", "record_owner"]
+            }
+          },
+          forms
+        })
       ));
+      expect(component.find(ActionButton)).to.be.empty;
+    });
+  });
+
+  describe("Component ToggleOpen", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(OPEN_CLOSE_DIALOG)));
     });
 
     it("renders ToggleOpen", () => {
@@ -154,11 +225,7 @@ describe("<RecordActions />", () => {
 
   describe("Component ToggleEnable", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordActions,
-        props,
-        defaultState
-      ));
+      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(ENABLE_DISABLE_DIALOG)));
     });
 
     it("renders ToggleEnable", () => {
@@ -168,25 +235,17 @@ describe("<RecordActions />", () => {
 
   describe("Component RequestApproval", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordActions,
-        props,
-        defaultState
-      ));
+      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(REQUEST_APPROVAL_DIALOG)));
     });
 
     it("renders RequestApproval", () => {
-      expect(component.find(RequestApproval)).to.have.length(2);
+      expect(component.find(RequestApproval)).to.have.length(1);
     });
   });
 
   describe("Component Transitions", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordActions,
-        props,
-        defaultState
-      ));
+      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(TRANSFER_DIALOG)));
     });
     it("renders Transitions", () => {
       expect(component.find(Transitions)).to.have.length(1);
@@ -197,21 +256,17 @@ describe("<RecordActions />", () => {
 
       expect(component.find(Transitions)).to.have.lengthOf(1);
       [
+        "open",
         "record",
-        "transitionType",
-        "setTransitionType",
         "recordType",
         "userPermissions",
-        "referDialog",
-        "transferDialog",
-        "assignDialog",
-        "handleReferClose",
-        "handleTransferClose",
-        "handleAssignClose",
         "pending",
         "setPending",
         "currentPage",
-        "selectedRecords"
+        "selectedRecords",
+        "close",
+        "currentDialog",
+        "selectedRowsIndex"
       ].forEach(property => {
         expect(transitionsProps).to.have.property(property);
         delete transitionsProps[property];
@@ -222,11 +277,7 @@ describe("<RecordActions />", () => {
 
   describe("Component Notes", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordActions,
-        props,
-        defaultState
-      ));
+      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(NOTES_DIALOG)));
     });
 
     it("renders Notes", () => {
@@ -262,7 +313,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(11);
+        expect(component.find(MenuItem)).to.have.length(12);
       });
 
       it("renders MenuItem with Refer Cases option", () => {
@@ -300,6 +351,15 @@ describe("<RecordActions />", () => {
             .includes("cases.export")
         ).to.be.true;
       });
+
+      it("renders MenuItem with Create Incident option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("actions.incident_from_case")
+        ).to.be.true;
+      });
     });
 
     describe("when user has not access to all menus", () => {
@@ -312,7 +372,8 @@ describe("<RecordActions />", () => {
               permissions: {
                 cases: [ACTIONS.READ]
               }
-            }
+            },
+            forms
           })
         ));
       });
@@ -356,11 +417,7 @@ describe("<RecordActions />", () => {
 
   describe("Component Exports", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordActions,
-        props,
-        defaultState
-      ));
+      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(EXPORT_DIALOG)));
     });
 
     it("renders Exports", () => {
@@ -374,18 +431,37 @@ describe("<RecordActions />", () => {
       [
         "close",
         "currentPage",
-        "openExportsDialog",
+        "open",
         "pending",
         "record",
         "recordType",
         "selectedRecords",
         "setPending",
-        "userPermissions"
+        "userPermissions",
+        "currentDialog",
+        "selectedRowsIndex"
       ].forEach(property => {
         expect(exportProps).to.have.property(property);
         delete exportProps[property];
       });
       expect(exportProps).to.be.empty;
+    });
+
+    describe("when user can only export pdf", () => {
+      const state = fromJS({
+        user: {
+          permissions: {
+            cases: [ACTIONS.READ, ACTIONS.EXPORT_PDF]
+          }
+        },
+        forms
+      });
+
+      it("should not render <Exports /> component", () => {
+        const { component: componentWithOnlyPdf } = setupMountedComponent(RecordActions, props, state);
+
+        expect(componentWithOnlyPdf.find(Exports)).to.be.empty;
+      });
     });
   });
 
@@ -398,20 +474,14 @@ describe("<RecordActions />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordActions,
-        propsRecordSelected,
-        defaultState
-      ));
+      ({ component } = setupMountedComponent(RecordActions, propsRecordSelected, defaultState));
     });
 
     it.skip("renders add refer menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.referral forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.referral forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.false;
     });
 
@@ -419,9 +489,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.reassign forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.false;
     });
 
@@ -429,9 +497,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.transfer forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.transfer forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.false;
     });
 
@@ -439,9 +505,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "actions.incident_details_from_case"
-      );
+      expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -449,9 +513,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "actions.services_section_from_case"
-      );
+      expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -508,20 +570,14 @@ describe("<RecordActions />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordActions,
-        propsRecordSelected,
-        defaultStateFromSearch
-      ));
+      ({ component } = setupMountedComponent(RecordActions, propsRecordSelected, defaultStateFromSearch));
     });
 
     it.skip("renders add refer menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.referral forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.referral forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.false;
     });
 
@@ -529,9 +585,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.reassign forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.false;
     });
 
@@ -539,9 +593,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.transfer forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.transfer forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.false;
     });
 
@@ -549,9 +601,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "actions.incident_details_from_case"
-      );
+      expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
       expect(incidentItemProps.disabled).to.be.false;
     });
 
@@ -559,9 +609,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "actions.services_section_from_case"
-      );
+      expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
       expect(incidentItemProps.disabled).to.be.false;
     });
 
@@ -583,20 +631,14 @@ describe("<RecordActions />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordActions,
-        propsRecordSelected,
-        defaultState
-      ));
+      ({ component } = setupMountedComponent(RecordActions, propsRecordSelected, defaultState));
     });
 
     it.skip("renders add refer menu disabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.referral forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.referral forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -604,9 +646,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.reassign forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -614,9 +654,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.transfer forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.transfer forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -624,9 +662,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "actions.incident_details_from_case"
-      );
+      expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -634,9 +670,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "actions.services_section_from_case"
-      );
+      expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -715,20 +749,14 @@ describe("<RecordActions />", () => {
     });
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordActions,
-        propsRecordSelected,
-        defaultStateRecordSelected
-      ));
+      ({ component } = setupMountedComponent(RecordActions, propsRecordSelected, defaultStateRecordSelected));
     });
 
     it.skip("renders add refer menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.referral forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.referral forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.false;
     });
 
@@ -736,9 +764,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.reassign forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.false;
     });
 
@@ -746,9 +772,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.transfer forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.transfer forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.false;
     });
 
@@ -756,9 +780,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "actions.incident_details_from_case"
-      );
+      expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -766,9 +788,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "actions.services_section_from_case"
-      );
+      expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -863,20 +883,14 @@ describe("<RecordActions />", () => {
     });
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordActions,
-        propsRecordSelected,
-        defaultStateAllRecordSelected
-      ));
+      ({ component } = setupMountedComponent(RecordActions, propsRecordSelected, defaultStateAllRecordSelected));
     });
 
     it.skip("renders add refer menu disabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.referral forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.referral forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -884,9 +898,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.reassign forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -894,9 +906,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "buttons.transfer forms.record_types.case"
-      );
+      expect(incidentItem.text()).to.be.equal("buttons.transfer forms.record_types.case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -904,9 +914,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "actions.incident_details_from_case"
-      );
+      expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -914,9 +922,7 @@ describe("<RecordActions />", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
-      expect(incidentItem.text()).to.be.equal(
-        "actions.services_section_from_case"
-      );
+      expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
       expect(incidentItemProps.disabled).to.be.true;
     });
 
@@ -926,6 +932,84 @@ describe("<RecordActions />", () => {
 
       expect(incidentItem.text()).to.be.equal("cases.export");
       expect(incidentItemProps.disabled).to.be.false;
+    });
+  });
+
+  describe("when incident subform is not presented", () => {
+    const newForms = {
+      formSections: OrderedMap({
+        1: FormSectionRecord({
+          id: 1,
+          unique_id: "incident_details_container",
+          name: { en: "Incident Details" },
+          visible: true,
+          parent_form: "case",
+          editable: true,
+          module_ids: ["primeromodule-cp"],
+          fields: [1]
+        }),
+        2: FormSectionRecord({
+          id: 2,
+          unique_id: "services",
+          fields: [2],
+          visible: true,
+          parent_form: "case",
+          module_ids: ["primeromodule-cp"]
+        })
+      }),
+      fields: OrderedMap({
+        1: FieldRecord({
+          name: "incident_details",
+          type: "subform",
+          subform_section_id: null,
+          editable: true,
+          disabled: false,
+          visible: true
+        }),
+        2: FieldRecord({
+          name: "services_section",
+          type: "subform",
+          subform_section_id: null,
+          visible: true,
+          editable: true,
+          disabled: false
+        })
+      })
+    };
+    const state = fromJS({
+      records: {
+        cases: {
+          data: [
+            {
+              sex: "female",
+              owned_by_agency_id: 1,
+              record_in_scope: true,
+              created_at: "2020-01-29T21:57:00.274Z",
+              name: "User 1",
+              case_id_display: "b575f47",
+              id: "b342c488-578e-4f5c-85bc-35ece34cccdf"
+            }
+          ],
+          filters: {
+            status: ["true"]
+          }
+        }
+      },
+      user: {
+        permissions: {
+          cases: [ACTIONS.MANAGE]
+        }
+      },
+      forms: newForms
+    });
+    const { component: emptyComponent } = setupMountedComponent(RecordActions, props, state);
+
+    it("should not render AddIncident component", () => {
+      expect(emptyComponent.find(AddIncident)).to.be.empty;
+    });
+
+    it("should not render AddService component", () => {
+      expect(emptyComponent.find(AddService)).to.be.empty;
     });
   });
 });

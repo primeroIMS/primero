@@ -1,61 +1,43 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React from "react";
 import MenuIcon from "@material-ui/icons/Menu";
-import { AppBar, Toolbar, IconButton, makeStyles } from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, makeStyles, Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
 
-import OfflineIndicator from "../offline-indicator";
+import NetworkIndicator from "../network-indicator";
 import ModuleLogo from "../module-logo";
+import { useApp } from "../application";
+import { useI18n } from "../i18n";
+import { DEMO } from "../application/constants";
 
 import styles from "./styles.css";
 
-const MobileToolbar = ({ drawerOpen, openDrawer, mobileDisplay }) => {
+const MobileToolbar = ({ openDrawer }) => {
   const css = makeStyles(styles)();
+  const { demo } = useApp();
+  const i18n = useI18n();
 
-  const handleToggleDrawer = () => {
-    openDrawer(!drawerOpen);
-  };
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
+  const demoText = demo ? <div className={css.demoText}>{i18n.t(DEMO)}</div> : null;
 
-  useEffect(() => {
-    if (mobileDisplay) {
-      openDrawer(false);
-    }
-  }, [mobileDisplay, openDrawer]);
-
-  if (mobileDisplay) {
-    return (
-      <>
-        <AppBar
-          position="fixed"
-          className={clsx(css.appBar, {
-            [css.appBarShift]: drawerOpen
-          })}
-        >
-          <OfflineIndicator mobile />
-          <Toolbar className={css.toolbar}>
-            <IconButton
-              edge="start"
-              color="default"
-              aria-label="Menu"
-              onClick={handleToggleDrawer}
-            >
-              <MenuIcon />
-            </IconButton>
-            <ModuleLogo className={css.logo} />
-          </Toolbar>
-        </AppBar>
-      </>
-    );
-  }
-
-  return null;
+  return (
+    <Hidden mdUp implementation="css">
+      <AppBar position="fixed">
+        <Toolbar className={css[demo ? "toolbar-demo" : "toolbar"]}>
+          <IconButton edge="start" color="default" aria-label="Menu" onClick={openDrawer}>
+            <MenuIcon />
+          </IconButton>
+          <ModuleLogo className={css.logo} />
+          {demoText}
+          <NetworkIndicator mobile />
+        </Toolbar>
+      </AppBar>
+    </Hidden>
+  );
 };
 
 MobileToolbar.displayName = "MobileToolbar";
 
 MobileToolbar.propTypes = {
-  drawerOpen: PropTypes.bool.isRequired,
-  mobileDisplay: PropTypes.bool.isRequired,
   openDrawer: PropTypes.func.isRequired
 };
 

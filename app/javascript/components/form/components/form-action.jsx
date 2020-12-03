@@ -1,38 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
-import { Fab, CircularProgress } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
-import styles from "./styles.css";
+import ActionButton from "../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
-const FormAction = ({
-  actionHandler,
-  cancel,
-  savingRecord,
-  startIcon,
-  text
-}) => {
-  const css = makeStyles(styles)();
-
-  const renderCircularProgress = savingRecord && !cancel && (
-    <CircularProgress size={24} value={25} className={css.loadingMargin} />
-  );
-
+const FormAction = ({ actionHandler, cancel, savingRecord, startIcon, text, disabled }) => {
   return (
-    <Fab
-      className={cancel ? css.actionButtonCancel : css.actionButton}
-      variant="extended"
-      aria-label={text}
-      onClick={actionHandler}
-      disabled={savingRecord}
-    >
-      {renderCircularProgress}
-      {startIcon}
-      <span className={clsx({ [css.actionButtonText]: Boolean(startIcon) })}>
-        {text}
-      </span>
-    </Fab>
+    <ActionButton
+      icon={startIcon}
+      text={text}
+      type={ACTION_BUTTON_TYPES.default}
+      pending={savingRecord}
+      isCancel={cancel}
+      rest={{
+        onClick: actionHandler,
+        disabled: disabled || (savingRecord && !cancel)
+      }}
+    />
   );
 };
 
@@ -45,6 +29,7 @@ FormAction.defaultProps = {
 FormAction.propTypes = {
   actionHandler: PropTypes.func.isRequired,
   cancel: PropTypes.bool,
+  disabled: PropTypes.bool,
   savingRecord: PropTypes.bool,
   startIcon: PropTypes.object,
   text: PropTypes.string.isRequired

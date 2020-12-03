@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Audit logs query API
 class Api::V2::AuditLogsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
 
@@ -21,8 +22,14 @@ class Api::V2::AuditLogsController < ApplicationApiController
   protected
 
   def timestamp_param
-    from = params[:from].present? ? Time.zone.parse(params[:from]) : Time.at(0).to_datetime
-    to = params[:to].present? ? Time.zone.parse(params[:to]) : DateTime.now.end_of_day
-    from..to
+    from_param..to_param
+  end
+
+  def from_param
+    params[:from].present? ? Time.zone.parse(params[:from]) : Time.at(0).to_datetime
+  end
+
+  def to_param
+    params[:to].present? ? Time.zone.parse(params[:to]) : DateTime.now.end_of_day
   end
 end

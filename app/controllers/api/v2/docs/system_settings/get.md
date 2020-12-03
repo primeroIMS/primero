@@ -75,7 +75,9 @@ Retrieve the current Primero system settings as JSON
         "approval_forms_to_alert": {
             "cp_bia_form": "assessment",
             "closure_form": "closure",
-            "cp_case_plan": "case_plan"
+            "cp_case_plan": "case_plan",
+            "action_plan_form": "action_plan",
+            "gbv_case_closure_form": "gbv_closure"
         },
         "approvals_labels": {
             "closure": {
@@ -92,6 +94,16 @@ Retrieve the current Primero system settings as JSON
                 "en":"Assessment",
                 "fr":"",
                 "es":""
+            },
+            "action_plan": {
+                "en":"Action Plan",
+                "fr":"",
+                "es":""
+            },
+            "gbv_closure": {
+                "en": "GBV Closure",
+                "fr":"",
+                "es":""
             }
         },
         "export_config_id": {
@@ -104,8 +116,7 @@ Retrieve the current Primero system settings as JSON
             "show_alerts": true,
             "welcome_email_enabled": false,
             "notification_email_enabled": true,
-            "due_date_from_appointment_date": false,
-            "use_identity_provider": false
+            "due_date_from_appointment_date": false
         },
         "agencies": [
             {

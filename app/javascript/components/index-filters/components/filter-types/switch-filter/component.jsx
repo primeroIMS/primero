@@ -1,33 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import {
-  Switch,
-  FormControl,
-  FormGroup,
-  FormControlLabel
-} from "@material-ui/core";
+import { Checkbox, FormControl, FormGroup, FormControlLabel } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
 
 import Panel from "../../panel";
 import { useI18n } from "../../../../i18n";
-import {
-  registerInput,
-  handleMoreFiltersChange,
-  resetSecondaryFilter
-} from "../utils";
+import { registerInput, handleMoreFiltersChange, resetSecondaryFilter } from "../utils";
 import handleFilterChange from "../value-handlers";
 
 import { NAME } from "./constants";
 
-const Component = ({
-  addFilterToList,
-  filter,
-  moreSectionFilters,
-  setMoreSectionFilters,
-  mode,
-  reset,
-  setReset
-}) => {
+const Component = ({ addFilterToList, filter, moreSectionFilters, setMoreSectionFilters, mode, reset, setReset }) => {
   const i18n = useI18n();
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState();
@@ -50,12 +33,7 @@ const Component = ({
     const value = getValues()[fieldName];
 
     if (mode?.secondary) {
-      handleMoreFiltersChange(
-        moreSectionFilters,
-        setMoreSectionFilters,
-        fieldName,
-        value
-      );
+      handleMoreFiltersChange(moreSectionFilters, setMoreSectionFilters, fieldName, value);
     }
 
     if (addFilterToList) {
@@ -65,13 +43,7 @@ const Component = ({
 
   const handleReset = () => {
     setValue(fieldName, false);
-    resetSecondaryFilter(
-      mode?.secondary,
-      fieldName,
-      getValues()[fieldName],
-      moreSectionFilters,
-      setMoreSectionFilters
-    );
+    resetSecondaryFilter(mode?.secondary, fieldName, getValues()[fieldName], moreSectionFilters, setMoreSectionFilters);
 
     if (addFilterToList) {
       addFilterToList({ [fieldName]: undefined });
@@ -86,10 +58,7 @@ const Component = ({
       setInputValue
     });
 
-    if (
-      Object.keys(moreSectionFilters)?.length &&
-      Object.keys(moreSectionFilters).includes(fieldName)
-    ) {
+    if (Object.keys(moreSectionFilters)?.length && Object.keys(moreSectionFilters).includes(fieldName)) {
       setValue(fieldName, true);
       setInputValue(true);
     }
@@ -107,22 +76,12 @@ const Component = ({
   }, [register, unregister, fieldName]);
 
   return (
-    <Panel
-      filter={filter}
-      getValues={getValues}
-      handleReset={handleReset}
-      moreSectionFilters={moreSectionFilters}
-    >
+    <Panel filter={filter} getValues={getValues} handleReset={handleReset} moreSectionFilters={moreSectionFilters}>
       <FormControl>
         <FormGroup>
           <FormControlLabel
             labelPlacement="end"
-            control={
-              <Switch
-                onChange={handleChange}
-                checked={Boolean(inputValue) || false}
-              />
-            }
+            control={<Checkbox onChange={handleChange} checked={Boolean(inputValue) || false} />}
             label={label}
           />
         </FormGroup>

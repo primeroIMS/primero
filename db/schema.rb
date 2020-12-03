@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_02_160905) do
+ActiveRecord::Schema.define(version: 2020_10_11_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -120,11 +120,6 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
     t.index ["data"], name: "index_cases_on_data", using: :gin
   end
 
-  create_table "configuration_bundles", id: :serial, force: :cascade do |t|
-    t.string "applied_by"
-    t.datetime "applied_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-  end
-
   create_table "contact_informations", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "organization"
@@ -175,15 +170,13 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
     t.text "link_to_path"
     t.boolean "link_to_path_external", default: true, null: false
     t.string "field_tags", default: [], array: true
-    t.boolean "searchable_select", default: false, null: false
     t.string "custom_template"
     t.boolean "expose_unique_id", default: false, null: false
-    t.string "subform_sort_by"
-    t.string "subform_group_by"
     t.boolean "required", default: false, null: false
     t.string "date_validation", default: "default_date_validation"
     t.boolean "date_include_time", default: false, null: false
     t.boolean "matchable", default: false, null: false
+    t.jsonb "subform_section_configuration"
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"
@@ -281,6 +274,17 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
     t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
   end
 
+  create_table "primero_configurations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "version"
+    t.string "created_by"
+    t.datetime "created_on"
+    t.string "applied_by"
+    t.datetime "applied_on"
+    t.jsonb "data", default: {}
+  end
+
   create_table "primero_modules", id: :serial, force: :cascade do |t|
     t.string "unique_id"
     t.integer "primero_program_id"
@@ -317,7 +321,7 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
   end
 
   create_table "record_histories", id: :serial, force: :cascade do |t|
-    t.integer "record_id"
+    t.string "record_id"
     t.string "record_type"
     t.datetime "datetime"
     t.string "user_name"
@@ -339,6 +343,9 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
     t.string "group_dates_by", default: "date"
     t.boolean "is_graph", default: false, null: false
     t.boolean "editable", default: true
+    t.string "unique_id"
+    t.boolean "disabled", default: false, null: false
+    t.index ["unique_id"], name: "index_reports_on_unique_id", unique: true
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
@@ -350,6 +357,8 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
     t.boolean "referral", default: false, null: false
     t.boolean "transfer", default: false, null: false
     t.boolean "is_manager", default: false, null: false
+    t.integer "reporting_location_level"
+    t.boolean "disabled", default: false, null: false
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
@@ -382,6 +391,16 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
     t.string "primero_version"
     t.jsonb "system_options"
     t.jsonb "approvals_labels_i18n"
+    t.boolean "config_update_lock", default: false, null: false
+  end
+
+  create_table "traces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.uuid "tracing_request_id"
+    t.uuid "matched_case_id"
+    t.index ["data"], name: "index_traces_on_data", using: :gin
+    t.index ["matched_case_id"], name: "index_traces_on_matched_case_id"
+    t.index ["tracing_request_id"], name: "index_traces_on_tracing_request_id"
   end
 
   create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -416,6 +435,7 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
     t.string "name"
     t.string "description"
     t.boolean "core_resource", default: false, null: false
+    t.boolean "disabled", default: false, null: false
     t.index ["unique_id"], name: "index_user_groups_on_unique_id", unique: true
   end
 
@@ -450,11 +470,15 @@ ActiveRecord::Schema.define(version: 2020_06_02_160905) do
     t.datetime "updated_at", null: false
     t.integer "identity_provider_id"
     t.jsonb "identity_provider_sync"
+    t.integer "failed_attempts", default: 0
+    t.string "unlock_token"
+    t.datetime "locked_at"
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["identity_provider_id"], name: "index_users_on_identity_provider_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
+    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end
 

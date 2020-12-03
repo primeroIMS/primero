@@ -49,25 +49,46 @@ describe("<FormsList />", () => {
         {
           unique_id: "primeromodule-cp",
           name: "CP",
-          associated_record_types: [
-            RECORD_TYPES.cases,
-            RECORD_TYPES.tracing_requests,
-            RECORD_TYPES.incidents
-          ]
+          associated_record_types: [RECORD_TYPES.cases, RECORD_TYPES.tracing_requests, RECORD_TYPES.incidents]
         }
       ]
     },
     records: {
       admin: {
         forms: {
-          formSections: mapEntriesToRecord(
-            formSections,
-            FormSectionRecord,
-            true
-          )
+          formSections: mapEntriesToRecord(formSections, FormSectionRecord, true)
         }
       }
-    }
+    },
+    forms: fromJS({
+      options: {
+        lookups: [
+          {
+            id: 51,
+            unique_id: "lookup-form-group-cp-case",
+            name: {
+              en: "Form Groups - CP Case"
+            },
+            values: [
+              {
+                id: "group_1",
+                disabled: false,
+                display_text: {
+                  en: "Group 1"
+                }
+              },
+              {
+                id: "group_2",
+                disabled: false,
+                display_text: {
+                  en: "Group 2"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    })
   });
 
   beforeEach(() => {
@@ -87,17 +108,10 @@ describe("<FormsList />", () => {
   });
 
   describe("when there are no records", () => {
-    const stateWithoutRecords = initialState.setIn(
-      ["records", "admin", "forms", "formSections"],
-      fromJS([])
-    );
+    const stateWithoutRecords = initialState.setIn(["records", "admin", "forms", "formSections"], fromJS([]));
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        FormsList,
-        {},
-        stateWithoutRecords
-      ));
+      ({ component } = setupMountedComponent(FormsList, {}, stateWithoutRecords));
     });
 
     it("renders <FormFilters/>", () => {
@@ -110,17 +124,10 @@ describe("<FormsList />", () => {
   });
 
   describe("when there reorder is enabled", () => {
-    const stateReorderEnabled = initialState.setIn(
-      ["records", "admin", "forms", "reorderedForms", "enabled"],
-      true
-    );
+    const stateReorderEnabled = initialState.setIn(["records", "admin", "forms", "reorderedForms", "enabled"], true);
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        FormsList,
-        {},
-        stateReorderEnabled
-      ));
+      ({ component } = setupMountedComponent(FormsList, {}, stateReorderEnabled));
     });
 
     it("renders the <RorderActions />", () => {

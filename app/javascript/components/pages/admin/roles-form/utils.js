@@ -3,11 +3,7 @@ import { fromJS } from "immutable";
 import { RECORD_TYPES } from "../../../../config";
 import { ERROR_FIELD, FieldRecord, FormSectionRecord } from "../../../form";
 
-import {
-  AssociatedFormSectionsForm,
-  ResourcesForm,
-  RolesMainForm
-} from "./forms";
+import { AssociatedFormSectionsForm, ResourcesForm, RolesMainForm } from "./forms";
 import { FORM_CHECK_ERRORS } from "./constants";
 
 export const getFormsToRender = ({
@@ -16,15 +12,12 @@ export const getFormsToRender = ({
   formSections,
   i18n,
   formMode,
-  approvalsLabels
+  approvalsLabels,
+  adminLevelMap
 }) =>
   fromJS(
     [
-      RolesMainForm(
-        systemPermissions.get("management", fromJS([])),
-        i18n,
-        formMode
-      ),
+      RolesMainForm(systemPermissions.get("management", fromJS([])), i18n, adminLevelMap),
       FormSectionRecord({
         unique_id: "permissions_label",
         name: { [i18n.locale]: i18n.t("permissions.label") },
@@ -36,12 +29,7 @@ export const getFormsToRender = ({
           })
         ]
       }),
-      ResourcesForm(
-        systemPermissions.get("resource_actions", fromJS({})),
-        roles,
-        i18n,
-        approvalsLabels
-      ),
+      ResourcesForm(systemPermissions.get("resource_actions", fromJS({})), roles, i18n, approvalsLabels),
       FormSectionRecord({
         unique_id: "forms_label",
         name: { [i18n.locale]: i18n.t("forms.label") }
@@ -51,17 +39,13 @@ export const getFormsToRender = ({
   );
 
 export const mergeFormSections = data => {
-  const recordTypes = Object.values(RECORD_TYPES).filter(
-    type => type !== RECORD_TYPES.all
-  );
+  const recordTypes = Object.values(RECORD_TYPES).filter(type => type !== RECORD_TYPES.all);
 
   if (!data.form_section_unique_ids) {
     return data;
   }
 
-  const formSectionUniqueIds = recordTypes
-    .map(recordType => data.form_section_unique_ids[recordType])
-    .flat();
+  const formSectionUniqueIds = recordTypes.map(recordType => data.form_section_unique_ids[recordType]).flat();
 
   return { ...data, form_section_unique_ids: formSectionUniqueIds };
 };
@@ -71,17 +55,11 @@ export const groupSelectedIdsByParentForm = (data, assignableForms) => {
 
   if (formSectionUniqueIds?.size && assignableForms?.size) {
     const selectedFormsByParentForm = assignableForms
-      .filter(assignableForm =>
-        formSectionUniqueIds.includes(assignableForm.get("unique_id"))
-      )
+      .filter(assignableForm => formSectionUniqueIds.includes(assignableForm.get("unique_id")))
       .groupBy(assignableForm => assignableForm.get("parent_form"));
 
-    const selectedUniqueIdsByParentForm = selectedFormsByParentForm.mapEntries(
-      ([parentForm, formSections]) =>
-        fromJS([
-          parentForm,
-          formSections.valueSeq().map(fs => fs.get("unique_id"))
-        ])
+    const selectedUniqueIdsByParentForm = selectedFormsByParentForm.mapEntries(([parentForm, formSections]) =>
+      fromJS([parentForm, formSections.valueSeq().map(fs => fs.get("unique_id"))])
     );
 
     return data.set("form_section_unique_ids", selectedUniqueIdsByParentForm);

@@ -1,14 +1,17 @@
-import { Record, Map, List } from "immutable";
+import { Record, fromJS } from "immutable";
 
 export const FieldRecord = Record({
+  internalFormFieldID: null,
+  id: null,
   name: "",
   type: "",
   editable: true,
   disabled: null,
   visible: null,
-  display_name: Map({}),
+  display_name: fromJS({}),
   subform_section_id: null,
-  help_text: Map({}),
+  subform_section_temp_id: null,
+  help_text: fromJS({}),
   multi_select: null,
   option_strings_source: null,
   option_strings_text: null,
@@ -28,42 +31,66 @@ export const FieldRecord = Record({
   freeSolo: false,
   watchedInputs: null,
   handleWatchedInputs: null,
-  check_errors: List([]),
+  showIf: null,
+  check_errors: fromJS([]),
   hint: "",
   groupBy: null,
   tooltip: "",
-  tick_box_label: Map({}),
+  tick_box_label: fromJS({}),
   numeric: false,
-  onChange: null
+  onChange: null,
+  mobile_visible: false,
+  on_collapsed_subform: false,
+  order: null,
+  disableClearable: false,
+  onBlur: null,
+  subform_section_unique_id: null,
+  asyncOptions: false,
+  asyncParams: {},
+  asyncParamsFromWatched: {},
+  asyncOptionsLoadingPath: null,
+  asyncAction: () => {},
+  option_strings_source_id_key: null,
+  clearDependentValues: null,
+  form_section_id: null,
+  subform_section_configuration: null,
+  setOtherFieldValues: null,
+  wrapWithComponent: null,
+  onClick: null,
+  placeholder: "",
+  maxSelectedOptions: null,
+  onKeyPress: null
 });
 
 export const FormSectionRecord = Record({
   id: "",
-  description: Map({}),
+  temp_id: null,
+  description: fromJS({}),
   unique_id: "",
-  name: Map({}),
+  name: fromJS({}),
   visible: null,
   is_first_tab: null,
   order: null,
   order_form_group: null,
   parent_form: "",
   editable: null,
-  module_ids: List([]),
+  module_ids: fromJS([]),
   form_group_id: "",
   form_group_name: "",
-  fields: List([]),
+  fields: fromJS([]),
   is_nested: null,
   subform_append_only: false,
   subform_prevent_item_removal: false,
   initial_subforms: 0,
-  collapsed_field_names: List([]),
-  check_errors: List([]),
+  collapsed_field_names: fromJS([]),
+  check_errors: fromJS([]),
   expandable: false,
   expanded: false,
-  tooltip: ""
+  tooltip: "",
+  actions: null
 });
 
 export const Option = Record({
   type: "",
-  options: List([])
+  options: fromJS([])
 });

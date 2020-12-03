@@ -8,33 +8,21 @@
 # and the singleton is reloaded.
 class SystemSettings < ApplicationRecord
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
 
   store_accessor(
     :system_options,
     :due_date_from_appointment_date, :notification_email_enabled,
-    :welcome_email_enabled, :show_alerts, :use_identity_provider
+    :welcome_email_enabled, :show_alerts
   )
 
   localize_properties %i[welcome_email_text approvals_labels]
 
-  validate :validate_locales
   validate :validate_reporting_location,
            if: ->(system_setting) { system_setting.reporting_location_config.present? }
 
   after_initialize :set_version
   before_save :set_version
-  before_save :add_english_locale
-  before_save :reporting_location_defaults,
-              if: ->(system_setting) { system_setting.reporting_location_config.present? }
-
-  # For now allow empty locales for backwards compatibility with older configurations
-  # The wrapper method will handle blank locales
-  def validate_locales
-    return true if locales.blank? || (locales.include? Primero::Application::LOCALE_ENGLISH)
-
-    errors.add(:locales, 'errors.models.system_settings.locales')
-  end
 
   def name
     I18n.t('system_settings.label')
@@ -46,20 +34,12 @@ class SystemSettings < ApplicationRecord
     system_name || Rails.application.routes.default_url_options[:host]
   end
 
-  def update_default_locale
-    logger.info "Setting the Primero locale to #{default_locale}"
-    I18n.default_locale = default_locale
-    I18n.locale = I18n.default_locale
-  end
-
   def set_version
     self.primero_version = Primero::Application::VERSION
   end
 
-  def add_english_locale
-    locales.present? &&
-      (locales.exclude? Primero::Application::LOCALE_ENGLISH) &&
-      locales.unshift(Primero::Application::LOCALE_ENGLISH)
+  def rtl_locales
+    Primero::Application::RTL_LOCALES & I18n.available_locales
   end
 
   def auto_populate_info(field_key = '')
@@ -111,15 +91,11 @@ class SystemSettings < ApplicationRecord
     super(result)
   end
 
-  def reporting_location_defaults
-    reporting_location_config.default_label_key
-  end
-
   def validate_reporting_location
-    unless reporting_location_config.is_valid_admin_level?
+    unless reporting_location_config.valid_admin_level?
       errors.add(:admin_level, 'errors.models.reporting_location.admin_level')
     end
-    reporting_location_config.is_valid_admin_level?
+    reporting_location_config.valid_admin_level?
   end
 
   class << self
@@ -131,6 +107,18 @@ class SystemSettings < ApplicationRecord
 
     def reset
       @current = nil
+    end
+
+    def locked_for_configuration_update?
+      SystemSettings.pluck(:config_update_lock).first
+    end
+
+    def lock_for_configuration_update
+      SystemSettings.first.update_attributes(config_update_lock: true)
+    end
+
+    def unlock_after_configuration_update
+      SystemSettings.first.update_attributes(config_update_lock: false)
     end
   end
 end

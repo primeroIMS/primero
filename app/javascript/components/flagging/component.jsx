@@ -1,31 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { Button } from "@material-ui/core";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import FlagIcon from "@material-ui/icons/Flag";
 
+import { useDialog } from "../action-dialog";
 import { useI18n } from "../i18n";
+import ActionButton from "../action-button";
+import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 
-import { FlagForm, ListFlags, FlagDialog } from "./components";
+import { FlagForm, ListFlags, FlagDialog, Unflag } from "./components";
 import { fetchFlags } from "./action-creators";
-import { selectFlags } from "./selectors";
+import { NAME, FLAG_DIALOG } from "./constants";
+import { getSelectedFlag } from "./selectors";
 
-const Flagging = ({ recordType, record, control }) => {
-  const [open, setOpen] = useState(false);
+const Component = ({ control, record, recordType }) => {
   const [tab, setTab] = useState(0);
-  const dispatch = useDispatch();
   const i18n = useI18n();
-
-  useEffect(() => {
-    dispatch(fetchFlags(recordType, record));
-  }, [dispatch, recordType, record]);
-
-  const flags = useSelector(state => selectFlags(state, record, recordType));
+  const { dialogOpen, setDialog } = useDialog(FLAG_DIALOG);
 
   const isBulkFlags = Array.isArray(record);
 
+  const selectedFlag = useSelector(state => getSelectedFlag(state));
+
   const handleOpen = () => {
-    setOpen(!open);
+    setDialog({ dialog: FLAG_DIALOG, open: true });
   };
 
   const handleActiveTab = value => {
@@ -35,20 +33,19 @@ const Flagging = ({ recordType, record, control }) => {
   const flagFormProps = {
     recordType,
     record,
-    handleOpen,
     handleActiveTab
   };
 
   const flagDialogProps = {
     isBulkFlags,
-    setOpen,
-    open,
+    dialogOpen,
     tab,
-    setTab
+    setTab,
+    fetchAction: fetchFlags,
+    fetchArgs: [recordType, record]
   };
 
   const listFlagsProps = {
-    flags,
     recordType,
     record
   };
@@ -56,9 +53,14 @@ const Flagging = ({ recordType, record, control }) => {
   return (
     <>
       {(control && <control onClick={handleOpen} />) || (
-        <Button onClick={handleOpen} startIcon={<FlagIcon />} size="small">
-          {i18n.t("buttons.flags")}
-        </Button>
+        <ActionButton
+          icon={<FlagIcon />}
+          text={i18n.t("buttons.flags")}
+          type={ACTION_BUTTON_TYPES.default}
+          rest={{
+            onClick: handleOpen
+          }}
+        />
       )}
       <FlagDialog {...flagDialogProps}>
         <div hidetab={isBulkFlags.toString()}>
@@ -68,16 +70,18 @@ const Flagging = ({ recordType, record, control }) => {
           <FlagForm {...flagFormProps} />
         </div>
       </FlagDialog>
+      <Unflag flag={selectedFlag} />
     </>
   );
 };
 
-Flagging.displayName = "Flagging";
+Component.displayName = NAME;
 
-Flagging.propTypes = {
+Component.propTypes = {
   control: PropTypes.node,
   record: PropTypes.string,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  showActionButtonCss: PropTypes.string
 };
 
-export default Flagging;
+export default Component;

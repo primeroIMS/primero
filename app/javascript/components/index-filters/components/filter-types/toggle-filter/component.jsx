@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
 
 import Panel from "../../panel";
@@ -22,25 +22,13 @@ import handleFilterChange, { valueParser } from "../value-handlers";
 
 import { NAME } from "./constants";
 
-const Component = ({
-  addFilterToList,
-  filter,
-  mode,
-  moreSectionFilters,
-  reset,
-  setMoreSectionFilters,
-  setReset
-}) => {
+const Component = ({ addFilterToList, filter, mode, moreSectionFilters, reset, setMoreSectionFilters, setReset }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();
-  const {
-    options,
-    field_name: fieldName,
-    option_strings_source: optionStringsSource
-  } = filter;
+  const { options, field_name: fieldName, option_strings_source: optionStringsSource } = filter;
 
   const setSecondaryValues = (name, values) => {
     setValue(name, values);
@@ -49,13 +37,7 @@ const Component = ({
 
   const handleReset = () => {
     setValue(fieldName, []);
-    resetSecondaryFilter(
-      mode?.secondary,
-      fieldName,
-      getValues()[fieldName],
-      moreSectionFilters,
-      setMoreSectionFilters
-    );
+    resetSecondaryFilter(mode?.secondary, fieldName, getValues()[fieldName], moreSectionFilters, setMoreSectionFilters);
 
     if (addFilterToList) {
       addFilterToList({ [fieldName]: undefined });
@@ -71,11 +53,7 @@ const Component = ({
       setInputValue
     });
 
-    setMoreFilterOnPrimarySection(
-      moreSectionFilters,
-      fieldName,
-      setSecondaryValues
-    );
+    setMoreFilterOnPrimarySection(moreSectionFilters, fieldName, setSecondaryValues);
 
     if (reset && !mode?.defaultFilter) {
       handleReset();
@@ -89,9 +67,7 @@ const Component = ({
     };
   }, [register, unregister, fieldName]);
 
-  const lookups = useSelector(state =>
-    getOption(state, optionStringsSource, i18n.locale)
-  );
+  const lookups = useSelector(state => getOption(state, optionStringsSource, i18n.locale));
 
   const filterOptions = whichOptions({
     optionStringsSource,
@@ -112,12 +88,7 @@ const Component = ({
     });
 
     if (mode?.secondary) {
-      handleMoreFiltersChange(
-        moreSectionFilters,
-        setMoreSectionFilters,
-        fieldName,
-        getValues()[fieldName]
-      );
+      handleMoreFiltersChange(moreSectionFilters, setMoreSectionFilters, fieldName, getValues()[fieldName]);
     }
 
     if (addFilterToList) {

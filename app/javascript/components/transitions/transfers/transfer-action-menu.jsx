@@ -1,41 +1,28 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { useI18n } from "../../i18n";
 import { ACCEPTED, REJECTED, REJECT } from "../../../config";
-import { setDialog, setPending } from "../../record-actions/action-creators";
-import {
-  selectDialog,
-  selectDialogPending
-} from "../../record-actions/selectors";
+import { useDialog } from "../../action-dialog";
 
-import {
-  APPROVE,
-  TRANSFER_APPROVAL_DIALOG,
-  TRANSFER_ACTION_MENU_NAME as NAME
-} from "./constants";
+import { APPROVE, TRANSFER_APPROVAL_DIALOG, TRANSFER_ACTION_MENU_NAME as NAME } from "./constants";
 import TransferApproval from "./transfer-approval";
 
 const TransferActionMenu = ({ transition, recordType }) => {
   const i18n = useI18n();
-  const dispatch = useDispatch();
   const [transferMenu, setTransferMenu] = useState(null);
   const [approvalType, setApprovalType] = useState(ACCEPTED);
+
+  const { pending, dialogOpen, dialogClose, setDialog, setDialogPending } = useDialog(TRANSFER_APPROVAL_DIALOG);
+
   const handleTransferMenuClose = () => {
     setTransferMenu(null);
   };
-  const approvalOpen = useSelector(state =>
-    selectDialog(state, TRANSFER_APPROVAL_DIALOG)
-  );
-  const setApprovalOpen = open => {
-    dispatch(setDialog({ dialog: TRANSFER_APPROVAL_DIALOG, open }));
-  };
-  const dialogPending = useSelector(state => selectDialogPending(state));
-  const setDialogPending = pending => {
-    dispatch(setPending({ pending }));
+
+  const setApprovalOpen = () => {
+    setDialog({ dialog: TRANSFER_APPROVAL_DIALOG, open: true });
   };
 
   const handleAcceptOpen = event => {
@@ -57,18 +44,9 @@ const TransferActionMenu = ({ transition, recordType }) => {
     setTransferMenu(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setApprovalOpen(false);
-  };
-
   return (
     <>
-      <IconButton
-        aria-label="more"
-        aria-controls="long-menu"
-        aria-haspopup="true"
-        onClick={handleTransferMenuClick}
-      >
+      <IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleTransferMenuClick}>
         <MoreVertIcon />
       </IconButton>
       <Menu
@@ -78,30 +56,20 @@ const TransferActionMenu = ({ transition, recordType }) => {
         open={Boolean(transferMenu)}
         onClose={handleTransferMenuClose}
       >
-        <MenuItem
-          key={APPROVE}
-          selected={false}
-          onClick={handleAcceptOpen}
-          disabled={false}
-        >
+        <MenuItem key={APPROVE} selected={false} onClick={handleAcceptOpen} disabled={false}>
           {i18n.t("buttons.accept")}
         </MenuItem>
-        <MenuItem
-          key={REJECT}
-          selected={false}
-          onClick={handleRejectOpen}
-          disabled={false}
-        >
+        <MenuItem key={REJECT} selected={false} onClick={handleRejectOpen} disabled={false}>
           {i18n.t("buttons.reject")}
         </MenuItem>
       </Menu>
 
       <TransferApproval
-        openTransferDialog={approvalOpen}
-        close={handleClose}
+        openTransferDialog={dialogOpen}
+        close={dialogClose}
         approvalType={approvalType}
         recordId={transition.record_id}
-        pending={dialogPending}
+        pending={pending}
         setPending={setDialogPending}
         transferId={transition.id}
         recordType={recordType}

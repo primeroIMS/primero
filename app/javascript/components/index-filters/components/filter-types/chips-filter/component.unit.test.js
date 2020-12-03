@@ -26,9 +26,7 @@ describe("<ChipsFilter>", () => {
   it("renders chip inputs", () => {
     const { component } = setupMockFormComponent(ChipsFilter, props);
 
-    ["option-1", "option-2"].forEach(
-      option => expect(component.exists(`input[value='${option}']`)).to.be.true
-    );
+    ["option-1", "option-2"].forEach(option => expect(component.exists(`input[value='${option}']`)).to.be.true);
   });
 
   it("renders chip as secondary filter, with valid pros in the more section", () => {
@@ -45,9 +43,7 @@ describe("<ChipsFilter>", () => {
     };
     const { component } = setupMockFormComponent(ChipsFilter, newProps);
 
-    ["option-1", "option-2"].forEach(
-      option => expect(component.exists(`input[value='${option}']`)).to.be.true
-    );
+    ["option-1", "option-2"].forEach(option => expect(component.exists(`input[value='${option}']`)).to.be.true);
 
     const clone = { ...component.find(ChipsFilter).props() };
 

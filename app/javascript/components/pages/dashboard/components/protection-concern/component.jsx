@@ -10,7 +10,7 @@ import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { getOption } from "../../../../record-form";
-import { LOOKUPS } from "../../../../../config";
+import { LOOKUPS, ROUTES } from "../../../../../config";
 
 import { NAME } from "./constants";
 
@@ -18,15 +18,10 @@ const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
   const protectionConcerns = useSelector(state => getProtectionConcerns(state));
-  const protectionConcernsLookup = useSelector(state =>
-    getOption(state, LOOKUPS.protection_concerns, i18n.locale)
-  );
+  const protectionConcernsLookup = useSelector(state => getOption(state, LOOKUPS.protection_concerns, i18n.locale));
 
   return (
-    <Permission
-      resources={RESOURCES.dashboards}
-      actions={ACTIONS.DASH_PROTECTION_CONCERNS}
-    >
+    <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_PROTECTION_CONCERNS}>
       <Grid item xl={9} md={8} xs={12}>
         <OptionsBox
           title={i18n.t("dashboard.protection_concerns")}
@@ -34,11 +29,9 @@ const Component = ({ loadingIndicator }) => {
           {...loadingIndicator}
         >
           <DashboardTable
-            {...toProtectionConcernTable(
-              protectionConcerns,
-              i18n,
-              protectionConcernsLookup
-            )}
+            pathname={ROUTES.cases}
+            title={i18n.t("dashboard.protection_concerns")}
+            {...toProtectionConcernTable(protectionConcerns, i18n, protectionConcernsLookup)}
           />
         </OptionsBox>
       </Grid>

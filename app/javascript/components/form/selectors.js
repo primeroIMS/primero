@@ -1,6 +1,21 @@
 import { fromJS, Map } from "immutable";
 
+import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
+import { displayNameHelper } from "../../libs";
+
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
+
+const referToUsers = state =>
+  state.getIn(["records", "transitions", "referral", "users"], fromJS([])).map(user => {
+    const userName = user.get("user_name");
+
+    return {
+      id: userName.toLowerCase(),
+      display_text: userName
+    };
+  });
+
+const lookupsList = state => state.getIn(["forms", "options", "lookups"], fromJS([]));
 
 const formGroups = (state, i18n) =>
   state
@@ -12,26 +27,38 @@ const formGroups = (state, i18n) =>
         result.push(
           Map({
             id: item.first().getIn(["form_group_id"], null),
-            display_text: item
-              .first()
-              .getIn(["form_group_name", i18n.locale], "")
+            display_text: item.first().getIn(["form_group_name", i18n.locale], "")
           })
         ),
       fromJS([])
     )
     .sortBy(item => item.get("display_text"));
 
-const agencies = state =>
+const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false }) =>
   state.getIn(["application", "agencies"], fromJS([])).map(agency => ({
-    id: agency.get("id"),
-    display_text: agency.get("name")
+    id: agency.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
+    display_text: agency.getIn(["name", i18n.locale], "")
   }));
 
-const locations = (state, i18n) =>
+const locations = (state, i18n, includeAdminLevel = false) =>
   state.getIn(["forms", "options", "locations"], fromJS([])).map(location => ({
     id: location.get("code"),
-    display_text: location.getIn(["name", i18n.locale], "")
+    display_text: displayNameHelper(location.get("name")?.toJS(), i18n.locale),
+    ...(includeAdminLevel && { admin_level: location.get("admin_level") })
   }));
+
+const reportingLocations = (state, i18n) =>
+  locations(state, i18n, true)
+    .filter(location => location.admin_level === getReportingLocationConfig(state).get("admin_level"))
+    .map(location => {
+      // eslint-disable-next-line camelcase
+      const { id, display_text } = location;
+
+      return {
+        id,
+        display_text
+      };
+    });
 
 const modules = state =>
   state.getIn(["application", "modules"], fromJS([])).map(module => ({
@@ -40,14 +67,8 @@ const modules = state =>
   }));
 
 const lookupValues = (state, optionStringsSource, i18n) =>
-  state
-    .getIn(["forms", "options", "lookups", "data"], fromJS([]))
-    .find(
-      option =>
-        option.get("unique_id") === optionStringsSource.replace(/lookup /, ""),
-      null,
-      fromJS({})
-    )
+  lookupsList(state)
+    .find(option => option.get("unique_id") === optionStringsSource.replace(/lookup /, ""), null, fromJS({}))
     .get("values", fromJS([]))
     .reduce(
       (result, item) =>
@@ -61,8 +82,7 @@ const lookupValues = (state, optionStringsSource, i18n) =>
     );
 
 const lookups = (state, i18n) =>
-  state
-    .getIn(["forms", "options", "lookups", "data"], fromJS([]))
+  lookupsList(state)
     .map(lookup =>
       fromJS({
         id: `lookup ${lookup.get("unique_id")}`,
@@ -79,32 +99,93 @@ const lookups = (state, i18n) =>
     )
     .sortBy(lookup => lookup.get("display_text"));
 
-const optionsFromState = (state, optionStringsSource, i18n) => {
+const userGroups = state =>
+  getUserGroups(state).map(userGroup =>
+    fromJS({ id: userGroup.get("unique_id"), display_text: userGroup.get("name") })
+  );
+
+const roles = state =>
+  getRoles(state).map(role => fromJS({ id: role.get("unique_id"), display_text: role.get("name") }));
+
+const managedRoles = (state, transfer) =>
+  state.getIn(["application", "managedRoles"], fromJS([])).filter(role => role.get(transfer, false));
+
+const buildManagedRoles = (state, transfer) =>
+  managedRoles(state, transfer).map(role => fromJS({ id: role.get("unique_id"), display_text: role.get("name") }));
+
+const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) => {
   switch (optionStringsSource) {
     case OPTION_TYPES.AGENCY:
-      return agencies(state);
+      return agencies(state, { ...rest, useUniqueId, i18n });
     case OPTION_TYPES.LOCATION:
       return locations(state, i18n);
+    case OPTION_TYPES.REPORTING_LOCATIONS:
+      return reportingLocations(state, i18n);
     case OPTION_TYPES.MODULE:
       return modules(state);
     case OPTION_TYPES.FORM_GROUP:
       return formGroups(state, i18n);
     case OPTION_TYPES.LOOKUPS:
       return lookups(state, i18n);
+    case OPTION_TYPES.REFER_TO_USERS:
+      return referToUsers(state);
+    case OPTION_TYPES.USER_GROUP:
+      return userGroups(state);
+    case OPTION_TYPES.ROLE:
+      return roles(state);
+    case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:
+      return buildManagedRoles(state, "referral");
     default:
       return lookupValues(state, optionStringsSource, i18n);
   }
 };
 
+const transformOptions = (options, i18n) =>
+  options.map(option => {
+    return fromJS({
+      ...option,
+      id: option.id,
+      display_text: displayNameHelper(option.display_text, i18n.locale) || option.display_text
+    });
+  });
+
 // eslint-disable-next-line import/prefer-default-export
-export const getOptions = (state, optionStringsSource, i18n, options) => {
+export const getOptions = (state, optionStringsSource, i18n, options, useUniqueId = false, rest = {}) => {
   if (optionStringsSource) {
-    return optionsFromState(state, optionStringsSource, i18n);
+    return optionsFromState(state, optionStringsSource, i18n, useUniqueId, rest);
   }
 
   if (options) {
-    return fromJS(Array.isArray(options) ? options : options?.[i18n.locale]);
+    return fromJS(Array.isArray(options) ? transformOptions(options, i18n) : options?.[i18n.locale]);
   }
 
   return fromJS([]);
 };
+
+export const getLookupByUniqueId = (state, lookupUniqueId) =>
+  lookupsList(state).find(lookup => lookup.get("unique_id") === lookupUniqueId);
+
+export const getLoadingState = (state, path) => (path ? state.getIn(path, false) : false);
+
+export const getValueFromOtherField = (state, fields, values) => {
+  return fields.reduce((prev, current) => {
+    prev.push([
+      current.field,
+      state
+        .getIn(current.path, fromJS([]))
+        .find(entity => entity[current.key] === values[current.key], null, fromJS({}))
+        .get(current.key, "")
+    ]);
+
+    return prev;
+  }, []);
+};
+
+export const getManagedRoleByUniqueId = (state, uniqueID) =>
+  managedRoles(state, "referral").find(role => role.get("unique_id") === uniqueID, null, fromJS({}));
+
+export const getManagedRoleFormSections = (state, uniqueID) =>
+  getManagedRoleByUniqueId(state, uniqueID).get("form_section_unique_ids", fromJS([]));
+
+export const getFormGroupLookups = state =>
+  lookupsList(state).filter(lookup => lookup.get("unique_id").startsWith("lookup-form-group-"));

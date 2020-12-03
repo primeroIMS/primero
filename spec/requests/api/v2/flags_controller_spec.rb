@@ -4,10 +4,7 @@ describe Api::V2::FlagsController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    Flag.destroy_all
-    Child.destroy_all
-    TracingRequest.destroy_all
-    Incident.destroy_all
+    clean_data(Flag, Child, TracingRequest, Incident)
 
     @case1 = Child.create!(data: { name: "Test1", age: 5, sex: 'male' })
     @case2 = Child.create!(data: { name: "Test2", age: 7, sex: 'female' })
@@ -26,8 +23,10 @@ describe Api::V2::FlagsController, type: :request do
   let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
 
   describe 'GET /api/v2/:recordType/:recordId/flags' do
-    it 'list flags of a case' do
+    before :each do
       login_for_test(permissions: permission_flag_record)
+    end
+    it 'list flags of a case' do
       get "/api/v2/cases/#{@case1.id}/flags"
 
       expect(response).to have_http_status(200)
@@ -39,7 +38,6 @@ describe Api::V2::FlagsController, type: :request do
     end
 
     it 'list flags of a tracing request' do
-      login_for_test(permissions: permission_flag_record)
       get "/api/v2/tracing_requests/#{@tracing_request1.id}/flags"
 
       expect(response).to have_http_status(200)
@@ -51,7 +49,6 @@ describe Api::V2::FlagsController, type: :request do
     end
 
     it 'list flags of an incident' do
-      login_for_test(permissions: permission_flag_record)
       get "/api/v2/incidents/#{@incident1.id}/flags"
 
       expect(response).to have_http_status(200)
@@ -60,6 +57,16 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['data'][0]['record_type']).to eq('incidents')
       expect(json['data'][0]['message']).to eq( 'This is a flag IN')
       expect(json['data'][0]['removed']).to be_falsey
+    end
+    it 'list include removed flag' do
+      @case1.add_flag('This is a second flag', Date.today, 'faketest')
+      @case1.remove_flag(@case1.flags.first.id, 'faketest', 'Resolved Flag')
+      get "/api/v2/cases/#{@case1.id}/flags"
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(2)
+      expect(json['data'][0]['removed']).to be_truthy
+      expect(json['data'][1]['removed']).to be_falsey
     end
 
     it "get a forbidden message if the user doesn't have flag permission" do
@@ -293,10 +300,7 @@ describe Api::V2::FlagsController, type: :request do
 
   after do
     clear_enqueued_jobs
-    Flag.destroy_all
-    Child.destroy_all
-    TracingRequest.destroy_all
-    Incident.destroy_all
+    clean_data(Flag, Child, TracingRequest, Incident)
   end
 
 end

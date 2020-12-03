@@ -4,8 +4,7 @@ import sinon from "sinon";
 
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { stub } from "../../../test";
-import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
+import { CLEAR_DIALOG } from "../../action-dialog";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
@@ -23,9 +22,7 @@ describe("<Transitions /> - Action Creators", () => {
     expect(creators).to.have.property("saveAssignedUser");
     expect(creators).to.have.property("saveTransferUser");
     expect(creators).to.have.property("fetchTransferUsers");
-    expect(creators, "DEPRECATED fetchTransitionData").to.not.have.property(
-      "fetchTransitionData"
-    );
+    expect(creators, "DEPRECATED fetchTransitionData").to.not.have.property("fetchTransitionData");
     expect(creators).to.have.property("fetchReferralUsers");
     expect(creators).to.have.property("saveReferral");
     delete creators.fetchAssignUsers;
@@ -100,27 +97,13 @@ describe("<Transitions /> - Action Creators", () => {
             }
           },
           {
-            action: SET_DIALOG,
-            payload: {
-              dialog: ASSIGN_DIALOG,
-              open: false
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
+            action: CLEAR_DIALOG
           }
         ]
       }
     };
 
-    expect(
-      dispatch(
-        actionCreators.saveAssignedUser("123abc", body, "Success Message")
-      )
-    ).to.deep.equals(expected);
+    expect(dispatch(actionCreators.saveAssignedUser("123abc", body, "Success Message"))).to.deep.equals(expected);
   });
 
   it("should check the 'saveTransferUser' action creator to return the correct object", () => {
@@ -150,27 +133,13 @@ describe("<Transitions /> - Action Creators", () => {
             }
           },
           {
-            action: SET_DIALOG,
-            payload: {
-              dialog: TRANSFER_DIALOG,
-              open: false
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
+            action: CLEAR_DIALOG
           }
         ]
       }
     };
 
-    expect(
-      dispatch(
-        actionCreators.saveTransferUser("123abc", body, "Success Message")
-      )
-    ).to.deep.equals(expected);
+    expect(dispatch(actionCreators.saveTransferUser("123abc", body, "Success Message"))).to.deep.equals(expected);
   });
 
   it("should check the 'fetchReferralUsers' action creator to return the correct object", () => {
@@ -179,9 +148,7 @@ describe("<Transitions /> - Action Creators", () => {
 
     dispatch(actionCreators.fetchReferralUsers());
 
-    expect(dispatch.getCall(0).returnValue.type).to.equal(
-      actions.REFERRAL_USERS_FETCH
-    );
+    expect(dispatch.getCall(0).returnValue.type).to.equal(actions.REFERRAL_USERS_FETCH);
     expect(dispatch.getCall(0).returnValue.api.path).to.equal("users/refer-to");
   });
 
@@ -212,27 +179,13 @@ describe("<Transitions /> - Action Creators", () => {
             }
           },
           {
-            action: SET_DIALOG,
-            payload: {
-              dialog: REFER_DIALOG,
-              open: false
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
+            action: CLEAR_DIALOG
           }
         ]
       }
     };
 
-    expect(
-      dispatch(
-        actionCreators.saveReferral("123abc", "cases", body, "Success Message")
-      )
-    ).to.deep.equals(expected);
+    expect(dispatch(actionCreators.saveReferral("123abc", "cases", body, "Success Message"))).to.deep.equals(expected);
   });
 
   after(() => {

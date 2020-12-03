@@ -1,5 +1,5 @@
 import { IconButton } from "@material-ui/core";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import MenuOpen from "@material-ui/icons/MenuOpen";
 
 import { setupMountedComponent } from "../../../test";
 
@@ -22,8 +22,8 @@ describe("<RecordFormTitle />", () => {
     expect(component.find(IconButton)).to.have.lengthOf(1);
   });
 
-  it("renders a <ArrowBackIosIcon />", () => {
-    expect(component.find(ArrowBackIosIcon)).to.have.lengthOf(1);
+  it("renders a <MenuOpen />", () => {
+    expect(component.find(MenuOpen)).to.have.lengthOf(1);
   });
 
   it("renders a valid text passed as a prop", () => {

@@ -1,4 +1,4 @@
-# Be sure to restart your server when you modify this file.
+# frozen_string_literal: true
 
 # Specify a serializer for the signed and encrypted cookie jars.
 # Valid options are :json, :marshal, and :hybrid.

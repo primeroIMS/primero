@@ -3,6 +3,7 @@ import { fromJS } from "immutable";
 import { fake } from "../../../test";
 import { ACTIONS } from "../../../libs/permissions";
 import { TEXT_FIELD, SUBFORM_SECTION } from "../../record-form/constants";
+import { RECORD_PATH } from "../../../config/constants";
 
 import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";
 import * as utils from "./utils";
@@ -15,8 +16,12 @@ describe("<RecordActions /> - exports/utils", () => {
       [
         "allowedExports",
         "buildFields",
+        "exporterFilters",
+        "formatFields",
         "formatFileName",
-        "exporterFilters"
+        "isCustomExport",
+        "isPdfExport",
+        "exportFormsOptions"
       ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
@@ -31,19 +36,19 @@ describe("<RecordActions /> - exports/utils", () => {
       t: fake.returns("test.label")
     };
 
-    it("should return all export types if userPermission contains manage permission", () => {
+    it("should return all export types if userPermission contains manage permission and recordType is cases", () => {
       const userPermission = fromJS(["manage"]);
 
-      const expected = ALL_EXPORT_TYPES.map(a => {
+      const expected = ALL_EXPORT_TYPES.filter(
+        exportType => exportType.recordTypes.includes(RECORD_PATH.cases) && !exportType.hideOnShowPage
+      ).map(a => {
         return {
           ...a,
           display_name: "test.label"
         };
       });
 
-      expect(utils.allowedExports(userPermission, i18n, false)).to.deep.equal(
-        expected
-      );
+      expect(utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)).to.deep.equal(expected);
     });
 
     it("should return export types contained in userPermission", () => {
@@ -52,21 +57,21 @@ describe("<RecordActions /> - exports/utils", () => {
           id: "csv",
           display_name: "test.label",
           permission: ACTIONS.EXPORT_CSV,
-          format: EXPORT_FORMAT.CSV
+          format: EXPORT_FORMAT.CSV,
+          recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
         },
         {
           id: "json",
           display_name: "test.label",
           permission: ACTIONS.EXPORT_JSON,
-          format: EXPORT_FORMAT.JSON
+          format: EXPORT_FORMAT.JSON,
+          recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
         }
       ];
 
       const userPermission = fromJS([ACTIONS.EXPORT_CSV, ACTIONS.EXPORT_JSON]);
 
-      expect(utils.allowedExports(userPermission, i18n, false)).to.deep.equal(
-        expected
-      );
+      expect(utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)).to.deep.equal(expected);
     });
   });
 
@@ -113,17 +118,21 @@ describe("<RecordActions /> - exports/utils", () => {
     it("should return filters with short_id, if isShowPage true", () => {
       const expected = { filters: { short_id: shortIds } };
 
-      expect(
-        utils.exporterFilters(
-          true,
-          false,
-          shortIds,
-          appliedFilters,
-          {},
-          record,
-          false
-        )
-      ).to.be.deep.equals(expected);
+      expect(utils.exporterFilters(true, false, shortIds, appliedFilters, {}, record, false)).to.be.deep.equals(
+        expected
+      );
+    });
+
+    it("should return filters without page, per and total params", () => {
+      const expected = { filters: { short_id: shortIds } };
+      const filters = fromJS({
+        sex: ["female"],
+        page: 1,
+        total: 40,
+        per: 5
+      });
+
+      expect(utils.exporterFilters(true, false, shortIds, filters, {}, record, false)).to.be.deep.equals(expected);
     });
 
     it(
@@ -132,34 +141,18 @@ describe("<RecordActions /> - exports/utils", () => {
       () => {
         const expected = { filters: { short_id: shortIds } };
 
-        expect(
-          utils.exporterFilters(
-            false,
-            false,
-            shortIds,
-            fromJS({}),
-            {},
-            record,
-            false
-          )
-        ).to.be.deep.equals(expected);
+        expect(utils.exporterFilters(false, false, shortIds, fromJS({}), {}, record, false)).to.be.deep.equals(
+          expected
+        );
       }
     );
 
     it("should return and object with applied filters, if isShowPage is false and allRowsSelected is true", () => {
       const expected = { filters: { short_id: shortIds } };
 
-      expect(
-        utils.exporterFilters(
-          false,
-          true,
-          shortIds,
-          appliedFilters,
-          {},
-          record,
-          false
-        )
-      ).to.be.deep.equals(expected);
+      expect(utils.exporterFilters(false, true, shortIds, appliedFilters, {}, record, false)).to.be.deep.equals(
+        expected
+      );
     });
 
     it(
@@ -169,17 +162,9 @@ describe("<RecordActions /> - exports/utils", () => {
         const query = "test";
         const expected = { filters: { short_id: shortIds } };
 
-        expect(
-          utils.exporterFilters(
-            false,
-            true,
-            shortIds,
-            fromJS({ query }),
-            {},
-            record,
-            false
-          )
-        ).to.be.deep.equals(expected);
+        expect(utils.exporterFilters(false, true, shortIds, fromJS({ query }), {}, record, false)).to.be.deep.equals(
+          expected
+        );
       }
     );
 
@@ -190,17 +175,9 @@ describe("<RecordActions /> - exports/utils", () => {
         const query = "test";
         const expected = { filters: { short_id: shortIds } };
 
-        expect(
-          utils.exporterFilters(
-            false,
-            true,
-            shortIds,
-            fromJS({ query }),
-            {},
-            record,
-            false
-          )
-        ).to.be.deep.equals(expected);
+        expect(utils.exporterFilters(false, true, shortIds, fromJS({ query }), {}, record, false)).to.be.deep.equals(
+          expected
+        );
       }
     );
 
@@ -212,74 +189,112 @@ describe("<RecordActions /> - exports/utils", () => {
         }
       };
 
-      expect(
-        utils.exporterFilters(
-          false,
-          false,
-          shortIds,
-          fromJS({}),
-          {},
-          record,
-          true
-        )
-      ).to.be.deep.equals(expected);
+      expect(utils.exporterFilters(false, false, shortIds, fromJS({}), {}, record, true)).to.be.deep.equals(expected);
     });
   });
 
   describe("buildFields", () => {
-    const data = [
-      {
-        unique_id: "test_form",
-        name: {
-          en: "Test Form"
-        },
-        fields: [
-          {
-            name: "field_form",
-            display_name: { en: "Field Form" },
-            type: TEXT_FIELD,
-            visible: true
-          }
-        ]
-      },
-      {
-        unique_id: "test_subform",
-        name: {
-          en: "Test Subform"
-        },
-        fields: [
-          {
-            name: "field_subform",
-            display_name: { en: "Field Subform" },
-            type: SUBFORM_SECTION,
-            visible: true,
-            subform_section_id: {
-              unique_id: "field_subform_section",
-              name: {
-                en: "Field Subform Section"
-              },
-              fields: [
-                {
-                  name: "field_subform_section_test",
-                  display_name: { en: "Field from Subform" },
-                  type: TEXT_FIELD,
-                  visible: true
-                },
-                {
-                  name: "field_subform_section_test1",
-                  display_name: { en: "Field from Subform 1" },
-                  type: TEXT_FIELD,
-                  visible: true
-                }
-              ]
-            }
-          }
-        ]
-      }
-    ];
-
     it("should return fields from forms and subforms when individual fields is false", () => {
+      const data = [
+        {
+          unique_id: "test_form",
+          name: {
+            en: "Test Form"
+          },
+          fields: [
+            {
+              name: "field_form",
+              display_name: { en: "Field Form" },
+              type: TEXT_FIELD,
+              visible: true
+            }
+          ]
+        },
+        {
+          unique_id: "test_subform",
+          name: {
+            en: "Test Subform"
+          },
+          fields: [
+            {
+              name: "field_subform",
+              display_name: { en: "Field Subform" },
+              type: SUBFORM_SECTION,
+              visible: true,
+              subform_section_id: {
+                unique_id: "field_subform_section",
+                name: {
+                  en: "Field Subform Section"
+                },
+                fields: [
+                  {
+                    name: "field_subform_section_test",
+                    display_name: { en: "Field from Subform" },
+                    type: TEXT_FIELD,
+                    visible: true
+                  },
+                  {
+                    name: "field_subform_section_test1",
+                    display_name: { en: "Field from Subform 1" },
+                    type: TEXT_FIELD,
+                    visible: true
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ];
+
       expect(utils.buildFields(data, "en")).to.have.lengthOf(3);
+    });
+
+    it("does not fail subforms without a subform section id", () => {
+      const data = [
+        {
+          unique_id: "test_subform",
+          name: {
+            en: "Test Subform"
+          },
+          fields: [
+            {
+              name: "field_subform",
+              display_name: { en: "Field Subform" },
+              type: SUBFORM_SECTION,
+              visible: true,
+              subform_section_id: null
+            }
+          ]
+        }
+      ];
+
+      expect(utils.buildFields(data, "en")).to.be.deep.equals([]);
+    });
+  });
+
+  describe("formatFields", () => {
+    it("should return an array of strings with field_names", () => {
+      const fields = ["form1:field1", "form2:field1", "form3:field10"];
+
+      expect(utils.formatFields(fields)).to.be.deep.equals(["field1", "field10"]);
+    });
+  });
+
+  describe("isCustomExport", () => {
+    it("returns false if not custom export", () => {
+      expect(utils.isCustomExport("pdf")).to.be.false;
+    });
+    it("returns true if custom export", () => {
+      expect(utils.isCustomExport("custom")).to.be.true;
+    });
+  });
+
+  describe("isPdfExport", () => {
+    it("returns false if not pdf export", () => {
+      expect(utils.isPdfExport("custom")).to.be.false;
+    });
+    it("returns true if pdf export", () => {
+      expect(utils.isPdfExport("pdf")).to.be.true;
     });
   });
 });

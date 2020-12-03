@@ -56,11 +56,7 @@ describe("permittedSharedWithMe - pages/dashboard/utils/", () => {
         },
         shared_with_me_new_referrals: {
           count: 0,
-          query: [
-            "record_state=true",
-            "status=open",
-            "not_edited_by_owner=true"
-          ]
+          query: ["record_state=true", "status=open", "not_edited_by_owner=true"]
         }
       }
     });
@@ -83,11 +79,7 @@ describe("permittedSharedWithMe - pages/dashboard/utils/", () => {
         },
         shared_with_me_new_referrals: {
           count: 0,
-          query: [
-            "record_state=true",
-            "status=open",
-            "not_edited_by_owner=true"
-          ]
+          query: ["record_state=true", "status=open", "not_edited_by_owner=true"]
         },
         shared_with_me_transfers_awaiting_acceptance: {
           count: 0,

@@ -21,10 +21,9 @@ const Component = ({ filters, onSubmit, clearFields, defaultFilters }) => {
     });
 
   const onClear = () => {
+    clearFields.map(field => methods.setValue(field, undefined));
     if (defaultFiltersKeys.length) {
       setDefaultFilters();
-    } else {
-      clearFields.map(field => methods.setValue(field, undefined));
     }
     onSubmit();
   };
@@ -39,15 +38,9 @@ const Component = ({ filters, onSubmit, clearFields, defaultFilters }) => {
     return filters.map(filter => {
       const Filter = filterType(filter.type);
 
-      if (!Filter) return null;
+      if (!Filter || filter.permitted_filter === false) return null;
 
-      return (
-        <Filter
-          key={filter.field_name}
-          filter={filter}
-          multiple={filter.multiple}
-        />
-      );
+      return <Filter key={filter.field_name} filter={filter} multiple={filter.multiple} />;
     });
   };
 

@@ -6,10 +6,9 @@ import { useThemeHelper } from "../../libs";
 import styles from "./styles.css";
 
 const Component = ({ children, twoCol, fullWidthMobile }) => {
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css, mobileDisplay } = useThemeHelper({ css: styles });
 
-  const contentContainer =
-    fullWidthMobile && mobileDisplay ? css.noWrap : css.wrap;
+  const contentContainer = fullWidthMobile && mobileDisplay ? css.noWrap : css.wrap;
 
   if (twoCol) {
     return <div className={css.twoCol}>{children}</div>;

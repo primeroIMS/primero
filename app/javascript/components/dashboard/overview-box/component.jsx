@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React from "react";
-import makeStyles from "@material-ui/styles/makeStyles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -16,14 +16,7 @@ import { useApp } from "../../application";
 
 import styles from "./styles.css";
 
-const OverviewBox = ({
-  items,
-  chartData,
-  sumTitle,
-  withTotal,
-  loading,
-  errors
-}) => {
+const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
@@ -40,10 +33,7 @@ const OverviewBox = ({
   };
 
   const sum = () => {
-    return indicatorsKeys.reduce(
-      (prev, current) => prev + (indicators.getIn([current, "count"]) || 0),
-      0
-    );
+    return indicatorsKeys.reduce((prev, current) => prev + (indicators.getIn([current, "count"]) || 0), 0);
   };
 
   const handleClick = query => {
@@ -63,6 +53,10 @@ const OverviewBox = ({
         return approvalsLabels.case_plan;
       case "approval_closure_pending_group":
         return approvalsLabels.closure;
+      case "approval_action_plan_pending_group":
+        return approvalsLabels.action_plan;
+      case "approval_gbv_closure_pending_group":
+        return approvalsLabels.gbv_closure;
       default:
         return i18n.t(`dashboard.${item}`);
     }

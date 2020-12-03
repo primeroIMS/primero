@@ -15,41 +15,28 @@ import { formattedFields } from "../../utils";
 import { compare, dataToJS } from "../../../../libs";
 import { getOptions } from "../../../record-form/selectors";
 import { getOptions as specialOptions } from "../../../form/selectors";
-import {
-  OPTION_TYPES,
-  NUMERIC_FIELD,
-  RADIO_FIELD,
-  SELECT_FIELD
-} from "../../../form/constants";
+import { OPTION_TYPES, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD } from "../../../form/constants";
+import ActionDialog from "../../../action-dialog";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
 import { formatValue, getConstraintLabel, registerValues } from "./utils";
 
-const Container = ({
-  indexes,
-  setIndexes,
-  allRecordForms,
-  parentFormMethods
-}) => {
+const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [open, setOpen] = useState(false);
 
   const onSuccess = (index, currentReportFilter, currentField) => {
     const data =
-      currentField.type === DATE_FIELD &&
-      Array.isArray(currentReportFilter.value) &&
-      isEmpty(currentReportFilter.value)
+      currentField.type === DATE_FIELD && Array.isArray(currentReportFilter.value) && isEmpty(currentReportFilter.value)
         ? { ...currentReportFilter, value: formatValue(new Date(), i18n, {}) }
         : currentReportFilter;
 
-    if (
-      [DATE_FIELD, NUMERIC_FIELD].includes(currentField.type) &&
-      currentReportFilter.constraint === NOT_NULL
-    ) {
+    if ([DATE_FIELD, NUMERIC_FIELD].includes(currentField.type) && currentReportFilter.constraint === NOT_NULL) {
       data.value = "";
     }
 
@@ -76,32 +63,15 @@ const Container = ({
   };
 
   const allLookups = useSelector(state => getOptions(state), compare);
-  const location = useSelector(
-    state => specialOptions(state, OPTION_TYPES.LOCATION, i18n),
-    compare
-  );
-  const agencies = useSelector(
-    state => specialOptions(state, OPTION_TYPES.AGENCY, i18n),
-    compare
-  );
-  const modules = useSelector(
-    state => specialOptions(state, OPTION_TYPES.MODULE, i18n),
-    compare
-  );
-  const formGroups = useSelector(
-    state => specialOptions(state, OPTION_TYPES.FORM_GROUP, i18n),
-    compare
-  );
+  const location = useSelector(state => specialOptions(state, OPTION_TYPES.LOCATION, i18n), compare);
+  const agencies = useSelector(state => specialOptions(state, OPTION_TYPES.AGENCY, i18n), compare);
+  const modules = useSelector(state => specialOptions(state, OPTION_TYPES.MODULE, i18n), compare);
+  const formGroups = useSelector(state => specialOptions(state, OPTION_TYPES.FORM_GROUP, i18n), compare);
 
   const selectedModules = parentFormMethods.getValues()[MODULES_FIELD];
   const selectedRecordType = parentFormMethods.getValues()[RECORD_TYPE_FIELD];
 
-  const fields = formattedFields(
-    allRecordForms,
-    selectedModules,
-    selectedRecordType,
-    i18n.locale
-  );
+  const fields = formattedFields(allRecordForms, selectedModules, selectedRecordType, i18n.locale);
 
   if (!fields.length) {
     return null;
@@ -116,19 +86,28 @@ const Container = ({
     setOpen(true);
   };
 
-  const handleDelete = index => {
-    setIndexes([
-      ...indexes.slice(0, parseInt(index, 10)),
-      ...indexes.slice(parseInt(index, 10) + 1, indexes.length)
-    ]);
+  const handleDelete = () => {
+    const index = selectedIndex;
+
+    setIndexes([...indexes.slice(0, parseInt(index, 10)), ...indexes.slice(parseInt(index, 10) + 1, indexes.length)]);
   };
 
-  if (isEmpty(indexes)) {
-    return <>{i18n.t("report.no_filters_added")}</>;
-  }
+  const handleOpenModal = index => {
+    setSelectedIndex(index);
+    setDeleteModal(true);
+  };
 
-  const renderReportFilterList = () =>
-    Object.entries(indexes).map(filter => {
+  const cancelHandler = () => {
+    setDeleteModal(false);
+    setSelectedIndex(null);
+  };
+
+  const renderReportFilterList = () => {
+    if (isEmpty(indexes)) {
+      return <p>{i18n.t("report.no_filters_added")}</p>;
+    }
+
+    return Object.entries(indexes).map(filter => {
       const [index, { data }] = filter;
       const { attribute, value } = data;
       const field = fields.find(f => f.id === attribute);
@@ -139,9 +118,7 @@ const Container = ({
         ...[{ unique_id: OPTION_TYPES.LOCATION, values: dataToJS(location) }],
         ...[{ unique_id: OPTION_TYPES.AGENCY, values: dataToJS(agencies) }],
         ...[{ unique_id: OPTION_TYPES.MODULE, values: dataToJS(modules) }],
-        ...[
-          { unique_id: OPTION_TYPES.FORM_GROUP, values: dataToJS(formGroups) }
-        ]
+        ...[{ unique_id: OPTION_TYPES.FORM_GROUP, values: dataToJS(formGroups) }]
       ];
 
       const formattedReportFilterName = [
@@ -156,7 +133,7 @@ const Container = ({
         <Box key={index} display="flex" alignItems="center">
           <Box flexGrow={1}>{formattedReportFilterName}</Box>
           <Box>
-            <IconButton onClick={() => handleDelete(index)}>
+            <IconButton onClick={() => handleOpenModal(index)}>
               <DeleteIcon />
             </IconButton>
             <IconButton onClick={() => handleEdit(index)}>
@@ -166,6 +143,7 @@ const Container = ({
         </Box>
       );
     });
+  };
 
   return (
     <>
@@ -178,6 +156,15 @@ const Container = ({
       </Typography>
 
       {renderReportFilterList()}
+
+      <ActionDialog
+        open={deleteModal}
+        successHandler={handleDelete}
+        cancelHandler={cancelHandler}
+        dialogTitle={i18n.t("fields.remove")}
+        dialogText={i18n.t("report.filters.delete_filter_message")}
+        confirmButtonLabel={i18n.t("buttons.ok")}
+      />
 
       <FiltersDialog
         selectedIndex={selectedIndex}

@@ -85,10 +85,7 @@ describe("<RecordList />", () => {
             fields: [2],
             is_nested: true,
             subform_prevent_item_removal: false,
-            collapsed_field_names: [
-              "cp_incident_date",
-              "cp_incident_violence_type"
-            ]
+            collapsed_field_names: ["cp_incident_date", "cp_incident_violence_type"]
           }),
           2: FormSectionRecord({
             id: 2,
@@ -174,9 +171,7 @@ describe("<RecordList />", () => {
       );
     };
 
-    ({ component } = setupMountedComponent(routedComponent, {}, initialState, [
-      "/cases"
-    ]));
+    ({ component } = setupMountedComponent(routedComponent, {}, initialState, ["/cases"]));
   });
 
   it("renders record list table", done => {
@@ -199,17 +194,12 @@ describe("<RecordList />", () => {
     };
 
     expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
-    [
-      "title",
-      "recordType",
-      "handleDrawer",
-      "mobileDisplay",
-      "currentPage",
-      "selectedRecords"
-    ].forEach(property => {
-      expect(recordListToolbarProps).to.have.property(property);
-      delete recordListToolbarProps[property];
-    });
+    ["css", "title", "recordType", "handleDrawer", "mobileDisplay", "currentPage", "selectedRecords"].forEach(
+      property => {
+        expect(recordListToolbarProps).to.have.property(property);
+        delete recordListToolbarProps[property];
+      }
+    );
     expect(recordListToolbarProps).to.be.empty;
   });
 });

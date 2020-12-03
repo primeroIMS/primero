@@ -1,35 +1,30 @@
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
-import { REFER_DIALOG, TRANSFER_DIALOG, ASSIGN_DIALOG } from "../constants";
 import { SERVICE_REFERRED_SAVE } from "../../records";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
+import { CLEAR_DIALOG } from "../../action-dialog";
 
 import { generatePath } from "./components/utils";
 import actions from "./actions";
 
-const successCallbackActions = (modalName, message) => [
-  {
-    action: ENQUEUE_SNACKBAR,
-    payload: {
-      message,
-      options: {
-        variant: "success",
-        key: generate.messageKey()
-      }
-    }
-  },
-  {
-    action: SET_DIALOG,
-    payload: {
-      dialog: modalName,
-      open: false
-    }
-  },
-  {
-    action: SET_DIALOG_PENDING,
-    payload: {
-      pending: false
+const successMessage = message => ({
+  action: ENQUEUE_SNACKBAR,
+  payload: {
+    message,
+    options: {
+      variant: "success",
+      key: generate.messageKey(message)
     }
   }
+});
+
+const closeDialog = () => [
+  {
+    action: CLEAR_DIALOG
+  }
+];
+
+const successCallbackActions = (message, isRemote = false) => [
+  successMessage(message),
+  ...(!isRemote ? closeDialog() : [])
 ];
 
 export const fetchAssignUsers = recordType => ({
@@ -71,7 +66,7 @@ export const saveAssignedUser = (recordId, body, message) => ({
     path: generatePath(actions.CASES_ASSIGNS, recordId),
     method: "POST",
     body,
-    successCallback: successCallbackActions(ASSIGN_DIALOG, message)
+    successCallback: successCallbackActions(message)
   }
 });
 
@@ -81,12 +76,12 @@ export const saveTransferUser = (recordId, body, message) => ({
     path: generatePath(actions.CASES_TRANSFERS, recordId),
     method: "POST",
     body,
-    successCallback: successCallbackActions(TRANSFER_DIALOG, message)
+    successCallback: successCallbackActions(message)
   }
 });
 
 export const saveReferral = (recordId, recordType, body, message) => {
-  const successActions = successCallbackActions(REFER_DIALOG, message);
+  const successActions = successCallbackActions(message, body?.data?.remote);
 
   const successCallback =
     body.data && body.data.service_record_id

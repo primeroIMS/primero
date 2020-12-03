@@ -61,9 +61,7 @@ describe("<Form>", () => {
       initialValues: { test_field_2: "Hello" }
     });
 
-    expect(
-      component.find("FormContext").first().props().getValues().test_field_2
-    ).to.equal("Hello");
+    expect(component.find("FormContext").first().props().getValues().test_field_2).to.equal("Hello");
   });
 
   it("should not submit form when invalid", async () => {

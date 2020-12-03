@@ -53,11 +53,7 @@ describe("<ReferralForm />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        ReferralForm,
-        props,
-        initialState
-      ));
+      ({ component } = setupMountedComponent(ReferralForm, props, initialState));
     });
 
     it("renders Formik", () => {
@@ -81,9 +77,7 @@ describe("<ReferralForm />", () => {
     });
 
     it("should accept valid props", () => {
-      const componentProps = clone(
-        component.find(ReferralForm).first().props()
-      );
+      const componentProps = clone(component.find(ReferralForm).first().props());
 
       expect(componentProps).to.have.property("handleClose");
       expect(componentProps).to.have.property("userPermissions");
@@ -177,11 +171,7 @@ describe("<ReferralForm />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        ReferralForm,
-        props,
-        initialState
-      ));
+      ({ component } = setupMountedComponent(ReferralForm, props, initialState));
     });
 
     it("renders Formik", () => {
@@ -190,12 +180,7 @@ describe("<ReferralForm />", () => {
 
     it("renders Formik with initial values from the service", () => {
       const formikProps = { ...component.find(Formik).props() };
-      const {
-        service,
-        agency,
-        location,
-        service_record_id: serviceRecordId
-      } = formikProps.initialValues;
+      const { service, agency, location, service_record_id: serviceRecordId } = formikProps.initialValues;
 
       expect(service).to.be.equal(serviceToRefer.service_type);
       expect(agency).to.be.equal(serviceToRefer.service_implementing_agency);

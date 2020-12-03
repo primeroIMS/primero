@@ -1,9 +1,6 @@
 import { spy, useFakeTimers } from "../../../../test";
 
-import handleFilterChange, {
-  valueParser,
-  getFilterProps
-} from "./value-handlers";
+import handleFilterChange, { valueParser, getFilterProps } from "./value-handlers";
 
 describe("<IndexFilters />/filter-types/value-handlers", () => {
   let methods;
@@ -41,10 +38,7 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
       handleFilterChange(methods);
 
       expect(methods.setInputValue).to.have.been.calledWith([1, 2]);
-      expect(methods.setValue).to.have.been.calledWith(methods.fieldName, [
-        1,
-        2
-      ]);
+      expect(methods.setValue).to.have.been.calledWith(methods.fieldName, [1, 2]);
     });
 
     it("handles checkboxes with object value", () => {
@@ -57,10 +51,7 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
       handleFilterChange(methods);
 
       expect(methods.setInputValue).to.have.been.calledWith(expectedValue);
-      expect(methods.setValue).to.have.been.calledWith(
-        methods.fieldName,
-        expectedValue
-      );
+      expect(methods.setValue).to.have.been.calledWith(methods.fieldName, expectedValue);
     });
   });
 
@@ -81,7 +72,17 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
   });
 
   describe("getFilterProps()", () => {
+    const { getTimezoneOffset } = Date.prototype;
+    let clock = null;
+
     beforeEach(() => {
+      // eslint-disable-next-line no-extend-native
+      Date.prototype.getTimezoneOffset = () => 240;
+
+      const today = new Date("2020-10-01T00:00:00Z");
+
+      clock = useFakeTimers(today);
+
       filter = {
         field_name: "field-name",
         isObject: false,
@@ -128,20 +129,27 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
 
     it("returns properties for last_updated_at filter from filter object", () => {
       filter.field_name = "last_updated_at";
-      useFakeTimers(new Date("10/01/2020"));
 
       const expected = {
         fieldName: "last_updated_at",
         options: [
           {
             display_name: "cases.filter_by.3month_inactivity",
-            id: "01-Jan-0000.01-Jul-2020"
+            id: "0000-01-01T00:00:00Z..2020-07-01T23:59:59Z"
           }
         ]
       };
       const output = getFilterProps({ filter, user, i18n });
 
       expect(output).to.deep.equal(expected);
+    });
+
+    afterEach(() => {
+      // Restore original method
+      // eslint-disable-next-line no-extend-native
+      Date.prototype.getTimezoneOffset = getTimezoneOffset;
+
+      clock.restore();
     });
   });
 });

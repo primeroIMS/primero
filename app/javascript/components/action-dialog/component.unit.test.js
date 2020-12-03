@@ -1,35 +1,33 @@
 import React from "react";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Typography
-} from "@material-ui/core";
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from "@material-ui/core";
 import Add from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
 
 import { setupMountedComponent } from "../../test";
+import ActionButton from "../action-button";
 
 import ActionDialog from "./component";
 
 describe("<ActionDialog />", () => {
   let component;
   const props = {
-    open: true,
-    successHandler: () => {},
     cancelHandler: () => {},
-    dialogTitle: "",
+    children: [],
+    confirmButtonLabel: "",
+    confirmButtonProps: {},
+    dialogActions: <></>,
+    dialogSubHeader: "Test SubHeader",
     dialogSubtitle: "Test Subtitle",
     dialogText: "",
-    confirmButtonLabel: "",
-    children: [],
-    onClose: () => {},
-    confirmButtonProps: {},
+    dialogTitle: "",
+    disableActions: false,
+    disableBackdropClick: false,
+    maxSize: "sm",
     omitCloseAfterSuccess: false,
-    dialogSubHeader: "Test SubHeader"
+    onClose: () => {},
+    open: true,
+    pending: false,
+    successHandler: () => {}
   };
 
   beforeEach(() => {
@@ -56,8 +54,8 @@ describe("<ActionDialog />", () => {
     expect(component.find(IconButton)).to.have.lengthOf(1);
   });
 
-  it("should render Button", () => {
-    expect(component.find(Button)).to.have.lengthOf(2);
+  it("should render ActionButton", () => {
+    expect(component.find(ActionButton)).to.have.lengthOf(2);
   });
 
   it("should accept valid props", () => {
@@ -65,20 +63,29 @@ describe("<ActionDialog />", () => {
 
     expect(component.find(ActionDialog)).to.have.lengthOf(1);
     [
-      "open",
-      "successHandler",
-      "cancelHandler",
-      "dialogTitle",
-      "dialogText",
-      "confirmButtonLabel",
-      "children",
-      "onClose",
       "cancelButtonProps",
+      "cancelHandler",
+      "children",
+      "confirmButtonLabel",
       "confirmButtonProps",
-      "omitCloseAfterSuccess",
+      "dialogActions",
+      "dialogSubHeader",
       "dialogSubtitle",
+      "dialogText",
+      "dialogTitle",
+      "disableActions",
+      "disableBackdropClick",
       "enabledSuccessButton",
-      "dialogSubHeader"
+      "maxSize",
+      "omitCloseAfterSuccess",
+      "onClose",
+      "open",
+      "pending",
+      "successHandler",
+      "showSuccessButton",
+      "fetchArgs",
+      "disableClose",
+      "hideIcon"
     ].forEach(property => {
       expect(actionDialogProps).to.have.property(property);
       delete actionDialogProps[property];
@@ -91,29 +98,19 @@ describe("<ActionDialog />", () => {
   });
 
   it("should render dialogSubHeader with it's correct value ", () => {
-    expect(component.find(Typography).last().text()).to.be.equal(
-      "Test SubHeader"
-    );
+    expect(component.find(Typography).last().text()).to.be.equal("Test SubHeader");
   });
 
   it("should not render DialogSubtitle because isn't passed in props ", () => {
     delete props.dialogSubtitle;
-    const { component: componentWithoutSubtitle } = setupMountedComponent(
-      ActionDialog,
-      props,
-      {}
-    );
+    const { component: componentWithoutSubtitle } = setupMountedComponent(ActionDialog, props, {});
 
     expect(componentWithoutSubtitle.find(DialogTitle).text()).to.be.empty;
   });
 
   it("should not render dialogSubHeader because isn't passed in props ", () => {
     delete props.dialogSubHeader;
-    const { component: componentWithoutSubtitle } = setupMountedComponent(
-      ActionDialog,
-      props,
-      {}
-    );
+    const { component: componentWithoutSubtitle } = setupMountedComponent(ActionDialog, props, {});
 
     expect(componentWithoutSubtitle.find(Typography)).to.be.empty;
   });
@@ -128,11 +125,7 @@ describe("<ActionDialog />", () => {
       confirmButtonProps: { icon: <Add /> }
     };
 
-    const { component: componentWithDifferentIcon } = setupMountedComponent(
-      ActionDialog,
-      propsWithConfirmButton,
-      {}
-    );
+    const { component: componentWithDifferentIcon } = setupMountedComponent(ActionDialog, propsWithConfirmButton, {});
 
     expect(componentWithDifferentIcon.find(Add)).to.have.lengthOf(1);
   });

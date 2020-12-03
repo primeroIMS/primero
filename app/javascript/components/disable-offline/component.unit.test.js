@@ -7,17 +7,18 @@ import { setupMountedComponent } from "../../test";
 import DisableOffline from "./component";
 
 describe("components/disable-offline - DisableOffline", () => {
-  const component = online =>
+  const component = (online, props) =>
     setupMountedComponent(
       () => (
         <DisableOffline>
           <div>element</div>
         </DisableOffline>
       ),
-      { text: "offline" },
+      { text: "offline", ...props },
       fromJS({
-        application: {
-          online
+        connectivity: {
+          online,
+          serverOnline: true
         }
       })
     ).component;
@@ -28,5 +29,9 @@ describe("components/disable-offline - DisableOffline", () => {
 
   it("renders element in online state if online", () => {
     expect(component(true).find(Tooltip)).to.have.lengthOf(0);
+  });
+
+  it("renders element if overrideCondition", () => {
+    expect(component(false, { overrideCondition: true }).find(Tooltip)).to.have.lengthOf(1);
   });
 });

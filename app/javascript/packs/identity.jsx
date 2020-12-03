@@ -1,6 +1,6 @@
 import { UserAgentApplication } from "msal";
 
-import { DOMAIN } from "../components/pages/login/idp-selection/config";
+import { DOMAIN } from "../components/login/components/idp-selection/config";
 
 export const setMsalConfig = {
   auth: {

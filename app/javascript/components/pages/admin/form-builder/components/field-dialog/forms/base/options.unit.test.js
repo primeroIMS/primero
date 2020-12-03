@@ -1,12 +1,12 @@
 import { fromJS } from "immutable";
 
-import { FieldRecord, TEXT_FIELD } from "../../../../../../../form";
+import { FieldRecord, TEXT_FIELD, SELECT_FIELD } from "../../../../../../../form";
 
-import { optionsForm } from "./options";
+import { optionsForm, optionsTabs } from "./options";
 
 describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - options", () => {
   const i18n = { t: value => value };
-  const mode = fromJS({ isEdit: true });
+  const formMode = fromJS({ isEdit: true });
   const css = { boldLabel: "" };
 
   describe("optionsForm", () => {
@@ -16,7 +16,14 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - op
         name: "new_field",
         type: TEXT_FIELD
       });
-      const form = optionsForm("test_1", i18n, mode, newField, [], css);
+      const form = optionsForm({
+        fieldName: "test_1",
+        i18n,
+        formMode,
+        field: newField,
+        lookups: [],
+        css
+      });
 
       expect(form.unique_id).to.equal("field_form_options");
       expect(form.fields).to.have.lengthOf(3);
@@ -29,11 +36,35 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - op
         type: TEXT_FIELD
       });
 
-      const form = optionsForm("test_1", i18n, mode, customField, [], css);
+      const form = optionsForm({
+        fieldName: "test_1",
+        i18n,
+        formMode,
+        field: customField,
+        lookups: [],
+        css
+      });
       const fieldNames = form.fields.map(field => field.name);
 
       expect(form.unique_id).to.equal("field_form_options");
       expect(fieldNames).to.not.equal(["custom_field_1"]);
+    });
+  });
+  describe("optionsTabs", () => {
+    it("should return an array of fields", () => {
+      const field = FieldRecord({
+        display_name: "new_field",
+        name: "new_field",
+        type: SELECT_FIELD,
+        option_strings_text: [{ id: "test1", disabled: false, display_text: { en: "TEST 1" } }]
+      });
+      const tabs = optionsTabs("test", i18n, fromJS({ isShow: false, isEdit: true }), field, fromJS([]));
+
+      expect(tabs).to.have.lengthOf(2);
+      expect(tabs[0].name).to.equal("fields.predifined_lookups");
+      expect(tabs[0].disabled).to.be.true;
+      expect(tabs[1].name).to.equal("fields.create_unique_values");
+      expect(tabs[1].disabled).to.be.false;
     });
   });
 });

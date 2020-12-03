@@ -4,7 +4,7 @@ import offlineDispatchSuccess from "./offline-dispatch-success";
 import * as handleRestCallback from "./handle-rest-callback";
 
 describe("middleware/utils/offline-dispatch-success.js", () => {
-  const store = createMockStore();
+  const { store } = createMockStore();
   const payload = {
     data: {
       test: "payload"
@@ -25,19 +25,9 @@ describe("middleware/utils/offline-dispatch-success.js", () => {
   });
 
   it("dispatch success and callbacks", () => {
-    offlineDispatchSuccess(
-      store,
-      { type: "test-action", api: { path: "/" } },
-      payload
-    );
+    offlineDispatchSuccess(store, { type: "test-action", api: { path: "/" } }, payload);
 
-    expect(handleRestCallbackSpy).to.have.been.calledWith(
-      store,
-      undefined,
-      null,
-      payload,
-      undefined
-    );
+    expect(handleRestCallbackSpy).to.have.been.calledWith(store, undefined, null, payload, undefined);
     expect(dispatch.getCall(0).returnValue).to.deep.equal({
       payload,
       type: "test-action_SUCCESS"
@@ -82,6 +72,29 @@ describe("middleware/utils/offline-dispatch-success.js", () => {
     expect(dispatch.getCall(0).returnValue).to.deep.equal({
       payload: {
         data: { record: { id: 1234, test_prop: [{ ...payload.data }] } }
+      },
+      type: "test-action_SUCCESS"
+    });
+  });
+
+  it("format payload with record params", () => {
+    const action = {
+      type: "test-action",
+      api: {
+        responseRecordID: 1234,
+        responseRecordArray: true,
+        responseRecordParams: {
+          param_1: 15,
+          param_2: "some data"
+        }
+      }
+    };
+
+    offlineDispatchSuccess(store, action, payload);
+
+    expect(dispatch.getCall(0).returnValue).to.deep.equal({
+      payload: {
+        data: { record: { id: 1234, param_1: 15, param_2: "some data" } }
       },
       type: "test-action_SUCCESS"
     });

@@ -1,8 +1,5 @@
 import { Map, List } from "immutable";
-import {
-  ExpansionPanelDetails,
-  ExpansionPanelSummary
-} from "@material-ui/core";
+import { ExpansionPanelDetails, ExpansionPanelSummary } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
 

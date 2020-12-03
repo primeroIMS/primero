@@ -8,13 +8,7 @@ import { setupMountedComponent } from "../../../../../test";
 import FormInternal from "./form-internal";
 import ProvidedConsent from "./provided-consent";
 import MainForm from "./main-form";
-import {
-  SERVICE_FIELD,
-  AGENCY_FIELD,
-  LOCATION_FIELD,
-  TRANSITIONED_TO_FIELD,
-  NOTES_FIELD
-} from "./constants";
+import { SERVICE_FIELD, AGENCY_FIELD, LOCATION_FIELD, TRANSITIONED_TO_FIELD, NOTES_FIELD } from "./constants";
 
 const FormikStub = props => {
   const { formProps } = props;
@@ -88,12 +82,7 @@ describe("<MainForm />", () => {
   it("renders ProvidedConsent with valid props", () => {
     const providedConsentProps = { ...component.find(ProvidedConsent).props() };
 
-    [
-      "canConsentOverride",
-      "providedConsent",
-      "setDisabled",
-      "recordType"
-    ].forEach(property => {
+    ["canConsentOverride", "providedConsent", "setDisabled", "recordType"].forEach(property => {
       expect(providedConsentProps).to.have.property(property);
       delete providedConsentProps[property];
     });
@@ -109,24 +98,16 @@ describe("<MainForm />", () => {
   });
 
   describe("when mounting fields for FormInternal ", () => {
-    const { component: mainFormComponent } = setupMountedComponent(
-      FormikStub,
-      props,
-      initialState
-    );
+    const { component: mainFormComponent } = setupMountedComponent(FormikStub, props, initialState);
 
-    const formInternalFields = [
-      ...mainFormComponent.find(FormInternal).props().fields
-    ];
+    const formInternalFields = [...mainFormComponent.find(FormInternal).props().fields];
 
     const textFieldProps = ["id", "label"];
     const searchableFieldProps = [...textFieldProps, "options", "onChange"];
 
     it("renders valid props for SERVICE_FIELD field", () => {
       const serviceFieldProps = {
-        ...formInternalFields.find(
-          formInternalField => formInternalField.id === SERVICE_FIELD
-        )
+        ...formInternalFields.find(formInternalField => formInternalField.id === SERVICE_FIELD)
       };
 
       searchableFieldProps.forEach(property => {
@@ -139,9 +120,7 @@ describe("<MainForm />", () => {
 
     it("renders valid props for AGENCY_FIELD field", () => {
       const agencyFieldProps = {
-        ...formInternalFields.find(
-          formInternalField => formInternalField.id === AGENCY_FIELD
-        )
+        ...formInternalFields.find(formInternalField => formInternalField.id === AGENCY_FIELD)
       };
 
       [...searchableFieldProps].forEach(property => {
@@ -154,9 +133,7 @@ describe("<MainForm />", () => {
 
     it("renders valid props for LOCATION_FIELD field", () => {
       const locationFieldProps = {
-        ...formInternalFields.find(
-          formInternalField => formInternalField.id === LOCATION_FIELD
-        )
+        ...formInternalFields.find(formInternalField => formInternalField.id === LOCATION_FIELD)
       };
 
       searchableFieldProps.forEach(property => {
@@ -169,26 +146,20 @@ describe("<MainForm />", () => {
 
     it("renders valid props for TRANSITIONED_TO_FIELD field", () => {
       const transitionToFieldProps = {
-        ...formInternalFields.find(
-          formInternalField => formInternalField.id === TRANSITIONED_TO_FIELD
-        )
+        ...formInternalFields.find(formInternalField => formInternalField.id === TRANSITIONED_TO_FIELD)
       };
 
-      [...searchableFieldProps, "required", "onMenuOpen", "isLoading"].forEach(
-        property => {
-          expect(transitionToFieldProps).to.have.property(property);
-          delete transitionToFieldProps[property];
-        }
-      );
+      [...searchableFieldProps, "required", "onMenuOpen", "isLoading"].forEach(property => {
+        expect(transitionToFieldProps).to.have.property(property);
+        delete transitionToFieldProps[property];
+      });
 
       expect(transitionToFieldProps).to.be.empty;
     });
 
     it("renders valid props for NOTES_FIELD field", () => {
       const transitionToFieldProps = {
-        ...formInternalFields.find(
-          formInternalField => formInternalField.id === NOTES_FIELD
-        )
+        ...formInternalFields.find(formInternalField => formInternalField.id === NOTES_FIELD)
       };
 
       textFieldProps.forEach(property => {

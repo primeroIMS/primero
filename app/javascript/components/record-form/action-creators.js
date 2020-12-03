@@ -23,18 +23,16 @@ export const fetchLookups = () => {
     type: Actions.SET_OPTIONS,
     api: {
       path: URL_LOOKUPS,
-      params: { per: 999, page: 1 }
+      params: { per: 999, page: 1 },
+      db: {
+        collection: DB_COLLECTIONS_NAMES.OPTIONS
+      }
     }
   };
 };
 
 export const setSelectedForm = payload => ({
   type: Actions.SET_SELECTED_FORM,
-  payload
-});
-
-export const setSelectedRecord = payload => ({
-  type: Actions.SET_SELECTED_RECORD,
   payload
 });
 
@@ -68,4 +66,13 @@ export const fetchAgencies = params => ({
     method: "GET",
     params
   }
+});
+
+export const setValidationErrors = payload => ({
+  type: Actions.SET_VALIDATION_ERRORS,
+  payload
+});
+
+export const clearValidationErrors = () => ({
+  type: Actions.CLEAR_VALIDATION_ERRORS
 });

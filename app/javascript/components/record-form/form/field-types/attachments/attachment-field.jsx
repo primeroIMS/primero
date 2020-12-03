@@ -1,28 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { IconButton, Box } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "../../styles.css";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
+import ActionDialog from "../../../../action-dialog";
+import { useI18n } from "../../../../i18n";
 
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
 import AttachmentPreview from "./attachment-preview";
 
-const AttachmentField = ({
-  name,
-  index,
-  attachment,
-  disabled,
-  mode,
-  arrayHelpers,
-  value
-}) => {
+const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers, value }) => {
   const css = makeStyles(styles)();
-  const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
+  const i18n = useI18n();
+  const [open, setOpen] = useState(false);
+  const { attachment_url: attachmentUrl, id, _destroy: destroyed, file_name: fileName } = value;
 
   const fields = buildAttachmentFieldsObject(name, index);
+
+  const onOpenModal = () => setOpen(true);
+
+  const onCloseModal = () => setOpen(false);
 
   const handleRemove = () => {
     if (attachmentUrl) {
@@ -37,6 +39,21 @@ const AttachmentField = ({
 
   if (destroyed) return null;
 
+  const deleteButton = (
+    <>
+      <ActionButton
+        icon={<DeleteIcon />}
+        type={ACTION_BUTTON_TYPES.icon}
+        isCancel
+        rest={{
+          onClick: onOpenModal
+        }}
+      />
+    </>
+  );
+
+  const dialogTitle = `${i18n.t("fields.remove")} ${name}`;
+
   return (
     <Box className={css.uploadBox}>
       <Box display="flex" my={2} alignItems="center">
@@ -44,27 +61,25 @@ const AttachmentField = ({
           {!mode.isShow && (
             <>
               {attachmentUrl ? (
-                <AttachmentPreview
-                  attachment={attachment}
-                  attachmentUrl={attachmentUrl}
-                />
+                <div className={css.attachmentRow}>
+                  <AttachmentPreview name={fileName} attachment={attachment} attachmentUrl={attachmentUrl} />
+                  {deleteButton}
+                </div>
               ) : (
-                <AttachmentInput
-                  fields={fields}
-                  attachment={attachment}
-                  name={name}
-                />
+                <AttachmentInput fields={fields} attachment={attachment} name={name} deleteButton={deleteButton} />
               )}
             </>
           )}
         </Box>
-        {disabled && !mode.isShow && (
-          <div>
-            <IconButton onClick={handleRemove}>
-              <DeleteIcon />
-            </IconButton>
-          </div>
-        )}
+        {disabled && !mode.isShow && { deleteButton }}
+        <ActionDialog
+          open={open}
+          successHandler={handleRemove}
+          cancelHandler={onCloseModal}
+          dialogTitle={dialogTitle}
+          dialogText={i18n.t("fields.remove_attachment_confirmation")}
+          confirmButtonLabel={i18n.t("buttons.ok")}
+        />
       </Box>
     </Box>
   );

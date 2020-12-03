@@ -1,0 +1,9 @@
+.radioButtons {
+  display: flex;
+  align-items: center;
+  margin: 0 1em 0 0;
+
+   & svg {
+     margin: 0 .2em 0 0;
+   }
+}

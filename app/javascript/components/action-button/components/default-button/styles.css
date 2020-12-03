@@ -1,0 +1,58 @@
+.defaultActionButton, .onlyText {
+  background-color: $(theme.primero.colors.blue);
+  border-radius: 24px;
+  color: $(theme.primero.colors.white);
+  height: 35px;
+  padding: 0 15px;
+  margin-right: 5px;
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+  }
+}
+
+.outlined {
+  border: 2px solid $(theme.primero.colors.blue);
+  color: $(theme.primero.colors.blue);
+  background: $(theme.primero.colors.white);
+  font-weight: bold;
+
+  &:hover {
+    color: $(theme.primero.colors.white);
+    border: 2px solid $(theme.primero.colors.blue);
+    background: $(theme.primero.colors.blue);
+  }
+}
+
+.isTransparent {
+  color: $(theme.primero.colors.grey);
+  background-color: transparent;
+}
+
+.isCancel {
+  background: $(theme.primero.colors.grey);
+}
+
+.buttonProgress {
+  position: absolute;
+  margin-top: 6px;
+  margin-left: -55px;
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .defaultActionButton {
+    min-width: 3em;
+    border-radius: 50%;
+    padding: 0;
+    
+    & span {
+
+      & span {
+        margin: 0;
+      }
+    }
+  }
+  .buttonProgress {
+    margin-left: -32px;
+  }
+}

@@ -6,3 +6,8 @@ export const TASK_TYPES = Object.freeze({
   FOLLOW_UP: "follow_up",
   SERVICE: "service"
 });
+
+export const TASK_STATUS = Object.freeze({
+  overdue: "overdue",
+  upcomingSoon: "upcoming_soon"
+});

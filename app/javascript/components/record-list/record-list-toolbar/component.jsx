@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Box, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
 import { PageHeading } from "../../page";
@@ -9,20 +8,10 @@ import RecordActions from "../../record-actions";
 import Permission from "../../application/permission";
 import { CREATE_RECORDS } from "../../../libs/permissions";
 import AddRecordMenu from "../add-record-menu";
-import styles from "../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({
-  title,
-  recordType,
-  handleDrawer,
-  mobileDisplay,
-  selectedRecords,
-  currentPage
-}) => {
-  const css = makeStyles(styles)();
-
+const Component = ({ title, recordType, handleDrawer, mobileDisplay, selectedRecords, currentPage, css }) => {
   return (
     <Box mb={3} alignItems="center" display="flex" className={css.toolbar}>
       <Box flexGrow={1}>
@@ -41,7 +30,6 @@ const Component = ({
           currentPage={currentPage}
           selectedRecords={selectedRecords}
           recordType={recordType}
-          iconColor="primary"
           mode={{ isShow: true }}
           showListActions
         />
@@ -51,6 +39,7 @@ const Component = ({
 };
 
 Component.propTypes = {
+  css: PropTypes.object,
   currentPage: PropTypes.number,
   handleDrawer: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,

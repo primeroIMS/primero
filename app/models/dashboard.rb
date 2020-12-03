@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# This represents the elements that are to be displayed on the Dashboard
 class Dashboard < ValueObject
   attr_accessor :name, :type, :indicators
 
@@ -6,7 +9,6 @@ class Dashboard < ValueObject
   end
 
   DYNAMIC = %w[
-    dash_reporting_location
     dash_protection_concerns
     cases_by_task_overdue_assessment
     cases_by_task_overdue_case_plan
@@ -72,6 +74,26 @@ class Dashboard < ValueObject
     ]
   ).freeze
 
+  APPROVALS_ACTION_PLAN = Dashboard.new(
+    name: 'approvals_action_plan',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::APPROVALS_ACTION_PLAN_PENDING,
+      Indicators::Case::APPROVALS_ACTION_PLAN_REJECTED,
+      Indicators::Case::APPROVALS_ACTION_PLAN_APPROVED
+    ]
+  ).freeze
+
+  APPROVALS_GBV_CLOSURE = Dashboard.new(
+    name: 'approvals_gbv_closure',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::APPROVALS_GBV_CLOSURE_PENDING,
+      Indicators::Case::APPROVALS_GBV_CLOSURE_REJECTED,
+      Indicators::Case::APPROVALS_GBV_CLOSURE_APPROVED
+    ]
+  ).freeze
+
   APPROVALS_ASSESSMENT_PENDING = Dashboard.new(
     name: 'approvals_assessment_pending',
     type: 'indicator',
@@ -88,6 +110,18 @@ class Dashboard < ValueObject
     name: 'approvals_closure_pending',
     type: 'indicator',
     indicators: [Indicators::Case::APPROVALS_CLOSURE_PENDING_GROUP]
+  ).freeze
+
+  APPROVALS_ACTION_PLAN_PENDING = Dashboard.new(
+    name: 'approvals_action_plan_pending',
+    type: 'indicator',
+    indicators: [Indicators::Case::APPROVALS_ACTION_PLAN_PENDING_GROUP]
+  ).freeze
+
+  APPROVALS_GBV_CLOSURE_PENDING = Dashboard.new(
+    name: 'approvals_gbv_closure_pending',
+    type: 'indicator',
+    indicators: [Indicators::Case::APPROVALS_GBV_CLOSURE_PENDING_GROUP]
   ).freeze
 
   def self.cases_by_task_overdue_assessment
@@ -183,11 +217,22 @@ class Dashboard < ValueObject
     ]
   ).freeze
 
-  def self.dash_reporting_location
+  DASH_CASE_INCIDENT_OVERVIEW = Dashboard.new(
+    name: 'dash_case_incident_overview',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::OPEN,
+      Indicators::Case::UPDATED,
+      Indicators::Case::WITH_INCIDENTS,
+      Indicators::Case::WITHOUT_INCIDENTS
+    ].freeze
+  )
+
+  def self.dash_reporting_location(role = nil)
     Dashboard.new(
       name: 'reporting_location',
       type: 'indicator',
-      indicators: Indicators::Case.reporting_location_indicators
+      indicators: Indicators::Case.reporting_location_indicators(role)
     )
   end
 end

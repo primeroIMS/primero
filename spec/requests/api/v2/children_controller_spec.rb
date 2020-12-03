@@ -6,7 +6,7 @@ describe Api::V2::ChildrenController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    clean_data(Alert, Flag, Attachment, Child, Agency, User, Role, Lookup)
+    clean_data(Alert, Flag, Attachment, Incident, Child, Agency, User, Role, Lookup)
     @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
     role_self = Role.create!(
       name: 'Test Role 3',
@@ -29,6 +29,31 @@ describe Api::V2::ChildrenController, type: :request do
       role: role_self,
       services: ['Test type']
     )
+    @role_owned_others = Role.create!(
+      name: 'Test Role Owned Others',
+      unique_id: 'test-role-owned-others',
+      group_permission: Permission::SELF,
+      permissions: [
+        Permission.new(
+          resource: Permission::CASE,
+          actions: [
+            Permission::READ,
+            Permission::WRITE,
+            Permission::CREATE,
+            Permission::SEARCH_OWNED_BY_OTHERS
+          ]
+        )
+      ]
+    )
+    @user_owned_others = User.create!(
+      full_name: 'Test User with Owned by Others',
+      user_name: 'test_user_owned_others',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'test_user_owned_others@localhost.com',
+      agency_id: @agency.id,
+      role: @role_owned_others
+    )
     Lookup.create!(
       unique_id: 'lookup-service-type',
       name_en: 'Service Type',
@@ -39,6 +64,10 @@ describe Api::V2::ChildrenController, type: :request do
     @case1 = Child.create!(
       data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false }
     )
+    Attachment.new(
+      record: @case1, field_name: 'photos', attachment_type: Attachment::IMAGE,
+      file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
+    ).attach!
     @case2 = Child.create!(
       data: { name: 'Test2', age: 10, sex: 'female', urgent_protection_concern: true },
       alerts: [
@@ -56,10 +85,15 @@ describe Api::V2::ChildrenController, type: :request do
       },
       alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request')]
     )
-    Attachment.new(
-      record: @case1, field_name: 'photos', attachment_type: Attachment::IMAGE,
-      file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
-    ).attach!
+    @case4 = Child.new_with_user(
+      @user_owned_others,
+      name: 'Test4', age: 5, sex: 'male'
+    )
+    @case4.save!
+    @incident1 = Incident.create!(
+      case: @case1,
+      data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' }
+    )
     Sunspot.commit
   end
 
@@ -71,9 +105,9 @@ describe Api::V2::ChildrenController, type: :request do
       get '/api/v2/cases'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(3)
+      expect(json['data'].size).to eq(4)
       expect(json['data'].map { |c| c['name'] }).to include(@case1.name, @case2.name)
-      expect(json['metadata']['total']).to eq(3)
+      expect(json['metadata']['total']).to eq(4)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
       case1_data = json['data'].find { |r| r['id'] == @case1.id }
@@ -82,6 +116,8 @@ describe Api::V2::ChildrenController, type: :request do
       expect(case2_data['alert_count']).to eq(2)
       case3_data = json['data'].find { |r| r['id'] == @case3.id }
       expect(case3_data['alert_count']).to eq(1)
+      case4_data = json['data'].find { |r| r['id'] == @case4.id }
+      expect(case4_data['alert_count']).to eq(0)
     end
 
     it 'shows relevant fields' do
@@ -121,7 +157,7 @@ describe Api::V2::ChildrenController, type: :request do
     end
 
     it 'returns alert_count for the short form ' do
-      @case1.add_alert('transfer_request', Date.today, 'transfer_request')
+      @case1.add_alert(alert_for: 'transfer_request', date: Date.today, form_sidebar_id: 'transfer_request')
 
       login_for_test(permissions: permission_flag_record)
       get '/api/v2/cases?fields=short'
@@ -171,6 +207,26 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data'][0]['urgent_protection_concern']).to be_falsey
       expect(response).to have_http_status(200)
     end
+
+    context 'when a user can only see his own records but has search_owned_by_others' do
+      it 'lists only those cases a user has permission to see' do
+        sign_in(@user_owned_others)
+
+        get '/api/v2/cases'
+
+        expect(json['data'].count).to eq(1)
+        expect(response).to have_http_status(200)
+      end
+
+      it 'list all cases if the param id_search=true' do
+        sign_in(@user_owned_others)
+
+        get '/api/v2/cases?id_search=true'
+
+        expect(json['data'].count).to eq(4)
+        expect(response).to have_http_status(200)
+      end
+    end
   end
 
   describe 'GET /api/v2/cases/:id' do
@@ -184,7 +240,8 @@ describe Api::V2::ChildrenController, type: :request do
 
     it 'fetches the correct record with code 200 and verify flag count' do
       login_for_test
-      @case1.add_alert('transfer_request', Date.today, 'transfer_request')
+
+      @case1.add_alert(alert_for: 'transfer_request', date: Date.today, form_sidebar_id: 'transfer_request')
       get "/api/v2/cases/#{@case1.id}"
 
       expect(response).to have_http_status(200)
@@ -225,6 +282,16 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(200)
       photo = json['data']['photo']
       expect(photo).to match(/.+jorge\.jpg$/)
+    end
+
+    it 'contains incidents embedded in the incident_details hash array' do
+      login_for_test(permitted_field_names: (common_permitted_field_names << 'incident_details'))
+      get "/api/v2/cases/#{@case1.id}"
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['incident_details'].size).to eq(1)
+      expect(json['data']['incident_details'][0]['unique_id']).to eq(@incident1.id)
+      expect(json['data']['incident_details'][0]['description']).to eq(@incident1.data['description'])
     end
 
     it 'enqueues an audit log job that records the case read attempt' do
@@ -325,14 +392,14 @@ describe Api::V2::ChildrenController, type: :request do
     it 'returns a 422 if the case record is invalid' do
       login_for_test
       params = {
-        data: { name: 'Test', age: 12, sex: 'female', registration_date: 'is invalid' }
+        data: { name: 'Test', age: 12, sex: 'female', date_of_birth: 'is invalid' }
       }
       post '/api/v2/cases', params: params
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/cases')
-      expect(json['errors'][0]['detail']).to eq('registration_date')
+      expect(json['errors'][0]['detail']).to eq('date_of_birth')
     end
   end
 
@@ -439,14 +506,14 @@ describe Api::V2::ChildrenController, type: :request do
     it 'returns a 422 if the case record is invalid' do
       login_for_test
       params = {
-        data: { name: 'Test', age: 12, sex: 'female', registration_date: 'is invalid' }
+        data: { name: 'Test', age: 12, sex: 'female', date_of_birth: 'is invalid' }
       }
       patch "/api/v2/cases/#{@case1.id}", params: params
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
-      expect(json['errors'][0]['detail']).to eq('registration_date')
+      expect(json['errors'][0]['detail']).to eq('date_of_birth')
     end
 
     it 'sets the case name to be hidden' do

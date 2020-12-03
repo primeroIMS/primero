@@ -6,12 +6,14 @@ class RecordDataService
     def data(record, user, selected_field_names)
       data = record.data
       data = select_fields(data, selected_field_names)
+      data = embed_case_data(data, record, selected_field_names)
       data = embed_user_scope(data, record, selected_field_names, user)
       data = embed_hidden_name(data, record, selected_field_names)
       data = embed_flag_metadata(data, record, selected_field_names)
       data = embed_alert_metadata(data, record, selected_field_names)
       data = embed_photo_metadata(data, record, selected_field_names)
-      embed_attachments(data, record, selected_field_names)
+      data = embed_attachments(data, record, selected_field_names)
+      embed_associations_as_data(data, record, selected_field_names, user)
     end
 
     def select_fields(data, selected_field_names)
@@ -48,7 +50,7 @@ class RecordDataService
     end
 
     def embed_attachments(data, record, selected_field_names)
-      attachment_field_names = Field.binary_field_names
+      attachment_field_names = Field.binary.pluck(:name)
       attachment_field_names &= selected_field_names
       return data unless attachment_field_names.present?
 
@@ -67,8 +69,22 @@ class RecordDataService
       data
     end
 
+    def embed_associations_as_data(data, record, selected_field_names, current_user)
+      return data unless (record.associations_as_data_keys & selected_field_names).present?
+
+      data.merge(record.associations_as_data(current_user))
+    end
+
     def visible_name(record)
       record.try(:hidden_name) ? '*******' : record.try(:name)
+    end
+
+    def embed_case_data(data, record, selected_field_names)
+      return data unless record.class == Incident && record.incident_case_id.present?
+
+      data['incident_case_id'] = record.incident_case_id if selected_field_names.include?('incident_case_id')
+      data['case_id_display'] = record.case_id_display if selected_field_names.include?('case_id_display')
+      data
     end
   end
 end

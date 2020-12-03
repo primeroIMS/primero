@@ -6,11 +6,7 @@ import SubRoute from "./sub-route";
 const SubRoutes = ({ route }) => {
   return route.routes.map(subRoute => {
     return (
-      <Route
-        key={subRoute.path}
-        exact={subRoute.exact !== undefined ? subRoute.exact : true}
-        path={subRoute.path}
-      >
+      <Route key={subRoute.path} exact={subRoute.exact !== undefined ? subRoute.exact : true} path={subRoute.path}>
         <SubRoute subRoute={subRoute} />
       </Route>
     );

@@ -35,9 +35,22 @@ const agency3 = {
   services: ["service_test_1"]
 };
 
+const userGroups = [
+  { id: 1, unique_id: "user-group-1" },
+  { id: 2, unique_id: "user-group-2" }
+];
+
+const roles = [
+  { id: 1, unique_id: "role-1", name: "Role 1" },
+  { id: 2, unique_id: "role-2", name: "Role 2" }
+];
+
 const stateWithNoRecords = fromJS({});
 const stateWithRecords = fromJS({
   application: {
+    primero: {
+      sandbox_ui: true
+    },
     userIdle: true,
     agencies: [agencyWithLogo, agency1, agency2, agency3],
     modules: [
@@ -63,9 +76,10 @@ const stateWithRecords = fromJS({
       }
     ],
     reportingLocationConfig: {
-      label_key: "district",
+      field_key: "owned_by_location",
       admin_level: 2,
-      field_key: "owned_by_location"
+      admin_level_map: { 1: ["province"], 2: ["district"] },
+      label_keys: ["district"]
     },
     permissions: fromJS({
       management: [GROUP_PERMISSIONS.SELF],
@@ -90,8 +104,21 @@ const stateWithRecords = fromJS({
         en: "Assessment",
         fr: "",
         ar: "Assessment-AR"
+      },
+      action_plan: {
+        en: "Action Plan",
+        fr: "",
+        ar: "Action Plan-AR"
+      },
+      gbv_closure: {
+        en: "GBV Closure",
+        fr: "",
+        ar: "GBV Closure-AR"
       }
-    }
+    },
+    userGroups,
+    roles,
+    disabledApplication: true
   }
 });
 
@@ -177,9 +204,10 @@ describe("Application - Selectors", () => {
     it("should return the reporting location config", () => {
       const selector = selectors.getReportingLocationConfig(stateWithRecords);
       const config = fromJS({
-        label_key: "district",
         admin_level: 2,
-        field_key: "owned_by_location"
+        field_key: "owned_by_location",
+        admin_level_map: { 1: ["province"], 2: ["district"] },
+        label_keys: ["district"]
       });
 
       expect(selector).to.deep.equal(config);
@@ -200,10 +228,7 @@ describe("Application - Selectors", () => {
 
   describe("getResourceActions", () => {
     it("should return the resource actions", () => {
-      const selector = selectors.getResourceActions(
-        stateWithRecords,
-        RECORD_TYPES.cases
-      );
+      const selector = selectors.getResourceActions(stateWithRecords, RECORD_TYPES.cases);
 
       expect(selector).to.deep.equal(fromJS([ACTIONS.READ]));
     });
@@ -219,19 +244,13 @@ describe("Application - Selectors", () => {
 
     it("should return enabled agencies with the selected service", () => {
       const expected = fromJS([agency2]);
-      const agenciesWithService = selectors.getEnabledAgencies(
-        stateWithRecords,
-        "service_test_2"
-      );
+      const agenciesWithService = selectors.getEnabledAgencies(stateWithRecords, "service_test_2");
 
       expect(agenciesWithService).to.deep.equal(expected);
     });
 
     it("should return empty if there are no agencies with the selected service", () => {
-      const agenciesWithService = selectors.getEnabledAgencies(
-        stateWithRecords,
-        "service_test_5"
-      );
+      const agenciesWithService = selectors.getEnabledAgencies(stateWithRecords, "service_test_5");
 
       expect(agenciesWithService).to.be.empty;
     });
@@ -248,14 +267,43 @@ describe("Application - Selectors", () => {
       const expectedApprovalsLabels = {
         closure: "Closure",
         case_plan: "Case Plan",
-        assessment: "Assessment"
+        assessment: "Assessment",
+        action_plan: "Action Plan",
+        gbv_closure: "GBV Closure"
       };
-      const approvalsLabels = selectors.getApprovalsLabels(
-        stateWithRecords,
-        "en"
-      );
+      const approvalsLabels = selectors.getApprovalsLabels(stateWithRecords, "en");
 
       expect(approvalsLabels).to.deep.equal(expectedApprovalsLabels);
+    });
+  });
+
+  describe("getUserGroups", () => {
+    it("should return user groups", () => {
+      expect(selectors.getUserGroups(stateWithRecords)).to.deep.equal(fromJS(userGroups));
+    });
+  });
+
+  describe("getRoles", () => {
+    it("should return roles", () => {
+      expect(selectors.getRoles(stateWithRecords)).to.deep.equal(fromJS(roles));
+    });
+  });
+
+  describe("getRoleName", () => {
+    it("should return the role name", () => {
+      expect(selectors.getRoleName(stateWithRecords, "role-2")).to.deep.equal("Role 2");
+    });
+  });
+
+  describe("getDisabledApplication", () => {
+    it("should return boolean value that identifies if the application is disabled or not", () => {
+      expect(selectors.getDisabledApplication(stateWithRecords)).to.be.true;
+    });
+  });
+
+  describe("getDemo", () => {
+    it("should return the role name", () => {
+      expect(selectors.getDemo(stateWithRecords)).to.be.true;
     });
   });
 });

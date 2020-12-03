@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-expressions */
 import React from "react";
-import * as keydown from "keyevent";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 
@@ -65,31 +64,12 @@ describe("<FormInternal />", () => {
     expect(component.find(Field)).to.have.length(3);
   });
 
-  it("renders default label for SearchableSelect", () => {
-    component.find("input").first().simulate("keyDown", {
-      key: "ArrowDown",
-      keyCode: keydown.DOM_VK_DOWN
-    });
-
-    expect(component.find("div.Mui-selected").text()).to.be.equal(
-      "fields.select_single"
-    );
-  });
-
   it("renders TextFieldProps from SearchableSelect with valid props", () => {
     const textFieldProps = {
       ...component.find(SearchableSelect).first().props().TextFieldProps
     };
 
-    [
-      "label",
-      "required",
-      "error",
-      "helperText",
-      "margin",
-      "placeholder",
-      "InputLabelProps"
-    ].forEach(property => {
+    ["label", "required", "error", "helperText", "margin", "placeholder", "InputLabelProps"].forEach(property => {
       expect(textFieldProps).to.have.property(property);
       delete textFieldProps[property];
     });

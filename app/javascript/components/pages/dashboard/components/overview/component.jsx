@@ -14,7 +14,8 @@ import {
   getSharedWithMe,
   getSharedWithOthers,
   getGroupOverview,
-  getCaseOverview
+  getCaseOverview,
+  getCaseIncidentOverview
 } from "../../selectors";
 import { getOption } from "../../../../record-form";
 import { LOOKUPS } from "../../../../../config";
@@ -23,23 +24,16 @@ import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator, userPermissions }) => {
   const i18n = useI18n();
-  const casesByAssessmentLevel = useSelector(state =>
-    getCasesByAssessmentLevel(state)
-  );
+  const casesByAssessmentLevel = useSelector(state => getCasesByAssessmentLevel(state));
   const groupOverview = useSelector(state => getGroupOverview(state));
   const caseOverview = useSelector(state => getCaseOverview(state));
   const sharedWithMe = useSelector(state => getSharedWithMe(state));
   const sharedWithOthers = useSelector(state => getSharedWithOthers(state));
-  const labelsRiskLevel = useSelector(state =>
-    getOption(state, LOOKUPS.risk_level, i18n)
-  );
+  const labelsRiskLevel = useSelector(state => getOption(state, LOOKUPS.risk_level, i18n.locale));
+  const caseIncidentOverview = useSelector(state => getCaseIncidentOverview(state));
 
   const overviewDashHasData = Boolean(
-    casesByAssessmentLevel.size ||
-      groupOverview.size ||
-      caseOverview.size ||
-      sharedWithMe.size ||
-      sharedWithOthers.size
+    casesByAssessmentLevel.size || groupOverview.size || caseOverview.size || sharedWithMe.size || sharedWithOthers.size
   );
 
   const dashboards = [
@@ -51,6 +45,15 @@ const Component = ({ loadingIndicator, userPermissions }) => {
         sectionTitle: i18n.t("dashboard.case_risk"),
         indicator: INDICATOR_NAMES.RISK_LEVEL,
         lookup: labelsRiskLevel
+      }
+    },
+    {
+      type: DASHBOARD_TYPES.OVERVIEW_BOX,
+      actions: ACTIONS.DASH_CASE_INCIDENT_OVERVIEW,
+      options: {
+        items: caseIncidentOverview,
+        sumTitle: i18n.t("dashboard.dash_case_incident_overview"),
+        withTotal: false
       }
     },
     {
@@ -97,11 +100,7 @@ const Component = ({ loadingIndicator, userPermissions }) => {
       const Dashboard = dashboardType(type);
 
       return (
-        <Permission
-          key={actions}
-          resources={RESOURCES.dashboards}
-          actions={actions}
-        >
+        <Permission key={actions} resources={RESOURCES.dashboards} actions={actions}>
           <Grid item xs>
             <OptionsBox flat>
               <Dashboard {...options} />
@@ -113,16 +112,9 @@ const Component = ({ loadingIndicator, userPermissions }) => {
   };
 
   return (
-    <Permission
-      resources={RESOURCES.dashboards}
-      actions={dashboards.map(dashboard => dashboard.actions).flat()}
-    >
+    <Permission resources={RESOURCES.dashboards} actions={dashboards.map(dashboard => dashboard.actions).flat()}>
       <Grid item xl={9} md={8} xs={12}>
-        <OptionsBox
-          title={i18n.t("dashboard.overview")}
-          hasData={overviewDashHasData || false}
-          {...loadingIndicator}
-        >
+        <OptionsBox title={i18n.t("dashboard.overview")} hasData={overviewDashHasData || false} {...loadingIndicator}>
           <Grid item md={12}>
             <Grid container>{renderDashboards()}</Grid>
           </Grid>

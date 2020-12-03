@@ -10,6 +10,7 @@ describe("<IndexFilters /> - Utils", () => {
 
       [
         "buildFields",
+        "buildUserModules",
         "buildReportFields",
         "checkValue",
         "dependantFields",
@@ -125,9 +126,7 @@ describe("<IndexFilters /> - Utils", () => {
         }
       ];
 
-      expect(
-        utils.buildReportFields(["test"], REPORT_FIELD_TYPES.horizontal)
-      ).to.deep.equal(expected);
+      expect(utils.buildReportFields(["test"], REPORT_FIELD_TYPES.horizontal)).to.deep.equal(expected);
     });
   });
 
@@ -160,9 +159,7 @@ describe("<IndexFilters /> - Utils", () => {
     });
 
     it("should return disaggregate_by key with an array of fields with 'horizontal' type ", () => {
-      expect(utils.formatReport(report).disaggregate_by).to.deep.equal([
-        "test_2"
-      ]);
+      expect(utils.formatReport(report).disaggregate_by).to.deep.equal(["test_2"]);
     });
   });
 
@@ -181,6 +178,19 @@ describe("<IndexFilters /> - Utils", () => {
       };
 
       expect(utils.checkValue(filter)).to.be.equals("test");
+    });
+  });
+
+  describe("buildUserModules()", () => {
+    it("should return a list of formatted objects", () => {
+      const modules = List([{ name: "test", unique_id: "test-1" }]);
+      const expected = [{ id: "test-1", display_text: "test" }];
+
+      expect(utils.buildUserModules(modules)).to.deep.equal(expected);
+    });
+
+    it("should return an empty array", () => {
+      expect(utils.buildUserModules(fromJS([]))).to.be.empty;
     });
   });
 });

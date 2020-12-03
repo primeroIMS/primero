@@ -1,99 +1,144 @@
 import React from "react";
-import { Button, makeStyles } from "@material-ui/core";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import { useSelector, useDispatch, batch } from "react-redux";
 
-import ActionDialog from "../../../../../action-dialog";
+import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import CustomFieldSelectorDialog from "../custom-field-selector-dialog";
 import { useI18n } from "../../../../../i18n";
-import { FormAction } from "../../../../../form";
-import { selectDialog } from "../../../../../record-actions/selectors";
-import { setDialog } from "../../../../../record-actions/action-creators";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
+import ActionButton from "../../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
+import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
+import { NAME as EXISTING_FIELD_DIALOG_NAME } from "../existing-field-dialog/constants";
+import { compare } from "../../../../../../libs";
+import { getSelectedField, getSelectedSubform } from "../../selectors";
+import { isSubformField, setInitialForms, setSubformData, toggleHideOnViewPage } from "../field-dialog/utils";
+import { mergeOnSelectedSubform } from "../../action-creators";
 
 import styles from "./styles.css";
 import { NAME, CUSTOM_FIELD_DIALOG } from "./constants";
 
-const Component = () => {
+const Component = ({ getValues }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
-  const openFieldDialog = useSelector(state =>
-    selectDialog(state, CUSTOM_FIELD_DIALOG)
-  );
+
+  const { setDialog, dialogOpen, dialogClose } = useDialog(CUSTOM_FIELD_DIALOG);
+
+  const selectedField = useSelector(state => getSelectedField(state), compare);
+
+  const isSubform = isSubformField(selectedField);
+  const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
+  const isSelectedSubform = selectedSubform.toSeq().size > 0 && isSubform;
 
   const handleDialog = () => {
-    dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true }));
+    if (isSubform) {
+      dialogClose();
+
+      if (getValues) {
+        const selectedFieldName = selectedField?.get("name");
+        const data = getValues({ nest: true });
+        const subformData = setInitialForms(data.subform_section);
+        const fieldData = setSubformData(toggleHideOnViewPage(data[selectedFieldName]), subformData);
+
+        dispatch(mergeOnSelectedSubform({ subform: subformData, subformField: fieldData }));
+      }
+    }
+    setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true });
+  };
+
+  const handleExistingFieldDialog = () => {
+    batch(() => {
+      setDialog({ dialog: EXISTING_FIELD_DIALOG_NAME, open: true });
+    });
   };
 
   const handleCustomFieldSelectorDialog = () => {
     batch(() => {
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: false }));
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
+      setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true });
     });
   };
 
   const handleClose = () => {
-    dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: false }));
+    if (isSubform && selectedSubform.toSeq().size) {
+      setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: true });
+    }
+    dialogClose();
   };
+
+  const renderAddExistingFieldButton = !isSubform && (
+    <ActionButton
+      icon={<SearchIcon />}
+      text={i18n.t("fields.add_existing_field")}
+      type={ACTION_BUTTON_TYPES.default}
+      rest={{
+        disabled: isSelectedSubform,
+        onClick: handleExistingFieldDialog,
+        fullWidth: true,
+        className: css.existingFieldButton
+      }}
+      keepTextOnMobile
+    />
+  );
 
   return (
     <>
-      <FormAction
-        actionHandler={handleDialog}
+      <ActionButton
+        icon={<AddIcon />}
         text={i18n.t("fields.add_field")}
-        startIcon={<AddIcon />}
+        type={ACTION_BUTTON_TYPES.default}
+        rest={{
+          onClick: handleDialog
+        }}
       />
       <ActionDialog
-        open={openFieldDialog}
+        open={dialogOpen}
         maxSize="xs"
         disableActions
+        confirmButtonLabel=""
         dialogTitle={i18n.t("fields.add_field")}
       >
         <div>
-          <Button
-            disabled
-            fullWidth
-            disableElevation
-            variant="contained"
-            className={css.existingFieldButton}
-          >
-            <SearchIcon />
-            {i18n.t("fields.add_existing_field")}
-          </Button>
-          <Button
-            fullWidth
-            color="primary"
-            variant="contained"
-            disableElevation
-            onClick={handleCustomFieldSelectorDialog}
-            className={css.existingFieldButton}
-          >
-            <FormatListBulletedIcon />
-            <span>{i18n.t("fields.add_custom_field")}</span>
-          </Button>
-          <Button
-            fullWidth
-            disableElevation
-            onClick={handleClose}
-            variant="contained"
-            className={css.cancelButton}
-          >
-            <CloseIcon />
-            {i18n.t("buttons.cancel")}
-          </Button>
+          <ActionButton
+            icon={<FormatListBulletedIcon />}
+            text={i18n.t("fields.add_new_field")}
+            type={ACTION_BUTTON_TYPES.default}
+            rest={{
+              onClick: handleCustomFieldSelectorDialog,
+              fullWidth: true,
+              className: css.existingFieldButton
+            }}
+            keepTextOnMobile
+          />
+          {renderAddExistingFieldButton}
+          <ActionButton
+            icon={<CloseIcon />}
+            text={i18n.t("buttons.cancel")}
+            type={ACTION_BUTTON_TYPES.default}
+            isCancel
+            rest={{
+              onClick: handleClose,
+              fullWidth: true,
+              className: css.cancelButton
+            }}
+            keepTextOnMobile
+          />
         </div>
       </ActionDialog>
-      <CustomFieldSelectorDialog key="custom-field-selector-dialog" />
+      <CustomFieldSelectorDialog key="custom-field-selector-dialog" isSubform={isSelectedSubform} />
     </>
   );
 };
 
 Component.displayName = NAME;
 
-Component.propTypes = {};
+Component.propTypes = {
+  getValues: PropTypes.func
+};
 
 export default Component;

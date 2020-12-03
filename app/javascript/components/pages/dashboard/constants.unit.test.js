@@ -4,16 +4,12 @@ describe("Verifying config constant", () => {
   it("should have known constant", () => {
     const clone = { ...constants };
 
-    [
-      "DASHBOARD_NAMES",
-      "INDICATOR_NAMES",
-      "PROTECTION_CONCERNS_ORDER_NAMES",
-      "NAME",
-      "DASHBOARD_TYPES"
-    ].forEach(property => {
-      expect(clone).to.have.property(property);
-      delete clone[property];
-    });
+    ["DASHBOARD_NAMES", "INDICATOR_NAMES", "PROTECTION_CONCERNS_ORDER_NAMES", "NAME", "DASHBOARD_TYPES"].forEach(
+      property => {
+        expect(clone).to.have.property(property);
+        delete clone[property];
+      }
+    );
 
     expect(clone).to.be.empty;
   });
@@ -28,6 +24,11 @@ describe("Verifying config constant", () => {
       "APPROVALS_CASE_PLAN",
       "APPROVALS_CLOSURE_PENDING",
       "APPROVALS_CLOSURE",
+      "APPROVALS_ACTION_PLAN_PENDING",
+      "APPROVALS_ACTION_PLAN",
+      "APPROVALS_GBV_CLOSURE_PENDING",
+      "APPROVALS_GBV_CLOSURE",
+      "CASE_INCIDENT_OVERVIEW",
       "CASE_OVERVIEW",
       "CASE_RISK",
       "CASES_BY_TASK_OVERDUE_ASSESSMENT",
