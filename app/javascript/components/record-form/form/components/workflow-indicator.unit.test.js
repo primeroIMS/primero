@@ -89,7 +89,7 @@ describe("<WorkflowIndicator />", () => {
 
   describe("when the mobile is displayed", () => {
     beforeEach(() => {
-      stub(window, "matchMedia").returns({ matches: true, addListener: () => {} });
+      stub(window, "matchMedia").returns(window.defaultMediaQueryList({ matches: true }));
     });
 
     it("renders the smaller workflow indicator", () => {
