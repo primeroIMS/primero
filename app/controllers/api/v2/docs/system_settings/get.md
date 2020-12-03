@@ -116,8 +116,7 @@ Retrieve the current Primero system settings as JSON
             "show_alerts": true,
             "welcome_email_enabled": false,
             "notification_email_enabled": true,
-            "due_date_from_appointment_date": false,
-            "use_identity_provider": false
+            "due_date_from_appointment_date": false
         },
         "agencies": [
             {
