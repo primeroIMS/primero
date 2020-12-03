@@ -1273,9 +1273,15 @@ en:
     label: Login
     password:
       label: Password
+    password_confirmation:
+      label: Password Confirmation
+    password_match:
+      label: Password Must Match
     provider_title: with %{provider}
     title: Log In
     username: User Name
+    email:
+      label: Email
   lookup:
     create: New Lookup
     enabled_label: Enabled?
