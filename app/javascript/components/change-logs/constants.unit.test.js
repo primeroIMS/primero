@@ -4,7 +4,7 @@ describe("ChangeLogs - Constants", () => {
   it("should have known properties", () => {
     const clonedConstants = { ...constants };
 
-    ["NAME", "APPROVALS"].forEach(property => {
+    ["NAME", "APPROVALS", "SUBFORM", "CREATE_ACTION", "EMPTY_VALUE", "TYPE"].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];
     });

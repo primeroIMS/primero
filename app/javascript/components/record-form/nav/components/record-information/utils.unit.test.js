@@ -2,6 +2,7 @@ import { fromJS } from "immutable";
 
 import {
   APPROVALS,
+  CHANGE_LOGS,
   INCIDENT_FROM_CASE,
   RECORD_OWNER,
   RECORD_TYPES,
@@ -16,7 +17,7 @@ describe("<Nav>/components/<RecordInformation>- utils", () => {
 
   describe("getRecordInformationForms", () => {
     it("should return all the record information forms", () => {
-      expect(utils.getRecordInformationForms(i18n).size).to.equal(5);
+      expect(utils.getRecordInformationForms(i18n).size).to.equal(6);
     });
 
     it("should return the record information forms for incidents", () => {
@@ -30,19 +31,33 @@ describe("<Nav>/components/<RecordInformation>- utils", () => {
 
   describe("getRecordInformationFormIds", () => {
     it("should return all the ids for the record information forms", () => {
-      const formIds = fromJS([RECORD_OWNER, APPROVALS, INCIDENT_FROM_CASE, REFERRAL, TRANSFERS_ASSIGNMENTS]);
+      const formIds = fromJS([
+        RECORD_OWNER,
+        APPROVALS,
+        INCIDENT_FROM_CASE,
+        REFERRAL,
+        TRANSFERS_ASSIGNMENTS,
+        CHANGE_LOGS
+      ]);
 
       expect(utils.getRecordInformationFormIds(i18n)).to.deep.equal(formIds);
     });
 
     it("should return the form ids for incidents", () => {
-      const formIds = fromJS([RECORD_OWNER, APPROVALS, REFERRAL, TRANSFERS_ASSIGNMENTS]);
+      const formIds = fromJS([RECORD_OWNER, APPROVALS, REFERRAL, TRANSFERS_ASSIGNMENTS, CHANGE_LOGS]);
 
       expect(utils.getRecordInformationFormIds(i18n, RECORD_TYPES.incidents)).to.deep.equal(formIds);
     });
 
     it("should return the form ids for cases", () => {
-      const formIds = fromJS([RECORD_OWNER, APPROVALS, INCIDENT_FROM_CASE, REFERRAL, TRANSFERS_ASSIGNMENTS]);
+      const formIds = fromJS([
+        RECORD_OWNER,
+        APPROVALS,
+        INCIDENT_FROM_CASE,
+        REFERRAL,
+        TRANSFERS_ASSIGNMENTS,
+        CHANGE_LOGS
+      ]);
 
       expect(utils.getRecordInformationFormIds(i18n, RECORD_TYPES.cases)).to.deep.equal(formIds);
     });

@@ -239,4 +239,4 @@ export const allowedExportTypes = userPermissions =>
     return EXPORTS_PERMISSIONS.includes(permission);
   });
 
-export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.CHANGE_LOG];
+export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.READ, ACTIONS.CHANGE_LOG];

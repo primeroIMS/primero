@@ -1,2 +1,2 @@
-export { default } from "./component";
+export { default } from "./container";
 export { default as reducer } from "./reducer";

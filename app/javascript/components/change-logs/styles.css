@@ -17,3 +17,12 @@
 .container {
   overflow: auto;
 }
+
+.seeDetailsStyle {
+  padding-top: 6;
+  color: $(theme.primero.colors.blue);
+}
+
+.itemDetails {
+  margin-left: 1rem;
+}

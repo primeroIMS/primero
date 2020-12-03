@@ -285,7 +285,14 @@ const Container = ({ match, mode }) => {
         />
       ),
       [TRANSITION_TYPE]: <Transitions {...transitionProps} />,
-      [CHANGE_LOGS]: <ChangeLogs record={record} recordType={params.recordType} />
+      [CHANGE_LOGS]: (
+        <ChangeLogs
+          record={record}
+          recordType={params.recordType}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+        />
+      )
     }[externalFormSelected];
   };
 

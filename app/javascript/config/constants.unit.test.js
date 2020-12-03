@@ -27,6 +27,7 @@ describe("Verifying config constant", () => {
       "APPLICATION_NAV",
       "APPROVALS",
       "APPROVALS_TYPES",
+      "CHANGE_LOGS",
       "CODE_FIELD",
       "CONSENT_GIVEN_FIELD_BY_MODULE",
       "DATABASE_NAME",

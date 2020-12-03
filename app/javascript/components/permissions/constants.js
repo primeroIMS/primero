@@ -11,6 +11,7 @@ export const ACTIONS = {
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   CLOSE: "close",
   CREATE: "create",
+  CHANGE_LOG: "change_log",
   DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
   DASH_APPROVALS_ASSESSMENT: "approvals_assessment",
   DASH_APPROVALS_ASSESSMENT_PENDING: "approvals_assessment_pending",
@@ -74,8 +75,7 @@ export const ACTIONS = {
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",
-  WRITE: "write",
-  CHANGE_LOG: "change_log"
+  WRITE: "write"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];

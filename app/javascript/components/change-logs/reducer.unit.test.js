@@ -1,6 +1,6 @@
-import { Map, List } from "immutable";
+import { fromJS } from "immutable";
 
-import { listEntriesToRecord } from "../../../libs";
+import { listEntriesToRecord } from "../../libs";
 
 import { ChangeLogsRecord } from "./records";
 import reducer from "./reducer";
@@ -8,8 +8,8 @@ import actions from "./actions";
 
 describe("ChangeLogs - Reducers", () => {
   const nsReducer = reducer.changeLogs;
-  const defaultState = Map({
-    data: List([])
+  const defaultState = fromJS({
+    data: []
   });
 
   it("should handle FETCH_CHANGE_LOGS_SUCCESS", () => {
@@ -35,7 +35,7 @@ describe("ChangeLogs - Reducers", () => {
         record_changes: []
       }
     ];
-    const expected = Map({
+    const expected = fromJS({
       data: listEntriesToRecord(data, ChangeLogsRecord)
     });
     const action = {

@@ -5,22 +5,24 @@ import TimelineConnector from "@material-ui/lab/TimelineConnector";
 import TimelineContent from "@material-ui/lab/TimelineContent";
 import TimelineDot from "@material-ui/lab/TimelineDot";
 
-import { setupMountedComponent } from "../../../../../test";
+import { setupMountedComponent } from "../../../../test";
 
 import ChangeLogItem from "./component";
 
 describe("ChangeLogItems - Component", () => {
   let component;
-  const changeLogMessage = "Changed from Nationality from Canada to Canada,Australia";
-  const changeLogUser = "primero";
+  const title = "Changed from Nationality from Canada to Canada, Australia";
+  const user = "primero";
   const props = {
-    changeLogDate: "2020-08-11T10:27:33Z",
-    changeLogMessage,
-    changeLogUser
+    item: {
+      title,
+      user,
+      date: "2020-08-11T10:27:33Z"
+    }
   };
 
-  before(() => {
-    component = setupMountedComponent(ChangeLogItem, props, fromJS({})).component;
+  beforeEach(() => {
+    ({ component } = setupMountedComponent(ChangeLogItem, props, fromJS({})));
   });
 
   it("renders ChangeLogItem", () => {
@@ -48,8 +50,8 @@ describe("ChangeLogItems - Component", () => {
   });
 
   it("renders div", () => {
-    expect(component.find(TimelineContent).find("div")).to.have.lengthOf(5);
-    expect(component.find(TimelineContent).find("div").at(3).text()).to.be.equal(changeLogMessage);
-    expect(component.find(TimelineContent).find("div").last().text()).to.be.equal(changeLogUser);
+    expect(component.find(TimelineContent).find("div")).to.have.lengthOf(6);
+    expect(component.find(TimelineContent).find("div").at(3).text()).to.be.equal(`${title} `);
+    expect(component.find(TimelineContent).find("div").at(4).text()).to.be.equal(user);
   });
 });

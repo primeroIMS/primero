@@ -1,29 +1,31 @@
-import { fromJS, List, Map, OrderedMap } from "immutable";
+import { fromJS, OrderedMap } from "immutable";
 import Timeline from "@material-ui/lab/Timeline";
 
-import { setupMountedComponent } from "../../../test";
-import ActionDialog from "../../action-dialog";
-import { FieldRecord } from "../../record-form";
+import { setupMountedComponent } from "../../test";
+import { FieldRecord } from "../record-form";
+import RecordFormTitle from "../record-form/form/record-form-title";
 
-import ChangeLogs from "./component";
+import ChangeLogs from "./container";
 import { ChangeLogsRecord } from "./records";
+import ChangeLog from "./components/change-log";
 import ChangeLogItem from "./components/change-log-item";
+import SubformDialog from "./components/subform-dialog";
 
-describe("ChangeLogs - Component", () => {
+describe("ChangeLogs - Container", () => {
   let component;
   const props = {
-    close: () => {},
-    openChangeLog: true,
+    handleToggleNav: () => {},
+    mobileDisplay: false,
     record: fromJS({
       id: "38c82975-99aa-4798-9c3d-dabea104d992",
       nationality: ["canada", "australia"]
     }),
     recordType: "cases"
   };
-  const defaultState = Map({
-    records: Map({
-      changeLogs: Map({
-        data: List([
+  const defaultState = fromJS({
+    records: {
+      changeLogs: {
+        data: [
           ChangeLogsRecord({
             record_id: "38c82975-99aa-4798-9c3d-dabea104d992",
             record_type: "cases",
@@ -35,7 +37,24 @@ describe("ChangeLogs - Component", () => {
                 nationality: { to: ["canada", "australia"], from: ["canada"] }
               },
               { name_nickname: { to: "Pat", from: null } },
-              { national_id_no: { to: "0050M", from: null } }
+              { national_id_no: { to: "0050M", from: null } },
+              {
+                alleged_perpetrator: {
+                  to: [
+                    {
+                      age_group: "12_17",
+                      unique_id: "66df14a7-5382-44de-bc70-5a9633355bf4",
+                      perpetrator_sex: "female",
+                      former_perpetrator: false,
+                      primary_perpetrator: "primary",
+                      perpetrator_ethnicity: "ethnicity1",
+                      perpetrator_occupation: "occupation_4",
+                      perpetrator_nationality: "nationality2"
+                    }
+                  ],
+                  from: null
+                }
+              }
             ]
           }),
           ChangeLogsRecord({
@@ -46,10 +65,10 @@ describe("ChangeLogs - Component", () => {
             action: "create",
             record_changes: []
           })
-        ])
-      })
-    }),
-    forms: Map({
+        ]
+      }
+    },
+    forms: fromJS({
       fields: OrderedMap({
         0: FieldRecord({
           id: 1,
@@ -107,28 +126,55 @@ describe("ChangeLogs - Component", () => {
           guiding_questions: "",
           required: true,
           date_validation: "default_date_validation"
+        }),
+        3: FieldRecord({
+          id: 1,
+          name: "alleged_perpetrator",
+          type: "subform",
+          editable: true,
+          disabled: null,
+          visible: true,
+          display_name: {
+            en: "Alleged Perpetrator"
+          },
+          subform_section_id: null,
+          help_text: {},
+          multi_select: null,
+          option_strings_source: null,
+          option_strings_text: null,
+          guiding_questions: "",
+          required: true,
+          date_validation: "default_date_validation"
         })
       })
     })
   });
 
-  before(() => {
-    component = setupMountedComponent(ChangeLogs, props, defaultState).component;
+  beforeEach(() => {
+    ({ component } = setupMountedComponent(ChangeLogs, props, defaultState, {}));
   });
 
   it("renders ChangeLogs", () => {
     expect(component.find(ChangeLogs)).to.have.lengthOf(1);
   });
 
-  it("renders ActionDialog", () => {
-    expect(component.find(ActionDialog)).to.have.lengthOf(1);
+  it("renders RecordFormTitle", () => {
+    expect(component.find(RecordFormTitle)).to.have.lengthOf(1);
   });
 
   it("renders Timeline", () => {
     expect(component.find(Timeline)).to.have.lengthOf(1);
   });
 
+  it("renders ChangeLog", () => {
+    expect(component.find(ChangeLog)).to.have.lengthOf(1);
+  });
+
   it("renders ChangeLogItem", () => {
-    expect(component.find(ChangeLogItem)).to.have.lengthOf(4);
+    expect(component.find(ChangeLogItem)).to.have.lengthOf(5);
+  });
+
+  it("renders SubformDialog", () => {
+    expect(component.find(SubformDialog)).to.have.lengthOf(1);
   });
 });

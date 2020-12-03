@@ -2,7 +2,7 @@
 import { fromJS } from "immutable";
 
 import { NavRecord } from "../../../records";
-import { SHOW_APPROVALS, VIEW_INCIDENTS_FROM_CASE } from "../../../../../libs/permissions";
+import { SHOW_APPROVALS, SHOW_CHANGE_LOG, VIEW_INCIDENTS_FROM_CASE } from "../../../../../libs/permissions";
 import {
   APPROVALS,
   CHANGE_LOGS,
@@ -72,6 +72,7 @@ export const getRecordInformationForms = (i18n, recordType) =>
       name: i18n.t("change_logs.label"),
       order: 5,
       formId: CHANGE_LOGS,
+      permission_actions: SHOW_CHANGE_LOG,
       is_first_tab: false
     })
   ]).filter(form => !recordType || !form.get("recordTypes").length || form.get("recordTypes").includes(recordType));
