@@ -9,17 +9,10 @@ export default ({ css, theme: customTheme } = {}) => {
   const direction = useSelector(state => getAppDirection(state));
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const themeWithDirection = { ...theme, ...customTheme, direction };
-  const themeProps = {
+
+  return {
+    ...(css && { css: makeStyles(css)() }),
     theme: themeWithDirection,
     mobileDisplay
   };
-
-  if (css) {
-    return {
-      css: makeStyles(css)(),
-      ...themeProps
-    };
-  }
-
-  return themeProps;
 };
