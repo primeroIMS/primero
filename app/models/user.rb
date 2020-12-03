@@ -13,7 +13,7 @@ class User < ApplicationRecord
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
 
-  attr_accessor :exists_reporting_location
+  attr_accessor :exists_reporting_location, :should_send_password_reset_instructions
   attr_reader :refresh_associated_user_groups, :refresh_associated_user_agencies
   attr_writer :user_location, :reporting_location
 
@@ -42,9 +42,11 @@ class User < ApplicationRecord
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
+  before_validation :generate_random_password
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code, :set_locale
   after_update :reassociate_groups_or_agencies
+  after_create :send_reset_password_instructions, if: :should_send_password_reset_instructions
 
   validates :full_name, presence: { message: 'errors.models.user.full_name' }
   validates :user_name, presence: true, uniqueness: { message: 'errors.models.user.user_name_uniqueness' }
@@ -532,6 +534,15 @@ class User < ApplicationRecord
 
   def make_user_name_lowercase
     user_name.downcase!
+  end
+
+  def generate_random_password
+    return unless password_required? && password.blank? && password_confirmation.blank?
+
+    password = "#{SecureRandom.base64(40)}1a"
+    self.password = password
+    self.password_confirmation = password
+    self.should_send_password_reset_instructions = true
   end
 
   def set_agency_services
