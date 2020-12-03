@@ -3,7 +3,6 @@ import {
   AgenciesForm,
   AgenciesList,
   AuditLogs,
-  ContactInformation,
   Dashboard,
   ExportList,
   FormBuilder,
@@ -16,7 +15,7 @@ import {
   PotentialMatches,
   RolesForm,
   RolesList,
-  Support,
+  ContactInformation as AdminContactInformation,
   TaskList,
   UserGroupsForm,
   UserGroupsList,
@@ -47,6 +46,7 @@ import {
   ADMIN_ACTIONS
 } from "../libs/permissions";
 import Login from "../components/login";
+import ContactInformation from "../components/contact-information";
 
 import { ROUTES, MODES } from "./constants";
 
@@ -167,7 +167,7 @@ export default [
       },
       {
         path: ROUTES.support,
-        component: Support
+        component: ContactInformation
       },
       {
         path: `${ROUTES.account}/:id`,
@@ -249,7 +249,7 @@ export default [
             },
             {
               path: `${ROUTES.contact_information}/edit`,
-              component: ContactInformation,
+              component: AdminContactInformation,
               resources: RESOURCES.contact_information,
               extraProps: {
                 mode: MODES.edit
@@ -257,7 +257,7 @@ export default [
             },
             {
               path: `${ROUTES.contact_information}`,
-              component: ContactInformation,
+              component: AdminContactInformation,
               resources: RESOURCES.contact_information,
               extraProps: {
                 mode: MODES.show
