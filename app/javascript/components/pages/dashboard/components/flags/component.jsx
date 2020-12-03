@@ -23,22 +23,26 @@ const Component = ({ loadingIndicator }) => {
   const dispatch = useDispatch();
   const onClickSeeAll = () => dispatch(push(`${RECORD_PATH.cases}?flagged[0]=true`));
 
+  const renderSeeAll = flags.size > 0 && (
+    <div className={css.seeAll}>
+      <ActionButton
+        text={`${i18n.t("dashboard.link_see_all")} (${flags.size})`}
+        type={ACTION_BUTTON_TYPES.default}
+        isTransparent
+        rest={{
+          className: css.seeAllColor,
+          onClick: onClickSeeAll
+        }}
+      />
+    </div>
+  );
+
   return (
     <Permission resources={RESOURCES.cases} actions={[ACTIONS.READ, ACTIONS.MANAGE]}>
       <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_FLAGS}>
         <OptionsBox title={i18n.t("dashboard.flagged_cases")} hasData={Boolean(flags.size)} {...loadingIndicator}>
           <FlagBox flags={flags} />
-          <div className={css.seeAll}>
-            <ActionButton
-              text={`${i18n.t("dashboard.link_see_all")} (${flags.size})`}
-              type={ACTION_BUTTON_TYPES.default}
-              isTransparent
-              rest={{
-                className: css.seeAllColor,
-                onClick: onClickSeeAll
-              }}
-            />
-          </div>
+          {renderSeeAll}
         </OptionsBox>
       </Permission>
     </Permission>

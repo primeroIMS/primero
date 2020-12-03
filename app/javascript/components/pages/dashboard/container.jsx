@@ -7,6 +7,8 @@ import PageContainer, { PageHeading, PageContent } from "../../page";
 import { getPermissions } from "../../user/selectors";
 import { getLoading, getErrors } from "../../index-table";
 import { OfflineAlert } from "../../disable-offline";
+import { ACTIONS, RESOURCES } from "../../../libs/permissions";
+import usePermissions from "../../permissions";
 
 import {
   Overview,
@@ -27,11 +29,13 @@ import { fetchDashboards, fetchFlags } from "./action-creators";
 const Dashboard = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const canFetchFlags = usePermissions(RESOURCES.dashboards, [ACTIONS.DASH_FLAGS]);
 
   useEffect(() => {
     dispatch(fetchDashboards());
-    // TODO: Fetch only if user has access to CASES (View, Manage) and DASH_FLAGS
-    dispatch(fetchFlags());
+    if (canFetchFlags) {
+      dispatch(fetchFlags());
+    }
   }, []);
 
   const userPermissions = useSelector(state => getPermissions(state));

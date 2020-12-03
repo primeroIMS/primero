@@ -1,6 +1,6 @@
 .flagContainer {
   max-height: 506px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .Flag {
