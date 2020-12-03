@@ -14,6 +14,10 @@ describe("User - Actions", () => {
       "LOGOUT_SUCCESS",
       "LOGOUT_SUCCESS_CALLBACK",
       "REFRESH_USER_TOKEN",
+      "RESET_PASSWORD",
+      "RESET_PASSWORD_FAILURE",
+      "RESET_PASSWORD_STARTED",
+      "RESET_PASSWORD_SUCCESS",
       "SET_AUTHENTICATED_USER"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);

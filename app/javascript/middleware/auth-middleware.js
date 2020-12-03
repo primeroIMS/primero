@@ -47,26 +47,32 @@ const authMiddleware = store => next => action => {
 
   const isAuthenticated = store.getState().getIn(["user", "isAuthenticated"], false);
 
-  if (routeChanged && location === "/logout") {
+  const useIdentityProvider = store.getState().getIn(["idp", "use_identity_provider"], false);
+
+  if (routeChanged && location === ROUTES.logout) {
     startSignout(store, attemptSignout, signOut);
   }
 
-  if (["/login", "/"].includes(location) && isAuthenticated) {
+  if ([ROUTES.login, "/"].includes(location) && isAuthenticated) {
     redirectTo(store, ROUTES.dashboard);
   }
 
-  if (action.type === actions.LOGIN_SUCCESS_CALLBACK) {
-    loginSuccessHandler(store, action.payload.json);
+  if ([actions.LOGIN_SUCCESS_CALLBACK, Actions.RESET_PASSWORD_SUCCESS].includes(action.type)) {
+    loginSuccessHandler(store, action.payload.json || action.payload);
   }
 
   if ([Actions.LOGOUT_FINISHED, Actions.LOGOUT_FAILURE].includes(action.type)) {
     logoutSuccessHandler(store);
   }
 
-  const searchPattern = /^\/login/;
+  const loginPattern = /^\/login/;
 
-  if (routeChanged && !searchPattern.test(location) && !isAuthenticated) {
-    redirectTo(store, "/login");
+  const resetPattern = /^\/password_reset/;
+
+  if (resetPattern.test(location) && useIdentityProvider) {
+    redirectTo(store, isAuthenticated ? ROUTES.dashboard : ROUTES.login);
+  } else if (routeChanged && !loginPattern.test(location) && !resetPattern.test(location) && !isAuthenticated) {
+    redirectTo(store, ROUTES.login);
   }
 
   next(action);

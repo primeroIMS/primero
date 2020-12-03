@@ -73,3 +73,22 @@ export const clearSelectedUser = () => {
     type: actions.CLEAR_SELECTED_USER
   };
 };
+
+export const passwordResetRequest = userId => ({
+  type: actions.PASSWORD_RESET_REQUEST,
+  api: {
+    path: `users/${userId}/password-reset-request`,
+    method: METHODS.POST,
+    body: { user: { password_reset: true } },
+    successCallback: {
+      action: ENQUEUE_SNACKBAR,
+      payload: {
+        messageKey: "user.password_reset.request_submitted",
+        options: {
+          variant: SNACKBAR_VARIANTS.success,
+          key: generate.messageKey("user.password_reset.request_submitted")
+        }
+      }
+    }
+  }
+});

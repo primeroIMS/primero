@@ -218,4 +218,78 @@ describe Report do
       expect(report.values_as_json_hash).to eq(values_as_hash)
     end
   end
+
+  describe 'is_graph' do
+    context 'when is_graph is in params' do
+      before do
+        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: @module.unique_id,
+                             is_graph: true)
+      end
+
+      it 'has value for is_graph' do
+        expect(@report.is_graph).to be_truthy
+      end
+
+      it 'has value for graph' do
+        expect(@report.graph).to be_truthy
+      end
+    end
+
+    context 'when graph is in params' do
+      before do
+        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: @module.unique_id,
+                             graph: true)
+      end
+
+      it 'has value for is_graph' do
+        expect(@report.is_graph).to be_truthy
+      end
+
+      it 'has value for graph' do
+        expect(@report.graph).to be_truthy
+      end
+    end
+
+    context 'when is_graph is updated' do
+      before :each do
+        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: @module.unique_id,
+                             is_graph: false)
+      end
+
+      it 'updates is_graph' do
+        expect(@report.is_graph).to be_falsey
+
+        @report.update_properties(is_graph: true)
+        expect(@report.is_graph).to be_truthy
+      end
+
+      it 'updates graph' do
+        expect(@report.graph).to be_falsey
+
+        @report.update_properties(is_graph: true)
+        expect(@report.graph).to be_truthy
+      end
+    end
+
+    context 'when graph is updated' do
+      before :each do
+        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: @module.unique_id,
+                             graph: false)
+      end
+
+      it 'updates is_graph' do
+        expect(@report.is_graph).to be_falsey
+
+        @report.update_properties(graph: true)
+        expect(@report.is_graph).to be_truthy
+      end
+
+      it 'updates graph' do
+        expect(@report.graph).to be_falsey
+
+        @report.update_properties(graph: true)
+        expect(@report.graph).to be_truthy
+      end
+    end
+  end
 end
