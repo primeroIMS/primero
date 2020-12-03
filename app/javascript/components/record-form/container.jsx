@@ -58,7 +58,7 @@ import { compactValues, getRedirectPath } from "./utils";
 
 const Container = ({ match, mode }) => {
   let submitForm = null;
-  const { theme } = useThemeHelper(styles);
+  const { theme } = useThemeHelper({ css: styles });
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
   const containerMode = {

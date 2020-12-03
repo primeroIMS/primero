@@ -10,7 +10,7 @@ import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
 import { ThemeProvider } from "@material-ui/core/styles";
 
-import { compare, dataToJS, ConditionalWrapper, displayNameHelper } from "../../libs";
+import { compare, dataToJS, ConditionalWrapper, displayNameHelper, useThemeHelper } from "../../libs";
 import LoadingIndicator from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
@@ -48,6 +48,7 @@ const Component = ({
   const loading = useSelector(state => getLoading(state, recordType));
   const errors = useSelector(state => getErrors(state, recordType));
   const filters = useSelector(state => getFilters(state, recordType), compare);
+  const { theme } = useThemeHelper({ theme: recordListTheme });
 
   const { order, order_by: orderBy } = filters || {};
   const records = data.get("data");
@@ -335,7 +336,7 @@ const Component = ({
 
   return (
     <LoadingIndicator {...loadingIndicatorProps}>
-      <ConditionalWrapper condition={validRecordTypes} wrapper={ThemeProvider} theme={recordListTheme}>
+      <ConditionalWrapper condition={validRecordTypes} wrapper={ThemeProvider} theme={theme}>
         <MUIDataTable {...tableOptions} />
       </ConditionalWrapper>
     </LoadingIndicator>
