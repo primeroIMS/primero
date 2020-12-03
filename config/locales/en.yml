@@ -2739,6 +2739,9 @@ en:
     organization: Organization
     agency: Agency
     services_help_text: If you do not specify services, this User will be given the same services its Agency has.
+    password_reset_header: Send password reset email
+    password_reset_text: If you click ‘Send,’ this user will receive an email with a link to reset their password.
+    password_reset_request: Send password reset email
     password: Password
     password_confirmation: Password Confirmation
     phone: Phone

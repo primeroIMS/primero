@@ -23,6 +23,14 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.set(SAVING, true);
     case actions.SAVE_USER_SUCCESS:
       return state.set(SAVING, false);
+    case actions.PASSWORD_RESET_REQUEST_STARTED:
+      return state.setIn(["passwordResetRequest", "loading"], true);
+    case actions.PASSWORD_RESET_REQUEST_SUCCESS:
+      return state.setIn(["passwordResetRequest", "loading"], false);
+    case actions.PASSWORD_RESET_REQUEST_FAILURE:
+      return state.setIn(["passwordResetRequest", "loading"], false);
+    case actions.PASSWORD_RESET_REQUEST_FINISHED:
+      return state.setIn(["passwordResetRequest", "loading"], false);
     default:
       return state;
   }

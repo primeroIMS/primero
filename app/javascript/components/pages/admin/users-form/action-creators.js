@@ -1,5 +1,5 @@
-import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
-import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
+import { METHODS, RECORD_PATH, SAVE_METHODS } from "../../../../config";
+import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../../../notifier";
 import { CLEAR_DIALOG } from "../../../action-dialog";
 
 import actions from "./actions";
@@ -48,3 +48,22 @@ export const clearSelectedUser = () => {
     type: actions.CLEAR_SELECTED_USER
   };
 };
+
+export const passwordResetRequest = userId => ({
+  type: actions.PASSWORD_RESET_REQUEST,
+  api: {
+    path: `users/${userId}/password-reset-request`,
+    method: METHODS.POST,
+    body: { user: { password_reset: true } },
+    successCallback: {
+      action: ENQUEUE_SNACKBAR,
+      payload: {
+        messageKey: "user.password_reset.request_submitted",
+        options: {
+          variant: SNACKBAR_VARIANTS.success,
+          key: generate.messageKey("user.password_reset.request_submitted")
+        }
+      }
+    }
+  }
+});
