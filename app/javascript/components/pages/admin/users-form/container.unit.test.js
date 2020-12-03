@@ -64,7 +64,7 @@ describe("<UsersForm />", () => {
   });
 
   it("renders 18 fields", () => {
-    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(18);
+    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(19);
   });
 
   it("renders submit button with valid props", () => {

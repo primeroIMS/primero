@@ -1,12 +1,14 @@
 import * as userConstants from "./constants";
 
-describe("Verifying config constant", () => {
+describe("Verifying user constant", () => {
   it("should have known constant", () => {
     const constants = { ...userConstants };
 
     [
       "IDENTITY_PROVIDER_ID",
       "PASSWORD_MODAL",
+      "PASSWORD_SELF_OPTION",
+      "PASSWORD_USER_OPTION",
       "ROLE_OPTIONS",
       "USERGROUP_PRIMERO_GBV",
       "USER_CONFIRMATION_DIALOG",
