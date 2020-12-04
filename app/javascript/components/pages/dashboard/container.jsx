@@ -66,6 +66,7 @@ const Dashboard = () => {
         <Grid container spacing={3}>
           <Grid item xl={9} md={8} xs={12}>
             <Overview loadingIndicator={indicatorProps} userPermissions={userPermissions} />
+            <WorkflowIndividualCases loadingIndicator={indicatorProps} />
             <Approvals loadingIndicator={indicatorProps} />
             <SharedFromMyTeam loadingIndicator={indicatorProps} />
             <SharedWithMyTeam loadingIndicator={indicatorProps} />
@@ -75,7 +76,6 @@ const Dashboard = () => {
             <ProtectionConcern loadingIndicator={indicatorProps} />
           </Grid>
           <Grid item xl={3} md={4} xs={12}>
-            <WorkflowIndividualCases loadingIndicator={indicatorProps} />
             <Flags loadingIndicator={flagsIndicators} />
           </Grid>
         </Grid>

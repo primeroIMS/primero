@@ -652,7 +652,7 @@ en:
     worker_count_total:
       one: '<span>%{case_worker}</span> has %{stat} <span>total</span> case '
       other: '<span>%{case_worker}</span> has %{stat} <span>total</span> cases '
-    workflow: Workflow - Individual cases
+    workflow: Workflow
     workflow_team: Workflow - Teams cases
     you_have: 'You have '
   disabled:
