@@ -15,7 +15,7 @@ import { DEMO } from "../../../application/constants";
 import { useDialog } from "../../../action-dialog";
 import { NAME as PASSWORD_RESET_DIALOG_NAME } from "../password-reset-dialog/constants";
 import PasswordResetDialog from "../password-reset-dialog";
-import { selectUseIdentityProvider } from "../../selectors";
+import { getUseIdentityProvider } from "../../selectors";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -32,7 +32,7 @@ const Container = ({ dialogRef, formRef, modal }) => {
   const { setDialog, dialogOpen, dialogClose } = useDialog(PASSWORD_RESET_DIALOG_NAME);
 
   const authErrors = useSelector(state => selectAuthErrors(state));
-  const useIdentityProvider = useSelector(state => selectUseIdentityProvider(state));
+  const useIdentityProvider = useSelector(state => getUseIdentityProvider(state));
 
   if (modal) {
     // eslint-disable-next-line no-param-reassign
