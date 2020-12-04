@@ -7,6 +7,7 @@ import intersection from "lodash/intersection";
 import { FIELDS } from "../record-owner/constants";
 import { compactValues } from "../record-form/utils";
 import generateKey from "../charts/table-values/utils";
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../config";
 
 import { APPROVALS, CREATE_ACTION, EMPTY_VALUE, TYPE, SUBFORM } from "./constants";
 
@@ -84,6 +85,21 @@ const getDiffFromEditedSubform = (valueFrom, valueTo) => {
   }, []);
 };
 
+const translateDate = (value, dateIncludeTime, i18n) => {
+  const format = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
+  const date = i18n.localizeDate(value, format);
+
+  return isNil(date) ? value : date;
+};
+
+const getTranslatedValue = (value, dateIncludeTime, i18n) => {
+  if (isNil(value)) {
+    return EMPTY_VALUE;
+  }
+
+  return translateDate(value, dateIncludeTime, i18n);
+};
+
 const getFieldsAndValuesTranslations = (allLookups, locations, i18n, selectedField, field, value) => {
   let fieldDisplayName;
   let fieldValueFrom = value.from;
@@ -139,6 +155,7 @@ const generateUpdateMessage = (
   i18n
 ) => {
   const fieldsTranslated = getFieldsAndValuesTranslations(allLookups, locations, i18n, fieldRecord, field, value);
+  const dateIncludeTime = fieldRecord?.get("date_include_time");
 
   if (fieldRecord?.get("type") === SUBFORM || field === APPROVALS) {
     const updatedSubform = i18n.t("change_logs.update_subform", {
@@ -154,8 +171,8 @@ const generateUpdateMessage = (
   return {
     title: i18n.t("change_logs.change", {
       field_name: fieldsTranslated.fieldDisplayName || field,
-      from_value: isNil(fieldsTranslated.fieldValueFrom) ? EMPTY_VALUE : fieldsTranslated.fieldValueFrom,
-      to_value: isNil(fieldsTranslated.fieldValueTo) ? EMPTY_VALUE : fieldsTranslated.fieldValueTo
+      from_value: getTranslatedValue(fieldsTranslated.fieldValueFrom, dateIncludeTime, i18n),
+      to_value: getTranslatedValue(fieldsTranslated.fieldValueTo, dateIncludeTime, i18n)
     })
   };
 };
@@ -198,6 +215,7 @@ const generateFieldDetails = (type, subformName, log, allFields, allLookups, loc
       }
 
       const fieldRecord = allFields.filter(recordField => recordField.name === fieldName)?.first();
+      const dateIncludeTime = fieldRecord?.get("date_include_time");
 
       const fieldsTranslated = getFieldsAndValuesTranslations(
         allLookups,
@@ -213,8 +231,8 @@ const generateFieldDetails = (type, subformName, log, allFields, allLookups, loc
           ...acc.details,
           i18n.t("change_logs.change", {
             field_name: fieldsTranslated.fieldDisplayName || fieldName,
-            from_value: fieldsTranslated.fieldValueFrom || EMPTY_VALUE,
-            to_value: fieldsTranslated.fieldValueTo || EMPTY_VALUE
+            from_value: getTranslatedValue(fieldsTranslated.fieldValueFrom, dateIncludeTime, i18n),
+            to_value: getTranslatedValue(fieldsTranslated.fieldValueTo, dateIncludeTime, i18n)
           })
         ];
       }

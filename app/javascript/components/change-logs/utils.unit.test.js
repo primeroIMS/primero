@@ -7,6 +7,7 @@ import { ChangeLogsRecord } from "./records";
 import * as utils from "./utils";
 
 describe("ChangeLogs - Utils", () => {
+  const i18n = { t: item => item, locale: "en", localizeDate: () => {} };
   const allFields = OrderedMap({
     0: FieldRecord({
       id: 1,
@@ -163,7 +164,6 @@ describe("ChangeLogs - Utils", () => {
     ]);
 
     const handleSeeDetails = () => {};
-    const i18n = { t: item => item, locale: "en" };
 
     const result = [
       {
@@ -238,8 +238,6 @@ describe("ChangeLogs - Utils", () => {
         user: "primero"
       }
     };
-
-    const i18n = { t: item => item, locale: "en" };
 
     const result = [
       {

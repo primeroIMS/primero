@@ -17,8 +17,9 @@ import { NAME } from "./constants";
 const Component = ({ item }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const { onClick } = item;
   const renderSeeDetail = item.isSubform && (
-    <ButtonBase className={css.seeDetailsStyle} onClick={() => item.onClick()}>
+    <ButtonBase className={css.seeDetailsStyle} onClick={onClick}>
       {i18n.t("change_logs.see_details")}
     </ButtonBase>
   );
