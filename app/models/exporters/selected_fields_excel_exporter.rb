@@ -48,7 +48,7 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
 
   def constrain_fields(records, user, options)
     forms = forms_to_export(records, user)
-    forms += find_forms_by_colon(options[:field_names], forms)
+    forms += find_forms_by_colon(options[:field_names], forms) if options[:field_names].any? { |x| x.include?(':') }
     fields = fields_to_export(forms, options)
     self.forms = [selected_fields_form(fields)]
   end
