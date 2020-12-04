@@ -23,5 +23,8 @@ export const getSavingRecord = state => state.getIn(["records", NAMESPACE, SAVIN
 
 export const getLoading = state => state.getIn(["records", NAMESPACE, "loading"], false);
 
+export const getSavingNewPasswordReset = state =>
+  state.getIn(["records", NAMESPACE, "newPasswordReset", SAVING], false);
+
 export const getPasswordResetLoading = state =>
   state.getIn(["records", NAMESPACE, "passwordResetRequest", "loading"], false);
