@@ -1,10 +1,13 @@
 import { fromJS } from "immutable";
+import React from "react";
+import { Route } from "react-router-dom";
 
 import { setupMountedComponent } from "../../../../test";
 import applicationActions from "../../../application/actions";
 import { ACTIONS } from "../../../../libs/permissions";
 import { FormAction } from "../../../form";
 import { MODES } from "../../../../config";
+import UserActions from "../../../user-actions";
 
 import UsersForm from "./container";
 
@@ -61,7 +64,7 @@ describe("<UsersForm />", () => {
   });
 
   it("renders 18 fields", () => {
-    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(18);
+    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(19);
   });
 
   it("renders submit button with valid props", () => {
@@ -156,6 +159,37 @@ describe("<UsersForm />", () => {
 
       expect(actionTypes.includes(applicationActions.FETCH_USER_GROUPS)).to.be.false;
       expect(actionTypes.includes(applicationActions.FETCH_ROLES)).to.be.false;
+    });
+  });
+
+  describe("when in show mode", () => {
+    it("renders actions", () => {
+      const initialState = fromJS({
+        records: {
+          users: {
+            selectedUser: users.jose,
+            data: [Object.values(users)],
+            metadata: { total: 2, per: 20, page: 1 }
+          }
+        },
+        application: {
+          agencies
+        },
+        user: {
+          username: users.carlos.user_name,
+          permissions
+        }
+      });
+
+      const TestComponent = initialProps => (
+        <Route path="/admin/users/:id" component={props => <UsersForm {...{ ...props, ...initialProps }} />} />
+      );
+
+      const { component: showComponent } = setupMountedComponent(TestComponent, { mode: "show" }, initialState, [
+        "/admin/users/1"
+      ]);
+
+      expect(showComponent.find(UserActions)).to.have.lengthOf(1);
     });
   });
 });

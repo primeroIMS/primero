@@ -32,7 +32,8 @@ Exports forms and lookups to an xlsx spreadsheet.  Each form is on a different t
     {
            "status": "success",
            "total": 70,
-           "file_name": "form_export_20201117.093352.xlsx",
+           "export_file_name": "form_export_20201201.124822.xlsx",
+           "export_file_url": "/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBa3NuIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--1f01bc5863108d7933e3f4c740155bb1e50058e0/form_export_20201201.124822.xlsx",
            "success_total": 70,
            "failure_total": nil,
            "failures": []

@@ -1,23 +1,24 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
-import { useI18n } from "../../i18n";
-import PageContainer, { PageContent } from "../../page";
-import DisplayData from "../../display-data";
+import { useI18n } from "../i18n";
+import PageContainer, { PageContent } from "../page";
+import DisplayData from "../display-data";
 
 import styles from "./styles.css";
 import { selectSupportData } from "./selectors";
+import { BLACK_LISTED_FIELDS } from "./constants";
 
-const Support = ({ supportData }) => {
+const Support = () => {
   const css = makeStyles(styles)();
+  const supportData = useSelector(state => selectSupportData(state));
   const i18n = useI18n();
 
   const renderInformation =
     supportData.toSeq().size > 0 &&
     supportData._keys.map(x => {
-      if (["agencies", "id"].includes(x)) {
+      if (BLACK_LISTED_FIELDS.includes(x)) {
         return null;
       }
 
@@ -42,15 +43,4 @@ const Support = ({ supportData }) => {
 
 Support.displayName = "Support";
 
-Support.propTypes = {
-  fetchSupportData: PropTypes.func,
-  supportData: PropTypes.object
-};
-
-const mapStateToProps = state => {
-  return {
-    supportData: selectSupportData(state)
-  };
-};
-
-export default connect(mapStateToProps)(Support);
+export default Support;

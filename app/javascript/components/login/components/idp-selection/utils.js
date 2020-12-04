@@ -21,10 +21,10 @@ export const setMsalApp = msalConfig => {
   return new UserAgentApplication(msalConfig);
 };
 
-export const getLoginRequest = (identityScope, uniqueId) => {
+export const getLoginRequest = (identityScope, domainHint) => {
   return {
     scopes: identityScope,
-    extraQueryParameters: { domain_hint: uniqueId }
+    extraQueryParameters: { domain_hint: domainHint }
   };
 };
 

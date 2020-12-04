@@ -123,7 +123,7 @@ describe("<RecordForm /> - Reducers", () => {
           collapsed_field_names: []
         })
       ],
-      attachmentFields: [],
+      attachmentMeta: { fields: [], forms: {} },
       fields: [
         FieldRecord({
           name: "current_owner_section",

@@ -7,7 +7,7 @@ class AuditLog < ApplicationRecord
   default_scope { order(timestamp: :desc) }
 
   belongs_to :record, polymorphic: true, optional: true
-  belongs_to :user
+  belongs_to :user, optional: true
 
   after_initialize do
     self.timestamp ||= DateTime.now

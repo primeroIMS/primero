@@ -9,7 +9,7 @@ export const validationSchema = i18n =>
     user_name: string().required().label(i18n.t("login.username"))
   });
 
-export const form = i18n => {
+export const form = (i18n, submit) => {
   return fromJS([
     FormSectionRecord({
       unique_id: "login",
@@ -26,7 +26,12 @@ export const form = i18n => {
           name: "password",
           type: TEXT_FIELD,
           password: true,
-          required: true
+          required: true,
+          onKeyPress: e => {
+            if (e.key === "Enter") {
+              submit();
+            }
+          }
         })
       ]
     })

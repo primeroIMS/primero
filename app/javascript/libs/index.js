@@ -1,4 +1,4 @@
-export { default as useThemeHelper } from "./theme-helpers";
+export { default as useThemeHelper } from "./use-theme-helpers";
 export { ConditionalWrapper } from "./conditional-wrapper";
 export * from "./component-helpers";
 export * from "./reducer-helpers";

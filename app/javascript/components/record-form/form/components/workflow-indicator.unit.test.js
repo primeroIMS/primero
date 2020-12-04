@@ -88,10 +88,8 @@ describe("<WorkflowIndicator />", () => {
   });
 
   describe("when the mobile is displayed", () => {
-    let stubWindow = null;
-
     beforeEach(() => {
-      stubWindow = stub(window, "matchMedia").returns({ matches: true, addListener: () => {} });
+      stub(window, "matchMedia").returns(window.defaultMediaQueryList({ matches: true }));
     });
 
     it("renders the smaller workflow indicator", () => {
@@ -130,7 +128,7 @@ describe("<WorkflowIndicator />", () => {
     });
 
     afterEach(() => {
-      stubWindow?.restore();
+      window.matchMedia.restore();
     });
   });
 

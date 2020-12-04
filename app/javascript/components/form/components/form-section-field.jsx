@@ -84,7 +84,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     wrapWithComponent: WrapWithComponent,
     onClick,
     placeholder,
-    maxSelectedOptions
+    maxSelectedOptions,
+    onKeyPress
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -161,6 +162,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     clearDependentValues,
     setOtherFieldValues,
     onClick,
+    onKeyPress,
     maxSelectedOptions
   };
 

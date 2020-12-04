@@ -157,7 +157,7 @@ const fetchSinglePayload = (action, store, options) => {
 
   const [attachments, formData] = queueAttachments
     ? partitionObject(body?.data, (value, key) =>
-        store.getState().getIn(["forms", "attachmentFields"], []).includes(key)
+        store.getState().getIn(["forms", "attachmentMeta", "fields"], []).includes(key)
       )
     : [false, false];
 

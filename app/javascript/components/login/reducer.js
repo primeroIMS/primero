@@ -1,13 +1,18 @@
 import { fromJS } from "immutable";
 
-import { LOGIN_SUCCESS } from "./actions";
+import actions from "./actions";
 import NAMESPACE from "./namespace";
 
-const DEFAULT_STATE = fromJS({});
+const DEFAULT_STATE = fromJS({ loading: false });
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case LOGIN_SUCCESS:
+    case actions.LOGIN_STARTED:
+      return state.set("loading", true);
+    case actions.LOGIN_FINISHED:
+    case actions.LOGIN_FAILURE:
+      return state.set("loading", false);
+    case actions.LOGIN_SUCCESS:
       return state
         .set(
           "use_identity_provider",

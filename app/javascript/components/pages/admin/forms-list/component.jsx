@@ -91,6 +91,8 @@ const Component = () => {
   };
 
   const renderFormSections = () =>
+    allFormGroupsLookups &&
+    allFormGroupsLookups?.size > 0 &&
     formSectionsByGroup.map((group, index) => {
       const { form_group_id: formGroupID } = group.first() || {};
       const formGroupName = currentFormGroupsLookups[formGroupID];

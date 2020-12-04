@@ -58,7 +58,8 @@ export const FieldRecord = Record({
   wrapWithComponent: null,
   onClick: null,
   placeholder: "",
-  maxSelectedOptions: null
+  maxSelectedOptions: null,
+  onKeyPress: null
 });
 
 export const FormSectionRecord = Record({

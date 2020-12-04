@@ -40,17 +40,25 @@ import { usePermissions } from "../user";
 import { clearRecordAttachments, fetchRecordsAlerts, updateRecordAttachments } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
 
+import {
+  getAttachmentForms,
+  getFirstTab,
+  getFormNav,
+  getRecordForms,
+  getLoadingState,
+  getErrors,
+  getSelectedForm
+} from "./selectors";
 import { clearValidationErrors } from "./action-creators";
 import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { getFirstTab, getFormNav, getRecordForms, getLoadingState, getErrors, getSelectedForm } from "./selectors";
 import { compactValues, getRedirectPath } from "./utils";
 
 const Container = ({ match, mode }) => {
   let submitForm = null;
-  const { theme } = useThemeHelper(styles);
+  const { theme } = useThemeHelper({ css: styles });
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
   const containerMode = {
@@ -80,6 +88,7 @@ const Container = ({ match, mode }) => {
 
   const formNav = useSelector(state => getFormNav(state, selectedModule));
   const forms = useSelector(state => getRecordForms(state, selectedModule));
+  const attachmentForms = useSelector(state => getAttachmentForms(state));
   const firstTab = useSelector(state => getFirstTab(state, selectedModule));
   const loadingForm = useSelector(state => getLoadingState(state));
   const loadingRecord = useSelector(state => getLoadingRecordState(state, params.recordType));
@@ -123,8 +132,8 @@ const Container = ({ match, mode }) => {
           : i18n.t(`${recordType}.messages.creation_success`, recordType);
       };
 
-      batch(async () => {
-        await dispatch(
+      batch(() => {
+        dispatch(
           saveRecord(
             params.recordType,
             saveMethod,
@@ -300,7 +309,12 @@ const Container = ({ match, mode }) => {
             <Nav {...navProps} />
           </div>
           <div className={`${css.recordForms} record-form-container`}>
-            <RecordForm {...formProps} externalForms={externalForms} selectedForm={selectedForm} />
+            <RecordForm
+              {...formProps}
+              externalForms={externalForms}
+              selectedForm={selectedForm}
+              attachmentForms={attachmentForms}
+            />
           </div>
         </div>
       </LoadingIndicator>
