@@ -48,7 +48,6 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
 
   def constrain_fields(records, user, options)
     forms = forms_to_export(records, user)
-    forms += find_forms_by_colon(options[:field_names], forms) if options[:field_names].any? { |x| x.include?(':') }
     fields = fields_to_export(forms, options)
     self.forms = [selected_fields_form(fields)]
   end
@@ -62,21 +61,6 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
       form_dup
     end
     self.forms = self.forms.select { |f| f.fields.size.positive? }
-  end
-
-  def find_forms_by_colon(options, forms)
-    return [] if options.blank?
-
-    options.group_by { |option| option.split(':')[0] }.map do |form, fields|
-      new_form = forms.find_by(unique_id: form)
-      if new_form.nil?
-        nil
-      else
-        new_form_dup = new_form.dup
-        new_form_dup.fields = new_form.fields.where(name: fields.map { |field| field.split(':').last }).map(&:dup)
-        new_form_dup
-      end
-    end.compact
   end
 
   private

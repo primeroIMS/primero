@@ -236,7 +236,7 @@ class Filter < ValueObject
       reporting_location_field = reporting_location_config&.field_key || ReportingLocation::DEFAULT_FIELD_KEY
       reporting_location_labels = reporting_location_config&.label_keys
       reporting_location_admin_level = reporting_location_config&.admin_level
-      permitted_form_ids = role.permitted_forms('case', true).pluck(:unique_id)
+      permitted_form_ids = role.permitted_forms('case', true, false).pluck(:unique_id)
 
       filters = []
       filters << FLAGGED_CASE

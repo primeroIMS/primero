@@ -270,8 +270,8 @@ describe Exporters::SelectedFieldsExcelExporter do
         @records, @user_subform,
         field_names: ['cases_test_form_1:first_name', 'cases_test_subform_2:field_3', 'cases_test_subform_2:field_4']
       )
-      workbook = Spreadsheet.open(StringIO.new(data))
-      expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID first_name field_3 field_4])
+      workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID first_name field_3 field_4])
     end
 
     it 'contains a sheet for the selected nested fields with their form' do
@@ -280,9 +280,9 @@ describe Exporters::SelectedFieldsExcelExporter do
         form_unique_ids: %w[cases_test_subform_2 cases_test_form_1],
         field_names: %w[field_3 first_name]
       )
-      workbook = Spreadsheet.open(StringIO.new(data))
-      expect(workbook.worksheets[0].row(0).to_a).to eq(%w[ID field_3])
-      expect(workbook.worksheets[1].row(0).to_a).to eq(%w[ID first_name])
+      workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3])
+      expect(workbook.sheet(1).row(1)).to eq(%w[ID first_name])
     end
   end
 end
