@@ -4,7 +4,12 @@ require 'rails_helper'
 
 module Exporters
   describe YmlConfigExporter do
-    before(:each) { clean_data(FormSection, Lookup, PrimeroModule) && primero_module }
+    before do
+      clean_data(FormSection, Lookup, PrimeroModule) && primero_module
+
+      # This is to be used to clean up test config files created during these tests
+      @config_directories = []
+    end
 
     let(:form) do
       FormSection.create_or_update!(
@@ -90,7 +95,11 @@ module Exporters
 
     describe '#localized_form_hash' do
       it "generates a hash for exporting a form's translatable strings to YML" do
-        localized_form_hash = YmlConfigExporter.new.localized_form_hash(form.configuration_hash, 'en')
+        exporter = YmlConfigExporter.new
+        # This is to be used to clean up test config files created during these tests
+        @config_directories << exporter.export_directory
+
+        localized_form_hash = exporter.localized_form_hash(form.configuration_hash, 'en')
         expect(localized_form_hash.size).to eq(1)
         expect(localized_form_hash['en']).to be
         expect(localized_form_hash['en']['basic_identity_test']).to be
@@ -109,8 +118,12 @@ module Exporters
 
     describe '#localized_lookups_hash' do
       it 'generates a hash for exporting the available lookups to YAML for translation' do
+        exporter = YmlConfigExporter.new
+        # This is to be used to clean up test .xlsx files created during these tests
+        @config_directories << exporter.export_directory
+
         lookups_config_hash = [lookup1, lookup2].map(&:configuration_hash)
-        localized_lookups_hash = YmlConfigExporter.new.localized_lookups_hash(lookups_config_hash, 'en')
+        localized_lookups_hash = exporter.localized_lookups_hash(lookups_config_hash, 'en')
         expect(localized_lookups_hash.size).to eq(1)
         expect(localized_lookups_hash['en']).to be
         expect(localized_lookups_hash['en']['lookup-location-type']).to be
@@ -119,6 +132,13 @@ module Exporters
         expect(lookup_values['country']).to eq('Country')
         expect(lookup_values['region']).to eq('Region')
       end
+    end
+
+    after do
+      clean_data(FormSection, Lookup, PrimeroModule)
+
+      # Remove test config files
+      @config_directories.each { |config_dir| FileUtils.rm_rf(config_dir) }
     end
   end
 end
