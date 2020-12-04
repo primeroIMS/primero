@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { selectUseIdentityProvider } from "./selectors";
+import { getUseIdentityProvider } from "./selectors";
 
 const stateWithProviders = fromJS({
   idp: {
@@ -8,10 +8,10 @@ const stateWithProviders = fromJS({
   }
 });
 
-describe("<Login /> - Selectors", () => {
-  describe("selectUseIdentityProvider", () => {
+describe("components/login/selectors.js", () => {
+  describe("getUseIdentityProvider", () => {
     it("should return identity providers", () => {
-      const useProviders = selectUseIdentityProvider(stateWithProviders);
+      const useProviders = getUseIdentityProvider(stateWithProviders);
 
       expect(useProviders).to.equal(true);
     });
