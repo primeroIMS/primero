@@ -18,7 +18,7 @@ import { buildFilter } from "../../../../dashboard/utils";
 
 import workflowTheme from "./theme";
 import styles from "./styles.css";
-import { NAME, CLOSED, REOPENED } from "./constants";
+import { NAME, CLOSED } from "./constants";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
@@ -38,7 +38,7 @@ const Component = ({ loadingIndicator }) => {
         <MuiThemeProvider theme={workflowTheme}>
           <Stepper>
             {workflowLabels
-              ?.filter(step => ![CLOSED, REOPENED].includes(step.id))
+              ?.filter(step => step.id !== CLOSED)
               ?.map(step => {
                 const workflowData = getData(step.id);
                 const stepProps = { active: true, complete: true };
