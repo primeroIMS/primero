@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
 
@@ -8,9 +8,10 @@ import ActionDialog from "../../../../../action-dialog";
 import bindFormSubmit from "../../../../../../libs/submit-form";
 import Form from "../../../../../form";
 import { exportForms } from "../../action-creators";
+import { getExportedForms } from "../../selectors";
 
 import validations from "./validations";
-import { NAME, EXPORT_TYPES } from "./constants";
+import { NAME, EXPORT_TYPES, EXPORTED_URL } from "./constants";
 import { form } from "./form";
 
 const Component = ({ close, filters, i18n, open, pending, setPending }) => {
@@ -18,6 +19,7 @@ const Component = ({ close, filters, i18n, open, pending, setPending }) => {
   const dispatch = useDispatch();
   const { recordType, primeroModule } = filters;
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
+  const exportedForms = useSelector(state => getExportedForms(state));
 
   const onSubmit = data => {
     const params = {
@@ -30,6 +32,12 @@ const Component = ({ close, filters, i18n, open, pending, setPending }) => {
     setPending(true);
     dispatch(exportForms({ params: omitBy(params, isEmpty), message: i18n.t("form_export.success_message") }));
   };
+
+  useEffect(() => {
+    if (exportedForms.size > 0 && !isEmpty(exportedForms.get(EXPORTED_URL))) {
+      window.open(exportedForms.get(EXPORTED_URL));
+    }
+  }, [exportedForms]);
 
   return (
     <ActionDialog
