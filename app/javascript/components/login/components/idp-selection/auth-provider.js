@@ -10,15 +10,13 @@ const getToken = tokenRequest => {
 
 export const signIn = async (idp, tokenCallback) => {
   const identityScope = idp.get("identity_scope").toJS();
-  const uniqueId = idp.get("unique_id");
+  const domainHint = idp.get("domain_hint");
 
   const msalConfig = setMsalConfig(idp);
 
   msalApp = setMsalApp(msalConfig);
 
-  localStorage.setItem("provider_id", uniqueId);
-
-  const loginRequest = getLoginRequest(identityScope, uniqueId);
+  const loginRequest = getLoginRequest(identityScope, domainHint);
   const tokenRequest = getTokenRequest(identityScope);
 
   const loginResponse = await msalApp.loginPopup(loginRequest);

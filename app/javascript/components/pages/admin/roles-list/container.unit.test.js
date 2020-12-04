@@ -3,6 +3,7 @@ import { fromJS } from "immutable";
 import { setupMountedComponent, lookups } from "../../../../test";
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
+import ActionButton from "../../../action-button";
 
 import RolesList from "./container";
 
@@ -45,7 +46,7 @@ describe("<RolesList />", () => {
   });
 
   it("renders record list table", () => {
-    expect(component.find(IndexTable)).to.have.length(1);
+    expect(component.find(IndexTable)).to.have.lengthOf(1);
   });
 
   it("should trigger a valid action with next page when clicking next page", () => {
@@ -64,5 +65,46 @@ describe("<RolesList />", () => {
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
     expect(component.props().store.getActions()[2]).to.deep.equals(expectAction);
+  });
+
+  it("should render new button", () => {
+    const newButton = component.find(ActionButton);
+
+    expect(newButton.text()).to.be.equals("buttons.new");
+    expect(newButton).to.have.lengthOf(1);
+  });
+
+  describe("when user can't create role", () => {
+    let componentWithoutManage;
+
+    beforeEach(() => {
+      const initialState = fromJS({
+        records: {
+          admin: {
+            roles: {
+              data,
+              metadata: { total: dataLength, per: 20, page: 1 },
+              loading: false,
+              errors: false
+            }
+          }
+        },
+        user: {
+          permissions: {
+            roles: [ACTIONS.READ]
+          }
+        },
+        forms: {
+          options: {
+            lookups: lookups()
+          }
+        }
+      });
+
+      ({ component: componentWithoutManage } = setupMountedComponent(RolesList, {}, initialState, ["/admin/roles"]));
+    });
+    it("should not render new button", () => {
+      expect(componentWithoutManage.find(ActionButton)).to.empty;
+    });
   });
 });

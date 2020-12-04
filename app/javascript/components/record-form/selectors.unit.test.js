@@ -193,6 +193,9 @@ const stateWithRecords = fromJS({
     }
   },
   forms: {
+    attachmentMeta: {
+      forms: { documents_form: { en: "Documents Form" } }
+    },
     selectedForm: "basic_identity",
     recordAlerts: [
       {
@@ -343,7 +346,7 @@ describe("<RecordForm /> - Selectors", () => {
   describe("getAttachmentForms", () => {
     it("should return the forms with attachments", () => {
       const attachmentForms = selectors.getAttachmentForms(stateWithRecords, "en");
-      const expected = fromJS({ documents_form: "Documents Form" });
+      const expected = fromJS({ documents_form: { en: "Documents Form" } });
 
       expect(attachmentForms).to.deep.equal(expected);
     });

@@ -10,6 +10,10 @@ module AuditLogActions
 
   private
 
+  def guessed_user_name
+    current_user.try(:user_name) || params[:user].try(:[], :user_name) || params[:user].try(:[], :email)
+  end
+
   def write_audit_log
     audit_log_params = {
       record_type: model_class.name,
@@ -17,12 +21,14 @@ module AuditLogActions
       action: friendly_action_message,
       user_id: current_user.try(:id),
       resource_url: request.url,
-      metadata: { user_name: (current_user.try(:user_name) || params[:user].try(:[], :user_name)) }
+      metadata: { user_name: guessed_user_name }
     }
 
     AuditLogJob.perform_later(audit_log_params)
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
   def friendly_action_message
     return params[:record_action] if params[:record_action].present?
 
@@ -41,6 +47,8 @@ module AuditLogActions
       action_name
     end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/MethodLength
 
   def index_action_message
     request.query_parameters.blank? ? 'list' : action_name

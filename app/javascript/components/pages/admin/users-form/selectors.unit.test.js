@@ -6,6 +6,7 @@ import {
   getUser,
   getErrors,
   getLoading,
+  getPasswordResetLoading,
   getServerErrors,
   getSavingRecord,
   getSavingNewPasswordReset
@@ -121,6 +122,24 @@ describe("<UsersForm /> - Selectors", () => {
       const saving = getSavingNewPasswordReset(savingState);
 
       expect(saving).to.be.false;
+    });
+  });
+
+  describe("getPasswordResetLoading", () => {
+    it("should return true if it's loading", () => {
+      const loadingState = fromJS({ records: { users: { passwordResetRequest: { loading: true } } } });
+
+      const loading = getPasswordResetLoading(loadingState);
+
+      expect(loading).to.be.true;
+    });
+
+    it("should return false if it's loading", () => {
+      const loadingState = fromJS({ records: { users: { passwordResetRequest: { loading: false } } } });
+
+      const loading = getPasswordResetLoading(loadingState);
+
+      expect(loading).to.be.false;
     });
   });
 });

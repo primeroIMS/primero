@@ -24,7 +24,7 @@ import { getUserId, selectUsername, selectAlerts } from "./selectors";
 import MenuEntry from "./components/menu-entry";
 
 const Nav = () => {
-  const { css, theme } = useThemeHelper(styles);
+  const { css, theme } = useThemeHelper({ css: styles });
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
   const i18n = useI18n();

@@ -1,6 +1,6 @@
 import { stub } from "../../../../test";
 import { METHODS, RECORD_PATH } from "../../../../config";
-import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../../../notifier";
+import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../../../notifier";
 import { CLEAR_DIALOG } from "../../../action-dialog";
 
 import * as actionsCreators from "./action-creators";
@@ -10,10 +10,12 @@ describe("<UsersForm /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["fetchUser", "saveUser", "clearSelectedUser", "newPasswordResetRequest"].forEach(property => {
-      expect(creators).to.have.property(property);
-      delete creators[property];
-    });
+    ["fetchUser", "saveUser", "clearSelectedUser", "newPasswordResetRequest", "passwordResetRequest"].forEach(
+      property => {
+        expect(creators).to.have.property(property);
+        delete creators[property];
+      }
+    );
 
     expect(creators).to.be.empty;
   });
@@ -116,6 +118,39 @@ describe("<UsersForm /> - Action Creators", () => {
       };
 
       expect(actionsCreators.newPasswordResetRequest(email)).to.deep.equal(expected);
+    });
+  });
+
+  describe("passwordResetRequest", () => {
+    beforeEach(() => {
+      stub(generate, "messageKey").returns("user.password_reset.request_submitted");
+    });
+
+    afterEach(() => {
+      generate.messageKey.restore();
+    });
+
+    it("should check that returns the correct object", () => {
+      const expectedAction = {
+        type: actions.PASSWORD_RESET_REQUEST,
+        api: {
+          path: "users/5/password-reset-request",
+          method: METHODS.POST,
+          body: { user: { password_reset: true } },
+          successCallback: {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              messageKey: "user.password_reset.request_submitted",
+              options: {
+                variant: SNACKBAR_VARIANTS.success,
+                key: "user.password_reset.request_submitted"
+              }
+            }
+          }
+        }
+      };
+
+      expect(actionsCreators.passwordResetRequest(5)).to.deep.equal(expectedAction);
     });
   });
 });

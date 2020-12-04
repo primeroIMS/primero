@@ -1,3 +1,4 @@
+import { RECORD_PATH, METHODS, ROUTES } from "../../config";
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { loadApplicationResources } from "../application";
 import { SET_USER_LOCALE } from "../i18n";
@@ -5,6 +6,7 @@ import { SET_DIALOG } from "../action-dialog/actions";
 import { LOGIN_DIALOG } from "../login-dialog";
 import { QUEUE_READY } from "../../libs/queue";
 import connectivityActions from "../connectivity/actions";
+import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../notifier";
 
 import actions from "./actions";
 
@@ -31,7 +33,7 @@ export const fetchAuthenticatedUserData = user => ({
       collection: DB_COLLECTIONS_NAMES.USER,
       user: user.username
     },
-    successCallback: [SET_USER_LOCALE]
+    successCallback: [queueReady, SET_USER_LOCALE]
   }
 });
 
@@ -77,5 +79,26 @@ export const refreshToken = checkUserAuth => ({
         }
       ]
     })
+  }
+});
+
+export const resetPassword = data => ({
+  type: actions.RESET_PASSWORD,
+  api: {
+    path: `${RECORD_PATH.users}/password-reset`,
+    method: METHODS.POST,
+    body: data,
+    successCallback: {
+      action: ENQUEUE_SNACKBAR,
+      payload: {
+        messageKey: "user.password_reset.success",
+        options: {
+          variant: SNACKBAR_VARIANTS.success,
+          key: generate.messageKey("user.password_reset.success")
+        }
+      },
+      redirectWithIdFromResponse: false,
+      redirect: ROUTES.dashboard
+    }
   }
 });

@@ -57,7 +57,6 @@ create_or_update_system_setting(
     "duplicate_id" => "export-duplicate-id-csv"
   },
   duplicate_export_field: "national_id_no",
-  use_identity_provider: false,
   approvals_labels_en: {
     assessment: 'Assessment',
     case_plan: 'Case Plan',
