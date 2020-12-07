@@ -2,6 +2,6 @@
 
 import { fromJS } from "immutable";
 
-import NAMESPACE from "./namespace";
+import { NAMESPACE } from "./constants";
 
 export const selectSupportData = state => state.getIn(["records", NAMESPACE, "data"], fromJS({}));

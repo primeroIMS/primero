@@ -35,7 +35,7 @@ import ViewModal from "./view-modal";
 
 const Container = ({ match, location }) => {
   const i18n = useI18n();
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css, mobileDisplay } = useThemeHelper({ css: styles });
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [drawer, setDrawer] = useState(false);
   const { online } = useApp();

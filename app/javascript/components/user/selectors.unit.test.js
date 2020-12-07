@@ -17,7 +17,8 @@ const stateWithUser = fromJS({
       cases: [ACTIONS.MANAGE]
     },
     saving: false,
-    serverErrors: ["Test error"]
+    serverErrors: ["Test error"],
+    resetPassword: { saving: true }
   }
 });
 
@@ -150,6 +151,14 @@ describe("User - Selectors", () => {
       const user = selectors.getServerErrors(stateWithoutUser);
 
       expect(user).to.deep.equal(fromJS([]));
+    });
+  });
+
+  describe("getSavingPassword", () => {
+    it("should return true if the password reset is being saving", () => {
+      const saving = selectors.getSavingPassword(stateWithUser);
+
+      expect(saving).to.be.true;
     });
   });
 });

@@ -21,9 +21,11 @@ describe("record-actions/utils/build-action-list", () => {
           value: "case_plan"
         }
       ],
-      canAddIncident: false,
+      canAddIncident: true,
+      hasIncidentSubform: true,
       canAddNotes: true,
-      canAddService: false,
+      canAddService: true,
+      hasServiceSubform: true,
       canApprove: false,
       canAssign: true,
       canCreateIncident: false,
@@ -40,7 +42,7 @@ describe("record-actions/utils/build-action-list", () => {
       i18n: {
         t: t => t
       },
-      isIdSearch: false,
+      isIdSearch: true,
       isShow: true,
       openState: "reopen",
       recordType: "cases",

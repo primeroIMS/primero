@@ -101,7 +101,7 @@ describe("layouts/components/<AppLayout />", () => {
 
   describe("when the mobile is displayed", () => {
     beforeEach(() => {
-      stub(window, "matchMedia").returns({ matches: true, addListener: () => {} });
+      stub(window, "matchMedia").returns(window.defaultMediaQueryList({ matches: true }));
     });
 
     it("should not render the DemoIndicator alert", () => {

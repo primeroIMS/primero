@@ -1,4 +1,11 @@
+import { namespaceActions } from "../../libs";
+
 import NAMESPACE from "./namespace";
 
-export const LOGIN = `${NAMESPACE}/LOGIN`;
-export const LOGIN_SUCCESS = `${NAMESPACE}/LOGIN_SUCCESS`;
+export default namespaceActions(NAMESPACE, [
+  "LOGIN",
+  "LOGIN_SUCCESS",
+  "LOGIN_STARTED",
+  "LOGIN_FAILURE",
+  "LOGIN_FINISHED"
+]);

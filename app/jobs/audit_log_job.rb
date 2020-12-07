@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Queues the creation of an audit log entry. Invoked for every API call.
 class AuditLogJob < ApplicationJob
   queue_as :logger
 
@@ -6,6 +9,6 @@ class AuditLogJob < ApplicationJob
     audit_log.save
     logger.info(audit_log.log_message)
 
-    #TODO: Any external audit reporting integrations go here.
+    # TODO: Any external audit reporting integrations go here.
   end
 end
