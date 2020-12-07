@@ -46,12 +46,13 @@ const RecordFormToolbar = ({
   recordType,
   shortId
 }) => {
-  const { css } = useThemeHelper({ css: styles });
+  const { css, dir } = useThemeHelper({ css: styles });
   const dispatch = useDispatch();
   const i18n = useI18n();
   const savingRecord = useSelector(state => getSavingRecord(state, params.recordType));
   const loadingRecord = useSelector(state => getLoadingRecordState(state, params.recordType));
   const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
+  const rtlClass = dir === "rtl" ? css.flipImage : "";
 
   const goBack = () => {
     history.goBack();
@@ -86,7 +87,13 @@ const RecordFormToolbar = ({
 
   const renderSaveButton = (
     <ActionButton
-      icon={incidentFromCase?.size && recordType === RECORD_TYPES.incidents ? <SaveReturnIcon /> : <CheckIcon />}
+      icon={
+        incidentFromCase?.size && recordType === RECORD_TYPES.incidents ? (
+          <SaveReturnIcon className={rtlClass} />
+        ) : (
+          <CheckIcon />
+        )
+      }
       text={i18n.t(
         incidentFromCase?.size && recordType === RECORD_TYPES.incidents ? "buttons.save_and_return" : "buttons.save"
       )}
@@ -133,7 +140,7 @@ const RecordFormToolbar = ({
       <div className={css.actionsContainer}>
         {mode.isShow && params && recordType === RECORD_TYPES.incidents && incidentFromCase?.size ? (
           <ActionButton
-            icon={<KeyboardBackspaceIcon />}
+            icon={<KeyboardBackspaceIcon className={rtlClass} />}
             text={i18n.t("buttons.return_to_case")}
             type={ACTION_BUTTON_TYPES.default}
             isCancel
