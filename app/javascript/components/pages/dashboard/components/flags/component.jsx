@@ -21,7 +21,7 @@ const Component = ({ loadingIndicator }) => {
   const flags = useSelector(state => getDashboardFlags(state));
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
-  const onClickSeeAll = () => dispatch(push(`${RECORD_PATH.cases}?flagged[0]=true`));
+  const handleSeeAll = () => dispatch(push(`${RECORD_PATH.cases}?flagged[0]=true`));
 
   const renderSeeAll = flags.size > 0 && (
     <div className={css.seeAll}>
@@ -31,7 +31,7 @@ const Component = ({ loadingIndicator }) => {
         isTransparent
         rest={{
           className: css.seeAllColor,
-          onClick: onClickSeeAll
+          onClick: handleSeeAll
         }}
       />
     </div>

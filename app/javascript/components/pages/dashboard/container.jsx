@@ -7,8 +7,7 @@ import PageContainer, { PageHeading, PageContent } from "../../page";
 import { getPermissions } from "../../user/selectors";
 import { getLoading, getErrors } from "../../index-table";
 import { OfflineAlert } from "../../disable-offline";
-import { ACTIONS, RESOURCES } from "../../../libs/permissions";
-import usePermissions from "../../permissions";
+import usePermissions, { ACTIONS, RESOURCES } from "../../permissions";
 
 import {
   Overview,
@@ -33,6 +32,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(fetchDashboards());
+
     if (canFetchFlags) {
       dispatch(fetchFlags());
     }

@@ -15,10 +15,10 @@ import { NAME } from "./constants";
 const Component = ({ date, reason, recordId, title, user }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
-  const onClickFlag = id => () => dispatch(push(`${RECORD_PATH.cases}/${id}`));
+  const handleFlagOpen = id => () => dispatch(push(`${RECORD_PATH.cases}/${id}`));
 
   return (
-    <div className={css.Flag} onClick={onClickFlag(recordId)} role="button" tabIndex="0">
+    <div className={css.Flag} onClick={handleFlagOpen(recordId)} role="button" tabIndex="0">
       <h4 className={css.FlagTitle}>{title}</h4>
       <span className={css.FlagDate}>{date}</span>
       <p className={css.FlagContent}>{reason}</p>
