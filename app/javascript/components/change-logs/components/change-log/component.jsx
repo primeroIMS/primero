@@ -5,7 +5,7 @@ import Timeline from "@material-ui/lab/Timeline";
 
 import { useI18n } from "../../../i18n";
 import ChangeLogItem from "../change-log-item";
-import { getDataItems } from "../../utils";
+import { buildDataItems } from "../../utils";
 import styles from "../../styles.css";
 
 import { NAME } from "./constants";
@@ -28,7 +28,7 @@ const Component = ({
     setRecordChanges(subformChanges);
   };
 
-  const renderItems = getDataItems(
+  const renderItems = buildDataItems(
     recordChangeLogs,
     allFields,
     allLookups,

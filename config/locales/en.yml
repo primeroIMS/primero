@@ -382,7 +382,7 @@ en:
     deleted_subform: 'Removed “%{subform_name}” subform entry #%{short_id}'
     label: Change Log
     see_details: See Details.
-    change: '%{field_name} from: %{from_value} to %{to_value}'
+    change: 'from %{from_value} to %{to_value}'
     updated_subform: 'Updated “%{subform_name}” subform entry #%{short_id}'
     update_subform: 'Updated “%{subform_name}” subform'
   children:

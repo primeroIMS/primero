@@ -4,7 +4,7 @@ import { FieldRecord } from "../record-form/records";
 import { stub } from "../../test";
 
 import { ChangeLogsRecord } from "./records";
-import * as utils from "./utils";
+import { buildDataItems, buildSubformDataItems } from "./utils";
 
 describe("ChangeLogs - Utils", () => {
   const i18n = { t: item => item, locale: "en", localizeDate: () => {} };
@@ -90,19 +90,6 @@ describe("ChangeLogs - Utils", () => {
   ]);
   const locations = fromJS([{ id: 1, code: "location-1", admin_level: 1 }]);
 
-  describe("with exposed properties", () => {
-    it("should have known methods", () => {
-      const clone = { ...utils };
-
-      ["getDataItems", "getSubformDataItems"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
-        delete clone[property];
-      });
-      expect(clone).to.be.empty;
-    });
-  });
-
   describe("getDataItems ", () => {
     const recordChangeLogs = fromJS([
       ChangeLogsRecord({
@@ -169,37 +156,66 @@ describe("ChangeLogs - Utils", () => {
       {
         date: "2020-12-03T21:11:01Z",
         user: "primero",
-        title: "change_logs.change",
         key: 12340001,
-        isSubform: false
+        isSubform: false,
+        change: {
+          from: 3,
+          name: "age",
+          to: 5
+        }
       },
       {
         date: "2020-12-03T21:11:01Z",
         user: "primero",
-        title: "change_logs.change",
         key: 12340001,
-        isSubform: false
+        isSubform: false,
+        change: {
+          from: "2017-01-01",
+          name: "date_of_birth",
+          to: "2015-01-01"
+        }
       },
       {
         date: "2020-12-03T21:11:01Z",
         user: "primero",
-        title: "change_logs.change",
         key: 12340001,
-        isSubform: false
+        isSubform: false,
+        change: {
+          from: "--",
+          name: "gbv_ethnicity",
+          to: "ethnicity9"
+        }
       },
       {
         date: "2020-12-03T21:11:01Z",
         user: "primero",
-        title: "change_logs.change",
         key: 12340001,
-        isSubform: false
+        isSubform: false,
+        change: {
+          from: "--",
+          name: "country_of_origin",
+          to: "australia"
+        }
       },
       {
         date: "2020-12-03T21:11:01Z",
         user: "primero",
-        title: "change_logs.change",
         key: 12340001,
-        isSubform: false
+        isSubform: false,
+        change: {
+          from: "--",
+          name: "Felt Stigma",
+          to: [
+            {
+              feeling_badly_treated: "scale_zero",
+              feeling_detached: "scale_one",
+              feelings_worthlessness: "scale_zero",
+              felt_stigma_score: 1,
+              unique_id: "f6c8baf0-d899-404f-a92c-a8e607e3eb0d",
+              wanting_to_avoid_people: "scale_zero"
+            }
+          ]
+        }
       },
       {
         date: "2020-12-03T21:09:40Z",
@@ -211,7 +227,7 @@ describe("ChangeLogs - Utils", () => {
 
     it("should return an array of object with logs ready to be render", () => {
       stub(Math, "random").returns(1234);
-      expect(utils.getDataItems(recordChangeLogs, allFields, lookups, locations, handleSeeDetails, i18n)).to.deep.equal(
+      expect(buildDataItems(recordChangeLogs, allFields, lookups, locations, handleSeeDetails, i18n)).to.deep.equal(
         result
       );
     });
@@ -246,18 +262,38 @@ describe("ChangeLogs - Utils", () => {
         user: "primero",
         title: "change_logs.add_subform",
         details: [
-          "change_logs.change",
-          "change_logs.change",
-          "change_logs.change",
-          "change_logs.change",
-          "change_logs.change"
+          {
+            from: "--",
+            name: "feeling_detached",
+            to: "scale_one"
+          },
+          {
+            from: "--",
+            name: "felt_stigma_score",
+            to: 1
+          },
+          {
+            from: "--",
+            name: "feeling_badly_treated",
+            to: "scale_zero"
+          },
+          {
+            from: "--",
+            name: "feelings_worthlessness",
+            to: "scale_zero"
+          },
+          {
+            from: "--",
+            name: "wanting_to_avoid_people",
+            to: "scale_zero"
+          }
         ]
       }
     ];
 
     it("should return an array of object with logs ready to be render", () => {
       stub(Math, "random").returns(1234);
-      expect(utils.getSubformDataItems(recordChanges, allFields, lookups, locations, i18n)).to.deep.equal(result);
+      expect(buildSubformDataItems(recordChanges, allFields, lookups, locations, i18n)).to.deep.equal(result);
     });
   });
 

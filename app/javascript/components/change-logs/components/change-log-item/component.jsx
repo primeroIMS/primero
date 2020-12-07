@@ -1,3 +1,5 @@
+/* eslint-disable react/no-multi-comp */
+/* eslint-disable react/display-name */
 import React from "react";
 import PropTypes from "prop-types";
 import TimelineItem from "@material-ui/lab/TimelineItem";
@@ -18,13 +20,27 @@ const Component = ({ item }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const { onClick } = item;
+  const renderMessage = change => (
+    <div>
+      <span className={css.detailName}>{change.name}</span>{" "}
+      {change.from &&
+        change.to &&
+        i18n.t("change_logs.change", {
+          from_value: change.from,
+          to_value: change.to
+        })}
+    </div>
+  );
   const renderSeeDetail = item.isSubform && (
     <ButtonBase className={css.seeDetailsStyle} onClick={onClick}>
       {i18n.t("change_logs.see_details")}
     </ButtonBase>
   );
   const renderDetails =
-    item.details && item.details.map(detail => <div key={`change-log-details${generateKey()}`}>{detail}</div>);
+    item.details &&
+    item.details.map(detail => <li key={`change-log-details${generateKey()}`}>{renderMessage(detail)}</li>);
+
+  const renderChange = item.change && renderMessage(item.change);
 
   return (
     <TimelineItem>
@@ -38,8 +54,11 @@ const Component = ({ item }) => {
           <div>
             {item.title} {renderSeeDetail}
           </div>
+          <div>{renderChange}</div>
           <div>{item.user}</div>
-          <div className={css.itemDetails}>{renderDetails}</div>
+          <div>
+            <ul>{renderDetails}</ul>
+          </div>
         </div>
       </TimelineContent>
     </TimelineItem>

@@ -50,8 +50,8 @@ describe("ChangeLogItems - Component", () => {
   });
 
   it("renders div", () => {
-    expect(component.find(TimelineContent).find("div")).to.have.lengthOf(6);
+    expect(component.find(TimelineContent).find("div")).to.have.lengthOf(7);
     expect(component.find(TimelineContent).find("div").at(3).text()).to.be.equal(`${title} `);
-    expect(component.find(TimelineContent).find("div").at(4).text()).to.be.equal(user);
+    expect(component.find(TimelineContent).find("div").at(5).text()).to.be.equal(user);
   });
 });

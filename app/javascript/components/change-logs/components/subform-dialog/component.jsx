@@ -8,7 +8,7 @@ import ActionDialog from "../../../action-dialog";
 import LoadingIndicator from "../../../loading-indicator";
 import ChangeLogItem from "../change-log-item";
 import { useI18n } from "../../../i18n";
-import { getSubformDataItems } from "../../utils";
+import { buildSubformDataItems } from "../../utils";
 import styles from "../../styles.css";
 
 import { NAME } from "./constants";
@@ -37,7 +37,7 @@ const Component = ({
     setOpen(false);
   };
 
-  const renderItems = getSubformDataItems(recordChanges, allFields, allLookups, locations, i18n).map(item => (
+  const renderItems = buildSubformDataItems(recordChanges, allFields, allLookups, locations, i18n).map(item => (
     <ChangeLogItem item={item} key={item.key} />
   ));
 

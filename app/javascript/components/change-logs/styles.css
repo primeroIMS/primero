@@ -23,6 +23,6 @@
   color: $(theme.primero.colors.blue);
 }
 
-.itemDetails {
-  margin-left: 1rem;
+.detailName {
+  font-style: italic;
 }
