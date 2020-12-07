@@ -12,6 +12,7 @@ import ReportFiltersDialog from "./component";
 
 describe("<ReportFiltersDialog /> - Component", () => {
   let component;
+  const i18n = "en";
 
   const forms = {
     formSections: OrderedMap({
@@ -100,5 +101,61 @@ describe("<ReportFiltersDialog /> - Component", () => {
 
   it("should render <FormSectionField>", () => {
     expect(component.find(FormSectionField)).to.have.lengthOf(3);
+  });
+
+  describe("should render SelectField in <FormSectionField>", () => {
+    let testComponent;
+    const options = [
+      {
+        id: "test_1",
+        display_text: {
+          en: "Test 1"
+        }
+      },
+      {
+        id: "test_2",
+        display_text: {
+          en: "Test 2"
+        }
+      }
+    ];
+    const newProps = {
+      fields: [
+        {
+          id: "test_select_field",
+          display_text: "Test Select Field",
+          formSection: "Test form section",
+          type: "select_box",
+          option_strings_source: undefined,
+          option_strings_text: options,
+          tick_box_label: undefined
+        }
+      ],
+      open: true,
+      setOpen: () => {},
+      selectedIndex: "0",
+      setSelectedIndex: () => {},
+      indexes: [
+        {
+          index: 0,
+          data: { attribute: "test_select_field", constraint: true, value: [] }
+        }
+      ],
+      onSuccess: () => {}
+    };
+
+    beforeEach(() => {
+      ({ component: testComponent } = setupMountedComponent(ReportFiltersDialog, newProps, initialState));
+    });
+
+    describe("SelectField has options", () => {
+      it("Should render options in selectField", () => {
+        const valueFieldProps = testComponent.find(FormSectionField).at(2).props();
+        const optionsEn = options.map(option => ({ id: option.id, display_text: option.display_text[i18n] }));
+
+        expect(valueFieldProps.field.option_strings_text).to.deep.equal(optionsEn);
+        expect(valueFieldProps.field.option_strings_text).to.have.lengthOf(2);
+      });
+    });
   });
 });
