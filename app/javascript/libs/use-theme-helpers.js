@@ -12,6 +12,7 @@ export default ({ css, theme: customTheme } = {}) => {
 
   return {
     ...(css && { css: makeStyles(css)() }),
+    dir: direction,
     theme: themeWithDirection,
     mobileDisplay
   };

@@ -83,6 +83,10 @@
   border-radius: 24px;
 }
 
+.flipImage {
+  transform: scaleX(-1);
+}
+
 @media $(theme.breakpoints.up("md")) {
   .tab {
     min-width: 100px;

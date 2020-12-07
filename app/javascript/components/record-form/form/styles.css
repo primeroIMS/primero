@@ -230,6 +230,10 @@
   color: $(theme.primero.colors.redLabelError) !important;
 }
 
+.flipImage {
+  transform: scaleX(-1);
+}
+
 @media $(theme.breakpoints.down("sm")) {
   .actionButtonsContainer {
     width: 95px;
