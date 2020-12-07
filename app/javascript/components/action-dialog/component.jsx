@@ -45,7 +45,7 @@ const ActionDialog = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { css } = useThemeHelper(styles);
+  const { css } = useThemeHelper({ css: styles });
   const { disabledApplication } = useApp();
 
   const asyncLoading = useSelector(state => {

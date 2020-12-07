@@ -46,7 +46,7 @@ const RecordFormToolbar = ({
   recordType,
   shortId
 }) => {
-  const { css } = useThemeHelper(styles);
+  const { css } = useThemeHelper({ css: styles });
   const dispatch = useDispatch();
   const i18n = useI18n();
   const savingRecord = useSelector(state => getSavingRecord(state, params.recordType));

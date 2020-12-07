@@ -6,7 +6,7 @@ class Exporters::FormExporter < ValueObject
                 :total, :success_total
 
   def initialize(opts = {})
-    opts[:file_name] ||= export_file_dir
+    opts[:file_name] = export_file_name(opts)
     opts[:locale] ||= Primero::Application::LOCALE_ENGLISH
     opts[:record_type] ||= 'case'
     opts[:module_id] ||= 'primeromodule-cp'
@@ -34,6 +34,14 @@ class Exporters::FormExporter < ValueObject
   end
 
   private
+
+  def export_file_name(opts)
+    return export_file_dir if opts[:file_name].blank?
+
+    file_name = opts[:file_name]
+    file_name += '.xlsx' unless file_name.ends_with?('.xlsx')
+    file_name.gsub(/\s+/, '_')
+  end
 
   def export_file_dir
     File.join(Rails.root, 'tmp', "form_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}.xlsx")

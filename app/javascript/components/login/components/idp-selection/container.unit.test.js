@@ -21,7 +21,8 @@ describe("<LoginSelection />", () => {
               unique_id: "unicef",
               authorization_url: "authority",
               client_id: "clientid",
-              identity_scope: ["scope"]
+              identity_scope: ["scope"],
+              domain_hint: "unicef"
             },
             {
               name: "primero",
@@ -29,7 +30,8 @@ describe("<LoginSelection />", () => {
               unique_id: "primero",
               authorization_url: "authority",
               client_id: "clientid",
-              identity_scope: ["scope"]
+              identity_scope: ["scope"],
+              domain_hint: "primero"
             }
           ]
         }

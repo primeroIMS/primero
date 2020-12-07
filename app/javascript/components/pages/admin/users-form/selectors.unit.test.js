@@ -2,7 +2,15 @@ import { fromJS } from "immutable";
 
 import NAMESPACE from "../namespace";
 
-import { getUser, getErrors, getLoading, getServerErrors, getSavingRecord } from "./selectors";
+import {
+  getUser,
+  getErrors,
+  getLoading,
+  getPasswordResetLoading,
+  getServerErrors,
+  getSavingRecord,
+  getSavingNewPasswordReset
+} from "./selectors";
 
 const roles = [
   { id: 1, unique_id: "role_1" },
@@ -96,6 +104,40 @@ describe("<UsersForm /> - Selectors", () => {
 
     it("should return false if it is not loading", () => {
       const loading = getLoading(stateWithHeaders.merge(fromJS({ records: { users: { loading: false } } })));
+
+      expect(loading).to.be.false;
+    });
+  });
+
+  describe("getSavingNewPasswordReset", () => {
+    it("should return true if it's saving", () => {
+      const savingState = fromJS({ records: { users: { newPasswordReset: { saving: true } } } });
+      const saving = getSavingNewPasswordReset(savingState);
+
+      expect(saving).to.be.true;
+    });
+
+    it("should return false if it's saving", () => {
+      const savingState = fromJS({ records: { users: { newPasswordReset: { saving: false } } } });
+      const saving = getSavingNewPasswordReset(savingState);
+
+      expect(saving).to.be.false;
+    });
+  });
+
+  describe("getPasswordResetLoading", () => {
+    it("should return true if it's loading", () => {
+      const loadingState = fromJS({ records: { users: { passwordResetRequest: { loading: true } } } });
+
+      const loading = getPasswordResetLoading(loadingState);
+
+      expect(loading).to.be.true;
+    });
+
+    it("should return false if it's loading", () => {
+      const loadingState = fromJS({ records: { users: { passwordResetRequest: { loading: false } } } });
+
+      const loading = getPasswordResetLoading(loadingState);
 
       expect(loading).to.be.false;
     });

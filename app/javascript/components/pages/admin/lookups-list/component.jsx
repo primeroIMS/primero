@@ -22,7 +22,7 @@ import { columns } from "./utils";
 
 const Component = () => {
   const i18n = useI18n();
-  const { css } = useThemeHelper(styles);
+  const { css } = useThemeHelper({ css: styles });
   const recordType = ["admin", "lookups"];
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultFilters = metadata;

@@ -64,7 +64,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
   const renderPreview = () => {
     const { data, fileName } = file;
 
-    return data && type === PHOTO_FIELD ? (
+    return (data || fileUrl) && type === PHOTO_FIELD ? (
       <div>
         <img src={data || fileUrl} alt="" className={css.preview} />
       </div>

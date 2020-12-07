@@ -89,7 +89,7 @@ export default ({
       },
       {
         action: () => handleDialogClick(INCIDENT_DIALOG),
-        condition: hasIncidentSubform && (showListActions ? canAddIncident : canAddIncident && isIdSearch),
+        condition: Boolean(hasIncidentSubform) && (showListActions ? canAddIncident : canAddIncident && isIdSearch),
         disableOffline: true,
         enabledFor: ENABLED_FOR_ONE,
         enabledOnSearch: true,
@@ -111,7 +111,7 @@ export default ({
       },
       {
         action: () => handleDialogClick(SERVICE_DIALOG),
-        condition: hasServiceSubform && (showListActions ? canAddService : canAddService && isIdSearch),
+        condition: Boolean(hasServiceSubform) && (showListActions ? canAddService : canAddService && isIdSearch),
         disableOffline: true,
         enabledFor: ENABLED_FOR_ONE,
         enabledOnSearch: true,

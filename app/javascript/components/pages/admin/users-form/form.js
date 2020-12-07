@@ -10,7 +10,13 @@ import {
   OPTION_TYPES
 } from "../../../form";
 
-import { IDENTITY_PROVIDER_ID, USER_GROUP_UNIQUE_IDS, USERGROUP_PRIMERO_GBV } from "./constants";
+import {
+  IDENTITY_PROVIDER_ID,
+  PASSWORD_SELF_OPTION,
+  PASSWORD_USER_OPTION,
+  USER_GROUP_UNIQUE_IDS,
+  USERGROUP_PRIMERO_GBV
+} from "./constants";
 
 const passwordPlaceholder = formMode => (formMode.get("isEdit") ? "•••••" : "");
 
@@ -35,6 +41,19 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     type: TEXT_FIELD
   },
   {
+    display_name: i18n.t("user.password_setting.label"),
+    name: "password_setting",
+    type: SELECT_FIELD,
+    hideOnShow: true,
+    required: formMode.get("isNew"),
+    visible: formMode.get("isNew"),
+    help_text: i18n.t("user.password_setting.help_text"),
+    option_strings_text: [
+      { id: PASSWORD_SELF_OPTION, display_text: i18n.t("user.password_setting.self") },
+      { id: PASSWORD_USER_OPTION, display_text: i18n.t("user.password_setting.user") }
+    ]
+  },
+  {
     display_name: i18n.t("user.password"),
     name: "password",
     type: TEXT_FIELD,
@@ -42,7 +61,11 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     hideOnShow: true,
     required: formMode.get("isNew"),
     editable: false,
-    placeholder: passwordPlaceholder(formMode)
+    placeholder: passwordPlaceholder(formMode),
+    watchedInputs: "password_setting",
+    handleWatchedInputs: value => ({
+      visible: value === PASSWORD_SELF_OPTION || !formMode.get("isNew")
+    })
   },
   {
     display_name: i18n.t("user.password_confirmation"),
@@ -52,7 +75,11 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     hideOnShow: true,
     required: formMode.get("isNew"),
     editable: false,
-    placeholder: passwordPlaceholder(formMode)
+    placeholder: passwordPlaceholder(formMode),
+    watchedInputs: "password_setting",
+    handleWatchedInputs: value => ({
+      visible: value === PASSWORD_SELF_OPTION || !formMode.get("isNew")
+    })
   },
   {
     display_name: "Change password",
@@ -142,7 +169,8 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
   {
     display_name: i18n.t("user.send_mail"),
     name: "send_mail",
-    type: TICK_FIELD
+    type: TICK_FIELD,
+    selected_value: formMode.get("isNew")
   }
 ];
 

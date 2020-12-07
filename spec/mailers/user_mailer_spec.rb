@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe UserMailer, type: :mailer do
-
   before do
     system_settings = instance_double(
       'SystemSettings', notification_email_enabled: true, system_name: 'Test CPIMS+'
@@ -15,7 +16,7 @@ describe UserMailer, type: :mailer do
   let(:role) { instance_double('Role', name: 'Social Worker') }
 
   context 'native user' do
-    let (:user) do
+    let(:user) do
       instance_double(
         'User',
         email: 'user@test.org',
@@ -32,14 +33,14 @@ describe UserMailer, type: :mailer do
       body = mail.body.encoded
       expect(body).to include('Welcome to Test CPIMS+!')
       fragment = 'You have been added as a Social Worker. ' \
-                 'Please contact Admin (admin@test.org) to receive your ' \
-                 'user name and password in order to log on to https://localhost:3000/'
+                 'Please contact Admin (admin@test.org) for follow up instructions ' \
+                 'to get started working with https://localhost:3000/'
       expect(body).to include(fragment)
     end
   end
 
   context 'IDP user with one time password' do
-    let (:user) do
+    let(:user) do
       instance_double(
         'User',
         email: 'user@test.org',
@@ -86,5 +87,4 @@ describe UserMailer, type: :mailer do
       expect(body).to include(fragment)
     end
   end
-
 end

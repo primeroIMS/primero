@@ -472,17 +472,6 @@ describe Api::V2::ChildrenController, type: :request do
       expect(mother.present?).to be false
     end
 
-    it "doesn't enable a record if the user doesn't have the permissions to do so" do
-      test_case = Child.create!(data: { record_state: false, name: 'Test1', age: 5, sex: 'male' })
-      login_for_test
-      params = { data: { record_state: true } }
-      patch "/api/v2/cases/#{test_case.id}", params: params
-
-      test_case.reload
-      expect(response).to have_http_status(200)
-      expect(test_case.record_state).to be false
-    end
-
     it "returns 403 if user isn't authorized to update records" do
       login_for_test(permissions: [])
       params = { data: { name: 'Tester', age: 10, sex: 'female' } }
