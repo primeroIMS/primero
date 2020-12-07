@@ -12,6 +12,8 @@ import {
 } from "../libs/permissions";
 import { getAdminResources } from "../components/pages/admin/utils";
 
+export const PASSWORD_MIN_LENGTH = 8;
+
 // Max allowed image size for attachments
 export const MAX_IMAGE_SIZE = 600;
 

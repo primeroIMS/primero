@@ -1,5 +1,8 @@
-import { RECORD_PATH } from "../../../../config/constants";
+import { RECORD_PATH, METHODS } from "../../../../config/constants";
+import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
+import { CLEAR_DIALOG } from "../../../action-dialog";
 
+import { EXPORT_FORMS_PATH } from "./components/form-exporter/constants";
 import actions from "./actions";
 
 export const fetchForms = () => ({
@@ -55,4 +58,30 @@ export const saveFormsReorder = forms => ({
 
 export const clearFormsReorder = () => ({
   type: actions.CLEAR_FORMS_REORDER
+});
+
+export const exportForms = ({ params, message }) => ({
+  type: actions.EXPORT_FORMS,
+  api: {
+    path: EXPORT_FORMS_PATH,
+    method: METHODS.GET,
+    params,
+    successCallback: [
+      {
+        action: CLEAR_DIALOG
+      },
+      {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          message,
+          options: {
+            variant: "success",
+            key: generate.messageKey(message)
+          }
+        },
+        redirectWithIdFromResponse: false,
+        redirect: false
+      }
+    ]
+  }
 });

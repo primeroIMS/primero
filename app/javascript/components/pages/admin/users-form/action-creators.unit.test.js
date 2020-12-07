@@ -10,10 +10,12 @@ describe("<UsersForm /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["fetchUser", "saveUser", "clearSelectedUser", "passwordResetRequest"].forEach(property => {
-      expect(creators).to.have.property(property);
-      delete creators[property];
-    });
+    ["fetchUser", "saveUser", "clearSelectedUser", "newPasswordResetRequest", "passwordResetRequest"].forEach(
+      property => {
+        expect(creators).to.have.property(property);
+        delete creators[property];
+      }
+    );
 
     expect(creators).to.be.empty;
   });
@@ -77,6 +79,45 @@ describe("<UsersForm /> - Action Creators", () => {
       };
 
       expect(actionsCreators.saveUser(args)).to.deep.equal(expectedAction);
+    });
+  });
+
+  describe("newPasswordResetRequest", () => {
+    beforeEach(() => {
+      stub(generate, "messageKey").returns("user.password_reset.request_submitted");
+    });
+
+    afterEach(() => {
+      generate.messageKey.restore();
+    });
+
+    it("should return the correct object", () => {
+      const email = "user@example.com";
+      const expected = {
+        type: actions.NEW_PASSWORD_RESET_REQUEST,
+        api: {
+          path: "users/password-reset-request",
+          method: METHODS.POST,
+          body: { user: { email } },
+          successCallback: [
+            {
+              action: ENQUEUE_SNACKBAR,
+              payload: {
+                messageKey: "user.password_reset.request_submitted",
+                options: {
+                  variant: SNACKBAR_VARIANTS.success,
+                  key: "user.password_reset.request_submitted"
+                }
+              }
+            },
+            {
+              action: CLEAR_DIALOG
+            }
+          ]
+        }
+      };
+
+      expect(actionsCreators.newPasswordResetRequest(email)).to.deep.equal(expected);
     });
   });
 
