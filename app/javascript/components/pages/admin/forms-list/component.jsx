@@ -4,8 +4,7 @@ import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { makeStyles, Button } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import ListIcon from "@material-ui/icons/List";
+import { Add as AddIcon, List as ListIcon, SwapVert } from "@material-ui/icons";
 
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
@@ -16,8 +15,11 @@ import { usePermissions } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { FormAction } from "../../../form";
 import { compare } from "../../../../libs";
+import { useDialog } from "../../../action-dialog";
 import { getFormGroupLookups } from "../../../form/selectors";
 
+import FormExporter from "./components/form-exporter";
+import { FORM_EXPORTER_DIALOG } from "./components/form-exporter/constants";
 import NAMESPACE from "./namespace";
 import { FormGroup, FormSection, FormFilters, ReorderActions } from "./components";
 import {
@@ -60,6 +62,8 @@ const Component = () => {
   const handleClearValue = () => {
     setFilterValues(defaultFilterValues);
   };
+
+  const { setDialog, pending, dialogOpen, setDialogPending, dialogClose } = useDialog(FORM_EXPORTER_DIALOG);
 
   const canAddForms = usePermissions(RESOURCES.metadata, CREATE_RECORDS);
 
@@ -106,6 +110,8 @@ const Component = () => {
       );
     });
 
+  const handleExport = dialog => setDialog({ dialog, open: true });
+
   const handleNew = () => {
     dispatch(push(`${pathname}/new`));
   };
@@ -137,8 +143,23 @@ const Component = () => {
 
   return (
     <>
-      <PageHeading title={i18n.t("forms.label")}>{newFormBtn}</PageHeading>
+      <PageHeading title={i18n.t("forms.label")}>
+        <FormAction
+          actionHandler={() => handleExport(FORM_EXPORTER_DIALOG)}
+          text={i18n.t("buttons.export")}
+          startIcon={<SwapVert />}
+        />
+        {newFormBtn}
+      </PageHeading>
       <PageContent>
+        <FormExporter
+          i18n={i18n}
+          open={dialogOpen}
+          pending={pending}
+          close={dialogClose}
+          filters={filterValues}
+          setPending={setDialogPending}
+        />
         <div className={css.indexContainer}>
           <div className={css.forms}>
             <LoadingIndicator hasData={hasFormSectionsByGroup} loading={isLoading} type={NAMESPACE}>
