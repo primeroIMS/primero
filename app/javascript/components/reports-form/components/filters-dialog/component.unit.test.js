@@ -12,7 +12,6 @@ import ReportFiltersDialog from "./component";
 
 describe("<ReportFiltersDialog /> - Component", () => {
   let component;
-  const i18n = "en";
 
   const forms = {
     formSections: OrderedMap({
@@ -148,10 +147,13 @@ describe("<ReportFiltersDialog /> - Component", () => {
       ({ component: testComponent } = setupMountedComponent(ReportFiltersDialog, newProps, initialState));
     });
 
-    describe("SelectField has options", () => {
-      it("Should render options in selectField", () => {
+    describe("<FormSectionField> - SelectField", () => {
+      it("renders selectField with options", () => {
         const valueFieldProps = testComponent.find(FormSectionField).at(2).props();
-        const optionsEn = options.map(option => ({ id: option.id, display_text: option.display_text[i18n] }));
+        const optionsEn = options.map(option => ({
+          id: option.id,
+          display_text: option.display_text[window.I18n.locale]
+        }));
 
         expect(valueFieldProps.field.option_strings_text).to.deep.equal(optionsEn);
         expect(valueFieldProps.field.option_strings_text).to.have.lengthOf(2);
