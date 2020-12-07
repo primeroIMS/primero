@@ -1,5 +1,7 @@
 import { object, number, string, ref, array, addMethod } from "yup";
 
+import { PASSWORD_MIN_LENGTH } from "../../../../config";
+
 import { PASSWORD_SELF_OPTION } from "./constants";
 
 export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage = false) => {
@@ -37,7 +39,7 @@ export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage
 
   const passwordFieldValidations = {
     password: string()
-      .min(8, i18n.t("errors.models.user.password_length", { min: 8 }))
+      .min(PASSWORD_MIN_LENGTH, i18n.t("errors.models.user.password_length", { min: PASSWORD_MIN_LENGTH }))
       .when("password_setting", {
         is: setting => formMode.get("isNew") && setting === PASSWORD_SELF_OPTION,
         then: string()
@@ -46,7 +48,7 @@ export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage
         otherwise: string().nullable()
       }),
     password_confirmation: string()
-      .min(8, i18n.t("errors.models.user.password_length", { min: 8 }))
+      .min(PASSWORD_MIN_LENGTH, i18n.t("errors.models.user.password_length", { min: PASSWORD_MIN_LENGTH }))
       .when("password_setting", {
         is: setting => formMode.get("isNew") && setting === PASSWORD_SELF_OPTION,
         then: string()

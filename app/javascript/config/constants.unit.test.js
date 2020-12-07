@@ -53,6 +53,7 @@ describe("Verifying config constant", () => {
       "MODULES",
       "MODULE_TYPE_FIELD",
       "NAME_FIELD",
+      "PASSWORD_MIN_LENGTH",
       "PERMITTED_URL",
       "RECORD_INFORMATION",
       "RECORD_OWNER",
