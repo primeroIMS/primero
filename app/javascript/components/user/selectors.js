@@ -36,3 +36,5 @@ export const getUserSavingRecord = state => state.getIn([NAMESPACE, SAVING], fal
 export const getServerErrors = state => {
   return state.getIn([NAMESPACE, "serverErrors"], fromJS([]));
 };
+
+export const getSavingPassword = state => state.getIn([NAMESPACE, "resetPassword", "saving"], false);

@@ -52,10 +52,10 @@ class FormSection < ApplicationRecord
       ]
     end
 
-    def new_with_properties(form_params, user)
+    def new_with_properties(form_params, opts = {})
       FormSection.new.tap do |form|
         form.update_properties(form_params)
-        form.roles << user&.role
+        form.roles << opts[:user]&.role if opts[:user].present?
       end
     end
 

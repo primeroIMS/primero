@@ -36,6 +36,17 @@
   }
 }
 
+.forgotPaswordLink {
+  color: $(theme.primero.colors.blue);
+  margin: 10px 0 0 0;
+  text-transform: none;
+  font-size: $(theme.typography.pxToRem(12));
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 @media $(theme.breakpoints.down('xs')) {
   .loginForm {
     & button {

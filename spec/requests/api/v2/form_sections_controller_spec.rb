@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'roo'
 
 describe Api::V2::FormSectionsController, type: :request do
   before :each do
@@ -733,9 +732,6 @@ describe Api::V2::FormSectionsController, type: :request do
       gbv_forms = FormSection.where(unique_id: %w[cases_test_form_gbv])
       @primero_module_gbv = create(:primero_module, unique_id: 'primeromodule-gbv', name: 'GBV',
                                                     form_sections: gbv_forms)
-
-      # This is to be used to clean up test .xlsx files created during these tests
-      @test_xlsx_files = []
     end
 
     context 'when user has export permission' do
@@ -763,45 +759,13 @@ describe Api::V2::FormSectionsController, type: :request do
           get '/api/v2/forms/export', params: params
 
           expect(response).to have_http_status(200)
+          expect(json['data']['export_file_url']).to be
+          expect(json['data']['export_file_url'].starts_with?('/rails/active_storage/blobs/')).to be_truthy
+          expect(json['data']['export_file_url'].ends_with?(json['data']['export_file_name'])).to be_truthy
 
-          book = Roo::Spreadsheet.open(json['data']['file_name'])
-          expected = ['Form Section 1', 'Form Section 2', 'lookups']
-          expect(book.sheets).to match_array(expected)
-
-          # This is to be used to clean up test .xlsx files created during these tests
-          @test_xlsx_files << json['data']['file_name']
-        end
-      end
-
-      context 'and visible false passed' do
-        it 'exports all CP forms' do
-          params = { export_type: 'xlsx', visible: false }
-          get '/api/v2/forms/export', params: params
-
-          expect(response).to have_http_status(200)
-
-          book = Roo::Spreadsheet.open(json['data']['file_name'])
-          expected = ['Form Section 1', 'Form Section 2', 'cases_test_form_hidden', 'lookups']
-          expect(book.sheets).to match_array(expected)
-
-          # This is to be used to clean up test .xlsx files created during these tests
-          @test_xlsx_files << json['data']['file_name']
-        end
-      end
-
-      context 'and GBV module_id is passed' do
-        it 'exports all visible GBV forms' do
-          params = { export_type: 'xlsx', module_id: 'primeromodule-gbv' }
-          get '/api/v2/forms/export', params: params
-
-          expect(response).to have_http_status(200)
-
-          book = Roo::Spreadsheet.open(json['data']['file_name'])
-          expected_sheets = %w[cases_test_form_gbv cases_test_subform_5 cases_test_subform_4 lookups]
-          expect(book.sheets).to match_array(expected_sheets)
-
-          # This is to be used to clean up test .xlsx files created during these tests
-          @test_xlsx_files << json['data']['file_name']
+          uri = URI(json['data']['export_file_url'])
+          get(uri)
+          expect(response).to have_http_status(302)
         end
       end
     end
@@ -820,9 +784,6 @@ describe Api::V2::FormSectionsController, type: :request do
 
     after do
       clean_data(PrimeroModule, PrimeroProgram, Lookup)
-
-      # Remove test xlsx files
-      @test_xlsx_files.each { |test_file| File.delete(test_file) }
     end
   end
 

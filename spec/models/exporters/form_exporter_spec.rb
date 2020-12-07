@@ -205,6 +205,38 @@ module Exporters
       end
     end
 
+    context 'when file_name is passed in' do
+      context 'and file_name does not have a .xlsx extension' do
+        before do
+          @exporter = Exporters::FormExporter.new(file_name: 'my_test_file')
+        end
+
+        it 'adds .xlsx to the file_name' do
+          expect(@exporter.file_name).to eq('my_test_file.xlsx')
+        end
+      end
+
+      context 'and file_name has a .xlsx extension' do
+        before do
+          @exporter = Exporters::FormExporter.new(file_name: 'my_test_file.xlsx')
+        end
+
+        it 'uses the passed in file_name' do
+          expect(@exporter.file_name).to eq('my_test_file.xlsx')
+        end
+      end
+
+      context 'and file_name has spaces' do
+        before do
+          @exporter = Exporters::FormExporter.new(file_name: 'my test file.xlsx')
+        end
+
+        it 'replaces spaces with underscores' do
+          expect(@exporter.file_name).to eq('my_test_file.xlsx')
+        end
+      end
+    end
+
     after do
       clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Lookup)
 

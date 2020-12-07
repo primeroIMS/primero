@@ -12,8 +12,9 @@ import { NAMESPACE } from "../roles-form";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
-import { RESOURCES } from "../../../../libs/permissions";
+import { RESOURCES, CREATE_RECORDS } from "../../../../libs/permissions";
 import { useMetadata } from "../../../records";
+import usePermissions from "../../../permissions";
 
 import { fetchRoles } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
@@ -28,6 +29,18 @@ const Container = () => {
   }));
   const metadata = useSelector(state => getMetadata(state, "roles"));
   const defaultFilters = metadata;
+  const canAddRoles = usePermissions(NAMESPACE, CREATE_RECORDS);
+  const rolesNewButton = canAddRoles && (
+    <ActionButton
+      icon={<AddIcon />}
+      text={i18n.t("buttons.new")}
+      type={ACTION_BUTTON_TYPES.default}
+      rest={{
+        to: ROUTES.admin_roles_new,
+        component: Link
+      }}
+    />
+  );
 
   useMetadata(recordType, metadata, fetchRoles, "data");
 
@@ -45,17 +58,7 @@ const Container = () => {
 
   return (
     <>
-      <PageHeading title={i18n.t("roles.label")}>
-        <ActionButton
-          icon={<AddIcon />}
-          text={i18n.t("buttons.new")}
-          type={ACTION_BUTTON_TYPES.default}
-          rest={{
-            to: ROUTES.admin_roles_new,
-            component: Link
-          }}
-        />
-      </PageHeading>
+      <PageHeading title={i18n.t("roles.label")}>{rolesNewButton}</PageHeading>
       <PageContent>
         <IndexTable title={i18n.t("roles.label")} {...tableOptions} />
       </PageContent>

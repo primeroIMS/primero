@@ -18,7 +18,7 @@ class Api::V2::FormSectionsController < ApplicationApiController
 
   def create
     authorize! :create, FormSection
-    @form_section = FormSection.new_with_properties(form_section_params, current_user)
+    @form_section = FormSection.new_with_properties(form_section_params, user: current_user)
     @form_section.save!
     status = params[:data][:id].present? ? 204 : 200
     render :create, status: status

@@ -921,7 +921,7 @@ describe FormSection do
       form_params = { unique_id: 'form_section_test_role', parent_form: 'case', visible: true,
                       order_form_group: 1, order: 99, order_subform: 0, form_group_id: 'm', editable: true,
                       name_all: 'Form Section Test Role', description_all: 'Form Section Test Role', fields: fields }
-      form = FormSection.new_with_properties(form_params, @user)
+      form = FormSection.new_with_properties(form_params, user: @user)
       expect(form.roles).to match_array([@user.role])
 
       form.save

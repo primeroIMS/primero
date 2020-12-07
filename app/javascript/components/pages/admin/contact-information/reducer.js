@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { ContactInformationRecord } from "../../support/records";
+import { ContactInformationRecord } from "../../../contact-information/records";
 
 import actions from "./actions";
 

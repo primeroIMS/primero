@@ -275,7 +275,6 @@ describe User do
       user.save
       user.password = 'f00f00'
       user.password_confirmation = 'not f00f00'
-
       user.valid?
       expect(user).not_to be_valid
     end
@@ -349,6 +348,41 @@ describe User do
       after :each do
         clean_data(IdentityProvider)
       end
+    end
+  end
+
+  describe 'automatic password generation on user creation for native users' do
+    before(:each) do
+      clean_data(User, Role, Agency)
+      create(:agency)
+      create(:role)
+    end
+
+    it 'generates a random password when a password is not provided on user creation' do
+      user = build_user
+      user.password = nil
+      user.password_confirmation = nil
+      user.save!
+
+      expect(user.password.length).to be > 40
+      expect(user.password_confirmation.length).to be > 40
+      expect(user.password).to eq(user.password_confirmation)
+    end
+
+    it 'does not generate a random password if a password is provided' do
+      password = 'avalidpasswooo00rd'
+      user = build_user(password: password)
+      user.save!
+
+      expect(user.valid_password?(password)).to be_truthy
+    end
+
+    it 'sends a password reset email when a password is generated' do
+      user = build_user
+      user.password = nil
+      user.password_confirmation = nil
+      expect(Devise::Mailer).to receive(:reset_password_instructions).and_call_original
+      user.save!
     end
   end
 
@@ -890,9 +924,8 @@ describe User do
                                   associated_record_types: %w[case tracing_request incident], primero_program: @program,
                                   form_sections: [@form_section])
       @role1 = Role.create!(name: 'Admin role', unique_id: 'role_admin',
-                                 form_sections: [@form_section], modules: [@cp],
-                                 permissions: [Permission.new(resource: Permission::CASE,
-                                                              actions: [Permission::MANAGE])])
+                            form_sections: [@form_section], modules: [@cp],
+                            permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
       @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
       @group1 = UserGroup.create!(name: 'group 1')
       @current_user = User.create!(full_name: 'Admin User', user_name: 'user_admin', password: 'a12345678',
@@ -907,5 +940,4 @@ describe User do
       expect(@current_user.user_query_scope(@child1)).to eql(Permission::USER)
     end
   end
-
 end

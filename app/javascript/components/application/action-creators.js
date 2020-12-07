@@ -3,7 +3,7 @@ import { batch } from "react-redux";
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { fetchForms, fetchOptions } from "../record-form/action-creators";
 import { RECORD_PATH, ROUTES } from "../../config";
-import { fetchContactInformation } from "../pages/support/action-creators";
+import { fetchContactInformation } from "../contact-information/action-creators";
 
 import actions from "./actions";
 

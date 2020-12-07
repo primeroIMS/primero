@@ -5,7 +5,7 @@ import React from "react";
 import { push } from "connected-react-router";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 
-import { dataToJS } from "../../../libs";
+import { dataToJS, useThemeHelper } from "../../../libs";
 import { buildFilter } from "../utils";
 import { getPermissions } from "../../user/selectors";
 
@@ -14,6 +14,7 @@ import dashboardTableTheme from "./theme";
 const DashboardTable = ({ columns, data, query, title, pathname }) => {
   const userPermissions = useSelector(state => getPermissions(state));
   const clickableCell = [...userPermissions.keys()].includes(pathname.split("/")[1]);
+  const { theme } = useThemeHelper({ theme: dashboardTableTheme(clickableCell) });
 
   const dispatch = useDispatch();
   const options = {
@@ -60,7 +61,7 @@ const DashboardTable = ({ columns, data, query, title, pathname }) => {
   };
 
   return (
-    <MuiThemeProvider theme={dashboardTableTheme(clickableCell)}>
+    <MuiThemeProvider theme={theme}>
       <MUIDataTable {...tableOptions} />
     </MuiThemeProvider>
   );
