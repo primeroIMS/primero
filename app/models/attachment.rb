@@ -6,7 +6,8 @@ class Attachment < ApplicationRecord
   AUDIO = 'audio'
   DOCUMENT = 'document'
 
-  AUDIO_CONTENT_TYPES = %w[audio/amr audio/mpeg].freeze
+  # mpeg includes mp3.  mp4 includes m4a
+  AUDIO_CONTENT_TYPES = %w[audio/mpeg audio/mp4].freeze
   IMAGE_CONTENT_TYPES = %w[image/jpg image/jpeg image/png].freeze
   DOCUMENT_CONTENT_TYPES = %w[application/pdf text/plain].freeze
 
