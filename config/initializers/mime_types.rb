@@ -6,7 +6,7 @@
 
 mp3s = %w[audio/mpeg audio/x-mpeg audio/x-mp3 audio/mpeg3 audio/x-mpeg3 audio/mpg audio/x-mpg audio/x-mpegaudio]
 Mime::Type.register 'audio/mp3', :mp3, mp3s
-Mime::Type.register 'audio/amr', :amr
+Mime::Type.register 'audio/mp4', :m4a
 Mime::Type.register 'audio/ogg', :ogg
 Mime::Type.register 'image/jpeg', :jpg
 Mime::Type.register 'application/vnd.ms-excel', :xls
