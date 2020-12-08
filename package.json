@@ -129,7 +129,6 @@
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.5",
     "require-hacker": "^3.0.1",
-    "simple-react-lightbox": "^2.7.3",
     "sinon": "^7.2.4",
     "sinon-chai": "^3.5.0",
     "timezone-mock": "^1.0.18",
