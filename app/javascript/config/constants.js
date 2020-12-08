@@ -105,6 +105,8 @@ export const APPROVALS = "approvals";
 
 export const INCIDENT_FROM_CASE = "incident_from_case";
 
+export const CHANGE_LOGS = "change_logs";
+
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
 export const RECORD_INFORMATION = [APPROVALS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS];

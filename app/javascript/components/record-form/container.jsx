@@ -29,16 +29,19 @@ import {
   TRANSITION_TYPE,
   RECORD_PATH,
   REFERRAL,
-  INCIDENT_FROM_CASE
+  INCIDENT_FROM_CASE,
+  CHANGE_LOGS
 } from "../../config";
 import { REFER_FROM_SERVICE } from "../../libs/permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import IncidentFromCase from "../incidents-from-case";
+import ChangeLogs from "../change-logs";
 import { getIsProcessingSomeAttachment, getLoadingRecordState, getRecordAttachments } from "../records/selectors";
 import { usePermissions } from "../user";
 import { clearRecordAttachments, fetchRecordsAlerts, updateRecordAttachments } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
+import { fetchChangeLogs } from "../change-logs/action-creators";
 
 import {
   getAttachmentForms,
@@ -208,6 +211,7 @@ const Container = ({ match, mode }) => {
         dispatch(setSelectedRecord(params.recordType, params.id));
         dispatch(fetchRecord(params.recordType, params.id));
         dispatch(fetchRecordsAlerts(params.recordType, params.id));
+        dispatch(fetchChangeLogs(params.recordType, params.id));
       });
     }
   }, [params.id, params.recordType]);
@@ -289,7 +293,15 @@ const Container = ({ match, mode }) => {
           recordType={params.recordType}
         />
       ),
-      [TRANSITION_TYPE]: <Transitions {...transitionProps} />
+      [TRANSITION_TYPE]: <Transitions {...transitionProps} />,
+      [CHANGE_LOGS]: (
+        <ChangeLogs
+          record={record}
+          recordType={params.recordType}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+        />
+      )
     }[externalFormSelected];
   };
 

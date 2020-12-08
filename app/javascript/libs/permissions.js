@@ -9,6 +9,7 @@ export const ACTIONS = {
   ASSIGN: "assign",
   ASSIGN_WITHIN_AGENCY_PERMISSIONS: "assign_within_agency permissions",
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
+  CHANGE_LOG: "change_log",
   CLOSE: "close",
   CREATE: "create",
   DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
@@ -237,3 +238,5 @@ export const allowedExportTypes = userPermissions =>
   userPermissions.filter(permission => {
     return EXPORTS_PERMISSIONS.includes(permission);
   });
+
+export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.READ, ACTIONS.CHANGE_LOG];

@@ -36,7 +36,6 @@ en:
   actions:
     approvals: Approvals
     button: Actions
-    change_log: Change Log
     close: Close
     description:
       invalid: Invalid record
@@ -381,6 +380,16 @@ en:
       you are rejecting this case; once you click ‘Reject’ you will no longer have
       access to this case record.
     view_name: View Name
+  change_logs:
+    add_subform: 'Added “%{subform_name}” subform entry #%{short_id}'
+    changes_subform: 'Changes to %{subform_name} subform'
+    create: Created record
+    deleted_subform: 'Removed “%{subform_name}” subform entry #%{short_id}'
+    label: Change Log
+    see_details: See Details.
+    change: 'from %{from_value} to %{to_value}'
+    updated_subform: 'Updated “%{subform_name}” subform entry #%{short_id}'
+    update_subform: 'Updated “%{subform_name}” subform'
   children:
     selectable_date_options:
       assessment_requested_on: Date of Assessment
