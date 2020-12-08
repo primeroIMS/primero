@@ -9,6 +9,7 @@
 # rubocop:disable Metrics/ClassLength
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::Allowlist
+  include ConfigurationRecord
 
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
@@ -21,6 +22,8 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :timeoutable, :recoverable, :lockable,
          :jwt_authenticatable, jwt_revocation_strategy: self
+
+  self.unique_id_attribute = 'user_name'
 
   belongs_to :role
   belongs_to :agency
@@ -212,6 +215,10 @@ class User < ApplicationRecord
     associate_role_unique_id(properties[:role_unique_id])
     associate_groups_unique_id(properties[:user_group_unique_ids])
     associate_identity_provider_unique_id(properties[:identity_provider_unique_id])
+  end
+
+  def configuration_hash
+    super.except('encrypted_password', 'reset_password_token', 'reset_password_sent_at', 'unlock_token', 'locked_at')
   end
 
   def associate_role_unique_id(role_unique_id)
