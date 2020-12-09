@@ -39,7 +39,7 @@ import IncidentFromCase from "../incidents-from-case";
 import ChangeLogs from "../change-logs";
 import { getIsProcessingSomeAttachment, getLoadingRecordState, getRecordAttachments } from "../records/selectors";
 import { usePermissions } from "../user";
-import { clearRecordAttachments, fetchRecordsAlerts, updateRecordAttachments } from "../records/action-creators";
+import { clearRecordAttachments, fetchRecordsAlerts } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
 import { fetchChangeLogs } from "../change-logs/action-creators";
 
@@ -198,10 +198,7 @@ const Container = ({ match, mode }) => {
 
   useEffect(() => {
     if (params.id && !loadingRecord && recordAttachments.size && !isProcessingSomeAttachment) {
-      batch(() => {
-        dispatch(updateRecordAttachments(params.id, params.recordType));
-        dispatch(clearRecordAttachments(params.id, params.recordType));
-      });
+      dispatch(clearRecordAttachments(params.id, params.recordType));
     }
   }, [loadingRecord, isProcessingSomeAttachment, recordAttachments.size]);
 

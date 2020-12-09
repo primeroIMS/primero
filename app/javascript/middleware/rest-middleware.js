@@ -56,10 +56,35 @@ const deleteFromQueue = fromQueue => {
   }
 };
 
-async function handleSuccess(store, payload) {
-  const { type, json, db, fromQueue } = payload;
+const handleAttachmentSuccess = async ({ json, db, fromAttachment }) => {
+  const { id, field_name: fieldName } = fromAttachment;
 
-  const payloadFromDB = await syncIndexedDB(db, json);
+  const recordDB = await syncIndexedDB(db, {}, "find");
+
+  if (id) {
+    recordDB.data[fieldName] = recordDB.data[fieldName].filter(attachment => attachment.id !== id);
+  } else {
+    recordDB.data[fieldName] = recordDB.data[fieldName].filter(
+      attachment =>
+        !(
+          attachment.field_name === json.data.field_name &&
+          attachment.file_name === json.data.file_name &&
+          !attachment.id &&
+          json.data.id
+        )
+    );
+    recordDB.data[fieldName].push(json.data);
+  }
+
+  return recordDB;
+};
+
+async function handleSuccess(store, payload) {
+  const { type, json, db, fromQueue, fromAttachment } = payload;
+
+  const successData = fromAttachment ? await handleAttachmentSuccess(payload) : json;
+
+  const payloadFromDB = await syncIndexedDB(db, successData);
 
   deleteFromQueue(fromQueue);
 
@@ -152,7 +177,8 @@ const fetchSinglePayload = (action, store, options) => {
       external,
       queueAttachments
     },
-    fromQueue
+    fromQueue,
+    fromAttachment
   } = action;
 
   const [attachments, formData] = queueAttachments
@@ -224,7 +250,8 @@ const fetchSinglePayload = (action, store, options) => {
             normalizeFunc,
             path,
             db,
-            fromQueue
+            fromQueue,
+            fromAttachment
           });
 
           messageQueueSuccess(action);

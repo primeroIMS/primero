@@ -79,6 +79,8 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
     case `${namespace}/${SAVE_RECORD_FAILURE}`:
       return state.set("saving", false);
     case `${namespace}/${SAVE_RECORD_SUCCESS}`:
+    case `${namespace}/${SAVE_ATTACHMENT_SUCCESS}`:
+    case `${namespace}/${DELETE_ATTACHMENT_SUCCESS}`:
     case `${namespace}/${RECORD_SUCCESS}`: {
       const { data } = payload;
       const index = state.get("data").findIndex(r => r.get("id") === data.id);
@@ -159,54 +161,10 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
     case `${namespace}/${CLEAR_SELECTED_RECORD}`: {
       return state.delete("selectedRecord");
     }
-    case `${namespace}/${DELETE_ATTACHMENT_SUCCESS}`: {
-      const selectedRecord = state.get("selectedRecord");
-
-      if (!selectedRecord || selectedRecord !== payload?.data?.record?.id) {
-        return state;
-      }
-
-      return state.updateIn(["recordAttachments", payload.data.field_name, "data"], data =>
-        (data?.size ? data : fromJS([])).push(fromJS({ ...payload.data, _destroyed: true }))
-      );
-    }
-    case `${namespace}/${SAVE_ATTACHMENT_SUCCESS}`: {
-      const selectedRecord = state.get("selectedRecord");
-
-      if (!selectedRecord || selectedRecord !== payload?.data?.record?.id) {
-        return state;
-      }
-
-      return state.updateIn(["recordAttachments", payload.data.field_name, "data"], data =>
-        (data || fromJS([])).push(fromJS(payload.data))
-      );
-    }
     case `${namespace}/${SET_ATTACHMENT_STATUS}`: {
       return state.updateIn(["recordAttachments", payload.fieldName], data =>
         (data?.size ? data : fromJS({})).merge(fromJS(payload))
       );
-    }
-    case `${namespace}/${UPDATE_ATTACHMENTS}`: {
-      const attachments = state.get("recordAttachments", fromJS({}));
-      const index = state.get("data").findIndex(record => record.get("id") === payload.id);
-
-      return attachments
-        .entrySeq()
-        .filter(([, value]) => !value.get("processing") && !value.get("error"))
-        .reduce(
-          (acc, [key, value]) =>
-            acc.updateIn(["data", index, key], data => {
-              const updatedData = value.get("data", fromJS([]));
-              const destroyedIds = updatedData
-                .filter(updated => updated.get("_destroyed"))
-                .map(updated => updated.get("id"));
-
-              return data
-                .filter(current => current.get("id") && !destroyedIds.includes(current.get("id")))
-                .concat(updatedData.filter(updated => !updated.get("_destroyed")));
-            }),
-          state
-        );
     }
     case `${namespace}/${CLEAR_RECORD_ATTACHMENTS}`: {
       return state.set("recordAttachments", fromJS({}));

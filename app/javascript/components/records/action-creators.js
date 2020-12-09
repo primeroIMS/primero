@@ -198,11 +198,6 @@ export const clearSelectedRecord = recordType => ({
   type: `${recordType}/${CLEAR_SELECTED_RECORD}`
 });
 
-export const updateRecordAttachments = (recordId, recordType) => ({
-  type: `${recordType}/${UPDATE_ATTACHMENTS}`,
-  payload: { id: recordId, recordType }
-});
-
 export const clearRecordAttachments = (recordId, recordType) => ({
   type: `${recordType}/${CLEAR_RECORD_ATTACHMENTS}`,
   payload: { id: recordId, recordType }
