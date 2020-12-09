@@ -175,7 +175,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
       expect(json['data'][1]).to eq(record_history_b.deep_stringify_keys)
     end
 
-    it 'returns 403 if user only have read permission' do
+    it 'should no returns 403 if user only have read permission' do
       login_for_test
       params = { data: { name: 'Test', age: 12, sex: 'female' } }
       post '/api/v2/cases', params: params
@@ -187,12 +187,11 @@ describe Api::V2::RecordHistoriesController, type: :request do
       )
 
       get "/api/v2/cases/#{Child.first.id}/record_history"
-      expect(response).to have_http_status(403)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{Child.first.id}/record_history")
-      expect(json['errors'][0]['message']).to eq('Forbidden')
+      expect(response).not_to have_http_status(403)
+      expect(json['data']).to be_present
     end
 
-    it 'returns 403 if user only have audit_log permission' do
+    it 'should no returns 403 if user only have audit_log permission' do
       login_for_test
       params = { data: { name: 'Test', age: 12, sex: 'female' } }
       post '/api/v2/cases', params: params
@@ -204,9 +203,8 @@ describe Api::V2::RecordHistoriesController, type: :request do
       )
 
       get "/api/v2/cases/#{Child.first.id}/record_history"
-      expect(response).to have_http_status(403)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{Child.first.id}/record_history")
-      expect(json['errors'][0]['message']).to eq('Forbidden')
+      expect(response).not_to have_http_status(403)
+      expect(json['data']).to be_present
     end
   end
 
