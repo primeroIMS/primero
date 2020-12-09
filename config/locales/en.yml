@@ -2787,6 +2787,13 @@ en:
       errors:
         reset_password_token: "Invalid password reset token"
         password_confirmation: "Passwords must match"
+    onboard_email:
+      subject: "Onboarding to %{system}"
+      greeting: "Dear %{full_name},"
+      body1: "Welcome to Primero!"
+      body2: "You have been designated as the implementing administrator for %{host_href}. %{reset_notification}"
+      body2_reset_notification: "You will receive an additional email prompting you to reset your password."
+      body3: "You are responsible for ensuring secure and timely implementation. For each rollout, you should have completed the Implementation Plan with onboarding and user management strategy and information sharing protocol. You are also responsible for ensuring that a signed Terms of Use is on file for all user organizations."
   user_group:
     description: Description
     disabled:
