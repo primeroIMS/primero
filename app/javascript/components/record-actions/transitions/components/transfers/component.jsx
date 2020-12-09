@@ -7,8 +7,8 @@ import { object, string } from "yup";
 
 import { useI18n } from "../../../../i18n";
 import { enqueueSnackbar } from "../../../../notifier";
-import { selectAgencies } from "../../../../application/selectors";
-import { getLocations } from "../../../../record-form/selectors";
+import { selectAgencies, getReportingLocationConfig } from "../../../../application/selectors";
+import { getReportingLocations } from "../../../../record-form/selectors";
 import { RECORD_TYPES } from "../../../../../config";
 import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selectors";
 import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
@@ -51,7 +51,12 @@ const TransferForm = ({
 
   const agencies = useSelector(state => selectAgencies(state));
 
-  const locations = useSelector(state => getLocations(state));
+  const adminLevel = useSelector(state => getReportingLocationConfig(state).get("admin_level"));
+
+  const locations = useSelector(
+    state => getReportingLocations(state, adminLevel),
+    (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
+  );
 
   const canConsentOverride =
     userPermissions &&
