@@ -68,6 +68,12 @@ const Component = () => {
   const canAddForms = usePermissions(RESOURCES.metadata, CREATE_RECORDS);
 
   useEffect(() => {
+    if (modules.size > 0) {
+      handleSetFilterValue("primeroModule", modules.first().unique_id);
+    }
+  }, [modules]);
+
+  useEffect(() => {
     batch(() => {
       dispatch(clearFormsReorder());
       dispatch(fetchForms());
