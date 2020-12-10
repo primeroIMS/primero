@@ -72,8 +72,8 @@ class BulkExport < CouchRest::Model::Base
   def filters
     if self['filters'].present?
       self['filters'].with_indifferent_access.each do |k, v|
-        if v["type"] == 'date_range'
-          v["value"] = sanitize_date_range_filter(v["value"])
+        if v['type'] == 'date_range'
+          v['value'] = sanitize_date_range_filter(v['value'])
         end
       end
     end
@@ -217,7 +217,6 @@ class BulkExport < CouchRest::Model::Base
       begin
         date_range[i] = PrimeroDate.couchrest_typecast(nil, nil, value)
       rescue ArgumentError => arg_error
-        @invalid_date_filter_value = true
         return []
       end
     end
