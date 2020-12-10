@@ -70,7 +70,13 @@ class BulkExport < CouchRest::Model::Base
 
   #Override accessors for values populated from the controller indifferent access
   def filters
-    self['filters'].with_indifferent_access if self['filters'].present?
+    if self['filters'].present?
+      self['filters'].with_indifferent_access.each do |k, v|
+        if v['type'] == 'date_range'
+          v['value'] = parse_date_range_filter(v['value'])
+        end
+      end
+    end
   end
   def order
     self['order'].with_indifferent_access if self['order'].present?
@@ -204,6 +210,17 @@ class BulkExport < CouchRest::Model::Base
       properties_by_module[module_id] = forms_hash
     end
     return properties_by_module
+  end
+
+  def parse_date_range_filter (date_range)
+    date_range.each_with_index do |value, i|
+      begin
+        date_range[i] = PrimeroDate.couchrest_typecast(nil, nil, value)
+      rescue ArgumentError => arg_error
+        return []
+      end
+    end
+    date_range
   end
 
 end
