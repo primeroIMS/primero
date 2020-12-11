@@ -48,7 +48,7 @@ class Exporters::FormExporter < ValueObject
   end
 
   def sorted_forms
-    FormSection.list(form_params).sort_by { |f| [f.order_form_group, f.order] }
+    FormSection.list(form_params).order(:order_form_group, :order)
   end
 
   def export_form(form)
@@ -84,7 +84,9 @@ class Exporters::FormExporter < ValueObject
 
   def export_form_fields(form, worksheet)
     row_number = 2
-    form.fields.each do |field|
+    # FormSection.list() breaks the Fields order, so have to specify the order here
+    # This is due to an issue that breaks ordering when using includes with a where clause
+    form.fields.order(:order).each do |field|
       next if visible && !field.visible?
 
       worksheet.write(row_number, 0, field_row(form, field))
