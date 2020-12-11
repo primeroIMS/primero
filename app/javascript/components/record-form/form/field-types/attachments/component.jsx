@@ -103,7 +103,11 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
 
   const renderField = arrayHelpers => {
     if (field.type === PHOTO_FIELD && mode.isShow) {
-      return <PhotoArray images={values.map(value => value.attachment_url)} />;
+      const images = values.map(
+        value => value.attachment_url || `data:${value.content_type};base64,${value.attachment}`
+      );
+
+      return <PhotoArray images={images} />;
     }
 
     if (field.type === AUDIO_FIELD && mode.isShow) {
