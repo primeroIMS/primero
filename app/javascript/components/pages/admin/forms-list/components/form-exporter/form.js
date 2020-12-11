@@ -16,11 +16,11 @@ export const form = i18n => {
           option_strings_text: {
             [i18n.locale]: [
               {
-                id: "true",
+                id: "false",
                 label: i18n.t("true")
               },
               {
-                id: "false",
+                id: "true",
                 label: i18n.t("false")
               }
             ]
