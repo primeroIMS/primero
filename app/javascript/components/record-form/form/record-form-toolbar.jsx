@@ -52,7 +52,8 @@ const RecordFormToolbar = ({
   const savingRecord = useSelector(state => getSavingRecord(state, params.recordType));
   const loadingRecord = useSelector(state => getLoadingRecordState(state, params.recordType));
   const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
-  const rtlClass = dir === "rtl" ? css.flipImage : "";
+  const isRTL = dir === "rtl";
+  const rtlClass = isRTL ? css.flipImage : "";
 
   const goBack = () => {
     history.goBack();
@@ -89,7 +90,7 @@ const RecordFormToolbar = ({
     <ActionButton
       icon={
         incidentFromCase?.size && recordType === RECORD_TYPES.incidents ? (
-          <SaveReturnIcon className={rtlClass} />
+          <SaveReturnIcon isRTL={isRTL} />
         ) : (
           <CheckIcon />
         )
