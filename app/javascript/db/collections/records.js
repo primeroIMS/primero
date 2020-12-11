@@ -26,8 +26,10 @@ const Records = {
       });
     }
 
+    const recordDB = data.id && !dataIsArray && (await DB.getRecord(collection, data.id));
+
     return {
-      data: recordData,
+      data: recordDB || recordData,
       ...(dataIsArray && { metadata })
     };
   }

@@ -61,18 +61,17 @@ const handleAttachmentSuccess = async ({ json, db, fromAttachment }) => {
 
   const recordDB = await syncIndexedDB(db, {}, "find");
 
-  if (id) {
-    recordDB.data[fieldName] = recordDB.data[fieldName].filter(attachment => attachment.id !== id);
-  } else {
-    recordDB.data[fieldName] = recordDB.data[fieldName].filter(
-      attachment =>
-        !(
-          attachment.field_name === json.data.field_name &&
-          attachment.file_name === json.data.file_name &&
-          !attachment.id &&
-          json.data.id
-        )
-    );
+  recordDB.data[fieldName] = recordDB.data[fieldName].map(attachment => ({
+    ...attachment,
+    _destroy: id
+      ? attachment.id === id
+      : attachment.field_name === json.data.field_name &&
+        attachment.file_name === json.data.file_name &&
+        !attachment.id &&
+        json.data.id
+  }));
+
+  if (json.data && json.data.id && !fromAttachment.id) {
     recordDB.data[fieldName].push(json.data);
   }
 
