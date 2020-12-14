@@ -4,7 +4,7 @@ other_documents_fields = [
               "editable" => false,
               "disabled" => true,
               "display_name_en" => "Other Document",
-              "help_text_en" => "Only PDF and TXT files permitted"
+              "help_text_en" => "Only PDF, TXT, DOC, DOCX, XLS, XLSX, CSV files permitted"
               })
 ]
 
