@@ -19,7 +19,7 @@ const handleOfflineAttachments = async (store, action) => {
         (acc, elem) => {
           if (elem._destroy) {
             acc.destroyed.push(elem._destroy);
-          } else {
+          } else if (!recordDB.data[field].some(dbElem => dbElem.attachment === elem.attachment)) {
             acc.added.push(elem);
           }
 
@@ -31,7 +31,9 @@ const handleOfflineAttachments = async (store, action) => {
       handledBody.data[field] = recordDB.data[field]
         .map(attachment => ({
           ...attachment,
-          marked_destroy: attachments.destroyed.includes(attachment.id)
+          marked_destroy: attachment.id
+            ? attachments.destroyed.includes(attachment.id)
+            : !attachments.added.some(elem => elem.attachment === attachment.attachment)
         }))
         .concat(attachments.added);
     }
