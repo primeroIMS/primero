@@ -32,7 +32,8 @@ import {
   INCIDENT_FROM_CASE,
   CHANGE_LOGS
 } from "../../config";
-import { SHOW_CHANGE_LOG, REFER_FROM_SERVICE } from "../../libs/permissions";
+import { REFER_FROM_SERVICE } from "../../libs/permissions";
+import { SHOW_CHANGE_LOG } from "../permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import IncidentFromCase from "../incidents-from-case";
