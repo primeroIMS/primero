@@ -266,7 +266,8 @@ describe("<RecordActions />", () => {
         "selectedRecords",
         "close",
         "currentDialog",
-        "selectedRowsIndex"
+        "selectedRowsIndex",
+        "mode"
       ].forEach(property => {
         expect(transitionsProps).to.have.property(property);
         delete transitionsProps[property];
@@ -439,7 +440,8 @@ describe("<RecordActions />", () => {
         "setPending",
         "userPermissions",
         "currentDialog",
-        "selectedRowsIndex"
+        "selectedRowsIndex",
+        "mode"
       ].forEach(property => {
         expect(exportProps).to.have.property(property);
         delete exportProps[property];

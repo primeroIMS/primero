@@ -118,6 +118,7 @@ describe("<Transitions />", () => {
           "record",
           "setPending",
           "selectedIds",
+          "mode",
           "referralRef",
           "disabled",
           "setDisabled",
@@ -202,6 +203,7 @@ describe("<Transitions />", () => {
         "record",
         "setPending",
         "selectedIds",
+        "mode",
         "assignRef"
       ];
 
@@ -247,6 +249,7 @@ describe("<Transitions />", () => {
           "record",
           "setPending",
           "selectedIds",
+          "mode",
           "isBulkTransfer",
           "transferRef",
           "disabled",

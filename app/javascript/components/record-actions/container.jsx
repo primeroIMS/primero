@@ -182,7 +182,8 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
           selectedRecords,
           selectedRowsIndex,
           setPending: setDialogPending,
-          userPermissions: permittedAbilities
+          userPermissions: permittedAbilities,
+          mode
         })}
     </>
   );
