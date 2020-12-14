@@ -46,13 +46,12 @@ const RecordFormToolbar = ({
   recordType,
   shortId
 }) => {
-  const { css, dir } = useThemeHelper({ css: styles });
+  const { css, isRTL } = useThemeHelper({ css: styles });
   const dispatch = useDispatch();
   const i18n = useI18n();
   const savingRecord = useSelector(state => getSavingRecord(state, params.recordType));
   const loadingRecord = useSelector(state => getLoadingRecordState(state, params.recordType));
   const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
-  const isRTL = dir === "rtl";
   const rtlClass = isRTL ? css.flipImage : "";
 
   const goBack = () => {
