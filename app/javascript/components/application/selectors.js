@@ -38,7 +38,7 @@ export const selectUserIdle = state => state.getIn([NAMESPACE, "userIdle"], fals
 
 export const getReportingLocationConfig = state => state.getIn([NAMESPACE, "reportingLocationConfig"], fromJS({}));
 
-export const getAdminLevel = state => state.getReportingLocationConfig().get("admin_level");
+export const getAdminLevel = state => getReportingLocationConfig(state).get("admin_level");
 
 export const getAgencyLogos = state => state.getIn(["application", "primero", "agencies"], fromJS([]));
 
