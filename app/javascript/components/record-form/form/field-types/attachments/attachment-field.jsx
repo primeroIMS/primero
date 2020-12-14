@@ -18,7 +18,14 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
-  const { attachment_url: attachmentUrl, id, _destroy: destroyed, file_name: fileName } = value;
+  const {
+    attachment_url: attachmentUrl,
+    id,
+    _destroy: destroyed,
+    file_name: fileName,
+    attachment: attachmentData,
+    content_type: contentType
+  } = value;
 
   const fields = buildAttachmentFieldsObject(name, index);
 
@@ -60,13 +67,23 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
         <Box flexGrow="1">
           {!mode.isShow && (
             <>
-              {attachmentUrl ? (
+              {attachmentUrl || attachmentData ? (
                 <div className={css.attachmentRow}>
-                  <AttachmentPreview name={fileName} attachment={attachment} attachmentUrl={attachmentUrl} />
+                  <AttachmentPreview
+                    name={fileName}
+                    attachment={attachment}
+                    attachmentUrl={attachmentUrl || `data:${contentType};base64,${attachmentData}`}
+                  />
                   {deleteButton}
                 </div>
               ) : (
-                <AttachmentInput fields={fields} attachment={attachment} name={name} deleteButton={deleteButton} />
+                <AttachmentInput
+                  fields={fields}
+                  contentType={contentType}
+                  attachment={attachment}
+                  name={name}
+                  deleteButton={deleteButton}
+                />
               )}
             </>
           )}
