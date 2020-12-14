@@ -4,7 +4,7 @@ import merge from "deepmerge";
 import { subformAwareMerge } from "../db/utils";
 import { attemptSignout } from "../components/user";
 import { FETCH_TIMEOUT, ROUTES } from "../config";
-import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
+import DB, { syncIndexedDB, queueIndexedDB, METHODS, TRANSACTION_MODE } from "../db";
 import { signOut } from "../components/login/components/idp-selection";
 import EventManager from "../libs/messenger";
 import { QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS } from "../libs/queue";
@@ -61,13 +61,13 @@ const deleteFromQueue = fromQueue => {
 const handleAttachmentSuccess = async ({ json, db, fromAttachment }) => {
   const { id, field_name: fieldName } = fromAttachment;
 
-  const record = await syncIndexedDB({ ...db, mode: "readonly" }, {}, "", async (tx, store) => {
+  const record = await syncIndexedDB({ ...db, mode: TRANSACTION_MODE.READ_ONLY }, {}, "", async (tx, store) => {
     const recordData = await store.get(db.id);
 
     return recordData;
   });
 
-  const recordDB = await syncIndexedDB({ ...db, mode: "readwrite" }, {}, "", async (tx, store) => {
+  const recordDB = await syncIndexedDB({ ...db, mode: TRANSACTION_MODE.READ_WRITE }, {}, "", async (tx, store) => {
     const recordData = record.data;
 
     const data = { ...recordData };

@@ -10,7 +10,8 @@ import {
   DB_COLLECTIONS_V1,
   DB_COLLECTIONS_V2,
   DB_COLLECTIONS_V3,
-  DB_COLLECTIONS_V4
+  DB_COLLECTIONS_V4,
+  TRANSACTION_MODE
 } from "./constants";
 
 class DB {
@@ -60,7 +61,7 @@ class DB {
   async clearDB() {
     return this.asyncForEach(Object.keys(DB_COLLECTIONS_NAMES), async collection => {
       const store = DB_COLLECTIONS_NAMES[collection];
-      const tx = (await this._db).transaction(store, "readwrite");
+      const tx = (await this._db).transaction(store, TRANSACTION_MODE.READ_WRITE);
 
       await tx.objectStore(store).clear();
     });
@@ -117,7 +118,7 @@ class DB {
 
   async bulkAdd(store, records, queryIndex) {
     const isDataArray = Array.isArray(records);
-    const tx = (await this._db).transaction(store, "readwrite");
+    const tx = (await this._db).transaction(store, TRANSACTION_MODE.READ_WRITE);
     const collection = tx.objectStore(store);
 
     this.asyncForEach(isDataArray ? records : Object.keys(records), async record => {
