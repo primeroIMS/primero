@@ -142,6 +142,24 @@ class DB {
 
     await tx.done;
   }
+
+  async onTransaction(store, mode, callback) {
+    const tx = (await this._db).transaction(store, mode);
+    const objectStore = tx.objectStore(store);
+
+    let result;
+
+    try {
+      result = await callback(tx, objectStore);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn(error);
+    }
+
+    await tx.done;
+
+    return result;
+  }
 }
 
 const instance = new DB();

@@ -1,5 +1,7 @@
 import qs from "qs";
+import merge from "deepmerge";
 
+import { subformAwareMerge } from "../db/utils";
 import { attemptSignout } from "../components/user";
 import { FETCH_TIMEOUT, ROUTES } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
@@ -59,21 +61,40 @@ const deleteFromQueue = fromQueue => {
 const handleAttachmentSuccess = async ({ json, db, fromAttachment }) => {
   const { id, field_name: fieldName } = fromAttachment;
 
-  const recordDB = await syncIndexedDB(db, {}, "find");
+  const record = await syncIndexedDB({ ...db, mode: "readonly" }, {}, "", async (tx, store) => {
+    const recordData = await store.get(db.id);
 
-  recordDB.data[fieldName] = recordDB.data[fieldName].map(attachment => ({
-    ...attachment,
-    _destroy: id
-      ? attachment.id === id
-      : attachment.field_name === json.data.field_name &&
-        attachment.file_name === json.data.file_name &&
-        !attachment.id &&
-        json.data.id
-  }));
+    return recordData;
+  });
 
-  if (json.data && json.data.id && !fromAttachment.id) {
-    recordDB.data[fieldName].push(json.data);
-  }
+  const recordDB = await syncIndexedDB({ ...db, mode: "readwrite" }, {}, "", async (tx, store) => {
+    // const record = await store.get(db.id);
+    const recordData = record.data;
+
+    const data = { ...recordData };
+
+    data[fieldName] = data[fieldName].map(attachment => ({
+      ...attachment,
+      marked_destroy: id
+        ? attachment.id === id
+        : attachment.field_name === json.data.field_name &&
+          attachment.file_name === json.data.file_name &&
+          !attachment.id &&
+          json.data.id
+    }));
+
+    if (json.data && json.data.id && !fromAttachment.id) {
+      data[fieldName].push(json.data);
+    }
+
+    data.type = db.recordType;
+
+    const merged = merge(recordData, data, { arrayMerge: subformAwareMerge });
+
+    await store.put(merged);
+
+    return merged;
+  });
 
   return recordDB;
 };
@@ -81,9 +102,7 @@ const handleAttachmentSuccess = async ({ json, db, fromAttachment }) => {
 async function handleSuccess(store, payload) {
   const { type, json, db, fromQueue, fromAttachment } = payload;
 
-  const successData = fromAttachment ? await handleAttachmentSuccess(payload) : json;
-
-  const payloadFromDB = await syncIndexedDB(db, successData);
+  const payloadFromDB = fromAttachment ? await handleAttachmentSuccess(payload) : await syncIndexedDB(db, json);
 
   deleteFromQueue(fromQueue);
 

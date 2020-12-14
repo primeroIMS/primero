@@ -14,4 +14,4 @@ export const subformAwareMerge = (target, source, options) =>
 
       return item;
     })
-    .filter(item => !item._destroy);
+    .filter(item => !item.marked_destroy);

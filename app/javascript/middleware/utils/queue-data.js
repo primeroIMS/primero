@@ -29,7 +29,7 @@ const handleOfflineAttachments = async (store, action) => {
       reaction.api.body.data[field] = recordDB.data[field]
         .map(attachment => ({
           ...attachment,
-          _destroy: attachments.destroyed.includes(attachment.id)
+          marked_destroy: attachments.destroyed.includes(attachment.id)
         }))
         .concat(attachments.added);
     }
