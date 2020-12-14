@@ -4,6 +4,7 @@ import { setupMountedComponent } from "../../../../test";
 import { mapEntriesToRecord } from "../../../../libs";
 import { FormSectionRecord } from "../../../record-form/records";
 import { RECORD_TYPES } from "../../../../config/constants";
+import { PrimeroModuleRecord } from "../../../application/records";
 
 import FormsList from "./component";
 import ReorderActions from "./components/reorder-actions";
@@ -46,11 +47,11 @@ describe("<FormsList />", () => {
   const initialState = fromJS({
     application: {
       modules: [
-        {
+        PrimeroModuleRecord({
           unique_id: "primeromodule-cp",
           name: "CP",
           associated_record_types: [RECORD_TYPES.cases, RECORD_TYPES.tracing_requests, RECORD_TYPES.incidents]
-        }
+        })
       ]
     },
     records: {

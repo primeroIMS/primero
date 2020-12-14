@@ -98,14 +98,12 @@ describe("<ReportFilters /> - utils", () => {
 
       it("should return translated values if field contains the option_strings_text ", () => {
         const value = ["test1"];
-        const optionStringTexts = {
-          en: [
-            {
-              id: "test1",
-              display_text: "Test 1"
-            }
-          ]
-        };
+        const optionStringTexts = [
+          {
+            id: "test1",
+            display_text: { en: "Test 1" }
+          }
+        ];
 
         expect(
           utils.formatValue(value, i18n, {

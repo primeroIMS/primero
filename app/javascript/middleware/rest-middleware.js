@@ -1,9 +1,7 @@
 import qs from "qs";
 
-import { attemptSignout } from "../components/user";
 import { FETCH_TIMEOUT, ROUTES } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
-import { signOut } from "../components/login/components/idp-selection";
 import EventManager from "../libs/messenger";
 import { QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS } from "../libs/queue";
 import { applyingConfigMessage } from "../components/pages/admin/configurations-form/action-creators";
@@ -215,7 +213,7 @@ const fetchSinglePayload = (action, store, options) => {
           }
 
           if (status === 401) {
-            startSignout(store, attemptSignout, signOut);
+            startSignout(store);
           }
         } else {
           await handleSuccess(store, {
@@ -329,7 +327,7 @@ const fetchMultiPayload = (action, store, options) => {
     if (results.find(result => result && result.status === 401)) {
       fetchStatus({ store, type }, "FAILURE", results);
 
-      startSignout(store, attemptSignout, signOut);
+      startSignout(store);
     } else {
       store.dispatch({
         type: `${type}_SUCCESS`,

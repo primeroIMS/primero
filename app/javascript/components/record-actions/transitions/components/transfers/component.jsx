@@ -34,7 +34,8 @@ const TransferForm = ({
   transferRef,
   setPending,
   disabled,
-  setDisabled
+  setDisabled,
+  mode
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -126,7 +127,9 @@ const TransferForm = ({
         i18n,
         dispatch,
         providedConsent,
-        canConsentOverride
+        canConsentOverride,
+        record,
+        mode
       ),
     validateOnBlur: false,
     validateOnChange: false,
@@ -140,6 +143,7 @@ TransferForm.propTypes = {
   disabled: PropTypes.bool,
   handleSubmit: PropTypes.func,
   isBulkTransfer: PropTypes.bool.isRequired,
+  mode: PropTypes.object,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,

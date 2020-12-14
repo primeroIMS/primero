@@ -7,6 +7,7 @@ import omit from "lodash/omit";
 import reject from "lodash/reject";
 import max from "lodash/max";
 import get from "lodash/get";
+import orderBy from "lodash/orderBy";
 import { parse } from "date-fns";
 
 import { dataToJS } from "../../libs";
@@ -82,6 +83,16 @@ const getTranslatedKey = (key, field, { agencies, i18n }) => {
   return key;
 };
 
+const sortByDate = (data, multiple = false) => {
+  return orderBy(
+    data,
+    curr => {
+      return new Date(multiple ? curr[0] : curr);
+    },
+    ["asc"]
+  );
+};
+
 const dataSet = (columns, data, i18n, fields, { agencies }) => {
   const totalLabel = i18n.t("report.total");
   const dataResults = [];
@@ -113,7 +124,7 @@ const getLabels = (columns, data, i18n, fields, { agencies }) => {
   const totalLabel = i18n.t("report.total");
   const currentLabels = [];
   const field = fields.shift();
-  const keys = Object.keys(data);
+  const keys = sortByDate(Object.keys(data));
 
   keys.forEach(key => {
     if (containsColumns(columns, data[key], i18n)) {
@@ -286,7 +297,7 @@ const getColumnsTableData = data => {
   const columns = data.fields.filter(field => field.position.type === "vertical");
   const qtyRows = data.fields.filter(field => field.position.type === "horizontal").length;
   const columnsObjects = getColumnsObjects(data.report_data, qtyRows);
-  const cleaned = cleanedKeys(columnsObjects, columns);
+  const cleaned = sortByDate(cleanedKeys(columnsObjects, columns));
   const renderColumns = formatColumns(cleaned, columns).flat();
 
   return renderColumns;
@@ -298,8 +309,7 @@ const getRowsTableData = data => {
   }
   const rows = data.fields.filter(field => field.position.type === "horizontal");
   const accum = [];
-
-  const rowEntries = Object.entries(data.report_data);
+  const rowEntries = sortByDate(Object.entries(data.report_data), true);
 
   rowEntries.forEach(entry => {
     const [key, value] = entry;
@@ -320,7 +330,7 @@ const getRowsTableData = data => {
         });
 
       // Set rest of keys
-      accum.push(...result);
+      accum.push(...sortByDate(result, true));
     } else {
       const valuesAccesor = getAllKeysObject(value);
       const values = valuesAccesor.filter(val => val !== "_total").map(val => get(value, val));

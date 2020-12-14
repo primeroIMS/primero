@@ -34,6 +34,7 @@ export const signIn = async (idp, tokenCallback) => {
 
 export const signOut = () => {
   if (msalApp) {
+    localStorage.removeItem("user");
     msalApp.logout();
   }
 };

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { Grid } from "@material-ui/core";
 
 import {
   getCasesByTaskOverdueAssessment,
@@ -55,15 +54,13 @@ const Component = ({ loadingIndicator }) => {
         ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS
       ]}
     >
-      <Grid item xl={9} md={8} xs={12}>
-        <OptionsBox title={i18n.t("dashboard.cases_by_task_overdue")} hasData={hasData} {...loadingIndicator}>
-          <DashboardTable
-            pathname={ROUTES.cases}
-            title={i18n.t("dashboard.cases_by_task_overdue")}
-            {...tasksOverdueProps}
-          />
-        </OptionsBox>
-      </Grid>
+      <OptionsBox title={i18n.t("dashboard.cases_by_task_overdue")} hasData={hasData} {...loadingIndicator}>
+        <DashboardTable
+          pathname={ROUTES.cases}
+          title={i18n.t("dashboard.cases_by_task_overdue")}
+          {...tasksOverdueProps}
+        />
+      </OptionsBox>
     </Permission>
   );
 };
