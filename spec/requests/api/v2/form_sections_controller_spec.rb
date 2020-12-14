@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::FormSectionsController, type: :request do
   before :each do
+    clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role, Lookup)
     Field.where(editable: false).each do |f|
       f.editable = true
       f.save(validate: false)
@@ -170,13 +171,23 @@ describe Api::V2::FormSectionsController, type: :request do
   end
 
   describe 'POST /api/v2/forms' do
-    it 'creates a new form with fields and returns 200 and json' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
-        ]
+    before do
+      @form_section_a = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
+      @primero_program = PrimeroProgram.create!(unique_id: 'some_program', name_en: 'Some program')
+      @primero_module = PrimeroModule.create!(
+        primero_program: @primero_program, name: 'Test Module', associated_record_types: ['case'],
+        form_sections: [@form_section_a]
       )
+      @permission_form_manage = Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
+      @role = Role.create!(
+        form_sections: [@form_section_a],
+        name: 'Test Role', permissions: [@permission_form_manage],
+        modules: [@primero_module]
+      )
+    end
 
+    it 'creates a new form with fields and returns 200 and json' do
+      login_for_test(role: @role, permissions: [@permission_form_manage])
       params = {
         data: {
           unique_id: 'client_created_form_1',
@@ -208,7 +219,7 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
     it 'Creates a new form with several fields and validates their order by index' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
+      login_for_test(role: @role, permissions: [@permission_form_manage])
       params = {
         data: {
           unique_id: 'client_created_form_1', name: { en: 'Client Created Form 1' },
@@ -234,7 +245,7 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
     it 'Creates a new form with several fields and adding a customised order' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
+      login_for_test(role: @role, permissions: [@permission_form_manage])
       params = {
         data: {
           unique_id: 'client_created_form_1', name: { en: 'Client Created Form 1' },
@@ -261,12 +272,7 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
     it 'creates a new form with 200 and correctly sets the localized properties' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
-        ]
-      )
-
+      login_for_test(role: @role, permissions: [@permission_form_manage])
       params = {
         data: {
           unique_id: 'client_created_form_1',
@@ -320,11 +326,7 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
     it 'returns a 409 if record already exists' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
-        ]
-      )
+      login_for_test(role: @role, permissions: [@permission_form_manage])
       params = {
         data: {
           id: @form1.id,
@@ -341,12 +343,7 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
     it 'returns a 422 if the case record is invalid' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
-        ]
-      )
-
+      login_for_test(role: @role, permissions: [@permission_form_manage])
       params = {
         data: {
           unique_id: @form1.unique_id,
@@ -734,7 +731,7 @@ describe Api::V2::FormSectionsController, type: :request do
 
       gbv_forms = FormSection.where(unique_id: %w[cases_test_form_gbv])
       @primero_module_gbv = create(:primero_module, unique_id: 'primeromodule-gbv', name: 'GBV',
-                                   form_sections: gbv_forms)
+                                                    form_sections: gbv_forms)
     end
 
     context 'when user has export permission' do
@@ -788,5 +785,9 @@ describe Api::V2::FormSectionsController, type: :request do
     after do
       clean_data(PrimeroModule, PrimeroProgram, Lookup)
     end
+  end
+
+  after do
+    clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role, Lookup)
   end
 end
