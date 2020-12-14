@@ -406,6 +406,17 @@ describe("Verifying config constant", () => {
     expect(permissions).to.be.empty;
   });
 
+  it("should have SHOW_CHANGE_LOG", () => {
+    const permissions = [...PERMISSIONS.SHOW_CHANGE_LOG];
+
+    expect(permissions).to.be.a("array");
+    [PERMISSIONS.ACTIONS.CHANGE_LOG, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
   describe("allowedExportTypes", () => {
     it("should return an array with the allowed export types", () => {
       const expected = List([PERMISSIONS.ACTIONS.EXPORT_PDF, PERMISSIONS.ACTIONS.EXPORT_JSON]);
