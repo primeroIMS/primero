@@ -10,7 +10,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import ActionDialog from "../../../../action-dialog";
 import { useI18n } from "../../../../i18n";
 
-import { buildAttachmentFieldsObject } from "./utils";
+import { buildAttachmentFieldsObject, buildBase64URL } from "./utils";
 import AttachmentInput from "./attachment-input";
 import AttachmentPreview from "./attachment-preview";
 
@@ -72,18 +72,12 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
                   <AttachmentPreview
                     name={fileName}
                     attachment={attachment}
-                    attachmentUrl={attachmentUrl || `data:${contentType};base64,${attachmentData}`}
+                    attachmentUrl={attachmentUrl || buildBase64URL(contentType, attachmentData)}
                   />
                   {deleteButton}
                 </div>
               ) : (
-                <AttachmentInput
-                  fields={fields}
-                  contentType={contentType}
-                  attachment={attachment}
-                  name={name}
-                  deleteButton={deleteButton}
-                />
+                <AttachmentInput fields={fields} attachment={attachment} name={name} deleteButton={deleteButton} />
               )}
             </>
           )}

@@ -17,6 +17,7 @@ import AttachmentLabel from "./attachment-label";
 import DocumentField from "./document-field";
 import AttachmentField from "./attachment-field";
 import PhotoArray from "./photo-array";
+import { buildBase64URL } from "./utils";
 
 // TODO: No link to display / download upload
 const Component = ({ name, field, label, disabled, formik, mode, recordType }) => {
@@ -103,9 +104,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
 
   const renderField = arrayHelpers => {
     if (field.type === PHOTO_FIELD && mode.isShow) {
-      const images = values.map(
-        value => value.attachment_url || `data:${value.content_type};base64,${value.attachment}`
-      );
+      const images = values.map(value => value.attachment_url || buildBase64URL(value.content_type, value.attachment));
 
       return <PhotoArray images={images} />;
     }
