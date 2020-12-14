@@ -20,7 +20,7 @@ import {
 
 const passwordPlaceholder = formMode => (formMode.get("isEdit") ? "•••••" : "");
 
-const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePassword) => [
+const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity) => [
   {
     display_name: i18n.t("user.full_name"),
     name: "full_name",
@@ -82,10 +82,10 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     })
   },
   {
-    display_name: "Change password",
+    display_name: i18n.t("buttons.change_password"),
     type: DIALOG_TRIGGER,
     hideOnShow: true,
-    showIf: () => formMode.get("isEdit"),
+    showIf: () => formMode.get("isEdit") && !useIdentity,
     onClick: onClickChangePassword
   },
   {
@@ -198,7 +198,7 @@ export const form = (
   hideOnAccountPage = false
 ) => {
   const useIdentity = useIdentityProviders && providers;
-  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword);
+  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity);
   const identityFields = identityUserFields(i18n, identityOptions);
 
   const providersDisable = (value, name, { error }) => {

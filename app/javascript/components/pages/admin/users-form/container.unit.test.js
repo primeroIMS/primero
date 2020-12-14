@@ -139,19 +139,15 @@ describe("<UsersForm />", () => {
       }
     });
 
-    it("should render 14 fields", () => {
-      const { component: newComponent } = setupMountedComponent(UsersForm, { mode: MODES.edit }, state, [
-        "/admin/users/1"
-      ]);
+    const { component: newComponent } = setupMountedComponent(UsersForm, { mode: MODES.edit }, state, [
+      "/admin/users/1"
+    ]);
 
+    it("should render 14 fields", () => {
       expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(14);
     });
 
     it("should not fetch user groups and roles", () => {
-      const { component: newComponent } = setupMountedComponent(UsersForm, { mode: MODES.edit }, state, [
-        "/admin/users/1"
-      ]);
-
       const actionTypes = newComponent
         .props()
         .store.getActions()
@@ -159,6 +155,10 @@ describe("<UsersForm />", () => {
 
       expect(actionTypes.includes(applicationActions.FETCH_USER_GROUPS)).to.be.false;
       expect(actionTypes.includes(applicationActions.FETCH_ROLES)).to.be.false;
+    });
+
+    it("renders 'Change Password' link", () => {
+      expect(newComponent.find("a").text()).to.be.equal("buttons.change_password");
     });
   });
 
@@ -190,6 +190,50 @@ describe("<UsersForm />", () => {
       ]);
 
       expect(showComponent.find(UserActions)).to.have.lengthOf(1);
+    });
+  });
+
+  describe("when we use IDP", () => {
+    const state = fromJS({
+      records: {
+        users: {
+          data: [Object.values(users)],
+          metadata: { total: 2, per: 20, page: 1 },
+          selectedUser: users.jose
+        }
+      },
+      application: {
+        agencies
+      },
+      user: {
+        username: users.jose.user_name,
+        permissions
+      },
+      idp: {
+        loading: false,
+        use_identity_provider: true,
+        identity_providers: [
+          {
+            domain_hint: "google.com",
+            provider_type: "b2c",
+            unique_id: "test",
+            authorization_url: "https://test.com",
+            verification_url: "https://test.com",
+            name: "Test",
+            client_id: "e3443e90-18bc-4a23-9982-7fd5e67ff339",
+            user_domain: "test1.com",
+            id: 1
+          }
+        ]
+      }
+    });
+
+    it("should not render 'Change Password' link", () => {
+      const { component: IdpComponent } = setupMountedComponent(UsersForm, { mode: MODES.edit }, state, [
+        "/admin/users/edit/1"
+      ]);
+
+      expect(IdpComponent.find("a")).to.be.empty;
     });
   });
 });
