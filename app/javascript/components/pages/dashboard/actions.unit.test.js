@@ -1,14 +1,11 @@
-import clone from "lodash/clone";
-
-import * as Actions from "./actions";
+import actions from "./actions";
 
 describe("<Dashboard /> - Actions", () => {
-  const actions = clone(Actions);
+  const clone = { ...actions };
 
   it("should have known properties", () => {
-    expect(actions).to.be.an("object");
+    expect(clone).to.be.an("object");
     [
-      "DASHBOARD_FLAGS",
       "CASES_BY_CASE_WORKER",
       "CASES_BY_STATUS",
       "CASES_REGISTRATION",
@@ -18,13 +15,18 @@ describe("<Dashboard /> - Actions", () => {
       "DASHBOARDS_SUCCESS",
       "DASHBOARDS_FINISHED",
       "DASHBOARDS_FAILURE",
+      "DASHBOARD_FLAGS",
+      "DASHBOARD_FLAGS_STARTED",
+      "DASHBOARD_FLAGS_SUCCESS",
+      "DASHBOARD_FLAGS_FINISHED",
+      "DASHBOARD_FLAGS_FAILURE",
       "OPEN_PAGE_ACTIONS",
       "SERVICES_STATUS"
     ].forEach(property => {
-      expect(actions).to.have.property(property);
-      delete actions[property];
+      expect(clone).to.have.property(property);
+      delete clone[property];
     });
 
-    expect(actions).to.be.empty;
+    expect(clone).to.be.empty;
   });
 });

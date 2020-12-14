@@ -23,7 +23,8 @@ const Transitions = ({
   pending,
   setPending,
   currentPage,
-  selectedRecords
+  selectedRecords,
+  mode
 }) => {
   const i18n = useI18n();
   const providedConsent = (record && hasProvidedConsent(record)) || false;
@@ -63,7 +64,8 @@ const Transitions = ({
     recordType,
     record,
     setPending,
-    selectedIds
+    selectedIds,
+    mode
   };
 
   // eslint-disable-next-line react/no-multi-comp, react/display-name
@@ -167,6 +169,7 @@ Transitions.propTypes = {
   close: PropTypes.func,
   currentDialog: PropTypes.string,
   currentPage: PropTypes.number,
+  mode: PropTypes.object,
   open: PropTypes.bool,
   pending: PropTypes.bool,
   record: PropTypes.object,
