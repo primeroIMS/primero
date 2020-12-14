@@ -68,7 +68,6 @@ const handleAttachmentSuccess = async ({ json, db, fromAttachment }) => {
   });
 
   const recordDB = await syncIndexedDB({ ...db, mode: "readwrite" }, {}, "", async (tx, store) => {
-    // const record = await store.get(db.id);
     const recordData = record.data;
 
     const data = { ...recordData };

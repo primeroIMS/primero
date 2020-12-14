@@ -7,13 +7,15 @@ import withGeneratedProperties from "./with-generated-properties";
 import offlineDispatchSuccess from "./offline-dispatch-success";
 
 const handleOfflineAttachments = async (store, action) => {
-  const reaction = { ...action };
+  const { db, id, body } = action.api;
+  const handledBody = { data: { ...body.data } };
+
   const attachmentFields = getAttachmentFields(store.getState()).toSet();
-  const recordDB = await syncIndexedDB({ ...reaction.api.db, id: reaction.api.id }, {}, "find");
+  const recordDB = await syncIndexedDB({ ...db, id }, {}, "find");
 
   attachmentFields.forEach(field => {
-    if (reaction.api.body.data[field]) {
-      const attachments = reaction.api.body.data[field].reduce(
+    if (handledBody.data[field]) {
+      const attachments = body.data[field].reduce(
         (acc, elem) => {
           if (elem._destroy) {
             acc.destroyed.push(elem._destroy);
@@ -26,7 +28,7 @@ const handleOfflineAttachments = async (store, action) => {
         { destroyed: [], added: [] }
       );
 
-      reaction.api.body.data[field] = recordDB.data[field]
+      handledBody.data[field] = recordDB.data[field]
         .map(attachment => ({
           ...attachment,
           marked_destroy: attachments.destroyed.includes(attachment.id)
@@ -35,7 +37,7 @@ const handleOfflineAttachments = async (store, action) => {
     }
   });
 
-  return reaction.api.body;
+  return handledBody;
 };
 
 export default async (store, action) => {

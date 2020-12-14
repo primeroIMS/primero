@@ -110,9 +110,9 @@ class Queue {
 
       const item = head(this.queue);
 
-      this.onAttachmentProcess(item);
-
       if (item) {
+        this.onAttachmentProcess(item);
+
         const action = item;
 
         this.dispatch(action);
