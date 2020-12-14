@@ -5,7 +5,7 @@ describe("<WorkflowIndividualCases> - pages/dashboard/components/workflow-indivi
 
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
-    ["NAME"].forEach(property => {
+    ["CLOSED", "NAME"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });

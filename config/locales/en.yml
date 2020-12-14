@@ -553,6 +553,7 @@ en:
     flagged_by: 'Flagged by:'
     flagged_by_me: Flagged By Me
     flagged_by_other: Flagged By Someone Else
+    flagged_cases: Flagged Cases
     follow_up: Follow Up
     forms: FORMS tab
     geographic_area: Geographic Area
@@ -665,7 +666,7 @@ en:
     worker_count_total:
       one: '<span>%{case_worker}</span> has %{stat} <span>total</span> case '
       other: '<span>%{case_worker}</span> has %{stat} <span>total</span> cases '
-    workflow: Workflow - Individual cases
+    workflow: Workflow
     workflow_team: Workflow - Teams cases
     you_have: 'You have '
   disabled:
@@ -1935,6 +1936,9 @@ en:
               manager has their own cases, they should assign these cases to case
               workers on their team.'
             label: (For Managers) Cases I need to assign to people on my team
+          dash_flags:
+            explanation: Shows a list of flags other users have added to my records, as well as flags I have added to other users’ records.
+            label: Flagged Records
           dash_group_overview:
             explanation: Shows a manager the number of open and closed cases managed
               by the users in their team.

@@ -20,7 +20,7 @@ import { DATE_FORMAT } from "../../../../config";
 import { toServerDateFormat } from "../../../../libs";
 import localize from "../../../../libs/date-picker-localization";
 
-import { NAME } from "./constants";
+import { NAME, MAX_LENGTH_FLAG_REASON } from "./constants";
 
 const initialFormikValues = {
   date: toServerDateFormat(Date.now()),
@@ -43,6 +43,9 @@ const Component = ({ recordType, record, handleActiveTab }) => {
     fullWidth: true,
     InputLabelProps: {
       shrink: true
+    },
+    inputProps: {
+      maxlength: MAX_LENGTH_FLAG_REASON
     }
   };
 
@@ -89,7 +92,7 @@ const Component = ({ recordType, record, handleActiveTab }) => {
         {({ handleSubmit, handleReset }) => (
           <Form onSubmit={handleSubmit}>
             <Box my={2}>
-              <Field name="message" label={i18n.t("flags.flag_reason")} {...inputProps} multiline autoFocus />
+              <Field name="message" label={i18n.t("flags.flag_reason")} {...inputProps} autoFocus />
             </Box>
             <Box my={2}>
               <Field
