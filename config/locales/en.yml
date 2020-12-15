@@ -1062,6 +1062,7 @@ en:
     flag_added: Flag added successfully
     flag_date: Flag Date
     flag_reason: Flag Reason
+    flag_reason_maximun_label: Maximum 255 characters.
     flag_resolved: Flag resolved
     flags_tab: Flags
     no_flags: No flags found

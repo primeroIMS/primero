@@ -46,7 +46,8 @@ const Component = ({ recordType, record, handleActiveTab }) => {
     },
     inputProps: {
       maxlength: MAX_LENGTH_FLAG_REASON
-    }
+    },
+    helperText: i18n.t("flags.flag_reason_maximun_label")
   };
 
   const dateInputProps = {
@@ -92,7 +93,7 @@ const Component = ({ recordType, record, handleActiveTab }) => {
         {({ handleSubmit, handleReset }) => (
           <Form onSubmit={handleSubmit}>
             <Box my={2}>
-              <Field name="message" label={i18n.t("flags.flag_reason")} {...inputProps} autoFocus />
+              <Field name="message" label={i18n.t("flags.flag_reason")} {...inputProps} autoFocus help />
             </Box>
             <Box my={2}>
               <Field
