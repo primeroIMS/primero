@@ -96,7 +96,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
       return (
         <Box my={2}>
           <audio id={fileName} controls>
-            <source src={attachmentUrl} />
+            <source src={attachmentUrl || buildBase64URL(value.content_type, value.attachment)} />
           </audio>
         </Box>
       );
