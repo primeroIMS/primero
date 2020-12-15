@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Filter do
   before :each do
-    clean_data(PrimeroProgram, Field, FormSection, PrimeroModule, Role, Agency, User, SystemSettings)
+    clean_data(PrimeroProgram, Field, FormSection, PrimeroModule, Role, Agency, User, UserGroup, SystemSettings)
     @program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-primero',
       name: 'Primero',
@@ -42,6 +42,10 @@ describe Filter do
       modules: [@cp, @gbv]
     )
     @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+    @group1 = UserGroup.create!(name: 'Group1')
+    @group2 = UserGroup.create!(name: 'Group2')
+    @group3 = UserGroup.create!(name: 'Group3')
+    @group4 = UserGroup.create!(name: 'Group4')
     @user_a = User.create!(
       full_name: 'Test User 1',
       user_name: 'test_user_1',
@@ -204,7 +208,7 @@ describe Filter do
       it 'has user_group filter' do
         expect(@filters_cp_gbv[0]['cases']).to include(have_attributes(name: 'permissions.permission.user_group',
                                                                        field_name: 'owned_by_groups',
-                                                                       type: 'toggle'))
+                                                                       type: 'checkbox'))
       end
 
       it 'has date options' do
@@ -224,7 +228,7 @@ describe Filter do
   end
 
   after do
-    clean_data(PrimeroProgram, Field, FormSection, PrimeroModule, Role, Agency, User, SystemSettings)
+    clean_data(PrimeroProgram, Field, FormSection, PrimeroModule, Role, Agency, User, UserGroup, SystemSettings)
     @system_settings.save!
     SystemSettings.current(true)
   end
