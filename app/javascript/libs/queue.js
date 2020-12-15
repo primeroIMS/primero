@@ -55,9 +55,13 @@ class Queue {
     EventManager.subscribe(QUEUE_FAILED, () => {
       this.tries += 1;
 
-      if (this.tries === 3) {
-        const action = head(this.queue);
+      const action = head(this.queue);
 
+      if (action) {
+        action.processed = false;
+      }
+
+      if (this.tries === 3) {
         this.queue.shift();
         this.tries = 0;
 
@@ -111,7 +115,7 @@ class Queue {
 
       const item = head(this.queue);
 
-      if (item && !item.processed) {
+      if (item && !item?.processed) {
         this.onAttachmentProcess(item);
 
         const action = item;
