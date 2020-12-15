@@ -16,6 +16,7 @@ import Approvals from "../approvals";
 import ApprovalPanel from "../approvals/components/panel";
 import IncidentFromCase from "../incidents-from-case";
 import IncidentFromCasePanel from "../incidents-from-case/components/panel";
+import ChangeLogs from "../change-logs";
 
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
@@ -569,6 +570,112 @@ describe("<RecordForms /> - Component", () => {
       expect(componentRecordForm.find(Transitions).find(RecordFormTitle).text()).to.equal(
         "forms.record_types.referrals"
       );
+      expect(componentRecordForm.find(IncidentFromCasePanel)).to.be.empty;
+      expect(componentRecordForm.find(Approvals)).to.be.empty;
+    });
+  });
+
+  describe("when change_log is the selectedForm", () => {
+    const initialState = fromJS({
+      records: {
+        cases: {
+          data: [record],
+          metadata: { per: 20, page: 1, total: 1 },
+          filters: { status: "open" }
+        },
+        changeLogs: {
+          data: [
+            {
+              record_id: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+              record_type: "cases",
+              datetime: "2020-12-07T20:28:11Z",
+              user_name: "primero",
+              action: "update",
+              record_changes: [
+                {
+                  family_details_section: {
+                    to: [
+                      {
+                        relation: "mother",
+                        unique_id: "57d99a69-acbc-4b7e-850b-9e873181a778",
+                        relation_name: "AaAa",
+                        relation_is_alive: "alive"
+                      },
+                      {
+                        relation: "father",
+                        unique_id: "c29598ad-b920-4166-bb99-fe7a2443601b",
+                        relation_name: "bbb",
+                        relation_is_alive: "alive"
+                      }
+                    ],
+                    from: [
+                      {
+                        relation: "mother",
+                        unique_id: "57d99a69-acbc-4b7e-850b-9e873181a778",
+                        relation_name: "AaAA",
+                        relation_is_alive: "alive"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              record_id: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+              record_type: "cases",
+              datetime: "2020-12-04T14:32:03Z",
+              user_name: "primero",
+              action: "create",
+              record_changes: []
+            }
+          ]
+        }
+      },
+      forms: {
+        selectedForm: "change_logs",
+        selectedRecord: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+        formSections,
+        fields,
+        loading: false,
+        errors: false
+      },
+      user: {
+        modules: ["primeromodule-cp"],
+        permittedForms: ["basic_identity"],
+        permissions: {
+          cases: ["manage"]
+        }
+      },
+      application
+    });
+
+    beforeEach(() => {
+      const routedComponent = initialProps => {
+        return (
+          <Route
+            path="/:recordType(cases|incidents|tracing_requests)/:id"
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
+          />
+        );
+      };
+
+      ({ component } = setupMountedComponent(
+        routedComponent,
+        {
+          mode: MODES.show
+        },
+        initialState,
+        ["/cases/a9e1a7a2-1920-4b41-80d1-df45c26db4ab"]
+      ));
+    });
+
+    it("should render ChangeLog component", () => {
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm).to.have.lengthOf(1);
+      expect(componentRecordForm.find(ChangeLogs)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(ChangeLogs).find(RecordFormTitle).text()).to.equal("change_logs.label");
+      expect(componentRecordForm.find(Transitions)).to.be.empty;
       expect(componentRecordForm.find(IncidentFromCasePanel)).to.be.empty;
       expect(componentRecordForm.find(Approvals)).to.be.empty;
     });

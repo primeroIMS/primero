@@ -11,6 +11,7 @@ export const ACTIONS = {
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   CLOSE: "close",
   CREATE: "create",
+  CHANGE_LOG: "change_log",
   DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
   DASH_APPROVALS_ASSESSMENT: "approvals_assessment",
   DASH_APPROVALS_ASSESSMENT_PENDING: "approvals_assessment_pending",
@@ -28,6 +29,7 @@ export const ACTIONS = {
   DASH_CASES_BY_TASK_OVERDUE_SERVICES: "cases_by_task_overdue_services",
   DASH_CASE_OVERVIEW: "case_overview",
   DASH_CASE_RISK: "case_risk",
+  DASH_FLAGS: "dash_flags",
   DASH_GROUP_OVERVIEW: "dash_group_overview",
   DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
@@ -179,6 +181,7 @@ export const EXPORTS_PERMISSIONS = [
 ];
 
 export const SHOW_EXPORTS = [...MANAGE, ...EXPORTS_PERMISSIONS];
+export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.CHANGE_LOG];
 
 export const SHOW_APPROVALS = [
   ...MANAGE,

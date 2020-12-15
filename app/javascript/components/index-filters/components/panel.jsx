@@ -9,11 +9,13 @@ import { RefreshIcon } from "../../../images/primero-icons";
 import { useI18n } from "../../i18n";
 import { buildNameFilter } from "../utils";
 import { useApp } from "../../application";
+import { useThemeHelper } from "../../../libs";
 
 import styles from "./styles.css";
 
 const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, moreSectionFilters, children }) => {
   const css = makeStyles(styles)();
+  const { dir } = useThemeHelper();
   const { name, field_name: fieldName } = filter;
 
   const hasValue = !isEmpty(getValues()?.[selectedDefaultValueField || fieldName]);
@@ -45,7 +47,7 @@ const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, more
               size="small"
               onClick={handleReset}
             >
-              <RefreshIcon />
+              <RefreshIcon className={dir === "rtl" ? css.flipImage : ""} />
             </IconButton>
           )}
         </div>

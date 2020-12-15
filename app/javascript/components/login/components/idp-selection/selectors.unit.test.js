@@ -20,8 +20,7 @@ const stateWithProviders = fromJS({
         authority: "authority",
         client_id: "clientid",
         scope: ["scope"],
-        redirect_uri: "redirect",
-        domain_hint: "unicef"
+        redirect_uri: "redirect"
       },
       {
         name: "primero",
@@ -30,8 +29,7 @@ const stateWithProviders = fromJS({
         authority: "authority",
         client_id: "clientid",
         scope: ["scope"],
-        redirect_uri: "redirect",
-        domain_hint: "primero"
+        redirect_uri: "redirect"
       }
     ]
   }
@@ -49,8 +47,7 @@ describe("<LoginSelection /> - Selectors", () => {
           authority: "authority",
           client_id: "clientid",
           scope: ["scope"],
-          redirect_uri: "redirect",
-          domain_hint: "unicef"
+          redirect_uri: "redirect"
         },
         {
           name: "primero",
@@ -59,8 +56,7 @@ describe("<LoginSelection /> - Selectors", () => {
           authority: "authority",
           client_id: "clientid",
           scope: ["scope"],
-          redirect_uri: "redirect",
-          domain_hint: "primero"
+          redirect_uri: "redirect"
         }
       ]);
 

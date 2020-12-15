@@ -9,9 +9,8 @@ const getToken = tokenRequest => {
 };
 
 export const signIn = async (idp, tokenCallback) => {
-  const identityScope = idp.get("identity_scope").toJS();
+  const identityScope = idp.get("identity_scope")?.toJS() || [""];
   const domainHint = idp.get("domain_hint");
-
   const msalConfig = setMsalConfig(idp);
 
   msalApp = setMsalApp(msalConfig);
@@ -35,6 +34,7 @@ export const signIn = async (idp, tokenCallback) => {
 
 export const signOut = () => {
   if (msalApp) {
+    localStorage.removeItem("user");
     msalApp.logout();
   }
 };

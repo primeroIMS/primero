@@ -12,7 +12,7 @@ tracing_request_photo_audio_fields = [
                "editable" => false,
                "disabled" => true,
                "display_name_en" => "Recorded Audio",
-               "help_text_en" => "Only AMR and MPEG files permitted",
+               "help_text_en" => "Only MP3 and M4A files permitted",
                "show_on_minify_form" => true
               })
 ]

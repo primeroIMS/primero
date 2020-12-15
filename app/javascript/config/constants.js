@@ -12,6 +12,8 @@ import {
 } from "../libs/permissions";
 import { getAdminResources } from "../components/pages/admin/utils";
 
+export const PASSWORD_MIN_LENGTH = 8;
+
 // Max allowed image size for attachments
 export const MAX_IMAGE_SIZE = 600;
 
@@ -81,6 +83,7 @@ export const RECORD_PATH = {
   configurations: "configurations",
   contact_information: "contact_information",
   dashboards: "dashboards",
+  flags: "flags",
   forms: "forms",
   incidents: "incidents",
   locations: "locations",
@@ -102,6 +105,8 @@ export const REFERRAL = "referral";
 export const APPROVALS = "approvals";
 
 export const INCIDENT_FROM_CASE = "incident_from_case";
+
+export const CHANGE_LOGS = "change_logs";
 
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 

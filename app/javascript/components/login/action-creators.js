@@ -2,11 +2,11 @@
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
 
-import { LOGIN } from "./actions";
+import actions from "./actions";
 
 export const loginSystemSettings = () => async dispatch => {
   return dispatch({
-    type: LOGIN,
+    type: actions.LOGIN,
     api: {
       path: "identity_providers",
       method: "GET",

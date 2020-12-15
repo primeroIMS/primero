@@ -4,12 +4,18 @@ describe("Verifying config constant", () => {
   it("should have known constant", () => {
     const clone = { ...constants };
 
-    ["DASHBOARD_NAMES", "INDICATOR_NAMES", "PROTECTION_CONCERNS_ORDER_NAMES", "NAME", "DASHBOARD_TYPES"].forEach(
-      property => {
-        expect(clone).to.have.property(property);
-        delete clone[property];
-      }
-    );
+    [
+      "DASHBOARD_NAMES",
+      "INDICATOR_NAMES",
+      "PROTECTION_CONCERNS_ORDER_NAMES",
+      "NAME",
+      "DASHBOARD_TYPES",
+      "DASHBOARD_FLAGS_SORT_ORDER",
+      "DASHBOARD_FLAGS_SORT_FIELD"
+    ].forEach(property => {
+      expect(clone).to.have.property(property);
+      delete clone[property];
+    });
 
     expect(clone).to.be.empty;
   });

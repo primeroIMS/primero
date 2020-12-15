@@ -20,16 +20,21 @@ export const newPasswordResetRequest = email => ({
     path: "users/password-reset-request",
     method: METHODS.POST,
     body: { user: { email } },
-    successCallback: {
-      action: ENQUEUE_SNACKBAR,
-      payload: {
-        messageKey: "user.password_reset.request_submitted",
-        options: {
-          variant: SNACKBAR_VARIANTS.success,
-          key: generate.messageKey("user.password_reset.request_submitted")
+    successCallback: [
+      {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          messageKey: "user.password_reset.request_submitted",
+          options: {
+            variant: SNACKBAR_VARIANTS.success,
+            key: generate.messageKey("user.password_reset.request_submitted")
+          }
         }
+      },
+      {
+        action: CLEAR_DIALOG
       }
-    }
+    ]
   }
 });
 
@@ -80,15 +85,20 @@ export const passwordResetRequest = userId => ({
     path: `users/${userId}/password-reset-request`,
     method: METHODS.POST,
     body: { user: { password_reset: true } },
-    successCallback: {
-      action: ENQUEUE_SNACKBAR,
-      payload: {
-        messageKey: "user.password_reset.request_submitted",
-        options: {
-          variant: SNACKBAR_VARIANTS.success,
-          key: generate.messageKey("user.password_reset.request_submitted")
+    successCallback: [
+      {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          messageKey: "user.password_reset.request_submitted",
+          options: {
+            variant: SNACKBAR_VARIANTS.success,
+            key: generate.messageKey("user.password_reset.request_submitted")
+          }
         }
+      },
+      {
+        action: CLEAR_DIALOG
       }
-    }
+    ]
   }
 });

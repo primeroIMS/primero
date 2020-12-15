@@ -52,6 +52,7 @@ import {
 } from "./components/pages/admin/locations-list";
 import { reducer as accountReducer } from "./components/pages/account";
 import { reducer as connectivityReducer } from "./components/connectivity";
+import { reducer as changeLogsReducers } from "./components/change-logs";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -89,6 +90,7 @@ const rootReducer = {
       support: reduceReducers(contactInformationReducer, supportReducer),
       ...flaggingReducer,
       ...savedSearchesReducer,
+      ...changeLogsReducers,
       admin: combineReducers({
         forms: reduceReducers(adminFormListReducer, adminFormBuilderReducer),
         audit_logs: reduceReducers(AuditLogsReducers),

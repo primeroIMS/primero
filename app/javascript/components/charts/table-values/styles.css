@@ -1,5 +1,6 @@
 .root {
   margin: 1.5em 0;
+  overflow: auto;
 }
 .table {
   width: 100%;

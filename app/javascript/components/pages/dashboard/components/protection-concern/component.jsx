@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { Grid } from "@material-ui/core";
 
 import { getProtectionConcerns } from "../../selectors";
 import { useI18n } from "../../../../i18n";
@@ -22,19 +21,17 @@ const Component = ({ loadingIndicator }) => {
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_PROTECTION_CONCERNS}>
-      <Grid item xl={9} md={8} xs={12}>
-        <OptionsBox
+      <OptionsBox
+        title={i18n.t("dashboard.protection_concerns")}
+        hasData={Boolean(protectionConcerns.size)}
+        {...loadingIndicator}
+      >
+        <DashboardTable
+          pathname={ROUTES.cases}
           title={i18n.t("dashboard.protection_concerns")}
-          hasData={Boolean(protectionConcerns.size)}
-          {...loadingIndicator}
-        >
-          <DashboardTable
-            pathname={ROUTES.cases}
-            title={i18n.t("dashboard.protection_concerns")}
-            {...toProtectionConcernTable(protectionConcerns, i18n, protectionConcernsLookup)}
-          />
-        </OptionsBox>
-      </Grid>
+          {...toProtectionConcernTable(protectionConcerns, i18n, protectionConcernsLookup)}
+        />
+      </OptionsBox>
     </Permission>
   );
 };

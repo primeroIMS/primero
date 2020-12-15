@@ -29,16 +29,20 @@ import {
   TRANSITION_TYPE,
   RECORD_PATH,
   REFERRAL,
-  INCIDENT_FROM_CASE
+  INCIDENT_FROM_CASE,
+  CHANGE_LOGS
 } from "../../config";
 import { REFER_FROM_SERVICE } from "../../libs/permissions";
+import { SHOW_CHANGE_LOG } from "../permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import IncidentFromCase from "../incidents-from-case";
+import ChangeLogs from "../change-logs";
 import { getIsProcessingSomeAttachment, getLoadingRecordState, getRecordAttachments } from "../records/selectors";
 import { usePermissions } from "../user";
 import { clearRecordAttachments, fetchRecordsAlerts, updateRecordAttachments } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
+import { fetchChangeLogs } from "../change-logs/action-creators";
 
 import {
   getAttachmentForms,
@@ -202,33 +206,28 @@ const Container = ({ match, mode }) => {
     }
   }, [loadingRecord, isProcessingSomeAttachment, recordAttachments.size]);
 
+  const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
+  const canSeeChangeLog = usePermissions(params.recordType, SHOW_CHANGE_LOG);
+  const isNotANewCase = !containerMode.isNew && params.recordType === RECORD_PATH.cases;
+
   useEffect(() => {
-    if (params.id) {
-      batch(() => {
+    batch(() => {
+      if (params.id) {
         dispatch(setSelectedRecord(params.recordType, params.id));
         dispatch(fetchRecord(params.recordType, params.id));
         dispatch(fetchRecordsAlerts(params.recordType, params.id));
-      });
-    }
-  }, [params.id, params.recordType]);
-
-  const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
-
-  useEffect(() => {
-    if (!containerMode.isNew && params.recordType === RECORD_PATH.cases) {
-      batch(() => {
-        dispatch(fetchTransitions(params.recordType, params.id));
-
-        if (canRefer) {
-          dispatch(
-            fetchReferralUsers({
-              record_type: RECORD_TYPES[params.recordType]
-            })
-          );
+        if (canSeeChangeLog) {
+          dispatch(fetchChangeLogs(params.recordType, params.id));
         }
-      });
-    }
-  }, [params.recordType, params.id]);
+        if (isNotANewCase) {
+          dispatch(fetchTransitions(params.recordType, params.id));
+        }
+      }
+      if (isNotANewCase && canRefer) {
+        dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[params.recordType] }));
+      }
+    });
+  }, [params.id, params.recordType]);
 
   useEffect(() => {
     return () => {
@@ -289,7 +288,15 @@ const Container = ({ match, mode }) => {
           recordType={params.recordType}
         />
       ),
-      [TRANSITION_TYPE]: <Transitions {...transitionProps} />
+      [TRANSITION_TYPE]: <Transitions {...transitionProps} />,
+      [CHANGE_LOGS]: (
+        <ChangeLogs
+          record={record}
+          recordType={params.recordType}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+        />
+      )
     }[externalFormSelected];
   };
 

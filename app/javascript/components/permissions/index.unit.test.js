@@ -36,7 +36,8 @@ describe("Permissions - index", () => {
       "SHOW_APPROVALS",
       "DASH_APPROVALS_PENDING",
       "DASH_APPROVALS",
-      "GROUP_PERMISSIONS"
+      "GROUP_PERMISSIONS",
+      "SHOW_CHANGE_LOG"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
