@@ -1,7 +1,6 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Link } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { PageHeading } from "../../../page";
@@ -12,22 +11,17 @@ import { getIdentityProviders } from "./selectors";
 import { signIn } from "./auth-provider";
 import { NAME } from "./config";
 import styles from "./styles.css";
+import { PRIMERO_IDP } from "./constants";
+import PrimeroIdpLink from "./components/primero-idp-link";
 
-const showIdps = (identityProviders, i18n, dispatch, css) => {
+const showIdps = (identityProviders, dispatch) => {
   const tokenCallback = accessToken => {
     dispatch(attemptLogin(accessToken));
   };
 
   return identityProviders.map(idp => {
-    if (idp.get("unique_id") === "primeroims") {
-      return (
-        <div className={css.linkButtonContainer}>
-          <span>{i18n.t("or_label")}</span>
-          <Link component="a" variant="body2" onClick={() => signIn(idp, tokenCallback)}>
-            {`log in with ${idp.get("name")} username`}
-          </Link>
-        </div>
-      );
+    if (idp.get("unique_id") === PRIMERO_IDP && identityProviders.size > 1) {
+      return null;
     }
 
     return (
@@ -56,7 +50,8 @@ const Container = () => {
     <>
       <PageHeading title={i18n.t("login.title")} whiteHeading />
       <p className={css.selectProvider}>{i18n.t("select_provider")}</p>
-      <div className={`${css.loginSelection} loginSelection`}>{showIdps(identityProviders, i18n, dispatch, css)}</div>
+      <div className={`${css.loginSelection} loginSelection`}>{showIdps(identityProviders, dispatch)}</div>
+      <PrimeroIdpLink identityProviders={identityProviders} i18n={i18n} dispatch={dispatch} css={css} />
     </>
   );
 };
