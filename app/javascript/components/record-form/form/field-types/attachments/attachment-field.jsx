@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "../../styles.css";
 import ActionButton from "../../../../action-button";
+import DisableOffline from "../../../../disable-offline";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import ActionDialog from "../../../../action-dialog";
 import { useI18n } from "../../../../i18n";
@@ -74,7 +75,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
                     attachment={attachment}
                     attachmentUrl={attachmentUrl || buildBase64URL(contentType, attachmentData)}
                   />
-                  {deleteButton}
+                  <DisableOffline>{deleteButton}</DisableOffline>
                 </div>
               ) : (
                 <AttachmentInput fields={fields} attachment={attachment} name={name} deleteButton={deleteButton} />

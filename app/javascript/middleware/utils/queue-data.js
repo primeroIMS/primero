@@ -1,57 +1,21 @@
 import uuid from "uuid";
 
 import { syncIndexedDB, queueIndexedDB } from "../../db";
-import { getAttachmentFields } from "../../components/record-form";
 
 import withGeneratedProperties from "./with-generated-properties";
 import offlineDispatchSuccess from "./offline-dispatch-success";
-
-const handleOfflineAttachments = async (store, action) => {
-  const { db, id, body } = action.api;
-  const handledBody = { data: { ...body.data } };
-
-  const attachmentFields = getAttachmentFields(store.getState()).toSet();
-  const recordDB = await syncIndexedDB({ ...db, id }, {}, "find");
-
-  attachmentFields.forEach(field => {
-    if (handledBody.data[field]) {
-      const attachments = body.data[field].reduce(
-        (acc, elem) => {
-          if (elem._destroy) {
-            acc.destroyed.push(elem._destroy);
-          } else if (!recordDB.data[field].some(dbElem => dbElem.attachment === elem.attachment)) {
-            acc.added.push(elem);
-          }
-
-          return acc;
-        },
-        { destroyed: [], added: [] }
-      );
-
-      handledBody.data[field] = recordDB.data[field]
-        .map(attachment => ({
-          ...attachment,
-          marked_destroy: attachment.id
-            ? attachments.destroyed.includes(attachment.id)
-            : !attachments.added.some(elem => elem.attachment === attachment.attachment)
-        }))
-        .concat(attachments.added);
-    }
-  });
-
-  return handledBody;
-};
+import { buildActionPayload, buildDBPayload } from "./handle-offline-attachments";
 
 export default async (store, action) => {
   const { api, type } = action;
-  const touchedAction = withGeneratedProperties(action, store);
+  const touchedAction = await buildActionPayload(store, withGeneratedProperties(action, store));
 
   await queueIndexedDB.add({ ...touchedAction, fromQueue: uuid.v4() });
 
   try {
-    const handledBody = await handleOfflineAttachments(store, touchedAction);
+    const dbPayload = await buildDBPayload(store, touchedAction);
 
-    const payloadFromDB = await syncIndexedDB(api?.db, handledBody);
+    const payloadFromDB = await syncIndexedDB(api?.db, dbPayload);
 
     offlineDispatchSuccess(store, action, payloadFromDB);
   } catch (error) {
