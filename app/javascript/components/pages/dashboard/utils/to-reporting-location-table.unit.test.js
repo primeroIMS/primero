@@ -20,11 +20,7 @@ describe("toReportingLocationTable - pages/dashboard/utils/", () => {
         reporting_location_open: {
           "1506060": {
             count: 1,
-            query: [
-              "record_state=true",
-              "status=open",
-              "owned_by_location2=1506060"
-            ]
+            query: ["record_state=true", "status=open", "owned_by_location2=1506060"]
           }
         },
         reporting_location_open_last_week: {
@@ -74,6 +70,13 @@ describe("toReportingLocationTable - pages/dashboard/utils/", () => {
       }
     });
 
+    const reportingLocationConfig = fromJS({
+      field_key: "owned_by_location",
+      admin_level: 2,
+      admin_level_map: { 1: ["province"], 2: ["district"] },
+      label_keys: ["district"]
+    });
+
     const expected = [
       {
         "": "My District",
@@ -87,12 +90,7 @@ describe("toReportingLocationTable - pages/dashboard/utils/", () => {
 
     const i18nMock = { t: () => ({}), locale: "en" };
 
-    const converted = toReportingLocationTable(
-      data,
-      "district",
-      i18nMock,
-      locations
-    ).data;
+    const converted = toReportingLocationTable(data, reportingLocationConfig, i18nMock, locations).data;
 
     expect(converted).to.deep.equal(expected);
   });

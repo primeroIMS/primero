@@ -2,7 +2,7 @@ import { stub } from "../../../test";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { EXPORT_URL } from "../../pages/export-list/constants";
 import { EXPORT_DIALOG } from "../constants";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
+import { CLEAR_DIALOG } from "../../action-dialog";
 
 import actions from "./actions";
 import * as actionCreators from "./action-creators";
@@ -31,12 +31,7 @@ describe("<RecordActions /> - exports/action-creators", () => {
     };
     const message = "Test message";
     const actionLabel = "Test action label";
-    const returnObject = actionCreators.saveExport(
-      { data },
-      message,
-      actionLabel,
-      EXPORT_DIALOG
-    );
+    const returnObject = actionCreators.saveExport({ data }, message, actionLabel, EXPORT_DIALOG);
 
     const expected = {
       type: actions.EXPORT,
@@ -58,17 +53,7 @@ describe("<RecordActions /> - exports/action-creators", () => {
             }
           },
           {
-            action: SET_DIALOG,
-            payload: {
-              dialog: EXPORT_DIALOG,
-              open: false
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
+            action: CLEAR_DIALOG
           }
         ]
       }

@@ -4,14 +4,11 @@
 class ApplicationApiController < ActionController::API
   include CanCan::ControllerAdditions
   include AuditLogActions
+  include ErrorHandling
 
   # check_authorization #TODO: Uncomment after upgrading to CanCanCan v3
   before_action :authenticate_user!
-
-  rescue_from Exception do |exception|
-    status, @errors = ErrorService.handle(exception, request)
-    render 'api/v2/errors/errors', status: status
-  end
+  before_action :check_config_update_lock!
 
   class << self
     attr_accessor :model_class
@@ -39,5 +36,20 @@ class ApplicationApiController < ActionController::API
   # Devise Magic method, explicitly declared.
   def authenticate_user!
     super
+  end
+
+  def check_config_update_lock!
+    raise Errors::LockedForConfigurationUpdate if SystemSettings.locked_for_configuration_update?
+  end
+
+  # Set default Rails headers on all API calls.
+  # TODO: This issue has been addressed in Rails 6, and the method below can be deleted after the upgrade.
+  # See:
+  #   https://github.com/rails/rails/issues/32483
+  #   https://github.com/rails/rails/pull/32484
+  def self.make_response!(request)
+    ActionDispatch::Response.create.tap do |res|
+      res.request = request
+    end
   end
 end

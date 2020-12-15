@@ -1,0 +1,25 @@
+.formBuilderDialog {
+  & h1 {
+    font-size: $(theme.typography.pxToRem(16));
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  & div {
+    padding: 0;
+  }
+}
+
+.translationHeader {
+  font-size: $(theme.typography.pxToRem(14)) !important;
+}
+
+.hideField {
+  display: none !important;
+}
+
+.translationField {
+  & label {
+    font-size: $(theme.typography.pxToRem(15));
+    color: $(theme.primero.colors.darkGrey);
+  }
+}

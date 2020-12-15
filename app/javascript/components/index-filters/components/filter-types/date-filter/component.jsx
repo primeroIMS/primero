@@ -1,22 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
+import { endOfDay, parseISO, startOfDay } from "date-fns";
 import PropTypes from "prop-types";
+import DateFnsUtils from "@date-io/date-fns";
 import { useFormContext } from "react-hook-form";
 import { Select, MenuItem } from "@material-ui/core";
-import { DatePicker, DateTimePicker } from "@material-ui/pickers";
-import { makeStyles } from "@material-ui/styles";
+import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { makeStyles } from "@material-ui/core/styles";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
 
+import { toServerDateFormat } from "../../../../../libs";
+import localize from "../../../../../libs/date-picker-localization";
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
 import Panel from "../../panel";
 import styles from "../styles.css";
-import {
-  registerInput,
-  handleMoreFiltersChange,
-  resetSecondaryFilter,
-  setMoreFilterOnPrimarySection
-} from "../utils";
+import { registerInput, handleMoreFiltersChange, resetSecondaryFilter, setMoreFilterOnPrimarySection } from "../utils";
 
 import { NAME } from "./constants";
 
@@ -46,7 +46,15 @@ const Component = ({
   const queryParamsKeys = Object.keys(queryParams);
 
   const handleDatePicker = (field, date) => {
-    const value = { ...inputValue, [field]: date };
+    let formattedDate = date;
+
+    if (date) {
+      const dateValue = field === "to" ? endOfDay(date) : startOfDay(date);
+
+      formattedDate = toServerDateFormat(dateValue, { includeTime: true, normalize: false });
+    }
+
+    const value = { ...inputValue, [field]: formattedDate };
 
     setInputValue(value);
     setValue(selectedField, value);
@@ -75,12 +83,7 @@ const Component = ({
     }
 
     if (mode?.secondary) {
-      handleMoreFiltersChange(
-        moreSectionFilters,
-        setMoreSectionFilters,
-        value,
-        {}
-      );
+      handleMoreFiltersChange(moreSectionFilters, setMoreSectionFilters, value, {});
     }
   };
 
@@ -108,6 +111,14 @@ const Component = ({
     setInputValue(values);
   };
 
+  const getDateValue = value => {
+    if (isEmpty(value)) {
+      return value;
+    }
+
+    return dateIncludeTime ? parseISO(value) : parseISO(value.slice(0, 10));
+  };
+
   useEffect(() => {
     if (selectedField) {
       registerInput({
@@ -122,27 +133,16 @@ const Component = ({
         handleReset();
       }
 
-      setMoreFilterOnPrimarySection(
-        moreSectionFilters,
-        selectedField,
-        setSecondaryValues
-      );
-    } else if (
-      queryParamsKeys.length &&
-      !Object.keys(moreSectionFilters).length
-    ) {
-      const data = filter?.options?.[i18n.locale].find(option =>
-        queryParamsKeys.includes(option.id)
-      );
+      setMoreFilterOnPrimarySection(moreSectionFilters, selectedField, setSecondaryValues);
+    } else if (queryParamsKeys.length && !Object.keys(moreSectionFilters).length) {
+      const data = filter?.options?.[i18n.locale].find(option => queryParamsKeys.includes(option.id));
       const selectValue = data?.id;
       const datesValue = queryParams?.[selectValue];
 
       setSelectedField(selectValue);
       setInputValue(datesValue);
     } else if (filterToList && !isEmpty(Object.keys(filterToList))) {
-      const data = filter?.options?.[i18n.locale].find(option =>
-        Object.keys(filterToList).includes(option.id)
-      );
+      const data = filter?.options?.[i18n.locale].find(option => Object.keys(filterToList).includes(option.id));
       const selectValue = data?.id;
       const datesValue = filterToList?.[selectValue];
 
@@ -167,7 +167,7 @@ const Component = ({
       </MenuItem>
     ));
 
-  const pickerFormat = dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy";
+  const pickerFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
 
   const renderPickers = ["from", "to"].map(picker => {
     const props = {
@@ -175,18 +175,16 @@ const Component = ({
       margin: "normal",
       format: pickerFormat,
       label: i18n.t(`fields.date_range.${picker}`),
-      value: inputValue?.[picker],
+      value: getDateValue(inputValue?.[picker]),
       onChange: date => handleDatePicker(picker, date),
       disabled: !selectedField
     };
 
     return (
       <div key={picker} className={css.dateInput}>
-        {dateIncludeTime ? (
-          <DateTimePicker {...props} />
-        ) : (
-          <DatePicker {...props} />
-        )}
+        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
+          {dateIncludeTime ? <DateTimePicker {...props} /> : <DatePicker {...props} />}
+        </MuiPickersUtilsProvider>
       </div>
     );
   });
@@ -203,12 +201,7 @@ const Component = ({
         {" "}
         {isDateFieldSelectable && (
           <div className={css.dateInput}>
-            <Select
-              fullWidth
-              value={selectedField}
-              onChange={handleSelectedField}
-              variant="outlined"
-            >
+            <Select fullWidth value={selectedField} onChange={handleSelectedField} variant="outlined">
               {renderSelectOptions()}
             </Select>
           </div>

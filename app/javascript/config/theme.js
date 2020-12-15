@@ -7,29 +7,43 @@ const colors = {
   darkBrown: "#5a5549",
   lightGrey: "#f0f0f0",
   white: "#ffffff",
+  chromeWhite: "#e6efd4",
   black: "#231f20",
   solidBlack: "#000000",
   darkGrey: "#595952",
   blue: "#0093ba",
+  darkBlue: "#048BB0",
   yellow: "#f2c317",
   moonYellow: "#f2b417",
   goldYellow: "#f4ac22",
   red: "#d0021b",
+  redLabelError: "#f44336",
   green: "#839e3c",
+  solidGreen: "#7ba024",
   orange: "#e7712d",
+  solidOrange: "#ff9500",
   purple: "#7c347b",
   warmGrey1: "#e0dfd7",
   warmGrey2: "#bcbcad",
   warmGrey3: "#b9b8b3",
   warmGrey4: "#9a988f",
   warmGrey5: "#d5d5d5",
+  warmGrey6: "#6f6f6a",
   midGrey: "#757472",
+  tundora: "#454545",
   grey: "#4a4a4a",
   contentGrey: "#fbfbfb",
-  stickyGrey: "rgba(251, 251, 251, 0.95)"
+  stickyGrey: "rgba(251, 251, 251, 0.95)",
+  lightGrey2: "#e0e0e0"
 };
 
 const overrides = {
+  MuiStepConnector: {
+    root: {
+      flex: "1 1 auto",
+      marginBottom: "41px"
+    }
+  },
   MuiPaper: {
     elevation3: {
       boxShadow: "0 2px 12px 0 rgba(125, 125, 125, 0.23)"
@@ -60,7 +74,28 @@ const overrides = {
       position: "relative"
     }
   },
+  MuiInputBase: {
+    root: {
+      "&$disabled": {
+        cursor: "not-allowed !important"
+      }
+    },
+    input: {
+      "&$disabled": {
+        cursor: "not-allowed !important"
+      }
+    }
+  },
   MuiInput: {
+    root: {
+      "&:read-only": {
+        color: colors.black
+      },
+      "&:read-only ::placeholder": {
+        color: colors.black,
+        opacity: 1
+      }
+    },
     formControl: {
       "label + &": {
         marginTop: 0
@@ -104,26 +139,43 @@ const overrides = {
       "&$disabled": {
         color: colors.black
       }
-    },
-    disabled: {
-      color: colors.black
     }
   },
   MuiFormHelperText: {
     root: {
-      lineHeight: "1.4em"
+      lineHeight: "1.4em",
+      whiteSpace: "pre-wrap"
     }
   },
   MUIDataTableToolbar: {
     root: {
+      paddingLeft: "5px",
+      paddingRight: "5px",
+      paddingTop: "8px",
+      paddingBottom: "8px",
+      justifyContent: "flex-start"
+    },
+    titleText: {
+      position: "absolute",
+      left: "-10000px",
+      top: "auto",
+      width: "1px",
+      height: "1px",
+      overflow: "hidden"
+    },
+    left: {
       display: "none !important"
     }
   },
   MUIDataTableToolbarSelect: {
     root: {
-      paddingLeft: "26px",
-      paddingRight: "26px",
-      justifyContent: "flex-start"
+      paddingLeft: "5px",
+      paddingRight: "5px",
+      paddingTop: "8px",
+      paddingBottom: "8px",
+      justifyContent: "flex-start",
+      backgroundColor: colors.white,
+      boxShadow: "none"
     },
     title: {
       display: "none"
@@ -131,57 +183,20 @@ const overrides = {
   },
   MuiTableRow: {
     hover: {
+      cursor: "pointer",
       "&:hover": {
         background: colors.lightGrey
       }
     }
   },
-  MUIDataTableBodyRow: {
-    hover: {
-      cursor: "pointer"
-    }
-  },
-  MUIDataTableBodyCell: {
-    root: {
-      padding: "10px",
-      [muiTheme.breakpoints.down("sm")]: {
-        "&:nth-last-child(2), &:last-child": {
-          border: "none"
-        }
-      }
-    },
-    stackedCommon: {
-      [muiTheme.breakpoints.down("sm")]: {
-        width: "50%",
-        height: "40px",
-        display: "flex",
-        fontSize: muiTheme.typography.pxToRem(14),
-        backgroundColor: colors.white,
-        alignItems: "center",
-        float: "left",
-        fontWeight: 600,
-        padding: "2em 10px"
-      }
-    },
-    responsiveStackedSmall: {
-      [muiTheme.breakpoints.down("sm")]: {
-        width: "50%",
-        height: "40px",
-        display: "flex",
-        fontSize: muiTheme.typography.pxToRem(14),
-        alignItems: "center",
-        float: "left",
-        padding: "2em 0"
-      }
-    }
-  },
   MUIDataTableHeadCell: {
     root: {
-      padding: "10px",
       fontWeight: "900",
       textTransform: "uppercase",
       fontSize: muiTheme.typography.pxToRem(12),
-      color: `${colors.grey}`
+      color: `${colors.grey}`,
+      lineHeight: "1.3em",
+      padding: ".5em"
     }
   },
   MuiChip: {
@@ -201,6 +216,46 @@ const overrides = {
       textTransform: "uppercase",
       fontSize: muiTheme.typography.pxToRem(17),
       fontWeight: "bold"
+    }
+  },
+  MuiSnackbarContent: {
+    root: {
+      backgroundColor: `${colors.white} !important`,
+      color: `${colors.grey} !important`,
+      fontWeight: "bold !important",
+      fontSize: `${muiTheme.typography.pxToRem(12)} !important`
+    },
+    message: {
+      flex: "1 0",
+      backgroundColor: `${colors.white} !important`,
+      "& svg": {
+        fontSize: `${muiTheme.typography.pxToRem(16)} !important`,
+        marginRight: "5px"
+      }
+    },
+    action: {
+      paddingLeft: 0,
+      backgroundColor: `${colors.white} !important`,
+      "& svg": {
+        fontSize: `${muiTheme.typography.pxToRem(16)} !important`,
+        color: `${colors.darkGrey} !important`
+      }
+    }
+  },
+  MuiFab: {
+    sizeSmall: {
+      width: "36px",
+      height: "36px"
+    }
+  },
+  MuiButton: {
+    root: {
+      lineHeight: "1.43",
+
+      "&$disabled": {
+        color: "rgba(0, 0, 0, 0.26)",
+        backgroundColor: `${colors.lightGrey} !important`
+      }
     }
   }
 };

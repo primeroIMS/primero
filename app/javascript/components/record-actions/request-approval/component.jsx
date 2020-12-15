@@ -10,7 +10,6 @@ import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { fetchAlerts } from "../../nav/action-creators";
 import { getRecordAlerts, saveRecord } from "../../records";
-import { fetchRecordsAlerts } from "../../records/action-creators";
 import { currentUser } from "../../user";
 import { getOptions } from "../../form/selectors";
 import { useApp } from "../../application";
@@ -22,15 +21,14 @@ import styles from "./styles.css";
 
 const Component = ({
   close,
-  openRequestDialog,
+  open,
   subMenuItems,
   record,
   recordType,
   pending,
   setPending,
   approvalType,
-  confirmButtonLabel,
-  dialogName
+  confirmButtonLabel
 }) => {
   const i18n = useI18n();
   const { approvalsLabels, userModules } = useApp();
@@ -50,9 +48,7 @@ const Component = ({
     .filter(userModule => userModule.unique_id === MODULES.CP)
     // eslint-disable-next-line camelcase
     ?.first()?.options?.selectable_approval_types;
-  const alertTypes = useSelector(state =>
-    getOptions(state, APPROVAL_TYPE_LOOKUP, i18n.locale)
-  );
+  const alertTypes = useSelector(state => getOptions(state, APPROVAL_TYPE_LOOKUP, i18n));
 
   useEffect(() => {
     if (requestType === CASE_PLAN) {
@@ -72,8 +68,7 @@ const Component = ({
   const handleChangeComment = event => {
     setComment(event.target.value);
   };
-  const handleChangeTypeOfCasePlan = event =>
-    setTypeOfCasePlan(event.target.value);
+  const handleChangeTypeOfCasePlan = event => setTypeOfCasePlan(event.target.value);
   const handleCancel = () => {
     close();
     setRequestType(startRequestType);
@@ -83,8 +78,7 @@ const Component = ({
 
   const actionBody = { data: {} };
 
-  actionBody.data.approval_status =
-    approvalType === "request" ? "requested" : approval;
+  actionBody.data.approval_status = approvalType === "request" ? "requested" : approval;
 
   if (comment !== "") {
     actionBody.data.notes = comment;
@@ -108,8 +102,8 @@ const Component = ({
           message: i18n.t(message, {
             approval_label: approvalsLabels[requestType]
           }),
+          messageFromQueue: i18n.t("offline_submitted_changes"),
           failureMessage: i18n.t(`${recordType}.request_approval_failure`),
-          dialogName,
           username
         })
       );
@@ -122,14 +116,12 @@ const Component = ({
             { data: { case_plan_approval_type: typeOfCasePlan } },
             record.get("id"),
             "",
-            false,
+            i18n.t("offline_submitted_changes"),
             false,
             false
           )
         );
       }
-
-      dispatch(fetchRecordsAlerts(recordType, record.get("id")));
 
       if (recordAlerts?.size <= 0) {
         dispatch(fetchAlerts());
@@ -151,9 +143,7 @@ const Component = ({
 
   const selectTypeOfCasePlan = showTypeOfCasePlan && renderCasePlan && (
     <>
-      <InputLabel>
-        {i18n.t("cases.request_approval_type_of_case_plan")}
-      </InputLabel>
+      <InputLabel>{i18n.t("cases.request_approval_type_of_case_plan")}</InputLabel>
       <Select
         id="outlined-select-case-plan-type"
         fullWidth
@@ -168,17 +158,11 @@ const Component = ({
 
   const requestDialogContent = (
     <>
-      <IconButton
-        aria-label="close"
-        className={css.closeButton}
-        onClick={close}
-      >
+      <IconButton aria-label="close" className={css.closeButton} onClick={close}>
         <CloseIcon />
       </IconButton>
       <form noValidate autoComplete="off" className={css.centerForm}>
-        <InputLabel>
-          {i18n.t(`${recordType}.request_approval_select`)}
-        </InputLabel>
+        <InputLabel>{i18n.t(`${recordType}.request_approval_select`)}</InputLabel>
         <Select
           id="outlined-select-approval-native"
           fullWidth
@@ -203,12 +187,11 @@ const Component = ({
     selectOptions
   });
 
-  const dialogContent =
-    approvalType === "approval" ? approvalDialogContent : requestDialogContent;
+  const dialogContent = approvalType === "approval" ? approvalDialogContent : requestDialogContent;
 
   return (
     <ActionDialog
-      open={openRequestDialog}
+      open={open}
       dialogTitle=""
       successHandler={handleSubmit}
       cancelHandler={handleCancel}
@@ -228,8 +211,7 @@ Component.propTypes = {
   approvalType: PropTypes.string,
   close: PropTypes.func,
   confirmButtonLabel: PropTypes.string,
-  dialogName: PropTypes.string,
-  openRequestDialog: PropTypes.bool,
+  open: PropTypes.bool,
   pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string,

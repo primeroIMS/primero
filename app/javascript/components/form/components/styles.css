@@ -1,24 +1,3 @@
-.actionButton, .actionButtonCancel {
-  box-shadow: none;
-  color: $(theme.primero.colors.white);
-  background: $(theme.primero.colors.blue);
-  min-width: 8em;
-  height: 32px;
-
-  &:hover {
-    color: $(theme.primero.colors.black);
-  }
-
-  & svg {
-    margin-left: -10px;
-  }
-}
-
-.actionButtonCancel {
-  background: $(theme.primero.colors.grey);
-  margin: 0 .5em;
-}
-
 .loadingMargin {
   position: absolute;
 }
@@ -63,4 +42,8 @@
 
 .panelContent {
   display: block;
+}
+
+.formActions {
+  padding: 20px 0;
 }

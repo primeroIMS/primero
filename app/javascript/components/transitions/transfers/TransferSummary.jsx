@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
 import React from "react";
-import { format } from "date-fns";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 
@@ -13,12 +12,7 @@ const TransferSummary = ({ transition, classes, showMode, recordType }) => {
   const transitionStatus = transition.status ? (
     <Grid item md={3} xs={3} className={classes.status}>
       <TransitionStatus status={transition.status} />
-      <TransitionActions
-        classes={classes}
-        transition={transition}
-        showMode={showMode}
-        recordType={recordType}
-      />
+      <TransitionActions classes={classes} transition={transition} showMode={showMode} recordType={recordType} />
     </Grid>
   ) : null;
 
@@ -26,14 +20,9 @@ const TransferSummary = ({ transition, classes, showMode, recordType }) => {
     <Grid container spacing={2} alignItems="center">
       <Grid item md={9} xs={9}>
         <div className={classes.wrapper}>
-          <div className={classes.titleHeader}>
-            {i18n.t("transition.type.transfer")}
-          </div>
-
           {/* TODO: The date should be localized */}
-          <div className={classes.date}>
-            {format(new Date(transition.created_at), "MMM dd,yyyy")}
-          </div>
+          <div className={classes.date}>{i18n.localizeDate(transition.created_at)}</div>
+          <div className={classes.titleHeader}>{i18n.t("transition.type.transfer")}</div>
         </div>
       </Grid>
       {transitionStatus}

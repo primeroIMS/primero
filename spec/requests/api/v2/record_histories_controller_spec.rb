@@ -42,6 +42,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
   describe 'GET /api/v2/:record_type/:record_id/record_history' do
     it 'list record_history from a tracing_requests' do
+      TracingRequest.any_instance.stub(:associated_users).and_return([User.new(user_name: 'faketest')])
       login_for_test
       params = { data: { inquiry_date: '2019-04-01', relation_name: 'Test' } }
       post '/api/v2/tracing_requests', params: params
@@ -54,13 +55,13 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       login_for_test(
         permissions: [
-          Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::AUDIT_LOG])
+          Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::CHANGE_LOG])
         ]
       )
 
       record_history_a = {
         record_id: TracingRequest.first.id,
-        record_type: 'TracingRequest',
+        record_type: 'tracing_requests',
         datetime: RecordHistory.last.datetime.iso8601,
         user_name: 'faketest',
         action: 'update',
@@ -72,7 +73,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       record_history_b = {
         record_id: TracingRequest.first.id,
-        record_type: 'TracingRequest',
+        record_type: 'tracing_requests',
         datetime: RecordHistory.first.datetime.iso8601,
         user_name: 'faketest', action: 'create', record_changes: []
       }
@@ -84,6 +85,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
     end
 
     it 'list record_history from an incident' do
+      Incident.any_instance.stub(:associated_users).and_return([User.new(user_name: 'faketest')])
       login_for_test
       params = { data: { incident_date: '2019-04-01', description: 'Test' } }
       post '/api/v2/incidents', params: params
@@ -96,7 +98,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       login_for_test(
         permissions: [
-          Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::AUDIT_LOG])
+          Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::CHANGE_LOG])
         ]
       )
 
@@ -104,11 +106,12 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       record_history_a = {
         record_id: Incident.first.id,
-        record_type: 'Incident',
+        record_type: 'incidents',
         datetime: RecordHistory.last.datetime.iso8601,
         user_name: 'faketest',
         action: 'update',
         record_changes: [
+          { unique_id: { from: nil, to: Incident.first.id } },
           { description: { from: 'Test', to: 'Tester' } },
           { incident_date: { from: '2019-04-01', to: '2019-02-01' } }
         ]
@@ -116,7 +119,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       record_history_b = {
         record_id: Incident.first.id,
-        record_type: 'Incident',
+        record_type: 'incidents',
         datetime: RecordHistory.first.datetime.iso8601,
         user_name: 'faketest',
         action: 'create', record_changes: []
@@ -127,6 +130,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
     end
 
     it 'list record_history from a child' do
+      Child.any_instance.stub(:associated_users).and_return([User.new(user_name: 'faketest')])
       login_for_test
       params = { data: { name: 'Test', age: 12, sex: 'female' } }
       post '/api/v2/cases', params: params
@@ -139,7 +143,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       login_for_test(
         permissions: [
-          Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::AUDIT_LOG])
+          Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::CHANGE_LOG])
         ]
       )
 
@@ -147,7 +151,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       record_history_a = {
         record_id: Child.first.id,
-        record_type: 'Child',
+        record_type: 'cases',
         datetime: RecordHistory.last.datetime.iso8601,
         user_name: 'faketest',
         action: 'update',
@@ -160,7 +164,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       record_history_b = {
         record_id: Child.first.id,
-        record_type: 'Child',
+        record_type: 'cases',
         datetime: RecordHistory.first.datetime.iso8601,
         user_name: 'faketest',
         action: 'create',
@@ -195,7 +199,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       login_for_test(
         permissions: [
-          Permission.new(resource: Permission::CASE, actions: [Permission::AUDIT_LOG])
+          Permission.new(resource: Permission::CASE, actions: [Permission::CHANGE_LOG])
         ]
       )
 

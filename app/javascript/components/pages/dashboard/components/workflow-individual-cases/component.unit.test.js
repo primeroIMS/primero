@@ -1,10 +1,12 @@
 import { fromJS } from "immutable";
+import { Stepper, Step, StepLabel } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../../libs/permissions";
-import { PieChart, OptionsBox } from "../../../../dashboard";
+import { OptionsBox } from "../../../../dashboard";
 import LoadingIndicator from "../../../../loading-indicator";
 import { PrimeroModuleRecord } from "../../../../application/records";
+import { MODULES } from "../../../../../config";
 
 import WorkflowIndividualCases from "./component";
 
@@ -39,29 +41,30 @@ describe("<WorkflowIndividualCases> - pages/dashboard/components/workflow-indivi
             }
           }
         ]
-      },
-      application: {
-        modules: [
-          PrimeroModuleRecord({
-            unique_id: "primeromodule-cp",
-            name: "CP",
-            workflows: {
-              case: {
-                en: [
-                  { id: "new", display_text: "New" },
-                  { id: "care_plan", display_text: "Care plan" },
-                  {
-                    id: "service_provision",
-                    display_text: "Service provision"
-                  }
-                ]
-              }
-            }
-          })
-        ]
       }
     },
+    application: {
+      modules: [
+        PrimeroModuleRecord({
+          unique_id: MODULES.CP,
+          name: "CP",
+          workflows: {
+            case: {
+              en: [
+                { id: "new", display_text: "New" },
+                { id: "care_plan", display_text: "Care plan" },
+                {
+                  id: "service_provision",
+                  display_text: "Service provision"
+                }
+              ]
+            }
+          }
+        })
+      ]
+    },
     user: {
+      modules: [MODULES.CP],
       permissions
     }
   });
@@ -74,8 +77,16 @@ describe("<WorkflowIndividualCases> - pages/dashboard/components/workflow-indivi
     expect(component.find(OptionsBox)).to.have.lengthOf(1);
   });
 
-  it("should render a <PieChart /> component", () => {
-    expect(component.find(PieChart)).to.have.lengthOf(1);
+  it("should render a <Stepper /> component", () => {
+    expect(component.find(Stepper)).to.have.lengthOf(1);
+  });
+
+  it("should render a <Step /> component", () => {
+    expect(component.find(Step)).to.have.lengthOf(3);
+  });
+
+  it("should render a <StepLabel /> component", () => {
+    expect(component.find(StepLabel)).to.have.lengthOf(3);
   });
 
   describe("when the data is loading", () => {
@@ -89,21 +100,17 @@ describe("<WorkflowIndividualCases> - pages/dashboard/components/workflow-indivi
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(
-        WorkflowIndividualCases,
-        props,
-        {
-          records: {
-            dashboard: {
-              data: [],
-              loading: true
-            }
-          },
-          user: {
-            permissions
+      const { component: loadingComponent } = setupMountedComponent(WorkflowIndividualCases, props, {
+        records: {
+          dashboard: {
+            data: [],
+            loading: true
           }
+        },
+        user: {
+          permissions
         }
-      );
+      });
 
       expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
     });

@@ -1,10 +1,6 @@
 import * as moduleToTest from "./index";
 
 describe("libs/index", () => {
-  it("exports an object", () => {
-    expect(moduleToTest).to.be.an("object");
-  });
-
   describe("properties", () => {
     let clone;
 
@@ -20,6 +16,10 @@ describe("libs/index", () => {
       "arrayToObject",
       "compare",
       "dataToJS",
+      "displayNameHelper",
+      "endOfDay",
+      "getObjectPath",
+      "invalidCharRegexp",
       "keyIn",
       "listAttachmentFields",
       "listEntriesToRecord",
@@ -28,8 +28,10 @@ describe("libs/index", () => {
       "mapObjectPropertiesToRecords",
       "mergeRecord",
       "namespaceActions",
+      "normalizeTimezone",
       "rejectKeys",
       "toBase64",
+      "toServerDateFormat",
       "useThemeHelper",
       "valuesToSearchableSelect",
       "ConditionalWrapper"

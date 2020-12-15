@@ -3,6 +3,8 @@ import { fromJS } from "immutable";
 import { setupMountedComponent } from "../../../../test";
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
+import { Filters as AdminFilters } from "../components";
+import { SelectFilter, ToggleFilter } from "../../../index-filters/components/filter-types";
 
 import UsersList from "./container";
 
@@ -33,12 +35,22 @@ describe("<UsersList />", () => {
       }
     });
 
-    ({ component } = setupMountedComponent(UsersList, {}, initialState, [
-      "/admin/users"
-    ]));
+    ({ component } = setupMountedComponent(UsersList, {}, initialState, ["/admin/users"]));
   });
 
   it("renders record list table", () => {
     expect(component.find(IndexTable)).to.have.length(1);
+  });
+
+  it("renders AdminFilters", () => {
+    expect(component.find(AdminFilters)).to.have.length(1);
+  });
+
+  it("renders ToggleFilter", () => {
+    expect(component.find(ToggleFilter)).to.have.length(1);
+  });
+
+  it("renders AdminFilters", () => {
+    expect(component.find(SelectFilter)).to.have.length(1);
   });
 });

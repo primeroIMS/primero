@@ -24,6 +24,11 @@ describe HealthController, type: :request do
       expect(response).to have_http_status(204)
     end
 
+    it 'returns 204 when testing just the api' do
+      get '/health/api'
+      expect(response).to have_http_status(204)
+    end
+
     it 'returns a 503 when testing a non-existant Primero backend' do
       get '/health/abcd'
       expect(response).to have_http_status(503)

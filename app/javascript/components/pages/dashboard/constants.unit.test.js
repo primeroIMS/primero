@@ -9,7 +9,9 @@ describe("Verifying config constant", () => {
       "INDICATOR_NAMES",
       "PROTECTION_CONCERNS_ORDER_NAMES",
       "NAME",
-      "DASHBOARD_TYPES"
+      "DASHBOARD_TYPES",
+      "DASHBOARD_FLAGS_SORT_ORDER",
+      "DASHBOARD_FLAGS_SORT_FIELD"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
@@ -28,6 +30,11 @@ describe("Verifying config constant", () => {
       "APPROVALS_CASE_PLAN",
       "APPROVALS_CLOSURE_PENDING",
       "APPROVALS_CLOSURE",
+      "APPROVALS_ACTION_PLAN_PENDING",
+      "APPROVALS_ACTION_PLAN",
+      "APPROVALS_GBV_CLOSURE_PENDING",
+      "APPROVALS_GBV_CLOSURE",
+      "CASE_INCIDENT_OVERVIEW",
       "CASE_OVERVIEW",
       "CASE_RISK",
       "CASES_BY_TASK_OVERDUE_ASSESSMENT",

@@ -5,10 +5,7 @@ import { batch, useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 
-import {
-  getEnabledAgencies,
-  getReportingLocationConfig
-} from "../../../../application/selectors";
+import { getEnabledAgencies, getReportingLocationConfig } from "../../../../application/selectors";
 import { useI18n } from "../../../../i18n";
 import {
   RECORD_TYPES,
@@ -20,17 +17,10 @@ import {
   CODE_FIELD,
   LOOKUPS
 } from "../../../../../config";
-import {
-  getUsersByTransitionType,
-  getErrorsByTransitionType
-} from "../../selectors";
+import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selectors";
 import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
-import {
-  getOption,
-  getReportingLocations,
-  getServiceToRefer
-} from "../../../../record-form";
+import { getOption, getReportingLocations, getServiceToRefer } from "../../../../record-form";
 import { valuesToSearchableSelect } from "../../../../../libs";
 import { getLoading } from "../../../../index-table";
 import { getUserFilters } from "../utils";
@@ -52,28 +42,17 @@ const MainForm = ({ formProps, rest }) => {
   const dispatch = useDispatch();
   const firstUpdate = React.useRef(true);
   const transitionType = "referral";
-  const {
-    providedConsent,
-    canConsentOverride,
-    disabled,
-    setDisabled,
-    recordType,
-    isReferralFromService
-  } = rest;
+  const { providedConsent, canConsentOverride, disabled, setDisabled, recordType, isReferralFromService } = rest;
 
   const { handleSubmit, setValues, values } = formProps;
-  const { services, agency, location } = values;
+  const { service, agency, location } = values;
   const disableControl = !providedConsent && !disabled;
 
   const serviceToRefer = useSelector(state => getServiceToRefer(state));
 
-  const serviceTypes = useSelector(state =>
-    getOption(state, LOOKUPS.service_type, i18n)
-  );
+  const serviceTypes = useSelector(state => getOption(state, LOOKUPS.service_type, i18n.locale));
 
-  const adminLevel = useSelector(state =>
-    getReportingLocationConfig(state).get("admin_level")
-  );
+  const adminLevel = useSelector(state => getReportingLocationConfig(state).get("admin_level"));
 
   const reportingLocations = useSelector(
     state => getReportingLocations(state, adminLevel),
@@ -84,14 +63,12 @@ const MainForm = ({ formProps, rest }) => {
 
   const loading = useSelector(state => getLoading(state, NAMESPACE));
 
-  const agencies = useSelector(state => getEnabledAgencies(state, services));
+  const agencies = useSelector(state => getEnabledAgencies(state, service));
 
-  const users = useSelector(state =>
-    getUsersByTransitionType(state, transitionType)
-  );
+  const users = useSelector(state => getUsersByTransitionType(state, transitionType));
 
   const loadReferralUsers = () => {
-    const filters = getUserFilters({ services, agency, location });
+    const filters = getUserFilters({ service, agency, location });
 
     dispatch(
       fetchReferralUsers({
@@ -106,20 +83,15 @@ const MainForm = ({ formProps, rest }) => {
       dispatch(
         fetchReferralUsers({
           record_type: RECORD_TYPES[recordType],
-          ...getUserFilters({ services, agency, location })
+          ...getUserFilters({ service, agency, location })
         })
       );
     });
   }, []);
 
   useEffect(() => {
-    const selectedUserName = serviceToRefer.get(
-      "service_implementing_agency_individual",
-      ""
-    );
-    const selectedUser = users.find(
-      user => user.get("user_name") === selectedUserName
-    );
+    const selectedUserName = serviceToRefer.get("service_implementing_agency_individual", "");
+    const selectedUser = users.find(user => user.get("user_name") === selectedUserName);
 
     if (selectedUser?.size) {
       setValues({ ...values, [TRANSITIONED_TO_FIELD]: selectedUserName });
@@ -128,9 +100,7 @@ const MainForm = ({ formProps, rest }) => {
     }
   }, [users]);
 
-  const hasErrors = useSelector(state =>
-    getErrorsByTransitionType(state, transitionType)
-  );
+  const hasErrors = useSelector(state => getErrorsByTransitionType(state, transitionType));
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -144,7 +114,7 @@ const MainForm = ({ formProps, rest }) => {
       .join(", ");
 
     if (messages !== "") {
-      dispatch(enqueueSnackbar(messages, "error"));
+      dispatch(enqueueSnackbar(messages, { type: "error" }));
     }
   }, [hasErrors]);
 
@@ -157,12 +127,7 @@ const MainForm = ({ formProps, rest }) => {
     {
       id: SERVICE_FIELD,
       label: i18n.t("referral.service_label"),
-      options: valuesToSearchableSelect(
-        serviceTypes,
-        ID_FIELD,
-        DISPLAY_TEXT_FIELD,
-        i18n.locale
-      ),
+      options: valuesToSearchableSelect(serviceTypes, ID_FIELD, DISPLAY_TEXT_FIELD, i18n.locale),
       onChange: (data, field, form) => {
         const { value } = data;
         const dependentValues = [AGENCY_FIELD, TRANSITIONED_TO_FIELD];
@@ -174,12 +139,7 @@ const MainForm = ({ formProps, rest }) => {
     {
       id: AGENCY_FIELD,
       label: i18n.t("referral.agency_label"),
-      options: valuesToSearchableSelect(
-        agencies,
-        UNIQUE_ID_FIELD,
-        NAME_FIELD,
-        i18n.locale
-      ),
+      options: valuesToSearchableSelect(agencies, UNIQUE_ID_FIELD, NAME_FIELD, i18n.locale),
       onChange: (data, field, form) => {
         const { value } = data;
         const dependentValues = [TRANSITIONED_TO_FIELD];
@@ -191,12 +151,7 @@ const MainForm = ({ formProps, rest }) => {
     {
       id: LOCATION_FIELD,
       label: i18n.t("referral.location_label"),
-      options: valuesToSearchableSelect(
-        reportingLocations,
-        CODE_FIELD,
-        NAME_FIELD,
-        i18n.locale
-      ),
+      options: valuesToSearchableSelect(reportingLocations, CODE_FIELD, NAME_FIELD, i18n.locale),
       onChange: (data, field, form) => {
         const { value } = data;
         const dependentValues = [TRANSITIONED_TO_FIELD];
@@ -225,26 +180,16 @@ const MainForm = ({ formProps, rest }) => {
       onChange: (data, field, form) => {
         const { value } = data;
 
-        const selectedUser = users.find(
-          user => user.get("user_name") === value
-        );
+        const selectedUser = users.find(user => user.get("user_name") === value);
 
         form.setFieldValue(field.name, value, false);
 
         if (selectedUser?.size) {
-          if (
-            agencies.find(
-              current => current.get("unique_id") === selectedUser.get("agency")
-            )
-          ) {
+          if (agencies.find(current => current.get("unique_id") === selectedUser.get("agency"))) {
             form.setFieldValue("agency", selectedUser.get("agency"));
           }
 
-          if (
-            reportingLocations.find(
-              current => current.get("code") === selectedUser.get("location")
-            )
-          ) {
+          if (reportingLocations.find(current => current.get("code") === selectedUser.get("location"))) {
             form.setFieldValue("location", selectedUser.get("location"));
           }
         }
@@ -270,13 +215,7 @@ const MainForm = ({ formProps, rest }) => {
       <ProvidedConsent {...providedConsentProps} />
       {serviceToRefer.size ? null : (
         <FormControlLabel
-          control={
-            <Field
-              name="remoteSystem"
-              component={MuiCheckbox}
-              disabled={disableControl}
-            />
-          }
+          control={<Field name="remoteSystem" component={MuiCheckbox} disabled={disableControl} />}
           label={i18n.t("referral.is_remote_label")}
         />
       )}

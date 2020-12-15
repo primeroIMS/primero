@@ -4,6 +4,8 @@ import { useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
 import get from "lodash/get";
 
+import { ConditionalWrapper } from "../../../libs";
+import { notVisible } from "../utils";
 import { useI18n } from "../../i18n";
 import TextInput from "../fields/text-input";
 import SwitchInput from "../fields/switch-input";
@@ -12,7 +14,11 @@ import ErrorField from "../fields/error-field";
 import RadioField from "../fields/radio-input";
 import ToggleField from "../fields/toggle-input";
 import DateField from "../fields/date-input";
+import Seperator from "../fields/seperator";
 import OrderableOptionsField from "../fields/orderable-options-field";
+import DialogTrigger from "../fields/dialog-trigger";
+import HiddenInput from "../fields/hidden-input";
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../config";
 import {
   CHECK_BOX_FIELD,
   ERROR_FIELD,
@@ -23,7 +29,11 @@ import {
   TICK_FIELD,
   RADIO_FIELD,
   TOGGLE_FIELD,
-  DATE_FIELD
+  DATE_FIELD,
+  SEPARATOR,
+  DIALOG_TRIGGER,
+  HIDDEN_FIELD,
+  DOCUMENT_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
@@ -47,6 +57,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     editable,
     watchedInputs,
     handleWatchedInputs,
+    showIf,
     inlineCheckboxes,
     freeSolo,
     check_errors: fieldCheckErrors,
@@ -60,32 +71,33 @@ const FormSectionField = ({ checkErrors, field }) => {
     tooltip,
     numeric,
     onChange,
-    boldWords,
-    phraseParts
+    disableClearable,
+    onBlur,
+    asyncOptions,
+    asyncAction,
+    asyncParams,
+    asyncParamsFromWatched,
+    asyncOptionsLoadingPath,
+    clearDependentValues,
+    option_strings_source_id_key: optionStringsSourceIdKey,
+    setOtherFieldValues,
+    wrapWithComponent: WrapWithComponent,
+    onClick,
+    placeholder,
+    maxSelectedOptions,
+    onKeyPress
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
   const { formMode, errors, watch } = methods;
   const error = errors ? get(errors, name) : undefined;
-
-  const errorsToCheck = checkErrors
-    ? checkErrors.concat(fieldCheckErrors)
-    : fieldCheckErrors;
+  const errorsToCheck = checkErrors ? checkErrors.concat(fieldCheckErrors) : fieldCheckErrors;
 
   const optionSource = useSelector(
     state =>
-      getOptions(
-        state,
-        optionStringsSource,
-        i18n,
-        options || optionsStringsText
-      ),
+      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, { optionStringsSourceIdKey }),
     (prev, next) => prev.equals(next)
   );
-
-  if (typeof visible === "boolean" && !visible) {
-    return null;
-  }
 
   const watchedInputsValues = watchedInputs ? watch(watchedInputs) : null;
   const watchedInputProps = handleWatchedInputs
@@ -94,19 +106,23 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   const renderError = () =>
     checkErrors?.size && errors
-      ? Object.keys(errors).some(
-          errorKey => checkErrors.includes(errorKey) && name.includes(errorKey)
-        )
+      ? Object.keys(errors).some(errorKey => checkErrors.includes(errorKey) && name.includes(errorKey))
       : false;
 
-  const format = dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy";
+  const format = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
+
+  const handleVisibility = () => {
+    if (showIf && !formMode.get("isShow")) {
+      return !showIf(watchedInputsValues);
+    }
+
+    return hideOnShow && formMode.get("isShow");
+  };
 
   const commonInputProps = {
     name,
     disabled:
-      typeof disabled === "boolean"
-        ? disabled
-        : formMode.get("isShow") || (formMode.get("isEdit") && !editable),
+      typeof disabled === "boolean" ? disabled : formMode.get("isShow") || (formMode.get("isEdit") && !editable),
     required,
     autoFocus,
     error: typeof error !== "undefined" || renderError(),
@@ -119,6 +135,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     },
     className: inputClassname,
     format,
+    placeholder,
     ...watchedInputProps
   };
 
@@ -134,8 +151,19 @@ const FormSectionField = ({ checkErrors, field }) => {
     tooltip,
     numeric,
     onChange,
-    boldWords,
-    phraseParts
+    disableClearable,
+    onBlur,
+    asyncOptions,
+    asyncAction,
+    asyncParams,
+    asyncParamsFromWatched,
+    asyncOptionsLoadingPath,
+    watchedInputsValues,
+    clearDependentValues,
+    setOtherFieldValues,
+    onClick,
+    onKeyPress,
+    maxSelectedOptions
   };
 
   const Field = (fieldType => {
@@ -147,6 +175,7 @@ const FormSectionField = ({ checkErrors, field }) => {
       case SELECT_FIELD:
         return SelectInput;
       case PHOTO_FIELD:
+      case DOCUMENT_FIELD:
         return AttachmentInput;
       case LABEL_FIELD:
         return Label;
@@ -160,21 +189,33 @@ const FormSectionField = ({ checkErrors, field }) => {
         return DateField;
       case ORDERABLE_OPTIONS_FIELD:
         return OrderableOptionsField;
+      case SEPARATOR:
+        return Seperator;
+      case DIALOG_TRIGGER:
+        return DialogTrigger;
+      case HIDDEN_FIELD:
+        return HiddenInput;
       default:
         return TextInput;
     }
   })(type);
 
+  if (notVisible(visible) || notVisible(watchedInputProps?.visible)) {
+    return null;
+  }
+
   return (
     <div>
-      {(hideOnShow && formMode.get("isShow")) || (
-        <Field
-          field={field}
-          commonInputProps={commonInputProps}
-          metaInputProps={metaInputProps}
-          options={watchedInputProps?.options || optionSource?.toJS()}
-          errorsToCheck={errorsToCheck}
-        />
+      {handleVisibility() || (
+        <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
+          <Field
+            field={field}
+            commonInputProps={commonInputProps}
+            metaInputProps={metaInputProps}
+            options={watchedInputProps?.options || optionSource?.toJS()}
+            errorsToCheck={errorsToCheck}
+          />
+        </ConditionalWrapper>
       )}
     </div>
   );

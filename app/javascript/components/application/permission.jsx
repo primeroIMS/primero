@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { List } from "immutable";
 
 import { getPermissions } from "../user/selectors";
+import { RESOURCES } from "../../libs/permissions";
 
 const Permission = ({ resources, actions, redirect, children, match }) => {
   const { params } = match;
@@ -13,24 +14,20 @@ const Permission = ({ resources, actions, redirect, children, match }) => {
   const dispatch = useDispatch();
   const allUserPermissions = useSelector(state => getPermissions(state));
 
-  const filteredPermissions = allUserPermissions
-    .entrySeq()
-    .reduce((acum, curr) => {
-      const [key, value] = curr;
+  const filteredPermissions = allUserPermissions.entrySeq().reduce((acum, curr) => {
+    const [key, value] = curr;
 
-      if ((Array.isArray(type) && type.includes(key)) || type === key) {
-        return { ...acum, [key]: value };
-      }
+    if ((Array.isArray(type) && type.includes(key)) || type === key) {
+      return { ...acum, [key]: value };
+    }
 
-      return acum;
-    }, {});
+    return acum;
+  }, {});
 
-  const verifyAction = element =>
-    Array.isArray(actions) ? actions.includes(element) : actions === element;
+  const verifyAction = element => (Array.isArray(actions) ? actions.includes(element) : actions === element);
 
-  const userHasPermission = List(Object.values(filteredPermissions))
-    .flatten()
-    .some(verifyAction);
+  const userHasPermission =
+    List(Object.values(filteredPermissions)).flatten().some(verifyAction) || resources === RESOURCES.any;
 
   if (userHasPermission) {
     return children;

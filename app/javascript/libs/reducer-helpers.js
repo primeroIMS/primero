@@ -1,19 +1,17 @@
-import { List, Map, OrderedMap, fromJS } from "immutable";
+import { List, OrderedMap, fromJS } from "immutable";
 import extend from "lodash/extend";
 import mapValues from "lodash/mapValues";
 import pickBy from "lodash/pickBy";
 
+import { FIELD_ATTACHMENT_TYPES } from "../components/record-form/form/field-types/attachments/constants";
+
 export const namespaceActions = (namespace, keys) =>
-  Object.freeze(
-    keys.reduce((map, key) => extend(map, { [key]: `${namespace}/${key}` }), {})
-  );
+  Object.freeze(keys.reduce((map, key) => extend(map, { [key]: `${namespace}/${key}` }), {}));
 
 export const mapEntriesToRecord = (entries, record, ordered) => {
   const mapFunc = ordered ? OrderedMap : fromJS;
 
-  return Array.isArray(entries)
-    ? List(entries.map(e => record(e)))
-    : mapFunc(mapValues(entries, e => record(e)));
+  return Array.isArray(entries) ? List(entries.map(e => record(e))) : mapFunc(mapValues(entries, e => record(e)));
 };
 
 export const mapObjectPropertiesToRecords = (entries, record) => {
@@ -50,29 +48,26 @@ export const arrayToObject = (data, key = "id") => {
   }, {});
 };
 
-export const listAttachmentFields = (fields = [], types = []) =>
-  Object.values(fields)
-    .filter(field => types.includes(field.type))
-    .map(item => item.name);
+export const listAttachmentFields = (formSections = [], fields = []) => {
+  const types = Object.keys(FIELD_ATTACHMENT_TYPES);
+  const filteredFields = Object.values(fields).filter(field => types.includes(field.type));
+  const fieldIds = filteredFields.map(field => field.form_section_id);
+  const attachmentFormSections = Object.values(formSections).filter(formSection => fieldIds.includes(formSection.id));
+
+  return {
+    fields: filteredFields.map(item => item.name),
+    forms: attachmentFormSections.reduce((prev, current) => {
+      const obj = prev;
+
+      obj[current.unique_id] = current.name;
+
+      return obj;
+    }, {})
+  };
+};
 
 export const mergeRecord = (record, payload) => {
-  const reduceSubformToMap = (result, item) => {
-    return result.set(item.get("unique_id") || item.get("id"), item);
-  };
-
-  const mergeSubforms = (prev, next) => {
-    return prev.merge(next);
-  };
-
   return record.mergeWith((prev, next) => {
-    // Merge subforms
-    if (List.isList(next) && next.some(s => s instanceof Map)) {
-      const prevSubforms = prev.reduce(reduceSubformToMap, Map());
-      const nextSubforms = next.reduce(reduceSubformToMap, Map());
-
-      return [...prevSubforms.mergeWith(mergeSubforms, nextSubforms).values()];
-    }
-
     // Everything else
     return next;
   }, payload);

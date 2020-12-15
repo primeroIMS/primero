@@ -18,7 +18,7 @@ export const saveContactInformation = ({ body, saveMethod, message }) => {
           message,
           options: {
             variant: "success",
-            key: generate.messageKey()
+            key: generate.messageKey(message)
           }
         },
         redirectWithIdFromResponse: saveMethod !== "update",

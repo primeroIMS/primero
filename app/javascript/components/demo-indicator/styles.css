@@ -1,0 +1,17 @@
+.standardInfo {
+  background-color: $(theme.primero.colors.solidBlack);
+  border-radius: 0;
+  padding: 0;
+  text-align: center;
+  position: absolute;
+  z-index: 10000;
+  width: 100%;
+
+}
+
+.standardInfoText {
+  color: $(theme.primero.colors.white);
+  font-weight: bold;
+  text-transform: uppercase;
+  width: 100%;
+}

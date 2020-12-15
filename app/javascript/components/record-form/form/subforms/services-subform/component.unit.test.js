@@ -30,7 +30,8 @@ describe("<ServicesSubform />", () => {
     mode: {
       isShow: true
     },
-    index: 0
+    index: 0,
+    formSection: {}
   };
 
   const formProps = {
@@ -43,17 +44,21 @@ describe("<ServicesSubform />", () => {
   let component;
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      ServicesSubform,
-      props,
-      {},
-      [],
-      formProps
-    ));
+    ({ component } = setupMountedComponent(ServicesSubform, props, {}, [], formProps));
   });
 
   it("renders the subform", () => {
     expect(component.find(FormSectionField)).lengthOf(2);
+  });
+
+  it("renders SubformDialog with valid props", () => {
+    const subformDialogProps = { ...component.find(ServicesSubform).props() };
+
+    ["field", "formSection", "formik", "index", "mode"].forEach(property => {
+      expect(subformDialogProps).to.have.property(property);
+      delete subformDialogProps[property];
+    });
+    expect(subformDialogProps).to.be.empty;
   });
 
   describe("when field is visible should not be render", () => {
@@ -81,7 +86,8 @@ describe("<ServicesSubform />", () => {
       mode: {
         isShow: true
       },
-      index: 0
+      index: 0,
+      form: {}
     };
 
     const visibleFieldFormProps = {
@@ -92,13 +98,7 @@ describe("<ServicesSubform />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        ServicesSubform,
-        propsFieldNotVisible,
-        {},
-        [],
-        visibleFieldFormProps
-      ));
+      ({ component } = setupMountedComponent(ServicesSubform, propsFieldNotVisible, {}, [], visibleFieldFormProps));
     });
 
     it("renders the subform", () => {

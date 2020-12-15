@@ -6,8 +6,16 @@
 # Comma delineated strings are converted to Arrays, Hashes with integer keys
 # are converted to Arrays, and values separated by .. are converted to ranges.
 class DestringifyService
-
   def self.destringify(value, lists_and_ranges = false)
+    new.destringify(value, lists_and_ranges)
+  end
+
+  # Disabling Rubocop because this really is a complex thing
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/PerceivedComplexity
+  def destringify(value, lists_and_ranges)
     # Recursively parse and cast a hash of string values to Dates, DateTimes, Integers, Booleans.
     # If all keys in a hash are numeric, convert it to an array.
     case value
@@ -25,12 +33,6 @@ class DestringifyService
       rescue ArgumentError
         value
       end
-    when ::PrimeroDate::DATE_REGEX  #TODO: This is a hack, but we'll fix dates later
-      begin
-        PrimeroDate.parse_with_format(value)
-      rescue ArgumentError
-        value
-      end
     when /^(true|false)$/
       ::ActiveRecord::Type::Boolean.new.cast(value)
     when /^\d+$/
@@ -41,12 +43,12 @@ class DestringifyService
       # If value.keys is empty the expression returns true. For that reason we need the check for present?
       has_numeric_keys = value.keys.present? && value.keys.all? { |k| k.match?(/^\d+$/) }
       if has_numeric_keys
-        value.sort_by { |k, _| k.to_i }.map { |_, v| destringify(v, lists_and_ranges)}
+        value.sort_by { |k, _| k.to_i }.map { |_, v| destringify(v, lists_and_ranges) }
       else
         value.map { |k, v| [k, destringify(v, lists_and_ranges)] }.to_h
       end
     else
-      if lists_and_ranges
+      if lists_and_ranges && value.is_a?(String)
         if value.match?(/,/)
           value.split(',').map { |v| destringify(v, lists_and_ranges) }
         elsif value.match?(/\.\./)
@@ -63,5 +65,8 @@ class DestringifyService
       end
     end
   end
-
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/PerceivedComplexity
 end

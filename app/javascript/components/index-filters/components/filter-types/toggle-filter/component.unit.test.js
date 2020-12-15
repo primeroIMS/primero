@@ -27,9 +27,7 @@ describe("<ToggleFilter>", () => {
   it("renders toggle buttons", () => {
     const { component } = setupMockFormComponent(ToggleFilter, props);
 
-    ["option-1", "option-2"].forEach(
-      option => expect(component.exists(`button[value='${option}']`)).to.be.true
-    );
+    ["option-1", "option-2"].forEach(option => expect(component.exists(`button[value='${option}']`)).to.be.true);
   });
 
   it("renders select as secondary filter, with valid pros in the more section", () => {
@@ -47,9 +45,7 @@ describe("<ToggleFilter>", () => {
     const { component } = setupMockFormComponent(ToggleFilter, newProps);
     const clone = { ...component.find(ToggleFilter).props() };
 
-    ["option-1", "option-2"].forEach(
-      option => expect(component.exists(`button[value='${option}']`)).to.be.true
-    );
+    ["option-1", "option-2"].forEach(option => expect(component.exists(`button[value='${option}']`)).to.be.true);
 
     [
       "addFilterToList",

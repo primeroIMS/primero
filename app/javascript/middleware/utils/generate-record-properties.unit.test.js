@@ -30,13 +30,9 @@ describe("middleware/utils/generate-record-properties.js", () => {
 
   describe("subforms", () => {
     it("generates unique_id for new subforms", () => {
-      expect(
-        generateRecordProperties(
-          store,
-          { method: "POST", subform: true },
-          false
-        )
-      ).to.deep.equal({ unique_id: "dd3b8e93-0cce-415b-ad2b-d06bb454b66f" });
+      expect(generateRecordProperties(store, { method: "POST", subform: true }, false)).to.deep.equal({
+        unique_id: "dd3b8e93-0cce-415b-ad2b-d06bb454b66f"
+      });
     });
   });
 
@@ -83,13 +79,10 @@ describe("middleware/utils/generate-record-properties.js", () => {
         id: "dd3b8e93-0cce-415b-ad2b-d06bb454b66f",
         owned_by: "jj",
         short_id: "454b66f",
-        type: "testRecordType"
+        type: "testRecordType",
+        enabled: true
       };
-      const results = generateRecordProperties(
-        store,
-        { method: "POST", recordType: "testRecordType" },
-        true
-      );
+      const results = generateRecordProperties(store, { method: "POST", recordType: "testRecordType" }, true);
 
       expect(results).to.deep.equal(expected);
     });
@@ -97,11 +90,7 @@ describe("middleware/utils/generate-record-properties.js", () => {
     describe("cases", () => {
       it("generates case_id_display", () => {
         // eslint-disable-next-line camelcase
-        const { case_id_display } = generateRecordProperties(
-          store,
-          { method: "POST", recordType: "cases" },
-          true
-        );
+        const { case_id_display } = generateRecordProperties(store, { method: "POST", recordType: "cases" }, true);
 
         expect(case_id_display).to.equal("454b66f");
       });

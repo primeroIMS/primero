@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
+import { fromJS } from "immutable";
 
 import { useI18n } from "../../../i18n";
 import Form, { whichFormMode, PARENT_FORM } from "../../../form";
@@ -15,21 +16,14 @@ import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
 import { compare } from "../../../../libs";
 import ActionDialog from "../../../action-dialog";
+import { getMetadata } from "../../../record-list";
+import { getReportingLocationConfig } from "../../../user/selectors";
 
 import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";
-import {
-  getFormsToRender,
-  mergeFormSections,
-  groupSelectedIdsByParentForm
-} from "./utils";
-import {
-  clearSelectedRole,
-  deleteRole,
-  fetchRole,
-  saveRole
-} from "./action-creators";
-import { getRole, getLoading } from "./selectors";
+import { getFormsToRender, mergeFormSections, groupSelectedIdsByParentForm } from "./utils";
+import { clearSelectedRole, deleteRole, fetchRole, saveRole } from "./action-creators";
+import { getRole } from "./selectors";
 import { NAME } from "./constants";
 
 const Container = ({ mode }) => {
@@ -41,24 +35,15 @@ const Container = ({ mode }) => {
   const { id } = useParams();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const loading = useSelector(state => getLoading(state));
-  const roles = useSelector(
-    state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]),
-    compare
-  );
+  const roles = useSelector(state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]), compare);
+  const metadata = useSelector(state => getMetadata(state, "roles"));
   const role = useSelector(state => getRole(state), compare);
-  const systemPermissions = useSelector(
-    state => getSystemPermissions(state),
-    compare
-  );
-  const assignableForms = useSelector(
-    state => getAssignableForms(state),
-    compare
-  );
+  const systemPermissions = useSelector(state => getSystemPermissions(state), compare);
+  const assignableForms = useSelector(state => getAssignableForms(state), compare);
+  const reportingLocationConfig = useSelector(state => getReportingLocationConfig(state));
+  const adminLevelMap = reportingLocationConfig.get("admin_level_map") || fromJS({});
 
-  const formsByParentForm = assignableForms.groupBy(assignableForm =>
-    assignableForm.get(PARENT_FORM)
-  );
+  const formsByParentForm = assignableForms.groupBy(assignableForm => assignableForm.get(PARENT_FORM));
 
   const validationSchema = Validations(i18n);
 
@@ -68,9 +53,7 @@ const Container = ({ mode }) => {
         id,
         saveMethod: formMode.get("isEdit") ? "update" : "new",
         body: { data: mergeFormSections(data) },
-        message: i18n.t(
-          `role.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-        )
+        message: i18n.t(`role.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
       })
     );
   };
@@ -80,7 +63,7 @@ const Container = ({ mode }) => {
   };
 
   useEffect(() => {
-    dispatch(fetchRoles());
+    dispatch(fetchRoles({ data: metadata?.toJS() }));
   }, []);
 
   useEffect(() => {
@@ -103,7 +86,8 @@ const Container = ({ mode }) => {
     formSections: formsByParentForm,
     i18n,
     formMode,
-    approvalsLabels
+    approvalsLabels,
+    adminLevelMap
   });
 
   const initialValues = groupSelectedIdsByParentForm(
@@ -133,11 +117,7 @@ const Container = ({ mode }) => {
   ) : null;
 
   return (
-    <LoadingIndicator
-      hasData={formMode.get("isNew") || role?.size > 0}
-      loading={loading}
-      type={NAMESPACE}
-    >
+    <LoadingIndicator hasData={formMode.get("isNew") || role?.size > 0} loading={!role.size} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
         <ActionButtons
           formMode={formMode}

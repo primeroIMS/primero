@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
@@ -6,7 +8,9 @@ import { TextField as MuiTextField } from "formik-material-ui";
 import { useSelector, useDispatch } from "react-redux";
 import { ButtonBase } from "@material-ui/core";
 import { FastField, connect } from "formik";
+import { useParams } from "react-router-dom";
 
+import { toServerDateFormat } from "../../../../libs";
 import { useI18n } from "../../../i18n";
 import { saveRecord, selectRecordAttribute } from "../../../records";
 import { TEXT_FIELD_NAME } from "../constants";
@@ -20,16 +24,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
+const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest }) => {
   const css = useStyles();
 
   const { type } = field;
   const i18n = useI18n();
   const dispatch = useDispatch();
-
-  const recordName = useSelector(state =>
-    selectRecordAttribute(state, recordType, recordID, "name")
-  );
+  const { id } = useParams();
+  const recordName = useSelector(state => selectRecordAttribute(state, recordType, recordID, "name"));
   const isHiddenName = /\*{2,}/.test(recordName);
 
   useEffect(() => {
@@ -52,22 +54,12 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
       const currentYear = new Date().getFullYear();
       const diff = subYears(new Date(currentYear, 0, 1), value);
 
-      form.setFieldValue(`${matches[1]}date_of_birth`, diff, true);
+      form.setFieldValue(`${matches[1]}date_of_birth`, toServerDateFormat(diff), true);
     }
   };
 
-  const hideFieldValue = renderProps => {
-    dispatch(
-      saveRecord(
-        recordType,
-        "update",
-        { data: { hidden_name: !isHiddenName } },
-        renderProps.form.initialValues.id,
-        false,
-        false,
-        false
-      )
-    );
+  const hideFieldValue = () => {
+    dispatch(saveRecord(recordType, "update", { data: { hidden_name: !isHiddenName } }, id, false, false, false));
   };
 
   return (
@@ -85,23 +77,14 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
 
                   updateDateBirthField(renderProps.form, value);
 
-                  return renderProps.form.setFieldValue(
-                    renderProps.field.name,
-                    value,
-                    true
-                  );
+                  return renderProps.form.setFieldValue(renderProps.field.name, value, true);
                 }
               }}
               {...fieldProps}
             />
-            {name === "name" && fieldProps.mode.isEdit ? (
-              <ButtonBase
-                className={css.hideNameStyle}
-                onClick={() => hideFieldValue(renderProps)}
-              >
-                {isHiddenName
-                  ? i18n.t("logger.hide_name.view")
-                  : i18n.t("logger.hide_name.protect")}
+            {name === "name" && mode.isEdit && !rest?.formSection?.is_nested ? (
+              <ButtonBase className={css.hideNameStyle} onClick={() => hideFieldValue()}>
+                {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
               </ButtonBase>
             ) : null}
           </>
@@ -116,6 +99,7 @@ TextField.displayName = TEXT_FIELD_NAME;
 TextField.propTypes = {
   field: PropTypes.object,
   formik: PropTypes.object,
+  mode: PropTypes.object.isRequired,
   name: PropTypes.string,
   recordID: PropTypes.string,
   recordType: PropTypes.string

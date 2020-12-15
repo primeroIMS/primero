@@ -2,11 +2,21 @@ import { fromJS } from "immutable";
 import { TableRow } from "@material-ui/core";
 
 import { buildDataForTable } from "../../report/utils";
-import { setupMountedThemeComponent } from "../../../test";
+import { abbrMonthNames, setupMountedComponent, stub } from "../../../test";
 
 import TableValues from "./component";
 
 describe("<TableValues />", () => {
+  let stubI18n = null;
+
+  beforeEach(() => {
+    stubI18n = stub(window.I18n, "t")
+      .withArgs("date.abbr_month_names")
+      .returns(abbrMonthNames)
+      .withArgs("report.total")
+      .returns("Total");
+  });
+
   it("renders canvas values as table", () => {
     const data = fromJS({
       id: 1,
@@ -55,10 +65,23 @@ describe("<TableValues />", () => {
       }
     });
 
-    const component = setupMountedThemeComponent(TableValues, {
-      ...buildDataForTable(data, { t: () => "Total" })
+    const agencies = [
+      {
+        id: 1,
+        name: "Test agency"
+      }
+    ];
+
+    const { component } = setupMountedComponent(TableValues, {
+      ...buildDataForTable(data, window.I18n, { agencies })
     });
 
     expect(component.find(TableRow)).to.have.lengthOf(6);
+  });
+
+  afterEach(() => {
+    if (stubI18n) {
+      window.I18n.t.restore();
+    }
   });
 });

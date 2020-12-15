@@ -1,8 +1,10 @@
 import { createMiddleware, spy } from "../test";
 import { METHODS } from "../config";
+import Queue from "../libs/queue";
 
 import offlineMiddleware from "./offline-middleware";
 import * as queueData from "./utils/queue-data";
+import * as queueFetch from "./utils/queue-fetch";
 import * as retrieveData from "./utils/retrieve-data";
 
 describe("middleware/offline-middleware.js", () => {
@@ -30,6 +32,19 @@ describe("middleware/offline-middleware.js", () => {
   });
 
   describe("offline GET", () => {
+    let retrieveDataSpy;
+    let queueFetchSpy;
+
+    beforeEach(() => {
+      queueFetchSpy = spy(queueFetch, "default");
+      retrieveDataSpy = spy(retrieveData, "default");
+    });
+
+    afterEach(() => {
+      retrieveDataSpy.restore();
+      queueFetchSpy.restore();
+    });
+
     it("invokes retrieveData with args", () => {
       const { invoke, store } = setupMiddleware(false);
 
@@ -37,10 +52,35 @@ describe("middleware/offline-middleware.js", () => {
         type: "TEST",
         api: { path: "/" }
       };
-      const retrieveDataSpy = spy(retrieveData, "default");
 
       invoke(action);
       expect(retrieveDataSpy).to.have.been.calledWith(store, action);
+    });
+
+    it("does not invoke retrieveData if skipDB is true", () => {
+      const { invoke } = setupMiddleware(false);
+
+      const action = {
+        type: "TEST",
+        api: { path: "/", skipDB: true }
+      };
+
+      invoke(action);
+      expect(retrieveDataSpy).to.not.have.been.called;
+    });
+
+    it("queues the request if queueOffline is true", () => {
+      const { invoke } = setupMiddleware(false);
+
+      const action = {
+        type: "queue_get_action",
+        api: { path: "/", queueOffline: true }
+      };
+
+      invoke(action);
+
+      expect(queueFetchSpy).to.have.been.calledWith(action);
+      expect(Queue.queue.find(qAction => qAction.type === "queue_get_action")).to.exist;
     });
   });
 
@@ -52,10 +92,7 @@ describe("middleware/offline-middleware.js", () => {
       fromQueue
     });
 
-    const testMethods = assertion =>
-      [METHODS.DELETE, METHODS.PATCH, METHODS.POST, METHODS.PUT].forEach(
-        assertion
-      );
+    const testMethods = assertion => [METHODS.DELETE, METHODS.PATCH, METHODS.POST, METHODS.PUT].forEach(assertion);
 
     beforeEach(() => {
       queueDataSpy = spy(queueData, "default");

@@ -6,7 +6,10 @@ export const FIELD_NAMES = {
   transfer: "transfer",
   referral: "referral",
   moduleIds: "module_unique_ids",
-  groupPermission: "group_permission"
+  groupPermission: "group_permission",
+  isManager: "is_manager",
+  reportingLocationLevel: "reporting_location_level",
+  disabled: "disabled"
 };
 export const ACTION_BUTTONS_NAME = "ActionButtons";
 

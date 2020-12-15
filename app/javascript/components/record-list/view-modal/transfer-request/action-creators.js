@@ -17,7 +17,7 @@ export const saveTransferRequest = (recordId, body, message) => ({
         message,
         options: {
           variant: "success",
-          key: generate.messageKey()
+          key: generate.messageKey(message)
         }
       }
     }

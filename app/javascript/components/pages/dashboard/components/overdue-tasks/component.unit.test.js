@@ -124,21 +124,17 @@ describe("<OverdueTasks> - pages/dashboard/components/overdue-tasks", () => {
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(
-        OverdueTasks,
-        props,
-        {
-          records: {
-            dashboard: {
-              data: [],
-              loading: true
-            }
-          },
-          user: {
-            permissions
+      const { component: loadingComponent } = setupMountedComponent(OverdueTasks, props, {
+        records: {
+          dashboard: {
+            data: [],
+            loading: true
           }
+        },
+        user: {
+          permissions
         }
-      );
+      });
 
       expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
     });

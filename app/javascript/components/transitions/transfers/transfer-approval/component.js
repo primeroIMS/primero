@@ -1,11 +1,12 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { FormLabel, TextField } from "@material-ui/core";
 
 import { useI18n } from "../../../i18n";
 import ActionDialog from "../../../action-dialog";
 import { ACCEPTED, REJECTED, ACCEPT, REJECT } from "../../../../config";
+import { selectRecord } from "../../../records";
 
 import { approvalTransfer } from "./action-creators";
 import { NAME } from "./constants";
@@ -24,6 +25,7 @@ const Component = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [comment, setComment] = React.useState("");
+  const record = useSelector(state => selectRecord(state, { isShow: true }, recordType, recordId));
 
   const handleChangeComment = event => {
     setComment(event.target.value);
@@ -56,7 +58,7 @@ const Component = ({
     approvalType === ACCEPTED
       ? i18n.t(`${recordType}.transfer_accepted_success`)
       : i18n.t(`${recordType}.transfer_accepted_rejected`, {
-          record_id: recordId
+          record_id: record.get("case_id_display")
         });
 
   const handleOk = () => {
@@ -84,9 +86,7 @@ const Component = ({
   const commentField =
     approvalType === REJECTED ? (
       <>
-        <FormLabel component="legend">
-          {i18n.t(`${recordType}.transfer_reject_reason_label`)}
-        </FormLabel>
+        <FormLabel component="legend">{i18n.t(`${recordType}.transfer_reject_reason_label`)}</FormLabel>
         <TextField
           id="outlined-multiline-static"
           label=""

@@ -1,31 +1,33 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { IconButton } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import { makeStyles } from "@material-ui/styles";
+import { FormHelperText } from "@material-ui/core/";
+import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "../../styles.css";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-const AttachmentLabel = ({
-  label,
-  disabled,
-  mode,
-  arrayHelpers,
-  handleAttachmentAddition
-}) => {
+const AttachmentLabel = ({ label, helpText, disabled, mode, arrayHelpers, handleAttachmentAddition }) => {
   const css = makeStyles(styles)();
+  const isDisabled = !disabled && !mode.isShow;
 
   return (
     <div className={css.attachmentHeading}>
-      <h4>{label}</h4>
-      {disabled && !mode.isShow && (
+      <div className={css.attachmentLabel}>
+        <h4>{label}</h4>
+        <FormHelperText>{helpText}</FormHelperText>
+      </div>
+      {isDisabled && (
         <div>
-          <IconButton
-            variant="contained"
-            onClick={() => handleAttachmentAddition(arrayHelpers)}
-          >
-            <AddIcon />
-          </IconButton>
+          <ActionButton
+            icon={<AddIcon />}
+            text="Add"
+            type={ACTION_BUTTON_TYPES.icon}
+            rest={{
+              onClick: () => handleAttachmentAddition(arrayHelpers)
+            }}
+          />
         </div>
       )}
     </div>
@@ -38,6 +40,7 @@ AttachmentLabel.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
   handleAttachmentAddition: PropTypes.func.isRequired,
+  helpText: PropTypes.string,
   label: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired
 };

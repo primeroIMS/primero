@@ -3,23 +3,13 @@
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { TRANSITIONS_TYPES } from "../../constants";
 import { REJECTED } from "../../../../config";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../../../record-actions";
+import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../../action-dialog";
 
 import actions from "./actions";
 
-export const revokeTransition = ({
-  message,
-  recordType,
-  recordId,
-  transitionType,
-  transitionId,
-  dialogName,
-  failureMessage
-}) => {
+export const revokeTransition = ({ message, recordType, recordId, transitionType, transitionId, failureMessage }) => {
   const isReferral = transitionType === TRANSITIONS_TYPES.referral;
-  const path = `${recordType}/${recordId}/${
-    isReferral ? "referrals" : "transfers"
-  }/${transitionId}`;
+  const path = `${recordType}/${recordId}/${isReferral ? "referrals" : "transfers"}/${transitionId}`;
   const method = isReferral ? "DELETE" : "PATCH";
   const body = isReferral
     ? {}
@@ -42,22 +32,12 @@ export const revokeTransition = ({
             message,
             options: {
               variant: "success",
-              key: generate.messageKey()
+              key: generate.messageKey(message)
             }
           }
         },
         {
-          action: SET_DIALOG,
-          payload: {
-            dialog: dialogName,
-            open: false
-          }
-        },
-        {
-          action: SET_DIALOG_PENDING,
-          payload: {
-            pending: false
-          }
+          action: CLEAR_DIALOG
         }
       ],
       failureCallback: [
@@ -67,7 +47,7 @@ export const revokeTransition = ({
             message: failureMessage,
             options: {
               variant: "error",
-              key: generate.messageKey()
+              key: generate.messageKey(failureMessage)
             }
           }
         },

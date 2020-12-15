@@ -1,7 +1,7 @@
 import React from "react";
 import { Tooltip as MuiToolTip } from "@material-ui/core";
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/styles/makeStyles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { ConditionalWrapper } from "../../libs";
 import { useI18n } from "../i18n";
@@ -14,6 +14,7 @@ const Tooltip = ({ children, title, i18nTitle }) => {
 
   const commonTooltipProps = {
     arrow: true,
+    className: css.disabled,
     classes: {
       arrow: css.arrow,
       tooltip: css.tooltip
@@ -23,11 +24,7 @@ const Tooltip = ({ children, title, i18nTitle }) => {
   };
 
   return (
-    <ConditionalWrapper
-      condition={Boolean(title)}
-      wrapper={MuiToolTip}
-      {...commonTooltipProps}
-    >
+    <ConditionalWrapper condition={Boolean(title)} wrapper={MuiToolTip} {...commonTooltipProps}>
       {children}
     </ConditionalWrapper>
   );

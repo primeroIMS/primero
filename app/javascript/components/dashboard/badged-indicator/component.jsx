@@ -1,12 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { useDispatch } from "react-redux";
-import makeStyles from "@material-ui/styles/makeStyles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import { push } from "connected-react-router";
 import isEmpty from "lodash/isEmpty";
 
 import DashboardChip from "../dashboard-chip";
-import { useI18n } from "../../i18n";
 import { ROUTES } from "../../../config";
 import { buildFilter } from "../utils";
 import LoadingIndicator from "../../loading-indicator";
@@ -14,17 +13,9 @@ import NAMESPACE from "../../pages/dashboard/namespace";
 
 import styles from "./styles.css";
 
-const BadgedIndicator = ({
-  data,
-  lookup,
-  sectionTitle,
-  indicator,
-  loading,
-  errors
-}) => {
+const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, errors }) => {
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
-  const i18n = useI18n();
 
   const loadingIndicatorProps = {
     overlay: true,
@@ -52,11 +43,7 @@ const BadgedIndicator = ({
 
     return (
       <li key={lk.id}>
-        <DashboardChip
-          label={`${countValue} ${lk.display_text[i18n.locale]}`}
-          type={lk.id}
-          handleClick={handleClick}
-        />
+        <DashboardChip label={`${countValue} ${lk.display_text}`} type={lk.id} handleClick={handleClick} />
       </li>
     );
   });

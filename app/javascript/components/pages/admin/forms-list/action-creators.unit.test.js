@@ -12,7 +12,8 @@ describe("<FormsList /> - Action Creators", () => {
       "reorderFormGroups",
       "reorderFormSections",
       "reorderedForms",
-      "saveFormsReorder"
+      "saveFormsReorder",
+      "exportForms"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
@@ -39,9 +40,7 @@ describe("<FormsList /> - Action Creators", () => {
       payload: { formGroupId, order, filter }
     };
 
-    expect(
-      actionCreators.reorderFormGroups(formGroupId, order, filter)
-    ).to.deep.equal(expected);
+    expect(actionCreators.reorderFormGroups(formGroupId, order, filter)).to.deep.equal(expected);
   });
 
   it("should check the 'reorderFormSections' action creator returns the correct object", () => {
@@ -53,9 +52,7 @@ describe("<FormsList /> - Action Creators", () => {
       payload: { id, order, filter }
     };
 
-    expect(actionCreators.reorderFormSections(id, order, filter)).to.deep.equal(
-      expected
-    );
+    expect(actionCreators.reorderFormSections(id, order, filter)).to.deep.equal(expected);
   });
 
   it("should check the 'reorderedForms' action creator returns the correct object", () => {
@@ -116,5 +113,46 @@ describe("<FormsList /> - Action Creators", () => {
     };
 
     expect(actionCreators.clearFormsReorder()).to.deep.equal(expected);
+  });
+
+  it("should check the 'exportForms' action creator returns the correct object", () => {
+    const message = "Successfully exported";
+    const params = {
+      export_type: "xlsx",
+      record_type: "case",
+      module_id: "primeromodule-cp"
+    };
+
+    const expected = {
+      api: {
+        method: "GET",
+        params: {
+          export_type: "xlsx",
+          module_id: "primeromodule-cp",
+          record_type: "case"
+        },
+        path: "/forms/export",
+        successCallback: [
+          {
+            action: "CLEAR_DIALOG"
+          },
+          {
+            action: "notifications/ENQUEUE_SNACKBAR",
+            payload: {
+              message: "Successfully exported",
+              options: {
+                key: "successfully-exported",
+                variant: "success"
+              }
+            },
+            redirect: false,
+            redirectWithIdFromResponse: false
+          }
+        ]
+      },
+      type: "admin/forms/EXPORT_FORMS"
+    };
+
+    expect(actionCreators.exportForms({ params, message })).to.deep.equal(expected);
   });
 });

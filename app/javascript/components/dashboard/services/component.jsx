@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { useTheme } from "@material-ui/styles";
+import { useTheme } from "@material-ui/core/styles";
 
 import PrioritySummary from "../priority-summary";
 import { useI18n } from "../../i18n";
@@ -26,25 +26,15 @@ const Services = ({ servicesList }) => {
 
   return (
     <>
-      <OptionsBox
-        classes={styleOverrides}
-        title={i18n.t("dashboard.case_management_service")}
-      >
+      <OptionsBox classes={styleOverrides} title={i18n.t("dashboard.case_management_service")}>
         {caseManagement.map(summary => {
-          return (
-            <PrioritySummary key={summary.get("status")} summary={summary} />
-          );
+          return <PrioritySummary key={summary.get("status")} summary={summary} />;
         })}
       </OptionsBox>
 
-      <OptionsBox
-        title={i18n.t("dashboard.screening_service")}
-        classes={styleOverrides}
-      >
+      <OptionsBox title={i18n.t("dashboard.screening_service")} classes={styleOverrides}>
         {screening.map(summary => {
-          return (
-            <PrioritySummary key={summary.get("status")} summary={summary} />
-          );
+          return <PrioritySummary key={summary.get("status")} summary={summary} />;
         })}
       </OptionsBox>
     </>

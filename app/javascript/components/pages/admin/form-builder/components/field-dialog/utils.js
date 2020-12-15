@@ -1,11 +1,7 @@
-import {
-  DATE_FIELD,
-  RADIO_FIELD,
-  SELECT_FIELD,
-  SEPARATOR,
-  SUBFORM_SECTION,
-  TICK_FIELD
-} from "../../../../../form";
+import { fromJS } from "immutable";
+import uuid from "uuid";
+
+import { DATE_FIELD, RADIO_FIELD, SELECT_FIELD, SEPARATOR, SUBFORM_SECTION, TICK_FIELD } from "../../../../../form";
 import { NEW_FIELD } from "../../constants";
 import { convertToFieldsObject } from "../../utils";
 
@@ -24,9 +20,7 @@ const getDateValidation = (field, isSubmit) => {
     return DATE_FIELD_CUSTOM_VALUES.date_validation[field.date_validation];
   }
 
-  return Object.entries(DATE_FIELD_CUSTOM_VALUES.date_validation).find(
-    obj => obj[1] === field.date_validation
-  )[0];
+  return Object.entries(DATE_FIELD_CUSTOM_VALUES.date_validation).find(obj => obj[1] === field.date_validation)[0];
 };
 
 const getSelectedDateValue = (field, isSubmit) => {
@@ -42,41 +36,56 @@ const getSelectedDateValue = (field, isSubmit) => {
       : selectedValue.withoutTime[field.selected_value];
   }
 
-  return Object.entries(
-    field.date_include_time ? selectedValue.withTime : selectedValue.withoutTime
-  ).find(obj => obj[1] === field.selected_value)[0];
+  return Object.entries(field.date_include_time ? selectedValue.withTime : selectedValue.withoutTime).find(
+    obj => obj[1] === field.selected_value
+  )[0];
 };
 
-export const getFormField = ({ field, i18n, mode, css, lookups }) => {
+const appendSettingsAttributes = (data, selectedField, newFieldName, lastFieldOrder) => {
+  const type = selectedField.get("type");
+  const order = lastFieldOrder ? lastFieldOrder + 1 : 0;
+  const multiSelect = {
+    multi_select: Boolean(selectedField.get("multi_select"))
+  };
+  const dateIncludeTime = {
+    date_include_time: Boolean(selectedField.get("date_include_time"))
+  };
+
+  return {
+    ...data,
+    type,
+    name: newFieldName,
+    order,
+    ...multiSelect,
+    ...dateIncludeTime
+  };
+};
+
+export const getFormField = fieldOptions => {
+  const { field } = fieldOptions;
+
   if (!field?.toSeq()?.size) {
     return { forms: [], validationSchema: {} };
   }
 
-  const type = field?.get("type");
-  const name = field?.get("name");
-
-  switch (type) {
+  switch (field?.get("type")) {
     case DATE_FIELD:
-      return dateFieldForm(field, i18n, css, mode);
+      return dateFieldForm(fieldOptions);
     case RADIO_FIELD:
     case SELECT_FIELD:
-      return selectFieldForm({ field, i18n, mode, lookups, css });
+      return selectFieldForm(fieldOptions);
     case SEPARATOR:
-      return separatorFieldForm(name, i18n, mode);
+      return separatorFieldForm(fieldOptions);
     case SUBFORM_SECTION:
-      return subformField({ name, i18n });
+      return subformField(fieldOptions);
     case TICK_FIELD:
-      return tickboxFieldForm(name, i18n, mode);
+      return tickboxFieldForm(fieldOptions);
     default:
-      return textFieldForm({ field, i18n, mode });
+      return textFieldForm(fieldOptions);
   }
 };
 
-export const addWithIndex = (arr, index, newItem) => [
-  ...arr.slice(0, index),
-  newItem,
-  ...arr.slice(index)
-];
+export const addWithIndex = (arr, index, newItem) => [...arr.slice(0, index), newItem, ...arr.slice(index)];
 
 export const transformValues = (field, isSubmit = false) => {
   switch (field.type) {
@@ -87,7 +96,9 @@ export const transformValues = (field, isSubmit = false) => {
         selected_value: getSelectedDateValue(field, isSubmit)
       };
     default:
-      return { ...field };
+      return {
+        ...field
+      };
   }
 };
 
@@ -128,40 +139,53 @@ export const getSubformValues = subform => {
   };
 };
 
-export const setSubformName = (field, subform) => {
+export const setSubformData = (field, subform) => {
   if (subform) {
     return {
       ...field,
-      display_name: { en: subform?.name?.en || "" }
+      display_name: subform?.name
     };
   }
 
   return field;
 };
 
-export const buildDataToSave = (
-  fieldName,
-  data,
-  type,
-  locale,
-  lastFieldOrder
-) => {
-  if (fieldName !== NEW_FIELD) {
-    return { [fieldName]: data };
-  }
-  const newFieldName = data.display_name[locale]
-    .split(" ")
-    .join("_")
-    .toLowerCase();
+export const toIdentifier = data => data.replace(/[^\w]/g, "_").toLowerCase();
 
-  const order = lastFieldOrder ? lastFieldOrder + 1 : 0;
+export const generateUniqueId = data => {
+  const generatedId = toIdentifier(data);
+
+  return `${generatedId}_${uuid.v4().substr(-7)}`;
+};
+
+export const buildDataToSave = (selectedField, data, lastFieldOrder, randomSubformId) => {
+  const fieldName = selectedField?.get("name");
+  const newData = { ...data, disabled: selectedField?.get("type") === SEPARATOR ? true : data?.disabled };
+
+  if (fieldName !== NEW_FIELD) {
+    return { [fieldName]: newData };
+  }
+  const newFieldName = generateUniqueId(newData.display_name.en);
+
+  const dataToSave = appendSettingsAttributes(newData, selectedField, newFieldName, lastFieldOrder);
 
   return {
-    [newFieldName]: { ...data, type, name: newFieldName, order }
+    [newFieldName]:
+      isSubformField(selectedField) && fieldName === NEW_FIELD
+        ? {
+            ...dataToSave,
+            subform_section_temp_id: randomSubformId,
+            subform_section_unique_id: newFieldName
+          }
+        : dataToSave
   };
 };
 
-export const subformContainsFieldName = (subform, fieldName) => {
+export const subformContainsFieldName = (subform, fieldName, selectedSubformField = fromJS({})) => {
+  if (selectedSubformField.size > 0) {
+    return true;
+  }
+
   if (!subform?.toSeq()?.size) {
     return false;
   }
@@ -169,7 +193,7 @@ export const subformContainsFieldName = (subform, fieldName) => {
   return Boolean(
     subform
       ?.get("fields")
-      .find(field => field.get("name") === fieldName)
+      ?.find(field => field.get("name") === fieldName)
       ?.toSeq()?.size
   );
 };

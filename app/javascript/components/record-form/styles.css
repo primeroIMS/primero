@@ -30,7 +30,6 @@
 
 .recordNav {
   padding: 0 0.5em;
-  width: 286px;
   overflow-y: scroll;
 }
 
@@ -46,22 +45,20 @@
 
 .formNavOpen {
   & .recordNav {
-    flex: 1;
+    flex: 0;
     width: 100%;
   }
 
   & .recordForms {
-    flex: 0;
+    flex: 1;
     width: auto;
-    padding: 0;
   }
 }
 
 @media $(theme.breakpoints.down("sm")) {
   .recordNav {
-    flex: 0;
     width: auto;
-    padding: 0;
+    overflow-y: hidden;
   }
 
   .recordForms {

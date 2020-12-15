@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 module Exporters
@@ -23,7 +25,6 @@ module Exporters
       @user = User.new(user_name: 'user1', role: role)
       @user.save(validate: false)
 
-
       case1 = Child.new(data: { name: 'Joe', age: 12, sex: 'male' })
       case2 = Child.new(data: { name: 'Mo', age: 14, sex: 'male' })
       @records = [case1, case2]
@@ -36,6 +37,13 @@ module Exporters
       expect(parsed[0]).to eq %w[id name age sex]
       expect(parsed[1][1..3]).to eq(%w[Joe 12 male])
       expect(parsed[2][1..3]).to eq(%w[Mo 14 male])
+    end
+
+    it 'sanitizes formula injections' do
+      unsafe_record = Child.new(data: { name: 'Joe', age: 12, sex: '=10+10' })
+      data = CSVExporter.export([unsafe_record], @user)
+      parsed = CSV.parse(data)
+      expect(parsed[1][1..3]).to eq(%w[Joe 12 '=10+10])
     end
   end
 end

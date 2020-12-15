@@ -56,7 +56,7 @@ describe("<Admin />", () => {
       expect(component.find(Admin)).to.have.lengthOf(1);
       expect(component.find(AdminNav)).to.have.lengthOf(1);
       // 4 of this AdminNavItem are the items not implemented yet
-      expect(component.find(AdminNavItem)).to.have.lengthOf(7);
+      expect(component.find(AdminNavItem)).to.have.lengthOf(4);
     });
   });
 });

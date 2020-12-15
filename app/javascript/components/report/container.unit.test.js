@@ -1,10 +1,11 @@
 import { fromJS } from "immutable";
 
-import { PageContainer, PageContent, PageHeading } from "../page";
+import PageContainer, { PageContent, PageHeading } from "../page";
 import { setupMountedComponent } from "../../test";
 import { TableValues } from "../charts";
 import LoadingIndicator from "../loading-indicator";
 
+import Exporter from "./components/exporter";
 import Report from "./container";
 
 describe("<Report />", () => {
@@ -25,6 +26,7 @@ describe("<Report />", () => {
             en: "Case registrations over time",
             es: "Case registrations over time"
           },
+          graph: true,
           fields: [
             {
               name: "registration_date",
@@ -66,6 +68,14 @@ describe("<Report />", () => {
     expect(component.find(TableValues)).to.have.lengthOf(1);
   });
 
+  it("renders Exporter", () => {
+    expect(component.find(Exporter)).to.have.lengthOf(1);
+  });
+
+  it("renders h4 with report's description", () => {
+    expect(component.find("h4").text()).to.be.equals("Case registrations over time");
+  });
+
   describe("When data still loading", () => {
     let loadingComponent;
     const loadingInitialState = fromJS({
@@ -79,8 +89,7 @@ describe("<Report />", () => {
     });
 
     before(() => {
-      loadingComponent = setupMountedComponent(Report, {}, loadingInitialState)
-        .component;
+      loadingComponent = setupMountedComponent(Report, {}, loadingInitialState).component;
     });
 
     it("renders report component", () => {

@@ -1,48 +1,48 @@
 import React, { useEffect, useRef, useCallback } from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button
-} from "@material-ui/core";
-import IdleTimer from "react-idle-timer";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@material-ui/core";
+import { useIdleTimer } from "react-idle-timer";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 
 import { refreshToken } from "../user";
 import { useI18n } from "../i18n";
-import {
-  IDLE_TIMEOUT,
-  IDLE_LOGOUT_TIMEOUT,
-  TOKEN_REFRESH_INTERVAL
-} from "../../config";
-import { setUserIdle, selectUserIdle } from "../application";
+import { IDLE_TIMEOUT, IDLE_LOGOUT_TIMEOUT, TOKEN_REFRESH_INTERVAL } from "../../config";
+import { setUserIdle, selectUserIdle, useApp } from "../application";
 
 import { NAME } from "./constants";
 
 const SessionTimeoutDialog = () => {
-  const idleRef = useRef(null);
+  const { online } = useApp();
   const logoutTimer = useRef();
   const tokenRefreshTimer = useRef();
   const dispatch = useDispatch();
   const userIdle = useSelector(state => selectUserIdle(state));
   const i18n = useI18n();
 
+  const logout = () => {
+    dispatch(push("/logout"));
+  };
+
   const idleUser = useCallback(action => {
     dispatch(setUserIdle(action));
     localStorage.setItem("userIdle", action);
   });
-
-  const logout = () => {
-    dispatch(push("/logout"));
-  };
 
   const startLogoutTimer = () => {
     logoutTimer.current = setTimeout(() => {
       logout();
     }, IDLE_LOGOUT_TIMEOUT);
   };
+
+  const onIdle = () => {
+    idleUser(true);
+    startLogoutTimer();
+  };
+
+  const { reset, pause } = useIdleTimer({
+    timeout: IDLE_TIMEOUT,
+    onIdle
+  });
 
   const refreshUserToken = () => {
     dispatch(refreshToken());
@@ -59,15 +59,9 @@ const SessionTimeoutDialog = () => {
     if (tokenRefreshTimer.current) clearInterval(tokenRefreshTimer.current);
   };
 
-  const onIdle = () => {
-    idleRef.current.pause();
-    idleUser(true);
-    startLogoutTimer();
-  };
-
   const onContinue = () => {
     stopAllTimers();
-    idleRef.current.reset();
+    reset();
     idleUser(false);
 
     refreshUserToken();
@@ -88,16 +82,30 @@ const SessionTimeoutDialog = () => {
     }
   };
 
-  useEffect(() => {
-    idleUser(false);
-    startTokenRefreshTimer();
-    window.addEventListener("storage", localStorageChange);
+  const stopTimeoutDialog = () => {
+    stopAllTimers();
+    window.removeEventListener("storage", localStorageChange);
+  };
 
-    return () => {
-      stopAllTimers();
-      window.removeEventListener("storage", localStorageChange);
-    };
-  }, []);
+  useEffect(() => {
+    if (online) {
+      idleUser(false);
+      reset();
+      startTokenRefreshTimer();
+      window.addEventListener("storage", localStorageChange);
+    } else {
+      pause();
+      stopTimeoutDialog();
+    }
+  }, [online]);
+
+  useEffect(() => stopTimeoutDialog, []);
+
+  useEffect(() => {
+    if (userIdle) {
+      pause();
+    }
+  }, [userIdle]);
 
   const handleContinue = e => {
     e.preventDefault();
@@ -109,14 +117,8 @@ const SessionTimeoutDialog = () => {
     logout();
   };
 
-  return (
+  return online ? (
     <>
-      <IdleTimer
-        ref={idleRef}
-        element={document}
-        timeout={IDLE_TIMEOUT}
-        onIdle={onIdle}
-      />
       <Dialog open={userIdle}>
         <DialogTitle>{i18n.t("messages.logout_confirmation")}</DialogTitle>
         <DialogContent>{i18n.t("messages.logout_warning")}</DialogContent>
@@ -126,7 +128,7 @@ const SessionTimeoutDialog = () => {
         </DialogActions>
       </Dialog>
     </>
-  );
+  ) : null;
 };
 
 SessionTimeoutDialog.displayName = NAME;

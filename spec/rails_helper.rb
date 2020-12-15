@@ -36,10 +36,11 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include DateHelper
   config.include Devise::Test::IntegrationHelpers
-  config.include FakeDeviseLogin, type: :request
+  config.include FakeDeviseLogin
   config.include FakeLogin, type: :controller
   config.include VerifyAndResetHelpers
   config.include FilesTestHelper
+  config.include ActiveSupport::Testing::TimeHelpers
 
   config.formatter = :progress
 
@@ -109,7 +110,6 @@ RSpec.configure do |config|
   end
 
   config.before(:each) { I18n.locale = I18n.default_locale = :en }
-  config.before(:each) { I18n.available_locales = Primero::Application.locales }
 end
 
 def stub_env(new_env)

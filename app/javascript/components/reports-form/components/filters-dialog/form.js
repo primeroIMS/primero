@@ -40,7 +40,10 @@ const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
         ...commonProps,
         type: SELECT_FIELD,
         multi_select: true,
-        option_strings_text: currentField.option_strings_text[i18n.locale]
+        option_strings_text: currentField.option_strings_text.map(option => ({
+          id: option.id,
+          display_text: option.display_text[i18n.locale]
+        }))
       };
     }
     case TICK_FIELD: {
@@ -102,9 +105,7 @@ const constraintInputType = (currentField, i18n) => {
       return {
         id,
         display_text: i18n.t(
-          currentField?.type === DATE_FIELD && ["<", ">"].includes(id)
-            ? DATE_CONSTRAINTS[id]
-            : translationKey
+          currentField?.type === DATE_FIELD && ["<", ">"].includes(id) ? DATE_CONSTRAINTS[id] : translationKey
         )
       };
     })

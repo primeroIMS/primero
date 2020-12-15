@@ -8,13 +8,11 @@ describe("<AuditLogs /> - Helpers", () => {
     it("should have known methods", () => {
       const clone = { ...helper };
 
-      ["buildAuditLogsQuery", "getFilters", "searchableUsers"].forEach(
-        property => {
-          expect(clone).to.have.property(property);
-          expect(clone[property]).to.be.a("function");
-          delete clone[property];
-        }
-      );
+      ["buildAuditLogsQuery", "getFilters", "searchableUsers"].forEach(property => {
+        expect(clone).to.have.property(property);
+        expect(clone[property]).to.be.a("function");
+        delete clone[property];
+      });
       expect(clone).to.be.empty;
     });
   });

@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import NAMESPACE from "./namespace";
 
 export const getErrorsByTransitionType = (state, transitionType) => {
-  return state.getIn(["records", NAMESPACE, transitionType, "message"]);
+  return state.getIn(["records", NAMESPACE, transitionType, "message"], fromJS([]));
 };
 
 export const getUsersByTransitionType = (state, transitionType) =>

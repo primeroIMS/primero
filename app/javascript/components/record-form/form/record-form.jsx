@@ -1,37 +1,31 @@
-import React, { memo, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { number, date, array, object, string } from "yup";
+import { object } from "yup";
 import { Formik, Form } from "formik";
-import { addDays } from "date-fns";
 import isEmpty from "lodash/isEmpty";
-import some from "lodash/some";
 import { Box } from "@material-ui/core";
 import NavigationPrompt from "react-router-navigation-prompt";
+import { batch, useDispatch } from "react-redux";
 
+import { setSelectedForm } from "../action-creators";
+import { clearCaseFromIncident } from "../../records/action-creators";
 import { useI18n } from "../../i18n";
-import { enqueueSnackbar } from "../../notifier";
 import ActionDialog from "../../action-dialog";
 import { constructInitialValues } from "../utils";
-import { NUMERIC_FIELD, DATE_FIELD, SUBFORM_SECTION } from "../constants";
+import { SUBFORM_SECTION } from "../constants";
+import RecordFormAlerts from "../../record-form-alerts";
+import { displayNameHelper } from "../../../libs";
+import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
 
+import { ValidationErrors } from "./components";
 import RecordFormTitle from "./record-form-title";
 import { RECORD_FORM_NAME } from "./constants";
 import FormSectionField from "./form-section-field";
 import SubformField from "./subforms";
-
-const ValidationErrors = () => {
-  const dispatch = useDispatch();
-  const i18n = useI18n();
-
-  useEffect(() => {
-    dispatch(enqueueSnackbar(i18n.t("error_message.notice"), "error"));
-  }, []);
-
-  return null;
-};
+import { fieldValidations } from "./validations";
 
 const RecordForm = ({
+  attachmentForms,
   bindSubmitForm,
   forms,
   handleToggleNav,
@@ -40,67 +34,24 @@ const RecordForm = ({
   onSubmit,
   record,
   recordType,
-  selectedForm
+  selectedForm,
+  incidentFromCase,
+  externalForms,
+  fetchFromCaseId
 }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
+  const [initialValues, setInitialValues] = useState(constructInitialValues(forms.values()));
 
-  let initialFormValues = constructInitialValues(forms.values());
+  let bindedSetValues = null;
 
-  if (record) {
-    initialFormValues = { ...initialFormValues, ...record.toJS() };
-  }
-
-  const fieldValidations = field => {
-    const { name, type, required } = field;
-    const validations = {};
-
-    if (NUMERIC_FIELD === type) {
-      if (name.match(/.*age$/)) {
-        validations[name] = number()
-          .nullable()
-          .transform(cv => (NaN.isNaN(cv) ? undefined : cv))
-          .positive()
-          .min(0, i18n.t("errors.models.child.age"))
-          .max(130, i18n.t("errors.models.child.age"));
-      } else {
-        validations[name] = number().nullable().min(0).max(2147483647);
-      }
-    } else if (DATE_FIELD === type) {
-      validations[name] = date().nullable();
-      if (field.date_validation === "default_date_validation") {
-        validations[name] = validations[name].max(
-          addDays(new Date(), 1),
-          i18n.t("fields.future_date_not_valid")
-        );
-      }
-    } else if (SUBFORM_SECTION === type) {
-      const subformSchema = field.subform_section_id.fields.map(sf => {
-        return fieldValidations(sf);
-      });
-
-      validations[name] = array().of(
-        object().shape(Object.assign({}, ...subformSchema))
-      );
-    }
-
-    if (required) {
-      validations[name] = (validations[name] || string()).required(
-        i18n.t("form_section.required_field", {
-          field: field.display_name[i18n.locale]
-        })
-      );
-    }
-
-    return validations;
+  const bindSetValues = setValues => {
+    bindedSetValues = setValues;
   };
 
   const buildValidationSchema = formSections => {
     const schema = formSections.reduce((obj, item) => {
-      return Object.assign(
-        {},
-        obj,
-        ...item.fields.map(f => fieldValidations(f))
-      );
+      return Object.assign({}, obj, ...item.fields.map(f => fieldValidations(f, i18n)));
     }, {});
 
     return object().shape(schema);
@@ -110,20 +61,56 @@ const RecordForm = ({
     document.getElementsByClassName("record-form-container")[0].scrollTop = 0;
   }, [selectedForm]);
 
-  const renderFormSections = fs =>
-    fs.map(form => {
+  useEffect(() => {
+    if (bindedSetValues) {
+      if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
+        const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
+
+        bindedSetValues({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
+      }
+    }
+  }, [bindedSetValues, incidentFromCase]);
+
+  useEffect(() => {
+    const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
+
+    if (record) {
+      setInitialValues({ ...initialValues, ...record.toJS(), ...redirectToIncident });
+    }
+  }, [record]);
+
+  const handleConfirm = onConfirm => {
+    onConfirm();
+    if (incidentFromCase?.size) {
+      batch(() => {
+        dispatch(setSelectedForm(INCIDENT_FROM_CASE));
+        dispatch(clearCaseFromIncident());
+      });
+    }
+  };
+  const renderFormSections = (fs, setFieldValue, handleSubmit) => {
+    const externalRecordForms = externalForms ? externalForms(selectedForm, setFieldValue, handleSubmit) : null;
+
+    if (externalRecordForms) {
+      return externalRecordForms;
+    }
+
+    return fs.map(form => {
       if (selectedForm === form.unique_id) {
         return (
           <div key={form.unique_id}>
             <RecordFormTitle
               mobileDisplay={mobileDisplay}
               handleToggleNav={handleToggleNav}
-              displayText={form.name[i18n.locale]}
+              displayText={displayNameHelper(form.name, i18n.locale)}
             />
+
+            <RecordFormAlerts recordType={recordType} form={form} attachmentForms={attachmentForms} />
 
             {form.fields.map(field => {
               const fieldProps = {
                 field,
+                form,
                 mode,
                 recordType,
                 recordID: record?.get("id")
@@ -136,9 +123,9 @@ const RecordForm = ({
               return (
                 <Box my={3} key={field.name}>
                   {SUBFORM_SECTION === field.type ? (
-                    <SubformField {...fieldProps} />
+                    <SubformField {...{ ...fieldProps, formSection: field.subform_section_id }} />
                   ) : (
-                    <FormSectionField name={field.name} {...fieldProps} />
+                    <FormSectionField name={field.name} {...{ ...fieldProps, formSection: form }} />
                   )}
                 </Box>
               );
@@ -149,24 +136,25 @@ const RecordForm = ({
 
       return null;
     });
+  };
 
-  if (!isEmpty(initialFormValues) && !isEmpty(forms)) {
+  if (!isEmpty(initialValues) && !isEmpty(forms)) {
     const validationSchema = buildValidationSchema(forms);
 
     return (
       <Formik
-        initialValues={initialFormValues}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         validateOnBlur={false}
         validateOnChange={false}
         enableReinitialize
         onSubmit={values => {
-          onSubmit(initialFormValues, values);
+          onSubmit(initialValues, values);
         }}
       >
-        {({ handleSubmit, submitForm, errors, dirty, isSubmitting }) => {
+        {({ handleSubmit, submitForm, errors, dirty, isSubmitting, setValues, setFieldValue }) => {
           bindSubmitForm(submitForm);
-          const hasErrors = some(errors, e => !isEmpty(e));
+          bindSetValues(setValues);
 
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -174,7 +162,7 @@ const RecordForm = ({
                 {({ onConfirm, onCancel }) => (
                   <ActionDialog
                     open
-                    successHandler={onConfirm}
+                    successHandler={() => handleConfirm(onConfirm)}
                     cancelHandler={onCancel}
                     dialogTitle={i18n.t("record_panel.record_information")}
                     dialogText={i18n.t("messages.confirmation_message")}
@@ -182,8 +170,8 @@ const RecordForm = ({
                   />
                 )}
               </NavigationPrompt>
-              {!isEmpty(hasErrors) && <ValidationErrors />}
-              {renderFormSections(forms)}
+              <ValidationErrors formErrors={errors} forms={forms} />
+              {renderFormSections(forms, setFieldValue, handleSubmit)}
             </Form>
           );
         }}
@@ -197,9 +185,13 @@ const RecordForm = ({
 RecordForm.displayName = RECORD_FORM_NAME;
 
 RecordForm.propTypes = {
+  attachmentForms: PropTypes.object,
   bindSubmitForm: PropTypes.func,
+  externalForms: PropTypes.func,
+  fetchFromCaseId: PropTypes.string,
   forms: PropTypes.object.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
+  incidentFromCase: PropTypes.object,
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object,
   onSubmit: PropTypes.func.isRequired,

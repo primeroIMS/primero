@@ -14,18 +14,14 @@ describe("<HeadersValues /> - components/header-values/component", () => {
   });
 
   it("should render english text column", () => {
-    expect(component.find("div").at(2).text()).to.be.equal(
-      "lookup.english_label"
-    );
+    expect(component.find("div").at(2).text()).to.be.equal("lookup.english_label");
   });
 
   it("should render english text column", () => {
-    expect(component.find("div").at(3).text()).to.be.equal(
-      "lookup.translation_label"
-    );
+    expect(component.find("div").at(3).text()).to.be.equal("lookup.translation_label");
   });
 
   it("should render english text column", () => {
-    expect(component.find("div").at(4).text()).to.be.equal("lookup.remove");
+    expect(component.find("div").at(4).text()).to.be.equal("lookup.enabled_label");
   });
 });

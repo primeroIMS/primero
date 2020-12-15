@@ -1,14 +1,9 @@
 /* eslint-disable no-param-reassign, no-shadow, func-names, no-use-before-define, no-lonely-if */
-import {
-  isEmpty,
-  transform,
-  isObject,
-  isEqual,
-  find,
-  pickBy,
-  identity
-} from "lodash";
+import { isEmpty, transform, isObject, isEqual, find, pickBy, identity } from "lodash";
 import { isDate, format } from "date-fns";
+
+import { API_DATE_FORMAT, DEFAULT_DATE_VALUES, RECORD_PATH } from "../../config";
+import { toServerDateFormat } from "../../libs";
 
 import {
   SUBFORM_SECTION,
@@ -23,22 +18,26 @@ import {
 function compareArray(value, base) {
   return value.reduce((acc, v) => {
     if (isObject(v)) {
-      const baseSubform = find(base, b => {
-        return b.unique_id === v.unique_id;
-      });
+      const baseSubform =
+        ("unique_id" in v || "id" in v) &&
+        find(base, b => {
+          return b.unique_id === v.unique_id || b.id === v.id;
+        });
 
       if (baseSubform) {
         const diff = difference(v, baseSubform, true);
 
-        if (
-          !isEmpty(diff) &&
-          !("unique_id" in diff && Object.keys(diff).length === 1)
-        )
-          acc.push(diff);
+        if (!isEmpty(diff) && !("unique_id" in diff && Object.keys(diff).length === 1)) acc.push(diff);
       } else {
         const newSubform = pickBy(v, identity);
 
-        if (!isEmpty(newSubform)) acc.push(newSubform);
+        if (emptyValues(newSubform)) {
+          return acc;
+        }
+
+        if (!isEmpty(newSubform)) {
+          acc.push(newSubform);
+        }
       }
     } else {
       if (!isEmpty(v)) {
@@ -62,7 +61,7 @@ function difference(object, base, nested) {
         val =
           !isEmpty(initialValue) && initialValue.length === currentValue.length
             ? value.toISOString()
-            : format(value, "dd-MMM-yyyy");
+            : format(value, API_DATE_FORMAT);
       }
 
       if (Array.isArray(val)) {
@@ -80,8 +79,9 @@ function difference(object, base, nested) {
   });
 }
 
-export const compactValues = (values, initialValues) =>
-  difference(values, initialValues);
+export const emptyValues = element => Object.values(element).every(isEmpty);
+
+export const compactValues = (values, initialValues) => difference(values, initialValues);
 
 export const constructInitialValues = formMap => {
   const [...forms] = formMap;
@@ -95,22 +95,26 @@ export const constructInitialValues = formMap => {
             ...v.fields.map(f => {
               let defaultValue;
 
-              if (
-                [
-                  SUBFORM_SECTION,
-                  PHOTO_FIELD,
-                  AUDIO_FIELD,
-                  DOCUMENT_FIELD
-                ].includes(f.type) ||
-                (f.type === SELECT_FIELD && f.multi_select)
-              ) {
+              if ([SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD].includes(f.type)) {
                 defaultValue = [];
+              } else if (f.type === SELECT_FIELD && f.multi_select) {
+                try {
+                  defaultValue = f.selected_value ? JSON.parse(f.selected_value) : [];
+                } catch (e) {
+                  defaultValue = [];
+                  // eslint-disable-next-line no-console
+                  console.warn(`Can't parse the defaultValue ${f.selected_value} for ${f.name}`);
+                }
               } else if ([DATE_FIELD].includes(f.type)) {
-                defaultValue = null;
+                defaultValue = Object.values(DEFAULT_DATE_VALUES).some(
+                  defaultDate => f.selected_value?.toUpperCase() === defaultDate
+                )
+                  ? toServerDateFormat(new Date(), { includeTime: f.date_include_time })
+                  : null;
               } else if (f.type === TICK_FIELD) {
-                defaultValue = false;
+                defaultValue = f.selected_value || false;
               } else {
-                defaultValue = "";
+                defaultValue = f.selected_value || "";
               }
 
               return { [f.name]: defaultValue };
@@ -119,4 +123,12 @@ export const constructInitialValues = formMap => {
         )
       )
     : {};
+};
+
+export const getRedirectPath = (mode, params, fetchFromCaseId) => {
+  if (fetchFromCaseId) {
+    return `/${RECORD_PATH.cases}/${fetchFromCaseId}`;
+  }
+
+  return mode.isNew ? `/${params.recordType}` : `/${params.recordType}/${params.id}`;
 };

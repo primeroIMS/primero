@@ -15,15 +15,15 @@ describe("<ExportList /> - pages/export-list/action-creators", () => {
   });
 
   it("should check the 'fetchExports' action creator to return the correct object", () => {
-    const data = {
-      options: { per: 20, page: 1 }
+    const params = {
+      data: { per: 20, page: 1 }
     };
-    const returnObject = actionCreators.fetchExports(data);
+    const returnObject = actionCreators.fetchExports(params);
     const expected = {
       type: actions.FETCH_EXPORTS,
       api: {
         path: EXPORT_URL,
-        params: data.options
+        params: params.data
       }
     };
 

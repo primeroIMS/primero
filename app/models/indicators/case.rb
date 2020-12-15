@@ -23,7 +23,7 @@ module Indicators
       queries: OPEN_ENABLED
     ).freeze
 
-    #NEW = TODO: Cases that have just been assigned to me. Need extra work.
+    # NEW = TODO: Cases that have just been assigned to me. Need extra work.
 
     UPDATED = QueriedIndicator.new(
       name: 'new_or_updated',
@@ -172,6 +172,76 @@ module Indicators
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_closure', value: Approval::APPROVAL_STATUS_APPROVED)
+      ]
+    ).freeze
+
+    APPROVALS_ACTION_PLAN_PENDING = QueriedIndicator.new(
+      name: 'approval_action_plan_pending',
+      record_model: Child,
+      scope_to_owner: true,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_PENDING)
+      ]
+    ).freeze
+
+    APPROVALS_ACTION_PLAN_PENDING_GROUP = QueriedIndicator.new(
+      name: 'approval_action_plan_pending_group',
+      record_model: Child,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_PENDING)
+      ]
+    ).freeze
+
+    APPROVALS_ACTION_PLAN_REJECTED = QueriedIndicator.new(
+      name: 'approval_action_plan_rejected',
+      record_model: Child,
+      scope_to_owner: true,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_REJECTED)
+      ]
+    ).freeze
+
+    APPROVALS_ACTION_PLAN_APPROVED = QueriedIndicator.new(
+      name: 'approval_action_plan_approved',
+      record_model: Child,
+      scope_to_owner: true,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_APPROVED)
+      ]
+    ).freeze
+
+    APPROVALS_GBV_CLOSURE_PENDING = QueriedIndicator.new(
+      name: 'approval_gbv_closure_pending',
+      record_model: Child,
+      scope_to_owner: true,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_PENDING)
+      ]
+    ).freeze
+
+    APPROVALS_GBV_CLOSURE_PENDING_GROUP = QueriedIndicator.new(
+      name: 'approval_gbv_closure_pending_group',
+      record_model: Child,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_PENDING)
+      ]
+    ).freeze
+
+    APPROVALS_GBV_CLOSURE_REJECTED = QueriedIndicator.new(
+      name: 'approval_gbv_closure_rejected',
+      record_model: Child,
+      scope_to_owner: true,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_REJECTED)
+      ]
+    ).freeze
+
+    APPROVALS_GBV_CLOSURE_APPROVED = QueriedIndicator.new(
+      name: 'approval_gbv_closure_approved',
+      record_model: Child,
+      scope_to_owner: true,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_APPROVED)
       ]
     ).freeze
 
@@ -377,8 +447,25 @@ module Indicators
       ]
     ).freeze
 
-    def self.reporting_location_indicators
-      reporting_location_config = SystemSettings.current.reporting_location_config
+    WITH_INCIDENTS = QueriedIndicator.new(
+      name: 'with_incidents',
+      record_model: Child,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'has_incidents', value: true)
+      ]
+    ).freeze
+
+    WITHOUT_INCIDENTS = QueriedIndicator.new(
+      name: 'without_incidents',
+      record_model: Child,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'has_incidents', value: false)
+      ]
+    ).freeze
+
+    def self.reporting_location_indicators(role)
+      reporting_location_config = role&.reporting_location_config ||
+                                  SystemSettings.current.reporting_location_config
       admin_level = reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
       field_key = reporting_location_config&.field_key || ReportingLocation::DEFAULT_FIELD_KEY
       facet_name = "#{field_key}#{admin_level}"

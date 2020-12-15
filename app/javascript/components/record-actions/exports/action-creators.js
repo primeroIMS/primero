@@ -1,10 +1,10 @@
 /* eslint-disable import/prefer-default-export */
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
+import { CLEAR_DIALOG } from "../../action-dialog";
 
 import actions from "./actions";
 
-export const saveExport = (body, message, actionLabel, dialogName) => ({
+export const saveExport = (body, message, actionLabel) => ({
   type: actions.EXPORT,
   api: {
     path: "exports",
@@ -17,24 +17,14 @@ export const saveExport = (body, message, actionLabel, dialogName) => ({
           message,
           options: {
             variant: "success",
-            key: generate.messageKey()
+            key: generate.messageKey(message)
           },
           actionLabel,
           actionUrl: "/exports"
         }
       },
       {
-        action: SET_DIALOG,
-        payload: {
-          dialog: dialogName,
-          open: false
-        }
-      },
-      {
-        action: SET_DIALOG_PENDING,
-        payload: {
-          pending: false
-        }
+        action: CLEAR_DIALOG
       }
     ]
   }

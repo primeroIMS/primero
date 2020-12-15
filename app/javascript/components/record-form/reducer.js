@@ -2,7 +2,6 @@ import { OrderedMap, Map, fromJS } from "immutable";
 
 import { mapEntriesToRecord, listAttachmentFields } from "../../libs";
 
-import { FIELD_ATTACHMENT_TYPES } from "./form/field-types/attachments/constants";
 import NAMESPACE from "./namespace";
 import Actions from "./actions";
 import { FieldRecord, FormSectionRecord } from "./records";
@@ -16,6 +15,8 @@ const DEFAULT_STATE = Map({
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
+    case Actions.CLEAR_VALIDATION_ERRORS:
+      return state.delete("validationErrors");
     case Actions.FETCH_AGENCIES_FAILURE:
       return state.setIn(["options", "errors"], true);
     case Actions.FETCH_AGENCIES_FINISHED:
@@ -23,9 +24,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.FETCH_AGENCIES_STARTED:
       return state.setIn(["options", "loading"], true);
     case Actions.FETCH_AGENCIES_SUCCESS:
-      return state
-        .setIn(["options", "agencies"], fromJS(payload.data))
-        .setIn(["options", "errors"], false);
+      return state.setIn(["options", "agencies"], fromJS(payload.data)).setIn(["options", "errors"], false);
     case Actions.RECORD_FORMS_FAILURE:
       return state.set("errors", true);
     case Actions.RECORD_FORMS_FINISHED:
@@ -35,20 +34,9 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.RECORD_FORMS_SUCCESS:
       if (payload) {
         return state
-          .set(
-            "attachmentFields",
-            fromJS(
-              listAttachmentFields(
-                payload.fields,
-                Object.keys(FIELD_ATTACHMENT_TYPES)
-              )
-            )
-          )
+          .set("attachmentMeta", fromJS(listAttachmentFields(payload.formSections, payload.fields)))
           .set("fields", mapEntriesToRecord(payload.fields, FieldRecord, true))
-          .set(
-            "formSections",
-            mapEntriesToRecord(payload.formSections, FormSectionRecord, true)
-          );
+          .set("formSections", mapEntriesToRecord(payload.formSections, FormSectionRecord, true));
       }
 
       return state;
@@ -62,6 +50,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("selectedRecord", payload);
     case Actions.SET_SERVICE_TO_REFER:
       return state.set("serviceToRefer", fromJS(payload));
+    case Actions.SET_VALIDATION_ERRORS:
+      return state.set("validationErrors", fromJS(payload));
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
     default:

@@ -1,5 +1,16 @@
-export const FETCH_REPORT = "reports/FETCH_REPORT";
-export const FETCH_REPORT_STARTED = "reports/FETCH_REPORT_STARTED";
-export const FETCH_REPORT_SUCCESS = "reports/FETCH_REPORT_SUCCESS";
-export const FETCH_REPORT_FAILURE = "reports/FETCH_REPORT_FAILURE";
-export const FETCH_REPORT_FINISHED = "reports/FETCH_REPORT_FINISHED";
+import { namespaceActions } from "../../libs";
+
+import NAMESPACE from "./namespace";
+
+export default namespaceActions(NAMESPACE, [
+  "FETCH_REPORT",
+  "FETCH_REPORT_STARTED",
+  "FETCH_REPORT_SUCCESS",
+  "FETCH_REPORT_FAILURE",
+  "FETCH_REPORT_FINISHED",
+  "DELETE_REPORT",
+  "DELETE_REPORT_STARTED",
+  "DELETE_REPORT_SUCCESS",
+  "DELETE_REPORT_FAILURE",
+  "DELETE_REPORT_FINISHED"
+]);

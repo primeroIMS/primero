@@ -6,6 +6,7 @@ describe Lookup do
   before :each do
     clean_data(Lookup)
   end
+
   it 'should not be valid if name is empty' do
     lookup = Lookup.new
     lookup.should_not be_valid
@@ -14,11 +15,6 @@ describe Lookup do
 
   it 'should be valid if lookup_values is empty' do
     lookup = Lookup.new(name: 'Name')
-    lookup.should be_valid
-  end
-
-  it 'should sanitize and check for lookup values' do
-    lookup = Lookup.new(name: 'Name', lookup_values: [{ id: '', display_text: '' }]) #Need empty array, can't use %w here.
     lookup.should be_valid
   end
 
@@ -32,10 +28,11 @@ describe Lookup do
     lookup1.id.should_not == lookup2.id
   end
 
-  it 'should titleize lookup name before validating it' do
-    lookup = Lookup.new(name: 'should be titleized')
-    lookup.valid?
-    lookup.name.should == 'Should Be Titleized'
+  it 'should not allow blank id on the lookup_values' do
+    lookup = Lookup.new(name: 'test_lookup')
+    lookup.lookup_values = [{ id: nil, display_text: { en: 'example' } }]
+    expect(lookup.valid?).to be false
+    expect(lookup.errors[:lookup_values].first).to eq('A lookup_value id is blank')
   end
 
   it 'should create a valid lookup' do
@@ -47,7 +44,7 @@ describe Lookup do
   end
 
   it 'should generate id' do
-    lookup = create :lookup, name: 'test lookup 1234', id: nil
+    lookup = Lookup.create(name: 'test lookup 1234', id: nil)
     lookup.reload
     lookup.unique_id.should include('lookup-test-lookup-1234')
   end
@@ -110,8 +107,8 @@ describe Lookup do
       ]
     )
 
-    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n['en'][0]['id']).to eq('value1')
-    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n['en'][1]['id']).to eq('value2')
+    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n.first.dig('display_text', 'en')).to eq('value1')
+    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n.last.dig('display_text', 'en')).to eq('value2')
 
     params = {
       values: [
@@ -123,8 +120,8 @@ describe Lookup do
     some_lookup.update_properties(params)
     expect(some_lookup).to be_valid
     some_lookup.save!
-    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n['en'][0]['id']).to eq('value2')
-    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n['en'][1]['id']).to eq('value1')
+    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n.first.dig('display_text', 'en')).to eq('value2')
+    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n.last.dig('display_text', 'en')).to eq('value1')
   end
 
   it 'should delete a lookup value' do
@@ -150,23 +147,6 @@ describe Lookup do
     expect(Lookup.find_by(unique_id: unique_id).lookup_values_en.size).to eq(1)
   end
 
-  describe 'get_location_types' do
-    before do
-      create :lookup, unique_id: 'lookup-location-type', lookup_values: [
-        { id: 'value1', display_text: 'value1' }, { id: 'value2', display_text: 'value2' }
-      ]
-    end
-
-    it 'should return location types' do
-      location_types = Lookup.get_location_types
-
-      expect(location_types.lookup_values).to eq([
-                                                   { 'id' => 'value1', 'display_text' => 'value1' },
-                                                   { 'id' => 'value2', 'display_text' => 'value2' }
-                                                 ])
-    end
-  end
-
   describe 'check being used' do
     before do
       clean_data(Lookup)
@@ -178,7 +158,7 @@ describe Lookup do
 
     context 'when not on a form' do
       it 'should return that it is not being used' do
-        expect(@lookup.is_being_used?).to be_falsey
+        expect(@lookup.being_used?).to be_falsey
       end
     end
 
@@ -199,7 +179,7 @@ describe Lookup do
       end
 
       it 'should return that it is being used' do
-        expect(@lookup_d.is_being_used?).to be_truthy
+        expect(@lookup_d.being_used?).to be_truthy
       end
     end
   end
@@ -209,10 +189,10 @@ describe Lookup do
       clean_data(Lookup)
       @lookup_multi_locales = Lookup.create!(
         unique_id: 'test', name_en: 'English', name_fr: 'French', name_ar: 'Arabic', name_es: 'Spanish',
-        lookup_values_en: [{ id: 'en1', display_text: 'EN1' }, { id: 'en2', display_text: 'EN2' }],
-        lookup_values_fr: [{ id: 'fr1', display_text: 'FR1' }, { id: 'fr2', display_text: 'FR2' }],
-        lookup_values_ar: [{ id: 'ar1', display_text: 'AR1' }, { id: 'ar2', display_text: 'AR2' }],
-        lookup_values_es: [{ id: 'es1', display_text: '' }, { id: 'es2', display_text: '' }]
+        lookup_values_en: [{ id: 'lkp1', display_text: 'EN1' }, { id: 'lkp2', display_text: 'EN2' }],
+        lookup_values_fr: [{ id: 'lkp1', display_text: 'FR1' }, { id: 'lkp2', display_text: 'FR2' }],
+        lookup_values_ar: [{ id: 'lkp1', display_text: 'AR1' }, { id: 'lkp2', display_text: 'AR2' }],
+        lookup_values_es: [{ id: 'lkp1', display_text: '' }, { id: 'lkp2', display_text: '' }]
       )
       @lookup_no_locales = Lookup.create!(
         unique_id: 'default', name: 'Default',
@@ -224,7 +204,7 @@ describe Lookup do
 
     context 'when lookup has many locales' do
       it 'should return settings for specified locale' do
-        expect(Lookup.values('test', nil, locale: 'ar')[0]['id']).to eq('ar1')
+        expect(Lookup.values('test', nil, locale: :ar).map { |loc| loc['display_text'] }).to include('AR1', 'AR2')
       end
 
       context 'and locale is passed in' do
@@ -236,7 +216,7 @@ describe Lookup do
 
         context 'and passed locale has no value for any display_text' do
           it 'returns display text for the english locale' do
-            expect(Lookup.values('test', nil, locale: :es).map { |loc| loc['display_text'] }).to include('EN1', 'EN2')
+            expect(Lookup.values('test', nil, locale: :en).map { |loc| loc['display_text'] }).to include('EN1', 'EN2')
           end
         end
       end
@@ -244,66 +224,12 @@ describe Lookup do
 
     context 'when lookup is does not specify all locales' do
       it 'should return the default locale for any missing locales' do
-        expect(Lookup.values('default', nil, locale: 'ar')[0]['id']).to eq('default1')
+        expect(Lookup.values('default', nil, locale: :ar)[0]['id']).to eq('default1')
       end
     end
   end
 
-  describe 'localized_property_hash' do
-    before do
-      clean_data(Lookup)
-      @lookup_multi_locales = Lookup.create!(
-        unique_id: 'test', name_en: 'English', name_fr: 'French', name_ar: 'Arabic', name_es: 'Spanish',
-        lookup_values_en: [
-          { id: 'option_1', display_text: 'English Option 1' }, { id: 'option_2', display_text: 'English Option 2' }
-        ],
-        lookup_values_fr: [
-          { id: 'option_1', display_text: 'French Option 1' }, { id: 'option_2', display_text: 'French Option 2' }
-        ],
-        lookup_values_ar: [
-          { id: 'option_1', display_text: 'Arabic Option 1' }, { id: 'option_2', display_text: 'Arabic Option 2' }
-        ],
-        lookup_values_es: [{ id: 'option_1', display_text: '' }, { id: 'option_2', display_text: '' }]
-      )
-      @lookup_no_locales = Lookup.create!(
-        unique_id: 'default', name: 'Default',
-        lookup_values: [{ id: 'default1', display_text: 'Default1' }, { id: 'default2', display_text: 'default2' }]
-      )
-    end
-
-    context 'when passed locale is en' do
-      it 'returns a hash of the English values' do
-        expected = {
-          'name' => 'English', 'lookup_values' => { 'option_1' => 'English Option 1', 'option_2' => 'English Option 2' }
-        }
-        lkp1 = Lookup.find_by(unique_id: @lookup_multi_locales.unique_id)
-        expect(lkp1.localized_property_hash('en')).to eq(expected)
-      end
-    end
-
-    context 'when passed locale is fr' do
-      it 'returns a hash of the French values' do
-        expected = {
-          'name' => 'French', 'lookup_values' => { 'option_1' => 'French Option 1', 'option_2' => 'French Option 2' }
-        }
-        lkp1 = Lookup.find_by(unique_id: @lookup_multi_locales.unique_id)
-        expect(lkp1.localized_property_hash('fr')).to eq(expected)
-      end
-    end
-
-    context 'when no locale is passed in' do
-      it 'returns a hash of the English values' do
-        expected = {
-          'name' => 'English',
-          'lookup_values' => { 'option_1' => 'English Option 1', 'option_2' => 'English Option 2' }
-        }
-        lkp1 = Lookup.find_by(unique_id: @lookup_multi_locales.unique_id)
-        expect(lkp1.localized_property_hash).to eq(expected)
-      end
-    end
-  end
-
-  describe 'import_translations' do
+  describe 'update_translations' do
     before do
       clean_data(Lookup)
       Lookup.create!(
@@ -331,7 +257,7 @@ describe Lookup do
 
     context 'when translations are French' do
       before :each do
-        @locale = 'fr'
+        @locale = :fr
         @translated_hash = {
           'lookup_1' => {
             'name' => 'French Translated',
@@ -346,9 +272,10 @@ describe Lookup do
             }
           }
         }
-        Lookup.import_translations(@locale, @translated_hash)
         @lkp1 = Lookup.find_by(unique_id: 'lookup_1')
+        @lkp1.update_translations(@locale, @translated_hash.values.first)
         @lkp2 = Lookup.find_by(unique_id: 'lookup_2')
+        @lkp2.update_translations(@locale, @translated_hash.values.last)
       end
 
       it 'does not change the English names' do
@@ -362,39 +289,29 @@ describe Lookup do
       end
 
       it 'does not change the English lookup values' do
-        expect(@lkp1.lookup_values_en).to eq(
-          [
-            { 'id' => 'option_1', 'display_text' => 'English Option 1' },
-            { 'id' => 'option_2', 'display_text' => 'English Option 2' }
-          ]
-        )
-        expect(@lkp2.lookup_values_en).to eq(
-          [
-            { 'id' => 'option_1', 'display_text' => 'English Option One' },
-            { 'id' => 'option_2', 'display_text' => 'English Option Two' }
-          ]
-        )
+        expected = [{ 'id' => 'option_1', 'display_text' => 'English Option 1' },
+                    { 'id' => 'option_2', 'display_text' => 'English Option 2' }]
+        expect(@lkp1.lookup_values_en).to match_array(expected)
+
+        expected2 = [{ 'id' => 'option_1', 'display_text' => 'English Option One' },
+                     { 'id' => 'option_2', 'display_text' => 'English Option Two' }]
+        expect(@lkp2.lookup_values_en).to match_array(expected2)
       end
 
       it 'updates the translations for the French lookup values' do
-        expect(@lkp1.lookup_values_fr).to eq(
-          [
-            { 'id' => 'option_1', 'display_text' => 'French Option 1 Translated' },
-            { 'id' => 'option_2', 'display_text' => 'French Option 2 Translated' }
-          ]
-        )
-        expect(@lkp2.lookup_values_fr).to eq(
-          [
-            { 'id' => 'option_1', 'display_text' => 'French Option One Translated' },
-            { 'id' => 'option_2', 'display_text' => 'French Option Two Translated' }
-          ]
-        )
+        expected = [{ 'id' => 'option_1', 'display_text' => 'French Option 1 Translated' },
+                    { 'id' => 'option_2', 'display_text' => 'French Option 2 Translated' }]
+        expect(@lkp1.lookup_values_fr).to match_array(expected)
+
+        expected2 = [{ 'id' => 'option_1', 'display_text' => 'French Option One Translated' },
+                     { 'id' => 'option_2', 'display_text' => 'French Option Two Translated' }]
+        expect(@lkp2.lookup_values_fr).to match_array(expected2)
       end
     end
 
     describe 'handles bad input data' do
       before do
-        @locale = 'es'
+        @locale = :es
       end
       context 'when locale translations do not exist' do
         context 'and input has all of the options' do
@@ -417,18 +334,15 @@ describe Lookup do
                 }
               }
             }
-            Lookup.import_translations(@locale, @translated_hash)
             @lkp10 = Lookup.find_by(unique_id: 'lookup_10')
+            @lkp10.update_translations(@locale, @translated_hash.values.first)
           end
 
           it 'adds translated options for the specified locale' do
-            expect(@lkp10.lookup_values_es).to eq(
-              [
-                { 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
-                { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
-                { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }
-              ]
-            )
+            expected = [{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+                        { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
+                        { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }]
+            expect(@lkp10.lookup_values_es).to match_array(expected)
           end
         end
 
@@ -450,13 +364,16 @@ describe Lookup do
                 }
               }
             }
+
+            @lkp11 = Lookup.find_by(unique_id: 'lookup_11')
+            @lkp11.update_translations(@locale, @translated_hash.values.first)
           end
 
-          it 'does not allow the translations to be saved' do
-            expect { Lookup.import_translations(@locale, @translated_hash) }.to raise_error(
-              ActiveRecord::RecordInvalid,
-              'Validation failed: Lookup values Field translated options must have same ids'
-            )
+          it 'only updates the translations passed in' do
+            expected = [{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+                        { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
+                        { 'id' => 'option_3', 'display_text' => nil }]
+            expect(@lkp11.lookup_values_es).to match_array(expected)
           end
         end
 
@@ -481,18 +398,15 @@ describe Lookup do
                 }
               }
             }
-            Lookup.import_translations(@locale, @translated_hash)
             @lkp12 = Lookup.find_by(unique_id: 'lookup_12')
+            @lkp12.update_translations(@locale, @translated_hash.values.first)
           end
 
           it 'adds only the translated options that also exist in the default locale' do
-            expect(@lkp12.lookup_values_es).to eq(
-              [
-                { 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
-                { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
-                { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }
-              ]
-            )
+            expected = [{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+                        { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
+                        { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }]
+            expect(@lkp12.lookup_values_es).to match_array(expected)
           end
 
           it 'does not add an option that does not exist in the default locale' do
@@ -521,12 +435,16 @@ describe Lookup do
                 }
               }
             }
-            Lookup.import_translations(@locale, @translated_hash)
             @lkp13 = Lookup.find_by(unique_id: 'lookup_13')
+            @lkp13.update_translations(@locale, @translated_hash.values.first)
           end
 
           it 'does not add any option that does not exist in the default locale' do
-            expect(@lkp13.lookup_values_es).to be_empty
+            default_ids = @lkp13.lookup_values_en.map { |h| h['id'] }
+            spanish_ids = @lkp13.lookup_values_es.map { |h| h['id'] }
+
+            expect(default_ids - spanish_ids).to be_empty
+            expect(spanish_ids - default_ids).to be_empty
           end
         end
 
@@ -550,18 +468,15 @@ describe Lookup do
                 }
               }
             }
-            Lookup.import_translations(@locale, @translated_hash)
             @lkp14 = Lookup.find_by(unique_id: 'lookup_14')
+            @lkp14.update_translations(@locale, @translated_hash.values.first)
           end
 
           it 'adds translated options for the specified locale' do
-            expect(@lkp14.lookup_values_es).to eq(
-              [
-                { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
-                { 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
-                { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }
-              ]
-            )
+            expected = [{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+                        { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
+                        { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }]
+            expect(@lkp14.lookup_values_es).to match_array(expected)
           end
         end
       end
@@ -591,18 +506,15 @@ describe Lookup do
                 }
               }
             }
-            Lookup.import_translations(@locale, @translated_hash)
             @lkp20 = Lookup.find_by(unique_id: 'lookup_20')
+            @lkp20.update_translations(@locale, @translated_hash.values.first)
           end
 
           it 'adds translated options for the specified locale' do
-            expect(@lkp20.lookup_values_es).to eq(
-              [
-                { 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
-                { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
-                { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }
-              ]
-            )
+            expected = [{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+                        { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
+                        { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }]
+            expect(@lkp20.lookup_values_es).to match_array(expected)
           end
         end
 
@@ -629,18 +541,15 @@ describe Lookup do
                 }
               }
             }
-            Lookup.import_translations(@locale, @translated_hash)
             @lkp21 = Lookup.find_by(unique_id: 'lookup_21')
+            @lkp21.update_translations(@locale, @translated_hash.values.first)
           end
 
           it 'updates only the translated options provided for the specified locale' do
-            expect(@lkp21.lookup_values_es).to eq(
-              [
-                { 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
-                { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
-                { 'id' => 'option_3', 'display_text' => 'Spanish Option Three' }
-              ]
-            )
+            expected = [{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+                        { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
+                        { 'id' => 'option_3', 'display_text' => 'Spanish Option Three' }]
+            expect(@lkp21.lookup_values_es).to match_array(expected)
           end
         end
 
@@ -670,18 +579,15 @@ describe Lookup do
                 }
               }
             }
-            Lookup.import_translations(@locale, @translated_hash)
             @lkp22 = Lookup.find_by(unique_id: 'lookup_22')
+            @lkp22.update_translations(@locale, @translated_hash.values.first)
           end
 
           it 'adds only the translated options that also exist in the default locale' do
-            expect(@lkp22.lookup_values_es).to eq(
-              [
-                { 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
-                { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
-                { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }
-              ]
-            )
+            expected = [{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+                        { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
+                        { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }]
+            expect(@lkp22.lookup_values_es).to match_array(expected)
           end
 
           it 'does not add an option that does not exist in the default locale' do
@@ -715,18 +621,15 @@ describe Lookup do
                 }
               }
             }
-            Lookup.import_translations(@locale, @translated_hash)
             @lkp23 = Lookup.find_by(unique_id: 'lookup_23')
+            @lkp23.update_translations(@locale, @translated_hash.values.first)
           end
 
           it 'does not add any option that does not exist in the default locale' do
-            expect(@lkp23.lookup_values_es).to eq(
-              [
-                { 'id' => 'option_1', 'display_text' => 'Spanish Option One' },
-                { 'id' => 'option_2', 'display_text' => 'Spanish Option Two' },
-                { 'id' => 'option_3', 'display_text' => 'Spanish Option Three' }
-              ]
-            )
+            expected = [{ 'id' => 'option_1', 'display_text' => 'Spanish Option One' },
+                        { 'id' => 'option_2', 'display_text' => 'Spanish Option Two' },
+                        { 'id' => 'option_3', 'display_text' => 'Spanish Option Three' }]
+            expect(@lkp23.lookup_values_es).to match_array(expected)
           end
         end
 
@@ -750,18 +653,15 @@ describe Lookup do
                 }
               }
             }
-            Lookup.import_translations(@locale, @translated_hash)
             @lkp24 = Lookup.find_by(unique_id: 'lookup_24')
+            @lkp24.update_translations(@locale, @translated_hash.values.first)
           end
 
           it 'adds translated options for the specified locale' do
-            expect(@lkp24.lookup_values_es).to eq(
-              [
-                { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
-                { 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
-                { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }
-              ]
-            )
+            expected = [{ 'id' => 'option_1', 'display_text' => 'Spanish Option One Translated' },
+                        { 'id' => 'option_2', 'display_text' => 'Spanish Option Two Translated' },
+                        { 'id' => 'option_3', 'display_text' => 'Spanish Option Three Translated' }]
+            expect(@lkp24.lookup_values_es).to match_array(expected)
           end
         end
       end

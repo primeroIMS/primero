@@ -8,21 +8,14 @@ export const optionText = (option, locale) => {
     : displayText || displayName;
 };
 
-export const whichOptions = ({
-  optionStringsSource,
-  options,
-  i18n,
-  lookups,
-  agencies,
-  locations
-}) => {
+export const whichOptions = ({ optionStringsSource, options, i18n, lookups, agencies, locations }) => {
   if (optionStringsSource) {
     switch (optionStringsSource) {
       case "Agency":
         return agencies
           .map(agency => ({
             id: agency.get("id"),
-            display_text: agency.get("name")
+            display_text: agency.getIn(["name", i18n.locale], "")
           }))
           .toJS();
       case "Location":
@@ -35,9 +28,7 @@ export const whichOptions = ({
       default:
         return lookups.map(lookup => {
           const displayText = optionText(lookup, i18n.locale);
-          const display = lookup.display_text
-            ? { display_text: displayText }
-            : { display_name: displayText };
+          const display = lookup.display_text ? { display_text: displayText } : { display_name: displayText };
 
           return { ...lookup, ...display };
         });

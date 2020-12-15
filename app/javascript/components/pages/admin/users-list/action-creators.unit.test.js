@@ -7,7 +7,7 @@ describe("<UsersList /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["fetchUsers"].forEach(property => {
+    ["fetchUsers", "setUsersFilters"].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
@@ -25,5 +25,18 @@ describe("<UsersList /> - Action Creators", () => {
     };
 
     expect(actionsCreators.fetchUsers()).to.deep.equal(expectedAction);
+  });
+
+  it("should check that 'setUsersFilters' action creator returns the correct object", () => {
+    const payload = {
+      user_name: "test"
+    };
+
+    const expected = {
+      type: actions.SET_USERS_FILTER,
+      payload
+    };
+
+    expect(actionsCreators.setUsersFilters(payload)).to.deep.equal(expected);
   });
 });

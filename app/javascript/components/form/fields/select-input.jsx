@@ -2,32 +2,85 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { TextField, Chip } from "@material-ui/core";
-import Autocomplete, {
-  createFilterOptions
-} from "@material-ui/lab/Autocomplete";
+import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import { Controller, useFormContext } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import InputLabel from "../components/input-label";
+import { getLoadingState, getValueFromOtherField } from "../selectors";
 
 const filter = createFilterOptions();
 
 const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
-  const { multiSelect, freeSolo, groupBy, tooltip, onChange } = metaInputProps;
+  const {
+    multiSelect,
+    freeSolo,
+    groupBy,
+    tooltip,
+    onChange,
+    disableClearable,
+    asyncParamsFromWatched,
+    asyncParams,
+    asyncAction,
+    asyncOptions,
+    asyncOptionsLoadingPath,
+    watchedInputsValues,
+    clearDependentValues,
+    setOtherFieldValues,
+    maxSelectedOptions
+  } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
   const methods = useFormContext();
+  const dispatch = useDispatch();
+  const loading = useSelector(state => getLoadingState(state, asyncOptionsLoadingPath));
+  const otherFieldValues = useSelector(state => {
+    if (!setOtherFieldValues) {
+      return null;
+    }
+
+    return getValueFromOtherField(state, setOtherFieldValues, watchedInputsValues);
+  });
+  const fetchAsyncOptions = () => {
+    if (asyncOptions) {
+      const params = asyncParamsFromWatched.reduce((prev, next) => {
+        const obj = prev;
+
+        if (Array.isArray(next)) {
+          const [field, alias] = next;
+          const value = watchedInputsValues[field];
+
+          if (value) obj[alias] = watchedInputsValues[field];
+        } else {
+          const value = watchedInputsValues[next];
+
+          if (value) obj[next] = value;
+        }
+
+        return obj;
+      }, {});
+
+      dispatch(asyncAction({ ...params, ...asyncParams }));
+    }
+  };
+
+  const handleOpen = () => {
+    fetchAsyncOptions();
+  };
+
+  const loadingProps = {
+    ...(asyncOptions && { loading })
+  };
 
   const optionLabel = option => {
     if (typeof option === "string" && option === "") {
       return "";
     }
     const { display_name: displayName, display_text: displayText } =
-      typeof option === "object"
-        ? option
-        : options?.find(opt => opt.id === option) || defaultOption;
+      typeof option === "object" ? option : options?.find(opt => opt.id === option) || defaultOption;
 
-    const freeSoloDisplayText =
-      freeSolo && typeof option === "string" ? option : null;
+    const freeSoloDisplayText = freeSolo && typeof option === "string" ? option : null;
 
     return displayName || displayText || freeSoloDisplayText || "";
   };
@@ -39,18 +92,25 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
 
   const handleChange = data => {
     if (onChange) {
-      onChange(methods);
+      onChange(methods, data);
+    }
+
+    if (clearDependentValues) {
+      clearDependentValues.forEach(field => methods.setValue(field, null));
+    }
+
+    if (setOtherFieldValues) {
+      otherFieldValues.forEach(([field, value]) => {
+        methods.setValue(field, value);
+      });
     }
 
     return multiSelect
-      ? data?.[1]?.map(selected =>
-          typeof selected === "object" ? selected?.id : selected
-        )
+      ? data?.[1]?.map(selected => (typeof selected === "object" ? selected?.id : selected))
       : data?.[1]?.id || null;
   };
 
-  const optionEquality = (option, value) =>
-    option.id === value || option.id === value?.id;
+  const optionEquality = (option, value) => option.id === value || option.id === value?.id;
 
   const filterOptions = {
     ...(freeSolo && {
@@ -83,9 +143,16 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       ...params,
       inputProps: {
         ...params.inputProps,
-        value: freeSolo
-          ? optionLabel(params.inputProps.value)
-          : params.inputProps.value
+        value: freeSolo ? optionLabel(params.inputProps.value) : params.inputProps.value
+      },
+      InputProps: {
+        ...params.InputProps,
+        endAdornment: (
+          <>
+            {loading && asyncOptions ? <CircularProgress color="primary" size={20} /> : null}
+            {params.InputProps.endAdornment}
+          </>
+        )
       }
     };
 
@@ -93,23 +160,20 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     const { label, ...rest } = props;
 
     return (
-      <TextField
-        {...inputParams}
-        label={<InputLabel tooltip={tooltip} text={label} />}
-        margin="normal"
-        {...rest}
-      />
+      <TextField {...inputParams} label={<InputLabel tooltip={tooltip} text={label} />} margin="normal" {...rest} />
     );
   };
 
   const renderTags = (value, getTagProps) =>
-    value.map((option, index) => (
-      <Chip
-        label={optionLabel(option)}
-        {...getTagProps({ index })}
-        disabled={disabled}
-      />
-    ));
+    value.map((option, index) => <Chip label={optionLabel(option)} {...getTagProps({ index })} disabled={disabled} />);
+
+  const getOptionDisabled = () => {
+    if (Object.is(maxSelectedOptions, null) || Object.is(methods.getValues()[name], null)) {
+      return false;
+    }
+
+    return methods.getValues()[name].length === maxSelectedOptions;
+  };
 
   return (
     <Controller
@@ -118,15 +182,19 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       onChange={handleChange}
       as={
         <Autocomplete
+          onOpen={handleOpen}
           groupBy={option => option[groupBy]}
           options={options}
           multiple={multiSelect}
           getOptionLabel={optionLabel}
           getOptionSelected={optionEquality}
+          getOptionDisabled={getOptionDisabled}
           disabled={disabled}
           filterSelectedOptions
+          disableClearable={disableClearable}
           freeSolo={freeSolo}
           {...filterOptions}
+          {...loadingProps}
           renderInput={params => renderTextField(params, commonProps)}
           renderTags={(value, getTagProps) => renderTags(value, getTagProps)}
         />

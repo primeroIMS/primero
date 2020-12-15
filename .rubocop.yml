@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - db/schema.rb
+    - tmp
 
 Layout/LineLength:
   Max: 120
@@ -20,9 +21,14 @@ Metrics/MethodLength:
   Exclude:
     - db/migrate/*
 
+Metrics/ModuleLength:
+  Exclude:
+    - spec/**/*
+
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
 
 Style/Documentation:
   Exclude:
     - db/migrate/*
+    - spec/**/*

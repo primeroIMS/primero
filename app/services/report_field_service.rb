@@ -6,13 +6,13 @@ class ReportFieldService
   VERTICAL = 'vertical'
 
   def self.horizontal_fields(report)
-    report.aggregate_by.each_with_index.map do |f,i|
+    report.aggregate_by.each_with_index.map do |f, i|
       report_field(report.pivots_map[f], f, HORIZONTAL, i)
     end
   end
 
   def self.vertical_fields(report)
-    report.disaggregate_by.each_with_index.map do |f,i|
+    report.disaggregate_by.each_with_index.map do |f, i|
       report_field(report.pivots_map[f], f, VERTICAL, i)
     end
   end
@@ -23,13 +23,15 @@ class ReportFieldService
       display_name: field&.display_name_i18n,
       position: { type: type, order: order }
     }
-    report_field_hash.merge(self.report_field_options(field, pivot_name) || {})
+    report_field_hash.merge(report_field_options(field, pivot_name) || {})
   end
 
   def self.report_field_options(field, pivot_name)
-    if field&.is_location?
+    if field&.location?
       admin_level = pivot_name.last.is_number? ? pivot_name.last.to_i : 0
       { option_strings_source: 'Location', admin_level: admin_level }
+    elsif field&.agency?
+      { option_strings_source: 'Agency' }
     elsif field&.option_strings_text_i18n.present?
       all_options = FieldI18nService.fill_options(field.option_strings_text_i18n)
       { option_labels: all_options }

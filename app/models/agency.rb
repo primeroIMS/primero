@@ -3,7 +3,7 @@
 # Organizations that users who manage the the data in Primero belong to.
 class Agency < ApplicationRecord
   include LocalizableJsonProperty
-  include Configuration
+  include ConfigurationRecord
 
   LOGO_DIMENSION = {
     logo_full: { width: 512, height: 512 },
@@ -16,7 +16,6 @@ class Agency < ApplicationRecord
   attribute :logo_icon_base64, :string
   attribute :logo_icon_file_name, :string
 
-  validates :unique_id, presence: true, uniqueness: { message: 'errors.models.agency.unique_id' }
   validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
   validate :validate_name_in_english
 
@@ -35,7 +34,7 @@ class Agency < ApplicationRecord
   validate :validate_logo_full_dimension, if: -> { logo_full.attached? }
   validate :validate_logo_icon_dimension, if: -> { logo_icon.attached? }
 
-  after_initialize :generate_unique_id, unless: :persisted?
+  before_create :generate_unique_id
   before_save :set_logo_enabled
 
   class << self
@@ -59,12 +58,27 @@ class Agency < ApplicationRecord
 
       where(params)
     end
+
+    # TODO: Used by forms, when you want to make a lookup out of all the agencies,
+    #       but that functionality is probably deprecated. Review and delete.
+    def all_names
+      all.map { |r| { id: r.id, display_text: r.name }.with_indifferent_access }
+    end
+
+    def get_field_using_unique_id(unique_id, field)
+      where(unique_id: unique_id).pluck(field)&.first
+    end
   end
 
   def update_properties(agency_params)
+    agency_params = agency_params.with_indifferent_access if agency_params.is_a?(Hash)
     converted_params = FieldI18nService.convert_i18n_properties(Agency, agency_params)
     merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
-    assign_attributes(agency_params.except(:name, :description).merge(merged_props))
+    assign_attributes(
+      agency_params.except(
+        :name, :description, :logo_full_file_name, :logo_full_base64, :logo_icon_file_name, :logo_icon_base64
+      ).merge(merged_props)
+    )
     attach_logos(agency_params)
   end
 
@@ -81,6 +95,17 @@ class Agency < ApplicationRecord
     self[:logo_icon_file_name] || (logo_icon.attached? && logo_icon&.filename&.to_s)
   end
 
+  def configuration_hash
+    attributes.except('id')
+              .merge(configuration_hash_for_logo(logo_full))
+              .merge(configuration_hash_for_logo(logo_icon))
+              .with_indifferent_access
+  end
+
+  def generate_unique_id
+    self.unique_id ||= agency_code
+  end
+
   private
 
   def attach_logo(file_name, logo_base64, logo)
@@ -94,6 +119,24 @@ class Agency < ApplicationRecord
 
   def detach_logo(logo)
     logo.purge
+  end
+
+  def configuration_hash_for_logo(logo)
+    return {} unless logo.attached?
+
+    logo_data = logo_raw(logo)
+    return {} unless logo_data.present?
+
+    {}.tap do |hash|
+      hash["#{logo.name}_base64"] = Base64.encode64(logo.download)
+      hash["#{logo.name}_file_name"] = logo.blob.filename.to_s
+    end
+  end
+
+  def logo_raw(logo)
+    logo.download
+  rescue SystemCallError
+    nil
   end
 
   def validate_name_in_english
@@ -132,12 +175,6 @@ class Agency < ApplicationRecord
 
   def image?(logo)
     logo.attachment.content_type.start_with?('image/*')
-  end
-
-  def generate_unique_id
-    return unless agency_code.present? && unique_id.blank?
-
-    self.unique_id = "agency-#{agency_code}".parameterize.dasherize
   end
 
   def set_logo_enabled

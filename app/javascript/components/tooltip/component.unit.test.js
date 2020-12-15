@@ -13,9 +13,7 @@ describe("components/tooltip", () => {
       </Tooltip>
     );
 
-    expect(component.find(MuiTooltip).prop("title")).to.equal(
-      "wrapper content"
-    );
+    expect(component.find(MuiTooltip).prop("title")).to.equal("wrapper content");
     expect(component.contains("wrapped children")).to.be.true;
   });
 

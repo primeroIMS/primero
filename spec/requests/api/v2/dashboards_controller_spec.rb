@@ -4,7 +4,9 @@ require 'rails_helper'
 
 describe Api::V2::DashboardsController, type: :request do
   before :each do
-    clean_data(User, UserGroup, Role, Child, Location, SystemSettings, Field, FormSection, Lookup, PrimeroModule)
+    clean_data(
+      User, UserGroup, Role, Child, Location, SystemSettings, Field, FormSection, Lookup, PrimeroModule, Incident
+    )
 
     SystemSettings.create!(
       reporting_location_config: {
@@ -29,7 +31,8 @@ describe Api::V2::DashboardsController, type: :request do
         Permission::DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
         Permission::DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
         Permission::DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
-        Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES
+        Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES,
+        Permission::DASH_CASE_INCIDENT_OVERVIEW
       ]
     )
 
@@ -53,25 +56,32 @@ describe Api::V2::DashboardsController, type: :request do
     @bar = User.new(user_name: 'bar', user_groups: [group1], location: 'CTY')
     @bar.save(validate: false)
 
-    Child.create!(data: {
-                    record_state: true, status: 'open', owned_by: 'foo', workflow: 'new', created_at: last_week,
-                    protection_concerns: ['refugee'], followup_subform_section: [
-                      { followup_needed_by_date: [Time.zone.now] }
-                    ], assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now, services_section: [
-                      {
-                        service_type: 'health_medical_service', service_referral: 'referred',
-                        service_implemented: 'not_implemented', service_response_type: 'care_plan',
-                        service_appointment_date: (Date.today - 7.days),
-                        service_response_day_time: (Date.today - 7.days), service_response_timeframe: '3_days'
-                      }
-                    ]
-                  })
-    Child.create!(data: {
-                    record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar', workflow: 'assessment',
-                    protection_concerns: ['refugee'], followup_subform_section: [
-                      { followup_needed_by_date: [Time.zone.now] }
-                    ], assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now
-                  })
+    Child.create!(
+      data: {
+        record_state: true, status: 'open', owned_by: 'foo', workflow: 'new', created_at: last_week,
+        protection_concerns: ['refugee'], followup_subform_section: [
+          { followup_needed_by_date: [Time.zone.now] }
+        ], assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now, services_section: [
+          {
+            service_type: 'health_medical_service', service_referral: 'referred',
+            service_implemented: 'not_implemented', service_response_type: 'care_plan',
+            service_appointment_date: (Date.today - 7.days),
+            service_response_day_time: (Date.today - 7.days), service_response_timeframe: '3_days'
+          }
+        ]
+      }
+    )
+    child = Child.create!(
+      data: {
+        record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar', workflow: 'assessment',
+        protection_concerns: ['refugee'], followup_subform_section: [
+          { followup_needed_by_date: [Time.zone.now] }
+        ], assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now
+      }
+    )
+    incident = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
+    incident.incident_case_id = child.id
+    incident.save
     Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
     Child.create!(data: {
                     record_state: true, status: 'closed', owned_by: 'foo',
@@ -103,7 +113,7 @@ describe Api::V2::DashboardsController, type: :request do
       get '/api/v2/dashboards'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(9)
+      expect(json['data'].size).to eq(10)
 
       case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
       expect(case_overview_dashboard['indicators']['total']['count']).to eq(2)
@@ -153,6 +163,13 @@ describe Api::V2::DashboardsController, type: :request do
       tasks_overdue_services = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_services' }
       expect(tasks_overdue_services['indicators']['tasks_overdue_services']['foo']['count']).to eq(1)
       expect(tasks_overdue_services['indicators']['tasks_overdue_services'].count).to eq(2)
+
+      case_incident_overview = json['data'].find { |d| d['name'] == 'dashboard.dash_case_incident_overview' }
+      expect(case_incident_overview['indicators'].count).to eq(4)
+      expect(case_incident_overview['indicators']['total']['count']).to eq(2)
+      expect(case_incident_overview['indicators']['new_or_updated']['count']).to eq(1)
+      expect(case_incident_overview['indicators']['with_incidents']['count']).to eq(1)
+      expect(case_incident_overview['indicators']['without_incidents']['count']).to eq(1)
     end
 
     describe 'Test the shared with dashboard', search: true do

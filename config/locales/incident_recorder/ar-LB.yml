@@ -1,4 +1,4 @@
-ar_LB:
+ar-LB:
   permissions:
     permission:
       export_incident_recorder_xls: "تصدير مسجّل الواقعة وتحويله إلى صيغة xls"

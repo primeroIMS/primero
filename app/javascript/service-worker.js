@@ -5,7 +5,7 @@ export default () => {
         .register(`${window.location.origin}/worker.js`)
         .then(registration => {
           // eslint-disable-next-line no-console
-          console.log("Registration successful, scope is:", registration.scope);
+          console.info("Registration successful, scope is:", registration.scope);
         })
         .catch(error => {
           // eslint-disable-next-line no-console

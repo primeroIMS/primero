@@ -9,12 +9,10 @@ describe("<RolesForm /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["clearSelectedRole", "deleteRole", "fetchRole", "saveRole"].forEach(
-      property => {
-        expect(creators).to.have.property(property);
-        delete creators[property];
-      }
-    );
+    ["clearSelectedRole", "deleteRole", "fetchRole", "saveRole"].forEach(property => {
+      expect(creators).to.have.property(property);
+      delete creators[property];
+    });
 
     expect(creators).to.be.empty;
   });

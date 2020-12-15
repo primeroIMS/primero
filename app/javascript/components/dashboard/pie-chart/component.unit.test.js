@@ -7,11 +7,7 @@ describe("<PieChart />", () => {
   const props = {
     data: [10, 12, 8],
     labels: ["Care plan", "New", "Service provision"],
-    query: [
-      ["workflow=care_plan"],
-      ["workflow=new"],
-      ["workflow=service_provision"]
-    ]
+    query: [["workflow=care_plan"], ["workflow=new"], ["workflow=service_provision"]]
   };
 
   beforeEach(() => {

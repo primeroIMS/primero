@@ -1,5 +1,5 @@
 import { stub } from "../../../../test";
-import { generate } from "../../../notifier";
+import { generate, ENQUEUE_SNACKBAR } from "../../../notifier";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
@@ -13,14 +13,21 @@ describe("<FormsBuilder /> - Action Creators", () => {
       "clearSelectedForm",
       "clearSelectedSubform",
       "clearSelectedSubformField",
+      "clearSubforms",
       "createSelectedField",
       "fetchForm",
+      "mergeOnSelectedSubform",
       "reorderFields",
       "saveForm",
+      "saveSubforms",
+      "selectExistingFields",
       "setNewField",
+      "setNewSubform",
       "setSelectedField",
       "setSelectedSubform",
       "setSelectedSubformField",
+      "setTemporarySubform",
+      "updateFieldTranslations",
       "updateSelectedField",
       "updateSelectedSubform"
     ].forEach(property => {
@@ -73,16 +80,27 @@ describe("<FormsBuilder /> - Action Creators", () => {
 
     const expected = {
       type: actions.SAVE_FORM,
-      api: [
-        {
-          path: "forms",
-          method: "POST",
-          body: args.body
+      api: {
+        path: "forms",
+        method: "POST",
+        body: args.body,
+        successCallback: {
+          action: ENQUEUE_SNACKBAR,
+          payload: {
+            message: args.message,
+            options: {
+              key: 4,
+              variant: "success"
+            }
+          },
+          redirect: "/admin/forms",
+          redirectToEdit: true
         }
-      ]
+      }
     };
 
     expect(actionCreators.saveForm(args)).to.deep.equal(expected);
+    generate.messageKey.restore();
   });
 
   it("should check the 'setNewField' action creator to return the correct object", () => {
@@ -123,7 +141,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
   it("should check the 'setSelectedSubform' action creator to return the correct object", () => {
     const expected = {
       type: actions.SET_SELECTED_SUBFORM,
-      payload: { id: 1 }
+      payload: 1
     };
 
     expect(actionCreators.setSelectedSubform(1)).to.deep.equal(expected);
@@ -135,9 +153,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: { name: "field_1" }
     };
 
-    expect(actionCreators.setSelectedSubformField("field_1")).to.deep.equal(
-      expected
-    );
+    expect(actionCreators.setSelectedSubformField("field_1")).to.deep.equal(expected);
   });
 
   it("should check the 'updateSelectedField' action creator to return the correct object", () => {
@@ -157,9 +173,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: { data: subform }
     };
 
-    expect(actionCreators.updateSelectedSubform(subform)).to.deep.equal(
-      expected
-    );
+    expect(actionCreators.updateSelectedSubform(subform)).to.deep.equal(expected);
   });
 
   it("should check the 'createSelectedField' action creator to return the correct object", () => {
@@ -199,7 +213,16 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: { name: "field_1", order: 0, isSubform: true }
     };
 
-    expect(actionCreators.reorderFields("field_1", 0, true)).to.deep.equal(
+    expect(actionCreators.reorderFields("field_1", 0, true)).to.deep.equal(expected);
+  });
+
+  it("should check the 'updateFieldTranslations' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.UPDATE_FIELD_TRANSLATIONS,
+      payload: { field1: { display_name: { en: "Field 1" } } }
+    };
+
+    expect(actionCreators.updateFieldTranslations({ field1: { display_name: { en: "Field 1" } } })).to.deep.equal(
       expected
     );
   });
@@ -208,5 +231,32 @@ describe("<FormsBuilder /> - Action Creators", () => {
     if (generate.messageKey.restore) {
       generate.messageKey.restore();
     }
+  });
+
+  it("should check the 'mergeOnSelectedSubform' action creator to return the correct object", () => {
+    const payload = {
+      display_name: { en: "Field 1" }
+    };
+
+    const expected = {
+      type: actions.MERGE_SUBFORM_DATA,
+      payload
+    };
+
+    expect(actionCreators.mergeOnSelectedSubform(payload)).to.deep.equal(expected);
+  });
+
+  it("should check the 'selectExistingFields' action creator to return the correct object", () => {
+    const payload = {
+      addedFields: [],
+      removedFields: []
+    };
+
+    const expected = {
+      type: actions.SELECT_EXISTING_FIELDS,
+      payload
+    };
+
+    expect(actionCreators.selectExistingFields(payload)).to.deep.equal(expected);
   });
 });

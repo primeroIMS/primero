@@ -158,6 +158,7 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data'][0]['filters']).not_to be_nil
       expect(json['data'][0]['permissions']).not_to be_nil
       expect(json['data'][0]['list_headers']).not_to be_nil
+      expect(json['data'][0]['permitted_form_unique_ids']).not_to be_nil
     end
 
     it 'refuses unauthorized access' do
@@ -192,7 +193,7 @@ describe Api::V2::UsersController, type: :request do
           Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])
         ]
       )
-      get "/api/v2/users/refer-to?record_type=case&services=test&agency=#{@agency_a.unique_id}"
+      get '/api/v2/users/refer-to', params: { record_type: 'case', service: 'test', agency: @agency_a.unique_id }
 
       expect(response).to have_http_status(200)
       expect(json['data'][0]['id']).to eq(@user_a.id)
@@ -240,26 +241,27 @@ describe Api::V2::UsersController, type: :request do
   end
 
   describe 'POST /api/v2/users' do
-    let(:params) {{
-      data: {
-        full_name: 'Test User API',
-        user_name: 'test_user_api',
-        code: 'test/code',
-        email: 'test_user_api@localhost.com',
-        agency_id: @agency_a.id,
-        role_unique_id: @role.unique_id,
-        password_confirmation: 'a12345678',
-        password: 'a12345678',
-        user_group_unique_ids: ['user-group-1'],
-        identity_provider_unique_id: @identity_provider_a.unique_id,
-        location: "TEST_LOCATION",
-        phone: "867-5309",
-        email: "test_user_api@unicef.org",
-        agency_office: "TEST OFFICE"
+    let(:params) do
+      {
+        data: {
+          full_name: 'Test User API',
+          user_name: 'test_user_api',
+          code: 'test/code',
+          email: 'test_user_api@localhost.com',
+          agency_id: @agency_a.id,
+          role_unique_id: @role.unique_id,
+          password_confirmation: 'a12345678',
+          password: 'a12345678',
+          user_group_unique_ids: ['user-group-1'],
+          identity_provider_unique_id: @identity_provider_a.unique_id,
+          location: 'TEST_LOCATION',
+          phone: '867-5309',
+          agency_office: 'TEST OFFICE'
+        }
       }
-    }}
+    end
 
-    it 'creates a new record with 200 and returns it as JSON' do      
+    it 'creates a new record with 200 and returns it as JSON' do
       login_for_test(
         permissions: [
           Permission.new(resource: Permission::USER, actions: [Permission::CREATE])
@@ -280,7 +282,7 @@ describe Api::V2::UsersController, type: :request do
 
     it 'filters sensitive information from logs' do
       allow(Rails.logger).to receive(:debug).and_return(nil)
-      
+
       login_for_test(
         permissions: [
           Permission.new(resource: Permission::USER, actions: [Permission::CREATE])
@@ -288,9 +290,11 @@ describe Api::V2::UsersController, type: :request do
       )
 
       post '/api/v2/users', params: params
-      
-      %w(encrypted_password location phone email code full_name agency_office).each do |fp|
-        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/) 
+
+      expect(Rails.logger).to have_received(:debug).with(/\["email", "\[FILTERED\]"\]/).twice
+
+      %w[encrypted_password location phone code full_name agency_office].each do |fp|
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
       end
     end
 
@@ -389,7 +393,9 @@ describe Api::V2::UsersController, type: :request do
           code: 'test/code',
           email: 'test_user_5@localhost.com',
           agency_id: @agency_a.id,
-          role_unique_id: @role.unique_id
+          role_unique_id: @role.unique_id,
+          password: 'bad pw',
+          password_confirmation: 'pad pw confirmation'
         }
       }
       post '/api/v2/users', params: params

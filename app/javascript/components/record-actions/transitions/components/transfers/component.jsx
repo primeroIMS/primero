@@ -10,10 +10,7 @@ import { enqueueSnackbar } from "../../../../notifier";
 import { selectAgencies } from "../../../../application/selectors";
 import { getLocations } from "../../../../record-form/selectors";
 import { RECORD_TYPES } from "../../../../../config";
-import {
-  getUsersByTransitionType,
-  getErrorsByTransitionType
-} from "../../selectors";
+import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selectors";
 import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
 import { TRANSITIONS_TYPES } from "../../../../transitions/constants";
 
@@ -37,7 +34,8 @@ const TransferForm = ({
   transferRef,
   setPending,
   disabled,
-  setDisabled
+  setDisabled,
+  mode
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -48,13 +46,9 @@ const TransferForm = ({
     dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }));
   }, []);
 
-  const users = useSelector(state =>
-    getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer)
-  );
+  const users = useSelector(state => getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer));
 
-  const hasErrors = useSelector(state =>
-    getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer)
-  );
+  const hasErrors = useSelector(state => getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer));
 
   const agencies = useSelector(state => selectAgencies(state));
 
@@ -78,16 +72,14 @@ const TransferForm = ({
       .join(", ");
 
     if (messages !== "") {
-      dispatch(enqueueSnackbar(messages, "error"));
+      dispatch(enqueueSnackbar(messages, { type: "error" }));
     }
   }, [hasErrors]);
 
   const disableControl = !providedConsent && !disabled;
 
   const validationSchema = object().shape({
-    [TRANSITIONED_TO_FIELD]: string().required(
-      i18n.t("transfer.user_mandatory")
-    )
+    [TRANSITIONED_TO_FIELD]: string().required(i18n.t("transfer.user_mandatory"))
   });
 
   const formProps = {
@@ -130,7 +122,9 @@ const TransferForm = ({
         i18n,
         dispatch,
         providedConsent,
-        canConsentOverride
+        canConsentOverride,
+        record,
+        mode
       ),
     validateOnBlur: false,
     validateOnChange: false,
@@ -144,6 +138,7 @@ TransferForm.propTypes = {
   disabled: PropTypes.bool,
   handleSubmit: PropTypes.func,
   isBulkTransfer: PropTypes.bool.isRequired,
+  mode: PropTypes.object,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,

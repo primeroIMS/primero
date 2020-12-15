@@ -4,27 +4,34 @@ import { Radio } from "@material-ui/core";
 
 import { setupMockFormComponent } from "../../../../test";
 import TextInput from "../../fields/text-input";
+import SwitchInput from "../../fields/switch-input";
 
 import DraggableOption from "./component";
 
 describe("<Form /> - components/<DraggableOption />", () => {
   let component;
+  const props = {
+    mode: "edit"
+  };
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(() => (
-      <DragDropContext>
-        <Droppable droppableId="droppable" type="field">
-          {() => (
-            <DraggableOption
-              name="field_1"
-              index={0}
-              option={{ id: "option_1", display_text: "Display text 1" }}
-              defaultOptionId="option_1"
-            />
-          )}
-        </Droppable>
-      </DragDropContext>
-    )));
+    ({ component } = setupMockFormComponent(
+      () => (
+        <DragDropContext>
+          <Droppable droppableId="droppable" type="field">
+            {() => (
+              <DraggableOption
+                name="field_1"
+                index={0}
+                option={{ id: "option_1", display_text: "Display text 1" }}
+                defaultOptionId="option_1"
+              />
+            )}
+          </Droppable>
+        </DragDropContext>
+      ),
+      props
+    ));
   });
 
   it("renders a TextInput for display_text", () => {
@@ -36,5 +43,12 @@ describe("<Form /> - components/<DraggableOption />", () => {
 
     expect(selectedValueRadio).to.have.lengthOf(1);
     expect(selectedValueRadio.props().checked).to.be.true;
+  });
+
+  it("renders a SwitchInput", () => {
+    const selectedValueCheckbox = component.find(SwitchInput);
+
+    expect(selectedValueCheckbox.props().commonInputProps.name).to.be.equal("field_1.option_strings_text[0].disabled");
+    expect(selectedValueCheckbox).to.be.exist;
   });
 });

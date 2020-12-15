@@ -1,6 +1,10 @@
-import { object, number, string, lazy, ref, array, addMethod } from "yup";
+import { object, number, string, ref, array, addMethod } from "yup";
 
-export default (formMode, i18n, useIdentityProviders, providers) => {
+import { PASSWORD_MIN_LENGTH } from "../../../../config";
+
+import { PASSWORD_SELF_OPTION } from "./constants";
+
+export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage = false) => {
   const useProviders = useIdentityProviders && providers;
 
   // eslint-disable-next-line func-names
@@ -8,10 +12,7 @@ export default (formMode, i18n, useIdentityProviders, providers) => {
     // eslint-disable-next-line func-names, consistent-return
     return this.test("isIdpProvider", message, function (value) {
       const providerId = this.resolve(inputRef);
-      const provider = providers.find(
-        currentProvider =>
-          currentProvider.get("id") === parseInt(providerId, 10)
-      );
+      const provider = providers.find(currentProvider => currentProvider.get("id") === parseInt(providerId, 10));
 
       if (provider) {
         const regexMatch = new RegExp(`@${provider.get("user_domain")}$`);
@@ -30,48 +31,56 @@ export default (formMode, i18n, useIdentityProviders, providers) => {
 
   addMethod(string, "isIdpProvider", isIdpProvider);
 
-  return object().shape({
-    agency_id: number().required().label(i18n.t("user.organization")),
-    email: string().required().label(i18n.t("user.email")),
+  const excludedFieldsOnAccountPage = {
+    agency_id: number().nullable().required().label(i18n.t("user.agency")),
+    role_unique_id: string().nullable().required().label(i18n.t("user.role_id")),
+    user_group_unique_ids: array().required().label(i18n.t("user.user_group_unique_ids"))
+  };
+
+  const passwordFieldValidations = {
+    password: string()
+      .min(PASSWORD_MIN_LENGTH, i18n.t("errors.models.user.password_length", { min: PASSWORD_MIN_LENGTH }))
+      .when("password_setting", {
+        is: setting => formMode.get("isNew") && setting === PASSWORD_SELF_OPTION,
+        then: string()
+          .nullable()
+          .required(i18n.t("forms.required_field", { field: i18n.t("user.password") })),
+        otherwise: string().nullable()
+      }),
+    password_confirmation: string()
+      .min(PASSWORD_MIN_LENGTH, i18n.t("errors.models.user.password_length", { min: PASSWORD_MIN_LENGTH }))
+      .when("password_setting", {
+        is: setting => formMode.get("isNew") && setting === PASSWORD_SELF_OPTION,
+        then: string()
+          .nullable()
+          .oneOf([ref("password"), null], i18n.t("errors.models.user.password_mismatch"))
+          .required(i18n.t("forms.required_field", { field: i18n.t("user.password_confirmation") })),
+        otherwise: string().nullable()
+      })
+  };
+
+  const defaultFieldsValidation = {
+    email: string().email(i18n.t("errors.models.user.email")).required().label(i18n.t("user.email")),
     full_name: string().required().label(i18n.t("user.full_name")),
     identity_provider_id: useProviders && number().required(),
-    location: string().required().label(i18n.t("user.location")),
-    password:
-      !useProviders &&
-      lazy(value => {
-        const defaultValidation = value ? string().min(8) : string();
-
-        if (formMode.get("isNew")) {
-          return defaultValidation.required().label(i18n.t("user.password"));
-        }
-
-        return defaultValidation;
-      }),
-    password_confirmation:
-      !useProviders &&
-      lazy(() => {
-        const defaultValidation = string().oneOf(
-          [ref("password"), null],
-          i18n.t("errors.models.user.password_mismatch")
-        );
-
-        if (formMode.get("isNew")) {
-          return defaultValidation
-            .required()
-            .label(i18n.t("user.password_confirmation"));
-        }
-
-        return defaultValidation;
-      }),
-    role_unique_id: string().required().label(i18n.t("user.role_id")),
-    user_group_unique_ids: array()
-      .required()
-      .label(i18n.t("user.user_group_unique_ids")),
+    location: string().nullable().required().label(i18n.t("user.location")),
+    password_setting: isMyAccountPage
+      ? string().nullable()
+      : string()
+          .nullable()
+          .required(i18n.t("forms.required_field", { field: i18n.t("user.password_setting.label") })),
     user_name: useProviders
       ? string()
+          .email(i18n.t("errors.models.user.email"))
           .required()
           .label(i18n.t("user.user_name"))
           .isIdpProvider(ref("identity_provider_id"))
       : string().required().label(i18n.t("user.user_name"))
-  });
+  };
+
+  if (isMyAccountPage) {
+    return object().shape(defaultFieldsValidation);
+  }
+
+  return object().shape({ ...defaultFieldsValidation, ...passwordFieldValidations, ...excludedFieldsOnAccountPage });
 };

@@ -4,14 +4,7 @@ import { fromJS } from "immutable";
 import { object, string } from "yup";
 import isEmpty from "lodash/isEmpty";
 
-import {
-  FieldRecord,
-  FormSectionRecord,
-  TICK_FIELD,
-  TEXT_FIELD,
-  TEXT_AREA,
-  SELECT_FIELD
-} from "../form";
+import { FieldRecord, FormSectionRecord, TICK_FIELD, TEXT_FIELD, TEXT_AREA, SELECT_FIELD } from "../form";
 
 import {
   NAME_FIELD,
@@ -23,9 +16,10 @@ import {
   GROUP_AGES_FIELD,
   GROUP_DATES_BY_FIELD,
   IS_GRAPH_FIELD,
+  DISABLED_FIELD,
   REPORTABLE_TYPES
 } from "./constants";
-import { formattedFields } from "./utils";
+import { buildUserModules, formattedFields } from "./utils";
 
 export const validations = i18n =>
   object().shape({
@@ -37,15 +31,13 @@ export const validations = i18n =>
     record_type: string().required().nullable()
   });
 
-export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
+export const form = (i18n, ageHelpText, allRecordForms, isNew, userModules) => {
   // eslint-disable-next-line no-unused-vars
   const checkModuleField = (value, name, { methods }) => {
     const emptyModule = isEmpty(value[MODULES_FIELD]);
 
     if (name === RECORD_TYPE_FIELD) {
-      const isModuleTouched = Object.keys(
-        methods.control?.formState?.touched
-      ).includes(MODULES_FIELD);
+      const isModuleTouched = Object.keys(methods.control?.formState?.touched).includes(MODULES_FIELD);
 
       if (isModuleTouched && emptyModule) {
         methods.reset({
@@ -55,7 +47,8 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
           [DISAGGREGATE_BY_FIELD]: [],
           [GROUP_AGES_FIELD]: false,
           [GROUP_DATES_BY_FIELD]: [],
-          [IS_GRAPH_FIELD]: false
+          [IS_GRAPH_FIELD]: false,
+          [DISABLED_FIELD]: false
         });
       }
     }
@@ -64,16 +57,9 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
   };
 
   const checkModuleAndRecordType = value => ({
-    disabled:
-      isNew &&
-      (isEmpty(value[MODULES_FIELD]) || isEmpty(value[RECORD_TYPE_FIELD])),
+    disabled: isNew && (isEmpty(value[MODULES_FIELD]) || isEmpty(value[RECORD_TYPE_FIELD])),
     groupBy: "formSection",
-    options: formattedFields(
-      allRecordForms,
-      value[MODULES_FIELD],
-      value[RECORD_TYPE_FIELD],
-      i18n.locale
-    )
+    options: formattedFields(allRecordForms, value[MODULES_FIELD], value[RECORD_TYPE_FIELD], i18n.locale)
   });
 
   return fromJS([
@@ -98,7 +84,7 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
           type: SELECT_FIELD,
           required: true,
           multi_select: true,
-          option_strings_source: "Module"
+          option_strings_text: buildUserModules(userModules)
         }),
         FieldRecord({
           display_name: i18n.t("report.record_type"),
@@ -123,6 +109,7 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
           multi_select: true,
           required: true,
           watchedInputs: [MODULES_FIELD, RECORD_TYPE_FIELD],
+          maxSelectedOptions: 2,
           handleWatchedInputs: checkModuleAndRecordType
         }),
         FieldRecord({
@@ -132,6 +119,7 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
           multi_select: true,
           required: true,
           watchedInputs: [MODULES_FIELD, RECORD_TYPE_FIELD],
+          maxSelectedOptions: 2,
           handleWatchedInputs: checkModuleAndRecordType
         }),
         FieldRecord({
@@ -148,12 +136,10 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
           type: SELECT_FIELD,
           watchedInputs: [MODULES_FIELD],
           handleWatchedInputs: checkModuleField,
-          option_strings_text: ["date", "week", "month", "year"].map(
-            dateRange => ({
-              id: dateRange,
-              display_text: i18n.t(`report.date_ranges.${dateRange}`)
-            })
-          )
+          option_strings_text: ["date", "week", "month", "year"].map(dateRange => ({
+            id: dateRange,
+            display_text: i18n.t(`report.date_ranges.${dateRange}`)
+          }))
         }),
         FieldRecord({
           display_name: i18n.t("report.is_graph"),
@@ -161,6 +147,12 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
           type: TICK_FIELD,
           watchedInputs: [MODULES_FIELD],
           handleWatchedInputs: checkModuleField
+        }),
+        FieldRecord({
+          display_name: i18n.t("report.disabled.label"),
+          name: DISABLED_FIELD,
+          type: TICK_FIELD,
+          tooltip: i18n.t("report.disabled.explanation")
         })
       ]
     })

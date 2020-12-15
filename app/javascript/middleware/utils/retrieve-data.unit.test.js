@@ -5,7 +5,7 @@ import retrieveData from "./retrieve-data";
 import * as offlineDispatchSuccess from "./offline-dispatch-success";
 
 describe("middleware/utils/retrieve-data.js", () => {
-  const store = createMockStore();
+  const { store } = createMockStore();
 
   it("sync indexeddb and calls offlineDispatchSuccess", async () => {
     const action = {

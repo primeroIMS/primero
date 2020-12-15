@@ -42,8 +42,6 @@ describe("<Form /> - components/<FormSection />", () => {
     });
     const { component } = setupMockFormComponent(FormSection, { formSection });
 
-    expect(component.find(FormSectionField).props().checkErrors).to.deep.equal(
-      checkErrors
-    );
+    expect(component.find(FormSectionField).props().checkErrors).to.deep.equal(checkErrors);
   });
 });

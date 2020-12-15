@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
+import CreateIcon from "@material-ui/icons/Create";
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
 
 import { useI18n } from "../../../i18n";
 import Form, { FormAction, whichFormMode } from "../../../form";
@@ -15,11 +18,7 @@ import { WRITE_RECORDS } from "../../../../libs/permissions";
 import bindFormSubmit from "../../../../libs/submit-form";
 
 import { form, validations } from "./form";
-import {
-  fetchUserGroup,
-  clearSelectedUserGroup,
-  saveUserGroup
-} from "./action-creators";
+import { fetchUserGroup, clearSelectedUserGroup, saveUserGroup } from "./action-creators";
 import { getUserGroup, getServerErrors, getSavingRecord } from "./selectors";
 import { NAME } from "./constants";
 
@@ -42,15 +41,9 @@ const Container = ({ mode }) => {
     dispatch(
       saveUserGroup({
         id,
-        saveMethod: formMode.get("isEdit")
-          ? SAVE_METHODS.update
-          : SAVE_METHODS.new,
+        saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
         body: { data },
-        message: i18n.t(
-          `user_group.messages.${
-            formMode.get("isEdit") ? "updated" : "created"
-          }`
-        )
+        message: i18n.t(`user_group.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
       })
     );
   };
@@ -78,21 +71,18 @@ const Container = ({ mode }) => {
   const saveButton =
     formMode.get("isEdit") || formMode.get("isNew") ? (
       <>
-        <FormAction
-          cancel
-          actionHandler={handleCancel}
-          text={i18n.t("buttons.cancel")}
-        />
+        <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
         <FormAction
           actionHandler={() => bindFormSubmit(formRef)}
           text={i18n.t("buttons.save")}
           savingRecord={saving}
+          startIcon={<CheckIcon />}
         />
       </>
     ) : null;
 
   const editButton = formMode.get("isShow") ? (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} />
+    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
   ) : null;
 
   const pageHeading = userGroup?.size
@@ -102,6 +92,7 @@ const Container = ({ mode }) => {
   return (
     <LoadingIndicator
       hasData={formMode.get("isNew") || userGroup?.size > 0}
+      loading={!userGroup?.size}
       type={NAMESPACE}
     >
       <PageHeading title={pageHeading}>

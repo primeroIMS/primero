@@ -196,7 +196,7 @@ describe Ability do
         ability = Ability.new @user1
 
         expect(@user1.super_user?).to be_truthy
-        expect(super_role2.is_super_user_role?).to be_truthy
+        expect(super_role2.super_user_role?).to be_truthy
         expect(ability).not_to authorize(:write, super_role2)
       end
 
@@ -209,7 +209,7 @@ describe Ability do
         ability = Ability.new @user1
 
         expect(@user1.super_user?).to be_truthy
-        expect(super_role2.is_super_user_role?).to be_truthy
+        expect(super_role2.super_user_role?).to be_truthy
         expect(ability).to authorize(:assign, @super_role)
         expect(ability).to authorize(:assign, super_role2)
       end
@@ -238,7 +238,7 @@ describe Ability do
 
         expect(@user1.super_user?).to be_falsey
         expect(@user2.super_user?).to be_falsey
-        expect(@super_role.is_super_user_role?).to be_truthy
+        expect(@super_role.super_user_role?).to be_truthy
         expect(ability1).not_to authorize(:write, @super_role)
         expect(ability1).not_to authorize(:assign, @super_role)
         expect(ability2).not_to authorize(:write, @super_role)
@@ -620,6 +620,25 @@ describe Ability do
 
       expect(ability).not_to authorize(:read, Role)
       expect(ability).not_to authorize(:write, Role)
+    end
+
+    context 'when Users role has "all records" group permission' do
+      it 'should be able to edit any user in the system' do
+        role = create :role, permissions: [@permission_user_read_write], group_permission: Permission::ALL
+        test_user_group_1 = build(:user_group, unique_id: 'test_user_group_1')
+        @user2.user_groups = [test_user_group_1]
+        @user1.role = role
+        @user1.save
+
+        test_user_group_2 = build(:user_group, unique_id: 'test_user_group_2')
+        @user2.user_groups = [test_user_group_2]
+        @user2.save
+
+        ability = Ability.new @user1
+
+        expect(ability).to authorize(:read, @user2)
+        expect(ability).to authorize(:write, @user2)
+      end
     end
   end
 

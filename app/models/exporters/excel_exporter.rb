@@ -1,18 +1,16 @@
 # frozen_string_literal: true
 
-require 'writeexcel'
+require 'write_xlsx'
 
 # Export records to Excel. Every form ius represented by a new tab.
 # Subforms get a dedicated tab.
-# This uses the writeexcel gem which only support XLS (Excel 2008 format)
-# and is a 1000 years old. However it does support buffered output,
-# which is why we are sticking with it for now.
+# Uses the write_xlsx gem
 class Exporters::ExcelExporter < Exporters::BaseExporter
   attr_accessor :workbook, :worksheets
 
   class << self
     def id
-      'xls'
+      'xlsx'
     end
 
     def supported_models
@@ -22,7 +20,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
   def initialize(output_file_path = nil)
     super(output_file_path)
-    self.workbook = WriteExcel.new(buffer)
+    self.workbook = WriteXLSX.new(buffer)
     self.worksheets = {}
   end
 
@@ -73,7 +71,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def worksheet_name(form)
-    name = form.name('en')
+    name = form.name(locale.to_s)
     name.sub(%r{[\[\]:*?\/\\]}, ' ')
         .encode('iso-8859-1', undef: :replace, replace: '')
         .strip.truncate(31)
@@ -103,6 +101,9 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
   def export_value(value, field)
     value = super(value, field)
+    # TODO: This will cause N+1 issue
+    return Agency.get_field_using_unique_id(value, :name_i18n).dig(locale.to_s) if field.name == 'created_organization' && value.present?
+
     return value unless value.is_a? Array
 
     value.join(' ||| ')

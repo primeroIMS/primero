@@ -1,17 +1,22 @@
+# frozen_string_literal: true
+
 user_hash = user.attributes.reject { |k, _| User.hidden_attributes.include?(k) }
 user_hash = user_hash.merge({
   agency_id: user.agency_id,
   module_unique_ids: user.module_unique_ids,
   role_unique_id: user.role.unique_id,
   user_group_unique_ids: user.user_group_unique_ids,
-  identity_provider_unique_id: user.identity_provider&.unique_id
+  identity_provider_unique_id: user.identity_provider&.unique_id,
+  agency_office: user.agency_office,
+  reporting_location_config: user.reporting_location_config
 }.compact)
 
 if @extended
   user_hash = user_hash.merge(
     permissions: {
-      list: user.role.permissions.map{ |p| { resource: p.resource.pluralize, actions: p.actions } },
+      list: user.role.permissions.map { |p| { resource: p.resource.pluralize, actions: p.actions } }
     },
+    permitted_form_unique_ids: user.role.form_section_unique_ids,
     filters: [
       Child.parent_form,
       Incident.parent_form,
@@ -29,9 +34,10 @@ if @extended
       { audit_logs: Header.audit_log_headers },
       { agencies: Header.agency_headers },
       { users: Header.user_headers },
-      { user_groups: Header.user_group_headers }
+      { user_groups: Header.user_group_headers },
+      { locations: Header.locations_headers }
     ]).inject(&:merge),
-    is_manager: user.is_manager?
+    is_manager: user.manager?
   )
 end
 

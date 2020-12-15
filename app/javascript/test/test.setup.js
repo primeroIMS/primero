@@ -12,6 +12,8 @@ import IDBDatabase from "fake-indexeddb/lib/FDBDatabase";
 import IDBObjectStore from "fake-indexeddb/lib/FDBObjectStore";
 import IDBIndex from "fake-indexeddb/lib/FDBIndex";
 import IDBCursor from "fake-indexeddb/lib/FDBCursor";
+import get from "lodash/get";
+import { parseISO, format as formatDate } from "date-fns";
 
 chai.use(chaiImmutable);
 chai.use(sinonChai);
@@ -20,8 +22,18 @@ global.expect = chai.expect;
 
 const storage = {};
 
+const DATE_FORMATS = Object.freeze({
+  date: Object.freeze({
+    formats: Object.freeze({
+      default: "dd-MMM-yyyy",
+      with_time: "dd-MMM-yyyy HH:mm"
+    })
+  })
+});
+
 global.window.indexedDB = indexedDB;
 global.indexedDB = global.window.indexedDB;
+global.html2pdf = {};
 
 global.window.IDBKeyRange = IDBKeyRange;
 global.IDBKeyRange = global.window.IDBKeyRange;
@@ -44,7 +56,14 @@ global.IDBCursor = global.window.IDBCursor;
 global.window.IDBIndex = IDBIndex;
 global.IDBIndex = global.window.IDBIndex;
 
-global.window.I18n = { defaultLocale: "en", locale: "en", t: path => path };
+global.window.I18n = {
+  defaultLocale: "en",
+  locale: "en",
+  t: path => path,
+  l: (path, value) => formatDate(parseISO(value), get(DATE_FORMATS, path)),
+  localizeDate: date => date
+};
+global.document.documentElement.lang = "en";
 
 global.MutationObserver = window.MutationObserver;
 
@@ -60,13 +79,16 @@ global.localStorage = {
   }
 };
 
-global.window.matchMedia = query => ({
+global.window.defaultMediaQueryList = (args = {}) => ({
   matches: false,
-  media: query,
+  media: "",
   onchange: null,
   addListener: () => {},
-  removeListener: () => {}
+  removeListener: () => {},
+  ...args
 });
+
+global.window.matchMedia = query => window.defaultMediaQueryList({ media: query });
 
 global.document.createRange = () => ({
   setStart: () => {},

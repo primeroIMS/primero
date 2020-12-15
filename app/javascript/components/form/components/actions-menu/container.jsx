@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { IconButton, Menu, MenuItem } from "@material-ui/core";
+import { Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import { NAME } from "./constants";
 
@@ -22,37 +25,27 @@ const Container = ({ actionItems }) => {
   };
 
   const actionMenuItems = actionItems
-    .filter(
-      action => typeof action.condition === "undefined" || action.condition
-    )
+    .filter(action => typeof action.condition === "undefined" || action.condition)
     .map(action => (
-      <MenuItem
-        key={action.name}
-        selected={action.name === "Pyxis"}
-        onClick={() => handleItemAction(action.action)}
-      >
+      <MenuItem key={action.name} selected={action.name === "Pyxis"} onClick={() => handleItemAction(action.action)}>
         {action.name}
       </MenuItem>
     ));
 
   return (
     <>
-      <IconButton
-        aria-label="more"
-        aria-controls="long-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
-        <MoreVertIcon />
-      </IconButton>
+      <ActionButton
+        icon={<MoreVertIcon />}
+        type={ACTION_BUTTON_TYPES.icon}
+        rest={{
+          onClick: handleClick,
+          "aria-label": "more",
+          "aria-controls": "long-menu",
+          "aria-haspopup": "true"
+        }}
+      />
 
-      <Menu
-        id="long-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
+      <Menu id="long-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         {actionMenuItems}
       </Menu>
     </>

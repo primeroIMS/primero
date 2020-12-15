@@ -1,12 +1,17 @@
 import { dataToJS } from "../../../../libs";
 import { INDICATOR_NAMES } from "../constants";
 
-export const dashboardTableData = (
-  optionsByIndex,
-  data,
-  indicators,
-  listKey
-) => {
+const reportingLocationLabel = (reportingLocationConfig, i18n) => {
+  const locationTypes = [];
+
+  reportingLocationConfig.label_keys.forEach(key => {
+    locationTypes.push(`${i18n.t(`location.base_types.${key}`)}`);
+  });
+
+  return `${locationTypes.join(", ")}`;
+};
+
+export const dashboardTableData = (optionsByIndex, data, indicators, listKey) => {
   const rows = indicators.reduce((acc, indicator) => {
     const indicatorData = data[indicator];
 
@@ -17,9 +22,7 @@ export const dashboardTableData = (
         const listKeyValue = { [indicator]: indicatorData[key][listKey] };
         const optionLabelValue = { "": optionLabel };
 
-        acc[key] = acc[key]
-          ? { ...acc[key], ...listKeyValue }
-          : { ...optionLabelValue, ...listKeyValue };
+        acc[key] = acc[key] ? { ...acc[key], ...listKeyValue } : { ...optionLabelValue, ...listKeyValue };
       }
     });
 
@@ -29,9 +32,9 @@ export const dashboardTableData = (
   return Object.keys(rows).map(key => rows[key]);
 };
 
-export default (data, fieldKey, i18n, locations) => {
+export default (data, reportingLocationConfig, i18n, locations) => {
   const columns = [
-    { name: "", label: i18n.t(`location.base_types.${fieldKey}`) },
+    { name: "", label: reportingLocationLabel(dataToJS(reportingLocationConfig), i18n) },
     {
       name: INDICATOR_NAMES.REPORTING_LOCATION_OPEN,
       label: i18n.t("dashboard.open_cases")
@@ -65,27 +68,15 @@ export default (data, fieldKey, i18n, locations) => {
   const locationsByCode = {};
 
   locations.forEach(location => {
-    locationsByCode[location.get("code")] = location
-      .get("name")
-      .get(i18n.locale);
+    locationsByCode[location.get("code")] = location.get("name").get(i18n.locale);
   });
 
   const result = dataToJS(data);
 
   if (result.length || Object.keys(result).length) {
-    const countValues = dashboardTableData(
-      locationsByCode,
-      result.indicators,
-      indicators,
-      "count"
-    );
+    const countValues = dashboardTableData(locationsByCode, result.indicators, indicators, "count");
 
-    const queryValues = dashboardTableData(
-      locationsByCode,
-      result.indicators,
-      indicators,
-      "query"
-    );
+    const queryValues = dashboardTableData(locationsByCode, result.indicators, indicators, "query");
 
     return {
       columns,

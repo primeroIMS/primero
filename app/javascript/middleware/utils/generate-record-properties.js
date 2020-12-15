@@ -27,8 +27,10 @@ export default (store, api, isRecord) => {
         isRecord && {
           id: generatedID,
           short_id: shortID,
+          enabled: true,
           ...(recordType === RECORD_PATH.cases && {
-            case_id_display: shortID
+            case_id_display: shortID,
+            workflow: "new"
           })
         }),
       // eslint-disable-next-line camelcase

@@ -61,13 +61,13 @@ describe("<RecordForm /> - Reducers", () => {
         bn: ""
       }
     };
-    const payload = [location];
+    const payload = { data: [location] };
     const expected = fromJS({
       selectedForm: null,
       formSections: OrderedMap({}),
       fields: OrderedMap({}),
       options: {
-        locations: [location]
+        locations: { data: [location] }
       }
     });
     const action = {
@@ -123,7 +123,7 @@ describe("<RecordForm /> - Reducers", () => {
           collapsed_field_names: []
         })
       ],
-      attachmentFields: [],
+      attachmentMeta: { fields: [], forms: {} },
       fields: [
         FieldRecord({
           name: "current_owner_section",
@@ -142,7 +142,7 @@ describe("<RecordForm /> - Reducers", () => {
           date_validation: null,
           hide_on_view_page: false,
           date_include_time: false,
-          selected_value: "",
+          selected_value: null,
           subform_sort_by: "",
           show_on_minify_form: false
         })
@@ -394,6 +394,53 @@ describe("<RecordForm /> - Reducers", () => {
     };
 
     const newState = reducer.forms(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle forms/CLEAR_VALIDATION_ERRORS", () => {
+    const initialState = fromJS({
+      validationErrors: [
+        {
+          unique_id: "form_1",
+          form_group_id: "group_1",
+          errors: {
+            field_1: "field_1 is required"
+          }
+        }
+      ]
+    });
+
+    const expected = fromJS({});
+
+    const action = { type: actions.CLEAR_VALIDATION_ERRORS };
+
+    const newState = reducer.forms(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle forms/SET_VALIDATION_ERRORS", () => {
+    const validationErrors = [
+      {
+        unique_id: "form_1",
+        form_group_id: "group_1",
+        errors: {
+          field_1: "field_1 is required"
+        }
+      }
+    ];
+
+    const initialState = fromJS({});
+
+    const expected = fromJS({ validationErrors });
+
+    const action = {
+      type: actions.SET_VALIDATION_ERRORS,
+      payload: validationErrors
+    };
+
+    const newState = reducer.forms(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });

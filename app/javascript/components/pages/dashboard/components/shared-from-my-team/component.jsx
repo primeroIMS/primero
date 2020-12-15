@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { Grid } from "@material-ui/core";
 
 import { getSharedFromMyTeam } from "../../selectors";
 import { useI18n } from "../../../../i18n";
@@ -9,6 +8,7 @@ import { teamSharingTable } from "../../utils";
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
+import { ROUTES } from "../../../../../config";
 
 import { NAME } from "./constants";
 
@@ -20,19 +20,18 @@ const Component = ({ loadingIndicator }) => {
   };
 
   return (
-    <Permission
-      resources={RESOURCES.dashboards}
-      actions={ACTIONS.DASH_SHARED_FROM_MY_TEAM}
-    >
-      <Grid item xl={9} md={8} xs={12}>
-        <OptionsBox
+    <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_SHARED_FROM_MY_TEAM}>
+      <OptionsBox
+        title={i18n.t("dashboard.dash_shared_from_my_team")}
+        {...loadingIndicator}
+        hasData={Boolean(sharedFromMyTeam.size)}
+      >
+        <DashboardTable
+          pathname={ROUTES.cases}
           title={i18n.t("dashboard.dash_shared_from_my_team")}
-          {...loadingIndicator}
-          hasData={Boolean(sharedFromMyTeam.size)}
-        >
-          <DashboardTable {...sharedFromMyTeamProps} />
-        </OptionsBox>
-      </Grid>
+          {...sharedFromMyTeamProps}
+        />
+      </OptionsBox>
     </Permission>
   );
 };

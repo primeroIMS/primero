@@ -1,24 +1,25 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe NotificationMailer, type: :mailer do
   before do
-    system_settings = instance_double(
-      'SystemSettings',
-      notification_email_enabled: true, unhcr_needs_codes_mapping: {},
-      auto_populate_info: nil, changes_field_to_form: {}
-    )
-    allow(SystemSettings).to receive(:current).and_return(system_settings)
+    clean_data(SystemSettings)
+    SystemSettings.create(default_locale: 'en', notification_email_enabled: true, unhcr_needs_codes_mapping: {},
+                          changes_field_to_form: {})
   end
 
   describe 'approvals' do
     before do
       clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role)
-      @lookup = create :lookup, unique_id: 'lookup-approval-type', name: 'approval type', lookup_values_en: [{'id' => 'value1', 'display_text' => 'value1'}]
-      role = create :role, is_manager: true
-      @manager1 = create :user, role: role, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
-      @manager2 = create :user, role: role, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'
-      @owner = create :user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev'
-      @child = child_with_created_by(@owner.user_name, :name => "child1", :module_id => PrimeroModule::CP, case_id_display: '12345')
+      @lookup = Lookup.create!(id: 'lookup-approval-type', unique_id:'lookup-approval-type', name: 'approval type',
+                               lookup_values_en: [{'id' => 'value1', 'display_text' => 'value1'}])
+      role = create(:role, is_manager: true)
+      @manager1 = create(:user, role: role, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1')
+      @manager2 = create(:user, role: role, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2')
+      @owner = create(:user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev')
+      @child = child_with_created_by(@owner.user_name, name: 'child1', module_id: PrimeroModule::CP,
+                                                       case_id_display: '12345')
     end
 
     describe 'manager_approval_request' do
@@ -32,26 +33,27 @@ describe NotificationMailer, type: :mailer do
       end
 
       it 'renders the body' do
-        expect(mail.body.encoded).to match("The user jnelson is requesting approval for value1 on case .*#{@child.short_id}")
+        expect(mail.body.encoded)
+          .to match("The user jnelson is requesting approval for value1 on case .*#{@child.short_id}")
       end
     end
 
-    describe "manager_approval_response" do
-     let(:mail) { NotificationMailer.manager_approval_response(@child.id, false, 'value1', @manager1.user_name) }
+    describe 'manager_approval_response' do
+      let(:mail) { NotificationMailer.manager_approval_response(@child.id, false, 'value1', @manager1.user_name) }
 
-      it "renders the headers" do
+      it 'renders the headers' do
         expect(mail.subject).to eq("Case: #{@child.short_id} - Approval Response")
-        expect(mail.to).to eq(["owner@primero.dev"])
+        expect(mail.to).to eq(['owner@primero.dev'])
       end
 
-      it "renders the body" do
-        expect(mail.body.encoded).to match("manager1 has rejected the request for approval for value1 for case .*#{@child.short_id}")
+      it 'renders the body' do
+        expect(mail.body.encoded)
+          .to match("manager1 has rejected the request for approval for value1 for case .*#{@child.short_id}")
       end
     end
   end
 
   describe 'Transitions' do
-
     before :each do
       @primero_module = PrimeroModule.new(name: 'CP')
       @primero_module.save(validate: false)
@@ -113,7 +115,7 @@ describe NotificationMailer, type: :mailer do
         @transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(@transfer.id)}
+      let(:mail) { NotificationMailer.transition_notify(@transfer.id) }
 
       it 'renders the headers' do
         expect(mail.subject).to eq("Case: #{@case.short_id} - Transfer")
@@ -155,7 +157,8 @@ describe NotificationMailer, type: :mailer do
       end
 
       it 'renders the body' do
-        expect(mail.body.encoded).to match('Primero user user2 from Test Agency is requesting that you transfer ownership')
+        expect(mail.body.encoded)
+          .to match('Primero user user2 from Test Agency is requesting that you transfer ownership')
       end
     end
 
@@ -170,7 +173,7 @@ describe NotificationMailer, type: :mailer do
   private
 
   def child_with_created_by(created_by, options = {})
-    user = User.new({:user_name => created_by})
+    user = User.new(user_name: created_by)
     child = Child.new_with_user user, options
     child.save && child
   end

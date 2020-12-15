@@ -56,11 +56,7 @@ describe("<ReportsForm /> - Container", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      ReportsForm,
-      { mode: "new" },
-      initialState
-    ));
+    ({ component } = setupMountedComponent(ReportsForm, { mode: "new" }, initialState));
   });
 
   it("should render <PageHeading>", () => {

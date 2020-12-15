@@ -4,7 +4,7 @@ describe("<Form /> - components/form/constants", () => {
   it("should have known properties", () => {
     const clone = { ...constants };
 
-    ["NAME"].forEach(property => {
+    ["NAME", "TEMP_OPTION_ID"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });

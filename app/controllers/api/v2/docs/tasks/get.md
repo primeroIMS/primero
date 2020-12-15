@@ -29,8 +29,18 @@ Show a paginated list of all tasks that are accessible to this user.
     {
       "record_type": "case",
       "record_id": "0eaddc20-7dbd-4b7a-8e08-29666fbb4769",
-      "record_id_display": "0bdac29",
-      "type": "service"
+      "completion_field": "service_implemented_day_time",
+      "detail": "service_1",
+      "due_date": "06-Feb-2020",
+      "id": "1e23781f-df19-4f97-8b65-e30fad55594e",
+      "module_unique_id": "primeromodule-cp",
+      "name": "Name 1",
+      "overdue": true,
+      "priority": "medium",
+      "record_id_display": "6f5a4ff",
+      "type": "service",
+      "type_display": "Service 1",
+      "upcoming_soon": false
     }
   ],
   "metadata": {

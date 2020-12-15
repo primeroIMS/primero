@@ -8,7 +8,11 @@ describe("separatorFieldForm", () => {
     isNew: false,
     isEdit: true
   });
-  const separator = separatorFieldForm("test_name", i18n, formMode);
+  const separator = separatorFieldForm({
+    field: fromJS({ name: "test_name" }),
+    i18n,
+    formMode
+  });
   const generalSection = separator.forms.first().fields;
   const visibilitySection = separator.forms.last().fields[1].row;
 
@@ -23,7 +27,7 @@ describe("separatorFieldForm", () => {
   });
 
   it("should return 4 fields from the general section form", () => {
-    expect(generalSection).to.have.lengthOf(4);
+    expect(generalSection).to.have.lengthOf(3);
   });
 
   it("should return 4 fields from the visible ection form", () => {

@@ -1,0 +1,24 @@
+.stepCases {
+  margin: 15px 0 0 8px;
+}
+
+.itemButton {
+  font-size: 1rem;
+  border: none;
+  line-height: 1.5em;
+  text-align: left;
+  background: none;
+  padding: 0;
+}
+
+.itemButtonClick {
+  cursor: pointer;
+
+  & span {
+    color: $(theme.primero.colors.blue)
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

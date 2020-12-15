@@ -1,6 +1,7 @@
 .tabContent {
   padding: 0 1em;
 }
+
 .tabFields {
   padding: 0 1em;
   display: flex;
@@ -9,8 +10,17 @@
   }
 }
 
+.tabTranslations {
+  padding: 0 1em;
+}
+
 .heading {
   color: $(theme.primero.colors.solidBlack);
   fong-weight: bold;
   flex: 1;
+}
+
+.tabHeader:disabled {
+  cursor: not-allowed;
+  pointer-events: auto;
 }

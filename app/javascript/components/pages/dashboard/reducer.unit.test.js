@@ -2,12 +2,7 @@ import { fromJS } from "immutable";
 
 import * as userActions from "../../user/actions";
 
-import {
-  DASHBOARDS_STARTED,
-  DASHBOARDS_SUCCESS,
-  DASHBOARDS_FINISHED,
-  DASHBOARDS_FAILURE
-} from "./actions";
+import actions from "./actions";
 import reducer from "./reducer";
 
 describe("<Dashboard /> - Reducers", () => {
@@ -20,7 +15,7 @@ describe("<Dashboard /> - Reducers", () => {
       errors: false
     });
     const action = {
-      type: DASHBOARDS_STARTED,
+      type: actions.DASHBOARDS_STARTED,
       payload: true
     };
 
@@ -54,7 +49,7 @@ describe("<Dashboard /> - Reducers", () => {
       data
     });
     const action = {
-      type: DASHBOARDS_SUCCESS,
+      type: actions.DASHBOARDS_SUCCESS,
       payload: {
         data
       }
@@ -69,7 +64,7 @@ describe("<Dashboard /> - Reducers", () => {
       loading: false
     });
     const action = {
-      type: DASHBOARDS_FINISHED,
+      type: actions.DASHBOARDS_FINISHED,
       payload: false
     };
 
@@ -83,7 +78,7 @@ describe("<Dashboard /> - Reducers", () => {
       errors: true
     });
     const action = {
-      type: DASHBOARDS_FAILURE,
+      type: actions.DASHBOARDS_FAILURE,
       payload: true
     };
 

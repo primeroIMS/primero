@@ -13,16 +13,11 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.ASSIGN_USER_SAVE_FAILURE:
       return state
         .setIn(["reassign", "errors"], true)
-        .setIn(
-          ["reassign", "message"],
-          fromJS(payload.errors.map(e => e.message).flat())
-        );
+        .setIn(["reassign", "message"], fromJS(payload.errors.map(e => e.message).flat()));
     case Actions.ASSIGN_USER_SAVE_FINISHED:
       return state.setIn(["reassign", "loading"], false);
     case Actions.ASSIGN_USER_SAVE_STARTED:
-      return state
-        .setIn(["reassign", "loading"], true)
-        .setIn(["reassign", "errors"], false);
+      return state.setIn(["reassign", "loading"], true).setIn(["reassign", "errors"], false);
     case Actions.ASSIGN_USER_SAVE_SUCCESS:
       return state
         .setIn(["reassign", "errors"], false)
@@ -31,18 +26,13 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           return data.push(TransitionRecord(payload.data));
         });
     case Actions.CLEAR_ERRORS:
-      return state
-        .setIn([payload, "errors"], false)
-        .setIn([payload, "message"], fromJS([]));
+      return state.setIn([payload, "errors"], false).setIn([payload, "message"], fromJS([]));
     case Actions.TRANSFER_USERS_FETCH_SUCCESS:
       return state.setIn(["transfer", "users"], fromJS(payload.data));
     case Actions.TRANSFER_USER_FAILURE:
       return state
         .setIn(["transfer", "errors"], true)
-        .setIn(
-          ["transfer", "message"],
-          fromJS(payload.errors.map(e => e.message).flat())
-        );
+        .setIn(["transfer", "message"], fromJS(payload.errors.map(e => e.message).flat()));
     case Actions.TRANSFER_USER_STARTED:
       return state.setIn(["transfer", "errors"], false);
     case Actions.TRANSFER_USER_SUCCESS:
@@ -60,29 +50,23 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.REFERRAL_USERS_FETCH_SUCCESS:
       return state.setIn(["referral", "users"], fromJS(payload.data));
     case Actions.REFERRAL_USERS_FETCH_FINISHED:
-      return state
-        .setIn(["referral", "loading"], false)
-        .setIn(["referral", "errors"], false);
+      return state.setIn(["referral", "loading"], false).setIn(["referral", "errors"], false);
     case Actions.REFERRAL_USERS_FETCH_FAILURE:
-      return state
-        .setIn(["referral", "loading"], false)
-        .setIn(["referral", "errors"], true);
+      return state.setIn(["referral", "loading"], false).setIn(["referral", "errors"], true);
     case Actions.REFER_USER_FAILURE:
-      return state
-        .setIn(["referral", "errors"], true)
-        .setIn(
-          ["referral", "message"],
-          fromJS(payload.errors.map(e => e.message).flat())
-        );
+      return state.setIn(["referral", "errors"], true).setIn(["referral", "message"], fromJS(payload.errors));
     case Actions.REFER_USER_STARTED:
-      return state.setIn(["referral", "errors"], false);
+      return state.setIn(["referral", "errors"], false).setIn(["referral", "success"], false);
     case Actions.REFER_USER_SUCCESS:
       return state
         .setIn(["referral", "errors"], false)
         .setIn(["referral", "message"], fromJS([]))
+        .setIn(["referral", "success"], true)
         .update("data", data => {
-          return data.push(TransitionRecord(payload.data));
+          return data.unshift(TransitionRecord(payload.data));
         });
+    case Actions.REFER_USER_FINISHED:
+      return state.setIn(["referral", "success"], false);
     default:
       return state;
   }

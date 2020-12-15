@@ -14,12 +14,7 @@ describe("<OverviewBox />", () => {
       indicators: {
         approval_closure_pending: {
           count: 5,
-          query: [
-            "owned_by=primero",
-            "record_state=true",
-            "status=open",
-            "approval_status_closure=pending"
-          ]
+          query: ["owned_by=primero", "record_state=true", "status=open", "approval_status_closure=pending"]
         }
       }
     }),
@@ -39,11 +34,7 @@ describe("<OverviewBox />", () => {
 
   describe("when withTotal props is false", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        OverviewBox,
-        { ...props, withTotal: false },
-        {}
-      ));
+      ({ component } = setupMountedComponent(OverviewBox, { ...props, withTotal: false }, {}));
     });
     it("renders the header without total/>", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
@@ -66,11 +57,7 @@ describe("<OverviewBox />", () => {
     };
 
     before(() => {
-      ({ component: loadingComponent } = setupMountedComponent(
-        OverviewBox,
-        loadingProps,
-        {}
-      ));
+      ({ component: loadingComponent } = setupMountedComponent(OverviewBox, loadingProps, {}));
     });
 
     it("renders BadgedIndicator component", () => {
@@ -81,44 +68,72 @@ describe("<OverviewBox />", () => {
     });
   });
   describe("When the approvals labels entries are present", () => {
-    const ASSESSMENT_LABEL = "Assessment";
-    const propsApprovals = {
-      items: fromJS({
-        name: "dashboard.approvals_closure",
-        type: "indicator",
-        indicators: {
-          approval_assessment_pending_group: {
-            count: 1,
-            query: [
-              "record_state=true",
-              "status=open",
-              "approval_status_assessment=pending"
-            ]
+    context("when is a Assessment approvals", () => {
+      const ASSESSMENT_LABEL = "Assessment";
+      const propsApprovals = {
+        items: fromJS({
+          name: "dashboard.approvals_closure",
+          type: "indicator",
+          indicators: {
+            approval_assessment_pending_group: {
+              count: 1,
+              query: ["record_state=true", "status=open", "approval_status_assessment=pending"]
+            }
+          }
+        }),
+        sumTitle: "Pending Approvals"
+      };
+      const initialState = fromJS({
+        application: {
+          approvalsLabels: {
+            assessment: {
+              en: ASSESSMENT_LABEL
+            }
           }
         }
-      }),
-      sumTitle: "Pending Approvals"
-    };
-    const initialState = fromJS({
-      application: {
-        approvalsLabels: {
-          assessment: {
-            en: ASSESSMENT_LABEL
+      });
+
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(OverviewBox, propsApprovals, initialState));
+      });
+
+      it("renders a component with its respective label />", () => {
+        expect(component.find("li").text()).to.equal(`1 ${ASSESSMENT_LABEL}`);
+      });
+    });
+
+    context("when is GBV Closure approvals", () => {
+      const GBV_CLOSURE = "GBV Closure";
+      const propsApprovals = {
+        items: fromJS({
+          name: "dashboard.approvals_gbv_closure",
+          type: "indicator",
+          indicators: {
+            approval_gbv_closure_pending_group: {
+              count: 1,
+              query: ["record_state=true", "status=open", "approval_status_gbv_closure=pending"]
+            }
+          }
+        }),
+        sumTitle: "Pending Approvals"
+      };
+      const initialState = fromJS({
+        application: {
+          approvalsLabels: {
+            gbv_closure: {
+              en: GBV_CLOSURE
+            }
           }
         }
-      }
-    });
+      });
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        OverviewBox,
-        propsApprovals,
-        initialState
-      ));
-    });
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(OverviewBox, propsApprovals, initialState));
+      });
 
-    it("renders a component with its respective label />", () => {
-      expect(component.find("li").text()).to.equal(`1 ${ASSESSMENT_LABEL}`);
+      it("renders a component with its respective label />", () => {
+        expect(component.find("li").text()).to.equal(`1 ${GBV_CLOSURE}`);
+      });
     });
   });
 });

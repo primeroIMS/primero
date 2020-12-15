@@ -1,6 +1,6 @@
 import React from "react";
-import { fromJS, List } from "immutable";
-import { IconButton } from "@material-ui/core";
+import { useSelector } from "react-redux";
+import { List } from "immutable";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 
@@ -9,17 +9,40 @@ import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 import { NAMESPACE } from "../roles-form";
+import { getMetadata } from "../../../record-list";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { RESOURCES, CREATE_RECORDS } from "../../../../libs/permissions";
+import { useMetadata } from "../../../records";
+import usePermissions from "../../../permissions";
 
 import { fetchRoles } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
 
 const Container = () => {
   const i18n = useI18n();
+  const recordType = RESOURCES.roles;
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
     ...rest
   }));
+  const metadata = useSelector(state => getMetadata(state, "roles"));
+  const defaultFilters = metadata;
+  const canAddRoles = usePermissions(NAMESPACE, CREATE_RECORDS);
+  const rolesNewButton = canAddRoles && (
+    <ActionButton
+      icon={<AddIcon />}
+      text={i18n.t("buttons.new")}
+      type={ACTION_BUTTON_TYPES.default}
+      rest={{
+        to: ROUTES.admin_roles_new,
+        component: Link
+      }}
+    />
+  );
+
+  useMetadata(recordType, metadata, fetchRoles, "data");
 
   const tableOptions = {
     recordType: [ADMIN_NAMESPACE, NAMESPACE],
@@ -27,27 +50,17 @@ const Container = () => {
     options: {
       selectableRows: "none"
     },
-    defaultFilters: fromJS({
-      per: 20,
-      page: 1
-    }),
+    defaultFilters,
     onTableChange: fetchRoles,
-    targetRecordType: NAMESPACE
+    targetRecordType: NAMESPACE,
+    bypassInitialFetch: true
   };
 
   return (
     <>
-      <PageHeading title={i18n.t("roles.label")}>
-        <IconButton
-          to={ROUTES.admin_roles_new}
-          component={Link}
-          color="primary"
-        >
-          <AddIcon />
-        </IconButton>
-      </PageHeading>
+      <PageHeading title={i18n.t("roles.label")}>{rolesNewButton}</PageHeading>
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <IndexTable title={i18n.t("roles.label")} {...tableOptions} />
       </PageContent>
     </>
   );

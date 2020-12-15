@@ -6,9 +6,9 @@ Retrieve the contact information for Primero as JSON
 
 **Method** : `GET`
 
-**Authentication** : NO
+**Authentication** : YES
 
-**Parameters** : No parameters 
+**Parameters** : No parameters
 
 ## Success Response
 

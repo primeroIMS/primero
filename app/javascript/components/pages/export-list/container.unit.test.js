@@ -2,11 +2,12 @@ import { fromJS } from "immutable";
 import MUIDataTable, { TableBodyRow } from "mui-datatables";
 
 import IndexTable from "../../index-table";
-import { PageContainer, PageHeading, PageContent } from "../../page";
+import PageContainer, { PageHeading, PageContent } from "../../page";
 import { ListHeaderRecord } from "../../user/records";
 import { setupMountedComponent } from "../../../test";
 import { FieldRecord } from "../../record-form";
 import { mapEntriesToRecord } from "../../../libs";
+import DisableOffline from "../../disable-offline";
 
 import { ExportRecord } from "./records";
 import ExportList from "./container";
@@ -81,18 +82,16 @@ describe("<ExportList />", () => {
         FieldRecord
       ),
       options: {
-        lookups: {
-          data: [
-            {
-              id: 1,
-              unique_id: "lookup-location-type",
-              values: [
-                { id: "country", display_text: "Country" },
-                { id: "region", display_text: "Region" }
-              ]
-            }
-          ]
-        }
+        lookups: [
+          {
+            id: 1,
+            unique_id: "lookup-location-type",
+            values: [
+              { id: "country", display_text: "Country" },
+              { id: "region", display_text: "Region" }
+            ]
+          }
+        ]
       }
     }
   });
@@ -119,5 +118,17 @@ describe("<ExportList />", () => {
 
   it("should render <IndexTable>", () => {
     expect(component.find(IndexTable)).to.have.lengthOf(1);
+  });
+
+  describe("when offline", () => {
+    const stateOffline = initialState.setIn(["application", "online"], false);
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(ExportList, {}, stateOffline));
+    });
+
+    it("should render DisabledOffline components for each row", () => {
+      expect(component.find(DisableOffline)).to.have.lengthOf(9);
+    });
   });
 });

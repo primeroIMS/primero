@@ -1,24 +1,54 @@
+.nav {
+  height: 100%;
+
+  & > div {
+    height: 100%;
+  }
+}
+
 .drawer {
   width: $(theme.primero.components.drawerWidth);
   flex-shrink: 0;
 }
 
-.drawerPaper {
+.drawerRoot {
+  height: 100%;
+}
+
+.drawerHeaderContainer {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.drawerHeader {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: $(theme.spacing(0,1));
+  background: $(theme.primero.colors.lightGrey);
+}
+
+.drawerPaper, .drawerPaper-demo {
   width: $(theme.primero.components.drawerWidth);
   background: linear-gradient(
       to top,
       $(theme.primero.colors.white),
       $(theme.primero.colors.lightGrey)
     ),
-    linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14));
+  linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14));
   position: relative;
   white-space: nowrap;
   border: none;
   box-shadow: inset -8px 0 5px -5px rgba(0, 0, 0, 0.15);
 }
 
-.drawerPaper[dir="rtl"] {
+.drawerPaper[dir="rtl"], .drawerPaper-demo[dir="rtl"] {
   box-shadow: inset 8px 0 5px -5px rgba(0, 0, 0, 0.15);
+}
+
+.drawerPaper-demo {
+  background: repeating-linear-gradient(45deg, $(theme.primero.colors.lightGrey), $(theme.primero.colors.lightGrey) 10px, $(theme.primero.colors.white) 10px, $(theme.primero.colors.white) 20px);
 }
 
 .listIcon {
@@ -146,8 +176,20 @@
   }
 }
 
+@media $(theme.breakpoints.down("sm")) {
+  .drawerPaper, .drawerPaper-demo {
+    box-shadow: none
+  }
+
+  .navActive {
+    &:before, &:after {
+      display: none;
+    }
+  }
+}
+
 @media $(theme.breakpoints.only("md")) {
-  .drawerPaper {
+  .drawerPaper, .drawerPaper-demo {
     width: 3.8em;
     overflow-x: hidden;
   }

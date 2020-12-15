@@ -23,6 +23,13 @@ describe ReportFieldService do
       option_strings_source: 'Location'
     )
 
+    @owned_by_agency_field = Field.create!(
+      name: 'owned_by_agency',
+      type: Field::SELECT_BOX,
+      display_name_i18n: {en: 'Owned by agency'},
+      option_strings_source: 'Agency'
+    )
+
     Field.create!(
       name: 'protection_concerns',
       type: Field::SELECT_BOX,
@@ -34,12 +41,10 @@ describe ReportFieldService do
       name: 'sex',
       type: Field::SELECT_BOX,
       display_name_i18n: {en: 'Sex'},
-      option_strings_text_i18n: {
-        en: [
-          { id: 'male', display_text: 'Male'},
-          { id: 'female', display_text: 'Female'}
-        ]
-      }
+      option_strings_text_i18n: [
+          { id: 'male', display_text: {'en' => 'Male'}},
+          { id: 'female', display_text: {'en' => 'Female'}}
+      ]
     )
 
     Lookup.create!({
@@ -128,6 +133,17 @@ describe ReportFieldService do
     }
     report_field = ReportFieldService.report_field(@owned_by_location_field, 'owned_by_location', 'horizontal', 0)
     expect(report_field).to eq(report_owned_by_location_field)
+  end
+
+  it 'returns a agency field' do
+    report_owned_by_agency_field = {
+      name: 'owned_by_agency',
+      display_name: { 'en' => 'Owned by agency' },
+      position: { type: 'horizontal', order: 0 },
+      option_strings_source: 'Agency'
+    }
+    report_field = ReportFieldService.report_field(@owned_by_agency_field, 'owned_by_agency', 'horizontal', 0)
+    expect(report_field).to eq(report_owned_by_agency_field)
   end
 
 

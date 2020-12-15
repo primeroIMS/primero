@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/styles/";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import ApplicationRoutes from "../../application-routes";
-import { PageContainer, PageHeading } from "../../page";
+import PageContainer, { PageHeading } from "../../page";
 import { useI18n } from "../../i18n";
 
 import AdminNav from "./admin-nav";

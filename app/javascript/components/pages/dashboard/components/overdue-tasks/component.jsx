@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { Grid } from "@material-ui/core";
 
 import {
   getCasesByTaskOverdueAssessment,
@@ -14,24 +13,17 @@ import { toTasksOverdueTable, taskOverdueHasData } from "../../utils";
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
+import { ROUTES } from "../../../../../config";
 
 import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
-  const casesByTaskOverdueAssessment = useSelector(state =>
-    getCasesByTaskOverdueAssessment(state)
-  );
-  const casesByTaskOverdueCasePlan = useSelector(state =>
-    getCasesByTaskOverdueCasePlan(state)
-  );
-  const casesByTaskOverdueServices = useSelector(state =>
-    getCasesByTaskOverdueServices(state)
-  );
-  const casesByTaskOverdueFollowups = useSelector(state =>
-    getCasesByTaskOverdueFollowups(state)
-  );
+  const casesByTaskOverdueAssessment = useSelector(state => getCasesByTaskOverdueAssessment(state));
+  const casesByTaskOverdueCasePlan = useSelector(state => getCasesByTaskOverdueCasePlan(state));
+  const casesByTaskOverdueServices = useSelector(state => getCasesByTaskOverdueServices(state));
+  const casesByTaskOverdueFollowups = useSelector(state => getCasesByTaskOverdueFollowups(state));
 
   const hasData = taskOverdueHasData(
     casesByTaskOverdueAssessment,
@@ -62,15 +54,13 @@ const Component = ({ loadingIndicator }) => {
         ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS
       ]}
     >
-      <Grid item xl={9} md={8} xs={12}>
-        <OptionsBox
+      <OptionsBox title={i18n.t("dashboard.cases_by_task_overdue")} hasData={hasData} {...loadingIndicator}>
+        <DashboardTable
+          pathname={ROUTES.cases}
           title={i18n.t("dashboard.cases_by_task_overdue")}
-          hasData={hasData}
-          {...loadingIndicator}
-        >
-          <DashboardTable {...tasksOverdueProps} />
-        </OptionsBox>
-      </Grid>
+          {...tasksOverdueProps}
+        />
+      </OptionsBox>
     </Permission>
   );
 };

@@ -21,10 +21,7 @@ describe("<Transitions /> - Selectors", () => {
   describe("getUsersByTransitionType", () => {
     it("should return list of users allowed to reassign", () => {
       const expected = [{ label: "primero_cp", value: "primero_cp" }];
-      const values = selectors.getUsersByTransitionType(
-        stateWithRecords,
-        "reassign"
-      );
+      const values = selectors.getUsersByTransitionType(stateWithRecords, "reassign");
 
       expect(values).to.deep.equal(expected);
     });
@@ -39,18 +36,15 @@ describe("<Transitions /> - Selectors", () => {
   describe("getErrorsByTransitionType", () => {
     it("should return error messages", () => {
       const expected = ["Test error message"];
-      const values = selectors.getErrorsByTransitionType(
-        stateWithRecords,
-        "reassign"
-      );
+      const values = selectors.getErrorsByTransitionType(stateWithRecords, "reassign");
 
       expect(values).to.deep.equal(expected);
     });
 
-    it("should return undefined when there are not messages in store", () => {
+    it("should return empty list when there are not messages in store", () => {
       const errors = selectors.getErrorsByTransitionType(stateWithNoRecords);
 
-      expect(errors).to.be.equal(undefined);
+      expect(errors).to.be.equal(fromJS([]));
     });
   });
 
@@ -68,19 +62,13 @@ describe("<Transitions /> - Selectors", () => {
 
   describe("getLoadingTransitionType", () => {
     it("should return error messages", () => {
-      const values = selectors.getLoadingTransitionType(
-        stateWithRecords,
-        "reassign"
-      );
+      const values = selectors.getLoadingTransitionType(stateWithRecords, "reassign");
 
       expect(values).to.be.true;
     });
 
     it("should return undefined when there are not messages in store", () => {
-      const errors = selectors.getLoadingTransitionType(
-        stateWithNoRecords,
-        "referral"
-      );
+      const errors = selectors.getLoadingTransitionType(stateWithNoRecords, "referral");
 
       expect(errors).to.be.false;
     });

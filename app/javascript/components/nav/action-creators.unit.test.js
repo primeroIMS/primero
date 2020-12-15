@@ -10,7 +10,7 @@ describe("<Nav /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    ["openDrawer", "fetchAlerts"].forEach(property => {
+    ["fetchAlerts"].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
