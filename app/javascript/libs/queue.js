@@ -1,4 +1,5 @@
 import head from "lodash/head";
+import isEqual from "lodash/isEqual";
 
 import { METHODS } from "../config";
 import DB from "../db/db";
@@ -110,12 +111,14 @@ class Queue {
 
       const item = head(this.queue);
 
-      if (item) {
+      if (item && !item.processed) {
         this.onAttachmentProcess(item);
 
         const action = item;
 
         this.dispatch(action);
+
+        item.processed = true;
       }
 
       this.working = false;
