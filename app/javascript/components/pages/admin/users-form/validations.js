@@ -67,7 +67,7 @@ export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage
         .required(i18n.t("forms.required_field", { field: i18n.t("user.identity_provider") })),
     location: string().nullable().required().label(i18n.t("user.location")),
     password_setting:
-      isMyAccountPage || !formMode.get("isNew")
+      isMyAccountPage || !formMode.get("isNew") || useProviders
         ? string().nullable()
         : string()
             .nullable()

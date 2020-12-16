@@ -83,6 +83,7 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
   },
   {
     display_name: "Change password",
+    name: "change_password",
     type: DIALOG_TRIGGER,
     hideOnShow: true,
     showIf: () => formMode.get("isEdit"),
@@ -185,7 +186,7 @@ const identityUserFields = (i18n, identityOptions) => [
   }
 ];
 
-const EXCLUDED_IDENITITY_FIELDS = ["password", "password_confirmation"];
+const EXCLUDED_IDENITITY_FIELDS = ["password", "password_confirmation", "password_setting", "change_password"];
 
 // eslint-disable-next-line import/prefer-default-export
 export const form = (
