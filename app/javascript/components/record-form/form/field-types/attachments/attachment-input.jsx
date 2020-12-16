@@ -15,23 +15,10 @@ import { enqueueSnackbar, SNACKBAR_VARIANTS } from "../../../../notifier";
 import { ATTACHMENT_TYPES, ATTACHMENT_ACCEPTED_TYPES } from "./constants";
 import renderPreview from "./render-preview";
 
-const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
+const AttachmentInput = ({ attachment, fields, file, loadingFile, name, value, deleteButton }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
-  const [file, setFile] = useState({
-    loading: false,
-    data: null,
-    fileName: ""
-  });
-
-  const loadingFile = (loading, data) => {
-    setFile({
-      loading,
-      data: `${data?.content}${data?.result}`,
-      fileName: data?.fileName
-    });
-  };
 
   const handleChange = async (form, event) => {
     const selectedFile = event?.target?.files?.[0];
@@ -111,6 +98,8 @@ AttachmentInput.propTypes = {
   attachment: PropTypes.string.isRequired,
   deleteButton: PropTypes.node,
   fields: PropTypes.object.isRequired,
+  file: PropTypes.object,
+  loadingFile: PropTypes.func,
   name: PropTypes.string.isRequired,
   value: PropTypes.string
 };
