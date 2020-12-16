@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import Dompurify from "dompurify";
 
 import { useI18n } from "../../../../i18n";
 import { getRoleName } from "../../../../application/selectors";
@@ -25,6 +26,7 @@ const Component = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
   const roleName = useSelector(state => getRoleName(state, userData.role_unique_id));
+  const sanitizer = Dompurify.sanitize;
 
   const handleOk = () => {
     setPending(true);
@@ -55,12 +57,14 @@ const Component = ({
     <p
       // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{
-        __html: i18n.t(`user.messages.new_confirm_${isIdp ? "" : "non_identity_"}html`, {
-          username: userName,
-          identity: identityDisplayText,
-          role: roleName,
-          email: userData.email
-        })
+        __html: sanitizer(
+          i18n.t(`user.messages.new_confirm_${isIdp ? "" : "non_identity_"}html`, {
+            username: userName,
+            identity: identityDisplayText,
+            role: roleName,
+            email: userData.email
+          })
+        )
       }}
     />
   );
