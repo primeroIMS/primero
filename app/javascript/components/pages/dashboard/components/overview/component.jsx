@@ -113,13 +113,11 @@ const Component = ({ loadingIndicator, userPermissions }) => {
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={dashboards.map(dashboard => dashboard.actions).flat()}>
-      <Grid item xl={9} md={8} xs={12}>
-        <OptionsBox title={i18n.t("dashboard.overview")} hasData={overviewDashHasData || false} {...loadingIndicator}>
-          <Grid item md={12}>
-            <Grid container>{renderDashboards()}</Grid>
-          </Grid>
-        </OptionsBox>
-      </Grid>
+      <OptionsBox title={i18n.t("dashboard.overview")} hasData={overviewDashHasData || false} {...loadingIndicator}>
+        <Grid item md={12}>
+          <Grid container>{renderDashboards()}</Grid>
+        </Grid>
+      </OptionsBox>
     </Permission>
   );
 };

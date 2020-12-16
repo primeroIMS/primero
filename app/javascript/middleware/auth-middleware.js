@@ -2,8 +2,7 @@ import { push } from "connected-react-router";
 import get from "lodash/get";
 
 import { actions } from "../components/login/components/login-form";
-import { signOut } from "../components/login/components/idp-selection";
-import { Actions, attemptSignout, setAuthenticatedUser } from "../components/user";
+import { Actions, setAuthenticatedUser } from "../components/user";
 import DB from "../db";
 import { ROUTES } from "../config";
 import { clearDialog } from "../components/action-dialog";
@@ -50,7 +49,7 @@ const authMiddleware = store => next => action => {
   const useIdentityProvider = store.getState().getIn(["idp", "use_identity_provider"], false);
 
   if (routeChanged && location === ROUTES.logout) {
-    startSignout(store, attemptSignout, signOut);
+    startSignout(store);
   }
 
   if ([ROUTES.login, "/"].includes(location) && isAuthenticated) {

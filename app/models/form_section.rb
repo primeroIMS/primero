@@ -52,8 +52,11 @@ class FormSection < ApplicationRecord
       ]
     end
 
-    def new_with_properties(form_params)
-      FormSection.new.tap { |form| form.update_properties(form_params) }
+    def new_with_properties(form_params, opts = {})
+      FormSection.new.tap do |form|
+        form.update_properties(form_params)
+        form.roles << opts[:user]&.role if opts[:user].present?
+      end
     end
 
     # TODO: Used by the RolePermissionsExporter
@@ -74,6 +77,9 @@ class FormSection < ApplicationRecord
       Lookup.where("unique_id like 'lookup-form-group-%'")
     end
 
+    # FormSection.list() breaks the Fields order, so you have to specify the order when selecting the fields
+    # This is due to an issue that breaks ordering when using includes with a where clause
+    # Example:  FormSection.list(params).first.fields.order(:order)
     def list(params = {})
       form_sections = all.includes(:fields, :collapsed_fields, :primero_modules)
       form_sections = form_sections.where(unique_id: params[:unique_id]) if params[:unique_id]

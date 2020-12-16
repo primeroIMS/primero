@@ -37,6 +37,7 @@ describe("Verifying config constant", () => {
       "DASH_CASES_BY_TASK_OVERDUE_SERVICES",
       "DASH_CASE_OVERVIEW",
       "DASH_CASE_RISK",
+      "DASH_FLAGS",
       "DASH_GROUP_OVERVIEW",
       "DASH_PROTECTION_CONCERNS",
       "DASH_REPORTING_LOCATION",
@@ -399,6 +400,17 @@ describe("Verifying config constant", () => {
 
     expect(permissions).to.be.a("array");
     [PERMISSIONS.ACTIONS.MANAGE, PERMISSIONS.ACTIONS.VIEW_INCIDENT_FROM_CASE].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have SHOW_CHANGE_LOG", () => {
+    const permissions = [...PERMISSIONS.SHOW_CHANGE_LOG];
+
+    expect(permissions).to.be.a("array");
+    [PERMISSIONS.ACTIONS.CHANGE_LOG, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
     });

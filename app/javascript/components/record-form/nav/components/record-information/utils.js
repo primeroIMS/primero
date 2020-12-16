@@ -2,7 +2,8 @@
 import { fromJS } from "immutable";
 
 import { NavRecord } from "../../../records";
-import { SHOW_APPROVALS, SHOW_CHANGE_LOG, VIEW_INCIDENTS_FROM_CASE } from "../../../../../libs/permissions";
+import { SHOW_APPROVALS, VIEW_INCIDENTS_FROM_CASE } from "../../../../../libs/permissions";
+import { SHOW_CHANGE_LOG } from "../../../../permissions";
 import {
   APPROVALS,
   CHANGE_LOGS,
