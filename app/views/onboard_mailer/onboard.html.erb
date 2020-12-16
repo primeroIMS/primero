@@ -2,7 +2,7 @@
 
 <p><%= t('user.onboard_email.body1', locale: @user.locale) %></p>
 <%
-  reset_notification = if Rails.configuration.x.idp.use_identity_provider
+  reset_notification = if !Rails.configuration.x.idp.use_identity_provider || @user&.identity_provider&.primero?
                           t('user.onboard_email.body2_reset_notification', locale: @user.locale)
                         else
                           ''
