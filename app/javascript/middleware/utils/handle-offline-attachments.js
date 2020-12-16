@@ -22,7 +22,7 @@ export const buildDBPayload = async (store, action) => {
   return handledBody;
 };
 
-export const buildActionPayload = async (store, action) => {
+export const skipSyncedAttachments = async (store, action) => {
   const { db, id, body } = action.api;
   const payload = { ...action, api: { ...action.api, body: { ...body, data: { ...body.data } } } };
 

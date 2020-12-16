@@ -4,11 +4,11 @@ import { syncIndexedDB, queueIndexedDB } from "../../db";
 
 import withGeneratedProperties from "./with-generated-properties";
 import offlineDispatchSuccess from "./offline-dispatch-success";
-import { buildActionPayload, buildDBPayload } from "./handle-offline-attachments";
+import { skipSyncedAttachments, buildDBPayload } from "./handle-offline-attachments";
 
 export default async (store, action) => {
   const { api, type } = action;
-  const touchedAction = await buildActionPayload(store, withGeneratedProperties(action, store));
+  const touchedAction = await skipSyncedAttachments(store, withGeneratedProperties(action, store));
 
   await queueIndexedDB.add({ ...touchedAction, fromQueue: uuid.v4() });
 
