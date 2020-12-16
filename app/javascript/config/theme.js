@@ -38,12 +38,6 @@ const colors = {
 };
 
 const overrides = {
-  MuiStepConnector: {
-    root: {
-      flex: "1 1 auto",
-      marginBottom: "41px"
-    }
-  },
   MuiPaper: {
     elevation3: {
       boxShadow: "0 2px 12px 0 rgba(125, 125, 125, 0.23)"
