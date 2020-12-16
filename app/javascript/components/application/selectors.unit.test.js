@@ -306,4 +306,12 @@ describe("Application - Selectors", () => {
       expect(selectors.getDemo(stateWithRecords)).to.be.true;
     });
   });
+
+  describe("getAdminLevel", () => {
+    it("should return the admin_level", () => {
+      const selector = selectors.getAdminLevel(stateWithRecords);
+
+      expect(selector).to.be.equal(2);
+    });
+  });
 });
