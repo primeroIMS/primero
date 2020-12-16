@@ -146,11 +146,26 @@ export const FlagIcon = props => (
   </SvgIcon>
 );
 
-export const SaveReturnIcon = props => (
-  <SvgIcon {...props}>
-    <path d="M5.6,12.8 L7.5,14.7 L5,17.1 L24,17.1 L24,19.7 L5,19.7 L7.4,22.1 L5.6,23.9 L0,18.4 L5.6,12.8 Z M20.3,0.8 L22.2,2.7 L11.2,13.7 L5.7,8.2 L7.6,6.3 L11.2,9.9 L20.3,0.8 Z" />
-  </SvgIcon>
-)
+export const SaveReturnIcon = props => {
+  if (props.isRTL) {
+    return (
+      <SvgIcon {...props}>
+        <path id="Path" d="M9.2 13.7 3.7 8.2 5.6 6.3 9.2 9.9 18.3 0.8 20.2 2.7z"></path>
+        <path
+          id="Path"
+          transform="translate(12.000000, 18.350000) scale(-1, 1) translate(-12.000000, -18.350000) "
+          d="M5.6 23.9 0 18.4 5.6 12.8 7.5 14.7 5 17.1 24 17.1 24 19.7 5 19.7 7.4 22.1z"
+        ></path>
+      </SvgIcon>
+    )
+  }
+
+  return (
+    <SvgIcon {...props}>
+      <path d="M5.6,12.8 L7.5,14.7 L5,17.1 L24,17.1 L24,19.7 L5,19.7 L7.4,22.1 L5.6,23.9 L0,18.4 L5.6,12.8 Z M20.3,0.8 L22.2,2.7 L11.2,13.7 L5.7,8.2 L7.6,6.3 L11.2,9.9 L20.3,0.8 Z" />
+    </SvgIcon>
+  );
+};
 
 export const ExportReportGraphIcon = props => (
   <SvgIcon {...props}>
