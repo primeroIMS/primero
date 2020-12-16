@@ -98,15 +98,26 @@ class DB {
       i.type = queryIndex.value;
     }
 
+    const tx = (await this._db).transaction(store, TRANSACTION_MODE.READ_WRITE);
+    const objectStore = tx.objectStore(store);
+
     try {
-      const prev = await (await this._db).get(store, key || i.id);
+      const prev = await objectStore.get(key || i.id);
 
       if (prev) {
-        return (await this._db).put(store, merge(prev, { ...i, ...key }, { arrayMerge: subformAwareMerge }));
+        const result = await objectStore.put(merge(prev, { ...i, ...key }, { arrayMerge: subformAwareMerge }));
+
+        await tx.done;
+
+        return result;
       }
       throw new Error("Record is new");
     } catch (e) {
-      return (await this._db).put(store, { ...i, ...key });
+      const result = await objectStore.put({ ...i, ...key });
+
+      await tx.done;
+
+      return result;
     }
   }
 
@@ -156,8 +167,6 @@ class DB {
       // eslint-disable-next-line no-console
       console.warn(error);
     }
-
-    await tx.done;
 
     return result;
   }

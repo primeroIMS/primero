@@ -48,13 +48,15 @@ const syncIndexedDB = async (
   if (getCollection) {
     const recordMethod = method === METHODS.WRITE ? "save" : "find";
 
-    return getCollection[transactionCallback ? "onTransaction" : recordMethod]({
+    const result = await getCollection[transactionCallback ? "onTransaction" : recordMethod]({
       recordType,
       collection,
       json,
       db,
       transactionCallback
     });
+
+    return result;
   }
 
   return json;

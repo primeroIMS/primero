@@ -61,16 +61,10 @@ const deleteFromQueue = fromQueue => {
 const handleAttachmentSuccess = async ({ json, db, fromAttachment }) => {
   const { id, field_name: fieldName } = fromAttachment;
 
-  const record = await syncIndexedDB({ ...db, mode: TRANSACTION_MODE.READ_ONLY }, {}, "", async (tx, store) => {
+  const recordDB = await syncIndexedDB({ ...db, mode: TRANSACTION_MODE.READ_WRITE }, {}, "", async (tx, store) => {
     const recordData = await store.get(db.id);
 
-    return recordData;
-  });
-
-  const recordDB = await syncIndexedDB({ ...db, mode: TRANSACTION_MODE.READ_WRITE }, {}, "", async (tx, store) => {
-    const recordData = record.data;
-
-    const data = { ...recordData };
+    const data = { ...recordData, [fieldName]: [...recordData[fieldName]] };
 
     data[fieldName] = data[fieldName].map(attachment => ({
       ...attachment,
@@ -91,6 +85,8 @@ const handleAttachmentSuccess = async ({ json, db, fromAttachment }) => {
     const merged = merge(recordData, data, { arrayMerge: subformAwareMerge });
 
     await store.put(merged);
+
+    await tx.done;
 
     return merged;
   });
