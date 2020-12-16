@@ -27,7 +27,7 @@ describe("<LoginSelection />", () => {
             {
               name: "primero",
               provider_type: "b2c",
-              unique_id: "primero",
+              unique_id: "primeroims",
               authorization_url: "authority",
               client_id: "clientid",
               identity_scope: ["scope"],
@@ -40,6 +40,10 @@ describe("<LoginSelection />", () => {
   });
 
   it("renders login buttons for providers", () => {
-    expect(component.find(".loginSelection button.provider-login")).to.have.lengthOf(2);
+    expect(component.find("button")).to.have.lengthOf(1);
+  });
+
+  it("renders a link for primeroims provider", () => {
+    expect(component.find("a")).to.have.lengthOf(1);
   });
 });

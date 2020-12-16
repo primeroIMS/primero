@@ -21,7 +21,7 @@ const PrimeroIdpLink = ({ identityProviders, i18n, dispatch, css }) => {
     <div className={css.linkButtonContainer}>
       <span>{i18n.t("or_label")}</span>
       <Link component="a" variant="body2" onClick={() => signIn(primeroIdp, tokenCallback)}>
-        {`log in with ${primeroIdp.get("name")} username`}
+        {i18n.t("log_in_primero_idp", { idp_name: primeroIdp.get("name") })}
       </Link>
     </div>
   );

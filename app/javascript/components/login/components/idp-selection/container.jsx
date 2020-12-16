@@ -26,7 +26,6 @@ const showIdps = (identityProviders, dispatch) => {
 
     return (
       <Button
-        className="provider-login"
         color="primary"
         type="submit"
         size="large"
