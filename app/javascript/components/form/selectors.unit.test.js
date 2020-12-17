@@ -1,4 +1,4 @@
-import { fromJS, List } from "immutable";
+import { fromJS } from "immutable";
 
 import { OPTION_TYPES } from "./constants";
 import * as selectors from "./selectors";
