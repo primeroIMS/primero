@@ -7,17 +7,49 @@ import Menu from "../menu";
 import UserActions from "./component";
 
 describe("<UserActions>", () => {
-  let component;
+  describe("when idp is not used", () => {
+    let component;
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(UserActions, { id: "1" }, fromJS({})));
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(UserActions, { id: "1" }, fromJS({})));
+    });
+
+    it("should render the Menu", () => {
+      expect(component.find(Menu)).to.have.lengthOf(1);
+    });
+
+    it("should render the Password Reset MenuItem", () => {
+      expect(
+        component
+          .find(MenuItem)
+          .map(node => node.text())
+          .includes("user.password_reset_request")
+      ).to.be.true;
+    });
   });
 
-  it("should render the Menu", () => {
-    expect(component.find(Menu)).to.have.lengthOf(1);
-  });
+  describe("when idp is used", () => {
+    let component;
 
-  it("should render the MenuItem", () => {
-    expect(component.find(MenuItem)).to.have.lengthOf(1);
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        UserActions,
+        { id: "1" },
+        fromJS({ idp: { use_identity_provider: true } })
+      ));
+    });
+
+    it("should render the Menu", () => {
+      expect(component.find(Menu)).to.have.lengthOf(1);
+    });
+
+    it("should not render the Password Reset MenuItem", () => {
+      expect(
+        component
+          .find(MenuItem)
+          .map(node => node.text())
+          .includes("user.password_reset_request")
+      ).to.be.false;
+    });
   });
 });

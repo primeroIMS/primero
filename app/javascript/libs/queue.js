@@ -1,5 +1,4 @@
 import head from "lodash/head";
-import isEqual from "lodash/isEqual";
 
 import { METHODS } from "../config";
 import DB from "../db/db";
