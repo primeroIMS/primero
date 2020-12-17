@@ -118,4 +118,12 @@ export const getSharedWithMyTeam = state => getDashboardByName(state, DASHBOARD_
 
 export const getCaseIncidentOverview = state => getDashboardByName(state, DASHBOARD_NAMES.CASE_INCIDENT_OVERVIEW);
 
-export const getDashboardFlags = state => state.getIn(["records", NAMESPACE, "flags", "data"], fromJS([]));
+export const getDashboardFlags = (state, excludeResolved = false) => {
+  const flags = state.getIn(["records", NAMESPACE, "flags", "data"], fromJS([]));
+
+  if (excludeResolved) {
+    return flags.filter(flag => !flag.get("removed"));
+  }
+
+  return flags;
+};

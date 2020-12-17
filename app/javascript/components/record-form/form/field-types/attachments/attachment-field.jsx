@@ -6,11 +6,12 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "../../styles.css";
 import ActionButton from "../../../../action-button";
+import DisableOffline from "../../../../disable-offline";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import ActionDialog from "../../../../action-dialog";
 import { useI18n } from "../../../../i18n";
 
-import { buildAttachmentFieldsObject } from "./utils";
+import { buildAttachmentFieldsObject, buildBase64URL } from "./utils";
 import AttachmentInput from "./attachment-input";
 import AttachmentPreview from "./attachment-preview";
 
@@ -18,7 +19,20 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
-  const { attachment_url: attachmentUrl, id, _destroy: destroyed, file_name: fileName } = value;
+  const [file, setFile] = useState({
+    loading: false,
+    data: null,
+    fileName: ""
+  });
+
+  const {
+    attachment_url: attachmentUrl,
+    id,
+    _destroy: destroyed,
+    file_name: fileName,
+    attachment: attachmentData,
+    content_type: contentType
+  } = value;
 
   const fields = buildAttachmentFieldsObject(name, index);
 
@@ -54,19 +68,38 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
 
   const dialogTitle = `${i18n.t("fields.remove")} ${name}`;
 
+  const loadingFile = (loading, data) => {
+    setFile({
+      loading,
+      data: `${data?.content}${data?.result}`,
+      fileName: data?.fileName
+    });
+  };
+
   return (
     <Box className={css.uploadBox}>
       <Box display="flex" my={2} alignItems="center">
         <Box flexGrow="1">
           {!mode.isShow && (
             <>
-              {attachmentUrl ? (
+              {attachmentUrl || (attachmentData && !file.loading) ? (
                 <div className={css.attachmentRow}>
-                  <AttachmentPreview name={fileName} attachment={attachment} attachmentUrl={attachmentUrl} />
-                  {deleteButton}
+                  <AttachmentPreview
+                    name={fileName}
+                    attachment={attachment}
+                    attachmentUrl={attachmentUrl || buildBase64URL(contentType, attachmentData)}
+                  />
+                  <DisableOffline>{deleteButton}</DisableOffline>
                 </div>
               ) : (
-                <AttachmentInput fields={fields} attachment={attachment} name={name} deleteButton={deleteButton} />
+                <AttachmentInput
+                  file={file}
+                  loadingFile={loadingFile}
+                  fields={fields}
+                  attachment={attachment}
+                  name={name}
+                  deleteButton={deleteButton}
+                />
               )}
             </>
           )}

@@ -10,6 +10,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import some from "lodash/some";
 
+import DisableOffline from "../../../../disable-offline";
 import { useI18n } from "../../../../i18n";
 import { DOCUMENT_FIELD_NAME } from "../../constants";
 import DateField from "../date-field";
@@ -79,14 +80,16 @@ const DocumentField = ({
   const closeDeleteConfirmation = () => setDeleteConfirmation(false);
 
   const deleteButton = mode.isEdit && (
-    <ActionButton
-      icon={<DeleteIcon />}
-      type={ACTION_BUTTON_TYPES.icon}
-      isCancel
-      rest={{
-        onClick: openDeleteConfirmation
-      }}
-    />
+    <DisableOffline>
+      <ActionButton
+        icon={<DeleteIcon />}
+        type={ACTION_BUTTON_TYPES.icon}
+        isCancel
+        rest={{
+          onClick: openDeleteConfirmation
+        }}
+      />
+    </DisableOffline>
   );
 
   const supportingInputsProps = {

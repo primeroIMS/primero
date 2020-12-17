@@ -15,8 +15,7 @@ import {
   CLEAR_CASE_FROM_INCIDENT,
   SET_CASE_ID_REDIRECT,
   SET_SELECTED_RECORD,
-  CLEAR_SELECTED_RECORD,
-  UPDATE_ATTACHMENTS
+  CLEAR_SELECTED_RECORD
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -196,11 +195,6 @@ export const setSelectedRecord = (recordType, recordId) => ({
 
 export const clearSelectedRecord = recordType => ({
   type: `${recordType}/${CLEAR_SELECTED_RECORD}`
-});
-
-export const updateRecordAttachments = (recordId, recordType) => ({
-  type: `${recordType}/${UPDATE_ATTACHMENTS}`,
-  payload: { id: recordId, recordType }
 });
 
 export const clearRecordAttachments = (recordId, recordType) => ({

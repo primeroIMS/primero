@@ -11,27 +11,32 @@ import { getIdentityProviders } from "./selectors";
 import { signIn } from "./auth-provider";
 import { NAME } from "./config";
 import styles from "./styles.css";
+import { PRIMERO_IDP } from "./constants";
+import PrimeroIdpLink from "./components/primero-idp-link";
 
-const showIdps = (identityProviders, i18n, dispatch) => {
+const showIdps = (identityProviders, dispatch) => {
   const tokenCallback = accessToken => {
     dispatch(attemptLogin(accessToken));
   };
 
-  return identityProviders.map(idp => (
-    <Button
-      className="provider-login"
-      color="primary"
-      type="submit"
-      size="large"
-      fullWidth
-      key={idp.get("name")}
-      onClick={() => signIn(idp, tokenCallback)}
-    >
-      {i18n.t("login.provider_title", {
-        provider: idp.get("name")
-      })}
-    </Button>
-  ));
+  return identityProviders.map(idp => {
+    if (idp.get("unique_id") === PRIMERO_IDP && identityProviders.size > 1) {
+      return null;
+    }
+
+    return (
+      <Button
+        color="primary"
+        type="submit"
+        size="large"
+        fullWidth
+        key={idp.get("name")}
+        onClick={() => signIn(idp, tokenCallback)}
+      >
+        {idp.get("name")}
+      </Button>
+    );
+  });
 };
 
 const Container = () => {
@@ -43,7 +48,9 @@ const Container = () => {
   return (
     <>
       <PageHeading title={i18n.t("login.title")} whiteHeading />
-      <div className={`${css.loginSelection} loginSelection`}>{showIdps(identityProviders, i18n, dispatch)}</div>
+      <p className={css.selectProvider}>{i18n.t("select_provider")}</p>
+      <div className={`${css.loginSelection} loginSelection`}>{showIdps(identityProviders, dispatch)}</div>
+      <PrimeroIdpLink identityProviders={identityProviders} i18n={i18n} dispatch={dispatch} css={css} />
     </>
   );
 };
