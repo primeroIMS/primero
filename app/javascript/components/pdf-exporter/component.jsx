@@ -11,7 +11,6 @@ import { enqueueSnackbar } from "../notifier";
 import { CUSTOM_HEADER, HEADER, SIGNATURES } from "../record-actions/exports/constants";
 import { getOptions } from "../form/selectors";
 import { getAgencyLogos } from "../application/selectors";
-import { ConditionalWrapper } from "../../libs";
 
 import Signatures from "./components/signatures";
 import { getCustomFormTitle } from "./selectors";
