@@ -222,7 +222,7 @@ describe Exporters::SelectedFieldsExcelExporter do
   context 'Selected fields' do
     let(:workbook) do
       data = Exporters::SelectedFieldsExcelExporter.export(
-        @records, @user, field_names: %w[cases_test_form_1:first_name cases_test_form_2:array_field]
+        @records, @user, field_names: %w[first_name array_field]
       )
       Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end
@@ -268,7 +268,7 @@ describe Exporters::SelectedFieldsExcelExporter do
     it 'contains a sheet for the selected nested fields' do
       data = Exporters::SelectedFieldsExcelExporter.export(
         @records, @user_subform,
-        field_names: ['cases_test_form_1:first_name', 'cases_test_subform_2:field_3', 'cases_test_subform_2:field_4']
+        field_names: ['first_name', 'field_3', 'field_4']
       )
       workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       expect(workbook.sheet(0).row(1)).to eq(%w[ID first_name field_3 field_4])
