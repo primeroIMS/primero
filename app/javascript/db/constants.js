@@ -54,3 +54,8 @@ export const METHODS = Object.freeze({
   WRITE: "write",
   READ: "read"
 });
+
+export const TRANSACTION_MODE = Object.freeze({
+  READ_ONLY: "readonly",
+  READ_WRITE: "readwrite"
+});

@@ -51,7 +51,10 @@ const Component = ({
     if (date) {
       const dateValue = field === "to" ? endOfDay(date) : startOfDay(date);
 
-      formattedDate = toServerDateFormat(dateValue, { includeTime: true, normalize: false });
+      formattedDate = toServerDateFormat(dateIncludeTime ? date : dateValue, {
+        includeTime: true,
+        normalize: dateIncludeTime === true
+      });
     }
 
     const value = { ...inputValue, [field]: formattedDate };

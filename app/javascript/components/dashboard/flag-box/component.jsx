@@ -13,16 +13,18 @@ const FlagBox = ({ flags }) => {
 
   return (
     <div className={css.flagContainer}>
-      {flags.map(flag => (
-        <FlagBoxItem
-          key={generateKey()}
-          date={flag.get("date")}
-          reason={flag.get("message")}
-          recordId={flag.get("record_id")}
-          title={showId(flag) ? flag.get("short_id") : flag.get("name")}
-          user={flag.get("flagged_by")}
-        />
-      ))}
+      {flags
+        .map(flag => (
+          <FlagBoxItem
+            key={generateKey()}
+            date={flag.get("date")}
+            reason={flag.get("message")}
+            recordId={flag.get("record_id")}
+            title={showId(flag) ? flag.get("short_id") : flag.get("name")}
+            user={flag.get("flagged_by")}
+          />
+        ))
+        .slice(0, 10)}
     </div>
   );
 };
