@@ -1,4 +1,4 @@
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 
 import { OPTION_TYPES } from "./constants";
 import * as selectors from "./selectors";
@@ -10,8 +10,29 @@ describe("Forms - Selectors", () => {
   };
 
   const lookup2 = { unique_id: "lookup-2", name: { en: "Lookup 2" } };
+  const referToUsers = [
+    {
+      id: 1,
+      user_name: "test_1"
+    },
+    {
+      id: 2,
+      user_name: "test_2"
+    },
+    {
+      id: 3,
+      user_name: "test_3"
+    }
+  ];
 
   const stateWithLookups = fromJS({
+    records: {
+      transitions: {
+        referral: {
+          users: referToUsers
+        }
+      }
+    },
     forms: {
       options: {
         lookups: [
@@ -95,6 +116,56 @@ describe("Forms - Selectors", () => {
       const result = selectors.getOptions(stateWithLookups, null, i18n, optionStringsText);
 
       expect(result).to.deep.equal(expected);
+    });
+
+    describe("when optionStringsSource is REFER_TO_USERS", () => {
+      describe("with record", () => {
+        const currRecord = fromJS({
+          owned_by: "test_2"
+        });
+
+        const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.REFER_TO_USERS, i18n, [], false, {
+          currRecord
+        });
+
+        it("should return all users without the owned_by user that it's assigned to the record", () => {
+          const expected = [
+            {
+              id: "test_1",
+              display_text: "test_1"
+            },
+            {
+              id: "test_3",
+              display_text: "test_3"
+            }
+          ];
+
+          expect(options.toJS()).to.deep.equal(expected);
+        });
+      });
+
+      describe("without record", () => {
+        const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.REFER_TO_USERS, i18n);
+
+        it("should return all users without filter the owned_by user", () => {
+          const expected = [
+            {
+              id: "test_1",
+              display_text: "test_1"
+            },
+            {
+              id: "test_2",
+              display_text: "test_2"
+            },
+            {
+              id: "test_3",
+              display_text: "test_3"
+            }
+          ];
+
+          expect(options.toJS()).to.deep.equal(expected);
+        });
+      });
     });
   });
 
