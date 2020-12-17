@@ -51,17 +51,17 @@ const AttachmentInput = ({ attachment, fields, file, loadingFile, name, value, d
 
   const acceptedType = ATTACHMENT_ACCEPTED_TYPES[attachment] || "*";
 
-  const fieldDisabled = () => file.loading || (value && !file?.data);
+  const fieldDisabled = () => file?.loading || (value && !file?.data);
 
   return (
     <div className={css.attachment}>
       <label htmlFor={fields.attachment}>
         <div className={css.buttonWrapper}>
-          {!file.data && (
+          {!file?.data && (
             <ActionButton
               text={i18n.t("fields.file_upload_box.select_file_button_text")}
               type={ACTION_BUTTON_TYPES.default}
-              pending={file.loading}
+              pending={file?.loading}
               rest={{
                 component: "span",
                 disabled: fieldDisabled(),
@@ -87,7 +87,7 @@ const AttachmentInput = ({ attachment, fields, file, loadingFile, name, value, d
           }}
         />
       </div>
-      {renderPreview(attachment, file, css, deleteButton)}
+      {file && renderPreview(attachment, file, css, deleteButton)}
     </div>
   );
 };
