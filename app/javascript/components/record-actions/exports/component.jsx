@@ -35,11 +35,13 @@ import {
   ALL_EXPORT_TYPES,
   CUSTOM_EXPORT_FILE_NAME_FIELD,
   CUSTOM_FORMAT_TYPE_FIELD,
+  CUSTOM_HEADER,
   EXPORT_TYPE_FIELD,
   FIELDS_TO_EXPORT_FIELD,
   FIELD_ID,
   FORMS_ID,
   FORM_TO_EXPORT_FIELD,
+  HEADER,
   INDIVIDUAL_FIELDS_FIELD,
   MODULE_FIELD,
   NAME,
@@ -106,12 +108,23 @@ const Component = ({
     selectedRecordsLength > 0 && records.size > 0 && selectedRecordsLength === records.size;
   const allRecordsSelected = selectedRecordsLength === totalRecords;
 
-  const exportType = formMethods.watch(EXPORT_TYPE_FIELD);
-  const formatType = formMethods.watch(CUSTOM_FORMAT_TYPE_FIELD);
-  const individualFields = formMethods.watch(INDIVIDUAL_FIELDS_FIELD);
-  const formsToExport = formMethods.watch(FORM_TO_EXPORT_FIELD);
-  const fieldsToExport = formMethods.watch(FIELDS_TO_EXPORT_FIELD);
-  const selectedModule = formMethods.watch(MODULE_FIELD);
+  const {
+    [EXPORT_TYPE_FIELD]: exportType,
+    [CUSTOM_FORMAT_TYPE_FIELD]: formatType,
+    [INDIVIDUAL_FIELDS_FIELD]: individualFields,
+    [FORM_TO_EXPORT_FIELD]: formsToExport,
+    [FIELDS_TO_EXPORT_FIELD]: fieldsToExport,
+    [MODULE_FIELD]: selectedModule
+  } = formMethods.watch([
+    MODULE_FIELD,
+    FIELDS_TO_EXPORT_FIELD,
+    FORM_TO_EXPORT_FIELD,
+    EXPORT_TYPE_FIELD,
+    CUSTOM_FORMAT_TYPE_FIELD,
+    INDIVIDUAL_FIELDS_FIELD,
+    CUSTOM_HEADER,
+    HEADER
+  ]);
 
   const { userModules } = useApp();
   const modules = userModules

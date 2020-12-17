@@ -29,3 +29,5 @@ export const HTML_2_PDF_OPTIONS = (values, record, customFilenameField) => ({
     orientation: "portrait"
   }
 });
+
+export const PDF_HEADER_LOOKUP = "lookup-pdf-header";

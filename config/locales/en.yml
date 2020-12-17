@@ -781,6 +781,9 @@ en:
       module_placeholder: Please select a module.
       select_module: Select Module
       submit: OK
+      header: Header
+      custom_header: Custom Header
+      signatures: Include signature lines for
     duplicate_id_csv:
       all: Duplicate ID
       female_abbreviation: F
@@ -851,6 +854,14 @@ en:
       selected: Selected to PDF
     pdf_exports:
       label: PDF
+      recipient: Recipient
+      case_worker: Case Worker
+      client: Client
+      date: Date
+      recipient_name: Recipient Name
+      recipient_agency: Recipient Agency
+      caseworker_name: Caseworker Name
+      caseworker_agency: Caseworker Agency
     photowall:
       all: Photo Wall
       flag_suspect_record: Flagged as Suspect Record
