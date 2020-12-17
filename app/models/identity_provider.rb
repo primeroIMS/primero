@@ -9,6 +9,8 @@ require 'net/http'
 # but we still expect the issuer field (corresponding to the JWT iss claim) to be different for each provider.
 class IdentityProvider < ApplicationRecord
   JWKS_LIFESPAN = 12.hours
+  PRIMEROIMS = 'primeroims'
+  B2C = 'b2c'
 
   store_accessor :configuration,
                  :client_id, :authorization_url, :identity_scope,
@@ -59,5 +61,10 @@ class IdentityProvider < ApplicationRecord
 
   def sync_identity?
     connector_type.present?
+  end
+
+  # Indicates if this is the default Primero SaaS identity provider.
+  def primero?
+    unique_id == PRIMEROIMS && domain_hint == PRIMEROIMS && provider_type == B2C
   end
 end

@@ -38,37 +38,40 @@ export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage
   };
 
   const passwordFieldValidations = {
-    password: string()
-      .min(PASSWORD_MIN_LENGTH, i18n.t("errors.models.user.password_length", { min: PASSWORD_MIN_LENGTH }))
-      .when("password_setting", {
-        is: setting => formMode.get("isNew") && setting === PASSWORD_SELF_OPTION,
-        then: string()
-          .nullable()
-          .required(i18n.t("forms.required_field", { field: i18n.t("user.password") })),
-        otherwise: string().nullable()
-      }),
-    password_confirmation: string()
-      .min(PASSWORD_MIN_LENGTH, i18n.t("errors.models.user.password_length", { min: PASSWORD_MIN_LENGTH }))
-      .when("password_setting", {
-        is: setting => formMode.get("isNew") && setting === PASSWORD_SELF_OPTION,
-        then: string()
-          .nullable()
-          .oneOf([ref("password"), null], i18n.t("errors.models.user.password_mismatch"))
-          .required(i18n.t("forms.required_field", { field: i18n.t("user.password_confirmation") })),
-        otherwise: string().nullable()
-      })
+    password: string().when("password_setting", {
+      is: setting => formMode.get("isNew") && setting === PASSWORD_SELF_OPTION,
+      then: string()
+        .min(PASSWORD_MIN_LENGTH, i18n.t("errors.models.user.password_length", { min: PASSWORD_MIN_LENGTH }))
+        .nullable()
+        .required(i18n.t("forms.required_field", { field: i18n.t("user.password") })),
+      otherwise: string().nullable()
+    }),
+    password_confirmation: string().when("password_setting", {
+      is: setting => formMode.get("isNew") && setting === PASSWORD_SELF_OPTION,
+      then: string()
+        .min(PASSWORD_MIN_LENGTH, i18n.t("errors.models.user.password_length", { min: PASSWORD_MIN_LENGTH }))
+        .nullable()
+        .oneOf([ref("password"), null], i18n.t("errors.models.user.password_mismatch"))
+        .required(i18n.t("forms.required_field", { field: i18n.t("user.password_confirmation") })),
+      otherwise: string().nullable()
+    })
   };
 
   const defaultFieldsValidation = {
     email: string().email(i18n.t("errors.models.user.email")).required().label(i18n.t("user.email")),
     full_name: string().required().label(i18n.t("user.full_name")),
-    identity_provider_id: useProviders && number().required(),
+    identity_provider_id:
+      useProviders &&
+      number()
+        .nullable()
+        .required(i18n.t("forms.required_field", { field: i18n.t("user.identity_provider") })),
     location: string().nullable().required().label(i18n.t("user.location")),
-    password_setting: isMyAccountPage
-      ? string().nullable()
-      : string()
-          .nullable()
-          .required(i18n.t("forms.required_field", { field: i18n.t("user.password_setting.label") })),
+    password_setting:
+      isMyAccountPage || !formMode.get("isNew") || useProviders
+        ? string().nullable()
+        : string()
+            .nullable()
+            .required(i18n.t("forms.required_field", { field: i18n.t("user.password_setting.label") })),
     user_name: useProviders
       ? string()
           .email(i18n.t("errors.models.user.email"))

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { FastField } from "formik";
 import { useDispatch } from "react-redux";
@@ -15,23 +15,10 @@ import { enqueueSnackbar, SNACKBAR_VARIANTS } from "../../../../notifier";
 import { ATTACHMENT_TYPES, ATTACHMENT_ACCEPTED_TYPES } from "./constants";
 import renderPreview from "./render-preview";
 
-const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
+const AttachmentInput = ({ attachment, fields, file, loadingFile, name, value, deleteButton }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
-  const [file, setFile] = useState({
-    loading: false,
-    data: null,
-    fileName: ""
-  });
-
-  const loadingFile = (loading, data) => {
-    setFile({
-      loading,
-      data: `${data?.content}${data?.result}`,
-      fileName: data?.fileName
-    });
-  };
 
   const handleChange = async (form, event) => {
     const selectedFile = event?.target?.files?.[0];
@@ -64,17 +51,17 @@ const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
 
   const acceptedType = ATTACHMENT_ACCEPTED_TYPES[attachment] || "*";
 
-  const fieldDisabled = () => file.loading || (value && !file?.data);
+  const fieldDisabled = () => file?.loading || (value && !file?.data);
 
   return (
     <div className={css.attachment}>
       <label htmlFor={fields.attachment}>
         <div className={css.buttonWrapper}>
-          {!file.data && (
+          {!file?.data && (
             <ActionButton
               text={i18n.t("fields.file_upload_box.select_file_button_text")}
               type={ACTION_BUTTON_TYPES.default}
-              pending={file.loading}
+              pending={file?.loading}
               rest={{
                 component: "span",
                 disabled: fieldDisabled(),
@@ -100,7 +87,7 @@ const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
           }}
         />
       </div>
-      {renderPreview(attachment, file, css, deleteButton)}
+      {file && renderPreview(attachment, file, css, deleteButton)}
     </div>
   );
 };
@@ -111,6 +98,8 @@ AttachmentInput.propTypes = {
   attachment: PropTypes.string.isRequired,
   deleteButton: PropTypes.node,
   fields: PropTypes.object.isRequired,
+  file: PropTypes.object,
+  loadingFile: PropTypes.func,
   name: PropTypes.string.isRequired,
   value: PropTypes.string
 };

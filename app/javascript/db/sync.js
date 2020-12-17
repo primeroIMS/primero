@@ -1,7 +1,12 @@
 import collections from "./collections";
 import { DB_COLLECTIONS_NAMES, METHODS } from "./constants";
 
-const syncIndexedDB = async (db = { recordType: "", collection: "" }, json, method = METHODS.WRITE) => {
+const syncIndexedDB = async (
+  db = { recordType: "", collection: "" },
+  json,
+  method = METHODS.WRITE,
+  transactionCallback
+) => {
   const { recordType, collection } = db;
 
   const getCollection = (() => {
@@ -41,12 +46,17 @@ const syncIndexedDB = async (db = { recordType: "", collection: "" }, json, meth
   })();
 
   if (getCollection) {
-    return getCollection[method === METHODS.WRITE ? "save" : "find"]({
+    const recordMethod = method === METHODS.WRITE ? "save" : "find";
+
+    const result = await getCollection[transactionCallback ? "onTransaction" : recordMethod]({
       recordType,
       collection,
       json,
-      db
+      db,
+      transactionCallback
     });
+
+    return result;
   }
 
   return json;

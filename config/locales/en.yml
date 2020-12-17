@@ -26,6 +26,9 @@ en:
   unavailable_offline: Unavailable offline
   online: Online
   yes_label: 'Yes'
+  or_label: or
+  select_provider: Select provider
+  log_in_primero_idp: log in with %{idp_name} username
   offline_submitted_changes: You are currently offline. Your changes will be submitted when you are back online.
   sync:
     success: "%{records} records successfully synced."
@@ -782,6 +785,9 @@ en:
       module_placeholder: Please select a module.
       select_module: Select Module
       submit: OK
+      header: Header
+      custom_header: Custom Header
+      signatures: Include signature lines for
     duplicate_id_csv:
       all: Duplicate ID
       female_abbreviation: F
@@ -852,6 +858,14 @@ en:
       selected: Selected to PDF
     pdf_exports:
       label: PDF
+      recipient: Recipient
+      case_worker: Case Worker
+      client: Client
+      date: Date
+      recipient_name: Recipient Name
+      recipient_agency: Recipient Agency
+      caseworker_name: Caseworker Name
+      caseworker_agency: Caseworker Agency
     photowall:
       all: Photo Wall
       flag_suspect_record: Flagged as Suspect Record
@@ -1062,6 +1076,7 @@ en:
     flag_added: Flag added successfully
     flag_date: Flag Date
     flag_reason: Flag Reason
+    flag_reason_maximun_label: Maximum 255 characters.
     flag_resolved: Flag resolved
     flags_tab: Flags
     no_flags: No flags found
