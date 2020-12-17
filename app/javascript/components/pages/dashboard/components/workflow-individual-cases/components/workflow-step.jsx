@@ -24,13 +24,14 @@ const WorkFlowStep = ({ step, casesWorkflow, css, i18n }) => {
       })
     );
   };
+  const clickable = !isEmpty(workflowData) && workflowData?.count > 0;
 
   return (
     <div className={css.stepCases} icon={null}>
       <button
-        className={clsx(css.itemButton, { [css.itemButtonClick]: !isEmpty(workflowData) })}
+        className={clsx(css.itemButton, { [css.itemButtonClick]: clickable })}
         type="button"
-        onClick={() => (!isEmpty(workflowData) ? handleClick(workflowData.query || {}) : null)}
+        onClick={() => (clickable ? handleClick(workflowData.query || {}) : null)}
       >
         <span>{workflowData.count || 0}</span> {i18n.t("cases.label")}
       </button>
