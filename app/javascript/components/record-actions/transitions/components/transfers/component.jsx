@@ -7,13 +7,13 @@ import { object, string } from "yup";
 
 import { useI18n } from "../../../../i18n";
 import { enqueueSnackbar } from "../../../../notifier";
-import { selectAgencies, getAdminLevel } from "../../../../application/selectors";
-import { getReportingLocations } from "../../../../record-form/selectors";
+import { selectAgencies } from "../../../../application/selectors";
 import { RECORD_TYPES } from "../../../../../config";
 import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selectors";
 import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
 import { TRANSITIONS_TYPES } from "../../../../transitions/constants";
 import { compare } from "../../../../../libs";
+import { getUserLocationsByAdminLevel } from "../../../../user";
 
 import {
   TRANSFER_FIELD,
@@ -53,9 +53,7 @@ const TransferForm = ({
 
   const agencies = useSelector(state => selectAgencies(state));
 
-  const adminLevel = useSelector(state => getAdminLevel(state));
-
-  const locations = useSelector(state => getReportingLocations(state, adminLevel), compare);
+  const locations = useSelector(state => getUserLocationsByAdminLevel(state), compare);
 
   const canConsentOverride =
     userPermissions &&
