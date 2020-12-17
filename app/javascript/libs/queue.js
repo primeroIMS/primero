@@ -1,4 +1,5 @@
 import head from "lodash/head";
+import isEqual from "lodash/isEqual";
 
 import { METHODS } from "../config";
 import DB from "../db/db";
@@ -54,9 +55,13 @@ class Queue {
     EventManager.subscribe(QUEUE_FAILED, () => {
       this.tries += 1;
 
-      if (this.tries === 3) {
-        const action = head(this.queue);
+      const action = head(this.queue);
 
+      if (action) {
+        action.processed = false;
+      }
+
+      if (this.tries === 3) {
         this.queue.shift();
         this.tries = 0;
 
@@ -110,12 +115,14 @@ class Queue {
 
       const item = head(this.queue);
 
-      this.onAttachmentProcess(item);
+      if (item && !item?.processed) {
+        this.onAttachmentProcess(item);
 
-      if (item) {
         const action = item;
 
         this.dispatch(action);
+
+        item.processed = true;
       }
 
       this.working = false;

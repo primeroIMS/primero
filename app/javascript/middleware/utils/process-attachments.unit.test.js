@@ -30,7 +30,8 @@ describe("middleware/utils/process-attachments.js", () => {
         api: {
           path: `${RECORD_PATH.cases}/10/attachments`,
           method: METHODS.POST,
-          body: { data: { attachment: "attachment-data", field_name: "field_1" } }
+          body: { data: { attachment: "attachment-data", field_name: "field_1" } },
+          db: { collection: "records", id: 10, recordType: "cases" }
         },
         fromQueue: "1234",
         fromAttachment: { field_name: "field_1", record_type: RECORD_PATH.cases, record: { id: 10 } }
@@ -39,7 +40,8 @@ describe("middleware/utils/process-attachments.js", () => {
         type: `${RECORD_PATH.cases}/DELETE_ATTACHMENT`,
         api: {
           path: `${RECORD_PATH.cases}/10/attachments/1`,
-          method: METHODS.DELETE
+          method: METHODS.DELETE,
+          db: { collection: "records", id: 10, recordType: "cases" }
         },
         fromQueue: "1234",
         fromAttachment: { id: 1, field_name: "field_2", record_type: RECORD_PATH.cases, record: { id: 10 } }

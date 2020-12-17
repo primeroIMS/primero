@@ -6,6 +6,7 @@ import queueIndexedDB from "../../db/queue";
 import { METHODS } from "../../config";
 
 import queueData from "./queue-data";
+import * as handleOfflineAttachments from "./handle-offline-attachments";
 import * as offlineDispatchSuccess from "./offline-dispatch-success";
 import * as withGeneratedProperties from "./with-generated-properties";
 
@@ -19,23 +20,27 @@ describe("middleware/utils/retrieve-data.js", () => {
     let syncDB;
     let success;
     let queue;
+    let skipSynced;
+    let dbPayload;
+
+    const action = {
+      type: "test-action",
+      api: {},
+      db: {
+        collection: "forms"
+      }
+    };
 
     beforeEach(() => {
       id = stub(uuid, "v4").returns("1234");
+      skipSynced = stub(handleOfflineAttachments, "skipSyncedAttachments").resolves(action);
+      dbPayload = stub(handleOfflineAttachments, "buildDBPayload").resolves(resolvedData);
       queue = stub(queueIndexedDB, "add").resolves();
       syncDB = stub(syncIndexedDB, "default").resolves(resolvedData);
       success = stub(offlineDispatchSuccess, "default");
     });
 
     it("syncs indexeddb and calls offlineDispatchSuccess", async () => {
-      const action = {
-        type: "test-action",
-        api: {},
-        db: {
-          collection: "forms"
-        }
-      };
-
       generatedProperties = stub(withGeneratedProperties, "default").returns({ ...action, fromQueue: "1234" });
 
       await queueData(store, action);
@@ -50,15 +55,21 @@ describe("middleware/utils/retrieve-data.js", () => {
       success.restore();
       id.restore();
       generatedProperties?.restore();
+      skipSynced.restore();
+      dbPayload.restore();
     });
   });
 
   context("when has errored", () => {
     let consoleError;
     let syncDB;
+    let skipSynced;
+    let dbPayload;
 
     beforeEach(() => {
       consoleError = stub(console, "error");
+      skipSynced = stub(handleOfflineAttachments, "skipSyncedAttachments").resolves({});
+      dbPayload = stub(handleOfflineAttachments, "buildDBPayload").resolves({});
       syncDB = stub(syncIndexedDB, "default").rejects("error happened");
     });
 
@@ -79,6 +90,8 @@ describe("middleware/utils/retrieve-data.js", () => {
     afterEach(() => {
       consoleError.restore();
       syncDB.restore();
+      skipSynced.restore();
+      dbPayload.restore();
     });
   });
 });

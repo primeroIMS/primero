@@ -1,6 +1,6 @@
 import uuid from "uuid";
 
-import { queueIndexedDB } from "../../db";
+import { DB_COLLECTIONS_NAMES, queueIndexedDB } from "../../db";
 import { METHODS } from "../../config";
 
 export default ({ attachments, id, recordType }) => {
@@ -22,7 +22,8 @@ export default ({ attachments, id, recordType }) => {
             method,
             ...(!isDelete && {
               body: { data: { ...attachment, field_name: current } }
-            })
+            }),
+            db: { id, collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
           },
           fromQueue: uuid.v4(),
           fromAttachment: {

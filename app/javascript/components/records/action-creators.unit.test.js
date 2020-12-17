@@ -17,7 +17,8 @@ describe("records - Action Creators", () => {
       "DEPRECATED setFilters",
       "DEPRECATED fetchCases",
       "DEPRECATED fetchIncidents",
-      "DEPRECATED fetchTracingRequests"
+      "DEPRECATED fetchTracingRequests",
+      "DEPRECATED updateRecordAttachments"
     ].forEach(property => {
       expect(creators).to.not.have.property(property);
       delete creators[property];
@@ -34,8 +35,7 @@ describe("records - Action Creators", () => {
       "fetchRecordsAlerts",
       "saveRecord",
       "setCaseIdForIncident",
-      "setSelectedRecord",
-      "updateRecordAttachments"
+      "setSelectedRecord"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -314,15 +314,6 @@ describe("records - Action Creators", () => {
     const expected = { type: `${RECORD_PATH.cases}/CLEAR_SELECTED_RECORD` };
 
     expect(actionCreators.clearSelectedRecord(RECORD_PATH.cases)).be.deep.equals(expected);
-  });
-
-  it("should check the 'updateRecordAttachments' action creator to return the correct object", () => {
-    const expected = {
-      type: `${RECORD_PATH.cases}/UPDATE_ATTACHMENTS`,
-      payload: { id: 10, recordType: RECORD_PATH.cases }
-    };
-
-    expect(actionCreators.updateRecordAttachments(10, RECORD_PATH.cases)).be.deep.equals(expected);
   });
 
   it("should check the 'clearRecordAttachments' action creator to return the correct object", () => {

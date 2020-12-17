@@ -26,10 +26,18 @@ const Records = {
       });
     }
 
+    const recordDB = data.id && !dataIsArray && (await DB.getRecord(collection, data.id));
+
     return {
-      data: recordData,
+      data: recordDB || recordData,
       ...(dataIsArray && { metadata })
     };
+  },
+
+  onTransaction: async ({ collection, db, transactionCallback }) => {
+    const result = await DB.onTransaction(collection, db.mode, transactionCallback);
+
+    return { data: result };
   }
 };
 

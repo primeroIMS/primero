@@ -190,6 +190,8 @@ export const getSubformsDisplayName = (state, locale) =>
 
 export const getAttachmentForms = state => state.getIn([NAMESPACE, "attachmentMeta", "forms"], fromJS([]));
 
+export const getAttachmentFields = state => state.getIn([NAMESPACE, "attachmentMeta", "fields"], fromJS([]));
+
 export const getFields = state => state.getIn([NAMESPACE, "fields"]);
 
 export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);
