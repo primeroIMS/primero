@@ -209,7 +209,7 @@ export const form = (
 
     return {
       ...(formMode.get("isShow") || {
-        disabled: value === null || value === "" || !formMode.get("isNew")
+        disabled: value === null || value === "" || (name === "user_name" && !formMode.get("isNew"))
       }),
       ...(name === "user_name" && {
         helperText:
