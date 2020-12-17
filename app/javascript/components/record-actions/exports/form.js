@@ -5,16 +5,22 @@ import { FieldRecord, SELECT_FIELD, RADIO_FIELD, TEXT_FIELD, TOGGLE_FIELD } from
 
 import { isCustomExport, isPdfExport, allowedExports } from "./utils";
 import {
+  CASE_WORKER,
+  CLIENT,
   CUSTOM_EXPORT_FILE_NAME_FIELD,
   CUSTOM_FORMAT_TYPE_FIELD,
+  CUSTOM_HEADER,
   EXPORT_TYPE_FIELD,
   FIELDS_TO_EXPORT_FIELD,
   FIELD_ID,
   FORMS_ID,
   FORM_TO_EXPORT_FIELD,
+  HEADER,
   INDIVIDUAL_FIELDS_FIELD,
   MODULE_FIELD,
-  PASSWORD_FIELD
+  PASSWORD_FIELD,
+  RECIPIENT,
+  SIGNATURES
 } from "./constants";
 
 export default (i18n, userPermissions, isShowPage, modules, fields, exportFormsOptions, recordType) => {
@@ -93,6 +99,46 @@ export default (i18n, userPermissions, isShowPage, modules, fields, exportFormsO
         [CUSTOM_FORMAT_TYPE_FIELD]: formatType,
         [INDIVIDUAL_FIELDS_FIELD]: individualFields
       }) => isCustomExport(exportType) && ((formatType === FORMS_ID && individualFields) || formatType === FIELD_ID)
+    }),
+    FieldRecord({
+      display_name: i18n.t("exports.custom_exports.header"),
+      name: HEADER,
+      type: SELECT_FIELD,
+      multi_select: false,
+      option_strings_source: "lookup-pdf-header",
+      watchedInputs: [EXPORT_TYPE_FIELD],
+      showIf: ({ [EXPORT_TYPE_FIELD]: exportType }) => isPdfExport(exportType)
+    }),
+    FieldRecord({
+      display_name: i18n.t("exports.custom_exports.custom_header"),
+      name: CUSTOM_HEADER,
+      type: TEXT_FIELD,
+      watchedInputs: [EXPORT_TYPE_FIELD],
+      showIf: ({ [EXPORT_TYPE_FIELD]: exportType }) => isPdfExport(exportType)
+    }),
+    FieldRecord({
+      display_name: i18n.t("exports.custom_exports.signatures"),
+      name: SIGNATURES,
+      type: SELECT_FIELD,
+      multi_select: true,
+      option_strings_text: {
+        [i18n.locale]: [
+          {
+            id: RECIPIENT,
+            display_name: i18n.t(`exports.pdf_exports.${RECIPIENT}`)
+          },
+          {
+            id: CASE_WORKER,
+            display_name: i18n.t(`exports.pdf_exports.${CASE_WORKER}`)
+          },
+          {
+            id: CLIENT,
+            display_name: i18n.t(`exports.pdf_exports.${CLIENT}`)
+          }
+        ]
+      },
+      watchedInputs: [EXPORT_TYPE_FIELD],
+      showIf: ({ [EXPORT_TYPE_FIELD]: exportType }) => isPdfExport(exportType)
     }),
     FieldRecord({
       display_name: i18n.t("encrypt.password_label"),
