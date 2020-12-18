@@ -64,8 +64,6 @@ jobs:
           status=0
           bundle exec rspec spec
           status=$((${status} + $?))
-          npm run test:all
-          status=$((${status} + $?))
           exit ${status}
         displayName: 'Run tests'
         env:
