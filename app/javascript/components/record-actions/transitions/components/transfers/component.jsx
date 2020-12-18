@@ -13,7 +13,8 @@ import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selec
 import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
 import { TRANSITIONS_TYPES } from "../../../../transitions/constants";
 import { compare } from "../../../../../libs";
-import { getUserLocationsByAdminLevel } from "../../../../user";
+import { OPTION_TYPES } from "../../../../form";
+import { getOptions } from "../../../../form/selectors";
 
 import {
   TRANSFER_FIELD,
@@ -53,7 +54,7 @@ const TransferForm = ({
 
   const agencies = useSelector(state => selectAgencies(state));
 
-  const locations = useSelector(state => getUserLocationsByAdminLevel(state), compare);
+  const locations = useSelector(state => getOptions(state, OPTION_TYPES.REPORTING_LOCATIONS, i18n), compare);
 
   const canConsentOverride =
     userPermissions &&
