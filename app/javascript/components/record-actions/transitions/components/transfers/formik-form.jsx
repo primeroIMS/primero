@@ -4,7 +4,7 @@ import { Box } from "@material-ui/core";
 import { Form } from "formik";
 import React from "react";
 
-import { UNIQUE_ID_FIELD, CODE_FIELD, NAME_FIELD } from "../../../../../config";
+import { UNIQUE_ID_FIELD, ID_FIELD, DISPLAY_TEXT_FIELD, NAME_FIELD } from "../../../../../config";
 import { valuesToSearchableSelect } from "../../../../../libs";
 import { internalFieldsDirty } from "../utils";
 import { filterUsers } from "../../utils";
@@ -48,7 +48,7 @@ export default (
     {
       id: LOCATION_FIELD,
       label: i18n.t("transfer.location_label"),
-      options: valuesToSearchableSelect(locations, CODE_FIELD, NAME_FIELD, i18n.locale),
+      options: valuesToSearchableSelect(locations, ID_FIELD, DISPLAY_TEXT_FIELD, i18n.locale),
       onChange: (data, field, form) => {
         form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
         sharedOnChange(data, field, form, [AGENCY_FIELD], recordType, dispatch);
