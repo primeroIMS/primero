@@ -1,7 +1,7 @@
 import { List, fromJS } from "immutable";
 
 import { SAVING } from "../../config";
-import { getLocations } from "../record-form";
+import { getLocations } from "../record-form/selectors";
 
 import NAMESPACE from "./namespace";
 import { PERMISSIONS, LIST_HEADERS, PERMITTED_FORMS } from "./constants";

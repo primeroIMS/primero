@@ -154,7 +154,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'incident_date' => { 'from' => nil, 'to' => '2019-04-01' } },
           { 'owned_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'unique_identifier' => { 'from' => nil, 'to' => Incident.first.incident_id } },
-          { 'date_of_first_report' => { 'from' => nil, 'to' => '2020-12-17' } },
+          { 'date_of_first_report' => { 'from' => nil, 'to' => Incident.first.date_of_first_report.iso8601 } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } }
@@ -221,7 +221,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'reopened_logs' => { 'from' => nil, 'to' => [] } },
           { 'case_id_display' => { 'from' => nil, 'to' => Child.first.case_id_display } },
           { 'owned_by_groups' => { 'from' => nil, 'to' => [] } },
-          { 'registration_date' => { 'from' => nil, 'to' => '2020-12-17' } },
+          { 'registration_date' => { 'from' => nil, 'to' => Child.first.registration_date.iso8601 } },
           { 'unique_identifier' => { 'from' => nil, 'to' => Child.first.unique_identifier } },
           { 'protection_concerns' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
