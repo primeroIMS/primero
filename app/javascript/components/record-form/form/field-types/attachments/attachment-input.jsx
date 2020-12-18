@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { FastField } from "formik";
 import { useDispatch } from "react-redux";
@@ -15,10 +15,24 @@ import { enqueueSnackbar, SNACKBAR_VARIANTS } from "../../../../notifier";
 import { ATTACHMENT_TYPES, ATTACHMENT_ACCEPTED_TYPES } from "./constants";
 import renderPreview from "./render-preview";
 
-const AttachmentInput = ({ attachment, fields, file, loadingFile, name, value, deleteButton }) => {
+const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
+
+  const [file, setFile] = useState({
+    loading: false,
+    data: null,
+    fileName: ""
+  });
+
+  const loadingFile = (loading, data) => {
+    setFile({
+      loading,
+      data: `${data?.content}${data?.result}`,
+      fileName: data?.fileName
+    });
+  };
 
   const handleChange = async (form, event) => {
     const selectedFile = event?.target?.files?.[0];
@@ -35,6 +49,8 @@ const AttachmentInput = ({ attachment, fields, file, loadingFile, name, value, d
       const data = await toBase64(selectedFile, attachment);
 
       if (data) {
+        loadingFile(false, data);
+
         form.setFieldValue(fields.attachment, data?.result, true);
         form.setFieldValue(fields.contentType, data?.fileType, true);
         form.setFieldValue(fields.fileName, data?.fileName, true);
@@ -44,7 +60,6 @@ const AttachmentInput = ({ attachment, fields, file, loadingFile, name, value, d
         if ([ATTACHMENT_TYPES.photo, ATTACHMENT_TYPES.audio].includes(attachment)) {
           form.setFieldValue(fields.date, new Date(), true);
         }
-        loadingFile(false, data);
       }
     }
   };
@@ -98,8 +113,6 @@ AttachmentInput.propTypes = {
   attachment: PropTypes.string.isRequired,
   deleteButton: PropTypes.node,
   fields: PropTypes.object.isRequired,
-  file: PropTypes.object,
-  loadingFile: PropTypes.func,
   name: PropTypes.string.isRequired,
   value: PropTypes.string
 };
