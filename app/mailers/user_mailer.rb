@@ -52,28 +52,36 @@ class UserMailer < ApplicationMailer
   end
 
   def email_body_sso(user, admin)
-    I18n.t(
-      'user.welcome_email.body_sso',
-      role_name: user.role.name,
-      agency_name: user.agency.name,
-      user_name: user.user_name,
-      admin_full_name: admin.full_name,
-      admin_email: admin.email,
-      host: root_url,
-      locale: user.locale
-    )
+    idp_name = user.identity_provider&.name
+    {
+      header: I18n.t('user.welcome_email.sso.body', role_name: user.role.name),
+      steps: [
+        I18n.t('user.welcome_email.sso.step1', host: root_url, identity_provider: idp_name),
+        I18n.t('user.welcome_email.sso.step2', identity_provider: idp_name, user_name: user.user_name),
+        I18n.t('user.welcome_email.sso.step3', identity_provider: idp_name)
+      ],
+      footer: I18n.t(
+        'user.welcome_email.sso.footer',
+        admin_full_name: admin.full_name,
+        admin_email: admin.email
+      )
+    }
   end
 
   def email_body_otp(user, admin, one_time_password)
-    I18n.t(
-      'user.welcome_email.body_with_password',
-      role_name: user.role.name,
-      admin_full_name: admin.full_name,
-      admin_email: admin.email,
-      otp: one_time_password,
-      host: root_url,
-      locale: user.locale
-    )
+    {
+      header: I18n.t('user.welcome_email.otp.body', role_name: user.role.name),
+      steps: [
+        I18n.t(
+          'user.welcome_email.otp.step1',
+          admin_full_name: admin.full_name,
+          admin_email: admin.email
+        ),
+        I18n.t('user.welcome_email.otp.step2', host: root_url),
+        I18n.t('user.welcome_email.otp.step3', otp: one_time_password),
+        I18n.t('user.welcome_email.otp.step4')
+      ]
+    }
   end
 
   def load_users!(user_id, admin_user_id)

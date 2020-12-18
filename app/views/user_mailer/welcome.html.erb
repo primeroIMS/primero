@@ -5,6 +5,18 @@
   </head>
   <body>
     <h1><%= @email_greeting %></h1>
-    <p><%= @email_body %></p>
+    <% if @email_body.is_a?(String) %>
+      <p><%= @email_body %></p>
+    <% else %>
+      <p><%= @email_body[:header] %></p>
+      <ol>
+        <% @email_body[:steps].each do |step| %>
+        <li>
+          <%= step %>
+        </li>
+        <% end %>
+      </ol>
+      <p><%= @email_body[:footer] %></p>
+    <% end %>
   </body>
 </html>

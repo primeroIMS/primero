@@ -1,4 +1,12 @@
 <%= @email_greeting %>
 ===============================================
 
-<%= @email_body %>
+<% if @email_body.is_a?(String) %>
+  <%= @email_body %>
+<% else %>
+  <%= @email_body[:header] %>
+  <% @email_body[:steps].each do |step| %>
+    * <%= step %>
+  <% end %>
+  <%= @email_body[:footer] %>
+<% end %>

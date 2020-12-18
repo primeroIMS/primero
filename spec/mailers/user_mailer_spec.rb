@@ -14,6 +14,7 @@ describe UserMailer, type: :mailer do
 
   let(:admin) { instance_double('User', email: 'admin@test.org', full_name: 'Admin') }
   let(:role) { instance_double('Role', name: 'Social Worker') }
+  let(:identity_provider) { instance_double('IdentityProvider', name: 'Test') }
 
   context 'native user' do
     let(:user) do
@@ -56,10 +57,19 @@ describe UserMailer, type: :mailer do
     it 'renders the body' do
       body = mail.body.encoded
       expect(body).to include('Welcome to Test CPIMS+!')
-      fragment = 'You have been added as a Social Worker. ' \
-                 'Please contact Admin (admin@test.org) to receive your user name. ' \
-                 'Use the password OTP123 to log on to https://localhost:3000/, and reset when prompted.'
-      expect(body).to include(fragment)
+      expected = {
+        header: 'You have been added as a Social Worker.',
+        steps: [
+          '* Please contact Admin (admin@test.org) to receive your user name.',
+          '* Go to https://localhost:3000/ and click "login with Primero user name.".',
+          '* Login with your user name and the temporary password OTP123.',
+          '* When prompted, reset your password.'
+        ]
+      }
+
+      expect(body).to include(expected[:header])
+
+      expected[:steps].map {|step| expect(body).to include(step) }
     end
   end
 
@@ -69,7 +79,7 @@ describe UserMailer, type: :mailer do
       instance_double(
         'User',
         email: 'user@test.org', agency: agency, user_name: 'user@test.org',
-        role: role, locale: 'en', using_idp?: true
+        role: role, locale: 'en', using_idp?: true, identity_provider: identity_provider
       )
     end
     let(:mail) { UserMailer.welcome(1, 2) }
@@ -81,10 +91,20 @@ describe UserMailer, type: :mailer do
     it 'renders the body' do
       body = mail.body.encoded
       expect(body).to include('Welcome to Test CPIMS+!')
-      fragment = 'You have been added as a Social Worker. ' \
-                 'You may now log on to https://localhost:3000/ with your UNICEF account user@test.org. ' \
-                 'Please contact Admin (admin@test.org) for further details.'
-      expect(body).to include(fragment)
+      expected = {
+        header: 'You have been added as a Social Worker.',
+        steps: [
+          '* Go to https://localhost:3000/ and click Test.',
+          '* Login with your Test account user@test.org.',
+          '* Use the same password you always use for your Test account.'
+        ],
+        footer: 'Please contact Admin (admin@test.org) for further details.'
+      }
+
+      expect(body).to include(expected[:header])
+      expected[:steps].map {|step| expect(body).to include(step) }
+      expect(body).to include(expected[:footer])
+
     end
   end
 end
