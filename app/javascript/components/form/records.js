@@ -59,7 +59,8 @@ export const FieldRecord = Record({
   onClick: null,
   placeholder: "",
   maxSelectedOptions: null,
-  onKeyPress: null
+  onKeyPress: null,
+  currRecord: fromJS({})
 });
 
 export const FormSectionRecord = Record({

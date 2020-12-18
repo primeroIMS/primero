@@ -1,19 +1,31 @@
 import { fromJS, Map } from "immutable";
+import isEmpty from "lodash/isEmpty";
 
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
 import { displayNameHelper } from "../../libs";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 
-const referToUsers = state =>
-  state.getIn(["records", "transitions", "referral", "users"], fromJS([])).map(user => {
-    const userName = user.get("user_name");
+const referToUsers = (state, { currRecord }) =>
+  state
+    .getIn(["records", "transitions", "referral", "users"], fromJS([]))
+    .map(user => {
+      const userName = user.get("user_name");
 
-    return {
-      id: userName.toLowerCase(),
-      display_text: userName
-    };
-  });
+      if (!isEmpty(currRecord)) {
+        const currUser = currRecord.get("owned_by");
+
+        if (currUser && currUser === userName) {
+          return {};
+        }
+      }
+
+      return {
+        id: userName.toLowerCase(),
+        display_text: userName
+      };
+    })
+    .filter(user => !isEmpty(user));
 
 const lookupsList = state => state.getIn(["forms", "options", "lookups"], fromJS([]));
 
@@ -128,7 +140,7 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) =
     case OPTION_TYPES.LOOKUPS:
       return lookups(state, i18n);
     case OPTION_TYPES.REFER_TO_USERS:
-      return referToUsers(state);
+      return referToUsers(state, { ...rest });
     case OPTION_TYPES.USER_GROUP:
       return userGroups(state);
     case OPTION_TYPES.ROLE:

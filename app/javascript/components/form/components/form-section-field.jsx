@@ -85,7 +85,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     onClick,
     placeholder,
     maxSelectedOptions,
-    onKeyPress
+    onKeyPress,
+    currRecord
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -95,7 +96,10 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   const optionSource = useSelector(
     state =>
-      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, { optionStringsSourceIdKey }),
+      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, {
+        optionStringsSourceIdKey,
+        currRecord
+      }),
     (prev, next) => prev.equals(next)
   );
 
