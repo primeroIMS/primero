@@ -21,7 +21,8 @@ const Component = ({
   allFields,
   allLookups,
   locations,
-  setCalculatingChangeLog
+  setCalculatingChangeLog,
+  allAgencies
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -37,9 +38,14 @@ const Component = ({
     setOpen(false);
   };
 
-  const renderItems = buildSubformDataItems(recordChanges, allFields, allLookups, locations, i18n).map(item => (
-    <ChangeLogItem item={item} key={item.key} />
-  ));
+  const renderItems = buildSubformDataItems(
+    recordChanges,
+    allFields,
+    allAgencies,
+    allLookups,
+    locations,
+    i18n
+  ).map(item => <ChangeLogItem item={item} key={item.key} />);
 
   setCalculatingChangeLog(false);
 
@@ -64,6 +70,7 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.propTypes = {
+  allAgencies: PropTypes.object,
   allFields: PropTypes.object,
   allLookups: PropTypes.object,
   calculatingChangeLog: PropTypes.bool,

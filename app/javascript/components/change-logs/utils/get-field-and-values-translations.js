@@ -1,15 +1,17 @@
+/* eslint-disable camelcase */
 import { FIELDS } from "../../record-owner/constants";
+import { OPTION_TYPES } from "../../form/constants";
 import { APPROVALS } from "../constants";
 
-const getValueFromOptions = (allLookups, locations, i18n, optionSelected, value) => {
+const getValueFromOptions = (allAgencies, allLookups, locations, i18n, optionSelected, value) => {
   const valueToTranslated = typeof value === "boolean" ? value.toString() : value;
 
-  if (optionSelected === "Location") {
-    return locations
-      .filter(location => location.get("code") === valueToTranslated)
-      ?.first()
-      ?.get("name")
-      ?.get(i18n.locale);
+  if (optionSelected === OPTION_TYPES.LOCATION) {
+    return locations.find(location => location.id === valueToTranslated)?.display_text;
+  }
+
+  if (optionSelected === OPTION_TYPES.AGENCY) {
+    return allAgencies.find(agency => agency.id === valueToTranslated)?.display_text;
   }
 
   return allLookups
@@ -20,14 +22,21 @@ const getValueFromOptions = (allLookups, locations, i18n, optionSelected, value)
     ?.get(i18n.locale);
 };
 
-const getFieldValueFromOptionSource = (allLookups, locations, i18n, selectedFieldOptionsSource, fieldValue) => {
+const getFieldValueFromOptionSource = (
+  allAgencies,
+  allLookups,
+  locations,
+  i18n,
+  selectedFieldOptionsSource,
+  fieldValue
+) => {
   if (Array.isArray(fieldValue)) {
     return fieldValue.map(valueFrom =>
-      getValueFromOptions(allLookups, locations, i18n, selectedFieldOptionsSource, valueFrom)
+      getValueFromOptions(allAgencies, allLookups, locations, i18n, selectedFieldOptionsSource, valueFrom)
     );
   }
 
-  return getValueFromOptions(allLookups, locations, i18n, selectedFieldOptionsSource, fieldValue);
+  return getValueFromOptions(allAgencies, allLookups, locations, i18n, selectedFieldOptionsSource, fieldValue);
 };
 
 const getFieldValueFromOptionText = (i18n, selectedFieldOptionsText, fieldValue) => {
@@ -44,7 +53,7 @@ const getFieldValueFromOptionText = (i18n, selectedFieldOptionsText, fieldValue)
   return valueTranslated(fieldValue);
 };
 
-export default (allLookups, locations, i18n, selectedField, field, value) => {
+export default (allAgencies, allLookups, locations, i18n, selectedField, field, value) => {
   let fieldDisplayName;
   let fieldValueFrom = value.from;
   let fieldValueTo = value.to;
@@ -67,13 +76,21 @@ export default (allLookups, locations, i18n, selectedField, field, value) => {
 
   if (selectedFieldOptionsSource) {
     fieldValueFrom = getFieldValueFromOptionSource(
+      allAgencies,
       allLookups,
       locations,
       i18n,
       selectedFieldOptionsSource,
       fieldValueFrom
     );
-    fieldValueTo = getFieldValueFromOptionSource(allLookups, locations, i18n, selectedFieldOptionsSource, fieldValueTo);
+    fieldValueTo = getFieldValueFromOptionSource(
+      allAgencies,
+      allLookups,
+      locations,
+      i18n,
+      selectedFieldOptionsSource,
+      fieldValueTo
+    );
   }
 
   if (selectedFieldOptionsText) {

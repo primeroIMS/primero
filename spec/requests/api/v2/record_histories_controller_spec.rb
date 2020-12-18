@@ -75,7 +75,24 @@ describe Api::V2::RecordHistoriesController, type: :request do
         record_id: TracingRequest.first.id,
         record_type: 'tracing_requests',
         datetime: RecordHistory.first.datetime.iso8601,
-        user_name: 'faketest', action: 'create', record_changes: []
+        user_name: 'faketest', action: 'create',
+        record_changes: [
+          { 'status' => { 'from' => nil, 'to' => 'open' } },
+          { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
+          { 'short_id' => { 'from' => nil, 'to' => TracingRequest.first.short_id } },
+          { 'posted_at' => { 'from' => nil, 'to' => TracingRequest.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
+          { 'created_at' => { 'from' => nil, 'to' => TracingRequest.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
+          { 'created_by' => { 'from' => nil, 'to' => 'faketest' } },
+          { 'inquiry_date' => { 'from' => nil, 'to' => '2019-04-01' } },
+          { 'record_state' => { 'from' => nil, 'to' => true } },
+          { 'relation_name' => { 'from' => nil, 'to' => 'Test' } },
+          { 'owned_by_groups' => { 'from' => nil, 'to' => [] } },
+          { 'unique_identifier' => { 'from' => nil, 'to' => TracingRequest.first.unique_identifier } },
+          { 'tracing_request_id' => { 'from' => nil, 'to' => TracingRequest.first.tracing_request_id } },
+          { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
+          { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
+          { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } }
+        ]
       }
 
       get "/api/v2/tracing_requests/#{TracingRequest.first.id}/record_history"
@@ -122,7 +139,26 @@ describe Api::V2::RecordHistoriesController, type: :request do
         record_type: 'incidents',
         datetime: RecordHistory.first.datetime.iso8601,
         user_name: 'faketest',
-        action: 'create', record_changes: []
+        action: 'create',
+        record_changes: [
+          { 'status' => { 'from' => nil, 'to' => 'open' } },
+          { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
+          { 'short_id' => { 'from' => nil, 'to' => Incident.first.short_id } },
+          { 'posted_at' => { 'from' => nil, 'to' => Incident.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
+          { 'created_at' => { 'from' => nil, 'to' => Incident.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
+          { 'created_by' => { 'from' => nil, 'to' => 'faketest' } },
+          { 'description' => { 'from' => nil, 'to' => 'Test' } },
+          { 'incident_id' => { 'from' => nil, 'to' => Incident.first.incident_id } },
+          { 'record_state' => { 'from' => nil, 'to' => true } },
+          { 'incident_code' => { 'from' => nil, 'to' => Incident.first.incident_code } },
+          { 'incident_date' => { 'from' => nil, 'to' => '2019-04-01' } },
+          { 'owned_by_groups' => { 'from' => nil, 'to' => [] } },
+          { 'unique_identifier' => { 'from' => nil, 'to' => Incident.first.incident_id } },
+          { 'date_of_first_report' => { 'from' => nil, 'to' => '2020-12-17' } },
+          { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
+          { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
+          { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } }
+        ]
       }
 
       expect(json['data'][0]).to eq(record_history_a.deep_stringify_keys)
@@ -168,7 +204,30 @@ describe Api::V2::RecordHistoriesController, type: :request do
         datetime: RecordHistory.first.datetime.iso8601,
         user_name: 'faketest',
         action: 'create',
-        record_changes: []
+        record_changes: [
+          { 'age' => { 'from' => nil, 'to' => 12 } },
+          { 'sex' => { 'from' => nil, 'to' => 'female' } },
+          { 'name' => { 'from' => nil, 'to' => 'Test' } },
+          { 'status' => { 'from' => nil, 'to' => 'open' } },
+          { 'case_id' => { 'from' => nil, 'to' => Child.first.case_id } },
+          { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
+          { 'short_id' => { 'from' => nil, 'to' => Child.first.short_id } },
+          { 'workflow' => { 'from' => nil, 'to' => 'new' } },
+          { 'posted_at' => { 'from' => nil, 'to' => Child.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
+          { 'created_at' => { 'from' => nil, 'to' => Child.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
+          { 'created_by' => { 'from' => nil, 'to' => 'faketest' } },
+          { 'record_state' => { 'from' => nil, 'to' => true } },
+          { 'notes_section' => { 'from' => nil, 'to' => [] } },
+          { 'reopened_logs' => { 'from' => nil, 'to' => [] } },
+          { 'case_id_display' => { 'from' => nil, 'to' => Child.first.case_id_display } },
+          { 'owned_by_groups' => { 'from' => nil, 'to' => [] } },
+          { 'registration_date' => { 'from' => nil, 'to' => '2020-12-17' } },
+          { 'unique_identifier' => { 'from' => nil, 'to' => Child.first.unique_identifier } },
+          { 'protection_concerns' => { 'from' => nil, 'to' => [] } },
+          { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
+          { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
+          { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } }
+        ]
       }
 
       expect(json['data'][0]).to eq(record_history_a.deep_stringify_keys)

@@ -50,7 +50,7 @@ describe("ChangeLogs - Utils", () => {
     2: FieldRecord({
       id: 1,
       name: "felt_stigma_section",
-      type: "select_box",
+      type: "subform",
       editable: true,
       disabled: null,
       visible: true,
@@ -89,6 +89,7 @@ describe("ChangeLogs - Utils", () => {
     }
   ]);
   const locations = fromJS([{ id: 1, code: "location-1", admin_level: 1 }]);
+  const allAgencies = fromJS([{ id: "agency1", display_text: "Agency 1" }]);
 
   describe("getDataItems ", () => {
     const recordChangeLogs = fromJS([
@@ -201,21 +202,8 @@ describe("ChangeLogs - Utils", () => {
         date: "2020-12-03T21:11:01Z",
         user: "primero",
         key: 12340001,
-        isSubform: false,
-        change: {
-          from: "--",
-          name: "Felt Stigma",
-          to: [
-            {
-              feeling_badly_treated: "scale_zero",
-              feeling_detached: "scale_one",
-              feelings_worthlessness: "scale_zero",
-              felt_stigma_score: 1,
-              unique_id: "f6c8baf0-d899-404f-a92c-a8e607e3eb0d",
-              wanting_to_avoid_people: "scale_zero"
-            }
-          ]
-        }
+        isSubform: true,
+        title: "change_logs.update_subform"
       },
       {
         date: "2020-12-03T21:09:40Z",
@@ -227,9 +215,20 @@ describe("ChangeLogs - Utils", () => {
 
     it("should return an array of object with logs ready to be render", () => {
       stub(Math, "random").returns(1234);
-      expect(buildDataItems(recordChangeLogs, allFields, lookups, locations, handleSeeDetails, i18n)).to.deep.equal(
-        result
+      const response = buildDataItems(
+        recordChangeLogs,
+        allFields,
+        allAgencies,
+        lookups,
+        locations,
+        handleSeeDetails,
+        i18n
       );
+
+      // eslint-disable-next-line no-param-reassign
+      response.forEach(obj => delete obj.onClick);
+
+      expect(response).to.deep.equal(result);
     });
   });
 
@@ -293,7 +292,9 @@ describe("ChangeLogs - Utils", () => {
 
     it("should return an array of object with logs ready to be render", () => {
       stub(Math, "random").returns(1234);
-      expect(buildSubformDataItems(recordChanges, allFields, lookups, locations, i18n)).to.deep.equal(result);
+      expect(buildSubformDataItems(recordChanges, allFields, allAgencies, lookups, locations, i18n)).to.deep.equal(
+        result
+      );
     });
   });
 

@@ -87,7 +87,7 @@ module Historical
     RecordHistory.create(
       record: self, record_type: self.class.name,
       user_name: created_by, datetime: self.created_at,
-      action: EVENT_CREATE
+      action: EVENT_CREATE, record_changes: saved_changes_to_record
     )
   end
 
