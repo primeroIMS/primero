@@ -62,7 +62,7 @@ const handleAttachmentSuccess = async ({ json, db, fromAttachment }) => {
   const recordDB = await syncIndexedDB({ ...db, mode: TRANSACTION_MODE.READ_WRITE }, {}, "", async (tx, store) => {
     const recordData = await store.get(db.id);
 
-    const data = { ...recordData, [fieldName]: [...recordData[fieldName]] };
+    const data = { ...recordData, [fieldName]: [...(recordData[fieldName] || [])] };
 
     data[fieldName] = data[fieldName].map(attachment => ({
       ...attachment,
