@@ -36,6 +36,10 @@ describe Historical do
       @inst.histories.size.should be 1
     end
 
+    it 'should insert a creation history with correct record_changes' do
+      expect(@inst.histories.first.record_changes.size).to eq(16)
+    end
+
     # TODO: This is disabled for now. OK behavior, no?
     xit 'should not record empty string in the history if only change was spaces' do
       @inst.data['bio'] = '  '

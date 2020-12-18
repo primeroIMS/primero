@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
-import { getOptions, getLocations } from "../record-form/selectors";
+import { getOptions } from "../form/selectors";
+import { getOptions as getLookups } from "../record-form/selectors";
+import { OPTION_TYPES } from "../form/constants";
 import { getFields } from "../record-form";
 import { compare } from "../../libs";
 import { useI18n } from "../i18n";
@@ -24,10 +26,12 @@ const Container = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
   const recordChangeLogs = useSelector(state => getChangeLogs(state, record?.get("id"), recordType));
 
   const allFields = useSelector(state => getFields(state), compare);
-  const allLookups = useSelector(state => getOptions(state), compare);
-  const locations = useSelector(state => getLocations(state), compare);
+  const allAgencies = useSelector(state => getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true), compare);
+  const allLookups = useSelector(state => getLookups(state), compare);
+  const locations = useSelector(state => getOptions(state, OPTION_TYPES.LOCATION, i18n), compare);
 
   const sharedProps = {
+    allAgencies,
     allFields,
     allLookups,
     locations,

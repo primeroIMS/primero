@@ -17,7 +17,8 @@ const Component = ({
   setCalculatingChangeLog,
   allFields,
   allLookups,
-  locations
+  locations,
+  allAgencies
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -31,6 +32,7 @@ const Component = ({
   const renderItems = buildDataItems(
     recordChangeLogs,
     allFields,
+    allAgencies,
     allLookups,
     locations,
     handleSeeDetails,
@@ -43,6 +45,7 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.propTypes = {
+  allAgencies: PropTypes.object,
   allFields: PropTypes.object,
   allLookups: PropTypes.object,
   locations: PropTypes.object,
