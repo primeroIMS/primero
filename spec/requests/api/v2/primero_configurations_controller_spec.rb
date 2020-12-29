@@ -137,6 +137,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
             expect(json['errors'].size).to eq(1)
             expect(json['errors'][0]['resource']).to eq('/api/v2/configurations')
             expect(json['errors'].map { |e| e['detail'] }).to contain_exactly('data')
+            expect(json['errors'][0]['message']).to match_array(['errors.models.configuration.data'])
           end
         end
       end
