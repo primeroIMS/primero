@@ -16,8 +16,9 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   end
 
   def create
-    @configuration = PrimeroConfiguration.current(current_user)
-    @configuration.attributes = configuration_params
+    config_params = configuration_params
+    @configuration = config_params[:data].present? ? new_configuration : current_configuration
+    @configuration.attributes = config_params
     @configuration.save!
   end
 
@@ -42,6 +43,14 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   protected
 
   def configuration_params
-    params.require(:data).permit(%i[name description version apply_now])
+    params.require(:data).permit(%i[name description version apply_now] + [data: {}])
+  end
+
+  def new_configuration
+    PrimeroConfiguration.new_with_user(current_user)
+  end
+
+  def current_configuration
+    PrimeroConfiguration.current(current_user)
   end
 end
