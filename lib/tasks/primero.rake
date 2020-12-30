@@ -28,6 +28,66 @@ namespace :primero do
     end
   end
 
+  # Saves off the current configuration state of Primero to a json file.
+  # This includes Forms, Fields, Lookups, Agencies, Roles, User Groups, and Reports.
+  # USAGE: rails primero:export_config_json[file_name]
+  # Args:
+  #   file_name  (optional)    - The name of the JSON config data file to be created
+  #                              If the file_name is not provided, one is generated using the config version
+  #                              Example: tmp/config_data.20201230.094913.638a661.json
+  # Examples:
+  #   rails primero:export_config_json
+  #
+  #   rails primero:export_config_json[tmp/config_data.json]
+  #
+  desc 'Exports a JSON config file and creates a PrimeroConfiguration record'
+  task :export_config_json, %i[file_name version] => :environment do |_, args|
+    user = User.find_by(user_name: 'primero')
+    if user.blank?
+      puts 'ERROR: Primero user not found'
+      return
+    end
+
+    puts "Building Current Configuration"
+    configuration = PrimeroConfiguration.current(user)
+    configuration.name = 'Config Export'
+    configuration.description = 'Config Export by System Operator'
+    configuration.save!
+    file_name = args[:file_name] || "tmp/config_data.#{configuration.version}.json"
+    puts "Exporting JSON Config to #{file_name}"
+    File.open(file_name, 'w') { |file| file.write(configuration.to_json) }
+  end
+
+  # Imports a JSON config file and creates a PrimeroConfiguration record.  It does not apply the config.
+  # USAGE: rails primero:import_config_json[file_name]
+  # Args:
+  #   file_name             - The JSON config data file to be imported
+  #
+  # Examples:
+  #   rails primero:import_config_json[tmp/config_data.json]
+  desc 'Imports a JSON config file and creates a PrimeroConfiguration record'
+  task :import_config_json, %i[file_name] => :environment do |_, args|
+    file_name = args[:file_name]
+    if file_name.blank?
+      puts 'ERROR: No input file provided'
+      return
+    end
+
+    puts "Importing JSON Config from #{file_name}"
+    File.open(file_name) do |file|
+      config_data = Importers::JSONImporter.import(file)
+      if config_data.blank?
+        puts 'ERROR: No json data provided'
+        return
+      end
+
+      user = User.find_by(user_name: 'primero')
+      configuration = PrimeroConfiguration.new_with_user(user)
+      configuration.attributes = config_data
+      configuration.save!
+    end
+  end
+
   # Exports Forms for translation & Exports Lookups for translation
   # USAGE: rails primero:export_form_translation
   # Args:
