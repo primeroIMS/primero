@@ -41,7 +41,7 @@ namespace :primero do
   #   rails primero:export_config_json[tmp/config_data.json]
   #
   desc 'Exports a JSON config file and creates a PrimeroConfiguration record'
-  task :export_config_json, %i[file_name version] => :environment do |_, args|
+  task :export_config_json, %i[file_name] => :environment do |_, args|
     user = User.find_by(user_name: 'primero')
     if user.blank?
       puts 'ERROR: Primero user not found'
@@ -86,6 +86,37 @@ namespace :primero do
       configuration.attributes = config_data
       configuration.save!
     end
+  end
+
+  # Applies a PrimeroConfiguration record.  It expects the PrimeroConfiguration record to already exist.
+  # USAGE: rails primero:apply_config[version]
+  # Args:
+  #   version             - The version id of the PrimeroConfiguration to apply
+  #
+  # Examples:
+  #   rails primero:apply_config[20201230.094913.638a661]
+  desc 'Applies a PrimeroConfiguration record'
+  task :apply_config, %i[version] => :environment do |_, args|
+    version = args[:version]
+    if version.blank?
+      puts 'ERROR: No Configuration version provided'
+      return
+    end
+
+    configuration = PrimeroConfiguration.find_by(version: version)
+    if configuration.blank?
+      puts "ERROR: Configuration #{version} not found"
+      return
+    end
+
+    user = User.find_by(user_name: 'primero')
+    if user.blank?
+      puts 'ERROR: Primero user not found'
+      return
+    end
+
+    puts "Applying Configuration #{version}"
+    configuration.apply_with_api_lock!(user)
   end
 
   # Exports Forms for translation & Exports Lookups for translation
@@ -225,7 +256,7 @@ namespace :primero do
         args[:metadata].split(',').map { |m| Kernel.const_get(m) }
       else
         [
-          Agency, ContactInformation, FormSection, Location, Lookup, PrimeroModule,
+          Agency, ContactInformation, Field, FormSection, Location, Lookup, PrimeroModule,
           PrimeroProgram, Report, Role, SystemSettings, UserGroup, ExportConfiguration
         ]
       end
