@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { fromJS } from "immutable";
 
 import { getCasesBySocialWorker } from "../../selectors";
 import { useI18n } from "../../../../i18n";
@@ -15,41 +16,45 @@ import { NAME } from "./constants";
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
-  const data = useSelector(state => getCasesBySocialWorker(state));
+  // const data = useSelector(state => getCasesBySocialWorker(state));
+  const data = fromJS({
+    indicators: {
+      total: {
+        primero: {
+          count: 5,
+          query: ["test=0", "user=primero"]
+        },
+        primero_cp: {
+          count: 10,
+          query: ["test=10", "user=primero_cp"]
+        },
+        primero_mgr_cp: {
+          count: 4,
+          query: ["test=4", "user=primero_cp"]
+        }
+      },
+      new_and_updated: {
+        primero: {
+          count: 0,
+          query: ["test=0", "user=primero"]
+        },
+        primero_cp: {
+          count: 1,
+          query: ["test=10", "user=primero_cp"]
+        },
+        primero_mgr_cp: {
+          count: 16,
+          query: ["test=16", "user=primero_cp"]
+        }
+      }
+    }
+  });
 
   const casesBySocialWorkerProps = {
-    // ...toCasesBySocialWorkerTable(data, i18n)
-    columns: [
-      {
-        name: "case_worker",
-        label: "Case Worker"
-      },
-      {
-        name: "total",
-        label: "Total"
-      },
-      {
-        name: "new_updated",
-        label: "New & Updated"
-      }
-    ],
-    data: [
-      ["primero", 0, 10],
-      ["primero_cp", 10, 0]
-    ],
-    query: [
-      {
-        case_worker: [],
-        total: ["total=true", "owned_by=primero"],
-        new_updated: ["new_updated=true", "owned_by=primero"]
-      },
-      {
-        case_worker: [],
-        total: ["total=true", "owned_by=primero_cp"],
-        new_updated: ["new_updated=true", "owned_by=primero_cp"]
-      }
-    ]
+    ...toCasesBySocialWorkerTable(data, i18n)
   };
+
+  console.log("casesBySocialWorkerProps", casesBySocialWorkerProps);
 
   // const actions = ACTIONS.DASH_CASES_BY_SOCIAL_WORKER;
   const actions = [
