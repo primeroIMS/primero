@@ -23,6 +23,7 @@ export const ACTIONS = {
   DASH_APPROVALS_ACTION_PLAN_PENDING: "approvals_action_plan_pending",
   DASH_APPROVALS_GBV_CLOSURE: "approvals_gbv_closure",
   DASH_APPROVALS_GBV_CLOSURE_PENDING: "approvals_gbv_closure_pending",
+  DASH_CASES_BY_SOCIAL_WORKER: "dash_cases_by_social_worker",
   DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT: "cases_by_task_overdue_assessment",
   DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN: "cases_by_task_overdue_case_plan",
   DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS: "cases_by_task_overdue_followups",
