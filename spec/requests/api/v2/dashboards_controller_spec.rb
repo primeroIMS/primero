@@ -32,7 +32,9 @@ describe Api::V2::DashboardsController, type: :request do
         Permission::DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
         Permission::DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
         Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES,
-        Permission::DASH_CASE_INCIDENT_OVERVIEW
+        Permission::DASH_CASE_INCIDENT_OVERVIEW,
+        Permission::DASH_WORKFLOW_TEAM,
+        Permission::DASH_CASES_BY_SOCIAL_WORKER
       ]
     )
 
@@ -113,7 +115,7 @@ describe Api::V2::DashboardsController, type: :request do
       get '/api/v2/dashboards'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(10)
+      expect(json['data'].size).to eq(12)
 
       case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
       expect(case_overview_dashboard['indicators']['total']['count']).to eq(2)
@@ -170,6 +172,13 @@ describe Api::V2::DashboardsController, type: :request do
       expect(case_incident_overview['indicators']['new_or_updated']['count']).to eq(1)
       expect(case_incident_overview['indicators']['with_incidents']['count']).to eq(1)
       expect(case_incident_overview['indicators']['without_incidents']['count']).to eq(1)
+
+      cases_by_social_worker = json['data'].find { |d| d['name'] == 'dashboard.dash_cases_by_social_worker' }
+      expect(cases_by_social_worker['indicators'].count).to eq(2)
+      expect(cases_by_social_worker['indicators'].keys).to match_array(['cases_by_social_worker_total',
+                                                                        'cases_by_social_worker_new_or_updated'])
+      expect(cases_by_social_worker['indicators']['cases_by_social_worker_total']['foo']['count']).to eq(2)
+      expect(cases_by_social_worker['indicators']['cases_by_social_worker_new_or_updated']['foo']['count']).to eq(1)
     end
 
     describe 'Test the shared with dashboard', search: true do
