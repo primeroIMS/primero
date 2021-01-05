@@ -51,6 +51,8 @@ describe Api::V2::FlagsOwnersController, type: :request do
 
     @case1.add_flag('This is a flag', Date.today, 'faketest')
     @case3.add_flag('This is a flag', Date.today, 'faketest')
+    @flag_to_remove = @case1.add_flag('This is test flag 3', Date.today, 'faketest')
+    @case1.remove_flag(@flag_to_remove.id, 'faketest', 'Resolved Flag')
     @tracing_request1.add_flag('This is a flag TR', Date.today, 'faketest')
     @incident1.add_flag('This is a flag IN', Date.today, 'faketest')
     @incident2.add_flag('This is a flag IN', Date.today, 'faketest')
@@ -86,7 +88,8 @@ describe Api::V2::FlagsOwnersController, type: :request do
           get '/api/v2/flags'
 
           expect(response).to have_http_status(200)
-          expect(json['data'].size).to eq(3)
+          expect(json['data'].size).to eq(4)
+          expect(json['data'].map{|d| d['removed']}.uniq).to match_array([true, false])
           expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
           expect(json['data'][0]['record_type']).to eq('cases')
           expect(json['data'][0]['date']).to eq(Date.today.strftime('%Y-%m-%d'))
@@ -104,12 +107,37 @@ describe Api::V2::FlagsOwnersController, type: :request do
           expect(json['data'][0]['owned_by_agency_id']).to eq(@agency1.unique_id)
         end
 
+        context 'and active_only is passed in' do
+          it 'lists flags owned by or asssociated with the current user' do
+            get '/api/v2/flags?active_only=true'
+
+            expect(response).to have_http_status(200)
+            expect(json['data'].size).to eq(3)
+            expect(json['data'].map{|d| d['removed']}.uniq).to match_array([false])
+            expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
+            expect(json['data'][0]['record_type']).to eq('cases')
+            expect(json['data'][0]['date']).to eq(Date.today.strftime('%Y-%m-%d'))
+            expect(json['data'][0]['message']).to eq('This is a flag')
+            expect(json['data'][0]['flagged_by']).to eq('faketest')
+            expect(json['data'][0]['removed']).to be_falsey
+            expect(json['data'][0]['unflag_message']).to be_nil
+            expect(json['data'][0]['system_generated_followup']).to be_falsey
+            expect(json['data'][0]['unflagged_by']).to be_nil
+            expect(json['data'][0]['unflagged_date']).to be_nil
+            expect(json['data'][0]['short_id']).to eq(@case1.short_id)
+            expect(json['data'][0]['name']).to eq('*******')
+            expect(json['data'][0]['hidden_name']).to be
+            expect(json['data'][0]['owned_by']).to eq('user1')
+            expect(json['data'][0]['owned_by_agency_id']).to eq(@agency1.unique_id)
+          end
+        end
+
         context 'and record_type cases is passed in' do
           it 'lists case flags owned by or asssociated with the current user' do
             get '/api/v2/flags?record_type=cases'
 
             expect(response).to have_http_status(200)
-            expect(json['data'].size).to eq(1)
+            expect(json['data'].size).to eq(2)
             expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
             expect(json['data'][0]['record_type']).to eq('cases')
             expect(json['data'][0]['message']).to eq('This is a flag')
@@ -157,7 +185,7 @@ describe Api::V2::FlagsOwnersController, type: :request do
           get '/api/v2/flags'
 
           expect(response).to have_http_status(200)
-          expect(json['data'].size).to eq(7)
+          expect(json['data'].size).to eq(8)
           expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
           expect(json['data'][0]['record_type']).to eq('cases')
           expect(json['data'][0]['message']).to eq('This is a flag')
