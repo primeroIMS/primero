@@ -5,7 +5,7 @@ describe("<CasesBySocialWorker> - pages/dashboard/components/cases-by-social-wor
 
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
-    ["NAME"].forEach(property => {
+    ["NAME", "CASES_BY_SOCIAL_WORKER_COLUMNS"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });
