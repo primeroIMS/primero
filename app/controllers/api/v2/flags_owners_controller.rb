@@ -6,7 +6,7 @@ class Api::V2::FlagsOwnersController < ApplicationApiController
 
   def index
     authorize! :index, Flag
-    @flags = Flag.by_owner(query_scope, record_types, flagged_by)
+    @flags = Flag.by_owner(query_scope, record_types, flagged_by, active_only)
     @total = @flags.size
     @flags = @flags.paginate(pagination) if pagination?
   end
@@ -23,5 +23,9 @@ class Api::V2::FlagsOwnersController < ApplicationApiController
 
   def flagged_by
     @flagged_by = params[:flagged_by_me] == true ? current_user.user_name : nil
+  end
+
+  def active_only
+    @active_only = params[:active_only] == true ? true : false
   end
 end
