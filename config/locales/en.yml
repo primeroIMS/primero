@@ -481,6 +481,8 @@ en:
     approved: Approved
     assessment: Assessment
     awaiting_acceptance: Awaiting acceptance
+    cases_by_social_worker_total: Total
+    cases_by_social_worker_new_or_updated: New & Updated
     case_id: 'Case #ID'
     case_management_service: Case Management Service
     case_overview: My Cases
@@ -595,7 +597,6 @@ en:
     new_incident_assigned_to_you: New Assigned Incidents
     new_last_week: New (last week)
     new_or_updated: New or Updated
-    new_and_updated: New & Updated
     new_referred: New Referrals
     new_service_provision: New Service Provisions
     new_this_week: New (this week)
