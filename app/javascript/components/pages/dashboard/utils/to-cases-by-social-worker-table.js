@@ -74,37 +74,32 @@ import { dataToJS } from "../../../../libs";
 //   }
 // ]
 
-export default (data, i18n) => {
-  const newData = dataToJS(data);
+export default (indicators, i18n) => {
+  const newData = dataToJS(indicators);
   const rows = Object.keys(Object.values(newData.indicators)[0]);
   const [, ...columnValues] = CASES_BY_SOCIAL_WORKER_COLUMNS;
+  const firstColumn = CASES_BY_SOCIAL_WORKER_COLUMNS[0];
 
-  const resultData = rows.map(row => {
+  const data = rows.map(row => {
     const values = columnValues.map(column => newData.indicators[column][row].count);
 
     return [row, ...values];
   });
 
-  const resultQuery = rows.map(row => {
-    const values = CASES_BY_SOCIAL_WORKER_COLUMNS.map(column => ({
-      [column]: column === CASES_BY_SOCIAL_WORKER_COLUMNS[0] ? [] : []
-    }));
+  const query = rows.map(row => {
+    const values = columnValues
+      .map(column => ({ [column]: newData.indicators[column][row].query }))
+      .reduce((prev, curr) => ({ ...curr, ...prev }), {});
 
-    console.log(values);
-
-    return values;
+    return { [firstColumn]: row, ...values };
   });
 
-  const result = {
+  return {
     columns: CASES_BY_SOCIAL_WORKER_COLUMNS.map(name => ({
       name,
       label: i18n.t(`dashboard.${name}`)
     })),
-    data: resultData,
-    query: resultQuery
+    data,
+    query
   };
-
-  console.log(result);
-
-  return result;
 };
