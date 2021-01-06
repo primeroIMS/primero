@@ -71,7 +71,7 @@ class PrimeroConfiguration < ApplicationRecord
 
   def validate_configuration_data
     data_is_valid = CONFIGURABLE_MODELS.reduce(true) do |valid, model|
-      valid && (%w[Report Location].include?(model) || data[model]&.size&.positive?)
+      valid && (%w[Report Location].include?(model) || data[model].size.positive?)
     end
     return if data_is_valid
 
