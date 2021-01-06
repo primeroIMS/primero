@@ -54,9 +54,9 @@ describe Flag do
     @case5.add_flag('This is test flag 4', Date.today, 'faketest')
     @flag_to_remove = @case1.add_flag('This is test flag 5', Date.today, 'user1')
     @case1.remove_flag(@flag_to_remove.id, 'faketest', 'Resolved Flag')
-    @tracing_request1.add_flag('This is a flag TR', Date.today, 'faketest')
+    @flag_tr1 = @tracing_request1.add_flag('This is a flag TR', Date.today, 'faketest')
     @tracing_request3.add_flag('This is a second flag TR', Date.today, 'faketest')
-    @incident1.add_flag('This is a flag IN', Date.today, 'faketest')
+    @flag_in1 = @incident1.add_flag('This is a flag IN', Date.today, 'faketest')
     @incident1.add_flag('This is a second flag IN', Date.today, 'faketest')
     @incident1.add_flag('This is a third flag IN', Date.today, 'faketest')
     @incident2.add_flag('This is a fourth flag IN', Date.today, 'faketest')
@@ -132,7 +132,7 @@ describe Flag do
           end
 
           it 'returns case flags owned by or asssociated with the current user' do
-            case_flag = @flags.select { |f| f.record_type == 'Child' }.first
+            case_flag = @flags.select { |f| f.id == @flag1.id }.first
             expect(case_flag).to be
             expect(case_flag['record_id']).to eq(@case1.id.to_s)
             expect(case_flag['message']).to eq('This is test flag 1')
@@ -143,7 +143,7 @@ describe Flag do
           end
 
           it 'returns incident flags owned by or asssociated with the current user' do
-            incident_flag = @flags.select { |f| f.record_type == 'Incident' }.first
+            incident_flag = @flags.select { |f| f.id == @flag_in1.id }.first
             expect(incident_flag).to be
             expect(incident_flag['record_id']).to eq(@incident1.id.to_s)
             expect(incident_flag['message']).to eq('This is a flag IN')
@@ -154,7 +154,7 @@ describe Flag do
           end
 
           it 'returns tracing_request flags owned by or asssociated with the current user' do
-            tr_flag = @flags.select { |f| f.record_type == 'TracingRequest' }.first
+            tr_flag = @flags.select { |f| f.id == @flag_tr1.id }.first
             expect(tr_flag).to be
             expect(tr_flag['record_id']).to eq(@tracing_request1.id.to_s)
             expect(tr_flag['message']).to eq('This is a flag TR')
@@ -180,7 +180,7 @@ describe Flag do
           end
 
           it 'returns case flags owned by or asssociated with the current user' do
-            case_flag = @flags.select { |f| f.record_type == 'Child' }.first
+            case_flag = @flags.select { |f| f.id == @flag1.id }.first
             expect(case_flag).to be
             expect(case_flag['record_id']).to eq(@case1.id.to_s)
             expect(case_flag['message']).to eq('This is test flag 1')
@@ -191,7 +191,7 @@ describe Flag do
           end
 
           it 'returns incident flags owned by or asssociated with the current user' do
-            incident_flag = @flags.select { |f| f.record_type == 'Incident' }.first
+            incident_flag = @flags.select { |f| f.id == @flag_in1.id }.first
             expect(incident_flag).to be
             expect(incident_flag['record_id']).to eq(@incident1.id.to_s)
             expect(incident_flag['message']).to eq('This is a flag IN')
@@ -202,7 +202,7 @@ describe Flag do
           end
 
           it 'returns tracing_request flags owned by or asssociated with the current user' do
-            tr_flag = @flags.select { |f| f.record_type == 'TracingRequest' }.first
+            tr_flag = @flags.select { |f| f.id == @flag_tr1.id }.first
             expect(tr_flag).to be
             expect(tr_flag['record_id']).to eq(@tracing_request1.id.to_s)
             expect(tr_flag['message']).to eq('This is a flag TR')
