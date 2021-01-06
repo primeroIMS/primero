@@ -37,7 +37,9 @@ if @extended
       { user_groups: Header.user_group_headers },
       { locations: Header.locations_headers }
     ]).inject(&:merge),
-    is_manager: user.manager?
+    is_manager: user.manager?,
+    agency_logo_full: rails_blob_path(user.agency.logo_full, only_path: true),
+    agency_logo_icon: rails_blob_path(user.agency.logo_icon, only_path: true)
   )
 end
 
