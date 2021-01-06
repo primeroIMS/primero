@@ -1,9 +1,11 @@
 import find from "lodash/find";
 import { fromJS } from "immutable";
+import { getIn } from "formik";
 
 import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/components/referrals";
 import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../config";
 
+import { valuesWithDisplayConditions } from "./subforms/subform-field-array/utils";
 import { CUSTOM_STRINGS_SOURCE } from "./constants";
 
 export const appendDisabledAgency = (agencies, agencyUniqueId) =>
@@ -159,4 +161,20 @@ export const serviceIsReferrable = (service, services, agencies, users = []) => 
   }
 
   return false;
+};
+
+export const getSubformValues = (field, index, values) => {
+  const { subform_section_configuration: subformSectionConfiguration } = field;
+
+  const { display_conditions: displayConditions } = subformSectionConfiguration || {};
+
+  if (index === 0 || index > 0) {
+    if (displayConditions) {
+      return valuesWithDisplayConditions(getIn(values, field.name), displayConditions)[index];
+    }
+
+    return getIn(values, `${field.name}[${index}]`);
+  }
+
+  return {};
 };

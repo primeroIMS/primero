@@ -8,6 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
+import { RECORD_TYPES } from "../../../../../config";
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
 import { SUBFORM_FIELDS } from "../constants";
@@ -21,7 +22,20 @@ import { compare } from "../../../../../libs";
 import { getValidationErrors } from "../../..";
 import styles from "../styles.css";
 
-const Component = ({ arrayHelpers, field, form, locale, mode, setDialogIsNew, setOpen, values }) => {
+import { TracingRequestStatus } from "./components";
+
+const Component = ({
+  arrayHelpers,
+  field,
+  form,
+  isTracesSubform,
+  locale,
+  mode,
+  recordType,
+  setDialogIsNew,
+  setOpen,
+  values
+}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [deleteModal, setDeleteModal] = useState(false);
@@ -114,6 +128,7 @@ const Component = ({ arrayHelpers, field, form, locale, mode, setDialogIsNew, se
                 />
               </div>
               <div className={css.subformHeaderActions}>
+                {isTracesSubform && <TracingRequestStatus values={values[index]} />}
                 {hasError(index) && <Jewel isError />}
                 {!subformPreventItemRemoval && !isDisabled && !mode.isShow ? (
                   <ActionButton
@@ -160,8 +175,10 @@ Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
+  isTracesSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
+  recordType: PropTypes.string.isRequired,
   setDialogIsNew: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired

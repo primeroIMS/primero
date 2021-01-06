@@ -34,7 +34,8 @@ const colors = {
   grey: "#4a4a4a",
   contentGrey: "#fbfbfb",
   stickyGrey: "rgba(251, 251, 251, 0.95)",
-  lightGrey2: "#e0e0e0"
+  lightGrey2: "#e0e0e0",
+  atlantis: "#8bb827"
 };
 
 const overrides = {
