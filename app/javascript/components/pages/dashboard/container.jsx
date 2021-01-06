@@ -34,7 +34,7 @@ const Dashboard = () => {
     dispatch(fetchDashboards());
 
     if (canFetchFlags) {
-      dispatch(fetchFlags());
+      dispatch(fetchFlags(true));
     }
   }, []);
 
