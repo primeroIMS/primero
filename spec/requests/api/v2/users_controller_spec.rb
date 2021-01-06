@@ -53,8 +53,7 @@ describe Api::V2::UsersController, type: :request do
     )
     @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1', logo_icon: FilesTestHelper.logo,
                                logo_full: FilesTestHelper.logo)
-    @agency_b = Agency.create!(name: 'Agency 2', agency_code: 'agency2', logo_icon: FilesTestHelper.logo,
-                               logo_full: FilesTestHelper.logo)
+    @agency_b = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
 
     @user_group_a = UserGroup.create!(unique_id: 'user-group-1', name: 'user group 1')
 
