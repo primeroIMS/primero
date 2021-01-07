@@ -42,11 +42,7 @@ namespace :primero do
   #
   desc 'Exports a JSON config file and creates a PrimeroConfiguration record'
   task :export_config_json, %i[file_name] => :environment do |_, args|
-    user = User.find_by(user_name: 'primero')
-    if user.blank?
-      puts 'ERROR: Primero user not found'
-      return
-    end
+    user = User.new(user_name: 'system_operator')
 
     puts "Building Current Configuration"
     configuration = PrimeroConfiguration.current(user)
@@ -81,7 +77,7 @@ namespace :primero do
         return
       end
 
-      user = User.find_by(user_name: 'primero')
+      user = User.new(user_name: 'system_operator')
       configuration = PrimeroConfiguration.new_with_user(user)
       configuration.attributes = config_data
       configuration.save!
@@ -113,12 +109,7 @@ namespace :primero do
       return
     end
 
-    user = User.find_by(user_name: 'primero')
-    if user.blank?
-      puts 'ERROR: Primero user not found'
-      return
-    end
-
+    user = User.new(user_name: 'system_operator')
     puts "Applying Configuration #{version}"
     configuration.apply_with_api_lock!(user)
   end
