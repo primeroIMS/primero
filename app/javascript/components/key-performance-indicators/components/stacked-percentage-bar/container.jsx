@@ -21,7 +21,7 @@ const StackedPercentageBar = ({ percentages, className }) => {
         {percentagedToRender.map((percentageDescriptor, i) => (
           <StackedPercentageBarMeter
             realPercent={percentageDescriptor.percentage}
-            key={i}
+            index={i}
             css={css}
           />
         ))}
@@ -30,7 +30,7 @@ const StackedPercentageBar = ({ percentages, className }) => {
         {percentages.map((percentageDescriptor, i) => (
           <StackedPercentageBarLabel 
             realPercent={percentageDescriptor.percentage}
-            key={i}
+            index={i}
             css={css}
           />
         ))}

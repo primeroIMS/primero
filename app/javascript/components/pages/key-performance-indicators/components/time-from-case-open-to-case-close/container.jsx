@@ -1,5 +1,5 @@
 import React from "react";
-import { DashboardTable } from "components/dashboard";
+import { KpiTable } from "components/key-performance-indicators";
 import { useI18n } from "components/i18n";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
@@ -25,7 +25,7 @@ const TimeFromCaseOpenToClose = ({ data, identifier }) => {
     .get("data")
     .map(row => columns.map(column => column.transform(row.get(column.name))));
 
-  return <DashboardTable columns={columns} data={rows} />;
+  return <KpiTable columns={columns} data={rows} />;
 };
 
 export default asKeyPerformanceIndicator("time_from_case_open_to_close", {

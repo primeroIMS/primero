@@ -8,7 +8,6 @@ export { CompletedCaseActionPlan } from "./completed-case-action-plan";
 export { CompletedSupervisorApprovedCaseActionPlan } from "./completed-supervisor-approved-case-action-plan";
 export { ServicesProvided } from "./services-provided";
 export { AverageReferrals } from "./average-referrals";
-export { ReferralsPerService } from "./referrals-per-service";
 export { CompletedReferralsPerService } from "./completed-referrals-per-service";
 export { TotalFollowupMeetings } from "./total-follow-up-meetings";
 export { AverageFollowupMeetingsPerCase } from "./average-followup-meetings-per-case";

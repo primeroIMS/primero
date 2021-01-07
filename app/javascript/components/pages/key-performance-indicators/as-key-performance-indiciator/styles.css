@@ -1,0 +1,16 @@
+.helptextHeader {
+  text-align: right;
+}
+
+.helptextButton {
+  margin-bottom: -12px;
+  margin-right: 6px;
+  margin-top: 4px;
+  color: $(theme.primero.colors.grey);
+  cursor: pointer;
+}
+
+.helptextBody {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}

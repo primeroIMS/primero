@@ -1,7 +1,7 @@
 import React from "react";
 import { useI18n } from "components/i18n";
 import { TablePercentageBar } from "components/key-performance-indicators";
-import { DashboardTable } from "components/dashboard";
+import { KpiTable } from "components/key-performance-indicators";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
@@ -36,7 +36,7 @@ const ServiceAccessDelay = ({ data, identifier }) => {
     ];
   });
 
-  return <DashboardTable columns={columns} data={rows} />;
+  return <KpiTable columns={columns} data={rows} />;
 };
 
 export default asKeyPerformanceIndicator("service_access_delay", { data: [] })(

@@ -1,7 +1,8 @@
 import React from "react";
 import { fromJS } from "immutable";
 import { DateRangeSelect } from "components/key-performance-indicators";
-import { OptionsBox, DashboardTable } from "components/dashboard";
+import { OptionsBox } from "components/dashboard";
+import { KpiTable } from "components/key-performance-indicators";
 
 const TimeFromCaseOpenToCloseHighRisk = ({}) => {
   const columns = ["Time", "Percent of Cases"];
@@ -36,7 +37,7 @@ const TimeFromCaseOpenToCloseHighRisk = ({}) => {
         />
       }
     >
-      <DashboardTable columns={columns} data={fromJS(rows)} />
+      <KpiTable columns={columns} data={fromJS(rows)} />
     </OptionsBox>
   );
 };

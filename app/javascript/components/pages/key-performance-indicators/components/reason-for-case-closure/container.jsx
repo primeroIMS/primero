@@ -1,6 +1,7 @@
 import React from "react";
 import { fromJS } from "immutable";
-import { OptionsBox, DashboardTable } from "components/dashboard";
+import { OptionsBox } from "components/dashboard";
+import { KpiTable } from "components/key-performance-indicators";
 
 const ReasonForCaseClosure = () => {
   const columns = ["Reason for Closure", "Percentage of Cases"];

@@ -2,7 +2,7 @@ import React from "react";
 import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { TablePercentageBar } from "components/key-performance-indicators";
-import { DashboardTable } from "components/dashboard";
+import { KpiTable } from "components/key-performance-indicators";
 
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
@@ -42,7 +42,7 @@ const GoalProgressPerNeed = ({ data, identifier }) => {
     .get("data")
     .map(row => columns.map(column => row.get(column.name)));
 
-  return <DashboardTable className={css.root} columns={columns} data={rows} />;
+  return <KpiTable className={css.root} columns={columns} data={rows} />;
 };
 
 export default asKeyPerformanceIndicator("goal_progress_per_need", {

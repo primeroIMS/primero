@@ -18,6 +18,7 @@ const DateRangeSelect = ({
   const i18n = window.I18n;
 
   const [showRangePicker, setShowRangePicker] = useState(false);
+
   const [customRange, setCustomRange] = useState(
     new DateRange(
       "custom-range",
@@ -51,19 +52,19 @@ const DateRangeSelect = ({
           <MenuItem
             key="custom-range"
             value={customRange.value}
-            onClick={() => setShowRangePicker(true)}
+            onClick={() => { setShowRangePicker(true) }}
           >
-            `$
             {i18n.toTime(
               "key_performance_indicators.date_format",
               customRange.from
-            )}{" "}
-            - $
+            )}
+            {" "}
+            -
+            {" "}
             {i18n.toTime(
               "key_performance_indicators.date_format",
               customRange.to
             )}
-            `
           </MenuItem>
         )}
       </Select>

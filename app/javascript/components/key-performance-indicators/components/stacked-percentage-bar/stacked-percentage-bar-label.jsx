@@ -1,11 +1,11 @@
 import React from "react";
 
-const StackedPercentageBarLabel = ({ realPercent, label, key, css }) => {
+const StackedPercentageBarLabel = ({ realPercent, label, index, css }) => {
   const percentage = realPercent * 100;
 
   return (
     <div
-      key={key}
+      key={index}
       className={css.StackedPercentageBarLabelContainer}
       style={{ width: percentage > 0 ? `${percentage}%` : "auto" }}
     >

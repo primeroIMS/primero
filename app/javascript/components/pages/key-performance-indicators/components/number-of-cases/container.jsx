@@ -1,7 +1,6 @@
 import React from "react";
 import { useI18n } from "components/i18n";
-import { DashboardTable } from "components/dashboard";
-
+import { KpiTable } from "components/key-performance-indicators";
 import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
 const NumberOfCases = ({ data, identifier }) => {
@@ -30,7 +29,7 @@ const NumberOfCases = ({ data, identifier }) => {
     .get("data")
     .map(row => columns.map(column => row.get(column.name)));
 
-  return <DashboardTable columns={columns} data={rows} />;
+  return <KpiTable columns={columns} data={rows} />; 
 };
 
 export default asKeyPerformanceIndicator("number_of_cases", {
