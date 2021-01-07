@@ -26,7 +26,10 @@ describe("middleware/utils/index.js", () => {
       "queueData",
       "queueFetch",
       "processSubforms",
-      "isServerOnline"
+      "isServerOnline",
+      "handleReturnUrl",
+      "isAuthenticated",
+      "redirectTo"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(modules).to.have.property(property);

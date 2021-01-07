@@ -1,4 +1,3 @@
-import { push } from "connected-react-router";
 import get from "lodash/get";
 
 import { actions } from "../components/login/components/login-form";
@@ -8,11 +7,7 @@ import { ROUTES } from "../config";
 import { clearDialog } from "../components/action-dialog";
 import { setPendingUserLogin } from "../components/connectivity/action-creators";
 
-import { startSignout } from "./utils";
-
-function redirectTo(store, path) {
-  store.dispatch(push(path));
-}
+import { startSignout, handleReturnUrl, redirectTo } from "./utils";
 
 function logoutSuccessHandler(store) {
   localStorage.removeItem("user");
@@ -32,7 +27,7 @@ async function loginSuccessHandler(store, user) {
   store.dispatch(setAuthenticatedUser({ username, id }));
 
   if (!pendingUserLogin) {
-    redirectTo(store, ROUTES.dashboard);
+    handleReturnUrl(store);
   }
 
   store.dispatch(clearDialog());
@@ -42,6 +37,7 @@ async function loginSuccessHandler(store, user) {
 
 const authMiddleware = store => next => action => {
   const routeChanged = action.type === "@@router/LOCATION_CHANGE";
+
   const location = routeChanged && get(action, "payload.location.pathname", false);
 
   const isAuthenticated = store.getState().getIn(["user", "isAuthenticated"], false);
@@ -71,7 +67,7 @@ const authMiddleware = store => next => action => {
   if (resetPattern.test(location) && useIdentityProvider) {
     redirectTo(store, isAuthenticated ? ROUTES.dashboard : ROUTES.login);
   } else if (routeChanged && !loginPattern.test(location) && !resetPattern.test(location) && !isAuthenticated) {
-    redirectTo(store, ROUTES.login);
+    handleReturnUrl(store, location);
   }
 
   next(action);
