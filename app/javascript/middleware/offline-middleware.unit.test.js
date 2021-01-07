@@ -1,6 +1,5 @@
 import { createMiddleware, spy } from "../test";
 import { METHODS } from "../config";
-import Queue from "../libs/queue";
 
 import offlineMiddleware from "./offline-middleware";
 import * as queueData from "./utils/queue-data";
