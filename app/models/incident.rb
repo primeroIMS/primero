@@ -9,6 +9,7 @@ class Incident < ApplicationRecord
   include Flaggable
   include Alertable
   include Attachable
+  include KPI::GBVIncident
   # include IncidentMonitoringRecording #TODO: Refactor with Violations
 
   store_accessor(
@@ -39,8 +40,6 @@ class Incident < ApplicationRecord
   end
 
   searchable do
-    date :incident_date_derived
-    date :date_of_first_report
     string :status, as: 'status_sci'
     quicksearch_fields.each { |f| text_index(f) }
   end

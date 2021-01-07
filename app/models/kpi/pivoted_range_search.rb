@@ -5,7 +5,7 @@ module KPI
   # usually of dates and a pivoted field for counting occurances within
   # those dates.
   class PivotedRangeSearch < KPI::Search
-    class <<self
+    class << self
       def range_field(field = nil)
         @range_field ||= field
       end
@@ -35,8 +35,11 @@ module KPI
     #    that sort of architectural decisions for linting reasons alone.
     #
     # rubocop:disable Metrics/MethodLength
-    def search
+    def search(&block)
       @search ||= search_model.search do
+        with :owned_by_groups, owned_by_groups
+        with :owned_by_agency_id, owned_by_agency_id
+
         adjust_solr_params do |params|
           params.merge!(
             'facet': true,
@@ -50,7 +53,7 @@ module KPI
           )
         end
 
-        paginate page: 1, per_page: 0
+        block.call(self) if block
       end
     end
     # rubocop:enable Metrics/MethodLength
@@ -58,7 +61,7 @@ module KPI
     def columns
       @columns ||= search.facet_response
         .dig('facet_ranges', range_field.indexed_name, 'counts')
-        .each_cons(2)
+        .each_slice(2)
         .map(&:first)
     end
 
@@ -80,7 +83,7 @@ module KPI
         [record['value'],
          record
           .dig('ranges', range_field.indexed_name, 'counts')
-          .each_cons(2)
+          .each_slice(2)
           .to_h]
       end.to_h
     end

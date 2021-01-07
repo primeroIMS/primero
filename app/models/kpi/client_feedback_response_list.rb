@@ -7,6 +7,10 @@ module KPI
         .map { |response| ClientFeedbackResponse.new(response: response) }
     end
 
+    def has_responses?
+      wrapped_responses.any?(&:valid_response?)
+    end
+
     def satisfied
       wrapped_responses.count(&:satisfied?)
     end

@@ -3,6 +3,8 @@ module KPI
     def search
       @search ||= Child.search do
         with :created_at, from..to
+        with :owned_by_groups, owned_by_groups
+        with :owned_by_agency_id, owned_by_agency_id
 
         facet :services_provided
       end

@@ -30,7 +30,7 @@ module KPI
     end
 
     def default_tally
-      { 'yes' => 0, 'no' => 0, 'n_a' => 0 }
+      Hash.new { |h,k| h[k] = 0 }
     end
 
     def tally
@@ -43,8 +43,13 @@ module KPI
                  )
     end
 
+    def valid_response?
+      assessed_field_values.compact.length > 0
+    end
+
     def satisfied?
-      tally['yes'] >= tally['no']
+      tally['yes'] >= tally['no'] &&
+      tally['scale_two'] + tally['scale_three'] >= tally['scale_one']
     end
   end
 end

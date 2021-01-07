@@ -5,24 +5,21 @@ module KPI
   # cases have their action plan completed. Completion is defined in
   # app/models/concerns/gbv_key_performance_indicators.rb.
   class CompletedSupervisorApprovedCaseActionPlans < KPI::Search
-    def completed_action_plan
-      @completed_action_plan ||= SolrUtils.indexed_field_name(Child, :completed_action_plan)
-    end
-
-    def case_plan_approved
-      @case_plan_approved ||= SolrUtils.indexed_field_name(Child, :case_plan_approved)
+    def completed_and_approved_action_plan
+      @completed_and_approved_action_plan ||= SolrUtils.indexed_field_name(Child, :completed_and_approved_action_plan)
     end
 
     def search
       Child.search do
         with :status, Record::STATUS_OPEN
         with :created_at, from..to
+        with :owned_by_groups, owned_by_groups
+        with :owned_by_agency_id, owned_by_agency_id
 
-        # This seems like an obtuse way to use an in a facet query
         adjust_solr_params do |params|
           params[:facet] = true
           params[:'facet.query'] =
-            "{! key=completed_and_approved } #{completed_action_plan}:true AND #{case_plan_approved}:true"
+            "{! key=completed_and_approved } #{completed_and_approved_action_plan}:true"
         end
       end
     end

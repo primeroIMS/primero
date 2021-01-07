@@ -11,12 +11,20 @@ module KPI
 
     def ratio
       @ratio ||= begin
-         supervisors = User.joins(:role)
-           .where(roles: { unique_id: SUPERVISOR_ROLES }).count
-         case_workers = User.joins(:role)
-           .where(roles: { unique_id: CASE_WORKER_ROLES }).count
-         (supervisors / case_workers).rationalize
-       end
+        supervisors = Agency.joins(users: [:role])
+          .where(
+            unique_id: owned_by_agency_id,
+            users: { roles: { unique_id: SUPERVISOR_ROLES } }
+          ).count
+
+        case_workers = Agency.joins(users: [:role])
+          .where(
+            unique_id: owned_by_agency_id,
+            users: { roles: { unique_id: CASE_WORKER_ROLES } }
+          ).count
+
+        (supervisors / case_workers).rationalize
+      end
     end
 
     def to_json

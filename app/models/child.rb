@@ -36,7 +36,7 @@ class Child < ApplicationRecord
   include Alertable
   include Attachable
   include Noteable
-  include GBVKeyPerformanceIndicators
+  include KPI::GBVChild
 
   store_accessor(
     :data,
@@ -54,7 +54,7 @@ class Child < ApplicationRecord
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
     :location_current, :tracing_status, :name_caregiver,
-    :urgent_protection_concern, :child_preferences_section, :family_details_section,
+    :urgent_protection_concern, :child_preferences_section, :family_details_section, :has_case_plan,
     :duplicate
   )
 
@@ -101,7 +101,7 @@ class Child < ApplicationRecord
     Child.family_matching_field_names.each { |f| text_index_from_subform('family_details_section', f) }
     (quicksearch_fields - NAME_FIELDS).each { |f| text_index(f) }
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
-    %w[estimated urgent_protection_concern consent_for_tracing].each { |f| boolean(f) }
+    %w[estimated urgent_protection_concern consent_for_tracing has_case_plan].each { |f| boolean(f) }
     %w[day_of_birth age].each { |f| integer(f) }
     %w[status sex national_id_no].each { |f| string(f, as: "#{f}_sci") }
     string :risk_level, as: 'risk_level_sci' do

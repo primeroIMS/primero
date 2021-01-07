@@ -1,4 +1,5 @@
 module FormAndFieldHelper
+
   def form(id, fields)
     FormSection.create_or_update!(
       unique_id: id,
@@ -11,8 +12,8 @@ module FormAndFieldHelper
 
   def field(id, config = {})
     Field.new(config.merge(
-                name: id,
-                display_name_en: id.to_s.split('_').map(&:capitalize).join(' ')
-              ))
+      name: id,
+      display_name_en: id.to_s.split('_').map(&:capitalize).join(' ')
+    ))
   end
 end

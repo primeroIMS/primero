@@ -6,24 +6,30 @@ module KPI
   # closed. This is aggregated into 4 bins.
   class TimeFromCaseOpenToClose < BucketedSearch
     search_model Child
-    restricted_field :date_closure
-    compared_field :created_at
+    restricted_field :case_lifetime_days
 
     def buckets
       [
-        { key: '1-month', u: months(1) },
-        { key: '1-3months', l: months(1) + 1, u: months(3) },
-        { key: '3-6months', l: months(3) + 1, u: months(6) },
-        { key: '7-months', l: months(6) + 1 }
+        { key: '1-month', u: 30 },
+        { key: '1-3months', l: 31 , u: 90 },
+        { key: '3-6months', l: 91, u: 180 },
+        { key: '7-months', l: 181 }
       ]
     end
 
+    def search
+      super do
+        with :status, Record::STATUS_CLOSED
+      end
+    end
+
     def data
-      @data ||= search.facet_response['facet_queries']
-        .map do |delay, total_cases|
+      @data ||= search.facet_response
+        .dig('facet_intervals', restricted_field.indexed_name)
+        .map do |delay, count|
         {
           time: delay,
-          percent: total_cases.to_f / search.total
+          percent: count.to_f / search.total
         }
       end
     end

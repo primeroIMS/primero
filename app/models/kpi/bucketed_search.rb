@@ -29,7 +29,7 @@ module KPI
     # For the purposes of this search 1 month is 30.4167 days or
     # 30.4167 * 24 * 60 * 60 * 1000 milliseconds
     def months(number)
-      number * days(30.4167)
+      (number * days(30.4167)).round
     end
 
     def buckets
@@ -37,30 +37,28 @@ module KPI
     end
 
     # rubocop:disable Metrics/AbcSize
-    def search
+    def search(&block)
       @search ||= search_model.search do
-        with restricted_field.name, from..to
-        without :duplicate, true
+        with :created_at, from..to
+        with :owned_by_groups, owned_by_groups
+        with :owned_by_agency_id, owned_by_agency_id
 
         adjust_solr_params do |params|
           params[:facet] = true
-          params[:'facet.query'] = buckets.map do |args|
-            frange(restricted_field.indexed_name, compared_field.indexed_name, args)
+          params[:'facet.interval'] = restricted_field.indexed_name
+          params[:'facet.interval.set'] = buckets.map do |args|
+            "{!key=#{args[:key]}}[#{args[:l] || '*'},#{args[:u] || '*'}]"
           end
         end
+
+        # Allow subclasses to extend the search
+        instance_exec(&block) if block
       end
     end
     # rubocop:enable Metrics/AbcSize
 
     def data
       raise NotImplementedError
-    end
-
-    private
-
-    def frange(field_a, field_b, **options)
-      param_string = options.map { |k, v| "#{k}=#{v}" }.join(' ')
-      "{!frange #{param_string}} ms(#{field_a},#{field_b})"
     end
   end
 end

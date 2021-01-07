@@ -7,19 +7,26 @@ class FormSectionResponse < ValueObject
   end
 
   def mandatory_fields
-    @mandatory_fields ||= fields.select { |f| f.mandatory_for_completion? }
+    @mandatory_fields ||= fields.select(&:mandatory_for_completion?)
   end
 
   def complete?
     return false unless response
     return false if mandatory_fields.empty?
 
-    mandatory_fields.all? { |f| response[f.name].present? }
+    mandatory_fields.all? { |f| field(f.name).present? }
   end
 
   def field(name)
     return nil unless response
 
     response[name.to_s]
+  end
+
+  def subform(name)
+    FormSectionResponseList.new(
+      responses: field(name).flatten,
+      form_section: form_section&.fields&.find_by(name: name)&.subform
+    )
   end
 end

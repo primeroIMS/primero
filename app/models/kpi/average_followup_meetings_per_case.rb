@@ -4,15 +4,19 @@ module KPI
       ActiveRecord::Base.connection.execute(
         ActiveRecord::Base.sanitize_sql_array([%{
           select
-            count(gbv_follow_up_subform_sections->>'followup_date') / count(distinct cases.id)::float as average_followup_meetings_per_case
+            case count(distinct cases.id)
+              when 0 then 0
+              else count(gbv_follow_up_subform_sections->>'followup_date') / count(distinct cases.id)::float
+            end as average_followup_meetings_per_case
           from
             cases,
-            jsonb_array_elements(data->'action_plan_form') action_plan_forms,
-            jsonb_array_elements(action_plan_forms->'gbv_follow_up_subform_section') gbv_follow_up_subform_sections
+            jsonb_array_elements(data->'gbv_follow_up_subform_section') gbv_follow_up_subform_sections
           where
-            (gbv_follow_up_subform_sections->>'followup_date')::date >= :from
+            data->>'owned_by_agency_id' = :owned_by_agency_id
+            and data->'owned_by_groups' ?| array[:owned_by_groups]
+            and (gbv_follow_up_subform_sections->>'followup_date')::date >= :from
             and (gbv_follow_up_subform_sections->>'followup_date')::date <= :to
-        }, from: from, to: to])
+        }, from: from, to: to, owned_by_groups: owned_by_groups, owned_by_agency_id: owned_by_agency_id])
       )
     end
 
