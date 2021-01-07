@@ -1,4 +1,4 @@
-import { RECORD_TYPES, TRACES_SUBFORM_UNIQUE_ID } from "../../../../../config";
+import { TRACES_SUBFORM_UNIQUE_ID } from "../../../../../config";
 
 import * as helpers from "./utils";
 

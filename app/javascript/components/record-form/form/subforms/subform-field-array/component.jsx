@@ -101,7 +101,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
         </div>
       </div>
       {renderEmptyData}
-      {isTraces ? (
+      {isTraces && mode.isShow ? (
         <SubformTraces
           formSection={formSection}
           openDrawer={open}
