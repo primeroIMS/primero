@@ -12,7 +12,8 @@ import styles from "./styles.css";
 const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, keepTextOnMobile, rest }) => {
   const css = makeStyles(styles)();
   const renderIcon = icon || null;
-  const renderLoadingIndicator = pending && <CircularProgress size={24} className={css.buttonProgress} />;
+  const isPending = Boolean(pending);
+  const renderLoadingIndicator = isPending && <CircularProgress size={24} className={css.buttonProgress} />;
   const renderContent = !renderIcon ? <>{text}</> : <ButtonText text={text} keepTextOnMobile={keepTextOnMobile} />;
 
   const classes = clsx({
@@ -26,7 +27,7 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, kee
 
   return (
     <>
-      <Button className={classes} startIcon={renderIcon} disabled={pending} {...rest}>
+      <Button className={classes} startIcon={renderIcon} disabled={isPending} {...rest}>
         {renderContent}
       </Button>
       {renderLoadingIndicator}
@@ -37,7 +38,7 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, kee
 Component.displayName = NAME;
 
 Component.propTypes = {
-  icon: PropTypes.object,
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   isCancel: PropTypes.bool,
   isTransparent: PropTypes.bool,
   keepTextOnMobile: PropTypes.bool,

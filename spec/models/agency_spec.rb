@@ -127,7 +127,7 @@ describe Agency do
 
     context 'and locale is French' do
       before :each do
-        I18n.locale = 'fr'
+        I18n.locale = :fr
       end
       it 'is valid' do
         expect(@agency3).to be_valid
@@ -144,7 +144,7 @@ describe Agency do
 
     context 'and locale is Spanish' do
       before :each do
-        I18n.locale = 'es'
+        I18n.locale = :es
       end
       it 'is valid' do
         expect(@agency3).to be_valid
@@ -161,7 +161,7 @@ describe Agency do
 
     context 'and locale is Arabic' do
       before :each do
-        I18n.locale = 'ar'
+        I18n.locale = :ar
       end
       it 'is valid' do
         expect(@agency3).to be_valid
@@ -226,11 +226,28 @@ describe Agency do
       it 'updates an existing agency from a configuration hash' do
         configuration_hash2 = configuration_hash.clone
         configuration_hash2['name_i18n']['en'] = 'IRC2*'
+        configuration_hash2['unique_id'] = agency.unique_id
 
         agency2 = Agency.create_or_update!(configuration_hash2)
         expect(agency2.id).to eq(agency.id)
         expect(agency2.name('en')).to eq('IRC2*')
       end
+    end
+  end
+
+  describe '.get_field_using_unique_id' do
+    let(:agency) do
+      Agency.create(
+        name: 'test', agency_code: '12345', unique_id: 'test_unique_id'
+      )
+    end
+    before(:each) do
+      clean_data(Agency)
+      agency
+    end
+
+    it 'returns the value specifed' do
+      expect(Agency.get_field_using_unique_id('test_unique_id', :agency_code)).to eq(agency.agency_code)
     end
   end
 end

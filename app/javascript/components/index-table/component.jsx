@@ -10,7 +10,7 @@ import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
 import { ThemeProvider } from "@material-ui/core/styles";
 
-import { compare, dataToJS, ConditionalWrapper } from "../../libs";
+import { compare, dataToJS, ConditionalWrapper, displayNameHelper, useThemeHelper } from "../../libs";
 import LoadingIndicator from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
@@ -25,6 +25,7 @@ import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
 import CustomToolbarSelect from "./custom-toolbar-select";
 
 const Component = ({
+  arrayColumnsToString,
   title,
   columns,
   recordType,
@@ -37,7 +38,8 @@ const Component = ({
   selectedRecords,
   setSelectedRecords,
   localizedFields,
-  showCustomToolbar
+  showCustomToolbar,
+  isRowSelectable
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -46,6 +48,7 @@ const Component = ({
   const loading = useSelector(state => getLoading(state, recordType));
   const errors = useSelector(state => getErrors(state, recordType));
   const filters = useSelector(state => getFilters(state, recordType), compare);
+  const { theme } = useThemeHelper({ theme: recordListTheme });
 
   const { order, order_by: orderBy } = filters || {};
   const records = data.get("data");
@@ -123,20 +126,32 @@ const Component = ({
   if (localizedFields && records) {
     translatedRecords = records.map(current => {
       const translatedFields = localizedFields.reduce((acc, field) => {
-        const translatedValue = current.getIn([field, i18n.locale], fromJS({}));
+        const translatedValue = displayNameHelper(dataToJS(current.get(field)), i18n.locale);
 
         return acc.merge({
           [field]:
             field === "values"
               ? current
                   .get(field)
-                  .map(value => value.getIn(["display_text", i18n.locale], ""))
+                  .map(value => displayNameHelper(dataToJS(value.get("display_text")), i18n.locale) || "")
                   .join(", ")
               : translatedValue
         });
       }, fromJS({}));
 
       return current.merge(translatedFields);
+    });
+  }
+
+  if (arrayColumnsToString && records) {
+    translatedRecords = translatedRecords.map(currentRecord => {
+      return currentRecord.map((value, key) => {
+        if (arrayColumnsToString.includes(key)) {
+          return value.join(", ");
+        }
+
+        return value;
+      });
     });
   }
 
@@ -193,6 +208,10 @@ const Component = ({
     const options = { ...defaultFilters.merge(filters).toJS() };
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
     const { rowsPerPage } = tableState;
+
+    if (action === "changeRowsPerPage") {
+      tableState.page = page - 1;
+    }
 
     options.per = rowsPerPage;
 
@@ -256,10 +275,18 @@ const Component = ({
     page: currentPage,
     enableNestedDataAccess: ".",
     sortOrder: sortDir,
-    onCellClick: (colData, cellMeta) => {
-      const { dataIndex } = cellMeta;
+    isRowSelectable: dataIndex => {
+      if (isRowSelectable) {
+        return isRowSelectable(records.get(dataIndex));
+      }
 
-      if (!(colData instanceof Object)) {
+      return true;
+    },
+    onCellClick: (colData, cellMeta) => {
+      const { colIndex, dataIndex } = cellMeta;
+      const cells = fromJS(componentColumns);
+
+      if (!cells.getIn([colIndex, "options", "disableOnClick"], false)) {
         if (onRowClick) {
           onRowClick(records.get(dataIndex));
         } else {
@@ -309,7 +336,7 @@ const Component = ({
 
   return (
     <LoadingIndicator {...loadingIndicatorProps}>
-      <ConditionalWrapper condition={validRecordTypes} wrapper={ThemeProvider} theme={recordListTheme}>
+      <ConditionalWrapper condition={validRecordTypes} wrapper={ThemeProvider} theme={theme}>
         <MUIDataTable {...tableOptions} />
       </ConditionalWrapper>
     </LoadingIndicator>
@@ -324,9 +351,11 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
+  arrayColumnsToString: PropTypes.arrayOf(PropTypes.string),
   bypassInitialFetch: PropTypes.bool,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.array]),
   defaultFilters: PropTypes.object,
+  isRowSelectable: PropTypes.func,
   localizedFields: PropTypes.arrayOf(PropTypes.string),
   onRowClick: PropTypes.func,
   onTableChange: PropTypes.func.isRequired,

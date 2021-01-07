@@ -34,12 +34,18 @@ describe Api::V2::ContactInformationController, type: :request do
 
   describe 'GET /api/v2/contact_information' do
     it 'list contact information' do
+      login_for_test
       get '/api/v2/contact_information'
       expect(response).to have_http_status(200)
       expect(json['data']['name']).to eq(@contact_info.name)
       expect(json['data']['organization']).to eq(@contact_info.organization)
       expect(json['data']['support_forum']).to eq(@contact_info.support_forum)
       expect(json['data']['system_version']).to eq(@system_settings.primero_version)
+    end
+
+    it 'not accessible to unauthenticated users' do
+      get '/api/v2/contact_information'
+      expect(response).to have_http_status(401)
     end
   end
 

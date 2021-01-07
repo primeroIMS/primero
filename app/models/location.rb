@@ -9,13 +9,13 @@ class Location < ApplicationRecord
   ADMIN_LEVEL_OUT_OF_RANGE = 100
   LIMIT_FOR_API = 200
 
+  attr_writer :parent
   localize_properties :name, :placename
 
-  attr_accessor :parent, :hierarchy
   self.unique_id_attribute = 'location_code'
 
   validates :admin_level, presence: { message: I18n.t('errors.models.location.admin_level_present') },
-                          if: :is_top_level?
+                          if: :top_level?
   validates :location_code, presence: { message: I18n.t('errors.models.location.code_present') },
                             uniqueness: { message: I18n.t('errors.models.location.unique_location_code') }
   validate :validate_placename_in_english
@@ -25,7 +25,7 @@ class Location < ApplicationRecord
 
   # Only top level locations' admin levels are editable
   # All other locations' admin levels are calculated based on their parent's admin level
-  before_save :calculate_admin_level, unless: :is_top_level?
+  before_save :calculate_admin_level, unless: :skip_calculate_admin_level?
   after_save :update_descendants
   after_save :generate_location_files
 
@@ -106,17 +106,12 @@ class Location < ApplicationRecord
     def find_names_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL, hierarchy_filter = nil,
                                           opts = {})
       locale = opts[:locale].presence || I18n.locale
-      # We need the fully qualified :: separated location name here so the reg_ex filter below will work
       location_names = Location.find_by_admin_level_enabled(admin_level)
-                               .map { |r| { id: r.location_code, hierarchy_path: r.hierarchy_path, display_text: r.name(locale) }.with_indifferent_access }
+                               .map { |r| { id: r.location_code, hierarchy_path: r.hierarchy_path, display_text: r.placename(locale) }.with_indifferent_access }
                                .sort_by! { |l| l['display_text'] }
-      hierarchy_set = hierarchy_filter.to_set if hierarchy_filter.present?
-      if hierarchy_filter.present?
-        location_names = location_names.select { |l| l['hierarchy_path'].present? && (l['hierarchy_path'].to_set ^ hierarchy_set).empty? }
-      end
-      # Now reduce the display text down to just the placename for display
-      location_names.each { |l| l['display_text'] = l['display_text'].split('::').last }
-      location_names
+      return location_names if hierarchy_filter.blank? || !hierarchy_filter.is_a?(Array)
+
+      location_names.select { |l| l['hierarchy_path'].present? && hierarchy_filter.any? { |f| l['hierarchy_path'].include?(f) } }
     end
 
     def ancestor_placename_by_name_and_admin_level(location_code, admin_level)
@@ -179,6 +174,12 @@ class Location < ApplicationRecord
       Location.where('hierarchy_path @> ARRAY[:ltrees]::ltree[]', ltrees: hierarchies.compact.uniq)
               .where(admin_level: admin_level)
     end
+
+    def list(params = {})
+      return all if params.blank?
+
+      where(params)
+    end
   end
 
   def generate_hierarchy_placenames(locales)
@@ -192,12 +193,12 @@ class Location < ApplicationRecord
         end
       end
     end
-    locales.each { |locale| hierarchical_name[locale] << self.send("placename_#{locale}") }
+    locales.each { |locale| hierarchical_name[locale] << send("placename_#{locale}") }
     hierarchical_name
   end
 
   def set_name_from_hierarchy_placenames
-    locales = Primero::Application.locales
+    locales = I18n.available_locales
     name_hash = generate_hierarchy_placenames(locales)
     return unless name_hash.present?
 
@@ -214,7 +215,7 @@ class Location < ApplicationRecord
 
   def descendants
     descendants = Location.by_ancestor(hierarchy_path)
-    descendants.present? ? descendants.select { |d| d != self } : []
+    descendants.present? ? descendants.reject { |d| d == self } : []
   end
 
   def direct_descendants
@@ -242,19 +243,10 @@ class Location < ApplicationRecord
     ancestors.find { |lct| lct.type == type }
   end
 
-  def set_parent(parent)
-    set_hierarchy_from_parent(parent)
-    save
-  end
-
-  def set_hierarchy_from_parent(parent)
+  def hierarchy_from_parent(parent)
     self.hierarchy_path = parent&.hierarchy_path.present? ? "#{parent.hierarchy_path}." : ''
     # TODO: Use  self.location_code.underscore
     hierarchy_path << location_code.to_s
-  end
-
-  def parent=(parent)
-    @parent = parent
   end
 
   def parent
@@ -268,16 +260,20 @@ class Location < ApplicationRecord
   def generate_hierarchy
     parent = self.parent
     a_parent = Location.find_by(id: parent)
-    set_hierarchy_from_parent(a_parent)
+    hierarchy_from_parent(a_parent)
   end
 
-  def is_top_level?
+  def top_level?
     size_hierarchy = hierarchy_path.split('.').size
     size_hierarchy == 1
   end
 
   def admin_level_required?
-    is_top_level? || new_record?
+    top_level? || new_record?
+  end
+
+  def skip_calculate_admin_level?
+    top_level?
   end
 
   # HANDLE WITH CARE
@@ -287,7 +283,7 @@ class Location < ApplicationRecord
   def update_descendants(is_parent = true)
     # Use a flag to avoid infinite loop
     unless is_parent
-      calculate_admin_level unless is_top_level?
+      calculate_admin_level unless top_level?
       set_name_from_hierarchy_placenames
       generate_hierarchy
       save! if has_changes_to_save?

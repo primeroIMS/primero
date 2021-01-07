@@ -131,7 +131,7 @@ describe Api::V2::RolesController, type: :request do
         ]
       )
 
-      get '/api/v2/roles'
+      get '/api/v2/roles?per=100'
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(100)
       expect(Role.count).to eq(103)
@@ -150,17 +150,35 @@ describe Api::V2::RolesController, type: :request do
       expect(json['data'].first['unique_id']).to be
     end
 
-    it 'returns 403 if user is not authorized to access' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])
-        ]
-      )
+    describe 'external roles' do
+      before(:each) do
+        @referral_role = Role.create!(
+          unique_id: 'role_referral', name: 'Referral',
+          referral: true, transfer: false,
+          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
+          form_sections: [@form_section_a], modules: [@cp_a]
+        )
+        @transfer_role = Role.create!(
+          unique_id: 'role_transfer', name: 'Transfer',
+          referral: false, transfer: true,
+          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
+          form_sections: [@form_section_a], modules: [@cp_a]
+        )
+      end
 
-      get '/api/v2/roles'
-      expect(response).to have_http_status(403)
-      expect(json['errors'][0]['resource']).to eq('/api/v2/roles')
-      expect(json['errors'][0]['message']).to eq('Forbidden')
+      it 'lists the external roles' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+          ]
+        )
+
+        get '/api/v2/roles?external=true'
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(2)
+        expect(json['data'].map { |r| r['unique_id'] }).to match_array(%w[role_referral role_transfer])
+      end
     end
 
     it 'list only those roles authorized for the user' do

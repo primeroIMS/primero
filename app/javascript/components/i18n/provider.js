@@ -2,12 +2,16 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
+import isEmpty from "lodash/isEmpty";
+import { format, isDate, parseISO } from "date-fns";
+
+import localize from "../../libs/date-picker-localization";
+import { DATE_FORMAT } from "../../config";
 
 import { setLocale } from "./action-creators";
 import Context from "./context";
 import { getLocales, getLocale } from "./selectors";
 import useI18n from "./use-i18n";
-import withI18n from "./with-i18n";
 import { getLocaleDir } from "./utils";
 
 const I18nProvider = ({ children }) => {
@@ -22,20 +26,38 @@ const I18nProvider = ({ children }) => {
     dispatch(setLocale({ locale: value, dir: getLocaleDir(value) }));
   };
 
+  const t = (value, options) => {
+    const translation = window.I18n.t(value, options);
+
+    return isEmpty(translation) ? window.I18n.t(value, { locale: window.I18n.defaultLocale, ...options }) : translation;
+  };
+
   const getI18nStringFromObject = i18nObject => {
     if (i18nObject instanceof Object) {
-      return i18nObject?.[locale];
+      const localizedValue = i18nObject?.[locale];
+
+      return isEmpty(localizedValue) ? i18nObject?.[window.I18n.defaultLocale] : localizedValue;
     }
 
     return i18nObject;
   };
 
   const translateLocales = () =>
-    locales.reduce((prev, value) => {
+    locales?.reduce((prev, value) => {
       const result = prev.push(fromJS({ id: value, display_text: window.I18n.t(`home.${value}`) }));
 
       return result;
     }, fromJS([]));
+
+  const localizeDate = (value, dateFormat = DATE_FORMAT) => {
+    const date = isDate(value) ? value : parseISO(value);
+
+    try {
+      return format(date, dateFormat, { locale: localize(window.I18n) });
+    } catch {
+      return null;
+    }
+  };
 
   return (
     <Context.Provider
@@ -44,7 +66,9 @@ const I18nProvider = ({ children }) => {
         applicationLocales: translateLocales(),
         ...window.I18n,
         changeLocale,
-        getI18nStringFromObject
+        getI18nStringFromObject,
+        localizeDate,
+        t
       }}
     >
       {children}
@@ -59,4 +83,4 @@ I18nProvider.propTypes = {
 };
 
 export default I18nProvider;
-export { useI18n, withI18n };
+export { useI18n };

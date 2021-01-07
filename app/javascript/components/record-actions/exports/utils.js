@@ -3,9 +3,10 @@ import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 
 import { ACTIONS } from "../../../libs/permissions";
+import { displayNameHelper } from "../../../libs";
 import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR, SUBFORM_SECTION } from "../../record-form/constants";
 
-import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";
+import { ALL_EXPORT_TYPES, EXPORT_FORMAT, FILTERS_TO_SKIP } from "./constants";
 
 const isSubform = field => field.type === SUBFORM_SECTION;
 
@@ -72,7 +73,7 @@ export const exporterFilters = (
     const applied = appliedFilters.entrySeq().reduce((acc, curr) => {
       const [key, value] = curr;
 
-      if (!["fields", "id_search"].includes(key)) {
+      if (!FILTERS_TO_SKIP.includes(key)) {
         return { ...acc, [key]: value };
       }
 
@@ -133,9 +134,9 @@ export const buildFields = (data, locale) => {
 
           return {
             id: `${unique_id}:${field.name}`,
-            display_text: field.display_name[locale],
+            display_text: displayNameHelper(field.display_name, locale),
             formSectionId: unique_id,
-            formSectionName: name[locale],
+            formSectionName: displayNameHelper(name, locale),
             visible: field.visible
           };
         });
@@ -165,7 +166,7 @@ export const exportFormsOptions = (type, fields, forms, locale) => {
     .filter(form => !(form.visible && form.is_nested))
     .map(form => ({
       id: form.unique_id,
-      display_text: form.name[locale]
+      display_text: displayNameHelper(form.name, locale)
     }))
     .toJS();
 };

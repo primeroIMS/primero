@@ -7,18 +7,22 @@ export default (store, action, payload) => {
     ...(api?.responseExtraParams && { ...api?.responseExtraParams })
   };
 
+  const responseRecordData = { [api?.responseRecordKey]: api?.responseRecordArray ? [data] : data };
+
   store.dispatch({
     type: `${type}_SUCCESS`,
-    payload: api?.responseRecordKey
-      ? {
-          data: {
-            record: {
-              id: api?.responseRecordID,
-              [api?.responseRecordKey]: api?.responseRecordArray ? [data] : data
+    payload:
+      api?.responseRecordKey || api?.responseRecordParams
+        ? {
+            data: {
+              record: {
+                id: api?.responseRecordID,
+                ...(api?.responseRecordParams || {}),
+                ...(api?.responseRecordKey ? responseRecordData : {})
+              }
             }
           }
-        }
-      : payload
+        : payload
   });
 
   handleRestCallback(store, api?.successCallback, null, payload, fromQueue);

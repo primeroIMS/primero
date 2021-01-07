@@ -35,6 +35,36 @@ const formSections = {
     },
     fields: [1],
     is_nested: null
+  },
+  63: {
+    id: 63,
+    unique_id: "documents_form",
+    name: {
+      en: "Documents Form",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    visible: true,
+    is_first_tab: true,
+    order: 10,
+    order_form_group: 30,
+    parent_form: "case",
+    editable: true,
+    module_ids: ["primeromodule-cp"],
+    form_group_id: "documents_group",
+    form_group_name: {
+      en: "Documents Group",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    fields: [2],
+    is_nested: null
   }
 };
 
@@ -80,6 +110,29 @@ const fields = {
     visible: true,
     display_name: {
       en: "First Name",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    subform_section_id: null,
+    help_text: {},
+    multi_select: null,
+    option_strings_source: null,
+    option_strings_text: null,
+    guiding_questions: "",
+    required: true,
+    date_validation: "default_date_validation"
+  },
+  2: {
+    name: "document_field",
+    type: "document_upload_box",
+    editable: true,
+    disabled: null,
+    visible: true,
+    display_name: {
+      en: "Document",
       fr: "",
       ar: "",
       "ar-LB": "",
@@ -140,6 +193,9 @@ const stateWithRecords = fromJS({
     }
   },
   forms: {
+    attachmentMeta: {
+      forms: { documents_form: { en: "Documents Form" } }
+    },
     selectedForm: "basic_identity",
     recordAlerts: [
       {
@@ -155,7 +211,7 @@ const stateWithRecords = fromJS({
     loading: true,
     errors: true,
     options: {
-      lookups: { data: [serviceTypeLookup] },
+      lookups: [serviceTypeLookup],
       locations: [location]
     },
     selectedRecord: {
@@ -274,6 +330,26 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(result).to.deep.equal(expected);
     });
+
+    it("should return the options even if stored value it's a boolean", () => {
+      const optionStringsText = [
+        { id: "true", display_text: { en: "Yes" }, isDisabled: false },
+        { id: "false", display_text: { en: "No" }, isDisabled: false }
+      ];
+      const expected = optionStringsText.map(option => ({ ...option, display_text: option.display_text.en }));
+      const result = selectors.getOption(stateWithRecords, optionStringsText, "en", true);
+
+      expect(result).to.deep.equal(expected);
+    });
+  });
+
+  describe("getAttachmentForms", () => {
+    it("should return the forms with attachments", () => {
+      const attachmentForms = selectors.getAttachmentForms(stateWithRecords, "en");
+      const expected = fromJS({ documents_form: { en: "Documents Form" } });
+
+      expect(attachmentForms).to.deep.equal(expected);
+    });
   });
 
   describe("getRecordForms", () => {
@@ -381,7 +457,7 @@ describe("<RecordForm /> - Selectors", () => {
             option_strings_text: null,
             order: null,
             required: true,
-            selected_value: "",
+            selected_value: null,
             show_on_minify_form: false,
             subform_section_id: null,
             subform_sort_by: "",
@@ -428,14 +504,6 @@ describe("<RecordForm /> - Selectors", () => {
         editable: true,
         module_ids: ["primeromodule-cp"],
         form_group_id: "invisible",
-        form_group_name: {
-          en: "Invisible",
-          fr: "",
-          ar: "",
-          "ar-LB": "",
-          so: "",
-          es: ""
-        },
         fields: [
           {
             date_include_time: false,
@@ -459,7 +527,7 @@ describe("<RecordForm /> - Selectors", () => {
             option_strings_text: null,
             order: null,
             required: true,
-            selected_value: "",
+            selected_value: null,
             show_on_minify_form: false,
             subform_section_id: null,
             subform_sort_by: "",
@@ -487,7 +555,6 @@ describe("<RecordForm /> - Selectors", () => {
       identification_registration: OrderedMap({
         "62": R.NavRecord({
           group: "identification_registration",
-          groupName: "Identification / Registration",
           groupOrder: 30,
           name: "Basic Identity",
           order: 10,
@@ -498,12 +565,35 @@ describe("<RecordForm /> - Selectors", () => {
     });
 
     it("should return the forms nav", () => {
+      const expectedNav = expected.set(
+        "documents_group",
+        OrderedMap({
+          "63": R.NavRecord({
+            group: "documents_group",
+            groupOrder: 30,
+            name: "Documents Form",
+            order: 10,
+            formId: "documents_form",
+            is_first_tab: true
+          })
+        })
+      );
+
       const record = selectors.getFormNav(stateWithRecords, {
         primeroModule: "primeromodule-cp",
         recordType: "case"
       });
 
-      expect(record).to.deep.equal(expected);
+      expect(record).to.deep.equal(expectedNav);
+    });
+
+    it("should not return form groupName", () => {
+      const record = selectors.getFormNav(stateWithRecords, {
+        primeroModule: "primeromodule-cp",
+        recordType: "case"
+      });
+
+      expect(record?.groupName).to.not.exist;
     });
 
     it("should return an empty ordered map when there are not any options", () => {

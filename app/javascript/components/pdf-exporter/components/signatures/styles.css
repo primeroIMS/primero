@@ -1,0 +1,20 @@
+.signatureContainer {
+  display: flex;
+  width: 8.5in;
+  flex-wrap: wrap;
+}
+
+.signatureText {
+  display: flex;
+
+  & div:first-of-type {
+    flex: 1;
+  }
+}
+
+.signature {
+  width: 40%;
+  margin: 1in .08in 0 .08in;
+  padding: .5em 0;
+  border-top: 1px solid #000;
+}

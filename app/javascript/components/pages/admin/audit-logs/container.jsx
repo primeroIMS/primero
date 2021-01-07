@@ -2,14 +2,16 @@ import React, { useEffect } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { fromJS } from "immutable";
-import { format, parseISO } from "date-fns";
 
+import { getMetadata } from "../../../record-list";
 import { useI18n } from "../../../i18n";
 import { DATE_TIME_FORMAT } from "../../../../config";
 import { RESOURCES, SHOW_AUDIT_LOGS } from "../../../../libs/permissions";
+import { compare } from "../../../../libs";
 import { PageContent, PageHeading } from "../../../page";
 import IndexTable from "../../../index-table";
 import Permission from "../../../application/permission";
+import { useMetadata } from "../../../records";
 import { Filters as AdminFilters } from "../components";
 
 import { AUDIT_LOG, NAME, TIMESTAMP, USER_NAME } from "./constants";
@@ -20,7 +22,9 @@ import { buildAuditLogsQuery, getFilters } from "./utils";
 const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const filterUsers = useSelector(state => getFilterUsers(state));
+  const recordType = ["admin", AUDIT_LOG];
+  const metadata = useSelector(state => getMetadata(state, recordType));
+  const filterUsers = useSelector(state => getFilterUsers(state), compare);
 
   useEffect(() => {
     dispatch(fetchPerformedBy({ options: { per: 999 } }));
@@ -46,13 +50,15 @@ const Container = () => {
     }
   };
 
+  useMetadata(recordType, metadata, fetchAuditLogs, "data");
+
   const tableOptions = {
     columns: [
       {
         label: i18n.t("audit_log.timestamp"),
         name: "timestamp",
         options: {
-          customBodyRender: value => format(parseISO(value), DATE_TIME_FORMAT)
+          customBodyRender: value => i18n.localizeDate(value, DATE_TIME_FORMAT)
         }
       },
       {
@@ -81,7 +87,9 @@ const Container = () => {
       selectableRows: "none",
       onCellClick: false
     },
-    recordType: ["admin", AUDIT_LOG]
+    recordType,
+    targetRecordType: AUDIT_LOG,
+    bypassInitialFetch: true
   };
 
   return (

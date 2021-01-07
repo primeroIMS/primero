@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Typography } from "@material-ui/core";
+import { Dialog, DialogActions, DialogContent, DialogContentText, Typography } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useI18n } from "../i18n";
 import { useThemeHelper } from "../../libs";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
+import { useApp } from "../application";
 
-import TitleWithClose from "./text-with-close";
+import TitleWithClose from "./components/text-with-close";
 import styles from "./styles.css";
+import { clearDialog } from "./action-creators";
+import { getAsyncLoading } from "./selectors";
 
 const ActionDialog = ({
   cancelButtonProps,
@@ -25,23 +29,42 @@ const ActionDialog = ({
   dialogTitle,
   disableActions,
   disableBackdropClick,
+  disableClose,
   enabledSuccessButton,
+  hideIcon,
   maxSize,
   omitCloseAfterSuccess,
   onClose,
   open,
   pending,
-  successHandler
+  showSuccessButton,
+  successHandler,
+  fetchAction,
+  fetchArgs,
+  fetchLoadingPath
 }) => {
   const i18n = useI18n();
-  const { css } = useThemeHelper(styles);
+  const dispatch = useDispatch();
+  const { css } = useThemeHelper({ css: styles });
+  const { disabledApplication } = useApp();
+
+  const asyncLoading = useSelector(state => {
+    if (!fetchLoadingPath) return false;
+
+    return getAsyncLoading(state, fetchLoadingPath);
+  });
+
+  const isPending = asyncLoading || pending;
 
   const handleClose = event => {
     event.stopPropagation();
+
     if (cancelHandler) {
       cancelHandler();
-    } else {
+    } else if (onClose) {
       onClose();
+    } else {
+      dispatch(clearDialog());
     }
   };
 
@@ -64,15 +87,14 @@ const ActionDialog = ({
   const successButtonProps =
     confirmButtonProps && Object.keys(confirmButtonProps) ? confirmButtonProps : defaultSuccessButtonProps;
 
-  const dialogHeader = onClose ? (
+  const dialogHeader = (
     <TitleWithClose
+      disableClose={disableClose}
       dialogTitle={dialogTitle}
       dialogSubtitle={dialogSubtitle}
       closeHandler={handleClose}
       dialogActions={dialogActions}
     />
-  ) : (
-    <DialogTitle className={css.dialogTitle}>{dialogTitle}</DialogTitle>
   );
 
   const subHeader = dialogSubHeader && (
@@ -81,30 +103,38 @@ const ActionDialog = ({
     </Typography>
   );
 
-  const iconConfirmButtom = confirmButtonProps && confirmButtonProps.icon ? confirmButtonProps.icon : <CheckIcon />;
+  const iconConfirmButton = confirmButtonProps && confirmButtonProps.icon ? confirmButtonProps.icon : <CheckIcon />;
+
+  const onCloseDialog = disabledApplication ? null : handleClose;
 
   const submitButton = (
     <div className={css.submitButtonWrapper}>
       <ActionButton
-        icon={iconConfirmButtom}
+        icon={!hideIcon && iconConfirmButton}
         text={confirmButtonLabel}
         type={ACTION_BUTTON_TYPES.default}
-        pending={pending}
+        pending={isPending}
         rest={{
           ...successButtonProps,
           onClick: handleSuccess,
-          disabled: pending || !enabledSuccessButton
+          disabled: isPending || !enabledSuccessButton
         }}
       />
     </div>
   );
+
+  useEffect(() => {
+    if (fetchAction && open) {
+      dispatch(fetchAction(...fetchArgs));
+    }
+  }, [open, fetchAction]);
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
     <div onClick={stopPropagation}>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={onCloseDialog}
         fullWidth
         maxWidth={maxSize || "sm"}
         aria-labelledby="action-dialog-title"
@@ -116,7 +146,7 @@ const ActionDialog = ({
         <DialogContent>{dialogText ? <DialogContentText>{dialogText}</DialogContentText> : children}</DialogContent>
         {!disableActions && (
           <DialogActions>
-            {submitButton}
+            {showSuccessButton && submitButton}
             {cancelHandler && (
               <ActionButton
                 icon={<CloseIcon />}
@@ -141,8 +171,13 @@ ActionDialog.displayName = "ActionDialog";
 
 ActionDialog.defaultProps = {
   cancelButtonProps: {},
+  dialogTitle: "",
   disableBackdropClick: false,
-  enabledSuccessButton: true
+  disableClose: false,
+  enabledSuccessButton: true,
+  fetchArgs: [],
+  hideIcon: false,
+  showSuccessButton: true
 };
 
 ActionDialog.propTypes = {
@@ -155,15 +190,21 @@ ActionDialog.propTypes = {
   dialogSubHeader: PropTypes.string,
   dialogSubtitle: PropTypes.string,
   dialogText: PropTypes.string,
-  dialogTitle: PropTypes.string,
+  dialogTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   disableActions: PropTypes.bool,
   disableBackdropClick: PropTypes.bool,
+  disableClose: PropTypes.bool,
   enabledSuccessButton: PropTypes.bool,
+  fetchAction: PropTypes.func,
+  fetchArgs: PropTypes.array,
+  fetchLoadingPath: PropTypes.array,
+  hideIcon: PropTypes.bool,
   maxSize: PropTypes.string,
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func,
   open: PropTypes.bool,
   pending: PropTypes.bool,
+  showSuccessButton: PropTypes.bool,
   successHandler: PropTypes.func
 };
 

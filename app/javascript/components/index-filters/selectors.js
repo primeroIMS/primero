@@ -7,3 +7,7 @@ export const getFiltersByRecordType = (state, recordType) => {
 export const getFiltersValuesByRecordType = (state, recordType) => {
   return state.getIn(["records", recordType, "filters"], fromJS({}));
 };
+
+export const getFiltersValueByRecordType = (state, recordType, key) => {
+  return getFiltersValuesByRecordType(state, recordType).get(key, null);
+};

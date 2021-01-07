@@ -1,8 +1,13 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V2::SystemSettingsController, type: :request do
   before :each do
     clean_data(Field, FormSection, Agency, PrimeroProgram, PrimeroModule, SystemSettings)
+    I18n.locale = :en
+    I18n.default_locale = :en
+    I18n.available_locales = %i[en ar fr es]
     fields = [
       Field.new(
         name: 'field_name_2',
@@ -41,13 +46,12 @@ describe Api::V2::SystemSettingsController, type: :request do
       }
     )
     @system_settings = SystemSettings.create(
-      default_locale: 'en',
       case_code_separator: '-',
       primero_version: '2.0.0',
       age_ranges: {
         'primero' => ['0 - 5', '6 - 11', '12 - 17', '18+'],
         'unhcr' => ['0 - 4', '5 - 11', '12 - 17', '18 - 59', '60+']
-       },
+      },
       primary_age_range: 'primero',
       location_limit_for_api: 150,
       welcome_email_text: 'Welcome to Primero',
@@ -66,8 +70,11 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(12)
-      expect(json['data']['default_locale']).to eq(@system_settings.default_locale)
+      expect(json['data'].size).to eq(15)
+      expect(json['data']['default_locale']).to eq('en')
+      expect(json['data']['locale']).to eq('en')
+      expect(json['data']['locales']).to contain_exactly('en', 'ar', 'fr', 'es')
+      expect(json['data']['rtl_locales']).to contain_exactly('ar')
       expect(json['data']['primero_version']).to eq(@system_settings.primero_version)
     end
 
@@ -75,8 +82,8 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings?extended=true'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(14)
-      expect(json['data']['agencies'][0]['name']).to eq('Agency test')
+      expect(json['data'].size).to eq(17)
+      expect(json['data']['agencies'][0]['name']['en']).to eq('Agency test')
       expect(json['data']['modules'].size).to eq(1)
       expect(json['data']['modules'][0]['name']).to eq('CP')
     end
@@ -90,11 +97,9 @@ describe Api::V2::SystemSettingsController, type: :request do
 
       expect(json['data']['modules'][0]['workflows']['case']['en'].length).to be > 0
     end
-
   end
 
   after :each do
     clean_data(Field, FormSection, Agency, PrimeroProgram, PrimeroModule, SystemSettings)
   end
-
 end

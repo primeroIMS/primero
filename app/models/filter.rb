@@ -174,8 +174,7 @@ class Filter < ValueObject
     field_name: 'perpetrator_sub_categories',
     option_strings_source: 'lookup-armed-force-group-type'
   )
-  # TODO: This constant is throwing a warning.
-  STATUS = Filter.new(
+  TRACING_REQUEST_STATUS = Filter.new(
     name: 'tracing_requests.filter_by.status',
     field_name: 'status',
     option_strings_source: 'lookup-inquiry-status'
@@ -259,7 +258,7 @@ class Filter < ValueObject
       if user.module?(PrimeroModule::GBV) && visible?('gbv_displacement_status', filter_fields)
         filters << GBV_DISPLACEMENT_STATUS
       end
-      filters << PROTECTION_STATUS if visible?('protection_status', filter_fields)
+      filters << PROTECTION_STATUS if visible?('protection_status', filter_fields) && user.module?(PrimeroModule::CP)
       if user.module?(PrimeroModule::CP) && visible?('urgent_protection_concern', filter_fields)
         filters << URGENT_PROTECTION_CONCERN
       end
@@ -268,8 +267,10 @@ class Filter < ValueObject
       filters << CURRENT_LOCATION if user.module?(PrimeroModule::CP)
       filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
       filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
-      filters << REPORTING_LOCATION.call(labels: reporting_location_labels, field: reporting_location_field,
-                                         admin_level: reporting_location_admin_level)
+      if user.module?(PrimeroModule::CP)
+        filters << REPORTING_LOCATION.call(labels: reporting_location_labels, field: reporting_location_field,
+                                           admin_level: reporting_location_admin_level)
+      end
       filters << NO_ACTIVITY
       filters << DATE_CASE if user.module?(PrimeroModule::CP)
       filters << ENABLED
@@ -302,7 +303,7 @@ class Filter < ValueObject
       filters << FLAGGED_CASE
       filters << SOCIAL_WORKER if user.manager?
       filters << INQUIRY_DATE
-      filters << STATUS
+      filters << TRACING_REQUEST_STATUS
       filters << SEPARATION_LOCATION
       filters << SEPARATION_CAUSE
       filters << ENABLED
@@ -336,7 +337,7 @@ class Filter < ValueObject
     agencies = User.agencies_for_user_names(managed_user_names)
     self.options = I18n.available_locales.map do |locale|
       locale_options = agencies.map do |agency|
-        { id: agency.id, display_name: agency.name(locale) }
+        { id: agency.unique_id, display_name: agency.name(locale) }
       end
       { locale => locale_options }
     end.inject(&:merge)
@@ -350,7 +351,7 @@ class Filter < ValueObject
   end
 
   def owned_by_groups_options(_opts = {})
-    self.options = UserGroup.all.map { |user_group| { id: user_group.id, display_name: user_group.name } }
+    self.options = UserGroup.all.map { |user_group| { id: user_group.unique_id, display_name: user_group.name } }
   end
 
   def cases_by_date_options(opts = {})

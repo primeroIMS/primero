@@ -15,7 +15,10 @@ const stateWithUser = fromJS({
       incidents: [ACTIONS.MANAGE],
       tracing_requests: [ACTIONS.MANAGE],
       cases: [ACTIONS.MANAGE]
-    }
+    },
+    saving: false,
+    serverErrors: ["Test error"],
+    resetPassword: { saving: true }
   }
 });
 
@@ -102,6 +105,154 @@ describe("User - Selectors", () => {
       const selector = selectors.getPermittedFormsIds(stateWithUser);
 
       expect(selector).to.deep.equal(expectedFormsIds);
+    });
+  });
+
+  describe("getUser", () => {
+    it("should return selected user", () => {
+      const expected = stateWithUser.get("user");
+
+      const user = selectors.getUser(stateWithUser);
+
+      expect(user).to.deep.equal(expected);
+    });
+
+    it("should return empty object when selected user empty", () => {
+      const user = selectors.getUser(stateWithoutUser);
+
+      expect(user).to.deep.equal(fromJS({}));
+    });
+  });
+
+  describe("getUserSavingRecord", () => {
+    it("should return saving key", () => {
+      const result = selectors.getUserSavingRecord(stateWithUser);
+
+      expect(result).to.be.false;
+    });
+
+    it("should return empty object when no server errors", () => {
+      const user = selectors.getUserSavingRecord(stateWithoutUser);
+
+      expect(user).to.be.false;
+    });
+  });
+
+  describe("getServerErrors", () => {
+    it("should return server errors", () => {
+      const expected = stateWithUser.getIn(["user", "serverErrors"]);
+
+      const serverErrors = selectors.getServerErrors(stateWithUser);
+
+      expect(serverErrors).to.deep.equal(expected);
+    });
+
+    it("should return empty object when no server errors", () => {
+      const user = selectors.getServerErrors(stateWithoutUser);
+
+      expect(user).to.deep.equal(fromJS([]));
+    });
+  });
+
+  describe("getSavingPassword", () => {
+    it("should return true if the password reset is being saving", () => {
+      const saving = selectors.getSavingPassword(stateWithUser);
+
+      expect(saving).to.be.true;
+    });
+  });
+
+  describe("getUserLocationsByAdminLevel", () => {
+    const forms = {
+      options: {
+        locations: [
+          {
+            code: "XX",
+            admin_level: 0,
+            type: "country",
+            name: {
+              en: "Country 1"
+            }
+          },
+          {
+            code: "XX01",
+            admin_level: 1,
+            type: "province",
+            name: {
+              en: "Country 1::Province 1"
+            }
+          },
+          {
+            code: "XX0101",
+            admin_level: 2,
+            type: "district",
+            name: {
+              en: "Country 1::Province 1::District 1"
+            }
+          }
+        ]
+      }
+    };
+
+    describe("when user doesn't have a location", () => {
+      const state = fromJS({
+        user: {},
+        forms
+      });
+
+      it("should return all locations if the user doesn't have a location", () => {
+        const expected = fromJS(forms.options.locations);
+
+        expect(selectors.getUserLocationsByAdminLevel(state)).to.deep.equal(expected);
+      });
+    });
+
+    describe("when user has a location", () => {
+      const state = fromJS({
+        user: {
+          location: "XX0101"
+        },
+        forms
+      });
+
+      it("should return ONLY a single location if it's last admin_level location", () => {
+        const expected = fromJS([
+          {
+            code: "XX0101",
+            admin_level: 2,
+            type: "district",
+            name: {
+              en: "Country 1::Province 1::District 1"
+            }
+          }
+        ]);
+
+        expect(selectors.getUserLocationsByAdminLevel(state)).to.deep.equal(expected);
+      });
+
+      it("should return locations with admin_level greater than or equals to the user's location admin_level", () => {
+        const updatedState = state.setIn(["user", "location"], "XX01");
+        const expected = fromJS([
+          {
+            code: "XX01",
+            admin_level: 1,
+            type: "province",
+            name: {
+              en: "Country 1::Province 1"
+            }
+          },
+          {
+            code: "XX0101",
+            admin_level: 2,
+            type: "district",
+            name: {
+              en: "Country 1::Province 1::District 1"
+            }
+          }
+        ]);
+
+        expect(selectors.getUserLocationsByAdminLevel(updatedState)).to.deep.equal(expected);
+      });
     });
   });
 });

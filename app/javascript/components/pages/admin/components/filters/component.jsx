@@ -38,7 +38,7 @@ const Component = ({ filters, onSubmit, clearFields, defaultFilters }) => {
     return filters.map(filter => {
       const Filter = filterType(filter.type);
 
-      if (!Filter) return null;
+      if (!Filter || filter.permitted_filter === false) return null;
 
       return <Filter key={filter.field_name} filter={filter} multiple={filter.multiple} />;
     });

@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { object, string } from "yup";
 import { Formik } from "formik";
 import { fromJS } from "immutable";
+import startCase from "lodash/startCase";
 
+import { RECORD_TYPES } from "../../../../../config";
 import { getEnabledAgencies } from "../../../../application";
 import { setServiceToRefer } from "../../../../record-form/action-creators";
 import { getServiceToRefer } from "../../../../record-form";
@@ -116,7 +118,7 @@ const ReferralForm = ({
               consent_overridden: canConsentOverride || values[REFERRAL_FIELD]
             }
           },
-          i18n.t("referral.success", { record_type: recordType, id: recordId })
+          i18n.t("referral.success", { record_type: startCase(RECORD_TYPES[recordType]), id: recordId })
         )
       );
       setSubmitting(false);

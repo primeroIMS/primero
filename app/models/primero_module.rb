@@ -21,11 +21,11 @@ class PrimeroModule < ApplicationRecord
 
   validates :name, presence: { message: I18n.t('errors.models.primero_module.name_present') },
                    uniqueness: { message: I18n.t('errors.models.primero_module.unique_name') }
-  validates_presence_of :form_sections, message: I18n.t('errors.models.primero_module.form_section_ids')
   validates_presence_of :associated_record_types,
                         message: I18n.t('errors.models.primero_module.associated_record_types')
 
   before_create :set_unique_id
+  after_save :sync_forms
 
   def program_name
     primero_program.try(:name)
@@ -35,6 +35,7 @@ class PrimeroModule < ApplicationRecord
     result = form_sections
     result.each { |f| f.module_name = name }
     result.reject(&:is_nested) unless include_subforms
+    result
   end
 
   def associated_forms_grouped_by_record_type(include_subforms = false)
@@ -76,5 +77,18 @@ class PrimeroModule < ApplicationRecord
     return if unique_id.present?
 
     self.unique_id = "#{self.class.name}-#{name}".parameterize.dasherize
+  end
+
+  def sync_forms
+    return if form_sections.blank?
+
+    subforms = []
+    form_sections.each do |form_section|
+      next if form_section.is_nested
+
+      subforms += form_section.subforms
+    end
+
+    self.form_sections = form_sections | subforms
   end
 end

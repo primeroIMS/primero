@@ -47,50 +47,6 @@ describe Report do
     expect(Report.reportable_record_types).to include('case', 'incident', 'tracing_request', 'violation')
   end
 
-  describe '.create_or_update!' do
-    let(:module1) { create(:primero_module) }
-
-    let(:report) do
-      Report.create!(
-        record_type: 'case', name_en: 'Test', unique_id: 'report-test',
-        aggregate_by: %w[a b], module_id: module1.unique_id
-      )
-    end
-
-    let(:report_configuration_hash) do
-      {
-        'unique_id' => 'report-test',
-        'name_i18n' => { 'en' => 'Test' },
-        'record_type' => 'case',
-        'aggregate_by' => %w[a b],
-        'module_id' => module1.unique_id
-      }
-    end
-
-    before(:each) do
-      clean_data(Report, PrimeroModule)
-      report
-    end
-
-    it 'creates a new report from a configuration hash' do
-      report_configuration_hash2 = report_configuration_hash.clone
-      report_configuration_hash2['unique_id'] = 'report-test2'
-
-      new_report = Report.create_or_update!(report_configuration_hash2)
-      expect(new_report.configuration_hash).to include(report_configuration_hash2)
-      expect(new_report.id).not_to eq(report.id)
-    end
-
-    it 'updates an existing report from a configuration hash' do
-      report_configuration_hash2 = report_configuration_hash.clone
-      report_configuration_hash2['name_i18n']['en'] = 'Test*'
-
-      report2 = Report.create_or_update!(report_configuration_hash2)
-      expect(report2.id).to eq(report.id)
-      expect(report2.name('en')).to eq('Test*')
-    end
-  end
-
   describe 'nested reports' do
     it 'lists reportsable nested record types' do
       expect(Report.reportable_record_types).to include(
@@ -260,6 +216,80 @@ describe Report do
         }
       }
       expect(report.values_as_json_hash).to eq(values_as_hash)
+    end
+  end
+
+  describe 'is_graph' do
+    context 'when is_graph is in params' do
+      before do
+        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: @module.unique_id,
+                             is_graph: true)
+      end
+
+      it 'has value for is_graph' do
+        expect(@report.is_graph).to be_truthy
+      end
+
+      it 'has value for graph' do
+        expect(@report.graph).to be_truthy
+      end
+    end
+
+    context 'when graph is in params' do
+      before do
+        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: @module.unique_id,
+                             graph: true)
+      end
+
+      it 'has value for is_graph' do
+        expect(@report.is_graph).to be_truthy
+      end
+
+      it 'has value for graph' do
+        expect(@report.graph).to be_truthy
+      end
+    end
+
+    context 'when is_graph is updated' do
+      before :each do
+        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: @module.unique_id,
+                             is_graph: false)
+      end
+
+      it 'updates is_graph' do
+        expect(@report.is_graph).to be_falsey
+
+        @report.update_properties(is_graph: true)
+        expect(@report.is_graph).to be_truthy
+      end
+
+      it 'updates graph' do
+        expect(@report.graph).to be_falsey
+
+        @report.update_properties(is_graph: true)
+        expect(@report.graph).to be_truthy
+      end
+    end
+
+    context 'when graph is updated' do
+      before :each do
+        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: @module.unique_id,
+                             graph: false)
+      end
+
+      it 'updates is_graph' do
+        expect(@report.is_graph).to be_falsey
+
+        @report.update_properties(graph: true)
+        expect(@report.is_graph).to be_truthy
+      end
+
+      it 'updates graph' do
+        expect(@report.graph).to be_falsey
+
+        @report.update_properties(graph: true)
+        expect(@report.graph).to be_truthy
+      end
     end
   end
 end

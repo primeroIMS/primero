@@ -621,6 +621,25 @@ describe Ability do
       expect(ability).not_to authorize(:read, Role)
       expect(ability).not_to authorize(:write, Role)
     end
+
+    context 'when Users role has "all records" group permission' do
+      it 'should be able to edit any user in the system' do
+        role = create :role, permissions: [@permission_user_read_write], group_permission: Permission::ALL
+        test_user_group_1 = build(:user_group, unique_id: 'test_user_group_1')
+        @user2.user_groups = [test_user_group_1]
+        @user1.role = role
+        @user1.save
+
+        test_user_group_2 = build(:user_group, unique_id: 'test_user_group_2')
+        @user2.user_groups = [test_user_group_2]
+        @user2.save
+
+        ability = Ability.new @user1
+
+        expect(ability).to authorize(:read, @user2)
+        expect(ability).to authorize(:write, @user2)
+      end
+    end
   end
 
   describe "User Groups" do

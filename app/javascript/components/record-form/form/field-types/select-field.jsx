@@ -76,7 +76,7 @@ const SelectField = ({
   );
 
   const reloadReferralUsers = () => {
-    const filters = getUserFilters({ services: service, agency, location });
+    const filters = getUserFilters({ service, agency, location });
 
     dispatch(
       fetchReferralUsers({
@@ -207,7 +207,8 @@ const SelectField = ({
       ? buildOptions().filter(optionObject =>
           multiSelect ? value.includes(String(optionObject.value)) : String(optionObject.value) === value.toString()
         )
-      : defaultEmptyValue
+      : defaultEmptyValue,
+    InputLabelProps
   };
 
   useEffect(() => {
@@ -235,10 +236,6 @@ const SelectField = ({
   useEffect(() => {
     if (mode.isNew && selectedValue && (value === null || value?.length === 0)) {
       formik.setFieldValue(name, selectedValue, false);
-    }
-
-    if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
-      reloadReferralUsers();
     }
   }, []);
 

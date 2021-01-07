@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Class for transfers, referrals, and assign
 class Transition < ApplicationRecord
   STATUS_PENDING = 'pending'
   STATUS_ACCEPTED = 'accepted'
@@ -8,12 +9,14 @@ class Transition < ApplicationRecord
   STATUS_DONE = 'done'
 
   belongs_to :record, polymorphic: true
-  belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to', primary_key: 'user_name'
+  belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to', 
+                                    primary_key: 'user_name', optional: true
   belongs_to :transitioned_by_user, class_name: 'User', foreign_key: 'transitioned_by', primary_key: 'user_name'
 
-  validates :transitioned_to, :transitioned_by, presence: true
+  validates :transitioned_to, presence: true, unless: :remote
+  validates :transitioned_by, presence: true
   validate :consent_given_or_overridden
-  validate :user_can_receive
+  validate :user_can_receive, unless: :remote
 
   after_initialize :defaults, unless: :persisted?
   before_create :perform
@@ -56,6 +59,7 @@ class Transition < ApplicationRecord
 
     errors.add(:transitioned_to, 'transition.errors.to_user_can_receive')
   end
+
   # TODO: Can I modify this method? to solve the rubocop warnning
   def user_can_receive?
     !transitioned_to_user.disabled &&
@@ -73,5 +77,14 @@ class Transition < ApplicationRecord
 
   def index_record
     Sunspot.index!(record) if record
+  end
+
+  def update_incident_ownership
+    return unless record.respond_to?(:incidents)
+
+    record.incidents.each do |incident|
+      incident.owned_by = transitioned_to
+      incident.save!
+    end
   end
 end

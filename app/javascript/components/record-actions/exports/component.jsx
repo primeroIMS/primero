@@ -15,12 +15,12 @@ import submitForm from "../../../libs/submit-form";
 import { RECORD_TYPES } from "../../../config";
 import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
 import { getRecords } from "../../index-table";
-import { EXPORT_DIALOG } from "../constants";
 import { getMetadata } from "../../record-list/selectors";
 import FormSectionField from "../../form/components/form-section-field";
 import { submitHandler } from "../../form/utils/form-submission";
 import { getRecordForms } from "../../record-form/selectors";
 import { useApp } from "../../application";
+import PdfExporter from "../../pdf-exporter";
 
 import {
   isCustomExport,
@@ -31,16 +31,17 @@ import {
   formatFields,
   exportFormsOptions
 } from "./utils";
-import PdfExporter from "./components/pdf-exporter";
 import {
   ALL_EXPORT_TYPES,
   CUSTOM_EXPORT_FILE_NAME_FIELD,
   CUSTOM_FORMAT_TYPE_FIELD,
+  CUSTOM_HEADER,
   EXPORT_TYPE_FIELD,
   FIELDS_TO_EXPORT_FIELD,
   FIELD_ID,
   FORMS_ID,
   FORM_TO_EXPORT_FIELD,
+  HEADER,
   INDIVIDUAL_FIELDS_FIELD,
   MODULE_FIELD,
   NAME,
@@ -53,7 +54,7 @@ const Component = ({
   close,
   currentPage,
   match,
-  openExportsDialog,
+  open,
   pending,
   record,
   recordType,
@@ -107,12 +108,23 @@ const Component = ({
     selectedRecordsLength > 0 && records.size > 0 && selectedRecordsLength === records.size;
   const allRecordsSelected = selectedRecordsLength === totalRecords;
 
-  const exportType = formMethods.watch(EXPORT_TYPE_FIELD);
-  const formatType = formMethods.watch(CUSTOM_FORMAT_TYPE_FIELD);
-  const individualFields = formMethods.watch(INDIVIDUAL_FIELDS_FIELD);
-  const formsToExport = formMethods.watch(FORM_TO_EXPORT_FIELD);
-  const fieldsToExport = formMethods.watch(FIELDS_TO_EXPORT_FIELD);
-  const selectedModule = formMethods.watch(MODULE_FIELD);
+  const {
+    [EXPORT_TYPE_FIELD]: exportType,
+    [CUSTOM_FORMAT_TYPE_FIELD]: formatType,
+    [INDIVIDUAL_FIELDS_FIELD]: individualFields,
+    [FORM_TO_EXPORT_FIELD]: formsToExport,
+    [FIELDS_TO_EXPORT_FIELD]: fieldsToExport,
+    [MODULE_FIELD]: selectedModule
+  } = formMethods.watch([
+    MODULE_FIELD,
+    FIELDS_TO_EXPORT_FIELD,
+    FORM_TO_EXPORT_FIELD,
+    EXPORT_TYPE_FIELD,
+    CUSTOM_FORMAT_TYPE_FIELD,
+    INDIVIDUAL_FIELDS_FIELD,
+    CUSTOM_HEADER,
+    HEADER
+  ]);
 
   const { userModules } = useApp();
   const modules = userModules
@@ -205,8 +217,7 @@ const Component = ({
         i18n.t(message || "exports.queueing", {
           file_name: fileName ? `: ${fileName}.` : "."
         }),
-        i18n.t("exports.go_to_exports"),
-        EXPORT_DIALOG
+        i18n.t("exports.go_to_exports")
       )
     );
   };
@@ -266,7 +277,7 @@ const Component = ({
       enabledSuccessButton={enabledSuccessButton}
       omitCloseAfterSuccess
       onClose={close}
-      open={openExportsDialog}
+      open={open}
       pending={pending}
       successHandler={() => submitForm(formRef)}
     >
@@ -276,7 +287,15 @@ const Component = ({
             return <FormSectionField field={field} key={field.unique_id} />;
           })}
         </form>
-        {isPdfExport(exportType) && <PdfExporter record={record} forms={recordTypesForms} ref={pdfExporterRef} />}
+        {isPdfExport(exportType) && (
+          <PdfExporter
+            record={record}
+            forms={recordTypesForms}
+            ref={pdfExporterRef}
+            formsSelectedField={FORM_TO_EXPORT_FIELD}
+            customFilenameField={CUSTOM_EXPORT_FILE_NAME_FIELD}
+          />
+        )}
       </FormContext>
     </ActionDialog>
   );
@@ -285,14 +304,14 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.defaultProps = {
-  openExportsDialog: false
+  open: false
 };
 
 Component.propTypes = {
   close: PropTypes.func,
   currentPage: PropTypes.number,
   match: PropTypes.object,
-  openExportsDialog: PropTypes.bool,
+  open: PropTypes.bool,
   pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,

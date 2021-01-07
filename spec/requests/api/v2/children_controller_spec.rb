@@ -157,7 +157,7 @@ describe Api::V2::ChildrenController, type: :request do
     end
 
     it 'returns alert_count for the short form ' do
-      @case1.add_alert('transfer_request', Date.today, 'transfer_request')
+      @case1.add_alert(alert_for: 'transfer_request', date: Date.today, form_sidebar_id: 'transfer_request')
 
       login_for_test(permissions: permission_flag_record)
       get '/api/v2/cases?fields=short'
@@ -240,7 +240,8 @@ describe Api::V2::ChildrenController, type: :request do
 
     it 'fetches the correct record with code 200 and verify flag count' do
       login_for_test
-      @case1.add_alert('transfer_request', Date.today, 'transfer_request')
+
+      @case1.add_alert(alert_for: 'transfer_request', date: Date.today, form_sidebar_id: 'transfer_request')
       get "/api/v2/cases/#{@case1.id}"
 
       expect(response).to have_http_status(200)
@@ -469,17 +470,6 @@ describe Api::V2::ChildrenController, type: :request do
       mother = family_details.select { |f| f['unique_id'] == 'a1' && f['relation_type'] == 'mother' }
       expect(family_details.size).to eq(2)
       expect(mother.present?).to be false
-    end
-
-    it "doesn't enable a record if the user doesn't have the permissions to do so" do
-      test_case = Child.create!(data: { record_state: false, name: 'Test1', age: 5, sex: 'male' })
-      login_for_test
-      params = { data: { record_state: true } }
-      patch "/api/v2/cases/#{test_case.id}", params: params
-
-      test_case.reload
-      expect(response).to have_http_status(200)
-      expect(test_case.record_state).to be false
     end
 
     it "returns 403 if user isn't authorized to update records" do

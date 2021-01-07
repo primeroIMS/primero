@@ -8,7 +8,9 @@ import { TextField as MuiTextField } from "formik-material-ui";
 import { useSelector, useDispatch } from "react-redux";
 import { ButtonBase } from "@material-ui/core";
 import { FastField, connect } from "formik";
+import { useParams } from "react-router-dom";
 
+import { toServerDateFormat } from "../../../../libs";
 import { useI18n } from "../../../i18n";
 import { saveRecord, selectRecordAttribute } from "../../../records";
 import { TEXT_FIELD_NAME } from "../constants";
@@ -28,7 +30,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
   const { type } = field;
   const i18n = useI18n();
   const dispatch = useDispatch();
-
+  const { id } = useParams();
   const recordName = useSelector(state => selectRecordAttribute(state, recordType, recordID, "name"));
   const isHiddenName = /\*{2,}/.test(recordName);
 
@@ -52,22 +54,12 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
       const currentYear = new Date().getFullYear();
       const diff = subYears(new Date(currentYear, 0, 1), value);
 
-      form.setFieldValue(`${matches[1]}date_of_birth`, diff, true);
+      form.setFieldValue(`${matches[1]}date_of_birth`, toServerDateFormat(diff), true);
     }
   };
 
-  const hideFieldValue = renderProps => {
-    dispatch(
-      saveRecord(
-        recordType,
-        "update",
-        { data: { hidden_name: !isHiddenName } },
-        renderProps.form.initialValues.id,
-        false,
-        false,
-        false
-      )
-    );
+  const hideFieldValue = () => {
+    dispatch(saveRecord(recordType, "update", { data: { hidden_name: !isHiddenName } }, id, false, false, false));
   };
 
   return (
@@ -91,7 +83,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
               {...fieldProps}
             />
             {name === "name" && mode.isEdit && !rest?.formSection?.is_nested ? (
-              <ButtonBase className={css.hideNameStyle} onClick={() => hideFieldValue(renderProps)}>
+              <ButtonBase className={css.hideNameStyle} onClick={() => hideFieldValue()}>
                 {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
               </ButtonBase>
             ) : null}

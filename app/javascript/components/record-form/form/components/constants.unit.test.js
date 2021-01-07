@@ -4,7 +4,7 @@ describe("Verifying config constant", () => {
   it("should have known constant", () => {
     const constants = { ...componentsConstants };
 
-    ["GUIDING_QUESTIONS_NAME", "VALIDATION_ERRORS_NAME", "WORKFLOW_INDICATOR_NAME"].forEach(property => {
+    ["CLOSED", "GUIDING_QUESTIONS_NAME", "VALIDATION_ERRORS_NAME", "WORKFLOW_INDICATOR_NAME"].forEach(property => {
       expect(constants).to.have.property(property);
       delete constants[property];
     });

@@ -69,10 +69,16 @@ module FakeDeviseLogin
 
   def fake_user(opts = {})
     user_name = opts[:user_name] || fake_user_name
-    user = User.new(user_name: user_name)
-    user.stub(:role).and_return(fake_role(opts))
+    agency_id = opts[:agency_id]
+    user_group_ids = opts[:user_group_ids] || []
+    user = User.new(user_name: user_name, user_group_ids: user_group_ids, agency_id: agency_id)
     permitted_field_names = opts[:permitted_field_names] || common_permitted_field_names
     user.stub(:permitted_field_names_from_forms).and_return(permitted_field_names)
+    if opts[:role].present?
+      user.role = opts[:role]
+    else
+      user.stub(:role).and_return(fake_role(opts))
+    end
     user
   end
 

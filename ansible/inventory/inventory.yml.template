@@ -1,0 +1,19 @@
+---
+all:
+
+  hosts:
+    primero.example.com:
+      ansible_user: 'ubuntu'
+      primero_host: 'primero.example.com'
+      certbot_domain:
+      - '{{ primero_host }}'
+      certbot_email: 'primero-example@example.com'
+      primero_repo_branch: 'development_v2'
+      build_docker_tag: 'latest'
+      build_docker_container_registry: ''
+      primero_tag: 'latest'
+      lets_encrypt_domain: '{{ primero_host }}'
+      lets_encrypt_email: '{{ certbot_email }}'
+      use_lets_encrypt: 'true'
+      nginx_ssl_cert_path: '/etc/letsencrypt/live/primero/fullchain.pem'
+      nginx_ssl_key_path: '/etc/letsencrypt/live/primero/privkey.pem'

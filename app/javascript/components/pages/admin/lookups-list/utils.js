@@ -3,7 +3,7 @@ import/prefer-default-export, react/display-name, jsx-a11y/click-events-have-key
 
 import React from "react";
 
-export const columns = (i18n, css, onRowClick) => [
+export const columns = (i18n, css) => [
   {
     label: "id",
     name: "id",
@@ -16,12 +16,7 @@ export const columns = (i18n, css, onRowClick) => [
     name: "name",
     options: {
       customBodyRender: (value, tableMeta) => (
-        <div
-          onClick={() => onRowClick(tableMeta)}
-          role="button"
-          tabIndex={tableMeta.rowIndex}
-          className={css.lookupName}
-        >
+        <div role="button" tabIndex={tableMeta.rowIndex} className={css.lookupName}>
           {value}
         </div>
       )
@@ -33,12 +28,7 @@ export const columns = (i18n, css, onRowClick) => [
     options: {
       customBodyRender: (value, tableMeta) => {
         return (
-          <div
-            onClick={() => onRowClick(tableMeta)}
-            role="button"
-            tabIndex={tableMeta.rowIndex}
-            className={css.truncateValues}
-          >
+          <div role="button" tabIndex={tableMeta.rowIndex} className={css.truncateValues}>
             <div>{value}</div>
           </div>
         );

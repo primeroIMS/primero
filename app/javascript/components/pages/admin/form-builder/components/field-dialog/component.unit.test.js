@@ -12,14 +12,15 @@ import FieldDialog from "./component";
 
 describe("<FieldDialog />", () => {
   const initialState = fromJS({
-    ui: { dialogs: { admin_fields_dialog: true } },
+    ui: { dialogs: { dialog: "admin_fields_dialog", open: true } },
     records: {
       admin: {
         forms: {
           selectedField: {
             name: "field_1",
             type: SUBFORM_SECTION,
-            subform_section_id: 1
+            subform_section_id: 1,
+            form_section_id: 1
           },
           selectedFieldSubform: {
             id: 1,
@@ -50,7 +51,7 @@ describe("<FieldDialog />", () => {
 
   describe("when is new mode", () => {
     const initialStateNewMode = fromJS({
-      ui: { dialogs: { admin_fields_dialog: true } },
+      ui: { dialogs: { dialog: "admin_fields_dialog", open: true } },
       records: {
         admin: {
           forms: {
@@ -73,7 +74,7 @@ describe("<FieldDialog />", () => {
 
   describe("when is a SELECT_FIELD with option_strings_text", () => {
     const initialStateSelectField = fromJS({
-      ui: { dialogs: { admin_fields_dialog: true } },
+      ui: { dialogs: { dialog: "admin_fields_dialog", open: true } },
       records: {
         admin: {
           forms: {
@@ -122,6 +123,47 @@ describe("<FieldDialog />", () => {
       expect(component.find(DraggableOption)).to.have.lengthOf(3);
       expect(component.find(FieldDialog).find(DialogTitle).text()).to.equal(`fields.edit_label`);
       expect(component.find(DraggableOption).find(SwitchInput)).to.have.lengthOf(3);
+    });
+  });
+
+  describe("when is edit mode", () => {
+    const initialStateEditMode = fromJS({
+      ui: { dialogs: { dialog: "admin_fields_dialog", open: true } },
+      records: {
+        admin: {
+          forms: {
+            selectedField: {
+              id: 1,
+              name: "field_1",
+              type: SELECT_FIELD,
+              multi_select: true,
+              form_section_id: 1
+            }
+          }
+        }
+      }
+    });
+
+    it("should render text saying the field was copied from another form", () => {
+      const { component } = setupMockFormComponent(
+        FieldDialog,
+        { mode: "edit", formId: "5" },
+        {},
+        initialStateEditMode
+      );
+
+      expect(component.find(FieldDialog).find("p").first().text()).to.equal("fields.copy_from_another_form");
+    });
+
+    it("should not render text saying the field was copied from another form", () => {
+      const { component } = setupMockFormComponent(
+        FieldDialog,
+        { mode: "edit", formId: "1" },
+        {},
+        initialStateEditMode
+      );
+
+      expect(component.find(FieldDialog).find("p").first().text()).to.not.equal("fields.copy_from_another_form");
     });
   });
 });

@@ -82,7 +82,7 @@ class TracingRequest < ApplicationRecord
     end
   end
 
-  def associations_as_data
+  def associations_as_data(_current_user)
     @associations_as_data ||= { 'tracing_request_subform_section' => traces.map(&:data) }
   end
 

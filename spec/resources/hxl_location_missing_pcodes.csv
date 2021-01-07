@@ -1,0 +1,296 @@
+OBJECTID *,Shape *,admin3Name_en,admin3Name_ar,admin3Pcode,admin3RefName,admin3AltName1_en,admin3AltName2_en,admin3AltName1_ar,admin3AltName2_ar,admin2Name_en,admin2Name_ar,admin2Pcode,admin1Name_en,admin1Name_ar,admin1Pcode,admin0Name_en,admin0Name_ar,admin0Pcode,date,validOn,validTo,Shape_Length,Shape_Area
+,,#adm3+name,#adm3+name+ar-lb,#adm3+code,,,,,,#adm2+name,#adm2+name+ar-lb,#adm2+code,#adm1+name,#adm1+name+ar-lb,#adm1+code,#country+name,#country+name+ar-lb,#country+code,,,,,
+1,Polygon,Abi Gharaq,ابي غرق,IQG07Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hilla,الحلة,IQG07Q02,Babil,بابل,IQG07,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.618806,0.015754
+2,Polygon,Abu Dalf,ابو دلف,IQG16Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Daur,الدور,IQG16Q01,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.737948,0.145883
+3,Polygon,Abu Ghraib,ابي غريب,IQG08Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kadhmiyah,الكاظمية,IQG08Q02,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.380804,0.064395
+4,Polygon,Agjalare,ئاغجة لةر,IQG06Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Chamchamal,جمجمال,IQG06Q02,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.352084,0.06802
+5,Polygon,Akaika,عكيكة,IQG17Q05N04,<Null>,<Null>,<Null>,<Null>,<Null>,Suq Al-Shoyokh,سوق الشيوخ,IQG17Q05,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.78549,0.025196
+6,Polygon,Al-Abbasi,العباسية,IQG13Q01N04,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hawiga,الحويجة,,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.96667,0.044229
+7,Polygon,Al-Adel,العدل,IQG14Q05N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mejar Al-Kabir,المجر الكبير,IQG14Q05,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.50482,0.097286
+8,Polygon,Al-Ahrar,الاحرار,IQG18Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Namaniya,النعمانية,IQG18Q03,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.822417,0.135284
+9,Polygon,Al-Alam,العلم,IQG16Q06N02,<Null>,<Null>,<Null>,<Null>,<Null>,Tikrit,تكريت,IQG16Q06,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.890127,0.152701
+10,Polygon,Al-Amirya,العامرية,IQG01Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Falluja,الفلوجة,IQG01Q01,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.677075,0.252123
+11,Polygon,Al-Atheem,العظيم,IQG10Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Khalis,الخالص,IQG10Q01,Diyala,ديالى,,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.957326,0.124593
+12,Polygon,Al-Ayadiya,العياضية,IQG15Q08N02,<Null>,<Null>,<Null>,<Null>,<Null>,Telafar,تلعفر,IQG15Q08,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.364895,0.058199
+13,Polygon,Al-Aziz,العزير,IQG14Q05N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mejar Al-Kabir,المجر الكبير,IQG14Q05,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.765288,0.099333
+14,Polygon,Al-Aziziya,العزيزية,IQG18Q04N05,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Suwaira,الصويرة,IQG18Q04,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.325674,0.223884
+15,Polygon,Al-Baghdady,البغدادي,IQG01Q07N01,<Null>,<Null>,<Null>,<Null>,<Null>,Heet,هيت,IQG01Q07,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.560402,0.186044
+16,Polygon,Al-Bahhar,البحار,IQG02Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Faw,الفاو,IQG02Q03,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.491908,0.101365
+17,Polygon,Al-Bashaer,البشائر,IQG18Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hai,الحي,IQG18Q01,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.629644,0.091042
+18,Polygon,Al-Battha'a,البطحاء,IQG17Q04N01,Al-Batthaa,<Null>,<Null>,<Null>,<Null>,Al-Nasiriya,الناصرية,IQG17Q04,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.214639,0.179011
+19,Polygon,Al-Bdair,البدير,IQG05Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Afaq,عفك,IQG05Q01,Al-Qadissiya,القادسية,IQG05,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.936872,0.187695
+20,Polygon,Al-Daghara,الدغارة,IQG05Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Diwaniya,الديوانية,IQG05Q02,Al-Qadissiya,القادسية,IQG05,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.890853,0.026248
+21,Polygon,Al-Dair,الدير,IQG02Q05N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Qurna,القرنة,IQG02Q05,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.468814,0.080223
+22,Polygon,Al-Dawaya,الدواية,IQG17Q03N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Shatra,الشطرة,IQG17Q03,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.442714,0.07116
+23,Polygon,Al-Dujeel,الدجيل,IQG16Q04N04,<Null>,<Null>,<Null>,<Null>,<Null>,Balad,بلد,IQG16Q04,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.616858,0.135292
+24,Polygon,Al-Duloeyah,الضلوعية,IQG16Q04N03,<Null>,<Null>,<Null>,<Null>,<Null>,Balad,بلد,IQG16Q04,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.190815,0.034365
+25,Polygon,Al-Duski,الدوسكي,IQG09Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Duhok,دهوك,IQG09Q02,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.025855,0.046432
+26,Polygon,Al-Emam,الامام,IQG07Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mahaweel,المحاويل,IQG07Q03,Babil,بابل,IQG07,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.824689,0.032682
+27,Polygon,Al-Esshaqi,الاسحاقي,IQG16Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Balad,بلد,IQG16Q04,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.376691,0.17654
+28,Polygon,Al-Fadhliya,الفضلية,IQG17Q05N03,<Null>,<Null>,<Null>,<Null>,<Null>,Suq Al-Shoyokh,سوق الشيوخ,IQG17Q05,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.329725,0.056973
+29,Polygon,Al-Fahama,الفحامة,IQG08Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Adhamiya,الاعظمية,IQG08Q01,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.492922,0.009171
+30,Polygon,Al-Fajer,الفجر,IQG17Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Rifai,الرفاعي,IQG17Q02,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.983901,0.04524
+31,Polygon,Al-Fawwar,الفوار,IQG05Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Afaq,عفك,IQG05Q01,Al-Qadissiya,القادسية,IQG05,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.714019,0.072134
+32,Polygon,Al-Forat,الفرات,IQG01Q07N02,<Null>,<Null>,<Null>,<Null>,<Null>,Heet,هيت,IQG01Q07,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.506616,0.253073
+33,Polygon,Al-Fuhood,الفهود,IQG17Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Chibayish,الجبايش,IQG17Q01,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.300819,0.050303
+34,Polygon,Al-Garma,الكرمة,IQG01Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Falluja,الفلوجة,IQG01Q01,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.565746,0.117594
+35,Polygon,Al-Gharraf,القراف,IQG17Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Shatra,الشطرة,IQG17Q03,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.284494,0.062239
+36,Polygon,Al-Habbaniya,الحبانية,IQG01Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Ramadi,الرمادي,IQG01Q03,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.182889,0.069325
+37,Polygon,Al-Hafriya,الحفرية,IQG18Q04N04,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Suwaira,الصويرة,IQG18Q04,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.121219,0.029682
+38,Polygon,Al-Hammar,الحمار,IQG17Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Chibayish,الجبايش,IQG17Q01,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.387312,0.074718
+39,Polygon,Al-Haqlaniya,الحقلانية,IQG01Q06N01,<Null>,<Null>,<Null>,<Null>,<Null>,Haditha,حديثة,IQG01Q06,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.862279,0.151016
+40,Polygon,Al-Hartha,الهارثة,IQG02Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Basrah,البصرة,IQG02Q02,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.183228,0.088702
+41,Polygon,Al-Hassainya,الحسينية,IQG12Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Kerbela,كربلاء,IQG12Q03,Kerbala,كربلاء,IQG12,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.213552,0.045517
+42,Polygon,Al-Haydariya,الحيدرية,IQG04Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Najaf,النجف,IQG04Q03,Al-Najaf,النجف,IQG04,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.735204,0.119381
+43,Polygon,Al-Heera,الحيرة,IQG04Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Manathera, المناذرة,IQG04Q02,Al-Najaf,النجف,IQG04,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.125989,0.057682
+44,Polygon,Al-Hilal,الهلال,IQG03Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Rumaitha,الرميثة,IQG03Q02,Al-Muthanna,المثنى,IQG03,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.734275,0.030547
+45,Polygon,Al-Howweir,الهوير,IQG02Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Midaina,المدينة,IQG02Q04,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.719146,0.028215
+46,Polygon,Al-Huriya,الحرية,IQG04Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kufa,الكوفة,IQG04Q01,Al-Najaf,النجف,IQG04,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.06924,0.03713
+47,Polygon,Al-Iskandaria,الاسكندرية,IQG07Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mussyab,المسيب,IQG07Q04,Babil,بابل,IQG07,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.080167,0.037393
+48,Polygon,Al-Islah,الاصلاح,IQG17Q04N04,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Nasiriya,الناصرية,IQG17Q04,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.308286,0.095946
+49,Polygon,Al-Jadwal Al-Ghrabi,الجدول الغربي,IQG12Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hindiya,الهندية,IQG12Q02,Kerbala,كربلاء,IQG12,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.601241,0.010717
+50,Polygon,Al-Jisr,الجسر,IQG08Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mada'in,المدائن,IQG08Q04,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.916029,0.015459
+51,Polygon,Al-Karabla,الكرابلة,IQG01Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kaim,القائم,IQG01Q02,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,3.734432,0.455597
+52,Polygon,Al-Karrada Al-Sharqia,الكرادة الشرقية,IQG08Q06N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Risafa,الرصافة,IQG08Q06,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.566158,0.007894
+53,Polygon,Al-Kifil,الكفل,IQG07Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hilla,الحلة,IQG07Q02,Babil,بابل,IQG07,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.223558,0.046602
+54,Polygon,Al-Latifya,اللطيفية,IQG08Q05N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mahmoudiya,المحمودية,IQG08Q05,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.384347,0.047983
+55,Polygon,Al-Madhatiya,المدحتية,IQG07Q01N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hashimiya,الهاشمية,IQG07Q01,Babil,بابل,IQG07,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.469279,0.082819
+56,Polygon,Al-Majd,المجد,IQG03Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Rumaitha,الرميثة,IQG03Q02,Al-Muthanna,المثنى,IQG03,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.460661,0.008651
+57,Polygon,Al-Mamoon,المأمون,IQG08Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Karkh,الكرخ,IQG08Q03,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.982889,0.012424
+58,Polygon,Al-Mansour,المنصور,IQG08Q03N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Karkh,الكرخ,IQG08Q03,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.526163,0.011364
+59,Polygon,Al-Mansouriyah,المنصورية,IQG10Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Khalis,الخالص,IQG10Q01,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.699948,0.079637
+60,Polygon,Al-Mashroo,المشروع,IQG07Q03N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mahaweel,المحاويل,IQG07Q03,Babil,بابل,IQG07,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.495599,0.078234
+61,Polygon,Al-Mihanawiya,المهناوية,IQG05Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Shamiya,الشامية,IQG05Q04,Al-Qadissiya,القادسية,IQG05,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.109693,0.049656
+62,Polygon,Al-Mowafaqiya,الموفقية,IQG18Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hai,الحي,IQG18Q01,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.625364,0.104161
+63,Polygon,Al-Msharah,المشرح,IQG14Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kahla,الكحلاء,IQG14Q03,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.699055,0.224866
+64,Polygon,Al-Muhamadath,المحمداث,IQG15Q05N04,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mosul,الموصل,IQG15Q05,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.657141,0.186371
+65,Polygon,Al-Multaka,الملتقى,IQG13Q04N03,<Null>,<Null>,<Null>,<Null>,<Null>,Kirkuk,كركوك,IQG13Q04,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.615624,0.014224
+66,Polygon,Al-Muotasim,المعتصم,IQG16Q05N01,<Null>,<Null>,<Null>,<Null>,<Null>,Samarra,سامراء,IQG16Q05,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.931777,0.027338
+67,Polygon,Al-Najmi,النجمي,IQG03Q02N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Rumaitha,الرميثة,IQG03Q02,Al-Muthanna,المثنى,IQG03,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.36339,0.069
+68,Polygon,Al-Nashwa,النشوة,IQG02Q07N01,<Null>,<Null>,<Null>,<Null>,<Null>,Shat Al-Arab,شط العرب,IQG02Q07,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.961488,0.048368
+69,Polygon,Al-Nasr,النصر,IQG17Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Rifai,الرفاعي,IQG17Q02,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.898506,0.088832
+70,Polygon,Al-Nekhaeeb,النخيب,IQG01Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Rutba,الرطبة,IQG01Q04,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,8.878191,3.81684
+71,Polygon,Al-Obiadi,العبيدي,IQG01Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kaim,القائم,IQG01Q02,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.406618,0.157582
+72,Polygon,Al-Qahtanya,القحطانية,IQG15Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Baaj,البعاج,IQG15Q02,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.666369,0.106574
+73,Polygon,Al-Qairawan,القيروان,IQG15Q07N01,<Null>,<Null>,<Null>,<Null>,<Null>,Sinjar,سنجار,IQG15Q07,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.381649,0.081475
+74,Polygon,Al-Qasim,القاسم,IQG07Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hashimiya,الهاشمية,IQG07Q01,Babil,بابل,IQG07,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.160384,0.060961
+75,Polygon,Al-Qayarra,القيارة,IQG15Q05N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mosul,الموصل,IQG15Q05,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.391829,0.162186
+76,Polygon,Al-Qosh,القوش,IQG15Q09N02,<Null>,<Null>,<Null>,<Null>,<Null>,Tilkaef,تلكيف,IQG15Q09,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.135348,0.04657
+77,Polygon,Al-Rahhaliya,الرحالية,IQG01Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Ramadi,الرمادي,IQG01Q03,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.285098,0.261793
+78,Polygon,Al-Rashad,الرشاد,IQG13Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Daquq,داقوق,IQG13Q02,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.946264,0.139289
+79,Polygon,Al-Rashdia,الراشدية,IQG08Q01N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Adhamiya,الاعظمية,IQG08Q01,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.606188,0.012785
+80,Polygon,Al-Rasheed,الرشيد,IQG08Q05N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mahmoudiya,المحمودية,IQG08Q05,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.050867,0.032165
+81,Polygon,Al-Riyadh,الرياض,IQG13Q01N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hawiga,الحويجة,IQG13Q01,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.191174,0.099474
+82,Polygon,Al-Rummaneh,الرمانة,IQG01Q02N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kaim,القائم,IQG01Q02,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.520844,0.219533
+83,Polygon,Al-Saadiya,السعدية,IQG10Q05N01,<Null>,<Null>,<Null>,<Null>,<Null>,Khanaqin,خانقين,IQG10Q05,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.160378,0.058988
+84,Polygon,Al-Sadeer,السدير,IQG05Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hamza,الحمزة,IQG05Q03,Al-Qadissiya,القادسية,IQG05,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.201289,0.057084
+85,Polygon,Al-Salam,السلام,IQG14Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Maimouna,الميمونة,IQG14Q04,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.814778,0.127752
+86,Polygon,Al-Saniya,السنية,IQG05Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Diwaniya,الديوانية,IQG05Q02,Al-Qadissiya,القادسية,IQG05,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.649224,0.020236
+87,Polygon,Al-Shabaka,الشبكة,IQG04Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Najaf,النجف,IQG04Q03,Al-Najaf,النجف,IQG04,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,7.73085,3.454333
+88,Polygon,Al-Shafeia,الشافعية,IQG05Q02N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Diwaniya,الديوانية,IQG05Q02,Al-Qadissiya,القادسية,IQG05,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.015477,0.039189
+89,Polygon,Al-Shamal,الشمال,IQG15Q07N02,<Null>,<Null>,<Null>,<Null>,<Null>,Sinjar,سنجار,IQG15Q07,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.10486,0.14409
+90,Polygon,Al-Shehamiya,الشحيمية,IQG18Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Suwaira,الصويرة,IQG18Q04,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.689975,0.057799
+91,Polygon,Al-Shinafiya,الشنافية,IQG05Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hamza,الحمزة,IQG05Q03,Al-Qadissiya,القادسية,IQG05,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.761481,0.105849
+92,Polygon,Al-Shomaly,الشوملي,IQG07Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hashimiya,الهاشمية,IQG07Q01,Babil,بابل,IQG07,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.274154,0.053522
+93,Polygon,Al-Siba,السيبة,IQG02Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Abu Al-Khaseeb,ابي الخصيب,IQG02Q01,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.380385,0.089323
+94,Polygon,Al-Sowair,السوير,IQG03Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Samawa,السماوة,IQG03Q04,Al-Muthanna,المثنى,IQG03,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.531009,0.095719
+95,Polygon,Al-Synia,الصينية,IQG16Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Beygee,بيجي,IQG16Q03,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,3.290658,0.521726
+96,Polygon,Al-Taji,التاجي,IQG08Q02N05,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kadhmiyah,الكاظمية,IQG08Q02,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.079329,0.032645
+97,Polygon,Al-Tar,الطار,IQG17Q05N02,<Null>,<Null>,<Null>,<Null>,<Null>,Suq Al-Shoyokh,سوق الشيوخ,IQG17Q05,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.486461,0.015359
+98,Polygon,Al-Tarmiya,الطارمية,IQG08Q02N04,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kadhmiyah,الكاظمية,IQG08Q02,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.09143,0.040133
+99,Polygon,Al-Teeb,الطيب,IQG14Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Amara,العمارة,IQG14Q01,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.246514,0.231658
+100,Polygon,Al-Thagar,الثغر,IQG02Q05N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Qurna,القرنة,IQG02Q05,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.548992,0.104696
+101,Polygon,Al-Tharthar,الثرثار,IQG16Q05N02,<Null>,<Null>,<Null>,<Null>,<Null>,Samarra,سامراء,IQG16Q05,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.265037,0.207072
+102,Polygon,Al-Wajihia,الوجيهية,IQG10Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Muqdadiya,المقدادية,IQG10Q02,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.930496,0.029915
+103,Polygon,Al-Walid,الوليد,IQG01Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Rutba,الرطبة,IQG01Q04,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,4.433138,0.959737
+104,Polygon,Al-Warka,الوركاء,IQG03Q02N04,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Rumaitha,الرميثة,IQG03Q02,Al-Muthanna,المثنى,IQG03,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.660168,0.10571
+105,Polygon,Al-Wihda,الوحدة,IQG08Q04N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mada'in,المدائن,IQG08Q04,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.327153,0.089759
+106,Polygon,Al-Yousifya,اليوسفية,IQG08Q05N04,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mahmoudiya,المحمودية,IQG08Q05,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.501459,0.050101
+107,Polygon,Al-Zab,الزاب,IQG13Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hawiga,الحويجة,IQG13Q01,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.494713,0.063053
+108,Polygon,Al-Zubaidiya,الزبيدية,IQG18Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Suwaira,الصويرة,IQG18Q04,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.039018,0.042121
+109,Polygon,Ali Al-Sharki,علي الشرقي,IQG14Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Ali Al-Gharbi,علي الغربي,IQG14Q02,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.939106,0.262519
+110,Polygon,Altun Qupri,التون كوبري,IQG13Q03N03,<Null>,<Null>,<Null>,<Null>,<Null>,Dibis,دبس,IQG13Q03,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.466134,0.06231
+111,Polygon,Ameraly,آمرلي,IQG16Q07N01,<Null>,<Null>,<Null>,<Null>,<Null>,Tooz Khurmato,طوز خورماتو,IQG16Q07,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.185257,0.070346
+112,Polygon,Atreesh,ئةتريش,IQG15Q06N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Shikhan,الشيخان,IQG15Q06,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.896199,0.030276
+113,Polygon,Baghdad Al-Jedeeda,بغداد الجديدة,IQG08Q06N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Risafa,الرصافة,IQG08Q06,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.531578,0.008865
+114,Polygon,Balak,بالك,IQG11Q05N03,<Null>,<Null>,<Null>,<Null>,<Null>,Rawanduz,راوندوز,IQG11Q05,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.138758,0.05804
+115,Polygon,Bardarash,بردرش,IQG15Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Aqra,عقرة,IQG15Q01,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.346146,0.086931
+116,Polygon,Bartilla,برطلة,IQG15Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hamdaniya,الحمدانية,IQG15Q03,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.757943,0.020454
+117,Polygon,Barwana,بروانه,IQG01Q06N02,<Null>,<Null>,<Null>,<Null>,<Null>,Haditha,حديثة,IQG01Q06,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.01845,0.189391
+118,Polygon,Barwari Bala,برواري بالا,IQG09Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Amadiya,العمادية,IQG09Q01,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.457314,0.073146
+119,Polygon,Barzan,بارزان,IQG11Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Zibar,الزيبار,IQG11Q01,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.011469,0.045719
+120,Polygon,Bashiqa,بعشيقة,IQG15Q05N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mosul,الموصل,IQG15Q05,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.099157,0.051823
+121,Polygon,Bateel,باتيل,IQG09Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Sumail,سميل,IQG09Q03,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.239245,0.064983
+122,Polygon,Batifa,باتيفا,IQG09Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Zakho,زاخو,IQG09Q04,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.200237,0.053599
+123,Polygon,Bazian,بازيان,IQG06Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Sulaymaniyah,السليمانية,IQG06Q01,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.029257,0.036495
+124,Polygon,Bebaz,بيباز,IQG06Q06N02,<Null>,<Null>,<Null>,<Null>,<Null>,Kalar,كلار,IQG06Q06,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.764083,0.093986
+125,Polygon,Begeel,بجيل,IQG15Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Aqra,عقرة,IQG15Q01,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.811053,0.034055
+126,Polygon,Beni Hasheem,بني هاشم,IQG14Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kahla,الكحلاء,IQG14Q03,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.347861,0.083889
+127,Polygon,Beni Saad,بني سعد,IQG10Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Baquba,بعقوبة,IQG10Q04,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.838762,0.07087
+128,Polygon,Beyara,بيارة,IQG06Q05N01,<Null>,<Null>,<Null>,<Null>,<Null>,Halabcha,حلبجة,IQG06Q05,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.856046,0.017466
+129,Polygon,Bitwana,بتوانه,IQG06Q09N03,<Null>,<Null>,<Null>,<Null>,<Null>,Rania,رانية,IQG06Q09,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.69,0.027377
+130,Polygon,Bradost,برادوست,IQG11Q05N06,<Null>,<Null>,<Null>,<Null>,<Null>,Rawanduz,راوندوز,IQG11Q05,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.958221,0.178211
+131,Polygon,Buhriz,بهرز,IQG10Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Baquba,بعقوبة,IQG10Q04,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.224078,0.048341
+132,Polygon,Cenkaw,سنكاو,IQG06Q02N04,<Null>,<Null>,<Null>,<Null>,<Null>,Chamchamal,جمجمال,IQG06Q02,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.582928,0.111805
+133,Polygon,Dercar,دركار,IQG09Q04N03,<Null>,<Null>,<Null>,<Null>,<Null>,Zakho,زاخو,IQG09Q04,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.321617,0.057541
+134,Polygon,Diana,ديانا,IQG11Q05N02,<Null>,<Null>,<Null>,<Null>,<Null>,Rawanduz,راوندوز,IQG11Q05,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.917208,0.026114
+135,Polygon,Dibaga,ديبكة,IQG11Q04N03,<Null>,<Null>,<Null>,<Null>,<Null>,Makhmour,مخمور,IQG11Q04,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.173111,0.06355
+136,Polygon,Dijla,دجلة,IQG16Q05N04,<Null>,<Null>,<Null>,<Null>,<Null>,Samarra,سامراء,IQG16Q05,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.399548,0.227307
+137,Polygon,Dinarta,دينارتة,IQG15Q01N04,<Null>,<Null>,<Null>,<Null>,<Null>,Aqra,عقرة,IQG15Q01,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.725695,0.094875
+138,Polygon,Fayde,فايدة,IQG09Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Sumail,سميل,IQG09Q03,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.228665,0.003458
+139,Polygon,Garmat Beni Said,كرمة بني سعد,IQG17Q05N01,<Null>,<Null>,<Null>,<Null>,<Null>,Suq Al-Shoyokh,سوق الشيوخ,IQG17Q05,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.001358,0.034207
+140,Polygon,Ghammas,غماس,IQG05Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Shamiya,الشامية,IQG05Q04,Al-Qadissiya,القادسية,IQG05,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.875664,0.040777
+141,Polygon,Gnareen,جنارين,IQG06Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Dokan,دوكان,IQG06Q04,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.082046,0.048148
+142,Polygon,Gwyer,الكوير,IQG11Q04N04,<Null>,<Null>,<Null>,<Null>,<Null>,Makhmour,مخمور,IQG11Q04,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.160003,0.059227
+143,Polygon,Haji Omaran,الحج عمران,IQG11Q05N07,<Null>,<Null>,<Null>,<Null>,<Null>,Rawanduz,راوندوز,IQG11Q05,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.720953,0.028845
+144,Polygon,Hammam Al-Alil,حمام العليل,IQG15Q05N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mosul,الموصل,IQG15Q05,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.43819,0.071755
+145,Polygon,Hamreen,حمرين,IQG16Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Daur,الدور,IQG16Q01,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.521997,0.122695
+146,Polygon,Harir,ديرة حرير,IQG11Q06N03,<Null>,<Null>,<Null>,<Null>,<Null>,Shaqlawa,شقلاوة,IQG11Q06,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.068429,0.044656
+147,Polygon,Hero,هيرو,IQG06Q08N01,<Null>,<Null>,<Null>,<Null>,<Null>,Pshdar,بشدر,IQG06Q08,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.577245,0.020518
+148,Polygon,Hibhib,هبهب,IQG10Q01N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Khalis,الخالص,IQG10Q01,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.729275,0.019585
+149,Polygon,Jabarra,جبارة,IQG10Q06N01,<Null>,<Null>,<Null>,<Null>,<Null>,Kifri,كفري,IQG10Q06,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.416612,0.08035
+150,Polygon,Jalawla,جلولاء,IQG10Q05N04,<Null>,<Null>,<Null>,<Null>,<Null>,Khanaqin,خانقين,IQG10Q05,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.396922,0.062358
+151,Polygon,Jassan,جصان,IQG18Q05N02,<Null>,<Null>,<Null>,<Null>,<Null>,Badra,بدرة,IQG18Q05,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.125039,0.180951
+152,Polygon,Jurf Al-Sakhar,جرف الصخر,IQG07Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mussyab,المسيب,IQG07Q04,Babil,بابل,IQG07,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.917956,0.060536
+153,Polygon,Kadr Karam,قادر كرم,IQG06Q02N03,<Null>,<Null>,<Null>,<Null>,<Null>,Chamchamal,جمجمال,IQG06Q02,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.798689,0.147092
+154,Polygon,Kanan,كنعان,IQG10Q04N03,<Null>,<Null>,<Null>,<Null>,<Null>,Baquba,بعقوبة,IQG10Q04,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.130372,0.05781
+155,Polygon,Karmak,كرمك,IQG06Q07N01,<Null>,<Null>,<Null>,<Null>,<Null>,Panjwin,بنجوين,IQG06Q07,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.426132,0.066622
+156,Polygon,Khailfan,خليفان,IQG11Q05N04,<Null>,<Null>,<Null>,<Null>,<Null>,Rawanduz,راوندوز,IQG11Q05,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.298238,0.033065
+157,Polygon,Khoshnaw,خوشناو,IQG11Q06N01,<Null>,<Null>,<Null>,<Null>,<Null>,Shaqlawa,شقلاوة,IQG11Q06,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.343627,0.059646
+158,Polygon,Khourmal,خورمال,IQG06Q05N02,<Null>,<Null>,<Null>,<Null>,<Null>,Halabcha,حلبجة,IQG06Q05,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.64105,0.018961
+159,Polygon,Kubaisa,كبيسة,IQG01Q07N03,<Null>,<Null>,<Null>,<Null>,<Null>,Heet,هيت,IQG01Q07,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.105489,0.231665
+160,Polygon,Kumait,كميت,IQG14Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Amara,العمارة,IQG14Q01,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.547505,0.169385
+161,Polygon,Kurdsein,كردسين,IQG15Q01N03,<Null>,<Null>,<Null>,<Null>,<Null>,Aqra,عقرة,IQG15Q01,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.518539,0.065965
+162,Polygon,Lilan,ليلان,IQG13Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Kirkuk,كركوك,IQG13Q04,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.376388,0.066664
+163,Polygon,Makkhoul,مكحول,IQG16Q03N03,<Null>,<Null>,<Null>,<Null>,<Null>,Beygee,بيجي,IQG16Q03,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.684616,0.098791
+164,Polygon,Mandali,مندلي,IQG10Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Baladruz,مندلي,IQG10Q03,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.258625,0.147961
+165,Polygon,Markaz Abu Al-Khaseeb,مركز ابي الخصيب,IQG02Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Abu Al-Khaseeb,ابي الخصيب,IQG02Q01,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.74985,0.018011
+166,Polygon,Markaz Afaq,مركز عفك,IQG05Q01N03,<Null>,<Null>,<Null>,<Null>,<Null>,Afaq,عفك,IQG05Q01,Al-Qadissiya,القادسية,IQG05,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.400842,0.050779
+167,Polygon,Markaz Ain Al-Tamur,مركز عين التمر,IQG12Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Ain Al-Tamur,عين التمر,IQG12Q01,Kerbala,كربلاء,IQG12,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.943665,0.177227
+168,Polygon,Markaz Al-Adhamiya,مركز الاعظمية,IQG08Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Adhamiya,الاعظمية,IQG08Q01,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.253927,0.002811
+169,Polygon,Markaz Al-Amadiya,مركز العمادية,IQG09Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Amadiya,العمادية,IQG09Q01,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.094547,0.039303
+170,Polygon,Markaz Al-Baaj,مركز البعاج,IQG15Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Baaj,البعاج,IQG15Q02,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,4.194172,0.747276
+171,Polygon,Markaz Al-Basrah,مركز البصرة,IQG02Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Basrah,البصرة,IQG02Q02,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.729022,0.024988
+172,Polygon,Markaz Al-Chibayish,مركز الجبايش,IQG17Q01N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Chibayish,الجبايش,IQG17Q01,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.471312,0.097345
+173,Polygon,Markaz Al-Diwaniya,مركز الديوانية,IQG05Q02N04,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Diwaniya,الديوانية,IQG05Q02,Al-Qadissiya,القادسية,IQG05,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.894011,0.035416
+174,Polygon,Markaz Al-Falluja,مركز الفلوجة,IQG01Q01N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Falluja,الفلوجة,IQG01Q01,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.185987,0.056195
+175,Polygon,Markaz Al-Faw,مركز الفاو,IQG02Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Faw,الفاو,IQG02Q03,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.909033,0.038955
+176,Polygon,Markaz Al-Hamdaniya,مركز الحمدانية,IQG15Q03N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hamdaniya,الحمدانية,IQG15Q03,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.520708,0.054337
+177,Polygon,Markaz Al-Hamza,مركز الحمزة,IQG05Q03N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hamza,الحمزة,IQG05Q03,Al-Qadissiya,القادسية,IQG05,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.499371,0.063481
+178,Polygon,Markaz Al-Hawiga,مركز الحويجة,IQG13Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hawiga,الحويجة,IQG13Q01,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.644885,0.079554
+179,Polygon,Markaz Al-Hilla,مركز الحلة,IQG07Q02N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hilla,الحلة,IQG07Q02,Babil,بابل,IQG07,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.055513,0.02675
+180,Polygon,Markaz Al-Hindiya,مركز الهندية,IQG12Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hindiya,الهندية,IQG12Q02,Kerbala,كربلاء,IQG12,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.095975,0.040598
+181,Polygon,Markaz Al-Kadhimiya,مركز الكاظمية,IQG08Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kadhmiyah,الكاظمية,IQG08Q02,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.206383,0.0026
+182,Polygon,Markaz Al-Kahla,مركز الكحلاء,IQG14Q03N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kahla,الكحلاء,IQG14Q03,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.866453,0.037928
+183,Polygon,Markaz Al-Karkh,مركز الكرخ,IQG08Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Karkh,الكرخ,IQG08Q03,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.23074,0.002354
+184,Polygon,Markaz Al-Khalis,مركز الخالص,IQG10Q01N04,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Khalis,الخالص,IQG10Q01,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.346997,0.049954
+185,Polygon,Markaz Al-Khidhir,مركز الخضر,IQG03Q01N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Khidhir,الخضر,IQG03Q01,Al-Muthanna,المثنى,IQG03,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.386324,0.162628
+186,Polygon,Markaz Al-Kufa,مركز الكوفة,IQG04Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kufa,الكوفة,IQG04Q01,Al-Najaf,النجف,IQG04,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.595279,0.012488
+187,Polygon,Markaz Al-Kut,مركز الكوت,IQG18Q02N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kut,الكوت,IQG18Q02,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.784515,0.124698
+188,Polygon,Markaz Al-Mada'in,مركز المدائن,IQG08Q04N01,Markaz Al-Madain,<Null>,<Null>,<Null>,<Null>,Al-Mada'in,المدائن,IQG08Q04,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.747632,0.022168
+189,Polygon,Markaz Al-Mahawil,مركز المحاويل,IQG07Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mahaweel,المحاويل,IQG07Q03,Babil,بابل,IQG07,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.614353,0.017305
+190,Polygon,Markaz Al-Mahmoudiya,مركز المحمودية,IQG08Q05N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Mahmoudiya,المحمودية,IQG08Q05,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.642547,0.007125
+191,Polygon,Markaz Al-Maimouna,مركز الميمونة,IQG14Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Maimouna,الميمونة,IQG14Q04,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.14214,0.127912
+192,Polygon,Markaz Al-Midaina,مركز المدينة,IQG02Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Midaina,المدينة,IQG02Q04,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.106619,0.039686
+193,Polygon,Markaz Al-Muqdadiya,مركز المقدادية,IQG10Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Muqdadiya,المقدادية,IQG10Q02,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.435526,0.067255
+194,Polygon,Markaz Al-Najaf,مركز النجف,IQG04Q03N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Najaf,النجف,IQG04Q03,Al-Najaf,النجف,IQG04,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.899843,0.11617
+195,Polygon,Markaz Al-Nasiriya,مركزالناصرية,IQG17Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Nasiriya,الناصرية,IQG17Q04,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.486191,0.072246
+196,Polygon,Markaz Al-Noamaniya,مركز النعمانية,IQG18Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Namaniya,النعمانية,IQG18Q03,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.632061,0.099886
+197,Polygon,Markaz Al-Qurna,مركز القرنة,IQG02Q05N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Qurna,القرنة,IQG02Q05,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.565176,0.012575
+198,Polygon,Markaz Al-Ramadi,مركز الرمادي,IQG01Q03N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Ramadi,الرمادي,IQG01Q03,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,3.832423,0.495651
+199,Polygon,Markaz Al-Rifai,مركز الرفاعي,IQG17Q02N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Rifai,الرفاعي,IQG17Q02,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.773036,0.133657
+200,Polygon,Markaz Al-Rumaitha,مركز الرميثة,IQG03Q02N05,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Rumaitha,الرميثة,IQG03Q02,Al-Muthanna,المثنى,IQG03,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.520103,0.0103
+201,Polygon,Markaz Al-Rutba,مركز الرطبة,IQG01Q04N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Rutba,الرطبة,IQG01Q04,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,9.354542,2.919332
+202,Polygon,Markaz Al-Salman,مركز السلمان,IQG03Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Salman,السلمان,IQG03Q03,Al-Muthanna,المثنى,IQG03,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,8.40261,4.356019
+203,Polygon,Markaz Al-Shatra,مركز الشطرة,IQG17Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Shatra,الشطرة,IQG17Q03,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.254197,0.038266
+204,Polygon,Markaz Al-Shikhan,مركز الشيخان,IQG15Q06N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Shikhan,الشيخان,IQG15Q06,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.202338,0.053222
+205,Polygon,Markaz Al-Shirqat,مركز الشرقاط,IQG16Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Shirqat,الشرقاط,IQG16Q02,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.787804,0.141387
+206,Polygon,Markaz Al-Suwaira,مركز الصويرة,IQG18Q04N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Suwaira,الصويرة,IQG18Q04,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.388681,0.060535
+207,Polygon,Markaz Al-Thawra,مركز الثورة,IQG08Q07N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Thawra,الثورة,IQG08Q07,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.441533,0.007619
+208,Polygon,Markaz Al-Zubair,مركز الزبير,IQG02Q06N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Zubair,الزبير,IQG02Q06,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.904118,0.09999
+209,Polygon,Markaz Ali Al-Gharbi,مركز علي الغربي,IQG14Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Ali Al-Gharbi,علي الغربي,IQG14Q02,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.805633,0.09694
+210,Polygon,Markaz Ana,مركز عنه,IQG01Q05N01,<Null>,<Null>,<Null>,<Null>,<Null>,Ana,عنه,IQG01Q05,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,3.747493,0.526509
+211,Polygon,Markaz Aqra,مركز عقرة,IQG15Q01N05,<Null>,<Null>,<Null>,<Null>,<Null>,Aqra,عقرة,IQG15Q01,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.912673,0.016663
+212,Polygon,Markaz Badra,مركز بدرة,IQG18Q05N01,<Null>,<Null>,<Null>,<Null>,<Null>,Badra,بدرة,IQG18Q05,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.467796,0.155923
+213,Polygon,Markaz Baladruz,مركز بلدروز,IQG10Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Baladruz,مندلي,IQG10Q03,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.405744,0.203335
+214,Polygon,Markaz Beygee,مركز بيجي,IQG16Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Beygee,بيجي,IQG16Q03,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.09695,0.03287
+215,Polygon,Markaz Chamchamal,مركز جمجمال,IQG06Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Chamchamal,جمجمال,IQG06Q02,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.316792,0.076149
+216,Polygon,Markaz Daquq,مركز داقوق,IQG13Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Daquq,داقوق,IQG13Q02,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.872551,0.124605
+217,Polygon,Markaz Derbendikhan,مركز دربندخان,IQG06Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Derbendikhan,دربندخان,IQG06Q03,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.187515,0.052465
+218,Polygon,Markaz Dibis,مركز الدبس,IQG13Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Dibis,دبس,IQG13Q03,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.982013,0.04652
+219,Polygon,Markaz Duhok,مركز دهوك,IQG09Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Duhok,دهوك,IQG09Q02,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.727194,0.010457
+220,Polygon,Markaz Erbil,مركز اربيل,IQG11Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Erbil,اربيل,IQG11Q02,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.874009,0.144645
+221,Polygon,Markaz Halabja,مركز حلبجة,IQG06Q05N03,<Null>,<Null>,<Null>,<Null>,<Null>,Halabcha,حلبجة,IQG06Q05,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.642098,0.069785
+222,Polygon,Markaz Hatra,مركز الحضر,IQG15Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hatra,الحضر,IQG15Q04,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,5.32902,1.018894
+223,Polygon,Markaz Heet,مركز هيت,IQG01Q07N04,<Null>,<Null>,<Null>,<Null>,<Null>,Heet,هيت,IQG01Q07,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.097039,0.047645
+224,Polygon,Markaz Kalar,مركز كلار,IQG06Q06N01,<Null>,<Null>,<Null>,<Null>,<Null>,Kalar,كلار,IQG06Q06,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.916409,0.038888
+225,Polygon,Markaz Kerbela,مركز كربلاء,IQG12Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Kerbela,كربلاء,IQG12Q03,Kerbala,كربلاء,IQG12,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.255391,0.212121
+226,Polygon,Markaz Khanaqin,مركز خانقين,IQG10Q05N02,<Null>,<Null>,<Null>,<Null>,<Null>,Khanaqin,خانقين,IQG10Q05,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.719467,0.127507
+227,Polygon,Markaz Kifri,مركز كفري,IQG10Q06N02,<Null>,<Null>,<Null>,<Null>,<Null>,Kifri,كفري,IQG10Q06,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.220844,0.053331
+228,Polygon,Markaz Kirkuk,مركز كركوك,IQG13Q04N06,<Null>,<Null>,<Null>,<Null>,<Null>,Kirkuk,كركوك,IQG13Q04,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.213979,0.042395
+229,Polygon,Markaz Koysinjaq,مركز كويسنجق,IQG11Q03N03,<Null>,<Null>,<Null>,<Null>,<Null>,Koysinjaq,كويسنجق,IQG11Q03,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.348745,0.053322
+230,Polygon,Markaz Makhmour,مركز مخمور,IQG11Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Makhmour,مخمور,IQG11Q04,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.80719,0.037472
+231,Polygon,Markaz Panjwin,مركز بنجوين,IQG06Q07N02,<Null>,<Null>,<Null>,<Null>,<Null>,Panjwin,بنجوين,IQG06Q07,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.928269,0.032507
+232,Polygon,Markaz Pshdar,مركز بشدر,IQG06Q08N03,<Null>,<Null>,<Null>,<Null>,<Null>,Pshdar,بشدر,IQG06Q08,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.875784,0.035416
+233,Polygon,Markaz Qalat Saleh,مركز قلعة صالح,IQG14Q06N01,<Null>,<Null>,<Null>,<Null>,<Null>,Qalat Saleh,قلعة صالح,IQG14Q06,Maysan,ميسان,IQG14,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.011343,0.026806
+234,Polygon,Markaz Rania,مركز رانية,IQG06Q09N02,<Null>,<Null>,<Null>,<Null>,<Null>,Rania,رانية,IQG06Q09,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.330959,0.051165
+235,Polygon,Markaz Rawanduz,مركز راوندوز,IQG11Q05N01,<Null>,<Null>,<Null>,<Null>,<Null>,Rawanduz,راوندوز,IQG11Q05,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.10866,0.060075
+236,Polygon,Markaz Samarra,مركز سامراء,IQG16Q05N03,<Null>,<Null>,<Null>,<Null>,<Null>,Samarra,سامراء,IQG16Q05,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.066563,0.076337
+237,Polygon,Markaz Sharbazher,مركز شهربازار,IQG06Q10N02,<Null>,<Null>,<Null>,<Null>,<Null>,Sharbazher,شهربازار,IQG06Q10,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.245071,0.067151
+238,Polygon,Markaz Shat Al-Arab,مركز شط العرب,IQG02Q07N02,<Null>,<Null>,<Null>,<Null>,<Null>,Shat Al-Arab,شط العرب,IQG02Q07,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.480784,0.12607
+239,Polygon,Markaz Sinjar,مركز سنجار,IQG15Q07N03,<Null>,<Null>,<Null>,<Null>,<Null>,Sinjar,سنجار,IQG15Q07,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.820478,0.063924
+240,Polygon,Markaz Sumail,مركز سميل,IQG09Q03N03,<Null>,<Null>,<Null>,<Null>,<Null>,Sumail,سميل,IQG09Q03,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.00002,0.038771
+241,Polygon,Markaz Telafar,مركز تلعفر,IQG15Q08N01,<Null>,<Null>,<Null>,<Null>,<Null>,Telafar,تلعفر,IQG15Q08,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.095374,0.131432
+242,Polygon,Markaz Tilkaef,مركز تلكيف,IQG15Q09N01,<Null>,<Null>,<Null>,<Null>,<Null>,Tilkaef,تلكيف,IQG15Q09,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.120701,0.046495
+243,Polygon,Markaz Tooz Khurmato,مركز طوز خورماتو,IQG16Q07N02,<Null>,<Null>,<Null>,<Null>,<Null>,Tooz Khurmato,طوز خورماتو,IQG16Q07,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.791078,0.111268
+244,Polygon,Markaz Zakho,مركز زاخو,IQG09Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Zakho,زاخو,IQG09Q04,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.305409,0.029211
+245,Polygon,Mawat,ماوت,IQG06Q10N04,<Null>,<Null>,<Null>,<Null>,<Null>,Sharbazher,شهربازار,IQG06Q10,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.232031,0.062081
+246,Polygon,Mazouri Bala,مزوري بالا,IQG11Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Zibar,الزيبار,IQG11Q01,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.292717,0.050598
+247,Polygon,Mergasur,ميركة سور,IQG11Q05N05,<Null>,<Null>,<Null>,<Null>,<Null>,Rawanduz,راوندوز,IQG11Q05,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.255923,0.05791
+248,Polygon,Midan,ميدان,IQG10Q05N03,<Null>,<Null>,<Null>,<Null>,<Null>,Khanaqin,خانقين,IQG10Q05,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.129458,0.05525
+249,Polygon,Mirka,ميركه,IQG06Q09N01,<Null>,<Null>,<Null>,<Null>,<Null>,Rania,رانية,IQG06Q09,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.230975,0.059289
+250,Polygon,Namroud,نمرود,IQG15Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Hamdaniya,الحمدانية,IQG15Q03,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.003744,0.055747
+251,Polygon,Nawdasht,ناودشت,IQG06Q08N02,<Null>,<Null>,<Null>,<Null>,<Null>,Pshdar,بشدر,IQG06Q08,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.47963,0.083961
+252,Polygon,Nerwa Rekan,نروة ريكان,IQG09Q01N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Amadiya,العمادية,IQG09Q01,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.524782,0.080346
+253,Polygon,Outba,عتبة,IQG02Q07N03,<Null>,<Null>,<Null>,<Null>,<Null>,Shat Al-Arab,شط العرب,IQG02Q07,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.716435,0.013788
+254,Polygon,Qalaa't Ansab,قلعة انصاب,IQG10Q01N05,Qalaat Ansab,<Null>,<Null>,<Null>,<Null>,Al-Khalis,الخالص,IQG10Q01,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.615039,0.014399
+255,Polygon,Qalat Siker,قلعة السكر,IQG17Q02N04,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Rifai,الرفاعي,IQG17Q02,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.859331,0.070471
+256,Polygon,Qara Tabe,قرة تبة,IQG10Q06N03,<Null>,<Null>,<Null>,<Null>,<Null>,Kifri,كفري,IQG10Q06,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.366927,0.081435
+257,Polygon,Qaradagh,قره داغ,IQG06Q01N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Sulaymaniyah,السليمانية,IQG06Q01,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.185909,0.126607
+258,Polygon,Qaraj,القرج,IQG11Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Makhmour,مخمور,IQG11Q04,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.4621,0.099438
+259,Polygon,Qaratu,قرة تو,IQG10Q05N05,<Null>,<Null>,<Null>,<Null>,<Null>,Khanaqin,خانقين,IQG10Q05,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.580806,0.085664
+260,Polygon,Qasruk,قسروك,IQG15Q06N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Shikhan,الشيخان,IQG15Q06,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.048686,0.043499
+261,Polygon,Qazanya,قزانية,IQG10Q03N03,<Null>,<Null>,<Null>,<Null>,<Null>,Baladruz,مندلي,IQG10Q03,Diyala,ديالى,IQG10,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.750405,0.309656
+262,Polygon,Qura Hanjeer,قرة هنجير,IQG13Q04N07,<Null>,<Null>,<Null>,<Null>,<Null>,Kirkuk,كركوك,IQG13Q04,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.063176,0.045991
+263,Polygon,Qushtappa,قوش تبه,IQG11Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Erbil,اربيل,IQG11Q02,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.727786,0.128529
+264,Polygon,Rabia,ربيعة,IQG15Q08N04,<Null>,<Null>,<Null>,<Null>,<Null>,Telafar,تلعفر,IQG15Q08,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.964808,0.151931
+265,Polygon,Rawa,راوه,IQG01Q05N02,<Null>,<Null>,<Null>,<Null>,<Null>,Ana,عنه,IQG01Q05,Al-Anbar,الانبار,IQG01,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,4.534795,0.587026
+266,Polygon,Safwan,سفوان,IQG02Q06N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Zubair,الزبير,IQG02Q06,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,4.911315,0.801555
+267,Polygon,Said Dekhil,سيد خليل,IQG17Q04N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Nasiriya,الناصرية,IQG17Q04,Thi Qar,ذي قار,IQG17,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.179846,0.047312
+268,Polygon,Salah Al-Din,صلاح الدين,IQG11Q06N02,<Null>,<Null>,<Null>,<Null>,<Null>,Shaqlawa,شقلاوة,IQG11Q06,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.535557,0.074993
+269,Polygon,Sarchnar,سرجنار,IQG06Q01N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Sulaymaniyah,السليمانية,IQG06Q01,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.294408,0.065653
+270,Polygon,Sarkran,سركران,IQG13Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Dibis,دبس,IQG13Q03,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.263828,0.06264
+271,Polygon,Sarsank,سرسنك,IQG09Q01N04,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Amadiya,العمادية,IQG09Q01,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.861004,0.098127
+272,Polygon,Saruchik,سروجك,IQG06Q10N01,<Null>,<Null>,<Null>,<Null>,<Null>,Sharbazher,شهربازار,IQG06Q10,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.153934,0.053922
+273,Polygon,Shaekh Saad,شيخ سعد,IQG18Q02N02,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kut,الكوت,IQG18Q02,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.877066,0.166129
+274,Polygon,Shahrazur,شهرزور,IQG06Q05N04,<Null>,<Null>,<Null>,<Null>,<Null>,Halabcha,حلبجة,IQG06Q05,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.997888,0.037178
+275,Polygon,Shorsh,سورش,IQG11Q03N02,<Null>,<Null>,<Null>,<Null>,<Null>,Koysinjaq,كويسنجق,IQG11Q03,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.139966,0.047802
+276,Polygon,Shwan,شوان,IQG13Q04N05,<Null>,<Null>,<Null>,<Null>,<Null>,Kirkuk,كركوك,IQG13Q04,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.428739,0.078109
+277,Polygon,Sindi,سندي,IQG09Q03N04,<Null>,<Null>,<Null>,<Null>,<Null>,Sumail,سميل,IQG09Q03,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.073724,0.029599
+278,Polygon,Siwail,سويل,IQG06Q10N03,<Null>,<Null>,<Null>,<Null>,<Null>,Sharbazher,شهربازار,IQG06Q10,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.928686,0.032938
+279,Polygon,Sourdash,سورداش,IQG06Q04N02,<Null>,<Null>,<Null>,<Null>,<Null>,Dokan,دوكان,IQG06Q04,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.143362,0.066425
+280,Polygon,Sulaiman Baig,سليمان بيك,IQG16Q07N03,<Null>,<Null>,<Null>,<Null>,<Null>,Tooz Khurmato,طوز خورماتو,IQG16Q07,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.800875,0.02662
+281,Polygon,Sumer,سومر,IQG05Q01N04,<Null>,<Null>,<Null>,<Null>,<Null>,Afaq,عفك,IQG05Q01,Al-Qadissiya,القادسية,IQG05,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.154265,0.059562
+282,Polygon,Talha,طلحة,IQG02Q04N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Midaina,المدينة,IQG02Q04,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.987316,0.02885
+283,Polygon,Taq Taq,طق طق,IQG11Q03N01,<Null>,<Null>,<Null>,<Null>,<Null>,Koysinjaq,كويسنجق,IQG11Q03,Erbil,اربيل,IQG11,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.979182,0.103202
+284,Polygon,Taza Khormato,تازة خورماتو,IQG13Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Kirkuk,كركوك,IQG13Q04,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.896061,0.032682
+285,Polygon,That al Salasil,ذات السلاسل,IQG08Q02N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kadhmiyah,الكاظمية,IQG08Q02,Baghdad,بغداد,IQG08,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.786931,0.013788
+286,Polygon,Tilako,تيلاكو,IQG06Q06N03,<Null>,<Null>,<Null>,<Null>,<Null>,Kalar,كلار,IQG06Q06,Al-Sulaymaniyah,السليمانية,IQG06,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.582488,0.078884
+287,Polygon,Um Al-Qura,ام القرى,IQG16Q06N01,<Null>,<Null>,<Null>,<Null>,<Null>,Tikrit,تكريت,IQG16Q06,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.07992,0.1006
+288,Polygon,Um Qasr,ام قصر,IQG02Q06N03,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Zubair,الزبير,IQG02Q06,Al-Basrah,البصرة,IQG02,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.907384,0.028783
+289,Polygon,Wana,وانة,IQG15Q09N03,<Null>,<Null>,<Null>,<Null>,<Null>,Tilkaef,تلكيف,IQG15Q09,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.908337,0.034498
+290,Polygon,Wasit,واسط,IQG18Q02N01,<Null>,<Null>,<Null>,<Null>,<Null>,Al-Kut,الكوت,IQG18Q02,Wassit,واسط,IQG18,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.600071,0.196401
+291,Polygon,Yaijy,يايجي,IQG13Q04N04,<Null>,<Null>,<Null>,<Null>,<Null>,Kirkuk,كركوك,IQG13Q04,Kirkuk,كركوك,IQG13,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,0.40289,0.009094
+292,Polygon,Yathreb,يثرب,IQG16Q04N01,<Null>,<Null>,<Null>,<Null>,<Null>,Balad,بلد,IQG16Q04,Salah Al-Din,صلاح الدين,IQG16,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.389576,0.045412
+293,Polygon,Zawita,زاويتة,IQG09Q02N03,<Null>,<Null>,<Null>,<Null>,<Null>,Duhok,دهوك,IQG09Q02,Duhok,دهوك,IQG09,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,1.305788,0.048012
+294,Polygon,Zummar,زمار,IQG15Q08N03,<Null>,<Null>,<Null>,<Null>,<Null>,Telafar,تلعفر,IQG15Q08,Ninewa,نينوى,IQG15,Iraq,العراق,IQ,5/30/2019,6/3/2019,<Null>,2.172729,0.136111

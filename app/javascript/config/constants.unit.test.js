@@ -17,53 +17,64 @@ describe("Verifying config constant", () => {
     });
 
     [
-      "FETCH_TIMEOUT",
-      "DATABASE_NAME",
-      "IDLE_TIMEOUT",
-      "IDLE_LOGOUT_TIMEOUT",
-      "TOKEN_REFRESH_INTERVAL",
-      "RECORD_TYPES",
+      "ACCEPT",
+      "ACCEPTED",
+      "ADMIN_NAV",
       "AGE_MAX",
-      "PERMITTED_URL",
-      "RECORD_PATH",
+      "ALERTS_FOR",
+      "API_DATE_FORMAT",
+      "API_DATE_TIME_FORMAT",
+      "APPLICATION_NAV",
+      "APPROVALS",
+      "APPROVALS_TYPES",
+      "CHANGE_LOGS",
+      "CODE_FIELD",
       "CONSENT_GIVEN_FIELD_BY_MODULE",
-      "MODULE_TYPE_FIELD",
-      "MODULES",
-      "TRANSITION_TYPE",
-      "RECORD_OWNER",
-      "TRANSFERS_ASSIGNMENTS",
-      "ROUTES",
-      "REFERRAL",
-      "NAME_FIELD",
+      "DATABASE_NAME",
       "DATE_FORMAT",
       "DATE_TIME_FORMAT",
-      "USER_NAME_FIELD",
-      "MODES",
-      "TRANSITIONS_DATE_FORMAT",
-      "STRING_SOURCES_TYPES",
-      "ID_FIELD",
-      "UNIQUE_ID_FIELD",
+      "DEFAULT_METADATA",
       "DISPLAY_TEXT_FIELD",
-      "CODE_FIELD",
+      "DEFAULT_DATE_VALUES",
+      "FETCH_PARAM",
+      "FETCH_TIMEOUT",
+      "HTTP_STATUS",
+      "IDLE_LOGOUT_TIMEOUT",
+      "IDLE_TIMEOUT",
+      "ID_FIELD",
+      "INCIDENT_CASE_ID_FIELD",
+      "INCIDENT_CASE_ID_DISPLAY_FIELD",
+      "INCIDENT_FROM_CASE",
+      "LOCALE_KEYS",
       "LOOKUPS",
-      "RECORD_INFORMATION",
-      "ADMIN_NAV",
-      "APPROVALS",
-      "RECORD_TYPES",
-      "ACCEPTED",
-      "ACCEPT",
-      "REJECTED",
-      "REJECT",
+      "MAX_ATTACHMENT_SIZE",
+      "MAX_IMAGE_SIZE",
       "METHODS",
+      "MODES",
+      "MODULES",
+      "MODULE_TYPE_FIELD",
+      "NAME_FIELD",
+      "PASSWORD_MIN_LENGTH",
+      "PERMITTED_URL",
+      "RECORD_INFORMATION",
+      "RECORD_OWNER",
+      "RECORD_PATH",
+      "RECORD_TYPES",
+      "RECORD_TYPES",
+      "REFERRAL",
+      "REJECT",
+      "REJECTED",
+      "ROUTES",
+      "ROWS_PER_PAGE_OPTIONS",
       "SAVE_METHODS",
       "SAVING",
-      "APPLICATION_NAV",
-      "APPROVALS_TYPES",
-      "ALERTS_FOR",
-      "ROWS_PER_PAGE_OPTIONS",
-      "MAX_IMAGE_SIZE",
-      "DEFAULT_METADATA",
-      "LOCALE_KEYS"
+      "STRING_SOURCES_TYPES",
+      "TOKEN_REFRESH_INTERVAL",
+      "TRANSFERS_ASSIGNMENTS",
+      "TRANSITIONS_DATE_FORMAT",
+      "TRANSITION_TYPE",
+      "UNIQUE_ID_FIELD",
+      "USER_NAME_FIELD"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);
@@ -94,7 +105,7 @@ describe("Verifying config constant", () => {
       it("should have correct constant value", () => {
         const constants = { ...configConstants };
 
-        expect(constants.FETCH_TIMEOUT).equal(50000);
+        expect(constants.FETCH_TIMEOUT).equal(90000);
         expect(constants.DATABASE_NAME).equal("primero");
         expect(constants.IDLE_TIMEOUT).equal(15 * 1000 * 60);
         expect(constants.IDLE_LOGOUT_TIMEOUT).equal(5 * 1000 * 60);
@@ -112,8 +123,8 @@ describe("Verifying config constant", () => {
           GBV: "primeromodule-gbv"
         });
         expect(constants.CONSENT_GIVEN_FIELD_BY_MODULE).to.deep.equal({
-          "primeromodule-cp": "consent_for_services",
-          "primeromodule-gbv": "disclosure_other_orgs"
+          "primeromodule-cp": ["consent_for_services", "disclosure_other_orgs"],
+          "primeromodule-gbv": ["consent_for_services"]
         });
         expect(constants.MODULE_TYPE_FIELD).to.equal("module_id");
         expect(constants.TRANSITION_TYPE).to.deep.equal(["transfers_assignments", "referral"]);
@@ -136,9 +147,14 @@ describe("Verifying config constant", () => {
           "workflow",
           "service_type",
           "protection_concerns",
-          "followup_type"
+          "followup_type",
+          "reporting_locations",
+          "gbv_violence_type",
+          "cp_violence_type"
         );
         expect(constants.RECORD_INFORMATION).to.be.an("array");
+        expect(constants.INCIDENT_FROM_CASE).to.be.an("string");
+        expect(constants.INCIDENT_FROM_CASE).to.equal("incident_from_case");
         expect(constants.APPROVALS).to.be.an("string");
         expect(constants.APPROVALS_TYPES).to.be.an("object");
         expect(constants.APPROVALS_TYPES).to.have.all.keys(
@@ -161,6 +177,10 @@ describe("Verifying config constant", () => {
         expect(constants.ROWS_PER_PAGE_OPTIONS).to.be.an("array");
 
         expect(constants.DEFAULT_METADATA).to.have.all.keys("page", "per");
+
+        expect(constants.HTTP_STATUS).to.have.all.keys("invalidRecord");
+
+        expect(constants.DEFAULT_DATE_VALUES).to.have.all.keys("TODAY", "NOW");
       });
     });
   });

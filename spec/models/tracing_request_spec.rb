@@ -163,7 +163,7 @@ describe TracingRequest do
     end
 
     it 'should be set from user' do
-      User.stub(:find_by_user_name).with('mj').and_return(double(organization: 'UNICEF'))
+      User.stub(:find_by_user_name).with('mj').and_return(double(organization: double(unique_id: 'UNICEF')))
       tracing_request = TracingRequest.create 'relation_name' => 'Jaco', :created_by => 'mj'
 
       tracing_request.created_organization.should == 'UNICEF'

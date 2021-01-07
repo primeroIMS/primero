@@ -15,7 +15,7 @@ describe("<SettingsTab />", () => {
       {},
       fromJS({
         forms: {
-          options: { lookups: { data: [{ id: 1, unique_id: "lookup-form-group-my-module-parent" }] } }
+          options: { lookups: [{ id: 1, unique_id: "lookup-form-group-my-module-parent" }] }
         }
       }),
       {},

@@ -2,6 +2,7 @@ import isEmpty from "lodash/isEmpty";
 import { fromJS, OrderedMap } from "immutable";
 
 import { denormalizeFormData } from "../../schemas";
+import { displayNameHelper } from "../../libs";
 
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
@@ -34,7 +35,7 @@ const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }
 };
 
 const isAStickyOption = (opt, stickyOption) =>
-  Array.isArray(stickyOption) ? stickyOption.includes(opt.id) : opt.id === stickyOption;
+  Array.isArray(stickyOption) ? stickyOption.includes(opt.id) : opt.id === stickyOption.toString();
 
 const addingDeletedOption = (enabledOptions, locale, stickyOption) => {
   if (!stickyOption || Boolean(enabledOptions.filter(opt => isAStickyOption(opt, stickyOption)).length)) {
@@ -61,7 +62,7 @@ const transformOptionSource = (options, locale, stickyOption) => {
   return optionsToRender.map(opt => ({
     id: opt.id,
     isDisabled: Boolean(opt.disabled),
-    display_text: opt.display_text[locale] || ""
+    display_text: displayNameHelper(opt.display_text, locale) || ""
   }));
 };
 
@@ -90,9 +91,8 @@ export const getFormNav = (state, query) => {
     .map(fs =>
       NavRecord({
         group: fs.form_group_id,
-        groupName: fs.form_group_name[window.I18n.locale],
         groupOrder: fs.order_form_group,
-        name: fs.name[window.I18n.locale],
+        name: displayNameHelper(fs.name, window.I18n.locale),
         order: fs.order,
         formId: fs.unique_id,
         is_first_tab: fs.is_first_tab
@@ -127,7 +127,7 @@ export const getOption = (state, option, locale, stickyOption = "") => {
 
   if (typeof option === "string") {
     const selectedOptions = state
-      .getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]))
+      .getIn([NAMESPACE, "options", "lookups"], fromJS([]))
       .filter(o => o.get("unique_id") === option.replace(/lookup /, ""))
       .first();
 
@@ -137,7 +137,7 @@ export const getOption = (state, option, locale, stickyOption = "") => {
   return transformOptionSource(options, locale, stickyOption);
 };
 
-export const getOptions = state => state.getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]));
+export const getOptions = state => state.getIn([NAMESPACE, "options", "lookups"], fromJS([]));
 
 export const getLookups = (state, page = 1, per = 20) => {
   const data = state.getIn([NAMESPACE, "options", "lookups"], fromJS({}));
@@ -164,8 +164,6 @@ export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
 
 export const getSelectedForm = state => state.getIn([NAMESPACE, "selectedForm"]);
 
-export const getSelectedRecord = state => state.getIn([NAMESPACE, "selectedRecord"]);
-
 export const getServiceToRefer = state => state.getIn([NAMESPACE, "serviceToRefer"], fromJS({}));
 
 export const getOptionsAreLoading = state => state.getIn([NAMESPACE, "options", "loading"], false);
@@ -189,6 +187,10 @@ export const getSubformsDisplayName = (state, locale) =>
     .filter(fs => fs.is_nested)
     .map(fs => fromJS({ [fs.unique_id]: fs.getIn(["name", locale]) }))
     .reduce((acc, next) => acc.merge(next), fromJS({}));
+
+export const getAttachmentForms = state => state.getIn([NAMESPACE, "attachmentMeta", "forms"], fromJS([]));
+
+export const getAttachmentFields = state => state.getIn([NAMESPACE, "attachmentMeta", "fields"], fromJS([]));
 
 export const getFields = state => state.getIn([NAMESPACE, "fields"]);
 

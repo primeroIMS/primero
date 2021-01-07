@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 
 import NAMESPACE from "../configurations-list/namespace";
 
-import { getConfiguration, getErrors, getServerErrors, getSavingRecord } from "./selectors";
+import { getApplying, getConfiguration, getErrors, getLoading, getServerErrors, getSavingRecord } from "./selectors";
 
 const state = fromJS({
   records: {
@@ -11,7 +11,8 @@ const state = fromJS({
         selectedConfiguration: { id: 1 },
         errors: true,
         serverErrors: [{ message: "error-1" }],
-        saving: true
+        saving: true,
+        loading: false
       }
     }
   }
@@ -48,7 +49,7 @@ describe("configurations-form/selectors.js", () => {
     it("should return false when errors empty", () => {
       const userGroup = getErrors(stateWithoutHeaders);
 
-      expect(userGroup).to.deep.equal(false);
+      expect(userGroup).to.be.false;
     });
   });
 
@@ -79,6 +80,18 @@ describe("configurations-form/selectors.js", () => {
       const user = getSavingRecord(stateWithoutHeaders);
 
       expect(user).to.be.false;
+    });
+  });
+
+  describe("getLoading", () => {
+    it("should loading state", () => {
+      expect(getLoading(state)).to.be.false;
+    });
+  });
+
+  describe("getApplying", () => {
+    it("should return false", () => {
+      expect(getApplying(state)).to.be.false;
     });
   });
 });

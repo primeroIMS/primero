@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Model for Field
 class Field < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -52,6 +53,7 @@ class Field < ApplicationRecord
 
   before_save :sanitize_option_strings_text
   before_create :sanitize_name, :set_default_date_validation, :set_tally_field_defaults
+  after_save :sync_modules
 
   def self.permitted_api_params
     [
@@ -64,17 +66,6 @@ class Field < ApplicationRecord
       'link_to_path_external', 'field_tags', 'searchable_select', 'expose_unique_id', 'subform_sort_by',
       'subform_group_by', 'required', 'date_validation', 'date_include_time', 'matchable'
     ]
-  end
-
-  # TODO: DELETE THIS, once we refactor YML exporter
-  def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE)
-    lh = localized_hash(locale)
-    if option_strings_text.present?
-      fh = {}
-      option_strings_text(locale).each { |os| fh[os['id']] = os['display_text'] }
-      lh['option_strings_text'] = fh
-    end
-    lh
   end
 
   # TODO: Move the logic for all_*_field_names methods to the Searchable concern
@@ -142,7 +133,7 @@ class Field < ApplicationRecord
 
   def update_properties(field_params)
     field_params['subform_unique_id'] &&
-      self.subform = FormSection.find_by(unique_id: field_params['subform_section_id'])
+      self.subform = FormSection.find_by(unique_id: field_params['subform_unique_id'])
     if field_params['collapsed_field_for_subform_unique_id']
       self.collapsed_field_for_subform = FormSection.find_by(
         unique_id: field_params['collapsed_field_for_subform_unique_id']
@@ -226,42 +217,40 @@ class Field < ApplicationRecord
     option_strings_source == 'Agency'
   end
 
-  # TODO: Review this method due the values structure changed.
-  # TODO: Refactor with i18n import service
-  def update_translations(field_hash={}, locale)
-    if locale.present? && Primero::Application::locales.include?(locale)
-      field_hash.each do |key, value|
-        if key == 'option_strings_text'
-          if self.option_strings_text.present?
-            update_option_strings_translations(value, locale)
-          else
-            Rails.logger.warn "Field #{self.name} no longer has embedded option strings. Skipping."
-          end
-        else
-          self.send("#{key}_#{locale}=", value)
-        end
-      end
-    else
-      Rails.logger.error "Field translation not updated: Invalid locale [#{locale}]"
-    end
-  end
+  def update_translations(locale, field_hash = {})
+    return Rails.logger.error('Field translation not updated: No Locale passed in') if locale.blank?
 
-  # TODO: Refactor with i18n import service
-  def update_option_strings_translations(options_hash, locale)
-    options = (self.send("option_strings_text_#{locale}").present? ? self.send("option_strings_text_#{locale}") : [])
-    options_hash.each do |key, value|
-      os = options.try(:find){|o| o['id'] == key}
-      if os.present?
-        os['display_text'] = value
+    return Rails.logger.error("Field translation not updated: Invalid locale [#{locale}]") if I18n.available_locales.exclude?(locale)
+
+    field_hash.each do |key, value|
+      if key == 'option_strings_text'
+        update_option_strings_translations(value, locale)
       else
-        options << {'id' => key, 'display_text' => value}
+        send("#{key}_#{locale}=", value)
       end
     end
-    self.send("option_strings_text_#{locale}=", options)
-    self.save!
   end
 
   private
+
+  def update_option_strings_translations(options_hash, locale)
+    return Rails.logger.warn("Field #{name} does not have option strings. Skipping.") if option_strings_text.blank?
+
+    options = (send("option_strings_text_#{locale}").present? ? send("option_strings_text_#{locale}") : [])
+    option_keys_en = option_strings_text_en.map { |o| o['id'] }
+
+    options_hash.each do |key, value|
+      next if option_keys_en.exclude?(key) # Do not add any translations that do not have an English translation
+
+      os = options&.find { |o| o['id'] == key }
+      if os.present?
+        os['display_text'] = value
+      else
+        options << { 'id' => key, 'display_text' => value }
+      end
+    end
+    send("option_strings_text_#{locale}=", options)
+  end
 
   # Names should only have lower case alpha, numbers and underscores
   def sanitize_name
@@ -290,6 +279,12 @@ class Field < ApplicationRecord
 
     self.autosum_group ||= "#{name}_number_of"
     self.autosum_total ||= true
+  end
+
+  def sync_modules
+    return unless type == SUBFORM
+
+    self.subform_section&.primero_modules = self.form_section.primero_modules if self.form_section.present?
   end
 
   def validate_unique_name_in_form

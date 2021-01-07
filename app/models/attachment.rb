@@ -6,11 +6,15 @@ class Attachment < ApplicationRecord
   AUDIO = 'audio'
   DOCUMENT = 'document'
 
-  AUDIO_CONTENT_TYPES = %w[audio/amr audio/mpeg].freeze
+  # mpeg includes mp3.  mp4 includes m4a
+  AUDIO_CONTENT_TYPES = %w[audio/mpeg audio/mp4].freeze
   IMAGE_CONTENT_TYPES = %w[image/jpg image/jpeg image/png].freeze
-  DOCUMENT_CONTENT_TYPES = %w[application/pdf text/plain].freeze
+  DOCUMENT_CONTENT_TYPES = %w[application/pdf text/plain application/msword
+                              application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                              text/csv application/vnd.ms-excel
+                              application/vnd.openxmlformats-officedocument.spreadsheetml.sheet].freeze
 
-  MAX_SIZE = 4.megabytes.freeze
+  MAX_SIZE = 10.megabytes.freeze
   EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
 
   belongs_to :record, polymorphic: true, optional: true

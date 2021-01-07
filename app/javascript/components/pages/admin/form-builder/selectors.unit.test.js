@@ -7,8 +7,10 @@ describe("<FormsBuilder /> - Selectors", () => {
     const clonedSelectors = { ...selectors };
 
     [
+      "getCopiedFields",
       "getFieldNames",
       "getFormUniqueIds",
+      "getRemovedFields",
       "getSavingRecord",
       "getSelectedField",
       "getSelectedFields",
@@ -189,6 +191,50 @@ describe("<FormsBuilder /> - Selectors", () => {
 
     it("should return all the field names", () => {
       expect(selectors.getFieldNames(initialState)).to.deep.equal(fieldNames);
+    });
+  });
+
+  describe("getCopiedFields", () => {
+    const copiedFields = fromJS([
+      { id: 1, name: "field_1" },
+      { id: 2, name: "field_2" },
+      { id: 3, name: "field_3" }
+    ]);
+
+    const initialState = fromJS({
+      records: {
+        admin: {
+          forms: {
+            copiedFields
+          }
+        }
+      }
+    });
+
+    it("should return the copied fields", () => {
+      expect(selectors.getCopiedFields(initialState)).to.deep.equal(copiedFields);
+    });
+  });
+
+  describe("getRemovedFields", () => {
+    const removedFields = fromJS([
+      { id: 4, name: "field_4" },
+      { id: 3, name: "field_3" },
+      { id: 1, name: "field_1" }
+    ]);
+
+    const initialState = fromJS({
+      records: {
+        admin: {
+          forms: {
+            removedFields
+          }
+        }
+      }
+    });
+
+    it("should return the removed fields", () => {
+      expect(selectors.getRemovedFields(initialState)).to.deep.equal(removedFields);
     });
   });
 });

@@ -16,6 +16,7 @@ describe("middleware/utils/index.js", () => {
       "checkFieldSubformErrors",
       "defaultErrorCallback",
       "generateRecordProperties",
+      "handleConfiguration",
       "handleRestCallback",
       "isOnline",
       "partitionObject",
@@ -23,7 +24,9 @@ describe("middleware/utils/index.js", () => {
       "startSignout",
       "retrieveData",
       "queueData",
-      "processSubforms"
+      "queueFetch",
+      "processSubforms",
+      "isServerOnline"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(modules).to.have.property(property);

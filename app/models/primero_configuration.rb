@@ -26,10 +26,23 @@ class PrimeroConfiguration < ApplicationRecord
     end
   end
 
+  def apply_later!(applied_by = nil)
+    ApplyConfigurationJob.perform_later(id, applied_by.id)
+  end
+
+  def apply_with_api_lock!(applied_by = nil)
+    SystemSettings.lock_for_configuration_update
+    apply!(applied_by)
+    SystemSettings.unlock_after_configuration_update
+  end
+
   def apply!(applied_by = nil)
     data.each do |model, model_data|
       model_class = Kernel.const_get(model)
-      model_data.each { |configuration| model_class.create_or_update!(configuration) }
+
+      model_class.sort_configuration_hash(model_data).each do |configuration|
+        model_class.create_or_update!(configuration)
+      end
     end
     clear_remainder!
     self.applied_on = DateTime.now

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Filter do
   before :each do
-    clean_data(PrimeroProgram, Field, FormSection, PrimeroModule, Role, Agency, User, SystemSettings)
+    clean_data(PrimeroProgram, Field, FormSection, PrimeroModule, Role, Agency, User, UserGroup, SystemSettings)
     @program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-primero',
       name: 'Primero',
@@ -16,7 +16,10 @@ describe Filter do
       description: 'Gender Based Violence',
       associated_record_types: %w[case tracing_request incident],
       primero_program: @program,
-      form_sections: [FormSection.create!(name: 'form_2')]
+      form_sections: [FormSection.create!(name: 'form_2')],
+      module_options: {
+        user_group_filter: true
+      },
     )
     @cp = PrimeroModule.create!(
       unique_id: 'primeromodule-cp',
@@ -39,6 +42,10 @@ describe Filter do
       modules: [@cp, @gbv]
     )
     @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+    @group1 = UserGroup.create!(name: 'Group1')
+    @group2 = UserGroup.create!(name: 'Group2')
+    @group3 = UserGroup.create!(name: 'Group3')
+    @group4 = UserGroup.create!(name: 'Group4')
     @user_a = User.create!(
       full_name: 'Test User 1',
       user_name: 'test_user_1',
@@ -104,7 +111,7 @@ describe Filter do
       end
 
       it 'has status filter' do
-        expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'tracing_requests.filter_by.status',
+        expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'cases.filter_by.status',
                                                                    field_name: 'status', type: 'checkbox'))
       end
 
@@ -173,8 +180,8 @@ describe Filter do
     end
 
     describe 'case filters' do
-      it 'has 18 filters' do
-        expect(@filters_cp_gbv[0]['cases'].count).to eq(18)
+      it 'has 19 filters' do
+        expect(@filters_cp_gbv[0]['cases'].count).to eq(19)
       end
 
       it 'has filters' do
@@ -198,6 +205,12 @@ describe Filter do
                                                                        type: 'dates'))
       end
 
+      it 'has user_group filter' do
+        expect(@filters_cp_gbv[0]['cases']).to include(have_attributes(name: 'permissions.permission.user_group',
+                                                                       field_name: 'owned_by_groups',
+                                                                       type: 'checkbox'))
+      end
+
       it 'has date options' do
         filter_by_date_cp = [
           { id: 'registration_date', display_name: 'Date of Registration' },
@@ -206,14 +219,16 @@ describe Filter do
           { id: 'date_closure', display_name: 'Date of Case Closure ' },
           { id: 'created_at', display_name: 'Case Open Date' }
         ]
-        # TODO: Hard coding the index '16' is brittle.  Find a better way to test this
-        expect(@filters_cp_gbv[0]['cases'][16].options[:en]).to eq(filter_by_date_cp)
+        expect(
+          @filters_cp_gbv.dig(0, 'cases')
+                        .find { |filter| filter.name == 'cases.filter_by.by_date' }
+                        .options[:en]).to eq(filter_by_date_cp)
       end
     end
   end
 
   after do
-    clean_data(PrimeroProgram, Field, FormSection, PrimeroModule, Role, Agency, User, SystemSettings)
+    clean_data(PrimeroProgram, Field, FormSection, PrimeroModule, Role, Agency, User, UserGroup, SystemSettings)
     @system_settings.save!
     SystemSettings.current(true)
   end

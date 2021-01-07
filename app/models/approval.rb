@@ -107,6 +107,7 @@ class Approval < ValueObject
     record.approval_subforms ||= []
     record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_REJECTED, approval_id, user_name,
                                                          comments)
+    delete_approval_alerts
   end
 
   protected
@@ -136,8 +137,6 @@ class Approval < ValueObject
   def delete_approval_alerts
     return if record.alerts.blank?
 
-    record.alerts.each do |alert|
-      alert.destroy if alert.alert_for == Alertable::APPROVAL
-    end
+    record.alerts.where(type: approval_id, alert_for: Alertable::APPROVAL).destroy_all
   end
 end

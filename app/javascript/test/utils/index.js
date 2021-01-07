@@ -73,8 +73,9 @@ export const setupMountedComponent = (
   formProps = {}
 ) => {
   const defaultState = fromJS({
-    application: {
-      online: true
+    connectivity: {
+      online: true,
+      serverOnline: true
     }
   });
 
@@ -161,18 +162,13 @@ export const setupMockFormComponent = (
     const formMethods = useForm({ defaultValues });
     const formMode = whichFormMode(mode);
 
-    const commonInputProps = setupFormInputProps(
-      field,
-      inputProps,
-      mode,
-      formMethods?.errors
-    );
+    const commonInputProps = setupFormInputProps(field, inputProps, mode, formMethods?.errors);
 
     return (
       <FormContext {...formMethods} formMode={formMode}>
         <Component
           {...props}
-          { ...(includeFormMethods ? formMethods : {}) }
+          {...(includeFormMethods ? formMethods : {})}
           commonInputProps={commonInputProps}
           {...inputProps}
         />
@@ -214,7 +210,6 @@ export const createMiddleware = (middleware, initialState) => {
 };
 
 export const listHeaders = recordType => {
-
   const commonHeaders = [
     ListHeaderRecord({
       name: "description",
@@ -247,7 +242,7 @@ export const listHeaders = recordType => {
     default:
       return [];
   }
-}
+};
 
 export const lookups = () => ({
   data: [
@@ -276,11 +271,13 @@ export const lookups = () => ({
 });
 
 export const translateOptions = (value, options, translations) => {
+  const defaultLocale = window.I18n.locale;
+
   if (isEmpty(options)) {
-    return translations[value];
+    return translations[defaultLocale][value];
   }
 
-  let currValue = translations[value];
+  let currValue = translations[options?.locale || defaultLocale][value];
 
   Object.entries(options).forEach(option => {
     const [optionKey, optionValue] = option;
@@ -288,5 +285,13 @@ export const translateOptions = (value, options, translations) => {
     currValue = currValue.replace(optionKey, optionValue);
   });
 
-  return currValue.replace(/[^\w\s\'.]/gi, "");
+  return currValue?.replace(/[^\w\s\'.]/gi, "");
+};
+
+export const abbrMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+export const HookWrapper = ({ hook }) => {
+  const hookProps = hook ? hook() : undefined;
+
+  return <div hook={hookProps} />;
 };

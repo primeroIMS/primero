@@ -1,0 +1,8 @@
+---
+nginx_container_username: 'nginx'
+application_container_username: 'primero'
+qi_docker_daemon_json_content: |
+  {
+    "log-driver": "journald",
+    "userns-remap": "{{ application_container_username }}"
+  }

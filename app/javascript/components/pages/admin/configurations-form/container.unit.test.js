@@ -6,6 +6,7 @@ import { MODES } from "../../../../config";
 import Form, { FormAction } from "../../../form";
 import ActionDialog from "../../../action-dialog";
 import TextInput from "../../../form/fields/text-input";
+import DateInput from "../../../form/fields/date-input";
 
 import ConfigurationsForm from "./container";
 
@@ -49,12 +50,16 @@ describe("<ConfigurationsForm />", () => {
       expect(component.find(FormAction)).to.have.lengthOf(2);
     });
 
-    it("should render 6 TextInput components", () => {
-      expect(component.find(TextInput)).to.have.lengthOf(6);
+    it("should render 5 TextInput components", () => {
+      expect(component.find(TextInput)).to.have.lengthOf(5);
     });
 
-    it("should render ActionDialog component", () => {
-      expect(component.find(ActionDialog)).to.have.lengthOf(1);
+    it("should render 2 DateInput components", () => {
+      expect(component.find(DateInput)).to.have.lengthOf(2);
+    });
+
+    it("should render 2 ActionDialog component", () => {
+      expect(component.find(ActionDialog)).to.have.lengthOf(2);
     });
   });
 
@@ -76,8 +81,8 @@ describe("<ConfigurationsForm />", () => {
       expect(component.find(TextInput)).to.have.lengthOf(2);
     });
 
-    it("should render ActionDialog component", () => {
-      expect(component.find(ActionDialog)).to.have.lengthOf(1);
+    it("should render 2 ActionDialog component", () => {
+      expect(component.find(ActionDialog)).to.have.lengthOf(2);
     });
   });
 });

@@ -1,8 +1,9 @@
 /* eslint-disable import/prefer-default-export */
-
+import { fetchRecordsAlerts } from "../../records";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../actions";
+import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../action-dialog";
 
+import { APPROVAL_STATUS } from "./constants";
 import { APPROVE_RECORD } from "./actions";
 
 export const approvalRecord = ({
@@ -12,8 +13,8 @@ export const approvalRecord = ({
   body,
   message,
   failureMessage,
-  dialogName,
-  currentUser
+  currentUser,
+  messageFromQueue
 }) => {
   return {
     type: `${recordType}/${APPROVE_RECORD}`,
@@ -24,6 +25,9 @@ export const approvalRecord = ({
       responseRecordKey: "approval_subforms",
       responseRecordArray: true,
       responseRecordID: recordId,
+      responseRecordParams: {
+        [`approval_status_${approvalId}`]: APPROVAL_STATUS.pending
+      },
       responseExtraParams: {
         approval_date: new Date(),
         approval_requested_for: approvalId,
@@ -38,6 +42,7 @@ export const approvalRecord = ({
           action: ENQUEUE_SNACKBAR,
           payload: {
             message,
+            messageFromQueue,
             options: {
               variant: "success",
               key: generate.messageKey(message)
@@ -45,18 +50,9 @@ export const approvalRecord = ({
           }
         },
         {
-          action: SET_DIALOG,
-          payload: {
-            dialog: dialogName,
-            open: false
-          }
+          action: CLEAR_DIALOG
         },
-        {
-          action: SET_DIALOG_PENDING,
-          payload: {
-            pending: false
-          }
-        }
+        fetchRecordsAlerts(recordType, recordId, true)
       ],
       failureCallback: [
         {

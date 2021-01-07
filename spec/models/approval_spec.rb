@@ -157,6 +157,28 @@ describe Approval do
         expect(Alert.last.form_sidebar_id).to eq('gbv_case_closure_form')
       end
     end
+
+    context 'and it is rejected"' do
+      before do
+        @approval = Approval.get!(
+          Approval::ACTION_PLAN,
+          @case,
+          @user1.user_name,
+          approval_status: Approval::APPROVAL_STATUS_REQUESTED
+        )
+        @approval.perform!(Approval::APPROVAL_STATUS_REQUESTED)
+      end
+
+      it 'should return the correct form for case plan type' do
+        expect(Alert.last.form_sidebar_id).to eq('action_plan_form')
+      end
+
+      it 'should delete the alert when the case get rejected' do
+        expect(Alert.count).to eq(1)
+        @approval.perform!(Approval::APPROVAL_STATUS_REJECTED)
+        expect(Alert.count).to eq(0)
+      end
+    end
   end
 
   describe 'get!' do
@@ -219,6 +241,48 @@ describe Approval do
         )
         expect(approval.class).to eq(Approval)
         expect(approval.approval_id).to eq(Approval::GBV_CLOSURE)
+      end
+    end
+  end
+
+  describe 'reject!' do
+    context 'and the alert_for is "closure"' do
+      before do
+        @approval = Approval.get!(
+          Approval::CLOSURE,
+          @case,
+          @user1.user_name,
+          approval_status: Approval::APPROVAL_STATUS_REQUESTED
+        )
+        @approval.perform!(Approval::APPROVAL_STATUS_REQUESTED)
+      end
+
+      it 'should delete the alert when the case get rejected' do
+        expect(Alert.last.form_sidebar_id).to eq('closure_form')
+        expect(Alert.count).to eq(1)
+        @approval.reject!
+        expect(Alert.count).to eq(0)
+      end
+    end
+  end
+
+  describe '.approve!' do
+    context 'and record has many alerts' do
+      before do
+        Alert.create(type: Approval::ACTION_PLAN, alert_for: 'approval', date: Date.today, record_id: @case.id, record_type: @case.class )
+        Alert.create(type: Approval::GBV_CLOSURE, alert_for: 'approval', date: Date.today, record_id: @case.id, record_type: @case.class )
+        @approval = Approval.get!(
+          Approval::ACTION_PLAN,
+          @case,
+          @user1.user_name,
+          approval_status: Approval::APPROVAL_STATUS_REQUESTED
+        )
+      end
+
+      it 'should delete one alert for the approval type' do
+        expect(@case.alerts.count).to eq(2)
+        @approval.approve!
+        expect(@case.alerts.count).to eq(1)
       end
     end
   end

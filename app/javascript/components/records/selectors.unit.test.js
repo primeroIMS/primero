@@ -7,9 +7,16 @@ import {
   selectRecord,
   selectRecordAttribute,
   selectRecordsByIndexes,
+  getIncidentFromCase,
   getSavingRecord,
   getLoadingRecordState,
-  getRecordAlerts
+  getRecordAlerts,
+  getCaseIdForIncident,
+  getSelectedRecord,
+  getRecordAttachments,
+  getIsProcessingSomeAttachment,
+  getIsProcessingAttachments,
+  getIsPendingAttachments
 } from "./selectors";
 
 const record = {
@@ -243,6 +250,117 @@ describe("Records - Selectors", () => {
       const recordAlert = getRecordAlerts(fromJS({}));
 
       expect(recordAlert).to.be.empty;
+    });
+  });
+
+  describe("getIncidentFromCase", () => {
+    const incidentFromCase = fromJS({
+      owned_by: "user_1",
+      enabled: true,
+      status: "open"
+    });
+
+    const stateWithIncidentFromCase = fromJS({
+      records: { cases: { incidentFromCase: { data: incidentFromCase } } }
+    });
+
+    it("should return the incident when is a new incident", () => {
+      expect(getIncidentFromCase(stateWithIncidentFromCase)).to.deep.equal(incidentFromCase);
+    });
+  });
+
+  describe("getCaseIdForIncident", () => {
+    const stateWithIncidentFromCase = fromJS({
+      records: { cases: { incidentFromCase: { incident_case_id: "123456789" } } }
+    });
+
+    it("should return the incident_case_id when is a new incident", () => {
+      expect(getCaseIdForIncident(stateWithIncidentFromCase)).to.deep.equal("123456789");
+    });
+  });
+
+  describe("getSelectedRecord", () => {
+    const stateWithSelectedRecord = fromJS({
+      records: { cases: { selectedRecord: "123456789" } }
+    });
+
+    it("should return the selectedRecord", () => {
+      expect(getSelectedRecord(stateWithSelectedRecord, RECORD_PATH.cases)).to.equal("123456789");
+    });
+  });
+
+  describe("getRecordAttachments", () => {
+    const attachmentField = {
+      field: { processing: false, data: [{ id: 1, attachment: "attachment-data" }] }
+    };
+    const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentField } } } });
+
+    it("should return the attachments", () => {
+      expect(getRecordAttachments(stateWithRecordAttachments, RECORD_PATH.cases)).to.deep.equal(
+        fromJS(attachmentField)
+      );
+    });
+  });
+
+  describe("getIsProcessingSomeAttachment", () => {
+    it("should return the true if the some attachment field has attachments being processed", () => {
+      const attachmentFields = {
+        field_1: { processing: false, data: [{ id: 1, attachment: "attachment-data" }] },
+        field_2: { processing: true, data: [{ id: 1, attachment: "attachment-data" }] }
+      };
+      const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
+
+      expect(getIsProcessingSomeAttachment(stateWithRecordAttachments, RECORD_PATH.cases)).to.be.true;
+    });
+
+    it("should return the false if the no attachment field has attachments being processed", () => {
+      const attachmentFields = {
+        field_1: { processing: false, data: [{ id: 1, attachment: "attachment-data" }] },
+        field_2: { processing: false, data: [{ id: 1, attachment: "attachment-data" }] }
+      };
+      const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
+
+      expect(getIsProcessingSomeAttachment(stateWithRecordAttachments, RECORD_PATH.cases)).to.be.false;
+    });
+  });
+
+  describe("getIsProcessingAttachments", () => {
+    it("should return the true if the attachment field has attachments being processed", () => {
+      const attachmentFields = {
+        field_1: { processing: true, data: [{ id: 1, attachment: "attachment-data" }] }
+      };
+      const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
+
+      expect(getIsProcessingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).to.be.true;
+    });
+
+    it("should return the false if the attachment field doesn't have attachments being processed", () => {
+      const attachmentFields = {
+        field_1: { processing: false, data: [{ id: 1, attachment: "attachment-data" }] }
+      };
+      const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
+
+      expect(getIsProcessingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).to.be.false;
+    });
+  });
+
+  describe("getIsPendingAttachments", () => {
+    it("should return the true if the attachment field has pending attachments", () => {
+      const attachmentFields = {
+        field_1: { pending: true, data: [{ id: 1, attachment: "attachment-data" }] }
+      };
+      const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
+
+      expect(getIsPendingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).to.be.true;
+    });
+
+    it("should return the false if the attachment field doesn't have pending attachments", () => {
+      const attachmentFields = {
+        field_1: { pending: false, data: [{ id: 1, attachment: "attachment-data" }] }
+      };
+      const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
+
+      expect(getIsPendingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).to.be.false;
     });
   });
 });

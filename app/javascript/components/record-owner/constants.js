@@ -42,7 +42,7 @@ export const FIELDS = [
     visible: true
   },
   {
-    name: "created_by_agency",
+    name: "created_organization",
     type: "text_field",
     visible: true
   },
@@ -52,7 +52,7 @@ export const FIELDS = [
     visible: true
   },
   {
-    name: "previous_agency",
+    name: "previously_owned_by_agency",
     type: "text_field",
     visible: true
   },

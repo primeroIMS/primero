@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
+import ActionDialog from "../../../../action-dialog";
 import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../../libs/permissions";
 
@@ -47,5 +48,17 @@ describe("<UserConfirmation /> - Component", () => {
 
   it("renders UserConfirmation component", () => {
     expect(component.find(UserConfirmation)).to.have.length(1);
+  });
+
+  describe("when open ActionDialog", () => {
+    let testComponent;
+
+    before(() => {
+      ({ component: testComponent } = setupMountedComponent(UserConfirmation, { ...props, open: true }, initialState));
+    });
+
+    it("render dialogContent <p>", () => {
+      expect(testComponent.find(ActionDialog).find("p")).to.have.lengthOf(1);
+    });
   });
 });

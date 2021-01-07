@@ -10,7 +10,6 @@ import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { fetchAlerts } from "../../nav/action-creators";
 import { getRecordAlerts, saveRecord } from "../../records";
-import { fetchRecordsAlerts } from "../../records/action-creators";
 import { currentUser } from "../../user";
 import { getOptions } from "../../form/selectors";
 import { useApp } from "../../application";
@@ -22,15 +21,14 @@ import styles from "./styles.css";
 
 const Component = ({
   close,
-  openRequestDialog,
+  open,
   subMenuItems,
   record,
   recordType,
   pending,
   setPending,
   approvalType,
-  confirmButtonLabel,
-  dialogName
+  confirmButtonLabel
 }) => {
   const i18n = useI18n();
   const { approvalsLabels, userModules } = useApp();
@@ -104,8 +102,8 @@ const Component = ({
           message: i18n.t(message, {
             approval_label: approvalsLabels[requestType]
           }),
+          messageFromQueue: i18n.t("offline_submitted_changes"),
           failureMessage: i18n.t(`${recordType}.request_approval_failure`),
-          dialogName,
           username
         })
       );
@@ -118,14 +116,12 @@ const Component = ({
             { data: { case_plan_approval_type: typeOfCasePlan } },
             record.get("id"),
             "",
-            false,
+            i18n.t("offline_submitted_changes"),
             false,
             false
           )
         );
       }
-
-      dispatch(fetchRecordsAlerts(recordType, record.get("id")));
 
       if (recordAlerts?.size <= 0) {
         dispatch(fetchAlerts());
@@ -195,7 +191,7 @@ const Component = ({
 
   return (
     <ActionDialog
-      open={openRequestDialog}
+      open={open}
       dialogTitle=""
       successHandler={handleSubmit}
       cancelHandler={handleCancel}
@@ -215,8 +211,7 @@ Component.propTypes = {
   approvalType: PropTypes.string,
   close: PropTypes.func,
   confirmButtonLabel: PropTypes.string,
-  dialogName: PropTypes.string,
-  openRequestDialog: PropTypes.bool,
+  open: PropTypes.bool,
   pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string,

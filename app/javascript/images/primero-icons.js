@@ -145,3 +145,36 @@ export const FlagIcon = props => (
     <path d="M14.28 5.42857143L13.8 3 3 3 3 21 6.03230794 21 6.03230794 17.1428571 12.12 17.1428571 12.6 19.5714286 20.9995117 19.5714286 20.9995117 5.42857143z" />
   </SvgIcon>
 );
+
+export const SaveReturnIcon = props => {
+  if (props.isRTL) {
+    return (
+      <SvgIcon {...props}>
+        <path id="Path" d="M9.2 13.7 3.7 8.2 5.6 6.3 9.2 9.9 18.3 0.8 20.2 2.7z"></path>
+        <path
+          id="Path"
+          transform="translate(12.000000, 18.350000) scale(-1, 1) translate(-12.000000, -18.350000) "
+          d="M5.6 23.9 0 18.4 5.6 12.8 7.5 14.7 5 17.1 24 17.1 24 19.7 5 19.7 7.4 22.1z"
+        ></path>
+      </SvgIcon>
+    )
+  }
+
+  return (
+    <SvgIcon {...props}>
+      <path d="M5.6,12.8 L7.5,14.7 L5,17.1 L24,17.1 L24,19.7 L5,19.7 L7.4,22.1 L5.6,23.9 L0,18.4 L5.6,12.8 Z M20.3,0.8 L22.2,2.7 L11.2,13.7 L5.7,8.2 L7.6,6.3 L11.2,9.9 L20.3,0.8 Z" />
+    </SvgIcon>
+  );
+};
+
+export const ExportReportGraphIcon = props => (
+  <SvgIcon {...props}>
+    <path d="M17 19.01V14h2v5.01h3L18 23l-4-3.99zM4 11h4v9H4zm6-6h4v12.857h-1v1.607l.5.536H10zm6 4h4v4h-4z" />
+  </SvgIcon>
+);
+
+export const ExportReportDataIcon = props => (
+  <SvgIcon {...props}>
+    <path d="M17 19.01V14h2v5.01h3L18 23l-4-3.99zM3 3h2v17H3zm16 0h2v11l-2-2zM3 19h9l2 2H3zM4 3h15v2H4zm2 4h12v1H6zm0 3h12v1H6zm0 3h10v1H6zm0 3h10v1H6zm2-9h1v9H8zm3 0h1v9h-1zm3 0h1v9h-1z" />
+  </SvgIcon>
+);

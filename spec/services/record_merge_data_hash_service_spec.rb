@@ -123,4 +123,27 @@ describe RecordMergeDataHashService do
       end
     end
   end
+
+  describe '.array_of_hashes?' do
+    it 'when is array of string' do
+      param = %w[a b c]
+      result = RecordMergeDataHashService.array_of_hashes?(param)
+
+      expect(result).to be_falsey
+    end
+
+    it 'when is array of hash' do
+      param = [{a: 1}, {b: 2}, {c:3}]
+      result = RecordMergeDataHashService.array_of_hashes?(param)
+
+      expect(result).to be_truthy
+    end
+
+    it 'when is no an array' do
+      param = 'test'
+      result = RecordMergeDataHashService.array_of_hashes?(param)
+
+      expect(result).to be_falsey
+    end
+  end
 end

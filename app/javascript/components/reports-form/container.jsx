@@ -20,6 +20,7 @@ import bindFormSubmit from "../../libs/submit-form";
 import { ROUTES, SAVE_METHODS } from "../../config";
 import { getAgeRanges } from "../application/selectors";
 import { getRecordForms } from "../record-form/selectors";
+import { useApp } from "../application";
 
 import {
   NAME,
@@ -44,6 +45,7 @@ const Container = ({ mode }) => {
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const primeroAgeRanges = useSelector(state => getAgeRanges(state));
   const report = useSelector(state => getReport(state));
+  const { userModules } = useApp();
 
   const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
 
@@ -120,7 +122,7 @@ const Container = ({ mode }) => {
     }
   }));
 
-  const formSections = form(i18n, formatAgeRange(primeroAgeRanges), allRecordForms, formMode.get("isNew"));
+  const formSections = form(i18n, formatAgeRange(primeroAgeRanges), allRecordForms, formMode.get("isNew"), userModules);
 
   const handleCancel = () => {
     dispatch(push(ROUTES.reports));

@@ -61,13 +61,13 @@ describe("<RecordForm /> - Reducers", () => {
         bn: ""
       }
     };
-    const payload = [location];
+    const payload = { data: [location] };
     const expected = fromJS({
       selectedForm: null,
       formSections: OrderedMap({}),
       fields: OrderedMap({}),
       options: {
-        locations: [location]
+        locations: { data: [location] }
       }
     });
     const action = {
@@ -123,7 +123,7 @@ describe("<RecordForm /> - Reducers", () => {
           collapsed_field_names: []
         })
       ],
-      attachmentFields: [],
+      attachmentMeta: { fields: [], forms: {} },
       fields: [
         FieldRecord({
           name: "current_owner_section",
@@ -142,7 +142,7 @@ describe("<RecordForm /> - Reducers", () => {
           date_validation: null,
           hide_on_view_page: false,
           date_include_time: false,
-          selected_value: "",
+          selected_value: null,
           subform_sort_by: "",
           show_on_minify_form: false
         })

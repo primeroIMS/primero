@@ -57,3 +57,7 @@ export const getSavingRecord = state => state.getIn(["records", "admin", "forms"
 export const getServerErrors = state => state.getIn(["records", "admin", "forms", "serverErrors"], fromJS([]));
 
 export const getUpdatedFormIds = state => state.getIn(["records", "admin", "forms", "updatedFormIds"], fromJS([]));
+
+export const getCopiedFields = state => state.getIn(["records", "admin", "forms", "copiedFields"], fromJS([]));
+
+export const getRemovedFields = state => state.getIn(["records", "admin", "forms", "removedFields"], fromJS([]));

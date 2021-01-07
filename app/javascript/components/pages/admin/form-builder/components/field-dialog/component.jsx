@@ -9,22 +9,13 @@ import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
 import set from "lodash/set";
 
-import { selectDialog } from "../../../../../record-actions/selectors";
-import { setDialog } from "../../../../../record-actions/action-creators";
+import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import bindFormSubmit from "../../../../../../libs/submit-form";
 import { submitHandler, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
-import ActionDialog from "../../../../../action-dialog";
-import { compare, getObjectPath } from "../../../../../../libs";
-import {
-  getSelectedField,
-  getSelectedFields,
-  getFieldNames,
-  getSelectedSubform,
-  getSelectedSubformField,
-  getFormUniqueIds
-} from "../../selectors";
+import { compare, getObjectPath, displayNameHelper } from "../../../../../../libs";
+import { getSelectedField, getSelectedFields, getSelectedSubform, getSelectedSubformField } from "../../selectors";
 import {
   createSelectedField,
   clearSelectedSubformField,
@@ -58,16 +49,14 @@ import {
 } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 
-const Component = ({ mode, onClose, onSuccess }) => {
+const Component = ({ formId, mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(mode);
-  const fieldNames = useSelector(state => getFieldNames(state), compare);
-  const formUniqueIds = useSelector(state => getFormUniqueIds(state), compare);
-  const openFieldDialog = useSelector(state => selectDialog(state, ADMIN_FIELDS_DIALOG));
-  const openTranslationDialog = useSelector(state => selectDialog(state, FieldTranslationsDialogName));
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
+
+  const { dialogOpen, dialogClose, setDialog } = useDialog([ADMIN_FIELDS_DIALOG, FieldTranslationsDialogName]);
   const selectedField = useSelector(state => getSelectedField(state), compare);
   const selectedSubformField = useSelector(state => getSelectedSubformField(state), compare);
   const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
@@ -83,7 +72,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
     lookups,
     isNested,
     onManageTranslations: () => {
-      dispatch(setDialog({ dialog: FieldTranslationsDialogName, open: true }));
+      setDialog({ dialog: FieldTranslationsDialogName, open: true });
     }
   });
   const formMethods = useForm({ validationSchema });
@@ -91,6 +80,9 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const parentFieldName = selectedField?.get("name", "");
   const subformSortBy = formMethods.watch(`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_SORT_BY}`);
   const subformGroupBy = formMethods.watch(`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_GROUP_BY}`);
+
+  const openFieldDialog = dialogOpen[ADMIN_FIELDS_DIALOG];
+  const openTranslationDialog = dialogOpen[FieldTranslationsDialogName];
 
   const handleClose = () => {
     if (onClose) {
@@ -103,20 +95,24 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
     if (selectedSubform.toSeq().size && isNested) {
       if (selectedFieldName === NEW_FIELD) {
-        dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+        dialogClose();
       }
       dispatch(clearSelectedSubformField());
     } else {
-      dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+      dialogClose();
     }
 
     if (selectedFieldName === NEW_FIELD) {
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
+      setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true });
     }
   };
 
+  const backToFieldDialog = () => {
+    setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: true });
+  };
+
   const editDialogTitle = isSubformField(selectedField)
-    ? selectedSubform.getIn(["name", i18n.locale])
+    ? (selectedSubform.get("name") && displayNameHelper(selectedSubform.get("name"), i18n.locale)) || ""
     : i18n.t("fields.edit_label");
 
   const dialogTitle = formMode.get("isEdit")
@@ -134,7 +130,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
       icon: confirmButtonIcon
     },
     dialogTitle,
-    open: openFieldDialog,
+    open: openFieldDialog || openTranslationDialog,
     successHandler: () => bindFormSubmit(formRef),
     cancelHandler: () => handleClose(),
     omitCloseAfterSuccess: true
@@ -168,7 +164,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
                   [currentFieldName]: {
                     ...newFieldData[currentFieldName],
                     subform_section_temp_id: subformTempId,
-                    subform_section_unique_id: currentFieldName
+                    subform_section_unique_id: generateUniqueId(selectedFieldName)
                   }
                 }
               : newFieldData
@@ -194,19 +190,12 @@ const Component = ({ mode, onClose, onSuccess }) => {
     const subformData = setInitialForms(data.subform_section);
     const fieldData = setSubformData(toggleHideOnViewPage(data[selectedFieldName]), subformData);
 
-    const dataToSave = buildDataToSave(
-      selectedField,
-      fieldData,
-      i18n.locale,
-      lastField?.get("order"),
-      randomSubformId,
-      fieldNames
-    );
+    const dataToSave = buildDataToSave(selectedField, fieldData, lastField?.get("order"), randomSubformId);
 
     batch(() => {
       if (!isNested) {
         onSuccess(dataToSave);
-        dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+        dialogClose();
       }
 
       if (fieldData) {
@@ -220,12 +209,12 @@ const Component = ({ mode, onClose, onSuccess }) => {
               ...subformData,
               temp_id: selectedSubform?.get("temp_id"),
               is_nested: true,
-              unique_id: generateUniqueId(subformData.name.en, formUniqueIds)
+              unique_id: Object.keys(dataToSave)[0]
             })
           );
           dispatch(clearSelectedField());
           dispatch(clearSelectedSubform());
-          dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+          dialogClose();
         } else {
           dispatch(updateSelectedSubform(subformData));
         }
@@ -244,6 +233,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const memoizedSetValue = useCallback((path, value) => formMethods.setValue(path, value), []);
   const memoizedRegister = useCallback(prop => formMethods.register(prop), []);
   const memoizedGetValues = useCallback(prop => formMethods.getValues(prop), []);
+  const memoizedUnregister = useCallback(prop => formMethods.unregister(prop), []);
 
   const renderClearButtons = () =>
     isSubformField(selectedField) && (
@@ -270,6 +260,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const renderTranslationsDialog = () =>
     openTranslationDialog ? (
       <FieldTranslationsDialog
+        onClose={backToFieldDialog}
         open={openTranslationDialog}
         mode={mode}
         isNested={isNested}
@@ -278,6 +269,15 @@ const Component = ({ mode, onClose, onSuccess }) => {
         onSuccess={onUpdateTranslation}
       />
     ) : null;
+
+  const renderAnotherFormLabel = () => {
+    const currentFormId = isNested ? selectedSubform.get("id") : parseInt(formId, 10);
+    const fieldFormId = selectedField.get("form_section_id");
+
+    return fieldFormId && fieldFormId !== currentFormId ? (
+      <p className={css.anotherFormLabel}>{i18n.t("fields.copy_from_another_form")}</p>
+    ) : null;
+  };
 
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
@@ -339,7 +339,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+      dialogClose();
     };
   }, []);
 
@@ -348,6 +348,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
       <ActionDialog {...modalProps}>
         <FormContext {...formMethods} formMode={formMode}>
           <form className={css.fieldDialog}>
+            {renderAnotherFormLabel()}
             {renderForms()}
             {isSubformField(selectedField) && (
               <SubformFieldsList
@@ -355,6 +356,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
                 getValues={memoizedGetValues}
                 register={memoizedRegister}
                 setValue={memoizedSetValue}
+                unregister={memoizedUnregister}
                 subformField={selectedField}
                 subformSortBy={subformSortBy}
                 subformGroupBy={subformGroupBy}
@@ -374,6 +376,7 @@ Component.displayName = NAME;
 Component.whyDidYouRender = true;
 
 Component.propTypes = {
+  formId: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func

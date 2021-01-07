@@ -3,11 +3,14 @@
 # Locations CRUD API
 class Api::V2::LocationsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
+  include Api::V2::Concerns::Import
 
   def index
     authorize! :index, Location
-    @total = Location.count
-    @locations = Location.paginate(pagination)
+    filters = locations_filters(params.permit(disabled: {}))
+    filtered_locations = Location.list(filters)
+    @total = filtered_locations.size
+    @locations = filtered_locations.paginate(pagination)
     @with_hierarchy = params[:hierarchy] == 'true'
   end
 
@@ -38,7 +41,23 @@ class Api::V2::LocationsController < ApplicationApiController
     @location.destroy!
   end
 
+  def per
+    @per ||= (params[:per]&.to_i || 100)
+  end
+
+  protected
+
+  def locations_filters(params)
+    return if params.blank?
+
+    { disabled: params[:disabled].values }
+  end
+
   def location_params
     params.require(:data).permit(:id, :code, :admin_level, :type, :parent_code, placename: {})
+  end
+
+  def importer
+    Importers::CsvHxlLocationImporter
   end
 end

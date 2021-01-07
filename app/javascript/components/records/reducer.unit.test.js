@@ -1,6 +1,6 @@
 import { Map, List, fromJS, OrderedMap } from "immutable";
 
-import { DEFAULT_METADATA } from "../../config";
+import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD } from "../../config";
 
 import reducer from "./reducer";
 
@@ -41,6 +41,70 @@ describe("<RecordList /> - Reducers", () => {
     };
 
     const newState = nsReducer(Map({ data: List([]) }), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should append the selectedRecord when RECORDS_SUCCESS", () => {
+    const data = fromJS([
+      { id: "abc1", status: "open" },
+      { id: "abc2", status: "open" }
+    ]);
+
+    const expected = fromJS({ data, metadata: { per: 2 }, selectedRecord: "abc2" });
+
+    const action = {
+      type: "TestRecordType/RECORDS_SUCCESS",
+      payload: {
+        data: [{ id: "abc1", status: "open" }],
+        metadata: { per: 2 }
+      }
+    };
+
+    const newState = nsReducer(Map({ data, selectedRecord: "abc2" }), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should merge the selectedRecord when RECORDS_SUCCESS", () => {
+    const record1 = { id: "abc1", status: "open" };
+    const record2 = { id: "abc2", status: "open" };
+    const data = fromJS([record1, record2]);
+
+    const expected = fromJS({
+      data: [{ ...record1, status: "closed" }, record2],
+      metadata: { per: 2 },
+      selectedRecord: "abc1"
+    });
+
+    const action = {
+      type: "TestRecordType/RECORDS_SUCCESS",
+      payload: {
+        data: [{ id: "abc1", status: "closed" }, record2],
+        metadata: { per: 2 }
+      }
+    };
+
+    const newState = nsReducer(Map({ data, selectedRecord: "abc1" }), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should replace data if there is no selectedRecord when RECORDS_SUCCESS", () => {
+    const record1 = { id: "abc1", status: "open" };
+    const data = fromJS([record1, { id: "abc2", status: "open" }]);
+
+    const expected = fromJS({ data: [record1], metadata: { per: 2 } });
+
+    const action = {
+      type: "TestRecordType/RECORDS_SUCCESS",
+      payload: {
+        data: [record1],
+        metadata: { per: 2 }
+      }
+    };
+
+    const newState = nsReducer(Map({ data }), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -143,5 +207,132 @@ describe("<RecordList /> - Reducers", () => {
     const newState = nsReducer(fromJS({}), action);
 
     expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_SELECTED_RECORD", () => {
+    const expected = fromJS({
+      selectedRecord: "123"
+    });
+
+    const action = {
+      type: "TestRecordType/SET_SELECTED_RECORD",
+      payload: { id: "123" }
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle CLEAR_SELECTED_RECORD", () => {
+    const expected = fromJS({});
+
+    const action = {
+      type: "TestRecordType/CLEAR_SELECTED_RECORD"
+    };
+
+    const newState = nsReducer(fromJS({ selectedRecord: "123" }), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_ATTACHMENT_STATUS", () => {
+    const expected = fromJS({
+      recordAttachments: { field_1: { fieldName: "field_1", processing: false, error: false } }
+    });
+
+    const action = {
+      type: "TestRecordType/SET_ATTACHMENT_STATUS",
+      payload: { fieldName: "field_1", processing: false, error: false }
+    };
+
+    const newState = nsReducer(fromJS({ recordAttachments: {} }), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle CLEAR_RECORD_ATTACHMENTS", () => {
+    const expected = fromJS({ recordAttachments: {} });
+
+    const action = {
+      type: "TestRecordType/CLEAR_RECORD_ATTACHMENTS"
+    };
+
+    const newState = nsReducer(fromJS({ recordAttachments: { field_1: { processing: true } } }), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  describe("when record type is cases", () => {
+    const casesReducer = reducer("cases");
+
+    it("should handle FETCH_INCIDENT_FROM_CASE_SUCCESS", () => {
+      const data = {
+        status: "open",
+        enabled: true,
+        owned_by: "user_1"
+      };
+
+      const action = {
+        type: "cases/FETCH_INCIDENT_FROM_CASE_SUCCESS",
+        payload: { data }
+      };
+
+      const newState = casesReducer(fromJS({}), action);
+
+      expect(newState).to.deep.equals(fromJS({ incidentFromCase: { data } }));
+    });
+
+    it("should handle SET_CASE_ID_FOR_INCIDENT", () => {
+      const incidentFromCase = {
+        status: "open",
+        enabled: true,
+        owned_by: "user_1"
+      };
+
+      const action = {
+        type: "cases/SET_CASE_ID_FOR_INCIDENT",
+        payload: {
+          caseId: "case-unique-id-1",
+          caseIdDisplay: "case-display-id-1"
+        }
+      };
+
+      const newState = casesReducer(fromJS({ incidentFromCase }), action);
+
+      expect(newState).to.deep.equals(
+        fromJS({
+          incidentFromCase: {
+            ...incidentFromCase,
+            [INCIDENT_CASE_ID_FIELD]: "case-unique-id-1",
+            [INCIDENT_CASE_ID_DISPLAY_FIELD]: "case-display-id-1"
+          }
+        })
+      );
+    });
+
+    it("should handle CLEAR_CASE_FROM_INCIDENT", () => {
+      const stateWithIncidentFromCase = fromJS({
+        incidentFromCase: {
+          status: "open",
+          enabled: true,
+          owned_by: "user_1"
+        }
+      });
+
+      const action = { type: "cases/CLEAR_CASE_FROM_INCIDENT" };
+
+      const newState = casesReducer(stateWithIncidentFromCase, action);
+
+      expect(newState).to.deep.equals(fromJS({}));
+    });
+
+    it("should handle SET_CASE_ID_REDIRECT", () => {
+      const incidentFromCase = fromJS({});
+      const action = { type: "cases/SET_CASE_ID_REDIRECT", payload: { json: { data: { id: "case-id-1" } } } };
+      const newState = casesReducer(incidentFromCase, action);
+
+      expect(newState).to.deep.equals(fromJS({ incidentFromCase: { incident_case_id: "case-id-1" } }));
+    });
   });
 });

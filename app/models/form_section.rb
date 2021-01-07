@@ -30,25 +30,11 @@ class FormSection < ApplicationRecord
   after_initialize :defaults, unless: :persisted?
   before_validation :calculate_fields_order, :generate_unique_id
   before_save :sync_form_group
+  after_save :sync_modules
   after_save :calculate_subform_collapsed_fields
 
   def defaults
     %w[order order_form_group order_subform initial_subforms].each { |p| self[p] ||= 0 }
-  end
-
-  def form_group_name_i18n(lookups = nil)
-    return name_i18n if form_group_id.blank?
-
-    Lookup.form_group_name_all(form_group_id, parent_form, module_name, lookups)
-  end
-
-  # TODO: DELETE THIS, once we refactor YML exporter
-  def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE, show_hidden_fields = false)
-    lh = localized_hash(locale)
-    fldz = {}
-    fields.each { |f| fldz[f.name] = f.localized_property_hash locale if show_hidden_fields || f.visible? }
-    lh['fields'] = fldz
-    lh
   end
 
   def inspect
@@ -66,16 +52,11 @@ class FormSection < ApplicationRecord
       ]
     end
 
-    def new_with_properties(form_params)
-      FormSection.new.tap { |form| form.update_properties(form_params) }
-    end
-
-    # TODO: Refactor/delete with Yaml exporter
-    # Given a list of forms, return their subforms
-    def get_subforms(forms)
-      form_ids = forms.map(&:id)
-      subform_fields = Field.includes(:subform).where(form_section_id: form_ids, type: Field::SUBFORM)
-      subform_fields.map(&:subform).compact
+    def new_with_properties(form_params, opts = {})
+      FormSection.new.tap do |form|
+        form.update_properties(form_params)
+        form.roles << opts[:user]&.role if opts[:user].present?
+      end
     end
 
     # TODO: Used by the RolePermissionsExporter
@@ -96,32 +77,20 @@ class FormSection < ApplicationRecord
       Lookup.where("unique_id like 'lookup-form-group-%'")
     end
 
-    # TODO: Refactor with YML i18n import
-    def import_translations(form_hash={}, locale)
-      if locale.present? && I18n.available_locales.include?(locale.try(:to_sym))
-        unique_id = form_hash.keys.first
-        if unique_id.present?
-          form = FormSection.find_by(unique_id: unique_id)
-          if form.present?
-            form.update_translations(form_hash.values.first, locale)
-            Rails.logger.info "Updating Form translation: Form [#{form.unique_id}] locale [#{locale}]"
-            form.save!
-          else
-            Rails.logger.error "Error importing translations: Form for ID [#{unique_id}] not found"
-          end
-        else
-          Rails.logger.error "Error importing translations: Form ID not present"
-        end
-      else
-        Rails.logger.error "Error importing translations: locale not present"
-      end
-    end
-
+    # FormSection.list() breaks the Fields order, so you have to specify the order when selecting the fields
+    # This is due to an issue that breaks ordering when using includes with a where clause
+    # Example:  FormSection.list(params).first.fields.order(:order)
     def list(params = {})
       form_sections = all.includes(:fields, :collapsed_fields, :primero_modules)
+      form_sections = form_sections.where(unique_id: params[:unique_id]) if params[:unique_id]
       form_sections = form_sections.where(parent_form: params[:record_type]) if params[:record_type]
       form_sections = form_sections.where(primero_modules: { unique_id: params[:module_id] }) if params[:module_id]
+      form_sections = form_sections.where(is_nested: false) if params[:exclude_subforms]
       form_sections
+    end
+
+    def sort_configuration_hash(configuration_hash)
+      configuration_hash&.sort_by { |hash| hash['is_nested'] ? 0 : 1 }
     end
   end
 
@@ -145,21 +114,32 @@ class FormSection < ApplicationRecord
     self.form_group_id = new_id
   end
 
-  # TODO: Refactor with Yaml I18n importer.
-  def update_translations(form_hash={}, locale)
-    if locale.present? && Primero::Application::locales.include?(locale)
-      form_hash.each do |key, value|
-        # Form Group Name is now a calculated field based on form_group_id
-        # Form Group Translations are handled through Lookup
-        # Using elsif to exclude form_group_name in legacy translation files that may still include form_group_name
-        if key == 'fields'
-          update_field_translations(value, locale)
-        elsif key != 'form_group_name'
-          self.send("#{key}_#{locale}=", value)
-        end
-      end
-    else
-      Rails.logger.error "Form translation not updated: Invalid locale [#{locale}]"
+  # If a form's modules changed, update the modules of the subforms
+  def sync_modules
+    subforms.each do |subform|
+      next if subform.primero_modules == primero_modules
+
+      subform.primero_modules = primero_modules
+      subform.save!
+    end
+  end
+
+  def subforms
+    FormSection.where(id: fields.where(type: 'subform').select(:subform_section_id))
+  end
+
+  def update_translations(locale, form_hash = {})
+    return Rails.logger.error('Form translation not updated: No Locale passed in') if locale.blank?
+
+    return Rails.logger.error("Form translation not updated: Invalid locale [#{locale}]") if I18n.available_locales.exclude?(locale)
+
+    form_hash.each do |key, value|
+      # Form Group Name is now a calculated field based on form_group_id
+      # Form Group Translations are handled through Lookup
+      # Using elsif to exclude form_group_name in legacy translation files that may still include form_group_name
+      next if key == 'form_group_name'
+
+      key == 'fields' ? update_field_translations(locale, value) : send("#{key}_#{locale}=", value)
     end
   end
 
@@ -257,13 +237,13 @@ class FormSection < ApplicationRecord
 
   private
 
-  # TODO: Refactor with Yaml I18n importer.
-  def update_field_translations(fields_hash = {}, locale)
+  def update_field_translations(locale, fields_hash = {})
     fields_hash.each do |key, value|
       field = Field.find_by(name: key, form_section_id: id)
-      if field.present?
-        field.update_translations(value, locale)
-      end
+      next if field.blank?
+
+      field.update_translations(locale, value)
+      field.save!
     end
   end
 end

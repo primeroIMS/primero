@@ -1,16 +1,23 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { MenuItem } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 import { useI18n } from "../../../../../i18n";
 
-const ReferAction = ({ index, handleReferral, values }, ref) => {
+const ReferAction = ({ index, handleReferral, values }) => {
   const i18n = useI18n();
 
   return (
-    <MenuItem key={`refer-option-${index}`} onClick={() => handleReferral()} ref={ref}>
+    <Button
+      key={`refer-option-${index}`}
+      onClick={() => handleReferral()}
+      color="primary"
+      variant="contained"
+      size="small"
+      disableElevation
+    >
       {values[index].service_status_referred ? i18n.t("buttons.referral_again") : i18n.t("buttons.referral")}
-    </MenuItem>
+    </Button>
   );
 };
 
@@ -22,4 +29,4 @@ ReferAction.propTypes = {
   values: PropTypes.object
 };
 
-export default forwardRef(ReferAction);
+export default ReferAction;

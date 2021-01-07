@@ -6,25 +6,25 @@ import { useI18n } from "../../i18n";
 import submitForm from "../../../libs/submit-form";
 import { TRANSITIONS_TYPES } from "../../transitions/constants";
 import { getRecords } from "../../index-table";
+import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
 
 import { NAME } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
-import { TransitionDialog, ReferralForm, ReassignForm, TransferForm } from "./components";
+import { TransitionDialog, ReassignForm, TransferForm } from "./components";
+import Referrals from "./referrals/component";
 
 const Transitions = ({
+  close,
+  open,
+  currentDialog,
   record,
   recordType,
   userPermissions,
-  referDialog,
-  assignDialog,
-  transferDialog,
-  handleReferClose,
-  handleAssignClose,
-  handleTransferClose,
   pending,
   setPending,
   currentPage,
-  selectedRecords
+  selectedRecords,
+  mode
 }) => {
   const i18n = useI18n();
   const providedConsent = (record && hasProvidedConsent(record)) || false;
@@ -33,6 +33,12 @@ const Transitions = ({
   const assignFormikRef = useRef();
   const [disabledReferButton, setDisabledReferButton] = useState(false);
   const [disabledTransferButton, setDisabledTransferButton] = useState(false);
+
+  const transitionDialogOpen = dialog => currentDialog === dialog && open;
+
+  const isTransferDialogOpen = transitionDialogOpen(TRANSFER_DIALOG);
+  const isReferDialogOpen = transitionDialogOpen(REFER_DIALOG);
+  const isAssignDialogOpen = transitionDialogOpen(ASSIGN_DIALOG);
 
   const records = useSelector(state => getRecords(state, recordType)).get("data");
 
@@ -58,12 +64,13 @@ const Transitions = ({
     recordType,
     record,
     setPending,
-    selectedIds
+    selectedIds,
+    mode
   };
 
   // eslint-disable-next-line react/no-multi-comp, react/display-name
-  const transitionComponent = t => {
-    if (t.transferDialog) {
+  const transitionComponent = () => {
+    if (isTransferDialogOpen) {
       return (
         <TransferForm
           {...commonTransitionProps}
@@ -74,17 +81,18 @@ const Transitions = ({
         />
       );
     }
-    if (t.referDialog) {
+    if (isReferDialogOpen) {
       return (
-        <ReferralForm
+        <Referrals
           {...commonTransitionProps}
           referralRef={referralFormikRef}
           disabled={disabledReferButton}
           setDisabled={setDisabledReferButton}
+          handleClose={close}
         />
       );
     }
-    if (t.assignDialog) {
+    if (isAssignDialogOpen) {
       return <ReassignForm {...commonTransitionProps} assignRef={assignFormikRef} />;
     }
 
@@ -92,43 +100,44 @@ const Transitions = ({
   };
 
   const renderTransitionForm = () => {
-    if (referDialog) {
+    if (isReferDialogOpen) {
       const referralOnClose = () => {
         setDisabledReferButton(false);
-        handleReferClose();
+        close();
       };
 
       return {
         onClose: referralOnClose,
         confirmButtonLabel: i18n.t("buttons.referral"),
-        open: referDialog,
+        open: isReferDialogOpen,
         successHandler: () => submitForm(referralFormikRef),
         transitionType: TRANSITIONS_TYPES.referral,
-        enabledSuccessButton: disabledReferButton || providedConsent
+        enabledSuccessButton: disabledReferButton || providedConsent,
+        omitCloseAfterSuccess: true
       };
     }
 
-    if (transferDialog) {
+    if (isTransferDialogOpen) {
       const transferOnClose = () => {
         setDisabledTransferButton(false);
-        handleTransferClose();
+        close();
       };
 
       return {
         onClose: transferOnClose,
         confirmButtonLabel: i18n.t("buttons.transfer"),
-        open: transferDialog,
+        open: isTransferDialogOpen,
         successHandler: () => submitForm(transferFormikRef),
         transitionType: TRANSITIONS_TYPES.transfer,
         enabledSuccessButton: disabledTransferButton || providedConsent
       };
     }
 
-    if (assignDialog) {
+    if (isAssignDialogOpen) {
       return {
-        onClose: handleAssignClose,
+        onClose: close,
         confirmButtonLabel: i18n.t("buttons.save"),
-        open: assignDialog,
+        open: isAssignDialogOpen,
         successHandler: () => submitForm(assignFormikRef),
         transitionType: TRANSITIONS_TYPES.reassign
       };
@@ -145,26 +154,28 @@ const Transitions = ({
 
   return (
     <TransitionDialog {...customProps} {...commonDialogProps}>
-      {transitionComponent({ assignDialog, referDialog, transferDialog })}
+      {transitionComponent()}
     </TransitionDialog>
   );
 };
 
 Transitions.displayName = NAME;
 
+Transitions.defaultProps = {
+  open: false
+};
+
 Transitions.propTypes = {
-  assignDialog: PropTypes.bool,
+  close: PropTypes.func,
+  currentDialog: PropTypes.string,
   currentPage: PropTypes.number,
-  handleAssignClose: PropTypes.func,
-  handleReferClose: PropTypes.func,
-  handleTransferClose: PropTypes.func,
+  mode: PropTypes.object,
+  open: PropTypes.bool,
   pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  referDialog: PropTypes.bool,
   selectedRecords: PropTypes.object,
   setPending: PropTypes.func,
-  transferDialog: PropTypes.bool,
   userPermissions: PropTypes.object.isRequired
 };
 

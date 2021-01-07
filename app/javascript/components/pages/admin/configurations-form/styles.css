@@ -1,0 +1,7 @@
+.applyConfigText {
+  font-size: $(theme.typography.pxToRem(14.4));
+
+  & b {
+    margin-left: 3px;
+  }
+}

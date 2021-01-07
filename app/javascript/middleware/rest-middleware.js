@@ -1,11 +1,13 @@
 import qs from "qs";
+import merge from "deepmerge";
 
-import { attemptSignout } from "../components/user";
-import { FETCH_TIMEOUT } from "../config";
-import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
-import { signOut } from "../components/pages/login/idp-selection";
+import { subformAwareMerge } from "../db/utils";
+import { FETCH_TIMEOUT, ROUTES } from "../config";
+import DB, { syncIndexedDB, queueIndexedDB, METHODS, TRANSACTION_MODE } from "../db";
 import EventManager from "../libs/messenger";
-import { QUEUE_FAILED, QUEUE_SKIP } from "../libs/queue";
+import { QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS } from "../libs/queue";
+import { applyingConfigMessage } from "../components/pages/admin/configurations-form/action-creators";
+import { disableNavigation } from "../components/application/action-creators";
 
 import {
   handleRestCallback,
@@ -14,7 +16,9 @@ import {
   processAttachments,
   defaultErrorCallback,
   startSignout,
-  processSubforms
+  processSubforms,
+  handleConfiguration,
+  isServerOnline
 } from "./utils";
 
 const defaultFetchOptions = {
@@ -52,9 +56,46 @@ const deleteFromQueue = fromQueue => {
   }
 };
 
+const handleAttachmentSuccess = async ({ json, db, fromAttachment }) => {
+  const { id, field_name: fieldName } = fromAttachment;
+
+  const recordDB = await syncIndexedDB({ ...db, mode: TRANSACTION_MODE.READ_WRITE }, {}, "", async (tx, store) => {
+    const recordData = await store.get(db.id);
+
+    const data = { ...recordData, [fieldName]: [...(recordData[fieldName] || [])] };
+
+    data[fieldName] = data[fieldName].map(attachment => ({
+      ...attachment,
+      marked_destroy: id
+        ? attachment.id === id
+        : attachment.field_name === json.data.field_name &&
+          attachment.file_name === json.data.file_name &&
+          !attachment.id &&
+          json.data.id
+    }));
+
+    if (json.data && json.data.id && !fromAttachment.id) {
+      data[fieldName].push(json.data);
+    }
+
+    data.type = db.recordType;
+
+    const merged = merge(recordData, data, { arrayMerge: subformAwareMerge });
+
+    await store.put(merged);
+
+    await tx.done;
+
+    return merged;
+  });
+
+  return recordDB;
+};
+
 async function handleSuccess(store, payload) {
-  const { type, json, db, fromQueue } = payload;
-  const payloadFromDB = await syncIndexedDB(db, json);
+  const { type, json, db, fromQueue, fromAttachment } = payload;
+
+  const payloadFromDB = fromAttachment ? await handleAttachmentSuccess(payload) : await syncIndexedDB(db, json);
 
   deleteFromQueue(fromQueue);
 
@@ -77,6 +118,12 @@ const messageQueueFailed = fromQueue => {
 const messageQueueSkip = fromQueue => {
   if (fromQueue) {
     EventManager.publish(QUEUE_SKIP);
+  }
+};
+
+const messageQueueSuccess = action => {
+  if (action?.fromQueue) {
+    EventManager.publish(QUEUE_SUCCESS, action);
   }
 };
 
@@ -105,6 +152,18 @@ const fetchParamsBuilder = (api, options, controller) => {
   return { fetchOptions, fetchPath };
 };
 
+const buildAttachmentData = action =>
+  action.type.includes("ATTACHMENT")
+    ? {
+        data: {
+          id: action?.fromAttachment?.id,
+          record: action?.fromAttachment?.record,
+          // eslint-disable-next-line camelcase
+          field_name: action?.fromAttachment?.field_name
+        }
+      }
+    : {};
+
 const fetchSinglePayload = (action, store, options) => {
   const controller = new AbortController();
 
@@ -124,16 +183,18 @@ const fetchSinglePayload = (action, store, options) => {
       normalizeFunc,
       successCallback,
       failureCallback,
+      configurationCallback,
       db,
       external,
       queueAttachments
     },
-    fromQueue
+    fromQueue,
+    fromAttachment
   } = action;
 
   const [attachments, formData] = queueAttachments
     ? partitionObject(body?.data, (value, key) =>
-        store.getState().getIn(["forms", "attachmentFields"], []).includes(key)
+        store.getState().getIn(["forms", "attachmentMeta", "fields"], []).includes(key)
       )
     : [false, false];
 
@@ -163,46 +224,67 @@ const fetchSinglePayload = (action, store, options) => {
 
     try {
       const response = await window.fetch(fetchPath, fetchOptions);
-      const json = await response.json();
+      const { status } = response;
+      const url = response.url.split("/");
+      const checkHealthUrl = url.slice(url.length - 2, url.length).join("/");
 
-      if (!response.ok) {
-        fetchStatus({ store, type }, "FAILURE", json);
-
-        if (response.status === 404) {
-          deleteFromQueue(fromQueue);
-          messageQueueSkip();
-        } else if (failureCallback) {
-          messageQueueFailed(fromQueue);
-          handleRestCallback(store, failureCallback, response, json);
-        } else {
-          messageQueueFailed(fromQueue);
-          defaultErrorCallback(store, response, json);
-        }
-
-        if (response.status === 401) {
-          startSignout(store, attemptSignout, signOut);
-        }
+      if (status === 503 || (status === 204 && `/${checkHealthUrl}` === ROUTES.check_health)) {
+        handleConfiguration(status, store, options, response, { fetchStatus, fetchSinglePayload, type });
       } else {
-        await handleSuccess(store, {
-          type,
-          json,
-          normalizeFunc,
-          path,
-          db,
-          fromQueue
-        });
+        const json =
+          status === 204 ? { data: { id: body?.data?.id }, ...buildAttachmentData(action) } : await response.json();
 
-        if (attachments) {
-          processAttachments({
-            attachments,
-            id: id || json?.data?.id,
-            recordType
+        if (!response.ok) {
+          fetchStatus({ store, type }, "FAILURE", json);
+
+          if (status === 404) {
+            deleteFromQueue(fromQueue);
+            messageQueueSkip();
+          } else if (fromQueue) {
+            messageQueueFailed(fromQueue);
+            defaultErrorCallback(store, response, json, recordType, fromQueue, id);
+          } else if (failureCallback) {
+            messageQueueFailed(fromQueue);
+            handleRestCallback(store, failureCallback, response, json, fromQueue);
+          } else {
+            messageQueueFailed(fromQueue);
+            defaultErrorCallback(store, response, json);
+          }
+
+          if (status === 401) {
+            startSignout(store);
+          }
+        } else {
+          await handleSuccess(store, {
+            type,
+            json,
+            normalizeFunc,
+            path,
+            db,
+            fromQueue,
+            fromAttachment
           });
-        }
 
-        handleRestCallback(store, successCallback, response, json, fromQueue);
+          messageQueueSuccess(action);
+
+          handleRestCallback(store, successCallback, response, json, fromQueue);
+
+          if (attachments) {
+            processAttachments({
+              attachments,
+              id: id || json?.data?.id,
+              recordType
+            });
+          }
+        }
+        fetchStatus({ store, type }, "FINISHED", false);
+
+        if (configurationCallback && response.ok) {
+          store.dispatch(disableNavigation());
+          handleRestCallback(store, applyingConfigMessage(), response, {});
+          fetchSinglePayload(configurationCallback, store, options);
+        }
       }
-      fetchStatus({ store, type }, "FINISHED", false);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn(e);
@@ -211,7 +293,9 @@ const fetchSinglePayload = (action, store, options) => {
 
       fetchStatus({ store, type }, "FAILURE", false);
 
-      if (failureCallback) {
+      if (fromQueue) {
+        defaultErrorCallback(store, {}, {}, recordType, fromQueue, id);
+      } else if (failureCallback) {
         handleRestCallback(store, failureCallback, {}, {});
       } else {
         defaultErrorCallback(store, {}, {});
@@ -283,7 +367,7 @@ const fetchMultiPayload = (action, store, options) => {
     if (results.find(result => result && result.status === 401)) {
       fetchStatus({ store, type }, "FAILURE", results);
 
-      startSignout(store, attemptSignout, signOut);
+      startSignout(store);
     } else {
       store.dispatch({
         type: `${type}_SUCCESS`,
@@ -348,8 +432,14 @@ const fetchFromCache = (action, store, options, next) => {
 };
 
 const restMiddleware = options => store => next => action => {
-  if (!(action.api && (Array.isArray(action.api) || "path" in action.api)) || !isOnline(store)) {
-    return next(action);
+  if (
+    !(action.api && (Array.isArray(action.api) || "path" in action.api)) ||
+    !isOnline(store) ||
+    !isServerOnline(store)
+  ) {
+    if (action?.api?.path !== ROUTES.check_server_health) {
+      return next(action);
+    }
   }
 
   if (action?.api?.db?.alwaysCache) {

@@ -31,6 +31,7 @@
 
 .toolbarHeading {
   font-size: $(theme.typography.pxToRem(20));
+  margin-bottom: 0;
 }
 
 .subformHeading {
@@ -38,7 +39,6 @@
 }
 
 .actionButtonsContainer {
-  width: 260px;
   text-align: right;
 }
 
@@ -75,7 +75,7 @@
 .attachmentHeading {
   display: flex;
 
-  & h4 {
+  & .attachmentLabel {
     flex: 1;
   }
 }
@@ -168,10 +168,6 @@
   display: flex;
   align-items: center;
   flex: 1;
-
-  & label {
-    margin-right: 2em;
-  }
 }
 
 .buttonWrapper {
@@ -209,6 +205,33 @@
     top: 2px;
     right: 8px;
   }
+}
+
+.attachmentRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.separator {
+  margin-bottom: 5px;
+}
+
+.associatedCaseLink {
+  margin: 0;
+
+  & a {
+    color: $(theme.primero.colors.blue);
+  }
+}
+
+.error {
+  color: $(theme.primero.colors.redLabelError) !important;
+}
+
+.flipImage {
+  transform: scaleX(-1);
 }
 
 @media $(theme.breakpoints.down("sm")) {

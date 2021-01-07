@@ -50,4 +50,16 @@ describe Api::V2::ChildrenIncidentsController, type: :request do
       expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}/incidents")
     end
   end
+
+  describe 'GET /api/v2/cases/:id/incidents/new' do
+    it 'fetches the data of a new incident created from a case' do
+      login_for_test(group_permission: Permission::ALL)
+      get "/api/v2/cases/#{@case1.id}/incidents/new"
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['status']).to eq('open')
+      expect(json['data']['age']).to eq(5)
+      expect(json['data']['sex']).to eq('male')
+    end
+  end
 end

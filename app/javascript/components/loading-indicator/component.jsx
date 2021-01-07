@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles, Button } from "@material-ui/core";
 
 import ListIcon from "../list-icon";
-import { withI18n } from "../i18n";
+import withI18n from "../i18n/with-i18n";
 
 import Loading from "./loading";
 import styles from "./styles.css";
@@ -58,7 +58,7 @@ class LoadingIndicator extends React.Component {
         errorIndicator || (
           <div className={classes.errorContainer}>
             <div className={classes.error}>
-              <ListIcon icon={type} className={classes.errorIcon} />
+              {type && <ListIcon icon={type} className={classes.errorIcon} />}
               <h5 className={classes.errorMessage}>{errorMessage || i18n.t("errors.error_loading")}</h5>
               <Button
                 variant="outlined"
@@ -98,7 +98,8 @@ class LoadingIndicator extends React.Component {
 LoadingIndicator.displayName = "LoadingIndicator";
 
 LoadingIndicator.defaultProps = {
-  fromTableList: false
+  fromTableList: false,
+  type: ""
 };
 
 LoadingIndicator.propTypes = {
@@ -115,7 +116,7 @@ LoadingIndicator.propTypes = {
   loading: PropTypes.bool,
   loadingIndicator: PropTypes.node,
   overlay: PropTypes.bool,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string
 };
 
 export default withI18n(withStyles(styles)(LoadingIndicator));

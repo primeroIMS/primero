@@ -4,6 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
 import get from "lodash/get";
 
+import { ConditionalWrapper } from "../../../libs";
 import { notVisible } from "../utils";
 import { useI18n } from "../../i18n";
 import TextInput from "../fields/text-input";
@@ -15,6 +16,8 @@ import ToggleField from "../fields/toggle-input";
 import DateField from "../fields/date-input";
 import Seperator from "../fields/seperator";
 import OrderableOptionsField from "../fields/orderable-options-field";
+import DialogTrigger from "../fields/dialog-trigger";
+import HiddenInput from "../fields/hidden-input";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../config";
 import {
   CHECK_BOX_FIELD,
@@ -27,7 +30,10 @@ import {
   RADIO_FIELD,
   TOGGLE_FIELD,
   DATE_FIELD,
-  SEPARATOR
+  SEPARATOR,
+  DIALOG_TRIGGER,
+  HIDDEN_FIELD,
+  DOCUMENT_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
@@ -66,17 +72,34 @@ const FormSectionField = ({ checkErrors, field }) => {
     numeric,
     onChange,
     disableClearable,
-    onBlur
+    onBlur,
+    asyncOptions,
+    asyncAction,
+    asyncParams,
+    asyncParamsFromWatched,
+    asyncOptionsLoadingPath,
+    clearDependentValues,
+    option_strings_source_id_key: optionStringsSourceIdKey,
+    setOtherFieldValues,
+    wrapWithComponent: WrapWithComponent,
+    onClick,
+    placeholder,
+    maxSelectedOptions,
+    onKeyPress,
+    currRecord
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
   const { formMode, errors, watch } = methods;
   const error = errors ? get(errors, name) : undefined;
-
   const errorsToCheck = checkErrors ? checkErrors.concat(fieldCheckErrors) : fieldCheckErrors;
 
   const optionSource = useSelector(
-    state => getOptions(state, optionStringsSource, i18n, options || optionsStringsText),
+    state =>
+      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, {
+        optionStringsSourceIdKey,
+        currRecord
+      }),
     (prev, next) => prev.equals(next)
   );
 
@@ -116,6 +139,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     },
     className: inputClassname,
     format,
+    placeholder,
     ...watchedInputProps
   };
 
@@ -132,7 +156,18 @@ const FormSectionField = ({ checkErrors, field }) => {
     numeric,
     onChange,
     disableClearable,
-    onBlur
+    onBlur,
+    asyncOptions,
+    asyncAction,
+    asyncParams,
+    asyncParamsFromWatched,
+    asyncOptionsLoadingPath,
+    watchedInputsValues,
+    clearDependentValues,
+    setOtherFieldValues,
+    onClick,
+    onKeyPress,
+    maxSelectedOptions
   };
 
   const Field = (fieldType => {
@@ -144,6 +179,7 @@ const FormSectionField = ({ checkErrors, field }) => {
       case SELECT_FIELD:
         return SelectInput;
       case PHOTO_FIELD:
+      case DOCUMENT_FIELD:
         return AttachmentInput;
       case LABEL_FIELD:
         return Label;
@@ -159,6 +195,10 @@ const FormSectionField = ({ checkErrors, field }) => {
         return OrderableOptionsField;
       case SEPARATOR:
         return Seperator;
+      case DIALOG_TRIGGER:
+        return DialogTrigger;
+      case HIDDEN_FIELD:
+        return HiddenInput;
       default:
         return TextInput;
     }
@@ -171,13 +211,15 @@ const FormSectionField = ({ checkErrors, field }) => {
   return (
     <div>
       {handleVisibility() || (
-        <Field
-          field={field}
-          commonInputProps={commonInputProps}
-          metaInputProps={metaInputProps}
-          options={watchedInputProps?.options || optionSource?.toJS()}
-          errorsToCheck={errorsToCheck}
-        />
+        <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
+          <Field
+            field={field}
+            commonInputProps={commonInputProps}
+            metaInputProps={metaInputProps}
+            options={watchedInputProps?.options || optionSource?.toJS()}
+            errorsToCheck={errorsToCheck}
+          />
+        </ConditionalWrapper>
       )}
     </div>
   );

@@ -6,21 +6,24 @@
 # token identifiers. If external identity providers are used (over OpenID Connect), the
 # model is not responsible for storing authentication information, and must mirror a user
 # in external IDP (such as Azure Active Directory).
+# rubocop:disable Metrics/ClassLength
 class User < ApplicationRecord
-  include Devise::JWT::RevocationStrategies::Whitelist
+  include Devise::JWT::RevocationStrategies::Allowlist
+  include ConfigurationRecord
 
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
-  PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
 
-  attr_accessor :exists_reporting_location
+  attr_accessor :exists_reporting_location, :should_send_password_reset_instructions
   attr_reader :refresh_associated_user_groups, :refresh_associated_user_agencies
   attr_writer :user_location, :reporting_location
 
   delegate :can?, :cannot?, to: :ability
 
-  devise :database_authenticatable, :timeoutable, :recoverable,
+  devise :database_authenticatable, :timeoutable, :recoverable, :lockable,
          :jwt_authenticatable, jwt_revocation_strategy: self
+
+  self.unique_id_attribute = 'user_name'
 
   belongs_to :role
   belongs_to :agency
@@ -42,9 +45,11 @@ class User < ApplicationRecord
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
+  before_validation :generate_random_password
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code, :set_locale
   after_update :reassociate_groups_or_agencies
+  after_create :send_reset_password_instructions, if: :should_send_password_reset_instructions
 
   validates :full_name, presence: { message: 'errors.models.user.full_name' }
   validates :user_name, presence: true, uniqueness: { message: 'errors.models.user.user_name_uniqueness' }
@@ -52,11 +57,13 @@ class User < ApplicationRecord
   validates :user_name, format: { with: URI::MailTo::EMAIL_REGEXP, message: 'errors.models.user.user_name' },
                         if: :using_idp?
   validates :email, presence: true, if: :using_idp?
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP, message: 'errors.models.user.email' }, allow_nil: true
+  validates :email,
+            format: { with: URI::MailTo::EMAIL_REGEXP, message: 'errors.models.user.email' },
+            allow_nil: true,
+            uniqueness: { message: 'errors.models.user.email_uniqueness' }
   validates :password,
             presence: true,
             length: { minimum: 8, message: 'errors.models.user.password_mismatch' },
-            format: { with: PASSWORD_REGEX, message: 'errors.models.user.password_mismatch' },
             confirmation: { message: 'errors.models.user.password_mismatch' },
             if: :password_required?
   validates :password_confirmation,
@@ -82,9 +89,13 @@ class User < ApplicationRecord
       %w[user_group_unique_ids role_unique_id identity_provider_unique_id]
     end
 
+    def permitted_attribute_names
+      User.attribute_names.reject { |name| name == 'services' } + [{ services: [] }]
+    end
+
     def permitted_api_params
       (
-        User.attribute_names + User.password_parameters +
+        User.permitted_attribute_names + User.password_parameters +
         [
           { user_group_ids: [] }, { user_group_unique_ids: [] },
           { module_unique_ids: [] }, :role_unique_id, :identity_provider_unique_id
@@ -119,18 +130,21 @@ class User < ApplicationRecord
       enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
     end
 
+    # TODO: Move the logic for find_permitted_users, users_for_assign,
+    #       users_for_referral, users_for_transfer, users_for_transition into services
+
     def find_permitted_users(filters = nil, pagination = nil, sort = nil, user = nil)
-      users = User.all
+      users = User.all.includes(:user_groups, role: :primero_modules)
       if filters.present?
         filters = filters.compact
         filters['disabled'] = filters['disabled'].values if filters['disabled'].present?
         users = users.where(filters.except('user_group_ids'))
         users = filter_with_groups(users, filters)
-        if user.present? && user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
-          users = users.where(organization: user.organization)
-        end
-        users
       end
+      if user.present? && user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
+        users = users.where(organization: user.organization)
+      end
+
       results = { total: users.size }
       pagination = { per_page: 20, page: 1 } if pagination.blank?
       pagination[:offset] = pagination[:per_page] * (pagination[:page] - 1)
@@ -169,7 +183,7 @@ class User < ApplicationRecord
       users = users_with_permission(model, permission).where(disabled: false).where.not(id: user.id)
       return users if filters.blank?
 
-      services_filter = filters.delete('services')
+      services_filter = filters.delete('service')
       agencies_filter = filters.delete('agency')
       users = users.where(filters) if filters.present?
       users = users.where(':service = ANY (users.services)', service: services_filter) if services_filter.present?
@@ -201,6 +215,10 @@ class User < ApplicationRecord
     associate_role_unique_id(properties[:role_unique_id])
     associate_groups_unique_id(properties[:user_group_unique_ids])
     associate_identity_provider_unique_id(properties[:identity_provider_unique_id])
+  end
+
+  def configuration_hash
+    super.except('encrypted_password', 'reset_password_token', 'reset_password_sent_at', 'unlock_token', 'locked_at')
   end
 
   def associate_role_unique_id(role_unique_id)
@@ -319,26 +337,39 @@ class User < ApplicationRecord
     @managers
   end
 
-  # This method indicates what records this user can search for.
+  # This method indicates what records or flags this user can search for.
   # Returns self, if can only search records associated with this user
   # Returns list of UserGroups if can only query from those user groups that this user has access to
   # Returns the Agency if can only query from the agency this user has access to
   # Returns empty list if can query for all records in the system
   def record_query_scope(record_model, id_search = false)
-    user_scope = if can_search_for_all?(record_model, id_search)
+    user_scope = case user_query_scope(record_model, id_search)
+                 when Permission::AGENCY
+                   { 'agency' => agency.unique_id, 'agency_id' => agency_id }
+                 when Permission::GROUP
+                   { 'group' => user_groups.map(&:unique_id).compact }
+                 when Permission::ALL
                    {}
-                 elsif group_permission?(Permission::AGENCY)
-                   { 'agency' => agency.unique_id }
-                 elsif group_permission?(Permission::GROUP) && user_group_ids.present?
-                   { 'group' => user_groups.pluck(:unique_id).compact }
                  else
                    { 'user' => user_name }
                  end
     { user: user_scope, module: module_unique_ids }
   end
 
+  def user_query_scope(record_model=nil, id_search = false)
+    if can_search_for_all?(record_model, id_search)
+      Permission::ALL
+    elsif group_permission?(Permission::AGENCY)
+      Permission::AGENCY
+    elsif group_permission?(Permission::GROUP) && user_group_ids.present?
+      Permission::GROUP
+    else
+      Permission::USER
+    end
+  end
+
   def can_search_for_all?(record_model, id_search = false)
-    group_permission?(Permission::ALL) || (can?(:search_owned_by_others, record_model) && id_search)
+    group_permission?(Permission::ALL) || (can?(:search_owned_by_others, record_model) && id_search && record_model)
   end
 
   def mobile_login_history
@@ -481,8 +512,8 @@ class User < ApplicationRecord
 
   def update_child_owned_by_fields(child)
     child.owned_by_location = location if location_changed?
-    child.owned_by_groups = user_group_ids if @refresh_associated_user_groups
-    child.owned_by_agency_id = agency_id if agency_id_changed?
+    child.owned_by_groups = user_group_unique_ids if @refresh_associated_user_groups
+    child.owned_by_agency_id = agency&.unique_id if agency_id_changed?
     child.owned_by_agency_office = agency_office if agency_office_changed?
     child.save!
   end
@@ -512,6 +543,15 @@ class User < ApplicationRecord
     user_name.downcase!
   end
 
+  def generate_random_password
+    return unless password_required? && password.blank? && password_confirmation.blank?
+
+    password = "#{SecureRandom.base64(40)}1a"
+    self.password = password
+    self.password_confirmation = password
+    self.should_send_password_reset_instructions = true
+  end
+
   def set_agency_services
     self.services = agency.services if agency.present? && services.blank?
   end
@@ -530,3 +570,4 @@ class User < ApplicationRecord
     @refresh_associated_user_agencies = false
   end
 end
+# rubocop:enable Metrics/ClassLength
