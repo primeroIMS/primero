@@ -54,33 +54,23 @@ class UserMailer < ApplicationMailer
   def email_body_sso(user, admin)
     idp_name = user.identity_provider&.name
     {
-      header: I18n.t('user.welcome_email.sso.body', role_name: user.role.name),
-      steps: [
-        I18n.t('user.welcome_email.sso.step1', host: root_url, identity_provider: idp_name),
-        I18n.t('user.welcome_email.sso.step2', identity_provider: idp_name, user_name: user.user_name),
-        I18n.t('user.welcome_email.sso.step3', identity_provider: idp_name)
-      ],
-      footer: I18n.t(
-        'user.welcome_email.sso.footer',
-        admin_full_name: admin.full_name,
-        admin_email: admin.email
-      )
+      header: I18n.t('user.welcome_email.sso.body', role_name: user.role.name, locale: user.locale),
+      step1: I18n.t('user.welcome_email.sso.step1', host: root_url, identity_provider: idp_name, locale: user.locale),
+      step2: I18n.t('user.welcome_email.sso.step2', identity_provider: idp_name, user_name: user.user_name, locale: user.locale),
+      step3: I18n.t('user.welcome_email.sso.step3', identity_provider: idp_name, locale: user.locale),
+      step4: '',
+      footer: I18n.t('user.welcome_email.sso.footer', admin_full_name: admin.full_name, admin_email: admin.email, locale: user.locale)
     }
   end
 
   def email_body_otp(user, admin, one_time_password)
     {
-      header: I18n.t('user.welcome_email.otp.body', role_name: user.role.name),
-      steps: [
-        I18n.t(
-          'user.welcome_email.otp.step1',
-          admin_full_name: admin.full_name,
-          admin_email: admin.email
-        ),
-        I18n.t('user.welcome_email.otp.step2', host: root_url),
-        I18n.t('user.welcome_email.otp.step3', otp: one_time_password),
-        I18n.t('user.welcome_email.otp.step4')
-      ]
+      header: I18n.t('user.welcome_email.otp.body', role_name: user.role.name, locale: user.locale),
+      step1: I18n.t('user.welcome_email.otp.step1', admin_full_name: admin.full_name, admin_email: admin.email, locale: user.locale),
+      step2: I18n.t('user.welcome_email.otp.step2', host: root_url, locale: user.locale),
+      step3: I18n.t('user.welcome_email.otp.step3', otp: one_time_password, locale: user.locale),
+      step4: I18n.t('user.welcome_email.otp.step4', locale: user.locale),
+      footer: ''
     }
   end
 

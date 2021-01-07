@@ -5,8 +5,9 @@
   <%= @email_body %>
 <% else %>
   <%= @email_body[:header] %>
-  <% @email_body[:steps].each do |step| %>
-    * <%= step %>
-  <% end %>
+  <%= @email_body[:step1] %>
+  <%= @email_body[:step2] %>
+  <%= @email_body[:step3] %>
+  <%= @email_body[:step4] %>
   <%= @email_body[:footer] %>
 <% end %>

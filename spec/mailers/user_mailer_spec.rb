@@ -59,17 +59,17 @@ describe UserMailer, type: :mailer do
       expect(body).to include('Welcome to Test CPIMS+!')
       expected = {
         header: 'You have been added as a Social Worker.',
-        steps: [
-          '* Please contact Admin (admin@test.org) to receive your user name.',
-          '* Go to https://localhost:3000/ and click "login with Primero user name.".',
-          '* Login with your user name and the temporary password OTP123.',
-          '* When prompted, reset your password.'
-        ]
+        step1: 'Please contact Admin (admin@test.org) to receive your user name.',
+        step2: 'Go to https://localhost:3000/ and click "login with Primero user name.".',
+        step3: 'Login with your user name and the temporary password OTP123.',
+        step4: 'When prompted, reset your password.'
       }
 
       expect(body).to include(expected[:header])
-
-      expected[:steps].map {|step| expect(body).to include(step) }
+      expect(body).to include(expected[:step1])
+      expect(body).to include(expected[:step2])
+      expect(body).to include(expected[:step3])
+      expect(body).to include(expected[:step4])
     end
   end
 
@@ -93,18 +93,17 @@ describe UserMailer, type: :mailer do
       expect(body).to include('Welcome to Test CPIMS+!')
       expected = {
         header: 'You have been added as a Social Worker.',
-        steps: [
-          '* Go to https://localhost:3000/ and click Test.',
-          '* Login with your Test account user@test.org.',
-          '* Use the same password you always use for your Test account.'
-        ],
+        step1: 'Go to https://localhost:3000/ and click Test.',
+        step2: 'Login with your Test account user@test.org.',
+        step3: 'Use the same password you always use for your Test account.',
         footer: 'Please contact Admin (admin@test.org) for further details.'
       }
 
       expect(body).to include(expected[:header])
-      expected[:steps].map {|step| expect(body).to include(step) }
+      expect(body).to include(expected[:step1])
+      expect(body).to include(expected[:step2])
+      expect(body).to include(expected[:step3])
       expect(body).to include(expected[:footer])
-
     end
   end
 end
