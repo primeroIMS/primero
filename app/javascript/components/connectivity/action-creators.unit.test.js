@@ -1,3 +1,8 @@
+import configureStore from "redux-mock-store";
+import thunk from "redux-thunk";
+
+import { CLOSE_SNACKBAR } from "../notifier/actions";
+
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
 
@@ -22,5 +27,17 @@ describe("components/connectivity/action-creator.js", () => {
     };
 
     expect(actionCreators.setNetworkStatus(true)).to.eql(expectedAction);
+  });
+
+  it("should create an action to check server status", () => {
+    const store = configureStore([thunk])({});
+
+    return store.dispatch(actionCreators.checkServerStatus(true)).then(() => {
+      const expectedActions = store.getActions();
+
+      expect(expectedActions[0].type).to.eql(CLOSE_SNACKBAR);
+      expect(expectedActions[1].type).to.eql(actions.NETWORK_STATUS);
+      expect(expectedActions[2].type).to.eql(actions.SERVER_STATUS);
+    });
   });
 });
