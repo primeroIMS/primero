@@ -28,7 +28,7 @@ const Component = ({ values }) => {
   return (
     <>
       {values.matched_case_id && <SubformChip label={i18n.t("tracing_request.has_match")} type="success" />}
-      <SubformChip label={status} />
+      {values.tracing_request_status && <SubformChip label={status || values.tracing_request_status} />}
     </>
   );
 };
