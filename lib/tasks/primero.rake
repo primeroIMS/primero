@@ -95,6 +95,10 @@ namespace :primero do
   #
   # Examples:
   #   rails primero:apply_config[20201230.094913.638a661]
+  #
+  # WARNING:  This fails if SystemSettings is not populated because of the apply_with_api_lock! method.
+  #           The API lock uses SystemSettings to do the lock
+  #           If you have an empty DB or have wiped metadata, you need to load SystemSettings before running this
   desc 'Applies a PrimeroConfiguration record'
   task :apply_config, %i[version] => :environment do |_, args|
     version = args[:version]
@@ -249,6 +253,7 @@ namespace :primero do
   #   end
   # end
 
+  # If you are planning to load the JSON config, use the remove_config_data task instead
   desc 'Deletes out all metadata. Do this only if you need to reseed from scratch!'
   task :remove_metadata, [:metadata] => :environment do |_, args|
     metadata_models =
@@ -262,6 +267,18 @@ namespace :primero do
       end
 
     metadata_models.each do |m|
+      puts "Deleting the database for #{m.name}"
+      m.delete_all
+    end
+  end
+
+  desc 'Deletes out all configurable data. Do this only if you need to reseed from scratch or load a JSON config!'
+  task remove_config_data: :environment do
+    # Adding in Field model because it is not included in CONFIGURABLE_MODELS but, you cannot delete FormSections
+    # unless Fields are deleted first
+    config_data_models = [Field] + PrimeroConfiguration::CONFIGURABLE_MODELS.map { |m| Object.const_get(m) }
+
+    config_data_models.each do |m|
       puts "Deleting the database for #{m.name}"
       m.delete_all
     end
