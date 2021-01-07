@@ -48,3 +48,39 @@
   }
 }
 
+.importDataClass {
+  margin-bottom: 8px;
+
+  & button {
+    height: 22px;
+    margin-left: 5px;
+  }
+  & > div {
+    margin-top: 0px;
+    margin-left: -75px;
+  }
+
+}
+
+.seeDetailsStyle {
+  padding-top: 6;
+  margin-left: 5px;
+  color: $(theme.primero.colors.blue);
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .importDataLabelClass {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  .seeDetailsStyle {
+    margin-left: 5px !important;
+  }
+
+  .importDataClass {
+    & button {
+      margin-left: 0px;
+    }
+  }
+}

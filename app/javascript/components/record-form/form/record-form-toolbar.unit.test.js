@@ -155,7 +155,7 @@ describe("<RecordFormToolbar />", () => {
 
   it("renders a RecordFormToolbar/>", () => {
     expect(component.find(RecordFormToolbar)).to.have.lengthOf(1);
-    expect(component.find(ActionButton)).to.have.lengthOf(2);
+    expect(component.find(ActionButton)).to.have.lengthOf(3);
   });
 
   it("renders a <WorkflowIndicator /> component, when record is enabled", () => {
@@ -194,7 +194,7 @@ describe("<RecordFormToolbar />", () => {
     });
 
     it("renders a RecordFormToolbar/>", () => {
-      const saveButton = savingComponent.find(Button).at(1);
+      const saveButton = savingComponent.find(Button).at(2);
 
       expect(savingComponent.find(RecordFormToolbar)).to.have.lengthOf(1);
       expect(savingComponent.find(CircularProgress)).to.have.lengthOf(1);
@@ -271,7 +271,7 @@ describe("<RecordFormToolbar />", () => {
           },
           fromJS(initialStateIncidentFromCase)
         );
-        const returnToCaseButton = incidentComp.find(ActionButton).first();
+        const returnToCaseButton = incidentComp.find(ActionButton).at(1);
 
         expect(returnToCaseButton.text()).to.equal("buttons.return_to_case");
       });
