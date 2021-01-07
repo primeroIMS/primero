@@ -28,16 +28,16 @@ describe KPI::NumberOfCases, search: true do
     )
 
     Child.create!(data: {
-      owned_by_location: @london.location_code,
-      owned_by_groups: [group1],
-      created_at: DateTime.parse('2020/10/01')
-    })
+                    owned_by_location: @london.location_code,
+                    owned_by_groups: [group1],
+                    created_at: DateTime.parse('2020/10/01')
+                  })
 
     Child.create!(data: {
-      owned_by_location: @london.location_code,
-      owned_by_groups: [group3],
-      created_at: DateTime.parse('2020/10/01')
-    })
+                    owned_by_location: @london.location_code,
+                    owned_by_groups: [group3],
+                    created_at: DateTime.parse('2020/10/01')
+                  })
 
     Sunspot.commit
   end

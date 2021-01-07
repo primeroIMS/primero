@@ -11,7 +11,6 @@ describe KPI::NumberOfIncidents, search: true do
   let(:group2) { 'group2' }
   let(:group3) { 'group3' }
 
-
   before :each do
     clean_data(Location, Incident)
 
@@ -25,16 +24,16 @@ describe KPI::NumberOfIncidents, search: true do
     )
 
     Incident.create!(data: {
-      owned_by_location: @london.location_code,
-      owned_by_groups: [group1],
-      created_at: DateTime.parse('2020/10/01')
-    })
+                       owned_by_location: @london.location_code,
+                       owned_by_groups: [group1],
+                       created_at: DateTime.parse('2020/10/01')
+                     })
 
     Incident.create!(data: {
-      owned_by_location: @london.location_code,
-      owned_by_groups: [group3],
-      created_at: DateTime.parse('2020/10/01')
-    })
+                       owned_by_location: @london.location_code,
+                       owned_by_groups: [group3],
+                       created_at: DateTime.parse('2020/10/01')
+                     })
 
     Sunspot.commit
   end
@@ -68,6 +67,6 @@ describe KPI::NumberOfIncidents, search: true do
   end
 
   after :each do
-    clean_data(Location, Incident) 
+    clean_data(Location, Incident)
   end
 end

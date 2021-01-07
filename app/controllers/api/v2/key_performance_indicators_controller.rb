@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# KeyPerformanceIndicatorsController
+#
+# Handles requests for KPIs
 class Api::V2::KeyPerformanceIndicatorsController < ApplicationApiController
   def show
     authorize! kpi_permission, KPI
@@ -8,7 +11,8 @@ class Api::V2::KeyPerformanceIndicatorsController < ApplicationApiController
       from,
       to,
       current_user.user_group_unique_ids,
-      current_user.agency.unique_id)
+      current_user.agency.unique_id
+    )
     @data = search.to_json
   end
 

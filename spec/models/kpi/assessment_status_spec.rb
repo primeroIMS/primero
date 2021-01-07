@@ -17,27 +17,27 @@ describe KPI::AssessmentStatus, search: true do
     clean_data(Child, FormSection, Field)
 
     form(:survivor_assessment_form, [
-      field(:assessment_emotional_state_start, mandatory_for_completion: true),
-      field(:assessment_emotional_state_end, mandatory_for_completion: true),
-      field(:assessment_presenting_problem, mandatory_for_completion: true),
-      field(:assessment_main_concerns, mandatory_for_completion: true),
-      field(:assessment_current_situation, mandatory_for_completion: true)
-    ])
+           field(:assessment_emotional_state_start, mandatory_for_completion: true),
+           field(:assessment_emotional_state_end, mandatory_for_completion: true),
+           field(:assessment_presenting_problem, mandatory_for_completion: true),
+           field(:assessment_main_concerns, mandatory_for_completion: true),
+           field(:assessment_current_situation, mandatory_for_completion: true)
+         ])
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/27'),
-      owned_by_groups: [group2, group4],
-      assessment_emotional_state_start: 'Overwhelmed',
-      assessment_emotional_state_end: 'Resilient',
-      assessment_presenting_problem: 'Anxiety',
-      assessment_main_concerns: 'Poor sales',
-      assessment_current_situation: 'Poor'
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/27'),
+                    owned_by_groups: [group2, group4],
+                    assessment_emotional_state_start: 'Overwhelmed',
+                    assessment_emotional_state_end: 'Resilient',
+                    assessment_presenting_problem: 'Anxiety',
+                    assessment_main_concerns: 'Poor sales',
+                    assessment_current_situation: 'Poor'
+                  })
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/27'),
-      owned_by_groups: [group3]
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/27'),
+                    owned_by_groups: [group3]
+                  })
 
     Sunspot.commit
   end

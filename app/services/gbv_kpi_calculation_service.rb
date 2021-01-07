@@ -1,3 +1,9 @@
+# frozen_string_literal: true
+
+# GbvKpiCalculationService
+#
+# Provides methods for calulating the cached information required for the
+# KPIs
 class GbvKpiCalculationService
   def initialize(record)
     @record = record
@@ -5,6 +11,7 @@ class GbvKpiCalculationService
 
   def case_lifetime_days
     return 0 unless @record.status == Record::STATUS_CLOSED
+
     closure_form = form_responses(:gbv_case_closure_form).first
     date_created = closure_form.field(:created_at) || @record.created_at
     date_closed = closure_form.field(:date_closure)
@@ -34,8 +41,7 @@ class GbvKpiCalculationService
 
   def completed_and_approved_action_plan
     response = form_responses(:action_plan_form).first
-    response &&
-      response.field(:action_plan_approved) &&
+    response&.field(:action_plan_approved) &&
       response.subform(:action_plan_section).any?(&:complete?)
   end
 
@@ -78,7 +84,7 @@ class GbvKpiCalculationService
       responses: access_migrated_forms(:client_feedback)
     )
 
-    return nil unless feedback_responses.has_responses?
+    return nil unless feedback_responses.valid_responses?
 
     if feedback_responses.satisfied >= feedback_responses.unsatisfied
       'satisfied'
@@ -95,6 +101,7 @@ class GbvKpiCalculationService
     reported_at = @record.date_of_first_report
     occured_at = @record.incident_date_derived
     return 0 unless reported_at && occured_at
+
     (reported_at.to_date - occured_at.to_date).to_i
   end
 
@@ -103,6 +110,7 @@ class GbvKpiCalculationService
     form_section_results = access_migrated_forms(form_section_unique_id)
 
     return FormSectionResponseList.new(responses: [], form_section: nil) unless form_section
+
     FormSectionResponseList.new(responses: form_section_results, form_section: form_section)
   end
 

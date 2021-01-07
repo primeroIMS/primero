@@ -1,4 +1,11 @@
-module KPI
+# frozen_string_literal: true
+
+# ClientFeedbackResponse
+#
+# Represents a filled out client feedback form. Has notional understanding
+# of whether it is "valid" and where the user who filled the form out was
+# satisfied or not.
+class KPI::ClientFeedbackResponse < ValueObject
   CLIENT_SATISFACTION_FIELDS = %w[
     opening_hours_when_client_could_attend
     client_comfortable_with_case_worker
@@ -20,36 +27,34 @@ module KPI
     would_client_recommend_friend
   ].freeze
 
-  class ClientFeedbackResponse < ValueObject
-    attr_accessor :response
+  attr_accessor :response
 
-    def assessed_field_values
-      # These could be in the database and then we might use something like
-      # the FormSectionResponse
-      CLIENT_SATISFACTION_FIELDS.map { |field| response[field] }
-    end
+  def assessed_field_values
+    # These could be in the database and then we might use something like
+    # the FormSectionResponse
+    CLIENT_SATISFACTION_FIELDS.map { |field| response[field] }
+  end
 
-    def default_tally
-      Hash.new { |h,k| h[k] = 0 }
-    end
+  def default_tally
+    Hash.new { |h, k| h[k] = 0 }
+  end
 
-    def tally
-      @tally ||= default_tally
-                 .merge(
-                   assessed_field_values
-                     .compact
-                     .group_by(&:itself)
-                     .transform_values(&:count)
-                 )
-    end
+  def tally
+    @tally ||= default_tally
+               .merge(
+                 assessed_field_values
+               .compact
+               .group_by(&:itself)
+               .transform_values(&:count)
+               )
+  end
 
-    def valid_response?
-      assessed_field_values.compact.length > 0
-    end
+  def valid_response?
+    !assessed_field_values.compact.empty?
+  end
 
-    def satisfied?
-      tally['yes'] >= tally['no'] &&
+  def satisfied?
+    tally['yes'] >= tally['no'] &&
       tally['scale_two'] + tally['scale_three'] >= tally['scale_one']
-    end
   end
 end

@@ -18,48 +18,48 @@ describe KPI::AverageFollowupMeetingsPerCase, search: true do
     clean_data(Child, FormSection, Field)
 
     form(:action_plan_form, [
-      field(:gbv_follow_up_subform_section,
-            subform_section: form(:gbv_follow_up_subform_section, [
-              field(:followup_date)
-      ]))
-    ])
+           field(:gbv_follow_up_subform_section,
+                 subform_section: form(:gbv_follow_up_subform_section, [
+                                         field(:followup_date)
+                                       ]))
+         ])
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/15'),
-      owned_by_groups: [group2],
-      owned_by_agency_id: agency1,
-      gbv_follow_up_subform_section: [{
-        followup_date: DateTime.parse('2020/10/20')
-      },{
-        followup_date: DateTime.parse('2020/10/20')
-      }, {
-        followup_date: DateTime.parse('2020/10/20')
-      }, {
-        followup_date: DateTime.parse('2020/10/20')
-      }]
-    }}) 
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/15'),
+                    owned_by_groups: [group2],
+                    owned_by_agency_id: agency1,
+                    gbv_follow_up_subform_section: [{
+                      followup_date: DateTime.parse('2020/10/20')
+                    }, {
+                      followup_date: DateTime.parse('2020/10/20')
+                    }, {
+                      followup_date: DateTime.parse('2020/10/20')
+                    }, {
+                      followup_date: DateTime.parse('2020/10/20')
+                    }]
+                  })
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/15'),
-      owned_by_groups: [group3],
-      owned_by_agency_id: agency1,
-      gbv_follow_up_subform_section: [{
-        followup_date: DateTime.parse('2020/10/20')
-      },{
-        followup_date: DateTime.parse('2020/10/20')
-      }]
-    }}) 
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/15'),
+                    owned_by_groups: [group3],
+                    owned_by_agency_id: agency1,
+                    gbv_follow_up_subform_section: [{
+                      followup_date: DateTime.parse('2020/10/20')
+                    }, {
+                      followup_date: DateTime.parse('2020/10/20')
+                    }]
+                  })
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/15'),
-      owned_by_groups: [group3],
-      owned_by_agency_id: agency2,
-      gbv_follow_up_subform_section: [{
-        followup_date: DateTime.parse('2020/10/20')
-      },{
-        followup_date: DateTime.parse('2020/10/20')
-      }]
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/15'),
+                    owned_by_groups: [group3],
+                    owned_by_agency_id: agency2,
+                    gbv_follow_up_subform_section: [{
+                      followup_date: DateTime.parse('2020/10/20')
+                    }, {
+                      followup_date: DateTime.parse('2020/10/20')
+                    }]
+                  })
 
     Sunspot.commit
   end

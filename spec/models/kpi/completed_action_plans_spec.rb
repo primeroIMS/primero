@@ -16,25 +16,24 @@ describe KPI::CompletedCaseActionPlans, search: true do
     clean_data(Child, FormSection, Field)
 
     form(:action_plan_form, [
-      field(:action_plan_section, {
-        subform_section: form(:action_plan_subform_section, [
-          field(:service_type, mandatory_for_completion: true)
-        ])
-      })
-    ])
+           field(:action_plan_section,
+                 subform_section: form(:action_plan_subform_section, [
+                                         field(:service_type, mandatory_for_completion: true)
+                                       ]))
+         ])
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/27'),
-      owned_by_groups: [group2],
-      action_plan_section: [{
-        service_type: 'test'
-      }]
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/27'),
+                    owned_by_groups: [group2],
+                    action_plan_section: [{
+                      service_type: 'test'
+                    }]
+                  })
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/27'),
-      owned_by_groups: [group3]
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/27'),
+                    owned_by_groups: [group3]
+                  })
 
     Sunspot.commit
   end

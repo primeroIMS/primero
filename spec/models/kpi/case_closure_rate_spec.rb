@@ -25,25 +25,25 @@ describe KPI::CaseClosureRate, search: true do
     )
 
     form(:gbv_case_closure_form, [
-      field(:created_at),
-      field(:date_closure)
-    ])
+           field(:created_at),
+           field(:date_closure)
+         ])
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2019/10/15'),
-      status: Record::STATUS_CLOSED,
-      owned_by_location: @london.location_code,
-      owned_by_groups: [group2],
-      date_closure: DateTime.parse('2020/11/01')
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2019/10/15'),
+                    status: Record::STATUS_CLOSED,
+                    owned_by_location: @london.location_code,
+                    owned_by_groups: [group2],
+                    date_closure: DateTime.parse('2020/11/01')
+                  })
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/05/15'),
-      owned_by_groups: [group3],
-      status: Record::STATUS_CLOSED,
-      owned_by_location: @london.location_code,
-      date_closure: DateTime.parse('2020/11/01')
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/05/15'),
+                    owned_by_groups: [group3],
+                    status: Record::STATUS_CLOSED,
+                    owned_by_location: @london.location_code,
+                    date_closure: DateTime.parse('2020/11/01')
+                  })
 
     Sunspot.commit
   end

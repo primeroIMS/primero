@@ -28,20 +28,20 @@ describe KPI::ReportingDelay, search: true do
     )
 
     Incident.create!(data: {
-      owned_by_location: @london.location_code,
-      owned_by_groups: [group1],
-      date_of_first_report: DateTime.parse('2020/10/01'),
-      incident_date: DateTime.parse('2019/09/01'),
-      created_at: DateTime.parse('2020/10/01')
-    })
+                       owned_by_location: @london.location_code,
+                       owned_by_groups: [group1],
+                       date_of_first_report: DateTime.parse('2020/10/01'),
+                       incident_date: DateTime.parse('2019/09/01'),
+                       created_at: DateTime.parse('2020/10/01')
+                     })
 
     Incident.create!(data: {
-      owned_by_location: @london.location_code,
-      owned_by_groups: [group3],
-      date_of_first_report: DateTime.parse('2020/10/01'),
-      incident_date: DateTime.parse('2020/09/15'),
-      created_at: DateTime.parse('2020/10/01')
-    })
+                       owned_by_location: @london.location_code,
+                       owned_by_groups: [group3],
+                       date_of_first_report: DateTime.parse('2020/10/01'),
+                       incident_date: DateTime.parse('2020/09/15'),
+                       created_at: DateTime.parse('2020/10/01')
+                     })
 
     Sunspot.commit
   end
@@ -80,6 +80,6 @@ describe KPI::ReportingDelay, search: true do
   end
 
   after :each do
-    clean_data(Location, Incident) 
+    clean_data(Location, Incident)
   end
 end

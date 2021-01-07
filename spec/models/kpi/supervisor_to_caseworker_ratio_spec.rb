@@ -11,10 +11,10 @@ describe KPI::SupervisorToCaseworkerRatio do
   let(:group3) { 'group3' }
 
   before :each do
-    clean_data()
+    clean_data
   end
 
   after :each do
-    clean_data()
+    clean_data
   end
 end

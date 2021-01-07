@@ -16,19 +16,19 @@ describe KPI::CompletedCaseSafetyPlans, search: true do
     clean_data(Child, FormSection, Field)
 
     form(:safety_plan, [
-      field(:safety_plan_needed, mandatory_for_completion: true)
-    ])
+           field(:safety_plan_needed, mandatory_for_completion: true)
+         ])
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/27'),
-      owned_by_groups: [group2],
-      safety_plan_needed: true
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/27'),
+                    owned_by_groups: [group2],
+                    safety_plan_needed: true
+                  })
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/27'),
-      owned_by_groups: [group3]
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/27'),
+                    owned_by_groups: [group3]
+                  })
 
     Sunspot.commit
   end

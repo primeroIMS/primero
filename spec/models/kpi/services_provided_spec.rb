@@ -18,28 +18,27 @@ describe KPI::ServicesProvided, search: true do
     clean_data(Child, FormSection, Field)
 
     form(:action_plan_form, [
-      field(:gbv_follow_up_subform_section, {
-        subform_section: form(:gbv_follow_up_subform_section, [
-          field(:service_type_provided)
-        ])
-      })
-    ])
+           field(:gbv_follow_up_subform_section,
+                 subform_section: form(:gbv_follow_up_subform_section, [
+                                         field(:service_type_provided)
+                                       ]))
+         ])
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/27'),
-      owned_by_groups: [group2],
-      gbv_follow_up_subform_section: [{
-        service_type_provided: service1
-      }]
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/27'),
+                    owned_by_groups: [group2],
+                    gbv_follow_up_subform_section: [{
+                      service_type_provided: service1
+                    }]
+                  })
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/27'),
-      owned_by_groups: [group3],
-      gbv_follow_up_subform_section: [{
-        service_type_provided: service2
-      }]
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/27'),
+                    owned_by_groups: [group3],
+                    gbv_follow_up_subform_section: [{
+                      service_type_provided: service2
+                    }]
+                  })
 
     Sunspot.commit
   end

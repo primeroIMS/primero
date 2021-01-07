@@ -1,22 +1,27 @@
-module KPI
-  class ClientFeedbackResponseList < ValueObject
-    attr_accessor :responses
+# frozen_string_literal: true
 
-    def wrapped_responses
-      @wrapped_responses ||= responses
-        .map { |response| ClientFeedbackResponse.new(response: response) }
-    end
+# ClientFeedbackResponseList
+#
+# A repository for ClientFeedbackResponse object. It provides methods
+# for interacting with the list of responses in the language of the
+# responses domain.
+class KPI::ClientFeedbackResponseList < ValueObject
+  attr_accessor :responses
 
-    def has_responses?
-      wrapped_responses.any?(&:valid_response?)
-    end
+  def wrapped_responses
+    @wrapped_responses ||= responses
+                           .map { |response| ClientFeedbackResponse.new(response: response) }
+  end
 
-    def satisfied
-      wrapped_responses.count(&:satisfied?)
-    end
+  def valid_responses?
+    wrapped_responses.any?(&:valid_response?)
+  end
 
-    def unsatisfied
-      wrapped_responses.count { |response| !response.satisfied? }
-    end
+  def satisfied
+    wrapped_responses.count(&:satisfied?)
+  end
+
+  def unsatisfied
+    wrapped_responses.count { |response| !response.satisfied? }
   end
 end

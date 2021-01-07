@@ -16,40 +16,39 @@ describe KPI::GoalProgressPerNeed, search: true do
     clean_data(Child, FormSection, Field)
 
     form(:action_plan_form, [
-      field(:gbv_follow_up_subform_section, {
-        subform_section: form(:gbv_follow_up_subform_section, [
-          field(:gbv_assessment_progress_safety),
-          field(:gbv_assessment_progress_health),
-          field(:gbv_assessment_progress_psychosocial),
-          field(:gbv_assessment_progress_justice),
-          field(:gbv_assessment_other_goals)
-        ])
-      })
-    ])
+           field(:gbv_follow_up_subform_section,
+                 subform_section: form(:gbv_follow_up_subform_section, [
+                                         field(:gbv_assessment_progress_safety),
+                                         field(:gbv_assessment_progress_health),
+                                         field(:gbv_assessment_progress_psychosocial),
+                                         field(:gbv_assessment_progress_justice),
+                                         field(:gbv_assessment_other_goals)
+                                       ]))
+         ])
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/15'),
-      owned_by_groups: [group2],
-      gbv_follow_up_subform_section: [{
-        gbv_assessment_progress_safety: 'n_a',
-        gbv_assessment_progress_health: 'in_progress',
-        gbv_assessment_progress_psychosocial: 'in_progress',
-        gbv_assessment_progress_justice: 'met',
-        gbv_assessment_other_goals: 'met'
-      }]
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/15'),
+                    owned_by_groups: [group2],
+                    gbv_follow_up_subform_section: [{
+                      gbv_assessment_progress_safety: 'n_a',
+                      gbv_assessment_progress_health: 'in_progress',
+                      gbv_assessment_progress_psychosocial: 'in_progress',
+                      gbv_assessment_progress_justice: 'met',
+                      gbv_assessment_other_goals: 'met'
+                    }]
+                  })
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/15'),
-      owned_by_groups: [group3],
-      gbv_follow_up_subform_section: [{
-        gbv_assessment_progress_safety: 'met',
-        gbv_assessment_progress_health: 'in_progress',
-        gbv_assessment_progress_psychosocial: 'in_progress',
-        gbv_assessment_progress_justice: 'in_progress',
-        gbv_assessment_other_goals: 'met'
-      }]
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/15'),
+                    owned_by_groups: [group3],
+                    gbv_follow_up_subform_section: [{
+                      gbv_assessment_progress_safety: 'met',
+                      gbv_assessment_progress_health: 'in_progress',
+                      gbv_assessment_progress_psychosocial: 'in_progress',
+                      gbv_assessment_progress_justice: 'in_progress',
+                      gbv_assessment_other_goals: 'met'
+                    }]
+                  })
     Sunspot.commit
   end
 

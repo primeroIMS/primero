@@ -16,36 +16,35 @@ describe KPI::AverageReferrals, search: true do
     clean_data(Child, FormSection, Field)
 
     form(:action_plan_form, [
-      field(:action_plan_section, {
-        subform_section: form(:action_plan_subform_section, [
-          field(:service_referral)
-        ])
-      })
-    ])
+           field(:action_plan_section,
+                 subform_section: form(:action_plan_subform_section, [
+                                         field(:service_referral)
+                                       ]))
+         ])
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/27'),
-      owned_by_groups: [group2],
-      action_plan_section: [{
-        service_referral: 'Referred'
-      }, {
-        service_referral: 'Referred'
-      }, {
-        service_referral: 'Referred'
-      }, {
-        service_referral: 'Referred'
-      }]
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/27'),
+                    owned_by_groups: [group2],
+                    action_plan_section: [{
+                      service_referral: 'Referred'
+                    }, {
+                      service_referral: 'Referred'
+                    }, {
+                      service_referral: 'Referred'
+                    }, {
+                      service_referral: 'Referred'
+                    }]
+                  })
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/27'),
-      owned_by_groups: [group3],
-      action_plan_section: [{
-        service_referral: 'Referred'
-      }, {
-        service_referral: 'Referred'
-      }]
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/27'),
+                    owned_by_groups: [group3],
+                    action_plan_section: [{
+                      service_referral: 'Referred'
+                    }, {
+                      service_referral: 'Referred'
+                    }]
+                  })
 
     Sunspot.commit
   end
@@ -53,7 +52,7 @@ describe KPI::AverageReferrals, search: true do
   with 'No cases in the users group' do
     it 'should average referrals of 0' do
       json = KPI::AverageReferrals.new(from, to, [group1]).to_json
-      expect(json[:data][:average_referrals]).to eq("NaN")
+      expect(json[:data][:average_referrals]).to eq('NaN')
     end
   end
 

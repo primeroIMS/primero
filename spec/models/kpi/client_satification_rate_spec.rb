@@ -24,51 +24,51 @@ describe KPI::ClientSatisfactionRate, search: true do
       admin_level: 2
     )
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/10/15'),
-      owned_by_groups: [group2],
-      opening_hours_when_client_could_attend: 'yes',
-      client_comfortable_with_case_worker: 'yes',
-      same_case_worker_each_visit: 'yes',
-      could_client_choose_support_person: 'yes',
-      client_informed_of_options: 'yes',
-      client_decided_what_next: 'yes',
-      client_referred_elsewhere: 'yes',
-      survivor_discreet_access: 'yes',
-      staff_respect_confidentiality: 'yes',
-      client_private_meeting: 'yes',
-      staff_friendly: 'yes',
-      staff_open_minded: 'yes',
-      staff_answered_all_questions: 'yes',
-      staff_client_could_understand: 'yes',
-      staff_allowed_enough_time: 'yes',
-      staff_helpful: 'yes',
-      client_feel_better: 'yes',
-      would_client_recommend_friend: 'yes'
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/10/15'),
+                    owned_by_groups: [group2],
+                    opening_hours_when_client_could_attend: 'yes',
+                    client_comfortable_with_case_worker: 'yes',
+                    same_case_worker_each_visit: 'yes',
+                    could_client_choose_support_person: 'yes',
+                    client_informed_of_options: 'yes',
+                    client_decided_what_next: 'yes',
+                    client_referred_elsewhere: 'yes',
+                    survivor_discreet_access: 'yes',
+                    staff_respect_confidentiality: 'yes',
+                    client_private_meeting: 'yes',
+                    staff_friendly: 'yes',
+                    staff_open_minded: 'yes',
+                    staff_answered_all_questions: 'yes',
+                    staff_client_could_understand: 'yes',
+                    staff_allowed_enough_time: 'yes',
+                    staff_helpful: 'yes',
+                    client_feel_better: 'yes',
+                    would_client_recommend_friend: 'yes'
+                  })
 
-    Child.create!({ data: {
-      created_at: DateTime.parse('2020/11/15'),
-      owned_by_groups: [group3],
-      opening_hours_when_client_could_attend: 'no',
-      client_comfortable_with_case_worker: 'no',
-      same_case_worker_each_visit: 'no',
-      could_client_choose_support_person: 'no',
-      client_informed_of_options: 'no',
-      client_decided_what_next: 'no',
-      client_referred_elsewhere: 'no',
-      survivor_discreet_access: 'no',
-      staff_respect_confidentiality: 'no',
-      client_private_meeting: 'no',
-      staff_friendly: 'no',
-      staff_open_minded: 'no',
-      staff_answered_all_questions: 'no',
-      staff_client_could_understand: 'no',
-      staff_allowed_enough_time: 'no',
-      staff_helpful: 'no',
-      client_feel_better: 'no',
-      would_client_recommend_friend: 'no'
-    }})
+    Child.create!(data: {
+                    created_at: DateTime.parse('2020/11/15'),
+                    owned_by_groups: [group3],
+                    opening_hours_when_client_could_attend: 'no',
+                    client_comfortable_with_case_worker: 'no',
+                    same_case_worker_each_visit: 'no',
+                    could_client_choose_support_person: 'no',
+                    client_informed_of_options: 'no',
+                    client_decided_what_next: 'no',
+                    client_referred_elsewhere: 'no',
+                    survivor_discreet_access: 'no',
+                    staff_respect_confidentiality: 'no',
+                    client_private_meeting: 'no',
+                    staff_friendly: 'no',
+                    staff_open_minded: 'no',
+                    staff_answered_all_questions: 'no',
+                    staff_client_could_understand: 'no',
+                    staff_allowed_enough_time: 'no',
+                    staff_helpful: 'no',
+                    client_feel_better: 'no',
+                    would_client_recommend_friend: 'no'
+                  })
 
     Sunspot.commit
   end
