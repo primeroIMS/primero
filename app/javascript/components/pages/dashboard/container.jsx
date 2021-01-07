@@ -19,7 +19,8 @@ import {
   WorkflowTeamCases,
   ReportingLocation,
   ProtectionConcern,
-  Flags
+  Flags,
+  CasesBySocialWorker
 } from "./components";
 import NAMESPACE from "./namespace";
 import { NAME } from "./constants";
@@ -71,6 +72,7 @@ const Dashboard = () => {
             <SharedFromMyTeam loadingIndicator={indicatorProps} />
             <SharedWithMyTeam loadingIndicator={indicatorProps} />
             <OverdueTasks loadingIndicator={indicatorProps} />
+            <CasesBySocialWorker loadingIndicator={indicatorProps} />
             <WorkflowTeamCases loadingIndicator={indicatorProps} />
             <ReportingLocation loadingIndicator={indicatorProps} />
             <ProtectionConcern loadingIndicator={indicatorProps} />
