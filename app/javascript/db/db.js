@@ -4,7 +4,7 @@ import { openDB } from "idb";
 
 import { DATABASE_NAME } from "../config/constants";
 
-import { subformAwareMerge } from "./utils";
+import subformAwareMerge from "./utils/subform-aware-merge";
 import {
   DB_COLLECTIONS_NAMES,
   DB_COLLECTIONS_V1,

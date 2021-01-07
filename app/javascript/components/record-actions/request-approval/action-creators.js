@@ -2,6 +2,7 @@
 import { fetchRecordsAlerts } from "../../records";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../action-dialog";
+import { DB_COLLECTIONS_NAMES } from "../../../db";
 
 import { APPROVAL_STATUS } from "./constants";
 import { APPROVE_RECORD } from "./actions";
@@ -25,16 +26,19 @@ export const approvalRecord = ({
       responseRecordKey: "approval_subforms",
       responseRecordArray: true,
       responseRecordID: recordId,
+      id: recordId,
       responseRecordParams: {
         [`approval_status_${approvalId}`]: APPROVAL_STATUS.pending
       },
-      responseExtraParams: {
+      responseRecordValues: {
         approval_date: new Date(),
         approval_requested_for: approvalId,
         requested_by: currentUser
       },
       db: {
-        recordType: null
+        id: recordId,
+        collection: DB_COLLECTIONS_NAMES.RECORDS,
+        recordType
       },
       body,
       successCallback: [
