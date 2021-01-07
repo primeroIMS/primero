@@ -8,7 +8,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
-import { RECORD_TYPES } from "../../../../../config";
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
 import { SUBFORM_FIELDS } from "../constants";
@@ -24,18 +23,7 @@ import styles from "../styles.css";
 
 import { TracingRequestStatus } from "./components";
 
-const Component = ({
-  arrayHelpers,
-  field,
-  form,
-  isTracesSubform,
-  locale,
-  mode,
-  recordType,
-  setDialogIsNew,
-  setOpen,
-  values
-}) => {
+const Component = ({ arrayHelpers, field, form, isTracesSubform, locale, mode, setDialogIsNew, setOpen, values }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [deleteModal, setDeleteModal] = useState(false);
@@ -178,7 +166,6 @@ Component.propTypes = {
   isTracesSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
-  recordType: PropTypes.string.isRequired,
   setDialogIsNew: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired
