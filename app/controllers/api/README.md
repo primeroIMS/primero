@@ -1,7 +1,10 @@
 # Primero API
 
-This document describes the Primero API version 2. A deprecated version 1 of the API, currently used by the mobile application, is still available under /api. This may not be available in the future.
+This document describes the Primero API version 2.
 
+## Bootstrap
+
+* [Public information about the instance](v2/docs/primero/get.md) : `GET /api/v2/primero`
 
 ## Authentication
 
@@ -134,7 +137,7 @@ Endpoints for querying contact information
 * [Update the current contact information](v2/docs/contact_information/patch.md) : `PATCH /api/v2/contact_information`
 
 
-## Condiguration
+## Configuration
 
 Endpoints for creating, fetching, and applying the Primero configuration state.
 
@@ -156,10 +159,17 @@ Endpoints for querying system settings
 
 Query and manipulate users
 
+* [Query for all accessible users](v2/docs/users/get.md): `GET /api/v2/users`
 * [Query for an individual user](v2/docs/users/id/get.md): `GET /api/v2/users/:id`
+* [Create a new user](v2/docs/users/post.md): `POST /api/v2/users`
+* [Update an existing user](v2/docs/users/id/patch.md): `PATCH /api/v2/users/:id`
+* [Disable an existing user](v2/docs/users/id/delete.md): `DELETE /api/v2/users/:id`
 * [Query for users to assign records to](v2/docs/users/assign-to.md): `GET /api/v2/users/assign-to`
 * [Query for users to transfer records to](v2/docs/users/transfer-to.md): `GET /api/v2/users/transfer-to`
 * [Query for users to refer records to](v2/docs/users/refer-to.md): `GET /api/v2/users/refer-to`
+* [Request a password reset email](v2/docs/users/password-reset-request): `POST /api/v2/users/password-reset-request`
+* [Request a password reset email for a specific user](v2/docs/users/id/password-reset-request): `POST /api/v2/users/:id/password-reset-request`
+* [Reset a password with a special token](v2/docs/users/password-reset): `POST /api/v2/users/password-reset`
 
 ## Dashboard Endpoint
 

@@ -12,11 +12,16 @@ import {
 } from "../libs/permissions";
 import { getAdminResources } from "../components/pages/admin/utils";
 
+export const PASSWORD_MIN_LENGTH = 8;
+
 // Max allowed image size for attachments
 export const MAX_IMAGE_SIZE = 600;
 
+// Max allowed size for attachments
+export const MAX_ATTACHMENT_SIZE = 10485760;
+
 // Time (ms) when fetch request will timeout
-export const FETCH_TIMEOUT = 50000;
+export const FETCH_TIMEOUT = 90000;
 
 // IndexedDB database name
 export const DATABASE_NAME = "primero";
@@ -62,6 +67,7 @@ export const DISPLAY_TEXT_FIELD = "display_text";
 export const NAME_FIELD = "name";
 export const CODE_FIELD = "code";
 export const INCIDENT_CASE_ID_FIELD = "incident_case_id";
+export const INCIDENT_CASE_ID_DISPLAY_FIELD = "case_id_display";
 
 export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.CP]: ["consent_for_services", "disclosure_other_orgs"],
@@ -77,8 +83,10 @@ export const RECORD_PATH = {
   configurations: "configurations",
   contact_information: "contact_information",
   dashboards: "dashboards",
+  flags: "flags",
   forms: "forms",
   incidents: "incidents",
+  locations: "locations",
   lookups: "lookups",
   reports: "reports",
   roles: "roles",
@@ -97,6 +105,8 @@ export const REFERRAL = "referral";
 export const APPROVALS = "approvals";
 
 export const INCIDENT_FROM_CASE = "incident_from_case";
+
+export const CHANGE_LOGS = "change_logs";
 
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
@@ -134,7 +144,10 @@ export const ROUTES = {
   support: "/support",
   tasks: "/tasks",
   tracing_requests: "/tracing_requests",
-  check_health: "/health/api"
+  check_health: "/health/api",
+  check_server_health: "/health/server",
+  sandbox_ui: "/primero",
+  password_reset: "/password_reset"
 };
 
 export const PERMITTED_URL = [
@@ -144,6 +157,7 @@ export const PERMITTED_URL = [
   ROUTES.login_redirect,
   ROUTES.logout,
   ROUTES.not_authorized,
+  ROUTES.password_reset,
   ROUTES.support,
   ROUTES.cases,
   ROUTES.tracing_requests,
@@ -172,7 +186,9 @@ export const LOOKUPS = {
   service_type: "lookup-service-type",
   protection_concerns: "lookup-protection-concerns",
   followup_type: "lookup-followup-type",
-  reporting_locations: "ReportingLocation"
+  reporting_locations: "ReportingLocation",
+  gbv_violence_type: "lookup-gbv-sexual-violence-type",
+  cp_violence_type: "lookup-cp-violence-type"
 };
 
 export const ADMIN_NAV = [
@@ -220,7 +236,7 @@ export const ADMIN_NAV = [
     permission: MANAGE,
     recordType: RESOURCES.metadata
   },
-  { to: "/locations", label: "settings.navigation.locations", disabled: true },
+  { to: "/locations", label: "settings.navigation.locations" },
   {
     to: "/contact_information",
     label: "settings.navigation.contact_information",
@@ -258,7 +274,8 @@ export const APPLICATION_NAV = (permissions, userId) => {
       to: ROUTES.tasks,
       icon: "tasks",
       resources: RESOURCES.dashboards,
-      actions: SHOW_TASKS
+      actions: SHOW_TASKS,
+      disableOffline: true
     },
     {
       name: "navigation.cases",
@@ -323,7 +340,7 @@ export const APPLICATION_NAV = (permissions, userId) => {
     //   to: myAccountTo,
     //   icon: "account"
     // },
-    { name: "username", to: `${ROUTES.account}/${userId}`, icon: "account" },
+    { name: "username", to: `${ROUTES.account}/${userId}`, icon: "account", disableOffline: true },
     {
       name: "navigation.settings",
       to: adminSettingsOption,
@@ -386,3 +403,13 @@ export const LOCALE_KEYS = {
 export const HTTP_STATUS = {
   invalidRecord: 422
 };
+
+export const DEFAULT_DATE_VALUES = {
+  TODAY: "TODAY",
+  NOW: "NOW"
+};
+
+export const FETCH_PARAM = Object.freeze({
+  DATA: "data",
+  OPTIONS: "options"
+});

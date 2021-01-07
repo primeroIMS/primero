@@ -1,0 +1,9 @@
+.seeAll {
+  width: 100%;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.seeAllColor {
+  color: $(theme.primero.colors.blue) !important;
+}

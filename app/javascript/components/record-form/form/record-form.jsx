@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { object } from "yup";
 import { Formik, Form } from "formik";
@@ -25,6 +25,7 @@ import SubformField from "./subforms";
 import { fieldValidations } from "./validations";
 
 const RecordForm = ({
+  attachmentForms,
   bindSubmitForm,
   forms,
   handleToggleNav,
@@ -34,22 +35,19 @@ const RecordForm = ({
   record,
   recordType,
   selectedForm,
-  incidentFromCase
+  incidentFromCase,
+  externalForms,
+  fetchFromCaseId
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const [initialValues, setInitialValues] = useState(constructInitialValues(forms.values()));
 
   let bindedSetValues = null;
 
   const bindSetValues = setValues => {
     bindedSetValues = setValues;
   };
-
-  let initialFormValues = constructInitialValues(forms.values());
-
-  if (record) {
-    initialFormValues = { ...initialFormValues, ...record.toJS() };
-  }
 
   const buildValidationSchema = formSections => {
     const schema = formSections.reduce((obj, item) => {
@@ -66,10 +64,20 @@ const RecordForm = ({
   useEffect(() => {
     if (bindedSetValues) {
       if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
-        bindedSetValues({ ...initialFormValues, ...incidentFromCase.toJS() });
+        const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
+
+        bindedSetValues({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
       }
     }
   }, [bindedSetValues, incidentFromCase]);
+
+  useEffect(() => {
+    const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
+
+    if (record) {
+      setInitialValues({ ...initialValues, ...record.toJS(), ...redirectToIncident });
+    }
+  }, [record]);
 
   const handleConfirm = onConfirm => {
     onConfirm();
@@ -80,9 +88,14 @@ const RecordForm = ({
       });
     }
   };
+  const renderFormSections = (fs, setFieldValue, handleSubmit) => {
+    const externalRecordForms = externalForms ? externalForms(selectedForm, setFieldValue, handleSubmit) : null;
 
-  const renderFormSections = fs =>
-    fs.map(form => {
+    if (externalRecordForms) {
+      return externalRecordForms;
+    }
+
+    return fs.map(form => {
       if (selectedForm === form.unique_id) {
         return (
           <div key={form.unique_id}>
@@ -92,7 +105,7 @@ const RecordForm = ({
               displayText={displayNameHelper(form.name, i18n.locale)}
             />
 
-            <RecordFormAlerts recordType={recordType} form={form} />
+            <RecordFormAlerts recordType={recordType} form={form} attachmentForms={attachmentForms} />
 
             {form.fields.map(field => {
               const fieldProps = {
@@ -123,22 +136,23 @@ const RecordForm = ({
 
       return null;
     });
+  };
 
-  if (!isEmpty(initialFormValues) && !isEmpty(forms)) {
+  if (!isEmpty(initialValues) && !isEmpty(forms)) {
     const validationSchema = buildValidationSchema(forms);
 
     return (
       <Formik
-        initialValues={initialFormValues}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         validateOnBlur={false}
         validateOnChange={false}
         enableReinitialize
         onSubmit={values => {
-          onSubmit(initialFormValues, values);
+          onSubmit(initialValues, values);
         }}
       >
-        {({ handleSubmit, submitForm, errors, dirty, isSubmitting, setValues }) => {
+        {({ handleSubmit, submitForm, errors, dirty, isSubmitting, setValues, setFieldValue }) => {
           bindSubmitForm(submitForm);
           bindSetValues(setValues);
 
@@ -157,7 +171,7 @@ const RecordForm = ({
                 )}
               </NavigationPrompt>
               <ValidationErrors formErrors={errors} forms={forms} />
-              {renderFormSections(forms)}
+              {renderFormSections(forms, setFieldValue, handleSubmit)}
             </Form>
           );
         }}
@@ -171,7 +185,10 @@ const RecordForm = ({
 RecordForm.displayName = RECORD_FORM_NAME;
 
 RecordForm.propTypes = {
+  attachmentForms: PropTypes.object,
   bindSubmitForm: PropTypes.func,
+  externalForms: PropTypes.func,
+  fetchFromCaseId: PropTypes.string,
   forms: PropTypes.object.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
   incidentFromCase: PropTypes.object,

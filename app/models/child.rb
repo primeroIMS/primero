@@ -261,11 +261,11 @@ class Child < ApplicationRecord
     Trace
   end
 
-  def associations_as_data
+  def associations_as_data(current_user = nil)
     return @associations_as_data if @associations_as_data
 
-    incident_details = incidents.map do |incident|
-      incident.data&.select { |_, v| !(v.is_a?(Hash) || v.is_a?(Array)) }
+    incident_details = RecordScopeService.scope_with_user(incidents, current_user).map do |incident|
+      incident.data&.reject { |_, v| RecordMergeDataHashService.array_of_hashes?(v) }
     end.compact || []
     @associations_as_data = { 'incident_details' => incident_details }
   end

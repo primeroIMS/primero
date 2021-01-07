@@ -8,6 +8,7 @@
 *.swo
 *.swp
 *.xls
+*.xlsx
 *swp
 *~
 .DS_Store
@@ -81,3 +82,8 @@ public/manifests/*
 public/worker.js
 public/precache-manifest*
 configuration_translation_export*
+/ansible/roles/qi-*
+/ansible/ansible_collections
+/ansible/inventory/inventory.yml
+/ansible/roles/application-primero/files/local.env
+/ansible/secrets.yml

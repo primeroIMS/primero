@@ -1,6 +1,6 @@
-import uuid from "uuid/v4";
+import uuid from "uuid";
 
-import { queueIndexedDB } from "../../db";
+import { DB_COLLECTIONS_NAMES, queueIndexedDB } from "../../db";
 import { METHODS } from "../../config";
 
 export default ({ attachments, id, recordType }) => {
@@ -22,9 +22,16 @@ export default ({ attachments, id, recordType }) => {
             method,
             ...(!isDelete && {
               body: { data: { ...attachment, field_name: current } }
-            })
+            }),
+            db: { id, collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
           },
-          fromQueue: uuid()
+          fromQueue: uuid.v4(),
+          fromAttachment: {
+            ...(isDelete && { id: attachment?._destroy }),
+            field_name: current,
+            record_type: recordType,
+            record: { id }
+          }
         });
       }
     });
@@ -33,6 +40,6 @@ export default ({ attachments, id, recordType }) => {
   }, []);
 
   if (actions) {
-    actions.forEach(action => queueIndexedDB.add(action));
+    queueIndexedDB.add(actions);
   }
 };

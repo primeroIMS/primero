@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { fromJS } from "immutable";
 import { useDispatch, useSelector, batch } from "react-redux";
@@ -13,9 +13,10 @@ import IndexTable from "../../index-table";
 import PageContainer, { PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
 import { getOption, getFields, getAllForms } from "../../record-form";
-import { LOOKUPS, RECORD_TYPES } from "../../../config";
+import { LOOKUPS, RECORD_TYPES, FETCH_PARAM } from "../../../config";
 import { compare } from "../../../libs";
 import { setSelectedForm } from "../../record-form/action-creators";
+import { useMetadata } from "../../records";
 
 import { getMetadata, selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
@@ -27,33 +28,26 @@ const TaskList = () => {
   const css = makeStyles(styles)();
   const recordType = "tasks";
   const dispatch = useDispatch();
-  const defaultFilters = {
-    per: 20,
-    page: 1
-  };
   const listHeaders = useSelector(state => selectListHeaders(state, recordType));
-
+  const metadata = useSelector(state => getMetadata(state));
+  const defaultFilters = metadata;
   const lookupServiceType = useSelector(
     state => getOption(state, LOOKUPS.service_type, i18n.locale),
     (prev, actual) => {
       return isEqual(prev, actual);
     }
   );
-
   const lookupFollowupType = useSelector(
     state => getOption(state, LOOKUPS.followup_type, i18n.locale),
     (prev, actual) => {
       return isEqual(prev, actual);
     }
   );
-
   const fields = useSelector(state => getFields(state), compare);
   const forms = useSelector(state => getAllForms(state), compare);
-  const fieldNames = useSelector(state => getMetadata(state).get("field_names"), compare);
+  const fieldNames = useSelector(state => getMetadata(state, "field_names"), compare);
 
-  useEffect(() => {
-    dispatch(fetchTasks({ options: defaultFilters }));
-  }, []);
+  useMetadata(recordType, metadata, fetchTasks, FETCH_PARAM.DATA);
 
   const columns = data => {
     return listHeaders.map(c => {
@@ -167,22 +161,26 @@ const TaskList = () => {
     });
   };
 
+  const filterFormsWithModule = (moduleId, subforms) => {
+    const subformKeys = [...subforms.keys()].map(subformKey => parseInt(subformKey, 10));
+    const subformFields = fields.filter(field => subformKeys.includes(field.subform_section_id));
+    const subformFieldKeys = [...subformFields.keys()].map(subformKey => parseInt(subformKey, 10));
+
+    return forms.find(
+      form => form.fields.some(field => subformFieldKeys.includes(field)) && form.module_ids.includes(moduleId)
+    ).unique_id;
+  };
+
   const onRowClick = record => {
-    const fieldName = fieldNames.get(record.get("type"));
-    const selectedField = fields.filter(field => field.name === fieldName);
+    const selectedField = fields.filter(field => field.name === record.get("completion_field"));
 
-    const fieldKey = [...selectedField.keys()][0];
-    const selectedForm = forms.find(form => form.get("fields").includes(parseInt(fieldKey, 10)));
+    const fieldKeys = [...selectedField.keys()].map(selected => parseInt(selected, 10));
+    const selectedForms = forms.filter(form => form.get("fields").some(field => fieldKeys.includes(field)));
     const to = Object.keys(RECORD_TYPES).find(key => RECORD_TYPES[key] === record.get("record_type"));
-    let formName = selectedForm.unique_id;
 
-    if (selectedForm.is_nested) {
-      const subformKey = Object.entries(fields.toMap().toJS()).find(
-        field => field[1].subform_section_id === selectedForm.id
-      )[0];
-
-      formName = forms.find(form => form.fields.includes(parseInt(subformKey, 10))).unique_id;
-    }
+    const formName = selectedForms.some(form => form.is_nested)
+      ? filterFormsWithModule(record.get("module_unique_id"), selectedForms)
+      : selectedForms.first().unique_id;
 
     batch(() => {
       dispatch(push(`${to}/${record.get("id")}`));

@@ -9,11 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { localesToRender } from "../utils";
 import FormSection from "../../../../../form/components/form-section";
 import bindFormSubmit from "../../../../../../libs/submit-form";
-import ActionDialog from "../../../../../action-dialog";
+import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { useI18n } from "../../../../../i18n";
 import { compare } from "../../../../../../libs";
 import { submitHandler, whichFormMode } from "../../../../../form";
-import { setDialog } from "../../../../../record-actions/action-creators";
 import { getSelectedSubform } from "../../selectors";
 import styles from "../styles.css";
 
@@ -28,6 +27,8 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
   const locales = localesToRender(i18n);
+  const { dialogClose } = useDialog(NAME);
+
   const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
   const {
     name: fieldName,
@@ -58,9 +59,9 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
   const handleClose = () => {
     if (onClose) {
       onClose();
+    } else {
+      dialogClose();
     }
-
-    dispatch(setDialog({ dialog: NAME, open: false }));
   };
 
   const onSubmit = data => {

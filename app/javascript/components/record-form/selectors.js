@@ -91,7 +91,6 @@ export const getFormNav = (state, query) => {
     .map(fs =>
       NavRecord({
         group: fs.form_group_id,
-        groupName: displayNameHelper(fs.form_group_name, window.I18n.locale),
         groupOrder: fs.order_form_group,
         name: displayNameHelper(fs.name, window.I18n.locale),
         order: fs.order,
@@ -128,7 +127,7 @@ export const getOption = (state, option, locale, stickyOption = "") => {
 
   if (typeof option === "string") {
     const selectedOptions = state
-      .getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]))
+      .getIn([NAMESPACE, "options", "lookups"], fromJS([]))
       .filter(o => o.get("unique_id") === option.replace(/lookup /, ""))
       .first();
 
@@ -138,7 +137,7 @@ export const getOption = (state, option, locale, stickyOption = "") => {
   return transformOptionSource(options, locale, stickyOption);
 };
 
-export const getOptions = state => state.getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]));
+export const getOptions = state => state.getIn([NAMESPACE, "options", "lookups"], fromJS([]));
 
 export const getLookups = (state, page = 1, per = 20) => {
   const data = state.getIn([NAMESPACE, "options", "lookups"], fromJS({}));
@@ -165,8 +164,6 @@ export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
 
 export const getSelectedForm = state => state.getIn([NAMESPACE, "selectedForm"]);
 
-export const getSelectedRecord = state => state.getIn([NAMESPACE, "selectedRecord"]);
-
 export const getServiceToRefer = state => state.getIn([NAMESPACE, "serviceToRefer"], fromJS({}));
 
 export const getOptionsAreLoading = state => state.getIn([NAMESPACE, "options", "loading"], false);
@@ -190,6 +187,10 @@ export const getSubformsDisplayName = (state, locale) =>
     .filter(fs => fs.is_nested)
     .map(fs => fromJS({ [fs.unique_id]: fs.getIn(["name", locale]) }))
     .reduce((acc, next) => acc.merge(next), fromJS({}));
+
+export const getAttachmentForms = state => state.getIn([NAMESPACE, "attachmentMeta", "forms"], fromJS([]));
+
+export const getAttachmentFields = state => state.getIn([NAMESPACE, "attachmentMeta", "fields"], fromJS([]));
 
 export const getFields = state => state.getIn([NAMESPACE, "fields"]);
 

@@ -1,9 +1,10 @@
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
+import { METHODS, RECORD_PATH, ROUTES } from "../../config";
 import { spy, stub } from "../../test";
-import * as idpSelection from "../pages/login/idp-selection";
-import { SET_USER_LOCALE } from "../i18n";
+import * as idpSelection from "../login/components/idp-selection";
+import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../notifier";
 
 import Actions from "./actions";
 import * as actionCreators from "./action-creators";
@@ -13,29 +14,59 @@ describe("User - Action Creators", () => {
   const expectedAsyncActions = [
     {
       type: "user/SET_AUTHENTICATED_USER",
-      payload: { id: 1, username: "primero" }
+      payload: {
+        id: 1,
+        username: "primero"
+      }
     },
     {
       type: "user/FETCH_USER_DATA",
       api: {
         path: "users/1",
-        params: { extended: true },
-        db: { collection: "user" },
-        successCallback: SET_USER_LOCALE
+        params: {
+          extended: true
+        },
+        db: {
+          collection: "user",
+          user: "primero"
+        },
+        successCallback: [
+          {
+            action: "connectivity/QUEUE_STATUS",
+            payload: "ready"
+          },
+          "I18n/SET_USER_LOCALE"
+        ]
+      }
+    },
+    {
+      type: "support/FETCH_DATA",
+      api: {
+        path: "contact_information",
+        db: {
+          collection: "contact_information"
+        }
       }
     },
     {
       type: "application/FETCH_SYSTEM_SETTINGS",
       api: {
         path: "system_settings",
-        params: { extended: true },
-        db: { collection: "system_settings" }
+        params: {
+          extended: true
+        },
+        db: {
+          collection: "system_settings"
+        }
       }
     },
     {
       type: "application/FETCH_SYSTEM_PERMISSIONS",
       api: {
-        path: "permissions"
+        path: "permissions",
+        db: {
+          collection: "permissions"
+        }
       }
     },
     {
@@ -43,14 +74,22 @@ describe("User - Action Creators", () => {
       api: {
         path: "forms",
         normalizeFunc: "normalizeFormData",
-        db: { collection: "forms" }
+        db: {
+          collection: "forms"
+        }
       }
     },
     {
       type: "forms/SET_OPTIONS",
       api: {
         path: "lookups",
-        params: { page: 1, per: 999 }
+        params: {
+          per: 999,
+          page: 1
+        },
+        db: {
+          collection: "options"
+        }
       }
     },
     {
@@ -59,8 +98,8 @@ describe("User - Action Creators", () => {
         path: "nullundefined",
         external: true,
         db: {
-          alwaysCache: false,
           collection: "locations",
+          alwaysCache: false,
           manifest: undefined
         }
       }
@@ -71,12 +110,13 @@ describe("User - Action Creators", () => {
     const creators = { ...actionCreators };
 
     [
-      "setUser",
-      "fetchAuthenticatedUserData",
-      "setAuthenticatedUser",
       "attemptSignout",
       "checkUserAuthentication",
-      "refreshToken"
+      "fetchAuthenticatedUserData",
+      "refreshToken",
+      "resetPassword",
+      "setAuthenticatedUser",
+      "setUser"
     ].forEach(method => {
       expect(creators).to.have.property(method);
       expect(creators[method]).to.be.a("function");
@@ -97,7 +137,7 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.setAuthenticatedUser(user)).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(7);
+      expect(actions).to.have.lengthOf(8);
       expect(actions).to.be.deep.equal(expectedAsyncActions);
     });
   });
@@ -120,11 +160,17 @@ describe("User - Action Creators", () => {
     const expected = {
       path: "users/1",
       params: { extended: true },
-      db: { collection: "user" },
-      successCallback: SET_USER_LOCALE
+      db: { collection: "user", user: "primero" },
+      successCallback: [
+        {
+          action: "connectivity/QUEUE_STATUS",
+          payload: "ready"
+        },
+        "I18n/SET_USER_LOCALE"
+      ]
     };
 
-    actionCreators.fetchAuthenticatedUserData(1)(dispatch);
+    dispatch(actionCreators.fetchAuthenticatedUserData({ username: "primero", id: 1 }));
     const firstCallReturnValue = dispatch.getCall(0).returnValue;
 
     expect(firstCallReturnValue.type).to.deep.equal(Actions.FETCH_USER_DATA);
@@ -181,7 +227,7 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.checkUserAuthentication()).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(7);
+      expect(actions).to.have.lengthOf(8);
       expect(actions).to.be.deep.equal(expectedAsyncActions);
     });
   });
@@ -194,10 +240,53 @@ describe("User - Action Creators", () => {
       method: "POST"
     };
 
-    actionCreators.refreshToken()(dispatch);
+    dispatch(actionCreators.refreshToken());
     const firstCallReturnValue = dispatch.getCall(0).returnValue;
 
     expect(firstCallReturnValue.type).to.deep.equal(Actions.REFRESH_USER_TOKEN);
     expect(firstCallReturnValue.api).to.deep.equal(expected);
+  });
+
+  describe("resetPassword", () => {
+    beforeEach(() => {
+      stub(generate, "messageKey").returns("key-123");
+    });
+
+    afterEach(() => {
+      generate.messageKey.restore();
+    });
+
+    it("should check the 'resetPassword' action creator to return the correct object", () => {
+      const data = {
+        password: "12345",
+        password_confirmation: "12345",
+        reset_password_token: "ABC123"
+      };
+
+      const expected = {
+        type: Actions.RESET_PASSWORD,
+        api: {
+          path: `${RECORD_PATH.users}/password-reset`,
+          method: METHODS.POST,
+          body: data,
+          successCallback: {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              messageKey: "user.password_reset.success",
+              options: {
+                variant: SNACKBAR_VARIANTS.success,
+                key: "key-123"
+              }
+            },
+            redirectWithIdFromResponse: false,
+            redirect: ROUTES.dashboard
+          }
+        }
+      };
+
+      const resetPasswordAction = actionCreators.resetPassword(data);
+
+      expect(resetPasswordAction).to.be.deep.equal(expected);
+    });
   });
 });

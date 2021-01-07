@@ -60,7 +60,7 @@ export const formatValue = (value, i18n, { field, lookups }) => {
 
     return value
       .map(
-        currentValue => field.option_strings_text[i18n.locale].find(option => option.id === currentValue).display_text
+        currentValue => field.option_strings_text.find(option => option.id === currentValue).display_text[i18n.locale]
       )
       .join(", ");
   }

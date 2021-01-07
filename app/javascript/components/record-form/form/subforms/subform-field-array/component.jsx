@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
+import orderBy from "lodash/orderBy";
 
 import SubformFields from "../subform-fields";
 import SubformDialog from "../subform-dialog";
@@ -15,7 +16,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 import { valuesWithDisplayConditions } from "./utils";
 
-const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mode, recordType, formSection }) => {
+const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection }) => {
   const {
     display_name: displayName,
     name,
@@ -24,12 +25,21 @@ const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mod
   } = field;
   // eslint-disable-next-line camelcase
   const displayConditions = subformSectionConfiguration?.display_conditions;
+  // eslint-disable-next-line camelcase
+  const subformSortBy = subformSectionConfiguration?.subform_sort_by;
   const storedValues = getIn(formik.values, name);
   const values = valuesWithDisplayConditions(storedValues, displayConditions);
+
+  const orderedValues = subformSortBy ? orderBy(values, [subformSortBy], ["asc"]) : values;
+
+  useEffect(() => {
+    formik.resetForm({ ...formik.values, [name]: orderedValues });
+  }, [JSON.stringify(orderedValues)]);
+
   const [openDialog, setOpenDialog] = useState({ open: false, index: null });
   const [dialogIsNew, setDialogIsNew] = useState(false);
   const [selectedValue, setSelectedValue] = useState({});
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css, mobileDisplay } = useThemeHelper({ css: styles });
 
   const handleAddSubform = () => {
     setDialogIsNew(true);
@@ -41,23 +51,22 @@ const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mod
 
   useEffect(() => {
     if (typeof index === "number") {
-      setSelectedValue(values[index]);
+      setSelectedValue(orderedValues[index]);
     }
   }, [index]);
 
   const renderEmptyData =
-    values.filter(currValue => Object.values(currValue).every(isEmpty)).length === values.length ? (
+    orderedValues.filter(currValue => Object.values(currValue).every(isEmpty)).length === orderedValues.length ? (
       <SubformEmptyData i18n={i18n} subformName={title} />
     ) : (
       <SubformFields
         arrayHelpers={arrayHelpers}
         field={field}
-        values={values}
+        values={orderedValues}
         locale={i18n.locale}
         mode={mode}
         setOpen={setOpenDialog}
         setDialogIsNew={setDialogIsNew}
-        recordType={recordType}
         form={formSection}
       />
     );
@@ -97,9 +106,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mod
         open={open}
         setOpen={setOpenDialog}
         title={title}
-        initialSubformValue={initialSubformValue}
         formSection={formSection}
-        recordType={recordType}
       />
     </>
   );
@@ -113,9 +120,7 @@ Component.propTypes = {
   formik: PropTypes.object.isRequired,
   formSection: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
-  initialSubformValue: PropTypes.object.isRequired,
-  mode: PropTypes.object.isRequired,
-  recordType: PropTypes.string
+  mode: PropTypes.object.isRequired
 };
 
 export default Component;

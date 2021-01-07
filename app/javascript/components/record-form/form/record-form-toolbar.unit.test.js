@@ -1,5 +1,5 @@
 import { fromJS, OrderedMap } from "immutable";
-import { CircularProgress, Badge } from "@material-ui/core";
+import { CircularProgress, Badge, Button } from "@material-ui/core";
 
 import { SaveReturnIcon } from "../../../images/primero-icons";
 import { setupMountedComponent } from "../../../test";
@@ -194,8 +194,12 @@ describe("<RecordFormToolbar />", () => {
     });
 
     it("renders a RecordFormToolbar/>", () => {
+      const saveButton = savingComponent.find(Button).at(1);
+
       expect(savingComponent.find(RecordFormToolbar)).to.have.lengthOf(1);
       expect(savingComponent.find(CircularProgress)).to.have.lengthOf(1);
+      expect(saveButton.text()).to.equal("buttons.save");
+      expect(saveButton.props().disabled).to.be.true;
     });
   });
 
@@ -239,36 +243,101 @@ describe("<RecordFormToolbar />", () => {
   });
 
   describe("when is an incident from case", () => {
-    const initialStateEditMode = {
+    const initialStateIncidentFromCase = {
       ...initialState,
       records: {
         cases: {
           incidentFromCase: {
-            incident_case_id: "case-id-1"
+            data: {
+              incident_case_id: "case-id-1"
+            }
           }
         }
       }
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordFormToolbar,
-        {
-          ...props,
-          mode: {
-            isNew: false,
-            isEdit: true,
-            isShow: false
-          }
-        },
-        fromJS(initialStateEditMode)
-      ));
-    });
-    it("renders a SaveAndReturn button", () => {
-      const saveAndReturnButton = component.find(ActionButton).last();
+    describe("when in show mode", () => {
+      it("renders a ReturnToCase button if recordType is incident", () => {
+        const { component: incidentComp } = setupMountedComponent(
+          RecordFormToolbar,
+          {
+            ...props,
+            recordType: RECORD_TYPES.incidents,
+            mode: {
+              isNew: false,
+              isEdit: false,
+              isShow: true
+            }
+          },
+          fromJS(initialStateIncidentFromCase)
+        );
+        const returnToCaseButton = incidentComp.find(ActionButton).first();
 
-      expect(saveAndReturnButton.text()).to.equal("buttons.save_and_return");
-      expect(saveAndReturnButton.find(SaveReturnIcon)).to.have.lengthOf(1);
+        expect(returnToCaseButton.text()).to.equal("buttons.return_to_case");
+      });
+
+      it("does not render a ReturnToCase button if recordType is case", () => {
+        const { component: caseComp } = setupMountedComponent(
+          RecordFormToolbar,
+          {
+            ...props,
+            recordType: RECORD_TYPES.cases,
+            mode: {
+              isNew: false,
+              isEdit: false,
+              isShow: true
+            }
+          },
+          fromJS(initialStateIncidentFromCase)
+        );
+        const returnToCaseButton = caseComp.find(ActionButton).first();
+
+        expect(returnToCaseButton.text()).to.not.equal("buttons.return_to_case");
+      });
+    });
+
+    describe("when in edit mode", () => {
+      it("renders a SaveAndReturn button", () => {
+        const { component: caseComp } = setupMountedComponent(
+          RecordFormToolbar,
+          {
+            ...props,
+            recordType: RECORD_TYPES.incidents,
+            mode: {
+              isNew: false,
+              isEdit: true,
+              isShow: false
+            }
+          },
+          fromJS(initialStateIncidentFromCase)
+        );
+
+        const saveAndReturnButton = caseComp.find(ActionButton).last();
+
+        expect(saveAndReturnButton.text()).to.equal("buttons.save_and_return");
+        expect(saveAndReturnButton.find(SaveReturnIcon)).to.have.lengthOf(1);
+      });
+
+      it("does not render a SaveAndReturn button", () => {
+        const { component: caseComp } = setupMountedComponent(
+          RecordFormToolbar,
+          {
+            ...props,
+            recordType: RECORD_TYPES.cases,
+            mode: {
+              isNew: false,
+              isEdit: true,
+              isShow: false
+            }
+          },
+          fromJS(initialStateIncidentFromCase)
+        );
+
+        const saveAndReturnButton = caseComp.find(ActionButton).last();
+
+        expect(saveAndReturnButton.text()).to.not.equal("buttons.save_and_return");
+        expect(saveAndReturnButton.find(SaveReturnIcon)).to.have.lengthOf(0);
+      });
     });
   });
 });

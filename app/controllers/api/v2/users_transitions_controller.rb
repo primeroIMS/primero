@@ -5,7 +5,7 @@ class Api::V2::UsersTransitionsController < ApplicationApiController
   before_action :record_model, only: %i[assign_to transfer_to refer_to]
 
   def assign_to
-    authorize!(:assign, @record_model)
+    authorize_assign!(@record_model)
     @users = User.users_for_assign(current_user, @record_model)
     render 'api/v2/users/users_for_transition'
   end
@@ -17,7 +17,7 @@ class Api::V2::UsersTransitionsController < ApplicationApiController
   end
 
   def refer_to
-    authorize!(:referral, @record_model)
+    authorize_refer_to!(@record_model)
     @users = User.users_for_referral(current_user, @record_model, user_filters)
     UserLocationService.inject_locations(@users)
     render 'api/v2/users/users_for_transition'
@@ -25,11 +25,25 @@ class Api::V2::UsersTransitionsController < ApplicationApiController
 
   private
 
+  def authorize_assign!(record)
+    can_assign =
+      current_user.can?(Permission::ASSIGN.to_sym, record) ||
+        current_user.can?(Permission::ASSIGN_WITHIN_AGENCY.to_sym, record) ||
+        current_user.can?(Permission::ASSIGN_WITHIN_USER_GROUP.to_sym, record)
+    raise Errors::ForbiddenOperation unless can_assign
+  end
+
   def record_model
     @record_model = Record.model_from_name(params[:record_type])
   end
 
   def user_filters
     @user_filters ||= params.permit(:agency, :location, :service)
+  end
+
+  def authorize_refer_to!(record_model)
+    authorize!(:referral, record_model)
+  rescue CanCan::AccessDenied
+    authorize!(:referral_from_service, record_model)
   end
 end

@@ -64,8 +64,6 @@ jobs:
           status=0
           bundle exec rspec spec
           status=$((${status} + $?))
-          npm run test:all
-          status=$((${status} + $?))
           exit ${status}
         displayName: 'Run tests'
         env:
@@ -88,7 +86,7 @@ jobs:
           workingDirectory: 'docker/'
 
       - task: Docker@2
-        displayName: 'Application Push an image to container registry'
+        displayName: 'Application Push an image to UNICEF ACR'
         inputs:
           containerRegistry: '$(dockerRegistryServiceConnection)'
           repository: 'primero/application'
@@ -98,7 +96,7 @@ jobs:
             $(latest)
 
       - task: Docker@2
-        displayName: 'Beanstalkd Push an image to container registry'
+        displayName: 'Beanstalkd Push an image to UNICEF ACR'
         inputs:
           containerRegistry: '$(dockerRegistryServiceConnection)'
           repository: 'primero/beanstalkd'
@@ -108,10 +106,60 @@ jobs:
             $(latest)
 
       - task: Docker@2
-        displayName: 'Solr - Push an image to container registry'
+        displayName: 'Solr - Push an image to UNICEF ACR'
         inputs:
           containerRegistry: '$(dockerRegistryServiceConnection)'
           repository: 'primero/solr'
+          command: 'push'
+          tags: |
+            $(tag)
+            $(latest)
+
+      - task: Docker@2
+        displayName: 'Application Push an image to Dockerhub'
+        inputs:
+          containerRegistry: 'dockerhub-primeroims'
+          repository: 'primeroims/application'
+          command: 'push'
+          tags: |
+            $(tag)
+            $(latest)
+
+      - task: Docker@2
+        displayName: 'Beanstalkd Push an image to Dockerhub'
+        inputs:
+          containerRegistry: 'dockerhub-primeroims'
+          repository: 'primeroims/beanstalkd'
+          command: 'push'
+          tags: |
+            $(tag)
+            $(latest)
+
+      - task: Docker@2
+        displayName: 'Solr - Push an image to Dockerhub'
+        inputs:
+          containerRegistry: 'dockerhub-primeroims'
+          repository: 'primeroims/solr'
+          command: 'push'
+          tags: |
+            $(tag)
+            $(latest)
+
+      - task: Docker@2
+        displayName: 'Nginx - Push an image to Dockerhub'
+        inputs:
+          containerRegistry: 'dockerhub-primeroims'
+          repository: 'primeroims/nginx'
+          command: 'push'
+          tags: |
+            $(tag)
+            $(latest)
+
+      - task: Docker@2
+        displayName: 'Postgres - Push an image to Dockerhub'
+        inputs:
+          containerRegistry: 'dockerhub-primeroims'
+          repository: 'primeroims/postgres'
           command: 'push'
           tags: |
             $(tag)

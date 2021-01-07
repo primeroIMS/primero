@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::FormSectionsController, type: :request do
   before :each do
+    clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role, Lookup)
     Field.where(editable: false).each do |f|
       f.editable = true
       f.save(validate: false)
@@ -18,6 +19,7 @@ describe Api::V2::FormSectionsController, type: :request do
     @form1 = FormSection.create!(
       unique_id: 'form_section_1',
       name_i18n: { en: 'Form Section 1' },
+      parent_form: 'case',
       editable: false,
       fields: [
         Field.new(
@@ -34,6 +36,7 @@ describe Api::V2::FormSectionsController, type: :request do
         en: 'Form Section 2',
         es: 'Sección de formulario 2'
       },
+      parent_form: 'case',
       fields: [
         Field.new(
           name: 'fs2_field_1',
@@ -70,14 +73,31 @@ describe Api::V2::FormSectionsController, type: :request do
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/forms' do
-    it 'list the permitted forms' do
-      login_for_test
+    context 'when not excluding subforms' do
+      it 'list all forms' do
+        login_for_test
 
-      get '/api/v2/forms'
+        get '/api/v2/forms'
 
-      expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(4)
-      expect(json['data'].map { |c| c['unique_id'] }).to include(@form1.unique_id, @form2.unique_id, @form3.unique_id)
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(4)
+        expected = [@form1.unique_id, @form2.unique_id, @form3.unique_id, @form4.unique_id]
+        expect(json['data'].map { |c| c['unique_id'] }).to match_array(expected)
+      end
+    end
+
+    context 'when not including subforms' do
+      it 'list only main level forms' do
+        login_for_test
+
+        params = { exclude_subforms: true }
+        get '/api/v2/forms', params: params
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(3)
+        expected = [@form1.unique_id, @form2.unique_id, @form3.unique_id]
+        expect(json['data'].map { |c| c['unique_id'] }).to match_array(expected)
+      end
     end
   end
 
@@ -96,7 +116,7 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(json['data']['id']).to eq(@form1.id)
     end
 
-    it 'fetches the correct form_group_name with code 200' do
+    it 'NO fetches form_group_name with code 200' do
       login_for_test(
         permissions: [
           Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
@@ -108,7 +128,7 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(response).to have_http_status(200)
 
       expect(json['data']['id']).to eq(@form1.id)
-      expect(json['data']['form_group_name']['en']).to eq('Form Section 1')
+      expect(json['data'].keys).not_to include('form_group_name')
     end
 
     it 'fetches a form which is nested' do
@@ -151,13 +171,23 @@ describe Api::V2::FormSectionsController, type: :request do
   end
 
   describe 'POST /api/v2/forms' do
-    it 'creates a new form with fields and returns 200 and json' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
-        ]
+    before do
+      @form_section_a = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
+      @primero_program = PrimeroProgram.create!(unique_id: 'some_program', name_en: 'Some program')
+      @primero_module = PrimeroModule.create!(
+        primero_program: @primero_program, name: 'Test Module', associated_record_types: ['case'],
+        form_sections: [@form_section_a]
       )
+      @permission_form_manage = Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
+      @role = Role.create!(
+        form_sections: [@form_section_a],
+        name: 'Test Role', permissions: [@permission_form_manage],
+        modules: [@primero_module]
+      )
+    end
 
+    it 'creates a new form with fields and returns 200 and json' do
+      login_for_test(role: @role, permissions: [@permission_form_manage])
       params = {
         data: {
           unique_id: 'client_created_form_1',
@@ -189,7 +219,7 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
     it 'Creates a new form with several fields and validates their order by index' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
+      login_for_test(role: @role, permissions: [@permission_form_manage])
       params = {
         data: {
           unique_id: 'client_created_form_1', name: { en: 'Client Created Form 1' },
@@ -215,7 +245,7 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
     it 'Creates a new form with several fields and adding a customised order' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
+      login_for_test(role: @role, permissions: [@permission_form_manage])
       params = {
         data: {
           unique_id: 'client_created_form_1', name: { en: 'Client Created Form 1' },
@@ -242,12 +272,7 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
     it 'creates a new form with 200 and correctly sets the localized properties' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
-        ]
-      )
-
+      login_for_test(role: @role, permissions: [@permission_form_manage])
       params = {
         data: {
           unique_id: 'client_created_form_1',
@@ -301,11 +326,7 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
     it 'returns a 409 if record already exists' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
-        ]
-      )
+      login_for_test(role: @role, permissions: [@permission_form_manage])
       params = {
         data: {
           id: @form1.id,
@@ -322,12 +343,7 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
     it 'returns a 422 if the case record is invalid' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
-        ]
-      )
-
+      login_for_test(role: @role, permissions: [@permission_form_manage])
       params = {
         data: {
           unique_id: @form1.unique_id,
@@ -646,5 +662,132 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/forms/thisdoesntexist')
     end
+  end
+
+  describe 'GET /api/v2/forms/export' do
+    before do
+      clean_data(PrimeroModule, PrimeroProgram, Lookup)
+
+      @lookup_yes_no = Lookup.create!(
+        unique_id: 'lookup-yes-no',
+        name_i18n: { en: 'Yes / No' },
+        lookup_values_i18n: [
+          { id: 'true', display_text: { en: 'Yes' } },
+          { id: 'false', display_text: { en: 'No' } }
+        ]
+      )
+
+      @lookup_sex = Lookup.create!(
+        unique_id: 'lookup-sex',
+        name_i18n: { en: 'Sex' },
+        lookup_values_i18n: [
+          { id: 'male', display_text: { en: 'Male' } },
+          { id: 'female', display_text: { en: 'Female' } }
+        ]
+      )
+
+      #### Build Hidden Form Section ######
+      cp_form_hidden = FormSection.new(name: 'cases_test_form_hidden', parent_form: 'case', visible: false,
+                                       order_form_group: 1, order: 0, order_subform: 0, form_group_id: 'form_group2',
+                                       unique_id: 'cases_test_form_hidden')
+      cp_form_hidden.fields << Field.new(name: 'relationship', type: Field::TEXT_FIELD, display_name: 'relationship')
+      cp_form_hidden.fields << Field.new(name: 'array_field', type: Field::SELECT_BOX, display_name: 'array_field',
+                                         multi_select: true,
+                                         option_strings_text: [{ id: 'option_1', display_text: 'Option 1' },
+                                                               { id: 'option_2', display_text: 'Option 2' }])
+      cp_form_hidden.save!
+
+      #################
+      # Build GBV Forms
+      #################
+
+      #### Build Form Section with subforms fields and others kind of fields ######
+      subform4 = FormSection.new(name: 'cases_test_subform_4', parent_form: 'case', visible: false, is_nested: true,
+                                 order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'form_group_gbv',
+                                 unique_id: 'cases_test_subform_4')
+      subform4.fields << Field.new(name: 'field_1', type: Field::TEXT_FIELD, display_name: 'field_1')
+      subform4.fields << Field.new(name: 'field_2', type: Field::TEXT_FIELD, display_name: 'field_2')
+      subform4.save!
+      subform5 = FormSection.new(name: 'cases_test_subform_5', parent_form: 'case', visible: false, is_nested: true,
+                                 order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'form_group_gbv',
+                                 unique_id: 'cases_test_subform_5')
+      subform5.fields << Field.new(name: 'field_5', type: Field::TEXT_FIELD, display_name: 'field_5')
+      subform5.fields << Field.new(name: 'field_6', type: Field::TEXT_FIELD, display_name: 'field_6')
+      subform5.save!
+
+      gbv_form1 = FormSection.new(name: 'cases_test_form_gbv', parent_form: 'case', visible: true,
+                                  order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'form_group_gbv',
+                                  unique_id: 'cases_test_form_gbv')
+      gbv_form1.fields << Field.new(name: 'first_name', type: Field::TEXT_FIELD, display_name: 'first_name')
+      gbv_form1.fields << Field.new(name: 'last_name', type: Field::TEXT_FIELD, display_name: 'last_name')
+      gbv_form1.fields << Field.new(name: 'subform_field_4', type: Field::SUBFORM, display_name: 'subform 4 field',
+                                    subform_section_id: subform4.id)
+      gbv_form1.fields << Field.new(name: 'subform_field_5', type: Field::SUBFORM, display_name: 'subform 5 field',
+                                    subform_section_id: subform5.id)
+      gbv_form1.save!
+
+      cp_forms = FormSection.where(unique_id: %w[form_section_1 form_section_2 form_section_3 cases_test_form_hidden])
+      @primero_module_cp = create(:primero_module, unique_id: 'primeromodule-cp', name: 'CP', form_sections: cp_forms)
+
+      gbv_forms = FormSection.where(unique_id: %w[cases_test_form_gbv])
+      @primero_module_gbv = create(:primero_module, unique_id: 'primeromodule-gbv', name: 'GBV',
+                                                    form_sections: gbv_forms)
+    end
+
+    context 'when user has export permission' do
+      before do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
+          ]
+        )
+      end
+
+      context 'and no params are passed' do
+        it 'returns an error' do
+          get '/api/v2/forms/export'
+
+          expect(response).to have_http_status(422)
+          expect(json['errors'].size).to eq(1)
+          expect(json['errors'][0]['message']).to eq('No Exporter Specified')
+        end
+      end
+
+      context 'and export type is passed' do
+        it 'exports all visible CP forms' do
+          params = { export_type: 'xlsx' }
+          get '/api/v2/forms/export', params: params
+
+          expect(response).to have_http_status(200)
+          expect(json['data']['export_file_url']).to be
+          expect(json['data']['export_file_url'].starts_with?('/rails/active_storage/blobs/')).to be_truthy
+          expect(json['data']['export_file_url'].ends_with?(json['data']['export_file_name'])).to be_truthy
+
+          uri = URI(json['data']['export_file_url'])
+          get(uri)
+          expect(response).to have_http_status(302)
+        end
+      end
+    end
+
+    context 'when user does not have export permission' do
+      before do
+        login_for_test
+      end
+
+      it 'returns unauthorized' do
+        get '/api/v2/forms/export'
+
+        expect(response).to have_http_status(403)
+      end
+    end
+
+    after do
+      clean_data(PrimeroModule, PrimeroProgram, Lookup)
+    end
+  end
+
+  after do
+    clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role, Lookup)
   end
 end

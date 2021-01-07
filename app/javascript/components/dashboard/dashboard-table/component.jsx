@@ -1,17 +1,21 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React from "react";
 import { push } from "connected-react-router";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 
-import { dataToJS } from "../../../libs";
-import { ROUTES } from "../../../config";
+import { dataToJS, useThemeHelper } from "../../../libs";
 import { buildFilter } from "../utils";
+import { getPermissions } from "../../user/selectors";
 
 import dashboardTableTheme from "./theme";
 
-const DashboardTable = ({ columns, data, query, title }) => {
+const DashboardTable = ({ columns, data, query, title, pathname }) => {
+  const userPermissions = useSelector(state => getPermissions(state));
+  const clickableCell = [...userPermissions.keys()].includes(pathname.split("/")[1]);
+  const { theme } = useThemeHelper({ theme: dashboardTableTheme(clickableCell) });
+
   const dispatch = useDispatch();
   const options = {
     responsive: "vertical",
@@ -37,10 +41,10 @@ const DashboardTable = ({ columns, data, query, title }) => {
       if (typeof query[rowIndex] !== "undefined") {
         const clickedCellQuery = query[rowIndex][columnName];
 
-        if (Array.isArray(clickedCellQuery)) {
+        if (clickableCell && Array.isArray(clickedCellQuery)) {
           dispatch(
             push({
-              pathname: ROUTES.cases,
+              pathname,
               search: buildFilter(clickedCellQuery, true)
             })
           );
@@ -57,7 +61,7 @@ const DashboardTable = ({ columns, data, query, title }) => {
   };
 
   return (
-    <MuiThemeProvider theme={dashboardTableTheme}>
+    <MuiThemeProvider theme={theme}>
       <MUIDataTable {...tableOptions} />
     </MuiThemeProvider>
   );
@@ -68,6 +72,7 @@ DashboardTable.displayName = "DashboardTable";
 DashboardTable.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  pathname: PropTypes.string.isRequired,
   query: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   title: PropTypes.string
 };

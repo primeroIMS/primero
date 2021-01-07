@@ -16,13 +16,13 @@ const SearchableSelect = ({
   isDisabled,
   isLoading,
   multiple,
-  name,
   onChange,
   onBlur,
   onOpen,
   options,
   TextFieldProps,
-  mode
+  mode,
+  InputLabelProps
 }) => {
   const i18n = useI18n();
   const defaultEmptyValue = multiple ? [] : null;
@@ -45,7 +45,8 @@ const SearchableSelect = ({
 
   const initialValues = () => {
     if (Array.isArray(defaultValues)) {
-      const values = defaultValues.map(selected => selected.value || null);
+      const defaultValuesClear = defaultValues.filter(selected => selected.label);
+      const values = defaultValuesClear.map(selected => selected?.value || null);
 
       return multiple ? values : values[0];
     }
@@ -72,10 +73,7 @@ const SearchableSelect = ({
     },
     fullWidth: true,
     helperText,
-    InputLabelProps: {
-      htmlFor: name,
-      shrink: true
-    },
+    InputLabelProps,
     placeholder: isDisabled ? disabledPlaceholder : i18n.t(`fields.select_${multiple ? "multiple" : "single"}`),
     ...restTextFieldProps
   });
@@ -134,6 +132,7 @@ SearchableSelect.defaultProps = {
 SearchableSelect.propTypes = {
   defaultValues: PropTypes.oneOfType([PropTypes.array, PropTypes.string, PropTypes.object]),
   helperText: PropTypes.string,
+  InputLabelProps: PropTypes.object,
   isClearable: PropTypes.bool,
   isDisabled: PropTypes.bool,
   isLoading: PropTypes.bool,

@@ -32,7 +32,8 @@ import {
   DATE_FIELD,
   SEPARATOR,
   DIALOG_TRIGGER,
-  HIDDEN_FIELD
+  HIDDEN_FIELD,
+  DOCUMENT_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
@@ -81,7 +82,11 @@ const FormSectionField = ({ checkErrors, field }) => {
     option_strings_source_id_key: optionStringsSourceIdKey,
     setOtherFieldValues,
     wrapWithComponent: WrapWithComponent,
-    onClick
+    onClick,
+    placeholder,
+    maxSelectedOptions,
+    onKeyPress,
+    currRecord
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -91,7 +96,10 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   const optionSource = useSelector(
     state =>
-      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, { optionStringsSourceIdKey }),
+      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, {
+        optionStringsSourceIdKey,
+        currRecord
+      }),
     (prev, next) => prev.equals(next)
   );
 
@@ -131,6 +139,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     },
     className: inputClassname,
     format,
+    placeholder,
     ...watchedInputProps
   };
 
@@ -156,7 +165,9 @@ const FormSectionField = ({ checkErrors, field }) => {
     watchedInputsValues,
     clearDependentValues,
     setOtherFieldValues,
-    onClick
+    onClick,
+    onKeyPress,
+    maxSelectedOptions
   };
 
   const Field = (fieldType => {
@@ -168,6 +179,7 @@ const FormSectionField = ({ checkErrors, field }) => {
       case SELECT_FIELD:
         return SelectInput;
       case PHOTO_FIELD:
+      case DOCUMENT_FIELD:
         return AttachmentInput;
       case LABEL_FIELD:
         return Label;

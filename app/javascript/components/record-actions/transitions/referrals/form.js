@@ -27,7 +27,7 @@ const commonHandleWatched = {
   handleWatchedInputs: ({ [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: consent }) => ({ disabled: !consent })
 };
 
-const localReferralFields = ({ i18n, recordType, isReferralFromService }) =>
+const localReferralFields = ({ i18n, recordType, isReferralFromService, record }) =>
   [
     {
       display_name: i18n.t("transfer.agency_label"),
@@ -63,6 +63,7 @@ const localReferralFields = ({ i18n, recordType, isReferralFromService }) =>
       asyncParamsFromWatched: TRANSITIONED_TO_ASYNC_FILTER_FIELDS,
       asyncOptionsLoadingPath: STATE_REFERRAL_LOADING_PATH,
       option_strings_source: OPTION_TYPES.REFER_TO_USERS,
+      currRecord: record,
       setOtherFieldValues: [
         {
           field: FIELDS.LOCATION,
@@ -137,7 +138,7 @@ const remoteReferralFields = ({ i18n, isExternalReferralFromService }) =>
 const commonReferralFields = ({ isReferralFromService, isExternalReferralFromService, i18n }) =>
   [
     {
-      display_name: i18n.t("transfer.is_remote_label"),
+      display_name: i18n.t("referral.is_remote_label"),
       name: FIELDS.REMOTE,
       type: TICK_FIELD,
       disabled: isReferralFromService,

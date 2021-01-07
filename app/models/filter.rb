@@ -337,7 +337,7 @@ class Filter < ValueObject
     agencies = User.agencies_for_user_names(managed_user_names)
     self.options = I18n.available_locales.map do |locale|
       locale_options = agencies.map do |agency|
-        { id: agency.id, display_name: agency.name(locale) }
+        { id: agency.unique_id, display_name: agency.name(locale) }
       end
       { locale => locale_options }
     end.inject(&:merge)
@@ -351,7 +351,7 @@ class Filter < ValueObject
   end
 
   def owned_by_groups_options(_opts = {})
-    self.options = UserGroup.all.map { |user_group| { id: user_group.id, display_name: user_group.name } }
+    self.options = UserGroup.all.map { |user_group| { id: user_group.unique_id, display_name: user_group.name } }
   end
 
   def cases_by_date_options(opts = {})

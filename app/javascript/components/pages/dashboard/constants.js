@@ -55,3 +55,7 @@ export const DASHBOARD_TYPES = Object.freeze({
   BADGED_INDICATOR: "badged_indicator",
   OVERVIEW_BOX: "overview_box"
 });
+
+export const DASHBOARD_FLAGS_SORT_ORDER = "desc";
+
+export const DASHBOARD_FLAGS_SORT_FIELD = "created_at";

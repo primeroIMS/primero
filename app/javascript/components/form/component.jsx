@@ -27,7 +27,8 @@ const Component = ({
   submitAllFields,
   onValid,
   useFormMode,
-  renderBottom
+  renderBottom,
+  submitAlways
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -48,7 +49,8 @@ const Component = ({
       i18n,
       initialValues,
       onSubmit,
-      submitAllFields
+      submitAllFields,
+      submitAlways
     })
   );
 
@@ -91,7 +93,8 @@ Component.defaultProps = {
   formErrors: fromJS([]),
   mode: "new",
   onValid: null,
-  submitAllFields: false
+  submitAllFields: false,
+  submitAlways: false
 };
 
 Component.propTypes = {
@@ -104,6 +107,7 @@ Component.propTypes = {
   onValid: PropTypes.func,
   renderBottom: PropTypes.func,
   submitAllFields: PropTypes.bool,
+  submitAlways: PropTypes.bool,
   useCancelPrompt: PropTypes.bool,
   useFormMode: PropTypes.oneOf(["onSubmit", "onBlur"]),
   validations: PropTypes.object

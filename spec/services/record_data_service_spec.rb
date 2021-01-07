@@ -119,6 +119,17 @@ describe RecordDataService do
     end
   end
 
+  describe '.embed_associations_as_data' do
+    it 'return the incident_details for child' do
+      @record.incidents = [Incident.create!(data: { incident_date: Date.new(2019, 3, 1),
+                                                    description: 'Test 1',
+                                                    owned_by: @user.user_name })]
+      data = RecordDataService.embed_associations_as_data({}, @record, %w[incident_details], @user)
+
+      expect(data.key?('incident_details')).to be_truthy
+    end
+  end
+
   after :each do
     clean_data(Role)
   end

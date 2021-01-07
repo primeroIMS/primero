@@ -45,3 +45,5 @@ export const ROLE_OPTIONS = [
   { id: "role-superuser", display_text: "Superuser" }
 ];
 export const PASSWORD_MODAL = "passwordModal";
+export const PASSWORD_SELF_OPTION = "self";
+export const PASSWORD_USER_OPTION = "user";

@@ -1,19 +1,33 @@
 import { fromJS, Map } from "immutable";
+import isEmpty from "lodash/isEmpty";
 
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
 import { displayNameHelper } from "../../libs";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 
-const referToUsers = state =>
-  state.getIn(["records", "transitions", "referral", "users"], fromJS([])).map(user => {
-    const userName = user.get("user_name");
+const referToUsers = (state, { currRecord }) =>
+  state
+    .getIn(["records", "transitions", "referral", "users"], fromJS([]))
+    .map(user => {
+      const userName = user.get("user_name");
 
-    return {
-      id: userName.toLowerCase(),
-      display_text: userName
-    };
-  });
+      if (!isEmpty(currRecord)) {
+        const currUser = currRecord.get("owned_by");
+
+        if (currUser && currUser === userName) {
+          return {};
+        }
+      }
+
+      return {
+        id: userName.toLowerCase(),
+        display_text: userName
+      };
+    })
+    .filter(user => !isEmpty(user));
+
+const lookupsList = state => state.getIn(["forms", "options", "lookups"], fromJS([]));
 
 const formGroups = (state, i18n) =>
   state
@@ -65,8 +79,7 @@ const modules = state =>
   }));
 
 const lookupValues = (state, optionStringsSource, i18n) =>
-  state
-    .getIn(["forms", "options", "lookups", "data"], fromJS([]))
+  lookupsList(state)
     .find(option => option.get("unique_id") === optionStringsSource.replace(/lookup /, ""), null, fromJS({}))
     .get("values", fromJS([]))
     .reduce(
@@ -81,8 +94,7 @@ const lookupValues = (state, optionStringsSource, i18n) =>
     );
 
 const lookups = (state, i18n) =>
-  state
-    .getIn(["forms", "options", "lookups", "data"], fromJS([]))
+  lookupsList(state)
     .map(lookup =>
       fromJS({
         id: `lookup ${lookup.get("unique_id")}`,
@@ -128,7 +140,7 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) =
     case OPTION_TYPES.LOOKUPS:
       return lookups(state, i18n);
     case OPTION_TYPES.REFER_TO_USERS:
-      return referToUsers(state);
+      return referToUsers(state, { ...rest });
     case OPTION_TYPES.USER_GROUP:
       return userGroups(state);
     case OPTION_TYPES.ROLE:
@@ -143,6 +155,7 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) =
 const transformOptions = (options, i18n) =>
   options.map(option => {
     return fromJS({
+      ...option,
       id: option.id,
       display_text: displayNameHelper(option.display_text, i18n.locale) || option.display_text
     });
@@ -162,9 +175,7 @@ export const getOptions = (state, optionStringsSource, i18n, options, useUniqueI
 };
 
 export const getLookupByUniqueId = (state, lookupUniqueId) =>
-  state
-    .getIn(["forms", "options", "lookups", "data"], fromJS([]))
-    .find(lookup => lookup.get("unique_id") === lookupUniqueId);
+  lookupsList(state).find(lookup => lookup.get("unique_id") === lookupUniqueId);
 
 export const getLoadingState = (state, path) => (path ? state.getIn(path, false) : false);
 
@@ -182,7 +193,11 @@ export const getValueFromOtherField = (state, fields, values) => {
   }, []);
 };
 
+export const getManagedRoleByUniqueId = (state, uniqueID) =>
+  managedRoles(state, "referral").find(role => role.get("unique_id") === uniqueID, null, fromJS({}));
+
 export const getManagedRoleFormSections = (state, uniqueID) =>
-  managedRoles(state, "referral")
-    .find(role => role.get("unique_id") === uniqueID, null, fromJS({}))
-    .get("form_section_unique_ids", fromJS([]));
+  getManagedRoleByUniqueId(state, uniqueID).get("form_section_unique_ids", fromJS([]));
+
+export const getFormGroupLookups = state =>
+  lookupsList(state).filter(lookup => lookup.get("unique_id").startsWith("lookup-form-group-"));

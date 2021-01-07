@@ -35,5 +35,25 @@ export const getRecordFormAlerts = (state, recordType, formUniqueId) =>
     .filter(alert => alert.get("form_unique_id") === formUniqueId);
 
 export const getIncidentFromCase = state => {
-  return state.getIn(["records", "cases", "incidentFromCase"], fromJS({}));
+  return state.getIn(["records", "cases", "incidentFromCase", "data"], fromJS({}));
 };
+
+export const getCaseIdForIncident = state => {
+  return state.getIn(["records", "cases", "incidentFromCase", "incident_case_id"], false);
+};
+
+export const getSelectedRecord = (state, recordType) => state.getIn(["records", recordType, "selectedRecord"]);
+
+export const getRecordAttachments = (state, recordType) =>
+  state.getIn(["records", recordType, "recordAttachments"], fromJS({}));
+
+export const getIsProcessingSomeAttachment = (state, recordType) =>
+  getRecordAttachments(state, recordType)
+    .valueSeq()
+    .some(attachment => attachment.get("processing") === true);
+
+export const getIsProcessingAttachments = (state, recordType, fieldName) =>
+  getRecordAttachments(state, recordType).getIn([fieldName, "processing"], false);
+
+export const getIsPendingAttachments = (state, recordType, fieldName) =>
+  getRecordAttachments(state, recordType).getIn([fieldName, "pending"], false);

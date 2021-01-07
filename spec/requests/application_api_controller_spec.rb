@@ -54,4 +54,13 @@ describe ApplicationApiController, type: :request do
       expect(response.headers['Retry-After']).to eq('60')
     end
   end
+
+  describe 'Default security headers on API calls' do
+    it 'sets the X-Content-Type-Options: nosniff header' do
+      login_for_test
+      get '/api/v2/system_settings'
+
+      expect(response.headers['X-Content-Type-Options']).to eq('nosniff')
+    end
+  end
 end

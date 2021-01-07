@@ -95,7 +95,8 @@ describe("User - Reducers", () => {
           ]
         },
         FilterRecord
-      )
+      ),
+      location: "XX"
     });
     const payload = {
       id: 1,
@@ -107,6 +108,7 @@ describe("User - Reducers", () => {
       module_unique_ids: ["primeromodule-cp", "primeromodule-gbv"],
       permitted_form_unique_ids: ["record_owner", "client_feedback"],
       locale: "en",
+      location: "XX",
       agency: 1,
       reporting_location_config: {
         field_key: "owned_by_location",
@@ -119,6 +121,10 @@ describe("User - Reducers", () => {
           {
             resource: "cases",
             actions: ["manage", "referral", "receive_referral"]
+          },
+          {
+            resource: "incidents",
+            actions: []
           }
         ]
       },
@@ -158,5 +164,41 @@ describe("User - Reducers", () => {
 
     // TODO: Remove .toJS()
     expect(newState.toJS()).to.deep.equal(expected.toJS());
+  });
+
+  it("it should handle RESET_PASSWORD_STARTED", () => {
+    const expected = fromJS({ resetPassword: { saving: true } });
+
+    const action = {
+      type: Actions.RESET_PASSWORD_STARTED
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("it should handle RESET_PASSWORD_SUCCESS", () => {
+    const expected = fromJS({ resetPassword: { saving: false } });
+
+    const action = {
+      type: Actions.RESET_PASSWORD_SUCCESS
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("it should handle RESET_PASSWORD_FAILURE", () => {
+    const expected = fromJS({ resetPassword: { saving: false } });
+
+    const action = {
+      type: Actions.RESET_PASSWORD_FAILURE
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
   });
 });

@@ -27,7 +27,7 @@ const Component = ({ trigger, image }) => {
           <IconButton className={css.backdropClose}>
             <CloseIcon />
           </IconButton>
-          <img src={image} alt="" />
+          {open && <img src={image} alt="" />}
         </Backdrop>
       )}
     </>

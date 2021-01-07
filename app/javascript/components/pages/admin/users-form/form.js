@@ -10,9 +10,17 @@ import {
   OPTION_TYPES
 } from "../../../form";
 
-import { IDENTITY_PROVIDER_ID, USER_GROUP_UNIQUE_IDS, USERGROUP_PRIMERO_GBV } from "./constants";
+import {
+  IDENTITY_PROVIDER_ID,
+  PASSWORD_SELF_OPTION,
+  PASSWORD_USER_OPTION,
+  USER_GROUP_UNIQUE_IDS,
+  USERGROUP_PRIMERO_GBV
+} from "./constants";
 
-const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePassword) => [
+const passwordPlaceholder = formMode => (formMode.get("isEdit") ? "•••••" : "");
+
+const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity) => [
   {
     display_name: i18n.t("user.full_name"),
     name: "full_name",
@@ -33,13 +41,31 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     type: TEXT_FIELD
   },
   {
+    display_name: i18n.t("user.password_setting.label"),
+    name: "password_setting",
+    type: SELECT_FIELD,
+    hideOnShow: true,
+    required: formMode.get("isNew"),
+    visible: formMode.get("isNew"),
+    help_text: i18n.t("user.password_setting.help_text"),
+    option_strings_text: [
+      { id: PASSWORD_SELF_OPTION, display_text: i18n.t("user.password_setting.self") },
+      { id: PASSWORD_USER_OPTION, display_text: i18n.t("user.password_setting.user") }
+    ]
+  },
+  {
     display_name: i18n.t("user.password"),
     name: "password",
     type: TEXT_FIELD,
     password: true,
     hideOnShow: true,
     required: formMode.get("isNew"),
-    editable: false
+    editable: false,
+    placeholder: passwordPlaceholder(formMode),
+    watchedInputs: "password_setting",
+    handleWatchedInputs: value => ({
+      visible: value === PASSWORD_SELF_OPTION || !formMode.get("isNew")
+    })
   },
   {
     display_name: i18n.t("user.password_confirmation"),
@@ -48,12 +74,19 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     password: true,
     hideOnShow: true,
     required: formMode.get("isNew"),
-    editable: false
+    editable: false,
+    placeholder: passwordPlaceholder(formMode),
+    watchedInputs: "password_setting",
+    handleWatchedInputs: value => ({
+      visible: value === PASSWORD_SELF_OPTION || !formMode.get("isNew")
+    })
   },
   {
-    display_name: "Change password",
+    name: "change_password",
+    display_name: i18n.t("buttons.change_password"),
     type: DIALOG_TRIGGER,
     hideOnShow: true,
+    showIf: () => formMode.get("isEdit") && !useIdentity,
     onClick: onClickChangePassword
   },
   {
@@ -85,7 +118,7 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     type: SELECT_FIELD,
     multi_select: true,
     option_strings_source: "lookup-service-type",
-    help_text: i18n.t("user.services_help_text")
+    help_text: formMode.get("isNew") ? i18n.t("user.services_help_text") : ""
   },
   {
     display_name: i18n.t("user.phone"),
@@ -137,7 +170,8 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
   {
     display_name: i18n.t("user.send_mail"),
     name: "send_mail",
-    type: TICK_FIELD
+    type: TICK_FIELD,
+    selected_value: formMode.get("isNew")
   }
 ];
 
@@ -152,7 +186,7 @@ const identityUserFields = (i18n, identityOptions) => [
   }
 ];
 
-const EXCLUDED_IDENITITY_FIELDS = ["password", "password_confirmation"];
+const EXCLUDED_IDENITITY_FIELDS = ["password", "password_confirmation", "password_setting", "change_password"];
 
 // eslint-disable-next-line import/prefer-default-export
 export const form = (
@@ -165,7 +199,7 @@ export const form = (
   hideOnAccountPage = false
 ) => {
   const useIdentity = useIdentityProviders && providers;
-  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword);
+  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity);
   const identityFields = identityUserFields(i18n, identityOptions);
 
   const providersDisable = (value, name, { error }) => {
@@ -175,7 +209,7 @@ export const form = (
 
     return {
       ...(formMode.get("isShow") || {
-        disabled: value === null || value === ""
+        disabled: value === null || value === "" || (name === "user_name" && !formMode.get("isNew"))
       }),
       ...(name === "user_name" && {
         helperText:

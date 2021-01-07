@@ -19,6 +19,12 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("reorderedForms", fromJS({}));
     case actions.ENABLE_REORDER:
       return state.setIn(["reorderedForms", "enabled"], payload);
+    case actions.EXPORT_FORMS_STARTED:
+      return state.setIn(["export", "loading"], true);
+    case actions.EXPORT_FORMS_FINISHED:
+      return state.setIn(["export", "loading"], false);
+    case actions.EXPORT_FORMS_SUCCESS:
+      return state.set("export", fromJS(payload));
     case actions.RECORD_FORMS_SUCCESS: {
       if (payload) {
         const { fields, formSections } = normalizeFormData(payload.data).entities;

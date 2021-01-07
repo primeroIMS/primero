@@ -19,12 +19,23 @@ describe("<RecordActions /> - exports/constants", () => {
       "INDIVIDUAL_FIELDS_FIELD",
       "MODULE_FIELD",
       "NAME",
-      "PASSWORD_FIELD"
+      "PASSWORD_FIELD",
+      "HEADER",
+      "CUSTOM_HEADER",
+      "SIGNATURES",
+      "CASE_WORKER",
+      "CLIENT",
+      "RECIPIENT"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });
 
     expect(clone).to.be.empty;
+  });
+  context("when is ALL_EXPORT_TYPES", () => {
+    it("should be an object", () => {
+      expect(constants.ALL_EXPORT_TYPES).to.be.an("array");
+    });
   });
 });

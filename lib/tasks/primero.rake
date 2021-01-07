@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'writeexcel'
+require 'write_xlsx'
 
 namespace :primero do
   desc 'Remove records'
@@ -84,6 +84,32 @@ namespace :primero do
     importer.import
   end
 
+  # Imports HXL Location data from a csv file
+  # USAGE: rails primero:import_hxl_locations[file_name]
+  # Args:
+  #   file_name             - The CSV file to be imported
+  #
+  # Example:
+  #   rails primero:import_hxl_locations[<path>/hxl_locations.csv]
+  desc 'Import an HXL Location csv file'
+  task :import_hxl_locations, %i[file_name] => :environment do |_, args|
+    file_name = args[:file_name]
+    if file_name.blank?
+      puts 'ERROR: No input file provided'
+      return
+    end
+
+    puts "Importing locations from #{file_name}"
+    data = File.open(file_name, 'rb').read.force_encoding('UTF-8')
+    data_io = StringIO.new(data)
+    importer = Importers::CsvHxlLocationImporter.new
+    importer.import(data_io)
+    puts "Total Rows: #{importer.total}"
+    puts "Total Rows Processed: #{importer.success_total}"
+    puts "Failed rows: #{importer.failures}" if importer.failures.present?
+    puts "Error Messages: #{importer.errors}" if importer.errors.present?
+  end
+
   desc 'Set a default password for all generic users.'
   task default_password: :environment do
     require 'io/console'
@@ -150,22 +176,40 @@ namespace :primero do
     end
   end
 
+  # Exports Forms to a .xlsx spreadsheet
+  # It creates 1 spreadsheet containing a tab for each form
+  #
+  # USAGE: rails primero:forms_to_spreadsheet
+  # Args:
+  #   record_type        - record type (ex. 'case', 'incident', 'tracing_request', etc)     DEFAULT: 'case'
+  #   module_id          - (ex. 'primeromodule-cp', 'primeromodule-gbv')                    DEFAULT: 'primeromodule-cp'
+  #   show_hidden        - Whether or not to include hidden fields                          DEFAULT: false
+  # NOTE:
+  #   No spaces between arguments in argument list
+  # Examples:
+  #   Defaults to exporting all forms for 'case' & 'primeromodule-cp'
+  #      rails primero:forms_to_spreadsheet
+  #
+  #   Exports only tracing_request forms for CP, including hidden forms & fields
+  #      rails primero:forms_to_spreadsheet[tracing_request,primeromodule-cp,true]
+  #
+  #   Exports only the GBV forms
+  #      rails primero:forms_to_spreadsheet['',primeromodule-gbv]
   desc 'Exports forms to an Excel spreadsheet'
-  task :forms_to_spreadsheet, %i[type module show_hidden] => :environment do |_, args|
-    module_id = args[:module].present? ? args[:module] : 'primeromodule-cp'
-    type = args[:type].present? ? args[:type] : 'case'
-    show_hidden = args[:show_hidden].present?
-    file_name = 'forms.xls'
-    puts "Writing #{type} #{module_id} forms to #{file_name}"
-    forms_exporter = Exporters::FormExporter.new(file_name)
-    forms_exporter.export_forms_to_spreadsheet(type, module_id, show_hidden)
-    puts 'Done!'
+  task :forms_to_spreadsheet, %i[record_type module_id show_hidden] => :environment do |_, args|
+    args.with_defaults(module_id: 'primeromodule-cp', record_type: 'case')
+    opts = args.to_h
+    opts[:visible] = args[:show_hidden].present? && args[:show_hidden].start_with?(/[yYTt]/) ? nil : true
+    opts[:file_name] = 'forms.xlsx'
+    exporter = Exporters::FormExporter.new(opts)
+    exporter.export
+    puts "Exported forms to XLSX Spreadsheet #{exporter.file_name}"
   end
 
-  # Example usage: bundle exec rails primero:role_permissions_to_spreadsheet['tmp/test.xls','en']
+  # Example usage: rails primero:role_permissions_to_spreadsheet['tmp/test.xlsx','en']
   desc 'Exports roles permissions to an Excel spreadsheet'
   task :role_permissions_to_spreadsheet, %i[file_name locale] => :environment do |_, args|
-    file_name = args[:file_name] || 'role_permissions.xls'
+    file_name = args[:file_name] || 'role_permissions.xlsx'
     locale = args[:locale] || :en
     puts "Writing role permissions to #{file_name}"
     roles_exporter = Exporters::RolePermissionsExporter.new(file_name, locale)
@@ -203,23 +247,6 @@ namespace :primero do
     RecalculateAge.recalculate!
   end
 
-  desc 'Export All form Fields and Options'
-  # USAGE: $bundle exec rake db:data:xls_export['case','primeromodule-cp',"fr es"]
-  # NOTE: Must pass locales as string separated by spaces e.g. "en fr"
-  task :xls_export, %i[record_type module_id locales show_hidden_forms show_hidden_fields] => :environment do |_, args|
-    module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
-    record_type = args[:record_type].present? ? args[:record_type] : 'case'
-    locales = args[:locales].present? ? args[:locales].split(' ') : []
-    show_hidden_forms = args[:show_hidden_forms].present? && %w[Y y T t].include?(args[:show_hidden_forms][0])
-    show_hidden_fields = args[:show_hidden_fields].present? && %w[Y y T t].include?(args[:show_hidden_fields][0])
-    Rails.logger = Logger.new(STDOUT)
-    exporter = Exporters::XlsFormExporter.new(
-      record_type, module_id,
-      locales: locales, show_hidden_forms: show_hidden_forms, show_hidden_fields: show_hidden_fields
-    )
-    exporter.export_forms_to_spreadsheet
-  end
-
   desc 'Import Forms from spreadsheets directory'
   # USAGE: $bundle exec rake db:data:xls_import['/vagrant/tmp/exports/forms_export_case_cp_YYYYMMDD.HHMMSS/','case','primeromodule-cp']
   # NOTE: The location being passed is a DIRECTORY in which resides any spreadsheets representation of a form
@@ -245,8 +272,8 @@ namespace :primero do
 
     manifest_file = Rails.root.join('config', 'i18n-manifest.txt')
     translations_file = Rails.root.join('public', 'translations.js')
-    md5 = Digest::MD5.file(translations_file)
-    translations_file_fingerprinted = "translations-#{md5}.js"
+    sha1 = Digest::SHA256.file(translations_file)
+    translations_file_fingerprinted = "translations-#{sha1}.js"
 
     File.rename(translations_file, Rails.root.join('public', translations_file_fingerprinted))
     File.write(manifest_file, translations_file_fingerprinted)

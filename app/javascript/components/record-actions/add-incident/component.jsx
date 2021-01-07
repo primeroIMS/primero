@@ -12,14 +12,13 @@ import { compactValues } from "../../record-form/utils";
 import submitForm from "../../../libs/submit-form";
 import resetForm from "../../../libs/reset-form";
 import { ACTIONS } from "../../../libs/permissions";
-import { fetchRecordsAlerts } from "../../records/action-creators";
 import { fetchAlerts } from "../../nav/action-creators";
 import { INCIDENT_DIALOG } from "../constants";
 
 import { NAME, INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./constants";
 import Fields from "./fields";
 
-const Component = ({ openIncidentDialog, close, pending, recordType, selectedRowsIndex, setPending }) => {
+const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPending }) => {
   const formikRef = useRef();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -38,10 +37,10 @@ const Component = ({ openIncidentDialog, close, pending, recordType, selectedRow
   );
 
   useEffect(() => {
-    if (openIncidentDialog) {
+    if (open) {
       resetForm(formikRef);
     }
-  }, [openIncidentDialog]);
+  }, [open]);
 
   if (!form?.toJS()?.length) {
     return [];
@@ -57,7 +56,7 @@ const Component = ({ openIncidentDialog, close, pending, recordType, selectedRow
     dialogTitle: i18n.t("actions.incident_details_from_case"),
     cancelHandler: close,
     onClose: close,
-    open: openIncidentDialog,
+    open,
     pending,
     omitCloseAfterSuccess: true,
     successHandler: () => submitForm(formikRef)
@@ -95,13 +94,12 @@ const Component = ({ openIncidentDialog, close, pending, recordType, selectedRow
               body,
               id,
               i18n.t(`incident.messages.creation_success`),
-              false,
+              i18n.t("offline_submitted_changes"),
               false,
               false,
               INCIDENT_DIALOG
             )
           );
-          dispatch(fetchRecordsAlerts(recordType, id));
         });
       });
       dispatch(fetchAlerts());
@@ -122,7 +120,7 @@ const Component = ({ openIncidentDialog, close, pending, recordType, selectedRow
 
 Component.propTypes = {
   close: PropTypes.func,
-  openIncidentDialog: PropTypes.bool,
+  open: PropTypes.bool,
   pending: PropTypes.bool,
   records: PropTypes.array,
   recordType: PropTypes.string,

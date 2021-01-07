@@ -15,7 +15,6 @@ class Agency < ApplicationRecord
   attribute :logo_full_file_name, :string
   attribute :logo_icon_base64, :string
   attribute :logo_icon_file_name, :string
-  self.unique_id_attribute = :agency_code
 
   validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
   validate :validate_name_in_english
@@ -64,6 +63,10 @@ class Agency < ApplicationRecord
     #       but that functionality is probably deprecated. Review and delete.
     def all_names
       all.map { |r| { id: r.id, display_text: r.name }.with_indifferent_access }
+    end
+
+    def get_field_using_unique_id(unique_id, field)
+      where(unique_id: unique_id).pluck(field)&.first
     end
   end
 

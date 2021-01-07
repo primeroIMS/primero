@@ -9,6 +9,7 @@ export const ACTIONS = {
   ASSIGN: "assign",
   ASSIGN_WITHIN_AGENCY_PERMISSIONS: "assign_within_agency permissions",
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
+  CHANGE_LOG: "change_log",
   CLOSE: "close",
   CREATE: "create",
   DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
@@ -28,6 +29,7 @@ export const ACTIONS = {
   DASH_CASES_BY_TASK_OVERDUE_SERVICES: "cases_by_task_overdue_services",
   DASH_CASE_OVERVIEW: "case_overview",
   DASH_CASE_RISK: "case_risk",
+  DASH_FLAGS: "dash_flags",
   DASH_GROUP_OVERVIEW: "dash_group_overview",
   DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
@@ -89,6 +91,7 @@ export const RESOURCES = {
   contact_information: "contact_information",
   dashboards: "dashboards",
   incidents: "incidents",
+  locations: "locations",
   lookups: "lookups",
   metadata: "metadata",
   potential_matches: "potential_matches",
@@ -154,7 +157,7 @@ export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
 
 export const SHOW_AUDIT_LOGS = [...MANAGE, ACTIONS.READ];
 
-export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL_FROM_SERVICE];
+export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL, ACTIONS.REFERRAL_FROM_SERVICE];
 
 export const REQUEST_APPROVAL = [
   ...MANAGE,
@@ -174,8 +177,7 @@ export const APPROVAL = [
   ACTIONS.APPROVE_GBV_CLOSURE
 ];
 
-export const SHOW_EXPORTS = [
-  ...MANAGE,
+export const EXPORTS_PERMISSIONS = [
   ACTIONS.EXPORT_CASE_PDF,
   ACTIONS.EXPORT_CSV,
   ACTIONS.EXPORT_CUSTOM,
@@ -189,6 +191,8 @@ export const SHOW_EXPORTS = [
   ACTIONS.EXPORT_PHOTO_WALL,
   ACTIONS.EXPORT_UNHCR
 ];
+
+export const SHOW_EXPORTS = [...MANAGE, ...EXPORTS_PERMISSIONS];
 
 export const SHOW_APPROVALS = [
   ...MANAGE,
@@ -229,3 +233,11 @@ export const GROUP_PERMISSIONS = {
   GROUP: "group",
   SELF: "self"
 };
+
+export const allowedExportTypes = userPermissions =>
+  userPermissions &&
+  userPermissions.filter(permission => {
+    return EXPORTS_PERMISSIONS.includes(permission);
+  });
+
+export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.CHANGE_LOG];

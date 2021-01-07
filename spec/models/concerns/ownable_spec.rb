@@ -142,7 +142,11 @@ describe Ownable do
           end
 
           it 'changes previously_owned_by_agency' do
-            expect(@case.previously_owned_by_agency).to eq(@agency1.id)
+            expect(@case.previously_owned_by_agency).to eq(@agency1.unique_id)
+          end
+
+          it 'changes associated_user_names' do
+            expect(@case.associated_user_names).to eq(%w[user2])
           end
 
           describe 'record history' do
@@ -208,6 +212,10 @@ describe Ownable do
 
         it 'does not set previously_owned_by_agency' do
           expect(@case.previously_owned_by_agency).to be_nil
+        end
+
+        it 'changes associated_user_names' do
+          expect(@case.associated_user_names).to eq(%w[user1])
         end
       end
     end

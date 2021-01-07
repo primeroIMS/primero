@@ -266,6 +266,27 @@ describe Approval do
     end
   end
 
+  describe '.approve!' do
+    context 'and record has many alerts' do
+      before do
+        Alert.create(type: Approval::ACTION_PLAN, alert_for: 'approval', date: Date.today, record_id: @case.id, record_type: @case.class )
+        Alert.create(type: Approval::GBV_CLOSURE, alert_for: 'approval', date: Date.today, record_id: @case.id, record_type: @case.class )
+        @approval = Approval.get!(
+          Approval::ACTION_PLAN,
+          @case,
+          @user1.user_name,
+          approval_status: Approval::APPROVAL_STATUS_REQUESTED
+        )
+      end
+
+      it 'should delete one alert for the approval type' do
+        expect(@case.alerts.count).to eq(2)
+        @approval.approve!
+        expect(@case.alerts.count).to eq(1)
+      end
+    end
+  end
+
   after :each do
     clean_data(SystemSettings, Role, Agency, User, Child, Alert, PrimeroProgram, PrimeroModule, FormSection)
   end

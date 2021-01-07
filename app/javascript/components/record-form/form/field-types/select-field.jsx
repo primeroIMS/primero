@@ -207,7 +207,8 @@ const SelectField = ({
       ? buildOptions().filter(optionObject =>
           multiSelect ? value.includes(String(optionObject.value)) : String(optionObject.value) === value.toString()
         )
-      : defaultEmptyValue
+      : defaultEmptyValue,
+    InputLabelProps
   };
 
   useEffect(() => {

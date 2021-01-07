@@ -3,8 +3,10 @@ import { fromJS } from "immutable";
 
 import { NavRecord } from "../../../records";
 import { SHOW_APPROVALS, VIEW_INCIDENTS_FROM_CASE } from "../../../../../libs/permissions";
+import { SHOW_CHANGE_LOG } from "../../../../permissions";
 import {
   APPROVALS,
+  CHANGE_LOGS,
   INCIDENT_FROM_CASE,
   RECORD_OWNER,
   RECORD_TYPES,
@@ -62,6 +64,16 @@ export const getRecordInformationForms = (i18n, recordType) =>
       name: i18n.t("forms.record_types.transfers_assignments"),
       order: 4,
       formId: TRANSFERS_ASSIGNMENTS,
+      is_first_tab: false
+    }),
+    NavRecord({
+      group: RECORD_INFORMATION_GROUP,
+      groupName: i18n.t("forms.record_types.record_information"),
+      groupOrder: 0,
+      name: i18n.t("change_logs.label"),
+      order: 5,
+      formId: CHANGE_LOGS,
+      permission_actions: SHOW_CHANGE_LOG,
       is_first_tab: false
     })
   ]).filter(form => !recordType || !form.get("recordTypes").length || form.get("recordTypes").includes(recordType));

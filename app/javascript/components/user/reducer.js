@@ -1,4 +1,5 @@
 import { Map, fromJS } from "immutable";
+import isEmpty from "lodash/isEmpty";
 
 import { mapObjectPropertiesToRecords, mapListToObject } from "../../libs";
 
@@ -24,21 +25,33 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         filters,
         permitted_form_unique_ids: permittedForms,
         locale,
-        reporting_location_config: reportingLocationConfig
+        reporting_location_config: reportingLocationConfig,
+        location
       } = payload;
+      const cleanedPermissions = permissions.list.filter(listItem => !isEmpty(listItem.actions));
 
       return state.merge(
         fromJS({
           modules,
-          permissions: mapListToObject(permissions.list, "resource", "actions"),
+          permissions: mapListToObject(cleanedPermissions, "resource", "actions"),
           roleId,
           listHeaders: mapObjectPropertiesToRecords(listHeaders, ListHeaderRecord),
           permittedForms,
           filters: mapObjectPropertiesToRecords(filters, FilterRecord),
           locale,
-          reportingLocationConfig
+          reportingLocationConfig,
+          location
         })
       );
+    }
+    case Actions.RESET_PASSWORD_STARTED: {
+      return state.setIn(["resetPassword", "saving"], true);
+    }
+    case Actions.RESET_PASSWORD_SUCCESS: {
+      return state.setIn(["resetPassword", "saving"], false);
+    }
+    case Actions.RESET_PASSWORD_FAILURE: {
+      return state.setIn(["resetPassword", "saving"], false);
     }
     default:
       return state;

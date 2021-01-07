@@ -82,7 +82,7 @@ module Record
     set_instance_id
   end
 
-  def associations_as_data
+  def associations_as_data(_current_user)
     {}
   end
 

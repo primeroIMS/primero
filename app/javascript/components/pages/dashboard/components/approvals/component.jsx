@@ -128,13 +128,11 @@ const Component = ({ loadingIndicator }) => {
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={DASH_APPROVALS}>
-      <Grid item xl={9} md={8} xs={12}>
-        <OptionsBox title={i18n.t("dashboard.approvals")} hasData={approvalsDashHasData} {...loadingIndicator}>
-          <Grid item md={12}>
-            <Grid container>{renderDashboards()}</Grid>
-          </Grid>
-        </OptionsBox>
-      </Grid>
+      <OptionsBox title={i18n.t("dashboard.approvals")} hasData={approvalsDashHasData} {...loadingIndicator}>
+        <Grid item md={12}>
+          <Grid container>{renderDashboards()}</Grid>
+        </Grid>
+      </OptionsBox>
     </Permission>
   );
 };

@@ -56,7 +56,11 @@ export const FieldRecord = Record({
   subform_section_configuration: null,
   setOtherFieldValues: null,
   wrapWithComponent: null,
-  onClick: null
+  onClick: null,
+  placeholder: "",
+  maxSelectedOptions: null,
+  onKeyPress: null,
+  currRecord: fromJS({})
 });
 
 export const FormSectionRecord = Record({

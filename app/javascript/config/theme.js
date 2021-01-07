@@ -12,10 +12,12 @@ const colors = {
   solidBlack: "#000000",
   darkGrey: "#595952",
   blue: "#0093ba",
+  darkBlue: "#048BB0",
   yellow: "#f2c317",
   moonYellow: "#f2b417",
   goldYellow: "#f4ac22",
   red: "#d0021b",
+  redLabelError: "#f44336",
   green: "#839e3c",
   solidGreen: "#7ba024",
   orange: "#e7712d",
@@ -31,7 +33,8 @@ const colors = {
   tundora: "#454545",
   grey: "#4a4a4a",
   contentGrey: "#fbfbfb",
-  stickyGrey: "rgba(251, 251, 251, 0.95)"
+  stickyGrey: "rgba(251, 251, 251, 0.95)",
+  lightGrey2: "#e0e0e0"
 };
 
 const overrides = {
@@ -63,6 +66,18 @@ const overrides = {
     },
     formControl: {
       position: "relative"
+    }
+  },
+  MuiInputBase: {
+    root: {
+      "&$disabled": {
+        cursor: "not-allowed !important"
+      }
+    },
+    input: {
+      "&$disabled": {
+        cursor: "not-allowed !important"
+      }
     }
   },
   MuiInput: {

@@ -26,7 +26,7 @@ import NAMESPACE from "./namespace";
 const Reports = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { css } = useThemeHelper(styles);
+  const { css } = useThemeHelper({ css: styles });
 
   const reports = useSelector(state => selectReports(state));
   const isLoading = useSelector(state => selectLoading(state));
@@ -38,12 +38,12 @@ const Reports = () => {
   //   {
   //     id: "add-new",
   //     label: "Add New",
-  //     onClick: () => console.log("Do Something")
+  //     onClick: () => console.log("Add New")
   //   },
   //   {
   //     id: "arrange-items",
   //     label: "Arrange Items",
-  //     onClick: () => console.log("Do Something")
+  //     onClick: () => console.log("Arrange Items")
   //   },
   //   {
   //     id: "refresh-data",

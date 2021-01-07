@@ -1,7 +1,7 @@
 import { fromJS, Map, List } from "immutable";
 
 import { mergeRecord } from "../../libs";
-import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, RECORD_TYPES } from "../../config";
+import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, RECORD_TYPES } from "../../config";
 
 import {
   RECORDS_STARTED,
@@ -22,7 +22,14 @@ import {
   FETCH_INCIDENT_FROM_CASE_SUCCESS,
   CLEAR_METADATA,
   CLEAR_CASE_FROM_INCIDENT,
-  SET_CASE_ID_FOR_INCIDENT
+  SET_CASE_ID_FOR_INCIDENT,
+  SET_CASE_ID_REDIRECT,
+  SET_SELECTED_RECORD,
+  CLEAR_SELECTED_RECORD,
+  SAVE_ATTACHMENT_SUCCESS,
+  DELETE_ATTACHMENT_SUCCESS,
+  SET_ATTACHMENT_STATUS,
+  CLEAR_RECORD_ATTACHMENTS
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -36,20 +43,28 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("errors", true);
     case `${namespace}/${RECORDS_SUCCESS}`: {
       const { data, metadata } = payload;
+      const selectedRecordId = state.get("selectedRecord");
+      const selectedRecordWillUpdate = selectedRecordId
+        ? data.some(recordUpdate => recordUpdate.id === selectedRecordId)
+        : false;
+      const selectedRecord =
+        selectedRecordId && !selectedRecordWillUpdate
+          ? state.get("data").find(record => record.get("id") === selectedRecordId)
+          : null;
 
       return state
-        .update("data", u => {
+        .update("data", records => {
           return fromJS(
-            data.map(d => {
-              const index = u.findIndex(r => r.get("id") === d.id);
+            data.map(recordUpdate => {
+              const index = records.findIndex(record => record.get("id") === recordUpdate.id);
 
               if (index !== -1) {
-                return mergeRecord(u.get(index), fromJS(d));
+                return mergeRecord(records.get(index), fromJS(recordUpdate));
               }
 
-              return d;
+              return recordUpdate;
             })
-          );
+          ).concat(selectedRecord?.toSeq()?.size ? fromJS([selectedRecord]) : fromJS([]));
         })
         .set("metadata", fromJS(metadata));
     }
@@ -63,6 +78,8 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
     case `${namespace}/${SAVE_RECORD_FAILURE}`:
       return state.set("saving", false);
     case `${namespace}/${SAVE_RECORD_SUCCESS}`:
+    case `${namespace}/${SAVE_ATTACHMENT_SUCCESS}`:
+    case `${namespace}/${DELETE_ATTACHMENT_SUCCESS}`:
     case `${namespace}/${RECORD_SUCCESS}`: {
       const { data } = payload;
       const index = state.get("data").findIndex(r => r.get("id") === data.id);
@@ -122,14 +139,35 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("metadata", fromJS(DEFAULT_METADATA));
     case `${namespace}/${FETCH_INCIDENT_FROM_CASE_SUCCESS}`:
       return RECORD_TYPES[namespace] === RECORD_TYPES.cases
-        ? state.setIn(["incidentFromCase"], fromJS(payload.data))
+        ? state.setIn(["incidentFromCase", "data"], fromJS(payload.data))
         : state;
     case `${namespace}/${SET_CASE_ID_FOR_INCIDENT}`:
       return RECORD_TYPES[namespace] === RECORD_TYPES.cases
-        ? state.setIn(["incidentFromCase", INCIDENT_CASE_ID_FIELD], payload.caseId)
+        ? state
+            .setIn(["incidentFromCase", INCIDENT_CASE_ID_FIELD], payload.caseId)
+            .setIn(["incidentFromCase", INCIDENT_CASE_ID_DISPLAY_FIELD], payload.caseIdDisplay)
         : state;
     case `${namespace}/${CLEAR_CASE_FROM_INCIDENT}`:
       return state.delete("incidentFromCase");
+    case `${namespace}/${SET_CASE_ID_REDIRECT}`: {
+      return RECORD_TYPES[namespace] === RECORD_TYPES.cases
+        ? state.setIn(["incidentFromCase", INCIDENT_CASE_ID_FIELD], payload.json?.data?.id)
+        : state;
+    }
+    case `${namespace}/${SET_SELECTED_RECORD}`: {
+      return state.setIn(["selectedRecord"], payload.id);
+    }
+    case `${namespace}/${CLEAR_SELECTED_RECORD}`: {
+      return state.delete("selectedRecord");
+    }
+    case `${namespace}/${SET_ATTACHMENT_STATUS}`: {
+      return state.updateIn(["recordAttachments", payload.fieldName], data =>
+        (data?.size ? data : fromJS({})).merge(fromJS(payload))
+      );
+    }
+    case `${namespace}/${CLEAR_RECORD_ATTACHMENTS}`: {
+      return state.set("recordAttachments", fromJS({}));
+    }
     default:
       return state;
   }

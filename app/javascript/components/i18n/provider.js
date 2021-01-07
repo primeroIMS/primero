@@ -12,7 +12,6 @@ import { setLocale } from "./action-creators";
 import Context from "./context";
 import { getLocales, getLocale } from "./selectors";
 import useI18n from "./use-i18n";
-import withI18n from "./with-i18n";
 import { getLocaleDir } from "./utils";
 
 const I18nProvider = ({ children }) => {
@@ -44,7 +43,7 @@ const I18nProvider = ({ children }) => {
   };
 
   const translateLocales = () =>
-    locales.reduce((prev, value) => {
+    locales?.reduce((prev, value) => {
       const result = prev.push(fromJS({ id: value, display_text: window.I18n.t(`home.${value}`) }));
 
       return result;
@@ -84,4 +83,4 @@ I18nProvider.propTypes = {
 };
 
 export default I18nProvider;
-export { useI18n, withI18n };
+export { useI18n };

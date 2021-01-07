@@ -275,7 +275,6 @@ describe User do
       user.save
       user.password = 'f00f00'
       user.password_confirmation = 'not f00f00'
-
       user.valid?
       expect(user).not_to be_valid
     end
@@ -289,9 +288,14 @@ describe User do
       expect(user).to be_valid
     end
 
-    it 'should reject passwords that do not have at least one alpha and at least 1 numeric character' do
-      user = build_user(password: 'invalid')
-      expect(user).not_to be_valid
+    it 'should allow passwords with all alpha characters' do
+      user = build_user(password: 'allAlpha')
+      expect(user).to be_valid
+    end
+
+    it 'should allow passwords with all numeric characters' do
+      user = build_user(password: '18675309')
+      expect(user).to be_valid
     end
 
     it 'should reject passwords that are less than 8 characters' do
@@ -344,6 +348,41 @@ describe User do
       after :each do
         clean_data(IdentityProvider)
       end
+    end
+  end
+
+  describe 'automatic password generation on user creation for native users' do
+    before(:each) do
+      clean_data(User, Role, Agency)
+      create(:agency)
+      create(:role)
+    end
+
+    it 'generates a random password when a password is not provided on user creation' do
+      user = build_user
+      user.password = nil
+      user.password_confirmation = nil
+      user.save!
+
+      expect(user.password.length).to be > 40
+      expect(user.password_confirmation.length).to be > 40
+      expect(user.password).to eq(user.password_confirmation)
+    end
+
+    it 'does not generate a random password if a password is provided' do
+      password = 'avalidpasswooo00rd'
+      user = build_user(password: password)
+      user.save!
+
+      expect(user.valid_password?(password)).to be_truthy
+    end
+
+    it 'sends a password reset email when a password is generated' do
+      user = build_user
+      user.password = nil
+      user.password_confirmation = nil
+      expect(Devise::Mailer).to receive(:reset_password_instructions).and_call_original
+      user.save!
     end
   end
 
@@ -870,6 +909,35 @@ describe User do
       users = User.find_permitted_users({ 'user_group_ids' => 'group-a' }, nil, nil, @user)
 
       expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user5])
+    end
+  end
+
+  describe '.user_query_scope' do
+    before :each do
+      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
+                                        description: 'Default Primero Program')
+      @form_section = FormSection.create!(unique_id: 'test_form', name: 'Test Form',
+                                          fields: [Field.new(name: 'national_id_no', type: 'text_field',
+                                                             display_name: 'National ID No')])
+      @cp = PrimeroModule.create!(unique_id: PrimeroModule::CP, name: 'CP', description: 'Child Protection',
+                                  associated_record_types: %w[case tracing_request incident], primero_program: @program,
+                                  form_sections: [@form_section])
+      @role1 = Role.create!(name: 'Admin role', unique_id: 'role_admin',
+                            form_sections: [@form_section], modules: [@cp],
+                            permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
+      @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+      @group1 = UserGroup.create!(name: 'group 1')
+      @current_user = User.create!(full_name: 'Admin User', user_name: 'user_admin', password: 'a12345678',
+                                   password_confirmation: 'a12345678', email: 'user_admin@localhost.com',
+                                   agency_id: @agency1.id, role: @role1, user_groups: [@group1])
+      @child1 = Child.new_with_user(@current_user, name: 'Child 3')
+      [@child1].each(&:save!)
+      Sunspot.commit
+    end
+
+    it 'return the scope of the user' do
+      expect(@current_user.user_query_scope(@child1)).to eql(Permission::USER)
     end
   end
 end

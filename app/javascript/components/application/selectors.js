@@ -2,7 +2,7 @@ import { Map, fromJS } from "immutable";
 
 import { displayNameHelper } from "../../libs";
 
-import { PERMISSIONS, RESOURCE_ACTIONS } from "./constants";
+import { PERMISSIONS, RESOURCE_ACTIONS, DEMO } from "./constants";
 import NAMESPACE from "./namespace";
 
 export const selectAgencies = state => state.getIn([NAMESPACE, "agencies"], fromJS([]));
@@ -36,11 +36,11 @@ export const selectModule = (state, id) => {
 
 export const selectUserIdle = state => state.getIn([NAMESPACE, "userIdle"], false);
 
-export const selectNetworkStatus = state => state.getIn([NAMESPACE, "online"], false);
-
 export const getReportingLocationConfig = state => state.getIn([NAMESPACE, "reportingLocationConfig"], fromJS({}));
 
-export const getAgencyLogos = state => state.getIn(["records", "support", "data", "agencies"], fromJS([]));
+export const getAdminLevel = state => getReportingLocationConfig(state).get("admin_level");
+
+export const getAgencyLogos = state => state.getIn(["application", "primero", "agencies"], fromJS([]));
 
 export const getAgency = (state, id) =>
   state
@@ -80,3 +80,5 @@ export const getRole = (state, uniqueID) =>
 export const getRoleName = (state, uniqueID) => getRole(state, uniqueID).get("name", "");
 
 export const getDisabledApplication = state => state.getIn([NAMESPACE, "disabledApplication"], false);
+
+export const getDemo = state => state.getIn([NAMESPACE, "primero", DEMO], false);

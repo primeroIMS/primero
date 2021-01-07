@@ -17,6 +17,7 @@ describe("Verifying config constant", () => {
       "ASSIGN",
       "ASSIGN_WITHIN_AGENCY_PERMISSIONS",
       "ASSIGN_WITHIN_USER_GROUP",
+      "CHANGE_LOG",
       "CLOSE",
       "CREATE",
       "DASH_CASE_INCIDENT_OVERVIEW",
@@ -36,6 +37,7 @@ describe("Verifying config constant", () => {
       "DASH_CASES_BY_TASK_OVERDUE_SERVICES",
       "DASH_CASE_OVERVIEW",
       "DASH_CASE_RISK",
+      "DASH_FLAGS",
       "DASH_GROUP_OVERVIEW",
       "DASH_PROTECTION_CONCERNS",
       "DASH_REPORTING_LOCATION",
@@ -118,6 +120,7 @@ describe("Verifying config constant", () => {
       "contact_information",
       "dashboards",
       "incidents",
+      "locations",
       "lookups",
       "metadata",
       "potential_matches",
@@ -401,5 +404,35 @@ describe("Verifying config constant", () => {
       permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
+  });
+
+  it("should have SHOW_CHANGE_LOG", () => {
+    const permissions = [...PERMISSIONS.SHOW_CHANGE_LOG];
+
+    expect(permissions).to.be.a("array");
+    [PERMISSIONS.ACTIONS.CHANGE_LOG, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  describe("allowedExportTypes", () => {
+    it("should return an array with the allowed export types", () => {
+      const expected = List([PERMISSIONS.ACTIONS.EXPORT_PDF, PERMISSIONS.ACTIONS.EXPORT_JSON]);
+      const userPermission = List([
+        PERMISSIONS.ACTIONS.EXPORT_PDF,
+        PERMISSIONS.ACTIONS.EXPORT_JSON,
+        PERMISSIONS.ACTIONS.MANAGE
+      ]);
+
+      expect(PERMISSIONS.allowedExportTypes(userPermission)).to.deep.equals(expected);
+    });
+
+    it("should return an empty array if there are not allowed export types", () => {
+      const userPermission = List([PERMISSIONS.ACTIONS.MANAGE]);
+
+      expect(PERMISSIONS.allowedExportTypes(userPermission)).to.be.empty;
+    });
   });
 });

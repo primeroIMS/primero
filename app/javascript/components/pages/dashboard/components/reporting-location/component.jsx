@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { Grid } from "@material-ui/core";
 
 import { getReportingLocation } from "../../selectors";
 import { useI18n } from "../../../../i18n";
@@ -11,6 +10,7 @@ import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { getLocations } from "../../../../record-form";
 import { getReportingLocationConfig } from "../../../../user/selectors";
+import { ROUTES } from "../../../../../config";
 
 import { NAME } from "./constants";
 
@@ -23,14 +23,13 @@ const Component = ({ loadingIndicator }) => {
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_REPORTING_LOCATION}>
-      <Grid item xl={9} md={8} xs={12}>
-        <OptionsBox title={i18n.t("cases.label")} hasData={Boolean(reportingLocation.size)} {...loadingIndicator}>
-          <DashboardTable
-            title={i18n.t("cases.label")}
-            {...toReportingLocationTable(reportingLocation, reportingLocationConfig, i18n, locations)}
-          />
-        </OptionsBox>
-      </Grid>
+      <OptionsBox title={i18n.t("cases.label")} hasData={Boolean(reportingLocation.size)} {...loadingIndicator}>
+        <DashboardTable
+          pathname={ROUTES.cases}
+          title={i18n.t("cases.label")}
+          {...toReportingLocationTable(reportingLocation, reportingLocationConfig, i18n, locations)}
+        />
+      </OptionsBox>
     </Permission>
   );
 };

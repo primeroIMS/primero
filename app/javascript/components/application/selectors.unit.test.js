@@ -48,6 +48,9 @@ const roles = [
 const stateWithNoRecords = fromJS({});
 const stateWithRecords = fromJS({
   application: {
+    primero: {
+      sandbox_ui: true
+    },
     userIdle: true,
     agencies: [agencyWithLogo, agency1, agency2, agency3],
     modules: [
@@ -295,6 +298,20 @@ describe("Application - Selectors", () => {
   describe("getDisabledApplication", () => {
     it("should return boolean value that identifies if the application is disabled or not", () => {
       expect(selectors.getDisabledApplication(stateWithRecords)).to.be.true;
+    });
+  });
+
+  describe("getDemo", () => {
+    it("should return the role name", () => {
+      expect(selectors.getDemo(stateWithRecords)).to.be.true;
+    });
+  });
+
+  describe("getAdminLevel", () => {
+    it("should return the admin_level", () => {
+      const selector = selectors.getAdminLevel(stateWithRecords);
+
+      expect(selector).to.be.equal(2);
     });
   });
 });

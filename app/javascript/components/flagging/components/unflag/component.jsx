@@ -1,14 +1,12 @@
-import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector, batch } from "react-redux";
+import React, { useRef } from "react";
+import { useDispatch, batch } from "react-redux";
 import PropTypes from "prop-types";
 import { object, string } from "yup";
 import { List } from "immutable";
 
 import { useI18n } from "../../../i18n";
 import { unFlag } from "../../action-creators";
-import ActionDialog from "../../../action-dialog";
-import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
-import { setDialog, setPending } from "../../../record-actions/action-creators";
+import ActionDialog, { useDialog } from "../../../action-dialog";
 import { FLAG_DIALOG } from "../../constants";
 import Form, { FieldRecord, FormSectionRecord, FORM_MODE_DIALOG } from "../../../form";
 
@@ -22,37 +20,21 @@ const Component = ({ flag }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formRef = useRef();
-
-  const openUnflagDialog = useSelector(state => selectDialog(state, UNFLAG_DIALOG));
-
-  const dialogPending = useSelector(state => selectDialogPending(state));
-  const setDialogPending = pending => {
-    dispatch(setPending({ pending }));
-  };
-
-  useEffect(() => {
-    if (openUnflagDialog) {
-      setDialogPending(false);
-      dispatch(setDialog({ dialog: FLAG_DIALOG, open: false }));
-    }
-  }, [openUnflagDialog]);
+  const { dialogOpen, setDialog, setDialogPending, dialogPending } = useDialog(UNFLAG_DIALOG);
 
   if (!flag) {
     return null;
   }
 
   const handleReset = () => {
-    dispatch(setDialog({ dialog: UNFLAG_DIALOG, open: false }));
-    setDialogPending(false);
-    dispatch(setDialog({ dialog: FLAG_DIALOG, open: true }));
+    setDialog({ dialog: FLAG_DIALOG, open: true, pending: false });
   };
 
   const handleSubmit = data => {
     batch(() => {
       setDialogPending(true);
       dispatch(unFlag(flag.id, { data }, i18n.t("flags.flag_resolved"), flag.record_type, flag.record_id));
-      dispatch(setDialog({ dialog: UNFLAG_DIALOG, open: false }));
-      dispatch(setDialog({ dialog: FLAG_DIALOG, open: true }));
+      setDialog({ dialog: FLAG_DIALOG, open: true });
     });
   };
 
@@ -77,7 +59,7 @@ const Component = ({ flag }) => {
 
   return (
     <ActionDialog
-      open={openUnflagDialog}
+      open={dialogOpen}
       maxSize="sm"
       dialogTitle={i18n.t("flags.resolve_flag")}
       confirmButtonLabel={i18n.t("flags.resolve_button")}

@@ -7,14 +7,16 @@ import { useSelector, useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
 import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
-import { getRecordFormsByUniqueId, getSelectedRecord, getValidationErrors } from "../selectors";
-import { getIncidentFromCase, getRecordAlerts } from "../../records/selectors";
-import { setSelectedForm, setSelectedRecord } from "../action-creators";
+import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
+import { getIncidentFromCase, getRecordAlerts, getSelectedRecord } from "../../records";
+import { setSelectedForm } from "../action-creators";
 import { compare, ConditionalWrapper } from "../../../libs";
+import { getOptions } from "../../form/selectors";
+import { buildFormGroupUniqueId } from "../../pages/admin/form-builder/utils";
 
 import { NAME } from "./constants";
 import { NavGroup, RecordInformation } from "./components";
@@ -31,10 +33,10 @@ const Component = ({
   selectedRecord,
   toggleNav,
   primeroModule,
-  selectedForm
+  selectedForm,
+  history
 }) => {
   const i18n = useI18n();
-  const history = useHistory();
   const [open, setOpen] = useState("");
   const [previousGroup, setPreviousGroup] = useState("");
   const dispatch = useDispatch();
@@ -46,13 +48,18 @@ const Component = ({
       getRecordFormsByUniqueId(state, {
         recordType: RECORD_TYPES[recordType],
         primeroModule,
-        formName: !selectedForm || !recordInformationFormIds.includes(selectedForm) ? firstTab.unique_id : selectedForm,
+        formName: selectedForm || firstTab.unique_id,
         checkVisible: true
       }),
     compare
   );
+  const formGroupLookup = useSelector(
+    state => getOptions(state, buildFormGroupUniqueId(primeroModule, RECORD_TYPES[recordType].replace("_", "-")), i18n),
+    compare
+  );
+  const firstSelectedForm = selectedRecordForm?.first();
   const validationErrors = useSelector(state => getValidationErrors(state), compare);
-  const currentSelectedRecord = useSelector(state => getSelectedRecord(state));
+  const currentSelectedRecord = useSelector(state => getSelectedRecord(state, recordType));
 
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType), compare);
 
@@ -82,10 +89,14 @@ const Component = ({
   };
 
   useEffect(() => {
-    if (isNew) {
+    if (isNew && !selectedForm) {
       dispatch(setSelectedForm(firstTab.unique_id));
       setOpen(firstTab.form_group_id);
-    } else if (!selectedForm) {
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!selectedForm) {
       dispatch(setSelectedForm(firstTab.unique_id));
       if (currentSelectedRecord !== selectedRecord) {
         setOpen(firstTab.form_group_id);
@@ -97,28 +108,25 @@ const Component = ({
     } else if (recordInformationFormIds.includes(selectedForm)) {
       setOpen(RECORD_INFORMATION_GROUP);
     } else {
+      dispatch(setSelectedForm(firstTab.unique_id));
       setOpen(firstTab.form_group_id);
     }
-  }, [selectedRecordForm?.first()?.form_group_id]);
-
-  useEffect(() => {
-    dispatch(setSelectedRecord(selectedRecord));
-  }, [firstTab]);
+  }, [firstSelectedForm?.form_group_id]);
 
   useEffect(() => {
     // If we are going back
     if (history.action === "POP") {
       if (selectedForm && recordInformationFormIds.includes(selectedForm)) {
         setOpen(RECORD_INFORMATION_GROUP);
-      } else if (incidentFromCase?.size) {
+      } else if (incidentFromCase?.size && recordInformationFormIds.includes(INCIDENT_FROM_CASE)) {
         dispatch(setSelectedForm(INCIDENT_FROM_CASE));
         setOpen(RECORD_INFORMATION_GROUP);
-      } else if (selectedRecordForm?.first()?.form_group_id) {
-        dispatch(setSelectedForm(firstTab.unique_id));
-        setOpen(selectedRecordForm.first().form_group_id);
+      } else if (firstSelectedForm?.form_group_id && selectedForm && selectedForm !== firstSelectedForm.unique_id) {
+        dispatch(setSelectedForm(firstSelectedForm.unique_id));
+        setOpen(firstSelectedForm.form_group_id);
       }
     }
-  }, [history.action, selectedRecordForm?.first()?.form_group_id]);
+  }, [history.action, firstSelectedForm?.form_group_id]);
 
   const renderCloseButtonNavBar = mobileDisplay && (
     <div className={css.closeButtonRecordNav}>
@@ -150,6 +158,7 @@ const Component = ({
           recordAlerts={recordAlerts}
           selectedForm={selectedForm}
           validationErrors={validationErrors}
+          formGroupLookup={formGroupLookup}
         />
       );
     });
@@ -159,7 +168,12 @@ const Component = ({
         <ConditionalWrapper condition={mobileDisplay} wrapper={Drawer} {...drawerProps}>
           {renderCloseButtonNavBar}
           <List className={css.listRecordNav}>
-            <RecordInformation handleClick={handleClick} open={open} selectedForm={selectedForm} />
+            <RecordInformation
+              handleClick={handleClick}
+              open={open}
+              selectedForm={selectedForm}
+              formGroupLookup={formGroupLookup}
+            />
             <Divider />
             {renderFormGroups}
           </List>
@@ -177,6 +191,7 @@ Component.propTypes = {
   firstTab: PropTypes.object,
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
+  history: PropTypes.object,
   isNew: PropTypes.bool,
   mobileDisplay: PropTypes.bool.isRequired,
   primeroModule: PropTypes.string,
@@ -186,4 +201,4 @@ Component.propTypes = {
   toggleNav: PropTypes.bool
 };
 
-export default Component;
+export default withRouter(Component);

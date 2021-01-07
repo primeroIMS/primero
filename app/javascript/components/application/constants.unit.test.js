@@ -4,7 +4,7 @@ describe("<Application /> - Constants", () => {
   it("should have known properties", () => {
     const clonedActions = { ...constants };
 
-    ["PERMISSIONS", "RESOURCES", "RESOURCE_ACTIONS"].forEach(property => {
+    ["DEMO", "PERMISSIONS", "RESOURCES", "RESOURCE_ACTIONS"].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];
     });

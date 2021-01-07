@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
 import omit from "lodash/omit";
+import startCase from "lodash/startCase";
 
 import Form from "../../../form";
 import { useI18n } from "../../../i18n";
@@ -16,7 +17,7 @@ import PdfExporter from "../../../pdf-exporter";
 import { getManagedRoleFormSections } from "../../../form/selectors";
 
 import { getReferralSuccess } from "./selectors";
-import { mapServiceFields } from "./utils";
+import { mapServiceFields, customReferralFormProps } from "./utils";
 import {
   TRANSITION_TYPE,
   SERVICE_EXTERNAL_REFERRAL,
@@ -81,7 +82,10 @@ const Referrals = ({
             ...(!providedConsent && { consent_overridden: values[FIELDS.CONSENT_INDIVIDUAL_TRANSFER] })
           }
         },
-        i18n.t("referral.success", { record_type: recordType, id: recordID })
+        i18n.t("referral.success", {
+          record_type: startCase(RECORD_TYPES[recordType]),
+          id: record.get("case_id_display")
+        })
       )
     );
   };
@@ -102,6 +106,7 @@ const Referrals = ({
     <>
       <Form
         submitAllFields
+        submitAlways
         formSections={forms}
         onSubmit={handleSubmit}
         ref={referralRef}
@@ -120,6 +125,7 @@ const Referrals = ({
             formsSelectedField={FIELDS.ROLE}
             formsSelectedSelector={getManagedRoleFormSections}
             customFilenameField={CUSTOM_EXPORT_FILE_NAME_FIELD}
+            customFormProps={customReferralFormProps(i18n)}
           />
         )}
       />

@@ -1,17 +1,13 @@
-Minipack.configuration do |c|
-  c.cache = !Rails.env.development?
+# frozen_string_literal: true
 
-  c.base_path = Rails.root.join("app", "javascript")
-
-  ["application", "identity"].each do |m|
-    c.add m.to_sym do |a|
-      a.manifest = if Rails.env.development?
-        "http://localhost:9000/#{m}.json"
-      else
-        Rails.root.join('public', 'manifests', "#{m}.json")
-      end  
+Minipack.configuration do |minipack|
+  minipack.cache = !Rails.env.development?
+  minipack.base_path = Rails.root.join('app', 'javascript')
+  %w[application identity].each do |manifest|
+    minipack.add(manifest.to_sym) do |a|
+      manifest_root = Rails.env.development? ? 'http://localhost:9000' : Rails.root.join('public', 'manifests')
+      a.manifest = "#{manifest_root}/#{manifest}.json"
     end
   end
-
-  c.build_cache_key << 'app/javascript/**/*'
+  minipack.build_cache_key << 'app/javascript/**/*'
 end

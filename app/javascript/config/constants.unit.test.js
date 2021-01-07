@@ -27,6 +27,7 @@ describe("Verifying config constant", () => {
       "APPLICATION_NAV",
       "APPROVALS",
       "APPROVALS_TYPES",
+      "CHANGE_LOGS",
       "CODE_FIELD",
       "CONSENT_GIVEN_FIELD_BY_MODULE",
       "DATABASE_NAME",
@@ -34,21 +35,26 @@ describe("Verifying config constant", () => {
       "DATE_TIME_FORMAT",
       "DEFAULT_METADATA",
       "DISPLAY_TEXT_FIELD",
+      "DEFAULT_DATE_VALUES",
+      "FETCH_PARAM",
       "FETCH_TIMEOUT",
       "HTTP_STATUS",
       "IDLE_LOGOUT_TIMEOUT",
       "IDLE_TIMEOUT",
       "ID_FIELD",
       "INCIDENT_CASE_ID_FIELD",
+      "INCIDENT_CASE_ID_DISPLAY_FIELD",
       "INCIDENT_FROM_CASE",
       "LOCALE_KEYS",
       "LOOKUPS",
+      "MAX_ATTACHMENT_SIZE",
       "MAX_IMAGE_SIZE",
       "METHODS",
       "MODES",
       "MODULES",
       "MODULE_TYPE_FIELD",
       "NAME_FIELD",
+      "PASSWORD_MIN_LENGTH",
       "PERMITTED_URL",
       "RECORD_INFORMATION",
       "RECORD_OWNER",
@@ -99,7 +105,7 @@ describe("Verifying config constant", () => {
       it("should have correct constant value", () => {
         const constants = { ...configConstants };
 
-        expect(constants.FETCH_TIMEOUT).equal(50000);
+        expect(constants.FETCH_TIMEOUT).equal(90000);
         expect(constants.DATABASE_NAME).equal("primero");
         expect(constants.IDLE_TIMEOUT).equal(15 * 1000 * 60);
         expect(constants.IDLE_LOGOUT_TIMEOUT).equal(5 * 1000 * 60);
@@ -142,7 +148,9 @@ describe("Verifying config constant", () => {
           "service_type",
           "protection_concerns",
           "followup_type",
-          "reporting_locations"
+          "reporting_locations",
+          "gbv_violence_type",
+          "cp_violence_type"
         );
         expect(constants.RECORD_INFORMATION).to.be.an("array");
         expect(constants.INCIDENT_FROM_CASE).to.be.an("string");
@@ -171,6 +179,8 @@ describe("Verifying config constant", () => {
         expect(constants.DEFAULT_METADATA).to.have.all.keys("page", "per");
 
         expect(constants.HTTP_STATUS).to.have.all.keys("invalidRecord");
+
+        expect(constants.DEFAULT_DATE_VALUES).to.have.all.keys("TODAY", "NOW");
       });
     });
   });

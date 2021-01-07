@@ -8,11 +8,13 @@ import { object, string } from "yup";
 import { useI18n } from "../../../../i18n";
 import { enqueueSnackbar } from "../../../../notifier";
 import { selectAgencies } from "../../../../application/selectors";
-import { getLocations } from "../../../../record-form/selectors";
 import { RECORD_TYPES } from "../../../../../config";
 import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selectors";
 import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
 import { TRANSITIONS_TYPES } from "../../../../transitions/constants";
+import { compare } from "../../../../../libs";
+import { OPTION_TYPES } from "../../../../form";
+import { getOptions } from "../../../../form/selectors";
 
 import {
   TRANSFER_FIELD,
@@ -34,7 +36,8 @@ const TransferForm = ({
   transferRef,
   setPending,
   disabled,
-  setDisabled
+  setDisabled,
+  mode
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -51,7 +54,7 @@ const TransferForm = ({
 
   const agencies = useSelector(state => selectAgencies(state));
 
-  const locations = useSelector(state => getLocations(state));
+  const locations = useSelector(state => getOptions(state, OPTION_TYPES.REPORTING_LOCATIONS, i18n), compare);
 
   const canConsentOverride =
     userPermissions &&
@@ -121,7 +124,9 @@ const TransferForm = ({
         i18n,
         dispatch,
         providedConsent,
-        canConsentOverride
+        canConsentOverride,
+        record,
+        mode
       ),
     validateOnBlur: false,
     validateOnChange: false,
@@ -135,6 +140,7 @@ TransferForm.propTypes = {
   disabled: PropTypes.bool,
   handleSubmit: PropTypes.func,
   isBulkTransfer: PropTypes.bool.isRequired,
+  mode: PropTypes.object,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,

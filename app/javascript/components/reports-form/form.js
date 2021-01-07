@@ -19,7 +19,7 @@ import {
   DISABLED_FIELD,
   REPORTABLE_TYPES
 } from "./constants";
-import { formattedFields } from "./utils";
+import { buildUserModules, formattedFields } from "./utils";
 
 export const validations = i18n =>
   object().shape({
@@ -31,7 +31,7 @@ export const validations = i18n =>
     record_type: string().required().nullable()
   });
 
-export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
+export const form = (i18n, ageHelpText, allRecordForms, isNew, userModules) => {
   // eslint-disable-next-line no-unused-vars
   const checkModuleField = (value, name, { methods }) => {
     const emptyModule = isEmpty(value[MODULES_FIELD]);
@@ -84,7 +84,7 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
           type: SELECT_FIELD,
           required: true,
           multi_select: true,
-          option_strings_source: "Module"
+          option_strings_text: buildUserModules(userModules)
         }),
         FieldRecord({
           display_name: i18n.t("report.record_type"),
@@ -109,6 +109,7 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
           multi_select: true,
           required: true,
           watchedInputs: [MODULES_FIELD, RECORD_TYPE_FIELD],
+          maxSelectedOptions: 2,
           handleWatchedInputs: checkModuleAndRecordType
         }),
         FieldRecord({
@@ -118,6 +119,7 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
           multi_select: true,
           required: true,
           watchedInputs: [MODULES_FIELD, RECORD_TYPE_FIELD],
+          maxSelectedOptions: 2,
           handleWatchedInputs: checkModuleAndRecordType
         }),
         FieldRecord({

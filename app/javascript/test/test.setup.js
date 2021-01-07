@@ -79,13 +79,16 @@ global.localStorage = {
   }
 };
 
-global.window.matchMedia = query => ({
+global.window.defaultMediaQueryList = (args = {}) => ({
   matches: false,
-  media: query,
+  media: "",
   onchange: null,
   addListener: () => {},
-  removeListener: () => {}
+  removeListener: () => {},
+  ...args
 });
+
+global.window.matchMedia = query => window.defaultMediaQueryList({ media: query });
 
 global.document.createRange = () => ({
   setStart: () => {},

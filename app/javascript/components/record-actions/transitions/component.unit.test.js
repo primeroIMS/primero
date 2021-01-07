@@ -74,7 +74,8 @@ describe("<Transitions />", () => {
         "selectedRecords",
         "setPending",
         "transferDialog",
-        "userPermissions"
+        "userPermissions",
+        "open"
       ].forEach(property => {
         expect(transitionsProps).to.have.property(property);
         delete transitionsProps[property];
@@ -88,12 +89,9 @@ describe("<Transitions />", () => {
       record,
       recordType: "cases",
       userPermissions: fromJS({ cases: ["manage"] }),
-      referDialog: true,
-      assignDialog: false,
-      transferDialog: false,
-      handleReferClose: () => {},
-      handleAssignClose: () => {},
-      handleTransferClose: () => {},
+      currentDialog: "referral",
+      open: true,
+      close: () => {},
       pending: false,
       setPending: () => {}
     };
@@ -120,6 +118,7 @@ describe("<Transitions />", () => {
           "record",
           "setPending",
           "selectedIds",
+          "mode",
           "referralRef",
           "disabled",
           "setDisabled",
@@ -176,12 +175,9 @@ describe("<Transitions />", () => {
       record,
       recordType: "cases",
       userPermissions: fromJS({ cases: ["manage"] }),
-      referDialog: false,
-      assignDialog: true,
-      transferDialog: false,
-      handleReferClose: () => {},
-      handleAssignClose: () => {},
-      handleTransferClose: () => {},
+      currentDialog: "assign",
+      open: true,
+      close: () => {},
       pending: false,
       setPending: () => {}
     };
@@ -207,6 +203,7 @@ describe("<Transitions />", () => {
         "record",
         "setPending",
         "selectedIds",
+        "mode",
         "assignRef"
       ];
 
@@ -219,12 +216,9 @@ describe("<Transitions />", () => {
       record,
       recordType: "cases",
       userPermissions: fromJS({ cases: ["manage"] }),
-      referDialog: false,
-      assignDialog: false,
-      transferDialog: true,
-      handleReferClose: () => {},
-      handleAssignClose: () => {},
-      handleTransferClose: () => {},
+      currentDialog: "transfer",
+      open: true,
+      close: () => {},
       pending: false,
       isBulkTransfer: false,
       setPending: () => {}
@@ -255,6 +249,7 @@ describe("<Transitions />", () => {
           "record",
           "setPending",
           "selectedIds",
+          "mode",
           "isBulkTransfer",
           "transferRef",
           "disabled",

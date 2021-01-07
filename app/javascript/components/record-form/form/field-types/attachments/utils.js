@@ -10,3 +10,5 @@ export const buildAttachmentFieldsObject = (name, index) =>
 
     return obj;
   }, {});
+
+export const buildBase64URL = (contentType, data) => `data:${contentType};base64,${data}`;

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_29_171149) do
+ActiveRecord::Schema.define(version: 2020_10_11_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -118,11 +118,6 @@ ActiveRecord::Schema.define(version: 2020_09_29_171149) do
     t.string "matched_trace_id"
     t.uuid "duplicate_case_id"
     t.index ["data"], name: "index_cases_on_data", using: :gin
-  end
-
-  create_table "configuration_bundles", id: :serial, force: :cascade do |t|
-    t.string "applied_by"
-    t.datetime "applied_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "contact_informations", id: :serial, force: :cascade do |t|
@@ -476,11 +471,15 @@ ActiveRecord::Schema.define(version: 2020_09_29_171149) do
     t.datetime "updated_at", null: false
     t.integer "identity_provider_id"
     t.jsonb "identity_provider_sync"
+    t.integer "failed_attempts", default: 0
+    t.string "unlock_token"
+    t.datetime "locked_at"
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["identity_provider_id"], name: "index_users_on_identity_provider_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
+    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end
 

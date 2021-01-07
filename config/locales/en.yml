@@ -18,16 +18,27 @@ en:
   connection_lost: Currently in offline mode
   connected: Connected
   clear: Clear
+  sandbox_ui: Demo
   description: Description
   form: Form
   name: Name
   offline: Offline
+  unavailable_offline: Unavailable offline
+  online: Online
   yes_label: 'Yes'
+  or_label: or
+  select_provider: Select provider
+  log_in_primero_idp: log in with %{idp_name} username
+  offline_submitted_changes: You are currently offline. Your changes will be submitted when you are back online.
+  sync:
+    success: "%{records} records successfully synced."
+    error:
+      create: Failed to create %{record_type}. Please contact support.
+      update: Update to %{record_type} %{short_id} failed. Please contact support.
 
   actions:
     approvals: Approvals
     button: Actions
-    change_log: Change Log
     close: Close
     description:
       invalid: Invalid record
@@ -95,6 +106,11 @@ en:
     retry: This export is invalid. Please try recreating your export.
     started_on: Started
     status: Status
+  form_export:
+    label: Export Form Configuration
+    include_hidden: Include hidden forms and fields?
+    file_name: Create your own file name (Optional)
+    success_message: Successfully generated the export file
   buttons:
     accept: Accept
     add: Add
@@ -157,6 +173,7 @@ en:
     save: Save
     save_and_add_service_provision: Save and Add Service Provision
     save_and_return: Save and Return
+    save_continue: Save and Continue
     save_changes: Save changes
     select: Select
     sort_by_case: Cases
@@ -169,8 +186,10 @@ en:
     update: Update
     view: View
     view_flags_history: View History
+    return_to_case: Return to Case
 
   case:
+    label: Case
     create_new_case: Create New Case
     enter_id_number: Enter the ID number to search for an existing record
     id_search_no_results: There is no match in the system for “%{search_query}”. Please
@@ -181,6 +200,8 @@ en:
       update_success_queue: 'Case %{record_id} was successfully updated in background'
       creation_success: 'Case record successfully created.'
       creation_success_queue: 'Case record successfully created in background.'
+    save: Save Case
+    save_text: Before continuing, please save your changes to the Case.
     workflow:
       assessment: Assessment
       case_plan: Case Plan
@@ -362,6 +383,16 @@ en:
       you are rejecting this case; once you click ‘Reject’ you will no longer have
       access to this case record.
     view_name: View Name
+  change_logs:
+    add_subform: 'Added “%{subform_name}” subform entry #%{short_id}'
+    changes_subform: 'Changes to “%{subform_name}” subform'
+    create: Created record
+    deleted_subform: 'Removed “%{subform_name}” subform entry #%{short_id}'
+    label: Change Log
+    see_details: See Details.
+    change: 'from “%{from_value}” to “%{to_value}”'
+    updated_subform: 'Updated “%{subform_name}” subform entry #%{short_id}'
+    update_subform: 'Updated “%{subform_name}” subform'
   children:
     selectable_date_options:
       assessment_requested_on: Date of Assessment
@@ -525,6 +556,7 @@ en:
     flagged_by: 'Flagged by:'
     flagged_by_me: Flagged By Me
     flagged_by_other: Flagged By Someone Else
+    flagged_cases: Flagged Cases
     follow_up: Follow Up
     forms: FORMS tab
     geographic_area: Geographic Area
@@ -637,7 +669,7 @@ en:
     worker_count_total:
       one: '<span>%{case_worker}</span> has %{stat} <span>total</span> case '
       other: '<span>%{case_worker}</span> has %{stat} <span>total</span> cases '
-    workflow: Workflow - Individual cases
+    workflow: Workflow
     workflow_team: Workflow - Teams cases
     you_have: 'You have '
   disabled:
@@ -720,7 +752,9 @@ en:
       role:
         permission_presence: Please select at least one permission
       user:
+        email: "Please enter a valid email (example: 'name@example.org')"
         password_mismatch: The password fields do not have the same password
+        password_length: The password must be at least %{min} characters
         email_uniqueness: A User with this email address already exists. Please enter a different one
     not_found: No Record(s) Found
     try_again: Try again
@@ -751,6 +785,9 @@ en:
       module_placeholder: Please select a module.
       select_module: Select Module
       submit: OK
+      header: Header
+      custom_header: Custom Header
+      signatures: Include signature lines for
     duplicate_id_csv:
       all: Duplicate ID
       female_abbreviation: F
@@ -770,6 +807,32 @@ en:
     forms:
       button: Export Forms
       label: Export
+      header:
+        form_group: Form Group
+        form_name: Form Name
+        field_id: Field ID
+        field_type: Field Type
+        field_name: Field Name
+        required: Required
+        on_mobile: On Mobile
+        on_short_form: On Short Form
+        option_ids: Option IDs
+        options: Options
+        help_text: Help Text
+        guiding_questions: Guiding Questions
+        visible: Visible
+        lookup_id: Lookup ID
+        lookup_name: Lookup Name
+        option_id: Option ID
+        option_name: Option Name
+      options:
+        location: Locations
+        agency: Agencies
+        user: Users
+        reportinglocation: Reporting Locations
+        subforms: 'Subform: %{subform_name}'
+        collapsed_fields: 'Collapsed Fields: %{fields}'
+
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:
       all: Incident Recorder
@@ -782,6 +845,8 @@ en:
     list_view_csv:
       all: Export List View
       selected: Selected to CSV
+    messages:
+      no_exporter: No Exporter Specified
     mrm_violation_xls:
       all: MRM Violations
       one: MRM Violations
@@ -793,6 +858,14 @@ en:
       selected: Selected to PDF
     pdf_exports:
       label: PDF
+      recipient: Recipient
+      case_worker: Case Worker
+      client: Client
+      date: Date
+      recipient_name: Recipient Name
+      recipient_agency: Recipient Agency
+      caseworker_name: Caseworker Name
+      caseworker_agency: Caseworker Agency
     photowall:
       all: Photo Wall
       flag_suspect_record: Flagged as Suspect Record
@@ -844,10 +917,20 @@ en:
       one: UNHCR
       selected: Selected to UNHCR
       unknown_abbreviation: U
-    xls:
+    xlsx:
       all: Excel
       one: Excel
       selected: Selected to Excel
+  imports:
+    csv_hxl_location:
+      messages:
+        success: Locations were successfully imported
+        no_data: 'Import Not Processed: No data passed in'
+        csv_parse_error: 'Import Not Processed: Error parsing CSV data'
+        error: 'Row %{row_number} Not Processed: %{message}'
+        db_error: 'Error creating %{location_code}: %{message}'
+        locale_invalid: 'Skipping %{column_name}: Locale invalid'
+        insert_all_error: 'Import Not Processed. Database error: %{message}'
   fields:
     action: Action
     actions: Actions
@@ -856,7 +939,6 @@ en:
     add_existing_field: Add Existing Field
     add_field: Add Field
     add_field_type: Add %{file_type}
-    add_new_field: Create new Field
     audio:
       current: Current Audio
     audio_upload_box: Audio Upload
@@ -901,6 +983,7 @@ en:
     english_text: English Text
     field_name: Field Name
     field_type: Field type
+    attachment_too_large: File should not be larger than 10mb
     file_upload_box:
       add_document_label: Add Document
       add_new_document_button_text: Add another document
@@ -947,6 +1030,7 @@ en:
     predifined_lookups: Use pre-defined lookup
     radio_button: Radio Button
     remove: Remove
+    remove_attachment_confirmation: Are you sure you want to remove this attachment?
     required: Required
     required_field: '%{field} is required'
     search_existing: Search existing fields
@@ -992,6 +1076,7 @@ en:
     flag_added: Flag added successfully
     flag_date: Flag Date
     flag_reason: Flag Reason
+    flag_reason_maximun_label: Maximum 255 characters.
     flag_resolved: Flag resolved
     flags_tab: Flags
     no_flags: No flags found
@@ -1098,6 +1183,7 @@ en:
     welcome: Welcome to Primero
     zh: 中文
   incident:
+    associated_case: "Associated Case:"
     messages:
       creation_success: Incident record successfully created.
       creation_success_queue: Incident record successfully created in background
@@ -1325,6 +1411,13 @@ en:
       village: Village
       zone: Zone
     label: Location
+    name: Name
+    code: Code
+    admin_level: Admin Level
+    type: Type
+    hierarchy: Hierarchy
+    import_title: Import Location
+    message: Please select a CSV file to upload. This file should use UTF-8 encoding and include HXL hashtags in the second header row of each column.
   logger:
     approve_form:
       action_plan: Action Plan form
@@ -1388,9 +1481,19 @@ en:
     label: Login
     password:
       label: Password
+    password_confirmation:
+      label: Password Confirmation
+    password_match:
+      label: Password Must Match
     provider_title: with %{provider}
     title: Log In
     username: User Name
+    password_reset_modal: Reset Password
+    password_reset_modal_text: Primero will send a password reset link to your email address
+    password_reset_email: Email
+    forgot_password: Forgot your password?
+    email:
+      label: Email
   lookup:
     create: New Lookup
     enabled_label: Enabled?
@@ -1419,7 +1522,9 @@ en:
       you are back online
     field_name_on_form_name: '''%{field_name}'' field on ''%{form_name}'' form.'
     logout_confirmation: Do you want to continue your session?
+    logout_offline_warning: Are sure you want to log out? If you do, you will not be able to log back in until you are online again. Any changes you made while offline will be lost.
     logout_warning: You will be logged off in 5 minutes
+    logout_dialog_header: Offline Log Out
     no_changes: You made no field changes
   navigation:
     bulk_exports: Exports
@@ -2088,6 +2193,9 @@ en:
               manager has their own cases, they should assign these cases to case
               workers on their team.'
             label: (For Managers) Cases I need to assign to people on my team
+          dash_flags:
+            explanation: Shows a list of flags other users have added to my records, as well as flags I have added to other users’ records.
+            label: Flagged Records
           dash_group_overview:
             explanation: Shows a manager the number of open and closed cases managed
               by the users in their team.
@@ -2421,7 +2529,7 @@ en:
         explanation: 'This will control what level of locations appear for this Role
           in the dashboards, filters, referral modals, and transfer modals. If you
           leave this field blank, this Role will see the system’s default Reporting
-          Location level.  Enter the number assocaited with the desired level as follows:'
+          Location level.'
         label: What location type should be used for reporting for this role?
       role:
         actions:
@@ -2650,14 +2758,14 @@ en:
   record_information:
     assigned_user_names: Other Assigned Users
     created_by: Record created by
-    created_by_agency: Created by agency
+    created_organization: Created by agency
     current_owner_separator: Current Owner
     module_id: Module
     owned_by: Caseworker Code
     owned_by_agency_id: Agency
     owned_by_text: Field/Case/Social Worker
-    previous_agency: Previous Agency
     previously_owned_by: Previous Owner
+    previously_owned_by_agency: Previous Agency
     reassigned_tranferred_on: Reassigned / Transferred On
     record_history_separator: Record History
   record_panel:
@@ -2675,6 +2783,7 @@ en:
     service_label: Service
     success: '%{record_type} %{id} successfully referred'
     user_mandatory_label: Recipient is required
+    date: Date
   report:
     aggregate_by: Group by row
     attribute: Attribute
@@ -2807,6 +2916,7 @@ en:
       follow_up: Follow Up - %{subtype}
       service: Service - %{subtype}
   tracing_request:
+    label: Tracing Request
     messages:
       update_success: 'Tracing Request %{record_id} was successfully updated.'
       creation_success: Tracing Request record successfully created.
@@ -2848,6 +2958,7 @@ en:
   transfer_assignment:
     title: TRANSFERS AND ASSIGNMENTS
   transition:
+    agency_label: Agency
     assigned_by: Assigned By
     consent_individual_transfer_value:
       true_label: 'Yes'
@@ -2909,6 +3020,14 @@ en:
     organization: Organization
     agency: Agency
     services_help_text: If you do not specify services, this User will be given the same services its Agency has.
+    password_setting:
+      label: How should Primero set the user’s password?
+      self: I will set the password
+      user: User will set the password using the welcome email
+      help_text: Please remember that if you, the administrator, set the password manually, you will need to share it with the user in a secure manner.
+    password_reset_header: Send password reset email
+    password_reset_text: If you click ‘Send,’ this user will receive an email with a link to reset their password.
+    password_reset_request: Send password reset email
     password: Password
     password_confirmation: Password Confirmation
     phone: Phone
@@ -2922,12 +3041,29 @@ en:
     welcome_email:
       subject: 'Welcome to %{system}!'
       greeting: 'Welcome to %{system}!'
-      body_native: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) to receive your user name and password in order to log on to %{host}.'
+      body_native: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) for follow up instructions to get started working with %{host}.'
       body_sso: 'You have been added as a %{role_name}. You may now log on to %{host} with your %{agency_name} account %{user_name}. Please contact %{admin_full_name} (%{admin_email}) for further details.'
       body_with_password: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) to receive your user name. Use the password %{otp} to log on to %{host}, and reset when prompted.'
       url_label: Primero
       enabled_label: Send Welcome Email?
       text_label: Welcome Email Text
+    password_reset:
+      email_greeting: "Dear %{full_name}"
+      email_body1: "Someone made a request to set your password for %{host_href}. Click on the url below to get started:"
+      email_body2: "This link will expire in %{hours} hours and can only be used once. Please ignore this email if you did not make a password reset request or a new Primero user was not registered on your behalf. If the link above is expired, please click %{reset_request_href} to resubmit a password reset request."
+      email_body_link: here
+      request_submitted: "Password reset request submitted"
+      success: "Password successfuly changed"
+      errors:
+        reset_password_token: "Invalid password reset token"
+        password_confirmation: "Passwords must match"
+    onboard_email:
+      subject: "Onboarding to %{system}"
+      greeting: "Dear %{full_name},"
+      body1: "Welcome to Primero!"
+      body2: "You have been designated as the implementing administrator for %{host_href}. %{reset_notification}"
+      body2_reset_notification: "You will receive an additional email prompting you to reset your password."
+      body3: "You are responsible for ensuring secure and timely implementation. For each rollout, you should have completed the Implementation Plan with onboarding and user management strategy and information sharing protocol. You are also responsible for ensuring that a signed Terms of Use is on file for all user organizations."
   user_group:
     description: Description
     disabled:
@@ -2947,3 +3083,9 @@ en:
       user_name: Username
       position: Position
       agency: Agency
+  devise:
+    failure:
+      already_authenticated: "You are already signed in."
+      invalid: "Invalid %{authentication_keys} or password."
+      locked: "Your account is locked."
+      last_attempt: "You have one more attempt before your account is locked."

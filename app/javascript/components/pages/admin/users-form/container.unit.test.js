@@ -1,10 +1,13 @@
 import { fromJS } from "immutable";
+import React from "react";
+import { Route } from "react-router-dom";
 
 import { setupMountedComponent } from "../../../../test";
 import applicationActions from "../../../application/actions";
 import { ACTIONS } from "../../../../libs/permissions";
 import { FormAction } from "../../../form";
 import { MODES } from "../../../../config";
+import UserActions from "../../../user-actions";
 
 import UsersForm from "./container";
 
@@ -61,7 +64,7 @@ describe("<UsersForm />", () => {
   });
 
   it("renders 18 fields", () => {
-    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(18);
+    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(19);
   });
 
   it("renders submit button with valid props", () => {
@@ -136,19 +139,15 @@ describe("<UsersForm />", () => {
       }
     });
 
-    it("should render 14 fields", () => {
-      const { component: newComponent } = setupMountedComponent(UsersForm, { mode: MODES.edit }, state, [
-        "/admin/users/1"
-      ]);
+    const { component: newComponent } = setupMountedComponent(UsersForm, { mode: MODES.edit }, state, [
+      "/admin/users/1"
+    ]);
 
+    it("should render 14 fields", () => {
       expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(14);
     });
 
     it("should not fetch user groups and roles", () => {
-      const { component: newComponent } = setupMountedComponent(UsersForm, { mode: MODES.edit }, state, [
-        "/admin/users/1"
-      ]);
-
       const actionTypes = newComponent
         .props()
         .store.getActions()
@@ -156,6 +155,85 @@ describe("<UsersForm />", () => {
 
       expect(actionTypes.includes(applicationActions.FETCH_USER_GROUPS)).to.be.false;
       expect(actionTypes.includes(applicationActions.FETCH_ROLES)).to.be.false;
+    });
+
+    it("renders 'Change Password' link", () => {
+      expect(newComponent.find("a").text()).to.be.equal("buttons.change_password");
+    });
+  });
+
+  describe("when in show mode", () => {
+    it("renders actions", () => {
+      const initialState = fromJS({
+        records: {
+          users: {
+            selectedUser: users.jose,
+            data: [Object.values(users)],
+            metadata: { total: 2, per: 20, page: 1 }
+          }
+        },
+        application: {
+          agencies
+        },
+        user: {
+          username: users.carlos.user_name,
+          permissions
+        }
+      });
+
+      const TestComponent = initialProps => (
+        <Route path="/admin/users/:id" component={props => <UsersForm {...{ ...props, ...initialProps }} />} />
+      );
+
+      const { component: showComponent } = setupMountedComponent(TestComponent, { mode: "show" }, initialState, [
+        "/admin/users/1"
+      ]);
+
+      expect(showComponent.find(UserActions)).to.have.lengthOf(1);
+    });
+  });
+
+  describe("when we use IDP", () => {
+    const state = fromJS({
+      records: {
+        users: {
+          data: [Object.values(users)],
+          metadata: { total: 2, per: 20, page: 1 },
+          selectedUser: users.jose
+        }
+      },
+      application: {
+        agencies
+      },
+      user: {
+        username: users.jose.user_name,
+        permissions
+      },
+      idp: {
+        loading: false,
+        use_identity_provider: true,
+        identity_providers: [
+          {
+            domain_hint: "google.com",
+            provider_type: "b2c",
+            unique_id: "test",
+            authorization_url: "https://test.com",
+            verification_url: "https://test.com",
+            name: "Test",
+            client_id: "e3443e90-18bc-4a23-9982-7fd5e67ff339",
+            user_domain: "test1.com",
+            id: 1
+          }
+        ]
+      }
+    });
+
+    it("should not render 'Change Password' link", () => {
+      const { component: IdpComponent } = setupMountedComponent(UsersForm, { mode: MODES.edit }, state, [
+        "/admin/users/edit/1"
+      ]);
+
+      expect(IdpComponent.find("a")).to.be.empty;
     });
   });
 });

@@ -4,7 +4,7 @@ import { RECORD_PATH } from "../../../config/constants";
 export const EXPORT_FORMAT = Object.freeze({
   JSON: "json",
   CSV: "csv",
-  EXCEL: "xls",
+  EXCEL: "xlsx",
   PDF: "pdf",
   CUSTOM: "custom"
 });
@@ -26,7 +26,7 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
   }),
   Object.freeze({
-    id: "xls",
+    id: "xlsx",
     permission: ACTIONS.EXPORT_EXCEL,
     format: EXPORT_FORMAT.EXCEL,
     recordTypes: [RECORD_PATH.cases]
@@ -86,6 +86,12 @@ export const CUSTOM_FORMAT_TYPE_FIELD = "custom_format_type";
 export const INDIVIDUAL_FIELDS_FIELD = "individual_fields";
 export const FORM_TO_EXPORT_FIELD = "form_unique_ids";
 export const FIELDS_TO_EXPORT_FIELD = "field_names";
+export const HEADER = "header";
+export const CUSTOM_HEADER = "custom_header";
+export const SIGNATURES = "signatures";
 export const FILTERS_TO_SKIP = Object.freeze(["fields", "id_search", "per", "page", "total"]);
 export const PASSWORD_FIELD = "password";
 export const CUSTOM_EXPORT_FILE_NAME_FIELD = "custom_export_file_name";
+export const CASE_WORKER = "case_worker";
+export const CLIENT = "client";
+export const RECIPIENT = "recipient";
