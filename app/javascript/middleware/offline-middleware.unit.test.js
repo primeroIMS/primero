@@ -80,7 +80,6 @@ describe("middleware/offline-middleware.js", () => {
       invoke(action);
 
       expect(queueFetchSpy).to.have.been.calledWith(action);
-      expect(Queue.queue.find(qAction => qAction.type === "queue_get_action")).to.exist;
     });
   });
 
