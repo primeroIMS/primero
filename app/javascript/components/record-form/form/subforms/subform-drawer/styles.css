@@ -1,0 +1,22 @@
+.subformDrawer {
+  width: 70%;
+}
+
+.subformDrawerContent {
+  padding: 50px;
+}
+
+.title {
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+
+  & h1 {
+    flex: 1 0 auto;
+    margin: 0;
+  }
+}
+
+.closeButton {
+  color: $(theme.primero.colors.black) !important;
+}
