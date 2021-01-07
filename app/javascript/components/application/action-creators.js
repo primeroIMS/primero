@@ -79,3 +79,8 @@ export const fetchSandboxUI = () => ({
     }
   }
 });
+
+export const setReturnUrl = payload => ({
+  type: actions.SET_RETURN_URL,
+  payload
+});

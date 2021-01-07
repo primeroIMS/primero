@@ -1,10 +1,12 @@
+import { TRACES_SUBFORM_UNIQUE_ID } from "../../../../../config";
+
 import * as helpers from "./utils";
 
 describe("Verifying utils", () => {
   it("should have known utils", () => {
     const clonedHelpers = { ...helpers };
 
-    ["valuesWithDisplayConditions", "fieldsToRender"].forEach(property => {
+    ["isTracesSubform", "valuesWithDisplayConditions", "fieldsToRender"].forEach(property => {
       expect(clonedHelpers).to.have.property(property);
       delete clonedHelpers[property];
     });
@@ -137,5 +139,15 @@ describe("fieldsToRender", () => {
     const options = helpers.fieldsToRender(listFields, fields);
 
     expect(options).to.deep.equal(expected);
+  });
+});
+
+describe("isTracesSubform", () => {
+  it("should return true if it is the traces subform", () => {
+    expect(helpers.isTracesSubform("tracing_requests", { unique_id: TRACES_SUBFORM_UNIQUE_ID })).to.be.true;
+  });
+
+  it("should return false if it is not the traces subform", () => {
+    expect(helpers.isTracesSubform("tracing_requests", { unique_id: "some_form_id" })).to.be.false;
   });
 });

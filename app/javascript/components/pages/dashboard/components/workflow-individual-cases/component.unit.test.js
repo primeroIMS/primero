@@ -49,16 +49,14 @@ describe("<WorkflowIndividualCases> - pages/dashboard/components/workflow-indivi
           unique_id: MODULES.CP,
           name: "CP",
           workflows: {
-            case: {
-              en: [
-                { id: "new", display_text: "New" },
-                { id: "care_plan", display_text: "Care plan" },
-                {
-                  id: "service_provision",
-                  display_text: "Service provision"
-                }
-              ]
-            }
+            case: [
+              { id: "new", display_text: { en: "New" } },
+              { id: "care_plan", display_text: { en: "Care plan" } },
+              {
+                id: "service_provision",
+                display_text: { en: "Service provision" }
+              }
+            ]
           }
         })
       ]

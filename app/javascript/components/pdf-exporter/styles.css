@@ -4,7 +4,7 @@
 }
 
 .headerContainer, .secondaryHeaderContainer {
-  /* display: none; */
+  display: none;
   height: 1.5in;
   width: 7.5in;
 

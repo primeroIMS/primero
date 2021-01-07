@@ -8,3 +8,4 @@ export { default as toTasksOverdueTable } from "./to-tasks-overdue-table";
 export { default as permittedSharedWithMe } from "./permitted-shared-with-me";
 export { default as taskOverdueHasData } from "./tasks-overdue-has-data";
 export { default as teamSharingTable } from "./team-sharing-table";
+export { default as toCasesBySocialWorkerTable } from "./to-cases-by-social-worker-table";

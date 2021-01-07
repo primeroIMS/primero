@@ -228,6 +228,12 @@ class Dashboard < ValueObject
     ].freeze
   )
 
+  DASH_CASES_BY_SOCIAL_WORKER = Dashboard.new(
+    name: 'dash_cases_by_social_worker',
+    type: 'indicator',
+    indicators: Indicators::Case::CASES_BY_SOCIAL_WORKER
+  ).freeze
+
   def self.dash_reporting_location(role = nil)
     Dashboard.new(
       name: 'reporting_location',

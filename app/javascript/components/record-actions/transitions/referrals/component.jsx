@@ -106,6 +106,7 @@ const Referrals = ({
     <>
       <Form
         submitAllFields
+        submitAlways
         formSections={forms}
         onSubmit={handleSubmit}
         ref={referralRef}

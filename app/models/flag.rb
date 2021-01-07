@@ -96,28 +96,28 @@ class Flag < ApplicationRecord
   end
 
   class << self
-    def by_owner(query_scope, record_types, flagged_by)
+    def by_owner(query_scope, active_only, record_types, flagged_by)
       record_types ||= %w[cases incidents tracing_requests]
       owner = query_scope[:user]['user']
-      return find_by_owner('by_record_associated_user', record_types, flagged_by, owner: owner) if owner.present?
+      return find_by_owner('by_record_associated_user', active_only, record_types, flagged_by, owner: owner) if owner.present?
 
       group = query_scope[:user]['group']
-      return  find_by_owner('by_record_associated_groups', record_types, flagged_by, group: group) if group.present?
+      return  find_by_owner('by_record_associated_groups', active_only, record_types, flagged_by, group: group) if group.present?
 
       agency = query_scope[:user]['agency']
-      return find_by_owner('by_record_agency', record_types, flagged_by, agency: agency) if agency.present?
+      return find_by_owner('by_record_agency', active_only, record_types, flagged_by, agency: agency) if agency.present?
 
       []
     end
 
     private
 
-    def find_by_owner(scope_to_use, record_types, flagged_by, params = {})
+    def find_by_owner(scope_to_use, active_only, record_types, flagged_by, params = {})
       record_types = %w[cases incidents tracing_requests] if record_types.blank?
       flags = []
       record_types.each do |record_type|
         params[:type] = record_type
-        flags << send(scope_to_use, params).where(where_params(flagged_by)).select(select_fields(record_type))
+        flags << send(scope_to_use, params).where(where_params(flagged_by, active_only)).select(select_fields(record_type))
       end
       mask_flag_names(flags.flatten)
     end
@@ -129,12 +129,11 @@ class Flag < ApplicationRecord
       end
     end
 
-    def where_params(flagged_by)
-      return {} if flagged_by.blank?
-
-      {
-        flagged_by: flagged_by
-      }
+    def where_params(flagged_by, active_only)
+      where_params = {}
+      where_params[:flagged_by] = flagged_by if flagged_by.present?
+      where_params[:removed] = false if active_only
+      where_params
     end
 
     def select_fields(record_type)
