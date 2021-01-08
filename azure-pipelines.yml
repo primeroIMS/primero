@@ -17,8 +17,7 @@ variables:
 jobs:
   - job: Test
     displayName: 'Run tests'
-    pool:
-      vmImage: $(vmImageName)
+    pool: primerox-azdo-a-ms
     steps:
       - bash: |
           set -e
@@ -36,39 +35,32 @@ jobs:
         displayName: 'Install node'
       - bash: npm install
         displayName: 'Install npm packages'
-      - task: UseRubyVersion@0
-        inputs:
-          versionSpec: '= 2.6.6'
-          addToPath: true
-        displayName: 'Install ruby'
       - bash: |
-          sudo apt-get update
-          sudo apt-get install -y libpq-dev
+          apt-get update
+          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-10 openjdk-8-jre
           gem install bundler
-        displayName: 'Install bundler and its dependencies'
-      - bash: |
-          sudo apt-get update
-          sudo apt-get install -y libsodium-dev
-        displayName: 'Install native dependencies'
+        displayName: 'Install dependencies'
       - bash: bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
         displayName: 'Bundle install'
-      - bash: sudo apt-get install -y postgresql-client-10
-        displayName: 'Install postgres client'
-      - bash: docker run --rm -d -p 5432:5432 postgres:10@sha256:2aef165ab4f30fbb109e88959271d8b57489790ea13a77d27c02d8adb8feb20f
-        displayName: 'Start postgres'
+      - bash: bundle exec rake sunspot:solr:start
+        displayName: 'Starting solr'
+        env:
+          RAILS_ENV: test
       - bash: |
-          bundle exec rake sunspot:solr:start
           bundle exec rails db:drop
           bundle exec rails db:create
           bundle exec rails db:migrate
-          status=0
           bundle exec rspec spec
-          status=$((${status} + $?))
-          exit ${status}
-        displayName: 'Run tests'
+        displayName: 'Run Rspec test'
         env:
+          RAILS_ENV: test
           DEVISE_JWT_SECRET_KEY: $(DEVISE_JWT_SECRET_KEY)
           DEVISE_SECRET_KEY: $(DEVISE_SECRET_KEY)
+      - bash: |
+          npm run test:all
+        displayName: 'Run Integration test'
+
+
   - job: Build
     displayName: 'Build and push'
     dependsOn: Test
