@@ -116,6 +116,15 @@ module Exporters
         @form_sections = self.class.case_form_sections_by_module(cases, current_user)
       end
 
+      if cases.present? && SystemSettings.current.try(:pdf_logo_agency_unique_id).present?
+        agency = Agency.get(SystemSettings.current.try(:pdf_logo_agency_unique_id))
+        if agency.present? && agency['logo_key'].present? && agency.media_for_key(agency['logo_key']).present?
+          image = agency.media_for_key(agency['logo_key']).data
+          @pdf.image image, :position => :center, :vposition => :top, :width => 235
+          @pdf.move_down 20
+        end
+      end
+
       cases.each do |cs|
         @subjects << cs.case_id
         @pdf.start_new_page if @pdf.page_number > 1
