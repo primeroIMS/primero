@@ -31,7 +31,7 @@ jobs:
         displayName: 'Make required directories and copy files'
       - task: NodeTool@0
         inputs:
-          versionSpec: '11.15.0'
+          versionSpec: '14.15.0'
         displayName: 'Install node'
       - bash: npm install
         displayName: 'Install npm packages'
