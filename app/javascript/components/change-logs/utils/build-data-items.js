@@ -1,5 +1,5 @@
 import generateKey from "../../charts/table-values/utils";
-import { APPROVALS, CREATE_ACTION, SUBFORM } from "../constants";
+import { APPROVALS, CREATE_ACTION, SUBFORM, EXCLUDED_LOG_ACTIONS } from "../constants";
 
 import getTranslatedValue from "./get-translated-value";
 import getFieldAndValuesTranslations from "./get-field-and-values-translations";
@@ -9,12 +9,21 @@ const generateUpdateMessage = (
   field,
   value,
   commonProps,
+  allAgencies,
   allLookups,
   locations,
   handleSeeDetails,
   i18n
 ) => {
-  const fieldsTranslated = getFieldAndValuesTranslations(allLookups, locations, i18n, fieldRecord, field, value);
+  const fieldsTranslated = getFieldAndValuesTranslations(
+    allAgencies,
+    allLookups,
+    locations,
+    i18n,
+    fieldRecord,
+    field,
+    value
+  );
   const dateIncludeTime = fieldRecord?.get("date_include_time");
 
   if (fieldRecord?.get("type") === SUBFORM || field === APPROVALS) {
@@ -37,7 +46,7 @@ const generateUpdateMessage = (
   };
 };
 
-export default (recordChangeLogs, allFields, allLookups, locations, handleSeeDetails, i18n) => {
+export default (recordChangeLogs, allFields, allAgencies, allLookups, locations, handleSeeDetails, i18n) => {
   if (!recordChangeLogs.size) {
     return [];
   }
@@ -47,6 +56,10 @@ export default (recordChangeLogs, allFields, allLookups, locations, handleSeeDet
       date: log.datetime,
       user: log.user_name
     };
+
+    if (EXCLUDED_LOG_ACTIONS.includes(log.action)) {
+      return [...acc];
+    }
 
     if (log.action === CREATE_ACTION) {
       return [
@@ -59,29 +72,38 @@ export default (recordChangeLogs, allFields, allLookups, locations, handleSeeDet
       ];
     }
 
-    const updateMessages = log.record_changes.map(change => {
-      const fieldName = Object.keys(change)[0];
-      const fieldChanges = Object.values(change)[0];
+    const updateMessages = log.record_changes
+      .filter(change => {
+        if (Object.keys(change)[0] === "id" || EXCLUDED_LOG_ACTIONS.includes(Object.keys(change)[0])) {
+          return false;
+        }
 
-      const fieldRecord = allFields.filter(recordField => recordField.name === fieldName)?.first();
-      const updateProps = generateUpdateMessage(
-        fieldRecord,
-        fieldName,
-        fieldChanges,
-        commonProps,
-        allLookups,
-        locations,
-        handleSeeDetails,
-        i18n
-      );
+        return true;
+      })
+      .map(change => {
+        const fieldName = Object.keys(change)[0];
+        const fieldChanges = Object.values(change)[0];
 
-      return {
-        ...commonProps,
-        ...updateProps,
-        key: generateKey(),
-        isSubform: fieldRecord?.get("type") === SUBFORM || fieldName === APPROVALS
-      };
-    });
+        const fieldRecord = allFields.filter(recordField => recordField.name === fieldName)?.first();
+        const updateProps = generateUpdateMessage(
+          fieldRecord,
+          fieldName,
+          fieldChanges,
+          commonProps,
+          allAgencies,
+          allLookups,
+          locations,
+          handleSeeDetails,
+          i18n
+        );
+
+        return {
+          ...commonProps,
+          ...updateProps,
+          key: generateKey(),
+          isSubform: fieldRecord?.get("type") === SUBFORM || fieldName === APPROVALS
+        };
+      });
 
     return [...acc, ...updateMessages];
   }, []);

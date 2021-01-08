@@ -40,7 +40,7 @@ import AttachmentInput from "../fields/attachment-input";
 import Label from "../fields/label";
 import { getOptions } from "../selectors";
 
-const FormSectionField = ({ checkErrors, field }) => {
+const FormSectionField = ({ checkErrors, disableUnderline, field }) => {
   const {
     type,
     hideOnShow,
@@ -85,7 +85,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     onClick,
     placeholder,
     maxSelectedOptions,
-    onKeyPress
+    onKeyPress,
+    currRecord
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -95,7 +96,10 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   const optionSource = useSelector(
     state =>
-      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, { optionStringsSourceIdKey }),
+      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, {
+        optionStringsSourceIdKey,
+        currRecord
+      }),
     (prev, next) => prev.equals(next)
   );
 
@@ -122,7 +126,7 @@ const FormSectionField = ({ checkErrors, field }) => {
   const commonInputProps = {
     name,
     disabled:
-      typeof disabled === "boolean" ? disabled : formMode.get("isShow") || (formMode.get("isEdit") && !editable),
+      formMode.get("isShow") || (typeof disabled === "boolean" ? disabled : formMode.get("isEdit") && !editable),
     required,
     autoFocus,
     error: typeof error !== "undefined" || renderError(),
@@ -133,6 +137,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     InputLabelProps: {
       shrink: true
     },
+    InputProps: { disableUnderline },
     className: inputClassname,
     format,
     placeholder,
@@ -223,8 +228,13 @@ const FormSectionField = ({ checkErrors, field }) => {
 
 FormSectionField.displayName = "FormSectionField";
 
+FormSectionField.defaultProps = {
+  disableUnderline: false
+};
+
 FormSectionField.propTypes = {
   checkErrors: PropTypes.object,
+  disableUnderline: PropTypes.bool,
   field: PropTypes.object.isRequired
 };
 

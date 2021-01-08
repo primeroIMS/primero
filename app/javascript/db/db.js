@@ -140,7 +140,7 @@ class DB {
       }
 
       try {
-        const prev = (await this._db).get(store, isDataArray ? r.id : records[r]?.id);
+        const prev = await collection.get(isDataArray ? r.id : records[r]?.id);
 
         if (prev) {
           await collection.put(isDataArray ? merge(prev, r) : merge(prev, records[r]));

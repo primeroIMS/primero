@@ -62,5 +62,9 @@ export const getServerStatus = () => ({
 export const checkServerStatus = isOnline => async dispatch => {
   dispatch(closeSnackbar(isOnline ? CONNECTION_LOST : CONNECTED));
   dispatch(setNetworkStatus(isOnline));
-  dispatch(getServerStatus());
+  if (isOnline) {
+    dispatch(getServerStatus(isOnline));
+  } else {
+    dispatch({ type: ENQUEUE_SNACKBAR, ...onlineSnackbar(isOnline, true) });
+  }
 };

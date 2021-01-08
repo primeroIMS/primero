@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { ListItem } from "@material-ui/core";
+import { ListItem, ListItemText } from "@material-ui/core";
 
 import { ConditionalWrapper } from "../../../../libs";
 import { setupMountedComponent } from "../../../../test";
@@ -57,6 +57,10 @@ describe("<Nav />", () => {
 
   it("renders a ConditionalWrapper", () => {
     expect(component.find(ConditionalWrapper)).to.have.lengthOf(1);
+  });
+
+  it("renders a ListItemText", () => {
+    expect(component.find(ListItemText).last().text()).to.be.equal("test");
   });
 
   it("renders a ListItem", () => {

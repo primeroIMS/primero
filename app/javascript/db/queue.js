@@ -9,8 +9,8 @@ const queueIndexedDB = {
     return DB.getAll(DB_STORES.OFFLINE_REQUESTS);
   },
 
-  add: action => {
-    [].concat(action).forEach(current => DB.add(DB_STORES.OFFLINE_REQUESTS, current));
+  add: async action => {
+    await Promise.allSettled([].concat(action).map(current => DB.add(DB_STORES.OFFLINE_REQUESTS, current)));
     EventManager.publish(QUEUE_ADD, action);
   },
 

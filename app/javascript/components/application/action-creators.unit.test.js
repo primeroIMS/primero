@@ -17,6 +17,7 @@ describe("Application - Action Creators", () => {
       "fetchSystemSettings",
       "fetchUserGroups",
       "loadApplicationResources",
+      "setReturnUrl",
       "setUserIdle",
       "fetchManagedRoles",
       "fetchSandboxUI"
@@ -112,5 +113,14 @@ describe("Application - Action Creators", () => {
     };
 
     expect(actionCreators.fetchSandboxUI()).to.deep.equal(expected);
+  });
+
+  it("should check the 'setReturnUrl' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.SET_RETURN_URL,
+      payload: "/test"
+    };
+
+    expect(actionCreators.setReturnUrl("/test")).to.deep.equal(expected);
   });
 });

@@ -19,11 +19,6 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
-  const [file, setFile] = useState({
-    loading: false,
-    data: null,
-    fileName: ""
-  });
 
   const {
     attachment_url: attachmentUrl,
@@ -68,21 +63,13 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
 
   const dialogTitle = `${i18n.t("fields.remove")} ${name}`;
 
-  const loadingFile = (loading, data) => {
-    setFile({
-      loading,
-      data: `${data?.content}${data?.result}`,
-      fileName: data?.fileName
-    });
-  };
-
   return (
     <Box className={css.uploadBox}>
       <Box display="flex" my={2} alignItems="center">
         <Box flexGrow="1">
           {!mode.isShow && (
             <>
-              {attachmentUrl || (attachmentData && !file.loading) ? (
+              {attachmentUrl || attachmentData ? (
                 <div className={css.attachmentRow}>
                   <AttachmentPreview
                     name={fileName}
@@ -92,14 +79,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
                   <DisableOffline>{deleteButton}</DisableOffline>
                 </div>
               ) : (
-                <AttachmentInput
-                  file={file}
-                  loadingFile={loadingFile}
-                  fields={fields}
-                  attachment={attachment}
-                  name={name}
-                  deleteButton={deleteButton}
-                />
+                <AttachmentInput fields={fields} attachment={attachment} name={name} deleteButton={deleteButton} />
               )}
             </>
           )}

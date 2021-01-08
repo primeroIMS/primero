@@ -63,6 +63,23 @@ module Indicators
       scope: OPEN_CLOSED_ENABLED
     ).freeze
 
+    CASES_BY_SOCIAL_WORKER = [
+      FacetedIndicator.new(
+        name: 'cases_by_social_worker_total',
+        record_model: Child,
+        facet: 'owned_by',
+        scope: OPEN_ENABLED
+      ),
+      FacetedIndicator.new(
+        name: 'cases_by_social_worker_new_or_updated',
+        record_model: Child,
+        facet: 'owned_by',
+        scope: OPEN_ENABLED + [
+          SearchFilters::Value.new(field_name: 'not_edited_by_owner', value: true)
+        ]
+      )
+    ]
+
     RISK = FacetedIndicator.new(
       name: 'risk_level',
       facet: 'risk_level',

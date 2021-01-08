@@ -42,9 +42,9 @@ describe("toListTable - pages/dashboard/utils/", () => {
     });
 
     const labels = [
-      { id: "new", display_text: "New" },
-      { id: "reopened", display_text: "Reopened" },
-      { id: "case_plan", display_text: "Case Plan" }
+      { id: "new", display_text: { en: "New" } },
+      { id: "reopened", display_text: { en: "Reopened" } },
+      { id: "case_plan", display_text: { en: "Case Plan" } }
     ];
 
     const expected = {
@@ -63,6 +63,6 @@ describe("toListTable - pages/dashboard/utils/", () => {
       ]
     };
 
-    expect(toListTable(data, labels)).to.deep.equal(expected);
+    expect(toListTable(data, labels, "en")).to.deep.equal(expected);
   });
 });

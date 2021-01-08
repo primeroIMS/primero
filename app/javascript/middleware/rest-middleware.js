@@ -50,9 +50,9 @@ function buildPath(path, options, params, external) {
   return `${endpoint}${params ? `?${queryParams.toString(params)}` : ""}`;
 }
 
-const deleteFromQueue = fromQueue => {
+const deleteFromQueue = async fromQueue => {
   if (fromQueue) {
-    queueIndexedDB.delete(fromQueue);
+    await queueIndexedDB.delete(fromQueue);
   }
 };
 
@@ -62,7 +62,7 @@ const handleAttachmentSuccess = async ({ json, db, fromAttachment }) => {
   const recordDB = await syncIndexedDB({ ...db, mode: TRANSACTION_MODE.READ_WRITE }, {}, "", async (tx, store) => {
     const recordData = await store.get(db.id);
 
-    const data = { ...recordData, [fieldName]: [...recordData[fieldName]] };
+    const data = { ...recordData, [fieldName]: [...(recordData[fieldName] || [])] };
 
     data[fieldName] = data[fieldName].map(attachment => ({
       ...attachment,
@@ -97,7 +97,7 @@ async function handleSuccess(store, payload) {
 
   const payloadFromDB = fromAttachment ? await handleAttachmentSuccess(payload) : await syncIndexedDB(db, json);
 
-  deleteFromQueue(fromQueue);
+  await deleteFromQueue(fromQueue);
 
   store.dispatch({
     type: `${type}_SUCCESS`,
