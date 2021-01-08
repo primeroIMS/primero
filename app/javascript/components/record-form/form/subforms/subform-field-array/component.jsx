@@ -14,7 +14,6 @@ import { useThemeHelper } from "../../../../../libs";
 import styles from "../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
-import { getSubformValues } from "../../utils";
 
 import { isTracesSubform, valuesWithDisplayConditions } from "./utils";
 
@@ -50,8 +49,6 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
   const { open, index } = openDialog;
   const title = displayName?.[i18n.locale];
   const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
-
-  const initialValues = getSubformValues(field, index, formik.values);
 
   const isTraces = isTracesSubform(recordType, formSection);
 
@@ -106,7 +103,10 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
           formSection={formSection}
           openDrawer={open}
           handleClose={() => setOpenDialog(false)}
-          initialValues={initialValues}
+          field={field}
+          formik={formik}
+          index={index}
+          recordType={recordType}
         />
       ) : (
         <SubformDialog

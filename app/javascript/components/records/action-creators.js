@@ -11,6 +11,7 @@ import {
   SAVE_RECORD,
   FETCH_RECORD_ALERTS,
   FETCH_INCIDENT_FROM_CASE,
+  FETCH_TRACE_POTENTIAL_MATCHES,
   SET_CASE_ID_FOR_INCIDENT,
   CLEAR_CASE_FROM_INCIDENT,
   SET_CASE_ID_REDIRECT,
@@ -200,4 +201,11 @@ export const clearSelectedRecord = recordType => ({
 export const clearRecordAttachments = (recordId, recordType) => ({
   type: `${recordType}/${CLEAR_RECORD_ATTACHMENTS}`,
   payload: { id: recordId, recordType }
+});
+
+export const fetchTracePotentialMatches = (traceId, recordType) => ({
+  type: `${recordType}/${FETCH_TRACE_POTENTIAL_MATCHES}`,
+  api: {
+    path: `${RECORD_PATH.traces}/${traceId}/potential_matches`
+  }
 });
