@@ -11,7 +11,6 @@ import { getMultiSelectValues } from "./utils";
 
 const Component = ({ value, optionsStringSource, optionsStringText }) => {
   const i18n = useI18n();
-
   const optionsStrings = useSelector(state => getOption(state, optionsStringSource, i18n.locale, value || ""));
 
   if (isEmpty(value)) return <>{value}</>;
