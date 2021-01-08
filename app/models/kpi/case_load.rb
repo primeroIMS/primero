@@ -8,7 +8,7 @@
 # This is really time series data, the from / to here would mean how case
 # load has changed over time, not the load over cases created between
 # two dates.
-class KPI::CaseLoad < Search
+class KPI::CaseLoad < KPI::Search
   def search
     @search ||= Child.search do
       with :owned_by_agency_id, owned_by_agency_id

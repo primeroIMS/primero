@@ -3,7 +3,7 @@
 # AverageFollowupMeetingsPerCase
 # A KPI to count the average number of followup up meetings for all
 # accessible cases
-class KPI::AverageFollowupMeetingsPerCase < Search
+class KPI::AverageFollowupMeetingsPerCase < KPI::Search
   # rubocop:disable Metrics/MethodLength
   def search
     ActiveRecord::Base.connection.execute(

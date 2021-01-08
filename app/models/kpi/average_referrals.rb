@@ -2,7 +2,7 @@
 
 # AverageReferrals
 # A KPI that counts the average number of referrals made for each case.
-class KPI::AverageReferrals < Search
+class KPI::AverageReferrals < KPI::Search
   REFERRED = 'Referred'
 
   def action_plan_referral_statuses

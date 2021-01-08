@@ -4,7 +4,7 @@
 #
 # A KPI to track, of all client feedback forms filled out, what percentages
 # are satisfied?
-class KPI::ClientSatisfactionRate < Search
+class KPI::ClientSatisfactionRate < KPI::Search
   def search
     Child.search do
       with :owned_by_agency_id, owned_by_agency_id

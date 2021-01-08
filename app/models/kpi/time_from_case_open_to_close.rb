@@ -5,7 +5,7 @@
 # For cases created between a given range of months, looks at the
 # difference in time between when a case was created and when it was
 # closed. This is aggregated into 4 bins.
-class KPI::TimeFromCaseOpenToClose < BucketedSearch
+class KPI::TimeFromCaseOpenToClose < KPI::BucketedSearch
   search_model Child
   restricted_field :case_lifetime_days
 

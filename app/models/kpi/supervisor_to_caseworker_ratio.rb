@@ -4,7 +4,7 @@
 #
 # A simple ratio between the number of supervisors and the number of case
 # workers in an agency.
-class KPI::SupervisorToCaseworkerRatio < Search
+class KPI::SupervisorToCaseworkerRatio < KPI::Search
   SUPERVISOR_ROLES = [
     'role-gbv-case-management-supervisor'
   ].freeze

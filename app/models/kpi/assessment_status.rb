@@ -4,7 +4,7 @@
 #
 # KPI for tracking the percentage of classes with a completed survivor
 # assessment form.
-class KPI::AssessmentStatus < Search
+class KPI::AssessmentStatus < KPI::Search
   def search
     @search ||= Child.search do
       with :status, Record::STATUS_OPEN

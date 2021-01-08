@@ -3,7 +3,7 @@
 # CompletedCaseSafetyPlans
 #
 # The percentage of cases with a completed case safety plan form
-class KPI::CompletedCaseSafetyPlans < Search
+class KPI::CompletedCaseSafetyPlans < KPI::Search
   def search
     Child.search do
       with :status, Record::STATUS_OPEN

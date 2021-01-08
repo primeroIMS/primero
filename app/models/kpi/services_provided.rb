@@ -3,7 +3,7 @@
 # ServicesProvided
 # A Kpi to count how many of each type of service has been provided by an
 # agency.
-class KPI::ServicesProvided < Search
+class KPI::ServicesProvided < KPI::Search
   def search
     @search ||= Child.search do
       with :created_at, from..to

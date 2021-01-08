@@ -10,7 +10,7 @@ class KPI::ClientFeedbackResponseList < ValueObject
 
   def wrapped_responses
     @wrapped_responses ||= responses
-                           .map { |response| ClientFeedbackResponse.new(response: response) }
+                           .map { |response| KPI::ClientFeedbackResponse.new(response: response) }
   end
 
   def valid_responses?

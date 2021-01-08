@@ -5,7 +5,7 @@
 # For incidents created in a given range of moneths, looks at the
 # difference between when an incident was first reported and when
 # the incident actually happened. This is aggregated into 6 time ranges.
-class KPI::ReportingDelay < BucketedSearch
+class KPI::ReportingDelay < KPI::BucketedSearch
   search_model Incident
   restricted_field :reporting_delay_days
 
