@@ -58,8 +58,10 @@ class Role < ApplicationRecord
     end
   end
 
-  def permitted_forms(record_type = nil, visible_only = false)
-    form_sections.where({ parent_form: record_type, visible: (visible_only || nil) }.compact)
+  def permitted_forms(record_type = nil, visible_only = false, include_subforms = false)
+    forms = form_sections.where({ parent_form: record_type, visible: (visible_only || nil) }.compact)
+    forms = forms.or(form_sections.where(parent_form: record_type, is_nested: true)) if include_subforms
+    forms
   end
 
   def permitted_roles
@@ -143,7 +145,7 @@ class Role < ApplicationRecord
   end
 
   def associate_all_forms
-    forms_by_parent = FormSection.all_forms_grouped_by_parent
+    forms_by_parent = FormSection.all_forms_grouped_by_parent(true)
     role_module_ids = primero_modules.pluck(:unique_id)
     permissions_with_forms.map do |permission|
       form_sections << forms_by_parent[permission.resource].reject do |form|
