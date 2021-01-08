@@ -74,7 +74,8 @@ jobs:
   - job: Build
     displayName: 'Build and push'
     dependsOn: Test
-    condition: and(succeeded(), or(startsWith(variables['Build.SourceBranch'], 'refs/tags/v2'),  in(variables['Build.SourceBranch'], 'refs/heads/development_v2', 'refs/heads/master')))
+    # condition: and(succeeded(), or(startsWith(variables['Build.SourceBranch'], 'refs/tags/v2'),  in(variables['Build.SourceBranch'], 'refs/heads/development_v2', 'refs/heads/master')))
+    condition: succeeded()
     pool:
       vmImage: $(vmImageName)
     steps:
