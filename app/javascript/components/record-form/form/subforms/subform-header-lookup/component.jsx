@@ -11,7 +11,8 @@ import { getMultiSelectValues } from "./utils";
 
 const Component = ({ value, optionsStringSource, optionsStringText }) => {
   const i18n = useI18n();
-  const optionsStrings = useSelector(state => getOption(state, optionsStringSource, i18n.locale, value || ""));
+
+  const optionsStrings = useSelector(state => getOption(state, optionsStringSource, i18n.locale, value));
 
   if (isEmpty(value)) return <>{value}</>;
 
@@ -39,6 +40,10 @@ const Component = ({ value, optionsStringSource, optionsStringText }) => {
 };
 
 Component.displayName = SUBFORM_LOOKUP_HEADER_NAME;
+
+Component.defaultProps = {
+  value: ""
+};
 
 Component.propTypes = {
   optionsStringSource: PropTypes.string,
