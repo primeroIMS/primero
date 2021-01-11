@@ -206,7 +206,7 @@ const Container = ({ match, mode }) => {
   const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
   const canSeeChangeLog = usePermissions(params.recordType, SHOW_CHANGE_LOG);
   const isNotANewCase = !containerMode.isNew && params.recordType === RECORD_PATH.cases;
-  const isCaseIdEqualParam = params?.id === record.get("id");
+  const isCaseIdEqualParam = params?.id === record?.get("id");
 
   useEffect(() => {
     batch(() => {
@@ -299,7 +299,7 @@ const Container = ({ match, mode }) => {
   };
 
   const hasData = Boolean(
-    forms && formNav && firstTab && (containerMode.isNew || record) && !containerMode.isNew && isCaseIdEqualParam
+    forms && formNav && firstTab && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam)
   );
   const loading = Boolean(loadingForm || loadingRecord);
 
