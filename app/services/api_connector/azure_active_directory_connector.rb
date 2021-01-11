@@ -3,7 +3,7 @@
 # This is the connector for the private MS-developed micro service:
 # Primero User Management API for Azure Active Directory.
 # It only makes sense to use within the context of the UNICEF-hosted Primero SaaS.
-class IdentitySync::AzureActiveDirectoryConnector < IdentitySync::AbstractConnector
+class ApiConnector::AzureActiveDirectoryConnector < ApiConnector::AbstractConnector
   IDENTIFIER = 'aad'
 
   def self.id
@@ -15,7 +15,7 @@ class IdentitySync::AzureActiveDirectoryConnector < IdentitySync::AbstractConnec
       'Content-Type' => 'application/json',
       'cache-control' => 'no-cache'
     }
-    self.connection = IdentitySync::Connection.new(options.merge('default_headers' => default_headers))
+    self.connection = ApiConnector::Connection.new(options.merge('default_headers' => default_headers))
   end
 
   def fetch(user)
@@ -33,6 +33,17 @@ class IdentitySync::AzureActiveDirectoryConnector < IdentitySync::AbstractConnec
     status, response = connection.patch("/users/#{user.user_name}", patch_params(user))
     log_response(user, status, response)
     response_attributes(response, user)
+  end
+
+  def syncable?(user)
+    # Only if the user's IDP is configured to sync with this connector
+    identity_sync_connector = user&.identity_provider&.configuration&.dig('identity_sync_connector')
+    identity_sync_connector == self.class.name.demodulize
+  end
+
+  def new?(user)
+    sync_metadata = user&.identity_provider_sync&.dig(id)
+    !sync_metadata&.dig('synced_on')
   end
 
   def relevant_updates?(user)

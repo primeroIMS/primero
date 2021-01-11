@@ -4,7 +4,7 @@
 # This is used by the UNICEF SaaS Azure Active Directory, but can be used for MDM,
 # or other case management system integrations.
 # The underlying connectors are configured via consistently named environment variables.
-# The pattern is PRIMERO_IDENTITY_SYNC_<CONNECTOR_ID>_<PROPERTY>.
+# The pattern is PRIMERO_CONNECT_API_<CONNECTOR_ID>_<PROPERTY>.
 # Common properties are: HOST, PORT, TLS (client|truthy|falsey), TLS_CLIENT_KEY, TLS_CLIENT_CERT
 class IdentitySyncService
   attr_accessor :connectors

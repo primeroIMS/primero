@@ -50,7 +50,7 @@ class IdentityProvider < ApplicationRecord
   def identity_sync_connector
     return unless connector_type
 
-    "IdentitySync::#{connector_type}".constantize
+    "ApiConnector::#{connector_type}".constantize
   rescue NameError
     nil
   end

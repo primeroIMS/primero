@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-describe IdentitySync::Connection do
+describe ApiConnector::Connection do
   let(:driver) { double('driver') }
   let(:connection) do
-    connection = IdentitySync::Connection.new
+    connection = ApiConnector::Connection.new
     connection.driver = driver
     connection
   end
