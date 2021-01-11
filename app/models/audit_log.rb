@@ -43,7 +43,7 @@ class AuditLog < ApplicationRecord
                     end
     log_message_hash[:prefix] = {
       key: "logger.#{action}",
-      approval_label: SystemSettings.current.approvals_labels_en[approval_type]
+      approval_label: SystemSettings.current.approvals_labels_i18n[approval_type]
     }
     log_message_hash[:identifier] = display_id.present? ? "#{record_type} '#{display_id}'" : "#{record_type}"
     log_message_hash[:suffix] = {
