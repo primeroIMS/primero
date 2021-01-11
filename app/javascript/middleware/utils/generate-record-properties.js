@@ -27,6 +27,7 @@ export default (store, api, isRecord) => {
         isRecord && {
           id: generatedID,
           short_id: shortID,
+          record_in_scope: true,
           enabled: true,
           ...(recordType === RECORD_PATH.cases && {
             case_id_display: shortID,

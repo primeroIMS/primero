@@ -95,7 +95,7 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings?extended=true'
 
-      expect(json['data']['modules'][0]['workflows']['case']['en'].length).to be > 0
+      expect(json['data']['modules'][0]['workflows']['case'].length).to be > 0
     end
   end
 

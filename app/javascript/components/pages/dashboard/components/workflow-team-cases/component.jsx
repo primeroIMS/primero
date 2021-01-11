@@ -16,9 +16,7 @@ import { NAME } from "./constants";
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
-  const workflowLabels = useSelector(
-    state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]?.[i18n.locale]
-  );
+  const workflowLabels = useSelector(state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]);
 
   const casesWorkflowTeam = useSelector(state => getWorkflowTeamCases(state));
 
@@ -32,7 +30,7 @@ const Component = ({ loadingIndicator }) => {
         <DashboardTable
           pathname={ROUTES.cases}
           title={i18n.t("dashboard.workflow_team")}
-          {...toListTable(casesWorkflowTeam, workflowLabels)}
+          {...toListTable(casesWorkflowTeam, workflowLabels, i18n.locale)}
         />
       </OptionsBox>
     </Permission>

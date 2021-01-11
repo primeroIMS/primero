@@ -14,6 +14,7 @@ Show a list of all flags for a user. The user can filter the form list by record
  
 * `record_type` Optional. Filters by the record type ('cases', 'incidents', or 'tracing_requests').
 * `flagged_by_me` Optional. Filters by flagged_by
+* `active_only` Optional. If true, filters by removed == false (meaning active flags)
 
 ## Success Response
 

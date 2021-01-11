@@ -481,6 +481,8 @@ en:
     approved: Approved
     assessment: Assessment
     awaiting_acceptance: Awaiting acceptance
+    cases_by_social_worker_total: Total
+    cases_by_social_worker_new_or_updated: New & Updated
     case_id: 'Case #ID'
     case_management_service: Case Management Service
     case_overview: My Cases

@@ -91,13 +91,14 @@ describe Location do
     end
 
     it 'returns all names' do
-      expect(Location.all_names).to eq([{ 'id' => @country.location_code, 'display_text' => @country.name },
-                                        { 'id' => @province1.location_code, 'display_text' => @province1.name },
-                                        { 'id' => @province2.location_code, 'display_text' => @province2.name },
-                                        { 'id' => @province3.location_code, 'display_text' => @province3.name },
-                                        { 'id' => @town1.location_code, 'display_text' => @town1.name },
-                                        { 'id' => @town2.location_code, 'display_text' => @town2.name },
-                                        { 'id' => @town3.location_code, 'display_text' => @town3.name }])
+      expect(Location.all_names).
+        to match_array([{ 'id' => @country.location_code, 'display_text' => @country.name },
+                        { 'id' => @province1.location_code, 'display_text' => @province1.name },
+                        { 'id' => @province2.location_code, 'display_text' => @province2.name },
+                        { 'id' => @province3.location_code, 'display_text' => @province3.name },
+                        { 'id' => @town1.location_code, 'display_text' => @town1.name },
+                        { 'id' => @town2.location_code, 'display_text' => @town2.name },
+                        { 'id' => @town3.location_code, 'display_text' => @town3.name }])
     end
   end
 

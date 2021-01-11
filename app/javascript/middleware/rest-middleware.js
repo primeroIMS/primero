@@ -50,9 +50,9 @@ function buildPath(path, options, params, external) {
   return `${endpoint}${params ? `?${queryParams.toString(params)}` : ""}`;
 }
 
-const deleteFromQueue = fromQueue => {
+const deleteFromQueue = async fromQueue => {
   if (fromQueue) {
-    queueIndexedDB.delete(fromQueue);
+    await queueIndexedDB.delete(fromQueue);
   }
 };
 
@@ -97,7 +97,7 @@ async function handleSuccess(store, payload) {
 
   const payloadFromDB = fromAttachment ? await handleAttachmentSuccess(payload) : await syncIndexedDB(db, json);
 
-  deleteFromQueue(fromQueue);
+  await deleteFromQueue(fromQueue);
 
   store.dispatch({
     type: `${type}_SUCCESS`,
