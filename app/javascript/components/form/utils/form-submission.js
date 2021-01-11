@@ -13,7 +13,8 @@ export const submitHandler = ({
   initialValues,
   onSubmit,
   submitAllFields,
-  message
+  message,
+  submitAlways
 }) => () => {
   // formState needs to be called here otherwise touched will not work.
   // https://github.com/react-hook-form/react-hook-form-website/issues/154
@@ -24,7 +25,7 @@ export const submitHandler = ({
       formMethods.handleSubmit(data => {
         const changedFormData = touchedFormData(touchedFields, data, formMode.get("isEdit"), initialValues);
 
-        if (isEmpty(changedFormData)) {
+        if (isEmpty(changedFormData) && !submitAlways) {
           return dispatch(enqueueSnackbar(message || i18n.t("messages.no_changes"), "error"));
         }
 

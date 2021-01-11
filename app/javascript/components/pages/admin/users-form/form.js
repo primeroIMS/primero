@@ -20,7 +20,7 @@ import {
 
 const passwordPlaceholder = formMode => (formMode.get("isEdit") ? "•••••" : "");
 
-const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePassword) => [
+const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity) => [
   {
     display_name: i18n.t("user.full_name"),
     name: "full_name",
@@ -82,10 +82,11 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     })
   },
   {
-    display_name: "Change password",
+    name: "change_password",
+    display_name: i18n.t("buttons.change_password"),
     type: DIALOG_TRIGGER,
     hideOnShow: true,
-    showIf: () => formMode.get("isEdit"),
+    showIf: () => formMode.get("isEdit") && !useIdentity,
     onClick: onClickChangePassword
   },
   {
@@ -185,7 +186,7 @@ const identityUserFields = (i18n, identityOptions) => [
   }
 ];
 
-const EXCLUDED_IDENITITY_FIELDS = ["password", "password_confirmation"];
+const EXCLUDED_IDENITITY_FIELDS = ["password", "password_confirmation", "password_setting", "change_password"];
 
 // eslint-disable-next-line import/prefer-default-export
 export const form = (
@@ -198,7 +199,7 @@ export const form = (
   hideOnAccountPage = false
 ) => {
   const useIdentity = useIdentityProviders && providers;
-  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword);
+  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity);
   const identityFields = identityUserFields(i18n, identityOptions);
 
   const providersDisable = (value, name, { error }) => {
@@ -208,7 +209,7 @@ export const form = (
 
     return {
       ...(formMode.get("isShow") || {
-        disabled: value === null || value === ""
+        disabled: value === null || value === "" || (name === "user_name" && !formMode.get("isNew"))
       }),
       ...(name === "user_name" && {
         helperText:

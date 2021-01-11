@@ -413,3 +413,7 @@ export const FETCH_PARAM = Object.freeze({
   DATA: "data",
   OPTIONS: "options"
 });
+
+export const TRACING_REQUEST_STATUS_FIELD_NAME = "tracing_request_status";
+
+export const TRACES_SUBFORM_UNIQUE_ID = "tracing_request_subform_section";

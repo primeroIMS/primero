@@ -13,6 +13,7 @@ describe("index - pages/dashboard/utils/", () => {
       "taskOverdueHasData",
       "teamSharingTable",
       "toApprovalsManager",
+      "toCasesBySocialWorkerTable",
       "toData1D",
       "toListTable",
       "toProtectionConcernTable",

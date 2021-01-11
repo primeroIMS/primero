@@ -39,7 +39,8 @@ export const FIELD_ATTACHMENT_TYPES = Object.freeze({
 export const ATTACHMENT_ACCEPTED_TYPES = Object.freeze({
   audio: ".m4a, audio/mpeg, audio/mp4",
   image: "image/png, image/gif, image/jpeg, image/jpg",
-  document: "application/pdf, text/plain, application/msword, " +
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document, " +
-            "text/csv application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  document:
+    "application/pdf, text/plain, .csv, text/csv, .doc, .docx, .xlsx, application/msword, " +
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document, " +
+    "text/csv application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 });

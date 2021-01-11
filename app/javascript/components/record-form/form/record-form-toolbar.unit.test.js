@@ -83,18 +83,16 @@ describe("<RecordFormToolbar />", () => {
             user_group_filter: true
           },
           workflows: {
-            case: {
-              en: [
-                {
-                  id: "new",
-                  display_text: "New"
-                },
-                {
-                  id: "reopened",
-                  display_text: "Reopened"
-                }
-              ]
-            }
+            case: [
+              {
+                id: "new",
+                display_text: { en: "New" }
+              },
+              {
+                id: "reopened",
+                display_text: { en: "Reopened" }
+              }
+            ]
           }
         })
       ]

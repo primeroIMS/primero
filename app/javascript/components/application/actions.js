@@ -32,5 +32,6 @@ export default namespaceActions(NAMESPACE, [
   "FETCH_USER_GROUPS_STARTED",
   "FETCH_USER_GROUPS_SUCCESS",
   "NETWORK_STATUS",
+  "SET_RETURN_URL",
   "SET_USER_IDLE"
 ]);

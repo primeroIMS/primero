@@ -10,6 +10,7 @@
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack/index.js",
     "dev": "webpack-dev-server --config webpack/index.js",
+    "dev:debug": "NODE_ENV=debug npm run dev",
     "test": "npm run test:run './app/javascript/**/*.unit.test.js'",
     "test:all": "npm test",
     "test:inspect": "NODE_ENV=test mocha -- --inspect-brk=0.0.0.0:9229",
@@ -62,6 +63,7 @@
     "date-fns": "2.1.0",
     "deepmerge": "^4.0.0",
     "dom-to-image-more": "^2.8.0",
+    "dompurify": "^2.2.3",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "~6.8.0",

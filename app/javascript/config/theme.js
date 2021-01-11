@@ -34,16 +34,11 @@ const colors = {
   grey: "#4a4a4a",
   contentGrey: "#fbfbfb",
   stickyGrey: "rgba(251, 251, 251, 0.95)",
-  lightGrey2: "#e0e0e0"
+  lightGrey2: "#e0e0e0",
+  atlantis: "#8bb827"
 };
 
 const overrides = {
-  MuiStepConnector: {
-    root: {
-      flex: "1 1 auto",
-      marginBottom: "41px"
-    }
-  },
   MuiPaper: {
     elevation3: {
       boxShadow: "0 2px 12px 0 rgba(125, 125, 125, 0.23)"

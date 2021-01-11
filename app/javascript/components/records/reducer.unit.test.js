@@ -236,40 +236,6 @@ describe("<RecordList /> - Reducers", () => {
     expect(newState).to.deep.equals(expected);
   });
 
-  it("should handle DELETE_ATTACHMENT_SUCCESS", () => {
-    const expected = fromJS({
-      selectedRecord: "12345",
-      recordAttachments: {
-        field_1: { data: [{ id: 1, field_name: "field_1", record: { id: "12345" }, _destroyed: true }] }
-      }
-    });
-
-    const action = {
-      type: "TestRecordType/DELETE_ATTACHMENT_SUCCESS",
-      payload: { data: { id: 1, field_name: "field_1", record: { id: "12345" } } }
-    };
-
-    const newState = nsReducer(fromJS({ selectedRecord: "12345", recordAttachments: {} }), action);
-
-    expect(newState).to.deep.equals(expected);
-  });
-
-  it("should handle SAVE_ATTACHMENT_SUCCESS", () => {
-    const expected = fromJS({
-      selectedRecord: "12345",
-      recordAttachments: { field_1: { data: [{ id: 1, field_name: "field_1", record: { id: "12345" } }] } }
-    });
-
-    const action = {
-      type: "TestRecordType/SAVE_ATTACHMENT_SUCCESS",
-      payload: { data: { id: 1, field_name: "field_1", record: { id: "12345" } } }
-    };
-
-    const newState = nsReducer(fromJS({ selectedRecord: "12345", recordAttachments: {} }), action);
-
-    expect(newState).to.deep.equals(expected);
-  });
-
   it("should handle SET_ATTACHMENT_STATUS", () => {
     const expected = fromJS({
       recordAttachments: { field_1: { fieldName: "field_1", processing: false, error: false } }
@@ -281,53 +247,6 @@ describe("<RecordList /> - Reducers", () => {
     };
 
     const newState = nsReducer(fromJS({ recordAttachments: {} }), action);
-
-    expect(newState).to.deep.equals(expected);
-  });
-
-  it("should handle UPDATE_ATTACHMENTS", () => {
-    const recordAttachments = {
-      field_1: {
-        data: [
-          { id: 2, url: "/file-2.pdf", _destroyed: true },
-          { id: 3, url: "/file-3.jpg" }
-        ]
-      }
-    };
-
-    const expected = fromJS({
-      data: [
-        {
-          id: "12345",
-          field_1: [
-            { id: 1, url: "/file-1.pdf" },
-            { id: 3, url: "/file-3.jpg" }
-          ]
-        }
-      ],
-      recordAttachments
-    });
-
-    const action = {
-      type: "TestRecordType/UPDATE_ATTACHMENTS",
-      payload: { id: "12345" }
-    };
-
-    const newState = nsReducer(
-      fromJS({
-        data: [
-          {
-            id: "12345",
-            field_1: [
-              { id: 1, url: "/file-1.pdf" },
-              { id: 2, url: "/file-2.pdf" }
-            ]
-          }
-        ],
-        recordAttachments
-      }),
-      action
-    );
 
     expect(newState).to.deep.equals(expected);
   });

@@ -25,7 +25,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         filters,
         permitted_form_unique_ids: permittedForms,
         locale,
-        reporting_location_config: reportingLocationConfig
+        reporting_location_config: reportingLocationConfig,
+        location
       } = payload;
       const cleanedPermissions = permissions.list.filter(listItem => !isEmpty(listItem.actions));
 
@@ -38,7 +39,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           permittedForms,
           filters: mapObjectPropertiesToRecords(filters, FilterRecord),
           locale,
-          reportingLocationConfig
+          reportingLocationConfig,
+          location
         })
       );
     }

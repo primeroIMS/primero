@@ -17,6 +17,7 @@ import AttachmentLabel from "./attachment-label";
 import DocumentField from "./document-field";
 import AttachmentField from "./attachment-field";
 import PhotoArray from "./photo-array";
+import { buildBase64URL } from "./utils";
 
 // TODO: No link to display / download upload
 const Component = ({ name, field, label, disabled, formik, mode, recordType }) => {
@@ -95,7 +96,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
       return (
         <Box my={2}>
           <audio id={fileName} controls>
-            <source src={attachmentUrl} />
+            <source src={attachmentUrl || buildBase64URL(value.content_type, value.attachment)} />
           </audio>
         </Box>
       );
@@ -103,7 +104,9 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
 
   const renderField = arrayHelpers => {
     if (field.type === PHOTO_FIELD && mode.isShow) {
-      return <PhotoArray images={values.map(value => value.attachment_url)} />;
+      const images = values.map(value => value.attachment_url || buildBase64URL(value.content_type, value.attachment));
+
+      return <PhotoArray images={images} />;
     }
 
     if (field.type === AUDIO_FIELD && mode.isShow) {

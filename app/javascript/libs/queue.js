@@ -41,10 +41,17 @@ class Queue {
         action?.api?.method !== METHODS.GET &&
         !["SAVE_ATTACHMENT", "DELETE_ATTACHMENT"].some(type => action.type.endsWith(type))
       ) {
-        this.success = { ...this.success, [action.api?.data?.id]: true };
+        this.success = {
+          ...this.success,
+          [action?.api?.id || action?.api?.body?.data?.id]: true
+        };
       }
 
       this.queue.shift();
+
+      if (!this.hasWork()) {
+        this.notifySuccess();
+      }
 
       this.onAttachmentSuccess(action);
 
@@ -54,13 +61,21 @@ class Queue {
     EventManager.subscribe(QUEUE_FAILED, () => {
       this.tries += 1;
 
-      if (this.tries === 3) {
-        const action = head(this.queue);
+      const action = head(this.queue);
 
+      if (action) {
+        action.processed = false;
+      }
+
+      if (this.tries === 3) {
         this.queue.shift();
         this.tries = 0;
 
         this.onAttachmentError(action);
+      }
+
+      if (!this.hasWork()) {
+        this.notifySuccess();
       }
 
       if (!this.working) this.process();
@@ -93,15 +108,10 @@ class Queue {
     }
   }
 
-  finished() {
-    this.queue.shift();
+  finished(id) {
+    this.queue = this.queue.filter(current => current.fromQueue !== id);
 
     if (!this.working) this.process();
-
-    if (!this.queue.length) {
-      this.notifySuccess();
-      this.success = {};
-    }
   }
 
   process() {
@@ -110,12 +120,14 @@ class Queue {
 
       const item = head(this.queue);
 
-      this.onAttachmentProcess(item);
+      if (item && !item?.processed) {
+        this.onAttachmentProcess(item);
 
-      if (item) {
         const action = item;
 
         this.dispatch(action);
+
+        item.processed = true;
       }
 
       this.working = false;
@@ -162,6 +174,8 @@ class Queue {
         }
       });
     }
+
+    this.success = {};
   }
 
   hasAttachments(recordType, fieldName) {

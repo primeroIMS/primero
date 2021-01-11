@@ -1,7 +1,9 @@
 import qs from "qs";
+import merge from "deepmerge";
 
+import { subformAwareMerge } from "../db/utils";
 import { FETCH_TIMEOUT, ROUTES } from "../config";
-import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
+import DB, { syncIndexedDB, queueIndexedDB, METHODS, TRANSACTION_MODE } from "../db";
 import EventManager from "../libs/messenger";
 import { QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS } from "../libs/queue";
 import { applyingConfigMessage } from "../components/pages/admin/configurations-form/action-creators";
@@ -48,18 +50,54 @@ function buildPath(path, options, params, external) {
   return `${endpoint}${params ? `?${queryParams.toString(params)}` : ""}`;
 }
 
-const deleteFromQueue = fromQueue => {
+const deleteFromQueue = async fromQueue => {
   if (fromQueue) {
-    queueIndexedDB.delete(fromQueue);
+    await queueIndexedDB.delete(fromQueue);
   }
 };
 
+const handleAttachmentSuccess = async ({ json, db, fromAttachment }) => {
+  const { id, field_name: fieldName } = fromAttachment;
+
+  const recordDB = await syncIndexedDB({ ...db, mode: TRANSACTION_MODE.READ_WRITE }, {}, "", async (tx, store) => {
+    const recordData = await store.get(db.id);
+
+    const data = { ...recordData, [fieldName]: [...(recordData[fieldName] || [])] };
+
+    data[fieldName] = data[fieldName].map(attachment => ({
+      ...attachment,
+      marked_destroy: id
+        ? attachment.id === id
+        : attachment.field_name === json.data.field_name &&
+          attachment.file_name === json.data.file_name &&
+          !attachment.id &&
+          json.data.id
+    }));
+
+    if (json.data && json.data.id && !fromAttachment.id) {
+      data[fieldName].push(json.data);
+    }
+
+    data.type = db.recordType;
+
+    const merged = merge(recordData, data, { arrayMerge: subformAwareMerge });
+
+    await store.put(merged);
+
+    await tx.done;
+
+    return merged;
+  });
+
+  return recordDB;
+};
+
 async function handleSuccess(store, payload) {
-  const { type, json, db, fromQueue } = payload;
+  const { type, json, db, fromQueue, fromAttachment } = payload;
 
-  const payloadFromDB = await syncIndexedDB(db, json);
+  const payloadFromDB = fromAttachment ? await handleAttachmentSuccess(payload) : await syncIndexedDB(db, json);
 
-  deleteFromQueue(fromQueue);
+  await deleteFromQueue(fromQueue);
 
   store.dispatch({
     type: `${type}_SUCCESS`,
@@ -150,7 +188,8 @@ const fetchSinglePayload = (action, store, options) => {
       external,
       queueAttachments
     },
-    fromQueue
+    fromQueue,
+    fromAttachment
   } = action;
 
   const [attachments, formData] = queueAttachments
@@ -222,7 +261,8 @@ const fetchSinglePayload = (action, store, options) => {
             normalizeFunc,
             path,
             db,
-            fromQueue
+            fromQueue,
+            fromAttachment
           });
 
           messageQueueSuccess(action);

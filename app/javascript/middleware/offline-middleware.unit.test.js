@@ -1,6 +1,5 @@
 import { createMiddleware, spy } from "../test";
 import { METHODS } from "../config";
-import Queue from "../libs/queue";
 
 import offlineMiddleware from "./offline-middleware";
 import * as queueData from "./utils/queue-data";
@@ -80,7 +79,6 @@ describe("middleware/offline-middleware.js", () => {
       invoke(action);
 
       expect(queueFetchSpy).to.have.been.calledWith(action);
-      expect(Queue.queue.find(qAction => qAction.type === "queue_get_action")).to.exist;
     });
   });
 

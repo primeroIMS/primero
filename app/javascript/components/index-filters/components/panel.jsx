@@ -15,7 +15,7 @@ import styles from "./styles.css";
 
 const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, moreSectionFilters, children }) => {
   const css = makeStyles(styles)();
-  const { dir } = useThemeHelper();
+  const { isRTL } = useThemeHelper();
   const { name, field_name: fieldName } = filter;
 
   const hasValue = !isEmpty(getValues()?.[selectedDefaultValueField || fieldName]);
@@ -47,7 +47,7 @@ const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, more
               size="small"
               onClick={handleReset}
             >
-              <RefreshIcon className={dir === "rtl" ? css.flipImage : ""} />
+              <RefreshIcon className={isRTL ? css.flipImage : ""} />
             </IconButton>
           )}
         </div>
