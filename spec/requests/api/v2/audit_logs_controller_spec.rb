@@ -68,9 +68,14 @@ describe Api::V2::AuditLogsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(4)
-      expect(json['data'].map { |audit| audit['id'] }.sort).to eq(
-        [@audit_log_a.id, @audit_log_b.id, @audit_log_c.id, @audit_log_d.id].sort
-      )
+      expect(json['data'].map { |audit| audit['id'] })
+        .to match_array([@audit_log_a.id, @audit_log_b.id, @audit_log_c.id, @audit_log_d.id])
+
+      log_a = json['data'].select{|al| al['id'] == @audit_log_a.id}.first
+      expect(log_a['action']).to eq('login')
+      expect(log_a['log_message']).to eq({'prefix' => {'key' => 'logger.login', 'approval_label' => nil },
+                                          'identifier' => "",
+                                          'suffix' => {'key' => 'logger.by_user', 'user' => 'test_user_a'}})
     end
 
     it 'returns 403 if user is not authorized' do
@@ -89,9 +94,14 @@ describe Api::V2::AuditLogsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(3)
-      expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_b.id)
-      expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_c.id)
-      expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_d.id)
+      expect(json['data'].map { |audit| audit['id'] })
+        .to match_array([@audit_log_b.id, @audit_log_c.id, @audit_log_d.id])
+
+      log_c = json['data'].select{|al| al['id'] == @audit_log_c.id}.first
+      expect(log_c['action']).to eq('login')
+      expect(log_c['log_message']).to eq({'prefix' => {'key' => 'logger.login', 'approval_label' => nil },
+                                          'identifier' => "",
+                                          'suffix' => {'key' => 'logger.by_user', 'user' => 'test_user_2'}})
     end
 
     it 'list the audit logs filtering by timestamp and user_name' do

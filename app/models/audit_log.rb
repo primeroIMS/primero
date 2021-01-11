@@ -20,13 +20,10 @@ class AuditLog < ApplicationRecord
   end
 
   def display_id
-    return '' unless record.present?
+    return '' if record.blank?
 
-    if record.respond_to?(:display_id)
-      record.display_id
-    else
-      record.id
-    end
+    @display_id ||= record.respond_to?(:display_id) ? record.display_id : record.id
+    @display_id
   end
 
   def user_name
@@ -36,6 +33,7 @@ class AuditLog < ApplicationRecord
   end
 
   def log_message
+    log_message_hash = {}
     approval_type = if action.present? && action.include?('requested')
                       action.delete_suffix('_requested')
                     elsif action.present? && action.include?('approved')
@@ -43,15 +41,15 @@ class AuditLog < ApplicationRecord
                     else
                       action
                     end
-    approval_label = SystemSettings.current.approvals_labels_en[approval_type]
-
-    logger_action_prefix = if approval_label.present?
-                             I18n.t("logger.#{action}", approval_label: approval_label, locale: :en)
-                           else
-                             I18n.t("logger.#{action}", locale: :en)
-                           end
-    logger_action_identifier = "#{record_type} '#{display_id}'"
-    logger_action_suffix = "#{I18n.t('logger.by_user', locale: :en)} '#{user_name}'"
-    "#{logger_action_prefix} #{logger_action_identifier} #{logger_action_suffix}"
+    log_message_hash[:prefix] = {
+      key: "logger.#{action}",
+      approval_label: SystemSettings.current.approvals_labels_en[approval_type]
+    }
+    log_message_hash[:identifier] = display_id.present? ? "#{record_type} '#{display_id}'" : "#{record_type}"
+    log_message_hash[:suffix] = {
+      key: 'logger.by_user',
+      user: user_name
+    }
+    log_message_hash
   end
 end

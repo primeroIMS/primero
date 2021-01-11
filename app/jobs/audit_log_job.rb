@@ -7,8 +7,18 @@ class AuditLogJob < ApplicationJob
   def perform(**args)
     audit_log = AuditLog.new(args)
     audit_log.save
-    logger.info(audit_log.log_message)
+    write_log(audit_log.log_message)
 
     # TODO: Any external audit reporting integrations go here.
+  end
+
+  def write_log(log_message = {})
+    prefix = if log_message[:prefix][:approval_label].present?
+               I18n.t(log_message[:prefix][:key], approval_label: log_message[:prefix][:approval_label], locale: :en)
+             else
+               I18n.t(log_message[:prefix][:key], locale: :en)
+             end
+    suffix = "#{I18n.t(log_message[:suffix][:key], locale: :en)} '#{log_message[:suffix][:user]}'"
+    logger.info("#{prefix} #{log_message[:identifier]} #{suffix}")
   end
 end

@@ -37,7 +37,17 @@ Shows a paginated list of all audit_logs.
       "action": "index",
       "resource_url": "http://localhost:3000/api/v2/audit_logs",
       "timestamp": "2020-03-03T16:40:39.387Z",
-      "log_message": "Listing Records AuditLog '' by user 'primero'",
+      "log_message": {
+        "prefix": {
+          "key": "logger.index",
+          "approval_label": ""
+        },
+        "identifier": "AuditLog",
+        "suffix": {
+          "key": "logger.by_user",
+          "user": "primero"
+        }
+      },
       "metadata": {
         "user_name": "primero"
       }
@@ -50,7 +60,17 @@ Shows a paginated list of all audit_logs.
       "action": "create",
       "resource_url": "http://localhost:3000/api/v2/tokens",
       "timestamp": "2020-03-03T16:40:37.370Z",
-      "log_message": "Creating User '1' by user 'primero'",
+      "log_message": {
+        "prefix": {
+          "key": "logger.create",
+          "approval_label": ""
+        },
+        "identifier": "User '1'",
+        "suffix": {
+          "key": "logger.by_user",
+          "user": "primero"
+        }
+      },
       "metadata": {
         "user_name": "primero"
       }
