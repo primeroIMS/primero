@@ -58,7 +58,7 @@ describe("<Dashboard /> - Action Creators", () => {
       it("should return the correct object", () => {
         const expected = { type: "dashboard/DASHBOARD_FLAGS", api: { path: "flags?active_only=true" } };
 
-        dispatch(actionCreators.fetchFlags(true));
+        dispatch(actionCreators.fetchFlags("cases", true));
         const { returnValue: firstCallReturnValue } = dispatch.getCall(1);
 
         expect(firstCallReturnValue).deep.equals(expected);
