@@ -1,0 +1,26 @@
+es_GT:
+  exports:
+    incident_recorder_xls:
+      'yes': "Si"
+      'no': "No"
+      gender:
+        male: "M"
+        female: "F"
+        both: "M y F"
+      age_group:
+        age: "Edad"
+        61_older: "Mayor de 61"
+        unknown: "Se desconoce"
+      age_type:
+        adult: "Adulto"
+        minor: "Menor de edad"
+        both: "Adulto y Menor de edad"
+        unknown: "Se desconoce"
+      headers:
+        survivor_code: "CODIGO DE SOBREVIVIENTE"
+        date_of_interview: "FECHA DE LA ENTREVISTA"
+        date_of_birth: "FECHA DE NACIMIENTO"
+        sex: "SEXO"
+        country_of_origin: "PAÍS DE ORIGEN"
+        marital_status: "ESTADO CIVIL"
+        unaccompanied_separated_status: "NIÑO,NIÑA, ADOLESCENTE NO ACOMPAÑADO O SEPARADO"
