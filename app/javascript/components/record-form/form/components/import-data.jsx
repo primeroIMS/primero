@@ -32,15 +32,15 @@ const ImportData = ({ i18n, lastImportDate }) => {
     setOpen(false);
   };
 
-  const labelImportData = i18n.t(`import_data.${importDataStatus}`, { date_time: lastImportDate });
+  const labelImportData = i18n.t(`sync_record.${importDataStatus}`, { date_time: lastImportDate });
   const seeDetails = importDataStatus === IMPORT_DATA_STATUS.failed && (
     <ButtonBase className={css.seeDetailsStyle} onClick={onClick}>
-      {i18n.t("import_data.see_details")}
+      {i18n.t("sync_record.see_details")}
     </ButtonBase>
   );
   const renderDetails = importDataStatus === IMPORT_DATA_STATUS.failed && (
     <ActionDialog
-      dialogTitle={i18n.t("import_data.failed")}
+      dialogTitle={i18n.t("sync_record.failed")}
       onClose={onClose}
       cancelHandler={onClose}
       open={open}
@@ -58,7 +58,7 @@ const ImportData = ({ i18n, lastImportDate }) => {
         {seeDetails}
       </span>
       <ActionButton
-        text={i18n.t("buttons.import_data")}
+        text={i18n.t("buttons.sync")}
         type={ACTION_BUTTON_TYPES.default}
         pending={importDataStatus === IMPORT_DATA_STATUS.retrieving}
         outlined

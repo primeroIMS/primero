@@ -57,7 +57,7 @@
   }
   & > div {
     margin-top: 0px;
-    margin-left: -75px;
+    margin-left: -55px;
   }
 
 }
@@ -80,7 +80,7 @@
 
   .importDataClass {
     & button {
-      margin-left: 0px;
+      margin-left: 5px;
     }
   }
 }
