@@ -40,18 +40,16 @@ export const fields = i18n => [
       [i18n.locale]: i18n.t(generateI18nPath("wishes_reunification.label"))
     },
     visible: true,
-    option_strings_text: [
-      { id: "yes_as_soon_as_possible", display_text: { [i18n.locale]: "Yes, as soon as possible" } },
-      { id: "yes_but_later", display_text: { [i18n.locale]: "Yes, but later" } },
-      { id: "not_sure", display_text: { [i18n.locale]: "Not sure" } },
-      { id: "no", display_text: { [i18n.locale]: "No" } }
-    ]
+    option_strings_text: ["yes_as_soon_as_possible", "yes_but_later", "not_sure", "no"].map(id => ({
+      id,
+      display_text: { [i18n.locale]: i18n.t(generateI18nPath(`wishes_reunification.options.${id}`)) }
+    }))
   },
   {
     name: "child_wishes_link",
     type: LINK_TO_FORM,
     display_name: {
-      [i18n.locale]: i18n.t(`cases.summary.fields.child_wishes_link.label`)
+      [i18n.locale]: i18n.t(generateI18nPath("child_wishes_link.label"))
     },
     link_to_form: "child_wishes",
     visible: true

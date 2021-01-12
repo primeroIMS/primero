@@ -4,6 +4,7 @@ import { fromJS, OrderedMap, List } from "immutable";
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
 import { MODULES, RECORD_TYPES } from "../../config";
+import generateKey from "../charts/table-values/utils";
 
 import { CUSTOM_FORM_IDS_NAV } from "./nav/constants";
 import { NavRecord, FormSectionRecord } from "./records";
@@ -70,13 +71,13 @@ const transformOptionSource = (options, locale, stickyOption) => {
 
 export const customForms = i18n => ({
   summary: FormSectionRecord({
-    id: 99999,
+    id: generateKey(),
     unique_id: "summary",
     description: {
       [i18n.locale]: i18n.t("summary.label")
     },
     name: {
-      en: "Summary"
+      [i18n.locale]: i18n.t("summary.label")
     },
     visible: true,
     is_first_tab: false,
@@ -115,10 +116,18 @@ export const getFormNav = (state, query) => {
 
   if (!selectedForms) return null;
 
-  const { i18n } = query;
+  const { i18n, renderCustomForms } = query;
+  let allSelectedForms = selectedForms;
 
-  return selectedForms
-    .concat({ [customForms(i18n).summary.id]: customForms(i18n).summary }) // TODO: IF potential_match.view PERMISSION
+  if (renderCustomForms) {
+    const allCustomForms = Object.entries(customForms(i18n)).reduce((acc, curr) => {
+      return { ...acc, [curr[1].id]: curr[1] };
+    }, {});
+
+    allSelectedForms = allSelectedForms.concat(allCustomForms);
+  }
+
+  return allSelectedForms
     .map(fs => {
       return NavRecord({
         group: fs.form_group_id,

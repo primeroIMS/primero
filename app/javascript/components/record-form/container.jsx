@@ -33,7 +33,7 @@ import {
   CHANGE_LOGS,
   SUMMARY
 } from "../../config";
-import { REFER_FROM_SERVICE } from "../../libs/permissions";
+import { REFER_FROM_SERVICE, SHOW_FIND_MATCH } from "../../libs/permissions";
 import { SHOW_CHANGE_LOG } from "../permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
@@ -45,6 +45,7 @@ import { clearRecordAttachments, fetchRecordsAlerts } from "../records/action-cr
 import { getPermittedFormsIds } from "../user/selectors";
 import { fetchChangeLogs } from "../change-logs/action-creators";
 import Summary from "../summary";
+import { RESOURCES } from "../permissions/constants";
 
 import {
   customForms,
@@ -86,15 +87,16 @@ const Container = ({ match, mode }) => {
   const record = useSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
 
   const userPermittedFormsIds = useSelector(state => getPermittedFormsIds(state));
+  const canViewSummaryForm = usePermissions(RESOURCES.potential_matches, SHOW_FIND_MATCH);
 
   const selectedModule = {
     recordType,
     primeroModule: record ? record.get("module_id") : params.module,
     formsIds: userPermittedFormsIds,
-    i18n
+    i18n,
+    renderCustomForms: canViewSummaryForm
   };
 
-  // TODO: PASS new param to check if user should watch the "Summary Form" potential_match.view
   const formNav = useSelector(state => getFormNav(state, selectedModule));
   const forms = useSelector(state => getRecordForms(state, selectedModule));
   const attachmentForms = useSelector(state => getAttachmentForms(state));
