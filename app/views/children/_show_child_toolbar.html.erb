@@ -13,7 +13,7 @@
   <% end %>
   <% if has_show_actions(controller.model_class) %>
     <% unless ["edit", "update"].include? controller.action_name %>
-      <ul id="menu" class="dropdown menu" data-dropdown-menu>
+      <ul id="menu" class="dropdown menu" data-dropdown-menu data-close-on-click-inside>
         <li class="init_btn is-dropdown-submenu-parent">
           <%= link_to content_tag(:span, t("actions.button")), '#', class: 'button action_btn' %>
           <ul class="menu is-dropdown-submenu">

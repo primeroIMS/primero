@@ -14,7 +14,7 @@
             <div class="button-group">
               <%= link_to icon('angle-left') + t("buttons.back"), reports_path, class: 'button back-button' %>
               <% if controller.action_name != 'edit' %>
-                <ul class="dropdown menu" data-dropdown-menu>
+                <ul class="dropdown menu" data-dropdown-menu data-close-on-click-inside>
                   <li>
                     <%= link_to content_tag(:span, t("buttons.export")), '#', class: 'button action_btn' %>
                     <ul class="menu">
