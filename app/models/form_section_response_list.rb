@@ -17,7 +17,21 @@ class FormSectionResponseList < ValueObject
   def subform(name)
     FormSectionResponseList.new(
       responses: field(name).flatten,
-      form_section: form_section&.fields&.find_by(name: name)&.subform
+      form_section: subform_section(name)
+      # form_section: form_section&.fields&.find_by(name: name)&.subform
     )
+  end
+
+  private
+
+  def subform_section(name)
+    return nil unless form_section
+
+    FormSection
+      .joins(subform_field: :form_section)
+      .find_by(
+        form_sections_fields: { id: form_section.id },
+        fields: { name: name }
+      )
   end
 end
