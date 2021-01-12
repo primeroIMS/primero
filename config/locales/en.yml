@@ -372,6 +372,21 @@ en:
     show_case: 'Case ID: %{short_id}'
     social_worker: Social Worker
     status: Status
+    summary:
+      label: Summary
+      find_match: Find Match
+      fields:
+        consent_for_tracing:
+          label: Consent has been obtained to disclose information for tracing purposes
+          help_text: If this field is 'No', the child's case record will not show up in Matches with Inquirer Tracing Requests.
+        wishes_child_family_tracing:
+          label: Does child want to trace family members?
+        wishes_reunification:
+          label: Does the child want family reunification?
+        data_confidentiality_link:
+          label: See Data Confidentiality
+        child_wishes_link:
+          label: See Child's Wishes
     survivor_code: Survivor Code
     transfer_accepted: By clicking 'Accept' you accept the responsibility for this
       case; once you click ‘Accept' you will become the record owner in the system.

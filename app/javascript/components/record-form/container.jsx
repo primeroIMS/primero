@@ -30,7 +30,8 @@ import {
   RECORD_PATH,
   REFERRAL,
   INCIDENT_FROM_CASE,
-  CHANGE_LOGS
+  CHANGE_LOGS,
+  SUMMARY
 } from "../../config";
 import { REFER_FROM_SERVICE } from "../../libs/permissions";
 import { SHOW_CHANGE_LOG } from "../permissions";
@@ -43,8 +44,10 @@ import { usePermissions } from "../user";
 import { clearRecordAttachments, fetchRecordsAlerts } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
 import { fetchChangeLogs } from "../change-logs/action-creators";
+import Summary from "../summary";
 
 import {
+  customForms,
   getAttachmentForms,
   getFirstTab,
   getFormNav,
@@ -87,9 +90,11 @@ const Container = ({ match, mode }) => {
   const selectedModule = {
     recordType,
     primeroModule: record ? record.get("module_id") : params.module,
-    formsIds: userPermittedFormsIds
+    formsIds: userPermittedFormsIds,
+    i18n
   };
 
+  // TODO: PASS new param to check if user should watch the "Summary Form" potential_match.view
   const formNav = useSelector(state => getFormNav(state, selectedModule));
   const forms = useSelector(state => getRecordForms(state, selectedModule));
   const attachmentForms = useSelector(state => getAttachmentForms(state));
@@ -292,6 +297,15 @@ const Container = ({ match, mode }) => {
           recordType={params.recordType}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
+        />
+      ),
+      [SUMMARY]: (
+        <Summary
+          record={record}
+          recordType={params.recordType}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          form={customForms(i18n)[form]}
         />
       )
     }[externalFormSelected];

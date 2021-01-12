@@ -1,10 +1,12 @@
 import isEmpty from "lodash/isEmpty";
-import { fromJS, OrderedMap } from "immutable";
+import { fromJS, OrderedMap, List } from "immutable";
 
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
+import { MODULES, RECORD_TYPES } from "../../config";
 
-import { NavRecord } from "./records";
+import { CUSTOM_FORM_IDS_NAV } from "./nav/constants";
+import { NavRecord, FormSectionRecord } from "./records";
 import NAMESPACE from "./namespace";
 
 const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }) => {
@@ -66,6 +68,32 @@ const transformOptionSource = (options, locale, stickyOption) => {
   }));
 };
 
+export const customForms = i18n => ({
+  summary: FormSectionRecord({
+    id: 99999,
+    unique_id: "summary",
+    description: {
+      [i18n.locale]: i18n.t("summary.label")
+    },
+    name: {
+      en: "Summary"
+    },
+    visible: true,
+    is_first_tab: false,
+    order: 9,
+    order_form_group: 130,
+    parent_form: RECORD_TYPES.cases,
+    editable: true,
+    module_ids: [MODULES.CP],
+    form_group_id: "tracing",
+    is_nested: false,
+    subform_prevent_item_removal: false,
+    collapsed_field_names: [],
+    subform_append_only: false,
+    initial_subforms: 0
+  })
+});
+
 export const getFirstTab = (state, query) => {
   const selectedForms = forms(state, query);
 
@@ -87,17 +115,20 @@ export const getFormNav = (state, query) => {
 
   if (!selectedForms) return null;
 
+  const { i18n } = query;
+
   return selectedForms
-    .map(fs =>
-      NavRecord({
+    .concat({ [customForms(i18n).summary.id]: customForms(i18n).summary }) // TODO: IF potential_match.view PERMISSION
+    .map(fs => {
+      return NavRecord({
         group: fs.form_group_id,
         groupOrder: fs.order_form_group,
         name: displayNameHelper(fs.name, window.I18n.locale),
         order: fs.order,
         formId: fs.unique_id,
         is_first_tab: fs.is_first_tab
-      })
-    )
+      });
+    })
     .sortBy(fs => fs.order)
     .groupBy(fs => fs.group)
     .sortBy(fs => fs.first().get("groupOrder"));
@@ -113,7 +144,11 @@ export const getRecordForms = (state, query) => {
 };
 
 export const getRecordFormsByUniqueId = (state, query) => {
-  const { recordType, primeroModule, formName, checkVisible } = query;
+  const { recordType, primeroModule, formName, checkVisible, i18n } = query;
+
+  if (CUSTOM_FORM_IDS_NAV.includes(formName)) {
+    return List([customForms(i18n)[formName]]);
+  }
 
   return getRecordForms(state, {
     recordType,
