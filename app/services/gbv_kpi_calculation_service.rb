@@ -14,11 +14,11 @@ class GbvKpiCalculationService
 
     closure_form = form_responses(:gbv_case_closure_form).first
 
-    if closure_form
-      date_created = closure_form.field(:created_at) || @record.created_at
-      date_closed = closure_form.field(:date_closure)
-      (date_closed.to_date - date_created.to_date).to_i
-    end
+    return 0 unless closure_form
+
+    date_created = closure_form.field(:created_at) || @record.created_at
+    date_closed = closure_form.field(:date_closure)
+    (date_closed.to_date - date_created.to_date).to_i
   end
 
   def completed_survivor_assessment

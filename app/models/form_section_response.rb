@@ -1,3 +1,9 @@
+# frozen_string_literal: true
+
+# FormSectionResponse
+#
+# Respresents a filled out form and provides a domain aware api for
+# querying the forms state.
 class FormSectionResponse < ValueObject
   attr_accessor :response
   attr_accessor :form_section

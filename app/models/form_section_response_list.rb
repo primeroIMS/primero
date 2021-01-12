@@ -1,3 +1,9 @@
+# frozen_string_literal: true
+
+# FormSectionResponseList
+#
+# An domain aware enumerable of FormSectionResponses. It enables
+# a fluid api for querying form and subform data.
 class FormSectionResponseList < ValueObject
   include Enumerable
 
@@ -18,7 +24,6 @@ class FormSectionResponseList < ValueObject
     FormSectionResponseList.new(
       responses: field(name).flatten,
       form_section: subform_section(name)
-      # form_section: form_section&.fields&.find_by(name: name)&.subform
     )
   end
 

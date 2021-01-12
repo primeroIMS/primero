@@ -9,14 +9,14 @@ describe GbvKpiCalculationService do
     clean_data(FormSection)
 
     form(:action_plan, [
-      field(:test)
-    ])
+           field(:test)
+         ])
   end
 
-  describe "#form_responses" do
+  describe '#form_responses' do
     it "should return a FormSectionResponseList when data isn't present" do
-      form_responses = GbvKpiCalculationService.new(Child.new).
-        form_responses(:action_plan)
+      form_responses = GbvKpiCalculationService.new(Child.new)
+                                               .form_responses(:action_plan)
 
       expect(form_responses).to be_a(FormSectionResponseList)
       # the record replaces any responses if no responses exist under the
@@ -24,12 +24,12 @@ describe GbvKpiCalculationService do
       expect(form_responses.count).to eql(1)
     end
 
-    it "should return an array of forms if a form is present" do
+    it 'should return an array of forms if a form is present' do
       form_responses = GbvKpiCalculationService.new(Child.new(data: {
-        action_plan: [{
-          test: 'test'
-        }]
-      })).form_responses(:action_plan)
+                                                                action_plan: [{
+                                                                  test: 'test'
+                                                                }]
+                                                              })).form_responses(:action_plan)
 
       expect(form_responses.count).to eql(1)
     end

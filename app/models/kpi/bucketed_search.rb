@@ -5,8 +5,8 @@
 # Extracts the logic for a common form of search in which data is
 # aggregated into buckets over a range of data.
 class Kpi::BucketedSearch < Kpi::Search
-    class << self
-      def restricted_field(field = nil)
+  class << self
+    def restricted_field(field = nil)
       @restricted_field ||= field
     end
 
