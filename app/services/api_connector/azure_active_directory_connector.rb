@@ -10,14 +10,6 @@ class ApiConnector::AzureActiveDirectoryConnector < ApiConnector::AbstractConnec
     IDENTIFIER
   end
 
-  def initialize(options = {})
-    default_headers = {
-      'Content-Type' => 'application/json',
-      'cache-control' => 'no-cache'
-    }
-    self.connection = ApiConnector::Connection.new(options.merge('default_headers' => default_headers))
-  end
-
   def fetch(user)
     response = connection.get("/users/#{user.user_name}")
     response[1]

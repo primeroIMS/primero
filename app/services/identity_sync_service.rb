@@ -4,9 +4,11 @@
 # This is used by the UNICEF SaaS Azure Active Directory, but can be used for MDM,
 # or other case management system integrations.
 # The underlying connectors are configured via consistently named environment variables.
-# The pattern is PRIMERO_CONNECT_API_<CONNECTOR_ID>_<PROPERTY>.
+# The pattern is PRIMERO_IDENTITY_SYNC_AAD_<PROPERTY>.
 # Common properties are: HOST, PORT, TLS (client|truthy|falsey), TLS_CLIENT_KEY, TLS_CLIENT_CERT
 class IdentitySyncService
+  ENV_PREFIX = 'PRIMERO_IDENTITY_SYNC_AAD'
+
   attr_accessor :connectors
 
   class << self
@@ -21,7 +23,7 @@ class IdentitySyncService
         connector_class = provider.identity_sync_connector
         next unless connector_class
 
-        instance.connectors << connector_class.build_from_env
+        instance.connectors << connector_class.build_from_env(prefix: ENV_PREFIX)
       end
       instance
     end
