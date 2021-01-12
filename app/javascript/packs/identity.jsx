@@ -10,7 +10,7 @@ export const setMsalConfig = {
     redirectUri: `http://${DOMAIN}/login/${window.IDP.providerType}`
   },
   cache: {
-    cacheLocation: "sessionStorage",
+    cacheLocation: "localStorage",
     storeAuthStateInCookie: true
   }
 };
