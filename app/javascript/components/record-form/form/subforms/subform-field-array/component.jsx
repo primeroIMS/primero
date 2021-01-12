@@ -76,6 +76,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
         form={formSection}
         recordType={recordType}
         isTracesSubform={isTraces}
+        formik={formik}
       />
     );
 
