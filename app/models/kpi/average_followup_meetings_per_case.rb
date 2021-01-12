@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 # AverageFollowupMeetingsPerCase
-# A KPI to count the average number of followup up meetings for all
+# A Kpi to count the average number of followup up meetings for all
 # accessible cases
-class KPI::AverageFollowupMeetingsPerCase < KPI::Search
+class Kpi::AverageFollowupMeetingsPerCase < Kpi::Search
   # rubocop:disable Metrics/MethodLength
   def search
     ActiveRecord::Base.connection.execute(

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe KPI::CaseClosureRate, search: true do
+describe Kpi::CaseClosureRate, search: true do
   include FormAndFieldHelper
   include SunspotHelper
 
@@ -50,21 +50,21 @@ describe KPI::CaseClosureRate, search: true do
 
   with 'No cases in the users groups' do
     it 'should return 0 data' do
-      json = KPI::CaseClosureRate.new(from, to, [group1]).to_json
+      json = Kpi::CaseClosureRate.new(from, to, [group1]).to_json
       expect(json[:data].length).to eq(0)
     end
   end
 
   with 'One case closed in 2020/11' do
     it 'should return 1 case in 2020/11' do
-      json = KPI::CaseClosureRate.new(from, to, [group2]).to_json
+      json = Kpi::CaseClosureRate.new(from, to, [group2]).to_json
       expect(json[:data].first[json[:dates].second]).to eq(1)
     end
   end
 
   with 'Two case closed in 2020/11' do
     it 'should return 2 case in 2020/11' do
-      json = KPI::CaseClosureRate.new(from, to, [group2, group3]).to_json
+      json = Kpi::CaseClosureRate.new(from, to, [group2, group3]).to_json
       expect(json[:data].first[json[:dates].second]).to eq(2)
     end
   end

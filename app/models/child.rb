@@ -36,7 +36,7 @@ class Child < ApplicationRecord
   include Alertable
   include Attachable
   include Noteable
-  include KPI::GBVChild
+  include Kpi::GBVChild
 
   store_accessor(
     :data,

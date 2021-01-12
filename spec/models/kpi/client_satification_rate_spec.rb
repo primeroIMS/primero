@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe KPI::ClientSatisfactionRate, search: true do
+describe Kpi::ClientSatisfactionRate, search: true do
   include FormAndFieldHelper
   include SunspotHelper
 
@@ -75,14 +75,14 @@ describe KPI::ClientSatisfactionRate, search: true do
 
   with 'No cases in the users groups' do
     it 'satisfaction rate should be 0' do
-      json = KPI::ClientSatisfactionRate.new(from, to, [group1]).to_json
+      json = Kpi::ClientSatisfactionRate.new(from, to, [group1]).to_json
       expect(json[:data][:satisfaction_rate]).to eq(0)
     end
   end
 
   with 'One satisfied case in the users groups' do
     it 'should have a satisfaction_rate of 1.0' do
-      json = KPI::ClientSatisfactionRate.new(from, to, [group2]).to_json
+      json = Kpi::ClientSatisfactionRate.new(from, to, [group2]).to_json
       expect(json[:data][:satisfaction_rate]).to eq(1.0)
     end
   end

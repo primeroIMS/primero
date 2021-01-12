@@ -2,11 +2,11 @@
 
 # KeyPerformanceIndicatorsController
 #
-# Handles requests for KPIs
+# Handles requests for Kpis
 class Api::V2::KeyPerformanceIndicatorsController < ApplicationApiController
   def show
-    authorize! kpi_permission, KPI
-    search_klass = KPI::Search.find(kpi_id)
+    authorize! kpi_permission, Kpi
+    search_klass = Kpi::Search.find(kpi_id)
     search = search_klass.new(
       from,
       to,

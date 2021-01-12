@@ -5,7 +5,7 @@
 # Represents a filled out client feedback form. Has notional understanding
 # of whether it is "valid" and where the user who filled the form out was
 # satisfied or not.
-class KPI::ClientFeedbackResponse < ValueObject
+class Kpi::ClientFeedbackResponse < ValueObject
   CLIENT_SATISFACTION_FIELDS = %w[
     opening_hours_when_client_could_attend
     client_comfortable_with_case_worker

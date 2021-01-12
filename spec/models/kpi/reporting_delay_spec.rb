@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe KPI::ReportingDelay, search: true do
+describe Kpi::ReportingDelay, search: true do
   include SunspotHelper
 
   let(:from) { indexed_field(DateTime.parse('2020/09/01')) }
@@ -48,7 +48,7 @@ describe KPI::ReportingDelay, search: true do
 
   with 'No incidents owned by users group' do
     it 'should return no data for each of the 6 time periods' do
-      json = KPI::ReportingDelay.new(from, to, [group2]).to_json
+      json = Kpi::ReportingDelay.new(from, to, [group2]).to_json
       json[:data].each do |period|
         expect(period[:total_incidents]).to eq(0)
       end
@@ -57,7 +57,7 @@ describe KPI::ReportingDelay, search: true do
 
   with 'An incident owned by the users group with > 3 months reporting delay' do
     it 'should produce a count of 1 for > 3 months' do
-      json = KPI::ReportingDelay.new(from, to, [group1]).to_json
+      json = Kpi::ReportingDelay.new(from, to, [group1]).to_json
       expect(json[:data].last[:total_incidents]).to eq(1)
       expect(json[:data][-3][:total_incidents]).to eq(0)
     end
@@ -65,7 +65,7 @@ describe KPI::ReportingDelay, search: true do
 
   with 'An incident owned by the users group with 15 - 30 days reporting delay' do
     it 'should produce a count of 1 for 15 - 30 days' do
-      json = KPI::ReportingDelay.new(from, to, [group3]).to_json
+      json = Kpi::ReportingDelay.new(from, to, [group3]).to_json
       expect(json[:data].last[:total_incidents]).to eq(0)
       expect(json[:data][-3][:total_incidents]).to eq(1)
     end
@@ -73,7 +73,7 @@ describe KPI::ReportingDelay, search: true do
 
   with 'A user in all groups with incidents' do
     it 'should produce a count of 1 for 15 - 30 days and > 3months' do
-      json = KPI::ReportingDelay.new(from, to, [group1, group3]).to_json
+      json = Kpi::ReportingDelay.new(from, to, [group1, group3]).to_json
       expect(json[:data].last[:total_incidents]).to eq(1)
       expect(json[:data][-3][:total_incidents]).to eq(1)
     end

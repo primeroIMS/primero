@@ -5,7 +5,7 @@
 # Extract the logic for a common form of search involving a range,
 # usually of dates and a pivoted field for counting occurances within
 # those dates.
-class KPI::PivotedRangeSearch < KPI::Search
+class Kpi::PivotedRangeSearch < Kpi::Search
   class << self
     def range_field(field = nil)
       @range_field ||= field

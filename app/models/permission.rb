@@ -126,7 +126,7 @@ class Permission < ValueObject
   CLOSE = 'close'
   DELETE = 'delete'
   CHANGE_LOG = 'change_log'
-  KPI = 'KPI'
+  KPI = 'Kpi'
   KPI_ASSESSMENT_STATUS = 'kpi_assessment_status'
   KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE = 'kpi_average_followup_meetings_per_case'
   KPI_AVERAGE_REFERRALS = 'kpi_average_referrals'

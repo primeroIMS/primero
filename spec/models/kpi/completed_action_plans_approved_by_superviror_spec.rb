@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe KPI::CompletedSupervisorApprovedCaseActionPlans, search: true do
+describe Kpi::CompletedSupervisorApprovedCaseActionPlans, search: true do
   include FormAndFieldHelper
   include SunspotHelper
 
@@ -54,21 +54,21 @@ describe KPI::CompletedSupervisorApprovedCaseActionPlans, search: true do
 
   with 'No cases in the users groups with completed, approved action plans' do
     it 'should return 0% completed action plans' do
-      json = KPI::CompletedSupervisorApprovedCaseActionPlans.new(from, to, [group1]).to_json
+      json = Kpi::CompletedSupervisorApprovedCaseActionPlans.new(from, to, [group1]).to_json
       expect(json[:data][:completed_and_approved]).to eql(0)
     end
   end
 
   with 'A single case in the users groups with a completed, approved action plan' do
     it 'should return 100% completed action plans' do
-      json = KPI::CompletedSupervisorApprovedCaseActionPlans.new(from, to, [group3]).to_json
+      json = Kpi::CompletedSupervisorApprovedCaseActionPlans.new(from, to, [group3]).to_json
       expect(json[:data][:completed_and_approved]).to eql(1.0)
     end
   end
 
   with 'Three cases with completed action plans, 2 approved' do
     it 'should return 66.7% of plans approved and completed' do
-      json = KPI::CompletedSupervisorApprovedCaseActionPlans.new(from, to, [group2, group3]).to_json
+      json = Kpi::CompletedSupervisorApprovedCaseActionPlans.new(from, to, [group2, group3]).to_json
       expect(json[:data][:completed_and_approved]).to be_within(0.001).of(0.667)
     end
   end

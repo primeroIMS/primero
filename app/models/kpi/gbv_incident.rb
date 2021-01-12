@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Module for capturing all of the GBV KPI related logic for the Child model
-module KPI::GBVIncident
+# Module for capturing all of the GBV Kpi related logic for the Child model
+module Kpi::GBVIncident
   extend ActiveSupport::Concern
 
   included do

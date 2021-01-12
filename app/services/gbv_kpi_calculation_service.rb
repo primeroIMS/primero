@@ -3,7 +3,7 @@
 # GbvKpiCalculationService
 #
 # Provides methods for calulating the cached information required for the
-# KPIs
+# Kpis
 class GbvKpiCalculationService
   def initialize(record)
     @record = record
@@ -83,7 +83,7 @@ class GbvKpiCalculationService
   end
 
   def satisfaction_status
-    feedback_responses = KPI::ClientFeedbackResponseList.new(
+    feedback_responses = Kpi::ClientFeedbackResponseList.new(
       responses: access_migrated_forms(:client_feedback)
     )
 

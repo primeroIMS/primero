@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe KPI::AverageReferrals, search: true do
+describe Kpi::AverageReferrals, search: true do
   include FormAndFieldHelper
   include SunspotHelper
 
@@ -51,21 +51,21 @@ describe KPI::AverageReferrals, search: true do
 
   with 'No cases in the users group' do
     it 'should average referrals of 0' do
-      json = KPI::AverageReferrals.new(from, to, [group1]).to_json
+      json = Kpi::AverageReferrals.new(from, to, [group1]).to_json
       expect(json[:data][:average_referrals]).to eq('NaN')
     end
   end
 
   with 'One case with 4 referrals in the users group' do
     it 'should average referrals of 4' do
-      json = KPI::AverageReferrals.new(from, to, [group2]).to_json
+      json = Kpi::AverageReferrals.new(from, to, [group2]).to_json
       expect(json[:data][:average_referrals]).to eq(4.0)
     end
   end
 
   with 'One case with 4 referrals and one with 2 in the users group' do
     it 'should average referrals of 3' do
-      json = KPI::AverageReferrals.new(from, to, [group2, group3]).to_json
+      json = Kpi::AverageReferrals.new(from, to, [group2, group3]).to_json
       expect(json[:data][:average_referrals]).to eq(3.0)
     end
   end

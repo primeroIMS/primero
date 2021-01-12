@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe KPI::SupervisorToCaseworkerRatio do
+describe Kpi::SupervisorToCaseworkerRatio do
   include FormAndFieldHelper
   include SunspotHelper
 

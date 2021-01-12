@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module KPI
+module Kpi
   SearchValue = Struct.new(:from, :to, :owned_by_groups, :owned_by_agency_id)
 
   # Search
@@ -8,7 +8,7 @@ module KPI
   # An abstract class for search objects to subclass.
   class Search < SearchValue
     def self.find(id)
-      Object.const_get("KPI::#{id.camelize}")
+      Object.const_get("Kpi::#{id.camelize}")
     end
 
     def self.search_model(model = nil)

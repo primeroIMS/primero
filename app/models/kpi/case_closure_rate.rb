@@ -4,7 +4,7 @@
 #
 # Looks at how many cases were closed in a given range of months for
 # each location in which a case was closed within that range of months.
-class KPI::CaseClosureRate < KPI::PivotedRangeSearch
+class Kpi::CaseClosureRate < Kpi::PivotedRangeSearch
   search_model Child
   pivot_field :owned_by_location
   range_field :date_closure

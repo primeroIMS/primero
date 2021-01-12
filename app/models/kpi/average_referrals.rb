@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # AverageReferrals
-# A KPI that counts the average number of referrals made for each case.
-class KPI::AverageReferrals < KPI::Search
+# A Kpi that counts the average number of referrals made for each case.
+class Kpi::AverageReferrals < Kpi::Search
   REFERRED = 'Referred'
 
   def action_plan_referral_statuses

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe KPI::NumberOfCases, search: true do
+describe Kpi::NumberOfCases, search: true do
   include SunspotHelper
 
   let(:from) { indexed_field(DateTime.parse('2020/09/01')) }
@@ -44,28 +44,28 @@ describe KPI::NumberOfCases, search: true do
 
   with 'No cases' do
     it 'should return no data for each of the three months' do
-      json = KPI::NumberOfCases.new(from, to, [group1]).to_json
+      json = Kpi::NumberOfCases.new(from, to, [group1]).to_json
       expect(json[:dates].length).to eq(3)
     end
   end
 
   with 'A single case made on 2020/10/01 by someone in the users groups' do
     it 'should return a single case in the second month' do
-      json = KPI::NumberOfCases.new(from, to, [group1]).to_json
+      json = Kpi::NumberOfCases.new(from, to, [group1]).to_json
       expect(json[:data][0][json[:dates].second]).to eq(1)
     end
   end
 
   with 'A a user not in the groups that own the case' do
     it 'should return no data' do
-      json = KPI::NumberOfCases.new(from, to, [group2]).to_json
+      json = Kpi::NumberOfCases.new(from, to, [group2]).to_json
       expect(json[:data][0]).to be(nil)
     end
   end
 
   with 'A a user in 2 groups each with 1 case' do
     it 'should return 2 cases' do
-      json = KPI::NumberOfCases.new(from, to, [group1, group3]).to_json
+      json = Kpi::NumberOfCases.new(from, to, [group1, group3]).to_json
       expect(json[:data][0][json[:dates].second]).to eq(2)
     end
   end

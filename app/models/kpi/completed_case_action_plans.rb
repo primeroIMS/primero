@@ -2,8 +2,8 @@
 
 # CompletedCaseActionPlans
 #
-# A KPI to track the percentage of cases with a completed case action plan
-class KPI::CompletedCaseActionPlans < KPI::Search
+# A Kpi to track the percentage of cases with a completed case action plan
+class Kpi::CompletedCaseActionPlans < Kpi::Search
   def search
     Child.search do
       with :status, Record::STATUS_OPEN

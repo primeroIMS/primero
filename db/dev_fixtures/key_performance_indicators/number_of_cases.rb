@@ -1,7 +1,7 @@
 # We assume that bundle exec rails db:seed has already been run and that
 # this file is run with bundle exec rails r <filename>
 
-# The number of cases KPI requires:
+# The number of cases Kpi requires:
 # * Locations
 # * Users with locations
 # * Cases created by users with location

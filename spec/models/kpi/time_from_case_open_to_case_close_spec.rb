@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe KPI::TimeFromCaseOpenToClose, search: true do
+describe Kpi::TimeFromCaseOpenToClose, search: true do
   include FormAndFieldHelper
   include SunspotHelper
 
@@ -39,7 +39,7 @@ describe KPI::TimeFromCaseOpenToClose, search: true do
 
   with 'No cases in the users group' do
     it 'should return 0 for all time periods' do
-      json = KPI::TimeFromCaseOpenToClose.new(from, to, [group1]).to_json
+      json = Kpi::TimeFromCaseOpenToClose.new(from, to, [group1]).to_json
       delays = json[:data].map { |delay| delay.map(&:second) }.to_h
       expect(delays['1-month'].nan?).to be(true)
       expect(delays['1-3months'].nan?).to be(true)
@@ -50,7 +50,7 @@ describe KPI::TimeFromCaseOpenToClose, search: true do
 
   with 'One case with almost a year between creation and closure.' do
     it 'should return 1.0 in  > 6 months' do
-      json = KPI::TimeFromCaseOpenToClose.new(from, to, [group2]).to_json
+      json = Kpi::TimeFromCaseOpenToClose.new(from, to, [group2]).to_json
       delays = json[:data].map { |delay| delay.map(&:second) }.to_h
       expect(delays['1-month']).to eq(0.0)
       expect(delays['1-3months']).to eq(0.0)
@@ -61,7 +61,7 @@ describe KPI::TimeFromCaseOpenToClose, search: true do
 
   with 'Two cases one with a year and 1 with 5 months between open and closure' do
     it 'should return 0.5 in > 6 months and 0.5 in 3-6 months' do
-      json = KPI::TimeFromCaseOpenToClose.new(from, to, [group2, group3]).to_json
+      json = Kpi::TimeFromCaseOpenToClose.new(from, to, [group2, group3]).to_json
       delays = json[:data].map { |delay| delay.map(&:second) }.to_h
       expect(delays['1-month']).to eq(0.0)
       expect(delays['1-3months']).to eq(0.0)

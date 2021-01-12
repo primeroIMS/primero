@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe KPI::AverageFollowupMeetingsPerCase, search: true do
+describe Kpi::AverageFollowupMeetingsPerCase, search: true do
   include FormAndFieldHelper
   include SunspotHelper
 
@@ -66,21 +66,21 @@ describe KPI::AverageFollowupMeetingsPerCase, search: true do
 
   with 'No cases in the users group' do
     it 'should return 0 average followup meetings per case' do
-      json = KPI::AverageFollowupMeetingsPerCase.new(from, to, [group1], agency1).to_json
+      json = Kpi::AverageFollowupMeetingsPerCase.new(from, to, [group1], agency1).to_json
       expect(json[:data][:average_meetings]).to eq(0.0)
     end
   end
 
   with 'One case with 4 follow up meetings in the group' do
     it 'should return 4 average followup meetings per case' do
-      json = KPI::AverageFollowupMeetingsPerCase.new(from, to, [group2], agency1).to_json
+      json = Kpi::AverageFollowupMeetingsPerCase.new(from, to, [group2], agency1).to_json
       expect(json[:data][:average_meetings]).to eq(4.0)
     end
   end
 
   with 'One case with 4 follow up meetings and another with 2 in the group' do
     it 'should return 3 average followup meetings per case' do
-      json = KPI::AverageFollowupMeetingsPerCase.new(from, to, [group2, group3], agency1).to_json
+      json = Kpi::AverageFollowupMeetingsPerCase.new(from, to, [group2, group3], agency1).to_json
       expect(json[:data][:average_meetings]).to eq(3.0)
     end
   end

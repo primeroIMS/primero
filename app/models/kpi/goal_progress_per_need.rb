@@ -7,7 +7,7 @@
 # survivor. How a need / goal is defined and how to calculate it's
 # complection is defined in:
 # app/models/concerns/gbv_key_performance_indicators.rb
-class KPI::GoalProgressPerNeed < KPI::Search
+class Kpi::GoalProgressPerNeed < Kpi::Search
   def search
     @search ||= Child.search do
       with :status, Record::STATUS_OPEN

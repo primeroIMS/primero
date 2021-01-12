@@ -5,12 +5,12 @@
 # A repository for ClientFeedbackResponse object. It provides methods
 # for interacting with the list of responses in the language of the
 # responses domain.
-class KPI::ClientFeedbackResponseList < ValueObject
+class Kpi::ClientFeedbackResponseList < ValueObject
   attr_accessor :responses
 
   def wrapped_responses
     @wrapped_responses ||= responses
-                           .map { |response| KPI::ClientFeedbackResponse.new(response: response) }
+                           .map { |response| Kpi::ClientFeedbackResponse.new(response: response) }
   end
 
   def valid_responses?

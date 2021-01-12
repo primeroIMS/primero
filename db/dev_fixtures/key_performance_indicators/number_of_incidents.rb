@@ -1,7 +1,7 @@
 # We assume that bundle exec rails db:seed has already been run and that
 # this file is run with bundle exec rails r <filename>
 
-# The number of incidents KPI requires:
+# The number of incidents Kpi requires:
 # * Locations
 # * Users with locations
 # * Incidents created by users with location
@@ -14,4 +14,4 @@ Incident.new_with_user(TEST_USER, {
   incident_date: Date.today.prev_day(6)
 }).save!
 
-puts 'Created test incident for NumberOfCases KPI'
+puts 'Created test incident for NumberOfCases Kpi'

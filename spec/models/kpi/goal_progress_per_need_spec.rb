@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe KPI::GoalProgressPerNeed, search: true do
+describe Kpi::GoalProgressPerNeed, search: true do
   include FormAndFieldHelper
   include SunspotHelper
 
@@ -54,7 +54,7 @@ describe KPI::GoalProgressPerNeed, search: true do
 
   with 'No cases in the users group' do
     it 'should return 0 progress for all goals' do
-      json = KPI::GoalProgressPerNeed.new(from, to, [group1]).to_json
+      json = Kpi::GoalProgressPerNeed.new(from, to, [group1]).to_json
       json[:data].each do |goal|
         expect(goal[:percentage]).to eq(0.0)
       end
@@ -63,7 +63,7 @@ describe KPI::GoalProgressPerNeed, search: true do
 
   with 'A single case with some goals completed' do
     it 'should return 1.0 progress for all completed goals' do
-      json = KPI::GoalProgressPerNeed.new(from, to, [group2]).to_json
+      json = Kpi::GoalProgressPerNeed.new(from, to, [group2]).to_json
       goals = json[:data].map { |goal| goal.map(&:second) }.to_h
       expect(goals['Safety']).to eq(0.0)
       expect(goals['Health']).to eq(0.0)
@@ -75,7 +75,7 @@ describe KPI::GoalProgressPerNeed, search: true do
 
   with 'A two cases with some goals completed' do
     it 'should return 1.0 progress for all completed goals, 0.5 for goals only completed by one case' do
-      json = KPI::GoalProgressPerNeed.new(from, to, [group2, group3]).to_json
+      json = Kpi::GoalProgressPerNeed.new(from, to, [group2, group3]).to_json
       goals = json[:data].map { |goal| goal.map(&:second) }.to_h
       expect(goals['Safety']).to eq(1.0)
       expect(goals['Health']).to eq(0.0)

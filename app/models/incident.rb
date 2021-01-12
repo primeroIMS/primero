@@ -9,7 +9,7 @@ class Incident < ApplicationRecord
   include Flaggable
   include Alertable
   include Attachable
-  include KPI::GBVIncident
+  include Kpi::GBVIncident
   # include IncidentMonitoringRecording #TODO: Refactor with Violations
 
   store_accessor(

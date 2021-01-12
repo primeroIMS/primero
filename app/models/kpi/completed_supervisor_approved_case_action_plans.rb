@@ -5,7 +5,7 @@
 # For cases created within a given range of months, looks at how many
 # cases have their action plan completed. Completion is defined in
 # app/models/concerns/gbv_key_performance_indicators.rb.
-class KPI::CompletedSupervisorApprovedCaseActionPlans < KPI::Search
+class Kpi::CompletedSupervisorApprovedCaseActionPlans < Kpi::Search
   def completed_and_approved_action_plan
     @completed_and_approved_action_plan ||= SolrUtils.indexed_field_name(Child, :completed_and_approved_action_plan)
   end
