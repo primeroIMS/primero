@@ -15,7 +15,7 @@
   </li>
   <li>
     <%= link_to content_tag(:span, t('home.language')), '', class: 'disabled', id: 'lang-toggle-disabled' %>
-    <ul id="lang-toggle" class="dropdown menu" data-dropdown-menu>
+    <ul id="lang-toggle" class="dropdown menu" data-dropdown-menu data-close-on-click-inside>
       <li class="init_btn">
         <%= link_to content_tag(:span, t('home.language')), '', class: 'action_btn' %>
         <ul class="menu">

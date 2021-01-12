@@ -28,6 +28,7 @@ class SystemSettings < CouchRest::Model::Base
   property :welcome_email_enabled, TrueClass, :default => false
   property :show_provider_note_field, TrueClass, :default => false
   property :set_service_implemented_on, TrueClass, :default => false
+  property :pdf_logo_agency_unique_id, String
   property :duplicate_export_field
 
   localize_properties [:welcome_email_text]

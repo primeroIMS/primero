@@ -342,7 +342,7 @@ module Exporters
                 I18n.t("exports.incident_recorder_xls.yes")
               elsif legal_actions.include?('false')
                 I18n.t("exports.incident_recorder_xls.no")
-              else
+              elsif legal_actions.include?('undecided')
                 I18n.t("exports.incident_recorder_xls.service_referral.undecided")
               end
             end

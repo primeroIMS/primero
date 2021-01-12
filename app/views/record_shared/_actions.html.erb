@@ -1,5 +1,5 @@
 <% if has_index_actions(controller.model_class) %>
-<ul id="menu" class="dropdown menu" data-dropdown-menu>
+<ul id="menu" class="dropdown menu" data-dropdown-menu data-close-on-click-inside>
   <li class="init_btn">
     <%= link_to content_tag(:span, t("actions.button")), '', class: 'button left action_btn' %>
     <ul class="menu is-dropdown-submenu">
