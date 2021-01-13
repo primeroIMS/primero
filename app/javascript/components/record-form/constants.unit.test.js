@@ -12,6 +12,7 @@ describe("Verifying config constant", () => {
       "NAME_FIELD",
       "NOT_FUTURE_DATE",
       "NUMERIC_FIELD",
+      "LINK_TO_FORM",
       "PHOTO_FIELD",
       "RADIO_FIELD",
       "SELECT_FIELD",
