@@ -8,6 +8,7 @@ import { getPermissions } from "../../user/selectors";
 import { getLoading, getErrors } from "../../index-table";
 import { OfflineAlert } from "../../disable-offline";
 import usePermissions, { ACTIONS, RESOURCES } from "../../permissions";
+import { RECORD_PATH } from "../../../config";
 
 import {
   Overview,
@@ -19,7 +20,8 @@ import {
   WorkflowTeamCases,
   ReportingLocation,
   ProtectionConcern,
-  Flags
+  Flags,
+  CasesBySocialWorker
 } from "./components";
 import NAMESPACE from "./namespace";
 import { NAME } from "./constants";
@@ -34,7 +36,7 @@ const Dashboard = () => {
     dispatch(fetchDashboards());
 
     if (canFetchFlags) {
-      dispatch(fetchFlags());
+      dispatch(fetchFlags(RECORD_PATH.cases, true));
     }
   }, []);
 
@@ -71,6 +73,7 @@ const Dashboard = () => {
             <SharedFromMyTeam loadingIndicator={indicatorProps} />
             <SharedWithMyTeam loadingIndicator={indicatorProps} />
             <OverdueTasks loadingIndicator={indicatorProps} />
+            <CasesBySocialWorker loadingIndicator={indicatorProps} />
             <WorkflowTeamCases loadingIndicator={indicatorProps} />
             <ReportingLocation loadingIndicator={indicatorProps} />
             <ProtectionConcern loadingIndicator={indicatorProps} />

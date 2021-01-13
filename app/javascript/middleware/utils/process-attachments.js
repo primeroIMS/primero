@@ -3,7 +3,7 @@ import uuid from "uuid";
 import { DB_COLLECTIONS_NAMES, queueIndexedDB } from "../../db";
 import { METHODS } from "../../config";
 
-export default ({ attachments, id, recordType }) => {
+export default async ({ attachments, id, recordType }) => {
   const actions = Object.keys(attachments).reduce((prev, current) => {
     attachments[current].forEach(attachment => {
       const method = attachment?._destroy ? METHODS.DELETE : METHODS.POST;
@@ -40,6 +40,6 @@ export default ({ attachments, id, recordType }) => {
   }, []);
 
   if (actions) {
-    queueIndexedDB.add(actions);
+    await queueIndexedDB.add(actions);
   }
 };

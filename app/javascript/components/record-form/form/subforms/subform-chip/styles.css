@@ -1,0 +1,14 @@
+.subformChip {
+  border-radius: 0;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-left: 5px;
+}
+
+.info {
+  background-color: $(theme.primero.colors.lightGrey);
+}
+
+.success {
+  background-color: $(theme.primero.colors.atlantis);
+}

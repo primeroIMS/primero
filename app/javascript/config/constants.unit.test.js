@@ -70,6 +70,8 @@ describe("Verifying config constant", () => {
       "SAVING",
       "STRING_SOURCES_TYPES",
       "TOKEN_REFRESH_INTERVAL",
+      "TRACES_SUBFORM_UNIQUE_ID",
+      "TRACING_REQUEST_STATUS_FIELD_NAME",
       "TRANSFERS_ASSIGNMENTS",
       "TRANSITIONS_DATE_FORMAT",
       "TRANSITION_TYPE",

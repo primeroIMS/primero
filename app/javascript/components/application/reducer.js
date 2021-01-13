@@ -76,6 +76,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("managedRoles", fromJS(payload.data));
     case actions.FETCH_SANDBOX_UI_SUCCESS:
       return state.set("primero", fromJS(payload.data));
+    case actions.SET_RETURN_URL:
+      return state.set("returnUrl", fromJS(payload));
     default:
       return state;
   }

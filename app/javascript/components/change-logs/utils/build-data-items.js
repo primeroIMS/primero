@@ -1,5 +1,5 @@
 import generateKey from "../../charts/table-values/utils";
-import { APPROVALS, CREATE_ACTION, SUBFORM } from "../constants";
+import { APPROVALS, CREATE_ACTION, SUBFORM, EXCLUDED_LOG_ACTIONS } from "../constants";
 
 import getTranslatedValue from "./get-translated-value";
 import getFieldAndValuesTranslations from "./get-field-and-values-translations";
@@ -57,6 +57,10 @@ export default (recordChangeLogs, allFields, allAgencies, allLookups, locations,
       user: log.user_name
     };
 
+    if (EXCLUDED_LOG_ACTIONS.includes(log.action)) {
+      return [...acc];
+    }
+
     if (log.action === CREATE_ACTION) {
       return [
         ...acc,
@@ -70,7 +74,7 @@ export default (recordChangeLogs, allFields, allAgencies, allLookups, locations,
 
     const updateMessages = log.record_changes
       .filter(change => {
-        if (Object.keys(change)[0] === "id") {
+        if (Object.keys(change)[0] === "id" || EXCLUDED_LOG_ACTIONS.includes(Object.keys(change)[0])) {
           return false;
         }
 

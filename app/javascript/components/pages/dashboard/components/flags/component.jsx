@@ -18,7 +18,7 @@ import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
-  const flags = useSelector(state => getDashboardFlags(state, true));
+  const flags = useSelector(state => getDashboardFlags(state));
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const handleSeeAll = () => dispatch(push(`${RECORD_PATH.cases}?flagged[0]=true`));

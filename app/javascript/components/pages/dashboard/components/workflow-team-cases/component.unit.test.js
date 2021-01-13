@@ -83,16 +83,14 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/workflow-team-cases",
           unique_id: "primeromodule-cp",
           name: "CP",
           workflows: {
-            case: {
-              en: [
-                { id: "new", display_text: "New" },
-                { id: "case_plan", display_text: "Case plan" },
-                {
-                  id: "response_type1",
-                  display_text: "Response Type 1"
-                }
-              ]
-            }
+            case: [
+              { id: "new", display_text: { en: "New" } },
+              { id: "case_plan", display_text: { en: "Case plan" } },
+              {
+                id: "response_type1",
+                display_text: { en: "Response Type 1" }
+              }
+            ]
           }
         })
       ]

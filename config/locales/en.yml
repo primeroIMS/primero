@@ -481,6 +481,8 @@ en:
     approved: Approved
     assessment: Assessment
     awaiting_acceptance: Awaiting acceptance
+    cases_by_social_worker_total: Total
+    cases_by_social_worker_new_or_updated: New & Updated
     case_id: 'Case #ID'
     case_management_service: Case Management Service
     case_overview: My Cases
@@ -2917,6 +2919,9 @@ en:
       service: Service - %{subtype}
   tracing_request:
     label: Tracing Request
+    has_match: Has Match
+    find_match: Find Match
+    back_to_traces: Back to Traces
     messages:
       update_success: 'Tracing Request %{record_id} was successfully updated.'
       creation_success: Tracing Request record successfully created.

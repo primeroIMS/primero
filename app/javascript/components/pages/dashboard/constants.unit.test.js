@@ -37,6 +37,7 @@ describe("Verifying config constant", () => {
       "CASE_INCIDENT_OVERVIEW",
       "CASE_OVERVIEW",
       "CASE_RISK",
+      "CASES_BY_SOCIAL_WORKER",
       "CASES_BY_TASK_OVERDUE_ASSESSMENT",
       "CASES_BY_TASK_OVERDUE_CASE_PLAN",
       "CASES_BY_TASK_OVERDUE_FOLLOWUPS",
