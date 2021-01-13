@@ -6,7 +6,8 @@ import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useI18n } from "../../../i18n";
 import { FormAction, whichFormMode, FormSection } from "../../../form";
@@ -69,7 +70,7 @@ const Container = ({ mode }) => {
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
   const formMethods = useForm({
     ...(initialValues && { defaultValues: initialValues }),
-    ...(validationSchema && { validationSchema })
+    ...(validationSchema && { resolver: yupResolver(validationSchema) })
   });
 
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
@@ -200,7 +201,7 @@ const Container = ({ mode }) => {
         {formMode.get("isShow") && id && <UserActions id={id} />}
       </PageHeading>
       <PageContent>
-        <FormContext {...formMethods} formMode={formMode}>
+        <FormProvider {...formMethods} formMode={formMode}>
           <CancelPrompt useCancelPrompt />
           <form noValidate>{renderFormSections()}</form>
           <UserConfirmation
@@ -224,7 +225,7 @@ const Container = ({ mode }) => {
             pending={pending}
             close={dialogClose}
           />
-        </FormContext>
+        </FormProvider>
       </PageContent>
     </LoadingIndicator>
   );

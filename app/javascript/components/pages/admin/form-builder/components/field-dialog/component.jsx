@@ -2,12 +2,13 @@
 import React, { useCallback, useEffect, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { batch, useSelector, useDispatch } from "react-redux";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import Add from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
 import set from "lodash/set";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import bindFormSubmit from "../../../../../../libs/submit-form";
@@ -75,7 +76,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
       setDialog({ dialog: FieldTranslationsDialogName, open: true });
     }
   });
-  const formMethods = useForm({ validationSchema });
+  const formMethods = useForm({ resolver: yupResolver(validationSchema) });
 
   const parentFieldName = selectedField?.get("name", "");
   const subformSortBy = formMethods.watch(`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_SORT_BY}`);
@@ -346,7 +347,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
   return (
     <>
       <ActionDialog {...modalProps}>
-        <FormContext {...formMethods} formMode={formMode}>
+        <FormProvider {...formMethods} formMode={formMode}>
           <form className={css.fieldDialog}>
             {renderAnotherFormLabel()}
             {renderForms()}
@@ -364,7 +365,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
             )}
             {renderClearButtons()}
           </form>
-        </FormContext>
+        </FormProvider>
         {renderTranslationsDialog()}
       </ActionDialog>
     </>

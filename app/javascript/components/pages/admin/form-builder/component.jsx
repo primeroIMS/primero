@@ -3,10 +3,11 @@ import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } 
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { makeStyles, Tab, Tabs } from "@material-ui/core";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { batch, useDispatch, useSelector } from "react-redux";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { fetchLookups } from "../../../record-form/action-creators";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
@@ -68,7 +69,7 @@ const Component = ({ mode }) => {
   const selectedSubforms = useSelector(state => getSelectedSubforms(state), compare);
   const isLoading = useSelector(state => getIsLoading(state));
   const methods = useForm({
-    validationSchema: validationSchema(i18n),
+    resolver: yupResolver(validationSchema(i18n)),
     defaultValues: {}
   });
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
@@ -234,7 +235,7 @@ const Component = ({ mode }) => {
         <FormBuilderActionButtons formMode={formMode} formRef={formRef} handleCancel={handleCancel} />
       </PageHeading>
       <PageContent>
-        <FormContext {...methods} formMode={formMode}>
+        <FormProvider {...methods} formMode={formMode}>
           <form>
             <Tabs value={tab} onChange={handleChange}>
               <Tab label={i18n.t("forms.settings")} />
@@ -277,7 +278,7 @@ const Component = ({ mode }) => {
               tab={tab}
             />
           </form>
-        </FormContext>
+        </FormProvider>
       </PageContent>
     </LoadingIndicator>
   );

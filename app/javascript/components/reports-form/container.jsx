@@ -6,9 +6,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import omit from "lodash/omit";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
@@ -50,7 +51,7 @@ const Container = ({ mode }) => {
   const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
 
   const methods = useForm({
-    validationSchema: validations(i18n)
+    resolver: yupResolver(validations(i18n))
   });
 
   const allRecordForms = useSelector(state => getRecordForms(state, { all: true }));
@@ -157,7 +158,7 @@ const Container = ({ mode }) => {
       <PageContainer>
         <PageHeading title={pageHeading}>{saveButton}</PageHeading>
         <PageContent>
-          <FormContext {...methods} formMode={formMode}>
+          <FormProvider {...methods} formMode={formMode}>
             <form>
               {renderFormSections()}
               <ReportFilters
@@ -168,7 +169,7 @@ const Container = ({ mode }) => {
                 setIndexes={setIndexes}
               />
             </form>
-          </FormContext>
+          </FormProvider>
         </PageContent>
       </PageContainer>
     </LoadingIndicator>

@@ -1,4 +1,4 @@
-import { FormContext } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 import { Button } from "@material-ui/core";
 
 import { setupMockFormComponent } from "../../../test";
@@ -38,7 +38,7 @@ describe("<Form /> - fields/<OrderableOptionsField />", () => {
       "field_1.option_strings_text[2].display_text.en": "Display text 3",
       "field_1.option_strings_text[2].id": "option_3"
     };
-    const formContext = component.find(FormContext);
+    const formContext = component.find(FormProvider);
     const values = formContext.props().getValues();
 
     expect(values).to.deep.equal(expected);

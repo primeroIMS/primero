@@ -1,6 +1,6 @@
 import React from "react";
 import Alert from "@material-ui/lab/Alert";
-import { FormContext } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 import { fromJS } from "immutable";
 
 import { setupMockFormComponent } from "../../../test";
@@ -27,9 +27,9 @@ describe("<Form /> - components/<FormSectionField />", () => {
   it("renders an error field", () => {
     const field = FieldRecord({ name: "test_field", type: "error_field" });
     const { component } = setupMockFormComponent(() => (
-      <FormContext errors={{ name: "test" }} formMode={fromJS({})}>
+      <FormProvider errors={{ name: "test" }} formMode={fromJS({})}>
         <FormSectionField field={field} checkErrors={fromJS(["name"])} />
-      </FormContext>
+      </FormProvider>
     ));
 
     expect(component.find(Alert)).to.have.lengthOf(1);
@@ -38,9 +38,9 @@ describe("<Form /> - components/<FormSectionField />", () => {
   it("does not render an error field", () => {
     const field = FieldRecord({ name: "test_field", type: "error_field" });
     const { component } = setupMockFormComponent(() => (
-      <FormContext formMode={fromJS({})}>
+      <FormProvider formMode={fromJS({})}>
         <FormSectionField field={field} checkErrors={fromJS(["name"])} />
-      </FormContext>
+      </FormProvider>
     ));
 
     expect(component.find(Alert)).to.be.empty;

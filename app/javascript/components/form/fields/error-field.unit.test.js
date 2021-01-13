@@ -1,5 +1,5 @@
 import React from "react";
-import { FormContext } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 import { fromJS } from "immutable";
 import Alert from "@material-ui/lab/Alert";
 
@@ -12,9 +12,9 @@ describe("<Form /> - fields/<ErrorField />", () => {
   it("renders a error field if there are errors in the forms", () => {
     const { component } = setupMockFieldComponent(
       () => (
-        <FormContext errors={{ name: "test" }} formMode={fromJS({})}>
+        <FormProvider errors={{ name: "test" }} formMode={fromJS({})}>
           <ErrorField errorsToCheck={fromJS(["name"])} />
-        </FormContext>
+        </FormProvider>
       ),
       FieldRecord
     );
@@ -25,9 +25,9 @@ describe("<Form /> - fields/<ErrorField />", () => {
   it("does not render the error field if the form doesn't have errors", () => {
     const { component } = setupMockFieldComponent(
       () => (
-        <FormContext formMode={fromJS({})}>
+        <FormProvider formMode={fromJS({})}>
           <ErrorField errorsToCheck={fromJS(["name"])} />
-        </FormContext>
+        </FormProvider>
       ),
       FieldRecord
     );

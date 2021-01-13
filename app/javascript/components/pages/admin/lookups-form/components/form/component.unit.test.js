@@ -1,4 +1,4 @@
-import { FormContext } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 import { fromJS } from "immutable";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
@@ -20,8 +20,8 @@ describe("<Form /> - components/form/component", () => {
     ({ component } = setupMountedComponent(Form, props));
   });
 
-  it("renders FormContext component", () => {
-    expect(component.find(FormContext)).to.have.lengthOf(1);
+  it("renders FormProvider component", () => {
+    expect(component.find(FormProvider)).to.have.lengthOf(1);
   });
 
   it("renders FormSectionField component", () => {

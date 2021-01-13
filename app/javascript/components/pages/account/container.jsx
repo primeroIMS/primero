@@ -6,7 +6,8 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useI18n } from "../../i18n";
 import { FormAction, whichFormMode, FormSection } from "../../form";
@@ -59,7 +60,7 @@ const Container = ({ mode }) => {
   const initialValues = currentUser.toJS();
   const formMethods = useForm({
     ...(initialValues && { defaultValues: initialValues }),
-    ...(validationSchema && { validationSchema })
+    ...(validationSchema && { resolver: yupResolver(validationSchema) })
   });
   const handleSubmit = data => dispatch(updateUserAccount({ id, data, message: i18n.t("user.messages.updated") }));
 
@@ -141,7 +142,7 @@ const Container = ({ mode }) => {
           {saveButton}
         </PageHeading>
         <PageContent>
-          <FormContext {...formMethods} formMode={formMode}>
+          <FormProvider {...formMethods} formMode={formMode}>
             <CancelPrompt useCancelPrompt />
             <form noValidate>{renderFormSections()}</form>
             <ChangePassword
@@ -152,7 +153,7 @@ const Container = ({ mode }) => {
               pending={pending}
               close={dialogClose}
             />
-          </FormContext>
+          </FormProvider>
         </PageContent>
       </PageContainer>
     </LoadingIndicator>

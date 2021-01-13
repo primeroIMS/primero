@@ -13,7 +13,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { createMount } from "@material-ui/core/test-utils";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { ThemeProvider } from "@material-ui/core/styles";
-import { useForm, FormContext } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { fromJS } from "immutable";
 import capitalize from "lodash/capitalize";
 import { spy } from "sinon";
@@ -165,14 +165,14 @@ export const setupMockFormComponent = (
     const commonInputProps = setupFormInputProps(field, inputProps, mode, formMethods?.errors);
 
     return (
-      <FormContext {...formMethods} formMode={formMode}>
+      <FormProvider {...formMethods} formMode={formMode}>
         <Component
           {...props}
           {...(includeFormMethods ? formMethods : {})}
           commonInputProps={commonInputProps}
           {...inputProps}
         />
-      </FormContext>
+      </FormProvider>
     );
   };
 

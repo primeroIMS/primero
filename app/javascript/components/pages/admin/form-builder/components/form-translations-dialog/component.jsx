@@ -1,9 +1,10 @@
 import React, { useEffect, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
 import { useDispatch } from "react-redux";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { localesToRender } from "../utils";
 import FormSection from "../../../../../form/components/form-section";
@@ -28,7 +29,7 @@ const Component = ({ getValues, mode, onClose, onSuccess }) => {
       name: currentValues.name,
       description: currentValues.description
     },
-    validationSchema: validationSchema(i18n)
+    resolver: yupResolver(validationSchema(i18n))
   });
   const { dialogOpen, dialogClose } = useDialog(NAME);
   const locales = localesToRender(i18n);
@@ -98,9 +99,9 @@ const Component = ({ getValues, mode, onClose, onSuccess }) => {
 
   return (
     <ActionDialog {...modalProps}>
-      <FormContext {...formMethods} formMode={formMode}>
+      <FormProvider {...formMethods} formMode={formMode}>
         <form className={css.formBuilderDialog}>{renderForms()}</form>
-      </FormContext>
+      </FormProvider>
     </ActionDialog>
   );
 };

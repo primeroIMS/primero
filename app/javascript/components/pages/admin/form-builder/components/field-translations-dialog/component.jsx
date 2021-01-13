@@ -1,10 +1,11 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import React, { useEffect, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
 import { useDispatch, useSelector } from "react-redux";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { localesToRender } from "../utils";
 import FormSection from "../../../../../form/components/form-section";
@@ -52,7 +53,7 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
         option_strings_text: optionStringsText
       }
     },
-    validationSchema: validationSchema(i18n)
+    resolver: yupResolver(validationSchema(i18n))
   });
   const selectedLocaleId = formMethods.watch("locale_id");
 
@@ -147,12 +148,12 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
 
   return (
     <ActionDialog {...modalProps}>
-      <FormContext {...formMethods} formMode={formMode}>
+      <FormProvider {...formMethods} formMode={formMode}>
         <form className={css.formBuilderDialog}>
           {renderForms()}
           <TranslatableOptions field={field} selectedLocaleId={selectedLocaleId} />
         </form>
-      </FormContext>
+      </FormProvider>
     </ActionDialog>
   );
 };

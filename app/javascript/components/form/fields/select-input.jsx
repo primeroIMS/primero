@@ -90,7 +90,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   // eslint-disable-next-line no-nested-ternary
   const defaultValue = multiSelect ? [] : optionsUseIntegerIds ? null : null;
 
-  const handleChange = data => {
+  const handleChange = (event, data) => {
     if (onChange) {
       onChange(methods, data);
     }
@@ -106,8 +106,8 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     }
 
     return multiSelect
-      ? data?.[1]?.map(selected => (typeof selected === "object" ? selected?.id : selected))
-      : data?.[1]?.id || null;
+      ? data?.map(selected => (typeof selected === "object" ? selected?.id : selected))
+      : data?.id || null;
   };
 
   const optionEquality = (option, value) => option.id === value || option.id === value?.id;
@@ -179,9 +179,9 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     <Controller
       name={name}
       defaultValue={defaultValue}
-      onChange={handleChange}
-      as={
+      render={() => (
         <Autocomplete
+          onChange={handleChange}
           onOpen={handleOpen}
           groupBy={option => option[groupBy]}
           options={options}
@@ -198,7 +198,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
           renderInput={params => renderTextField(params, commonProps)}
           renderTags={(value, getTagProps) => renderTags(value, getTagProps)}
         />
-      }
+      )}
     />
   );
 };

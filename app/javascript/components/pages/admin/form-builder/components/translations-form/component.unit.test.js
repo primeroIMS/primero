@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { FormContext } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 
 import { setupMockFormComponent } from "../../../../../../test";
 
@@ -36,7 +36,7 @@ describe("<TranslationsForm />", () => {
   });
 
   it("should update name and description if the translation are updated", () => {
-    const { register, getValues } = component.find(FormContext).props();
+    const { register, getValues } = component.find(FormProvider).props();
 
     register({ name: "name.en" });
     register({ name: "description.en" });

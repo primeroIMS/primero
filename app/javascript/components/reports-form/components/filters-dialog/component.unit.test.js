@@ -1,5 +1,5 @@
 import { fromJS, OrderedMap } from "immutable";
-import { FormContext } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 
 import ActionDialog from "../../../action-dialog";
 import FormSection from "../../../form/components/form-section";
@@ -90,8 +90,8 @@ describe("<ReportFiltersDialog /> - Component", () => {
     expect(component.find(ActionDialog)).to.have.lengthOf(1);
   });
 
-  it("should render <FormContext>", () => {
-    expect(component.find(FormContext)).to.have.lengthOf(1);
+  it("should render <FormProvider>", () => {
+    expect(component.find(FormProvider)).to.have.lengthOf(1);
   });
 
   it("should render <FormSection>", () => {

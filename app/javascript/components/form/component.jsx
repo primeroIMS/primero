@@ -3,9 +3,10 @@
 
 import React, { useImperativeHandle, forwardRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useForm, FormContext } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { HTTP_STATUS } from "../../config";
 import { useI18n } from "../i18n";
@@ -33,9 +34,9 @@ const Component = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formMethods = useForm({
-    mode: useFormMode || "onSubmit",
+    mode: useFormMode || "onTouched",
     ...(initialValues && { defaultValues: initialValues }),
-    ...(validations && { validationSchema: validations })
+    ...(validations && { resolver: yupResolver(validations) })
   });
 
   const formMode = whichFormMode(mode);
@@ -79,11 +80,11 @@ const Component = ({
     formSections.map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);
 
   return (
-    <FormContext {...formMethods} formMode={formMode}>
+    <FormProvider {...formMethods} formMode={formMode}>
       <CancelPrompt useCancelPrompt={useCancelPrompt} />
       <form noValidate>{renderFormSections(formSections)}</form>
       {renderBottom && renderBottom()}
-    </FormContext>
+    </FormProvider>
   );
 };
 

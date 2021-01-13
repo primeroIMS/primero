@@ -4,10 +4,11 @@ import PropTypes from "prop-types";
 import { object, string, array } from "yup";
 import { withRouter, useLocation } from "react-router-dom";
 import qs from "qs";
-import { useForm, FormContext } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import { DevTool } from "@hookform/devtools";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { whichFormMode } from "../../form";
@@ -93,7 +94,7 @@ const Component = ({
     [CUSTOM_EXPORT_FILE_NAME_FIELD]: ""
   };
   const formMethods = useForm({
-    ...(validationSchema && { validationSchema })
+    ...(validationSchema && { resolver: yupResolver(validationSchema) })
   });
 
   const records = useSelector(state => getRecords(state, recordType)).get("data");
@@ -281,11 +282,12 @@ const Component = ({
       pending={pending}
       successHandler={() => submitForm(formRef)}
     >
-      <FormContext {...formMethods} formMode={formMode}>
+      <FormProvider {...formMethods} formMode={formMode}>
         <form onSubmit={formMethods.handleSubmit(handleSubmit)}>
           {formSections.map(field => {
             return <FormSectionField field={field} key={field.unique_id} />;
           })}
+          <DevTool control={formMethods.control} />
         </form>
         {isPdfExport(exportType) && (
           <PdfExporter
@@ -296,7 +298,7 @@ const Component = ({
             customFilenameField={CUSTOM_EXPORT_FILE_NAME_FIELD}
           />
         )}
-      </FormContext>
+      </FormProvider>
     </ActionDialog>
   );
 };

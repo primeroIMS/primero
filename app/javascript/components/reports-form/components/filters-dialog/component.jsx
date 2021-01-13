@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useImperativeHandle } from "react";
 import PropTypes from "prop-types";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
 
@@ -124,13 +124,13 @@ const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, ind
         open={open}
         successHandler={() => bindFormSubmit(formRef)}
       >
-        <FormContext {...formMethods} formMode={formMode}>
+        <FormProvider {...formMethods} formMode={formMode}>
           <form>
             {reportFiltersForm.map(formSection => (
               <FormSection formSection={formSection} key={formSection.unique_id} />
             ))}
           </form>
-        </FormContext>
+        </FormProvider>
       </ActionDialog>
     </>
   );

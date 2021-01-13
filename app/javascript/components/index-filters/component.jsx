@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useForm, FormContext } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
@@ -221,7 +221,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
 
   return (
     <div className={css.root}>
-      <FormContext {...methods} user={userName}>
+      <FormProvider {...methods} user={userName}>
         <form onSubmit={methods.handleSubmit(handleSubmit)}>
           <Search handleReset={handleClear} />
           <Tabs
@@ -268,7 +268,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
             <SavedSearches recordType={recordType} setTabIndex={setTabIndex} setRerender={setRerender} />
           )}
         </form>
-      </FormContext>
+      </FormProvider>
       <SavedSearchesForm recordType={recordType} getValues={methods.getValues} open={open} setOpen={setOpen} />
     </div>
   );

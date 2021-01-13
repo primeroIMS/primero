@@ -3,13 +3,14 @@
 import React, { useEffect, useImperativeHandle, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { useForm, FormContext } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { fromJS } from "immutable";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import {
   buildValues,
@@ -48,7 +49,7 @@ const Component = ({ formRef, mode, lookup }) => {
   const currentLookupValues = lookup.get(LOOKUP_VALUES, fromJS([]));
 
   const formMethods = useForm({
-    ...(validationsSchema && { validationSchema: validationsSchema })
+    ...(validationsSchema && { resolver: yupResolver(validationsSchema) })
   });
   const watchedOption = formMethods.watch("options");
   const selectedOption = watchedOption?.id || watchedOption;
@@ -202,7 +203,7 @@ const Component = ({ formRef, mode, lookup }) => {
   };
 
   return (
-    <FormContext {...formMethods} formMode={formMode}>
+    <FormProvider {...formMethods} formMode={formMode}>
       <form onSubmit={formMethods.handleSubmit(onSubmit)}>
         <FormSectionField
           field={FieldRecord({
@@ -217,7 +218,7 @@ const Component = ({ formRef, mode, lookup }) => {
         {renderLookupLocalizedName()}
         {renderOptions()}
       </form>
-    </FormContext>
+    </FormProvider>
   );
 };
 

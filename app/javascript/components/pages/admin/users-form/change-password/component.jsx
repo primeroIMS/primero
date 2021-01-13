@@ -1,6 +1,7 @@
 import React, { useImperativeHandle, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { FormContext, useForm, useFormContext } from "react-hook-form";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import ActionDialog from "../../../../action-dialog";
 import FormSection from "../../../../form/components/form-section";
@@ -14,7 +15,7 @@ function Component({ formMode, i18n, open, pending, close }) {
   const formRef = useRef();
   const [closeConfirmationModal, setCloseConfirmationModal] = useState(false);
   const validationSchema = validations(i18n);
-  const formMethods = useForm({ ...(validationSchema && { validationSchema }) });
+  const formMethods = useForm({ ...(validationSchema && { resolver: yupResolver(validationSchema) }) });
   const { setValue } = useFormContext();
 
   const closeChangePassword = () => close();
@@ -61,13 +62,13 @@ function Component({ formMode, i18n, open, pending, close }) {
         pending={pending}
         omitCloseAfterSuccess
       >
-        <FormContext {...formMethods} formMode={formMode}>
+        <FormProvider {...formMethods} formMode={formMode}>
           <form>
             {changePasswordForm(i18n).map(formSection => (
               <FormSection formSection={formSection} key={formSection.unique_id} />
             ))}
           </form>
-        </FormContext>
+        </FormProvider>
       </ActionDialog>
       <ActionDialog
         open={closeConfirmationModal}

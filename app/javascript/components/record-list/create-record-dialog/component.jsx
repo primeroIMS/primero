@@ -5,7 +5,7 @@ import { IconButton, Dialog, DialogActions, DialogContent, DialogTitle } from "@
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -97,13 +97,13 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
         </div>
       </DialogTitle>
       <DialogContent>
-        <FormContext {...methods} formMode={formMode}>
+        <FormProvider {...methods} formMode={formMode}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             {searchForm(i18n).map(formSection => (
               <FormSection formSection={formSection} key={formSection.unique_id} />
             ))}
           </form>
-        </FormContext>
+        </FormProvider>
       </DialogContent>
       <DialogActions>
         <div className={css.actions}>

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import { makeStyles } from "@material-ui/core/styles";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useSelector, useDispatch, batch } from "react-redux";
 import isEqual from "lodash/isEqual";
 import SearchIcon from "@material-ui/icons/Search";
@@ -116,7 +116,7 @@ const Component = ({ parentForm, primeroModule }) => {
 
   return (
     <ActionDialog {...modalProps}>
-      <FormContext {...formMethods} formMode={formMode}>
+      <FormProvider {...formMethods} formMode={formMode}>
         <form className={baseCss.formBuilderDialog}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -144,7 +144,7 @@ const Component = ({ parentForm, primeroModule }) => {
             </Grid>
           </Grid>
         </form>
-      </FormContext>
+      </FormProvider>
     </ActionDialog>
   );
 };

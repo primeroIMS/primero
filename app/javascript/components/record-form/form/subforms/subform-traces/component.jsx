@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import isEqual from "lodash/isEqual";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import SearchIcon from "@material-ui/icons/Search";
@@ -63,9 +63,9 @@ const Component = ({ openDrawer, formSection, handleClose, initialValues }) => {
           />
         </Permission>
       </div>
-      <FormContext {...methods} formMode={formMode}>
+      <FormProvider {...methods} formMode={formMode}>
         <FormSection formSection={formSection} showTitle={false} disableUnderline />
-      </FormContext>
+      </FormProvider>
     </SubformDrawer>
   );
 };
