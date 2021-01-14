@@ -334,5 +334,47 @@ describe("<RecordList /> - Reducers", () => {
 
       expect(newState).to.deep.equals(fromJS({ incidentFromCase: { incident_case_id: "case-id-1" } }));
     });
+
+    it("should handle FETCH_CASES_POTENTIAL_MATCHES_STARTED", () => {
+      const expected = fromJS({ potentialMatches: { loading: true, errors: false } });
+      const defaultState = fromJS({});
+
+      const action = {
+        type: "TestRecordType/FETCH_CASES_POTENTIAL_MATCHES_STARTED",
+        payload: true
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("should handle FETCH_CASES_POTENTIAL_MATCHES_FINISHED", () => {
+      const expected = fromJS({ potentialMatches: { loading: false } });
+      const defaultState = fromJS({});
+
+      const action = {
+        type: "TestRecordType/FETCH_CASES_POTENTIAL_MATCHES_FINISHED",
+        payload: false
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("should handle FETCH_CASES_POTENTIAL_MATCHES_FAILURE", () => {
+      const expected = fromJS({ potentialMatches: { errors: true } });
+      const defaultState = fromJS({});
+
+      const action = {
+        type: "TestRecordType/FETCH_CASES_POTENTIAL_MATCHES_FAILURE",
+        payload: true
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
   });
 });

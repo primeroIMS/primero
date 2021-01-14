@@ -15,7 +15,8 @@ import {
   CLEAR_CASE_FROM_INCIDENT,
   SET_CASE_ID_REDIRECT,
   SET_SELECTED_RECORD,
-  CLEAR_SELECTED_RECORD
+  CLEAR_SELECTED_RECORD,
+  FETCH_CASES_POTENTIAL_MATCHES
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -200,4 +201,11 @@ export const clearSelectedRecord = recordType => ({
 export const clearRecordAttachments = (recordId, recordType) => ({
   type: `${recordType}/${CLEAR_RECORD_ATTACHMENTS}`,
   payload: { id: recordId, recordType }
+});
+
+export const fetchCasesPotentialMatches = (recordId, recordType) => ({
+  type: `${recordType}/${FETCH_CASES_POTENTIAL_MATCHES}`,
+  api: {
+    path: `${recordType}/${recordId}/potential_matches`
+  }
 });

@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2em;
+}
+
+.field {
+  margin: 1.5em auto;
+}
+
+.likelyScore {
+  font-weight: bold;
+}
+
+.listTitle {
+  & span {
+    font-weight: bold;
+  }
+}
+
+.caseLink {
+  text-align: left;
+  color: $(theme.primero.colors.blue)
+}

@@ -372,6 +372,26 @@ en:
     show_case: 'Case ID: %{short_id}'
     social_worker: Social Worker
     status: Status
+    summary:
+      label: Summary
+      find_match: Find Match
+      fields:
+        consent_for_tracing:
+          label: Consent has been obtained to disclose information for tracing purposes
+          help_text: If this field is 'No', the child's case record will not show up in Matches with Inquirer Tracing Requests.
+        wishes_child_family_tracing:
+          label: Does child want to trace family members?
+        wishes_reunification:
+          label: Does the child want family reunification?
+          options:
+            yes_as_soon_as_possible: Yes, as soon as possible
+            yes_but_later: Yes, but later
+            not_sure: Not sure
+            'no': 'No'
+        data_confidentiality_link:
+          label: See Data Confidentiality
+        child_wishes_link:
+          label: See Child's Wishes
     survivor_code: Survivor Code
     transfer_accepted: By clicking 'Accept' you accept the responsibility for this
       case; once you click ‘Accept' you will become the record owner in the system.
@@ -2477,9 +2497,9 @@ en:
       potential_match:
         actions:
           read:
-            explanation: Ability to see potential matches between tracing requests
-              and cases. This permission is necessary for the user to perform any
-              Family Tracing and Reunification actions.
+            explanation: Represents the link between a Tracing Request and a Case.
+              Access to Potential Matches is necessary for Family Tracing and Reunification (FTR) work.
+              Allows user to see the Tracing Summary form on Cases.
             label: View
         label: Potential Match
       referral:
@@ -2748,6 +2768,8 @@ en:
     score: score
     social_worker: Social worker
     social_worker_agency: Agency
+    tracing_request_id: Tracing Request ID
+    trace: Trace
   potential_matches:
     display: Displaying potential matches for %{type} %{id}
   reassign:

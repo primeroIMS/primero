@@ -29,7 +29,11 @@ import {
   SAVE_ATTACHMENT_SUCCESS,
   DELETE_ATTACHMENT_SUCCESS,
   SET_ATTACHMENT_STATUS,
-  CLEAR_RECORD_ATTACHMENTS
+  CLEAR_RECORD_ATTACHMENTS,
+  FETCH_CASES_POTENTIAL_MATCHES_STARTED,
+  FETCH_CASES_POTENTIAL_MATCHES_SUCCESS,
+  FETCH_CASES_POTENTIAL_MATCHES_FINISHED,
+  FETCH_CASES_POTENTIAL_MATCHES_FAILURE
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -167,6 +171,21 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
     }
     case `${namespace}/${CLEAR_RECORD_ATTACHMENTS}`: {
       return state.set("recordAttachments", fromJS({}));
+    }
+    case `${namespace}/${FETCH_CASES_POTENTIAL_MATCHES_STARTED}`: {
+      return state.setIn(["potentialMatches", "loading"], true).setIn(["potentialMatches", "errors"], false);
+    }
+    case `${namespace}/${FETCH_CASES_POTENTIAL_MATCHES_SUCCESS}`: {
+      return state
+        .setIn(["potentialMatches", "data"], fromJS(payload.data.potential_matches))
+        .setIn(["potentialMatches", "record"], fromJS(payload.data.record));
+    }
+    case `${namespace}/${FETCH_CASES_POTENTIAL_MATCHES_FINISHED}`: {
+      return state.setIn(["potentialMatches", "loading"], false);
+    }
+
+    case `${namespace}/${FETCH_CASES_POTENTIAL_MATCHES_FAILURE}`: {
+      return state.setIn(["potentialMatches", "errors"], true);
     }
     default:
       return state;

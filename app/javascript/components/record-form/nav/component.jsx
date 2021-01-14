@@ -43,13 +43,15 @@ const Component = ({
   const css = makeStyles(styles)();
   const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
   const recordInformationFormIds = getRecordInformationFormIds(i18n, RECORD_TYPES[recordType]);
+
   const selectedRecordForm = useSelector(
     state =>
       getRecordFormsByUniqueId(state, {
         recordType: RECORD_TYPES[recordType],
         primeroModule,
         formName: selectedForm || firstTab.unique_id,
-        checkVisible: true
+        checkVisible: true,
+        i18n
       }),
     compare
   );
