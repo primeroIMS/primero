@@ -7,7 +7,6 @@ import {
   ExportList,
   FormBuilder,
   FormsList,
-  KeyPerformanceIndicators,
   LocationsList,
   LookupsForm,
   LookupsList,
@@ -25,6 +24,7 @@ import {
   ConfigurationsList,
   ConfigurationsForm
 } from "../components/pages";
+import KeyPerformanceIndicators from "../components/key-performance-indicators";
 import Report from "../components/report";
 import Reports from "../components/reports-list";
 import ReportsForm from "../components/reports-form";

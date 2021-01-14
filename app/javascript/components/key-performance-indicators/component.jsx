@@ -8,8 +8,9 @@ import {
 import { Grid, Box } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { CommonDateRanges } from "components/key-performance-indicators";
-import { common } from "@material-ui/core/colors";
+import CommonDateRanges from "./common-date-ranges";
+
+console.log(CommonDateRanges);
 
 import styles from "./styles.css";
 import {
@@ -34,6 +35,7 @@ import {
 const KeyPerformanceIndicators = ({}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  console.log(CommonDateRanges);
   const commonDateRanges = CommonDateRanges.from(new Date(), i18n.t);
 
   return (

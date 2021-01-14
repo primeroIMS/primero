@@ -19,8 +19,6 @@ const CommonDateRanges = {
     return finalDate;
   },
   from(today = new Date(), translate = (s) => s) {
-    console.log('*****', today, this.adjustTimezone(today, startOfMonth(subMonths(today, 2))))
-
     return {
       AllTime: new DateRange(
         "all-time",

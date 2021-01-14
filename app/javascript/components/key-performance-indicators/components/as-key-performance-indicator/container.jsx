@@ -4,12 +4,11 @@ import { DateRangeSelect } from "components/key-performance-indicators/component
 // NOTE:  Importing 'compoenent/dashboard' casues tests to fail through
 //        the 'pirates' module used in mocha I assume. No idea why this is.
 import OptionsBox from "components/dashboard/options-box";
-import { Tooltip } from "@material-ui/core";
 import { Help } from "@material-ui/icons";
 import { useI18n } from "components/i18n";
 
-import { forKPI as actionsForKPI } from "../action-creators";
-import { forKPI as selectorsForKPI } from "../selectors";
+import { forKPI as actionsForKPI } from "../../action-creators";
+import { forKPI as selectorsForKPI } from "../../selectors";
 
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
