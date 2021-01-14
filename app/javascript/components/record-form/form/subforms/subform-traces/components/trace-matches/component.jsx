@@ -12,7 +12,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
 import IndexTable from "../../../../../../index-table";
 import { useI18n } from "../../../../../../i18n";
 import { POTENTIAL_MATCH_LIKELIHOOD } from "../../../../../../../config";
-import { fetchTracePotentialMatches } from "../../../../../../records";
+import { setSelectedPotentialMatch, fetchTracePotentialMatches } from "../../../../../../records";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -24,21 +24,31 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
   const tableOptions = {
     columns: [
       {
+        name: "case.id",
+        options: {
+          display: false
+        }
+      },
+      {
         label: i18n.t("potential_match.case_id"),
         name: "case.case_id_display",
         options: {
-          customBodyRender: value => (
-            <ActionButton
-              text={value}
-              type={ACTION_BUTTON_TYPES.default}
-              isTransparent
-              className={css.caseLink}
-              rest={{
-                onClick: () => {},
-                className: css.caseLink
-              }}
-            />
-          )
+          customBodyRender: (value, tableMeta) => {
+            const { rowData } = tableMeta;
+
+            return (
+              <ActionButton
+                text={value}
+                type={ACTION_BUTTON_TYPES.default}
+                isTransparent
+                className={css.caseLink}
+                rest={{
+                  onClick: () => dispatch(setSelectedPotentialMatch(rowData[0], recordType)),
+                  className: css.caseLink
+                }}
+              />
+            );
+          }
         }
       },
       {

@@ -10,7 +10,7 @@ import TraceActions from "../trace-actions";
 
 import { NAME } from "./constants";
 
-const Component = ({ handleBack, traceValues, formSection, handleConfirm }) => {
+const Component = ({ handleBack, traceValues, formSection, selectedForm, handleConfirm }) => {
   const formMode = whichFormMode(MODES.show);
   const methods = useForm({ defaultValues: traceValues || {} });
 
@@ -24,7 +24,7 @@ const Component = ({ handleBack, traceValues, formSection, handleConfirm }) => {
 
   return (
     <>
-      <TraceActions handleBack={handleBack} handleConfirm={handleConfirm} />
+      <TraceActions handleBack={handleBack} handleConfirm={handleConfirm} selectedForm={selectedForm} />
       <FormContext {...methods} formMode={formMode}>
         <FormSection formSection={formSection} showTitle={false} disableUnderline />
       </FormContext>
@@ -36,6 +36,7 @@ Component.propTypes = {
   formSection: PropTypes.object.isRequired,
   handleBack: PropTypes.func,
   handleConfirm: PropTypes.func,
+  selectedForm: PropTypes.string,
   traceValues: PropTypes.object
 };
 
