@@ -80,7 +80,7 @@ const DateRangeDialog = ({ open, onClose, currentRange, setRange }) => {
 DateRangeDialog.displayName = "DateRangeDialog";
 
 DateRangeDialog.propTypes = {
-  currentRange: PropTypes.objectOf({
+  currentRange: PropTypes.shape({
     from: PropTypes.instanceOf(Date),
     to: PropTypes.instanceOf(Date)
   }),
