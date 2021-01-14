@@ -16,7 +16,8 @@ import {
   CLEAR_CASE_FROM_INCIDENT,
   SET_CASE_ID_REDIRECT,
   SET_SELECTED_RECORD,
-  CLEAR_SELECTED_RECORD
+  CLEAR_SELECTED_RECORD,
+  SET_SELECTED_POTENTIAL_MATCH
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -208,4 +209,9 @@ export const fetchTracePotentialMatches = (traceId, recordType) => ({
   api: {
     path: `${RECORD_PATH.traces}/${traceId}/potential_matches`
   }
+});
+
+export const setSelectedPotentialMatch = (potentialMatchId, recordType) => ({
+  type: `${recordType}/${SET_SELECTED_POTENTIAL_MATCH}`,
+  payload: { id: potentialMatchId, recordType }
 });

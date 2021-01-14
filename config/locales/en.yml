@@ -2683,8 +2683,12 @@ en:
     has_match: Has Match
     find_match: Find Match
     back_to_traces: Back to Traces
+    back_to_potential_matches: Back to Potential Matches
     traces: Traces
+    trace: Trace
+    match: Match
     messages:
+      nothing_found: Nothing found
       update_success: 'Tracing Request %{record_id} was successfully updated.'
       creation_success: Tracing Request record successfully created.
       update_success_queue: 'Tracing Request %{record_id} was successfully updated in background.'
