@@ -103,8 +103,8 @@ const Component = ({
             approval_label: approvalsLabels[requestType]
           }),
           messageFromQueue: i18n.t("offline_submitted_changes"),
-          failureMessage: i18n.t(`${recordType}.request_approval_failure`),
-          username
+          currentUser: username,
+          failureMessage: i18n.t(`${recordType}.request_approval_failure`)
         })
       );
 

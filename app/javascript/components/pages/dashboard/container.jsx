@@ -8,6 +8,7 @@ import { getPermissions } from "../../user/selectors";
 import { getLoading, getErrors } from "../../index-table";
 import { OfflineAlert } from "../../disable-offline";
 import usePermissions, { ACTIONS, RESOURCES } from "../../permissions";
+import { RECORD_PATH } from "../../../config";
 
 import {
   Overview,
@@ -35,7 +36,7 @@ const Dashboard = () => {
     dispatch(fetchDashboards());
 
     if (canFetchFlags) {
-      dispatch(fetchFlags(true));
+      dispatch(fetchFlags(RECORD_PATH.cases, true));
     }
   }, []);
 

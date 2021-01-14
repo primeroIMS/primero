@@ -15,8 +15,12 @@ const Container = ({ approvals, mobileDisplay, handleToggleNav }) => {
 
   const renderApprovals =
     approvals &&
-    approvals.map(approvalSubform => (
-      <ApprovalPanel key={approvalSubform.get("unique_id")} approvalSubform={approvalSubform} css={css} />
+    approvals.map((approvalSubform, index) => (
+      <ApprovalPanel
+        key={approvalSubform.get("unique_id") || `${approvalSubform.get("approval_requested_for")}-${index}`}
+        approvalSubform={approvalSubform}
+        css={css}
+      />
     ));
 
   return (
