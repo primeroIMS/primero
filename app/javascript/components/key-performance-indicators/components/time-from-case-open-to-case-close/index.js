@@ -1,1 +1,1 @@
-export { default as TimeFromCaseOpenToClose } from "./container";
+export { default } from "./component";

@@ -1,1 +1,1 @@
-export { default as AverageFollowupMeetingsPerCase } from "./container";
+export { default } from "./component";

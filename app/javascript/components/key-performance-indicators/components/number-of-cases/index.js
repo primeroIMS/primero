@@ -1,1 +1,1 @@
-export { default as NumberOfCases } from "./container";
+export { default } from "./component";

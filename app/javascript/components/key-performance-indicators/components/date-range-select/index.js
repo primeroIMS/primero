@@ -1,1 +1,1 @@
-export { default as DateRangeSelect } from "./container";
+export { default } from "./component";

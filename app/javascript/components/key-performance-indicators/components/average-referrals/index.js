@@ -1,1 +1,1 @@
-export { default as AverageReferrals } from "./container";
+export { default } from "./component";

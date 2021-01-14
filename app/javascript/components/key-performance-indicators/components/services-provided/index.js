@@ -1,1 +1,1 @@
-export { default as ServicesProvided } from "./container";
+export { default } from "./component";

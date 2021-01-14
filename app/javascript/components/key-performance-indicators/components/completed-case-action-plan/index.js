@@ -1,1 +1,1 @@
-export { default as CompletedCaseActionPlan } from "./container";
+export { default } from "./component";

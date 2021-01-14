@@ -1,1 +1,1 @@
-export { default as SupervisorToCaseworkerRatio } from "./container";
+export { default } from "./component";

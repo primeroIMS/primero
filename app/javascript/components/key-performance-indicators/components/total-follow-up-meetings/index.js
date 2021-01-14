@@ -1,1 +1,1 @@
-export { default as TotalFollowupMeetings } from "./container";
+export { default } from "./component";

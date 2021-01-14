@@ -1,1 +1,1 @@
-export { default as CaseClosureRate } from "./container";
+export { default } from "./component";

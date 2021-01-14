@@ -1,1 +1,1 @@
-export { default as CompletedCaseSafetyPlan } from "./container";
+export { default } from "./component";

@@ -5,7 +5,7 @@ import TablePercentageBar from "../table-percentage-bar";
 import KpiTable from "../kpi-table";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 
-const ServiceAccessDelay = ({ data, identifier }) => {
+const ReportingDelay = ({ data, identifier }) => {
   const i18n = useI18n();
 
   const columns = [
@@ -39,13 +39,13 @@ const ServiceAccessDelay = ({ data, identifier }) => {
   return <KpiTable columns={columns} data={rows} />;
 };
 
-ServiceAccessDelay.displayName = 'ServiceAccessDelay';
+ReportingDelay.displayName = 'ReportingDelay';
 
-ServiceAccessDelay.propTypes = {
+ReportingDelay.propTypes = {
   data: PropTypes.object,
   identifier: PropTypes.string
 }
 
-export default asKeyPerformanceIndicator("service_access_delay", { data: [] })(
-  ServiceAccessDelay
+export default asKeyPerformanceIndicator("reporting_delay", { data: [] })(
+  ReportingDelay
 );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { DateRangeSelect } from "components/key-performance-indicators/components/date-range-select";
+import DateRangeSelect from "../date-range-select";
 import OptionsBox from "components/dashboard/options-box";
 import { Help } from "@material-ui/icons";
 import { useI18n } from "components/i18n";
@@ -35,6 +35,7 @@ const asKeyPerformanceIndicator = (identifier, defaultData) => {
           }
           action={
             <DateRangeSelect
+              i18n={i18n}
               ranges={dateRanges}
               selectedRange={currentDateRange}
               setSelectedRange={setCurrentDateRange}

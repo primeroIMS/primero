@@ -1,1 +1,1 @@
-export { default as GoalProgressPerNeed } from "./container";
+export { default } from "./component";

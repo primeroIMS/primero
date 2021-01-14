@@ -1,1 +1,1 @@
-export { default as NumberOfIncidents } from "./container";
+export { default } from "./component";

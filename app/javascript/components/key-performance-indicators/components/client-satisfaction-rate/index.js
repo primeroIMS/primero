@@ -1,1 +1,1 @@
-export { default as ClientSatisfactionRate } from "./container";
+export { default } from "./component";

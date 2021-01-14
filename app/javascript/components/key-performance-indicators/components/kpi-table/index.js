@@ -1,1 +1,1 @@
-export { default as KpiTable } from "./component";
+export { default } from "./component";
