@@ -54,9 +54,9 @@ const Container = () => {
 
   const log_message_options = {
     customBodyRender: value => {
-      console.log("===>", value?.prefix?.approval_label);
-      const prefix = value?.prefix?.approval_label
-          ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_label })
+      console.log("===>", value?.prefix?.approval_type);
+      const prefix = value?.prefix?.approval_type
+          ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
           : i18n.t(value?.prefix?.key);
       const identifier = value?.identifier
       return `${prefix} ${identifier}`
