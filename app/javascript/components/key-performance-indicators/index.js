@@ -1,10 +1,3 @@
-export { DateRangeSelect } from "./components/date-range-select";
-export { KpiTable } from "./components/kpi-table";
-export { default as TablePercentageBar } from "./components/table-percentage-bar";
-export { default as StackedPercentageBar } from "./components/stacked-percentage-bar";
-export { default as SingleAggregateMetric } from "./components/single-aggregate-metric";
-export { default as DateRange } from "./date-range";
-export { default as CommonDateRanges } from "./common-date-ranges";
 export { default } from "./component";
 export { default as namespace } from "./namespace";
 export { default as reducer } from "./reducer";
