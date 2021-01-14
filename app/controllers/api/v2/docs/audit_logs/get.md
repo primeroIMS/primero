@@ -40,7 +40,7 @@ Shows a paginated list of all audit_logs.
       "log_message": {
         "prefix": {
           "key": "logger.index",
-          "approval_label": ""
+          "approval_type": ""
         },
         "identifier": "AuditLog",
         "suffix": {
@@ -63,7 +63,7 @@ Shows a paginated list of all audit_logs.
       "log_message": {
         "prefix": {
           "key": "logger.create",
-          "approval_label": ""
+          "approval_type": ""
         },
         "identifier": "User '1'",
         "suffix": {
