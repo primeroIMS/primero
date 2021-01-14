@@ -1,1 +1,2 @@
-export const forKPI = identifier => `kpis/${identifier}`;
+import { KPI } from "./constants.js";
+export const forKPI = identifier => `${KPI}/${identifier}`;
