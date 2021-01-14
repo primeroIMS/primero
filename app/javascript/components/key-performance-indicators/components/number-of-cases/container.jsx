@@ -1,7 +1,7 @@
 import React from "react";
 import { useI18n } from "components/i18n";
 import { KpiTable } from "components/key-performance-indicators";
-import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
+import { asKeyPerformanceIndicator } from "../as-key-performance-indicator";
 
 const NumberOfCases = ({ data, identifier }) => {
   const i18n = useI18n();

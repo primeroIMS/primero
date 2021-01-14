@@ -2,7 +2,7 @@ import React from "react";
 import { useI18n } from "components/i18n";
 import { StackedPercentageBar } from "components/key-performance-indicators";
 
-import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
+import { asKeyPerformanceIndicator } from "../as-key-performance-indicator";
 
 const CompletedCaseSafetyPlan = ({ data, identifier }) => {
   const i18n = useI18n();

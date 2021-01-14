@@ -4,7 +4,7 @@ import makeStyles from "@material-ui/styles/makeStyles";
 import { TablePercentageBar } from "components/key-performance-indicators";
 import { KpiTable } from "components/key-performance-indicators";
 
-import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
+import { asKeyPerformanceIndicator } from "../as-key-performance-indicator";
 
 // TODO: This shoud be renamed: ProgressTowardsGoals and refererences to
 // needs should be goals. The language here is a little confusing but

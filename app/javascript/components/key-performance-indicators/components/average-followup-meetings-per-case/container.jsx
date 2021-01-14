@@ -2,7 +2,7 @@ import React from "react";
 import { useI18n } from "components/i18n";
 import { SingleAggregateMetric } from "components/key-performance-indicators";
 
-import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
+import { asKeyPerformanceIndicator } from "../as-key-performance-indicator";
 
 const AverageFollowupMeetingsPerCase = ({ data, identifier }) => {
   const i18n = useI18n();

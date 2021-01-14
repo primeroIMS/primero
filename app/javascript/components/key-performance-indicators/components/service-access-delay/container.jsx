@@ -3,7 +3,7 @@ import { useI18n } from "components/i18n";
 import { TablePercentageBar } from "components/key-performance-indicators";
 import { KpiTable } from "components/key-performance-indicators";
 
-import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
+import { asKeyPerformanceIndicator } from "../as-key-performance-indicator";
 
 const ServiceAccessDelay = ({ data, identifier }) => {
   const i18n = useI18n();

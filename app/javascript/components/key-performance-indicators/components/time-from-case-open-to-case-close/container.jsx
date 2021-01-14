@@ -2,7 +2,7 @@ import React from "react";
 import { KpiTable } from "components/key-performance-indicators";
 import { useI18n } from "components/i18n";
 
-import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
+import { asKeyPerformanceIndicator } from "../as-key-performance-indicator";
 
 const TimeFromCaseOpenToClose = ({ data, identifier }) => {
   const i18n = useI18n();
