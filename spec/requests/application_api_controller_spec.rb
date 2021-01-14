@@ -63,4 +63,24 @@ describe ApplicationApiController, type: :request do
       expect(response.headers['X-Content-Type-Options']).to eq('nosniff')
     end
   end
+
+  describe 'HTTP Basic Auth' do
+    let(:user_name) { 'testuser' }
+    let(:password) { 'testuserpassw0rd!' }
+
+    before(:each) do
+      clean_data(User, Role)
+      role = Role.create!(name: 'Test Role 1', unique_id: 'test-role-1',
+                          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
+                          modules: [@cp])
+      @user = User.new(user_name: user_name, password: password, password_confirmation: password, role: role)
+      @user.save(validate: false)
+    end
+
+    it 'works!' do
+      # TODO!
+    end
+
+    after(:each) { clean_data(User) }
+  end
 end
