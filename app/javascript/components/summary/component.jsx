@@ -14,7 +14,7 @@ import { MatchesForm } from "./components";
 import { fields, NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form }) => {
+const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, mode }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const recordId = record?.get("id");
@@ -27,7 +27,8 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form })
       type={ACTION_BUTTON_TYPES.default}
       keepTextOnMobile
       rest={{
-        onClick: () => setOpen(true)
+        onClick: () => setOpen(true),
+        disabled: mode.isNew
       }}
     />
   );
@@ -70,6 +71,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form })
           record={record}
           i18n={i18n}
           css={css}
+          mode={mode}
         />
       </div>
       {renderFields}
@@ -83,6 +85,7 @@ Component.propTypes = {
   form: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
+  mode: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired
 };

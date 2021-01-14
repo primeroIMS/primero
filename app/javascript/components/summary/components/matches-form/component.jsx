@@ -14,17 +14,21 @@ import IndexTable from "../../../index-table";
 import { NAME } from "./constants";
 import { columns } from "./utils";
 
-const Component = ({ cancelHandler, css, open, title, record, i18n }) => {
+const Component = ({ cancelHandler, css, open, title, record, i18n, mode }) => {
   const dispatch = useDispatch();
   const potentialMatches = useSelector(state => getCasesPotentialMatches(state));
   const loading = potentialMatches.get("loading", false);
   const data = potentialMatches.get("data", []);
 
   useEffect(() => {
-    if (open) {
+    if (open && !mode.isNew) {
       dispatch(fetchCasesPotentialMatches(record.get("id"), RECORD_PATH.cases));
     }
   }, [open]);
+
+  if (!record) {
+    return null;
+  }
 
   const tableOptions = {
     columns: columns(i18n, css),
@@ -46,7 +50,7 @@ const Component = ({ cancelHandler, css, open, title, record, i18n }) => {
       <LoadingIndicator loading={loading} hasData={!isEmpty(data)} type={NAME}>
         <List>
           <ListItemText primary={i18n.t("forms.record_types.case")} className={css.listTitle} />
-          <ListItemText primary={`${i18n.t("tracing_requests.id")}: #${record.get("case_id_display")}`} />
+          <ListItemText primary={`${i18n.t("tracing_requests.id")}: #${record?.get("case_id_display")}`} />
         </List>
         <IndexTable {...tableOptions} />
       </LoadingIndicator>
@@ -60,6 +64,7 @@ Component.propTypes = {
   cancelHandler: PropTypes.func,
   css: PropTypes.object,
   i18n: PropTypes.object,
+  mode: PropTypes.object,
   open: PropTypes.bool,
   record: PropTypes.object,
   title: PropTypes.string
