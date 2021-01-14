@@ -92,6 +92,7 @@ export const RECORD_PATH = {
   roles: "roles",
   tasks: "tasks",
   tracing_requests: "tracing_requests",
+  traces: "traces",
   user_groups: "user_groups",
   users: "users"
 };
@@ -419,3 +420,8 @@ export const FETCH_PARAM = Object.freeze({
 export const TRACING_REQUEST_STATUS_FIELD_NAME = "tracing_request_status";
 
 export const TRACES_SUBFORM_UNIQUE_ID = "tracing_request_subform_section";
+
+export const POTENTIAL_MATCH_LIKELIHOOD = {
+  likely: "likely",
+  possible: "possible"
+};
