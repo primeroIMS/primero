@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { DateRangeSelect } from "components/key-performance-indicators/components/date-range-select";
-// NOTE:  Importing 'compoenent/dashboard' casues tests to fail through
-//        the 'pirates' module used in mocha I assume. No idea why this is.
 import OptionsBox from "components/dashboard/options-box";
 import { Help } from "@material-ui/icons";
 import { useI18n } from "components/i18n";
-
 import { forKPI as actionsForKPI } from "../../action-creators";
 import { forKPI as selectorsForKPI } from "../../selectors";
-
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
 
 const asKeyPerformanceIndicator = (identifier, defaultData) => {
   return Visualizer => {
-    // TODO: need a better name for this
     const enhance = connect(
       state => ({ data: selectorsForKPI(identifier, state, defaultData) }),
       { fetchData: actionsForKPI(identifier) }

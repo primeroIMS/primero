@@ -1,11 +1,9 @@
 import React from "react";
 import { fromJS } from "immutable";
-
 import { setupMountedComponent } from "../../../../test";
-import NAMESPACE from "../namespace";
-import CommonDateRanges from "../../../key-performance-indicators/common-date-ranges";
-
-import asKeyPerformanceIndicator from "./container";
+import NAMESPACE from "../../namespace";
+import CommonDateRanges from "../../utils/common-date-ranges";
+import asKeyPerformanceIndicator from "./component";
 
 describe("asKeyPerformanceIndicator()", () => {
   const identifier = "test";

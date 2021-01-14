@@ -1,1 +1,1 @@
-export { default as asKeyPerformanceIndicator } from "./container";
+export { default } from "./component";
