@@ -143,7 +143,11 @@ class DB {
         const prev = await collection.get(isDataArray ? r.id : records[r]?.id);
 
         if (prev) {
-          await collection.put(isDataArray ? merge(prev, r) : merge(prev, records[r]));
+          await collection.put(
+            isDataArray
+              ? merge(prev, r, { arrayMerge: subformAwareMerge })
+              : merge(prev, records[r], { arrayMerge: subformAwareMerge })
+          );
         } else {
           await collection.put(isDataArray ? r : records[r]);
         }
