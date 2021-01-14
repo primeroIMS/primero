@@ -71,11 +71,11 @@ describe Api::V2::AuditLogsController, type: :request do
       expect(json['data'].map { |audit| audit['id'] })
         .to match_array([@audit_log_a.id, @audit_log_b.id, @audit_log_c.id, @audit_log_d.id])
 
-      log_a = json['data'].select{|al| al['id'] == @audit_log_a.id}.first
+      log_a = json['data'].select { |al| al['id'] == @audit_log_a.id }.first
       expect(log_a['action']).to eq('login')
-      expect(log_a['log_message']).to eq({'prefix' => {'key' => 'logger.login', 'approval_label' => nil },
-                                          'identifier' => "",
-                                          'suffix' => {'key' => 'logger.by_user', 'user' => 'test_user_a'}})
+      expect(log_a['log_message']).to eq({ 'prefix' => { 'key' => 'logger.login', 'approval_type' => nil },
+                                           'identifier' => nil,
+                                           'suffix' => { 'key' => 'logger.by_user', 'user' => 'test_user_a' } })
     end
 
     it 'returns 403 if user is not authorized' do
@@ -97,11 +97,11 @@ describe Api::V2::AuditLogsController, type: :request do
       expect(json['data'].map { |audit| audit['id'] })
         .to match_array([@audit_log_b.id, @audit_log_c.id, @audit_log_d.id])
 
-      log_c = json['data'].select{|al| al['id'] == @audit_log_c.id}.first
+      log_c = json['data'].select { |al| al['id'] == @audit_log_c.id }.first
       expect(log_c['action']).to eq('login')
-      expect(log_c['log_message']).to eq({'prefix' => {'key' => 'logger.login', 'approval_label' => nil },
-                                          'identifier' => "",
-                                          'suffix' => {'key' => 'logger.by_user', 'user' => 'test_user_2'}})
+      expect(log_c['log_message']).to eq({ 'prefix' => { 'key' => 'logger.login', 'approval_type' => nil },
+                                           'identifier' => nil,
+                                           'suffix' => { 'key' => 'logger.by_user', 'user' => 'test_user_2' } })
     end
 
     it 'list the audit logs filtering by timestamp and user_name' do
@@ -123,6 +123,37 @@ describe Api::V2::AuditLogsController, type: :request do
       expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_a.id)
       expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_c.id)
       expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_d.id)
+    end
+
+    context 'when action is an approval' do
+      before do
+        clean_data(Child)
+        @case1 = Child.create!(
+          data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false }
+        )
+        @audit_log_approval = AuditLog.create!(user: @user_a, record_type: 'Child', record_id: @case1.id,
+                                               action: 'assessment_requested', user_id: @user_a.id,
+                                               resource_url: 'http://test', timestamp: '2020-03-02T10:06:50-06:00',
+                                               metadata: { user_name: @user_a.user_name })
+      end
+
+      it 'includes the approval type' do
+        login_for_test(permissions: [Permission.new(resource: Permission::AUDIT_LOG, actions: [Permission::READ])])
+        get '/api/v2/audit_logs'
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(5)
+        expect(json['data'].map { |audit| audit['id'] })
+          .to match_array([@audit_log_a.id, @audit_log_b.id, @audit_log_c.id, @audit_log_d.id, @audit_log_approval.id])
+
+        log_approval = json['data'].select { |al| al['id'] == @audit_log_approval.id }.first
+        expect(log_approval['action']).to eq('assessment_requested')
+        expect(log_approval['log_message']).to eq({ 'prefix' => { 'key' => 'logger.assessment_requested',
+                                                                  'approval_type' => 'assessment' },
+                                                    'identifier' => "Child '#{@case1.display_id}'",
+                                                    'suffix' => { 'key' => 'logger.by_user',
+                                                                  'user' => 'test_user_a' } })
+      end
     end
   end
 
@@ -179,6 +210,6 @@ describe Api::V2::AuditLogsController, type: :request do
   end
 
   after :each do
-    clean_data(User, Agency, Role, AuditLog, SystemSettings)
+    clean_data(Child, User, Agency, Role, AuditLog, SystemSettings)
   end
 end

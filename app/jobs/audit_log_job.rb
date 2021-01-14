@@ -13,8 +13,9 @@ class AuditLogJob < ApplicationJob
   end
 
   def write_log(log_message = {})
-    prefix = if log_message[:prefix][:approval_label].present?
-               I18n.t(log_message[:prefix][:key], approval_label: log_message[:prefix][:approval_label], locale: :en)
+    prefix = if log_message[:prefix][:approval_type].present?
+               approval_label = SystemSettings.current.approvals_labels_en[log_message[:prefix][:approval_type]]
+               I18n.t(log_message[:prefix][:key], approval_label: approval_label, locale: :en)
              else
                I18n.t(log_message[:prefix][:key], locale: :en)
              end
