@@ -10,9 +10,7 @@ const SwitchInput = ({ commonInputProps, metaInputProps }) => {
 
   const { tooltip, selectedValue } = metaInputProps || {};
 
-  const checkBoxProps = selectedValue
-    ? { checked: selectedValue, defaultValue: selectedValue }
-    : { defaultValue: false };
+  const checkBoxProps = { defaultValue: selectedValue || false };
 
   return (
     <FormControl error={error}>

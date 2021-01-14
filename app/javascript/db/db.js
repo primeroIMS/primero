@@ -4,7 +4,7 @@ import { openDB } from "idb";
 
 import { DATABASE_NAME } from "../config/constants";
 
-import { subformAwareMerge } from "./utils";
+import subformAwareMerge from "./utils/subform-aware-merge";
 import {
   DB_COLLECTIONS_NAMES,
   DB_COLLECTIONS_V1,
@@ -144,11 +144,12 @@ class DB {
 
         if (prev) {
           await collection.put(isDataArray ? merge(prev, r) : merge(prev, records[r]));
+        } else {
+          await collection.put(isDataArray ? r : records[r]);
         }
       } catch (error) {
         // eslint-disable-next-line no-console
         console.warn(error);
-        await collection.put(isDataArray ? r : records[r]);
       }
     });
 
