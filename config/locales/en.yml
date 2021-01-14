@@ -790,6 +790,9 @@ en:
       header: Header
       custom_header: Custom Header
       signatures: Include signature lines for
+      include_implementation_logos: Include implementation logos?
+      include_implementation_logos_help_text: This will include logos which appear in the navigation menu and on the login page.
+      include_agency_logo: Include agency logo?
     duplicate_id_csv:
       all: Duplicate ID
       female_abbreviation: F
