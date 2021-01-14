@@ -2526,6 +2526,8 @@ en:
     score: score
     social_worker: Social worker
     social_worker_agency: Agency
+    tracing_request_id: Tracing Request ID
+    trace: Trace
   potential_matches:
     display: Displaying potential matches for %{type} %{id}
   reassign:
