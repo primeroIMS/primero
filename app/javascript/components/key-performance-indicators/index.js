@@ -5,7 +5,7 @@ export { default as StackedPercentageBar } from "./components/stacked-percentage
 export { default as SingleAggregateMetric } from "./components/single-aggregate-metric";
 export { default as DateRange } from "./date-range";
 export { default as CommonDateRanges } from "./common-date-ranges";
-export { default as KeyPerformanceIndicators } from "./container";
+export { default } from "./component";
 export { default as namespace } from "./namespace";
 export { default as reducer } from "./reducer";
 export * from "./selectors";
