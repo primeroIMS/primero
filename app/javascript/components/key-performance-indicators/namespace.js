@@ -1,1 +1,1 @@
-export default "key_performance_indicators";
+export default "kpis";
