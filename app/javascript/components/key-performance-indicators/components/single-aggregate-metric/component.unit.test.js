@@ -1,5 +1,4 @@
-import { setupMountedComponentcomponent } from "../../../../test";
-
+import { setupMountedComponent } from "../../../../test";
 import SingleAggregateMetric from "./component";
 
 describe("<SingleAggregateMetric />", () => {

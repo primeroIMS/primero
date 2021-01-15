@@ -32,6 +32,7 @@ const StackedPercentageBar = ({ percentages, className }) => {
           <StackedPercentageBarLabel 
             key={i}
             realPercent={percentageDescriptor.percentage}
+            label={percentageDescriptor.label}
             index={i}
             css={css}
           />

@@ -1,2 +1,2 @@
-import { KPI } from "./constants.js";
-export const forKPI = identifier => `${KPI}/${identifier}`;
+import NAMESPACE from "./namespace";
+export const forKPI = identifier => `${NAMESPACE}/${identifier}`;

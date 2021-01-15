@@ -1,24 +1,21 @@
-import { setupMountedComponent } from "../../../test";
-
-import KeyPerformanceIndicators from "./container";
-import {
-  NumberOfCases,
-  NumberOfIncidents,
-  ReportingDelay,
-  AssessmentStatus,
-  CompletedCaseSafetyPlan,
-  CompletedCaseActionPlan,
-  CompletedSupervisorApprovedCaseActionPlan,
-  ServicesProvided,
-  AverageReferrals,
-  AverageFollowupMeetingsPerCase,
-  GoalProgressPerNeed,
-  TimeFromCaseOpenToClose,
-  CaseClosureRate,
-  ClientSatisfactionRate,
-  SupervisorToCaseworkerRatio,
-  CaseLoad
-} from "./components";
+import { setupMountedComponent } from "../../test";
+import KeyPerformanceIndicators from "./component";
+import NumberOfCases from "./components/number-of-cases";
+import NumberOfIncidents from "./components/number-of-incidents";
+import ReportingDelay from "./components/reporting-delay";
+import AssessmentStatus from "./components/assessment-status";
+import CompletedCaseSafetyPlan from "./components/completed-case-action-plan";
+import CompletedCaseActionPlan from "./components/completed-case-safety-plan";
+import CompletedSupervisorApprovedCaseActionPlan from "./components/completed-supervisor-approved-case-action-plan";
+import ServicesProvided from "./components/services-provided";
+import AverageReferrals from "./components/average-referrals";
+import AverageFollowupMeetingsPerCase from "./components/average-followup-meetings-per-case";
+import GoalProgressPerNeed from "./components/goal-progress-per-need";
+import TimeFromCaseOpenToClose from "./components/time-from-case-open-to-case-close";
+import CaseClosureRate from "./components/case-closure-rate";
+import ClientSatisfactionRate from "./components/client-satisfaction-rate";
+import SupervisorToCaseworkerRatio from "./components/supervisor-to-caseworker-ratio";
+import CaseLoad from "./components/case-load";
 
 describe("<KeyPerformanceIndicators />", () => {
   const { component } = setupMountedComponent(KeyPerformanceIndicators);
