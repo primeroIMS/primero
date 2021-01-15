@@ -1,54 +1,31 @@
 import get from "lodash/get";
 
 import { actions } from "../components/login/components/login-form";
-import { Actions, setAuthenticatedUser } from "../components/user";
-import DB from "../db";
+import { Actions } from "../components/user";
 import { ROUTES } from "../config";
-import { clearDialog } from "../components/action-dialog";
-import { setPendingUserLogin } from "../components/connectivity/action-creators";
 
-import { startSignout, handleReturnUrl, redirectTo } from "./utils";
-
-function logoutSuccessHandler(store) {
-  localStorage.removeItem("user");
-  redirectTo(store, "/login");
-}
-
-async function loginSuccessHandler(store, user) {
-  const { user_name: username, id } = user;
-  const pendingUserLogin = store.getState().getIn(["connectivity", "pendingUserLogin"], false);
-  const userFromDB = await DB.getRecord("user", username);
-
-  if (!userFromDB) {
-    await DB.clearDB();
-  }
-
-  localStorage.setItem("user", JSON.stringify({ username, id }));
-  store.dispatch(setAuthenticatedUser({ username, id }));
-
-  if (!pendingUserLogin) {
-    handleReturnUrl(store);
-  }
-
-  store.dispatch(clearDialog());
-  store.dispatch(setAuthenticatedUser({ username, id }));
-  store.dispatch(setPendingUserLogin(false));
-}
+import {
+  LOGIN_PATTERN,
+  RESET_PATTERN,
+  ROOT_ROUTE,
+  IS_AUTHENTICATED_PATH,
+  USE_IDENTITY_PROVIDER_PATH,
+  LOCATION_CHANGED_ACTION
+} from "./constants";
+import { startSignout, handleReturnUrl, redirectTo, loginSuccessHandler, logoutSuccessHandler } from "./utils";
 
 const authMiddleware = store => next => action => {
-  const routeChanged = action.type === "@@router/LOCATION_CHANGE";
-
+  const state = store.getState();
+  const routeChanged = action.type === LOCATION_CHANGED_ACTION;
   const location = routeChanged && get(action, "payload.location.pathname", false);
-
-  const isAuthenticated = store.getState().getIn(["user", "isAuthenticated"], false);
-
-  const useIdentityProvider = store.getState().getIn(["idp", "use_identity_provider"], false);
+  const isAuthenticated = state.getIn(IS_AUTHENTICATED_PATH, false);
+  const useIdentityProvider = state.getIn(USE_IDENTITY_PROVIDER_PATH, false);
 
   if (routeChanged && location === ROUTES.logout) {
     startSignout(store);
   }
 
-  if ([ROUTES.login, "/"].includes(location) && isAuthenticated) {
+  if ([ROUTES.login, ROOT_ROUTE].includes(location) && isAuthenticated) {
     redirectTo(store, ROUTES.dashboard);
   }
 
@@ -60,13 +37,9 @@ const authMiddleware = store => next => action => {
     logoutSuccessHandler(store);
   }
 
-  const loginPattern = /^\/login/;
-
-  const resetPattern = /^\/password_reset/;
-
-  if (resetPattern.test(location) && useIdentityProvider) {
+  if (RESET_PATTERN.test(location) && useIdentityProvider) {
     redirectTo(store, isAuthenticated ? ROUTES.dashboard : ROUTES.login);
-  } else if (routeChanged && !loginPattern.test(location) && !resetPattern.test(location) && !isAuthenticated) {
+  } else if (routeChanged && !LOGIN_PATTERN.test(location) && !RESET_PATTERN.test(location) && !isAuthenticated) {
     handleReturnUrl(store, location);
   }
 

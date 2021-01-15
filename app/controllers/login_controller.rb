@@ -8,10 +8,10 @@ class LoginController < ApplicationController
   end
 
   def show
+    binding.pry
     provider_type = params[:id]
     @identity_provider = IdentityProvider.find_by(provider_type: provider_type)
     return render_404 unless @identity_provider.present?
-
     render layout: 'identity', template: "login/#{provider_type}"
   end
 
