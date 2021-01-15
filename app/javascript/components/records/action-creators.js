@@ -17,7 +17,11 @@ import {
   SET_CASE_ID_REDIRECT,
   SET_SELECTED_RECORD,
   CLEAR_SELECTED_RECORD,
+<<<<<<< HEAD
   FETCH_CASES_POTENTIAL_MATCHES
+=======
+  SET_SELECTED_POTENTIAL_MATCH
+>>>>>>> r2-1217-ftr-compare-potential-match
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -204,16 +208,21 @@ export const clearRecordAttachments = (recordId, recordType) => ({
   payload: { id: recordId, recordType }
 });
 
-<<<<<<< HEAD
 export const fetchCasesPotentialMatches = (recordId, recordType) => ({
   type: `${recordType}/${FETCH_CASES_POTENTIAL_MATCHES}`,
   api: {
     path: `${recordType}/${recordId}/potential_matches`
-=======
+  }
+});
+
 export const fetchTracePotentialMatches = (traceId, recordType) => ({
   type: `${recordType}/${FETCH_TRACE_POTENTIAL_MATCHES}`,
   api: {
     path: `${RECORD_PATH.traces}/${traceId}/potential_matches`
->>>>>>> r2-1210-ftr-find-match
   }
+});
+
+export const setSelectedPotentialMatch = (potentialMatchId, recordType) => ({
+  type: `${recordType}/${SET_SELECTED_POTENTIAL_MATCH}`,
+  payload: { id: potentialMatchId, recordType }
 });

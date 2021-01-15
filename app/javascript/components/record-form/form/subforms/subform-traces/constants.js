@@ -2,5 +2,6 @@
 export const NAME = "SubformTraces";
 export const FORMS = {
   trace: "trace",
-  matches: "matches"
+  matches: "matches",
+  comparison: "comparison"
 };

@@ -37,7 +37,8 @@ import {
   FETCH_TRACE_POTENTIAL_MATCHES_FAILURE,
   FETCH_TRACE_POTENTIAL_MATCHES_FINISHED,
   FETCH_TRACE_POTENTIAL_MATCHES_STARTED,
-  FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS
+  FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS,
+  SET_SELECTED_POTENTIAL_MATCH
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -193,6 +194,14 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
     case `${namespace}/${FETCH_CASES_POTENTIAL_MATCHES_FAILURE}`:
     case `${namespace}/${FETCH_TRACE_POTENTIAL_MATCHES_FAILURE}`: {
       return state.setIn(["potentialMatches", "errors"], true);
+    }
+    case `${namespace}/${SET_SELECTED_POTENTIAL_MATCH}`: {
+      return state.setIn(
+        ["potentialMatches", "selectedPotentialMatch"],
+        state
+          .getIn(["potentialMatches", "data"])
+          .find(potentialMatch => potentialMatch.getIn(["case", "id"]) === payload.id)
+      );
     }
     default:
       return state;
