@@ -1,3 +1,7 @@
 .nothingFound {
   font-style: italic;
 }
+
+.recordId {
+  color: $(theme.primero.colors.red);
+}

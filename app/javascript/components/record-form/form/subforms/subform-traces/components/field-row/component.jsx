@@ -47,7 +47,7 @@ const Component = ({ field, traceValue, caseValue, match }) => {
         {caseValueLabel}
       </Grid>
       <Grid item xs={2} className={className}>
-        {isTextField(field) && (matched && traceValue ? <CheckIcon /> : <ClearIcon />)}
+        {!isTextField(field) && (matched && traceValue ? <CheckIcon /> : <ClearIcon />)}
       </Grid>
     </Grid>
   );

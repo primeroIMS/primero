@@ -8,7 +8,7 @@ export const getComparisons = ({ fields, comparedFields, includeEmpty }) =>
 
       if (
         !includeEmpty &&
-        (!comparedField?.size || (isNil(comparedField.get("trace_value")) && isNil(comparedField.get("case_value"))))
+        (!comparedField?.size || isNil(comparedField.get("trace_value")) || isNil(comparedField.get("case_value")))
       ) {
         return null;
       }

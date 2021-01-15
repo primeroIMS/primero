@@ -81,12 +81,12 @@ const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handl
           <Grid item xs={2} />
           <Grid item xs={4}>
             <h2>
-              {i18n.t("tracing_request.trace")} {traceId}
+              {i18n.t("tracing_request.trace")} <span className={css.recordId}>{traceId}</span>
             </h2>
           </Grid>
           <Grid item xs={4}>
             <h2>
-              {i18n.t("case.label")} {caseId}
+              {i18n.t("case.label")} <span className={css.recordId}>{caseId}</span>
             </h2>
           </Grid>
         </Grid>
