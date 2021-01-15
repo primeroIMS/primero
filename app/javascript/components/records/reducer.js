@@ -38,7 +38,9 @@ import {
   FETCH_TRACE_POTENTIAL_MATCHES_FINISHED,
   FETCH_TRACE_POTENTIAL_MATCHES_STARTED,
   FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS,
-  SET_SELECTED_POTENTIAL_MATCH
+  SET_SELECTED_POTENTIAL_MATCH,
+  SET_CASE_POTENTIAL_MATCH,
+  CLEAR_CASE_POTENTIAL_MATCH
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -203,6 +205,16 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
           .find(potentialMatch => potentialMatch.getIn(["case", "id"]) === payload.id)
       );
     }
+    case `${namespace}/${SET_CASE_POTENTIAL_MATCH}`: {
+      const potentialMatches = state.getIn(["potentialMatches", "data"], fromJS([]));
+      const potentialMatchObj = potentialMatches.find(
+        potentialMatch => potentialMatch.getIn(["trace", "tracing_request_id"], "") === payload.tracingRequestId
+      );
+
+      return state.setIn(["potentialMatches", "selectedPotentialMatch"], potentialMatchObj);
+    }
+    case `${namespace}/${CLEAR_CASE_POTENTIAL_MATCH}`:
+      return state.deleteIn(["potentialMatches", "selectedPotentialMatch"]);
     default:
       return state;
   }

@@ -1,9 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-<<<<<<< HEAD
-import React, { useEffect } from "react";
-=======
 import React from "react";
->>>>>>> 0cb35a1ab2526af912cee61a6d94f48c0c21756e
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -15,12 +11,6 @@ import { RECORD_TYPES } from "../../../../../../../config";
 import { useI18n } from "../../../../../../i18n";
 import { getShortIdFromUniqueId } from "../../../../../../records/utils";
 import { selectRecord } from "../../../../../../records";
-import { getFields, getRecordForms } from "../../../../../selectors";
-import TraceActions from "../trace-actions";
-
-import { NAME, TOP_FIELD_NAMES } from "./constants";
-
-const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handleConfirm }) => {
 import { getFields, getOrderedRecordForms } from "../../../../../selectors";
 import TraceActions from "../trace-actions";
 import FieldRow from "../field-row";

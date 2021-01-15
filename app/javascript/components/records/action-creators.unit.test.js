@@ -327,7 +327,6 @@ describe("records - Action Creators", () => {
     expect(actionCreators.clearRecordAttachments(10, RECORD_PATH.cases)).be.deep.equals(expected);
   });
 
-<<<<<<< HEAD
   it("should check the 'fetchCasesPotentialMatches' action creator to return the correct object", () => {
     const expected = {
       type: `${RECORD_PATH.cases}/FETCH_CASES_POTENTIAL_MATCHES`,
@@ -335,7 +334,8 @@ describe("records - Action Creators", () => {
     };
 
     expect(actionCreators.fetchCasesPotentialMatches("1234", RECORD_PATH.cases)).be.deep.equals(expected);
-=======
+  });
+
   it("should check the 'fetchTracePotentialMatches' action creator to return the correct object", () => {
     const expected = {
       type: `${RECORD_PATH.tracing_requests}/FETCH_TRACE_POTENTIAL_MATCHES`,
@@ -345,6 +345,5 @@ describe("records - Action Creators", () => {
     };
 
     expect(actionCreators.fetchTracePotentialMatches("12345", RECORD_PATH.tracing_requests)).be.deep.equals(expected);
->>>>>>> r2-1210-ftr-find-match
   });
 });
