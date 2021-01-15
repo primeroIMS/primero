@@ -29,15 +29,18 @@ const Component = ({ openDrawer, field, formik, formSection, handleClose, index,
     }
   }, [selectedPotentialMatch]);
 
+  const handleBack = () => (selectedForm === FORMS.comparison ? setSelectedForm(FORMS.matches) : handleClose());
+  const handleConfirm = () => selectedForm !== FORMS.comparison && setSelectedForm(FORMS.matches);
+
   const props = {
     traceValues,
     tracingRequestValues,
     recordType,
     potentialMatch: selectedPotentialMatch,
-    handleBack: handleClose,
+    handleBack,
     selectedForm,
     formSection,
-    handleConfirm: () => setSelectedForm(FORMS.matches)
+    handleConfirm
   };
 
   const Form = (() => {
@@ -52,13 +55,16 @@ const Component = ({ openDrawer, field, formik, formSection, handleClose, index,
   })();
 
   useEffect(() => {
-    if (open) {
-      setSelectedForm(FORMS.trace);
-    }
     if (openDrawer !== open) {
       setOpen(openDrawer);
     }
   }, [openDrawer]);
+
+  useEffect(() => {
+    if (open) {
+      setSelectedForm(FORMS.trace);
+    }
+  }, [open]);
 
   return (
     <SubformDrawer title={title} open={open} cancelHandler={handleClose}>
