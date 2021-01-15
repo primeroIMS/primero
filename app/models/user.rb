@@ -78,7 +78,7 @@ class User < ApplicationRecord
 
   class << self
     def hidden_attributes
-      %w[encrypted_password reset_password_token reset_password_sent_at]
+      %w[encrypted_password reset_password_token reset_password_sent_at service_account]
     end
 
     def password_parameters
@@ -244,7 +244,7 @@ class User < ApplicationRecord
   end
 
   def using_idp?
-    Rails.configuration.x.idp.use_identity_provider
+    Rails.configuration.x.idp.use_identity_provider && !service_account
   end
 
   def password_required?
