@@ -50,10 +50,7 @@ const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handl
         field={comparison.field}
         traceValue={comparison.traceValue}
         caseValue={comparison.caseValue}
-<<<<<<< HEAD
-=======
         match={comparison.match}
->>>>>>> r2-1217-ftr-compare-potential-match
         key={comparison.field.name}
       />
     ));

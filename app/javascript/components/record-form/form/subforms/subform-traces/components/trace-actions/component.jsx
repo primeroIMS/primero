@@ -46,7 +46,7 @@ const Component = ({ handleBack, handleConfirm, selectedForm }) => {
           />
         </Permission>
       )}
-      {selectedForm === FORMS.comparison && (
+      {selectedForm === FORMS.comparison && handleConfirm && (
         <ActionButton
           icon={<CheckIcon />}
           text={i18n.t("tracing_request.match")}
