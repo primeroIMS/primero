@@ -50,6 +50,10 @@ const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handl
         field={comparison.field}
         traceValue={comparison.traceValue}
         caseValue={comparison.caseValue}
+<<<<<<< HEAD
+=======
+        match={comparison.match}
+>>>>>>> r2-1217-ftr-compare-potential-match
         key={comparison.field.name}
       />
     ));
@@ -77,7 +81,7 @@ const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handl
       <TraceActions handleBack={handleBack} handleConfirm={handleConfirm} selectedForm={selectedForm} />
       <Grid container spacing={2}>
         <Grid container item>
-          <Grid item xs={4} />
+          <Grid item xs={2} />
           <Grid item xs={4}>
             <h2>
               {i18n.t("tracing_request.trace")} {traceId}

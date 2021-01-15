@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import SearchIcon from "@material-ui/icons/Search";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import CheckIcon from "@material-ui/icons/Check";
 
 import Permission from "../../../../../../application/permission";
 import { RESOURCES, SHOW_FIND_MATCH } from "../../../../../../../libs/permissions";
@@ -45,9 +46,9 @@ const Component = ({ handleBack, handleConfirm, selectedForm }) => {
           />
         </Permission>
       )}
-      {selectedForm === FORMS.comparison && handleConfirm && (
+      {selectedForm === FORMS.comparison && (
         <ActionButton
-          icon={<SearchIcon />}
+          icon={<CheckIcon />}
           text={i18n.t("tracing_request.match")}
           type={ACTION_BUTTON_TYPES.default}
           rest={{

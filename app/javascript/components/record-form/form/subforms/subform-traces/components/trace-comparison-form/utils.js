@@ -13,6 +13,11 @@ export const getComparisons = ({ fields, comparedFields, includeEmpty }) =>
         return null;
       }
 
-      return { field, traceValue: comparedField.get("trace_value"), caseValue: comparedField.get("case_value") };
+      return {
+        field,
+        traceValue: comparedField.get("trace_value"),
+        caseValue: comparedField.get("case_value"),
+        match: comparedField.get("match")
+      };
     })
     .filter(comparison => comparison?.field);
