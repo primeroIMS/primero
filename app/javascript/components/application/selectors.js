@@ -40,7 +40,13 @@ export const getReportingLocationConfig = state => state.getIn([NAMESPACE, "repo
 
 export const getAdminLevel = state => getReportingLocationConfig(state).get("admin_level");
 
-export const getAgencyLogos = state => state.getIn(["application", "primero", "agencies"], fromJS([]));
+export const getAgencyLogos = (state, fromApplication) => {
+  if (fromApplication) {
+    return state.getIn(["application", "primero", "logos"], fromJS([]));
+  }
+
+  return state.getIn(["application", "primero", "agencies"], fromJS([]));
+};
 
 export const getAgency = (state, id) =>
   state

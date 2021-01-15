@@ -110,7 +110,7 @@ const Component = ({
     selectedRecordsLength > 0 && records.size > 0 && selectedRecordsLength === records.size;
   const allRecordsSelected = selectedRecordsLength === totalRecords;
   const currentUser = useSelector(state => getUser(state, recordType));
-  const agenciesWithLogosEnabled = useSelector(state => getAgencyLogos(state));
+  const agenciesWithLogosEnabled = useSelector(state => getAgencyLogos(state, true));
 
   const {
     [EXPORT_TYPE_FIELD]: exportType,

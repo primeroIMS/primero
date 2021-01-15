@@ -71,7 +71,7 @@ export const addPageHeaderFooter = async (pdf, mainHeaderRef, secondaryHeaderRef
 export const getLogosToRender = (agencies, user, includeImplementationLogos, includeUserAgencyLogos) => {
   const implementationLogos =
     (includeImplementationLogos &&
-      agencies.reduce((accum, curr) => [...accum, { logoFull: curr.get("logo_full") }], [])) ||
+      agencies.reduce((accum, curr) => [...accum, { logoFull: curr.getIn(["images", "logo_full"]) }], [])) ||
     [];
   const userLogos = (includeUserAgencyLogos && [{ logoFull: user.get("agencyLogoFull") }]) || [];
 
