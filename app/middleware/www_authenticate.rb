@@ -9,11 +9,13 @@ class WwwAuthenticate
 
   def call(env)
     code, headers, response = @app.call(env)
-    headers['WWW-Authenticate'] = 'Bearer realm="Primero" charset="UTF8"' if set_www_authenticate?(code, headers)
+    headers['WWW-Authenticate'] = 'Bearer realm="Primero" charset="UTF8"' if apply_www_authenticate?(code)
     [code, headers, response]
   end
 
-  def set_www_authenticate?(code, headers)
-    code == 401 && headers['WWW-Authenticate'].nil?
+  def apply_www_authenticate?(code)
+    # TODO: We can be more nuanced and return a Basic header if we failed a Basic Auth strategy
+    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#authentication_schemes
+    code == 401
   end
 end

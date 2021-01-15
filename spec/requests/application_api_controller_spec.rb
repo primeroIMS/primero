@@ -67,20 +67,23 @@ describe ApplicationApiController, type: :request do
   describe 'HTTP Basic Auth' do
     let(:user_name) { 'testuser' }
     let(:password) { 'testuserpassw0rd!' }
+    let(:basic_auth) { Base64.encode64("#{user_name}:#{password}") }
 
     before(:each) do
       clean_data(User, Role)
-      role = Role.create!(name: 'Test Role 1', unique_id: 'test-role-1',
-                          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
-                          modules: [@cp])
+      role = Role.new(name: 'Test Role 1', unique_id: 'test-role-1',
+                      permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
+      role.save(validate: false)
       @user = User.new(user_name: user_name, password: password, password_confirmation: password, role: role)
       @user.save(validate: false)
     end
 
     it 'works!' do
-      # TODO!
+      get '/api/v2/cases', headers: { 'Authorization' => "Basic #{basic_auth}" }
+
+      expect(response).to have_http_status(200)
     end
 
-    after(:each) { clean_data(User) }
+    after(:each) { clean_data(User, Role) }
   end
 end
