@@ -1,10 +1,15 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
+<<<<<<< HEAD
 import React, { useEffect } from "react";
+=======
+import React from "react";
+>>>>>>> 0cb35a1ab2526af912cee61a6d94f48c0c21756e
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { RECORD_TYPES } from "../../../../../../../config";
 import { useI18n } from "../../../../../../i18n";
@@ -16,12 +21,22 @@ import TraceActions from "../trace-actions";
 import { NAME, TOP_FIELD_NAMES } from "./constants";
 
 const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handleConfirm }) => {
+import { getFields, getOrderedRecordForms } from "../../../../../selectors";
+import TraceActions from "../trace-actions";
+import FieldRow from "../field-row";
+
+import { NAME, TOP_FIELD_NAMES } from "./constants";
+import { getComparisons } from "./utils";
+import styles from "./styles.css";
+
+const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handleConfirm }) => {
+  const css = makeStyles(styles)();
   const { id } = useParams();
   const record = useSelector(state => selectRecord(state, { isShow: true }, recordType, id));
   const i18n = useI18n();
   const fields = useSelector(state => getFields(state));
   const forms = useSelector(state =>
-    getRecordForms(state, { primeroModule: record.get("module_id"), recordType: RECORD_TYPES.cases })
+    getOrderedRecordForms(state, { primeroModule: record.get("module_id"), recordType: RECORD_TYPES.cases })
   );
   const traceId = getShortIdFromUniqueId(potentialMatch.getIn(["trace", "id"]));
   const caseId = potentialMatch.getIn(["case", "case_id_display"]);
@@ -30,55 +45,40 @@ const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handl
     field => field
   );
 
-  const fieldRow = (field, traceValue, caseValue) => (
-    <Grid container item key={field.name}>
-      <Grid item xs={4}>
-        <strong>{field.display_name[i18n.locale]}</strong>
-      </Grid>
-      <Grid item xs={4}>
-        {traceValue}
-      </Grid>
-      <Grid item xs={4}>
-        {caseValue}
-      </Grid>
-    </Grid>
-  );
+  const topComparisons = getComparisons({ fields: topFields, comparedFields, includeEmpty: true });
 
-  const topRow = () =>
-    topFields.map(field => {
-      const comparedField = comparedFields.find(comparison => comparison.get("field_name") === field.name);
+  const comparedForms = forms.map(form => {
+    const comparisons = getComparisons({ fields: form.fields, comparedFields });
 
-      return fieldRow(field, comparedField.get("trace_value"), comparedField.get("case_value"));
-    });
+    return { form, comparisons };
+  });
+
+  const renderFieldRows = comparisons =>
+    comparisons.length &&
+    comparisons.map(comparison => (
+      <FieldRow
+        field={comparison.field}
+        traceValue={comparison.traceValue}
+        caseValue={comparison.caseValue}
+        key={comparison.field.name}
+      />
+    ));
 
   const renderForms = () =>
-    forms.map(form => {
-      const comparisons = form.fields
-        .filter(field => !TOP_FIELD_NAMES.includes(field.name))
-        .map(field => {
-          const comparedField = comparedFields.find(comparison => comparison.get("field_name") === field.name);
-
-          if (!comparedField?.size) {
-            return null;
-          }
-
-          return { field, traceValue: comparedField.get("trace_value"), caseValue: comparedField.get("case_value") };
-        })
-        .filter(comparison => comparison?.field);
-
-      if (!comparisons.length) {
-        return null;
-      }
+    comparedForms.map(comparedForm => {
+      const { form, comparisons } = comparedForm;
 
       return (
-        <>
-          <Grid container item key={form.unique_id}>
+        <React.Fragment key={form.unique_id}>
+          <Grid container item>
             <Grid item xs={12}>
-              <h2>{form.description[i18n.locale]}</h2>
+              <h2>{form.name[i18n.locale]}</h2>
             </Grid>
           </Grid>
-          {comparisons.map(comparison => fieldRow(comparison.field, comparison.traceValue, comparison.caseValue))}
-        </>
+          {renderFieldRows(comparisons) || (
+            <span className={css.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
+          )}
+        </React.Fragment>
       );
     });
 
@@ -99,7 +99,7 @@ const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handl
             </h2>
           </Grid>
         </Grid>
-        {topRow()}
+        {renderFieldRows(topComparisons)}
         {renderForms()}
       </Grid>
     </>
