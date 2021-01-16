@@ -41,6 +41,10 @@ class PrimeroConfiguration < ApplicationRecord
     ApplyConfigurationJob.perform_later(id, applied_by.id)
   end
 
+  def promote_later!
+    PrimeroConfigurationSyncJob.perform_later(id)
+  end
+
   def apply_with_api_lock!(applied_by = nil)
     SystemSettings.lock_for_configuration_update
     apply!(applied_by)
@@ -75,7 +79,7 @@ class PrimeroConfiguration < ApplicationRecord
 
   def validate_configuration_data
     data_is_valid = CONFIGURABLE_MODELS.reduce(true) do |valid, model|
-      valid && (%w[Report Location].include?(model) || data[model].size.positive?)
+      valid && (%w[Report Location].include?(model) || data[model]&.size&.positive?)
     end
     return if data_is_valid
 
