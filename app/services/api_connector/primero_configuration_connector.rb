@@ -10,7 +10,7 @@ class ApiConnector::PrimeroConfigurationConnector < ApiConnector::PrimeroConnect
     status == 404
   end
 
-  # We don't actually want to update a remote configuration record
+  # We don't actually want to update a remote configuration record, only create
   def update(_configuration)
     {}
   end
