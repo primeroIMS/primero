@@ -32,6 +32,10 @@ class BulkExport < ApplicationRecord
     raise(Errors::InvalidPrimeroEntityType, 'Password is too weak')
   end
 
+  def self.api_path
+    '/api/v2/exports'
+  end
+
   def export(password)
     process_records_in_batches(500) do |records_batch|
       exporter.export(records_batch, owner, custom_export_params&.with_indifferent_access || {})

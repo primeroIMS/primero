@@ -8,7 +8,7 @@ class ApiConnector::AbstractConnector
     prefix = options[:prefix] || default_env_prefix
     config = ENV.select { |key, _| key.start_with?(prefix) }
                 .transform_keys { |key| key.delete_prefix(prefix).downcase }
-                .with_indifferent_options
+                .with_indifferent_access
     new(config)
   end
 

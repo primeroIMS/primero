@@ -33,6 +33,10 @@ class PrimeroConfiguration < ApplicationRecord
     end
   end
 
+  def self.api_path
+    '/api/v2/configurations'
+  end
+
   def apply_later!(applied_by = nil)
     ApplyConfigurationJob.perform_later(id, applied_by.id)
   end
