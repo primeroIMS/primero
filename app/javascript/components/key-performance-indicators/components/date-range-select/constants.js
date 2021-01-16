@@ -1,1 +1,1 @@
-export const CUSTOM_RANGE = "customer-range";
+export const CUSTOM_RANGE = "custom-range";

@@ -24,16 +24,14 @@ const DateRangeSelect = ({
     )
   );
 
-  const updateSelectedRange = event => {
+  const handleSelectChange = event => {
     if (event.target.value === CUSTOM_RANGE) return;
 
-    const newSelectedRange = ranges.filter(r => r.value === e.target.value)[0];
+    const newSelectedRange = ranges.filter(range => range.value === event.target.value)[0];
 
     setSelectedRange(newSelectedRange);
   };
 
-  const handleCustomRangeClick = () => setShowRangePicker(true);
-  const handleDateRangeDialogClose = () => setShowRangePicker(false);
   const handleSetRange = (from, to) => {
     const newRange = new DateRange(
       CUSTOM_RANGE,
@@ -45,17 +43,19 @@ const DateRangeSelect = ({
     setSelectedRange(newRange);
     setCustomRange(newRange);
   }
+  const handleCustomRangeClick = () => setShowRangePicker(true);
+  const handleDateRangeDialogClose = () => setShowRangePicker(false);
 
   return (
     <FormControl>
       <Select
-        onChange={updateSelectedRange}
+        onChange={handleSelectChange}
         value={selectedRange.value}
         disabled={disabled}
       >
-        {ranges.map(r => (
-          <MenuItem key={r.value} value={r.value}>
-            {r.name}
+        {ranges.map(range => (
+          <MenuItem key={range.value} value={range.value}>
+            {range.name}
           </MenuItem>
         ))}
         {withCustomRange && (

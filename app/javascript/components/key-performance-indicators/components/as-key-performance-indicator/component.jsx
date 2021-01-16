@@ -27,6 +27,7 @@ const asKeyPerformanceIndicator = (identifier, defaultData) => {
       }, [currentDateRange]);
 
       const [helptextOpen, setHelptextOpen] = useState(false);
+      const handleHelptextClick = () => setHelptextOpen(!helptextOpen) 
 
       return (
         <OptionsBox
@@ -50,7 +51,7 @@ const asKeyPerformanceIndicator = (identifier, defaultData) => {
               className={css.helptextHeader}>
               <Help
                 className={css.helptextButton}
-                onClick={ () => setHelptextOpen(!helptextOpen) } />
+                onClick={handleHelptextClick} />
             </div>
             { helptextOpen && <p className={css.helptextBody}>
               {i18n.t(`key_performance_indicators.${identifier}.helptext`)}
