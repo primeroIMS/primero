@@ -1,7 +1,7 @@
 import qs from "qs";
 import merge from "deepmerge";
 
-import { subformAwareMerge } from "../db/utils";
+import subformAwareMerge from "../db/utils/subform-aware-merge";
 import { FETCH_TIMEOUT, ROUTES } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS, TRANSACTION_MODE } from "../db";
 import EventManager from "../libs/messenger";

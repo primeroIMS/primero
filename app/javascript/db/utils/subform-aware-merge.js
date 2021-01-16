@@ -1,8 +1,14 @@
 /* eslint-disable camelcase, import/prefer-default-export  */
 import merge from "deepmerge";
 
-export const subformAwareMerge = (target, source, options) =>
-  source
+import isNewApproval from "./is-new-approval";
+
+export default (target, source, options) => {
+  if (isNewApproval(source)) {
+    return target.concat(source);
+  }
+
+  return source
     .map(item => {
       if (options.isMergeableObject(item) && (item?.id || item?.unique_id)) {
         const targetItem = item?.id
@@ -15,3 +21,4 @@ export const subformAwareMerge = (target, source, options) =>
       return item;
     })
     .filter(item => !item.marked_destroy);
+};

@@ -7,7 +7,8 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
 
   before(:each) do
     clean_data(
-      PrimeroConfiguration, FormSection, Lookup, Agency, Role, UserGroup, Report, ContactInformation, PrimeroModule
+      PrimeroConfiguration, FormSection, Lookup, Agency, Role, UserGroup, Report, ContactInformation, PrimeroModule,
+      PrimeroProgram
     )
     @form1 = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
     @lookup1 = Lookup.create!(unique_id: 'lookup1', name: 'lookup1')
@@ -34,7 +35,8 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
 
   after(:all) do
     clean_data(
-      PrimeroConfiguration, FormSection, Lookup, Agency, Role, UserGroup, Report, ContactInformation, PrimeroModule, SystemSettings
+      PrimeroConfiguration, FormSection, Lookup, Agency, Role, UserGroup, Report, ContactInformation, PrimeroModule,
+      PrimeroProgram
     )
   end
 
@@ -72,25 +74,86 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
   end
 
   describe 'POST /api/v2/configurations' do
-    it 'creates a configuration record from the current configuration state' do
-      params = { data: { name: 'Test' } }
+    context 'when user is authorized' do
+      before do
+        login_for_test(permissions: correct_permissions)
+      end
 
-      login_for_test(permissions: correct_permissions)
-      post '/api/v2/configurations', params: params
+      context 'and config data is not passed in' do
+        it 'creates a configuration record from the current configuration state' do
+          params = { data: { name: 'Test' } }
+          post '/api/v2/configurations', params: params
 
-      expect(response).to have_http_status(200)
-      expect(json['data']['name']).to eq('Test')
-      expect(json['data'].compact.keys).to match_array(%w[id name version created_on created_by])
-      expect(json['data']['created_by']).to eq(fake_user_name)
+          expect(response).to have_http_status(200)
+          expect(json['data']['name']).to eq('Test')
+          expect(json['data'].compact.keys).to match_array(%w[id name version created_on created_by])
+          expect(json['data']['created_by']).to eq(fake_user_name)
+        end
+      end
+
+      context 'and config data is passed in' do
+        context 'and config data is valid' do
+          before do
+            @config_data = build(:primero_configuration)
+          end
+
+          it 'creates a configuration record from the data passed in' do
+            params = { data: { name: 'Test', data: @config_data } }
+            post '/api/v2/configurations', params: params
+
+            expect(response).to have_http_status(200)
+            expect(json['data']['name']).to eq('Test')
+            expect(json['data'].compact.keys).to match_array(%w[id name version created_on created_by])
+            expect(json['data']['created_by']).to eq(fake_user_name)
+          end
+        end
+
+        context 'and config data is invalid' do
+          before do
+            @config_data = {
+              FormSection: [
+                {
+                  unique_id: 'B',
+                  name_en: 'B Form',
+                  parent_form: 'case',
+                  visible: 'true',
+                  form_group_id: 'm'
+                }
+              ],
+              Lookup: [
+                {
+                  unique_id: 'lookup2',
+                  name: 'lookup 2'
+                }
+              ]
+            }
+          end
+
+          it 'returns 422' do
+            params = { data: { name: 'Test', data: @config_data } }
+            post '/api/v2/configurations', params: params
+
+            expect(response).to have_http_status(422)
+            expect(json['errors'].size).to eq(1)
+            expect(json['errors'][0]['resource']).to eq('/api/v2/configurations')
+            expect(json['errors'].map { |e| e['detail'] }).to contain_exactly('data')
+            expect(json['errors'][0]['message']).to match_array(['errors.models.configuration.data'])
+          end
+        end
+      end
     end
 
-    it 'returns 403 if user is not authorized to create' do
-      params = { name: 'Test' }
+    context 'when user is not authorized' do
+      before do
+        login_for_test
+      end
 
-      login_for_test
-      post '/api/v2/configurations', params: params
+      it 'returns 403' do
+        params = { name: 'Test' }
+        post '/api/v2/configurations', params: params
 
-      expect(response).to have_http_status(403)
+        expect(response).to have_http_status(403)
+      end
     end
   end
 

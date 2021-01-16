@@ -11,8 +11,10 @@ const Records = {
 
   save: async ({ collection, json, recordType }) => {
     const { data, metadata } = json;
-    const dataIsArray = Array.isArray(data);
-    const recordData = Array.isArray(data) ? data : { ...data, complete: true };
+    const dataKeys = Object.keys(data);
+    const jsonData = dataKeys.length === 1 && dataKeys.includes("record") ? data.record : data;
+    const dataIsArray = Array.isArray(jsonData);
+    const recordData = Array.isArray(jsonData) ? jsonData : { ...jsonData, complete: true };
 
     if (dataIsArray) {
       await DB.bulkAdd(collection, recordData, {
@@ -26,7 +28,7 @@ const Records = {
       });
     }
 
-    const recordDB = data.id && !dataIsArray && (await DB.getRecord(collection, data.id));
+    const recordDB = jsonData.id && !dataIsArray && (await DB.getRecord(collection, jsonData.id));
 
     return {
       data: recordDB || recordData,

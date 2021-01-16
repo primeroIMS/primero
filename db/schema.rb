@@ -177,6 +177,7 @@ ActiveRecord::Schema.define(version: 2020_10_11_000000) do
     t.boolean "date_include_time", default: false, null: false
     t.boolean "matchable", default: false, null: false
     t.jsonb "subform_section_configuration"
+    t.boolean "mandatory_for_completion", default: false
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"
