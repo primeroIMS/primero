@@ -111,21 +111,19 @@ class BulkExport < ApplicationRecord
     Rails.application.routes.url_helpers.rails_blob_path(export_file, only_path: true, expires_in: EXPIRES)
   end
 
-  def process_records_in_batches(batch_size = 500, &block)
+  def process_records_in_batches(batch = 500)
     # TODO: This is a good candidate for multi-threading, provided export buffers are thread safe.
-    pagination = { page: 1, per_page: batch_size }
+    page = 1
     order = self.order || { created_at: :desc }
-    begin
-      search = SearchService.search(
-        model_class,
-        filters: search_filters, query_scope: record_query_scope, query: query, order: order, pagination: pagination
-      )
-      results = search.results
+    loop do
+      results = SearchService.search(model_class,
+                                     filters: search_filters, query_scope: record_query_scope,
+                                     query: query, order: order, pagination: { page: page, per_page: batch }).results
       yield(results)
       # Set again the values of the pagination variable because the method modified the variable.
-      pagination[:page] = results.next_page
-      pagination[:per_page] = batch_size
-    end until results.next_page.nil?
+      page = results.next_page
+      break if page.nil?
+    end
   end
 
   def attach_export_file(file)
