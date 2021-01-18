@@ -27,8 +27,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         locale,
         reporting_location_config: reportingLocationConfig,
         location,
-        agency_logo_full: agencyLogoFull,
-        agency_logo_icon: agencyLogoIcon
+        agencyLogo
       } = payload;
       const cleanedPermissions = permissions.list.filter(listItem => !isEmpty(listItem.actions));
 
@@ -43,8 +42,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           locale,
           reportingLocationConfig,
           location,
-          agencyLogoFull,
-          agencyLogoIcon
+          agencyLogo
         })
       );
     }

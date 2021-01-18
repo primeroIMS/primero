@@ -25,6 +25,7 @@ const logoItem = async agency => {
 
     return {
       id: agency.unique_id,
+      name: agency.name,
       images: {
         logo_full: logoFullProcessed,
         logo_icon: logoIconProcessed

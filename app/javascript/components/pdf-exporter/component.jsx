@@ -13,7 +13,8 @@ import {
   HEADER,
   SIGNATURES,
   INCLUDE_IMPLEMENTATION_LOGOS,
-  INCLUDE_AGENCY_LOGO
+  INCLUDE_AGENCY_LOGO,
+  INCLUDE_OTHER_LOGOS
 } from "../record-actions/exports/constants";
 import { getOptions } from "../form/selectors";
 
@@ -35,7 +36,8 @@ const Component = (
     customFilenameField,
     customFormProps,
     currentUser,
-    agenciesWithLogosEnabled
+    agenciesWithLogosEnabled,
+    agencyLogosPdf
   },
   ref
 ) => {
@@ -60,8 +62,16 @@ const Component = (
     [HEADER]: header,
     [SIGNATURES]: signatures,
     [INCLUDE_IMPLEMENTATION_LOGOS]: includeImplementationLogos,
-    [INCLUDE_AGENCY_LOGO]: includeAgencyLogos
-  } = watch([CUSTOM_HEADER, HEADER, SIGNATURES, INCLUDE_IMPLEMENTATION_LOGOS, INCLUDE_AGENCY_LOGO]);
+    [INCLUDE_AGENCY_LOGO]: includeAgencyLogos,
+    [INCLUDE_OTHER_LOGOS]: includeOtherLogos
+  } = watch([
+    CUSTOM_HEADER,
+    HEADER,
+    SIGNATURES,
+    INCLUDE_IMPLEMENTATION_LOGOS,
+    INCLUDE_AGENCY_LOGO,
+    INCLUDE_OTHER_LOGOS
+  ]);
   const watchedValues = watch(customFormFields.map(referralField => referralField.name));
   const userSelectedForms = formsSelectedField ? watch(formsSelectedField, formsSelectedFieldDefault || []) : false;
 
@@ -84,7 +94,14 @@ const Component = (
     ? forms.filter(form => filteredByFields.includes(form.unique_id))
     : forms;
 
-  const logos = getLogosToRender(agenciesWithLogosEnabled, currentUser, includeImplementationLogos, includeAgencyLogos);
+  const logos = getLogosToRender(
+    agenciesWithLogosEnabled,
+    currentUser,
+    includeOtherLogos,
+    agencyLogosPdf,
+    includeImplementationLogos,
+    includeAgencyLogos
+  );
 
   useImperativeHandle(ref, () => ({
     savePdf({ setPending, close, values }) {
@@ -164,6 +181,7 @@ Component.displayName = "PdfExporter";
 
 Component.propTypes = {
   agenciesWithLogosEnabled: PropTypes.array,
+  agencyLogosPdf: PropTypes.array,
   currentUser: PropTypes.object,
   customFilenameField: PropTypes.string.isRequired,
   customFormProps: PropTypes.shape({

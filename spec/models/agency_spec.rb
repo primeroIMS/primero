@@ -250,4 +250,26 @@ describe Agency do
       expect(Agency.get_field_using_unique_id('test_unique_id', :agency_code)).to eq(agency.agency_code)
     end
   end
+
+  describe '.with_pdf_logo_option' do
+    let(:agency1) do
+      Agency.create(
+        name: 'test', agency_code: '12345', unique_id: 'test_unique_id', pdf_logo_option: true, disabled: false
+      )
+    end
+    let(:agency2) do
+      Agency.create(
+        name: 'test2', agency_code: '98765', unique_id: 'test_unique_id2', pdf_logo_option: false, disabled: false
+      )
+    end
+    before(:each) do
+      clean_data(Agency)
+      agency1
+      agency2
+    end
+
+    it 'returns the agency with pdf_logo_option true specifed' do
+      expect(Agency.with_pdf_logo_option).to eq([agency1])
+    end
+  end
 end
