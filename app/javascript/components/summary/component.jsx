@@ -47,7 +47,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form })
     i18n,
     css,
     recordType,
-    handleBack: handleClose,
+    handleBack: () => setSelectedForm(FORMS.matches),
     selectedForm,
     setSelectedForm,
     potentialMatch

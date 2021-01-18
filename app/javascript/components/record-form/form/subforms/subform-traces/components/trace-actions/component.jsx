@@ -62,7 +62,7 @@ const Component = ({ handleBack, handleConfirm, selectedForm }) => {
 
 Component.propTypes = {
   handleBack: PropTypes.func.isRequired,
-  handleConfirm: PropTypes.func.isRequired,
+  handleConfirm: PropTypes.func,
   selectedForm: PropTypes.string.isRequired
 };
 
