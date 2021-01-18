@@ -28,6 +28,10 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form })
   const potentialMatch = useSelector(state => getSelectedPotentialMatch(state, RECORD_PATH.cases));
 
   const findMatchLabel = i18n.t("cases.summary.find_match");
+  const handleFindMatchClick = () => {
+    setOpen(true);
+    setSelectedForm(FORMS.matches);
+  };
   const handleClose = () => setOpen(false);
   const findMatchButton = (
     <ActionButton
@@ -36,7 +40,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form })
       type={ACTION_BUTTON_TYPES.default}
       keepTextOnMobile
       rest={{
-        onClick: () => setOpen(true)
+        onClick: handleFindMatchClick
       }}
     />
   );

@@ -4,6 +4,7 @@ import clsx from "clsx";
 
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { getShortIdFromUniqueId } from "../../../records";
 
 import { SCORE_TYPES } from "./constants";
 
@@ -14,7 +15,7 @@ export const columns = (i18n, css, dispatch, onTracingRequestClick) => [
     options: {
       customBodyRender: value => (
         <ActionButton
-          text={value}
+          text={getShortIdFromUniqueId(value)}
           type={ACTION_BUTTON_TYPES.default}
           isTransparent
           rest={{
