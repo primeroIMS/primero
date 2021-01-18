@@ -54,7 +54,9 @@ describe("records - Actions", () => {
       "CLEAR_SELECTED_RECORD",
       "CLEAR_CASE_FROM_INCIDENT",
       "TRACING_REQUESTS_RECORDS",
-      "UPDATE_ATTACHMENTS"
+      "UPDATE_ATTACHMENTS",
+      "SET_CASE_POTENTIAL_MATCH",
+      "CLEAR_CASE_POTENTIAL_MATCH"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("string");

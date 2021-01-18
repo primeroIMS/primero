@@ -4,8 +4,8 @@ import { setupMountedComponent } from "../../test";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import { FormSectionField } from "../record-form";
 import ActionButton from "../action-button";
+import SubformDrawer from "../record-form/form/subforms/subform-drawer";
 
-import { MatchesForm } from "./components";
 import Summary from "./component";
 
 describe("<Summary />", () => {
@@ -34,7 +34,7 @@ describe("<Summary />", () => {
     expect(component.find(FormSectionField)).to.have.lengthOf(5);
   });
 
-  it("should render 1 <MatchesForm /> components", () => {
-    expect(component.find(MatchesForm)).to.have.lengthOf(1);
+  it("should render 1 <SubformDrawer /> components", () => {
+    expect(component.find(SubformDrawer)).to.have.lengthOf(1);
   });
 });

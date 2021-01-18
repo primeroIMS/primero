@@ -63,10 +63,6 @@ describe("<MatchesForm />", () => {
     ({ component } = setupMountedComponent(MatchesForm, props, state, [], formProps));
   });
 
-  it("should render 1 <SubformDrawer /> components", () => {
-    expect(component.find(SubformDrawer)).to.have.lengthOf(1);
-  });
-
   it("should render 1 <List /> components", () => {
     expect(component.find(List)).to.have.lengthOf(1);
   });
