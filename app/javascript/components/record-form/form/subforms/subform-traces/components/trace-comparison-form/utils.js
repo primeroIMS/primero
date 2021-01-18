@@ -6,10 +6,11 @@ export const getComparisons = ({ fields, comparedFields, includeEmpty }) =>
     .map(field => {
       const comparedField = comparedFields.find(comparison => comparison.get("field_name") === field.name);
 
-      if (
-        !includeEmpty &&
-        (!comparedField?.size || isNil(comparedField.get("trace_value")) || isNil(comparedField.get("case_value")))
-      ) {
+      if (!comparedField?.size) {
+        return null;
+      }
+
+      if (!includeEmpty && (isNil(comparedField.get("trace_value")) || isNil(comparedField.get("case_value")))) {
         return null;
       }
 

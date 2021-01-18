@@ -2,6 +2,10 @@
   border-bottom: 1px solid $(theme.primero.colors.lightGrey);
 }
 
+.fieldTitle {
+  font-weight: bold;
+}
+
 .matched {
   color: $(theme.primero.colors.green);
 }

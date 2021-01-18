@@ -37,7 +37,8 @@ describe("records - Action Creators", () => {
       "fetchRecordsAlerts",
       "saveRecord",
       "setCaseIdForIncident",
-      "setSelectedRecord"
+      "setSelectedRecord",
+      "setSelectedPotentialMatch"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");

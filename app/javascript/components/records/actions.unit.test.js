@@ -49,6 +49,7 @@ describe("records - Actions", () => {
       "SET_ATTACHMENT_STATUS",
       "SET_CASE_ID_FOR_INCIDENT",
       "SET_CASE_ID_REDIRECT",
+      "SET_SELECTED_POTENTIAL_MATCH",
       "SET_SELECTED_RECORD",
       "CLEAR_SELECTED_RECORD",
       "CLEAR_CASE_FROM_INCIDENT",

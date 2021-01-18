@@ -38,7 +38,7 @@ const Component = ({ field, traceValue, caseValue, match }) => {
   return (
     <Grid container item className={css.fieldRow}>
       <Grid item xs={2}>
-        <strong>{displayName[i18n.locale]}</strong>
+        <span className={css.fieldTitle}>{displayName[i18n.locale]}</span>
       </Grid>
       <Grid item xs={4}>
         {traceValueLabel}

@@ -6,10 +6,9 @@ export const isTextField = field => [TEXT_FIELD, TEXT_AREA].includes(field.type)
 
 export const getValueLabel = ({ options, i18n, value }) => {
   if (options) {
-    return options
-      .get("values", fromJS([]))
-      .find(optionValue => optionValue.get("id") === value)
-      ?.getIn(["display_text", i18n.locale], "");
+    const option = options.get("values", fromJS([])).find(optionValue => optionValue.get("id") === value);
+
+    return option?.getIn(["display_text", i18n.locale], "") || value;
   }
 
   return value;

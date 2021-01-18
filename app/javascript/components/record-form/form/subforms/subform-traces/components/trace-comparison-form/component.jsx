@@ -67,7 +67,11 @@ const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handl
             </Grid>
           </Grid>
           {renderFieldRows(comparisons) || (
-            <span className={css.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
+            <Grid container item>
+              <Grid item xs={12}>
+                <span className={css.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
+              </Grid>
+            </Grid>
           )}
         </React.Fragment>
       );
