@@ -34,7 +34,11 @@ import {
   FETCH_TRACE_POTENTIAL_MATCHES_FINISHED,
   FETCH_TRACE_POTENTIAL_MATCHES_STARTED,
   FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS,
-  SET_SELECTED_POTENTIAL_MATCH
+  SET_SELECTED_POTENTIAL_MATCH,
+  SET_MACHED_CASE_FOR_TRACE_FAILURE,
+  SET_MACHED_CASE_FOR_TRACE_FINISHED,
+  SET_MACHED_CASE_FOR_TRACE_STARTED,
+  SET_MACHED_CASE_FOR_TRACE_SUCCESS
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -195,6 +199,24 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
           .find(potentialMatch => potentialMatch.getIn(["case", "id"]) === payload.id)
       );
     }
+    case `${namespace}/${SET_MACHED_CASE_FOR_TRACE_STARTED}`: {
+      return state.set("loading", true);
+    }
+    case `${namespace}/${SET_MACHED_CASE_FOR_TRACE_SUCCESS}`: {
+      const { tracing_request_id: tracingRequestId, id } = payload.data;
+      const index = state.get("data").findIndex(r => r.get("id") === tracingRequestId);
+      const traceIndex = state
+        .getIn(["data", index, "tracing_request_subform_section"])
+        .findIndex(trace => trace.get("unique_id") === id);
+
+      return state.updateIn(["data", index, "tracing_request_subform_section", traceIndex], u =>
+        mergeRecord(u, fromJS(payload.data))
+      );
+    }
+    case `${namespace}/${SET_MACHED_CASE_FOR_TRACE_FAILURE}`:
+      return state.set("errors", true);
+    case `${namespace}/${SET_MACHED_CASE_FOR_TRACE_FINISHED}`:
+      return state.set("loading", false);
     default:
       return state;
   }
