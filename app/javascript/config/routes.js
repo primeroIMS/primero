@@ -116,10 +116,9 @@ export default [
         actions: READ_RECORDS
       },
       {
+        // TODO: Double check which permission need to be applied here.
         path: ROUTES.key_performance_indicators,
-        component: KeyPerformanceIndicators,
-        permissionType: "reports",
-        permission: ["read", "group_read", "manage"]
+        component: KeyPerformanceIndicators
       },
       {
         path: `${ROUTES.reports}/new`,
