@@ -13,7 +13,12 @@ const User = {
     // eslint-disable-next-line camelcase
     if (json?.data?.agency_logo_full && json?.data?.agency_logo_icon) {
       const logos = await Logos.save([
-        { unique_id: json.data.agency_id, logo_full: json.data.agency_logo_full, logo_icon: json.data.agency_logo_icon }
+        {
+          unique_id: json.data.agency_unique_id,
+          name: json.data.agency_name,
+          logo_full: json.data.agency_logo_full,
+          logo_icon: json.data.agency_logo_icon
+        }
       ]);
 
       return { ...json.data, agencyLogo: logos[0] };
