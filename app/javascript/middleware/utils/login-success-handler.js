@@ -15,22 +15,22 @@ export default async (store, user = {}, useIdentityProvider) => {
   const userObject = useIdentityProvider
     ? { user_name: getCookieValue("primero_user_name"), id: parseInt(getCookieValue("primero_user_id"), 10) }
     : user;
-  const { user_name: username } = userObject;
+  const formatedUser = { username: userObject.user_name, id: userObject.id }
+
   const pendingUserLogin = store.getState().getIn(["connectivity", "pendingUserLogin"], false);
-  const userFromDB = await DB.getRecord("user", username);
+  const userFromDB = await DB.getRecord("user", formatedUser.username);
 
   if (!userFromDB) {
     await DB.clearDB();
   }
 
-  localStorage.setItem("user", JSON.stringify(userObject));
-  store.dispatch(setAuthenticatedUser(userObject));
+  localStorage.setItem("user", JSON.stringify(formatedUser));
 
   if (!pendingUserLogin) {
     handleReturnUrl(store);
   }
 
   store.dispatch(clearDialog());
-  store.dispatch(setAuthenticatedUser(userObject));
+  store.dispatch(setAuthenticatedUser(formatedUser));
   store.dispatch(setPendingUserLogin(false));
 };
