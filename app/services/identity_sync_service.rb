@@ -7,7 +7,7 @@
 # The pattern is PRIMERO_IDENTITY_SYNC_AAD_<PROPERTY>.
 # Common properties are: HOST, PORT, TLS (client|truthy|falsey), TLS_CLIENT_KEY, TLS_CLIENT_CERT
 class IdentitySyncService
-  ENV_PREFIX = 'PRIMERO_IDENTITY_SYNC_AAD'
+  ENV_PREFIX = 'PRIMERO_IDENTITY_SYNC_AAD_'
 
   attr_accessor :connectors
 
