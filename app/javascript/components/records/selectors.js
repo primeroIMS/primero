@@ -62,3 +62,5 @@ export const getCasesPotentialMatches = state => state.getIn(["records", "cases"
 
 export const getSelectedPotentialMatch = (state, recordType) =>
   state.getIn(["records", recordType, "potentialMatches", "selectedPotentialMatch"], fromJS({}));
+
+export const getMatchedTraces = state => state.getIn(["records", "cases", "matchedTraces"], fromJS({}));

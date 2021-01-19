@@ -9,7 +9,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 import { NAME } from "./constants";
 
 const Component = ({ css, matchedTrace }) => {
-  const { id: matchedTraceId } = matchedTrace;
+  const matchedTraceId = matchedTrace.get("id");
   const handleOnClick = id => console.log("ID", id);
 
   return (
