@@ -66,6 +66,8 @@ const Component = ({ open, onClose, currentRange, setRange }) => {
   );
 };
 
+Component.displayName = "DateRangeDialog";
+
 Component.propTypes = {
   currentRange: PropTypes.shape({
     from: PropTypes.instanceOf(Date),

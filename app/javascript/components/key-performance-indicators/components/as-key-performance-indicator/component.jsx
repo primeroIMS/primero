@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import OptionsBox from "components/dashboard/options-box";
 import { Help } from "@material-ui/icons";
-import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
 
-import { forKPI as actionsForKPI } from "../../action-creators";
-import { forKPI as selectorsForKPI } from "../../selectors";
+import OptionsBox from "../../../dashboard/options-box";
+import { useI18n } from "../../../i18n";
+import actionsForKPI from "../../action-creators";
+import selectorsForKPI from "../../selectors";
 import DateRangeSelect from "../date-range-select";
 
 import styles from "./styles.css";

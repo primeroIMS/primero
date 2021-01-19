@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useI18n } from "components/i18n";
 
+import { useI18n } from "../../../i18n";
 import KpiTable from "../kpi-table";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 

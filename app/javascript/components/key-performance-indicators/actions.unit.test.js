@@ -1,4 +1,4 @@
-import { forKPI } from "./actions";
+import forKPI from "./actions";
 
 describe("KeyPerformanceIndicators - Actions", () => {
   it("should return an action name in the appropriate format", () => {

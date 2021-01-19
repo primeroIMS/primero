@@ -68,16 +68,17 @@ const Component = ({ ranges, selectedRange, withCustomRange, setSelectedRange, d
 
 Component.displayName = "DateRangeSelect";
 
-Component.proptypes = {
+Component.propTypes = {
+  disabled: PropTypes.bool,
+  i18n: PropTypes.object,
   ranges: PropTypes.array,
   selectedRange: PropTypes.shape({
     from: PropTypes.instanceOf(Date),
-    to: PropTypes.instanceOf(Date)
+    to: PropTypes.instanceOf(Date),
+    value: PropTypes.string
   }),
-  withCustomRange: PropTypes.bool,
   setSelectedRange: PropTypes.func,
-  disabled: PropTypes.bool,
-  i18n: PropTypes.object
+  withCustomRange: PropTypes.bool
 };
 
 export default Component;

@@ -11,24 +11,20 @@ const Component = ({ realPercent, label, index, css }) => {
       style={{ width: percentage > 0 ? `${percentage}%` : "auto" }}
     >
       <div>
-        <h1 className={css.StackedPercentageBarLabelPercentage}>
-          {`${percentage.toFixed(0)}%`}
-        </h1>
+        <h1 className={css.StackedPercentageBarLabelPercentage}>{`${percentage.toFixed(0)}%`}</h1>
       </div>
-      <div className={css.StackedPercentageBarLabel}>
-        {label}
-      </div>
+      <div className={css.StackedPercentageBarLabel}>{label}</div>
     </div>
   );
-}
+};
 
 Component.displayName = "StackedPercentageBarLabel";
 
 Component.propTypes = {
-  realPercent: PropTypes.number,
-  label: PropTypes.string,
+  css: PropTypes.object,
   index: PropTypes.number,
-  css: PropTypes.object
-}
+  label: PropTypes.string,
+  realPercent: PropTypes.number
+};
 
 export default Component;

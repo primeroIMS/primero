@@ -1,4 +1,4 @@
-import { forKPI } from "./paths";
+import forKPI from "./paths";
 import NAMESPACE from "./namespace";
 
 describe("KeyPerformanceIndicators - Paths", () => {

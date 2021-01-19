@@ -20,8 +20,8 @@ const Component = ({ value, label }) => {
 Component.displayName = "SingleAggregateMetric";
 
 Component.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  label: PropTypes.string
+  label: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
 export default Component;

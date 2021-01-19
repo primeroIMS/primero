@@ -28,8 +28,8 @@ const Component = ({ percentage, className }) => {
 Component.displayName = "TablePercentageBar";
 
 Component.propTypes = {
-  percentage: PropTypes.number,
-  className: PropTypes.string
+  className: PropTypes.string,
+  percentage: PropTypes.number
 };
 
 export default Component;

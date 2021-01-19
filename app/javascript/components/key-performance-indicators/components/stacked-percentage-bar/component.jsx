@@ -9,7 +9,7 @@ import StackedPercentageBarLabel from "./components/stacked-percentage-bar-label
 const Component = ({ percentages, className }) => {
   const css = makeStyles(styles)();
 
-  if (percentages.length > 2) throw "StackedPercentageBar components only support a max of 2 percentages";
+  if (percentages.length > 2) throw new Error("StackedPercentageBar components only support a max of 2 percentages");
 
   const percentagedToRender = percentages.filter(descriptor => descriptor.percentage > 0);
 
@@ -43,8 +43,8 @@ const Component = ({ percentages, className }) => {
 Component.displayName = "StackedPercentageBar";
 
 Component.propTypes = {
-  percentages: PropTypes.array,
-  className: PropTypes.string
+  className: PropTypes.string,
+  percentages: PropTypes.array
 };
 
 export default Component;

@@ -1,4 +1,4 @@
-import { forKPI } from "./action-creators";
+import forKPI from "./action-creators";
 
 describe("KeyPerformanceIndicators - Action Creators", () => {
   it("should return a function", () => {
@@ -11,6 +11,7 @@ describe("KeyPerformanceIndicators - Action Creators", () => {
 
     it("should call dispatch with the information required", () => {
       const result = action(dateRange);
+
       expect(result.KPIidentifier).to.equal("test");
       expect(result.api.params).to.deep.equal(dateRange);
     });

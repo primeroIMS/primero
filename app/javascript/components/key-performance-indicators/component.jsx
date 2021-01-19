@@ -1,9 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { default as PageContainer, PageHeading, PageContent } from "components/page";
 import { Grid } from "@material-ui/core";
-import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
+
+import PageContainer, { PageHeading, PageContent } from "../page";
+import { useI18n } from "../i18n";
 
 import CommonDateRanges from "./utils/common-date-ranges";
 import styles from "./styles.css";
@@ -24,7 +25,7 @@ import ClientSatisfactionRate from "./components/client-satisfaction-rate";
 import SupervisorToCaseworkerRatio from "./components/supervisor-to-caseworker-ratio";
 import CaseLoad from "./components/case-load";
 
-const KeyPerformanceIndicators = ({}) => {
+const KeyPerformanceIndicators = () => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const commonDateRanges = CommonDateRanges.from(new Date(), i18n.t);
@@ -157,5 +158,7 @@ const KeyPerformanceIndicators = ({}) => {
     </div>
   );
 };
+
+KeyPerformanceIndicators.displayName = "KeyPerformanceIndicators";
 
 export default withRouter(KeyPerformanceIndicators);

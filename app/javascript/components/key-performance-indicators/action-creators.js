@@ -1,7 +1,7 @@
-import { forKPI as actionsForKPI } from "./actions";
-import { forKPI as pathsForKPI } from "./paths";
+import actionsForKPI from "./actions";
+import pathsForKPI from "./paths";
 
-export const forKPI = identifier => {
+export default identifier => {
   const getKPI = actionsForKPI(identifier);
   const path = pathsForKPI(identifier);
 

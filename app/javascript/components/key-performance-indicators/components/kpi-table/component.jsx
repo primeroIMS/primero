@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { DashboardTable } from "components/dashboard";
+
+import { DashboardTable } from "../../../dashboard";
 
 // Simple wrapper over DashboardTable to insulate Kpis from future
 // changes to serve the Dashbaord needs. Can be migrated to MUIDataTable

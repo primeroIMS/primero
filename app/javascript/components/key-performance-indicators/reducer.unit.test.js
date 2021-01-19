@@ -1,6 +1,6 @@
 import reducers from "./reducer";
 import NAMESPACE from "./namespace";
-import { KEY_PERFORMANCE_INDICATORS } from "./constants.js";
+import { KEY_PERFORMANCE_INDICATORS } from "./constants";
 
 describe("KeyPerformanceIndicators - Reducer", () => {
   const reducer = reducers[NAMESPACE];

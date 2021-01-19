@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { forKPI } from "./selectors";
+import forKPI from "./selectors";
 import NAMESPACE from "./namespace";
 
 describe("KeyPerformanceIndicators - Selectors", () => {
