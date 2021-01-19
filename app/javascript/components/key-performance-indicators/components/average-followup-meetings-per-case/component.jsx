@@ -10,7 +10,7 @@ const Component = ({ data, identifier }) => {
 
   return (
     <SingleAggregateMetric
-      value={data.get("data").get("average_meetings")}
+      value={data.getIn(["data", "average_meetings"])}
       label={i18n.t(`key_performance_indicators.${identifier}.label`)}
     />
   );
