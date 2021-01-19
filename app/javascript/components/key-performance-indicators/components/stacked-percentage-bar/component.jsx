@@ -18,7 +18,7 @@ const Component = ({ percentages, className }) => {
       <div className={[css.StackedPercentageBar, className].join(" ")}>
         {percentagedToRender.map((percentageDescriptor, index) => (
           <StackedPercentageBarMeter
-            key={index}
+            key={percentageDescriptor.label}
             realPercent={percentageDescriptor.percentage}
             index={index}
             css={css}
@@ -28,7 +28,7 @@ const Component = ({ percentages, className }) => {
       <div className={css.StackedPercentageBarLabels}>
         {percentages.map((percentageDescriptor, index) => (
           <StackedPercentageBarLabel
-            key={index}
+            key={percentageDescriptor.label}
             realPercent={percentageDescriptor.percentage}
             label={percentageDescriptor.label}
             index={index}
