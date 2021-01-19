@@ -58,6 +58,22 @@ describe Api::V2::TokensController, type: :request do
         )
     end
 
+    context 'external identity enabled' do
+      before(:each) do
+        @use_identity_provider = Rails.configuration.x.idp.use_identity_provider
+        Rails.configuration.x.idp.use_identity_provider = true
+      end
+
+      it 'returns a 404' do
+        post '/api/v2/tokens', params: { user: { user_name: 'user', password: 'password' } }
+        expect(response).to have_http_status(404)
+      end
+
+      after(:each) do
+        Rails.configuration.x.idp.use_identity_provider = @use_identity_provider
+      end
+    end
+
     context 'incorrect failed attempts' do
       before(:each) do
         @user_name2 = 'tokenstestuser2'

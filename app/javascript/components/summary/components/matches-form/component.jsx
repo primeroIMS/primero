@@ -14,14 +14,14 @@ import { FORMS } from "../../../record-form/form/subforms/subform-traces/constan
 import { NAME } from "./constants";
 import { columns } from "./utils";
 
-const Component = ({ css, i18n, open, record, setSelectedForm }) => {
+const Component = ({ css, i18n, mode, open, record, setSelectedForm }) => {
   const dispatch = useDispatch();
   const potentialMatches = useSelector(state => getCasesPotentialMatches(state));
   const loading = potentialMatches.get("loading", false);
   const data = potentialMatches.get("data", []);
 
   useEffect(() => {
-    if (open) {
+    if (open && !mode.isNew) {
       dispatch(fetchCasesPotentialMatches(record.get("id"), RECORD_PATH.cases));
     }
   }, [open]);
@@ -30,6 +30,10 @@ const Component = ({ css, i18n, open, record, setSelectedForm }) => {
     dispatch(setSelectedCasePotentialMatch(value, RECORD_PATH.cases));
     setSelectedForm(FORMS.comparison);
   };
+
+  if (!record) {
+    return null;
+  }
 
   const tableOptions = {
     columns: columns(i18n, css, dispatch, onTracingRequestClick),
@@ -62,6 +66,7 @@ Component.displayName = NAME;
 Component.propTypes = {
   css: PropTypes.object,
   i18n: PropTypes.object,
+  mode: PropTypes.object,
   open: PropTypes.bool,
   record: PropTypes.object,
   setSelectedForm: PropTypes.func

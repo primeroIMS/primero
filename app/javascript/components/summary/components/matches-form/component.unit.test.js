@@ -15,7 +15,8 @@ describe("<MatchesForm />", () => {
     open: true,
     cancelHandler: () => {},
     css: {},
-    i18n: { t: value => value }
+    i18n: { t: value => value },
+    mode: { isNew: false }
   };
   const formProps = {
     initialValues: {

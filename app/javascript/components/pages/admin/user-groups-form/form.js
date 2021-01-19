@@ -5,7 +5,7 @@ import { FieldRecord, FormSectionRecord, TEXT_FIELD, TICK_FIELD } from "../../..
 
 export const validations = () =>
   object().shape({
-    description: string(),
+    description: string().nullable(),
     name: string().required()
   });
 

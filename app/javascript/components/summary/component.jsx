@@ -16,10 +16,11 @@ import { getSelectedPotentialMatch } from "../records";
 import { RECORD_PATH } from "../../config";
 
 import { MatchesForm, ComparisonForm } from "./components";
-import { fields, NAME } from "./constants";
+import { NAME } from "./constants";
+import { fields } from "./form";
 import styles from "./styles.css";
 
-const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form }) => {
+const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, mode }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const recordId = record?.get("id");
@@ -40,7 +41,8 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form })
       type={ACTION_BUTTON_TYPES.default}
       keepTextOnMobile
       rest={{
-        onClick: handleFindMatchClick
+        onClick: handleFindMatchClick,
+        disabled: mode.isNew
       }}
     />
   );
@@ -54,7 +56,8 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form })
     handleBack: () => setSelectedForm(FORMS.matches),
     selectedForm,
     setSelectedForm,
-    potentialMatch
+    potentialMatch,
+    mode
   };
 
   const Form = (() => {
@@ -73,10 +76,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form })
     const fieldProps = {
       name: formattedField.name,
       field: formattedField,
-      mode: {
-        isShow: true,
-        isEdit: false
-      },
+      mode,
       recordType,
       recordID: recordId,
       formSection: form
@@ -113,6 +113,7 @@ Component.propTypes = {
   form: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
+  mode: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired
 };
