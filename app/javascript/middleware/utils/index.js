@@ -15,6 +15,8 @@ import processSubforms from "./process-subforms";
 import handleConfiguration from "./handle-configuration";
 import handleReturnUrl from "./handle-return-url";
 import redirectTo from "./redirect-to";
+import loginSuccessHandler from "./login-success-handler";
+import logoutSuccessHandler from "./logout-success-handler";
 
 export {
   checkFieldSubformErrors,
@@ -26,6 +28,8 @@ export {
   isAuthenticated,
   isOnline,
   isServerOnline,
+  loginSuccessHandler,
+  logoutSuccessHandler,
   partitionObject,
   processAttachments,
   processSubforms,
