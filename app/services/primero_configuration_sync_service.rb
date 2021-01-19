@@ -5,7 +5,7 @@
 # PRIMERO_PROMOTE_CONFIG_PROD_HOST, PRIMERO_PROMOTE_CONFIG_PROD_PORT, PRIMERO_PROMOTE_CONFIG_PROD_BASIC_AUTH
 # The basic auth variable must be in the format username:password
 class PrimeroConfigurationSyncService
-  ENV_PREFIX = 'PRIMERO_IDENTITY_SYNC_AAD'
+  ENV_PREFIX = 'PRIMERO_PROMOTE_CONFIG_PROD_'
 
   attr_accessor :connector
 
@@ -16,7 +16,7 @@ class PrimeroConfigurationSyncService
 
     def build
       new.tap do |s|
-        s.connector = ApiConnector::PrimeroConfigurationConnector.build_from_env(prefix: 'PRIMERO_PROMOTE_CONFIG_PROD_')
+        s.connector = ApiConnector::PrimeroConfigurationConnector.build_from_env(prefix: ENV_PREFIX)
       end
     end
 
