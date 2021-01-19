@@ -9,12 +9,10 @@ describe("KeyPerformanceIndicators - Action Creators", () => {
     const action = forKPI("test");
     const dateRange = { from: 1, to: 2 };
 
-    it("should call dispatch with the information required", done => {
-      action(dateRange)(result => {
-        expect(result.KPIidentifier).to.equal("test");
-        expect(result.api.params).to.deep.equal(dateRange);
-        done();
-      });
+    it("should call dispatch with the information required", () => {
+      const result = action(dateRange);
+      expect(result.KPIidentifier).to.equal("test");
+      expect(result.api.params).to.deep.equal(dateRange);
     });
   });
 });
