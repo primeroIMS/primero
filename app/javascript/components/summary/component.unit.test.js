@@ -10,7 +10,14 @@ import Summary from "./component";
 
 describe("<Summary />", () => {
   let component;
-  const props = { record: fromJS({}), recordType: "case", mobileDisplay: false, handleToggleNav: () => {}, form: {} };
+  const props = {
+    record: fromJS({}),
+    recordType: "case",
+    mobileDisplay: false,
+    handleToggleNav: () => {},
+    form: {},
+    mode: { isNew: false }
+  };
   const formProps = {
     initialValues: {
       name: ""

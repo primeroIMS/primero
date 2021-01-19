@@ -92,6 +92,10 @@ class FormSection < ApplicationRecord
     def sort_configuration_hash(configuration_hash)
       configuration_hash&.sort_by { |hash| hash['is_nested'] ? 0 : 1 }
     end
+
+    def api_path
+      '/api/v2/forms'
+    end
   end
 
   def configuration_hash

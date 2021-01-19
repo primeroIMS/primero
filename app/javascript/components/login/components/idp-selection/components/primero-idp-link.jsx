@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 import { Link } from "@material-ui/core";
 
 import { PRIMERO_IDP } from "../constants";
-import { attemptLogin } from "../action-creators";
+import { attemptIDPLogin } from "../action-creators";
 import { signIn } from "../auth-provider";
 
 const PrimeroIdpLink = ({ identityProviders, i18n, dispatch, css }) => {
   const primeroIdp = identityProviders.find(idp => idp.get("unique_id") === PRIMERO_IDP);
   const tokenCallback = accessToken => {
-    dispatch(attemptLogin(accessToken));
+    dispatch(attemptIDPLogin(accessToken));
   };
 
   if ((primeroIdp && primeroIdp.size <= 0) || identityProviders.size === 1) {

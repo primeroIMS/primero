@@ -90,6 +90,17 @@ describe Api::V2::ChildrenController, type: :request do
       name: 'Test4', age: 5, sex: 'male'
     )
     @case4.save!
+    @tracing_request1 = TracingRequest.create!(data: { relation_name: 'Tracing Request 5' })
+    @trace1 = Trace.create!(
+      data: { name: 'Trace Test 1' },
+      matched_case: @case4,
+      tracing_request: @tracing_request1
+    )
+    @trace2 = Trace.create!(
+      data: { name: 'Trace Test 2' },
+      matched_case: @case4,
+      tracing_request: @tracing_request1
+    )
     @incident1 = Incident.create!(
       case: @case1,
       data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' }
@@ -724,8 +735,40 @@ describe Api::V2::ChildrenController, type: :request do
     end
   end
 
+  describe 'GET /api/v2/cases/:id/traces' do
+    it 'successfully returns the traces with a code of 200' do
+      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])])
+
+      get "/api/v2/cases/#{@case4.id}/traces"
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(2)
+      expect(json['data'].map { |c| c['id'] }).to include(@trace1.id, @trace2.id)
+    end
+
+    it 'returns 403 if the user is not authorized' do
+      login_for_test(permissions: [])
+
+      get "/api/v2/cases/#{@case4.id}/traces"
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case4.id}/traces")
+    end
+
+    it 'returns 404 if the case does not exist' do
+      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])])
+
+      get '/api/v2/cases/thisdoesntexist/traces'
+
+      expect(response).to have_http_status(404)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/cases/thisdoesntexist/traces')
+    end
+  end
+
   after :each do
-    clean_data(Alert, Flag, Attachment, Child, Agency, User, Role, Lookup)
+    clean_data(Trace, Alert, Flag, Attachment, Child, Agency, User, Role, Lookup)
     clear_performed_jobs
     clear_enqueued_jobs
   end

@@ -4,7 +4,7 @@ import { useIdleTimer } from "react-idle-timer";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 
-import { refreshToken } from "../user";
+import { useRefreshUserToken } from "../user";
 import { useI18n } from "../i18n";
 import { IDLE_TIMEOUT, IDLE_LOGOUT_TIMEOUT, TOKEN_REFRESH_INTERVAL } from "../../config";
 import { setUserIdle, selectUserIdle, useApp } from "../application";
@@ -18,6 +18,7 @@ const SessionTimeoutDialog = () => {
   const dispatch = useDispatch();
   const userIdle = useSelector(state => selectUserIdle(state));
   const i18n = useI18n();
+  const { refreshUserToken } = useRefreshUserToken();
 
   const logout = () => {
     dispatch(push("/logout"));
@@ -43,10 +44,6 @@ const SessionTimeoutDialog = () => {
     timeout: IDLE_TIMEOUT,
     onIdle
   });
-
-  const refreshUserToken = () => {
-    dispatch(refreshToken());
-  };
 
   const startTokenRefreshTimer = useCallback(() => {
     tokenRefreshTimer.current = setInterval(() => {
