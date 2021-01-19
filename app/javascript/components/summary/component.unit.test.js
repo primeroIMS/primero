@@ -27,7 +27,7 @@ describe("<Summary />", () => {
   });
 
   it("should render a <ActionButton /> component", () => {
-    expect(component.find(ActionButton)).to.have.lengthOf(3);
+    expect(component.find(ActionButton)).to.have.lengthOf(5);
   });
 
   it("should render 5 <FormSectionField /> components", () => {
