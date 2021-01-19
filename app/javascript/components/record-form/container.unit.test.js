@@ -111,7 +111,7 @@ describe("<RecordForms /> - Component", () => {
     registration_date: "2019-08-06",
     module_id: "primeromodule-cp",
     short_id: "96f613f",
-    id: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab"
+    id: "2b8d6be1-1dc4-483a-8640-4cfe87c71610"
   };
 
   const rootInitialState = fromJS({
@@ -306,7 +306,7 @@ describe("<RecordForms /> - Component", () => {
       }),
       forms: fromJS({
         selectedForm: "approvals",
-        selectedRecord: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+        selectedRecord: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
         formSections,
         fields,
         loading: false,
@@ -335,7 +335,7 @@ describe("<RecordForms /> - Component", () => {
           mode: MODES.show
         },
         initialState,
-        ["/cases/a9e1a7a2-1920-4b41-80d1-df45c26db4ab"]
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
       ));
     });
 
@@ -377,7 +377,7 @@ describe("<RecordForms /> - Component", () => {
       },
       forms: {
         selectedForm: "incident_from_case",
-        selectedRecord: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+        selectedRecord: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
         formSections,
         fields,
         loading: false,
@@ -406,7 +406,7 @@ describe("<RecordForms /> - Component", () => {
           mode: MODES.show
         },
         initialState,
-        ["/cases/a9e1a7a2-1920-4b41-80d1-df45c26db4ab"]
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
       ));
     });
 
@@ -453,7 +453,7 @@ describe("<RecordForms /> - Component", () => {
       },
       forms: {
         selectedForm: "transfers_assignments",
-        selectedRecord: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+        selectedRecord: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
         formSections,
         fields,
         loading: false,
@@ -482,7 +482,7 @@ describe("<RecordForms /> - Component", () => {
           mode: MODES.show
         },
         initialState,
-        ["/cases/a9e1a7a2-1920-4b41-80d1-df45c26db4ab"]
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
       ));
     });
 
@@ -529,7 +529,7 @@ describe("<RecordForms /> - Component", () => {
       },
       forms: {
         selectedForm: "referral",
-        selectedRecord: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+        selectedRecord: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
         formSections,
         fields,
         loading: false,
@@ -558,7 +558,7 @@ describe("<RecordForms /> - Component", () => {
           mode: MODES.show
         },
         initialState,
-        ["/cases/a9e1a7a2-1920-4b41-80d1-df45c26db4ab"]
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
       ));
     });
 
@@ -586,7 +586,7 @@ describe("<RecordForms /> - Component", () => {
         changeLogs: {
           data: [
             {
-              record_id: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+              record_id: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
               record_type: "cases",
               datetime: "2020-12-07T20:28:11Z",
               user_name: "primero",
@@ -621,7 +621,7 @@ describe("<RecordForms /> - Component", () => {
               ]
             },
             {
-              record_id: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+              record_id: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
               record_type: "cases",
               datetime: "2020-12-04T14:32:03Z",
               user_name: "primero",
@@ -633,7 +633,7 @@ describe("<RecordForms /> - Component", () => {
       },
       forms: {
         selectedForm: "change_logs",
-        selectedRecord: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+        selectedRecord: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
         formSections,
         fields,
         loading: false,
@@ -665,7 +665,7 @@ describe("<RecordForms /> - Component", () => {
           mode: MODES.show
         },
         initialState,
-        ["/cases/a9e1a7a2-1920-4b41-80d1-df45c26db4ab"]
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
       ));
     });
 

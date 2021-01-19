@@ -43,6 +43,7 @@ import { usePermissions } from "../user";
 import { clearRecordAttachments, fetchRecordsAlerts } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
 import { fetchChangeLogs } from "../change-logs/action-creators";
+import { useApp } from "../application";
 
 import {
   getAttachmentForms,
@@ -64,6 +65,7 @@ const Container = ({ match, mode }) => {
   let submitForm = null;
   const { theme } = useThemeHelper({ css: styles });
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { demo } = useApp();
 
   const containerMode = {
     isNew: mode === "new",
@@ -206,6 +208,7 @@ const Container = ({ match, mode }) => {
   const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
   const canSeeChangeLog = usePermissions(params.recordType, SHOW_CHANGE_LOG);
   const isNotANewCase = !containerMode.isNew && params.recordType === RECORD_PATH.cases;
+  const isCaseIdEqualParam = params?.id === record?.get("id");
 
   useEffect(() => {
     batch(() => {
@@ -297,7 +300,9 @@ const Container = ({ match, mode }) => {
     }[externalFormSelected];
   };
 
-  const hasData = Boolean(forms && formNav && firstTab && (containerMode.isNew || record));
+  const hasData = Boolean(
+    forms && formNav && firstTab && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam)
+  );
   const loading = Boolean(loadingForm || loadingRecord);
 
   return (
@@ -309,10 +314,10 @@ const Container = ({ match, mode }) => {
             [css.formNavOpen]: toggleNav && mobileDisplay
           })}
         >
-          <div className={css.recordNav}>
+          <div className={clsx(css.recordNav, { [css.demo]: demo })}>
             <Nav {...navProps} />
           </div>
-          <div className={`${css.recordForms} record-form-container`}>
+          <div className={`${css.recordForms} ${clsx({ [css.demo]: demo })} record-form-container`}>
             <RecordForm
               {...formProps}
               externalForms={externalForms}

@@ -30,7 +30,7 @@ const Component = ({
   const fieldDate = incident.get("module_id", false) === MODULES.CP ? "cp_incident_date" : "incident_date";
   const violationType =
     incident.get("module_id", false) === MODULES.CP ? "cp_incident_violence_type" : "gbv_sexual_violence_type";
-  const incidentTypeData = incident.get(violationType, false);
+  const incidentTypeData = incident.get(violationType, false) || undefined;
   const incidentUniqueID = incident.get("unique_id", false);
   const incidentDateData = incident.get(fieldDate, false);
   const incidentDateInterviewData = incident.get("date_of_first_report", false);

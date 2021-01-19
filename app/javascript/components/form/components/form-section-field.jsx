@@ -137,7 +137,7 @@ const FormSectionField = ({ checkErrors, disableUnderline, field }) => {
     InputLabelProps: {
       shrink: true
     },
-    InputProps: { disableUnderline },
+    ...(disableUnderline && { InputProps: { disableUnderline } }),
     className: inputClassname,
     format,
     placeholder,
