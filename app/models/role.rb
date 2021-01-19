@@ -7,6 +7,8 @@ class Role < ApplicationRecord
   has_and_belongs_to_many :form_sections, -> { distinct }
   has_and_belongs_to_many :primero_modules, -> { distinct }
 
+  has_many :users
+
   alias_attribute :modules, :primero_modules
 
   serialize :permissions, Permission::PermissionSerializer

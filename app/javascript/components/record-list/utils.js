@@ -47,7 +47,12 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
                 disableOnClick: true,
                 // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customHeadRender: (columnMeta, handleToggleColumn) => (
-                  <PhotoColumnHeader css={css} columnMeta={columnMeta} handleToggleColumn={handleToggleColumn} />
+                  <PhotoColumnHeader
+                    css={css}
+                    columnMeta={columnMeta}
+                    handleToggleColumn={handleToggleColumn}
+                    key={`photo-column-${name}`}
+                  />
                 ),
                 // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customBodyRender: (value, { rowIndex }) =>

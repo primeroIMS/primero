@@ -31,12 +31,20 @@
 .recordNav {
   padding: 0 0.5em;
   overflow-y: scroll;
+
+  &.demo {
+    margin-bottom: 35px;
+  }
 }
 
 .recordForms {
   flex: 1;
   padding: 0 3em;
   overflow-y: scroll;
+
+  &.demo {
+    margin-bottom: 35px;
+  }
 
   & form {
     max-width: 700px;

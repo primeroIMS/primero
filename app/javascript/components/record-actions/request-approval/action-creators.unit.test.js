@@ -2,6 +2,7 @@ import { stub, useFakeTimers } from "../../../test";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../action-dialog";
 import { FETCH_RECORD_ALERTS } from "../../records/actions";
+import { DB_COLLECTIONS_NAMES } from "../../../db";
 
 import * as actionCreators from "./action-creators";
 import { APPROVE_RECORD } from "./actions";
@@ -36,7 +37,7 @@ describe("<RequestApproval /> - Action Creators", () => {
       api: {
         path: "cases/10/approvals/bia",
         queueOffline: true,
-        responseExtraParams: {
+        responseRecordValues: {
           requested_by: undefined,
           approval_requested_for: "bia",
           approval_date: new Date("10/01/2020")
@@ -47,6 +48,7 @@ describe("<RequestApproval /> - Action Creators", () => {
         responseRecordParams: {
           approval_status_bia: "pending"
         },
+        id: 10,
         method: "PATCH",
         body: args.body,
         successCallback: [
@@ -74,7 +76,9 @@ describe("<RequestApproval /> - Action Creators", () => {
           }
         ],
         db: {
-          recordType: null
+          id: 10,
+          collection: DB_COLLECTIONS_NAMES.RECORDS,
+          recordType: "cases"
         },
         failureCallback: [
           {

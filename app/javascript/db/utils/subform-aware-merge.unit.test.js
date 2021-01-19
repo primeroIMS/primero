@@ -1,6 +1,6 @@
 import merge from "deepmerge";
 
-import { subformAwareMerge } from "./utils";
+import subformAwareMerge from "./subform-aware-merge";
 
 describe("subformAwareMerge", () => {
   context("when merging primitive values", () => {
