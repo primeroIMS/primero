@@ -5,7 +5,7 @@ describe("<IdpSelection /> - Action Creators", () => {
     const creators = { ...actionCreators };
 
     expect(creators).to.have.property("attemptIDPLogin");
-    delete creators.attemptLogin;
+    delete creators.attemptIDPLogin;
 
     expect(creators).to.deep.equal({});
   });
