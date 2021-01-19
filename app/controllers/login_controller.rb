@@ -13,6 +13,7 @@ class LoginController < ApplicationController
     return render_404 unless @identity_provider.present?
 
     set_user_id_cookie
+    set_user_username_cookie
     render layout: 'identity', template: "login/#{provider_type}"
   end
 
@@ -23,6 +24,15 @@ class LoginController < ApplicationController
   def set_user_id_cookie
     cookies[:primero_user_id] = {
       value: @identity_provider.user_from_request(request)&.id,
+      domain: Rails.application.routes.default_url_options[:host],
+      same_site: :strict,
+      secure: (Rails.env == 'production')
+    }
+  end
+
+  def set_user_username_cookie
+    cookies[:primero_user_name] = {
+      value: @identity_provider.user_from_request(request)&.user_name,
       domain: Rails.application.routes.default_url_options[:host],
       same_site: :strict,
       secure: (Rails.env == 'production')

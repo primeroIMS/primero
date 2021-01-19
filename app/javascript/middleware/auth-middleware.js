@@ -30,7 +30,7 @@ const authMiddleware = store => next => action => {
   }
 
   if ([actions.LOGIN_SUCCESS_CALLBACK, Actions.RESET_PASSWORD_SUCCESS].includes(action.type)) {
-    loginSuccessHandler(store, action.payload.json || action.payload);
+    loginSuccessHandler(store, action?.payload?.json || action?.payload, useIdentityProvider);
   }
 
   if ([Actions.LOGOUT_FINISHED, Actions.LOGOUT_FAILURE].includes(action.type)) {
