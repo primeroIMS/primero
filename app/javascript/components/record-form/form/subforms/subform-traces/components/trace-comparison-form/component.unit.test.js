@@ -26,6 +26,8 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<TraceComparison
       {
         recordType: RECORD_PATH.tracing_requests,
         selectedForm: FORMS.comparison,
+        traceValues: { matched_case_id: "0001" },
+        setSelectedForm: () => {},
         potentialMatch: fromJS({
           trace: { id: "tr-1234-5678" },
           case: { case_id_display: "case123" },
