@@ -2951,6 +2951,7 @@ en:
     traces: Traces
     trace: Trace
     match: Match
+    matches: Matches
     messages:
       nothing_found: Nothing found
       update_success: 'Tracing Request %{record_id} was successfully updated.'

@@ -15,7 +15,7 @@ import SubformDrawer from "../record-form/form/subforms/subform-drawer";
 import { getSelectedPotentialMatch } from "../records";
 import { RECORD_PATH } from "../../config";
 
-import { MatchesForm, ComparisonForm } from "./components";
+import { MatchesForm, ComparisonForm, MatchedTraces } from "./components";
 import { fields, NAME } from "./constants";
 import styles from "./styles.css";
 
@@ -26,6 +26,14 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form })
   const [open, setOpen] = useState(false);
   const [selectedForm, setSelectedForm] = useState(FORMS.matches);
   const potentialMatch = useSelector(state => getSelectedPotentialMatch(state, RECORD_PATH.cases));
+  const matchedTraces = [
+    {
+      id: "b216d9a8-5390-4d20-802b-ae415151ddba"
+    },
+    {
+      id: "b216d9a8-5390-4d20-802b-ae415151ddbb"
+    }
+  ];
 
   const findMatchLabel = i18n.t("cases.summary.find_match");
   const handleFindMatchClick = () => {
@@ -103,6 +111,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form })
         </SubformDrawer>
       </div>
       {renderFields}
+      <MatchedTraces data={matchedTraces} />
     </div>
   );
 };
