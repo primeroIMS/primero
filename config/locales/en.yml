@@ -1238,6 +1238,182 @@ en:
     social_worker: Social Worker
     violence_type: Violence Type
     type_violence: Type of Violence
+  key_performance_indicators:
+    label: "Pulse/KPIs"
+    case_assessment: "Case Assessment"
+    case_action_planning: "Case Action Planning"
+    case_action_plan_implementation: "Case Action Plan Implementation"
+    case_follow_up: "Case Follow-Up"
+    case_closure: "Case Closure"
+    feedback: "Feedback"
+    other: "Other"
+    date_format: "%b %Y"
+    long_date_format: "dd/MM/yyyy"
+    time_periods:
+      all_time: 'All Time'
+      current_month: "Current Month"
+      last_3_months: "Last 3 Months"
+      last_6_months: "Last 6 Months"
+      last_1_year: "Last Year"
+      0-3days: "0 - 3 Days"
+      4-5days: "4 - 5 Days"
+      6-14days: "6 - 14 Days"
+      15-30days: "15 - 30 Days"
+      1-3months: "1 - 3 Months"
+      4months: "> 3 Months"
+      1-month: "< 1 Month"
+      3-6months: "3 - 6 Months"
+      7-months: "> 6 Months"
+    helptext:
+      helptext: "Learn about this KPI."
+    number_of_cases:
+      title: "1. Number of recorded Cases"
+      reporting_site: "Reporting Site"
+      helptext: |
+        This indicator counts how many new cases are opened each month per reporting site.
+        A reporting site is understood as the site where the User Organization is providing services and 
+        where the case was reported to the service provider.
+    number_of_incidents:
+      title: "2. Number of recorded Incidents"
+      reporting_site: "Reporting Site"
+      helptext: |
+        This indicator counts the number of new incidents opened each month per reporting site.
+        A reporting site is understood as the site where the User Organization is providing services and
+        where the incident was reported to the service provider.
+    reporting_delay:
+      title: "3. Reporting Delay"
+      delay: "Delay"
+      total_incidents: "Total Incidents"
+      helptext: |
+        This indicator counts and categorizes the number of days that have lapsed between when the
+        survivor experienced GBV and when the survivor first reported it to a service provider. It is
+        calculated based on when the incident was first reported to the User Organization. The data is
+        categorized based on different lengths of time (0-3 days; 4-5 days; 6-14 days; 15-30 days; Over
+        1 month; Over 3 months).
+    service_access_delay:
+      title: "Service Access Delay"
+      delay: "Delay"
+      total_incidents: "Total Incidents"
+    assessment_status:
+      title: "4. Assessment Status"
+      completed: "Completed"
+      completed_supervisor_approved: "Completed & Supervisor Approved"
+      helptext: |
+        This indicator calculates the proportion of active cases for which an assessment form was
+        completed. An assessment is considered completed where a set of mandatory fields within the
+        Survivor Assessment form are completed.
+    completed_case_safety_plans:
+      title: "5. Completed Case Safety Plans"
+      completed: "Completed Case Safety Plan"
+      helptext: |
+        This indicator calculates the proportion of active cases for which a safety plan was deemed
+        necessary and completed (ex. intimate partner violence, suicide/homicide risk, child protection).
+        A safety plan is considered completed where a set of mandatory fields within the Safety Plan
+        form are completed.
+    completed_case_action_plans:
+      title: "6. Completed Case Action Plans"
+      completed: "Completed Case Action Plan"
+      label: "Completed Case Action Plan"
+      helptext: |
+        This indicator calculates the proportion of active cases for which a Case Action Plan was
+        completed. A case action plan is considered completed where a set of mandatory fields within
+        the Action Plan form are completed.
+    completed_supervisor_approved_case_action_plans:
+      title: "7. Case Action Plans Approved by Supervisor"
+      completed_and_approved: "Completed Case Action Plans Approved by Supervisor"
+      helptext: |
+        This indicator calculates the proportion of active cases for which a Case Action Plan was
+        completed and approved by a supervisor. A case action plan is considered completed when a
+        set of mandatory fields within the Action Plan form are completed. A case plan is considered
+        approved when the caseworker requests approval for the case plan and the supervisor
+        approves the case plan on the platform.
+    services_provided:
+      title: "8. Services Provided"
+      service: "Service"
+      count: "Times Provided"
+      helptext: |
+        This indicator counts the type of service(s) provided to survivors in the case management
+        process. By service provided, we mean the service that is provided by the User organization in-
+        house, not service provided by referrals to other services.
+    average_referrals:
+      title: "9. Average Referrals"
+      label: "Average referrals per case"
+      helptext: |
+        This indicator counts the average number of referrals for each recorded case (for all type of
+        services) across all cases. It includes referrals recorded on the case tab, not only referrals done
+        through the platform.
+    referrals_per_service:
+      title: "Referrals Per Service"
+    average_followup_meetings_per_case:
+      title: "10. Average Follow-Up Meetings per Case"
+      label: "Average follow-up meetings per case"
+      helptext: |
+        This indicator counts the average number of follow-up meetings conducted for every active case
+        per case worker on the platform. A follow-up meeting is a meeting between the caseworker and
+        the survivor following the initial interview/disclosure.
+    goal_progress_per_need:
+      title: "11. Progress Made towards Goals"
+      need: "Need"
+      safety: "Safety"
+      health: "Health"
+      psychosocial: "Psychosocial"
+      justice: "Justice"
+      other: "Other"
+      helptext: |
+        This indicator measures the percentage of cases for which goals have been met or are in
+        progress by type of needs (safety, health, psychosocial, legal/justice). This indicator is informed
+        by the section ‘Progress made towards goals’ under the ‘Follow up’ section of the Action Plan
+        form.
+    time_from_case_open_to_close:
+      title: "12. Time From Case Open To Case Close"
+      time: "Time"
+      percent: "Percentage of Cases"
+      helptext: |
+        This indicator measures how long cases are kept open, how long the case management
+        process takes from the initial report to User Organization to case closure. The length of time is
+        broken down by the following timeframe: less than 1 month; between 1 and 3 months; between
+        3-6 months; more than 6 months.
+    case_closure_rate:
+      title: "13. Case Closure Rate"
+      reporting_site: "Reporting Site"
+      helptext: |
+        This indicator measures the count of cases closed per month per reporting site. A reporting site
+        is understood as the site where the User Organization is providing services and where the
+        incident was reported to the service provider.
+    client_satisfaction_rate:
+      title: "14. Client Satisfaction Rate"
+      label: "Client Satisfaction"
+      helptext: |
+        This indicator measures the percentage of survivors who completed the Client Feedback Survey
+        who are satisfied with the case management services provided to them. This indicator is
+        informed by the completion of the Client Feedback form on GBVIMS+ by a staff member other
+        than the caseworker who provided the service to the survivor.
+    supervisor_to_caseworker_ratio:
+      title: "15. Supervisor To Caseworker Ratio"
+      label: "Caseworkers per supervisor"
+      helptext: |
+        This indicator is the number of caseworkers a supervisor is supervising: the supervisor to case
+        worker ratio. This calculation is based on the system roles allocated on the platform.
+    case_load:
+      title: "16. Case Load"
+      case_load: "Case Load"
+      percent: "percentage of caseworkers with caseload"
+      10cases: "< 10 Cases"
+      20cases: "11 - 20 Cases"
+      21-30cases: "21 - 30 Cases"
+      30cases: "> 30 Cases"
+      helptext: |
+        This indicator measures the average caseload per enabled caseworker based on active cases.
+        The ratio of cases to case workers is divided based on the following breakdown: less than 10
+        open cases, between 10-20 open cases, between 21-30 open cases, more than 30 open cases.
+    date_range_dialog:
+      title: "Custom Date Range"
+      description: "Once this change is applied, data will be selected from between the two dates bellow."
+      apply: 'Apply'
+      aria-labels:
+        from: "Data will be selected after this date"
+        to: "Data will be selected before this date"
+
   location:
     base_types:
       camp: Camp
@@ -1273,13 +1449,22 @@ en:
       'false': Rejecting
       gbv_closure: GBV Closure form
       'true': Approving
+    assessment_approved: "%{approval_label} approved for"
+    assessment_requested: "%{approval_label} requested for"
+    bulk_index: List all
     by_user: by user
+    case_plan_approved: "%{approval_label} approved for"
+    case_plan_requested: "%{approval_label} requested for"
+    close: Close
+    closure_approved: "%{approval_label} approved for"
+    closure_requested: "%{approval_label} requested for"
     consent_count: Consent Count
     copy: Copying
     create: Creating
     create_subform: Creating Subform
     destroy: Deleting
     edit: Editing
+    enable_disable_record: Enable / disable
     export: Exporting data for
     flag: Flagging
     flag_records: Flagging
@@ -1288,6 +1473,7 @@ en:
       protect: Hide Name
       view: View Name
     index: Listing Records
+    list: List
     login: Login
     logout: Logout
     lookups_for_field: Lookups for field
@@ -1301,8 +1487,11 @@ en:
     record_state:
       'false': Disabling
       'true': Enabling
+    refer: Refer
+    refer_to: Search for Referral recipient
     referral: Referring
     relinquish_referral: Relinquish referral Done
+    reopen: Reopen
     reopen_case: Reopening
     request_approval:
       action_plan: Request Approval for the Action Plan form
@@ -1315,6 +1504,7 @@ en:
     save_subform: Saving Subform
     search: API Search
     show: Viewing
+    show_alerts: View alerts for
     to: to
     to_user: to user
     transfer: Transfering
@@ -1376,6 +1566,7 @@ en:
     bulk_exports: Exports
     cases: Cases
     home: Home
+    key_performance_indicators: Pulse/KPIs
     incidents: Incidents
     logout: Log out
     reports: Reports
@@ -1516,6 +1707,71 @@ en:
       workflow_team: Workflow - Teams cases
       write: Write
     resource:
+      kpi:
+        actions:
+          kpi_assessment_status:
+            explanation: Ability to see, for the active cases that the user has access to,
+              what proportion of them have a completed assessment form.
+            label: Assessment Status
+          kpi_average_followup_meetings_per_case:
+            explanation: Ability to see, for the active cases that the user has access to,
+              the average number of follow-up meetings conducted over a set period of time.
+            label: Average Followup Meetings per Case
+          kpi_average_referrals:
+            explanation: Ability to see, over all active cases that the user has access to,
+              the average number of referrals made to each type of services.
+            label: Average Referrals
+          kpi_case_closure_rate:
+            explanation: Ability to see how many cases were closed at each site per month.
+            label: Case Closure Rate
+          kpi_case_load:
+            explanation: Ability to see the average number of open cases each caseworker has.
+            label: Case Load
+          kpi_client_satisfaction_rate:
+            explanation: Ability to see, for each case that the user has access to, what ratio of
+              survivors who completed the Feedback Survey were satisfied.
+            label: Client Satisfaction Rate
+          kpi_completed_case_action_plans:
+            explanation: Ability to see, for the active cases that the user has access to,
+              what proportion have a completed Case Action Plan.
+            label: Completed Case Action Plans
+          kpi_completed_case_safety_plans:
+            explanation: Ability to see, for active cases that the user has access to,
+              what proportion required and completed a Saftey Plan.
+            label: Completed Case Safety Plans
+          kpi_completed_supervisor_assessed_case_action_plans:
+            explanation: Ability to see, for active cases that the user has access to,
+              what proportion completed a Case Action Plan that was approved by a supervisor.
+            label: Completed Action Plan Approved by Supervisor
+          kpi_goal_progress_per_need:
+            explanation: Ability to see, for cases the user has access to, what percentage
+              of goals in each category of need have been met.
+            label: Progress Made Towards Goals
+          kpi_number_of_cases:
+            explanation: Ability to see how many newly reported cases are opened each month
+              per site.
+            label: Number of Cases
+          kpi_number_of_incidents:
+            explanation: Ability to see how many newly reported incidents are opened each month
+              per site.
+            label: Number of Incidents
+          kpi_reporting_delay:
+            explanation: Ability to see, for all incidents that the user has access to, the number
+              of days lapsed between when the survivor experienced GBV and when the survivor reported
+              it to a service provider.
+            label: Reporting Delay
+          kpi_services_provided:
+            explanation: Ability to see, over all cases the user has access to, what type of services
+              have been provided by the organization in-house.
+            label: Services Provided
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: Ability to see the ratio of caseworkers to supervisors.
+            label: Supervisor to Caseworker Ratio
+          kpi_time_from_case_open_to_close:
+            explanation: Ability to see, for all cases that the user has access to, how long
+              case are kept open.
+            label: Time from Case Open to Close
+        label: KPI
       agency:
         actions:
           assign:

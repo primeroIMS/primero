@@ -11,7 +11,8 @@ import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import generateKey from "../charts/table-values/utils";
 
 import { MatchesForm } from "./components";
-import { fields, NAME } from "./constants";
+import { NAME } from "./constants";
+import { fields } from "./form";
 import styles from "./styles.css";
 
 const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, mode }) => {
