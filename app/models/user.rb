@@ -26,7 +26,7 @@ class User < ApplicationRecord
   self.unique_id_attribute = 'user_name'
 
   belongs_to :role
-  belongs_to :agency
+  belongs_to :agency, optional: true
   belongs_to :identity_provider, optional: true
 
   has_many :saved_searches
@@ -70,7 +70,7 @@ class User < ApplicationRecord
             presence: { message: 'errors.models.user.password_confirmation' },
             if: :password_required?
   validates :role, presence: { message: 'errors.models.user.role_ids' }
-  validates :agency, presence: { message: 'errors.models.user.organization' }
+  validates :agency, presence: { message: 'errors.models.user.organization' }, unless: :service_account
   validates :identity_provider, presence: { message: 'errors.models.user.identity_provider' }, if: :using_idp?
   validates :locale,
             inclusion: { in: I18n.available_locales.map(&:to_s), message: 'errors.models.user.invalid_locale' },
