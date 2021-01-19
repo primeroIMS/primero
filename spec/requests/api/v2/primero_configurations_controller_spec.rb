@@ -160,6 +160,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
   describe 'PATCH /api/v2/configurations/:id' do
     before do
       allow_any_instance_of(ApplyConfigurationJob).to receive(:perform)
+      allow_any_instance_of(PrimeroConfigurationSyncJob).to receive(:perform)
     end
 
     it 'launches the apply configuration job if the parameter apply_now is set' do
@@ -180,6 +181,16 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
       expect(response).to have_http_status(200)
       expect(ApplyConfigurationJob).not_to have_been_enqueued
         .with(json['data']['id'], fake_user.id)
+    end
+
+    it 'launches the configuration promotion job if the parameter promote is set' do
+      params = { data: { promote: true } }
+      login_for_test(permissions: correct_permissions)
+      patch "/api/v2/configurations/#{@configuration.id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(PrimeroConfigurationSyncJob).to have_been_enqueued
+        .with(json['data']['id'])
     end
 
     it 'returns 403 if user is not authorized to update' do
