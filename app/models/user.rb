@@ -356,7 +356,7 @@ class User < ApplicationRecord
     { user: user_scope, module: module_unique_ids }
   end
 
-  def user_query_scope(record_model=nil, id_search = false)
+  def user_query_scope(record_model = nil, id_search = false)
     if can_search_for_all?(record_model, id_search)
       Permission::ALL
     elsif group_permission?(Permission::AGENCY)
