@@ -7,6 +7,14 @@ describe Api::V2::TracingRequestsController, type: :request do
     @tracing_request1 = TracingRequest.create!(data: { inquiry_date: Date.new(2019, 3, 1), relation_name: 'Test 1' })
     @tracing_request2 = TracingRequest.create!(data: { inquiry_date: Date.new(2018, 3, 1), relation_name: 'Test 2' })
     @trace = Trace.create!(tracing_request: @tracing_request1, name: 'Test Trace')
+    @trace1 = Trace.create!(
+      data: { name: 'Trace Test 1' },
+      tracing_request: @tracing_request2
+    )
+    @trace2 = Trace.create!(
+      data: { name: 'Trace Test 2' },
+      tracing_request: @tracing_request2
+    )
     Sunspot.commit
   end
 
@@ -125,5 +133,41 @@ describe Api::V2::TracingRequestsController, type: :request do
       tracing_request1 = TracingRequest.find_by(id: @tracing_request1.id)
       expect(tracing_request1.record_state).to be false
     end
+  end
+
+  describe 'GET /api/v2/tracing_requests/:id/traces' do
+    it 'successfully returns the traces with a code of 200' do
+      login_for_test(permissions: [Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ])])
+
+      get "/api/v2/tracing_requests/#{@tracing_request2.id}/traces"
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(2)
+      expect(json['data'].map { |c| c['id'] }).to include(@trace1.id, @trace2.id)
+    end
+
+    it 'returns 403 if the user is not authorized' do
+      login_for_test(permissions: [])
+
+      get "/api/v2/tracing_requests/#{@tracing_request2.id}/traces"
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/tracing_requests/#{@tracing_request2.id}/traces")
+    end
+
+    it 'returns 404 if the case does not exist' do
+      login_for_test(permissions: [Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ])])
+
+      get '/api/v2/tracing_requests/thisdoesntexist/traces'
+
+      expect(response).to have_http_status(404)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/tracing_requests/thisdoesntexist/traces')
+    end
+  end
+
+  after :each do
+    clean_data(Trace, TracingRequest)
   end
 end
