@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useI18n } from "components/i18n";
+
 import SingleAggregateMetric from "../single-aggregate-metric";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 
-const AverageReferrals = ({ data, identifier }) => {
+const Component = ({ data, identifier }) => {
   const i18n = useI18n();
 
   return (
@@ -15,13 +16,13 @@ const AverageReferrals = ({ data, identifier }) => {
   );
 };
 
-AverageReferrals.displayName = 'AverageReferrals';
+Component.displayName = "AverageReferrals";
 
-AverageReferrals.propTypes = {
+Component.propTypes = {
   data: PropTypes.object,
   identifier: PropTypes.string
 };
 
 export default asKeyPerformanceIndicator("average_referrals", {
   data: { average_referrals: 0 }
-})(AverageReferrals);
+})(Component);

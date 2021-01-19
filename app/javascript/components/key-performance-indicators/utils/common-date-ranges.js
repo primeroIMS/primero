@@ -1,6 +1,7 @@
 import { addMinutes, subMinutes, subMonths, startOfMonth, endOfMonth } from "date-fns";
 
 import DateRange from "./date-range";
+import { ALL_TIME, CURRENT_MONTH, MONTHS_3, MONTHS_6, MONTHS_12 } from "./constants";
 
 // Taken from: https://github.com/date-fns/date-fns/issues/571#issuecomment-602496322
 // This fixes an issue where dates are out by 1 hour because of timezone issues.
@@ -12,40 +13,38 @@ const CommonDateRanges = {
 
     const dstDiff = targetTZO - sourceTZO;
 
-    var finalDate = dstDiff >= 0
-      ? addMinutes(source, dstDiff)
-      : subMinutes(source, Math.abs(dstDiff));
+    const finalDate = dstDiff >= 0 ? addMinutes(source, dstDiff) : subMinutes(source, Math.abs(dstDiff));
 
     return finalDate;
   },
-  from(today = new Date(), translate = (s) => s) {
+  from(today = new Date(), translate = s => s) {
     return {
       AllTime: new DateRange(
-        "all-time",
+        ALL_TIME,
         translate("key_performance_indicators.time_periods.all_time"),
         new Date(Date.parse("01/01/2000")),
         this.adjustTimezone(today, endOfMonth(today))
       ),
       CurrentMonth: new DateRange(
-        "current-month",
+        CURRENT_MONTH,
         translate("key_performance_indicators.time_periods.current_month"),
         this.adjustTimezone(today, startOfMonth(today)),
         this.adjustTimezone(today, endOfMonth(today))
       ),
       Last3Months: new DateRange(
-        "3-months",
+        MONTHS_3,
         translate("key_performance_indicators.time_periods.last_3_months"),
         this.adjustTimezone(today, startOfMonth(subMonths(today, 2))),
         this.adjustTimezone(today, endOfMonth(today))
       ),
       Last6Months: new DateRange(
-        "6-months",
+        MONTHS_6,
         translate("key_performance_indicators.time_periods.last_6_months"),
         this.adjustTimezone(today, startOfMonth(subMonths(today, 5))),
         this.adjustTimezone(today, endOfMonth(today))
       ),
       LastYear: new DateRange(
-        "12-months",
+        MONTHS_12,
         translate("key_performance_indicators.time_periods.last_1_year"),
         this.adjustTimezone(today, startOfMonth(subMonths(today, 11))),
         this.adjustTimezone(today, endOfMonth(today))

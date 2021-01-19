@@ -1,4 +1,5 @@
 import { setupMountedComponent } from "../../test";
+
 import KeyPerformanceIndicators from "./component";
 import NumberOfCases from "./components/number-of-cases";
 import NumberOfIncidents from "./components/number-of-incidents";
@@ -45,8 +46,7 @@ describe("<KeyPerformanceIndicators />", () => {
   });
 
   it("should render the CompletedSupervisorApprovedCaseActionPlan KPI", () => {
-    expect(component.find(CompletedSupervisorApprovedCaseActionPlan).exists())
-      .to.be.true;
+    expect(component.find(CompletedSupervisorApprovedCaseActionPlan).exists()).to.be.true;
   });
 
   it("should render the ServicesProvided KPI", () => {

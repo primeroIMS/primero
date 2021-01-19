@@ -4,14 +4,10 @@ import { setupMountedComponent } from "../../../../test";
 import DateRangeSelect from "./component";
 
 describe("<DateRangeSelect />", () => {
-  const i18n = { t: () => '' };
+  const i18n = { t: () => "" };
   const commonDateRanges = CommonDateRanges.from();
 
-  const ranges = [
-    commonDateRanges.Last3Months,
-    commonDateRanges.Last6Months,
-    commonDateRanges.LastYear
-  ];
+  const ranges = [commonDateRanges.Last3Months, commonDateRanges.Last6Months, commonDateRanges.LastYear];
 
   const selectedRange = commonDateRanges.Last3Months;
 
@@ -24,8 +20,7 @@ describe("<DateRangeSelect />", () => {
       i18n
     });
 
-    expect(component.find(`input[value="${selectedRange.value}"]`).exists()).to
-      .be.true;
+    expect(component.find(`input[value="${selectedRange.value}"]`).exists()).to.be.true;
   });
 
   it("should display a custom range when withCustomRange is set");

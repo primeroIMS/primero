@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useI18n } from "components/i18n";
+
 import StackedPercentageBar from "../stacked-percentage-bar";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 
-const CompletedCaseSafetyPlan = ({ data, identifier }) => {
+const Component = ({ data, identifier }) => {
   const i18n = useI18n();
 
   return (
@@ -19,13 +20,13 @@ const CompletedCaseSafetyPlan = ({ data, identifier }) => {
   );
 };
 
-CompletedCaseSafetyPlan.displayName = 'CompletedCaseSafetyPlan';
+Component.displayName = "CompletedCaseSafetyPlan";
 
-CompletedCaseSafetyPlan.propTypes = {
+Component.propTypes = {
   data: PropTypes.object,
   identifier: PropTypes.string
 };
 
 export default asKeyPerformanceIndicator("completed_case_safety_plans", {
   data: { completed: 0.0 }
-})(CompletedCaseSafetyPlan);
+})(Component);

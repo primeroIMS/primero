@@ -2,11 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
+
 import TablePercentageBar from "../table-percentage-bar";
 import KpiTable from "../kpi-table";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 
-const GoalProgressPerNeed = ({ data, identifier }) => {
+const Component = ({ data, identifier }) => {
   const i18n = useI18n();
   const css = makeStyles({
     root: {
@@ -33,20 +34,18 @@ const GoalProgressPerNeed = ({ data, identifier }) => {
     }
   ];
 
-  const rows = data
-    .get("data")
-    .map(row => columns.map(column => row.get(column.name)));
+  const rows = data.get("data").map(row => columns.map(column => row.get(column.name)));
 
   return <KpiTable className={css.root} columns={columns} data={rows} />;
 };
 
-GoalProgressPerNeed.displayName = 'GoalProgressPerNeed';
+Component.displayName = "GoalProgressPerNeed";
 
-GoalProgressPerNeed.propTypes = {
+Component.propTypes = {
   data: PropTypes.object,
   identifier: PropTypes.string
-}
+};
 
 export default asKeyPerformanceIndicator("goal_progress_per_need", {
   data: []
-})(GoalProgressPerNeed);
+})(Component);

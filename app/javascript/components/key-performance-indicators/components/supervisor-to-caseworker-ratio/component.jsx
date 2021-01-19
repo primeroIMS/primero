@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useI18n } from "components/i18n";
+
 import SingleAggregateMetric from "../single-aggregate-metric";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 
-const SupervisorToCaseworkerRatio = ({ data, identifier }) => {
+const Component = ({ data, identifier }) => {
   const i18n = useI18n();
   const supervisors = data.get("data").get("supervisors");
   const caseWorkers = data.get("data").get("case_workers");
@@ -17,13 +18,13 @@ const SupervisorToCaseworkerRatio = ({ data, identifier }) => {
   );
 };
 
-SupervisorToCaseworkerRatio.displayName = "SupervisorToCaseworkerRatio";
+Component.displayName = "SupervisorToCaseworkerRatio";
 
-SupervisorToCaseworkerRatio.propTypes = {
+Component.propTypes = {
   data: PropTypes.object,
   identifier: PropTypes.string
 };
 
 export default asKeyPerformanceIndicator("supervisor_to_caseworker_ratio", {
   data: { supervisors: 0, case_workers: 0 }
-})(SupervisorToCaseworkerRatio);
+})(Component);

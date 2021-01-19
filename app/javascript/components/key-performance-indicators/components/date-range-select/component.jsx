@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Select, MenuItem, FormControl } from "@material-ui/core";
+
 import DateRangeDialog from "../date-range-dialog";
 import DateRange from "../../utils/date-range";
+
 import { CUSTOM_RANGE } from "./constants";
 
-const DateRangeSelect = ({
-  ranges,
-  selectedRange,
-  withCustomRange,
-  setSelectedRange,
-  disabled,
-  i18n
-}) => {
+const Component = ({ ranges, selectedRange, withCustomRange, setSelectedRange, disabled, i18n }) => {
   const [showRangePicker, setShowRangePicker] = useState(false);
 
   const [customRange, setCustomRange] = useState(
@@ -42,39 +37,22 @@ const DateRangeSelect = ({
 
     setSelectedRange(newRange);
     setCustomRange(newRange);
-  }
+  };
   const handleCustomRangeClick = () => setShowRangePicker(true);
   const handleDateRangeDialogClose = () => setShowRangePicker(false);
 
   return (
     <FormControl>
-      <Select
-        onChange={handleSelectChange}
-        value={selectedRange.value}
-        disabled={disabled}
-      >
+      <Select onChange={handleSelectChange} value={selectedRange.value} disabled={disabled}>
         {ranges.map(range => (
           <MenuItem key={range.value} value={range.value}>
             {range.name}
           </MenuItem>
         ))}
         {withCustomRange && (
-          <MenuItem
-            key={CUSTOM_RANGE}
-            value={customRange.value}
-            onClick={handleCustomRangeClick}
-          >
-            {i18n.toTime(
-              "key_performance_indicators.date_format",
-              customRange.from
-            )}
-            {" "}
-            -
-            {" "}
-            {i18n.toTime(
-              "key_performance_indicators.date_format",
-              customRange.to
-            )}
+          <MenuItem key={CUSTOM_RANGE} value={customRange.value} onClick={handleCustomRangeClick}>
+            {i18n.toTime("key_performance_indicators.date_format", customRange.from)} -{" "}
+            {i18n.toTime("key_performance_indicators.date_format", customRange.to)}
           </MenuItem>
         )}
       </Select>
@@ -88,9 +66,9 @@ const DateRangeSelect = ({
   );
 };
 
-DateRangeSelect.displayName = "DateRangeSelect";
+Component.displayName = "DateRangeSelect";
 
-DateRangeSelect.proptypes = {
+Component.proptypes = {
   ranges: PropTypes.array,
   selectedRange: PropTypes.shape({
     from: PropTypes.instanceOf(Date),
@@ -102,4 +80,4 @@ DateRangeSelect.proptypes = {
   i18n: PropTypes.object
 };
 
-export default DateRangeSelect;
+export default Component;

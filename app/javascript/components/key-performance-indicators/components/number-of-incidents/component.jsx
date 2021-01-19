@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useI18n } from "components/i18n";
+
 import KpiTable from "../kpi-table";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 
-const NumberOfIncidents = ({ data, identifier }) => {
+const Component = ({ data, identifier }) => {
   const i18n = useI18n();
   const columns = [
     {
@@ -23,21 +24,19 @@ const NumberOfIncidents = ({ data, identifier }) => {
       .toJS()
   );
 
-  const rows = data
-    .get("data")
-    .map(row => columns.map(column => row.get(column.name)));
+  const rows = data.get("data").map(row => columns.map(column => row.get(column.name)));
 
   return <KpiTable columns={columns} data={rows} />;
 };
 
-NumberOfIncidents.displayName = 'NumberOfIncidents';
+Component.displayName = "NumberOfIncidents";
 
-NumberOfIncidents.propTypes = {
+Component.propTypes = {
   data: PropTypes.object,
   identifier: PropTypes.string
-}
+};
 
 export default asKeyPerformanceIndicator("number_of_incidents", {
   dates: [],
   data: []
-})(NumberOfIncidents);
+})(Component);

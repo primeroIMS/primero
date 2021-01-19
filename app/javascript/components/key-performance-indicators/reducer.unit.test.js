@@ -6,9 +6,7 @@ describe("KeyPerformanceIndicators - Reducer", () => {
   const reducer = reducers[NAMESPACE];
 
   it("shouldn't update the state for non-KPI events", () => {
-    expect(
-      reducer(new Map(), { type: "TEST_EVENT", payload: "test" })
-    ).to.deep.equal(new Map());
+    expect(reducer(new Map(), { type: "TEST_EVENT", payload: "test" })).to.deep.equal(new Map());
   });
 
   it("should update the state for successful responses from the api", () => {

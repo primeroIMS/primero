@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useI18n } from "components/i18n";
+
 import TablePercentageBar from "../table-percentage-bar";
 import KpiTable from "../kpi-table";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 
-const ServiceAccessDelay = ({ data, identifier }) => {
+const Component = ({ data, identifier }) => {
   const i18n = useI18n();
 
   const columns = [
@@ -39,13 +40,11 @@ const ServiceAccessDelay = ({ data, identifier }) => {
   return <KpiTable columns={columns} data={rows} />;
 };
 
-ServiceAccessDelay.displayName = 'ServiceAccessDelay';
+Component.displayName = "ServiceAccessDelay";
 
-ServiceAccessDelay.propTypes = {
+Component.propTypes = {
   data: PropTypes.object,
   identifier: PropTypes.string
-}
+};
 
-export default asKeyPerformanceIndicator("service_access_delay", { data: [] })(
-  ServiceAccessDelay
-);
+export default asKeyPerformanceIndicator("service_access_delay", { data: [] })(Component);

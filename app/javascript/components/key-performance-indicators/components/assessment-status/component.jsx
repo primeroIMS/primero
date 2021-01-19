@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useI18n } from "components/i18n";
+
 import StackedPercentageBar from "../stacked-percentage-bar";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 
-const AssessmentStatus = ({ data, identifier }) => {
+const Component = ({ data, identifier }) => {
   const i18n = useI18n();
 
   return (
@@ -19,13 +20,13 @@ const AssessmentStatus = ({ data, identifier }) => {
   );
 };
 
-AssessmentStatus.displayName = 'AssessmentStatus';
+Component.displayName = "AssessmentStatus";
 
-AssessmentStatus.propTypes = {
+Component.propTypes = {
   data: PropTypes.object,
   identifier: PropTypes.string
-}
+};
 
 export default asKeyPerformanceIndicator("assessment_status", {
   data: { completed: 0 }
-})(AssessmentStatus);
+})(Component);

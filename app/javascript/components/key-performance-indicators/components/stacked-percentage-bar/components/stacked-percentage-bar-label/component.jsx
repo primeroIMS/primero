@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const StackedPercentageBarLabel = ({ realPercent, label, index, css }) => {
+const Component = ({ realPercent, label, index, css }) => {
   const percentage = realPercent * 100;
 
   return (
@@ -22,13 +22,13 @@ const StackedPercentageBarLabel = ({ realPercent, label, index, css }) => {
   );
 }
 
-StackedPercentageBarLabel.displayName = "StackedPercentageBarLabel";
+Component.displayName = "StackedPercentageBarLabel";
 
-StackedPercentageBarLabel.propTypes = {
+Component.propTypes = {
   realPercent: PropTypes.number,
   label: PropTypes.string,
   index: PropTypes.number,
   css: PropTypes.object
 }
 
-export default StackedPercentageBarLabel;
+export default Component;

@@ -1,18 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useI18n } from "components/i18n";
+
 import KpiTable from "../kpi-table";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 
-const CaseLoad = ({ data, identifier }) => {
+const Component = ({ data, identifier }) => {
   const i18n = useI18n();
 
   const columns = [
     {
       name: "case_load",
       label: i18n.t(`key_performance_indicators.${identifier}.case_load`),
-      transform: time =>
-        i18n.t(`key_performance_indicators.${identifier}.${time}`)
+      transform: time => i18n.t(`key_performance_indicators.${identifier}.${time}`)
     },
     {
       name: "percent",
@@ -21,18 +21,16 @@ const CaseLoad = ({ data, identifier }) => {
     }
   ];
 
-  const rows = data
-    .get("data")
-    .map(row => columns.map(column => column.transform(row.get(column.name))));
+  const rows = data.get("data").map(row => columns.map(column => column.transform(row.get(column.name))));
 
   return <KpiTable columns={columns} data={rows} />;
 };
 
-CaseLoad.displayName = 'CaseLoad';
+Component.displayName = "CaseLoad";
 
-CaseLoad.propTypes = {
+Component.propTypes = {
   data: PropTypes.object,
   identifier: PropTypes.string
 };
 
-export default asKeyPerformanceIndicator("case_load", { data: [] })(CaseLoad);
+export default asKeyPerformanceIndicator("case_load", { data: [] })(Component);

@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useI18n } from "components/i18n";
+
 import TablePercentageBar from "../table-percentage-bar";
 import KpiTable from "../kpi-table";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 
-const ReportingDelay = ({ data, identifier }) => {
+const Component = ({ data, identifier }) => {
   const i18n = useI18n();
 
   const columns = [
@@ -39,13 +40,11 @@ const ReportingDelay = ({ data, identifier }) => {
   return <KpiTable columns={columns} data={rows} />;
 };
 
-ReportingDelay.displayName = 'ReportingDelay';
+Component.displayName = "ReportingDelay";
 
-ReportingDelay.propTypes = {
+Component.propTypes = {
   data: PropTypes.object,
   identifier: PropTypes.string
-}
+};
 
-export default asKeyPerformanceIndicator("reporting_delay", { data: [] })(
-  ReportingDelay
-);
+export default asKeyPerformanceIndicator("reporting_delay", { data: [] })(Component);

@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useI18n } from "components/i18n";
+
 import KpiTable from "../kpi-table";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 
-const ServicesProvided = ({ data, identifier }) => {
+const Component = ({ data, identifier }) => {
   const i18n = useI18n();
 
   const columns = [
@@ -26,13 +27,13 @@ const ServicesProvided = ({ data, identifier }) => {
   return <KpiTable columns={columns} data={rows} />;
 };
 
-ServicesProvided.displayName = 'ServicesProvided';
+Component.displayName = "ServicesProvided";
 
-ServicesProvided.propTypes = {
+Component.propTypes = {
   data: PropTypes.object,
   identifier: PropTypes.string
-}
+};
 
 export default asKeyPerformanceIndicator("services_provided", {
   data: { services_provided: [] }
-})(ServicesProvided);
+})(Component);

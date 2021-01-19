@@ -1,4 +1,5 @@
 import { fromJS, Map } from "immutable";
+
 import NAMESPACE from "./namespace";
 import { KEY_PERFORMANCE_INDICATORS } from "./constants";
 

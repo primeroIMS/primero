@@ -98,7 +98,7 @@ const rootReducer = {
         roles: reduceReducers(rolesListReducer, rolesFormReducer),
         lookups: reduceReducers(lookupsListReducer, AdminLookupsFormReducers),
         configurations: reduceReducers(configurationsListReducer, configurationsFormReducer),
-        locations: reduceReducers(locationsListReducer, locationsImportReducer),
+        locations: reduceReducers(locationsListReducer, locationsImportReducer)
       }),
       ...kpiReducer
     }),
