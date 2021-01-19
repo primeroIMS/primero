@@ -11,6 +11,13 @@ class PrimeroConfiguration < ApplicationRecord
 
   before_create :generate_version
 
+  def self.new_with_user(created_by = nil)
+    new.tap do |config|
+      config.created_on = DateTime.now
+      config.created_by = created_by&.user_name
+    end
+  end
+
   def self.current(created_by = nil)
     new.tap do |config|
       config.created_on = DateTime.now

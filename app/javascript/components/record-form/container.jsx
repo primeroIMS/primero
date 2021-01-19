@@ -46,6 +46,7 @@ import { getPermittedFormsIds } from "../user/selectors";
 import { fetchChangeLogs } from "../change-logs/action-creators";
 import Summary from "../summary";
 import { RESOURCES } from "../permissions/constants";
+import { useApp } from "../application";
 
 import {
   customForms,
@@ -68,6 +69,7 @@ const Container = ({ match, mode }) => {
   let submitForm = null;
   const { theme } = useThemeHelper({ css: styles });
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { demo } = useApp();
 
   const containerMode = {
     isNew: mode === "new",
@@ -328,10 +330,10 @@ const Container = ({ match, mode }) => {
             [css.formNavOpen]: toggleNav && mobileDisplay
           })}
         >
-          <div className={css.recordNav}>
+          <div className={clsx(css.recordNav, { [css.demo]: demo })}>
             <Nav {...navProps} />
           </div>
-          <div className={`${css.recordForms} record-form-container`}>
+          <div className={`${css.recordForms} ${clsx({ [css.demo]: demo })} record-form-container`}>
             <RecordForm
               {...formProps}
               externalForms={externalForms}

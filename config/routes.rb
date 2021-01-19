@@ -113,6 +113,7 @@ Rails.application.routes.draw do
       resources :audit_logs, only: [:index]
       resources :primero_configurations, as: :configurations, path: :configurations
       resources :flags_owners, as: :flags, path: :flags, only: %i[index]
+      resources :key_performance_indicators, path: :kpis, only: [:show]
     end
   end
 end

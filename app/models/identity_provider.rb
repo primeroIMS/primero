@@ -67,4 +67,18 @@ class IdentityProvider < ApplicationRecord
   def primero?
     unique_id == PRIMEROIMS && domain_hint == PRIMEROIMS && provider_type == B2C
   end
+
+  # This is used to extract the user_id from the OAuth 2 redirect
+  # TODO: Only Azure B2C is currently supported.
+  #       Refactor this method when we start supporting other OpenId Connect services
+  def user_from_request(request)
+    return unless provider_type == B2C
+
+    token_string = request.cookies['msal.idtoken']
+    return unless token_string
+
+    token = IdpToken.build(token_string)
+    user = token.user if token.valid?
+    user unless user&.disabled
+  end
 end

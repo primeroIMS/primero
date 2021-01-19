@@ -106,7 +106,7 @@ async function handleSuccess(store, payload) {
 }
 
 const getToken = () => {
-  return sessionStorage.getItem("msal.idtoken");
+  return localStorage.getItem("msal.idtoken");
 };
 
 const messageQueueFailed = fromQueue => {
