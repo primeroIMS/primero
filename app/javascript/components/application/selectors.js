@@ -19,7 +19,7 @@ export const getEnabledAgencies = (state, service) => {
 
 export const selectModules = state => state.getIn([NAMESPACE, "modules"], fromJS([]));
 
-export const selectLocales = state => state.getIn([NAMESPACE, "locales"], fromJS([]));
+export const selectLocales = state => state.getIn([NAMESPACE, "primero", "locales"], fromJS([]));
 
 export const selectUserModules = state =>
   state.getIn([NAMESPACE, "modules"], Map({})).filter(m => {
