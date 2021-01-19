@@ -26,6 +26,11 @@ describe DuplicateBulkExport, search: true do
     role = create(:role, form_sections: [@form_section], modules: [primero_module], group_permission: Permission::ALL)
     @user = create(:user, role: role)
 
+    @expected_headers = [
+      ' ', 'MOHA ID DEPRECATED', 'National ID No', 'Case ID', 'Progress ID',
+      'Child Name', 'Age', 'Sex', 'Family Size'
+    ]
+
     @bulk_exporter = DuplicateBulkExport.new(
       format: Exporters::DuplicateIdCSVExporter.id,
       record_type: 'case',
@@ -39,18 +44,56 @@ describe DuplicateBulkExport, search: true do
     CSV.parse(exported)
   end
 
-  it 'export cases with duplicate ids' do
-    child1 = create(:child, national_id_no: 'test1', age: 5, name: 'Test Child 1')
-    child2 = create(:child, national_id_no: 'test1', age: 6, name: 'Test Child 2')
-    create(:child, national_id_no: 'test2', age: 2, name: 'Test Child 3')
-    Sunspot.commit
+  context 'when cases have duplicate ids' do
+    before do
+      @child1 = create(:child, national_id_no: 'test1', age: 5, name: 'Test Child 1')
+      @child2 = create(:child, national_id_no: 'test1', age: 6, name: 'Test Child 2')
+      create(:child, national_id_no: 'test2', age: 2, name: 'Test Child 3')
+      create(:child, national_id_no: 'test3', age: 3, name: 'Test Child 4')
+      create(:child, age: 4, name: 'Test Child 5')
+      create(:child, age: 5, name: 'Test Child 6')
+      Sunspot.commit
+    end
 
-    expected_headers = [
-      ' ', 'MOHA ID DEPRECATED', 'National ID No', 'Case ID', 'Progress ID',
-      'Child Name', 'Age', 'Sex', 'Family Size'
-    ]
-    expect(export_csv[0]).to eq(expected_headers)
-    expect([export_csv[1][3], export_csv[2][3]]).to include(child1.case_id, child2.case_id)
+    it 'export cases with duplicate ids' do
+      expect(export_csv.count).to eq(3)
+      expect(export_csv[0]).to eq(@expected_headers)
+      expect([export_csv[1][3], export_csv[2][3]]).to include(@child1.case_id, @child2.case_id)
+    end
+  end
+
+  context 'when no cases have duplicate ids' do
+    before do
+      @child1 = create(:child, national_id_no: 'test1', age: 5, name: 'Test Child 1')
+      @child2 = create(:child, national_id_no: 'test1111', age: 6, name: 'Test Child 2')
+      create(:child, national_id_no: 'test2', age: 2, name: 'Test Child 3')
+      create(:child, national_id_no: 'test3', age: 3, name: 'Test Child 4')
+      create(:child, age: 4, name: 'Test Child 5')
+      create(:child, age: 5, name: 'Test Child 6')
+      Sunspot.commit
+    end
+
+    it 'exports no cases' do
+      expect(export_csv.count).to eq(1)
+      expect(export_csv[0]).to eq(@expected_headers)
+    end
+  end
+
+  context 'when no cases have national_id_no' do
+    before do
+      @child1 = create(:child, age: 5, name: 'Test Child 1')
+      @child2 = create(:child, age: 6, name: 'Test Child 2')
+      create(:child, age: 2, name: 'Test Child 3')
+      create(:child, age: 3, name: 'Test Child 4')
+      create(:child, age: 4, name: 'Test Child 5')
+      create(:child, age: 5, name: 'Test Child 6')
+      Sunspot.commit
+    end
+
+    it 'exports no cases' do
+      expect(export_csv.count).to eq(1)
+      expect(export_csv[0]).to eq(@expected_headers)
+    end
   end
 
   context 'when no cases found' do
