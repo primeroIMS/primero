@@ -433,6 +433,7 @@ en:
       created: Configuration was successfully created.
       deleted: Configuration was successfully deleted.
       updated: Configuration was successfully updated.
+      sent: Successfully sent configuration to Production.
     not_allowed: Not-allowed
     unavailable_server: Server is temporarily unavailable.
   contact:
