@@ -7,11 +7,11 @@ import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
-import { RECORD_TYPES } from "../../../../../../../config";
+import { RECORD_TYPES, RECORD_PATH } from "../../../../../../../config";
 import { compare } from "../../../../../../../libs";
 import { useI18n } from "../../../../../../i18n";
 import { getShortIdFromUniqueId } from "../../../../../../records/utils";
-import { selectRecord, setMachedCaseForTrace } from "../../../../../../records";
+import { fetchMatchedTraces, getMatchedTraces, selectRecord, setMachedCaseForTrace } from "../../../../../../records";
 import { getFields, getOrderedRecordForms } from "../../../../../selectors";
 import TraceActions from "../trace-actions";
 import FieldRow from "../field-row";
@@ -34,12 +34,12 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
     state => getOrderedRecordForms(state, { primeroModule: record.get("module_id"), recordType: RECORD_TYPES.cases }),
     compare
   );
+  const hasMatchedTraces = useSelector(state => Boolean(getMatchedTraces(state)?.size));
 
   const traceShortId = getShortIdFromUniqueId(potentialMatch.getIn(["trace", "id"]));
   const caseShortId = potentialMatch.getIn(["case", "case_id_display"]);
   const caseId = potentialMatch.getIn(["case", "id"]);
   const traceId = potentialMatch.getIn(["trace", "id"]);
-  const currentMatchedCaseId = potentialMatch.getIn(["trace", "matched_case_id"]);
   const comparedFields = potentialMatch.getIn(["comparison", "case_to_trace"], fromJS([]));
 
   const topFields = TOP_FIELD_NAMES.map(fieldName => fields.find(field => field.name === fieldName)).filter(
@@ -97,6 +97,10 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
     }
   }, [matchedCaseId]);
 
+  useEffect(() => {
+    dispatch(fetchMatchedTraces(RECORD_PATH.cases, caseId));
+  }, [caseId]);
+
   return (
     <>
       <TraceActions
@@ -107,7 +111,7 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
       />
       <Grid container spacing={2}>
         <Grid container item>
-          {currentMatchedCaseId && (
+          {hasMatchedTraces && (
             <Grid item xs={12}>
               <div className={css.alreadyMatched}>
                 <span>{i18n.t("tracing_request.messages.already_matched")}</span>
