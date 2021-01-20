@@ -96,6 +96,10 @@ class Child < ApplicationRecord
     MatchingConfiguration.matchable_fields('case', true).pluck(:name) | MatchingConfiguration::DEFAULT_INQUIRER_FIELDS
   end
 
+  def self.api_path
+    '/api/v2/cases'
+  end
+
   searchable do
     Child.child_matching_field_names.each { |f| text_index(f) }
     Child.family_matching_field_names.each { |f| text_index_from_subform('family_details_section', f) }

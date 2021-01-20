@@ -26,7 +26,7 @@ class User < ApplicationRecord
   self.unique_id_attribute = 'user_name'
 
   belongs_to :role
-  belongs_to :agency
+  belongs_to :agency, optional: true
   belongs_to :identity_provider, optional: true
 
   has_many :saved_searches
@@ -70,7 +70,7 @@ class User < ApplicationRecord
             presence: { message: 'errors.models.user.password_confirmation' },
             if: :password_required?
   validates :role, presence: { message: 'errors.models.user.role_ids' }
-  validates :agency, presence: { message: 'errors.models.user.organization' }
+  validates :agency, presence: { message: 'errors.models.user.organization' }, unless: :service_account
   validates :identity_provider, presence: { message: 'errors.models.user.identity_provider' }, if: :using_idp?
   validates :locale,
             inclusion: { in: I18n.available_locales.map(&:to_s), message: 'errors.models.user.invalid_locale' },
@@ -78,7 +78,7 @@ class User < ApplicationRecord
 
   class << self
     def hidden_attributes
-      %w[encrypted_password reset_password_token reset_password_sent_at]
+      %w[encrypted_password reset_password_token reset_password_sent_at service_account]
     end
 
     def password_parameters
@@ -244,7 +244,7 @@ class User < ApplicationRecord
   end
 
   def using_idp?
-    Rails.configuration.x.idp.use_identity_provider
+    Rails.configuration.x.idp.use_identity_provider && !service_account
   end
 
   def password_required?
@@ -356,7 +356,7 @@ class User < ApplicationRecord
     { user: user_scope, module: module_unique_ids }
   end
 
-  def user_query_scope(record_model=nil, id_search = false)
+  def user_query_scope(record_model = nil, id_search = false)
     if can_search_for_all?(record_model, id_search)
       Permission::ALL
     elsif group_permission?(Permission::AGENCY)

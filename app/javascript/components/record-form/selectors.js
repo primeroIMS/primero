@@ -1,11 +1,31 @@
 import isEmpty from "lodash/isEmpty";
-import { fromJS, OrderedMap } from "immutable";
+import { fromJS, OrderedMap, List } from "immutable";
 
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
+import { MODULES, RECORD_TYPES } from "../../config";
+import generateKey from "../charts/table-values/utils";
 
-import { NavRecord } from "./records";
+import { CUSTOM_FORM_IDS_NAV } from "./nav/constants";
+import { NavRecord, FormSectionRecord } from "./records";
 import NAMESPACE from "./namespace";
+
+const filterForms = (forms, { recordType, primeroModule, checkVisible }) => {
+  const formSections = forms.filter(
+    formSection =>
+      (Array.isArray(primeroModule)
+        ? formSection.module_ids.some(mod => primeroModule.includes(mod))
+        : formSection.module_ids.includes(primeroModule)) &&
+      formSection.parent_form === recordType &&
+      !formSection.is_nested
+  );
+
+  if (checkVisible === false) {
+    return formSections;
+  }
+
+  return formSections.filter(fs => fs.visible);
+};
 
 const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }) => {
   const allFormSections = state.getIn([NAMESPACE, "formSections"]);
@@ -18,20 +38,7 @@ const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }
 
   const userFormSection = formsIds ? allFormSections.filter(fs => formsIds.includes(fs.unique_id)) : allFormSections;
 
-  const formSections = userFormSection.filter(
-    fs =>
-      (Array.isArray(primeroModule)
-        ? fs.module_ids.some(mod => primeroModule.includes(mod))
-        : fs.module_ids.includes(primeroModule)) &&
-      fs.parent_form === recordType &&
-      !fs.is_nested
-  );
-
-  if (checkVisible === false) {
-    return formSections;
-  }
-
-  return formSections.filter(fs => fs.visible);
+  return filterForms(userFormSection, { recordType, primeroModule, checkVisible });
 };
 
 const isAStickyOption = (opt, stickyOption) =>
@@ -66,6 +73,32 @@ const transformOptionSource = (options, locale, stickyOption) => {
   }));
 };
 
+export const customForms = i18n => ({
+  summary: FormSectionRecord({
+    id: generateKey(),
+    unique_id: "summary",
+    description: {
+      [i18n.locale]: i18n.t("cases.summary.label")
+    },
+    name: {
+      [i18n.locale]: i18n.t("cases.summary.label")
+    },
+    visible: true,
+    is_first_tab: false,
+    order: 9,
+    order_form_group: 130,
+    parent_form: RECORD_TYPES.cases,
+    editable: true,
+    module_ids: [MODULES.CP],
+    form_group_id: "tracing",
+    is_nested: false,
+    subform_prevent_item_removal: false,
+    collapsed_field_names: [],
+    subform_append_only: false,
+    initial_subforms: 0
+  })
+});
+
 export const getFirstTab = (state, query) => {
   const selectedForms = forms(state, query);
 
@@ -87,17 +120,31 @@ export const getFormNav = (state, query) => {
 
   if (!selectedForms) return null;
 
-  return selectedForms
-    .map(fs =>
-      NavRecord({
+  const { i18n, renderCustomForms, recordType, primeroModule } = query;
+  let allSelectedForms = selectedForms;
+
+  if (renderCustomForms) {
+    const filteredCustomForms = filterForms(List(Object.values(customForms(i18n))), {
+      recordType,
+      primeroModule,
+      checkVisible: true
+    });
+    const allCustomForms = filteredCustomForms.reduce((acc, form) => ({ ...acc, [form.id]: form }), {});
+
+    allSelectedForms = allSelectedForms.concat(allCustomForms);
+  }
+
+  return allSelectedForms
+    .map(fs => {
+      return NavRecord({
         group: fs.form_group_id,
         groupOrder: fs.order_form_group,
         name: displayNameHelper(fs.name, window.I18n.locale),
         order: fs.order,
         formId: fs.unique_id,
         is_first_tab: fs.is_first_tab
-      })
-    )
+      });
+    })
     .sortBy(fs => fs.order)
     .groupBy(fs => fs.group)
     .sortBy(fs => fs.first().get("groupOrder"));
@@ -112,8 +159,21 @@ export const getRecordForms = (state, query) => {
   return denormalizedForms.valueSeq();
 };
 
+export const getOrderedRecordForms = (state, query) => {
+  return getRecordForms(state, query)
+    .sortBy(fs => fs.order)
+    .groupBy(fs => fs.group)
+    .sortBy(fs => fs.first().get("groupOrder"))
+    .valueSeq()
+    .flatten();
+};
+
 export const getRecordFormsByUniqueId = (state, query) => {
-  const { recordType, primeroModule, formName, checkVisible } = query;
+  const { recordType, primeroModule, formName, checkVisible, i18n } = query;
+
+  if (CUSTOM_FORM_IDS_NAV.includes(formName)) {
+    return List([customForms(i18n)[formName]]);
+  }
 
   return getRecordForms(state, {
     recordType,

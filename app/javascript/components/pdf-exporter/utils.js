@@ -1,6 +1,6 @@
-/* eslint-disable import/prefer-default-export */
-
 import domtoimage from "dom-to-image-more";
+import isEmpty from "lodash/isEmpty";
+import uniqBy from "lodash/uniqBy";
 
 import { PAGE_MARGIN } from "./constants";
 
@@ -15,6 +15,16 @@ const getImageDimensions = async base64 => {
       resolve({ width, height });
     };
   });
+};
+
+const getOthersAgencyLogos = (includeOtherLogos, agencyLogosPdf) => {
+  if (!includeOtherLogos || !agencyLogosPdf) {
+    return [];
+  }
+
+  return agencyLogosPdf
+    .filter(agency => includeOtherLogos.includes(agency.get("id")))
+    .reduce((accum, curr) => [...accum, { name: curr.get("name"), logoFull: curr.getIn(["images", "logo_full"]) }], []);
 };
 
 export const buildHeaderImage = async img => {
@@ -64,4 +74,30 @@ export const addPageHeaderFooter = async (pdf, mainHeaderRef, secondaryHeaderRef
     pdf.setFontSize(10);
     pdf.text(`${page}`, PAGE_MARGIN, pageContentHeight);
   }
+};
+
+export const getLogosToRender = (
+  agencies,
+  user,
+  includeOtherLogos,
+  agencyLogosPdf,
+  includeImplementationLogos,
+  includeUserAgencyLogos
+) => {
+  if (!includeImplementationLogos && !includeUserAgencyLogos && isEmpty(includeOtherLogos)) {
+    return [];
+  }
+  const implementationLogos =
+    (includeImplementationLogos &&
+      agencies.reduce(
+        (accum, curr) => [...accum, { name: curr.get("name"), logoFull: curr.getIn(["images", "logo_full"]) }],
+        []
+      )) ||
+    [];
+  const userLogos = (includeUserAgencyLogos && [{ logoFull: user.getIn(["agencyLogo", "images", "logo_full"]) }]) || [];
+  const othersAgencyLogos = getOthersAgencyLogos(includeOtherLogos, agencyLogosPdf);
+
+  const logos = implementationLogos.concat(userLogos).concat(othersAgencyLogos);
+
+  return uniqBy(logos, "logoFull");
 };

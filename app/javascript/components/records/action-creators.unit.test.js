@@ -29,13 +29,18 @@ describe("records - Action Creators", () => {
       "clearMetadata",
       "clearRecordAttachments",
       "clearSelectedRecord",
+      "fetchCasesPotentialMatches",
       "fetchIncidentFromCase",
       "fetchIncidentwitCaseId",
+      "fetchTracePotentialMatches",
       "fetchRecord",
       "fetchRecordsAlerts",
       "saveRecord",
       "setCaseIdForIncident",
-      "setSelectedRecord"
+      "setSelectedRecord",
+      "setSelectedPotentialMatch",
+      "setSelectedCasePotentialMatch",
+      "clearSelectedCasePotentialMatch"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -323,5 +328,46 @@ describe("records - Action Creators", () => {
     };
 
     expect(actionCreators.clearRecordAttachments(10, RECORD_PATH.cases)).be.deep.equals(expected);
+  });
+
+  it("should check the 'fetchCasesPotentialMatches' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.cases}/FETCH_CASES_POTENTIAL_MATCHES`,
+      api: { path: "cases/1234/potential_matches" }
+    };
+
+    expect(actionCreators.fetchCasesPotentialMatches("1234", RECORD_PATH.cases)).be.deep.equals(expected);
+  });
+
+  it("should check the 'fetchTracePotentialMatches' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.tracing_requests}/FETCH_TRACE_POTENTIAL_MATCHES`,
+      api: {
+        path: `${RECORD_PATH.traces}/12345/potential_matches`
+      }
+    };
+
+    expect(actionCreators.fetchTracePotentialMatches("12345", RECORD_PATH.tracing_requests)).be.deep.equals(expected);
+  });
+
+  it("should check the 'setSelectedCasePotentialMatch' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.cases}/SET_CASE_POTENTIAL_MATCH`,
+      payload: {
+        tracingRequestId: "12345"
+      }
+    };
+
+    expect(actionCreators.setSelectedCasePotentialMatch("12345", RECORD_PATH.cases)).be.deep.equals(expected);
+  });
+
+  it("should check the 'clearSelectedCasePotentialMatch' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.cases}/CLEAR_CASE_POTENTIAL_MATCH`
+    };
+
+    expect(actionCreators.clearSelectedCasePotentialMatch("12345", RECORD_PATH.tracing_requests)).be.deep.equals(
+      expected
+    );
   });
 });

@@ -263,6 +263,66 @@ describe("<RecordList /> - Reducers", () => {
     expect(newState).to.deep.equals(expected);
   });
 
+  it("should handle FETCH_TRACE_POTENTIAL_MATCHES_STARTED", () => {
+    const expected = fromJS({ potentialMatches: { loading: true, errors: false } });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACE_POTENTIAL_MATCHES_STARTED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS", () => {
+    const potentialMatch = {
+      score: 1,
+      likelihood: "possible",
+      case: { id: "case-123" },
+      trace: { id: "trace-789" }
+    };
+    const record = {
+      id: "trace-789",
+      type: "trace"
+    };
+
+    const expected = fromJS({ potentialMatches: { data: [potentialMatch], record } });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS",
+      payload: { data: { potential_matches: [potentialMatch], record } }
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACE_POTENTIAL_MATCHES_FAILURE", () => {
+    const expected = fromJS({ potentialMatches: { errors: true } });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACE_POTENTIAL_MATCHES_FAILURE"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACE_POTENTIAL_MATCHES_FINISHED", () => {
+    const expected = fromJS({ potentialMatches: { loading: false } });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACE_POTENTIAL_MATCHES_FINISHED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
   describe("when record type is cases", () => {
     const casesReducer = reducer("cases");
 
@@ -333,6 +393,48 @@ describe("<RecordList /> - Reducers", () => {
       const newState = casesReducer(incidentFromCase, action);
 
       expect(newState).to.deep.equals(fromJS({ incidentFromCase: { incident_case_id: "case-id-1" } }));
+    });
+
+    it("should handle FETCH_CASES_POTENTIAL_MATCHES_STARTED", () => {
+      const expected = fromJS({ potentialMatches: { loading: true, errors: false } });
+      const defaultState = fromJS({});
+
+      const action = {
+        type: "TestRecordType/FETCH_CASES_POTENTIAL_MATCHES_STARTED",
+        payload: true
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("should handle FETCH_CASES_POTENTIAL_MATCHES_FINISHED", () => {
+      const expected = fromJS({ potentialMatches: { loading: false } });
+      const defaultState = fromJS({});
+
+      const action = {
+        type: "TestRecordType/FETCH_CASES_POTENTIAL_MATCHES_FINISHED",
+        payload: false
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("should handle FETCH_CASES_POTENTIAL_MATCHES_FAILURE", () => {
+      const expected = fromJS({ potentialMatches: { errors: true } });
+      const defaultState = fromJS({});
+
+      const action = {
+        type: "TestRecordType/FETCH_CASES_POTENTIAL_MATCHES_FAILURE",
+        payload: true
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).to.deep.equal(expected);
     });
   });
 });

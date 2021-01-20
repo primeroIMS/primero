@@ -1,15 +1,19 @@
 # frozen_string_literal: true
 
 # Wraps an HTTP connection with an external service.
-class IdentitySync::Connection
+class ApiConnector::Connection
   attr_accessor :options, :driver
 
   def initialize(options = {})
     self.options = options
 
-    self.driver = Faraday.new(url: url(options), headers: options['default_headers'], ssl: ssl(options)) do |faraday|
+    self.driver = Faraday.new(url: url(options), headers: headers(options), ssl: ssl(options)) do |faraday|
       faraday.adapter(:net_http_persistent)
     end
+    return unless options['basic_auth'].present?
+
+    username, password = options['basic_auth'].split(':')
+    driver.basic_auth(username, password)
   end
 
   def get(path, params = nil, headers = nil, &block)
@@ -40,6 +44,12 @@ class IdentitySync::Connection
         key: OpenSSL::PKey::RSA.new(File.read(tls_client_key))
       }
     end || {}
+  end
+
+  def headers(options = {})
+    headers = options['default_headers'] || {}
+    headers['x-api-key'] = options['api_key'] if options['api_key'].present?
+    headers
   end
 
   def wrap

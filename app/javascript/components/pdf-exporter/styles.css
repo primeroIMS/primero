@@ -38,10 +38,6 @@
   font-weight: bold;
 }
 
-.secondaryHeaderContainer {
-  text-align: right;
-}
-
 .heading, .subHeading {
   text-align: center;
   margin: .2em 0;

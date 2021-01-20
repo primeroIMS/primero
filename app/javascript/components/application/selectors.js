@@ -19,7 +19,7 @@ export const getEnabledAgencies = (state, service) => {
 
 export const selectModules = state => state.getIn([NAMESPACE, "modules"], fromJS([]));
 
-export const selectLocales = state => state.getIn([NAMESPACE, "locales"], fromJS([]));
+export const selectLocales = state => state.getIn([NAMESPACE, "primero", "locales"], fromJS([]));
 
 export const selectUserModules = state =>
   state.getIn([NAMESPACE, "modules"], Map({})).filter(m => {
@@ -40,7 +40,21 @@ export const getReportingLocationConfig = state => state.getIn([NAMESPACE, "repo
 
 export const getAdminLevel = state => getReportingLocationConfig(state).get("admin_level");
 
-export const getAgencyLogos = state => state.getIn(["application", "primero", "agencies"], fromJS([]));
+export const getAgencyLogos = (state, fromApplication) => {
+  if (fromApplication) {
+    return state.getIn(["application", "primero", "logos"], fromJS([]));
+  }
+
+  return state.getIn(["application", "primero", "agencies"], fromJS([]));
+};
+
+export const getAgencyLogosPdf = (state, fromApplication) => {
+  if (fromApplication) {
+    return state.getIn(["application", "primero", "agenciesLogoPdf"], fromJS([]));
+  }
+
+  return state.getIn(["application", "primero", "agencies_logo_options"], fromJS([]));
+};
 
 export const getAgency = (state, id) =>
   state

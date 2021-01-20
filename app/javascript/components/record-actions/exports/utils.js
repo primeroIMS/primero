@@ -170,3 +170,9 @@ export const exportFormsOptions = (type, fields, forms, locale) => {
     }))
     .toJS();
 };
+
+export const buildAgencyLogoPdfOptions = agencyLogosPdf => {
+  if (!agencyLogosPdf) return [];
+
+  return agencyLogosPdf.reduce((acc, curr) => [...acc, { id: curr.get("id"), display_name: curr.get("name") }], []);
+};

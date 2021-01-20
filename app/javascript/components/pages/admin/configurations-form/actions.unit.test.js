@@ -38,7 +38,12 @@ describe("configurations-form/actions.js", () => {
       "SAVE_CONFIGURATION_STARTED",
       "SAVE_CONFIGURATION_FINISHED",
       "SAVE_CONFIGURATION_SUCCESS",
-      "SAVE_CONFIGURATION_FAILURE"
+      "SAVE_CONFIGURATION_FAILURE",
+      "SEND_TO_PRODUCTION",
+      "SEND_TO_PRODUCTION_STARTED",
+      "SEND_TO_PRODUCTION_FINISHED",
+      "SEND_TO_PRODUCTION_SUCCESS",
+      "SEND_TO_PRODUCTION_FAILURE"
     ].forEach(property => {
       it(`exports '${property}' action`, () => {
         expect(actions).to.have.property(property);

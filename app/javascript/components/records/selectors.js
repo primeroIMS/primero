@@ -57,3 +57,12 @@ export const getIsProcessingAttachments = (state, recordType, fieldName) =>
 
 export const getIsPendingAttachments = (state, recordType, fieldName) =>
   getRecordAttachments(state, recordType).getIn([fieldName, "pending"], false);
+
+export const getCasesPotentialMatches = state =>
+  state.getIn(["records", "cases", "potentialMatches", "data"], fromJS([]));
+
+export const getLoadingCasesPotentialMatches = state =>
+  state.getIn(["records", "cases", "potentialMatches", "loading"], false);
+
+export const getSelectedPotentialMatch = (state, recordType) =>
+  state.getIn(["records", recordType, "potentialMatches", "selectedPotentialMatch"], fromJS({}));
