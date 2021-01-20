@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { PageHeading } from "../../../page";
 import { useI18n } from "../../../i18n";
 
-import { attemptLogin } from "./action-creators";
+import { attemptIDPLogin } from "./action-creators";
 import { getIdentityProviders } from "./selectors";
 import { signIn } from "./auth-provider";
 import { NAME } from "./config";
@@ -16,7 +16,7 @@ import PrimeroIdpLink from "./components/primero-idp-link";
 
 const showIdps = (identityProviders, dispatch) => {
   const tokenCallback = accessToken => {
-    dispatch(attemptLogin(accessToken));
+    dispatch(attemptIDPLogin(accessToken));
   };
 
   return identityProviders.map(idp => {

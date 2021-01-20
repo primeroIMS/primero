@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-describe IdentitySync::AzureActiveDirectoryConnector do
-
+describe ApiConnector::AzureActiveDirectoryConnector do
   let(:idp) do
     i = IdentityProvider.new
     (i.configuration = { identity_sync_connector: 'AzureActiveDirectoryConnector' }) && i
@@ -9,7 +10,7 @@ describe IdentitySync::AzureActiveDirectoryConnector do
   let(:user) { User.new(user_name: 'testuser@test.org', full_name: 'Test user', identity_provider: idp) }
   let(:connection) { double('connection') }
   let(:connector) do
-    c = IdentitySync::AzureActiveDirectoryConnector.new
+    c = ApiConnector::AzureActiveDirectoryConnector.new
     (c.connection = connection) && c
   end
 
@@ -28,7 +29,15 @@ describe IdentitySync::AzureActiveDirectoryConnector do
     it 'does not include synced attributes if response error' do
       expect(connection).to(
         receive(:post).with('/users', user_name: 'testuser@test.org', full_name: 'Test user')
-                      .and_return([500, { 'one_time_password' => 'OTP123', 'correlation_id' => 'CORR123', 'error_msg' => 'could not sync' }])
+                      .and_return(
+                        [
+                          500,
+                          {
+                            'one_time_password' => 'OTP123', 'correlation_id' => 'CORR123',
+                            'error_msg' => 'could not sync'
+                          }
+                        ]
+                      )
       )
 
       response = connector.create(user)
@@ -40,7 +49,8 @@ describe IdentitySync::AzureActiveDirectoryConnector do
   describe '.update' do
     it 'executes and returns a valid user update response' do
       expect(connection).to(
-        receive(:patch).with('/users/testuser@test.org', user_name: 'testuser@test.org', full_name: 'Test user NEW', enabled: true)
+        receive(:patch).with('/users/testuser@test.org',
+                             user_name: 'testuser@test.org', full_name: 'Test user NEW', enabled: true)
           .and_return([200, { 'correlation_id' => 'CORR123' }])
       )
       user.full_name = 'Test user NEW'
@@ -52,7 +62,8 @@ describe IdentitySync::AzureActiveDirectoryConnector do
 
     it 'does not update synced attributes if response error' do
       expect(connection).to(
-        receive(:patch).with('/users/testuser@test.org', user_name: 'testuser@test.org', full_name: 'Test user NEW', enabled: true)
+        receive(:patch).with('/users/testuser@test.org',
+                             user_name: 'testuser@test.org', full_name: 'Test user NEW', enabled: true)
           .and_return([500, { 'correlation_id' => 'CORR123', 'error_msg' => 'could not sync' }])
       )
       user.full_name = 'Test user NEW'
@@ -102,6 +113,5 @@ describe IdentitySync::AzureActiveDirectoryConnector do
 
       expect(connector.relevant_updates?(user)).to be_truthy
     end
-
   end
 end
