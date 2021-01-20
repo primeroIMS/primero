@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import SearchIcon from "@material-ui/icons/Search";
 import makeStyles from "@material-ui/styles/makeStyles";
@@ -9,8 +10,12 @@ import { FieldRecord, FormSectionField } from "../record-form";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import generateKey from "../charts/table-values/utils";
+import { FORMS } from "../record-form/form/subforms/subform-traces/constants";
+import SubformDrawer from "../record-form/form/subforms/subform-drawer";
+import { getSelectedPotentialMatch } from "../records";
+import { RECORD_PATH } from "../../config";
 
-import { MatchesForm } from "./components";
+import { MatchesForm, ComparisonForm } from "./components";
 import { NAME } from "./constants";
 import { fields } from "./form";
 import styles from "./styles.css";
@@ -20,7 +25,15 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
   const css = makeStyles(styles)();
   const recordId = record?.get("id");
   const [open, setOpen] = useState(false);
+  const [selectedForm, setSelectedForm] = useState(FORMS.matches);
+  const potentialMatch = useSelector(state => getSelectedPotentialMatch(state, RECORD_PATH.cases));
+
   const findMatchLabel = i18n.t("cases.summary.find_match");
+  const handleFindMatchClick = () => {
+    setOpen(true);
+    setSelectedForm(FORMS.matches);
+  };
+  const handleClose = () => setOpen(false);
   const findMatchButton = (
     <ActionButton
       icon={<SearchIcon />}
@@ -28,22 +41,42 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
       type={ACTION_BUTTON_TYPES.default}
       keepTextOnMobile
       rest={{
-        onClick: () => setOpen(true),
+        onClick: handleFindMatchClick,
         disabled: mode.isNew
       }}
     />
   );
-  const handleClose = () => setOpen(false);
+
+  const props = {
+    open,
+    record,
+    i18n,
+    css,
+    recordType,
+    handleBack: () => setSelectedForm(FORMS.matches),
+    selectedForm,
+    setSelectedForm,
+    potentialMatch,
+    mode
+  };
+
+  const Form = (() => {
+    switch (selectedForm) {
+      case FORMS.matches:
+        return MatchesForm;
+      case FORMS.comparison:
+        return ComparisonForm;
+      default:
+        return null;
+    }
+  })();
 
   const renderFields = fields(i18n).map(field => {
     const formattedField = FieldRecord(field);
     const fieldProps = {
       name: formattedField.name,
       field: formattedField,
-      mode: {
-        isShow: true,
-        isEdit: false
-      },
+      mode,
       recordType,
       recordID: recordId,
       formSection: form
@@ -65,15 +98,9 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
           displayText={i18n.t("cases.summary.label")}
         />
         <div>{findMatchButton}</div>
-        <MatchesForm
-          open={open}
-          title={findMatchLabel}
-          cancelHandler={handleClose}
-          record={record}
-          i18n={i18n}
-          css={css}
-          mode={mode}
-        />
+        <SubformDrawer title={findMatchLabel} open={open} cancelHandler={handleClose}>
+          <Form {...props} />
+        </SubformDrawer>
       </div>
       {renderFields}
     </div>

@@ -5,20 +5,21 @@ import isEmpty from "lodash/isEmpty";
 import { List, ListItemText } from "@material-ui/core";
 import { fromJS } from "immutable";
 
-import SubformDrawer from "../../../record-form/form/subforms/subform-drawer";
 import {
   fetchCasesPotentialMatches,
   getCasesPotentialMatches,
-  getLoadingCasesPotentialMatches
+  getLoadingCasesPotentialMatches,
+  setSelectedCasePotentialMatch
 } from "../../../records";
 import { RECORD_PATH } from "../../../../config";
 import LoadingIndicator from "../../../loading-indicator";
 import IndexTable from "../../../index-table";
+import { FORMS } from "../../../record-form/form/subforms/subform-traces/constants";
 
 import { NAME } from "./constants";
 import { columns } from "./utils";
 
-const Component = ({ cancelHandler, css, open, title, record, i18n, mode }) => {
+const Component = ({ css, i18n, mode, open, record, setSelectedForm }) => {
   const dispatch = useDispatch();
   const data = useSelector(state => getCasesPotentialMatches(state));
   const loading = useSelector(state => getLoadingCasesPotentialMatches(state));
@@ -29,12 +30,17 @@ const Component = ({ cancelHandler, css, open, title, record, i18n, mode }) => {
     }
   }, [open]);
 
+  const onTracingRequestClick = value => {
+    dispatch(setSelectedCasePotentialMatch(value, RECORD_PATH.cases));
+    setSelectedForm(FORMS.comparison);
+  };
+
   if (!record) {
     return null;
   }
 
   const tableOptions = {
-    columns: columns(i18n, css),
+    columns: columns(i18n, css, dispatch, onTracingRequestClick),
     defaultFilters: fromJS({}),
     onTableChange: () => fetchCasesPotentialMatches(record.get("id"), RECORD_PATH.cases),
     recordType: [RECORD_PATH.cases, "potentialMatches"],
@@ -49,28 +55,25 @@ const Component = ({ cancelHandler, css, open, title, record, i18n, mode }) => {
   };
 
   return (
-    <SubformDrawer title={title} open={open} cancelHandler={cancelHandler}>
-      <LoadingIndicator loading={loading} hasData={!isEmpty(data)} type={NAME}>
-        <List>
-          <ListItemText primary={i18n.t("forms.record_types.case")} className={css.listTitle} />
-          <ListItemText primary={`${i18n.t("tracing_requests.id")}: #${record?.get("case_id_display")}`} />
-        </List>
-        <IndexTable {...tableOptions} />
-      </LoadingIndicator>
-    </SubformDrawer>
+    <LoadingIndicator loading={loading} hasData={!isEmpty(data)} type={NAME}>
+      <List>
+        <ListItemText primary={i18n.t("forms.record_types.case")} className={css.listTitle} />
+        <ListItemText primary={`${i18n.t("tracing_requests.id")}: #${record.get("case_id_display")}`} />
+      </List>
+      <IndexTable {...tableOptions} />
+    </LoadingIndicator>
   );
 };
 
 Component.displayName = NAME;
 
 Component.propTypes = {
-  cancelHandler: PropTypes.func,
   css: PropTypes.object,
   i18n: PropTypes.object,
   mode: PropTypes.object,
   open: PropTypes.bool,
   record: PropTypes.object,
-  title: PropTypes.string
+  setSelectedForm: PropTypes.func
 };
 
 export default Component;
