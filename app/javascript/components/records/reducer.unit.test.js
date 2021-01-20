@@ -437,4 +437,73 @@ describe("<RecordList /> - Reducers", () => {
       expect(newState).to.deep.equal(expected);
     });
   });
+
+  it("should handle FETCH_CASE_MATCHED_TRACES_STARTED", () => {
+    const expected = fromJS({ matchedTraces: { loading: true, errors: false } });
+    const defaultState = fromJS({});
+
+    const action = {
+      type: "TestRecordType/FETCH_CASE_MATCHED_TRACES_STARTED",
+      payload: true
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_CASE_MATCHED_TRACES_FINISHED", () => {
+    const expected = fromJS({ matchedTraces: { loading: false } });
+    const defaultState = fromJS({});
+
+    const action = {
+      type: "TestRecordType/FETCH_CASE_MATCHED_TRACES_FINISHED",
+      payload: false
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_CASE_MATCHED_TRACES_FAILURE", () => {
+    const expected = fromJS({ matchedTraces: { errors: true } });
+    const defaultState = fromJS({});
+
+    const action = {
+      type: "TestRecordType/FETCH_CASE_MATCHED_TRACES_FAILURE",
+      payload: true
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_CASE_MATCHED_TRACES_SUCCESS", () => {
+    const defaultState = fromJS({});
+    const data = [
+      {
+        sex: "male",
+        inquiry_date: "2021-01-13",
+        tracing_request_id: "f6c3483e-d6e6-482e-bd7a-9c5808e0798c",
+        name: "Gustavo Cerati",
+        relation_name: null,
+        matched_case_id: "b216d9a8-5390-4d20-802b-ae415151ddbf",
+        inquirer_id: "dc7a9dde-0b80-4488-b480-35f571c977c3",
+        id: "3d930cd0-de41-4c5b-959e-7bb6ca4b3f3e",
+        relation: "brother",
+        age: 10
+      }
+    ];
+
+    const action = {
+      type: "TestRecordType/FETCH_CASE_MATCHED_TRACES_SUCCESS",
+      payload: { data }
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).to.deep.equals(fromJS({ matchedTraces: { data } }));
+  });
 });
