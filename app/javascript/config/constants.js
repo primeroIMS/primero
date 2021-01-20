@@ -425,3 +425,9 @@ export const POTENTIAL_MATCH_LIKELIHOOD = {
   likely: "likely",
   possible: "possible"
 };
+
+export const MATCH_VALUES = {
+  match: "match",
+  mismatch: "mismatch",
+  blank: "blank"
+};

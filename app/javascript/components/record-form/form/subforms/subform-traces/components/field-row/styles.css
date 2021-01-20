@@ -1,0 +1,15 @@
+.fieldRow {
+  border-bottom: 1px solid $(theme.primero.colors.lightGrey);
+}
+
+.fieldTitle {
+  font-weight: bold;
+}
+
+.matched {
+  color: $(theme.primero.colors.green);
+}
+
+.notMatched {
+  color: $(theme.primero.colors.red);
+}

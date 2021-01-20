@@ -2,54 +2,73 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import pick from "lodash/pick";
+import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../../i18n";
 import { getSubformValues } from "../../utils";
+import { getSelectedPotentialMatch } from "../../../../records/selectors";
 import SubformDrawer from "../subform-drawer";
 
-import { TraceForm, TraceMatches } from "./components";
+import { TraceComparisonForm, TraceForm, TraceMatches } from "./components";
 import { FORMS, NAME } from "./constants";
 
 const Component = ({ openDrawer, field, formik, formSection, handleClose, index, recordType }) => {
   const i18n = useI18n();
   const [open, setOpen] = useState(openDrawer);
   const [selectedForm, setSelectedForm] = useState(FORMS.trace);
+  const selectedPotentialMatch = useSelector(state => getSelectedPotentialMatch(state, recordType));
   const currentValues = formik.values;
   const traceValues = getSubformValues(field, index, currentValues);
   const tracingRequestValues = pick(currentValues, ["relation_name", "inquiry_date", "short_id"]);
   const title =
     selectedForm === FORMS.matches ? i18n.t("tracing_request.find_match") : i18n.t("tracing_request.traces");
 
-  const getForm = () => {
-    switch (selectedForm) {
-      case FORMS.matches:
-        return (
-          <TraceMatches tracingRequestValues={tracingRequestValues} traceValues={traceValues} recordType={recordType} />
-        );
-      default:
-        return (
-          <TraceForm
-            handleBack={handleClose}
-            traceValues={traceValues}
-            formSection={formSection}
-            handleConfirm={() => setSelectedForm(FORMS.matches)}
-          />
-        );
+  useEffect(() => {
+    if (selectedPotentialMatch?.toSeq()?.size) {
+      setSelectedForm(FORMS.comparison);
     }
+  }, [selectedPotentialMatch]);
+
+  const handleBack = () => (selectedForm === FORMS.comparison ? setSelectedForm(FORMS.matches) : handleClose());
+  const handleConfirm = () => selectedForm !== FORMS.comparison && setSelectedForm(FORMS.matches);
+
+  const props = {
+    traceValues,
+    tracingRequestValues,
+    recordType,
+    potentialMatch: selectedPotentialMatch,
+    handleBack,
+    selectedForm,
+    formSection,
+    handleConfirm
   };
 
-  useEffect(() => {
-    if (open) {
-      setSelectedForm(FORMS.trace);
+  const Form = (() => {
+    switch (selectedForm) {
+      case FORMS.matches:
+        return TraceMatches;
+      case FORMS.comparison:
+        return TraceComparisonForm;
+      default:
+        return TraceForm;
     }
+  })();
+
+  useEffect(() => {
     if (openDrawer !== open) {
       setOpen(openDrawer);
     }
   }, [openDrawer]);
 
+  useEffect(() => {
+    if (open) {
+      setSelectedForm(FORMS.trace);
+    }
+  }, [open]);
+
   return (
     <SubformDrawer title={title} open={open} cancelHandler={handleClose}>
-      {getForm()}
+      <Form {...props} />
     </SubformDrawer>
   );
 };
