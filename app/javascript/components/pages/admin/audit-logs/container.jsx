@@ -52,6 +52,17 @@ const Container = () => {
 
   useMetadata(recordType, metadata, fetchAuditLogs, "data");
 
+  const log_message_options = {
+    customBodyRender: value => {
+      console.log("===>", value?.prefix?.approval_type);
+      const prefix = value?.prefix?.approval_type
+          ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
+          : i18n.t(value?.prefix?.key);
+      const identifier = value?.identifier
+      return `${prefix} ${identifier}`
+    }
+  };
+
   const tableOptions = {
     columns: [
       {
@@ -71,7 +82,8 @@ const Container = () => {
       },
       {
         label: i18n.t("audit_log.description"),
-        name: "log_message"
+        name: "log_message",
+        options: log_message_options
       },
       {
         label: i18n.t("audit_log.record_owner"),

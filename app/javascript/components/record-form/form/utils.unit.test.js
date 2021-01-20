@@ -17,6 +17,7 @@ describe("Verifying utils", () => {
       "buildCustomLookupsConfig",
       "findOptionDisplayText",
       "getConnectedFields",
+      "getSubformValues",
       "handleChangeOnServiceUser",
       "translatedText",
       "serviceHasReferFields",

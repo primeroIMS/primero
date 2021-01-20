@@ -44,6 +44,7 @@ Rails.application.routes.draw do
         resources :attachments, only: %i[create destroy]
         resources :approvals, only: [:update]
         resources :potential_matches, only: [:index]
+        get :traces, to: 'children#traces'
         get :record_history, to: 'record_histories#index'
         collection do
           post :flags, to: 'flags#create_bulk'
@@ -67,6 +68,7 @@ Rails.application.routes.draw do
         resources :alerts, only: [:index]
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy]
+        get :traces, to: 'tracing_requests#traces'
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
       end
@@ -113,6 +115,7 @@ Rails.application.routes.draw do
       resources :audit_logs, only: [:index]
       resources :primero_configurations, as: :configurations, path: :configurations
       resources :flags_owners, as: :flags, path: :flags, only: %i[index]
+      resources :key_performance_indicators, path: :kpis, only: [:show]
     end
   end
 end

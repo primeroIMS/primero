@@ -3,11 +3,16 @@ import { DB_COLLECTIONS_NAMES } from "../../../db";
 
 import actions from "./actions";
 
-export const fetchFlags = () => {
+export const fetchFlags = (recordType, activeOnly = false) => {
+  const commonPath = `record_type=${recordType}`;
+  const path = activeOnly
+    ? `${RECORD_PATH.flags}?active_only=true&${commonPath}`
+    : `${RECORD_PATH.flags}?${commonPath}`;
+
   return {
     type: actions.DASHBOARD_FLAGS,
     api: {
-      path: RECORD_PATH.flags
+      path
     }
   };
 };

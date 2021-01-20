@@ -739,4 +739,13 @@ describe("<RecordForm /> - Selectors", () => {
       expect(result).to.deep.equal(expected);
     });
   });
+
+  describe("getFieldByName", () => {
+    it("should return the field if exists", () => {
+      const expected = R.FieldRecord(fields["1"]);
+      const result = selectors.getFieldByName(stateWithRecords, "name_first");
+
+      expect(result).to.deep.equal(expected);
+    });
+  });
 });

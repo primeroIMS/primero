@@ -211,19 +211,11 @@ describe Role do
       it 'should associate all the forms_sections to the role' do
         @role.associate_all_forms
         @role.reload
-        @role.form_sections.size.should eql 2
-        expect(@role.form_sections.to_a).to match_array [@form_section_a, @form_section_b]
+        @role.form_sections.size.should eql 3
+        expect(@role.form_sections.to_a).to match_array [@form_section_a, @form_section_b, @form_section_child]
       end
     end
     context 'when the form_section has subform' do
-      it 'should associate the parent forms_sections only' do
-        @form_section_c =
-          FormSection.create!(unique_id: 'parent', name: 'parent_form', parent_form: 'case', fields: [@field_subform])
-        @role.associate_all_forms
-        @role.reload
-        @role.form_sections.size.should eql 3
-        expect(@role.form_sections).to match_array [@form_section_a, @form_section_b, @form_section_c]
-      end
       it 'Reject forms from another primero-module with the associate_all_forms method' do
         primero_module = create(
           :primero_module, name: 'CP', description: 'Child Protection', associated_record_types: ['case']

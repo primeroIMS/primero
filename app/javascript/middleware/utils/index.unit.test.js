@@ -21,12 +21,17 @@ describe("middleware/utils/index.js", () => {
       "isOnline",
       "partitionObject",
       "processAttachments",
+      "loginSuccessHandler",
+      "logoutSuccessHandler",
       "startSignout",
       "retrieveData",
       "queueData",
       "queueFetch",
       "processSubforms",
-      "isServerOnline"
+      "isServerOnline",
+      "handleReturnUrl",
+      "isAuthenticated",
+      "redirectTo"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(modules).to.have.property(property);

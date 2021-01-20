@@ -20,14 +20,14 @@ describe Exporters::SelectedFieldsExcelExporter do
       name: 'GBV', description: 'gbv', associated_record_types: ['case']
     )
 
-    subform = FormSection.new(
+    subform2 = FormSection.new(
       name: 'cases_test_subform_2', parent_form: 'case', visible: false, is_nested: true,
       order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_subform_2',
       unique_id: 'cases_test_subform_2'
     )
-    subform.fields << Field.new(name: 'field_3', type: Field::TEXT_FIELD, display_name: 'field_3')
-    subform.fields << Field.new(name: 'field_4', type: Field::TEXT_FIELD, display_name: 'field_4')
-    subform.save!
+    subform2.fields << Field.new(name: 'field_3', type: Field::TEXT_FIELD, display_name: 'field_3')
+    subform2.fields << Field.new(name: 'field_4', type: Field::TEXT_FIELD, display_name: 'field_4')
+    subform2.save!
 
     form1 = FormSection.new(
       name: 'cases_test_form_3', parent_form: 'case', visible: true,
@@ -36,7 +36,7 @@ describe Exporters::SelectedFieldsExcelExporter do
     )
     form1.fields << Field.new(
       name: 'subform_field_2', type: Field::SUBFORM,
-      display_name: 'subform field', subform_section_id: subform.id
+      display_name: 'subform field', subform_section_id: subform2.id
     )
     form1.save!
 
@@ -143,6 +143,8 @@ describe Exporters::SelectedFieldsExcelExporter do
     # @user = User.new(:user_name => 'fakeadmin', module_ids: ['primeromodule-cp'])
     @role = create(:role, modules: [@primero_module], form_sections: [form1, form2, form3, form_gbv, form4])
     @user = create(:user, user_name: 'fakeadmin', role: @role)
+    @role_subform = create(:role, modules: [@primero_module], form_sections: [subform2, form1, form2, form3])
+    @user_subform = create(:user, user_name: 'fakeadmin_subform', role: @role_subform)
   end
 
   describe 'Export format' do
@@ -219,7 +221,9 @@ describe Exporters::SelectedFieldsExcelExporter do
 
   context 'Selected fields' do
     let(:workbook) do
-      data = Exporters::SelectedFieldsExcelExporter.export(@records, @user, field_names: %w[first_name array_field])
+      data = Exporters::SelectedFieldsExcelExporter.export(
+        @records, @user, field_names: %w[first_name array_field]
+      )
       Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end
 
@@ -257,6 +261,28 @@ describe Exporters::SelectedFieldsExcelExporter do
       expect(workbook.sheets.size).to eq(2)
       expect(workbook.sheet(1).row(1)[0..3]).to eq(partial_metadata_header)
       expect(Field.count).to eq(13)
+    end
+  end
+
+  context 'Selected nested forms and fields' do
+    it 'contains a sheet for the selected nested fields' do
+      data = Exporters::SelectedFieldsExcelExporter.export(
+        @records, @user_subform,
+        field_names: ['first_name', 'field_3', 'field_4']
+      )
+      workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID first_name field_3 field_4])
+    end
+
+    it 'contains a sheet for the selected nested fields with their form' do
+      data = Exporters::SelectedFieldsExcelExporter.export(
+        @records, @user_subform,
+        form_unique_ids: %w[cases_test_subform_2 cases_test_form_1],
+        field_names: %w[field_3 first_name]
+      )
+      workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3])
+      expect(workbook.sheet(1).row(1)).to eq(%w[ID first_name])
     end
   end
 end

@@ -1,8 +1,12 @@
+import { Map } from "immutable";
+
 import { setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
+import { TRACING_REQUEST_STATUS_FIELD_NAME, TRACES_SUBFORM_UNIQUE_ID } from "../../../../../config";
 import SubformDialog from "../subform-dialog";
 import SubformFields from "../subform-fields";
 import SubformHeader from "../subform-header";
+import SubformDrawer from "../subform-drawer";
 
 import SubformFieldArray from "./component";
 
@@ -100,5 +104,38 @@ describe("<SubformFieldArray />", () => {
 
   it("renders the SubformHeader", () => {
     expect(component.find(SubformHeader)).lengthOf(2);
+  });
+
+  describe("when is a tracing request and the traces subform", () => {
+    let tracingRequestComponent;
+
+    beforeEach(() => {
+      ({ component: tracingRequestComponent } = setupMountedComponent(
+        SubformFieldArray,
+        {
+          ...props,
+          recordType: "tracing_requests",
+          formSection: {
+            ...props.formSection,
+            unique_id: TRACES_SUBFORM_UNIQUE_ID
+          }
+        },
+        Map({
+          forms: Map({
+            fields: [{ name: TRACING_REQUEST_STATUS_FIELD_NAME, option_strings_source: "lookup lookup-test" }]
+          })
+        }),
+        [],
+        {}
+      ));
+    });
+
+    it("renders the SubformDrawer", () => {
+      expect(tracingRequestComponent.find(SubformDrawer)).lengthOf(1);
+    });
+
+    it("should not render the SubformDialog", () => {
+      expect(tracingRequestComponent.find(SubformDialog)).lengthOf(0);
+    });
   });
 });
