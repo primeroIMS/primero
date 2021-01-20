@@ -2,10 +2,8 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import makeStyles from "@material-ui/styles/makeStyles";
-
 import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
-
 import CommonDateRanges from "./utils/common-date-ranges";
 import styles from "./styles.css";
 import NumberOfCases from "./components/number-of-cases";

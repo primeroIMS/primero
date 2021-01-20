@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { useI18n } from "../../../i18n";
 import KpiTable from "../kpi-table";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
+import { ACTIONS } from "../../../../libs/permissions";
 
 const Component = ({ data, identifier }) => {
   const i18n = useI18n();
@@ -37,7 +37,8 @@ Component.propTypes = {
   identifier: PropTypes.string
 };
 
-export default asKeyPerformanceIndicator("number_of_cases", {
-  dates: [],
-  data: []
-})(Component);
+export default asKeyPerformanceIndicator(
+  "number_of_cases",
+  { dates: [], data: [] },
+  ACTIONS.KPI_NUMBER_OF_CASES
+)(Component);

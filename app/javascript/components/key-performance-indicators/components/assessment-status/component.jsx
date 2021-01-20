@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { useI18n } from "../../../i18n";
 import StackedPercentageBar from "../stacked-percentage-bar";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
+import { ACTIONS } from "../../../../libs/permissions";
 
 const Component = ({ data, identifier }) => {
   const i18n = useI18n();
@@ -27,6 +27,8 @@ Component.propTypes = {
   identifier: PropTypes.string
 };
 
-export default asKeyPerformanceIndicator("assessment_status", {
-  data: { completed: 0 }
-})(Component);
+export default asKeyPerformanceIndicator(
+  "assessment_status",
+  { data: { completed: 0 } },
+  ACTIONS.KPI_ASSESSMENT_STATUS
+)(Component);

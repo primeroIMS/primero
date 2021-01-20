@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { useI18n } from "../../../i18n";
 import SingleAggregateMetric from "../single-aggregate-metric";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
+import { ACTIONS } from "../../../../libs/permissions";
 
 const Component = ({ data, identifier }) => {
   const i18n = useI18n();
@@ -25,6 +25,8 @@ Component.propTypes = {
   identifier: PropTypes.string
 };
 
-export default asKeyPerformanceIndicator("supervisor_to_caseworker_ratio", {
-  data: { supervisors: 0, case_workers: 0 }
-})(Component);
+export default asKeyPerformanceIndicator(
+  "supervisor_to_caseworker_ratio",
+  { data: { supervisors: 0, case_workers: 0 } },
+  ACTIONS.KPI_SUPERVISOR_TO_CASEWORKER_RATIO
+)(Component);

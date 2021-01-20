@@ -18,10 +18,11 @@ const asKeyPerformanceIndicator = (identifier, defaultData, action) => {
       fetchData: actionsForKPI(identifier)
     });
 
-    return enhance(({ data, fetchData, dateRanges, ...props }) => {
+    const Component = enhance(({ data, fetchData, dateRanges, ...props }) => {
       const i18n = useI18n();
       const css = makeStyles(styles)();
       const canViewKpi = usePermissions(RESOURCES.kpis, [action]);
+      console.log(identifier, canViewKpi, RESOURCES.kpis, action);
 
       const [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
       useEffect(() => {
@@ -58,6 +59,11 @@ const asKeyPerformanceIndicator = (identifier, defaultData, action) => {
         </Permission>
       );
     });
+
+    Component.identifier = identifier;
+    Component.action = action;
+
+    return Component;
   };
 };
 

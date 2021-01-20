@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { useI18n } from "../../../i18n";
 import KpiTable from "../kpi-table";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 import PercentageCell from "../percentage-cell";
+import { ACTIONS } from "../../../../libs/permissions";
 
 const Component = ({ data, identifier }) => {
   const i18n = useI18n();
@@ -45,4 +45,8 @@ Component.propTypes = {
   identifier: PropTypes.string
 };
 
-export default asKeyPerformanceIndicator("reporting_delay", { data: [] })(Component);
+export default asKeyPerformanceIndicator(
+  "reporting_delay",
+  { data: [] },
+  ACTIONS.KPI_REPORTING_DELAY
+)(Component);
