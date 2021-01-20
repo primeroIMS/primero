@@ -6,7 +6,11 @@ import { List, ListItemText } from "@material-ui/core";
 import { fromJS } from "immutable";
 
 import SubformDrawer from "../../../record-form/form/subforms/subform-drawer";
-import { fetchCasesPotentialMatches, getCasesPotentialMatches } from "../../../records";
+import {
+  fetchCasesPotentialMatches,
+  getCasesPotentialMatches,
+  getLoadingCasesPotentialMatches
+} from "../../../records";
 import { RECORD_PATH } from "../../../../config";
 import LoadingIndicator from "../../../loading-indicator";
 import IndexTable from "../../../index-table";
@@ -16,9 +20,8 @@ import { columns } from "./utils";
 
 const Component = ({ cancelHandler, css, open, title, record, i18n, mode }) => {
   const dispatch = useDispatch();
-  const potentialMatches = useSelector(state => getCasesPotentialMatches(state));
-  const loading = potentialMatches.get("loading", false);
-  const data = potentialMatches.get("data", []);
+  const data = useSelector(state => getCasesPotentialMatches(state));
+  const loading = useSelector(state => getLoadingCasesPotentialMatches(state));
 
   useEffect(() => {
     if (open && !mode.isNew) {
