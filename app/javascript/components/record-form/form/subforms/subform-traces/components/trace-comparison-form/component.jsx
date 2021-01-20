@@ -22,19 +22,20 @@ import styles from "./styles.css";
 const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handleConfirm }) => {
   const css = makeStyles(styles)();
   const { id } = useParams();
-  const record = useSelector(state => selectRecord(state, { isShow: true }, recordType, id));
   const i18n = useI18n();
+
+  const record = useSelector(state => selectRecord(state, { isShow: true }, recordType, id));
   const fields = useSelector(state => getFields(state));
   const forms = useSelector(state =>
     getOrderedRecordForms(state, { primeroModule: record.get("module_id"), recordType: RECORD_TYPES.cases })
   );
+
   const traceId = getShortIdFromUniqueId(potentialMatch.getIn(["trace", "id"]));
   const caseId = potentialMatch.getIn(["case", "case_id_display"]);
   const comparedFields = potentialMatch.getIn(["comparison", "case_to_trace"], fromJS([]));
   const topFields = TOP_FIELD_NAMES.map(fieldName => fields.find(field => field.name === fieldName)).filter(
     field => field
   );
-
   const topComparisons = getComparisons({ fields: topFields, comparedFields, includeEmpty: true });
 
   const comparedForms = forms.map(form => {

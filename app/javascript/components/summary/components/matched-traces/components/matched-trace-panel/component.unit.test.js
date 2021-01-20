@@ -1,4 +1,5 @@
 import { ExpansionPanel, ExpansionPanelSummary } from "@material-ui/core";
+import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../../../test";
 import ActionButton from "../../../../../action-button";
@@ -7,7 +8,7 @@ import MatchedTracePanel from "./component";
 
 describe("<MatchedTracePanel />", () => {
   let component;
-  const props = { css: {}, matchedTrace: { id: "123457" } };
+  const props = { css: {}, matchedTrace: fromJS({ id: "123457" }) };
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(MatchedTracePanel, props, {}));

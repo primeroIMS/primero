@@ -1,9 +1,9 @@
 import isEmpty from "lodash/isEmpty";
 import uniqBy from "lodash/uniqBy";
 
-import { FieldRecord, SELECT_FIELD, RADIO_FIELD, TEXT_FIELD, TOGGLE_FIELD } from "../../form";
+import { FieldRecord, SELECT_FIELD, RADIO_FIELD, TEXT_FIELD, TICK_FIELD, TOGGLE_FIELD } from "../../form";
 
-import { isCustomExport, isPdfExport, allowedExports } from "./utils";
+import { isCustomExport, isPdfExport, allowedExports, buildAgencyLogoPdfOptions } from "./utils";
 import {
   CASE_WORKER,
   CLIENT,
@@ -16,6 +16,9 @@ import {
   FORMS_ID,
   FORM_TO_EXPORT_FIELD,
   HEADER,
+  INCLUDE_AGENCY_LOGO,
+  INCLUDE_IMPLEMENTATION_LOGOS,
+  INCLUDE_OTHER_LOGOS,
   INDIVIDUAL_FIELDS_FIELD,
   MODULE_FIELD,
   PASSWORD_FIELD,
@@ -23,7 +26,7 @@ import {
   SIGNATURES
 } from "./constants";
 
-export default (i18n, userPermissions, isShowPage, modules, fields, exportFormsOptions, recordType) => {
+export default (i18n, userPermissions, isShowPage, modules, fields, exportFormsOptions, recordType, agencyLogo) => {
   return [
     FieldRecord({
       display_name: i18n.t("encrypt.export_type"),
@@ -113,6 +116,32 @@ export default (i18n, userPermissions, isShowPage, modules, fields, exportFormsO
       display_name: i18n.t("exports.custom_exports.custom_header"),
       name: CUSTOM_HEADER,
       type: TEXT_FIELD,
+      watchedInputs: [EXPORT_TYPE_FIELD],
+      showIf: ({ [EXPORT_TYPE_FIELD]: exportType }) => isPdfExport(exportType)
+    }),
+    FieldRecord({
+      display_name: i18n.t("exports.custom_exports.include_implementation_logos"),
+      name: INCLUDE_IMPLEMENTATION_LOGOS,
+      type: TICK_FIELD,
+      watchedInputs: [EXPORT_TYPE_FIELD],
+      help_text: i18n.t("exports.custom_exports.include_implementation_logos_help_text"),
+      showIf: ({ [EXPORT_TYPE_FIELD]: exportType }) => isPdfExport(exportType) && agencyLogo.canShowImplemtationLogos
+    }),
+    FieldRecord({
+      display_name: i18n.t("exports.custom_exports.include_agency_logo"),
+      name: INCLUDE_AGENCY_LOGO,
+      type: TICK_FIELD,
+      watchedInputs: [EXPORT_TYPE_FIELD],
+      showIf: ({ [EXPORT_TYPE_FIELD]: exportType }) => isPdfExport(exportType) && agencyLogo.canShowAgencyLogos
+    }),
+    FieldRecord({
+      display_name: i18n.t("exports.custom_exports.include_other_logos"),
+      name: INCLUDE_OTHER_LOGOS,
+      type: SELECT_FIELD,
+      multi_select: true,
+      option_strings_text: {
+        [i18n.locale]: buildAgencyLogoPdfOptions(agencyLogo.agencyLogosPdf)
+      },
       watchedInputs: [EXPORT_TYPE_FIELD],
       showIf: ({ [EXPORT_TYPE_FIELD]: exportType }) => isPdfExport(exportType)
     }),

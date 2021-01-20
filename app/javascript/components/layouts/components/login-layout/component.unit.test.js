@@ -1,5 +1,6 @@
 import { fromJS } from "immutable";
 import Alert from "@material-ui/lab/Alert";
+import { MenuItem } from "@material-ui/core";
 
 import { setupMountedComponent, stub } from "../../../../test";
 import TranslationsToggle from "../../../translations-toggle";
@@ -12,7 +13,10 @@ import LoginLayout from "./component";
 
 describe("layouts/components/<LoginLayout />", () => {
   let component;
-  const state = fromJS({ LoginLayout: { module: "primero" } });
+  const state = fromJS({
+    LoginLayout: { module: "primero" },
+    application: { primero: { locales: ["en", "es", "ar"] } }
+  });
 
   before(() => {
     component = setupMountedComponent(LoginLayout, {}, state).component;
@@ -32,6 +36,8 @@ describe("layouts/components/<LoginLayout />", () => {
 
   it("renders an TranslationsToggle component", () => {
     expect(component.find(TranslationsToggle)).to.have.lengthOf(1);
+    component.find("button").at(0).simulate("click");
+    expect(component.find(TranslationsToggle).find(MenuItem)).to.have.lengthOf(3);
   });
 
   describe("when is not demo site", () => {

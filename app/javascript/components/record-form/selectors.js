@@ -116,12 +116,21 @@ export const getFormNav = (state, query) => {
 
   if (!selectedForms) return null;
 
-  const { i18n, renderCustomForms } = query;
+  const { i18n, renderCustomForms, recordType, primeroModule } = query;
   let allSelectedForms = selectedForms;
 
   if (renderCustomForms) {
     const allCustomForms = Object.entries(customForms(i18n)).reduce((acc, curr) => {
-      return { ...acc, [curr[1].id]: curr[1] };
+      const form = curr[1];
+      const formBelongsToModuleAndRecordType = Array.isArray(primeroModule)
+        ? form.module_ids.some(mod => primeroModule.includes(mod))
+        : form.module_ids.includes(primeroModule) && form.parent_form === recordType;
+
+      if (!formBelongsToModuleAndRecordType) {
+        return acc;
+      }
+
+      return { ...acc, [curr[1].id]: form };
     }, {});
 
     allSelectedForms = allSelectedForms.concat(allCustomForms);

@@ -42,8 +42,11 @@ const RecordForm = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState(constructInitialValues(forms.values()));
+  const [formTouched, setFormTouched] = useState({});
+  const [formIsSubmitting, setFormIsSubmitting] = useState(false);
 
   let bindedSetValues = null;
+  let formikValues;
 
   const bindSetValues = setValues => {
     bindedSetValues = setValues;
@@ -78,6 +81,12 @@ const RecordForm = ({
       setInitialValues({ ...initialValues, ...record.toJS(), ...redirectToIncident });
     }
   }, [record]);
+
+  useEffect(() => {
+    if (bindedSetValues && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {
+      bindedSetValues({ ...initialValues, ...formikValues });
+    }
+  }, [bindedSetValues, initialValues, formTouched, formIsSubmitting]);
 
   const handleConfirm = onConfirm => {
     onConfirm();
@@ -152,9 +161,13 @@ const RecordForm = ({
           onSubmit(initialValues, values);
         }}
       >
-        {({ handleSubmit, submitForm, errors, dirty, isSubmitting, setValues, setFieldValue }) => {
+        {({ handleSubmit, submitForm, errors, dirty, isSubmitting, setValues, setFieldValue, values, touched }) => {
           bindSubmitForm(submitForm);
           bindSetValues(setValues);
+
+          setFormTouched(touched);
+          setFormIsSubmitting(isSubmitting);
+          formikValues = values;
 
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>

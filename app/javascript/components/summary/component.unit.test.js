@@ -33,8 +33,8 @@ describe("<Summary />", () => {
     expect(component.find(RecordFormTitle)).to.have.lengthOf(1);
   });
 
-  it("should render a <ActionButton /> component", () => {
-    expect(component.find(ActionButton)).to.have.lengthOf(5);
+  it("should render 3 <ActionButton /> component", () => {
+    expect(component.find(ActionButton)).to.have.lengthOf(3);
   });
 
   it("should render 5 <FormSectionField /> components", () => {

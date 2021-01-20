@@ -63,19 +63,22 @@ en:
     code: Agency Code
     description: Description
     disabled: Disabled
+    exclude_agency_from_lookups: Exclude this agency from lookups and filters
+    exclude_agency_from_lookups_help: Check this if the Agency doesn’t have users (e.g., the Agency was added so the logo could be applied to exports.
     label: Agency
-    logo_enabled: Logo Enabled?
-    logo_enabled_help: Display these logos on the Login page and Navigation menu.
+    logo_enabled: Display this agency’s logo in Primero?
+    logo_enabled_help: Display this agency’s logo in Primero?
     logo_icon: Icon Logo
     logo_icon_help: This will appear on small screen sizes, tablets, and phones. This
       should be a square.
     logo_large: Large Logo
-    logo_large_help: This will appear on large screen sizes. This should be a rectangle,
-      with the length longer than the height.
+    logo_large_help: This will appear on large screen sizes and in PDF exports. This should be a rectangle, with the length longer than the height.
     messages:
       created: Agency was successfully created.
       updated: Agency was successfully updated.
     name: Agency Name
+    pdf_logo_option: Make logo available for PDF exports?
+    pdf_logo_option_help: 'Note:  user’s Agency logos are available to them by default, so you only check this if you want this logo to be available to all users.'
     services: Agency Services
   approvals:
     approved_by: Approved By
@@ -810,6 +813,10 @@ en:
       header: Header
       custom_header: Custom Header
       signatures: Include signature lines for
+      include_implementation_logos: Include implementation logos?
+      include_implementation_logos_help_text: This will include logos which appear in the navigation menu and on the login page.
+      include_agency_logo: Include agency logo?
+      include_other_logos: Include other logos?
     duplicate_id_csv:
       all: Duplicate ID
       female_abbreviation: F
@@ -3094,8 +3101,18 @@ en:
       subject: 'Welcome to %{system}!'
       greeting: 'Welcome to %{system}!'
       body_native: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) for follow up instructions to get started working with %{host}.'
-      body_sso: 'You have been added as a %{role_name}. You may now log on to %{host} with your %{agency_name} account %{user_name}. Please contact %{admin_full_name} (%{admin_email}) for further details.'
-      body_with_password: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) to receive your user name. Use the password %{otp} to log on to %{host}, and reset when prompted.'
+      sso:
+        body: 'You have been added as a %{role_name}.'
+        step1: 'Go to %{host} and click %{identity_provider}.'
+        step2: 'Login with your %{identity_provider} account %{user_name}.'
+        step3: 'Use the same password you always use for your %{identity_provider} account.'
+        footer: 'Please contact %{admin_full_name} (%{admin_email}) for further details.'
+      otp:
+        body: 'You have been added as a %{role_name}.'
+        step1: 'Please contact %{admin_full_name} (%{admin_email}) to receive your user name.'
+        step2: 'Go to %{host} and click "login with Primero user name.".'
+        step3: 'Login with your user name and the temporary password %{otp}.'
+        step4: 'When prompted, reset your password.'
       url_label: Primero
       enabled_label: Send Welcome Email?
       text_label: Welcome Email Text
