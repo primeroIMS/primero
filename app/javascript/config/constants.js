@@ -8,7 +8,8 @@ import {
   SHOW_EXPORTS,
   SHOW_TASKS,
   ADMIN_RESOURCES,
-  ADMIN_ACTIONS
+  ADMIN_ACTIONS,
+  VIEW_KPIS
 } from "../libs/permissions";
 import { getAdminResources } from "../components/pages/admin/utils";
 
@@ -162,8 +163,7 @@ export const PERMITTED_URL = [
   ROUTES.support,
   ROUTES.cases,
   ROUTES.tracing_requests,
-  ROUTES.incidents,
-  ROUTES.key_performance_indicators
+  ROUTES.incidents
 ];
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
@@ -327,8 +327,8 @@ export const APPLICATION_NAV = (permissions, userId) => {
       name: "navigation.key_performance_indicators",
       to: ROUTES.key_performance_indicators,
       icon: "key_performance_indicators",
-      resources: [],
-      actions: []
+      resources: RESOURCES.kpis,
+      actions: VIEW_KPIS
     },
     {
       name: "navigation.bulk_exports",

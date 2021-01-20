@@ -44,7 +44,8 @@ import {
   SHOW_TASKS,
   WRITE_RECORDS,
   ADMIN_RESOURCES,
-  ADMIN_ACTIONS
+  ADMIN_ACTIONS,
+  VIEW_KPIS
 } from "../libs/permissions";
 import Login from "../components/login";
 import ContactInformation from "../components/contact-information";
@@ -116,9 +117,10 @@ export default [
         actions: READ_RECORDS
       },
       {
-        // TODO: Double check which permission need to be applied here.
         path: ROUTES.key_performance_indicators,
-        component: KeyPerformanceIndicators
+        component: KeyPerformanceIndicators,
+        resources: RESOURCES.kpis,
+        actions: VIEW_KPIS
       },
       {
         path: `${ROUTES.reports}/new`,
