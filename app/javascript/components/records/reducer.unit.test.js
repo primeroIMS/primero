@@ -323,6 +323,159 @@ describe("<RecordList /> - Reducers", () => {
     expect(newState).to.deep.equals(expected);
   });
 
+  it("should handle SET_MACHED_CASE_FOR_TRACE_STARTED", () => {
+    const expected = fromJS({ loading: true });
+
+    const action = {
+      type: "TestRecordType/SET_MACHED_CASE_FOR_TRACE_STARTED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_MACHED_CASE_FOR_TRACE_STARTED", () => {
+    const expected = fromJS({ loading: true });
+
+    const action = {
+      type: "TestRecordType/SET_MACHED_CASE_FOR_TRACE_STARTED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_MACHED_CASE_FOR_TRACE_STARTED", () => {
+    const expected = fromJS({ loading: true });
+
+    const action = {
+      type: "TestRecordType/SET_MACHED_CASE_FOR_TRACE_STARTED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_MACHED_CASE_FOR_TRACE_SUCCESS", () => {
+    const trace = { unique_id: "tr-001" };
+
+    const expected = fromJS({
+      data: [{ id: "12345", tracing_request_subform_section: [{ ...trace, matched_case_id: "cs-001", id: "tr-001" }] }]
+    });
+
+    const action = {
+      type: "TestRecordType/SET_MACHED_CASE_FOR_TRACE_SUCCESS",
+      payload: { data: { id: "tr-001", matched_case_id: "cs-001" } }
+    };
+
+    const newState = nsReducer(fromJS({ data: [{ id: "12345", tracing_request_subform_section: [trace] }] }), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_MACHED_CASE_FOR_TRACE_FAILURE", () => {
+    const expected = fromJS({ errors: true });
+
+    const action = {
+      type: "TestRecordType/SET_MACHED_CASE_FOR_TRACE_FAILURE"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_MACHED_CASE_FOR_TRACE_FINISHED", () => {
+    const expected = fromJS({ loading: false });
+
+    const action = {
+      type: "TestRecordType/SET_MACHED_CASE_FOR_TRACE_FINISHED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACING_REQUEST_TRACES_STARTED", () => {
+    const expected = fromJS({ loading: true });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACING_REQUEST_TRACES_STARTED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACING_REQUEST_TRACES_SUCCESS", () => {
+    const expected = fromJS({
+      data: [
+        {
+          id: "123",
+          tracing_request_subform_section: [
+            { unique_id: "567", name: "test", id: "567", tracing_request_id: "123", matched_case_id: "890" }
+          ]
+        }
+      ]
+    });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACING_REQUEST_TRACES_SUCCESS",
+      payload: {
+        data: [
+          {
+            id: "567",
+            tracing_request_id: "123",
+            matched_case_id: "890"
+          }
+        ]
+      }
+    };
+
+    const newState = nsReducer(
+      fromJS({
+        data: [
+          {
+            id: "123",
+            tracing_request_subform_section: [{ unique_id: "567", name: "test" }]
+          }
+        ]
+      }),
+      action
+    );
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle ", () => {
+    const expected = fromJS({ errors: true });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACING_REQUEST_TRACES_FAILURE"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACING_REQUEST_TRACES_FINISHED", () => {
+    const expected = fromJS({ loading: false });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACING_REQUEST_TRACES_FINISHED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
   describe("when record type is cases", () => {
     const casesReducer = reducer("cases");
 
