@@ -5,7 +5,6 @@ json.data do
                                          @system_setting.attributes.except('id', 'approvals_labels_i18n',
                                                                            'default_locale', 'locales'))
   json.locale I18n.locale
-  json.locales I18n.available_locales
   json.default_locale I18n.default_locale
   json.rtl_locales @system_setting.rtl_locales
   json.reporting_location_config current_user.role.reporting_location_config

@@ -49,7 +49,8 @@ const stateWithNoRecords = fromJS({});
 const stateWithRecords = fromJS({
   application: {
     primero: {
-      sandbox_ui: true
+      sandbox_ui: true,
+      locales: ["en", "fr", "ar"]
     },
     userIdle: true,
     agencies: [agencyWithLogo, agency1, agency2, agency3],
@@ -85,7 +86,6 @@ const stateWithRecords = fromJS({
       management: [GROUP_PERMISSIONS.SELF],
       resource_actions: { case: [ACTIONS.READ] }
     }),
-    locales: ["en", "fr", "ar"],
     defaultLocale: "en",
     baseLanguage: "en",
     primeroVersion: "2.0.0.1",
