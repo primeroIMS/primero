@@ -162,6 +162,8 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data'][0]['permitted_form_unique_ids']).not_to be_nil
       expect(json['data'][0]['agency_logo_full']).not_to be_nil
       expect(json['data'][0]['agency_logo_icon']).not_to be_nil
+      expect(json['data'][0]['agency_name']).to eq(@agency_a.name)
+      expect(json['data'][0]['agency_unique_id']).to eq(@agency_a.unique_id)
     end
 
     it 'refuses unauthorized access' do
