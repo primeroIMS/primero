@@ -2790,6 +2790,8 @@ en:
     score: Score
     social_worker: Social worker
     social_worker_agency: Agency
+    tracing_request_id: Tracing Request ID
+    trace: Trace
     likelihood_likely: Likely
     likelihood_possible: Possible
   potential_matches:
@@ -2970,6 +2972,7 @@ en:
     traces: Traces
     trace: Trace
     match: Match
+    matches: Matches
     messages:
       nothing_found: Nothing found
       already_matched: There is already a match in the system with an Inquirer looking for this child.

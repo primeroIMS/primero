@@ -311,6 +311,7 @@ const Container = ({ match, mode }) => {
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
           form={customForms(i18n)[form]}
+          mode={containerMode}
         />
       )
     }[externalFormSelected];

@@ -51,7 +51,7 @@ const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedFo
           />
         </Permission>
       )}
-      {selectedForm === FORMS.comparison && (
+      {selectedForm === FORMS.comparison && handleConfirm && (
         <div>
           <ActionButton
             icon={<CheckIcon />}

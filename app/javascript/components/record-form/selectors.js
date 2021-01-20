@@ -74,10 +74,10 @@ export const customForms = i18n => ({
     id: generateKey(),
     unique_id: "summary",
     description: {
-      [i18n.locale]: i18n.t("summary.label")
+      [i18n.locale]: i18n.t("cases.summary.label")
     },
     name: {
-      [i18n.locale]: i18n.t("summary.label")
+      [i18n.locale]: i18n.t("cases.summary.label")
     },
     visible: true,
     is_first_tab: false,

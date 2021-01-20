@@ -18,8 +18,12 @@ import {
   SET_CASE_ID_REDIRECT,
   SET_SELECTED_RECORD,
   CLEAR_SELECTED_RECORD,
+  SET_MACHED_CASE_FOR_TRACE,
+  FETCH_CASES_POTENTIAL_MATCHES,
   SET_SELECTED_POTENTIAL_MATCH,
-  SET_MACHED_CASE_FOR_TRACE
+  SET_CASE_POTENTIAL_MATCH,
+  CLEAR_CASE_POTENTIAL_MATCH,
+  FETCH_CASE_MATCHED_TRACES
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -216,6 +220,18 @@ export const clearRecordAttachments = (recordId, recordType) => ({
   payload: { id: recordId, recordType }
 });
 
+export const setSelectedCasePotentialMatch = (tracingRequestId, recordType) => ({
+  type: `${recordType}/${SET_CASE_POTENTIAL_MATCH}`,
+  payload: { tracingRequestId }
+});
+
+export const fetchCasesPotentialMatches = (recordId, recordType) => ({
+  type: `${recordType}/${FETCH_CASES_POTENTIAL_MATCHES}`,
+  api: {
+    path: `${recordType}/${recordId}/potential_matches`
+  }
+});
+
 export const fetchTracePotentialMatches = (traceId, recordType) => ({
   type: `${recordType}/${FETCH_TRACE_POTENTIAL_MATCHES}`,
   api: {
@@ -234,5 +250,16 @@ export const setMachedCaseForTrace = ({ traceId, caseId, recordType }) => ({
     path: `${RECORD_PATH.traces}/${traceId}`,
     method: METHODS.PATCH,
     body: { data: { matched_case_id: caseId } }
+  }
+});
+
+export const clearSelectedCasePotentialMatch = () => ({
+  type: `${RECORD_PATH.cases}/${CLEAR_CASE_POTENTIAL_MATCH}`
+});
+
+export const fetchMatchedTraces = (recordType, recordId) => ({
+  type: `${recordType}/${FETCH_CASE_MATCHED_TRACES}`,
+  api: {
+    path: `${recordType}/${recordId}/traces`
   }
 });
