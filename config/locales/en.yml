@@ -2794,6 +2794,8 @@ en:
     score: Score
     social_worker: Social worker
     social_worker_agency: Agency
+    tracing_request_id: Tracing Request ID
+    trace: Trace
     likelihood_likely: Likely
     likelihood_possible: Possible
   potential_matches:

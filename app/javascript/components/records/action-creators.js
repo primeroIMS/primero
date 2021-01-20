@@ -17,6 +17,7 @@ import {
   SET_CASE_ID_REDIRECT,
   SET_SELECTED_RECORD,
   CLEAR_SELECTED_RECORD,
+  FETCH_CASES_POTENTIAL_MATCHES,
   SET_SELECTED_POTENTIAL_MATCH
 } from "./actions";
 
@@ -202,6 +203,13 @@ export const clearSelectedRecord = recordType => ({
 export const clearRecordAttachments = (recordId, recordType) => ({
   type: `${recordType}/${CLEAR_RECORD_ATTACHMENTS}`,
   payload: { id: recordId, recordType }
+});
+
+export const fetchCasesPotentialMatches = (recordId, recordType) => ({
+  type: `${recordType}/${FETCH_CASES_POTENTIAL_MATCHES}`,
+  api: {
+    path: `${recordType}/${recordId}/potential_matches`
+  }
 });
 
 export const fetchTracePotentialMatches = (traceId, recordType) => ({
