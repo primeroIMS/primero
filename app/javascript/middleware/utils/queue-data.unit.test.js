@@ -10,7 +10,7 @@ import * as handleOfflineAttachments from "./handle-offline-attachments";
 import * as offlineDispatchSuccess from "./offline-dispatch-success";
 import * as withGeneratedProperties from "./with-generated-properties";
 
-describe("middleware/utils/retrieve-data.js", () => {
+describe.skip("middleware/utils/retrieve-data.js", () => {
   const { store } = createMockStore();
 
   context("when data is queued", () => {

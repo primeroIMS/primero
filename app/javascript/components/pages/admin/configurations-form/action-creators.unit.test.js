@@ -25,7 +25,8 @@ describe("configurations-form/action-creators.js", () => {
       "clearSelectedConfiguration",
       "deleteConfiguration",
       "fetchConfiguration",
-      "saveConfiguration"
+      "saveConfiguration",
+      "sentToProduction"
     ].forEach(actionCreator => {
       it(`exports '${actionCreator}'`, () => {
         expect(clone).to.have.property(actionCreator);
@@ -175,6 +176,35 @@ describe("configurations-form/action-creators.js", () => {
       };
 
       expect(actionsCreators.saveConfiguration(args)).to.deep.equal(expected);
+    });
+
+    it("should check that 'sentToProduction' action creator returns the correct object", () => {
+      const expected = {
+        type: actions.SEND_TO_PRODUCTION,
+        api: {
+          path: `${RECORD_PATH.configurations}/12345`,
+          method: METHODS.PATCH,
+          body: {
+            data: {
+              promote: true
+            }
+          },
+          successCallback: {
+            action: "notifications/ENQUEUE_SNACKBAR",
+            payload: {
+              message: "Success",
+              options: {
+                key: "success",
+                variant: "success"
+              }
+            },
+            redirect: "",
+            redirectWithIdFromResponse: false
+          }
+        }
+      };
+
+      expect(actionsCreators.sentToProduction("12345", "Success")).to.deep.equal(expected);
     });
   });
 
