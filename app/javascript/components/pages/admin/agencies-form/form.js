@@ -91,6 +91,31 @@ export const form = i18n => {
           }
         }),
         FieldRecord({
+          display_name: i18n.t("agency.pdf_logo_option"),
+          name: "pdf_logo_option",
+          type: TICK_FIELD,
+          watchedInputs: ["logo_icon", "logo_full", "logo_full_url", "logo_icon_url"],
+          help_text: i18n.t("agency.pdf_logo_option_help"),
+          handleWatchedInputs: value => {
+            const {
+              logo_full: logoFull,
+              logo_icon: logoIcon,
+              logo_full_url: logoFullUrl,
+              logo_icon_url: logoIconUrl
+            } = value;
+
+            return {
+              disabled: !((logoFull?.length && logoIcon?.length) || (logoIconUrl && logoFullUrl))
+            };
+          }
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.exclude_agency_from_lookups"),
+          name: "exclude_agency_from_lookups",
+          type: TICK_FIELD,
+          help_text: i18n.t("agency.exclude_agency_from_lookups_help")
+        }),
+        FieldRecord({
           display_name: i18n.t("agency.disabled"),
           name: "disabled",
           type: TICK_FIELD

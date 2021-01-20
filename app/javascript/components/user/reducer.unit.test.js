@@ -97,8 +97,7 @@ describe("User - Reducers", () => {
         FilterRecord
       ),
       location: "XX",
-      agencyLogoFull: "/rails/active_storage/blobs/2lkIn19--049c807149445f6bd72621ae500340ac544e85d8/unicef-full.png",
-      agencyLogoIcon: "/rails/active_storage/blobs/2lkIn19--049c807149445f6bd72621ae500340ac544e85d8/unicef-icon.png"
+      agencyLogo: undefined
     });
     const payload = {
       id: 1,

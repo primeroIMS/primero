@@ -22,7 +22,7 @@ import { getRecordForms } from "../../record-form/selectors";
 import { useApp } from "../../application";
 import PdfExporter from "../../pdf-exporter";
 import { getUser } from "../../user/selectors";
-import { getAgencyLogos } from "../../application/selectors";
+import { getAgencyLogos, getAgencyLogosPdf } from "../../application/selectors";
 
 import {
   isCustomExport,
@@ -111,6 +111,7 @@ const Component = ({
   const allRecordsSelected = selectedRecordsLength === totalRecords;
   const currentUser = useSelector(state => getUser(state, recordType));
   const agenciesWithLogosEnabled = useSelector(state => getAgencyLogos(state, true));
+  const agencyLogosPdf = useSelector(state => getAgencyLogosPdf(state, true));
 
   const {
     [EXPORT_TYPE_FIELD]: exportType,
@@ -146,9 +147,10 @@ const Component = ({
   );
   const fields = buildFields(recordTypesForms, i18n.locale, individualFields);
 
-  const agencyLogosValidation = {
+  const agencyLogo = {
     canShowImplemtationLogos: agenciesWithLogosEnabled?.size,
-    canShowAgencyLogos: Boolean(currentUser.get("agencyLogoFull"))
+    canShowAgencyLogos: !isEmpty(currentUser.get("agencyLogo")),
+    agencyLogosPdf
   };
 
   const handleSubmit = values => {
@@ -273,7 +275,7 @@ const Component = ({
     fields,
     exportFormsOptions(exportType, fields, recordTypesForms, i18n.locale),
     recordType,
-    agencyLogosValidation
+    agencyLogo
   );
 
   const enabledSuccessButton =
@@ -306,6 +308,7 @@ const Component = ({
             customFilenameField={CUSTOM_EXPORT_FILE_NAME_FIELD}
             currentUser={currentUser}
             agenciesWithLogosEnabled={agenciesWithLogosEnabled}
+            agencyLogosPdf={agencyLogosPdf}
           />
         )}
       </FormContext>

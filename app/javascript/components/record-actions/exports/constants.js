@@ -90,6 +90,7 @@ export const HEADER = "header";
 export const CUSTOM_HEADER = "custom_header";
 export const INCLUDE_IMPLEMENTATION_LOGOS = "include_implementation_logos";
 export const INCLUDE_AGENCY_LOGO = "include_agency_logos";
+export const INCLUDE_OTHER_LOGOS = "include_other_logos";
 export const SIGNATURES = "signatures";
 export const FILTERS_TO_SKIP = Object.freeze(["fields", "id_search", "per", "page", "total"]);
 export const PASSWORD_FIELD = "password";

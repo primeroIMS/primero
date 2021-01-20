@@ -50,6 +50,10 @@ if @extended
       agency_logo_icon: rails_blob_path(user.agency&.logo_icon, only_path: true)
     )
   end
+  user_hash = user_hash.merge(
+    agency_unique_id: user.agency&.unique_id,
+    agency_name: user.agency&.name
+  )
 end
 
 json.merge! user_hash.compact_deep

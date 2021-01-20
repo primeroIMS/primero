@@ -48,6 +48,14 @@ export const getAgencyLogos = (state, fromApplication) => {
   return state.getIn(["application", "primero", "agencies"], fromJS([]));
 };
 
+export const getAgencyLogosPdf = (state, fromApplication) => {
+  if (fromApplication) {
+    return state.getIn(["application", "primero", "agenciesLogoPdf"], fromJS([]));
+  }
+
+  return state.getIn(["application", "primero", "agencies_logo_options"], fromJS([]));
+};
+
 export const getAgency = (state, id) =>
   state
     .getIn(["application", "agencies"], fromJS([]))
