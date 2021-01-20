@@ -12,7 +12,7 @@ import {
   FETCH_RECORD_ALERTS,
   FETCH_INCIDENT_FROM_CASE,
   FETCH_TRACE_POTENTIAL_MATCHES,
-  FETCH_TRACES,
+  FETCH_TRACING_REQUEST_TRACES,
   SET_CASE_ID_FOR_INCIDENT,
   CLEAR_CASE_FROM_INCIDENT,
   SET_CASE_ID_REDIRECT,
@@ -84,10 +84,12 @@ export const clearMetadata = recordType => ({
   type: `${recordType}/${CLEAR_METADATA}`
 });
 
-export const fetchTraces = (id, recordType, asCallback = false) => ({
-  ...(asCallback ? { action: `${recordType}/${FETCH_TRACES}` } : { type: `${recordType}/${FETCH_TRACES}` }),
+export const fetchTracingRequestTraces = (id, asCallback = false) => ({
+  ...(asCallback
+    ? { action: `${RECORD_PATH.tracing_requests}/${FETCH_TRACING_REQUEST_TRACES}` }
+    : { type: `${RECORD_PATH.tracing_requests}/${FETCH_TRACING_REQUEST_TRACES}` }),
   api: {
-    path: `${recordType}/${id}/${RECORD_PATH.traces}`
+    path: `${RECORD_PATH.tracing_requests}/${id}/${RECORD_PATH.traces}`
   }
 });
 
@@ -100,7 +102,7 @@ export const fetchRecord = (recordType, id) => ({
       recordType,
       id
     },
-    successCallback: [...(recordType === RECORD_PATH.tracing_requests ? [fetchTraces(id, recordType, true)] : [])]
+    ...(recordType === RECORD_PATH.tracing_requests ? { successCallback: [fetchTracingRequestTraces(id, true)] } : {})
   }
 });
 

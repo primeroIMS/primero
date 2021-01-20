@@ -1,13 +1,7 @@
 import { fromJS, Map, List } from "immutable";
 
 import { mergeRecord } from "../../libs";
-import {
-  DEFAULT_METADATA,
-  INCIDENT_CASE_ID_FIELD,
-  INCIDENT_CASE_ID_DISPLAY_FIELD,
-  RECORD_PATH,
-  RECORD_TYPES
-} from "../../config";
+import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, RECORD_TYPES } from "../../config";
 
 import {
   RECORDS_STARTED,
@@ -45,10 +39,10 @@ import {
   SET_MACHED_CASE_FOR_TRACE_FINISHED,
   SET_MACHED_CASE_FOR_TRACE_STARTED,
   SET_MACHED_CASE_FOR_TRACE_SUCCESS,
-  FETCH_TRACES_FAILURE,
-  FETCH_TRACES_FINISHED,
-  FETCH_TRACES_STARTED,
-  FETCH_TRACES_SUCCESS
+  FETCH_TRACING_REQUEST_TRACES_FAILURE,
+  FETCH_TRACING_REQUEST_TRACES_FINISHED,
+  FETCH_TRACING_REQUEST_TRACES_STARTED,
+  FETCH_TRACING_REQUEST_TRACES_SUCCESS
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -227,34 +221,30 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("errors", true);
     case `${namespace}/${SET_MACHED_CASE_FOR_TRACE_FINISHED}`:
       return state.set("loading", false);
-    case `${namespace}/${FETCH_TRACES_STARTED}`: {
+    case `${namespace}/${FETCH_TRACING_REQUEST_TRACES_STARTED}`: {
       return state.set("loading", true);
     }
-    case `${namespace}/${FETCH_TRACES_SUCCESS}`: {
-      if (namespace === RECORD_PATH.tracing_requests) {
-        const { data } = payload;
+    case `${namespace}/${FETCH_TRACING_REQUEST_TRACES_SUCCESS}`: {
+      const { data } = payload;
 
-        return data.reduce((newState, trace) => {
-          const { tracing_request_id: tracingRequestId, id } = trace;
-          const index = newState.get("data").findIndex(r => r.get("id") === tracingRequestId);
-          const traceIndex = newState
-            .getIn(["data", index, "tracing_request_subform_section"], fromJS([]))
-            .findIndex(currentTrace => currentTrace.get("unique_id") === id);
+      return data.reduce((newState, trace) => {
+        const { tracing_request_id: tracingRequestId, id } = trace;
+        const index = newState.get("data").findIndex(r => r.get("id") === tracingRequestId);
+        const traceIndex = newState
+          .getIn(["data", index, "tracing_request_subform_section"], fromJS([]))
+          .findIndex(currentTrace => currentTrace.get("unique_id") === id);
 
-          return traceIndex >= 0
-            ? newState.updateIn(["data", index, "tracing_request_subform_section", traceIndex], u =>
-                mergeRecord(u, fromJS(trace))
-              )
-            : newState;
-        }, state);
-      }
-
-      return state;
+        return traceIndex >= 0
+          ? newState.updateIn(["data", index, "tracing_request_subform_section", traceIndex], u =>
+              mergeRecord(u, fromJS(trace))
+            )
+          : newState;
+      }, state);
     }
-    case `${namespace}/${FETCH_TRACES_FAILURE}`: {
+    case `${namespace}/${FETCH_TRACING_REQUEST_TRACES_FAILURE}`: {
       return state.set("errors", true);
     }
-    case `${namespace}/${FETCH_TRACES_FINISHED}`: {
+    case `${namespace}/${FETCH_TRACING_REQUEST_TRACES_FINISHED}`: {
       return state.set("loading", false);
     }
     default:
