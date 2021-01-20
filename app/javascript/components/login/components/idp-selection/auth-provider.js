@@ -8,6 +8,10 @@ const getToken = tokenRequest => {
   });
 };
 
+const deleteCookie = name => {
+  document.cookie = `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+};
+
 export const signIn = async (idp, tokenCallback) => {
   const identityScope = idp.get("identity_scope")?.toJS() || [""];
   const domainHint = idp.get("domain_hint");
@@ -34,6 +38,8 @@ export const signIn = async (idp, tokenCallback) => {
 
 export const signOut = () => {
   if (msalApp) {
+    deleteCookie("primero_user_name");
+    deleteCookie("primero_user_id");
     localStorage.removeItem("user");
     msalApp.logout();
   }

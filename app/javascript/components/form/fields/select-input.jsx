@@ -150,7 +150,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
         endAdornment: (
           <>
             {loading && asyncOptions ? <CircularProgress color="primary" size={20} /> : null}
-            {params.InputProps.endAdornment}
+            {methods?.formMode?.get("isShow") || params.InputProps.endAdornment}
           </>
         )
       }

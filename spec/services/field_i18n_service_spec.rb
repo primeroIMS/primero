@@ -114,11 +114,15 @@ describe FieldI18nService do
         'en' => [
           { 'id' => '1', 'display_text' => 'Country' },
           { 'id' => '2', 'display_text' => 'City' }
+        ],
+        'es' => [
+          { 'id' => '1', 'display_text' => 'Pais' },
+          { 'id' => '2', 'display_text' => 'Ciudad' }
         ]
       }
       expected = [
-        { 'id' => '1', 'display_text' => { 'en' => 'Country' } },
-        { 'id' => '2', 'display_text' => { 'en' => 'City' } }
+        { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => 'Pais' } },
+        { 'id' => '2', 'display_text' => { 'en' => 'City', 'es' => 'Ciudad' } }
       ]
       expect(FieldI18nService.convert_options(options)).to eq(expected)
     end

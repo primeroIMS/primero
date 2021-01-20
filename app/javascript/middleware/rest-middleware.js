@@ -1,7 +1,7 @@
 import qs from "qs";
 import merge from "deepmerge";
 
-import { subformAwareMerge } from "../db/utils";
+import subformAwareMerge from "../db/utils/subform-aware-merge";
 import { FETCH_TIMEOUT, ROUTES } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS, TRANSACTION_MODE } from "../db";
 import EventManager from "../libs/messenger";
@@ -50,9 +50,9 @@ function buildPath(path, options, params, external) {
   return `${endpoint}${params ? `?${queryParams.toString(params)}` : ""}`;
 }
 
-const deleteFromQueue = fromQueue => {
+const deleteFromQueue = async fromQueue => {
   if (fromQueue) {
-    queueIndexedDB.delete(fromQueue);
+    await queueIndexedDB.delete(fromQueue);
   }
 };
 
@@ -97,7 +97,7 @@ async function handleSuccess(store, payload) {
 
   const payloadFromDB = fromAttachment ? await handleAttachmentSuccess(payload) : await syncIndexedDB(db, json);
 
-  deleteFromQueue(fromQueue);
+  await deleteFromQueue(fromQueue);
 
   store.dispatch({
     type: `${type}_SUCCESS`,
@@ -106,7 +106,7 @@ async function handleSuccess(store, payload) {
 }
 
 const getToken = () => {
-  return sessionStorage.getItem("msal.idtoken");
+  return localStorage.getItem("msal.idtoken");
 };
 
 const messageQueueFailed = fromQueue => {

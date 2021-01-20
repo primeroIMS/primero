@@ -8,3 +8,4 @@ export { default as WorkflowTeamCases } from "./workflow-team-cases";
 export { default as ReportingLocation } from "./reporting-location";
 export { default as ProtectionConcern } from "./protection-concern";
 export { default as Flags } from "./flags";
+export { default as CasesBySocialWorker } from "./cases-by-social-worker";

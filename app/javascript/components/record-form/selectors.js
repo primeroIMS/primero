@@ -195,3 +195,6 @@ export const getAttachmentFields = state => state.getIn([NAMESPACE, "attachmentM
 export const getFields = state => state.getIn([NAMESPACE, "fields"]);
 
 export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);
+
+export const getFieldByName = (state, name) =>
+  state.getIn([NAMESPACE, "fields"], fromJS([])).find(field => field.name === name);

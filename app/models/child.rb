@@ -36,6 +36,7 @@ class Child < ApplicationRecord
   include Alertable
   include Attachable
   include Noteable
+  include Kpi::GBVChild
 
   store_accessor(
     :data,
@@ -53,7 +54,8 @@ class Child < ApplicationRecord
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
     :location_current, :tracing_status, :name_caregiver,
-    :urgent_protection_concern, :child_preferences_section, :family_details_section, :has_case_plan
+    :urgent_protection_concern, :child_preferences_section, :family_details_section, :has_case_plan,
+    :duplicate
   )
 
   has_many :incidents, foreign_key: :incident_case_id
@@ -94,6 +96,10 @@ class Child < ApplicationRecord
     MatchingConfiguration.matchable_fields('case', true).pluck(:name) | MatchingConfiguration::DEFAULT_INQUIRER_FIELDS
   end
 
+  def self.api_path
+    '/api/v2/cases'
+  end
+
   searchable do
     Child.child_matching_field_names.each { |f| text_index(f) }
     Child.family_matching_field_names.each { |f| text_index_from_subform('family_details_section', f) }
@@ -106,6 +112,7 @@ class Child < ApplicationRecord
       risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end
     string :protection_concerns, multiple: true
+
     date :assessment_due_dates, multiple: true do
       Tasks::AssessmentTask.from_case(self).map(&:due_date)
     end
@@ -116,6 +123,7 @@ class Child < ApplicationRecord
       Tasks::FollowUpTask.from_case(self).map(&:due_date)
     end
     boolean(:has_incidents) { incidents.size.positive? }
+
   end
 
   validate :validate_date_of_birth

@@ -8,12 +8,11 @@ import { fieldValidations } from "../../validations";
 import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
-import { serviceHasReferFields } from "../../utils";
+import { getSubformValues, serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import { compactValues, constructInitialValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
 import SubformDialogFields from "../subform-dialog-fields";
-import { valuesWithDisplayConditions } from "../subform-field-array/utils";
 
 const Component = ({
   arrayHelpers,
@@ -35,25 +34,9 @@ const Component = ({
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
 
-  const { subform_section_configuration: subformSectionConfiguration } = field;
-
-  const { display_conditions: displayConditions } = subformSectionConfiguration || {};
-
-  const subformValues = () => {
-    if (isValidIndex) {
-      if (displayConditions) {
-        return valuesWithDisplayConditions(getIn(formik.values, field.name), displayConditions)[index];
-      }
-
-      return getIn(formik.values, `${field.name}[${index}]`);
-    }
-
-    return {};
-  };
-
   const initialSubformValues = {
     ...initialValues,
-    ...subformValues()
+    ...getSubformValues(field, index, formik.values)
   };
 
   const initialSubformErrors = isValidIndex ? getIn(formik.errors, `${field.name}[${index}]`) : {};

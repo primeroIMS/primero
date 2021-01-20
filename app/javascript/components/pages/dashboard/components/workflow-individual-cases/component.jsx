@@ -11,6 +11,7 @@ import { selectModule } from "../../../../application";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox } from "../../../../dashboard";
 import { MODULES, RECORD_TYPES } from "../../../../../config";
+import { displayNameHelper } from "../../../../../libs";
 
 import workflowTheme from "./theme";
 import styles from "./styles.css";
@@ -20,9 +21,7 @@ import WorkFlowStep from "./components";
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
-  const workflowLabels = useSelector(
-    state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]?.[i18n.locale]
-  );
+  const workflowLabels = useSelector(state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]);
   const casesWorkflow = useSelector(state => getWorkflowIndividualCases(state));
 
   const renderSteps = workflowLabels
@@ -30,7 +29,7 @@ const Component = ({ loadingIndicator }) => {
     ?.map(step => {
       return (
         <Step key={step.id} active complete>
-          <StepLabel>{step.display_text || ""}</StepLabel>
+          <StepLabel>{displayNameHelper(step.display_text, i18n.locale) || ""}</StepLabel>
           <WorkFlowStep step={step} css={css} casesWorkflow={casesWorkflow} i18n={i18n} />
         </Step>
       );

@@ -37,6 +37,7 @@ describe("Application - Actions", () => {
       "FETCH_USER_GROUPS_STARTED",
       "FETCH_USER_GROUPS_SUCCESS",
       "NETWORK_STATUS",
+      "SET_RETURN_URL",
       "SET_USER_IDLE",
       "FETCH_MANAGED_ROLES",
       "FETCH_MANAGED_ROLES_FAILURE",
