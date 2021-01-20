@@ -375,6 +375,26 @@ en:
     show_case: 'Case ID: %{short_id}'
     social_worker: Social Worker
     status: Status
+    summary:
+      label: Summary
+      find_match: Find Match
+      fields:
+        consent_for_tracing:
+          label: Consent has been obtained to disclose information for tracing purposes
+          help_text: If this field is 'No', the child's case record will not show up in Matches with Inquirer Tracing Requests.
+        wishes_child_family_tracing:
+          label: Does child want to trace family members?
+        wishes_reunification:
+          label: Does the child want family reunification?
+          options:
+            yes_as_soon_as_possible: Yes, as soon as possible
+            yes_but_later: Yes, but later
+            not_sure: Not sure
+            'no': 'No'
+        data_confidentiality_link:
+          label: See Data Confidentiality
+        child_wishes_link:
+          label: See Child's Wishes
     survivor_code: Survivor Code
     transfer_accepted: By clicking 'Accept' you accept the responsibility for this
       case; once you click ‘Accept' you will become the record owner in the system.
@@ -1436,13 +1456,22 @@ en:
       'false': Rejecting
       gbv_closure: GBV Closure form
       'true': Approving
+    assessment_approved: "%{approval_label} approved for"
+    assessment_requested: "%{approval_label} requested for"
+    bulk_index: List all
     by_user: by user
+    case_plan_approved: "%{approval_label} approved for"
+    case_plan_requested: "%{approval_label} requested for"
+    close: Close
+    closure_approved: "%{approval_label} approved for"
+    closure_requested: "%{approval_label} requested for"
     consent_count: Consent Count
     copy: Copying
     create: Creating
     create_subform: Creating Subform
     destroy: Deleting
     edit: Editing
+    enable_disable_record: Enable / disable
     export: Exporting data for
     flag: Flagging
     flag_records: Flagging
@@ -1451,6 +1480,7 @@ en:
       protect: Hide Name
       view: View Name
     index: Listing Records
+    list: List
     login: Login
     logout: Logout
     lookups_for_field: Lookups for field
@@ -1464,8 +1494,11 @@ en:
     record_state:
       'false': Disabling
       'true': Enabling
+    refer: Refer
+    refer_to: Search for Referral recipient
     referral: Referring
     relinquish_referral: Relinquish referral Done
+    reopen: Reopen
     reopen_case: Reopening
     request_approval:
       action_plan: Request Approval for the Action Plan form
@@ -1478,6 +1511,7 @@ en:
     save_subform: Saving Subform
     search: API Search
     show: Viewing
+    show_alerts: View alerts for
     to: to
     to_user: to user
     transfer: Transfering
@@ -2484,9 +2518,9 @@ en:
       potential_match:
         actions:
           read:
-            explanation: Ability to see potential matches between tracing requests
-              and cases. This permission is necessary for the user to perform any
-              Family Tracing and Reunification actions.
+            explanation: Represents the link between a Tracing Request and a Case.
+              Access to Potential Matches is necessary for Family Tracing and Reunification (FTR) work.
+              Allows user to see the Tracing Summary form on Cases.
             label: View
         label: Potential Match
       referral:
@@ -2745,6 +2779,7 @@ en:
             label: Edit
         label: User Groups
   potential_match:
+    case_id: Case ID
     child_age: Age
     child_gender: Gender
     child_id: child id#
@@ -2752,9 +2787,11 @@ en:
     inquirer_tr_name: tracing request
     inquiry_date: date of inquiry
     name: Name
-    score: score
+    score: Score
     social_worker: Social worker
     social_worker_agency: Agency
+    likelihood_likely: Likely
+    likelihood_possible: Possible
   potential_matches:
     display: Displaying potential matches for %{type} %{id}
   reassign:
@@ -2929,6 +2966,7 @@ en:
     has_match: Has Match
     find_match: Find Match
     back_to_traces: Back to Traces
+    traces: Traces
     messages:
       update_success: 'Tracing Request %{record_id} was successfully updated.'
       creation_success: Tracing Request record successfully created.
@@ -2944,6 +2982,8 @@ en:
       status: Status
     label: Tracing Requests
     name_of_inquirer: Name of Inquirer
+    inquirer: Inquirer
+    name: Name
     register_new_tracing_request: New Tracing Request
     selectable_date_options:
       inquiry_date: Date of Inquiry

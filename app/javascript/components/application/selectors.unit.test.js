@@ -51,7 +51,8 @@ const stateWithRecords = fromJS({
     primero: {
       sandbox_ui: true,
       agenciesLogoPdf: [agencyWithLogo, agency1],
-      agencies_logo_options: [agencyWithLogo, agency1]
+      agencies_logo_options: [agencyWithLogo, agency1],
+      locales: ["en", "fr", "ar"]
     },
     userIdle: true,
     agencies: [agencyWithLogo, agency1, agency2, agency3],
@@ -87,7 +88,6 @@ const stateWithRecords = fromJS({
       management: [GROUP_PERMISSIONS.SELF],
       resource_actions: { case: [ACTIONS.READ] }
     }),
-    locales: ["en", "fr", "ar"],
     defaultLocale: "en",
     baseLanguage: "en",
     primeroVersion: "2.0.0.1",

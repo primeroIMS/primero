@@ -243,4 +243,4 @@ export const allowedExportTypes = userPermissions =>
 
 export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.CHANGE_LOG];
 
-export const SHOW_FIND_MATCH = [...MANAGE, ACTIONS.POTENTIAL_MATCH_READ];
+export const SHOW_FIND_MATCH = [...MANAGE, ACTIONS.READ];

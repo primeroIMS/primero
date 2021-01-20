@@ -11,7 +11,6 @@ describe Api::V2::PrimeroController, type: :request do
     )
     @agency1.save!
     Agency.create!(name: 'unicef', agency_code: '23456')
-
     @agency2 = Agency.create!(
       unique_id: 'agency_2',
       agency_code: 'agency2',
@@ -24,6 +23,7 @@ describe Api::V2::PrimeroController, type: :request do
       logo_full: FilesTestHelper.logo,
       name_i18n: { en: 'Nationality', es: 'Nacionalidad' }
     )
+    I18n.available_locales = %i[en ar fr es]
   end
 
   after(:each) { clean_data(Agency) }
@@ -36,6 +36,7 @@ describe Api::V2::PrimeroController, type: :request do
     it 'displays public information without authentication' do
       expect(response).to have_http_status(200)
       expect(json['data']['sandbox_ui']).to eq(false)
+      expect(json['data']['locales']).to contain_exactly('en', 'ar', 'fr', 'es')
     end
 
     it 'lists only the agencies with logos' do

@@ -31,6 +31,7 @@ describe("records - Action Creators", () => {
       "clearSelectedRecord",
       "fetchIncidentFromCase",
       "fetchIncidentwitCaseId",
+      "fetchTracePotentialMatches",
       "fetchRecord",
       "fetchRecordsAlerts",
       "saveRecord",
@@ -323,5 +324,16 @@ describe("records - Action Creators", () => {
     };
 
     expect(actionCreators.clearRecordAttachments(10, RECORD_PATH.cases)).be.deep.equals(expected);
+  });
+
+  it("should check the 'fetchTracePotentialMatches' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.tracing_requests}/FETCH_TRACE_POTENTIAL_MATCHES`,
+      api: {
+        path: `${RECORD_PATH.traces}/12345/potential_matches`
+      }
+    };
+
+    expect(actionCreators.fetchTracePotentialMatches("12345", RECORD_PATH.tracing_requests)).be.deep.equals(expected);
   });
 });
