@@ -98,3 +98,17 @@ export const clearSelectedConfiguration = () => {
     type: actions.CLEAR_SELECTED_CONFIGURATION
   };
 };
+
+export const sentToProduction = (id, message) => ({
+  type: actions.SEND_TO_PRODUCTION,
+  api: {
+    path: `${RECORD_PATH.configurations}/${id}`,
+    method: METHODS.PATCH,
+    body: {
+      data: {
+        promote: true
+      }
+    },
+    successCallback: successCallback(message, false, "")
+  }
+});

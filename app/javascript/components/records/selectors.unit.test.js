@@ -17,7 +17,8 @@ import {
   getIsProcessingSomeAttachment,
   getIsProcessingAttachments,
   getIsPendingAttachments,
-  getCasesPotentialMatches
+  getCasesPotentialMatches,
+  getLoadingCasesPotentialMatches
 } from "./selectors";
 
 const record = {
@@ -397,42 +398,44 @@ describe("Records - Selectors", () => {
 
   describe("getCasesPotentialMatches", () => {
     it("should return the potentialMatches values", () => {
-      const expected = fromJS({
-        data: [
-          {
-            likelihood: "likely",
-            score: 1,
-            case: {
-              id: "b216d9a8-5390-4d20-802b-ae415151ddbf",
-              case_id_display: "35e4065",
-              name: "Enrique Bunbury"
-            },
-            trace: {
-              inquiry_date: "2021-01-13",
-              tracing_request_id: "f6c3483e-d6e6-482e-bd7a-9c5808e0798c",
-              name: "Gustavo Cerati"
-            },
-            comparison: {
-              case_to_trace: [
-                {
-                  field_name: "age",
-                  match: "mismatch",
-                  case_value: 4,
-                  trace_value: 10
-                }
-              ]
-            }
+      const expected = fromJS([
+        {
+          likelihood: "likely",
+          score: 1,
+          case: {
+            id: "b216d9a8-5390-4d20-802b-ae415151ddbf",
+            case_id_display: "35e4065",
+            name: "Enrique Bunbury"
+          },
+          trace: {
+            inquiry_date: "2021-01-13",
+            tracing_request_id: "f6c3483e-d6e6-482e-bd7a-9c5808e0798c",
+            name: "Gustavo Cerati"
+          },
+          comparison: {
+            case_to_trace: [
+              {
+                field_name: "age",
+                match: "mismatch",
+                case_value: 4,
+                trace_value: 10
+              }
+            ]
           }
-        ],
-        loading: false,
-        errors: false
-      });
+        }
+      ]);
 
       expect(getCasesPotentialMatches(stateWithRecords)).to.deep.equals(expected);
     });
 
     it("should return empty object", () => {
       expect(getCasesPotentialMatches(stateWithoutRecords)).to.be.empty;
+    });
+  });
+
+  describe("getLoadingCasesPotentialMatches", () => {
+    it("should return the loading value for potentialMatches object", () => {
+      expect(getLoadingCasesPotentialMatches(stateWithRecords)).to.be.false;
     });
   });
 });

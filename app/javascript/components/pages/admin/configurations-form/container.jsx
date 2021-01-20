@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CheckIcon from "@material-ui/icons/Check";
+import PublishIcon from "@material-ui/icons/Publish";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -16,6 +17,7 @@ import { SAVE_METHODS } from "../../../../config";
 import bindFormSubmit from "../../../../libs/submit-form";
 import ActionDialog, { useDialog } from "../../../action-dialog";
 import { enqueueSnackbar } from "../../../notifier";
+import { useApp } from "../../../application";
 
 import { form, validations } from "./form";
 import {
@@ -23,10 +25,11 @@ import {
   clearSelectedConfiguration,
   deleteConfiguration,
   fetchConfiguration,
-  saveConfiguration
+  saveConfiguration,
+  sentToProduction
 } from "./action-creators";
-import { getConfiguration, getErrors, getServerErrors, getApplying } from "./selectors";
-import { NAME, APPLY_CONFIGURATION_MODAL, DELETE_CONFIGURATION_MODAL } from "./constants";
+import { getConfiguration, getErrors, getServerErrors, getApplying, getSending } from "./selectors";
+import { NAME, APPLY_CONFIGURATION_MODAL, DELETE_CONFIGURATION_MODAL, SEND_CONFIGURATION_MODAL } from "./constants";
 import { buildErrorMessages } from "./utils";
 import styles from "./styles.css";
 
@@ -36,21 +39,28 @@ const Container = ({ mode }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const { id } = useParams();
+  const { demo: isDemoSite } = useApp();
   const css = makeStyles(styles)();
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const configuration = useSelector(state => getConfiguration(state));
   const errors = useSelector(state => getErrors(state));
   const applying = useSelector(state => getApplying(state));
+  const sending = useSelector(state => getSending(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const validationSchema = validations(formMode, i18n);
 
   const { dialogOpen, dialogClose, pending, setDialogPending, setDialog } = useDialog([
     APPLY_CONFIGURATION_MODAL,
-    DELETE_CONFIGURATION_MODAL
+    DELETE_CONFIGURATION_MODAL,
+    SEND_CONFIGURATION_MODAL
   ]);
 
   const setApplyModal = () => {
     setDialog({ dialog: APPLY_CONFIGURATION_MODAL, open: true });
+  };
+
+  const setSendModal = () => {
+    setDialog({ dialog: SEND_CONFIGURATION_MODAL, open: true });
   };
 
   const setDeleteModal = () => {
@@ -70,6 +80,7 @@ const Container = ({ mode }) => {
 
   const handleApplyModal = () => dispatch(applyConfiguration({ id, i18n }));
   const handleApply = () => setApplyModal(true);
+  const handleSend = () => setSendModal(true);
 
   const handleSuccessDelete = () => {
     setDialogPending(true);
@@ -83,6 +94,8 @@ const Container = ({ mode }) => {
   };
 
   const handleDelete = () => setDeleteModal();
+
+  const handleSendToProd = configId => dispatch(sentToProduction(configId, i18n.t("configurations.messages.sent")));
 
   useEffect(() => {
     if (isEditOrShow) {
@@ -108,10 +121,15 @@ const Container = ({ mode }) => {
 
   const pageHeading = configuration?.size ? configuration.get("name") : i18n.t("configurations.label_new");
 
+  const renderSendToProductionBtn = isDemoSite && (
+    <FormAction actionHandler={handleSend} text={i18n.t("buttons.send")} startIcon={<PublishIcon />} />
+  );
+
   const editButton = formMode.get("isShow") ? (
     <>
       <FormAction actionHandler={handleDelete} text={i18n.t("buttons.delete")} startIcon={<DeleteIcon />} />
       <FormAction actionHandler={handleApply} text={i18n.t("buttons.apply")} startIcon={<CheckIcon />} />
+      {renderSendToProductionBtn}
     </>
   ) : null;
 
@@ -176,6 +194,15 @@ const Container = ({ mode }) => {
             <b>{i18n.t("configurations.apply_label_bold")}</b>
           </div>
         </ActionDialog>
+        <ActionDialog
+          open={dialogOpen[SEND_CONFIGURATION_MODAL]}
+          successHandler={() => handleSendToProd(id)}
+          cancelHandler={dialogClose}
+          dialogTitle={i18n.t("configurations.send_header")}
+          dialogText={i18n.t("configurations.send_text")}
+          confirmButtonLabel={i18n.t("buttons.send")}
+          pending={sending}
+        />
       </PageContent>
     </LoadingIndicator>
   );

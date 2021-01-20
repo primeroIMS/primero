@@ -8,8 +8,8 @@ class PrimeroConfigurationSyncJob < ApplicationJob
     configuration = PrimeroConfiguration.find_by(id: configuration_id)
     result = PrimeroConfigurationSyncService.sync!(configuration)
     result.present? && result[:status] >= 400 &&
-      Rails.logger.error("Error syncing Primero Configuration with id #{user_id}. Status: #{result[:status]}")
+      Rails.logger.error("Error syncing Primero Configuration with id #{configuration_id}. Status: #{result[:status]}")
   rescue StandardError => e
-    Rails.logger.error("Error syncing Primero Configuration with id #{user_id}. Error: #{e.message}")
+    Rails.logger.error("Error syncing Primero Configuration with id #{configuration_id}. Error: #{e.message}")
   end
 end

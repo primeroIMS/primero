@@ -59,7 +59,7 @@ describe("<ConfigurationsForm />", () => {
     });
 
     it("should render 2 ActionDialog component", () => {
-      expect(component.find(ActionDialog)).to.have.lengthOf(2);
+      expect(component.find(ActionDialog)).to.have.lengthOf(3);
     });
   });
 
@@ -82,7 +82,7 @@ describe("<ConfigurationsForm />", () => {
     });
 
     it("should render 2 ActionDialog component", () => {
-      expect(component.find(ActionDialog)).to.have.lengthOf(2);
+      expect(component.find(ActionDialog)).to.have.lengthOf(3);
     });
   });
 });
