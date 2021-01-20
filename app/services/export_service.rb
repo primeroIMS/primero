@@ -36,9 +36,7 @@ class ExportService
       return log_missing_password(bulk_export) unless password
 
       encrypted_password = EncryptionService.encrypt(password)
-      # TODO: Just testing
-      # BulkExportJob.perform_later(bulk_export.id, encrypted_password)
-      BulkExportJob.perform_now(bulk_export.id, encrypted_password)
+      BulkExportJob.perform_later(bulk_export.id, encrypted_password)
     end
 
     def log_missing_password(bulk_export)

@@ -9,11 +9,6 @@ class BulkExportJob < ApplicationJob
 
     password = EncryptionService.decrypt(encrypted_password)
     bulk_export(bulk_export_id).export(password)
-    # TODO: Just testing...
-    exported = @bulk_exporter.exporter.buffer.string
-    csv_stuff = CSV.parse(exported)
-    binding.pry
-    x=0
   rescue Errors::MisconfiguredEncryptionError => e
     log_encryption_error(bulk_export_id, e)
   end
