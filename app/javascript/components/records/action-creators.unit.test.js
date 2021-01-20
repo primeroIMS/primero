@@ -32,11 +32,13 @@ describe("records - Action Creators", () => {
       "fetchCasesPotentialMatches",
       "fetchIncidentFromCase",
       "fetchIncidentwitCaseId",
+      "fetchTracePotentialMatches",
       "fetchRecord",
       "fetchRecordsAlerts",
       "saveRecord",
       "setCaseIdForIncident",
-      "setSelectedRecord"
+      "setSelectedRecord",
+      "setSelectedPotentialMatch"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -333,5 +335,16 @@ describe("records - Action Creators", () => {
     };
 
     expect(actionCreators.fetchCasesPotentialMatches("1234", RECORD_PATH.cases)).be.deep.equals(expected);
+  });
+
+  it("should check the 'fetchTracePotentialMatches' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.tracing_requests}/FETCH_TRACE_POTENTIAL_MATCHES`,
+      api: {
+        path: `${RECORD_PATH.traces}/12345/potential_matches`
+      }
+    };
+
+    expect(actionCreators.fetchTracePotentialMatches("12345", RECORD_PATH.tracing_requests)).be.deep.equals(expected);
   });
 });

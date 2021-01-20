@@ -152,6 +152,15 @@ export const getRecordForms = (state, query) => {
   return denormalizedForms.valueSeq();
 };
 
+export const getOrderedRecordForms = (state, query) => {
+  return getRecordForms(state, query)
+    .sortBy(fs => fs.order)
+    .groupBy(fs => fs.group)
+    .sortBy(fs => fs.first().get("groupOrder"))
+    .valueSeq()
+    .flatten();
+};
+
 export const getRecordFormsByUniqueId = (state, query) => {
   const { recordType, primeroModule, formName, checkVisible, i18n } = query;
 

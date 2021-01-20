@@ -63,19 +63,22 @@ en:
     code: Agency Code
     description: Description
     disabled: Disabled
+    exclude_agency_from_lookups: Exclude this agency from lookups and filters
+    exclude_agency_from_lookups_help: Check this if the Agency doesn’t have users (e.g., the Agency was added so the logo could be applied to exports.
     label: Agency
-    logo_enabled: Logo Enabled?
-    logo_enabled_help: Display these logos on the Login page and Navigation menu.
+    logo_enabled: Display this agency’s logo in Primero?
+    logo_enabled_help: Display this agency’s logo in Primero?
     logo_icon: Icon Logo
     logo_icon_help: This will appear on small screen sizes, tablets, and phones. This
       should be a square.
     logo_large: Large Logo
-    logo_large_help: This will appear on large screen sizes. This should be a rectangle,
-      with the length longer than the height.
+    logo_large_help: This will appear on large screen sizes and in PDF exports. This should be a rectangle, with the length longer than the height.
     messages:
       created: Agency was successfully created.
       updated: Agency was successfully updated.
     name: Agency Name
+    pdf_logo_option: Make logo available for PDF exports?
+    pdf_logo_option_help: 'Note:  user’s Agency logos are available to them by default, so you only check this if you want this logo to be available to all users.'
     services: Agency Services
   approvals:
     approved_by: Approved By
@@ -810,6 +813,10 @@ en:
       header: Header
       custom_header: Custom Header
       signatures: Include signature lines for
+      include_implementation_logos: Include implementation logos?
+      include_implementation_logos_help_text: This will include logos which appear in the navigation menu and on the login page.
+      include_agency_logo: Include agency logo?
+      include_other_logos: Include other logos?
     duplicate_id_csv:
       all: Duplicate ID
       female_abbreviation: F
@@ -2772,6 +2779,7 @@ en:
             label: Edit
         label: User Groups
   potential_match:
+    case_id: Case ID
     child_age: Age
     child_gender: Gender
     child_id: child id#
@@ -2779,11 +2787,13 @@ en:
     inquirer_tr_name: tracing request
     inquiry_date: date of inquiry
     name: Name
-    score: score
+    score: Score
     social_worker: Social worker
     social_worker_agency: Agency
     tracing_request_id: Tracing Request ID
     trace: Trace
+    likelihood_likely: Likely
+    likelihood_possible: Possible
   potential_matches:
     display: Displaying potential matches for %{type} %{id}
   reassign:
@@ -2958,7 +2968,12 @@ en:
     has_match: Has Match
     find_match: Find Match
     back_to_traces: Back to Traces
+    back_to_potential_matches: Back to Potential Matches
+    traces: Traces
+    trace: Trace
+    match: Match
     messages:
+      nothing_found: Nothing found
       update_success: 'Tracing Request %{record_id} was successfully updated.'
       creation_success: Tracing Request record successfully created.
       update_success_queue: 'Tracing Request %{record_id} was successfully updated in background.'
@@ -2973,6 +2988,8 @@ en:
       status: Status
     label: Tracing Requests
     name_of_inquirer: Name of Inquirer
+    inquirer: Inquirer
+    name: Name
     register_new_tracing_request: New Tracing Request
     selectable_date_options:
       inquiry_date: Date of Inquiry
