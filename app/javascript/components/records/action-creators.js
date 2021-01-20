@@ -18,13 +18,9 @@ import {
   SET_SELECTED_RECORD,
   CLEAR_SELECTED_RECORD,
   FETCH_CASES_POTENTIAL_MATCHES,
-<<<<<<< HEAD
-  SET_SELECTED_POTENTIAL_MATCH,
   SET_CASE_POTENTIAL_MATCH,
-  CLEAR_CASE_POTENTIAL_MATCH
-=======
+  CLEAR_CASE_POTENTIAL_MATCH,
   SET_SELECTED_POTENTIAL_MATCH
->>>>>>> r2-1225-ftr-match-from-case-find-match-action
 } from "./actions";
 
 const getSuccessCallback = ({
