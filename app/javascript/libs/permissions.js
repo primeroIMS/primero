@@ -92,6 +92,7 @@ export const RESOURCES = {
   contact_information: "contact_information",
   dashboards: "dashboards",
   incidents: "incidents",
+  kpis: "kpis",
   locations: "locations",
   lookups: "lookups",
   metadata: "metadata",
@@ -244,3 +245,5 @@ export const allowedExportTypes = userPermissions =>
 export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.CHANGE_LOG];
 
 export const SHOW_FIND_MATCH = [...MANAGE, ACTIONS.POTENTIAL_MATCH_READ];
+
+export const VIEW_KPIS = [ ACTIONS.READ ];

@@ -1642,6 +1642,7 @@ en:
       incident: Incident
       incident_details_from_case: Add Incident Details to another user's case
       incident_from_case: Create an incident from a case
+      kpi: Pulse/KPIs
       lookup: Lookups
       manage: Manage
       matching_configuration: Matching Configuration
@@ -1689,6 +1690,9 @@ en:
     resource:
       kpi:
         actions:
+          read:
+            explanation: Ability to access the Pulse/KPIs page.
+            label: Access Pulse/KPIs Page.
           kpi_assessment_status:
             explanation: Ability to see, for the active cases that the user has access to,
               what proportion of them have a completed assessment form.
@@ -1719,7 +1723,7 @@ en:
             explanation: Ability to see, for active cases that the user has access to,
               what proportion required and completed a Saftey Plan.
             label: Completed Case Safety Plans
-          kpi_completed_supervisor_assessed_case_action_plans:
+          kpi_completed_supervisor_approved_case_action_plans:
             explanation: Ability to see, for active cases that the user has access to,
               what proportion completed a Case Action Plan that was approved by a supervisor.
             label: Completed Action Plan Approved by Supervisor
