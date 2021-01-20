@@ -96,7 +96,8 @@ describe("User - Reducers", () => {
         },
         FilterRecord
       ),
-      location: "XX"
+      location: "XX",
+      agencyLogo: undefined
     });
     const payload = {
       id: 1,
@@ -153,7 +154,9 @@ describe("User - Reducers", () => {
             type: "toggle"
           }
         ]
-      }
+      },
+      agency_logo_full: "/rails/active_storage/blobs/2lkIn19--049c807149445f6bd72621ae500340ac544e85d8/unicef-full.png",
+      agency_logo_icon: "/rails/active_storage/blobs/2lkIn19--049c807149445f6bd72621ae500340ac544e85d8/unicef-icon.png"
     };
     const action = {
       type: Actions.FETCH_USER_DATA_SUCCESS,

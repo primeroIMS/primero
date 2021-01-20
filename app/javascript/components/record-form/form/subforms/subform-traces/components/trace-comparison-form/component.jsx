@@ -26,19 +26,22 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
   const { id } = useParams();
   const dispatch = useDispatch();
   const { matched_case_id: matchedCaseId } = traceValues;
-  const record = useSelector(state => selectRecord(state, { isShow: true }, recordType, id), compare);
   const i18n = useI18n();
+
+  const record = useSelector(state => selectRecord(state, { isShow: true }, recordType, id), compare);
   const fields = useSelector(state => getFields(state), compare);
   const forms = useSelector(
     state => getOrderedRecordForms(state, { primeroModule: record.get("module_id"), recordType: RECORD_TYPES.cases }),
     compare
   );
+
   const traceShortId = getShortIdFromUniqueId(potentialMatch.getIn(["trace", "id"]));
   const caseShortId = potentialMatch.getIn(["case", "case_id_display"]);
   const caseId = potentialMatch.getIn(["case", "id"]);
   const traceId = potentialMatch.getIn(["trace", "id"]);
   const currentMatchedCaseId = potentialMatch.getIn(["trace", "matched_case_id"]);
   const comparedFields = potentialMatch.getIn(["comparison", "case_to_trace"], fromJS([]));
+
   const topFields = TOP_FIELD_NAMES.map(fieldName => fields.find(field => field.name === fieldName)).filter(
     field => field
   );

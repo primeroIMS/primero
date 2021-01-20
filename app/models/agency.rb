@@ -25,6 +25,7 @@ class Agency < ApplicationRecord
 
   scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
   scope :with_logos, -> { enabled.where(logo_enabled: true) }
+  scope :with_pdf_logo_option, -> { enabled.where(pdf_logo_option: true) }
 
   validates :logo_full, file_size: { less_than_or_equal_to: 1.megabytes },
                         file_content_type: { allow: 'image/png' }, if: -> { logo_full.attached? }
