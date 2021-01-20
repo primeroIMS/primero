@@ -49,7 +49,10 @@ const stateWithNoRecords = fromJS({});
 const stateWithRecords = fromJS({
   application: {
     primero: {
-      sandbox_ui: true
+      sandbox_ui: true,
+      agenciesLogoPdf: [agencyWithLogo, agency1],
+      agencies_logo_options: [agencyWithLogo, agency1],
+      locales: ["en", "fr", "ar"]
     },
     userIdle: true,
     agencies: [agencyWithLogo, agency1, agency2, agency3],
@@ -85,7 +88,6 @@ const stateWithRecords = fromJS({
       management: [GROUP_PERMISSIONS.SELF],
       resource_actions: { case: [ACTIONS.READ] }
     }),
-    locales: ["en", "fr", "ar"],
     defaultLocale: "en",
     baseLanguage: "en",
     primeroVersion: "2.0.0.1",
@@ -312,6 +314,20 @@ describe("Application - Selectors", () => {
       const selector = selectors.getAdminLevel(stateWithRecords);
 
       expect(selector).to.be.equal(2);
+    });
+  });
+
+  describe("getAdminLevel", () => {
+    it("should return agency if fromApplication is true", () => {
+      const selector = selectors.getAgencyLogosPdf(stateWithRecords, true);
+
+      expect(selector.size).to.be.equal(2);
+    });
+
+    it("should return agency if fromApplication is false", () => {
+      const selector = selectors.getAgencyLogosPdf(stateWithRecords, false);
+
+      expect(selector.size).to.be.equal(2);
     });
   });
 });

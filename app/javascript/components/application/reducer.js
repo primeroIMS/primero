@@ -16,7 +16,6 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       const {
         agencies,
         modules,
-        locales,
         default_locale: defaultLocale,
         base_language: baseLanguage,
         primero_version: primeroVersion,
@@ -29,7 +28,6 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         fromJS({
           agencies,
           modules: mapEntriesToRecord(modules, PrimeroModuleRecord),
-          locales,
           defaultLocale,
           baseLanguage,
           primeroVersion,

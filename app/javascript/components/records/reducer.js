@@ -38,9 +38,13 @@ import {
   FETCH_TRACE_POTENTIAL_MATCHES_FINISHED,
   FETCH_TRACE_POTENTIAL_MATCHES_STARTED,
   FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS,
+<<<<<<< HEAD
   SET_SELECTED_POTENTIAL_MATCH,
   SET_CASE_POTENTIAL_MATCH,
   CLEAR_CASE_POTENTIAL_MATCH
+=======
+  SET_SELECTED_POTENTIAL_MATCH
+>>>>>>> r2-1225-ftr-match-from-case-find-match-action
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -180,23 +184,19 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("recordAttachments", fromJS({}));
     }
     case `${namespace}/${FETCH_CASES_POTENTIAL_MATCHES_STARTED}`:
-    case `${namespace}/${FETCH_TRACE_POTENTIAL_MATCHES_STARTED}`: {
+    case `${namespace}/${FETCH_TRACE_POTENTIAL_MATCHES_STARTED}`:
       return state.setIn(["potentialMatches", "loading"], true).setIn(["potentialMatches", "errors"], false);
-    }
     case `${namespace}/${FETCH_CASES_POTENTIAL_MATCHES_SUCCESS}`:
-    case `${namespace}/${FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS}`: {
+    case `${namespace}/${FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS}`:
       return state
         .setIn(["potentialMatches", "data"], fromJS(payload.data.potential_matches))
         .setIn(["potentialMatches", "record"], fromJS(payload.data.record));
-    }
     case `${namespace}/${FETCH_CASES_POTENTIAL_MATCHES_FINISHED}`:
-    case `${namespace}/${FETCH_TRACE_POTENTIAL_MATCHES_FINISHED}`: {
+    case `${namespace}/${FETCH_TRACE_POTENTIAL_MATCHES_FINISHED}`:
       return state.setIn(["potentialMatches", "loading"], false);
-    }
     case `${namespace}/${FETCH_CASES_POTENTIAL_MATCHES_FAILURE}`:
-    case `${namespace}/${FETCH_TRACE_POTENTIAL_MATCHES_FAILURE}`: {
+    case `${namespace}/${FETCH_TRACE_POTENTIAL_MATCHES_FAILURE}`:
       return state.setIn(["potentialMatches", "errors"], true);
-    }
     case `${namespace}/${SET_SELECTED_POTENTIAL_MATCH}`: {
       return state.setIn(
         ["potentialMatches", "selectedPotentialMatch"],
