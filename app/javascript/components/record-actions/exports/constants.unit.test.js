@@ -16,6 +16,8 @@ describe("<RecordActions /> - exports/constants", () => {
       "FILTERS_TO_SKIP",
       "FORMS_ID",
       "FORM_TO_EXPORT_FIELD",
+      "INCLUDE_IMPLEMENTATION_LOGOS",
+      "INCLUDE_AGENCY_LOGO",
       "INDIVIDUAL_FIELDS_FIELD",
       "MODULE_FIELD",
       "NAME",

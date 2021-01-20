@@ -8,16 +8,22 @@ import { fromJS, isImmutable } from "immutable";
 
 import { useI18n } from "../i18n";
 import { enqueueSnackbar } from "../notifier";
-import { CUSTOM_HEADER, HEADER, SIGNATURES } from "../record-actions/exports/constants";
+import {
+  CUSTOM_HEADER,
+  HEADER,
+  SIGNATURES,
+  INCLUDE_IMPLEMENTATION_LOGOS,
+  INCLUDE_AGENCY_LOGO
+} from "../record-actions/exports/constants";
 import { getOptions } from "../form/selectors";
-import { getAgencyLogos } from "../application/selectors";
 
 import Signatures from "./components/signatures";
 import { getCustomFormTitle } from "./selectors";
 import { HTML_2_PDF_OPTIONS, PDF_HEADER_LOOKUP } from "./constants";
 import styles from "./styles.css";
-import { addPageHeaderFooter } from "./utils";
+import { addPageHeaderFooter, getLogosToRender } from "./utils";
 import RenderTable from "./components/render-table";
+import Logos from "./components/logos";
 
 const Component = (
   {
@@ -27,7 +33,9 @@ const Component = (
     formsSelectedSelector,
     formsSelectedFieldDefault,
     customFilenameField,
-    customFormProps
+    customFormProps,
+    currentUser,
+    agenciesWithLogosEnabled
   },
   ref
 ) => {
@@ -47,11 +55,13 @@ const Component = (
   const customTitle = useSelector(state => getCustomFormTitle(state, title, watch));
   const headerOptions = useSelector(state => getOptions(state, PDF_HEADER_LOOKUP, i18n));
 
-  const { [CUSTOM_HEADER]: customHeader, [HEADER]: header, [SIGNATURES]: signatures } = watch([
-    CUSTOM_HEADER,
-    HEADER,
-    SIGNATURES
-  ]);
+  const {
+    [CUSTOM_HEADER]: customHeader,
+    [HEADER]: header,
+    [SIGNATURES]: signatures,
+    [INCLUDE_IMPLEMENTATION_LOGOS]: includeImplementationLogos,
+    [INCLUDE_AGENCY_LOGO]: includeAgencyLogos
+  } = watch([CUSTOM_HEADER, HEADER, SIGNATURES, INCLUDE_IMPLEMENTATION_LOGOS, INCLUDE_AGENCY_LOGO]);
   const watchedValues = watch(customFormFields.map(referralField => referralField.name));
   const userSelectedForms = formsSelectedField ? watch(formsSelectedField, formsSelectedFieldDefault || []) : false;
 
@@ -74,7 +84,7 @@ const Component = (
     ? forms.filter(form => filteredByFields.includes(form.unique_id))
     : forms;
 
-  const logos = useSelector(state => getAgencyLogos(state));
+  const logos = getLogosToRender(agenciesWithLogosEnabled, currentUser, includeImplementationLogos, includeAgencyLogos);
 
   useImperativeHandle(ref, () => ({
     savePdf({ setPending, close, values }) {
@@ -117,17 +127,7 @@ const Component = (
   return (
     <>
       <div ref={mainHeaderRef} className={css.headerContainer}>
-        <div className={css.info}>
-          <div>
-            <div className={css.caseID}>{i18n.t("cases.show_case", { short_id: record.get("short_id") })}</div>
-            <div>{i18n.t("exports.printed", { date: i18n.localizeDate(new Date()) })}</div>
-          </div>
-          <div className={css.logos}>
-            {logos.map(logo => (
-              <img src={logo.get("logo_full")} alt={logo.get("name")} />
-            ))}
-          </div>
-        </div>
+        <Logos shortId={record.get("short_id")} logos={logos} css={css} />
         {header && (
           <Typography variant="inherit" component="h2" align="center">
             {selectedHeader}
@@ -140,8 +140,7 @@ const Component = (
         )}
       </div>
       <div ref={secondaryHeaderRef} className={css.secondaryHeaderContainer}>
-        <div className={css.caseID}>{i18n.t("cases.show_case", { short_id: record.get("short_id") })}</div>
-        <div>{i18n.t("exports.printed", { date: i18n.localizeDate(new Date()) })}</div>
+        <Logos shortId={record.get("short_id")} logos={logos} css={css} />
       </div>
       <div ref={html} className={css.container}>
         {customFormProps && isRemote && (
@@ -164,6 +163,8 @@ const Component = (
 Component.displayName = "PdfExporter";
 
 Component.propTypes = {
+  agenciesWithLogosEnabled: PropTypes.array,
+  currentUser: PropTypes.object,
   customFilenameField: PropTypes.string.isRequired,
   customFormProps: PropTypes.shape({
     condition: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

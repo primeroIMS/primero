@@ -31,6 +31,6 @@ describe("<RecordActions /> - exports/form", () => {
       fields
     );
 
-    expect(formFields).to.have.lengthOf(11);
+    expect(formFields).to.have.lengthOf(13);
   });
 });

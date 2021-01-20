@@ -1,6 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 
 import domtoimage from "dom-to-image-more";
+import isEqual from "lodash/isEqual";
+import uniqWith from "lodash/uniqWith";
 
 import { PAGE_MARGIN } from "./constants";
 
@@ -64,4 +66,16 @@ export const addPageHeaderFooter = async (pdf, mainHeaderRef, secondaryHeaderRef
     pdf.setFontSize(10);
     pdf.text(`${page}`, PAGE_MARGIN, pageContentHeight);
   }
+};
+
+export const getLogosToRender = (agencies, user, includeImplementationLogos, includeUserAgencyLogos) => {
+  const implementationLogos =
+    (includeImplementationLogos &&
+      agencies.reduce((accum, curr) => [...accum, { logoFull: curr.getIn(["images", "logo_full"]) }], [])) ||
+    [];
+  const userLogos = (includeUserAgencyLogos && [{ logoFull: user.get("agencyLogoFull") }]) || [];
+
+  const logos = implementationLogos.concat(userLogos);
+
+  return uniqWith(logos, isEqual);
 };
