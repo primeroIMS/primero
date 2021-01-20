@@ -2752,6 +2752,7 @@ en:
             label: Edit
         label: User Groups
   potential_match:
+    case_id: Case ID
     child_age: Age
     child_gender: Gender
     child_id: child id#
@@ -2759,9 +2760,11 @@ en:
     inquirer_tr_name: tracing request
     inquiry_date: date of inquiry
     name: Name
-    score: score
+    score: Score
     social_worker: Social worker
     social_worker_agency: Agency
+    likelihood_likely: Likely
+    likelihood_possible: Possible
   potential_matches:
     display: Displaying potential matches for %{type} %{id}
   reassign:
@@ -2936,6 +2939,7 @@ en:
     has_match: Has Match
     find_match: Find Match
     back_to_traces: Back to Traces
+    traces: Traces
     messages:
       update_success: 'Tracing Request %{record_id} was successfully updated.'
       creation_success: Tracing Request record successfully created.
@@ -2951,6 +2955,8 @@ en:
       status: Status
     label: Tracing Requests
     name_of_inquirer: Name of Inquirer
+    inquirer: Inquirer
+    name: Name
     register_new_tracing_request: New Tracing Request
     selectable_date_options:
       inquiry_date: Date of Inquiry

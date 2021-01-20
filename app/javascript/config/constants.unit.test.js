@@ -56,6 +56,7 @@ describe("Verifying config constant", () => {
       "NAME_FIELD",
       "PASSWORD_MIN_LENGTH",
       "PERMITTED_URL",
+      "POTENTIAL_MATCH_LIKELIHOOD",
       "RECORD_INFORMATION",
       "RECORD_OWNER",
       "RECORD_PATH",

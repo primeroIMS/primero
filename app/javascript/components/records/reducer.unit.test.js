@@ -263,6 +263,66 @@ describe("<RecordList /> - Reducers", () => {
     expect(newState).to.deep.equals(expected);
   });
 
+  it("should handle FETCH_TRACE_POTENTIAL_MATCHES_STARTED", () => {
+    const expected = fromJS({ potentialMatches: { loading: true, errors: false } });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACE_POTENTIAL_MATCHES_STARTED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS", () => {
+    const potentialMatch = {
+      score: 1,
+      likelihood: "possible",
+      case: { id: "case-123" },
+      trace: { id: "trace-789" }
+    };
+    const record = {
+      id: "trace-789",
+      type: "trace"
+    };
+
+    const expected = fromJS({ potentialMatches: { data: [potentialMatch], record } });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS",
+      payload: { data: { potential_matches: [potentialMatch], record } }
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACE_POTENTIAL_MATCHES_FAILURE", () => {
+    const expected = fromJS({ potentialMatches: { errors: true } });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACE_POTENTIAL_MATCHES_FAILURE"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACE_POTENTIAL_MATCHES_FINISHED", () => {
+    const expected = fromJS({ potentialMatches: { loading: false } });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACE_POTENTIAL_MATCHES_FINISHED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
   describe("when record type is cases", () => {
     const casesReducer = reducer("cases");
 

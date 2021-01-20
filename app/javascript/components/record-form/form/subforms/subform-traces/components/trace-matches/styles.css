@@ -1,0 +1,18 @@
+.listTitle {
+  & span {
+    font-weight: bold;
+  }
+}
+
+.caseLink {
+  color: $(theme.primero.colors.blue);
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.likely {
+  font-weight: bold;
+}
