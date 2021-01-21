@@ -5,7 +5,12 @@ import isEmpty from "lodash/isEmpty";
 import { List, ListItemText } from "@material-ui/core";
 import { fromJS } from "immutable";
 
-import { fetchCasesPotentialMatches, getCasesPotentialMatches, setSelectedCasePotentialMatch } from "../../../records";
+import {
+  fetchCasesPotentialMatches,
+  getCasesPotentialMatches,
+  getLoadingCasesPotentialMatches,
+  setSelectedCasePotentialMatch
+} from "../../../records";
 import { RECORD_PATH } from "../../../../config";
 import LoadingIndicator from "../../../loading-indicator";
 import IndexTable from "../../../index-table";
@@ -16,9 +21,8 @@ import { columns } from "./utils";
 
 const Component = ({ css, i18n, mode, open, record, setSelectedForm }) => {
   const dispatch = useDispatch();
-  const potentialMatches = useSelector(state => getCasesPotentialMatches(state));
-  const loading = potentialMatches.get("loading", false);
-  const data = potentialMatches.get("data", []);
+  const data = useSelector(state => getCasesPotentialMatches(state));
+  const loading = useSelector(state => getLoadingCasesPotentialMatches(state));
 
   useEffect(() => {
     if (open && !mode.isNew) {

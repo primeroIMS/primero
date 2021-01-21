@@ -20,10 +20,11 @@ import {
   CLEAR_SELECTED_RECORD,
   SET_MACHED_CASE_FOR_TRACE,
   FETCH_CASES_POTENTIAL_MATCHES,
-  SET_SELECTED_POTENTIAL_MATCH,
   SET_CASE_POTENTIAL_MATCH,
   CLEAR_CASE_POTENTIAL_MATCH,
-  FETCH_CASE_MATCHED_TRACES
+  FETCH_CASE_MATCHED_TRACES,
+  SET_SELECTED_POTENTIAL_MATCH,
+  CLEAR_MATCHED_TRACES
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -262,4 +263,8 @@ export const fetchMatchedTraces = (recordType, recordId) => ({
   api: {
     path: `${recordType}/${recordId}/traces`
   }
+});
+
+export const clearMatchedTraces = () => ({
+  type: `${RECORD_PATH.cases}/${CLEAR_MATCHED_TRACES}`
 });

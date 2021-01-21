@@ -5,18 +5,22 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
+import { getShortIdFromUniqueId } from "../../../../../records";
 
 import { NAME } from "./constants";
 
-const Component = ({ css, matchedTrace }) => {
+const Component = ({ css, matchedTrace, setOpen, setSelectedTraceId }) => {
   const matchedTraceId = matchedTrace.get("id");
-  const handleOnClick = id => console.log("ID", id);
+  const handleOnClick = id => {
+    setOpen(true);
+    setSelectedTraceId(id);
+  };
 
   return (
     <ExpansionPanel expanded={false} onChange={() => handleOnClick(matchedTraceId)}>
       <ExpansionPanelSummary expandIcon={<ChevronRightIcon />} aria-controls="filter-controls-content" id={1}>
         <ActionButton
-          text={matchedTraceId}
+          text={getShortIdFromUniqueId(matchedTraceId)}
           type={ACTION_BUTTON_TYPES.default}
           isTransparent
           rest={{
@@ -33,7 +37,9 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   css: PropTypes.object,
-  matchedTrace: PropTypes.object
+  matchedTrace: PropTypes.object,
+  setOpen: PropTypes.func,
+  setSelectedTraceId: PropTypes.func
 };
 
 export default Component;

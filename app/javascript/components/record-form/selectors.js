@@ -10,6 +10,23 @@ import { CUSTOM_FORM_IDS_NAV } from "./nav/constants";
 import { NavRecord, FormSectionRecord } from "./records";
 import NAMESPACE from "./namespace";
 
+const filterForms = (forms, { recordType, primeroModule, checkVisible }) => {
+  const formSections = forms.filter(
+    formSection =>
+      (Array.isArray(primeroModule)
+        ? formSection.module_ids.some(mod => primeroModule.includes(mod))
+        : formSection.module_ids.includes(primeroModule)) &&
+      formSection.parent_form === recordType &&
+      !formSection.is_nested
+  );
+
+  if (checkVisible === false) {
+    return formSections;
+  }
+
+  return formSections.filter(fs => fs.visible);
+};
+
 const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }) => {
   const allFormSections = state.getIn([NAMESPACE, "formSections"]);
 
@@ -21,20 +38,7 @@ const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }
 
   const userFormSection = formsIds ? allFormSections.filter(fs => formsIds.includes(fs.unique_id)) : allFormSections;
 
-  const formSections = userFormSection.filter(
-    fs =>
-      (Array.isArray(primeroModule)
-        ? fs.module_ids.some(mod => primeroModule.includes(mod))
-        : fs.module_ids.includes(primeroModule)) &&
-      fs.parent_form === recordType &&
-      !fs.is_nested
-  );
-
-  if (checkVisible === false) {
-    return formSections;
-  }
-
-  return formSections.filter(fs => fs.visible);
+  return filterForms(userFormSection, { recordType, primeroModule, checkVisible });
 };
 
 const isAStickyOption = (opt, stickyOption) =>
@@ -116,13 +120,16 @@ export const getFormNav = (state, query) => {
 
   if (!selectedForms) return null;
 
-  const { i18n, renderCustomForms } = query;
+  const { i18n, renderCustomForms, recordType, primeroModule } = query;
   let allSelectedForms = selectedForms;
 
   if (renderCustomForms) {
-    const allCustomForms = Object.entries(customForms(i18n)).reduce((acc, curr) => {
-      return { ...acc, [curr[1].id]: curr[1] };
-    }, {});
+    const filteredCustomForms = filterForms(List(Object.values(customForms(i18n))), {
+      recordType,
+      primeroModule,
+      checkVisible: true
+    });
+    const allCustomForms = filteredCustomForms.reduce((acc, form) => ({ ...acc, [form.id]: form }), {});
 
     allSelectedForms = allSelectedForms.concat(allCustomForms);
   }

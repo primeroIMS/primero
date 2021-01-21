@@ -13,7 +13,7 @@ import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import generateKey from "../charts/table-values/utils";
 import { FORMS } from "../record-form/form/subforms/subform-traces/constants";
 import SubformDrawer from "../record-form/form/subforms/subform-drawer";
-import { getSelectedPotentialMatch, getMatchedTraces, fetchMatchedTraces } from "../records";
+import { getSelectedPotentialMatch, getMatchedTraces, fetchMatchedTraces, getLoadingMatchedTraces } from "../records";
 import { RECORD_PATH } from "../../config";
 
 import { MatchesForm, ComparisonForm, MatchedTraces } from "./components";
@@ -29,7 +29,8 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
   const [open, setOpen] = useState(false);
   const [selectedForm, setSelectedForm] = useState(FORMS.matches);
   const potentialMatch = useSelector(state => getSelectedPotentialMatch(state, RECORD_PATH.cases));
-  const matchedTraces = useSelector(state => getMatchedTraces(state));
+  const matchedTracesData = useSelector(state => getMatchedTraces(state));
+  const matchedTracesLoading = useSelector(state => getLoadingMatchedTraces(state));
 
   useEffect(() => {
     dispatch(fetchMatchedTraces(RECORD_PATH.cases, recordId));
@@ -110,7 +111,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
         </SubformDrawer>
       </div>
       {renderFields}
-      <MatchedTraces data={matchedTraces.get("data", fromJS([]))} loading={matchedTraces.get("loading", false)} />
+      <MatchedTraces data={matchedTracesData} loading={matchedTracesLoading} recordId={recordId} />
     </div>
   );
 };
