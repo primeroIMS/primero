@@ -129,7 +129,7 @@ class BulkExport < ApplicationRecord
   def attach_export_file(file)
     return unless file && File.size?(file)
 
-    export_instance&.export_file.attach(
+    export_instance&.export_file&.attach(
       io: File.open(file),
       filename: File.basename(file)
     )
@@ -137,6 +137,6 @@ class BulkExport < ApplicationRecord
   end
 
   def export_instance
-    @export_instance ||= self.format == Exporters::DuplicateIdCSVExporter.id ? BulkExport.find_by(id: self.id) : self
+    @export_instance ||= self.format == Exporters::DuplicateIdCSVExporter.id ? BulkExport.find_by(id: id) : self
   end
 end
