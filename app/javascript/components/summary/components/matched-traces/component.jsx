@@ -20,7 +20,7 @@ import { MatchedTracePanel } from "./components";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ data, loading, recordId }) => {
+const Component = ({ data, loading, recordId, setSelectedForm }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
@@ -66,6 +66,8 @@ const Component = ({ data, loading, recordId }) => {
             selectedForm="matched-trace-detail"
             recordType={RECORD_PATH.cases}
             potentialMatch={selectedTrace}
+            setSelectedForm={setSelectedForm}
+            hideBack
           />
         </LoadingIndicator>
       </SubformDrawer>
@@ -78,7 +80,8 @@ Component.displayName = NAME;
 Component.propTypes = {
   data: PropTypes.object,
   loading: PropTypes.bool,
-  recordId: PropTypes.string
+  recordId: PropTypes.string,
+  setSelectedForm: PropTypes.func
 };
 
 export default Component;

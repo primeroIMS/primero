@@ -21,7 +21,15 @@ import { NAME, TOP_FIELD_NAMES } from "./constants";
 import { getComparisons } from "./utils";
 import styles from "./styles.css";
 
-const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, traceValues }) => {
+const Component = ({
+  selectedForm,
+  recordType,
+  potentialMatch,
+  setSelectedForm,
+  traceValues,
+  hideFindMatch,
+  hideBack
+}) => {
   const css = makeStyles(styles)();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -126,14 +134,16 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
     dispatch(fetchMatchedTraces(RECORD_PATH.cases, caseId));
   }, [caseId]);
 
+  const traceActionsProps = {
+    ...{ ...(!hideFindMatch ? { handleConfirm } : {}) },
+    ...{ ...(!hideBack ? { handleBack } : {}) },
+    selectedForm,
+    recordType
+  };
+
   return (
     <>
-      <TraceActions
-        handleBack={handleBack}
-        handleConfirm={handleConfirm}
-        selectedForm={selectedForm}
-        recordType={recordType}
-      />
+      <TraceActions {...traceActionsProps} />
       <Grid container spacing={2}>
         <Grid container item>
           {hasMatchedTraces && (
@@ -163,6 +173,8 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
 };
 
 Component.propTypes = {
+  hideBack: PropTypes.bool,
+  hideFindMatch: PropTypes.bool,
   potentialMatch: PropTypes.object.isRequired,
   recordType: PropTypes.string.isRequired,
   selectedForm: PropTypes.string.isRequired,

@@ -60,7 +60,6 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
     i18n,
     css,
     recordType,
-    handleBack: () => setSelectedForm(FORMS.matches),
     selectedForm,
     setSelectedForm,
     potentialMatch,
@@ -110,7 +109,12 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
         </SubformDrawer>
       </div>
       {renderFields}
-      <MatchedTraces data={matchedTracesData} loading={matchedTracesLoading} recordId={recordId} />
+      <MatchedTraces
+        data={matchedTracesData}
+        loading={matchedTracesLoading}
+        recordId={recordId}
+        setSelectedForm={setSelectedForm}
+      />
     </div>
   );
 };

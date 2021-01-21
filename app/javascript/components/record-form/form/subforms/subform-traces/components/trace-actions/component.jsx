@@ -72,8 +72,8 @@ const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedFo
 };
 
 Component.propTypes = {
-  handleBack: PropTypes.func.isRequired,
-  handleConfirm: PropTypes.func.isRequired,
+  handleBack: PropTypes.func,
+  handleConfirm: PropTypes.func,
   hasMatch: PropTypes.bool,
   recordType: PropTypes.string.isRequired,
   selectedForm: PropTypes.string.isRequired
