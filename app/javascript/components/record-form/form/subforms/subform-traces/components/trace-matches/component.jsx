@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { fromJS } from "immutable";
@@ -11,8 +11,9 @@ import ActionButton from "../../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
 import IndexTable from "../../../../../../index-table";
 import { useI18n } from "../../../../../../i18n";
-import { POTENTIAL_MATCH_LIKELIHOOD } from "../../../../../../../config";
+import { LOOKUPS, POTENTIAL_MATCH_LIKELIHOOD } from "../../../../../../../config";
 import { setSelectedPotentialMatch, fetchTracePotentialMatches } from "../../../../../../records";
+import { getLookupByUniqueId } from "../../../../../../form/selectors";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -21,6 +22,9 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
+
+  const lookup = useSelector(state => getLookupByUniqueId(state, LOOKUPS.gender));
+
   const tableOptions = {
     columns: [
       {
@@ -57,7 +61,15 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
       },
       {
         label: i18n.t("potential_match.child_gender"),
-        name: "case.sex"
+        name: "case.sex",
+        options: {
+          customBodyRender: value => {
+            return lookup
+              .get("values", fromJS([]))
+              .find(lookupValue => lookupValue.get("id") === value)
+              ?.getIn(["display_text", i18n.locale]);
+          }
+        }
       },
       {
         label: i18n.t("potential_match.social_worker"),
