@@ -25,12 +25,12 @@ export default async (store, user = {}, useIdentityProvider) => {
   }
 
   localStorage.setItem("user", JSON.stringify(formatedUser));
+  store.dispatch(setAuthenticatedUser(formatedUser));
 
   if (!pendingUserLogin) {
     handleReturnUrl(store);
   }
 
   store.dispatch(clearDialog());
-  store.dispatch(setAuthenticatedUser(formatedUser));
   store.dispatch(setPendingUserLogin(false));
 };
