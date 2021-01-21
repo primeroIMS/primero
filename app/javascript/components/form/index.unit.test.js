@@ -25,6 +25,7 @@ describe("<Form /> - index", () => {
       "FormSectionRecord",
       "HIDDEN_FIELD",
       "LABEL_FIELD",
+      "LINK_FIELD",
       "NUMERIC_FIELD",
       "OPTION_TYPES",
       "ORDERABLE_OPTIONS_FIELD",

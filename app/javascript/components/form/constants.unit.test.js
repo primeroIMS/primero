@@ -16,6 +16,7 @@ describe("<Form /> - Constants", () => {
       "FORM_MODE_NEW",
       "FORM_MODE_SHOW",
       "LABEL_FIELD",
+      "LINK_FIELD",
       "NUMERIC_FIELD",
       "OPTION_TYPES",
       "ORDERABLE_OPTIONS_FIELD",

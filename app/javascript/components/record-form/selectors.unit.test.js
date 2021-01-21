@@ -123,7 +123,8 @@ const fields = {
     option_strings_text: null,
     guiding_questions: "",
     required: true,
-    date_validation: "default_date_validation"
+    date_validation: "default_date_validation",
+    href: null
   },
   2: {
     name: "document_field",
@@ -146,7 +147,8 @@ const fields = {
     option_strings_text: null,
     guiding_questions: "",
     required: true,
-    date_validation: "default_date_validation"
+    date_validation: "default_date_validation",
+    href: null
   }
 };
 const serviceTypeLookup = {
