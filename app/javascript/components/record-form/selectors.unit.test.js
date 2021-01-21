@@ -450,6 +450,7 @@ describe("<RecordForm /> - Selectors", () => {
               so: ""
             },
             editable: true,
+            href: null,
             guiding_questions: "",
             help_text: {},
             hide_on_view_page: false,
@@ -522,6 +523,7 @@ describe("<RecordForm /> - Selectors", () => {
             },
             editable: true,
             guiding_questions: "",
+            href: null,
             help_text: {},
             hide_on_view_page: false,
             link_to_form: "",

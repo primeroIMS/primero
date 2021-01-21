@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import SearchIcon from "@material-ui/icons/Search";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { fromJS } from "immutable";
 
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";

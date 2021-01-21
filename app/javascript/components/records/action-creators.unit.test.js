@@ -41,7 +41,6 @@ describe("records - Action Creators", () => {
       "setMachedCaseForTrace",
       "setSelectedPotentialMatch",
       "setSelectedRecord",
-      "setSelectedPotentialMatch",
       "setSelectedCasePotentialMatch",
       "clearSelectedCasePotentialMatch",
       "fetchMatchedTraces",

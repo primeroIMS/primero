@@ -10,14 +10,14 @@ import { CUSTOM_FORM_IDS_NAV } from "./nav/constants";
 import { NavRecord, FormSectionRecord } from "./records";
 import NAMESPACE from "./namespace";
 
-const filterForms = (forms, { recordType, primeroModule, checkVisible }) => {
+const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNested }) => {
   const formSections = forms.filter(
     formSection =>
       (Array.isArray(primeroModule)
         ? formSection.module_ids.some(mod => primeroModule.includes(mod))
         : formSection.module_ids.includes(primeroModule)) &&
       formSection.parent_form === recordType &&
-      !formSection.is_nested
+      (!includeNested ? !formSection.is_nested : true)
   );
 
   if (checkVisible === false) {
@@ -27,7 +27,7 @@ const filterForms = (forms, { recordType, primeroModule, checkVisible }) => {
   return formSections.filter(fs => fs.visible);
 };
 
-const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }) => {
+const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds, includeNested }) => {
   const allFormSections = state.getIn([NAMESPACE, "formSections"]);
 
   if (isEmpty(allFormSections)) return null;
@@ -38,7 +38,7 @@ const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }
 
   const userFormSection = formsIds ? allFormSections.filter(fs => formsIds.includes(fs.unique_id)) : allFormSections;
 
-  return filterForms(userFormSection, { recordType, primeroModule, checkVisible });
+  return filterForms(userFormSection, { recordType, primeroModule, checkVisible, includeNested });
 };
 
 const isAStickyOption = (opt, stickyOption) =>
@@ -169,7 +169,7 @@ export const getOrderedRecordForms = (state, query) => {
 };
 
 export const getRecordFormsByUniqueId = (state, query) => {
-  const { recordType, primeroModule, formName, checkVisible, i18n } = query;
+  const { recordType, primeroModule, formName, checkVisible, i18n, includeNested } = query;
 
   if (CUSTOM_FORM_IDS_NAV.includes(formName)) {
     return List([customForms(i18n)[formName]]);
@@ -178,7 +178,8 @@ export const getRecordFormsByUniqueId = (state, query) => {
   return getRecordForms(state, {
     recordType,
     primeroModule,
-    checkVisible
+    checkVisible,
+    includeNested
   }).filter(f => f.unique_id === formName);
 };
 

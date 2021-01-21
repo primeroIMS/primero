@@ -144,7 +144,10 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<TraceComparison
   });
 
   context("when the case has matched traces", () => {
-    const stateWithMatchedTraces = initialState.setIn(["records", "cases", "matchedTraces"], fromJS([{ id: "123" }]));
+    const stateWithMatchedTraces = initialState.setIn(
+      ["records", "cases", "matchedTraces", "data"],
+      fromJS([{ id: "123" }])
+    );
     const { component: componentWithTraces } = setupMountedComponent(
       TraceComparisonForm,
       initialProps,

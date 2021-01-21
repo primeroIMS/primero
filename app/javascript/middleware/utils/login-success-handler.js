@@ -15,7 +15,7 @@ export default async (store, user = {}, useIdentityProvider) => {
   const userObject = useIdentityProvider
     ? { user_name: getCookieValue("primero_user_name"), id: parseInt(getCookieValue("primero_user_id"), 10) }
     : user;
-  const formatedUser = { username: userObject.user_name, id: userObject.id }
+  const formatedUser = { username: userObject.user_name, id: userObject.id };
 
   const pendingUserLogin = store.getState().getIn(["connectivity", "pendingUserLogin"], false);
   const userFromDB = await DB.getRecord("user", formatedUser.username);

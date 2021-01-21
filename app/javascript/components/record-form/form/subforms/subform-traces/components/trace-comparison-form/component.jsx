@@ -11,8 +11,8 @@ import { RECORD_TYPES, RECORD_PATH } from "../../../../../../../config";
 import { compare } from "../../../../../../../libs";
 import { useI18n } from "../../../../../../i18n";
 import { getShortIdFromUniqueId } from "../../../../../../records/utils";
+import { getFields, getRecordFormsByUniqueId, getOrderedRecordForms } from "../../../../../selectors";
 import { fetchMatchedTraces, getMatchedTraces, selectRecord, setMachedCaseForTrace } from "../../../../../../records";
-import { getFields, getOrderedRecordForms } from "../../../../../selectors";
 import TraceActions from "../trace-actions";
 import FieldRow from "../field-row";
 import { FORMS } from "../../constants";
@@ -25,7 +25,8 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
   const css = makeStyles(styles)();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { matched_case_id: matchedCaseId } = traceValues;
+  // eslint-disable-next-line camelcase
+  const matchedCaseId = traceValues?.matched_case_id;
   const i18n = useI18n();
 
   const record = useSelector(state => selectRecord(state, { isShow: true }, recordType, id), compare);
@@ -34,6 +35,15 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
     state => getOrderedRecordForms(state, { primeroModule: record.get("module_id"), recordType: RECORD_TYPES.cases }),
     compare
   );
+  const subformFamilyDetails = useSelector(state =>
+    getRecordFormsByUniqueId(state, {
+      primeroModule: record.get("module_id"),
+      recordType: RECORD_TYPES.cases,
+      formName: "family_details_section",
+      includeNested: true,
+      checkVisible: false
+    })?.first()
+  );
   const hasMatchedTraces = useSelector(state => Boolean(getMatchedTraces(state)?.size));
 
   const traceShortId = getShortIdFromUniqueId(potentialMatch.getIn(["trace", "id"]));
@@ -41,12 +51,20 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
   const caseId = potentialMatch.getIn(["case", "id"]);
   const traceId = potentialMatch.getIn(["trace", "id"]);
   const comparedFields = potentialMatch.getIn(["comparison", "case_to_trace"], fromJS([]));
+  const familyFields = potentialMatch.getIn(["comparison", "family_to_inquirer"], fromJS([]));
 
   const topFields = TOP_FIELD_NAMES.map(fieldName => fields.find(field => field.name === fieldName)).filter(
     field => field
   );
 
   const topComparisons = getComparisons({ fields: topFields, comparedFields, includeEmpty: true });
+
+  const getFamilyComparison = () =>
+    familyFields.map(detailFields => {
+      const comparisons = getComparisons({ fields: subformFamilyDetails?.fields, comparedFields: detailFields });
+
+      return { form: subformFamilyDetails, comparisons };
+    });
 
   const comparedForms = forms
     .filter(form =>
@@ -58,7 +76,8 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
       const comparisons = getComparisons({ fields: form.fields, comparedFields });
 
       return { form, comparisons };
-    });
+    })
+    .concat(familyFields?.size ? getFamilyComparison() : fromJS([]));
 
   const handleBack = () => setSelectedForm(FORMS.matches);
   const handleConfirm = () => dispatch(setMachedCaseForTrace({ caseId, traceId, recordType }));
