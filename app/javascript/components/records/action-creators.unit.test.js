@@ -40,7 +40,9 @@ describe("records - Action Creators", () => {
       "setSelectedRecord",
       "setSelectedPotentialMatch",
       "setSelectedCasePotentialMatch",
-      "clearSelectedCasePotentialMatch"
+      "clearSelectedCasePotentialMatch",
+      "fetchMatchedTraces",
+      "clearMatchedTraces"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -369,5 +371,16 @@ describe("records - Action Creators", () => {
     expect(actionCreators.clearSelectedCasePotentialMatch("12345", RECORD_PATH.tracing_requests)).be.deep.equals(
       expected
     );
+  });
+
+  it("should check the 'fetchMatchedTraces' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.cases}/FETCH_CASE_MATCHED_TRACES`,
+      api: {
+        path: `${RECORD_PATH.cases}/12345/traces`
+      }
+    };
+
+    expect(actionCreators.fetchMatchedTraces(RECORD_PATH.cases, "12345")).be.deep.equals(expected);
   });
 });

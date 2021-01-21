@@ -21,19 +21,21 @@ const Component = ({ handleBack, handleConfirm, selectedForm }) => {
 
   return (
     <div className={css.buttonsRow}>
-      <ActionButton
-        icon={<ArrowBackIosIcon />}
-        text={
-          selectedForm === FORMS.trace
-            ? i18n.t("tracing_request.back_to_traces")
-            : i18n.t("tracing_request.back_to_potential_matches")
-        }
-        type={ACTION_BUTTON_TYPES.default}
-        outlined
-        rest={{
-          onClick: handleBack
-        }}
-      />
+      {handleBack && (
+        <ActionButton
+          icon={<ArrowBackIosIcon />}
+          text={
+            selectedForm === FORMS.trace
+              ? i18n.t("tracing_request.back_to_traces")
+              : i18n.t("tracing_request.back_to_potential_matches")
+          }
+          type={ACTION_BUTTON_TYPES.default}
+          outlined
+          rest={{
+            onClick: handleBack
+          }}
+        />
+      )}
       {selectedForm === FORMS.trace && (
         <Permission resources={RESOURCES.tracing_requests} actions={SHOW_FIND_MATCH}>
           <ActionButton
@@ -61,7 +63,7 @@ const Component = ({ handleBack, handleConfirm, selectedForm }) => {
 };
 
 Component.propTypes = {
-  handleBack: PropTypes.func.isRequired,
+  handleBack: PropTypes.func,
   handleConfirm: PropTypes.func,
   selectedForm: PropTypes.string.isRequired
 };

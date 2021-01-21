@@ -56,7 +56,13 @@ describe("records - Actions", () => {
       "TRACING_REQUESTS_RECORDS",
       "UPDATE_ATTACHMENTS",
       "SET_CASE_POTENTIAL_MATCH",
-      "CLEAR_CASE_POTENTIAL_MATCH"
+      "CLEAR_CASE_POTENTIAL_MATCH",
+      "FETCH_CASE_MATCHED_TRACES",
+      "FETCH_CASE_MATCHED_TRACES_FAILURE",
+      "FETCH_CASE_MATCHED_TRACES_FINISHED",
+      "FETCH_CASE_MATCHED_TRACES_STARTED",
+      "FETCH_CASE_MATCHED_TRACES_SUCCESS",
+      "CLEAR_MATCHED_TRACES"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("string");

@@ -1,7 +1,6 @@
 import { fromJS } from "immutable";
 import { List, ListItemText } from "@material-ui/core";
 
-import SubformDrawer from "../../../record-form/form/subforms/subform-drawer";
 import IndexTable from "../../../index-table";
 import { setupMountedComponent } from "../../../../test";
 
