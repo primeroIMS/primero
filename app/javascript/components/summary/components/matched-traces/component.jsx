@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { fromJS } from "immutable";
 
 import { useI18n } from "../../../i18n";
 import LoadingIndicator from "../../../loading-indicator";
@@ -11,7 +10,8 @@ import {
   fetchCasesPotentialMatches,
   getCasesPotentialMatches,
   getLoadingCasesPotentialMatches,
-  clearMatchedTraces
+  clearMatchedTraces,
+  getMatchedTrace
 } from "../../../records";
 import { RECORD_PATH } from "../../../../config";
 import TraceComparisonForm from "../../../record-form/form/subforms/subform-traces/components/trace-comparison-form";
@@ -28,10 +28,7 @@ const Component = ({ data, loading, recordId }) => {
   const [selectedTraceId, setSelectedTraceId] = useState("");
   const potentialMatches = useSelector(state => getCasesPotentialMatches(state));
   const potentialMatchesLoading = useSelector(state => getLoadingCasesPotentialMatches(state));
-  const selectedTrace =
-    potentialMatches.size > 0
-      ? potentialMatches.find(potentialMatch => potentialMatch.getIn(["trace", "id"]) === selectedTraceId)
-      : fromJS({});
+  const selectedTrace = useSelector(state => getMatchedTrace(state, selectedTraceId));
 
   useEffect(() => {
     if (selectedTraceId !== "" && potentialMatches.size <= 0) {
