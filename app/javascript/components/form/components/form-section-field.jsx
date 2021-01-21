@@ -18,6 +18,7 @@ import Seperator from "../fields/seperator";
 import OrderableOptionsField from "../fields/orderable-options-field";
 import DialogTrigger from "../fields/dialog-trigger";
 import HiddenInput from "../fields/hidden-input";
+import LinkField from "../fields/link-field";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../config";
 import {
   CHECK_BOX_FIELD,
@@ -33,7 +34,8 @@ import {
   SEPARATOR,
   DIALOG_TRIGGER,
   HIDDEN_FIELD,
-  DOCUMENT_FIELD
+  DOCUMENT_FIELD,
+  LINK_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
@@ -86,7 +88,8 @@ const FormSectionField = ({ checkErrors, disableUnderline, field }) => {
     placeholder,
     maxSelectedOptions,
     onKeyPress,
-    currRecord
+    currRecord,
+    href
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -168,7 +171,8 @@ const FormSectionField = ({ checkErrors, disableUnderline, field }) => {
     setOtherFieldValues,
     onClick,
     onKeyPress,
-    maxSelectedOptions
+    maxSelectedOptions,
+    href
   };
 
   const Field = (fieldType => {
@@ -200,6 +204,8 @@ const FormSectionField = ({ checkErrors, disableUnderline, field }) => {
         return DialogTrigger;
       case HIDDEN_FIELD:
         return HiddenInput;
+      case LINK_FIELD:
+        return LinkField;
       default:
         return TextInput;
     }

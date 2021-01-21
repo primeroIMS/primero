@@ -2979,6 +2979,7 @@ en:
     matches: Matches
     messages:
       nothing_found: Nothing found
+      already_matched: There is already a match in the system with an Inquirer looking for this child.
       update_success: 'Tracing Request %{record_id} was successfully updated.'
       creation_success: Tracing Request record successfully created.
       update_success_queue: 'Tracing Request %{record_id} was successfully updated in background.'

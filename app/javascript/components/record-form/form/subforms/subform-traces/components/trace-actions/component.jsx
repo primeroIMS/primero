@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import SearchIcon from "@material-ui/icons/Search";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -10,14 +11,16 @@ import { RESOURCES, SHOW_FIND_MATCH } from "../../../../../../../libs/permission
 import ActionButton from "../../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
 import { useI18n } from "../../../../../../i18n";
+import { getLoadingRecordState } from "../../../../../../records";
 import { FORMS } from "../../constants";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ handleBack, handleConfirm, selectedForm }) => {
+const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedForm }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const loading = useSelector(state => getLoadingRecordState(state, recordType));
 
   return (
     <div className={css.buttonsRow}>
@@ -43,28 +46,36 @@ const Component = ({ handleBack, handleConfirm, selectedForm }) => {
             text={i18n.t("tracing_request.find_match")}
             type={ACTION_BUTTON_TYPES.default}
             rest={{
-              onClick: handleConfirm
+              onClick: handleConfirm,
+              disabled: hasMatch,
+              ...(hasMatch && { className: css.hasMatch })
             }}
           />
         </Permission>
       )}
       {selectedForm === FORMS.comparison && handleConfirm && (
-        <ActionButton
-          icon={<CheckIcon />}
-          text={i18n.t("tracing_request.match")}
-          type={ACTION_BUTTON_TYPES.default}
-          rest={{
-            onClick: handleConfirm
-          }}
-        />
+        <div>
+          <ActionButton
+            icon={<CheckIcon />}
+            text={i18n.t("tracing_request.match")}
+            type={ACTION_BUTTON_TYPES.default}
+            pending={loading}
+            rest={{
+              onClick: handleConfirm,
+              disabled: loading
+            }}
+          />
+        </div>
       )}
     </div>
   );
 };
 
 Component.propTypes = {
-  handleBack: PropTypes.func,
-  handleConfirm: PropTypes.func,
+  handleBack: PropTypes.func.isRequired,
+  handleConfirm: PropTypes.func.isRequired,
+  hasMatch: PropTypes.bool,
+  recordType: PropTypes.string.isRequired,
   selectedForm: PropTypes.string.isRequired
 };
 

@@ -12,11 +12,13 @@ import {
   FETCH_RECORD_ALERTS,
   FETCH_INCIDENT_FROM_CASE,
   FETCH_TRACE_POTENTIAL_MATCHES,
+  FETCH_TRACING_REQUEST_TRACES,
   SET_CASE_ID_FOR_INCIDENT,
   CLEAR_CASE_FROM_INCIDENT,
   SET_CASE_ID_REDIRECT,
   SET_SELECTED_RECORD,
   CLEAR_SELECTED_RECORD,
+  SET_MACHED_CASE_FOR_TRACE,
   FETCH_CASES_POTENTIAL_MATCHES,
   SET_CASE_POTENTIAL_MATCH,
   CLEAR_CASE_POTENTIAL_MATCH,
@@ -87,6 +89,15 @@ export const clearMetadata = recordType => ({
   type: `${recordType}/${CLEAR_METADATA}`
 });
 
+export const fetchTracingRequestTraces = (id, asCallback = false) => ({
+  ...(asCallback
+    ? { action: `${RECORD_PATH.tracing_requests}/${FETCH_TRACING_REQUEST_TRACES}` }
+    : { type: `${RECORD_PATH.tracing_requests}/${FETCH_TRACING_REQUEST_TRACES}` }),
+  api: {
+    path: `${RECORD_PATH.tracing_requests}/${id}/${RECORD_PATH.traces}`
+  }
+});
+
 export const fetchRecord = (recordType, id) => ({
   type: `${recordType}/${RECORD}`,
   api: {
@@ -95,7 +106,8 @@ export const fetchRecord = (recordType, id) => ({
       collection: DB_COLLECTIONS_NAMES.RECORDS,
       recordType,
       id
-    }
+    },
+    ...(recordType === RECORD_PATH.tracing_requests ? { successCallback: [fetchTracingRequestTraces(id, true)] } : {})
   }
 });
 
@@ -231,6 +243,15 @@ export const fetchTracePotentialMatches = (traceId, recordType) => ({
 export const setSelectedPotentialMatch = (potentialMatchId, recordType) => ({
   type: `${recordType}/${SET_SELECTED_POTENTIAL_MATCH}`,
   payload: { id: potentialMatchId, recordType }
+});
+
+export const setMachedCaseForTrace = ({ traceId, caseId, recordType }) => ({
+  type: `${recordType}/${SET_MACHED_CASE_FOR_TRACE}`,
+  api: {
+    path: `${RECORD_PATH.traces}/${traceId}`,
+    method: METHODS.PATCH,
+    body: { data: { matched_case_id: caseId } }
+  }
 });
 
 export const clearSelectedCasePotentialMatch = () => ({

@@ -144,3 +144,11 @@
   padding: 0 0 10px 0;
   text-transform: none;
 }
+
+.linkField {
+  color: $(theme.primero.colors.blue);;
+}
+
+.linkFieldLabel {
+  font-size: $(theme.typography.pxToRem(12));
+}
