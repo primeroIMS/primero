@@ -1,7 +1,7 @@
 import isObject from "lodash/isObject";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
-import { RECORD_PATH } from "../../config/constants";
+import { METHODS, RECORD_PATH } from "../../config/constants";
 import { ENQUEUE_SNACKBAR } from "../notifier";
 import { CLEAR_DIALOG } from "../action-dialog";
 import RecordFormActions from "../record-form/actions";
@@ -32,15 +32,20 @@ describe("records - Action Creators", () => {
       "fetchCasesPotentialMatches",
       "fetchIncidentFromCase",
       "fetchIncidentwitCaseId",
-      "fetchTracePotentialMatches",
       "fetchRecord",
       "fetchRecordsAlerts",
+      "fetchTracePotentialMatches",
+      "fetchTracingRequestTraces",
       "saveRecord",
       "setCaseIdForIncident",
+      "setMachedCaseForTrace",
+      "setSelectedPotentialMatch",
       "setSelectedRecord",
       "setSelectedPotentialMatch",
       "setSelectedCasePotentialMatch",
-      "clearSelectedCasePotentialMatch"
+      "clearSelectedCasePotentialMatch",
+      "fetchMatchedTraces",
+      "clearMatchedTraces"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -50,20 +55,48 @@ describe("records - Action Creators", () => {
     expect(creators).to.be.empty;
   });
 
-  it("should check the 'fetchRecord' action creator to return the correct object", () => {
-    const expected = {
-      type: `${RECORD_PATH.cases}/RECORD`,
-      api: {
-        path: `${RECORD_PATH.cases}/123`,
-        db: {
-          collection: DB_COLLECTIONS_NAMES.RECORDS,
-          recordType: RECORD_PATH.cases,
-          id: "123"
-        }
-      }
-    };
+  describe("fetchRecord", () => {
+    context("when recordType is cases", () => {
+      it("should return the correct object", () => {
+        const expected = {
+          type: `${RECORD_PATH.cases}/RECORD`,
+          api: {
+            path: `${RECORD_PATH.cases}/123`,
+            db: {
+              collection: DB_COLLECTIONS_NAMES.RECORDS,
+              recordType: RECORD_PATH.cases,
+              id: "123"
+            }
+          }
+        };
 
-    expect(actionCreators.fetchRecord("cases", "123")).to.deep.equal(expected);
+        expect(actionCreators.fetchRecord("cases", "123")).to.deep.equal(expected);
+      });
+    });
+
+    context("when recordType is tracing request", () => {
+      it("should return the correct object", () => {
+        const expected = {
+          type: `${RECORD_PATH.tracing_requests}/RECORD`,
+          api: {
+            path: `${RECORD_PATH.tracing_requests}/123`,
+            db: {
+              collection: DB_COLLECTIONS_NAMES.RECORDS,
+              recordType: RECORD_PATH.tracing_requests,
+              id: "123"
+            },
+            successCallback: [
+              {
+                action: `${RECORD_PATH.tracing_requests}/FETCH_TRACING_REQUEST_TRACES`,
+                api: { path: `${RECORD_PATH.tracing_requests}/123/${RECORD_PATH.traces}` }
+              }
+            ]
+          }
+        };
+
+        expect(actionCreators.fetchRecord(RECORD_PATH.tracing_requests, "123")).to.deep.equal(expected);
+      });
+    });
   });
 
   describe("should check the 'saveRecord' action creator", () => {
@@ -350,6 +383,34 @@ describe("records - Action Creators", () => {
     expect(actionCreators.fetchTracePotentialMatches("12345", RECORD_PATH.tracing_requests)).be.deep.equals(expected);
   });
 
+  it("should check the 'setMachedCaseForTrace' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.tracing_requests}/FETCH_TRACE_POTENTIAL_MATCHES`,
+      api: {
+        path: `${RECORD_PATH.traces}/12345`,
+        method: METHODS.PATCH,
+        body: { data: { matched_case_id: "0001" } }
+      }
+    };
+
+    expect(
+      actionCreators.setMachedCaseForTrace({
+        traceId: "12345",
+        caseId: "0001",
+        recordType: RECORD_PATH.tracing_requests
+      })
+    );
+  });
+
+  it("should check the 'fetchTracingRequestTraces' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.tracing_requests}/FETCH_TRACING_REQUEST_TRACES`,
+      api: { path: `${RECORD_PATH.tracing_requests}/12345/traces` }
+    };
+
+    expect(actionCreators.fetchTracingRequestTraces("12345"));
+  });
+
   it("should check the 'setSelectedCasePotentialMatch' action creator to return the correct object", () => {
     const expected = {
       type: `${RECORD_PATH.cases}/SET_CASE_POTENTIAL_MATCH`,
@@ -369,5 +430,16 @@ describe("records - Action Creators", () => {
     expect(actionCreators.clearSelectedCasePotentialMatch("12345", RECORD_PATH.tracing_requests)).be.deep.equals(
       expected
     );
+  });
+
+  it("should check the 'fetchMatchedTraces' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.cases}/FETCH_CASE_MATCHED_TRACES`,
+      api: {
+        path: `${RECORD_PATH.cases}/12345/traces`
+      }
+    };
+
+    expect(actionCreators.fetchMatchedTraces(RECORD_PATH.cases, "12345")).be.deep.equals(expected);
   });
 });

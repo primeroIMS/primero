@@ -191,7 +191,8 @@ export const LOOKUPS = {
   followup_type: "lookup-followup-type",
   reporting_locations: "ReportingLocation",
   gbv_violence_type: "lookup-gbv-sexual-violence-type",
-  cp_violence_type: "lookup-cp-violence-type"
+  cp_violence_type: "lookup-cp-violence-type",
+  gender: "lookup-gender"
 };
 
 export const ADMIN_NAV = [
