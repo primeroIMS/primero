@@ -1,8 +1,10 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../../../../test";
+import { setupMockFormComponent } from "../../../../../../../test";
 import FormSection from "../../../../../../form/components/form-section";
 import TraceActions from "../trace-actions";
+import { FormSectionRecord, FieldRecord } from "../../../../../records";
+import { TEXT_FIELD } from "../../../../../constants";
 
 import TracesForm from "./component";
 
@@ -11,12 +13,15 @@ describe("<RecordForm>/form/subforms/<TracesForm>", () => {
   const props = {
     handleBack: () => {},
     traceValues: {},
-    formSection: { fields: [] },
+    formSection: FormSectionRecord({
+      fields: [FieldRecord({ type: TEXT_FIELD, name: "test_field" })],
+      setIn: () => {}
+    }),
     handleConfirm: () => {}
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(TracesForm, props, fromJS([])));
+    ({ component } = setupMockFormComponent(TracesForm, props, fromJS({})));
   });
 
   it("should render the TraceActions", () => {

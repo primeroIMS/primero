@@ -25,7 +25,8 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
   const css = makeStyles(styles)();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { matched_case_id: matchedCaseId } = traceValues;
+  // eslint-disable-next-line camelcase
+  const matchedCaseId = traceValues?.matched_case_id;
   const i18n = useI18n();
 
   const record = useSelector(state => selectRecord(state, { isShow: true }, recordType, id), compare);
