@@ -6,7 +6,9 @@ const stateWithoutRecords = fromJS({});
 const state = fromJS({
   application: {
     defaultLocale: "en",
-    locales: ["en", "ar-LB"]
+    primero: {
+      locales: ["en", "ar-LB"]
+    }
   },
   ui: {
     I18n: {
