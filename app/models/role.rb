@@ -217,7 +217,7 @@ class Role < ApplicationRecord
   def update_permissions(permissions)
     return if permissions.nil?
 
-    permissions = Permission::PermissionSerializer.load(permissions.to_h) unless permissions&.first&.class == Permission
+    permissions = Permission::PermissionSerializer.load(permissions.to_h) unless permissions.is_a?(Array)
     self.permissions = permissions
   end
 
