@@ -506,4 +506,13 @@ describe("<RecordList /> - Reducers", () => {
 
     expect(newState).to.deep.equals(fromJS({ matchedTraces: { data } }));
   });
+
+  it("should handle CLEAR_MATCHED_TRACES", () => {
+    const expected = fromJS({});
+    const action = { type: "TestRecordType/CLEAR_MATCHED_TRACES" };
+
+    const newState = nsReducer(fromJS({ matchedTraces: { data: [{ id: "12345" }] } }), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
 });

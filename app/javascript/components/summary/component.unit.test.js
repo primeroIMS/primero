@@ -41,7 +41,7 @@ describe("<Summary />", () => {
     expect(component.find(FormSectionField)).to.have.lengthOf(5);
   });
 
-  it("should render 1 <SubformDrawer /> components", () => {
-    expect(component.find(SubformDrawer)).to.have.lengthOf(1);
+  it("should render 2 <SubformDrawer /> components", () => {
+    expect(component.find(SubformDrawer)).to.have.lengthOf(2);
   });
 });
