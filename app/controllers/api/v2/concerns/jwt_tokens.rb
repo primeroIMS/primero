@@ -9,7 +9,7 @@ module Api::V2::Concerns::JwtTokens
   end
 
   def token_to_cookie
-    return unless current_token
+    return unless current_token.present?
 
     cookies[:primero_token] = {
       value: current_token,
