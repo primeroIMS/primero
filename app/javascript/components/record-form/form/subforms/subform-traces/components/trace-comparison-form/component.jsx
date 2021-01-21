@@ -38,11 +38,17 @@ const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handl
   );
   const topComparisons = getComparisons({ fields: topFields, comparedFields, includeEmpty: true });
 
-  const comparedForms = forms.map(form => {
-    const comparisons = getComparisons({ fields: form.fields, comparedFields });
+  const comparedForms = forms
+    .filter(form =>
+      comparedFields
+        .map(compared => compared.get("field_name"))
+        .some(fieldName => form.fields.map(field => field.name).includes(fieldName))
+    )
+    .map(form => {
+      const comparisons = getComparisons({ fields: form.fields, comparedFields });
 
-    return { form, comparisons };
-  });
+      return { form, comparisons };
+    });
 
   const renderFieldRows = comparisons =>
     comparisons.length &&
