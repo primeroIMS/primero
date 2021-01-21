@@ -1,4 +1,5 @@
 import { setupMountedComponent } from "../../../../../test";
+import { FormSectionRecord } from "../../../../form";
 
 import SubformTraces from "./component";
 
@@ -8,7 +9,7 @@ describe("<RecordForm>/form/subforms/<SubformTraces>", () => {
   beforeEach(() => {
     ({ component } = setupMountedComponent(SubformTraces, {
       openDrawer: true,
-      formSection: { fields: [] },
+      formSection: FormSectionRecord({ fields: [] }),
       handleClose: () => {},
       formik: { values: {} },
       field: { subform_section_configuration: { display_conditions: [] } }

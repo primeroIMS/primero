@@ -23,7 +23,8 @@ export const FieldRecord = Record({
   order: null,
   subform_section_configuration: null,
   tick_box_label: {},
-  link_to_form: ""
+  link_to_form: "",
+  href: null
 });
 
 export const FormSectionRecord = Record({

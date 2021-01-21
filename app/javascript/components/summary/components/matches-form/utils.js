@@ -28,7 +28,7 @@ export const columns = (i18n, css, dispatch, onTracingRequestClick) => [
   },
   {
     label: i18n.t("tracing_requests.name_of_inquirer"),
-    name: "case.name"
+    name: "trace.relation_name"
   },
   {
     label: i18n.t("potential_match.inquiry_date"),

@@ -1,0 +1,18 @@
+.matchedTracesContainer {
+  & h3 {
+    margin-top: 3em;
+  }
+}
+
+.nothingFound {
+  font-style: italic;
+}
+
+.link {
+  color: $(theme.primero.colors.blue);
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
