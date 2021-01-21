@@ -7,7 +7,7 @@ import handleReturnUrl from "./handle-return-url";
 
 export default async (store, user = {}) => {
   const { user_name: username, id } = user;
-  const formattedUser = { user, id };
+  const formattedUser = { username, id };
   const pendingUserLogin = store.getState().getIn(["connectivity", "pendingUserLogin"], false);
   const userFromDB = await DB.getRecord("user", username);
 
