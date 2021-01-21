@@ -11,7 +11,7 @@ import { RECORD_TYPES } from "../../../../../../../config";
 import { useI18n } from "../../../../../../i18n";
 import { getShortIdFromUniqueId } from "../../../../../../records/utils";
 import { selectRecord } from "../../../../../../records";
-import { getFields, getOrderedRecordForms } from "../../../../../selectors";
+import { getFields, getRecordFormsByUniqueId, getOrderedRecordForms } from "../../../../../selectors";
 import TraceActions from "../trace-actions";
 import FieldRow from "../field-row";
 
@@ -29,14 +29,31 @@ const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handl
   const forms = useSelector(state =>
     getOrderedRecordForms(state, { primeroModule: record.get("module_id"), recordType: RECORD_TYPES.cases })
   );
+  const subformFamilyDetails = useSelector(state =>
+    getRecordFormsByUniqueId(state, {
+      primeroModule: record.get("module_id"),
+      recordType: RECORD_TYPES.cases,
+      formName: "family_details_section",
+      includeNested: true,
+      checkVisible: false
+    })?.first()
+  );
 
   const traceId = getShortIdFromUniqueId(potentialMatch.getIn(["trace", "id"]));
   const caseId = potentialMatch.getIn(["case", "case_id_display"]);
   const comparedFields = potentialMatch.getIn(["comparison", "case_to_trace"], fromJS([]));
+  const familyFields = potentialMatch.getIn(["comparison", "family_to_inquirer"], fromJS([]));
   const topFields = TOP_FIELD_NAMES.map(fieldName => fields.find(field => field.name === fieldName)).filter(
     field => field
   );
   const topComparisons = getComparisons({ fields: topFields, comparedFields, includeEmpty: true });
+
+  const getFamilyComparison = () =>
+    familyFields.map(detailFields => {
+      const comparisons = getComparisons({ fields: subformFamilyDetails?.fields, comparedFields: detailFields });
+
+      return { form: subformFamilyDetails, comparisons };
+    });
 
   const comparedForms = forms
     .filter(form =>
@@ -48,7 +65,8 @@ const Component = ({ selectedForm, recordType, potentialMatch, handleBack, handl
       const comparisons = getComparisons({ fields: form.fields, comparedFields });
 
       return { form, comparisons };
-    });
+    })
+    .concat(familyFields?.size ? getFamilyComparison() : fromJS([]));
 
   const renderFieldRows = comparisons =>
     comparisons.length &&
