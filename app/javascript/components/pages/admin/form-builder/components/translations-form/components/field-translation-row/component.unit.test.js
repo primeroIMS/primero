@@ -12,7 +12,7 @@ describe("<FieldTranslationRow />", () => {
     display_name: { en: "Field 1" }
   };
   const initialState = fromJS({
-    application: { locales: ["en", "fr", "ar"] },
+    application: { primero: { locales: ["en", "fr", "ar"] } },
     records: {
       admin: {
         forms: {

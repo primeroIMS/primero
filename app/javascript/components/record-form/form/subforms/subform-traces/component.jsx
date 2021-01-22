@@ -5,6 +5,7 @@ import pick from "lodash/pick";
 import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../../i18n";
+import { compare } from "../../../../../libs";
 import { getSubformValues } from "../../utils";
 import { getSelectedPotentialMatch } from "../../../../records/selectors";
 import SubformDrawer from "../subform-drawer";
@@ -16,7 +17,7 @@ const Component = ({ openDrawer, field, formik, formSection, handleClose, index,
   const i18n = useI18n();
   const [open, setOpen] = useState(openDrawer);
   const [selectedForm, setSelectedForm] = useState(FORMS.trace);
-  const selectedPotentialMatch = useSelector(state => getSelectedPotentialMatch(state, recordType));
+  const selectedPotentialMatch = useSelector(state => getSelectedPotentialMatch(state, recordType), compare);
   const currentValues = formik.values;
   const traceValues = getSubformValues(field, index, currentValues);
   const tracingRequestValues = pick(currentValues, ["relation_name", "inquiry_date", "short_id"]);
@@ -29,18 +30,15 @@ const Component = ({ openDrawer, field, formik, formSection, handleClose, index,
     }
   }, [selectedPotentialMatch]);
 
-  const handleBack = () => (selectedForm === FORMS.comparison ? setSelectedForm(FORMS.matches) : handleClose());
-  const handleConfirm = () => selectedForm !== FORMS.comparison && setSelectedForm(FORMS.matches);
-
   const props = {
     traceValues,
     tracingRequestValues,
     recordType,
     potentialMatch: selectedPotentialMatch,
-    handleBack,
+    setSelectedForm,
+    handleClose,
     selectedForm,
-    formSection,
-    handleConfirm
+    formSection
   };
 
   const Form = (() => {

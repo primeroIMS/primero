@@ -39,8 +39,21 @@ import {
   FETCH_TRACE_POTENTIAL_MATCHES_STARTED,
   FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS,
   SET_SELECTED_POTENTIAL_MATCH,
+  SET_MACHED_CASE_FOR_TRACE_FAILURE,
+  SET_MACHED_CASE_FOR_TRACE_FINISHED,
+  SET_MACHED_CASE_FOR_TRACE_STARTED,
+  SET_MACHED_CASE_FOR_TRACE_SUCCESS,
+  FETCH_TRACING_REQUEST_TRACES_FAILURE,
+  FETCH_TRACING_REQUEST_TRACES_FINISHED,
+  FETCH_TRACING_REQUEST_TRACES_STARTED,
+  FETCH_TRACING_REQUEST_TRACES_SUCCESS,
   SET_CASE_POTENTIAL_MATCH,
-  CLEAR_CASE_POTENTIAL_MATCH
+  CLEAR_CASE_POTENTIAL_MATCH,
+  FETCH_CASE_MATCHED_TRACES_FAILURE,
+  FETCH_CASE_MATCHED_TRACES_FINISHED,
+  FETCH_CASE_MATCHED_TRACES_STARTED,
+  FETCH_CASE_MATCHED_TRACES_SUCCESS,
+  CLEAR_MATCHED_TRACES
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -201,6 +214,50 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
           .find(potentialMatch => potentialMatch.getIn(["case", "id"]) === payload.id)
       );
     }
+    case `${namespace}/${SET_MACHED_CASE_FOR_TRACE_STARTED}`: {
+      return state.set("loading", true);
+    }
+    case `${namespace}/${SET_MACHED_CASE_FOR_TRACE_SUCCESS}`: {
+      const { tracing_request_id: tracingRequestId, id } = payload.data;
+      const index = state.get("data").findIndex(r => r.get("id") === tracingRequestId);
+      const traceIndex = state
+        .getIn(["data", index, "tracing_request_subform_section"])
+        .findIndex(trace => trace.get("unique_id") === id);
+
+      return state.updateIn(["data", index, "tracing_request_subform_section", traceIndex], u =>
+        mergeRecord(u, fromJS(payload.data))
+      );
+    }
+    case `${namespace}/${SET_MACHED_CASE_FOR_TRACE_FAILURE}`:
+      return state.set("errors", true);
+    case `${namespace}/${SET_MACHED_CASE_FOR_TRACE_FINISHED}`:
+      return state.set("loading", false);
+    case `${namespace}/${FETCH_TRACING_REQUEST_TRACES_STARTED}`: {
+      return state.set("loading", true);
+    }
+    case `${namespace}/${FETCH_TRACING_REQUEST_TRACES_SUCCESS}`: {
+      const { data } = payload;
+
+      return data.reduce((newState, trace) => {
+        const { tracing_request_id: tracingRequestId, id } = trace;
+        const index = newState.get("data").findIndex(r => r.get("id") === tracingRequestId);
+        const traceIndex = newState
+          .getIn(["data", index, "tracing_request_subform_section"], fromJS([]))
+          .findIndex(currentTrace => currentTrace.get("unique_id") === id);
+
+        return traceIndex >= 0
+          ? newState.updateIn(["data", index, "tracing_request_subform_section", traceIndex], u =>
+              mergeRecord(u, fromJS(trace))
+            )
+          : newState;
+      }, state);
+    }
+    case `${namespace}/${FETCH_TRACING_REQUEST_TRACES_FAILURE}`: {
+      return state.set("errors", true);
+    }
+    case `${namespace}/${FETCH_TRACING_REQUEST_TRACES_FINISHED}`: {
+      return state.set("loading", false);
+    }
     case `${namespace}/${SET_CASE_POTENTIAL_MATCH}`: {
       const potentialMatches = state.getIn(["potentialMatches", "data"], fromJS([]));
       const potentialMatchObj = potentialMatches.find(
@@ -211,6 +268,16 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
     }
     case `${namespace}/${CLEAR_CASE_POTENTIAL_MATCH}`:
       return state.deleteIn(["potentialMatches", "selectedPotentialMatch"]);
+    case `${namespace}/${FETCH_CASE_MATCHED_TRACES_STARTED}`:
+      return state.setIn(["matchedTraces", "loading"], true).setIn(["matchedTraces", "errors"], false);
+    case `${namespace}/${FETCH_CASE_MATCHED_TRACES_SUCCESS}`:
+      return state.setIn(["matchedTraces", "data"], fromJS(payload.data));
+    case `${namespace}/${FETCH_CASE_MATCHED_TRACES_FINISHED}`:
+      return state.setIn(["matchedTraces", "loading"], false);
+    case `${namespace}/${FETCH_CASE_MATCHED_TRACES_FAILURE}`:
+      return state.setIn(["matchedTraces", "errors"], true);
+    case `${namespace}/${CLEAR_MATCHED_TRACES}`:
+      return state.delete("matchedTraces");
     default:
       return state;
   }

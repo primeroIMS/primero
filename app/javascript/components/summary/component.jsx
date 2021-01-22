@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import SearchIcon from "@material-ui/icons/Search";
 import makeStyles from "@material-ui/styles/makeStyles";
@@ -12,10 +12,10 @@ import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import generateKey from "../charts/table-values/utils";
 import { FORMS } from "../record-form/form/subforms/subform-traces/constants";
 import SubformDrawer from "../record-form/form/subforms/subform-drawer";
-import { getSelectedPotentialMatch } from "../records";
+import { getSelectedPotentialMatch, getMatchedTraces, fetchMatchedTraces, getLoadingMatchedTraces } from "../records";
 import { RECORD_PATH } from "../../config";
 
-import { MatchesForm, ComparisonForm } from "./components";
+import { MatchesForm, ComparisonForm, MatchedTraces } from "./components";
 import { NAME } from "./constants";
 import { fields } from "./form";
 import styles from "./styles.css";
@@ -23,10 +23,17 @@ import styles from "./styles.css";
 const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, mode }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const dispatch = useDispatch();
   const recordId = record?.get("id");
   const [open, setOpen] = useState(false);
   const [selectedForm, setSelectedForm] = useState(FORMS.matches);
   const potentialMatch = useSelector(state => getSelectedPotentialMatch(state, RECORD_PATH.cases));
+  const matchedTracesData = useSelector(state => getMatchedTraces(state));
+  const matchedTracesLoading = useSelector(state => getLoadingMatchedTraces(state));
+
+  useEffect(() => {
+    dispatch(fetchMatchedTraces(RECORD_PATH.cases, recordId));
+  }, []);
 
   const findMatchLabel = i18n.t("cases.summary.find_match");
   const handleFindMatchClick = () => {
@@ -103,6 +110,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
         </SubformDrawer>
       </div>
       {renderFields}
+      <MatchedTraces data={matchedTracesData} loading={matchedTracesLoading} recordId={recordId} />
     </div>
   );
 };

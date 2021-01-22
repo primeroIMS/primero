@@ -18,7 +18,9 @@ import {
   getIsProcessingAttachments,
   getIsPendingAttachments,
   getCasesPotentialMatches,
-  getLoadingCasesPotentialMatches
+  getMatchedTraces,
+  getLoadingCasesPotentialMatches,
+  getMatchedTrace
 } from "./selectors";
 
 const record = {
@@ -31,36 +33,56 @@ const record = {
   registration_date: "2020-01-07",
   id: "d9df44fb-95d0-4407-91fd-ed18c19be1ad"
 };
+const potentialMatches = [
+  {
+    likelihood: "likely",
+    score: 1,
+    case: {
+      id: "b216d9a8-5390-4d20-802b-ae415151ddbf",
+      case_id_display: "35e4065",
+      name: "Enrique Bunbury"
+    },
+    trace: {
+      id: "12345",
+      inquiry_date: "2021-01-13",
+      tracing_request_id: "f6c3483e-d6e6-482e-bd7a-9c5808e0798c",
+      name: "Gustavo Cerati"
+    },
+    comparison: {
+      case_to_trace: [
+        {
+          field_name: "age",
+          match: "mismatch",
+          case_value: 4,
+          trace_value: 10
+        }
+      ]
+    }
+  }
+];
 const stateWithoutRecords = Map({});
 const stateWithRecords = Map({
   records: fromJS({
     cases: {
       data: [record],
       potentialMatches: {
+        data: potentialMatches,
+        loading: false,
+        errors: false
+      },
+      matchedTraces: {
         data: [
           {
-            likelihood: "likely",
-            score: 1,
-            case: {
-              id: "b216d9a8-5390-4d20-802b-ae415151ddbf",
-              case_id_display: "35e4065",
-              name: "Enrique Bunbury"
-            },
-            trace: {
-              inquiry_date: "2021-01-13",
-              tracing_request_id: "f6c3483e-d6e6-482e-bd7a-9c5808e0798c",
-              name: "Gustavo Cerati"
-            },
-            comparison: {
-              case_to_trace: [
-                {
-                  field_name: "age",
-                  match: "mismatch",
-                  case_value: 4,
-                  trace_value: 10
-                }
-              ]
-            }
+            sex: "male",
+            inquiry_date: "2021-01-13",
+            tracing_request_id: "f6c3483e-d6e6-482e-bd7a-9c5808e0798c",
+            name: "Gustavo Cerati",
+            relation_name: null,
+            matched_case_id: "b216d9a8-5390-4d20-802b-ae415151ddbf",
+            inquirer_id: "dc7a9dde-0b80-4488-b480-35f571c977c3",
+            id: "3d930cd0-de41-4c5b-959e-7bb6ca4b3f3e",
+            relation: "brother",
+            age: 10
           }
         ],
         loading: false,
@@ -398,32 +420,7 @@ describe("Records - Selectors", () => {
 
   describe("getCasesPotentialMatches", () => {
     it("should return the potentialMatches values", () => {
-      const expected = fromJS([
-        {
-          likelihood: "likely",
-          score: 1,
-          case: {
-            id: "b216d9a8-5390-4d20-802b-ae415151ddbf",
-            case_id_display: "35e4065",
-            name: "Enrique Bunbury"
-          },
-          trace: {
-            inquiry_date: "2021-01-13",
-            tracing_request_id: "f6c3483e-d6e6-482e-bd7a-9c5808e0798c",
-            name: "Gustavo Cerati"
-          },
-          comparison: {
-            case_to_trace: [
-              {
-                field_name: "age",
-                match: "mismatch",
-                case_value: 4,
-                trace_value: 10
-              }
-            ]
-          }
-        }
-      ]);
+      const expected = fromJS(potentialMatches);
 
       expect(getCasesPotentialMatches(stateWithRecords)).to.deep.equals(expected);
     });
@@ -433,9 +430,46 @@ describe("Records - Selectors", () => {
     });
   });
 
+  describe("getMatchedTraces", () => {
+    it("should return the potentialMatches values", () => {
+      const expected = fromJS([
+        {
+          sex: "male",
+          inquiry_date: "2021-01-13",
+          tracing_request_id: "f6c3483e-d6e6-482e-bd7a-9c5808e0798c",
+          name: "Gustavo Cerati",
+          relation_name: null,
+          matched_case_id: "b216d9a8-5390-4d20-802b-ae415151ddbf",
+          inquirer_id: "dc7a9dde-0b80-4488-b480-35f571c977c3",
+          id: "3d930cd0-de41-4c5b-959e-7bb6ca4b3f3e",
+          relation: "brother",
+          age: 10
+        }
+      ]);
+
+      expect(getMatchedTraces(stateWithRecords)).to.deep.equals(expected);
+    });
+
+    it("should return empty object", () => {
+      expect(getMatchedTraces(stateWithoutRecords)).to.be.empty;
+    });
+  });
+
   describe("getLoadingCasesPotentialMatches", () => {
     it("should return the loading value for potentialMatches object", () => {
       expect(getLoadingCasesPotentialMatches(stateWithRecords)).to.be.false;
+    });
+  });
+
+  describe("getMatchedTrace", () => {
+    it("should return the potentialMatches values", () => {
+      const expected = fromJS(potentialMatches[0]);
+
+      expect(getMatchedTrace(stateWithRecords, "12345")).to.deep.equals(expected);
+    });
+
+    it("should return empty object", () => {
+      expect(getMatchedTrace(stateWithoutRecords)).to.be.empty;
     });
   });
 });
