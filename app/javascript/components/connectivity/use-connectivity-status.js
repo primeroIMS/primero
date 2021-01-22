@@ -6,7 +6,6 @@ import { getIsAuthenticated } from "../user/selectors";
 import { clearDialog, selectDialog } from "../action-dialog";
 import { useRefreshUserToken } from "../user";
 import { LOGIN_DIALOG } from "../login-dialog";
-import { getUseIdentityProvider } from "../login/selectors";
 
 import { selectNetworkStatus, selectQueueStatus } from "./selectors";
 import { checkServerStatus, setQueueStatus } from "./action-creators";
@@ -18,7 +17,6 @@ const useConnectivityStatus = () => {
   const authenticated = useSelector(state => getIsAuthenticated(state));
   const queueStatus = useSelector(state => selectQueueStatus(state));
   const currentDialog = useSelector(state => selectDialog(state));
-  const isIDP = useSelector(state => getUseIdentityProvider(state));
 
   const handleNetworkChange = isOnline => {
     dispatch(checkServerStatus(isOnline));
@@ -36,9 +34,7 @@ const useConnectivityStatus = () => {
 
   useEffect(() => {
     if (online && queueStatus === QUEUE_HALTED) {
-      if (!isIDP) {
-        dispatch(refreshUserToken(true));
-      }
+      refreshUserToken(true);
     }
   }, [online, queueStatus, refreshUserToken]);
 

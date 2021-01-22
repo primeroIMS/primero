@@ -10,7 +10,7 @@ import { NAME } from "./constants";
 describe("<FieldTranslationsDialog />", () => {
   const initialState = fromJS({
     ui: { dialogs: { [NAME]: true } },
-    application: { locales: ["en", "fr", "ar"] }
+    application: { primero: { locales: ["en", "fr", "ar"] } }
   });
 
   it("should render <FieldTranslationsDialog />", () => {
