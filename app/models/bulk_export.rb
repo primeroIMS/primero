@@ -78,10 +78,10 @@ class BulkExport < ApplicationRecord
   end
 
   def mark_completed!
-    export_instance&.status = COMPLETE
-    export_instance&.completed_on = DateTime.now
+    self.status = COMPLETE
+    self.completed_on = DateTime.now
     # TODO: Log this
-    export_instance&.save!
+    save!
   end
 
   def mark_terminated!
@@ -129,14 +129,10 @@ class BulkExport < ApplicationRecord
   def attach_export_file(file)
     return unless file && File.size?(file)
 
-    export_instance&.export_file&.attach(
+    export_file.attach(
       io: File.open(file),
       filename: File.basename(file)
     )
     File.delete(file)
-  end
-
-  def export_instance
-    @export_instance ||= self.format == Exporters::DuplicateIdCSVExporter.id ? BulkExport.find_by(id: id) : self
   end
 end
