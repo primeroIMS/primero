@@ -748,6 +748,10 @@ en:
   errors:
     error_loading: Error Loading Record(s)
     models:
+      agency:
+        code_present: must not be blank
+        logo_format: File should be png
+        name_present: must not be blank
       child:
         age: Age must be between 0 and 130
         date_of_birth: Please enter a valid date of birth for this case record
