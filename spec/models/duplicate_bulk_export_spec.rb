@@ -44,6 +44,20 @@ describe DuplicateBulkExport, search: true do
     CSV.parse(exported)
   end
 
+  describe 'find BulkExport' do
+    context 'when type is a Duplicate Bulk Export' do
+      before do
+        @bulk_exporter.save
+      end
+
+      it 'returns a DuplicateBulkExport' do
+        dupe_bulk_export = BulkExport.find_by(id: @bulk_exporter.id)
+        expect(dupe_bulk_export).to be_an_instance_of(DuplicateBulkExport)
+        expect(dupe_bulk_export.type).to eq('DuplicateBulkExport')
+      end
+    end
+  end
+
   context 'when cases have duplicate ids' do
     before do
       @child1 = create(:child, national_id_no: 'test1', age: 5, name: 'Test Child 1')
