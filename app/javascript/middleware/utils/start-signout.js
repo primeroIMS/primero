@@ -9,7 +9,7 @@ export default store => {
 
   if (usingIdp) {
     signOut();
-  } else {
-    store.dispatch(attemptSignout());
   }
+
+  store.dispatch(attemptSignout());
 };
