@@ -56,10 +56,10 @@ const Component = ({ field, traceValue, caseValue, match }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  caseValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  caseValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.object]),
   field: PropTypes.object.isRequired,
   match: PropTypes.string.isRequired,
-  traceValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  traceValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.object])
 };
 
 export default Component;
