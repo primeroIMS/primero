@@ -56,7 +56,7 @@ describe("<AgencyForm />", () => {
 
     expect(saveButton).to.have.lengthOf(1);
 
-    ["actionHandler", "text", "savingRecord", "startIcon"].forEach(property => {
+    ["actionHandler", "text", "savingRecord", "startIcon", "rest"].forEach(property => {
       expect(saveButtonProps).to.have.property(property);
       delete saveButtonProps[property];
     });
