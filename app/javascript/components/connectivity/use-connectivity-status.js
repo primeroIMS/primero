@@ -36,7 +36,7 @@ const useConnectivityStatus = () => {
     if (online && queueStatus === QUEUE_HALTED) {
       refreshUserToken(true);
     }
-  }, [online, queueStatus, refreshUserToken]);
+  }, [online, queueStatus]);
 
   useEffect(() => {
     const ready = online && authenticated && queueStatus === QUEUE_READY;
