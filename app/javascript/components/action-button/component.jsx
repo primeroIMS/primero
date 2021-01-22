@@ -12,6 +12,10 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, type, outline
   const isDisabled = disabledApplication && { disabled: disabledApplication };
   const isPending = Boolean(pending);
 
+  if (rest?.hide) {
+    return null;
+  }
+
   return (
     <>
       <ButtonType

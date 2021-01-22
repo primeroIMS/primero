@@ -17,6 +17,7 @@ import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
+import { useApp } from "../../../application";
 
 import { fetchAgencies } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
@@ -26,6 +27,7 @@ import NAMESPACE from "./namespace";
 const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const { prodSite } = useApp();
   const canAddAgencies = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.agencies;
   const headers = useSelector(state => getListHeaders(state, RESOURCES.agencies));
@@ -69,7 +71,8 @@ const Container = () => {
       type={ACTION_BUTTON_TYPES.default}
       rest={{
         to: ROUTES.admin_agencies_new,
-        component: Link
+        component: Link,
+        hide: prodSite
       }}
     />
   ) : null;

@@ -14,7 +14,17 @@ import styles from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ fieldDialogMode, formContextFields, getValues, index, register, setValue, tab, unregister }) => {
+const Component = ({
+  fieldDialogMode,
+  formContextFields,
+  getValues,
+  index,
+  register,
+  setValue,
+  tab,
+  unregister,
+  prodSite
+}) => {
   const { id } = useParams();
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -37,7 +47,7 @@ const Component = ({ fieldDialogMode, formContextFields, getValues, index, regis
     <TabPanel tab={tab} index={index}>
       <div className={css.tabFields}>
         <h1 className={css.heading}>{i18n.t("forms.fields")}</h1>
-        <CustomFieldDialog />
+        <CustomFieldDialog prodSite={prodSite} />
         {parentForm && moduleId && <ExistingFieldDialog parentForm={parentForm} primeroModule={moduleId} />}
       </div>
       <FieldsList
@@ -46,6 +56,7 @@ const Component = ({ fieldDialogMode, formContextFields, getValues, index, regis
         register={register}
         setValue={setValue}
         unregister={unregister}
+        prodSite={prodSite}
       />
       <FieldDialog mode={fieldDialogMode} onSuccess={onSuccess} formId={id} />
     </TabPanel>
@@ -59,6 +70,7 @@ Component.propTypes = {
   formContextFields: PropTypes.object.isRequired,
   getValues: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
+  prodSite: PropTypes.bool,
   register: PropTypes.func.isRequired,
   setValue: PropTypes.func.isRequired,
   tab: PropTypes.number.isRequired,

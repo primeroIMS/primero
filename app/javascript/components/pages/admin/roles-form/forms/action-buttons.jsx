@@ -18,7 +18,7 @@ import { compare } from "../../../../../libs";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-const Component = ({ formMode, formRef, handleCancel, setOpenDeleteDialog }) => {
+const Component = ({ formMode, formRef, handleCancel, setOpenDeleteDialog, prodSite }) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
 
@@ -32,6 +32,7 @@ const Component = ({ formMode, formRef, handleCancel, setOpenDeleteDialog }) => 
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
+        rest={{ hide: prodSite }}
       />
     </>
   );
@@ -44,7 +45,8 @@ const Component = ({ formMode, formRef, handleCancel, setOpenDeleteDialog }) => 
         type={ACTION_BUTTON_TYPES.default}
         rest={{
           to: `${pathname}/edit`,
-          component: Link
+          component: Link,
+          hide: prodSite
         }}
       />
     </Permission>
@@ -77,6 +79,7 @@ Component.propTypes = {
   formMode: PropTypes.object.isRequired,
   formRef: PropTypes.object.isRequired,
   handleCancel: PropTypes.func.isRequired,
+  prodSite: PropTypes.bool,
   setOpenDeleteDialog: PropTypes.func.isRequired
 };
 

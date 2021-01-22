@@ -18,7 +18,7 @@ import { getFormGroupLookups } from "../../../../../form/selectors";
 
 import { NAME } from "./constants";
 
-const Component = ({ formContextFields, getValues, index, mode, register, setValue, tab }) => {
+const Component = ({ formContextFields, getValues, index, mode, register, setValue, tab, prodSite }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -53,7 +53,8 @@ const Component = ({ formContextFields, getValues, index, mode, register, setVal
     onManageTranslation,
     onEnglishTextChange,
     i18n,
-    allFormGroupsLookups
+    allFormGroupsLookups,
+    prodSite
   }).map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);
 
   return (
@@ -71,6 +72,7 @@ Component.propTypes = {
   getValues: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
+  prodSite: PropTypes.bool,
   register: PropTypes.func.isRequired,
   setValue: PropTypes.func.isRequired,
   tab: PropTypes.number.isRequired

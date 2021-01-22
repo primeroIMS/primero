@@ -20,13 +20,15 @@ const ApplicationProvider = ({ children }) => {
   const approvalsLabels = useSelector(state => getApprovalsLabels(state, i18n.locale));
   const disabledApplication = useSelector(state => getDisabledApplication(state));
   const demo = useSelector(state => getDemo(state));
+  // TODO: Change one endpoint it's ready
+  const prodSite = false;
 
   useEffect(() => {
     dispatch(fetchSandboxUI());
   }, []);
 
   return (
-    <Context.Provider value={{ modules, userModules, online, approvalsLabels, disabledApplication, demo }}>
+    <Context.Provider value={{ modules, userModules, online, approvalsLabels, disabledApplication, demo, prodSite }}>
       {children}
     </Context.Provider>
   );
