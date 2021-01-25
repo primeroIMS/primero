@@ -204,6 +204,7 @@ en:
       update_success_queue: 'Case %{record_id} was successfully updated in background'
       creation_success: 'Case record successfully created.'
       creation_success_queue: 'Case record successfully created in background.'
+      already_matched: There is already a case in the system matched to this Inquirer.
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
     workflow:
@@ -379,6 +380,7 @@ en:
     summary:
       label: Summary
       find_match: Find Match
+      matched_trace: 'Match #%{trace_id}'
       fields:
         consent_for_tracing:
           label: Consent has been obtained to disclose information for tracing purposes
@@ -2981,6 +2983,7 @@ en:
     trace: Trace
     match: Match
     matches: Matches
+    unmatch: Un-match
     messages:
       nothing_found: Nothing found
       already_matched: There is already a match in the system with an Inquirer looking for this child.
@@ -2988,6 +2991,8 @@ en:
       creation_success: Tracing Request record successfully created.
       update_success_queue: 'Tracing Request %{record_id} was successfully updated in background.'
       creation_success_queue: Tracing Request record successfully created in background.
+      match_action: Successfully matched Trace %{trace_id} with Case %{record_id}.
+      unmatch_action: Successfully un-matched Trace %{trace_id} and Case %{record_id}.
   tracing_requests:
     date_of_inquiry: Date of Inquiry
     id: ID
