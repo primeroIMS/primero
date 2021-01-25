@@ -90,7 +90,8 @@ const FormSectionField = ({ checkErrors, disableUnderline, field }) => {
     onKeyPress,
     currRecord,
     href,
-    fileFormat
+    fileFormat,
+    filterOptionSource
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -98,19 +99,21 @@ const FormSectionField = ({ checkErrors, disableUnderline, field }) => {
   const error = errors ? get(errors, name) : undefined;
   const errorsToCheck = checkErrors ? checkErrors.concat(fieldCheckErrors) : fieldCheckErrors;
 
-  const optionSource = useSelector(
-    state =>
-      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, {
-        optionStringsSourceIdKey,
-        currRecord
-      }),
-    (prev, next) => prev.equals(next)
-  );
-
   const watchedInputsValues = watchedInputs ? watch(watchedInputs) : null;
   const watchedInputProps = handleWatchedInputs
     ? handleWatchedInputs(watchedInputsValues, name, { error, methods })
     : {};
+
+  const optionSource = useSelector(
+    state =>
+      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, {
+        optionStringsSourceIdKey,
+        currRecord,
+        filterOptions:
+          filterOptionSource && (optionsFromState => filterOptionSource(watchedInputsValues, optionsFromState))
+      }),
+    (prev, next) => prev.equals(next)
+  );
 
   const renderError = () =>
     checkErrors?.size && errors
