@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { ButtonBase } from "@material-ui/core";
 import { FastField, connect } from "formik";
 import { useParams } from "react-router-dom";
+import isEqual from "lodash/isEqual";
 
 import { toServerDateFormat } from "../../../../libs";
 import { useI18n } from "../../../i18n";
@@ -65,6 +66,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
   return (
     <FastField
       name={name}
+      shouldUpdate={(nextProps, props) => !isEqual(nextProps, props)}
       render={renderProps => {
         return (
           <>
