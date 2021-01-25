@@ -1677,6 +1677,7 @@ en:
       incident: Incident
       incident_details_from_case: Add Incident Details to another user's case
       incident_from_case: Create an incident from a case
+      kpi: Pulse/KPIs
       lookup: Lookups
       manage: Manage
       matching_configuration: Matching Configuration
@@ -1724,6 +1725,9 @@ en:
     resource:
       kpi:
         actions:
+          read:
+            explanation: Ability to access the Pulse/KPIs page.
+            label: Access Pulse/KPIs Page.
           kpi_assessment_status:
             explanation: Ability to see, for the active cases that the user has access to,
               what proportion of them have a completed assessment form.
@@ -1754,7 +1758,7 @@ en:
             explanation: Ability to see, for active cases that the user has access to,
               what proportion required and completed a Saftey Plan.
             label: Completed Case Safety Plans
-          kpi_completed_supervisor_assessed_case_action_plans:
+          kpi_completed_supervisor_approved_case_action_plans:
             explanation: Ability to see, for active cases that the user has access to,
               what proportion completed a Case Action Plan that was approved by a supervisor.
             label: Completed Action Plan Approved by Supervisor
@@ -2887,6 +2891,112 @@ en:
     record_type: Record type
     total: Total
     value: Value
+
+  key_performance_indicators:
+    label: "Pulse/KPIs"
+    case_assessment: "Case Assessment"
+    case_action_planning: "Case Action Planning"
+    case_action_plan_implementation: "Case Action Plan Implementation"
+    case_follow_up: "Case Follow-Up"
+    case_closure: "Case Closure"
+    feedback: "Feedback"
+    other: "Other"
+    date_format: "%b %Y"
+    long_date_format: "dd/MM/yyyy"
+    time_periods:
+      all_time: 'All Time'
+      current_month: "Current Month"
+      last_3_months: "Last 3 Months"
+      last_6_months: "Last 6 Months"
+      last_1_year: "Last Year"
+      0-3days: "0 - 3 Days"
+      4-5days: "4 - 5 Days"
+      6-14days: "6 - 14 Days"
+      15-30days: "15 - 30 Days"
+      1-3months: "1 - 3 Months"
+      4months: "> 4 Months"
+      1-month: "< 1 Month"
+      3-6months: "3 - 6 Months"
+      7-months: "> 6 Months"
+    number_of_cases:
+      title: "1. Number of recorded Cases"
+      reporting_site: "Reporting Site"
+    number_of_incidents:
+      title: "2. Number of recorded Incidents"
+      reporting_site: "Reporting Site"
+    reporting_delay:
+      title: "3. Reporting Delay"
+      delay: "Delay"
+      total_incidents: "Total Incidents"
+    service_access_delay:
+      title: "4. Service Access Delay"
+      delay: "Delay"
+      total_incidents: "Total Incidents"
+    assessment_status:
+      title: "5. Assessment Status"
+      completed: "Completed"
+      completed_supervisor_approved: "Completed & Supervisor Approved"
+    completed_case_safety_plans:
+      title: "7. Completed Case Safety Plans"
+      completed: "Completed Case Safety Plan"
+    completed_case_action_plans:
+      title: "8. Completed Case Action Plans"
+      completed: "Completed Case Action Plan"
+      label: "Completed Case Action Plan"
+    completed_supervisor_approved_case_action_plans:
+      title: "9. Completed Action Plans Approved by Supervisor"
+      completed_and_approved: "Completed Case Action Plans Approved by Supervisor"
+    services_provided:
+      title: "10. Services Provided"
+      service: "Service"
+      count: "Times Provided"
+    average_referrals:
+      title: "11.1. Average Referrals"
+      label: "Average referrals per case"
+    referrals_per_service:
+      title: "12. Referrals Per Service"
+    average_followup_meetings_per_case:
+      title: "15. Average Follow-Up Meetings per Case"
+      label: "Average follow-up meetings per case"
+    goal_progress_per_need:
+      title: "16.1. Progress Made towards Goals"
+      need: "Need"
+      safety: "Safety"
+      health: "Health"
+      psychosocial: "Psychosocial"
+      justice: "Justice"
+      other: "Other"
+    time_from_case_open_to_close:
+      title: "18. Time From Case Open To Case Close"
+      time: "Time"
+      percent: "Percentage of Cases"
+    case_closure_rate:
+      title: "21. Case Closure Rate"
+      reporting_site: "Reporting Site"
+    client_satisfaction_rate:
+      title: "22. Client Satisfaction Rate"
+      label: "Client Satisfaction"
+    supervisor_to_caseworker_ratio:
+      title: "23. Supervisor To Caseworker Ratio"
+      label: "Caseworkers per supervisor"
+    case_load:
+      title: "24. Case Load"
+      case_load: "Case Load"
+      percent: "percentage of caseworkers with caseload"
+      10cases: "< 10 Cases"
+      20cases: "< 20 Cases"
+      21-30cases: "21 - 30 Cases"
+      30cases: "> 30 Cases"
+    date_range_dialog:
+      title: "Custom Date Range"
+      description: "Once this change is applied, data will be selected from between the two dates bellow."
+      apply: 'Apply'
+      from: 'From'
+      to: 'To'
+      aria-labels:
+        from: "Data will be selected after this date"
+        to: "Data will be selected before this date"
+
   reports:
     delete_report: Delete Report
     delete_report_message: Are you sure you want to delete this report? Deletion can

@@ -61,6 +61,7 @@ global.window.I18n = {
   locale: "en",
   t: path => path,
   l: (path, value) => formatDate(parseISO(value), get(DATE_FORMATS, path)),
+  toTime: (path, _) => path,
   localizeDate: date => date
 };
 global.document.documentElement.lang = "en";

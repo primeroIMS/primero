@@ -11,6 +11,7 @@ const colors = {
   black: "#231f20",
   solidBlack: "#000000",
   darkGrey: "#595952",
+  lightBlue: "rgba(0, 147, 186, 0.25)",
   blue: "#0093ba",
   darkBlue: "#048BB0",
   yellow: "#f2c317",
