@@ -5,27 +5,18 @@ import { setAuthenticatedUser } from "../../components/user";
 
 import handleReturnUrl from "./handle-return-url";
 
-const getCookieValue = name => {
-  const cookies = document.cookie.match(`(^|;)\\s*${name}\\s*=\\s*([^;]+)`);
-
-  return cookies ? decodeURIComponent(cookies.pop()).replace(/\+/g, " ") : "";
-};
-
-export default async (store, user = {}, useIdentityProvider) => {
-  const userObject = useIdentityProvider
-    ? { user_name: getCookieValue("primero_user_name"), id: parseInt(getCookieValue("primero_user_id"), 10) }
-    : user;
-  const formatedUser = { username: userObject.user_name, id: userObject.id };
-
+export default async (store, user = {}) => {
+  const { user_name: username, id } = user;
+  const formattedUser = { username, id };
   const pendingUserLogin = store.getState().getIn(["connectivity", "pendingUserLogin"], false);
-  const userFromDB = await DB.getRecord("user", formatedUser.username);
+  const userFromDB = await DB.getRecord("user", username);
 
   if (!userFromDB) {
     await DB.clearDB();
   }
 
-  localStorage.setItem("user", JSON.stringify(formatedUser));
-  store.dispatch(setAuthenticatedUser(formatedUser));
+  localStorage.setItem("user", JSON.stringify(formattedUser));
+  store.dispatch(setAuthenticatedUser(formattedUser));
 
   if (!pendingUserLogin) {
     handleReturnUrl(store);

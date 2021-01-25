@@ -179,7 +179,7 @@ ActiveRecord::Schema.define(version: 2021_01_15_000000) do
     t.boolean "date_include_time", default: false, null: false
     t.boolean "matchable", default: false, null: false
     t.jsonb "subform_section_configuration"
-    t.boolean "mandatory_for_completion", default: false
+    t.boolean "mandatory_for_completion", default: false, null: false
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"
@@ -476,6 +476,7 @@ ActiveRecord::Schema.define(version: 2021_01_15_000000) do
     t.integer "failed_attempts", default: 0
     t.string "unlock_token"
     t.datetime "locked_at"
+    t.boolean "service_account", default: false, null: false
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["identity_provider_id"], name: "index_users_on_identity_provider_id"
