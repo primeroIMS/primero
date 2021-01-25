@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import { useI18n } from "../../../i18n";
 import KpiTable from "../kpi-table";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
@@ -36,6 +37,6 @@ Component.propTypes = {
 
 export default asKeyPerformanceIndicator(
   "goal_progress_per_need",
-  {  data: [] },
+  { data: [] },
   ACTIONS.KPI_GOAL_PROGRESS_PER_NEED
 )(Component);

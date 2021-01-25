@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Help } from "@material-ui/icons";
 import makeStyles from "@material-ui/styles/makeStyles";
+
 import OptionsBox from "../../../dashboard/options-box";
 import { useI18n } from "../../../i18n";
 import actionsForKPI from "../../action-creators";
@@ -10,6 +11,7 @@ import DateRangeSelect from "../date-range-select";
 import Permission from "../../../application/permission";
 import { RESOURCES } from "../../../../libs/permissions";
 import usePermissions from "../../../permissions";
+
 import styles from "./styles.css";
 
 const asKeyPerformanceIndicator = (identifier, defaultData, action) => {
@@ -22,9 +24,9 @@ const asKeyPerformanceIndicator = (identifier, defaultData, action) => {
       const i18n = useI18n();
       const css = makeStyles(styles)();
       const canViewKpi = usePermissions(RESOURCES.kpis, [action]);
-      console.log(identifier, canViewKpi, RESOURCES.kpis, action);
 
       const [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
+
       useEffect(() => {
         if (canViewKpi) fetchData(currentDateRange);
       }, [currentDateRange, canViewKpi]);

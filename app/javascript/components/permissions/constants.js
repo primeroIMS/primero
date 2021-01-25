@@ -231,6 +231,4 @@ export const ASSIGN = [
   ACTIONS.ASSIGN_WITHIN_AGENCY_PERMISSIONS
 ];
 
-export const READ_KPIS = [
-  ACTIONS.READ
-];
+export const READ_KPIS = [ACTIONS.READ];

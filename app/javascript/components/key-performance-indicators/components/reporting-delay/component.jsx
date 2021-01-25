@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import { useI18n } from "../../../i18n";
 import KpiTable from "../kpi-table";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
@@ -45,8 +46,4 @@ Component.propTypes = {
   identifier: PropTypes.string
 };
 
-export default asKeyPerformanceIndicator(
-  "reporting_delay",
-  { data: [] },
-  ACTIONS.KPI_REPORTING_DELAY
-)(Component);
+export default asKeyPerformanceIndicator("reporting_delay", { data: [] }, ACTIONS.KPI_REPORTING_DELAY)(Component);

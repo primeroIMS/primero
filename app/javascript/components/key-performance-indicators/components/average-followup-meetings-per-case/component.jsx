@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import { useI18n } from "../../../i18n";
 import SingleAggregateMetric from "../single-aggregate-metric";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";

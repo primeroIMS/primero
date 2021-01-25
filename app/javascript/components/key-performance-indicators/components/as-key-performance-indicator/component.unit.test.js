@@ -10,7 +10,8 @@ import asKeyPerformanceIndicator from "./component";
 describe("asKeyPerformanceIndicator()", () => {
   const identifier = "test";
   const Component = () => <h1>Component</h1>;
-  const KPI = asKeyPerformanceIndicator(identifier, {})(Component);
+  const permittedAction = "test";
+  const KPI = asKeyPerformanceIndicator(identifier, {}, permittedAction)(Component);
 
   it("should return a connect function", () => {
     expect(asKeyPerformanceIndicator()).to.be.a("function");
@@ -27,7 +28,8 @@ describe("asKeyPerformanceIndicator()", () => {
           [NAMESPACE]: {
             [identifier]: "some test data"
           }
-        }
+        },
+        user: { permissions: { kpis: [permittedAction] } }
       })
     );
 

@@ -56,10 +56,11 @@ const Container = () => {
     customBodyRender: value => {
       console.log("===>", value?.prefix?.approval_type);
       const prefix = value?.prefix?.approval_type
-          ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
-          : i18n.t(value?.prefix?.key);
-      const identifier = value?.identifier
-      return `${prefix} ${identifier}`
+        ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
+        : i18n.t(value?.prefix?.key);
+      const identifier = value?.identifier;
+
+      return `${prefix} ${identifier}`;
     }
   };
 
