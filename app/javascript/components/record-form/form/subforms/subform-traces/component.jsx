@@ -1,30 +1,56 @@
+/* eslint-disable react/display-name, react/no-multi-comp */
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { FormContext, useForm } from "react-hook-form";
-import isEqual from "lodash/isEqual";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import SearchIcon from "@material-ui/icons/Search";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import pick from "lodash/pick";
+import { useSelector } from "react-redux";
 
-import Permission from "../../../../application/permission";
-import { RESOURCES, SHOW_FIND_MATCH } from "../../../../../libs/permissions";
 import { useI18n } from "../../../../i18n";
-import ActionButton from "../../../../action-button";
-import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
-import { whichFormMode } from "../../../../form";
-import { MODES } from "../../../../../config";
-import FormSection from "../../../../form/components/form-section";
+import { compare } from "../../../../../libs";
+import { getSubformValues } from "../../utils";
+import { getSelectedPotentialMatch } from "../../../../records/selectors";
 import SubformDrawer from "../subform-drawer";
 
-import { NAME } from "./constants";
-import styles from "./styles.css";
+import { TraceComparisonForm, TraceForm, TraceMatches } from "./components";
+import { FORMS, NAME } from "./constants";
 
-const Component = ({ openDrawer, formSection, handleClose, initialValues }) => {
-  const [open, setOpen] = useState(openDrawer);
-  const methods = useForm({ defaultValues: initialValues || {} });
-  const formMode = whichFormMode(MODES.show);
+const Component = ({ openDrawer, field, formik, formSection, handleClose, index, recordType }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const [open, setOpen] = useState(openDrawer);
+  const [selectedForm, setSelectedForm] = useState(FORMS.trace);
+  const selectedPotentialMatch = useSelector(state => getSelectedPotentialMatch(state, recordType), compare);
+  const currentValues = formik.values;
+  const traceValues = getSubformValues(field, index, currentValues);
+  const tracingRequestValues = pick(currentValues, ["relation_name", "inquiry_date", "short_id"]);
+  const title =
+    selectedForm === FORMS.matches ? i18n.t("tracing_request.find_match") : i18n.t("tracing_request.traces");
+
+  useEffect(() => {
+    if (selectedPotentialMatch?.toSeq()?.size) {
+      setSelectedForm(FORMS.comparison);
+    }
+  }, [selectedPotentialMatch]);
+
+  const props = {
+    traceValues,
+    tracingRequestValues,
+    recordType,
+    potentialMatch: selectedPotentialMatch,
+    setSelectedForm,
+    handleClose,
+    selectedForm,
+    formSection
+  };
+
+  const Form = (() => {
+    switch (selectedForm) {
+      case FORMS.matches:
+        return TraceMatches;
+      case FORMS.comparison:
+        return TraceComparisonForm;
+      default:
+        return TraceForm;
+    }
+  })();
 
   useEffect(() => {
     if (openDrawer !== open) {
@@ -33,48 +59,26 @@ const Component = ({ openDrawer, formSection, handleClose, initialValues }) => {
   }, [openDrawer]);
 
   useEffect(() => {
-    const currentValues = methods.getValues();
-
-    if (!isEqual(currentValues, initialValues)) {
-      methods.reset(initialValues);
+    if (open) {
+      setSelectedForm(FORMS.trace);
     }
-  }, [initialValues]);
+  }, [open]);
 
   return (
-    <SubformDrawer title="Traces" open={open} cancelHandler={handleClose}>
-      <div className={css.buttonsRow}>
-        <ActionButton
-          icon={<ArrowBackIosIcon />}
-          text={i18n.t("tracing_request.back_to_traces")}
-          type={ACTION_BUTTON_TYPES.default}
-          outlined
-          rest={{
-            onClick: handleClose
-          }}
-        />
-        <Permission resources={RESOURCES.tracing_requests} actions={SHOW_FIND_MATCH}>
-          <ActionButton
-            icon={<SearchIcon />}
-            text={i18n.t("tracing_request.find_match")}
-            type={ACTION_BUTTON_TYPES.default}
-            rest={{
-              onClick: handleClose
-            }}
-          />
-        </Permission>
-      </div>
-      <FormContext {...methods} formMode={formMode}>
-        <FormSection formSection={formSection} showTitle={false} disableUnderline />
-      </FormContext>
+    <SubformDrawer title={title} open={open} cancelHandler={handleClose}>
+      <Form {...props} />
     </SubformDrawer>
   );
 };
 
 Component.propTypes = {
+  field: PropTypes.object.isRequired,
+  formik: PropTypes.object.isRequired,
   formSection: PropTypes.object.isRequired,
   handleClose: PropTypes.func.isRequired,
-  initialValues: PropTypes.object,
-  openDrawer: PropTypes.bool
+  index: PropTypes.number,
+  openDrawer: PropTypes.bool,
+  recordType: PropTypes.string.isRequired
 };
 
 Component.displayName = NAME;

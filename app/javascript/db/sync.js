@@ -23,7 +23,6 @@ const syncIndexedDB = async (
       }
       case DB_COLLECTIONS_NAMES.SYSTEM_SETTINGS:
       case DB_COLLECTIONS_NAMES.PERMISSIONS:
-      case DB_COLLECTIONS_NAMES.PRIMERO:
       case DB_COLLECTIONS_NAMES.CONTACT_INFORMATION: {
         return collections.Common;
       }
@@ -36,8 +35,8 @@ const syncIndexedDB = async (
       case DB_COLLECTIONS_NAMES.DASHBOARDS: {
         return collections.Dashboards;
       }
-      case DB_COLLECTIONS_NAMES.LOGOS: {
-        return collections.Logos;
+      case DB_COLLECTIONS_NAMES.PRIMERO: {
+        return collections.Primero;
       }
       default: {
         return false;

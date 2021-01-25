@@ -68,6 +68,7 @@ const Component = ({
       formik.setFieldValue(`${field.name}[${index}]`, values, false);
     } else {
       arrayHelpers.push({ ...initialSubformValues, ...values });
+      formik.setTouched({ [field.name]: true });
     }
 
     // Trigger validations only if the form was already submitted.

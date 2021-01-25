@@ -41,7 +41,7 @@ class Api::V2::AgenciesController < ApplicationApiController
     params.require(:data).permit(
       :id, :unique_id, :agency_code, :order, :telephone, :logo_enabled,
       :logo_full_base64, :logo_full_file_name, :logo_icon_base64, :logo_icon_file_name,
-      :disabled, services: [], name: {}, description: {}
+      :disabled, :pdf_logo_option, :exclude_agency_from_lookups, services: [], name: {}, description: {}
     )
   end
 

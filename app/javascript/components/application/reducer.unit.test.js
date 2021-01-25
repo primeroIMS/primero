@@ -56,7 +56,6 @@ describe("Application - Reducers", () => {
           workflows: {}
         }
       ],
-      locales: ["en", "fr", "ar"],
       defaultLocale: "en",
       baseLanguage: "en",
       primeroVersion: "2.0.0.1",
@@ -133,7 +132,6 @@ describe("Application - Reducers", () => {
               }
             }
           ],
-          locales: ["en", "fr", "ar"],
           default_locale: "en",
           base_language: "en",
           primero_version: "2.0.0.1",

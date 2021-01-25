@@ -11,7 +11,8 @@ import {
   SEPERATOR,
   PHOTO_FIELD,
   AUDIO_FIELD,
-  DOCUMENT_FIELD
+  DOCUMENT_FIELD,
+  LINK_TO_FORM
 } from "../constants";
 import Tooltip from "../../tooltip";
 import { ConditionalWrapper, displayNameHelper } from "../../../libs";
@@ -25,6 +26,7 @@ import TickField from "./field-types/tick-field";
 import Seperator from "./field-types/seperator";
 import RadioField from "./field-types/radio-field";
 import AttachmentField from "./field-types/attachments";
+import LinkToForm from "./field-types/link-to-form";
 import styles from "./styles.css";
 
 const FormSectionField = ({ name, field, mode, recordType, recordID, filters, index, formSection }) => {
@@ -41,7 +43,8 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
     selected_value: selectedValue,
     hide_on_view_page: hideOnViewPage,
     visible,
-    guiding_questions: guidingQuestions
+    guiding_questions: guidingQuestions,
+    link_to_form: linkToForm
   } = field;
 
   const fieldProps = {
@@ -75,7 +78,8 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
     checked: ["t", "true"].includes(selectedValue),
     ...(mode.isShow && { placeholder: "--" }),
     index,
-    displayName
+    displayName,
+    linkToForm
   };
 
   const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (
@@ -94,6 +98,8 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
         return RadioField;
       case SEPERATOR:
         return Seperator;
+      case LINK_TO_FORM:
+        return LinkToForm;
       case PHOTO_FIELD:
       case AUDIO_FIELD:
       case DOCUMENT_FIELD:

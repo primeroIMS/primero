@@ -93,6 +93,7 @@ export const RECORD_PATH = {
   roles: "roles",
   tasks: "tasks",
   tracing_requests: "tracing_requests",
+  traces: "traces",
   user_groups: "user_groups",
   users: "users"
 };
@@ -108,6 +109,8 @@ export const APPROVALS = "approvals";
 export const INCIDENT_FROM_CASE = "incident_from_case";
 
 export const CHANGE_LOGS = "change_logs";
+
+export const SUMMARY = "summary";
 
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
@@ -190,7 +193,8 @@ export const LOOKUPS = {
   followup_type: "lookup-followup-type",
   reporting_locations: "ReportingLocation",
   gbv_violence_type: "lookup-gbv-sexual-violence-type",
-  cp_violence_type: "lookup-cp-violence-type"
+  cp_violence_type: "lookup-cp-violence-type",
+  gender: "lookup-gender"
 };
 
 export const ADMIN_NAV = [
@@ -426,3 +430,14 @@ export const FETCH_PARAM = Object.freeze({
 export const TRACING_REQUEST_STATUS_FIELD_NAME = "tracing_request_status";
 
 export const TRACES_SUBFORM_UNIQUE_ID = "tracing_request_subform_section";
+
+export const POTENTIAL_MATCH_LIKELIHOOD = {
+  likely: "likely",
+  possible: "possible"
+};
+
+export const MATCH_VALUES = {
+  match: "match",
+  mismatch: "mismatch",
+  blank: "blank"
+};
