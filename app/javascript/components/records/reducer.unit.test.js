@@ -263,6 +263,219 @@ describe("<RecordList /> - Reducers", () => {
     expect(newState).to.deep.equals(expected);
   });
 
+  it("should handle FETCH_TRACE_POTENTIAL_MATCHES_STARTED", () => {
+    const expected = fromJS({ potentialMatches: { loading: true, errors: false } });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACE_POTENTIAL_MATCHES_STARTED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS", () => {
+    const potentialMatch = {
+      score: 1,
+      likelihood: "possible",
+      case: { id: "case-123" },
+      trace: { id: "trace-789" }
+    };
+    const record = {
+      id: "trace-789",
+      type: "trace"
+    };
+
+    const expected = fromJS({ potentialMatches: { data: [potentialMatch], record } });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS",
+      payload: { data: { potential_matches: [potentialMatch], record } }
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACE_POTENTIAL_MATCHES_FAILURE", () => {
+    const expected = fromJS({ potentialMatches: { errors: true } });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACE_POTENTIAL_MATCHES_FAILURE"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACE_POTENTIAL_MATCHES_FINISHED", () => {
+    const expected = fromJS({ potentialMatches: { loading: false } });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACE_POTENTIAL_MATCHES_FINISHED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_MACHED_CASE_FOR_TRACE_STARTED", () => {
+    const expected = fromJS({ loading: true });
+
+    const action = {
+      type: "TestRecordType/SET_MACHED_CASE_FOR_TRACE_STARTED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_MACHED_CASE_FOR_TRACE_STARTED", () => {
+    const expected = fromJS({ loading: true });
+
+    const action = {
+      type: "TestRecordType/SET_MACHED_CASE_FOR_TRACE_STARTED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_MACHED_CASE_FOR_TRACE_STARTED", () => {
+    const expected = fromJS({ loading: true });
+
+    const action = {
+      type: "TestRecordType/SET_MACHED_CASE_FOR_TRACE_STARTED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_MACHED_CASE_FOR_TRACE_SUCCESS", () => {
+    const trace = { unique_id: "tr-001" };
+
+    const expected = fromJS({
+      data: [{ id: "12345", tracing_request_subform_section: [{ ...trace, matched_case_id: "cs-001", id: "tr-001" }] }]
+    });
+
+    const action = {
+      type: "TestRecordType/SET_MACHED_CASE_FOR_TRACE_SUCCESS",
+      payload: { data: { id: "tr-001", matched_case_id: "cs-001" } }
+    };
+
+    const newState = nsReducer(fromJS({ data: [{ id: "12345", tracing_request_subform_section: [trace] }] }), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_MACHED_CASE_FOR_TRACE_FAILURE", () => {
+    const expected = fromJS({ errors: true });
+
+    const action = {
+      type: "TestRecordType/SET_MACHED_CASE_FOR_TRACE_FAILURE"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle SET_MACHED_CASE_FOR_TRACE_FINISHED", () => {
+    const expected = fromJS({ loading: false });
+
+    const action = {
+      type: "TestRecordType/SET_MACHED_CASE_FOR_TRACE_FINISHED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACING_REQUEST_TRACES_STARTED", () => {
+    const expected = fromJS({ loading: true });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACING_REQUEST_TRACES_STARTED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACING_REQUEST_TRACES_SUCCESS", () => {
+    const expected = fromJS({
+      data: [
+        {
+          id: "123",
+          tracing_request_subform_section: [
+            { unique_id: "567", name: "test", id: "567", tracing_request_id: "123", matched_case_id: "890" }
+          ]
+        }
+      ]
+    });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACING_REQUEST_TRACES_SUCCESS",
+      payload: {
+        data: [
+          {
+            id: "567",
+            tracing_request_id: "123",
+            matched_case_id: "890"
+          }
+        ]
+      }
+    };
+
+    const newState = nsReducer(
+      fromJS({
+        data: [
+          {
+            id: "123",
+            tracing_request_subform_section: [{ unique_id: "567", name: "test" }]
+          }
+        ]
+      }),
+      action
+    );
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle ", () => {
+    const expected = fromJS({ errors: true });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACING_REQUEST_TRACES_FAILURE"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle FETCH_TRACING_REQUEST_TRACES_FINISHED", () => {
+    const expected = fromJS({ loading: false });
+
+    const action = {
+      type: "TestRecordType/FETCH_TRACING_REQUEST_TRACES_FINISHED"
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
   describe("when record type is cases", () => {
     const casesReducer = reducer("cases");
 
@@ -334,5 +547,125 @@ describe("<RecordList /> - Reducers", () => {
 
       expect(newState).to.deep.equals(fromJS({ incidentFromCase: { incident_case_id: "case-id-1" } }));
     });
+
+    it("should handle FETCH_CASES_POTENTIAL_MATCHES_STARTED", () => {
+      const expected = fromJS({ potentialMatches: { loading: true, errors: false } });
+      const defaultState = fromJS({});
+
+      const action = {
+        type: "TestRecordType/FETCH_CASES_POTENTIAL_MATCHES_STARTED",
+        payload: true
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("should handle FETCH_CASES_POTENTIAL_MATCHES_FINISHED", () => {
+      const expected = fromJS({ potentialMatches: { loading: false } });
+      const defaultState = fromJS({});
+
+      const action = {
+        type: "TestRecordType/FETCH_CASES_POTENTIAL_MATCHES_FINISHED",
+        payload: false
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("should handle FETCH_CASES_POTENTIAL_MATCHES_FAILURE", () => {
+      const expected = fromJS({ potentialMatches: { errors: true } });
+      const defaultState = fromJS({});
+
+      const action = {
+        type: "TestRecordType/FETCH_CASES_POTENTIAL_MATCHES_FAILURE",
+        payload: true
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+  });
+
+  it("should handle FETCH_CASE_MATCHED_TRACES_STARTED", () => {
+    const expected = fromJS({ matchedTraces: { loading: true, errors: false } });
+    const defaultState = fromJS({});
+
+    const action = {
+      type: "TestRecordType/FETCH_CASE_MATCHED_TRACES_STARTED",
+      payload: true
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_CASE_MATCHED_TRACES_FINISHED", () => {
+    const expected = fromJS({ matchedTraces: { loading: false } });
+    const defaultState = fromJS({});
+
+    const action = {
+      type: "TestRecordType/FETCH_CASE_MATCHED_TRACES_FINISHED",
+      payload: false
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_CASE_MATCHED_TRACES_FAILURE", () => {
+    const expected = fromJS({ matchedTraces: { errors: true } });
+    const defaultState = fromJS({});
+
+    const action = {
+      type: "TestRecordType/FETCH_CASE_MATCHED_TRACES_FAILURE",
+      payload: true
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_CASE_MATCHED_TRACES_SUCCESS", () => {
+    const defaultState = fromJS({});
+    const data = [
+      {
+        sex: "male",
+        inquiry_date: "2021-01-13",
+        tracing_request_id: "f6c3483e-d6e6-482e-bd7a-9c5808e0798c",
+        name: "Gustavo Cerati",
+        relation_name: null,
+        matched_case_id: "b216d9a8-5390-4d20-802b-ae415151ddbf",
+        inquirer_id: "dc7a9dde-0b80-4488-b480-35f571c977c3",
+        id: "3d930cd0-de41-4c5b-959e-7bb6ca4b3f3e",
+        relation: "brother",
+        age: 10
+      }
+    ];
+
+    const action = {
+      type: "TestRecordType/FETCH_CASE_MATCHED_TRACES_SUCCESS",
+      payload: { data }
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).to.deep.equals(fromJS({ matchedTraces: { data } }));
+  });
+
+  it("should handle CLEAR_MATCHED_TRACES", () => {
+    const expected = fromJS({});
+    const action = { type: "TestRecordType/CLEAR_MATCHED_TRACES" };
+
+    const newState = nsReducer(fromJS({ matchedTraces: { data: [{ id: "12345" }] } }), action);
+
+    expect(newState).to.deep.equals(expected);
   });
 });

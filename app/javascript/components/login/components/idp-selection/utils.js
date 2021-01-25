@@ -11,7 +11,7 @@ export const setMsalConfig = idp => {
       redirectUri: `${PROTOCOL}//${DOMAIN}/login/${idp.get("provider_type")}`
     },
     cache: {
-      cacheLocation: "sessionStorage",
+      cacheLocation: "localStorage",
       storeAuthStateInCookie: true
     }
   };

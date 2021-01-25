@@ -58,6 +58,41 @@ describe Api::V2::TokensController, type: :request do
         )
     end
 
+    context 'external identity enabled' do
+      before(:each) do
+        @use_identity_provider = Rails.configuration.x.idp.use_identity_provider
+        @idp_user = User.new(user_name: idp_user_name)
+        @idp_user.save(validate: false)
+        @non_idp_user = User.new(user_name: non_idp_user_name, password: password, password_confirmation: password)
+        @non_idp_user.save(validate: false)
+        Rails.configuration.x.idp.use_identity_provider = true
+      end
+      let(:non_idp_user_name) { 'non_idp_user' }
+      let(:password) { 'tokenstestuser0' }
+      let(:idp_user_name) { 'idp_user' }
+      let(:token) { instance_double('IdpToken', valid?: true, user: @idp_user) }
+
+      it 'returns the user id and token when signing in with a valid bearer token' do
+        allow(IdpToken).to receive(:build).and_return(token)
+        post '/api/v2/tokens', headers: { 'Authorization' => 'Bearer VALIDTOKEN' }
+
+        expect(response).to have_http_status(200)
+        expect(json['id']).to eq(@idp_user.id)
+        expect(json['token']).to eq('VALIDTOKEN')
+      end
+
+      it 'returns a 401 when attempting to log in with a valid non-idp user and password' do
+        post '/api/v2/tokens', params: { user: { user_name: non_idp_user_name, password: password } }
+        expect(response).to have_http_status(401)
+      end
+
+      after(:each) do
+        @idp_user.destroy
+        @non_idp_user.destroy
+        Rails.configuration.x.idp.use_identity_provider = @use_identity_provider
+      end
+    end
+
     context 'incorrect failed attempts' do
       before(:each) do
         @user_name2 = 'tokenstestuser2'

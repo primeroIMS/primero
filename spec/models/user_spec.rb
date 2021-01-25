@@ -198,6 +198,17 @@ describe User do
       user.id.present?.should == true
     end
 
+    it 'should be invalid if an agency is missing' do
+      user = build_user(agency_id: nil)
+      expect(user).to be_invalid
+    end
+
+    it 'should be valid if an agency is missing but this is a system user' do
+      user = build_user(agency_id: nil)
+      user.service_account = true
+      expect(user).to be_valid
+    end
+
     describe 'locale' do
       before do
         @locale_user = build_user

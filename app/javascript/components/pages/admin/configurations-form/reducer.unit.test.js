@@ -159,4 +159,37 @@ describe("configurations-form/reducers.js", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle SEND_TO_PRODUCTION_STARTED", () => {
+    const expected = fromJS({ sending: true });
+    const action = {
+      type: actions.SEND_TO_PRODUCTION_STARTED,
+      payload: true
+    };
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("deprecated APPLY_CONFIGURATION_FINISHED", () => {
+    const expected = fromJS({ sending: false });
+    const action = {
+      type: actions.APPLY_CONFIGURATION_FINISHED,
+      payload: false
+    };
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.not.deep.equal(expected);
+  });
+
+  it("should handle SEND_TO_PRODUCTION_FAILURE", () => {
+    const expected = fromJS({ errors: true, serverErrors: ["some error"] });
+    const action = {
+      type: actions.SEND_TO_PRODUCTION_FAILURE,
+      payload: { errors: ["some error"] }
+    };
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });

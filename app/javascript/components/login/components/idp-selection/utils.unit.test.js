@@ -27,7 +27,7 @@ describe("auth-utils", () => {
         redirectUri: `${window.location.protocol}//${window.location.host}/login/b2c`
       },
       cache: {
-        cacheLocation: "sessionStorage",
+        cacheLocation: "localStorage",
         storeAuthStateInCookie: true
       }
     };

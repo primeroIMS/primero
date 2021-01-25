@@ -4,6 +4,7 @@
 class Api::V2::TokensController < Devise::SessionsController
   include AuditLogActions
   include Api::V2::Concerns::JwtTokens
+  include ErrorHandling
   respond_to :json
 
   skip_before_action :verify_authenticity_token
@@ -23,6 +24,44 @@ class Api::V2::TokensController < Devise::SessionsController
     render json: {}
   end
 
+  alias devise_create create
+  def create
+    if Rails.configuration.x.idp.use_identity_provider
+      create_idp
+    else
+      create_native
+    end
+  end
+
+  # HACK: Removing primero_token cookie when failing to authenticate with current token.
+  def create_native
+    creation = catch(:warden) do
+      devise_create
+    end
+    # warden throws user scope Hash on authentication failure.
+    if creation.is_a?(Hash)
+      fail_to_authorize!(creation)
+    else
+      creation
+    end
+  end
+
+  def create_idp
+    token_to_cookie
+    idp_token = IdpToken.build(current_token)
+    user = idp_token.valid? && idp_token.user
+    if user
+      render json: { id: user.id, user_name: user.user_name, token: current_token }
+    else
+      fail_to_authorize!(auth_options)
+    end
+  end
+
+  def fail_to_authorize!(opts)
+    cookies.delete(:primero_token, domain: primero_host)
+    throw(:warden, opts)
+  end
+
   # Shut down the default Devise endpoint
   def new
     raise(ActionController::RoutingError, 'Not Found')
@@ -38,20 +77,6 @@ class Api::V2::TokensController < Devise::SessionsController
 
   def create_action_message
     'login'
-  end
-
-  # HACK: Removing primero_token cookie when failing to authenticate with current token.
-  def create
-    creation = catch(:warden) do
-      super
-    end
-    # warden throws user scope Hash on authentication failure.
-    if creation.is_a?(Hash)
-      cookies.delete(:primero_token, domain: primero_host)
-      throw(:warden, creation)
-    else
-      creation
-    end
   end
 
   def destroy_action_message

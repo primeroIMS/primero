@@ -16,7 +16,7 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   end
 
   def create
-    @configuration = PrimeroConfiguration.current(current_user)
+    @configuration = configuration_params[:data].present? ? new_configuration : current_configuration
     @configuration.attributes = configuration_params
     @configuration.save!
   end
@@ -24,6 +24,7 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   def update
     @configuration = PrimeroConfiguration.find(params[:id])
     @configuration.apply_later!(current_user) if configuration_params[:apply_now].present?
+    @configuration.promote_later! if configuration_params[:promote].present?
   end
 
   def destroy
@@ -42,6 +43,15 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   protected
 
   def configuration_params
-    params.require(:data).permit(%i[name description version apply_now])
+    @configuration_params ||= params.require(:data)
+                                    .permit(%i[id name description version apply_now promote] + [data: {}])
+  end
+
+  def new_configuration
+    PrimeroConfiguration.new_with_user(current_user)
+  end
+
+  def current_configuration
+    PrimeroConfiguration.current(current_user)
   end
 end

@@ -1,0 +1,16 @@
+.nothingFound {
+  font-style: italic;
+}
+
+.recordId {
+  color: $(theme.primero.colors.red);
+}
+
+.alreadyMatched {
+  background-color: $(theme.primero.colors.wildSand);
+  padding: 10px;
+
+  & span {
+    font-weight: bold;
+  }
+}

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Queue, { QUEUE_HALTED, QUEUE_READY } from "../../libs/queue";
 import { getIsAuthenticated } from "../user/selectors";
 import { clearDialog, selectDialog } from "../action-dialog";
-import { refreshToken } from "../user";
+import { useRefreshUserToken } from "../user";
 import { LOGIN_DIALOG } from "../login-dialog";
 
 import { selectNetworkStatus, selectQueueStatus } from "./selectors";
@@ -12,6 +12,7 @@ import { checkServerStatus, setQueueStatus } from "./action-creators";
 
 const useConnectivityStatus = () => {
   const dispatch = useDispatch();
+  const { refreshUserToken } = useRefreshUserToken();
   const online = useSelector(state => selectNetworkStatus(state));
   const authenticated = useSelector(state => getIsAuthenticated(state));
   const queueStatus = useSelector(state => selectQueueStatus(state));
@@ -33,7 +34,7 @@ const useConnectivityStatus = () => {
 
   useEffect(() => {
     if (online && queueStatus === QUEUE_HALTED) {
-      dispatch(refreshToken(true));
+      refreshUserToken(true);
     }
   }, [online, queueStatus]);
 

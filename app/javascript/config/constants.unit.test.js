@@ -47,6 +47,7 @@ describe("Verifying config constant", () => {
       "INCIDENT_FROM_CASE",
       "LOCALE_KEYS",
       "LOOKUPS",
+      "MATCH_VALUES",
       "MAX_ATTACHMENT_SIZE",
       "MAX_IMAGE_SIZE",
       "METHODS",
@@ -56,6 +57,7 @@ describe("Verifying config constant", () => {
       "NAME_FIELD",
       "PASSWORD_MIN_LENGTH",
       "PERMITTED_URL",
+      "POTENTIAL_MATCH_LIKELIHOOD",
       "RECORD_INFORMATION",
       "RECORD_OWNER",
       "RECORD_PATH",
@@ -69,6 +71,7 @@ describe("Verifying config constant", () => {
       "SAVE_METHODS",
       "SAVING",
       "STRING_SOURCES_TYPES",
+      "SUMMARY",
       "TOKEN_REFRESH_INTERVAL",
       "TRACES_SUBFORM_UNIQUE_ID",
       "TRACING_REQUEST_STATUS_FIELD_NAME",
@@ -152,7 +155,8 @@ describe("Verifying config constant", () => {
           "followup_type",
           "reporting_locations",
           "gbv_violence_type",
-          "cp_violence_type"
+          "cp_violence_type",
+          "gender"
         );
         expect(constants.RECORD_INFORMATION).to.be.an("array");
         expect(constants.INCIDENT_FROM_CASE).to.be.an("string");

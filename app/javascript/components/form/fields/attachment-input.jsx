@@ -24,11 +24,11 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
     fileName: ""
   });
 
-  const { type } = metaInputProps;
+  const { type, fileFormat } = metaInputProps;
   const { name, label, disabled, helperText, error } = commonInputProps;
   const attachment = type === DOCUMENT_FIELD ? ATTACHMENT_TYPES.document : type;
   const isDocument = attachment === ATTACHMENT_TYPES.document;
-  const acceptedTypes = isDocument ? ".csv" : "*";
+  const acceptedTypes = fileFormat || (isDocument ? ".csv" : "*");
 
   const fileBase64 = watch(`${name}_base64`);
   const fileUrl = watch(`${name}_url`);
@@ -45,9 +45,8 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
     const files = event?.target?.files;
     const selectedFile = files?.[0];
 
-    loadingFile(true);
-
     if (selectedFile) {
+      loadingFile(true);
       const data = await toBase64(selectedFile, attachment);
 
       if (data) {

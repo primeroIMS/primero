@@ -11,6 +11,6 @@ export const getLocale = state => {
     : defaultLocale;
 };
 
-export const getLocales = state => state.getIn(["application", "locales"], fromJS([]));
+export const getLocales = state => state.getIn(["application", "primero", "locales"], fromJS([]));
 
 export const getAppDirection = state => state.getIn(["ui", NAMESPACE, "dir"], "ltr");

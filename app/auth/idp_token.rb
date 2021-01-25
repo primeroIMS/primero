@@ -10,6 +10,8 @@ class IdpToken
   class << self
     def build(token_string)
       idp_token = new
+      return idp_token unless token_string.present?
+
       content = decode(token_string)
       return idp_token unless content.present?
 

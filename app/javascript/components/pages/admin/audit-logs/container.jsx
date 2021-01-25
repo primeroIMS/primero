@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useEffect } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
@@ -52,6 +53,17 @@ const Container = () => {
 
   useMetadata(recordType, metadata, fetchAuditLogs, "data");
 
+  const logMessageOptions = {
+    customBodyRender: value => {
+      const prefix = value?.prefix?.approval_type
+        ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
+        : i18n.t(value?.prefix?.key);
+      const identifier = value?.identifier;
+
+      return `${prefix} ${identifier}`;
+    }
+  };
+
   const tableOptions = {
     columns: [
       {
@@ -71,7 +83,8 @@ const Container = () => {
       },
       {
         label: i18n.t("audit_log.description"),
-        name: "log_message"
+        name: "log_message",
+        options: logMessageOptions
       },
       {
         label: i18n.t("audit_log.record_owner"),
