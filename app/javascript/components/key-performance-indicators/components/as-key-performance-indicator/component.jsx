@@ -20,7 +20,7 @@ const asKeyPerformanceIndicator = (identifier, defaultData, action) => {
       fetchData: actionsForKPI(identifier)
     });
 
-    const Component = enhance(({ data, fetchData, dateRanges, ...props }) => {
+    return enhance(({ data, fetchData, dateRanges, ...props }) => {
       const i18n = useI18n();
       const css = makeStyles(styles)();
       const canViewKpi = usePermissions(RESOURCES.kpis, [action]);
@@ -61,11 +61,6 @@ const asKeyPerformanceIndicator = (identifier, defaultData, action) => {
         </Permission>
       );
     });
-
-    Component.identifier = identifier;
-    Component.action = action;
-
-    return Component;
   };
 };
 
