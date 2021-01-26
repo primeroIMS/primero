@@ -6,6 +6,7 @@ import isEmpty from "lodash/isEmpty";
 import { Box } from "@material-ui/core";
 import NavigationPrompt from "react-router-navigation-prompt";
 import { batch, useDispatch } from "react-redux";
+import isEqual from "lodash/isEqual";
 
 import { setSelectedForm } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
@@ -161,7 +162,9 @@ const RecordForm = ({
           onSubmit(initialValues, values);
         }}
       >
-        {({ handleSubmit, submitForm, errors, dirty, isSubmitting, setValues, setFieldValue, values, touched }) => {
+        {({ handleSubmit, submitForm, errors, isSubmitting, setValues, setFieldValue, values, touched }) => {
+          const equalValues = isEqual(initialValues, values);
+
           bindSubmitForm(submitForm);
           bindSetValues(setValues);
 
@@ -171,7 +174,7 @@ const RecordForm = ({
 
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-              <NavigationPrompt when={dirty && !isSubmitting && !mode.isShow}>
+              <NavigationPrompt when={!equalValues && !isSubmitting && !mode.isShow}>
                 {({ onConfirm, onCancel }) => (
                   <ActionDialog
                     open
