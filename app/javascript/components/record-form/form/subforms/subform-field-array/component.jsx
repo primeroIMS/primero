@@ -108,6 +108,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
           formik={formik}
           index={index}
           recordType={recordType}
+          mode={mode}
         />
       ) : (
         <SubformDialog

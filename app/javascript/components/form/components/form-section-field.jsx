@@ -89,7 +89,8 @@ const FormSectionField = ({ checkErrors, disableUnderline, field }) => {
     maxSelectedOptions,
     onKeyPress,
     currRecord,
-    href
+    href,
+    fileFormat
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -172,7 +173,8 @@ const FormSectionField = ({ checkErrors, disableUnderline, field }) => {
     onClick,
     onKeyPress,
     maxSelectedOptions,
-    href
+    href,
+    fileFormat
   };
 
   const Field = (fieldType => {

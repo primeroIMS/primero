@@ -69,7 +69,7 @@ describe Agency do
       agency = Agency.new(name: 'Agency I', agency_code: 'agency_i')
       agency.logo_icon.attach(FilesTestHelper.uploadable_audio_mp3)
       agency.should_not be_valid
-      expect(agency.errors[:logo_icon].first).to eq('file should be one of image/png')
+      expect(agency.errors[:logo_icon].first).to eq('errors.models.agency.logo_format')
     end
 
     it 'should allow valid logo uploads' do

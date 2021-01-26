@@ -7,7 +7,7 @@ import { clearSelectedCasePotentialMatch } from "../../../records";
 
 import { NAME } from "./constants";
 
-const Component = ({ selectedForm, recordType, potentialMatch, handleBack }) => {
+const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,7 +22,8 @@ const Component = ({ selectedForm, recordType, potentialMatch, handleBack }) => 
         selectedForm={selectedForm}
         recordType={recordType}
         potentialMatch={potentialMatch}
-        handleBack={handleBack}
+        setSelectedForm={setSelectedForm}
+        hideFindMatch
       />
     </>
   );
@@ -31,10 +32,10 @@ const Component = ({ selectedForm, recordType, potentialMatch, handleBack }) => 
 Component.displayName = NAME;
 
 Component.propTypes = {
-  handleBack: PropTypes.func,
   potentialMatch: PropTypes.object.isRequired,
   recordType: PropTypes.string.isRequired,
-  selectedForm: PropTypes.string.isRequired
+  selectedForm: PropTypes.string.isRequired,
+  setSelectedForm: PropTypes.func
 };
 
 export default Component;

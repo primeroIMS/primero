@@ -21,7 +21,16 @@ import { NAME, TOP_FIELD_NAMES } from "./constants";
 import { getComparisons } from "./utils";
 import styles from "./styles.css";
 
-const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, traceValues }) => {
+const Component = ({
+  selectedForm,
+  recordType,
+  potentialMatch,
+  setSelectedForm,
+  traceValues,
+  hideFindMatch,
+  hideBack,
+  mode
+}) => {
   const css = makeStyles(styles)();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -60,10 +69,10 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
   const topComparisons = getComparisons({ fields: topFields, comparedFields, includeEmpty: true });
 
   const getFamilyComparison = () =>
-    familyFields.map(detailFields => {
+    familyFields.map((detailFields, index) => {
       const comparisons = getComparisons({ fields: subformFamilyDetails?.fields, comparedFields: detailFields });
 
-      return { form: subformFamilyDetails, comparisons };
+      return { form: subformFamilyDetails, comparisons, index };
     });
 
   const comparedForms = forms
@@ -72,15 +81,26 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
         .map(compared => compared.get("field_name"))
         .some(fieldName => form.fields.map(field => field.name).includes(fieldName))
     )
-    .map(form => {
+    .map((form, index) => {
       const comparisons = getComparisons({ fields: form.fields, comparedFields });
 
-      return { form, comparisons };
+      return { form, comparisons, index };
     })
     .concat(familyFields?.size ? getFamilyComparison() : fromJS([]));
 
   const handleBack = () => setSelectedForm(FORMS.matches);
-  const handleConfirm = () => dispatch(setMachedCaseForTrace({ caseId, traceId, recordType }));
+  const handleConfirm = () =>
+    dispatch(
+      setMachedCaseForTrace({
+        caseId,
+        traceId,
+        recordType,
+        message: i18n.t("tracing_request.messages.match_action", {
+          trace_id: getShortIdFromUniqueId(traceId),
+          record_id: getShortIdFromUniqueId(caseId)
+        })
+      })
+    );
 
   const renderFieldRows = comparisons =>
     comparisons.length &&
@@ -96,10 +116,10 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
 
   const renderForms = () =>
     comparedForms.map(comparedForm => {
-      const { form, comparisons } = comparedForm;
+      const { form, comparisons, index } = comparedForm;
 
       return (
-        <React.Fragment key={form.unique_id}>
+        <React.Fragment key={`${form.unique_id}-${index}`}>
           <Grid container item>
             <Grid item xs={12}>
               <h2>{form.name[i18n.locale]}</h2>
@@ -126,20 +146,27 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
     dispatch(fetchMatchedTraces(RECORD_PATH.cases, caseId));
   }, [caseId]);
 
+  const traceActionsProps = {
+    ...{ ...(!hideFindMatch ? { handleConfirm } : {}) },
+    ...{ ...(!hideBack ? { handleBack } : {}) },
+    selectedForm,
+    recordType,
+    mode
+  };
+
+  const alreadyMatchedMessage = i18n.t(
+    recordType === RECORD_PATH.cases ? "case.messages.already_matched" : "tracing_request.messages.already_matched"
+  );
+
   return (
     <>
-      <TraceActions
-        handleBack={handleBack}
-        handleConfirm={handleConfirm}
-        selectedForm={selectedForm}
-        recordType={recordType}
-      />
+      <TraceActions {...traceActionsProps} />
       <Grid container spacing={2}>
         <Grid container item>
           {hasMatchedTraces && (
             <Grid item xs={12}>
               <div className={css.alreadyMatched}>
-                <span>{i18n.t("tracing_request.messages.already_matched")}</span>
+                <span>{alreadyMatchedMessage}</span>
               </div>
             </Grid>
           )}
@@ -163,6 +190,9 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
 };
 
 Component.propTypes = {
+  hideBack: PropTypes.bool,
+  hideFindMatch: PropTypes.bool,
+  mode: PropTypes.object,
   potentialMatch: PropTypes.object.isRequired,
   recordType: PropTypes.string.isRequired,
   selectedForm: PropTypes.string.isRequired,

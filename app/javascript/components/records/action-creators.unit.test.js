@@ -44,7 +44,8 @@ describe("records - Action Creators", () => {
       "setSelectedCasePotentialMatch",
       "clearSelectedCasePotentialMatch",
       "fetchMatchedTraces",
-      "clearMatchedTraces"
+      "clearMatchedTraces",
+      "unMatchCaseForTrace"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -440,5 +441,24 @@ describe("records - Action Creators", () => {
     };
 
     expect(actionCreators.fetchMatchedTraces(RECORD_PATH.cases, "12345")).be.deep.equals(expected);
+  });
+
+  it("should check the 'unMatchCaseForTrace' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.tracing_requests}/SET_MACHED_CASE_FOR_TRACE`,
+      api: {
+        path: `${RECORD_PATH.traces}/12345`,
+        method: METHODS.PATCH,
+        body: { data: { matched_case_id: null } }
+      }
+    };
+
+    expect(
+      actionCreators.unMatchCaseForTrace({
+        traceId: "12345",
+        caseId: null,
+        recordType: RECORD_PATH.tracing_requests
+      })
+    );
   });
 });

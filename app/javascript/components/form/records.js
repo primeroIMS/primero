@@ -61,7 +61,8 @@ export const FieldRecord = Record({
   maxSelectedOptions: null,
   onKeyPress: null,
   currRecord: fromJS({}),
-  href: null
+  href: null,
+  fileFormat: ""
 });
 
 export const FormSectionRecord = Record({

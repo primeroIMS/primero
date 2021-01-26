@@ -63,13 +63,15 @@ export const form = i18n => {
           display_name: i18n.t("agency.logo_icon"),
           name: "logo_icon",
           type: PHOTO_FIELD,
-          help_text: i18n.t("agency.logo_icon_help")
+          help_text: i18n.t("agency.logo_icon_help"),
+          fileFormat: "image/png"
         }),
         FieldRecord({
           display_name: i18n.t("agency.logo_large"),
           name: "logo_full",
           type: PHOTO_FIELD,
-          help_text: i18n.t("agency.logo_large_help")
+          help_text: i18n.t("agency.logo_large_help"),
+          fileFormat: "image/png"
         }),
         FieldRecord({
           display_name: i18n.t("agency.logo_enabled"),
