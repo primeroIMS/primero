@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Referral do
-
   before :each do
     @module_cp = PrimeroModule.new(name: 'CP')
     @module_cp.save(validate: false)
@@ -20,20 +21,20 @@ describe Referral do
     @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2])
     @user2.save(validate: false)
     @service_unique_id = '123456789'
-    @case = Child.create(data: {
-      name: 'Test',
-      owned_by: 'user1',
-      module_id: @module_cp.unique_id,
-      consent_for_services: true,
-      disclosure_other_orgs: true,
-      services_section: [{ 'unique_id' => @service_unique_id }]
-    })
+    @case = Child.create(data:
+      {
+        name: 'Test',
+        owned_by: 'user1',
+        module_id: @module_cp.unique_id,
+        consent_for_services: true,
+        disclosure_other_orgs: true,
+        services_section: [{ 'unique_id' => @service_unique_id }]
+      })
   end
 
   describe 'consent' do
-
     it 'denies consent for referring records if consent properties are not set' do
-      @case.update_attributes(consent_for_services: nil, disclosure_other_orgs: nil )
+      @case.update_attributes(consent_for_services: nil, disclosure_other_orgs: nil)
       referral = Referral.new(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 
       expect(referral.consent_given?).to be_falsey
@@ -51,13 +52,10 @@ describe Referral do
 
       expect(referral.consent_given?).to be_truthy
     end
-
   end
 
   describe 'perform' do
-
     context 'in-system' do
-
       it 'adds the target user to the assigned users list for this record' do
         referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
         expect(referral.status).to eq(Referral::STATUS_INPROGRESS)
@@ -76,15 +74,12 @@ describe Referral do
         expect(referral.valid?).to be_falsey
         expect(@case.assigned_user_names.present?).to be_falsey
       end
-
     end
-
   end
 
   describe 'reject' do
-
     it 'removes the referred user' do
-      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true )
+      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true)
       referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       referral.reject!
       expect(referral.status).to eq(Transition::STATUS_DONE)
@@ -96,7 +91,7 @@ describe Referral do
       date_time = DateTime.parse(json_date_time)
       Time.stub(:now).and_return(date_time)
 
-      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true )
+      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true)
       referral = Referral.create!(
         transitioned_by: 'user1',
         transitioned_to: 'user2',
@@ -108,7 +103,6 @@ describe Referral do
       expect(service_object['service_implemented_day_time']).to eq(json_date_time)
       expect(service_object['service_implemented']).to eq(Serviceable::SERVICE_IMPLEMENTED)
     end
-
   end
 
   after :each do
@@ -119,5 +113,4 @@ describe Referral do
     Child.destroy_all
     Transition.destroy_all
   end
-
 end
