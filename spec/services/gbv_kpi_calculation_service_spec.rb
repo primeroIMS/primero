@@ -35,6 +35,17 @@ describe GbvKpiCalculationService do
     end
   end
 
+  describe 'fetching subforms that don\'t exist from form_section_responses' do
+    it 'should return an empty form_section_response_list' do
+      responses = GbvKpiCalculationService
+                  .new(Child.new(data: { action_plan: [] }))
+                  .form_responses(:action_plan)
+                  .subform(:test)
+
+      expect(responses.count).to eql(0)
+    end
+  end
+
   after :each do
     clean_data(FormSection)
   end
