@@ -11,7 +11,8 @@ import {
   getCasesPotentialMatches,
   getLoadingCasesPotentialMatches,
   clearMatchedTraces,
-  getMatchedTrace
+  getMatchedTrace,
+  getShortIdFromUniqueId
 } from "../../../records";
 import { RECORD_PATH } from "../../../../config";
 import TraceComparisonForm from "../../../record-form/form/subforms/subform-traces/components/trace-comparison-form";
@@ -60,7 +61,11 @@ const Component = ({ data, loading, recordId, setSelectedForm }) => {
       <LoadingIndicator loading={loading} hasData={data.size > 0} type={NAME}>
         {renderMatchedTraces}
       </LoadingIndicator>
-      <SubformDrawer title={i18n.t("cases.summary.find_match")} open={open} cancelHandler={() => setOpen(false)}>
+      <SubformDrawer
+        title={i18n.t("cases.summary.matched_trace", { trace_id: getShortIdFromUniqueId(selectedTraceId) })}
+        open={open}
+        cancelHandler={() => setOpen(false)}
+      >
         <LoadingIndicator loading={potentialMatchesLoading} hasData={selectedTrace?.size > 0} type={NAME}>
           <TraceComparisonForm
             selectedForm="matched-trace-detail"

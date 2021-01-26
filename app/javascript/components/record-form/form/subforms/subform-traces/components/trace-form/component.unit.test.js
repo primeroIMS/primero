@@ -17,7 +17,8 @@ describe("<RecordForm>/form/subforms/<TracesForm>", () => {
       fields: [FieldRecord({ type: TEXT_FIELD, name: "test_field" })],
       setIn: () => {}
     }),
-    handleConfirm: () => {}
+    handleConfirm: () => {},
+    mode: { isEdit: false }
   };
 
   beforeEach(() => {

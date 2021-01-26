@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { FormContext, useForm } from "react-hook-form";
 import isEqual from "lodash/isEqual";
@@ -9,15 +10,20 @@ import { whichFormMode } from "../../../../../../form";
 import FormSection from "../../../../../../form/components/form-section";
 import TraceActions from "../trace-actions";
 import { FORMS } from "../../constants";
+import { unMatchCaseForTrace } from "../../../../../../records";
+import { useI18n } from "../../../../../../i18n";
 
 import { NAME } from "./constants";
 
-const Component = ({ setSelectedForm, traceValues, formSection, recordType, selectedForm, handleClose }) => {
+const Component = ({ setSelectedForm, traceValues, formSection, recordType, selectedForm, handleClose, mode }) => {
+  const i18n = useI18n();
+  const dispatch = useDispatch();
   const formMode = whichFormMode(MODES.show);
   // eslint-disable-next-line camelcase
   const caseId = traceValues?.matched_case_id;
   const values = caseId ? { ...traceValues, matched_case_id: getShortIdFromUniqueId(caseId) } : traceValues;
   const methods = useForm({ defaultValues: values || {} });
+  const hasMatch = Boolean(traceValues.matched_case_id);
 
   const index = formSection.fields.findIndex(field => field.name === "matched_case_id");
   const formSectionToRender = formSection
@@ -32,7 +38,19 @@ const Component = ({ setSelectedForm, traceValues, formSection, recordType, sele
     }
   }, [traceValues]);
 
-  const handleConfirm = () => setSelectedForm(FORMS.matches);
+  const handleConfirm = () =>
+    hasMatch
+      ? dispatch(
+          unMatchCaseForTrace({
+            traceId: traceValues.id,
+            recordType,
+            message: i18n.t("tracing_request.messages.unmatch_action", {
+              trace_id: getShortIdFromUniqueId(traceValues.id),
+              record_id: getShortIdFromUniqueId(caseId)
+            })
+          })
+        )
+      : setSelectedForm(FORMS.matches);
 
   return (
     <>
@@ -40,8 +58,9 @@ const Component = ({ setSelectedForm, traceValues, formSection, recordType, sele
         handleBack={handleClose}
         handleConfirm={handleConfirm}
         selectedForm={selectedForm}
-        hasMatch={Boolean(traceValues.matched_case_id)}
+        hasMatch={hasMatch}
         recordType={recordType}
+        mode={mode}
       />
       <FormContext {...methods} formMode={formMode}>
         <FormSection formSection={formSectionToRender} showTitle={false} disableUnderline />
@@ -53,6 +72,7 @@ const Component = ({ setSelectedForm, traceValues, formSection, recordType, sele
 Component.propTypes = {
   formSection: PropTypes.object.isRequired,
   handleClose: PropTypes.func,
+  mode: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedForm: PropTypes.string,
   setSelectedForm: PropTypes.func,

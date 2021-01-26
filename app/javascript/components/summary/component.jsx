@@ -41,7 +41,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
     setSelectedForm(FORMS.matches);
   };
   const handleClose = () => setOpen(false);
-  const findMatchButton = (
+  const findMatchButton = !mode.isEdit && (
     <ActionButton
       icon={<SearchIcon />}
       text={findMatchLabel}
