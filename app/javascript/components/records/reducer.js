@@ -231,13 +231,13 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
     }
     case `${namespace}/${UNMATCH_CASE_FOR_TRACE_SUCCESS}`: {
       const { tracing_request_id: tracingRequestId, id } = payload.data;
-      const index = state.get("data").findIndex(r => r.get("id") === tracingRequestId);
+      const index = state.get("data").findIndex(record => record.get("id") === tracingRequestId);
       const traceIndex = state
         .getIn(["data", index, "tracing_request_subform_section"])
         .findIndex(trace => trace.get("unique_id") === id);
 
-      return state.updateIn(["data", index, "tracing_request_subform_section", traceIndex], u =>
-        mergeRecord(u, fromJS(payload.data))
+      return state.updateIn(["data", index, "tracing_request_subform_section", traceIndex], tracingRequest =>
+        mergeRecord(tracingRequest, fromJS(payload.data))
       );
     }
     case `${namespace}/${SET_MACHED_CASE_FOR_TRACE_FAILURE}`:
