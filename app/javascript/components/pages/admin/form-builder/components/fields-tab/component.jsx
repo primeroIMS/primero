@@ -23,7 +23,7 @@ const Component = ({
   setValue,
   tab,
   unregister,
-  prodSite
+  limitedProductionSite
 }) => {
   const { id } = useParams();
   const css = makeStyles(styles)();
@@ -47,7 +47,7 @@ const Component = ({
     <TabPanel tab={tab} index={index}>
       <div className={css.tabFields}>
         <h1 className={css.heading}>{i18n.t("forms.fields")}</h1>
-        <CustomFieldDialog prodSite={prodSite} />
+        <CustomFieldDialog limitedProductionSite={limitedProductionSite} />
         {parentForm && moduleId && <ExistingFieldDialog parentForm={parentForm} primeroModule={moduleId} />}
       </div>
       <FieldsList
@@ -56,7 +56,7 @@ const Component = ({
         register={register}
         setValue={setValue}
         unregister={unregister}
-        prodSite={prodSite}
+        limitedProductionSite={limitedProductionSite}
       />
       <FieldDialog mode={fieldDialogMode} onSuccess={onSuccess} formId={id} />
     </TabPanel>
@@ -70,7 +70,7 @@ Component.propTypes = {
   formContextFields: PropTypes.object.isRequired,
   getValues: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
-  prodSite: PropTypes.bool,
+  limitedProductionSite: PropTypes.bool,
   register: PropTypes.func.isRequired,
   setValue: PropTypes.func.isRequired,
   tab: PropTypes.number.isRequired,

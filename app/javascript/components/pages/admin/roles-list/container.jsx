@@ -22,7 +22,7 @@ import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
 
 const Container = () => {
   const i18n = useI18n();
-  const { prodSite } = useApp();
+  const { limitedProductionSite } = useApp();
   const recordType = RESOURCES.roles;
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
@@ -40,7 +40,7 @@ const Container = () => {
       rest={{
         to: ROUTES.admin_roles_new,
         component: Link,
-        hide: prodSite
+        hide: limitedProductionSite
       }}
     />
   );

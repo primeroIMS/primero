@@ -96,3 +96,5 @@ export const getRoleName = (state, uniqueID) => getRole(state, uniqueID).get("na
 export const getDisabledApplication = state => state.getIn([NAMESPACE, "disabledApplication"], false);
 
 export const getDemo = state => state.getIn([NAMESPACE, "primero", DEMO], false);
+
+export const getConfigUI = state => state.getIn([NAMESPACE, "primero", "config_ui"], "");

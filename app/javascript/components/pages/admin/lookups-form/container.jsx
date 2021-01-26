@@ -24,7 +24,7 @@ import { LookupForm } from "./components";
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
-  const { prodSite } = useApp();
+  const { limitedProductionSite } = useApp();
   const dispatch = useDispatch();
   const formRef = useRef();
   const { pathname } = useLocation();
@@ -73,7 +73,7 @@ const Container = ({ mode }) => {
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
-        rest={{ hide: prodSite }}
+        rest={{ hide: limitedProductionSite }}
       />
     </>
   );
@@ -83,7 +83,7 @@ const Container = ({ mode }) => {
       actionHandler={handleEdit}
       text={i18n.t("buttons.edit")}
       startIcon={<CreateIcon />}
-      rest={{ hide: prodSite }}
+      rest={{ hide: limitedProductionSite }}
     />
   );
 

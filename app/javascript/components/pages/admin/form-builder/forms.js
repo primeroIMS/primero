@@ -44,7 +44,7 @@ export const settingsForm = ({
   onEnglishTextChange,
   i18n,
   allFormGroupsLookups,
-  prodSite
+  limitedProductionSite
 }) => {
   const checkModuleField = (value, name, { methods }) => {
     const emptyModule = isEmpty(value[MODULES_FIELD]);
@@ -103,7 +103,7 @@ export const settingsForm = ({
             {
               text: i18n.t("forms.translations.manage"),
               outlined: true,
-              rest: { onClick: onManageTranslation, hide: prodSite }
+              rest: { onClick: onManageTranslation, hide: limitedProductionSite }
             }
           ]
         : [],

@@ -57,7 +57,7 @@ const Component = ({ mode }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const i18n = useI18n();
-  const { prodSite } = useApp();
+  const { limitedProductionSite } = useApp();
   const selectedLocaleId = localesToRender(i18n)?.first()?.get("id");
   const [tab, setTab] = useState(0);
   const [moduleId, setModuleId] = useState("");
@@ -255,7 +255,7 @@ const Component = ({ mode }) => {
               mode={mode}
               register={memoizedRegister}
               setValue={memoizedSetValue}
-              prodSite={prodSite}
+              limitedProductionSite={limitedProductionSite}
             />
             <FieldsTab
               tab={tab}
@@ -266,7 +266,7 @@ const Component = ({ mode }) => {
               getValues={memoizedGetValues}
               setValue={memoizedSetValue}
               unregister={memoizedUnregister}
-              prodSite={prodSite}
+              limitedProductionSite={limitedProductionSite}
             />
             <TranslationsTab
               formContextFields={formContextFields}

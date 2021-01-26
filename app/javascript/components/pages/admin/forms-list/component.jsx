@@ -40,7 +40,7 @@ import styles from "./styles.css";
 
 const Component = () => {
   const i18n = useI18n();
-  const { prodSite } = useApp();
+  const { limitedProductionSite } = useApp();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
@@ -130,7 +130,7 @@ const Component = () => {
       actionHandler={handleNew}
       text={i18n.t("buttons.new")}
       startIcon={<AddIcon />}
-      rest={{ hide: prodSite }}
+      rest={{ hide: limitedProductionSite }}
     />
   ) : null;
 
@@ -185,7 +185,7 @@ const Component = () => {
                 isTransparent
                 rest={{
                   onClick: onClickReorder,
-                  hide: prodSite
+                  hide: limitedProductionSite
                 }}
               />
               <DragDropContext onDragEnd={handleDragEnd}>

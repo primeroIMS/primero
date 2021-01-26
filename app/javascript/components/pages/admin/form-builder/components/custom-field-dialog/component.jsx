@@ -23,7 +23,7 @@ import { mergeOnSelectedSubform } from "../../action-creators";
 import styles from "./styles.css";
 import { NAME, CUSTOM_FIELD_DIALOG } from "./constants";
 
-const Component = ({ getValues, prodSite }) => {
+const Component = ({ getValues, limitedProductionSite }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
@@ -94,7 +94,7 @@ const Component = ({ getValues, prodSite }) => {
         type={ACTION_BUTTON_TYPES.default}
         rest={{
           onClick: handleDialog,
-          hide: prodSite
+          hide: limitedProductionSite
         }}
       />
       <ActionDialog
@@ -140,7 +140,7 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   getValues: PropTypes.func,
-  prodSite: PropTypes.bool
+  limitedProductionSite: PropTypes.bool
 };
 
 export default Component;

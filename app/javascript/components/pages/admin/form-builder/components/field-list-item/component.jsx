@@ -31,7 +31,7 @@ import { dataToJS, displayNameHelper } from "../../../../../../libs";
 
 import { NAME, SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "./constants";
 
-const Component = ({ field, getValues, index, subformField, subformSortBy, subformGroupBy, prodSite }) => {
+const Component = ({ field, getValues, index, subformField, subformSortBy, subformGroupBy, limitedProductionSite }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -99,7 +99,11 @@ const Component = ({ field, getValues, index, subformField, subformSortBy, subfo
     return (
       <>
         {icon}
-        <Button className={clsx({ [css.editable]: !isNotEditable })} onClick={() => handleClick()} disabled={prodSite}>
+        <Button
+          className={clsx({ [css.editable]: !isNotEditable })}
+          onClick={() => handleClick()}
+          disabled={limitedProductionSite}
+        >
           {displayNameHelper(dataToJS(field.get("display_name")), i18n.locale)}
         </Button>
       </>
@@ -126,12 +130,12 @@ const Component = ({ field, getValues, index, subformField, subformSortBy, subfo
   };
 
   return (
-    <Draggable draggableId={fieldName} index={index} isDragDisabled={prodSite}>
+    <Draggable draggableId={fieldName} index={index} isDragDisabled={limitedProductionSite}>
       {provided => (
         <div ref={provided.innerRef} {...provided.draggableProps}>
           <div className={css.fieldRow} key={fieldName}>
             <div className={clsx([css.fieldColumn, css.dragIndicatorColumn])}>
-              <DragIndicator {...provided.dragHandleProps} isDragDisabled={prodSite} />
+              <DragIndicator {...provided.dragHandleProps} isDragDisabled={limitedProductionSite} />
             </div>
             <MuiThemeProvider theme={themeOverrides}>
               <div className={clsx([css.fieldColumn, css.fieldName])}>{renderFieldName(field)}</div>
@@ -160,7 +164,7 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   getValues: PropTypes.func,
   index: PropTypes.number.isRequired,
-  prodSite: PropTypes.bool,
+  limitedProductionSite: PropTypes.bool,
   subformField: PropTypes.object,
   subformGroupBy: PropTypes.string,
   subformSortBy: PropTypes.string

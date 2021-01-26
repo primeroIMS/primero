@@ -27,7 +27,7 @@ const Component = () => {
   const recordType = ["admin", "lookups"];
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultFilters = metadata;
-  const { prodSite } = useApp();
+  const { limitedProductionSite } = useApp();
 
   const newUserGroupBtn = (
     <ActionButton
@@ -37,7 +37,7 @@ const Component = () => {
       rest={{
         to: ROUTES.lookups_new,
         component: Link,
-        hide: prodSite
+        hide: limitedProductionSite
       }}
     />
   );

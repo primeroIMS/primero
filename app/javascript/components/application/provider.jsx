@@ -6,7 +6,14 @@ import { useI18n } from "../i18n";
 import { useConnectivityStatus } from "../connectivity";
 
 import { fetchSandboxUI } from "./action-creators";
-import { selectModules, selectUserModules, getApprovalsLabels, getDisabledApplication, getDemo } from "./selectors";
+import {
+  selectModules,
+  selectUserModules,
+  getApprovalsLabels,
+  getDisabledApplication,
+  getDemo,
+  getConfigUI
+} from "./selectors";
 
 const Context = createContext();
 
@@ -20,15 +27,16 @@ const ApplicationProvider = ({ children }) => {
   const approvalsLabels = useSelector(state => getApprovalsLabels(state, i18n.locale));
   const disabledApplication = useSelector(state => getDisabledApplication(state));
   const demo = useSelector(state => getDemo(state));
-  // TODO: Change one endpoint it's ready
-  const prodSite = false;
+  const limitedProductionSite = useSelector(state => getConfigUI(state)) === "limited";
 
   useEffect(() => {
     dispatch(fetchSandboxUI());
   }, []);
 
   return (
-    <Context.Provider value={{ modules, userModules, online, approvalsLabels, disabledApplication, demo, prodSite }}>
+    <Context.Provider
+      value={{ modules, userModules, online, approvalsLabels, disabledApplication, demo, limitedProductionSite }}
+    >
       {children}
     </Context.Provider>
   );

@@ -31,7 +31,7 @@ const Container = ({ mode }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
-  const { prodSite } = useApp();
+  const { limitedProductionSite } = useApp();
   const agency = useSelector(state => getAgency(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
@@ -90,7 +90,7 @@ const Container = ({ mode }) => {
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
-        rest={{ hide: prodSite }}
+        rest={{ hide: limitedProductionSite }}
       />
     </>
   );
@@ -100,7 +100,7 @@ const Container = ({ mode }) => {
       actionHandler={handleEdit}
       text={i18n.t("buttons.edit")}
       startIcon={<CreateIcon />}
-      rest={{ hide: prodSite }}
+      rest={{ hide: limitedProductionSite }}
     />
   );
 

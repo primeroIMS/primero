@@ -30,7 +30,7 @@ const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const formRef = useRef();
-  const { approvalsLabels, prodSite } = useApp();
+  const { approvalsLabels, limitedProductionSite } = useApp();
   const dispatch = useDispatch();
   const { id } = useParams();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -124,7 +124,7 @@ const Container = ({ mode }) => {
           formRef={formRef}
           handleCancel={handleCancel}
           setOpenDeleteDialog={setOpenDeleteDialog}
-          prodSite={prodSite}
+          limitedProductionSite={limitedProductionSite}
         />
       </PageHeading>
       <PageContent>

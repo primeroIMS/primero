@@ -27,7 +27,7 @@ import NAMESPACE from "./namespace";
 const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { prodSite } = useApp();
+  const { limitedProductionSite } = useApp();
   const canAddAgencies = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.agencies;
   const headers = useSelector(state => getListHeaders(state, RESOURCES.agencies));
@@ -72,7 +72,7 @@ const Container = () => {
       rest={{
         to: ROUTES.admin_agencies_new,
         component: Link,
-        hide: prodSite
+        hide: limitedProductionSite
       }}
     />
   ) : null;
