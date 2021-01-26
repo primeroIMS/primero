@@ -46,11 +46,15 @@ const formGroups = (state, i18n) =>
     )
     .sortBy(item => item.get("display_text"));
 
-const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false }) =>
-  state.getIn(["application", "agencies"], fromJS([])).map(agency => ({
+const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false, filterOptions }) => {
+  const stateAgencies = state.getIn(["application", "agencies"], fromJS([]));
+  const filteredAgencies = filterOptions ? filterOptions(stateAgencies) : stateAgencies;
+
+  return filteredAgencies.map(agency => ({
     id: agency.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
     display_text: agency.getIn(["name", i18n.locale], "")
   }));
+};
 
 const locations = (state, i18n, includeAdminLevel = false) =>
   state.getIn(["forms", "options", "locations"], fromJS([])).map(location => ({
