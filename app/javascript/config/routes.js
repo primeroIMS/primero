@@ -24,6 +24,7 @@ import {
   ConfigurationsList,
   ConfigurationsForm
 } from "../components/pages";
+import KeyPerformanceIndicators from "../components/key-performance-indicators";
 import Report from "../components/report";
 import Reports from "../components/reports-list";
 import ReportsForm from "../components/reports-form";
@@ -43,7 +44,8 @@ import {
   SHOW_TASKS,
   WRITE_RECORDS,
   ADMIN_RESOURCES,
-  ADMIN_ACTIONS
+  ADMIN_ACTIONS,
+  VIEW_KPIS
 } from "../libs/permissions";
 import Login from "../components/login";
 import ContactInformation from "../components/contact-information";
@@ -113,6 +115,12 @@ export default [
         path: "/tracing_requests",
         component: RecordList,
         actions: READ_RECORDS
+      },
+      {
+        path: ROUTES.key_performance_indicators,
+        component: KeyPerformanceIndicators,
+        resources: RESOURCES.kpis,
+        actions: VIEW_KPIS
       },
       {
         path: `${ROUTES.reports}/new`,
