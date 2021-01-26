@@ -22,7 +22,7 @@ class FormSectionResponseList < ValueObject
 
   def subform(name)
     FormSectionResponseList.new(
-      responses: field(name).flatten,
+      responses: field(name).compact.flatten,
       form_section: subform_section(name)
     )
   end
