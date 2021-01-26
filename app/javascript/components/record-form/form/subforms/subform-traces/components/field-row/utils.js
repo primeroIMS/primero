@@ -1,20 +1,20 @@
-import { fromJS, isCollection } from "immutable";
+import { isCollection } from "immutable";
 
 import { TEXT_FIELD, TEXT_AREA } from "../../../../../../form";
 
-const getOptionText = ({ options, i18n, value }) => {
-  const option = options.get("values", fromJS([])).find(optionValue => optionValue.get("id") === value);
+export const getOptionText = ({ options, value }) => {
+  const option = options.find(optionValue => optionValue.get("id") === value);
 
-  return option?.getIn(["display_text", i18n.locale], "") || value;
+  return option?.get("display_text") || value;
 };
 
 export const isTextField = field => [TEXT_FIELD, TEXT_AREA].includes(field.type);
 
-export const getValueLabel = ({ options, i18n, value }) => {
+export const getValueLabel = ({ options, value }) => {
   if (options) {
     return Array.isArray(value) || isCollection(value)
-      ? value.map(current => getOptionText({ options, i18n, value: current })).join(", ")
-      : getOptionText({ options, i18n, value });
+      ? value.map(current => getOptionText({ options, value: current })).join(", ")
+      : getOptionText({ options, value });
   }
 
   return value;

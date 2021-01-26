@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 
-import { getLookupByUniqueId } from "../../../../../../form/selectors";
+import { getOptions } from "../../../../../../form/selectors";
 import { useI18n } from "../../../../../../i18n";
 import { MATCH_VALUES } from "../../../../../../../config";
 
@@ -23,11 +23,7 @@ const Component = ({ field, traceValue, caseValue, match }) => {
     option_strings_text: optionStringsText
   } = field;
 
-  const lookup = useSelector(
-    state => optionStringSource && getLookupByUniqueId(state, optionStringSource.replace(/lookup /, ""))
-  );
-
-  const options = lookup || optionStringsText;
+  const options = useSelector(state => getOptions(state, optionStringSource, i18n, optionStringsText));
 
   const traceValueLabel = getValueLabel({ options, i18n, value: traceValue });
   const caseValueLabel = getValueLabel({ options, i18n, value: caseValue });
