@@ -1,0 +1,21 @@
+.title {
+  font-size: $(theme.typography.pxToRem(22));
+  text-transform: uppercase;
+}
+
+.subtitle {
+  font-size: $(theme.typography.pxToRem(16));
+  text-transform: uppercase;
+}
+
+.toggleButtonGroup {
+  margin-left: 1rem;
+}
+
+.bgBlue {
+  background-color: blue;
+}
+
+.bgGrey {
+  background-color: grey;
+}

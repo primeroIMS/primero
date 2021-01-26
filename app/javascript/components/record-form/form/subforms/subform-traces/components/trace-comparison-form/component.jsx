@@ -21,7 +21,16 @@ import { NAME, TOP_FIELD_NAMES } from "./constants";
 import { getComparisons } from "./utils";
 import styles from "./styles.css";
 
-const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, traceValues }) => {
+const Component = ({
+  selectedForm,
+  recordType,
+  potentialMatch,
+  setSelectedForm,
+  traceValues,
+  hideFindMatch,
+  hideBack,
+  mode
+}) => {
   const css = makeStyles(styles)();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -80,7 +89,18 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
     .concat(familyFields?.size ? getFamilyComparison() : fromJS([]));
 
   const handleBack = () => setSelectedForm(FORMS.matches);
-  const handleConfirm = () => dispatch(setMachedCaseForTrace({ caseId, traceId, recordType }));
+  const handleConfirm = () =>
+    dispatch(
+      setMachedCaseForTrace({
+        caseId,
+        traceId,
+        recordType,
+        message: i18n.t("tracing_request.messages.match_action", {
+          trace_id: getShortIdFromUniqueId(traceId),
+          record_id: getShortIdFromUniqueId(caseId)
+        })
+      })
+    );
 
   const renderFieldRows = comparisons =>
     comparisons.length &&
@@ -126,20 +146,27 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
     dispatch(fetchMatchedTraces(RECORD_PATH.cases, caseId));
   }, [caseId]);
 
+  const traceActionsProps = {
+    ...{ ...(!hideFindMatch ? { handleConfirm } : {}) },
+    ...{ ...(!hideBack ? { handleBack } : {}) },
+    selectedForm,
+    recordType,
+    mode
+  };
+
+  const alreadyMatchedMessage = i18n.t(
+    recordType === RECORD_PATH.cases ? "case.messages.already_matched" : "tracing_request.messages.already_matched"
+  );
+
   return (
     <>
-      <TraceActions
-        handleBack={handleBack}
-        handleConfirm={handleConfirm}
-        selectedForm={selectedForm}
-        recordType={recordType}
-      />
+      <TraceActions {...traceActionsProps} />
       <Grid container spacing={2}>
         <Grid container item>
           {hasMatchedTraces && (
             <Grid item xs={12}>
               <div className={css.alreadyMatched}>
-                <span>{i18n.t("tracing_request.messages.already_matched")}</span>
+                <span>{alreadyMatchedMessage}</span>
               </div>
             </Grid>
           )}
@@ -163,6 +190,9 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm, 
 };
 
 Component.propTypes = {
+  hideBack: PropTypes.bool,
+  hideFindMatch: PropTypes.bool,
+  mode: PropTypes.object,
   potentialMatch: PropTypes.object.isRequired,
   recordType: PropTypes.string.isRequired,
   selectedForm: PropTypes.string.isRequired,

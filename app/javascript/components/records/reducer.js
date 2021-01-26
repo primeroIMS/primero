@@ -53,7 +53,8 @@ import {
   FETCH_CASE_MATCHED_TRACES_FINISHED,
   FETCH_CASE_MATCHED_TRACES_STARTED,
   FETCH_CASE_MATCHED_TRACES_SUCCESS,
-  CLEAR_MATCHED_TRACES
+  CLEAR_MATCHED_TRACES,
+  UNMATCH_CASE_FOR_TRACE_SUCCESS
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -226,6 +227,17 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
 
       return state.updateIn(["data", index, "tracing_request_subform_section", traceIndex], u =>
         mergeRecord(u, fromJS(payload.data))
+      );
+    }
+    case `${namespace}/${UNMATCH_CASE_FOR_TRACE_SUCCESS}`: {
+      const { tracing_request_id: tracingRequestId, id } = payload.data;
+      const index = state.get("data").findIndex(record => record.get("id") === tracingRequestId);
+      const traceIndex = state
+        .getIn(["data", index, "tracing_request_subform_section"])
+        .findIndex(trace => trace.get("unique_id") === id);
+
+      return state.updateIn(["data", index, "tracing_request_subform_section", traceIndex], tracingRequest =>
+        mergeRecord(tracingRequest, fromJS(payload.data))
       );
     }
     case `${namespace}/${SET_MACHED_CASE_FOR_TRACE_FAILURE}`:

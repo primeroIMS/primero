@@ -8,6 +8,10 @@
   <%= @email_body[:step1] %>
   <%= @email_body[:step2] %>
   <%= @email_body[:step3] %>
-  <%= @email_body[:step4] %>
-  <%= @email_body[:footer] %>
+  <% if @email_body[:step4].present? %>
+    <%= @email_body[:step4] %>
+  <% end %>
+  <% if @email_body[:footer].present? %>
+    <%= @email_body[:footer] %>
+  <% end %>
 <% end %>
