@@ -260,7 +260,8 @@ const Container = ({ match, mode }) => {
     record: params.id,
     showMode: containerMode.isShow,
     mobileDisplay,
-    handleToggleNav
+    handleToggleNav,
+    currentRecord: record
   };
 
   const approvalSubforms = record?.get("approval_subforms");

@@ -7,12 +7,18 @@ import TransitionStatus from "../TransitionStatus";
 import { useI18n } from "../../i18n";
 import { REFERRAL_SUMMARY_NAME } from "../constants";
 
-const Summary = ({ transition, classes, showMode, recordType }) => {
+const Summary = ({ transition, classes, showMode, recordType, currentRecord }) => {
   const i18n = useI18n();
   const transitionStatus = transition.status ? (
     <Grid item md={3} xs={8} className={classes.status}>
       <TransitionStatus status={transition.status} />
-      <TransitionActions classes={classes} transition={transition} showMode={showMode} recordType={recordType} />
+      <TransitionActions
+        classes={classes}
+        transition={transition}
+        showMode={showMode}
+        recordType={recordType}
+        currentRecord={currentRecord}
+      />
     </Grid>
   ) : null;
 
@@ -36,6 +42,7 @@ Summary.displayName = REFERRAL_SUMMARY_NAME;
 
 Summary.propTypes = {
   classes: PropTypes.object.isRequired,
+  currentRecord: PropTypes.object.isRequired,
   recordType: PropTypes.string,
   showMode: PropTypes.bool,
   transition: PropTypes.object.isRequired
