@@ -1,14 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import upperFirst from "lodash/upperFirst";
-import { push } from "connected-react-router";
+import { useDispatch } from "react-redux";
 
 import ActionDialog from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
-import { selectTransitionByTypeAndStatus } from "../../selectors";
-import { TRANSITIONS_TYPES, TRANSITION_STATUS } from "../../constants";
-import { RECORD_PATH } from "../../../../config";
 
 import { revokeTransition } from "./action-creators";
 import { NAME } from "./constants";
@@ -18,14 +13,6 @@ const Component = ({ name, close, open, pending, recordType, setPending, transit
   const dispatch = useDispatch();
   const transitionType = transition.type.toLowerCase();
   const localizedTransitionType = i18n.t(`transition.type.${transitionType}`);
-
-  const inProgressTransitions = useSelector(state =>
-    selectTransitionByTypeAndStatus(
-      state,
-      [upperFirst(TRANSITIONS_TYPES.referral), upperFirst(TRANSITIONS_TYPES.transfer)],
-      TRANSITION_STATUS.inProgress
-    )
-  );
 
   const handleCancel = event => {
     if (event) {
@@ -57,10 +44,6 @@ const Component = ({ name, close, open, pending, recordType, setPending, transit
         })
       })
     );
-
-    if (inProgressTransitions.size === 1) {
-      dispatch(push(`/${RECORD_PATH.cases}`));
-    }
   };
 
   return (
