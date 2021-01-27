@@ -13,7 +13,8 @@ class SystemSettings < ApplicationRecord
   store_accessor(
     :system_options,
     :due_date_from_appointment_date, :notification_email_enabled,
-    :welcome_email_enabled, :show_alerts
+    :welcome_email_enabled, :show_alerts, :show_provider_note_field,
+    :set_service_implemented_on
   )
 
   localize_properties %i[welcome_email_text approvals_labels]

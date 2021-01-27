@@ -201,6 +201,8 @@ describe Api::V2::ReferralsController, type: :request do
 
   describe 'DELETE /api/v2/cases/:id/referrals/:referral_id' do
     before :each do
+      SystemSettings.reset
+      SystemSettings.create!(show_provider_note_field: true)
       @referral1 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
     end
 
@@ -219,10 +221,29 @@ describe Api::V2::ReferralsController, type: :request do
       @case_a.reload
       expect(@case_a.assigned_user_names).to_not include('user2')
     end
+
+    it 'completes this referral and returns the notes from provider' do
+      sign_in(@user1)
+      notes_from_provider = 'Sample notes from provider'
+      params = { data: { note_on_referral_from_provider: notes_from_provider } }
+      delete "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['status']).to eq(Transition::STATUS_DONE)
+      expect(json['data']['record_id']).to eq(@case_a.id.to_s)
+      expect(json['data']['transitioned_to']).to eq('user2')
+      expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['note_on_referral_from_provider']).to eq(notes_from_provider)
+
+      expect(audit_params['action']).to eq('refer_revoke')
+
+      @case_a.reload
+      expect(@case_a.assigned_user_names).to_not include('user2')
+    end
   end
 
   after :each do
     clear_enqueued_jobs
-    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition)
+    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition, SystemSettings)
   end
 end

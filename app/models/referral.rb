@@ -9,9 +9,11 @@ class Referral < Transition
     record.save! if record.has_changes_to_save?
   end
 
-  def reject!
+  def reject!(notes_from_provider = nil)
     self.status = Transition::STATUS_DONE
-    mark_service_object_implemented(service_record_object)
+    service_object = service_record_object
+    update_note_on_referral_from_provider(notes_from_provider, service_object)
+    mark_service_object_implemented(service_object)
     record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
     record.save! && save!
   end
@@ -33,6 +35,13 @@ class Referral < Transition
 
   private
 
+  def update_note_on_referral_from_provider(notes_from_provider, service_object = nil)
+    return unless notes_from_provider.present? && SystemSettings.current.show_provider_note_field
+
+    self.note_on_referral_from_provider = notes_from_provider
+    service_object['note_on_referral_from_provider'] = notes_from_provider if service_object.present?
+  end
+
   def mark_service_object_referred(service_object)
     return if service_object.blank?
 
@@ -40,9 +49,12 @@ class Referral < Transition
   end
 
   def mark_service_object_implemented(service_object)
-    return if service_object.blank?
+    return unless service_object.present? && SystemSettings.current.set_service_implemented_on
 
-    service_object['service_implemented_day_time'] = Time.zone.now.as_json
+    if service_object['service_implemented_day_time'].blank?
+      service_object['service_implemented_day_time'] = Time.zone.now.as_json
+    end
+
     service_object['service_implemented'] = Serviceable::SERVICE_IMPLEMENTED
   end
 
