@@ -1,7 +1,14 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useImperativeHandle, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { FormContext, useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 
+import { getShowProviderNoteField } from "../../../application";
+import { MODES } from "../../../../config";
+import { FieldRecord, FormSectionRecord, whichFormMode, TEXT_FIELD } from "../../../form";
+import FormSection from "../../../form/components/form-section";
+import { submitHandler } from "../../../form/utils/form-submission";
+import bindFormSubmit from "../../../../libs/submit-form";
 import { useI18n } from "../../../i18n";
 import ActionDialog from "../../../action-dialog";
 import { DONE } from "../constants";
@@ -22,6 +29,12 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const formRef = useRef();
+  const initialValues = { note_on_referral_from_provider: "" };
+  const methods = useForm({ defaultValues: initialValues });
+  const formMode = whichFormMode(MODES.edit);
+
+  const showProviderNoteField = useSelector(state => getShowProviderNoteField(state));
 
   const handleCancel = event => {
     if (event) {
@@ -37,11 +50,12 @@ const Component = ({
 
   const message = referralType === DONE ? i18n.t(`${recordType}.referral_done_success`) : "";
 
-  const handleOk = () => {
+  const handleOk = data => {
     setPending(true);
 
     dispatch(
       referralDone({
+        data,
         dialogName,
         message,
         failureMessage: i18n.t(`${recordType}.request_approval_failure`),
@@ -58,21 +72,54 @@ const Component = ({
     autoFocus: true
   };
 
+  const renderNoteField = showProviderNoteField && (
+    <FormContext {...methods} formMode={formMode}>
+      <FormSection
+        formSection={FormSectionRecord({
+          unique_id: "referral_done",
+          fields: [
+            FieldRecord({
+              display_name: i18n.t("referral.notes_on_referral"),
+              name: "note_on_referral_from_provider",
+              type: TEXT_FIELD,
+              autoFocus: true
+            })
+          ]
+        })}
+        showTitle={false}
+      />
+    </FormContext>
+  );
+
   const dialogContent =
     referralType === DONE ? (
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
       <div onClick={stopProp}>
         <p>{i18n.t(`${recordType}.referral_done`)}</p>
+        {renderNoteField}
       </div>
     ) : (
       ""
     );
   const confirmButtonLabel = referralType === DONE ? "buttons.done" : "buttons.ok";
 
+  useImperativeHandle(
+    formRef,
+    submitHandler({
+      dispatch,
+      formMethods: methods,
+      formMode,
+      i18n,
+      initialValues,
+      onSubmit: handleOk,
+      submitAlways: true
+    })
+  );
+
   return (
     <ActionDialog
       open={openReferralDialog}
-      successHandler={handleOk}
+      successHandler={() => bindFormSubmit(formRef)}
       cancelHandler={handleCancel}
       dialogTitle=""
       pending={pending}

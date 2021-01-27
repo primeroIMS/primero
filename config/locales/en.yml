@@ -2837,6 +2837,7 @@ en:
     is_remote_label: Are you referring to a remote system?
     location_label: Location
     notes_label: Notes
+    notes_on_referral: Notes on referral
     provided_consent_label: Consent is not provided in the Forms.
     recipient_label: Recipient
     refer_anyway_label: Refer anyway?

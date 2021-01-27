@@ -19,6 +19,7 @@ export {
   selectUserIdle,
   selectUserModules,
   getAgency,
-  getUserGroups
+  getUserGroups,
+  getShowProviderNoteField
 } from "./selectors";
 export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";
