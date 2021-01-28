@@ -204,6 +204,7 @@ en:
       update_success_queue: 'Case %{record_id} was successfully updated in background'
       creation_success: 'Case record successfully created.'
       creation_success_queue: 'Case record successfully created in background.'
+      already_matched: There is already a case in the system matched to this Inquirer.
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
     workflow:
@@ -379,6 +380,7 @@ en:
     summary:
       label: Summary
       find_match: Find Match
+      matched_trace: 'Match #%{trace_id}'
       fields:
         consent_for_tracing:
           label: Consent has been obtained to disclose information for tracing purposes
@@ -1425,6 +1427,8 @@ en:
       title: "Custom Date Range"
       description: "Once this change is applied, data will be selected from between the two dates bellow."
       apply: 'Apply'
+      from: 'From'
+      to: 'To'
       aria-labels:
         from: "Data will be selected after this date"
         to: "Data will be selected before this date"
@@ -1677,6 +1681,7 @@ en:
       incident: Incident
       incident_details_from_case: Add Incident Details to another user's case
       incident_from_case: Create an incident from a case
+      kpi: Pulse/KPIs
       lookup: Lookups
       manage: Manage
       matching_configuration: Matching Configuration
@@ -1724,6 +1729,9 @@ en:
     resource:
       kpi:
         actions:
+          read:
+            explanation: Ability to access the Pulse/KPIs page.
+            label: Access Pulse/KPIs Page.
           kpi_assessment_status:
             explanation: Ability to see, for the active cases that the user has access to,
               what proportion of them have a completed assessment form.
@@ -1754,7 +1762,7 @@ en:
             explanation: Ability to see, for active cases that the user has access to,
               what proportion required and completed a Saftey Plan.
             label: Completed Case Safety Plans
-          kpi_completed_supervisor_assessed_case_action_plans:
+          kpi_completed_supervisor_approved_case_action_plans:
             explanation: Ability to see, for active cases that the user has access to,
               what proportion completed a Case Action Plan that was approved by a supervisor.
             label: Completed Action Plan Approved by Supervisor
@@ -2981,6 +2989,7 @@ en:
     trace: Trace
     match: Match
     matches: Matches
+    unmatch: Un-match
     messages:
       nothing_found: Nothing found
       already_matched: There is already a match in the system with an Inquirer looking for this child.
@@ -2988,6 +2997,8 @@ en:
       creation_success: Tracing Request record successfully created.
       update_success_queue: 'Tracing Request %{record_id} was successfully updated in background.'
       creation_success_queue: Tracing Request record successfully created in background.
+      match_action: Successfully matched Trace %{trace_id} with Case %{record_id}.
+      unmatch_action: Successfully un-matched Trace %{trace_id} and Case %{record_id}.
   tracing_requests:
     date_of_inquiry: Date of Inquiry
     id: ID

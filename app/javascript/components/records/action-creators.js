@@ -24,7 +24,8 @@ import {
   CLEAR_CASE_POTENTIAL_MATCH,
   FETCH_CASE_MATCHED_TRACES,
   SET_SELECTED_POTENTIAL_MATCH,
-  CLEAR_MATCHED_TRACES
+  CLEAR_MATCHED_TRACES,
+  UNMATCH_CASE_FOR_TRACE
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -245,12 +246,41 @@ export const setSelectedPotentialMatch = (potentialMatchId, recordType) => ({
   payload: { id: potentialMatchId, recordType }
 });
 
-export const setMachedCaseForTrace = ({ traceId, caseId, recordType }) => ({
+export const setMachedCaseForTrace = ({ traceId, caseId, recordType, message }) => ({
   type: `${recordType}/${SET_MACHED_CASE_FOR_TRACE}`,
   api: {
     path: `${RECORD_PATH.traces}/${traceId}`,
     method: METHODS.PATCH,
-    body: { data: { matched_case_id: caseId } }
+    body: { data: { matched_case_id: caseId } },
+    successCallback: {
+      action: ENQUEUE_SNACKBAR,
+      payload: {
+        message,
+        options: {
+          variant: "success",
+          key: generate.messageKey()
+        }
+      }
+    }
+  }
+});
+
+export const unMatchCaseForTrace = ({ traceId, recordType, message }) => ({
+  type: `${recordType}/${UNMATCH_CASE_FOR_TRACE}`,
+  api: {
+    path: `${RECORD_PATH.traces}/${traceId}`,
+    method: METHODS.PATCH,
+    body: { data: { matched_case_id: null } },
+    successCallback: {
+      action: ENQUEUE_SNACKBAR,
+      payload: {
+        message,
+        options: {
+          variant: "success",
+          key: generate.messageKey()
+        }
+      }
+    }
   }
 });
 
