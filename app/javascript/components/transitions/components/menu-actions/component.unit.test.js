@@ -239,12 +239,10 @@ describe("<MenuActions /> - Component", () => {
       const exportProps = { ...component.find(RevokeModal).props() };
 
       expect(component.find(RevokeModal)).to.have.lengthOf(1);
-      ["name", "open", "transition", "close", "recordType", "pending", "setPending", "currentRecord"].forEach(
-        property => {
-          expect(exportProps).to.have.property(property);
-          delete exportProps[property];
-        }
-      );
+      ["name", "open", "transition", "close", "recordType", "pending", "setPending"].forEach(property => {
+        expect(exportProps).to.have.property(property);
+        delete exportProps[property];
+      });
       expect(exportProps).to.be.empty;
     });
   });

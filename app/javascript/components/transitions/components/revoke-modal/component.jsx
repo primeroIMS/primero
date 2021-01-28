@@ -14,7 +14,7 @@ import { selectUsername } from "../../../nav";
 import { revokeTransition } from "./action-creators";
 import { NAME } from "./constants";
 
-const Component = ({ name, close, open, pending, recordType, setPending, transition, currentRecord }) => {
+const Component = ({ name, close, open, pending, recordType, setPending, transition }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const transitionType = transition.type.toLowerCase();
@@ -59,7 +59,7 @@ const Component = ({ name, close, open, pending, recordType, setPending, transit
       })
     );
 
-    if (inProgressTransitions.size === 1 && currentRecord && currentUser !== currentRecord.get("owned_by")) {
+    if (inProgressTransitions.size === 1 && currentUser === transition.transitioned_to) {
       dispatch(push(`/${RECORD_PATH.cases}`));
     }
   };
@@ -86,7 +86,6 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   close: PropTypes.func,
-  currentRecord: PropTypes.object,
   name: PropTypes.string,
   open: PropTypes.bool,
   pending: PropTypes.bool,

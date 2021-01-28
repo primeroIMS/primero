@@ -12,7 +12,7 @@ import { TRANSITIONS_NAME } from "./constants";
 import renderTransition from "./render-transition";
 import styles from "./styles.css";
 
-const Transitions = ({ isReferral, recordType, record, showMode, mobileDisplay, handleToggleNav, currentRecord }) => {
+const Transitions = ({ isReferral, recordType, record, showMode, mobileDisplay, handleToggleNav }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -23,7 +23,7 @@ const Transitions = ({ isReferral, recordType, record, showMode, mobileDisplay, 
       .sort((transitionA, transitionB) =>
         compareDesc(parseISO(transitionA.created_at), parseISO(transitionB.created_at))
       )
-      .map(transition => renderTransition(transition, css, recordType, showMode, currentRecord));
+      .map(transition => renderTransition(transition, css, recordType, showMode));
 
   const transitionTitle = isReferral ? i18n.t("forms.record_types.referrals") : i18n.t("transfer_assignment.title");
 
@@ -38,7 +38,6 @@ const Transitions = ({ isReferral, recordType, record, showMode, mobileDisplay, 
 Transitions.displayName = TRANSITIONS_NAME;
 
 Transitions.propTypes = {
-  currentRecord: PropTypes.object.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
   isReferral: PropTypes.bool.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,

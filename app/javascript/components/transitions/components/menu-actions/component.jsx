@@ -20,7 +20,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import { NAME, REVOKE_MODAL } from "./constants";
 
-const Component = ({ transition, showMode, recordType, classes, currentRecord }) => {
+const Component = ({ transition, showMode, recordType, classes }) => {
   const i18n = useI18n();
   const [optionMenu, setOptionMenu] = useState(null);
 
@@ -163,7 +163,6 @@ const Component = ({ transition, showMode, recordType, classes, currentRecord })
         recordType={recordType}
         pending={pending}
         setPending={setDialogPending}
-        currentRecord={currentRecord}
       />
       <TransferApproval
         openTransferDialog={dialogOpen[TRANSFER_APPROVAL_DIALOG]}
@@ -195,7 +194,6 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   classes: PropTypes.object,
-  currentRecord: PropTypes.object,
   recordType: PropTypes.string,
   showMode: PropTypes.bool,
   transition: PropTypes.object.isRequired
