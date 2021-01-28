@@ -772,6 +772,10 @@ th:
       one: UNHCR
       selected: เลือกไปยัง UNHCR
       unknown_abbreviation: ไม่ทราบ
+    xls:
+      all: Excel
+      one: Excel
+      selected: เลือกไปยัง Excel
   fields:
     action: ดำเนินการ
     actions: ดำเนินการ
