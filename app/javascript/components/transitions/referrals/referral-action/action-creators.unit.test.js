@@ -16,9 +16,7 @@ describe("<ReferralAction /> - Action Creators", () => {
     expect(creators).to.deep.equal({});
   });
 
-  it("should check that 'referralDone' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
-
+  describe("referralDone action creator", () => {
     const args = {
       message: "Updated successfully",
       failureMessage: "Updated unsuccessfully",
@@ -71,8 +69,26 @@ describe("<ReferralAction /> - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.referralDone(args)).to.deep.equal(expectedAction);
+    beforeEach(() => {
+      stub(generate, "messageKey").returns(4);
+    });
 
-    generate.messageKey.restore();
+    afterEach(() => {
+      generate.messageKey.restore();
+    });
+
+    it("should return the correct action creator", () => {
+      expect(actionCreators.referralDone(args)).to.deep.equal(expectedAction);
+    });
+
+    context("when a note_on_referral_from_provider is passed", () => {
+      it("should return the correct action creator", () => {
+        const data = { note_on_referral_from_provider: "some test notes" };
+
+        expectedAction.api = { ...expectedAction.api, body: { data } };
+
+        expect(actionCreators.referralDone({ ...args, data })).to.deep.equal(expectedAction);
+      });
+    });
   });
 });

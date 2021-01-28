@@ -13,6 +13,7 @@ describe("<Application /> - index", () => {
       "fetchUserGroups",
       "getEnabledAgencies",
       "getResourceActions",
+      "getShowProviderNoteField",
       "getSystemPermissions",
       "loadApplicationResources",
       "PERMISSIONS",

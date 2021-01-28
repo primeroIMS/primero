@@ -94,6 +94,10 @@ describe("Application - Reducers", () => {
           fr: "",
           ar: "GBV Closure-AR"
         }
+      },
+      systemOptions: {
+        set_service_implemented_on: true,
+        due_date_from_appointment_date: false
       }
     });
 
@@ -170,6 +174,10 @@ describe("Application - Reducers", () => {
               fr: "",
               ar: "GBV Closure-AR"
             }
+          },
+          system_options: {
+            set_service_implemented_on: true,
+            due_date_from_appointment_date: false
           }
         }
       }

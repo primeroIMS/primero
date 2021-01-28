@@ -11,7 +11,7 @@ export const referralDone = ({ data, message, failureMessage, recordId, recordTy
     type: actions.REFERRAL_DONE,
     api: {
       path: `${recordType}/${recordId}/referrals/${transistionId}`,
-      body: { data },
+      ...(data ? { body: { data } } : {}),
       method: "DELETE",
       successCallback: [
         {
