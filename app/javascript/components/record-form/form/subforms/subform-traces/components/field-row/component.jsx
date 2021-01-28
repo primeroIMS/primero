@@ -25,8 +25,8 @@ const Component = ({ field, traceValue, caseValue, match }) => {
 
   const options = useSelector(state => getOptions(state, optionStringSource, i18n, optionStringsText));
 
-  const traceValueLabel = getValueLabel({ options, i18n, value: traceValue });
-  const caseValueLabel = getValueLabel({ options, i18n, value: caseValue });
+  const traceValueLabel = getValueLabel({ options, value: traceValue });
+  const caseValueLabel = getValueLabel({ options, value: caseValue });
 
   const matched = match === MATCH_VALUES.match;
   const className = matched ? css.matched : css.notMatched;
