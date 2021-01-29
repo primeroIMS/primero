@@ -16,11 +16,11 @@ class Kpi::BucketedSearch < Kpi::Search
   end
 
   def restricted_field
-    SolrUtils.sunspot_setup(search_model).field(self.class.restricted_field)
+    ::SolrUtils.sunspot_setup(search_model).field(self.class.restricted_field)
   end
 
   def compared_field
-    SolrUtils.sunspot_setup(search_model).field(self.class.compared_field)
+    ::SolrUtils.sunspot_setup(search_model).field(self.class.compared_field)
   end
 
   def days(number)

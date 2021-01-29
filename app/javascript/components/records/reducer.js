@@ -54,7 +54,8 @@ import {
   FETCH_CASE_MATCHED_TRACES_STARTED,
   FETCH_CASE_MATCHED_TRACES_SUCCESS,
   CLEAR_MATCHED_TRACES,
-  UNMATCH_CASE_FOR_TRACE_SUCCESS
+  UNMATCH_CASE_FOR_TRACE_SUCCESS,
+  CLEAR_POTENTIAL_MATCHES
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -290,6 +291,8 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.setIn(["matchedTraces", "errors"], true);
     case `${namespace}/${CLEAR_MATCHED_TRACES}`:
       return state.delete("matchedTraces");
+    case `${namespace}/${CLEAR_POTENTIAL_MATCHES}`:
+      return state.delete("potentialMatches");
     default:
       return state;
   }

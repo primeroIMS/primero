@@ -13,7 +13,8 @@ import IndexTable from "../../../../../../index-table";
 import { useI18n } from "../../../../../../i18n";
 import { LOOKUPS, POTENTIAL_MATCH_LIKELIHOOD } from "../../../../../../../config";
 import { setSelectedPotentialMatch, fetchTracePotentialMatches } from "../../../../../../records";
-import { getLookupByUniqueId } from "../../../../../../form/selectors";
+import { getOptions } from "../../../../../../form/selectors";
+import { getOptionText } from "../field-row/utils";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -23,7 +24,7 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
 
-  const lookup = useSelector(state => getLookupByUniqueId(state, LOOKUPS.gender));
+  const genderOptions = useSelector(state => getOptions(state, LOOKUPS.gender, i18n));
 
   const tableOptions = {
     columns: [
@@ -63,12 +64,7 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
         label: i18n.t("potential_match.child_gender"),
         name: "case.sex",
         options: {
-          customBodyRender: value => {
-            return lookup
-              .get("values", fromJS([]))
-              .find(lookupValue => lookupValue.get("id") === value)
-              ?.getIn(["display_text", i18n.locale]);
-          }
+          customBodyRender: value => getOptionText({ options: genderOptions, value })
         }
       },
       {

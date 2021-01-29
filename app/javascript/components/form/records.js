@@ -62,7 +62,8 @@ export const FieldRecord = Record({
   onKeyPress: null,
   currRecord: fromJS({}),
   href: null,
-  fileFormat: ""
+  fileFormat: "",
+  filterOptionSource: null
 });
 
 export const FormSectionRecord = Record({

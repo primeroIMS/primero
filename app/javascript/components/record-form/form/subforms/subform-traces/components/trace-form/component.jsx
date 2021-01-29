@@ -6,7 +6,7 @@ import isEqual from "lodash/isEqual";
 
 import { getShortIdFromUniqueId } from "../../../../../../records/utils";
 import { MODES, RECORD_PATH } from "../../../../../../../config";
-import { whichFormMode } from "../../../../../../form";
+import { LINK_FIELD, whichFormMode } from "../../../../../../form";
 import FormSection from "../../../../../../form/components/form-section";
 import TraceActions from "../trace-actions";
 import { FORMS } from "../../constants";
@@ -27,7 +27,7 @@ const Component = ({ setSelectedForm, traceValues, formSection, recordType, sele
 
   const index = formSection.fields.findIndex(field => field.name === "matched_case_id");
   const formSectionToRender = formSection
-    .setIn(["fields", index, "type"], "link_field")
+    .setIn(["fields", index, "type"], LINK_FIELD)
     .setIn(["fields", index, "href"], `/${RECORD_PATH.cases}/${caseId}`);
 
   useEffect(() => {
