@@ -137,4 +137,6 @@ global.HTMLCanvasElement.prototype.getContext = () => {
   };
 };
 
+global.cancelAnimationFrame = args => {}
+
 Enzyme.configure({ adapter: new Adapter() });

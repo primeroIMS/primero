@@ -12,7 +12,13 @@ import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import generateKey from "../charts/table-values/utils";
 import { FORMS } from "../record-form/form/subforms/subform-traces/constants";
 import SubformDrawer from "../record-form/form/subforms/subform-drawer";
-import { getSelectedPotentialMatch, getMatchedTraces, fetchMatchedTraces, getLoadingMatchedTraces } from "../records";
+import {
+  clearPotentialMatches,
+  getSelectedPotentialMatch,
+  getMatchedTraces,
+  fetchMatchedTraces,
+  getLoadingMatchedTraces
+} from "../records";
 import { RECORD_PATH } from "../../config";
 
 import { MatchesForm, ComparisonForm, MatchedTraces } from "./components";
@@ -33,6 +39,10 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
 
   useEffect(() => {
     dispatch(fetchMatchedTraces(RECORD_PATH.cases, recordId));
+
+    return () => {
+      dispatch(clearPotentialMatches());
+    };
   }, []);
 
   const findMatchLabel = i18n.t("cases.summary.find_match");
@@ -41,7 +51,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
     setSelectedForm(FORMS.matches);
   };
   const handleClose = () => setOpen(false);
-  const findMatchButton = (
+  const findMatchButton = !mode.isEdit && (
     <ActionButton
       icon={<SearchIcon />}
       text={findMatchLabel}
@@ -60,7 +70,6 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
     i18n,
     css,
     recordType,
-    handleBack: () => setSelectedForm(FORMS.matches),
     selectedForm,
     setSelectedForm,
     potentialMatch,
@@ -110,7 +119,12 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
         </SubformDrawer>
       </div>
       {renderFields}
-      <MatchedTraces data={matchedTracesData} loading={matchedTracesLoading} recordId={recordId} />
+      <MatchedTraces
+        data={matchedTracesData}
+        loading={matchedTracesLoading}
+        recordId={recordId}
+        setSelectedForm={setSelectedForm}
+      />
     </div>
   );
 };
