@@ -45,7 +45,8 @@ describe("records - Action Creators", () => {
       "clearSelectedCasePotentialMatch",
       "fetchMatchedTraces",
       "clearMatchedTraces",
-      "unMatchCaseForTrace"
+      "unMatchCaseForTrace",
+      "clearPotentialMatches"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -460,5 +461,13 @@ describe("records - Action Creators", () => {
         recordType: RECORD_PATH.tracing_requests
       })
     );
+  });
+
+  it("should check the 'clearPotentialMatches' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.cases}/CLEAR_POTENTIAL_MATCHES`
+    };
+
+    expect(actionCreators.clearPotentialMatches()).be.deep.equals(expected);
   });
 });
