@@ -66,7 +66,7 @@ describe("<ReferralDetail />", () => {
           ReferralDetail,
           {
             ...props,
-            ...{ transition: { status: "rejected" } }
+            ...{ transition: { transitioned_to: "to_some_user", transitioned_by: "by_some_user", status: "rejected" } }
           },
           initialState
         ));
@@ -79,6 +79,34 @@ describe("<ReferralDetail />", () => {
       it("should render rejected reason", () => {
         expect(component.find(ReferralDetail).find(Box)).to.have.lengthOf(5);
       });
+    });
+  });
+
+  context("when show_provider_note_field is true", () => {
+    it("should render the note_on_referral_from_provider", () => {
+      const notesFromProvider = "Some notes";
+      const { component: compWithNoteFromProvider } = setupMountedComponent(
+        ReferralDetail,
+        {
+          ...props,
+          ...{
+            transition: {
+              transitioned_to: "to_some_user",
+              transitioned_by: "by_some_user",
+              note_on_referral_from_provider: notesFromProvider
+            }
+          }
+        },
+        initialState.setIn(["application", "systemOptions", "show_provider_note_field"], true)
+      );
+
+      expect(
+        compWithNoteFromProvider
+          .find(Box)
+          .last()
+          .find("div div")
+          .map(elem => elem.text())
+      ).to.deep.equal(["referral.note_on_referral_from_provider", notesFromProvider]);
     });
   });
 });
