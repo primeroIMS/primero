@@ -73,7 +73,8 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
     selectedForm,
     setSelectedForm,
     potentialMatch,
-    mode
+    mode,
+    matchedTracesData
   };
 
   const Form = (() => {
