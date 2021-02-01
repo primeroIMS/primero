@@ -381,6 +381,7 @@ en:
       label: Summary
       find_match: Find Match
       matched_trace: 'Match #%{trace_id}'
+      cannot_find_matches: Cannot find matches. Consent has not been obtained from this Case to disclose information for tracing purposes.
       fields:
         consent_for_tracing:
           label: Consent has been obtained to disclose information for tracing purposes

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { getIn } from "formik";
 import PropTypes from "prop-types";
 import SearchIcon from "@material-ui/icons/Search";
 import makeStyles from "@material-ui/styles/makeStyles";
@@ -22,11 +23,11 @@ import {
 import { RECORD_PATH } from "../../config";
 
 import { MatchesForm, ComparisonForm, MatchedTraces } from "./components";
-import { NAME } from "./constants";
+import { NAME, FIELD_NAMES } from "./constants";
 import { fields } from "./form";
 import styles from "./styles.css";
 
-const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, mode }) => {
+const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, mode, values }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
@@ -51,15 +52,18 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
     setSelectedForm(FORMS.matches);
   };
   const handleClose = () => setOpen(false);
+  const isFindMatchDisabled = mode.isNew || !getIn(values || {}, FIELD_NAMES.consent_for_tracing);
+
   const findMatchButton = !mode.isEdit && (
     <ActionButton
       icon={<SearchIcon />}
       text={findMatchLabel}
       type={ACTION_BUTTON_TYPES.default}
       keepTextOnMobile
+      tooltip={isFindMatchDisabled ? i18n.t("cases.summary.cannot_find_matches") : null}
       rest={{
         onClick: handleFindMatchClick,
-        disabled: mode.isNew
+        disabled: isFindMatchDisabled
       }}
     />
   );
@@ -137,7 +141,8 @@ Component.propTypes = {
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object,
   record: PropTypes.object,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  values: PropTypes.object
 };
 
 export default Component;
