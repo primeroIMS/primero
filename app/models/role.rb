@@ -4,7 +4,8 @@
 class Role < ApplicationRecord
   include ConfigurationRecord
 
-  has_and_belongs_to_many :form_sections, -> { distinct }
+  has_many :form_permissions
+  has_many :form_sections, through: :form_permissions
   has_and_belongs_to_many :primero_modules, -> { distinct }
 
   has_many :users
@@ -171,6 +172,14 @@ class Role < ApplicationRecord
 
   def form_section_unique_ids
     form_sections.pluck(:unique_id)
+  end
+
+  def form_section_permission
+    form_sections.select('form_sections.unique_id, form_sections_roles.permission')
+                 .each_with_object({}) do |result, memo|
+                   memo[result.unique_id] = result.permission
+                   memo
+                 end
   end
 
   def module_unique_ids

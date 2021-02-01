@@ -61,11 +61,12 @@ module Api::V2::Concerns::Record
   end
 
   def permit_fields
+    read_write = action_name.in?(%w[create update])
     @permitted_field_names = PermittedFieldService.new(
       current_user,
       model_class,
       params[:record_action]
-    ).permitted_field_names
+    ).permitted_field_names(read_write)
   end
 
   def select_fields_for_show
