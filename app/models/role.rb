@@ -176,10 +176,7 @@ class Role < ApplicationRecord
 
   def form_section_permission
     form_sections.select('form_sections.unique_id, form_sections_roles.permission')
-                 .each_with_object({}) do |result, memo|
-                   memo[result.unique_id] = result.permission
-                   memo
-                 end
+                 .reduce({}) { |acc, elem| acc.merge(elem.unique_id => elem.permission) }
   end
 
   def module_unique_ids
