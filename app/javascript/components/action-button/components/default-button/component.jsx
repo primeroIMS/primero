@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, CircularProgress } from "@material-ui/core";
+import { Button, CircularProgress, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
@@ -9,7 +9,7 @@ import ButtonText from "../../../button-text";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, keepTextOnMobile, rest }) => {
+const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, keepTextOnMobile, tooltip, rest }) => {
   const css = makeStyles(styles)();
   const renderIcon = icon || null;
   const isPending = Boolean(pending);
@@ -25,13 +25,17 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, kee
     [rest.className]: Boolean(rest.className)
   });
 
+  const Parent = tooltip ? Tooltip : React.Fragment;
+
   return (
-    <>
-      <Button className={classes} startIcon={renderIcon} disabled={isPending} {...rest}>
-        {renderContent}
-      </Button>
-      {renderLoadingIndicator}
-    </>
+    <Parent {...(tooltip ? { title: tooltip } : {})}>
+      <span className={clsx({ [css.isDisabled]: [rest.disabled] })}>
+        <Button className={classes} startIcon={renderIcon} disabled={isPending} {...rest}>
+          {renderContent}
+        </Button>
+        {renderLoadingIndicator}
+      </span>
+    </Parent>
   );
 };
 
@@ -45,7 +49,8 @@ Component.propTypes = {
   outlined: PropTypes.bool,
   pending: PropTypes.bool,
   rest: PropTypes.object,
-  text: PropTypes.string
+  text: PropTypes.string,
+  tooltip: PropTypes.string
 };
 
 export default Component;
