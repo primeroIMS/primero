@@ -60,7 +60,9 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ..
       render={({ field, form }) => {
         const dateProps = {
           ...{ ...field, value: getDateValue(form, field) },
-          ...omitBy(rest, (v, k) => ["recordType", "recordID"].includes(k)),
+          ...omitBy(rest, (value, key) =>
+            ["recordType", "recordID", "formSection", "field", "displayName", "linkToForm"].includes(key)
+          ),
           format: dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT,
           clearable: true,
           InputProps: {
