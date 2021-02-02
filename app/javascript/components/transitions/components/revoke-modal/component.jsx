@@ -19,7 +19,7 @@ const Component = ({ name, close, open, pending, recordType, setPending, transit
   const dispatch = useDispatch();
   const transitionType = transition.type.toLowerCase();
   const localizedTransitionType = i18n.t(`transition.type.${transitionType}`);
-  const { currentUser } = useApp();
+  const { currentUserName } = useApp();
   const inProgressTransitions = useSelector(state =>
     selectTransitionByTypeAndStatus(
       state,
@@ -59,7 +59,7 @@ const Component = ({ name, close, open, pending, recordType, setPending, transit
       })
     );
 
-    if (inProgressTransitions.size === 1 && currentUser === transition.transitioned_to) {
+    if (inProgressTransitions.size === 1 && currentUserName === transition.transitioned_to) {
       dispatch(push(`/${RECORD_PATH.cases}`));
     }
   };
