@@ -109,10 +109,6 @@ describe("<RolesForm />", () => {
       expect(component.find(FormSection)).to.have.lengthOf(6);
     });
 
-    it("renders heading with action menu", () => {
-      expect(component.find(ActionsMenu)).to.have.lengthOf(1);
-    });
-
     it("renders the selected modules", () => {
       const autocomplete = component.find(Autocomplete);
 
