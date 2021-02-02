@@ -575,7 +575,7 @@ en:
     count_waiting_for_acceptance_transfers: You have %{stat} Transfers <span>waiting</span>
       for your acceptance
     current_owner: Current Owner
-    dash_case_incident_overview: My Cases / Incidents
+    dash_case_incident_overview: My Cases
     dash_group_overview: My Group's Cases
     dash_shared_from_my_team: Shared From My Team
     dash_shared_with_me: Shared With Me
@@ -695,6 +695,7 @@ en:
     users: SETTINGS icon
     violence_type: Violence Type
     with_incidents: With Incidents
+    with_new_incidents: With New Incidents
     without_incidents: Without Incidents
     worker_count_referrals_total:
       one: '<span>%{case_worker}</span> has %{stat} <span>total</span> referral '

@@ -167,10 +167,11 @@ describe Api::V2::DashboardsController, type: :request do
       expect(tasks_overdue_services['indicators']['tasks_overdue_services'].count).to eq(2)
 
       case_incident_overview = json['data'].find { |d| d['name'] == 'dashboard.dash_case_incident_overview' }
-      expect(case_incident_overview['indicators'].count).to eq(4)
+      expect(case_incident_overview['indicators'].count).to eq(5)
       expect(case_incident_overview['indicators']['total']['count']).to eq(2)
       expect(case_incident_overview['indicators']['new_or_updated']['count']).to eq(1)
       expect(case_incident_overview['indicators']['with_incidents']['count']).to eq(1)
+      expect(case_incident_overview['indicators']['with_new_incidents']['count']).to eq(1)
       expect(case_incident_overview['indicators']['without_incidents']['count']).to eq(1)
 
       cases_by_social_worker = json['data'].find { |d| d['name'] == 'dashboard.dash_cases_by_social_worker' }
