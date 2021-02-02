@@ -668,4 +668,13 @@ describe("<RecordList /> - Reducers", () => {
 
     expect(newState).to.deep.equals(expected);
   });
+
+  it("should handle CLEAR_POTENTIAL_MATCHES", () => {
+    const expected = fromJS({});
+    const action = { type: "TestRecordType/CLEAR_POTENTIAL_MATCHES" };
+
+    const newState = nsReducer(fromJS({ potentialMatches: { data: [{ id: "12345" }] } }), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
 });

@@ -25,7 +25,7 @@ export const validations = () =>
     telephone: string()
   });
 
-export const form = i18n => {
+export const form = (i18n, formMode) => {
   return fromJS([
     FormSectionRecord({
       unique_id: "agencies",
@@ -88,7 +88,8 @@ export const form = i18n => {
             } = value;
 
             return {
-              disabled: !((logoFull?.length && logoIcon?.length) || (logoIconUrl && logoFullUrl))
+              disabled:
+                !((logoFull?.length && logoIcon?.length) || (logoIconUrl && logoFullUrl)) || formMode.get("isShow")
             };
           }
         }),
@@ -107,7 +108,8 @@ export const form = i18n => {
             } = value;
 
             return {
-              disabled: !((logoFull?.length && logoIcon?.length) || (logoIconUrl && logoFullUrl))
+              disabled:
+                !((logoFull?.length && logoIcon?.length) || (logoIconUrl && logoFullUrl)) || formMode.get("isShow")
             };
           }
         }),

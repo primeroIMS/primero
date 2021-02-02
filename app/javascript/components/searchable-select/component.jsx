@@ -94,8 +94,6 @@ const SearchableSelect = ({
       return <Chip size="small" label={optionLabel(option)} {...chipProps} disabled={isDisabled} />;
     });
 
-  const initialInputValue = initialValues() === null ? "" : optionLabel(initialValues());
-
   return (
     <Autocomplete
       onChange={(event, value) => onChange(value)}
@@ -109,7 +107,6 @@ const SearchableSelect = ({
       filterSelectedOptions
       value={initialValues()}
       onOpen={onOpen && onOpen}
-      inputValue={initialInputValue}
       multiple={multiple}
       onBlur={onBlur}
       renderInput={params => <TextField {...params} {...textFieldProps(params)} disabled={isDisabled} />}
