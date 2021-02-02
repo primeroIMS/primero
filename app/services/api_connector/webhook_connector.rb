@@ -55,18 +55,15 @@ class ApiConnector::WebhookConnector < ApiConnector::AbstractConnector
   end
 
   def log_send(record)
-    RecordSendLog.create!(
-      record: record, destination: webhook_url,
-      status: RecordSendLog::SENDING, started_at: DateTime.now
+    AuditLog.create(
+      action: AuditLog::WEBHOOK, record: record, resource_url: webhook_url,
+      webhook_status: AuditLog::SENDING, timestamp: DateTime.now
     )
   end
 
   def log_response(log, http_status, response)
-    status = http_status < 400 ? RecordSendLog::SENT : RecordSendLog::FAILED
-    log.update_attributes(
-      status: status, completed_at: DateTime.now,
-      metadata: { response: response }
-    )
+    status = http_status < 400 ? AuditLog::SENT : AuditLog::FAILED
+    log.update_attributes(metadata: { webhook_status: status, webhook_response: response })
   end
 
   def role

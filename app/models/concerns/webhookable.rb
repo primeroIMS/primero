@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# Note: Currently this concern contains logic / fields specific to Child/Case.
-# Note: This is dependent on the Serviceable concern.  Serviceable must be included before Workflow
+# Supporting logic and fields for
 module Webhookable
   extend ActiveSupport::Concern
 
@@ -20,24 +19,25 @@ module Webhookable
   def webhook_status
     return @webhook_status if @webhook_status
 
-    sql = RecordSendLog.sanitize_sql(
+    sql = AuditLog.sanitize_sql(
       [
-        'select logs.destination, logs.status, logs.completed_at ' \
-        'from record_send_logs logs,' \
-        '     (select destination, max(completed_at) as max_completed_at' \
-        '      from record_send_logs' \
-        '      where record_id = :record_id and record_type = :record_type' \
-        '      group by destination) latest ' \
-        'where logs.destination = latest.destination' \
-        '      and logs.completed_at = latest.max_completed_at' \
+        "select logs.resource_url as destination, logs.metadata ->> 'webhook_status' as status, logs.timestamp " \
+        'from audit_logs logs,' \
+        '     (select resource_url, max(timestamp) as max_timestamp' \
+        '      from audit_logs' \
+        "      where record_id = :record_id and record_type = :record_type and action = 'webhook'" \
+        '      group by resource_url) latest ' \
+        'where logs.resource_url = latest.resource_url' \
+        '      and logs.timestamp = latest.max_timestamp' \
         '      and logs.record_id = :record_id' \
-        '      and logs.record_type = :record_type',
+        '      and logs.record_type = :record_type' \
+        "      and logs.action = 'webhook'",
         { record_id: id, record_type: self.class.name }
       ]
     )
-    @webhook_status = RecordSendLog.connection.select_all(sql).to_hash
-                                   .map { |r| [r['destination'], DestringifyService.destringify(r)] }
-                                   .to_h.with_indifferent_access
+    @webhook_status = AuditLog.connection.select_all(sql).to_hash
+                              .map { |r| [r['destination'], DestringifyService.destringify(r)] }
+                              .to_h.with_indifferent_access
   end
   # rubocop:enable Metrics/MethodLength
 
@@ -47,9 +47,9 @@ module Webhookable
     return unless mark_synced && mark_synced_url.present?
 
     timestamp = DateTime.now
-    RecordSendLog.create(
-      record: self, destination: mark_synced_url,
-      status: RecordSendLog::SYNCED, started_at: timestamp, completed_at: timestamp
+    AuditLog.create(
+      record: self, resource_url: mark_synced_url, action: AuditLog::WEBHOOK,
+      webhook_status: AuditLog::SYNCED, timestamp: timestamp
     )
   end
 
