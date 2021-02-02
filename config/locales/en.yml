@@ -204,7 +204,7 @@ en:
       update_success_queue: 'Case %{record_id} was successfully updated in background'
       creation_success: 'Case record successfully created.'
       creation_success_queue: 'Case record successfully created in background.'
-      already_matched: There is already a case in the system matched to this Inquirer.
+      already_matched: This Inquirer has already been matched to your case.
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
     workflow:
@@ -382,6 +382,7 @@ en:
       find_match: Find Match
       matched_trace: 'Match #%{trace_id}'
       cannot_find_matches: Cannot find matches. Consent has not been obtained from this Case to disclose information for tracing purposes.
+      matched: Matched
       fields:
         consent_for_tracing:
           label: Consent has been obtained to disclose information for tracing purposes
