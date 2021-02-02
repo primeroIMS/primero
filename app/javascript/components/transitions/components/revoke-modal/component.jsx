@@ -9,7 +9,7 @@ import { useI18n } from "../../../i18n";
 import { selectTransitionByTypeAndStatus } from "../../selectors";
 import { TRANSITIONS_TYPES, TRANSITION_STATUS } from "../../constants";
 import { RECORD_PATH } from "../../../../config";
-import { selectUsername } from "../../../nav";
+import { useApp } from "../../../application";
 
 import { revokeTransition } from "./action-creators";
 import { NAME } from "./constants";
@@ -19,7 +19,7 @@ const Component = ({ name, close, open, pending, recordType, setPending, transit
   const dispatch = useDispatch();
   const transitionType = transition.type.toLowerCase();
   const localizedTransitionType = i18n.t(`transition.type.${transitionType}`);
-  const currentUser = useSelector(state => selectUsername(state));
+  const { currentUser } = useApp();
   const inProgressTransitions = useSelector(state =>
     selectTransitionByTypeAndStatus(
       state,

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { useI18n } from "../i18n";
 import { useConnectivityStatus } from "../connectivity";
+import { selectUsername } from "../nav";
 
 import { fetchSandboxUI } from "./action-creators";
 import { selectModules, selectUserModules, getApprovalsLabels, getDisabledApplication, getDemo } from "./selectors";
@@ -20,13 +21,14 @@ const ApplicationProvider = ({ children }) => {
   const approvalsLabels = useSelector(state => getApprovalsLabels(state, i18n.locale));
   const disabledApplication = useSelector(state => getDisabledApplication(state));
   const demo = useSelector(state => getDemo(state));
+  const currentUser = useSelector(state => selectUsername(state));
 
   useEffect(() => {
     dispatch(fetchSandboxUI());
   }, []);
 
   return (
-    <Context.Provider value={{ modules, userModules, online, approvalsLabels, disabledApplication, demo }}>
+    <Context.Provider value={{ modules, userModules, online, approvalsLabels, disabledApplication, demo, currentUser }}>
       {children}
     </Context.Provider>
   );
