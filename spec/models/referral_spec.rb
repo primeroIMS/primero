@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Referral do
-
   before :each do
     @module_cp = PrimeroModule.new(name: 'CP')
     @module_cp.save(validate: false)
@@ -19,15 +20,16 @@ describe Referral do
     @group2 = UserGroup.create!(name: 'Group2')
     @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2])
     @user2.save(validate: false)
-    @case = Child.create(data: {
-      name: 'Test', owned_by: 'user1',
-      module_id: @module_cp.unique_id,
-      consent_for_services: true, disclosure_other_orgs: true
-    })
+    @case = Child.create(data:
+      {
+        name: 'Test',
+        owned_by: 'user1',
+        module_id: @module_cp.unique_id,
+        consent_for_services: true, disclosure_other_orgs: true
+      })
   end
 
   describe 'consent' do
-
     it 'denies consent for referring records if consent properties are not set' do
       @case.update_attributes(consent_for_services: nil, disclosure_other_orgs: nil )
       referral = Referral.new(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
@@ -47,13 +49,10 @@ describe Referral do
 
       expect(referral.consent_given?).to be_truthy
     end
-
   end
 
   describe 'perform' do
-
     context 'in-system' do
-
       it 'adds the target user to the assigned users list for this record' do
         referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
         expect(referral.status).to eq(Referral::STATUS_INPROGRESS)
@@ -72,21 +71,44 @@ describe Referral do
         expect(referral.valid?).to be_falsey
         expect(@case.assigned_user_names.present?).to be_falsey
       end
-
     end
-
   end
 
-  describe 'reject' do
-
-    it 'removes the referred user' do
+  describe 'finish' do
+    it 'changes the status to DONE and removes the referred user' do
       @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true )
       referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
-      referral.reject!
+      referral.finish!
+      referral.reload
+
       expect(referral.status).to eq(Transition::STATUS_DONE)
       expect(@case.assigned_user_names).not_to include('user2')
     end
+  end
 
+  describe 'accept' do
+    it 'changes the referral status to ACCEPTED' do
+      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true )
+      referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      referral.accept!
+      referral.reload
+
+      expect(referral.status).to eq(Transition::STATUS_ACCEPTED)
+    end
+  end
+
+  describe 'reject' do
+    it 'changes the referral status to REJECTED and removes the referred user' do
+      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true )
+      referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      rejected_reason = 'rejected for some specific reason'
+      referral.reject!(rejected_reason)
+      referral.reload
+
+      expect(referral.status).to eq(Transition::STATUS_REJECTED)
+      expect(referral.rejected_reason).to eq(rejected_reason)
+      expect(@case.assigned_user_names).not_to include('user2')
+    end
   end
 
   after :each do
@@ -97,5 +119,4 @@ describe Referral do
     Child.destroy_all
     Transition.destroy_all
   end
-
 end

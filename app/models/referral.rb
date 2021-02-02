@@ -9,10 +9,33 @@ class Referral < Transition
     record.save! if record.has_changes_to_save?
   end
 
-  def reject!
-    self.status = Transition::STATUS_DONE
-    record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
+  def reject!(rejected_reason = nil)
+    self.status = Transition::STATUS_REJECTED
+    self.rejected_reason = rejected_reason
+    remove_transitioned_to
     record.save! && save!
+  end
+
+  def finish!
+    self.status = Transition::STATUS_DONE
+    remove_transitioned_to
+    record.save! && save!
+  end
+
+  def accept!
+    self.status = Transition::STATUS_ACCEPTED
+    save!
+  end
+
+  def change_status(requested_status, rejected_reason = nil)
+    return if requested_status == status
+
+    case requested_status
+    when Transition::STATUS_REJECTED
+      reject!(rejected_reason)
+    when Transition::STATUS_ACCEPTED
+      accept!
+    end
   end
 
   def consent_given?
@@ -47,5 +70,9 @@ class Referral < Transition
     else
       record.assigned_user_names = [transitioned_to]
     end
+  end
+
+  def remove_transitioned_to
+    record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
   end
 end
