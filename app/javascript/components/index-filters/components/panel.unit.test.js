@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { ExpansionPanelSummary } from "@material-ui/core";
+import {  AccordionSummary } from "@material-ui/core";
 
 import { setupMockFormComponent, spy, fake } from "../../../test";
 
@@ -91,6 +91,6 @@ describe("<IndexFilters />/<Panel />", () => {
     });
     const { component } = setupMockFormComponent(Panel, propsApprovals, {}, initialStateApprovals);
 
-    expect(component.find(ExpansionPanelSummary).text()).to.be.equal("Case Plan");
+    expect(component.find(AccordionSummary).text()).to.be.equal("Case Plan");
   });
 });

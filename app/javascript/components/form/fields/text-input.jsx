@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
@@ -12,15 +12,18 @@ import styles from "./styles.css";
 
 const TextInput = ({ commonInputProps, metaInputProps }) => {
   const css = makeStyles(styles)();
+  const { control } = useFormContext();
   const { type, password, hint, tooltip, numeric, onBlur, onKeyPress } = metaInputProps;
   let inputType = "text";
 
   if (password) {
     inputType = "password";
   }
+
   if (numeric) {
     inputType = "number";
   }
+
   const { label, helperText, ...rest } = commonInputProps;
 
   const renderHint = hint ? <span className={css.hint}>{hint}</span> : null;
@@ -34,6 +37,7 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
 
   return (
     <Controller
+      control={control}
       type={inputType}
       as={TextField}
       label={<InputLabel tooltip={tooltip} text={label} />}

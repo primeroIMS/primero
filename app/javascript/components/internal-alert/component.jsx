@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import clsx from "clsx";
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from "@material-ui/core";
+import { Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Brightness1 as Circle } from "@material-ui/icons";
 import ErrorIcon from "@material-ui/icons/Error";
@@ -26,13 +26,13 @@ const Component = ({ title, items, severity }) => {
   const renderItems = () => {
     return (
       items?.size > 1 && (
-        <ExpansionPanelDetails>
+        <AccordionDetails>
           <ul className={clsx({ [css.alertItems]: true })}>
             {items.map(item => (
               <li key={generate.messageKey()}>{item.get("message")}</li>
             ))}
           </ul>
-        </ExpansionPanelDetails>
+        </AccordionDetails>
       )
     );
   };
@@ -63,8 +63,8 @@ const Component = ({ title, items, severity }) => {
   };
 
   return (
-    <ExpansionPanel className={clsx(css.alert, css[severity])}>
-      <ExpansionPanelSummary
+    <Accordion className={clsx(css.alert, css[severity])}>
+      <AccordionSummary
         classes={classes}
         expandIcon={items?.size > 1 ? <ExpandMoreIcon /> : null}
         aria-controls="record-form-alerts-panel"
@@ -75,9 +75,9 @@ const Component = ({ title, items, severity }) => {
         })}
       >
         {renderTitle()}
-      </ExpansionPanelSummary>
+      </AccordionSummary>
       {renderItems()}
-    </ExpansionPanel>
+    </Accordion>
   );
 };
 

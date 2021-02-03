@@ -1,5 +1,5 @@
 import { Map, List } from "immutable";
-import { ExpansionPanelDetails, ExpansionPanelSummary } from "@material-ui/core";
+import {  AccordionDetails, AccordionSummary } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
 
@@ -78,8 +78,8 @@ describe("<Transitions /> - Component", () => {
 
   it("renders 2 TransitionPanel", () => {
     expect(component.find(TransitionPanel)).to.have.lengthOf(3);
-    expect(component.find(ExpansionPanelDetails)).to.have.lengthOf(3);
-    expect(component.find(ExpansionPanelSummary)).to.have.lengthOf(3);
+    expect(component.find(AccordionDetails)).to.have.lengthOf(3);
+    expect(component.find(AccordionSummary)).to.have.lengthOf(3);
   });
   it("renders a Assignments components", () => {
     expect(component.find(AssignmentsSummary)).to.have.length(1);

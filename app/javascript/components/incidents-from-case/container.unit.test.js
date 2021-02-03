@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from "@material-ui/core";
+import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
 import RecordFormTitle from "../record-form/form/record-form-title";
@@ -79,10 +79,10 @@ describe("<IncidentFromCase /> - Component", () => {
     expect(component.find(IncidentFromCase)).to.have.length(1);
   });
 
-  it("render a ExpansionPanels", () => {
-    expect(component.find(ExpansionPanel)).to.have.lengthOf(1);
-    expect(component.find(ExpansionPanelSummary)).to.have.lengthOf(1);
-    expect(component.find(ExpansionPanelDetails)).to.have.lengthOf(1);
+  it("render a Accordions", () => {
+    expect(component.find(Accordion)).to.have.lengthOf(1);
+    expect(component.find(AccordionSummary)).to.have.lengthOf(1);
+    expect(component.find(AccordionDetails)).to.have.lengthOf(1);
   });
 
   it("render a RecordFormTitle", () => {
