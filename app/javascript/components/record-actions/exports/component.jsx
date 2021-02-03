@@ -9,6 +9,7 @@ import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { DevTool } from "@hookform/devtools";
+
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { whichFormMode } from "../../form";
@@ -52,6 +53,7 @@ import {
 } from "./constants";
 import form from "./form";
 import { saveExport } from "./action-creators";
+import WatchedFormSectionField from "../../form/components/watched-form-section-field";
 
 const Component = ({
   close,
@@ -294,10 +296,12 @@ const Component = ({
       pending={pending}
       successHandler={() => submitForm(formRef)}
     >
-      <FormProvider {...formMethods} formMode={formMode}>
+      <FormProvider {...formMethods}>
         <form onSubmit={formMethods.handleSubmit(handleSubmit)}>
           {formSections.map(field => {
-            return <FormSectionField field={field} key={field.unique_id} />;
+            const FormSectionComponent = field.watchedInputs ? WatchedFormSectionField : FormSectionField;
+
+            return <FormSectionComponent field={field} key={field.unique_id} formMode={formMode} />;
           })}
           <DevTool control={formMethods.control} />
         </form>

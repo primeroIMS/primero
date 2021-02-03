@@ -26,7 +26,7 @@ export default () => {
     customMiddleware.offlineMiddleware
   ];
 
-  if (process.env.NODE_ENV === "debug") {
+  if (process.env.NODE_ENV === "development") {
     middleware.push(createLogger({ stateTransformer: state => state.toJS() }));
   }
 

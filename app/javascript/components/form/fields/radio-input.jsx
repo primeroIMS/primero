@@ -9,15 +9,13 @@ import {
   RadioGroup,
   makeStyles
 } from "@material-ui/core";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 import styles from "./styles.css";
 
 const RadioInput = ({ commonInputProps, options }) => {
   const css = makeStyles(styles)();
   const { helperText, error, name, label: radioGroupLabel, className, disabled } = commonInputProps;
-
-  const { control } = useForm();
 
   return (
     <FormControl error={error} className={className}>
@@ -26,7 +24,7 @@ const RadioInput = ({ commonInputProps, options }) => {
       </FormLabel>
       <Controller
         as={
-          <RadioGroup aria-label="format" name={name} className={css.rowDirection} control={control}>
+          <RadioGroup aria-label="format" name={name} className={css.rowDirection}>
             {options &&
               options.map(({ id, label }) => (
                 <FormControlLabel

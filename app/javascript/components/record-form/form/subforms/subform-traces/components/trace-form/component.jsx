@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import isEqual from "lodash/isEqual";
 
 import { getShortIdFromUniqueId } from "../../../../../../records/utils";
@@ -62,9 +62,9 @@ const Component = ({ setSelectedForm, traceValues, formSection, recordType, sele
         recordType={recordType}
         mode={mode}
       />
-      <FormContext {...methods} formMode={formMode}>
+      <FormProvider {...methods} formMode={formMode}>
         <FormSection formSection={formSectionToRender} showTitle={false} disableUnderline />
-      </FormContext>
+      </FormProvider>
     </>
   );
 };

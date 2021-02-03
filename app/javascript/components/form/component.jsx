@@ -3,7 +3,7 @@
 
 import React, { useImperativeHandle, forwardRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useForm, FormProvider } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -38,6 +38,7 @@ const Component = ({
     ...(initialValues && { defaultValues: initialValues }),
     ...(validations && { resolver: yupResolver(validations) })
   });
+  const { formState, handleSubmit, setError, reset, errors } = formMethods;
 
   const formMode = whichFormMode(mode);
 
@@ -46,6 +47,7 @@ const Component = ({
     submitHandler({
       dispatch,
       formMethods,
+      handleSubmit,
       formMode,
       i18n,
       initialValues,
@@ -56,28 +58,30 @@ const Component = ({
   );
 
   useEffect(() => {
-    const { isValid } = formMethods.formState;
+    const { isValid } = formState;
 
     if (onValid) {
       onValid(isValid);
     }
-  }, [formMethods.formState.isValid]);
+  }, [formState.isValid]);
 
   useEffect(() => {
     // eslint-disable-next-line no-unused-expressions
     formErrors
       ?.filter(error => error.get("status") === HTTP_STATUS.invalidRecord)
       .forEach(error => {
-        formMethods.setError(error.get("detail"), "", i18n.t(error.getIn(["message", 0])));
+        setError(error.get("detail"), "", i18n.t(error.getIn(["message", 0])));
       });
   }, [formErrors]);
 
   useEffect(() => {
-    formMethods.reset(initialValues);
+    reset(initialValues);
   }, [JSON.stringify(initialValues)]);
 
   const renderFormSections = () =>
-    formSections.map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);
+    formSections.map(formSection => (
+      <FormSection formSection={formSection} key={formSection.unique_id} errors={errors} />
+    ));
 
   return (
     <FormProvider {...formMethods} formMode={formMode}>

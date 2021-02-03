@@ -21,8 +21,9 @@ export const submitHandler = ({
   const touchedFields = formMethods?.formState?.touched;
 
   return {
-    submitForm(e) {
+    submitForm(event) {
       formMethods.handleSubmit(data => {
+        console.log(data, touchedFields)
         const changedFormData = touchedFormData(touchedFields, data, formMode.get("isEdit"), initialValues);
 
         if (isEmpty(changedFormData) && !submitAlways) {
@@ -30,7 +31,7 @@ export const submitHandler = ({
         }
 
         return onSubmit(submitAllFields ? data : changedFormData);
-      })(e);
+      })(event);
     }
   };
 };
