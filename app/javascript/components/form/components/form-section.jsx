@@ -39,7 +39,8 @@ const FormSection = ({ formSection, showTitle, disableUnderline }) => {
             key={`${formSection.unique_id}-row`}
             className={clsx({
               [css.notEqual]: field.equalColumns === false,
-              [css.row]: true
+              [css.row]: !field?.customRowStyle,
+              [css.rowCustom]: field?.customRowStyle
             })}
           >
             {renderFields(field.row)}

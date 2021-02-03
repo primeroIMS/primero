@@ -48,14 +48,15 @@ const Container = ({ mode }) => {
   const validationSchema = Validations(i18n);
 
   const handleSubmit = data => {
-    dispatch(
-      saveRole({
-        id,
-        saveMethod: formMode.get("isEdit") ? "update" : "new",
-        body: { data: mergeFormSections(data) },
-        message: i18n.t(`role.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
-      })
-    );
+    console.log("DATA TO SUBMIT", data);
+    // dispatch(
+    //   saveRole({
+    //     id,
+    //     saveMethod: formMode.get("isEdit") ? "update" : "new",
+    //     body: { data: mergeFormSections(data) },
+    //     message: i18n.t(`role.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
+    //   })
+    // );
   };
 
   const handleCancel = () => {
@@ -116,8 +117,11 @@ const Container = ({ mode }) => {
     />
   ) : null;
 
+  const hasData = formMode.get("isNew") || (role?.size > 0 && assignableForms.size > 0);
+  const loading = !role.size || !assignableForms.size;
+
   return (
-    <LoadingIndicator hasData={formMode.get("isNew") || role?.size > 0} loading={!role.size} type={NAMESPACE}>
+    <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
         <ActionButtons
           formMode={formMode}
@@ -134,7 +138,7 @@ const Container = ({ mode }) => {
           onSubmit={handleSubmit}
           ref={formRef}
           validations={validationSchema}
-          initialValues={initialValues}
+          initialValues={{ ...initialValues, sex: { test: { tested: "male" } } }}
         />
       </PageContent>
       {renderOpenDialog}

@@ -4,6 +4,7 @@
 
 .row {
   display: flex;
+  align-items: center;
 
   & > div {
     flex: 1;
@@ -15,7 +16,31 @@
   }
 
   & > div:first-of-type {
-    padding: 0 1em 0 0;
+    padding: 0 1em 0.65em 0;
+  }
+}
+
+.rowCustom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $(theme.primero.colors.lightGrey2);
+
+  & label {
+    border-left: 1px solid $(theme.primero.colors.lightGrey2);
+    width: 70px;
+
+    & span {
+      margin-left: 8px
+    }
+  }
+
+  & > div:last-of-type {
+
+    & div {
+      margin-bottom: 0;
+    }
   }
 }
 
