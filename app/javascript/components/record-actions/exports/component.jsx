@@ -21,7 +21,7 @@ import { submitHandler } from "../../form/utils/form-submission";
 import { getRecordForms } from "../../record-form/selectors";
 import { useApp } from "../../application";
 import PdfExporter from "../../pdf-exporter";
-import { getUser } from "../../user/selectors";
+import { getUser, getPermittedFormsIds } from "../../user/selectors";
 import { getAgencyLogos, getAgencyLogosPdf } from "../../application/selectors";
 
 import {
@@ -139,10 +139,12 @@ const Component = ({
       display_text: name
     }))
     .toJS();
+  const userPermittedFormsIds = useSelector(state => getPermittedFormsIds(state));
   const recordTypesForms = useSelector(state =>
     getRecordForms(state, {
       recordType: RECORD_TYPES[recordType],
-      primeroModule: selectedModule || record?.get("module_id")
+      primeroModule: selectedModule || record?.get("module_id"),
+      formsIds: userPermittedFormsIds
     })
   );
   const fields = buildFields(recordTypesForms, i18n.locale, individualFields);

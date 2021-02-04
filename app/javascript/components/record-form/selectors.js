@@ -29,6 +29,7 @@ const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNe
 
 const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds, includeNested }) => {
   const allFormSections = state.getIn([NAMESPACE, "formSections"]);
+  const formsPermitted = formsIds?.keySeq()?.toArray();
 
   if (isEmpty(allFormSections)) return null;
 
@@ -36,7 +37,9 @@ const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds, 
     return allFormSections;
   }
 
-  const userFormSection = formsIds ? allFormSections.filter(fs => formsIds.includes(fs.unique_id)) : allFormSections;
+  const userFormSection = formsPermitted
+    ? allFormSections.filter(fs => formsPermitted.includes(fs.unique_id))
+    : allFormSections;
 
   return filterForms(userFormSection, { recordType, primeroModule, checkVisible, includeNested });
 };

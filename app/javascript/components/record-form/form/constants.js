@@ -16,3 +16,7 @@ export const CUSTOM_STRINGS_SOURCE = {
   reportingLocation: "ReportingLocation",
   user: "User"
 };
+export const RECORD_FORM_PERMISSION = {
+  read: "r",
+  readWrite: "rw"
+};

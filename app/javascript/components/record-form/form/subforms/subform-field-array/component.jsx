@@ -17,7 +17,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 import { isTracesSubform, valuesWithDisplayConditions } from "./utils";
 
-const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recordType }) => {
+const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recordType, isReadWriteForm }) => {
   const {
     display_name: displayName,
     name,
@@ -86,7 +86,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
           </h3>
         </div>
         <div>
-          {!mode.isShow && !isDisabled && (
+          {!mode.isShow && !isDisabled && isReadWriteForm && (
             <ActionButton
               icon={<AddIcon />}
               text={renderAddText}
@@ -118,13 +118,14 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
           formik={formik}
           i18n={i18n}
           index={index}
-          isFormShow={mode.isShow || isDisabled}
+          isFormShow={mode.isShow || isDisabled || isReadWriteForm === false}
           mode={mode}
           oldValue={!dialogIsNew ? selectedValue : {}}
           open={open}
           setOpen={setOpenDialog}
           title={title}
           formSection={formSection}
+          isReadWriteForm={isReadWriteForm}
         />
       )}
     </>
@@ -139,6 +140,7 @@ Component.propTypes = {
   formik: PropTypes.object.isRequired,
   formSection: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
+  isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
   recordType: PropTypes.string.isRequired
 };

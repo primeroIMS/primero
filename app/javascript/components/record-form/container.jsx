@@ -312,6 +312,7 @@ const Container = ({ match, mode }) => {
           handleToggleNav={handleToggleNav}
           form={customForms(i18n)[form]}
           mode={containerMode}
+          userPermittedFormsIds={userPermittedFormsIds}
         />
       )
     }[externalFormSelected];
@@ -340,6 +341,7 @@ const Container = ({ match, mode }) => {
               externalForms={externalForms}
               selectedForm={selectedForm}
               attachmentForms={attachmentForms}
+              userPermittedFormsIds={userPermittedFormsIds}
             />
           </div>
         </div>
