@@ -223,6 +223,8 @@ describe Api::V2::ReferralsController, type: :request do
 
   describe 'PATCH /api/v2/cases/:id/referrals/:referral_id' do
     before :each do
+      @now = DateTime.parse('2020-10-05T04:05:06')
+      DateTime.stub(:now).and_return(@now)
       @referral1 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
     end
 
@@ -237,6 +239,7 @@ describe Api::V2::ReferralsController, type: :request do
       expect(json['data']['record_id']).to eq(@case_a.id.to_s)
       expect(json['data']['transitioned_to']).to eq('user2')
       expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['responded_at']).to eq(@now.in_time_zone.as_json)
 
       expect(audit_params['action']).to eq('refer_accepted')
 
@@ -255,6 +258,7 @@ describe Api::V2::ReferralsController, type: :request do
       expect(json['data']['record_id']).to eq(@case_a.id.to_s)
       expect(json['data']['transitioned_to']).to eq('user2')
       expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['responded_at']).to eq(@now.in_time_zone.as_json)
 
       expect(audit_params['action']).to eq('refer_rejected')
 
@@ -275,6 +279,7 @@ describe Api::V2::ReferralsController, type: :request do
       expect(json['data']['record_id']).to eq(@case_a.id.to_s)
       expect(json['data']['transitioned_to']).to eq('user2')
       expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['responded_at']).to eq(@now.in_time_zone.as_json)
 
       expect(audit_params['action']).to eq('refer_rejected')
 

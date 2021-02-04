@@ -15,6 +15,7 @@ class Transfer < Transition
     return unless in_progress?
 
     self.status = record.transfer_status = Transition::STATUS_ACCEPTED
+    self.responded_at = DateTime.now
     remove_assigned_user
     record.owned_by = transitioned_to
     record.save! && save!
@@ -25,6 +26,7 @@ class Transfer < Transition
     return unless in_progress?
 
     self.status = record.transfer_status = Transition::STATUS_REJECTED
+    self.responded_at = DateTime.now
 
     remove_assigned_user
     record.save! && save!

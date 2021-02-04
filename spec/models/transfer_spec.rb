@@ -115,6 +115,8 @@ describe Transfer do
 
   describe 'accept' do
     before do
+      @now = DateTime.parse('2020-10-05T04:05:06')
+      DateTime.stub(:now).and_return(@now)
       @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
                                    disclosure_other_orgs: true })
       @transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
@@ -123,6 +125,7 @@ describe Transfer do
 
     it 'sets status to Accepted' do
       expect(@transfer.status).to eq(Transition::STATUS_ACCEPTED)
+      expect(@transfer.responded_at).to eq(@now)
       expect(@case.transfer_status).to eq(Transition::STATUS_ACCEPTED)
       expect(@case.status).to eq(Record::STATUS_OPEN)
     end
@@ -246,6 +249,8 @@ describe Transfer do
 
   describe 'reject' do
     before do
+      @now = DateTime.parse('2020-10-05T04:05:06')
+      DateTime.stub(:now).and_return(@now)
       @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
                                    disclosure_other_orgs: true })
       @transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
@@ -254,6 +259,7 @@ describe Transfer do
 
     it 'revokes access to this record for the target user' do
       expect(@transfer.status).to eq(Transition::STATUS_REJECTED)
+      expect(@transfer.responded_at).to eq(@now)
       expect(@case.assigned_user_names.present?).to be_falsey
       expect(@case.transfer_status).to eq(Transition::STATUS_REJECTED)
       expect(@case.status).to eq(Record::STATUS_OPEN)

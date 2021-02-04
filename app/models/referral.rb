@@ -12,6 +12,7 @@ class Referral < Transition
   def reject!(rejected_reason = nil)
     self.status = Transition::STATUS_REJECTED
     self.rejected_reason = rejected_reason
+    self.responded_at = DateTime.now
     remove_transitioned_to
     record.save! && save!
   end
@@ -24,6 +25,7 @@ class Referral < Transition
 
   def accept!
     self.status = Transition::STATUS_ACCEPTED
+    self.responded_at = DateTime.now
     save!
   end
 

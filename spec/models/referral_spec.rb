@@ -76,7 +76,7 @@ describe Referral do
 
   describe 'finish' do
     it 'changes the status to DONE and removes the referred user' do
-      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true )
+      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true)
       referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       referral.finish!
       referral.reload
@@ -88,18 +88,25 @@ describe Referral do
 
   describe 'accept' do
     it 'changes the referral status to ACCEPTED' do
-      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true )
+      now = DateTime.parse('2020-10-05T04:05:06')
+      DateTime.stub(:now).and_return(now)
+
+      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true)
       referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       referral.accept!
       referral.reload
 
       expect(referral.status).to eq(Transition::STATUS_ACCEPTED)
+      expect(referral.responded_at).to eq(now)
     end
   end
 
   describe 'reject' do
     it 'changes the referral status to REJECTED and removes the referred user' do
-      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true )
+      now = DateTime.parse('2020-10-05T04:05:06')
+      DateTime.stub(:now).and_return(now)
+
+      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true)
       referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       rejected_reason = 'rejected for some specific reason'
       referral.reject!(rejected_reason)
@@ -107,6 +114,7 @@ describe Referral do
 
       expect(referral.status).to eq(Transition::STATUS_REJECTED)
       expect(referral.rejected_reason).to eq(rejected_reason)
+      expect(referral.responded_at).to eq(now)
       expect(@case.assigned_user_names).not_to include('user2')
     end
   end
