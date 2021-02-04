@@ -44,6 +44,31 @@
   }
 }
 
+.headerCustom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  margin-bottom: 8px;
+
+  & > div:last-of-type {
+    display: flex;
+    align-items: center;
+    border-bottom: none;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: center;
+    padding: 0;
+    flex: 0;
+
+    & div {
+      width: 80px;
+      padding: 0;
+    }
+  }
+}
+
 .row {
   &.notEqual {
     & > div {

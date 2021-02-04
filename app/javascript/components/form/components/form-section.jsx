@@ -34,13 +34,17 @@ const FormSection = ({ formSection, showTitle, disableUnderline }) => {
   const renderFields = fieldsToRender => {
     return fieldsToRender.map(field => {
       if (field?.row) {
+        const key =
+          field?.customRowStyle || field?.customHeaderStyle ? field?.row[0]?.name : `${formSection.unique_id}-row`;
+
         return (
           <div
-            key={`${formSection.unique_id}-row`}
+            key={key}
             className={clsx({
               [css.notEqual]: field.equalColumns === false,
               [css.row]: !field?.customRowStyle,
-              [css.rowCustom]: field?.customRowStyle
+              [css.rowCustom]: field?.customRowStyle,
+              [css.headerCustom]: field?.customHeaderStyle
             })}
           >
             {renderFields(field.row)}

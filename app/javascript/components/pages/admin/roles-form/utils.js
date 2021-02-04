@@ -8,6 +8,7 @@ import { AssociatedFormSectionsForm, ResourcesForm, RolesMainForm } from "./form
 import { FORM_CHECK_ERRORS, ROLES_PERMISSIONS } from "./constants";
 
 const getFormPermission = permission => {
+  console.log(permission);
   switch (permission) {
     case ROLES_PERMISSIONS.read.id:
       return ROLES_PERMISSIONS.read.text;
@@ -73,6 +74,7 @@ export const groupSelectedIdsByParentForm = (data, assignableForms) => {
       fromJS([
         parentForm,
         formSections.valueSeq().map(fs => {
+          console.log(formSectionUniqueIds, fs.get("unique_id"));
           const currentPermission = formSectionUniqueIds.get(fs.get("unique_id"));
 
           return {
@@ -95,6 +97,8 @@ export const groupSelectedIdsByParentForm = (data, assignableForms) => {
         return { ...acc, [key]: values };
       }, {})
     );
+
+    console.log(initialPermissions.toJS());
 
     return data.set("form_section_unique_ids", initialPermissions);
   }

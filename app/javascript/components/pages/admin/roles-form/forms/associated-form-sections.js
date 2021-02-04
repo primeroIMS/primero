@@ -5,17 +5,39 @@ import { FieldRecord, FormSectionRecord, RADIO_FIELD, LABEL_FIELD } from "../../
 import { displayNameHelper } from "../../../../../libs";
 import { ROLES_PERMISSIONS } from "../constants";
 
+const buildHeader = i18n => {
+  return {
+    customHeaderStyle: true,
+    row: [
+      FieldRecord({
+        display_name: "",
+        name: "permission",
+        type: LABEL_FIELD
+      }),
+      {
+        row: Object.keys(ROLES_PERMISSIONS).map(rolePermission =>
+          FieldRecord({
+            display_name: i18n.t(`role.${rolePermission}`),
+            name: rolePermission,
+            type: LABEL_FIELD
+          })
+        )
+      }
+    ]
+  };
+};
+
 const builFields = (recordType, formsByParentForm, i18n) => {
   const formSectionRows = formsByParentForm
     .map(form => {
-      const formName = form.get("name");
+      const formName = displayNameHelper(form.get("name"), i18n.locale);
 
       return {
         customRowStyle: true,
         row: [
           FieldRecord({
-            display_name: displayNameHelper(formName, i18n.locale),
-            name: `label-${formName}`,
+            display_name: formName,
+            name: `label-${form.get("unique_id")}`,
             type: LABEL_FIELD
           }),
           FieldRecord({
@@ -24,19 +46,10 @@ const builFields = (recordType, formsByParentForm, i18n) => {
             visible: true,
             option_strings_text: {
               [i18n.locale]: [
-                {
-                  id: ROLES_PERMISSIONS.hide.text,
-                  label: ""
-                },
-                {
-                  id: ROLES_PERMISSIONS.read.text,
-                  label: ""
-                },
-                {
-                  id: ROLES_PERMISSIONS.read_write.text,
-                  label: ""
-                }
-              ]
+                ROLES_PERMISSIONS.hide.text,
+                ROLES_PERMISSIONS.read.text,
+                ROLES_PERMISSIONS.read_write.text
+              ].map(rolePermissionText => ({ id: rolePermissionText, label: "" }))
             }
           })
         ]
@@ -55,27 +68,6 @@ export default (formSections, i18n) =>
       tooltip: i18n.t(`permissions.resource.forms.${recordType}.explanation`),
       expandable: true,
       expanded: true,
-      fields: [
-        {
-          row: [
-            FieldRecord({
-              display_name: "Hide",
-              name: "hide",
-              type: LABEL_FIELD
-            }),
-            FieldRecord({
-              display_name: "Read",
-              name: "read",
-              type: LABEL_FIELD
-            }),
-            FieldRecord({
-              display_name: "Read and write",
-              name: "read and write",
-              type: LABEL_FIELD
-            })
-          ]
-        },
-        ...builFields(recordType, formSections.get(recordType, fromJS({})).valueSeq(), i18n)
-      ]
+      fields: [buildHeader(i18n), ...builFields(recordType, formSections.get(recordType, fromJS({})).valueSeq(), i18n)]
     })
   );
