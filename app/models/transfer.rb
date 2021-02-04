@@ -67,8 +67,4 @@ class Transfer < Transition
     record.reassigned_transferred_on = DateTime.now
     record.save!
   end
-
-  def remove_assigned_user
-    record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
-  end
 end

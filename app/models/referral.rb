@@ -10,20 +10,24 @@ class Referral < Transition
   end
 
   def reject!(rejected_reason = nil)
+    return unless in_progress?
+
     self.status = Transition::STATUS_REJECTED
     self.rejected_reason = rejected_reason
     self.responded_at = DateTime.now
-    remove_transitioned_to
+    remove_assigned_user
     record.save! && save!
   end
 
   def finish!
     self.status = Transition::STATUS_DONE
-    remove_transitioned_to
+    remove_assigned_user
     record.save! && save!
   end
 
   def accept!
+    return unless in_progress?
+
     self.status = Transition::STATUS_ACCEPTED
     self.responded_at = DateTime.now
     save!
@@ -72,9 +76,5 @@ class Referral < Transition
     else
       record.assigned_user_names = [transitioned_to]
     end
-  end
-
-  def remove_transitioned_to
-    record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
   end
 end

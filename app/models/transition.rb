@@ -87,4 +87,8 @@ class Transition < ApplicationRecord
       incident.save!
     end
   end
+
+  def remove_assigned_user
+    record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
+  end
 end
