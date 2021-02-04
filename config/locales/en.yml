@@ -204,7 +204,7 @@ en:
       update_success_queue: 'Case %{record_id} was successfully updated in background'
       creation_success: 'Case record successfully created.'
       creation_success_queue: 'Case record successfully created in background.'
-      already_matched: There is already a case in the system matched to this Inquirer.
+      already_matched: This Inquirer has already been matched to your case.
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
     workflow:
@@ -337,6 +337,15 @@ en:
       work associated with this case. Once you click 'Done' you will no longer have
       access to this record.
     referral_done_success: Referral done.
+    referral_accepted_header: Accept Referral
+    referral_accepted: Are you sure? You will now be responsible for completing work
+      associated with this Referral.
+    referral_accepted_success: Referral accepted.
+    referral_rejected: By clicking 'Reject' you are indicating that you are not ready
+      to accept responsibility for this Referral at this time. Please enter a reason
+      that you are rejecting this Referral; once you click ‘Reject’ you will no longer
+      have access to this Case record.
+    referral_rejected_success: Referral rejected.
     register_new_case: New Case
     registration_date: Registration Date
     rejected_success_action_plan: '%{approval_label} - Not Approved'
@@ -381,6 +390,8 @@ en:
       label: Summary
       find_match: Find Match
       matched_trace: 'Match #%{trace_id}'
+      cannot_find_matches: Cannot find matches. Consent has not been obtained from this Case to disclose information for tracing purposes.
+      matched: Matched
       fields:
         consent_for_tracing:
           label: Consent has been obtained to disclose information for tracing purposes
@@ -573,7 +584,7 @@ en:
     count_waiting_for_acceptance_transfers: You have %{stat} Transfers <span>waiting</span>
       for your acceptance
     current_owner: Current Owner
-    dash_case_incident_overview: My Cases / Incidents
+    dash_case_incident_overview: My Cases
     dash_group_overview: My Group's Cases
     dash_shared_from_my_team: Shared From My Team
     dash_shared_with_me: Shared With Me
@@ -693,6 +704,7 @@ en:
     users: SETTINGS icon
     violence_type: Violence Type
     with_incidents: With Incidents
+    with_new_incidents: With New Incidents
     without_incidents: Without Incidents
     worker_count_referrals_total:
       one: '<span>%{case_worker}</span> has %{stat} <span>total</span> referral '
@@ -2848,6 +2860,7 @@ en:
     success: '%{record_type} %{id} successfully referred'
     user_mandatory_label: Recipient is required
     date: Date
+    rejected_reason: Rejection Reason
   report:
     aggregate_by: Group by row
     attribute: Attribute
@@ -3055,6 +3068,7 @@ en:
     recipient: Recipient
     rejected: Reason Rejected
     service_label: Service
+    responded_at: Responded At
     status:
       accepted: Accepted
       done: Done
