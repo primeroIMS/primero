@@ -109,7 +109,7 @@ const Container = ({ mode }) => {
           onSubmit={handleSubmit}
           ref={formRef}
           validations={validationSchema}
-          initialValues={{ ...initialValues, sex: { test: { tested: "male" } } }}
+          initialValues={initialValues}
         />
       </PageContent>
     </LoadingIndicator>

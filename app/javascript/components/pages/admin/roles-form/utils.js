@@ -8,7 +8,6 @@ import { AssociatedFormSectionsForm, ResourcesForm, RolesMainForm } from "./form
 import { FORM_CHECK_ERRORS, ROLES_PERMISSIONS } from "./constants";
 
 const getFormPermission = permission => {
-  console.log(permission);
   switch (permission) {
     case ROLES_PERMISSIONS.read.id:
       return ROLES_PERMISSIONS.read.text;
@@ -59,7 +58,21 @@ export const mergeFormSections = data => {
     return data;
   }
 
-  const formSectionUniqueIds = recordTypes.map(recordType => data.form_section_unique_ids[recordType]).flat();
+  const formSectionUniqueIds = recordTypes
+    .map(recordType => {
+      const formsByRecordType = data.form_section_unique_ids[recordType];
+
+      return Object.entries(formsByRecordType).reduce((acc, form) => {
+        const [key, value] = form;
+
+        if (value === ROLES_PERMISSIONS.hide.text) {
+          return acc;
+        }
+
+        return { ...acc, [key]: ROLES_PERMISSIONS[value].id };
+      }, {});
+    })
+    .reduce((acc, curr) => ({ ...acc, ...curr }), {});
 
   return { ...data, form_section_unique_ids: formSectionUniqueIds };
 };
@@ -74,7 +87,6 @@ export const groupSelectedIdsByParentForm = (data, assignableForms) => {
       fromJS([
         parentForm,
         formSections.valueSeq().map(fs => {
-          console.log(formSectionUniqueIds, fs.get("unique_id"));
           const currentPermission = formSectionUniqueIds.get(fs.get("unique_id"));
 
           return {
@@ -97,8 +109,6 @@ export const groupSelectedIdsByParentForm = (data, assignableForms) => {
         return { ...acc, [key]: values };
       }, {})
     );
-
-    console.log(initialPermissions.toJS());
 
     return data.set("form_section_unique_ids", initialPermissions);
   }
