@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
@@ -15,14 +15,13 @@ import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
 import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
 import { compare } from "../../../../libs";
-import ActionDialog from "../../../action-dialog";
 import { getMetadata } from "../../../record-list";
 import { getReportingLocationConfig } from "../../../user/selectors";
 
 import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";
 import { getFormsToRender, mergeFormSections, groupSelectedIdsByParentForm } from "./utils";
-import { clearSelectedRole, deleteRole, fetchRole, saveRole } from "./action-creators";
+import { clearSelectedRole, fetchRole, saveRole } from "./action-creators";
 import { getRole } from "./selectors";
 import { NAME } from "./constants";
 
@@ -33,7 +32,6 @@ const Container = ({ mode }) => {
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const roles = useSelector(state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]), compare);
   const metadata = useSelector(state => getMetadata(state, "roles"));
@@ -48,15 +46,14 @@ const Container = ({ mode }) => {
   const validationSchema = Validations(i18n);
 
   const handleSubmit = data => {
-    console.log("DATA TO SUBMIT", data);
-    // dispatch(
-    //   saveRole({
-    //     id,
-    //     saveMethod: formMode.get("isEdit") ? "update" : "new",
-    //     body: { data: mergeFormSections(data) },
-    //     message: i18n.t(`role.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
-    //   })
-    // );
+    dispatch(
+      saveRole({
+        id,
+        saveMethod: formMode.get("isEdit") ? "update" : "new",
+        body: { data: mergeFormSections(data) },
+        message: i18n.t(`role.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
+      })
+    );
   };
 
   const handleCancel = () => {
@@ -96,39 +93,13 @@ const Container = ({ mode }) => {
     assignableForms
   ).toJS();
 
-  const handleSuccess = () => {
-    dispatch(
-      deleteRole({
-        id,
-        message: i18n.t("role.messages.deleted")
-      })
-    );
-    setOpenDeleteDialog(false);
-  };
-
-  const renderOpenDialog = formMode.get("isShow") ? (
-    <ActionDialog
-      open={openDeleteDialog}
-      successHandler={handleSuccess}
-      cancelHandler={() => setOpenDeleteDialog(false)}
-      dialogTitle={i18n.t("role.delete_header")}
-      dialogText={i18n.t("role.messages.confirmation")}
-      confirmButtonLabel={i18n.t("buttons.ok")}
-    />
-  ) : null;
-
   const hasData = formMode.get("isNew") || (role?.size > 0 && assignableForms.size > 0);
   const loading = !role.size || !assignableForms.size;
 
   return (
     <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
-        <ActionButtons
-          formMode={formMode}
-          formRef={formRef}
-          handleCancel={handleCancel}
-          setOpenDeleteDialog={setOpenDeleteDialog}
-        />
+        <ActionButtons formMode={formMode} formRef={formRef} handleCancel={handleCancel} />
       </PageHeading>
       <PageContent>
         <Form
@@ -141,7 +112,6 @@ const Container = ({ mode }) => {
           initialValues={{ ...initialValues, sex: { test: { tested: "male" } } }}
         />
       </PageContent>
-      {renderOpenDialog}
     </LoadingIndicator>
   );
 };
