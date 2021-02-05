@@ -37,7 +37,8 @@ const SelectField = ({
 
   const option = field.option_strings_source || field.option_strings_text;
   const { multi_select: multiSelect } = field;
-  const value = String(getIn(formik.values, name));
+  const formikValue = getIn(formik.values, name);
+  const value = typeof formikValue === "number" ? formikValue : String(formikValue);
 
   const defaultEmptyValue = multiSelect ? [] : null;
 
