@@ -10,6 +10,7 @@ import { ButtonBase } from "@material-ui/core";
 import { FastField, connect } from "formik";
 import { useParams } from "react-router-dom";
 import isEqual from "lodash/isEqual";
+import omitBy from "lodash/omitBy";
 
 import { toServerDateFormat } from "../../../../libs";
 import { useI18n } from "../../../i18n";
@@ -47,7 +48,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
     type: type === "numeric_field" ? "number" : "text",
     multiline: type === "textarea",
     name,
-    ...rest
+    ...omitBy(rest, (value, key) => ["formSection", "field", "displayName", "linkToForm"].includes(key))
   };
 
   const updateDateBirthField = (form, value) => {

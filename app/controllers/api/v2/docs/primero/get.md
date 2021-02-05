@@ -20,6 +20,7 @@ Retrieve agency logosd and other public bootstrap information as JSON without au
 {
   "data": {
     "sandbox_ui": true|false,
+    "config_ui": "full"|"limited",
     "agencies": [
       {
         "unique_id": "agency-unique-id",

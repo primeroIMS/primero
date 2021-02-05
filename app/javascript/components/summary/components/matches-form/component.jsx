@@ -19,10 +19,11 @@ import { FORMS } from "../../../record-form/form/subforms/subform-traces/constan
 import { NAME } from "./constants";
 import { columns } from "./utils";
 
-const Component = ({ css, i18n, mode, open, record, setSelectedForm }) => {
+const Component = ({ css, i18n, mode, open, record, setSelectedForm, matchedTracesData }) => {
   const dispatch = useDispatch();
   const data = useSelector(state => getCasesPotentialMatches(state));
   const loading = useSelector(state => getLoadingCasesPotentialMatches(state));
+  const matchedTracesIds = matchedTracesData.map(matchedTrace => matchedTrace.get("id"));
 
   useEffect(() => {
     if (open && !mode.isNew) {
@@ -40,7 +41,7 @@ const Component = ({ css, i18n, mode, open, record, setSelectedForm }) => {
   }
 
   const tableOptions = {
-    columns: columns(i18n, css, dispatch, onTracingRequestClick),
+    columns: columns(i18n, css, onTracingRequestClick, matchedTracesIds),
     defaultFilters: fromJS({}),
     onTableChange: () => fetchCasesPotentialMatches(record.get("id"), RECORD_PATH.cases),
     recordType: [RECORD_PATH.cases, "potentialMatches"],
@@ -70,6 +71,7 @@ Component.displayName = NAME;
 Component.propTypes = {
   css: PropTypes.object,
   i18n: PropTypes.object,
+  matchedTracesData: PropTypes.array,
   mode: PropTypes.object,
   open: PropTypes.bool,
   record: PropTypes.object,

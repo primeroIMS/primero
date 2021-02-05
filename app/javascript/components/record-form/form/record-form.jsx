@@ -99,8 +99,8 @@ const RecordForm = ({
       });
     }
   };
-  const renderFormSections = (fs, setFieldValue, handleSubmit) => {
-    const externalRecordForms = externalForms ? externalForms(selectedForm, setFieldValue, handleSubmit) : null;
+  const renderFormSections = (fs, setFieldValue, handleSubmit, values) => {
+    const externalRecordForms = externalForms ? externalForms(selectedForm, setFieldValue, handleSubmit, values) : null;
 
     if (externalRecordForms) {
       return externalRecordForms;
@@ -190,7 +190,7 @@ const RecordForm = ({
                 )}
               </NavigationPrompt>
               <ValidationErrors formErrors={errors} forms={forms} />
-              {renderFormSections(forms, setFieldValue, handleSubmit)}
+              {renderFormSections(forms, setFieldValue, handleSubmit, values)}
             </Form>
           );
         }}
