@@ -101,7 +101,7 @@ const Component = ({
                     ?.get("display_text")
                 : null;
 
-            recordValue = valueFromLookup ? valueFromLookup.get(i18n.locale) : "" || value;
+            recordValue = valueFromLookup ? valueFromLookup.get(i18n.locale) : value || "";
           } else {
             switch (optionStringsSource) {
               case STRING_SOURCES_TYPES.AGENCY:
