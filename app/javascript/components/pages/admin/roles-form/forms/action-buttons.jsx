@@ -6,24 +6,21 @@ import CreateIcon from "@material-ui/icons/Create";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 
-import { getPermissionsByRecord } from "../../../../user/selectors";
 import { ACTION_BUTTONS_NAME } from "../constants";
 import { useI18n } from "../../../../i18n";
 import { getSavingRecord } from "../selectors";
-import { ActionsMenu, FormAction } from "../../../../form";
+import { FormAction } from "../../../../form";
 import bindFormSubmit from "../../../../../libs/submit-form";
 import Permission from "../../../../application/permission";
-import { RESOURCES, ACTIONS, WRITE_RECORDS, checkPermissions } from "../../../../../libs/permissions";
-import { compare } from "../../../../../libs";
+import { RESOURCES, WRITE_RECORDS } from "../../../../../libs/permissions";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-const Component = ({ formMode, formRef, handleCancel, setOpenDeleteDialog, limitedProductionSite }) => {
+const Component = ({ formMode, formRef, handleCancel, limitedProductionSite }) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
 
   const saving = useSelector(state => getSavingRecord(state));
-  const rolePermissions = useSelector(state => getPermissionsByRecord(state, RESOURCES.roles), compare);
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
@@ -52,23 +49,10 @@ const Component = ({ formMode, formRef, handleCancel, setOpenDeleteDialog, limit
     </Permission>
   );
 
-  const canDeleteRole = checkPermissions(rolePermissions, [ACTIONS.MANAGE, ACTIONS.DELETE]);
-
-  const actions = [
-    {
-      name: `${i18n.t("buttons.delete")}`,
-      action: () => setOpenDeleteDialog(true),
-      condition: canDeleteRole
-    }
-  ];
-
-  const actionMenu = formMode.get("isShow") && <ActionsMenu actionItems={actions} />;
-
   return (
     <>
       {editButton}
       {saveButton}
-      {actionMenu}
     </>
   );
 };
@@ -79,8 +63,7 @@ Component.propTypes = {
   formMode: PropTypes.object.isRequired,
   formRef: PropTypes.object.isRequired,
   handleCancel: PropTypes.func.isRequired,
-  limitedProductionSite: PropTypes.bool,
-  setOpenDeleteDialog: PropTypes.func.isRequired
+  limitedProductionSite: PropTypes.bool
 };
 
 export default Component;

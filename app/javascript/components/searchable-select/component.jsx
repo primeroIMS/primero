@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { TextField, Chip, CircularProgress } from "@material-ui/core";
+import { Chip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { useI18n } from "../i18n";
-
+import AutoCompleteInput from "./components/auto-complete-input";
 import { NAME } from "./constants";
 import styles from "./styles.css";
+import { optionLabel, optionEquality, optionDisabled } from "./utils";
 
 const SearchableSelect = ({
   defaultValues,
@@ -24,26 +24,10 @@ const SearchableSelect = ({
   mode,
   InputLabelProps
 }) => {
-  const i18n = useI18n();
   const defaultEmptyValue = multiple ? [] : null;
-  const { InputProps, ...restTextFieldProps } = TextFieldProps;
   const css = makeStyles(styles)();
 
-  const optionLabel = option => {
-    if (typeof option === "string" && option === "") {
-      return "";
-    }
-
-    const { label } = typeof option === "object" ? option : options?.find(opt => opt.value === option) || "";
-
-    return label || "";
-  };
-
-  const optionEquality = (option, selected) => option?.value === selected || option?.value === selected?.value;
-
-  const optionDisabled = option => option?.isDisabled;
-
-  const initialValues = () => {
+  const initialValues = (() => {
     if (Array.isArray(defaultValues)) {
       const defaultValuesClear = defaultValues.filter(selected => selected.label);
       const values = defaultValuesClear.map(selected => selected?.value || null);
@@ -56,27 +40,7 @@ const SearchableSelect = ({
     }
 
     return defaultValues || defaultEmptyValue;
-  };
-
-  const disabledPlaceholder = mode?.isShow && !initialValues() ? "--" : "";
-
-  const textFieldProps = params => ({
-    InputProps: {
-      ...params.InputProps,
-      endAdornment: (
-        <>
-          {isLoading && <CircularProgress color="inherit" size={20} />}
-          {mode?.isShow || params.InputProps.endAdornment}
-        </>
-      ),
-      ...InputProps
-    },
-    fullWidth: true,
-    helperText,
-    InputLabelProps,
-    placeholder: isDisabled ? disabledPlaceholder : i18n.t(`fields.select_${multiple ? "multiple" : "single"}`),
-    ...restTextFieldProps
-  });
+  })();
 
   const renderTags = (value, getTagProps) =>
     value.map((option, index) => {
@@ -91,28 +55,39 @@ const SearchableSelect = ({
         }
       };
 
-      return <Chip size="small" label={optionLabel(option)} {...chipProps} disabled={isDisabled} />;
+      return <Chip size="small" label={optionLabel(option, options)} {...chipProps} disabled={isDisabled} />;
     });
-
-  const initialInputValue = initialValues() === null ? "" : optionLabel(initialValues());
 
   return (
     <Autocomplete
-      onChange={(event, value) => onChange(value)}
+      onChange={(_, value) => onChange(value)}
       options={options}
       disabled={isDisabled}
-      getOptionLabel={optionLabel}
+      getOptionLabel={option => optionLabel(option, options)}
       getOptionDisabled={optionDisabled}
       getOptionSelected={optionEquality}
       loading={isLoading}
       disableClearable={!isClearable}
       filterSelectedOptions
-      value={initialValues()}
+      value={initialValues}
       onOpen={onOpen && onOpen}
-      inputValue={initialInputValue}
       multiple={multiple}
       onBlur={onBlur}
-      renderInput={params => <TextField {...params} {...textFieldProps(params)} disabled={isDisabled} />}
+      renderInput={params => (
+        <AutoCompleteInput
+          ref={params.InputProps.ref}
+          mode={mode}
+          params={params}
+          value={initialValues}
+          helperText={helperText}
+          InputLabelProps={InputLabelProps}
+          TextFieldProps={TextFieldProps}
+          isDisabled={isDisabled}
+          isLoading={isLoading}
+          multiple={multiple}
+          options={options}
+        />
+      )}
       renderTags={(value, getTagProps) => renderTags(value, getTagProps)}
     />
   );

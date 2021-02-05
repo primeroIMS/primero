@@ -34,10 +34,19 @@ const localReferralFields = ({ i18n, recordType, isReferralFromService, record }
       name: FIELDS.AGENCY,
       type: SELECT_FIELD,
       option_strings_source: OPTION_TYPES.AGENCY,
-      watchedInputs: [FIELDS.REMOTE],
+      watchedInputs: [FIELDS.SERVICE, FIELDS.REMOTE],
       showIf: values => !values[FIELDS.REMOTE],
       clearDependentValues: [FIELDS.TRANSITIONED_TO],
       option_strings_source_id_key: "unique_id",
+      filterOptionSource: (watchedInputValues, options) => {
+        const { service } = watchedInputValues;
+
+        if (service) {
+          return options.filter(option => option.get("services").includes(service) && !option.get("disabled"));
+        }
+
+        return options;
+      },
       order: 5
     },
     {
