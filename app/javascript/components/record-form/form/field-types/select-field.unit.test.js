@@ -182,4 +182,60 @@ describe("<SelectField />", () => {
       expect(componentActions[componentActions.length - 1]).to.deep.equal(expectedAction);
     });
   });
+
+  context("when the lookup is yes-no-lookup", () => {
+    const props = {
+      name: "test",
+      field: {
+        option_strings_source: "lookup lookup-yes-no"
+      },
+      label: "Test",
+      mode: whichFormMode("edit"),
+      open: true
+    };
+
+    const initialState = fromJS({
+      forms: {
+        options: {
+          lookups: [
+            {
+              id: 93,
+              unique_id: "lookup-yes-no",
+              name: {
+                en: "Yes or No"
+              },
+              values: [
+                {
+                  id: "true",
+                  display_text: {
+                    en: "Yes"
+                  }
+                },
+                {
+                  id: "false",
+                  display_text: {
+                    en: "No"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    });
+
+    const { component } = setupMountedComponent(SelectField, props, initialState, [], {
+      initialValues: { test: false }
+    });
+
+    it("render the select field with the selected option even if the option is boolean", () => {
+      const expected = [{ value: "false", isDisabled: false, label: "No" }];
+
+      const selectField = component.find(SelectField);
+      const searchableSelect = selectField.find(SearchableSelect);
+
+      expect(searchableSelect).to.have.lengthOf(1);
+      expect(searchableSelect.props().defaultValues).to.deep.equal(expected);
+    });
+  });
 });
