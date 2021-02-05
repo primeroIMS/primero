@@ -80,14 +80,14 @@ export const mergeFormSections = data => {
 export const groupSelectedIdsByParentForm = (data, assignableForms) => {
   const formSectionUniqueIds = data.get("form_section_unique_ids");
 
-  if (formSectionUniqueIds?.size && assignableForms?.size) {
+  if (assignableForms?.size) {
     const selectedFormsByParentForm = assignableForms.groupBy(assignableForm => assignableForm.get("parent_form"));
 
     const selectedUniqueIdsByParentForm = selectedFormsByParentForm.mapEntries(([parentForm, formSections]) =>
       fromJS([
         parentForm,
         formSections.valueSeq().map(fs => {
-          const currentPermission = formSectionUniqueIds.get(fs.get("unique_id"));
+          const currentPermission = formSectionUniqueIds?.get(fs.get("unique_id")) || "h";
 
           return {
             [fs.get("unique_id")]: getFormPermission(currentPermission)
