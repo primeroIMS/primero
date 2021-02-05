@@ -58,21 +58,21 @@ export const mergeFormSections = data => {
     return data;
   }
 
-  const formSectionUniqueIds = recordTypes
-    .map(recordType => {
-      const formsByRecordType = data.form_section_unique_ids[recordType];
+  const formSectionUniqueIds = recordTypes.reduce((accum, curr) => {
+    const formsByRecordType = data.form_section_unique_ids[curr];
 
-      return Object.entries(formsByRecordType).reduce((acc, form) => {
-        const [key, value] = form;
+    const result = Object.entries(formsByRecordType).reduce((acc, form) => {
+      const [key, value] = form;
 
-        if (value === ROLES_PERMISSIONS.hide.text) {
-          return acc;
-        }
+      if (value === ROLES_PERMISSIONS.hide.text) {
+        return acc;
+      }
 
-        return { ...acc, [key]: ROLES_PERMISSIONS[value].id };
-      }, {});
-    })
-    .reduce((acc, curr) => ({ ...acc, ...curr }), {});
+      return { ...acc, [key]: ROLES_PERMISSIONS[value].id };
+    }, {});
+
+    return { ...accum, ...result };
+  }, {});
 
   return { ...data, form_section_unique_ids: formSectionUniqueIds };
 };

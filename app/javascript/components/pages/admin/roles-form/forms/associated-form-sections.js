@@ -27,7 +27,7 @@ const buildHeader = i18n => {
   };
 };
 
-const builFields = (recordType, formsByParentForm, i18n) => {
+const buildFields = (recordType, formsByParentForm, i18n) => {
   const formSectionRows = formsByParentForm
     .map(form => {
       const formName = displayNameHelper(form.get("name"), i18n.locale);
@@ -68,6 +68,6 @@ export default (formSections, i18n) =>
       tooltip: i18n.t(`permissions.resource.forms.${recordType}.explanation`),
       expandable: true,
       expanded: true,
-      fields: [buildHeader(i18n), ...builFields(recordType, formSections.get(recordType, fromJS({})).valueSeq(), i18n)]
+      fields: [buildHeader(i18n), ...buildFields(recordType, formSections.get(recordType, fromJS({})).valueSeq(), i18n)]
     })
   );
