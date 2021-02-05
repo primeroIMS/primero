@@ -22,9 +22,7 @@ export const approvalTransfer = ({ body, message, failureMessage, recordId, reco
               variant: "success",
               key: generate.messageKey(message)
             }
-          },
-          redirectWithIdFromResponse: false,
-          redirect: false
+          }
         },
         {
           action: CLEAR_DIALOG

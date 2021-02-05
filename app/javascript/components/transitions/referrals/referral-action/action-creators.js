@@ -95,7 +95,7 @@ export const referralAccepted = ({ message, failureMessage, recordId, recordType
 
 export const referralRejected = ({ data, message, failureMessage, recordId, recordType, transistionId }) => {
   return {
-    type: actions.REFERRAL_ACCEPTED,
+    type: actions.REFERRAL_REJECTED,
     api: {
       path: `${recordType}/${recordId}/referrals/${transistionId}`,
       method: "PATCH",
