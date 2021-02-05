@@ -217,7 +217,7 @@ class Role < ApplicationRecord
   def update_forms_sections(form_section_unique_ids)
     return if form_section_unique_ids.nil?
 
-    form_sections.destroy_all
+    form_permissions.destroy_all
     self.form_permissions = form_section_unique_ids.to_h.map do |key, value|
       FormPermission.new(form_section: FormSection.find_by(unique_id: key), role: self, permission: value)
     end
