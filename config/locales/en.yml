@@ -3060,9 +3060,8 @@ en:
     status:
       accepted: Accepted
       done: Done
-      in_progress: In progress
-      inprogress: In progress
-      pending: Pending
+      in_progress: Pending
+      inprogress: Pending
       rejected: Rejected
     type:
       assign: Assign
