@@ -10,7 +10,7 @@ class WebhookJob < ApplicationJob
     return unless record
 
     webhooks = Webhook.webhooks_for(record, action)
-    webhooks.each { |webhook| webhook.send(record) }
+    webhooks.each { |webhook| webhook.post(record) }
   rescue StandardError => e
     Rails.logger.error("Error sending out #{record_type} #{record_id}. Error: #{e.message}")
   end
