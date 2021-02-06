@@ -5,7 +5,7 @@ class Role < ApplicationRecord
   include ConfigurationRecord
 
   has_many :form_permissions
-  has_many :form_sections, through: :form_permissions
+  has_many :form_sections, through: :form_permissions, dependent: :destroy
   has_and_belongs_to_many :primero_modules, -> { distinct }
 
   has_many :users
@@ -41,15 +41,9 @@ class Role < ApplicationRecord
     end
 
     def new_with_properties(role_params)
-      role = Role.new(role_params.except(:permissions, :form_section_unique_ids, :module_unique_ids))
-      if role_params[:form_section_unique_ids].present?
-        role.form_sections = FormSection.where(unique_id: role_params[:form_section_unique_ids])
+      Role.new.tap do |role|
+        role.update_properties(role_params)
       end
-      if role_params[:module_unique_ids].present?
-        role.modules = PrimeroModule.where(unique_id: role_params[:module_unique_ids])
-      end
-      role.permissions = Permission::PermissionSerializer.load(role_params[:permissions].to_h)
-      role
     end
 
     def list(user, external = false)
@@ -194,7 +188,7 @@ class Role < ApplicationRecord
   def configuration_hash
     hash = attributes.except('id', 'permissions')
     hash['permissions'] = Permission::PermissionSerializer.dump(permissions)
-    hash['form_section_unique_ids'] = form_section_unique_ids
+    hash['form_section_unique_ids'] = form_section_permission
     hash['module_unique_ids'] = module_unique_ids
     hash.with_indifferent_access
   end
