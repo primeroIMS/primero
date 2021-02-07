@@ -180,7 +180,7 @@ ActiveRecord::Schema.define(version: 2021_01_28_000000) do
     t.boolean "date_include_time", default: false, null: false
     t.boolean "matchable", default: false, null: false
     t.jsonb "subform_section_configuration"
-    t.boolean "mandatory_for_completion", default: false
+    t.boolean "mandatory_for_completion", default: false, null: false
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"
@@ -239,7 +239,6 @@ ActiveRecord::Schema.define(version: 2021_01_28_000000) do
   create_table "form_sections_roles", force: :cascade do |t|
     t.integer "role_id"
     t.integer "form_section_id"
-    t.string "permission2", default: "rw"
     t.string "permission", default: "rw"
     t.index ["id"], name: "index_form_sections_roles_on_id", unique: true
     t.index ["role_id", "form_section_id"], name: "index_form_sections_roles_on_role_id_and_form_section_id", unique: true

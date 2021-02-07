@@ -502,7 +502,7 @@ describe Role do
           'unique_id' => 'role-test',
           'name' => 'Role',
           'permissions' => { 'case' => %w[read write], 'objects' => {} },
-          'form_section_unique_ids' =>{ A: 'rw' },
+          'form_section_unique_ids' => { A: 'rw' },
           'module_unique_ids' => [module1.unique_id]
         }
 
@@ -512,6 +512,32 @@ describe Role do
         expect(role2.permissions[0].actions).to eq(%w[read write])
         expect(role2.form_section_unique_ids).to eq(%w[A])
         expect(role2.form_section_permission).to eq('A' => 'rw')
+      end
+    end
+
+    describe '#form_section_permission' do
+      let(:form1) { FormSection.create!(unique_id: 'F1', name: 'F1', parent_form: 'case', form_group_id: 'm') }
+      let(:form2) { FormSection.create!(unique_id: 'F2', name: 'F2', parent_form: 'case', form_group_id: 'n') }
+      let(:role) do
+        Role.new_with_properties(
+          name: 'Role A',
+          unique_id: 'role-A',
+          group_permission: Permission::SELF,
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [Permission::READ]
+            )
+          ],
+          form_section_unique_ids: { form1.unique_id => 'rw', form2.unique_id => 'rw' }
+        )
+      end
+
+      before(:each) do
+        role.save!
+      end
+      it 'returns form_section_permission' do
+        expect(role.form_section_permission).to eq('F1' => 'rw', 'F2' => 'rw')
       end
     end
   end
