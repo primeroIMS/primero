@@ -13,9 +13,10 @@ import { Controller } from "react-hook-form";
 
 import styles from "./styles.css";
 
-const RadioInput = ({ commonInputProps, options }) => {
+const RadioInput = ({ commonInputProps, options, formMethods }) => {
   const css = makeStyles(styles)();
   const { helperText, error, name, label: radioGroupLabel, className, disabled } = commonInputProps;
+  const { control } = formMethods;
 
   return (
     <FormControl error={error} className={className}>
@@ -23,6 +24,7 @@ const RadioInput = ({ commonInputProps, options }) => {
         {radioGroupLabel}
       </FormLabel>
       <Controller
+        control={control}
         as={
           <RadioGroup aria-label="format" name={name} className={css.rowDirection}>
             {options &&
@@ -55,6 +57,7 @@ RadioInput.propTypes = {
     label: PropTypes.string,
     name: PropTypes.string
   }),
+  formMethods: PropTypes.object.isRequired,
   options: PropTypes.array
 };
 

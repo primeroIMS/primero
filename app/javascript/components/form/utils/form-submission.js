@@ -6,32 +6,28 @@ import { enqueueSnackbar } from "../../notifier";
 import { touchedFormData } from "./touched-data";
 
 export const submitHandler = ({
+  data,
   dispatch,
-  formMethods,
-  formMode,
-  i18n,
+  dirtyFields,
+  isEdit = false,
   initialValues,
   onSubmit,
   submitAllFields,
-  message,
+  message = null,
   submitAlways
-}) => () => {
+}) => {
   // formState needs to be called here otherwise touched will not work.
   // https://github.com/react-hook-form/react-hook-form-website/issues/154
-  const touchedFields = formMethods?.formState?.touched;
+  const changedFormData = touchedFormData(dirtyFields, data, isEdit, initialValues);
 
-  return {
-    submitForm(event) {
-      formMethods.handleSubmit(data => {
-        console.log(data, touchedFields)
-        const changedFormData = touchedFormData(touchedFields, data, formMode.get("isEdit"), initialValues);
+  if (isEmpty(changedFormData) && !submitAlways) {
+    return dispatch(
+      enqueueSnackbar(message, {
+        ...(!message && { messageKey: "messages.no_changes" }),
+        type: "error"
+      })
+    );
+  }
 
-        if (isEmpty(changedFormData) && !submitAlways) {
-          return dispatch(enqueueSnackbar(message || i18n.t("messages.no_changes"), "error"));
-        }
-
-        return onSubmit(submitAllFields ? data : changedFormData);
-      })(event);
-    }
-  };
+  return onSubmit(submitAllFields ? data : changedFormData);
 };

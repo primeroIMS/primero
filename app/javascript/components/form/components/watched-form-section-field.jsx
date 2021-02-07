@@ -1,12 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useFormContext, useWatch } from "react-hook-form";
+import { useWatch } from "react-hook-form";
 import { useSelector } from "react-redux";
 
 import { ConditionalWrapper } from "../../../libs";
 import useFormField from "../use-form-field";
+import formComponent from "../utils/form-component";
 
-const WatchedFormSectionField = ({ checkErrors, field }) => {
+const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode }) => {
+  const { control, errors } = formMethods;
+
   const {
     Field,
     WrapWithComponent,
@@ -15,21 +18,18 @@ const WatchedFormSectionField = ({ checkErrors, field }) => {
     handleVisibility,
     isNotVisible,
     metaInputProps,
-    methods,
     optionSelectorArgs,
     error
-  } = useFormField(field, { checkErrors });
-  const { control } = useFormContext();
-  const { watchedInputs, handleWatchedInputs, name } = field;
+  } = useFormField(field, { checkErrors, errors, formMode });
 
+  const { watchedInputs, handleWatchedInputs, name } = field;
   const watchedInputValues = useWatch({
     control,
     name: watchedInputs,
     defaultValue: []
   });
-
   const watchedInputProps = handleWatchedInputs
-    ? handleWatchedInputs(watchedInputValues, name, { error, methods })
+    ? handleWatchedInputs(watchedInputValues, name, { error, methods: formMethods })
     : {};
 
   const { selector, compare } = optionSelectorArgs;
@@ -60,6 +60,8 @@ const WatchedFormSectionField = ({ checkErrors, field }) => {
             metaInputProps={metaProps}
             options={watchedInputProps?.options || optionSource?.toJS()}
             errorsToCheck={errorsToCheck}
+            formMethods={formMethods}
+            formMode={formMode}
           />
         </ConditionalWrapper>
       )}
@@ -71,7 +73,9 @@ WatchedFormSectionField.displayName = "WatchedFormSectionField";
 
 WatchedFormSectionField.propTypes = {
   checkErrors: PropTypes.object,
-  field: PropTypes.object.isRequired
+  field: PropTypes.object.isRequired,
+  formMethods: PropTypes.object.isRequired,
+  formMode: PropTypes.object.isRequired
 };
 
-export default WatchedFormSectionField;
+export default formComponent(WatchedFormSectionField);

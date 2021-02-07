@@ -1,6 +1,7 @@
 import React, { useContext, createContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
+import { isEqual } from "lodash";
 
 import { useI18n } from "../i18n";
 import { useConnectivityStatus } from "../connectivity";
@@ -15,21 +16,26 @@ const ApplicationProvider = ({ children }) => {
   const i18n = useI18n();
   const { online } = useConnectivityStatus();
 
-  const modules = useSelector(state => selectModules(state));
-  const userModules = useSelector(state => selectUserModules(state));
-  const approvalsLabels = useSelector(state => getApprovalsLabels(state, i18n.locale));
-  const disabledApplication = useSelector(state => getDisabledApplication(state));
-  const demo = useSelector(state => getDemo(state));
+  const modules = useSelector(state => selectModules(state), isEqual);
+  const userModules = useSelector(state => selectUserModules(state), isEqual);
+  const approvalsLabels = useSelector(state => getApprovalsLabels(state, i18n.locale), isEqual);
+  const disabledApplication = useSelector(state => getDisabledApplication(state), isEqual);
+  const demo = useSelector(state => getDemo(state), isEqual);
 
   useEffect(() => {
     dispatch(fetchSandboxUI());
   }, []);
 
-  return (
-    <Context.Provider value={{ modules, userModules, online, approvalsLabels, disabledApplication, demo }}>
-      {children}
-    </Context.Provider>
-  );
+  const value = {
+    modules,
+    userModules,
+    online,
+    approvalsLabels,
+    disabledApplication,
+    demo
+  };
+
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
 ApplicationProvider.displayName = "ApplicationProvider";

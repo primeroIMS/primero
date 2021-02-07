@@ -1,11 +1,10 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { makeStyles } from "@material-ui/core";
-import isEqual from "lodash/isEqual";
 
 import { compare, getObjectPath } from "../../../../../../libs";
 import { useI18n } from "../../../../../i18n";
@@ -18,24 +17,25 @@ import { getFieldsAttribute, setFieldDataInFormContext } from "../utils";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({
-  formContextFields,
-  getValues,
-  register,
-  setValue,
-  subformField,
-  subformSortBy,
-  subformGroupBy,
-  unregister
-}) => {
+const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy }) => {
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
+
   const fields = useSelector(state => getSelectedFields(state, isNested), compare);
   const copiedFields = useSelector(state => getCopiedFields(state), compare);
   const removedFields = useSelector(state => getRemovedFields(state), compare);
+
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const fieldsAttribute = getFieldsAttribute(isNested);
+  const {
+    register,
+    setValue,
+    unregister,
+    control: {
+      fieldsRef: { current: formContextFields }
+    }
+  } = formMethods;
 
   useEffect(() => {
     fields.forEach(field => {
@@ -45,19 +45,19 @@ const Component = ({
         register({ name: `${fieldsAttribute}.${name}.order` });
       }
 
-      setValue(`${fieldsAttribute}.${name}.order`, field.get("order"));
+      setValue(`${fieldsAttribute}.${name}.order`, field.get("order"), { shouldDirty: true });
 
       i18n.applicationLocales.forEach(locale => {
         const localeId = locale.get("id");
         const localizedDisplayName = field.getIn(["display_name", localeId], "");
 
-        setValue(`${fieldsAttribute}.${name}.display_name.${localeId}`, localizedDisplayName);
+        setValue(`${fieldsAttribute}.${name}.display_name.${localeId}`, localizedDisplayName, { shouldDirty: true });
       });
     });
 
     if (!fields?.toSeq()?.size) {
       register({ name: fieldsAttribute });
-      setValue(fieldsAttribute, []);
+      setValue(fieldsAttribute, [], { shouldDirty: true });
     }
   }, [fields]);
 
@@ -94,8 +94,7 @@ const Component = ({
 
       return (
         <FieldListItem
-          getValues={getValues}
-          setValue={setValue}
+          formMethods={formMethods}
           subformField={subformField}
           field={field}
           index={index}
@@ -137,32 +136,11 @@ const Component = ({
 
 Component.displayName = NAME;
 
-Component.whyDidYouRender = true;
-
 Component.propTypes = {
-  formContextFields: PropTypes.object.isRequired,
-  getValues: PropTypes.func.isRequired,
-  register: PropTypes.func.isRequired,
-  setValue: PropTypes.func.isRequired,
+  formMethods: PropTypes.object.isRequired,
   subformField: PropTypes.object,
   subformGroupBy: PropTypes.string,
-  subformSortBy: PropTypes.string,
-  unregister: PropTypes.func.isRequired
+  subformSortBy: PropTypes.string
 };
 
-export default React.memo(Component, (prev, next) => {
-  const equalProps =
-    isEqual(prev.formContextFields, next.formContextFields) &&
-    prev.getValues === next.getValues &&
-    prev.register === next.register &&
-    prev.setValue === next.setValue &&
-    prev.subformSortBy === next.subformSortBy &&
-    prev.subformGroupBy === next.subformGroupBy &&
-    prev.unregister === next.unregister;
-
-  if (prev.subformField) {
-    return equalProps && prev.subformField.equals(next.subformField);
-  }
-
-  return equalProps;
-});
+export default Component;

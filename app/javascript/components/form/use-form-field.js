@@ -1,6 +1,5 @@
 import get from "lodash/get";
 import { useMemo } from "react";
-import { useFormContext } from "react-hook-form";
 
 import { useI18n } from "../i18n";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../config";
@@ -40,7 +39,7 @@ import {
 } from "./constants";
 import { getOptions } from "./selectors";
 
-export default (field, { checkErrors }) => {
+export default (field, { checkErrors, errors, formMode }) => {
   const {
     type,
     hideOnShow,
@@ -88,11 +87,11 @@ export default (field, { checkErrors }) => {
     href,
     fileFormat,
     filterOptionSource,
-    disableUnderline
+    disableUnderline,
+    forceShowIf
   } = field;
 
   const i18n = useI18n();
-  const { errors, formMode } = useFormContext();
   const error = errors ? get(errors, name) : undefined;
   const errorsToCheck = checkErrors ? checkErrors.concat(fieldCheckErrors) : fieldCheckErrors;
 
@@ -115,7 +114,7 @@ export default (field, { checkErrors }) => {
       : false;
 
   const handleVisibility = watchedInputsValues => {
-    if (showIf && !formMode.get("isShow")) {
+    if ((showIf && !formMode.get("isShow")) || forceShowIf) {
       return !showIf(watchedInputsValues);
     }
 

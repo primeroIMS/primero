@@ -1,5 +1,6 @@
 import { DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD } from "../form";
 
+export const FORM_ID = "reports-form";
 export const NAME = "ReportsForm";
 export const NAME_FIELD = "name.en";
 export const DESCRIPTION_FIELD = "description.en";

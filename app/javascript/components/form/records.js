@@ -32,6 +32,7 @@ export const FieldRecord = Record({
   watchedInputs: null,
   handleWatchedInputs: null,
   showIf: null,
+  forceShowIf: false,
   check_errors: fromJS([]),
   hint: "",
   groupBy: null,

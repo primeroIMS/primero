@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
@@ -15,10 +15,9 @@ import NAMESPACE from "../agencies-list/namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
-import bindFormSubmit from "../../../../libs/submit-form";
 
 import { localizeData, translateFields } from "./utils";
-import { NAME } from "./constants";
+import { NAME, FORM_ID } from "./constants";
 import { form, validations } from "./form";
 import { fetchAgency, clearSelectedAgency, saveAgency } from "./action-creators";
 import { getAgency, getServerErrors, getSavingRecord } from "./selectors";
@@ -26,7 +25,6 @@ import { getAgency, getServerErrors, getSavingRecord } from "./selectors";
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
-  const formRef = useRef();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
@@ -84,7 +82,7 @@ const Container = ({ mode }) => {
     <>
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
-        actionHandler={() => bindFormSubmit(formRef)}
+        options={{ form: FORM_ID, type: "submit" }}
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
@@ -116,11 +114,11 @@ const Container = ({ mode }) => {
       </PageHeading>
       <PageContent>
         <Form
+          formID={FORM_ID}
           useCancelPrompt
           mode={mode}
           formSections={form(i18n, formMode)}
           onSubmit={handleSubmit}
-          ref={formRef}
           validations={validationSchema}
           initialValues={translateFields(selectedAgency, ["name", "description"], i18n)}
           formErrors={formErrors}

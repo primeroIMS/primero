@@ -16,3 +16,5 @@ export const DATE_FIELD_CUSTOM_VALUES = Object.freeze({
     })
   })
 });
+
+export const FIELD_FORM = "field-form";

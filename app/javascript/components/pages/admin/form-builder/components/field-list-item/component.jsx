@@ -31,7 +31,7 @@ import { dataToJS, displayNameHelper } from "../../../../../../libs";
 
 import { NAME, SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "./constants";
 
-const Component = ({ field, getValues, index, subformField, subformSortBy, subformGroupBy }) => {
+const Component = ({ field, formMethods, index, subformField, subformSortBy, subformGroupBy }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -41,6 +41,7 @@ const Component = ({ field, getValues, index, subformField, subformSortBy, subfo
   const fieldsAttribute = getFieldsAttribute(isNested);
   const fieldName = field.get("name");
   const visibleFieldName = `${fieldsAttribute}.${fieldName}.visible`;
+  const { control, getValues } = formMethods;
 
   const themeOverrides = createMuiTheme(getFiedListItemTheme(currentTheme));
 
@@ -115,6 +116,7 @@ const Component = ({ field, getValues, index, subformField, subformSortBy, subfo
       isNested && (
         <div className={css.fieldColumn}>
           <Controller
+            control={control}
             as={<Radio />}
             inputProps={{ value: fieldName }}
             checked={checked}
@@ -142,6 +144,7 @@ const Component = ({ field, getValues, index, subformField, subformSortBy, subfo
                 <SwitchInput
                   commonInputProps={{ name: visibleFieldName, disabled: isNotEditable }}
                   metaInputProps={{ selectedValue: getValues()[visibleFieldName] }}
+                  formMethods={formMethods}
                 />
               </MuiThemeProvider>
             </div>

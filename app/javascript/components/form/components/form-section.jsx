@@ -6,9 +6,9 @@ import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@mate
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
 import get from "lodash/get";
-import { useFormContext } from "react-hook-form";
 
 import Tooltip from "../../tooltip";
+import formComponent from "../utils/form-component";
 
 import { FORM_SECTION_NAME } from "./constants";
 import FormSectionTitle from "./form-section-title";
@@ -16,10 +16,10 @@ import styles from "./styles.css";
 import Fields from "./fields";
 import FormSectionActions from "./form-section-actions";
 
-const FormSection = ({ formSection, showTitle, disableUnderline }) => {
+const FormSection = ({ formSection, showTitle, disableUnderline, formMethods, formMode }) => {
   const css = makeStyles(styles)();
   const { fields, check_errors: checkErrors, expandable, tooltip } = formSection;
-  const { errors } = useFormContext();
+  const { errors } = formMethods;
   const [expanded, setExpanded] = useState(formSection.expanded);
 
   const renderError = () => checkErrors?.size && checkErrors.find(checkError => get(errors, checkError));
@@ -44,7 +44,14 @@ const FormSection = ({ formSection, showTitle, disableUnderline }) => {
           </Tooltip>
         </AccordionSummary>
         <AccordionDetails classes={{ root: css.panelContent }}>
-          <Fields fields={fields} checkErrors={checkErrors} disableUnderline={disableUnderline} css={css} />
+          <Fields
+            fields={fields}
+            checkErrors={checkErrors}
+            disableUnderline={disableUnderline}
+            css={css}
+            formMethods={formMethods}
+            formMode={formMode}
+          />
           <FormSectionActions actions={formSection.actions} css={css} />
         </AccordionDetails>
       </Accordion>
@@ -54,7 +61,15 @@ const FormSection = ({ formSection, showTitle, disableUnderline }) => {
   return (
     <>
       {showTitle && <FormSectionTitle formSection={formSection} />}
-      <Fields fields={fields} checkErrors={checkErrors} disableUnderline={disableUnderline} css={css} />
+      <Fields
+        fields={fields}
+        checkErrors={checkErrors}
+        disableUnderline={disableUnderline}
+        css={css}
+        formMethods={formMethods}
+        formMode={formMode}
+        formSection={formSection}
+      />
       <FormSectionActions actions={formSection.actions} css={css} />
     </>
   );
@@ -67,10 +82,12 @@ FormSection.defaultProps = {
   showTitle: true
 };
 
+FormSection.whyDidYouRender = true;
+
 FormSection.propTypes = {
   disableUnderline: PropTypes.bool,
   formSection: PropTypes.object,
   showTitle: PropTypes.bool
 };
 
-export default FormSection;
+export default formComponent(FormSection);

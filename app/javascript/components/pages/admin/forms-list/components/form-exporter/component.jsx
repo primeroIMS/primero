@@ -1,24 +1,23 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
 
 import ActionDialog from "../../../../../action-dialog";
-import bindFormSubmit from "../../../../../../libs/submit-form";
 import Form from "../../../../../form";
 import { exportForms } from "../../action-creators";
 import { getExportedForms } from "../../selectors";
 
 import validations from "./validations";
-import { NAME, EXPORT_TYPES, EXPORTED_URL } from "./constants";
+import { NAME, EXPORT_TYPES, EXPORTED_URL, FORM_ID } from "./constants";
 import { form } from "./form";
 
 const Component = ({ close, filters, i18n, open, pending, setPending }) => {
-  const formRef = useRef();
   const dispatch = useDispatch();
   const { recordType, primeroModule } = filters;
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
+
   const exportedForms = useSelector(state => getExportedForms(state));
 
   const onSubmit = data => {
@@ -42,7 +41,10 @@ const Component = ({ close, filters, i18n, open, pending, setPending }) => {
   return (
     <ActionDialog
       open={open}
-      successHandler={() => bindFormSubmit(formRef)}
+      confirmButtonProps={{
+        form: FORM_ID,
+        type: "submit"
+      }}
       cancelHandler={() => close()}
       dialogTitle={i18n.t("form_export.label")}
       confirmButtonLabel={i18n.t("buttons.export")}
@@ -51,10 +53,10 @@ const Component = ({ close, filters, i18n, open, pending, setPending }) => {
     >
       <Form
         useCancelPrompt
+        formID={FORM_ID}
         mode="new"
         formSections={form(i18n)}
         onSubmit={onSubmit}
-        ref={formRef}
         validations={validations(i18n)}
       />
     </ActionDialog>

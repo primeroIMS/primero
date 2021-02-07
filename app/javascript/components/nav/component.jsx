@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { push } from "connected-react-router";
+import { isEqual } from "lodash";
 
 import { ROUTES, PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import AgencyLogo from "../agency-logo";
@@ -39,10 +40,10 @@ const Nav = () => {
   const { userModules, demo } = useApp();
   const module = userModules.first();
 
-  const username = useSelector(state => selectUsername(state));
-  const userId = useSelector(state => getUserId(state));
-  const dataAlerts = useSelector(state => selectAlerts(state));
-  const permissions = useSelector(state => getPermissions(state));
+  const username = useSelector(state => selectUsername(state), isEqual);
+  const userId = useSelector(state => getUserId(state), isEqual);
+  const dataAlerts = useSelector(state => selectAlerts(state), isEqual);
+  const permissions = useSelector(state => getPermissions(state), isEqual);
 
   const handleToggleDrawer = open => event => {
     if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {

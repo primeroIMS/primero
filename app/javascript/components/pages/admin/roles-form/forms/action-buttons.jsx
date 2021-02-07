@@ -11,14 +11,13 @@ import { ACTION_BUTTONS_NAME } from "../constants";
 import { useI18n } from "../../../../i18n";
 import { getSavingRecord } from "../selectors";
 import { ActionsMenu, FormAction } from "../../../../form";
-import bindFormSubmit from "../../../../../libs/submit-form";
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS, WRITE_RECORDS, checkPermissions } from "../../../../../libs/permissions";
 import { compare } from "../../../../../libs";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-const Component = ({ formMode, formRef, handleCancel, setOpenDeleteDialog }) => {
+const Component = ({ formMode, formID, handleCancel, setOpenDeleteDialog }) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
 
@@ -28,7 +27,7 @@ const Component = ({ formMode, formRef, handleCancel, setOpenDeleteDialog }) => 
     <>
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
-        actionHandler={() => bindFormSubmit(formRef)}
+        options={{ form: formID, type: "submit" }}
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
@@ -74,8 +73,8 @@ const Component = ({ formMode, formRef, handleCancel, setOpenDeleteDialog }) => 
 Component.displayName = ACTION_BUTTONS_NAME;
 
 Component.propTypes = {
+  formID: PropTypes.string.isRequired,
   formMode: PropTypes.object.isRequired,
-  formRef: PropTypes.object.isRequired,
   handleCancel: PropTypes.func.isRequired,
   setOpenDeleteDialog: PropTypes.func.isRequired
 };

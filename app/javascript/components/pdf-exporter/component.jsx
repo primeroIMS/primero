@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, Typography } from "@material-ui/core";
-import { useFormContext } from "react-hook-form";
+import { useWatch } from "react-hook-form";
 import html2pdf from "html2pdf-dom-to-image-more";
 import { useDispatch, useSelector } from "react-redux";
 import { fromJS, isImmutable } from "immutable";
@@ -31,6 +31,7 @@ const Component = forwardRef(
     {
       forms,
       record,
+      formMethods,
       formsSelectedField,
       formsSelectedSelector,
       formsSelectedFieldDefault,
@@ -44,11 +45,12 @@ const Component = forwardRef(
   ) => {
     const i18n = useI18n();
     const css = makeStyles(styles)();
-    const { watch } = useFormContext();
     const html = useRef();
     const mainHeaderRef = useRef();
     const secondaryHeaderRef = useRef();
     const dispatch = useDispatch();
+
+    const { control, watch } = formMethods;
 
     const data = isImmutable(record) ? record : fromJS(record);
 
@@ -65,16 +67,15 @@ const Component = forwardRef(
       [INCLUDE_IMPLEMENTATION_LOGOS]: includeImplementationLogos,
       [INCLUDE_AGENCY_LOGO]: includeAgencyLogos,
       [INCLUDE_OTHER_LOGOS]: includeOtherLogos
-    } = watch([
-      CUSTOM_HEADER,
-      HEADER,
-      SIGNATURES,
-      INCLUDE_IMPLEMENTATION_LOGOS,
-      INCLUDE_AGENCY_LOGO,
-      INCLUDE_OTHER_LOGOS
-    ]);
-    const watchedValues = watch(customFormFields.map(referralField => referralField.name));
-    const userSelectedForms = formsSelectedField ? watch(formsSelectedField, formsSelectedFieldDefault || []) : false;
+    } = useWatch({
+      control,
+      name: [CUSTOM_HEADER, HEADER, SIGNATURES, INCLUDE_IMPLEMENTATION_LOGOS, INCLUDE_AGENCY_LOGO, INCLUDE_OTHER_LOGOS]
+    });
+    const watchedValues = useWatch({
+      control,
+      name: customFormFields.map(referralField => referralField.name)
+    });
+    const userSelectedForms = useWatch({ control, name: formsSelectedField, defaultValue: formsSelectedFieldDefault });
 
     const selectedHeader = headerOptions
       ?.filter(option => option.get("id") === header)
@@ -198,6 +199,7 @@ Component.propTypes = {
       })
     ])
   }),
+  formMethods: PropTypes.object.isRequired,
   forms: PropTypes.object.isRequired,
   formsSelectedField: PropTypes.string,
   formsSelectedFieldDefault: PropTypes.any,

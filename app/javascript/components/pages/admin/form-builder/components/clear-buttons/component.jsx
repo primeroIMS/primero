@@ -18,11 +18,11 @@ const Component = ({ setValue, subformField, subformSortBy, subformGroupBy }) =>
   const fieldName = subformField.get("name");
 
   const onClearSortBy = () => {
-    setValue(`${fieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_SORT_BY}`, "");
+    setValue(`${fieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_SORT_BY}`, "", { shouldDirty: true });
   };
 
   const onClearGroupBy = () => {
-    setValue(`${fieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_GROUP_BY}`, "");
+    setValue(`${fieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_GROUP_BY}`, "", { shouldDirty: true });
   };
 
   const renderClearButton = (fieldBy, onClick) =>

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -9,26 +9,24 @@ import { newPasswordResetRequest } from "../../../pages/admin/users-form/action-
 import { getSavingNewPasswordReset } from "../../../pages/admin/users-form/selectors";
 
 import { form, validationSchema } from "./form";
-import { NAME } from "./constants";
+import { NAME, FORM_ID } from "./constants";
 
 const Component = ({ open, handleCancel, handleSuccess }) => {
   const i18n = useI18n();
-  const internalFormRef = useRef();
   const dispatch = useDispatch();
   const saving = useSelector(state => getSavingNewPasswordReset(state));
 
   const successButtonProps = {
     color: "primary",
     variant: "contained",
-    autoFocus: true
-  };
-
-  const submitForm = () => {
-    internalFormRef.current.submitForm();
+    autoFocus: true,
+    form: FORM_ID,
+    type: "submit"
   };
 
   const handleSubmit = values => {
     dispatch(newPasswordResetRequest(values.email));
+
     if (handleSuccess) {
       handleSuccess();
     }
@@ -37,7 +35,6 @@ const Component = ({ open, handleCancel, handleSuccess }) => {
   return (
     <ActionDialog
       open={open}
-      successHandler={submitForm}
       cancelHandler={handleCancel}
       dialogTitle={i18n.t("login.password_reset_modal")}
       pending={saving}
@@ -47,12 +44,7 @@ const Component = ({ open, handleCancel, handleSuccess }) => {
       onClose={handleCancel}
     >
       <p>{i18n.t("login.password_reset_modal_text")}</p>
-      <Form
-        formSections={form(i18n, submitForm)}
-        validations={validationSchema(i18n)}
-        onSubmit={handleSubmit}
-        ref={internalFormRef}
-      />
+      <Form formSections={form(i18n)} validations={validationSchema(i18n)} onSubmit={handleSubmit} formID={FORM_ID} />
     </ActionDialog>
   );
 };

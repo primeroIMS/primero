@@ -1,9 +1,7 @@
-/* eslint-disable react/no-multi-comp */
-/* eslint-disable react/display-name */
-
-import React, { useImperativeHandle, forwardRef, useEffect } from "react";
+import { DevTool } from "@hookform/devtools";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,53 +15,53 @@ import { whichFormMode } from "./utils/which-mode";
 import { submitHandler } from "./utils/form-submission";
 
 const Component = ({
+  formID,
   formSections,
+  formOptions,
+  formMode,
   onSubmit,
   validations,
   mode,
   initialValues,
-  formRef,
   useCancelPrompt,
   formErrors,
   submitAllFields,
-  onValid,
   useFormMode,
   renderBottom,
-  submitAlways
+  submitAlways,
+  formClassName,
+  registerFields
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+
   const formMethods = useForm({
-    mode: useFormMode || "onTouched",
+    mode: useFormMode || "onSubmit",
     ...(initialValues && { defaultValues: initialValues }),
-    ...(validations && { resolver: yupResolver(validations) })
+    ...(validations && { resolver: yupResolver(validations) }),
+    ...formOptions
   });
-  const { formState, handleSubmit, setError, reset, errors } = formMethods;
 
-  const formMode = whichFormMode(mode);
+  const {
+    handleSubmit,
+    setError,
+    reset,
+    errors,
+    formState: { dirtyFields, isDirty, isSubmitted },
+    control,
+    register,
+    unregister
+  } = formMethods;
 
-  useImperativeHandle(
-    formRef,
-    submitHandler({
-      dispatch,
-      formMethods,
-      handleSubmit,
-      formMode,
-      i18n,
-      initialValues,
-      onSubmit,
-      submitAllFields,
-      submitAlways
-    })
-  );
+  const formState = formMode || whichFormMode(mode);
 
   useEffect(() => {
-    const { isValid } = formState;
+    registerFields.forEach(field => register(field));
 
-    if (onValid) {
-      onValid(isValid);
-    }
-  }, [formState.isValid]);
+    return () => {
+      registerFields.forEach(field => unregister(field));
+    };
+  }, []);
 
   useEffect(() => {
     // eslint-disable-next-line no-unused-expressions
@@ -80,15 +78,42 @@ const Component = ({
 
   const renderFormSections = () =>
     formSections.map(formSection => (
-      <FormSection formSection={formSection} key={formSection.unique_id} errors={errors} />
+      <FormSection
+        formSection={formSection}
+        key={formSection.unique_id}
+        errors={errors}
+        formMethods={formMethods}
+        formMode={formState}
+      />
     ));
 
+  const submit = data => {
+    submitHandler({
+      data,
+      dispatch,
+      dirtyFields,
+      isEdit: formState.isEdit,
+      initialValues,
+      onSubmit,
+      submitAllFields,
+      submitAlways
+    });
+  };
+
   return (
-    <FormProvider {...formMethods} formMode={formMode}>
-      <CancelPrompt useCancelPrompt={useCancelPrompt} />
-      <form noValidate>{renderFormSections(formSections)}</form>
-      {renderBottom && renderBottom()}
-    </FormProvider>
+    <>
+      <CancelPrompt
+        useCancelPrompt={useCancelPrompt}
+        isShow={formState.isShow}
+        isSubmitted={isSubmitted}
+        isDirty={isDirty}
+      />
+      <form noValidate onSubmit={handleSubmit(submit)} id={formID} className={formClassName}>
+        {renderFormSections(formSections)}
+      </form>
+      {renderBottom && renderBottom(formMethods)}
+      <DevTool control={control} />
+    </>
   );
 };
 
@@ -96,20 +121,26 @@ Component.displayName = "Form";
 
 Component.defaultProps = {
   formErrors: fromJS([]),
+  formOptions: {},
+  initialValues: {},
   mode: "new",
-  onValid: null,
+  registerFields: [],
   submitAllFields: false,
-  submitAlways: false
+  submitAlways: false,
+  useCancelPrompt: false
 };
 
 Component.propTypes = {
+  formClassName: PropTypes.string,
   formErrors: PropTypes.object,
-  formRef: PropTypes.object.isRequired,
+  formID: PropTypes.string.isRequired,
+  formMode: PropTypes.object,
+  formOptions: PropTypes.object,
   formSections: PropTypes.object.isRequired,
   initialValues: PropTypes.object,
   mode: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
-  onValid: PropTypes.func,
+  registerFields: PropTypes.array,
   renderBottom: PropTypes.func,
   submitAllFields: PropTypes.bool,
   submitAlways: PropTypes.bool,
@@ -118,4 +149,4 @@ Component.propTypes = {
   validations: PropTypes.object
 };
 
-export default forwardRef((props, ref) => <Component {...props} formRef={ref} />);
+export default Component;

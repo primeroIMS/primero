@@ -43,7 +43,7 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
     const emptyModule = isEmpty(value[MODULES_FIELD]);
 
     if (name === RECORD_TYPE_FIELD) {
-      const isModuleTouched = Object.keys(methods.control?.formState?.touched).includes("module_ids");
+      const isModuleTouched = Object.keys(methods?.formState?.dirtyFields).includes("module_ids");
 
       if (isModuleTouched && emptyModule) {
         [RECORD_TYPE_FIELD, FORM_GROUP_FIELD].forEach(property => {
@@ -64,8 +64,8 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
     const emptyParentForm = isEmpty(value[RECORD_TYPE_FIELD]);
 
     if (name === FORM_GROUP_FIELD) {
-      const isModuleTouched = Object.keys(methods.control?.formState?.touched).includes("module_ids");
-      const isParentFormTouched = Object.keys(methods.control?.formState?.touched).includes(RECORD_TYPE_FIELD);
+      const isModuleTouched = Object.keys(methods.control?.formState?.dirtyFields).includes("module_ids");
+      const isParentFormTouched = Object.keys(methods.control?.formState?.dirtyFields).includes(RECORD_TYPE_FIELD);
 
       if (isModuleTouched && emptyModule) {
         [RECORD_TYPE_FIELD, FORM_GROUP_FIELD].forEach(property => {

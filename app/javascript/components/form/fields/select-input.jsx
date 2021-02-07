@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { TextField, Chip } from "@material-ui/core";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -12,7 +12,8 @@ import { getLoadingState, getValueFromOtherField } from "../selectors";
 
 const filter = createFilterOptions();
 
-const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
+const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, isShow }) => {
+  const { control, setValue, getValues } = formMethods;
   const {
     multiSelect,
     freeSolo,
@@ -25,14 +26,13 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     asyncAction,
     asyncOptions,
     asyncOptionsLoadingPath,
-    watchedInputsValues,
+    watchedInputValues,
     clearDependentValues,
     setOtherFieldValues,
     maxSelectedOptions
   } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
-  const methods = useFormContext();
   const dispatch = useDispatch();
   const loading = useSelector(state => getLoadingState(state, asyncOptionsLoadingPath));
   const otherFieldValues = useSelector(state => {
@@ -40,7 +40,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       return null;
     }
 
-    return getValueFromOtherField(state, setOtherFieldValues, watchedInputsValues);
+    return getValueFromOtherField(state, setOtherFieldValues, watchedInputValues);
   });
   const fetchAsyncOptions = () => {
     if (asyncOptions) {
@@ -49,11 +49,11 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
 
         if (Array.isArray(next)) {
           const [field, alias] = next;
-          const value = watchedInputsValues[field];
+          const value = watchedInputValues[field];
 
-          if (value) obj[alias] = watchedInputsValues[field];
+          if (value) obj[alias] = watchedInputValues[field];
         } else {
-          const value = watchedInputsValues[next];
+          const value = watchedInputValues[next];
 
           if (value) obj[next] = value;
         }
@@ -90,24 +90,24 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   // eslint-disable-next-line no-nested-ternary
   const defaultValue = multiSelect ? [] : optionsUseIntegerIds ? null : null;
 
-  const handleChange = (onFieldChange, data) => {
+  const handleChange = data => {
     if (onChange) {
-      onChange(methods, data);
+      onChange(formMethods, data);
     }
 
     if (clearDependentValues) {
-      clearDependentValues.forEach(field => methods.setValue(field, null));
+      clearDependentValues.forEach(field => setValue(field, null, { shouldDirty: true }));
     }
 
     if (setOtherFieldValues) {
       otherFieldValues.forEach(([field, value]) => {
-        methods.setValue(field, value);
+        setValue(field, value, { shouldDirty: true });
       });
     }
 
-    onFieldChange(
-      multiSelect ? data?.map(selected => (typeof selected === "object" ? selected?.id : selected)) : data?.id || null
-    );
+    return multiSelect
+      ? data?.map(selected => (typeof selected === "object" ? selected?.id : selected))
+      : data?.id || null;
   };
 
   const optionEquality = (option, value) => option.id === value || option.id === value?.id;
@@ -150,7 +150,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
         endAdornment: (
           <>
             {loading && asyncOptions ? <CircularProgress color="primary" size={20} /> : null}
-            {methods?.formMode?.get("isShow") || params.InputProps.endAdornment}
+            {isShow || params.InputProps.endAdornment}
           </>
         )
       }
@@ -168,22 +168,22 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     value.map((option, index) => <Chip label={optionLabel(option)} {...getTagProps({ index })} disabled={disabled} />);
 
   const getOptionDisabled = () => {
-    if (Object.is(maxSelectedOptions, null) || Object.is(methods.getValues()[name], null)) {
+    if (Object.is(maxSelectedOptions, null) || Object.is(getValues()[name], null)) {
       return false;
     }
 
-    return methods.getValues()[name].length === maxSelectedOptions;
+    return getValues()[name].length === maxSelectedOptions;
   };
 
   return (
     <Controller
-      control={methods.control}
+      control={control}
       name={name}
       defaultValue={defaultValue}
-      render={({ onChange: fieldOnChange }) => (
+      render={({ value: fieldValue, onChange: fieldOnChange }) => (
         <Autocomplete
-          onChange={(_, data) => handleChange(fieldOnChange, data)}
           onOpen={handleOpen}
+          onChange={(_, data) => fieldOnChange(handleChange(data))}
           groupBy={option => option[groupBy]}
           options={options}
           multiple={multiSelect}
@@ -198,6 +198,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
           {...loadingProps}
           renderInput={params => renderTextField(params, commonProps)}
           renderTags={(value, getTagProps) => renderTags(value, getTagProps)}
+          value={fieldValue}
         />
       )}
     />
@@ -207,6 +208,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
 SelectInput.displayName = "SelectInput";
 
 SelectInput.defaultProps = {
+  isShow: false,
   options: []
 };
 
@@ -218,6 +220,8 @@ SelectInput.propTypes = {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
   }),
+  formMethods: PropTypes.object.isRequired,
+  isShow: PropTypes.bool,
   metaInputProps: PropTypes.object,
   options: PropTypes.array
 };

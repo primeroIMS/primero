@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { List } from "immutable";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { object, string } from "yup";
 
 import { useI18n } from "../../i18n";
@@ -11,8 +11,9 @@ import { getRecordAlerts, saveRecord } from "../../records";
 import { ACTIONS } from "../../../libs/permissions";
 import { fetchAlerts } from "../../nav/action-creators";
 import { NOTES_DIALOG } from "../constants";
+import { useMemoizedSelector } from "../../../libs";
 
-import { NAME } from "./constants";
+import { NAME, FORM_ID } from "./constants";
 
 const validationSchema = object().shape({
   note_subject: string().required(),
@@ -21,9 +22,9 @@ const validationSchema = object().shape({
 
 const Component = ({ close, open, pending, record, recordType, setPending }) => {
   const i18n = useI18n();
-  const formRef = useRef();
   const dispatch = useDispatch();
-  const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
+
+  const recordAlerts = useMemoizedSelector(state => getRecordAlerts(state, recordType));
 
   const handleSubmit = data => {
     setPending(true);
@@ -47,10 +48,6 @@ const Component = ({ close, open, pending, record, recordType, setPending }) => 
     if (recordAlerts.size <= 0) {
       dispatch(fetchAlerts());
     }
-  };
-
-  const bindFormSubmit = () => {
-    formRef.current.submitForm();
   };
 
   const formSections = List([
@@ -77,19 +74,22 @@ const Component = ({ close, open, pending, record, recordType, setPending }) => 
   return (
     <ActionDialog
       open={open}
-      successHandler={bindFormSubmit}
       dialogTitle={i18n.t("cases.notes_dialog_title")}
       confirmButtonLabel={i18n.t("buttons.save")}
       omitCloseAfterSuccess
       onClose={close}
       pending={pending}
+      confirmButtonProps={{
+        form: FORM_ID,
+        type: "submit"
+      }}
     >
       <Form
         mode={FORM_MODE_DIALOG}
         formSections={formSections}
         onSubmit={handleSubmit}
-        ref={formRef}
         validations={validationSchema}
+        formID={FORM_ID}
       />
     </ActionDialog>
   );

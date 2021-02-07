@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
@@ -10,9 +10,9 @@ import InputLabel from "../components/input-label";
 
 import styles from "./styles.css";
 
-const TextInput = ({ commonInputProps, metaInputProps }) => {
+const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   const css = makeStyles(styles)();
-  const { control } = useFormContext();
+  const { control } = formMethods;
   const { type, password, hint, tooltip, numeric, onBlur, onKeyPress } = metaInputProps;
   let inputType = "text";
 
@@ -63,6 +63,7 @@ TextInput.displayName = "TextInput";
 
 TextInput.propTypes = {
   commonInputProps: PropTypes.object.isRequired,
+  formMethods: PropTypes.object.isRequired,
   metaInputProps: PropTypes.object
 };
 

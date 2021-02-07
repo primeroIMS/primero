@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import get from "lodash/get";
+import { isEqual } from "lodash";
 
 import FormSection from "../../../../../form/components/form-section";
 import { getObjectPath } from "../../../../../../libs";
@@ -18,12 +19,22 @@ import { getFormGroupLookups } from "../../../../../form/selectors";
 
 import { NAME } from "./constants";
 
-const Component = ({ formContextFields, getValues, index, mode, register, setValue, tab }) => {
+const Component = ({ index, mode, tab, formMethods }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
-  const allFormGroupsLookups = useSelector(state => getFormGroupLookups(state));
+
+  const allFormGroupsLookups = useSelector(state => getFormGroupLookups(state), isEqual);
+
+  const {
+    register,
+    setValue,
+    getValues,
+    control: {
+      fieldsRef: { current: fields }
+    }
+  } = formMethods;
 
   const onManageTranslation = () => {
     dispatch(setDialog({ dialog: FormTranslationsDialogName, open: true }));
@@ -31,21 +42,21 @@ const Component = ({ formContextFields, getValues, index, mode, register, setVal
 
   const onUpdateTranslation = data => {
     getObjectPath("", data).forEach(path => {
-      if (!formContextFields[path]) {
+      if (!fields[path]) {
         register({ name: path });
       }
 
       const value = get(data, path);
 
-      setValue(`translations.${path}`, value);
-      setValue(path, value);
+      setValue(`translations.${path}`, value, { shouldDirty: true });
+      setValue(path, value, { shouldDirty: true });
     });
   };
 
   const onEnglishTextChange = event => {
     const { name, value } = event.target;
 
-    setValue(`translations.${name}`, value);
+    setValue(`translations.${name}`, value, { shouldDirty: true });
   };
 
   const renderForms = settingsForm({
@@ -54,12 +65,16 @@ const Component = ({ formContextFields, getValues, index, mode, register, setVal
     onEnglishTextChange,
     i18n,
     allFormGroupsLookups
-  }).map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);
+  }).map(formSection => (
+    <FormSection formSection={formSection} key={formSection.unique_id} formMethods={formMethods} formMode={formMode} />
+  ));
+
+  const getFormValues = useCallback(props => getValues(props), []);
 
   return (
     <TabPanel tab={tab} index={index}>
       <div className={css.tabContent}>{renderForms}</div>
-      <FormTranslationsDialog mode={mode} getValues={getValues} onSuccess={onUpdateTranslation} />
+      <FormTranslationsDialog mode={mode} getValues={getFormValues} onSuccess={onUpdateTranslation} />
     </TabPanel>
   );
 };
@@ -67,12 +82,9 @@ const Component = ({ formContextFields, getValues, index, mode, register, setVal
 Component.displayName = NAME;
 
 Component.propTypes = {
-  formContextFields: PropTypes.object.isRequired,
-  getValues: PropTypes.func.isRequired,
+  formMethods: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
-  register: PropTypes.func.isRequired,
-  setValue: PropTypes.func.isRequired,
   tab: PropTypes.number.isRequired
 };
 

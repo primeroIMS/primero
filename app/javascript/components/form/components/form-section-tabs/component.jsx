@@ -4,11 +4,12 @@ import { makeStyles, Tab, Tabs } from "@material-ui/core";
 
 import TabPanel from "../../../pages/admin/form-builder/components/tab-panel";
 import FormSectionField from "../form-section-field";
+import watchedFormSectionField from "../watched-form-section-field";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ tabs }) => {
+const Component = ({ tabs, formMethods, formMode }) => {
   const css = makeStyles(styles)();
   const firstEnabled = tabs.findIndex(el => el.disabled === false);
   const [tab, setTab] = useState(firstEnabled);
@@ -18,7 +19,11 @@ const Component = ({ tabs }) => {
   const renderTab = () => tabs.map(data => <Tab label={data.name} key={`tab-${data.name}`} disabled={data.disabled} />);
 
   const renderFormSectionField = fieldData =>
-    fieldData.fields.map(field => <FormSectionField field={field} key={`fsf-${field.name}`} />);
+    fieldData.fields.map(field => {
+      const FieldComponent = field.watchedInputs ? watchedFormSectionField : FormSectionField;
+
+      return <FieldComponent field={field} key={`fsf-${field.name}`} formMethods={formMethods} formMode={formMode} />;
+    });
 
   const renderTabPanel = () =>
     tabs.map((data, index) => {
@@ -42,6 +47,8 @@ const Component = ({ tabs }) => {
 };
 
 Component.propTypes = {
+  formMethods: PropTypes.object.isRequired,
+  formMode: PropTypes.object.isRequired,
   tabs: PropTypes.array
 };
 

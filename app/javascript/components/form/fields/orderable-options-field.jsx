@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { useFormContext } from "react-hook-form";
+import { useWatch } from "react-hook-form";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { makeStyles } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
@@ -18,7 +18,14 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { ORDERABLE_OPTIONS_FIELD_NAME } from "./constants";
 import styles from "./styles.css";
 
-const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, showActionButtons }) => {
+const OrderableOptionsField = ({
+  commonInputProps,
+  metaInputProps,
+  options,
+  showActionButtons,
+  formMethods,
+  formMode
+}) => {
   const i18n = useI18n();
   const [fieldOptions, setFieldOptions] = useState(options);
   const [removed, setRemoved] = useState([]);
@@ -26,14 +33,14 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, show
   const { name } = commonInputProps;
   const { selectedValue } = metaInputProps;
   const fieldName = name.split(".")[0];
-  const { control, getValues, register, reset, setValue, unregister, watch, formMode } = useFormContext();
+  const { control, getValues, register, reset, setValue, unregister } = formMethods;
 
-  const watchSelectedValue = watch(`${fieldName}.selected_value`, selectedValue);
+  const watchSelectedValue = useWatch({ control, name: `${fieldName}.selected_value`, selectedValue });
 
   useEffect(() => {
     fieldOptions.forEach((option, index) => {
       register(`${fieldName}.option_strings_text[${index}].id`);
-      setValue(`${fieldName}.option_strings_text[${index}].id`, option.id);
+      setValue(`${fieldName}.option_strings_text[${index}].id`, option.id, { shouldDirty: true });
     });
 
     return () => {
@@ -58,7 +65,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, show
       }
     );
 
-    setValue(`${fieldName}.selected_value`, watchSelectedValue);
+    setValue(`${fieldName}.selected_value`, watchSelectedValue, { shouldDirty: true });
   }, [fieldOptions]);
 
   const handleDragEnd = result => {
@@ -75,7 +82,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, show
         if (!control.fields[`${fieldName}.option_strings_text[${index}].id`]) {
           register(`${fieldName}.option_strings_text[${index}].id`);
         }
-        setValue(`${fieldName}.option_strings_text[${index}].id`, option.id);
+        setValue(`${fieldName}.option_strings_text[${index}].id`, option.id, { shouldDirty: true });
       });
 
       setFieldOptions([...reorderedOptions]);
@@ -83,7 +90,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, show
   };
 
   const onClearDefault = () => {
-    setValue(`${fieldName}.selected_value`, "");
+    setValue(`${fieldName}.selected_value`, "", { shouldDirty: false });
   };
 
   const onAddOption = () => {
@@ -115,6 +122,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, options, show
         index={index}
         key={option.id}
         onRemoveClick={onRemoveValue}
+        formMethods={formMethods}
       />
     ));
 
@@ -181,6 +189,8 @@ OrderableOptionsField.propTypes = {
     helperText: PropTypes.string,
     name: PropTypes.string.isRequired
   }),
+  formMethods: PropTypes.object.isRequired,
+  formMode: PropTypes.object.isRequired,
   metaInputProps: PropTypes.object,
   options: PropTypes.array,
   showActionButtons: PropTypes.bool

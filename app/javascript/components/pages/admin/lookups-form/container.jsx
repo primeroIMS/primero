@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
@@ -14,21 +14,22 @@ import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
 import { fetchSystemSettings } from "../../../application";
 import { ROUTES } from "../../../../config";
-import bindFormSubmit from "../../../../libs/submit-form";
 
 import { NAME } from "./constants";
 import { getLookup, getSavingLookup } from "./selectors";
 import { clearSelectedLookup, fetchLookup } from "./action-creators";
 import { LookupForm } from "./components";
+import { FORM_ID } from "./components/form/constants";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
+  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const formRef = useRef();
   const { pathname } = useLocation();
   const { id } = useParams();
-  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+
   const lookup = useSelector(state => getLookup(state));
   const saving = useSelector(state => getSavingLookup(state));
 
@@ -68,10 +69,13 @@ const Container = ({ mode }) => {
     <>
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
-        actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
+        options={{
+          form: FORM_ID,
+          type: "submit"
+        }}
       />
     </>
   );
@@ -87,7 +91,7 @@ const Container = ({ mode }) => {
         {saveButton}
       </PageHeading>
       <PageContent>
-        <LookupForm mode={mode} formRef={formRef} lookup={lookup} />
+        <LookupForm mode={mode} lookup={lookup} />
       </PageContent>
     </LoadingIndicator>
   );

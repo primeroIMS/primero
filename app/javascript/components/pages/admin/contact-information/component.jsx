@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
@@ -12,29 +12,32 @@ import { PageHeading, PageContent } from "../../../page";
 import Form, { FormAction, whichFormMode } from "../../../form";
 import { ROUTES } from "../../../../config";
 import LoadingIndicator from "../../../loading-indicator";
-import bindFormSubmit from "../../../../libs/submit-form";
 import { MANAGE, RESOURCES } from "../../../../libs/permissions";
 import Permission from "../../../application/permission";
 
-import { NAME } from "./constants";
+import { NAME, FORM_ID } from "./constants";
 import { form } from "./form";
 import { selectContactInformation, selectSavingContactInformation } from "./selectors";
 import { saveContactInformation } from "./action-creators";
 
 const Component = ({ mode }) => {
-  const i18n = useI18n();
-  const formRef = useRef();
-  const dispatch = useDispatch();
-  const { pathname } = useLocation();
   const formMode = whichFormMode(mode);
+
+  const i18n = useI18n();
+  const { pathname } = useLocation();
+  const dispatch = useDispatch();
+
   const contactInformation = useSelector(state => selectContactInformation(state));
   const savingRecord = useSelector(state => selectSavingContactInformation(state));
+
   const handleCancel = () => {
     dispatch(push(ROUTES.contact_information));
   };
+
   const handleEdit = () => {
     dispatch(push(`${pathname}/edit`));
   };
+
   const handleSubmit = data => {
     return dispatch(
       saveContactInformation({
@@ -55,10 +58,13 @@ const Component = ({ mode }) => {
       <>
         <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
         <FormAction
-          actionHandler={() => bindFormSubmit(formRef)}
           text={i18n.t("buttons.save")}
           savingRecord={savingRecord}
           startIcon={<CheckIcon />}
+          options={{
+            form: FORM_ID,
+            type: "submit"
+          }}
         />
       </>
     ) : null;
@@ -76,8 +82,8 @@ const Component = ({ mode }) => {
             mode={mode}
             formSections={form(i18n)}
             onSubmit={handleSubmit}
-            ref={formRef}
             initialValues={contactInformation.toJS()}
+            formID={FORM_ID}
           />
         </PageContent>
       </LoadingIndicator>

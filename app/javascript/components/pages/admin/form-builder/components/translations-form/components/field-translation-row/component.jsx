@@ -16,7 +16,7 @@ import styles from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ field, selectedLocaleId }) => {
+const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const locales = localesToRender(i18n);
@@ -38,6 +38,8 @@ const Component = ({ field, selectedLocaleId }) => {
             type: TEXT_FIELD,
             inputClassname
           })}
+          formMode={formMode}
+          formMethods={formMethods}
         />
       );
     });
@@ -64,6 +66,8 @@ const Component = ({ field, selectedLocaleId }) => {
             name: `fields.${fieldName}.display_name.en`,
             type: TEXT_FIELD
           })}
+          formMode={formMode}
+          formMethods={formMethods}
         />
       </Grid>
       <Grid item xs={12} md={3} className={css.translationsRow}>
@@ -80,6 +84,8 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   field: PropTypes.object.isRequired,
+  formMethods: PropTypes.object.isRequired,
+  formMode: PropTypes.object.isRequired,
   selectedLocaleId: PropTypes.string
 };
 
