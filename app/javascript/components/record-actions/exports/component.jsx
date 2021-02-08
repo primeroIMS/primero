@@ -275,7 +275,7 @@ const Component = ({
     isShowPage,
     modules,
     fields,
-    exportFormsOptions(exportType, fields, recordTypesForms, i18n.locale),
+    exportFormsOptions(recordTypesForms, i18n.locale),
     recordType,
     agencyLogo
   );

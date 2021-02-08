@@ -108,7 +108,7 @@ const RecordForm = ({
 
     return fs.map(form => {
       if (selectedForm === form.unique_id) {
-        const isReadWriteForm = userPermittedFormsIds.get(selectedForm) === RECORD_FORM_PERMISSION.readWrite;
+        const isReadWriteForm = userPermittedFormsIds?.get(selectedForm) === RECORD_FORM_PERMISSION.readWrite;
 
         return (
           <div key={form.unique_id}>

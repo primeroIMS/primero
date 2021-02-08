@@ -1,4 +1,4 @@
-import { fromJS } from "immutable";
+import { fromJS, OrderedMap } from "immutable";
 
 import { fake } from "../../../test";
 import { ACTIONS } from "../../../libs/permissions";
@@ -309,6 +309,19 @@ describe("<RecordActions /> - exports/utils", () => {
       const expected = [{ id: "test", display_name: "Test" }];
 
       expect(utils.buildAgencyLogoPdfOptions(agencyLogosPdf)).to.deep.equal(expected);
+    });
+  });
+
+  describe("exportFormsOptions", () => {
+    it("return an objects of forms", () => {
+      const forms = OrderedMap({
+        0: { unique_id: "test", name: { en: "Test" }, visible: true, is_nested: false },
+        1: { unique_id: "test2", name: { en: "Test2" }, visible: false, is_nested: false },
+        2: { unique_id: "test3", name: { en: "Test3" }, visible: true, is_nested: true }
+      });
+      const expected = { 0: { id: "test", display_text: "Test" } };
+
+      expect(utils.exportFormsOptions(forms, "en")).to.deep.equal(expected);
     });
   });
 });
