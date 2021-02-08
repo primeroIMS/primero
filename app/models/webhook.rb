@@ -4,6 +4,7 @@
 class Webhook < ApplicationRecord
   CREATE = 'create'
   UPDATE = 'update'
+  POST = 'post'
   API_KEY = 'api_key'
   BASIC_AUTH = 'basic_auth'
 

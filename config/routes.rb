@@ -44,6 +44,7 @@ Rails.application.routes.draw do
         resources :attachments, only: %i[create destroy]
         resources :approvals, only: [:update]
         resources :potential_matches, only: [:index]
+        resources :webhook_syncs, as: :sync, path: :sync, only: [:create]
         get :traces, to: 'children#traces'
         get :record_history, to: 'record_histories#index'
         collection do

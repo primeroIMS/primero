@@ -60,6 +60,10 @@ module Webhookable
     self.module&.use_webhooks_for&.include?(self.class.parent_form)
   end
 
+  def queue_for_webhook(action)
+    WebhookJob.perform_later(self.class.parent_form, id, action)
+  end
+
   private
 
   def log_synced
@@ -70,9 +74,5 @@ module Webhookable
       record: self, resource_url: mark_synced_url, action: AuditLog::WEBHOOK,
       webhook_status: AuditLog::SYNCED, timestamp: timestamp
     )
-  end
-
-  def queue_for_webhook(action)
-    WebhookJob.perform_later(self.class.parent_form, id, action)
   end
 end
