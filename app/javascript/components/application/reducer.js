@@ -21,8 +21,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         primero_version: primeroVersion,
         reporting_location_config: reportingLocationConfig,
         age_ranges: ageRanges,
-        approvals_labels: approvalsLabels,
-        system_options: systemOptions
+        approvals_labels: approvalsLabels
       } = payload.data;
 
       return state.merge(
@@ -34,8 +33,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           primeroVersion,
           reportingLocationConfig,
           ageRanges,
-          approvalsLabels,
-          systemOptions
+          approvalsLabels
         })
       );
     }

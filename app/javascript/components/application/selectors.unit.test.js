@@ -120,8 +120,7 @@ const stateWithRecords = fromJS({
     },
     userGroups,
     roles,
-    disabledApplication: true,
-    systemOptions: { show_provider_note_field: true }
+    disabledApplication: true
   }
 });
 
@@ -329,12 +328,6 @@ describe("Application - Selectors", () => {
       const selector = selectors.getAgencyLogosPdf(stateWithRecords, false);
 
       expect(selector.size).to.be.equal(2);
-    });
-  });
-
-  describe("getShowProviderNoteField", () => {
-    it("should return the show_provider_note_field", () => {
-      expect(selectors.getShowProviderNoteField(stateWithRecords)).to.be.true;
     });
   });
 });
