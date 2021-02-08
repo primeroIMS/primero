@@ -8,6 +8,7 @@ class CreateWebhooks < ActiveRecord::Migration[5.2]
       t.integer 'auth_type'
       t.string 'auth_secret_encrypted'
       t.string 'role_unique_id'
+      t.jsonb 'metadata', default: {}
     end
     add_index :webhooks, :url, unique: true
     add_index :webhooks, :events, using: :gin

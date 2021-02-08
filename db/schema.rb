@@ -493,6 +493,7 @@ ActiveRecord::Schema.define(version: 2021_01_23_000001) do
     t.integer "auth_type"
     t.string "auth_secret_encrypted"
     t.string "role_unique_id"
+    t.jsonb "metadata", default: {}
     t.index ["events"], name: "index_webhooks_on_events", using: :gin
     t.index ["url"], name: "index_webhooks_on_url", unique: true
   end
