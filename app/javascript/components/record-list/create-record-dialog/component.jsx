@@ -1,29 +1,28 @@
-import React, { useEffect, useImperativeHandle, useRef } from "react";
-import PropTypes from "prop-types";
-import { push } from "connected-react-router";
-import { IconButton, Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
-import { FormProvider, useForm } from "react-hook-form";
+import { push } from "connected-react-router";
+import PropTypes from "prop-types";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 
-import { getRecordsData } from "../../index-table";
-import { applyFilters } from "../../index-filters";
-import FormSection from "../../form/components/form-section";
-import { submitHandler, whichFormMode } from "../../form";
 import { compare } from "../../../libs";
-import bindFormSubmit from "../../../libs/submit-form";
-import { FORM_MODE_NEW } from "../../form/constants";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
+import { submitHandler, whichFormMode } from "../../form";
+import FormSection from "../../form/components/form-section";
+import { FORM_MODE_NEW } from "../../form/constants";
 import { useI18n } from "../../i18n";
-import { DEFAULT_FILTERS } from "../constants";
+import { applyFilters } from "../../index-filters";
+import { getRecordsData } from "../../index-table";
 import { enqueueSnackbar } from "../../notifier";
+import { DEFAULT_FILTERS } from "../constants";
 
+import { FORM_ID, NAME } from "./constants";
 import { searchForm } from "./forms";
-import { NAME, FORM_ID } from "./constants";
 import styles from "./styles.css";
 
 const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {

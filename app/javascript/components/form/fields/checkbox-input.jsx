@@ -45,6 +45,7 @@ CheckboxInput.propTypes = {
     name: PropTypes.string.isRequired,
     required: PropTypes.bool
   }),
+  formMethods: PropTypes.object.isRequired,
   metaInputProps: PropTypes.shape({
     inlineCheckboxes: PropTypes.bool
   }),

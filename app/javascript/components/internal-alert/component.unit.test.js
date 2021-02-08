@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import {  AccordionDetails, AccordionSummary } from "@material-ui/core";
+import { AccordionDetails, AccordionSummary } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
 

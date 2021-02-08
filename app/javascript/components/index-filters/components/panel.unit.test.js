@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import {  AccordionSummary } from "@material-ui/core";
+import { AccordionSummary } from "@material-ui/core";
 
 import { setupMockFormComponent, spy, fake } from "../../../test";
 

@@ -73,8 +73,6 @@ export default (i18n, userPermissions, isShowPage, modules, fields, exportFormsO
       type: TOGGLE_FIELD,
       watchedInputs: [EXPORT_TYPE_FIELD, CUSTOM_FORMAT_TYPE_FIELD],
       showIf: ({ [EXPORT_TYPE_FIELD]: exportType, [CUSTOM_FORMAT_TYPE_FIELD]: formatType }) => {
-        console.log({ formatType, exportType });
-
         return isCustomExport(exportType) && formatType !== FIELD_ID;
       },
       handleWatchedInputs: ({ [CUSTOM_FORMAT_TYPE_FIELD]: formatType }) => ({ disabled: !formatType })

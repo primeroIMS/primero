@@ -161,6 +161,7 @@ Component.whyDidYouRender = true;
 
 Component.propTypes = {
   field: PropTypes.object.isRequired,
+  formMethods: PropTypes.object.isRequired,
   getValues: PropTypes.func,
   index: PropTypes.number.isRequired,
   subformField: PropTypes.object,

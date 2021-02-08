@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -14,7 +14,6 @@ import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../user-groups-list/namespace";
 import { SAVE_METHODS } from "../../../../config";
-import bindFormSubmit from "../../../../libs/submit-form";
 import ActionDialog, { useDialog } from "../../../action-dialog";
 import { enqueueSnackbar } from "../../../notifier";
 import { useApp } from "../../../application";
