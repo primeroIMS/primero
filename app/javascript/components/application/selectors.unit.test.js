@@ -345,4 +345,18 @@ describe("Application - Selectors", () => {
       expect(result).to.be.empty;
     });
   });
+
+  describe("getLimitedConfigUI", () => {
+    it("should return true if config_ui is limited", () => {
+      const result = selectors.getLimitedConfigUI(fromJS({ application: { primero: { config_ui: "limited" } } }));
+
+      expect(result).to.be.true;
+    });
+
+    it("should return false if config_ui is not limited", () => {
+      const result = selectors.getLimitedConfigUI(stateWithRecords);
+
+      expect(result).to.be.false;
+    });
+  });
 });

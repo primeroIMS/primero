@@ -13,7 +13,7 @@ import {
   getApprovalsLabels,
   getDisabledApplication,
   getDemo,
-  getConfigUI
+  getLimitedConfigUI
 } from "./selectors";
 
 const Context = createContext();
@@ -28,7 +28,7 @@ const ApplicationProvider = ({ children }) => {
   const approvalsLabels = useSelector(state => getApprovalsLabels(state, i18n.locale));
   const disabledApplication = useSelector(state => getDisabledApplication(state));
   const demo = useSelector(state => getDemo(state));
-  const limitedProductionSite = useSelector(state => getConfigUI(state)) === "limited";
+  const limitedProductionSite = useSelector(state => getLimitedConfigUI(state));
   const currentUserName = useSelector(state => currentUser(state));
 
   useEffect(() => {

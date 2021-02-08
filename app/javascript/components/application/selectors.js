@@ -2,7 +2,7 @@ import { Map, fromJS } from "immutable";
 
 import { displayNameHelper } from "../../libs";
 
-import { PERMISSIONS, RESOURCE_ACTIONS, DEMO } from "./constants";
+import { PERMISSIONS, RESOURCE_ACTIONS, DEMO, LIMITED } from "./constants";
 import NAMESPACE from "./namespace";
 
 export const selectAgencies = state => state.getIn([NAMESPACE, "agencies"], fromJS([]));
@@ -98,3 +98,5 @@ export const getDisabledApplication = state => state.getIn([NAMESPACE, "disabled
 export const getDemo = state => state.getIn([NAMESPACE, "primero", DEMO], false);
 
 export const getConfigUI = state => state.getIn([NAMESPACE, "primero", "config_ui"], "");
+
+export const getLimitedConfigUI = state => getConfigUI(state) === LIMITED;
