@@ -16,6 +16,7 @@ import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import bindFormSubmit from "../../../../libs/submit-form";
+import { useApp } from "../../../application";
 
 import { localizeData, translateFields } from "./utils";
 import { NAME } from "./constants";
@@ -30,6 +31,7 @@ const Container = ({ mode }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
+  const { limitedProductionSite } = useApp();
   const agency = useSelector(state => getAgency(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
@@ -88,12 +90,18 @@ const Container = ({ mode }) => {
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
+        rest={{ hide: limitedProductionSite }}
       />
     </>
   );
 
   const editButton = formMode.get("isShow") && (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
+    <FormAction
+      actionHandler={handleEdit}
+      text={i18n.t("buttons.edit")}
+      startIcon={<CreateIcon />}
+      rest={{ hide: limitedProductionSite }}
+    />
   );
 
   const pageHeading = agency?.size

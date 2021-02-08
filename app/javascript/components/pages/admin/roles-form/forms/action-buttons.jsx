@@ -16,7 +16,7 @@ import { RESOURCES, WRITE_RECORDS } from "../../../../../libs/permissions";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-const Component = ({ formMode, formRef, handleCancel }) => {
+const Component = ({ formMode, formRef, handleCancel, limitedProductionSite }) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
 
@@ -29,6 +29,7 @@ const Component = ({ formMode, formRef, handleCancel }) => {
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
+        rest={{ hide: limitedProductionSite }}
       />
     </>
   );
@@ -41,7 +42,8 @@ const Component = ({ formMode, formRef, handleCancel }) => {
         type={ACTION_BUTTON_TYPES.default}
         rest={{
           to: `${pathname}/edit`,
-          component: Link
+          component: Link,
+          hide: limitedProductionSite
         }}
       />
     </Permission>
@@ -60,7 +62,8 @@ Component.displayName = ACTION_BUTTONS_NAME;
 Component.propTypes = {
   formMode: PropTypes.object.isRequired,
   formRef: PropTypes.object.isRequired,
-  handleCancel: PropTypes.func.isRequired
+  handleCancel: PropTypes.func.isRequired,
+  limitedProductionSite: PropTypes.bool
 };
 
 export default Component;
