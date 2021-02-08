@@ -7,6 +7,8 @@ class Role < ApplicationRecord
   has_and_belongs_to_many :form_sections, -> { distinct }
   has_and_belongs_to_many :primero_modules, -> { distinct }
 
+  has_many :users
+
   alias_attribute :modules, :primero_modules
 
   serialize :permissions, Permission::PermissionSerializer
@@ -58,8 +60,10 @@ class Role < ApplicationRecord
     end
   end
 
-  def permitted_forms(record_type = nil, visible_only = false)
-    form_sections.where({ parent_form: record_type, visible: (visible_only || nil) }.compact)
+  def permitted_forms(record_type = nil, visible_only = false, include_subforms = false)
+    forms = form_sections.where({ parent_form: record_type, visible: (visible_only || nil) }.compact)
+    forms = forms.or(form_sections.where(parent_form: record_type, is_nested: true)) if include_subforms
+    forms
   end
 
   def permitted_roles
@@ -143,7 +147,7 @@ class Role < ApplicationRecord
   end
 
   def associate_all_forms
-    forms_by_parent = FormSection.all_forms_grouped_by_parent
+    forms_by_parent = FormSection.all_forms_grouped_by_parent(true)
     role_module_ids = primero_modules.pluck(:unique_id)
     permissions_with_forms.map do |permission|
       form_sections << forms_by_parent[permission.resource].reject do |form|
@@ -213,7 +217,8 @@ class Role < ApplicationRecord
   def update_permissions(permissions)
     return if permissions.nil?
 
-    self.permissions = Permission::PermissionSerializer.load(permissions.to_h)
+    permissions = Permission::PermissionSerializer.load(permissions.to_h) unless permissions.is_a?(Array)
+    self.permissions = permissions
   end
 
   def update_modules(module_unique_ids)

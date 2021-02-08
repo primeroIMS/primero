@@ -12,7 +12,9 @@ Apply the saved Primero configuration state. This will replace the currently con
 
 **Parameters** :
 
-* `data` A JSON with the `apply_now` flag set to true.
+* `data` A JSON with an action flag:
+  * `apply_now` flag set to true will apply this configuration on the system.
+  * `promote` flag set to true will invoke the configuration promotion Job to promote to an external API.
 
 ```json
 {

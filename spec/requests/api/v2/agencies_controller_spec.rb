@@ -22,9 +22,12 @@ describe Api::V2::AgenciesController, type: :request do
       telephone: '12565742',
       logo_enabled: false,
       disabled: false,
+      pdf_logo_option: true,
       services: %w[services_a services_b],
       name_i18n: { en: 'Nationality', es: 'Nacionalidad' },
-      description_i18n: { en: 'Nationality', es: 'Nacionalidad' }
+      description_i18n: { en: 'Nationality', es: 'Nacionalidad' },
+      logo_icon: FilesTestHelper.logo,
+      logo_full: FilesTestHelper.logo
     )
     @agency_b = Agency.create!(
       unique_id: 'agency_2',
@@ -42,10 +45,12 @@ describe Api::V2::AgenciesController, type: :request do
       agency_code: 'agency3',
       order: 1,
       telephone: '12565742',
-      logo_enabled: false,
+      logo_enabled: true,
       disabled: true,
       services: %w[services_a services_b],
-      name_i18n: { en: 'Nationality', es: 'Nacionalidad' }
+      name_i18n: { en: 'Nationality', es: 'Nacionalidad' },
+      logo_icon: FilesTestHelper.logo,
+      logo_full: FilesTestHelper.logo
     )
     @user_a = User.create!(
       full_name: 'Test User 1',
@@ -82,6 +87,11 @@ describe Api::V2::AgenciesController, type: :request do
       expect(json['data'].count).to eq(3)
       expect(json['data'][0]['unique_id']).to eq(@agency_a.unique_id)
       expect(json['data'][0]['name']).to eq(FieldI18nService.fill_with_locales(@agency_a.name_i18n))
+      expect(json['data'][0]['pdf_logo_option']).to be_truthy
+      expect(json['data'][0]['logo_icon']).not_to be_nil
+      expect(json['data'][0]['logo_full']).not_to be_nil
+      expect(json['data'][2]['logo_icon']).not_to be_nil
+      expect(json['data'][2]['logo_full']).not_to be_nil
     end
 
     it 'list the disabled agencies' do

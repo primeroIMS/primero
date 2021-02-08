@@ -6,6 +6,7 @@ import User from "./user";
 import Idp from "./idp";
 import Dashboards from "./dashboards";
 import Logos from "./logos";
+import Primero from "./primero";
 
 export default {
   Options,
@@ -15,5 +16,6 @@ export default {
   User,
   Idp,
   Dashboards,
-  Logos
+  Logos,
+  Primero
 };

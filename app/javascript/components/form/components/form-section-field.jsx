@@ -18,6 +18,7 @@ import Seperator from "../fields/seperator";
 import OrderableOptionsField from "../fields/orderable-options-field";
 import DialogTrigger from "../fields/dialog-trigger";
 import HiddenInput from "../fields/hidden-input";
+import LinkField from "../fields/link-field";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../config";
 import {
   CHECK_BOX_FIELD,
@@ -33,14 +34,15 @@ import {
   SEPARATOR,
   DIALOG_TRIGGER,
   HIDDEN_FIELD,
-  DOCUMENT_FIELD
+  DOCUMENT_FIELD,
+  LINK_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
 import Label from "../fields/label";
 import { getOptions } from "../selectors";
 
-const FormSectionField = ({ checkErrors, field }) => {
+const FormSectionField = ({ checkErrors, disableUnderline, field }) => {
   const {
     type,
     hideOnShow,
@@ -86,7 +88,10 @@ const FormSectionField = ({ checkErrors, field }) => {
     placeholder,
     maxSelectedOptions,
     onKeyPress,
-    currRecord
+    currRecord,
+    href,
+    fileFormat,
+    filterOptionSource
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();
@@ -94,19 +99,21 @@ const FormSectionField = ({ checkErrors, field }) => {
   const error = errors ? get(errors, name) : undefined;
   const errorsToCheck = checkErrors ? checkErrors.concat(fieldCheckErrors) : fieldCheckErrors;
 
-  const optionSource = useSelector(
-    state =>
-      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, {
-        optionStringsSourceIdKey,
-        currRecord
-      }),
-    (prev, next) => prev.equals(next)
-  );
-
   const watchedInputsValues = watchedInputs ? watch(watchedInputs) : null;
   const watchedInputProps = handleWatchedInputs
     ? handleWatchedInputs(watchedInputsValues, name, { error, methods })
     : {};
+
+  const optionSource = useSelector(
+    state =>
+      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, {
+        optionStringsSourceIdKey,
+        currRecord,
+        filterOptions:
+          filterOptionSource && (optionsFromState => filterOptionSource(watchedInputsValues, optionsFromState))
+      }),
+    (prev, next) => prev.equals(next)
+  );
 
   const renderError = () =>
     checkErrors?.size && errors
@@ -126,7 +133,7 @@ const FormSectionField = ({ checkErrors, field }) => {
   const commonInputProps = {
     name,
     disabled:
-      typeof disabled === "boolean" ? disabled : formMode.get("isShow") || (formMode.get("isEdit") && !editable),
+      formMode.get("isShow") || (typeof disabled === "boolean" ? disabled : formMode.get("isEdit") && !editable),
     required,
     autoFocus,
     error: typeof error !== "undefined" || renderError(),
@@ -137,6 +144,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     InputLabelProps: {
       shrink: true
     },
+    ...(disableUnderline && { InputProps: { disableUnderline } }),
     className: inputClassname,
     format,
     placeholder,
@@ -167,7 +175,9 @@ const FormSectionField = ({ checkErrors, field }) => {
     setOtherFieldValues,
     onClick,
     onKeyPress,
-    maxSelectedOptions
+    maxSelectedOptions,
+    href,
+    fileFormat
   };
 
   const Field = (fieldType => {
@@ -199,6 +209,8 @@ const FormSectionField = ({ checkErrors, field }) => {
         return DialogTrigger;
       case HIDDEN_FIELD:
         return HiddenInput;
+      case LINK_FIELD:
+        return LinkField;
       default:
         return TextInput;
     }
@@ -227,8 +239,13 @@ const FormSectionField = ({ checkErrors, field }) => {
 
 FormSectionField.displayName = "FormSectionField";
 
+FormSectionField.defaultProps = {
+  disableUnderline: false
+};
+
 FormSectionField.propTypes = {
   checkErrors: PropTypes.object,
+  disableUnderline: PropTypes.bool,
   field: PropTypes.object.isRequired
 };
 

@@ -6,6 +6,8 @@ class Api::V2::PrimeroController < ApplicationApiController
   skip_after_action :write_audit_log, only: [:index]
 
   def index
-    @agencies_with_logos = Agency.with_logos.limit(3)
+    agencies = Agency.with_logos.or(Agency.with_pdf_logo_option)
+    @agencies_with_system_logos = agencies.select(&:logo_enabled)[0..2]
+    @agencies_with_logo_options = agencies.select(&:pdf_logo_option)
   end
 end

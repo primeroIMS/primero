@@ -60,7 +60,10 @@ export const FieldRecord = Record({
   placeholder: "",
   maxSelectedOptions: null,
   onKeyPress: null,
-  currRecord: fromJS({})
+  currRecord: fromJS({}),
+  href: null,
+  fileFormat: "",
+  filterOptionSource: null
 });
 
 export const FormSectionRecord = Record({

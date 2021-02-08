@@ -15,7 +15,7 @@ module AuditLogActions
   end
 
   def write_audit_log
-    audit_log_params = {
+    default_audit_params = {
       record_type: model_class.name,
       record_id: record_id,
       action: friendly_action_message,
@@ -24,7 +24,15 @@ module AuditLogActions
       metadata: { user_name: guessed_user_name }
     }
 
+    audit_log_params = default_audit_params.merge(audit_params)
+
     AuditLogJob.perform_later(audit_log_params)
+  end
+
+  # Allow controllers to override / add related properties to
+  # the audit log.
+  def audit_params
+    {}
   end
 
   # rubocop:disable Metrics/CyclomaticComplexity

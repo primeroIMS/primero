@@ -23,6 +23,7 @@ export const ACTIONS = {
   DASH_APPROVALS_ACTION_PLAN_PENDING: "approvals_action_plan_pending",
   DASH_APPROVALS_GBV_CLOSURE: "approvals_gbv_closure",
   DASH_APPROVALS_GBV_CLOSURE_PENDING: "approvals_gbv_closure_pending",
+  DASH_CASES_BY_SOCIAL_WORKER: "dash_cases_by_social_worker",
   DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT: "cases_by_task_overdue_assessment",
   DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN: "cases_by_task_overdue_case_plan",
   DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS: "cases_by_task_overdue_followups",
@@ -59,6 +60,22 @@ export const ACTIONS = {
   GROUP_READ: "group_read",
   INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",
   INCIDENT_FROM_CASE: "incident_from_case",
+  KPI_ASSESSMENT_STATUS: "kpi_assessment_status",
+  KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE: "kpi_average_followup_meetings_per_case",
+  KPI_AVERAGE_REFERRALS: "kpi_average_referrals",
+  KPI_CASE_CLOSURE_RATE: "kpi_case_closure_rate",
+  KPI_CASE_LOAD: "kpi_case_load",
+  KPI_CLIENT_SATISFACTION_RATE: "kpi_client_satisfaction_rate",
+  KPI_COMPLETED_CASE_ACTION_PLANS: "kpi_completed_case_action_plans",
+  KPI_COMPLETED_CASE_SAFETY_PLANS: "kpi_completed_case_safety_plans",
+  KPI_COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS: "kpi_completed_supervisor_approved_case_action_plans",
+  KPI_GOAL_PROGRESS_PER_NEED: "kpi_goal_progress_per_need",
+  KPI_NUMBER_OF_CASES: "kpi_number_of_cases",
+  KPI_NUMBER_OF_INCIDENTS: "kpi_number_of_incidents",
+  KPI_REPORTING_DELAY: "kpi_reporting_delay",
+  KPI_SERVICES_PROVIDED: "kpi_services_provided",
+  KPI_SUPERVISOR_TO_CASEWORKER_RATIO: "kpi_supervisor_to_caseworker_ratio",
+  KPI_TIME_FROM_CASE_OPEN_TO_CLOSE: "kpi_time_from_case_open_to_close",
   MANAGE: "manage",
   READ: "read",
   RECEIVE_REFERRAL: "receive_referral",
@@ -91,6 +108,7 @@ export const RESOURCES = {
   contact_information: "contact_information",
   dashboards: "dashboards",
   incidents: "incidents",
+  kpis: "kpis",
   locations: "locations",
   lookups: "lookups",
   metadata: "metadata",
@@ -241,3 +259,7 @@ export const allowedExportTypes = userPermissions =>
   });
 
 export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.CHANGE_LOG];
+
+export const SHOW_FIND_MATCH = [...MANAGE, ACTIONS.READ];
+
+export const VIEW_KPIS = [ACTIONS.READ];

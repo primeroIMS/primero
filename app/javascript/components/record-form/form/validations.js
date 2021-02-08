@@ -17,7 +17,11 @@ export const fieldValidations = (field, i18n) => {
         .min(0, i18n.t("errors.models.child.age"))
         .max(130, i18n.t("errors.models.child.age"));
     } else {
-      validations[name] = number().nullable().min(0).max(2147483647);
+      validations[name] = number()
+        .nullable()
+        .transform(value => (Number.isNaN(value) ? null : value))
+        .min(0)
+        .max(2147483647);
     }
   } else if (DATE_FIELD === type) {
     validations[name] = date().nullable();

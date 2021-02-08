@@ -11,6 +11,7 @@ const colors = {
   black: "#231f20",
   solidBlack: "#000000",
   darkGrey: "#595952",
+  lightBlue: "rgba(0, 147, 186, 0.25)",
   blue: "#0093ba",
   darkBlue: "#048BB0",
   yellow: "#f2c317",
@@ -34,7 +35,9 @@ const colors = {
   grey: "#4a4a4a",
   contentGrey: "#fbfbfb",
   stickyGrey: "rgba(251, 251, 251, 0.95)",
-  lightGrey2: "#e0e0e0"
+  lightGrey2: "#e0e0e0",
+  atlantis: "#8bb827",
+  wildSand: "#f5f5f5"
 };
 
 const overrides = {
@@ -128,6 +131,11 @@ const overrides = {
     }
   },
   MuiFormControlLabel: {
+    root: {
+      "&$disabled": {
+        cursor: "not-allowed"
+      }
+    },
     label: {
       fontSize: "0.7rem !important",
       "&$disabled": {

@@ -6,6 +6,7 @@ import isEmpty from "lodash/isEmpty";
 import { Box } from "@material-ui/core";
 import NavigationPrompt from "react-router-navigation-prompt";
 import { batch, useDispatch } from "react-redux";
+import isEqual from "lodash/isEqual";
 
 import { setSelectedForm } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
@@ -42,8 +43,11 @@ const RecordForm = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState(constructInitialValues(forms.values()));
+  const [formTouched, setFormTouched] = useState({});
+  const [formIsSubmitting, setFormIsSubmitting] = useState(false);
 
   let bindedSetValues = null;
+  let formikValues;
 
   const bindSetValues = setValues => {
     bindedSetValues = setValues;
@@ -79,6 +83,12 @@ const RecordForm = ({
     }
   }, [record]);
 
+  useEffect(() => {
+    if (bindedSetValues && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {
+      bindedSetValues({ ...initialValues, ...formikValues });
+    }
+  }, [bindedSetValues, initialValues, formTouched, formIsSubmitting]);
+
   const handleConfirm = onConfirm => {
     onConfirm();
     if (incidentFromCase?.size) {
@@ -88,8 +98,8 @@ const RecordForm = ({
       });
     }
   };
-  const renderFormSections = (fs, setFieldValue, handleSubmit) => {
-    const externalRecordForms = externalForms ? externalForms(selectedForm, setFieldValue, handleSubmit) : null;
+  const renderFormSections = (fs, setFieldValue, handleSubmit, values) => {
+    const externalRecordForms = externalForms ? externalForms(selectedForm, setFieldValue, handleSubmit, values) : null;
 
     if (externalRecordForms) {
       return externalRecordForms;
@@ -152,13 +162,19 @@ const RecordForm = ({
           onSubmit(initialValues, values);
         }}
       >
-        {({ handleSubmit, submitForm, errors, dirty, isSubmitting, setValues, setFieldValue }) => {
+        {({ handleSubmit, submitForm, errors, isSubmitting, setValues, setFieldValue, values, touched }) => {
+          const equalValues = isEqual(initialValues, values);
+
           bindSubmitForm(submitForm);
           bindSetValues(setValues);
 
+          setFormTouched(touched);
+          setFormIsSubmitting(isSubmitting);
+          formikValues = values;
+
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-              <NavigationPrompt when={dirty && !isSubmitting && !mode.isShow}>
+              <NavigationPrompt when={!equalValues && !isSubmitting && !mode.isShow}>
                 {({ onConfirm, onCancel }) => (
                   <ActionDialog
                     open
@@ -171,7 +187,7 @@ const RecordForm = ({
                 )}
               </NavigationPrompt>
               <ValidationErrors formErrors={errors} forms={forms} />
-              {renderFormSections(forms, setFieldValue, handleSubmit)}
+              {renderFormSections(forms, setFieldValue, handleSubmit, values)}
             </Form>
           );
         }}

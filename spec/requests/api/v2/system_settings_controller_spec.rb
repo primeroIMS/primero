@@ -70,10 +70,9 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(15)
+      expect(json['data'].size).to eq(14)
       expect(json['data']['default_locale']).to eq('en')
       expect(json['data']['locale']).to eq('en')
-      expect(json['data']['locales']).to contain_exactly('en', 'ar', 'fr', 'es')
       expect(json['data']['rtl_locales']).to contain_exactly('ar')
       expect(json['data']['primero_version']).to eq(@system_settings.primero_version)
     end
@@ -82,7 +81,7 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings?extended=true'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(17)
+      expect(json['data'].size).to eq(16)
       expect(json['data']['agencies'][0]['name']['en']).to eq('Agency test')
       expect(json['data']['modules'].size).to eq(1)
       expect(json['data']['modules'][0]['name']).to eq('CP')
@@ -95,7 +94,7 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings?extended=true'
 
-      expect(json['data']['modules'][0]['workflows']['case']['en'].length).to be > 0
+      expect(json['data']['modules'][0]['workflows']['case'].length).to be > 0
     end
   end
 

@@ -23,19 +23,19 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     id: "csv",
     permission: ACTIONS.EXPORT_CSV,
     format: EXPORT_FORMAT.CSV,
-    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
+    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests]
   }),
   Object.freeze({
     id: "xlsx",
     permission: ACTIONS.EXPORT_EXCEL,
     format: EXPORT_FORMAT.EXCEL,
-    recordTypes: [RECORD_PATH.cases]
+    recordTypes: [RECORD_PATH.cases, RECORD_PATH.tracing_requests]
   }),
   Object.freeze({
     id: "json",
     permission: ACTIONS.EXPORT_JSON,
     format: EXPORT_FORMAT.JSON,
-    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
+    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests]
   }),
   Object.freeze({
     id: "photowall",
@@ -55,7 +55,7 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     permission: ACTIONS.EXPORT_LIST_VIEW,
     format: EXPORT_FORMAT.CSV,
     showOnlyOnList: true,
-    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
+    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests]
   }),
   Object.freeze({
     id: "duplicate_id_csv",
@@ -68,7 +68,7 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     id: "custom",
     permission: ACTIONS.EXPORT_CUSTOM,
     format: EXPORT_FORMAT.EXCEL,
-    recordTypes: [RECORD_PATH.cases]
+    recordTypes: [RECORD_PATH.cases, RECORD_PATH.tracing_requests]
   }),
   Object.freeze({
     id: "incident_recorder_xls",
@@ -88,6 +88,9 @@ export const FORM_TO_EXPORT_FIELD = "form_unique_ids";
 export const FIELDS_TO_EXPORT_FIELD = "field_names";
 export const HEADER = "header";
 export const CUSTOM_HEADER = "custom_header";
+export const INCLUDE_IMPLEMENTATION_LOGOS = "include_implementation_logos";
+export const INCLUDE_AGENCY_LOGO = "include_agency_logos";
+export const INCLUDE_OTHER_LOGOS = "include_other_logos";
 export const SIGNATURES = "signatures";
 export const FILTERS_TO_SKIP = Object.freeze(["fields", "id_search", "per", "page", "total"]);
 export const PASSWORD_FIELD = "password";

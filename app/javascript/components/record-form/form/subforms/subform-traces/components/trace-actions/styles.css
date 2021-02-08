@@ -1,0 +1,10 @@
+.buttonsRow {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.hasMatch {
+  border-radius: 24px;
+  padding: 6px 16px;
+}

@@ -8,12 +8,11 @@ import { fieldValidations } from "../../validations";
 import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
-import { serviceHasReferFields } from "../../utils";
+import { getSubformValues, serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import { compactValues, constructInitialValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
 import SubformDialogFields from "../subform-dialog-fields";
-import { valuesWithDisplayConditions } from "../subform-field-array/utils";
 
 const Component = ({
   arrayHelpers,
@@ -28,32 +27,17 @@ const Component = ({
   oldValue,
   open,
   setOpen,
-  title
+  title,
+  orderedValues
 }) => {
   const [initialValues, setInitialValues] = useState({});
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
 
-  const { subform_section_configuration: subformSectionConfiguration } = field;
-
-  const { display_conditions: displayConditions } = subformSectionConfiguration || {};
-
-  const subformValues = () => {
-    if (isValidIndex) {
-      if (displayConditions) {
-        return valuesWithDisplayConditions(getIn(formik.values, field.name), displayConditions)[index];
-      }
-
-      return getIn(formik.values, `${field.name}[${index}]`);
-    }
-
-    return {};
-  };
-
   const initialSubformValues = {
     ...initialValues,
-    ...subformValues()
+    ...getSubformValues(field, index, formik.values, orderedValues)
   };
 
   const initialSubformErrors = isValidIndex ? getIn(formik.errors, `${field.name}[${index}]`) : {};
@@ -85,6 +69,7 @@ const Component = ({
       formik.setFieldValue(`${field.name}[${index}]`, values, false);
     } else {
       arrayHelpers.push({ ...initialSubformValues, ...values });
+      formik.setTouched({ [field.name]: true });
     }
 
     // Trigger validations only if the form was already submitted.
@@ -191,6 +176,7 @@ Component.propTypes = {
   mode: PropTypes.object.isRequired,
   oldValue: PropTypes.object,
   open: PropTypes.bool.isRequired,
+  orderedValues: PropTypes.array.isRequired,
   setOpen: PropTypes.func.isRequired,
   subformSectionConfiguration: PropTypes.object,
   title: PropTypes.string.isRequired

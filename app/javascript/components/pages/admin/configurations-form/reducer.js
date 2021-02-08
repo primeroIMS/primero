@@ -23,6 +23,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .set("serverErrors", fromJS([]));
     case actions.FETCH_CONFIGURATION_FINISHED:
       return state.set("loading", fromJS(payload));
+    case actions.SEND_TO_PRODUCTION_FAILURE:
     case actions.APPLY_CONFIGURATION_FAILURE:
     case actions.FETCH_CONFIGURATION_FAILURE:
     case actions.SAVE_CONFIGURATION_FAILURE:
@@ -33,6 +34,10 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.set(SAVING, true);
     case actions.SAVE_CONFIGURATION_FINISHED:
       return state.set(SAVING, false);
+    case actions.SEND_TO_PRODUCTION_STARTED:
+      return state.set("sending", true);
+    case actions.SEND_TO_PRODUCTION_FINISHED:
+      return state.set("sending", false);
     default:
       return state;
   }

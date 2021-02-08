@@ -16,7 +16,6 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       const {
         agencies,
         modules,
-        locales,
         default_locale: defaultLocale,
         base_language: baseLanguage,
         primero_version: primeroVersion,
@@ -29,7 +28,6 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         fromJS({
           agencies,
           modules: mapEntriesToRecord(modules, PrimeroModuleRecord),
-          locales,
           defaultLocale,
           baseLanguage,
           primeroVersion,
@@ -76,6 +74,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("managedRoles", fromJS(payload.data));
     case actions.FETCH_SANDBOX_UI_SUCCESS:
       return state.set("primero", fromJS(payload.data));
+    case actions.SET_RETURN_URL:
+      return state.set("returnUrl", fromJS(payload));
     default:
       return state;
   }

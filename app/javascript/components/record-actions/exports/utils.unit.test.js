@@ -16,6 +16,7 @@ describe("<RecordActions /> - exports/utils", () => {
       [
         "allowedExports",
         "buildFields",
+        "buildAgencyLogoPdfOptions",
         "exporterFilters",
         "formatFields",
         "formatFileName",
@@ -58,14 +59,14 @@ describe("<RecordActions /> - exports/utils", () => {
           display_name: "test.label",
           permission: ACTIONS.EXPORT_CSV,
           format: EXPORT_FORMAT.CSV,
-          recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
+          recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests]
         },
         {
           id: "json",
           display_name: "test.label",
           permission: ACTIONS.EXPORT_JSON,
           format: EXPORT_FORMAT.JSON,
-          recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
+          recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests]
         }
       ];
 
@@ -295,6 +296,19 @@ describe("<RecordActions /> - exports/utils", () => {
     });
     it("returns true if pdf export", () => {
       expect(utils.isPdfExport("pdf")).to.be.true;
+    });
+  });
+
+  describe("buildAgencyLogoPdfOptions", () => {
+    it("return empty array when argument is empty", () => {
+      expect(utils.buildAgencyLogoPdfOptions([])).to.be.empty;
+    });
+
+    it("return an array of agencies", () => {
+      const agencyLogosPdf = fromJS([{ id: "test", name: "Test" }]);
+      const expected = [{ id: "test", display_name: "Test" }];
+
+      expect(utils.buildAgencyLogoPdfOptions(agencyLogosPdf)).to.deep.equal(expected);
     });
   });
 });

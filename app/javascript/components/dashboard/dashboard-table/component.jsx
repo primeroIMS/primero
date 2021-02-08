@@ -41,7 +41,7 @@ const DashboardTable = ({ columns, data, query, title, pathname }) => {
       if (typeof query[rowIndex] !== "undefined") {
         const clickedCellQuery = query[rowIndex][columnName];
 
-        if (clickableCell && Array.isArray(clickedCellQuery)) {
+        if (clickableCell && Array.isArray(clickedCellQuery) && colData > 0) {
           dispatch(
             push({
               pathname,

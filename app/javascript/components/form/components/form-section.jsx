@@ -17,7 +17,7 @@ import FormSectionTitle from "./form-section-title";
 import styles from "./styles.css";
 import FormSectionTabs from "./form-section-tabs";
 
-const FormSection = ({ formSection }) => {
+const FormSection = ({ formSection, showTitle, disableUnderline }) => {
   const css = makeStyles(styles)();
   const { errors } = useFormContext();
   const { fields, check_errors: checkErrors, expandable, tooltip } = formSection;
@@ -54,6 +54,7 @@ const FormSection = ({ formSection }) => {
       return (
         <FormSectionField
           field={field}
+          disableUnderline={disableUnderline}
           key={fieldKey(field.name, field.internalFormFieldID)}
           checkErrors={checkErrors}
         />
@@ -99,7 +100,7 @@ const FormSection = ({ formSection }) => {
 
   const renderFormSection = () => (
     <>
-      <FormSectionTitle formSection={formSection} />
+      {showTitle && <FormSectionTitle formSection={formSection} />}
       {renderFields(fields)}
       {renderActions(formSection.actions)}
     </>
@@ -110,8 +111,15 @@ const FormSection = ({ formSection }) => {
 
 FormSection.displayName = FORM_SECTION_NAME;
 
+FormSection.defaultProps = {
+  disableUnderline: false,
+  showTitle: true
+};
+
 FormSection.propTypes = {
-  formSection: PropTypes.object
+  disableUnderline: PropTypes.bool,
+  formSection: PropTypes.object,
+  showTitle: PropTypes.bool
 };
 
 export default FormSection;

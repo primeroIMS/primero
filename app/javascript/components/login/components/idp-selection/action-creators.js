@@ -2,7 +2,7 @@
 
 import actions from "../login-form/actions";
 
-export const attemptLogin = () => {
+export const attemptIDPLogin = () => {
   return {
     type: actions.LOGIN,
     api: {

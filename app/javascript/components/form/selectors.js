@@ -2,7 +2,7 @@ import { fromJS, Map } from "immutable";
 import isEmpty from "lodash/isEmpty";
 
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
-import { displayNameHelper } from "../../libs";
+import { dataToJS, displayNameHelper } from "../../libs";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 
@@ -46,11 +46,15 @@ const formGroups = (state, i18n) =>
     )
     .sortBy(item => item.get("display_text"));
 
-const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false }) =>
-  state.getIn(["application", "agencies"], fromJS([])).map(agency => ({
+const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false, filterOptions }) => {
+  const stateAgencies = state.getIn(["application", "agencies"], fromJS([]));
+  const filteredAgencies = filterOptions ? filterOptions(stateAgencies) : stateAgencies;
+
+  return filteredAgencies.map(agency => ({
     id: agency.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
     display_text: agency.getIn(["name", i18n.locale], "")
   }));
+};
 
 const locations = (state, i18n, includeAdminLevel = false) =>
   state.getIn(["forms", "options", "locations"], fromJS([])).map(location => ({
@@ -87,7 +91,7 @@ const lookupValues = (state, optionStringsSource, i18n) =>
         result.push(
           Map({
             id: item.get("id"),
-            display_text: item.getIn(["display_text", i18n.locale], "")
+            display_text: displayNameHelper(dataToJS(item.get("display_text")), i18n.locale)
           })
         ),
       fromJS([])

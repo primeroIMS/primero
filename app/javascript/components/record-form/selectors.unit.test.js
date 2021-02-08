@@ -123,7 +123,8 @@ const fields = {
     option_strings_text: null,
     guiding_questions: "",
     required: true,
-    date_validation: "default_date_validation"
+    date_validation: "default_date_validation",
+    href: null
   },
   2: {
     name: "document_field",
@@ -146,7 +147,8 @@ const fields = {
     option_strings_text: null,
     guiding_questions: "",
     required: true,
-    date_validation: "default_date_validation"
+    date_validation: "default_date_validation",
+    href: null
   }
 };
 const serviceTypeLookup = {
@@ -448,9 +450,11 @@ describe("<RecordForm /> - Selectors", () => {
               so: ""
             },
             editable: true,
+            href: null,
             guiding_questions: "",
             help_text: {},
             hide_on_view_page: false,
+            link_to_form: "",
             multi_select: null,
             name: "name_first",
             option_strings_source: null,
@@ -519,8 +523,10 @@ describe("<RecordForm /> - Selectors", () => {
             },
             editable: true,
             guiding_questions: "",
+            href: null,
             help_text: {},
             hide_on_view_page: false,
+            link_to_form: "",
             multi_select: null,
             name: "name_first",
             option_strings_source: null,
@@ -735,6 +741,15 @@ describe("<RecordForm /> - Selectors", () => {
       const expected = fromJS(validationErrors);
 
       const result = selectors.getValidationErrors(stateWithRecords);
+
+      expect(result).to.deep.equal(expected);
+    });
+  });
+
+  describe("getFieldByName", () => {
+    it("should return the field if exists", () => {
+      const expected = R.FieldRecord(fields["1"]);
+      const result = selectors.getFieldByName(stateWithRecords, "name_first");
 
       expect(result).to.deep.equal(expected);
     });

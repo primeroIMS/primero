@@ -16,7 +16,7 @@ if primero_module.unique_id == PrimeroModule::CP
       ['case'].each do |record_type|
         record_class = Record.model_from_name(record_type)
         json.set! record_type do
-          json.merge! record_class.workflow_statuses([primero_module] )
+          json.merge! FieldI18nService.convert_options(record_class.workflow_statuses([primero_module]))
         end
       end
     end

@@ -8,7 +8,8 @@ import {
   SHOW_EXPORTS,
   SHOW_TASKS,
   ADMIN_RESOURCES,
-  ADMIN_ACTIONS
+  ADMIN_ACTIONS,
+  VIEW_KPIS
 } from "../libs/permissions";
 import { getAdminResources } from "../components/pages/admin/utils";
 
@@ -92,6 +93,7 @@ export const RECORD_PATH = {
   roles: "roles",
   tasks: "tasks",
   tracing_requests: "tracing_requests",
+  traces: "traces",
   user_groups: "user_groups",
   users: "users"
 };
@@ -107,6 +109,8 @@ export const APPROVALS = "approvals";
 export const INCIDENT_FROM_CASE = "incident_from_case";
 
 export const CHANGE_LOGS = "change_logs";
+
+export const SUMMARY = "summary";
 
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
@@ -141,6 +145,7 @@ export const ROUTES = {
   not_authorized: "/not-authorized",
   reports: "/reports",
   reports_new: "/reports/new",
+  key_performance_indicators: "/key_performance_indicators",
   support: "/support",
   tasks: "/tasks",
   tracing_requests: "/tracing_requests",
@@ -188,7 +193,8 @@ export const LOOKUPS = {
   followup_type: "lookup-followup-type",
   reporting_locations: "ReportingLocation",
   gbv_violence_type: "lookup-gbv-sexual-violence-type",
-  cp_violence_type: "lookup-cp-violence-type"
+  cp_violence_type: "lookup-cp-violence-type",
+  gender: "lookup-gender"
 };
 
 export const ADMIN_NAV = [
@@ -322,6 +328,13 @@ export const APPLICATION_NAV = (permissions, userId) => {
       validateWithUserPermissions: true
     },
     {
+      name: "navigation.key_performance_indicators",
+      to: ROUTES.key_performance_indicators,
+      icon: "key_performance_indicators",
+      resources: RESOURCES.kpis,
+      actions: VIEW_KPIS
+    },
+    {
       name: "navigation.bulk_exports",
       to: ROUTES.exports,
       icon: "exports",
@@ -413,3 +426,18 @@ export const FETCH_PARAM = Object.freeze({
   DATA: "data",
   OPTIONS: "options"
 });
+
+export const TRACING_REQUEST_STATUS_FIELD_NAME = "tracing_request_status";
+
+export const TRACES_SUBFORM_UNIQUE_ID = "tracing_request_subform_section";
+
+export const POTENTIAL_MATCH_LIKELIHOOD = {
+  likely: "likely",
+  possible: "possible"
+};
+
+export const MATCH_VALUES = {
+  match: "match",
+  mismatch: "mismatch",
+  blank: "blank"
+};

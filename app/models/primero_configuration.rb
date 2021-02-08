@@ -11,6 +11,13 @@ class PrimeroConfiguration < ApplicationRecord
 
   before_create :generate_version
 
+  def self.new_with_user(created_by = nil)
+    new.tap do |config|
+      config.created_on = DateTime.now
+      config.created_by = created_by&.user_name
+    end
+  end
+
   def self.current(created_by = nil)
     new.tap do |config|
       config.created_on = DateTime.now
@@ -26,8 +33,16 @@ class PrimeroConfiguration < ApplicationRecord
     end
   end
 
+  def self.api_path
+    '/api/v2/configurations'
+  end
+
   def apply_later!(applied_by = nil)
     ApplyConfigurationJob.perform_later(id, applied_by.id)
+  end
+
+  def promote_later!
+    PrimeroConfigurationSyncJob.perform_later(id)
   end
 
   def apply_with_api_lock!(applied_by = nil)
@@ -64,7 +79,7 @@ class PrimeroConfiguration < ApplicationRecord
 
   def validate_configuration_data
     data_is_valid = CONFIGURABLE_MODELS.reduce(true) do |valid, model|
-      valid && (%w[Report Location].include?(model) || data[model].size.positive?)
+      valid && (%w[Report Location].include?(model) || data[model]&.size&.positive?)
     end
     return if data_is_valid
 

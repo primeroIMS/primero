@@ -51,7 +51,8 @@ describe Api::V2::UsersController, type: :request do
       ],
       modules: [@cp]
     )
-    @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+    @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1', logo_icon: FilesTestHelper.logo,
+                               logo_full: FilesTestHelper.logo)
     @agency_b = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
 
     @user_group_a = UserGroup.create!(unique_id: 'user-group-1', name: 'user group 1')
@@ -159,6 +160,10 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data'][0]['permissions']).not_to be_nil
       expect(json['data'][0]['list_headers']).not_to be_nil
       expect(json['data'][0]['permitted_form_unique_ids']).not_to be_nil
+      expect(json['data'][0]['agency_logo_full']).not_to be_nil
+      expect(json['data'][0]['agency_logo_icon']).not_to be_nil
+      expect(json['data'][0]['agency_name']).to eq(@agency_a.name)
+      expect(json['data'][0]['agency_unique_id']).to eq(@agency_a.unique_id)
     end
 
     it 'refuses unauthorized access' do

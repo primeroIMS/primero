@@ -101,7 +101,7 @@ describe Flag do
 
             it 'returns active case flags owned by or asssociated with the current user' do
               flags = Flag.by_owner(@query_scope, @active_only, @record_types, nil)
-              f1 = flags.first
+              f1 = flags.select { |f| f.id == @flag1.id }.first
               expect(flags.size).to eq(2)
               expect(flags.map(&:removed)).to match_array([false, false])
               expect(f1['record_id']).to eq(@case1.id.to_s)
@@ -255,9 +255,10 @@ describe Flag do
 
             it 'returns case flags owned by or associated with users in current users groups' do
               flags = Flag.by_owner(@query_scope, false, @record_types, nil)
-              f1 = flags.first
+              f1 = flags.select { |f| f.id == @flag1.id }.first
               expect(flags.size).to eq(4)
               expect(flags.map(&:removed).uniq).to match_array([true, false])
+              expect(flags.map(&:record_id)).to match_array([@case1.id, @case1.id, @case3.id, @case1.id])
               expect(f1['record_id']).to eq(@case1.id.to_s)
               expect(f1['record_type']).to eq('Child')
               expect(f1['message']).to eq('This is test flag 1')
@@ -277,7 +278,7 @@ describe Flag do
 
             it 'returns incident flags owned by or associated with users in current users groups' do
               flags = Flag.by_owner(@query_scope, false, @record_types, nil)
-              f1 = flags.first
+              f1 = flags.select { |f| f.id == @flag_in1.id }.first
               expect(flags.size).to eq(4)
               expect(f1['record_id']).to eq(@incident1.id.to_s)
               expect(f1['record_type']).to eq('Incident')
@@ -298,7 +299,7 @@ describe Flag do
 
             it 'returns tracing_request flags owned by or associated with users in current users groups' do
               flags = Flag.by_owner(@query_scope, false, @record_types, nil)
-              f1 = flags.first
+              f1 = flags.select { |f| f.id == @flag_tr1.id }.first
               expect(flags.size).to eq(2)
               expect(f1['record_id']).to eq(@tracing_request1.id.to_s)
               expect(f1['record_type']).to eq('TracingRequest')

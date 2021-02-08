@@ -25,11 +25,18 @@ class Agency < ApplicationRecord
 
   scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
   scope :with_logos, -> { enabled.where(logo_enabled: true) }
+  scope :with_pdf_logo_option, -> { enabled.where(pdf_logo_option: true) }
 
   validates :logo_full, file_size: { less_than_or_equal_to: 1.megabytes },
-                        file_content_type: { allow: 'image/png' }, if: -> { logo_full.attached? }
+                        file_content_type: {
+                          allow: 'image/png',
+                          message: 'errors.models.agency.logo_format'
+                        }, if: -> { logo_full.attached? }
   validates :logo_icon, file_size: { less_than_or_equal_to: 1.megabytes },
-                        file_content_type: { allow: 'image/png' }, if: -> { logo_icon.attached? }
+                        file_content_type: {
+                          allow: 'image/png',
+                          message: 'errors.models.agency.logo_format'
+                        }, if: -> { logo_icon.attached? }
 
   validate :validate_logo_full_dimension, if: -> { logo_full.attached? }
   validate :validate_logo_icon_dimension, if: -> { logo_icon.attached? }

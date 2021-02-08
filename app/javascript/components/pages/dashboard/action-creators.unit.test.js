@@ -38,4 +38,32 @@ describe("<Dashboard /> - Action Creators", () => {
 
     expect(dispatch.getCall(0).returnValue.api.path).to.eql(RECORD_PATH.dashboards);
   });
+
+  describe("fetchFlags", () => {
+    const store = configureStore()({});
+    const dispatch = sinon.spy(store, "dispatch");
+    const commonPath = "record_type=cases";
+
+    describe("when only activeFlags is false", () => {
+      it("should return the correct object", () => {
+        const expected = { type: "dashboard/DASHBOARD_FLAGS", api: { path: `flags?${commonPath}` } };
+
+        dispatch(actionCreators.fetchFlags("cases"));
+        const { returnValue: firstCallReturnValue } = dispatch.getCall(0);
+
+        expect(firstCallReturnValue).deep.equals(expected);
+      });
+    });
+
+    describe("when only activeFlags is true", () => {
+      it("should return the correct object", () => {
+        const expected = { type: "dashboard/DASHBOARD_FLAGS", api: { path: `flags?active_only=true&${commonPath}` } };
+
+        dispatch(actionCreators.fetchFlags("cases", true));
+        const { returnValue: firstCallReturnValue } = dispatch.getCall(1);
+
+        expect(firstCallReturnValue).deep.equals(expected);
+      });
+    });
+  });
 });

@@ -5,6 +5,7 @@ import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
 import orderBy from "lodash/orderBy";
 
+import SubformTraces from "../subform-traces";
 import SubformFields from "../subform-fields";
 import SubformDialog from "../subform-dialog";
 import SubformEmptyData from "../subform-empty-data";
@@ -14,9 +15,9 @@ import styles from "../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-import { valuesWithDisplayConditions } from "./utils";
+import { isTracesSubform, valuesWithDisplayConditions } from "./utils";
 
-const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection }) => {
+const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recordType }) => {
   const {
     display_name: displayName,
     name,
@@ -28,6 +29,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection }) => 
   // eslint-disable-next-line camelcase
   const subformSortBy = subformSectionConfiguration?.subform_sort_by;
   const storedValues = getIn(formik.values, name);
+
   const values = valuesWithDisplayConditions(storedValues, displayConditions);
 
   const orderedValues = subformSortBy ? orderBy(values, [subformSortBy], ["asc"]) : values;
@@ -49,6 +51,8 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection }) => 
   const title = displayName?.[i18n.locale];
   const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
 
+  const isTraces = isTracesSubform(recordType, formSection);
+
   useEffect(() => {
     if (typeof index === "number") {
       setSelectedValue(orderedValues[index]);
@@ -68,6 +72,9 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection }) => 
         setOpen={setOpenDialog}
         setDialogIsNew={setDialogIsNew}
         form={formSection}
+        recordType={recordType}
+        isTracesSubform={isTraces}
+        formik={formik}
       />
     );
 
@@ -93,21 +100,35 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection }) => 
         </div>
       </div>
       {renderEmptyData}
-      <SubformDialog
-        arrayHelpers={arrayHelpers}
-        dialogIsNew={dialogIsNew}
-        field={field}
-        formik={formik}
-        i18n={i18n}
-        index={index}
-        isFormShow={mode.isShow || isDisabled}
-        mode={mode}
-        oldValue={!dialogIsNew ? selectedValue : {}}
-        open={open}
-        setOpen={setOpenDialog}
-        title={title}
-        formSection={formSection}
-      />
+      {isTraces && mode.isShow ? (
+        <SubformTraces
+          formSection={formSection}
+          openDrawer={open}
+          handleClose={() => setOpenDialog(false)}
+          field={field}
+          formik={formik}
+          index={index}
+          recordType={recordType}
+          mode={mode}
+        />
+      ) : (
+        <SubformDialog
+          arrayHelpers={arrayHelpers}
+          dialogIsNew={dialogIsNew}
+          field={field}
+          formik={formik}
+          i18n={i18n}
+          index={index}
+          isFormShow={mode.isShow || isDisabled}
+          mode={mode}
+          oldValue={!dialogIsNew ? selectedValue : {}}
+          open={open}
+          setOpen={setOpenDialog}
+          title={title}
+          formSection={formSection}
+          orderedValues={orderedValues}
+        />
+      )}
     </>
   );
 };
@@ -120,7 +141,8 @@ Component.propTypes = {
   formik: PropTypes.object.isRequired,
   formSection: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
-  mode: PropTypes.object.isRequired
+  mode: PropTypes.object.isRequired,
+  recordType: PropTypes.string.isRequired
 };
 
 export default Component;

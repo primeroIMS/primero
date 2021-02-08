@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
+import omit from "lodash/omit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -21,7 +22,20 @@ import { compare } from "../../../../../libs";
 import { getValidationErrors } from "../../..";
 import styles from "../styles.css";
 
-const Component = ({ arrayHelpers, field, form, locale, mode, setDialogIsNew, setOpen, values }) => {
+import { TracingRequestStatus } from "./components";
+
+const Component = ({
+  arrayHelpers,
+  field,
+  form,
+  isTracesSubform,
+  locale,
+  mode,
+  setDialogIsNew,
+  setOpen,
+  values,
+  formik
+}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [deleteModal, setDeleteModal] = useState(false);
@@ -50,6 +64,9 @@ const Component = ({ arrayHelpers, field, form, locale, mode, setDialogIsNew, se
       if (uniqueId) {
         arrayHelpers.replace(index, { _destroy: true, unique_id: uniqueId });
       } else {
+        if (formik.values[name].length) {
+          formik.setTouched(omit(formik.touched, name));
+        }
         arrayHelpers.remove(index);
       }
 
@@ -114,6 +131,7 @@ const Component = ({ arrayHelpers, field, form, locale, mode, setDialogIsNew, se
                 />
               </div>
               <div className={css.subformHeaderActions}>
+                {isTracesSubform && <TracingRequestStatus values={values[index]} />}
                 {hasError(index) && <Jewel isError />}
                 {!subformPreventItemRemoval && !isDisabled && !mode.isShow ? (
                   <ActionButton
@@ -160,6 +178,8 @@ Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
+  formik: PropTypes.object.isRequired,
+  isTracesSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
   setDialogIsNew: PropTypes.func.isRequired,

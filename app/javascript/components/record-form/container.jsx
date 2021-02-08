@@ -30,9 +30,10 @@ import {
   RECORD_PATH,
   REFERRAL,
   INCIDENT_FROM_CASE,
-  CHANGE_LOGS
+  CHANGE_LOGS,
+  SUMMARY
 } from "../../config";
-import { REFER_FROM_SERVICE } from "../../libs/permissions";
+import { REFER_FROM_SERVICE, SHOW_FIND_MATCH } from "../../libs/permissions";
 import { SHOW_CHANGE_LOG } from "../permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
@@ -43,8 +44,12 @@ import { usePermissions } from "../user";
 import { clearRecordAttachments, fetchRecordsAlerts } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
 import { fetchChangeLogs } from "../change-logs/action-creators";
+import Summary from "../summary";
+import { RESOURCES } from "../permissions/constants";
+import { useApp } from "../application";
 
 import {
+  customForms,
   getAttachmentForms,
   getFirstTab,
   getFormNav,
@@ -64,6 +69,7 @@ const Container = ({ match, mode }) => {
   let submitForm = null;
   const { theme } = useThemeHelper({ css: styles });
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { demo } = useApp();
 
   const containerMode = {
     isNew: mode === "new",
@@ -83,11 +89,14 @@ const Container = ({ match, mode }) => {
   const record = useSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
 
   const userPermittedFormsIds = useSelector(state => getPermittedFormsIds(state));
+  const canViewSummaryForm = usePermissions(RESOURCES.potential_matches, SHOW_FIND_MATCH);
 
   const selectedModule = {
     recordType,
     primeroModule: record ? record.get("module_id") : params.module,
-    formsIds: userPermittedFormsIds
+    formsIds: userPermittedFormsIds,
+    i18n,
+    renderCustomForms: canViewSummaryForm
   };
 
   const formNav = useSelector(state => getFormNav(state, selectedModule));
@@ -206,6 +215,7 @@ const Container = ({ match, mode }) => {
   const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
   const canSeeChangeLog = usePermissions(params.recordType, SHOW_CHANGE_LOG);
   const isNotANewCase = !containerMode.isNew && params.recordType === RECORD_PATH.cases;
+  const isCaseIdEqualParam = params?.id === record?.get("id");
 
   useEffect(() => {
     batch(() => {
@@ -256,7 +266,7 @@ const Container = ({ match, mode }) => {
   const approvalSubforms = record?.get("approval_subforms");
   const incidentsSubforms = record?.get("incident_details");
 
-  const externalForms = (form, setFieldValue, handleSubmit) => {
+  const externalForms = (form, setFieldValue, handleSubmit, values) => {
     const isTransitions = TRANSITION_TYPE.includes(form);
 
     const externalFormSelected = isTransitions ? TRANSITION_TYPE : form;
@@ -293,11 +303,24 @@ const Container = ({ match, mode }) => {
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
         />
+      ),
+      [SUMMARY]: (
+        <Summary
+          record={record}
+          recordType={params.recordType}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          form={customForms(i18n)[form]}
+          mode={containerMode}
+          values={values}
+        />
       )
     }[externalFormSelected];
   };
 
-  const hasData = Boolean(forms && formNav && firstTab && (containerMode.isNew || record));
+  const hasData = Boolean(
+    forms && formNav && firstTab && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam)
+  );
   const loading = Boolean(loadingForm || loadingRecord);
 
   return (
@@ -309,10 +332,10 @@ const Container = ({ match, mode }) => {
             [css.formNavOpen]: toggleNav && mobileDisplay
           })}
         >
-          <div className={css.recordNav}>
+          <div className={clsx(css.recordNav, { [css.demo]: demo })}>
             <Nav {...navProps} />
           </div>
-          <div className={`${css.recordForms} record-form-container`}>
+          <div className={`${css.recordForms} ${clsx({ [css.demo]: demo })} record-form-container`}>
             <RecordForm
               {...formProps}
               externalForms={externalForms}

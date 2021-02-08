@@ -147,14 +147,14 @@ describe("<UsersForm />", () => {
       expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(14);
     });
 
-    it("should not fetch user groups and roles", () => {
+    it("should fetch user groups and roles", () => {
       const actionTypes = newComponent
         .props()
         .store.getActions()
         .map(action => action.type);
 
-      expect(actionTypes.includes(applicationActions.FETCH_USER_GROUPS)).to.be.false;
-      expect(actionTypes.includes(applicationActions.FETCH_ROLES)).to.be.false;
+      expect(actionTypes.includes(applicationActions.FETCH_USER_GROUPS)).to.be.true;
+      expect(actionTypes.includes(applicationActions.FETCH_ROLES)).to.be.true;
     });
 
     it("renders 'Change Password' link", () => {

@@ -33,6 +33,14 @@ export const getFiedListItemTheme = currentTheme => ({
         marginLeft: 0,
         marginRight: 0
       }
+    },
+    MuiButton: {
+      root: {
+        "&$disabled": {
+          color: "rgba(0, 0, 0, 0.26)",
+          backgroundColor: "transparent !important"
+        }
+      }
     }
   }
 });
