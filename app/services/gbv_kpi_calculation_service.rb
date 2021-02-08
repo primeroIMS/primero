@@ -5,6 +5,10 @@
 # Provides methods for calulating the cached information required for the
 # Kpis
 class GbvKpiCalculationService
+  def self.from_record(record)
+    GbvKpiCalculationService.new(record) unless record.module_id != PrimeroModule::GBV
+  end
+
   def initialize(record)
     @record = record
   end

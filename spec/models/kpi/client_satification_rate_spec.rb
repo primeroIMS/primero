@@ -25,6 +25,7 @@ describe Kpi::ClientSatisfactionRate, search: true do
     )
 
     Child.create!(data: {
+                    module_id: PrimeroModule::GBV,
                     created_at: DateTime.parse('2020/10/15'),
                     owned_by_groups: [group2],
                     opening_hours_when_client_could_attend: 'yes',
@@ -48,6 +49,7 @@ describe Kpi::ClientSatisfactionRate, search: true do
                   })
 
     Child.create!(data: {
+                    module_id: PrimeroModule::GBV,
                     created_at: DateTime.parse('2020/11/15'),
                     owned_by_groups: [group3],
                     opening_hours_when_client_could_attend: 'no',
