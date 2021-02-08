@@ -25,7 +25,7 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   def destroy
     authorize! :update, @record
     @transition = Referral.find(params[:id])
-    @transition.reject!(note_on_referral_from_provider)
+    @transition.reject!(rejection_note)
     updates_for_record(@transition.record)
     render 'api/v2/transitions/destroy'
   end
@@ -68,9 +68,9 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
     authorize! :referral_from_service, record
   end
 
-  def note_on_referral_from_provider
+  def rejection_note
     return unless params[:data].present?
 
-    params[:data][:note_on_referral_from_provider]
+    params[:data][:rejection_note]
   end
 end

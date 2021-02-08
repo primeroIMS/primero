@@ -70,7 +70,5 @@ create_or_update_system_setting(
     closure: 'Closure',
     action_plan: 'Action Plan',
     gbv_closure: 'GBV Closure'
-  },
-  show_provider_note_field: true,
-  set_service_implemented_on: false
+  }
 )

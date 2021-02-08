@@ -430,7 +430,7 @@ ActiveRecord::Schema.define(version: 2021_01_27_000000) do
     t.boolean "consent_overridden", default: false, null: false
     t.boolean "consent_individual_transfer", default: false, null: false
     t.datetime "created_at"
-    t.text "note_on_referral_from_provider"
+    t.text "rejection_note"
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
   end
