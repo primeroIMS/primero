@@ -4,6 +4,8 @@
 #
 # Provides methods for calulating the cached information required for the
 # Kpis
+#
+# rubocop:disable Metrics/ClassLength
 class GbvKpiCalculationService
   def self.from_record(record)
     GbvKpiCalculationService.new(record) unless record.module_id != PrimeroModule::GBV
@@ -147,3 +149,4 @@ class GbvKpiCalculationService
     )
   end
 end
+# rubocop:enable Metrics/ClassLength
