@@ -20,7 +20,7 @@ describe Webhookable do
     end
   end
 
-  describe '.webhook_status' do
+  describe 'webhook statuses' do
     let(:webhook_url2) { "#{webhook_url}2" }
     let(:timestamp1) { DateTime.new(2021, 1, 29, 1, 2, 0) }
     let(:timestamp2) { DateTime.new(2021, 1, 29, 1, 3, 0) }
@@ -41,12 +41,26 @@ describe Webhookable do
       )
     end
 
-    it 'displays the status of the latest transaction for every webhook' do
-      webhook_status = case_record.webhook_status
-      expect(webhook_status.keys).to match_array([webhook_url, webhook_url2])
-      expect(webhook_status[webhook_url][:status]).to eq(AuditLog::SYNCED)
-      expect(webhook_status[webhook_url][:timestamp]).to eq(timestamp2)
-      expect(webhook_status[webhook_url2][:status]).to eq(AuditLog::SENT)
+    describe '.webhook_status' do
+      it 'displays the status of the latest transaction for every webhook' do
+        webhook_status = case_record.webhook_status
+        expect(webhook_status.keys).to match_array([webhook_url, webhook_url2])
+        expect(webhook_status[webhook_url][:status]).to eq(AuditLog::SYNCED)
+        expect(webhook_status[webhook_url][:timestamp]).to eq(timestamp2)
+        expect(webhook_status[webhook_url2][:status]).to eq(AuditLog::SENT)
+      end
+    end
+
+    describe '.synced_at' do
+      it 'displays the timestamp of the latest webhook synced transaction' do
+        expect(case_record.synced_at).to eq(timestamp2)
+      end
+    end
+
+    describe '.sync_status' do
+      it 'displays the timestamp of the latest webhook synced transaction' do
+        expect(case_record.sync_status).to eq(AuditLog::SENT)
+      end
     end
   end
 end

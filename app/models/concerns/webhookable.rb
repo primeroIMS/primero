@@ -41,6 +41,25 @@ module Webhookable
   end
   # rubocop:enable Metrics/MethodLength
 
+  def ordered_webhook_status
+    @ordered_webhook_status ||= webhook_status.values.sort { |a, b| b[:timestamp] <=> a[:timestamp] }
+  end
+
+  # TODO: Right now the synced_at values look at all webhooks. This will be very inaccurate if we start registering
+  #       multiple webhooks. Once we start expecting syncs from more than just open function, we will need to
+  #       alter these methods and redesign the UI.
+  def synced_at
+    ordered_webhook_status.find { |s| s[:status] == AuditLog::SYNCED }&.[](:timestamp)
+  end
+
+  def sync_status
+    ordered_webhook_status&.first&.[](:status)
+  end
+
+  def webhook_configured?
+    self.module&.use_webhooks_for&.include?(self.class.parent_form)
+  end
+
   private
 
   def log_synced
@@ -54,10 +73,6 @@ module Webhookable
   end
 
   def queue_for_webhook(action)
-    # TODO: Any other constraints for sharing publishing records?
-    # TODO: Module scope, for example?
-    return unless Webhook.count.positive?
-
     WebhookJob.perform_later(self.class.parent_form, id, action)
   end
 end
