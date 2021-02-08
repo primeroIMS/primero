@@ -8,7 +8,7 @@ import { FORMS } from "../../constants";
 import TraceActions from "./component";
 
 describe("<RecordForm>/form/subforms/<TraceActions>", () => {
-  const props = { handleBack: () => {}, handleConfirm: () => {}, selectedForm: FORMS.trace };
+  const props = { handleBack: () => {}, handleConfirm: () => {}, selectedForm: FORMS.trace, mode: { isEdit: false } };
 
   it("should not render find match button if user does not have permission", () => {
     const { component } = setupMountedComponent(TraceActions, props, fromJS([]));

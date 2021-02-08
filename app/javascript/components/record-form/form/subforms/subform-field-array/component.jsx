@@ -29,6 +29,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
   // eslint-disable-next-line camelcase
   const subformSortBy = subformSectionConfiguration?.subform_sort_by;
   const storedValues = getIn(formik.values, name);
+
   const values = valuesWithDisplayConditions(storedValues, displayConditions);
 
   const orderedValues = subformSortBy ? orderBy(values, [subformSortBy], ["asc"]) : values;
@@ -108,6 +109,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
           formik={formik}
           index={index}
           recordType={recordType}
+          mode={mode}
         />
       ) : (
         <SubformDialog
@@ -124,6 +126,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
           setOpen={setOpenDialog}
           title={title}
           formSection={formSection}
+          orderedValues={orderedValues}
         />
       )}
     </>

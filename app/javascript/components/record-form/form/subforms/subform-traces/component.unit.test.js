@@ -12,7 +12,8 @@ describe("<RecordForm>/form/subforms/<SubformTraces>", () => {
       formSection: FormSectionRecord({ fields: [] }),
       handleClose: () => {},
       formik: { values: {} },
-      field: { subform_section_configuration: { display_conditions: [] } }
+      field: { subform_section_configuration: { display_conditions: [] } },
+      mode: { isEdit: false }
     }));
   });
 

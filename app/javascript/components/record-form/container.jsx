@@ -266,7 +266,7 @@ const Container = ({ match, mode }) => {
   const approvalSubforms = record?.get("approval_subforms");
   const incidentsSubforms = record?.get("incident_details");
 
-  const externalForms = (form, setFieldValue, handleSubmit) => {
+  const externalForms = (form, setFieldValue, handleSubmit, values) => {
     const isTransitions = TRANSITION_TYPE.includes(form);
 
     const externalFormSelected = isTransitions ? TRANSITION_TYPE : form;
@@ -312,6 +312,7 @@ const Container = ({ match, mode }) => {
           handleToggleNav={handleToggleNav}
           form={customForms(i18n)[form]}
           mode={containerMode}
+          values={values}
         />
       )
     }[externalFormSelected];

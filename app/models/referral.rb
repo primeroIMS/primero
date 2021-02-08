@@ -2,18 +2,19 @@
 
 # Model describing a referral of a record from one user to another.
 class Referral < Transition
+  after_save :reset_service_record
+
   def perform
     self.status = Transition::STATUS_INPROGRESS
-    mark_service_object_referred(service_record_object)
+    mark_service_referred(service_record)
     perform_system_referral unless remote
     record.save! if record.has_changes_to_save?
   end
 
-  def reject!(notes_from_provider = nil)
+  def reject!(rejection_note = nil)
     self.status = Transition::STATUS_DONE
-    service_object = service_record_object
-    update_note_on_referral_from_provider(notes_from_provider, service_object)
-    mark_service_object_implemented(service_object)
+    mark_rejection(rejection_note, service_record)
+    mark_service_implemented(service_record)
     record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
     record.save! && save!
   end
@@ -35,21 +36,21 @@ class Referral < Transition
 
   private
 
-  def update_note_on_referral_from_provider(notes_from_provider, service_object = nil)
-    return unless notes_from_provider.present? && SystemSettings.current.show_provider_note_field
+  def mark_rejection(rejection_note, service_object = nil)
+    return unless rejection_note.present?
 
-    self.note_on_referral_from_provider = notes_from_provider
-    service_object['note_on_referral_from_provider'] = notes_from_provider if service_object.present?
+    self.rejection_note = rejection_note
+    service_object['note_on_referral_from_provider'] = rejection_note if service_object.present?
   end
 
-  def mark_service_object_referred(service_object)
+  def mark_service_referred(service_object)
     return if service_object.blank?
 
     service_object['service_status_referred'] = true
   end
 
-  def mark_service_object_implemented(service_object)
-    return unless service_object.present? && SystemSettings.current.set_service_implemented_on
+  def mark_service_implemented(service_object)
+    return unless service_object.present?
 
     if service_object['service_implemented_day_time'].blank?
       service_object['service_implemented_day_time'] = Time.zone.now.as_json
@@ -58,10 +59,10 @@ class Referral < Transition
     service_object['service_implemented'] = Serviceable::SERVICE_IMPLEMENTED
   end
 
-  def service_record_object
+  def service_record
     return if service_record_id.blank?
 
-    record.services_section.find { |service| service['unique_id'] == service_record_id }
+    @service_record ||= record.services_section.find { |service| service['unique_id'] == service_record_id }
   end
 
   def perform_system_referral
@@ -72,5 +73,9 @@ class Referral < Transition
     else
       record.assigned_user_names = [transitioned_to]
     end
+  end
+
+  def reset_service_record
+    @service_record = nil
   end
 end

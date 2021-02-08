@@ -13,4 +13,7 @@ Rails.application.configure do
 
   # Show the UI in Sandbox mode (a Primero X SaaS option).
   config.sandbox_ui = ::ActiveRecord::Type::Boolean.new.cast(ENV['PRIMERO_SANDBOX_UI']) || false
+
+  # Configuration UI indicator
+  config.config_ui = %w[full limited].include?(ENV['PRIMERO_CONFIG_UI']) ? ENV['PRIMERO_CONFIG_UI'] : 'full'
 end

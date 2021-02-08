@@ -1,9 +1,9 @@
 import { fromJS } from "immutable";
-import { Button, MenuItem } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 import { ACTIONS } from "../../../../../libs/permissions";
 import { setupMountedComponent } from "../../../../../test";
-import { FormAction, whichFormMode, ActionsMenu } from "../../../../form";
+import { FormAction, whichFormMode } from "../../../../form";
 
 import ActionButtons from "./action-buttons";
 
@@ -15,42 +15,6 @@ describe("<ActionButtons />", () => {
   };
 
   context("when isShow mode", () => {
-    context("when the user has delete permissions on roles", () => {
-      const { component } = setupMountedComponent(
-        ActionButtons,
-        { ...defaultProps, formMode: whichFormMode("show") },
-        fromJS({
-          user: {
-            permissions: {
-              roles: [ACTIONS.DELETE]
-            }
-          }
-        })
-      );
-
-      it("should render the ActionsMenu with the delete MenuItem", () => {
-        const actionMenu = component.find(ActionsMenu);
-
-        expect(actionMenu).to.have.lengthOf(1);
-        expect(actionMenu.find(MenuItem)).to.have.lengthOf(1);
-      });
-    });
-
-    context("when the user doesn't have delete permissions on roles", () => {
-      const { component } = setupMountedComponent(
-        ActionButtons,
-        { ...defaultProps, formMode: whichFormMode("show") },
-        fromJS({})
-      );
-
-      it("should render the ActionsMenu without MenuItems", () => {
-        const actionMenu = component.find(ActionsMenu);
-
-        expect(actionMenu).to.have.lengthOf(1);
-        expect(actionMenu.find(MenuItem)).to.have.lengthOf(0);
-      });
-    });
-
     context("when the user has write permissions on roles", () => {
       const { component } = setupMountedComponent(
         ActionButtons,

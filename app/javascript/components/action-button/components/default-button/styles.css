@@ -33,6 +33,10 @@
   background: $(theme.primero.colors.grey);
 }
 
+.isDisabled {
+  cursor: not-allowed;
+}
+
 .buttonProgress {
   position: absolute;
   margin-top: 6px;
