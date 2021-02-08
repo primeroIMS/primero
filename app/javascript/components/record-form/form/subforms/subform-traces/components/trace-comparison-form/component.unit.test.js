@@ -40,7 +40,8 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<TraceComparison
       }
     }),
     handleBack: () => {},
-    handleConfirm: () => {}
+    handleConfirm: () => {},
+    mode: { isEdit: false }
   };
   const initialState = fromJS({
     forms: {

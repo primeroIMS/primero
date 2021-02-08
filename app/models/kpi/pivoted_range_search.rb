@@ -17,11 +17,11 @@ class Kpi::PivotedRangeSearch < Kpi::Search
   end
 
   def range_field
-    SolrUtils.sunspot_setup(search_model).field(self.class.range_field)
+    ::SolrUtils.sunspot_setup(search_model).field(self.class.range_field)
   end
 
   def pivot_field
-    SolrUtils.sunspot_setup(search_model).field(self.class.pivot_field)
+    ::SolrUtils.sunspot_setup(search_model).field(self.class.pivot_field)
   end
 
   # Shortening this method (or the others below) would either:

@@ -1,9 +1,8 @@
 import React, { useImperativeHandle, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FormContext, useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 
-import { getShowProviderNoteField } from "../../../application";
 import { MODES } from "../../../../config";
 import { FieldRecord, FormSectionRecord, whichFormMode, TEXT_FIELD } from "../../../form";
 import FormSection from "../../../form/components/form-section";
@@ -33,8 +32,6 @@ const Component = ({
   const initialValues = { note_on_referral_from_provider: "" };
   const methods = useForm({ defaultValues: initialValues });
   const formMode = whichFormMode(MODES.edit);
-
-  const showProviderNoteField = useSelector(state => getShowProviderNoteField(state));
 
   const handleCancel = event => {
     if (event) {
@@ -72,7 +69,7 @@ const Component = ({
     autoFocus: true
   };
 
-  const renderNoteField = showProviderNoteField && (
+  const renderNoteField = (
     <FormContext {...methods} formMode={formMode}>
       <FormSection
         formSection={FormSectionRecord({
@@ -80,7 +77,7 @@ const Component = ({
           fields: [
             FieldRecord({
               display_name: i18n.t("referral.notes_on_referral"),
-              name: "note_on_referral_from_provider",
+              name: "rejection_note",
               type: TEXT_FIELD,
               autoFocus: true
             })

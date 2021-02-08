@@ -79,101 +79,67 @@ describe Referral do
   end
 
   describe 'reject' do
-    context 'when show_provider_note_field and set_service_implemented_on are set to false' do
-      before :each do
-        SystemSettings.reset
-        SystemSettings.create!(show_provider_note_field: false, set_service_implemented_on: false)
-        @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true)
-      end
-
-      it 'removes the referred user' do
-        referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
-        referral.reject!
-
-        expect(referral.status).to eq(Transition::STATUS_DONE)
-        expect(@case.assigned_user_names).not_to include('user2')
-      end
-
-      it 'does not set the service_implemented_day_time and does not change the service to implemented' do
-        referral = Referral.create!(
-          transitioned_by: 'user1',
-          transitioned_to: 'user2',
-          record: @case,
-          service_record_id: @service1['unique_id']
-        )
-        referral.reject!
-
-        service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
-
-        expect(service_object['service_implemented_day_time']).to be_nil
-        expect(service_object['service_implemented']).to be_nil
-      end
-
-      after :each do
-        SystemSettings.destroy_all
-      end
+    before :each do
+      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true)
     end
 
-    context 'when set_service_implemented_on and show_provider_note_field are set to true' do
-      before :each do
-        SystemSettings.reset
-        SystemSettings.create!(show_provider_note_field: true, set_service_implemented_on: true)
-        @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true)
-      end
+    it 'removes the referred user' do
+      referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      referral.reject!
 
-      it 'mark the service object as implemented' do
-        json_date_time = '2021-01-20T16:46:53.701Z'
-        date_time = DateTime.parse(json_date_time)
-        Time.stub(:now).and_return(date_time)
+      expect(referral.status).to eq(Transition::STATUS_DONE)
+      expect(@case.assigned_user_names).not_to include('user2')
+    end
 
-        referral = Referral.create!(
-          transitioned_by: 'user1',
-          transitioned_to: 'user2',
-          record: @case,
-          service_record_id: @service1['unique_id']
-        )
-        referral.reject!
+    it 'mark the service object as implemented' do
+      json_date_time = '2021-01-20T16:46:53.701Z'
+      date_time = DateTime.parse(json_date_time)
+      Time.stub(:now).and_return(date_time)
 
-        service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
+      referral = Referral.create!(
+        transitioned_by: 'user1',
+        transitioned_to: 'user2',
+        record: @case,
+        service_record_id: @service1['unique_id']
+      )
+      referral.reject!
 
-        expect(service_object['service_implemented_day_time']).to eq(json_date_time)
-        expect(service_object['service_implemented']).to eq(Serviceable::SERVICE_IMPLEMENTED)
-      end
+      service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
 
-      it 'does not set the implemented_day_time if already set' do
-        referral = Referral.create!(
-          transitioned_by: 'user1',
-          transitioned_to: 'user2',
-          record: @case,
-          service_record_id: @service2['unique_id']
-        )
-        referral.reject!
+      expect(service_object['service_implemented_day_time']).to eq(json_date_time)
+      expect(service_object['service_implemented']).to eq(Serviceable::SERVICE_IMPLEMENTED)
+    end
 
-        service_object = @case.services_section.find { |current| current['unique_id'] == @service2['unique_id'] }
+    it 'does not set the implemented_day_time if already set' do
+      referral = Referral.create!(
+        transitioned_by: 'user1',
+        transitioned_to: 'user2',
+        record: @case,
+        service_record_id: @service2['unique_id']
+      )
+      referral.reject!
 
-        expect(service_object['service_implemented_day_time']).to eq(@service2['service_implemented_day_time'])
-        expect(service_object['service_implemented']).to eq(Serviceable::SERVICE_IMPLEMENTED)
-      end
+      service_object = @case.services_section.find { |current| current['unique_id'] == @service2['unique_id'] }
 
-      it 'sets the notes from provider in the referral and the service object if specified' do
-        referral = Referral.create!(
-          transitioned_by: 'user1',
-          transitioned_to: 'user2',
-          record: @case,
-          service_record_id: @service1['unique_id']
-        )
-        notes_from_provider = 'This is a test'
-        referral.reject!(notes_from_provider)
+      expect(service_object['service_implemented_day_time']).to eq(@service2['service_implemented_day_time'])
+      expect(service_object['service_implemented']).to eq(Serviceable::SERVICE_IMPLEMENTED)
+    end
 
-        service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
+    it 'sets the notes from provider in the referral and the service object if specified' do
+      referral = Referral.create!(
+        transitioned_by: 'user1',
+        transitioned_to: 'user2',
+        record: @case,
+        service_record_id: @service1['unique_id']
+      )
+      rejection_note = 'This is a test'
+      referral.reject!(rejection_note)
 
-        expect(service_object['note_on_referral_from_provider']).to eq(notes_from_provider)
-        expect(referral.note_on_referral_from_provider).to eq(notes_from_provider)
-      end
+      @case.reload
+      service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
 
-      after :each do
-        SystemSettings.destroy_all
-      end
+      expect(service_object['note_on_referral_from_provider']).to eq(rejection_note)
+      expect(referral.rejection_note).to eq(rejection_note)
     end
   end
 
