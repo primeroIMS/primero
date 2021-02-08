@@ -2,6 +2,7 @@
 
 json.data do
   json.sandbox_ui Rails.configuration.sandbox_ui
+  json.config_ui Rails.configuration.config_ui
   json.locales I18n.available_locales
   json.agencies do
     json.array!(@agencies_with_system_logos) do |agency|

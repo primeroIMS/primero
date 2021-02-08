@@ -9,10 +9,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { ButtonBase } from "@material-ui/core";
 import { FastField, connect } from "formik";
 import { useParams } from "react-router-dom";
+import isEqual from "lodash/isEqual";
+import omitBy from "lodash/omitBy";
 
 import { toServerDateFormat } from "../../../../libs";
 import { useI18n } from "../../../i18n";
 import { saveRecord, selectRecordAttribute } from "../../../records";
+import { NUMERIC_FIELD } from "../../constants";
 import { TEXT_FIELD_NAME } from "../constants";
 
 const useStyles = makeStyles(theme => ({
@@ -33,6 +36,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
   const { id } = useParams();
   const recordName = useSelector(state => selectRecordAttribute(state, recordType, recordID, "name"));
   const isHiddenName = /\*{2,}/.test(recordName);
+  const ageMatches = type === NUMERIC_FIELD && name.match(/(.*)age$/);
 
   useEffect(() => {
     if (recordName) {
@@ -44,17 +48,15 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
     type: type === "numeric_field" ? "number" : "text",
     multiline: type === "textarea",
     name,
-    ...rest
+    ...omitBy(rest, (value, key) => ["formSection", "field", "displayName", "linkToForm"].includes(key))
   };
 
   const updateDateBirthField = (form, value) => {
-    const matches = name.match(/(.*)age$/);
-
-    if (matches && value) {
+    if (ageMatches && value) {
       const currentYear = new Date().getFullYear();
       const diff = subYears(new Date(currentYear, 0, 1), value);
 
-      form.setFieldValue(`${matches[1]}date_of_birth`, toServerDateFormat(diff), true);
+      form.setFieldValue(`${ageMatches[1]}date_of_birth`, toServerDateFormat(diff), true);
     }
   };
 
@@ -65,6 +67,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
   return (
     <FastField
       name={name}
+      shouldUpdate={(nextProps, props) => !isEqual(nextProps, props)}
       render={renderProps => {
         return (
           <>

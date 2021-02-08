@@ -28,5 +28,6 @@ export const RESOURCES = [
   "dashboard",
   "audit_log",
   "matching_configuration",
-  "duplicate"
+  "duplicate",
+  "kpi"
 ];

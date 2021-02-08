@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 2021_01_23_000001) do
     t.jsonb "custom_export_params"
     t.string "file_name"
     t.string "password_ciphertext"
+    t.string "type"
   end
 
   create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

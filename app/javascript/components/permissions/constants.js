@@ -90,6 +90,7 @@ export const RESOURCES = {
   contact_information: "contact_information",
   dashboards: "dashboards",
   incidents: "incidents",
+  kpis: "kpis",
   lookups: "lookups",
   metadata: "metadata",
   potential_matches: "potential_matches",
@@ -229,3 +230,5 @@ export const ASSIGN = [
   ACTIONS.ASSIGN_WITHIN_USER_GROUP,
   ACTIONS.ASSIGN_WITHIN_AGENCY_PERMISSIONS
 ];
+
+export const READ_KPIS = [ACTIONS.READ];

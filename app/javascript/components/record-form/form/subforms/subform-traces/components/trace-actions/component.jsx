@@ -5,6 +5,7 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import SearchIcon from "@material-ui/icons/Search";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import CheckIcon from "@material-ui/icons/Check";
+import BlockIcon from "@material-ui/icons/Block";
 
 import Permission from "../../../../../../application/permission";
 import { RESOURCES, SHOW_FIND_MATCH } from "../../../../../../../libs/permissions";
@@ -17,7 +18,7 @@ import { FORMS } from "../../constants";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedForm }) => {
+const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedForm, mode }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const loading = useSelector(state => getLoadingRecordState(state, recordType));
@@ -39,16 +40,14 @@ const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedFo
           }}
         />
       )}
-      {selectedForm === FORMS.trace && (
+      {selectedForm === FORMS.trace && !mode.isEdit && (
         <Permission resources={RESOURCES.tracing_requests} actions={SHOW_FIND_MATCH}>
           <ActionButton
-            icon={<SearchIcon />}
-            text={i18n.t("tracing_request.find_match")}
+            icon={hasMatch ? <BlockIcon /> : <SearchIcon />}
+            text={hasMatch ? i18n.t("tracing_request.unmatch") : i18n.t("tracing_request.find_match")}
             type={ACTION_BUTTON_TYPES.default}
             rest={{
-              onClick: handleConfirm,
-              disabled: hasMatch,
-              ...(hasMatch && { className: css.hasMatch })
+              onClick: handleConfirm
             }}
           />
         </Permission>
@@ -72,9 +71,10 @@ const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedFo
 };
 
 Component.propTypes = {
-  handleBack: PropTypes.func.isRequired,
-  handleConfirm: PropTypes.func.isRequired,
+  handleBack: PropTypes.func,
+  handleConfirm: PropTypes.func,
   hasMatch: PropTypes.bool,
+  mode: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedForm: PropTypes.string.isRequired
 };
