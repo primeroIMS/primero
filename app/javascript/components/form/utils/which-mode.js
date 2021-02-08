@@ -7,7 +7,8 @@ import { FORM_MODE_SHOW, FORM_MODE_NEW, FORM_MODE_EDIT, FORM_MODE_DIALOG } from 
 const FormStateRecord = new Record({
   isShow: false,
   isEdit: false,
-  isNew: false
+  isNew: false,
+  isDialog: false
 })();
 
 export const whichFormMode = currentMode => {

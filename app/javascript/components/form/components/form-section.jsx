@@ -86,6 +86,8 @@ FormSection.whyDidYouRender = true;
 
 FormSection.propTypes = {
   disableUnderline: PropTypes.bool,
+  formMethods: PropTypes.object.isRequired,
+  formMode: PropTypes.object.isRequired,
   formSection: PropTypes.object,
   showTitle: PropTypes.bool
 };

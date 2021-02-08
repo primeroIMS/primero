@@ -155,7 +155,8 @@ export const setupMockFormComponent = (
   parentProps = {},
   state = {},
   defaultValues = {},
-  includeFormMethods = false
+  includeFormMethods = false,
+  includeFormProvider = false
 ) => {
   const MockFormComponent = () => {
     const { inputProps, field, mode } = props;
@@ -164,16 +165,22 @@ export const setupMockFormComponent = (
 
     const commonInputProps = setupFormInputProps(field, inputProps, mode, formMethods?.errors);
 
-    return (
-      <FormProvider {...formMethods} formMode={formMode}>
-        <Component
-          {...props}
-          {...(includeFormMethods ? formMethods : {})}
-          commonInputProps={commonInputProps}
-          {...inputProps}
-        />
-      </FormProvider>
-    );
+    const componentProps = {
+      ...props,
+      ...(includeFormMethods ? formMethods : {}),
+      commonInputProps,
+      ...inputProps
+    };
+
+    if (includeFormProvider) {
+      return (
+        <FormProvider {...formMethods} formMode={formMode}>
+          <Component {...componentProps} />
+        </FormProvider>
+      );
+    }
+
+    return <Component {...componentProps} formMode={formMode} formMethods={formMethods} />;
   };
 
   return setupMountedComponent(MockFormComponent, parentProps, state);

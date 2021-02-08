@@ -4,7 +4,7 @@ describe("<FieldTranslationsDialog>- Constants", () => {
   it("should have known properties", () => {
     const clonedActions = { ...constants };
 
-    ["NAME"].forEach(property => {
+    ["NAME", "FIELD_TRANSLATIONS_FORM"].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];
     });

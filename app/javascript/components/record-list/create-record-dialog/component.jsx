@@ -23,29 +23,42 @@ import { DEFAULT_FILTERS } from "../constants";
 import { enqueueSnackbar } from "../../notifier";
 
 import { searchForm } from "./forms";
-import { NAME } from "./constants";
+import { NAME, FORM_ID } from "./constants";
 import styles from "./styles.css";
 
 const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
   const css = makeStyles(styles)();
-  const formRef = useRef();
+  const formMode = whichFormMode(FORM_MODE_NEW);
+
   const dispatch = useDispatch();
   const i18n = useI18n();
-  const formMode = whichFormMode(FORM_MODE_NEW);
+
   const methods = useForm({ defaultValues: {} });
-  const data = useSelector(state => getRecordsData(state, recordType), compare);
+  const {
+    formState: { dirtyFields, isSubmitted },
+    getValues,
+    handleSubmit
+  } = methods;
 
-  const onSubmit = (formData, event) => {
-    if (event) {
-      event.preventDefault();
-    }
+  const record = useSelector(state => getRecordsData(state, recordType), compare);
 
-    dispatch(
-      applyFilters({
-        recordType,
-        data: { ...DEFAULT_FILTERS, ...formData, id_search: true }
-      })
-    );
+  const onSubmit = data => {
+    submitHandler({
+      data,
+      dispatch,
+      dirtyFields,
+      formMode,
+      i18n,
+      initialValues: {},
+      onSubmit: formData => {
+        dispatch(
+          applyFilters({
+            recordType,
+            data: { ...DEFAULT_FILTERS, ...formData, id_search: true }
+          })
+        );
+      }
+    });
   };
 
   const handleClose = () => {
@@ -57,32 +70,20 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
   };
 
   useEffect(() => {
-    const hasData = Boolean(data?.size);
+    const hasData = Boolean(record?.size);
 
-    if (open && methods.formState.isSubmitted) {
+    if (open && isSubmitted) {
       if (hasData) {
         setOpen(false);
       } else {
-        const { query } = methods.getValues();
+        const { query } = getValues();
 
         setOpen(false);
         handleCreateNewCase();
         dispatch(enqueueSnackbar(i18n.t("case.id_search_no_results", { search_query: query }), "error"));
       }
     }
-  }, [data]);
-
-  useImperativeHandle(
-    formRef,
-    submitHandler({
-      dispatch,
-      formMethods: methods,
-      formMode,
-      i18n,
-      initialValues: {},
-      onSubmit
-    })
-  );
+  }, [record]);
 
   return (
     <Dialog open={open} maxWidth="sm" fullWidth>
@@ -97,13 +98,16 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
         </div>
       </DialogTitle>
       <DialogContent>
-        <FormProvider {...methods} formMode={formMode}>
-          <form onSubmit={methods.handleSubmit(onSubmit)}>
-            {searchForm(i18n).map(formSection => (
-              <FormSection formSection={formSection} key={formSection.unique_id} />
-            ))}
-          </form>
-        </FormProvider>
+        <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)}>
+          {searchForm(i18n).map(formSection => (
+            <FormSection
+              formSection={formSection}
+              key={formSection.unique_id}
+              formMode={formMode}
+              formMethods={methods}
+            />
+          ))}
+        </form>
       </DialogContent>
       <DialogActions>
         <div className={css.actions}>
@@ -121,7 +125,8 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
               text={i18n.t("navigation.search")}
               type={ACTION_BUTTON_TYPES.default}
               rest={{
-                onClick: () => bindFormSubmit(formRef)
+                form: FORM_ID,
+                type: "submit"
               }}
             />
           </div>
