@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -15,14 +15,13 @@ import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
 import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
 import { useMemoizedSelector } from "../../../../libs";
-import ActionDialog from "../../../action-dialog";
 import { getMetadata } from "../../../record-list";
 import { getReportingLocationConfig } from "../../../user/selectors";
 
 import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";
 import { getFormsToRender, mergeFormSections, groupSelectedIdsByParentForm } from "./utils";
-import { clearSelectedRole, deleteRole, fetchRole, saveRole } from "./action-creators";
+import { clearSelectedRole, fetchRole, saveRole } from "./action-creators";
 import { getRole } from "./selectors";
 import { NAME, FORM_ID } from "./constants";
 
@@ -34,8 +33,6 @@ const Container = ({ mode }) => {
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
   const { id } = useParams();
-
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   const roles = useMemoizedSelector(state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]));
   const metadata = useMemoizedSelector(state => getMetadata(state, "roles"));
@@ -98,36 +95,10 @@ const Container = ({ mode }) => {
     assignableForms
   ).toJS();
 
-  const handleSuccess = () => {
-    dispatch(
-      deleteRole({
-        id,
-        message: i18n.t("role.messages.deleted")
-      })
-    );
-    setOpenDeleteDialog(false);
-  };
-
-  const renderOpenDialog = formMode.get("isShow") ? (
-    <ActionDialog
-      open={openDeleteDialog}
-      successHandler={handleSuccess}
-      cancelHandler={() => setOpenDeleteDialog(false)}
-      dialogTitle={i18n.t("role.delete_header")}
-      dialogText={i18n.t("role.messages.confirmation")}
-      confirmButtonLabel={i18n.t("buttons.ok")}
-    />
-  ) : null;
-
   return (
     <LoadingIndicator hasData={formMode.get("isNew") || role?.size > 0} loading={!role.size} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
-        <ActionButtons
-          formMode={formMode}
-          formID={FORM_ID}
-          handleCancel={handleCancel}
-          setOpenDeleteDialog={setOpenDeleteDialog}
-        />
+        <ActionButtons formMode={formMode} formID={FORM_ID} handleCancel={handleCancel} />
       </PageHeading>
       <PageContent>
         <Form
@@ -140,7 +111,6 @@ const Container = ({ mode }) => {
           initialValues={initialValues}
         />
       </PageContent>
-      {renderOpenDialog}
     </LoadingIndicator>
   );
 };

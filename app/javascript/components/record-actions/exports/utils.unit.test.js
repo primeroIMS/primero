@@ -59,14 +59,14 @@ describe("<RecordActions /> - exports/utils", () => {
           display_name: "test.label",
           permission: ACTIONS.EXPORT_CSV,
           format: EXPORT_FORMAT.CSV,
-          recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
+          recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests]
         },
         {
           id: "json",
           display_name: "test.label",
           permission: ACTIONS.EXPORT_JSON,
           format: EXPORT_FORMAT.JSON,
-          recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents]
+          recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests]
         }
       ];
 

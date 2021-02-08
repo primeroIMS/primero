@@ -1,10 +1,10 @@
 import React, { useContext, createContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { isEqual } from "lodash";
 
 import { useI18n } from "../i18n";
 import { useConnectivityStatus } from "../connectivity";
+import { currentUser } from "../user/selectors";
 
 import { fetchSandboxUI } from "./action-creators";
 import { selectModules, selectUserModules, getApprovalsLabels, getDisabledApplication, getDemo } from "./selectors";
@@ -16,11 +16,12 @@ const ApplicationProvider = ({ children }) => {
   const i18n = useI18n();
   const { online } = useConnectivityStatus();
 
-  const modules = useSelector(state => selectModules(state), isEqual);
-  const userModules = useSelector(state => selectUserModules(state), isEqual);
-  const approvalsLabels = useSelector(state => getApprovalsLabels(state, i18n.locale), isEqual);
-  const disabledApplication = useSelector(state => getDisabledApplication(state), isEqual);
-  const demo = useSelector(state => getDemo(state), isEqual);
+  const modules = useSelector(state => selectModules(state));
+  const userModules = useSelector(state => selectUserModules(state));
+  const approvalsLabels = useSelector(state => getApprovalsLabels(state, i18n.locale));
+  const disabledApplication = useSelector(state => getDisabledApplication(state));
+  const demo = useSelector(state => getDemo(state));
+  const currentUserName = useSelector(state => currentUser(state));
 
   useEffect(() => {
     dispatch(fetchSandboxUI());
@@ -32,7 +33,8 @@ const ApplicationProvider = ({ children }) => {
     online,
     approvalsLabels,
     disabledApplication,
-    demo
+    demo,
+    currentUserName
   };
 
   return <Context.Provider value={value}>{children}</Context.Provider>;

@@ -29,7 +29,7 @@ import { form } from "./form";
 import validations from "./validations";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
 import { USER_CONFIRMATION_DIALOG, PASSWORD_MODAL, FORM_ID } from "./constants";
-import { getUser, getServerErrors, getIdentityProviders, getLoading, getSavingRecord } from "./selectors";
+import { getUser, getServerErrors, getIdentityProviders, getSavingRecord } from "./selectors";
 import UserConfirmation from "./user-confirmation";
 import ChangePassword from "./change-password";
 
@@ -45,7 +45,6 @@ const Container = ({ mode }) => {
     USER_CONFIRMATION_DIALOG
   ]);
 
-  const loading = useMemoizedSelector(state => getLoading(state));
   const user = useMemoizedSelector(state => getUser(state));
   const formErrors = useMemoizedSelector(state => getServerErrors(state));
   const idp = useMemoizedSelector(state => getIdentityProviders(state));
@@ -66,6 +65,7 @@ const Container = ({ mode }) => {
   const selectedUserIsLoggedIn = currentUserName === selectedUserName;
 
   const initialValues = user.toJS();
+
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
 
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
@@ -120,15 +120,6 @@ const Container = ({ mode }) => {
   const onClickChangePassword = () => setPasswordModal(true);
 
   useEffect(() => {
-    batch(() => {
-      if (formMode.get("isNew") || (!selectedUserIsLoggedIn && !loading)) {
-        dispatch(fetchRoles());
-        dispatch(fetchUserGroups());
-      }
-    });
-  }, [selectedUserName]);
-
-  useEffect(() => {
     if (!saving) {
       setDialogPending(false);
     }
@@ -180,7 +171,11 @@ const Container = ({ mode }) => {
     ));
 
   useEffect(() => {
-    dispatch(fetchSystemSettings());
+    batch(() => {
+      dispatch(fetchSystemSettings());
+      dispatch(fetchRoles());
+      dispatch(fetchUserGroups());
+    });
   }, []);
 
   useEffect(() => {

@@ -131,6 +131,11 @@ const overrides = {
     }
   },
   MuiFormControlLabel: {
+    root: {
+      "&$disabled": {
+        cursor: "not-allowed"
+      }
+    },
     label: {
       fontSize: "0.7rem !important",
       "&$disabled": {
