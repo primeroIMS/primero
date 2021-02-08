@@ -82,8 +82,8 @@ describe("<ReferralDetail />", () => {
     });
   });
 
-  context("when show_provider_note_field is true", () => {
-    it("should render the note_on_referral_from_provider", () => {
+  context("when rejection_note is set", () => {
+    it("should render the rejection_note", () => {
       const notesFromProvider = "Some notes";
       const { component: compWithNoteFromProvider } = setupMountedComponent(
         ReferralDetail,
@@ -93,11 +93,11 @@ describe("<ReferralDetail />", () => {
             transition: {
               transitioned_to: "to_some_user",
               transitioned_by: "by_some_user",
-              note_on_referral_from_provider: notesFromProvider
+              rejection_note: notesFromProvider
             }
           }
         },
-        initialState.setIn(["application", "systemOptions", "show_provider_note_field"], true)
+        initialState
       );
 
       expect(

@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { Box, Divider, Grid, FormControlLabel } from "@material-ui/core";
 import PropTypes from "prop-types";
 
-import { getShowProviderNoteField } from "../../application";
 import { getOption } from "../../record-form";
 import TransitionUser from "../TransitionUser";
 import { useI18n } from "../../i18n";
@@ -18,7 +17,6 @@ import { referralAgencyName } from "./utils";
 const Details = ({ transition, classes }) => {
   const i18n = useI18n();
 
-  const showProviderNoteField = useSelector(state => getShowProviderNoteField(state));
   const service = useSelector(state => {
     const value = getOption(state, LOOKUPS.service_type, i18n.locale).filter(
       option => option.id === transition.service
@@ -90,12 +88,12 @@ const Details = ({ transition, classes }) => {
           <div className={classes.transtionValue}>{transition.notes}</div>
         </Box>
       </Grid>
-      {showProviderNoteField && (
+      {transition.rejection_note && (
         <Grid item md={12} xs={12}>
           <Box>
             <Divider className={classes.divider} />
             <div className={classes.transtionLabel}>{i18n.t("referral.note_on_referral_from_provider")}</div>
-            <div className={classes.transtionValue}>{transition.note_on_referral_from_provider}</div>
+            <div className={classes.transtionValue}>{transition.rejection_note}</div>
           </Box>
         </Grid>
       )}

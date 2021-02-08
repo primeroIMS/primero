@@ -19,5 +19,5 @@ export const TransitionRecord = Record({
   service: null,
   remote: true,
   transitioned_to_agency: null,
-  note_on_referral_from_provider: null
+  rejection_note: null
 });
