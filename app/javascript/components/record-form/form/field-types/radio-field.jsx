@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
 import { FormControlLabel, FormHelperText, Radio, FormControl, InputLabel, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { RadioGroup } from "formik-material-ui";
@@ -22,7 +23,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
   const option = field.option_strings_source || field.option_strings_text;
 
   const value = getIn(formik.values, name);
-  const [stickyOption] = useState(value);
+  const [stickyOption, setStickyOption] = useState(value);
 
   const radioProps = {
     control: <Radio disabled={disabled} />,
@@ -35,8 +36,19 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
 
   const fieldProps = {
     name,
-    ...omitBy(rest, (v, k) =>
-      ["InputProps", "helperText", "InputLabelProps", "fullWidth", "recordType", "recordID"].includes(k)
+    ...omitBy(rest, (val, key) =>
+      [
+        "InputProps",
+        "helperText",
+        "InputLabelProps",
+        "fullWidth",
+        "recordType",
+        "recordID",
+        "formSection",
+        "field",
+        "displayName",
+        "linkToForm"
+      ].includes(key)
     )
   };
 
@@ -48,6 +60,12 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
       formik.setFieldValue(name, selectedValue, false);
     }
   }, []);
+
+  useEffect(() => {
+    if (String(value) && (!stickyOption || isEmpty(stickyOption))) {
+      setStickyOption(String(value));
+    }
+  }, [value]);
 
   const renderFormControl = opt => {
     const optLabel = typeof opt.display_text === "object" ? opt.display_text[i18n.locale] : opt.display_text;

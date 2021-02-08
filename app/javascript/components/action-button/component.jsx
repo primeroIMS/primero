@@ -6,25 +6,35 @@ import { useApp } from "../application";
 import { buttonType } from "./utils";
 import { NAME, ACTION_BUTTON_TYPES } from "./constants";
 
-const Component = ({ icon, isCancel, isTransparent, pending, text, type, outlined, keepTextOnMobile, rest }) => {
+const Component = ({
+  icon,
+  isCancel,
+  isTransparent,
+  pending,
+  text,
+  type,
+  outlined,
+  keepTextOnMobile,
+  tooltip,
+  rest
+}) => {
   const { disabledApplication } = useApp();
   const ButtonType = buttonType(type);
   const isDisabled = disabledApplication && { disabled: disabledApplication };
   const isPending = Boolean(pending);
 
   return (
-    <>
-      <ButtonType
-        icon={icon}
-        isCancel={isCancel}
-        isTransparent={isTransparent}
-        pending={isPending}
-        rest={{ ...rest, ...isDisabled }}
-        outlined={outlined}
-        text={text}
-        keepTextOnMobile={keepTextOnMobile}
-      />
-    </>
+    <ButtonType
+      icon={icon}
+      isCancel={isCancel}
+      isTransparent={isTransparent}
+      pending={isPending}
+      rest={{ ...rest, ...isDisabled }}
+      outlined={outlined}
+      text={text}
+      tooltip={tooltip}
+      keepTextOnMobile={keepTextOnMobile}
+    />
   );
 };
 
@@ -45,6 +55,7 @@ Component.propTypes = {
   pending: PropTypes.bool,
   rest: PropTypes.object,
   text: PropTypes.string,
+  tooltip: PropTypes.string,
   type: PropTypes.string
 };
 
