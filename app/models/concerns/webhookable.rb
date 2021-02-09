@@ -69,10 +69,9 @@ module Webhookable
   def log_synced
     return unless mark_synced && mark_synced_url.present?
 
-    timestamp = DateTime.now
     AuditLog.create(
       record: self, resource_url: mark_synced_url, action: AuditLog::WEBHOOK,
-      webhook_status: AuditLog::SYNCED, timestamp: timestamp
+      webhook_status: AuditLog::SYNCED, timestamp: DateTime.now
     )
   end
 end

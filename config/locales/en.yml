@@ -1714,7 +1714,7 @@ en:
         Details Modal
       services_section_from_case: Add Service provision to another user's case
       specific_roles: Access specified list of roles
-      sync_external: Sync with an external integrated system
+      sync_external: Sync with an external information management system
       sync_mobile: Sync with mobile device
       system: System
       tracing_request: Tracing Request
@@ -2141,8 +2141,8 @@ en:
               permission.
             label: Add Service provision to another user's case
           sync_external:
-            explanation: ""
-            label: Sync with an external integrated system
+            explanation: Ability to sync a Record with an external information management system
+            label: Sync with an external information management system
           sync_mobile:
             explanation: This permission generally allows the user to use the mobile
               application. First, it allows the user to see the "Mark for Mobile"

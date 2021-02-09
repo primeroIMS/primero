@@ -12,6 +12,7 @@ class AuditLog < ApplicationRecord
 
   default_scope { order(timestamp: :desc) }
 
+  alias_attribute :destination, :resource_url
   store_accessor(:metadata, :webhook_status, :webhook_response)
 
   belongs_to :record, polymorphic: true, optional: true

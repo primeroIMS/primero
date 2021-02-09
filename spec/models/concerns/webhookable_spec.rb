@@ -26,7 +26,7 @@ describe Webhookable do
     let(:timestamp2) { DateTime.new(2021, 1, 29, 1, 3, 0) }
     let(:timestamp3) { DateTime.new(2021, 1, 29, 1, 4, 0) }
 
-    before do
+    before(:each) do
       AuditLog.create(
         record: case_record, resource_url: webhook_url, action: AuditLog::WEBHOOK,
         webhook_status: AuditLog::SENT, timestamp: timestamp1
@@ -58,8 +58,18 @@ describe Webhookable do
     end
 
     describe '.sync_status' do
-      it 'displays the timestamp of the latest webhook synced transaction' do
+      let(:timestamp4) { DateTime.new(2021, 1, 29, 1, 5, 0) }
+
+      it 'displays the status of the latest webhook synced transaction' do
         expect(case_record.sync_status).to eq(AuditLog::SENT)
+      end
+
+      it 'displays a "sending" status of the latest transaction without a real destination' do
+        AuditLog.create(
+          record: case_record, action: AuditLog::WEBHOOK, destination: AuditLog::WEBHOOK,
+          webhook_status: AuditLog::SENDING, timestamp: timestamp4
+        )
+        expect(case_record.sync_status).to eq(AuditLog::SENDING)
       end
     end
   end
