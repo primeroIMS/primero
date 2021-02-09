@@ -68,8 +68,8 @@ const Container = () => {
     <ActionButton
       icon={<AddIcon />}
       text={i18n.t("buttons.new")}
-      type={ACTION_BUTTON_TYPES.default}
-      options={{
+      stype={ACTION_BUTTON_TYPES.default}
+      rest={{
         to: ROUTES.admin_agencies_new,
         component: Link,
         hide: limitedProductionSite

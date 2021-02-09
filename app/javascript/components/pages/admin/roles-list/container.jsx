@@ -37,7 +37,7 @@ const Container = () => {
       icon={<AddIcon />}
       text={i18n.t("buttons.new")}
       type={ACTION_BUTTON_TYPES.default}
-      options={{
+      rest={{
         to: ROUTES.admin_roles_new,
         component: Link,
         hide: limitedProductionSite

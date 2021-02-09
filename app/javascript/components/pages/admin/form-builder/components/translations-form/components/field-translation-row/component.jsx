@@ -27,7 +27,6 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
   const renderTranslationFields = () =>
     locales.map(locale => {
       const localeId = locale.get("id");
-      const inputClassname = localeId !== selectedLocaleId ? css.hideField : "";
 
       return (
         <FormSectionField
@@ -36,7 +35,9 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
             display_name: "",
             name: `fields.${fieldName}.display_name.${localeId}`,
             type: TEXT_FIELD,
-            inputClassname
+            watchedInputs: "selected_locale_id",
+            showIf: () => localeId === selectedLocaleId,
+            forceShowIf: true
           })}
           formMode={formMode}
           formMethods={formMethods}

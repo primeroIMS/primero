@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@material-ui/core";
 import { useIdleTimer } from "react-idle-timer";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
 import { useRefreshUserToken } from "../user";
 import { useI18n } from "../i18n";
 import { IDLE_TIMEOUT, IDLE_LOGOUT_TIMEOUT, TOKEN_REFRESH_INTERVAL } from "../../config";
 import { setUserIdle, selectUserIdle, useApp } from "../application";
+import { useMemoizedSelector } from "../../libs";
 
 import { NAME } from "./constants";
 
@@ -16,7 +17,7 @@ const SessionTimeoutDialog = () => {
   const logoutTimer = useRef();
   const tokenRefreshTimer = useRef();
   const dispatch = useDispatch();
-  const userIdle = useSelector(state => selectUserIdle(state));
+  const userIdle = useMemoizedSelector(state => selectUserIdle(state));
   const i18n = useI18n();
   const { refreshUserToken } = useRefreshUserToken();
 

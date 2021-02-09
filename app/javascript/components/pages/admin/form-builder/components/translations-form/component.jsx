@@ -10,6 +10,7 @@ import { useI18n } from "../../../../../i18n";
 import { localesToRender } from "../utils";
 import { getSelectedFields } from "../../selectors";
 import { compare } from "../../../../../../libs";
+import WatchedFormSectionField from "../../../../../form/components/watched-form-section-field";
 
 import { FieldTranslationRow } from "./components";
 import { NAME } from "./constants";
@@ -27,6 +28,8 @@ const Component = ({ mode, formMethods }) => {
 
   const { getValues, setValue } = formMethods;
 
+  const selectedLocaleID = getValues("selected_locale_id");
+
   const onEnglishTextChange = event => {
     const { name, value } = event.target;
 
@@ -42,8 +45,6 @@ const Component = ({ mode, formMethods }) => {
   };
 
   const renderFields = () => {
-    const selectedLocaleID = getValues({ nest: true }).selected_locale_id;
-
     return fields.map(field => (
       <FieldTranslationRow
         field={field}
@@ -56,20 +57,19 @@ const Component = ({ mode, formMethods }) => {
   };
 
   const renderFormField = fieldName => {
-    const selectedLocalID = getValues({ nest: true }).selected_locale_id;
-
     return locales.map(locale => {
       const localeId = locale.get("id");
-      const inputClassname = localeId !== selectedLocalID ? css.hideField : "";
 
       return (
-        <FormSectionField
+        <WatchedFormSectionField
           key={`translations.${fieldName}.${localeId}`}
           field={FieldRecord({
             display_name: "",
             name: `translations.${fieldName}.${localeId}`,
             type: TEXT_FIELD,
-            inputClassname
+            watchedInputs: "selected_locale_id",
+            showIf: value => localeId === value,
+            forceShowIf: true
           })}
           formMethods={formMethods}
           formMode={formMode}

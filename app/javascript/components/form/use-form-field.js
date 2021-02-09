@@ -39,7 +39,7 @@ import {
 } from "./constants";
 import { getOptions } from "./selectors";
 
-export default (field, { checkErrors, errors, formMode }) => {
+export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
   const {
     type,
     hideOnShow,
@@ -87,7 +87,6 @@ export default (field, { checkErrors, errors, formMode }) => {
     href,
     fileFormat,
     filterOptionSource,
-    disableUnderline,
     forceShowIf
   } = field;
 

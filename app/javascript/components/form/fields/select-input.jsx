@@ -4,11 +4,12 @@ import PropTypes from "prop-types";
 import { TextField, Chip } from "@material-ui/core";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import { Controller } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import InputLabel from "../components/input-label";
 import { getLoadingState, getValueFromOtherField } from "../selectors";
+import { useMemoizedSelector } from "../../../libs";
 
 const filter = createFilterOptions();
 
@@ -34,8 +35,8 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
   const dispatch = useDispatch();
-  const loading = useSelector(state => getLoadingState(state, asyncOptionsLoadingPath));
-  const otherFieldValues = useSelector(state => {
+  const loading = useMemoizedSelector(state => getLoadingState(state, asyncOptionsLoadingPath));
+  const otherFieldValues = useMemoizedSelector(state => {
     if (!setOtherFieldValues) {
       return null;
     }

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useDialog } from "../action-dialog";
 import { useI18n } from "../i18n";
@@ -8,14 +8,16 @@ import Menu from "../menu";
 import PasswordResetConfirmation, { NAME as DIALOG_NAME } from "../password-reset-confirmation";
 import { passwordResetRequest } from "../pages/admin/users-form/action-creators";
 import { getUseIdentityProvider } from "../login/selectors";
+import { useMemoizedSelector } from "../../libs";
 
 import { NAME } from "./constants";
 
 const Component = ({ id }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const useIdentiyProvider = useSelector(state => getUseIdentityProvider(state));
   const { setDialog, dialogOpen, dialogClose } = useDialog(DIALOG_NAME);
+
+  const useIdentiyProvider = useMemoizedSelector(state => getUseIdentityProvider(state));
 
   const handleConfirm = () => {
     dispatch(passwordResetRequest(id));

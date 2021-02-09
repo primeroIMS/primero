@@ -6,7 +6,7 @@ import { ConditionalWrapper } from "../../../libs";
 import useFormField from "../use-form-field";
 import formComponent from "../utils/form-component";
 
-const FormSectionField = ({ checkErrors, field, formMethods, formMode }) => {
+const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUnderline }) => {
   const { errors } = formMethods;
   const {
     Field,
@@ -17,7 +17,7 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode }) => {
     isNotVisible,
     metaInputProps,
     optionSelectorArgs
-  } = useFormField(field, { checkErrors, errors, formMode });
+  } = useFormField(field, { checkErrors, errors, formMode, disableUnderline });
 
   const { selector, compare } = optionSelectorArgs;
   const optionSource = useSelector(state => selector(state), compare);
@@ -47,8 +47,13 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode }) => {
 
 FormSectionField.displayName = "FormSectionField";
 
+FormSectionField.defaultProps = {
+  disableUnderline: false
+};
+
 FormSectionField.propTypes = {
   checkErrors: PropTypes.object,
+  disableUnderline: PropTypes.bool,
   field: PropTypes.object.isRequired,
   formMethods: PropTypes.object.isRequired,
   formMode: PropTypes.object.isRequired

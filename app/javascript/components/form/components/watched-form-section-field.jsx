@@ -7,7 +7,7 @@ import { ConditionalWrapper } from "../../../libs";
 import useFormField from "../use-form-field";
 import formComponent from "../utils/form-component";
 
-const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode }) => {
+const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, disableUnderline }) => {
   const { control, errors } = formMethods;
 
   const {
@@ -20,7 +20,7 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode }) 
     metaInputProps,
     optionSelectorArgs,
     error
-  } = useFormField(field, { checkErrors, errors, formMode });
+  } = useFormField(field, { checkErrors, errors, formMode, disableUnderline });
 
   const { watchedInputs, handleWatchedInputs, name } = field;
   const watchedInputValues = useWatch({
@@ -71,8 +71,13 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode }) 
 
 WatchedFormSectionField.displayName = "WatchedFormSectionField";
 
+WatchedFormSectionField.defaultProps = {
+  disableUnderline: false
+};
+
 WatchedFormSectionField.propTypes = {
   checkErrors: PropTypes.object,
+  disableUnderline: PropTypes.bool,
   field: PropTypes.object.isRequired,
   formMethods: PropTypes.object.isRequired,
   formMode: PropTypes.object.isRequired

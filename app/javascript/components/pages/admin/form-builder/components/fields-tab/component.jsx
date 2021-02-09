@@ -61,7 +61,7 @@ Component.propTypes = {
   index: PropTypes.number.isRequired,
   limitedProductionSite: PropTypes.bool,
   mode: PropTypes.string.isRequired,
-  tab: PropTypes.number.isRequired,
+  tab: PropTypes.number.isRequired
 };
 
 Component.whyDidYouRender = true;

@@ -1,5 +1,6 @@
-import { useSelector } from "react-redux";
 import isEmpty from "lodash/isEmpty";
+
+import { useMemoizedSelector } from "../../libs";
 
 import { getPermissionsByRecord } from "./selectors";
 
@@ -7,7 +8,7 @@ const getPermissions = (permittedAbilities, abilities) =>
   !isEmpty(abilities.filter(permission => permittedAbilities.includes(permission)));
 
 const usePermissions = (entity, abilities) => {
-  const permittedAbilities = useSelector(state => getPermissionsByRecord(state, entity));
+  const permittedAbilities = useMemoizedSelector(state => getPermissionsByRecord(state, entity));
 
   if (Array.isArray(abilities)) {
     return getPermissions(permittedAbilities, abilities);

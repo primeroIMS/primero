@@ -140,6 +140,7 @@ const ActionDialog = ({
         aria-labelledby="action-dialog-title"
         aria-describedby="action-dialog-description"
         disableBackdropClick={disableBackdropClick}
+        disablePortal
       >
         {dialogHeader}
         {subHeader}

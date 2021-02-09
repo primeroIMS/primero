@@ -103,7 +103,7 @@ export const settingsForm = ({
             {
               text: i18n.t("forms.translations.manage"),
               outlined: true,
-              options: { onClick: onManageTranslation, hide: limitedProductionSite }
+              rest: { onClick: onManageTranslation, hide: limitedProductionSite }
             }
           ]
         : [],

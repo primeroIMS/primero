@@ -8,7 +8,6 @@ import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { DevTool } from "@hookform/devtools";
 import { isEqual } from "lodash";
 
 import { fetchLookups } from "../../../record-form/action-creators";
@@ -277,7 +276,6 @@ const Component = ({ mode }) => {
             />
           )}
         </form>
-        <DevTool control={methods.control} />
       </PageContent>
     </LoadingIndicator>
   );

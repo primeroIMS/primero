@@ -1,12 +1,12 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import clsx from "clsx";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { makeStyles } from "@material-ui/core";
 
-import { compare, getObjectPath } from "../../../../../../libs";
+import { getObjectPath, useMemoizedSelector } from "../../../../../../libs";
 import { useI18n } from "../../../../../i18n";
 import { getListStyle } from "../../../forms-list/utils";
 import FieldListItem from "../field-list-item";
@@ -21,9 +21,9 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy, l
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
 
-  const fields = useSelector(state => getSelectedFields(state, isNested), compare);
-  const copiedFields = useSelector(state => getCopiedFields(state), compare);
-  const removedFields = useSelector(state => getRemovedFields(state), compare);
+  const fields = useMemoizedSelector(state => getSelectedFields(state, isNested));
+  const copiedFields = useMemoizedSelector(state => getCopiedFields(state));
+  const removedFields = useMemoizedSelector(state => getRemovedFields(state));
 
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -112,6 +112,10 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy, l
     return <div className={css.noFiltersAdded}>{i18n.t("forms.no_subform_filters_added")}</div>;
   }
 
+  const nameClasses = clsx([css.fieldColumn, css.fieldName, css.fieldHeader]);
+  const fieldTypeClasses = clsx([css.fieldColumn, css.fieldHeader]);
+  const fieldShowClasses = clsx([css.fieldColumn, css.fieldHeader, css.fieldShow]);
+
   return (
     <>
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -119,11 +123,11 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy, l
           {(provided, snapshot) => (
             <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
               <div className={css.fieldRow}>
-                <div className={clsx([css.fieldColumn, css.fieldName, css.fieldHeader])}>{i18n.t("fields.name")}</div>
-                <div className={clsx([css.fieldColumn, css.fieldHeader])}>{i18n.t("fields.type")}</div>
+                <div className={nameClasses}>{i18n.t("fields.name")}</div>
+                <div className={fieldTypeClasses}>{i18n.t("fields.type")}</div>
                 {renderColumn(i18n.t("fields.subform_sort_by"))}
                 {renderColumn(i18n.t("fields.subform_group_by"))}
-                <div className={clsx([css.fieldColumn, css.fieldHeader, css.fieldShow])}>{i18n.t("fields.show")}</div>
+                <div className={fieldShowClasses}>{i18n.t("fields.show")}</div>
               </div>
               {renderFields()}
               {provided.placeholder}
@@ -136,6 +140,8 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy, l
 };
 
 Component.displayName = NAME;
+
+Component.whyDidYouRender = true;
 
 Component.propTypes = {
   formMethods: PropTypes.object.isRequired,

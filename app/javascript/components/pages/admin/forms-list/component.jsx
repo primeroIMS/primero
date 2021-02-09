@@ -183,7 +183,7 @@ const Component = () => {
                 type={ACTION_BUTTON_TYPES.default}
                 className={css.reorderButton}
                 isTransparent
-                options={{
+                rest={{
                   onClick: onClickReorder,
                   hide: limitedProductionSite
                 }}

@@ -38,7 +38,7 @@ const Component = ({ formMode, formID, handleCancel, limitedProductionSite }) =>
         icon={<CreateIcon />}
         text={i18n.t("buttons.edit")}
         type={ACTION_BUTTON_TYPES.default}
-        options={{
+        rest={{
           to: `${pathname}/edit`,
           component: Link,
           hide: limitedProductionSite
