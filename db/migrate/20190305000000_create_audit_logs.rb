@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateAuditLogs < ActiveRecord::Migration[5.0]
   def change
     create_table :audit_logs do |t|
@@ -10,7 +12,7 @@ class CreateAuditLogs < ActiveRecord::Migration[5.0]
       t.jsonb 'metadata'
     end
     add_index :audit_logs, :user_id
-    add_index :audit_logs, [:record_type, :record_id]
+    add_index :audit_logs, %i[record_type record_id]
     add_index :audit_logs, :metadata, using: :gin
   end
 end

@@ -36,6 +36,7 @@ class Child < ApplicationRecord
   include Alertable
   include Attachable
   include Noteable
+  include Webhookable
   include Kpi::GBVChild
 
   store_accessor(
@@ -123,7 +124,6 @@ class Child < ApplicationRecord
       Tasks::FollowUpTask.from_case(self).map(&:due_date)
     end
     boolean(:has_incidents) { incidents.size.positive? }
-
   end
 
   validate :validate_date_of_birth

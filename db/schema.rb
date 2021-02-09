@@ -488,6 +488,17 @@ ActiveRecord::Schema.define(version: 2021_02_09_000000) do
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end
 
+  create_table "webhooks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "events", default: []
+    t.string "url"
+    t.string "auth_type"
+    t.string "auth_secret_encrypted"
+    t.string "role_unique_id"
+    t.jsonb "metadata", default: {}
+    t.index ["events"], name: "index_webhooks_on_events", using: :gin
+    t.index ["url"], name: "index_webhooks_on_url", unique: true
+  end
+
   create_table "whitelisted_jwts", force: :cascade do |t|
     t.string "jti", null: false
     t.string "aud"
