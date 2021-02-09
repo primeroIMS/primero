@@ -22,7 +22,7 @@ describe("<RecordForm>/form/subforms/<TracesForm>", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(TracesForm, props, fromJS({})));
+    ({ component } = setupMockFormComponent(TracesForm, { props }));
   });
 
   it("should render the TraceActions", () => {

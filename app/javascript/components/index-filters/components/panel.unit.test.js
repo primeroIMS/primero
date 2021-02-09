@@ -23,26 +23,26 @@ describe("<IndexFilters />/<Panel />", () => {
   });
 
   it("renders children", () => {
-    const { component } = setupMockFormComponent(Panel, props);
+    const { component } = setupMockFormComponent(Panel, { props, includeFormProvider: true });
 
     expect(component.contains("Child Component")).to.be.true;
   });
 
   it("opens if field has value", () => {
-    const { component } = setupMockFormComponent(Panel, props);
+    const { component } = setupMockFormComponent(Panel, { props, includeFormProvider: true });
 
     expect(component.find("Panel").childAt(0).prop("expanded")).to.be.true;
   });
 
   it("closes if field has value on click", () => {
-    const { component } = setupMockFormComponent(Panel, props);
+    const { component } = setupMockFormComponent(Panel, { props, includeFormProvider: true });
 
     component.find("Panel button").simulate("click");
     expect(component.find("Panel").childAt(0).prop("expanded")).to.be.false;
   });
 
   it("resets field value", () => {
-    const { component } = setupMockFormComponent(Panel, props);
+    const { component } = setupMockFormComponent(Panel, { props, includeFormProvider: true });
 
     component.find("button[aria-label='buttons.delete']").simulate("click");
 
@@ -50,7 +50,7 @@ describe("<IndexFilters />/<Panel />", () => {
   });
 
   it("renders valid props for Panel component", () => {
-    const { component } = setupMockFormComponent(Panel, props);
+    const { component } = setupMockFormComponent(Panel, { props, includeFormProvider: true });
 
     const clone = { ...component.find(Panel).props() };
 
@@ -89,7 +89,11 @@ describe("<IndexFilters />/<Panel />", () => {
         }
       }
     });
-    const { component } = setupMockFormComponent(Panel, propsApprovals, {}, initialStateApprovals);
+    const { component } = setupMockFormComponent(Panel, {
+      props: propsApprovals,
+      state: initialStateApprovals,
+      includeFormProvider: true
+    });
 
     expect(component.find(AccordionSummary).text()).to.be.equal("Case Plan");
   });

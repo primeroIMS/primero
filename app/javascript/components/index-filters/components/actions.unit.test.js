@@ -20,27 +20,27 @@ describe("<IndexFilters />/<Actions />", () => {
   });
 
   it("renders 3 action buttons", () => {
-    const { component } = setupMockFormComponent(Actions, props);
+    const { component } = setupMockFormComponent(Actions, { props, includeFormProvider: true });
 
     expect(component.find("button")).to.be.lengthOf(3);
   });
 
   it("triggers handleSave()", () => {
-    const { component } = setupMockFormComponent(Actions, props, {}, state);
+    const { component } = setupMockFormComponent(Actions, { props, state, includeFormProvider: true });
 
     component.find("button").at(1).simulate("click");
     expect(props.handleSave).to.have.been.calledOnce;
   });
 
   it("triggers handleClear()", () => {
-    const { component } = setupMockFormComponent(Actions, props, {}, state);
+    const { component } = setupMockFormComponent(Actions, { props, state, includeFormProvider: true });
 
     component.find("button").at(2).simulate("click");
     expect(props.handleClear).to.have.been.calledOnce;
   });
 
   it("renders 'Apply' button", () => {
-    const { component } = setupMockFormComponent(Actions, props, {}, state);
+    const { component } = setupMockFormComponent(Actions, { props, state, includeFormProvider: true });
 
     expect(component.find("button").at(0).text()).to.be.equal("filters.apply_filters");
   });
@@ -51,22 +51,22 @@ describe("<IndexFilters />/<Actions />", () => {
     };
 
     it("should render two buttons", () => {
-      const { component } = setupMockFormComponent(Actions, newProps, {}, state);
+      const { component } = setupMockFormComponent(Actions, { props: newProps, state, includeFormProvider: true });
 
       expect(component.find(Button)).to.have.lengthOf(2);
     });
     it("should render 'Apply' button", () => {
-      const { component } = setupMockFormComponent(Actions, newProps, {}, state);
+      const { component } = setupMockFormComponent(Actions, { props: newProps, state, includeFormProvider: true });
 
       expect(component.find("button").at(0).text()).to.be.equal("filters.apply_filters");
     });
     it("should render 'Clear' button", () => {
-      const { component } = setupMockFormComponent(Actions, newProps, {}, state);
+      const { component } = setupMockFormComponent(Actions, { props: newProps, state, includeFormProvider: true });
 
       expect(component.find("button").at(1).text()).to.be.equal("filters.clear_filters");
     });
     it("should not render 'Save' button", () => {
-      const { component } = setupMockFormComponent(Actions, newProps, {}, state);
+      const { component } = setupMockFormComponent(Actions, { props: newProps, state, includeFormProvider: true });
 
       expect(component.find("button").at(0).text()).to.not.be.equal("filters.save_filters");
     });

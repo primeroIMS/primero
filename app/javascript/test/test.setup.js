@@ -1,9 +1,8 @@
 import chai from "chai";
 import Enzyme from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
 import sinonChai from "sinon-chai";
 import chaiImmutable from "chai-immutable";
-import "mutationobserver-shim";
 import indexedDB from "fake-indexeddb";
 import IDBKeyRange from "fake-indexeddb/lib/FDBKeyRange";
 import IDBRequest from "fake-indexeddb/lib/FDBRequest";
@@ -14,6 +13,12 @@ import IDBIndex from "fake-indexeddb/lib/FDBIndex";
 import IDBCursor from "fake-indexeddb/lib/FDBCursor";
 import get from "lodash/get";
 import { parseISO, format as formatDate } from "date-fns";
+
+const defaultHtml = '<!doctype html><html><head><meta charset="utf-8"></head><body></body></html>';
+
+require("jsdom-global")(defaultHtml, { url: "https://localhost/" });
+
+require("mutationobserver-shim");
 
 chai.use(chaiImmutable);
 chai.use(sinonChai);
@@ -137,6 +142,6 @@ global.HTMLCanvasElement.prototype.getContext = () => {
   };
 };
 
-// global.cancelAnimationFrame = args => {};
+global.cancelAnimationFrame = () => {};
 
 Enzyme.configure({ adapter: new Adapter() });

@@ -58,7 +58,10 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
   };
 
   const renderCheckbox = formMode.get("isEdit") && (
-    <SwitchInput commonInputProps={{ name: `${name}.option_strings_text[${index}].disabled` }} />
+    <SwitchInput
+      commonInputProps={{ name: `${name}.option_strings_text[${index}].disabled` }}
+      formMethods={formMethods}
+    />
   );
 
   const renderRemoveButton = formMode.get("isNew") && (
@@ -77,6 +80,7 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
             </div>
             <div className={clsx([css.fieldColumn, css.fieldInput])}>
               <TextInput
+                formMethods={formMethods}
                 commonInputProps={{
                   name: displayTextName,
                   className: css.inputOptionField,
@@ -91,10 +95,12 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
             </div>
             <div className={css.fieldColumn}>
               <Controller
+                control={control}
                 as={<Radio />}
                 inputProps={{ value: optionId }}
                 checked={optionId === selectedValue}
                 name={`${name}.selected_value`}
+                defaultValue={false}
               />
             </div>
             <div className={css.fieldColumn}>

@@ -1,4 +1,3 @@
-import { DevTool } from "@hookform/devtools";
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
@@ -48,7 +47,6 @@ const Component = ({
     reset,
     errors,
     formState: { dirtyFields, isDirty, isSubmitted },
-    control,
     register,
     unregister
   } = formMethods;
@@ -112,7 +110,6 @@ const Component = ({
         {renderFormSections(formSections)}
       </form>
       {renderBottom && renderBottom(formMethods)}
-      <DevTool control={control} />
     </>
   );
 };

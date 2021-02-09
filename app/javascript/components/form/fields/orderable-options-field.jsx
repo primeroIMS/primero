@@ -123,6 +123,7 @@ const OrderableOptionsField = ({
         key={option.id}
         onRemoveClick={onRemoveValue}
         formMethods={formMethods}
+        formMode={formMode}
       />
     ));
 

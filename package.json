@@ -35,13 +35,14 @@
     "@babel/register": "~7.9.0",
     "@date-io/date-fns": "^1.3.13",
     "@hookform/devtools": "^2.2.1",
-    "@hookform/resolvers": "^1.3.2",
+    "@hookform/resolvers": "1.3.0",
     "@hot-loader/react-dom": "^16.13.0",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.53",
     "@material-ui/pickers": "^3.2.10",
     "@material-ui/styles": "^4.9.10",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "add": "^2.0.6",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
@@ -67,7 +68,6 @@
     "dom-to-image-more": "^2.8.0",
     "dompurify": "^2.2.3",
     "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "~6.8.0",
     "eslint-config-airbnb": "~18.1.0",
     "eslint-config-prettier": "~6.10.1",
@@ -162,7 +162,6 @@
     "require": [
       "@babel/register",
       "./.mochaignore",
-      "jsdom-global/register",
       "./app/javascript/test/test.setup.js"
     ],
     "exclude": [

@@ -161,7 +161,12 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
     <ActionDialog {...modalProps}>
       <form className={css.formBuilderDialog} onSubmit={handleSubmit(onSubmit)} id={FIELD_TRANSLATIONS_FORM}>
         {renderForms()}
-        <TranslatableOptions field={field} selectedLocaleId={selectedLocaleId} />
+        <TranslatableOptions
+          field={field}
+          selectedLocaleId={selectedLocaleId}
+          formMethods={formMethods}
+          formMode={formMode}
+        />
       </form>
     </ActionDialog>
   );

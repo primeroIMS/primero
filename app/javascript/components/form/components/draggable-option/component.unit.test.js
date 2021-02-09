@@ -16,7 +16,7 @@ describe("<Form /> - components/<DraggableOption />", () => {
 
   beforeEach(() => {
     ({ component } = setupMockFormComponent(
-      () => (
+      ({ formMethods, formMode }) => (
         <DragDropContext>
           <Droppable droppableId="droppable" type="field">
             {() => (
@@ -25,12 +25,14 @@ describe("<Form /> - components/<DraggableOption />", () => {
                 index={0}
                 option={{ id: "option_1", display_text: "Display text 1" }}
                 defaultOptionId="option_1"
+                formMethods={formMethods}
+                formMode={formMode}
               />
             )}
           </Droppable>
         </DragDropContext>
       ),
-      props
+      { props }
     ));
   });
 

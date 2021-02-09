@@ -351,8 +351,11 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
 
       objectPaths.forEach(path => {
         const optionStringsTextPath = `${selectedFieldName}.option_strings_text${path}`;
+        const {
+          fieldsRef: { current: fields }
+        } = control;
 
-        if (!control.fields[optionStringsTextPath]) {
+        if (!fields[optionStringsTextPath]) {
           register({ name: optionStringsTextPath });
         }
         const value = get(currentData.option_strings_text, path);

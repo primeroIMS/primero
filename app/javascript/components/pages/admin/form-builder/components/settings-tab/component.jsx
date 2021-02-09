@@ -28,6 +28,7 @@ const Component = ({ index, mode, tab, formMethods }) => {
   const allFormGroupsLookups = useSelector(state => getFormGroupLookups(state), isEqual);
 
   const {
+    reset,
     register,
     setValue,
     getValues,
@@ -70,11 +71,12 @@ const Component = ({ index, mode, tab, formMethods }) => {
   ));
 
   const getFormValues = useCallback(props => getValues(props), []);
+  const formReset = useCallback(props => reset(props), []);
 
   return (
     <TabPanel tab={tab} index={index}>
       <div className={css.tabContent}>{renderForms}</div>
-      <FormTranslationsDialog mode={mode} getValues={getFormValues} onSuccess={onUpdateTranslation} />
+      <FormTranslationsDialog mode={mode} getValues={getFormValues} onSuccess={onUpdateTranslation} reset={formReset} />
     </TabPanel>
   );
 };

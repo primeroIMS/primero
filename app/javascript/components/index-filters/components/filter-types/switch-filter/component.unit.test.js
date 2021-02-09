@@ -22,13 +22,13 @@ describe("<SwitchFilter>", () => {
   };
 
   it("renders panel", () => {
-    const { component } = setupMockFormComponent(SwitchFilter, props);
+    const { component } = setupMockFormComponent(SwitchFilter, { props, includeFormProvider: true });
 
     expect(component.exists("Panel")).to.be.true;
   });
 
   it("renders switch", () => {
-    const { component } = setupMockFormComponent(SwitchFilter, props);
+    const { component } = setupMockFormComponent(SwitchFilter, { props, includeFormProvider: true });
 
     expect(component.exists("input[type='checkbox']")).to.be.true;
   });
@@ -45,7 +45,7 @@ describe("<SwitchFilter>", () => {
       setMoreSectionFilters: () => {},
       setReset: () => {}
     };
-    const { component } = setupMockFormComponent(SwitchFilter, newProps);
+    const { component } = setupMockFormComponent(SwitchFilter, { props: newProps, includeFormProvider: true });
     const clone = { ...component.find(SwitchFilter).props() };
 
     expect(component.exists("input[type='checkbox']")).to.be.true;
@@ -80,7 +80,7 @@ describe("<SwitchFilter>", () => {
       setReset: () => {}
     };
 
-    const { component } = setupMockFormComponent(SwitchFilter, newProps);
+    const { component } = setupMockFormComponent(SwitchFilter, { props: newProps, includeFormProvider: true });
     const switchFilter = component.find("input[type='checkbox']").at(0);
 
     expect(switchFilter).to.have.lengthOf(1);

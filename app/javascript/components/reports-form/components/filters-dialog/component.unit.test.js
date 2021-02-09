@@ -90,10 +90,6 @@ describe("<ReportFiltersDialog /> - Component", () => {
     expect(component.find(ActionDialog)).to.have.lengthOf(1);
   });
 
-  it("should render <FormProvider>", () => {
-    expect(component.find(FormProvider)).to.have.lengthOf(1);
-  });
-
   it("should render <FormSection>", () => {
     expect(component.find(FormSection)).to.have.lengthOf(1);
   });

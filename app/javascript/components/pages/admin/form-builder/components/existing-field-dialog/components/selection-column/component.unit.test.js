@@ -8,12 +8,10 @@ import SelectionColumn from "./component";
 
 describe("<SelectionColumn />", () => {
   it("should render the SelectionColumn with an AddIcon when is not selected", () => {
-    const { component } = setupMockFormComponent(
-      SelectionColumn,
-      { addField: () => {}, removeField: () => {}, field: {}, selected: false },
-      {},
-      fromJS({})
-    );
+    const { component } = setupMockFormComponent(SelectionColumn, {
+      props: { addField: () => {}, removeField: () => {}, field: {}, selected: false },
+      state: fromJS({})
+    });
 
     expect(component.find(SelectionColumn)).to.have.lengthOf(1);
     expect(component.find(SelectionColumn).find(AddIcon)).to.have.lengthOf(1);
@@ -21,12 +19,10 @@ describe("<SelectionColumn />", () => {
   });
 
   it("should render the SelectionColumn with an RemoveIcon when is selected", () => {
-    const { component } = setupMockFormComponent(
-      SelectionColumn,
-      { addField: () => {}, removeField: () => {}, field: {}, selected: true },
-      {},
-      fromJS({})
-    );
+    const { component } = setupMockFormComponent(SelectionColumn, {
+      props: { addField: () => {}, removeField: () => {}, field: {}, selected: true },
+      state: fromJS({})
+    });
 
     expect(component.find(SelectionColumn)).to.have.lengthOf(1);
     expect(component.find(SelectionColumn).find(RemoveIcon)).to.have.lengthOf(1);

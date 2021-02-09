@@ -17,9 +17,12 @@ describe("<Form /> - fields/<DateInput />", () => {
   });
 
   it("renders errors", () => {
-    const { component } = setupMockFieldComponent(DateInput, FieldRecord);
-
-    component.find("FormProvider").props().setError("test_field_2", "required", "Name is required");
+    const { component } = setupMockFieldComponent(DateInput, FieldRecord, {}, {}, {}, null, [
+      {
+        name: "test_field_2",
+        message: "Name is required"
+      }
+    ]);
 
     expect(component.someWhere(n => n.find("Mui-error"))).to.be.true;
     expect(component.find("p.MuiFormHelperText-root").at(0).text()).to.include("Name is required");

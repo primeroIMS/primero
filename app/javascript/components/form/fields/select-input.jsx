@@ -182,6 +182,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
       defaultValue={defaultValue}
       render={({ value: fieldValue, onChange: fieldOnChange }) => (
         <Autocomplete
+          name={name}
           onOpen={handleOpen}
           onChange={(_, data) => fieldOnChange(handleChange(data))}
           groupBy={option => option[groupBy]}

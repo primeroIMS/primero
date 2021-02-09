@@ -20,7 +20,7 @@ describe("<SelectFilter>", () => {
   };
 
   it("renders panel", () => {
-    const { component } = setupMockFormComponent(SelectFilter, props);
+    const { component } = setupMockFormComponent(SelectFilter, { props, includeFormProvider: true });
 
     expect(component.exists("Panel")).to.be.true;
   });
@@ -37,7 +37,7 @@ describe("<SelectFilter>", () => {
       setMoreSectionFilters: () => {},
       setReset: () => {}
     };
-    const { component } = setupMockFormComponent(SelectFilter, newProps);
+    const { component } = setupMockFormComponent(SelectFilter, { props: newProps, includeFormProvider: true });
     const clone = { ...component.find(SelectFilter).props() };
 
     expect(component.exists("Panel")).to.be.true;
@@ -74,7 +74,7 @@ describe("<SelectFilter>", () => {
       setReset: () => {}
     };
 
-    const { component } = setupMockFormComponent(SelectFilter, newProps);
+    const { component } = setupMockFormComponent(SelectFilter, { props: newProps, includeFormProvider: true });
 
     const select = component.find(Autocomplete);
 

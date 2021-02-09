@@ -52,7 +52,7 @@ describe("<LoginForm />", () => {
   // });
 
   it("renders login button", () => {
-    expect(component.find("button").first().prop("type")).to.equal("button");
+    expect(component.find("button").first().prop("type")).to.equal("submit");
   });
 
   describe("when is demo site", () => {

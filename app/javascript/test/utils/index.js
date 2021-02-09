@@ -4,7 +4,7 @@ import { Form, Formik } from "formik";
 import { createMemoryHistory } from "history";
 import { isEmpty } from "lodash";
 import { SnackbarProvider } from "notistack";
-import React from "react";
+import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Router } from "react-router-dom";
 import configureStore from "redux-mock-store";
@@ -151,17 +151,20 @@ export const tick = () =>
 
 export const setupMockFormComponent = (
   Component,
-  props = {},
-  parentProps = {},
-  state = {},
-  defaultValues = {},
-  includeFormMethods = false,
-  includeFormProvider = false
+  {
+    props = {},
+    parentProps = {},
+    state = {},
+    defaultValues = {},
+    includeFormMethods = false,
+    includeFormProvider = false,
+    errors
+  } = {}
 ) => {
   const MockFormComponent = () => {
     const { inputProps, field, mode } = props;
     const formMethods = useForm({ defaultValues });
-    const formMode = whichFormMode(mode);
+    const formMode = whichFormMode(mode || "new");
 
     const commonInputProps = setupFormInputProps(field, inputProps, mode, formMethods?.errors);
 
@@ -171,6 +174,16 @@ export const setupMockFormComponent = (
       commonInputProps,
       ...inputProps
     };
+
+    useEffect(() => {
+      if (errors) {
+        errors.forEach(error => {
+          const { name, message } = error;
+
+          formMethods.setError(name, { type: "manual", message });
+        });
+      }
+    }, [errors]);
 
     if (includeFormProvider) {
       return (
@@ -192,15 +205,19 @@ export const setupMockFieldComponent = (
   fieldRecordSettings = {},
   inputProps = {},
   metaInputProps = {},
-  mode = "new"
+  mode = "new",
+  errors
 ) => {
   const field = setupFormFieldRecord(FieldRecord, fieldRecordSettings);
 
   return setupMockFormComponent(fieldComponent, {
-    inputProps,
-    metaInputProps,
-    field,
-    mode
+    props: {
+      inputProps,
+      metaInputProps,
+      field,
+      mode
+    },
+    errors
   });
 };
 

@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect } from "react";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import Form from "../../../../../form";
@@ -12,7 +12,7 @@ import { localesToRender } from "../utils";
 import { FORM_ID, NAME } from "./constants";
 import { translationsForm, validationSchema } from "./forms";
 
-const Component = ({ getValues, mode, onClose, onSuccess }) => {
+const Component = ({ getValues, reset, mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const validations = validationSchema(i18n);
@@ -66,17 +66,17 @@ const Component = ({ getValues, mode, onClose, onSuccess }) => {
     selectedLocaleId: firstLocale
   });
 
-  // useEffect(() => {
-  //   if (dialogOpen) {
-  //     const currentFormValues = getValues({ nest: true });
+  useEffect(() => {
+    if (dialogOpen) {
+      const currentFormValues = getValues({ nest: true });
 
-  //     formMethods.reset({
-  //       locale_id: locales?.first()?.get("id"),
-  //       name: { ...currentFormValues.name, ...currentFormValues.translations.name },
-  //       description: { ...currentFormValues.description, ...currentFormValues.translations.description }
-  //     });
-  //   }
-  // }, [dialogOpen]);
+      reset({
+        locale_id: locales?.first()?.get("id"),
+        name: { ...currentFormValues.name, ...currentFormValues.translations.name },
+        description: { ...currentFormValues.description, ...currentFormValues.translations.description }
+      });
+    }
+  }, [dialogOpen]);
 
   return (
     <ActionDialog {...modalProps}>
@@ -100,7 +100,8 @@ Component.propTypes = {
   getValues: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
-  onSuccess: PropTypes.func
+  onSuccess: PropTypes.func,
+  reset: PropTypes.func.isRequired
 };
 
 export default Component;

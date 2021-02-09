@@ -27,6 +27,7 @@ const Fields = ({ fields, checkErrors, disableUnderline, formSection, css, formM
             formMethods={formMethods}
             formMode={formMode}
             formSection={formSection}
+            key={`${formSection.unique_id}-row`}
           />
         </div>
       );

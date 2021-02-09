@@ -5,7 +5,7 @@ import { setupMockFormComponent } from "../../../../../../test";
 import ExistingFieldDialog from "./component";
 
 describe("<ExistingFieldDialog />", () => {
-  const initialState = fromJS({
+  const state = fromJS({
     ui: { dialogs: { admin_fields_dialog: true } },
     records: {
       admin: {
@@ -28,12 +28,10 @@ describe("<ExistingFieldDialog />", () => {
   });
 
   it("should render the dialog", () => {
-    const { component } = setupMockFormComponent(
-      ExistingFieldDialog,
-      { parentForm: "parent", primeroModule: "module-1" },
-      {},
-      initialState
-    );
+    const { component } = setupMockFormComponent(ExistingFieldDialog, {
+      props: { parentForm: "parent", primeroModule: "module-1" },
+      state
+    });
 
     expect(component.find(ExistingFieldDialog)).to.have.lengthOf(1);
   });
