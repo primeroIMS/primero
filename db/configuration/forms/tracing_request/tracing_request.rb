@@ -82,7 +82,7 @@ tracing_request_subform_fields = [
   Field.new({"name" => "separation_cause",
              "type" => "select_box",
              "display_name_en" => "What was the main cause of separation?",
-             "option_strings_source" => "lookup SeparationCause",
+             "option_strings_source" => "lookup lookup-separation-cause",
              "matchable" => true
             }),
   Field.new({"name" => "separation_evacuation",

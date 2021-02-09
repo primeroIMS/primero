@@ -51,7 +51,6 @@ module Ownable
     @associated_users ||= user_ids.present? ? User.where(user_name: user_ids) : []
   end
 
-  # TODO: Refactor as association or AREL query after we migrated PrimeroModule
   def module
     @record_module ||= PrimeroModule.find_by(unique_id: module_id) if module_id
   end

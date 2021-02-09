@@ -472,6 +472,15 @@ module Indicators
       ]
     ).freeze
 
+    WITH_NEW_INCIDENTS = QueriedIndicator.new(
+      name: 'with_new_incidents',
+      record_model: Child,
+      scope_to_owner: true,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'has_incidents', value: true)
+      ]
+    ).freeze
+
     WITHOUT_INCIDENTS = QueriedIndicator.new(
       name: 'without_incidents',
       record_model: Child,

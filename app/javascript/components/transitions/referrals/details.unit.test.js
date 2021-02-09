@@ -1,4 +1,4 @@
-import { Box, Divider } from "@material-ui/core";
+import { Box, Divider, Grid } from "@material-ui/core";
 import { fromJS } from "immutable";
 
 import TransitionUser from "../TransitionUser";
@@ -66,7 +66,7 @@ describe("<ReferralDetail />", () => {
           ReferralDetail,
           {
             ...props,
-            ...{ transition: { status: "rejected" } }
+            ...{ transition: { ...props.transition, status: "rejected" } }
           },
           initialState
         ));
@@ -79,6 +79,23 @@ describe("<ReferralDetail />", () => {
       it("should render rejected reason", () => {
         expect(component.find(ReferralDetail).find(Box)).to.have.lengthOf(5);
       });
+    });
+  });
+
+  describe("with responded at", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        ReferralDetail,
+        {
+          ...props,
+          ...{ transition: { ...props.transition, responded_at: "2020-04-150T14:04" } }
+        },
+        initialState
+      ));
+    });
+
+    it("should render responded_at", () => {
+      expect(component.find(ReferralDetail).find(Grid).find(Grid).at(6).text()).to.equal("transition.responded_at");
     });
   });
 });

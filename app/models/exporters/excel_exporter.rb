@@ -92,11 +92,21 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
           write_record_form(id, subform_data, field.subform)
         end
       else
-        value = export_value(data[field.name], field)
+        value = export_field_value(data, form, field)
         worksheet&.write(worksheets[form.unique_id][:row], i + 1, value)
       end
     end
     worksheets[form.unique_id][:row] += 1
+  end
+
+  def export_field_value(data, form, field)
+    return export_value(data[field.name], field) unless field.nested? && !form.is_nested
+
+    values = []
+    data[field&.form_section&.unique_id]&.each do |section|
+      values << export_value(section[field.name], field)
+    end
+    values.join(', ')
   end
 
   def export_value(value, field)

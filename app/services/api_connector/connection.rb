@@ -54,7 +54,13 @@ class ApiConnector::Connection
 
   def wrap
     response = yield
-    [response.status, JSON.parse(response.body)]
+    [response.status, parse_response_body(response.body)]
+  end
+
+  def parse_response_body(body)
+    JSON.parse(body)
+  rescue JSON::ParserError
+    body
   end
 
   def to_query(params)
