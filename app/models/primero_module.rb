@@ -24,7 +24,7 @@ class PrimeroModule < ApplicationRecord
     :allow_searchable_ids, :selectable_approval_types,
     :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
     :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
-    :user_group_filter, :use_webhooks_for, :use_webhook_sync
+    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for
   )
 
   belongs_to :primero_program, optional: true

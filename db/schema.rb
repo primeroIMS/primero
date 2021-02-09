@@ -490,7 +490,7 @@ ActiveRecord::Schema.define(version: 2021_01_23_000001) do
   create_table "webhooks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "events", default: []
     t.string "url"
-    t.integer "auth_type"
+    t.string "auth_type"
     t.string "auth_secret_encrypted"
     t.string "role_unique_id"
     t.jsonb "metadata", default: {}
