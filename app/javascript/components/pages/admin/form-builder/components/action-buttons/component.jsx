@@ -10,17 +10,14 @@ import { FormAction } from "../../../../../form";
 
 import { NAME } from "./constants";
 
-const Component = ({ formMode, formID, handleCancel }) => {
+const Component = ({ formMode, handleSubmit, handleCancel }) => {
   const i18n = useI18n();
   const saving = useSelector(state => getSavingRecord(state));
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<CloseIcon />} />
       <FormAction
-        options={{
-          form: formID,
-          type: "submit"
-        }}
+        actionHandler={handleSubmit}
         text={i18n.t("buttons.save")}
         startIcon={<CheckIcon />}
         savingRecord={saving}
@@ -34,9 +31,9 @@ const Component = ({ formMode, formID, handleCancel }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  formID: PropTypes.string.isRequired,
   formMode: PropTypes.object.isRequired,
-  handleCancel: PropTypes.func.isRequired
+  handleCancel: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
 };
 
 export default Component;

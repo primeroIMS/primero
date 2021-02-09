@@ -34,7 +34,7 @@ import {
   updateFieldTranslations
 } from "./action-creators";
 import { validationSchema } from "./forms";
-import { NAME, NEW_FIELD, FORM_ID } from "./constants";
+import { NAME, NEW_FIELD } from "./constants";
 import {
   getSavingRecord,
   getSelectedField,
@@ -233,49 +233,47 @@ const Component = ({ mode }) => {
   return (
     <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
       <PageHeading title={pageTitle}>
-        <FormBuilderActionButtons formMode={formMode} formID={FORM_ID} handleCancel={handleCancel} />
+        <FormBuilderActionButtons
+          formMode={formMode}
+          handleSubmit={methods.handleSubmit(onSubmit)}
+          handleCancel={handleCancel}
+        />
       </PageHeading>
       <PageContent>
-        <form id={FORM_ID} onSubmit={methods.handleSubmit(onSubmit)}>
-          <Tabs value={tab} onChange={handleChange}>
-            <Tab label={i18n.t("forms.settings")} />
-            <Tab className={css.tabHeader} label={i18n.t("forms.fields")} disabled={formMode.get("isNew")} />
-            <Tab
-              className={css.tabHeader}
-              label={i18n.t("forms.translations.title")}
-              disabled={formMode.get("isNew")}
-            />
-          </Tabs>
-          {tab === 0 && (
-            <SettingsTab
-              tab={tab}
-              index={0}
-              mode={mode}
-              formMethods={methods}
-              limitedProductionSite={limitedProductionSite}
-            />
-          )}
-          {tab === 1 && (
-            <FieldsTab
-              tab={tab}
-              index={1}
-              mode={modeForFieldDialog}
-              formMethods={methods}
-              limitedProductionSite={limitedProductionSite}
-            />
-          )}
-          {tab === 2 && (
-            <TranslationsTab
-              mode={mode}
-              moduleId={moduleId}
-              parentForm={parentForm}
-              selectedField={selectedField}
-              formMethods={methods}
-              index={2}
-              tab={tab}
-            />
-          )}
-        </form>
+        <Tabs value={tab} onChange={handleChange}>
+          <Tab label={i18n.t("forms.settings")} />
+          <Tab className={css.tabHeader} label={i18n.t("forms.fields")} disabled={formMode.get("isNew")} />
+          <Tab className={css.tabHeader} label={i18n.t("forms.translations.title")} disabled={formMode.get("isNew")} />
+        </Tabs>
+        {tab === 0 && (
+          <SettingsTab
+            tab={tab}
+            index={0}
+            mode={mode}
+            formMethods={methods}
+            limitedProductionSite={limitedProductionSite}
+          />
+        )}
+        {tab === 1 && (
+          <FieldsTab
+            tab={tab}
+            index={1}
+            mode={modeForFieldDialog}
+            formMethods={methods}
+            limitedProductionSite={limitedProductionSite}
+          />
+        )}
+        {tab === 2 && (
+          <TranslationsTab
+            mode={mode}
+            moduleId={moduleId}
+            parentForm={parentForm}
+            selectedField={selectedField}
+            formMethods={methods}
+            index={2}
+            tab={tab}
+          />
+        )}
       </PageContent>
     </LoadingIndicator>
   );
