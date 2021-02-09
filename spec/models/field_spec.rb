@@ -913,6 +913,32 @@ describe Field do
     end
   end
 
+  describe 'nested?' do
+    context 'when field is on a subform' do
+      before do
+        @field = Field.new(display_name: 'test 1', name: 'test1')
+        FormSection.create!(name_en: 'Test Subform', parent_form: 'case', unique_id: 'form_section_subform',
+                            fields:[@field], is_nested: true)
+      end
+
+      it 'is true' do
+        expect(@field.nested?).to be_truthy
+      end
+    end
+
+    context 'when field is not on a subform' do
+      before do
+        @field = Field.new(display_name: 'test 1', name: 'test1')
+        FormSection.create!(name_en: 'Test Regular Form', parent_form: 'case', unique_id: 'form_section_not_nested',
+                            fields:[@field])
+      end
+
+      it 'is false' do
+        expect(@field.nested?).to be_falsey
+      end
+    end
+  end
+
   describe 'ConfigurationRecord' do
     describe '#configuration_hash' do
       let(:form1) { FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm') }

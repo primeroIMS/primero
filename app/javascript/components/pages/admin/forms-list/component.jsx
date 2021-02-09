@@ -3,7 +3,7 @@ import { batch, useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { makeStyles, Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { Add as AddIcon, List as ListIcon, SwapVert } from "@material-ui/icons";
 
 import LoadingIndicator from "../../../loading-indicator";
@@ -17,6 +17,8 @@ import { FormAction } from "../../../form";
 import { compare } from "../../../../libs";
 import { useDialog } from "../../../action-dialog";
 import { getFormGroupLookups } from "../../../form/selectors";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import FormExporter from "./components/form-exporter";
 import { FORM_EXPORTER_DIALOG } from "./components/form-exporter/constants";
@@ -38,6 +40,7 @@ import styles from "./styles.css";
 
 const Component = () => {
   const i18n = useI18n();
+  const { limitedProductionSite } = useApp();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
@@ -123,7 +126,12 @@ const Component = () => {
   };
 
   const newFormBtn = canAddForms ? (
-    <FormAction actionHandler={handleNew} text={i18n.t("buttons.new")} startIcon={<AddIcon />} />
+    <FormAction
+      actionHandler={handleNew}
+      text={i18n.t("buttons.new")}
+      startIcon={<AddIcon />}
+      rest={{ hide: limitedProductionSite }}
+    />
   ) : null;
 
   const onClickReorder = () => {
@@ -169,9 +177,17 @@ const Component = () => {
         <div className={css.indexContainer}>
           <div className={css.forms}>
             <LoadingIndicator hasData={hasFormSectionsByGroup} loading={isLoading} type={NAMESPACE}>
-              <Button className={css.reorderButton} startIcon={<ListIcon />} size="small" onClick={onClickReorder}>
-                {i18n.t("buttons.reorder")}
-              </Button>
+              <ActionButton
+                icon={<ListIcon />}
+                text={i18n.t("buttons.reorder")}
+                type={ACTION_BUTTON_TYPES.default}
+                className={css.reorderButton}
+                isTransparent
+                rest={{
+                  onClick: onClickReorder,
+                  hide: limitedProductionSite
+                }}
+              />
               <DragDropContext onDragEnd={handleDragEnd}>
                 <Droppable droppableId="droppable" type="formGroup">
                   {(provided, snapshot) => (

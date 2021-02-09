@@ -27,7 +27,8 @@ const Component = ({
   oldValue,
   open,
   setOpen,
-  title
+  title,
+  orderedValues
 }) => {
   const [initialValues, setInitialValues] = useState({});
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
@@ -36,7 +37,7 @@ const Component = ({
 
   const initialSubformValues = {
     ...initialValues,
-    ...getSubformValues(field, index, formik.values)
+    ...getSubformValues(field, index, formik.values, orderedValues)
   };
 
   const initialSubformErrors = isValidIndex ? getIn(formik.errors, `${field.name}[${index}]`) : {};
@@ -175,6 +176,7 @@ Component.propTypes = {
   mode: PropTypes.object.isRequired,
   oldValue: PropTypes.object,
   open: PropTypes.bool.isRequired,
+  orderedValues: PropTypes.array.isRequired,
   setOpen: PropTypes.func.isRequired,
   subformSectionConfiguration: PropTypes.object,
   title: PropTypes.string.isRequired

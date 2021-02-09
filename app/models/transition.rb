@@ -2,7 +2,6 @@
 
 # Class for transfers, referrals, and assign
 class Transition < ApplicationRecord
-  STATUS_PENDING = 'pending'
   STATUS_ACCEPTED = 'accepted'
   STATUS_REJECTED = 'rejected'
   STATUS_INPROGRESS = 'in_progress'
