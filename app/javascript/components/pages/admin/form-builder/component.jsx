@@ -22,6 +22,7 @@ import { compare, dataToJS, displayNameHelper } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
+import { useApp } from "../../../application";
 
 import { FormBuilderActionButtons, TranslationsTab, SettingsTab, FieldsTab } from "./components";
 import { localesToRender } from "./components/utils";
@@ -58,6 +59,7 @@ const Component = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const dispatch = useDispatch();
   const i18n = useI18n();
+  const { limitedProductionSite } = useApp();
   const selectedLocaleId = localesToRender(i18n)?.first()?.get("id");
 
   const [tab, setTab] = useState(0);
@@ -245,8 +247,24 @@ const Component = ({ mode }) => {
               disabled={formMode.get("isNew")}
             />
           </Tabs>
-          {tab === 0 && <SettingsTab tab={tab} index={0} mode={mode} formMethods={methods} />}
-          {tab === 1 && <FieldsTab tab={tab} index={1} mode={modeForFieldDialog} formMethods={methods} />}
+          {tab === 0 && (
+            <SettingsTab
+              tab={tab}
+              index={0}
+              mode={mode}
+              formMethods={methods}
+              limitedProductionSite={limitedProductionSite}
+            />
+          )}
+          {tab === 1 && (
+            <FieldsTab
+              tab={tab}
+              index={1}
+              mode={modeForFieldDialog}
+              formMethods={methods}
+              limitedProductionSite={limitedProductionSite}
+            />
+          )}
           {tab === 2 && (
             <TranslationsTab
               mode={mode}

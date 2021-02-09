@@ -66,7 +66,7 @@ const Container = ({ mode }) => {
 
   const initialValues = user.toJS();
 
-  const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
+  const validationSchema = validations(formMode, i18n, useIdentityProviders, providers, selectedUserIsLoggedIn);
 
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);

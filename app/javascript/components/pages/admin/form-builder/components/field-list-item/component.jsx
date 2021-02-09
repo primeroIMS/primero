@@ -31,7 +31,15 @@ import { dataToJS, displayNameHelper } from "../../../../../../libs";
 
 import { NAME, SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "./constants";
 
-const Component = ({ field, formMethods, index, subformField, subformSortBy, subformGroupBy }) => {
+const Component = ({
+  field,
+  formMethods,
+  index,
+  subformField,
+  subformSortBy,
+  subformGroupBy,
+  limitedProductionSite
+}) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -100,7 +108,11 @@ const Component = ({ field, formMethods, index, subformField, subformSortBy, sub
     return (
       <>
         {icon}
-        <Button className={clsx({ [css.editable]: !isNotEditable })} onClick={() => handleClick()}>
+        <Button
+          className={clsx({ [css.editable]: !isNotEditable })}
+          onClick={() => handleClick()}
+          disabled={limitedProductionSite}
+        >
           {displayNameHelper(dataToJS(field.get("display_name")), i18n.locale)}
         </Button>
       </>
@@ -128,26 +140,26 @@ const Component = ({ field, formMethods, index, subformField, subformSortBy, sub
   };
 
   return (
-    <Draggable draggableId={fieldName} index={index}>
+    <Draggable draggableId={fieldName} index={index} isDragDisabled={limitedProductionSite}>
       {provided => (
         <div ref={provided.innerRef} {...provided.draggableProps}>
           <div className={css.fieldRow} key={fieldName}>
             <div className={clsx([css.fieldColumn, css.dragIndicatorColumn])}>
-              <DragIndicator {...provided.dragHandleProps} />
+              <DragIndicator {...provided.dragHandleProps} isDragDisabled={limitedProductionSite} />
             </div>
-            <div className={clsx([css.fieldColumn, css.fieldName])}>{renderFieldName(field)}</div>
-            <div className={css.fieldColumn}>{i18n.t(`fields.${getLabelTypeField(field)}`)}</div>
-            {renderColumn(SUBFORM_SORT_BY)}
-            {renderColumn(SUBFORM_GROUP_BY)}
-            <div className={clsx([css.fieldColumn, css.fieldShow])}>
-              <MuiThemeProvider theme={themeOverrides}>
+            <MuiThemeProvider theme={themeOverrides}>
+              <div className={clsx([css.fieldColumn, css.fieldName])}>{renderFieldName(field)}</div>
+              <div className={css.fieldColumn}>{i18n.t(`fields.${getLabelTypeField(field)}`)}</div>
+              {renderColumn(SUBFORM_SORT_BY)}
+              {renderColumn(SUBFORM_GROUP_BY)}
+              <div className={clsx([css.fieldColumn, css.fieldShow])}>
                 <SwitchInput
                   commonInputProps={{ name: visibleFieldName, disabled: isNotEditable }}
                   metaInputProps={{ selectedValue: getValues()[visibleFieldName] }}
                   formMethods={formMethods}
                 />
-              </MuiThemeProvider>
-            </div>
+              </div>
+            </MuiThemeProvider>
           </div>
         </div>
       )}
@@ -164,6 +176,7 @@ Component.propTypes = {
   formMethods: PropTypes.object.isRequired,
   getValues: PropTypes.func,
   index: PropTypes.number.isRequired,
+  limitedProductionSite: PropTypes.bool,
   subformField: PropTypes.object,
   subformGroupBy: PropTypes.string,
   subformSortBy: PropTypes.string

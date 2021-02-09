@@ -12,7 +12,7 @@ import { useI18n } from "../../../i18n";
 import { FormAction, whichFormMode } from "../../../form";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
-import { fetchSystemSettings } from "../../../application";
+import { fetchSystemSettings, useApp } from "../../../application";
 import { ROUTES } from "../../../../config";
 
 import { NAME } from "./constants";
@@ -26,6 +26,7 @@ const Container = ({ mode }) => {
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
   const i18n = useI18n();
+  const { limitedProductionSite } = useApp();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
@@ -74,14 +75,20 @@ const Container = ({ mode }) => {
         startIcon={<CheckIcon />}
         options={{
           form: FORM_ID,
-          type: "submit"
+          type: "submit",
+          hide: limitedProductionSite
         }}
       />
     </>
   );
 
   const editButton = formMode.get("isShow") && (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
+    <FormAction
+      actionHandler={handleEdit}
+      text={i18n.t("buttons.edit")}
+      startIcon={<CreateIcon />}
+      options={{ hide: limitedProductionSite }}
+    />
   );
 
   return (

@@ -15,7 +15,7 @@ import { RESOURCES, WRITE_RECORDS } from "../../../../../libs/permissions";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-const Component = ({ formMode, formID, handleCancel }) => {
+const Component = ({ formMode, formID, handleCancel, limitedProductionSite }) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
 
@@ -24,7 +24,7 @@ const Component = ({ formMode, formID, handleCancel }) => {
     <>
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
-        options={{ form: formID, type: "submit" }}
+        options={{ form: formID, type: "submit", hide: limitedProductionSite }}
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
@@ -38,9 +38,10 @@ const Component = ({ formMode, formID, handleCancel }) => {
         icon={<CreateIcon />}
         text={i18n.t("buttons.edit")}
         type={ACTION_BUTTON_TYPES.default}
-        rest={{
+        options={{
           to: `${pathname}/edit`,
-          component: Link
+          component: Link,
+          hide: limitedProductionSite
         }}
       />
     </Permission>
@@ -59,7 +60,8 @@ Component.displayName = ACTION_BUTTONS_NAME;
 Component.propTypes = {
   formID: PropTypes.string.isRequired,
   formMode: PropTypes.object.isRequired,
-  handleCancel: PropTypes.func.isRequired
+  handleCancel: PropTypes.func.isRequired,
+  limitedProductionSite: PropTypes.bool
 };
 
 export default Component;

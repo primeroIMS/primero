@@ -15,6 +15,7 @@ import NAMESPACE from "../agencies-list/namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
+import { useApp } from "../../../application";
 
 import { localizeData, translateFields } from "./utils";
 import { NAME, FORM_ID } from "./constants";
@@ -28,6 +29,7 @@ const Container = ({ mode }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
+  const { limitedProductionSite } = useApp();
   const agency = useSelector(state => getAgency(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
@@ -82,7 +84,7 @@ const Container = ({ mode }) => {
     <>
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
-        options={{ form: FORM_ID, type: "submit" }}
+        options={{ form: FORM_ID, type: "submit", hide: limitedProductionSite }}
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
@@ -91,7 +93,12 @@ const Container = ({ mode }) => {
   );
 
   const editButton = formMode.get("isShow") && (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
+    <FormAction
+      actionHandler={handleEdit}
+      text={i18n.t("buttons.edit")}
+      startIcon={<CreateIcon />}
+      options={{ hide: limitedProductionSite }}
+    />
   );
 
   const pageHeading = agency?.size

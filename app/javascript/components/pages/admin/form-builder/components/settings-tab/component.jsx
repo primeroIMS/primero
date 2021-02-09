@@ -19,7 +19,7 @@ import { getFormGroupLookups } from "../../../../../form/selectors";
 
 import { NAME } from "./constants";
 
-const Component = ({ index, mode, tab, formMethods }) => {
+const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -65,7 +65,8 @@ const Component = ({ index, mode, tab, formMethods }) => {
     onManageTranslation,
     onEnglishTextChange,
     i18n,
-    allFormGroupsLookups
+    allFormGroupsLookups,
+    limitedProductionSite
   }).map(formSection => (
     <FormSection formSection={formSection} key={formSection.unique_id} formMethods={formMethods} formMode={formMode} />
   ));
@@ -86,6 +87,7 @@ Component.displayName = NAME;
 Component.propTypes = {
   formMethods: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
+  limitedProductionSite: PropTypes.bool,
   mode: PropTypes.string.isRequired,
   tab: PropTypes.number.isRequired
 };

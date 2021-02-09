@@ -17,7 +17,7 @@ import { getFieldsAttribute, setFieldDataInFormContext } from "../utils";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy }) => {
+const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy, limitedProductionSite }) => {
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
 
@@ -101,6 +101,7 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
           subformSortBy={subformSortBy}
           subformGroupBy={subformGroupBy}
           key={`${field.get("name")}_${id}`}
+          limitedProductionSite={limitedProductionSite}
         />
       );
     });
@@ -138,6 +139,7 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   formMethods: PropTypes.object.isRequired,
+  limitedProductionSite: PropTypes.bool,
   subformField: PropTypes.object,
   subformGroupBy: PropTypes.string,
   subformSortBy: PropTypes.string

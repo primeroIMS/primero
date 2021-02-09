@@ -38,7 +38,14 @@ export const validationSchema = i18n =>
     visible: boolean()
   });
 
-export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChange, i18n, allFormGroupsLookups }) => {
+export const settingsForm = ({
+  formMode,
+  onManageTranslation,
+  onEnglishTextChange,
+  i18n,
+  allFormGroupsLookups,
+  limitedProductionSite
+}) => {
   const checkModuleField = (value, name, { methods }) => {
     const emptyModule = isEmpty(value[MODULES_FIELD]);
 
@@ -96,7 +103,7 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
             {
               text: i18n.t("forms.translations.manage"),
               outlined: true,
-              rest: { onClick: onManageTranslation }
+              options: { onClick: onManageTranslation, hide: limitedProductionSite }
             }
           ]
         : [],
