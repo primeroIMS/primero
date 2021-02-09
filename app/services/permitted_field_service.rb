@@ -48,7 +48,9 @@ class PermittedFieldService
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
-    @permitted_field_names += %w[synced_at sync_status] if model_class.included_modules.include?(Webhookable)
+    if model_class.included_modules.include?(Webhookable) && user.can?(:sync_external, model_class)
+      @permitted_field_names += %w[synced_at sync_status]
+    end
     if model_class == Incident && user.can?(Permission::INCIDENT_FROM_CASE.to_sym, Child)
       @permitted_field_names << 'incident_case_id'
       @permitted_field_names << 'case_id_display'

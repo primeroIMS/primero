@@ -88,7 +88,10 @@ class RecordDataService
     end
 
     def embed_computed_fields(data, record, selected_field_names)
-      computed_fields = (record.methods.map(&:to_s) - data.keys) & selected_field_names
+      computed_fields = %w[sync_status synced_at]
+      # TODO: Dynamically figuring out computed fields makes lots of unnecessary queries. Would be nice though.
+      # computed_fields = (record.methods.map(&:to_s) - data.keys)
+      computed_fields &= selected_field_names
       # Note: For now we are choosing to discard computed nil values to avoid inserting nil data acccessor values.
       #       Revisit if we want to always display nils for certain computed fields.
       computed_data = record.slice(*computed_fields).compact
