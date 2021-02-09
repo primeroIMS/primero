@@ -77,7 +77,7 @@ describe Transitionable do
     end
 
     it 'should return the users with transfers' do
-      expect(@case.transferred_to_users).to match_array(%w[user2 user4])
+      expect(@case.transferred_to_users).to match_array(%w[user2])
     end
   end
 

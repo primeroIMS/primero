@@ -33,7 +33,7 @@ class Referral < Transition
     save!
   end
 
-  def change_status(requested_status, rejected_reason = nil)
+  def accept_or_reject!(requested_status, rejected_reason = nil)
     return if requested_status == status
 
     case requested_status

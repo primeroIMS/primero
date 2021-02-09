@@ -18,7 +18,7 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   def update
     authorize! :update, @record
     @transition = Referral.find(params[:id])
-    @transition.change_status(update_params[:status], update_params[:rejected_reason])
+    @transition.accept_or_reject!(update_params[:status], update_params[:rejected_reason])
     updates_for_record(@transition.record)
     render 'api/v2/transitions/update'
   end
