@@ -1,5 +1,6 @@
 import { fromJS } from "immutable";
 
+import TextInput from "../../../form/fields/text-input";
 import { setupMountedComponent } from "../../../../test";
 
 import ReferralAction from "./component";
@@ -39,5 +40,19 @@ describe("<ReferralAction /> - Component", () => {
 
   it("renders ReferralAction component", () => {
     expect(component.find(ReferralAction)).to.have.length(1);
+  });
+
+  describe("with rejected status", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        ReferralAction,
+        { ...props, openReferralDialog: true, referralType: "rejected" },
+        initialState
+      ));
+    });
+
+    it("should render the rejected reason text field", () => {
+      expect(component.find(TextInput)).to.have.lengthOf(1);
+    });
   });
 });

@@ -337,6 +337,15 @@ en:
       work associated with this case. Once you click 'Done' you will no longer have
       access to this record.
     referral_done_success: Referral done.
+    referral_accepted_header: Accept Referral
+    referral_accepted: Are you sure? You will now be responsible for completing work
+      associated with this Referral.
+    referral_accepted_success: Referral accepted.
+    referral_rejected: By clicking 'Reject' you are indicating that you are not ready
+      to accept responsibility for this Referral at this time. Please enter a reason
+      that you are rejecting this Referral; once you click ‘Reject’ you will no longer
+      have access to this Case record.
+    referral_rejected_success: Referral rejected.
     register_new_case: New Case
     registration_date: Registration Date
     rejected_success_action_plan: '%{approval_label} - Not Approved'
@@ -2855,6 +2864,7 @@ en:
     success: '%{record_type} %{id} successfully referred'
     user_mandatory_label: Recipient is required
     date: Date
+    rejected_reason: Rejection Reason
   report:
     aggregate_by: Group by row
     attribute: Attribute
@@ -3062,6 +3072,7 @@ en:
     recipient: Recipient
     rejected: Reason Rejected
     service_label: Service
+    responded_at: Responded At
     status:
       accepted: Accepted
       done: Done
