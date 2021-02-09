@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_22_000000) do
+ActiveRecord::Schema.define(version: 2021_02_09_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -430,6 +430,7 @@ ActiveRecord::Schema.define(version: 2021_01_22_000000) do
     t.boolean "consent_overridden", default: false, null: false
     t.boolean "consent_individual_transfer", default: false, null: false
     t.datetime "created_at"
+    t.datetime "responded_at"
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
   end
