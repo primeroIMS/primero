@@ -168,7 +168,7 @@ describe("<RecordFormToolbar />", () => {
     );
 
     expect(recordFormToolbarComponent.find(WorkflowIndicator)).to.be.empty;
-    expect(recordFormToolbarComponent.find("h3").text()).to.be.equals("case.messages.case_disabled");
+    expect(recordFormToolbarComponent.find("h3").text()).to.be.equals("case.messages.disabled");
   });
 
   describe("when records is being save", () => {

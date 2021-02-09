@@ -100,8 +100,8 @@ export const fetchTracingRequestTraces = (id, asCallback = false) => ({
   }
 });
 
-export const fetchRecord = (recordType, id) => ({
-  type: `${recordType}/${RECORD}`,
+export const fetchRecord = (recordType, id, asCallback = false) => ({
+  [asCallback ? "action" : "type"]: `${recordType}/${RECORD}`,
   api: {
     path: `${recordType}/${id}`,
     db: {

@@ -129,7 +129,7 @@ export default ({
         action: () => handleDialogClick(ENABLE_DISABLE_DIALOG),
         condition: isShow && canEnable,
         name: i18n.t(`actions.${enableState}`),
-        recordType: RECORD_PATH.cases
+        recordType: RECORD_TYPES.all
       },
       {
         action: () => handleDialogClick(NOTES_DIALOG),

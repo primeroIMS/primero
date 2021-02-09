@@ -1,19 +1,23 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Workflow do
   before do
-    lookup = Lookup.new(:unique_id => "lookup-service-response-type",
-                   name: "Service Response Type",
-                   locked: true,
-                   lookup_values: [
-                     { id: "care_plan", display_text: "Care plan" }.with_indifferent_access,
-                     { id: "action_plan", display_text: "Action plan" }.with_indifferent_access,
-                     { id: "service_provision", display_text: "Service provision" }.with_indifferent_access
-                   ])
+    lookup = Lookup.new(
+      unique_id: 'lookup-service-response-type',
+      name: 'Service Response Type',
+      locked: true,
+      lookup_values: [
+        { id: 'care_plan', display_text: 'Care plan' }.with_indifferent_access,
+        { id: 'action_plan', display_text: 'Action plan' }.with_indifferent_access,
+        { id: 'service_provision', display_text: 'Service provision' }.with_indifferent_access
+      ]
+    )
     @lookups = [lookup]
 
     @module_a = PrimeroModule.new(
-      name: "Test Module A",
+      name: 'Test Module A',
       form_sections: [],
       module_options: {
         use_workflow_case_plan: true,
@@ -23,7 +27,7 @@ describe Workflow do
 
     @module_b = PrimeroModule.new(
       associated_record_types: ['case'],
-      name: "Test Module B",
+      name: 'Test Module B',
       form_sections: [],
       module_options: {
         use_workflow_case_plan: true,
@@ -55,7 +59,9 @@ describe Workflow do
         end
 
         it 'does not include Workflow Assessment in the status list' do
-          expect(Child.workflow_statuses(@modules, @lookups)[:en]).not_to include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
+          expect(Child.workflow_statuses(@modules, @lookups)[:en]).not_to(
+            include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
+          )
         end
       end
 
@@ -66,7 +72,9 @@ describe Workflow do
         end
 
         it 'does include Workflow Assessment in the status list' do
-          expect(Child.workflow_statuses(@modules, @lookups)[:en]).to include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
+          expect(Child.workflow_statuses(@modules, @lookups)[:en]).to(
+            include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
+          )
         end
       end
 
@@ -77,7 +85,9 @@ describe Workflow do
         end
 
         it 'does include Workflow Assessment in the status list' do
-          expect(Child.workflow_statuses(@modules, @lookups)[:en]).to include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
+          expect(Child.workflow_statuses(@modules, @lookups)[:en]).to(
+            include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
+          )
         end
       end
     end
@@ -88,29 +98,29 @@ describe Workflow do
       clean_data(FormSection, Lookup, PrimeroModule)
 
       Lookup.create(
-          :id => "lookup-service-response-type",
-          :name => "Service Response Type",
-          :locked => true,
-          :lookup_values => [
-              {id: "care_plan", display_text: "Care plan"}.with_indifferent_access,
-              {id: "action_plan", display_text: "Action plan"}.with_indifferent_access,
-              {id: "service_provision", display_text: "Service provision"}.with_indifferent_access
-          ]
+        id: 'lookup-service-response-type',
+        name: 'Service Response Type',
+        locked: true,
+        lookup_values: [
+          { id: 'care_plan', display_text: 'Care plan' }.with_indifferent_access,
+          { id: 'action_plan', display_text: 'Action plan' }.with_indifferent_access,
+          { id: 'service_provision', display_text: 'Service provision' }.with_indifferent_access
+        ]
       )
-      form_section_a = create(:form_section, unique_id: "A", name: "A")
-      form_section_b = create(:form_section, unique_id: "B", name: "B")
+      form_section_a = create(:form_section, unique_id: 'A', name: 'A')
+      form_section_b = create(:form_section, unique_id: 'B', name: 'B')
 
       a_module = PrimeroModule.new(
-          associated_record_types: ['case'],
-          name: "Test Module",
-          form_sections: [form_section_a, form_section_b],
-          module_options: {
-            use_workflow_case_plan: true,
-            use_workflow_assessment: true
-          }
+        associated_record_types: ['case'],
+        name: 'Test Module',
+        form_sections: [form_section_a, form_section_b],
+        module_options: {
+          use_workflow_case_plan: true,
+          use_workflow_assessment: true
+        }
       )
-      user = User.new({:user_name => 'bob123'})
-      @case1 = Child.new_with_user user, {name: 'Workflow Tester'}
+      user = User.new(user_name: 'bob123')
+      @case1 = Child.new_with_user user, name: 'Workflow Tester'
       @case1.stub(:module).and_return(a_module)
       @case1.save
     end
@@ -150,7 +160,9 @@ describe Workflow do
 
       context 'and service response type is set' do
         before do
-          @case1.services_section = [{'service_response_type' => 'action_plan', 'service_implemented' => Serviceable::SERVICE_NOT_IMPLEMENTED}]
+          @case1.services_section = [
+            { 'service_response_type' => 'action_plan', 'service_implemented' => Serviceable::SERVICE_NOT_IMPLEMENTED }
+          ]
           @case1.save!
         end
         it 'workflow status should be the response type of the service' do
@@ -172,15 +184,18 @@ describe Workflow do
 
       context 'and service response type is set' do
         before do
-          @case1.services_section = [{'service_response_type' => 'service_provision', 'service_response_day_time' => DateTime.now, 'service_type' => 'shelter_service'}]
-          # binding.pry
+          @case1.services_section = [
+            {
+              'service_response_type' => 'service_provision', 'service_response_day_time' => DateTime.now,
+              'service_type' => 'shelter_service'
+            }
+          ]
           @case1.save!
         end
         it 'workflow status should be service_provision' do
           expect(@case1.workflow).to eq('service_provision')
         end
       end
-
     end
 
     context 'when case is closed' do
@@ -195,7 +210,7 @@ describe Workflow do
     end
 
     context 'when case is reopened' do
-      before :each  do
+      before :each do
         @case1.status = Record::STATUS_CLOSED
         @case1.save!
       end

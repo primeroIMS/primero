@@ -217,6 +217,10 @@ class Field < ApplicationRecord
     option_strings_source == 'Agency'
   end
 
+  def nested?
+    form_section&.is_nested
+  end
+
   def update_translations(locale, field_hash = {})
     return Rails.logger.error('Field translation not updated: No Locale passed in') if locale.blank?
 
