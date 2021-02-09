@@ -1290,7 +1290,7 @@ en:
       reporting_site: "Reporting Site"
       helptext: |
         This indicator counts how many new cases are opened each month per reporting site.
-        A reporting site is understood as the site where the User Organization is providing services and 
+        A reporting site is understood as the site where the User Organization is providing services and
         where the case was reported to the service provider.
     number_of_incidents:
       title: "2. Number of recorded Incidents"
@@ -1714,6 +1714,7 @@ en:
         Details Modal
       services_section_from_case: Add Service provision to another user's case
       specific_roles: Access specified list of roles
+      sync_external: Sync with an external integrated system
       sync_mobile: Sync with mobile device
       system: System
       tracing_request: Tracing Request
@@ -2139,6 +2140,9 @@ en:
               if they also have the "Search for case records owned by other users"
               permission.
             label: Add Service provision to another user's case
+          sync_external:
+            explanation: ""
+            label: Sync with an external integrated system
           sync_mobile:
             explanation: This permission generally allows the user to use the mobile
               application. First, it allows the user to see the "Mark for Mobile"
