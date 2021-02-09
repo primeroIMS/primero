@@ -14,6 +14,7 @@ import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
+import { useApp } from "../../../application";
 
 import { NAME } from "./constants";
 import { fetchAdminLookups } from "./action-creators";
@@ -26,6 +27,7 @@ const Component = () => {
   const recordType = ["admin", "lookups"];
   const metadata = useSelector(state => getMetadata(state, recordType));
   const defaultFilters = metadata;
+  const { limitedProductionSite } = useApp();
 
   const newUserGroupBtn = (
     <ActionButton
@@ -34,7 +36,8 @@ const Component = () => {
       type={ACTION_BUTTON_TYPES.default}
       rest={{
         to: ROUTES.lookups_new,
-        component: Link
+        component: Link,
+        hide: limitedProductionSite
       }}
     />
   );

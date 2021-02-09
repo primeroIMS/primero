@@ -37,7 +37,7 @@ Rails.application.routes.draw do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
         resources :assigns, only: %i[index create]
-        resources :referrals, only: %i[index create destroy]
+        resources :referrals, only: %i[index create destroy update]
         resources :transfers, only: %i[index create update]
         resources :transfer_requests, only: %i[index create update]
         resources :transitions, only: [:index]

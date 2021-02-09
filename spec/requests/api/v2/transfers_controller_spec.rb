@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V2::TransfersController, type: :request do
@@ -33,7 +35,6 @@ describe Api::V2::TransfersController, type: :request do
   let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
 
   describe 'GET /api/v2/case/:id/transfers' do
-
     before :each do
       @transfer1 = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
     end
@@ -60,11 +61,9 @@ describe Api::V2::TransfersController, type: :request do
       expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/transfers")
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
-
   end
 
   describe 'POST /api/v2/case/:id/transfers' do
-
     it 'initiates a transfer of a the record to the target user' do
       sign_in(@user1)
       params = {data: {transitioned_to: 'user2', notes: 'Test Notes'}}
@@ -93,7 +92,6 @@ describe Api::V2::TransfersController, type: :request do
   end
 
   describe 'POST /api/v2/case/transfers' do
-
     before :each do
       @case2 = Child.create(
         data: {
@@ -107,7 +105,7 @@ describe Api::V2::TransfersController, type: :request do
     it 'transfer multiple records to the target user' do
       sign_in(@user1)
       params = {data: {ids: [@case.id, @case2.id], transitioned_to: 'user2', notes: 'Test Notes'}}
-      post "/api/v2/cases/transfers", params: params
+      post '/api/v2/cases/transfers', params: params
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
@@ -122,12 +120,12 @@ describe Api::V2::TransfersController, type: :request do
 
       expect(audit_params['action']).to eq('bulk_transfer')
     end
-
   end
 
   describe 'PATCH /api/v2/cases/:id/transfers/:transfer_id' do
-
     before :each do
+      @now = DateTime.parse('2020-10-05T04:05:06')
+      DateTime.stub(:now).and_return(@now)
       @transfer1 = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
     end
 
@@ -145,6 +143,7 @@ describe Api::V2::TransfersController, type: :request do
       expect(json['data']['record_id']).to eq(@case.id.to_s)
       expect(json['data']['transitioned_to']).to eq('user2')
       expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['responded_at']).to eq(@now.in_time_zone.as_json)
 
       expect(audit_params['action']).to eq("transfer_#{Transition::STATUS_ACCEPTED}")
 
@@ -166,6 +165,7 @@ describe Api::V2::TransfersController, type: :request do
       expect(json['data']['record_id']).to eq(@case.id.to_s)
       expect(json['data']['transitioned_to']).to eq('user2')
       expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['responded_at']).to eq(@now.in_time_zone.as_json)
 
       expect(audit_params['action']).to eq("transfer_#{Transition::STATUS_REJECTED}")
 
@@ -173,7 +173,6 @@ describe Api::V2::TransfersController, type: :request do
       expect(@case.owned_by).to eq('user1')
       expect(@case.assigned_user_names).not_to include('user2')
     end
-
   end
 
   after :each do

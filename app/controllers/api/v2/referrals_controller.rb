@@ -15,6 +15,14 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
     render 'api/v2/transitions/create'
   end
 
+  def update
+    authorize! :update, @record
+    @transition = Referral.find(params[:id])
+    @transition.accept_or_reject!(update_params[:status], update_params[:rejected_reason])
+    updates_for_record(@transition.record)
+    render 'api/v2/transitions/update'
+  end
+
   def create_bulk
     authorize_all!(:referral, @records)
     @transitions = @records.map { |record| refer(record) }
@@ -25,7 +33,7 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   def destroy
     authorize! :update, @record
     @transition = Referral.find(params[:id])
-    @transition.reject!
+    @transition.finish!
     updates_for_record(@transition.record)
     render 'api/v2/transitions/destroy'
   end
@@ -66,5 +74,9 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
     raise e unless params[:data][:service_record_id]
 
     authorize! :referral_from_service, record
+  end
+
+  def update_params
+    @update_params ||= params.require(:data).permit(:status, :rejected_reason)
   end
 end
