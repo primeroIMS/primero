@@ -13,6 +13,7 @@ const Component = ({ close, open, record, recordType }) => {
   const dispatch = useDispatch();
   const enableState = record && !record.get("record_state") ? "enable" : "disable";
   const setValue = record ? !record.get("record_state") : true;
+  const recordTypeWithStatus = `${recordType}.${enableState}`;
 
   const handleOk = () => {
     dispatch(
@@ -24,7 +25,7 @@ const Component = ({ close, open, record, recordType }) => {
           record_action: "enable_disable_record"
         },
         record.get("id"),
-        i18n.t(`cases.${enableState}_success`),
+        i18n.t(`${recordTypeWithStatus}_success`),
         i18n.t("offline_submitted_changes"),
         false,
         false
@@ -38,8 +39,8 @@ const Component = ({ close, open, record, recordType }) => {
       open={open}
       successHandler={handleOk}
       cancelHandler={close}
-      dialogTitle={i18n.t(`cases.${enableState}_dialog_title`)}
-      dialogText={i18n.t(`cases.${enableState}_dialog`)}
+      dialogTitle={i18n.t(`${recordTypeWithStatus}_dialog_title`)}
+      dialogText={i18n.t(`${recordTypeWithStatus}_dialog`)}
       confirmButtonLabel={i18n.t("cases.ok")}
     />
   );
