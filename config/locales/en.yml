@@ -205,6 +205,7 @@ en:
       creation_success: 'Case record successfully created.'
       creation_success_queue: 'Case record successfully created in background.'
       already_matched: This Inquirer has already been matched to your case.
+      already_matched_not_current_case: There is already a case in the system matched to this inquirer.
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
     workflow:
