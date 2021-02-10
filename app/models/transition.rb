@@ -2,7 +2,6 @@
 
 # Class for transfers, referrals, and assign
 class Transition < ApplicationRecord
-  STATUS_PENDING = 'pending'
   STATUS_ACCEPTED = 'accepted'
   STATUS_REJECTED = 'rejected'
   STATUS_INPROGRESS = 'in_progress'
@@ -86,5 +85,15 @@ class Transition < ApplicationRecord
       incident.owned_by = transitioned_to
       incident.save!
     end
+  end
+
+  def remove_assigned_user
+    return if Transition.where(
+      transitioned_to: transitioned_to,
+      type: [Referral.name, Transfer.name],
+      status: [STATUS_INPROGRESS, STATUS_ACCEPTED]
+    ).where.not(id: id).exists?
+
+    record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
   end
 end

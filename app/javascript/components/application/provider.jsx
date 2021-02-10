@@ -7,7 +7,14 @@ import { useConnectivityStatus } from "../connectivity";
 import { currentUser } from "../user/selectors";
 
 import { fetchSandboxUI } from "./action-creators";
-import { selectModules, selectUserModules, getApprovalsLabels, getDisabledApplication, getDemo } from "./selectors";
+import {
+  selectModules,
+  selectUserModules,
+  getApprovalsLabels,
+  getDisabledApplication,
+  getDemo,
+  getLimitedConfigUI
+} from "./selectors";
 
 const Context = createContext();
 
@@ -21,6 +28,7 @@ const ApplicationProvider = ({ children }) => {
   const approvalsLabels = useSelector(state => getApprovalsLabels(state, i18n.locale));
   const disabledApplication = useSelector(state => getDisabledApplication(state));
   const demo = useSelector(state => getDemo(state));
+  const limitedProductionSite = useSelector(state => getLimitedConfigUI(state));
   const currentUserName = useSelector(state => currentUser(state));
 
   useEffect(() => {
@@ -29,7 +37,16 @@ const ApplicationProvider = ({ children }) => {
 
   return (
     <Context.Provider
-      value={{ modules, userModules, online, approvalsLabels, disabledApplication, demo, currentUserName }}
+      value={{
+        modules,
+        userModules,
+        online,
+        approvalsLabels,
+        disabledApplication,
+        demo,
+        currentUserName,
+        limitedProductionSite
+      }}
     >
       {children}
     </Context.Provider>

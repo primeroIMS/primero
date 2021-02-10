@@ -37,13 +37,14 @@ Rails.application.routes.draw do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
         resources :assigns, only: %i[index create]
-        resources :referrals, only: %i[index create destroy]
+        resources :referrals, only: %i[index create destroy update]
         resources :transfers, only: %i[index create update]
         resources :transfer_requests, only: %i[index create update]
         resources :transitions, only: [:index]
         resources :attachments, only: %i[create destroy]
         resources :approvals, only: [:update]
         resources :potential_matches, only: [:index]
+        resources :webhook_syncs, as: :sync, path: :sync, only: [:create]
         get :traces, to: 'children#traces'
         get :record_history, to: 'record_histories#index'
         collection do

@@ -29,6 +29,7 @@ import { useThemeHelper } from "../../../libs";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { setSelectedForm } from "../action-creators";
+import { getIsEnabledWebhookSyncFor } from "../../application/selectors";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -52,6 +53,7 @@ const RecordFormToolbar = ({
   const savingRecord = useSelector(state => getSavingRecord(state, params.recordType));
   const loadingRecord = useSelector(state => getLoadingRecordState(state, params.recordType));
   const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
+  const isEnabledWebhookSyncFor = useSelector(state => getIsEnabledWebhookSyncFor(state, primeroModule, recordType));
   const rtlClass = isRTL ? css.flipImage : "";
 
   const goBack = () => {
@@ -108,7 +110,7 @@ const RecordFormToolbar = ({
   let renderRecordStatusIndicator = null;
 
   if (record && !record.get("enabled")) {
-    renderRecordStatusIndicator = <h3 className={css.caseDisabled}>{i18n.t("case.messages.case_disabled")}</h3>;
+    renderRecordStatusIndicator = <h3 className={css.caseDisabled}>{i18n.t(`${recordType}.messages.disabled`)}</h3>;
   } else if ((mode.isShow || mode.isEdit) && params.recordType === RECORD_PATH.cases) {
     renderRecordStatusIndicator = (
       <WorkflowIndicator
@@ -134,6 +136,9 @@ const RecordFormToolbar = ({
           incidentCaseIdDisplay={getIncidentFromCaseIdDisplay()}
           toolbarHeading={css.toolbarHeading}
           associatedLinkClass={css.associatedCaseLink}
+          isEnabledWebhookSyncFor={isEnabledWebhookSyncFor}
+          syncedAt={record?.get("synced_at")}
+          syncStatus={record?.get("sync_status")}
         />
         {renderRecordStatusIndicator}
       </Box>

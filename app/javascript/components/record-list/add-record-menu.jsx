@@ -20,12 +20,12 @@ const AddRecordMenu = ({ recordType }) => {
   const [moduleUniqueId, setModuleUniqueId] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
-  const { userModules } = useApp();
+  const { userModules, online } = useApp();
 
   const showDialogOrRedirectNew = primeroModule => {
     const { unique_id: uniqueId, options } = primeroModule;
 
-    if (options.allow_searchable_ids && RECORD_TYPES.cases === RECORD_TYPES[recordType]) {
+    if (online && options.allow_searchable_ids && RECORD_TYPES.cases === RECORD_TYPES[recordType]) {
       setModuleUniqueId(uniqueId);
       setOpen(true);
     } else {

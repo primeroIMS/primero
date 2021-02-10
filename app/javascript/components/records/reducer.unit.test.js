@@ -677,4 +677,40 @@ describe("<RecordList /> - Reducers", () => {
 
     expect(newState).to.deep.equals(expected);
   });
+
+  it("should handle EXTERNAL_SYNC_SUCCESS", () => {
+    const expected = fromJS({
+      data: [
+        {
+          id: "123",
+          sync_status: "synced"
+        }
+      ]
+    });
+
+    const action = {
+      type: "TestRecordType/EXTERNAL_SYNC_SUCCESS",
+      payload: {
+        data: {
+          record_id: "123",
+          record_type: "cases",
+          sync_status: "synced"
+        }
+      }
+    };
+
+    const newState = nsReducer(
+      fromJS({
+        data: [
+          {
+            id: "123",
+            sync_status: "failed"
+          }
+        ]
+      }),
+      action
+    );
+
+    expect(newState).to.deep.equals(expected);
+  });
 });
