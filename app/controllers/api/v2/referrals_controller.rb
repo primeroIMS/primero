@@ -33,7 +33,7 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   def destroy
     authorize! :update, @record
     @transition = Referral.find(params[:id])
-    @transition.finish!(update_params[:rejection_note])
+    @transition.finish!(rejection_note)
     updates_for_record(@transition.record)
     render 'api/v2/transitions/destroy'
   end
@@ -76,7 +76,13 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
     authorize! :referral_from_service, record
   end
 
+  def rejection_note
+    return unless params[:data].present?
+
+    params[:data][:rejection_note]
+  end
+
   def update_params
-    @update_params ||= params.require(:data).permit(:status, :rejected_reason, :rejection_note)
+    @update_params ||= params.require(:data).permit(:status, :rejected_reason)
   end
 end
