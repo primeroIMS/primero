@@ -1,4 +1,5 @@
 import * as utils from "./utils";
+import { SYNC_RECORD_STATUS } from "./constants";
 
 describe("<RecordForm>/form/components - utils", () => {
   describe("removeEmptyArrays", () => {
@@ -14,6 +15,29 @@ describe("<RecordForm>/form/components - utils", () => {
       };
 
       expect(utils.removeEmptyArrays(current)).to.deep.equal(expected);
+    });
+  });
+  describe("buildLabelSync", () => {
+    let syncedAt;
+    let i18n;
+
+    beforeEach(() => {
+      syncedAt = "2021-02-10T12:50:32";
+      i18n = { t: val => val, l: val => val };
+    });
+
+    it("build label for synced status", () => {
+      const syncedStatus = SYNC_RECORD_STATUS.synced;
+      const expected = "sync_record.last";
+
+      expect(utils.buildLabelSync(syncedStatus, syncedAt, i18n)).to.deep.equal(expected);
+    });
+
+    it("build label for failed status", () => {
+      const syncedStatus = SYNC_RECORD_STATUS.failed;
+      const expected = "sync_record.failed";
+
+      expect(utils.buildLabelSync(syncedStatus, syncedAt, i18n)).to.deep.equal(expected);
     });
   });
 });

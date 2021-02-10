@@ -44,12 +44,35 @@ describe("<TransferApproval /> - Action Creators", () => {
                 key: 4,
                 variant: "success"
               }
-            },
-            redirectWithIdFromResponse: false,
-            redirect: false
+            }
           },
           {
             action: CLEAR_DIALOG
+          },
+          {
+            action: "cases/RECORD",
+            api: {
+              path: "cases/10",
+              db: {
+                collection: "records",
+                id: "10",
+                recordType: "cases"
+              },
+              failureCallback: [
+                {
+                  action: "cases/REDIRECT",
+                  redirect: "/cases",
+                  redirectWithIdFromResponse: false
+                }
+              ],
+              successCallback: [
+                {
+                  action: "cases/REDIRECT",
+                  redirect: "/cases",
+                  redirectWithIdFromResponse: true
+                }
+              ]
+            }
           }
         ],
         failureCallback: [

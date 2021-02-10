@@ -2,6 +2,7 @@
 
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../../action-dialog";
+import { fetchRecordCallback } from "../../utils";
 
 import actions from "./actions";
 
@@ -21,13 +22,12 @@ export const approvalTransfer = ({ body, message, failureMessage, recordId, reco
               variant: "success",
               key: generate.messageKey(message)
             }
-          },
-          redirectWithIdFromResponse: false,
-          redirect: false
+          }
         },
         {
           action: CLEAR_DIALOG
-        }
+        },
+        fetchRecordCallback({ recordId, recordType })
       ],
       failureCallback: [
         {

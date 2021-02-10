@@ -12,7 +12,7 @@ import { useI18n } from "../../../i18n";
 import { FormAction, whichFormMode } from "../../../form";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
-import { fetchSystemSettings } from "../../../application";
+import { fetchSystemSettings, useApp } from "../../../application";
 import { ROUTES } from "../../../../config";
 import bindFormSubmit from "../../../../libs/submit-form";
 
@@ -24,6 +24,7 @@ import { LookupForm } from "./components";
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
+  const { limitedProductionSite } = useApp();
   const dispatch = useDispatch();
   const formRef = useRef();
   const { pathname } = useLocation();
@@ -72,12 +73,18 @@ const Container = ({ mode }) => {
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
+        rest={{ hide: limitedProductionSite }}
       />
     </>
   );
 
   const editButton = formMode.get("isShow") && (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
+    <FormAction
+      actionHandler={handleEdit}
+      text={i18n.t("buttons.edit")}
+      startIcon={<CreateIcon />}
+      rest={{ hide: limitedProductionSite }}
+    />
   );
 
   return (

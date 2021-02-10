@@ -30,4 +30,18 @@ describe("<ReferralAction /> - Component", () => {
   it("renders a text field for note_on_referral_from_provider ", () => {
     expect(component.find(TextInput)).to.have.lengthOf(1);
   });
+
+  describe("with rejected status", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        ReferralAction,
+        { ...props, openReferralDialog: true, referralType: "rejected" },
+        initialState
+      ));
+    });
+
+    it("should render the rejected reason text field", () => {
+      expect(component.find(TextInput)).to.have.lengthOf(1);
+    });
+  });
 });

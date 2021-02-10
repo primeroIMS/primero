@@ -29,7 +29,7 @@ const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const formRef = useRef();
-  const { approvalsLabels } = useApp();
+  const { approvalsLabels, limitedProductionSite } = useApp();
   const dispatch = useDispatch();
   const { id } = useParams();
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
@@ -96,7 +96,12 @@ const Container = ({ mode }) => {
   return (
     <LoadingIndicator hasData={formMode.get("isNew") || role?.size > 0} loading={!role.size} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
-        <ActionButtons formMode={formMode} formRef={formRef} handleCancel={handleCancel} />
+        <ActionButtons
+          formMode={formMode}
+          formRef={formRef}
+          handleCancel={handleCancel}
+          limitedProductionSite={limitedProductionSite}
+        />
       </PageHeading>
       <PageContent>
         <Form

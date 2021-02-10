@@ -26,7 +26,8 @@ import {
   SET_SELECTED_POTENTIAL_MATCH,
   CLEAR_MATCHED_TRACES,
   UNMATCH_CASE_FOR_TRACE,
-  CLEAR_POTENTIAL_MATCHES
+  CLEAR_POTENTIAL_MATCHES,
+  EXTERNAL_SYNC
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -100,8 +101,8 @@ export const fetchTracingRequestTraces = (id, asCallback = false) => ({
   }
 });
 
-export const fetchRecord = (recordType, id) => ({
-  type: `${recordType}/${RECORD}`,
+export const fetchRecord = (recordType, id, asCallback = false) => ({
+  [asCallback ? "action" : "type"]: `${recordType}/${RECORD}`,
   api: {
     path: `${recordType}/${id}`,
     db: {
@@ -302,4 +303,12 @@ export const clearMatchedTraces = () => ({
 
 export const clearPotentialMatches = () => ({
   type: `${RECORD_PATH.cases}/${CLEAR_POTENTIAL_MATCHES}`
+});
+
+export const externalSync = (recordType, record) => ({
+  type: `${recordType}/${EXTERNAL_SYNC}`,
+  api: {
+    path: `${recordType}/${record}/sync`,
+    method: "POST"
+  }
 });

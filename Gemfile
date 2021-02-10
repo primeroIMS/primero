@@ -62,6 +62,10 @@ group :development, :test do
   gem 'rack-test',                  '~> 1.1'
   gem 'rack_session_access',        '~> 0.2'
   gem 'rails-controller-testing',   '~> 1.0'
+  # TODO: This is needed to read .xlsx files for validation in the exporter tests.
+  # TODO: The app currently uses Spreadsheet to read excel files, but it only supports reading .xls
+  # TODO: Changing the application to support reading .xlsx will be handled by a later ticket
+  gem 'roo',                        '~> 2.8'
   gem 'rspec',                      '~> 3.8'
   gem 'rspec-activemodel-mocks',    '~> 1.1'
   gem 'rspec-collection_matchers',  '~> 1.1'
@@ -71,11 +75,6 @@ group :development, :test do
   gem 'rubocop-performance',        '~> 1.1'
   gem 'ruby-prof',                  '~> 0.17'
   gem 'simplecov',                  '~> 0.18'
-  gem 'sunspot_test',               '~> 0.4', require: false
   # TODO: Latest version (1.2.5) of this conflicts with sunspot gem. Upgrade when we upgrade sunspot
-
-  # TODO: This is needed to read .xlsx files for validation in the exporter tests.
-  # TODO: The app currently uses Spreadsheet to read excel files, but it only supports reading .xls
-  # TODO: Changing the application to support reading .xlsx will be handled by a later ticket
-  gem 'roo',                        '~> 2.8'
+  gem 'sunspot_test',               '~> 0.4', require: false
 end

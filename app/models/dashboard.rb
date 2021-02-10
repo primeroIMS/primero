@@ -224,6 +224,7 @@ class Dashboard < ValueObject
       Indicators::Case::OPEN,
       Indicators::Case::UPDATED,
       Indicators::Case::WITH_INCIDENTS,
+      Indicators::Case::WITH_NEW_INCIDENTS,
       Indicators::Case::WITHOUT_INCIDENTS
     ].freeze
   )

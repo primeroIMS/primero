@@ -35,7 +35,7 @@ describe Exporters::SelectedFieldsExcelExporter do
       unique_id: 'cases_test_form_3', primero_modules: [@primero_module]
     )
     form1.fields << Field.new(
-      name: 'subform_field_2', type: Field::SUBFORM,
+      name: 'cases_test_subform_2', type: Field::SUBFORM,
       display_name: 'subform field', subform_section_id: subform2.id
     )
     form1.save!
@@ -80,7 +80,7 @@ describe Exporters::SelectedFieldsExcelExporter do
     form3.fields << Field.new(name: 'last_name', type: Field::TEXT_FIELD, display_name: 'last_name')
     form3.fields << Field.new(name: 'second_name', type: Field::TEXT_FIELD, display_name: 'second_name', visible: false)
     form3.fields << Field.new(
-      name: 'subform_field_1', type: Field::SUBFORM,
+      name: 'cases_test_subform_1', type: Field::SUBFORM,
       display_name: 'subform field', subform_section_id: subform.id
     )
     form3.save!
@@ -105,12 +105,12 @@ describe Exporters::SelectedFieldsExcelExporter do
         'id' => '00000000001',
         'short_id' => 'abc123',
         'relationship' => 'Mother', 'array_field' => %w[option1 option2],
-        'subform_field_1' => [
+        'cases_test_subform_1' => [
           { 'unique_id' => '1', 'field_1' => 'field_1 value', 'field_2' => 'field_2 value' },
           { 'unique_id' => '11', 'field_1' => 'field_11 value', 'field_2' => 'field_22 value' },
           { 'unique_id' => '12', 'field_1' => 'field_12 value', 'field_2' => 'field_23 value' }
         ],
-        'subform_field_2' => [
+        'cases_test_subform_2' => [
           { 'unique_id' => '2', 'field_3' => 'field_3 value', 'field_4' => 'field_4 value' },
           { 'unique_id' => '21', 'field_3' => 'field_33 value', 'field_4' => 'field_44 value' }
         ],
@@ -121,7 +121,7 @@ describe Exporters::SelectedFieldsExcelExporter do
         'first_name' => 'Jane', 'last_name' => 'Doe Doe',
         'id' => '00000000002',
         'relationship' => 'Father', 'array_field' => %w[option4 option5],
-        'subform_field_2' => [
+        'cases_test_subform_2' => [
           { 'unique_id' => '21', 'field_3' => 'field_31 value', 'field_4' => 'field_41 value' },
           { 'unique_id' => '211', 'field_3' => 'field_331 value', 'field_4' => 'field_441 value' }
         ],
@@ -132,12 +132,12 @@ describe Exporters::SelectedFieldsExcelExporter do
       create(
         :child,
         'first_name' => 'Charlie', 'last_name' => 'Sheen', 'id' => '00000000005',
-        'subform_field_1' => [{ 'unique_id' => '21' }]
+        'cases_test_subform_1' => [{ 'unique_id' => '21' }]
       ),
       create(
         :child,
         'first_name' => 'Emilio', 'last_name' => 'Steves', 'id' => '00000000006',
-        'subform_field_1' => [{ 'unique_id' => '99' }], 'subform_field_2' => [{ 'unique_id' => '66' }]
+        'cases_test_subform_1' => [{ 'unique_id' => '99' }], 'cases_test_subform_2' => [{ 'unique_id' => '66' }]
       )
     ]
     # @user = User.new(:user_name => 'fakeadmin', module_ids: ['primeromodule-cp'])
@@ -272,6 +272,7 @@ describe Exporters::SelectedFieldsExcelExporter do
       )
       workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       expect(workbook.sheet(0).row(1)).to eq(%w[ID first_name field_3 field_4])
+      expect(workbook.sheet(0).row(2)).to eq(["abc123", "John", "field_3 value, field_33 value", "field_4 value, field_44 value"])
     end
 
     it 'contains a sheet for the selected nested fields with their form' do

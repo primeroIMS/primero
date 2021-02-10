@@ -71,7 +71,7 @@ Component.displayName = NAME;
 Component.propTypes = {
   css: PropTypes.object,
   i18n: PropTypes.object,
-  matchedTracesData: PropTypes.array,
+  matchedTracesData: PropTypes.object,
   mode: PropTypes.object,
   open: PropTypes.bool,
   record: PropTypes.object,

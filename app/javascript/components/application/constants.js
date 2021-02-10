@@ -5,3 +5,4 @@ export const RESOURCES = {
   agency: "agency"
 };
 export const DEMO = "sandbox_ui";
+export const LIMITED = "limited";
