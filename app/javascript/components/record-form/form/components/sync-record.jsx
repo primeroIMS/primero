@@ -47,18 +47,6 @@ const SyncRecord = ({ i18n, isEnabledWebhookSyncFor, syncedAt, syncStatus, param
     />
   );
 
-  // const renderCheckStatusBtn = isSendingOrSent && (
-  //   <ActionButton
-  //     text={i18n.t("buttons.check_status")}
-  //     type={ACTION_BUTTON_TYPES.default}
-  //     outlined
-  //     rest={{
-  //       size: "small",
-  //       onClick: handleCheckStatus
-  //     }}
-  //   />
-  // );
-
   const renderCheckStatusBtn = isSendingOrSent && (
     <div className={css.checkStatusClass}>
       <Link component="button" variant="body2" onClick={handleCheckStatus} className={css.bntSyncClass}>
