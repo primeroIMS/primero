@@ -7,8 +7,7 @@ describe WebhookConnectorService do
   let(:webhook1) { Webhook.create!(events: %w[case.create], url: 'https://x.y/1', role_unique_id: 'role1') }
   let(:webhook2) do
     Webhook.create!(
-      events: %w[case.create incident.update], url: 'https://x.y/2', role_unique_id: 'role2',
-      auth_type: Webhook::API_KEY, auth_secret: 'secret'
+      events: %w[case.create incident.update], url: 'https://x.y/2', role_unique_id: 'role2'
     )
   end
   let(:connector1) { double('ApiConnector::WebhookConnector') }
