@@ -213,10 +213,10 @@ class Ability
     if user.group_permission? Permission::ALL
       true
     elsif user.group_permission? Permission::GROUP
-      allowed_groups = record.associated_users.map(&:user_group_ids).flatten.compact
+      allowed_groups = record&.associated_users&.map(&:user_group_ids)&.flatten&.compact
       (user.user_group_ids & allowed_groups).present?
     else
-      record.associated_user_names.include? user.user_name
+      record&.associated_user_names&.include?(user.user_name)
     end
   end
 

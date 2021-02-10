@@ -4,7 +4,6 @@ export const TRANSFER_REQUEST_SUMMARY_NAME = "TransferRequestSummary";
 export const TRANSFER_REQUEST_DETAILS_NAME = "TransferRequestDetails";
 export const TRANSITION_PANEL_NAME = "TransitionPanel";
 export const TRANSITION_STATUS = Object.freeze({
-  pending: "pending",
   accepted: "accepted",
   rejected: "rejected",
   done: "done",

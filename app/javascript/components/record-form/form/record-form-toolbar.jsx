@@ -108,7 +108,7 @@ const RecordFormToolbar = ({
   let renderRecordStatusIndicator = null;
 
   if (record && !record.get("enabled")) {
-    renderRecordStatusIndicator = <h3 className={css.caseDisabled}>{i18n.t("case.messages.case_disabled")}</h3>;
+    renderRecordStatusIndicator = <h3 className={css.caseDisabled}>{i18n.t(`${recordType}.messages.disabled`)}</h3>;
   } else if ((mode.isShow || mode.isEdit) && params.recordType === RECORD_PATH.cases) {
     renderRecordStatusIndicator = (
       <WorkflowIndicator

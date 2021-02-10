@@ -7,7 +7,7 @@ import { getOption } from "../../record-form";
 import TransitionUser from "../TransitionUser";
 import { useI18n } from "../../i18n";
 import { REFERRAL_DETAILS_NAME, TRANSITION_STATUS } from "../constants";
-import { LOOKUPS } from "../../../config";
+import { DATE_TIME_FORMAT, LOOKUPS } from "../../../config";
 import { OPTION_TYPES } from "../../form";
 import { getOptions } from "../../form/selectors";
 
@@ -39,6 +39,15 @@ const Details = ({ transition, classes }) => {
         </Box>
       </Grid>
     ) : null;
+
+  const renderRespondedAt = transition.responded_at ? (
+    <Grid item md={6} xs={12}>
+      <div>
+        <div className={classes.transtionLabel}>{i18n.t("transition.responded_at")}</div>
+        <div className={classes.transtionValue}>{i18n.localizeDate(transition.responded_at, DATE_TIME_FORMAT)}</div>
+      </div>
+    </Grid>
+  ) : null;
 
   return (
     <Grid container spacing={2}>
@@ -80,6 +89,7 @@ const Details = ({ transition, classes }) => {
           <div className={classes.transtionIconValue}>{agencyName}</div>
         </div>
       </Grid>
+      {renderRespondedAt}
       {renderRejected}
       <Grid item md={12} xs={12}>
         <Box>

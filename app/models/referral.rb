@@ -11,12 +11,41 @@ class Referral < Transition
     record.save! if record.has_changes_to_save?
   end
 
-  def reject!(rejection_note = nil)
+  def reject!(rejected_reason = nil)
+    return unless in_progress?
+
+    self.status = Transition::STATUS_REJECTED
+    self.rejected_reason = rejected_reason
+    self.responded_at = DateTime.now
+    remove_assigned_user
+    record.save! && save!
+  end
+
+  def finish!(rejection_note = nil)
     self.status = Transition::STATUS_DONE
     mark_rejection(rejection_note, service_record)
     mark_service_implemented(service_record)
-    record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
+    remove_assigned_user
     record.save! && save!
+  end
+
+  def accept!
+    return unless in_progress?
+
+    self.status = Transition::STATUS_ACCEPTED
+    self.responded_at = DateTime.now
+    save!
+  end
+
+  def accept_or_reject!(requested_status, rejected_reason = nil)
+    return if requested_status == status
+
+    case requested_status
+    when Transition::STATUS_REJECTED
+      reject!(rejected_reason)
+    when Transition::STATUS_ACCEPTED
+      accept!
+    end
   end
 
   def consent_given?

@@ -15,12 +15,14 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { RESOURCES, CREATE_RECORDS } from "../../../../libs/permissions";
 import { useMetadata } from "../../../records";
 import usePermissions from "../../../permissions";
+import { useApp } from "../../../application";
 
 import { fetchRoles } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
 
 const Container = () => {
   const i18n = useI18n();
+  const { limitedProductionSite } = useApp();
   const recordType = RESOURCES.roles;
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
@@ -37,7 +39,8 @@ const Container = () => {
       type={ACTION_BUTTON_TYPES.default}
       rest={{
         to: ROUTES.admin_roles_new,
-        component: Link
+        component: Link,
+        hide: limitedProductionSite
       }}
     />
   );

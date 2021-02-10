@@ -22,67 +22,60 @@ import { NAME, REVOKE_MODAL } from "./constants";
 
 const Component = ({ transition, showMode, recordType, classes }) => {
   const i18n = useI18n();
+  const { id, record_id: recordId, status, transitioned_to: transitionedTo, type } = transition;
+  const transitionType = type.toLowerCase();
   const [optionMenu, setOptionMenu] = useState(null);
 
-  const revokeModalName = `${REVOKE_MODAL}-${transition.id}`;
+  const revokeModalName = `${REVOKE_MODAL}-${id}`;
+  const transferModalName = `${TRANSFER_APPROVAL_DIALOG}-${id}`;
+  const referralModalName = `${REFERRAL_DONE_DIALOG}-${id}`;
 
   const { dialogClose, dialogOpen, pending, setDialog, setDialogPending } = useDialog([
-    TRANSFER_APPROVAL_DIALOG,
-    REFERRAL_DONE_DIALOG,
+    transferModalName,
+    referralModalName,
     revokeModalName
   ]);
 
-  const [approvalType, setApprovalType] = useState(ACCEPTED);
-  const [referralType, setReferralType] = useState(DONE);
+  const [transitionStatus, setTransitionStatus] = useState(ACCEPTED);
 
-  const setRevokeDialog = open => {
-    setDialog({ dialog: revokeModalName, open });
-  };
-
-  const setApprovalOpen = open => {
-    setDialog({ dialog: TRANSFER_APPROVAL_DIALOG, open });
-  };
-
-  const setReferralOpen = open => {
-    setDialog({ dialog: REFERRAL_DONE_DIALOG, open });
-  };
+  const setRevokeDialog = open => setDialog({ dialog: revokeModalName, open });
+  const setOpenTransitionDialog = open =>
+    setDialog({ dialog: transitionType === TRANSITIONS_TYPES.referral ? referralModalName : transferModalName, open });
 
   const username = useSelector(state => currentUser(state));
   const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
 
-  const isInProgress = transition.status === TRANSITION_STATUS.inProgress;
+  const isInProgress = status === TRANSITION_STATUS.inProgress;
+  const isAccepted = status === ACCEPTED;
+  const canReceiveReferral = checkPermissions(userPermissions, [ACTIONS.RECEIVE_REFERRAL, ACTIONS.MANAGE]);
   const canRevokeTransition = checkPermissions(userPermissions, [ACTIONS.REMOVE_ASSIGNED_USERS, ACTIONS.MANAGE]);
-  const isCurrentUserRecipient = transition.transitioned_to === username;
+  const isCurrentUserRecipient = transitionedTo === username;
 
   const showRevokeAction = isInProgress && canRevokeTransition && !isCurrentUserRecipient && showMode;
 
-  const showTransferApproval =
+  const showTransitionAction =
     isInProgress &&
     transition &&
     isCurrentUserRecipient &&
     showMode &&
-    transition.type.toLowerCase() === TRANSITIONS_TYPES.transfer;
+    [TRANSITIONS_TYPES.transfer, TRANSITIONS_TYPES.referral].includes(transitionType);
 
-  const showReferralMenu =
-    isInProgress &&
-    transition &&
-    isCurrentUserRecipient &&
-    showMode &&
-    transition.type.toLowerCase() === TRANSITIONS_TYPES.referral;
+  const showReferralDone =
+    isAccepted && transition && isCurrentUserRecipient && showMode && transitionType === TRANSITIONS_TYPES.referral;
 
   const handleRejectOpen = () => {
-    setApprovalType(REJECTED);
-    setApprovalOpen(true);
+    setTransitionStatus(REJECTED);
+    setOpenTransitionDialog(true);
   };
 
   const handleAcceptOpen = () => {
-    setApprovalType(ACCEPTED);
-    setApprovalOpen(true);
+    setTransitionStatus(ACCEPTED);
+    setOpenTransitionDialog(true);
   };
 
   const handleDoneOpen = () => {
-    setReferralType(DONE);
-    setReferralOpen(true);
+    setTransitionStatus(DONE);
+    setOpenTransitionDialog(true);
   };
 
   const options = [
@@ -93,17 +86,21 @@ const Component = ({ transition, showMode, recordType, classes }) => {
     },
     {
       name: i18n.t("buttons.accept"),
-      condition: showTransferApproval,
+      condition:
+        (transitionType === TRANSITIONS_TYPES.referral && canReceiveReferral && showTransitionAction) ||
+        (showTransitionAction && transitionType !== TRANSITIONS_TYPES.referral),
       action: event => handleAcceptOpen(event)
     },
     {
       name: i18n.t("buttons.reject"),
-      condition: showTransferApproval,
+      condition:
+        (transitionType === TRANSITIONS_TYPES.referral && canReceiveReferral && showTransitionAction) ||
+        (showTransitionAction && transitionType !== TRANSITIONS_TYPES.referral),
       action: event => handleRejectOpen(event)
     },
     {
       name: i18n.t("buttons.done"),
-      condition: showReferralMenu,
+      condition: showReferralDone,
       action: event => handleDoneOpen(event)
     }
   ];
@@ -164,28 +161,32 @@ const Component = ({ transition, showMode, recordType, classes }) => {
         pending={pending}
         setPending={setDialogPending}
       />
-      <TransferApproval
-        openTransferDialog={dialogOpen[TRANSFER_APPROVAL_DIALOG]}
-        close={dialogClose}
-        approvalType={approvalType}
-        recordId={transition.record_id}
-        pending={pending}
-        setPending={setDialogPending}
-        transferId={transition.id}
-        recordType={recordType}
-        dialogName={TRANSFER_APPROVAL_DIALOG}
-      />
-      <ReferralAction
-        openReferralDialog={dialogOpen[REFERRAL_DONE_DIALOG]}
-        close={dialogClose}
-        recordId={transition.record_id}
-        pending={pending}
-        setPending={setDialogPending}
-        transistionId={transition.id}
-        recordType={recordType}
-        dialogName={REFERRAL_DONE_DIALOG}
-        referralType={referralType}
-      />
+      {transitionType === TRANSITIONS_TYPES.transfer && (
+        <TransferApproval
+          openTransferDialog={dialogOpen[transferModalName]}
+          close={dialogClose}
+          approvalType={transitionStatus}
+          recordId={recordId}
+          pending={pending}
+          setPending={setDialogPending}
+          transferId={id}
+          recordType={recordType}
+          dialogName={transferModalName}
+        />
+      )}
+      {transitionType === TRANSITIONS_TYPES.referral && (
+        <ReferralAction
+          openReferralDialog={dialogOpen[referralModalName]}
+          close={dialogClose}
+          recordId={recordId}
+          pending={pending}
+          setPending={setDialogPending}
+          transistionId={id}
+          recordType={recordType}
+          dialogName={referralModalName}
+          referralType={transitionStatus}
+        />
+      )}
     </div>
   );
 };
