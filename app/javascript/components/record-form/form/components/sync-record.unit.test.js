@@ -1,12 +1,14 @@
 import { setupMountedComponent } from "../../../../test";
 import ActionButton from "../../../action-button";
 
-import ImportData from "./import-data";
+import ImportData from "./sync-record";
 
 describe("<ImportData />", () => {
   const props = {
-    i18n: { t: value => value },
-    lastImportDate: "2021-01-05T20:47:36.477Z"
+    i18n: { t: value => value, l: value => value },
+    syncedAt: "2021-01-05T20:47:36.477Z",
+    syncStatus: "synced",
+    isEnabledWebhookSyncFor: true
   };
 
   let component;

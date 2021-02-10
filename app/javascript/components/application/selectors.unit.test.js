@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { describe } from "mocha";
 
-import { RECORD_TYPES } from "../../config";
+import { RECORD_TYPES, MODULES } from "../../config";
 import { GROUP_PERMISSIONS, ACTIONS } from "../../libs/permissions";
 
 import * as selectors from "./selectors";
@@ -355,6 +355,35 @@ describe("Application - Selectors", () => {
 
     it("should return false if config_ui is not limited", () => {
       const result = selectors.getLimitedConfigUI(stateWithRecords);
+
+      expect(result).to.be.false;
+    });
+  });
+
+  describe("getIsEnabledWebhookSyncFor", () => {
+    it("should return true if record and module have webhook sync enabled", () => {
+      const result = selectors.getIsEnabledWebhookSyncFor(
+        fromJS({
+          application: {
+            modules: [
+              {
+                unique_id: MODULES.CP,
+                options: {
+                  use_webhook_sync_for: [RECORD_TYPES.cases]
+                }
+              }
+            ]
+          }
+        }),
+        MODULES.CP,
+        RECORD_TYPES.cases
+      );
+
+      expect(result).to.be.true;
+    });
+
+    it("should return false iif record and module don't have enabled webhook sync", () => {
+      const result = selectors.getLimitedConfigUI(stateWithRecords, MODULES.CP, RECORD_TYPES.cases);
 
       expect(result).to.be.false;
     });

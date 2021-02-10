@@ -7,8 +7,8 @@ describe("Verifying config constant", () => {
     [
       "CLOSED",
       "GUIDING_QUESTIONS_NAME",
-      "IMPORT_DATA_NAME",
-      "IMPORT_DATA_STATUS",
+      "SYNC_RECORD_NAME",
+      "SYNC_RECORD_STATUS",
       "VALIDATION_ERRORS_NAME",
       "WORKFLOW_INDICATOR_NAME"
     ].forEach(property => {
