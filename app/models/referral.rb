@@ -2,8 +2,6 @@
 
 # Model describing a referral of a record from one user to another.
 class Referral < Transition
-  after_save :reset_service_record
-
   def perform
     self.status = Transition::STATUS_INPROGRESS
     mark_service_referred(service_record)
@@ -23,8 +21,9 @@ class Referral < Transition
 
   def finish!(rejection_note = nil)
     self.status = Transition::STATUS_DONE
-    mark_rejection(rejection_note, service_record)
-    mark_service_implemented(service_record)
+    current_service_record = service_record
+    mark_rejection(rejection_note, current_service_record)
+    mark_service_implemented(current_service_record)
     remove_assigned_user
     record.save! && save!
   end
@@ -91,7 +90,7 @@ class Referral < Transition
   def service_record
     return if service_record_id.blank?
 
-    @service_record ||= record.services_section.find { |service| service['unique_id'] == service_record_id }
+    record.services_section.find { |service| service['unique_id'] == service_record_id }
   end
 
   def perform_system_referral
@@ -102,9 +101,5 @@ class Referral < Transition
     else
       record.assigned_user_names = [transitioned_to]
     end
-  end
-
-  def reset_service_record
-    @service_record = nil
   end
 end
