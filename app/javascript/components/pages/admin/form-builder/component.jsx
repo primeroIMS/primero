@@ -9,7 +9,6 @@ import { useParams } from "react-router-dom";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { isEqual } from "lodash";
-import { DevTool } from "@hookform/devtools";
 
 import { fetchLookups } from "../../../record-form/action-creators";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
@@ -275,7 +274,6 @@ const Component = ({ mode }) => {
             tab={tab}
           />
         )}
-        <DevTool control={methods.control} />
       </PageContent>
     </LoadingIndicator>
   );
