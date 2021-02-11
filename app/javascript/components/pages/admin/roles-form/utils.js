@@ -87,7 +87,7 @@ export const groupSelectedIdsByParentForm = (data, assignableForms) => {
       fromJS([
         parentForm,
         formSections.valueSeq().map(fs => {
-          const currentPermission = formSectionUniqueIds?.get(fs.get("unique_id")) || "h";
+          const currentPermission = formSectionUniqueIds?.get(fs.get("unique_id")) || ROLES_PERMISSIONS.hide.id;
 
           return {
             [fs.get("unique_id")]: getFormPermission(currentPermission)

@@ -37,16 +37,15 @@ const FormSection = ({ formSection, showTitle, disableUnderline }) => {
         const key =
           field?.customRowStyle || field?.customHeaderStyle ? field?.row[0]?.name : `${formSection.unique_id}-row`;
 
+        const classes = clsx({
+          [css.notEqual]: field.equalColumns === false,
+          [css.row]: !field?.customRowStyle,
+          [css.rowCustom]: field?.customRowStyle,
+          [css.headerCustom]: field?.customHeaderStyle
+        });
+
         return (
-          <div
-            key={key}
-            className={clsx({
-              [css.notEqual]: field.equalColumns === false,
-              [css.row]: !field?.customRowStyle,
-              [css.rowCustom]: field?.customRowStyle,
-              [css.headerCustom]: field?.customHeaderStyle
-            })}
-          >
+          <div key={key} className={classes}>
             {renderFields(field.row)}
           </div>
         );
