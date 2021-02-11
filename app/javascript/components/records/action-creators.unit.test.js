@@ -46,7 +46,8 @@ describe("records - Action Creators", () => {
       "fetchMatchedTraces",
       "clearMatchedTraces",
       "unMatchCaseForTrace",
-      "clearPotentialMatches"
+      "clearPotentialMatches",
+      "externalSync"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -469,5 +470,17 @@ describe("records - Action Creators", () => {
     };
 
     expect(actionCreators.clearPotentialMatches()).be.deep.equals(expected);
+  });
+
+  it("should check the 'externalSync' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.cases}/EXTERNAL_SYNC`,
+      api: {
+        path: `${RECORD_PATH.cases}/12345/sync`,
+        method: "POST"
+      }
+    };
+
+    expect(actionCreators.externalSync(RECORD_PATH.cases, "12345")).be.deep.equals(expected);
   });
 });

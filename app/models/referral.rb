@@ -4,7 +4,7 @@
 class Referral < Transition
   def perform
     self.status = Transition::STATUS_INPROGRESS
-    mark_service_object_referred
+    mark_service_referred(service_record)
     perform_system_referral unless remote
     record.save! if record.has_changes_to_save?
   end
@@ -19,8 +19,11 @@ class Referral < Transition
     record.save! && save!
   end
 
-  def finish!
+  def finish!(rejection_note = nil)
     self.status = Transition::STATUS_DONE
+    current_service_record = service_record
+    mark_rejection(rejection_note, current_service_record)
+    mark_service_implemented(current_service_record)
     remove_assigned_user
     record.save! && save!
   end
@@ -61,11 +64,33 @@ class Referral < Transition
 
   private
 
-  def mark_service_object_referred
+  def mark_rejection(rejection_note, service_object = nil)
+    return unless rejection_note.present?
+
+    self.rejection_note = rejection_note
+    service_object['note_on_referral_from_provider'] = rejection_note if service_object.present?
+  end
+
+  def mark_service_referred(service_object)
+    return if service_object.blank?
+
+    service_object['service_status_referred'] = true
+  end
+
+  def mark_service_implemented(service_object)
+    return unless service_object.present?
+
+    if service_object['service_implemented_day_time'].blank?
+      service_object['service_implemented_day_time'] = Time.zone.now.as_json
+    end
+
+    service_object['service_implemented'] = Serviceable::SERVICE_IMPLEMENTED
+  end
+
+  def service_record
     return if service_record_id.blank?
 
-    service_object = record.services_section.select { |s| s['unique_id'] == service_record_id }.first
-    service_object['service_status_referred'] = true if service_object.present?
+    record.services_section.find { |service| service['unique_id'] == service_record_id }
   end
 
   def perform_system_referral

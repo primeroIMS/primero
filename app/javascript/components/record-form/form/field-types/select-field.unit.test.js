@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { Chip } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { setupMountedComponent } from "../../../../test";
@@ -236,6 +237,31 @@ describe("<SelectField />", () => {
 
       expect(searchableSelect).to.have.lengthOf(1);
       expect(searchableSelect.props().defaultValues).to.deep.equal(expected);
+    });
+  });
+
+  context("when a multi select has different value selected", () => {
+    const props = {
+      name: "test",
+      field: {
+        multi_select: true,
+        option_strings_text: [
+          { id: "option_1", display_text: { en: "Option 1" } },
+          { id: "option_2", display_text: { en: "Option 2" } },
+          { id: "option_3", display_text: { en: "Option 3" } }
+        ]
+      },
+      label: "Test",
+      mode: whichFormMode("show"),
+      open: true
+    };
+
+    const { component } = setupMountedComponent(SelectField, props, fromJS([]), [], {
+      initialValues: { test: ["option_1", "option_2", "option_3"] }
+    });
+
+    it("renders the correct values", () => {
+      expect(component.find(Chip).map(chip => chip.text())).to.deep.equal(["Option 1", "Option 2", "Option 3"]);
     });
   });
 });

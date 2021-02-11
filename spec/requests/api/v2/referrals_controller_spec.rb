@@ -219,6 +219,25 @@ describe Api::V2::ReferralsController, type: :request do
       @case_a.reload
       expect(@case_a.assigned_user_names).to_not include('user2')
     end
+
+    it 'completes this referral and returns the notes from provider' do
+      sign_in(@user1)
+      rejection_note = 'Sample notes from provider'
+      params = { data: { rejection_note: rejection_note } }
+      delete "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['status']).to eq(Transition::STATUS_DONE)
+      expect(json['data']['record_id']).to eq(@case_a.id.to_s)
+      expect(json['data']['transitioned_to']).to eq('user2')
+      expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['rejection_note']).to eq(rejection_note)
+
+      expect(audit_params['action']).to eq('refer_revoke')
+
+      @case_a.reload
+      expect(@case_a.assigned_user_names).to_not include('user2')
+    end
   end
 
   describe 'PATCH /api/v2/cases/:id/referrals/:referral_id' do
@@ -294,6 +313,6 @@ describe Api::V2::ReferralsController, type: :request do
 
   after :each do
     clear_enqueued_jobs
-    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition)
+    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition, SystemSettings)
   end
 end

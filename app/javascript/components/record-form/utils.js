@@ -20,9 +20,7 @@ function compareArray(value, base) {
     if (isObject(v)) {
       const baseSubform =
         ("unique_id" in v || "id" in v) &&
-        find(base, b => {
-          return b.unique_id === v.unique_id || b.id === v.id;
-        });
+        find(base, b => (b.id && b.id === v.id) || (b.unique_id && b.unique_id === v.unique_id));
 
       if (baseSubform) {
         const diff = difference(v, baseSubform, true);
@@ -72,7 +70,7 @@ function difference(object, base, nested) {
         result[key] = val;
       }
 
-      if (isObject(result[key]) && isEmpty(result[key])) {
+      if (isObject(result[key]) && isEmpty(result[key]) && isEmpty(base[key])) {
         delete result[key];
       }
     }

@@ -131,6 +131,7 @@ en:
     bundle_import: Configuration Bundle
     cancel: Cancel
     change_password: Change Password
+    check_status: Check Status
     clear_default: Clear default
     clear_selection: Clear selection
     close: Close
@@ -182,6 +183,7 @@ en:
     send: Send
     sort_by_case: Cases
     sort_by_tr: Tracing Requests
+    sync: Sync
     submit: Submit
     transfer: Transfer
     unflag_model: Unflag %{model}
@@ -205,6 +207,7 @@ en:
       creation_success: 'Case record successfully created.'
       creation_success_queue: 'Case record successfully created in background.'
       already_matched: This Inquirer has already been matched to your case.
+      already_matched_not_current_case: There is already a case in the system matched to this inquirer.
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
     workflow:
@@ -982,6 +985,11 @@ en:
         db_error: 'Error creating %{location_code}: %{message}'
         locale_invalid: 'Skipping %{column_name}: Locale invalid'
         insert_all_error: 'Import Not Processed. Database error: %{message}'
+  sync_record:
+    failed: Sync failed.
+    last: 'Last Sync: %{date_time}'
+    retrieving: Retrieving Data.
+    see_details: See Details.
   fields:
     action: Action
     actions: Actions

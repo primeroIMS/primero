@@ -23,7 +23,7 @@ server {
     listen ${NGINX_HTTP_PORT};
     server_name ${NGINX_SERVER_NAME};
     
-    location /.well-known/acme-challenge/ {
+    location ~ ^/.well-known/acme-challenge/ {
         root /usr/share/nginx/html/;
     }
 

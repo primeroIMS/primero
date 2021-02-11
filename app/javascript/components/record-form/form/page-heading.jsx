@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 
 import Permission from "../../application/permission";
 import { RECORD_PATH } from "../../../config";
-import { READ_RECORDS } from "../../../libs/permissions";
+import { READ_RECORDS, SHOW_SYNC_EXTERNAL } from "../../../libs/permissions";
 
 import { RECORD_FORM_TOOLBAR_PAGE_HEADING_NAME } from "./constants";
+import { SyncRecord } from "./components";
 
 const Component = ({
   i18n,
@@ -18,7 +19,10 @@ const Component = ({
   toolbarHeading,
   associatedLinkClass,
   incidentCaseId,
-  incidentCaseIdDisplay
+  incidentCaseIdDisplay,
+  isEnabledWebhookSyncFor,
+  syncedAt,
+  syncStatus
 }) => {
   let heading = "";
 
@@ -39,10 +43,23 @@ const Component = ({
       </Permission>
     ) : null;
 
+  const syncRecord = mode.isShow && (
+    <Permission resources={RECORD_PATH.cases} actions={SHOW_SYNC_EXTERNAL}>
+      <SyncRecord
+        i18n={i18n}
+        isEnabledWebhookSyncFor={isEnabledWebhookSyncFor}
+        syncedAt={syncedAt}
+        syncStatus={syncStatus}
+        params={params}
+      />
+    </Permission>
+  );
+
   return (
     <>
       <h2 className={toolbarHeading}>{heading}</h2>
       {associatedCase}
+      {syncRecord}
     </>
   );
 };
@@ -57,10 +74,13 @@ Component.propTypes = {
   }),
   incidentCaseId: PropTypes.string,
   incidentCaseIdDisplay: PropTypes.string,
+  isEnabledWebhookSyncFor: PropTypes.bool,
   mode: PropTypes.object,
   params: PropTypes.object.isRequired,
   recordType: PropTypes.string.isRequired,
   shortId: PropTypes.string,
+  syncedAt: PropTypes.string,
+  syncStatus: PropTypes.string,
   toolbarHeading: PropTypes.string
 };
 

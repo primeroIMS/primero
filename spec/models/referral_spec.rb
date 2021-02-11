@@ -20,18 +20,22 @@ describe Referral do
     @group2 = UserGroup.create!(name: 'Group2')
     @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2])
     @user2.save(validate: false)
+    @service1 = { 'unique_id' => 'service_1_123' }
+    @service2 = { 'unique_id' => 'service_2_345', 'service_implemented_day_time' => '2021-01-15T16:46:53.701Z' }
     @case = Child.create(data:
       {
         name: 'Test',
         owned_by: 'user1',
         module_id: @module_cp.unique_id,
-        consent_for_services: true, disclosure_other_orgs: true
+        consent_for_services: true,
+        disclosure_other_orgs: true,
+        services_section: [@service1, @service2]
       })
   end
 
   describe 'consent' do
     it 'denies consent for referring records if consent properties are not set' do
-      @case.update_attributes(consent_for_services: nil, disclosure_other_orgs: nil )
+      @case.update_attributes(consent_for_services: nil, disclosure_other_orgs: nil)
       referral = Referral.new(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 
       expect(referral.consent_given?).to be_falsey
@@ -76,7 +80,6 @@ describe Referral do
 
   describe 'finish' do
     before :each do
-      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true)
       @done_referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
     end
 
@@ -86,6 +89,59 @@ describe Referral do
 
       expect(@done_referral.status).to eq(Transition::STATUS_DONE)
       expect(@case.assigned_user_names).not_to include('user2')
+    end
+
+    it 'mark the service object as implemented' do
+      json_date_time = '2021-01-20T16:46:53.701Z'
+      date_time = DateTime.parse(json_date_time)
+      Time.stub(:now).and_return(date_time)
+
+      referral = Referral.create!(
+        transitioned_by: 'user1',
+        transitioned_to: 'user2',
+        record: @case,
+        service_record_id: @service1['unique_id']
+      )
+      referral.finish!
+
+      @case.reload
+      service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
+
+      expect(service_object['service_implemented_day_time']).to eq(json_date_time)
+      expect(service_object['service_implemented']).to eq(Serviceable::SERVICE_IMPLEMENTED)
+    end
+
+    it 'does not set the implemented_day_time if already set' do
+      referral = Referral.create!(
+        transitioned_by: 'user1',
+        transitioned_to: 'user2',
+        record: @case,
+        service_record_id: @service2['unique_id']
+      )
+      referral.finish!
+
+      @case.reload
+      service_object = @case.services_section.find { |current| current['unique_id'] == @service2['unique_id'] }
+
+      expect(service_object['service_implemented_day_time']).to eq(@service2['service_implemented_day_time'])
+      expect(service_object['service_implemented']).to eq(Serviceable::SERVICE_IMPLEMENTED)
+    end
+
+    it 'sets the notes from provider in the referral and the service object if specified' do
+      referral = Referral.create!(
+        transitioned_by: 'user1',
+        transitioned_to: 'user2',
+        record: @case,
+        service_record_id: @service1['unique_id']
+      )
+      rejection_note = 'This is a test'
+      referral.finish!(rejection_note)
+
+      @case.reload
+      service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
+
+      expect(service_object['note_on_referral_from_provider']).to eq(rejection_note)
+      expect(referral.rejection_note).to eq(rejection_note)
     end
 
     context 'when there is a transfer for the transitioned_to user' do
@@ -224,7 +280,6 @@ describe Referral do
 
   describe 'reject' do
     before :each do
-      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true)
       @rejected_referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       @rejected_reason = 'rejected for some specific reason'
       @now = DateTime.parse('2020-10-05T04:05:06')
