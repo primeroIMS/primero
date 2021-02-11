@@ -186,12 +186,23 @@ const transformOptions = (options, i18n) =>
   });
 
 // eslint-disable-next-line import/prefer-default-export
-export const getOptions = (state, optionStringsSource, i18n, options, useUniqueId = false, rest = {}) => {
+export const getOptions = (
+  state,
+  optionStringsSource,
+  i18n,
+  options,
+  useUniqueId = false,
+  rest = {
+    rawOptions: false
+  }
+) => {
   if (optionStringsSource) {
     return optionsFromState(state, optionStringsSource, i18n, useUniqueId, rest);
   }
 
   if (options) {
+    if (rest.rawOptions) return options;
+
     return fromJS(Array.isArray(options) ? transformOptions(options, i18n) : options?.[i18n.locale]);
   }
 

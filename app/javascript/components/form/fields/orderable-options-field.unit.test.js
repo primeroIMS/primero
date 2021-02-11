@@ -14,13 +14,15 @@ describe("<Form /> - fields/<OrderableOptionsField />", () => {
       props: {
         inputProps: {
           commonInputProps: { name: "field_1" },
-          metaInputProps: { selectedValue: "option_2" },
-          options: [
-            { id: "option_1", display_text: { en: "Display text 1" } },
-            { id: "option_2", display_text: { en: "Display text 2" } },
-            { id: "option_3", display_text: { en: "Display text 3" } }
-          ]
+          metaInputProps: { selectedValue: "option_2" }
         }
+      },
+      defaultValues: {
+        field_1: [
+          { id: "option_1", display_text: { en: "Display text 1" } },
+          { id: "option_2", display_text: { en: "Display text 2" } },
+          { id: "option_3", display_text: { en: "Display text 3" } }
+        ]
       }
     }));
   });

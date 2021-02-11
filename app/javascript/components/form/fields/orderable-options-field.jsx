@@ -18,14 +18,7 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { ORDERABLE_OPTIONS_FIELD_NAME } from "./constants";
 import styles from "./styles.css";
 
-const OrderableOptionsField = ({
-  commonInputProps,
-  metaInputProps,
-  options,
-  showActionButtons,
-  formMethods,
-  formMode
-}) => {
+const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionButtons, formMethods, formMode }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { name } = commonInputProps;
@@ -48,7 +41,7 @@ const OrderableOptionsField = ({
   };
 
   const onAddOption = () => {
-    append({ id: generateIdForNewOption(), isNew: true, display_text: "", disabled: true });
+    append({ id: generateIdForNewOption(), isNew: true, display_text: { en: "" }, disabled: false });
   };
 
   const onRemoveValue = index => {
@@ -122,7 +115,6 @@ const OrderableOptionsField = ({
 OrderableOptionsField.displayName = ORDERABLE_OPTIONS_FIELD_NAME;
 
 OrderableOptionsField.defaultProps = {
-  options: [],
   showActionButtons: true
 };
 
@@ -135,7 +127,6 @@ OrderableOptionsField.propTypes = {
   formMethods: PropTypes.object.isRequired,
   formMode: PropTypes.object.isRequired,
   metaInputProps: PropTypes.object,
-  options: PropTypes.array,
   showActionButtons: PropTypes.bool
 };
 

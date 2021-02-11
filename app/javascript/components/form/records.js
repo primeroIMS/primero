@@ -66,7 +66,8 @@ export const FieldRecord = Record({
   currRecord: fromJS({}),
   href: null,
   fileFormat: "",
-  filterOptionSource: null
+  filterOptionSource: null,
+  rawOptions: false
 });
 
 export const FormSectionRecord = Record({

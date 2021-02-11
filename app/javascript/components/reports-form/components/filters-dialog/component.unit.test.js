@@ -1,5 +1,4 @@
 import { fromJS, OrderedMap } from "immutable";
-import { FormProvider } from "react-hook-form";
 
 import ActionDialog from "../../../action-dialog";
 import FormSection from "../../../form/components/form-section";

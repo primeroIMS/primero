@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { isEqual } from "lodash";
+import { DevTool } from "@hookform/devtools";
 
 import { fetchLookups } from "../../../record-form/action-creators";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
@@ -51,7 +52,6 @@ import {
   mergeTranslations
 } from "./utils";
 import styles from "./styles.css";
-import { DevTool } from "@hookform/devtools";
 
 const Component = ({ mode }) => {
   const css = makeStyles(styles)();
@@ -86,7 +86,7 @@ const Component = ({ mode }) => {
 
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
-  const handleChange = (event, selectedTab) => {
+  const handleChange = (_, selectedTab) => {
     if (selectedTab !== tab) {
       setTab(selectedTab);
     }
@@ -109,7 +109,7 @@ const Component = ({ mode }) => {
         const subforms = selectedSubforms?.toJS();
         const updatedNewFields = convertToFieldsArray(mergedData.fields || {});
         const body = {
-          data: { ...mergedData, fields: updatedNewFields }
+          data: { ...mergedData, ...(updatedNewFields.length && { fields: updatedNewFields }) }
         };
         const parentFormParams = {
           id,
@@ -275,7 +275,7 @@ const Component = ({ mode }) => {
             tab={tab}
           />
         )}
-        {/* <DevTool control={methods.control} /> */}
+        <DevTool control={methods.control} />
       </PageContent>
     </LoadingIndicator>
   );

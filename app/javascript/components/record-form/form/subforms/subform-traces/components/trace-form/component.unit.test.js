@@ -1,5 +1,3 @@
-import { fromJS } from "immutable";
-
 import { setupMockFormComponent } from "../../../../../../../test";
 import FormSection from "../../../../../../form/components/form-section";
 import TraceActions from "../trace-actions";

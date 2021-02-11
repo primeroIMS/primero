@@ -84,8 +84,8 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   field: PropTypes.object.isRequired,
-  formMode: PropTypes.object.isRequired,
   formMethods: PropTypes.object.isRequired,
+  formMode: PropTypes.object.isRequired,
   selectedLocaleId: PropTypes.string
 };
 

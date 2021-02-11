@@ -12,7 +12,7 @@ import TextInput from "../../fields/text-input";
 import SwitchInput from "../../fields/switch-input";
 import styles from "../../fields/styles.css";
 import DragIndicator from "../../../pages/admin/forms-list/components/drag-indicator";
-import { generateIdFromDisplayText, generateIdForNewOption } from "../../utils/handle-options";
+import { generateIdFromDisplayText } from "../../utils/handle-options";
 
 import { NAME } from "./constants";
 
@@ -88,6 +88,8 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
                   className: css.inputOptionField,
                   error: typeof error !== "undefined",
                   helperText: error?.message,
+                  // eslint-disable-next-line camelcase
+                  defaultValue: option?.display_text?.en,
                   InputProps: {
                     classes,
                     onBlur: event => handleChange(event, index)

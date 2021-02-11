@@ -24,7 +24,7 @@ const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
     inputType = "number";
   }
 
-  const { label, helperText, ...rest } = commonInputProps;
+  const { label, helperText, defaultValue, ...rest } = commonInputProps;
 
   const renderHint = hint ? <span className={css.hint}>{hint}</span> : null;
 
@@ -50,7 +50,7 @@ const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
         </>
       }
       {...textAreaProps}
-      defaultValue=""
+      defaultValue={defaultValue || ""}
     />
   );
 };

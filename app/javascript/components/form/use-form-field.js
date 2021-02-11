@@ -89,7 +89,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     fileFormat,
     filterOptionSource,
     forceShowIf,
-    multipleLimitOne
+    multipleLimitOne,
+    rawOptions
   } = field;
 
   const i18n = useI18n();
@@ -100,6 +101,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, {
       optionStringsSourceIdKey,
       currRecord,
+      rawOptions,
       filterOptions:
         filterOptionSource && (optionsFromState => filterOptionSource(watchedInputsValues, optionsFromState))
     });

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { isImmutable } from "immutable";
 
 import { ConditionalWrapper, useMemoizedSelector } from "../../../libs";
 import useFormField from "../use-form-field";
@@ -20,6 +20,7 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
   } = useFormField(field, { checkErrors, errors, formMode, disableUnderline });
 
   const optionSource = useMemoizedSelector(state => optionSelector(state));
+  const options = isImmutable(optionSource) ? optionSource?.toJS() : optionSource;
 
   if (isNotVisible()) {
     return null;
@@ -33,7 +34,7 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
             field={field}
             commonInputProps={commonInputProps}
             metaInputProps={metaInputProps}
-            options={optionSource?.toJS()}
+            options={options}
             errorsToCheck={errorsToCheck}
             formMethods={formMethods}
             formMode={formMode}

@@ -146,7 +146,7 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     option_strings_source: "lookup-agency-office",
     watchedInputs: USER_GROUP_UNIQUE_IDS,
     handleWatchedInputs: value => ({
-      visible: !hideOnAccountPage && value.includes(USERGROUP_PRIMERO_GBV)
+      visible: !hideOnAccountPage && value?.includes(USERGROUP_PRIMERO_GBV)
     })
   },
   {

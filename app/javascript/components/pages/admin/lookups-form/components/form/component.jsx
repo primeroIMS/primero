@@ -11,7 +11,6 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { DevTool } from "@hookform/devtools";
 
 import {
   buildValues,
@@ -223,7 +222,6 @@ const Component = ({ mode, lookup }) => {
       />
       {renderLookupLocalizedName()}
       {renderOptions()}
-      <DevTool control={control} />
     </form>
   );
 };

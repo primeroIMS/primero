@@ -1,5 +1,4 @@
 import { fromJS, OrderedMap } from "immutable";
-import { FormProvider } from "react-hook-form";
 
 import { PageContent, PageHeading } from "../page";
 import { setupMountedComponent } from "../../test";
