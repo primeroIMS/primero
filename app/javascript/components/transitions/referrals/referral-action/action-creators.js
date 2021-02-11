@@ -7,11 +7,12 @@ import { fetchRecordCallback } from "../../utils";
 
 import actions from "./actions";
 
-export const referralDone = ({ message, failureMessage, recordId, recordType, transistionId }) => {
+export const referralDone = ({ data, message, failureMessage, recordId, recordType, transistionId }) => {
   return {
     type: actions.REFERRAL_DONE,
     api: {
       path: `${recordType}/${recordId}/referrals/${transistionId}`,
+      ...(data ? { body: { data } } : {}),
       method: "DELETE",
       successCallback: [
         {
