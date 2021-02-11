@@ -134,6 +134,7 @@ en:
     check_status: Check Status
     clear_default: Clear default
     clear_selection: Clear selection
+    clear: Clear
     close: Close
     continue: Continue
     create_case: Create Case
