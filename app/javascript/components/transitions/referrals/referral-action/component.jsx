@@ -12,7 +12,7 @@ import ActionDialog from "../../../action-dialog";
 import { DONE } from "../constants";
 
 import { referralAccepted, referralDone, referralRejected } from "./action-creators";
-import { NAME, FORM_ID } from "./constants";
+import { NAME, FORM_ID, FORM_NOTE_FIELD_ID } from "./constants";
 
 const Component = ({
   openReferralDialog,
@@ -117,8 +117,10 @@ const Component = ({
   };
 
   const renderNoteField = referralType === DONE && (
-    <FormContext {...methods} formMode={formMode}>
+    <form id={FORM_NOTE_FIELD_ID}>
       <FormSection
+        formMode={formMode}
+        formMethods={methods}
         formSection={FormSectionRecord({
           unique_id: "referral_done",
           fields: [
@@ -132,7 +134,7 @@ const Component = ({
         })}
         showTitle={false}
       />
-    </FormContext>
+    </form>
   );
 
   const renderRejectedReason = referralType === REJECTED && (
