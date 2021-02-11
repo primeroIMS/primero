@@ -98,6 +98,15 @@ const Details = ({ transition, classes }) => {
           <div className={classes.transtionValue}>{transition.notes}</div>
         </Box>
       </Grid>
+      {transition.rejection_note && (
+        <Grid item md={12} xs={12}>
+          <Box>
+            <Divider className={classes.divider} />
+            <div className={classes.transtionLabel}>{i18n.t("referral.note_on_referral_from_provider")}</div>
+            <div className={classes.transtionValue}>{transition.rejection_note}</div>
+          </Box>
+        </Grid>
+      )}
     </Grid>
   );
 };
