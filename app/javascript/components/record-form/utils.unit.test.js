@@ -25,6 +25,29 @@ describe("<RecordForms /> - utils", () => {
         locations: ["loc-1"],
         past_locations: ["loc-2", "loc-3"],
         test_locations: ["loc-4"],
+        same_locations: ["loc-4", "loc-5"],
+        same_relatives: [
+          {
+            unique_id: "123",
+            name: "Name 1"
+          },
+          {
+            unique_id: "345",
+            name: "Name 2"
+          }
+        ],
+        location_relatives: [
+          {
+            unique_id: "123",
+            name: "Name 1",
+            location: ["loc_1", "loc_2"]
+          },
+          {
+            unique_id: "345",
+            name: "Name 2",
+            location: ["loc_1", "loc_2"]
+          }
+        ],
         relatives: [
           {
             unique_id: "234",
@@ -52,6 +75,7 @@ describe("<RecordForms /> - utils", () => {
         past_locations: ["loc-3"],
         future_locations: [],
         test_locations: [],
+        same_locations: ["loc-4", "loc-5"],
         caregiver_number: "",
         incident_details: [
           {
@@ -59,6 +83,16 @@ describe("<RecordForms /> - utils", () => {
             cp_incident_perpetrator_nationality: "",
             cp_incident_perpetrator_occupation: "",
             cp_incident_perpetrator_other_id_no: ""
+          }
+        ],
+        same_relatives: [
+          {
+            unique_id: "123",
+            name: "Name 1"
+          },
+          {
+            unique_id: "345",
+            name: "Name 2"
           }
         ],
         relatives: [
@@ -74,6 +108,18 @@ describe("<RecordForms /> - utils", () => {
             unique_id: "125",
             phone: "555-333-5534"
           }
+        ],
+        location_relatives: [
+          {
+            unique_id: "123",
+            name: "Name 1",
+            location: []
+          },
+          {
+            unique_id: "345",
+            name: "Name 2",
+            location: ["loc_1", "loc_2", "loc_3"]
+          }
         ]
       };
 
@@ -87,6 +133,7 @@ describe("<RecordForms /> - utils", () => {
           }
         ],
         locations: ["loc-1", "loc-2"],
+        test_locations: [],
         past_locations: ["loc-3"],
         relatives: [
           {
@@ -94,8 +141,17 @@ describe("<RecordForms /> - utils", () => {
           },
           {
             unique_id: "125",
-            uncle_name: "Jimmy",
             phone: "555-333-5534"
+          }
+        ],
+        location_relatives: [
+          {
+            unique_id: "123",
+            location: []
+          },
+          {
+            unique_id: "345",
+            location: ["loc_1", "loc_2", "loc_3"]
           }
         ]
       };

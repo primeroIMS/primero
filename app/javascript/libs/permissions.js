@@ -92,6 +92,7 @@ export const ACTIONS = {
   REQUEST_TRANSFER: "request_transfer",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
+  SYNC_EXTERNAL: "sync_external",
   TRANSFER: "transfer",
   VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
   WRITE: "write"
@@ -263,3 +264,5 @@ export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.CHANGE_LOG];
 export const SHOW_FIND_MATCH = [...MANAGE, ACTIONS.READ];
 
 export const VIEW_KPIS = [ACTIONS.READ];
+
+export const SHOW_SYNC_EXTERNAL = [...MANAGE, ACTIONS.SYNC_EXTERNAL];

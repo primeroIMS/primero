@@ -80,7 +80,8 @@ describe("<RecordFormToolbar />", () => {
           name: "CP",
           associated_record_types: [RECORD_TYPES.cases],
           options: {
-            user_group_filter: true
+            user_group_filter: true,
+            use_webhook_sync_for: [RECORD_TYPES.cases]
           },
           workflows: {
             case: [
@@ -100,7 +101,7 @@ describe("<RecordFormToolbar />", () => {
     user: {
       modules: [MODULES.CP],
       permissions: {
-        cases: [ACTIONS.CREATE, ACTIONS.FLAG]
+        cases: [ACTIONS.CREATE, ACTIONS.FLAG, ACTIONS.SYNC_EXTERNAL]
       }
     },
     forms: {

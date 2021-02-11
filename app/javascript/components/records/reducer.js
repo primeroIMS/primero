@@ -55,7 +55,8 @@ import {
   FETCH_CASE_MATCHED_TRACES_SUCCESS,
   CLEAR_MATCHED_TRACES,
   UNMATCH_CASE_FOR_TRACE_SUCCESS,
-  CLEAR_POTENTIAL_MATCHES
+  CLEAR_POTENTIAL_MATCHES,
+  EXTERNAL_SYNC_SUCCESS
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -293,6 +294,16 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.delete("matchedTraces");
     case `${namespace}/${CLEAR_POTENTIAL_MATCHES}`:
       return state.delete("potentialMatches");
+    case `${namespace}/${EXTERNAL_SYNC_SUCCESS}`: {
+      const { data } = payload;
+      const index = state.get("data").findIndex(record => record.get("id") === data.record_id);
+
+      if (index !== -1) {
+        return state.setIn(["data", index, "sync_status"], payload.data.sync_status);
+      }
+
+      return state;
+    }
     default:
       return state;
   }

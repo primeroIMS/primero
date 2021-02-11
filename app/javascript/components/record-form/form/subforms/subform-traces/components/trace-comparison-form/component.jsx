@@ -61,6 +61,22 @@ const Component = ({
   const traceId = potentialMatch.getIn(["trace", "id"]);
   const comparedFields = potentialMatch.getIn(["comparison", "case_to_trace"], fromJS([]));
   const familyFields = potentialMatch.getIn(["comparison", "family_to_inquirer"], fromJS([]));
+  const potentialMatchedCaseId = potentialMatch.getIn(["trace", "matched_case_id"]);
+  let caseSummaryMessage = "";
+
+  if (potentialMatchedCaseId) {
+    caseSummaryMessage =
+      caseId === potentialMatchedCaseId
+        ? "case.messages.already_matched"
+        : "case.messages.already_matched_not_current_case";
+  }
+
+  const alreadyMatchedMessage = i18n.t(
+    recordType === RECORD_PATH.cases ? caseSummaryMessage : "tracing_request.messages.already_matched"
+  );
+
+  const renderText =
+    recordType === RECORD_PATH.cases || (hasMatchedTraces && recordType === RECORD_PATH.tracing_requests);
 
   const topFields = TOP_FIELD_NAMES.map(fieldName => fields.find(field => field.name === fieldName)).filter(
     field => field
@@ -154,16 +170,12 @@ const Component = ({
     mode
   };
 
-  const alreadyMatchedMessage = i18n.t(
-    recordType === RECORD_PATH.cases ? "case.messages.already_matched" : "tracing_request.messages.already_matched"
-  );
-
   return (
     <>
       <TraceActions {...traceActionsProps} />
       <Grid container spacing={2}>
         <Grid container item>
-          {hasMatchedTraces && (
+          {renderText && (
             <Grid item xs={12}>
               <div className={css.alreadyMatched}>
                 <span>{alreadyMatchedMessage}</span>

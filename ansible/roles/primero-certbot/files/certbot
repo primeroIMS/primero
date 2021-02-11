@@ -13,7 +13,7 @@ import sys
 import tempfile
 
 
-_CERTBOT_IMAGE = 'certbot/certbot:v0.31.0'
+_CERTBOT_IMAGE = 'certbot/certbot:v1.11.0'
 
 
 def _abspath_join(*args, **kwargs):

@@ -100,3 +100,12 @@ export const getDemo = state => state.getIn([NAMESPACE, "primero", DEMO], false)
 export const getConfigUI = state => state.getIn([NAMESPACE, "primero", "config_ui"], "");
 
 export const getLimitedConfigUI = state => getConfigUI(state) === LIMITED;
+
+export const getIsEnabledWebhookSyncFor = (state, primeroModule, recordType) => {
+  const useWebhookSyncFor = state
+    .getIn(["application", "modules"])
+    .find(module => module.get("unique_id") === primeroModule)
+    ?.getIn(["options", "use_webhook_sync_for"], fromJS([]));
+
+  return useWebhookSyncFor.includes(recordType);
+};
