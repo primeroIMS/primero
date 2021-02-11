@@ -28,7 +28,7 @@ const Component = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const initialValues = { note_on_referral_from_provider: "" };
+  const initialValues = { note_on_referral_from_provider: "", rejected_reason: "" };
   const methods = useForm({ defaultValues: initialValues });
   const formMode = whichFormMode(MODES.edit);
 
@@ -102,8 +102,9 @@ const Component = ({
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = data => {
     submitHandler({
+      data,
       dispatch,
       dirtyFields,
       formMode,
@@ -115,7 +116,7 @@ const Component = ({
   };
 
   const renderRejectedReason = referralType === REJECTED && (
-    <form id={FORM_ID} onSubmit={methods.handleSubmit(handleSubmit)}>
+    <form id={FORM_ID}>
       <FormSection
         formSection={FormSectionRecord({
           unique_id: "rejected_form",
@@ -148,6 +149,7 @@ const Component = ({
     <ActionDialog
       open={openReferralDialog}
       cancelHandler={handleCancel}
+      successHandler={methods.handleSubmit(handleSubmit)}
       dialogTitle={referralType === ACCEPTED ? i18n.t(`${recordType}.referral_accepted_header`) : ""}
       pending={pending}
       omitCloseAfterSuccess
