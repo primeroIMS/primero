@@ -16,6 +16,11 @@ const DateInput = ({ commonInputProps, metaInputProps }) => {
   const { setValue, watch } = useFormContext();
   const { name } = commonInputProps;
   const fieldValue = watch(name);
+  const dialogLabels = {
+    clearLabel: i18n.t("buttons.clear"),
+    cancelLabel: i18n.t("buttons.cancel"),
+    okLabel: i18n.t("buttons.ok")
+  };
 
   const { dateIncludeTime } = metaInputProps;
 
@@ -35,10 +40,19 @@ const DateInput = ({ commonInputProps, metaInputProps }) => {
 
   const renderPicker = () => {
     if (dateIncludeTime) {
-      return <DateTimePicker {...commonInputProps} onChange={handleChange} value={getDateValue(fieldValue)} />;
+      return (
+        <DateTimePicker
+          {...dialogLabels}
+          {...commonInputProps}
+          onChange={handleChange}
+          value={getDateValue(fieldValue)}
+        />
+      );
     }
 
-    return <DatePicker {...commonInputProps} onChange={handleChange} value={getDateValue(fieldValue)} />;
+    return (
+      <DatePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={getDateValue(fieldValue)} />
+    );
   };
 
   return (
