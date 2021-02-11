@@ -3,7 +3,6 @@
 require 'pg'
 require 'singleton'
 require 'yaml'
-require 'pry'
 
 # Raw PG connection to the Primero database.
 class PrimeroDatabase
