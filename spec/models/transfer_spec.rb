@@ -253,6 +253,8 @@ describe Transfer do
       DateTime.stub(:now).and_return(@now)
       @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
                                    disclosure_other_orgs: true })
+      @case2 = Child.create(data: { name: 'Test 2', owned_by: 'user1', module_id: @module_cp.unique_id,
+                                   disclosure_other_orgs: true })
       @rejected_transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
     end
 
@@ -273,6 +275,20 @@ describe Transfer do
       expect(@case.owned_by_full_name).to eq('Test User One')
       expect(@case.owned_by_location).to eq('loc012345')
       expect(@case.owned_by_agency).to eq(@agency1.agency_code)
+    end
+
+    context 'when the user has an in progress transfer for another case' do
+      before :each do
+        Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case2)
+      end
+
+      it 'changes the status to REJECTED and removes the referred user' do
+        @rejected_transfer.reject!
+        @rejected_transfer.reload
+  
+        expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
+        expect(@case.assigned_user_names).not_to include('user2')
+      end
     end
 
     context 'when there is a referral for the transitioned_to user' do
@@ -361,7 +377,7 @@ describe Transfer do
         expect(@case.assigned_user_names).to include('user2')
       end
 
-      it 'does not remove the transitioned_to from assigned_user_names if the transfer is accepted' do
+      it 'removes the transitioned_to from assigned_user_names if the transfer is accepted' do
         @transfer.status = Transition::STATUS_ACCEPTED
         @transfer.save!
 
@@ -370,7 +386,7 @@ describe Transfer do
 
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
         expect(@rejected_transfer.responded_at).to eq(@now)
-        expect(@case.assigned_user_names).to include('user2')
+        expect(@case.assigned_user_names).not_to include('user2')
       end
 
       it 'removes the transitioned_to from assigned_user_names if the transfer is rejected' do
