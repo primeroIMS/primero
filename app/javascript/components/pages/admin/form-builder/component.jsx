@@ -51,6 +51,7 @@ import {
   mergeTranslations
 } from "./utils";
 import styles from "./styles.css";
+import { DevTool } from "@hookform/devtools";
 
 const Component = ({ mode }) => {
   const css = makeStyles(styles)();
@@ -274,6 +275,7 @@ const Component = ({ mode }) => {
             tab={tab}
           />
         )}
+        {/* <DevTool control={methods.control} /> */}
       </PageContent>
     </LoadingIndicator>
   );

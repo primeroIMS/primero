@@ -29,11 +29,14 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
     asyncOptionsLoadingPath,
     watchedInputValues,
     clearDependentValues,
+    clearDependentReason,
     setOtherFieldValues,
-    maxSelectedOptions
+    maxSelectedOptions,
+    multipleLimitOne
   } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
+
   const dispatch = useDispatch();
   const loading = useMemoizedSelector(state => getLoadingState(state, asyncOptionsLoadingPath));
   const otherFieldValues = useMemoizedSelector(state => {
@@ -43,6 +46,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
 
     return getValueFromOtherField(state, setOtherFieldValues, watchedInputValues);
   });
+
   const fetchAsyncOptions = () => {
     if (asyncOptions) {
       const params = asyncParamsFromWatched.reduce((prev, next) => {
@@ -89,15 +93,23 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
   const optionsUseIntegerIds = Number.isInteger(options?.[0]?.id);
 
   // eslint-disable-next-line no-nested-ternary
-  const defaultValue = multiSelect ? [] : optionsUseIntegerIds ? null : null;
+  const defaultValue = multiSelect || multipleLimitOne ? [] : optionsUseIntegerIds ? null : null;
 
-  const handleChange = data => {
+  const handleChange = (data, reason) => {
     if (onChange) {
       onChange(formMethods, data);
     }
 
-    if (clearDependentValues) {
-      clearDependentValues.forEach(field => setValue(field, null, { shouldDirty: true }));
+    if (clearDependentValues && clearDependentReason.includes(reason)) {
+      clearDependentValues.forEach(field => {
+        if (Array.isArray(field)) {
+          const [fieldName, resetValue] = field;
+
+          setValue(fieldName, resetValue);
+        } else {
+          setValue(field, null);
+        }
+      });
     }
 
     if (setOtherFieldValues) {
@@ -106,8 +118,16 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
       });
     }
 
-    return multiSelect
-      ? data?.map(selected => (typeof selected === "object" ? selected?.id : selected))
+    return multiSelect || multipleLimitOne
+      ? data?.reduce((prev, current) => {
+          if (multipleLimitOne && getValues(name).includes(current)) {
+            return prev;
+          }
+
+          prev.push(typeof current === "object" ? current?.id : current);
+
+          return prev;
+        }, [])
       : data?.id || null;
   };
 
@@ -185,10 +205,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
         <Autocomplete
           name={name}
           onOpen={handleOpen}
-          onChange={(_, data) => fieldOnChange(handleChange(data))}
+          onChange={(_, data, reason) => fieldOnChange(handleChange(data, reason))}
           groupBy={option => option[groupBy]}
           options={options}
-          multiple={multiSelect}
+          multiple={multiSelect || multipleLimitOne}
           getOptionLabel={optionLabel}
           getOptionSelected={optionEquality}
           getOptionDisabled={getOptionDisabled}

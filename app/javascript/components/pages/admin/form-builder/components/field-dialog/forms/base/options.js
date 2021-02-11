@@ -24,36 +24,25 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
           type: SELECT_FIELD,
           option_strings_source: "Lookups",
           disabled: mode.get("isEdit"),
-          onChange: methods => {
-            methods.reset({ [fieldName]: { selected_value: "" } });
-          }
+          clearDependentValues: [`${fieldName}.selected_value`],
+          clearDependentReason: ["clear", "select-option"]
         }),
         FieldRecord({
           display_name: i18n.t("fields.default_value"),
           name: `${fieldName}.selected_value`,
           type: SELECT_FIELD,
-          option_strings_source: mode.get("isEdit") && field.get("option_strings_source"),
-          watchedInputs: [`${fieldName}.option_strings_source`],
-          handleWatchedInputs: value => {
+          option_strings_source: "Lookups",
+          watchedInputs: `${fieldName}.option_strings_source`,
+          filterOptionSource: (watchedInputsValues, lookupOptions) => {
             const emptyOptions = [{ id: "", display_text: "" }];
-            const lookupSelected = lookups.find(
-              lookup => lookup.get("unique_id") === Object.values(value)[0]?.split(" ")?.pop()
-            );
-            const newSelectOptions = lookupSelected
-              ? emptyOptions.concat(
-                  lookupSelected
-                    .get("values")
-                    .toJS()
-                    .map(lk => ({
-                      id: lk.id,
-                      display_text: lk.display_text[i18n.locale]
-                    }))
-                )
-              : [];
 
-            return {
-              options: newSelectOptions
-            };
+            if (!watchedInputsValues) return [];
+
+            const lookupSelected = lookupOptions.find(lookup => lookup.get("id") === watchedInputsValues);
+
+            const newSelectOptions = lookupSelected ? emptyOptions.concat(lookupSelected.get("values").toJS()) : [];
+
+            return newSelectOptions;
           }
         })
       ])

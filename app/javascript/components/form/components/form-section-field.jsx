@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-import { ConditionalWrapper } from "../../../libs";
+import { ConditionalWrapper, useMemoizedSelector } from "../../../libs";
 import useFormField from "../use-form-field";
 import formComponent from "../utils/form-component";
 
@@ -16,11 +16,10 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
     handleVisibility,
     isNotVisible,
     metaInputProps,
-    optionSelectorArgs
+    optionSelector
   } = useFormField(field, { checkErrors, errors, formMode, disableUnderline });
 
-  const { selector, compare } = optionSelectorArgs;
-  const optionSource = useSelector(state => selector(state), compare);
+  const optionSource = useMemoizedSelector(state => optionSelector(state));
 
   if (isNotVisible()) {
     return null;

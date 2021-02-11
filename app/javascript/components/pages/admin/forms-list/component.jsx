@@ -13,10 +13,10 @@ import { PageHeading, PageContent } from "../../../page";
 import { MODULES, RECORD_TYPES } from "../../../../config/constants";
 import { usePermissions } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
-import { FormAction } from "../../../form";
+import { FormAction, OPTION_TYPES } from "../../../form";
 import { compare } from "../../../../libs";
 import { useDialog } from "../../../action-dialog";
-import { getFormGroupLookups } from "../../../form/selectors";
+import { getOptions } from "../../../form/selectors";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
@@ -49,10 +49,12 @@ const Component = () => {
     primeroModule: MODULES.CP
   };
   const [filterValues, setFilterValues] = useState(defaultFilterValues);
+
   const isLoading = useSelector(state => getIsLoading(state));
   const isReorderEnabled = useSelector(state => getReorderEnabled(state));
   const formSectionsByGroup = useSelector(state => getFormSectionsByFormGroup(state, filterValues));
-  const allFormGroupsLookups = useSelector(state => getFormGroupLookups(state), compare);
+  const allFormGroupsLookups = useSelector(state => getOptions(state, OPTION_TYPES.FORM_GROUP_LOOKUP), compare);
+
   const { modules } = useApp();
 
   const handleSetFilterValue = (name, value) => {

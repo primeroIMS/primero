@@ -1,14 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useWatch } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { isImmutable } from "immutable";
 
-import { ConditionalWrapper } from "../../../libs";
+import { ConditionalWrapper, useMemoizedSelector } from "../../../libs";
 import useFormField from "../use-form-field";
 import formComponent from "../utils/form-component";
 
 const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, disableUnderline }) => {
-  const { control, errors } = formMethods;
+  const { control, errors, getValues } = formMethods;
 
   const {
     Field,
@@ -18,22 +18,23 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
     handleVisibility,
     isNotVisible,
     metaInputProps,
-    optionSelectorArgs,
+    optionSelector,
     error
   } = useFormField(field, { checkErrors, errors, formMode, disableUnderline });
 
   const { watchedInputs, handleWatchedInputs, name } = field;
   const watchedInputValues = useWatch({
     control,
-    name: watchedInputs,
-    defaultValue: []
+    name: watchedInputs
   });
+
   const watchedInputProps = handleWatchedInputs
     ? handleWatchedInputs(watchedInputValues, name, { error, methods: formMethods })
     : {};
 
-  const { selector, compare } = optionSelectorArgs;
-  const optionSource = useSelector(state => selector(state, watchedInputValues), compare);
+  const optionSource = useMemoizedSelector(state =>
+    optionSelector(state, watchedInputValues || getValues(watchedInputs))
+  );
 
   const commonProps = {
     ...commonInputProps,
@@ -50,6 +51,8 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
     return null;
   }
 
+  const options = watchedInputProps?.options || isImmutable(optionSource) ? optionSource?.toJS() : optionSource;
+
   return (
     <div>
       {handleVisibility(watchedInputValues) || (
@@ -58,7 +61,7 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
             field={field}
             commonInputProps={commonProps}
             metaInputProps={metaProps}
-            options={watchedInputProps?.options || optionSource?.toJS()}
+            options={options}
             errorsToCheck={errorsToCheck}
             formMethods={formMethods}
             formMode={formMode}

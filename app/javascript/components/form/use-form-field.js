@@ -76,6 +76,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     asyncParamsFromWatched,
     asyncOptionsLoadingPath,
     clearDependentValues,
+    clearDependentReason,
     option_strings_source_id_key: optionStringsSourceIdKey,
     setOtherFieldValues,
     wrapWithComponent: WrapWithComponent,
@@ -87,23 +88,21 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     href,
     fileFormat,
     filterOptionSource,
-    forceShowIf
+    forceShowIf,
+    multipleLimitOne
   } = field;
 
   const i18n = useI18n();
   const error = errors ? get(errors, name) : undefined;
   const errorsToCheck = checkErrors ? checkErrors.concat(fieldCheckErrors) : fieldCheckErrors;
 
-  const optionSelectorArgs = {
-    selector: (state, watchedInputsValues) =>
-      getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, {
-        optionStringsSourceIdKey,
-        currRecord,
-        filterOptions:
-          filterOptionSource && (optionsFromState => filterOptionSource(watchedInputsValues, optionsFromState))
-      }),
-    compare: (prev, next) => prev.equals(next)
-  };
+  const optionSelector = (state, watchedInputsValues) =>
+    getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, {
+      optionStringsSourceIdKey,
+      currRecord,
+      filterOptions:
+        filterOptionSource && (optionsFromState => filterOptionSource(watchedInputsValues, optionsFromState))
+    });
 
   const dateFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
 
@@ -150,6 +149,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     asyncParams,
     asyncParamsFromWatched,
     clearDependentValues,
+    clearDependentReason,
     disableClearable,
     fileFormat,
     freeSolo,
@@ -168,7 +168,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     selectedValue,
     setOtherFieldValues,
     tooltip,
-    type
+    type,
+    multipleLimitOne
   };
 
   const Field = (fieldType => {
@@ -217,7 +218,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     error,
     handleVisibility,
     metaInputProps,
-    optionSelectorArgs,
+    optionSelector,
     isNotVisible
   }));
 

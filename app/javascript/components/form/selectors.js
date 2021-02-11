@@ -97,27 +97,45 @@ const lookupValues = (state, optionStringsSource, i18n) =>
       fromJS([])
     );
 
-const lookups = (state, i18n) =>
-  lookupsList(state)
-    .map(lookup =>
-      fromJS({
-        id: `lookup ${lookup.get("unique_id")}`,
-        display_text: lookup.getIn(["name", i18n.locale])
-      })
-    )
-    .concat(
-      fromJS(CUSTOM_LOOKUPS).map(custom =>
-        fromJS({
-          id: custom,
-          display_text: i18n.t(`${custom.toLowerCase()}.label`)
-        })
+const filterableOptions = (filterOptions, data) => (filterOptions ? filterOptions(data) : data);
+
+const lookups = (state, { i18n, filterOptions }) => {
+  let lookupList = lookupsList(state).map(lookup =>
+    fromJS({
+      id: `lookup ${lookup.get("unique_id")}`,
+      display_text: lookup.getIn(["name", i18n.locale]),
+      values: lookup.get("values", fromJS([])).map(value => ({
+        id: value.get("id"),
+        display_text: value.getIn(["display_text", i18n.locale])
+      }))
+    })
+  );
+
+  if (!filterOptions) {
+    lookupList = lookupList
+      .concat(
+        fromJS(CUSTOM_LOOKUPS).map(custom =>
+          fromJS({
+            id: custom,
+            display_text: i18n.t(`${custom.toLowerCase()}.label`)
+          })
+        )
       )
-    )
-    .sortBy(lookup => lookup.get("display_text"));
+      .sortBy(lookup => lookup.get("display_text"));
+  }
+
+  return filterableOptions(filterOptions, lookupList);
+};
 
 const userGroups = state =>
   getUserGroups(state).map(userGroup =>
     fromJS({ id: userGroup.get("unique_id"), display_text: userGroup.get("name") })
+  );
+
+const formGroupLookup = (state, { filterOptions }) =>
+  filterableOptions(
+    filterOptions,
+    lookupsList(state).filter(lookup => lookup.get("unique_id").startsWith("lookup-form-group-"))
   );
 
 const roles = state =>
@@ -142,7 +160,7 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) =
     case OPTION_TYPES.FORM_GROUP:
       return formGroups(state, i18n);
     case OPTION_TYPES.LOOKUPS:
-      return lookups(state, i18n);
+      return lookups(state, { i18n, ...rest });
     case OPTION_TYPES.REFER_TO_USERS:
       return referToUsers(state, { ...rest });
     case OPTION_TYPES.USER_GROUP:
@@ -151,6 +169,8 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) =
       return roles(state);
     case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:
       return buildManagedRoles(state, "referral");
+    case OPTION_TYPES.FORM_GROUP_LOOKUP:
+      return formGroupLookup(state, { ...rest });
     default:
       return lookupValues(state, optionStringsSource, i18n);
   }
@@ -202,6 +222,3 @@ export const getManagedRoleByUniqueId = (state, uniqueID) =>
 
 export const getManagedRoleFormSections = (state, uniqueID) =>
   getManagedRoleByUniqueId(state, uniqueID).get("form_section_unique_ids", fromJS([]));
-
-export const getFormGroupLookups = state =>
-  lookupsList(state).filter(lookup => lookup.get("unique_id").startsWith("lookup-form-group-"));

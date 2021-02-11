@@ -9,6 +9,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
 import set from "lodash/set";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { DevTool } from "@hookform/devtools";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { submitHandler, whichFormMode } from "../../../../../form";
@@ -324,7 +325,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
       const subform =
         isSubformField(selectedField) && selectedSubform.toSeq()?.size ? getSubformValues(selectedSubform) : {};
 
-      const resetOptions = { errors: true, dirtyFields: true, dirty: true, touched: true };
+      const resetOptions = { errors: true, dirtyFields: true, isDirty: true, touched: true };
 
       reset(
         {
@@ -387,6 +388,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
           )}
           {renderClearButtons()}
         </form>
+        <DevTool control={formMethods.control} />
         {renderTranslationsDialog()}
       </ActionDialog>
     </>
