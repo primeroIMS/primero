@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_10_000000) do
+ActiveRecord::Schema.define(version: 2021_02_11_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -396,6 +396,7 @@ ActiveRecord::Schema.define(version: 2021_02_10_000000) do
     t.jsonb "system_options"
     t.jsonb "approvals_labels_i18n"
     t.boolean "config_update_lock", default: false, null: false
+    t.string "configuration_file_version"
   end
 
   create_table "traces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
