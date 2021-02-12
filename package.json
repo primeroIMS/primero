@@ -162,6 +162,7 @@
     "require": [
       "@babel/register",
       "./.mochaignore",
+      "./app/javascript/test/jsdom.setup.js",
       "./app/javascript/test/test.setup.js"
     ],
     "exclude": [
