@@ -52,6 +52,7 @@ const Component = ({
       case DONE:
         dispatch(
           referralDone({
+            data,
             dialogName,
             message: i18n.t(`${recordType}.referral_done_success`),
             failureMessage: i18n.t(`${recordType}.request_approval_failure`),
@@ -95,6 +96,25 @@ const Component = ({
     autoFocus: true
   };
 
+  const renderNoteField = referralType === DONE && (
+    <FormContext {...methods} formMode={formMode}>
+      <FormSection
+        formSection={FormSectionRecord({
+          unique_id: "referral_done",
+          fields: [
+            FieldRecord({
+              display_name: i18n.t("referral.notes_on_referral"),
+              name: "rejection_note",
+              type: TEXT_FIELD,
+              autoFocus: true
+            })
+          ]
+        })}
+        showTitle={false}
+      />
+    </FormContext>
+  );
+
   const renderRejectedReason = referralType === REJECTED && (
     <FormContext {...methods} formMode={formMode}>
       <FormSection
@@ -118,9 +138,11 @@ const Component = ({
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
     <div onClick={stopProp}>
       <p>{i18n.t(`${recordType}.referral_${referralType}`)}</p>
+      {renderNoteField}
       {renderRejectedReason}
     </div>
   );
+
   const confirmButtonLabel = referralType === DONE ? "buttons.done" : "buttons.ok";
 
   useImperativeHandle(

@@ -180,7 +180,10 @@ const Component = ({
       label: i18n.t(`fields.date_range.${picker}`),
       value: getDateValue(inputValue?.[picker]),
       onChange: date => handleDatePicker(picker, date),
-      disabled: !selectedField
+      disabled: !selectedField,
+      clearLabel: i18n.t("buttons.clear"),
+      cancelLabel: i18n.t("buttons.cancel"),
+      okLabel: i18n.t("buttons.ok")
     };
 
     return (

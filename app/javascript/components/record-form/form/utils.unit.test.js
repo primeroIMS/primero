@@ -1,4 +1,4 @@
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 
 import { mock } from "../../../test";
 import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/components/referrals";
@@ -21,7 +21,8 @@ describe("Verifying utils", () => {
       "handleChangeOnServiceUser",
       "translatedText",
       "serviceHasReferFields",
-      "serviceIsReferrable"
+      "serviceIsReferrable",
+      "isFormDirty"
     ].forEach(property => {
       expect(clonedHelpers).to.have.property(property);
       delete clonedHelpers[property];
@@ -253,6 +254,142 @@ describe("getConnectedFields", () => {
         expect(result).to.deep.equal({
           response_type: "response-type-2"
         });
+      });
+    });
+
+    describe("isFormDirty", () => {
+      it("should return false if initialValues and currentValues are equals", () => {
+        const initialValues = {
+          field_1: "test"
+        };
+
+        const currentValues = {
+          field_1: "test"
+        };
+
+        const fields = List([
+          {
+            name: "field_1",
+            type: "text_field"
+          }
+        ]);
+
+        expect(helpers.isFormDirty(initialValues, currentValues, fields)).to.be.false;
+      });
+
+      it("should return true if initialValues and currentValues are not equals", () => {
+        const initialValues = {
+          field_1: "test"
+        };
+
+        const currentValues = {
+          field_1: "test 1"
+        };
+
+        const fields = List([
+          {
+            name: "field_1",
+            type: "text_field"
+          }
+        ]);
+
+        expect(helpers.isFormDirty(initialValues, currentValues, fields)).to.be.true;
+      });
+
+      describe("with subforms", () => {
+        it(
+          "should return false if initialValues and currentValues are equals, " +
+            "even if currentValues subforms are in a differente order",
+          () => {
+            const initialValues = {
+              field_1: "test",
+              subform_1: [
+                {
+                  subform_value: "test",
+                  order_field: "a"
+                },
+                {
+                  subform_value: "test",
+                  order_field: "b"
+                }
+              ]
+            };
+
+            const currentValues = {
+              field_1: "test",
+              subform_1: [
+                {
+                  subform_value: "test",
+                  order_field: "b"
+                },
+                {
+                  subform_value: "test",
+                  order_field: "a"
+                }
+              ]
+            };
+
+            const fields = List([
+              {
+                name: "field_1"
+              },
+              {
+                name: "subform_1",
+                type: "subform",
+                subform_section_configuration: { subform_sort_by: "order_field" }
+              }
+            ]);
+
+            expect(helpers.isFormDirty(initialValues, currentValues, fields)).to.be.false;
+          }
+        );
+
+        it(
+          "should return true if initialValues and currentValues subform values are not equals, " +
+            "even if currentValues subforms are in a differente order",
+          () => {
+            const initialValues = {
+              field_1: "test",
+              subform_1: [
+                {
+                  subform_value: "test",
+                  order_field: "a"
+                },
+                {
+                  subform_value: "test",
+                  order_field: "b"
+                }
+              ]
+            };
+
+            const currentValues = {
+              field_1: "test",
+              subform_1: [
+                {
+                  subform_value: "test 1",
+                  order_field: "b"
+                },
+                {
+                  subform_value: "test",
+                  order_field: "a"
+                }
+              ]
+            };
+
+            const fields = List([
+              {
+                name: "field_1"
+              },
+              {
+                name: "subform_1",
+                type: "subform",
+                subform_section_configuration: { subform_sort_by: "order_field" }
+              }
+            ]);
+
+            expect(helpers.isFormDirty(initialValues, currentValues, fields)).to.be.true;
+          }
+        );
       });
     });
   });

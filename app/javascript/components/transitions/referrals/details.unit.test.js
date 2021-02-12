@@ -82,6 +82,34 @@ describe("<ReferralDetail />", () => {
     });
   });
 
+  context("when rejection_note is set", () => {
+    it("should render the rejection_note", () => {
+      const notesFromProvider = "Some notes";
+      const { component: compWithNoteFromProvider } = setupMountedComponent(
+        ReferralDetail,
+        {
+          ...props,
+          ...{
+            transition: {
+              transitioned_to: "to_some_user",
+              transitioned_by: "by_some_user",
+              rejection_note: notesFromProvider
+            }
+          }
+        },
+        initialState
+      );
+
+      expect(
+        compWithNoteFromProvider
+          .find(Box)
+          .last()
+          .find("div div")
+          .map(elem => elem.text())
+      ).to.deep.equal(["referral.note_on_referral_from_provider", notesFromProvider]);
+    });
+  });
+
   describe("with responded at", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(
