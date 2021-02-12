@@ -8,6 +8,7 @@ import Form from "../../../../../form";
 import { useI18n } from "../../../../../i18n";
 import styles from "../styles.css";
 import { localesToRender } from "../utils";
+import { useApp } from "../../../../../application";
 
 import { FORM_ID, NAME } from "./constants";
 import { translationsForm, validationSchema } from "./forms";
@@ -19,6 +20,7 @@ const Component = ({ getValues, mode, onClose, onSuccess }) => {
   const currentValues = getValues({ nest: true });
   const locales = localesToRender(i18n);
   const firstLocale = locales?.first()?.get("id");
+  const { limitedProductionSite } = useApp();
 
   const initialValues = {
     locale_id: firstLocale,
@@ -56,7 +58,8 @@ const Component = ({ getValues, mode, onClose, onSuccess }) => {
     dialogTitle: i18n.t("forms.translations.edit"),
     open: dialogOpen,
     cancelHandler: () => handleClose(),
-    omitCloseAfterSuccess: true
+    omitCloseAfterSuccess: true,
+    showSuccessButton: !limitedProductionSite
   };
 
   const formSections = translationsForm({

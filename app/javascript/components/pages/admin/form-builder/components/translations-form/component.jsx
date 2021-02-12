@@ -11,6 +11,7 @@ import { localesToRender } from "../utils";
 import { getSelectedFields } from "../../selectors";
 import { compare } from "../../../../../../libs";
 import WatchedFormSectionField from "../../../../../form/components/watched-form-section-field";
+import { useApp } from "../../../../../application";
 
 import { FieldTranslationRow } from "./components";
 import { NAME } from "./constants";
@@ -22,6 +23,7 @@ const Component = ({ mode, formMethods }) => {
   const locales = localesToRender(i18n);
   const formMode = whichFormMode(mode);
 
+  const { limitedProductionSite } = useApp();
   const [selectedLocaleId, setSelectedLocaleId] = useState(null);
 
   const fields = useSelector(state => getSelectedFields(state, false), compare);
@@ -69,7 +71,8 @@ const Component = ({ mode, formMethods }) => {
             type: TEXT_FIELD,
             watchedInputs: "selected_locale_id",
             showIf: value => localeId === value,
-            forceShowIf: true
+            forceShowIf: true,
+            disabled: limitedProductionSite
           })}
           formMethods={formMethods}
           formMode={formMode}
@@ -125,7 +128,8 @@ const Component = ({ mode, formMethods }) => {
               display_name: "",
               name: "translations.name.en",
               type: TEXT_FIELD,
-              onBlur: event => onEnglishTextChange(event)
+              onBlur: event => onEnglishTextChange(event),
+              disabled: limitedProductionSite
             })}
             formMethods={formMethods}
             formMode={formMode}
@@ -145,7 +149,8 @@ const Component = ({ mode, formMethods }) => {
               display_name: "",
               name: "translations.description.en",
               type: TEXT_FIELD,
-              onBlur: event => onEnglishTextChange(event)
+              onBlur: event => onEnglishTextChange(event),
+              disabled: limitedProductionSite
             })}
             formMethods={formMethods}
             formMode={formMode}

@@ -123,6 +123,8 @@ const ActionDialog = ({
     </div>
   );
 
+  console.log(showSuccessButton);
+
   useEffect(() => {
     if (fetchAction && open) {
       dispatch(fetchAction(...fetchArgs));

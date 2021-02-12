@@ -39,7 +39,8 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
             type: TEXT_FIELD,
             watchedInputs: "selected_locale_id",
             showIf: () => localeId === selectedLocaleId,
-            forceShowIf: true
+            forceShowIf: true,
+            disabled: limitedProductionSite
           })}
           formMode={formMode}
           formMethods={formMethods}
@@ -67,7 +68,8 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
           field={FieldRecord({
             display_name: "",
             name: `fields.${fieldName}.display_name.en`,
-            type: TEXT_FIELD
+            type: TEXT_FIELD,
+            disabled: limitedProductionSite
           })}
           formMode={formMode}
           formMethods={formMethods}
@@ -77,11 +79,7 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
         {renderTranslationFields()}
       </Grid>
       <Grid item xs={12} md={3} className={css.translationsRow}>
-        <ActionButton
-          text={i18n.t("forms.manage")}
-          outlined
-          rest={{ onClick: onClickManage, hide: limitedProductionSite }}
-        />
+        <ActionButton text={i18n.t("forms.manage")} outlined rest={{ onClick: onClickManage }} />
       </Grid>
     </>
   );

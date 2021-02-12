@@ -99,7 +99,7 @@ const Component = ({ field, formMethods, index, subformField, subformSortBy, sub
     return (
       <>
         {icon}
-        <Button className={className} onClick={() => handleClick()} disabled={limitedProductionSite}>
+        <Button className={className} onClick={() => handleClick()}>
           {displayNameHelper(field.get("display_name"), i18n.locale)}
         </Button>
       </>
@@ -120,6 +120,7 @@ const Component = ({ field, formMethods, index, subformField, subformSortBy, sub
             inputProps={{ value: fieldName }}
             checked={checked}
             name={`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${column}`}
+            disabled={limitedProductionSite}
           />
         </div>
       )

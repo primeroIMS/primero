@@ -20,14 +20,14 @@ const Component = ({ formMode, handleSubmit, handleCancel, limitedProductionSite
         actionHandler={handleCancel}
         text={i18n.t("buttons.cancel")}
         startIcon={<CloseIcon />}
-        rest={{ hide: limitedProductionSite }}
+        options={{ hide: limitedProductionSite }}
       />
       <FormAction
         actionHandler={handleSubmit}
         text={i18n.t("buttons.save")}
         startIcon={<CheckIcon />}
         savingRecord={saving}
-        rest={{ hide: limitedProductionSite }}
+        options={{ hide: limitedProductionSite }}
       />
     </>
   );
