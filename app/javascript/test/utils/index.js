@@ -295,7 +295,7 @@ export const lookups = () => ({
 });
 
 export const translateOptions = (value, options, translations) => {
-  const defaultLocale = window.I18n.locale;
+  const defaultLocale = window.I18n.defaultLocale || "en";
 
   if (isEmpty(options)) {
     return translations[defaultLocale][value];
