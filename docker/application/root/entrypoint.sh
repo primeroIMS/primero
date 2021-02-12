@@ -42,7 +42,7 @@ primero_configure() {
   if [[ -n "${PRIMERO_CONFIGURATION_FILE}" ]]
   then
     printf "Applying configuration template\\n"
-    bin/rails r "${PRIMERO_CONFIGURATION_FILE}"
+    bin/load_configuration.rb "${PRIMERO_CONFIGURATION_FILE}"
   else
     printf "Applying seed configuration\\n"
     bin/rails db:seed
