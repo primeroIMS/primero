@@ -4,7 +4,7 @@ describe("pages/password-reset - constants", () => {
   it("should have known constant", () => {
     const clone = { ...constants };
 
-    ["NAME"].forEach(property => {
+    ["NAME", "RESET_PASSWORD_FORM"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });

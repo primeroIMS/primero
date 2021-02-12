@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import Queue, { QUEUE_HALTED, QUEUE_READY } from "../../libs/queue";
 import { getIsAuthenticated } from "../user/selectors";
 import { clearDialog, selectDialog } from "../action-dialog";
 import { useRefreshUserToken } from "../user";
 import { LOGIN_DIALOG } from "../login-dialog";
+import { useMemoizedSelector } from "../../libs";
 
 import { selectNetworkStatus, selectQueueStatus } from "./selectors";
 import { checkServerStatus, setQueueStatus } from "./action-creators";
@@ -13,10 +14,11 @@ import { checkServerStatus, setQueueStatus } from "./action-creators";
 const useConnectivityStatus = () => {
   const dispatch = useDispatch();
   const { refreshUserToken } = useRefreshUserToken();
-  const online = useSelector(state => selectNetworkStatus(state));
-  const authenticated = useSelector(state => getIsAuthenticated(state));
-  const queueStatus = useSelector(state => selectQueueStatus(state));
-  const currentDialog = useSelector(state => selectDialog(state));
+
+  const online = useMemoizedSelector(state => selectNetworkStatus(state));
+  const authenticated = useMemoizedSelector(state => getIsAuthenticated(state));
+  const queueStatus = useMemoizedSelector(state => selectQueueStatus(state));
+  const currentDialog = useMemoizedSelector(state => selectDialog(state));
 
   const handleNetworkChange = isOnline => {
     dispatch(checkServerStatus(isOnline));

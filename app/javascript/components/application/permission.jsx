@@ -3,6 +3,7 @@ import { push } from "connected-react-router";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { List } from "immutable";
+import { isEqual } from "lodash";
 
 import { getPermissions } from "../user/selectors";
 import { RESOURCES } from "../../libs/permissions";
@@ -12,7 +13,7 @@ const Permission = ({ resources, actions, redirect, children, match }) => {
   const { recordType } = params;
   const type = resources || recordType;
   const dispatch = useDispatch();
-  const allUserPermissions = useSelector(state => getPermissions(state));
+  const allUserPermissions = useSelector(state => getPermissions(state), isEqual);
 
   const filteredPermissions = allUserPermissions.entrySeq().reduce((acum, curr) => {
     const [key, value] = curr;

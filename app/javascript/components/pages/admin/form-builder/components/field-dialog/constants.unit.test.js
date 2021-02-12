@@ -4,7 +4,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - Constants", (
   it("should have known properties", () => {
     const clonedActions = { ...constants };
 
-    ["ADMIN_FIELDS_DIALOG", "DATE_FIELD_CUSTOM_VALUES", "NAME"].forEach(property => {
+    ["ADMIN_FIELDS_DIALOG", "DATE_FIELD_CUSTOM_VALUES", "NAME", "FIELD_FORM"].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];
     });

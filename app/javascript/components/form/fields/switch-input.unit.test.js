@@ -7,7 +7,7 @@ describe("<Form /> - fields/<SwitchInput />", () => {
   it("renders switch input", () => {
     const { component } = setupMockFieldComponent(SwitchInput, FieldRecord);
 
-    expect(component.exists("input[name='test_field_2']")).to.be.true;
+    expect(component.exists("input")).to.be.true;
   });
 
   it("renders help text", () => {
@@ -17,9 +17,12 @@ describe("<Form /> - fields/<SwitchInput />", () => {
   });
 
   it("renders errors", () => {
-    const { component } = setupMockFieldComponent(SwitchInput, FieldRecord);
-
-    component.find("FormContext").props().setError("test_field_2", "required", "Name is required");
+    const { component } = setupMockFieldComponent(SwitchInput, FieldRecord, {}, {}, {}, null, [
+      {
+        name: "test_field_2",
+        message: "Name is required"
+      }
+    ]);
 
     expect(component.someWhere(n => n.find("Mui-error"))).to.be.true;
     expect(component.find("p.MuiFormHelperText-root").at(0).text()).to.include("Name is required");

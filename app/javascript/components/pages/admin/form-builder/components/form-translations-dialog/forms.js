@@ -4,6 +4,8 @@ import { object, string } from "yup";
 
 import { FieldRecord, FormSectionRecord, TEXT_FIELD, SELECT_FIELD } from "../../../../../form";
 
+import { LOCALE_ID } from "./constants";
+
 export const validationSchema = i18n =>
   object().shape({
     locale_id: string()
@@ -15,14 +17,7 @@ export const validationSchema = i18n =>
       )
   });
 
-export const translationsForm = ({
-  i18n,
-  selectedLocaleId,
-  cssHideField,
-  cssTranslationField,
-  locales,
-  currentValues
-}) =>
+export const translationsForm = ({ i18n, locales, currentValues, selectedLocaleId }) =>
   fromJS([
     FormSectionRecord({
       unique_id: "edit_translations",
@@ -46,7 +41,8 @@ export const translationsForm = ({
           display_name: `${i18n.t("home.en")}: ${currentValues.name?.en}`,
           name: `name.${locale.get("id")}`,
           type: TEXT_FIELD,
-          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
+          watchedInputs: LOCALE_ID,
+          showIf: localeID => locale.get("id") === localeID
         })
       )
     }),
@@ -58,7 +54,8 @@ export const translationsForm = ({
           display_name: `${i18n.t("home.en")}: ${currentValues.description?.en}`,
           name: `description.${locale.get("id")}`,
           type: TEXT_FIELD,
-          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
+          watchedInputs: LOCALE_ID,
+          showIf: localeID => locale.get("id") === localeID
         })
       )
     })

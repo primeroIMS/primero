@@ -4,7 +4,7 @@ import { Form, Formik } from "formik";
 import { createMemoryHistory } from "history";
 import { isEmpty } from "lodash";
 import { SnackbarProvider } from "notistack";
-import React from "react";
+import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Router } from "react-router-dom";
 import configureStore from "redux-mock-store";
@@ -13,7 +13,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { createMount } from "@material-ui/core/test-utils";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { ThemeProvider } from "@material-ui/core/styles";
-import { useForm, FormContext } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { fromJS } from "immutable";
 import capitalize from "lodash/capitalize";
 import { spy } from "sinon";
@@ -151,29 +151,49 @@ export const tick = () =>
 
 export const setupMockFormComponent = (
   Component,
-  props = {},
-  parentProps = {},
-  state = {},
-  defaultValues = {},
-  includeFormMethods = false
+  {
+    props = {},
+    parentProps = {},
+    state = {},
+    defaultValues = {},
+    includeFormMethods = false,
+    includeFormProvider = false,
+    errors
+  } = {}
 ) => {
   const MockFormComponent = () => {
     const { inputProps, field, mode } = props;
     const formMethods = useForm({ defaultValues });
-    const formMode = whichFormMode(mode);
+    const formMode = whichFormMode(mode || "new");
 
     const commonInputProps = setupFormInputProps(field, inputProps, mode, formMethods?.errors);
 
-    return (
-      <FormContext {...formMethods} formMode={formMode}>
-        <Component
-          {...props}
-          {...(includeFormMethods ? formMethods : {})}
-          commonInputProps={commonInputProps}
-          {...inputProps}
-        />
-      </FormContext>
-    );
+    const componentProps = {
+      ...props,
+      ...(includeFormMethods ? formMethods : {}),
+      commonInputProps,
+      ...inputProps
+    };
+
+    useEffect(() => {
+      if (errors) {
+        errors.forEach(error => {
+          const { name, message } = error;
+
+          formMethods.setError(name, { type: "manual", message });
+        });
+      }
+    }, [errors]);
+
+    if (includeFormProvider) {
+      return (
+        <FormProvider {...formMethods} formMode={formMode}>
+          <Component {...componentProps} />
+        </FormProvider>
+      );
+    }
+
+    return <Component {...componentProps} formMode={formMode} formMethods={formMethods} />;
   };
 
   return setupMountedComponent(MockFormComponent, parentProps, state);
@@ -185,15 +205,19 @@ export const setupMockFieldComponent = (
   fieldRecordSettings = {},
   inputProps = {},
   metaInputProps = {},
-  mode = "new"
+  mode = "new",
+  errors
 ) => {
   const field = setupFormFieldRecord(FieldRecord, fieldRecordSettings);
 
   return setupMockFormComponent(fieldComponent, {
-    inputProps,
-    metaInputProps,
-    field,
-    mode
+    props: {
+      inputProps,
+      metaInputProps,
+      field,
+      mode
+    },
+    errors
   });
 };
 

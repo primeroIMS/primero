@@ -1,15 +1,16 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 
-import React, { useEffect, useImperativeHandle, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { useForm, FormContext } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { fromJS } from "immutable";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import {
   buildValues,
@@ -32,9 +33,9 @@ import { SAVE_METHODS } from "../../../../../../config";
 import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
-import { NAME, TEMP_OPTION_ID } from "./constants";
+import { NAME, TEMP_OPTION_ID, FORM_ID } from "./constants";
 
-const Component = ({ formRef, mode, lookup }) => {
+const Component = ({ mode, lookup }) => {
   const { id } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -48,9 +49,16 @@ const Component = ({ formRef, mode, lookup }) => {
   const currentLookupValues = lookup.get(LOOKUP_VALUES, fromJS([]));
 
   const formMethods = useForm({
-    ...(validationsSchema && { validationSchema: validationsSchema })
+    ...(validationsSchema && { resolver: yupResolver(validationsSchema) }),
+    shouldUnregister: false
   });
-  const watchedOption = formMethods.watch("options");
+  const { control, reset, getValues, handleSubmit } = formMethods;
+
+  const watchedOption = useWatch({
+    control,
+    name: "options"
+  });
+
   const selectedOption = watchedOption?.id || watchedOption;
   const keys = [...currentLookupValues.map(t => t.get("id"))];
   const [items, setItems] = useState(keys);
@@ -84,19 +92,11 @@ const Component = ({ formRef, mode, lookup }) => {
     );
   };
 
-  useImperativeHandle(formRef, () => ({
-    submitForm(e) {
-      formMethods.handleSubmit(data => {
-        onSubmit(data);
-      })(e);
-    }
-  }));
-
   useEffect(() => {
     if (keys.length) {
       setItems(keys);
     }
-    formMethods.reset(defaultValues);
+    reset(defaultValues);
   }, [defaultValues.name[defaultLocale]]);
 
   const getListStyle = isDraggingOver => ({
@@ -115,9 +115,9 @@ const Component = ({ formRef, mode, lookup }) => {
     const newItems = reorderValues(items, startIndex, endIndex);
 
     setItems(newItems);
-    const newValues = formMethods.getValues();
+    const newValues = getValues();
 
-    formMethods.reset({ ...newValues, ...{ values } });
+    reset({ ...newValues, ...{ values } });
   };
 
   const handleAdd = () => setItems([...items, `${TEMP_OPTION_ID}_${items.length}`]);
@@ -135,9 +135,12 @@ const Component = ({ formRef, mode, lookup }) => {
             name: `name.${locale.id}`,
             type: TEXT_FIELD,
             required: true,
-            inputClassname: !show ? css.hideTranslationsFields : null
+            showIf: () => show,
+            forceShowIf: true
           })}
           key={`name.${locale.id}`}
+          formMode={formMode}
+          formMethods={formMethods}
         />
       );
     });
@@ -153,6 +156,8 @@ const Component = ({ formRef, mode, lookup }) => {
           localesKeys={localesKeys}
           selectedOption={selectedOption}
           uniqueId={item}
+          formMode={formMode}
+          formMethods={formMethods}
         />
       );
     });
@@ -202,29 +207,28 @@ const Component = ({ formRef, mode, lookup }) => {
   };
 
   return (
-    <FormContext {...formMethods} formMode={formMode}>
-      <form onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <FormSectionField
-          field={FieldRecord({
-            display_name: i18n.t("lookup.language_label"),
-            name: "options",
-            type: SELECT_FIELD,
-            option_strings_text: locales,
-            editable: !(locales?.length === 1),
-            disabled: locales?.length === 1
-          })}
-        />
-        {renderLookupLocalizedName()}
-        {renderOptions()}
-      </form>
-    </FormContext>
+    <form onSubmit={handleSubmit(onSubmit)} id={FORM_ID}>
+      <FormSectionField
+        field={FieldRecord({
+          display_name: i18n.t("lookup.language_label"),
+          name: "options",
+          type: SELECT_FIELD,
+          option_strings_text: locales,
+          editable: !(locales?.length === 1),
+          disabled: locales?.length === 1
+        })}
+        formMode={formMode}
+        formMethods={formMethods}
+      />
+      {renderLookupLocalizedName()}
+      {renderOptions()}
+    </form>
   );
 };
 
 Component.displayName = NAME;
 
 Component.propTypes = {
-  formRef: PropTypes.object.isRequired,
   lookup: PropTypes.object,
   mode: PropTypes.string
 };

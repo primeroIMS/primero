@@ -23,7 +23,8 @@ describe("<ReportsForm /> - Constants", () => {
       "NOT_NULL",
       "RECORD_TYPE_FIELD",
       "REPORTABLE_TYPES",
-      "REPORT_FIELD_TYPES"
+      "REPORT_FIELD_TYPES",
+      "FORM_ID"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

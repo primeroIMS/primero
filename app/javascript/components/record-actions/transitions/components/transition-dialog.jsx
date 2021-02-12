@@ -11,6 +11,7 @@ const TransitionDialog = ({
   children,
   confirmButtonLabel,
   omitCloseAfterSuccess,
+  confirmButtonProps,
   open,
   pending,
   record,
@@ -56,7 +57,8 @@ const TransitionDialog = ({
     dialogTitle: title,
     cancelHandler: onClose,
     enabledSuccessButton,
-    dialogSubHeader
+    dialogSubHeader,
+    confirmButtonProps
   };
 
   return <ActionDialog {...dialogProps}>{children}</ActionDialog>;
@@ -65,6 +67,7 @@ const TransitionDialog = ({
 TransitionDialog.propTypes = {
   children: PropTypes.node.isRequired,
   confirmButtonLabel: PropTypes.string,
+  confirmButtonProps: PropTypes.object,
   enabledSuccessButton: PropTypes.bool,
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
@@ -73,7 +76,7 @@ TransitionDialog.propTypes = {
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedIds: PropTypes.array,
-  successHandler: PropTypes.func.isRequired,
+  successHandler: PropTypes.func,
   transitionType: PropTypes.string
 };
 

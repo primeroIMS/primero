@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ExpansionPanel, ExpansionPanelSummary } from "@material-ui/core";
+import { Accordion, AccordionSummary } from "@material-ui/core";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import ActionButton from "../../../../../action-button";
@@ -17,8 +17,8 @@ const Component = ({ css, matchedTrace, setOpen, setSelectedTraceId }) => {
   };
 
   return (
-    <ExpansionPanel expanded={false} onChange={() => handleOnClick(matchedTraceId)}>
-      <ExpansionPanelSummary expandIcon={<ChevronRightIcon />} aria-controls="filter-controls-content" id={1}>
+    <Accordion expanded={false} onChange={() => handleOnClick(matchedTraceId)}>
+      <AccordionSummary expandIcon={<ChevronRightIcon />} aria-controls="filter-controls-content" id={1}>
         <ActionButton
           text={getShortIdFromUniqueId(matchedTraceId)}
           type={ACTION_BUTTON_TYPES.default}
@@ -28,8 +28,8 @@ const Component = ({ css, matchedTrace, setOpen, setSelectedTraceId }) => {
             className: css.link
           }}
         />
-      </ExpansionPanelSummary>
-    </ExpansionPanel>
+      </AccordionSummary>
+    </Accordion>
   );
 };
 

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
+import { isEqual } from "lodash";
 
 import { useI18n } from "../../../i18n";
 import ListIcon from "../../../list-icon";
@@ -46,7 +47,8 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
       })
   };
 
-  const userPermissions = useSelector(state => getPermissions(state));
+  const userPermissions = useSelector(state => getPermissions(state), isEqual);
+
   const userRecordTypes = [...userPermissions.keys()];
   const navItemName = name === "username" ? username : i18n.t(name);
 

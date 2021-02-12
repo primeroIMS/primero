@@ -1,6 +1,6 @@
-const submitForm = formikRef => {
-  if (formikRef.current) {
-    formikRef.current.submitForm();
+const submitForm = ref => {
+  if (ref.current) {
+    ref.current.submitForm();
   }
 };
 

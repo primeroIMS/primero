@@ -145,12 +145,6 @@
 
 .iconBar{
   padding-left: 10px;
-
-  & button {
-    width: 30px;
-    height: 30px;
-    min-height: 30px;
-  }
 }
 
 .expandIcon {

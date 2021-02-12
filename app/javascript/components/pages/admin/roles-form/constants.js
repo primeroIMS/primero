@@ -31,3 +31,5 @@ export const RESOURCES = [
   "duplicate",
   "kpi"
 ];
+
+export const FORM_ID = "role-form";

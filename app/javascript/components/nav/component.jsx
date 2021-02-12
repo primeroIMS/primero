@@ -1,13 +1,14 @@
 import { Drawer, List, useMediaQuery, Hidden, Divider, IconButton } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { push } from "connected-react-router";
+import { isEqual } from "lodash";
 
 import { ROUTES, PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
-import { useThemeHelper } from "../../libs";
+import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
 import Permission from "../application/permission";
@@ -39,10 +40,10 @@ const Nav = () => {
   const { userModules, demo } = useApp();
   const module = userModules.first();
 
-  const username = useSelector(state => selectUsername(state));
-  const userId = useSelector(state => getUserId(state));
-  const dataAlerts = useSelector(state => selectAlerts(state));
-  const permissions = useSelector(state => getPermissions(state));
+  const username = useMemoizedSelector(state => selectUsername(state), isEqual);
+  const userId = useMemoizedSelector(state => getUserId(state), isEqual);
+  const dataAlerts = useMemoizedSelector(state => selectAlerts(state), isEqual);
+  const permissions = useMemoizedSelector(state => getPermissions(state), isEqual);
 
   const handleToggleDrawer = open => event => {
     if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {

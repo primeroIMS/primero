@@ -32,6 +32,8 @@ export const FieldRecord = Record({
   watchedInputs: null,
   handleWatchedInputs: null,
   showIf: null,
+  forceShowIf: false,
+  multipleLimitOne: false,
   check_errors: fromJS([]),
   hint: "",
   groupBy: null,
@@ -52,6 +54,7 @@ export const FieldRecord = Record({
   asyncAction: () => {},
   option_strings_source_id_key: null,
   clearDependentValues: null,
+  clearDependentReason: ["select-option"],
   form_section_id: null,
   subform_section_configuration: null,
   setOtherFieldValues: null,
@@ -63,7 +66,8 @@ export const FieldRecord = Record({
   currRecord: fromJS({}),
   href: null,
   fileFormat: "",
-  filterOptionSource: null
+  filterOptionSource: null,
+  rawOptions: false
 });
 
 export const FormSectionRecord = Record({

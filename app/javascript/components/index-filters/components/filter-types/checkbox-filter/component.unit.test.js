@@ -15,13 +15,13 @@ describe("<CheckboxFilter>", () => {
   const props = { addFilterToList: () => {}, filter };
 
   it("renders panel", () => {
-    const { component } = setupMockFormComponent(CheckboxFilter, props);
+    const { component } = setupMockFormComponent(CheckboxFilter, { props, includeFormProvider: true });
 
     expect(component.exists("Panel")).to.be.true;
   });
 
   it("renders checkbox inputs", () => {
-    const { component } = setupMockFormComponent(CheckboxFilter, props);
+    const { component } = setupMockFormComponent(CheckboxFilter, { props, includeFormProvider: true });
 
     ["option-1", "option-2"].forEach(option => expect(component.exists(`input[value='${option}']`)).to.be.true);
   });
@@ -38,7 +38,7 @@ describe("<CheckboxFilter>", () => {
       setMoreSectionFilters: () => {},
       setReset: () => {}
     };
-    const { component } = setupMockFormComponent(CheckboxFilter, newProps);
+    const { component } = setupMockFormComponent(CheckboxFilter, { props: newProps, includeFormProvider: true });
 
     ["option-1", "option-2"].forEach(option => expect(component.exists(`input[value='${option}']`)).to.be.true);
 
@@ -74,7 +74,7 @@ describe("<CheckboxFilter>", () => {
       setReset: () => {}
     };
 
-    const { component } = setupMockFormComponent(CheckboxFilter, newProps);
+    const { component } = setupMockFormComponent(CheckboxFilter, { props: newProps, includeFormProvider: true });
 
     const checkbox = component.find("input[type='checkbox']").at(0);
 
