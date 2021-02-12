@@ -97,7 +97,7 @@ module Ownable
 
       if self.class == Child && self.incident_links.present?
         self.incident_links.each do |incident|
-          incident_db = Incident.get(incident["incident_id"])
+          incident_db = Incident.get(incident.is_a?(Hash) ? incident["incident_id"] : incident)
           incident_db.previously_owned_by = incident_db.owned_by
           incident_db.owned_by = self.owned_by
           incident_db.owned_by_full_name = self.owned_by_full_name
