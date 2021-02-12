@@ -35,6 +35,8 @@ const App = () => {
   store.dispatch(checkUserAuthentication());
   store.dispatch(loginSystemSettings());
 
+  window.I18n.fallbacks = true;
+
   return (
     <StylesProvider jss={jss} generateClassName={generateClassName}>
       <CssBaseline />
