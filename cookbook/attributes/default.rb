@@ -123,7 +123,8 @@ end
 
 default[:postfix_dir] = '/etc/postfix'
 
-default[:python][:install_method] = 'package'
+default[:python][:prefix_dir] = '/tmp'
+default[:python][:install_method] = 'source'
 default[:python][:setuptools_version] = '20.7.0'
 default[:python][:virtualenv_version] = '1.11.4'
 default[:supervisor][:version] = '4.1.0'
