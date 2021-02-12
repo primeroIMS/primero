@@ -27,20 +27,22 @@ import { TracingRequestStatus } from "./components";
 const Component = ({
   arrayHelpers,
   field,
-  form,
   isTracesSubform,
   locale,
   mode,
   setDialogIsNew,
   setOpen,
   values,
-  formik
+  formik,
+  parentForm
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const validationErrors = useSelector(state => getValidationErrors(state, form.unique_id), compare);
+  const validationErrors = useSelector(state => getValidationErrors(state), compare);
+  // eslint-disable-next-line camelcase
+  const parentFormUniqueId = parentForm?.unique_id || "";
 
   const {
     subform_sort_by: subformSortBy,
@@ -90,7 +92,12 @@ const Component = ({
   };
 
   const hasError = index =>
-    Boolean(validationErrors?.size && validationErrors.getIn(["errors", subformField.get("unique_id"), index], false));
+    Boolean(
+      validationErrors?.size &&
+        validationErrors
+          .find(error => error.get("unique_id") === parentFormUniqueId)
+          ?.getIn(["errors", subformField.get("unique_id"), index], false)
+    );
 
   if (values && values.length > 0) {
     let sortedValues = [];
@@ -177,11 +184,11 @@ Component.displayName = SUBFORM_FIELDS;
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   isTracesSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
+  parentForm: PropTypes.object.isRequired,
   setDialogIsNew: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired

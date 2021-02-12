@@ -6,7 +6,7 @@ import SubformFields from "./component";
 describe("<SubformFields />", () => {
   const props = {
     arrayHelpers: {},
-    form: {
+    parentForm: {
       id: 33,
       unique_id: "family_details",
       description: {
