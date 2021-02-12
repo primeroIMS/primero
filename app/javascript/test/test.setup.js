@@ -13,10 +13,11 @@ import IDBIndex from "fake-indexeddb/lib/FDBIndex";
 import IDBCursor from "fake-indexeddb/lib/FDBCursor";
 import get from "lodash/get";
 import { parseISO, format as formatDate } from "date-fns";
+import jsDomGlobal from "jsdom-global";
 
 const defaultHtml = '<!doctype html><html><head><meta charset="utf-8"></head><body></body></html>';
 
-require("jsdom-global")(defaultHtml, { url: "https://localhost/" });
+jsDomGlobal(defaultHtml, { url: "https://localhost/" });
 
 require("mutationobserver-shim");
 
