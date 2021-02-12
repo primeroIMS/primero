@@ -233,7 +233,12 @@ const Component = ({ mode }) => {
   return (
     <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
       <PageHeading title={pageTitle}>
-        <FormBuilderActionButtons formMode={formMode} formRef={formRef} handleCancel={handleCancel} />
+        <FormBuilderActionButtons
+          formMode={formMode}
+          formRef={formRef}
+          handleCancel={handleCancel}
+          limitedProductionSite={limitedProductionSite}
+        />
       </PageHeading>
       <PageContent>
         <FormContext {...methods} formMode={formMode}>

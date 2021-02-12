@@ -11,21 +11,13 @@ import CustomFieldDialog from "../custom-field-dialog";
 import ExistingFieldDialog from "../existing-field-dialog";
 import { setFieldDataInFormContext } from "../utils";
 import styles from "../../styles.css";
+import { useApp } from "../../../../../application";
 
 import { NAME } from "./constants";
 
-const Component = ({
-  fieldDialogMode,
-  formContextFields,
-  getValues,
-  index,
-  register,
-  setValue,
-  tab,
-  unregister,
-  limitedProductionSite
-}) => {
+const Component = ({ fieldDialogMode, formContextFields, getValues, index, register, setValue, tab, unregister }) => {
   const { id } = useParams();
+  const { limitedProductionSite } = useApp();
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const { parent_form: parentForm, module_ids: moduleIds } = getValues({ nest: true });
@@ -56,7 +48,6 @@ const Component = ({
         register={register}
         setValue={setValue}
         unregister={unregister}
-        limitedProductionSite={limitedProductionSite}
       />
       <FieldDialog mode={fieldDialogMode} onSuccess={onSuccess} formId={id} />
     </TabPanel>
@@ -70,7 +61,6 @@ Component.propTypes = {
   formContextFields: PropTypes.object.isRequired,
   getValues: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
-  limitedProductionSite: PropTypes.bool,
   register: PropTypes.func.isRequired,
   setValue: PropTypes.func.isRequired,
   tab: PropTypes.number.isRequired,

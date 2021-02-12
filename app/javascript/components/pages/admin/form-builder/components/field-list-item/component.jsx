@@ -28,13 +28,15 @@ import styles from "../fields-list/styles.css";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { setInitialForms, toggleHideOnViewPage } from "../field-dialog/utils";
 import { dataToJS, displayNameHelper } from "../../../../../../libs";
+import { useApp } from "../../../../../application";
 
 import { NAME, SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "./constants";
 
-const Component = ({ field, getValues, index, subformField, subformSortBy, subformGroupBy, limitedProductionSite }) => {
+const Component = ({ field, getValues, index, subformField, subformSortBy, subformGroupBy }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const i18n = useI18n();
+  const { limitedProductionSite } = useApp();
   const currentTheme = useTheme();
   const isNested = Boolean(subformField?.toSeq()?.size);
   const parentFieldName = subformField?.get("name", "");
@@ -144,7 +146,7 @@ const Component = ({ field, getValues, index, subformField, subformSortBy, subfo
               {renderColumn(SUBFORM_GROUP_BY)}
               <div className={clsx([css.fieldColumn, css.fieldShow])}>
                 <SwitchInput
-                  commonInputProps={{ name: visibleFieldName, disabled: isNotEditable }}
+                  commonInputProps={{ name: visibleFieldName, disabled: isNotEditable || limitedProductionSite }}
                   metaInputProps={{ selectedValue: getValues()[visibleFieldName] }}
                 />
               </div>

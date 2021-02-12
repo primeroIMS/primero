@@ -13,12 +13,14 @@ import ActionButton from "../../../../../../../action-button";
 import { FormSectionField, FieldRecord, SUBFORM_SECTION, TEXT_FIELD } from "../../../../../../../form";
 import { useI18n } from "../../../../../../../i18n";
 import styles from "../../styles.css";
+import { useApp } from "../../../../../../../application";
 
 import { NAME } from "./constants";
 
 const Component = ({ field, selectedLocaleId }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const { limitedProductionSite } = useApp();
   const locales = localesToRender(i18n);
   const dispatch = useDispatch();
   const displayName = field.getIn(["display_name", "en"], "");
@@ -70,7 +72,11 @@ const Component = ({ field, selectedLocaleId }) => {
         {renderTranslationFields()}
       </Grid>
       <Grid item xs={12} md={3} className={css.translationsRow}>
-        <ActionButton text={i18n.t("forms.manage")} outlined rest={{ onClick: onClickManage }} />
+        <ActionButton
+          text={i18n.t("forms.manage")}
+          outlined
+          rest={{ onClick: onClickManage, hide: limitedProductionSite }}
+        />
       </Grid>
     </>
   );

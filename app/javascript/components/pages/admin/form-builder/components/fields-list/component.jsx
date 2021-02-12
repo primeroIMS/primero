@@ -26,8 +26,7 @@ const Component = ({
   subformField,
   subformSortBy,
   subformGroupBy,
-  unregister,
-  limitedProductionSite
+  unregister
 }) => {
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
@@ -103,7 +102,6 @@ const Component = ({
           subformSortBy={subformSortBy}
           subformGroupBy={subformGroupBy}
           key={`${field.get("name")}_${id}`}
-          limitedProductionSite={limitedProductionSite}
         />
       );
     });
@@ -144,7 +142,6 @@ Component.whyDidYouRender = true;
 Component.propTypes = {
   formContextFields: PropTypes.object.isRequired,
   getValues: PropTypes.func.isRequired,
-  limitedProductionSite: PropTypes.bool,
   register: PropTypes.func.isRequired,
   setValue: PropTypes.func.isRequired,
   subformField: PropTypes.object,
