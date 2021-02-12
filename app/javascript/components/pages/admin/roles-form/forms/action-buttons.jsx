@@ -10,13 +10,12 @@ import { ACTION_BUTTONS_NAME } from "../constants";
 import { useI18n } from "../../../../i18n";
 import { getSavingRecord } from "../selectors";
 import { FormAction } from "../../../../form";
-import bindFormSubmit from "../../../../../libs/submit-form";
 import Permission from "../../../../application/permission";
 import { RESOURCES, WRITE_RECORDS } from "../../../../../libs/permissions";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-const Component = ({ formMode, formRef, handleCancel, limitedProductionSite }) => {
+const Component = ({ formMode, formID, handleCancel, limitedProductionSite }) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
 
@@ -25,11 +24,10 @@ const Component = ({ formMode, formRef, handleCancel, limitedProductionSite }) =
     <>
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
-        actionHandler={() => bindFormSubmit(formRef)}
+        options={{ form: formID, type: "submit", hide: limitedProductionSite }}
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
-        rest={{ hide: limitedProductionSite }}
       />
     </>
   );
@@ -60,8 +58,8 @@ const Component = ({ formMode, formRef, handleCancel, limitedProductionSite }) =
 Component.displayName = ACTION_BUTTONS_NAME;
 
 Component.propTypes = {
+  formID: PropTypes.string.isRequired,
   formMode: PropTypes.object.isRequired,
-  formRef: PropTypes.object.isRequired,
   handleCancel: PropTypes.func.isRequired,
   limitedProductionSite: PropTypes.bool
 };

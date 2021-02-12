@@ -95,7 +95,7 @@ describe("User - Action Creators", () => {
     {
       type: "forms/SET_LOCATIONS",
       api: {
-        path: "nullundefined",
+        path: "https://localhostundefined",
         external: true,
         db: {
           collection: "locations",

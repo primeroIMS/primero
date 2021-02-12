@@ -72,19 +72,21 @@ describe("Forms - Selectors", () => {
         fromJS([
           {
             id: "lookup lookup-1",
-            display_text: "Lookup 1"
+            display_text: "Lookup 1",
+            values: []
           },
           {
             id: "lookup lookup-2",
-            display_text: "Lookup 2"
+            display_text: "Lookup 2",
+            values: []
           },
           {
             id: "Agency",
-            display_text: "agency.label"
+            display_text: "agency.label",
           },
           {
             id: "Location",
-            display_text: "location.label"
+            display_text: "location.label",
           },
           {
             id: "User",
@@ -219,7 +221,9 @@ describe("Forms - Selectors", () => {
     });
 
     it("should return formGroups lookups", () => {
-      expect(selectors.getFormGroupLookups(stateWithLookupsFormGroup)).to.deep.equal(fromJS(lookups));
+      const result = selectors.getOptions(stateWithLookupsFormGroup, "FormGroupLookup", i18n);
+
+      expect(result).to.deep.equal(fromJS(lookups));
     });
   });
 });

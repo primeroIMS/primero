@@ -15,11 +15,19 @@ import { useApp } from "../../../../../application";
 
 import { NAME } from "./constants";
 
-const Component = ({ fieldDialogMode, formContextFields, getValues, index, register, setValue, tab, unregister }) => {
+const Component = ({ mode, index, tab, formMethods }) => {
   const { id } = useParams();
   const { limitedProductionSite } = useApp();
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const {
+    getValues,
+    register,
+    setValue,
+    control: {
+      fieldsRef: { current: fields }
+    }
+  } = formMethods;
   const { parent_form: parentForm, module_ids: moduleIds } = getValues({ nest: true });
   const moduleId = moduleIds ? moduleIds[0] : null;
 
@@ -28,7 +36,7 @@ const Component = ({ fieldDialogMode, formContextFields, getValues, index, regis
       setFieldDataInFormContext({
         name: fieldName,
         data: fieldData,
-        contextFields: formContextFields,
+        contextFields: fields,
         register,
         setValue
       });
@@ -42,14 +50,8 @@ const Component = ({ fieldDialogMode, formContextFields, getValues, index, regis
         <CustomFieldDialog limitedProductionSite={limitedProductionSite} />
         {parentForm && moduleId && <ExistingFieldDialog parentForm={parentForm} primeroModule={moduleId} />}
       </div>
-      <FieldsList
-        formContextFields={formContextFields}
-        getValues={getValues}
-        register={register}
-        setValue={setValue}
-        unregister={unregister}
-      />
-      <FieldDialog mode={fieldDialogMode} onSuccess={onSuccess} formId={id} />
+      <FieldsList formMethods={formMethods} limitedProductionSite={limitedProductionSite} />
+      <FieldDialog mode={mode} onSuccess={onSuccess} formId={id} />
     </TabPanel>
   );
 };
@@ -57,14 +59,10 @@ const Component = ({ fieldDialogMode, formContextFields, getValues, index, regis
 Component.displayName = NAME;
 
 Component.propTypes = {
-  fieldDialogMode: PropTypes.string.isRequired,
-  formContextFields: PropTypes.object.isRequired,
-  getValues: PropTypes.func.isRequired,
+  formMethods: PropTypes.object,
   index: PropTypes.number.isRequired,
-  register: PropTypes.func.isRequired,
-  setValue: PropTypes.func.isRequired,
-  tab: PropTypes.number.isRequired,
-  unregister: PropTypes.func.isRequired
+  mode: PropTypes.string.isRequired,
+  tab: PropTypes.number.isRequired
 };
 
 Component.whyDidYouRender = true;

@@ -5,27 +5,35 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 import clsx from "clsx";
 
-import { FormSectionField, FieldRecord, TEXT_FIELD, SELECT_FIELD } from "../../../../../form";
+import { FormSectionField, FieldRecord, TEXT_FIELD, SELECT_FIELD, whichFormMode } from "../../../../../form";
 import { useI18n } from "../../../../../i18n";
 import { localesToRender } from "../utils";
 import { getSelectedFields } from "../../selectors";
 import { compare } from "../../../../../../libs";
+import WatchedFormSectionField from "../../../../../form/components/watched-form-section-field";
 
 import { FieldTranslationRow } from "./components";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ getValues, setValue }) => {
+const Component = ({ mode, formMethods }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const locales = localesToRender(i18n);
+  const formMode = whichFormMode(mode);
+
   const [selectedLocaleId, setSelectedLocaleId] = useState(null);
+
   const fields = useSelector(state => getSelectedFields(state, false), compare);
+
+  const { getValues, setValue } = formMethods;
+
+  const selectedLocaleID = getValues("selected_locale_id");
 
   const onEnglishTextChange = event => {
     const { name, value } = event.target;
 
-    setValue(name.replace("translations.", ""), value);
+    setValue(name.replace("translations.", ""), value, { shouldDirty: true });
   };
 
   const onLocaleIdChange = (methods, data) => {
@@ -36,39 +44,46 @@ const Component = ({ getValues, setValue }) => {
     }
   };
 
-  const renderFields = () =>
-    fields.map(field => (
+  const renderFields = () => {
+    return fields.map(field => (
       <FieldTranslationRow
         field={field}
         key={field.get("name")}
-        selectedLocaleId={getValues({ nest: true }).selected_locale_id}
+        selectedLocaleId={selectedLocaleID}
+        formMethods={formMethods}
+        formMode={formMode}
       />
     ));
+  };
 
-  const renderFormField = fieldName =>
-    locales.map(locale => {
+  const renderFormField = fieldName => {
+    return locales.map(locale => {
       const localeId = locale.get("id");
-      const inputClassname = localeId !== getValues({ nest: true }).selected_locale_id ? css.hideField : "";
 
       return (
-        <FormSectionField
+        <WatchedFormSectionField
           key={`translations.${fieldName}.${localeId}`}
           field={FieldRecord({
             display_name: "",
             name: `translations.${fieldName}.${localeId}`,
             type: TEXT_FIELD,
-            inputClassname
+            watchedInputs: "selected_locale_id",
+            showIf: value => localeId === value,
+            forceShowIf: true
           })}
+          formMethods={formMethods}
+          formMode={formMode}
         />
       );
     });
+  };
 
   useEffect(() => {
     if (locales?.toSeq()?.size) {
       const localeId = locales?.first()?.get("id");
 
       setSelectedLocaleId(localeId);
-      setValue("selected_locale_id", localeId);
+      setValue("selected_locale_id", localeId, { shouldDirty: true });
     }
   }, [i18n]);
 
@@ -83,6 +98,8 @@ const Component = ({ getValues, setValue }) => {
           onChange: onLocaleIdChange,
           option_strings_text: locales.toJS()
         })}
+        formMethods={formMethods}
+        formMode={formMode}
       />
       <Grid container spacing={1}>
         <Grid item xs={12} md={12}>
@@ -108,8 +125,10 @@ const Component = ({ getValues, setValue }) => {
               display_name: "",
               name: "translations.name.en",
               type: TEXT_FIELD,
-              onBlur: e => onEnglishTextChange(e)
+              onBlur: event => onEnglishTextChange(event)
             })}
+            formMethods={formMethods}
+            formMode={formMode}
           />
         </Grid>
         <Grid item xs={12} md={3} className={css.translationsRow}>
@@ -126,8 +145,10 @@ const Component = ({ getValues, setValue }) => {
               display_name: "",
               name: "translations.description.en",
               type: TEXT_FIELD,
-              onBlur: e => onEnglishTextChange(e)
+              onBlur: event => onEnglishTextChange(event)
             })}
+            formMethods={formMethods}
+            formMode={formMode}
           />
         </Grid>
         <Grid item xs={12} md={3} className={css.translationsRow}>
@@ -160,8 +181,8 @@ Component.displayName = NAME;
 Component.whyDidYouRender = true;
 
 Component.propTypes = {
-  getValues: PropTypes.func.isRequired,
-  setValue: PropTypes.func.isRequired
+  formMethods: PropTypes.object.isRequired,
+  mode: PropTypes.string.isRequired
 };
 
 export default Component;

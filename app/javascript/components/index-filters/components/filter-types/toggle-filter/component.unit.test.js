@@ -19,13 +19,13 @@ describe("<ToggleFilter>", () => {
   };
 
   it("renders panel", () => {
-    const { component } = setupMockFormComponent(ToggleFilter, props);
+    const { component } = setupMockFormComponent(ToggleFilter, { props, includeFormProvider: true });
 
     expect(component.exists("Panel")).to.be.true;
   });
 
   it("renders toggle buttons", () => {
-    const { component } = setupMockFormComponent(ToggleFilter, props);
+    const { component } = setupMockFormComponent(ToggleFilter, { props, includeFormProvider: true });
 
     ["option-1", "option-2"].forEach(option => expect(component.exists(`button[value='${option}']`)).to.be.true);
   });
@@ -42,7 +42,7 @@ describe("<ToggleFilter>", () => {
       setMoreSectionFilters: () => {},
       setReset: () => {}
     };
-    const { component } = setupMockFormComponent(ToggleFilter, newProps);
+    const { component } = setupMockFormComponent(ToggleFilter, { props: newProps, includeFormProvider: true });
     const clone = { ...component.find(ToggleFilter).props() };
 
     ["option-1", "option-2"].forEach(option => expect(component.exists(`button[value='${option}']`)).to.be.true);
@@ -77,7 +77,7 @@ describe("<ToggleFilter>", () => {
       setReset: () => {}
     };
 
-    const { component } = setupMockFormComponent(ToggleFilter, newProps);
+    const { component } = setupMockFormComponent(ToggleFilter, { props: newProps, includeFormProvider: true });
     const toggleFilter = component.find("button").at(1);
 
     expect(toggleFilter).to.have.lengthOf(1);

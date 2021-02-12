@@ -39,7 +39,7 @@ Component.propTypes = {
   closeHandler: PropTypes.func.isRequired,
   dialogActions: PropTypes.object,
   dialogSubtitle: PropTypes.string,
-  dialogTitle: PropTypes.string.isRequired,
+  dialogTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   disableClose: PropTypes.bool
 };
 

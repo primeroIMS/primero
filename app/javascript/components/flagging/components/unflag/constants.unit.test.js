@@ -4,7 +4,7 @@ describe("Unflag - Constants", () => {
   it("should have known properties", () => {
     const clonedConstants = { ...constants };
 
-    ["NAME", "UNFLAG_DIALOG"].forEach(property => {
+    ["NAME", "UNFLAG_DIALOG", "FORM_ID"].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];
     });

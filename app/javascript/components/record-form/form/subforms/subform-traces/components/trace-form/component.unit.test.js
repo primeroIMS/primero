@@ -1,5 +1,3 @@
-import { fromJS } from "immutable";
-
 import { setupMockFormComponent } from "../../../../../../../test";
 import FormSection from "../../../../../../form/components/form-section";
 import TraceActions from "../trace-actions";
@@ -22,7 +20,7 @@ describe("<RecordForm>/form/subforms/<TracesForm>", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(TracesForm, props, fromJS({})));
+    ({ component } = setupMockFormComponent(TracesForm, { props }));
   });
 
   it("should render the TraceActions", () => {

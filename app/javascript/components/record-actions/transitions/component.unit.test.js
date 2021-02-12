@@ -119,7 +119,7 @@ describe("<Transitions />", () => {
           "setPending",
           "selectedIds",
           "mode",
-          "referralRef",
+          "formID",
           "disabled",
           "setDisabled",
           "handleClose"
@@ -150,11 +150,6 @@ describe("<Transitions />", () => {
         const referralForm = component.find(Referral);
 
         expect(referralForm.props().setDisabled).to.be.a("function");
-      });
-      it("should check the referralRef prop", () => {
-        const referralForm = component.find(Referral);
-
-        expect(referralForm.props().referralRef).to.be.an("object");
       });
 
       it("should check the recordType prop", () => {

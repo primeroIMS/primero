@@ -7,8 +7,9 @@ import { Controller } from "react-hook-form";
 import CheckboxGroup from "./checkbox-group";
 import styles from "./styles.css";
 
-const CheckboxInput = ({ commonInputProps, options, metaInputProps }) => {
+const CheckboxInput = ({ commonInputProps, options, metaInputProps, formMethods }) => {
   const css = makeStyles(styles)();
+  const { control } = formMethods;
   const { name, error, required, label, helperText } = commonInputProps;
   const { inlineCheckboxes } = metaInputProps;
 
@@ -19,6 +20,7 @@ const CheckboxInput = ({ commonInputProps, options, metaInputProps }) => {
       </FormLabel>
       <FormGroup row={inlineCheckboxes}>
         <Controller
+          control={control}
           name={name}
           as={CheckboxGroup}
           options={options}
@@ -43,6 +45,7 @@ CheckboxInput.propTypes = {
     name: PropTypes.string.isRequired,
     required: PropTypes.bool
   }),
+  formMethods: PropTypes.object.isRequired,
   metaInputProps: PropTypes.shape({
     inlineCheckboxes: PropTypes.bool
   }),

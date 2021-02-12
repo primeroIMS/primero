@@ -7,11 +7,10 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useI18n } from "../../../../../i18n";
 import { getSavingRecord } from "../../selectors";
 import { FormAction } from "../../../../../form";
-import bindFormSubmit from "../../../../../../libs/submit-form";
 
 import { NAME } from "./constants";
 
-const Component = ({ formMode, formRef, handleCancel, limitedProductionSite }) => {
+const Component = ({ formMode, handleSubmit, handleCancel, limitedProductionSite }) => {
   const i18n = useI18n();
   const saving = useSelector(state => getSavingRecord(state));
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
@@ -24,7 +23,7 @@ const Component = ({ formMode, formRef, handleCancel, limitedProductionSite }) =
         rest={{ hide: limitedProductionSite }}
       />
       <FormAction
-        actionHandler={() => bindFormSubmit(formRef)}
+        actionHandler={handleSubmit}
         text={i18n.t("buttons.save")}
         startIcon={<CheckIcon />}
         savingRecord={saving}
@@ -42,6 +41,7 @@ Component.propTypes = {
   formMode: PropTypes.object.isRequired,
   formRef: PropTypes.object.isRequired,
   handleCancel: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
   limitedProductionSite: PropTypes.bool
 };
 
