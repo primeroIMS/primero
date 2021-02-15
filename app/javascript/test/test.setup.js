@@ -2,6 +2,7 @@ import chai from "chai";
 import Enzyme from "enzyme";
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
 import sinonChai from "sinon-chai";
+import "mutationobserver-shim";
 import chaiImmutable from "chai-immutable";
 import indexedDB from "fake-indexeddb";
 import IDBKeyRange from "fake-indexeddb/lib/FDBKeyRange";
@@ -13,12 +14,6 @@ import IDBIndex from "fake-indexeddb/lib/FDBIndex";
 import IDBCursor from "fake-indexeddb/lib/FDBCursor";
 import get from "lodash/get";
 import { parseISO, format as formatDate } from "date-fns";
-
-const defaultHtml = '<!doctype html><html><head><meta charset="utf-8"></head><body></body></html>';
-
-require("jsdom-global")(defaultHtml, { url: "https://localhost/" });
-
-require("mutationobserver-shim");
 
 chai.use(chaiImmutable);
 chai.use(sinonChai);
