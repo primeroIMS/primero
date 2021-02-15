@@ -17,7 +17,8 @@ const subformForms = ({
   cssTranslationField,
   locales,
   currentValues,
-  subform
+  subform,
+  limitedProductionSite
 }) => {
   const subformSection = currentValues[subform.get("unique_id")]
     ? fromJS({
@@ -39,7 +40,8 @@ const subformForms = ({
           display_name: `${i18n.t("home.en")}: ${subformName}`,
           name: `subform_section.name.${locale.get("id")}`,
           type: TEXT_FIELD,
-          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
+          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField,
+          disabled: limitedProductionSite
         })
       )
     }),
@@ -51,7 +53,8 @@ const subformForms = ({
           display_name: `${i18n.t("home.en")}: ${subformDescription}`,
           name: `subform_section.description.${locale.get("id")}`,
           type: TEXT_FIELD,
-          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
+          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField,
+          disabled: limitedProductionSite
         })
       )
     })
@@ -77,7 +80,8 @@ export const translationsFieldForm = ({
   locales,
   field,
   subform,
-  currentValues
+  currentValues,
+  limitedProductionSite
 }) => {
   const {
     display_name: displayName,
@@ -95,7 +99,8 @@ export const translationsFieldForm = ({
           display_name: `${i18n.t("home.en")}: ${displayName?.en || ""}`,
           name: `${field.get("name")}.display_name.${locale.get("id")}`,
           type: TEXT_FIELD,
-          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
+          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField,
+          disabled: limitedProductionSite
         })
       )
     }),
@@ -107,7 +112,8 @@ export const translationsFieldForm = ({
           display_name: `${i18n.t("home.en")}: ${helpText?.en || ""}`,
           name: `${field.get("name")}.help_text.${locale.get("id")}`,
           type: TEXT_FIELD,
-          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
+          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField,
+          disabled: limitedProductionSite
         })
       )
     }),
@@ -119,7 +125,8 @@ export const translationsFieldForm = ({
           display_name: `${i18n.t("home.en")}: ${guidingQuestions?.en || ""}`,
           name: `${field.get("name")}.guiding_questions.${locale.get("id")}`,
           type: TEXT_FIELD,
-          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
+          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField,
+          disabled: limitedProductionSite
         })
       )
     })
@@ -134,7 +141,8 @@ export const translationsFieldForm = ({
           display_name: `${i18n.t("home.en")}: ${tickBoxLabel?.en || ""}`,
           name: `${field.get("name")}.tick_box_label.${locale.get("id")}`,
           type: TEXT_FIELD,
-          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField
+          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField,
+          disabled: limitedProductionSite
         })
       )
     })
@@ -163,7 +171,8 @@ export const translationsFieldForm = ({
           cssTranslationField,
           locales,
           subform,
-          currentValues
+          currentValues,
+          limitedProductionSite
         })
       : fieldForms),
     ...(field.get("type") === TICK_FIELD ? tickBoxForm : [])

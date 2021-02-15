@@ -70,6 +70,8 @@ export const getFormField = fieldOptions => {
     return { forms: [], validationSchema: {} };
   }
 
+  // const updatedFieldOptions = { ...fieldOptions, field: field.set("disabled", limitedProductionSite) };
+
   switch (field?.get("type")) {
     case DATE_FIELD:
       return dateFieldForm(fieldOptions);

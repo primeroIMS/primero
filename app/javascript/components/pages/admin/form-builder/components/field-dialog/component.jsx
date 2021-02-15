@@ -76,7 +76,8 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     isNested,
     onManageTranslations: () => {
       setDialog({ dialog: FieldTranslationsDialogName, open: true });
-    }
+    },
+    limitedProductionSite
   });
   const formMethods = useForm({ resolver: yupResolver(validationSchema) });
   const {

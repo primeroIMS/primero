@@ -6,23 +6,25 @@ import { validateEnglishName } from "../../../utils";
 import { generalForm, generalFields, subform, visibilityFields, visibilityForm } from "./base";
 
 /* eslint-disable import/prefer-default-export */
-export const subformField = ({ field, i18n, formMode, onManageTranslations }) => {
+export const subformField = ({ field, i18n, formMode, onManageTranslations, limitedProductionSite }) => {
   const fieldName = field.get("name");
   const { showOn, visible, mobileVisible, hideOnViewPage } = visibilityFields({
     fieldName,
-    i18n
+    i18n,
+    limitedProductionSite
   });
   const { disabled } = generalFields({ fieldName, formMode, i18n });
 
   return {
     forms: fromJS([
-      subform({ i18n }),
+      subform({ i18n, limitedProductionSite }),
       generalForm({
         fields: [disabled],
         fieldName,
         formMode,
         i18n,
-        onManageTranslations
+        onManageTranslations,
+        limitedProductionSite
       }),
       visibilityForm({
         fieldName,

@@ -119,7 +119,8 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
       field,
       subform: selectedSubform,
       currentValues,
-      isNested
+      isNested,
+      limitedProductionSite
     }).map(form => (
       <FormSection formSection={form} key={form.unique_id} formMode={formMode} formMethods={formMethods} />
     ));
