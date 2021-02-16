@@ -14,6 +14,7 @@ export const HTML_2_PDF_OPTIONS = (values, record, customFilenameField) => ({
     class: domtoimage,
     method: "toCanvas",
     options: {
+      scale: window.devicePixelRatio || 1,
       quality: 1,
       style: {
         display: "block"

@@ -50,12 +50,12 @@ export const addPageHeaderFooter = async (pdf, mainHeaderRef, secondaryHeaderRef
 
   mainHeaderHtml.style.display = "block";
   secondaryHeaderHtml.style.display = "block";
-
+  const options = { scale: window.devicePixelRatio || 1 };
   const totalPages = pdf.internal.getNumberOfPages();
   const pageContentWidth = pdf.internal.pageSize.getWidth() - PAGE_MARGIN;
   const pageContentHeight = pdf.internal.pageSize.getHeight() - PAGE_MARGIN;
-  const mainHeaderImage = await domtoimage.toPng(mainHeaderHtml);
-  const secondaryHeaderImage = await domtoimage.toPng(secondaryHeaderHtml);
+  const mainHeaderImage = await domtoimage.toPng(mainHeaderHtml, options);
+  const secondaryHeaderImage = await domtoimage.toPng(secondaryHeaderHtml, options);
 
   for (let page = 1; page <= totalPages; page += 1) {
     pdf.setPage(page);
