@@ -4,6 +4,27 @@
 class Role < ApplicationRecord
   include ConfigurationRecord
 
+  SUPER_ROLE_PERMISSIONS = {
+    'case' => ['manage'],
+    'role' => ['manage'],
+    'user' => ['manage'],
+    'agency' => ['manage'],
+    'report' => ['manage'],
+    'system' => ['manage'],
+    'incident' => ['manage'],
+    'metadata' => ['manage'],
+    'user_group' => ['manage']
+  }.freeze
+
+  ADMIN_ROLE_PERMISSIONS = {
+    'role' => ['manage'],
+    'user' => ['manage'],
+    'agency' => ['manage'],
+    'system' => ['manage'],
+    'metadata' => ['manage'],
+    'user_group' => ['manage']
+  }.freeze
+
   has_and_belongs_to_many :form_sections, -> { distinct }
   has_and_belongs_to_many :primero_modules, -> { distinct }
 

@@ -141,9 +141,8 @@ class User < ApplicationRecord
         users = users.where(filters.except('user_group_ids'))
         users = filter_with_groups(users, filters)
       end
-      if user.present? && user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
-        users = users.where(organization: user.organization)
-      end
+
+      users = filter_for_user(users, user)
 
       results = { total: users.size }
       pagination = { per_page: 20, page: 1 } if pagination.blank?
@@ -151,6 +150,32 @@ class User < ApplicationRecord
       users = users.limit(pagination[:per_page]).offset(pagination[:offset])
       users = users.order(sort) if sort.present?
       results.merge(users: users)
+    end
+
+    def filter_for_user(users, user)
+      return users if user.blank? || user.super_user?
+
+      filtered_users = users.joins(:role).where.not('roles.permissions @> ?', Role::SUPER_ROLE_PERMISSIONS.to_json)
+
+      return filtered_users if user.user_admin?
+
+      filtered_users = filtered_users.where
+                                     .not('roles.permissions @> ?', Role::ADMIN_ROLE_PERMISSIONS.to_json)
+                                     .or(filtered_users.where.not(roles: { group_permission: Permission::ADMIN_ONLY }))
+
+      return filtered_users.where(organization: user.organization) if user.agency_read?
+
+      filter_for_permission_group(filtered_users, user)
+    end
+
+    def filter_for_permission_group(users, user)
+      return users if user.blank? || user.group_permission?(Permission::ALL)
+
+      if user.group_permission?(Permission::GROUP)
+        return users.joins(:user_groups).where(user_groups: { id: user.user_group_ids })
+      end
+
+      users.where(user_name: user.user_name)
     end
 
     def users_for_assign(user, model)
@@ -495,6 +520,10 @@ class User < ApplicationRecord
   def user_groups_ids=(user_group_ids)
     @refresh_associated_user_groups = true
     super
+  end
+
+  def agency_read?
+    permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end
 
   private
