@@ -108,7 +108,7 @@ describe Api::V2::RolesController, type: :request do
       expect(json['data'].first['name']).to be
       expect(json['data'].first['module_unique_ids'].first).to be
       expect(json['data'].first['permissions']).to be
-      expect(json['data'].first['form_section_unique_ids'].first).to be
+      expect(json['data'].first['form_section_read_write'].first).to be
     end
 
     it 'list of the first 100 roles per page' do
@@ -269,7 +269,7 @@ describe Api::V2::RolesController, type: :request do
           transfer: false,
           is_manager: true,
           module_unique_ids: [@cp_a.unique_id, @cp_b.unique_id],
-          form_section_unique_ids: { A: 'rw', C: 'r' },
+          form_section_read_write: { A: 'rw', C: 'r' },
           permissions: {
             agency: %w[
               read
@@ -296,7 +296,7 @@ describe Api::V2::RolesController, type: :request do
       post '/api/v2/roles', params: params
       expect(response).to have_http_status(200)
       expect(json['data']['name']).to eq(params[:data][:name])
-      expect(json['data']['form_section_unique_ids']).to eq('A' => 'rw', 'C' => 'r')
+      expect(json['data']['form_section_read_write']).to eq('A' => 'rw', 'C' => 'r')
       expect(json['data']['permissions']).to eq(params[:data][:permissions].deep_stringify_keys)
     end
 
@@ -404,7 +404,7 @@ describe Api::V2::RolesController, type: :request do
           disabled: false,
           is_manager: true,
           reporting_location_level: 1,
-          form_section_unique_ids: { 'C' => 'rw'},
+          form_section_read_write: { 'C' => 'rw'},
           module_unique_ids: [@cp_b.unique_id],
           permissions: {
             agency: %w[
@@ -452,7 +452,7 @@ describe Api::V2::RolesController, type: :request do
           disabled: false,
           is_manager: true,
           reporting_location_level: 1,
-          form_section_unique_ids: { C: 'r' },
+          form_section_read_write: { C: 'r' },
           module_unique_ids: [@cp_b.unique_id]
         }
       }

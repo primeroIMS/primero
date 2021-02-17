@@ -53,7 +53,7 @@ describe Api::V2::UsersController, type: :request do
         )
       ],
       module_unique_ids: [@cp.unique_id],
-      form_section_unique_ids: { @form1.unique_id => 'r', @form2.unique_id => 'r' }
+      form_section_read_write: { @form1.unique_id => 'r', @form2.unique_id => 'r' }
     )
     @role.save!
     @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1', logo_icon: FilesTestHelper.logo,

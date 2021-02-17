@@ -16,7 +16,7 @@ describe PermittedFieldService, search: true do
           actions: [Permission::INCIDENT_FROM_CASE]
         )
       ],
-      form_section_unique_ids: { form.unique_id => 'rw' }
+      form_section_read_write: { form.unique_id => 'rw' }
     )
   end
   let(:agency) do
