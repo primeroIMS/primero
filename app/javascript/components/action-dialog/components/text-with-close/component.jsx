@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import CloseIcon from "@material-ui/icons/Close";
 import { DialogTitle, IconButton } from "@material-ui/core";

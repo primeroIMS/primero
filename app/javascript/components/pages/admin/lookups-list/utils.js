@@ -1,8 +1,6 @@
 /* eslint-disable
 import/prefer-default-export, react/display-name, jsx-a11y/click-events-have-key-events, react/no-multi-comp */
 
-import React from "react";
-
 export const columns = (i18n, css) => [
   {
     label: "id",

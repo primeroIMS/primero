@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
-import React, { useCallback, useEffect } from "react";
+import { memo, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { batch, useSelector, useDispatch } from "react-redux";
 import { useForm, useWatch } from "react-hook-form";
@@ -404,4 +404,4 @@ Component.propTypes = {
   onSuccess: PropTypes.func
 };
 
-export default React.memo(Component);
+export default memo(Component);

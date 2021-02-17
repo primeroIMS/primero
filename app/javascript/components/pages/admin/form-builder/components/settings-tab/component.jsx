@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
@@ -89,4 +89,4 @@ Component.propTypes = {
 
 Component.whyDidYouRender = true;
 
-export default React.memo(Component);
+export default memo(Component);

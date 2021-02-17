@@ -2,7 +2,6 @@ import { Card, CardHeader, CardContent } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import PropTypes from "prop-types";
-import React from "react";
 
 import LoadingIndicator from "../../loading-indicator";
 import DisableOffline from "../../disable-offline";

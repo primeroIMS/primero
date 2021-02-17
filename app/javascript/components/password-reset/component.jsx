@@ -1,4 +1,3 @@
-import React from "react";
 import qs from "qs";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

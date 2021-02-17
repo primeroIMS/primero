@@ -1,4 +1,3 @@
-import React from "react";
 import { DialogTitle, IconButton } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../test";

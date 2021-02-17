@@ -7,6 +7,8 @@ module.exports = {
   extends: ["airbnb", "prettier", "prettier/react"],
   plugins: ["react", "prettier", "react-hooks", "import"],
   rules: {
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [
       1,
       {

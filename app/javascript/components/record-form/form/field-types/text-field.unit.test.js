@@ -1,6 +1,5 @@
 import { TextField as MuiTextField } from "formik-material-ui";
 import { ButtonBase } from "@material-ui/core";
-import React from "react";
 import { Route } from "react-router-dom";
 
 import { setupMountedComponent, stub } from "../../../../test";

@@ -1,5 +1,4 @@
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import React from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { compareDesc, parseISO } from "date-fns";

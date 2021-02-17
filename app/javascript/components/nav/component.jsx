@@ -1,5 +1,5 @@
 import { Drawer, List, useMediaQuery, Hidden, Divider, IconButton } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { push } from "connected-react-router";

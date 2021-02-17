@@ -3,7 +3,7 @@ import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 import PropTypes from "prop-types";
 import qs from "qs";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, withRouter } from "react-router-dom";

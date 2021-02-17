@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { compact } from "lodash";
 import { useSelector, useDispatch } from "react-redux";

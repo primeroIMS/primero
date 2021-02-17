@@ -1,4 +1,4 @@
-module.exports = function (api) {
+module.exports = api => {
   const validEnv = ["development", "test", "production"];
   const currentEnv = api.env();
   const isDevelopmentEnv = api.env("development");

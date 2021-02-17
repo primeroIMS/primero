@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { fromJS } from "immutable";
 import { withRouter } from "react-router-dom";

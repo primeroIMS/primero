@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { AppBar, Toolbar, Box } from "@material-ui/core";
 

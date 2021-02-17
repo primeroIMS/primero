@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps, no-param-reassign */
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import uniqBy from "lodash/uniqBy";

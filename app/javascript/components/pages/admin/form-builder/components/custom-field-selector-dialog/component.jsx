@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   Radio,
@@ -165,7 +165,7 @@ const Component = ({ isSubform }) => {
             }
 
             return (
-              <React.Fragment key={field}>
+              <Fragment key={field}>
                 <ListItem selected={isItemSelected(name)} onClick={() => handleListItem(name)}>
                   <ListItemText className={css.label}>
                     <div>{i18n.t(`fields.${name}`)}</div>
@@ -182,7 +182,7 @@ const Component = ({ isSubform }) => {
                   </ListItemSecondaryAction>
                 </ListItem>
                 <Divider />
-              </React.Fragment>
+              </Fragment>
             );
           })}
         </List>

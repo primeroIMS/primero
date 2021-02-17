@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Icon, makeStyles } from "@material-ui/core";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";

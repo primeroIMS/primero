@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Box, IconButton, makeStyles, Typography } from "@material-ui/core";

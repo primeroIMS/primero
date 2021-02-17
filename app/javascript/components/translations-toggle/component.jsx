@@ -1,6 +1,6 @@
 import { Menu, MenuItem, Button, makeStyles } from "@material-ui/core";
 import LanguageIcon from "@material-ui/icons/Language";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 import { DropdownDoubleIcon } from "../../images/primero-icons";

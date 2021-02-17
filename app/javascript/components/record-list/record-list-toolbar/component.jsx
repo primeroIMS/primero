@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Box, IconButton } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";

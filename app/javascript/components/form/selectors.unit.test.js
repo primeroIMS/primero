@@ -82,11 +82,11 @@ describe("Forms - Selectors", () => {
           },
           {
             id: "Agency",
-            display_text: "agency.label",
+            display_text: "agency.label"
           },
           {
             id: "Location",
-            display_text: "location.label",
+            display_text: "location.label"
           },
           {
             id: "User",

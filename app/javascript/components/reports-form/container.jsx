@@ -5,7 +5,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { push } from "connected-react-router";
 import omit from "lodash/omit";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 

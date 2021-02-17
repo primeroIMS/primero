@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
