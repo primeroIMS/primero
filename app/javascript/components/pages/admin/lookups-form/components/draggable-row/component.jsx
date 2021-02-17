@@ -46,6 +46,7 @@ const Component = ({
     <div className={css.dragIndicatorContainer}>
       <SwitchInput
         commonInputProps={{ name: `disabled.${uniqueId}`, disabled: isDragDisabled }}
+        metaInputProps={{ selectedValue: true }}
         formMethods={formMethods}
       />
     </div>

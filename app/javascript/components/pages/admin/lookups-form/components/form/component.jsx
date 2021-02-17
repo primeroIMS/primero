@@ -122,6 +122,8 @@ const Component = ({ mode, lookup }) => {
 
   const handleAdd = () => setItems([...items, `${TEMP_OPTION_ID}_${items.length}`]);
 
+  console.log("ITEMS", items);
+
   const renderLookupLocalizedName = () =>
     locales.length &&
     locales.map(locale => {
