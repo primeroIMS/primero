@@ -61,12 +61,11 @@ module Api::V2::Concerns::Record
   end
 
   def permit_fields
-    read_write = action_name.in?(%w[create update])
     @permitted_field_names = PermittedFieldService.new(
       current_user,
       model_class,
       params[:record_action]
-    ).permitted_field_names(read_write)
+    ).permitted_field_names(write?)
   end
 
   def select_fields_for_show
@@ -113,5 +112,11 @@ module Api::V2::Concerns::Record
 
   def search_filters
     SearchFilterService.build_filters(params, @permitted_field_names)
+  end
+
+  private
+
+  def write?
+    action_name.in?(%w[create update])
   end
 end

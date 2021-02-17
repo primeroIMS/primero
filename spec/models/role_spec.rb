@@ -326,7 +326,7 @@ describe Role do
         referral: false,
         transfer: false,
         is_manager: true,
-        form_section_unique_ids: { A: 'rw' },
+        form_section_read_write: { A: 'rw' },
         module_unique_ids: [@module_cp.unique_id],
         permissions: {
           agency: %w[
@@ -358,7 +358,7 @@ describe Role do
         referral: false,
         transfer: false,
         is_manager: true,
-        form_section_unique_ids: { A: 'rw' },
+        form_section_read_write: { A: 'rw' },
         module_unique_ids: [@module_cp.unique_id]
       }
     end
@@ -370,7 +370,7 @@ describe Role do
         referral: false,
         transfer: false,
         is_manager: true,
-        form_section_unique_ids: { A: 'rw' }
+        form_section_read_write: { A: 'rw' }
       }
     end
     let(:properties_without_forms) do
@@ -475,7 +475,7 @@ describe Role do
         configuration_hash = role.configuration_hash
         expect(configuration_hash['name']).to eq(role.name)
         expect(configuration_hash['permissions'][Permission::CASE]).to eq([Permission::READ])
-        expect(configuration_hash['form_section_unique_ids']).to eq('A' => 'rw', 'B' => 'rw')
+        expect(configuration_hash['form_section_read_write']).to eq('A' => 'rw', 'B' => 'rw')
         expect(configuration_hash['module_unique_ids']).to eq([module1.unique_id])
       end
     end
@@ -486,13 +486,13 @@ describe Role do
           'unique_id' => 'role-test2',
           'name' => 'Role2',
           'permissions' => { 'case' => ['read'], 'objects' => {} },
-          'form_section_unique_ids' => { A: 'rw', B: 'r' },
+          'form_section_read_write' => { A: 'rw', B: 'r' },
           'module_unique_ids' => [module1.unique_id]
         }
         new_role = Role.create_or_update!(configuration_hash)
         expect(new_role.configuration_hash['unique_id']).to eq(configuration_hash['unique_id'])
         expect(new_role.configuration_hash['permissions']['case']).to eq(['read'])
-        expect(new_role.configuration_hash['form_section_unique_ids']).to eq('A' => 'rw', 'B' => 'r')
+        expect(new_role.configuration_hash['form_section_read_write']).to eq('A' => 'rw', 'B' => 'r')
         expect(new_role.configuration_hash['module_unique_ids']).to eq([module1.unique_id])
         expect(new_role.id).not_to eq(role.id)
       end
@@ -502,7 +502,7 @@ describe Role do
           'unique_id' => 'role-test',
           'name' => 'Role',
           'permissions' => { 'case' => %w[read write], 'objects' => {} },
-          'form_section_unique_ids' => { A: 'rw' },
+          'form_section_read_write' => { A: 'rw' },
           'module_unique_ids' => [module1.unique_id]
         }
 
@@ -529,7 +529,7 @@ describe Role do
               actions: [Permission::READ]
             )
           ],
-          form_section_unique_ids: { form1.unique_id => 'rw', form2.unique_id => 'rw' }
+          form_section_read_write: { form1.unique_id => 'rw', form2.unique_id => 'rw' }
         )
       end
 

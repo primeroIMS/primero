@@ -38,12 +38,12 @@ class PermittedFieldService
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/PerceivedComplexity
-  def permitted_field_names(read_write = false)
+  def permitted_field_names(writeable = false)
     return @permitted_field_names if @permitted_field_names.present?
     return permitted_field_names_from_action_name if action_name.present?
 
     @permitted_field_names = PERMITTED_CORE_FIELDS
-    @permitted_field_names += user.permitted_field_names_from_forms(model_class.parent_form, false, read_write)
+    @permitted_field_names += user.permitted_field_names_from_forms(model_class.parent_form, false, writeable)
     @permitted_field_names += PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
