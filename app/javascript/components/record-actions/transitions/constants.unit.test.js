@@ -1,16 +1,17 @@
-import * as transitionsConstants from "./constants";
+import * as constants from "./constants";
 
 describe("<Transitions /> - Constants - RecordActions", () => {
   it("should have known constant", () => {
-    const constants = { ...transitionsConstants };
+    const clonedConstants = { ...constants };
 
-    expect(constants, "DEPRECATED TRANSFER_ACTIONS_NAME").to.not.have.property("TRANSFER_ACTIONS_NAME");
-    expect(constants, "DEPRECATED REFERRAL_ACTIONS_NAME").to.not.have.property("REFERRAL_ACTIONS_NAME");
-    expect(constants).to.have.property("NAME");
+    expect(clonedConstants, "DEPRECATED TRANSFER_ACTIONS_NAME").to.not.have.property("TRANSFER_ACTIONS_NAME");
+    expect(clonedConstants, "DEPRECATED REFERRAL_ACTIONS_NAME").to.not.have.property("REFERRAL_ACTIONS_NAME");
 
-    delete constants.NAME;
-    delete constants.REFERRAL_TYPE;
+    ["NAME", "REFERRAL_TYPE", "REFERRAL_FORM_ID"].forEach(property => {
+      expect(clonedConstants).to.have.property(property);
+      delete clonedConstants[property];
+    });
 
-    expect(constants).to.be.empty;
+    expect(clonedConstants).to.be.empty;
   });
 });

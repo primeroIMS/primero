@@ -18,13 +18,13 @@ describe("<ChipsFilter>", () => {
   };
 
   it("renders panel", () => {
-    const { component } = setupMockFormComponent(ChipsFilter, props);
+    const { component } = setupMockFormComponent(ChipsFilter, { props, includeFormProvider: true });
 
     expect(component.exists("Panel")).to.be.true;
   });
 
   it("renders chip inputs", () => {
-    const { component } = setupMockFormComponent(ChipsFilter, props);
+    const { component } = setupMockFormComponent(ChipsFilter, { props, includeFormProvider: true });
 
     ["option-1", "option-2"].forEach(option => expect(component.exists(`input[value='${option}']`)).to.be.true);
   });
@@ -41,7 +41,7 @@ describe("<ChipsFilter>", () => {
       setMoreSectionFilters: () => {},
       setReset: () => {}
     };
-    const { component } = setupMockFormComponent(ChipsFilter, newProps);
+    const { component } = setupMockFormComponent(ChipsFilter, { props: newProps, includeFormProvider: true });
 
     ["option-1", "option-2"].forEach(option => expect(component.exists(`input[value='${option}']`)).to.be.true);
 
@@ -77,7 +77,7 @@ describe("<ChipsFilter>", () => {
       setReset: () => {}
     };
 
-    const { component } = setupMockFormComponent(ChipsFilter, newProps);
+    const { component } = setupMockFormComponent(ChipsFilter, { props: newProps, includeFormProvider: true });
     const chipFilter = component.find("input[type='checkbox']").at(0);
 
     expect(chipFilter).to.have.lengthOf(1);

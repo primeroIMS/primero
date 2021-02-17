@@ -39,7 +39,7 @@ Component.propTypes = {
   actionUrl: PropTypes.string,
   closeSnackbar: PropTypes.func.isRequired,
   hideCloseIcon: PropTypes.bool,
-  snackKey: PropTypes.number
+  snackKey: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
 export default Component;

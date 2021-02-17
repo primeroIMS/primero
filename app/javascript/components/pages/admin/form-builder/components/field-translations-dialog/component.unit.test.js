@@ -8,15 +8,14 @@ import FieldTranslationsDialog from "./component";
 import { NAME } from "./constants";
 
 describe("<FieldTranslationsDialog />", () => {
-  const initialState = fromJS({
+  const state = fromJS({
     ui: { dialogs: { [NAME]: true } },
     application: { primero: { locales: ["en", "fr", "ar"] } }
   });
 
   it("should render <FieldTranslationsDialog />", () => {
-    const { component } = setupMockFormComponent(
-      FieldTranslationsDialog,
-      {
+    const { component } = setupMockFormComponent(FieldTranslationsDialog, {
+      props: {
         field: fromJS({
           name: "field_1",
           type: TEXT_FIELD,
@@ -27,17 +26,15 @@ describe("<FieldTranslationsDialog />", () => {
         },
         mode: "edit"
       },
-      {},
-      initialState
-    );
+      state
+    });
 
     expect(component.find(FieldTranslationsDialog)).to.have.lengthOf(1);
   });
 
   it("should render translation fields for TEXT_FIELD", () => {
-    const { component } = setupMockFormComponent(
-      FieldTranslationsDialog,
-      {
+    const { component } = setupMockFormComponent(FieldTranslationsDialog, {
+      props: {
         field: fromJS({
           name: "field_1",
           type: TEXT_FIELD,
@@ -47,9 +44,8 @@ describe("<FieldTranslationsDialog />", () => {
         open: true,
         mode: "edit"
       },
-      {},
-      initialState
-    );
+      state
+    });
 
     const expectedFieldNames = [
       "locale_id",
@@ -71,9 +67,8 @@ describe("<FieldTranslationsDialog />", () => {
   });
 
   it("should render translation fields for SUBFORM_SECTION", () => {
-    const { component } = setupMockFormComponent(
-      FieldTranslationsDialog,
-      {
+    const { component } = setupMockFormComponent(FieldTranslationsDialog, {
+      props: {
         field: fromJS({
           name: "field_1",
           type: SUBFORM_SECTION,
@@ -83,8 +78,7 @@ describe("<FieldTranslationsDialog />", () => {
         mode: "edit",
         open: true
       },
-      {},
-      initialState.merge({
+      state: state.merge({
         records: {
           admin: {
             forms: {
@@ -95,7 +89,7 @@ describe("<FieldTranslationsDialog />", () => {
           }
         }
       })
-    );
+    });
 
     const expectedFieldNames = [
       "locale_id",
@@ -115,9 +109,8 @@ describe("<FieldTranslationsDialog />", () => {
   });
 
   it("should render translation fields for TICK_FIELD", () => {
-    const { component } = setupMockFormComponent(
-      FieldTranslationsDialog,
-      {
+    const { component } = setupMockFormComponent(FieldTranslationsDialog, {
+      props: {
         field: fromJS({
           name: "field_1",
           type: TICK_FIELD
@@ -126,9 +119,8 @@ describe("<FieldTranslationsDialog />", () => {
         mode: "edit",
         open: true
       },
-      {},
-      initialState
-    );
+      state
+    });
 
     const expectedFieldNames = [
       "locale_id",
@@ -152,9 +144,8 @@ describe("<FieldTranslationsDialog />", () => {
   });
 
   it("should render translation fields for SELECT_FIELD with manual options", () => {
-    const { component } = setupMockFormComponent(
-      FieldTranslationsDialog,
-      {
+    const { component } = setupMockFormComponent(FieldTranslationsDialog, {
+      props: {
         field: fromJS({
           name: "field_1",
           type: SELECT_FIELD,
@@ -164,9 +155,8 @@ describe("<FieldTranslationsDialog />", () => {
         mode: "edit",
         open: true
       },
-      {},
-      initialState
-    );
+      state
+    });
 
     const expectedFieldNames = [
       "locale_id",

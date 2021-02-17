@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { describe } from "mocha";
 
-import { RECORD_TYPES } from "../../config";
+import { RECORD_TYPES, MODULES } from "../../config";
 import { GROUP_PERMISSIONS, ACTIONS } from "../../libs/permissions";
 
 import * as selectors from "./selectors";
@@ -50,6 +50,7 @@ const stateWithRecords = fromJS({
   application: {
     primero: {
       sandbox_ui: true,
+      config_ui: "full",
       agenciesLogoPdf: [agencyWithLogo, agency1],
       agencies_logo_options: [agencyWithLogo, agency1],
       locales: ["en", "fr", "ar"]
@@ -317,7 +318,7 @@ describe("Application - Selectors", () => {
     });
   });
 
-  describe("getAdminLevel", () => {
+  describe("getAgencyLogosPdf", () => {
     it("should return agency if fromApplication is true", () => {
       const selector = selectors.getAgencyLogosPdf(stateWithRecords, true);
 
@@ -328,6 +329,63 @@ describe("Application - Selectors", () => {
       const selector = selectors.getAgencyLogosPdf(stateWithRecords, false);
 
       expect(selector.size).to.be.equal(2);
+    });
+  });
+
+  describe("getConfigUI", () => {
+    it("should return config_ui", () => {
+      const result = selectors.getConfigUI(stateWithRecords);
+
+      expect(result).to.be.equal("full");
+    });
+
+    it("should return empty string if there is not any config_ui", () => {
+      const result = selectors.getConfigUI(stateWithNoRecords);
+
+      expect(result).to.be.empty;
+    });
+  });
+
+  describe("getLimitedConfigUI", () => {
+    it("should return true if config_ui is limited", () => {
+      const result = selectors.getLimitedConfigUI(fromJS({ application: { primero: { config_ui: "limited" } } }));
+
+      expect(result).to.be.true;
+    });
+
+    it("should return false if config_ui is not limited", () => {
+      const result = selectors.getLimitedConfigUI(stateWithRecords);
+
+      expect(result).to.be.false;
+    });
+  });
+
+  describe("getIsEnabledWebhookSyncFor", () => {
+    it("should return true if record and module have webhook sync enabled", () => {
+      const result = selectors.getIsEnabledWebhookSyncFor(
+        fromJS({
+          application: {
+            modules: [
+              {
+                unique_id: MODULES.CP,
+                options: {
+                  use_webhook_sync_for: [RECORD_TYPES.cases]
+                }
+              }
+            ]
+          }
+        }),
+        MODULES.CP,
+        RECORD_TYPES.cases
+      );
+
+      expect(result).to.be.true;
+    });
+
+    it("should return false iif record and module don't have enabled webhook sync", () => {
+      const result = selectors.getLimitedConfigUI(stateWithRecords, MODULES.CP, RECORD_TYPES.cases);
+
+      expect(result).to.be.false;
     });
   });
 });

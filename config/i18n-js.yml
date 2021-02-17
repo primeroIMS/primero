@@ -10,8 +10,10 @@
 # If you're going to use the Rails 3.1 asset pipeline, change
 # the following configuration to something like this:
 #
-   translations:
-     - file: "public/translations.js"
+fallbacks: :default_locale
+
+translations:
+  - file: "public/translations.js"
 #
 # If you're running an old version, you can use something
 # like this:

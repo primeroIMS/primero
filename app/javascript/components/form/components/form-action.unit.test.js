@@ -13,7 +13,7 @@ describe("<Form /> - components/<FormAction />", () => {
   };
 
   it("renders a Fab component", () => {
-    const { component } = setupMockFormComponent(FormAction, props);
+    const { component } = setupMockFormComponent(FormAction, { props });
     const button = component.find(ActionButton);
 
     expect(button).to.have.lengthOf(1);
@@ -25,9 +25,11 @@ describe("<Form /> - components/<FormAction />", () => {
       "when savingRecord it's true and it's not a cancel button",
     () => {
       const { component } = setupMockFormComponent(FormAction, {
-        ...props,
-        cancel: false,
-        savingRecord: true
+        props: {
+          ...props,
+          cancel: false,
+          savingRecord: true
+        }
       });
       const button = component.find(ActionButton);
 

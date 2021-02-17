@@ -1,3 +1,2 @@
-/* eslint-disable import/prefer-default-export */
-
 export const NAME = "LoginForm";
+export const FORM_ID = "login-form";

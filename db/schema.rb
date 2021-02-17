@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_28_000000) do
+ActiveRecord::Schema.define(version: 2021_02_11_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -398,6 +398,7 @@ ActiveRecord::Schema.define(version: 2021_01_28_000000) do
     t.jsonb "system_options"
     t.jsonb "approvals_labels_i18n"
     t.boolean "config_update_lock", default: false, null: false
+    t.string "configuration_file_version"
   end
 
   create_table "traces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -432,6 +433,8 @@ ActiveRecord::Schema.define(version: 2021_01_28_000000) do
     t.boolean "consent_overridden", default: false, null: false
     t.boolean "consent_individual_transfer", default: false, null: false
     t.datetime "created_at"
+    t.datetime "responded_at"
+    t.text "rejection_note"
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
   end
@@ -487,6 +490,17 @@ ActiveRecord::Schema.define(version: 2021_01_28_000000) do
     t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
+  end
+
+  create_table "webhooks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "events", default: []
+    t.string "url"
+    t.string "auth_type"
+    t.string "auth_secret_encrypted"
+    t.string "role_unique_id"
+    t.jsonb "metadata", default: {}
+    t.index ["events"], name: "index_webhooks_on_events", using: :gin
+    t.index ["url"], name: "index_webhooks_on_url", unique: true
   end
 
   create_table "whitelisted_jwts", force: :cascade do |t|

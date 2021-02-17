@@ -1,12 +1,21 @@
 import React, { useContext, createContext, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../i18n";
 import { useConnectivityStatus } from "../connectivity";
+import { currentUser } from "../user/selectors";
+import { useMemoizedSelector } from "../../libs";
 
 import { fetchSandboxUI } from "./action-creators";
-import { selectModules, selectUserModules, getApprovalsLabels, getDisabledApplication, getDemo } from "./selectors";
+import {
+  selectModules,
+  selectUserModules,
+  getApprovalsLabels,
+  getDisabledApplication,
+  getDemo,
+  getLimitedConfigUI
+} from "./selectors";
 
 const Context = createContext();
 
@@ -15,21 +24,30 @@ const ApplicationProvider = ({ children }) => {
   const i18n = useI18n();
   const { online } = useConnectivityStatus();
 
-  const modules = useSelector(state => selectModules(state));
-  const userModules = useSelector(state => selectUserModules(state));
-  const approvalsLabels = useSelector(state => getApprovalsLabels(state, i18n.locale));
-  const disabledApplication = useSelector(state => getDisabledApplication(state));
-  const demo = useSelector(state => getDemo(state));
+  const modules = useMemoizedSelector(state => selectModules(state));
+  const userModules = useMemoizedSelector(state => selectUserModules(state));
+  const approvalsLabels = useMemoizedSelector(state => getApprovalsLabels(state, i18n.locale));
+  const disabledApplication = useMemoizedSelector(state => getDisabledApplication(state));
+  const demo = useMemoizedSelector(state => getDemo(state));
+  const limitedProductionSite = useMemoizedSelector(state => getLimitedConfigUI(state));
+  const currentUserName = useMemoizedSelector(state => currentUser(state));
 
   useEffect(() => {
     dispatch(fetchSandboxUI());
   }, []);
 
-  return (
-    <Context.Provider value={{ modules, userModules, online, approvalsLabels, disabledApplication, demo }}>
-      {children}
-    </Context.Provider>
-  );
+  const value = {
+    modules,
+    userModules,
+    online,
+    approvalsLabels,
+    disabledApplication,
+    demo,
+    currentUserName,
+    limitedProductionSite
+  };
+
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
 ApplicationProvider.displayName = "ApplicationProvider";

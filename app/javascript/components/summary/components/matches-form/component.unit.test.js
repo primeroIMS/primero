@@ -15,7 +15,8 @@ describe("<MatchesForm />", () => {
     cancelHandler: () => {},
     css: {},
     i18n: { t: value => value },
-    mode: { isNew: false }
+    mode: { isNew: false },
+    matchedTracesData: fromJS([])
   };
   const formProps = {
     initialValues: {

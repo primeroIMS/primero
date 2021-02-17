@@ -61,7 +61,7 @@ describe("<RolesForm />", () => {
 
   describe("Show", () => {
     beforeEach(() => {
-      const initialState = fromJS({
+      const state = fromJS({
         records: {
           admin: {
             roles: {
@@ -102,15 +102,15 @@ describe("<RolesForm />", () => {
         }
       });
 
-      ({ component } = setupMockFormComponent(RolesForm, { mode: "show" }, {}, initialState, ["/admin/roles/10"]));
+      ({ component } = setupMockFormComponent(RolesForm, {
+        props: { mode: "show" },
+        state,
+        defaultValues: ["/admin/roles/10"]
+      }));
     });
 
     it("renders role form sections", () => {
       expect(component.find(FormSection)).to.have.lengthOf(6);
-    });
-
-    it("renders heading with action menu", () => {
-      expect(component.find(ActionsMenu)).to.have.lengthOf(1);
     });
 
     it("renders the selected modules", () => {

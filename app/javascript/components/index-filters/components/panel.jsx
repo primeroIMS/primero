@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, IconButton } from "@material-ui/core";
+import { Accordion, AccordionSummary, AccordionDetails, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import isEmpty from "lodash/isEmpty";
@@ -36,8 +36,8 @@ const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, more
   const filterLabel = buildNameFilter(name, i18n, approvalsLabels);
 
   return (
-    <ExpansionPanel className={css.panel} elevation={3} expanded={expanded} onChange={handleChange}>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+    <Accordion className={css.panel} elevation={3} expanded={expanded} onChange={handleChange}>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <div className={css.heading}>
           <div className={css.panelTitle}>{filterLabel}</div>
           {handleReset && (
@@ -51,9 +51,9 @@ const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, more
             </IconButton>
           )}
         </div>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails className={css.panelDetails}>{children}</ExpansionPanelDetails>
-    </ExpansionPanel>
+      </AccordionSummary>
+      <AccordionDetails className={css.panelDetails}>{children}</AccordionDetails>
+    </Accordion>
   );
 };
 

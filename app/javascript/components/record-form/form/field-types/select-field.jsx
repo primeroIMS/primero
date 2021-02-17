@@ -37,7 +37,9 @@ const SelectField = ({
 
   const option = field.option_strings_source || field.option_strings_text;
   const { multi_select: multiSelect } = field;
-  const value = getIn(formik.values, name);
+  const formikValue = getIn(formik.values, name);
+  const value = typeof formikValue === "boolean" ? String(formikValue) : formikValue;
+
   const defaultEmptyValue = multiSelect ? [] : null;
 
   const selectedValue = field.multi_select ? [field.selected_value] : field.selected_value;
@@ -47,7 +49,7 @@ const SelectField = ({
   const { filterState, setFilterState } = other?.filters || {};
 
   const NAMESPACE = ["transitions", REFERRAL_TYPE];
-  const [stickyOption] = useState(value);
+  const [stickyOption, setStickyOption] = useState(value);
 
   const options = useSelector(state => getOption(state, option, i18n.locale, stickyOption));
   const loading = useSelector(state => getLoading(state, NAMESPACE));
@@ -232,6 +234,12 @@ const SelectField = ({
       formik.setFieldValue(name, null, false);
     }
   }, [location]);
+
+  useEffect(() => {
+    if (value && (!stickyOption || isEmpty(stickyOption))) {
+      setStickyOption(value);
+    }
+  }, [value]);
 
   useEffect(() => {
     if (mode.isNew && selectedValue && (value === null || value?.length === 0)) {

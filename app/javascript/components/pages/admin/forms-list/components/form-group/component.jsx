@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, makeStyles } from "@material-ui/core";
+import { Accordion, AccordionSummary, AccordionDetails, makeStyles } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { createMuiTheme, MuiThemeProvider, useTheme } from "@material-ui/core/styles";
@@ -32,16 +32,16 @@ const Component = ({ name, id, index, children, isDragDisabled }) => {
       {provided => (
         <div ref={provided.innerRef} {...provided.draggableProps}>
           <MuiThemeProvider theme={themeOverrides}>
-            <ExpansionPanel elevation={3} className={css.summaryPanel}>
-              <ExpansionPanelSummary
+            <Accordion elevation={3} className={css.summaryPanel}>
+              <AccordionSummary
                 classes={{ root: css.summary, content: css.summaryContent }}
                 expandIcon={<ExpandMoreIcon />}
               >
                 <DragIndicator {...provided.dragHandleProps} isDragDisabled={isDragDisabled} />
                 {name}
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails classes={{ root: css.details }}>{children}</ExpansionPanelDetails>
-            </ExpansionPanel>
+              </AccordionSummary>
+              <AccordionDetails classes={{ root: css.details }}>{children}</AccordionDetails>
+            </Accordion>
           </MuiThemeProvider>
         </div>
       )}

@@ -26,12 +26,6 @@ const I18nProvider = ({ children }) => {
     dispatch(setLocale({ locale: value, dir: getLocaleDir(value) }));
   };
 
-  const t = (value, options) => {
-    const translation = window.I18n.t(value, options);
-
-    return isEmpty(translation) ? window.I18n.t(value, { locale: window.I18n.defaultLocale, ...options }) : translation;
-  };
-
   const getI18nStringFromObject = i18nObject => {
     if (i18nObject instanceof Object) {
       const localizedValue = i18nObject?.[locale];
@@ -67,8 +61,7 @@ const I18nProvider = ({ children }) => {
         ...window.I18n,
         changeLocale,
         getI18nStringFromObject,
-        localizeDate,
-        t
+        localizeDate
       }}
     >
       {children}

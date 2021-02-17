@@ -8,7 +8,7 @@ module Workflow
   WORKFLOW_NEW = 'new'
   WORKFLOW_CLOSED = 'closed'
   WORKFLOW_REOPENED = 'reopened'
-  WORKFLOW_SERVICE_PROVISION = 'service_provision' #Note, this status is deprecated
+  WORKFLOW_SERVICE_PROVISION = 'service_provision' # Note, this status is deprecated
   WORKFLOW_SERVICE_IMPLEMENTED = 'services_implemented'
   WORKFLOW_CASE_PLAN = 'case_plan'
   WORKFLOW_ASSESSMENT = 'assessment'
@@ -26,76 +26,75 @@ module Workflow
 
     before_create :set_workflow_new
     before_save :calculate_workflow
-
-    def set_workflow_new
-      self.workflow ||= WORKFLOW_NEW
-    end
-
-    def calculate_workflow
-      if self.status == Record::STATUS_OPEN
-        if workflow_case_reopened?
-          self.workflow = WORKFLOW_REOPENED
-        elsif workflow_services_implemented?
-          self.workflow = WORKFLOW_SERVICE_IMPLEMENTED
-        elsif workflow_service_response?
-          most_recent_service = self.most_recent_service(Serviceable::SERVICE_NOT_IMPLEMENTED)
-          if most_recent_service.present?
-            self.workflow = most_recent_service['service_response_type']
-          end
-        elsif workflow_case_plan?
-          self.workflow = WORKFLOW_CASE_PLAN
-        elsif workflow_assessment?
-          self.workflow = WORKFLOW_ASSESSMENT
-        end
-      elsif self.status == Record::STATUS_CLOSED
-        self.workflow = WORKFLOW_CLOSED
-      end
-    end
-
-    def workflow_case_reopened?
-      (self.changes_to_save_for_record.key?('case_status_reopened') ||
-       self.changes_to_save_for_record.key?('status')) &&
-      self.case_status_reopened
-    end
-
-    def workflow_services_implemented?
-      self.changes_to_save_for_record.key?('services_section') &&
-      self.services_status == Serviceable::SERVICES_ALL_IMPLEMENTED &&
-      self.module.use_workflow_service_implemented
-    end
-
-    def workflow_service_response?
-      self.changes_to_save_for_record.key?('services_section') &&
-      self.services_section.present?
-    end
-
-    def workflow_case_plan?
-      self.changes_to_save_for_record.key?('date_case_plan') &&
-      self.date_case_plan.present? &&
-      self.module.use_workflow_case_plan
-    end
-
-    def workflow_assessment?
-      self.changes_to_save_for_record.key?('assessment_requested_on') &&
-      self.assessment_requested_on.present? &&
-      self.module.use_workflow_assessment
-    end
-
   end
 
-  module ClassMethods
+  def set_workflow_new
+    self.workflow ||= WORKFLOW_NEW
+  end
 
-    def workflow_statuses(modules = [], lookups=nil)
+  def calculate_workflow
+    if status == Record::STATUS_OPEN
+      if workflow_case_reopened?
+        self.workflow = WORKFLOW_REOPENED
+      elsif workflow_services_implemented?
+        self.workflow = WORKFLOW_SERVICE_IMPLEMENTED
+      elsif workflow_service_response?
+        most_recent_service = self.most_recent_service(Serviceable::SERVICE_NOT_IMPLEMENTED)
+        self.workflow = most_recent_service['service_response_type'] if most_recent_service.present?
+      elsif workflow_case_plan?
+        self.workflow = WORKFLOW_CASE_PLAN
+      elsif workflow_assessment?
+        self.workflow = WORKFLOW_ASSESSMENT
+      end
+    elsif status == Record::STATUS_CLOSED
+      self.workflow = WORKFLOW_CLOSED
+    end
+  end
+
+  def workflow_case_reopened?
+    (changes_to_save_for_record.key?('case_status_reopened') ||
+      changes_to_save_for_record.key?('status')) && case_status_reopened
+  end
+
+  def workflow_services_implemented?
+    changes_to_save_for_record.key?('services_section') &&
+      services_status == Serviceable::SERVICES_ALL_IMPLEMENTED &&
+      self.module.use_workflow_service_implemented
+  end
+
+  def workflow_service_response?
+    changes_to_save_for_record.key?('services_section') &&
+      services_section.present?
+  end
+
+  def workflow_case_plan?
+    changes_to_save_for_record.key?('date_case_plan') &&
+      date_case_plan.present? &&
+      self.module.use_workflow_case_plan
+  end
+
+  def workflow_assessment?
+    changes_to_save_for_record.key?('assessment_requested_on') &&
+      assessment_requested_on.present? &&
+      self.module.use_workflow_assessment
+  end
+
+  # Class methods
+  module ClassMethods
+    def workflow_statuses(modules = [], lookups = nil)
       lookup = lookup_response_types(lookups)
 
       I18n.available_locales.map do |locale|
         status_list = []
         status_list << workflow_key_value(WORKFLOW_NEW, locale)
         status_list << workflow_key_value(WORKFLOW_REOPENED, locale)
-        status_list << workflow_key_value(WORKFLOW_ASSESSMENT, locale) if modules.try(:any?) {|m| m.use_workflow_assessment}
-        status_list << workflow_key_value(WORKFLOW_CASE_PLAN, locale) if modules.try(:any?) {|m| m.use_workflow_case_plan}
+        modules&.any?(&:use_workflow_assessment) &&
+          (status_list << workflow_key_value(WORKFLOW_ASSESSMENT, locale))
+        modules&.any?(&:use_workflow_case_plan) &&
+          status_list << workflow_key_value(WORKFLOW_CASE_PLAN, locale)
         status_list += lookup&.lookup_values(locale) || []
-        status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED, locale) if modules.try(:any?) {|m| m.use_workflow_service_implemented}
+        modules&.any?(&:use_workflow_service_implemented) &&
+          status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED, locale)
         status_list << workflow_key_value(WORKFLOW_CLOSED, locale)
         { locale => status_list }
       end.inject(&:merge)
@@ -108,7 +107,6 @@ module Workflow
 
     private
 
-    #TODO: - concept of 'display_text' would fit better in a helper
     def workflow_key_value(status, locale = I18n.locale)
       {
         'id' => status,

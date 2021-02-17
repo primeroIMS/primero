@@ -3,18 +3,19 @@ import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import { FormControl } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useFormContext } from "react-hook-form";
+import { useWatch } from "react-hook-form";
 
 import InputLabel from "../components/input-label";
 
 import styles from "./styles.css";
 
-const LinkField = ({ commonInputProps, metaInputProps }) => {
+const LinkField = ({ commonInputProps, metaInputProps, formMethods }) => {
   const css = makeStyles(styles)();
   const { tooltip, href } = metaInputProps;
   const { name, label } = commonInputProps;
-  const { watch } = useFormContext();
-  const fieldValue = watch(name);
+  const { control } = formMethods;
+
+  const fieldValue = useWatch({ control, name });
 
   return (
     <FormControl>
@@ -32,6 +33,7 @@ LinkField.displayName = "LinkField";
 
 LinkField.propTypes = {
   commonInputProps: PropTypes.object.isRequired,
+  formMethods: PropTypes.object.isRequired,
   metaInputProps: PropTypes.object
 };
 

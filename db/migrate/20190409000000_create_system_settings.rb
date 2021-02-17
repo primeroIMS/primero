@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class CreateSystemSettings < ActiveRecord::Migration[5.0]
   def change
     create_table :system_settings do |t|
-      #TODO We now use locales.yml to set default locale, but leaving this now for backwards compatibility
+      # Note: Primero uses locales.yml to set default locale, but leaving this now for backwards compatibility
       t.string 'default_locale', default: Primero::Application::LOCALE_ENGLISH
       t.string 'locales', array: true, default: [Primero::Application::LOCALE_ENGLISH]
       t.string 'base_language', default: Primero::Application::LOCALE_ENGLISH

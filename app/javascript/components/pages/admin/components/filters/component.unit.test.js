@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { FormContext } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 
 import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../../libs/permissions";
@@ -42,8 +42,8 @@ describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
     ({ component } = setupMountedComponent(AdminFilters, props, state));
   });
 
-  it("should render <FormContext /> component", () => {
-    expect(component.find(FormContext)).to.have.lengthOf(1);
+  it("should render <FormProvider /> component", () => {
+    expect(component.find(FormProvider)).to.have.lengthOf(1);
   });
 
   it("should render <Actions /> component", () => {
@@ -105,7 +105,7 @@ describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
     });
 
     it("should render only one <SelectFilter /> component", () => {
-      expect(component.find(FormContext).find(SelectFilter)).to.have.lengthOf(1);
+      expect(component.find(FormProvider).find(SelectFilter)).to.have.lengthOf(1);
     });
   });
 });

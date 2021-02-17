@@ -13,13 +13,18 @@ const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched
     helperText ||
     i18n.t(`fields.${dateIncludeTime ? "date_help_with_time" : "date_help"}`);
   const label = displayName ? displayName[i18n.locale] : "";
+  const dialogLabels = {
+    clearLabel: i18n.t("buttons.clear"),
+    cancelLabel: i18n.t("buttons.cancel"),
+    okLabel: i18n.t("buttons.ok")
+  };
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
       {dateIncludeTime ? (
-        <DateTimePicker {...dateProps} helperText={helpText} label={label} />
+        <DateTimePicker {...dialogLabels} {...dateProps} helperText={helpText} label={label} />
       ) : (
-        <DatePicker {...dateProps} helperText={helpText} label={label} />
+        <DatePicker {...dialogLabels} {...dateProps} helperText={helpText} label={label} />
       )}
     </MuiPickersUtilsProvider>
   );

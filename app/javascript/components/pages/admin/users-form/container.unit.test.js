@@ -72,7 +72,7 @@ describe("<UsersForm />", () => {
     const saveButtonProps = { ...saveButton.props() };
 
     expect(saveButton).to.have.lengthOf(1);
-    ["actionHandler", "text", "savingRecord", "startIcon"].forEach(property => {
+    ["options", "text", "savingRecord", "startIcon"].forEach(property => {
       expect(saveButtonProps).to.have.property(property);
       delete saveButtonProps[property];
     });
@@ -147,14 +147,14 @@ describe("<UsersForm />", () => {
       expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(14);
     });
 
-    it("should not fetch user groups and roles", () => {
+    it("should fetch user groups and roles", () => {
       const actionTypes = newComponent
         .props()
         .store.getActions()
         .map(action => action.type);
 
-      expect(actionTypes.includes(applicationActions.FETCH_USER_GROUPS)).to.be.false;
-      expect(actionTypes.includes(applicationActions.FETCH_ROLES)).to.be.false;
+      expect(actionTypes.includes(applicationActions.FETCH_USER_GROUPS)).to.be.true;
+      expect(actionTypes.includes(applicationActions.FETCH_ROLES)).to.be.true;
     });
 
     it("renders 'Change Password' link", () => {

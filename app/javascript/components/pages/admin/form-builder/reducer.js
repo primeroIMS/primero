@@ -96,6 +96,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .set("serverErrors", fromJS([]))
         .set("updatedFormIds", fromJS([]));
     case actions.SAVE_SUBFORMS_SUCCESS: {
+      // TODO: // rewrite this, non-performant code
       const subformsSaved = payload.filter(data => data.ok).map(data => data.json.data);
       const formsIds = subformsSaved.map(formSaved => formSaved.id);
 

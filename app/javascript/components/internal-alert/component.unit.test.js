@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { ExpansionPanelSummary, ExpansionPanelDetails } from "@material-ui/core";
+import { AccordionDetails, AccordionSummary } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
 
@@ -14,7 +14,7 @@ describe("<InternalAlert />", () => {
     );
 
     expect(component.find(InternalAlert)).to.have.lengthOf(1);
-    expect(component.find(ExpansionPanelSummary).text()).to.be.equal("Alert Message 1");
+    expect(component.find(AccordionSummary).text()).to.be.equal("Alert Message 1");
   });
 
   it("does not render details if there is only one alert", () => {
@@ -24,7 +24,7 @@ describe("<InternalAlert />", () => {
       {}
     );
 
-    expect(component.find(ExpansionPanelDetails)).to.have.lengthOf(0);
+    expect(component.find(AccordionDetails)).to.have.lengthOf(0);
   });
 
   it("renders details if there are several alert", () => {
@@ -37,10 +37,10 @@ describe("<InternalAlert />", () => {
       {}
     );
 
-    expect(component.find(ExpansionPanelDetails)).to.have.lengthOf(1);
+    expect(component.find(AccordionDetails)).to.have.lengthOf(1);
     expect(
       component
-        .find(ExpansionPanelDetails)
+        .find(AccordionDetails)
         .find("li")
         .map(f => f.text())
     ).to.deep.equal(["Alert Message 1", "Alert Message 2"]);
@@ -58,6 +58,6 @@ describe("<InternalAlert />", () => {
       {}
     );
 
-    expect(component.find(ExpansionPanelSummary).text()).to.be.equal(title);
+    expect(component.find(AccordionSummary).text()).to.be.equal(title);
   });
 });

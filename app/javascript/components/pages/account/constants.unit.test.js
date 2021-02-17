@@ -12,7 +12,7 @@ describe("pages/account/constants.js", () => {
       expect(clone).to.be.empty;
     });
 
-    ["NAME"].forEach(property => {
+    ["NAME", "FORM_ID"].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(constants).to.have.property(property);
         delete clone[property];

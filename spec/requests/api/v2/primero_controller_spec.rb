@@ -36,6 +36,7 @@ describe Api::V2::PrimeroController, type: :request do
     it 'displays public information without authentication' do
       expect(response).to have_http_status(200)
       expect(json['data']['sandbox_ui']).to eq(false)
+      expect(json['data']['config_ui']).to eq('full')
       expect(json['data']['locales']).to contain_exactly('en', 'ar', 'fr', 'es')
     end
 

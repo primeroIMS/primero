@@ -219,10 +219,100 @@ describe Api::V2::ReferralsController, type: :request do
       @case_a.reload
       expect(@case_a.assigned_user_names).to_not include('user2')
     end
+
+    it 'completes this referral and returns the notes from provider' do
+      sign_in(@user1)
+      rejection_note = 'Sample notes from provider'
+      params = { data: { rejection_note: rejection_note } }
+      delete "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['status']).to eq(Transition::STATUS_DONE)
+      expect(json['data']['record_id']).to eq(@case_a.id.to_s)
+      expect(json['data']['transitioned_to']).to eq('user2')
+      expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['rejection_note']).to eq(rejection_note)
+
+      expect(audit_params['action']).to eq('refer_revoke')
+
+      @case_a.reload
+      expect(@case_a.assigned_user_names).to_not include('user2')
+    end
+  end
+
+  describe 'PATCH /api/v2/cases/:id/referrals/:referral_id' do
+    before :each do
+      @now = DateTime.parse('2020-10-05T04:05:06')
+      DateTime.stub(:now).and_return(@now)
+      @referral1 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
+    end
+
+    it 'accepts this referral' do
+      sign_in(@user1)
+      params = { data: { status: Transition::STATUS_ACCEPTED } }
+
+      patch "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['status']).to eq(Transition::STATUS_ACCEPTED)
+      expect(json['data']['record_id']).to eq(@case_a.id.to_s)
+      expect(json['data']['transitioned_to']).to eq('user2')
+      expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['responded_at']).to eq(@now.in_time_zone.as_json)
+
+      expect(audit_params['action']).to eq('refer_accepted')
+
+      @case_a.reload
+      expect(@case_a.assigned_user_names).to include('user2')
+    end
+
+    it 'rejects this referral' do
+      sign_in(@user1)
+      params = { data: { status: Transition::STATUS_REJECTED } }
+
+      patch "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['status']).to eq(Transition::STATUS_REJECTED)
+      expect(json['data']['record_id']).to eq(@case_a.id.to_s)
+      expect(json['data']['transitioned_to']).to eq('user2')
+      expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['responded_at']).to eq(@now.in_time_zone.as_json)
+
+      expect(audit_params['action']).to eq('refer_rejected')
+
+      @case_a.reload
+      expect(@case_a.assigned_user_names).to_not include('user2')
+    end
+
+    it 'rejects this referral and sets a rejected_reason' do
+      sign_in(@user1)
+      rejected_reason = 'Some reason to reject'
+      params = { data: { status: Transition::STATUS_REJECTED, rejected_reason: rejected_reason } }
+
+      patch "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['status']).to eq(Transition::STATUS_REJECTED)
+      expect(json['data']['rejected_reason']).to eq(rejected_reason)
+      expect(json['data']['record_id']).to eq(@case_a.id.to_s)
+      expect(json['data']['transitioned_to']).to eq('user2')
+      expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['responded_at']).to eq(@now.in_time_zone.as_json)
+
+      expect(audit_params['action']).to eq('refer_rejected')
+
+      @case_a.reload
+      expect(@case_a.assigned_user_names).to_not include('user2')
+    end
+
+    after :each do
+      clean_data(Referral)
+    end
   end
 
   after :each do
     clear_enqueued_jobs
-    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition)
+    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition, SystemSettings)
   end
 end
