@@ -1,6 +1,5 @@
 /* eslint-disable */
 
-import React from "react";
 import SvgIcon from "@material-ui/core/SvgIcon";
 
 // NOTICE: All svg icons's path should be added in this file. They should be wrapped by the SvgIcon

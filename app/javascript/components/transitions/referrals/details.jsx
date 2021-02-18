@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { Box, Divider, Grid, FormControlLabel } from "@material-ui/core";
 import PropTypes from "prop-types";

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React from "react";
+import { Fragment } from "react";
 import { Grid } from "@material-ui/core";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
@@ -28,7 +28,7 @@ const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
   }
 
   const renderLocalizedOption = (localeId, index, option, hideField) => (
-    <React.Fragment key={`${localeId}-${option.get("id")}`}>
+    <Fragment key={`${localeId}-${option.get("id")}`}>
       <FormSectionField
         field={FieldRecord({
           display_name: "",
@@ -50,7 +50,7 @@ const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
         formMethods={formMethods}
         formMode={formMode}
       />
-    </React.Fragment>
+    </Fragment>
   );
 
   const renderEnglishOptions = () =>

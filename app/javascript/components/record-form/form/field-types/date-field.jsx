@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { differenceInYears, parseISO } from "date-fns";
 import { InputAdornment } from "@material-ui/core";

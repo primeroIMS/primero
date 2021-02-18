@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import ActionDialog from "../../../../action-dialog";

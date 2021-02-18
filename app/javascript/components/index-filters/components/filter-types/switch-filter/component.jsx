@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { Checkbox, FormControl, FormGroup, FormControlLabel } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";

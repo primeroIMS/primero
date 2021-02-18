@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
 import { MuiThemeProvider } from "@material-ui/core/styles";

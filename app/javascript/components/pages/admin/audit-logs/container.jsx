@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { fromJS } from "immutable";

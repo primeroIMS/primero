@@ -1,4 +1,3 @@
-import React from "react";
 import { useDispatch, batch } from "react-redux";
 import PropTypes from "prop-types";
 import { object, string } from "yup";

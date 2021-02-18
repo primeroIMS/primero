@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Menu, MenuItem } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";

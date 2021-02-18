@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles, Button } from "@material-ui/core";
 
@@ -8,7 +8,7 @@ import withI18n from "../i18n/with-i18n";
 import Loading from "./loading";
 import styles from "./styles.css";
 
-class LoadingIndicator extends React.Component {
+class LoadingIndicator extends Component {
   constructor(props) {
     super(props);
 

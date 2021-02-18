@@ -26,6 +26,7 @@ const ValidationErrors = ({ formErrors, forms }) => {
       const formsWithErrors = forms.filter(value =>
         value
           .get("fields", fromJS([]))
+          .filter(field => !field.get("disabled"))
           .map(field => field.get("name"))
           .some(fieldName => fieldNames.includes(fieldName))
       );

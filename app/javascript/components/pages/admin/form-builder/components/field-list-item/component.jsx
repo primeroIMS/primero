@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
-import React from "react";
+import { memo } from "react";
 import { useDispatch, batch } from "react-redux";
 import { Controller } from "react-hook-form";
 import PropTypes from "prop-types";
@@ -178,4 +178,4 @@ Component.propTypes = {
   subformSortBy: PropTypes.string
 };
 
-export default React.memo(Component);
+export default memo(Component);

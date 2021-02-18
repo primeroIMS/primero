@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";

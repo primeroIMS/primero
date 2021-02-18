@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
@@ -17,7 +17,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 import { isTracesSubform, valuesWithDisplayConditions } from "./utils";
 
-const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recordType, isReadWriteForm }) => {
+const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recordType, form, isReadWriteForm }) => {
   const {
     display_name: displayName,
     name,
@@ -75,6 +75,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
         recordType={recordType}
         isTracesSubform={isTraces}
         formik={formik}
+        parentForm={form}
       />
     );
 
@@ -139,6 +140,7 @@ Component.displayName = SUBFORM_FIELD_ARRAY;
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   formSection: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,

@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { object, string } from "yup";

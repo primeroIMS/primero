@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import React from "react";
 import PropTypes from "prop-types";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 

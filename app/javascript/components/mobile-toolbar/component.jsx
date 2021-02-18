@@ -1,4 +1,3 @@
-import React from "react";
 import MenuIcon from "@material-ui/icons/Menu";
 import { AppBar, Toolbar, IconButton, makeStyles, Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";

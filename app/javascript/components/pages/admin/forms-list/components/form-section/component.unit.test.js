@@ -1,4 +1,3 @@
-import React from "react";
 import { List } from "immutable";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 

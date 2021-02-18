@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import upperFirst from "lodash/upperFirst";

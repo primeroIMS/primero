@@ -1,4 +1,3 @@
-import React from "react";
 import { Dialog, DialogTitle, DialogContent, IconButton } from "@material-ui/core";
 import { Map } from "immutable";
 

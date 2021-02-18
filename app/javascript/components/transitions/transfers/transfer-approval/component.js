@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { FormLabel, TextField } from "@material-ui/core";
@@ -24,7 +24,7 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const [comment, setComment] = React.useState("");
+  const [comment, setComment] = useState("");
   const record = useSelector(state => selectRecord(state, { isShow: true }, recordType, recordId));
 
   const handleChangeComment = event => {

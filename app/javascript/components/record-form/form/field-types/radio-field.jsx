@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name,  react/no-multi-comp */
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { FormControlLabel, FormHelperText, Radio, FormControl, InputLabel, Box } from "@material-ui/core";

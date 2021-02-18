@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import NavigationPrompt from "react-router-navigation-prompt";
 

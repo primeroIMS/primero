@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import React from "react";
 import { push } from "connected-react-router";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { isEqual } from "lodash";

@@ -1,4 +1,3 @@
-import React from "react";
 import { fromJS } from "immutable";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
