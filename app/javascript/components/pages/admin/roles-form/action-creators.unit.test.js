@@ -9,7 +9,7 @@ describe("<RolesForm /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["clearSelectedRole", "deleteRole", "fetchRole", "saveRole"].forEach(property => {
+    ["clearSelectedRole", "deleteRole", "fetchRole", "saveRole", "setCopyRole"].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
@@ -92,6 +92,16 @@ describe("<RolesForm /> - Action Creators", () => {
     };
 
     expect(actionsCreators.deleteRole(args)).to.deep.equal(expectedAction);
+  });
+
+  it("should check that 'setCopyRole' action creator returns the correct object", () => {
+    const payload = { name: "Copy of Test" };
+    const expectedAction = {
+      type: actions.SET_COPY_ROLE,
+      payload
+    };
+
+    expect(actionsCreators.setCopyRole(payload)).to.deep.equal(expectedAction);
   });
 
   afterEach(() => {

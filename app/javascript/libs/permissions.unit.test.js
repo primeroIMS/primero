@@ -19,6 +19,7 @@ describe("Verifying config constant", () => {
       "ASSIGN_WITHIN_USER_GROUP",
       "CHANGE_LOG",
       "CLOSE",
+      "COPY",
       "CREATE",
       "DASH_CASE_INCIDENT_OVERVIEW",
       "DASH_APPROVALS_ASSESSMENT",
@@ -453,5 +454,16 @@ describe("Verifying config constant", () => {
 
       expect(PERMISSIONS.allowedExportTypes(userPermission)).to.be.empty;
     });
+  });
+
+  it("should have COPY_ROLES", () => {
+    const permissions = [...PERMISSIONS.COPY_ROLES];
+
+    expect(permissions).to.be.a("array");
+    [PERMISSIONS.ACTIONS.MANAGE, PERMISSIONS.ACTIONS.COPY].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
   });
 });

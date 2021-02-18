@@ -112,4 +112,20 @@ describe("<RolesForm /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle SET_COPY_ROLE", () => {
+    const payload = {
+      name: "Copy of Test Role"
+    };
+    const expected = fromJS({
+      copiedRole: payload
+    });
+    const action = {
+      type: actions.SET_COPY_ROLE,
+      payload
+    };
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });

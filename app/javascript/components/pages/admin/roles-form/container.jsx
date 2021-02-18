@@ -17,13 +17,16 @@ import { getAssignableForms } from "../../../record-form";
 import { useMemoizedSelector } from "../../../../libs";
 import { getMetadata } from "../../../record-list";
 import { getReportingLocationConfig } from "../../../user/selectors";
+import { usePermissions } from "../../../user";
+import { COPY_ROLES } from "../../../../libs/permissions";
 
 import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";
 import { getFormsToRender, mergeFormSections, groupSelectedIdsByParentForm } from "./utils";
 import { clearSelectedRole, fetchRole, saveRole } from "./action-creators";
-import { getRole } from "./selectors";
+import { getRole, getCopiedRole } from "./selectors";
 import { NAME, FORM_ID } from "./constants";
+import RolesActions from "./roles-actions";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -34,18 +37,22 @@ const Container = ({ mode }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
+  const canCopyRole = usePermissions(NAMESPACE, COPY_ROLES);
   const roles = useMemoizedSelector(state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]));
   const metadata = useMemoizedSelector(state => getMetadata(state, "roles"));
   const role = useMemoizedSelector(state => getRole(state));
   const systemPermissions = useMemoizedSelector(state => getSystemPermissions(state));
   const assignableForms = useMemoizedSelector(state => getAssignableForms(state));
   const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
+  const copiedRole = useMemoizedSelector(state => getCopiedRole(state));
 
   const adminLevelMap = reportingLocationConfig.get("admin_level_map") || fromJS({});
 
   const formsByParentForm = assignableForms.groupBy(assignableForm => assignableForm.get(PARENT_FORM));
 
   const validationSchema = Validations(i18n);
+
+  const isCopiedRole = formMode.get("isNew") && copiedRole.size > 0;
 
   const handleSubmit = data => {
     dispatch(
@@ -90,10 +97,12 @@ const Container = ({ mode }) => {
     adminLevelMap
   });
 
-  const initialValues = groupSelectedIdsByParentForm(
-    role.filter(prop => Boolean(prop)),
-    assignableForms
-  ).toJS();
+  const initialValues = isCopiedRole
+    ? copiedRole?.toJS()
+    : groupSelectedIdsByParentForm(
+        role.filter(prop => Boolean(prop)),
+        assignableForms
+      ).toJS();
 
   return (
     <LoadingIndicator hasData={formMode.get("isNew") || role?.size > 0} loading={!role.size} type={NAMESPACE}>
@@ -104,6 +113,7 @@ const Container = ({ mode }) => {
           handleCancel={handleCancel}
           limitedProductionSite={limitedProductionSite}
         />
+        {!formMode.get("isNew") && <RolesActions canCopyRole={canCopyRole} initialValues={initialValues} />}
       </PageHeading>
       <PageContent>
         <Form
@@ -114,6 +124,8 @@ const Container = ({ mode }) => {
           onSubmit={handleSubmit}
           validations={validationSchema}
           initialValues={initialValues}
+          submitAllFields={isCopiedRole}
+          submitAlways={isCopiedRole}
         />
       </PageContent>
     </LoadingIndicator>
