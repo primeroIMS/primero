@@ -147,7 +147,7 @@ const Component = ({ field, formMethods, index, subformField, subformSortBy, sub
             {renderColumn(SUBFORM_GROUP_BY)}
             <div className={fieldShowClasses}>
               <SwitchInput
-                commonInputProps={{ name: visibleFieldName, disabled: isNotEditable || limitedProductionSite }}
+                commonInputProps={{ name: visibleFieldName, disabled: limitedProductionSite || isNotEditable }}
                 metaInputProps={{ selectedValue: visibleFieldNames }}
                 formMethods={formMethods}
               />
