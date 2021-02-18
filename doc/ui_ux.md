@@ -92,7 +92,6 @@ v2 ui can be found in the `app/javascript` directory.
 ```js
 // component.js
 
-import React from "react";
 import styles from "./styles.css";
 import { makeStyles } from "@material-ui/styles";
 
@@ -109,7 +108,7 @@ const TODO = () => {
 #### Functional Component
 ```js
 import PropTypes from "prop_types";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { getName } from "./selectors";
