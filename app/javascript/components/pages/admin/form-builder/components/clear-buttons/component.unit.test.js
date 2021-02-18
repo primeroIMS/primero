@@ -6,7 +6,7 @@ import { setupMockFormComponent } from "../../../../../../test";
 import ClearButtons from "./component";
 
 describe("<ClearButtons />", () => {
-  const initialState = fromJS({
+  const state = fromJS({
     ui: { dialogs: { admin_fields_dialog: true } }
   });
 
@@ -17,7 +17,7 @@ describe("<ClearButtons />", () => {
       subformSortBy: "field_2"
     };
 
-    const { component } = setupMockFormComponent(ClearButtons, props, {}, initialState);
+    const { component } = setupMockFormComponent(ClearButtons, { props, state });
 
     expect(component.find(ClearButtons)).to.have.lengthOf(1);
   });
@@ -27,8 +27,12 @@ describe("<ClearButtons />", () => {
       subformField: fromJS({ name: "field_1" }),
       subformGroupBy: "field_2"
     };
-    const { component } = setupMockFormComponent(ClearButtons, props, {}, initialState, {
-      field_1: { subform_section_configuration: { subform_group_by: "field_2" } }
+    const { component } = setupMockFormComponent(ClearButtons, {
+      props,
+      state,
+      defaultValues: {
+        field_1: { subform_section_configuration: { subform_group_by: "field_2" } }
+      }
     });
     const groupButton = component.find(Button);
 
@@ -42,8 +46,12 @@ describe("<ClearButtons />", () => {
       subformSortBy: "field_2"
     };
 
-    const { component } = setupMockFormComponent(ClearButtons, props, {}, initialState, {
-      field_1: { subform_section_configuration: { subform_sort_by: "field_2" } }
+    const { component } = setupMockFormComponent(ClearButtons, {
+      props,
+      state,
+      defaultValues: {
+        field_1: { subform_section_configuration: { subform_group_by: "field_2" } }
+      }
     });
     const groupButton = component.find(Button);
 

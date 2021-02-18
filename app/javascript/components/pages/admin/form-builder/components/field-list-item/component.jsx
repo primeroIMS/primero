@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Draggable } from "react-beautiful-dnd";
 import { Button, makeStyles, Radio } from "@material-ui/core";
-import { createMuiTheme, MuiThemeProvider, useTheme } from "@material-ui/core/styles";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 import { SUBFORM_SECTION } from "../../../../../form";
@@ -23,26 +22,32 @@ import { setDialog } from "../../../../../action-dialog";
 import { useI18n } from "../../../../../i18n";
 import SwitchInput from "../../../../../form/fields/switch-input";
 import DragIndicator from "../../../forms-list/components/drag-indicator";
-import { getFieldsAttribute, getFiedListItemTheme, getLabelTypeField } from "../utils";
+import { getFieldsAttribute, getLabelTypeField } from "../utils";
 import styles from "../fields-list/styles.css";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { setInitialForms, toggleHideOnViewPage } from "../field-dialog/utils";
-import { dataToJS, displayNameHelper } from "../../../../../../libs";
+import { displayNameHelper } from "../../../../../../libs";
 
 import { NAME, SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "./constants";
 
-const Component = ({ field, getValues, index, subformField, subformSortBy, subformGroupBy }) => {
+const Component = ({
+  field,
+  formMethods,
+  index,
+  subformField,
+  subformSortBy,
+  subformGroupBy,
+  limitedProductionSite
+}) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const i18n = useI18n();
-  const currentTheme = useTheme();
   const isNested = Boolean(subformField?.toSeq()?.size);
   const parentFieldName = subformField?.get("name", "");
   const fieldsAttribute = getFieldsAttribute(isNested);
   const fieldName = field.get("name");
   const visibleFieldName = `${fieldsAttribute}.${fieldName}.visible`;
-
-  const themeOverrides = createMuiTheme(getFiedListItemTheme(currentTheme));
+  const { control, getValues } = formMethods;
 
   const onNested = () => {
     dispatch(clearSelectedSubformField());
@@ -95,12 +100,13 @@ const Component = ({ field, getValues, index, subformField, subformSortBy, subfo
 
   const renderFieldName = () => {
     const icon = isNotEditable ? <VpnKeyIcon className={css.rotateIcon} /> : <span />;
+    const className = clsx({ [css.editable]: !isNotEditable });
 
     return (
       <>
         {icon}
-        <Button className={clsx({ [css.editable]: !isNotEditable })} onClick={() => handleClick()}>
-          {displayNameHelper(dataToJS(field.get("display_name")), i18n.locale)}
+        <Button className={className} onClick={() => handleClick()} disabled={limitedProductionSite}>
+          {displayNameHelper(field.get("display_name"), i18n.locale)}
         </Button>
       </>
     );
@@ -115,6 +121,7 @@ const Component = ({ field, getValues, index, subformField, subformSortBy, subfo
       isNested && (
         <div className={css.fieldColumn}>
           <Controller
+            control={control}
             as={<Radio />}
             inputProps={{ value: fieldName }}
             checked={checked}
@@ -125,25 +132,30 @@ const Component = ({ field, getValues, index, subformField, subformSortBy, subfo
     );
   };
 
+  const indicatorColumnClasses = clsx([css.fieldColumn, css.dragIndicatorColumn]);
+  const fieldNameClasses = clsx([css.fieldColumn, css.fieldName]);
+  const fieldShowClasses = clsx([css.fieldColumn, css.fieldShow]);
+
+  const visibleFieldNames = getValues()[visibleFieldName];
+
   return (
-    <Draggable draggableId={fieldName} index={index}>
+    <Draggable draggableId={fieldName} index={index} isDragDisabled={limitedProductionSite}>
       {provided => (
         <div ref={provided.innerRef} {...provided.draggableProps}>
           <div className={css.fieldRow} key={fieldName}>
-            <div className={clsx([css.fieldColumn, css.dragIndicatorColumn])}>
-              <DragIndicator {...provided.dragHandleProps} />
+            <div className={indicatorColumnClasses}>
+              <DragIndicator {...provided.dragHandleProps} isDragDisabled={limitedProductionSite} />
             </div>
-            <div className={clsx([css.fieldColumn, css.fieldName])}>{renderFieldName(field)}</div>
+            <div className={fieldNameClasses}>{renderFieldName(field)}</div>
             <div className={css.fieldColumn}>{i18n.t(`fields.${getLabelTypeField(field)}`)}</div>
             {renderColumn(SUBFORM_SORT_BY)}
             {renderColumn(SUBFORM_GROUP_BY)}
-            <div className={clsx([css.fieldColumn, css.fieldShow])}>
-              <MuiThemeProvider theme={themeOverrides}>
-                <SwitchInput
-                  commonInputProps={{ name: visibleFieldName, disabled: isNotEditable }}
-                  metaInputProps={{ selectedValue: getValues()[visibleFieldName] }}
-                />
-              </MuiThemeProvider>
+            <div className={fieldShowClasses}>
+              <SwitchInput
+                commonInputProps={{ name: visibleFieldName, disabled: isNotEditable }}
+                metaInputProps={{ selectedValue: visibleFieldNames }}
+                formMethods={formMethods}
+              />
             </div>
           </div>
         </div>
@@ -158,8 +170,9 @@ Component.whyDidYouRender = true;
 
 Component.propTypes = {
   field: PropTypes.object.isRequired,
-  getValues: PropTypes.func,
+  formMethods: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
+  limitedProductionSite: PropTypes.bool,
   subformField: PropTypes.object,
   subformGroupBy: PropTypes.string,
   subformSortBy: PropTypes.string

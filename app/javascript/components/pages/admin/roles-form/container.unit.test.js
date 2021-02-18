@@ -61,7 +61,7 @@ describe("<RolesForm />", () => {
 
   describe("Show", () => {
     beforeEach(() => {
-      const initialState = fromJS({
+      const state = fromJS({
         records: {
           admin: {
             roles: {
@@ -104,7 +104,11 @@ describe("<RolesForm />", () => {
         }
       });
 
-      ({ component } = setupMockFormComponent(RolesForm, { mode: "show" }, {}, initialState, ["/admin/roles/10"]));
+      ({ component } = setupMockFormComponent(RolesForm, {
+        props: { mode: "show" },
+        state,
+        defaultValues: ["/admin/roles/10"]
+      }));
     });
 
     it("renders role form sections", () => {

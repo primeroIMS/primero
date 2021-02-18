@@ -5,26 +5,35 @@ import { Controller } from "react-hook-form";
 
 import InputLabel from "../components/input-label";
 
-const SwitchInput = ({ commonInputProps, metaInputProps }) => {
+const SwitchInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   const { helperText, error, disabled, name, label, className } = commonInputProps;
-
+  const { control } = formMethods;
   const { tooltip, selectedValue } = metaInputProps || {};
-
   const checkBoxProps = { defaultValue: selectedValue || false };
 
   return (
     <FormControl error={error}>
       <FormGroup>
         <Controller
+          control={control}
           name={name}
-          as={
+          render={({ onChange, onBlur, value, ref }) => (
             <FormControlLabel
               labelPlacement="end"
-              control={<Checkbox {...checkBoxProps} />}
+              control={
+                <Checkbox
+                  {...checkBoxProps}
+                  onBlur={onBlur}
+                  onChange={event => onChange(event.target.checked)}
+                  checked={value}
+                  inputRef={ref}
+                  disabled={disabled}
+                />
+              }
               label={<InputLabel tooltip={tooltip} text={label} />}
               className={className}
             />
-          }
+          )}
           disabled={disabled}
           defaultValue={false}
         />
@@ -45,6 +54,7 @@ SwitchInput.propTypes = {
     label: PropTypes.string,
     name: PropTypes.string
   }),
+  formMethods: PropTypes.object.isRequired,
   metaInputProps: PropTypes.shape({
     tooltip: PropTypes.string
   })

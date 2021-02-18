@@ -3,15 +3,13 @@ import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import { makeStyles } from "@material-ui/core/styles";
-import { FormContext, useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useSelector, useDispatch, batch } from "react-redux";
 import isEqual from "lodash/isEqual";
 import SearchIcon from "@material-ui/icons/Search";
 
 import { enqueueSnackbar } from "../../../../../notifier";
 import ActionButton from "../../../../../action-button";
-import { whichFormMode } from "../../../../../form";
-import { FORM_MODE_EDIT } from "../../../../../form/constants";
 import { useI18n } from "../../../../../i18n";
 import { compare } from "../../../../../../libs";
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
@@ -36,11 +34,10 @@ const Component = ({ parentForm, primeroModule }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const i18n = useI18n();
-  const formMethods = useForm();
+  const { control, register } = useForm();
   const { setDialog, dialogOpen, dialogClose } = useDialog(NAME);
 
-  const formMode = whichFormMode(FORM_MODE_EDIT);
-  const watchedFieldQuery = formMethods.watch("field_query", "");
+  const watchedFieldQuery = useWatch({ control, name: "field_query", defaultValue: "" });
 
   const selectedFields = useSelector(state => getSelectedFields(state, false), compare);
 
@@ -116,35 +113,33 @@ const Component = ({ parentForm, primeroModule }) => {
 
   return (
     <ActionDialog {...modalProps}>
-      <FormContext {...formMethods} formMode={formMode}>
-        <form className={baseCss.formBuilderDialog}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <div className={css.searchBox}>
-                <SearchIcon />
-                <input
-                  className={css.fieldQuery}
-                  type="text"
-                  name="field_query"
-                  autoComplete="off"
-                  ref={formMethods.register}
-                  placeholder={i18n.t("fields.search_existing")}
-                />
-              </div>
-            </Grid>
-            <Grid item xs={12}>
-              <FieldsTable
-                fieldQuery={watchedFieldQuery}
-                selectedFields={existingSelectedFields}
-                addField={addField}
-                removeField={removeField}
-                parentForm={parentForm}
-                primeroModule={primeroModule}
+      <form className={baseCss.formBuilderDialog}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <div className={css.searchBox}>
+              <SearchIcon />
+              <input
+                className={css.fieldQuery}
+                type="text"
+                name="field_query"
+                autoComplete="off"
+                ref={register}
+                placeholder={i18n.t("fields.search_existing")}
               />
-            </Grid>
+            </div>
           </Grid>
-        </form>
-      </FormContext>
+          <Grid item xs={12}>
+            <FieldsTable
+              fieldQuery={watchedFieldQuery}
+              selectedFields={existingSelectedFields}
+              addField={addField}
+              removeField={removeField}
+              parentForm={parentForm}
+              primeroModule={primeroModule}
+            />
+          </Grid>
+        </Grid>
+      </form>
     </ActionDialog>
   );
 };

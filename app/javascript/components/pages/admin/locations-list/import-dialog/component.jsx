@@ -1,21 +1,20 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
 import ActionDialog from "../../../../action-dialog";
-import bindFormSubmit from "../../../../../libs/submit-form";
 import Form from "../../../../form";
 import { enqueueSnackbar } from "../../../../notifier";
 
 import { clearImportErrors, importLocations } from "./action-creators";
 import { getImportErrors } from "./selectors";
 import { form } from "./form";
-import { NAME } from "./constants";
+import { NAME, FORM_ID } from "./constants";
 
 const Component = ({ close, i18n, open, pending }) => {
-  const formRef = useRef();
   const dispatch = useDispatch();
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
+
   const importFailure = useSelector(state => getImportErrors(state));
 
   const onSubmit = data => {
@@ -44,14 +43,17 @@ const Component = ({ close, i18n, open, pending }) => {
   return (
     <ActionDialog
       open={open}
-      successHandler={() => bindFormSubmit(formRef)}
+      confirmButtonProps={{
+        form: FORM_ID,
+        type: "submit"
+      }}
       cancelHandler={() => close()}
       dialogTitle={i18n.t("location.import_title")}
       confirmButtonLabel={i18n.t("buttons.import")}
       pending={dialogPending}
       omitCloseAfterSuccess
     >
-      <Form useCancelPrompt mode="new" formSections={form(i18n)} onSubmit={onSubmit} ref={formRef} />
+      <Form useCancelPrompt mode="new" formSections={form(i18n)} onSubmit={onSubmit} formID={FORM_ID} />
     </ActionDialog>
   );
 };

@@ -152,3 +152,7 @@
 .linkFieldLabel {
   font-size: $(theme.typography.pxToRem(12));
 }
+
+.displayNone {
+  display: none;
+}

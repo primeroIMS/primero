@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from "@material-ui/core";
+import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import LookupValue from "../../../record-form/form/subforms/subform-header-lookup";
@@ -58,8 +58,8 @@ const Component = ({
 
   return (
     <div key={incident.get("unique_id")}>
-      <ExpansionPanel expanded={expanded} onChange={handleExpanded} className={css.panel}>
-        <ExpansionPanelSummary
+      <Accordion expanded={expanded} onChange={handleExpanded} className={css.panel}>
+        <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="filter-controls-content"
           id={incident.get("unique_id")}
@@ -68,11 +68,11 @@ const Component = ({
           }}
         >
           <IncidentSummary {...sharedProps} />
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        </AccordionSummary>
+        <AccordionDetails>
           <IncidentDetail {...sharedProps} />
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+        </AccordionDetails>
+      </Accordion>
     </div>
   );
 };

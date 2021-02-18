@@ -20,7 +20,9 @@ const getDateValidation = (field, isSubmit) => {
     return DATE_FIELD_CUSTOM_VALUES.date_validation[field.date_validation];
   }
 
-  return Object.entries(DATE_FIELD_CUSTOM_VALUES.date_validation).find(obj => obj[1] === field.date_validation)[0];
+  return Object.entries(DATE_FIELD_CUSTOM_VALUES.date_validation).find(
+    obj => obj[1] === Boolean(field.date_validation)
+  )?.[0];
 };
 
 const getSelectedDateValue = (field, isSubmit) => {
@@ -37,8 +39,8 @@ const getSelectedDateValue = (field, isSubmit) => {
   }
 
   return Object.entries(field.date_include_time ? selectedValue.withTime : selectedValue.withoutTime).find(
-    obj => obj[1] === field.selected_value
-  )[0];
+    obj => obj[1] === Boolean(field.selected_value)
+  )?.[0];
 };
 
 const appendSettingsAttributes = (data, selectedField, newFieldName, lastFieldOrder) => {

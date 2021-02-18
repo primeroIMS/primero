@@ -48,3 +48,48 @@
   }
 }
 
+.importDataClass {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+
+  & button {
+    height: 22px;
+    margin-left: 5px;
+  }
+}
+
+.checkStatusLabelClass {
+  display: flex;
+  & > div {
+    margin-top: 0.1em;
+  }
+}
+
+.checkStatusClass {
+  & button {
+    margin-left: 0px;
+    margin-top: 0px;
+  }
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .importDataLabelClass {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  .importDataClass {
+    & button {
+      margin-left: 0px;
+      margin-top: 8px;
+    }
+  }
+
+  .checkStatusClass {
+    & button {
+      margin-left: 0px;
+      margin-top: 0px;
+    }
+  }
+}

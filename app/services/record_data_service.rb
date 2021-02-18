@@ -4,8 +4,7 @@
 class RecordDataService
   class << self
     def data(record, user, selected_field_names)
-      data = record.data
-      data = select_fields(data, selected_field_names)
+      data = select_fields(record.data, selected_field_names)
       data = embed_case_data(data, record, selected_field_names)
       data = embed_user_scope(data, record, selected_field_names, user)
       data = embed_hidden_name(data, record, selected_field_names)
@@ -13,7 +12,8 @@ class RecordDataService
       data = embed_alert_metadata(data, record, selected_field_names)
       data = embed_photo_metadata(data, record, selected_field_names)
       data = embed_attachments(data, record, selected_field_names)
-      embed_associations_as_data(data, record, selected_field_names, user)
+      data = embed_associations_as_data(data, record, selected_field_names, user)
+      embed_computed_fields(data, record, selected_field_names)
     end
 
     def select_fields(data, selected_field_names)
@@ -85,6 +85,17 @@ class RecordDataService
       data['incident_case_id'] = record.incident_case_id if selected_field_names.include?('incident_case_id')
       data['case_id_display'] = record.case_id_display if selected_field_names.include?('case_id_display')
       data
+    end
+
+    def embed_computed_fields(data, record, selected_field_names)
+      computed_fields = %w[sync_status synced_at]
+      # TODO: Dynamically figuring out computed fields makes lots of unnecessary queries. Would be nice though.
+      # computed_fields = (record.methods.map(&:to_s) - data.keys)
+      computed_fields &= selected_field_names
+      # Note: For now we are choosing to discard computed nil values to avoid inserting nil data acccessor values.
+      #       Revisit if we want to always display nils for certain computed fields.
+      computed_data = record.slice(*computed_fields).compact
+      data.merge(computed_data)
     end
   end
 end

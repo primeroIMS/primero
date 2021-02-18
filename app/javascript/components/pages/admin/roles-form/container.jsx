@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { fromJS } from "immutable";
@@ -14,7 +14,7 @@ import { getSystemPermissions, useApp } from "../../../application";
 import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
 import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
-import { compare } from "../../../../libs";
+import { useMemoizedSelector } from "../../../../libs";
 import { getMetadata } from "../../../record-list";
 import { getReportingLocationConfig } from "../../../user/selectors";
 
@@ -23,22 +23,24 @@ import { Validations, ActionButtons } from "./forms";
 import { getFormsToRender, mergeFormSections, groupSelectedIdsByParentForm } from "./utils";
 import { clearSelectedRole, fetchRole, saveRole } from "./action-creators";
 import { getRole } from "./selectors";
-import { NAME } from "./constants";
+import { NAME, FORM_ID } from "./constants";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
+  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+
   const i18n = useI18n();
-  const formRef = useRef();
-  const { approvalsLabels } = useApp();
+  const { approvalsLabels, limitedProductionSite } = useApp();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const roles = useSelector(state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]), compare);
-  const metadata = useSelector(state => getMetadata(state, "roles"));
-  const role = useSelector(state => getRole(state), compare);
-  const systemPermissions = useSelector(state => getSystemPermissions(state), compare);
-  const assignableForms = useSelector(state => getAssignableForms(state), compare);
-  const reportingLocationConfig = useSelector(state => getReportingLocationConfig(state));
+
+  const roles = useMemoizedSelector(state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]));
+  const metadata = useMemoizedSelector(state => getMetadata(state, "roles"));
+  const role = useMemoizedSelector(state => getRole(state));
+  const systemPermissions = useMemoizedSelector(state => getSystemPermissions(state));
+  const assignableForms = useMemoizedSelector(state => getAssignableForms(state));
+  const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
+
   const adminLevelMap = reportingLocationConfig.get("admin_level_map") || fromJS({});
 
   const formsByParentForm = assignableForms.groupBy(assignableForm => assignableForm.get(PARENT_FORM));
@@ -99,15 +101,20 @@ const Container = ({ mode }) => {
   return (
     <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
-        <ActionButtons formMode={formMode} formRef={formRef} handleCancel={handleCancel} />
+        <ActionButtons
+          formMode={formMode}
+          formID={FORM_ID}
+          handleCancel={handleCancel}
+          limitedProductionSite={limitedProductionSite}
+        />
       </PageHeading>
       <PageContent>
         <Form
+          formID={FORM_ID}
           useCancelPrompt
           mode={mode}
           formSections={formsToRender}
           onSubmit={handleSubmit}
-          ref={formRef}
           validations={validationSchema}
           initialValues={initialValues}
         />

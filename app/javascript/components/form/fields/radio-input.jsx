@@ -9,15 +9,14 @@ import {
   RadioGroup,
   makeStyles
 } from "@material-ui/core";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 import styles from "./styles.css";
 
-const RadioInput = ({ commonInputProps, options }) => {
+const RadioInput = ({ commonInputProps, options, formMethods }) => {
   const css = makeStyles(styles)();
   const { helperText, error, name, label: radioGroupLabel, className, disabled } = commonInputProps;
-
-  const { control } = useFormContext();
+  const { control } = formMethods;
 
   return (
     <FormControl error={error} className={className}>
@@ -58,6 +57,7 @@ RadioInput.propTypes = {
     label: PropTypes.string,
     name: PropTypes.string
   }),
+  formMethods: PropTypes.object.isRequired,
   options: PropTypes.array
 };
 

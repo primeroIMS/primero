@@ -25,7 +25,8 @@ const Component = ({ fields, isSubform, record }) => {
   const renderSubform = (field, subformSection, displayName) => {
     const { subform_section_configuration: subformSectionConfiguration } = field;
     const { display_conditions: displayConditions, fields: fieldList } = subformSectionConfiguration || {};
-    const values = record.get(subformSection.unique_id, []);
+    const values = record.get(field.name, []);
+
     const filteredValues = displayConditions ? valuesWithDisplayConditions(values, displayConditions) : values;
     const displayFields = fieldsToRender(fieldList, subformSection.fields);
 

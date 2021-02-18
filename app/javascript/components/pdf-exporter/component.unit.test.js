@@ -76,19 +76,19 @@ describe("<PdfExporter />", () => {
   };
 
   it("renders PdfExporter", () => {
-    const { component } = setupMockFormComponent(PdfExporter, props);
+    const { component } = setupMockFormComponent(PdfExporter, { props });
 
     expect(component.find(PdfExporter)).to.have.lengthOf(1);
   });
 
   it("renders Logos", () => {
-    const { component } = setupMockFormComponent(PdfExporter, props);
+    const { component } = setupMockFormComponent(PdfExporter, { props });
 
     expect(component.find(Logos)).to.have.lengthOf(2);
   });
 
   it("renders RenderTable", () => {
-    const { component } = setupMockFormComponent(PdfExporter, props);
+    const { component } = setupMockFormComponent(PdfExporter, { props });
 
     expect(component.find(RenderTable)).to.have.lengthOf(1);
   });

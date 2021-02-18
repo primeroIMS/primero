@@ -11,7 +11,16 @@ import SwitchInput from "../../../../../form/fields/switch-input";
 
 import { NAME } from "./constants";
 
-const Component = ({ firstLocaleOption, index, isDragDisabled, localesKeys, selectedOption, uniqueId }) => {
+const Component = ({
+  firstLocaleOption,
+  index,
+  isDragDisabled,
+  localesKeys,
+  selectedOption,
+  uniqueId,
+  formMode,
+  formMethods
+}) => {
   const css = makeStyles(styles)();
 
   const renderTranslationValues = () => {
@@ -19,9 +28,15 @@ const Component = ({ firstLocaleOption, index, isDragDisabled, localesKeys, sele
       const name = `values.${localeKey}.${uniqueId}`;
       const show = firstLocaleOption === localeKey || selectedOption === localeKey;
 
+      if (!show) return null;
+
       return (
-        <div key={name} className={!show ? css.hideTranslationsFields : null}>
-          <FormSectionField field={FieldRecord({ name, type: TEXT_FIELD })} />
+        <div key={name}>
+          <FormSectionField
+            field={FieldRecord({ name, type: TEXT_FIELD })}
+            formMode={formMode}
+            formMethods={formMethods}
+          />
         </div>
       );
     });
@@ -29,7 +44,10 @@ const Component = ({ firstLocaleOption, index, isDragDisabled, localesKeys, sele
 
   const renderDisabledCheckbox = (
     <div className={css.dragIndicatorContainer}>
-      <SwitchInput commonInputProps={{ name: `disabled.${uniqueId}`, disabled: isDragDisabled }} />
+      <SwitchInput
+        commonInputProps={{ name: `disabled.${uniqueId}`, disabled: isDragDisabled }}
+        formMethods={formMethods}
+      />
     </div>
   );
 
@@ -54,6 +72,8 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   firstLocaleOption: PropTypes.string,
+  formMethods: PropTypes.object.isRequired,
+  formMode: PropTypes.object.isRequired,
   index: PropTypes.number,
   isDragDisabled: PropTypes.bool,
   localesKeys: PropTypes.array,

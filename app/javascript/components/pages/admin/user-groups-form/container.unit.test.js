@@ -53,7 +53,7 @@ describe("<UserGroupsForm />", () => {
     const saveButtonProps = { ...saveButton.props() };
 
     expect(saveButton).to.have.lengthOf(1);
-    ["actionHandler", "text", "savingRecord", "startIcon"].forEach(property => {
+    ["text", "savingRecord", "startIcon", "options"].forEach(property => {
       expect(saveButtonProps).to.have.property(property);
       delete saveButtonProps[property];
     });

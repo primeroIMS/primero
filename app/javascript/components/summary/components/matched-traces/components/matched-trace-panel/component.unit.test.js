@@ -1,4 +1,4 @@
-import { ExpansionPanel, ExpansionPanelSummary } from "@material-ui/core";
+import { Accordion, AccordionSummary } from "@material-ui/core";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../../../test";
@@ -14,12 +14,12 @@ describe("<MatchedTracePanel />", () => {
     ({ component } = setupMountedComponent(MatchedTracePanel, props, {}));
   });
 
-  it("should render 1 <ExpansionPanel /> component", () => {
-    expect(component.find(ExpansionPanel)).to.have.lengthOf(1);
+  it("should render 1 <Accordion /> component", () => {
+    expect(component.find(Accordion)).to.have.lengthOf(1);
   });
 
-  it("should render 1 <ExpansionPanelSummary /> component", () => {
-    expect(component.find(ExpansionPanelSummary)).to.have.lengthOf(1);
+  it("should render 1 <AccordionSummary /> component", () => {
+    expect(component.find(AccordionSummary)).to.have.lengthOf(1);
   });
 
   it("should render 1 <ActionButton /> component", () => {

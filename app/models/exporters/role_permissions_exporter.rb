@@ -10,7 +10,7 @@ class Exporters::RolePermissionsExporter
   ].freeze
   CASE_EXPORTS = %w[
     export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv export_pdf consent_override
-    export_duplicate_id_csv export_json export_custom import sync_mobile
+    export_duplicate_id_csv export_json export_custom import sync_mobile sync_external
   ].freeze
   CASE_APPROVALS = %w[
     request_approval_assessment request_approval_case_plan request_approval_closure request_approval_action_plan

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe IdentitySyncService do
-
   before(:each) do
     clean_data(User, Role, Agency)
   end
@@ -58,7 +59,4 @@ describe IdentitySyncService do
   after(:each) do
     clean_data(User, Role, Agency)
   end
-
-
-
 end

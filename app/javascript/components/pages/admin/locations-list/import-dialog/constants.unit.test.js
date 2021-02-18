@@ -12,7 +12,7 @@ describe("<ImportDialog /> - Constants", () => {
       expect(clone).to.be.empty;
     });
 
-    ["NAME", "IMPORT"].forEach(property => {
+    ["NAME", "IMPORT", "FORM_ID"].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(constants).to.have.property(property);
         delete clone[property];

@@ -98,6 +98,13 @@ services_subform = [
     "type" => "date_field",
     "display_name_en" => "Service Implemented On",
     "date_include_time" => true
+  }),
+  Field.new({
+    "name" => "note_on_referral_from_provider",
+    "type" => "textarea",
+    "display_name_en" => "Notes on the referral from provider",
+    "disabled" => true,
+    "editable" => false
   })
 ]
 

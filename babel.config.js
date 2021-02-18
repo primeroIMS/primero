@@ -1,17 +1,17 @@
-module.exports = function(api) {
-  var validEnv = ["development", "test", "production"];
-  var currentEnv = api.env();
-  var isDevelopmentEnv = api.env("development");
-  var isProductionEnv = api.env("production");
-  var isTestEnv = api.env("test");
+module.exports = function (api) {
+  const validEnv = ["development", "test", "production"];
+  const currentEnv = api.env();
+  const isDevelopmentEnv = api.env("development");
+  const isProductionEnv = api.env("production");
+  const isTestEnv = api.env("test");
 
   if (!validEnv.includes(currentEnv)) {
     throw new Error(
-      "Please specify a valid `NODE_ENV` or " +
+      `${
+        "Please specify a valid `NODE_ENV` or " +
         '`BABEL_ENV` environment variables. Valid values are "development", ' +
-        '"test", and "production". Instead, received: ' +
-        JSON.stringify(currentEnv) +
-        "."
+        '"test", and "production". Instead, received: '
+      }${JSON.stringify(currentEnv)}.`
     );
   }
 
@@ -39,16 +39,14 @@ module.exports = function(api) {
         require("@babel/preset-react").default,
         {
           development: isDevelopmentEnv || isTestEnv,
-          useBuiltIns: true
+          useBuiltIns: true,
+          runtime: "automatic"
         }
       ]
     ].filter(Boolean),
     plugins: [
       require("babel-plugin-macros"),
-      [
-        require("babel-plugin-module-resolver"),
-        { root: ["./app/javascript/"] }
-      ],
+      [require("babel-plugin-module-resolver"), { root: ["./app/javascript/"] }],
       require("@babel/plugin-proposal-optional-chaining"),
       require("@babel/plugin-syntax-dynamic-import").default,
       isTestEnv && require("babel-plugin-dynamic-import-node"),

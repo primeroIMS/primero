@@ -105,7 +105,7 @@ Component.propTypes = {
   page: PropTypes.number,
   perPage: PropTypes.number,
   recordType: PropTypes.string,
-  selectedFilters: PropTypes.object,
+  selectedFilters: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   selectedRecords: PropTypes.object,
   selectedRows: PropTypes.object,
   setSelectedRecords: PropTypes.func,

@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { Checkbox, FormControl, FormGroup, FormControlLabel, FormHelperText } from "@material-ui/core";
 import { Controller } from "react-hook-form";
 
-const ToggleInput = ({ commonInputProps }) => {
+const ToggleInput = ({ commonInputProps, formMethods }) => {
+  const { control } = formMethods;
   const { helperText, error, disabled, name, label, className } = commonInputProps;
 
   return (
@@ -12,7 +13,7 @@ const ToggleInput = ({ commonInputProps }) => {
         <FormControlLabel
           disabled={disabled}
           labelPlacement="end"
-          control={<Controller name={name} as={Checkbox} defaultValue={false} />}
+          control={<Controller name={name} as={Checkbox} defaultValue={false} control={control} />}
           label={label}
         />
       </FormGroup>
@@ -31,7 +32,8 @@ ToggleInput.propTypes = {
     helperText: PropTypes.string,
     label: PropTypes.string,
     name: PropTypes.string
-  })
+  }),
+  formMethods: PropTypes.object.isRequired
 };
 
 export default ToggleInput;

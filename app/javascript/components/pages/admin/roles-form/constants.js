@@ -37,3 +37,5 @@ export const ROLES_PERMISSIONS = Object.freeze({
   read: Object.freeze({ id: "r", text: "read" }),
   read_write: Object.freeze({ id: "rw", text: "read_write" })
 });
+
+export const FORM_ID = "role-form";

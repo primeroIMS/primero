@@ -115,6 +115,8 @@ describe Transfer do
 
   describe 'accept' do
     before do
+      @now = DateTime.parse('2020-10-05T04:05:06')
+      DateTime.stub(:now).and_return(@now)
       @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
                                    disclosure_other_orgs: true })
       @transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
@@ -123,6 +125,7 @@ describe Transfer do
 
     it 'sets status to Accepted' do
       expect(@transfer.status).to eq(Transition::STATUS_ACCEPTED)
+      expect(@transfer.responded_at).to eq(@now)
       expect(@case.transfer_status).to eq(Transition::STATUS_ACCEPTED)
       expect(@case.status).to eq(Record::STATUS_OPEN)
     end
@@ -246,24 +249,169 @@ describe Transfer do
 
   describe 'reject' do
     before do
+      @now = DateTime.parse('2020-10-05T04:05:06')
+      DateTime.stub(:now).and_return(@now)
       @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
                                    disclosure_other_orgs: true })
-      @transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
-      @transfer.reject!
+      @case2 = Child.create(data: { name: 'Test 2', owned_by: 'user1', module_id: @module_cp.unique_id,
+                                   disclosure_other_orgs: true })
+      @rejected_transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
     end
 
     it 'revokes access to this record for the target user' do
-      expect(@transfer.status).to eq(Transition::STATUS_REJECTED)
+      @rejected_transfer.reject!
+
+      expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
+      expect(@rejected_transfer.responded_at).to eq(@now)
       expect(@case.assigned_user_names.present?).to be_falsey
       expect(@case.transfer_status).to eq(Transition::STATUS_REJECTED)
       expect(@case.status).to eq(Record::STATUS_OPEN)
     end
 
     it 'does not change ownership of the record' do
+      @rejected_transfer.reject!
+
       expect(@case.owned_by).to eq('user1')
       expect(@case.owned_by_full_name).to eq('Test User One')
       expect(@case.owned_by_location).to eq('loc012345')
       expect(@case.owned_by_agency).to eq(@agency1.agency_code)
+    end
+
+    context 'when the user has an in progress transfer for another case' do
+      before :each do
+        Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case2)
+      end
+
+      it 'changes the status to REJECTED and removes the referred user' do
+        @rejected_transfer.reject!
+        @rejected_transfer.reload
+  
+        expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
+        expect(@case.assigned_user_names).not_to include('user2')
+      end
+    end
+
+    context 'when there is a referral for the transitioned_to user' do
+      before :each do
+        permission_case = Permission.new(
+          resource: Permission::CASE,
+          actions: [
+            Permission::READ,
+            Permission::WRITE,
+            Permission::CREATE,
+            Permission::RECEIVE_REFERRAL,
+            Permission::RECEIVE_TRANSFER
+          ]
+        )
+        @role.permissions = [permission_case]
+        @role.save(validate: false)
+
+        @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true)
+
+        @referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      end
+
+      it 'does not remove the transitioned_to from assigned_user_names if the referral is in progress' do
+        @referral.status = Transition::STATUS_INPROGRESS
+        @referral.save!
+
+        @rejected_transfer.reject!
+        @rejected_transfer.reload
+
+        expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
+        expect(@rejected_transfer.responded_at).to eq(@now)
+        expect(@case.assigned_user_names).to include('user2')
+      end
+
+      it 'does not remove the transitioned_to from assigned_user_names if the referral is accepted' do
+        @referral.status = Transition::STATUS_ACCEPTED
+        @referral.save!
+
+        @rejected_transfer.reject!
+        @rejected_transfer.reload
+
+        expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
+        expect(@rejected_transfer.responded_at).to eq(@now)
+        expect(@case.assigned_user_names).to include('user2')
+      end
+
+      it 'removes the transitioned_to from assigned_user_names if the referral is rejected' do
+        @referral.status = Transition::STATUS_REJECTED
+        @referral.save!
+
+        @rejected_transfer.reject!
+        @rejected_transfer.reload
+
+        expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
+        expect(@rejected_transfer.responded_at).to eq(@now)
+        expect(@case.assigned_user_names).not_to include('user2')
+      end
+
+      it 'removes the transitioned_to from assigned_user_names if the referral is done' do
+        @referral.status = Transition::STATUS_DONE
+        @referral.save!
+
+        @rejected_transfer.reject!
+        @rejected_transfer.reload
+
+        expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
+        expect(@rejected_transfer.responded_at).to eq(@now)
+        expect(@case.assigned_user_names).not_to include('user2')
+      end
+    end
+
+    context 'when there is another transfer for the transitioned_to user' do
+      before :each do
+        @transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      end
+
+      it 'does not remove the transitioned_to from assigned_user_names if the transfer is in progress' do
+        @transfer.status = Transition::STATUS_INPROGRESS
+        @transfer.save!
+
+        @rejected_transfer.reject!
+        @rejected_transfer.reload
+
+        expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
+        expect(@rejected_transfer.responded_at).to eq(@now)
+        expect(@case.assigned_user_names).to include('user2')
+      end
+
+      it 'removes the transitioned_to from assigned_user_names if the transfer is accepted' do
+        @transfer.status = Transition::STATUS_ACCEPTED
+        @transfer.save!
+
+        @rejected_transfer.reject!
+        @rejected_transfer.reload
+
+        expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
+        expect(@rejected_transfer.responded_at).to eq(@now)
+        expect(@case.assigned_user_names).not_to include('user2')
+      end
+
+      it 'removes the transitioned_to from assigned_user_names if the transfer is rejected' do
+        @transfer.status = Transition::STATUS_REJECTED
+        @transfer.save!
+
+        @rejected_transfer.reject!
+        @rejected_transfer.reload
+
+        expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
+        expect(@rejected_transfer.responded_at).to eq(@now)
+        expect(@case.assigned_user_names).not_to include('user2')
+      end
+
+      it 'removes the transitioned_to from assigned_user_names if the transfer is done' do
+        @transfer.status = Transition::STATUS_DONE
+        @transfer.save!
+
+        @rejected_transfer.reject!
+        @rejected_transfer.reload
+
+        expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
+        expect(@rejected_transfer.responded_at).to eq(@now)
+        expect(@case.assigned_user_names).not_to include('user2')
+      end
     end
   end
 
