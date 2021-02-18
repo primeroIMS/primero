@@ -57,6 +57,7 @@ module Exporters
       end
 
       printed_date = "#{I18n.t("exports.printed_date")} #{I18n.l(DateTime.now, format: :default)}"
+      case_id = SystemSettings.current.try(:show_short_id_in_child_pdf) ? "#{I18n.t("case.label")}: #{cases.first.short_id}" : ''
       ac = ApplicationController.new
       @pdf = WickedPdf.new.pdf_from_string(
         ac.render_to_string('document_templates/case', encoding: "UTF-8", locals: { cases: @pdf_cases } ),
@@ -71,7 +72,7 @@ module Exporters
           content: ac.render_to_string('document_templates/header',
                                         encoding: "UTF-8",
                                         locals: {
-                                                  case_id: "#{I18n.t("case.label")}: #{cases.first.short_id}",
+                                                  case_id: case_id,
                                                   printed_date: printed_date
                                                 })
         },
