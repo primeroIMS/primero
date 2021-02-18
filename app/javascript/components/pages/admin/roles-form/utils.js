@@ -54,12 +54,12 @@ export const getFormsToRender = ({
 export const mergeFormSections = data => {
   const recordTypes = Object.values(RECORD_TYPES).filter(type => type !== RECORD_TYPES.all);
 
-  if (!data.form_section_unique_ids) {
+  if (!data.form_section_read_write) {
     return data;
   }
 
   const formSectionUniqueIds = recordTypes.reduce((accum, curr) => {
-    const formsByRecordType = data.form_section_unique_ids[curr];
+    const formsByRecordType = data.form_section_read_write[curr];
 
     const result = Object.entries(formsByRecordType).reduce((acc, form) => {
       const [key, value] = form;
@@ -74,11 +74,11 @@ export const mergeFormSections = data => {
     return { ...accum, ...result };
   }, {});
 
-  return { ...data, form_section_unique_ids: formSectionUniqueIds };
+  return { ...data, form_section_read_write: formSectionUniqueIds };
 };
 
 export const groupSelectedIdsByParentForm = (data, assignableForms) => {
-  const formSectionUniqueIds = data.get("form_section_unique_ids");
+  const formSectionUniqueIds = data.get("form_section_read_write");
 
   if (assignableForms?.size) {
     const selectedFormsByParentForm = assignableForms.groupBy(assignableForm => assignableForm.get("parent_form"));
@@ -110,7 +110,7 @@ export const groupSelectedIdsByParentForm = (data, assignableForms) => {
       }, {})
     );
 
-    return data.set("form_section_unique_ids", initialPermissions);
+    return data.set("form_section_read_write", initialPermissions);
   }
 
   return data;

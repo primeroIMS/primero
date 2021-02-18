@@ -19,8 +19,11 @@ const Fields = ({ fields, checkErrors, disableUnderline, formSection, css, formM
 
   return fields.map(field => {
     if (field?.row) {
+      // eslint-disable-next-line camelcase
+      const formUniqueId = formSection?.unique_id;
+
       return (
-        <div key={`${formSection.unique_id}-row`} className={calculatedClasses(field)}>
+        <div key={`${formUniqueId}-row`} className={calculatedClasses(field)}>
           <Fields
             fields={field.row}
             checkErrors={checkErrors}
@@ -29,7 +32,7 @@ const Fields = ({ fields, checkErrors, disableUnderline, formSection, css, formM
             formMethods={formMethods}
             formMode={formMode}
             formSection={formSection}
-            key={`${formSection.unique_id}-row`}
+            key={`${formUniqueId}-row`}
           />
         </div>
       );

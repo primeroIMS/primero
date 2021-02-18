@@ -41,7 +41,7 @@ const buildFields = (recordType, formsByParentForm, i18n) => {
             type: LABEL_FIELD
           }),
           FieldRecord({
-            name: `form_section_unique_ids.${recordType}.${form.unique_id}`,
+            name: `form_section_read_write.${recordType}.${form.unique_id}`,
             type: RADIO_FIELD,
             visible: true,
             option_strings_text: {
