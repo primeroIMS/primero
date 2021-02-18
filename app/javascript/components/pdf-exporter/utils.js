@@ -2,7 +2,7 @@ import domtoimage from "dom-to-image-more";
 import isEmpty from "lodash/isEmpty";
 import uniqBy from "lodash/uniqBy";
 
-import { PAGE_MARGIN } from "./constants";
+import { DEFAULT_RENDERER_OPTIONS, PAGE_MARGIN } from "./constants";
 
 const getImageDimensions = async base64 => {
   const image = new Image();
@@ -50,12 +50,11 @@ export const addPageHeaderFooter = async (pdf, mainHeaderRef, secondaryHeaderRef
 
   mainHeaderHtml.style.display = "block";
   secondaryHeaderHtml.style.display = "block";
-  const options = { scale: window.devicePixelRatio || 1 };
   const totalPages = pdf.internal.getNumberOfPages();
   const pageContentWidth = pdf.internal.pageSize.getWidth() - PAGE_MARGIN;
   const pageContentHeight = pdf.internal.pageSize.getHeight() - PAGE_MARGIN;
-  const mainHeaderImage = await domtoimage.toPng(mainHeaderHtml, options);
-  const secondaryHeaderImage = await domtoimage.toPng(secondaryHeaderHtml, options);
+  const mainHeaderImage = await domtoimage.toPng(mainHeaderHtml, DEFAULT_RENDERER_OPTIONS);
+  const secondaryHeaderImage = await domtoimage.toPng(secondaryHeaderHtml, DEFAULT_RENDERER_OPTIONS);
 
   for (let page = 1; page <= totalPages; page += 1) {
     pdf.setPage(page);
