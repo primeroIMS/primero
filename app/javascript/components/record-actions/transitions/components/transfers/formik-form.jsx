@@ -2,7 +2,6 @@
 
 import { Box } from "@material-ui/core";
 import { Form } from "formik";
-import React from "react";
 
 import { UNIQUE_ID_FIELD, ID_FIELD, DISPLAY_TEXT_FIELD, NAME_FIELD } from "../../../../../config";
 import { valuesToSearchableSelect } from "../../../../../libs";

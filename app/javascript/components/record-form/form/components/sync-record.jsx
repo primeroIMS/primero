@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "@material-ui/core";

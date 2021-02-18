@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@material-ui/core";
 import { useIdleTimer } from "react-idle-timer";
 import { useDispatch } from "react-redux";

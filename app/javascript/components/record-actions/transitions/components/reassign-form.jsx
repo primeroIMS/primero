@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { object, string } from "yup";
 import { Formik, Field, Form } from "formik";
@@ -27,7 +27,7 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, 
   const dispatch = useDispatch();
   const transitionType = "reassign";
 
-  const firstUpdate = React.useRef(true);
+  const firstUpdate = useRef(true);
 
   useEffect(() => {
     dispatch(fetchAssignUsers(RECORD_TYPES[recordType]));

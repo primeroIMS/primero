@@ -1,7 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
 import PropTypes from "prop-types";
-import React from "react";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import Form from "../../../../../form";

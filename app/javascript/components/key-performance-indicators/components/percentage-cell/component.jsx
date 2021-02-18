@@ -1,5 +1,3 @@
-import React from "react";
-
 import TablePercentageBar from "../table-percentage-bar";
 
 const Component = value => {

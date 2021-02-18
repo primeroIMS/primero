@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Box, Badge } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";

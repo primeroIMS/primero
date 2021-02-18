@@ -1,4 +1,3 @@
-import React from "react";
 import { Fab } from "@material-ui/core";
 
 import { setupMountedThemeComponent } from "../../../../test";

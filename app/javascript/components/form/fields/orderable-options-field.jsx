@@ -1,5 +1,4 @@
 /* eslint-disable react/no-multi-comp */
-import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useFieldArray, useWatch } from "react-hook-form";

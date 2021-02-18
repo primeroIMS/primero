@@ -1,7 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable import/prefer-default-export */
 
-import React from "react";
 import { fromJS } from "immutable";
 
 import { ToggleIconCell } from "../index-table";

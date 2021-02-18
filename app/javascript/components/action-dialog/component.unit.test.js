@@ -1,4 +1,3 @@
-import React from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from "@material-ui/core";
 import Add from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { memo, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
@@ -66,4 +66,4 @@ Component.propTypes = {
 
 Component.whyDidYouRender = true;
 
-export default React.memo(Component);
+export default memo(Component);

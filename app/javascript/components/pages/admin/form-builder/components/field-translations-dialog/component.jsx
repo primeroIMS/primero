@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, useWatch } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";

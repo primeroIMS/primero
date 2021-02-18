@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import DateFnsUtils from "@date-io/date-fns";
 import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";

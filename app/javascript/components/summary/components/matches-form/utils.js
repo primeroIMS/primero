@@ -1,5 +1,4 @@
 /* eslint-disable react/display-name, react/no-multi-comp, import/prefer-default-export */
-import React from "react";
 import clsx from "clsx";
 
 import ActionButton from "../../../action-button";

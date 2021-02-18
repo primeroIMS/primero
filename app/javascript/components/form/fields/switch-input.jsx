@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Checkbox, FormControl, FormGroup, FormControlLabel, FormHelperText } from "@material-ui/core";
 import { Controller } from "react-hook-form";
@@ -35,7 +34,7 @@ const SwitchInput = ({ commonInputProps, metaInputProps, formMethods }) => {
             />
           )}
           disabled={disabled}
-          defaultValue={false}
+          defaultValue={checkBoxProps.defaultValue}
         />
       </FormGroup>
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
@@ -56,6 +55,7 @@ SwitchInput.propTypes = {
   }),
   formMethods: PropTypes.object.isRequired,
   metaInputProps: PropTypes.shape({
+    selectedValue: PropTypes.bool,
     tooltip: PropTypes.string
   })
 };

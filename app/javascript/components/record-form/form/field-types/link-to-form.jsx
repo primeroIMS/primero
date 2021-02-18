@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { useDispatch } from "react-redux";

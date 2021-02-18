@@ -1,6 +1,5 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
-import React from "react";
 import PropTypes from "prop-types";
 import TimelineItem from "@material-ui/lab/TimelineItem";
 import TimelineSeparator from "@material-ui/lab/TimelineSeparator";

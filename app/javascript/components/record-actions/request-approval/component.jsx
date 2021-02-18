@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";

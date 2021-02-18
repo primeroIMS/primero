@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { object } from "yup";
 import { Formik, Form } from "formik";
@@ -20,7 +20,7 @@ import { getFields } from "../selectors";
 
 import { ValidationErrors } from "./components";
 import RecordFormTitle from "./record-form-title";
-import { RECORD_FORM_NAME } from "./constants";
+import { RECORD_FORM_NAME, RECORD_FORM_PERMISSION } from "./constants";
 import FormSectionField from "./form-section-field";
 import SubformField from "./subforms";
 import { fieldValidations } from "./validations";
@@ -39,7 +39,8 @@ const RecordForm = ({
   selectedForm,
   incidentFromCase,
   externalForms,
-  fetchFromCaseId
+  fetchFromCaseId,
+  userPermittedFormsIds
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -50,14 +51,23 @@ const RecordForm = ({
 
   let bindedSetValues = null;
   let formikValues;
+  let bindedResetForm = null;
 
   const bindSetValues = setValues => {
     bindedSetValues = setValues;
   };
 
+  const bindResetForm = resetForm => {
+    bindedResetForm = resetForm;
+  };
+
   const buildValidationSchema = formSections => {
     const schema = formSections.reduce((obj, item) => {
-      return Object.assign({}, obj, ...item.fields.map(f => fieldValidations(f, i18n)));
+      return Object.assign(
+        {},
+        obj,
+        ...item.fields.filter(field => !field.disabled).map(field => fieldValidations(field, i18n))
+      );
     }, {});
 
     return object().shape(schema);
@@ -68,6 +78,20 @@ const RecordForm = ({
   }, [selectedForm]);
 
   useEffect(() => {
+    const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
+
+    if (record) {
+      setInitialValues({ ...initialValues, ...record.toJS(), ...redirectToIncident });
+    }
+  }, [record]);
+
+  useEffect(() => {
+    if (!isEmpty(initialValues)) {
+      bindedResetForm();
+    }
+  }, [JSON.stringify(initialValues)]);
+
+  useEffect(() => {
     if (bindedSetValues) {
       if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
         const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
@@ -76,14 +100,6 @@ const RecordForm = ({
       }
     }
   }, [bindedSetValues, incidentFromCase]);
-
-  useEffect(() => {
-    const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
-
-    if (record) {
-      setInitialValues({ ...initialValues, ...record.toJS(), ...redirectToIncident });
-    }
-  }, [record]);
 
   useEffect(() => {
     if (bindedSetValues && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {
@@ -109,6 +125,8 @@ const RecordForm = ({
 
     return fs.map(form => {
       if (selectedForm === form.unique_id) {
+        const isReadWriteForm = userPermittedFormsIds?.get(selectedForm) === RECORD_FORM_PERMISSION.readWrite;
+
         return (
           <div key={form.unique_id}>
             <RecordFormTitle
@@ -135,9 +153,9 @@ const RecordForm = ({
               return (
                 <Box my={3} key={field.name}>
                   {SUBFORM_SECTION === field.type ? (
-                    <SubformField {...{ ...fieldProps, formSection: field.subform_section_id }} />
+                    <SubformField {...{ ...fieldProps, formSection: field.subform_section_id, isReadWriteForm }} />
                   ) : (
-                    <FormSectionField name={field.name} {...{ ...fieldProps, formSection: form }} />
+                    <FormSectionField name={field.name} {...{ ...fieldProps, formSection: form, isReadWriteForm }} />
                   )}
                 </Box>
               );
@@ -164,11 +182,12 @@ const RecordForm = ({
           onSubmit(initialValues, values);
         }}
       >
-        {({ handleSubmit, submitForm, errors, isSubmitting, setValues, setFieldValue, values, touched }) => {
+        {({ handleSubmit, submitForm, errors, isSubmitting, setValues, setFieldValue, values, touched, resetForm }) => {
           const dirty = isFormDirty(initialValues, values, fields.toList().toJS());
 
           bindSubmitForm(submitForm);
           bindSetValues(setValues);
+          bindResetForm(resetForm);
 
           setFormTouched(touched);
           setFormIsSubmitting(isSubmitting);
@@ -215,7 +234,8 @@ RecordForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  userPermittedFormsIds: PropTypes.object
 };
 
 export default memo(RecordForm);

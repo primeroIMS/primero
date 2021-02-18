@@ -24,6 +24,7 @@ export const RESOURCES = [
   "agency",
   "metadata",
   "system",
+  "primero_configuration",
   "report",
   "dashboard",
   "audit_log",
@@ -31,5 +32,11 @@ export const RESOURCES = [
   "duplicate",
   "kpi"
 ];
+
+export const ROLES_PERMISSIONS = Object.freeze({
+  hide: Object.freeze({ id: "h", text: "hide" }),
+  read: Object.freeze({ id: "r", text: "read" }),
+  read_write: Object.freeze({ id: "rw", text: "read_write" })
+});
 
 export const FORM_ID = "role-form";

@@ -1,5 +1,3 @@
-import React from "react";
-
 import AssignmentsDetails from "./assignments/AssignmentsDetails";
 import ReferralDetails from "./referrals/details";
 import TransferDetails from "./transfers/TransferDetails";

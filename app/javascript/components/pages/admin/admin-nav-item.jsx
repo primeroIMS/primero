@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { ListItem, ListItemText } from "@material-ui/core";
 import { NavLink } from "react-router-dom";

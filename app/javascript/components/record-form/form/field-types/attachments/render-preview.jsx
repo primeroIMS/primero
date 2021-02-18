@@ -1,5 +1,3 @@
-import React from "react";
-
 import AttachmentPreview from "./attachment-preview";
 import { ATTACHMENT_TYPES } from "./constants";
 

@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Accordion, AccordionSummary } from "@material-ui/core";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";

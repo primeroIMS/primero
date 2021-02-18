@@ -1,4 +1,4 @@
-import React from "react";
+import { useRef } from "react";
 import PropTypes from "prop-types";
 import { createMuiTheme, MuiThemeProvider, useTheme } from "@material-ui/core/styles";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
@@ -32,7 +32,7 @@ const ActionMenu = ({ open, onOpen, onClose, items }) => {
     });
   };
 
-  const moreButtonRef = React.useRef(null);
+  const moreButtonRef = useRef(null);
 
   return (
     <MuiThemeProvider theme={{ ...currentTheme, ...getMuiTheme() }}>

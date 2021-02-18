@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-for */
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { TextField } from "formik-material-ui";
 import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconButton } from "@material-ui/core";

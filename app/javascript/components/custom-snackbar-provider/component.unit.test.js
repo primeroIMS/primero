@@ -1,4 +1,3 @@
-import React from "react";
 import { SnackbarProvider } from "notistack";
 
 import { setupMountedComponent } from "../../test";

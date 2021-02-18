@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
@@ -153,4 +153,4 @@ Component.propTypes = {
   primeroModule: PropTypes.string.isRequired
 };
 
-export default React.memo(Component, isEqual);
+export default memo(Component, isEqual);

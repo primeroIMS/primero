@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
