@@ -50,9 +50,14 @@ const RecordForm = ({
 
   let bindedSetValues = null;
   let formikValues;
+  let bindedResetForm = null;
 
   const bindSetValues = setValues => {
     bindedSetValues = setValues;
+  };
+
+  const bindResetForm = resetForm => {
+    bindedResetForm = resetForm;
   };
 
   const buildValidationSchema = formSections => {
@@ -68,6 +73,20 @@ const RecordForm = ({
   }, [selectedForm]);
 
   useEffect(() => {
+    const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
+
+    if (record) {
+      setInitialValues({ ...initialValues, ...record.toJS(), ...redirectToIncident });
+    }
+  }, [record]);
+
+  useEffect(() => {
+    if (!isEmpty(initialValues)) {
+      bindedResetForm();
+    }
+  }, [JSON.stringify(initialValues)]);
+
+  useEffect(() => {
     if (bindedSetValues) {
       if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
         const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
@@ -76,14 +95,6 @@ const RecordForm = ({
       }
     }
   }, [bindedSetValues, incidentFromCase]);
-
-  useEffect(() => {
-    const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
-
-    if (record) {
-      setInitialValues({ ...initialValues, ...record.toJS(), ...redirectToIncident });
-    }
-  }, [record]);
 
   useEffect(() => {
     if (bindedSetValues && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {
@@ -164,11 +175,12 @@ const RecordForm = ({
           onSubmit(initialValues, values);
         }}
       >
-        {({ handleSubmit, submitForm, errors, isSubmitting, setValues, setFieldValue, values, touched }) => {
+        {({ handleSubmit, submitForm, errors, isSubmitting, setValues, setFieldValue, values, touched, resetForm }) => {
           const dirty = isFormDirty(initialValues, values, fields.toList().toJS());
 
           bindSubmitForm(submitForm);
           bindSetValues(setValues);
+          bindResetForm(resetForm);
 
           setFormTouched(touched);
           setFormIsSubmitting(isSubmitting);
