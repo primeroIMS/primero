@@ -34,7 +34,7 @@ const SwitchInput = ({ commonInputProps, metaInputProps, formMethods }) => {
             />
           )}
           disabled={disabled}
-          defaultValue={false}
+          defaultValue={checkBoxProps.defaultValue}
         />
       </FormGroup>
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
@@ -55,6 +55,7 @@ SwitchInput.propTypes = {
   }),
   formMethods: PropTypes.object.isRequired,
   metaInputProps: PropTypes.shape({
+    selectedValue: PropTypes.bool,
     tooltip: PropTypes.string
   })
 };
