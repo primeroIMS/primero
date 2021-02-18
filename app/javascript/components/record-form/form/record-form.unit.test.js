@@ -92,7 +92,8 @@ describe("<RecordForm />", () => {
       }),
       recordType: RECORD_TYPES.cases,
       selectedForm: "form_section_1",
-      externalForms: () => {}
+      externalForms: () => {},
+      userPermittedFormsIds: fromJS({ basic_identity: "rw" })
     }));
   });
 
@@ -197,7 +198,8 @@ describe("<RecordForm />", () => {
       "record",
       "recordType",
       "externalForms",
-      "selectedForm"
+      "selectedForm",
+      "userPermittedFormsIds"
     ].forEach(property => {
       expect(incidentsProps).to.have.property(property);
       delete incidentsProps[property];

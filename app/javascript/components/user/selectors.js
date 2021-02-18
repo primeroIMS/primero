@@ -24,7 +24,7 @@ export const getIsAuthenticated = state => state.getIn([NAMESPACE, "isAuthentica
 
 export const getListHeaders = (state, resource) => state.getIn([NAMESPACE, LIST_HEADERS, resource], List([]));
 
-export const getPermittedFormsIds = state => state.getIn([NAMESPACE, PERMITTED_FORMS], List([]));
+export const getPermittedFormsIds = state => state.getIn([NAMESPACE, PERMITTED_FORMS], fromJS({}));
 
 export const getReportingLocationConfig = state => state.getIn([NAMESPACE, "reportingLocationConfig"], fromJS({}));
 

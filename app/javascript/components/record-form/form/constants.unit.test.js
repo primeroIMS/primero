@@ -14,6 +14,7 @@ describe("Verifying config constant", () => {
       "RECORD_FORM_TOOLBAR_NAME",
       "RECORD_FORM_TOOLBAR_PAGE_HEADING_NAME",
       "RECORD_FORM_NAME",
+      "RECORD_FORM_PERMISSION",
       "SELECT_FIELD_NAME",
       "SEPERATOR_NAME",
       "TEXT_FIELD_NAME",

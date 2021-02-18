@@ -28,6 +28,7 @@ const Component = ({
   open,
   setOpen,
   title,
+  isReadWriteForm,
   orderedValues
 }) => {
   const [initialValues, setInitialValues] = useState({});
@@ -91,10 +92,26 @@ const Component = ({
 
   const renderSubform = (subformField, subformIndex) => {
     if (subformField.subform_section_id.unique_id === "services_section") {
-      return <ServicesSubform field={subformField} index={subformIndex} mode={mode} formSection={formSection} />;
+      return (
+        <ServicesSubform
+          field={subformField}
+          index={subformIndex}
+          mode={mode}
+          formSection={formSection}
+          isReadWriteForm={isReadWriteForm}
+        />
+      );
     }
 
-    return <SubformDialogFields field={subformField} mode={mode} index={subformIndex} formSection={formSection} />;
+    return (
+      <SubformDialogFields
+        field={subformField}
+        mode={mode}
+        index={subformIndex}
+        formSection={formSection}
+        isReadWriteForm={isReadWriteForm}
+      />
+    );
   };
 
   const modalConfirmationProps = {
@@ -173,6 +190,7 @@ Component.propTypes = {
   i18n: PropTypes.object.isRequired,
   index: PropTypes.number,
   isFormShow: PropTypes.bool,
+  isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
   oldValue: PropTypes.object,
   open: PropTypes.bool.isRequired,
