@@ -117,6 +117,15 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
       });
     }
 
+    // Checks if any value of a multiselect is disabled to avoid removing it, when clearing all options.
+    if (multiSelect && reason === "clear") {
+      const nonRemovableOptions = getValues(name).filter(selectedValue =>
+        options?.find(option => option?.id === selectedValue && option?.disabled)
+      );
+
+      return nonRemovableOptions;
+    }
+
     return multiSelect || multipleLimitOne
       ? data?.reduce((prev, current) => {
           if (multipleLimitOne && getValues(name).includes(current)) {
@@ -184,15 +193,26 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
     );
   };
 
-  const renderTags = (value, getTagProps) =>
-    value.map((option, index) => <Chip label={optionLabel(option)} {...getTagProps({ index })} disabled={disabled} />);
+  const renderTags = (value, getTagProps) => {
+    return value.map((currentOption, index) => {
+      const chipDisabled = !!options?.find(option => option?.id === currentOption)?.disabled;
 
-  const getOptionDisabled = () => {
+      return (
+        <Chip label={optionLabel(currentOption)} {...getTagProps({ index })} disabled={disabled || chipDisabled} />
+      );
+    });
+  };
+
+  const getOptionDisabled = option => {
+    if (option?.disabled) {
+      return true;
+    }
+
     if (Object.is(maxSelectedOptions, null) || Object.is(getValues()[name], null)) {
       return false;
     }
 
-    return getValues()[name].length === maxSelectedOptions;
+    return getValues()[name].length === maxSelectedOptions || option?.disabled;
   };
 
   return (
@@ -210,7 +230,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
           multiple={multiSelect || multipleLimitOne}
           getOptionLabel={optionLabel}
           getOptionSelected={optionEquality}
-          getOptionDisabled={getOptionDisabled}
+          getOptionDisabled={option => getOptionDisabled(option)}
           disabled={disabled}
           filterSelectedOptions
           disableClearable={disableClearable}

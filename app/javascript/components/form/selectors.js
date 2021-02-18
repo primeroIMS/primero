@@ -46,14 +46,23 @@ const formGroups = (state, i18n) =>
     )
     .sortBy(item => item.get("display_text"));
 
-const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false, filterOptions }) => {
+const agencies = (
+  state,
+  { optionStringsSourceIdKey, i18n, useUniqueId = false, filterOptions, onlyIncludeOptions }
+) => {
   const stateAgencies = state.getIn(["application", "agencies"], fromJS([]));
   const filteredAgencies = filterOptions ? filterOptions(stateAgencies) : stateAgencies;
 
-  return filteredAgencies.map(agency => ({
+  const allFilteredAgencies = filteredAgencies.map(agency => ({
     id: agency.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
     display_text: agency.getIn(["name", i18n.locale], "")
   }));
+
+  if (onlyIncludeOptions?.size > 0 && !useUniqueId) {
+    return allFilteredAgencies.filter(filteredAgency => onlyIncludeOptions.includes(filteredAgency.id));
+  }
+
+  return allFilteredAgencies;
 };
 
 const locations = (state, i18n, includeAdminLevel = false) =>
@@ -127,10 +136,23 @@ const lookups = (state, { i18n, filterOptions }) => {
   return filterableOptions(filterOptions, lookupList);
 };
 
-const userGroups = state =>
-  getUserGroups(state).map(userGroup =>
+const userGroups = (state, { onlyIncludeOptions }) => {
+  const applicationUserGroups = getUserGroups(state).map(userGroup =>
     fromJS({ id: userGroup.get("unique_id"), display_text: userGroup.get("name") })
   );
+
+  if (onlyIncludeOptions?.size > 0) {
+    return applicationUserGroups.map(userGroup => {
+      if (!onlyIncludeOptions.includes(userGroup.get("id"))) {
+        return userGroup.set("disabled", true);
+      }
+
+      return userGroup;
+    });
+  }
+
+  return applicationUserGroups;
+};
 
 const formGroupLookup = (state, { filterOptions }) =>
   filterableOptions(
@@ -164,7 +186,7 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) =
     case OPTION_TYPES.REFER_TO_USERS:
       return referToUsers(state, { ...rest });
     case OPTION_TYPES.USER_GROUP:
-      return userGroups(state);
+      return userGroups(state, { ...rest });
     case OPTION_TYPES.ROLE:
       return roles(state);
     case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:

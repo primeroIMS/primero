@@ -90,7 +90,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     filterOptionSource,
     forceShowIf,
     multipleLimitOne,
-    rawOptions
+    rawOptions,
+    onlyIncludeOptions
   } = field;
 
   const i18n = useI18n();
@@ -103,7 +104,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
       currRecord,
       rawOptions,
       filterOptions:
-        filterOptionSource && (optionsFromState => filterOptionSource(watchedInputsValues, optionsFromState))
+        filterOptionSource && (optionsFromState => filterOptionSource(watchedInputsValues, optionsFromState)),
+      onlyIncludeOptions
     });
 
   const dateFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;

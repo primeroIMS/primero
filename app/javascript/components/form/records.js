@@ -67,7 +67,8 @@ export const FieldRecord = Record({
   href: null,
   fileFormat: "",
   filterOptionSource: null,
-  rawOptions: false
+  rawOptions: false,
+  onlyIncludeOptions: fromJS([])
 });
 
 export const FormSectionRecord = Record({

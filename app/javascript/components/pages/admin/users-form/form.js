@@ -20,7 +20,14 @@ import {
 
 const passwordPlaceholder = formMode => (formMode.get("isEdit") ? "•••••" : "");
 
-const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity) => [
+const sharedUserFields = (
+  i18n,
+  formMode,
+  hideOnAccountPage,
+  onClickChangePassword,
+  useIdentity,
+  { currentUserGroupPermissions, currentUserAgencies }
+) => [
   {
     display_name: i18n.t("user.full_name"),
     name: "full_name",
@@ -110,7 +117,8 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     multi_select: true,
     required: true,
     option_strings_source: OPTION_TYPES.USER_GROUP,
-    visible: !hideOnAccountPage
+    visible: !hideOnAccountPage,
+    onlyIncludeOptions: currentUserGroupPermissions
   },
   {
     display_name: i18n.t("user.services"),
@@ -137,7 +145,8 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     type: SELECT_FIELD,
     required: true,
     option_strings_source: OPTION_TYPES.AGENCY,
-    visible: !hideOnAccountPage
+    visible: !hideOnAccountPage,
+    onlyIncludeOptions: currentUserAgencies
   },
   {
     display_name: i18n.t("user.agency_office"),
@@ -196,10 +205,14 @@ export const form = (
   providers,
   identityOptions,
   onClickChangePassword,
-  hideOnAccountPage = false
+  hideOnAccountPage = false,
+  { currentUserAgencies, currentUserGroupPermissions } = {}
 ) => {
   const useIdentity = useIdentityProviders && providers;
-  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity);
+  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity, {
+    currentUserGroupPermissions,
+    currentUserAgencies
+  });
   const identityFields = identityUserFields(i18n, identityOptions);
 
   const providersDisable = (value, name, { error }) => {
