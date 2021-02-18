@@ -2,7 +2,7 @@
 
 require 'write_xlsx'
 
-# Export records to Excel. Every form ius represented by a new tab.
+# Export records to Excel. Every form is represented by a new tab.
 # Subforms get a dedicated tab.
 # Uses the write_xlsx gem
 class Exporters::ExcelExporter < Exporters::BaseExporter
@@ -30,6 +30,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
     records.each do |record|
       write_record(record)
+      worksheets_reset_written
     end
   end
 
@@ -42,6 +43,10 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def build_worksheet_with_headers(form)
+    # Do not build the worksheet if the form is already there because
+    # the same form can be referenced by different fields
+    return if worksheets[form.unique_id].present?
+
     worksheet = build_worksheet(form)
     worksheet&.write(0, 0, 'ID')
     form.fields.each_with_index do |field, i|
@@ -78,12 +83,16 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def write_record(record)
-    forms.each do |form|
+    # Do not write nested forms here
+    forms.reject(&:is_nested).each do |form|
       write_record_form(record.short_id, record.data, form)
     end
   end
 
   def write_record_form(id, data, form)
+    # Do not write data if already written for this form
+    return if worksheets[form.unique_id][:written] == true
+
     worksheet = worksheets[form.unique_id][:worksheet]
     worksheet&.write(worksheets[form.unique_id][:row], 0, id)
     form.fields.each_with_index do |field, i|
@@ -96,6 +105,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
         worksheet&.write(worksheets[form.unique_id][:row], i + 1, value)
       end
     end
+    worksheets[form.unique_id][:written] = true
     worksheets[form.unique_id][:row] += 1
   end
 
@@ -107,6 +117,10 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
       values << export_value(section[field.name], field)
     end
     values.join(', ')
+  end
+
+  def worksheets_reset_written
+    worksheets.each { |_, value| value[:written] = false }
   end
 
   def export_value(value, field)
