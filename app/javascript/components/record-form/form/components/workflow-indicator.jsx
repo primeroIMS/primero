@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import React from "react";
 import { Stepper, Step, StepLabel, useMediaQuery, Badge } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";

@@ -1,4 +1,4 @@
-import React from "react";
+import { memo, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEqual from "lodash/isEqual";
 import { makeStyles } from "@material-ui/styles";
@@ -31,11 +31,11 @@ const Component = ({ fields, isSubform, record }) => {
     const displayFields = fieldsToRender(fieldList, subformSection.fields);
 
     return filteredValues.map((subform, index) => (
-      <React.Fragment key={record.getIn([subformSection.unique_id, index, "unique_id"])}>
+      <Fragment key={record.getIn([subformSection.unique_id, index, "unique_id"])}>
         <h4>{i18n.getI18nStringFromObject(displayName)}</h4>
         <Component fields={displayFields} record={subform} isSubform classes={classes} />
         <div className={css.seperator} />
-      </React.Fragment>
+      </Fragment>
     ));
   };
 
@@ -94,7 +94,7 @@ Component.propTypes = {
   record: PropTypes.object.isRequired
 };
 
-export default React.memo(Component, (prev, next) => {
+export default memo(Component, (prev, next) => {
   return (
     isEqual(
       prev.fields.map(field => field.name),

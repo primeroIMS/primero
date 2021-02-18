@@ -1,5 +1,4 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
-import React from "react";
 import PropTypes from "prop-types";
 import DateFnsUtils from "@date-io/date-fns";
 import { Controller, useWatch } from "react-hook-form";

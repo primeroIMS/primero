@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { IconButton, Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";

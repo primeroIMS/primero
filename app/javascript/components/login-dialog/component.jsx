@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 
 import ActionDialog, { useDialog } from "../action-dialog";
 import Login from "../login";

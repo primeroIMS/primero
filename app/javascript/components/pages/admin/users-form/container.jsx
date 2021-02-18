@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp */
-import React, { useEffect } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -70,7 +70,7 @@ const Container = ({ mode }) => {
 
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
-  const [userData, setUserData] = React.useState({});
+  const [userData, setUserData] = useState({});
 
   const handleSubmit = data => {
     setUserData({ ...userData, ...data });

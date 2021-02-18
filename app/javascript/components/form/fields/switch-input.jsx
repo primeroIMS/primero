@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Checkbox, FormControl, FormGroup, FormControlLabel, FormHelperText } from "@material-ui/core";
 import { Controller } from "react-hook-form";

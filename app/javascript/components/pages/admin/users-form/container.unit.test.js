@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-import React from "react";
 import { Route } from "react-router-dom";
 
 import { setupMountedComponent } from "../../../../test";

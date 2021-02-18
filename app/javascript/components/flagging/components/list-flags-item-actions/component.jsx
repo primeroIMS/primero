@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Divider, makeStyles } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { createRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
@@ -16,7 +16,7 @@ import NAMESPACE from "./namespace";
 const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const formikRef = React.createRef();
+  const formikRef = createRef();
   const loading = useSelector(state => getLoading(state, ["transitions", NAMESPACE]));
   const errors = useSelector(state => getErrors(state, ["transitions", NAMESPACE]));
 

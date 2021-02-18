@@ -1,4 +1,3 @@
-import React from "react";
 import Alert from "@material-ui/lab/Alert";
 import { fromJS } from "immutable";
 

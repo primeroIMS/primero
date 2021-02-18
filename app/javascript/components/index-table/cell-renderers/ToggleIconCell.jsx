@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Icon, Badge } from "@material-ui/core";
 import { Photo } from "@material-ui/icons";

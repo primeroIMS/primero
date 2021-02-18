@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { useForm, useWatch } from "react-hook-form";

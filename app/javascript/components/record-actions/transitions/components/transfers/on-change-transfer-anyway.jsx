@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name, react/prop-types */
 
 import { Checkbox } from "@material-ui/core";
-import React from "react";
 
 import onChange from "./provided-form-on-change";
 
