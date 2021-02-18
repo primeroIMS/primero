@@ -98,10 +98,10 @@ const Component = ({
                     .find(lookup => lookup.get("unique_id") === lookupName)
                     .get("values")
                     .find(v => v.get("id") === value)
-                    .get("display_text")
+                    ?.get("display_text")
                 : null;
 
-            recordValue = valueFromLookup ? valueFromLookup.get(i18n.locale) : "";
+            recordValue = valueFromLookup ? valueFromLookup.get(i18n.locale) : value || "";
           } else {
             switch (optionStringsSource) {
               case STRING_SOURCES_TYPES.AGENCY:

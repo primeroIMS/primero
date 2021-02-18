@@ -5,8 +5,7 @@ import { Formik, Form } from "formik";
 import isEmpty from "lodash/isEmpty";
 import { Box } from "@material-ui/core";
 import NavigationPrompt from "react-router-navigation-prompt";
-import { batch, useDispatch } from "react-redux";
-import isEqual from "lodash/isEqual";
+import { batch, useDispatch, useSelector } from "react-redux";
 
 import { setSelectedForm } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
@@ -17,6 +16,7 @@ import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
 import { displayNameHelper } from "../../../libs";
 import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
+import { getFields } from "../selectors";
 
 import { ValidationErrors } from "./components";
 import RecordFormTitle from "./record-form-title";
@@ -24,6 +24,7 @@ import { RECORD_FORM_NAME, RECORD_FORM_PERMISSION } from "./constants";
 import FormSectionField from "./form-section-field";
 import SubformField from "./subforms";
 import { fieldValidations } from "./validations";
+import { isFormDirty } from "./utils";
 
 const RecordForm = ({
   attachmentForms,
@@ -46,6 +47,7 @@ const RecordForm = ({
   const [initialValues, setInitialValues] = useState(constructInitialValues(forms.values()));
   const [formTouched, setFormTouched] = useState({});
   const [formIsSubmitting, setFormIsSubmitting] = useState(false);
+  const fields = useSelector(state => getFields(state));
 
   let bindedSetValues = null;
   let formikValues;
@@ -166,7 +168,7 @@ const RecordForm = ({
         }}
       >
         {({ handleSubmit, submitForm, errors, isSubmitting, setValues, setFieldValue, values, touched }) => {
-          const equalValues = isEqual(initialValues, values);
+          const dirty = isFormDirty(initialValues, values, fields.toList().toJS());
 
           bindSubmitForm(submitForm);
           bindSetValues(setValues);
@@ -177,7 +179,7 @@ const RecordForm = ({
 
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-              <NavigationPrompt when={!equalValues && !isSubmitting && !mode.isShow}>
+              <NavigationPrompt when={dirty && !isSubmitting && !mode.isShow}>
                 {({ onConfirm, onCancel }) => (
                   <ActionDialog
                     open

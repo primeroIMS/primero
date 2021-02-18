@@ -59,13 +59,13 @@ module Transitionable
 
   def transferred_to_users
     transfers
-      .where(status: Transition::STATUS_INPROGRESS)
+      .where(status: [Transition::STATUS_INPROGRESS])
       .pluck(:transitioned_to).uniq
   end
 
   def referred_users
     referrals
-      .where(status: Transition::STATUS_INPROGRESS)
+      .where(status: [Transition::STATUS_INPROGRESS, Transition::STATUS_ACCEPTED])
       .pluck(:transitioned_to).uniq
   end
 

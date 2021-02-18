@@ -56,4 +56,14 @@ describe("<ActionButton />", () => {
     });
     expect(componentsProps).to.be.empty;
   });
+
+  it("should not render Action button if rest.hide is true", () => {
+    const newProps = {
+      ...props,
+      rest: { hide: true }
+    };
+    const { component } = setupMountedComponent(ActionButton, newProps);
+
+    expect(component.find(IconButton)).to.be.empty;
+  });
 });

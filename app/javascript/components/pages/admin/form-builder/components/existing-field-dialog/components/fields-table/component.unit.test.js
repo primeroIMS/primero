@@ -70,7 +70,7 @@ describe("<FieldsTable />", () => {
     }
   ];
 
-  const initialState = fromJS({
+  const state = fromJS({
     ui: { dialogs: { admin_fields_dialog: true } },
     records: {
       admin: {
@@ -83,38 +83,39 @@ describe("<FieldsTable />", () => {
   });
 
   it("should render the table", () => {
-    const { component } = setupMockFormComponent(
-      FieldsTable,
-      { fieldQuery: "", parentForm: "parent", primeroModule: "module-1", addField: () => {}, removeField: () => {} },
-      {},
-      initialState
-    );
+    const { component } = setupMockFormComponent(FieldsTable, {
+      props: {
+        fieldQuery: "",
+        parentForm: "parent",
+        primeroModule: "module-1",
+        addField: () => {},
+        removeField: () => {}
+      },
+      state
+    });
 
     expect(component.find(FieldsTable)).to.have.lengthOf(1);
     expect(component.find(FieldsTable).find(MUIDataTable).find("tbody").find("tr")).to.have.lengthOf(3);
   });
 
   it("should render only those record that match the query", () => {
-    const { component } = setupMockFormComponent(
-      FieldsTable,
-      {
+    const { component } = setupMockFormComponent(FieldsTable, {
+      props: {
         fieldQuery: "Field 1",
         parentForm: "parent",
         primeroModule: "module-1",
         addField: () => {},
         removeField: () => {}
       },
-      {},
-      initialState
-    );
+      state
+    });
 
     expect(component.find(FieldsTable).find(MUIDataTable).find("tbody").find("tr")).to.have.lengthOf(2);
   });
 
   it("should select the rows for the selected fields", () => {
-    const { component } = setupMockFormComponent(
-      FieldsTable,
-      {
+    const { component } = setupMockFormComponent(FieldsTable, {
+      props: {
         fieldQuery: "",
         parentForm: "parent",
         primeroModule: "module-1",
@@ -122,9 +123,8 @@ describe("<FieldsTable />", () => {
         addField: () => {},
         removeField: () => {}
       },
-      {},
-      initialState
-    );
+      state
+    });
 
     const selectedRows = [0, 2];
 

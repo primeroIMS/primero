@@ -1,4 +1,3 @@
-import React from "react";
 import { fromJS } from "immutable";
 
 import { OPTION_TYPES } from "../../../form";
@@ -36,7 +35,7 @@ describe("<RecordActions />/transitions/<Referrals />", () => {
   });
 
   const initialProps = {
-    referralRef: React.createRef(),
+    formID: "referral-form",
     providedConsent: true,
     canConsentOverride: true,
     record: fromJS({ module_id: "module_1" }),

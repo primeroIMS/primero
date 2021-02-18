@@ -8,14 +8,9 @@ describe("<SubformFieldList />", () => {
   let component;
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(
-      SubformFieldList,
-      { formContextFields: {}, subformField: fromJS({}) },
-      {},
-      fromJS({}),
-      {},
-      true
-    ));
+    ({ component } = setupMockFormComponent(SubformFieldList, {
+      props: { formContextFields: {}, subformField: fromJS({}) }
+    }));
   });
 
   it("should render <SettingsTab />", () => {

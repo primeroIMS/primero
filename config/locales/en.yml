@@ -131,8 +131,10 @@ en:
     bundle_import: Configuration Bundle
     cancel: Cancel
     change_password: Change Password
+    check_status: Check Status
     clear_default: Clear default
     clear_selection: Clear selection
+    clear: Clear
     close: Close
     continue: Continue
     create_case: Create Case
@@ -182,6 +184,7 @@ en:
     send: Send
     sort_by_case: Cases
     sort_by_tr: Tracing Requests
+    sync: Sync
     submit: Submit
     transfer: Transfer
     unflag_model: Unflag %{model}
@@ -199,12 +202,13 @@ en:
     id_search_no_results: There is no match in the system for “%{search_query}”. Please
       create a new record.
     messages:
-      case_disabled: Case is disabled
+      disabled: Case is disabled
       update_success: 'Case %{record_id} was successfully updated.'
       update_success_queue: 'Case %{record_id} was successfully updated in background'
       creation_success: 'Case record successfully created.'
       creation_success_queue: 'Case record successfully created in background.'
       already_matched: This Inquirer has already been matched to your case.
+      already_matched_not_current_case: There is already a case in the system matched to this inquirer.
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
     workflow:
@@ -245,10 +249,10 @@ en:
     close_success: Successfully closed case
     closure: Closure
     date_of_birth: Date of Birth
-    disable_dialog: Clicking OK will change the status of this case to Disabled
+    disable_dialog: Clicking OK will change the status of this case to Disabled.
     disable_dialog_title: Disable Case
     disable_success: Successfully disabled case
-    enable_dialog: Clicking OK will change the status of this case to Enabled
+    enable_dialog: Clicking OK will change the status of this case to Enabled.
     enable_dialog_title: Enable Case
     enable_success: Successfully enabled case
     export: Export
@@ -337,6 +341,15 @@ en:
       work associated with this case. Once you click 'Done' you will no longer have
       access to this record.
     referral_done_success: Referral done.
+    referral_accepted_header: Accept Referral
+    referral_accepted: Are you sure? You will now be responsible for completing work
+      associated with this Referral.
+    referral_accepted_success: Referral accepted.
+    referral_rejected: By clicking 'Reject' you are indicating that you are not ready
+      to accept responsibility for this Referral at this time. Please enter a reason
+      that you are rejecting this Referral; once you click ‘Reject’ you will no longer
+      have access to this Case record.
+    referral_rejected_success: Referral rejected.
     register_new_case: New Case
     registration_date: Registration Date
     rejected_success_action_plan: '%{approval_label} - Not Approved'
@@ -575,7 +588,7 @@ en:
     count_waiting_for_acceptance_transfers: You have %{stat} Transfers <span>waiting</span>
       for your acceptance
     current_owner: Current Owner
-    dash_case_incident_overview: My Cases / Incidents
+    dash_case_incident_overview: My Cases
     dash_group_overview: My Group's Cases
     dash_shared_from_my_team: Shared From My Team
     dash_shared_with_me: Shared With Me
@@ -695,6 +708,7 @@ en:
     users: SETTINGS icon
     violence_type: Violence Type
     with_incidents: With Incidents
+    with_new_incidents: With New Incidents
     without_incidents: Without Incidents
     worker_count_referrals_total:
       one: '<span>%{case_worker}</span> has %{stat} <span>total</span> referral '
@@ -972,6 +986,11 @@ en:
         db_error: 'Error creating %{location_code}: %{message}'
         locale_invalid: 'Skipping %{column_name}: Locale invalid'
         insert_all_error: 'Import Not Processed. Database error: %{message}'
+  sync_record:
+    failed: Sync failed.
+    last: 'Last Sync: %{date_time}'
+    retrieving: Retrieving Data.
+    see_details: See Details.
   fields:
     action: Action
     actions: Actions
@@ -1228,11 +1247,18 @@ en:
     messages:
       creation_success: Incident record successfully created.
       creation_success_queue: Incident record successfully created in background
+      disabled: Incident is disabled
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
     violation:
       pending: Pending Verification
   incidents:
+    disable_dialog: Clicking OK will change the status of this incident to Disabled.
+    disable_dialog_title: Disable Incident
+    disable_success: Successfully disabled incident
+    enable_dialog: Clicking OK will change the status of this incident to Enabled.
+    enable_dialog_title: Enable Incident
+    enable_success: Successfully enabled incidents.
     id: ID#
     date_of_interview: Date of Interview
     date_of_incident: Date of Incident
@@ -1290,7 +1316,7 @@ en:
       reporting_site: "Reporting Site"
       helptext: |
         This indicator counts how many new cases are opened each month per reporting site.
-        A reporting site is understood as the site where the User Organization is providing services and 
+        A reporting site is understood as the site where the User Organization is providing services and
         where the case was reported to the service provider.
     number_of_incidents:
       title: "2. Number of recorded Incidents"
@@ -1714,6 +1740,7 @@ en:
         Details Modal
       services_section_from_case: Add Service provision to another user's case
       specific_roles: Access specified list of roles
+      sync_external: Sync with an external information management system
       sync_mobile: Sync with mobile device
       system: System
       tracing_request: Tracing Request
@@ -2139,6 +2166,9 @@ en:
               if they also have the "Search for case records owned by other users"
               permission.
             label: Add Service provision to another user's case
+          sync_external:
+            explanation: Ability to sync a Record with an external information management system
+            label: Sync with an external information management system
           sync_mobile:
             explanation: This permission generally allows the user to use the mobile
               application. First, it allows the user to see the "Mark for Mobile"
@@ -2419,6 +2449,11 @@ en:
           create:
             explanation: Ability to create an incident.
             label: Create
+          enable_disable_record:
+            explanation: Ability to disable or enable a Incident.
+              "Disabled" Incidents do not appear by default in the Incident list.
+              Users can see disabled Incidents in the Incident list by applying a filter.
+            label: Enable / Disable
           export_case_pdf:
             explanation: User can generate a PDF file export from the incidents list
               or incident show pages, which contains all fields to which the current
@@ -2651,6 +2686,11 @@ en:
           create:
             explanation: Ability to create a tracing request
             label: Create
+          enable_disable_record:
+            explanation: Ability to disable or enable a Tracing Request.
+              "Disabled" Tracing Requests do not appear by default in the Tracing Requests list.
+              Users can see disabled Tracing Requests in the Tracing Requests list by applying a filter.
+            label: Enable / Disable
           export_case_pdf:
             explanation: User can generate a PDF file export from the tracing requests
               list or tracing request show pages, which contains all fields to which
@@ -2843,6 +2883,8 @@ en:
     is_remote_label: Are you referring to a remote system?
     location_label: Location
     notes_label: Notes
+    notes_on_referral: Notes on referral
+    note_on_referral_from_provider: Notes on referral from provider
     provided_consent_label: Consent is not provided in the Forms.
     recipient_label: Recipient
     refer_anyway_label: Refer anyway?
@@ -2850,6 +2892,7 @@ en:
     success: '%{record_type} %{id} successfully referred'
     user_mandatory_label: Recipient is required
     date: Date
+    rejected_reason: Rejection Reason
   report:
     aggregate_by: Group by row
     attribute: Attribute
@@ -2993,8 +3036,9 @@ en:
     matches: Matches
     unmatch: Un-match
     messages:
-      nothing_found: Nothing found
       already_matched: There is already a match in the system with an Inquirer looking for this child.
+      disabled: Tracing Request is disabled
+      nothing_found: Nothing found
       update_success: 'Tracing Request %{record_id} was successfully updated.'
       creation_success: Tracing Request record successfully created.
       update_success_queue: 'Tracing Request %{record_id} was successfully updated in background.'
@@ -3003,6 +3047,12 @@ en:
       unmatch_action: Successfully un-matched Trace %{trace_id} and Case %{record_id}.
   tracing_requests:
     date_of_inquiry: Date of Inquiry
+    disable_dialog_title: Disable Tracing Request
+    disable_dialog: Clicking OK will change the status of this tracing request to Disabled.
+    disable_success: Successfully disabled tracing request
+    enable_dialog: Clicking OK will change the status of this tracing request to Enabled.
+    enable_dialog_title: Enable Tracing Request
+    enable_success: Successfully enabled trancing request.
     id: ID
     filter_by:
       by_date: By Date
@@ -3057,12 +3107,12 @@ en:
     recipient: Recipient
     rejected: Reason Rejected
     service_label: Service
+    responded_at: Responded At
     status:
       accepted: Accepted
       done: Done
-      in_progress: In progress
-      inprogress: In progress
-      pending: Pending
+      in_progress: Pending
+      inprogress: Pending
       rejected: Rejected
     type:
       assign: Assign

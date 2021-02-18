@@ -66,7 +66,7 @@ describe("<LoginSelection /> - Selectors", () => {
     it("should return empty object when records empty", () => {
       const providers = getIdentityProviders(stateWithNoRecords);
 
-      expect(providers).to.be.undefined;
+      expect(providers).to.be.empty;
     });
   });
 });

@@ -8,12 +8,23 @@ class PrimeroModule < ApplicationRecord
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
 
+  # allow_searchable_ids: TODO document
+  # selectable_approval_types: TODO document
+  # agency_code_indicator: TODO document. Still used?
+  # workflow_status_indicator: Boolean. Show the workflow status bar for cases.
+  # use_workflow_case_plan: Boolean. Case plan is a status in the workflow bar.
+  # use_workflow_assessment: Boolean. Assessment is a status in the workflow bar.
+  # use_workflow_service_implemented: Boolean. Workflow status bar indicates status when all services are implemented.
+  # reporting_location_filter: TODO document
+  # user_group_filter: TODO document
+  # use_webhooks_for: String array of record types that can register webhooks.
+  # use_webhook_sync_for: String array of record types that allow reverse syncs from downstream systems.
   store_accessor(
     :module_options,
     :allow_searchable_ids, :selectable_approval_types,
     :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
     :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
-    :user_group_filter
+    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for
   )
 
   belongs_to :primero_program, optional: true

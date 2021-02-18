@@ -34,7 +34,8 @@ describe("libs/index", () => {
       "toServerDateFormat",
       "useThemeHelper",
       "valuesToSearchableSelect",
-      "ConditionalWrapper"
+      "ConditionalWrapper",
+      "useMemoizedSelector"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(moduleToTest).to.have.property(property);

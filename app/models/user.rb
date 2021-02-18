@@ -427,8 +427,8 @@ class User < ApplicationRecord
     modules.select { |m| m.associated_record_types.include?(record_type) }
   end
 
-  def permitted_fields(record_type = nil, visible_forms_only = false, read_write = false)
-    permission_level = read_write ? FormPermission::PERMISSIONS[:read_write] : read_write
+  def permitted_fields(record_type = nil, visible_forms_only = false, writeable = false)
+    permission_level = writeable ? FormPermission::PERMISSIONS[:read_write] : writeable
     fields = Field.joins(form_section: :roles).where(
       fields: {
         form_sections: {
@@ -438,12 +438,12 @@ class User < ApplicationRecord
         }.compact
       }
     )
-    fields = fields.where(fields: { form_sections: { form_sections_roles: { permission: permission_level } } }) if read_write
+    fields = fields.where(fields: { form_sections: { form_sections_roles: { permission: permission_level } } }) if writeable
     fields
   end
 
-  def permitted_field_names_from_forms(record_type = nil, visible_forms_only = false, read_write = false)
-    permitted_fields(record_type, visible_forms_only, read_write).distinct.pluck(:name)
+  def permitted_field_names_from_forms(record_type = nil, visible_forms_only = false, writeable = false)
+    permitted_fields(record_type, visible_forms_only, writeable).distinct.pluck(:name)
   end
 
   def permitted_roles_to_manage

@@ -116,7 +116,7 @@ const ActionDialog = ({
         pending={isPending}
         rest={{
           ...successButtonProps,
-          onClick: handleSuccess,
+          ...(successHandler && { onClick: handleSuccess }),
           disabled: isPending || !enabledSuccessButton
         }}
       />

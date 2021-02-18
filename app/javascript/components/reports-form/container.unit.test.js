@@ -1,5 +1,4 @@
 import { fromJS, OrderedMap } from "immutable";
-import { FormContext } from "react-hook-form";
 
 import { PageContent, PageHeading } from "../page";
 import { setupMountedComponent } from "../../test";
@@ -65,9 +64,5 @@ describe("<ReportsForm /> - Container", () => {
 
   it("should render <PageContent>", () => {
     expect(component.find(PageContent)).to.have.lengthOf(1);
-  });
-
-  it("should render <FormContext>", () => {
-    expect(component.find(FormContext)).to.have.lengthOf(1);
   });
 });

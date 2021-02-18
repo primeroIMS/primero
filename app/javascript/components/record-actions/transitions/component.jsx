@@ -8,7 +8,7 @@ import { TRANSITIONS_TYPES } from "../../transitions/constants";
 import { getRecords } from "../../index-table";
 import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
 
-import { NAME } from "./constants";
+import { NAME, REFERRAL_FORM_ID } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
 import { TransitionDialog, ReassignForm, TransferForm } from "./components";
 import Referrals from "./referrals/component";
@@ -28,7 +28,6 @@ const Transitions = ({
 }) => {
   const i18n = useI18n();
   const providedConsent = (record && hasProvidedConsent(record)) || false;
-  const referralFormikRef = useRef();
   const transferFormikRef = useRef();
   const assignFormikRef = useRef();
   const [disabledReferButton, setDisabledReferButton] = useState(false);
@@ -85,7 +84,7 @@ const Transitions = ({
       return (
         <Referrals
           {...commonTransitionProps}
-          referralRef={referralFormikRef}
+          formID={REFERRAL_FORM_ID}
           disabled={disabledReferButton}
           setDisabled={setDisabledReferButton}
           handleClose={close}
@@ -110,10 +109,13 @@ const Transitions = ({
         onClose: referralOnClose,
         confirmButtonLabel: i18n.t("buttons.referral"),
         open: isReferDialogOpen,
-        successHandler: () => submitForm(referralFormikRef),
         transitionType: TRANSITIONS_TYPES.referral,
         enabledSuccessButton: disabledReferButton || providedConsent,
-        omitCloseAfterSuccess: true
+        omitCloseAfterSuccess: true,
+        confirmButtonProps: {
+          type: "submit",
+          form: REFERRAL_FORM_ID
+        }
       };
     }
 

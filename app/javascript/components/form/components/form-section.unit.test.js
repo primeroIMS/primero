@@ -19,7 +19,7 @@ describe("<Form /> - components/<FormSection />", () => {
         })
       ]
     });
-    const { component } = setupMockFormComponent(FormSection, { formSection });
+    const { component } = setupMockFormComponent(FormSection, { props: { formSection } });
 
     expect(component.exists("input[name='test_field']")).to.be.true;
     expect(component.find("h1")).to.have.lengthOf(1);
@@ -40,7 +40,7 @@ describe("<Form /> - components/<FormSection />", () => {
         })
       ]
     });
-    const { component } = setupMockFormComponent(FormSection, { formSection });
+    const { component } = setupMockFormComponent(FormSection, { props: { formSection } });
 
     expect(component.find(FormSectionField).props().checkErrors).to.deep.equal(checkErrors);
   });

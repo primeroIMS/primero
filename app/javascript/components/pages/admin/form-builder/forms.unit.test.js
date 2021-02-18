@@ -35,7 +35,7 @@ describe("pages/admin/<FormBuilder>/forms", () => {
     const forms = settingsForm({ i18n, formMode });
     const { fields } = forms.find(form => form.unique_id === "settings");
 
-    expect(fields[2].row.map(field => field.name)).to.deep.equal(["module_ids[0]", "parent_form"]);
+    expect(fields[2].row.map(field => field.name)).to.deep.equal(["module_ids", "parent_form"]);
     expect(fields[3].name).to.equal("form_group_id");
   });
 });

@@ -73,7 +73,7 @@ Component.propTypes = {
   options: PropTypes.array,
   params: PropTypes.object,
   TextFieldProps: PropTypes.object,
-  value: PropTypes.string
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
 };
 
 export default Component;

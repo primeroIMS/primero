@@ -47,7 +47,7 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
         })
       ],
       record: fromJS({
-        test_sub_form: [
+        test_subform: [
           { allowed_field: "anthony", disallowed_field: "5555555", relation_is_caregiver: true },
           { allowed_field: "josh", disallowed_field: "5555555", relation_is_caregiver: false }
         ]
@@ -90,7 +90,7 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
       ],
       record: fromJS({
         test_field: "josh",
-        test_sub_form: [{ test_sub_field: "anthony" }]
+        test_subform: [{ test_sub_field: "anthony" }]
       })
     };
 

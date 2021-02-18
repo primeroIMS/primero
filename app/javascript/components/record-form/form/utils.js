@@ -2,12 +2,34 @@ import find from "lodash/find";
 import { fromJS } from "immutable";
 import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
+import orderBy from "lodash/orderBy";
+import isEqual from "lodash/isEqual";
 
 import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/components/referrals";
 import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../config";
+import { SUBFORM_SECTION } from "../constants";
 
 import { valuesWithDisplayConditions } from "./subforms/subform-field-array/utils";
 import { CUSTOM_STRINGS_SOURCE } from "./constants";
+
+const sortSubformsValues = (values, fields) => {
+  const result = Object.entries(values).reduce((acc, curr) => {
+    const [key, value] = curr;
+    const subformField = fields.find(field => field.name === key && field.type === SUBFORM_SECTION);
+    // eslint-disable-next-line camelcase
+    const sortField = subformField?.subform_section_configuration?.subform_sort_by;
+
+    if (!subformField || !sortField) {
+      return { ...acc, [key]: value };
+    }
+
+    const orderedValues = orderBy(value, [sortField], ["asc"]);
+
+    return { ...acc, [key]: orderedValues };
+  }, {});
+
+  return result;
+};
 
 export const appendDisabledAgency = (agencies, agencyUniqueId) =>
   agencyUniqueId && !agencies.map(agency => agency.get("unique_id")).includes(agencyUniqueId)
@@ -178,4 +200,18 @@ export const getSubformValues = (field, index, values, orderedValues = []) => {
   }
 
   return {};
+};
+
+// This method checks if the form is dirty or not. With the existing behavior
+// of 'dirty' prop from formik when you update a subform, the form never gets
+// 'dirty'. Also, subforms are sorted before comparing them because the subforms
+// that are set into the 'initialValues' they got a different order than current
+// values (formik.getValues()).
+
+export const isFormDirty = (initialValues, currentValues, fields) => {
+  if (isEmpty(fields)) {
+    return false;
+  }
+
+  return !isEqual(sortSubformsValues(initialValues, fields), sortSubformsValues(currentValues, fields));
 };

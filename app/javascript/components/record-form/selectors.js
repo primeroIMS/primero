@@ -256,7 +256,7 @@ export const getAttachmentForms = state => state.getIn([NAMESPACE, "attachmentMe
 
 export const getAttachmentFields = state => state.getIn([NAMESPACE, "attachmentMeta", "fields"], fromJS([]));
 
-export const getFields = state => state.getIn([NAMESPACE, "fields"]);
+export const getFields = state => state.getIn([NAMESPACE, "fields"], fromJS([]));
 
 export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);
 

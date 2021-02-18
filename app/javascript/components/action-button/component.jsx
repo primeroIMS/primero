@@ -23,13 +23,19 @@ const Component = ({
   const isDisabled = disabledApplication && { disabled: disabledApplication };
   const isPending = Boolean(pending);
 
+  const { hide, ...restBtnProps } = rest;
+
+  if (hide) {
+    return null;
+  }
+
   return (
     <ButtonType
       icon={icon}
       isCancel={isCancel}
       isTransparent={isTransparent}
       pending={isPending}
-      rest={{ ...rest, ...isDisabled }}
+      rest={{ ...restBtnProps, ...isDisabled }}
       outlined={outlined}
       text={text}
       tooltip={tooltip}
