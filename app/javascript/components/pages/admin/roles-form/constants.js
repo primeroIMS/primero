@@ -24,6 +24,7 @@ export const RESOURCES = [
   "agency",
   "metadata",
   "system",
+  "primero_configuration",
   "report",
   "dashboard",
   "audit_log",
