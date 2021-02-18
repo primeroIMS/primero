@@ -104,8 +104,11 @@ const Container = ({ mode }) => {
         assignableForms
       ).toJS();
 
+  const hasData = formMode.get("isNew") || (role?.size > 0 && assignableForms.size > 0);
+  const loading = !role.size || !assignableForms.size;
+
   return (
-    <LoadingIndicator hasData={formMode.get("isNew") || role?.size > 0} loading={!role.size} type={NAMESPACE}>
+    <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
         <ActionButtons
           formMode={formMode}

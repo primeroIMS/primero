@@ -85,7 +85,9 @@ describe("<RolesForm />", () => {
                 {
                   name: "field_1"
                 }
-              ]
+              ],
+              visible: true,
+              is_nested: false
             }
           ]
         },
