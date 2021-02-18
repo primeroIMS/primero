@@ -2976,6 +2976,9 @@ en:
     role_ids_label: Others roles managed by this role
     successfully_updated: Role details are successfully updated.
     transfer_label: Can this role be used for Transfers?
+    hide: Hide
+    read: Show
+    read_write: Show and Edit
   roles:
     label: Roles
   saved_search:

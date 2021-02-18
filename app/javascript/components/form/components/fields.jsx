@@ -9,16 +9,21 @@ import WatchedFormSectionField from "./watched-form-section-field";
 import FormSectionField from "./form-section-field";
 
 const Fields = ({ fields, checkErrors, disableUnderline, formSection, css, formMethods, formMode }) => {
-  const calculatedClasses = equalColumns =>
+  const calculatedClasses = field =>
     clsx({
-      [css.notEqual]: equalColumns === false,
-      [css.row]: true
+      [css.notEqual]: field.equalColumns === false,
+      [css.row]: !field?.customRowStyle,
+      [css.rowCustom]: field?.customRowStyle,
+      [css.headerCustom]: field?.customHeaderStyle
     });
 
   return fields.map(field => {
     if (field?.row) {
+      // eslint-disable-next-line camelcase
+      const formUniqueId = formSection?.unique_id;
+
       return (
-        <div key={`${formSection.unique_id}-row`} className={calculatedClasses(field.equalColumns)}>
+        <div key={`${formUniqueId}-row`} className={calculatedClasses(field)}>
           <Fields
             fields={field.row}
             checkErrors={checkErrors}
@@ -27,7 +32,7 @@ const Fields = ({ fields, checkErrors, disableUnderline, formSection, css, formM
             formMethods={formMethods}
             formMode={formMode}
             formSection={formSection}
-            key={`${formSection.unique_id}-row`}
+            key={`${formUniqueId}-row`}
           />
         </div>
       );

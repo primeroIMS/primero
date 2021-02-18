@@ -4,7 +4,15 @@ describe("<RolesForm /> - Constants", () => {
   it("should have known properties", () => {
     const clonedActions = { ...constants };
 
-    ["ACTION_BUTTONS_NAME", "FIELD_NAMES", "FORM_CHECK_ERRORS", "NAME", "RESOURCES", "FORM_ID"].forEach(property => {
+    [
+      "ACTION_BUTTONS_NAME",
+      "FIELD_NAMES",
+      "FORM_CHECK_ERRORS",
+      "NAME",
+      "RESOURCES",
+      "FORM_ID",
+      "ROLES_PERMISSIONS"
+    ].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];
     });
