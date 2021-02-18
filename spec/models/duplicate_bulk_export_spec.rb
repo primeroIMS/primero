@@ -6,7 +6,8 @@ require 'sunspot'
 describe DuplicateBulkExport, search: true do
   before :each do
     clean_data(BulkExport, Agency, Location, UserGroup, Role, User, Field,
-               FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings)
+               FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings,
+               FormPermission)
 
     SystemSettings.create(duplicate_export_field: 'national_id_no')
     SystemSettings.current(true)
@@ -121,6 +122,7 @@ describe DuplicateBulkExport, search: true do
 
   after :each do
     clean_data(BulkExport, Agency, Location, UserGroup, Role, User, Field,
-               FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings)
+               FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings,
+               FormPermission)
   end
 end

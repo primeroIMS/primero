@@ -14,7 +14,8 @@ class FormSection < ApplicationRecord
   has_many :collapsed_fields, class_name: 'Field', foreign_key: 'collapsed_field_for_subform_section_id'
   has_one :subform_field,
           class_name: 'Field', dependent: :nullify, foreign_key: 'subform_section_id', inverse_of: :subform
-  has_and_belongs_to_many :roles
+  has_many :form_permissions
+  has_many :roles, through: :form_permissions, dependent: :destroy
   has_and_belongs_to_many :primero_modules, inverse_of: :form_sections
 
   attr_accessor :module_name

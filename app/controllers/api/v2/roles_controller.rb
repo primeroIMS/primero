@@ -38,7 +38,7 @@ class Api::V2::RolesController < ApplicationApiController
     params.require(:data).permit(
       :id, :unique_id, :name, :description, :disabled,
       :group_permission, :referral, :transfer, :is_manager, :reporting_location_level,
-      permissions: {}, form_section_unique_ids: [], module_unique_ids: []
+      permissions: {}, form_section_read_write: {}, module_unique_ids: []
     )
   end
 
