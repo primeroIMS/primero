@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { InputLabel, FormHelperText } from "@material-ui/core";
-import { useFormContext } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
@@ -14,8 +13,8 @@ import { ATTACHMENT_TYPES } from "../../record-form/form/field-types/attachments
 
 import styles from "./styles.css";
 
-const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
-  const { setValue, watch, register } = useFormContext();
+const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
+  const { setValue, watch, register } = formMethods;
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [file, setFile] = useState({
@@ -50,8 +49,8 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
       const data = await toBase64(selectedFile, attachment);
 
       if (data) {
-        setValue(`${name}_base64`, data.result);
-        setValue(`${name}_file_name`, data.fileName);
+        setValue(`${name}_base64`, data.result, { shouldDirty: true });
+        setValue(`${name}_file_name`, data.fileName, { shouldDirty: true });
         loadingFile(false, data);
       }
     }
@@ -120,6 +119,7 @@ AttachmentInput.displayName = "AttachmentInput";
 
 AttachmentInput.propTypes = {
   commonInputProps: PropTypes.object,
+  formMethods: PropTypes.object.isRequired,
   metaInputProps: PropTypes.object
 };
 

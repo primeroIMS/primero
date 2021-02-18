@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React, { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -135,7 +135,7 @@ const Component = ({
       const { form, comparisons, index } = comparedForm;
 
       return (
-        <React.Fragment key={`${form.unique_id}-${index}`}>
+        <Fragment key={`${form.unique_id}-${index}`}>
           <Grid container item>
             <Grid item xs={12}>
               <h2>{form.name[i18n.locale]}</h2>
@@ -148,7 +148,7 @@ const Component = ({
               </Grid>
             </Grid>
           )}
-        </React.Fragment>
+        </Fragment>
       );
     });
 

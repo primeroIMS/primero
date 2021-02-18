@@ -1,4 +1,3 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -105,7 +104,7 @@ Component.propTypes = {
   page: PropTypes.number,
   perPage: PropTypes.number,
   recordType: PropTypes.string,
-  selectedFilters: PropTypes.object,
+  selectedFilters: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   selectedRecords: PropTypes.object,
   selectedRows: PropTypes.object,
   setSelectedRecords: PropTypes.func,

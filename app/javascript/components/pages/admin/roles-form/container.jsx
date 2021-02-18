@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { fromJS } from "immutable";
@@ -14,36 +14,45 @@ import { getSystemPermissions, useApp } from "../../../application";
 import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
 import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
-import { compare } from "../../../../libs";
+import { useMemoizedSelector } from "../../../../libs";
 import { getMetadata } from "../../../record-list";
 import { getReportingLocationConfig } from "../../../user/selectors";
+import { usePermissions } from "../../../user";
+import { COPY_ROLES } from "../../../../libs/permissions";
 
 import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";
 import { getFormsToRender, mergeFormSections, groupSelectedIdsByParentForm } from "./utils";
 import { clearSelectedRole, fetchRole, saveRole } from "./action-creators";
-import { getRole } from "./selectors";
-import { NAME } from "./constants";
+import { getRole, getCopiedRole } from "./selectors";
+import { NAME, FORM_ID } from "./constants";
+import RolesActions from "./roles-actions";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
+  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+
   const i18n = useI18n();
-  const formRef = useRef();
   const { approvalsLabels, limitedProductionSite } = useApp();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const roles = useSelector(state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]), compare);
-  const metadata = useSelector(state => getMetadata(state, "roles"));
-  const role = useSelector(state => getRole(state), compare);
-  const systemPermissions = useSelector(state => getSystemPermissions(state), compare);
-  const assignableForms = useSelector(state => getAssignableForms(state), compare);
-  const reportingLocationConfig = useSelector(state => getReportingLocationConfig(state));
+
+  const canCopyRole = usePermissions(NAMESPACE, COPY_ROLES);
+  const roles = useMemoizedSelector(state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]));
+  const metadata = useMemoizedSelector(state => getMetadata(state, "roles"));
+  const role = useMemoizedSelector(state => getRole(state));
+  const systemPermissions = useMemoizedSelector(state => getSystemPermissions(state));
+  const assignableForms = useMemoizedSelector(state => getAssignableForms(state));
+  const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
+  const copiedRole = useMemoizedSelector(state => getCopiedRole(state));
+
   const adminLevelMap = reportingLocationConfig.get("admin_level_map") || fromJS({});
 
   const formsByParentForm = assignableForms.groupBy(assignableForm => assignableForm.get(PARENT_FORM));
 
   const validationSchema = Validations(i18n);
+
+  const isCopiedRole = formMode.get("isNew") && copiedRole.size > 0;
 
   const handleSubmit = data => {
     dispatch(
@@ -88,30 +97,35 @@ const Container = ({ mode }) => {
     adminLevelMap
   });
 
-  const initialValues = groupSelectedIdsByParentForm(
-    role.filter(prop => Boolean(prop)),
-    assignableForms
-  ).toJS();
+  const initialValues = isCopiedRole
+    ? copiedRole?.toJS()
+    : groupSelectedIdsByParentForm(
+        role.filter(prop => Boolean(prop)),
+        assignableForms
+      ).toJS();
 
   return (
     <LoadingIndicator hasData={formMode.get("isNew") || role?.size > 0} loading={!role.size} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
         <ActionButtons
           formMode={formMode}
-          formRef={formRef}
+          formID={FORM_ID}
           handleCancel={handleCancel}
           limitedProductionSite={limitedProductionSite}
         />
+        {!formMode.get("isNew") && <RolesActions canCopyRole={canCopyRole} initialValues={initialValues} />}
       </PageHeading>
       <PageContent>
         <Form
+          formID={FORM_ID}
           useCancelPrompt
           mode={mode}
           formSections={formsToRender}
           onSubmit={handleSubmit}
-          ref={formRef}
           validations={validationSchema}
           initialValues={initialValues}
+          submitAllFields={isCopiedRole}
+          submitAlways={isCopiedRole}
         />
       </PageContent>
     </LoadingIndicator>

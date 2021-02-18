@@ -1663,6 +1663,7 @@ en:
       close: Close
       consent_override: Consent override
       copy: Copy
+      copy_of: Copy of
       create: Create
       dash_case_incident_overview: My Cases / Incidents
       dash_cases_by_social_worker: View Cases By Social Worker
@@ -1715,6 +1716,7 @@ en:
       matching_configuration: Matching Configuration
       metadata: Forms, Lookups
       potential_match: Potential Match
+      primero_configuration: Configuration
       read: Read
       reassign: Reassign
       receive_referral: Receive Referral
@@ -2576,6 +2578,13 @@ en:
               Allows user to see the Tracing Summary form on Cases.
             label: View
         label: Potential Match
+      primero_configuration:
+        actions:
+          manage:
+            explanation: Ability to save, apply, and send Configurations.
+              This permission is usually reserved for the system administrator.
+            label: Manage (all permissions for this resource type)
+        label: Configuration
       referral:
         actions:
           refer:

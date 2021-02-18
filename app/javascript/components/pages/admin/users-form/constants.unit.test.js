@@ -12,7 +12,8 @@ describe("Verifying user constant", () => {
       "ROLE_OPTIONS",
       "USERGROUP_PRIMERO_GBV",
       "USER_CONFIRMATION_DIALOG",
-      "USER_GROUP_UNIQUE_IDS"
+      "USER_GROUP_UNIQUE_IDS",
+      "FORM_ID"
     ].forEach(property => {
       expect(constants).to.have.property(property);
       delete constants[property];

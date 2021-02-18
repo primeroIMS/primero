@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { IconButton, Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
@@ -39,7 +38,7 @@ Component.propTypes = {
   actionUrl: PropTypes.string,
   closeSnackbar: PropTypes.func.isRequired,
   hideCloseIcon: PropTypes.bool,
-  snackKey: PropTypes.number
+  snackKey: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
 export default Component;

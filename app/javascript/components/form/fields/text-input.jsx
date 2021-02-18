@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
 import { TextField } from "@material-ui/core";
@@ -10,18 +9,21 @@ import InputLabel from "../components/input-label";
 
 import styles from "./styles.css";
 
-const TextInput = ({ commonInputProps, metaInputProps }) => {
+const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   const css = makeStyles(styles)();
+  const { control } = formMethods;
   const { type, password, hint, tooltip, numeric, onBlur, onKeyPress } = metaInputProps;
   let inputType = "text";
 
   if (password) {
     inputType = "password";
   }
+
   if (numeric) {
     inputType = "number";
   }
-  const { label, helperText, ...rest } = commonInputProps;
+
+  const { label, helperText, defaultValue, ...rest } = commonInputProps;
 
   const renderHint = hint ? <span className={css.hint}>{hint}</span> : null;
 
@@ -34,6 +36,7 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
 
   return (
     <Controller
+      control={control}
       type={inputType}
       as={TextField}
       label={<InputLabel tooltip={tooltip} text={label} />}
@@ -46,7 +49,7 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
         </>
       }
       {...textAreaProps}
-      defaultValue=""
+      defaultValue={defaultValue || ""}
     />
   );
 };
@@ -59,6 +62,7 @@ TextInput.displayName = "TextInput";
 
 TextInput.propTypes = {
   commonInputProps: PropTypes.object.isRequired,
+  formMethods: PropTypes.object.isRequired,
   metaInputProps: PropTypes.object
 };
 

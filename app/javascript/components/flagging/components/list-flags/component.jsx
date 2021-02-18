@@ -1,4 +1,3 @@
-import React from "react";
 import { List, Box, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import FlagIcon from "@material-ui/icons/Flag";

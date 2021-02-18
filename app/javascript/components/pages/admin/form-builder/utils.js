@@ -57,7 +57,9 @@ export const buildFormGroupUniqueId = (moduleId, parentForm) => {
     return "";
   }
 
-  return `lookup-form-group-${moduleId?.replace("primeromodule-", "")}-${parentForm}`;
+  const primeroModule = Array.isArray(moduleId) ? moduleId[0] : moduleId;
+
+  return `lookup-form-group-${primeroModule?.replace("primeromodule-", "")}-${parentForm}`;
 };
 
 export const getSubformFields = (state, subform) =>

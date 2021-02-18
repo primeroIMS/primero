@@ -74,7 +74,7 @@ export const setFieldDataInFormContext = ({ name, data, fieldsPath, contextField
         register({ name: fieldFullPath });
       }
 
-      setValue(fieldFullPath, isDisabledProp ? !value : value);
+      setValue(fieldFullPath, isDisabledProp ? !value : value, { shouldDirty: true });
     }
   });
 };

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -14,7 +14,6 @@ import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../user-groups-list/namespace";
 import { SAVE_METHODS } from "../../../../config";
-import bindFormSubmit from "../../../../libs/submit-form";
 import ActionDialog, { useDialog } from "../../../action-dialog";
 import { enqueueSnackbar } from "../../../notifier";
 import { useApp } from "../../../application";
@@ -29,25 +28,33 @@ import {
   sentToProduction
 } from "./action-creators";
 import { getConfiguration, getErrors, getServerErrors, getApplying, getSending } from "./selectors";
-import { NAME, APPLY_CONFIGURATION_MODAL, DELETE_CONFIGURATION_MODAL, SEND_CONFIGURATION_MODAL } from "./constants";
+import {
+  NAME,
+  APPLY_CONFIGURATION_MODAL,
+  DELETE_CONFIGURATION_MODAL,
+  SEND_CONFIGURATION_MODAL,
+  FORM_ID
+} from "./constants";
 import { buildErrorMessages } from "./utils";
 import styles from "./styles.css";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
+  const css = makeStyles(styles)();
+  const isEditOrShow = formMode.isEdit || formMode.isShow;
+
   const i18n = useI18n();
-  const formRef = useRef();
   const dispatch = useDispatch();
   const { id } = useParams();
   const { demo: isDemoSite } = useApp();
-  const css = makeStyles(styles)();
-  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+
+  const validationSchema = validations(formMode, i18n);
+
   const configuration = useSelector(state => getConfiguration(state));
   const errors = useSelector(state => getErrors(state));
   const applying = useSelector(state => getApplying(state));
   const sending = useSelector(state => getSending(state));
   const formErrors = useSelector(state => getServerErrors(state));
-  const validationSchema = validations(formMode, i18n);
 
   const { dialogOpen, dialogClose, pending, setDialogPending, setDialog } = useDialog([
     APPLY_CONFIGURATION_MODAL,
@@ -125,7 +132,7 @@ const Container = ({ mode }) => {
     <FormAction actionHandler={handleSend} text={i18n.t("buttons.send")} startIcon={<PublishIcon />} />
   );
 
-  const editButton = formMode.get("isShow") ? (
+  const editButton = formMode.isShow ? (
     <>
       <FormAction actionHandler={handleDelete} text={i18n.t("buttons.delete")} startIcon={<DeleteIcon />} />
       <FormAction actionHandler={handleApply} text={i18n.t("buttons.apply")} startIcon={<CheckIcon />} />
@@ -134,20 +141,23 @@ const Container = ({ mode }) => {
   ) : null;
 
   const saveButton =
-    formMode.get("isEdit") || formMode.get("isNew") ? (
+    formMode.isEdit || formMode.isNew ? (
       <>
         <FormAction
-          actionHandler={() => bindFormSubmit(formRef)}
           text={i18n.t("buttons.save")}
           savingRecord={applying}
           startIcon={<CheckIcon />}
+          options={{
+            form: FORM_ID,
+            type: "submit"
+          }}
         />
       </>
     ) : null;
 
   return (
     <LoadingIndicator
-      hasData={formMode.get("isNew") || configuration?.size > 0}
+      hasData={formMode.isNew || configuration?.size > 0}
       loading={!configuration?.size}
       type={NAMESPACE}
     >
@@ -165,10 +175,10 @@ const Container = ({ mode }) => {
           mode={mode}
           formSections={form(i18n, formMode.get("isShow"))}
           onSubmit={handleSubmit}
-          ref={formRef}
           validations={validationSchema}
           initialValues={configuration.toJS()}
           formErrors={formErrors}
+          formID={FORM_ID}
         />
         <ActionDialog
           open={dialogOpen[DELETE_CONFIGURATION_MODAL]}

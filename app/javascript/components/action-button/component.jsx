@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 
 import { useApp } from "../application";
@@ -23,7 +22,9 @@ const Component = ({
   const isDisabled = disabledApplication && { disabled: disabledApplication };
   const isPending = Boolean(pending);
 
-  if (rest?.hide) {
+  const { hide, ...restBtnProps } = rest;
+
+  if (hide) {
     return null;
   }
 
@@ -33,7 +34,7 @@ const Component = ({
       isCancel={isCancel}
       isTransparent={isTransparent}
       pending={isPending}
-      rest={{ ...rest, ...isDisabled }}
+      rest={{ ...restBtnProps, ...isDisabled }}
       outlined={outlined}
       text={text}
       tooltip={tooltip}

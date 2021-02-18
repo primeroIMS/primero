@@ -1,15 +1,17 @@
-import React, { useRef, useEffect, useImperativeHandle } from "react";
+/* eslint-disable react/no-multi-comp */
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
-import { FormContext, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
 import { useI18n } from "../../../i18n";
-import { FormAction, whichFormMode, FormSection } from "../../../form";
+import { FormAction, FormSection, submitHandler, whichFormMode } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
@@ -18,16 +20,15 @@ import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import { useDialog } from "../../../action-dialog";
 import { fetchSystemSettings, fetchRoles, fetchUserGroups } from "../../../application";
-import bindFormSubmit from "../../../../libs/submit-form";
-import { submitHandler } from "../../../form/utils/form-submission";
 import CancelPrompt from "../../../form/components/cancel-prompt";
 import { currentUser } from "../../../user/selectors";
 import UserActions from "../../../user-actions";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { form } from "./form";
 import validations from "./validations";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
-import { USER_CONFIRMATION_DIALOG, PASSWORD_MODAL } from "./constants";
+import { USER_CONFIRMATION_DIALOG, PASSWORD_MODAL, FORM_ID } from "./constants";
 import { getUser, getServerErrors, getIdentityProviders, getSavingRecord } from "./selectors";
 import UserConfirmation from "./user-confirmation";
 import ChangePassword from "./change-password";
@@ -36,7 +37,6 @@ const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
 
   const i18n = useI18n();
-  const formRef = useRef();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
@@ -45,11 +45,11 @@ const Container = ({ mode }) => {
     USER_CONFIRMATION_DIALOG
   ]);
 
-  const user = useSelector(state => getUser(state));
-  const formErrors = useSelector(state => getServerErrors(state));
-  const idp = useSelector(state => getIdentityProviders(state));
-  const currentUserName = useSelector(state => currentUser(state));
-  const saving = useSelector(state => getSavingRecord(state));
+  const user = useMemoizedSelector(state => getUser(state));
+  const formErrors = useMemoizedSelector(state => getServerErrors(state));
+  const idp = useMemoizedSelector(state => getIdentityProviders(state));
+  const currentUserName = useMemoizedSelector(state => currentUser(state));
+  const saving = useMemoizedSelector(state => getSavingRecord(state));
 
   const setPasswordModal = () => {
     setDialog({ dialog: PASSWORD_MODAL, open: true });
@@ -67,14 +67,10 @@ const Container = ({ mode }) => {
   const initialValues = user.toJS();
 
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers, selectedUserIsLoggedIn);
-  const formMethods = useForm({
-    ...(initialValues && { defaultValues: initialValues }),
-    ...(validationSchema && { validationSchema })
-  });
 
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
-  const [userData, setUserData] = React.useState({});
+  const [userData, setUserData] = useState({});
 
   const handleSubmit = data => {
     setUserData({ ...userData, ...data });
@@ -91,6 +87,26 @@ const Container = ({ mode }) => {
         message: i18n.t("user.messages.updated")
       })
     );
+  };
+
+  const formMethods = useForm({
+    ...(initialValues && { defaultValues: initialValues }),
+    ...(validationSchema && { resolver: yupResolver(validationSchema) })
+  });
+
+  const {
+    formState: { dirtyFields }
+  } = formMethods;
+
+  const onSubmit = data => {
+    submitHandler({
+      data,
+      dispatch,
+      isEdit: formMode.isEdit,
+      initialValues,
+      dirtyFields,
+      onSubmit: formData => (formMode.get("isEdit") ? handleEditSubmit(formData) : handleSubmit(formData))
+    });
   };
 
   const handleEdit = () => {
@@ -113,7 +129,10 @@ const Container = ({ mode }) => {
     <>
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
-        actionHandler={() => bindFormSubmit(formRef)}
+        options={{
+          form: FORM_ID,
+          type: "submit"
+        }}
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
@@ -142,7 +161,14 @@ const Container = ({ mode }) => {
       identityOptions,
       onClickChangePassword,
       selectedUserIsLoggedIn
-    ).map(formSection => <FormSection formSection={formSection} key={formSection.unique_id} />);
+    ).map(formSection => (
+      <FormSection
+        formSection={formSection}
+        key={formSection.unique_id}
+        formMethods={formMethods}
+        formMode={formMode}
+      />
+    ));
 
   useEffect(() => {
     batch(() => {
@@ -175,18 +201,6 @@ const Container = ({ mode }) => {
     });
   }, [formErrors]);
 
-  useImperativeHandle(
-    formRef,
-    submitHandler({
-      dispatch,
-      formMethods,
-      formMode,
-      i18n,
-      initialValues,
-      onSubmit: formMode.get("isEdit") ? handleEditSubmit : handleSubmit
-    })
-  );
-
   return (
     <LoadingIndicator hasData={formMode.get("isNew") || user?.size > 0} loading={!user?.size} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
@@ -195,9 +209,11 @@ const Container = ({ mode }) => {
         {formMode.get("isShow") && id && <UserActions id={id} />}
       </PageHeading>
       <PageContent>
-        <FormContext {...formMethods} formMode={formMode}>
-          <CancelPrompt useCancelPrompt />
-          <form noValidate>{renderFormSections()}</form>
+        <>
+          <CancelPrompt useCancelPrompt isShow={formMode.get("isShow")} formState={formMethods.formState} />
+          <form noValidate id={FORM_ID} onSubmit={formMethods.handleSubmit(onSubmit)}>
+            {renderFormSections()}
+          </form>
           <UserConfirmation
             open={dialogOpen[USER_CONFIRMATION_DIALOG]}
             close={dialogClose}
@@ -219,13 +235,15 @@ const Container = ({ mode }) => {
             pending={pending}
             close={dialogClose}
           />
-        </FormContext>
+        </>
       </PageContent>
     </LoadingIndicator>
   );
 };
 
 Container.displayName = "UsersForm";
+
+Container.whyDidYouRender = true;
 
 Container.propTypes = {
   mode: PropTypes.string.isRequired

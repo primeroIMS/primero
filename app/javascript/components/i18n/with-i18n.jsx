@@ -1,5 +1,3 @@
-import React from "react";
-
 import useI18n from "./use-i18n";
 
 export default Component => {

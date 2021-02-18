@@ -1,6 +1,5 @@
 /* eslint-disable prefer-destructuring */
 
-import React from "react";
 import { Route } from "react-router-dom";
 import { fromJS, Map, List, OrderedMap } from "immutable";
 import { CircularProgress } from "@material-ui/core";

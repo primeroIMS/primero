@@ -1,17 +1,16 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
 
 import { getAgencyLogos } from "../application/selectors";
+import { useMemoizedSelector } from "../../libs";
 
 import styles from "./styles.css";
 
 const AgencyLogo = ({ alwaysFullLogo }) => {
   const css = makeStyles(styles)();
   const theme = useTheme();
-  const agencyLogos = useSelector(state => getAgencyLogos(state));
+  const agencyLogos = useMemoizedSelector(state => getAgencyLogos(state));
   const tabletDisplay = useMediaQuery(theme.breakpoints.down("md"));
 
   const renderLogos = () => {

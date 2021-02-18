@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { useForm, FormContext } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 
 import { filterType } from "../../../../index-filters/utils";
 import { currentUser } from "../../../../user";
@@ -46,12 +46,12 @@ const Component = ({ filters, onSubmit, clearFields, defaultFilters }) => {
 
   return (
     <div>
-      <FormContext {...methods} user={userName}>
+      <FormProvider {...methods} user={userName}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <Actions handleClear={onClear} />
           {renderFilters()}
         </form>
-      </FormContext>
+      </FormProvider>
     </div>
   );
 };

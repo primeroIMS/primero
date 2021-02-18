@@ -1,7 +1,7 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, Typography } from "@material-ui/core";
-import { useFormContext } from "react-hook-form";
+import { useWatch } from "react-hook-form";
 import html2pdf from "html2pdf-dom-to-image-more";
 import { useDispatch, useSelector } from "react-redux";
 import { fromJS, isImmutable } from "immutable";
@@ -26,156 +26,159 @@ import { addPageHeaderFooter, getLogosToRender } from "./utils";
 import RenderTable from "./components/render-table";
 import Logos from "./components/logos";
 
-const Component = (
-  {
-    forms,
-    record,
-    formsSelectedField,
-    formsSelectedSelector,
-    formsSelectedFieldDefault,
-    customFilenameField,
-    customFormProps,
-    currentUser,
-    agenciesWithLogosEnabled,
-    agencyLogosPdf
-  },
-  ref
-) => {
-  const i18n = useI18n();
-  const css = makeStyles(styles)();
-  const { watch } = useFormContext();
-  const html = useRef();
-  const mainHeaderRef = useRef();
-  const secondaryHeaderRef = useRef();
-  const dispatch = useDispatch();
+const Component = forwardRef(
+  (
+    {
+      forms,
+      record,
+      formMethods,
+      formsSelectedField,
+      formsSelectedSelector,
+      formsSelectedFieldDefault,
+      customFilenameField,
+      customFormProps,
+      currentUser,
+      agenciesWithLogosEnabled,
+      agencyLogosPdf
+    },
+    ref
+  ) => {
+    const i18n = useI18n();
+    const css = makeStyles(styles)();
+    const html = useRef();
+    const mainHeaderRef = useRef();
+    const secondaryHeaderRef = useRef();
+    const dispatch = useDispatch();
 
-  const data = isImmutable(record) ? record : fromJS(record);
+    const { control, watch } = formMethods;
 
-  const { title = "", condition = false, fields: customFormFields = [] } = customFormProps || {};
-  const isRemote = typeof condition === "boolean" ? condition : watch(condition);
+    const data = isImmutable(record) ? record : fromJS(record);
 
-  const customTitle = useSelector(state => getCustomFormTitle(state, title, watch));
-  const headerOptions = useSelector(state => getOptions(state, PDF_HEADER_LOOKUP, i18n));
+    const { title = "", condition = false, fields: customFormFields = [] } = customFormProps || {};
+    const isRemote = typeof condition === "boolean" ? condition : watch(condition);
 
-  const {
-    [CUSTOM_HEADER]: customHeader,
-    [HEADER]: header,
-    [SIGNATURES]: signatures,
-    [INCLUDE_IMPLEMENTATION_LOGOS]: includeImplementationLogos,
-    [INCLUDE_AGENCY_LOGO]: includeAgencyLogos,
-    [INCLUDE_OTHER_LOGOS]: includeOtherLogos
-  } = watch([
-    CUSTOM_HEADER,
-    HEADER,
-    SIGNATURES,
-    INCLUDE_IMPLEMENTATION_LOGOS,
-    INCLUDE_AGENCY_LOGO,
-    INCLUDE_OTHER_LOGOS
-  ]);
-  const watchedValues = watch(customFormFields.map(referralField => referralField.name));
-  const userSelectedForms = formsSelectedField ? watch(formsSelectedField, formsSelectedFieldDefault || []) : false;
+    const customTitle = useSelector(state => getCustomFormTitle(state, title, watch));
+    const headerOptions = useSelector(state => getOptions(state, PDF_HEADER_LOOKUP, i18n));
 
-  const selectedHeader = headerOptions
-    ?.filter(option => option.get("id") === header)
-    ?.first()
-    ?.get("display_text");
+    const {
+      [CUSTOM_HEADER]: customHeader,
+      [HEADER]: header,
+      [SIGNATURES]: signatures,
+      [INCLUDE_IMPLEMENTATION_LOGOS]: includeImplementationLogos,
+      [INCLUDE_AGENCY_LOGO]: includeAgencyLogos,
+      [INCLUDE_OTHER_LOGOS]: includeOtherLogos
+    } = useWatch({
+      control,
+      name: [CUSTOM_HEADER, HEADER, SIGNATURES, INCLUDE_IMPLEMENTATION_LOGOS, INCLUDE_AGENCY_LOGO, INCLUDE_OTHER_LOGOS]
+    });
+    const watchedValues = useWatch({
+      control,
+      name: customFormFields.map(referralField => referralField.name)
+    });
+    const userSelectedForms = useWatch({ control, name: formsSelectedField, defaultValue: formsSelectedFieldDefault });
 
-  const formSelectorResults = useSelector(state => {
-    if (formsSelectedSelector) {
-      return formsSelectedSelector(state, userSelectedForms);
-    }
+    const selectedHeader = headerOptions
+      ?.filter(option => option.get("id") === header)
+      ?.first()
+      ?.get("display_text");
 
-    return fromJS([]);
-  });
+    const formSelectorResults = useSelector(state => {
+      if (formsSelectedSelector) {
+        return formsSelectedSelector(state, userSelectedForms);
+      }
 
-  const filteredByFields = formsSelectedSelector ? formSelectorResults?.toJS() : userSelectedForms;
+      return fromJS([]);
+    });
 
-  const selectedForms = filteredByFields?.length
-    ? forms.filter(form => filteredByFields.includes(form.unique_id))
-    : forms;
+    const filteredByFields = formsSelectedSelector ? formSelectorResults?.toJS() : userSelectedForms;
 
-  const logos = getLogosToRender(
-    agenciesWithLogosEnabled,
-    currentUser,
-    includeOtherLogos,
-    agencyLogosPdf,
-    includeImplementationLogos,
-    includeAgencyLogos
-  );
+    const selectedForms = filteredByFields?.length
+      ? forms.filter(form => filteredByFields.includes(form.unique_id))
+      : forms;
 
-  useImperativeHandle(ref, () => ({
-    savePdf({ setPending, close, values }) {
-      setPending(true);
-      let worker = html2pdf().set(HTML_2_PDF_OPTIONS(values, data, customFilenameField));
-      const pages = Array.from(html.current.childNodes);
+    const logos = getLogosToRender(
+      agenciesWithLogosEnabled,
+      currentUser,
+      includeOtherLogos,
+      agencyLogosPdf,
+      includeImplementationLogos,
+      includeAgencyLogos
+    );
 
-      pages.forEach((page, index) => {
-        worker = worker
-          .from(page)
-          .toContainer(index + 1)
-          .toCanvas()
-          .toPdf()
-          .get("pdf")
-          .then(async pdf => {
-            await addPageHeaderFooter(pdf, mainHeaderRef, secondaryHeaderRef);
+    useImperativeHandle(ref, () => ({
+      savePdf({ setPending, close, values }) {
+        setPending(true);
+        let worker = html2pdf().set(HTML_2_PDF_OPTIONS(values, data, customFilenameField));
+        const pages = Array.from(html.current.childNodes);
 
-            if (index < pages.length - 1) {
-              pdf.addPage();
-            }
-          });
-      });
+        pages.forEach((page, index) => {
+          worker = worker
+            .from(page)
+            .toContainer(index + 1)
+            .toCanvas()
+            .toPdf()
+            .get("pdf")
+            .then(async pdf => {
+              await addPageHeaderFooter(pdf, mainHeaderRef, secondaryHeaderRef);
 
-      worker
-        .save()
-        .then(() => {
-          dispatch(enqueueSnackbar(i18n.t("exports.exported"), { type: "success" }));
-          setPending(false);
-          close();
-        })
-        .catch(error => {
-          dispatch(enqueueSnackbar(i18n.t("exports.exported_error"), { type: "error" }));
-          setPending(false);
-          // eslint-disable-next-line no-console
-          console.warn(error);
+              if (index < pages.length - 1) {
+                pdf.addPage();
+              }
+            });
         });
-    }
-  }));
 
-  return (
-    <>
-      <div ref={mainHeaderRef} className={css.headerContainer}>
-        <Logos shortId={record.get("short_id")} logos={logos} css={css} />
-        {header && (
-          <Typography variant="inherit" component="h2" align="center">
-            {selectedHeader}
-          </Typography>
-        )}
-        {customHeader && (
-          <Typography variant="inherit" component={!header ? "h2" : "h4"} align="center">
-            {customHeader}
-          </Typography>
-        )}
-      </div>
-      <div ref={secondaryHeaderRef} className={css.secondaryHeaderContainer}>
-        <Logos shortId={record.get("short_id")} logos={logos} css={css} />
-      </div>
-      <div ref={html} className={css.container}>
-        {customFormProps && isRemote && (
-          <RenderTable title={customTitle} fields={customFormFields} data={fromJS(watchedValues)} />
-        )}
-        {selectedForms?.map(form => (
-          <RenderTable
-            key={`selected-${form.unique_id}`}
-            title={i18n.getI18nStringFromObject(form.name)}
-            fields={form.fields}
-            data={data}
-          />
-        ))}
-        <Signatures types={signatures} />
-      </div>
-    </>
-  );
-};
+        worker
+          .save()
+          .then(() => {
+            dispatch(enqueueSnackbar(i18n.t("exports.exported"), { type: "success" }));
+            setPending(false);
+            close();
+          })
+          .catch(error => {
+            dispatch(enqueueSnackbar(i18n.t("exports.exported_error"), { type: "error" }));
+            setPending(false);
+            // eslint-disable-next-line no-console
+            console.warn(error);
+          });
+      }
+    }));
+
+    return (
+      <>
+        <div ref={mainHeaderRef} className={css.headerContainer}>
+          <Logos shortId={record.get("short_id")} logos={logos} css={css} />
+          {header && (
+            <Typography variant="inherit" component="h2" align="center">
+              {selectedHeader}
+            </Typography>
+          )}
+          {customHeader && (
+            <Typography variant="inherit" component={!header ? "h2" : "h4"} align="center">
+              {customHeader}
+            </Typography>
+          )}
+        </div>
+        <div ref={secondaryHeaderRef} className={css.secondaryHeaderContainer}>
+          <Logos shortId={record.get("short_id")} logos={logos} css={css} />
+        </div>
+        <div ref={html} className={css.container}>
+          {customFormProps && isRemote && (
+            <RenderTable title={customTitle} fields={customFormFields} data={fromJS(watchedValues)} />
+          )}
+          {selectedForms?.map(form => (
+            <RenderTable
+              key={`selected-${form.unique_id}`}
+              title={i18n.getI18nStringFromObject(form.name)}
+              fields={form.fields}
+              data={data}
+            />
+          ))}
+          <Signatures types={signatures} />
+        </div>
+      </>
+    );
+  }
+);
 
 Component.displayName = "PdfExporter";
 
@@ -196,6 +199,7 @@ Component.propTypes = {
       })
     ])
   }),
+  formMethods: PropTypes.object.isRequired,
   forms: PropTypes.object.isRequired,
   formsSelectedField: PropTypes.string,
   formsSelectedFieldDefault: PropTypes.any,
@@ -203,4 +207,4 @@ Component.propTypes = {
   record: PropTypes.object.isRequired
 };
 
-export default forwardRef(Component);
+export default Component;

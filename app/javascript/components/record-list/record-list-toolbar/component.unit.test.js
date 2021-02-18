@@ -1,4 +1,3 @@
-import React from "react";
 import { fromJS, OrderedMap } from "immutable";
 
 import { setupMountedComponent } from "../../../test";

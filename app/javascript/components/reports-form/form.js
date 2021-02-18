@@ -37,7 +37,7 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew, userModules) => {
     const emptyModule = isEmpty(value[MODULES_FIELD]);
 
     if (name === RECORD_TYPE_FIELD) {
-      const isModuleTouched = Object.keys(methods.control?.formState?.touched).includes(MODULES_FIELD);
+      const isModuleTouched = Object.keys(methods.control?.formState?.dirtyFields).includes(MODULES_FIELD);
 
       if (isModuleTouched && emptyModule) {
         methods.reset({

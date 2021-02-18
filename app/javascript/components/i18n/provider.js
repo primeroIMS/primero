@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
 import isEmpty from "lodash/isEmpty";
@@ -24,12 +23,6 @@ const I18nProvider = ({ children }) => {
     window.I18n.locale = value;
     document.documentElement.lang = value;
     dispatch(setLocale({ locale: value, dir: getLocaleDir(value) }));
-  };
-
-  const t = (value, options) => {
-    const translation = window.I18n.t(value, options);
-
-    return isEmpty(translation) ? window.I18n.t(value, { locale: window.I18n.defaultLocale, ...options }) : translation;
   };
 
   const getI18nStringFromObject = i18nObject => {
@@ -67,8 +60,7 @@ const I18nProvider = ({ children }) => {
         ...window.I18n,
         changeLocale,
         getI18nStringFromObject,
-        localizeDate,
-        t
+        localizeDate
       }}
     >
       {children}

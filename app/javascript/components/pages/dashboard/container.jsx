@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
+import { isEqual } from "lodash";
 
 import { useI18n } from "../../i18n";
 import PageContainer, { PageHeading, PageContent } from "../../page";
@@ -40,7 +41,7 @@ const Dashboard = () => {
     }
   }, []);
 
-  const userPermissions = useSelector(state => getPermissions(state));
+  const userPermissions = useSelector(state => getPermissions(state), isEqual);
   const loading = useSelector(state => getLoading(state, NAMESPACE));
   const errors = useSelector(state => getErrors(state, NAMESPACE));
   const loadingFlags = useSelector(state => getLoading(state, [NAMESPACE, "flags"]));

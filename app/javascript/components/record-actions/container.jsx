@@ -1,4 +1,4 @@
-import React from "react";
+import { createElement } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import isEmpty from "lodash/isEmpty";
@@ -170,7 +170,7 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
     <>
       <Menu showMenu={showMenu} actions={actions} disabledCondtion={disabledCondtion} />
       {ability &&
-        React.createElement(component, {
+        createElement(component, {
           ...props,
           close: dialogClose,
           currentDialog,

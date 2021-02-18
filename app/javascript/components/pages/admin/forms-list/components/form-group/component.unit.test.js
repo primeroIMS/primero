@@ -1,6 +1,5 @@
-import React from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { ExpansionPanel, ExpansionPanelSummary, Typography } from "@material-ui/core";
+import { Accordion, AccordionSummary, Typography } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../../test";
 import DragIndicator from "../drag-indicator";
@@ -28,8 +27,8 @@ describe("<FormsList />/components/<FormGroup />", () => {
     ({ component } = setupMountedComponent(RenderFormGroup, {}));
   });
 
-  it("renders <ExpansionPanel />", () => {
-    expect(component.find(ExpansionPanel)).to.have.lengthOf(1);
+  it("renders <Accordion />", () => {
+    expect(component.find(Accordion)).to.have.lengthOf(1);
   });
 
   it("renders <DragIndicator />", () => {
@@ -41,6 +40,6 @@ describe("<FormsList />/components/<FormGroup />", () => {
   });
 
   it("renders panel name", () => {
-    expect(component.find(ExpansionPanelSummary).text()).to.equal("Group 1");
+    expect(component.find(AccordionSummary).text()).to.equal("Group 1");
   });
 });

@@ -1,12 +1,14 @@
 /* eslint-disable react/display-name,  react/no-multi-comp */
-import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { makeStyles, Tab, Tabs } from "@material-ui/core";
-import { FormContext, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { batch, useDispatch, useSelector } from "react-redux";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { isEqual } from "lodash";
 
 import { fetchLookups } from "../../../record-form/action-creators";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
@@ -54,28 +56,36 @@ const Component = ({ mode }) => {
   const css = makeStyles(styles)();
   const { id } = useParams();
   const formMode = whichFormMode(mode);
-  const formRef = useRef();
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const selectedLocaleId = localesToRender(i18n)?.first()?.get("id");
+
   const [tab, setTab] = useState(0);
   const [moduleId, setModuleId] = useState("");
   const [parentForm, setParentForm] = useState("");
+
   const errors = useSelector(state => getServerErrors(state), compare);
-  const saving = useSelector(state => getSavingRecord(state));
+  const saving = useSelector(state => getSavingRecord(state), isEqual);
   const updatedFormIds = useSelector(state => getUpdatedFormIds(state), compare);
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
+  const isLoading = useSelector(state => getIsLoading(state), isEqual);
   const selectedField = useSelector(state => getSelectedField(state), compare);
   const selectedSubforms = useSelector(state => getSelectedSubforms(state), compare);
-  const isLoading = useSelector(state => getIsLoading(state));
+
   const methods = useForm({
-    validationSchema: validationSchema(i18n),
-    defaultValues: {}
+    resolver: yupResolver(validationSchema(i18n)),
+    defaultValues: {},
+    shouldUnregister: false
   });
+
+  const {
+    formState: { dirtyFields }
+  } = methods;
+
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
-  const handleChange = (event, selectedTab) => {
+  const handleChange = (_, selectedTab) => {
     if (selectedTab !== tab) {
       setTab(selectedTab);
     }
@@ -88,24 +98,32 @@ const Component = ({ mode }) => {
   const modeForFieldDialog = selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
 
   const onSubmit = data => {
-    const mergedData = mergeTranslations(data);
-    const subforms = selectedSubforms?.toJS();
-    const updatedNewFields = convertToFieldsArray(mergedData.fields || {});
-    const body = {
-      data: { ...mergedData, fields: updatedNewFields }
-    };
-    const parentFormParams = {
-      id,
-      saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
-      body,
-      message: i18n.t(`forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
-    };
+    submitHandler({
+      data,
+      dispatch,
+      isEdit: formMode.isEdit,
+      dirtyFields,
+      onSubmit: formData => {
+        const mergedData = mergeTranslations(formData);
+        const subforms = selectedSubforms?.toJS();
+        const updatedNewFields = convertToFieldsArray(mergedData.fields || {});
+        const body = {
+          data: { ...mergedData, ...(updatedNewFields.length && { fields: updatedNewFields }) }
+        };
+        const parentFormParams = {
+          id,
+          saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
+          body,
+          message: i18n.t(`forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
+        };
 
-    if (subforms.length > 0) {
-      dispatch(saveSubforms(subforms, parentFormParams));
-    } else {
-      dispatch(saveForm(parentFormParams));
-    }
+        if (subforms.length > 0) {
+          dispatch(saveSubforms(subforms, parentFormParams));
+        } else {
+          dispatch(saveForm(parentFormParams));
+        }
+      }
+    });
   };
 
   const pageTitle = formMode.get("isNew")
@@ -212,76 +230,50 @@ const Component = ({ mode }) => {
     }
   }, [tab]);
 
-  useImperativeHandle(
-    formRef,
-    submitHandler({
-      dispatch,
-      formMethods: methods,
-      formMode,
-      i18n,
-      initialValues: {},
-      onSubmit
-    })
-  );
-
-  const memoizedSetValue = useCallback((path, value) => methods.setValue(path, value), []);
-  const memoizedRegister = useCallback(prop => methods.register(prop), []);
-  const memoizedUnregister = useCallback(prop => methods.unregister(prop), []);
-  const memoizedGetValues = useCallback(prop => methods.getValues(prop), []);
-  const formContextFields = methods.control.fields;
-
   return (
     <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
       <PageHeading title={pageTitle}>
-        <FormBuilderActionButtons formMode={formMode} formRef={formRef} handleCancel={handleCancel} />
+        <FormBuilderActionButtons
+          formMode={formMode}
+          handleSubmit={methods.handleSubmit(onSubmit)}
+          handleCancel={handleCancel}
+        />
       </PageHeading>
       <PageContent>
-        <FormContext {...methods} formMode={formMode}>
-          <form>
-            <Tabs value={tab} onChange={handleChange}>
-              <Tab label={i18n.t("forms.settings")} />
-              <Tab className={css.tabHeader} label={i18n.t("forms.fields")} disabled={formMode.get("isNew")} />
-              <Tab
-                className={css.tabHeader}
-                label={i18n.t("forms.translations.title")}
-                disabled={formMode.get("isNew")}
-              />
-            </Tabs>
-            <SettingsTab
-              tab={tab}
-              index={0}
-              formContextFields={formContextFields}
-              getValues={memoizedGetValues}
-              mode={mode}
-              register={memoizedRegister}
-              setValue={memoizedSetValue}
-              limitedProductionSite={limitedProductionSite}
-            />
-            <FieldsTab
-              tab={tab}
-              index={1}
-              fieldDialogMode={modeForFieldDialog}
-              formContextFields={formContextFields}
-              register={memoizedRegister}
-              getValues={memoizedGetValues}
-              setValue={memoizedSetValue}
-              unregister={memoizedUnregister}
-              limitedProductionSite={limitedProductionSite}
-            />
-            <TranslationsTab
-              formContextFields={formContextFields}
-              getValues={memoizedGetValues}
-              mode={mode}
-              moduleId={moduleId}
-              parentForm={parentForm}
-              register={memoizedRegister}
-              selectedField={selectedField}
-              setValue={memoizedSetValue}
-              index={2}
-              tab={tab}
-            />
-          </form>
-        </FormContext>
+        <Tabs value={tab} onChange={handleChange}>
+          <Tab label={i18n.t("forms.settings")} />
+          <Tab className={css.tabHeader} label={i18n.t("forms.fields")} disabled={formMode.get("isNew")} />
+          <Tab className={css.tabHeader} label={i18n.t("forms.translations.title")} disabled={formMode.get("isNew")} />
+        </Tabs>
+        {tab === 0 && (
+          <SettingsTab
+            tab={tab}
+            index={0}
+            mode={mode}
+            formMethods={methods}
+            limitedProductionSite={limitedProductionSite}
+          />
+        )}
+        {tab === 1 && (
+          <FieldsTab
+            tab={tab}
+            index={1}
+            mode={modeForFieldDialog}
+            formMethods={methods}
+            limitedProductionSite={limitedProductionSite}
+          />
+        )}
+        {tab === 2 && (
+          <TranslationsTab
+            mode={mode}
+            moduleId={moduleId}
+            parentForm={parentForm}
+            selectedField={selectedField}
+            formMethods={methods}
+            index={2}
+            tab={tab}
+          />
+        )}
       </PageContent>
     </LoadingIndicator>
   );

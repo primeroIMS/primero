@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Chip } from "@material-ui/core";

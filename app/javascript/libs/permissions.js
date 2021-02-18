@@ -11,6 +11,7 @@ export const ACTIONS = {
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   CHANGE_LOG: "change_log",
   CLOSE: "close",
+  COPY: "copy",
   CREATE: "create",
   DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
   DASH_APPROVALS_ASSESSMENT: "approvals_assessment",
@@ -155,6 +156,8 @@ export const EXPORT_CUSTOM = [...MANAGE, ACTIONS.EXPORT_CUSTOM];
 export const CREATE_RECORDS = [...MANAGE, ACTIONS.CREATE];
 
 export const WRITE_RECORDS = [...MANAGE, ACTIONS.WRITE];
+
+export const COPY_ROLES = [...MANAGE, ACTIONS.COPY];
 
 export const READ_RECORDS = [...MANAGE, ACTIONS.READ];
 

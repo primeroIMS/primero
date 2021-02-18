@@ -1,4 +1,3 @@
-import React from "react";
 import { Backdrop } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";

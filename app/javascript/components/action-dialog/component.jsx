@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Dialog, DialogActions, DialogContent, DialogContentText, Typography } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
@@ -116,7 +116,7 @@ const ActionDialog = ({
         pending={isPending}
         rest={{
           ...successButtonProps,
-          onClick: handleSuccess,
+          ...(successHandler && { onClick: handleSuccess }),
           disabled: isPending || !enabledSuccessButton
         }}
       />

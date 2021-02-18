@@ -11,7 +11,7 @@ describe("<FieldTranslationRow />", () => {
     name: "field_1",
     display_name: { en: "Field 1" }
   };
-  const initialState = fromJS({
+  const state = fromJS({
     application: { primero: { locales: ["en", "fr", "ar"] } },
     records: {
       admin: {
@@ -29,12 +29,10 @@ describe("<FieldTranslationRow />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(
-      FieldTranslationRow,
-      { field: fromJS(field1), selectedLocaleId: "fr" },
-      {},
-      initialState
-    ));
+    ({ component } = setupMockFormComponent(FieldTranslationRow, {
+      props: { field: fromJS(field1), selectedLocaleId: "fr" },
+      state
+    }));
   });
 
   it("should render <FieldTranslationRow />", () => {

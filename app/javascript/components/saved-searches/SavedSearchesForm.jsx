@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { compact } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,6 +9,7 @@ import qs from "qs";
 import { push } from "connected-react-router";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { enqueueSnackbar } from "../notifier";
 import { selectModules } from "../login/components/login-form/selectors";
@@ -40,7 +41,7 @@ const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState(false);
   const { register, handleSubmit, errors } = useForm({
-    validationSchema
+    resolver: yupResolver(validationSchema)
   });
 
   const userModules = useSelector(state => selectModules(state));

@@ -1,5 +1,4 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React from "react";
 import PropTypes from "prop-types";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,11 +17,11 @@ const Component = ({ setValue, subformField, subformSortBy, subformGroupBy }) =>
   const fieldName = subformField.get("name");
 
   const onClearSortBy = () => {
-    setValue(`${fieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_SORT_BY}`, "");
+    setValue(`${fieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_SORT_BY}`, "", { shouldDirty: true });
   };
 
   const onClearGroupBy = () => {
-    setValue(`${fieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_GROUP_BY}`, "");
+    setValue(`${fieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_GROUP_BY}`, "", { shouldDirty: true });
   };
 
   const renderClearButton = (fieldBy, onClick) =>

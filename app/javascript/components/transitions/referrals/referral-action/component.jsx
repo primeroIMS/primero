@@ -1,19 +1,17 @@
-import React, { useImperativeHandle, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { FormContext, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 
 import { ACCEPTED, REJECTED, MODES } from "../../../../config";
 import { FieldRecord, FormSectionRecord, whichFormMode, TEXT_FIELD } from "../../../form";
 import FormSection from "../../../form/components/form-section";
 import { submitHandler } from "../../../form/utils/form-submission";
-import bindFormSubmit from "../../../../libs/submit-form";
 import { useI18n } from "../../../i18n";
 import ActionDialog from "../../../action-dialog";
 import { DONE } from "../constants";
 
 import { referralAccepted, referralDone, referralRejected } from "./action-creators";
-import { NAME } from "./constants";
+import { NAME, FORM_ID, FORM_NOTE_FIELD_ID } from "./constants";
 
 const Component = ({
   openReferralDialog,
@@ -28,10 +26,14 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const formRef = useRef();
-  const initialValues = { note_on_referral_from_provider: "" };
+
+  const initialValues = { note_on_referral_from_provider: "", rejected_reason: "" };
   const methods = useForm({ defaultValues: initialValues });
   const formMode = whichFormMode(MODES.edit);
+
+  const {
+    formState: { dirtyFields }
+  } = methods;
 
   const handleCancel = event => {
     if (event) {
@@ -93,12 +95,31 @@ const Component = ({
   const successButtonProps = {
     color: "primary",
     variant: "contained",
-    autoFocus: true
+    autoFocus: true,
+    options: {
+      form: FORM_ID,
+      type: "submit"
+    }
+  };
+
+  const handleSubmit = data => {
+    submitHandler({
+      data,
+      dispatch,
+      dirtyFields,
+      formMode,
+      i18n,
+      initialValues,
+      onSubmit: handleOk,
+      submitAlways: true
+    });
   };
 
   const renderNoteField = referralType === DONE && (
-    <FormContext {...methods} formMode={formMode}>
+    <form id={FORM_NOTE_FIELD_ID}>
       <FormSection
+        formMode={formMode}
+        formMethods={methods}
         formSection={FormSectionRecord({
           unique_id: "referral_done",
           fields: [
@@ -112,11 +133,11 @@ const Component = ({
         })}
         showTitle={false}
       />
-    </FormContext>
+    </form>
   );
 
   const renderRejectedReason = referralType === REJECTED && (
-    <FormContext {...methods} formMode={formMode}>
+    <form id={FORM_ID}>
       <FormSection
         formSection={FormSectionRecord({
           unique_id: "rejected_form",
@@ -130,8 +151,10 @@ const Component = ({
           ]
         })}
         showTitle={false}
+        formMethods={methods}
+        formMode={formMode}
       />
-    </FormContext>
+    </form>
   );
 
   const dialogContent = (
@@ -145,24 +168,11 @@ const Component = ({
 
   const confirmButtonLabel = referralType === DONE ? "buttons.done" : "buttons.ok";
 
-  useImperativeHandle(
-    formRef,
-    submitHandler({
-      dispatch,
-      formMethods: methods,
-      formMode,
-      i18n,
-      initialValues,
-      onSubmit: handleOk,
-      submitAlways: true
-    })
-  );
-
   return (
     <ActionDialog
       open={openReferralDialog}
-      successHandler={() => bindFormSubmit(formRef)}
       cancelHandler={handleCancel}
+      successHandler={methods.handleSubmit(handleSubmit)}
       dialogTitle={referralType === ACCEPTED ? i18n.t(`${recordType}.referral_accepted_header`) : ""}
       pending={pending}
       omitCloseAfterSuccess

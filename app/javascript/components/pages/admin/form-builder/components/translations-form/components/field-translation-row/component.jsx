@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,7 +15,7 @@ import styles from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ field, selectedLocaleId }) => {
+const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const locales = localesToRender(i18n);
@@ -27,7 +26,6 @@ const Component = ({ field, selectedLocaleId }) => {
   const renderTranslationFields = () =>
     locales.map(locale => {
       const localeId = locale.get("id");
-      const inputClassname = localeId !== selectedLocaleId ? css.hideField : "";
 
       return (
         <FormSectionField
@@ -36,8 +34,12 @@ const Component = ({ field, selectedLocaleId }) => {
             display_name: "",
             name: `fields.${fieldName}.display_name.${localeId}`,
             type: TEXT_FIELD,
-            inputClassname
+            watchedInputs: "selected_locale_id",
+            showIf: () => localeId === selectedLocaleId,
+            forceShowIf: true
           })}
+          formMode={formMode}
+          formMethods={formMethods}
         />
       );
     });
@@ -64,6 +66,8 @@ const Component = ({ field, selectedLocaleId }) => {
             name: `fields.${fieldName}.display_name.en`,
             type: TEXT_FIELD
           })}
+          formMode={formMode}
+          formMethods={formMethods}
         />
       </Grid>
       <Grid item xs={12} md={3} className={css.translationsRow}>
@@ -80,6 +84,8 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   field: PropTypes.object.isRequired,
+  formMethods: PropTypes.object.isRequired,
+  formMode: PropTypes.object.isRequired,
   selectedLocaleId: PropTypes.string
 };
 

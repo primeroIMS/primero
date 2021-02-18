@@ -1,7 +1,5 @@
 /* eslint-disable react/display-name, react/prop-types */
 
-import React from "react";
-
 import SearchableSelect from "../../../../searchable-select";
 
 import searchTextFieldProps from "./search-text-field-props";

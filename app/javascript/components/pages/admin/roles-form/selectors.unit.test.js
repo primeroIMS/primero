@@ -11,7 +11,10 @@ const stateWithHeaders = fromJS({
         errors: true,
         loading: false,
         serverErrors: [{ message: "error-1" }],
-        saving: false
+        saving: false,
+        copiedRole: {
+          name: "Copy of Test Role"
+        }
       }
     }
   }
@@ -23,7 +26,7 @@ describe("<RolesForm /> - Selectors", () => {
   it("should have known the selectors", () => {
     const creators = { ...selectors };
 
-    ["getLoading", "getRole", "getServerErrors", "getSavingRecord"].forEach(property => {
+    ["getLoading", "getRole", "getServerErrors", "getSavingRecord", "getCopiedRole"].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
@@ -80,6 +83,22 @@ describe("<RolesForm /> - Selectors", () => {
       const loading = selectors.getLoading(stateWithHeaders);
 
       expect(loading).to.deep.equal(expected);
+    });
+  });
+
+  describe("getCopiedRole", () => {
+    it("should return valid object", () => {
+      const expected = stateWithHeaders.getIn(["records", "admin", NAMESPACE, "copiedRole"]);
+
+      const copiedRole = selectors.getCopiedRole(stateWithHeaders);
+
+      expect(copiedRole).to.deep.equal(expected);
+    });
+
+    it("should return empty object when no server errors", () => {
+      const copiedRole = selectors.getCopiedRole(stateWithoutHeaders);
+
+      expect(copiedRole).to.be.empty;
     });
   });
 });

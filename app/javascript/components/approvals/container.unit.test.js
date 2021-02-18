@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { ExpansionPanelDetails, ExpansionPanelSummary } from "@material-ui/core";
+import { AccordionDetails, AccordionSummary } from "@material-ui/core";
 
 import RecordFormTitle from "../record-form/form/record-form-title";
 import { setupMountedComponent } from "../../test";
@@ -67,8 +67,8 @@ describe("<Approvals /> - Component", () => {
 
   it("renders 4 ApprovalsPanel", () => {
     expect(component.find(ApprovalPanel)).to.have.lengthOf(4);
-    expect(component.find(ExpansionPanelDetails)).to.have.lengthOf(4);
-    expect(component.find(ExpansionPanelSummary)).to.have.lengthOf(4);
+    expect(component.find(AccordionDetails)).to.have.lengthOf(4);
+    expect(component.find(AccordionSummary)).to.have.lengthOf(4);
   });
 
   it("renders component with valid props", () => {

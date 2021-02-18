@@ -1,34 +1,40 @@
-import React, { useImperativeHandle, useRef, useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import PropTypes from "prop-types";
-import { FormContext, useForm, useFormContext } from "react-hook-form";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import ActionDialog from "../../../../action-dialog";
 import FormSection from "../../../../form/components/form-section";
-import bindFormSubmit from "../../../../../libs/submit-form";
 
-import { NAME } from "./constants";
+import { NAME, FORM_ID } from "./constants";
 import changePasswordForm from "./form";
 import validations from "./validations";
 
 function Component({ formMode, i18n, open, pending, close }) {
-  const formRef = useRef();
   const [closeConfirmationModal, setCloseConfirmationModal] = useState(false);
+
   const validationSchema = validations(i18n);
-  const formMethods = useForm({ ...(validationSchema && { validationSchema }) });
-  const { setValue } = useFormContext();
 
   const closeChangePassword = () => close();
 
+  const formMethods = useForm({ ...(validationSchema && { resolver: yupResolver(validationSchema) }) });
+
+  const {
+    setValue,
+    handleSubmit,
+    formState: { isDirty }
+  } = formMethods;
+
   const onSubmit = data => {
     Object.entries(data).forEach(([key, value]) => {
-      setValue(key.replace("_change", ""), value, false);
+      setValue(key.replace("_change", ""), value, { shouldDirty: true });
     });
 
     closeChangePassword();
   };
 
   const cancelHandler = () => {
-    if (formMethods.formState.dirty) {
+    if (isDirty) {
       setCloseConfirmationModal(true);
     } else {
       closeChangePassword();
@@ -42,32 +48,30 @@ function Component({ formMode, i18n, open, pending, close }) {
 
   const cancelConfirmationModal = () => setCloseConfirmationModal(false);
 
-  useImperativeHandle(formRef, () => ({
-    submitForm(e) {
-      formMethods.handleSubmit(data => {
-        onSubmit(data);
-      })(e);
-    }
-  }));
-
   return (
     <>
       <ActionDialog
         open={open}
-        successHandler={() => bindFormSubmit(formRef)}
+        confirmButtonProps={{
+          type: "submit",
+          form: FORM_ID
+        }}
         cancelHandler={cancelHandler}
         dialogTitle={i18n.t("buttons.change_password")}
         confirmButtonLabel={i18n.t("buttons.update")}
         pending={pending}
         omitCloseAfterSuccess
       >
-        <FormContext {...formMethods} formMode={formMode}>
-          <form>
-            {changePasswordForm(i18n).map(formSection => (
-              <FormSection formSection={formSection} key={formSection.unique_id} />
-            ))}
-          </form>
-        </FormContext>
+        <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)}>
+          {changePasswordForm(i18n).map(formSection => (
+            <FormSection
+              formSection={formSection}
+              key={formSection.unique_id}
+              formMode={formMode}
+              formMethods={formMethods}
+            />
+          ))}
+        </form>
       </ActionDialog>
       <ActionDialog
         open={closeConfirmationModal}

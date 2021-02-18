@@ -1,10 +1,10 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { PageHeading } from "../../../page";
 import { useI18n } from "../../../i18n";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { attemptIDPLogin } from "./action-creators";
 import { getIdentityProviders } from "./selectors";
@@ -40,10 +40,11 @@ const showIdps = (identityProviders, dispatch) => {
 };
 
 const Container = () => {
-  const identityProviders = useSelector(state => getIdentityProviders(state));
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
+
+  const identityProviders = useMemoizedSelector(state => getIdentityProviders(state));
 
   return (
     <>

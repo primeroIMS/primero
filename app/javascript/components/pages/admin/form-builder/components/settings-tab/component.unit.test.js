@@ -1,5 +1,3 @@
-import { fromJS } from "immutable";
-
 import { setupMockFormComponent } from "../../../../../../test";
 import FormSection from "../../../../../form/components/form-section";
 
@@ -9,14 +7,9 @@ describe("<SettingsTab />", () => {
   let component;
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(
-      SettingsTab,
-      { index: 1, tab: 1, formContextFields: {}, fieldDialogMode: "new", mode: "isNew" },
-      {},
-      fromJS({}),
-      {},
-      true
-    ));
+    ({ component } = setupMockFormComponent(SettingsTab, {
+      props: { index: 1, tab: 1, formContextFields: {}, fieldDialogMode: "new", mode: "isNew" }
+    }));
   });
 
   it("should render <SettingsTab />", () => {

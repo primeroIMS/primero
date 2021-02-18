@@ -7,6 +7,7 @@ import { ActionsMenu } from "../../../form";
 import FormSection from "../../../form/components/form-section";
 import { ROUTES } from "../../../../config/constants";
 
+import RolesActions from "./roles-actions";
 import RolesForm from "./container";
 
 describe("<RolesForm />", () => {
@@ -61,7 +62,7 @@ describe("<RolesForm />", () => {
 
   describe("Show", () => {
     beforeEach(() => {
-      const initialState = fromJS({
+      const state = fromJS({
         records: {
           admin: {
             roles: {
@@ -102,7 +103,11 @@ describe("<RolesForm />", () => {
         }
       });
 
-      ({ component } = setupMockFormComponent(RolesForm, { mode: "show" }, {}, initialState, ["/admin/roles/10"]));
+      ({ component } = setupMockFormComponent(RolesForm, {
+        props: { mode: "show" },
+        state,
+        defaultValues: ["/admin/roles/10"]
+      }));
     });
 
     it("renders role form sections", () => {
@@ -117,6 +122,10 @@ describe("<RolesForm />", () => {
           .map(current => current.props())
           .find(props => props.name === "module_unique_ids" && props.value.includes("primeromodule-cp"))
       ).to.exist;
+    });
+
+    it("renders the roles-actions component", () => {
+      expect(component.find(RolesActions)).to.have.lengthOf(1);
     });
   });
 });

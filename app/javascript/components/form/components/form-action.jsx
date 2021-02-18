@@ -1,10 +1,9 @@
-import React from "react";
 import PropTypes from "prop-types";
 
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
-const FormAction = ({ actionHandler, cancel, savingRecord, startIcon, text, disabled, rest }) => {
+const FormAction = ({ actionHandler, cancel, savingRecord, startIcon, text, disabled, options }) => {
   return (
     <ActionButton
       icon={startIcon}
@@ -13,9 +12,9 @@ const FormAction = ({ actionHandler, cancel, savingRecord, startIcon, text, disa
       pending={savingRecord}
       isCancel={cancel}
       rest={{
-        onClick: actionHandler,
+        ...(actionHandler && { onClick: actionHandler }),
         disabled: disabled || (savingRecord && !cancel),
-        ...rest
+        ...options
       }}
     />
   );
@@ -24,14 +23,15 @@ const FormAction = ({ actionHandler, cancel, savingRecord, startIcon, text, disa
 FormAction.displayName = "FormAction";
 
 FormAction.defaultProps = {
+  options: {},
   savingRecord: false
 };
 
 FormAction.propTypes = {
-  actionHandler: PropTypes.func.isRequired,
+  actionHandler: PropTypes.func,
   cancel: PropTypes.bool,
   disabled: PropTypes.bool,
-  rest: PropTypes.object,
+  options: PropTypes.object,
   savingRecord: PropTypes.bool,
   startIcon: PropTypes.object,
   text: PropTypes.string.isRequired

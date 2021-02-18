@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";

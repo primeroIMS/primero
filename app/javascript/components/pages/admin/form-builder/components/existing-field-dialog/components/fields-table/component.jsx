@@ -1,5 +1,4 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
-import React from "react";
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
 import { useSelector } from "react-redux";

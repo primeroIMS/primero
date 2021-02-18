@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FormControlLabel } from "@material-ui/core";
 import { batch, useDispatch, useSelector } from "react-redux";
@@ -40,7 +40,7 @@ import {
 const MainForm = ({ formProps, rest }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const firstUpdate = React.useRef(true);
+  const firstUpdate = useRef(true);
   const transitionType = "referral";
   const { providedConsent, canConsentOverride, disabled, setDisabled, recordType, isReferralFromService } = rest;
 

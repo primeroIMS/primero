@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 
-import { useThemeHelper } from "../../../../libs";
+import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import Form from "../../../form";
 import { useI18n } from "../../../i18n";
 import { enqueueSnackbar } from "../../../notifier";
@@ -17,7 +17,7 @@ import { NAME as PASSWORD_RESET_DIALOG_NAME } from "../password-reset-dialog/con
 import PasswordResetDialog from "../password-reset-dialog";
 import { getUseIdentityProvider } from "../../selectors";
 
-import { NAME } from "./constants";
+import { NAME, FORM_ID } from "./constants";
 import styles from "./styles.css";
 import { attemptLogin } from "./action-creators";
 import { selectAuthErrors } from "./selectors";
@@ -31,8 +31,11 @@ const Container = ({ dialogRef, formRef, modal }) => {
   const { css, mobileDisplay } = useThemeHelper({ css: styles });
   const { setDialog, dialogOpen, dialogClose } = useDialog(PASSWORD_RESET_DIALOG_NAME);
 
-  const authErrors = useSelector(state => selectAuthErrors(state));
-  const useIdentityProvider = useSelector(state => getUseIdentityProvider(state));
+  const authErrors = useMemoizedSelector(state => selectAuthErrors(state));
+  const useIdentityProvider = useMemoizedSelector(state => getUseIdentityProvider(state));
+
+  const validations = validationSchema(i18n);
+  const formSections = form(i18n);
 
   if (modal) {
     // eslint-disable-next-line no-param-reassign
@@ -42,12 +45,6 @@ const Container = ({ dialogRef, formRef, modal }) => {
   const handleSubmit = values => {
     dispatch(attemptLogin(values));
   };
-
-  const submitForm = () => {
-    internalFormRef.current.submitForm();
-  };
-
-  const bindActionButton = () => internalFormRef.current.submitForm();
 
   const onClickForgotLink = () => {
     setDialog({ dialog: PASSWORD_RESET_DIALOG_NAME, open: true });
@@ -87,19 +84,15 @@ const Container = ({ dialogRef, formRef, modal }) => {
     <>
       <div className={css.loginContainer}>
         {modal || <PageHeading title={demo ? demoTitle : title} whiteHeading />}
-        <Form
-          formSections={form(i18n, submitForm)}
-          validations={validationSchema(i18n)}
-          onSubmit={handleSubmit}
-          ref={internalFormRef}
-        />
+        <Form formSections={formSections} validations={validations} onSubmit={handleSubmit} formID={FORM_ID} />
         {modal || (
           <ActionButton
             text={demo ? demoActionButton : actionButton}
             type={ACTION_BUTTON_TYPES.default}
             rest={{
               fullWidth: mobileDisplay,
-              onClick: bindActionButton
+              form: FORM_ID,
+              type: "submit"
             }}
           />
         )}

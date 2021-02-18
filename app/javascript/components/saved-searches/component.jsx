@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles, Typography, Box } from "@material-ui/core";
 import { useSelector } from "react-redux";

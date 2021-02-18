@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
@@ -28,7 +28,7 @@ import {
 import { form, validations } from "./form";
 
 const Referrals = ({
-  referralRef,
+  formID,
   providedConsent,
   canConsentOverride,
   record,
@@ -105,19 +105,20 @@ const Referrals = ({
   return (
     <>
       <Form
+        formID={formID}
         submitAllFields
         submitAlways
         formSections={forms}
         onSubmit={handleSubmit}
-        ref={referralRef}
         validations={validations(i18n)}
         formErrors={formErrors}
         initialValues={{
           [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: providedConsent,
           ...referralFromService
         }}
-        renderBottom={() => (
+        renderBottom={formMethods => (
           <PdfExporter
+            formMethods={formMethods}
             record={record}
             forms={recordTypesForms}
             ref={pdfExporterRef}
@@ -137,11 +138,11 @@ Referrals.displayName = "Referrals";
 
 Referrals.propTypes = {
   canConsentOverride: PropTypes.bool,
+  formID: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  referralRef: PropTypes.object,
   setDisabled: PropTypes.func.isRequired,
   setPending: PropTypes.func.isRequired
 };

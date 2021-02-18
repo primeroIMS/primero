@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import { Fragment, useState } from "react";
 import { List, Collapse } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
+import { isEqual } from "lodash";
 
 import { getPermissions } from "../../user/selectors";
 import { ADMIN_NAV } from "../../../config/constants";
 import { checkPermissions, RESOURCES } from "../../../libs/permissions";
+import { useMemoizedSelector } from "../../../libs";
 
 import styles from "./styles.css";
 import AdminNavItem from "./admin-nav-item";
@@ -13,7 +14,9 @@ import { getAdminResources } from "./utils";
 
 const AdminNav = () => {
   const css = makeStyles(styles)();
-  const userPermissions = useSelector(state => getPermissions(state));
+
+  const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
+
   const adminResources = getAdminResources(userPermissions);
 
   const [open, setOpen] = useState(false || adminResources[0] === RESOURCES.metadata);
@@ -50,14 +53,14 @@ const AdminNav = () => {
       });
 
       return (
-        <React.Fragment key={`${nav.to}-parent`}>
+        <Fragment key={`${nav.to}-parent`}>
           <AdminNavItem item={nav} open={open} handleClick={handleClick} isParent />
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {renderChildren}
             </List>
           </Collapse>
-        </React.Fragment>
+        </Fragment>
       );
     }
 

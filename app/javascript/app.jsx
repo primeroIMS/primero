@@ -3,7 +3,6 @@ import { ConnectedRouter } from "connected-react-router/immutable";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { create } from "jss";
 import rtl from "jss-rtl";
-import React from "react";
 import { Provider } from "react-redux";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
@@ -34,6 +33,8 @@ const App = () => {
 
   store.dispatch(checkUserAuthentication());
   store.dispatch(loginSystemSettings());
+
+  window.I18n.fallbacks = true;
 
   return (
     <StylesProvider jss={jss} generateClassName={generateClassName}>

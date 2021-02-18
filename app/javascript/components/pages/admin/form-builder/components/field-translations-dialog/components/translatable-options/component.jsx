@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React from "react";
+import { Fragment } from "react";
 import { Grid } from "@material-ui/core";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
@@ -12,7 +12,7 @@ import styles from "../../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ field, selectedLocaleId }) => {
+const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const locales = i18n.applicationLocales.filter(locale => locale.get("id") !== LOCALE_KEYS.en);
@@ -28,7 +28,7 @@ const Component = ({ field, selectedLocaleId }) => {
   }
 
   const renderLocalizedOption = (localeId, index, option, hideField) => (
-    <React.Fragment key={`${localeId}-${option.get("id")}`}>
+    <Fragment key={`${localeId}-${option.get("id")}`}>
       <FormSectionField
         field={FieldRecord({
           display_name: "",
@@ -36,6 +36,8 @@ const Component = ({ field, selectedLocaleId }) => {
           type: TEXT_FIELD,
           inputClassname: css.hideField
         })}
+        formMethods={formMethods}
+        formMode={formMode}
       />
       <FormSectionField
         field={FieldRecord({
@@ -45,8 +47,10 @@ const Component = ({ field, selectedLocaleId }) => {
           disabled: localeId === LOCALE_KEYS.en,
           inputClassname: hideField ? css.hideField : null
         })}
+        formMethods={formMethods}
+        formMode={formMode}
       />
-    </React.Fragment>
+    </Fragment>
   );
 
   const renderEnglishOptions = () =>
@@ -80,6 +84,8 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   field: PropTypes.object.isRequired,
+  formMethods: PropTypes.object.isRequired,
+  formMode: PropTypes.object.isRequired,
   selectedLocaleId: PropTypes.string
 };
 

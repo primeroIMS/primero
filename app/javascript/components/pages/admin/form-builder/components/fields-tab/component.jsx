@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { memo, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
@@ -14,20 +14,18 @@ import styles from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({
-  fieldDialogMode,
-  formContextFields,
-  getValues,
-  index,
-  register,
-  setValue,
-  tab,
-  unregister,
-  limitedProductionSite
-}) => {
+const Component = ({ mode, index, tab, formMethods, limitedProductionSite }) => {
   const { id } = useParams();
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const {
+    getValues,
+    register,
+    setValue,
+    control: {
+      fieldsRef: { current: fields }
+    }
+  } = formMethods;
   const { parent_form: parentForm, module_ids: moduleIds } = getValues({ nest: true });
   const moduleId = moduleIds ? moduleIds[0] : null;
 
@@ -36,7 +34,7 @@ const Component = ({
       setFieldDataInFormContext({
         name: fieldName,
         data: fieldData,
-        contextFields: formContextFields,
+        contextFields: fields,
         register,
         setValue
       });
@@ -50,15 +48,8 @@ const Component = ({
         <CustomFieldDialog limitedProductionSite={limitedProductionSite} />
         {parentForm && moduleId && <ExistingFieldDialog parentForm={parentForm} primeroModule={moduleId} />}
       </div>
-      <FieldsList
-        formContextFields={formContextFields}
-        getValues={getValues}
-        register={register}
-        setValue={setValue}
-        unregister={unregister}
-        limitedProductionSite={limitedProductionSite}
-      />
-      <FieldDialog mode={fieldDialogMode} onSuccess={onSuccess} formId={id} />
+      <FieldsList formMethods={formMethods} limitedProductionSite={limitedProductionSite} />
+      <FieldDialog mode={mode} onSuccess={onSuccess} formId={id} />
     </TabPanel>
   );
 };
@@ -66,17 +57,13 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.propTypes = {
-  fieldDialogMode: PropTypes.string.isRequired,
-  formContextFields: PropTypes.object.isRequired,
-  getValues: PropTypes.func.isRequired,
+  formMethods: PropTypes.object,
   index: PropTypes.number.isRequired,
   limitedProductionSite: PropTypes.bool,
-  register: PropTypes.func.isRequired,
-  setValue: PropTypes.func.isRequired,
-  tab: PropTypes.number.isRequired,
-  unregister: PropTypes.func.isRequired
+  mode: PropTypes.string.isRequired,
+  tab: PropTypes.number.isRequired
 };
 
 Component.whyDidYouRender = true;
 
-export default React.memo(Component);
+export default memo(Component);

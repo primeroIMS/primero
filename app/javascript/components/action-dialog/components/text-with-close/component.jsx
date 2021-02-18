@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import CloseIcon from "@material-ui/icons/Close";
 import { DialogTitle, IconButton } from "@material-ui/core";
@@ -39,7 +38,7 @@ Component.propTypes = {
   closeHandler: PropTypes.func.isRequired,
   dialogActions: PropTypes.object,
   dialogSubtitle: PropTypes.string,
-  dialogTitle: PropTypes.string.isRequired,
+  dialogTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   disableClose: PropTypes.bool
 };
 

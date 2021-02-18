@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
 
 import { useApp } from "../application";
 import { useI18n } from "../i18n";
 import { RECORD_TYPES } from "../../config";
+import { useMemoizedSelector } from "../../libs";
 
 import { getMessages } from "./selectors";
 import { removeSnackbar } from "./action-creators";
@@ -25,8 +26,9 @@ const Notifier = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { online } = useApp();
-  const notifications = useSelector(state => getMessages(state));
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const notifications = useMemoizedSelector(state => getMessages(state));
 
   const storeDisplayed = id => {
     displayed = [...displayed, id];

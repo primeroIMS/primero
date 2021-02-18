@@ -1,10 +1,8 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { useFormContext } from "react-hook-form";
 
-const HiddenInput = ({ commonInputProps }) => {
+const HiddenInput = ({ commonInputProps, formMethods }) => {
   const { name } = commonInputProps;
-  const { register } = useFormContext();
+  const { register } = formMethods;
 
   return <input type="hidden" ref={register} name={name} />;
 };
@@ -12,7 +10,8 @@ const HiddenInput = ({ commonInputProps }) => {
 HiddenInput.displayName = "HiddenInput";
 
 HiddenInput.propTypes = {
-  commonInputProps: PropTypes.object.isRequired
+  commonInputProps: PropTypes.object.isRequired,
+  formMethods: PropTypes.object.isRequired
 };
 
 export default HiddenInput;

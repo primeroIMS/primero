@@ -1,6 +1,6 @@
 import Chart from "chart.js";
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import { createRef, useEffect } from "react";
 
 const calculateFontSize = (ctx, textConfig, width, height) => {
   const { text, fontStyle } = textConfig;
@@ -47,7 +47,7 @@ Chart.pluginService.register({
 });
 
 const DoughnutChart = ({ chartData, options }) => {
-  const chartRef = React.createRef();
+  const chartRef = createRef();
 
   useEffect(() => {
     const chartCtx = chartRef.current.getContext("2d");

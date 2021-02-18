@@ -1,8 +1,7 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
-import React from "react";
 import PropTypes from "prop-types";
 import DateFnsUtils from "@date-io/date-fns";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, useWatch } from "react-hook-form";
 import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { parseISO } from "date-fns";
 import isEmpty from "lodash/isEmpty";
@@ -11,11 +10,13 @@ import { toServerDateFormat } from "../../../libs";
 import { useI18n } from "../../i18n";
 import localize from "../../../libs/date-picker-localization";
 
-const DateInput = ({ commonInputProps, metaInputProps }) => {
+const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   const i18n = useI18n();
-  const { setValue, watch } = useFormContext();
+  const { setValue, control } = formMethods;
   const { name } = commonInputProps;
-  const fieldValue = watch(name);
+
+  const fieldValue = useWatch({ name, control });
+
   const dialogLabels = {
     clearLabel: i18n.t("buttons.clear"),
     cancelLabel: i18n.t("buttons.cancel"),
@@ -33,7 +34,7 @@ const DateInput = ({ commonInputProps, metaInputProps }) => {
   };
 
   const handleChange = date => {
-    setValue(name, date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : "");
+    setValue(name, date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : "", { shouldDirty: true });
 
     return date;
   };
@@ -58,6 +59,7 @@ const DateInput = ({ commonInputProps, metaInputProps }) => {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
       <Controller
+        control={control}
         as={renderPicker}
         {...commonInputProps}
         helperText={<>{commonInputProps.helperText}</>}
@@ -75,6 +77,7 @@ DateInput.displayName = "DateInput";
 
 DateInput.propTypes = {
   commonInputProps: PropTypes.object.isRequired,
+  formMethods: PropTypes.object.isRequired,
   metaInputProps: PropTypes.object
 };
 

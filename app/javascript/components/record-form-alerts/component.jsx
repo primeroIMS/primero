@@ -1,11 +1,9 @@
-import React from "react";
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { fromJS, isCollection } from "immutable";
 
 import { useI18n } from "../i18n";
 import InternalAlert from "../internal-alert";
-import { compare } from "../../libs";
+import { compare, useMemoizedSelector } from "../../libs";
 import { getRecordFormAlerts } from "../records";
 import { getSubformsDisplayName, getValidationErrors } from "../record-form";
 
@@ -14,9 +12,10 @@ import { NAME } from "./constants";
 
 const Component = ({ form, recordType, attachmentForms }) => {
   const i18n = useI18n();
-  const recordAlerts = useSelector(state => getRecordFormAlerts(state, recordType, form.unique_id), compare);
-  const validationErrors = useSelector(state => getValidationErrors(state, form.unique_id), compare);
-  const subformDisplayNames = useSelector(state => getSubformsDisplayName(state, i18n.locale), compare);
+
+  const recordAlerts = useMemoizedSelector(state => getRecordFormAlerts(state, recordType, form.unique_id), compare);
+  const validationErrors = useMemoizedSelector(state => getValidationErrors(state, form.unique_id), compare);
+  const subformDisplayNames = useMemoizedSelector(state => getSubformsDisplayName(state, i18n.locale), compare);
 
   const errors =
     validationErrors?.size &&

@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-import React from "react";
 import { Route } from "react-router-dom";
 
 import { setupMountedComponent } from "../../../../test";
@@ -72,7 +71,7 @@ describe("<UsersForm />", () => {
     const saveButtonProps = { ...saveButton.props() };
 
     expect(saveButton).to.have.lengthOf(1);
-    ["actionHandler", "text", "savingRecord", "startIcon"].forEach(property => {
+    ["options", "text", "savingRecord", "startIcon"].forEach(property => {
       expect(saveButtonProps).to.have.property(property);
       delete saveButtonProps[property];
     });

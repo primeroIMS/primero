@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
-import { ExpansionPanel } from "@material-ui/core";
+import { Accordion } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { TRANSITION_PANEL_NAME as NAME } from "./constants";
@@ -15,9 +15,9 @@ const TransitionPanel = ({ children }) => {
   const css = makeStyles(styles)();
 
   return (
-    <ExpansionPanel expanded={expanded} onChange={handleExpanded} className={css.panel}>
+    <Accordion expanded={expanded} onChange={handleExpanded} className={css.panel}>
       {children}
-    </ExpansionPanel>
+    </Accordion>
   );
 };
 

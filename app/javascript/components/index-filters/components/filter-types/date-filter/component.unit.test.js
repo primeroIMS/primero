@@ -24,13 +24,13 @@ describe("<DateFilter>", () => {
   };
 
   it("renders panel", () => {
-    const { component } = setupMockFormComponent(DateFilter, props);
+    const { component } = setupMockFormComponent(DateFilter, { props, includeFormProvider: true });
 
     expect(component.exists("Panel")).to.be.true;
   });
 
   it("renders 2 DatePicker component", () => {
-    const { component } = setupMockFormComponent(DateFilter, props);
+    const { component } = setupMockFormComponent(DateFilter, { props, includeFormProvider: true });
 
     expect(component.find(DateTimePicker)).to.have.lengthOf(0);
     expect(component.find(DatePicker)).to.have.lengthOf(2);
@@ -42,7 +42,7 @@ describe("<DateFilter>", () => {
       filter: { ...filter, dateIncludeTime: true },
       filterToList: {}
     };
-    const { component } = setupMockFormComponent(DateFilter, newProps);
+    const { component } = setupMockFormComponent(DateFilter, { props: newProps, includeFormProvider: true });
 
     expect(component.find(DatePicker)).to.have.lengthOf(0);
     expect(component.find(DateTimePicker)).to.have.lengthOf(2);
@@ -61,7 +61,7 @@ describe("<DateFilter>", () => {
       setMoreSectionFilters: () => {},
       setReset: () => {}
     };
-    const { component } = setupMockFormComponent(DateFilter, newProps);
+    const { component } = setupMockFormComponent(DateFilter, { props: newProps, includeFormProvider: true });
     const clone = { ...component.find(DateFilter).props() };
 
     expect(component.exists("Panel")).to.be.true;
@@ -99,7 +99,7 @@ describe("<DateFilter>", () => {
       setReset: () => {}
     };
 
-    const { component } = setupMockFormComponent(DateFilter, newProps);
+    const { component } = setupMockFormComponent(DateFilter, { props: newProps, includeFormProvider: true });
 
     const select = component.find(Select);
 

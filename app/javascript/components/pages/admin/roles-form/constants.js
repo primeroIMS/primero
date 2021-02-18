@@ -24,6 +24,7 @@ export const RESOURCES = [
   "agency",
   "metadata",
   "system",
+  "primero_configuration",
   "report",
   "dashboard",
   "audit_log",
@@ -31,3 +32,5 @@ export const RESOURCES = [
   "duplicate",
   "kpi"
 ];
+
+export const FORM_ID = "role-form";

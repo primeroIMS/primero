@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { SnackbarProvider } from "notistack";
 import { Brightness1 as Circle } from "@material-ui/icons";

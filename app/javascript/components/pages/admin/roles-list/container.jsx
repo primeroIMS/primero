@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { List } from "immutable";
 import AddIcon from "@material-ui/icons/Add";
