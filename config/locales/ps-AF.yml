@@ -1,0 +1,2165 @@
+ps-AF:
+  'true': 'هو'
+  'false': 'نه'
+  cancel: لغوه کول
+  connection_lost: دا مهال په نالیکي حالت کې دی
+  connected: وصل کیدل
+  clear: پاک
+  description: توضیح
+  form: فورم
+  name: نوم
+  offline: نالیکې
+  yes_label: 'هو'
+  actions:
+    approvals: تصویب
+    button: فعالیتونه
+    close: نږدې
+    description:
+      invalid: ناباوره ثبت
+      valid: باوري ثبت
+    disable: ناتوانول
+    enable: وړول
+    incident_details_from_case: پېښه اضافه کړئ
+    incident_from_case: پیښه رامینځته کړئ
+    next: بل
+    notes: یادښتونه اضافه کړئ
+    previous: تیر
+    reopen: بیا پرانیستل
+    request_approval: د تصویب غوښتنه
+    revoke: رد کول
+    save: خوندي کړئ
+    services_from_case_creation_success: د خدمتونو چمتو کولو ثبتونه په بریالیتوب سره جوړه شوه
+    services_section_from_case: د چمتو خدمت اضافه کول
+  agencies:
+    label: نماینده ګي
+  agency:
+    agency_logos: د ادارې لوګو
+    code: د ادارې کود
+    description: توضیح
+    disabled: ناتوانول
+    label: نماینده ګي
+    logo_icon: د نښې لوګو
+    logo_icon_help: دا به د کوچني اسڪرين اندازې ، ټابلیټونو ، او تلیفونونو کې څرګند شي. دا باید مربع وي
+    logo_large: لوی لوګو
+    messages:
+      created: اداره په بریالیتوب جوړه شوې وه.
+      updated: اداره په بریالیتوب سره تازه شوه.
+    name: اداری نوم
+    services: د ادارې خدمتونه
+  approvals:
+    approved_by: لخوا تصویب شوې
+    case_plan_type_label: د قضیې پلان ډول
+    manager_comments_label: د مدیر تبصیره
+    rejected_by: لخوا رد شوې
+    requested_by: لخوا غوښتل شوی
+    requested_for_label: لپاره د منظوري غوښتنه شوې
+    requested_for_title: د تصویب غوښتنه
+    response_for_label: لپاره تصویب
+    response_for_title: تصویب
+    action_plan: کاري پلان
+    gbv_closure: بندول GBV د
+    status:
+      approved: تصویب شوې
+      pending: پاتې کول
+      rejected: رد شو
+      requested: غوښتل شوې
+  audit_log:
+    action: فعالیت
+    description: توضیح
+    record_owner: د ثبت د څښتن
+    timestamp: وخت
+    user_name: لخوا ترسره شوی
+  bulk_export:
+    file_name: دوسیه
+    record_type: ډول
+    retry: دا صادرات باوري ندي. مهرباني وکړئ د خپلې صادراتو له سره هڅه وکړئ.
+    started_on: شروع شو
+    status: حالت
+  buttons:
+    accept: ومنه
+    add: اضافه کول
+    add_another_option: بل غوراوی اضافه کړی
+    add_note: یادښتونه اضافه کړئ
+    apply: غوښتنه وکړئ
+    approvals: تصویبونه
+    approve_action_plan: تصویب شوې کاري پلان
+    approve_bia: '‌BIA تصویب شوی '
+    approve_case_plan: د قضیې پلان تصویب کړئ
+    approve_closure: بندول منظور کړئ
+    approve_gbv_closure: تصویب بندول GBV د
+    back: شاته
+    bundle_export: د تشکیل بنډل
+    bundle_import: د تشکیل بنډل
+    cancel: لغوه کول
+    change_password: پټ نوم بدل کړئ
+    clear_default: د تلواله پاکول
+    clear_selection: ټاکنه پاکه کړئ
+    close: نږدی کیدل
+    continue: دوام ورکړئ
+    create_case: قضیه جوړه کړئ
+    create_incident: پیښه رامینځته کړئ
+    create_new_record: نوې جوړ کړئ
+    delete: ړنګول
+    disable: ناتوانول
+    disable_photo_wall: د عکس دیوال غیر فعال کړئ
+    done: وکړه
+    download: ډاونلوډ
+    edit: سمول
+    edit_subform: د فرعی فورمونو سمول
+    enable: وړول
+    enable_photo_wall: د عکس دیوال غیر فعال کړئ
+    export: صادرول
+    filter: فلټر تطبیق کړئ
+    filter_clear: فلټر پاک کړئ
+    filter_label: 'فلټر'
+    filter_restore: د سیسټم سیټینګ راستنول
+    find_tracing_match: تعقیب برابروالې ومومئ
+    flag_model: بیرغ
+    flag_records: بیرغ
+    flags: بیرغونه
+    guidance: لارښونه
+    guiding_questions: لارښود پوښتنې
+    import: واردول
+    login: دننه کیدل
+    logout: وتل
+    mark_for_mobile: د موبایل لپاره نښه کړئ
+    new: نوی
+    ok: سمه ده
+    reassign: ټاکل
+    referral: رجعت ورکول
+    referral_again: بیا رجعت ورکول
+    reject: رد کړئ
+    remove_referrals: رجعتونه لری کړئ
+    reorder: ثبتونکې
+    request_approval: د تصویب غوښتنه
+    request_transfer: د لیږدولو غوښتنه
+    reunite: بیا یوځاې کیدل
+    save: خوندي کړئ
+    save_and_add_service_provision: د خدماتو وړاندې کول خوندي او اضافه کړئ
+    save_and_return: خوندي او بیرته ستنیدل
+    save_changes: بدلونونه خوندي کړئ
+    select: وټاکئ
+    sort_by_case: قضایاوی
+    sort_by_tr: د تعقیب غوښتنې
+    submit: وسپارئ
+    transfer: لیږدول
+    unflag_model: بې پرې کول
+    unflag_model_history: د بیرغ  مخینه
+    unmark_for_mobile: د موبایل لپاره بی نښې
+    update: تازه کول
+    view: لید
+    view_flags_history: مخینه وګوره
+  case:
+    create_new_case: نوي قضیه جوړه کړئ
+    enter_id_number: د موجوده ریکارډ لټون لپاره د ID شمیره دننه کړئ
+    id_search_no_results: دلته په سیستم کې هیڅ برابري شتون نلري، مهرباني وکړئ یو نوې ریکارډ جوړ کړئ
+    messages:
+      update_success: 'قضیه په بریالیتوب سره تازه شوې'
+      update_success_queue: 'قضیه په شالید کې په بریالیتوب سره تازه شوې'
+      creation_success: 'د قضې ریکارډ په بریالیتوب سره جوړ شو'
+      creation_success_queue: 'د قضيې ریکارډ په شالید کې جوړ شو'
+    workflow:
+      assessment: کتنه
+      case_plan: د قضیې پلان
+      closed: تړل شوې
+      created_on: جوړول په
+      in_progress: د پرمختګ په حال کې
+      new: نوې
+      on_label: 'په'
+      reopened: بیا پرانستل شو
+      service_implemented: خدمت تطبیق شوی
+      services_implemented: خدمت تطبیق شوی
+  cases:
+    action_plan: کاري پلان
+    age: عمر
+    age_estimated: تخمیني عمر
+    agency: اداره
+    apply_filter: غوښتنه وکړئ
+    approval_comments: تبصیره
+    approval_radio: خوښه مي ده چي
+    approval_radio_accept: تصویب
+    approval_radio_reject: تصویب ندی
+    approval_select: فورم دپاره د
+    approved_success_action_plan: 'تصویب شوې'
+    approved_success_assessment: 'تصویب شوې'
+    approved_success_bia: 'تصویب شوې'
+    approved_success_case_plan: 'تاید شوې'
+    approved_success_closure: 'تاید شوی'
+    approved_success_gbv_closure: 'تاید شوی'
+    assessment: کتنه
+    case_opening_date: د قضیې د خلاصیدو نیټه
+    case_plan: د قضیې پلان
+    case_worker_code: د قضې د کارکونکي کوډ
+    clear_filter: پاک
+    close_dialog: کلیک کول به د دی قضیې حالت د قضيې د تړلو حالت ته واړه وي OK  د
+    close_dialog_title: قضیه وتړئ
+    close_success: په بریالیتوب سره قضیه بنده شوې
+    closure: بندول
+    date_of_birth: د پیدایښت نیټه
+    disable_dialog_title: غیر فعال قضیه
+    disable_success: په بریالیتوب سره قضیه غیر فعال شوه
+    enable_dialog_title: د قضيې فعالول
+    enable_success: په بریالیتوب سره قضیه فعال شوه
+    export: صادرات
+    filter_by:
+      3month_inactivity: د ۳+ میاشتو  لپاره
+      action_plan: کاري پلان
+      age_0_5: ۵-۰
+      age_12_17: ۱۷-۱۲
+      age_18_more: +۱۸
+      age_6_11: ۱۱-۶
+      age_range: د عمر حدود
+      agency: اداره
+      approval_status: د تصویب حالت
+      approvals:
+        approved: د تصویب شوې
+        pending: تعلیق
+        rejected: رد شوې شوی
+      bia: BIA
+      by_date: په نیټه
+      case_open_date: د قضیې د پرانستې نیټه
+      case_plan: قضیې پلان
+      closed: 'ټړل '
+      closure: بندول
+      current_location: اوسنې موقعیت
+      date: نیټه
+      displacement_status: د بې ځایه کیدو څرنګوالې
+      district: ولسوالي
+      duplicate: ورته
+      enabled_disabled: فعال/غیر فعال
+      female: ښځینه
+      flag: به نښه شوی
+      flag_label: په نښه شوی؟
+      gbv_closure: بندول GBV د
+      high: لوړ
+      low: ټیټ
+      male: نارینه
+      medium: منځنې
+      mobile: موبایل
+      mobile_label: د موبایل لپاره نښه شوې؟
+      my_cases: زما قضایاوی
+      no_action: هیڅ اقدام نشته
+      no_activity: هیڅ فعالیت نه
+      open: پرانستل
+      other: نور
+      photo: عکس
+      photo_label: عکس لری؟
+      protection_concerns: د خوندیتوب اندیښنې
+      protection_status: د خوندیتوب څرنګوالې
+      record_state: د ریکارډ حالت
+      referred_cases: قضیې چې ماته راجع شوی
+      registration_date: ثبتولو نیټه
+      risk_level: د خطر کچه
+      sex: جنس
+      social_worker: ساحه/قضیه/ټولنیز کارکوونکې
+      status: حالت
+      transferred: لیږدول شوی
+      type_of_risk: د خطر ډولونه
+      urgent_protection_concern: د عاجل محافظت اندیښنه
+      user_group: استعمالونکو ګروپ
+      workflow: د کاري جریان لخوا قضیې
+    flag_summary: په نښه شوې لنډیز
+    full_name: مکمل نوم
+    gbv_closure: بندول GBV د
+    hide_name: نوم پټول
+    hide_name_error: ستاسو د بدلونونو خوندي کولو پر مهال یوه ستونزه رامنځته شوه. مهرباني وکړئ بیا کوښښ وکړئ
+    id: ای ډی نمبر
+    label: قضایاوی
+    my_filters: زما فلټرونه
+    name: نوم
+    notes_dialog_title: یاداښتونه اضافه کړئ
+    notes_form_notes: یادونه
+    notes_form_subject: موضوع
+    ok: سمه ده
+    order_by:
+      label: په واسطه غوښتل شوی
+      most_recently: 'په دی وروستیو کی '
+      name: نوم
+    owned_by: د ثبت د څښتن
+    owned_by_agency: د ثبت د څښتن اداره
+    photos: عکس
+    quick_view:
+      tracing_message: 'یادونه: په سیستم کې یوه برابري شتون لري چې د پوښتونکي یې د دې ماشوم په لټه کې دی. د راتلونکي عمل لپاره د دې ریکارډ ټولنیز کارکوونکي سره اړیکه ونیسئ که ماشوم وغواړي.'
+    referral_done: د 'بشپړ شوي' کلیک کول پدې معنی دي چې تاسو د دې قضیې پورې اړوند رجعت کار بشپړ کړی دی. یوځل چې تاسو 'بشپړ شوي' کلیک وکړئ تاسو به نور دې ریکارډ ته لاسرسی ونلرئ.
+    referral_done_success: رجعت بشپړ شوې
+    register_new_case: نوی قضیه
+    registration_date: د ثبت نیټه
+    rejected_success_action_plan: 'تاید شوی نه دی'
+    rejected_success_assessment: 'تاید شوی نه دی'
+    rejected_success_bia: 'تاید شوی نه دی'
+    rejected_success_case_plan: 'تصویب شوی ندی'
+    rejected_success_closure: 'تاید شوی نه دی'
+    rejected_success_gbv_closure: 'تاید شوی نه دی'
+    reopen_dialog: کلیک کول  به د دې قضیې حالت خلاصیدو ته بدل کړي OK ذ
+    reopen_dialog_title: د قضیې بیا پرانستل
+    reopen_success: په بریالیتوب سره قضیه بیا پرانستل شوه
+    request_approval_failure: یوه تیروتنه وشوه ، مهرباني وکړئ ملاتړ سره اړیکه ونیسئ.
+    request_approval_select: لپاره د منظوري غوښتنه
+    request_approval_success_action_plan: د فارم لپاره منظوري غوښتنه شوې.
+    request_approval_success_assessment: د فورم لپاره تاید شوی غوښتنه
+    request_approval_success_case_plan: د فارم لپاره منظوري غوښتنه شوې.
+    request_approval_success_closure: د فارم لپاره منظوري غوښتنه شوې.
+    request_approval_success_gbv_closure: د فارم لپاره منظوري غوښتنه شوې.
+    request_approval_type_of_case_plan: د قضیې پلان تصویب ډول
+    request_approve_action_plan: د کاري پلان تصویب؟
+    request_approve_bia: د کتنې تصویب؟
+    request_approve_case_plan: د قضیې  د پلان تصویب؟
+    request_approve_closure: د قضیې  د تړلو تصویب؟
+    request_approve_gbv_closure: تړولو تصویب؟ GBV د
+    revoke_failure: که د لغوه کولو کی کوم غلطی رامنځته شول،  نو مهربانی وکړی له ملاتړ سره اړیه ونیسی
+    revoke_message: ' د لغوه په کلیک کولو سره به تاسی وکولی شی چی قضیې ته د ترلاسه کونکی لاسرسی له مینځه یوسی.'
+    revoke_success_message: قضیه   لغوه شو
+    save_filter: خوندي کړئ
+    selected_all_records: .ټولی هغه پیښې غوره کړئ چې د دې پوښتنی سره سمون لري
+    selected_records: 'انتخاب شوی قضیې'
+    sex: جنس
+    show_case: 'د قضیې ای ډی'
+    social_worker: ټولنیز کارکوونکې
+    status: حالت
+    survivor_code: د ژغورونکي کوډ
+    transfer_accepted: د 'منلو' کلیک کولو سره تاسو د دې قضیې مسؤلیت منئ؛ یوځل چې تاسو 'منل' کلیک وکړئ تاسو به په سیسټم کې د ریکارډ کوونکې شئ.
+    transfer_accepted_rejected: 'هغه قضیی چی د هغه لیږد لغوه شوی '
+    transfer_accepted_success: د قضیې لیږد په بریالیتوب سره ومنل شو
+    transfer_reject_reason_label: د ردولو علت
+    transfer_rejected: د 'رد' کلیک کولو سره تاسو په ګوته کوي چې تاسو پدې وخت کې د دې قضیې مسؤلیت منلو ته چمتو نه یاست. مهرباني وکړئ یو دلیل دننه کړئ چې تاسو دا قضیه رد کوئ؛ یوځل چې تاسو په "رد" کلیک وکړئ تاسو به نور د دې قضیې ثبت ته لاسرسی ونلرئ.
+    view_name: نوم وګوره
+  children:
+    selectable_date_options:
+      assessment_requested_on: کتنې نیټه
+      closure_approved_date: 'د قضیې د بندولو نیټه'
+      created_at: د قضیې د پرانستلو ڼیټه
+      date_case_plan_initiated: د قضیې د پلان نیټه
+      date_of_creation: د جوړولو نیټه
+      registration_date: د ثبت نیټه
+  configurations:
+    apply_label: تاسو ډاډه یاست؟ که تاسو غوښتنه وکړئ ، پدې ترتیباتو کې تنظیمات به په سیسټم کې پلي شي. تاسو به خپل ټول اوسني تنظیمات له لاسه ورکړئ او دا به بیرته ترلاسه کولو توان ونلرئ پرته لدې چې تاسو دمخه یې په بل تشکیلاتو کې خوندي کړی وي.
+    apply_label_bold: پریمرو به د څو دقیقو لپاره کاروونکو ته د لاسرسي وړ نه وي پداسې حال کې چې بدلونونه لوډ کیږي.
+    attributes:
+      created_by: لخوا جوړ شوې
+      date_created: نیټه جوړه شوه
+      description: توضیح
+      last_applied_by: لخوا ورستې درخواست شوی
+      last_applied_on: اخري غوښتنه شوې په
+      name: نوم
+      version: ورجن
+    delete_label: ایا تاسو باوري یاست چې دا غواړئ؟ دا د ټولو تنظیماتو نمایندګي کوي کله چې دا سازونه رامینځته شوي. یو ځل چې تاسو دا سازونه حذف کړئ تاسو به بیرته نشئ تلای او دا تنظیمات بیرته ترلاسه کولی شئ.
+    explanation: 'خوندي تڼی په کلیک کولو  سره وکولی شی چی ټول تنظیمات ترتیب او منسجم کړي (د مثال په توګه: رولونه ، ادارې ، فورمې). ستاسو د خوندي کولو وروسته ، تاسو کولی شئ دا بدلونونه د پرامرو بل نمونی ته انتقال کړی . که ، په راتلونکي کې ، تاسو غواړی بخوانی د تشکیلاتو بدلونونه بیرته رامینځته کړئ ، نو  تاسو کولی شئ د دې تشکیلاتو ریکارډ پلي کړئ ترڅو ټول هغه تشکیلات بدل کړئ چې تاسو پدې وخت کې درلودل.'
+    label: سازونه
+    label_new: نوې سازونه
+    messages:
+      applied: سازونه په بریالیتوب سره وکارول شو
+      created: سازونه په بریالیتوب سره جوړه شوه
+      deleted: سازونه په بریالیتوب سره ړنګه شوه
+      updated: سازونه په بریالیتوب سره تازه شوه
+    not_allowed: اجازه نشته
+    unavailable_server: سرور لنډمهاله شتون نلري
+  contact:
+    field:
+      email: بریښنا لیک
+      location: موقعیت
+      name: نوم
+      organization: اورګان
+      other_information: نور معلومات
+      phone: فون
+      position: مقام
+      primero_version: پریمیرو ورجن
+      support_forum: د ملاتړ فورم
+      system_version: د سیستم نسخه
+    info_label: اړیکو معالومات
+    updated: د اړیکو معالومات په بریالیتوب سره تازه شو
+  dashboard:
+    activity: فعالیت
+    admin_only: په غوښتنلیک کې د بدلون لپاره کلیک وکړئ.
+    all_cases: ټولې قضیې
+    all_services_implemented: ټول خدمتونه تطبیق شوي
+    and: 'او'
+    approval_action_plan_approved: د تصویب شوې
+    approval_action_plan_pending: ځنډیږي
+    approval_action_plan_pending_group: کاری پلان
+    approval_action_plan_rejected: 'رد شوې '
+    approval_assessment_approved: تصویب شوې
+    approval_assessment_pending: ځنډیږي
+    approval_assessment_pending_group: کتنې
+    approval_assessment_rejected: رد شوې
+    approval_case_plan_approved: تصویب شوې
+    approval_case_plan_pending: ځنډیږي
+    approval_case_plan_pending_group: د قضیې پلان
+    approval_case_plan_rejected: رد شوې
+    approval_closure_approved: تصویب شوې
+    approval_closure_pending: تعلیق
+    approval_closure_pending_group: بندول
+    approval_closure_rejected: رد شوې
+    approval_gbv_closure_approved: تصویب شوې
+    approval_gbv_closure_pending: تعلیق
+    approval_gbv_closure_pending_group: بندول GBV د
+    approval_gbv_closure_rejected: 'رد شوې '
+    approvals: تصویبونه شوې
+    approvals_action_plan: کاري پلان
+    approvals_assessment: کتنې
+    approvals_case_plan: قضیې پلان
+    approvals_closure: بندول
+    approvals_gbv_closure: بندول GBV د
+    approved: تصویب شوې
+    assessment: کتنې
+    awaiting_acceptance: د منلو په تمه
+    case_id: 'قضیې # ای ډی'
+    case_management_service: د قضیې د مدیریت خدمتونه
+    case_overview: 'زما قضیې '
+    case_plan: د قضیې پلان
+    case_risk: قضایاوی د کتنې په اساس
+    case_stat_by_approval_type: تصویبونه
+    case_stat_by_assessment_level: قضایاوی د کتنې په اساس
+    case_stat_referrals: رجعتونه
+    case_stats: قضیې
+    case_worker: د قضیې کارکونکې
+    cases_by_social_worker: د ټولنیز کارکونکو پواسطه قضیې
+    cases_by_task_overdue: ډیرې دندې
+    cases_by_workflow: د کاري جریان لخوا قضیې
+    cases_this_week: قضایاوی دی اونئ
+    cases_to_assign: قضایاوې د ټاکلو لپاره
+    closed: تړل شوې
+    closed_last_week: بند شوی(تیره اونۍ)
+    closed_this_week: بند شوی(دغه  اونۍ)
+    comprehensive_need_intervention: هراړخیز ځواب
+    count_new_bia_approvals:
+      one: منظوری
+      other: منظوری
+    count_new_case_plan_approvals:
+      one: منظوری
+      other: منظوری
+    count_new_closure_approvals:
+      one: نوی منظوری
+      other: نوی مظوری
+    count_pending_approval_total:
+      one: منظوری
+      other: تاسو معلق منظوری لری
+    count_pending_transfers:
+      one: تاسو معلق منظوری لری
+      other: تاسو معلق لیږدونی لری
+    count_records_new:
+      one: او نوی قضیې
+      other: او نوی قضیې
+    count_records_total:
+      one: ستاسو ټولی قضی
+      other: ستاسو ټولی قضیې
+    count_referrals_new:
+      one: او نوی ارجاع ګانی
+      other: او نوی راجاع ګانی
+    count_referrals_total:
+      one: ستاسو ټولټال ارجاع ګانی
+      other: ستاسی ټولټال ارجاع ګانی
+    count_rejected_approval_total:
+      one: او رد شوی منظوری
+      other: او رد شوی منظوری
+    count_rejected_transfers:
+      one: او رد شوی لیږدونی
+      other: او رد شوی لیږدونی
+    count_risk_level_new:
+      one: او نوی خطر لرونکی قضيې
+      other: او نوی خطر لرونکی قضیې
+    count_risk_level_total:
+      one: تاسو خطر لرونکی قضیې لری
+      other: تاسو خطر لرونکی قضیې لری
+    count_waiting_for_acceptance_transfers: تاسو د قضيې لیږد لری خو ستاسو منلو ته په تمه دی
+    current_owner: اوسنی څښتن
+    dash_group_overview: زما د ګروپ قضيې
+    dash_shared_from_my_team: زما له ټیم څخه شریکه شوې
+    dash_shared_with_me: له ما سره شریکه شوې
+    dash_shared_with_my_team: زما د ټیم سره شریک شوی
+    dash_shared_with_others: د نورو سره شریک
+    date: نیټه
+    date_of_incident: د پیښې نیټه
+    date_of_interview: د مرکې نیټه
+    due: ډیرول
+    flagged: به نښه شوی
+    flagged_by: 'لخوا په نښه شوی'
+    flagged_by_me: د بل چا په واسطه نښه شوی
+    flagged_by_other: د بل چا پواسطه په نښه شوی
+    follow_up: تعقیب یی کړه
+    forms: د فورمونو ټب
+    geographic_area: جغرافیوي سیمه
+    group_overview_closed: تړل شوې
+    group_overview_open: پرانستل
+    high_level: لوړ
+    high_risk: لوړ لومړیتوب
+    immediate_response: سمدستي ځواب
+    in_progress: د پرمختګ په حال کې
+    incident_id: ' ID  #پیښه'
+    incident_location: د پیښې موقعیت
+    incident_status_open: پرانستل
+    last_updated: وروستی ځل نوی کونه
+    link_see_all: ټول وګوره
+    low_level: ټیټ
+    low_risk: ټیټ لومړیتوب
+    manager_count_closed_total:
+      one: او بندی شوی قضیې
+      other: او بندی شوی قضیې
+    manager_count_open_total:
+      one: تاسو خلاصی قضیې لری
+      other: تایو خلاصی قضیې لری
+    manager_transfers_totals:
+      one: تاسو لیږدونی لری
+      other: تایو لیږدونی لری
+    match_result: د برابرئ پایلې
+    medium_level: منځنې
+    medium_risk: منځنې لومړیتوب
+    missed_cases: ورک شوی قضیې
+    name: نوم
+    name_or_survivor_code: نوم یا د مصون شوی رمز
+    near_deadline: ورستۍ نیټه
+    new: نوی او تازه شوې
+    new_child_assigned_to_you: نوې قضیې تاسو ته سپارل شوی
+    new_incident: نوې پیښې
+    new_incident_assigned_to_you: نوي ټاکل شوې پیښې
+    new_last_week: نوی (تیره اونۍ)
+    new_or_updated: نوی یا تازه شوې
+    new_referred: نوې رجعت
+    new_service_provision: نوي چمتو شوي خدمت
+    new_this_week: نوی (دی انۍ)
+    no_action_risk: هیڅ اقدام نشته
+    no_case_stats: د قضیې ارقام نشته
+    no_caseworker_data: د قضیې کارکونکې معلومات نشته
+    no_flagged_child: هیڅ په نښه شوې قضیې نشته
+    no_flagged_incident: هیڅ په نښه شوی پیښې نشته
+    no_open_incidents: هیڅ خلاصې پیښې ندي
+    no_overdue_activities: فعالیتونه ډیر نشته
+    no_recent_activities: وروستي فعالیتونه نشته
+    no_scheduled_activities: مهالویش پرته فعالیتونه
+    none_risk: لومړیتوب نه لرل
+    number_of_victims: د متضررینو شمیر
+    number_of_violations: د تاوتریخوالی شمیر
+    number_of_violations_verified: تاید شوی تاوتریخوالی
+    open: پرانستل
+    open_cases: پرانستې قضیې
+    open_incidents: خلاصې پیښې
+    outstanding_transfers: عالی لیږد
+    overdue_activities: ځنډول شوي فعالیتونه
+    overdue_cases_to_assign: ' قضیو سپارل چی وخت یی تیر شوی'
+    overview: عمومي کتنه
+    pending: تعلیق
+    pending_approvals: معلق تایدونه
+    pending_transfers: معلق لیږد
+    protection_concern: د خوندیتوب اندیښنی
+    protection_concerns: د خونديتوب اندیښې
+    range12+: ۱۲ نه لوړ
+    range4: ۰-۴
+    range4_8: ۴-۸
+    range8_12: ۸-۱۲
+    recent_activities: ورستي فعالیتونه
+    recently_flagged_child: وروستي نښه شوی قضیې
+    recently_flagged_incident: وروستي نښه شوی پیښی
+    referrals_by_social_worker: د قضیی کارکونکی له خوا ارجاع
+    registration: راجستر
+    rejected: رد شو
+    rejected_transfers: رد شوی لیږد
+    response: ځواب ویل
+    scheduled_activities: ټاکل شوي فعالیتونه
+    score_range: د نمری اندازه
+    screening_service: سکریننګ خدمت
+    services: خدمتونه
+    services_implemented: خدمات پلي شوي
+    shared_from_my_team_pending_transfers: زیرمه شوې لیږدونې
+    shared_from_my_team_referrals: رجعتونه
+    shared_from_my_team_rejected_transfers: رد شوې لیږدونې
+    shared_with_me_new_referrals: نوې رجعت
+    shared_with_me_total_referrals: مجموعي رجعتونه
+    shared_with_me_transfers_awaiting_acceptance: د منلو په طمع لیږدول
+    shared_with_my_team_pending_transfers: زیرمه شوې لیږدونې
+    shared_with_my_team_referrals: رجعتونه
+    shared_with_others_pending_transfers: زیرمه شوې لیږدونې
+    shared_with_others_referrals: رجعتونه
+    shared_with_others_rejected_transfers: رد شوې لیږدونې
+    status_of_cases: د قضایاو څرنګوالې
+    system_user: سیستم
+    total: مجموعي
+    total_cases: مجموعي قضایاوی
+    total_referred: مجموعي رجعتونه
+    tr_stats: د تعقیب غوښتنې
+    transers_awaiting_acceptance: د منلو په طمع لیږدول
+    transfers_by_social_worker: د ټولنیز کارکونکو په واسطه لیږدول
+    users: د ترتیباتو ایکن
+    violence_type: د تاوتریخوالي ډولونه
+    with_incidents: د پیښو سره
+    without_incidents: د پیښو پرته
+    worker_count_referrals_total:
+      one: ټولټال ارجاع ګانی
+      other: ټولټال ارجاع ګانی
+    worker_count_total:
+      one: ټولټال قضیې لری
+      other: ټولټال قضيې لری
+    workflow_team: د کار جریان- د ټیم قضیې
+    you_have: 'تاسو لرئ'
+  disabled:
+    status:
+      disabled: ناتوانول
+      enabled: وړول
+  email_notification:
+    assign: 'مربوطه سپارل تاسو ته'
+    assign_subject: 'تاسو ته سپارل شوی'
+    approval_request: 'کارن د قضیې د منظوری لپاره غوښتنه کوی'
+    approval_request_subject: 'د قضیې د منظوری غوښتنه'
+    approval_response: 'د قضیې لپاره دمنظوری غوښتنه'
+    approval_response_subject: 'قضیه:د ځواب منظوری'
+    referral: 'له (               ) مربوطه قضیې تاسی ولیږدول شول لپاره'
+    transfer: 'مربوطه تاسو ته ولیږدول شو'
+    transfer_request_subject: د لیږد غوښته یو ستا له قضایاو څخه
+    transfer_subject: 'لیږد'
+    referral_subject: 'ارجاع'
+    transfer_request: 'پریمرو د کارونکی څخه غوښتنه کوی چی تاسو د قضی د ریکارد د انتقالولو صلاحیت لری ترڅو دوی وکولی شي د دوی په ساحه کې فرد لپاره مدیریت خدمات چمتو کړي. که چیرې دا لیږد تاسو ته د منلو وړ وي ، مهرباني وکړئ پدې بریښنالیک کې د ID لینک کلیک وکړئ ترڅو په پرائمرو کې انټرنیټ خلاص او لیږد پیل کړئ.'
+    approval_request_html: 'کارونکی د قضیې د منظوری لپاره غوښتنه'
+    approval_response_html: 'د قضیې لپاره دمنظوری غوښتنه'
+    referral_html: ' مربوطه قضیې تاسی ولیږدول شول لپاره'
+    transfer_html: 'لاندی تاسی ته ولیږدول شول'
+    assign_html: 'لاندی تاسی ته وسپارل شو'
+    transfer_request_html: 'پریمرو د کارونکی څخه غوښتنه کوی چی تاسو د قضی د ریکارد د انتقالولو صلاحیت لری ترڅو دوی وکولی شي د دوی په ساحه کې فرد لپاره مدیریت خدمات چمتو کړي. که چیرې دا لیږد تاسو ته د منلو وړ وي ، مهرباني وکړئ پدې بریښنالیک کې د ID لینک کلیک وکړئ ترڅو په پرائمرو کې انټرنیټ خلاص او لیږد پیل کړئ.'
+    transfer_request_notes_html: 'د هر فرد څخه جلا د یادونو جوړولو غوښتنه'
+  encrypt:
+    export_type: د صدور ډولونه
+    file_name: خپل فایل ته نوم ورکول(اختیاری)
+    password_extra_info: رمز باید لږترلږه 8 حروف وي دا رمز به د صادر شوي فایل سره تړاو ولري او اړتیا به وي په راتلونکي کې د هر چا لخوا چی فایل خلاصیږی باید دغه رمز دننه شی.
+    password_label: مهرباني وکړئ یو رمز دننه کړئ چې ستاسو فایل رمز لرونکی شی.
+  error_message:
+    address_fields: تاسو په فورم کی ساحه وټاکی
+    address_form_fields: تاسو په فورم کی ساحه وټاکی
+    address_subform_fields: 'غلطه ساحه'
+  error_page:
+    not_authorized:
+      server_error: تاسو دی صفحې ته د لاسرسیي اجازه نلرئ
+      title: مجاز نه دی
+    not_found:
+      contact_admin: که تاسو باور لرئ چې تاسو دلته په غلطۍ سره یاست ، مهرباني وکړئ خپل اداري سره اړیکه ونیسئ
+      something_went_wrong: وبخښئ ، یو څه غلط شو!
+  errors:
+    error_loading: د ریکارډونو په پورته کولو کې تېروتنه
+    models:
+      child:
+        age: عمر باید د 0 او 13 ترمنځ وي
+        date_of_birth: مهرباني وکړئ د دې قضیې ریکارډ لپاره د زیږون  د اعتبار نیټه دننه کړئ
+      export_configuration:
+        opt_out_field_does_not_exist: ټاکل شوی opt_out فیلډ په ریکارډ کې شتون نلري
+        record_type: د ریکارډ غلط ډول. باید ماشوم ، د تعقیب پلټنه ، یا پیښه وي
+      field:
+        translated_options_do_not_match: د ساحې ژباړل شوي اختیارونه باید ورته ids ولري
+      location:
+        admin_level_present: باید خالي نه وي
+        code_present: باید خالي نه وي
+        name_present: باید خالي نه وي
+        unique_location_code: د دې موقعیتت کوډ سره یو موقعیت دمخه شتون لري ، مهرباني وکړئ د موقعیت مختلف کوډ دننه کړئ
+      lookup:
+        being_used: دا لید کارول شوی او حذف کیدی نشي
+        name_present: نوم باید خالي نه وي
+        values_ids_blank: تش دی ID  د کتنې_ ارزونې
+      primero_module:
+        associated_record_types: لږترلږه یو ریکارډ ډول باید د دې ماډل سره تړاو ولري
+        form_section_ids: لږترلږه یوه فورمه باید د دې ماډل سره تړاو ولري
+        name_present: نوم باید خالي نه وي
+        unique_name: د دې نوم سره یو ماډل لا دمخه شتون لري ، مهرباني وکړئ یو بل نوم دننه کړئ
+      report:
+        module_presence: ماډل باید خالي نه وي
+        module_syntax: د راپور ټول ماډلونه لا دمخه شتون لري
+        name_presence: نوم باید خالي نه وي
+      role:
+        permission_presence: مهرباني وکړئ لږترلږه یو اجازه غوره کړئ
+      user:
+        password_mismatch: د پټنوم ساحې ورته پاسورډ نلري
+        email_uniqueness: د دې بریښنالیک په پته یو کارن دمخه شتون لري. لطفا یو مختلف ورکړه
+    not_found: هیڅ ریکارډ ونه موندل شو
+    try_again: بیا کوشش وکړئ
+  exports:
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: وټاکل شو PDF
+    csv:
+      all: CSV
+      one: CSV
+      selected: وټاکل شو CSV
+    custom:
+      all: دود
+    custom_exports:
+      all: دود
+      choose_fields: ایا تاسو غواړئ د فارم لپاره انفرادي ساحې غوره کړئ؟
+      empty_fields_forms: مهرباني وکړئ د صادراتو لپاره ځینې فورمونه یا ساحې غوره کړئ.
+      empty_format: مهرباني وکړئ د صادراتو فارمیټ غوره کړئ
+      empty_module: مهرباني وکړئ د ماډول صادرات غوره کړئ
+      empty_password: مهرباني وکړئ یو رمز دننه کړئ چې ستاسو فایل به کوډ کړي
+      field_label: ساحه
+      fields: د صادراتو لپاره ساحې وټاکئ
+      form_label: فارم
+      format_label: فرمیټ وټاکئ
+      forms: د صادرولو لپاره فورمې غوره کړئ
+      label: د غوراوی صادرول
+      module_placeholder: مهرباني وکړئ ماډل وټاکئ.
+      select_module: ماډل وټاکئ
+      submit: سمه ده
+    duplicate_id_csv:
+      all: ID ورته
+      female_abbreviation: F
+      headers:
+        age: عمر
+        case_id: ID د قضیې
+        child_name_last_first: ' د ماشوم نوم'
+        family_size: د کورنئ کچه
+        moha_id: MOHA ID DEPRECATED
+        national_id_no: د تذکری شمیره
+        progress_id: ID د پرمختګ
+        sex_mapping_m_f_u: جنس
+      male_abbreviation: م
+      unknown_abbreviation: یوو
+    exported: په بریالیتوب سره د صادراتو دوسیه جوړه شوه
+    exported_error: د صادرولو دوتنې جوړولو کې تېروتنه
+    forms:
+      button: د صادراتو فورمونه
+      label: صادرات
+    go_to_exports: د ډاونلوډ کولو لپاره د صادراتو پا ڼې ته لاړشئ
+    incident_recorder_xls:
+      all: د پیښې ریکارډر
+      one: د پیښې ریکارډر
+      selected: د پیښې ریکارډر وټاکئ
+    json:
+      all: JSON
+      one: JSON
+      selected: JSON وټاکئ
+    list_view_csv:
+      all: د صادراتو لیست لید
+      selected: وټاکئ CSV
+    mrm_violation_xls:
+      all: سرغړونه MRM ‌د
+      one: سرغړونه MRM ‌د
+      selected: 'سرغړونه وټاکئ MRM ‌د '
+    no_records: هیڅ ریکارډ شتون نلري!
+    pdf:
+      all: '(نه کوډ شوې) PDF '
+      one: PDF
+      selected: وټاکئ  PDF
+    pdf_exports:
+      label: PDF
+    photowall:
+      all: د عکس وال
+      flag_suspect_record: د مشکوک ریکارډ په توګه نښه شی
+      no_photos_available: هیڅ عکس نشته
+      one: د عکس وال
+      reunited: بیا یوځاې کیدل
+      selected: د عکس وال وټاکئ
+      success_message: د عکس دیوال جوړول د عکسونو پرته قضیې به پکې شامل نه وي.
+    printed: 'چاپ شوی'
+    queueing: د صادراتو دوسیه رامینځته کول
+    selected_xls:
+      all: Excel
+      one: Excel
+      selected: وټاکئ Excel
+      selected_fields: ساحې وټاکئ
+    unhcr_csv:
+      all: UNHCR
+      female_abbreviation: F
+      headers:
+        age: عمر
+        case_status: د قضیې حالت
+        causes_of_separation: د جلا کیدو لاملونه
+        country_of_origin: د استوګنی اصلی ځای
+        cpims_code: کود CPIMS د
+        current_care_arrangement: د پاملرنې اوسنی ترتیب
+        date_of_birth: د زیږدنې نیټه
+        date_of_identification: د پیژندلو نیټه
+        family_count_no: د کورنۍ شمیره
+        governorate_country: دولت - هیواد
+        id: ID
+        individual_progress_id: د انفرادي پرمختګ ID
+        locations_by_level: ' ( همغږي GPS پته (کمپ ، بلاک ، او نور د پلي کیدو وړ پته کچه ، لکه د سرپناه'
+        long_id: اوږده پېژندنه
+        moha_id: 'MOHA دID '
+        name_of_caregiver: د سر پرست مکمل نوم
+        name_of_child_last_first: مکمل نوم
+        primary_protection_concerns: د لومړني خوندیتوب  اندیښنې
+        progres_id: د پرمختګ ID
+        reunification_status: د بیا یوځاې کیدو څرنګوالې
+        secondary_protection_concerns: د ثانوي خوندیتوب اندیښنې
+        sex: جنس
+        sex_mapping_m_f_u: جنس
+        short_id: ID  لنډه
+        vulnerability_code: د زیانمنئ کودونه
+        vulnerability_details_code: د زیانمنئ د جزیاتو کودونه
+      male_abbreviation: M
+      one: UNHCR
+      selected: وټاکئ UNHCR
+      unknown_abbreviation: U
+  fields:
+    action: فعالیت
+    actions: فعالیتونه
+    add: اضافه کول
+    add_new_field: نوی ساحه جوړه کړئ
+    add_existing_field: موجوده ساحه اضافه کړئ
+    add_field: ساحه اضافه کړۍ
+    add_field_type: اضافه کول
+    audio:
+      current: اوسنئ اډیو
+    audio_upload_box: اډیو اپلوډ کول
+    bia_document: اسناد BIA د
+    bid_document: اسناد BID  د
+    check_box: د بکسونو کتل
+    clear_group_by: د ګروپ په واسطه پاکول
+    clear_sort_by: په ترتیب سره پاکول
+    copy_from_another_form: دا ساحه د بل فارم څخه کاپي شوې وه
+    create_field: ساحه جوړه کړه
+    create_unique_values: ځانګړي ارزښتونه رامینځته کړئ
+    date_field: د نیټئ ساحه
+    date_help: کال-میاشت-ورځ
+    date_help_with_time: دقیقه:ساعت کال-میاشت-ورځ
+    date_not_valid: دا نیټه د اعتبار وړ نده
+    date_range:
+      date: نیټه
+      date_range: د نیټې حد
+      from: څخه
+      to: ته
+    date_range_field: د نیټې حد
+    date_time: نیټه-وخت
+    db_name: د ډیټابیس نوم
+    default: اصلي؟
+    default_date_validation: د تلواله نیټه تایید
+    default_to_current_date: تلواله تر اوسنئ نیټه؟
+    default_to_current_datetime: ایا اوسنئ نیټې او وخت ته تلواله؟
+    default_value: تلوالې ارزښت
+    deleted: ساحه ړنګه شوې
+    detail: معلومات
+    disabled: ناتوانول
+    display_name: Display Name
+    document:
+      comments: تبصیره
+      current: ایا دا اوسنی سند دی؟
+      date: د سندونو نیټه
+      name: د سند نوم
+    document_upload_box: سند اپلوډ شو
+    edit_label: اصلاح شوی برخه
+    enabled: وړول؟
+    enabled_label: وړول
+    english_text: انګلیسی متن
+    field_name: ساحې نوم
+    field_type: د ساحې ډول
+    file_upload_box:
+      add_document_label: اسناد اضافه کړئ
+      add_new_document_button_text: یو بل سند اضافه کړئ
+      add_new_photo_button_text: یو بل عکس اضافه کړئ
+      add_photo_label: عکس اضافه کړئ
+      document_description: د اسنادو توضیحات
+      document_file_restrictions_message: فایل اندازه له د۲ ام بی څخه زیات نه وی
+      no_file_selected: هیڅ فایل ندی غوره شوی
+      photo_file_restrictions_message: عکسونه باید د ۱۰ ام بی څخه لوی نه وی. اډیو فایلونه باید د ۱۰ ام بی څخه لوی نه وی، د ټولو څخه کوچنې فایل به  ټولو ښه وی
+      recorded_audio_label: اډیو ثبت شوه
+      select_file_button_text: فایل وټاکئ
+    find_lookup: لټول موندل
+    form_name: د فارم نوم
+    future_date_not_valid: په راتلونکي کې نشئ کیدی
+    guidance: لارښود
+    guiding_questions: د پوښتنو لارښود کول
+    help_text: د مرستې متن
+    hide_on_view_page: د پاڼې ښودل
+    label: ساحې
+    mobile_visible: د موبایل اپلیکیشن
+    move_to: انتقالول
+    multi_select: کولی شي ډیری اختیارونه غوره کړي
+    multi_select_box: 'څو ټاکل '
+    must_be_english: باید په انګلیسي کې دننه شي
+    name: نوم
+    not_future_date: دا راتلونکې نیټه نده
+    number_not_valid: مهرباني وکړئ عددي معلومات داخل کړئ
+    numeric_field: عددي ساحه
+    on_collapsed_subform: په ویجاړ شوي فرعي فارم کې؟
+    option_strings_add_option: اختیار اضافه کړئ
+    option_strings_source: لټول
+    option_strings_text: غوراوي
+    option_strings_text_display: غوراوي متن
+    option_strings_text_key: د غوراوي کلي
+    options_indications_lookup_values: تاسو ممکن مخکې له مخکې ټاکل شوي لټونه وکاروئ یا ځانګړي ارزښتونه رامینځته کړئ.
+    options_indications_restrictions: تاسو دواړه نه شئ کولې
+    options_or_lookup_warning: مهرباني وکړئ غوراوي اضافه کړئ یا لټونه غوره کړئ. دواړه مه داخله وئ
+    other_documents: نور اسناد
+    photo_upload_box: عکس پورته کول
+    predifined_lookups: دمخه ټاکل شوي لټونه وکاروئ
+    radio_button: د راډیو تڼئ
+    remove: لرې کړئ
+    required: اړین دی
+    required_field: 'اړین دی'
+    search_existing: موجود ساحې وپلټئ
+    select_box: غورځول وټاکئ
+    select_date_validation: د نیټې د اعتبار تګلاره غوره کړئ
+    select_multiple: ټول هغه څه چې تطبیق کیږي وټاکئ
+    select_single: ( وټاکئ ....(
+    separator: جدا کوونکې
+    show: ښودل؟
+    show_on: ښودل په
+    show_on_minify_form: لنډ فارم
+    subform: فرعي فارم
+    subform_group_by: په ډله
+    subform_remove_message: ایا ته یعقینې یې چې دا فرعي فارم لرې کول غواړي؟
+    subform_section:
+      description: د فرعي فارم توضیحات
+      name: د فرعي فارم سرلیک
+      starts_with_one_entry: د یو فرعي فارم ته په داخلیدو پیل وکړئ؟
+      subform_append_only: په موبایل کې انتخابي ترکیب
+      subform_prevent_item_removal: ' فرعي فورم ته د داخلیدو څخه مخنیوې؟'
+    subform_sort_by: ترتیب یې کړه
+    successfully_added: ساحه په بریالیتوب سره اضافه شوه
+    tally_field: د محاسبې ساحه
+    text_area: دمتن سیمه
+    text_field: د متن ساحه
+    textarea: د متن ساحه
+    tick_box: د تیک بکس
+    tick_box_label: د ټیک بکس لیبل
+    translation_text: د ژباړی متن
+    type: ډول
+    updated: ساحه تازه شوی
+    visibility: لید لوری
+    web_app: ویب اپلیکیشن
+  filters:
+    apply_filters: غوښتنه وکړئ
+    clear_filters: پاک
+    less: لږ
+    more: زیات....
+    save_filters: خوندي کړئ
+  flags:
+    add_flag_tab: نوی بيرغ اضافه کړئ
+    date: 'نیټه'
+    flag_added: په بریالیتوب سره نښه شول
+    flag_date: د نښه کولو موده
+    flag_reason: د پرچم لامل
+    flag_resolved: په نښه شول
+    flags_tab: بیرغونه
+    no_flags: هیڅ بیرغ ونه موندل شو
+    resolve_button: دوباره حل کول
+    resolve_flag: دوباره حل کولو بیرغونه
+    resolve_reason: علت بیا حل کړئ
+    resolved: حل شوي بیرغونه
+    resolved_date: 'بیا حل شوی'
+    resolved_reason: 'علت بیا حل کړئ'
+    title: بیرغونه
+  followup_reminders:
+    system_generated_followup_flag: اجباري تعقیبي لیدنه
+  form_section:
+    form_name: د فارم نوم
+    module: انډول
+    name: نوم
+    record_type: د ریکارډ ډولونه
+    required_field: 'اړین دی'
+  forms:
+    add: فورم اضافه کول
+    description: د فارم توضیحات
+    fields: ساحې
+    form_description: توضیح
+    form_group: فارم ګروپ
+    form_title: د فارم سرلیک
+    help_text:
+      must_be_english: باید په انګلیسي کې دننه شي
+      related_groups: فارم د کاروونکو لپاره اړونده ډلې کې ځای په ځای کړئ
+      summariaze_purpose: دفارم مقصد لنډیز کړئ. باید په انګلیسي کې دننه شي
+    invalid_characters_field: 'ناباوره ځانګړنه لري'
+    label: فارمونه
+    manage: اداره کول
+    messages:
+      created: د فارم برخه په بریالیتوب سره جوړه شوې
+      fields_with_same_name: فارمونه ورته ساحې د نوم لپاره نلري
+      save_success: فارم برخې په بریالیتوب سره نوي شوي
+      save_with_errors: ستونزه وه او د فارم برخې ځینې برخې نه وې تازه شوې.
+      updated: د فارم برخه په بریالیتوب سره تازه شوې
+      use_existing: موږ تاسو هڅوو چې موجوده فورمې وکاروئ ځکه چې دا د ارګانونو تر منځ د معلوماتو شریکول او د معلوماتو تبادله اسانه کوي
+    mobile_app: د موبایل اپلیکیشن
+    module: انډول
+    no_subform_filters_added: دا فرعی فارم اوس مهال هیڅ ساحې نلري
+    record_type: د ریکارډ کولو ډول
+    record_types:
+      approvals: منظوري
+      case: قضیه
+      child: قضیه
+      incident: پیښه
+      individual_victim: انفرادي قرباني
+      potential_match: احتمالي سمون
+      record_information: معلومات ثبت کړئ
+      referrals: رجعتونه
+      reportable_follow_up: تعقیب
+      reportable_protection_concern: د خونديتوب اندیښې
+      reportable_service: خدمت
+      tracing_request: د په نښه کولو غوښتنه
+      transfers_assignments: لیږدول/ ګمارل
+      violation: سرغړونه
+    required_field: 'دا یو اړینه ساحه ده'
+    select_label: وټاکئ
+    settings: تنظیمات
+    show_on: ښودل په
+    subform_need_to_be_added: .هغه اضافه کولو ته اړتیا لری
+    subform_not_found: هیڅ ونه موندل شو
+    title: ' د فارم سرلیک'
+    translations:
+      edit: د ژباړی اصلاح کول
+      edit_form_group: د ډله ایز فروم کتنه
+      manage: ژباړی تنظیمول
+      no_changes_message: تاسو په ژباړه کی هیڅ تغیر نه دی راوستی
+      note: 'یادونه:'
+      note_form_group: د فارم ګروپ لپاره ژباړې اضافه کولو لپاره ، تاسو اړتیا لرئ د فارم ګروپ لید ژباړې اصلاح کړئ.
+      select_language: ژبه وټاکی
+      title: ژباړی
+    type_label: ډولونه
+    visibility: لیدلوری
+    web_app: ویب پروګروام
+  home:
+    ar: عربی
+    ar-JO: عربی (اردن)
+    ar-LB: عربی (لبنان)
+    bn: বাংলা
+    current_time_zone: زون اوسنی وخت
+    dashboard: ډشبورد
+    en: انګلیسی
+    es: اسپانوی
+    fr: فرانسوی
+    id: بهاشا
+    km: ភាសាខ្មែរ
+    ku: کوردی
+    label: کور
+    language: ژبه
+    manage_system_users: .د سرور همغږۍ کاروونکي اداره کړئ
+    my: ဗမာစာ
+    pt: پرتګالی
+    records_need_attention: ثبتول پاملرنی ته اړتیا لری
+    ru: Русский
+    so: Af-Soomaali
+    th: ไทย
+    users: د کارن تنظیمول
+    view_records: د ریکارډ کتل
+    welcome: .پرائمرو ته ښه راغلاست
+    zh: 中文
+  incident:
+    messages:
+      creation_success: .د پیښی ریکارډ په بریالیتوب سره جوړ شو
+      creation_success_queue: .د پیښی ریکارډ په بریالیتوب سره په خپل محور کی جوړ شو
+      update_success: '.پیښه په  بریالیتوب سره نوی شوه'
+      update_success_queue: '.پيښه خپل محور کی په بریالیتوب سره نوی شوه'
+    violation:
+      pending: تاید د انتظار په حالت کی دی
+  incidents:
+    id: '#پیژندپاڼه'
+    date_of_interview: د مرکې نیټه
+    date_of_incident: د پیښې نیټه
+    export: صادرول
+    label: پیښه
+    filter_by:
+      boys: هلکان
+      by_date: په نیټه
+      girls: نجونی
+      incident_location: د پيښی موقیعت
+      unaccompanied_separated_status: د خوندیتوب څرنګوالې
+      unknown: ناپیژنده
+      violence_type: د تاوتریخوالي ډولونه
+    register_new_incident: نوی پښه
+    selectable_date_options:
+      date_of_first_report: د مرکی نيټه
+      incident_date_derived: د پیښی نیټه
+    selected_records: 'انتخاب شوی پیښه'
+    selected_all_records: '.ټولی هغه پیښې غوره کړئ چې د دې پوښتنی سره سمون لري'
+    survivor_code: د ژغورنې کوډ
+    show_incident: 'د پیښی پیژند'
+    social_worker: ټولنیز کارکوونکې
+    violence_type: تاوتریخوالي ډول
+    type_violence: د تاو تریخوالي ډول
+  location:
+    base_types:
+      camp: کمپ
+      chiefdom: مشر توب
+      city: ښار
+      country: هیواد
+      county: ښارګوټۍ
+      district: ولسوالی
+      governorate: والی
+      locality: ځای
+      other: ور
+      province: ولایت
+      region: سیمه
+      site: ' سایټ'
+      state: دولت
+      sub-district: ولسوالی فرع
+      village: کلی
+      zone: زون
+    label: موقیعت
+  logger:
+    approve_form:
+      action_plan: کاری پلان فورم
+      bia: د لوړو ګټو د ارزیابی فورم
+      case_plan: د قضیې د پلان فورم
+      closure: اختتام فورم
+      'false': ردول
+      gbv_closure: د GBV  د اختتام فورم
+      'true': تایدول
+    by_user: د کارکونکی لخوا
+    consent_count: د رضایت شیره
+    copy: کاپی کول
+    create: رامنځته کول
+    create_subform: فرعی فورمی رامنځته کول
+    destroy: له مینځه وړل
+    edit: سمول
+    export: لپاره د معلوماتو صادرول
+    flag: نښه کول
+    flag_records: نښه کول
+    graph_data: د معلوماتو د ګراف کتنه
+    hide_name:
+      protect: نوم پټول
+      view: د نوم ښودل
+    index: د ریکارډونو لیست کول
+    login: داخلیدل
+    logout: وتل
+    lookups_for_field: د ساحی لپاره پلټنه کول
+    mark_for_mobile:
+      'false': د موبایل لپاره بی نښې
+      'true': د موبایل لپاره نښه کړئ
+    match_record: د برابرئ پایلې
+    permitted_field_list: د مجازو ساحو لیست
+    quick_view: چټک لیدنه
+    reassign: ټاکل
+    record_state:
+      'false': ناتوانول
+      'true': فعالول
+    referral: ارجاع کول
+    relinquish_referral: فوری ارجاع ترسره شوی
+    reopen_case: بیا پرانیستنه
+    request_approval:
+      action_plan: د کاری پلان د فورم غوښتنه
+      bia: '  د لوړو ګټو د ارزیابی فورم د تاید  غوشتنه'
+      case_plan: د قضیی دتنظیم پلان د تاید غوښتنه
+      closure: د قضیی د اختتام فورم د تاید غوښتنه
+      gbv_closure: د جنسیت پر بنا د تاوتریخوالی د اختتام د فورمی تاید غوښتنه
+    request_transfer: د لیږد غوښته لیږل
+    request_transfer_view: د لیږد د غوښتنی ښودل
+    save_subform: د فری فورمی خوندی کول
+    search: API   پلټنه
+    show: کتل
+    to: ته
+    to_user: کارونکی ته
+    transfer: لیږدونه
+    transfer_status:
+      Accepted: د لیږد قبلول
+      Rejected: د لیږد ردول
+    unflag: نښی له مینځه وړل
+    update: نوی کوونه
+  login:
+    label: داخلیدل
+    password:
+      label: رمز
+    provider_title: سره
+    title: دننه کیدل
+    username: د کارونکۍ نوم
+  lookup:
+    create: بیا لټون
+    enabled_label: ؟فعالول
+    english_label: انګلیسی مت
+    label: لټون
+    language_label: ژبه
+    messages:
+      cannot_create: لټون ترسره نه شول
+      correct_errors: ':مهربانی وکړی لاندی خطاوی اصلاح کړی او بیا بیرته وسپاری'
+      created: .لټون په بریالی توګه ترسره شو
+      updated: .لټون نوی کیدل په بریالی توګه ترسره شول
+    name: نوم
+    no_options: .دا لټون اوسمهال هیڅ انتخاب نه لری
+    translation_label: ژباړل شوی متن
+    values: غوراوي
+  messages:
+    alert_items: نښی له مینځه وړل
+    alerts_for:
+      approval: تصویب لپاره انتظار باسي
+      field_change: 'نوی شوی'
+      transfer_request: لخوا د لیږدونې نوې غوښتنه شوې وه
+    cannot_edit: تاسی ته نه شی اصلاح کولئ
+    confirmation_message: د کلیک په کولو سره غیر محفوظ شوی تغیرات به لغوه شی او تاسی به بیرته د لیست لید ته وګرځول شی. او د  لغوه په کلیک کولو سره تاسی به بیرته ریکارد ته ګرځول شی
+    dashboard_offline: ' .تاسی افلاین یاستی .کله چی تاسی انلاین شوی نو ډشبورد به بیرته خپل فعالیت شروع کړی'
+    field_name_on_form_name: 'په فورم کی ساحه'
+    logout_confirmation: ایا تاسو غواړئ خپلې غونډې ته دوام ورکړئ؟
+    logout_warning: تاسو به په 5 دقیقو کې بند شی
+    no_changes: تاسی په دغه برخه کی هیڅ تغیر رانه وړل
+  navigation:
+    bulk_exports: صادرول
+    cases: قضیی
+    home: کور
+    incidents: پیښی
+    logout: وتل
+    reports: راپورونه
+    search: پلټنه
+    settings: تنظیمات
+    support: ملاتړ کول
+    tasks: دندي
+    tracing_request: د غوښتنی څارنه
+  notes:
+    note_success: یادونه په بریالی توګه اضافه شول
+  permissions:
+    label: اجازه
+    permission:
+      All: ټول
+      add_note: معلومات اضافه کول
+      admin_only: هیڅ ریکارډونه نشته - یوازې د ادارې فعالیت
+      administrator_read: مدیر لخوا لوستل
+      agency: اداره
+      agency_read: د اداری لوستل
+      all: ټول ریکارډونو یا کارن ته لاسرسی
+      approvals_assessment: '۱'
+      approvals_assessment_pending: 'تعلیق حالت'
+      approvals_case_plan: '۱'
+      approvals_case_plan_pending: 'معلق'
+      approvals_closure: '۱'
+      approvals_closure_pending: 'معلق'
+      approve_action_plan: تاید
+      approve_assessment: تاید
+      approve_case_plan: 'تاید '
+      approve_closure: تاید فورم
+      approve_gbv_closure: د منظوری فورم
+      assign: سپارل
+      assign_within_agency: د اداری داخل کی سپارل
+      assign_within_user_group: د کارن ډ ډلو ترمنځ سپارل
+      audit_log: د څیړنی لوګ
+      case: قضیه
+      case_approvals: د قضې تایدول
+      case_assignments_referrals_transfers: قضیې ټاکل ،ارجاع کول ، او لیږدول
+      case_exports: د قضیې صدور
+      case_overview: زما قضيې
+      case_risk: قضایاوی د کتنې په اساس
+      cases_by_task_overdue_assessment: د وخت له انتها وروسته د قضایاو کتنه
+      cases_by_task_overdue_case_plan: د وخت له انتها وروسته د قضایاو پلان
+      cases_by_task_overdue_followups: د وخت له انتها وروسته د قضایاو لپاره خدمات
+      cases_by_task_overdue_services: د وخت له انتها وروسته د قضایاو لپاره خدمات
+      cases_managed_other_users: هغه قضیې چی د بل کارن لخوا تنظیم شوی
+      close: تړل
+      consent_override: د رضایت لغوه
+      copy: کابی
+      create: جوړول
+      dash_case_incident_overview: زما قضیې/پیښي
+      dash_cases_by_social_worker: د ټولنیز کارمند لخوا د قضیې کتل
+      dash_cases_by_task_overdue: د وخت له انتها وروسته د قضې کتل
+      dash_cases_by_workflow: د کار په جریان کی دقضیې مشاهده کول
+      dash_cases_to_assign: قضایاوې د ټاکلو لپاره
+      dash_group_overview: زما د ډلی قضيې
+      dash_manager_transfers: د مدیر لیږد کتل
+      dash_matching_results: د پایلی مطابقت والی کتل
+      dash_protection_concerns: د خونديتوب اندیښې
+      dash_protection_concerns_by_location: د موقیعت پر بنا د خوندیتوب اندیښنی
+      dash_referrals_by_socal_worker: د ټولنیز کارمند لخوا ارجاع
+      dash_reporting_location: د راپور ورکولو موقیعت
+      dash_service_provisions: د خدماتو ارایه کتل
+      dash_shared_from_my_team: زما د ډلی خوا شریک شوی
+      dash_shared_with_me: ما سره شریک شوی
+      dash_shared_with_my_team: زما د ټیم سره شریک شوی
+      dash_shared_with_others: له نورو سره شریک شوی
+      dash_show_none_values: د نا ارزښته ښکاره کول
+      dash_tasks: دندو ښکاره کول
+      dash_transfers_by_socal_worker: د ټولنیز کارمند له خوا د  لیږد کتل
+      dashboard: ډشبورډ
+      delete: ړنګول
+      display_view_page: د پاڼو نمایش
+      duplicate: ورته لټون
+      enable_disable_record: ناتوانول
+      export_case_pdf: PDF قضیی صادرول
+      export_csv: صادرول CSV
+      export_custom: غوراوی صادرول
+      export_duplicate_id_csv: ورته صادرول
+      export_json: ' json صادرول '
+      export_list_view_csv: لیستونو د ښکاره کولو لیږد csv د
+      export_mrm_violation_xls: mrm سرغړونې xls صادر کړئ
+      export_pdf: صادرول pdf
+      export_photowall: دیوالی انځور صادرول
+      export_unhcr_csv: 'صادرول CSV د UNHCR د '
+      export_xls: صاردول xls
+      find_tracing_match: د قضیی څارنی پیدا کول د قضی مطابق
+      flag: نښی
+      form: فورمونه
+      group: 'ټولو ریکارډونو او کارکونکو ته زما په ګروپ کی لاسرسی '
+      group_read: ډله ایز لوستل
+      import: صادرول
+      incident: پیښه
+      incident_details_from_case: دبل کارکونکی په قضیه کی د پیښی د معلوماتو اضافه کول
+      incident_from_case: له قضیی نه د حادثی جوړول
+      lookup: لټون
+      manage: سمول
+      matching_configuration: د تنظیماتو ورته والی
+      metadata: فورمونه،لڼون
+      potential_match: احتمالي سمون
+      read: لوستل
+      reassign: بیا مقررول
+      receive_referral: د ارجاع قبلول
+      receive_transfer: د انتقال قبلول
+      referral: ارجاع لپاره استعمالیدلی شی
+      referral_from_service: خدماتو له فورمی څخه د قضیی ارجاع
+      remove_assigned_users: (ټاکل شوی کارکونکی لری کول(ارجاع
+      reopen: بیا پرانیستل
+      report: راپور
+      request_approval: د تاید لپاره غوښتنه
+      request_approval_action_plan: د منظوری غوښتنه
+      request_approval_assessment: د لیږد منظوری
+      request_approval_case_plan: د لیږد منظوری
+      request_approval_closure: د لیږد منظوری
+      request_approval_gbv_closure: د لیږد منظوری
+      request_transfer: د لیږد غوښتنه
+      role: دندی
+      save_search: مصون پلټنه
+      saved_search: مصون لټون
+      search_owned_by_others: هغه قضیو لپاره پلټنه کول چی د  بل کارکونکی له خوا خپل شوی وی
+      self: یواځي زما په یکارډونو ته لاسرسی
+      service_provision_incident_details: '   د حادثی د جزیاتو په ماډل کی د خدماتو د اضافه کولو تڼی ته مراجعه وکړی'
+      services_section_from_case: دبل کارکونکی په قضیه کی د خدماتو اضافه کول
+      specific_roles: ' ځانګړو وظایفو لیست ته لاسری'
+      sync_mobile: د ګرځنده وسیلی سره همغږی
+      system: سیسټم
+      tracing_request: د لیږد څارنه
+      transfer: لیږد لپاره استعمالیدلی شی
+      user: کارونکی
+      user_group: د کارونکو ډله
+      view_approvals: تاید کتل
+      view_assessment: د ارزیابی کتل
+      view_photo: د انځور کتل
+      view_protection_concerns_filter: د ساتنی د اندیښنی فلټر وګوری
+      view_response: ځوابونو ښکاره کول
+      workflow: د کار جریان- انفرادی قضیه
+      workflow_team: د کارجریان- ډله ایز قضیی
+      write: لیکل
+    resource:
+      agency:
+        actions:
+          assign:
+            explanation: کله چی  د کارونکي حساب رامینځته کول یا ایډیټ کول وی نو ددی وړتیا شتون ولری چی اداره  انتخاب شی. که چیرې اوسنی کارونکی دا اجازه ولري او همدارنګه په کارن کی   "اداره هم  د لوستلو " اجازه ولري ، دوی به یوازې وکولی شي خپل اداره کی یو کارن اضافه کړی
+            label: ټاکل
+          create:
+            explanation: .د اداری د جوړولو وړتیا
+            label: جوړلو
+          manage:
+            explanation: 'کارونکي ته اجازه ورکوي چې په ادارو کې ټول موجود فعالیتونه ترسره کړي. د "تنظیم" اجازه لازمي معنی ده "هرڅه". مهم: دا د نوې ادارې رامینځته کولو وړتیا هم ورکويږ'
+            label: (اداره کول(ټول اختیارات د دغه ډول منبعی لپاره
+          read:
+            explanation: د اداراتو د لیدلو وړتیا
+            label: کتل
+          write:
+            explanation: د اداراتو په هکله د معلوماتو اصلاح کول.مهربانی وکړی دا په ذهن کړی چی په سیستم کی په ټولو اداراتو .تطبیق شی
+            label: سمول
+        label: اداره
+      audit_log:
+        actions:
+          read:
+            explanation: کارکونکي ته اجازه ورکوي په سیسټم کې د ترسره شوي ټولو کړنو لیست وګورئ او فلټر کړي ، د کارونکي لخوا مات شوی ، د عمل ډول ، ریکارډ ID ، او د عمل وخت. دا په ملي کچه یا د ادارې کچې مدیرانو لپاره خورا مناسب دی ، ځکه چې دا په سیسټم کې د ټولو کاروونکو لخوا ترسره شوي عمل ښیې. مهرباني وکړئ په یاد ولرئ چې د تفتیش لاګ په هر عمل کې د ښکیل ریکارډونو په اړه د شخصي پیژندلو وړ معلومات نه ښیې.
+            label: کتل
+        label: د څیړنی لوګ
+      case:
+        actions:
+          add_note:
+            explanation: ارونکي ته اجازه ورکوي چې د "یاداښتونو" فرعي (چې ځینې وختونه "نظرونه" هم ویل کیږي) کې دننه شي. کارن دا د "یادښتونو اضافه" تڼی په کلیک کولو سره کوي د قضیې خپرونې پا .ه. دا عمل په ځانګړي توګه د مدیرانو لپاره ګټور دی څوک چې د قضیو ترمیم کولو وړتیا نلري ، مګر غواړي د قضیې کار کونکي لپاره قضیې کې یادونه اضافه کړي. په دې توګه ، د یادونې اضافه کول د بیرغ اضافه کولو ته ورته دي. د نوټ اضافه کولو ګټه دا ده چې ، کله چې مدیر په قضیه کې نوټ اضافه کړي ، نو د قضیې کار کونکي لپاره به کله چې دوی په ګرځنده وسیله قضیه وګوري نو په قضیه کې به یو خبرتیا څرګند شي.
+            label: قضیه کی یاداښتونه اضافه کړئ
+          approve_action_plan:
+            explanation: مدیر ته اجازه ورکوي چې د قضیې کارونکی قضیې تاید کړی.
+            label: منظوری
+          approve_assessment:
+            explanation: مدیر ته اجازه ورکوي چې د قضیې کارونکی قضیې تاید کړی.
+            label: د منظوری فورم
+          approve_bia:
+            explanation: مدیر ته اجازه ورکوي چې د قضیې کارونکی قضیې تاید کړی.
+            label: د منظوری فورم
+          approve_case_plan:
+            explanation: مدیر ته اجازه ورکوي چې د قضیې کارونکی قضیې تاید کړی.
+            label: منظوری
+          approve_closure:
+            explanation: مدیر ته اجازه ورکوي چې د قضیې کارونکی قضیې تاید کړی.
+            label: منظوری فورم
+          approve_gbv_closure:
+            explanation: مدیر ته اجازه ورکوي چې د قضیې کارونکی قضیې تاید کړی.
+            label: د تاید فورم
+          assign:
+            explanation: کارکونکي ته اجازه ورکوي چې قضیه د خپل اصلي ریکارډ څښتن څخه په سیسټم کې کوم بل کارونکي ته واستوي. د دې عمل لپاره د هیڅ ماشوم رضایت ته اړتیا نشته. د لیږد برخلاف ، ترلاسه کونکي ته د دندې منلو یا رد کولو فرصت نه ورکول کیږي
+            label: ټاکل
+          assign_within_agency:
+            explanation: کارکونکي ته اجازه ورکوي چې قضیه د خپل اصلي ریکارډ څښتن څخه په سیسټم کې کوم بل کارونکي ته واستوي. د دې عمل لپاره د هیڅ ماشوم رضایت ته اړتیا نشته. د لیږد برخلاف ، ترلاسه کونکي ته د دندې منلو یا رد کولو فرصت نه ورکول کیږي
+            label: زما په اداره کی د کارکونکي ټاکل
+          assign_within_user_group:
+            explanation: کارکونکي ته اجازه ورکوي چې قضیه د خپل اصلي ریکارډ څښتن څخه په سیسټم کې کوم بل کارونکي ته واستوي. د دې عمل لپاره د هیڅ ماشوم رضایت ته اړتیا نشته. د لیږد برخلاف ، ترلاسه کونکي ته د دندې منلو یا رد کولو فرصت نه ورکول کیږي
+            label: زما د کارونی په ډله کی د کارکونکی ګومارل
+          change_log:
+            explanation: کارکونکی کولی شي ریکارډ کې د ترسره شوي ټولو بدلونونو تاریخ له هغه نیټی څخه  وګوري له کومی نیټی څخه چی دا راامنځته شوی. پدې کې د ټولو برخو لپاره ثبت شوي ارزښتونه شامل دي.
+            label: د بدلونو لاګ
+          close:
+            explanation: ' .کاروونکي ته اجازه ورکوي چې هغه قضیی چی پرانیستی حالت لری هغه وتړی'
+            label: تړل
+          consent_override:
+            explanation: کارکونکي ته اجازه ورکوي  چی هغه قضیی ارجاع یا انتقال کړی چی د هغه رضایت تر اوسه نه وی اخیستل شوی.
+            label: د قضیی د ارجاع او انتقال وخت کی رضایت په نظر کی مه نیسی
+          create:
+            explanation: د قضي د رامنځته کولو توانایی
+            label: جوړول
+          display_view_page:
+            explanation: یوه کاروونکی د داسی قضیې لپاره پلټنه ترسره کړی کوم ته  چې  لاسرسی نلري ، دوی ته اجازه ورکوي چی د  قضیی د اساس معلوماتو یو موډل  وګورئ ، اګر  که کارن نشي کولی قضیه کې کلیک وکړي ترڅو د هغې ټول معلومات وګوري. هغه ساحې چې پدې "لید موډل" کې څرګندیږي هغه ساحې دي چې "لنډ فارم کې ښودل" لپاره تنظیم شوي. دا موډل د هغه کاروونکو لپاره هم ګټور دی چې د کورنۍ تعقیب او بیا یوځای کیدنی عمل ترسره کوي ، ځکه چې د "لید موډل" د کاروونکي لاسرسی لپاره شتون لري کله چې دوی قضیې بیاکتنه کوي کوم چې د تعقیب غوښتنې لپاره "احتمالي  انطباق" په توګه څرګند شوي.
+            label: د لید د ورقی ښودل
+          enable_disable_record:
+            explanation: قضیې د فعالون یا غیر  فعالول. غیر فعال قضیی د د ډیفالټ په کارولو سره په لیست کی نه راښکاره کیږی. کاروونکي کولی شي د فلټر په کارولو سره د قضیې لیست کې غیر فعال قضیې وګوري. لکه څنګه چې پریمرو کاروونکو ته اجازه نه ورکوي چې قضیې حذف کړي ، نو یو کارن ممکن د بدیل په توګه قضیه غیر فعال کړي. د  مثال په توګه ، که چیرې یو کارن په غلطۍ سره قضیه رامینځته کړي ، یا قضیه خرابه ډاټا لري ، کارونکی باید نوموړی قضیه غیر فعال کړی
+            label: فعالول / غیر فعالول
+          export_case_pdf:
+            explanation: کارن کولی شي د قضیې لیست یا د قضیې ښودلو پاڼو څخه د پی ډی ایف فایل صادرات رامینځته کړي ، چې پدې کې ټول هغه برخې شتون لري چیرې چې اوسني کارن ورته لاسرسی لري ، کارن د یوې ، ډیری ، یا ټولو قضیو لپاره کولی شی لاسرسی  ولري. د پی ډی ایف صادراتو فایل کې ، معلومات لومړی د قضیې په واسطه لیست شوي ، او بیا وروسته د هغه فارم په واسطه تنظیم شوی کوم کی  چې معلومات څرګندیږي.
+            label: pdf قضی صادرول
+          export_csv:
+            explanation: 'کارن کولی شي د قضیې لیست یا د قضیې ښودلو پاڼو څخه د csv فایل صادرات رامینځته کړي ، چې پدې کې ټول هغه برخې شتون لري چیرې چې اوسني کارن ورته لاسرسی لري ، کارن د یوې ، ډیری ، یا ټولو قضیو لپاره کولی شی لاسرسی  ولري. د CSV صادراتو فایل غیر لاتینی توری(لکه عربی او بنګالی)  د لوستلو وړ فارمټ کی نه ښودل کیږی .'
+            label: صادرول CSV
+          export_custom:
+            explanation: کارن کولی شي د قضیې لیست یا د قضیې ښودلو پاڼو  څخه د XLS فایل صادرات رامینځته کړي ، کوم چې د یوې ، ډیری ، یا ټولو قضیو لپاره چیرې چې کارکونکی ورته  لاسرسی لري د فارمونو په مجموعه باندی مشتمل دی. پدې صادراتو کې ، هر فارم د XLS فایل کې دننه په خپل ټب کې ښودل شوی. کارن کولی شي چی هر فورم چی غواړی صدور کی شامل کړی د اختیاری صادراتو ماډل په کارولو سره په صادراتو کې شامل وي. مهرباني وکړئ په یاد ولرئ چې کاروونکي یوازې په صادراتو کې فارمونه او فیلډ شاملولی شي که چیرې دوی دمخه د دغسی فورمونو او فیلډونو لیدلو وړتیا درلودلو په دغه اپلیکیشن کی.
+            label: غوراوی صادرول
+          export_duplicate_id_csv:
+            explanation: قضیو د CSV صادرات رامینځته کول کوم  چې ورته ملي ID ساحه لري ( د تنظیم پر بنا کیدای شی مختلف لیبل ولری) یوازې د قضیې لیست څخه ترسره کیږي.
+            label: ورته صادرول
+          export_json:
+            explanation: کارن کولی شي د قضیې لیست یا د قضیې ښودلو پاڼو څخه د JSON فایل صادرات رامینځته کړي ، چې پدې کې ټول هغه برخې شتون لري چیرې چې اوسني کارن لاسرسی لري ، د یوې ، ډیری ، یا ټولو قضیو لپاره چې کارن کولی شی لاسرسی لري. دا صادرات اساسا د هغو کسانو لپاره کارول کیږي څوک چې غواړي د اوسني پریمرو سیسټم څخه قضیې صادر کړي او بیا یې په یو بل پریمرو سیسټم کې وارد کړي ، یا بل د معلوماتو مدیریت سیسټم کې. د JSON فارمټ د ماشین لوستلو وړ دی او د ډیری کاروونکو لپاره عملي ندي.
+            label: صادرول JSON
+          export_list_view_csv:
+            explanation: کارن کولی شي د قضیې لیست پا قضیو د ښودنو پاڼو څخه د CSV فایل صادرات رامنځته  کړي چې ورته ساحې لري او د قضیې لیست کې د هغه کارونکي لپاره څرګندیږي. یوازې د قضیې لیست پاڼو څخه ترسره کیږي.
+            label: د صادراتو لیست لید
+          export_photowall:
+            explanation: کارونکي ته اجازه ورکوي د قضیې لیست پاڼو څخه فایل صادر کړي کوم چی د ټولو قضیو عکسونه په ګی شامل دي. دا صادرات عمدتا د کورنۍ تعقیب او یوځای کولو فعالیتونو لپاره کارول کیږي. یوازې د قضیې لیست پاڼو څخه ترسره کیدای شی.
+            label: دیوالی انځور صادرول
+          export_unhcr_csv:
+            label: صادرول CSV ،  UNHCR د
+          export_xls:
+            explanation: 'کارن کولی شي د قضیې لیست یا د قضیې ښودلو پاڼو  څخه د XLS فایل صادرات رامینځته کړي ، چې پدې کې ټول هغه برخې شتون لري چیرې چې اوسني کارن لاسرسی لري ، د یوې ، ډیری ، یا ټولو قضیو لپاره چې کارن لاسرسی لري. پدې صادراتو کې ، هر فارم د XLS فایل کې دننه په خپل ټب کې ښودل شوی. یادونه: د XLS  فارمټ غیر لاتین کرکټرونه وړاندې کوي (د بیلګې په توګه عربي ، بنګله دېش) د لوستلو وړ فارمټ کی ، پداسې حال کې چې د CSV دغه ډول نه صادروی.'
+            label: د ایکسل فایل صادرول(XLS)
+          find_tracing_match:
+            explanation: دا په ځانګړي ډول د کورنۍ تعقیب او بیا یوځای کولو فعالیت  لپاره کارول کیږي. دی سره به کارکونکي وکولی شی چی د (څارنی تطابق پیدا کولو ) تڼی به د قضی د ښکاره کولو ورقه کی پیدا کړی،کله چی هغوی په دی باندی کلیک وکړی نو دوی به  په سیستم کی د څارنی تطابق ته ورسوی کوم چی د دوی له قضیو سره تطابق خوری .
+            label: د څارنی تطابق د قضی سره  پیدا کول
+          flag:
+            explanation: قضیه کې د بیرغ اضافه کولو وړتیا. د دې اجازی سره کاروونکي کولی شي هغه بیرغونه هم لرې کړي چې په قضیه کې یې اضافه کړي.
+            label: نښه
+          import:
+            explanation: کارونکي ته اجازه ورکوي د CSV ، ایکسل ، یا JSON فایل په واردولو سره یو یا ډیر نوي قضیې رامینځته کړي. وارد شوی فایل باید * خورا * په ځانګړي ډول د دې لپاره چې معلومات سم وارد شي فارمیټ شي. دا فنکشن باید یوازې د اداري کاروونکو لپاره شتون ولري چې پرمختللي تخنیکي مهارتونه ولري او د دې ژورې پوهې سره څنګه چې ډیټا په پریمرو کې فارمټ شوی کیږي. یوازې د قضیې لیست پاڼو څخه ترسره کیږي
+            label: صادرل
+          incident_details_from_case:
+            explanation: پیښې توضیحاتو فورمې لپاره د ننوتلو اضافه کولو قابلیت په هغه قضیه کې چې تاسو د لټون پایلو کې موندلي وي ، مګر کوم ته چې تاسو لاسرسی نلرئ. کارونکی دا عمل د لټون پایلوفورم یا پاڼو څخه د یو یا ډیرو قضیو په غوره کولو سره ترسره کوي ، بیا د عمل مینو څخه "پیښه اضافه کول" غوره کوي. بیا کارونکي د پیښې د توضیحاتو فارم کې ټول شعبونه لري یو ماډل ګوري ، چیرې چې دوی کولی شي د خدمت په اړه معلومات داخل او زیرمه کړي. ځکه چې دا عمل یوازې د لټون پایلو پاڼو څخه ترسره کیدی شي ، دا یوازې د یوې نقش لپاره احساس کوي چې دا اجازه ولري که چیرې دوی د "نورو کاروونکو څښتن لرونکي قضیې ریکارډونو لپاره پلټنه" اجازه هم ولري.
+            label: د پلټنی له پایلو څخه دبل کارکونکی په قضیه کی د پیښی د معلوماتو اضافه کول
+          incident_from_case:
+            explanation: دا کارونکی  ته اجازه ورکوي چې د (پیښې جووړولو ټڼی) کلیک وکړئ. دا یوه پیښه رامینځته کوي چې ممکن ممکن د قضیې څخه کاپي شوي ځینې معلومات ولري. د GBV قضیو لپاره ، دا تڼی  د قضیې پاڼی په پورتنۍ برخه کې ده ، او د قضیې په اړه معلومات سره په بشپړ ډول مطابقت لري. په ځینو پیښو تعقیبي شرایطو کې ، دا تڼی د "پیښو جزییات" فرعي فارم کې دي. پدې حالت کې ، ممکن ځینې معلومات د پیښې د توضیحي فرعي فورمی څخه کاپي شي چیرې چې  کلیک شوې وه ، او همدارنګه د قضیې څخه په ټوله کې. يعني نوې رامینځته شوې پیښه ممکن د پیښې د انفرادي توضیحاتو څخه د "تاوتریخوالي ډول" ساحه ولري ، مګر دا پخپله د قضیې عمر او جنس هم لري. په یاد ولرئ چې دا اجازه کارونکي ته هم اجازه ورکوي چې د پیښې لینک وګوري کوم چې رامینځته شوی
+            label: له قضیی نه د پيښی جوړول
+          manage:
+            explanation: کارونکی ته اجازه ورکوي چې د قضیو په هکله ټول شته کړنې ترسره کړي. به اصل کی د "تنظیم" معنی ده  "هرڅه".
+            label: تنظیمول(د دغه ډول منابعو لپاره په کامله توګه اجازه)
+          read:
+            explanation: د قضیی د کتلو وړتیا
+            label: کتل
+          receive_referral:
+            explanation: کارن  ته د ارجاع د ترلاسه کولو اجازه ورکوی . د دې اجازه سره کاروونکي به د راجع کولو عمل سره به یو مهم ارجاع قبلونکي  په توګه څرګند شي ، پداسې حال کې چې کارونکي د دې اجازې پرته  نه شی کولی چی د یو مهم ارجاع ترلاسه کونکی په توګه څرګند شی  کله چی غواړی د ارجاع له موډل څخه ارجاع ترلاسه کړی.
+            label: د ارجاع اخیستل
+          receive_transfer:
+            explanation: کارن  ته د انتقال د ترلاسه کولو اجازه ورکوی . د دې اجازه سره کاروونکي به د لیږدولو عمل سره به یو مهم اننتقالونکی په توګه به څرګند شي ، پداسې حال کې چې کارونکي د دې اجازې پرته  نه شی کولی چی د یو مهم مهم ترلاسه کونکی په توګه څرګند شی په هغه صورت کی  چی غواړی د لیږد له موډل څخه لیږد ترلاسه کړی.
+            label: د لیږد ترلاسه کول
+          referral:
+            explanation: کارونکی په لنډ مهاله توګه بل کارونکي ته قضیې ته لاسرسی اجازه ورکوی. کله چی ترلاسه کونکی غواړی د ارجاع قضیه ترلاسه کړی نو ټولی هغه کړنی به نوموړی قضیه کی ترسره کولی شی کومی کړنی چی نوموړی پخپله کی قضیه کی ترسره کوی. کله چې ترلاسه کونکی نور د قضیې لاسرسی ته اړتیا نلري ، دوی کولی شي د راجع کولو او لیږد فرعی فورم کې "بشپړ" تڼی کلیک کړي ، او دوی به قضیې ته لاسرسی له لاسه ورکړي. تاسو  یواځی هغه چاته قضیه ارجاع کولی شی چی نوموړی د قضیی د ارجاع د ترلاسه کولو وړتیا ولری.
+            label: ارجاع
+          referral_from_service:
+            explanation: 'کارونکی ته اجازه ورکوي د خدماتو فرعي فارم کې (ارجاع ټڼی) وګورئ. کله چې کارن دا تڼۍ کلیک کړي ، د ارجاع موډل به د خدماتو ډول سره ښکاره شی،  خدماتو چمتو کونکي اداری ، او موقعیت ساحې به غیر فعاله شي ، مګر په اوتومات ډول سره په فرفی فورم ساحو کی به هغه خدمات ډک شی کوم خدماتو باندی چی کلیک شوی. '
+            label: خدماتو له فرعی فورمی څخه د قضیی ارجاع
+          remove_assigned_users:
+            explanation: کارونکي ته اجازه ورکوي چې د "نورو ټاکل شوي کاروونکو" ساحې څخه نور کارونکي لرې کړي. یو کارن دلته لیست شوی که چیرې دوی د قضیې لپاره راجع ترلاسه کړی وي یا د قضیې لپاره یې لیږد ترلاسه کړی وي ، مګر تر دې دمه یې نه دی منلی یا رد یې کړی. کله چې تاسو کارن د "نورو ټاکل شوي کاروونکو" ساحې څخه لرې کړئ ، نو تاسو قضیې ته د دوی لاسرسی لرې کوئ. نو ، د دې اجازه سره کاروونکي کولی شي د هغه کاروونکو څخه قضیې لاسرسی لرې کړي چې دمخه یې قضیې لپاره راجع شوي یا لاهم منتظر لیږدونې ترلاسه کړي. په یاد ولرئ چې دا اجازه یوازې کار کوي که چیرې اوسنی کارن هم د قضیې ترمیم کولو وړتیا ولري
+            label: موجوده کارن له مینځه یوسی (له کارن څخه دقضیې ارجاع ته لاسرسی بیرته  اخیستل)
+          reopen:
+            explanation: .کاروونکي ته اجازه ورکوي چې هغه قضیی بیرته پرانیځی کوم چی فعلا تړل شوی
+            label: بیا پرانیستل
+          request_approval_action_plan:
+            explanation: کارن ته اجازه ورکوي (معمولا د قضیې کارکوونکی) چی غوښتنه وکړي  د هغه قضایاو په هکله چی ددوی مدییر هغه تاید کړی.
+            label: د منظوری غوښتنه
+          request_approval_assessment:
+            explanation: کارن ته اجازه ورکوي (معمولا د قضیې کارکوونکی) چی غوښتنه وکړي  د هغه قضایاو په هکله چی ددوی مدییر هغه تاید کړی.
+            label: د منظوری غوښتنه
+          request_approval_bia:
+            explanation: کارن ته اجازه ورکوي (معمولا د قضیې کارکوونکی) چی غوښتنه وکړي  د هغه قضایاو په هکله چی ددوی مدییر هغه تاید کړی.
+            label: د منظوری غوښتنه
+          request_approval_case_plan:
+            explanation: کارن ته اجازه ورکوي (معمولا د قضیې کارکوونکی) چی غوښتنه وکړي  د هغه قضایاو په هکله چی ددوی مدییر هغه تاید کړی.
+            label: د منظوری غوښتنه
+          request_approval_closure:
+            explanation: کارن ته اجازه ورکوي (معمولا د قضیې کارکوونکی) چی غوښتنه وکړي  د هغه قضایاو په هکله چی ددوی مدییر هغه تاید کړی.
+            label: د منظوری غوشتنه
+          request_approval_gbv_closure:
+            explanation: کارن ته اجازه ورکوي (معمولا د قضیې کارکوونکی) چی غوښتنه وکړي  د هغه قضایاو په هکله چی ددوی مدییر هغه تاید کړی.
+            label: د منظوری غوښتنه
+          request_transfer:
+            explanation: '"لید موډل" باندې د "سپارلو غوښتنه" تڼی په ډاګه کوي. تڼی کارونکي ته اجازه ورکوي چې د قضیې اوسني ریکارډ څښتن ته د بریښنالیک له لارې شخصي یادښت سره پیغام ولیږي ، غوښتنه یې وکړه چې د ریکارډ څښتن دا قضیه هغه کارونکي ته انتقال کړي چې غوښتنه یې لیږلې ده. دا په داسې شرایطو کې ګټور دی چیرې چې ماشومان ډیری وختونه ځایونه بدلوي ، او د قضیې کار کونکي د ماشوم مخکیني قضیې کار کونکي ته اړتیا لري ترڅو د ماشوم په اړه معلومات لیږي ترڅو د دویم ځلی ثبت مخه ونیسي.'
+            label: د لیږد غوښتنه
+          search_owned_by_others:
+            explanation: کارونکي ته اجازه ورکوي چې د ریکارډونو لپاره پلټنه ترسره کړي کوم چې معمولا دوی ورته لاسرسی نه لري ، نو ځکه چې دوی د دې قضیې لپاره ریکارډ څښتن نه دی ، یا (د مدیرانو لپاره) ځکه چې د ریکارډ څښتن د دوی کاروونکي ډلو کې نه دی. په یاد ولرئ ، پداسې حال کې چې کارونکي به د لټون د پایلو لید کې قضیه وګوري ، دوی به د قضیې لپاره د قضیې په پاڼه کې کلیک کولو توان ونلري ، پدې معنی چې دوی به د قضیې په اړه هیڅ توضیحي معلومات ونه ګوري
+            label: هغه قضیو لپاره پلټنه کول چی د  بل کارکونکی له خوا خپل شوی وی
+          service_provision_incident_details:
+            explanation: کارونکي ته اجازه ورکوي چې د پیښې اضافه کولو موډل په پای کې د "خدمت چمتو کول او د خدمت چمتووونې" لیبل شتون لری به نوموړی کلیک کول هغه معلومات خوندي کوي چې اوس مهال د پیښې په اړه داخل شوي ، او بیا کارونکي مستقیم د اضافې خدماتو چمتو کولو موډل ته لیږي. ځکه چې دا عمل مستقیم د ا پیښې اضافه کول او د خدماتو وړاندې کولو فعالیتونو سره اړیکه لري ، نو دا یوازې معنی لري چې یو رول ته دا اجازه ورکوي که چیرې دا رول "د بل کارونکي قضیې ته د پیښې تفصیلات اضافه کړي" او "بل کارونکي ته د خدماتو اضافه کولو اجازه ورکوی.
+            label: '   د حادثی د جزیاتو په ماډل کی د خدماتو د اضافه کولو تڼی ته مراجعه وکړی'
+          services_section_from_case:
+            explanation: تاسو ته په خدماتو د ارایه کولو به فرعی فورم کی د داخلیدو اجازه درکوی کوم چی تاسو په لټون کی ورپسی لټه کړی مګر هغه چی تاسی ورته لاسرسی نلری. کارونکی دا عمل د لټون پایلو پاڼو څخه د یو یا ډیرو قضیو په غوره کولو سره ترسره کوي ، بیا د عمل مینو څخه "د خدماتو چمتو کول ټنی اضافه کړی" . بیا کارونکي د خدماتو فرعي فارم کې ټولی هغه برخې کتلی شی  چیرې چې دوی کولی شي د خدمت په اړه معلومات داخل او زیرمه کړي. ځکه چې دا عمل یوازې د لټون پایلو پاڼو څخه ترسره کیدی شي ، دا یوازې په هغه صورت کی ګټور دی چیری چی د یو قضیی لپاره لټه کوی کوم چی بل کارونکی یی څښتن دی.
+            label: دبل کارکونکی په قضیه کی د خدماتو اضافه کول
+          sync_mobile:
+            explanation: عمومی توګه کاروونکي ته اجازه ورکوي چی د موبایل اپلیکیشن وکاروی. لومړی ، دا کارونکي ته اجازه ورکوي چې د "موبایل لپاره نښه" او "د ګرځنده غیر  نښه" شوی کړنې وګوري ، کوم چې د قضیې لیست او د قضیې ښودلو پاڼو کې څرګندیږي. د موبایل لپاره د قضیې نښه کول په ګوته کوي چې د دې قضیې په اړه معلومات باید د کارونکي ګرځنده وسیله او ویب غوښتنلیک تر منځ همغږي شي ، پداسې حال کې چې د ګرځنده تلیفون لپاره قضیه غیر نښه کول د دې ترکیب تیریدو مخه نیسي. د دې اجازه پرته کارونکي هم نشي کولی خپل ګرځنده وسایل په عمومي ډول د ویب غوښتنلیک سره همغږي کړي ، پدې معنی چې دوی نشي کولی د قضیې اداره کولو لپاره ګرځنده ایپلیکیشن وکاروي.
+            label: د ګرځنده وسیلی سره همغږی
+          transfer:
+            explanation: یو کارونکي ته اجازه ورکوي چې  د خپل موجوده سیستم څخه قضیه هر یو کارن ته واستوی او همدارنګه ددی وړتیا هم لری چی انتقال قبول کړی،د قضیې ریکارډ څښتن  نه بدلیږی مګر په هغه صورت کی چی ترلاسه کونکی یی ترلاسه کړی،خو که چیری اخیستونکی نوموړی قضیه لیږد رد کړی نو بیا ترلاسه کونکی د قضیې نه شی کولی چی ورته لاسرسی پیدا کړی او دا له ریکارد له اصلی خاوند سره پاتی کیږی.
+            label: لیږدول
+          view_photo:
+            explanation: کارونکي ته اجازه ورکوي د قضیې لیست لید څخه د قضیې عکسونه پرته له اجازی وګوري. کارونکی لخوا د قضیې لیست کی د  "عکس" ستون نه شی کتلی  او همدرانګه د عکسونو ایکن هم نه شی کتلی. همدارنګه کارونکي ته هم اجازه ورکوي چې د "لید موډل" کې د ماشوم عکسونه وګوري.
+            label: د قضایاو دلیست څخه د انځور مشاهده کول
+          view_incident_from_case:
+            explanation: کله چې کارونکی غواړی چی قضیه وګوری ، کارن کولی شي د قضیې سره تړاو لرونکي پیښو لیست وګوري ، او د هر یو په هکله لنډ معلومات ترلاسه کړی.
+            label: له قضیی نه د پيښی مشاهده کول
+          write:
+            explanation: د (اصلاح) په تڼی په کلیک کولو سره په قضیه کی معلومات نوی کړی او بیا د (محفوظولو) تڼی کلیک کړی.
+            label: اصلاح کول
+        label: قضیه
+      dashboard:
+        actions:
+          approvals_action_plan:
+            explanation: ' د موجوده کارونکي قضیو شمیره او د قضیو پلان  ښیې کوم چې د تاید لپاره معلق حالت کی دی ،تاید یا رد.'
+            label: د قضیی د کارکونکی منظوری
+          approvals_action_plan_pending:
+            explanation: ' د موجوده کارونکي قضیو شمیره او د قضیو پلان  ښیې کوم چې د تاید لپاره معلق حالت کی دی ،تاید یا رد.'
+            label: د مدیر منظوری
+          approvals_assessment:
+            explanation: د موجوده کارونکی د قضایاو ښودنه کوی کومو قضایاو چی ارزیابی یی د تعلیق حالت کی وی تر څو تاید یا رد شی.
+            label: د قضیی د کارکونکی منظوری
+          approvals_assessment_pending:
+            explanation: '  د موجوده کارونکي قضیو شمیره او د قضیو پلان  ښیې کوم چې د تاید لپاره معلق حالت کی دی ،تاید یا ردشی.'
+            label: د مدیر منظوری
+          approvals_case_plan:
+            explanation: ' د موجوده کارونکي قضیو شمیره او د قضیو پلان  ښیې کوم چې د تاید لپاره معلق حالت کی دی تر څو تاید یا رد شی.'
+            label: د قضیی کارکونکی منظوری
+          approvals_case_plan_pending:
+            explanation: '  د موجوده کارونکي قضیو شمیره  د مدیر په ډله کی د هغه قضایاو چی پلان منظوری یی معلق دی.'
+            label: د مدیر منظوری
+          approvals_closure:
+            explanation: د موجوده کارونکی د قضایاو ښودنه کوی کومو قضایاو چی اختتام یی د تعلیق حالت کی وی تر څو تاید یا رد شی.
+            label: د قضیی د کارکونکی منظوری
+          approvals_closure_pending:
+            explanation: '  د موجوده کارونکي قضیو شمیره  د مدیر په ډله کی د هغه قضایاو چی پلان منظوری یی معلق دی.'
+            label: د مدیر منظوری
+          approvals_gbv_closure:
+            explanation: د موجوده کارونکی د قضایاو ښودنه کوی کومو GBV قضایاو چی اختتام یی د تعلیق حالت کی وی تر څو تاید یا رد شی.
+            label: د قضیي د کارکونکی منظوری
+          approvals_gbv_closure_pending:
+            explanation: '  د مدیر په ډله کی د موجوده کارونکي قضیو شمیره  چی د قضیی د اختتام منظوری به معلق حالت کی وی .'
+            label: د مدیر منظوری
+          case_overview:
+            explanation: د اصلی پاڼی په پورتنی برخه کی د ډشبورد کارد مشاهده کول کوم چی ټولټال او د نوی قضیی ارقام درلودونکی دی .
+            label: د ډشبورډ مشاهده کول
+          case_risk:
+            explanation: د خطر د کچوپه اساس د قضایاو د شمیر شودل.
+            label: قضیې، د خطر د کچی په اساس
+          cases_by_task_overdue_assessment:
+            explanation: 'مدیر ته اجازه ورکوي چې وګوري چې د دوی هرې قضیې کارمندانو څومر قضییې د وخت وروسته ارزیابی یا کتنه شوی. '
+            label: ټاکلی وخت وروسته کتنه
+          cases_by_task_overdue_case_plan:
+            explanation: 'مدیر ته اجازه ورکوي چې وګوري چې د دوی هرې قضیې کارمندانو څومر قضییې د وخت وروسته د قضیی پلان ترسره شوی. '
+            label: 'ټاکلی وخت وروسته د قضیې بلان '
+          cases_by_task_overdue_followups:
+            explanation: 'مدیر ته اجازه ورکوي چې وګوري چې د دوی هرې قضیې کارمندانو څومر قضییې د وخت وروسته د قضیی څارنه ترسره شوی. '
+            label: 'ټاکلی وخت وروسته د قضیې څارنه '
+          cases_by_task_overdue_services:
+            explanation: 'مدیر ته اجازه ورکوي چې وګوري چې د دوی هرې قضیې کارمندانو څومر قضییې د وخت وروسته ورته خدمات ارایه شوی. '
+            label: ټاکلی وخت وروسته خدمات
+          dash_case_incident_overview:
+            explanation: .
+            label: مشاهد-زما قضيې/پیښی
+          dash_cases_by_social_worker:
+            explanation: هغه جدول دی کوم چې ښیې چې څنګه د خلاص قضیو مجموعی شمیره او د نوي قضیو شمیر کوم چی د هر کارن لخوا په کارونکو په ډله کی ترتیب شوی . هر قطار د اوسني  کارونکي ګروپونو کې شتون لری، پداسې حال کې چې "بشپړ" او "نوي" دوه کالمونه دي.
+            label: د ټولنیز کارمند لخوا د قضیې کتل
+          dash_cases_to_assign:
+            explanation: 'مهم: یوازې د مدیرانو لپاره. د اوسني کارونکي لخوا مستقیم څښتن شوي قضیو شمیر ښیې (باید مدیر وي). دا ډشبورډ فرض کوي چې مدیران خپلې قضیې اداره نه کوي ، او دا چې که مدیر خپله قضیه ولري ، دوی باید دا قضیې د دوی په ټیم کې کارمندانو ته وسپاري.'
+            label: (د مدیرانو لپاره) هغه قضيې چی اړتیا لری هغه لپاره خپل ډله کی کسان وټاکم.
+          dash_group_overview:
+            explanation: ' د خلاصو او تړلو قضیو شمیره ښیې چې د دوی په ټیم کې د کاروونکو لخوا اداره کیږي.'
+            label: زما د ډلی قضيې
+          dash_matching_results:
+            explanation: له مینځه وړل، دا ډشبورډ غیر فعال دی او په v2 کې به حذف شي
+            label: د پایلی مطابقت والی کتل
+          dash_protection_concerns:
+            explanation: جول چې ښیې څومره قضیې د خوندیتوب اندیښنې لري. د جدول هر قطار د خوندیتوب اندیښنه راښایی، پداسې حال کې چې کالمونه د قضیو لپاره مختلف حالتونه په ګوته کوي ("ټولې قضیې ،" "خلاصې قضیې ،" "نوې (پدې اونۍکی) ،" "تړل شوې (پدې اونۍ کی)")
+            label: قضيې دخوندیتوب دګواښونو په اساس
+          dash_protection_concerns_by_location:
+            explanation: دا د  "خوندیتوب اندیښنو لیدلورۍ" ډشبورډ ته ورته دی ، خو استثناء کاروونکی کولی شي د راټیټیدنې څخه یو ځای غوره کړي ترڅو یوازې په هغه ځای کې د محافظت اندیښنې پراختیا کچه وګوری.
+            label: د موقیعت پر بنا د خوندیتوب اندیښنی
+          dash_reporting_location:
+            explanation: جدول چې ښیې په هر یو ځای کې څومره قضیې شتون لري (د ځانګړتیاو په یوه کچه کې لکه "ولایت" یا "ولسوالۍ"). د جدول هر قطار یو موقعیت لري ، او کالمونه د قضیو لپاره مختلف حالتونه په ګوته کوي ("خلاصې قضیې ،" "نوي (وروستۍ اونۍکی) ،" "نوي (دا اونۍ کی) ،" "تړل شوي (وروستي اونۍ کی) ،" "تړل شوې (دغه اونی)"). معمولا د مدیر یا مدیر حسابونو لپاره کارول کیږي.
+            label: قضیې د موقیعت د ښودلو پر بنا
+          dash_service_provisions:
+            explanation: د قضیو شمیره څرګندوي کوم چې نور کارونکی دوی ته خدماتو چمتو کړی. دا شمیره د ډشبورډ اصلي برخې کې ښکاري.
+            label: قضیو ډولونه  خدماتو د ارایه کولو پر بنا
+          dash_shared_from_my_team:
+            explanation: مدیر ته د هغه قضیو شمره راښایی کوم چی د هر کارونکی له خوا پخپل ډله کی تنظیم شوی او نورو کاروونکو ته ارجاع شوی یا لیږدول  شوی.
+            label: زما د ډلی خوا شریک شوی
+          dash_shared_with_me:
+            explanation: ښایی چې څومره قضیې تاسو ته ارجاع شوي یا لیږدول شوي.
+            label: ما سره شریک شوی
+          dash_shared_with_my_team:
+            explanation: مدیر ته د هغه قضیې شمیره راښایی کوم چی په ډله کی دیو کارونکی له خوا پخپل ډله کی ارجاع یا لیږدول شوی وی.
+            label: زما د ډلی خوا شریک شوی
+          dash_shared_with_others:
+            explanation: ښایی  چې زما څومره قضیې فعاله  ارجاع شوی ، معلق لیږدونه ، یا رد شوي لیږدونه لري. عموما دا مدیرانو لپاره نه دی ، مګر دا چې دوی پخپله نوموړی قضیې اداره کړي.
+            label: له نورو سره شریک شوی
+          dash_show_none_values:
+            explanation: ‌ډشبورډ کی  "د خطر خطر کچه" کټګورۍ اضافه کړی کوم چې قضی د خطر د کچی په اساس ښکته ډول تنظیم شوی.. دا په ځانګړي توګه د تشکیلاتو لپاره دی چې د خطر کچه ساحو لپاره څلورم "خطر نه" اختیار لري
+            label: د قضیو ښودل له (د خطر کچه هیڅ شتون نلری) د کتنی په ډشبورډ کی
+          dash_tasks:
+            explanation: کارونکي ته اجازه ورکوي چې د دندو پاڼی وګوري. دا باید د قضیې کارمندانو او خدماتو چمتو کونکو لپاره وکارول شي ، ځکه چې شمیرې به په ځانګړي ډول د هغو قضیو لپاره وي چې تاسو مستقیم اداره کوئ. مدیران باید پرځای د "د دندو د حجم لخوا قضیې " په ډشبورډ کی وګوری ، ځکه چې دا دوی ته اجازه ورکوي چې د دوی د کارونکي ګروپونو کې د هرچا لپاره د هغوی د کارونو کتنه وګوري
+            label: د دندو پاڼه
+          view_protection_concerns_filter:
+            explanation: کارونکي ته اجازه ورکوي د قضیې لیست پا ڼه کې د خوندیتوب د اندیښنې فلټر وګوري.
+            label: د ساتنی د اندیښنی فلټر کتل
+          view_response:
+            explanation: هر ډول غبرګون لپاره ، ښیې چې د هرې  کچي خطر قضیې لپاره کوم خدمات وړاندی شوی کومی قضيې چی د وخت اختتام ته نژدی دی او یا هم وخت پری ختم شوی.
+            label: غبرګون ښودل
+          workflow:
+            explanation: قضیې کار کونکي ته اجازه ورکوي چې د پای ګراف وګوري چې دا په ګوته کوي چی د قضیې د تنظیم د کاری جریان موده کی د نوموړی هر قضیه په کومه مرحله کی دی .
+            label: د کار د جریان له وجی قضیه له مینځه تللی
+          workflow_team:
+            explanation: 'مدیر ته اجازه ورکوي چې هغه جدول وګوري چې د هرې قضیې د کارمندانو قضیئ د قضایاو د مدیریت د تنظیم په کوم پړاو کی دی.  '
+            label: قضیې د کاری  جریان او قضیی کارکونکی په اساس
+        label: ډشبورډ
+      disabled:
+        explanation: که تاسو دا دنده غیر فعال کړئ ، نو تاسو به نور د دې وړ نه شئ چې دا د کارن حسابونو ته وسپاری.
+        label: ناتوانول
+      duplicate:
+        actions:
+          read:
+            explanation: کاررونکي ته اجازه ورکوي په سیسټم کې د ټولو قضیو لپاره پرمختللي لټون ترسره کړي ، د یو شمیر معیارونو په کارولو سره ، نوم ، تخلص، جنس ، عمر ، او ملیت په شمول.
+            label: لید
+        label: ورته لټون
+      forms:
+        case:
+          explanation: ' قضیو کې فورمو ته د کاروونکي لاسرسي محدود کول کوم معلومات چې کارن یې کولی شي په پیښه وګوري. د مثال په توګه ، که کارن یوازې د ریکارډ څښتن فورم ته لاسرسی ولري ، دوی به یوازې هغه وخت وکولی شي چې پدې فارمونو برخو کې موجود معلومات وګوري. که چیرې اوسنی کارن محدود فارم ته لاسرسی ولري او د فارم ترتیباتو اداره کولو وړتیا ولري ، د دوی فومونو ته د لاسرسی محدودتیا  لری همدارنګه د فورمونو د تنظیم لپاره هم محدودتیا لری. یادونه: که کومه فورمه مشخصه نه شي ، دا پدې مانا ده چې رول د قضیو لپاره ټولو فورمو ته لاسرسی لري'
+          label: فورمونه- قضیې
+        incident:
+          explanation: ' قضیو کې فورمو ته د کاروونکي لاسرسي محدود کول کوم معلومات چې کارن یې کولی شي په پیښه وګوري. د مثال په توګه ، که کارن یوازې د ریکارډ څښتن فورم ته لاسرسی ولري ، دوی به یوازې هغه وخت وکولی شي چې پدې فارمونو برخو کې موجود معلومات وګوري. که چیرې اوسنی کارن محدود فارم ته لاسرسی ولري او د فارم ترتیباتو اداره کولو وړتیا ولري ، د دوی فومونو ته د لاسرسی محدودتیا  لری همدارنګه د فورمونو د تنظیم لپاره هم محدودتیا لری. یادونه: که کومه فورمه مشخصه نه شي ، دا پدې مانا ده چې رول د قضیو پیښو لپاره ټولو فورمو ته لاسرسی لري'
+          label: فورمونه - پيښی
+        tracing_request:
+          explanation: ' قضیو کې فورمو ته د کاروونکي لاسرسي محدود کول کوم معلومات چې کارن یې کولی شي په پیښه وګوري. د مثال په توګه ، که کارن یوازې د ریکارډ څښتن فورم ته لاسرسی ولري ، دوی به یوازې هغه وخت وکولی شي چې پدې فارمونو برخو کې موجود معلومات وګوري. که چیرې اوسنی کارن محدود فارم ته لاسرسی ولري او د فارم ترتیباتو اداره کولو وړتیا ولري ، د دوی فومونو ته د لاسرسی محدودتیا  لری همدارنګه د فورمونو د تنظیم لپاره هم محدودتیا لری. یادونه: که کومه فورمه مشخصه نه شي ، دا پدې مانا ده چې رول د قضیو د څارنی لپاره ټولو فورمو ته لاسرسی لري'
+          label: فورم- د تعیقب غوښتن
+      group:
+        actions:
+          admin_only:
+            explanation: دا پدې مانا ده چې د دې رول سره کارونکي به یوازې د دې وړتیا ولري چې د سیسټم اداره پورې اړوند شیان وګوري ، لکه راپورونه او فورمونو کتنه او  ترتیب ، کاروونکي ، رولونه ، او کارونکي ډلې. دوی به هیڅ انفرادي قضیې ، د څارنی غوښتنی او  یا پیښې به ونه ګوري.
+            label: د ریکارډ نه شتون - یواځی آډمن کولی شی
+          agency:
+            explanation: رول کولی شي ریکارډونو ته لاسرسی ومومي چې د دوی ادارې کې د ټولو کاروونکو لخوا اداره کیږي. که کارن کاروونکو ته لاسرسی ولري ، دوی کولی شي په خپله اداره کې ټولو کاروونکو ته لاسرسی ولري.
+            label: 'ټولو ریکارډونو او یا کارونکی زما په اداره کی '
+          all:
+            explanation: دغه رول کولی شي په سیسټم کې ټولو ریکارډونو ، کارونکو او کارونکي ګروپونو ته لاسرسی ومومي ، پرته لدې چې د کوم کارونکی ګروپ پوری دوی تړاو لری.
+            label: ټول ریکارډونو یا کارن ته لاسرسی
+          group:
+            explanation: رول کولی شي ریکارډونو ته لاسرسی ومومي چې د دوی کاروونکي ګروپونو کې د ټولو کاروونکو لخوا اداره کیږي. دوی کولی شي یوازې په خپلو کاروونکو ډلو کې کاروونکو ته لاسرسی ومومي. دوی یوازې د دوی خپل کارونکي ګروپونو ته لاسرسی کولی شي.
+            label: 'ټولو ریکارډونو او کارکونکو ته زما په ګروپ کی لاسرسی '
+          self:
+            explanation: رول کولی شي خپل ریکارډونو (قضیو ، تعقیب غوښتنې ، یا پیښو) ته لاسرسی ولري ، او کولی شي خپل کارن حساب ته یی انتقال کړی.
+            label: یواځي زما په یکارډونو او کارنکو ته لاسرسی
+        explanation: کتترول چې کوم ریکارډونه (قضیې ، د پلټنې غوښتنې ، یا پیښې) ، رول لاسرسی کولی شي. که چیرې رول کاروونکو او کارونکي ګروپونو ته لاسرسی ولري ، دا هم کنټرولوي چې کوم کاروونکي او کارونکي ډلې دوی کولی شي ورته لاسرسی ولري. کله چی "هیڅ ثبتونه"  سره رولونه یوازې د سیسټم ترتیباتو ته لاسرسی کولی شي لکه فورمې ، کارونکي ، او راپورونه
+        label: دا رول کوم ریکارډونو باندی اغیزه کوي؟
+      incident:
+        actions:
+          change_log:
+            explanation: کارنان کولی شي ریکارډ کې د ترسره شوي ټولو هغو بدلونونو تاریخ وګوري  چې رامینځته شوی. پدې کې د ټولو برخو لپاره ثبت شوي ارزښتونه شامل دي
+            label: سیستم د دخول تغیرول
+          create:
+            explanation: د پیښی د جوړول وړتیا
+            label: جوړول
+          export_case_pdf:
+            explanation: کارن کولی شي د قضیې لیست یا د قضیې ښودلو پاڼو څخه د پی ډی ایف فایل صادرات رامینځته کړي ، چې پدې کې ټول هغه برخې شتون لري چیرې چې اوسني کارن ورته لاسرسی لري ، کارن د یوې ، ډیری ، یا ټولو قضیو لپاره کولی شی لاسرسی  ولري. د پی ډی ایف صادراتو فایل کې ، معلومات لومړی د قضیې په واسطه لیست شوي ، او بیا وروسته د هغه فارم په واسطه تنظیم شوی کوم کی  چې معلومات څرګندیږي.
+            label: ' PDF صادرول'
+          export_csv:
+            explanation: 'کارن کولی شي د قضیې لیست یا د قضیې ښودلو پاڼو څخه د csv فایل صادرات رامینځته کړي ، چې پدې کې ټول هغه برخې شتون لري چیرې چې اوسني کارن ورته لاسرسی لري ، کارن د یوې ، ډیری ، یا پیښو لپاره کوم چی کارن ورته لاسرسی لری، '
+            label: صادرول CSV
+          export_custom:
+            label: غوراوی صادرول
+          export_incident_recorder_xls:
+            explanation: کارن کولی شي د ځانګړي XLS فایل صادرات رامینځته کړي چې د GBV پیښې ریکارډر  سره د ډیټا تبادلې لپاره اجازه ورکوي
+            label: د پیښی د ثبتونکی صادرول XLS
+          export_json:
+            explanation: کارن کولی شي د قضیې لیست یا د قضیې ښودلو پاڼو څخه د JSON فایل صادرات رامینځته کړي ، چې پدې کې ټول هغه برخې شتون لري چیرې چې اوسني کارن لاسرسی لري ، د یوې ، ډیری ، یا ټولو قضیو لپاره چې کارن کولی شی لاسرسی لري. دا صادرات اساسا د هغو کسانو لپاره کارول کیږي څوک چې غواړي د اوسني پریمرو سیسټم څخه قضیې صادر کړي او بیا یې په یو بل پریمرو سیسټم کې وارد کړي ، یا بل د معلوماتو مدیریت سیسټم کې. د JSON فارمټ د ماشین لوستلو وړ دی او د ډیری کاروونکو لپاره عملي ندي.
+            label: صادرول JSON
+          export_list_view_csv:
+            explanation: کارن کولی شي د قضیې لیست پا قضیو د ښودنو پاڼو څخه د CSV فایل صادرات رامنځته  کړي چې ورته ساحې لري او د قضیې لیست کې د هغه کارونکي لپاره څرګندیږي. یوازې د قضیې لیست پاڼو څخه ترسره کیږي.
+            label: د صادراتو لیست لید
+          export_xls:
+            explanation: کارن کولی شي د قضیې لیست یا د قضیې ښودلو پاڼو  څخه د XLS فایل صادرات رامینځته کړي ، کوم چې د یوې ، ډیری ، یا ټولو قضیو لپاره چیرې چې کارکونکی ورته  لاسرسی لري د فارمونو په مجموعه باندی مشتمل دی. پدې صادراتو کې ، هر فارم د XLS فایل کې دننه په خپل ټب کې ښودل شوی. کارن کولی شي چی هر فورم چی غواړی صدور کی شامل کړی د اختیاری صادراتو ماډل په کارولو سره په صادراتو کې شامل وي. مهرباني وکړئ په یاد ولرئ چې کاروونکي یوازې په صادراتو کې فارمونه او فیلډ شاملولی شي که چیرې دوی دمخه د دغسی فورمونو او فیلډونو لیدلو وړتیا درلودلو په دغه اپلیکیشن کی.
+            label: د ایکسل فایل صادرول(XLS)
+          flag:
+            explanation: پیښه کې د نښو داضافه کولو وړتیا. د دې اجازی سره کاروونکي کولی شي هغه بیرغونه هم لرې کړي چې په پیښه کې یې اضافه کړي.
+            label: نښه
+          import:
+            explanation: کارونکي ته اجازه ورکوي د CSV ، ایکسل ، یا JSON فایل په واردولو سره یو یا ډیر نوي قضیې رامینځته کړي. وارد شوی فایل باید * خورا * په ځانګړي ډول د دې لپاره چې معلومات سم وارد شي فارمیټ شي. دا فنکشن باید یوازې د اداري کاروونکو لپاره شتون ولري چې پرمختللي تخنیکي مهارتونه ولري او د دې ژورې پوهې سره څنګه چې ډیټا په پریمرو کې فارمټ شوی کیږي. یوازې د قضیې لیست پاڼو څخه ترسره کیږي
+            label: صادرول
+          manage:
+            explanation: کارونکی ته اجازه ورکوي چې د قضیو په هکله ټول شته کړنې ترسره کړي. به اصل کی د "تنظیم" معنی ده  "هرڅه".
+            label: (اداره کول(ټول اختیارات د دغه ډول منبعی لپاره
+          read:
+            explanation: د پیښی د کتلو وړتیا
+            label: لید
+          sync_mobile:
+            explanation: عمومی توګه کاروونکي ته اجازه ورکوي چی د موبایل اپلیکیشن وکاروی. لومړی ، دا کارونکي ته اجازه ورکوي چې د "موبایل لپاره نښه" او "د ګرځنده غیر  نښه" شوی کړنې وګوري ، کوم چې د قضیې لیست او د قضیې ښودلو پاڼو کې څرګندیږي. د موبایل لپاره د قضیې نښه کول په ګوته کوي چې د دې قضیې په اړه معلومات باید د کارونکي ګرځنده وسیله او ویب غوښتنلیک تر منځ همغږي شي ، پداسې حال کې چې د ګرځنده تلیفون لپاره قضیه غیر نښه کول د دې ترکیب تیریدو مخه نیسي. د دې اجازه پرته کارونکي هم نشي کولی خپل ګرځنده وسایل په عمومي ډول د ویب غوښتنلیک سره همغږي کړي ، پدې معنی چې دوی نشي کولی د قضیې اداره کولو لپاره ګرځنده ایپلیکیشن وکاروي.
+            label: د ګرځنده وسیلی سره همغږی
+          write:
+            explanation: ' د (اصلاح) په تڼی په کلیک کولو سره په قضیه کی معلومات نوی کړی او بیا د (محفوظولو) تڼی کلیک کړی. او کارونکی ته د پیښی د فعالولو او غیر فعالولو اجازه ورکوی.'
+            label: سمول
+        label: پیښه
+      is_manager:
+        explanation: هر کاروونکي رول باندې تطبیق کیږي کوم چې عموما نور کارونکي نظارت کوي. دا کارونکي ته اجازه ورکوي چې ډشبورډونه او فلټرونه وګوري کوم چې د کاروونکي سره د ټیم اداره کولو کې مرسته کوي.
+        label: آیا مدیر؟
+      matching_configuration:
+        actions:
+          manage:
+            explanation: د کنټرول کولو وړتیا چې کومی ساحې پرتله شی تر څو د قضیو د څارنی او او قضیو ترمنځ ورته والی وموندل شی. څرنګه چې دا په ټول سیسټم کې نوموړی ورته والی کنټرولوي ،خو دا اجازه باید عموما یوازې د سیسټم مدیر ته شتون ولري.
+            label: (اداره کول(ټول اختیارات د دغه ډول منبعی لپاره
+        label: د ورته والی تنظیمات
+      metadata:
+        actions:
+          manage:
+            explanation: فارمونو جوړولو ، ایډیټ کولو ، ژباړلو ، او حذف کولو وړتیا  رامنځته کول، مهربانی وکړی به یاد ولری چی دی سره یواځی هغه فورمونه تنظیمولی شی چی کومو ته چی لاسرسی لری . د مثال په توګه ، که چیرې یو ملي اداره یوازې د قضیو په اړه د دریکارد د څښتن قضیې وګوری ، نو دوی به یوازې وکولی شی چی ددی فورم تنظیمات نوی کړی.
+            label: (اداره کول(ټول اختیارات د دغه ډول منبعی لپاره
+        label: فورمی،لټون
+      module:
+        actions:
+          cp:
+            label: د ماشوم خوندیتوب
+          gbv:
+            label: د جنسیت پر بنا تاوتریخوالی
+          mrm:
+            label: MRM
+        explanation: کترولوی چی کوم مودلونه باندی دغه رولونه تطبیق کیږی
+        label: مودل
+      potential_match:
+        actions:
+          read:
+            label: کتل
+        label: احتمالي سمون
+      referral:
+        actions:
+          refer:
+            explanation: پدې مانا ده چې رول به د "ترلاسه کونکي ډول" لپاره د اختیار په توګه څرګند شي کله چې کارن بهرني ارجاع ترسره کوي. که کارونکي دا رول د ارجاع کولو ډول په توګه غوره کړي ، هغه صادرات چې پریمرو رامنځته کړی کله چې کارن ارجاع کوي نو دا به یوازې هغه معلومات ولري چې په هغه فورمونو کې موندل کیږي چې دغه رول ورته لاسرسی لري. د مثال په توګه ، که کارونکی د "طبي خدمت چمتو کونکي" د ترلاسه کونکي ډول په توګه غوره کړي ، او د طبي خدمت چمتو کونکي رول یوازې د لومړني پیژندنې او خوندیتوب اندیښنو فورمو ته لاسرسی لري ، د صادراتو فایل چې د بهرني راجع کولو لپاره پریمرو صادروي یوازې به هغه ساحې ولرئ چې پدې دوه ډوله فورمونو کې دي.
+            label: ایا دا رول د بهرني لیږد لپاره کارول کیدی شي؟
+        label: ارجاع
+      report:
+        actions:
+          create:
+            explanation: نوي راپور جوړولو وړتیا. کله چې یو کاروونکی راپور رامینځته کوي ، نو دا ټولو کاروونکو ته ښکاره کیږي چې "لوستل" یا "ګروپ لوستل" راپورونو ته لاسرسی لري.
+            label: جوړلو
+          group_read:
+            explanation: ټولو راپورونو لیدو وړتیا. په هر راپور کې شمیرې به یوازې هغه ریکارډونه منعکس کړي کوم چې د اوسني کارونکي کارونکي ګروپی ډله کی ورته لاسرسی ولری. دا اجازه اکثرا د ځایی ، سیمه ایز ، یا یو اداری مدیرانو لپاره کارول کیږي چې د خپلو ټیمونو یا سازمان فعالیت په اړه نظر ترلاسه کوي. دا اجازه کارونکي ته دا وړتیا هم ورکوي چې له راپور څخه معلومات صادر کړي
+            label: ښودل(د ډلی معلوماتو پر بنا)
+          manage:
+            explanation: کارونکي ته اجازه ورکوي چې په ادارو کې ټول موجود فعالیتونه ترسره کړي. د "تنظیم" اجازه لازمي معنی ده "هرڅه".
+            label: (اداره کول(ټول اختیارات د دغه ډول منبعی لپاره
+          read:
+            explanation: ټولو راپورونو لیدو وړتیا. په هر راپور کې شمیرې به یوازې هغه ریکارډونه منعکس کړي . برسیره پر هغه ریکاردونو چی موجوده کارونکی ته ورته لاسرسی لری . دا اجازه کارونکي ته دا وړتیا هم ورکوي چې له راپور څخه معلومات صادر کړي
+            label: کتل
+          write:
+            explanation: د ټولو راپورونو د ترمیم کولو وړتیا (پشمول د نورو کاروونکو لخوا رامینځته شوي)
+            label: سمول
+        label: راپور
+      reporting_location_level:
+        label: د دې رول د ګزارش ورکولو لپاره کوم ډول موقیعت وکارول شی.
+      role:
+        actions:
+          assign:
+            explanation: رول غوره کولو وړتیا کله چې د کارونکي حساب رامینځته کول یا ایډیټ کول غواړی. دا جواز د هر هغه رول لپاره اړین دی چې د کارن حسابونو جوړولو یا ترمیم کولو لپاره وی.
+            label: سپارل
+          copy:
+            explanation: د رول یوه کاپي رامینځته کولو وړتیا. دا د سیسټم ادره کولو لپاره ګټور دی څوک چې ممکن یو لړ رولونه رامینځته کړي چې یو بل ته خورا ورته دي (د بیلګې په توګه خدمت چمتو کونکي).
+            label: کاپی
+          create:
+            explanation: د رول د جوړولو وړتیا
+            label: جوړول
+          delete:
+            explanation: د رول د له مینځه وړلو وړتیا
+            label: له مینځه وړل
+          manage:
+            explanation: 'کارونکي ته اجازه ورکوي چې په ادارو کې ټول موجود فعالیتونه ترسره کړي. د "تنظیم" اجازه لازمي معنی ده "هرڅه". مهم: دا د نوې رولونو د رامنځه کولو او له مینځه وړلو وړتیا لری.'
+            label: (اداره کول(ټول اختیارات د دغه ډول منبعی لپاره
+          permitted_roles:
+            explanation: که چیرې رول پبه بل  رول باندې پورتني کړنې ترسره کولو وړتیا ولري ، نو دوی به وکولی شي په دې لیست کې مشخص شوي رولونو باندې دغه کړنې ترسره کړي، د مثال په توګه ، که چیرې  په رولونو کې "لوستل" او "ګمارنه" اجازه ولري ، مګر یوازې "د CP قضایاو کارمند" او "CP قضایاو مدیر" د دې "مدیریت شوي رولونو" په توګه لیست کړی ، نو دا به یوازې وکولی شی هغه دوه رولونه وګوری او به نوموړی باندی د کار کولو لپاره نوی کارونکی وټاکی. که ورته رول هیڅ "مدیریت شوي رولونه" مشخص نه کړي ، نو دا به وکولی شي ټول رولونه وګوري او په سیستم کې د هر رول سره به د نوي کارن حسابونه رامینځته کولو توان ولري.
+            label: نور رولونه جی دی نوموړی رول په اساس تنظیمیږی
+          read:
+            explanation: د رولونو د لیدول وړتیا
+            label: کتل
+          write:
+            explanation: د (اصلاح) په تڼی په کلیک کولو سره په قضیه کی معلومات نوی کړی او بیا د (محفوظولو) تڼی کلیک کړی.
+            label: سمول
+        label: دندی
+      system:
+        actions:
+          manage:
+            explanation: د سیسټم د اړیکو معلوماتو ، ډیفالټ خبرتیا او ښه راغلاست بریښنالیک ترتیبات ، او همغږي سرورونو کې د معلوماتو لید او تازه کولو وړتیا. دا اجازه معمولا د سیسټم مدیر لپاره ساتل کیږي
+            label: (اداره کول(ټول اختیارات د دغه ډول منبعی لپاره
+        label: سیستم
+      tracing_request:
+        actions:
+          change_log:
+            explanation: کارنان کولی شي ریکارډ کې د ترسره شوي ټولو هغو بدلونونو تاریخ وګوري  چې رامینځته شوی. پدې کې د ټولو برخو لپاره ثبت شوي ارزښتونه شامل دي
+            label: سیستم د دخول تغیرول
+          create:
+            explanation: د څارنی د جوړولو وړتیا
+            label: جوړول
+          export_case_pdf:
+            explanation: کارن کولی شي د قضیې لیست یا د قضیې ښودلو پاڼو څخه د پی ډی ایف فایل صادرات رامینځته کړي ، چې پدې کې ټول هغه برخې شتون لري چیرې چې اوسني کارن ورته لاسرسی لري ، کارن د یوې ، ډیری ، یا ټولو قضیو لپاره کولی شی لاسرسی  ولري. د پی ډی ایف صادراتو فایل کې ، معلومات لومړی د قضیې په واسطه لیست شوي ، او بیا وروسته د هغه فارم په واسطه تنظیم شوی کوم کی  چې معلومات څرګندیږي.
+            label: ' PDF صادرول'
+          export_csv:
+            explanation: 'کارن کولی شي د قضیې لیست یا د قضیې ښودلو پاڼو څخه د csv فایل صادرات رامینځته کړي ، چې پدې کې ټول هغه برخې شتون لري چیرې چې اوسني کارن ورته لاسرسی لري ، کارن د یوې ، ډیری ، یا پیښو لپاره کوم چی کارن ورته لاسرسی لری، '
+            label: صادرول CSV
+          export_custom:
+            explanation: 'کارن کولی شي د قضیې لیست یا د قضیې ښودلو پاڼو  څخه د XLS فایل صادرات رامینځته کړي ، کوم چې د یوې ، ډیری ، یا ټولو قضیو لپاره چیرې چې کارکونکی ورته  لاسرسی لري د فارمونو په مجموعه باندی مشتمل دی. پدې صادراتو کې ، هر فارم د XLS فایل کې دننه په خپل ټب کې ښودل شوی. کارن کولی شي چی هر فورم چی غواړی صدور کی شامل کړی د اختیاری صادراتو ماډل په کارولو سره په صادراتو کې شامل وي. مهرباني وکړئ په یاد ولرئ چې کاروونکي یوازې په صادراتو کې فارمونه او فیلډ شاملولی شي که چیرې دوی دمخه په نوموړی اپلیکیشن کی  د قضایاو به څارنه کی دغسی فورمونو او فیلډونو لیدلو وړتیا درلودل. '
+            label: غوراوی صادرول
+          export_json:
+            explanation: کارن کولی شي د قضیې لیست یا د قضیې ښودلو پاڼو څخه د JSON فایل صادرات رامینځته کړي ، چې پدې کې ټول هغه برخې شتون لري چیرې چې اوسني کارن لاسرسی لري ، د یوې ، ډیری ، یا ټولو قضیو لپاره چې کارن کولی شی لاسرسی لري. دا صادرات اساسا د هغو کسانو لپاره کارول کیږي څوک چې غواړي د اوسني پریمرو سیسټم څخه قضیې صادر کړي او بیا یې په یو بل پریمرو سیسټم کې وارد کړي ، یا بل د معلوماتو مدیریت سیسټم کې. د JSON فارمټ د ماشین لوستلو وړ دی او د ډیری کاروونکو لپاره عملي ندي.
+            label: ' json صادرول '
+          export_list_view_csv:
+            explanation: کارن کولی شي د قضیې لیست پا قضیو د ښودنو پاڼو څخه د CSV فایل صادرات رامنځته  کړي چې ورته ساحې لري او د قضیې لیست کې د هغه کارونکي لپاره څرګندیږي. یوازې د قضیې لیست پاڼو څخه ترسره کیږي.
+            label: د صادراتو لیست لیدcsv
+          flag:
+            explanation: قضیه کې د بیرغ اضافه کولو وړتیا. د دې اجازی سره کاروونکي کولی شي هغه بیرغونه هم لرې کړي چې په قضیه څارنی په غوښتنه کې یې اضافه کړي.
+            label: نښه
+          import:
+            explanation: کارونکي ته اجازه ورکوي د CSV ، ایکسل ، یا JSON فایل په واردولو سره یو یا ډیر نوي قضیې رامینځته کړي. وارد شوی فایل باید * خورا * په ځانګړي ډول د دې لپاره چې معلومات سم وارد شي فارمیټ شي. دا فنکشن باید یوازې د اداري کاروونکو لپاره شتون ولري چې پرمختللي تخنیکي مهارتونه ولري او د دې ژورې پوهې سره څنګه چې ډیټا په پریمرو کې فارمټ شوی کیږي. یوازې د قضیې لیست پاڼو څخه ترسره کیږي
+            label: صادرول
+          manage:
+            explanation: کارونکی ته اجازه ورکوي چې د قضیو په هکله ټول شته کړنې ترسره کړي. به اصل کی د "تنظیم" معنی ده  "هرڅه".
+            label: (اداره کول(ټول اختیارات د دغه ډول منبعی لپاره
+          read:
+            explanation: د څارنی د غوښتنو د کتلو وړتیا. د تعقیب غوښتنې کتلو وړتیا سره رولونه باید د احتمالي میچ ریکارډ ډول لیدلو وړتیا هم ولري.
+            label: کتل
+          write:
+            explanation: ' د (اصلاح) په تڼی په کلیک کولو سره په قضیه کی معلومات نوی کړی او بیا د (محفوظولو) تڼی کلیک کړی. او کارونکی ته د څارنی د غوښتنی د فعالولو او غیر فعالولو اجازه ورکوی.'
+            label: سمول
+        label: دڅارنی غوښتنه
+      transfer:
+        actions:
+          transfer:
+            explanation: پدې مانا ده چې رول به د "ترلاسه کونکي ډول" لپاره د اختیار په توګه څرګند شي کله چې کارن بهرني ارجاع ترسره کوي. که کارونکي دا رول د ارجاع کولو ډول په توګه غوره کړي ، هغه صادرات چې پریمرو رامنځته کړی کله چې کارن ارجاع کوي نو دا به یوازې هغه معلومات ولري چې په هغه فورمونو کې موندل کیږي چې دغه رول ورته لاسرسی لري. د مثال په توګه ، که کارونکی د "طبي خدمت چمتو کونکي" د ترلاسه کونکي ډول په توګه غوره کړي ، او د طبي خدمت چمتو کونکي رول یوازې د لومړني پیژندنې او خوندیتوب اندیښنو فورمو ته لاسرسی لري ، د صادراتو فایل چې د بهرني راجع کولو لپاره پریمرو صادروي یوازې به هغه ساحې ولرئ چې پدې دوه ډوله فورمونو کې دي.
+            label: ایا دا رول د بهرني لیږد لپاره کارول کیدی شي؟
+        label: لیږد
+      user:
+        actions:
+          agency_read:
+            explanation: اوسني کارونکي ادارې کې یوازې هغه کارونکي حسابونه لیدلو وړتیا. دا په دې هم اغیزه کوي چې کوم کارن حسابونه اوسني کارن کولی شي په نورو عملونو ترسره کړي. د مثال په توګه ، که اوسنی کارونکي په کاروونکو باندې د "لیکلو" اجازه ولري ، مګر د ادارې لوستلو اجازه هم لري ، دوی به یوازې د هغه کارن حسابونو سمولو توان ولري چې د دوی په خپله اداره کې دي. په ورته ډول ، که اوسنی کارونکي په کاروونکو باندې "مدیریت" اجازه ولري ، مګر د "اداری لخوا لوستلو" اجازه لري ، دوی به یوازې د دې وړتیا ولري چې د خپلې ادارې لپاره کاروونکي رامینځته کړي.
+            label: کتل(اداری په داخل کی)
+          create:
+            explanation: د کارن حساب د جوړول وړتیا
+            label: جوړول
+          manage:
+            explanation: 'کارونکي ته اجازه ورکوي چې په ادارو کې ټول موجود فعالیتونه ترسره کړي. د "تنظیم" اجازه لازمي معنی ده "هرڅه". مهم: دا د نوې ادارې رامینځته کولو وړتیا هم ورکوي'
+            label: (اداره کول(ټول اختیارات د دغه ډول منبعی لپاره
+          read:
+            explanation: کارن حسابونو لیدلو وړتیا. د ډیفالټ په واسطه ، هر کارن د دې وړتیا لري چې د خپل کارن حساب په اړه معلومات وګوري او ترمیم یې کړي (د بیلګې په توګه پټنوم ، بریښنالیک).
+            label: کتل
+          write:
+            explanation: د سمونی تڼی په کلیک کولو سره چی د پاڼی په پورتنی برخه کی وجود لری او کولی شی جی معلومات د کارن په هکله نوی کړی او بیا یی مصون کړی ، مهرباني وکړئ په یاد ولرئ چې دا اجازه د کارن حسابونو غیر فعال کولو وړتیا هم لری.
+            label: اصلاح کول
+        label: کارن
+      user_group:
+        actions:
+          assign:
+            explanation: ' د کارن حساب رامینځته کول یا ایډیټ کولو کی د کارونکي ډلې غوره کولو وړتیا . مهرباني وکړئ په یاد ولرئ که چیرې اوسنی کارن د "زما ډلې کې یوازې ریکارډونه یا کارونکي" د لاسرسي کچه ولري ، دوی به یوازې د یو یا ډیرو * خپل * کارونکي ګروپونو کی کومو  په هکله چی دوی غواړی نوی کارن رامنځته کړی یا په کی ایډټ وکړی. دا پدې مانا ده چې یو مدیر ددی وړتیا لری چی داسی کارن ډله رامنځته کړی چی په نوموړی ګروپ کی داسی کارن رامنځته کړی چی خپله مدیر پوری تړاو ولری دا جواز د هر هغه رول لپاره اړین دی چې د کارن حسابونو جوړولو یا ترمیم کولو کې اړین وی.'
+            label: سپارل
+          create:
+            explanation: د کارن ګروپ د جوړولو وړتیا
+            label: جوړول
+          delete:
+            explanation: .د کارن د ډلی له مینځه وړلو وړتیا
+            label: له مینځه وړل
+          manage:
+            explanation: 'کارونکي ته اجازه ورکوي چې په ادارو کې ټول موجود فعالیتونه ترسره کړي. د "تنظیم" اجازه لازمي معنی ده "هرڅه". مهم: دا د نوې کارن ګروپونو د رامنځه کولو او له مینځه وړلو وړتیا لری.'
+            label: (اداره کول(ټول اختیارات د دغه ډول منبعی لپاره
+          read:
+            explanation: د کارن ډلی ډ لیدلو وړتیا.
+            label: کتل
+          write:
+            explanation: د کارن ډلی د سمولو وړتیا
+            label: سمول
+        label: کارن ډله
+  potential_match:
+    child_age: عمر
+    child_gender: جنسیت
+    child_id: د ماشوم پیژند#
+    inquirer_id: د پلټنی شمیره
+    inquirer_tr_name: د څارنی غوښتنه
+    inquiry_date: د پلټنی نیته
+    name: نوم
+    social_worker: ټولنیز کارمند
+    social_worker_agency: اداره
+  potential_matches:
+    display: د مهمو تطابقتونو لپاره ښودنه
+  reassign:
+    multiple_error: یوه تېروتنه رامینځ ته شوه. ٪ {ټاکنې_ ریکارډونه} قضیې  نه دي ټاکل شوې.
+    multiple_successfully: 'به بریالیتوب سره قضیه وسپارل شوه'
+    notes_label: یادونه
+    successfully: په بریالیتوب سره بیا وټاکل شو
+    user_mandatory_label: اړین ترلاسه کول
+    users_label: ترلاسه کونکی
+  record_information:
+    assigned_user_names: بل ټاکل شوی کارن
+    created_by: ریکارد جوړ شوی له خوا
+    current_owner_separator: اوسنی څښتن
+    module_id: موډل
+    owned_by: د ټولنیز کارمند رمز
+    owned_by_agency_id: اداره
+    owned_by_text: ساحه/قضیه/ټولنیز کارکوونکې
+    previously_owned_by: مخکینی څښتن
+    reassigned_tranferred_on: سپارل/انتقالول په
+    record_history_separator: د ریکارډ مخینه
+  record_panel:
+    record_information: د ریکارد معلومات
+  referral:
+    type_of_recipient: د ترلاسه کول ډول
+    type_of_referral_required: د اړین ارجاع ډول
+    agency_label: اداره
+    is_remote_label: آیا تاسی غواړی چی یو لری سیستم ته ولیږدول شی؟
+    location_label: موقیعت
+    notes_label: یادونه
+    provided_consent_label: .په فورم کی رضایت نه دی ترلاسه شوی
+    recipient_label: ترلاسه کونکی
+    refer_anyway_label: په هر حالت کی ارجاع ترسره شی؟
+    service_label: خدمت
+    success: 'ارجاع'
+    user_mandatory_label: اړین ترلاسه کول
+  report:
+    aggregate_by: ډلی د قطارونو په اساس
+    attribute: ځانګړتیاوی
+    constraint: خنډونه
+    date_ranges:
+      date: ورځ
+      month: میاشت
+      quarter: ربع
+      quarter_abbr: Q
+      week: اونی
+      year: کال
+    description: توضیح
+    disabled:
+      explanation: که چیری تاسو داراپور غر فعال کړی ،نو نوموړی به په راپور کی موجود نه وی.
+      label: ناتوانول
+    disaggregate_by: د ستون په اساس ډله
+    filters:
+      label: د راپور فلتر
+      label_new: د نوی راپور فلتر
+      attribute: فلتر
+      value: سره
+      not_null: تش نه دی؟
+      less_than: لږ له
+      greater_than: لوی له
+      equal_to: مساوی له
+      not_blank: تش نه دی
+      is: دی
+      before: مخکی
+      after: وروسته
+      delete_filter_message: آیا تاسی دغه فلټر له مینځه وړل غواړی؟
+    group_ages: د عمر حدود استعمال کړی
+    group_dates_by: د نیټی حد استعمال کړی
+    is_graph: د ګراف جوړول؟
+    messages:
+      delete_success: راپور په بریالیتوب سره له مینځه ولاړ.
+      success: راپور په بریالیتوب سره جوړ شوی.
+      updated: راپور په بریالیتوب سره نوی شو.
+    modules: مودلونه
+    name: نوم
+    name_mandatory: نوم اړین دی
+    no_data: دغه راپور لپاره معلومات وجود نلری
+    no_filters_added: هیڅ فلټرت اضافه شو ی نه دی
+    not_selected: هیڅ ټاکل شوی نه دی
+    record_type: د ریکارډ ډول
+    total: ټولټال
+    value: ارزښت
+  reports:
+    delete_report: د راپور له مینځه وړل
+    delete_report_message: آیا تاسی مطمئن یاستی چی کارن له مینځه یوړی؟ له مینځه وړل نیمګړی نشی پاتی کیدای. د سمه ده په تڼی باندی کلیک وکړی او کارن له مینځه یوسی.
+    label: راپورونه
+    register_new_report: راپور جوړول
+  request_transfer:
+    notes_label: یادونه
+    submit_label: د غوښتنی لیږد
+    success: د لیږد غوښتنه ولیږدول شو
+  role:
+    agency_ids_label: اداری د ندو پر بنا ترتیب شوی
+    copy_failure: د رول په کاپي کولو کې تېروتنه. ډاډ ترلاسه کړئ چې نوم د بل رول سره مخالفت نلري.
+    copy_success: رول په بریالیتوب سره کاپی شو.
+    create: درول رامنځته کول
+    delete_header: د رول له مینځه وړل
+    description: توضیح
+    edit: درول اصلاح کونه
+    error_in_updating: د رولونو د نوی کولو په وخت کی ستونزه.
+    group_permission_label: دا رول کوم ریکارډونو باندی اغیزه کوي؟
+    label: دنده
+    manager: مدیر
+    messages:
+      confirmation: آیا تاسی مطمئن یاستی چی رول له مینځه یوسی؟ له مینځه وړل نیمګړی نشی پاتی کیدای. د سمه ده په تڼی باندی کلیک وکړی او رول له مینځه یوسی.
+      created: رول په بریالیتوب سره جوړ شوی
+      deleted: رول په بریالی توګه له مینځه ولاړ.
+      updated: رول په بریالیتوب سره نوی شول.
+    name: نوم
+    referral_label: دغه رول د ارجاع لپاره هم استعمالیدای شی؟
+    reporting_location_level_label: د دې رول د ګزارش ورکولو لپاره کوم ډول موقیعت وکارول شی.
+    role_ids_label: 'نور رولونه چی ددی رول په واسطه تنظیم شوی '
+    successfully_updated: نور معلومات په بریالیتوب سره نوی شوه.
+    transfer_label: دغه رول د ارجاع لپاره هم استعمالیدای شی؟
+  roles:
+    label: رولونه
+  saved_search:
+    deleted: پلټنه په بریالیتوب سره له مینځه ولاړ.
+    filters_tab: فلتر
+    no_filters: هیڅ فلتر دلته نه دی انتخاب شوی
+    save_success: پلټنه په بریالیتوب سره خوندی شو.
+    saved_searches_tab: پلټنه خوندی شول
+    title_description: آیا تاسی غواړی چی خوندی پلټنه له مینځه یوسی؟
+    title_modal: خوندی پلټنه له مینځه ولاړ
+  saved_searches:
+    no_save_searches: تاسی هیڅ خوندی پلټنه نه لری
+    save_search: خوندی پلټنه
+  settings:
+    navigation:
+      agencies: اداری
+      audit_logs: د څیړنی لوګ
+      configurations: تنظیمات
+      contact_information: د اړیکی معلومات
+      forms: فورم
+      locations: موقیعتونه
+      lookups: لټون
+      user_groups: کارن ګروپ
+      users: کارن
+      roles: دنده
+    title: تنظیم
+  system_settings:
+    label: د سیستم تنظیمات
+  task:
+    due_date: د نیټی مطابق
+    id: '#پيژند'
+    name: نوم
+    priorities:
+      high_level: لوړ
+      low_level: ټیټ
+      medium_level: مینځنی
+      no_action_level: هیڅ اقدام نشته
+    priority: لومړیتوب کچه
+    status: حالت
+    statuses:
+      overdue: ډیرول
+      upcoming_soon: تقریبا نژدی
+    type: د اقدام ډولونه
+    types:
+      assessment: کتنی
+      case_plan: د قضيې پلان
+      follow_up: څارنه
+      service: خدمت
+  tracing_request:
+    messages:
+      update_success: 'د څارنی غوښته په بریالی توګه نوی شول'
+      creation_success: د څارنی غوښته په بریالی توګه جوړ شول.
+      update_success_queue: '.د څارنی غوښته په بریالی توګه خپل شالید کی نوی شول'
+      creation_success_queue: .د څارنی ریکارډ په بریالی توګه خپل شالید کی جوړ شول
+  tracing_requests:
+    date_of_inquiry: 'د پلټنی نیټه '
+    id: پیژند
+    filter_by:
+      by_date: په نیټه
+      location_separation: د جلاوالی موقیعت
+      separation_cause: د جلاوالی علت
+      status: حالت
+    label: د څارنی غوښنه
+    name_of_inquirer: د پلټونکی نوم
+    register_new_tracing_request: د نوی څارنی غوټښنه
+    selectable_date_options:
+      inquiry_date: د پلټنی نیټه
+    selected_records: '.د څارنی غوښتنه انتخاب شو'
+    selected_all_records: 'ټولې پوښتنې نښه کړی  د غوره کولو غوښتنې وټاکئ چې د دې پوښتنې سره سمون خوري.'
+    show_tracing_request: 'د څارنی د غوښتنی پيژند'
+    tracing_requests: د څارنی غوښتنه
+    export: صادرول
+  transfer:
+    agency_label: اداره
+    consent_from_individual_label: ایا تاسو د لیږد لپاره د فرد څخه رضایت  اخیستی؟
+    consent_label: ریکارډ کی رضایت نه دی ترلاسه شوی
+    consent_override_label: آیا غواړی چی دغه تنظیمات په نظر کی ونه نیول شوی؟
+    is_remote_label: آیا تاسی غواړی چی یو لری سیستم ته ولیږدول شی؟
+    location_label: موقیعت
+    notes_label: یادونه
+    provided_consent_label: .په فورم کی رضایت نه دی ترلاسه شوی
+    recipient_label: ترلاسه کونکی
+    select_label: انتخابول
+    success: په بریالی توګه انتقال شو
+    transfer_label: هر حالت کی باید انتقال شی
+    user_mandatory: 'ترلاسه کول اړین دی '
+  transfer_assignment:
+    title: لیږد او سپارښتنی
+  transition:
+    assigned_by: لخوا ټاکل شوی
+    consent_individual_transfer_value:
+      true_label: 'هو'
+      false_label: 'نه'
+    consent_overridden_value:
+      false_label: 'نه'
+      true_label: 'هو'
+    errors:
+      consent: رضایت نه دی ترلاسه شوۍ
+      to_user_can_receive: کارن دغه ریکارډ نه شی ترلاسه کولی
+    individual_consent: ایا د قضیې کار کونکي د دې لیږد لپاره  خپل فردی رضایت څرګند کړی وو؟
+    no_consent_share: د مجدد معلوماتو په هکله موافقه څرګندول؟
+    notes: یادونه
+    recipient: ترلاسه کونکی
+    rejected: ردولو علت
+    service_label: خدمت
+    status:
+      accepted: ومنل شو
+      done: وکړه
+      rejected: رد شوی
+    type:
+      assign: سپارل
+      reassign: سپارل
+      referral: ارجاع
+      external_referral: بهرنی ارجاع
+      transfer: 'انتقال '
+      transferRequest: د لیږد غوښتنه
+  user:
+    agency_office: د اداری دفتر(
+    code: د کارن رمز
+    disabled: ناتوانول
+    email: بریښنا لیک
+    full_name: مکمل نوم
+    identity_provider: د پيژندنی وړاندی کونکی
+    invalid_provider_username: 'د اداری دفتر (GBV ساحه)'
+    label: کارن
+    locale: ځای
+    location: موقیعت
+    messages:
+      confirmation: آیا تاسی مطمئن یاستی چی کارن له مینځه یوړی؟ له مینځه وړل نیمګړی نشی پاتی کیدای. د سمه ده په تڼی باندی کلیک وکړی او کارن له مینځه یوسی.
+      created: کارن په بریالیتوب سره جوړ شول.
+      failure: که تیروتنه وشوه ، مهرباني وکړئ ملاتړ سره اړیکه ونیسئ.
+      new_confirm_html: اسو د کارونکي {{کارنوم} د٪ {شناخت} څخه د٪ {رول} رول سره پریمرو کارولو لپاره رابلئ. د تایید بریښنالیک به٪ {بریښنالیک} ته واستول شي. ایا ته غواړی چی مخته لاړشی؟
+      new_confirm_non_identity_html: اسو د کارونکي {{کارنوم} د٪ {شناخت} څخه د٪ {رول} رول سره  پریمرو کارولو لپاره رابلئ. د تایید بریښنالیک به٪ {بریښنالیک} ته واستول شي. ایا ته غواړی چی مخته لاړشی؟
+      not_found: ورکړل شوی پیزند سره کارن ونه موندل شوږ
+      password_changed_successfully: رمز په بریالیتوب سره بدلون وموند
+      passwords_do_not_match: نوموړی رمز  مطابقت نلری
+      time_zone_updated: تغیر په بریالی توګه نوی شو.
+      updated: کارن په بریالیتوب سره نوی شو.
+    organization: سازمان
+    agency: اداره
+    services_help_text: که تاسو خدمات مشخص نه کړئ ، دا کارن به هماغه خدمات وړاندی کړی چی نوموړی اداره یی لری.
+    password: رمز
+    password_confirmation: د رمز تاید
+    phone: تیلفون شمیره
+    position: مقام
+    provider_username_help: 'د بیلګی په ډول:زما کارن نوم@'
+    role_id: دنده
+    send_mail: بریښنالیک خبرتیاوې ترلاسه کوئ؟
+    user_group_unique_ids: د کارن ډله
+    user_name: د کارن نوم
+    services: خدمات
+    welcome_email:
+      subject: 'ښه راغلاست'
+      greeting: 'ښه راغلاست'
+      url_label: 'پریمیرو '
+      enabled_label: د ښه راغلاست بریښنالیک لیږل؟
+      text_label: د ښه راغلاست بریښنالیک
+  user_group:
+    description: توضیح
+    disabled:
+      explanation: که تاسو دا کارونکي ګروپ غیر فعال کړئ ، نو تاسو به نور د دې وړ نه شئ چې دا د کارن حسابونو ته واستوئ.
+      label: ناتوانول
+    messages:
+      created: د کارن ډله په بریالیتوب سره رامنځه شوه.
+      updated: کارن ډله په بریالیتوب سره نوی شوه.
+    name: نوم
+  user_groups:
+    label: کارن ډله
+  users:
+    label: کارن
+    headers:
+      full_name: مکمل نوم
+      user_name: کارن نوم
+      position: مقام
+      agency: اداره

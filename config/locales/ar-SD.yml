@@ -32,15 +32,15 @@ ar-SD:
     disable: عطّل
     enable: فعّل
     incident_details_from_case: أضف حادثة
-    incident_from_case: اخلق حادثة
+    incident_from_case: بلغ عن حادثة
     next: التالي
     notes: أضف تعليقا
     previous: السابق
-    reopen: افتح مرة أخرى
+    reopen: اعاده فتح
     request_approval: اطلب الموافقة
     revoke: ألغي
     save: أحفظ
-    services_from_case_creation_success: تم بنجاح خلق سجل تقديم  الخدمة
+    services_from_case_creation_success: تم بنجاح انشاء سجل تقديم  الخدمة
     services_section_from_case: أضف تقديم الخدمة
   agencies:
     label: وكالة
@@ -50,14 +50,11 @@ ar-SD:
     description: الوصف
     disabled: ملغي
     label: وكالة
-    logo_enabled: الشعار مُفعّل؟
-    logo_enabled_help: أعرض هذه الشعارات على صفحة تسجيل الدخول وخيارات التصفح
     logo_icon: شعار الأيقونة
     logo_icon_help: سيظهر ذلك على أشكال الشاشات الصغيرة والتابلت والهاتف ويجب أن يكون في شكل مُربّع
     logo_large: شعار كبير الحجم
-    logo_large_help: سيظهر ذلك على الشاشات الكبيرة ويجب أن يكون على كشل مستطيل بطول أكبر من الارتفاع
     messages:
-      created: تم بنجاح خلق الوكالة
+      created: تم بنجاح انشاء الوكالة
       updated: تم بنجاح تحديث الوكالة
     name: اسم الوكالة
     services: خدمات الوكالة
@@ -177,7 +174,6 @@ ar-SD:
     enter_id_number: ادخل رقم الهوية لبحث سجل موجود
     id_search_no_results: ليس هناك مطابق في النظام. رجاء خلق سجل جديد
     messages:
-      case_disabled: تم تعطيل الحالة
       update_success: 'تم تحديث الحالة بنجاح'
       update_success_queue: 'تم تحديث الحالة بنجاح في الخلفية'
       creation_success: 'تم بنجاح فتح سجل للحالة'
@@ -222,10 +218,8 @@ ar-SD:
     close_success: تم إغلاق الحالة بنجاح
     closure: إغلاق
     date_of_birth: تاريخ الميلاد
-    disable_dialog: النقر على أوكي سيُغير وضع الحالة إلى مُعطلة
     disable_dialog_title: عطّل الحالة
     disable_success: تم تعطيل الحالة بنجاح
-    enable_dialog: النقر على أوكي سيُغير وضع هذه الحالة إلى مُفعّلة
     enable_dialog_title: تفعيل الحالة
     enable_success: تم تفعيل الحالة بنجاح
     export: تحويل
@@ -552,7 +546,6 @@ ar-SD:
       other: لديك .... حالات مخاطر جديدة
     count_waiting_for_acceptance_transfers: لديك ... تحويل في انتظار موافقتك
     current_owner: الصاحب الحالي
-    dash_case_incident_overview: حالاتي
     dash_group_overview: حالات مجموعتي
     dash_shared_from_my_team: تم تبادلها من فريقي
     dash_shared_with_me: تم تبادلها معي
@@ -1182,7 +1175,7 @@ ar-SD:
     id: باهاسا
     km: ភាសាខ្មែរ
     ku: کوردی
-    label: وطن
+    label: الصفحه الرئيسية
     language: لغة
     manage_system_users: إدارة مستخدمي تزامن السيرفر
     my: ဗမာစာ
@@ -1364,7 +1357,7 @@ ar-SD:
   navigation:
     bulk_exports: تحويل
     cases: حالات
-    home: وطن
+    home: الصفحه الرئيسية
     incidents: أحداث
     logout: خروج
     reports: تقارير
@@ -1913,7 +1906,6 @@ ar-SD:
       potential_match:
         actions:
           read:
-            explanation: القدرة على رؤية التطابق المحتمل بين كلبات التتبع والحالات. وهذا الإذن ضروري للمستخدم ليقوم بأي تدابير تتبع وجمع شمل الأسر.
             label: رؤية
         label: تطابق محتمل
       referral:
@@ -2068,7 +2060,6 @@ ar-SD:
     inquirer_tr_name: طلب تتبع
     inquiry_date: تاريخ الإستفسار
     name: اسم
-    score: درجة
     social_worker: أخصائي اجتماعي
     social_worker_agency: وكالة
   potential_matches:
@@ -2297,9 +2288,6 @@ ar-SD:
     status:
       accepted: تمت الموافقة
       done: تم اللازم
-      in_progress: قيد التنفيذ
-      inprogress: قيد التنفيذ
-      pending: قيد الانتظار
       rejected: مرفوض
     type:
       assign: تكليف
@@ -2355,8 +2343,6 @@ ar-SD:
       subject: 'مرحبا في ........ !'
       greeting: 'مرحبا في ........ !'
       body_native: 'تمت إضافتك ك ...... رجاء الاتصال ب ..... (ززززز) للمتابعة التوجيهات .... لبداية العمل مع'
-      body_sso: 'تمت إضافتك ك ..... يمكنك الآن الدخول في ...... ب ..... حسابك ..... رجاء الاتصال ب .... (.....) لمزيد من التفاصيل.'
-      body_with_password: 'تمت إضافتك ك ..... يرجاء الاتصال ب .... (.....) لتلقي اسم المستخدم. استخدم كلمة السر ..... للدخول في ......، وأعد وضع كلمة السر حين يُطلب منك ذلك.'
       url_label: بريميرو
       enabled_label: إرسال رساة الترحيب إلكترونيا؟
       text_label: نص رسالة التحيب الإلكترونية
