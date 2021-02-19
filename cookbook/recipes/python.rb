@@ -6,6 +6,7 @@ bash 'Remove chef pip and install ubuntu pip' do
   code <<-EOH
     rm -rf /usr/local/bin/pip* /usr/local/lib/python3.5/dist-packages/pip* \
     && apt remove --purge -y python3-pip \
-    && apt install -y python3-pip
+    && apt install -y python3-pip \
+    && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
     EOH
 end
