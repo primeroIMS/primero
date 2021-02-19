@@ -471,6 +471,10 @@ ku:
       one: UNHCR
       selected: بو UNHCR دەستنیشانکرا
       unknown_abbreviation: U
+    xlsx:
+      all: ئێکسل
+      one: ئێکسل
+      selected: بو ئێکسل دەستنیشانکرا
   fields:
     action: کردار
     actions: کردارەکان
@@ -772,6 +776,7 @@ ku:
     inquirer_tr_name: داخوازى بەدواداچون
     inquiry_date: رێککەوتى لێکولینەوە
     name: ناو
+    score: خال
     social_worker: ڤەکولەرى کومەلایەتى
     social_worker_agency: دامەزراوە
   potential_matches:

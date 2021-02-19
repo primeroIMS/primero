@@ -765,6 +765,10 @@ th:
       one: UNHCR
       selected: เลือกไปยัง UNHCR
       unknown_abbreviation: ไม่ทราบ
+    xlsx:
+      all: Excel
+      one: Excel
+      selected: เลือกไปยัง Excel
   fields:
     action: ดำเนินการ
     actions: ดำเนินการ
@@ -1859,6 +1863,7 @@ th:
     inquirer_tr_name: คำร้องขอให้มีการติดตามตัว
     inquiry_date: วันที่ร้องขอ
     name: ชื่อ
+    score: คะแนน
     social_worker: นักสังคมสงเคราะห์
     social_worker_agency: หน่วยงาน
   potential_matches:

@@ -453,6 +453,10 @@ km:
       one: UNHCR
       selected: បាន​ជ្រើសរើស​ទៅ UNHCR
       unknown_abbreviation: U
+    xlsx:
+      all: Excel
+      one: Excel
+      selected: បាន​ជ្រើសរើស​ទៅ Excel
   fields:
     action: សកម្មភាព
     actions: សកម្មភាព
@@ -760,6 +764,7 @@ km:
     inquirer_tr_name: សំណើ​ស្វែងរក
     inquiry_date: កាលបរិច្ឆេទ​ស្វែងរក
     name: ឈ្មោះ
+    score: ពិន្ទុ
     social_worker: បុគ្គលិកសង្គម
     social_worker_agency: ស្ថាប័ន៖
   potential_matches:
