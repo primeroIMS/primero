@@ -12,7 +12,8 @@ import { useMemoizedSelector } from "../../../libs";
 
 const filter = createFilterOptions();
 
-const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, isShow }) => {
+const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, formMethods, isShow, formMode }) => {
+  const options = formMode.get("isNew") ? allOptions.filter(option => !option?.disabled) : allOptions;
   const { control, setValue, getValues } = formMethods;
   const {
     multiSelect,
@@ -117,15 +118,6 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
       });
     }
 
-    // Checks if any value of a multiselect is disabled to avoid removing it, when clearing all options.
-    if (multiSelect && reason === "clear") {
-      const nonRemovableOptions = getValues(name).filter(selectedValue =>
-        options?.find(option => option?.id === selectedValue && option?.disabled)
-      );
-
-      return nonRemovableOptions;
-    }
-
     return multiSelect || multipleLimitOne
       ? data?.reduce((prev, current) => {
           if (multipleLimitOne && getValues(name).includes(current)) {
@@ -193,15 +185,8 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
     );
   };
 
-  const renderTags = (value, getTagProps) => {
-    return value.map((currentOption, index) => {
-      const chipDisabled = !!options?.find(option => option?.id === currentOption)?.disabled;
-
-      return (
-        <Chip label={optionLabel(currentOption)} {...getTagProps({ index })} disabled={disabled || chipDisabled} />
-      );
-    });
-  };
+  const renderTags = (value, getTagProps) =>
+    value.map((option, index) => <Chip label={optionLabel(option)} {...getTagProps({ index })} disabled={disabled} />);
 
   const getOptionDisabled = option => {
     if (option?.disabled) {
@@ -262,6 +247,7 @@ SelectInput.propTypes = {
     name: PropTypes.string.isRequired
   }),
   formMethods: PropTypes.object.isRequired,
+  formMode: PropTypes.object.isRequired,
   isShow: PropTypes.bool,
   metaInputProps: PropTypes.object,
   options: PropTypes.array
