@@ -38,12 +38,9 @@ th:
     description: รายละเอียด
     disabled: ปิดการใช้งาน
     label: หน่วยงาน
-    logo_enabled: เปิดใช้โลโก้หน่วยงาน ?
-    logo_enabled_help: แสดงโลโก้หน่วยงาน บนหน้า login เข้าสู่ระบบและบนแถบเมนูการใช้งาน
     logo_icon: สัญลักษณ์ไอคอน
     logo_icon_help: ส่วนนี้จะแสดงบนหน้าจอขนาดเล็ก แท้ปเลท และโทรศัพท์มือถือ ควรมีลักษณะเป็นสี่เหลี่ยมจัตุรัส
     logo_large: โลโก้ขนาดใหญ่
-    logo_large_help: ส่วนนี้จะแสดงบนหน้าจอขนาดใหญ่ ควรมีลักษณะเป็นสี่เหลี่ยมผืนผ้า ที่ยาวมากกว่าสูง
     messages:
       created: ทำการสร้างข้อมูลหน่วยงานสำเร็จ
       updated: ทำการปรับปรุงข้อมูลหน่วยงานสำเร็จ
@@ -157,7 +154,6 @@ th:
     enter_id_number: ใส่เลขประจำตัวเพื่อค้นหาบันทึกที่มีอยู่แล้ว
     id_search_no_results: ไม่เจอข้อมูลที่ตรงกันในระบบสำหรับ %{search_query} กรุณาสร้างใหม่
     messages:
-      case_disabled: เคสถูกยกเลิก
       update_success: 'ได้ปรับปรุงข้อมูลเคสสำเร็จแล้ว%{record_id}'
       update_success_queue: 'ได้ปรับปรุงข้อมูลเคสใน background สำเร็จแล้ว %{record_id}'
       creation_success: 'สร้างบันทึกสำหรับเคสสำเร็จแล้ว'
@@ -200,10 +196,8 @@ th:
     close_success: ปิดเคสสำเร็จ
     closure: ยุติบริการ
     date_of_birth: วันเดือนปีเกิด
-    disable_dialog: กดปุ่ม 'ตกลง' เพื่อเปลี่ยนสถานะของเคสเป็น 'ปิดการใช้งาน'
     disable_dialog_title: ปิดการใช้งานข้อมูลเคส
     disable_success: ปิดการใช้งานข้อมูลเคสสำเร็จแล้ว
-    enable_dialog: กดปุ่ม 'ตกลง' เพื่อเปลี่ยนสถานะของเคสเป็น 'เปิดการใช้งาน'
     enable_dialog_title: เปิดการใช้งานข้อมูลเคส
     enable_success: เปิดการใช้งานข้อมูลเคสสำเร็จแล้ว
     export: ส่งออกข้อมูล
@@ -455,7 +449,6 @@ th:
       other: คุณมี %{stat} <span>%{stat_type} ความเสี่ยง </span> เคส
     count_waiting_for_acceptance_transfers: คุณมีเคส %{stat}การส่งมอบ <span>รอ</span> การตอบรับ
     current_owner: เจ้าของปัจจุบัน
-    dash_case_incident_overview: เคส / การแจ้งเหตุที่อยู่ในการดูแลของฉัน
     dash_group_overview: เคสที่อยู่ในการดูแลของกลุ่มฉัน
     dash_shared_from_my_team: ส่งมาจากทีมของฉัน
     dash_shared_with_me: ส่งมาให้ฉัน
@@ -772,10 +765,6 @@ th:
       one: UNHCR
       selected: เลือกไปยัง UNHCR
       unknown_abbreviation: ไม่ทราบ
-    xls:
-      all: Excel
-      one: Excel
-      selected: เลือกไปยัง Excel
   fields:
     action: ดำเนินการ
     actions: ดำเนินการ
@@ -1717,7 +1706,6 @@ th:
       potential_match:
         actions:
           read:
-            explanation: สามารถเห็นผลการจับคู่ที่อาจตรงกัน ระหว่างคำร้องขอให้มีการติดตามตัวและข้อมูลเคส สิทธิ์นี้เป็นสิ่งจําเป็นสําหรับผู้ใช้งานที่ต้องการติดตามและคืนเด็กสู่ครอบครัว
             label: แสดงผล
         label: การจับคู่ที่อาจตรงกัน
       referral:
@@ -1871,7 +1859,6 @@ th:
     inquirer_tr_name: คำร้องขอให้มีการติดตามตัว
     inquiry_date: วันที่ร้องขอ
     name: ชื่อ
-    score: คะแนน
     social_worker: นักสังคมสงเคราะห์
     social_worker_agency: หน่วยงาน
   potential_matches:
@@ -2095,9 +2082,6 @@ th:
     status:
       accepted: ยอมรับ
       done: ดำเนินการเสร็จสิ้น
-      in_progress: อยู่ระหว่างดำเนินการ
-      inprogress: อยู่ระหว่างดำเนินการ
-      pending: อยู่ระหว่างการรอ
       rejected: ไม่อนุมัติ
     type:
       assign: มอบหมาย
@@ -2144,8 +2128,6 @@ th:
     welcome_email:
       subject: 'ยินดีต้อนรับสู่ระบบ %{system}!'
       greeting: 'ยินดีต้อนรับสู่ระบบ %{system}!'
-      body_sso: 'ท่านได้ถูกเพิ่มชื่อในบทบาท %{role_name} ท่านจะสามารถเข้าสู่ระบบ%{host}โดยใช้บัญชีชื่อ%{user_name}ที่ถูกสร้างให้กับ%{agency_name} กรุณาติดต่อคุณ%{admin_full_name}%{admin_email}ผู้ดูแลระบบเพื่อรายละเอียดเพิ่มเติม'
-      body_with_password: 'ท่านได้ถูกเพิ่มชื่อสำหรับบทบาท %{role_name}. กรุณาติดต่อคุณ%{admin_full_name}%{admin_email}ผู้ดูแลระบบเพื่อรับชื่อผู้ใช้งานและใช้รหัส OTP %{otp}เพื่อเป็นรหัสผ่านในการเข้าสู่ระบบ%{host} เพื่อการตั้งค่ารหัสผ่านใหม่ในขั้นตอนถัดไป'
       url_label: Primero
       enabled_label: ต้องการให้ส่งข้อความต้อนรับทางอีเมลหรือไม่?
       text_label: ข้อความต้อนรับทางอีเมล

@@ -471,10 +471,6 @@ bn:
       one: ইউএনএইচসিআর
       selected: ইউএনএইচসিআর এর জন্য নির্বাচিত
       unknown_abbreviation: ইউ
-    xls:
-      all: এক্সেল
-      one: এক্সেল
-      selected: 'এক্সেলের জন্য নির্বাচিত '
   fields:
     action: কার্যক্রম
     actions: কার্যক্রম
@@ -776,7 +772,6 @@ bn:
     inquirer_tr_name: 'অনুসন্ধানের অনুরোধ '
     inquiry_date: 'অনুসন্ধানের তারিখ '
     name: 'নাম '
-    score: 'স্কোর '
     social_worker: 'সমাজকর্মী '
     social_worker_agency: সংস্থা
   potential_matches:

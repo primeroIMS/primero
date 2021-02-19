@@ -282,10 +282,6 @@ es:
         sex_mapping_m_f_u: Sexo
       one: UNHCR
       selected: Seleccionado a UNHCR
-    xls:
-      all: Excel
-      one: Excel
-      selected: Seleccionado a Excel
   fields:
     action: Acción
     actions: Acciones

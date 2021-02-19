@@ -453,10 +453,6 @@ id:
       one: UNHCR
       selected: Dipilih untuk UNHCR
       unknown_abbreviation: U
-    xls:
-      all: Excel
-      one: Excel
-      selected: Dipilih untuk Excel
   fields:
     action: Tindakan
     actions: Tindakan
@@ -758,7 +754,6 @@ id:
     inquirer_tr_name: Permintaan Penelusuran
     inquiry_date: Tanggal Penyelidikan
     name: Nama
-    score: Nilai
     social_worker: Pekerja Sosial
     social_worker_agency: Agensi
   potential_matches:
