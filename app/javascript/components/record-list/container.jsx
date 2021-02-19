@@ -113,6 +113,8 @@ const Container = ({ match, location }) => {
     // eslint-disable-next-line camelcase
     filters.id_search && canSearchOthers ? headers.filter(header => header.id_search) : headers;
 
+  const onlineAndCanViewModal = online && canViewModal;
+
   const recordAvaialble = record => {
     const allowedToOpenRecord =
       record && typeof record.get("record_in_scope") !== "undefined" ? record.get("record_in_scope") : false;
@@ -124,7 +126,7 @@ const Container = ({ match, location }) => {
     recordType,
     defaultFilters,
     bypassInitialFetch: true,
-    columns: buildTableColumns(listHeaders, i18n, recordType, css, recordAvaialble),
+    columns: buildTableColumns(listHeaders, i18n, recordType, css, recordAvaialble, onlineAndCanViewModal),
     onTableChange: applyFilters,
     onRowClick: record => {
       if (recordAvaialble(record)) {
@@ -135,7 +137,7 @@ const Container = ({ match, location }) => {
       }
     },
     selectedRecords,
-    isRowSelectable: record => recordAvaialble(record),
+    isRowSelectable: record => recordAvaialble(record) || onlineAndCanViewModal,
     setSelectedRecords,
     showCustomToolbar: true
   };
