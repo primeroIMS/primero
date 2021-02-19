@@ -3,7 +3,20 @@
 # and it can't be avoided.
 
 package 'python3'
-package 'python3-pip'
+
+# python3-pip install a version that is not compatible with python3.5.
+# https://github.com/pypa/pip/issues/9500
+# https://github.com/pypa/get-pip/pull/87
+cookbook_file '/tmp/get-pip.py' do
+  source 'get-pip.py'
+  owner 'root'
+  group 'root'
+  mode '755'
+end
+
+execute 'pip compatible version' do
+  command "python3 /tmp/get-pip.py"
+end
 
 # Create symbolic link to make think to the supervisor/python cookbook that
 # python2 is already installed.
