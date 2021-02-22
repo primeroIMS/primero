@@ -6,6 +6,7 @@ import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconBut
 import { makeStyles } from "@material-ui/core/styles";
 import { FastField } from "formik";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import ArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import some from "lodash/some";
@@ -18,6 +19,7 @@ import styles from "../../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import ActionDialog from "../../../../action-dialog";
+import { useThemeHelper } from "../../../../../libs";
 
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
@@ -36,6 +38,7 @@ const DocumentField = ({
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const { isRTL } = useThemeHelper();
   const [dialog, setDialog] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
@@ -110,6 +113,7 @@ const DocumentField = ({
   };
 
   const dialogActionText = `buttons.${attachmentUrl ? "close" : "save"}`;
+  const renderIcon = isRTL ? <ArrowLeftIcon /> : <KeyboardArrowRightIcon />;
 
   return (
     <>
@@ -120,9 +124,7 @@ const DocumentField = ({
         </div>
         <div>
           {deleteButton}
-          <IconButton onClick={handleOpen}>
-            <KeyboardArrowRightIcon />
-          </IconButton>
+          <IconButton onClick={handleOpen}>{renderIcon}</IconButton>
         </div>
       </div>
 
