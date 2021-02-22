@@ -89,10 +89,9 @@ export default ({
       },
       {
         action: () => handleDialogClick(INCIDENT_DIALOG),
-        condition: Boolean(hasIncidentSubform) && (showListActions ? canAddIncident : canAddIncident && isIdSearch),
+        condition: Boolean(hasIncidentSubform) && showListActions && canAddIncident,
         disableOffline: true,
         enabledFor: ENABLED_FOR_ONE,
-        enabledOnSearch: true,
         name: i18n.t("actions.incident_details_from_case"),
         recordListAction: true,
         recordType: RECORD_PATH.cases
@@ -111,10 +110,9 @@ export default ({
       },
       {
         action: () => handleDialogClick(SERVICE_DIALOG),
-        condition: Boolean(hasServiceSubform) && (showListActions ? canAddService : canAddService && isIdSearch),
+        condition: Boolean(hasServiceSubform) && showListActions && canAddService,
         disableOffline: true,
         enabledFor: ENABLED_FOR_ONE,
-        enabledOnSearch: true,
         name: i18n.t("actions.services_section_from_case"),
         recordListAction: true,
         recordType: RECORD_PATH.cases
