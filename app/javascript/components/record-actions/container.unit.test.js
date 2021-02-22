@@ -508,7 +508,7 @@ describe("<RecordActions />", () => {
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
-      expect(incidentItemProps.disabled).to.be.true;
+      expect(incidentItemProps.disabled).to.be.false;
     });
 
     it("renders add service menu disabled", () => {
@@ -516,7 +516,7 @@ describe("<RecordActions />", () => {
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
-      expect(incidentItemProps.disabled).to.be.true;
+      expect(incidentItemProps.disabled).to.be.false;
     });
 
     it("renders add export menu enabled", () => {
