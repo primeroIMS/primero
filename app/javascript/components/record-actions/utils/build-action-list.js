@@ -94,7 +94,8 @@ export default ({
         enabledFor: ENABLED_FOR_ONE,
         name: i18n.t("actions.incident_details_from_case"),
         recordListAction: true,
-        recordType: RECORD_PATH.cases
+        recordType: RECORD_PATH.cases,
+        showOnSearchResultPage: true
       },
       {
         action: () => {
@@ -115,7 +116,8 @@ export default ({
         enabledFor: ENABLED_FOR_ONE,
         name: i18n.t("actions.services_section_from_case"),
         recordListAction: true,
-        recordType: RECORD_PATH.cases
+        recordType: RECORD_PATH.cases,
+        showOnSearchResultPage: true
       },
       {
         action: () => handleDialogClick(OPEN_CLOSE_DIALOG),
@@ -161,7 +163,7 @@ export default ({
         recordListAction: true,
         recordType: RECORD_TYPES.all
       }
-    ].filter(filterActions({ recordType, showListActions })),
+    ].filter(filterActions({ recordType, showListActions, isIdSearch, record })),
     dialogs: {
       [REFER_DIALOG]: {
         component: Transitions,
