@@ -62,7 +62,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
   }, []);
 
   useEffect(() => {
-    if (String(value) && (!stickyOption || isEmpty(stickyOption))) {
+    if (typeof value !== "undefined" && (!stickyOption || isEmpty(stickyOption))) {
       setStickyOption(String(value));
     }
   }, [value]);
