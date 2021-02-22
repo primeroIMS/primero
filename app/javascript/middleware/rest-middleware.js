@@ -106,7 +106,9 @@ async function handleSuccess(store, payload) {
 }
 
 const getToken = () => {
-  return localStorage.getItem("msal.idtoken");
+  const msalInstance = window.msal;
+
+  return msalInstance?.getCachedIdToken(msalInstance, msalInstance?.account)?.rawIdToken;
 };
 
 const messageQueueFailed = fromQueue => {
