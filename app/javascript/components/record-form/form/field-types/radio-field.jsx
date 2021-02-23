@@ -9,6 +9,7 @@ import { RadioGroup } from "formik-material-ui";
 import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
 import { useSelector } from "react-redux";
+import clsx from "clsx";
 
 import { useI18n } from "../../../i18n";
 import { getOption } from "../../selectors";
@@ -82,10 +83,11 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
   };
 
   const renderOption = options.length > 0 && options.map(opt => renderFormControl(opt));
+  const classes = clsx(css.inputLabel, { [css.requiredInputLabel]: field.required });
 
   return (
     <FormControl fullWidth error={!!(fieldError && fieldTouched)}>
-      <InputLabel shrink htmlFor={fieldProps.name} className={css.inputLabel}>
+      <InputLabel shrink htmlFor={fieldProps.name} className={classes}>
         {label}
       </InputLabel>
       <Field
