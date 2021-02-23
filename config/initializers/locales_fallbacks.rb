@@ -24,7 +24,7 @@ I18n.fallbacks = {
   'ps-AF': EN_FALLBACK,
   pt: EN_FALLBACK,
   'pt-BR': PT_FALLBACK
-}
+}.with_indifferent_access
 
 
 
