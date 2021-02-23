@@ -19,6 +19,8 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
+  console.log(name, disabled);
+
   const selectedValue = field.selected_value;
   const option = field.option_strings_source || field.option_strings_text;
 
@@ -72,7 +74,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
 
     return (
       <FormControlLabel
-        disabled={opt.isDisabled || mode.isShow}
+        disabled={opt.isDisabled || mode.isShow || disabled}
         key={`${name}-${opt.id}`}
         value={opt.id.toString()}
         label={optLabel}
