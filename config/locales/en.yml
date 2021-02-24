@@ -211,6 +211,7 @@ en:
       already_matched_not_current_case: There is already a case in the system matched to this inquirer.
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
+    skip_and_create: Skip and Create New Case
     workflow:
       assessment: Assessment
       case_plan: Case Plan

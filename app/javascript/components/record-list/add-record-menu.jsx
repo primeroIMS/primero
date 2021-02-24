@@ -11,6 +11,7 @@ import { useI18n } from "../i18n";
 import { useApp } from "../application";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
+import RecordCreationFlow from "../record-creation-flow";
 
 import CreateRecordDialog from "./create-record-dialog";
 
@@ -73,7 +74,7 @@ const AddRecordMenu = ({ recordType }) => {
         rest={{ onClick: handleClick }}
       />
       {renderMenu(userModules)}
-      {renderDialog(moduleUniqueId)}
+      <RecordCreationFlow open={Boolean(moduleUniqueId)} onClose={() => setModuleUniqueId(null)} />
     </>
   );
 };
