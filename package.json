@@ -99,7 +99,7 @@
     "lodash": "^4.17.20",
     "mini-css-extract-plugin": "^0.8.2",
     "mocha": "^8.2.1",
-    "msal": "^1.2.2",
+    "msal": "^1.4.6",
     "mui-datatables": "^3.0.1",
     "mutationobserver-shim": "^0.3.5",
     "nock": "^10.0.6",
