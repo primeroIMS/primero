@@ -235,6 +235,7 @@ const Component = ({ mode }) => {
       <PageHeading title={pageTitle}>
         <FormBuilderActionButtons
           formMode={formMode}
+          limitedProductionSite={limitedProductionSite}
           handleSubmit={methods.handleSubmit(onSubmit)}
           handleCancel={handleCancel}
         />

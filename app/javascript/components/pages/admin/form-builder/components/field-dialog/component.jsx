@@ -33,6 +33,7 @@ import { getOptions } from "../../../../../record-form/selectors";
 import { getLabelTypeField } from "../utils";
 import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "../field-translations-dialog";
 import { SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "../field-list-item/constants";
+import { useApp } from "../../../../../application";
 
 import styles from "./styles.css";
 import {
@@ -54,6 +55,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const { limitedProductionSite } = useApp();
 
   const { dialogOpen, dialogClose, setDialog } = useDialog([ADMIN_FIELDS_DIALOG, FieldTranslationsDialogName]);
 
@@ -74,7 +76,8 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     isNested,
     onManageTranslations: () => {
       setDialog({ dialog: FieldTranslationsDialogName, open: true });
-    }
+    },
+    limitedProductionSite
   });
   const formMethods = useForm({ resolver: yupResolver(validationSchema) });
   const {
@@ -151,7 +154,8 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     dialogTitle,
     open: openFieldDialog || openTranslationDialog,
     cancelHandler: () => handleClose(),
-    omitCloseAfterSuccess: true
+    omitCloseAfterSuccess: true,
+    showSuccessButton: !limitedProductionSite
   };
 
   const addOrUpdatedSelectedField = fieldData => {

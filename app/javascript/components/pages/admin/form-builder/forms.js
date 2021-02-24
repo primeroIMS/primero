@@ -68,7 +68,8 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
           type: TEXT_FIELD,
           required: true,
           onBlur: e => onEnglishTextChange(e),
-          help_text: i18n.t("forms.help_text.must_be_english")
+          help_text: i18n.t("forms.help_text.must_be_english"),
+          disabled: limitedProductionSite
         }),
         FieldRecord({
           display_name: i18n.t("forms.description"),
@@ -76,7 +77,8 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
           type: TEXT_FIELD,
           required: true,
           onBlur: e => onEnglishTextChange(e),
-          help_text: i18n.t("forms.help_text.summariaze_purpose")
+          help_text: i18n.t("forms.help_text.summariaze_purpose"),
+          disabled: limitedProductionSite
         }),
         {
           row: [
@@ -88,7 +90,8 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
               multipleLimitOne: true,
               required: true,
               clearDependentValues: [RECORD_TYPE_FIELD, [FORM_GROUP_FIELD, []]],
-              clearDependentReason: ["clear"]
+              clearDependentReason: ["clear"],
+              disabled: limitedProductionSite
             }),
             FieldRecord({
               display_name: i18n.t("forms.record_type"),
@@ -108,7 +111,7 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
               clearDependentValues: [FORM_GROUP_FIELD],
               watchedInputs: MODULES_FIELD,
               handleWatchedInputs: value => {
-                return { disabled: isEmpty(value) };
+                return { disabled: isEmpty(value) || limitedProductionSite };
               }
             })
           ]
@@ -127,7 +130,7 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
             return formGroupsOptions(options, moduleID, parentForm, i18n);
           },
           handleWatchedInputs: values => {
-            return { disabled: some(values, isEmpty) };
+            return { disabled: some(values, isEmpty) || limitedProductionSite };
           }
         })
       ]
@@ -139,19 +142,22 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
         FieldRecord({
           display_name: i18n.t("forms.show_on"),
           name: "show_on",
-          type: LABEL_FIELD
+          type: LABEL_FIELD,
+          disabled: limitedProductionSite
         }),
         {
           row: [
             FieldRecord({
               display_name: i18n.t("forms.web_app"),
               name: "visible",
-              type: TICK_FIELD
+              type: TICK_FIELD,
+              disabled: limitedProductionSite
             }),
             FieldRecord({
               display_name: i18n.t("forms.mobile_app"),
               name: "mobile_form",
-              type: TICK_FIELD
+              type: TICK_FIELD,
+              disabled: limitedProductionSite
             })
           ],
           equalColumns: false
