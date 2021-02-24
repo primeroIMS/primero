@@ -4,13 +4,6 @@
   position: relative;
 }
 
-.requiredInputLabel {
-
-  &:after {
-    content:" *";
-  }
-}
-
 .radioLabels {
   font-size: $(theme.typography.pxToRem(14));
 }
