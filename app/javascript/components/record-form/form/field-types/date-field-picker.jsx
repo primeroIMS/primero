@@ -4,6 +4,7 @@ import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-u
 
 import { useI18n } from "../../../i18n";
 import localize from "../../../../libs/date-picker-localization";
+import { displayNameHelper } from "../../../../libs";
 
 const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched, fieldError, helperText }) => {
   const i18n = useI18n();
@@ -11,7 +12,7 @@ const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched
     (fieldTouched && fieldError) ||
     helperText ||
     i18n.t(`fields.${dateIncludeTime ? "date_help_with_time" : "date_help"}`);
-  const label = displayName ? displayName[i18n.locale] : "";
+  const label = displayNameHelper(displayName, i18n.locale);
   const dialogLabels = {
     clearLabel: i18n.t("buttons.clear"),
     cancelLabel: i18n.t("buttons.cancel"),
