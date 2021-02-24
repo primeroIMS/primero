@@ -10,11 +10,11 @@ module Kpi::GBVIncident
     end
   end
 
-  delegate :reporting_delay_days, to: :kpis
+  delegate :reporting_delay_days, to: :kpis, allow_nil: true
 
   private
 
   def kpis
-    @kpis ||= GbvKpiCalculationService.new(self)
+    @kpis ||= GbvKpiCalculationService.from_record(self)
   end
 end
