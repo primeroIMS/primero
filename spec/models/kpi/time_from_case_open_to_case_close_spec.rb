@@ -21,6 +21,7 @@ describe Kpi::TimeFromCaseOpenToClose, search: true do
          ])
 
     Child.create!(data: {
+                    module_id: PrimeroModule::GBV,
                     created_at: DateTime.parse('2019/10/15'),
                     status: Record::STATUS_CLOSED,
                     owned_by_groups: [group2],
@@ -28,6 +29,7 @@ describe Kpi::TimeFromCaseOpenToClose, search: true do
                   })
 
     Child.create!(data: {
+                    module_id: PrimeroModule::GBV,
                     owned_by_groups: [group3],
                     status: Record::STATUS_CLOSED,
                     created_at: DateTime.parse('2020/05/15'),

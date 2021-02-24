@@ -30,6 +30,7 @@ describe Kpi::CaseClosureRate, search: true do
          ])
 
     Child.create!(data: {
+                    module_id: PrimeroModule::GBV,
                     created_at: DateTime.parse('2019/10/15'),
                     status: Record::STATUS_CLOSED,
                     owned_by_location: @london.location_code,
@@ -38,6 +39,7 @@ describe Kpi::CaseClosureRate, search: true do
                   })
 
     Child.create!(data: {
+                    module_id: PrimeroModule::GBV,
                     created_at: DateTime.parse('2020/05/15'),
                     owned_by_groups: [group3],
                     status: Record::STATUS_CLOSED,
