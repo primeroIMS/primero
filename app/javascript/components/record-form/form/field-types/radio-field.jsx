@@ -72,7 +72,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
 
     return (
       <FormControlLabel
-        disabled={opt.isDisabled || mode.isShow}
+        disabled={opt.isDisabled || mode.isShow || disabled}
         key={`${name}-${opt.id}`}
         value={opt.id.toString()}
         label={optLabel}
