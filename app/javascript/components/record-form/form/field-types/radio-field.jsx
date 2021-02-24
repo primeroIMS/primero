@@ -31,6 +31,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
       label: css.radioLabels
     }
   };
+
   const options = useSelector(state => getOption(state, option, i18n.locale, stickyOption));
 
   const fieldProps = {
@@ -50,7 +51,6 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
       ].includes(key)
     )
   };
-
 
   const fieldError = getIn(formik.errors, name);
   const fieldTouched = getIn(formik.touched, name);
