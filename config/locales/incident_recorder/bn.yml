@@ -24,8 +24,6 @@ bn:
         both: "প্রাপ্তবয়স্ক ও নাবালক"
         unknown: "অপরিচিত "
         header: "অভিযুক্ত নির্যাতনকারীর বয়সের ধরণ"
-      service_referral:
-        undecided: "রিপোর্টের সময় অনিশ্চিত ছিল "
       headers:
         incident_id: "ঘটনার আইডি "
         survivor_code: "সারভাইবারের কোড "

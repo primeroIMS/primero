@@ -25,7 +25,7 @@ fr:
         unknown: "Inconnu"
         header: "Tranche d’âge du présumé auteur"
       service_referral:
-        undecided: "Indécis au moment du rapport"
+        undecided: "Indécis"
       headers:
         incident_id: "ID de l'incident"
         survivor_code: "Code du survivant "
