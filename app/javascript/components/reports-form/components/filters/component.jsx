@@ -114,6 +114,8 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
       const { attribute, value } = data;
       const field = fields.find(f => f.id === attribute);
 
+      if (!field) return false;
+
       const constraintLabel = getConstraintLabel(data, field, i18n);
       const lookups = [
         ...dataToJS(allLookups),

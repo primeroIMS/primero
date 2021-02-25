@@ -11,7 +11,8 @@ import {
   SELECT_FIELD,
   TICK_FIELD,
   LABEL_FIELD,
-  OPTION_TYPES
+  OPTION_TYPES,
+  SELECT_CHANGE_REASON
 } from "../../../form";
 
 import { FORM_GROUP_FIELD, MODULES_FIELD, RECORD_TYPE_FIELD } from "./constants";
@@ -90,7 +91,7 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
               multipleLimitOne: true,
               required: true,
               clearDependentValues: [RECORD_TYPE_FIELD, [FORM_GROUP_FIELD, []]],
-              clearDependentReason: ["clear"],
+              clearDependentReason: [SELECT_CHANGE_REASON.clear],
               disabled: limitedProductionSite
             }),
             FieldRecord({
