@@ -85,7 +85,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
 
   return (
     <FormControl fullWidth error={!!(fieldError && fieldTouched)}>
-      <InputLabel shrink htmlFor={fieldProps.name} className={css.inputLabel}>
+      <InputLabel shrink htmlFor={fieldProps.name} required={field.required}>
         {label}
       </InputLabel>
       <Field
