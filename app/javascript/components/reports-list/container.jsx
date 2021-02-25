@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { Card, CardContent, CardActionArea, TablePagination, Box } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
