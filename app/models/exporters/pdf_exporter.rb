@@ -178,13 +178,14 @@ module Exporters
         for i in (start_page + 1)..end_page
           pdf.go_to_page(i)
           pdf.bounding_box([pdf.bounds.right-50, pdf.bounds.top + 15], :width => 50) do
-            pdf.text "#{_case.short_id}", :align => self.class.reverse_page_direction ? :right : :left
+            pdf.text "#{section_title(_case)}", :align => self.class.reverse_page_direction ? :right : :left
           end
         end
       end
     end
 
     def section_title(_case)
+      return '' unless SystemSettings.current.try(:show_short_id_in_child_pdf)
       _case.short_id
     end
 
