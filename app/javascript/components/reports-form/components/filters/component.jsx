@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import { Box, IconButton, makeStyles, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
-import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
-import ArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
@@ -131,7 +131,7 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
         formatValue(value, i18n, { field, lookups })
       ].join(" ");
 
-      const renderIcon = isRTL ? <ArrowLeftIcon /> : <ArrowIcon />;
+      const renderIcon = isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />;
 
       return (
         <Box key={index} display="flex" alignItems="center">

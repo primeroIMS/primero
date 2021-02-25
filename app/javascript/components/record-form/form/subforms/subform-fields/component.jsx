@@ -6,8 +6,8 @@ import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
 import omit from "lodash/omit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
-import ArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import SubformMenu from "../subform-menu";
@@ -155,7 +155,7 @@ const Component = ({
                   <SubformMenu index={index} values={values} />
                 ) : null}
                 <ActionButton
-                  icon={isRTL ? <ArrowLeftIcon /> : <ArrowIcon />}
+                  icon={isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                   type={ACTION_BUTTON_TYPES.icon}
                   rest={{
                     className: css.subformShow,

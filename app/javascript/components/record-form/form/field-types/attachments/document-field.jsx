@@ -6,7 +6,7 @@ import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconBut
 import { makeStyles } from "@material-ui/core/styles";
 import { FastField } from "formik";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
-import ArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import some from "lodash/some";
@@ -113,7 +113,7 @@ const DocumentField = ({
   };
 
   const dialogActionText = `buttons.${attachmentUrl ? "close" : "save"}`;
-  const renderIcon = isRTL ? <ArrowLeftIcon /> : <KeyboardArrowRightIcon />;
+  const renderIcon = isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRightIcon />;
 
   return (
     <>
