@@ -21,7 +21,7 @@ import { WRITE_RECORDS, ACTIONS, GROUP_PERMISSIONS } from "../../../../libs/perm
 import { useDialog } from "../../../action-dialog";
 import { fetchSystemSettings, fetchRoles, fetchUserGroups } from "../../../application";
 import CancelPrompt from "../../../form/components/cancel-prompt";
-import { currentUser, getCurrentUserGroupPermission, getCurrentUserGroupsUniqueIds, getAssignedAgency } from "../../../user/selectors";
+import { currentUser, getCurrentUserGroupPermission, getCurrentUserGroupsUniqueIds } from "../../../user/selectors";
 import UserActions from "../../../user-actions";
 import { useMemoizedSelector } from "../../../../libs";
 
@@ -32,7 +32,6 @@ import { USER_CONFIRMATION_DIALOG, PASSWORD_MODAL, FORM_ID } from "./constants";
 import { getUser, getServerErrors, getIdentityProviders, getSavingRecord } from "./selectors";
 import UserConfirmation from "./user-confirmation";
 import ChangePassword from "./change-password";
-import { fromJS } from "immutable";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -52,10 +51,9 @@ const Container = ({ mode }) => {
   const currentUserName = useMemoizedSelector(state => currentUser(state));
   const saving = useMemoizedSelector(state => getSavingRecord(state));
   const currentUserGroupPermission = useMemoizedSelector(state => getCurrentUserGroupPermission(state));
-  const currentUserGroups = useMemoizedSelector(state => getCurrentUserGroupsUniqueIds(state));
   const roleGroupPermission = currentUserGroupPermission === GROUP_PERMISSIONS.GROUP;
   const agencyReadOnUsers = usePermissions(NAMESPACE, [ACTIONS.AGENCY_READ]);
-  const allowedAgency = useMemoizedSelector(state => getAssignedAgency(state));
+  const currentUserGroups = useMemoizedSelector(state => getCurrentUserGroupsUniqueIds(state));
 
   const setPasswordModal = () => {
     setDialog({ dialog: PASSWORD_MODAL, open: true });
@@ -169,7 +167,7 @@ const Container = ({ mode }) => {
       selectedUserIsLoggedIn,
       {
         currentUserGroupPermissions: roleGroupPermission ? currentUserGroups : [],
-        currentUserAgencies: agencyReadOnUsers ? fromJS([allowedAgency]) : []
+        agencyReadOnUsers
       }
     ).map(formSection => (
       <FormSection

@@ -26,7 +26,7 @@ const sharedUserFields = (
   hideOnAccountPage,
   onClickChangePassword,
   useIdentity,
-  { currentUserGroupPermissions, currentUserAgencies }
+  { currentUserGroupPermissions, agencyReadOnUsers }
 ) => [
   {
     display_name: i18n.t("user.full_name"),
@@ -118,7 +118,15 @@ const sharedUserFields = (
     required: true,
     option_strings_source: OPTION_TYPES.USER_GROUP,
     visible: !hideOnAccountPage,
-    onlyIncludeOptions: currentUserGroupPermissions
+    filterOptionSource: (_watchedInputValues, options) => {
+      return options.map(userGroup => {
+        if (!currentUserGroupPermissions.includes(userGroup.get("id"))) {
+          return userGroup.set("disabled", true);
+        }
+
+        return userGroup;
+      });
+    }
   },
   {
     display_name: i18n.t("user.services"),
@@ -144,9 +152,8 @@ const sharedUserFields = (
     name: "agency_id",
     type: SELECT_FIELD,
     required: true,
-    option_strings_source: OPTION_TYPES.AGENCY,
-    visible: !hideOnAccountPage,
-    onlyIncludeOptions: currentUserAgencies
+    option_strings_source: agencyReadOnUsers ? OPTION_TYPES.AGENCY_CURRENT_USER : OPTION_TYPES.AGENCY,
+    visible: !hideOnAccountPage
   },
   {
     display_name: i18n.t("user.agency_office"),
@@ -206,12 +213,12 @@ export const form = (
   identityOptions,
   onClickChangePassword,
   hideOnAccountPage = false,
-  { currentUserAgencies, currentUserGroupPermissions } = {}
+  { agencyReadOnUsers, currentUserGroupPermissions } = {}
 ) => {
   const useIdentity = useIdentityProviders && providers;
   const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity, {
     currentUserGroupPermissions,
-    currentUserAgencies
+    agencyReadOnUsers
   });
   const identityFields = identityUserFields(i18n, identityOptions);
 

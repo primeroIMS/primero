@@ -3,6 +3,7 @@ import isEmpty from "lodash/isEmpty";
 
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
 import { dataToJS, displayNameHelper } from "../../libs";
+import { getAssignedAgency } from "../user";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 
@@ -46,10 +47,7 @@ const formGroups = (state, i18n) =>
     )
     .sortBy(item => item.get("display_text"));
 
-const agencies = (
-  state,
-  { optionStringsSourceIdKey, i18n, useUniqueId = false, filterOptions, onlyIncludeOptions }
-) => {
+const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false, filterOptions }) => {
   const stateAgencies = state.getIn(["application", "agencies"], fromJS([]));
   const filteredAgencies = filterOptions ? filterOptions(stateAgencies) : stateAgencies;
 
@@ -58,11 +56,14 @@ const agencies = (
     display_text: agency.getIn(["name", i18n.locale], "")
   }));
 
-  if (onlyIncludeOptions?.size > 0 && !useUniqueId) {
-    return allFilteredAgencies.filter(filteredAgency => onlyIncludeOptions.includes(filteredAgency.id));
-  }
-
   return allFilteredAgencies;
+};
+
+const agenciesCurrentUser = (state, { optionStringsSourceIdKey, i18n, filterOptions }) => {
+  const currentUserAgency = fromJS([getAssignedAgency(state)]);
+  const allAgencies = agencies(state, { optionStringsSourceIdKey, i18n, useUniqueId: false, filterOptions });
+
+  return allAgencies.filter(agency => currentUserAgency.includes(agency.id));
 };
 
 const locations = (state, i18n, includeAdminLevel = false) =>
@@ -136,19 +137,13 @@ const lookups = (state, { i18n, filterOptions }) => {
   return filterableOptions(filterOptions, lookupList);
 };
 
-const userGroups = (state, { onlyIncludeOptions }) => {
+const userGroups = (state, { filterOptions }) => {
   const applicationUserGroups = getUserGroups(state).map(userGroup =>
     fromJS({ id: userGroup.get("unique_id"), display_text: userGroup.get("name") })
   );
 
-  if (onlyIncludeOptions?.size > 0) {
-    return applicationUserGroups.map(userGroup => {
-      if (!onlyIncludeOptions.includes(userGroup.get("id"))) {
-        return userGroup.set("disabled", true);
-      }
-
-      return userGroup;
-    });
+  if (filterOptions) {
+    return filterableOptions(filterOptions, applicationUserGroups);
   }
 
   return applicationUserGroups;
@@ -173,6 +168,8 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) =
   switch (optionStringsSource) {
     case OPTION_TYPES.AGENCY:
       return agencies(state, { ...rest, useUniqueId, i18n });
+    case OPTION_TYPES.AGENCY_CURRENT_USER:
+      return agenciesCurrentUser(state, { ...rest, useUniqueId, i18n });
     case OPTION_TYPES.LOCATION:
       return locations(state, i18n);
     case OPTION_TYPES.REPORTING_LOCATIONS:

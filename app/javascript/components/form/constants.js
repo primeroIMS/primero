@@ -28,6 +28,7 @@ export const LINK_FIELD = "link_field";
 
 export const OPTION_TYPES = {
   AGENCY: "Agency",
+  AGENCY_CURRENT_USER: "AgencyCurrentUser",
   LOCATION: "Location",
   MODULE: "Module",
   FORM_GROUP: "FormGroup",
