@@ -185,7 +185,8 @@ module Exporters
     end
 
     def section_title(_case)
-      SystemSettings.current.try(:show_short_id_in_child_pdf) ? _case.short_id : ''
+      return '' unless SystemSettings.current.try(:show_short_id_in_child_pdf)
+      _case.short_id
     end
 
     def render_case(pdf, _case, base_subforms, prop)
