@@ -9,15 +9,18 @@ export default ({ recordType, showListActions, isIdSearch, record }) => item => 
     [RECORD_TYPES.all, recordType].includes(item.recordType) ||
     (Array.isArray(item.recordType) && item.recordType.includes(recordType));
 
+  // Record list
   if (showListActions && allowedRecordType && !isIdSearch) {
     return item.recordListAction && actionCondition;
   }
 
   const allowedRecordTypeAndCondition = allowedRecordType && actionCondition;
 
+  // Record list with search action
   if (isIdSearch && isEmpty(record)) {
     return allowedRecordTypeAndCondition && item.showOnSearchResultPage;
   }
 
-  return allowedRecordTypeAndCondition;
+  // Record show page
+  return allowedRecordTypeAndCondition && !item?.disableRecordShowPage;
 };
