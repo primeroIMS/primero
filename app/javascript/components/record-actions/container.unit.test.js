@@ -314,7 +314,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(12);
+        expect(component.find(MenuItem)).to.have.length(10);
       });
 
       it("renders MenuItem with Refer Cases option", () => {
@@ -332,7 +332,7 @@ describe("<RecordActions />", () => {
             .find("li")
             .map(l => l.text())
             .includes("actions.incident_details_from_case")
-        ).to.be.equal(true);
+        ).to.be.false;
       });
 
       it("renders MenuItem with Add Services Provision option", () => {
@@ -341,7 +341,7 @@ describe("<RecordActions />", () => {
             .find("li")
             .map(l => l.text())
             .includes("actions.services_section_from_case")
-        ).to.be.equal(true);
+        ).to.be.false;
       });
 
       it("renders MenuItem with Export option", () => {
@@ -599,7 +599,7 @@ describe("<RecordActions />", () => {
       expect(incidentItemProps.disabled).to.be.false;
     });
 
-    it("renders add incident menu enabled", () => {
+    it.skip("renders add incident menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(3);
       const incidentItemProps = incidentItem.props();
 
@@ -607,7 +607,7 @@ describe("<RecordActions />", () => {
       expect(incidentItemProps.disabled).to.be.false;
     });
 
-    it("renders add service menu enabled", () => {
+    it.skip("renders add service menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(5);
       const incidentItemProps = incidentItem.props();
 

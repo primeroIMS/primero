@@ -95,7 +95,8 @@ export default ({
         name: i18n.t("actions.incident_details_from_case"),
         recordListAction: true,
         recordType: RECORD_PATH.cases,
-        showOnSearchResultPage: true
+        showOnSearchResultPage: true,
+        disableRecordShowPage: true
       },
       {
         action: () => {
@@ -117,7 +118,8 @@ export default ({
         name: i18n.t("actions.services_section_from_case"),
         recordListAction: true,
         recordType: RECORD_PATH.cases,
-        showOnSearchResultPage: true
+        showOnSearchResultPage: true,
+        disableRecordShowPage: true
       },
       {
         action: () => handleDialogClick(OPEN_CLOSE_DIALOG),
