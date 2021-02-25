@@ -109,8 +109,8 @@ export const formatReport = report => {
   }, {});
 };
 
-export const formattedFields = (allFields, modules, recordType, locale) => {
-  const formsByModuleAndRecordType = dataToJS(allFields).filter(formSection =>
+export const formattedFields = (formSections, modules, recordType, locale) => {
+  const formsByModuleAndRecordType = dataToJS(formSections).filter(formSection =>
     Array.isArray(modules)
       ? formSection.module_ids.some(mod => modules.includes(mod))
       : formSection.module_ids.includes(modules)

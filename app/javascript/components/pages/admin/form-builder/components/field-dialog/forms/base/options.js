@@ -24,8 +24,7 @@ export const optionsTabs = (fieldName, i18n, mode, field) => {
           type: SELECT_FIELD,
           option_strings_source: "Lookups",
           disabled: mode.get("isEdit"),
-          clearDependentValues: [`${fieldName}.selected_value`],
-          clearDependentReason: ["clear", "select-option"]
+          clearDependentValues: [`${fieldName}.selected_value`]
         }),
         FieldRecord({
           display_name: i18n.t("fields.default_value"),

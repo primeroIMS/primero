@@ -32,7 +32,8 @@ describe("<Form /> - Constants", () => {
       "TOGGLE_FIELD",
       "DOCUMENT_FIELD",
       "AUDIO_FIELD",
-      "HIDDEN_FIELD"
+      "HIDDEN_FIELD",
+      "SELECT_CHANGE_REASON"
     ].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];

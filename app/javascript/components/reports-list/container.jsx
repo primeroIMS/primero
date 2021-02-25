@@ -109,8 +109,4 @@ const Reports = () => {
 
 Reports.displayName = "Reports";
 
-Reports.propTypes = {
-  location: PropTypes.object.isRequired
-};
-
 export default Reports;
