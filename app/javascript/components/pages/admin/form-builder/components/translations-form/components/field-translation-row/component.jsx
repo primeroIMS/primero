@@ -12,12 +12,14 @@ import ActionButton from "../../../../../../../action-button";
 import { FormSectionField, FieldRecord, SUBFORM_SECTION, TEXT_FIELD } from "../../../../../../../form";
 import { useI18n } from "../../../../../../../i18n";
 import styles from "../../styles.css";
+import { useApp } from "../../../../../../../application";
 
 import { NAME } from "./constants";
 
 const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const { limitedProductionSite } = useApp();
   const locales = localesToRender(i18n);
   const dispatch = useDispatch();
   const displayName = field.getIn(["display_name", "en"], "");
@@ -36,7 +38,8 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
             type: TEXT_FIELD,
             watchedInputs: "selected_locale_id",
             showIf: () => localeId === selectedLocaleId,
-            forceShowIf: true
+            forceShowIf: true,
+            disabled: limitedProductionSite
           })}
           formMode={formMode}
           formMethods={formMethods}
@@ -64,7 +67,8 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
           field={FieldRecord({
             display_name: "",
             name: `fields.${fieldName}.display_name.en`,
-            type: TEXT_FIELD
+            type: TEXT_FIELD,
+            disabled: limitedProductionSite
           })}
           formMode={formMode}
           formMethods={formMethods}

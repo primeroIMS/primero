@@ -28,6 +28,7 @@ describe Kpi::ReportingDelay, search: true do
     )
 
     Incident.create!(data: {
+                       module_id: PrimeroModule::GBV,
                        owned_by_location: @london.location_code,
                        owned_by_groups: [group1],
                        date_of_first_report: DateTime.parse('2020/10/01'),
@@ -36,6 +37,7 @@ describe Kpi::ReportingDelay, search: true do
                      })
 
     Incident.create!(data: {
+                       module_id: PrimeroModule::GBV,
                        owned_by_location: @london.location_code,
                        owned_by_groups: [group3],
                        date_of_first_report: DateTime.parse('2020/10/01'),

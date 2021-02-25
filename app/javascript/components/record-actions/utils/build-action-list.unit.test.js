@@ -42,7 +42,7 @@ describe("record-actions/utils/build-action-list", () => {
       i18n: {
         t: t => t
       },
-      isIdSearch: true,
+      isIdSearch: false,
       isShow: true,
       openState: "reopen",
       recordType: "cases",
@@ -66,7 +66,7 @@ describe("record-actions/utils/build-action-list", () => {
     const response = buildActionList(params);
 
     expect(Object.keys(response).length).to.be.equal(2);
-    expect(response.actions.length).to.be.equal(6);
+    expect(response.actions.length).to.be.equal(4);
     expect(Object.keys(response.dialogs)).to.deep.equal([
       "referral",
       "assign",

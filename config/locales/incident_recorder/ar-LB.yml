@@ -24,8 +24,6 @@ ar-LB:
         both: "بالغ وقاصر"
         unknown: "غير معروف"
         header: "نوع الفئة العمريّة التي ينتمي إليها المرتكب المزعوم"
-      service_referral:
-        undecided: "غير مفصول فيه وقت وضع التقرير"
       headers:
         perpetrator:
           age_group: "الفئة العمريّة التي ينتمي إليها المرتكب المزعوم"

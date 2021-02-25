@@ -453,7 +453,7 @@ id:
       one: UNHCR
       selected: Dipilih untuk UNHCR
       unknown_abbreviation: U
-    xls:
+    xlsx:
       all: Excel
       one: Excel
       selected: Dipilih untuk Excel

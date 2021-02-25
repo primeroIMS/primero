@@ -36,17 +36,17 @@ describe Kpi::CaseLoad, search: true do
       user_groups: [@group3]
     )
 
-    Child.create(data: { owned_by: @user2.user_name })
-    Child.create(data: { owned_by: @user3.user_name })
-    Child.create(data: { owned_by: @user3.user_name })
-    Child.create(data: { owned_by: @user3.user_name })
-    Child.create(data: { owned_by: @user3.user_name })
-    Child.create(data: { owned_by: @user3.user_name })
-    Child.create(data: { owned_by: @user3.user_name })
-    Child.create(data: { owned_by: @user3.user_name })
-    Child.create(data: { owned_by: @user3.user_name })
-    Child.create(data: { owned_by: @user3.user_name })
-    Child.create(data: { owned_by: @user3.user_name })
+    Child.create(data: { owned_by: @user2.user_name, module_id: PrimeroModule::GBV })
+    Child.create(data: { owned_by: @user3.user_name, module_id: PrimeroModule::GBV })
+    Child.create(data: { owned_by: @user3.user_name, module_id: PrimeroModule::GBV })
+    Child.create(data: { owned_by: @user3.user_name, module_id: PrimeroModule::GBV })
+    Child.create(data: { owned_by: @user3.user_name, module_id: PrimeroModule::GBV })
+    Child.create(data: { owned_by: @user3.user_name, module_id: PrimeroModule::GBV })
+    Child.create(data: { owned_by: @user3.user_name, module_id: PrimeroModule::GBV })
+    Child.create(data: { owned_by: @user3.user_name, module_id: PrimeroModule::GBV })
+    Child.create(data: { owned_by: @user3.user_name, module_id: PrimeroModule::GBV })
+    Child.create(data: { owned_by: @user3.user_name, module_id: PrimeroModule::GBV })
+    Child.create(data: { owned_by: @user3.user_name, module_id: PrimeroModule::GBV })
 
     Sunspot.commit
   end

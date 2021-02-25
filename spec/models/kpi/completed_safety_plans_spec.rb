@@ -20,12 +20,14 @@ describe Kpi::CompletedCaseSafetyPlans, search: true do
          ])
 
     Child.create!(data: {
+                    module_id: PrimeroModule::GBV,
                     created_at: DateTime.parse('2020/10/27'),
                     owned_by_groups: [group2],
                     safety_plan_needed: true
                   })
 
     Child.create!(data: {
+                    module_id: PrimeroModule::GBV,
                     created_at: DateTime.parse('2020/10/27'),
                     owned_by_groups: [group3]
                   })

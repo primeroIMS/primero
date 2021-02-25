@@ -61,15 +61,18 @@ export const mergeFormSections = data => {
   const formSectionUniqueIds = recordTypes.reduce((accum, curr) => {
     const formsByRecordType = data.form_section_read_write[curr];
 
-    const result = Object.entries(formsByRecordType).reduce((acc, form) => {
-      const [key, value] = form;
+    const result =
+      (formsByRecordType &&
+        Object.entries(formsByRecordType).reduce((acc, form) => {
+          const [key, value] = form;
 
-      if (value === ROLES_PERMISSIONS.hide.text) {
-        return acc;
-      }
+          if (value === ROLES_PERMISSIONS.hide.text) {
+            return acc;
+          }
 
-      return { ...acc, [key]: ROLES_PERMISSIONS[value].id };
-    }, {});
+          return { ...acc, [key]: ROLES_PERMISSIONS[value].id };
+        }, {})) ||
+      {};
 
     return { ...accum, ...result };
   }, {});

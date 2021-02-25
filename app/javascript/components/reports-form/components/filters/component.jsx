@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 import { Box, IconButton, makeStyles, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
-import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
@@ -12,7 +13,7 @@ import { DATE_FIELD } from "../../../form";
 import FiltersDialog from "../filters-dialog";
 import { MODULES_FIELD, NOT_NULL, RECORD_TYPE_FIELD } from "../../constants";
 import { formattedFields } from "../../utils";
-import { compare, dataToJS } from "../../../../libs";
+import { compare, dataToJS, useThemeHelper } from "../../../../libs";
 import { getOptions } from "../../../record-form/selectors";
 import { getOptions as specialOptions } from "../../../form/selectors";
 import { OPTION_TYPES, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD } from "../../../form/constants";
@@ -25,6 +26,7 @@ import { formatValue, getConstraintLabel, registerValues } from "./utils";
 const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const { isRTL } = useThemeHelper();
 
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -131,6 +133,8 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
         formatValue(value, i18n, { field, lookups })
       ].join(" ");
 
+      const renderIcon = isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />;
+
       return (
         <Box key={index} display="flex" alignItems="center">
           <Box flexGrow={1}>{formattedReportFilterName}</Box>
@@ -138,9 +142,7 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
             <IconButton onClick={() => handleOpenModal(index)}>
               <DeleteIcon />
             </IconButton>
-            <IconButton onClick={() => handleEdit(index)}>
-              <ArrowIcon />
-            </IconButton>
+            <IconButton onClick={() => handleEdit(index)}>{renderIcon}</IconButton>
           </Box>
         </Box>
       );

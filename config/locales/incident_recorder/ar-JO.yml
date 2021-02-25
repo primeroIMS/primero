@@ -1,13 +1,44 @@
 ar-JO:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "تصدير سجل الحادثة بامتداد XLS"
   exports:
     incident_recorder_xls:
+      all: مسجل الحادثة
+      one: مسجل الحادثة
+      selected: تم تحديد مسجل الحوادث
       'yes': "نعم"
       'no': "لا"
+      gender:
+        male: "ذكر"
+        female: "أنثى"
+        both: "ذكر و أنثى"
       age_group:
         age: "العمر"
+        61_older: "61 وأكبر"
         unknown: "غير معروف"
+        header: "الفئة العمرية للمسيئ المزعوم"
       age_type:
         adult: "بالغ"
+        minor: "تحت السن القانوني"
+        both: "بالغ و تحت السن القانوني"
         unknown: "غير معروف"
-      service_referral:
-        undecided: "لم يتم اتخاذ قرار وقت الإبلاغ"
+        header: "نوع العمر للمسئ المزعوم"
+      headers:
+        incident_id: "رقم الحادثة"
+        survivor_code: "رمز الناجي"
+        case_manager_code: "رمز مدير الحالة"
+        date_of_interview: "تاريخ المقابلة"
+        date_of_incident: "تاريخ الحادثة"
+        date_of_birth: "تاريخ الميلاد"
+        sex: "الجنس"
+        ethnicity: "العرق"
+        marital_status: "الحالة الاجتماعية"
+        disability_type: "شخص من ذوي الاحتياجات الخاصة؟"
+        unaccompanied_separated_status: "هل أنت طفل غير مصحوب أو منفصل؟"
+        time_of_day: "وقت الحادثة خلال اليوم"
+        location: "مكان الحادثة"
+        county: "بلد الحادثة"
+        district: "منطقة الحادثة"
+        camp_town: "بلدة / مخيم الحادثة"
+        camp: "مخيم الحادثة"
