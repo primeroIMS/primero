@@ -60,7 +60,8 @@ describe("<Form /> - Constants", () => {
       "ROLE_EXTERNAL_REFERRAL",
       "REFER_TO_USERS",
       "SERVICE_TYPE",
-      "FORM_GROUP_LOOKUP"
+      "FORM_GROUP_LOOKUP",
+      "RECORD_FORMS"
     ].forEach(property => {
       expect(clonedOptionTypes).to.have.property(property);
       delete clonedOptionTypes[property];
