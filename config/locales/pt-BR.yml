@@ -420,6 +420,10 @@ pt-BR:
       one: UNHCR
       selected: Selecionado para UNHCR
       unknown_abbreviation: U
+    xlsx:
+      all: 'Excel '
+      one: 'Excel '
+      selected: Selecionado para Excel
   fields:
     action: 'Ação '
     actions: 'Ações '
@@ -715,6 +719,7 @@ pt-BR:
     inquirer_tr_name: 'solicitação de rastreamento '
     inquiry_date: 'data do inquérito '
     name: Nome
+    score: 'Pontuação '
     social_worker: 'Assistente Social '
     social_worker_agency: 'Agência '
   potential_matches:

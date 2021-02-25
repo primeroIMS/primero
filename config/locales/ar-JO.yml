@@ -804,6 +804,7 @@ ar-JO:
     xlsx:
       all: اكسل
       one: اكسل
+      selected: تحديد إلى Excel
   imports:
     csv_hxl_location:
       messages:
@@ -1351,6 +1352,7 @@ ar-JO:
     inquirer_tr_name: تتبع الطلبات
     inquiry_date: تاريخ الاستفسار
     name: الاسم
+    score: نتيجة
     social_worker: عامل اجتماعي
     social_worker_agency: مؤسسة
   reassign:

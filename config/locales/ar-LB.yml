@@ -494,6 +494,10 @@ ar-LB:
       male_abbreviation: ذكر
       one: المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
       selected: تحديد إلى المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
+    xlsx:
+      all: Excel
+      one: Excel
+      selected: تحديد إلى Excel
   fields:
     action: إجراء
     actions: الإجراءات
@@ -768,6 +772,7 @@ ar-LB:
     inquirer_tr_name: طلب تتبّع
     inquiry_date: تاريخ الاستفسار
     name: الإسم
+    score: نتيجة
     social_worker: العامل الاجتماعي
     social_worker_agency: الوكالة
   reassign:
