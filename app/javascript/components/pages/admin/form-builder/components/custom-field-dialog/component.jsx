@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
@@ -19,14 +18,16 @@ import { compare } from "../../../../../../libs";
 import { getSelectedField, getSelectedSubform } from "../../selectors";
 import { isSubformField, setInitialForms, setSubformData, toggleHideOnViewPage } from "../field-dialog/utils";
 import { mergeOnSelectedSubform } from "../../action-creators";
+import { useApp } from "../../../../../application";
 
 import styles from "./styles.css";
 import { NAME, CUSTOM_FIELD_DIALOG } from "./constants";
 
-const Component = ({ getValues, limitedProductionSite }) => {
+const Component = ({ getValues }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
+  const { limitedProductionSite } = useApp();
 
   const { setDialog, dialogOpen, dialogClose } = useDialog(CUSTOM_FIELD_DIALOG);
 
@@ -139,8 +140,7 @@ const Component = ({ getValues, limitedProductionSite }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  getValues: PropTypes.func,
-  limitedProductionSite: PropTypes.bool
+  getValues: PropTypes.func
 };
 
 export default Component;

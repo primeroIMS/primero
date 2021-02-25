@@ -1,4 +1,4 @@
-import React, { useEffect, memo, useState } from "react";
+import { useEffect, memo, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch, useSelector } from "react-redux";
@@ -312,6 +312,7 @@ const Container = ({ match, mode }) => {
           handleToggleNav={handleToggleNav}
           form={customForms(i18n)[form]}
           mode={containerMode}
+          userPermittedFormsIds={userPermittedFormsIds}
           values={values}
         />
       )
@@ -341,6 +342,7 @@ const Container = ({ match, mode }) => {
               externalForms={externalForms}
               selectedForm={selectedForm}
               attachmentForms={attachmentForms}
+              userPermittedFormsIds={userPermittedFormsIds}
             />
           </div>
         </div>

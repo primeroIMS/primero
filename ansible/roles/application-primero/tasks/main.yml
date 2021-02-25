@@ -68,7 +68,7 @@
 
 - name: 'configure Primero with a custom configuration'
   command: |
-    ./compose.configure.sh '/srv/primero-configuration/{{ primero_configuration_path }}'
+    ./compose.configure.sh /srv/primero-configuration/ '{{ primero_configuration_path }}'
   args:
     chdir: '/srv/primero/docker'
   environment:

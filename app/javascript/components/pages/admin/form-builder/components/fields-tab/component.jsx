@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { memo, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
@@ -11,11 +11,13 @@ import CustomFieldDialog from "../custom-field-dialog";
 import ExistingFieldDialog from "../existing-field-dialog";
 import { setFieldDataInFormContext } from "../utils";
 import styles from "../../styles.css";
+import { useApp } from "../../../../../application";
 
 import { NAME } from "./constants";
 
-const Component = ({ mode, index, tab, formMethods, limitedProductionSite }) => {
+const Component = ({ mode, index, tab, formMethods }) => {
   const { id } = useParams();
+  const { limitedProductionSite } = useApp();
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const {
@@ -45,7 +47,7 @@ const Component = ({ mode, index, tab, formMethods, limitedProductionSite }) => 
     <TabPanel tab={tab} index={index}>
       <div className={css.tabFields}>
         <h1 className={css.heading}>{i18n.t("forms.fields")}</h1>
-        <CustomFieldDialog limitedProductionSite={limitedProductionSite} />
+        <CustomFieldDialog />
         {parentForm && moduleId && <ExistingFieldDialog parentForm={parentForm} primeroModule={moduleId} />}
       </div>
       <FieldsList formMethods={formMethods} limitedProductionSite={limitedProductionSite} />
@@ -59,11 +61,10 @@ Component.displayName = NAME;
 Component.propTypes = {
   formMethods: PropTypes.object,
   index: PropTypes.number.isRequired,
-  limitedProductionSite: PropTypes.bool,
   mode: PropTypes.string.isRequired,
   tab: PropTypes.number.isRequired
 };
 
 Component.whyDidYouRender = true;
 
-export default React.memo(Component);
+export default memo(Component);

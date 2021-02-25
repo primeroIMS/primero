@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import clsx from "clsx";
@@ -17,7 +17,7 @@ import { getFieldsAttribute, setFieldDataInFormContext } from "../utils";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy, limitedProductionSite }) => {
+const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy }) => {
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
 
@@ -101,7 +101,6 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy, l
           subformSortBy={subformSortBy}
           subformGroupBy={subformGroupBy}
           key={`${field.get("name")}_${id}`}
-          limitedProductionSite={limitedProductionSite}
         />
       );
     });
@@ -145,7 +144,6 @@ Component.whyDidYouRender = true;
 
 Component.propTypes = {
   formMethods: PropTypes.object.isRequired,
-  limitedProductionSite: PropTypes.bool,
   subformField: PropTypes.object,
   subformGroupBy: PropTypes.string,
   subformSortBy: PropTypes.string

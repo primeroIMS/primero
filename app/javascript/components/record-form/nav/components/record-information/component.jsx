@@ -1,4 +1,3 @@
-import React from "react";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";

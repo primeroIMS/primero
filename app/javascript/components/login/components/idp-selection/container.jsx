@@ -1,4 +1,3 @@
-import React from "react";
 import { useDispatch } from "react-redux";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,20 +19,17 @@ const showIdps = (identityProviders, dispatch) => {
     dispatch(attemptIDPLogin(accessToken));
   };
 
+  const handleClick = idp => () => {
+    signIn(idp, tokenCallback);
+  };
+
   return identityProviders.map(idp => {
     if (idp.get("unique_id") === PRIMERO_IDP && identityProviders.size > 1) {
       return null;
     }
 
     return (
-      <Button
-        color="primary"
-        type="submit"
-        size="large"
-        fullWidth
-        key={idp.get("name")}
-        onClick={() => signIn(idp, tokenCallback)}
-      >
+      <Button color="primary" type="submit" size="large" fullWidth key={idp.get("name")} onClick={handleClick(idp)}>
         {idp.get("name")}
       </Button>
     );

@@ -1,4 +1,3 @@
-import React from "react";
 import { Drawer, Box } from "@material-ui/core";
 import PropTypes from "prop-types";
 

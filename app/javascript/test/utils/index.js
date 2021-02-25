@@ -4,7 +4,7 @@ import { Form, Formik } from "formik";
 import { createMemoryHistory } from "history";
 import { isEmpty } from "lodash";
 import { SnackbarProvider } from "notistack";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Router } from "react-router-dom";
 import configureStore from "redux-mock-store";

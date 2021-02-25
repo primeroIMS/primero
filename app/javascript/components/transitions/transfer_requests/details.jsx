@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Divider, Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
 

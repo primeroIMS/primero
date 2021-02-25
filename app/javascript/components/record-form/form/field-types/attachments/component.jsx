@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/media-has-caption, jsx-a11y/label-has-for */
 
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { FieldArray, connect, getIn } from "formik";
 import { Box } from "@material-ui/core";

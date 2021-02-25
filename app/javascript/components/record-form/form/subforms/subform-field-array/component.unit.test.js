@@ -1,4 +1,5 @@
 import { Map } from "immutable";
+import AddIcon from "@material-ui/icons/Add";
 
 import { setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
@@ -54,7 +55,8 @@ describe("<SubformFieldArray />", () => {
       }),
       subform_section_configuration: {
         subform_sort_by: "relation_name"
-      }
+      },
+      disabled: false
     }),
     formik: {
       values: {
@@ -72,9 +74,11 @@ describe("<SubformFieldArray />", () => {
       relation_child_is_in_contact: ""
     },
     mode: {
-      isShow: true
+      isShow: false,
+      isEdit: true
     },
-    recordType: "cases"
+    recordType: "cases",
+    isReadWriteForm: true
   };
 
   const formProps = {
@@ -106,6 +110,10 @@ describe("<SubformFieldArray />", () => {
     expect(component.find(SubformHeader)).lengthOf(2);
   });
 
+  it("renders the AddIcon", () => {
+    expect(component.find(AddIcon)).lengthOf(1);
+  });
+
   describe("when is a tracing request and the traces subform", () => {
     let tracingRequestComponent;
 
@@ -118,6 +126,9 @@ describe("<SubformFieldArray />", () => {
           formSection: {
             ...props.formSection,
             unique_id: TRACES_SUBFORM_UNIQUE_ID
+          },
+          mode: {
+            isShow: true
           }
         },
         Map({

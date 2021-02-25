@@ -3,7 +3,7 @@ import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 import PropTypes from "prop-types";
 import qs from "qs";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, withRouter } from "react-router-dom";
@@ -22,9 +22,9 @@ import { useI18n } from "../../i18n";
 import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
 import { getRecords } from "../../index-table";
 import PdfExporter from "../../pdf-exporter";
+import { getUser, getPermittedFormsIds } from "../../user/selectors";
 import { getRecordForms } from "../../record-form/selectors";
 import { getMetadata } from "../../record-list/selectors";
-import { getUser } from "../../user/selectors";
 
 import { saveExport } from "./action-creators";
 import {
@@ -149,10 +149,12 @@ const Component = ({
       display_text: name
     }))
     .toJS();
+  const userPermittedFormsIds = useSelector(state => getPermittedFormsIds(state));
   const recordTypesForms = useSelector(state =>
     getRecordForms(state, {
       recordType: RECORD_TYPES[recordType],
-      primeroModule: selectedModule || record?.get("module_id")
+      primeroModule: selectedModule || record?.get("module_id"),
+      formsIds: userPermittedFormsIds
     })
   );
   const fields = buildFields(recordTypesForms, i18n.locale, individualFields);
@@ -285,7 +287,7 @@ const Component = ({
     isShowPage,
     modules,
     fields,
-    exportFormsOptions(exportType, fields, recordTypesForms, i18n.locale),
+    exportFormsOptions(recordTypesForms, i18n.locale),
     recordType,
     agencyLogo
   );

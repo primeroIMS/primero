@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 
 import { PROVIDED_CONSENT_NAME as NAME } from "./constants";

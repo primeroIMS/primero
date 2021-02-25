@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { getIn, connect } from "formik";
 
@@ -6,7 +6,7 @@ import SubformDialogFields from "../subform-dialog-fields";
 
 import { NAME } from "./constants";
 
-const Component = ({ formik, field, index, mode, formSection }) => {
+const Component = ({ formik, field, index, mode, formSection, isReadWriteForm }) => {
   const [filterState, setFilterState] = useState({
     filtersChanged: false,
     userIsSelected: false
@@ -29,11 +29,20 @@ const Component = ({ formik, field, index, mode, formSection }) => {
     }
   };
 
+  const modeDialog =
+    isReadWriteForm === false
+      ? {
+          isShow: true,
+          isEdit: false,
+          isNew: false
+        }
+      : mode;
+
   return (
     <SubformDialogFields
       field={field}
       index={index}
-      mode={mode}
+      mode={modeDialog}
       filterState={filterState}
       setFilterState={setFilterState}
       filterFunc={(parentField, subformField) => filters(parentField, subformField.option_strings_source)}
@@ -49,6 +58,7 @@ Component.propTypes = {
   formik: PropTypes.object.isRequired,
   formSection: PropTypes.object.isRequired,
   index: PropTypes.number,
+  isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired
 };
 

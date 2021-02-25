@@ -22,13 +22,16 @@ describe Api::V2::UsersController, type: :request do
       description: 'Default Primero Program'
     )
 
+    @form1 = FormSection.create!(name: 'form1')
+    @form2 = FormSection.create!(name: 'form2')
+
     @cp = PrimeroModule.create!(
       unique_id: 'primeromodule-cp',
       name: 'CP',
       description: 'Child Protection',
       associated_record_types: %w[case tracing_request incident],
       primero_program: @program,
-      form_sections: [FormSection.create!(name: 'form_1')]
+      form_sections: [@form1]
     )
 
     @gbv = PrimeroModule.create!(
@@ -37,7 +40,7 @@ describe Api::V2::UsersController, type: :request do
       description: 'Gender Based Violence',
       associated_record_types: %w[case incident],
       primero_program: @program,
-      form_sections: [FormSection.create!(name: 'form_2')]
+      form_sections: [@form2]
     )
 
     @super_user_permissions = [
@@ -61,23 +64,27 @@ describe Api::V2::UsersController, type: :request do
       Permission.new(resource: Permission::USER_GROUP, actions: [Permission::MANAGE])
     ]
 
-    @super_role = Role.create!(
+    @super_role = Role.new_with_properties(
       name: 'Super Role',
       unique_id: 'super-role',
       permissions: @super_user_permissions,
       group_permission: Permission::ALL,
-      modules: [@cp]
+      module_unique_ids: [@cp.unique_id],
+      form_section_read_write: { @form1.unique_id => 'r', @form2.unique_id => 'r' }
     )
+    @super_role.save!
 
-    @admin_role = Role.create!(
+    @admin_role = Role.new_with_properties(
       name: 'Admin Role',
       unique_id: 'admin-role',
       permissions: @admin_user_permissions,
       group_permission: Permission::ADMIN_ONLY,
-      modules: [@cp]
+      module_unique_ids: [@cp.unique_id],
+      form_section_read_write: { @form1.unique_id => 'r', @form2.unique_id => 'r' }
     )
+    @admin_role.save!
 
-    @role = Role.create!(
+    @role = Role.new_with_properties(
       name: 'Test Role 1',
       unique_id: 'test-role-1',
       permissions: [
@@ -91,8 +98,10 @@ describe Api::V2::UsersController, type: :request do
         )
       ],
       group_permission: Permission::SELF,
-      modules: [@cp]
+      module_unique_ids: [@cp.unique_id],
+      form_section_read_write: { @form1.unique_id => 'r', @form2.unique_id => 'r' }
     )
+    @role.save!
     @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1', logo_icon: FilesTestHelper.logo,
                                logo_full: FilesTestHelper.logo)
     @agency_b = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
@@ -224,6 +233,7 @@ describe Api::V2::UsersController, type: :request do
         expect(json['data'][0]['permissions']).not_to be_nil
         expect(json['data'][0]['list_headers']).not_to be_nil
         expect(json['data'][0]['permitted_form_unique_ids']).not_to be_nil
+        expect(json['data'][0]['permitted_form'].present?).to be_truthy
         expect(json['data'][0]['agency_logo_full']).not_to be_nil
         expect(json['data'][0]['agency_logo_icon']).not_to be_nil
         expect(json['data'][0]['agency_name']).to eq(@agency_a.name)

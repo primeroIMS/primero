@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import Alert from "@material-ui/lab/Alert";

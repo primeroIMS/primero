@@ -366,6 +366,9 @@ namespace :primero do
   desc 'Export translations to JS file(s)'
   task :i18n_js do
     Dir.glob(Rails.root.join('public', 'translations-*.js')).each { |file| File.delete(file) }
+    
+    require Rails.root.join('config', 'initializers', 'locale.rb')
+    require Rails.root.join('config', 'initializers', 'locales_fallbacks.rb')
 
     I18n::JS.export
 

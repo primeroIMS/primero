@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Accordion, AccordionSummary, AccordionDetails, makeStyles } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";

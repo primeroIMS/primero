@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import makeStyles from "@material-ui/styles/makeStyles";
+import { fromJS } from "immutable";
 
 import { useI18n } from "../../../i18n";
 import LoadingIndicator from "../../../loading-indicator";
 import SubformDrawer from "../../../record-form/form/subforms/subform-drawer";
-import {
-  fetchCasesPotentialMatches,
-  getCasesPotentialMatches,
-  getLoadingCasesPotentialMatches,
-  clearMatchedTraces,
-  getMatchedTrace,
-  getShortIdFromUniqueId
-} from "../../../records";
+import { clearMatchedTraces, getShortIdFromUniqueId } from "../../../records";
 import { RECORD_PATH } from "../../../../config";
 import TraceComparisonForm from "../../../record-form/form/subforms/subform-traces/components/trace-comparison-form";
 
@@ -21,21 +15,30 @@ import { MatchedTracePanel } from "./components";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ data, loading, recordId, setSelectedForm }) => {
+const Component = ({ data, loading, record, setSelectedForm }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [selectedTraceId, setSelectedTraceId] = useState("");
-  const potentialMatches = useSelector(state => getCasesPotentialMatches(state));
-  const potentialMatchesLoading = useSelector(state => getLoadingCasesPotentialMatches(state));
-  const selectedTrace = useSelector(state => getMatchedTrace(state, selectedTraceId));
+  const foundMatchedTrace = data.find(matched => matched.get("id") === selectedTraceId)?.toJS();
 
-  useEffect(() => {
-    if (selectedTraceId !== "" && potentialMatches.size <= 0) {
-      dispatch(fetchCasesPotentialMatches(recordId, RECORD_PATH.cases));
-    }
-  }, [selectedTraceId]);
+  const selectedTrace = fromJS({
+    case: {
+      age: record.get("age"),
+      case_id_display: record.get("case_id_display"),
+      id: record.get("id"),
+      name: record.get("name"),
+      owned_by: record.get("owned_by"),
+      owned_by_agency_id: record.get("owned_by_agency_id"),
+      sex: record.get("sex")
+    },
+    // eslint-disable-next-line camelcase
+    comparison: foundMatchedTrace?.matched_case_comparison,
+    trace: foundMatchedTrace,
+    likelihood: "possible",
+    score: 0.4136639493462357
+  });
 
   useEffect(() => {
     return () => {
@@ -66,15 +69,13 @@ const Component = ({ data, loading, recordId, setSelectedForm }) => {
         open={open}
         cancelHandler={() => setOpen(false)}
       >
-        <LoadingIndicator loading={potentialMatchesLoading} hasData={selectedTrace?.size > 0} type={NAME}>
-          <TraceComparisonForm
-            selectedForm="matched-trace-detail"
-            recordType={RECORD_PATH.cases}
-            potentialMatch={selectedTrace}
-            setSelectedForm={setSelectedForm}
-            hideBack
-          />
-        </LoadingIndicator>
+        <TraceComparisonForm
+          selectedForm="matched-trace-detail"
+          recordType={RECORD_PATH.cases}
+          potentialMatch={selectedTrace}
+          setSelectedForm={setSelectedForm}
+          hideBack
+        />
       </SubformDrawer>
     </div>
   );
@@ -85,7 +86,7 @@ Component.displayName = NAME;
 Component.propTypes = {
   data: PropTypes.object,
   loading: PropTypes.bool,
-  recordId: PropTypes.string,
+  record: PropTypes.object,
   setSelectedForm: PropTypes.func
 };
 

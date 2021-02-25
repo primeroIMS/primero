@@ -7,6 +7,7 @@ import { ActionsMenu } from "../../../form";
 import FormSection from "../../../form/components/form-section";
 import { ROUTES } from "../../../../config/constants";
 
+import RolesActions from "./roles-actions";
 import RolesForm from "./container";
 
 describe("<RolesForm />", () => {
@@ -84,7 +85,9 @@ describe("<RolesForm />", () => {
                 {
                   name: "field_1"
                 }
-              ]
+              ],
+              visible: true,
+              is_nested: false
             }
           ]
         },
@@ -121,6 +124,10 @@ describe("<RolesForm />", () => {
           .map(current => current.props())
           .find(props => props.name === "module_unique_ids" && props.value.includes("primeromodule-cp"))
       ).to.exist;
+    });
+
+    it("renders the roles-actions component", () => {
+      expect(component.find(RolesActions)).to.have.lengthOf(1);
     });
   });
 });

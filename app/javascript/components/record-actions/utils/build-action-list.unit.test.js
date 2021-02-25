@@ -42,7 +42,7 @@ describe("record-actions/utils/build-action-list", () => {
       i18n: {
         t: t => t
       },
-      isIdSearch: true,
+      isIdSearch: false,
       isShow: true,
       openState: "reopen",
       recordType: "cases",

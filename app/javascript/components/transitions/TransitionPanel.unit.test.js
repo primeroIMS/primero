@@ -1,5 +1,3 @@
-import React from "react";
-
 import { setupMountedComponent } from "../../test";
 
 import TransitionPanel from "./TransitionPanel";

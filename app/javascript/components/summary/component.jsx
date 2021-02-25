@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getIn } from "formik";
 import PropTypes from "prop-types";
@@ -127,7 +127,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
       <MatchedTraces
         data={matchedTracesData}
         loading={matchedTracesLoading}
-        recordId={recordId}
+        record={record}
         setSelectedForm={setSelectedForm}
       />
     </div>

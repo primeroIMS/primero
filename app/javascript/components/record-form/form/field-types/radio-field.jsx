@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name,  react/no-multi-comp */
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { FormControlLabel, FormHelperText, Radio, FormControl, InputLabel, Box } from "@material-ui/core";
@@ -62,7 +62,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
   }, []);
 
   useEffect(() => {
-    if (String(value) && (!stickyOption || isEmpty(stickyOption))) {
+    if (typeof value !== "undefined" && (!stickyOption || isEmpty(stickyOption))) {
       setStickyOption(String(value));
     }
   }, [value]);
@@ -72,7 +72,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
 
     return (
       <FormControlLabel
-        disabled={opt.isDisabled || mode.isShow}
+        disabled={opt.isDisabled || mode.isShow || disabled}
         key={`${name}-${opt.id}`}
         value={opt.id.toString()}
         label={optLabel}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { InputLabel, FormHelperText } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -102,7 +102,6 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
           id={name}
           name={name}
           onChange={handleChange}
-          ref={register}
           disabled={disabled || fieldDisabled()}
           accept={acceptedTypes}
         />

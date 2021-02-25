@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { Fragment, useState } from "react";
 import { List, Collapse } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { isEqual } from "lodash";
@@ -53,14 +53,14 @@ const AdminNav = () => {
       });
 
       return (
-        <React.Fragment key={`${nav.to}-parent`}>
+        <Fragment key={`${nav.to}-parent`}>
           <AdminNavItem item={nav} open={open} handleClick={handleClick} isParent />
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {renderChildren}
             </List>
           </Collapse>
-        </React.Fragment>
+        </Fragment>
       );
     }
 

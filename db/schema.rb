@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_11_000000) do
+ActiveRecord::Schema.define(version: 2021_02_17_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -236,9 +236,11 @@ ActiveRecord::Schema.define(version: 2021_02_11_000000) do
     t.integer "form_section_id"
   end
 
-  create_table "form_sections_roles", id: false, force: :cascade do |t|
+  create_table "form_sections_roles", force: :cascade do |t|
     t.integer "role_id"
     t.integer "form_section_id"
+    t.string "permission", default: "rw"
+    t.index ["id"], name: "index_form_sections_roles_on_id", unique: true
     t.index ["role_id", "form_section_id"], name: "index_form_sections_roles_on_role_id_and_form_section_id", unique: true
   end
 

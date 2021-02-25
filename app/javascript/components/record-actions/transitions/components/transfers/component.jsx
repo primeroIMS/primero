@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik } from "formik";
@@ -42,7 +42,7 @@ const TransferForm = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const firstUpdate = React.useRef(true);
+  const firstUpdate = useRef(true);
 
   useEffect(() => {
     dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }));

@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name,  react/no-multi-comp */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { makeStyles, Tab, Tabs } from "@material-ui/core";
@@ -235,6 +235,7 @@ const Component = ({ mode }) => {
       <PageHeading title={pageTitle}>
         <FormBuilderActionButtons
           formMode={formMode}
+          limitedProductionSite={limitedProductionSite}
           handleSubmit={methods.handleSubmit(onSubmit)}
           handleCancel={handleCancel}
         />

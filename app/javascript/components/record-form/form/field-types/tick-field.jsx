@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { FastField, connect, getIn } from "formik";
 import { Checkbox } from "formik-material-ui";

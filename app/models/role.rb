@@ -25,7 +25,8 @@ class Role < ApplicationRecord
     'user_group' => ['manage']
   }.freeze
 
-  has_and_belongs_to_many :form_sections, -> { distinct }
+  has_many :form_permissions
+  has_many :form_sections, through: :form_permissions, dependent: :destroy
   has_and_belongs_to_many :primero_modules, -> { distinct }
 
   has_many :users
@@ -61,15 +62,9 @@ class Role < ApplicationRecord
     end
 
     def new_with_properties(role_params)
-      role = Role.new(role_params.except(:permissions, :form_section_unique_ids, :module_unique_ids))
-      if role_params[:form_section_unique_ids].present?
-        role.form_sections = FormSection.where(unique_id: role_params[:form_section_unique_ids])
+      Role.new.tap do |role|
+        role.update_properties(role_params)
       end
-      if role_params[:module_unique_ids].present?
-        role.modules = PrimeroModule.where(unique_id: role_params[:module_unique_ids])
-      end
-      role.permissions = Permission::PermissionSerializer.load(role_params[:permissions].to_h)
-      role
     end
 
     def list(user, external = false)
@@ -194,14 +189,19 @@ class Role < ApplicationRecord
     form_sections.pluck(:unique_id)
   end
 
+  def form_section_permission
+    form_sections.pluck('form_sections.unique_id, form_sections_roles.permission')
+                 .each_with_object({}) { |elem, acc| acc[elem.first] = elem.last }
+  end
+
   def module_unique_ids
     modules.pluck(:unique_id)
   end
 
   def update_properties(role_properties)
     role_properties = role_properties.with_indifferent_access if role_properties.is_a?(Hash)
-    assign_attributes(role_properties.except('permissions', 'form_section_unique_ids', 'module_unique_ids'))
-    update_forms_sections(role_properties['form_section_unique_ids'])
+    assign_attributes(role_properties.except('permissions', 'form_section_read_write', 'module_unique_ids'))
+    update_forms_sections(role_properties['form_section_read_write'])
     update_permissions(role_properties['permissions'])
     update_modules(role_properties['module_unique_ids'])
   end
@@ -209,7 +209,7 @@ class Role < ApplicationRecord
   def configuration_hash
     hash = attributes.except('id', 'permissions')
     hash['permissions'] = Permission::PermissionSerializer.dump(permissions)
-    hash['form_section_unique_ids'] = form_section_unique_ids
+    hash['form_section_read_write'] = form_section_permission
     hash['module_unique_ids'] = module_unique_ids
     hash.with_indifferent_access
   end
@@ -229,10 +229,13 @@ class Role < ApplicationRecord
     false
   end
 
-  def update_forms_sections(form_section_unique_ids)
-    return if form_section_unique_ids.nil?
+  def update_forms_sections(form_section_read_write)
+    return if form_section_read_write.nil?
 
-    self.form_sections = FormSection.where(unique_id: form_section_unique_ids)
+    form_permissions.destroy_all
+    self.form_permissions = form_section_read_write.to_h.map do |key, value|
+      FormPermission.new(form_section: FormSection.find_by(unique_id: key), role: self, permission: value)
+    end
   end
 
   def update_permissions(permissions)

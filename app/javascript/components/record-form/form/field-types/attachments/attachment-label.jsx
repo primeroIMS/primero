@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import AddIcon from "@material-ui/icons/Add";
 import { FormHelperText } from "@material-ui/core/";

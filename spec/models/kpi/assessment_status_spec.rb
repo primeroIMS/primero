@@ -25,6 +25,7 @@ describe Kpi::AssessmentStatus, search: true do
          ])
 
     Child.create!(data: {
+                    module_id: PrimeroModule::GBV,
                     created_at: DateTime.parse('2020/10/27'),
                     owned_by_groups: [group2, group4],
                     assessment_emotional_state_start: 'Overwhelmed',
@@ -35,6 +36,7 @@ describe Kpi::AssessmentStatus, search: true do
                   })
 
     Child.create!(data: {
+                    module_id: PrimeroModule::GBV,
                     created_at: DateTime.parse('2020/10/27'),
                     owned_by_groups: [group3]
                   })

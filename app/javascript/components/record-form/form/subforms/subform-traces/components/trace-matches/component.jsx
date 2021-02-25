@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import clsx from "clsx";

@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { FieldArray, connect } from "formik";
 
@@ -7,7 +6,7 @@ import { useI18n } from "../../../i18n";
 import SubformFieldArray from "./subform-field-array";
 import { SUBFORM_FIELD } from "./constants";
 
-const Component = ({ field, form, formik, mode, recordType, formSection }) => {
+const Component = ({ field, form, formik, mode, recordType, formSection, isReadWriteForm }) => {
   const { name } = field;
 
   const i18n = useI18n();
@@ -25,6 +24,7 @@ const Component = ({ field, form, formik, mode, recordType, formSection }) => {
             mode={mode}
             recordType={recordType}
             formSection={formSection}
+            isReadWriteForm={isReadWriteForm}
           />
         )}
       </FieldArray>
@@ -39,6 +39,7 @@ Component.propTypes = {
   form: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   formSection: PropTypes.object.isRequired,
+  isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
   recordType: PropTypes.string
 };

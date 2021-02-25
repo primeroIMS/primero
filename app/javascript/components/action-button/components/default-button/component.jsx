@@ -1,4 +1,4 @@
-import React from "react";
+import { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Button, CircularProgress, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -25,7 +25,7 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, kee
     [rest.className]: Boolean(rest.className)
   });
 
-  const Parent = tooltip ? Tooltip : React.Fragment;
+  const Parent = tooltip ? Tooltip : Fragment;
 
   return (
     <Parent {...(tooltip ? { title: tooltip } : {})}>

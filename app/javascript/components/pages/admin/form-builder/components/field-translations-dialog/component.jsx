@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, useWatch } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,6 +15,7 @@ import { compare } from "../../../../../../libs";
 import { submitHandler, whichFormMode } from "../../../../../form";
 import { getSelectedSubform } from "../../selectors";
 import styles from "../styles.css";
+import { useApp } from "../../../../../application";
 
 import { TranslatableOptions } from "./components";
 import { translationsFieldForm, validationSchema } from "./forms";
@@ -27,6 +28,7 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
   const formMode = whichFormMode(mode);
   const locales = localesToRender(i18n);
   const { dialogClose } = useDialog(NAME);
+  const { limitedProductionSite } = useApp();
 
   const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
 
@@ -103,7 +105,8 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
     dialogTitle: i18n.t("forms.translations.edit"),
     open,
     cancelHandler: () => handleClose(),
-    omitCloseAfterSuccess: true
+    omitCloseAfterSuccess: true,
+    showSuccessButton: !limitedProductionSite
   };
 
   const renderForms = () =>
@@ -116,7 +119,8 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
       field,
       subform: selectedSubform,
       currentValues,
-      isNested
+      isNested,
+      limitedProductionSite
     }).map(form => (
       <FormSection formSection={form} key={form.unique_id} formMode={formMode} formMethods={formMethods} />
     ));

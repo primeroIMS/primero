@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-import React from "react";
 import { Tooltip } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
