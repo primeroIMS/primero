@@ -3,17 +3,20 @@ import { fromJS } from "immutable";
 
 import { FieldRecord, FormSectionRecord, TEXT_FIELD } from "../../../form";
 
-export const searchPromptForm = i18n =>
+import { QUERY } from "./constants";
+
+export const searchPromptForm = (css, i18n) =>
   fromJS([
     FormSectionRecord({
       unique_id: "search_create",
       fields: [
         FieldRecord({
-          display_name: i18n.t("case.enter_id_number"),
-          name: "query",
-          help_text: "Why? To prevent creation of duplicate cases.",
+          // display_name: i18n.t("case.enter_id_number"),
+          name: QUERY,
+          // help_text: "Why? To prevent creation of duplicate cases.",
           type: TEXT_FIELD,
-          required: true
+          required: true,
+          placeholder: "Search existing cases"
         })
       ]
     })

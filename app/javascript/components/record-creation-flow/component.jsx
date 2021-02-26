@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Drawer } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import CloseIcon from "@material-ui/icons/Close";
+import AddIcon from "@material-ui/icons/Add";
 
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
@@ -12,7 +13,7 @@ import { ConsentPrompt, SearchPrompt } from "./components";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ open, onClose }) => {
+const Component = ({ open, onClose, recordType }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const canSearchAndCreate = true;
@@ -29,11 +30,17 @@ const Component = ({ open, onClose }) => {
   };
 
   const renderSearchPrompt = canSearchAndCreate && !openConsentPrompt && (
-    <SearchPrompt setOpenConsentPrompt={setOpenConsentPrompt} i18n={i18n} />
+    <SearchPrompt
+      setOpenConsentPrompt={setOpenConsentPrompt}
+      i18n={i18n}
+      recordType={recordType}
+      onCloseDrawer={() => handleCloseDrawer(false)}
+    />
   );
   const renderSkipAndCreate = !openConsentPrompt && (
     <div className={css.skipButtonContainer}>
       <ActionButton
+        icon={<AddIcon />}
         text={i18n.t("case.skip_and_create")}
         type={ACTION_BUTTON_TYPES.default}
         rest={{
@@ -72,7 +79,8 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   onClose: PropTypes.func,
-  open: PropTypes.bool
+  open: PropTypes.bool,
+  recordType: PropTypes.string
 };
 
 export default Component;

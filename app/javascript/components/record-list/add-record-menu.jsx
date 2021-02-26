@@ -74,7 +74,11 @@ const AddRecordMenu = ({ recordType }) => {
         rest={{ onClick: handleClick }}
       />
       {renderMenu(userModules)}
-      <RecordCreationFlow open={Boolean(moduleUniqueId)} onClose={() => setModuleUniqueId(null)} />
+      <RecordCreationFlow
+        open={Boolean(moduleUniqueId)}
+        onClose={() => setModuleUniqueId(null)}
+        recordType={recordType}
+      />
     </>
   );
 };

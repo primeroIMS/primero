@@ -34,12 +34,14 @@ const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
     ...(onKeyPress ? { onKeyPress } : {})
   };
 
+  const renderLabel = label ? <InputLabel tooltip={tooltip} text={label} /> : null;
+
   return (
     <Controller
       control={control}
       type={inputType}
       as={TextField}
-      label={<InputLabel tooltip={tooltip} text={label} />}
+      label={renderLabel}
       {...rest}
       {...(isEmpty(inputProps) ? {} : { inputProps })}
       helperText={
