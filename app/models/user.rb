@@ -130,54 +130,7 @@ class User < ApplicationRecord
       enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
     end
 
-    # TODO: Move the logic for find_permitted_users, users_for_assign,
-    #       users_for_referral, users_for_transfer, users_for_transition into services
-
-    def find_permitted_users(filters = nil, pagination = nil, sort = nil, user = nil)
-      users = User.all.includes(:user_groups, role: :primero_modules)
-      if filters.present?
-        filters = filters.compact
-        filters['disabled'] = filters['disabled'].values if filters['disabled'].present?
-        users = users.where(filters.except('user_group_ids'))
-        users = filter_with_groups(users, filters)
-      end
-
-      users = filter_for_user(users, user)
-
-      results = { total: users.size }
-      pagination = { per_page: 20, page: 1 } if pagination.blank?
-      pagination[:offset] = pagination[:per_page] * (pagination[:page] - 1)
-      users = users.limit(pagination[:per_page]).offset(pagination[:offset])
-      users = users.order(sort) if sort.present?
-      results.merge(users: users)
-    end
-
-    def filter_for_user(users, user)
-      return users if user.blank? || user.super_user?
-
-      filtered_users = users.joins(:role).where.not('roles.permissions @> ?', Role::SUPER_ROLE_PERMISSIONS.to_json)
-
-      return filtered_users if user.user_admin?
-
-      filtered_users = filtered_users.where
-                                     .not('roles.permissions @> ?', Role::ADMIN_ROLE_PERMISSIONS.to_json)
-                                     .or(filtered_users.where.not(roles: { group_permission: Permission::ADMIN_ONLY }))
-
-      return filtered_users.where(organization: user.organization) if user.agency_read?
-
-      filter_for_permission_group(filtered_users, user)
-    end
-
-    def filter_for_permission_group(users, user)
-      return users if user.blank? || user.group_permission?(Permission::ALL)
-
-      if user.group_permission?(Permission::GROUP)
-        return users.joins(:user_groups).where(user_groups: { id: user.user_group_ids })
-      end
-
-      users.where(user_name: user.user_name)
-    end
-
+    # TODO: Move the logic users_for_assign, users_for_referral, users_for_transfer, users_for_transition into services
     def users_for_assign(user, model)
       return User.none unless model.present?
 
