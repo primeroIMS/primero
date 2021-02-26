@@ -1,6 +1,7 @@
 import { memo } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 import {
@@ -28,7 +29,6 @@ import RadioField from "./field-types/radio-field";
 import AttachmentField from "./field-types/attachments";
 import LinkToForm from "./field-types/link-to-form";
 import styles from "./styles.css";
-import isEmpty from "lodash/isEmpty";
 
 const FormSectionField = ({
   name,
