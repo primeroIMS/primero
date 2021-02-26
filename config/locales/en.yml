@@ -209,6 +209,8 @@ en:
       creation_success_queue: 'Case record successfully created in background.'
       already_matched: This Inquirer has already been matched to your case.
       already_matched_not_current_case: There is already a case in the system matched to this inquirer.
+      not_found_case: No Case found matching "%{search_value}". Create a new Case.
+      introductory_sentence: Please specify the individual’s consent to receive Case Management services and for their data to be stored in Primero.
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
     skip_and_create: Skip and Create New Case

@@ -18,23 +18,27 @@ const Component = ({ open, onClose, recordType }) => {
   const css = makeStyles(styles)();
   const canSearchAndCreate = true;
   const [openConsentPrompt, setOpenConsentPrompt] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
-  const handleSkipAndCreate = () => setOpenConsentPrompt(true);
+  const handleSkipAndCreate = () => {
+    setSearchValue("");
+    setOpenConsentPrompt(true);
+  };
   const handleCloseDrawer = isConsentPromptOpen => {
-    if (isConsentPromptOpen) {
-      setOpenConsentPrompt(false);
-    } else {
+    if (!isConsentPromptOpen) {
       onClose();
-      setOpenConsentPrompt(false);
     }
+    setOpenConsentPrompt(false);
+    // TODO: Should reset record-list
   };
 
   const renderSearchPrompt = canSearchAndCreate && !openConsentPrompt && (
     <SearchPrompt
-      setOpenConsentPrompt={setOpenConsentPrompt}
       i18n={i18n}
-      recordType={recordType}
       onCloseDrawer={() => handleCloseDrawer(false)}
+      recordType={recordType}
+      setOpenConsentPrompt={setOpenConsentPrompt}
+      setSearchValue={setSearchValue}
     />
   );
   const renderSkipAndCreate = !openConsentPrompt && (
@@ -49,7 +53,9 @@ const Component = ({ open, onClose, recordType }) => {
       />
     </div>
   );
-  const renderConsentPrompt = openConsentPrompt && <ConsentPrompt />;
+  const renderConsentPrompt = openConsentPrompt && (
+    <ConsentPrompt i18n={i18n} searchValue={searchValue} recordType={recordType} />
+  );
 
   return (
     <Drawer anchor="right" open={open} onClose={() => handleCloseDrawer(false)} classes={{ paper: css.subformDrawer }}>

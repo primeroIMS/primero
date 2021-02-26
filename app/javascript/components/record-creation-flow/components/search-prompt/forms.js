@@ -5,7 +5,7 @@ import { FieldRecord, FormSectionRecord, TEXT_FIELD } from "../../../form";
 
 import { QUERY } from "./constants";
 
-export const searchPromptForm = (css, i18n) =>
+export const searchPromptForm = () =>
   fromJS([
     FormSectionRecord({
       unique_id: "search_create",

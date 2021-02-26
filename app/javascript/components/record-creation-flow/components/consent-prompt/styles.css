@@ -1,0 +1,14 @@
+.container {
+  
+}
+
+.createCaseText {
+  font-weight: bold;
+  padding: 16px;
+  border: 1px solid $(theme.primero.colors.yellow);
+  border-radius: .5em;
+}
+
+.introductoryText {
+  font-size: $(theme.typography.pxToRem(16));
+}

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -20,7 +20,7 @@ import { NAME, FORM_ID, QUERY } from "./constants";
 import { searchPromptForm } from "./forms";
 import styles from "./styles.css";
 
-const Component = ({ setOpenConsentPrompt, i18n, onCloseDrawer, recordType }) => {
+const Component = ({ i18n, onCloseDrawer, recordType, setOpenConsentPrompt, setSearchValue }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(FORM_MODE_NEW);
   const dispatch = useDispatch();
@@ -29,7 +29,8 @@ const Component = ({ setOpenConsentPrompt, i18n, onCloseDrawer, recordType }) =>
 
   const {
     formState: { dirtyFields, isSubmitted },
-    handleSubmit
+    handleSubmit,
+    getValues
   } = methods;
 
   const onSuccess = data => {
@@ -56,6 +57,7 @@ const Component = ({ setOpenConsentPrompt, i18n, onCloseDrawer, recordType }) =>
       if (records.size > 0) {
         onCloseDrawer();
       } else {
+        setSearchValue(getValues()[QUERY]);
         setOpenConsentPrompt(true);
       }
     }
@@ -101,7 +103,8 @@ Component.propTypes = {
   i18n: PropTypes.object,
   onCloseDrawer: PropTypes.func,
   recordType: PropTypes.string,
-  setOpenConsentPrompt: PropTypes.func
+  setOpenConsentPrompt: PropTypes.func,
+  setSearchValue: PropTypes.func
 };
 
 export default Component;
