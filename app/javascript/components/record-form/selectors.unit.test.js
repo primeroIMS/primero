@@ -608,11 +608,11 @@ describe("<RecordForm /> - Selectors", () => {
       expect(record).to.be.equal(OrderedMap({}));
     });
 
-    it("should return an empty ordered map when there are not any options", () => {
+    it("should return an ordered map when there are options", () => {
       const record = selectors.getFormNav(stateWithRecords, {
         primeroModule: "primeromodule-cp",
         recordType: "case",
-        formsIds: ["basic_identity"]
+        formsIds: fromJS({ basic_identity: "rw" })
       });
 
       expect(record).to.be.equal(expected);

@@ -10,7 +10,7 @@ const stateWithUser = fromJS({
     isAuthenticated: true,
     username: "primero",
     modules: ["primeromodule-test1", "primeromodule-test2"],
-    permittedForms: ["record_owner", "client_feedback"],
+    permittedForms: { record_owner: "r", client_feedback: "rw" },
     permissions: {
       incidents: [ACTIONS.MANAGE],
       tracing_requests: [ACTIONS.MANAGE],
@@ -101,7 +101,7 @@ describe("User - Selectors", () => {
 
   describe("getPermittedFormsIds", () => {
     it("should return list of permitted forms", () => {
-      const expectedFormsIds = fromJS(["record_owner", "client_feedback"]);
+      const expectedFormsIds = fromJS({ record_owner: "r", client_feedback: "rw" });
       const selector = selectors.getPermittedFormsIds(stateWithUser);
 
       expect(selector).to.deep.equal(expectedFormsIds);

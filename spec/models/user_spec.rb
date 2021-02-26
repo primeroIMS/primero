@@ -876,7 +876,7 @@ describe User do
     end
   end
 
-  describe '#find_permitted_users' do
+  describe '.find_permitted_users' do
     before :each do
       clean_data(Agency, Role, UserGroup, User)
       @agency1 = Agency.create!(name: 'Agency1', agency_code: 'A1')
@@ -923,7 +923,7 @@ describe User do
     end
   end
 
-  describe '.user_query_scope' do
+  describe '#user_query_scope' do
     before :each do
       clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
       @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
@@ -951,4 +951,49 @@ describe User do
       expect(@current_user.user_query_scope(@child1)).to eql(Permission::USER)
     end
   end
+
+  describe '#permitted_field_names_from_forms' do
+    let(:form) { FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm') }
+    let(:field) { Field.create!(name: 'test', display_name: 'test', type: Field::TEXT_FIELD, form_section_id: form.id) }
+    let(:role) do
+      Role.new_with_properties(
+        name: 'Test Role 1',
+        unique_id: 'test-role-1',
+        group_permission: Permission::SELF,
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::INCIDENT_FROM_CASE]
+          )
+        ],
+        form_section_read_write: { form.unique_id => 'rw' }
+      )
+    end
+    let(:agency) do
+      Agency.create!(
+        name: 'Test Agency',
+        agency_code: 'TA',
+        services: ['Test type']
+      )
+    end
+    subject do
+      User.create!(
+        full_name: 'Admin User', user_name: 'user_admin', password: 'a12345678',
+        password_confirmation: 'a12345678', email: 'user_admin@localhost.com',
+        agency_id: agency.id, role: role
+      )
+    end
+    before(:each) do
+      clean_data(Field, FormSection, Agency, Role, User)
+      form
+      field
+      role.save!
+      agency
+    end
+
+    it 'return permitted field names' do
+      expect(subject.permitted_field_names_from_forms('case')).to match_array([field.name])
+    end
+  end
+  after(:all) { clean_data(Agency, Role, User, FormSection, Field) }
 end

@@ -1,0 +1,74 @@
+fa-AF:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "صدور XLS ثبت کننده رویداد"
+  exports:
+    incident_recorder_xls:
+      all: ثبت رویداد
+      one: ثبت رویداد
+      selected: انتخاب شده برای ثبت رویداد
+      'yes': "بلی"
+      'no': "نخیر"
+      gender:
+        male: "مرد"
+        female: "زن"
+        both: "مرد و زن"
+      age_group:
+        age: "سن"
+        61_older: "۶۱ & کلانتر"
+        unknown: "ناشناخته"
+        header: "ALLEGED PERPETRATOR AGE GROUP"
+      age_type:
+        adult: "بزرگسال"
+        minor: "کم"
+        both: "بزرگسال & کم سال"
+        unknown: "ناشناخته"
+        header: "ALLEGED PERPETRATOR AGE TYPE"
+      headers:
+        incident_id: "آی دی رویداد"
+        survivor_code: "کود شخص نجات یافته"
+        case_manager_code: "کود مدیر قضیه"
+        case_worker_code: "کود کارمند قضیه"
+        date_of_interview: "تاریخ مصاحبه"
+        date_of_incident: "تاریخ رویداد"
+        date_of_birth: "تاریخ تولد"
+        sex: "جنسیت"
+        ethnicity: "قومیت"
+        country_of_origin: "کشور تولد"
+        marital_status: "حالت مدنی/ "
+        displacement_status: "حالت بیجاشده گی در هنگام گزارش"
+        disability_type: "شخص دارای معلولیت؟"
+        unaccompanied_separated_status: "طفل جدا شده یا بی کس؟"
+        stage_of_displacement: "حالت بیجا شدگی در هنگام رویداد"
+        time_of_day: "ساعت رویداد"
+        location: "موقعیت رویداد"
+        county: "کشور رویداد"
+        district: "ولسوالی رویداد"
+        camp_town: "کمپ/ قریه رویداد"
+        camp: "کمپ رویداد"
+        gbv_type: "نوعیت قضیه خشونت جنسی"
+        harmful_traditional_practice: "رسم و رواج ناپسند"
+        goods_money_exchanged: "پول، وسائل، مفاد و / یا خدمات بلعوض"
+        abduction_type: "نوعیت سؤ استفاده"
+        previously_reported: "قبلا این رویداد گزارش داده شده بود؟"
+        gbv_previous_incidents: "قضیه خشونت جنسی قبلی؟"
+        number_primary_perpetrators: "نخیر. متهم اولیه جنایت"
+        perpetrator:
+          sex: "جنسیت متهم"
+          former: "رویداد قبلی همراه با این متهم"
+          relationship: "متهم اولی- رابطه شخص نجات یافته "
+          occupation: "وظیفه متهم اولیه"
+          age_group: "ردیف سنی متهم اولیه"
+          age_type: "ردیف سنی متهم اولیه"
+        service:
+          referred_from: "از کجا برای شما رجعت داده شده است؟"
+          safehouse_referral: "خانه امن/ خانه"
+          medical_referral: "صحت/ خدمات صحی"
+          psycho_referral: "خدمات روانی"
+          wants_legal_action: "خواستار کمک حقوقی هستید؟"
+          legal_referral: "ارائه خدمات حقوقی"
+          police_referral: "پولیس/ منابع امنیتی دیگر"
+          livelihoods_referral: "پروگرام فن و حرفه"
+          protection_referral: "خدمات حفاظت اطفال/ خدمات تعلیم و تربیه"
+        consent: "اجازه نامه داده شده است"
+        agency_code: "گزارش کود نمایندگی"

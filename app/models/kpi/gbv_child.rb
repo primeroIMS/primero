@@ -19,11 +19,11 @@ module Kpi::GBVChild
   delegate :completed_survivor_assessment, :safety_plan_required, :completed_safety_plan,
            :completed_action_plan, :services_provided, :action_plan_referral_statuses, :safety_goals_progress,
            :health_goals_progress, :psychosocial_goals_progress, :justice_goals_progress, :other_goals_progress,
-           :satisfaction_status, :completed_and_approved_action_plan, :case_lifetime_days, to: :kpis
+           :satisfaction_status, :completed_and_approved_action_plan, :case_lifetime_days, to: :kpis, allow_nil: true
 
   private
 
   def kpis
-    @kpis ||= GbvKpiCalculationService.new(self)
+    @kpis ||= GbvKpiCalculationService.from_record(self)
   end
 end

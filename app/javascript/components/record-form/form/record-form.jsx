@@ -20,7 +20,7 @@ import { getFields } from "../selectors";
 
 import { ValidationErrors } from "./components";
 import RecordFormTitle from "./record-form-title";
-import { RECORD_FORM_NAME } from "./constants";
+import { RECORD_FORM_NAME, RECORD_FORM_PERMISSION } from "./constants";
 import FormSectionField from "./form-section-field";
 import SubformField from "./subforms";
 import { fieldValidations } from "./validations";
@@ -39,7 +39,8 @@ const RecordForm = ({
   selectedForm,
   incidentFromCase,
   externalForms,
-  fetchFromCaseId
+  fetchFromCaseId,
+  userPermittedFormsIds
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -124,6 +125,8 @@ const RecordForm = ({
 
     return fs.map(form => {
       if (selectedForm === form.unique_id) {
+        const isReadWriteForm = userPermittedFormsIds?.get(selectedForm) === RECORD_FORM_PERMISSION.readWrite;
+
         return (
           <div key={form.unique_id}>
             <RecordFormTitle
@@ -150,9 +153,9 @@ const RecordForm = ({
               return (
                 <Box my={3} key={field.name}>
                   {SUBFORM_SECTION === field.type ? (
-                    <SubformField {...{ ...fieldProps, formSection: field.subform_section_id }} />
+                    <SubformField {...{ ...fieldProps, formSection: field.subform_section_id, isReadWriteForm }} />
                   ) : (
-                    <FormSectionField name={field.name} {...{ ...fieldProps, formSection: form }} />
+                    <FormSectionField name={field.name} {...{ ...fieldProps, formSection: form, isReadWriteForm }} />
                   )}
                 </Box>
               );
@@ -231,7 +234,8 @@ RecordForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  userPermittedFormsIds: PropTypes.object
 };
 
 export default memo(RecordForm);

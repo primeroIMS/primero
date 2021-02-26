@@ -106,7 +106,9 @@ async function handleSuccess(store, payload) {
 }
 
 const getToken = () => {
-  return localStorage.getItem("msal.idtoken");
+  const msalInstance = window.msal;
+
+  return msalInstance?.getCachedIdToken(msalInstance, msalInstance?.account)?.rawIdToken;
 };
 
 const messageQueueFailed = fromQueue => {
@@ -377,7 +379,13 @@ const fetchMultiPayload = (action, store, options) => {
       fetchStatus({ store, type }, "FINISHED", false);
 
       if (finishedCallback) {
-        store.dispatch(finishedCallback);
+        [finishedCallback].flat().forEach(callback => {
+          if (callback.api) {
+            fetchSinglePayload(callback, store, options);
+          } else {
+            store.dispatch(callback);
+          }
+        });
       }
 
       if (finishedCallbackSubforms) {

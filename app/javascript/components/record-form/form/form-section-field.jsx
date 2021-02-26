@@ -1,6 +1,7 @@
 import { memo } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 import {
@@ -29,7 +30,17 @@ import AttachmentField from "./field-types/attachments";
 import LinkToForm from "./field-types/link-to-form";
 import styles from "./styles.css";
 
-const FormSectionField = ({ name, field, mode, recordType, recordID, filters, index, formSection }) => {
+const FormSectionField = ({
+  name,
+  field,
+  mode,
+  recordType,
+  recordID,
+  filters,
+  index,
+  formSection,
+  isReadWriteForm
+}) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -73,8 +84,8 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
     },
     label: displayNameHelper(displayName, i18n.locale),
     tickBoxlabel: tickBoxlabel?.[i18n.locale],
-    helperText: helpText ? helpText[i18n.locale] : "",
-    disabled: mode.isShow || disabled,
+    helperText: !isEmpty(helpText) ? displayNameHelper(helpText, i18n.locale) : "",
+    disabled: mode.isShow || disabled || isReadWriteForm === false,
     checked: ["t", "true"].includes(selectedValue),
     ...(mode.isShow && { placeholder: "--" }),
     index,
@@ -128,6 +139,7 @@ FormSectionField.propTypes = {
   filters: PropTypes.object,
   formSection: PropTypes.object.isRequired,
   index: PropTypes.number,
+  isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   recordID: PropTypes.string,

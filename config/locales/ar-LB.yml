@@ -494,7 +494,7 @@ ar-LB:
       male_abbreviation: ذكر
       one: المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
       selected: تحديد إلى المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
-    xls:
+    xlsx:
       all: Excel
       one: Excel
       selected: تحديد إلى Excel

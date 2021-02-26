@@ -82,7 +82,7 @@ const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, ind
       });
     }
     if (selectedIndex === null && open) {
-      reset({ attribute: "", constraint: "", value: "" });
+      reset({ attribute: "" });
     }
   }, [open]);
 

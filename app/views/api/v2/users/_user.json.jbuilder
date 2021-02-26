@@ -18,6 +18,7 @@ if @extended
       list: user.role.permissions.map { |p| { resource: p.resource.pluralize, actions: p.actions } }
     },
     permitted_form_unique_ids: user.role.form_section_unique_ids,
+    permitted_form: user.role.form_section_permission,
     filters: [
       Child.parent_form,
       Incident.parent_form,

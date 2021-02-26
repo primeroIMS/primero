@@ -1,6 +1,6 @@
 import redirectTo from "./redirect-to";
 
 export default store => {
-  localStorage.removeItem("user");
+  window.localStorage.clear();
   redirectTo(store, "/login");
 };

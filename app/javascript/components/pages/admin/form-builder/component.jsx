@@ -103,6 +103,7 @@ const Component = ({ mode }) => {
       dispatch,
       isEdit: formMode.isEdit,
       dirtyFields,
+      submitAlways: !selectedSubforms?.isEmpty(),
       onSubmit: formData => {
         const mergedData = mergeTranslations(formData);
         const subforms = selectedSubforms?.toJS();
@@ -137,10 +138,7 @@ const Component = ({ mode }) => {
 
   useEffect(() => {
     if (!saving && id && !loading && formMode.get("isEdit")) {
-      batch(() => {
-        dispatch(fetchForms());
-        dispatch(fetchForm(id));
-      });
+      dispatch(fetchForms());
     }
   }, [saving]);
 
@@ -168,6 +166,7 @@ const Component = ({ mode }) => {
       dispatch(fetchLookups());
       dispatch(fetchForms());
       dispatch(clearSelectedForm());
+      dispatch(clearSubforms());
     });
   }, []);
 
@@ -235,6 +234,7 @@ const Component = ({ mode }) => {
       <PageHeading title={pageTitle}>
         <FormBuilderActionButtons
           formMode={formMode}
+          limitedProductionSite={limitedProductionSite}
           handleSubmit={methods.handleSubmit(onSubmit)}
           handleCancel={handleCancel}
         />

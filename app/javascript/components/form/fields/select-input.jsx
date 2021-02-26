@@ -5,10 +5,12 @@ import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete
 import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { isEmpty } from "lodash";
 
 import InputLabel from "../components/input-label";
 import { getLoadingState, getValueFromOtherField } from "../selectors";
 import { useMemoizedSelector } from "../../../libs";
+import { SELECT_CHANGE_REASON } from "../constants";
 
 const filter = createFilterOptions();
 
@@ -100,7 +102,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
       onChange(formMethods, data);
     }
 
-    if (clearDependentValues && clearDependentReason.includes(reason)) {
+    if (
+      clearDependentValues &&
+      (clearDependentReason.includes(reason) || (reason === SELECT_CHANGE_REASON.removeOption && isEmpty(data)))
+    ) {
       clearDependentValues.forEach(field => {
         if (Array.isArray(field)) {
           const [fieldName, resetValue] = field;

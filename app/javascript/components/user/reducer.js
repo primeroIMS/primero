@@ -24,7 +24,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         role_group_permission: roleGroupPermission,
         list_headers: listHeaders,
         filters,
-        permitted_form_unique_ids: permittedForms,
+        permitted_form: permittedForms,
         locale,
         reporting_location_config: reportingLocationConfig,
         location,

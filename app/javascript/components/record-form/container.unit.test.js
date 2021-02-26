@@ -130,7 +130,7 @@ describe("<RecordForms /> - Component", () => {
       errors: false
     }),
     user: fromJS({
-      permittedForms: ["basic_identity"],
+      permittedForms: { basic_identity: "rw" },
       modules: ["primeromodule-cp"]
     }),
     application
@@ -195,7 +195,7 @@ describe("<RecordForms /> - Component", () => {
       }),
       user: fromJS({
         modules: ["primeromodule-cp"],
-        permittedForms: ["basic_identity"]
+        permittedForms: { basic_identity: "rw" }
       }),
       application
     });
@@ -246,7 +246,7 @@ describe("<RecordForms /> - Component", () => {
       }),
       user: fromJS({
         modules: ["primeromodule-cp"],
-        permittedForms: ["basic_identity"]
+        permittedForms: { basic_identity: "rw" }
       }),
       application
     });
@@ -313,7 +313,7 @@ describe("<RecordForms /> - Component", () => {
       }),
       user: fromJS({
         modules: ["primeromodule-cp"],
-        permittedForms: ["basic_identity"]
+        permittedForms: { basic_identity: "rw" }
       }),
       application
     });
@@ -384,7 +384,7 @@ describe("<RecordForms /> - Component", () => {
       },
       user: {
         modules: ["primeromodule-cp"],
-        permittedForms: ["basic_identity"]
+        permittedForms: { basic_identity: "rw" }
       },
       application
     });
@@ -460,7 +460,7 @@ describe("<RecordForms /> - Component", () => {
       },
       user: {
         modules: ["primeromodule-cp"],
-        permittedForms: ["basic_identity"]
+        permittedForms: { basic_identity: "rw" }
       },
       application
     });
@@ -536,7 +536,7 @@ describe("<RecordForms /> - Component", () => {
       },
       user: {
         modules: ["primeromodule-cp"],
-        permittedForms: ["basic_identity"]
+        permittedForms: { basic_identity: "rw" }
       },
       application
     });
@@ -640,7 +640,7 @@ describe("<RecordForms /> - Component", () => {
       },
       user: {
         modules: ["primeromodule-cp"],
-        permittedForms: ["basic_identity"],
+        permittedForms: { basic_identity: "rw" },
         permissions: {
           cases: ["manage"]
         }
@@ -699,7 +699,7 @@ describe("<RecordForms /> - Component", () => {
       },
       user: fromJS({
         modules: ["primeromodule-cp"],
-        permittedForms: ["basic_identity"]
+        permittedForms: { basic_identity: "rw" }
       }),
       application
     });
@@ -850,7 +850,7 @@ describe("<RecordForms /> - Component", () => {
         errors: false
       }),
       user: fromJS({
-        permittedForms: ["client_feedback"],
+        permittedForms: { client_feedback: "r" },
         modules: ["primeromodule-cp"]
       }),
       application

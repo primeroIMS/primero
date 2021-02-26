@@ -102,7 +102,6 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
           id={name}
           name={name}
           onChange={handleChange}
-          ref={register}
           disabled={disabled || fieldDisabled()}
           accept={acceptedTypes}
         />

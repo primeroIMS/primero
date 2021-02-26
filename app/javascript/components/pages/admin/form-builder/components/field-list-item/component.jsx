@@ -27,21 +27,15 @@ import styles from "../fields-list/styles.css";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { setInitialForms, toggleHideOnViewPage } from "../field-dialog/utils";
 import { displayNameHelper } from "../../../../../../libs";
+import { useApp } from "../../../../../application";
 
 import { NAME, SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "./constants";
 
-const Component = ({
-  field,
-  formMethods,
-  index,
-  subformField,
-  subformSortBy,
-  subformGroupBy,
-  limitedProductionSite
-}) => {
+const Component = ({ field, formMethods, index, subformField, subformSortBy, subformGroupBy }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const i18n = useI18n();
+  const { limitedProductionSite } = useApp();
   const isNested = Boolean(subformField?.toSeq()?.size);
   const parentFieldName = subformField?.get("name", "");
   const fieldsAttribute = getFieldsAttribute(isNested);
@@ -105,7 +99,7 @@ const Component = ({
     return (
       <>
         {icon}
-        <Button className={className} onClick={() => handleClick()} disabled={limitedProductionSite}>
+        <Button className={className} onClick={() => handleClick()}>
           {displayNameHelper(field.get("display_name"), i18n.locale)}
         </Button>
       </>
@@ -126,6 +120,7 @@ const Component = ({
             inputProps={{ value: fieldName }}
             checked={checked}
             name={`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${column}`}
+            disabled={limitedProductionSite}
           />
         </div>
       )
@@ -152,7 +147,7 @@ const Component = ({
             {renderColumn(SUBFORM_GROUP_BY)}
             <div className={fieldShowClasses}>
               <SwitchInput
-                commonInputProps={{ name: visibleFieldName, disabled: isNotEditable }}
+                commonInputProps={{ name: visibleFieldName, disabled: limitedProductionSite || isNotEditable }}
                 metaInputProps={{ selectedValue: visibleFieldNames }}
                 formMethods={formMethods}
               />

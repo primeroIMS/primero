@@ -127,7 +127,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
       <MatchedTraces
         data={matchedTracesData}
         loading={matchedTracesLoading}
-        recordId={recordId}
+        record={record}
         setSelectedForm={setSelectedForm}
       />
     </div>

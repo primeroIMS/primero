@@ -6,7 +6,7 @@ import { fieldsToRender } from "../subform-field-array/utils";
 
 import { NAME } from "./constants";
 
-const Component = ({ mode, index, filterFunc, filterState, setFilterState, field, formSection }) => {
+const Component = ({ mode, index, filterFunc, filterState, setFilterState, field, formSection, isReadWriteForm }) => {
   const { subform_section_configuration: subformSectionConfiguration } = field;
 
   const { fields: listFieldsToRender } = subformSectionConfiguration || {};
@@ -17,13 +17,14 @@ const Component = ({ mode, index, filterFunc, filterState, setFilterState, field
     const fieldProps = {
       name: subformSectionField.name,
       field: subformSectionField,
-      mode: field.disabled
-        ? {
-            isShow: true,
-            isEdit: false,
-            isNew: false
-          }
-        : mode,
+      mode:
+        field.disabled || isReadWriteForm === false
+          ? {
+              isShow: true,
+              isEdit: false,
+              isNew: false
+            }
+          : mode,
       index,
       parentField: field,
       filters:
@@ -34,8 +35,9 @@ const Component = ({ mode, index, filterFunc, filterState, setFilterState, field
               setFilterState
             }
           : {},
-      disabled: subformSectionField.disabled || field.disabled,
-      formSection
+      disabled: subformSectionField.disabled || field.disabled || isReadWriteForm === false,
+      formSection,
+      isReadWriteForm
     };
 
     return (
@@ -58,6 +60,7 @@ Component.propTypes = {
   filterState: PropTypes.object,
   formSection: PropTypes.object.isRequired,
   index: PropTypes.number,
+  isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
   setFilterState: PropTypes.func
 };

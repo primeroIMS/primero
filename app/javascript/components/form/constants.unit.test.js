@@ -32,7 +32,8 @@ describe("<Form /> - Constants", () => {
       "TOGGLE_FIELD",
       "DOCUMENT_FIELD",
       "AUDIO_FIELD",
-      "HIDDEN_FIELD"
+      "HIDDEN_FIELD",
+      "SELECT_CHANGE_REASON"
     ].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];
@@ -60,7 +61,8 @@ describe("<Form /> - Constants", () => {
       "ROLE_EXTERNAL_REFERRAL",
       "REFER_TO_USERS",
       "SERVICE_TYPE",
-      "FORM_GROUP_LOOKUP"
+      "FORM_GROUP_LOOKUP",
+      "RECORD_FORMS"
     ].forEach(property => {
       expect(clonedOptionTypes).to.have.property(property);
       delete clonedOptionTypes[property];

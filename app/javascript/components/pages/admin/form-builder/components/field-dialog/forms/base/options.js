@@ -8,7 +8,7 @@ import {
   SELECT_FIELD
 } from "../../../../../../../form";
 
-export const optionsTabs = (fieldName, i18n, mode, field) => {
+export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite) => {
   const optionStringsText = field?.get("option_strings_text", fromJS({}));
   const options = Array.isArray(optionStringsText) ? optionStringsText : optionStringsText?.toJS();
 
@@ -24,8 +24,7 @@ export const optionsTabs = (fieldName, i18n, mode, field) => {
           type: SELECT_FIELD,
           option_strings_source: "Lookups",
           disabled: mode.get("isEdit"),
-          clearDependentValues: [`${fieldName}.selected_value`],
-          clearDependentReason: ["clear", "select-option"]
+          clearDependentValues: [`${fieldName}.selected_value`]
         }),
         FieldRecord({
           display_name: i18n.t("fields.default_value"),
@@ -33,6 +32,7 @@ export const optionsTabs = (fieldName, i18n, mode, field) => {
           type: SELECT_FIELD,
           option_strings_source: "Lookups",
           watchedInputs: `${fieldName}.option_strings_source`,
+          disabled: limitedProductionSite,
           filterOptionSource: (watchedInputsValues, lookupOptions) => {
             const emptyOptions = [{ id: "", display_text: "" }];
 
@@ -67,21 +67,23 @@ export const optionsTabs = (fieldName, i18n, mode, field) => {
 };
 
 /* eslint-disable import/prefer-default-export */
-export const optionsForm = ({ fieldName, i18n, formMode, field, lookups, css }) => {
+export const optionsForm = ({ fieldName, i18n, formMode, field, css, limitedProductionSite }) => {
   const optionsFormFields = [
     FieldRecord({
       display_name: i18n.t("fields.options_indications_lookup_values"),
       name: "options_indications",
-      type: LABEL_FIELD
+      type: LABEL_FIELD,
+      disabled: limitedProductionSite
     }),
     FieldRecord({
       display_name: i18n.t("fields.options_indications_restrictions"),
       name: "options_indications_restrictions",
       inputClassname: css.boldLabel,
-      type: LABEL_FIELD
+      type: LABEL_FIELD,
+      disabled: limitedProductionSite
     }),
     {
-      tabs: optionsTabs(fieldName, i18n, formMode, field, lookups)
+      tabs: optionsTabs(fieldName, i18n, formMode, field, limitedProductionSite)
     }
   ];
 

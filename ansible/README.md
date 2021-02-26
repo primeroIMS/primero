@@ -168,7 +168,7 @@ Below is example of what the file should look like. There is also a sample templ
                   # If you want to seed from a private configuration repo
                   primero_configuration_repo: 'git@bitbucket.org:quoin/primero-x-configuration.git'
                   primero_configuration_repo_branch: 'master'
-                  primero_configuration_path: 'directory/of/config/loader/script'
+                  primero_configuration_path: 'directory/of/config/loader/script.rb'
 
 
 All these variables are required with the exception of `certbot_domain` and `certbot_email`.  These certbot variables are required only when using certbot.
