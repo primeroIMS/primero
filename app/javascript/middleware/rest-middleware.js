@@ -379,7 +379,13 @@ const fetchMultiPayload = (action, store, options) => {
       fetchStatus({ store, type }, "FINISHED", false);
 
       if (finishedCallback) {
-        store.dispatch(finishedCallback);
+        [finishedCallback].flat().forEach(callback => {
+          if (callback.api) {
+            fetchSinglePayload(callback, store, options);
+          } else {
+            store.dispatch(callback);
+          }
+        });
       }
 
       if (finishedCallbackSubforms) {

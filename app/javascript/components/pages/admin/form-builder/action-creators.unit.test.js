@@ -84,18 +84,23 @@ describe("<FormsBuilder /> - Action Creators", () => {
         path: "forms",
         method: "POST",
         body: args.body,
-        successCallback: {
-          action: ENQUEUE_SNACKBAR,
-          payload: {
-            message: args.message,
-            options: {
-              key: 4,
-              variant: "success"
-            }
+        successCallback: [
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              message: args.message,
+              options: {
+                key: 4,
+                variant: "success"
+              }
+            },
+            redirect: "/admin/forms",
+            redirectToEdit: true
           },
-          redirect: "/admin/forms",
-          redirectToEdit: true
-        }
+          {
+            action: "admin/forms/CLEAR_SUBFORMS"
+          }
+        ]
       }
     };
 
