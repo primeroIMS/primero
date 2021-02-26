@@ -1,11 +1,26 @@
+import isEmpty from "lodash/isEmpty";
+
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { METHODS, RECORD_PATH, SAVE_METHODS } from "../../../../config";
 
 import { getFormRequestPath } from "./utils";
 import actions from "./actions";
 
-export const fetchForm = id => ({
-  type: actions.FETCH_FORM,
+const saveFormSuccessCallback = (message, callback = true) => ({
+  [callback ? "action" : "type"]: ENQUEUE_SNACKBAR,
+  payload: {
+    message,
+    options: {
+      variant: "success",
+      key: generate.messageKey()
+    }
+  },
+  redirectToEdit: true,
+  redirect: `/admin/${RECORD_PATH.forms}`
+});
+
+export const fetchForm = (id, callback = false) => ({
+  [callback ? "action" : "type"]: actions.FETCH_FORM,
   api: {
     path: `${RECORD_PATH.forms}/${id}`
   }
@@ -41,6 +56,10 @@ export const reorderFields = (name, order, isSubform) => ({
   payload: { name, order, isSubform }
 });
 
+export const clearSubforms = (callback = false) => ({
+  [callback ? "action" : "type"]: actions.CLEAR_SUBFORMS
+});
+
 export const saveForm = ({ id, body, saveMethod, message }) => {
   const method = saveMethod === SAVE_METHODS.update ? METHODS.PATCH : METHODS.POST;
 
@@ -50,18 +69,7 @@ export const saveForm = ({ id, body, saveMethod, message }) => {
       path: getFormRequestPath(id, saveMethod),
       method,
       body,
-      successCallback: {
-        action: ENQUEUE_SNACKBAR,
-        payload: {
-          message,
-          options: {
-            variant: "success",
-            key: generate.messageKey()
-          }
-        },
-        redirectToEdit: true,
-        redirect: `/admin/${RECORD_PATH.forms}`
-      }
+      successCallback: [saveFormSuccessCallback(message), ...(id ? [fetchForm(id, true)] : []), clearSubforms(true)]
     }
   };
 };
@@ -90,7 +98,13 @@ export const saveSubforms = (subforms, { id, body, saveMethod, message }) => {
   return {
     type: actions.SAVE_SUBFORMS,
     api: [...subformsRequest],
-    finishedCallbackSubforms: saveForm({ id, body, saveMethod, message })
+    ...(!isEmpty(body?.data?.fields)
+      ? { finishedCallbackSubforms: saveForm({ id, body, saveMethod, message }) }
+      : {
+          finishedCallback: isEmpty(body?.data)
+            ? [saveFormSuccessCallback(message, false), clearSubforms()]
+            : saveForm({ id, body, saveMethod, message })
+        })
   };
 };
 
@@ -123,10 +137,6 @@ export const clearSelectedSubformField = () => ({
 export const updateFieldTranslations = translations => ({
   type: actions.UPDATE_FIELD_TRANSLATIONS,
   payload: translations
-});
-
-export const clearSubforms = () => ({
-  type: actions.CLEAR_SUBFORMS
 });
 
 export const setNewSubform = payload => ({
