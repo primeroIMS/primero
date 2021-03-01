@@ -19,7 +19,7 @@ Seperator.displayName = "Seperator";
 
 Seperator.propTypes = {
   commonInputProps: PropTypes.shape({
-    label: PropTypes.string.isRequired
+    label: PropTypes.string
   })
 };
 

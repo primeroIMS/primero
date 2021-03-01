@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";

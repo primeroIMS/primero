@@ -1,5 +1,11 @@
 .container {
-  
+  & form {
+    & div {
+      & div {
+        margin: 3px 0;
+      }
+    }
+  }
 }
 
 .createCaseText {
@@ -11,4 +17,13 @@
 
 .introductoryText {
   font-size: $(theme.typography.pxToRem(16));
+}
+
+.consentLabel {
+  font-weight: bold;
+  font-size: $(theme.typography.pxToRem(15));
+}
+
+.createButtonContainer {
+  margin-top: 2em;
 }
