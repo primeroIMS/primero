@@ -74,6 +74,7 @@ const AddRecordMenu = ({ recordType }) => {
         rest={{ onClick: handleClick }}
       />
       {renderMenu(userModules)}
+      {/* TODO: Check for module_options.search_and_create_workflow */}
       <RecordCreationFlow
         open={Boolean(moduleUniqueId)}
         onClose={() => setModuleUniqueId(null)}

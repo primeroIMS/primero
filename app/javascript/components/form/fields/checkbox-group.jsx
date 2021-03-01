@@ -6,7 +6,9 @@ import { useI18n } from "../../i18n";
 import { optionText } from "../utils/which-options";
 import InputLabel from "../components/input-label";
 
-const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
+import Separator from "./seperator";
+
+const CheckboxGroup = ({ onChange, value, options, commonInputProps, metaInputProps }) => {
   const i18n = useI18n();
   const [checked, setChecked] = useState([]);
   const { name, disabled } = commonInputProps;
@@ -27,21 +29,32 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
   }, [value]);
 
   const renderCheckboxes = () =>
-    options?.map(option => (
-      <FormControlLabel
-        key={`${name}-${option.id}`}
-        control={
-          <Checkbox
-            as={Checkbox}
-            onChange={handleChange}
-            value={option.id}
-            checked={checked.includes(option.id)}
-            disabled={disabled}
+    options?.map(option => {
+      return (
+        <>
+          {option?.includeSeparator && <Separator commonInputProps={{ label: "" }} />}
+          <FormControlLabel
+            key={`${name}-${option.id}`}
+            control={
+              <Checkbox
+                as={Checkbox}
+                onChange={handleChange}
+                value={option.id}
+                checked={checked.includes(option.id)}
+                disabled={disabled}
+              />
+            }
+            label={
+              <InputLabel
+                text={optionText(option, i18n.locale)}
+                tooltip={option?.tooltip}
+                boldText={option?.boldText}
+              />
+            }
           />
-        }
-        label={<InputLabel text={optionText(option, i18n.locale)} tooltip={option?.tooltip} />}
-      />
-    ));
+        </>
+      );
+    });
 
   return <>{renderCheckboxes()}</>;
 };
@@ -52,6 +65,9 @@ CheckboxGroup.propTypes = {
   commonInputProps: PropTypes.shape({
     disabled: PropTypes.bool,
     name: PropTypes.string.isRequired
+  }),
+  metaInputProps: PropTypes.shape({
+    includeSeparator: PropTypes.bool
   }),
   onChange: PropTypes.func.isRequired,
   options: PropTypes.array,

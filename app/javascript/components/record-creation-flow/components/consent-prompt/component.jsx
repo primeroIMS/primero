@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { useForm } from "react-hook-form";
 import Add from "@material-ui/icons/Add";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useMemoizedSelector } from "../../../../libs";
 import { getRecordFormsByUniqueId } from "../../../record-form";
@@ -16,11 +17,14 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { NAME, CONSENT, LIGITIMATE_FIELDS, FORM_ID } from "./constants";
 import styles from "./styles.css";
 import { consentPromptForm } from "./forms";
+import validations from "./validations";
 
 const Component = ({ i18n, recordType, searchValue }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(FORM_MODE_NEW);
-  const methods = useForm({ defaultValues: {} });
+  const methods = useForm({
+    resolver: yupResolver(validations(i18n))
+  });
   const { handleSubmit } = methods;
 
   const onSuccess = data => console.log(data);
@@ -44,7 +48,7 @@ const Component = ({ i18n, recordType, searchValue }) => {
     <p className={css.createCaseText}>{i18n.t("case.messages.not_found_case", { search_value: searchValue })}</p>
   );
 
-  const renderConsentPrompt = consentPromptForm(css, i18n, {
+  const renderConsentPrompt = consentPromptForm(i18n, {
     consentAgreementFields,
     legitimateBasisLookup,
     legitimateBasisExplanationsLookup

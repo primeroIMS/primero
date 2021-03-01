@@ -1,36 +1,23 @@
 /* eslint-disable import/prefer-default-export */
 import { fromJS } from "immutable";
 
-import { FieldRecord, FormSectionRecord, LABEL_FIELD, SEPARATOR, TICK_FIELD } from "../../../form";
+import { FieldRecord, FormSectionRecord, CHECK_BOX_FIELD } from "../../../form";
 import { displayNameHelper } from "../../../../libs";
 
-const separator = name => FieldRecord({ type: SEPARATOR, name });
-
-const includeSeparators = data =>
-  data.reduce((acc, curr, index) => {
-    const separatorName = Math.floor(Math.random() * 100000).toString();
-
-    if (index !== 0) {
-      return [...acc, separator(separatorName), curr];
-    }
-
-    return [...acc, curr];
-  }, []);
-
-const buildConsentAgreementFields = (css, i18n, consentAgreementFields = []) => {
-  const fields = consentAgreementFields.map(field => {
-    return FieldRecord({
+const buildConsentAgreementFields = (i18n, consentAgreementFields = []) => {
+  const fields = consentAgreementFields.map((field, index) => {
+    return {
+      id: field.name,
       display_name: displayNameHelper(field.display_name, i18n.locale),
-      name: field.name,
-      type: TICK_FIELD
-    });
+      includeSeparator: index !== 0
+    };
   });
 
-  return includeSeparators(fields);
+  return fields;
 };
 
-const buildLegitimateFields = (css, i18n, legitimateBasisLookup, legitimateBasisExplanationsLookup) => {
-  const fields = legitimateBasisLookup.map(legitimateBasis => {
+const buildLegitimateFields = (legitimateBasisLookup, legitimateBasisExplanationsLookup) => {
+  const fields = legitimateBasisLookup.map((legitimateBasis, index) => {
     const legitimateBasisId = legitimateBasis.get("id");
     const legitimateBasisText = legitimateBasis.get("display_text");
     const legitimateBasisExplanation = legitimateBasisExplanationsLookup
@@ -40,19 +27,18 @@ const buildLegitimateFields = (css, i18n, legitimateBasisLookup, legitimateBasis
     const boldText = `${legitimateBasisText}:`;
     const displayName = legitimateBasisExplanation ? `${boldText} ${legitimateBasisExplanation}` : legitimateBasisText;
 
-    return FieldRecord({
+    return {
+      id: legitimateBasisId,
       display_name: displayName,
-      name: `legitimate_basis.${legitimateBasisId}`,
-      type: TICK_FIELD,
-      boldText
-    });
+      boldText,
+      includeSeparator: index !== 0
+    };
   });
 
-  return includeSeparators(fields);
+  return fields?.toJS();
 };
 
 export const consentPromptForm = (
-  css,
   i18n,
   { consentAgreementFields, legitimateBasisLookup, legitimateBasisExplanationsLookup }
 ) =>
@@ -62,18 +48,18 @@ export const consentPromptForm = (
       fields: [
         FieldRecord({
           display_name: "Select all consent agreements that apply",
-          name: "consent_agreements_label",
-          type: LABEL_FIELD,
-          inputClassname: css.consentLabel
+          name: "consent_agreements",
+          type: CHECK_BOX_FIELD,
+          required: true,
+          option_strings_text: buildConsentAgreementFields(i18n, consentAgreementFields)
         }),
-        ...buildConsentAgreementFields(css, i18n, consentAgreementFields),
         FieldRecord({
           display_name: "Select all legitimate basis clasifications that apply",
-          name: "consent_legitimate_basis_label",
-          type: LABEL_FIELD,
-          inputClassname: css.consentLabel
-        }),
-        ...buildLegitimateFields(css, i18n, legitimateBasisLookup, legitimateBasisExplanationsLookup)
+          name: "legitimate_basis",
+          type: CHECK_BOX_FIELD,
+          required: true,
+          option_strings_text: buildLegitimateFields(legitimateBasisLookup, legitimateBasisExplanationsLookup)
+        })
       ]
     })
   ]);
