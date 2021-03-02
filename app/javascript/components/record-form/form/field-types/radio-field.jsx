@@ -8,12 +8,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import { RadioGroup } from "formik-material-ui";
 import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
-import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import { getOption } from "../../selectors";
 import { RADIO_FIELD_NAME } from "../constants";
 import styles from "../styles.css";
+import { useMemoizedSelector } from "../../../../libs";
 
 const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ...rest }) => {
   const css = makeStyles(styles)();
@@ -32,7 +32,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
     }
   };
 
-  const options = useSelector(state => getOption(state, option, i18n.locale, stickyOption));
+  const options = useMemoizedSelector(state => getOption(state, option, i18n.locale, stickyOption));
 
   const fieldProps = {
     name,

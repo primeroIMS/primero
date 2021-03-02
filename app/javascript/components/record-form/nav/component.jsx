@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { List, IconButton, Drawer } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,7 +14,7 @@ import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
 import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
 import { getIncidentFromCase, getRecordAlerts, getSelectedRecord } from "../../records";
 import { setSelectedForm } from "../action-creators";
-import { compare, ConditionalWrapper } from "../../../libs";
+import { ConditionalWrapper, useMemoizedSelector } from "../../../libs";
 import { getOptions } from "../../form/selectors";
 import { buildFormGroupUniqueId } from "../../pages/admin/form-builder/utils";
 
@@ -41,29 +41,27 @@ const Component = ({
   const [previousGroup, setPreviousGroup] = useState("");
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
-  const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
+
+  const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
+  const validationErrors = useMemoizedSelector(state => getValidationErrors(state));
+  const currentSelectedRecord = useMemoizedSelector(state => getSelectedRecord(state, recordType));
+  const recordAlerts = useMemoizedSelector(state => getRecordAlerts(state, recordType));
+  const selectedRecordForm = useMemoizedSelector(state =>
+    getRecordFormsByUniqueId(state, {
+      recordType: RECORD_TYPES[recordType],
+      primeroModule,
+      formName: selectedForm || firstTab.unique_id,
+      checkVisible: true,
+      i18n
+    })
+  );
+  const formGroupLookup = useMemoizedSelector(state =>
+    getOptions(state, buildFormGroupUniqueId(primeroModule, RECORD_TYPES[recordType].replace("_", "-")), i18n)
+  );
+
   const recordInformationFormIds = getRecordInformationFormIds(i18n, RECORD_TYPES[recordType]);
 
-  const selectedRecordForm = useSelector(
-    state =>
-      getRecordFormsByUniqueId(state, {
-        recordType: RECORD_TYPES[recordType],
-        primeroModule,
-        formName: selectedForm || firstTab.unique_id,
-        checkVisible: true,
-        i18n
-      }),
-    compare
-  );
-  const formGroupLookup = useSelector(
-    state => getOptions(state, buildFormGroupUniqueId(primeroModule, RECORD_TYPES[recordType].replace("_", "-")), i18n),
-    compare
-  );
   const firstSelectedForm = selectedRecordForm?.first();
-  const validationErrors = useSelector(state => getValidationErrors(state), compare);
-  const currentSelectedRecord = useSelector(state => getSelectedRecord(state, recordType));
-
-  const recordAlerts = useSelector(state => getRecordAlerts(state, recordType), compare);
 
   const handleClick = args => {
     const { group, formId, parentItem } = args;

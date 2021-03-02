@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
 
-import { useThemeHelper } from "../../libs";
+import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import PageContainer from "../page";
 import Transitions, { fetchTransitions } from "../transitions";
@@ -83,10 +83,9 @@ const Container = ({ match, mode }) => {
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
 
-  const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
-  const fetchFromCaseId = useSelector(state => getCaseIdForIncident(state, recordType));
-
-  const record = useSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
+  const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
+  const fetchFromCaseId = useMemoizedSelector(state => getCaseIdForIncident(state, recordType));
+  const record = useMemoizedSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
 
   const userPermittedFormsIds = useSelector(state => getPermittedFormsIds(state));
   const canViewSummaryForm = usePermissions(RESOURCES.potential_matches, SHOW_FIND_MATCH);
@@ -99,16 +98,18 @@ const Container = ({ match, mode }) => {
     renderCustomForms: canViewSummaryForm
   };
 
-  const formNav = useSelector(state => getFormNav(state, selectedModule));
-  const forms = useSelector(state => getRecordForms(state, selectedModule));
-  const attachmentForms = useSelector(state => getAttachmentForms(state));
-  const firstTab = useSelector(state => getFirstTab(state, selectedModule));
-  const loadingForm = useSelector(state => getLoadingState(state));
-  const loadingRecord = useSelector(state => getLoadingRecordState(state, params.recordType));
-  const errors = useSelector(state => getErrors(state));
-  const selectedForm = useSelector(state => getSelectedForm(state));
-  const isProcessingSomeAttachment = useSelector(state => getIsProcessingSomeAttachment(state, params.recordType));
-  const recordAttachments = useSelector(state => getRecordAttachments(state, params.recordType));
+  const formNav = useMemoizedSelector(state => getFormNav(state, selectedModule));
+  const forms = useMemoizedSelector(state => getRecordForms(state, selectedModule));
+  const attachmentForms = useMemoizedSelector(state => getAttachmentForms(state));
+  const firstTab = useMemoizedSelector(state => getFirstTab(state, selectedModule));
+  const loadingForm = useMemoizedSelector(state => getLoadingState(state));
+  const loadingRecord = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
+  const errors = useMemoizedSelector(state => getErrors(state));
+  const selectedForm = useMemoizedSelector(state => getSelectedForm(state));
+  const isProcessingSomeAttachment = useMemoizedSelector(state =>
+    getIsProcessingSomeAttachment(state, params.recordType)
+  );
+  const recordAttachments = useMemoizedSelector(state => getRecordAttachments(state, params.recordType));
 
   const handleFormSubmit = e => {
     if (submitForm) {
