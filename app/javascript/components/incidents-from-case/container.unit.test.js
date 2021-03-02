@@ -5,6 +5,7 @@ import { setupMountedComponent } from "../../test";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import ActionButton from "../action-button";
 import { RECORD_TYPES } from "../../config";
+import RecordFormAlerts from "../record-form-alerts";
 
 import IncidentSummary from "./components/summary";
 import IncidentDetail from "./components/detail";
@@ -103,6 +104,10 @@ describe("<IncidentFromCase /> - Component", () => {
 
   it("render a IncidentSummary", () => {
     expect(component.find(IncidentDetail)).to.have.lengthOf(1);
+  });
+
+  it("render RecordFormAlerts", () => {
+    expect(component.find(RecordFormAlerts)).to.have.lengthOf(1);
   });
 
   it("renders component with valid props", () => {

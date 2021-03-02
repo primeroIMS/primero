@@ -63,6 +63,10 @@
   justify-content: space-between;
 }
 
+.alerts {
+  margin-bottom: 10px;
+}
+
 .buttonsActions {
   display: flex;
   justify-content: flex-end;

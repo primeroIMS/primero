@@ -98,6 +98,8 @@ export const RECORD_PATH = {
   users: "users"
 };
 
+export const RECORD_INFORMATION_GROUP = "record_information";
+
 export const RECORD_OWNER = "record_owner";
 
 export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";

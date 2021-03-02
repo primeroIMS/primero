@@ -59,6 +59,7 @@ describe("Verifying config constant", () => {
       "PERMITTED_URL",
       "POTENTIAL_MATCH_LIKELIHOOD",
       "RECORD_INFORMATION",
+      "RECORD_INFORMATION_GROUP",
       "RECORD_OWNER",
       "RECORD_PATH",
       "RECORD_TYPES",
