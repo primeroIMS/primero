@@ -7,6 +7,7 @@ import { isEqual } from "lodash";
 
 import { getPermissions } from "../user/selectors";
 import { RESOURCES } from "../../libs/permissions";
+import { INCIDENT_FROM_CASE, MODES } from "../../config";
 
 const Permission = ({ resources, actions, redirect, children, match }) => {
   const { params } = match;
@@ -25,10 +26,21 @@ const Permission = ({ resources, actions, redirect, children, match }) => {
     return acum;
   }, {});
 
+  const hasIncidentFromCase =
+    type === RESOURCES.incidents &&
+    children?.props?.mode === MODES.new &&
+    allUserPermissions.entrySeq().some(permissionRecordType => {
+      const [key, value] = permissionRecordType;
+
+      return key === RESOURCES.cases && value.some(permission => permission === INCIDENT_FROM_CASE);
+    });
+
   const verifyAction = element => (Array.isArray(actions) ? actions.includes(element) : actions === element);
 
   const userHasPermission =
-    List(Object.values(filteredPermissions)).flatten().some(verifyAction) || resources === RESOURCES.any;
+    List(Object.values(filteredPermissions)).flatten().some(verifyAction) ||
+    resources === RESOURCES.any ||
+    hasIncidentFromCase;
 
   if (userHasPermission) {
     return children;
