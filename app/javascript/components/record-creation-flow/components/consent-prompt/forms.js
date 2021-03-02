@@ -40,7 +40,13 @@ const buildLegitimateFields = (legitimateBasisLookup, legitimateBasisExplanation
 
 export const consentPromptForm = (
   i18n,
-  { consentAgreementFields, legitimateBasisLookup, legitimateBasisExplanationsLookup }
+  {
+    renderConsentAgreementField,
+    renderLegitimateField,
+    consentAgreementFields,
+    legitimateBasisLookup,
+    legitimateBasisExplanationsLookup
+  }
 ) =>
   fromJS([
     FormSectionRecord({
@@ -50,14 +56,14 @@ export const consentPromptForm = (
           display_name: "Select all consent agreements that apply",
           name: "consent_agreements",
           type: CHECK_BOX_FIELD,
-          required: true,
+          visible: renderConsentAgreementField,
           option_strings_text: buildConsentAgreementFields(i18n, consentAgreementFields)
         }),
         FieldRecord({
           display_name: "Select all legitimate basis clasifications that apply",
           name: "legitimate_basis",
           type: CHECK_BOX_FIELD,
-          required: true,
+          visible: renderLegitimateField,
           option_strings_text: buildLegitimateFields(legitimateBasisLookup, legitimateBasisExplanationsLookup)
         })
       ]

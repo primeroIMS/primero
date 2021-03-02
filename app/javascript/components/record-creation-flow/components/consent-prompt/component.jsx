@@ -1,55 +1,73 @@
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { useForm } from "react-hook-form";
 import Add from "@material-ui/icons/Add";
-import { yupResolver } from "@hookform/resolvers/yup";
+import isEmpty from "lodash/isEmpty";
 
 import { useMemoizedSelector } from "../../../../libs";
 import { getRecordFormsByUniqueId } from "../../../record-form";
-import { RECORD_TYPES, MODULES, LOOKUPS } from "../../../../config";
+import { RECORD_TYPES, LOOKUPS } from "../../../../config";
 import FormSection from "../../../form/components/form-section";
 import { whichFormMode } from "../../../form";
-import { FORM_MODE_NEW } from "../../../form/constants";
+import { FORM_MODE_NEW, TICK_FIELD, RADIO_FIELD } from "../../../form/constants";
 import { getOptions } from "../../../form/selectors";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { setDataProtectionInitialValues } from "../../../record-form/action-creators";
 
-import { NAME, CONSENT, LIGITIMATE_FIELDS, FORM_ID } from "./constants";
+import { NAME, CONSENT, FORM_ID, LEGITIMATE_BASIS } from "./constants";
 import styles from "./styles.css";
 import { consentPromptForm } from "./forms";
-import validations from "./validations";
 
-const Component = ({ i18n, recordType, searchValue }) => {
+const Component = ({ i18n, recordType, searchValue, primeroModule, dataProtectionFields, goToNewCase }) => {
   const css = makeStyles(styles)();
+  const dispatch = useDispatch();
   const formMode = whichFormMode(FORM_MODE_NEW);
-  const methods = useForm({
-    resolver: yupResolver(validations(i18n))
-  });
+  const methods = useForm();
   const { handleSubmit } = methods;
 
-  const onSuccess = data => console.log(data);
+  const onSuccess = data => {
+    dispatch(setDataProtectionInitialValues(data));
+    goToNewCase();
+  };
+
+  const legitimateBasisLookup = useMemoizedSelector(state => getOptions(state, LOOKUPS.legitimate_basis, i18n));
+  const legitimateBasisExplanationsLookup = useMemoizedSelector(state =>
+    getOptions(state, LOOKUPS.legitimate_basis_explanations, i18n)
+  );
 
   const consentForm = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       checkVisible: false,
       formName: CONSENT,
-      primeroModule: MODULES.CP,
+      primeroModule,
       recordType: RECORD_TYPES[recordType]
     })
   ).first();
 
-  const consentAgreementFields = consentForm.fields.filter(field => LIGITIMATE_FIELDS.includes(field.name));
-  const legitimateBasisLookup = useMemoizedSelector(state => getOptions(state, LOOKUPS.legitimate_basis, i18n));
-  const legitimateBasisExplanationsLookup = useMemoizedSelector(state =>
-    getOptions(state, LOOKUPS.legitimate_basis_explanations, i18n)
+  if (isEmpty(dataProtectionFields)) {
+    return null;
+  }
+
+  const consentAgreementFields = consentForm.fields.filter(
+    field =>
+      (field.type === RADIO_FIELD ? field.option_strings_source === "lookup-yes-no" : field.type === TICK_FIELD) &&
+      dataProtectionFields.filter(dataProtectionField => dataProtectionField !== LEGITIMATE_BASIS).includes(field.name)
   );
 
   const renderCreateCaseText = searchValue && (
     <p className={css.createCaseText}>{i18n.t("case.messages.not_found_case", { search_value: searchValue })}</p>
   );
 
+  const renderLegitimateField = Boolean(
+    dataProtectionFields.find(dataProtectionField => dataProtectionField === LEGITIMATE_BASIS)
+  );
+
   const renderConsentPrompt = consentPromptForm(i18n, {
+    renderConsentAgreementField: consentAgreementFields?.length > 0,
     consentAgreementFields,
+    renderLegitimateField,
     legitimateBasisLookup,
     legitimateBasisExplanationsLookup
   }).map(formSection => (
@@ -81,7 +99,10 @@ const Component = ({ i18n, recordType, searchValue }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  dataProtectionFields: PropTypes.array,
+  goToNewCase: PropTypes.func,
   i18n: PropTypes.object.isRequired,
+  primeroModule: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   searchValue: PropTypes.string
 };

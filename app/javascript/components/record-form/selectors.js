@@ -262,3 +262,6 @@ export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);
 
 export const getFieldByName = (state, name) =>
   state.getIn([NAMESPACE, "fields"], fromJS([])).find(field => field.name === name);
+
+export const getDataProtectionInitialValues = state =>
+  state.getIn([NAMESPACE, "dataProtectionInitialValues"], fromJS({}));

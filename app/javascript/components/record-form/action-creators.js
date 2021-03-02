@@ -76,3 +76,12 @@ export const setValidationErrors = payload => ({
 export const clearValidationErrors = () => ({
   type: Actions.CLEAR_VALIDATION_ERRORS
 });
+
+export const setDataProtectionInitialValues = payload => ({
+  type: Actions.SET_DATA_PROTECTION_INITIAL_VALUES,
+  payload
+});
+
+export const clearDataProtectionInitialValues = () => ({
+  type: Actions.CLEAR_DATA_PROTECTION_INITIAL_VALUES
+});

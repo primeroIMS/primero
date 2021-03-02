@@ -8,7 +8,7 @@ import InputLabel from "../components/input-label";
 
 import Separator from "./seperator";
 
-const CheckboxGroup = ({ onChange, value, options, commonInputProps, metaInputProps }) => {
+const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
   const i18n = useI18n();
   const [checked, setChecked] = useState([]);
   const { name, disabled } = commonInputProps;
@@ -65,9 +65,6 @@ CheckboxGroup.propTypes = {
   commonInputProps: PropTypes.shape({
     disabled: PropTypes.bool,
     name: PropTypes.string.isRequired
-  }),
-  metaInputProps: PropTypes.shape({
-    includeSeparator: PropTypes.bool
   }),
   onChange: PropTypes.func.isRequired,
   options: PropTypes.array,

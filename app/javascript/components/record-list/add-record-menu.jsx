@@ -12,8 +12,11 @@ import { useApp } from "../application";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import RecordCreationFlow from "../record-creation-flow";
+import { useMemoizedSelector } from "../../libs";
+import { getOptionFromAppModule } from "../application/selectors";
 
 import CreateRecordDialog from "./create-record-dialog";
+import { SEARCH_AND_CREATE_WORKFLOW } from "./constants";
 
 const AddRecordMenu = ({ recordType }) => {
   const i18n = useI18n();
@@ -22,6 +25,9 @@ const AddRecordMenu = ({ recordType }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const { userModules, online } = useApp();
+  const searchAndCreateWorkflow = useMemoizedSelector(state =>
+    getOptionFromAppModule(state, userModules.first().unique_id, SEARCH_AND_CREATE_WORKFLOW)
+  );
 
   const showDialogOrRedirectNew = primeroModule => {
     const { unique_id: uniqueId, options } = primeroModule;
@@ -65,6 +71,17 @@ const AddRecordMenu = ({ recordType }) => {
   const renderDialog = uniqueId =>
     uniqueId && <CreateRecordDialog setOpen={setOpen} open={open} recordType={recordType} moduleUniqueId={uniqueId} />;
 
+  const renderCreateRecord = searchAndCreateWorkflow ? (
+    <RecordCreationFlow
+      open={Boolean(moduleUniqueId)}
+      onClose={() => setModuleUniqueId(null)}
+      recordType={recordType}
+      primeroModule={userModules.first().unique_id}
+    />
+  ) : (
+    renderDialog(moduleUniqueId)
+  );
+
   return (
     <>
       <ActionButton
@@ -74,12 +91,7 @@ const AddRecordMenu = ({ recordType }) => {
         rest={{ onClick: handleClick }}
       />
       {renderMenu(userModules)}
-      {/* TODO: Check for module_options.search_and_create_workflow */}
-      <RecordCreationFlow
-        open={Boolean(moduleUniqueId)}
-        onClose={() => setModuleUniqueId(null)}
-        recordType={recordType}
-      />
+      {renderCreateRecord}
     </>
   );
 };

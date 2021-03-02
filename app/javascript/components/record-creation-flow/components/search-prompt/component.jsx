@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import SearchIcon from "@material-ui/icons/Search";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { InputLabel, FormHelperText } from "@material-ui/core";
+import isEmpty from "lodash/isEmpty";
 
 import FormSection from "../../../form/components/form-section";
 import { submitHandler, whichFormMode } from "../../../form";
@@ -20,7 +21,15 @@ import { NAME, FORM_ID, QUERY } from "./constants";
 import { searchPromptForm } from "./forms";
 import styles from "./styles.css";
 
-const Component = ({ i18n, onCloseDrawer, recordType, setOpenConsentPrompt, setSearchValue }) => {
+const Component = ({
+  i18n,
+  onCloseDrawer,
+  recordType,
+  setOpenConsentPrompt,
+  setSearchValue,
+  goToNewCase,
+  dataProtectionFields
+}) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(FORM_MODE_NEW);
   const dispatch = useDispatch();
@@ -56,6 +65,8 @@ const Component = ({ i18n, onCloseDrawer, recordType, setOpenConsentPrompt, setS
     if (isSubmitted) {
       if (records.size > 0) {
         onCloseDrawer();
+      } else if (isEmpty(dataProtectionFields)) {
+        goToNewCase();
       } else {
         setSearchValue(getValues()[QUERY]);
         setOpenConsentPrompt(true);
@@ -100,6 +111,8 @@ const Component = ({ i18n, onCloseDrawer, recordType, setOpenConsentPrompt, setS
 Component.displayName = NAME;
 
 Component.propTypes = {
+  dataProtectionFields: PropTypes.array,
+  goToNewCase: PropTypes.func,
   i18n: PropTypes.object,
   onCloseDrawer: PropTypes.func,
   recordType: PropTypes.string,

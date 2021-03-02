@@ -7,16 +7,17 @@ import { Box } from "@material-ui/core";
 import NavigationPrompt from "react-router-navigation-prompt";
 import { batch, useDispatch, useSelector } from "react-redux";
 
-import { setSelectedForm } from "../action-creators";
+import { setSelectedForm, clearDataProtectionInitialValues } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { constructInitialValues } from "../utils";
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
-import { displayNameHelper } from "../../../libs";
+import { displayNameHelper, useMemoizedSelector, dataToJS } from "../../../libs";
 import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
-import { getFields } from "../selectors";
+import { getFields, getDataProtectionInitialValues } from "../selectors";
+import { LEGITIMATE_BASIS } from "../../record-creation-flow/components/consent-prompt/constants";
 
 import { ValidationErrors } from "./components";
 import RecordFormTitle from "./record-form-title";
@@ -48,6 +49,7 @@ const RecordForm = ({
   const [formTouched, setFormTouched] = useState({});
   const [formIsSubmitting, setFormIsSubmitting] = useState(false);
   const fields = useSelector(state => getFields(state));
+  const dataProtectionInitialValues = useMemoizedSelector(state => getDataProtectionInitialValues(state));
 
   let bindedSetValues = null;
   let formikValues;
@@ -106,6 +108,29 @@ const RecordForm = ({
       bindedSetValues({ ...initialValues, ...formikValues });
     }
   }, [bindedSetValues, initialValues, formTouched, formIsSubmitting]);
+
+  useEffect(() => {
+    if (dataProtectionInitialValues.size > 0) {
+      const initialDataProtection = Object.entries(dataToJS(dataProtectionInitialValues)).reduce(
+        (accumulator, current) => {
+          const [key, value] = current;
+
+          if (key !== LEGITIMATE_BASIS) {
+            return { ...accumulator, ...value.reduce((acc, curr) => ({ ...acc, [curr]: true }), {}) };
+          }
+
+          return { ...accumulator, [key]: value };
+        },
+        {}
+      );
+
+      setInitialValues({ ...initialValues, ...initialDataProtection });
+    }
+
+    return () => {
+      dispatch(clearDataProtectionInitialValues());
+    };
+  }, [dataProtectionInitialValues]);
 
   const handleConfirm = onConfirm => {
     onConfirm();
