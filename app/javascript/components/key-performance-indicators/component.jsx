@@ -27,7 +27,7 @@ import CaseLoad from "./components/case-load";
 const KeyPerformanceIndicators = () => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
-  const commonDateRanges = CommonDateRanges.from(new Date(), i18n.t);
+  const commonDateRanges = CommonDateRanges.from(new Date(), i18n);
 
   return (
     <div>
