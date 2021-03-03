@@ -24,8 +24,6 @@ pt:
         both: "Adulto e Menor"
         unknown: "Desconhecido"
         header: "TIPO DE IDADE DO SUPOSTO INFRATOR"
-      service_referral:
-        undecided: "Indeciso no momento do relatório"
       headers:
         incident_id: "IDENTIFICAÇÃO DO INCIDENTE"
         survivor_code: "CÓDIGO DE SOBREVIVENTE"

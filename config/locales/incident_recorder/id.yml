@@ -24,8 +24,6 @@ id:
         both: "Dewasa dan Anak"
         unknown: "Tidak diketahui"
         header: "GOLONGAN USIA TERDUGA PELAKU "
-      service_referral:
-        undecided: "Tidak diputuskan pada saat laporan"
       headers:
         incident_id: "ID KEJADIAN"
         survivor_code: "KODE PENYINTAS"

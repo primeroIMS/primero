@@ -25,6 +25,7 @@ describe Kpi::ServicesProvided, search: true do
          ])
 
     Child.create!(data: {
+                    module_id: PrimeroModule::GBV,
                     created_at: DateTime.parse('2020/10/27'),
                     owned_by_groups: [group2],
                     gbv_follow_up_subform_section: [{
@@ -33,6 +34,7 @@ describe Kpi::ServicesProvided, search: true do
                   })
 
     Child.create!(data: {
+                    module_id: PrimeroModule::GBV,
                     created_at: DateTime.parse('2020/10/27'),
                     owned_by_groups: [group3],
                     gbv_follow_up_subform_section: [{

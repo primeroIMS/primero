@@ -6,7 +6,8 @@ import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
 import omit from "lodash/omit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import SubformMenu from "../subform-menu";
@@ -18,7 +19,7 @@ import Jewel from "../../../../jewel";
 import { useI18n } from "../../../../i18n";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
-import { compare } from "../../../../../libs";
+import { compare, useThemeHelper } from "../../../../../libs";
 import { getValidationErrors } from "../../..";
 import styles from "../styles.css";
 
@@ -38,6 +39,7 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const { isRTL } = useThemeHelper();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const validationErrors = useSelector(state => getValidationErrors(state), compare);
@@ -153,7 +155,7 @@ const Component = ({
                   <SubformMenu index={index} values={values} />
                 ) : null}
                 <ActionButton
-                  icon={<ArrowIcon />}
+                  icon={isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                   type={ACTION_BUTTON_TYPES.icon}
                   rest={{
                     className: css.subformShow,

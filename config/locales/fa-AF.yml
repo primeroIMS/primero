@@ -1,0 +1,2145 @@
+fa-AF:
+  'true': 'بلی'
+  'false': 'نخیر'
+  cancel: لغو
+  connection_lost: فعلا غیر فعال است
+  connected: وصل شد
+  clear: مشخص
+  description: توضیح
+  form: فورم
+  name: نام
+  offline: غیرفعال
+  yes_label: 'بلی'
+  actions:
+    approvals: تایید
+    button: اقدامات
+    close: بستن
+    description:
+      invalid: آمار نامعتبر
+      valid: آمار معتبر
+    disable: از کار انداختن
+    enable: قادر ساختن
+    incident_details_from_case: درج حادثه
+    incident_from_case: ایجاد حادثه
+    next: بعدی
+    notes: درج یاداشت
+    previous: قبلی
+    reopen: جواب
+    request_approval: تایید درخواست
+    revoke: لغو
+    save: ذخیره
+    services_from_case_creation_success: 'رکورد خدمات ارائه شده '
+    services_section_from_case: نوعیت خدمات را اضافه کنید
+  agencies:
+    label: نمایندگی
+  agency:
+    agency_logos: لوگو نمایندگی
+    code: 'کود نمایندگی '
+    description: توضیحات
+    disabled: غیر فعال کردن
+    label: نمایندگی
+    logo_icon: شکل آیکن
+    logo_icon_help: این ها در صفحه نمایش های کوچک مانند تبلیت و تلفن های هوشمند که مربع شکل باشند، قابل دید میباشند.
+    logo_large: لوگو های بزرگ
+    messages:
+      created: نمایندگی موفقانه تشکیل گردید.
+      updated: نمایندگی موفقانه به روزرسانی شد.
+    name: نام نمایندگی
+    services: خدمات نمایندگی
+  approvals:
+    approved_by: تایید شده توسط
+    case_plan_type_label: نوع پلان قضیه
+    manager_comments_label: پیشنهادات مدیر مربوطه
+    rejected_by: مسترد کننده
+    requested_by: درخواست کننده
+    requested_for_label: تاییدی درخواست شده
+    requested_for_title: تاییدی درخواست
+    response_for_label: تاییدی برای
+    response_for_title: تاییدی
+    action_plan: پلان کاری
+    gbv_closure: خاتمه قضیه خشونت جنسیتی
+    status:
+      approved: تایید شده
+      pending: انتظار
+      rejected: مسترد شده
+      requested: درخواست شده
+  audit_log:
+    action: اقدام
+    description: توضیحات
+    record_owner: شخص ضبط کننده
+    timestamp: وقت
+    user_name: اجرا شده توسط
+  bulk_export:
+    file_name: دوسیه
+    record_type: نوع
+    retry: این نمایه بی اعتبار است. لطفا نمایه خویش را دوباره ایجاد کنید.
+    started_on: شروع
+    status: وضعیت
+  buttons:
+    accept: قبول کردن
+    add: اضافه کردن
+    add_another_option: ایجاد گزینه دیگر
+    add_note: اضافه کردن یادداشت
+    apply: 'به کار یردن '
+    approvals: تاییدی
+    approve_action_plan: تایید پلان کاری
+    approve_case_plan: 'تایید پلان قضیه '
+    approve_gbv_closure: خاتمه قضیه خشونت جنسیتی
+    back: بازگشت
+    cancel: لغو
+    change_password: 'تغیر رمز '
+    clear_default: پاک کردن پیش فرض
+    clear_selection: 'پاک کردن انتخاب '
+    close: بسته کردن
+    continue: 'ادامه '
+    create_case: 'ایجاد قضیه '
+    create_incident: ایجاد حادثه
+    delete: حذف
+    disable: 'غیرفعال '
+    disable_photo_wall: 'برداشتن پشت زمینه '
+    done: انجام شد
+    download: دانلود
+    edit: ویرایش
+    edit_subform: 'تغیر شکل '
+    enable: 'فعال کردن '
+    enable_photo_wall: گذاشتن پشت زمینه
+    export: 'صادره '
+    filter: ایجاد محدودیت
+    filter_clear: 'پاک کردن محدودیت '
+    filter_label: 'محدودیت '
+    filter_restore: 'بازگشت به تنظیمات سیستم '
+    find_tracing_match: 'مشابه ات های ثبت شده '
+    flag_model: بیرق
+    flag_records: بیرق
+    flags: بیرق ها
+    guidance: رهنمایی
+    guiding_questions: 'سوالات رهنما '
+    import: وارده
+    login: 'وارد شدن '
+    logout: 'خارج شدن '
+    mark_for_mobile: آماده شدن برای همکاری
+    new: 'جدید '
+    ok: 'درست '
+    reassign: 'اختصاص دادن '
+    referral: رجعت
+    referral_again: 'رجعت دوباره '
+    reject: ردکردن
+    remove_referrals: 'حذف رجعت دهی '
+    reorder: دوباره سفارش دادن
+    request_approval: تایید درخواست
+    request_transfer: درخواست انتقال
+    reunite: انسجام دوباره
+    save: ذخیره کردن
+    save_and_add_service_provision: 'ذخیره و افزدون نوعیت خدمات '
+    save_and_return: ذخیره و بازگشت
+    save_changes: ‌ذخیره تغیرات
+    select: انتخاب کردن
+    sort_by_case: قضایا
+    sort_by_tr: 'درخواست وصل مجدد '
+    submit: تقدیم کردن
+    transfer: انتقال
+    unflag_model: برداشتن علامت  %{model}
+    unflag_model_history: تاریخچه علامت گذاری  %{model}
+    unmark_for_mobile: برداشتن علامت برای مبایل
+    update: به روز آوری
+    view: نمایش دادن
+    view_flags_history: نمایش دادن تاریخچه
+  case:
+    create_new_case: ایجاد قضیه جدید
+    enter_id_number: شماره آی دی را برای پیداکردن قضیه موجود بنویسید
+    id_search_no_results: شماره وارد شده در سیستم موجود نیست %{search_query}. لطفا یاداشت جدید ایجاد کنید.
+    messages:
+      update_success: 'قضیه %{record_id} موفقانه به روزرسانی شد.'
+      update_success_queue: 'قضیه %{record_id} موفقانه در صفحه نمایش به روزرسانی شد.'
+      creation_success: 'ضبط قضیه موفقانه ایجاد گردید'
+      creation_success_queue: 'ضبط قضیه موفقانه در پشت زمینه ایجاد گردید.'
+    workflow:
+      assessment: ارزیابی
+      case_plan: پلان قضیه
+      closed: بسته
+      created_on: ایجاد شده
+      in_progress: در حال جریان
+      new: جدید
+      on_label: 'در'
+      reopened: جواب
+      service_implemented: بکار بردن خدمات
+      services_implemented: بکار بردن خدمات
+  cases:
+    action_plan: پلان کاری
+    age: سن
+    age_estimated: سن تخمینی
+    agency: نمایندگی
+    apply_filter: 'به کار یردن '
+    approval_comments: پیشنهادات
+    approval_radio: دوست دارم که
+    approval_radio_accept: تایید
+    approval_radio_reject: تایید نشده
+    approval_select: فورم برای
+    approved_success_action_plan: 'تایید- %{approval_label}'
+    approved_success_assessment: 'تایید- %{approval_label}'
+    approved_success_bia: 'تایید- %{approval_label}'
+    approved_success_case_plan: 'تایید- %{approval_label}'
+    approved_success_closure: 'تایید- %{approval_label}'
+    approved_success_gbv_closure: 'تایید- %{approval_label}'
+    assessment: ارزیابی
+    case_opening_date: تاریخ باز کردن قضیه
+    case_plan: پلان قضیه
+    case_worker_code: کود کارمند قضیه
+    clear_filter: واضح
+    close_dialog: با فشار دادن OK این قضیه به حالت مسدود تبدیل میگردد
+    close_dialog_title: بسته نمودن قضیه
+    close_success: قضیه با موفقیت مسدود گردید
+    closure: خاتمه
+    date_of_birth: تاریخ تولد
+    disable_dialog_title: قضیه غیر فعال
+    disable_success: غیر فعال شدن موفقانه قضیه
+    enable_dialog_title: فعال کردن قضیه
+    enable_success: فعال شدن موفقانه قضیه
+    export: صادره
+    filter_by:
+      3month_inactivity: برای +۳ ماه
+      action_plan: پلان کاری
+      age_0_5: ۰-۵
+      age_12_17: ۱۲-۱۷
+      age_18_more: ۱۸+
+      age_6_11: ۶-۱۱
+      age_range: ردیف سنی
+      agency: نمایندگی
+      approval_status: حالت تایید
+      approvals:
+        approved: تایید شده
+        pending: انتظار
+        rejected: مسترد شده
+      bia: اقدام منحصر بفرد
+      by_date: بر اساس تاریخ
+      case_open_date: تاریخ باز کردن قضیه
+      case_plan: پلان قضیه
+      closed: بسته
+      closure: خاتمه
+      current_location: موقعیت فعلی
+      date: تاریخ
+      displacement_status: وضعیت بیجاشده
+      district: ولسوالی
+      duplicate: تکرار
+      enabled_disabled: غعال/غیرفعال
+      female: خانم
+      flag: 'نشانی '
+      flag_label: نشانی شد؟
+      gbv_closure: خاتمه قضیه خشونت جنسیتی
+      high: بلند
+      low: پایین
+      male: مرد
+      medium: متوسط
+      mobile: گوشی
+      mobile_label: برای مبایل آماده گردیده؟
+      my_cases: قضیه من
+      no_action: اقدام صورت نگرفتن
+      no_activity: فعالیت صورت نگرفتن
+      open: باز
+      other: دیگر
+      photo: عکس
+      photo_label: عکس دارد؟
+      protection_concerns: نگرانی های محافظتی
+      protection_status: حالت محافظتی
+      record_state: 'حالت ضبط '
+      referred_cases: قضایای که به من رجعت داده شده است
+      registration_date: تاریخ ثبت
+      risk_level: سطح خطر
+      sex: جنسیت
+      social_worker: ساحه/قضیه/کارمند اجتماعی
+      status: حالت
+      transferred: انتقال
+      type_of_risk: نوعیت خطر
+      urgent_protection_concern: نگرانی های محافظتی فوری
+      user_group: 'گروپ استفاده کننده '
+      workflow: جریان کاری قضایا
+    flag_summary: علامت گذاری خلاصه ها
+    full_name: نام مکمل
+    gbv_closure: خاتمه قضیه خشونت جنسیتی
+    hide_name: پنهان سازی نام
+    hide_name_error: پروسه ذخیزه سازی تغیرات نا موفق بود. لطفا دوباره کوشش کنید.
+    id: شماره تذکره
+    label: قضایا
+    my_filters: محدودیت من
+    name: نام
+    notes_dialog_title: اضافه کردن یادداشت
+    notes_form_notes: 'يادداشت ها '
+    notes_form_subject: 'موضوع '
+    ok: خوب
+    order_by:
+      label: 'درخواست کننده '
+      most_recently: اخیرا
+      name: نام
+    owned_by: 'درج کننده '
+    owned_by_agency: 'نماینده صاحب معلومات '
+    photos: عکس
+    quick_view:
+      tracing_message: 'نوت: در سیستم معلومات درخواست شده این طفل همخوانی دارد. برای بدست آوردن معلومات بیشتر با داشتن اجازه نامه طفل به کارمند اجتماعی که معلومات آنرا به ضبط رسانده است به تماس شوید.'
+    referral_done: فشار دادن کلمه 'اجراء' به این معنا است که شما پروسه رجعت دهی این قضیه را تکمیل نموده اید. با فشار دادن کلمه 'اجراء' شما دیگر به این معلومات دسترسی ندارید.
+    referral_done_success: 'ٰرجعت دهی انجام شد '
+    register_new_case: قضیه جدید
+    registration_date: تاریخ ثبت
+    rejected_success_action_plan: 'مسترد %{approval_label}'
+    rejected_success_assessment: 'مسترد %{approval_label}'
+    rejected_success_bia: 'مسترد %{approval_label}'
+    rejected_success_case_plan: 'مسترد %{approval_label}'
+    rejected_success_closure: 'مسترد %{approval_label}'
+    rejected_success_gbv_closure: 'مسترد %{approval_label}'
+    reopen_dialog: با فشار دادن OK این قضیه به حالت فعال تبدیل میگردد
+    reopen_dialog_title: باز کردن دوباره قضیه
+    reopen_success: باز کردن دوباره قضیه
+    request_approval_failure: اختار، لطفا به بخش خدمات بتماس شوید.
+    request_approval_select: درخواست تایید
+    request_approval_success_action_plan: درخواست تایید برای %{approval_label} فورمه
+    request_approval_success_assessment: درخواست تایید برای %{approval_label} فورمه
+    request_approval_success_case_plan: درخواست تایید برای %{approval_label} فورمه
+    request_approval_success_closure: درخواست تایید برای %{approval_label} فورمه
+    request_approval_success_gbv_closure: درخواست تایید برای %{approval_label} فورمه
+    request_approval_type_of_case_plan: نحوه تاییدی پلان قضیه
+    request_approve_action_plan: پلان کاری تایید شد؟
+    request_approve_bia: ارزیابی تایید شد؟
+    request_approve_case_plan: پلان قضیه تایید شد؟
+    request_approve_closure: ختم قضیه تایید شد؟
+    request_approve_gbv_closure: خاتمه قضیه خشونت جنسیتی تایید شد؟
+    revoke_failure: در هنگام حذف کردن %{transition_type} اختار ایجاد شد، لطفا به بخش خدمات بتماس شوید.
+    revoke_message: با فشار دادن کلمه ’لغو‘، شما دسترسی %{transition_type} شخص درخواست کننده را حذف مینمایید.
+    revoke_success_message: قضیه %{case_id} %{transition_type} تا %{recipient_username} حذف شد.
+    save_filter: ذخیره
+    selected_all_records: تمام قضایای که %{total_records} با این درخواست همخوای دارد را انتخاب کنید.
+    selected_records: '%{select_records} قضایا انتخاب شد'
+    sex: جنسیت
+    show_case: 'نمبر قضیه: %{short_id}'
+    social_worker: کارمند اجتماعی
+    status: حالت
+    survivor_code: کد بازمانده
+    transfer_accepted: 'با کلیک نمودن دکمه ''قبول'' مسولیت این قضیه را قبول میکنید؛ با کلیک نمودن دکمه ''قبول'' شما در سیستم منحیث شخص مسٔول این قضیه میگردید؛ '
+    transfer_accepted_rejected: انتقال قضیه %{record_id} رد شد.
+    transfer_accepted_success: انتقال قضیه موفقانه قبول شد.
+    transfer_reject_reason_label: دلیل رد شدن
+    transfer_rejected: با کلینک نمودن 'رد' شما میرسانید که در حال حاضر شما آماده قبول کردن مسٔولیت این قضیه نیستید. لطفا دلیل مسترد شدن این قضیه را بنویسید؛ در صورت فشار دادن کلمه ’رد‘ دیگر شما به جزئیات آن دسترسی نخواهید داشت.
+    view_name: نشان دادن نام
+  children:
+    selectable_date_options:
+      assessment_requested_on: تاریخ ارزیابی
+      closure_approved_date: 'تاریخ ختم قضیه'
+      created_at: تاریخ باز کردن قضیه
+      date_case_plan_initiated: تاریخ پلان قضیه
+      date_of_creation: تاریخ ایجاد
+      registration_date: تاریخ ثبت
+  configurations:
+    apply_label: مطمئن هستید؟ اگر بکار ببرید، تنظیمات پیکربندی در این سیستم عملی میگردد. شما تمام تنظیمات فعلی خویش را از دست داده و قادر به بدست آوردن دوباره آن نخواهید بود درصورتیکه آنها را در پیکربندی دیگری ذخیره نموده باشید.
+    apply_label_bold: برای چند دقیقه در هنگام آوردن تغیرات پرایمیرو غیر قابل دسترس خواهید بود.
+    attributes:
+      created_by: ایجاد شده توسط
+      date_created: تاریخ ایجاد
+      description: توضیحات
+      last_applied_by: آخرین کاربرد توسط
+      last_applied_on: آخرین کاربرد بر
+      name: نام
+      version: نسخه
+    delete_label: مطمئن هستید که میخواهید این کار را انجام دهید؟ به این معنا است که تمام تنظیمات از زمان پیکربندی ایجاد گردیده است. شما نمی توانید که عقب بروید و تنظیمات را که حذف کردید را بازیابی نمائید.
+    explanation: 'با فشار دادن گذینه ذخیره ثبت تمام گذینه های پیکربندی (مثلاً: قوانین، نمایندگی ها، فورم ها) در این مقطع زمان ایجاد میگردد. بعد از ذخیره، شما میتوانید این تغیرات را در یک بخش دیگر پریمرو اضافه نمایید. اگر در آینده، شما در تنظیمات پیکربندی تغیر ایجاد میکنید و میخواهید به حالت اول برگردانید، میتوانید از این حالت پیکربندی استفاده نموده و حالت تنظیمات را مانند تا این این زمان تغیر دهید.'
+    label: پیکربندی
+    label_new: پیکربندی جدید
+    messages:
+      applied: پیکربندی موفقانه عملی گردید.
+      created: پیکربندی موفقانه ایجاد شد.
+      deleted: پیکربندی موفقانه حذف شد.
+      updated: پیکربندی موفقانه بروز رسانی شد.
+    not_allowed: اجازه-نیست
+    unavailable_server: بخش مسئول موقتاً در دسترس نیست.
+  contact:
+    field:
+      email: ایمیل
+      location: موقعیت
+      name: نام
+      organization: سازمان
+      other_information: معلومات دیگر
+      phone: تلفن
+      position: وظیفه
+      primero_version: نسخه پریمرو
+      support_forum: محل کمک
+      system_version: نسخه سیستم
+    info_label: معلومات تماس
+    updated: معلومات تماس موفقانه بروزرسانی شد.
+  dashboard:
+    activity: فعالیت
+    admin_only: روی %{links} کلیک کنید تا در درخواستی تغیرات بیاورید.
+    all_cases: تمام قضایا
+    all_services_implemented: تمام قضایا اجرا گردید
+    and: 'و'
+    approval_action_plan_approved: تایید شده
+    approval_action_plan_pending: انتظار
+    approval_action_plan_pending_group: پلان کاری
+    approval_action_plan_rejected: مسترد شده
+    approval_assessment_approved: تایید شده
+    approval_assessment_pending: انتظار
+    approval_assessment_pending_group: ارزیابی
+    approval_assessment_rejected: مسترد شده
+    approval_case_plan_approved: تایید شده
+    approval_case_plan_pending: انتظار
+    approval_case_plan_pending_group: پلان قضیه
+    approval_case_plan_rejected: مسترد شده
+    approval_closure_approved: تایید شده
+    approval_closure_pending: انتظار
+    approval_closure_pending_group: خاتمه
+    approval_closure_rejected: مسترد شده
+    approval_gbv_closure_approved: تایید شده
+    approval_gbv_closure_pending: انتظار
+    approval_gbv_closure_pending_group: خاتمه قضیه خشونت جنسیتی
+    approval_gbv_closure_rejected: مسترد شده
+    approvals: تاییدی
+    approvals_action_plan: پلان کاری
+    approvals_assessment: ارزیابی
+    approvals_case_plan: پلان قضیه
+    approvals_closure: خاتمه
+    approvals_gbv_closure: خاتمه قضیه خشونت جنسیتی
+    approved: تایید شده
+    assessment: ارزیابی
+    awaiting_acceptance: قضیه قبول شده در حال انتظار
+    case_id: 'نمبر قضیه'
+    case_management_service: خدمات مدیریت قضیه
+    case_overview: قضایای من
+    case_plan: پلان قضیه
+    case_risk: قضایا نظر به سطح ارزیابی آنها
+    case_stat_by_approval_type: تاییدی
+    case_stat_by_assessment_level: قضایا نظر به سطح ارزیابی آنها
+    case_stat_referrals: رجعت دهی
+    case_stats: قضایا
+    case_worker: کارمند قضیه
+    cases_by_social_worker: قضایای کارمند اجتماعی
+    cases_by_task_overdue: کارهای اضافه
+    cases_by_workflow: جریان کاری قضایا
+    cases_this_week: قضایای این هفته
+    cases_to_assign: قضایای خواسته شده
+    closed: بسته
+    closed_last_week: بسته شده (هفته گذشته)
+    closed_this_week: بسته شده (این هفته)
+    comprehensive_need_intervention: جواب قابل فهم
+    count_new_bia_approvals:
+      one: '%{stat} <span>نو %{stat_type}</span> تایید'
+      other: '%{stat} <span>نو %{stat_type}</span> تایدی'
+    count_new_case_plan_approvals:
+      one: '%{stat} <span>نو %{stat_type}</span> تایدی'
+      other: '%{stat} <span>نو %{stat_type}</span> تایید'
+    count_new_closure_approvals:
+      one: '%{stat} <span>نو %{stat_type}</span> تایدی'
+      other: '%{stat} <span>نو %{stat_type}</span> تایدی'
+    count_pending_approval_total:
+      one: 'شما دارید %{stat} <span>انتظار %{stat_type}</span> تاییدی '
+      other: 'شما دارید %{stat} <span>انتظار %{stat_type}</span> تاییدی '
+    count_pending_transfers:
+      one: شما دارید %{stat} <span>انتظار %{stat_type}</span> انتقال
+      other: شما دارید %{stat} <span>انتظار %{stat_type}</span> انتقال
+    count_records_new:
+      one: و %{stat} <span>نو</span> قظایا
+      other: و %{stat} <span>نو</span> قضایا
+    count_records_total:
+      one: 'شما دارید %{stat} <span>جمعا</span> قضیه '
+      other: 'You have %{stat} <span>total</span> cases '
+    count_referrals_new:
+      one: و %{stat} <span>نو</span> قضیه
+      other: و %{stat} <span>نو</span> رجعت
+    count_referrals_total:
+      one: شما دارید%{stat} <span>جمعا</span> رجعت داده شده
+      other: 'You have %{stat} <span>total</span> referrals  '
+    count_rejected_approval_total:
+      one: 'و %{stat} <span>من %{stat_type}</span> تایید '
+      other: 'and %{stat} <span>rejected %{stat_type}</span> Approvals '
+    count_rejected_transfers:
+      one: 'و %{stat} <span>مسترد شده</span> انتقال '
+      other: 'and %{stat} <span>rejected</span> Transfers '
+    count_risk_level_new:
+      one: و %{stat} <span>نو</span> <span>%{stat_type} خطر</span> قضیه
+      other: and %{stat} <span>new</span> <span>%{stat_type} risk</span> cases
+    count_risk_level_total:
+      one: 'شما دارید %{stat} <span>%{stat_type} خطر</span> قضیه '
+      other: 'You have %{stat} <span>%{stat_type} risk</span> cases '
+    count_waiting_for_acceptance_transfers: شما دارید %{stat} انتقال <span>منتظر</span> جهت قبول کردن
+    current_owner: مسئول فعلی
+    dash_group_overview: قضایای گروپ من
+    dash_shared_from_my_team: اشتراک گذاشته شده از تیم من
+    dash_shared_with_me: به اشتراک گذاشته شده با من
+    dash_shared_with_my_team: به اشتراک گذاشته شده با تیم من
+    dash_shared_with_others: اشتراک با دیگران
+    date: تاریخ
+    date_of_incident: تاریخ رویداد
+    date_of_interview: تاریخ مصاحبه
+    due: اضافه
+    flagged: نشانی شده
+    flagged_by: 'نشانی شده توسط:'
+    flagged_by_me: نشانی شده توسط من
+    flagged_by_other: نشانی شده توسط شخص دیگری
+    follow_up: پیگیری
+    forms: گذینه فورمه ها
+    geographic_area: موقعیت جغرافیایی
+    group_overview_closed: بسته
+    group_overview_open: باز
+    high_level: بالا
+    high_risk: ضرورت بالا
+    immediate_response: رسیدگی عاجل
+    in_progress: در جریان
+    incident_id: 'شماره حادثه'
+    incident_location: محل حادثه
+    incident_status_open: باز
+    last_updated: آخرین آپدیت
+    link_see_all: دیدن همه
+    low_level: پائین
+    low_risk: غیر عاجل
+    manager_count_closed_total:
+      one: 'و %{stat} <span>بسته شد</span> قضیه '
+      other: 'and %{stat} <span>closed</span> cases '
+    manager_count_open_total:
+      one: 'شما دارید %{stat} <span>قضایای</span> باز '
+      other: 'You have %{stat} <span>open</span> cases '
+    manager_transfers_totals:
+      one: 'شما دارید %{stat} <span>%{stat_type}</span> انتقال '
+      other: 'You have %{stat} <span>%{stat_type}</span> Transfers '
+    match_result: نتایج مشابه
+    medium_level: متوسط
+    medium_risk: ضرورت متوسط
+    missed_cases: قضایای از دست رفته
+    name: نام
+    name_or_survivor_code: نام یا کد متضرر
+    near_deadline: تاریخ انقضأ نزدیک
+    new: نو و آپدیت شده
+    new_child_assigned_to_you: قضایای جدید که به شما داده شده است
+    new_incident: رویداد های جدید
+    new_incident_assigned_to_you: 'سپردن رویداد های جدید '
+    new_last_week: جدید (هفته گذشته)
+    new_or_updated: جدید یا آپدیت شده
+    new_referred: رجعت دهی های جدید
+    new_service_provision: نوعیت خدمات جدید
+    new_this_week: جدید (این هفته)
+    no_action_risk: اقدام صورت نگرفته
+    no_case_stats: عدم موجودیت حالت قضیه
+    no_caseworker_data: عدم موجودیت معلومات کارمند قضیه
+    no_flagged_child: هیچ قضیه نشانی نگردیده است
+    no_flagged_incident: هیچ رویداد نشانی نگردیده است
+    no_open_incidents: هیچ رویداد باز نیست
+    no_overdue_activities: هیچ فعالیت اضافه وجود ندارد
+    no_recent_activities: هیچ فعالیت آخیر و جود ندارد
+    no_scheduled_activities: هیچ فعالیت پلان شده وجود ندارد
+    none_risk: بدون الویت بندی
+    number_of_victims: تعداد قربانیان
+    number_of_violations: تعداد تخلفات
+    number_of_violations_verified: تخلفات شناسایی شده
+    open: باز
+    open_cases: قضایای باز
+    open_incidents: رویدادهای باز
+    outstanding_transfers: انتقالات برجسته
+    overdue_activities: فعالیت های اضافی
+    overdue_cases_to_assign: قضایای خواسته شده اضافی
+    overview: مرور
+    pending: انتظار
+    pending_approvals: تائیدی های در حال انتظار
+    pending_transfers: انتقال در حال انتضار
+    protection_concern: نگرانی محافظتی
+    protection_concerns: نگرانی های محافظتی
+    range12+: 12+
+    range4: 0-4
+    range4_8: 4-8
+    range8_12: 8-12
+    recent_activities: فعالیت های اخیر
+    recently_flagged_child: قضایای نشانه شده اخیر
+    recently_flagged_incident: رویداد های نشانی شده اخیر
+    referrals_by_social_worker: رجعت توسط کارمند اجتماعی
+    registration: ثبت
+    rejected: مسترد
+    rejected_transfers: انتقالات مسترد شده
+    response: درخواست <span>(درجریان)</span>
+    scheduled_activities: فعالیت های پلان شده
+    score_range: محدوده نمرات
+    screening_service: خدمات امتحانی
+    services: خدمات
+    services_implemented: خدمات بکار برده شده
+    shared_from_my_team_pending_transfers: انتقال در حال انتضار
+    shared_from_my_team_referrals: رجعت دهی
+    shared_from_my_team_rejected_transfers: انتقالات مسترد شده
+    shared_with_me_new_referrals: رجعت دهی های جدید
+    shared_with_me_total_referrals: همه تعداد رجعت شده ها
+    shared_with_me_transfers_awaiting_acceptance: انتقال قضیه قبول شده در حال انتظار
+    shared_with_my_team_pending_transfers: انتقال در حال انتضار
+    shared_with_my_team_referrals: رجعت دهی
+    shared_with_others_pending_transfers: انتقال در حال انتضار
+    shared_with_others_referrals: رجعت دهی
+    shared_with_others_rejected_transfers: انتقالات مسترد شده
+    status_of_cases: وضعیت قضیه
+    system_user: سیستم
+    total: همه
+    total_cases: همه قضایا
+    total_referred: همه تعداد رجعت شده ها
+    tr_stats: 'درخواست وصل مجدد '
+    transers_awaiting_acceptance: انتقال قضیه قبول شده در حال انتظار
+    transfers_by_social_worker: انتقال توسط کارمند اجتماعی
+    users: آیکن تنظیمات
+    violence_type: نوع خشونت
+    with_incidents: همراه رویداد
+    without_incidents: بدون رویداد
+    worker_count_referrals_total:
+      one: <span>%{case_worker}</span> دارد %{stat} <span>همه</span> رجعت دهی را
+      other: '<span>%{case_worker}</span> دارد %{stat} <span>همه</span> رجعت دهی را '
+    worker_count_total:
+      one: '<span>%{case_worker}</span> has %{stat} <span>total</span> case '
+      other: '<span>%{case_worker}</span> دارد %{stat} <span>همه</span> قضایا را '
+    workflow_team: جریان کار- قضایای تیمی
+    you_have: 'شما دارید'
+  disabled:
+    status:
+      disabled: غیر فعال کردن
+      enabled: قادر ساختن
+  email_notification:
+    assign: '%{user} واگذار نموده است بخش زیر را %{record_type} برای شما: %{record_id}.'
+    assign_subject: '%{record_type}: %{id} - به شما وگذار گردیده است'
+    approval_request: 'استفاده کننده %{user} تایدی درخواست دارد %{approval_type} برای قضیه %{case_id}.'
+    approval_request_subject: 'قضیه: %{id} - درخواست تاییدی'
+    approval_response: '%{user} دارد %{status} درخواست برای تاییدی %{approval_type} برای قضیه %{case_id}.'
+    approval_response_subject: 'قضیه: %{id} - درخواست تاییدی'
+    referral: '%{user} از %{agency} رجعت داده شده است قضیه زیر %{record_type} برای شما: %{record_id} برای%{service_type}.'
+    transfer: '%{user} انتقال داده شده است %{record_type} برای شما %{record_id}.'
+    transfer_request_subject: انتقال درخواست برای یکی از قضایا
+    transfer_subject: '%{record_type}: %{id} - انتقال'
+    referral_subject: '%{record_type}: %{id} - رجعت دهی'
+    transfer_request: 'مشتری پریمرو %{user} از %{agency} درخواست دارد که شما مسئولیت این را واگذار کنید %{record_type} ثبت %{record_id} تا آنها بتوانند ارئه کنند %{record_type} خدمات مدیریت قضیه را برای کسانی که در همان منطقه وجود دارند. اگر این انتقال برای شما مورد قبول میباشد، لطفا کلیک کنیدروی%{record_type} لینک آی دی در این ایمیل برای باز کردن %{record_type}  در پریمرو و شروع انتقال.'
+    approval_request_html: 'استفاده کننده %{user}  درخواست تایدی دارد %{approval_type} برای قضیه %{case_id}.'
+    approval_response_html: '<strong>%{user}</strong> دارد <strong>%{status}</strong> درخواست تاییدی <strong>%{approval_type}</strong>برای قضیه <strong>%{case_id}</strong>.'
+    referral_html: '<strong>%{user}</strong> از %{agency} رجعت داده شده است %{record_type} برای شما: <strong>%{record_id}</strong> برای %{service_type}.'
+    transfer_html: '<strong>%{user}</strong> انتقال داده است قضیه زیر را برای %{record_type} شما: <strong>%{record_id}</strong>.'
+    assign_html: '%{user} واگذار نموده است بخش زیر را %{record_type} برای شما: %{record_id}.'
+    transfer_request_html: 'مشتری پریمرو %{user} از %{agency} درخواست دارد که شما مسئولیت این را واگذار کنید %{record_type} ثبت %{record_id} تا آنها بتوانند ارئه کنند %{record_type} خدمات مدیریت قضیه را برای کسانی که در همان منطقه وجود دارند. اگر این انتقال برای شما مورد قبول میباشد، لطفا کلیک کنیدروی%{record_type} لینک آی دی در این ایمیل برای باز کردن %{record_type}  در پریمرو و شروع انتقال.'
+    transfer_request_notes_html: 'یاداشت های شخص درخواست کننده: %{request_transfer_notes}'
+  encrypt:
+    export_type: نوعیت صادره
+    file_name: نام فایل را تشکیل دهید (دلخواه)
+    password_extra_info: رمز باید حد اقل 8 کلمه یی باشد. این رمز همراه با فایل صادر شده یکجا بوده و هر کسی که در آینده خواستار باز نمودن آن میباشد باید رمز را با خود داشته باشد.
+    password_label: لطفا رمز را وارد نمایید که فایل شما را محفوظ نگهدارد.
+  error_message:
+    address_fields: شما باید خاطر نشان بسازید %{fields} بخش های مربوطه را %{forms} در فورمه ها
+    address_form_fields: شما باید خاطر نشان بسازید %{fields} بخش های مربوطه را در این فورمه
+    address_subform_fields: '%{subform} دارد %{fields} بخش های مربوطه بی اعتبار'
+  error_page:
+    not_authorized:
+      server_error: شما اجاره ندارید که به این صفحه دسترسی پیدا کنید.
+      title: اجاره ندارید
+    not_found:
+      contact_admin: اگر فکر میکنید اشتباً حضور یافتید، لطفاً با بخش ادمین بتماس گردید.
+      something_went_wrong: معذرت، یک مشکل پیش آمده است!
+  errors:
+    error_loading: رکورد(ها) اتفاق اختاریه
+    models:
+      child:
+        age: سن باید بین 0 تا 130 باشد
+        date_of_birth: لطفاً برای این قضیه تاریخ تولد مورد اعتبار را درج نمایید
+      export_configuration:
+        opt_out_field_does_not_exist: بخش مشخص در ذخیره قضیه وجود ندارد که انصراف داده شده باشد.
+        record_type: ثبت ناموفق قضیه. باید طفل باشد، درخواست مدغم سازی دوباره، یا رویداد.
+      field:
+        translated_options_do_not_match: گزینه های بخش ترجمه شده باید آی دی مشابه را دارا باشد
+      location:
+        admin_level_present: باید خالی نباشد
+        code_present: باید خالی نباشد
+        name_present: باید خالی نباشد
+        unique_location_code: یک موقعیت در حال حاضر با این کد وجود دارد، لطفا کد موقعیت متفاوت را بنویسید
+      lookup:
+        being_used: از این جستجو استفاده صورت گرفته است و نمیتوانید حذف کنید
+        name_present: جای نام نباید خالی باشد
+        values_ids_blank: آی دی جستجو شده خالی است
+      primero_module:
+        associated_record_types: حد اقل یک نوع ثبت قضیه باید با این مدول یکجا باشد
+        form_section_ids: حد اقل یک فورم باید با این مدول یکجا باشد
+        name_present: جای نام نباید خالی باشد
+        unique_name: یک مدول در حال حاضر با این نام وجود دارد، لطفا نام متفاوت را بنویسید
+      report:
+        module_presence: مدول نباید خالی باشد
+        module_syntax: گذارش تمام مدیول ها باید درحال حاضر موجود باشد
+        name_presence: جای نام نباید خالی باشد
+      role:
+        permission_presence: لطفاً حد اقل یک دستور را استفاده نمایید
+      user:
+        password_mismatch: ساحات رمز برای تمام آنها یکسان نیست
+        email_uniqueness: یک کاربر در حال حاضر با این ایمیل وجود دارد، لطفا یک ایمیل متفاوت را درج کنید
+    not_found: هیچ مورد پیدا نشد
+    try_again: دوباره امتحان کنید
+  exports:
+    case_pdf:
+      all: پی دی اف
+      one: پی دی اف
+      selected: انتخاب پی دی اف
+    csv:
+      all: سی اس وی
+      one: سی اس وی
+      selected: انتخاب سی اس وی
+    custom:
+      all: 'سفارشی '
+    custom_exports:
+      all: سفارشی
+      choose_fields: آیا میخواهید یک بخش جداگانه را برای فورم تان انتخاب کنید؟
+      empty_fields_forms: لطفاً یک رشته یا بخش را برای به نشر رساندن انتخاب نماید.
+      empty_format: لطفاً یک شکل را برای نشر کردن انتخاب نمایید.
+      empty_module: لطفاً یک شکل را برای نشر کردن انتخاب نمایید.
+      empty_password: لطفا رمز را وارد نمایید که فایل شما را محفوظ نگهدارد.
+      field_label: رشته
+      fields: یک رشته را برای نشر کردن انتخاب نمایید.
+      form_label: فورم
+      format_label: انتخاب فورمت
+      forms: شکل را برای نشر کردن انتخاب نمایید
+      label: نشر عادی
+      module_placeholder: لطفاً یک شکل را انتخاب نمایید.
+      select_module: انتخاب شکل
+      submit: خوب
+    duplicate_id_csv:
+      all: کاپی آی دی
+      female_abbreviation: اف
+      headers:
+        age: سن
+        case_id: آی دی قضیه
+        child_name_last_first: نام طفل
+        family_size: اندازه فامیل
+        moha_id: منسوخ آی دی موها
+        national_id_no: شماره آی دی ملی
+        progress_id: آی دی پیشبرد
+        sex_mapping_m_f_u: جنسیت
+      male_abbreviation: ام
+      unknown_abbreviation: یو
+    exported: فایل تشکیل شده موفقانه به نشر رسید
+    exported_error: نشر فایل نا موفق بود
+    forms:
+      button: نشر فورمه ها
+      label: نشر
+    go_to_exports: برای دانلود به صفحه نشر بروید
+    incident_recorder_xls:
+      all: ثبت رویداد
+      one: ثبت رویداد
+      selected: انتخاب شده برای ثبت رویداد
+    json:
+      all: JSON
+      one: JSON
+      selected: انتخاب JSON
+    list_view_csv:
+      all: نشر و نمایش لیست
+      selected: انتخاب سی وی اس
+    mrm_violation_xls:
+      all: تخلفات میکانیزم ارزیابی گذارشات
+      one: تخلفات میکانیزم ارزیابی گذارشات
+      selected: انتخاب تخلفات میکانیزم ارزیابی گذارشات
+    no_records: هیچ سوابق وجود ندارد!
+    pdf:
+      all: پی دی اف (غیر قابل تغیر)
+      one: پی دی اف
+      selected: انتخاب پی دی اف
+    pdf_exports:
+      label: پی دی اف
+    photowall:
+      all: عکس صفحه
+      flag_suspect_record: نشانی شده منحیث فایل مشکوک
+      no_photos_available: هیچ عکس وجود ندارد!
+      one: عکس صفحه
+      reunited: انسجام دوباره
+      selected: انتخاب منحیث عکس صفحه
+      success_message: عکس صفه اضافه کنید%{file_name} قضایای بدون عکس شامل نمیگردند.
+    printed: 'چاپ شده: %{date}'
+    queueing: تجزیه قضیه به نشر رسیده%{file_name}
+    selected_xls:
+      all: اکسل
+      one: اکسل
+      selected: انتخاب اکسل
+      selected_fields: ساحات انتخاب شده
+    unhcr_csv:
+      all: UNHCR
+      female_abbreviation: F
+      headers:
+        age: سن
+        case_status: حالت قضیه
+        causes_of_separation: دلیل جدایی
+        country_of_origin: کشور اصلی
+        cpims_code: CPIMS کد
+        current_care_arrangement: سازگاری های مراقبتی فعلی
+        date_of_birth: تاریخ تولد
+        date_of_identification: تاریخ شناسایی
+        family_count_no: تعداد اعضای خانواده
+        governorate_country: دولت - کشور
+        id: آی دی
+        individual_progress_id: آی دی پیشبرد فردی
+        locations_by_level: آدرس (کمپ، بلاک، و آدرس های موجود دیگر، مانند سرپناه و نشانی های جی پی اس)
+        long_id: شماره آی دی بزرگ
+        moha_id: شماره آی دی MOHA
+        name_of_caregiver: نام کامل سرپرست
+        name_of_child_last_first: نام کامل طفل
+        primary_protection_concerns: تشویش های محافظتی اولیه
+        progres_id: آی دی پیشبرد
+        reunification_status: حالت ادغام مجدد
+        secondary_protection_concerns: تشویش های محافظتی فرعی
+        sex: جنس
+        sex_mapping_m_f_u: جنس
+        short_id: آی دی کوتاه
+        vulnerability_code: کد آسیب پذیری
+        vulnerability_details_code: کدهای جزئیات آسیب پذیری
+      male_abbreviation: M
+      one: UNHCR
+      selected: انتخاب UNHCR
+      unknown_abbreviation: U
+  fields:
+    action: اقدام
+    actions: اقدامات
+    add: اضافه کردن
+    add_new_field: ایجاد بخش جدید
+    add_existing_field: ایجاد بخش موجود
+    add_field: ایجاد بخش
+    add_field_type: اضافه %{file_type}
+    audio:
+      current: صدای فعلی
+    audio_upload_box: اضافه کردن صدا
+    bia_document: اسناد BIA
+    bid_document: اسناد BID
+    check_box: 'علامت گذاری '
+    clear_group_by: حذف گروپ بوسط
+    clear_sort_by: حذف تنظیم توسط
+    copy_from_another_form: این فایل از یک فورم دیگر کاپی گردید
+    create_field: ایجاد بخش
+    create_unique_values: ایجاد ارقام نادر
+    date_field: بخش تاریخ
+    date_help: روز- ماه-سال
+    date_help_with_time: روز- ماه-سال hh:mm
+    date_not_valid: این تاریخ مدار اعتبار نیست.
+    date_range:
+      date: تاریخ
+      date_range: محدوده تاریخ
+      from: از
+      to: برای
+    date_range_field: محدوده تاریخ
+    date_time: تاریخ- زمان
+    db_name: نام دیتابس
+    default: پیش فرض؟
+    default_date_validation: تنظیم تاریخ پیش فرض
+    default_to_current_date: پیش فرض به تاریخ فعلی؟
+    default_to_current_datetime: پیش فرض به تاریخ و زمان فعلی؟
+    default_value: بها پیش فرض
+    deleted: این %{display_name} بخش حذف گردیده است.
+    detail: جزئیات
+    disabled: غیر فعال کردن
+    display_name: نمایش نام
+    document:
+      comments: پیشنهادات
+      current: آیا این سند فعلی است؟
+      date: تاریخ سند
+      name: نام سند
+    document_upload_box: بارگذاری سند
+    edit_label: تنظیم بخش
+    enabled: قادر سازی؟
+    enabled_label: قادر ساختن
+    english_text: متن انگلیسی
+    field_name: نام رشته
+    field_type: نوعیت رشته
+    file_upload_box:
+      add_document_label: اظافه سازی سند
+      add_new_document_button_text: اضافه نمودن سند دیگر
+      add_new_photo_button_text: اضافه نمودن عکس دیگر
+      add_photo_label: اضافه عکس
+      document_description: توضیحات سند
+      document_file_restrictions_message: 'فایل ها نباید بیشتر از ۲ ام بی باشند
+
+        (فایل های اجرایوی (exe.) نمیتوانند اضافه گردند).'
+      no_file_selected: هیچ فایل انتخاب نشده.
+      photo_file_restrictions_message: عکس ها نبایدکلانتر از ۱۰ ام بی حجم داشته باشند. فایل های صوتی نبایدکلانتر از ۱۰ ام بی حجم داشته باشند. هرچه کوچکتر باشند بهتر است.
+      recorded_audio_label: صدای ضبط شده
+      select_file_button_text: انتخاب فایل
+    find_lookup: پیدا کردن جستجو
+    form_name: نام فورم
+    future_date_not_valid: در آینده نمیتواند.
+    guidance: رهنمایی
+    guiding_questions: سوالات رهنما
+    help_text: نوشته رهنمایی
+    hide_on_view_page: نمایش صفحه
+    label: رشته ها
+    mobile_visible: برنامه گوشی
+    move_to: رفتن به
+    multi_select: میتوانید چندین گذینه را انتخاب نمایید
+    multi_select_box: چند انتخابی
+    must_be_english: باید به انگلیسی نوشته شود
+    name: نام
+    not_future_date: تاریخ آینده نیست
+    number_not_valid: لطفا اطلاعات را به شکل عددی درج کنید
+    numeric_field: بخش عددی
+    on_collapsed_subform: آیا فورمه های فرعی دچار مشکل شده است؟
+    option_strings_add_option: ایجاد گزینه
+    option_strings_source: جستجو
+    option_strings_text: گذینه
+    option_strings_text_display: گذینه متن
+    option_strings_text_key: گذینه ورود
+    options_indications_lookup_values: شما میتوانید از لیست جستجوی موجود استفاده کنید و یا لیست جستجوی دیگری تشکیل دهید.
+    options_indications_restrictions: هر دو را نمیتوانید انجام دهید.
+    options_or_lookup_warning: لطفا گذینه را اظافه نمایید و یا یک از گذینه های جستجو را انتخاب نمایید. هر دو را وارد نکنید.
+    other_documents: اسناد دیگر
+    photo_upload_box: بارگذاری عکس
+    predifined_lookups: استفاده از گذینه جستجوی قبلی
+    radio_button: دکمه رادیو
+    remove: حذف
+    required: ضروری
+    required_field: '%{field} ضروری میباشد'
+    search_existing: جستجوی بخش های موجود
+    select_box: انتخاب گذینه پایین
+    select_date_validation: انتخاب میتود تاریخ  قابل اعتبار
+    select_multiple: انتخاب تمام گذینه های قابل اجرا
+    select_single: (انتخاب...)
+    separator: مجزا کننده
+    show: نمایش؟
+    show_on: نمایش در
+    show_on_minify_form: فورمه کوتاه
+    subform: فورم اضافی
+    subform_group_by: گروپ توسط
+    subform_remove_message: آیا مطمئن هستید میخواهید این فورم اضافی را حذف کنید؟
+    subform_section:
+      description: توضیحات فورم اضافی
+      name: عنوان فورم اضافی
+      starts_with_one_entry: با خانه پری کردن یک فورم اضافی شروع نمودید؟
+      subform_append_only: همگام سازی انتخابی در تلفن همراه
+      subform_prevent_item_removal: جلوگیری از حذف فورمه های اضافی؟
+    subform_sort_by: تنظیم بر حسب
+    successfully_added: موضوع موفقانه اضافه گردید
+    tally_field: بخش شمارشی
+    text_area: بخش متن
+    text_field: موضوع متن
+    textarea: بخش متن
+    tick_box: علامت گذاری جعبه
+    tick_box_label: 'علامت گذاری برچسپ جعبه '
+    translation_text: متن ترجمه شده
+    type: نوع
+    updated: موضوع به روز رسانی شد
+    visibility: دید
+    web_app: برنامه انترنتی
+  filters:
+    apply_filters: اجرأ
+    clear_filters: واضح
+    less: کم...
+    more: زیاد...
+    save_filters: ذخیره
+  flags:
+    add_flag_tab: اضافه نمودن پرچم جدید
+    date: 'تاریخ:'
+    flag_added: علامت گذاری موفقانه اضافه گردید
+    flag_date: تاریخ علامت گذاری
+    flag_reason: دلیل علامت گذاری
+    flag_resolved: علامت گذاری تکمیل شد
+    flags_tab: علامات
+    no_flags: هیچ علامت پیدا نشد
+    resolve_button: حل
+    resolve_flag: علامات تکمیل شده
+    resolve_reason: دلیل تکمیل شدن
+    resolved: علامات تکمیل شده
+    resolved_date: 'حل شده:'
+    resolved_reason: 'دلیل تکمیل شدن'
+    title: بیرق ها
+  followup_reminders:
+    system_generated_followup_flag: بازدید و پیگیری اجباری قضیه
+  form_section:
+    form_name: نام فورم
+    module: بخش
+    name: نام
+    record_type: نوعیت ضبط
+    required_field: '%{field} ضروری میباشد'
+  forms:
+    add: اضافه کردن فورم
+    description: توضیحات فورم
+    fields: رشته ها
+    form_description: توضیحات
+    form_group: گروپ فورمه
+    form_title: عنوان فورم
+    help_text:
+      must_be_english: باید به انگلیسی نوشته شود
+      related_groups: فورم را در گروپ های مربوط برای استفاده کنندگان بگذارید
+      summariaze_purpose: خلاصه دلیل فورم. باید به انگلیسی نوشته شود
+    invalid_characters_field: '%{field} وجود معلومات بی اعتبار.'
+    label: فورمه ها
+    manage: مدیریت
+    messages:
+      created: بخش فورم موفقانه ایجاد گردید
+      fields_with_same_name: فورمه ها و بخش ها به یک اسم نمیتوانند باشند
+      save_success: بخش فورم موفقانه به روز رسانی گردید
+      save_with_errors: یک مشکل وجود داشت و بعضی از بخش های فورمه ها به روزرسانی نگردیدند.
+      updated: بخش فورم موفقانه به روزرسانی شد
+      use_existing: ما شما را تشویق میکنیم که از فورمه های موجود استفاده نمایید طوری که این کار سبب میگردد تا پروسه به اشتراک گذاری معلومات و مدغم ساختن آنها آسانتر گردد.
+    mobile_app: برنامه گوشی
+    module: بخش
+    no_subform_filters_added: این فورم اضافی مربوط به هیچ بخش نمیگردد.
+    record_type: 'نوعیت '
+    record_types:
+      approvals: تاییدی
+      case: قضیه
+      child: قضیه
+      incident: حادثه
+      individual_victim: شخص قربانی
+      potential_match: شباهت نزدیک
+      record_information: معلومات ضبط
+      referrals: رجعت دهی
+      reportable_follow_up: پیگیری
+      reportable_protection_concern: نگرانی محافظتی
+      reportable_service: خدمات
+      tracing_request: 'درخواست وصل مجدد '
+      transfers_assignments: انتقال / وظیفه
+      violation: تخلفات
+    required_field: '%{field} بخش ضروری میباشد '
+    select_label: انتخاب
+    settings: تنظیمات
+    show_on: نمایش در
+    subform_need_to_be_added: آنها باید اضافه شوند.
+    subform_not_found: هیچ %{subform_name} پیدا نشد.
+    title: عنوان فورم
+    translations:
+      edit: اصلاح ترجمه
+      edit_form_group: تصیح فورمه های جستجو شده گروپی.
+      manage: مدیریت ترجمه
+      no_changes_message: شما هیچ تغییر در ترجمه نیاوردید
+      note: 'نوت:'
+      note_form_group: برای اضافه کردن ترجمه در فورمه های گروپی، شما نیاز است تا فورمه های جستجو شده ترجمه گروپی را تصحیح کنید.
+      select_language: انتخاب زبان
+      title: ترجمه ها
+    type_label: نوع
+    visibility: دید
+    web_app: برنامه انترنتی
+  home:
+    current_time_zone: منطقه زمانی فعلی
+    dashboard: داشبورد
+    en: انگلیسی
+    label: خانه
+    language: زبان
+    manage_system_users: مدیریت هماهنگ سازی مستفید شونده گان اصلی
+    records_need_attention: معلومات ضبط شده نیاز به توجه دارد
+    users: مدیریت متفید شونده گان
+    view_records: نمایش آمار
+    welcome: به پرایمرو خوش آمدید
+  incident:
+    messages:
+      creation_success: ضبط رویداد موفقانه ایجاد گردید.
+      creation_success_queue: ضبط رویداد موفقانه در پشت زمینه ایجاد گردید.
+      update_success: 'رویداد %{record_id} موفقانه به روزرسانی شد.'
+      update_success_queue: 'رویداد %{record_id}  موفقانه در پشت زمینه به روزرسانی شد.'
+    violation:
+      pending: شناسایی منتظر
+  incidents:
+    id: شماره تذکره
+    date_of_interview: تاریخ مصاحبه
+    date_of_incident: تاریخ رویداد
+    export: نشر
+    label: حادثات
+    filter_by:
+      boys: بچه ها
+      by_date: بر اساس تاریخ
+      girls: دختر
+      incident_location: محل حادثه
+      unaccompanied_separated_status: حالت محافظتی
+      unknown: ناشناخته
+      violence_type: نوعیت خشونت
+    register_new_incident: رویداد جدید
+    selectable_date_options:
+      date_of_first_report: تاریخ مصاحبه
+      incident_date_derived: تاریخ حادثه
+    selected_records: '%{select_records} حادثه (ها) انتخاب شد'
+    selected_all_records: 'انتخاب کنید تمام %{total_records} رویداد های را که با این پرسش ها همخوانی دارد.'
+    survivor_code: کد بازمانده
+    show_incident: 'آی دی نمبر رویداد %{short_id}'
+    social_worker: کارمند اجتماعی
+    violence_type: نوع خشونت
+    type_violence: نوعیت خشونت
+  location:
+    base_types:
+      camp: کمپ
+      chiefdom: ریاست
+      city: شهر
+      country: کشور
+      county: کشور
+      district: ولسوالی
+      governorate: دولت
+      locality: منطقوی
+      other: دیگر
+      province: ولایت
+      region: موقعیت
+      site: بخش
+      state: شهر
+      sub-district: ناحیه
+      village: قریه
+      zone: بخش
+    label: موقعیت
+  logger:
+    approve_form:
+      action_plan: فورمه پلان کاری
+      bia: فورمه بی آی اَ
+      case_plan: فورمه پلان قضیه
+      closure: فورمه خاتمه
+      'false': مستردشده
+      gbv_closure: فورمه خاتمه قضیه خشونت جنسیتی
+      'true': تایید
+    by_user: توسط استفاده کننده
+    consent_count: تعداد رضایت نامه ها
+    copy: کاپی کردن
+    create: ایجاد کردن
+    create_subform: ایجاد فورم فرعی
+    destroy: حذف کردن
+    edit: تصیح کردن
+    export: اضافه کردن اطلاعات برای
+    flag: نشانی کردن
+    flag_records: نشانی کردن
+    graph_data: نشان دادن گراف اطلاعات
+    hide_name:
+      protect: 'پنهان اسم '
+      view: نشان دادن اسم
+    index: لیست ثبت شده
+    login: ورود
+    logout: خروج
+    lookups_for_field: جستجوی بخش
+    mark_for_mobile:
+      'false': برداشتن نشانی برای مبایل
+      'true': نشانی کردن برای مبایل
+    match_record: ثبت مشابه
+    permitted_field_list: لیست کاری اجازه داده شده
+    quick_view: دیدن لیست نمایش سریع
+    reassign: 'اختصاص دادن '
+    record_state:
+      'false': غیرفعال کردن
+      'true': 'فعال کردن '
+    referral: رجعت دهی
+    relinquish_referral: رجعت دهی تسلیمی خاتمه یافت
+    reopen_case: باز کردن مجدد
+    request_approval:
+      action_plan: درخواست اجازه تایید برای فورم پلان کاری
+      bia: 'درخواست تایید برای فورم بی آی آ '
+      case_plan: درخواست تایید برای فورم پلان قضیه
+      closure: درخواست تایید برای فورم اختتام قضیه
+      gbv_closure: درخواست تایید برای فورم اختتام قضیه خشونت جنسی
+    request_transfer: ارسال درخواست انتقال
+    request_transfer_view: نمایش درخواست انتقال
+    save_subform: ذخیره فورم فرعی
+    search: جستجوی آ پی آی
+    show: نمایش دادن
+    to: 'به '
+    to_user: به کاربر
+    transfer: انتقال دادن
+    transfer_status:
+      Accepted: قبول انتقال
+      Rejected: رد انتقال
+    unflag: برداشتن علامت
+    update: به روز رسانی نمودن
+  login:
+    label: ورود
+    password:
+      label: رمز
+    provider_title: با %{provider}
+    title: 'وارد شدن '
+    username: نام کاربری
+  lookup:
+    create: جستجوی جدید
+    enabled_label: قادر سازی؟
+    english_label: متن انگلیسی
+    label: جستجو
+    language_label: زبان
+    messages:
+      cannot_create: جستجو نمیتواند ایجاد شود
+      correct_errors: 'لطفاً اشتباه های ذیل را حل نموده و دوباره روان کنید:'
+      created: جستجو موفقانه ایجاد شد.
+      updated: جستجو موفقانه بروز رسانی گردید.
+    name: نام
+    no_options: این جستجو فعلاً هیچ گذینه ندارد.
+    translation_label: متن ترجمه
+    values: گذینه ها
+  messages:
+    alert_items: شما %{items} به این تعداد یاداشت دارید.
+    alerts_for:
+      approval: تاییدی درحال حاضر متوقف است برای %{form_section_name}
+      field_change: '%{form_section_name} به روز رسانی شد %{alert_time}'
+      transfer_request: یک درخواست انتقال صورت گرفت در %{date} توسط %{user} در %{agency}
+    cannot_edit: شما نمیتوانید در این تغییر بیاورید
+    confirmation_message: با کلیک کردن اوکی تمام تغییرات ذخیره نشده پاک شده و به لیست نمایش بر میگردد. برای بازگشت به ضبط لغو را کلیک کنید.
+    dashboard_offline: فعلاً انترنت شما غیر فعال است. داشبورد بعد از وصل شما به انترنت بصورت کامل فعال خواهد شد
+    field_name_on_form_name: '''%{field_name}'' در عرصه ''%{form_name}'' فورم.'
+    logout_confirmation: میخواهید که جلسه خود را ادامه دهید؟
+    logout_warning: شما در 5 دقیقه دیگر غیر فعال خواهید شد
+    no_changes: شما در هیچ عرصه تغیر نیاوردید
+  navigation:
+    bulk_exports: 'صادره '
+    cases: قضایا
+    home: خانه
+    incidents: رویداد
+    logout: 'خارج شدن '
+    reports: گزارشات
+    search: جستجو
+    settings: تنظیمات
+    support: همکاری
+    tasks: وظایف
+    tracing_request: 'درخواست وصل مجدد '
+  notes:
+    note_success: اضافه کردن موفقانه یاداشت
+  permissions:
+    label: اجازه ها
+    permission:
+      All: همه
+      add_note: درج یاداشت
+      admin_only: بدون ثبت رویداد - فقط ادمین میتواند دسترسی داشته باشد
+      administrator_read: برای خواندن شخص مالک
+      agency: نمایندگی
+      agency_read: برای دسترسی نمایندگی
+      all: 'اجازه دسترسی به تمام اطلاعات یا مستفید شونده گان '
+      approvals_assessment: '%{approval_label}'
+      approvals_assessment_pending: '%{approval_label} منتظر'
+      approvals_case_plan: '%{approval_label}'
+      approvals_case_plan_pending: '%{approval_label} منتظر'
+      approvals_closure: '%{approval_label}'
+      approvals_closure_pending: '%{approval_label} منتظر'
+      approve_action_plan: تایید %{approval_label}
+      approve_assessment: تایید %{approval_label} فورم
+      approve_case_plan: تایید %{approval_label}
+      approve_closure: تایید %{approval_label} فورم
+      approve_gbv_closure: تایید %{approval_label} فورم
+      assign: 'اختصاص دادن '
+      assign_within_agency: اختصاص دادن با نمایندگی
+      assign_within_user_group: اختصاص دادن با گروپ مستفید شونده
+      audit_log: بخش نظارت
+      case: قضیه
+      case_approvals: تاییدی قضیه
+      case_assignments_referrals_transfers: سپردن، رجعت دهی، و انتقال قضیه
+      case_exports: انتقال قضیه
+      case_overview: قضایای من
+      case_risk: قضایا نظر به سطح برسی آنها
+      cases_by_task_overdue_assessment: نشان دادن قضایا نظر به زیاد شدن برسی آنها
+      cases_by_task_overdue_case_plan: نشان دادن قضایا نظر به زیاد شدن پلان قضیه آنها
+      cases_by_task_overdue_followups: نشان دادن قضایا نظر به زیاد شدن خدمات
+      cases_by_task_overdue_services: نشان دادن قضایا نظر به زیاد شدن خدمات
+      cases_managed_other_users: قضیا توسط کاربران دیگر مدیریت گردیده اند
+      close: خاتمه
+      consent_override: 'زیاد شدن رضایت '
+      copy: کاپی
+      create: ایجاد
+      dash_case_incident_overview: قضایای من/ رویداد ها
+      dash_cases_by_social_worker: نمایش قضایا نظر به کارمند اجتماعی
+      dash_cases_by_task_overdue: نشان دادن قضایا نظر به زیاد شدن خدمات
+      dash_cases_by_workflow: نمایش قضایا نظر به جریان کاری آنها
+      dash_cases_to_assign: نمایش قضایای خواسته شده
+      dash_group_overview: قضایای گروپ ما
+      dash_manager_transfers: نمایش انتقال توسط مدیر
+      dash_matching_results: نمایش نتایج همسان
+      dash_protection_concerns: نمایش تشویش های محافظتی
+      dash_protection_concerns_by_location: نمایش نگرانی های محافظتی نظر به موقعیت
+      dash_referrals_by_socal_worker: نمایش رجعت دهی نظر به کارمند اجتماعی
+      dash_reporting_location: نمایش موقعیت های گزارش دهی
+      dash_service_provisions: نمایش فراهم آوری خدمات
+      dash_shared_from_my_team: به اشتراک گزاشته شده توسط تیم من
+      dash_shared_with_me: اشتراک شده با من
+      dash_shared_with_my_team: به اشتراک گذاشته شده با تیم من
+      dash_shared_with_others: اشتراک با دیگران
+      dash_show_none_values: مشاهده موارد بی اعتبار
+      dash_tasks: نمایش وظایف
+      dash_transfers_by_socal_worker: نمایش انتقال قضایا نظر به کارمند اجتماعی
+      dashboard: داشبورد
+      delete: حذف
+      display_view_page: نمایش صفحه
+      duplicate: تکرار جستجو
+      enable_disable_record: از کار انداختن
+      export_case_pdf: تبدیل کردن پی دی اف قضیه
+      export_csv: تبدیل کردن به سی وی اس
+      export_custom: تبدیل به حالت عادی
+      export_duplicate_id_csv: وارد کردن دوباره
+      export_json: وارد کردن json
+      export_list_view_csv: تبدیل لیست نمایش به سی اس وی
+      export_mrm_violation_xls: تبدیل تخطی های مرم به اکس ال اس
+      export_pdf: تبدیل به پی دی اف
+      export_photowall: وارد کردن عکس صفحه نمایش
+      export_unhcr_csv: تبدیل به یو ان اچ سی آر سی اس وی
+      export_xls: وارد کردن اکس ال اس
+      find_tracing_match: پیدا کردن شباهت قضایا در ادغام مجدد
+      flag: نشانی
+      form: فورمه ها
+      group: دسترسی تمام قضایای به ثبت رسیده یا مستفید شونده گان در گروپ من
+      group_read: خوانش باهمی
+      import: وارد
+      incident: رویداد
+      incident_details_from_case: جزئیات رویداد را در قضیه کاربر دیگر اضافه نمایید
+      incident_from_case: از یک قضیه یک رویداد تشکیل دهید
+      lookup: جستجو
+      manage: مدیریت
+      matching_configuration: پیکربندی یکسان
+      metadata: فورمه ها، جستجو ها
+      potential_match: شباهت نزدیک
+      read: بخوان
+      reassign: واگزاری دوباره
+      receive_referral: رسیدن رجعت دهی
+      receive_transfer: رسیدن انتقال
+      referral: میتواند برای رجعت دهی استفاده شود
+      referral_from_service: رجعت قضیه از فورم آرائه خدمات
+      remove_assigned_users: حذف کاربران گماشته شده دیگر (رجعت دهی)
+      reopen: باز نمودن دوباره
+      report: گزارش
+      request_approval: درخواست تایید
+      request_approval_action_plan: درخواست %{approval_label} تایید
+      request_approval_assessment: درخواست %{approval_label} تایید
+      request_approval_case_plan: درخواست %{approval_label} تایید
+      request_approval_closure: درخواست %{approval_label} تایید
+      request_approval_gbv_closure: درخواست %{approval_label} تایید
+      request_transfer: درخواست انتقال
+      role: نقش ها
+      save_search: ذخیره جستجو
+      saved_search: ذخیره جستجو
+      search_owned_by_others: جستجوی ضبط قضایا بر اساس مئسولیت کاربر های دیگر
+      self: فقط کاربر من را اجازه دهید
+      service_provision_incident_details: نمایش گذینه اضافه کردن خدمات در مادیول مشخصات
+      services_section_from_case: اضافه کردن سرویس خدمات در قضیه مشترک دیگر
+      specific_roles: دسترسی به لیست قواعد مشخص شده
+      sync_mobile: همگام سازی با مبایل
+      system: سیستم
+      tracing_request: 'درخواست وصل مجدد '
+      transfer: میتواند برای انتقال استفاده گردد
+      user: کاربران
+      user_group: گروپ کاربران
+      view_approvals: نمایش تایید
+      view_assessment: نمایش ارزیابی
+      view_photo: نمایش عکس
+      view_protection_concerns_filter: نمایش نگرانی های محافظتی بر اساس فیلتر
+      view_response: نمایش جوابات
+      workflow: جریان کار- قضایای فردی
+      workflow_team: جریان کار- قضایای تیمی
+      write: نوشتن
+    resource:
+      agency:
+        actions:
+          assign:
+            explanation: ضرفیت انتخاب یک نمایندگی برای ایجاد یا تصیح حساب کاربر. اگر کاربر فعلی این اجازه را دارد و همچنان "نمایندگی زیدخل" این اجازه را برای مستفیدین میدهد، آنها فقط قادر خواهند بود تا یک کاربر را در نمایندگی خودشان اضافه نماید.
+            label: 'اختصاص دادن '
+          create:
+            explanation: ظرفیت ایجاد نمایندگی.
+            label: ایجاد
+          manage:
+            explanation: 'به کاربر اجازه دهید تا تمام فعالیت ها را برای نمایندگی انجام دهد. اجازه "مدیریت" به معنا  "همه چیز" است. مهم: این همچنان ما را قادر میسازد که یک نمایندگی جدید ایجاد کنیم.'
+            label: مدیریت (اجازه همه چیز در این زمینه)
+          read:
+            explanation: قدرت نمایش تمام نمایندگی ها.
+            label: نمایش
+          write:
+            explanation: اجازه تصیح معلومات در مورد نمایندگی ها. لطفا به یاد داشته باشید که این به تمام نمایندگی ها در سیستم قابل تطبیق است.
+            label: تصیح
+        label: نمایندگی
+      audit_log:
+        actions:
+          read:
+            explanation: به کاربر اجازه دهید که بتواند لیست تمام عملکرد ها و جریانات که در داخل سیستم وجود دارد دسترسی پیدا کنند، با در نظر داشت کاربر، نوعیت فعالیت، آی دی، و زمان اجرأ فعالیت. این بهتر به سطح ملی و نمایندگی قابل أجرا است، درحالیکه این نماینگر عملکرد های تمام کاربران در سیستم میباشد. لطفاً به یاد داشته باشید که بخش نظارت دسترسی معلومات شناخت افراد را در هر بخش نمایش نمی دهد.
+            label: نمایش
+        label: بخش نظارت
+      case:
+        actions:
+          add_note:
+            explanation: به یک کاربر اجازه میدهد تا فقره ای را در فورم فرعی یاد داشت ها(بعضی اوقات "نظرات" هم گفته میشود) اضافه کند. کاربر این کار را با کلیک کردن روی گزینه "افزودن یادداشت" در صفحه نمایش قضیه انجام میدهد. این کار بخصوص برای مدیرانی مفید است که توانایی ویرایش قضایا را ندارند، اما میخواهند در قضیه ای برای کارگران قضایای شان تذکراتی وارد کنند. به این روش، افزودن یادداشت مشابه به افزودن پرچم است. مزیت افزودن یادداشت این است که، وقتی مدیر یادداشتی را به قضیه اضافه می کند، اعلانی بر قضیه برای کارگران قضیه وقتی آنها قضیه را را روی دستگاه های مبایل شان می بینند ظاهر می شود
+            label: اضافه کردن یادداشت به یک قضیه
+          approve_action_plan:
+            explanation: به مدیر اجازه دهد که%{approval_label} قضایای کارمندان قضایا شان را تایید کند.
+            label: تایید %{approval_label}
+          approve_assessment:
+            explanation: به مدیر اجازه دهد که%{approval_label} قضایای کارمندان قضایا شان را تایید کند.
+            label: تایید %{approval_label} فورم
+          approve_bia:
+            explanation: به مدیر اجازه دهد که%{approval_label} قضایای کارمندان قضایا شان را تایید کند.
+            label: تایید %{approval_label} فورم
+          approve_case_plan:
+            explanation: به مدیر اجازه دهد که%{approval_label} قضایای کارمندان قضایا شان را تایید کند.
+            label: تایید %{approval_label}
+          approve_closure:
+            explanation: به مدیر اجازه دهد که%{approval_label} قضایای کارمندان قضایا شان را تایید کند.
+            label: تایید %{approval_label} فورم
+          approve_gbv_closure:
+            explanation: به مدیر اجازه دهد که%{approval_label} قضایای کارمندان قضایا شان را تایید کند.
+            label: تایید %{approval_label} فورم
+          assign:
+            explanation: 'به کاربر اجازه میدهد که قضیه ای را از صاحب رکورد اصلی آن به کاربر دیگری در سیستم بفرستد. هیچ موافقت کودکی برای این کار نیاز نیست. برخلاف نقل و انتقالات، به گیرنده این فرصت داده نشده تا قراردادی را قبول و یا رد کند. '
+            label: 'اختصاص دادن '
+          assign_within_agency:
+            explanation: به کاربر اجازه میدهد که قضیه ای را از صاحب رکورد اصلی آن به کاربر دیگری در سیستم بفرستد. هیچ موافقت کودکی برای این کار نیاز نیست. برخلاف نقل و انتقالات، به گیرنده این فرصت داده نشده تا قراردادی را قبول و یا رد کند.
+            label: اختصاص به کاربر در نمایندگی من
+          assign_within_user_group:
+            explanation: به کاربر اجازه میدهد که قضیه ای را از صاحب رکورد اصلی آن به کاربر دیگری در سیستم بفرستد. هیچ موافقت کودکی برای این کار نیاز نیست. برخلاف نقل و انتقالات، به گیرنده این فرصت داده نشده تا قراردادی را قبول و یا رد کند.
+            label: اختصاص به کاربر در گروه من
+          change_log:
+            explanation: کاربر می تواند از تمام تغییرات اعمال شده روی اطلاعات را از زمان ایجاد آن ببیند.
+            label: تغییر در سیتم
+          close:
+            explanation: به کاربر اجازه میدهد که وضعیت یک قضیه را از باز به بسته تغییر بدهد.
+            label: بسته کردن
+          consent_override:
+            explanation: 'به کاربر اجازه میدهد که ارجاع وانتقال را برای قضیه ای که اجازه صادر نکرده است انجام بدهد. '
+            label: لغو کردن عدم رضایت هنگام مراجعه و انتقال دادن
+          create:
+            explanation: توانایی ایجاد یک قضیه
+            label: ایجاد
+          display_view_page:
+            explanation: در صورتیکه کاربری برای قضیه ای جستجو کند که به آن دسترسی ندارد، این دستور به آنها اجازه دیدن مدل کوچکی با اطلاعات اولیه در مورد قضیه را میدهد، حتی اگر کاربر نتواند برای دیدن تمام اطلاعات روی قضیه کلیک کند. قسمت هایی که در این "مدل نمایی" هستند، زمینه هایی اند که برای "نشان دادن روی فورم کوتاه" تنظیم شده اند. این روش همچنان برای کاربرانی مفید است که اقدامات ردیابی و یکجا شدن دوباره خانواده را انجام میدهند، از آنجاییکه "مدل نمایی" برای کاربر، زمانیکه قضایایی را مرور می کنند که برای درخواست ردیابی به عنوان "تطابقات بالقوه" ظاهر شده اند، قابل دسترسی است.
+            label: نمایش صفحه مشاهده
+          enable_disable_record:
+            explanation: 'توانایی فعال و غیر فعال کردن قضیه. قضایای "غیرفعال" بطور پیش فرض در لیست قضایا ظاهر نمیشود. کاربران می توانند قضایای غیر فعال را در لیست قضایا با استفاده از فیلتر ببینند. بطور نمونه، اگر کاربری قضیه ای را سهوا ایجاد کرد، و یا قضیه اطلاعات ناصحیح دارد، کاربر باید آن را غیر فعال کند. '
+            label: فعال/غیرفعال
+          export_case_pdf:
+            explanation: کاربر می تواند صدور فایل PDF را از لیست قضایا و یا صفحات نمایش قضایا، که تمام بخش هایی را که کاربر به آنها دسترسی دارد، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد. در صدور فایل PDF، معلومات ابتدا بر اساس قضیه، و سپس بیشتر ترتیب شده بر اساس فورمی که روی آن معلومات ظاهر می گردد، لیست شده است.
+            label: صدور PDF قضیه
+          export_csv:
+            explanation: 'کاربر می تواند صدور فایل CSV را از لیست قضایا و یا صفحات نمایش قضایا، که تمام بخش هایی را که کاربر به آنها دسترسی دارد، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد. یادداشت: صدور فایل CSV حروف غیرلاتین (مثل عربی، بنگلا) را در یک فورمت خواندنی ارائه نمی کند.'
+            label: صدور کردن CVS
+          export_custom:
+            explanation: 'کاربر می تواند صدور فایل XLS را از لیست قضایا و یا صفحات نمایش قضایا، که تمام بخش هایی را که کاربر به آنها دسترسی دارد، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد. در این صدور، هر فورمی در تب خودش در فایل XLS ارائه می شود. کاربر می تواند انتخاب کند که کدام فورم و یا کدام بخش ها را میخواهند شامل صدور با استفاده از مدل Custom Export باشد. لطفا مد نظر داشته باشید که کاربرها می تواند فورم ها و قسمت هایی را شامل صدور بسازند که پیش از پیش بتوانند آن فورم ها و قسمت ها را در زمان مرور قضیه در داخل اپلیکیشن ببینند. '
+            label: صدور سفارشی
+          export_duplicate_id_csv:
+            explanation: 'یک صدور CSV از قضایایی را ایجاد می کند که کد ملی همسان دارند (بسته به پیکربندی ، شاید برچسپ متفاوت داشته باشند). تنها از صفحه لیست قضایا قابل اجرا میباشد.  '
+            label: وارد کردن دوباره
+          export_json:
+            explanation: کاربر می تواند صدور فایل JSON را از لیست قضایا و یا صفحات نمایش قضایا، که تمام بخش هایی را که کاربر به آنها دسترسی دارد، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد. این صدور عمدتا برای کسانی استفاده می شود که می خواهند قضایا را از سیستم برحال Primero صدور کنند و سپس آنها را در سیستم متفاوت Primero و یا در سیستم مدیریت اطلاعات دیگری وارد کنند. فرمت JSON فقط قابل خواندن توسط دستگاه است و برای اکثر کاربران عملی نمی باشد.
+            label: صدور JSON
+          export_list_view_csv:
+            explanation: کاربر می تواند صدور فایل CSV را از صفحه لیست قضایا که همان قسمت هایی را در بر دارد که برای آن کاربر روی لیست قضایا ظاهر می شود، انجام دهد.
+            label: صدور CSV  نمایه لیست
+          export_photowall:
+            explanation: به کاربر اجازه میدهد که فایلی را از صفحه لیست قضایا که تصاویر تمام قضایای انتخاب شده را دربر دارد صدور کند. این صدور عموما برای فعالیت های ردیابی و دوباره پیوستن خانواده استفاده می شود. تنها از صفحه لیست قضایا قابل اجرا میباشد.
+            label: وارد کردن عکس صفحه نمایش
+          export_unhcr_csv:
+            label: صدور CSV  UNHCR
+          export_xls:
+            explanation: 'کاربر می تواند صدور فایل XLS را از لیست قضایا و یا صفحات نمایش قضایا، که تمام بخش هایی را که کاربر به آنها دسترسی دارد، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد. یادداشت: صدور XLS حروف غیر لاتین (مثل عربی، بنگلا) را در فورمتی خواندنی ارائه میدهد، در حالیکه CVS این کار را نمی کند.'
+            label: صدور اکسیل (فایل XLS)
+          find_tracing_match:
+            explanation: 'این مورد منحصرا برای زمینه های دارای فعالیت های یکپارچه سازی و ردیابی خانواده ها استفاده می شود. کاربران با این دستور روی صفحه نمایش قضایا یک دکمه "یافتن تطابق ردیابی" خواهند دید. هنگامیکه آنرا کلیک کنند، به لیست درخواست ردیابی در سیستم خواهند رسید که تطابقات باالقوه برای قضیه شان میباشد. '
+            label: یافتن تطابق ردیابی از قضیه
+          flag:
+            explanation: توانایی افزودن پرچم به یک قضیه. کاربران با این دستور همچنان می توانند پرچم هایی را که به یک قضیه اضافه کرده اند حذف کنند
+            label: نشانی
+          import:
+            explanation: به کاربر اجازه میدهد تا یک یا چند قضیه جدید را با وارد کردن آنها از فایل CSV، Excel، سا JSON، ایجاد کند. فایل وارد شده باید با فورمت "very" ایجاد شده باشد بخصوص برای اینکه اطلاعات به صورت درست وارد شود. این قابلیت فقط باید برای کاربران اداری با مهارت های فنی پیشرفته و و دانش عمیقی از چگونگی فورمت اطلاعات در پریمیرو، قابل دسترس باشد. تنها قابل اجرا از صفحه لیست قضایا
+            label: وارد کردن
+          incident_details_from_case:
+            explanation: 'توانایی افزودن یک فقره برای فورم فرعی "جزئیات رویداد" روی قضیه ای که در نتایج جستجو پیدا کرده اید اما به آن دسترسی ندارید. کاربر این کار را از صفحه نتایج جستجو با انتخاب یک و یا بیشتر از یک قضیه و بعد از آن انتخاب "افزودن رویداد" از منوی اقدامات، اجرا می کند. کاربران سپس مدلی را می بینند که تمام قسمت های روی فورم فرعی جزئیات رویداد را در بر دارد، جایی که می توانند معلومات در مورد خدماتی را وارد و اراِئه کنند. به دلیل اینکه این کار فقط می تواند از صفحه نتایج جستجو اجرا شود، تنها زمانی برای عملکردی داشتن این اجازه منطقی است که اجازه "جستجو برای اطلاعات قضایای تحت ملکیت کاربران دیگر" را نیز داشته باشد. '
+            label: افزودن جزئیات رویداد به قضیه کاربری دیگر از صفحه نتایج جستجو.
+          incident_from_case:
+            explanation: 'ین دستور به کاربر اجازه میدهد که دکمه "ایجاد رویداد" را کلیک کند. این کار رویدادی را ایجاد می کند که ممکن است معلوماتی را دربر داشته باشد که از قضیه کاپی برداری شده است. برای قضایای GBV، این دکمه در بالای صفحه نمایش قرار دارد، و به صورت کلی با معلومات درباره قضیه در تطابق است. در بعضی از متون رویداد یاب، این دکمه روی فورم فرعی "جزئیات رویداد" قرار دارد. در این حالت، بعضی معلومات ممکن است هم از فورم فرعی جزئیات حادثه که در آن روی دکمه کلیک شده بود کاپی برداری شود و هم در کل از خود قضیه. یعنی قضیه تازه ایجاده شده ممکن است بخش "نوع خشونت" را از فورم فرعی جزئیات شخص دربر داشته باشد، اما احتمال دارد سن و جنسیت خود پرونده را نیز در بر داشته باشد. به یاد داشته باشید که این دستور همچنان به کاربر اجازه میدهد تا لینکی به پرونده ایجاد شده ببیند. '
+            label: ایجاد یک رویداد از یک قضیه
+          manage:
+            explanation: به کاربر اجازه میدهد که تمام عملکردهای موجود روی پرونده را اجرا کند. دستور "مدیریت" الزاما "همه چیز" معنا میدهد.
+            label: مدیرت کردن (تمام دستورات برای این گونه منبع)
+          read:
+            explanation: توانایی مشاهده یک قضیه
+            label: نمایش
+          receive_referral:
+            explanation: 'به کاربر اجازه میدهد تا ارجاع دریافت کند. کاربران دارای این دستور به عنوان گیرنده های باالقوه یک اقدام ارجاع ظاهر خواهند شد، در حالیکه کاربران بدون این دستور، زمانیکه کسی در مدل ارجاع در جستجوی گیرنده ای میباشد، به عنوان گیرنده های باالقوه ظاهر نخواهند شد. '
+            label: دریافت ارجاع
+          receive_transfer:
+            explanation: به کاربر اجازه میدهد تا انتقالی را دریافت کند. کاربران دارای این دستور به عنوان گیرنده های باالقوه یک اقدام انتقال  ظاهر خواهند شد، در حالیکه کاربران بدون این دستور، زمانیکه کسی در مدل انتقال در جستجوی گیرنده ای میباشد، به عنوان گیرنده های باالقوه ظاهر نخواهند شد.
+            label: دریافت انتقال
+          referral:
+            explanation: به کاربر اجازه میدهد تا به صورت موقت به کاربر دیگری احازه دسترسی به قضیه ای را بدهد. گیرنده گان ارجاع قادر خواهند بود تمام اقداماتی را که قادر اند روی قضیه خود شان اعمال کنند، روی آن قضیه نیز اجرا کنند.
+            label: رجعت دهی
+          referral_from_service:
+            explanation: 'به کاربر اجازه میدهد تا دکمه "ارجاع" را در فورم فرعی خدمات ببیند. زمانیکه کاربر این دکمه را کلیک می کنید، مدل ارجاع ظاهر می شود در حالیکه نوع خدمات، نمایندگی، ارائه دهنده خدمات، و بخش های موقعیت غیر فعال اند، اما به صورت خودکار با اطلاعات مورد نیاز آن بخش ها روی فورم فرعی خدماتی که کاربر دکمه "ارجاع" را در آن کلیک کرد، خانه پری می شود. '
+            label: ارجاع دادن قضیه از فورم فرعی خدمات
+          remove_assigned_users:
+            explanation: به کاربر اجازه میدهد تا کاربران دیگر را از بخش "سایر کاربران مقرر شده" حذف کند. کاربری در این قسمت لیست شده است که ارجاعی را برای قضیه و یا انتقالی را برای قضیه دریافت کرده اند اما هنوز آن را قبول و یا رد نکرده است. بناء، کاربران با این دستور می توانند دسترسی به قضیه را از دسترس کاربرانی که قبلا ارجاعات و یا انتقالات هنوز معوقه برای قضیه دریافت کرده اند، خارج کنند. به یاد داشته باشیید که این دستور فقط در صورتی عملی است که کاربر برحال نیز توانایی ویرایش قضیه را داشته باشد.
+            label: حذف سایر کاربران مقرر شده (بازپس گیری دسترسی به قضیه از کاربران مراجعه شده)
+          reopen:
+            explanation: به کاربر اجازه میدهد تا قضیه ای را که فعلا بسته شده است باز کند.
+            label: باز نمودن دوباره
+          request_approval_action_plan:
+            explanation: به کاربر(معمولا یک مسئول قضیه) احازه میدهد تا درخواست کنند که مدیر شان   قضیه شان را تایید کند%{approval_label}.
+            label: درخواست %{approval_label} تایید
+          request_approval_assessment:
+            explanation: به کاربر(معمولا یک مسئول قضیه) احازه میدهد تا درخواست کنند که مدیر شان   قضیه شان را تایید کند %{approval_label}.
+            label: درخواست %{approval_label} تایید
+          request_approval_bia:
+            explanation: به کاربر(معمولا یک مسئول قضیه) احازه میدهد تا درخواست کنند که مدیر شان   قضیه شان را تایید کند %{approval_label}.
+            label: درخواست %{approval_label} تایید
+          request_approval_case_plan:
+            explanation: به کاربر(معمولا یک مسئول قضیه) احازه میدهد تا درخواست کنند که مدیر شان   قضیه شان را تایید کند %{approval_label}.
+            label: درخواست %{approval_label} تایید
+          request_approval_closure:
+            explanation: به کاربر(معمولا یک مسئول قضیه) احازه میدهد تا درخواست کنند که مدیر شان   قضیه شان را تایید کند %{approval_label}.
+            label: درخواست %{approval_label} تایید
+          request_approval_gbv_closure:
+            explanation: به کاربر(معمولا یک مسئول قضیه) احازه میدهد تا درخواست کنند که مدیر شان   قضیه شان را تایید کند %{approval_label}.
+            label: درخواست %{approval_label} تایید
+          request_transfer:
+            explanation: 'دکمه "درخواست انتقال" را روی "مدل نمایی" آشکار می کند. این دکمه به کاربر اجازه میدهد تا به دارنده اطلاعات برحال یک قضیه پیامی حاوی یادداشت شخصی از طریق ایمیل بفرستد و از دارنده اطلاعات بخواهد تا قضیه را به کاربری انتقال بدهد که درخواست را ارسال کرده است. این کار در زمینه هایی مفید است که اطفال اغلبا تغییر سکونت میدهند و کارمندان قضیه نیاز دارند تا مسئول قضیه پیشین کودک معلومات درباره کودک را جهت جلوگیری از ایجاد اطلاعات اضافی ارسال کند. '
+            label: درخواست انتقال
+          search_owned_by_others:
+            explanation: 'به کابران اجازه میدهد تا جستجویی را برای سوابقی انجام بدهند که معمولا به آنها یا به دلیل اینکه مالک آن سوابق نیستند یا (برای مدیرها) به دلیل اینکه مالک سوابق در گروه کاربری آنها نیست، دسترسی ندارند. به یاد داشته باشید در حالیکه کاربر پرونده را در نمایه نتایج جستجو خواهد دید، آنها قادر نخواهند بود تا برای آن پرونده به صفحه نمایش پرونده کلیک کنند، به این معنا که نمی توانند معلومات مشروح راجع به پرونده ببینند. '
+            label: جستجو برای اطلاعات قضایا تحت ملکیت سایر کاربران
+          service_provision_incident_details:
+            explanation: به کاربر اجازه میدهد تا دکمه ای را با برچسپ "ذخیره و افزودن ارائه خدمات" در پایین مدل "افزودن یک رویداد" ببیند. کلیک کردن این دکمه معلوماتی را که در مورد رویداد در حال حاضر وارد شده است را ذخیره می کنده و بعد از آن کاربر را مستقیما به مدل "افزودن ارائه خدمات" می برد. از آنجاییکه این کارکرد مستقیما به اقدامات "افزودن رویداد" و "افزودن ارائه خدمات" ربط دارد، دادن این اجازه به یک بخش در صورتی منطقی است که آن بخش اجازه های "افزودن جزئیات رویداد به قضیه کاربر دیگری" و "افزودن ارائه خدمات به قضیه کاربر دیگری" را نیز داشته باشد.
+            label: دیدن "دکمه افزودن ارائه خدمات" روی "مدل جزئیات رویداد"
+          services_section_from_case:
+            explanation: 'توانایی افزودن فقره ای به فورم فرعی خدمات روی قضیه ای در نتایج جستجو پیدا کرده اید اما به آن دسترسی ندارید. کاربر این کار را از صفحه نتایج جستجو با انتخاب یک و یا بیشتر از یک قضیه و بعد از آن انتخاب "افزودن ارائه خدمات" از منوی اقدامات، اجرا می کند. کاربران سپس مدلی را می بینند که تمام قسمت های روی فورم فرعی خدمات را در بر دارد، جایی که می توانند معلومات در مورد خدماتی را وارد و اراِئه کنند. به دلیل اینکه این کار فقط می تواند از صفحه نتایج جستجو اجرا شود، تنها زمانی برای عملکردی داشتن این اجازه منطقی است که اجازه "جستجو برای اطلاعات قضایای تحت ملکیت کاربران دیگر" را نیز داشته باشد. '
+            label: افزودن ارائه خدمات به قضیه کاربری دیگر
+          sync_mobile:
+            explanation: 'این دستور عموما به کاربران اجازه میدهد تا اپلیکیشن مبایل را استفاده کنند. ابتدا، به کابران اجازه میدهد تا عملکردهای "علامت گذاری برای مبایل" و "برداشتن علامت گذاری برای مبایل" را که در صفحات لیست پرونده ها و نمایش پرونده ها ظاهر می شوند، ببینند. علامت گذاری کردن یک پرونده برای مبایل نشان میدهد که معلومات راجع به آن پرونده باید بین دستگاه مبایل کاربر و اپلیکیشن وب همگام سازی شود، در حالیکه برداشتن علامت گذاری پرونده برای مبایل اتفاق افتادن این همگام سازی را متوقف می کند. کاربران بدون این دستور عموما نمی توانند دستگاه مبایل شان را با اپلیکیشن وب همگام بسازند، که به این معنا است که آنها از برنامه مبایل برای میدیرت پرونده استفاده نمی توانند. '
+            label: 'همگام سازی با دستگاه مبایل '
+          transfer:
+            explanation: به کاربر اجازه میدهد تا قضیه ای را از دارنده اطلاعات برحال آن به هر کاربر دیگری با توانایی دریافت انتقال ارسال کند. دارنده اطلاعات قضیه تغییر نمی کند، هرچند، تا اینکه گیرنده انتقال آن را "قبول" کند. در صورتیکه گیرنده در عوض انتقال را "رد" کند، گیرنده دسترسی به قضیه را از دست می دهد، و قضیه دارنده اطلاعات اصلی اش را حفظ می کند.
+            label: انتقال
+          view_photo:
+            explanation: به کاربر اجازه میدهد عکس های یک قضیه را از نمایه لیست قضایا ببیند. بدون این دستور، کاربر ستون "عکس" جدول لیست قضایا را و یا آیکون هایی را که آنجا ظاهر می شوند را نمی بیند. این دستور همچنان به کاربر اجازه میدهد عکس های کودک را در "مدل نمایه" ببیند.
+            label: مشاهده عکس از نمایه لیست پرونده ها
+          view_incident_from_case:
+            explanation: در زمان مشاهده یک قضیه، کاربر می تواند لیستی از حادثات مرتبط به قضیه را در انضمام چکیده ای در مورد هرکدام ببیند.
+            label: دیدن رویدادها از قضیه
+          write:
+            explanation: توانایی کلیک کردن دکمه "ویرایش" بروز کردن اظلاعات در قضیه، و کلیک کردن "ذخیره"
+            label: تصیح
+        label: قضیه
+      dashboard:
+        actions:
+          approvals_action_plan:
+            explanation: تعداد قضایای کاربر برحال را با درخواست های پلان کاری معوقه، تایید شده، یا مردود، نشان میدهد.
+            label: تاییدی کارمند %{approval_label} قضیه
+          approvals_action_plan_pending:
+            explanation: تعداد قضایای موجود در تیم یک مدیر را با درخواست های تاییدی پلان کاری معوقه نشان میدهد.
+            label: تاییدی مدیر %{approval_label} قضیه
+          approvals_assessment:
+            explanation: تعداد قضایای کاربر برحال را با درخواست های ارزیابی معوقه، تایید شده، یا مردود، نشان میدهد
+            label: تاییدی کارمند %{approval_label} قضیه
+          approvals_assessment_pending:
+            explanation: تعداد قضایای موجود در تیم یک مدیر را با درخواست های تاییدی ارزیابی معوقه نشان میدهد.
+            label: تاییدی مدیر %{approval_label} قضیه
+          approvals_case_plan:
+            explanation: تعداد قضایای کاربر برحال را با درخواست های پلان کاری معوقه، تایید شده، یا مردود، نشان میدهد.
+            label: تاییدی کارمند %{approval_label} قضیه
+          approvals_case_plan_pending:
+            explanation: تعداد قضایای موجود در تیم یک مدیر را با درخواست های تاییدی پلان قضیه معوقه نشان میدهد.
+            label: تاییدی مدیر %{approval_label} قضیه
+          approvals_closure:
+            explanation: تعداد قضایای کاربر برحال را با درخواست های بسته شدن معوقه، تایید شده، یا مردود، نشان میدهد
+            label: تاییدی کارمند %{approval_label} قضیه
+          approvals_closure_pending:
+            explanation: تعداد قضایای موجود در تیم یک مدیر را با درخواست های تاییدی بسته شدن معوقه نشان میدهد.
+            label: تاییدی مدیر %{approval_label} قضیه
+          approvals_gbv_closure:
+            explanation: تعداد قضایای کاربر برحال را با درخواست های بسته شدن GBV معوقه، تایید شده، یا مردود، نشان میدهد.
+            label: تاییدی کارمند %{approval_label} قضیه
+          approvals_gbv_closure_pending:
+            explanation: تعداد قضایای موجود در تیم یک مدیر با درخواست های تاییدی بسته شدن GBV معوقه را نشان میدهد
+            label: تاییدی مدیر %{approval_label} قضیه
+          case_overview:
+            explanation: مرور کارت داشبورد در بالای صفحه خانه که اشکالی مثل قضایای کلی و جدید را در بر دارد.
+            label: داشبورد مرور
+          case_risk:
+            explanation: نشان میدهد که چه تعداد قضیه در هر سطح خطر موجود است.
+            label: قضایا بر اساس سطح خطر
+          cases_by_task_overdue_assessment:
+            explanation: به مدیر اجازه میدهد تا ببیند چه تعداد قضیه کارهای ارزیابی معوقه برای هرکدام از کارمندان قضیه شان دارد.
+            label: کارهای ارزیابی معوقه
+          cases_by_task_overdue_case_plan:
+            explanation: به مدیر اجازه میدهد تا ببیند چه تعداد قضیه کارهای پلان قضیه معوقه برای هرکدام از کارمندان قضیه شان دارد.
+            label: کارهای پلان قضیه معوقه
+          cases_by_task_overdue_followups:
+            explanation: به مدیر اچازه میدهد تا ببیند چه تعداد قضیه کارهای پیگیری معوقه برای هرکدام از کارمندان قضیه شان دارد.
+            label: کارهای پیگیری معوقه
+          cases_by_task_overdue_services:
+            explanation: به مدیر اجازه میدهد تا ببیند چه تعداد قضیه کارهای خدماتی معوقه برای هرکدام از کارمندان قضیه شان دارد.
+            label: کارهای خدماتی معوقه
+          dash_case_incident_overview:
+            label: مرور- قضایا/ رویدادهای من
+          dash_cases_by_social_worker:
+            explanation: 'جدولی که نشان میدهد چگونه تعداد مجموعی قضایای باز و جدید توسط هر کاربر در گروه های کاربری کاربر برحال مدیریت شده است. هر ردیف یک کاربر است در گروه کاربری کاربر برحال، در حالیکه "مجموع" و "جدید" همان دو ستون هستند. '
+            label: مشاهده قضایا توسط مددکار اجتماعی
+          dash_cases_to_assign:
+            explanation: 'مهم: صرف برای مدیران. تعداد قضایای تحت مالکیت مستقیم کاربر برحال (باید یک مدیر باشد) را نشان میدهد. این داشبورد فرض می کند که مدیران قضایای خود را مدیریت نمی کنند و اینکه، اگر مدیرانی قضایای خود شان را داشته باشند، باید این قضایا را به کارمندان قضیه شان در تیم ها شان اختصاص بدهند.'
+            label: (برای مدیر) قضایایی را که باید به افراد تیمم اختصاص بدهم
+          dash_group_overview:
+            explanation: به مدیر تعداد قضایای باز و بسته مدیریت شده توسط کاربران تیم آنها را نشان میدهد
+            label: 'قضایای گروه من '
+          dash_matching_results:
+            explanation: 'منسوخ شده: این داشبورد غیر کاربردی است و در V2 حذف خواهد شد.'
+            label: مشاهده نتایج همسان
+          dash_protection_concerns:
+            explanation: 'جدولی که نشان میدهد هر کدام از نگرانی محافظتی چه تعداد قضیه دارد. هر ردیف جدول یک نگرانی محافظتی است، در حالیکه ستون ها وضعیت های متفاوت قضایا ("تمام قضایا،" "قضایای باز،" "جدید (این هفته)،" "بسته شده (این هفته)")  را نشان میدهد. '
+            label: قضایا بر اساس نگرانی های محافظتی
+          dash_protection_concerns_by_location:
+            explanation: 'این مورد همانند داشبورد "مشاهده نگرانی های مربوط به محافظت" میباشد، به استثنای اینکه کاربر می تواند مکانی را از لیست کشویی برای نشان دادن آمار مربوط به شیوع نگرانی محافظتی فقط در همان منطقه انتخاب کند. '
+            label: مشاهده نگرانی های مربوط به محافظت بر اساس موقعیت
+          dash_reporting_location:
+            explanation: جدولی که نشان میدهد چه تعداد قضیه در هر موقعیت (در یک تک سطح خاصیت مثل "ولایت" یا "ناحیه") وجود دارد. هر ردیف از جدول یک مکان است و ستون ها نشانگر وضعیت های متفاوت ("قضایای باز، "هفته جدید/گذشته")، " جدید (این هفته)،"  "بسته شده (هفته گذشته)"، "بسته شده (این هفته)" برای قضایا میباشد. معمولا برای مدیر و یا حساب های مدیریتی استفاده میشود.
+            label: 'قضایا بر اساس موقعیت گزارش '
+          dash_service_provisions:
+            explanation: 'تعداد قضایای را نمایش میدهد که کاربران دیگر ارائه خدمات را به آنها اضافه کرده اند. این شماره در بخش اصلی داشبورد ظاهر می گردد. '
+            label: قضایا بر اساس نوع ارائه خدمات
+          dash_shared_from_my_team:
+            explanation: 'به مدیر تعداد قضایای مدیریت شده توسط هریک از کاربران تیم شان را نشان میدهد که در حال حاضر به سایر کاربران ارجاع و انتقال داده شده اند. '
+            label: به اشتراک گذاشته شده از تیم من
+          dash_shared_with_me:
+            explanation: نشان میدهد چه تعداد قضیه به شما ارجاع و یا انتقال داده شده است
+            label: به اشتراک گذاشته شده با من
+          dash_shared_with_my_team:
+            explanation: به مدیر تعداد قضایای ارجاع شده و یا منتقل شده به هر یک از کاربران تیم آنها را نشان میدهد.
+            label: به اشتراک گذاشته شده با تیم من
+          dash_shared_with_others:
+            explanation: نشان میدهد که چه تعداد قضیه دارای ارجاع های فعال، انتقالات معوقه، و یا انتقالات مردود میباشد. بطور معمول برای مدیران نیست مگر اینکه خود شان قضایا مدیریت کنند.
+            label: به اشتراک گذاشته شده با دیگران
+          dash_show_none_values:
+            explanation: 'دسته بندی "بدون سطح خطر" اضافی را به تمام داشبورد هایی که قضایا را بر اساس میزان خطر تجزیه می کنند اضافه می کند. '
+            label: 'مشاهده قضایای "بدون سطح خطر" در داشبورد ارزیابی '
+          dash_tasks:
+            explanation: 'به کاربر اجازه میدهد تا صفحه وظایف را ببیند. این مورد باید برای مسئولهای قضایا و ارائه دهنده های خدمات استفاده شود، از آنجاییکه اعداد اخصا برای قضایایی خواهد بود که شما آنها را مستقیما مدیریت می کنید. در عوض مدیران باید داشبورد "نمایش پرونده ها بر اساس وظایف معوقه" را داشته باشند، چون این کار به آنها اجازه میدهد تا وظایف معوقه برای همه را در گروه های کاربری خود شان ببینند. '
+            label: صفحه وظایف
+          view_protection_concerns_filter:
+            explanation: به کاربر اجازه میدهد تا فیلتر نگرانی های محافظتی را در صفحه لیست قضایا ببیند
+            label: مشاهده فیلتر نگرانی های محافظتی در صفحه لیست قضایا
+          view_response:
+            explanation: برای هر نوع جواب، نشان میدهد چه تعداد قضیه در هر سطح خطر خدماتی دارد که برای اتمام نزدیک به آخرین مهلت و یا معوقه میباشند.
+            label: مشاهده پاسخ ها
+          workflow:
+            explanation: به مسئول قضیه اجازه می دهد تا یک گراف پای را که نشان میدهد چه تعداد از قضایای شان در هر مرحله گردش کار مدیریت قضیه قرار دارند ببینند
+            label: قضایای تجزیه شده توسط گردش کار
+          workflow_team:
+            explanation: 'به مدیر اجازه میدهد تا جدولی را ببیند که چه تعداد از قضایای مددکاران اجتماعی آنها در هر مرحله از پروسه مدیریت قضیه قرار دارند. '
+            label: قضایا بر اساس گردش کار و کارمندان قضیه
+        label: داشبورد
+      disabled:
+        explanation: اگر این بخش را غیرفعال کنید، دیگر قادر نخواهید بود که آنرا به حساب های کاربری اختصاص دهید.
+        label: غیر فعال کردن
+      duplicate:
+        actions:
+          read:
+            explanation: به کاربر اجازه میدهد تا جستجوی پیشرفته ای را برای تمام قضایای سیستم با استفاده از یک تعداد معیارها، به شمول نام، تخلص، جنسیت، سن و ملیت، انجام دهد.
+            label: مشاهده
+        label: جستجوی تکراری
+      forms:
+        case:
+          explanation: 'محدود کردن دسترسی یک کاربر به فورم های درخواست های ردیابی این را که کاربر چه اطلاعاتی را روی یک درخواست ردیابی می تواند ببیند محدود می کند. بطور مثال، اگر کاربر تنها به فورم مالک اطلاعات دسترسی داشته باشد، آنها همچنان قادر خواهند بود تا اطلاعات شامل در زمینه های آن فورم را ببینند. اگر کاربر فعلی دسترسی به فورم را محدود کرده است و توانایی این را دارد که شکل فورم را مدیریت کند، محدود کردن دسترسی به فورم آنها این را که کدام فورم ها را می توانند ترتیب کنند نیز محدود می کند. یادداشت: اگر هیچ فورمی مشخص نشده است، به این معنی است که این وظیفه به تمام فورم ها برای قضایا دسترسی دارد.'
+          label: فورم ها- قضیه
+        incident:
+          explanation: 'محدود کردن دسترسی یک کاربر به فورم های درخواست های ردیابی این را که کاربر چه اطلاعاتی را روی یک درخواست ردیابی می تواند ببیند محدود می کند. بطور مثال، اگر کاربر تنها به فورم مالک اطلاعات دسترسی داشته باشد، آنها همچنان قادر خواهند بود تا اطلاعات شامل در زمینه های آن فورم را ببینند. اگر کاربر فعلی دسترسی به فورم را محدود کرده است و توانایی این را دارد که شکل فورم را مدیریت کند، محدود کردن دسترسی به فورم آنها این را که کدام فورم ها را می توانند ترتیب کنند نیز محدود می کند. یادداشت: اگر هیچ فورمی مشخص نشده است، به این معنی است که این وظیفه به تمام فورم ها برای حادثات دسترسی دارد.'
+          label: فورم ها - رویداد
+        tracing_request:
+          explanation: 'محدود کردن دسترسی یک کاربر به فورم های درخواست های ردیابی این را که کاربر چه اطلاعاتی را روی یک درخواست ردیابی می تواند ببیند محدود می کند. بطور مثال، اگر کاربر تنها به فورم مالک اطلاعات دسترسی داشته باشد، آنها همچنان قادر خواهند بود تا اطلاعات شامل در زمینه های آن فورم را ببینند. اگر کاربر فعلی دسترسی به فورم را محدود کرده است و توانایی این را دارد که شکل فورم را مدیریت کند، محدود کردن دسترسی به فورم آنها این را که کدام فورم ها را می توانند ترتیب کنند نیز محدود می کند. یادداشت: اگر هیچ فورمی مشخص نشده است، به این معنی است که وظیفه به تمام فورم ها برای درخواست های ردیابی دسترسی دارد.'
+          label: فورم ها- درخواست ردیابی
+      group:
+        actions:
+          admin_only:
+            explanation: این به این معنا است که کاربرها با این وظیفه تنها می توانند چیزهای مرتبط با مدیریت سیستم، مثل گزارشات، فورم و پیکربندی جستجو، کاربرها، وظایف، و گروه های کاربری ببینند. آنها قضایای فردی، درخواست های ردیابی و یا حادثات را نخواهند دید.
+            label: بدون سابقه – فقط قابلیت دسترسی ادمین
+          agency:
+            explanation: این وظیفه می تواند به اطلاعات مدیریت شده توسط تمام کاربرها در نمایندگی شان دسترسی داشته باشند. اگر کاربر به کاربرها دسترسی دارد، آنها می توانند به تمام کاربرها در نمایندگی شان دسترسی داشته باشند.
+            label: تمام اطلاعات و یا کاربران در نمایندگی من
+          all:
+            explanation: 'این وظیفه می تواند به تمام اطلاعات، کاربران و گروه های کاربری در سیستم دسترسی داشته باشد، صرف نظر از اینکه خود شان به کدام گروه های کاربری تعلق دارند. '
+            label: دسترسی به تمام اطلاعات و کاربرها
+          group:
+            explanation: این وظیفه میتواند به اطلاعات مدیریت شده توسط تمام کاربران گروه کاربری دسترسی داشته باشد. آنها میتوانند صرف به کاربران داخل گروه های کاربری خود شان دسترسی داشته باشند. آنها میتوانند صرف به گروه های کاربری خود شان دسترسی داشته باشند.
+            label: تمام اطلاعات و یا کاربران گروه من قابل دسترسی باشد
+          self:
+            explanation: این نقش می تواند به اطلاعات (قضایا، درخواست های ردیابی، و یا حادثات) خود دسترسی داشته باشد و می تواند حساب کاربری خود را ویرایش کنند
+            label: تنها اطلاعات و یا کاربران من قابل دسترسی باشد
+        explanation: این را که نقش می تواند به کدام اطلاعات (قضایا، درخواست های ردیابی، و یا حادثات) دسترسی داشته باشد کنترل می کند. اگر وظیفه به کاربرها و گروه های کاربر دسترسی دارد، همچنان می تواند این را که به کدام کاربرها و گروه های کاربر دسترسی داشته باشند کنترل کنند. بخش های دارای دسترسی به "هیچ اطلاعاتی" میتوانند به پیکربندی های سیستمی مثل فورم ها، کاربران و گزارشات دسترسی داشته باشند.
+        label: این نقش روی چه اطلاعاتی تاثیر گذار است؟
+      incident:
+        actions:
+          change_log:
+            explanation: کاربر میتواند تاریخجه ای را از تمام تغییرات اعمال شده بر اطلاعات از زمان ایجاد آن ببیند. این مورد شامل ارزش های ثبت شده برای تمام بخش میباشد.
+            label: تغییر سیستم
+          create:
+            explanation: توانایی ایجاد یک رویداد
+            label: ایجاد
+          export_case_pdf:
+            explanation: کاربر می تواند عمل صدور یک فایل PDF را از لیست قضایا و یا صفحات نمایش قضایا، که تمام بخش هایی را که کاربر به آنها دسترسی دارد، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد. در پرونده صدوری PDF ، اطلاعات ابتدا بر اساس قضیه، و سپس بیشتر ترتیب شده بر اساس فورمی که اطلاعات روی آن ظاهر می شود، لیست شده است.
+            label: صدور PDF
+          export_csv:
+            explanation: کاربر می تواند عمل صدور یک فایل CSV را از لیست قضایا و یا صفحات نمایش قضایا، که تمام بخش هایی را که کاربر به آنها دسترسی دارد، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد.
+            label: صدور CSV
+          export_custom:
+            label: صدور سفارشی
+          export_incident_recorder_xls:
+            explanation: 'کاربر می تواند یک صدور ویژه فایل XLS را ایجاد کند که اجازه تبادله اطلاعات با ابزار ثبت کننده رویداد GBV را میدهد. '
+            label: صدور XLS ثبت کننده رویداد
+          export_json:
+            explanation: کاربر می تواند صدور فایل JSON را از لیست قضایا و یا صفحات نمایش قضایا، که تمام بخش هایی را که کاربر به آنها دسترسی دارد، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد. این صدور عمدتا برای کسانی استفاده می شود که می خواهند قضایا را از سیستم برحال Primero صدور کنند و سپس آنها را در سیستم متفاوت Primero و یا در سیستم مدیریت اطلاعات دیگری وارد کنند. فرمت JSON فقط قابل خواندن توسط دستگاه است و برای اکثر کاربران عملی نمی باشد.
+            label: صدور فایل JSON
+          export_list_view_csv:
+            explanation: کاربر می تواند عمل صدور یک فایل CSV را از صفحه  لیست قضایا که دارنده همان بخش هایی است که برای آن کاربر در لیست رویداد ها ظاهر می شود. تنها قابل اجرا از صفحه لیست رویدادها
+            label: صدور CSV نمایه لیست
+          export_xls:
+            explanation: 'کاربر می تواند عمل صدور یک فایل XLS  را از لیست قضایا و یا صفحات نمایش قضایا، که ستی سفارشی از فورم های بخش ها، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد. در این صدور، هر فورمی در تب خودش در داخل فایل XLS  ارائه می گردد. کاربر می تواند با استفاده از مدل Custom Export انتخاب کند که کدام فورم ها و یا بخش ها شامل فایل صدور باشد. لطفا مد نظر داشته باشید که کاربرها می تواند فورم ها و قسمت هایی را شامل صدور بسازند که پیش از پیش بتوانند آن فورم ها و قسمت ها را در زمان مرور قضیه در داخل اپلیکیشن ببینند.  '
+            label: صدور EXCEL (فایل XLS)
+          flag:
+            explanation: توانایی افزودن یک پرچم به یک رویداد. کاربرهای دارای این دستور همچنان می توانند پرچم هایی را که به یک رویداد اضافه کرده اند، بر دارند.
+            label: نشانی
+          import:
+            explanation: به کاربر اچازه میدهد که قضیه و یا قضایایی را با وارد کردن آنها از یک فایل CSV، Excel، و JSON ایجاد کند. فایل وارد شده باید با فورمت "very" باشد بخصوص برای اینکه اطلاعات درست وارد گردد. این عملکرد باید برای کاربرهای مدیریتی که مهارت های فنی و دانش عمیقی از چگونگی فورمت شدن داده ها در پریمیرو دارند قابل دسترس باشد. تنها قابل اجرا از صفحه لیست قضایا.
+            label: صدور
+          manage:
+            explanation: به کاربر اجازه میدهد که تمام عملکردهای موجود روی قضیه را اجرا کند. دستور "مدیریت" الزاما "همه چیز" معنا میدهد.
+            label: مدیریت (تمام اجازه ها برای این نوع منبع)
+          read:
+            explanation: توانایی مشاهده یک رویداد
+          sync_mobile:
+            explanation: 'این دستور عموما به کاربران اجازه میدهد تا اپلیکیشن مبایل را استفاده کنند. ابتدا، به کابران اجازه میدهد تا عملکردهای "علامت گذاری برای مبایل" و "برداشتن علامت گذاری برای مبایل" را که در صفحات لیست پرونده ها و نمایش پرونده ها ظاهر می شوند، ببینند. علامت گذاری کردن یک پرونده برای مبایل نشان میدهد که معلومات راجع به آن پرونده باید بین دستگاه مبایل کاربر و اپلیکیشن وب همگام سازی شود، در حالیکه برداشتن علامت گذاری پرونده برای مبایل اتفاق افتادن این همگام سازی را متوقف می کند. کاربران بدون این دستور عموما نمی توانند دستگاه مبایل شان را با اپلیکیشن وب همگام بسازند، که به این معنا است که آنها از برنامه مبایل برای میدیرت پرونده استفاده نمی توانند. '
+            label: همگام سازی با دستگاه مبایل
+          write:
+            explanation: توانایی کلیک کردن دکمه "ویرایش" به روز رسانی اظلاعات در قضیه، و کلیک کردن "ذخیره"، همچنان به کاربر این اجازه را میدهد که یک رویداد را فعال و قیا غیر فعال کند.
+            label: ویرایش
+        label: رویداد
+      is_manager:
+        explanation: 'قابل تطبیق برای هر بخش کاربری که عموما سایر کاربران را نظارت می کند. '
+        label: مدیر است؟
+      matching_configuration:
+        actions:
+          manage:
+            explanation: 'توانایی کنترل اینکه، کدام بخش ها برای یافتن تطابقات بین درخواست ردیابی و پرونده ها، مقایسه شده اند. '
+            label: مدیریت (تمام اجازه ها برای این نوع منبع)
+        label: پیکربندی های همسان
+      metadata:
+        actions:
+          manage:
+            explanation: 'توانایی ایجاد، ویرایش، ترجمه و حذف فورم ها، بخش های فورم و جستجوها. لطفا به داد داشته باشید که کاربر ذارنده این دستور فقط می تواند فورم هایی را مدیریت کند که به آنها دسترسی دارد. بطور مثال، اگر یک مدیر ملی فقط توانایی این را دارد که فورم مالک سوابق را روی پرونده ها ببیند، پس فقط قادر خواهند بود پیکربندی های این فورم را بروز کند. '
+            label: مدیریت (تمام اجازه ها برای این نوع منبع)
+        label: فورم ها. جستجوها
+      module:
+        actions:
+          cp:
+            label: محافظت اطفال
+          gbv:
+            label: خشونت جنسی
+          mrm:
+            label: MRM
+        explanation: این را که این نقش بر کدام ماژول ها قابل تطبیق است را کنترول می کند.
+        label: ماژول ها
+      potential_match:
+        actions:
+          read:
+            label: نمایش
+        label: شباهت نزدیک
+      referral:
+        actions:
+          refer:
+            explanation: 'به این معنا است که این عملکرد به عنوان گزینه ای برای "نوع گیرنده"، زمانیکه کاربر ارجاعی بیرونی را اجرا می کند، ظاهر خواهد شد. اگر کاربر این عملکرد را به عنوان نوع ارجاع انتخاب کند، صدوری را که پریمیرو، وقتی که کاربر انتقال را ارائه می کند، ایجاد می کند فقط معلوماتی را دربر خواهد داشت که در فورم هایی که این عملکرد به آنها دسترسی دارد پیدا شده است. بناء، به طور مثال، اگر کاربر "ارائه دهنده خدمات صحی" را به عنوان نوع گیرنده انتخاب کند، و "ارائه دهنده خدمات صحی" صرف به "هویت ابتدایی" و فورم های "نگرانی های محافظتی" دسترسی داشته باشد، فایل صدوری که پریمیرو برای ارجاع بیرونی صادر می کند فقط بخش هایی را دربر خواهد داشت که در آن دو فورم موجود است. '
+            label: آیا این نقش می تواند برای ارجاعات بیرونی استفاده شود؟
+        label: رجعت دهی
+      report:
+        actions:
+          create:
+            explanation: توانایی ایجاد یک گزارش جدید. زمانیکه یک کاربر گزارشی را ایجاد می کند، این گزارش برای تمام کاربران دارنده دسترسی "خواندن" "قابل خواندن برای گروه" به گزارش ها، قابل مشاهده خواهد بود.
+            label: ایجاد
+          group_read:
+            explanation: 'توانایی مشاهده تمام گزارش ها. اعداد موجود در هر گزارش فقط گزارش هایی را انعکاس خوهد داد که برای کاربران در گروه های کاربری کاربران فعلی قابل دسترس باشد. این اجازه اغلبا برای مدیران محلی، منطقه ای و یا نمایندگی هایی میباشد که به دنبال به دست آوردن دورنمایی از عملکرد تیم ها و یا سازمان های خود شان باشند. '
+            label: مشاهده (اطلاعات براساس گروه ها)
+          manage:
+            explanation: 'به کاربر اجازه میدهد که تمام عملکردهای موجود روی قضیه را اجرا کند. دستور "مدیریت" الزاما "همه چیز" معنا میدهد. '
+            label: مدیریت (تمام اجازه ها برای این نوع منبع)
+          read:
+            explanation: 'توانایی مشاهده تمام گزارش ها. اعداد موجود در هر گزارش نه فقط اطلاعاتی را که کاربر برحال به آنها دسترسی دارد که  تمام اطلاعات سیستم را انعکاس خواهد داد. این دستور همچنان به کاربر این قابلیت را میدهد که اطلاعات را از یک گزارش استخراج کند. '
+            label: مشاهده
+          write:
+            explanation: توانایی ویرایش تمام گزارش ها (به شمول گزارش های ایجاد شده توسط سایر کاربران)
+            label: ویرایش
+        label: گزارش
+      reporting_location_level:
+        label: کدام نوع مکان برای گزارش دهی برای این نقش استفاده شود؟
+      role:
+        actions:
+          assign:
+            explanation: توانایی انتخاب یک نقش در زمان ایجاد و ویرایش یک حساب کاربری. این دستور برای هر نقشی که حساب های کاربری را ایجاد و ویرایش خواهد کرد الزامی است.
+            label: اختصاص دادن
+          copy:
+            explanation: 'توانایی ایجاد کاپی یک نقش. این عملکرد برای مدیرهای سیستمی که تعداد نقش هایی را ایجاد می کنند که بیش از خد به هم مشابه هستند، مفید است (به طور مثال: ارائه دهنده های خدمات).'
+            label: کاپی کردن
+          create:
+            explanation: توانایی ایجاد یک نقش
+            label: ایجاد کردن
+          delete:
+            explanation: توانایی حذف یک نقش.
+            label: حذف
+          manage:
+            explanation: 'به کاربر اجازه میدهد تا تمام اقدامات موجود را انجام بدهند. دستور "مدیریت" الزاما "همه چیز" معنا میدهد. مهم: این دستور همچنان اجازه ایجاد و حذف نقش ها را میدهد.'
+            label: مدیریت (تمام اجازه ها برای این نوع منبع)
+          permitted_roles:
+            explanation: اگر نقشی توانایی انجام تمام اقدامات بالا را روی یک نقش داشته باشد، قادر خواهد بود آن اقدامات را روی نقش های مشخص شده در این لیست انجام بدهند. بناء، بطور مثال، اگر نقشی اجازه و نقش های "خواندن" و اختصاص دادن" را داشته باشد، اما "مسئول پرونده CP" و "مدیر CP" را در لیست "نقش های مدیریت شده" خود داشته باشد، فقط می تواند همان دو نقش را ببیند، و فقط می تواند کاربرهای جدید را به همان دو نقش اختصاص دهد. اگر همان نقش هیچ "نقش مدیریت شده" مشخص نداشته باشد، قادر خواهد بود تا تمام نقش ها را ببیند و قادر خواهد بود تا حساب های کاربری جدید را با عر تقشی ذر سیسان لیجاد کنند.
+            label: سایر نقش های مدیریت شده توسط این نقش
+          read:
+            explanation: توانایی دیدن نقش ها
+            label: مشاهده
+          write:
+            explanation: توانایی کلیک کردن دکمه "ویرایش" روی صفحه نمایش نقش، بروز کردن دستورات نقش، و سپس ذخیره کردن نقش.
+            label: ویرایش
+        label: نقش ها
+      system:
+        actions:
+          manage:
+            explanation: توانایی دیدن و بروز کردن معلومات روی معلومات تماس سیستم، تنظیمات پیش فرض اعلان ها و ایمیل خوش آمد، و سرور های همگام شده. این دستور معمولا برای مدیر سیستم محفوظ است.
+            label: مدیریت (تمام اجازه ها برای این نوع منبع)
+        label: سیستم
+      tracing_request:
+        actions:
+          change_log:
+            explanation: کاربر می تواند تاریخچه ای از تمام تغییرات اعمال شده روی اطلاعات را از مان ایجاد آن ببیند.
+            label: تغییر در سیتم
+          create:
+            explanation: توانایی ایجاد در خواست ردیابی
+            label: ایجاد
+          export_case_pdf:
+            explanation: کاربر می تواند عمل صدور یک فایل PDF را از لیست قضایا و یا صفحات نمایش قضایا، که تمام بخش هایی را که کاربر به آنها دسترسی دارد، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد. در قضیه صدوری PDF ، اطلاعات ابتدا بر اساس قضیه، و سپس بیشتر ترتیب شده بر اساس فورمی که اطلاعات روی آن ظاهر می شود، لیست شده است.
+            label: صدور پی دی اف
+          export_csv:
+            explanation: کاربر می تواند عمل صدور یک فایل CSV را از لیست قضایا و یا صفحات نمایش قضایا، که تمام بخش هایی را که کاربر به آنها دسترسی دارد، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد.
+            label: صدور سی وی اس
+          export_custom:
+            explanation: 'کاربر می تواند عمل صدور یک فایل XLS  را از لیست قضایا و یا صفحات نمایش قضایا، که تمام بخش هایی را که کاربر به آنها دسترسی دارد، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد. در این صدور، هر فورمی در تب خودش در داخل فایل XLS  ارائه می گردد. کاربر می تواند با استفاده از مدل Custom Export انتخاب کند که کدام فورم ها و یا بخش ها شامل فایل صدور باشد. لطفا مد نظر داشته باشید که کاربرها می تواند فورم ها و قسمت هایی را شامل صدور بسازند که پیش از پیش بتوانند آن فورم ها و قسمت ها را در زمان مرور قضیه در داخل اپلیکیشن ببینند.  '
+            label: صدور سفارشی
+          export_json:
+            explanation: کاربر می تواند صدور فایل JSON را از لیست قضایا و یا صفحات نمایش قضایا، که تمام بخش هایی را که کاربر به آنها دسترسی دارد، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد. این صدور عمدتا برای کسانی استفاده می شود که می خواهند قضایا را از سیستم برحال Primero صدور کنند و سپس آنها را در سیستم متفاوت Primero و یا در سیستم مدیریت اطلاعات دیگری وارد کنند. فرمت JSON فقط قابل خواندن توسط دستگاه است و برای اکثر کاربران عملی نمی باشد.
+            label: صدور JSON
+          export_list_view_csv:
+            explanation: کاربر می تواند صدور فایل JSON را از لیست قضایا و یا صفحات نمایش قضایا، که تمام بخش هایی را که کاربر به آنها دسترسی دارد، برای یک، چندین و یا تمام قضایایی که کاربر به آن ها دسترسی دارد، انجام دهد. این صدور عمدتا برای کسانی استفاده می شود که می خواهند قضایا را از سیستم برحال Primero صدور کنند و سپس آنها را در سیستم متفاوت Primero و یا در سیستم مدیریت اطلاعات دیگری وارد کنند. فرمت JSON فقط قابل خواندن توسط دستگاه است و برای اکثر کاربران عملی نمی باشد.
+            label: صدور JSON
+          flag:
+            explanation: توانایی افزودن پرچم به یک قضیه. کاربران با این دستور همچنان می توانند پرچم هایی را که به یک قضیه اضافه کرده اند حذف کنند.
+            label: نشانی
+          import:
+            explanation: به کاربر اچازه میدهد که قضیه و یا قضایایی را با وارد کردن آنها از یک فایل CSV، Excel، و JSON ایجاد کند. فایل وارد شده باید با فورمت "very" باشد بخصوص برای اینکه اطلاعات درست وارد گردد. این عملکرد باید برای کاربرهای مدیریتی که مهارت های فنی و دانش عمیقی از چگونگی فورمت شدن داده ها در پریمیرو دارند قابل دسترس باشد. تنها قابل اجرا از صفحه لیست قضایا.
+            label: وارد کردن
+          manage:
+            explanation: به کاربر اجازه میدهد که تمام عملکردهای موجود روی قضیه را اجرا کند. دستور """ الزاما "همه چیز" معنا میدهد.
+            label: مدیرت کردن (تمام دستورات برای این گونه منبع)
+          read:
+            explanation: 'توانایی مشاهده درخواست ردیابی،. وظایف با توانایی دیدن درخواست های ردیابی باید توانایی مشاهده '
+            label: مشاهده
+          write:
+            explanation: توانایی کلیک کردن دکمه "ویرایش" به روز رسانی اظلاعات در قضیه، و کلیک کردن "ذخیره"، همچنان به کاربر این اجازه را میدهد که یک رویداد را فعال و قیا غیر فعال کند.
+            label: ویرایش
+        label: درخواست ردیابی
+      transfer:
+        actions:
+          transfer:
+            explanation: 'به این معنا است که این عملکرد به عنوان گزینه ای برای "نوع گیرنده"، زمانیکه کاربر ارجاعی بیرونی را اجرا می کند، ظاهر خواهد شد. اگر کاربر این عملکرد را به عنوان نوع انتقال انتخاب کند، صدوری را که پریمیرو، وقتی که کاربر انتقال را ارائه می کند، ایجاد می کند فقط معلوماتی را دربر خواهد داشت که در فورم هایی که این عملکرد به آنها دسترسی دارد پیدا شده است. بناء، به طور مثال، اگر کاربر "ارائه دهنده خدمات صحی" را به عنوان نوع گیرنده انتخاب کند، و "ارائه دهنده خدمات صحی" صرف به "هویت ابتدایی" و فورم های "نگرانی های محافظتی" دسترسی داشته باشد، فایل صدوری که پریمیرو برای انتقال بیرونی صدور می کند فقط بخش هایی را دربر خواهد داشت که در آن دو فورم موجود است. '
+            label: آیا این عملکرد می تواند برای انتقالات بیرونی استفاده شود؟
+        label: انتقال
+      user:
+        actions:
+          agency_read:
+            explanation: توانایی دیدن فقط آن حساب های کاربری که در نمایندگی کاربری فعلی وجود دارند. این همچنان روی اینکه کدام کاربر برحال روی کدام حساب های کاربری اقدامات دیگر را انجام داده می تواند، تاثیر می کند. برای مثال، اگر کاربر فعلی اجازه "نوشتن" روی کاربرها را داشته باشد، اما اجازه "برای دسترسی نمایندگی" را نیز داشته باشد، فقط می توانند حساب های کاربری را ویرایش کنند که در نمایندگی خود شان هستند. به همین ترتیب، اگر کاربر برحال اجازه "مدیریت" سایر کاربر ها را داشته باشد، اما اجازه "برای دسترسی نمایندگی" را داشته باشد، فقط قادر خواهند بود برای نمایندگی خود شان کاربر ایجاد کنند.
+            label: مشاهده (داخل نمایندگی)
+          create:
+            explanation: توانایی ایجاد یک حساب کاربری
+            label: ایجاد کردن
+          manage:
+            explanation: 'به کاربر اجازه میدهد که تمام عملکردهای موجود روی قضیه را اجرا کند. دستور "مدیریت" الزاما "همه چیز" معنا میدهد. مهم: توانایی ایجاد حساب های کاربری جدید را نیز میدهد.'
+            label: مدیرت کردن (تمام دستورات برای این گونه منبع)
+          read:
+            explanation: توانایی دیدن حساب های کاربری. به صورت پیش فرض، هر کاربر توانایی دیدن و ویرایش کردن معلومات حساب های کاربری خود شان (مثل رمز عبور، ایمیل را دارند.
+            label: مشاهده
+          write:
+            explanation: توانایی کلیک کردن دکمه "ویرایش" بر صفحه نمایش کاربر، بروز رسانی معلومات در باره کاربر، و سپس ذخیره. لطفا به یاد داشته باشید که این دستور توانایی غیر فعال کردن حساب های کاربری را نیز میدهد.
+            label: ویرایش
+        label: کاربران
+      user_group:
+        actions:
+          assign:
+            explanation: 'توانایی انتخاب گروه های کاربری در زمان ایجاد و یا ویرایش حساب های کاربری. لطفا به یاد داشته باشید که اگر کاربرهای فعلی سطح دسترسی "تنها اطلاعات و یا کاربرها در گروه من" را داشته باشند، آنها تنها قادر خواهند بود که یک و یا بیشتر گروه های کاربری "خود شان" را برای حساب کاربری که ایجاد و یا ویرایش می کنند انتخاب کنند. این به این معنی است که یک مدیر با اختیار اختصاص دادن گروه های کاربری، تنها قادر خواهد بود تا کاربری را به گروه هایی اضافه کند که خود مدیر در حال حاضر به آنها تعلق دارد. این دستور برای هر وظیفه ای که حساب های کاربری را ایجاد و یا ویرایش خواهند کرد الزامی است. '
+            label: اختصاص دادن
+          create:
+            explanation: قابلیت ایجاد یک گروه کاربری
+            label: ایجاد کردن
+          delete:
+            explanation: قابلیت حذف کردن یک گروه کاربری.
+            label: حذف کردن
+          manage:
+            explanation: 'به کاربر اجازه میدهد که تمام عملکردهای موجود روی قضیه را اجرا کند. دستور "مدیریت" الزاما "همه چیز" معنا میدهد. مهم: توانایی ایجاد و حذفحساب های کاربری را نیز میدهد.'
+            label: مدیرت کردن (تمام دستورات برای این گونه منبع)
+          read:
+            explanation: قابلیت دیدن گروه های کاربری
+            label: نمایش
+          write:
+            explanation: قابلیت ویرایش کردن گروه های کاربری.
+            label: ویرایش کردن
+        label: گروه های کاربردی
+  potential_match:
+    child_age: سن
+    child_gender: جنسیت
+    child_id: شناسه کودک
+    inquirer_id: شناسه پرسشگر
+    inquirer_tr_name: درخواست ردیابی
+    inquiry_date: تاریخ استعلام
+    name: نام
+    social_worker: کارمند اجتماعی
+    social_worker_agency: نمایندگی
+  potential_matches:
+    display: نشان دادن تطابقات باالقوه برای %{type} %{id}
+  reassign:
+    multiple_error: خطایی رخ داد. %{select_records} قضیه/قضایای اختصاص داده نشده.
+    multiple_successfully: '%{select_records} قضیه موفقانه اختصاص داده شد'
+    notes_label: یاداشت
+    successfully: موفقانه دوباره اختصاص داده شده
+    user_mandatory_label: گیرنده لازم است
+    users_label: گیرنده
+  record_information:
+    assigned_user_names: سایر کاربران نعیین شده
+    created_by: اطلاعات ایجاد شده توسط
+    current_owner_separator: مسئول فعلی
+    module_id: بخش
+    owned_by: کود کارمند قضیه
+    owned_by_agency_id: نمایندگی
+    owned_by_text: زمینه/قضیه/مددکار اجتماعی
+    previously_owned_by: مالک پیشین
+    reassigned_tranferred_on: دوباره تعیین شده/ منتقل شده بر
+    record_history_separator: تاریخچه اطلاعات
+  record_panel:
+    record_information: معلومات ضبط شده
+  referral:
+    type_of_recipient: نوع گیرنده
+    type_of_referral_required: نوع ارجاع لازم است
+    agency_label: نمایندگی
+    is_remote_label: آیا به یک سیستم از راه دور مراجعه می کنید؟
+    location_label: موقعیت
+    notes_label: یاداشت ها
+    provided_consent_label: رضایت در فورم ها ارائه نشده است
+    recipient_label: گیرنده
+    refer_anyway_label: به هر صورت مراجه می کنید؟
+    service_label: خدمات
+    success: '%{record_type} %{id} موفقانه رجعت داده شد'
+    user_mandatory_label: گیرنده لازم است
+  report:
+    aggregate_by: گروه بر اساس ردیف
+    attribute: ویژگی
+    constraint: محدودیت
+    date_ranges:
+      date: روز
+      month: ماه
+      quarter: ربع
+      quarter_abbr: Q%{quarter}
+      week: هفته
+      year: ماه
+    description: شرح
+    disabled:
+      explanation: 'اگر این گزارش را غیر فعال کنید، در قسمت گزارشات موجود ظاهر نخواهد شد. '
+      label: غیر فعال کردن
+    disaggregate_by: گروه بندی بر اساس ستون
+    filters:
+      label: گزارش دهی فیلترها
+      label_new: فیلتر گزارش جدید
+      attribute: فیلتر
+      value: همراه
+      not_null: خالی نیست؟
+      less_than: کمتر از
+      greater_than: بزرگتر از
+      equal_to: برابر با
+      not_blank: خالی نیست
+      is: است
+      before: قبل
+      after: بعد
+      delete_filter_message: مطمئنید میخواهید این فلتر را حذف کنید؟
+    group_ages: از محدوده سنی استفاده کنید
+    group_dates_by: از دامنه های تاریخ استفاده کنید
+    is_graph: نمودار ایجاد می کنید؟
+    messages:
+      delete_success: گزارش موفقانه حذف شد
+      success: گزارش موفقانه ایجاد شد.
+      updated: گزارش موفقانه بروز شد.
+    modules: ماژول ها
+    name: نام
+    name_mandatory: نام لازم است
+    no_data: هیچ اطلاعاتی برای این گزارش وجود ندارد
+    no_filters_added: هیچ فیلتری اضافه نشده است
+    not_selected: انتخاب نشده است
+    record_type: نوع گزارش
+    total: مجموع
+    value: ارزش
+  reports:
+    delete_report: حذف گزارش
+    delete_report_message: آیا شما مطمئنید که می خواهید این گزارش را حذف کنید؟ حذف لغو نمیگردد. برای حذف گزارش روی OK  کلیک کنید
+    label: گزارشات
+    register_new_report: ایجاد گزارش
+  request_transfer:
+    notes_label: یاداشت ها
+    submit_label: ارسال درخواست
+    success: درخواست انتقال ارسال شد
+  role:
+    agency_ids_label: نمایندگی ها توسط این وظیفه مدیریت شده
+    copy_failure: 'خطا در کاپی کردن بخش. مطمئن شوید که این نام در برخورد با وظیفه دیگری نباشد. '
+    copy_success: 'وظیفه موفقانه کاپی شد. '
+    create: ایجاد وظیفه
+    delete_header: حذف وظیفه
+    description: شرح
+    edit: ویرایش وظیفه
+    error_in_updating: خطا در بروز رسانی جزئیات وظیفه
+    group_permission_label: این وظیفه روی چه اطلاعاتی تاثیر می کند؟
+    label: وظیفه
+    manager: مدیر
+    messages:
+      confirmation: آیا شما مطمئنید که می خواهید این وظیفه را حذف کنید؟ حذف لغو نمیگردد. برای حذف وظیفه روی OK  کلیک کنید
+      created: وظیفه موفقانه ایجاد شد
+      deleted: وظیفه موفقانه حذف شد
+      updated: وظیفه موفقانه بروز شد
+    name: نام
+    referral_label: آیا این وظیفه میتواند برای ارجاعات استفاده شود؟
+    reporting_location_level_label: برای گزارش دادن این وظیفه چه نوع موقعیتی باید استفاده شود؟
+    role_ids_label: سایر وظایف مدیریت شده توسط این وظیفه
+    successfully_updated: جزئیات وظیفه موفقانه بروز شد
+    transfer_label: آیا این وظیفه می تواند برای انتقالات استفاده شود؟
+  roles:
+    label: وظایف
+  saved_search:
+    deleted: جستجو موفقانه حذف شد
+    filters_tab: فیلتر ها
+    no_filters: هیچ فیلتری انتخاب نشده است
+    save_success: جستجو موفقانه ذخیره شد
+    saved_searches_tab: جستجوهای ذخیره شده
+    title_description: آیا مطمئنید که میخواهید این جستجوی ذخیره شده را حذف کنید؟
+    title_modal: جستجوهای ذخیره شده را حذف کنید
+  saved_searches:
+    no_save_searches: شما هیچ جستجوی ذخیره شده ندارید
+    save_search: ذخیره جستجو
+  settings:
+    navigation:
+      agencies: نمایندگی ها
+      audit_logs: بخش های نظارت
+      configurations: پیکربندی ها
+      contact_information: معلومات تماس
+      forms: فورمه ها
+      locations: موقعیت ها
+      lookups: جستجوها
+      user_groups: گروه های کاربری
+      users: کاربرها
+      roles: وظایف
+    title: تنظیمات
+  system_settings:
+    label: تنظیمات سیستم
+  task:
+    due_date: تاریخ انقضا
+    id: شماره آی دی
+    name: نام
+    priorities:
+      high_level: بلند
+      low_level: پایین
+      medium_level: متوسط
+      no_action_level: بدون عمل
+    priority: سطح اولویت
+    status: وضعیت
+    statuses:
+      overdue: سر رسیده
+      upcoming_soon: تقریبا سر رسیده
+    type: نوع اقدام
+    types:
+      assessment: ارزیابی
+      case_plan: پلان قضیه
+      follow_up: پی گیری - %{subtype}
+      service: خدمات - %{subtype}
+  tracing_request:
+    messages:
+      update_success: 'درخواست ردیابی %{record_id} موفقانه در پشت زمینه بروز شد.'
+      creation_success: درخواست ردیابی موفقانه بروز شد
+      update_success_queue: 'درخواست ردیابی %{record_id} موفقانه در پس زمینه بروز شد.'
+      creation_success_queue: درخواست ردیابی موفقانه در پس زمینه بروز شد
+  tracing_requests:
+    date_of_inquiry: تاریخ استعلام
+    id: آی دی
+    filter_by:
+      by_date: نظر به تاریخ
+      location_separation: موقعیت تفکیک
+      separation_cause: علت تفکیک
+      status: وضعیت
+    label: درخواست ادغام
+    name_of_inquirer: نام پرسشگر
+    register_new_tracing_request: درخواست ادغام جدید
+    selectable_date_options:
+      inquiry_date: تاریخ استعلام
+    selected_records: '%{select_records} درخواست(های) انتخاب شده'
+    selected_all_records: 'انتخاب تمام %{total_records} درخواست های ردیابی که با این پرسش مطابقت دارند.'
+    show_tracing_request: 'شناسه درخواست ردیابی %{short_id}'
+    tracing_requests: درخواست های ردیابی
+    export: صدور
+  transfer:
+    agency_label: نمایندگی
+    consent_from_individual_label: آیا اجازه شخص را برای انجام این انتقال دارید؟
+    consent_label: اطلاعات رضایت ارائه نکرده است.
+    consent_override_label: می خواهید این تنظیمات را لغو کنید؟
+    is_remote_label: آیا در حال انتقال به یک سیستم از راه دور هستید؟
+    location_label: موقعیت
+    notes_label: یاداشت ها
+    provided_consent_label: رضایت در فورم ها ارائه نشده است.
+    recipient_label: گیرنده
+    select_label: انتخاب
+    success: موفقانه انتقال شد
+    transfer_label: به هر حال انتقال شود؟
+    user_mandatory: گیرنده لازم است
+  transfer_assignment:
+    title: انتقالات و ارزیابی ها
+  transition:
+    assigned_by: تعیین شده توسط
+    consent_individual_transfer_value:
+      true_label: 'بلی'
+      false_label: 'نخیر'
+    consent_overridden_value:
+      false_label: 'نخیر'
+      true_label: 'بلی'
+    errors:
+      consent: رضایت ارائه نشده است
+      to_user_can_receive: این کاربر این اطلاعات را دریافت نمی تواند
+    individual_consent: آیا مسئول قضیه رضایت شخص را برای انجام این انتقال داشت؟
+    no_consent_share: رضایت به اشتراک گذاری تنظیمات بازنویسی شده؟
+    notes: یاداشت ها
+    recipient: گیرنده
+    rejected: دلیل رد شدن
+    service_label: خدمات
+    status:
+      accepted: پذیرفته شد
+      done: انجام شد
+      rejected: مسترد
+    type:
+      assign: 'اختصاص دادن '
+      reassign: 'اختصاص دادن '
+      referral: رجعت دهی
+      external_referral: رجعت بیرونی
+      transfer: انتقال
+      transferRequest: درخواست انتقال
+  user:
+    agency_office: دفتر نمایندگی (بخش GBV)
+    code: کد کاربری
+    disabled: غیر فعال ساختن
+    email: ایمیل
+    full_name: نام مکمل
+    identity_provider: ارائه دهنده هویت
+    invalid_provider_username: '%{domain} فورمت نام کاربری بی اعتبار. نمونه: my.username@'
+    label: کاربر
+    locale: محلی
+    location: موقعیت
+    messages:
+      confirmation: آیا مطمئنید می خواهید این کاربر را حذف کنید؟ حذف لغو نمی گردد. برای حذف کاربر روی OK کلیک کنید.
+      created: کاربر موفقانه ایجاد شد
+      failure: خطایی رخ داد، لطفا با پشتیبانی تماس بگیرید.
+      new_confirm_html: 'شما در شرف دعوت کردن کاربر %{username} از %{identity} با نقش %{role} هستید تا از پریمیرو استفاده کند. ایمیل تاییدیه به %{email} ارسال خواهد شد. آیا مایل به ادامه هستید؟ '
+      new_confirm_non_identity_html: 'شما در شرف دعوت کردن کاربر %{username} با نقش %{role} هستید تا از پریمیرو استفاده کند. ایمیل تاییدیه به %{email} ارسال خواهد شد. آیا مایل به ادامه هستید؟ '
+      not_found: کاربر با شناسه داده شده یافت نشد.
+      password_changed_successfully: رمز عبور موفقانه تغییر داده شد
+      passwords_do_not_match: با رمزعبور فعلی مطابقت ندارد
+      time_zone_updated: تغییرات موفقانه بروز شد
+      updated: تغییرات موفقانه بروز شد
+    organization: سازمان
+    agency: نمایندگی
+    services_help_text: اگر خدمات را مشخص نکنید، به این کاربر همان خدماتی داده خواهد شد که نمایندگی آن دارد.
+    password: رمز عبور
+    password_confirmation: تایید رمز عبور
+    phone: تلفن
+    position: موقعیت
+    provider_username_help: 'نمونه: my.username@ %{domain}'
+    role_id: وظیفه
+    send_mail: دریافت جزئیات در ایمیل؟
+    user_group_unique_ids: گروه های کاربری
+    user_name: نام کاربر
+    services: خدمات
+    welcome_email:
+      subject: 'خوش آمدید به %{system}!'
+      greeting: 'خوش آمدید به %{system}!'
+      url_label: پریمیرو
+      enabled_label: ارسال ایمیل خوش آمد؟
+      text_label: متن ایمیل خوش آمد
+  user_group:
+    description: توضیحات
+    disabled:
+      explanation: اگر این گروه کاربری را غیر فعال کنید، دیگر نمی توانید آنرا به حساب های کاربری اختصاص دهید.
+      label: غیر فعال سازی
+    messages:
+      created: گروه کاربری موفقانه ایجاد شد.
+      updated: گروه کاربری موفقانه بروز شد.
+    name: نام
+  user_groups:
+    label: کروهای کاربری
+  users:
+    label: کاربرها
+    headers:
+      full_name: نام مکمل
+      user_name: نام کاربری
+      position: موقعیت
+      agency: نمایندگی

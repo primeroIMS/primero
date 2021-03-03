@@ -290,7 +290,9 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         }, state)
         .set(
           "selectedFields",
-          fromJS(indexes.map(([field, index]) => selectedFields.get(index).mergeDeep(fromJS(payload[field]))))
+          fromJS(
+            indexes.map(([field, index]) => selectedFields.get(index, fromJS({})).mergeDeep(fromJS(payload[field])))
+          )
         );
     }
     case actions.SET_NEW_SUBFORM: {

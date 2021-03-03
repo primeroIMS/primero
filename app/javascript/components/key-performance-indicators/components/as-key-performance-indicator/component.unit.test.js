@@ -17,7 +17,7 @@ describe("asKeyPerformanceIndicator()", () => {
   });
 
   describe("A working KPI", () => {
-    const commonDateRanges = CommonDateRanges.from(new Date(), () => {});
+    const commonDateRanges = CommonDateRanges.from(new Date(), { t: () => {} });
     const dateRanges = [commonDateRanges.Last3Months];
     const { component } = setupMountedComponent(
       KPI,

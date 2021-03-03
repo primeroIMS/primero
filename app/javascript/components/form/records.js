@@ -1,5 +1,7 @@
 import { Record, fromJS } from "immutable";
 
+import { SELECT_CHANGE_REASON } from "./constants";
+
 export const FieldRecord = Record({
   internalFormFieldID: null,
   id: null,
@@ -54,7 +56,7 @@ export const FieldRecord = Record({
   asyncAction: () => {},
   option_strings_source_id_key: null,
   clearDependentValues: null,
-  clearDependentReason: ["select-option"],
+  clearDependentReason: [SELECT_CHANGE_REASON.selectOption, SELECT_CHANGE_REASON.clear],
   form_section_id: null,
   subform_section_configuration: null,
   setOtherFieldValues: null,

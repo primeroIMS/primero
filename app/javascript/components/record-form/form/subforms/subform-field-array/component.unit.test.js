@@ -65,7 +65,7 @@ describe("<SubformFieldArray />", () => {
           { relation_name: "aut", relation_child_is_in_contac: "test B" }
         ]
       },
-      resetForm: () => {},
+      setValues: () => {},
       errors: { services_subform_section: [{ relation_name: "required" }] }
     },
     i18n: { t: value => value, locale: "en" },

@@ -88,7 +88,7 @@ const Container = ({ mode }) => {
     const body = {
       data: {
         ...omit(data, [AGGREGATE_BY_FIELD, DISAGGREGATE_BY_FIELD]),
-        fields,
+        ...(fields.length && { fields }),
         filters: indexes.map(({ data: filter }) => ({
           ...filter,
           value: checkValue(filter)
@@ -106,7 +106,7 @@ const Container = ({ mode }) => {
     );
   };
 
-  const formSections = form(i18n, formatAgeRange(primeroAgeRanges), allRecordForms, formMode.isNew, userModules);
+  const formSections = form(i18n, formatAgeRange(primeroAgeRanges), formMode.isNew, userModules);
   const validationSchema = validations(i18n);
   const handleCancel = () => {
     dispatch(push(ROUTES.reports));
@@ -131,11 +131,7 @@ const Container = ({ mode }) => {
   );
 
   return (
-    <LoadingIndicator
-      hasData={formMode.isNew || (report?.size > 0 && allRecordForms.size > 0)}
-      loading={!report.size}
-      type={NAMESPACE}
-    >
+    <LoadingIndicator hasData={formMode.isNew || report?.size > 0} loading={!report.isEmpty()} type={NAMESPACE}>
       <PageContainer>
         <PageHeading title={pageHeading}>{saveButton}</PageHeading>
         <PageContent>

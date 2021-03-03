@@ -1,6 +1,7 @@
 import { memo } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 import {
@@ -83,7 +84,7 @@ const FormSectionField = ({
     },
     label: displayNameHelper(displayName, i18n.locale),
     tickBoxlabel: tickBoxlabel?.[i18n.locale],
-    helperText: helpText ? helpText[i18n.locale] : "",
+    helperText: !isEmpty(helpText) ? displayNameHelper(helpText, i18n.locale) : "",
     disabled: mode.isShow || disabled || isReadWriteForm === false,
     checked: ["t", "true"].includes(selectedValue),
     ...(mode.isShow && { placeholder: "--" }),

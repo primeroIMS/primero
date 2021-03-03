@@ -3,6 +3,7 @@ import isEmpty from "lodash/isEmpty";
 
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
 import { dataToJS, displayNameHelper } from "../../libs";
+import { getRecordForms } from "../record-form";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 
@@ -138,6 +139,12 @@ const formGroupLookup = (state, { filterOptions }) =>
     lookupsList(state).filter(lookup => lookup.get("unique_id").startsWith("lookup-form-group-"))
   );
 
+const recordForms = (state, { filterOptions }) => {
+  const formSections = getRecordForms(state, { all: true });
+
+  return filterOptions ? filterableOptions(filterOptions, formSections) : formSections;
+};
+
 const roles = state =>
   getRoles(state).map(role => fromJS({ id: role.get("unique_id"), display_text: role.get("name") }));
 
@@ -171,6 +178,8 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) =
       return buildManagedRoles(state, "referral");
     case OPTION_TYPES.FORM_GROUP_LOOKUP:
       return formGroupLookup(state, { ...rest });
+    case OPTION_TYPES.RECORD_FORMS:
+      return recordForms(state, { ...rest });
     default:
       return lookupValues(state, optionStringsSource, i18n);
   }
