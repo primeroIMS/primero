@@ -75,7 +75,7 @@ const Component = ({
       </InputLabel>
       <div className={css.container}>
         <form id={FORM_ID} onSubmit={handleSubmit(onSuccess)}>
-          {searchPromptForm(css, i18n).map(formSection => (
+          {searchPromptForm(i18n).map(formSection => (
             <FormSection
               formSection={formSection}
               key={formSection.unique_id}
@@ -97,7 +97,7 @@ const Component = ({
           />
         </div>
       </div>
-      <FormHelperText>Why? To prevent creation of duplicate cases.</FormHelperText>
+      <FormHelperText>{i18n.t("case.search_helper_text")}</FormHelperText>
     </>
   );
 };

@@ -156,7 +156,9 @@ describe("Verifying config constant", () => {
           "reporting_locations",
           "gbv_violence_type",
           "cp_violence_type",
-          "gender"
+          "gender",
+          "legitimate_basis",
+          "legitimate_basis_explanations"
         );
         expect(constants.RECORD_INFORMATION).to.be.an("array");
         expect(constants.INCIDENT_FROM_CASE).to.be.an("string");
