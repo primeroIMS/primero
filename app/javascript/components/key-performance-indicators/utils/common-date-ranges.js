@@ -17,35 +17,35 @@ const CommonDateRanges = {
 
     return finalDate;
   },
-  from(today = new Date(), translate = s => s) {
+  from(today = new Date(), i18n) {
     return {
       AllTime: new DateRange(
         ALL_TIME,
-        translate("key_performance_indicators.time_periods.all_time"),
+        i18n.t("key_performance_indicators.time_periods.all_time"),
         new Date(Date.parse("01/01/2000")),
         this.adjustTimezone(today, endOfMonth(today))
       ),
       CurrentMonth: new DateRange(
         CURRENT_MONTH,
-        translate("key_performance_indicators.time_periods.current_month"),
+        i18n.t("key_performance_indicators.time_periods.current_month"),
         this.adjustTimezone(today, startOfMonth(today)),
         this.adjustTimezone(today, endOfMonth(today))
       ),
       Last3Months: new DateRange(
         MONTHS_3,
-        translate("key_performance_indicators.time_periods.last_3_months"),
+        i18n.t("key_performance_indicators.time_periods.last_3_months"),
         this.adjustTimezone(today, startOfMonth(subMonths(today, 2))),
         this.adjustTimezone(today, endOfMonth(today))
       ),
       Last6Months: new DateRange(
         MONTHS_6,
-        translate("key_performance_indicators.time_periods.last_6_months"),
+        i18n.t("key_performance_indicators.time_periods.last_6_months"),
         this.adjustTimezone(today, startOfMonth(subMonths(today, 5))),
         this.adjustTimezone(today, endOfMonth(today))
       ),
       LastYear: new DateRange(
         MONTHS_12,
-        translate("key_performance_indicators.time_periods.last_1_year"),
+        i18n.t("key_performance_indicators.time_periods.last_1_year"),
         this.adjustTimezone(today, startOfMonth(subMonths(today, 11))),
         this.adjustTimezone(today, endOfMonth(today))
       )

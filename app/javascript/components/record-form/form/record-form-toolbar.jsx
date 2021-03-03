@@ -3,7 +3,7 @@ import { Box, Badge } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import { push } from "connected-react-router";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
@@ -24,7 +24,7 @@ import {
   INCIDENT_FROM_CASE
 } from "../../../config";
 import DisableOffline from "../../disable-offline";
-import { useThemeHelper } from "../../../libs";
+import { useMemoizedSelector, useThemeHelper } from "../../../libs";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { setSelectedForm } from "../action-creators";
@@ -49,10 +49,14 @@ const RecordFormToolbar = ({
   const { css, isRTL } = useThemeHelper({ css: styles });
   const dispatch = useDispatch();
   const i18n = useI18n();
-  const savingRecord = useSelector(state => getSavingRecord(state, params.recordType));
-  const loadingRecord = useSelector(state => getLoadingRecordState(state, params.recordType));
-  const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
-  const isEnabledWebhookSyncFor = useSelector(state => getIsEnabledWebhookSyncFor(state, primeroModule, recordType));
+
+  const savingRecord = useMemoizedSelector(state => getSavingRecord(state, params.recordType));
+  const loadingRecord = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
+  const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
+  const isEnabledWebhookSyncFor = useMemoizedSelector(state =>
+    getIsEnabledWebhookSyncFor(state, primeroModule, recordType)
+  );
+
   const rtlClass = isRTL ? css.flipImage : "";
 
   const goBack = () => {

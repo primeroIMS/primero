@@ -5,7 +5,7 @@ import DateRangeSelect from "./component";
 
 describe("<DateRangeSelect />", () => {
   const i18n = { t: () => "" };
-  const commonDateRanges = CommonDateRanges.from();
+  const commonDateRanges = CommonDateRanges.from(new Date(), { t: () => {} });
 
   const ranges = [commonDateRanges.Last3Months, commonDateRanges.Last6Months, commonDateRanges.LastYear];
 

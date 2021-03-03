@@ -35,7 +35,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
   const orderedValues = subformSortBy ? orderBy(values, [subformSortBy], ["asc"]) : values;
 
   useEffect(() => {
-    formik.resetForm({ ...formik.values, [name]: orderedValues });
+    formik.setValues({ ...formik.values, [name]: orderedValues });
   }, [JSON.stringify(orderedValues)]);
 
   const [openDialog, setOpenDialog] = useState({ open: false, index: null });

@@ -5,14 +5,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { subYears } from "date-fns";
 import { TextField as MuiTextField } from "formik-material-ui";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ButtonBase } from "@material-ui/core";
 import { FastField, connect } from "formik";
 import { useParams } from "react-router-dom";
 import isEqual from "lodash/isEqual";
 import omitBy from "lodash/omitBy";
 
-import { toServerDateFormat } from "../../../../libs";
+import { toServerDateFormat, useMemoizedSelector } from "../../../../libs";
 import { useI18n } from "../../../i18n";
 import { saveRecord, selectRecordAttribute } from "../../../records";
 import { NUMERIC_FIELD } from "../../constants";
@@ -34,7 +34,9 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const recordName = useSelector(state => selectRecordAttribute(state, recordType, recordID, "name"));
+
+  const recordName = useMemoizedSelector(state => selectRecordAttribute(state, recordType, recordID, "name"));
+
   const isHiddenName = /\*{2,}/.test(recordName);
   const ageMatches = type === NUMERIC_FIELD && name.match(/(.*)age$/);
 
