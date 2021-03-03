@@ -13,6 +13,8 @@ import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import { useI18n } from "../i18n";
 import { useMemoizedSelector } from "../../libs";
 import { getOptionFromAppModule } from "../application/selectors";
+import { DEFAULT_FILTERS } from "../record-list/constants";
+import { applyFilters } from "../index-filters";
 
 import { ConsentPrompt, SearchPrompt } from "./components";
 import { NAME, DATA_PROTECTION_FIELDS } from "./constants";
@@ -31,6 +33,17 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
 
   const goToNewCase = () => dispatch(push(`/${recordType}/${primeroModule}/new`));
 
+  const onSearchCases = data => {
+    const newSearchParams = !isEmpty(data) ? { ...data, id_search: true } : {};
+
+    dispatch(
+      applyFilters({
+        recordType,
+        data: { ...DEFAULT_FILTERS, ...newSearchParams }
+      })
+    );
+  };
+
   const handleSkipAndCreate = () => {
     if (isEmpty(dataProtectionFields)) {
       goToNewCase();
@@ -39,20 +52,26 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
       setOpenConsentPrompt(true);
     }
   };
+
   const handleCloseDrawer = () => {
     setOpenConsentPrompt(false);
-    // TODO: Should reset record-list
+    onClose();
+    if (searchValue) {
+      onSearchCases();
+      setSearchValue("");
+    }
   };
 
   const renderSearchPrompt = canSearchAndCreate && !openConsentPrompt && (
     <SearchPrompt
       i18n={i18n}
-      onCloseDrawer={() => handleCloseDrawer(false)}
+      onCloseDrawer={() => handleCloseDrawer()}
       recordType={recordType}
       setOpenConsentPrompt={setOpenConsentPrompt}
       setSearchValue={setSearchValue}
       goToNewCase={goToNewCase}
       dataProtectionFields={dataProtectionFields}
+      onSearchCases={onSearchCases}
     />
   );
   const renderSkipAndCreate = !openConsentPrompt && (

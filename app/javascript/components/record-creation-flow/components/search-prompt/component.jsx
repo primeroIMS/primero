@@ -12,8 +12,6 @@ import { submitHandler, whichFormMode } from "../../../form";
 import { FORM_MODE_NEW } from "../../../form/constants";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
-import { DEFAULT_FILTERS } from "../../../record-list/constants";
-import { applyFilters } from "../../../index-filters";
 import { useMemoizedSelector } from "../../../../libs";
 import { getRecordsData } from "../../../index-table";
 
@@ -28,7 +26,8 @@ const Component = ({
   setOpenConsentPrompt,
   setSearchValue,
   goToNewCase,
-  dataProtectionFields
+  dataProtectionFields,
+  onSearchCases
 }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(FORM_MODE_NEW);
@@ -51,12 +50,7 @@ const Component = ({
       i18n,
       initialValues: {},
       onSubmit: formData => {
-        dispatch(
-          applyFilters({
-            recordType,
-            data: { ...DEFAULT_FILTERS, ...formData, id_search: true }
-          })
-        );
+        onSearchCases(formData);
       }
     });
   };
@@ -115,6 +109,7 @@ Component.propTypes = {
   goToNewCase: PropTypes.func,
   i18n: PropTypes.object,
   onCloseDrawer: PropTypes.func,
+  onSearchCases: PropTypes.func,
   recordType: PropTypes.string,
   setOpenConsentPrompt: PropTypes.func,
   setSearchValue: PropTypes.func

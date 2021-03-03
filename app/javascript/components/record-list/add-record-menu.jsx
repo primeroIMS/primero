@@ -6,7 +6,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
-import { RECORD_TYPES } from "../../config";
+import { RECORD_TYPES, RECORD_PATH } from "../../config";
 import { useI18n } from "../i18n";
 import { useApp } from "../application";
 import ActionButton from "../action-button";
@@ -71,16 +71,17 @@ const AddRecordMenu = ({ recordType }) => {
   const renderDialog = uniqueId =>
     uniqueId && <CreateRecordDialog setOpen={setOpen} open={open} recordType={recordType} moduleUniqueId={uniqueId} />;
 
-  const renderCreateRecord = searchAndCreateWorkflow ? (
-    <RecordCreationFlow
-      open={Boolean(moduleUniqueId)}
-      onClose={() => setModuleUniqueId(null)}
-      recordType={recordType}
-      primeroModule={userModules.first().unique_id}
-    />
-  ) : (
-    renderDialog(moduleUniqueId)
-  );
+  const renderCreateRecord =
+    searchAndCreateWorkflow && recordType === RECORD_PATH.cases ? (
+      <RecordCreationFlow
+        open={Boolean(moduleUniqueId)}
+        onClose={() => setModuleUniqueId(null)}
+        recordType={recordType}
+        primeroModule={userModules.first().unique_id}
+      />
+    ) : (
+      renderDialog(moduleUniqueId)
+    );
 
   return (
     <>
