@@ -2,7 +2,7 @@ import { fromJS, List } from "immutable";
 
 import { mock } from "../../../test";
 import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/components/referrals";
-import { CODE_FIELD, NAME_FIELD, RECORD_TYPES, UNIQUE_ID_FIELD } from "../../../config";
+import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../config";
 
 import { CUSTOM_STRINGS_SOURCE } from "./constants";
 import * as helpers from "./utils";
