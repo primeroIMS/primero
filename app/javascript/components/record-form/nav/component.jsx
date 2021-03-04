@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
-import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
+import { INCIDENT_FROM_CASE, RECORD_TYPES, RECORD_OWNER } from "../../../config";
 import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
 import { getIncidentFromCase, getRecordAlerts, getSelectedRecord } from "../../records";
 import { setSelectedForm } from "../action-creators";
@@ -50,7 +50,7 @@ const Component = ({
     getRecordFormsByUniqueId(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule,
-      formName: selectedForm || firstTab.unique_id,
+      formName: selectedForm || firstTab?.unique_id,
       checkVisible: true,
       i18n
     })
@@ -96,20 +96,25 @@ const Component = ({
   }, []);
 
   useEffect(() => {
-    if (!selectedForm) {
-      dispatch(setSelectedForm(firstTab.unique_id));
-      if (currentSelectedRecord !== selectedRecord) {
-        setOpen(firstTab.form_group_id);
-      } else if (!selectedRecordForm?.isEmpty() && open !== selectedRecordForm.first().form_group_id) {
+    if (firstTab) {
+      if (!selectedForm) {
+        dispatch(setSelectedForm(firstTab.unique_id));
+        if (currentSelectedRecord !== selectedRecord) {
+          setOpen(firstTab.form_group_id);
+        } else if (!selectedRecordForm?.isEmpty() && open !== selectedRecordForm.first().form_group_id) {
+          setOpen(selectedRecordForm.first().form_group_id);
+        }
+      } else if (!selectedRecordForm?.isEmpty()) {
         setOpen(selectedRecordForm.first().form_group_id);
+      } else if (recordInformationFormIds.includes(selectedForm)) {
+        setOpen(RECORD_INFORMATION_GROUP);
+      } else {
+        dispatch(setSelectedForm(firstTab.unique_id));
+        setOpen(firstTab.form_group_id);
       }
-    } else if (!selectedRecordForm?.isEmpty()) {
-      setOpen(selectedRecordForm.first().form_group_id);
-    } else if (recordInformationFormIds.includes(selectedForm)) {
-      setOpen(RECORD_INFORMATION_GROUP);
     } else {
-      dispatch(setSelectedForm(firstTab.unique_id));
-      setOpen(firstTab.form_group_id);
+      dispatch(setSelectedForm(RECORD_OWNER));
+      setOpen(RECORD_INFORMATION_GROUP);
     }
   }, [firstSelectedForm?.form_group_id]);
 

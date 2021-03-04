@@ -33,7 +33,7 @@ import {
   CHANGE_LOGS,
   SUMMARY
 } from "../../config";
-import { REFER_FROM_SERVICE, SHOW_FIND_MATCH } from "../../libs/permissions";
+import { ACTIONS, REFER_FROM_SERVICE, SHOW_FIND_MATCH } from "../../libs/permissions";
 import { SHOW_CHANGE_LOG } from "../permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
@@ -88,6 +88,7 @@ const Container = ({ match, mode }) => {
   const record = useMemoizedSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
 
   const userPermittedFormsIds = useSelector(state => getPermittedFormsIds(state));
+  const canViewCases = usePermissions(params.recordType, ACTIONS.READ);
   const canViewSummaryForm = usePermissions(RESOURCES.potential_matches, SHOW_FIND_MATCH);
 
   const selectedModule = {
@@ -320,15 +321,15 @@ const Container = ({ match, mode }) => {
     }[externalFormSelected];
   };
 
-  const hasData = Boolean(
-    forms && formNav && firstTab && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam)
-  );
+  const canSeeForm = forms.size === 0 ? canViewCases : forms && formNav && firstTab;
+  const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
   const loading = Boolean(loadingForm || loadingRecord);
+  const renderRecordFormToolbar = selectedModule.primeroModule && <RecordFormToolbar {...toolbarProps} />;
 
   return (
     <PageContainer twoCol>
       <LoadingIndicator hasData={hasData} type={params.recordType} loading={loading} errors={errors}>
-        <RecordFormToolbar {...toolbarProps} />
+        {renderRecordFormToolbar}
         <div
           className={clsx(css.recordContainer, {
             [css.formNavOpen]: toggleNav && mobileDisplay

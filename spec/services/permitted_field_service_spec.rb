@@ -60,5 +60,11 @@ describe PermittedFieldService, search: true do
     expect(permitted_field_names.include?(field.name)).to be true
   end
 
+  it 'returns should include fields for filters' do
+    permitted_field_names = PermittedFieldService.new(user, Child).permitted_field_names
+
+    expect((%w[sex age registration_date] - permitted_field_names).empty?).to be true
+  end
+
   after(:each) { clean_data(Agency, Role, User, FormSection, Field) }
 end
