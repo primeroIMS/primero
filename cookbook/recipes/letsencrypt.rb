@@ -7,12 +7,8 @@ directory letsencrypt_dir do
   action :create
 end
 
-execute 'Download Certbot' do
-  command 'wget https://dl.eff.org/certbot-auto && chmod a+x certbot-auto'
-  cwd letsencrypt_dir
-  not_if do
-    File.exist?(::File.join(letsencrypt_dir, 'certbot-auto'))
-  end
+execute 'snap install certbot' do
+  command "snap install --classic certbot"
 end
 
 unless node[:primero][:letsencrypt][:email]
@@ -27,7 +23,7 @@ service 'nginx' do
 end
 
 execute "Register Let's Encrypt Certificate" do
-  command "./certbot-auto certonly --standalone -d #{node[:primero][:server_hostname]} --non-interactive --agree-tos --email #{node[:primero][:letsencrypt][:email]}"
+  command "certbot certonly --standalone -d #{node[:primero][:server_hostname]} --non-interactive --agree-tos --email #{node[:primero][:letsencrypt][:email]}"
   cwd letsencrypt_dir
   not_if do
     File.exist?(fullchain) &&
@@ -36,7 +32,7 @@ execute "Register Let's Encrypt Certificate" do
 end
 
 execute 'Trigger Certbot update and a cert renewal' do
-  command './certbot-auto renew -n'
+  command 'certbot renew -n'
   cwd letsencrypt_dir
 end
 
@@ -77,7 +73,7 @@ file "/etc/cron.daily/letsencrypt_renew" do
 #!/bin/bash
 
 cd #{letsencrypt_dir}
-./certbot-auto renew --quiet -n --no-self-upgrade --pre-hook "service nginx stop" --post-hook "service nginx start"
+certbot renew --quiet -n --no-self-upgrade --pre-hook "service nginx stop" --post-hook "service nginx start"
 EOH
 end
 
