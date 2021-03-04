@@ -30,7 +30,7 @@ module Api::V2::Concerns::Record
   end
 
   def create
-    autorize_create!
+    authorize_create!
     @record = model_class.new_with_user(current_user, record_params)
     @record.save!
     select_updated_fields
@@ -120,11 +120,7 @@ module Api::V2::Concerns::Record
     action_name.in?(%w[create update])
   end
 
-  def autorize_create!
-    if model_class == Incident
-      return current_user.can?(:create, Incident) || current_user.can?(:incident_from_case, Child)
-    end
-
+  def authorize_create!
     authorize! :create, model_class
   end
 end

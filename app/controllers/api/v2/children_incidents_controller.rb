@@ -13,7 +13,7 @@ class Api::V2::ChildrenIncidentsController < Api::V2::RecordResourceController
   end
 
   def new
-    autorize_new!
+    authorize_new!
     @incident = IncidentCreationService.incident_from_case(@record, {}, @record.module_id, current_user)
     render 'api/v2/incidents/new'
   end
@@ -30,7 +30,7 @@ class Api::V2::ChildrenIncidentsController < Api::V2::RecordResourceController
 
   private
 
-  def autorize_new!
+  def authorize_new!
     case_incident =
       current_user.can?(:read, Incident) ||
       current_user.can?(:create, Incident) ||
