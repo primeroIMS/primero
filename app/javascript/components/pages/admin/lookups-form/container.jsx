@@ -14,6 +14,8 @@ import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
 import { fetchSystemSettings, useApp } from "../../../application";
 import { ROUTES } from "../../../../config";
+import Permission from "../../../application/permission";
+import { RESOURCES, MANAGE } from "../../../../libs/permissions";
 
 import { NAME } from "./constants";
 import { getLookup, getSavingLookup } from "./selectors";
@@ -92,15 +94,17 @@ const Container = ({ mode }) => {
   );
 
   return (
-    <LoadingIndicator hasData={formMode.get("isNew") || lookup?.size > 0} loading={!lookup.size} type={NAMESPACE}>
-      <PageHeading title={pageHeading}>
-        {editButton}
-        {saveButton}
-      </PageHeading>
-      <PageContent>
-        <LookupForm mode={mode} lookup={lookup} />
-      </PageContent>
-    </LoadingIndicator>
+    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
+      <LoadingIndicator hasData={formMode.get("isNew") || lookup?.size > 0} loading={!lookup.size} type={NAMESPACE}>
+        <PageHeading title={pageHeading}>
+          {editButton}
+          {saveButton}
+        </PageHeading>
+        <PageContent>
+          <LookupForm mode={mode} lookup={lookup} />
+        </PageContent>
+      </LoadingIndicator>
+    </Permission>
   );
 };
 

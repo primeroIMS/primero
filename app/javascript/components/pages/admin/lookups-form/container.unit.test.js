@@ -24,7 +24,7 @@ describe("<LookupsForm /> - container", () => {
       },
       user: {
         permissions: {
-          lookups: [ACTIONS.MANAGE]
+          metadata: [ACTIONS.MANAGE]
         }
       }
     });
