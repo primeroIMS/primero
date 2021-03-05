@@ -30,6 +30,8 @@ import AttachmentField from "./field-types/attachments";
 import LinkToForm from "./field-types/link-to-form";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const FormSectionField = ({
   name,
   field,
@@ -41,7 +43,7 @@ const FormSectionField = ({
   formSection,
   isReadWriteForm
 }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const {

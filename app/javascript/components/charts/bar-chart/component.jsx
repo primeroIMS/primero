@@ -6,8 +6,10 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const BarChart = ({ data, description, showDetails }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const chartRef = createRef();
 
   useEffect(() => {

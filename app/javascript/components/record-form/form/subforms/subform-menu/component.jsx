@@ -20,10 +20,12 @@ import DisableOffline from "../../../../disable-offline";
 import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ index, values }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const services = useSelector(state => getOption(state, "lookup-service-type", i18n.locale));
 

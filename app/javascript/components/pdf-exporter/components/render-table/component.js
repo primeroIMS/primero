@@ -5,8 +5,10 @@ import Table from "../table";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ title, fields, data }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   return (
     <div className={css.group}>

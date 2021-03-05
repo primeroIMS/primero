@@ -16,8 +16,10 @@ import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ children }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { demo } = useApp();
   const { theme } = useThemeHelper();
 

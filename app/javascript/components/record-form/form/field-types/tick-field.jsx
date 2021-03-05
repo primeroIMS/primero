@@ -11,9 +11,11 @@ import { TICK_FIELD_NAME } from "../constants";
 import { useI18n } from "../../../i18n";
 import styles from "../styles.css";
 
+const useStyles = makeStyles(styles);
+
 const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const fieldProps = {
     name,
     inputProps: { required: true },

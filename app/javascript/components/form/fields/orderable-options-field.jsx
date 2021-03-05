@@ -17,9 +17,11 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { ORDERABLE_OPTIONS_FIELD_NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionButtons, formMethods, formMode }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { name } = commonInputProps;
   const { selectedValue } = metaInputProps;
   const fieldName = name.split(".")[0];

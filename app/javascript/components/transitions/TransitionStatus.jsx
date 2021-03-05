@@ -8,9 +8,11 @@ import { useI18n } from "../i18n";
 import { TRANSITION_STATUS_NAME as NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const TransitionStatus = ({ status }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   return (
     <div className={css.transtionStatus}>

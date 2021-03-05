@@ -28,6 +28,8 @@ import { NAME, DELETE_MODAL } from "./constants";
 import Exporter from "./components/exporter";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 // const { dialogOpen, setDialog } = useDialog(DELETE_MODAL);
 
 const Report = ({ mode }) => {
@@ -37,7 +39,7 @@ const Report = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const { pathname } = useLocation();
   const { setDialog, dialogOpen, dialogClose, pending, setDialogPending } = useDialog(DELETE_MODAL);
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   useEffect(() => {
     dispatch(fetchReport(id));

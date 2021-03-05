@@ -15,10 +15,12 @@ import { RECORD_PATH } from "../../../../../config";
 import styles from "./styles.css";
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
   const flags = useSelector(state => getDashboardFlags(state));
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const handleSeeAll = () => dispatch(push(`${RECORD_PATH.cases}?flagged[0]=true`));
 

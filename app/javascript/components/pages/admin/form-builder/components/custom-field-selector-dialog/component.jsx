@@ -47,6 +47,8 @@ import {
 import styles from "./styles.css";
 import { CUSTOM_FIELD_SELECTOR_DIALOG, DATE_TIME_FIELD, NAME, MULTI_SELECT_FIELD } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const fields = [
   [TEXT_FIELD, TextInput],
   [TEXT_AREA, TextAreaInput],
@@ -66,7 +68,7 @@ const Component = ({ isSubform }) => {
   const [selectedItem, setSelectedItem] = useState("");
   const dispatch = useDispatch();
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const { dialogOpen, dialogClose, setDialog } = useDialog(CUSTOM_FIELD_SELECTOR_DIALOG);
 

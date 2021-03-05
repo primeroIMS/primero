@@ -23,6 +23,8 @@ import { NavGroup, RecordInformation } from "./components";
 import { getRecordInformationFormIds, RECORD_INFORMATION_GROUP } from "./components/record-information";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   firstTab,
   formNav,
@@ -40,7 +42,7 @@ const Component = ({
   const [open, setOpen] = useState("");
   const [previousGroup, setPreviousGroup] = useState("");
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
   const validationErrors = useMemoizedSelector(state => getValidationErrors(state));

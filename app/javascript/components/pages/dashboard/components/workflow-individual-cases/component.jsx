@@ -17,9 +17,11 @@ import styles from "./styles.css";
 import { NAME, CLOSED } from "./constants";
 import WorkFlowStep from "./components";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const workflowLabels = useSelector(state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]);
   const casesWorkflow = useSelector(state => getWorkflowIndividualCases(state));
 

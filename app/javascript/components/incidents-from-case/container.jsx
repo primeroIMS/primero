@@ -17,6 +17,8 @@ import { NAME } from "./constants";
 import IncidentPanel from "./components/panel";
 import RedirectDialog from "./components/redirect-dialog";
 
+const useStyles = makeStyles(styles);
+
 const Container = ({
   record,
   incidents,
@@ -27,7 +29,7 @@ const Container = ({
   handleSubmit,
   recordType
 }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [redirectOpts, setRedirectOpts] = useState({});

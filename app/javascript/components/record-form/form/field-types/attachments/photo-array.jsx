@@ -6,8 +6,10 @@ import CloseIcon from "@material-ui/icons/Close";
 
 import styles from "../../styles.css";
 
+const useStyles = makeStyles(styles);
+
 const PhotoArray = ({ images }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const [selected, setSelected] = useState({ index: 0, open: false });
 
   const handleToggle = index => {

@@ -6,13 +6,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import { TRANSITION_PANEL_NAME as NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const TransitionPanel = ({ children }) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpanded = () => {
     setExpanded(!expanded);
   };
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   return (
     <Accordion expanded={expanded} onChange={handleExpanded} className={css.panel}>

@@ -9,8 +9,10 @@ import { useI18n } from "../i18n";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ overrideCondition, children, button, offlineTextKey }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { online } = useApp();
   const i18n = useI18n();
 

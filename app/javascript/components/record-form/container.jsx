@@ -65,6 +65,8 @@ import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
 import { compactValues, getRedirectPath } from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const Container = ({ match, mode }) => {
   let submitForm = null;
   const { theme } = useThemeHelper({ css: styles });
@@ -77,7 +79,7 @@ const Container = ({ match, mode }) => {
     isShow: mode === "show"
   };
 
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { params } = match;

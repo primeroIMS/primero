@@ -13,8 +13,10 @@ import { SYNC_RECORD_NAME, SYNC_RECORD_STATUS } from "./constants";
 import { buildLabelSync } from "./utils";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const SyncRecord = ({ i18n, isEnabledWebhookSyncFor, syncedAt, syncStatus, params }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
 
   if (!isEnabledWebhookSyncFor) {

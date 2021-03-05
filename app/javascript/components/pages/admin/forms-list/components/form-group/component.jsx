@@ -8,8 +8,10 @@ import styles from "../../styles.css";
 import DragIndicator from "../drag-indicator";
 import { FORM_GROUP_PREFIX } from "../../constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ name, id, index, children, isDragDisabled }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const currentTheme = useTheme();
 
   const themeOverrides = createMuiTheme({

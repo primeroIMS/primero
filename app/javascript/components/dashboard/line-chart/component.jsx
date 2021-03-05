@@ -6,8 +6,10 @@ import { createRef, useEffect } from "react";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const LineChart = ({ chartData, options, title }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const chartRef = createRef();
 
   useEffect(() => {

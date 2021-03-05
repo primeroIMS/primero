@@ -12,12 +12,14 @@ import styles from "./styles.css";
 import { fetchPotentialMatches } from "./action-creators";
 import { selectPotentialMatches } from "./selectors";
 
+const useStyles = makeStyles(styles);
+
 const PotentialMatches = ({ getPotentialMatches, potentialMatches }) => {
   useEffect(() => {
     getPotentialMatches();
   }, []);
 
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const columns = [

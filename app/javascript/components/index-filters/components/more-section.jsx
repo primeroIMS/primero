@@ -11,6 +11,8 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import styles from "./styles.css";
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const MoreSection = ({
   addFilterToList,
   allAvailable,
@@ -24,7 +26,7 @@ const MoreSection = ({
   setMoreSectionFilters
 }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const moreSectionKeys = Object.keys(moreSectionFilters);
   const mode = {
     secondary: true,

@@ -17,9 +17,11 @@ import { NAME, SEVERITY } from "./constants";
 import { expansionPanelSummaryClasses } from "./theme";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ title, items, severity }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const classes = makeStyles(expansionPanelSummaryClasses)();
 
   const renderItems = () => {
