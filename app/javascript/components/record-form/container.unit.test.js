@@ -880,4 +880,78 @@ describe("<RecordForms /> - Component", () => {
       expect(component.find(RecordForm)).to.have.lengthOf(1);
     });
   });
+
+  describe("when the user doesn't have any permitted form but has permission to see cases", () => {
+    const allFormSections = OrderedMap({
+      1: FormSectionRecord({
+        id: 1,
+        form_group_id: "identification_registration",
+        form_group_name: {
+          en: "Identification / Registration"
+        },
+        order_form_group: 30,
+        name: {
+          en: "Basic Identity"
+        },
+        order: 10,
+        unique_id: "basic_identity",
+        is_first_tab: true,
+        visible: true,
+        is_nested: false,
+        module_ids: ["primeromodule-cp"],
+        parent_form: "case",
+        fields: [1]
+      })
+    });
+    const initialState = fromJS({
+      records: {
+        cases: {
+          data: [record],
+          metadata: { per: 20, page: 1, total: 1 },
+          filters: { status: "open" }
+        }
+      },
+      forms: {
+        selectedForm: "record_owner",
+        formSections: allFormSections
+      },
+      user: {
+        permissions: {
+          cases: ["read"]
+        },
+        permittedForms: {},
+        modules: ["primeromodule-cp"]
+      },
+      application
+    });
+
+    beforeEach(() => {
+      const routedComponent = initialProps => {
+        return (
+          <Route
+            path="/:recordType(cases|incidents|tracing_requests)/:id"
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
+          />
+        );
+      };
+
+      ({ component } = setupMountedComponent(
+        routedComponent,
+        {
+          mode: "show"
+        },
+        initialState,
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
+      ));
+    });
+
+    it("should render RecordOwner ", () => {
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm.find(RecordOwner)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(RecordOwner).find(RecordFormTitle).text()).to.equal(
+        "forms.record_types.record_information"
+      );
+    });
+  });
 });

@@ -556,4 +556,23 @@ describe("<Nav />", () => {
       expect(setAction).to.deep.equal(expectedAction);
     });
   });
+
+  describe("when the firstTab props is empty", () => {
+    const propsNoFirstTab = {
+      ...props,
+      isNew: false,
+      selectedForm: "123456",
+      firstTab: null
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(Nav, propsNoFirstTab, initialState));
+    });
+
+    it("should open record information", () => {
+      const navGroup = component.find(NavGroup).first();
+
+      expect(navGroup.props().open).to.equal("record_information");
+    });
+  });
 });
