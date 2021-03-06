@@ -181,7 +181,8 @@ describe("<Nav />", () => {
     selectedRecord: "1d8d84eb-25e3-4d8b-8c32-8452eee3e71c",
     toggleNav: true,
     recordType: "cases",
-    primeroModule: "primeromodule-cp"
+    primeroModule: "primeromodule-cp",
+    hasForms: true
   };
 
   beforeEach(() => {
@@ -230,7 +231,8 @@ describe("<Nav />", () => {
       "recordType",
       "selectedForm",
       "selectedRecord",
-      "toggleNav"
+      "toggleNav",
+      "hasForms"
     ].forEach(property => {
       expect(navProps).to.have.property(property);
       delete navProps[property];
@@ -561,8 +563,9 @@ describe("<Nav />", () => {
     const propsNoFirstTab = {
       ...props,
       isNew: false,
-      selectedForm: "123456",
-      firstTab: null
+      selectedForm: "",
+      firstTab: null,
+      hasForms: false
     };
 
     beforeEach(() => {

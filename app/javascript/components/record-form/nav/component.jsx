@@ -26,6 +26,7 @@ import styles from "./styles.css";
 const Component = ({
   firstTab,
   formNav,
+  hasForms,
   handleToggleNav,
   isNew,
   mobileDisplay,
@@ -88,6 +89,28 @@ const Component = ({
     }
   };
 
+  const handleWithoutSelectedForm = () => {
+    dispatch(setSelectedForm(firstTab.unique_id));
+    if (currentSelectedRecord !== selectedRecord) {
+      setOpen(firstTab.form_group_id);
+    } else if (!selectedRecordForm?.isEmpty() && open !== selectedRecordForm.first().form_group_id) {
+      setOpen(selectedRecordForm.first().form_group_id);
+    }
+  };
+
+  const handleFirstTab = () => {
+    if (!selectedForm && firstTab) {
+      handleWithoutSelectedForm();
+    } else if (!selectedRecordForm?.isEmpty()) {
+      setOpen(selectedRecordForm.first().form_group_id);
+    } else if (recordInformationFormIds.includes(selectedForm)) {
+      setOpen(RECORD_INFORMATION_GROUP);
+    } else if (firstTab) {
+      dispatch(setSelectedForm(firstTab.unique_id));
+      setOpen(firstTab.form_group_id);
+    }
+  };
+
   useEffect(() => {
     if (isNew && !selectedForm) {
       dispatch(setSelectedForm(firstTab.unique_id));
@@ -96,27 +119,20 @@ const Component = ({
   }, []);
 
   useEffect(() => {
-    if (firstTab) {
-      if (!selectedForm) {
-        dispatch(setSelectedForm(firstTab.unique_id));
-        if (currentSelectedRecord !== selectedRecord) {
-          setOpen(firstTab.form_group_id);
-        } else if (!selectedRecordForm?.isEmpty() && open !== selectedRecordForm.first().form_group_id) {
-          setOpen(selectedRecordForm.first().form_group_id);
-        }
-      } else if (!selectedRecordForm?.isEmpty()) {
-        setOpen(selectedRecordForm.first().form_group_id);
-      } else if (recordInformationFormIds.includes(selectedForm)) {
-        setOpen(RECORD_INFORMATION_GROUP);
-      } else {
-        dispatch(setSelectedForm(firstTab.unique_id));
-        setOpen(firstTab.form_group_id);
-      }
-    } else {
+    if (!hasForms && !selectedForm) {
       dispatch(setSelectedForm(RECORD_OWNER));
       setOpen(RECORD_INFORMATION_GROUP);
     }
-  }, [firstSelectedForm?.form_group_id]);
+    if (hasForms && selectedForm === RECORD_OWNER) {
+      dispatch(setSelectedForm(""));
+    }
+  }, [hasForms]);
+
+  useEffect(() => {
+    if (hasForms) {
+      handleFirstTab();
+    }
+  }, [firstSelectedForm?.form_group_id, hasForms]);
 
   useEffect(() => {
     // If we are going back
@@ -196,6 +212,7 @@ Component.propTypes = {
   firstTab: PropTypes.object,
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
+  hasForms: PropTypes.bool,
   history: PropTypes.object,
   isNew: PropTypes.bool,
   mobileDisplay: PropTypes.bool.isRequired,

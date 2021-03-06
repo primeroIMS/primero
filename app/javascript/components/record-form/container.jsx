@@ -205,7 +205,8 @@ const Container = ({ match, mode }) => {
     selectedForm,
     selectedRecord: record ? record.get("id") : null,
     toggleNav,
-    primeroModule: selectedModule.primeroModule
+    primeroModule: selectedModule.primeroModule,
+    hasForms: !loadingForm && forms.size > 0
   };
 
   useEffect(() => {
@@ -321,7 +322,7 @@ const Container = ({ match, mode }) => {
     }[externalFormSelected];
   };
 
-  const canSeeForm = forms.size === 0 ? canViewCases : forms.size > 0 && formNav && firstTab;
+  const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && formNav && firstTab;
   const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
   const loading = Boolean(loadingForm || loadingRecord);
   const renderRecordFormToolbar = selectedModule.primeroModule && <RecordFormToolbar {...toolbarProps} />;
