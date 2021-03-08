@@ -42,7 +42,11 @@ export const columns = (i18n, css, onTracingRequestClick, matchedTracesIds) => [
     label: i18n.t("potential_match.score"),
     name: "likelihood",
     options: {
-      customBodyRender: value => <span className={clsx({ [css.likelyScore]: value })}>{SCORE_TYPES[value]}</span>
+      customBodyRender: value => {
+        const classes = clsx({ [css.likelyScore]: value });
+
+        return <span className={classes}>{SCORE_TYPES[value]}</span>;
+      }
     }
   },
   {

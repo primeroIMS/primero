@@ -11,10 +11,11 @@ import styles from "./styles.css";
 const TransitionStatus = ({ status }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const classes = clsx(css.chip, css[status]);
 
   return (
     <div className={css.transtionStatus}>
-      <Chip label={i18n.t(`transition.status.${status}`)} className={clsx(css.chip, css[status])} size="small" />
+      <Chip label={i18n.t(`transition.status.${status}`)} className={classes} size="small" />
     </div>
   );
 };

@@ -11,12 +11,13 @@ import { displayNameHelper } from "../../../../../../libs";
 const Component = ({ group, collection, isDragDisabled }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const classes = clsx(css.row, css.header);
 
   return (
     <Droppable droppableId={`fs-${collection}`} type="formSection">
       {provided => (
         <div className={css.container} ref={provided.innerRef} {...provided.draggableProps}>
-          <div className={clsx(css.row, css.header)}>
+          <div className={classes}>
             <div />
             <div>{i18n.t("form_section.form_name")}</div>
             <div>{i18n.t("form_section.record_type")}</div>

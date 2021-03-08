@@ -90,6 +90,8 @@ const Component = ({ mode, formMethods }) => {
     }
   }, [i18n]);
 
+  const classes = clsx(css.fieldTitle, css.translationsRow);
+
   return (
     <>
       <FormSectionField
@@ -119,7 +121,7 @@ const Component = ({ mode, formMethods }) => {
         </Grid>
         <Grid item xs={12} md={3} />
 
-        <Grid item xs={12} md={3} className={clsx(css.fieldTitle, css.translationsRow)}>
+        <Grid item xs={12} md={3} className={classes}>
           {i18n.t("forms.title")}
         </Grid>
         <Grid item xs={12} md={3} className={css.translationsRow}>
@@ -140,7 +142,7 @@ const Component = ({ mode, formMethods }) => {
         </Grid>
         <Grid item xs={12} md={3} />
 
-        <Grid item xs={12} md={3} className={clsx(css.fieldTitle, css.translationsRow)}>
+        <Grid item xs={12} md={3} className={classes}>
           {i18n.t("forms.description")}
         </Grid>
         <Grid item xs={12} md={3} className={css.translationsRow}>

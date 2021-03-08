@@ -57,9 +57,11 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
     });
   };
 
+  const classes = clsx(css.fieldTitle, css.translationsRow);
+
   return (
     <>
-      <Grid item xs={12} md={3} className={clsx(css.fieldTitle, css.translationsRow)}>
+      <Grid item xs={12} md={3} className={classes}>
         {displayName}
       </Grid>
       <Grid item xs={12} md={3} className={css.translationsRow}>

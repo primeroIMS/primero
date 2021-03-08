@@ -11,12 +11,13 @@ const Component = ({ percentage, className }) => {
 
   const containerClasses = [css.TablePercentageBarContainer, className].join(" ");
   const foregroundClasses = [css.TablePercentageBarComplete, (isSmall && css.small) || ""].join(" ");
+  const style = { width: `${percentageValue}%` };
 
   return (
     <div className={containerClasses}>
       <div className={css.TablePercentageBar}>
         {isSmall && `${percentageValue.toFixed(0)}%`}
-        <div className={foregroundClasses} style={{ width: `${percentageValue}%` }}>
+        <div className={foregroundClasses} style={style}>
           {!isSmall && `${percentageValue.toFixed(0)}%`}
         </div>
       </div>

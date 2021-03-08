@@ -8,8 +8,9 @@ import styles from "./styles.css";
 
 const Component = ({ label, type, ...rest }) => {
   const css = makeStyles(styles)();
+  const classes = clsx({ [css.subformChip]: true, [css[type]]: true });
 
-  return <Chip className={clsx({ [css.subformChip]: true, [css[type]]: true })} label={label} {...rest} />;
+  return <Chip className={classes} label={label} {...rest} />;
 };
 
 Component.displayName = NAME;

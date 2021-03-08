@@ -18,15 +18,9 @@ const AgencyLogo = ({ alwaysFullLogo }) => {
       const uniqueId = agency.get("unique_id");
 
       const logo = tabletDisplay && !alwaysFullLogo ? agency.get("logo_icon") : agency.get("logo_full");
+      const style = { backgroundImage: `url(${logo})` };
 
-      return (
-        <div
-          id={`${uniqueId}-logo`}
-          key={uniqueId}
-          className={css.agencyLogo}
-          style={{ backgroundImage: `url(${logo})` }}
-        />
-      );
+      return <div id={`${uniqueId}-logo`} key={uniqueId} className={css.agencyLogo} style={style} />;
     });
   };
 

@@ -105,15 +105,15 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
       );
     });
 
-  const renderColumn = text => isNested && <div className={clsx([css.fieldColumn, css.fieldHeader])}>{text}</div>;
+  const nameClasses = clsx([css.fieldColumn, css.fieldName, css.fieldHeader]);
+  const fieldTypeClasses = clsx([css.fieldColumn, css.fieldHeader]);
+  const fieldShowClasses = clsx([css.fieldColumn, css.fieldHeader, css.fieldShow]);
+
+  const renderColumn = text => isNested && <div className={fieldTypeClasses}>{text}</div>;
 
   if (!fields.size) {
     return <div className={css.noFiltersAdded}>{i18n.t("forms.no_subform_filters_added")}</div>;
   }
-
-  const nameClasses = clsx([css.fieldColumn, css.fieldName, css.fieldHeader]);
-  const fieldTypeClasses = clsx([css.fieldColumn, css.fieldHeader]);
-  const fieldShowClasses = clsx([css.fieldColumn, css.fieldHeader, css.fieldShow]);
 
   return (
     <>

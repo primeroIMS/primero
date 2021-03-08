@@ -52,9 +52,10 @@ const Component = ({ filterValues, modules, handleSetFilterValue, handleClearVal
         filterValues={filterValues}
       />
     ));
+  const classes = clsx({ [css.disabledFilters]: disabled });
 
   return (
-    <div className={clsx({ [css.disabledFilters]: disabled })}>
+    <div className={classes}>
       <ActionButton
         text={i18n.t("clear")}
         type={ACTION_BUTTON_TYPES.default}

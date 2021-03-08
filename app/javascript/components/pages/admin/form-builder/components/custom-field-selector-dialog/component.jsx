@@ -160,6 +160,10 @@ const Component = ({ isSubform }) => {
           {fields.map(field => {
             const [name, Icon] = field;
 
+            const classes = clsx(css.inputIcon, {
+              [css.inputIconTickBox]: [RADIO_FIELD, TICK_FIELD].includes(name)
+            });
+
             if (name === SUBFORM_SECTION && isSubform) {
               return null;
             }
@@ -170,11 +174,7 @@ const Component = ({ isSubform }) => {
                   <ListItemText className={css.label}>
                     <div>{i18n.t(`fields.${name}`)}</div>
                     <div className={css.inputPreviewContainer}>
-                      <Icon
-                        className={clsx(css.inputIcon, {
-                          [css.inputIconTickBox]: [RADIO_FIELD, TICK_FIELD].includes(name)
-                        })}
-                      />
+                      <Icon className={classes} />
                     </div>
                   </ListItemText>
                   <ListItemSecondaryAction>

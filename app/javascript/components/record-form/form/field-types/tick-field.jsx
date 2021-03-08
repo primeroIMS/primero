@@ -26,6 +26,9 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) =
   ) : (
     <FormHelperText>{helperText}</FormHelperText>
   );
+  const classes = clsx({
+    [css.error]: Boolean(fieldError)
+  });
 
   useEffect(() => {
     if (rest.checked && !getIn(formik.values, name) && rest.mode.isNew) {
@@ -35,13 +38,7 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) =
 
   return (
     <FormControl fullWidth error={fieldError}>
-      <InputLabel
-        htmlFor={name}
-        className={clsx({
-          [css.error]: Boolean(fieldError)
-        })}
-        {...inputLabelProps}
-      >
+      <InputLabel htmlFor={name} className={classes} {...inputLabelProps}>
         {label}
       </InputLabel>
       <FormControlLabel

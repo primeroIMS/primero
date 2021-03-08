@@ -42,13 +42,14 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
   }, [reorderLoading]);
 
   const icon = !reorderLoading ? <CheckIcon /> : <CircularProgress size={24} className={css.buttonProgress} />;
+  const dialogStyles = { top: "auto", left: "auto" };
 
   return (
     <Dialog
       id="reorder-actions"
       disableEnforceFocus
       open={open}
-      style={{ top: "auto", left: "auto" }}
+      style={dialogStyles}
       disableBackdropClick
       hideBackdrop={!reorderLoading}
     >
